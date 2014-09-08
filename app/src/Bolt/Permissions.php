@@ -110,10 +110,10 @@ class Permissions
     /**
      * Gets the roles for a given user. If a content type is specified, the
      * "owner" role is added if appropriate.
-     * @param array $user An array as returned by Users::getUser()
-     * @param Content $content An optional Content object to check ownership
+     * @param  array      $user    An array as returned by Users::getUser()
+     * @param  Content    $content An optional Content object to check ownership
      * @throws \Exception
-     * @return array An associative array of roles for the given user
+     * @return array      An associative array of roles for the given user
      */
     public function getUserRoles($user, Content $content = null)
     {
@@ -143,12 +143,12 @@ class Permissions
      * Low-level permission check. Given a set of available roles, a
      * permission, and an optional content type, this method checks whether
      * the permission may be granted.
-     * @param array $roleNames - an array of effective role names. This must
-     *                           include any of the appropriate automatic
-     *                           roles, as these are not added at this point.
-     * @param string $permissionName - which permission to check
-     * @param string $contenttype
-     * @return bool TRUE if granted, FALSE if not.
+     * @param  array  $roleNames      An array of effective role names. This must
+     *                                include any of the appropriate automatic
+     *                                roles, as these are not added at this point.
+     * @param  string $permissionName Which permission to check
+     * @param  string $contenttype
+     * @return bool   TRUE if granted, FALSE if not.
      */
     public function checkPermission($roleNames, $permissionName, $contenttype = null)
     {
@@ -262,9 +262,9 @@ class Permissions
      * Gets the effective roles for a given user.
      * The effective roles include the roles that were explicitly assigned,
      * as well as the built-in automatic roles.
-     * @param mixed $user An array or array-access object that contains a
-     *                    'roles' key; if no user is given, "guest" access is
-     *                    assumed.
+     * @param  mixed $user An array or array-access object that contains a
+     *                     'roles' key; if no user is given, "guest" access is
+     *                     assumed.
      * @return array A list of effective role names for this user.
      */
     public function getEffectiveRolesForUser($user)
@@ -310,14 +310,14 @@ class Permissions
      *
      * "contenttype:$contenttype:edit or contenttype:$contenttype:view"
      *
-     * @param string $what The desired permission, as elaborated upon above.
-     * @param mixed $user The user to check permissions against.
-     * @param string $contenttype Optional: Content type slug. If specified,
-     *               $what is taken to be a relative permission (e.g. 'edit')
-     *               rather than an absolute one (e.g. 'contenttype:pages:edit').
-     * @param int $contentid Only used if $contenttype is given, to further
-     *                       specifiy the content item.
-     * @return bool TRUE if the permission is granted, FALSE if denied.
+     * @param  string $what        The desired permission, as elaborated upon above.
+     * @param  mixed  $user        The user to check permissions against.
+     * @param  string $contenttype Optional: Content type slug. If specified,
+     *                             $what is taken to be a relative permission (e.g. 'edit')
+     *                             rather than an absolute one (e.g. 'contenttype:pages:edit').
+     * @param  int    $contentid   Only used if $contenttype is given, to further
+     *                             specifiy the content item.
+     * @return bool   TRUE if the permission is granted, FALSE if denied.
      */
     public function isAllowed($what, $user, $contenttype = null, $contentid = null)
     {
@@ -449,7 +449,7 @@ class Permissions
                     if (is_array($contenttype)) {
                         $contenttype = $contenttype['slug'];
                     }
-                    $content = $this->app['storage']->getContent("$contenttype/$contentid");
+                    $content = $this->app['storage']->getContent("$contenttype/$contentid", array('hydrate' => false));
                     if (intval($content['ownerid']) &&
                         (intval($content['ownerid']) === intval($user['id']))) {
                         $userRoles[] = Permissions::ROLE_OWNER;
@@ -487,8 +487,8 @@ class Permissions
      * @param $fromStatus
      * @param $toStatus
      * @throws \Exception
-     * @return mixed The name of the required permission suffix (e.g.
-     *               'publish'), or NULL if no permission is required.
+     * @return mixed      The name of the required permission suffix (e.g.
+     *                    'publish'), or NULL if no permission is required.
      */
     public function getContentStatusTransitionPermission($fromStatus, $toStatus)
     {

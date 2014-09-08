@@ -6,6 +6,7 @@ use Bolt;
 use Bolt\Extensions\Snippets\Location as SnippetLocation;
 use Bolt\Extensions\ExtensionInterface;
 use Bolt\Configuration\LowlevelException;
+use Composer\Json\JsonFile;
 
 class Extensions
 {
@@ -78,6 +79,14 @@ class Extensions
      */
     private $initialized;
 
+    /**
+     * Contains json of loaded extensions.
+     *
+     * @var array
+     */
+    public $composer;
+
+
     public function __construct(Application $app)
     {
         $this->app = $app;
@@ -125,27 +134,34 @@ class Extensions
                         require $file;
                     }
                 } catch (\Exception $e) {
-                    $app->redirect($app["url_generator"]->generate("repair", array('path'=>$current)));
                 }
-                
             }
         }
     }
-    
+
    public function errorCatcher($file)
-    {
+   {
         $current = str_replace($this->app['resources']->getPath('extensions'), '', $file);
-        ob_start(function($buffer) use($current){
-            $error=error_get_last();
-            if ($error['type'] == E_ERROR || $error['type']== E_PARSE ) {
+
+        // Flush output buffer before starting a new buffer or $current will contain
+        // the first file read rather than the acutal current file.
+        // @see GitHub #1661
+        if (ob_get_length()) {
+            ob_end_flush();
+        }
+        ob_start(function ($buffer) use ($current) {
+            $error = error_get_last();
+            if ($error['type'] == E_ERROR || $error['type']== E_PARSE) {
                 $html = LowlevelException::$html;
                 $message = "<code>".$error['message']."<br>File ".$error['file']."<br>Line: ".$error['line']."</code><br><br>";
                 $message .= $this->app['translator']->trans("There is a fatal error in one of the extensions loaded on your Bolt Installation.");
                 if ($current) {
                     $message .= $this->app['translator']->trans(" You will only be able to continue by manually deleting the extension that was initialized at: extensions".$current);
                 }
+
                 return str_replace('%error%', $message, $html);
             }
+
             return $buffer;
         });
     }
@@ -153,15 +169,35 @@ class Extensions
     /**
      * Extension register method. Allows any extension to register itself onto the enabled stack.
      *
+     * @param ExtensionInterface $extension
      * @return void
-     **/
+     */
     public function register(ExtensionInterface $extension)
     {
         $name = $extension->getName();
         $this->app['extensions.'.$name] = $extension;
         $this->enabled[$name] = $this->app['extensions.'.$name];
+
+        // Store the composer part of the extensions config
+        $this->registerComposerJson($extension);
     }
 
+    /**
+     * Register the extensions Composer JSON and a matching Bolt name.
+     * This allows reverse lookup of Bolt name to Composer name
+     *
+     * @param ExtensionInterface $extension
+     */
+    private function registerComposerJson(ExtensionInterface $extension)
+    {
+        $json = new JsonFile($extension->getBasepath() . '/composer.json');
+        $composerjson = $json->read();
+
+        $this->app['extensions']->composer[ strtolower($composerjson['name']) ] = array(
+            'name' => $extension->getName(),
+            'json' => $composerjson
+        );
+    }
 
     /**
      * Check if an extension is enabled, case sensitive.
@@ -182,17 +218,13 @@ class Extensions
     {
         $this->autoload($this->app);
         foreach ($this->enabled as $name => $extension) {
-            
+
             try {
                 $extension->getConfig();
                 $extension->initialize();
                 $this->initialized[$name] = $extension;
             } catch (\Exception $e) {
-                $path = str_replace($app['resources']->getPath('extensions'), '', $file);
-                $app->redirect($app["url_generator"]->generate("repair", array('package'=>$name)));
             }
-
-            
 
             // Check if (instead, or on top of) initialize, the extension has a 'getSnippets' method
             $this->getSnippets($name);
@@ -227,7 +259,7 @@ class Extensions
      * other css files.
      *
      * @param string $filename
-     * @param bool $late
+     * @param bool   $late
      */
     public function addCss($filename, $late = false)
     {
@@ -244,7 +276,7 @@ class Extensions
      * Add a particular javascript file to the output. This will be inserted after
      * the other javascript files.
      * @param string $filename
-     * @param bool $late
+     * @param bool   $late
      */
     public function addJavascript($filename, $late = false)
     {
@@ -629,7 +661,6 @@ class Extensions
         return $html;
     }
 
-
     /**
      * Helper function to insert some HTML into the head section of an HTML page.
      *
@@ -713,7 +744,7 @@ class Extensions
      *
      * @param  string $tag
      * @param  string $html
-     * @param bool $insidehead
+     * @param  bool   $insidehead
      * @return string
      */
     public function insertAfterJs($tag, $html, $insidehead = true)
@@ -778,7 +809,7 @@ class Extensions
      *
      * @param string $label
      * @param string $path
-     * @param bool $icon
+     * @param bool   $icon
      * @param string $requiredPermission (NULL if no permission is required)
      */
     public function addMenuOption($label, $path, $icon = false, $requiredPermission = null)

@@ -8,7 +8,7 @@
 
 {% macro contentlink_by_id(contenttype, title, content_id) %}{% spaceless %}
 <a href="{{ path('editcontent', { 'contenttypeslug': contenttype.slug, 'id': content_id }) }}">
-    {{- title|trimtext(70) -}}
+    {{- title|trimtext(70)|default("<em>(" ~ __("no title…") ~ ")</em>")|raw -}}
 </a>
 {% endspaceless %}{% endmacro %}
 

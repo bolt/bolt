@@ -12,49 +12,15 @@ class ExtensionsDisable extends AbstractCommand
     {
         $this
             ->setName('extensions:disable')
-            ->setDescription('Disables an extension.')
-            ->addArgument('name', InputArgument::REQUIRED, 'Name of the extension to enable');
-            //->addOption('yell', null, InputOption::VALUE_NONE, 'If set, the task will yell in uppercase letters');
+            ->setAliases(array('extensions:uninstall'))
+            ->setDescription('Uninstalls an extension.')
+            ->addArgument('name', InputArgument::REQUIRED, 'Name of the extension to uninstall');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $name = $input->getArgument('name');
-
-        $extensions = $this->app['extensions']->getInfo();
-
-        $enabled = array();
-        $lines = array();
-        $update = false;
-
-        foreach ($extensions as $key => $extension) {
-            if ($extension['enabled']) {
-                if (strtolower($key) == strtolower($name)) {
-                    $lines[] = "<info>Disabling <options=bold>$key</options=bold>.</info>";
-                    $update = true;
-                } else {
-                    $enabled[] = $key;
-                }
-            }
-
-        }
-
-        if ($update) {
-            $key = "enabled_extensions";
-            $file = BOLT_CONFIG_DIR . "/config.yml";
-            $yaml = new \Bolt\YamlUpdater($file);
-            $result = $yaml->change($key, $enabled);
-
-            if ($result) {
-                $lines[] = sprintf("New value for <info>%s</info> was succesful. File updated.", $key);
-            } else {
-                $lines[] = sprintf("<error>%s not found, or file not writable.</error>", $key);
-            }
-
-        } else {
-            $lines[] = "<info><options=bold>$name</options=bold> is already disabled.</info>";
-        }
-
-        $output->writeln(implode("\n", $lines));
+        $result = $this->app['extend.runner']->uninstall($name);
+        $output->writeln("<info>".$result."</info>", OutputInterface::OUTPUT_PLAIN);
     }
 }

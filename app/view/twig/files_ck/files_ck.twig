@@ -16,13 +16,15 @@
 
     <h1>{{ block('page_title') }}</h1>
 
-    {{ files_path(context.pathsegments, context.namespace, {
+    {% set pathoptions = {
         'path': '',
         'namespace': context.namespace,
         'CKEditor': app.request.query.get('CKEditor'),
         'CKEditorFuncNum': app.request.query.get('CKEditorFuncNum'),
         'langCode': app.request.query.get('langCode')
-    }) }}
+    } %} 
+
+    {{ files_path(context.pathsegments, context.namespace, pathoptions) }}
 
     {% if context.folders|length > 0 %}
         {% include 'files_ck/_folders.twig' %}

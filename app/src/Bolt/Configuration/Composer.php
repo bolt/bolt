@@ -15,9 +15,7 @@ class Composer extends Standard
     public function __construct($loader, Request $request = null)
     {
         parent::__construct($loader, $request);
-
         $this->setPath("composer", $this->root);
-
         $this->setUrl("app", "/bolt-public/");
     }
 
@@ -27,6 +25,15 @@ class Composer extends Standard
             define('BOLT_COMPOSER_INSTALLED', true);
         }
         parent::compat();
+    }
+    
+    public function getVerifier()
+    {
+        if (! $this->verifier) {
+            $this->verifier = new ComposerChecks($this);
+        }
+
+        return $this->verifier;
     }
 
     /**

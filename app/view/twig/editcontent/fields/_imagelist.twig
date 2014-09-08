@@ -42,33 +42,24 @@
 {#=== FIELDSET =======================================================================================================#}
 
 <fieldset class="imagelist">
+    <label class="col-sm-12 control-label">{{ macro.infopop(labelkey, option.info) }}</label>
 
-    <div class="imagelistholder dropzone" id="imagelist-{{ key }}">
+    <div class="col-sm-12 imagelistholder dropzone" id="imagelist-{{ key }}">
 
-        <div class="col-sm-12">
-            <label class="control-label">{{ macro.infopop(labelkey, option.info) }}</label>
-        </div>
+        <div class="list"></div>
 
-        <div class="col-sm-9">
-            <div class="list"></div>
-        </div>
-
-        <div class="buttons col-sm-3">
-            <div class="btn-group" style="margin: 0 0 6px;">
+        <div class="button-wrap">
                 <span class="btn btn-info fileinput-button">
                     <i class="fa fa-upload"></i> <span>{{ __('Upload image') }}</span>
                     <input{{ macro.attr(attr_fileupload) }}>
                 </span>
-            </div>
 
-            <div class="btn-group" style="margin: 0 0 6px;">
                 <a data-target="#selectModal-{{ key }}" href="{{ paths.async }}browse/files?key={{ key }}" class="btn btn-tertiary fileinput-select" data-toggle="modal">
                     <i class="fa fa-download"></i> {{ __('Select from server') }}
                 </a>
-            </div>
 
             {% if items %}
-                <div class="btn-group" style="margin: 0 0 6px;">
+                <div class="button-group">
                     <a class="btn btn-tertiary dropdown-toggle" data-toggle="dropdown">
                         <i class="fa fa-paperclip"></i> {{ __('Select from stack') }}<span class="caret"></span>
                     </a>
@@ -84,14 +75,14 @@
                     </ul>
                 </div>
             {% endif %}
-
         </div>
 
-        <textarea name="{{ key }}" id="{{ key }}" class="hide">{{ list_json }}</textarea>
 
-        {{ block.serverselect(key) }}
+    <textarea name="{{ key }}" id="{{ key }}" class="hide">{{ list_json }}</textarea>
 
-    </div>
+    {{ block.serverselect(key) }}
+
+</div>
 
 </fieldset>
 

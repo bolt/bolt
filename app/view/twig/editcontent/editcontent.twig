@@ -166,7 +166,7 @@
                     $('form').watchChanges();
 
                     // New record. Do a regular post, and expect to be redirected back to this page.
-                    var newaction = "?returnto=" + $(this).attr('id');
+                    var newaction = "?returnto=new";
                     $('#editcontent').attr('action', newaction).submit();
                 } else {
                     // Existing record. Do an 'ajaxy' post to update the record.
@@ -174,7 +174,9 @@
                     // Reset the changes to the form.
                     $('form').watchChanges();
 
-                    $.post("", $( "#editcontent" ).serialize() )
+                    // Let the controller know we're calling AJAX and expecting to be returned JSON
+                    var ajaxaction = "?returnto=ajax";
+                    $.post(ajaxaction, $( "#editcontent" ).serialize() )
                         .done(function(data) {
                             // var message = "{{ __('The changes to this %contenttype% have been saved.', {'%contenttype%': context.contenttype.singular_name}) }}";
                             $('p.lastsaved').html('{{ __('Saved on:') }} <strong></strong> <small>({{ macro.datetime(context.content.datechanged) }})</small></p>');
@@ -187,6 +189,26 @@
                                 '<i class="fa fa-circle status-' + $("#statusselect option:selected").val() + '"></i> ' +
                                 $("#statusselect option:selected").text()
                             );
+
+                            // Update anything changed by POST_SAVE handlers
+                            if ($.type(data) == 'object') {
+
+                                $.each(data, function(index, item) {
+
+                                    // Things like images are stored in JSON arrays
+                                    if ($.type(item) == 'object') {
+                                        $.each(item, function(subindex, subitem) {
+                                            $(":input[name='" + index + "[" + subindex + "]']").val(subitem);
+                                        });
+                                    } else {
+                                        $(":input[name='" + index + "']").val(item);
+                                    }
+
+                                });
+                            }
+
+                            // Reset the changes to the form from any updates we got from POST_SAVE changes
+                            $('form').watchChanges();
 
                         })
                         .fail(function(){

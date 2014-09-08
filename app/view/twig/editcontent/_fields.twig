@@ -6,7 +6,7 @@
 
         {# --------------- prefix --------------- #}
         {% if field.prefix is defined and field.prefix is not empty %}
-            <div class='clearfix'>
+            <div class='prefix'>
                 {{ field.prefix|raw }}
             </div>
         {% endif %}
@@ -24,7 +24,7 @@
         {# ---------------postfix & divider --------------- #}
 
         {% if field.postfix is defined and field.postfix is not empty %}
-            <div class='col-sm-12'>
+            <div class='postfix'>
                 {{ field.postfix|raw }}
             </div>
         {% endif %}

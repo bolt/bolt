@@ -32,25 +32,23 @@
 {#=== FIELDSET =======================================================================================================#}
 
 <fieldset class="file">
+    <label class="col-sm-12 control-label">{{ (option.info) ? macro.infopop(labelkey, option.info) : labelkey }}</label>
 
     <div class="col-sm-12 dropzone clearfix" id="dropzone-{{ key }}">
+        <input{{ macro.attr(attr_filepath) }}>
 
-        <label class="control-label">{{ (option.info) ? macro.infopop(labelkey, option.info) : labelkey }}</label>
-        <input{{ macro.attr(attr_filepath) }}><br>
-
-        <div style="margin-bottom: 10px; margin-top: 10px;">
-
+        <div class="button-wrap">
             {# The fileinput-button span is used to style the file input field as button #}
-            <div class="btn-group">
+
                 <span class="btn btn-info fileinput-button">
                     <i class="fa fa-upload"></i>
                     <span>{{ __('Upload File') }}</span>
                     <input{{ macro.attr(attr_upload) }}>
                 </span>
-            </div>
+
 
             {% if items %}
-                <div class="btn-group">
+                <div class="button-group">
                     <a class="btn btn-tertiary dropdown-toggle" data-toggle="dropdown">
                         <i class="fa fa-paperclip"></i> {{ __('Select from stack') }} <span class="caret"></span>
                     </a>
@@ -73,7 +71,7 @@
         </div>
 
         {% if not ismobileclient() %}
-            <div style="clear: left;" class="hidden-sm">
+            <div style="clear: left;" class="hidden-xs">
                 <small>{{ app.translator.trans('info.upload.filesmall', {}, 'infos') }}</small>
             </div>
         {% endif %}

@@ -61,11 +61,11 @@
             <strong>
                 {% if editable %}
                     <a href="{{ path('editcontent', { 'contenttypeslug': content.contenttype.slug, 'id': content.id }) }}" title="Slug: {{ content.slug }}">
-                        {{ content.getTitle|default(__("(no title…)")) }}
+                        {{ content.getTitle|default("<em>(" ~ __("no title…") ~ ")</em>")|raw }}
                     </a>
                 {% else %}
                      <strong>
-                        {{ content.getTitle|default(__("(no title…)")) }}
+                        {{ content.getTitle|default("<em>(" ~ __("no title…") ~ ")</em>")|raw }}
                     </strong>
                  {% endif %}
             </strong>
@@ -150,7 +150,7 @@
                     {% endif %}
                     {% if isallowed('delete', content) %}
                     <li>{{ macro.actionform(content, 'delete',
-                                          'fa-trash-o',
+                                          'fa-trash',
                                           __('Delete %contenttype%',{'%contenttype%':content.contenttype.singular_name}),
                                           "Are you sure you want to delete '" ~ content.getTitle ~ "'?" ) }}
                     </li>

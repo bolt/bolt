@@ -27,6 +27,7 @@ var BoltExtender = Object.extend(Object, {
 
     selector: ".extend-bolt-container",
     messages:  {},
+    paths:  {},
 
     constructor: function(){
         jQuery(this.selector).on("change", this, this.events.change);
@@ -54,6 +55,11 @@ var BoltExtender = Object.extend(Object, {
     setMessage: function(key, value) {
         this.messages[key]=value;
     },
+
+    
+    setPath: function(key, value) {
+        this.paths[key]=value;
+    },    
     
     installReset: function() {
         var controller = this;
@@ -163,7 +169,24 @@ var BoltExtender = Object.extend(Object, {
                     target.find('.installed-list-items').html('');
                     for(var e in data) {
                         ext = data[e];
-                        target.find('.installed-list-items').append("<tr><td class='ext-list'><strong class='title'>"+ext["name"]+"</strong></td><td>"+ext["version"]+"</td><td> "+ext["type"]+"</td><td> "+ext["descrip"]+"</td><td> <a data-action='uninstall-package' class='btn btn-sm btn-danger' href='"+baseurl+"uninstall?package="+ext["name"]+"'>Uninstall</a></td></tr>");
+                        var html = "<tr><td class='ext-list'><strong class='title'>" + ext["name"] + 
+                            "</strong></td><td>" + ext["version"] + "</td><td> " + ext["type"] + 
+                            "</td><td> " + ext["descrip"] + "</td><td align='right'> ";
+
+                        if (ext["readme"]) {
+                            html += "<a data-action='package-readme' data-readme='" + ext["readme"] + 
+                            "' class='btn btn-sm btn-tertiary' href=''><i class='fa fa-quote-right'></i> Readme</a> ";
+                        }
+
+                        if (ext["config"]) {
+                        html += "<a data-action='package-config' data-config='" + ext["config"] + 
+                            "' class='btn btn-sm btn-tertiary' href=''><i class='fa fa-cog'></i> Config</a> ";
+                        }
+
+                        html += "<a data-action='uninstall-package' class='btn btn-sm btn-danger' href='" + baseurl + 
+                            "uninstall?package=" + ext["name"] + "'><i class='fa fa-trash'></i> Uninstall</a>" + "</td></tr>";
+                        console.log(ext);
+                        target.find('.installed-list-items').append(html);
                     } 
                 } else {
                     target.find('.installed-list-items').html("<tr><td colspan='4'><strong>No Bolt Extensions installed.</strong></td></tr>");
@@ -286,6 +309,20 @@ var BoltExtender = Object.extend(Object, {
         e.preventDefault();
     },
     
+    packageReadme: function(e) {
+        var controller = this;
+
+        alert("Show README for: " + jQuery(e.target).data("readme") );
+
+    },
+
+    packageConfig: function(e) {
+        var controller = this;
+
+        alert("Edit config for: " + jQuery(e.target).data("config") );
+
+    },
+
     uninstall: function(e) {
         var controller = this;
         var t = this.find('.installed-container .console').html(controller.messages['removing']);
@@ -360,6 +397,8 @@ var BoltExtender = Object.extend(Object, {
                 case "prefill-package"  : controller.prefill(e.originalEvent); break;
                 case "install-run"      : controller.installRun(e.originalEvent); break;
                 case "generate-theme"   : controller.generateTheme(e.originalEvent); break;
+                case "package-readme"   : controller.packageReadme(e.originalEvent); break;
+                case "package-config"   : controller.packageConfig(e.originalEvent); break;
             }
         }
 

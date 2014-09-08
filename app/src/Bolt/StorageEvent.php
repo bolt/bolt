@@ -32,17 +32,24 @@ class StorageEvent extends Event
     private $content = null;
 
     /**
+     * Record create/update flag
+     */
+    private $create = null;
+
+    /**
      * Instantiate generic Storage Event
      *
      * @param mixed $in The content or (contenttype,id) combination
      */
-    public function __construct($in = null)
+    public function __construct($in = null, $create = null)
     {
         if ($in instanceof Content) {
             $this->setContent($in);
         } elseif (is_array($in)) {
             $this->setContentTypeAndId($in[0], $in[1]);
         }
+
+        $this->create = $create;
     }
 
     /**
@@ -67,6 +74,18 @@ class StorageEvent extends Event
     public function getContent()
     {
         return $this->content;
+    }
+
+    /**
+     * Is the record being created, updated or deleted
+     *
+     * @return bool True  - Create
+     *              False - Update
+     *              Null  - Delete
+     */
+    public function isCreate()
+    {
+        return $this->create;
     }
 
     /**

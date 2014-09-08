@@ -5,15 +5,19 @@
             <th>{{ __('Filesize') }}</th>
             <th>&nbsp;</th>
             <th>&nbsp;</th>
-            <th>&nbsp;</th>
+            {# <th>&nbsp;</th> #}
         </tr>
     </thead>
 
     <tbody>
         {% for file in context.files %}
             {% if file.type in ['jpeg', 'jpg', 'png', 'gif'] %}
+
                 <tr>
                     <td>
+
+                        <i class="fa fa-fw fa-file-image-o"></i>
+
                         {% if file.readable %}
                             <a class="filebrowserCallbackLink" href="{{ file.url }}">
                                 <b>{{ file.filename|trimtext(40) }}</b>
@@ -27,9 +31,9 @@
                     <td class='listthumb'>
                         {{file.newpath|showimage(54, 40, 'c')}}
                     </td>
-                    <td>
+                    {# <td>
                         <a href="{{ file.newpath|thumbnail(1000, 1000, 'r') }}" class="btn btn-mini magnifig" title="Image: {{ file.filename }}">{{ __('Preview') }}</a>
-                    </td>
+                    </td> #}
                 </tr>
             {% endif %}
         {% endfor %}

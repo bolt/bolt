@@ -40,14 +40,19 @@ class ResourceManager
     /**
      * Constructor initialises on the app root path.
      *
-     * @param string $path
+     * @param string $loader ClassLoader | string
+     * Classloader instance will use introspection to find root path
+     * String will be treated as an existing directory.
      */
     public function __construct($loader, Request $request = null, $verifier = null)
     {
-        $this->classLoader = $loader;
-        $app = dirname($loader->findFile('Bolt\\Application'));
-
-        $this->root = realpath($app . '/../../../');
+        
+        if ($loader instanceof ClassLoader) {
+            $this->useLoader($loader);  
+        } else {
+            $this->root = $loader;
+        }
+        
 
         $this->requestObject = $request;
 
@@ -82,6 +87,13 @@ class ResourceManager
     public function setApp(Application $app)
     {
         static::$_app = $this->app = $app;
+    }
+    
+    public function useLoader(ClassLoader $loader)
+    {
+        $this->classLoader = $loader;
+        $app = dirname($loader->findFile('Bolt\\Application'));
+        $this->root = realpath($app . '/../../../');
     }
 
     public function setPath($name, $value)

@@ -205,7 +205,7 @@ class Async implements ControllerProviderInterface
         $readme = file_get_contents($filename);
 
         // Parse the field as Markdown, return HTML
-        $html = \Parsedown::instance()->parse($readme);
+        $html = \ParsedownExtra::instance()->text($readme);
 
         return new Response($html, 200, array('Cache-Control' => 's-maxage=180, public'));
     }
@@ -290,7 +290,7 @@ class Async implements ControllerProviderInterface
         $contenttype = $app['storage']->getContentType($contenttypeslug);
 
         // get the 'latest' from the requested contenttype.
-        $latest = $app['storage']->getContent($contenttype['slug'], array('limit' => 5, 'order' => 'datechanged DESC'));
+        $latest = $app['storage']->getContent($contenttype['slug'], array('limit' => 5, 'order' => 'datechanged DESC', 'hydrate' => false));
 
         $context = array(
             'latest' => $latest,
@@ -341,7 +341,7 @@ class Async implements ControllerProviderInterface
     {
         foreach ($app['storage']->getContentTypes() as $contenttype) {
 
-            $records = $app['storage']->getContent($contenttype, array('published' => true));
+            $records = $app['storage']->getContent($contenttype, array('published' => true, 'hydrate' => false));
 
             foreach ($records as $key => $record) {
                 $results[$contenttype][] = array(
@@ -370,6 +370,9 @@ class Async implements ControllerProviderInterface
      */
     public function browse($namespace, $path, Silex\Application $app, Request $request)
     {
+        // No trailing slashes in the path.
+        $path = stripTrailingSlash($path);
+
         $filesystem = $app['filesystem']->getManager($namespace);
 
         // $key is linked to the fieldname of the original field, so we can

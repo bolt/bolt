@@ -1,6 +1,7 @@
 # Bolt specific stuff. Don't put config files, databases or 'vendor' in Git.
 app/cache/*
-app/config/**/*.yml
+app/config/*.yml
+app/config/extensions/*.yml
 app/database/*
 *config.yml
 files/*

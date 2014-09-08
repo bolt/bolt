@@ -10,8 +10,15 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class CronEvent extends Event
 {
+    /**
+     * @var Application
+     */
     private $app;
-    private $output;
+
+    /**
+     * @var Symfony\Component\Console\Output\OutputInterface
+     */
+    public $output;
 
     /**
      *
@@ -50,14 +57,12 @@ class CronEvent extends Event
         }
     }
 
-
     /**
      * Hourly jobs
      */
     private function cronHourly()
     {
     }
-
 
     /**
      * Daily jobs
@@ -66,7 +71,6 @@ class CronEvent extends Event
     {
         // Check for Bolt updates
     }
-
 
     /**
      * Weekly jobs
@@ -82,14 +86,12 @@ class CronEvent extends Event
         $this->notify("Trimming logs");
     }
 
-
     /**
      * Monthly jobs
      */
     private function cronMonthly()
     {
     }
-
 
     /**
      * Yearly jobs
@@ -98,7 +100,6 @@ class CronEvent extends Event
     {
     }
 
-
     /**
      * If we're passed an OutputInterface, we're called from Nut and can notify
      * the end user
@@ -106,7 +107,7 @@ class CronEvent extends Event
     private function notify($msg)
     {
         if ($this->output !== false) {
-            $this->output->writeln("<info>    {$msg}</info>");
+            $this->output->writeln("<comment>    {$msg}</comment>");
         }
     }
 }

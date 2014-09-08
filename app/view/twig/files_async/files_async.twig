@@ -12,8 +12,8 @@
                 <p>
                     {{ __('Path:') }}
                     <a href="#" data-action="stack.changeFolder('{{ context.key }}', '{{ path('asyncbrowse', {'namespace': context.namespace, 'key': context.key}) }}');" class="folder">
-                        {{ context.namespace }} /
-                    </a>
+                        {{ context.namespace -}}
+                    </a> /
                     {% for path, segment in context.pathsegments %}
                     {% if not loop.first %} / {% endif %}
                     <a href="#" data-action="stack.changeFolder('{{ context.key }}', '{{ path('asyncbrowse', {'namespace': context.namespace, 'path': path, 'key': context.key}) }}');" class="folder">{{ segment|default('…') }}</a>
@@ -28,10 +28,9 @@
                     </tr>
 
                     {% for folder in context.folders %}
-                        <tr>
-                            <td>
-                                <a href="#" data-action="stack.changeFolder('{{ context.key }}', '{{ path('asyncbrowse', {'namespace': context.namespace, 'path': folder.newpath, 'key': context.key}) }}');" class="folder">
-                                    <i class="fa fa-folder-open"></i> <b>{{ folder.foldername }}/</b>
+                        <tr style='height: 30px;'>
+                            <td> <i class="fa fa-fw fa-folder-open-o"></i> 
+                                <a href="#" data-action="stack.changeFolder('{{ context.key }}', '{{ path('asyncbrowse', {'namespace': context.namespace, 'path': folder.newpath, 'key': context.key}) }}');" class="folder"><b>{{ folder.foldername }}/</b>
                                 </a>
                             </td>
                         </tr>
@@ -46,19 +45,22 @@
                     <th>{{ __('Filesize') }}</th>
                     <th>&nbsp;</th>
                     <th>&nbsp;</th>
-                    <th>&nbsp;</th>
+                    {# <th>&nbsp;</th> #}
                 </tr>
 
                 {% for file in context.files %}
                     {% if file.type in ['jpeg', 'jpg', 'png', 'gif'] %}
                         <tr>
                             <td>
+                                
+                                <i class="fa fa-fw fa-file-image-o"></i>
+
                                 {% if file.readable %}
                                     <a href="#" data-action="stack.selectFromPulldown('{{ context.key }}', '{{ file.relativepath }}');" class='file'>
-                                        <b>{{ file.filename|trimtext(40) }}</b>
+                                        <b>{{ file.filename|trimtext(30) }}</b>
                                     </a>
                                 {% else %}
-                                    <b>{{ file.filename|trimtext(40) }} </b><i class="fa fa-lock"></i>
+                                    <b>{{ file.filename|trimtext(30) }} </b><i class="fa fa-lock"></i>
                                 {% endif %}
                             </td>
 
@@ -70,10 +72,10 @@
                                     {{file.newpath|showimage(54, 40, 'c')}}
                             </td>
 
-                            <td>
+                            {# <td>
                                 <a href="{{ file.newpath|thumbnail(1000, 1000, 'r') }}" class="btn btn-small preview magnific" title="Image: {{ file.filename }}">
                                 {{ __('Preview') }}</a>
-                            </td>
+                            </td> #}
                         </tr>
                     {% endif %}
                 {% endfor %}

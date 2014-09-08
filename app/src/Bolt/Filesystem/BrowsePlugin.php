@@ -43,7 +43,12 @@ class BrowsePlugin implements PluginInterface
 
             if ($entry['type'] === 'file') {
 
-                $url = $this->filesystem->url($entry['path']);
+                try {
+                    $url = $this->filesystem->url($entry['path']);
+                } catch (\Exception $e) {
+                    $url = $entry['path'];
+                }
+                
 
                 // Ugh, for some reason the foldername for the theme is included twice. Why?
                 // For now we 'fix' this with an ugly hack, replacing it. :-/

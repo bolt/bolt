@@ -97,7 +97,7 @@ class Content implements \ArrayAccess
         );
     }
 
-    public function setValues(Array $values)
+    public function setValues(array $values)
     {
         // Since Bolt 1.4, we use 'ownerid' instead of 'username' in the DB tables. If we get an array that has an
         // empty 'ownerid', attempt to set it from the 'username'. In $this->setValue the user will be set, regardless
@@ -115,8 +115,7 @@ class Content implements \ArrayAccess
 
         if (!isset($this->values['datecreated']) ||
             !preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $this->values['datecreated'])) {
-            // Not all DB-engines can handle a date like '0000-00-00', so we pick a safe date, that's far enough in the past.
-            $this->values['datecreated'] = "1970-01-01 00:00:00";
+            $this->values['datecreated'] = $now;
         }
 
         if (!isset($this->values['datepublish']) || ($this->values['datepublish'] < "1971-01-01 01:01:01") ||
@@ -340,7 +339,7 @@ class Content implements \ArrayAccess
                 }
 
                 $fieldname  = substr($key, 11);
-                $fileSystem = new Filesystem;
+                $fileSystem = new Filesystem();
 
                 // Make sure the folder exists.
                 $fileSystem->mkdir(dirname($filename));
@@ -390,7 +389,7 @@ class Content implements \ArrayAccess
      * Taken from jQuery file upload..
      *
      * @see upcountName()
-     * @param array $matches
+     * @param  array  $matches
      * @internal param string $name
      * @return string
      */
@@ -416,8 +415,8 @@ class Content implements \ArrayAccess
      *
      * @param $taxonomytype
      * @param $slug
-     * @param string $name
-     * @param int $sortorder
+     * @param  string $name
+     * @param  int    $sortorder
      * @return bool
      */
     public function setTaxonomy($taxonomytype, $slug, $name = '', $sortorder = 0)
@@ -525,7 +524,7 @@ class Content implements \ArrayAccess
      * @param $group
      * @param string $name
      * @param string $taxonomytype
-     * @param int $sortorder
+     * @param int    $sortorder
      * @internal param string $value
      */
     public function setGroup($group, $name, $taxonomytype, $sortorder = 0)
@@ -573,7 +572,7 @@ class Content implements \ArrayAccess
                     $value = $this->preParse($this->values[$name], $allowtwig);
 
                     // Parse the field as Markdown, return HTML
-                    $value = \Parsedown::instance()->parse($value);
+                    $value = \ParsedownExtra::instance()->text($value);
 
                     // Sanitize/clean the HTML.
                     $maid = new \Maid\Maid(
@@ -864,9 +863,9 @@ class Content implements \ArrayAccess
     }
 
     /**
-     * Get the previous record. In this case 'next' is defined as 'latest one published before 
+     * Get the previous record. In this case 'previous' is defined as 'latest one published before
      * this one' by default. You can pass a parameter like 'id' or '-title' to use that as
-     * the column to sort on. 
+     * the column to sort on.
      */
     public function previous($field = 'datepublish', $where = array())
     {
@@ -879,7 +878,8 @@ class Content implements \ArrayAccess
             $field => $operator .$this->values[$field],
             'limit' => 1,
             'order' => $field . $order,
-            'returnsingle' => true
+            'returnsingle' => true,
+            'hydrate' => false
         );
 
         $previous = $this->app['storage']->getContent($this->contenttype['singular_slug'], $params, $dummy, $where);
@@ -888,9 +888,9 @@ class Content implements \ArrayAccess
     }
 
     /**
-     * Get the next record. In this case 'next' is defined as 'first one published after 
+     * Get the next record. In this case 'next' is defined as 'first one published after
      * this one' by default. You can pass a parameter like 'id' or '-title' to use that as
-     * the column to sort on. 
+     * the column to sort on.
      */
     public function next($field = 'datepublish', $where = array())
     {
@@ -903,7 +903,8 @@ class Content implements \ArrayAccess
             $field => $operator .$this->values[$field],
             'limit' => 1,
             'order' => $field . $order,
-            'returnsingle' => true    
+            'returnsingle' => true,
+            'hydrate' => false
         );
 
         $next = $this->app['storage']->getContent($this->contenttype['singular_slug'], $params, $dummy, $where);
@@ -1009,8 +1010,8 @@ class Content implements \ArrayAccess
      *
      * Create an excerpt for the content.
      *
-     * @param  int $length
-     * @param bool $includetitle
+     * @param  int    $length
+     * @param  bool   $includetitle
      * @return string
      */
     public function excerpt($length = 200, $includetitle = false)
@@ -1086,7 +1087,6 @@ class Content implements \ArrayAccess
         return '<![CDATA[ ' . $result . ' ]]>';
     }
 
-
     /**
      * Weight a text part relative to some other part
      *
@@ -1094,7 +1094,7 @@ class Content implements \ArrayAccess
      * @param  string  $complete The complete search term (lowercased).
      * @param  array   $words    All the individual search terms (lowercased).
      * @param  integer $max      Maximum number of points to return.
-     * @return integer           The weight
+     * @return integer The weight
      */
     private function weighQueryText($subject, $complete, $words, $max)
     {

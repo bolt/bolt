@@ -7,24 +7,60 @@ label label {
     display: inline !important;
 }
 
+label {
+    display: block;
+    margin-bottom:3px;
+}
+
 label.permalink {
     margin: 0 0 0.5em;
+    code {
+        white-space:normal;
+    }
 }
 
 .form-horizontal .control-label {
     text-align: left;
-    font-size: $font-size-base + 1px;
-    font-weight: normal;
-    margin-bottom: 2px;
+    font-size: $font-size-base + 2px;
+    margin-bottom: 5px;
 }
 
+.form-horizontal .control-label-inline {
+    font-size: $font-size-base;
+    font-weight: bold;
+    margin-bottom: 5px;
+    padding-top: 7px;
+}
 
 .form-group {
-  margin-bottom: 20px;
+    margin-bottom: 20px;
+    .form-group {
+        margin-bottom: 10px;
+    }
+}
+
+.button-wrap {
+    margin:8px 0 4px;
+    position:relative;
+    .btn {
+        margin:0 4px 2px 0;
+    }
 }
 
 input[type="checkbox"] {
     margin: 4px 8px 0px 0;
+}
+
+.prefix, .postfix {
+    padding-bottom:4px;
+    color:#666;
+    padding-left:20px;
+    padding-right:20px;
+}
+
+.postfix {
+    padding-top:5px;
+    padding-bottom:0;
 }
 
 fieldset.checkbox {
@@ -45,6 +81,10 @@ fieldset.checkbox div {
     border-radius: 2px;
     border-color: #CCC;
     font-size: $font-size-base + 1px;
+}
+
+#editcontent > .form-group {
+    margin-bottom:40px;
 }
 
 
@@ -92,10 +132,8 @@ fieldset.checkbox div {
 }
 
 #editcontent textarea {
-    width: 96%;
+    width: 100%;
     height: 200px;
-    min-width: 96%;
-    max-width: 96%;
     padding-right: 0;
     font-size: 14px;
     line-height: 21px;
@@ -135,16 +173,15 @@ fieldset.checkbox div {
 }
 
 #editcontent .imageholder {
-    border: 1px solid #BBB;
-    width: 126px;
-    height: 126px;
+    // width: 126px;
+    // height: 126px;
     overflow: hidden;
-    padding: 2px;
-    box-shadow:  2px 2px 0 rgba(0, 0, 0, 0.2);
-}
-
-#editcontent .imageholder img {
-    max-height: 120px;
+    //box-shadow:  2px 2px 0 rgba(0, 0, 0, 0.2);
+    img {
+        max-height: 148px;
+        max-width:100%;
+        border: 1px solid #BBB;
+    }
 }
 
 #editcontent div.image-container label,
@@ -165,16 +202,35 @@ fieldset.checkbox div {
     margin-top: 8px;
 }
 
+#editcontent fieldset.checkbox {
+    display:block;
+    label {
+        display:inline;
+        padding-left:0;
+        font-weight:bold;
+    }
+    input {
+        display:inline;
+        height:1em;
+        margin-left:10px;
+        width:auto;
+    }
+}
+
 #editcontent .mapholder {
     border: 1px solid #BBB;
-    width: 200px;
     height: 160px;
     padding: 2px;
-    box-shadow:  2px 2px 0 rgba(0, 0, 0, 0.2);
+    //box-shadow:  2px 2px 0 rgba(0, 0, 0, 0.2);
+    @include in-large-mode() {
+        min-width: 160px;
+        max-width:200px;
+    }
 }
 
 #editcontent .geolocation {
-    height: 180px;
+    // #1592
+    //height: 180px;
 }
 
 #editcontent .dropzone.hover, #editcontent .dropzone.in  {
@@ -201,7 +257,12 @@ fieldset.checkbox div {
 }
 
 .fileinput-button {
-  margin: 0 !important;
+  margin-right: 4px;
+}
+
+#editcontent fieldset.slug {
+    // pull the slug closer to the field previous, usually the title
+    margin-top:-30px;
 }
 
 #editcontent input.editslug {
@@ -233,13 +294,16 @@ fieldset.checkbox div {
 
 #editcontent div.imagelistholder div.list,
 #editcontent div.filelistholder div.list {
-    border: 1px solid #BBB;
-    padding: 0 2px;
-    float: left;
-    width: 390px;
+    border: 1px solid #ccc;
+    padding: 0;
+    //width: 285px;
+    width:100%;
     background-color: #FFF;
     border-radius: 3px;
-    box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.2) inset;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1) inset;
+    @include in-large-mode() {
+
+    }
 }
 
 #editcontent div.imagelistholder div.list div {
@@ -250,9 +314,8 @@ fieldset.checkbox div {
     box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.2);
     overflow: hidden;
 }
-
 #editcontent div.filelistholder div.list div {
-    height: 70px;
+    min-height: 50px;
     margin: 6px;
     border-radius: 3px;
     cursor: ns-resize;
@@ -263,27 +326,45 @@ fieldset.checkbox div {
 #editcontent div.filelistholder div.list .fileDescription {
     font-size: 80%;
     font-weight: bold;
+    float:none;
+    display:block;
+    padding:3px 0 0 5px;
 }
 
 #editcontent div.imagelistholder div.list div *,
 #editcontent div.filelistholder div.list div * {
     float: left;
-    margin: 4px 3px 0;
-    padding-left: 4px;
+    //margin: 4px 3px 0;
+    //padding-left: 4px;
 }
 
 #editcontent div.imagelistholder div.list div input,
 #editcontent div.filelistholder div.list div input {
-    width: 264px;
-    margin: 9px 0 0 4px;
+    //width: 170px;
+    margin: 9px 0 0;
+    padding:3px 0 0 5px;
+    width:65%;
+    border:0;
+    @include in-large-mode() {
+        width: 83%;
+    }
 }
 
-#editcontent div.imagelistholder div.list div i,
-#editcontent div.filelistholder div.list div i {
-    margin: 11px 0 0;
+#editcontent div.filelistholder div.list div input {
+    margin-top: 5px;
+}
+
+#editcontent div.imagelistholder div.list div a,
+#editcontent div.filelistholder div.list div a {
+    margin: 15px 7px 0;
     padding: 0;
     cursor: pointer;
     color: #999;
+    float:right;
+}
+
+#editcontent div.filelistholder div.list div a {
+    margin-top:10px;
 }
 
 #editcontent div.imagelistholder div.buttons,
@@ -313,26 +394,36 @@ fieldset.checkbox div {
 }
 
 #filtertabs {
-
     margin-bottom: 16px;
-
+    border:0;
+    @include in-large-mode() {
+        border-bottom:1px solid #d3d3d3;
+    }
     a {
         color: #777;
-        font-size: 115%;
-        background-color: $nav-tabs-bg; 
-        border-top: 1px solid $nav-tabs-border-color;
-        border-left: 1px solid $nav-tabs-border-color;
-        border-right: 1px solid $nav-tabs-border-color;
+        background-color: #dfdfdf; 
+        border: 1px solid #d3d3d3;
         cursor: pointer;
+        padding:5px 10px;
     }
-
     a:hover {
         color: #555;
+        background-color:#efefef;
+        border-botom:0;
     }
+    li {
+        margin-left:-3px;
+        &.active {
+            margin-top:-5px;
+            a {
+                background-color:#efefef;
+                color: #333;
+                padding:7px 10px 8px 10px;
+            }
+            &:hover {
 
-    li.active a, li.active a:hover {
-        color: #555;
-        background-color: $basebgcolour;    
+            }
+        }
     }
-
 }
+

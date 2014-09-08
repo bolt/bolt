@@ -96,7 +96,7 @@
         {% for template in collector.templates %}
         <tr>
             <th>
-                {% if template.path %}
+                {% if template.path is defined %}
                     <a href="{{ template.path|file_link(1) }}">
                         {{ template.name }}
                     </a>
@@ -105,25 +105,27 @@
                 {% endif %}
             </th>
             <td>
-                {% for parameter, metadata in template.parameters %}
-                    {% if metadata.type == 'boolean' %}
-                        {% set value = metadata.value ? 'true' : 'false' %}
-                    {% elseif metadata.type == 'string' %}
-                        {% set maxStrLength = 40 %}
-                        {% set value = metadata.value %}
-                        {% if value|length > maxStrLength %}
-                            {% set value = value|slice(0, maxStrLength) ~ '…' %}
+                {% if template.parameters is defined %}
+                    {% for parameter, metadata in template.parameters %}
+                        {% if metadata.type == 'boolean' %}
+                            {% set value = metadata.value ? 'true' : 'false' %}
+                        {% elseif metadata.type == 'string' %}
+                            {% set maxStrLength = 40 %}
+                            {% set value = metadata.value %}
+                            {% if value|length > maxStrLength %}
+                                {% set value = value|slice(0, maxStrLength) ~ '…' %}
+                            {% endif %}
+                            {% set value = '"' ~ value ~ '"' %}
+                        {% else %}
+                            {% set value = metadata.value %}
                         {% endif %}
-                        {% set value = '"' ~ value ~ '"' %}
-                    {% else %}
-                        {% set value = metadata.value %}
-                    {% endif %}
-                    <code>
-                        {{ parameter }}: <em style="color: #aaa">{{ metadata.type }}</em>
-                        <span style="color: #009E00">{{ value }}</span>
-                    </code>
-                    {% if not loop.last %}<br />{% endif %}
-                {% endfor %}
+                        <code>
+                            {{ parameter }}: <em style="color: #aaa">{{ metadata.type }}</em>
+                            <span style="color: #009E00">{{ value }}</span>
+                        </code>
+                        {% if not loop.last %}<br />{% endif %}
+                    {% endfor %}
+                {% endif %}
             </td>
         </tr>
         {% endfor %}

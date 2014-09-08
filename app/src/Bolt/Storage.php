@@ -26,6 +26,13 @@ class Storage
      */
     private $checkedfortimed = array();
 
+    /**
+     * Test to indicate if we're inside a dispatcher
+     *
+     * @var bool
+     */
+    private $inDispatcher = false;
+
     protected static $pager = array();
 
     public function __construct(Bolt\Application $app)
@@ -594,9 +601,22 @@ class Storage
             return false;
         }
 
-        if ($this->app['dispatcher']->hasListeners(StorageEvents::PRE_SAVE)) {
-            $event = new StorageEvent($content);
+        // Test to see if this is a new record, or an update
+        if (empty($fieldvalues['id'])) {
+            $create = true;
+        } else {
+            $create = false;
+        }
+
+        if (! $this->inDispatcher && $this->app['dispatcher']->hasListeners(StorageEvents::PRE_SAVE)) {
+            // Block dispatcher loops
+            $this->inDispatcher = true;
+
+            $event = new StorageEvent($content, $create);
             $this->app['dispatcher']->dispatch(StorageEvents::PRE_SAVE, $event);
+
+            // Re-enable the dispather
+            $this->inDispatcher = false;
         }
 
         if (!isset($fieldvalues['slug'])) {
@@ -689,11 +709,11 @@ class Storage
         }
 
         // We need to verify if the slug is unique. If not, we update it.
-        $get_id = isset($fieldvalues['id']) ? $fieldvalues['id'] : null;
+        $get_id = $create ? null : $fieldvalues['id'];
         $fieldvalues['slug'] = $this->getUri($fieldvalues['slug'], $get_id, $contenttype['slug'], false, false);
 
         // Decide whether to insert a new record, or update an existing one.
-        if (empty($fieldvalues['id'])) {
+        if ($create) {
             $id = $this->insertContent($fieldvalues, $contenttype, '', $comment);
             $fieldvalues['id'] = $id;
             $content->setValue('id', $id);
@@ -705,9 +725,15 @@ class Storage
         $this->updateTaxonomy($contenttype, $id, $content->taxonomy);
         $this->updateRelation($contenttype, $id, $content->relation);
 
-        if ($this->app['dispatcher']->hasListeners(StorageEvents::POST_SAVE)) {
-            $event = new StorageEvent($content);
+        if (!$this->inDispatcher && $this->app['dispatcher']->hasListeners(StorageEvents::POST_SAVE)) {
+            // Block loops
+            $this->inDispatcher = true;
+
+            $event = new StorageEvent($content, $create);
             $this->app['dispatcher']->dispatch(StorageEvents::POST_SAVE, $event);
+
+            // Re-enable the dispather
+            $this->inDispatcher = false;
         }
 
         return $id;
@@ -801,21 +827,12 @@ class Storage
 
         $content['datechanged'] = date('Y-m-d H:i:s');
 
-        // Keep datecreated around, for when we might need to 'insert' instead of 'update' after all
-        $datecreated = $content['datecreated'];
-        unset($content['datecreated']);
-
+        // Call update() and get the number of rows affected
         $res = $this->app['db']->update($tablename, $content, array('id' => $content['id']));
 
-        if ($res == true) {
+        if ($res > 0) {
+            // More than one row was changed, log the update
             $this->logUpdate($contenttype, $content['id'], $content, $oldContent, $comment);
-
-            return true;
-        } else {
-            // Attempt to _insert_ it, instead of updating..
-            $content['datecreated'] = $datecreated;
-
-            return $this->app['db']->insert($tablename, $content);
         }
     }
 

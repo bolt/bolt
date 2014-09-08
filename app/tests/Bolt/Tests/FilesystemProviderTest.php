@@ -48,8 +48,6 @@ class FilesystemProviderTest extends \PHPUnit_Framework_TestCase
         $config = new Config\ResourceManager($this->loader);
         $config->compat();
         $bolt = $this->getApp();
-
-        $manager = $bolt['filesystem']->getManager();
         $this->assertInstanceOf('League\Flysystem\Filesystem', $bolt['filesystem']->getManager());
         $this->assertInstanceOf('League\Flysystem\Filesystem', $bolt['filesystem']->getManager('config'));
     }
@@ -72,7 +70,7 @@ class FilesystemProviderTest extends \PHPUnit_Framework_TestCase
         ));
 
         $bolt['session'] = $sessionMock;
-        $bolt['resources']->setPath('files', __DIR__."/files");
+        $bolt['resources']->setPath('files', __DIR__);
         $bolt->initialize();
         return $bolt;
     }

@@ -20,6 +20,7 @@ class CommandRunner
         $this->basedir = $app['resources']->getPath('extensions');
         $this->packageRepo = $packageRepo;
         $this->packageFile = $app['resources']->getPath('root').'/extensions/composer.json';
+        umask(0000);
         putenv("COMPOSER_HOME=".$app['resources']->getPath('cache').'/composer');
 
         $this->wrapper = \evidev\composer\Wrapper::create();
@@ -234,6 +235,25 @@ class CommandRunner
             $pack['version'] = 'unknown';
             $pack['type'] = 'unknown';
             $pack['descrip'] = 'Not yet installed';
+        }
+
+        // For Bolt, we also need to know if the extension has a 'README' and a 'config.yml' file.
+        // Note we only do this for successfully loaded extensions.
+        if (isset($this->app['extensions']->composer[$name])) {
+            $paths = $this->app['resources']->getPaths();
+            if (is_readable($paths['extensionspath'] . '/vendor/' . $pack['name'] . '/README.md' )) {
+                $pack['readme'] = $pack['names'] . '/README.md';
+            } elseif (is_readable($paths['extensionspath'] . '/vendor/' . $pack['name'] . '/readme.md' )) {
+                $pack['readme'] = $pack['names'] . '/readme.md';
+            }
+        }
+
+        // Check if we hve a config file, and if it's readable. (yet)
+        if (isset($this->app['extensions']->composer[$name]['name'])) {
+            $configfile = $paths['extensionsconfig'] . '/' . $this->app['extensions']->composer[$name]['name'] . '.yml';
+            if (is_readable($configfile)) {
+                $pack['config'] = $configfile;
+            }
         }
 
         return $pack;
