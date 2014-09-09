@@ -62,5 +62,6 @@
             "Bolt": "app/src/",
             "Bolt\\Tests": "app/tests"
         }
-    }
+    },
+    "bin": ["app/nut"]
 }

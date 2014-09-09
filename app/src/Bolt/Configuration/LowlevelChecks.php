@@ -43,6 +43,8 @@ class LowlevelChecks
         if (!in_array($check, $this->checks)) {
             if ($top) {
                 array_unshift($this->checks, $check);
+            } else {
+                $this->checks[] = $check;
             }
         }
     }
