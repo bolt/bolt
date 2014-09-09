@@ -1523,13 +1523,10 @@ class Backend implements ControllerProviderInterface
 
         // Gather the 'similar' files, if present.. i.e., if we're editing config.yml, we also want to check for
         // config.yml.dist and config_local.yml
-        $basename = str_replace('.yml', '', str_replace('.dist', '', str_replace('_local', '', $filename)));
+        $basename = str_replace('.yml', '', str_replace('_local', '', $filename));
         $filegroup = array();
         if (is_readable($basename . '.yml')) {
             $filegroup[] = basename($basename . '.yml');
-        }
-        if (is_readable($basename . '.yml.dist')) {
-            $filegroup[] = basename($basename . '.yml.dist');
         }
         if (is_readable($basename . '_local.yml')) {
             $filegroup[] = basename($basename . '_local.yml');
