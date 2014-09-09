@@ -10,7 +10,7 @@ class LowlevelChecks
 {
     public $config;
     public $disableApacheChecks = false;
-    
+
     public $checks = array(
         'magicQuotes',
         'safeMode',
@@ -29,15 +29,15 @@ class LowlevelChecks
     {
         $this->config = $config;
     }
-    
-    
+
+
     public function removeCheck($check)
     {
         if (in_array($check, $this->checks)) {
-            $this->checks = array_diff($this->checks, array($check));  
+            $this->checks = array_diff($this->checks, array($check));
         }
     }
-    
+
     public function addCheck($check, $top = false)
     {
         if (!in_array($check, $this->checks)) {
@@ -52,7 +52,7 @@ class LowlevelChecks
     /**
      * Perform the checks.
      */
-    
+
     public function doChecks()
     {
 
@@ -60,7 +60,7 @@ class LowlevelChecks
             $method = "check".ucfirst($check);
             $this->$method();
         }
- 
+
 
         // If the config folder is OK, but the config files are missing, attempt to fix it.
         $this->lowlevelConfigFix('config');
@@ -72,7 +72,7 @@ class LowlevelChecks
 
         // throw new LowlevelException("Done");
     }
-    
+
     public function checkMagicQuotes()
     {
         if (get_magic_quotes_gpc()) {
@@ -85,7 +85,7 @@ class LowlevelChecks
             );
         }
     }
-    
+
     public function checkSafeMode()
     {
         if (ini_get('safe_mode')) {
@@ -96,7 +96,7 @@ class LowlevelChecks
             );
         }
     }
-    
+
     public function checkCache()
     {
         // Check if the cache dir is present and writable
@@ -112,7 +112,7 @@ class LowlevelChecks
             );
         }
     }
-    
+
     public function checkExtensions()
     {
         // Check if there is a writable extension path
@@ -129,7 +129,7 @@ class LowlevelChecks
         }
 
     }
-    
+
     /**
      * This check looks for the presence of the .htaccess file inside the web directory.
      * It is here only as a convenience check for users that install the basic version of Bolt.
@@ -139,7 +139,7 @@ class LowlevelChecks
      **/
     public function checkApache()
     {
-        
+
         if (isset($_SERVER['SERVER_SOFTWARE']) && false !== strpos($_SERVER['SERVER_SOFTWARE'], 'Apache')) {
             if (!is_readable($this->config->getPath('web').'/.htaccess')) {
                 throw new LowlevelException(
