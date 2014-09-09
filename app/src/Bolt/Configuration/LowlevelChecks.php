@@ -123,7 +123,7 @@ class LowlevelChecks
      */
     public function checkExtensions()
     {
-        $this->assertWritableDir($this->config->getPath('extensions'));
+        // $this->assertWritableDir($this->config->getPath('extensions'));
     }
 
     /**
