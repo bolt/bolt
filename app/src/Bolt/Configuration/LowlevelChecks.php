@@ -97,37 +97,33 @@ class LowlevelChecks
         }
     }
 
-    public function checkCache()
-    {
-        // Check if the cache dir is present and writable
-        if (!is_dir($this->config->getPath('cache'))) {
+    private function assertWritableDir($path) {
+        if (!is_dir($path)) {
             throw new LowlevelException(
-                "The folder <code>" . $this->config->getPath('cache') . "</code> doesn't exist. Make sure it's " .
-                "present and writable to the user that the webserver is using."
-            );
-        } elseif (!is_writable($this->config->getPath('cache'))) {
+                "The folder <code>" . htmlspecialchars($path, ENT_QUOTES) . "</code> doesn't exist. Make sure it is " .
+                "present and writable to the user that the webserver is using.");
+        }
+        if (!is_writable($path)) {
             throw new LowlevelException(
-                "The folder <code>" . $this->config->getPath('cache') . "</code> isn't writable. Make sure it's " .
-                "present and writable to the user that the webserver is using."
-            );
+                "The folder <code>" . htmlspecialchars($path, ENT_QUOTES) . "</code> isn't writable. Make sure it is " .
+                "present and writable to the user that the webserver is using.");
         }
     }
 
+    /**
+     * Check if the cache dir is present and writable
+     */
+    public function checkCache()
+    {
+        $this->assertWritableDir($this->config->getPath('cache'));
+    }
+
+    /**
+     * Check if there is a writable extension path
+     */
     public function checkExtensions()
     {
-        // Check if there is a writable extension path
-        if (!is_dir($this->config->getPath('extensions'))) {
-            throw new LowlevelException(
-                "The folder <code>" . $this->config->getPath('extensions') . "</code> doesn't exist. Make sure it's " .
-                "present and writable to the user that the webserver is using."
-            );
-        } elseif (!is_writable($this->config->getPath('extensions'))) {
-            throw new LowlevelException(
-                "The folder <code>" . $this->config->getPath('extensions') . "</code> isn't writable. Make sure it's " .
-                "present and writable to the user that the webserver is using."
-            );
-        }
-
+        $this->assertWritableDir($this->config->getPath('extensions'));
     }
 
     /**
@@ -145,7 +141,11 @@ class LowlevelChecks
                 throw new LowlevelException(
                     "The file <code>" . htmlspecialchars($this->config->getPath('web'), ENT_QUOTES) . "/.htaccess".
                     "</code> doesn't exist. Make sure it's present and readable to the user that the " .
-                    "webserver is using."
+                    "webserver is using. " .
+                    "If you are not running Apache, or your Apache setup performs the correct rewrites without " .
+                    "requiring a .htaccess file (in other words, <strong>if you know what you are doing</strong>), " .
+                    'you can disable this check by calling <code>$config->getVerifier()->disableApacheChecks(); ' .
+                    "in <code>bootstrap.php</code>"
                 );
             }
         }
