@@ -4,7 +4,7 @@ namespace Bolt;
 
 use Bolt;
 use Bolt\Extensions\Snippets\Location as SnippetLocation;
-use Bolt\Extensions\BaseExtensionInterface;
+use Bolt\Extensions\ExtensionInterface;
 use Bolt\Configuration\LowlevelException;
 use Composer\Json\JsonFile;
 
@@ -169,10 +169,10 @@ class Extensions
     /**
      * Extension register method. Allows any extension to register itself onto the enabled stack.
      *
-     * @param BaseExtensionInterface $extension
+     * @param ExtensionInterface $extension
      * @return void
      */
-    public function register(BaseExtensionInterface $extension)
+    public function register(ExtensionInterface $extension)
     {
         $name = $extension->getName();
         $this->app['extensions.'.$name] = $extension;
@@ -186,9 +186,9 @@ class Extensions
      * Register the extensions Composer JSON and a matching Bolt name.
      * This allows reverse lookup of Bolt name to Composer name
      *
-     * @param BaseExtensionInterface $extension
+     * @param ExtensionInterface $extension
      */
-    private function registerComposerJson(BaseExtensionInterface $extension)
+    private function registerComposerJson(ExtensionInterface $extension)
     {
         $json = new JsonFile($extension->getBasepath() . '/composer.json');
         $composerjson = $json->read();
@@ -805,7 +805,7 @@ class Extensions
      * Add a menu option to the 'settings' menu. Note that the item is only added if the current user
      * meets the required permission.
      *
-     * @see \Bolt\BaseExtension\addMenuOption()
+     * @see \Bolt\AbstractExtension\addMenuOption()
      *
      * @param string $label
      * @param string $path

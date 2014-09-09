@@ -2,10 +2,10 @@
 
 namespace Bolt;
 
-use Bolt\Extensions\BaseExtensionInterface;
+use Bolt\Extensions\ExtensionInterface;
 use Symfony\Component\Console\Command\Command;
 
-abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInterface
+abstract class AbstractExtension extends \Twig_Extension implements ExtensionInterface
 {
     protected $app;
     protected $basepath;

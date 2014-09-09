@@ -6,7 +6,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class UserRoleRemove extends BaseCommand
+class UserRoleRemove extends AbstractCommand
 {
     protected function configure()
     {
