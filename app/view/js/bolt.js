@@ -804,6 +804,10 @@ var Sidebar = Backbone.Model.extend({
             });
 
         }
+
+        // Make sure the sidebar is as long as the document height. Also: Typecasting! love it or hate it! 
+        $('#navpage-secondary').height( $('#navpage-content').height() + 22 + "px");
+
     },
 
     /**
