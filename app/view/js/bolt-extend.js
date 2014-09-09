@@ -173,19 +173,18 @@ var BoltExtender = Object.extend(Object, {
                             "</strong></td><td>" + ext["version"] + "</td><td> " + ext["type"] + 
                             "</td><td> " + ext["descrip"] + "</td><td align='right'> ";
 
-                        if (ext["readme"]) {
-                            html += "<a data-action='package-readme' data-readme='" + ext["readme"] + 
+                        if (ext["readmelink"]) {
+                            html += "<a data-action='package-readme' data-readme='" + ext["readmelink"] + 
                             "' class='btn btn-sm btn-tertiary' href=''><i class='fa fa-quote-right'></i> Readme</a> ";
                         }
 
                         if (ext["config"]) {
-                        html += "<a data-action='package-config' data-config='" + ext["config"] + 
-                            "' class='btn btn-sm btn-tertiary' href=''><i class='fa fa-cog'></i> Config</a> ";
+                            html += "<a href='" + ext["config"] + "' class='btn btn-sm btn-tertiary' ><i class='fa fa-cog'></i> Config</a> ";
                         }
 
                         html += "<a data-action='uninstall-package' class='btn btn-sm btn-danger' href='" + baseurl + 
                             "uninstall?package=" + ext["name"] + "'><i class='fa fa-trash'></i> Uninstall</a>" + "</td></tr>";
-                        console.log(ext);
+                        //console.log(ext);
                         target.find('.installed-list-items').append(html);
                     } 
                 } else {
@@ -312,14 +311,10 @@ var BoltExtender = Object.extend(Object, {
     packageReadme: function(e) {
         var controller = this;
 
+        $('#readmeModal').modal({ 'remote': jQuery(e.target).data("readme") });
+
         alert("Show README for: " + jQuery(e.target).data("readme") );
-
-    },
-
-    packageConfig: function(e) {
-        var controller = this;
-
-        alert("Edit config for: " + jQuery(e.target).data("config") );
+        e.preventDefault();
 
     },
 

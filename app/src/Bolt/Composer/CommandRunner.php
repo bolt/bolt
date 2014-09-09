@@ -252,13 +252,19 @@ class CommandRunner
             } elseif (is_readable($paths['extensionspath'] . '/vendor/' . $pack['name'] . '/readme.md' )) {
                 $pack['readme'] = $pack['name'] . '/readme.md';
             }
+
+            if (!empty($pack['readme'])) {
+                $pack['readmelink'] = $paths['async'] . 'readme/' . $pack['readme'];
+            }
+
         }
 
         // Check if we hve a config file, and if it's readable. (yet)
         if (isset($this->app['extensions']->composer[$name]['name'])) {
-            $configfile = $paths['extensionsconfig'] . '/' . $this->app['extensions']->composer[$name]['name'] . '.yml';
-            if (is_readable($configfile)) {
-                $pack['config'] = $configfile;
+            $configfilepath = $paths['extensionsconfig'] . '/' . $this->app['extensions']->composer[$name]['name'] . '.yml';
+            if (is_readable($configfilepath)) {
+                $configfilename = 'extensions/' . $this->app['extensions']->composer[$name]['name'] . '.yml';
+                $pack['config'] = path('fileedit', array('namespace' => 'config', 'file' => $configfilename));
             }
         }
 

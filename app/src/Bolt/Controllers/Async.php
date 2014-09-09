@@ -29,8 +29,9 @@ class Async implements ControllerProviderInterface
         $ctr->get("/filesautocomplete", array($this, 'filesautocomplete'))
             ->before(array($this, 'before'));
 
-        $ctr->get("/readme/{extension}", array($this, 'readme'))
+        $ctr->get("/readme/{filename}", array($this, 'readme'))
             ->before(array($this, 'before'))
+            ->assert('filename', '.+')
             ->bind('readme');
 
         $ctr->get("/widget/{key}", array($this, 'widget'))
@@ -198,9 +199,20 @@ class Async implements ControllerProviderInterface
         return new Response($html, 200, array('Cache-Control' => 's-maxage=180, public'));
     }
 
-    public function readme($extension, Silex\Application $app, Request $request)
+    public function readme($filename, Silex\Application $app, Request $request)
     {
-        $filename = __DIR__ . "/../../../extensions/" . $extension . "/readme.md";
+
+        $paths = $app['resources']->getPaths();
+
+        $filename = $paths['extensionspath'] . '/vendor/' . $filename;
+
+        // don't allow viewing of anything but "readme.md" files.
+        if (strtolower(basename($filename)) != 'readme.md') {
+            die('Not allowed');
+        }
+        if (!is_readable($filename)) {
+            die('Not readable');
+        }
 
         $readme = file_get_contents($filename);
 
