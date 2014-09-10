@@ -807,13 +807,20 @@ var Sidebar = Backbone.Model.extend({
 
         }
 
+        // set up 'fixlength'
+        window.setTimeout(function(){ sidebar.fixlength(); }, 500);
 
-        // Make sure the sidebar is as long as the document height. Also: Typecasting! love it or hate it! 
+    },
+
+    /*
+     * Make sure the sidebar is as long as the document height. Also: Typecasting! love it or hate it! 
+     */
+    fixlength: function() {
         var documentheight = $('#navpage-content').height() + 22;
         if (documentheight > $('#navpage-secondary').height()) {
             $('#navpage-secondary').height( documentheight + "px");
+            window.setTimeout(function(){ sidebar.fixlength(); }, 500);
         }
-
     },
 
     /**
