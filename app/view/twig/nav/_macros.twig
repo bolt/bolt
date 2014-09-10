@@ -105,6 +105,7 @@
 {% macro link(icon, label, pathname, active, divider) %}
     {% from _self import label %}
     {% set class = '' %}
+    {% if pathname == 'dashboard' %}{% set class = 'nav-secondary-dashboard' %}{% endif %}
     {% if active %}{% set class = class ~ ' active' %}{% endif %}
     {% if divider %}{% set class = class ~ ' divider' %}{% endif %}
 

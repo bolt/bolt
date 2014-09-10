@@ -51,6 +51,14 @@ $nav-secondary-collapsed-width: ($nav-secondary-h-padding + $nav-secondary-inden
     background: $basebgcolour;
 }
 
+  // Override for wrong focus color in Foundation.
+ul.nav > li > a {
+    &:hover,
+    &:focus {
+      background-color: $sidebarbackgroundhover !important;
+    }
+  } 
+
 @import "primary";
 @import "secondary";
 @import "content";

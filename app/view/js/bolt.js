@@ -72,16 +72,6 @@ jQuery(function($) {
         setTimeout( function(){ updateLatestActivity(); }, 20 * 1000);
     }
 
-    // Initialize "info" popovers, used in 'edit content'.
-    $('#navpage-secondary a.menu-pop').each(function(){
-        var $this = $(this);
-        $this.popover({
-            trigger: 'hover',
-            delay: { show: 500, hide: 300 },
-            container: $this
-        });
-    });
-
     /**
      * Smarter dropdowns/dropups based on viewport height.
      * Based on: https://github.com/twbs/bootstrap/issues/3637#issuecomment-9850709
@@ -795,14 +785,25 @@ var Sidebar = Backbone.Model.extend({
     initialize: function() {
         // Do this, only if the sidebar is visible. (not when in small-responsive view)
         if ($('#navpage-secondary').is(':visible')) {
-            // Initialize popovers, used in sidebar menu.
-            $('#navpage-secondary a.menu-pop').each(function(){
-                var $this = $(this);
-                $this.popover({
-                    trigger: 'hover',
-                    delay: 300,
-                    container: $this
-                });
+
+            // Note: It might seem easier to do this with a simple .popover, but we
+            // shouldn't. People using keyboard access will not appreciate the menu timing 
+            // out and disappearing after a split-second of losing focus. 
+            $('#navpage-secondary a.menu-pop').on('mouseover focus', function() {
+                $('#navpage-secondary a.menu-pop').not(this).popover('hide');
+                $(this).popover('show');
+            });
+
+            // Likewise, we need to distinct events, to hide the sidebar's popovers:
+            // One for 'mouseleave' on the sidebar itself, and one for keyboard 'focus'
+            // on the items before and after. 
+            $('#navpage-secondary').on('mouseleave', function() {
+                window.setTimeout(function() {
+                    $('#navpage-secondary a.menu-pop').popover('hide');
+                }, 500);
+            });
+            $('.nav-secondary-collapse a, .nav-secondary-dashboard a').on('focus', function() {
+                $('#navpage-secondary a.menu-pop').popover('hide');
             });
 
         }
