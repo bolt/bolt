@@ -4,8 +4,12 @@
 <table class='{{ extra_classes }} dashboardlisting' data-contenttype="{{ subcontenttype.slug }}" data-token="{{ token() }}">
 
     {% set any_deletable = false %}
+    {% set any_editable = false %}
     {% for content in multiplecontent %}
         {% set editable = isallowed('edit', content) %}
+        {% if editable %}
+            {% set any_editable = true %}
+        {% endif %}
         {% set deletable = isallowed('delete', content) %}
         {% if deletable %}
             {% set any_deletable = true %}
@@ -24,10 +28,27 @@
     <div class="btn-group">
         <a href="#" class="btn btn-default deletechosen showifchosen" style="display:none;">
             <i class="fa fa-trash"></i>
-            {{ __('Delete selected %contenttype%', {'%contenttype%': contenttype.name}) }}
+            {{ __('Delete selected', {'%contenttype%': contenttype.name}) }}
         </a>
     </div>
 {% endif %}
+
+{# -- commented out for now.. Finish when needed. 
+{% if any_editable %}
+    <div class="btn-group">
+        <a href="#" class="btn btn-default publishchosen showifchosen" style="display:none;">
+            <i class="fa fa-circle status-published"></i>
+            {{ __('Publish selected', {'%contenttype%': contenttype.name}) }}
+        </a>
+    </div>
+    <div class="btn-group">
+        <a href="#" class="btn btn-default unpublishchosen showifchosen" style="display:none;">
+            <i class="fa fa-circle status-held"></i>
+            {{ __('Depublish selected', {'%contenttype%': contenttype.name}) }}
+        </a>
+    </div>    
+{% endif %}
+#}
 
 {% from '_macro/_pager.twig' import pager %}
 {{ pager(contenttype.slug) }}

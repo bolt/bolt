@@ -215,7 +215,8 @@ jQuery(function($) {
         if(aItems.length <1){
             bootbox.alert("Nothing chosen to delete");
         }else{
-            bootbox.confirm("Delete these "+(aItems.length===1? "Entry":"Entries")+"?", function(confirmed) {
+            var notice = "Are you sure you wish to <strong>delete "+(aItems.length===1? "this record":"these records")+"</strong>? There is no undo."
+            bootbox.confirm(notice, function(confirmed) {
                 $(".alert").alert();
                 if(confirmed===true){
                     $.each(aItems, function( index, id ) {
@@ -233,6 +234,7 @@ jQuery(function($) {
             });
         }
     });
+
 
     $('tbody.sortable').sortable({
         items: 'tr',
