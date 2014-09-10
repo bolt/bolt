@@ -302,28 +302,7 @@ class Permissions
      */
     public function isAllowed($what, $user, $contenttype = null, $contentid = null)
     {
-        // $contenttype must be a string, not an array.
-        if (is_array($contenttype)) {
-            $contenttype = $contenttype['slug'];
-        }
-
-        $this->audit("Checking permission query '$what' for user '{$user['username']}' with contenttype '$contenttype' and contentid '$contentid'");
-
-        // First, let's see if we have the check in the per-request cache.
-        $rqCacheKey = $user['id'] . '//' . $what . '//' . $contenttype . '//' . $contentid;
-        if (isset($this->rqcache[$rqCacheKey])) {
-            return $this->rqcache[$rqCacheKey];
-        }
-
-        $cacheKey = "_permission_rule:$what";
-        if ($this->app['cache']->contains($cacheKey)) {
-            $rule = json_decode($this->app['cache']->fetch($cacheKey), true);
-        } else {
-            $parser = new PermissionParser();
-            $rule = $parser->run($what);
-            $this->app['cache']->save($cacheKey, json_encode($rule));
-        }
-
+        $this->audit("Checking permission '$what' for user '{$user['username']}'");
         $userRoles = $this->getEffectiveRolesForUser($user);
 
         if ($contenttype) {
