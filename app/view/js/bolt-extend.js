@@ -309,13 +309,15 @@ var BoltExtender = Object.extend(Object, {
     },
     
     packageReadme: function(e) {
-        var controller = this;
 
-        $('#readmeModal').modal({ 'remote': jQuery(e.target).data("readme") });
+        jQuery.get( jQuery(e.target).data("readme") ) 
+        .done(function(data) {
+            bootbox.dialog({
+                message: data
+            });
+        });
 
-        alert("Show README for: " + jQuery(e.target).data("readme") );
         e.preventDefault();
-
     },
 
     uninstall: function(e) {
