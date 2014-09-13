@@ -18,8 +18,8 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
 
     public function register(Silex\Application $app)
     {
-        $app['extend.site'] = 'http://beta.extensions.bolt.cm/';
-        $app['extend.repo'] = 'http://beta.extensions.bolt.cm/list.json';
+        $app['extend.site'] = 'http://extensions.bolt.cm/';
+        $app['extend.repo'] = 'http://extensions.bolt.cm/list.json';
 
         // This exposes the main upload object as a service
         $app['extend.runner'] = $app->share(
