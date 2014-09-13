@@ -581,7 +581,12 @@ function makeUri(contenttypeslug, id, usesfields, slugfield, fulluri) {
         $('#'+this).on('propertychange.bolt input.bolt change.bolt', function() {
             var usesvalue = "";
             $(usesfields).each( function() {
-                usesvalue += $("#"+this).val() ? $("#"+this).val() : "";
+                if ($("#"+this).is("select") && $("#"+this).hasClass("slug-text")) {
+                    usesvalue += $("#"+this).val() ? $("#"+this).find("option[value=" + $("#"+this).val() + "]").text() : "";
+                }
+                else {
+                    usesvalue += $("#"+this).val() ? $("#"+this).val() : "";
+                }
                 usesvalue += " ";
             })
             clearTimeout(makeuritimeout);
