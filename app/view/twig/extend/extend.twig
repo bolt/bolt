@@ -14,12 +14,14 @@
     <script src="{{ paths.app }}view/js/bolt-extend.js"></script>
 
     {% if messages %}
-        <div class="row extend-bolt-container">
-            <div class="alert alert-info">
-                <button class="close" data-dismiss="alert">×</button>
-                {% for message in messages %}
-                    {{ message }}
-                {% endfor %}
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="alert alert-info">
+                    <button class="close" data-dismiss="alert">×</button>
+                    {% for message in messages %}
+                        {{ message }}
+                    {% endfor %}
+                </div>
             </div>
         </div>
     {% endif %}
