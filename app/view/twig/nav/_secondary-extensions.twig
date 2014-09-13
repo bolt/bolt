@@ -1,16 +1,41 @@
-{% set sub = [
-    {
-        icon: 'cubes',
-        label: __('View / Install Extensions'),
-        link: url('extend', {}),
-        isallowed: 'extensions'
-    },
-    {
-        icon: 'cog',
-        label: __('Configure Extensions'),
-        link: url('files', {'namespace': 'config', 'path': 'extensions'}),
-        isallowed: 'extensions:config'
-    }
-] %}
+{# Empty array for submenu #}
+{% set sub = [] %}
 
-{{ nav.submenu('cubes', __('Extend '~app.config.get('general/branding/name')), sub, (page_nav == 'Settings/ExtendBolt')) }}
+{# Add the available extensions that have added a menu-item. #}
+{% for extension in app.extensions.getMenuoptions %}
+    {% set sub = sub|merge([
+        {
+            icon: extension.icon|default('briefcase'),
+            label: extension.label,
+            link: extension.path
+        }
+    ]) %}
+{% endfor %}
+
+
+{% if isallowed('extensions') %}
+
+    {# Add a divider, if there are any items set already. We don't want a divider with nothing above it #}
+    {% if sub|length > 0 %}
+        {% set sub = sub|merge(['-']) %}
+    {% endif %}
+
+    {# Add the "view" and "configure" options #}
+    {% set sub = sub|merge([
+        {
+            icon: 'cubes',
+            label: __('View / Install Extensions'),
+            link: url('extend', {}),
+            isallowed: 'extensions'
+        },
+        {
+            icon: 'cog',
+            label: __('Configure Extensions'),
+            link: url('files', {'namespace': 'config', 'path': 'extensions'}),
+            isallowed: 'extensions:config'
+        }
+    ]) %}
+
+{% endif %}
+
+{{ nav.submenu('cubes', __("Extra's"), sub, (page_nav == 'Settings/ExtendBolt')) }}

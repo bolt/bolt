@@ -20,16 +20,12 @@
 
             {% include 'nav/_secondary-configuration.twig' %}
 
-            {% if app.extensions.hasMenuoptions %}
-                {% include 'nav/_secondary-menuoptions.twig' %}
-            {% endif %}
-
             {% include 'nav/_secondary-filemanagement.twig' %}
 
             {% include 'nav/_secondary-translations.twig' %}
 
             {# Link to Extend Bolt #}
-            {% if isallowed('extensions') %}
+            {% if app.extensions.hasMenuoptions or isallowed('extensions') %}
                 {% include 'nav/_secondary-extensions.twig' %}
             {% endif %}
 
