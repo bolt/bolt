@@ -43,11 +43,15 @@
             {% else %}
 
                 <p>{{ __("Your database is already up to date.") }}</p>
+
                 {% if isallowed('prefill') %}
-                    <p class="well">
-                        <b>{{ __('Tip:') }}</b>
-                        {{ __('Add some sample <a href=\'%url%\' class=\'btn btn-tertiary\'>Records with Loripsum text</a>', { '%url%' : path('prefill')}) }}
-                    </p>
+                <br>
+                <hr>
+
+                <p>
+                    <b>{{ __('Tip:') }}</b>
+                    {{ __('Add some sample <a href=\'%url%\' class=\'btn btn-tertiary\'>Records with Loripsum text</a>', { '%url%' : path('prefill')}) }}
+                </p>
                 {% endif %}
 
             {% endif %}

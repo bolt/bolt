@@ -34,11 +34,14 @@
 
                 {{ form_widget(context.form._token) }}
 
-                <div>
-                <button type="button" class="btn" id="check-all"><i class="fa fa-check"></i> {{ __('Select all') }}</button>
-                <button type="button" class="btn" id="uncheck-all"><i class="fa fa-check-empty"></i> {{ __('Deselect all') }}</button> &nbsp;
-                <button type="submit" class="btn btn-primary"><i class="fa fa-wrench"></i> {{ __('Prefill database') }}</button>
+                <div style="margin-top: 12px">
+                    <button type="button" class="btn btn-xs" id="check-all"><i class="fa fa-fw fa-check-square-o"></i> {{ __('Select all') }}</button>
+                    <button type="button" class="btn btn-xs" id="uncheck-all"><i class="fa fa-fw fa-square-o"></i> {{ __('Deselect all') }}</button> 
                 </div>
+                <div style="margin-top: 12px">
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-wrench"></i> {{ __('Prefill database') }}</button>
+                </div>
+
             </form>
 
         </div>
