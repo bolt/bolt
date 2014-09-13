@@ -101,8 +101,16 @@
 }
 
 .dashboardlisting td.actions {
-    min-width: 98px;
     text-align: right;
+
+    .btn-group {
+        display: -webkit-inline-flex;
+        display: -moz-inline-flex;
+        display: -ms-inline-flexbox;
+        display: inline-flex;
+        -webkit-align-self: auto;
+        padding-left: 6px;
+    }
 }
 
 .dashboardlisting .btn-group > .btn + .dropdown-toggle {
