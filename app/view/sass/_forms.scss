@@ -409,7 +409,7 @@ fieldset.checkbox div {
     }
     a:hover {
         color: #555;
-        background-color:#efefef;
+        background-color: #F8F8F8 !important;
         border-botom:0;
     }
     li {
@@ -417,7 +417,7 @@ fieldset.checkbox div {
         &.active {
             margin-top:-5px;
             a {
-                background-color:#efefef;
+                background-color: #F8F8F8;
                 color: #333;
                 padding:7px 10px 8px 10px;
             }
