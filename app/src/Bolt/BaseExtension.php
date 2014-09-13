@@ -278,6 +278,16 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
     }
 
     /**
+     * Returns a list of all css and js assets that are added via extensions.
+     *
+     * @return array
+     */
+    public function getAssets()
+    {
+        return $this->app['extensions']->getAssets();
+    }
+
+    /**
      * Add a javascript file to the rendered HTML.
      *
      * @param string $filename

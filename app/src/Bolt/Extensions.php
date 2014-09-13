@@ -85,6 +85,13 @@ class Extensions
      * @var array
      */
     public $composer;
+    /**
+     * Contains a list of all css and js assets added through addCss and
+     * addJavascript functions.
+     *
+     * @var array
+     */
+    private $assets;
 
 
     public function __construct(Application $app)
@@ -98,6 +105,11 @@ class Extensions
         } else {
             $this->addjquery = false;
         }
+
+        $this->assets = array(
+            'css' => array(),
+            'js'  => array()
+        );
     }
 
     /**
@@ -255,6 +267,16 @@ class Extensions
     }
 
     /**
+     * Returns a list of all css and js assets that are added via extensions.
+     *
+     * @return array
+     */
+    public function getAssets()
+    {
+        return $this->assets;
+    }
+
+    /**
      * Add a particular CSS file to the output. This will be inserted before the
      * other css files.
      *
@@ -264,6 +286,7 @@ class Extensions
     public function addCss($filename, $late = false)
     {
         $html = sprintf('<link rel="stylesheet" href="%s" media="screen">', $filename);
+        $this->assets['css'][] = $filename;
 
         if ($late) {
             $this->insertSnippet(SnippetLocation::END_OF_BODY, $html);
@@ -281,6 +304,7 @@ class Extensions
     public function addJavascript($filename, $late = false)
     {
         $html = sprintf('<script src="%s"></script>', $filename);
+        $this->assets['js'][] = $filename;
 
         if ($late) {
             $this->insertSnippet(SnippetLocation::END_OF_BODY, $html);
