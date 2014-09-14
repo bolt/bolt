@@ -91,6 +91,8 @@ class Extensions
      * @var array
      */
     private $assets;
+    
+    private $isInitialized = false;
 
 
     public function __construct(Application $app)
@@ -191,6 +193,9 @@ class Extensions
 
         // Store the composer part of the extensions config
         array_push($this->composer, $extension->getExtensionConfig());
+        if ($this->isInitialized) {
+            $this->initializeExtension($extension);
+        }
     }
 
 
@@ -211,26 +216,27 @@ class Extensions
      */
     public function initialize()
     {
+        $this->isInitialized = true;
         $this->autoload($this->app);
-        foreach ($this->enabled as $name => $extension) {
-
-            try {
-                $extension->getConfig();
-                $extension->initialize();
-                $this->initialized[$name] = $extension;
-            } catch (\Exception $e) {
-            }
-
-            // Check if (instead, or on top of) initialize, the extension has a 'getSnippets' method
-            $this->getSnippets($name);
-
-            if ($extension instanceof \Twig_Extension) {
-                $this->app['twig']->addExtension($extension);
-                if (!empty($info['allow_in_user_content'])) {
-                    $this->app['safe_twig']->addExtension($extension);
-                }
+        foreach ($this->enabled as $extension) {
+            $this->initializeExtension($extension);
+        }
+    }
+    
+    protected function initializeExtension(BaseExtensionInterface $extension)
+    {
+        $name = $extension->getName();
+        $extension->getConfig();
+        $extension->initialize();
+        $this->initialized[$name] = $extension;
+        $this->getSnippets($name);
+        if ($extension instanceof \Twig_Extension) {
+            $this->app['twig']->addExtension($extension);
+            if (!empty($info['allow_in_user_content'])) {
+                $this->app['safe_twig']->addExtension($extension);
             }
         }
+
     }
 
     /**
