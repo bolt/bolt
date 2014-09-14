@@ -83,7 +83,7 @@ class Extensions
      *
      * @var array
      */
-    public $composer;
+    public $composer = array();
     /**
      * Contains a list of all css and js assets added through addCss and
      * addJavascript functions.
