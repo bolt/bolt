@@ -70,6 +70,7 @@ class Application extends Silex\Application
         }
 
         $this->register(new Provider\LogServiceProvider());
+        $this->register(new Provider\ExtensionServiceProvider());
     }
 
     public function initialize()
@@ -232,7 +233,6 @@ class Application extends Silex\Application
             ->register(new Provider\UsersServiceProvider())
             ->register(new Provider\CacheServiceProvider())
             ->register(new Provider\IntegrityCheckerProvider())
-            ->register(new Provider\ExtensionServiceProvider())
             ->register(new Provider\StackServiceProvider())
             ->register(new Provider\OmnisearchServiceProvider())
             ->register(new Provider\CronServiceProvider())
