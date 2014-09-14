@@ -73,11 +73,11 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
         if($json->exists()) {
             $composerjson = $json->read();
             return array(strtolower($composerjson['name']) => array(
-                'name' => $extension->getName(),
+                'name' => $this->getName(),
                 'json' => $composerjson
             ));
         } else {
-            return array($extension->getName()=>array(
+            return array($this->getName()=>array(
                 'name' => $extension->getName(),
                 'json' => array()
             ));
