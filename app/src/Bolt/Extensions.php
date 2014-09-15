@@ -226,16 +226,21 @@ class Extensions
     protected function initializeExtension(BaseExtensionInterface $extension)
     {
         $name = $extension->getName();
-        $extension->getConfig();
-        $extension->initialize();
-        $this->initialized[$name] = $extension;
-        $this->getSnippets($name);
-        if ($extension instanceof \Twig_Extension) {
-            $this->app['twig']->addExtension($extension);
-            if (!empty($info['allow_in_user_content'])) {
-                $this->app['safe_twig']->addExtension($extension);
+        try {
+            $extension->getConfig();
+            $extension->initialize();
+            $this->initialized[$name] = $extension;
+            $this->getSnippets($name);
+            if ($extension instanceof \Twig_Extension) {
+                $this->app['twig']->addExtension($extension);
+                if (!empty($info['allow_in_user_content'])) {
+                    $this->app['safe_twig']->addExtension($extension);
+                }
             }
+        } catch (\Exception $e) {
+            
         }
+        
 
     }
 
