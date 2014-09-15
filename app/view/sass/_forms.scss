@@ -84,9 +84,6 @@ fieldset.checkbox div {
     font-size: $font-size-base + 1px;
 }
 
-#editcontent > .form-group {
-    margin-bottom:40px;
-}
 
 
 #editcontent input.large {
@@ -263,7 +260,7 @@ fieldset.checkbox div {
 
 #editcontent fieldset.slug {
     // pull the slug closer to the field previous, usually the title
-    margin-top:-30px;
+    margin-top:-10px;
 }
 
 #editcontent input.editslug {
