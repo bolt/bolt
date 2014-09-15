@@ -4,6 +4,8 @@ namespace Bolt;
 
 use Bolt\Extensions\BaseExtensionInterface;
 use Symfony\Component\Console\Command\Command;
+use Composer\Json\JsonFile;
+
 
 abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInterface
 {
@@ -61,6 +63,27 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
         $relative = str_replace($this->app['resources']->getPath('extensions'), "", $this->basepath);
 
         return $this->app['resources']->getUrl('extensions') . ltrim($relative, "/") . "/";
+    }
+    
+    
+    public function getExtensionConfig()
+    {
+        $json = new JsonFile($this->getBasepath() . '/composer.json');
+        
+        if($json->exists()) {
+            $composerjson = $json->read();
+            return array(strtolower($composerjson['name']) => array(
+                'name' => $this->getName(),
+                'json' => $composerjson
+            ));
+        } else {
+            return array($this->getName()=>array(
+                'name' => $extension->getName(),
+                'json' => array()
+            ));
+        }
+
+        
     }
 
     /**

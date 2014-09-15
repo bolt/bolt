@@ -10,4 +10,5 @@ interface BaseExtensionInterface
     public function initialize();
     public function getConfig();
     public function getName();
+    public function getExtensionConfig();
 }

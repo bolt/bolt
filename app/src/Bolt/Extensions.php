@@ -6,7 +6,6 @@ use Bolt;
 use Bolt\Extensions\Snippets\Location as SnippetLocation;
 use Bolt\Extensions\BaseExtensionInterface;
 use Bolt\Configuration\LowlevelException;
-use Composer\Json\JsonFile;
 
 class Extensions
 {
@@ -84,7 +83,7 @@ class Extensions
      *
      * @var array
      */
-    public $composer;
+    public $composer = array();
     /**
      * Contains a list of all css and js assets added through addCss and
      * addJavascript functions.
@@ -92,6 +91,8 @@ class Extensions
      * @var array
      */
     private $assets;
+    
+    private $isInitialized = false;
 
 
     public function __construct(Application $app)
@@ -191,25 +192,12 @@ class Extensions
         $this->enabled[$name] = $this->app['extensions.'.$name];
 
         // Store the composer part of the extensions config
-        $this->registerComposerJson($extension);
+        array_push($this->composer, $extension->getExtensionConfig());
+        if ($this->isInitialized) {
+            $this->initializeExtension($extension);
+        }
     }
 
-    /**
-     * Register the extensions Composer JSON and a matching Bolt name.
-     * This allows reverse lookup of Bolt name to Composer name
-     *
-     * @param BaseExtensionInterface $extension
-     */
-    private function registerComposerJson(BaseExtensionInterface $extension)
-    {
-        $json = new JsonFile($extension->getBasepath() . '/composer.json');
-        $composerjson = $json->read();
-
-        $this->app['extensions']->composer[ strtolower($composerjson['name']) ] = array(
-            'name' => $extension->getName(),
-            'json' => $composerjson
-        );
-    }
 
     /**
      * Check if an extension is enabled, case sensitive.
@@ -228,26 +216,32 @@ class Extensions
      */
     public function initialize()
     {
+        $this->isInitialized = true;
         $this->autoload($this->app);
-        foreach ($this->enabled as $name => $extension) {
-
-            try {
-                $extension->getConfig();
-                $extension->initialize();
-                $this->initialized[$name] = $extension;
-            } catch (\Exception $e) {
-            }
-
-            // Check if (instead, or on top of) initialize, the extension has a 'getSnippets' method
+        foreach ($this->enabled as $extension) {
+            $this->initializeExtension($extension);
+        }
+    }
+    
+    protected function initializeExtension(BaseExtensionInterface $extension)
+    {
+        $name = $extension->getName();
+        try {
+            $extension->getConfig();
+            $extension->initialize();
+            $this->initialized[$name] = $extension;
             $this->getSnippets($name);
-
             if ($extension instanceof \Twig_Extension) {
                 $this->app['twig']->addExtension($extension);
                 if (!empty($info['allow_in_user_content'])) {
                     $this->app['safe_twig']->addExtension($extension);
                 }
             }
+        } catch (\Exception $e) {
+            
         }
+        
+
     }
 
     /**
