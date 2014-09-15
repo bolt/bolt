@@ -30,4 +30,4 @@
 
 # When merging just accept the remote compiled CSS file, built from Sass.
 # If you have local changes, just rebuild and commit. 
-app/view/bolt.css* merge=theirs
+app/view/bolt.css* merge=theirs -diff binary
