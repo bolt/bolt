@@ -36,7 +36,10 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
     }
 
     /**
-     * Set the 'basepath' and the 'namespace' for the extension, since we can't use __DIR__
+     * Set the 'basepath' and the 'namespace' for the extension. We can't use
+     * __DIR__, because that would give us the base path for BaseExtension.php
+     * (the file you're looking at), rather than the base path for the actual,
+     * derived, extension class.
      *
      * @see http://stackoverflow.com/questions/11117637/getting-current-working-directory-of-an-extended-class-in-php
      *
@@ -49,7 +52,9 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
     }
 
     /**
-     * Getter function to return an extension's base path
+     * Get the base path, that is, the directory where the (derived) extension
+     * class file is located. The base path is the "root directory" under which
+     * all files related to the extension can be found.
      *
      * @return string
      */
@@ -64,26 +69,24 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
 
         return $this->app['resources']->getUrl('extensions') . ltrim($relative, "/") . "/";
     }
-    
-    
+
     public function getExtensionConfig()
     {
         $json = new JsonFile($this->getBasepath() . '/composer.json');
-        
+
         if($json->exists()) {
             $composerjson = $json->read();
             return array(strtolower($composerjson['name']) => array(
                 'name' => $this->getName(),
                 'json' => $composerjson
             ));
-        } else {
+        }
+        else {
             return array($this->getName()=>array(
                 'name' => $extension->getName(),
                 'json' => array()
             ));
         }
-
-        
     }
 
     /**
@@ -138,11 +141,11 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
      */
     private function isConfigValid($configfile, $create)
     {
-        //
         if (file_exists($configfile)) {
             if (is_readable($configfile)) {
                 return true;
-            } else {
+            }
+            else {
                 // Config file exists but is not readable
                 $configdir = dirname($configfile);
                 $message = "Couldn't read $configfile. Please correct file " .
@@ -152,17 +155,18 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
 
                 return false;
             }
-        } elseif ($create) {
+        }
+        elseif ($create) {
             $configdistfile = $this->basepath. "/config.yml.dist";
-            
-            // There are cases where the config directory may not exist yet. Firstly we try to create it.
+
+            // There are cases where the config directory may not exist yet.
+            // Firstly we try to create it.
             if (!is_dir(dirname($configfile))) {
                 @mkdir(dirname($configfile),0777, true);
             }
-            
+
             // If config.yml.dist exists, attempt to copy it to config.yml.
             if (is_readable($configdistfile) && is_dir(dirname($configfile))) {
-
                 if (copy($configdistfile, $configfile)) {
                     // Success!
                     $this->app['log']->add(
@@ -171,7 +175,8 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
                     );
 
                     return true;
-                } else {
+                }
+                else {
                     // Failure!!
                     $configdir = dirname($configfile);
                     $message = "Couldn't copy $configdistfile to $configfile: " .
@@ -183,7 +188,6 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
                     return false;
                 }
             }
-
             return false;
         }
     }
@@ -211,6 +215,7 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
     }
 
     /**
+     * TODO: document this method.
      * Boilerplate for initialize()
      */
     public function initialize()
