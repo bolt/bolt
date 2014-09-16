@@ -1573,7 +1573,7 @@ class Storage
             $decoded['self_paginated'] = false;
         }
 
-        if ($decoded['order_callback'] !== false) {
+        if ( ($decoded['order_callback'] !== false) || ($decoded['return_single'] == true) ) {
             // Callback sorting disables pagination
             $decoded['self_paginated'] = false;
         }
@@ -1812,7 +1812,8 @@ class Storage
      */
     protected function decodePageParameter($context = '')
     {
-        $param = Pager::makeParameterId($context);
+        //$param = Pager::makeParameterId($context);
+        $param = 'page';
         $page = ($this->app['request']->query) ? $this->app['request']->query->get($param, 1) : 1;
 
         return $page;
@@ -2016,10 +2017,10 @@ class Storage
             }
         }
 
-        // Perform pagination if necessary
+        // Perform pagination if necessary, but never paginate when 'returnsingle' is used. 
         $offset = 0;
         $limit = false;
-        if (($decoded['self_paginated'] == false) && (isset($decoded['parameters']['page']))) {
+        if (($decoded['self_paginated'] == false) && (isset($decoded['parameters']['page'])) && (!$decoded['return_single'])) {
             $offset = ($decoded['parameters']['page'] - 1) * $decoded['parameters']['limit'];
             $limit = $decoded['parameters']['limit'];
         }
