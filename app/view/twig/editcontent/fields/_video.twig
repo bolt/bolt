@@ -83,7 +83,7 @@
     <div class="col-sm-8">
         <div class="form-group">
             <div class="col-sm-12">
-                <label>{{ __('URL') }}</label>
+                <label>{{ __('URL of video to embed') }}</label>
                 <input type="url" name="{{key}}[url]" id="video-{{key}}" value='{{ video.url|default('') }}' class="form-control">
             </div>
 
@@ -104,7 +104,7 @@
         <div class="form-group">
             <div class="col-sm-9">
                 <span><b>{{ __('Matched video') }}</b></span>
-                <p id="video-key-text">{{ videotitle }}</p>
+                <p id="video-{{ key }}-text">{{ videotitle }}</p>
             </div>
             <div class="hidden-xs col-sm-3">
                 <span class="hidden-xs" style="float:right">
