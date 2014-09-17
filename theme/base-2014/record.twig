@@ -65,8 +65,14 @@
 
                 {% elseif record.fieldtype(key) not in ['templateselect'] and value != "" %}
 
+                    {# No special case defined for this type of field. We just output it, if it's
+                       a simple scalar, and 'dump' it otherwise. #}
                     <p><strong>{{ key }}: </strong>
-                        {{ attribute(record, key) }}
+                        {% if attribute(record, key) is iterable %}
+                            {{ dump(attribute(record, key)) }}
+                        {% else %}
+                            {{ attribute(record, key) }}
+                        {% endif %}
                     </p>
 
                 {%  endif %}
