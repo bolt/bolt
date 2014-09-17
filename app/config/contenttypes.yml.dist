@@ -56,7 +56,7 @@ pages:
 
 entries:
     name: Entries
-    singular_slug: entry
+    singular_name: Entries
     description: | 
       The **Entries** contentype can be used for things like _'news'_ or _'blogpostings'_. They 
       have a teaser, which can be used for a short blurb on listing-pages, allowing visitors to 
