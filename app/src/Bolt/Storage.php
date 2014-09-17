@@ -1290,7 +1290,7 @@ class Storage
         // Set up the $pager array with relevant values..
         $rowcount = $this->app['db']->executeQuery($pagerquery)->fetch();
         $pager = array(
-            'for' => $taxonomytype['slug'] . "." . $slug,
+            'for' => $taxonomytype['slug'] . "_" . $slug,
             'count' => $rowcount['count'],
             'totalpages' => ceil($rowcount['count'] / $limit),
             'current' => $page,
@@ -1298,7 +1298,7 @@ class Storage
             'showing_to' => ($page - 1) * $limit + count($taxorows)
         );
 
-        $this->app['storage']->setPager($taxonomytype['slug'] . "." . $slug, $pager);
+        $this->app['storage']->setPager($taxonomytype['slug'] . "_" . $slug, $pager);
 
         return $content;
     }
@@ -1660,7 +1660,7 @@ class Storage
 
         // $decoded['contettypes'] gotten here
         // get page nr. from url if has
-        $meta_parameters['page'] = $this->decodePageParameter($decoded['contenttypes'][0], $this->app['request']);
+        $meta_parameters['page'] = $this->decodePageParameter($decoded['contenttypes'][0]);
 
         $this->prepareDecodedQueryForUse($decoded, $meta_parameters, $ctype_parameters);
 
@@ -1812,9 +1812,10 @@ class Storage
      */
     protected function decodePageParameter($context = '')
     {
-        //$param = Pager::makeParameterId($context);
-        $param = 'page';
-        $page = ($this->app['request']->query) ? $this->app['request']->query->get($param, 1) : 1;
+        $param = Pager::makeParameterId($context);
+        /* @var $query \Symfony\Component\HttpFoundation\ParameterBag */
+        $query = $this->app['request']->query;
+        $page = ($query) ? $query->get($param, $query->get('page', 1)) : 1;
 
         return $page;
     }
@@ -2017,7 +2018,7 @@ class Storage
             }
         }
 
-        // Perform pagination if necessary, but never paginate when 'returnsingle' is used. 
+        // Perform pagination if necessary, but never paginate when 'returnsingle' is used.
         $offset = 0;
         $limit = false;
         if (($decoded['self_paginated'] == false) && (isset($decoded['parameters']['page'])) && (!$decoded['return_single'])) {

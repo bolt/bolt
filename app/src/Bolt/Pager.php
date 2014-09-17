@@ -46,29 +46,28 @@ class Pager extends \ArrayObject
             return $this->link;
         }
 
-        // $pageid = static::makeParameterId($this->for);
+        $pageid = static::makeParameterId($this->for);
         $parameters = $this->app['request']->query->all();
-        if (array_key_exists('page', $parameters)) {
+        if (array_key_exists($pageid, $parameters)) {
+            unset($parameters[$pageid]);
+        } else {
             unset($parameters['page']);
         }
-        array_walk(
-            $parameters,
-            function (&$item, $key) {
-                $item = "$key=$item";
-            }
-        );
-        // $parameters[] = $pageid . '=';
-        $parameters[] = 'page=';
+        array_walk($parameters, function (&$item, $key)
+        {
+            $item = "$key=$item";
+        });
+        $parameters[] = $pageid . '=';
+        // $parameters[] = 'page=';
         $link = '?' . implode('&', $parameters);
 
         return $link;
     }
 
+    public static function makeParameterId($suffix)
+    {
+        $suffix = ($suffix !== '') ? '_' . $suffix : '';
 
-    // public static function makeParameterId($suffix)
-    // {
-    //     $suffix = ($suffix !== '') ? '_' . $suffix : '';
-
-    //     return 'page' . $suffix;
-    // }
+        return 'page' . $suffix;
+    }
 }
