@@ -102,6 +102,9 @@
 
 .dashboardlisting td.actions {
     text-align: right;
+    @include old-ie() {
+        min-width:85px;
+    }
 
     .btn-group {
         display: -webkit-inline-flex;
