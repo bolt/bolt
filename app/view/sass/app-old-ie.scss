@@ -1,0 +1,108 @@
+/**
+This is the app.css for old IE browsers: lt IE9
+It has a $old-ie variable set to true to generate specific 
+content in the scss files that are wrapped in $oldie conditional
+**/
+
+/**
+set old-ie to true, to include all old-ie code in the scss files in generated bolt-old-ie.css
+**/
+$old-ie: true;
+
+/**
+ * Variables for colours
+ */
+@import "colors";
+
+/**
+ * External resource: Bootstrap.
+ * We do seperate imports here, instead of just importing 'bootstrap.scss', because we do not need
+ * all of the components.
+ */
+// Core variables and mixins
+@import "bootstrap/variables";
+@import "bootstrap/mixins";
+
+// Reset
+@import "bootstrap/normalize";
+@import "bootstrap/print";
+
+// Core CSS
+@import "bootstrap/scaffolding";
+@import "bootstrap/type";
+@import "bootstrap/code";
+@import "bootstrap/grid";
+@import "bootstrap/tables";
+@import "bootstrap/forms";
+@import "bootstrap/buttons";
+
+// Components
+@import "bootstrap/component-animations";
+// @import "bootstrap/glyphicons";
+@import "bootstrap/dropdowns";
+@import "bootstrap/button-groups";
+@import "bootstrap/input-groups";
+@import "bootstrap/navs";
+@import "bootstrap/navbar";
+@import "bootstrap/breadcrumbs";
+@import "bootstrap/pagination";
+@import "bootstrap/pager";
+@import "bootstrap/labels";
+@import "bootstrap/badges";
+// @import "bootstrap/jumbotron";
+// @import "bootstrap/thumbnails";
+@import "bootstrap/alerts";
+@import "bootstrap/progress-bars";
+@import "bootstrap/media";
+@import "bootstrap/list-group";
+@import "bootstrap/panels";
+@import "bootstrap/wells";
+@import "bootstrap/close";
+
+// Components w/ JavaScript
+@import "bootstrap/modals";
+@import "bootstrap/tooltip";
+@import "bootstrap/popovers";
+// @import "bootstrap/carousel";
+
+// Utility classes
+@import "bootstrap/utilities";
+@import "bootstrap/responsive-utilities";
+
+/**
+ * External resource: Font Awesome.
+ */
+@import "font-awesome.scss";
+
+
+/**
+ * base variables, mixins and helpers
+ */
+@import "base";
+
+/**
+ * Override bootstrap defaults
+ */
+@import "bootstrapcustom";
+@import "ckeditorcustom";
+@import "codemirrorcustom";
+@import "select2custom";
+
+/**
+ * Some modules
+ */
+@import "nav/main";
+@import "footer";
+@import "textstyles";
+@import "popover";
+@import "dashboard";
+@import "aside";
+@import "stack";
+@import "forms";
+@import "login";
+@import "extend";
+
+/**
+ * The leftover styles
+ */
+@import "bolt";
