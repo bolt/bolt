@@ -69,6 +69,13 @@ class IntegrityChecker
 
     private static function getValidityTimestampFilename()
     {
+        // If 'invalidate()' was called statically, we don't have the 
+        // $integrityCachePath yet, so we set it here. 
+        if (empty(self::$integrityCachePath)) {
+            $app = \Bolt\Configuration\ResourceManager::getApp();
+            self::$integrityCachePath = $app['resources']->getPath('cache');
+        }
+
         return self::$integrityCachePath . '/' . self::INTEGRITY_CHECK_TS_FILENAME;
     }
 
