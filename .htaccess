@@ -2,7 +2,7 @@
 DirectoryIndex index.php index.html index.htm
 
 # Prevent directory listing
-Options -Indexes
+Options -Indexes -MultiViews
 
 <FilesMatch "\.(yml|db|twig)$">
   <IfModule mod_authz_core.c>

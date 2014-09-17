@@ -683,7 +683,7 @@ function bindVideoEmbedAjax(key) {
             $('#video-'+key+'-width').val(data.width);
             $('#video-'+key+'-height').val(data.height);
             $('#video-'+key+'-ratio').val(data.width / data.height);
-            $('#video-'+key+'-text').html('"' + data.title + '" by ' + data.author_name);
+            $('#video-'+key+'-text').html('"<b>' + data.title + '</b>" by ' + data.author_name);
             $('#myModal').find('.modal-body').html(data.html);
             $('#video-'+key+'-author_name').val(data.author_name);
             $('#video-'+key+'-author_url').val(data.author_url);

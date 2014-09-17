@@ -9,7 +9,7 @@
 
 {% set video = context.content.get(key) %}
 
-{% set videotitle = (video.title is defined) ? video.title|trimtext(18)~' by '~video.authorname|trimtext(18) %}
+{% set videotitle = (video.title is defined) ? '"<b>' ~ video.title|trimtext(18)~'</b>" by '~video.authorname|trimtext(18) %}
 
 {% set attr_width = {
     class:  'form-control pull-left',
@@ -65,7 +65,7 @@
     name:      key~'[html]',
     readonly:  true,
     type:      'hidden',
-    value:     (video.html is defined ? video.html|escape : ''),
+    value:     (video.html is defined ? video.html|replace({'"': '\''}) : ''),
 }%}
 
 {% set attr_hid_thumbnail = {
@@ -83,7 +83,7 @@
     <div class="col-sm-8">
         <div class="form-group">
             <div class="col-sm-12">
-                <label>{{ __('URL') }}</label>
+                <label>{{ __('URL of video to embed') }}</label>
                 <input type="url" name="{{key}}[url]" id="video-{{key}}" value='{{ video.url|default('') }}' class="form-control">
             </div>
 
@@ -104,7 +104,7 @@
         <div class="form-group">
             <div class="col-sm-9">
                 <span><b>{{ __('Matched video') }}</b></span>
-                <p id="video-key-text">{{ videotitle }}</p>
+                <p id="video-{{ key }}-text">{{ videotitle|raw }}</p>
             </div>
             <div class="hidden-xs col-sm-3">
                 <span class="hidden-xs" style="float:right">

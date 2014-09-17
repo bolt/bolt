@@ -40,7 +40,7 @@
     note: the 'min-width: 180px;' is a bit of a nasty hack. if omitted, Chrome renders the
     span 1px too small, making the 'info' popup go to the next line. 
 #}
-    <label>{{ __('Path') }}</label>
+    <label>{{ __('Path to image file') }}</label>
     <input{{ macro.attr(attr_inp) }}>
     <p class="filetypes">{{ __("Allowed filetypes are:") }} <code>{{ option.extensions|join('</code>, <code>')|raw }}</code>.</p>
 {% endmacro %}
