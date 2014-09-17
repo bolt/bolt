@@ -50,9 +50,11 @@
                 </select>
 
                 <script>
-                    $('#relation-{{relcontenttype}}').select2({
-                        placeholder: "(none)",
-                        allowClear: true
+                    $(function() {
+                        $('#relation-{{relcontenttype}}').select2({
+                            placeholder: "(none)",
+                            allowClear: true
+                        });
                     });
                 </script>
 
