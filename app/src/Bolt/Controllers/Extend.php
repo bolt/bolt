@@ -15,18 +15,26 @@ use Bolt\Composer\CommandRunner;
 
 class Extend implements ControllerProviderInterface, ServiceProviderInterface
 {
+    public $readWriteMode;
 
     public function register(Silex\Application $app)
     {
         $app['extend.site'] = 'http://extensions.bolt.cm/';
         $app['extend.repo'] = 'http://extensions.bolt.cm/list.json';
+        $app['extend'] = $this;
+        $extensionsPath = $app['resources']->getPath('extensions');
+        $this->readWriteMode = is_dir("$extensionsPath/") && is_writable("$extensionsPath/composer.json");
 
         // This exposes the main upload object as a service
+        $me = $this;
         $app['extend.runner'] = $app->share(
-            function ($app) {
-                $runner = new CommandRunner($app, $app['extend.repo']);
-
-                return $runner;
+            function ($app) use ($me) {
+                if ($me->readWriteMode) {
+                    return new CommandRunner($app, $app['extend.repo']);
+                }
+                else {
+                    return null;
+                }
             }
         );
     }
@@ -84,14 +92,22 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
         return $ctr;
     }
 
+    private function getRenderContext(Silex\Application $app)
+    {
+        $extensionsPath = $app['resources']->getPath('extensions');
+        return array(
+                'messages' => $app['extend.runner']->messages,
+                'enabled' => $this->readWriteMode,
+                'extensionsPath' => $extensionsPath,
+                'site' => $app['extend.site']
+            );
+    }
+
     public function overview(Silex\Application $app, Request $request)
     {
         return $app['render']->render(
             'extend/extend.twig',
-            array(
-                'messages' => $app['extend.runner']->messages,
-                'site' => $app['extend.site']
-            )
+            $this->getRenderContext($app)
         );
     }
 
@@ -99,10 +115,7 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
     {
         return $app['render']->render(
             'extend/install-package.twig',
-            array(
-                'messages' => $app['extend.runner']->messages,
-                'site' => $app['extend.site']
-            )
+            $this->getRenderContext($app)
         );
     }
 
@@ -116,12 +129,12 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
             foreach ($info->version as $version) {
                 $versions[$version->stability][]=$version;
             }
-        } catch (\Exception $e) {
-
+        }
+        catch (\Exception $e) {
+            error_log($e); // least we can do
         }
 
         return new JsonResponse($versions);
-
     }
 
     public function packageInfo(Silex\Application $app, Request $request)
