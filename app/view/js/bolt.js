@@ -87,6 +87,12 @@ jQuery(function($) {
             mouseEvt = event;
         }
         $(item).parent().on('show.bs.dropdown', function(e){
+            
+            //prevent breakage on old IE. 
+            if (typeof mouseEvt == "undefined" || mouseEvt == null) { 
+                return false;
+            }
+            
             var button = e.relatedTarget;
             var self = $(this).find('[data-toggle="dropdown"]');
             var menu = self.next('.dropdown-menu');
