@@ -109,8 +109,8 @@ kitchensinks:
     singular_slug: Kitchensink
     description: | 
       The **Kitchensinks** contentype is used to show all of the available common field types. 
-      In practice, it's uses are limited, but be sure to take a look to see which kind of fields
-      are available for use. 
+      In practice, its uses are limited, but be sure to take a look to see which fields are 
+      available for use. 
       To change (or delete) the fields that are in this contenttype, edit the file `contenttypes.yml` 
       in the folder `app/config/`, using the editor of your choice, or by going to 'Configuration' » 
       'Contenttypes' in the menu on the left.        
