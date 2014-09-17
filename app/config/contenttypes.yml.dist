@@ -1,6 +1,41 @@
 # This file defines the contenttypes on the website. See the documentation for
 # details: http://docs.bolt.cm/content#defining-contenttypes
 
+# Pages can be used for the more 'static' pages on your site. Things like
+# 'about us', 'contact' or a 'disclaimer'. This content-type has a 'templateselect'
+# field, which allows you to override the record_template setting for an
+# individual page.
+# The taxonomy for this contenttype is defined as 'chapters', which is a so-called
+# "grouping" taxonomy. This way you can easily group sets of pages that logically
+# belong together. If your site has a 'services' section, in which you'd like to
+# list the different types of services a company provides, you can group these
+# together.
+
+pages:
+    name: Pages
+    singular_name: Page
+    fields:
+        title:
+            type: text
+            class: large
+            group: content
+        slug:
+            type: slug
+            uses: title
+        image:
+            type: image
+        teaser:
+            type: html
+            height: 150px
+        body:
+            type: html
+            height: 300px
+        template:
+            type: templateselect
+            filter: '*.twig'
+    taxonomy: [ chapters ]
+    recordsperpage: 100
+
 
 # Entries can be used for things like 'news' or 'blogpostings'. They have a 'teaser',
 # which can be used for a short blurb on listing-pages, allowing visitors to
@@ -20,26 +55,21 @@ entries:
         title:
             type: text
             class: large
-            group: basic
+            group: content
         slug:
             type: slug
             uses: title
-            group: basic
-        image:
-            type: image
-            group: media
-            separator: true
         teaser:
             type: html
             height: 150px
-            group: basic
-        video:
-            type: video
-            group: media
         body:
             type: html
             height: 300px
-            group: basic
+        image:
+            type: image
+            group: media
+        video:
+            type: video
     relations:
         pages:
           multiple: false
@@ -52,41 +82,6 @@ entries:
     default_status: publish
     sort: datepublish DESC
     recordsperpage: 10
-    groups: [ basic, media ]
-
-# Pages can be used for the more 'static' pages on your site. Things like
-# 'about us', 'contact' or a 'disclaimer'. This content-type has a 'templateselect'
-# field, which allows you to override the record_template setting for an
-# individual page.
-# The taxonomy for this contenttype is defined as 'chapters', which is a so-called
-# "grouping" taxonomy. This way you can easily group sets of pages that logically
-# belong together. If your site has a 'services' section, in which you'd like to
-# list the different types of services a company provides, you can group these
-# together.
-
-pages:
-    name: Pages
-    singular_name: Page
-    fields:
-        title:
-            type: text
-            class: large
-        slug:
-            type: slug
-            uses: title
-        image:
-            type: image
-        teaser:
-            type: html
-            height: 150px
-        body:
-            type: html
-            height: 300px
-        template:
-            type: templateselect
-            filter: '*.twig'
-    taxonomy: [ chapters ]
-    recordsperpage: 100
 
 # The 'Kitchensink' is not particularly useful in most cases, but it does a good
 # job of showcasing most of the available fieldtypes. Feel free to delete it, or
@@ -103,16 +98,24 @@ kitchensink:
             class: large
             required: true
             pattern: "*{2,255}" # see: http://html5pattern.com/
+            group: Text
         slug:
             type: slug
             uses: [ selectfield, title ]
-        video:
-            type: video
         html:
             type: html
             height: 150px
+        textarea:
+            type: textarea            
+            postfix: "<p><em>This is a plain text area. the contents will not be processed.</em></p>"
+        markdown:
+            type: markdown
+            postfix: "<p><em>This field gets parsed as <a href='https://help.github.com/articles/markdown-basics'>Markdown</a>, when rendered on the site.</em></p>"
         geolocation:
             type: geolocation
+            group: Media
+        video:
+            type: video            
         image:
             type: image
             attrib: title
@@ -121,20 +124,16 @@ kitchensink:
             type: imagelist
         file:
             type: file
+            group: files
         filelist:
             type: filelist
-        checkbox:
-            type: checkbox
-            label: "This is a checkbox"
-        markdown:
-            prefix: "<em>This short text comes before the actual field.</em>"
-            type: markdown
-            postfix: "<hr>"
-        textarea:
-            type: textarea
         template:
             type: templateselect
             filter: '*.twig'
+        checkbox:
+            type: checkbox
+            label: "This is a checkbox"
+            group: other
         datetime:
             type: datetime
             default: "2000-01-01"
@@ -168,7 +167,7 @@ kitchensink:
             multiple: true
             order: title
             label: Select zero or more pages
-    taxonomy: [ categories, tags, chapters ]
+    taxonomy: [ categories, tags ]
     show_on_dashboard: true
     default_status: publish
     searchable: false

@@ -1,7 +1,7 @@
 {#=== OPTIONS ========================================================================================================#}
 
 {% set option = {
-    class:   field.class|default(''),
+    class:   field.class|default('') ~ ' narrow',
     filter:  field.filter|default({}),
     label:   field.label|default(''),
     info:    field.info|default('')
