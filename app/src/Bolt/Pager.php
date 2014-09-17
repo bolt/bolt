@@ -48,8 +48,8 @@ class Pager extends \ArrayObject
 
         // $pageid = static::makeParameterId($this->for);
         $parameters = $this->app['request']->query->all();
-        if (array_key_exists($pageid, $parameters)) {
-            unset($parameters[$pageid]);
+        if (array_key_exists('page', $parameters)) {
+            unset($parameters['page']);
         }
         array_walk(
             $parameters,
