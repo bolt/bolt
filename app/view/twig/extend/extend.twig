@@ -29,11 +29,25 @@
     <div class="row extend-bolt-container">
         <div class="col-md-9">
 
+            {% if not enabled %}
+            {% set msg = __('The extensions directory (<code>%dir%</code>) does not exist, or it is not writable.' ~
+                   'This means that you cannot manage Bolt extensions through the backend; consider ' ~
+                   'managing extensions manually, or changing file permissions to allow Bolt ' ~
+                   'write access to (<code>%dir%</code>).', {'%dir%': extensionsPath}) %}
+            <div class="alert alert-warning">
+                <button class="close" data-dismiss="alert">×</button>
+                    {{ msg|ymllink }}
+            </div>
+            {% endif %}
             {% include '_sub/_messages.twig' %}
 
             <div class="update-container hide-block">
                 <h3>{{ __('Updates') }}</h3>
+                {% if enabled %}
                 <pre class="update-output console">{{ __('Checking for available updates (this may take up to 60 seconds)') }}..</pre>
+                {% else %}
+                <pre class="update-output">{{ __('Cannot check for updates in read-only mode') }}</pre>
+                {% endif %}
                 <div class="update-list hide-block">
                     <table class="dashboardlisting table">
                         <thead>
@@ -50,7 +64,11 @@
             </div>
             <section class="installed-container">
                 <h3>{{ __('Your Currently Installed Extensions') }}</h3>
+                {% if enabled %}
                 <pre class="installed console" data-action="installed">{{ __('Checking installed packages') }}..</pre>
+                {% else %}
+                <pre class="installed">{{ __('Cannot check installed packages in read-only mode') }}</pre>
+                {% endif %}
                 <div class="installed-list hide-block">
                     <table class="dashboardlisting table">
                         <thead>
@@ -90,10 +108,13 @@
             <section>
                 <h3>{{ __('Install a new Extension') }}</h3>
                 <p>
+                    {% if enabled %}
                     {{ __('Add a new extension using the form below.') }}
+                    {% endif %}
                     {{ __('You can discover new extensions by visiting') }}
                     <a href="{{site}}">{{ site }}</a>
                 </p>
+                {% if enabled %}
                 <div class="install-container">
                         <div class="auto-search hide-block"></div>
                         <input type="text" name="check-package" placeholder="Extension name eg: bolt/widget">
@@ -109,7 +130,7 @@
                             </div>
                         </div>
                 </div>
-
+                {% endif %}
             </section>
         </div>
 
@@ -119,7 +140,7 @@
                 <div class="panel-body">
                         <p><strong>{{ __('Check for updates') }}</strong></p>
                         <div class="btn-group">
-                            <a class="btn btn-tertiary" data-action="update-check">
+                            <a class="btn btn-tertiary{% if not enabled %} disabled{% endif %}" data-action="update-check">
                                 <i class="fa fa-refresh"></i> {{ __('Run update check') }}
                             </a>
                         </div>
@@ -127,14 +148,14 @@
                         <hr>
                         <p><strong>{{ __('Install all updates') }}</strong></p>
                         <div class="btn-group">
-                            <a class="btn btn-primary" data-action="update-run">
+                            <a class="btn btn-primary{% if not enabled %} disabled{% endif %}" data-action="update-run">
                                 <i class="fa fa-refresh"></i> {{ __('Run all Updates') }}
                             </a>
                         </div>
                         <p>{{__("This will install all available updates.")}}</p>
                         <hr>
                         <div class="btn-group">
-                            <a class="btn btn-primary" data-action="install-run">
+                            <a class="btn btn-primary{% if not enabled %} disabled{% endif %}" data-action="install-run">
                                 <i class="fa fa-download"></i> {{ __('Install all Packages') }}
                             </a>
                         </div>

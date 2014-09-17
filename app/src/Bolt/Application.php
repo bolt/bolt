@@ -303,7 +303,9 @@ class Application extends Silex\Application
         $this->mount('/upload', new Controllers\Upload());
 
         // Mount the 'extend' controller on /branding/extend.
-        $this->mount($this['config']->get('general/branding/path').'/extend', new Controllers\Extend());
+        $this->mount(
+            $this['config']->get('general/branding/path').'/extend',
+            $this['extend']);
 
         if ($this['config']->get('general/enforce_ssl')) {
             foreach ($this['routes']->getIterator() as $route) {
