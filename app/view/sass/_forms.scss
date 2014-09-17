@@ -24,6 +24,12 @@ label.permalink {
     font-size: $font-size-base + 1px;
     font-weight: normal;
     margin-bottom: 5px;
+    @include old-ie() {
+        @include in-large-mode() {
+            text-align:left;
+            margin-bottom: 5px;
+        }
+    }
 }
 
 .form-horizontal .control-label-inline {

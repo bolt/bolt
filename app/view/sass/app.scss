@@ -59,6 +59,11 @@
 @import "bootstrap/responsive-utilities";
 
 /**
+ * base variables, mixins and helpers
+ */
+@import "base";
+
+/**
  * External resource: Font Awesome.
  */
 @import "font-awesome.scss";
