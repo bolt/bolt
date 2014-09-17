@@ -46,13 +46,13 @@ class ResourceManager
      */
     public function __construct($loader, Request $request = null, $verifier = null)
     {
-        
+
         if ($loader instanceof ClassLoader) {
-            $this->useLoader($loader);  
+            $this->useLoader($loader);
         } else {
             $this->root = $loader;
         }
-        
+
 
         $this->requestObject = $request;
 
@@ -88,7 +88,7 @@ class ResourceManager
     {
         static::$_app = $this->app = $app;
     }
-    
+
     public function useLoader(ClassLoader $loader)
     {
         $this->classLoader = $loader;
@@ -262,10 +262,10 @@ class ResourceManager
     public function setThemePath($generalConfig)
     {
         $theme_dir = isset($generalConfig['theme']) ? '/' . $generalConfig['theme'] : '';
-        $theme_path = isset($generalConfig['theme_path']) ? $generalConfig['theme_path'] : '/theme';
+        $theme_path = isset($generalConfig['theme_path']) ? $this->root . '/' . $generalConfig['theme_path'] : $this->getPath('themebase');
         $theme_url = isset($generalConfig['theme_path']) ? $generalConfig['theme_path'] : $this->getUrl('root') . 'theme';
 
-        $this->setPath('themepath', $this->getPath('rootpath') . $theme_path . $theme_dir);
+        $this->setPath('themepath', $theme_path . $theme_dir);
         $this->setUrl('theme', $theme_url . $theme_dir . '/');
     }
 

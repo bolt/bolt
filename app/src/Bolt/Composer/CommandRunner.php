@@ -19,7 +19,7 @@ class CommandRunner
 
         $this->basedir = $app['resources']->getPath('extensions');
         $this->packageRepo = $packageRepo;
-        $this->packageFile = $app['resources']->getPath('root').'/extensions/composer.json';
+        $this->packageFile = $app['resources']->getPath('extensions') . '/composer.json';
         umask(0000);
         putenv("COMPOSER_HOME=".$app['resources']->getPath('cache').'/composer');
 
