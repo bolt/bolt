@@ -39,6 +39,7 @@ class CommandRunner
         $json = json_decode(file_get_contents($this->packageFile));
         $json->repositories->packagist = false;
         $json->{'minimum-stability'} = "dev";
+        $json->{'prefer-stable'} = true;
         $basePackage = "bolt/bolt";
         $json->provide = new \stdClass();
         $json->provide->$basePackage = $app['bolt_version'];
