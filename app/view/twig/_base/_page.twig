@@ -67,8 +67,13 @@
     <script src="{{ paths.app }}view/js/modernizr.custom.2.8.3.js"></script>
 
     <link href="//fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,400italic&amp;subset=latin,latin-ext" rel="stylesheet" type="text/css">
-
+    
+    <!--[if lt IE 9]>
+        <link rel="stylesheet" href="{{ paths.app }}view/css/bolt-old-ie.css" media="screen, projection" type="text/css">
+    <![endif]-->
+    <!--[if gte IE 9]><!-->
     <link rel="stylesheet" href="{{ paths.app }}view/css/bolt.css" media="screen, projection" type="text/css">
+    <!--<![endif]-->
 
     <link rel="shortcut icon" href="{% if app.config.get('general/branding/favicon') %}{{ app.config.get('general/branding/favicon') }}{% else %}{{ paths.app }}view/img/favicon-bolt.ico{% endif %}">
     <link rel="apple-touch-icon" sizes="57x57" href="{% if app.config.get('general/branding/apple-touch-icon') %}{{ app.config.get('general/branding/apple-touch-icon') }}{% else %}{{ paths.app }}view/img/apple-touch-icon.png{% endif %}">

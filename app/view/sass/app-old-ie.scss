@@ -1,4 +1,15 @@
 /**
+This is the app.css for old IE browsers: lt IE9
+It has a $old-ie variable set to true to generate specific 
+content in the scss files that are wrapped in $oldie conditional
+**/
+
+/**
+set old-ie to true, to include all old-ie code in the scss files in generated bolt-old-ie.css
+**/
+$old-ie: true;
+
+/**
  * Variables for colours
  */
 @import "colors";
@@ -59,14 +70,15 @@
 @import "bootstrap/responsive-utilities";
 
 /**
- * base variables, mixins and helpers
- */
-@import "base";
-
-/**
  * External resource: Font Awesome.
  */
 @import "font-awesome.scss";
+
+
+/**
+ * base variables, mixins and helpers
+ */
+@import "base";
 
 /**
  * Override bootstrap defaults

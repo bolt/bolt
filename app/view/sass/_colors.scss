@@ -12,6 +12,8 @@ $boltbluelighter: lighten($boltblue, 5);
 $basebgcolour: #FDFDF9;
 $bodytextcolour: #333;
 
+$lightgrey: #ccc;
+
 $linkmain: lighten(saturate($boltblue, 100), 4);
 $linkvisited: $linkmain;
 $linkactive: lighten(saturate($boltblue, 100), 10);

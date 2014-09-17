@@ -103,9 +103,12 @@
     background-image: -moz-linear-gradient(top, $boltblue 80%, $boltbluedarker 100%);
     background-image: -webkit-linear-gradient(top, $boltblue 80%, $boltbluedarker 100%);
     background-image: -ms-linear-gradient(top, $boltblue 80%, $boltbluedarker 100%);
+    background-color: $boltblue;
     background-repeat: repeat-x;
     box-shadow: 0 4px 0px rgba(0, 0, 0, .2);
-    border: 0;
+    @include old-ie() {
+        border-bottom: 4px solid $lightgrey;
+    }
 
     div.navbar-collapse {
         float: right;
