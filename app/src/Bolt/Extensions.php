@@ -91,7 +91,7 @@ class Extensions
      * @var array
      */
     private $assets;
-    
+
     private $isInitialized = false;
 
 
@@ -222,7 +222,7 @@ class Extensions
             $this->initializeExtension($extension);
         }
     }
-    
+
     protected function initializeExtension(BaseExtensionInterface $extension)
     {
         $name = $extension->getName();
@@ -238,9 +238,9 @@ class Extensions
                 }
             }
         } catch (\Exception $e) {
-            
+
         }
-        
+
 
     }
 

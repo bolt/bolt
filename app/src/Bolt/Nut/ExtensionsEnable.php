@@ -30,7 +30,7 @@ class ExtensionsEnable extends BaseCommand
             );
             return;
         }
-        
+
         $result = $this->app['extend.runner']->install($name, $version);
 
         $output->writeln("<info>[Done]</info> ");

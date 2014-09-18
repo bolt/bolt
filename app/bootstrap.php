@@ -46,7 +46,7 @@ return call_user_func(function ()
             break;
         }
     }
-    
+
     // TODO: Phase out lib.php
     require_once __DIR__ . '/lib.php';
 

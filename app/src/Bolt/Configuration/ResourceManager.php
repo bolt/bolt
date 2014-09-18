@@ -46,13 +46,13 @@ class ResourceManager
      */
     public function __construct($loader, Request $request = null, $verifier = null)
     {
-        
+
         if ($loader instanceof ClassLoader) {
-            $this->useLoader($loader);  
+            $this->useLoader($loader);
         } else {
             $this->root = $loader;
         }
-        
+
 
         $this->requestObject = $request;
 
@@ -88,7 +88,7 @@ class ResourceManager
     {
         static::$_app = $this->app = $app;
     }
-    
+
     public function useLoader(ClassLoader $loader)
     {
         $this->classLoader = $loader;
@@ -309,7 +309,7 @@ class ResourceManager
 
         return static::$_app;
     }
-    
+
     /**
     *
     * Find the relative file system path between two file system paths
@@ -319,14 +319,14 @@ class ResourceManager
     *
     * @return string Path leading from $frompath to $topath
     */
-    public function findRelativePath( $frompath, $topath ) 
+    public function findRelativePath( $frompath, $topath )
     {
         $from = explode( DIRECTORY_SEPARATOR, $frompath ); // Folders/File
         $to = explode( DIRECTORY_SEPARATOR, $topath ); // Folders/File
         $relpath = '';
-     
+
         $i = 0;
-    
+
         // Find how far the path is the same
         while ( isset($from[$i]) && isset($to[$i]) ) {
             if ( $from[$i] != $to[$i] ) {
@@ -334,9 +334,9 @@ class ResourceManager
             }
             $i++;
         }
-        
+
         $j = count($from) - 1;
-            
+
         // Add '..' until the path is the same
         while ( $i <= $j ) {
             if ( !empty($from[$j]) ) {
@@ -344,7 +344,7 @@ class ResourceManager
             }
             $j--;
         }
-        
+
         // Go to folder from where it starts differing
         while ( isset($to[$i]) ) {
             if ( !empty($to[$i]) ) {
@@ -352,7 +352,7 @@ class ResourceManager
             }
             $i++;
         }
-        
+
         // Strip last separator
         return substr($relpath, 0, -1);
     }

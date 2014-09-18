@@ -2017,7 +2017,7 @@ class Storage
             }
         }
 
-        // Perform pagination if necessary, but never paginate when 'returnsingle' is used. 
+        // Perform pagination if necessary, but never paginate when 'returnsingle' is used.
         $offset = 0;
         $limit = false;
         if (($decoded['self_paginated'] == false) && (isset($decoded['parameters']['page'])) && (!$decoded['return_single'])) {
