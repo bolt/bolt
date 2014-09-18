@@ -96,7 +96,8 @@ class LowlevelChecks
         }
     }
 
-    private function assertWritableDir($path) {
+    private function assertWritableDir($path)
+    {
         if (!is_dir($path)) {
             throw new LowlevelException(
                 "The folder <code>" . htmlspecialchars($path, ENT_QUOTES) . "</code> doesn't exist. Make sure it is " .
@@ -266,5 +267,4 @@ class LowlevelChecks
             throw new LowlevelException($message);
         }
     }
-
 }

@@ -67,7 +67,8 @@ class ScriptHandler
     }
 
 
-    public static function extensions($event) {
+    public static function extensions($event)
+    {
         $installedPackage = $event->getOperation()->getPackage();
         $rootExtra = $event->getComposer()->getPackage()->getExtra();
         $extra = $installedPackage->getExtra();
