@@ -152,8 +152,8 @@ class Extensions
         }
     }
 
-   public function errorCatcher($file)
-   {
+    public function errorCatcher($file)
+    {
         $current = str_replace($this->app['resources']->getPath('extensions'), '', $file);
 
         // Flush output buffer before starting a new buffer or $current will contain
