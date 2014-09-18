@@ -116,7 +116,9 @@ class Cache extends FilesystemCache
 
                 $this->clearCacheHelper($startFolder, $additional."/".$entry, $result);
 
+                /* @codingStandardsIgnoreStart */
                 if (@rmdir($currentfolder."/".$entry)) {
+                /* @codingStandardsIgnoreStart */
                     $result['successfolders']++;
                 } else {
                     $result['failedfolders']++;
