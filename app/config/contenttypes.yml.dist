@@ -60,7 +60,7 @@ entries:
     description: |
       The **Entries** contentype can be used for things like _'news'_ or _'blogpostings'_. They
       have a teaser, which can be used for a short blurb on listing-pages, allowing visitors to
-      click-through to the rest of the entry. It also has fields for an image and an optional video.
+      click-through to the rest of the entry. It also has fields for an image and an optional video.  
       To change the fields that are in this contenttype, edit the file `contenttypes.yml` in the
       folder `app/config/`, using the editor of your choice, or by going to 'Configuration' »
       'Contenttypes' in the menu on the left.
@@ -96,19 +96,19 @@ entries:
     sort: datepublish DESC
     recordsperpage: 10
 
-# The 'Kitchensink' is not particularly useful in most cases, but it does a good
+# The 'Showcases' is not particularly useful in most cases, but it does a good
 # job of showcasing most of the available fieldtypes. Feel free to delete it, or
 # copy some fields to your own contenttypes.
 # Since no templates are defined for this contenttype, the default record_template,
 # listing_template, and related settings are used from config.yml
 
-kitchensinks:
-    name: Kitchensinks
-    slug: kitchensinks
-    singular_name: Kitchensink    
-    singular_slug: kitchensink
+showcases:
+    name: Showcases
+    slug: showcases
+    singular_name: Showcase
+    singular_slug: showcase
     description: |
-      The **Kitchensinks** contentype is used to show all of the available common field types.
+      The **Showcases** contentype is used to show all of the available common field types.
       In practice, its uses are limited, but be sure to take a look to see which fields are
       available for use.  
       To change (or delete) the fields that are in this contenttype, edit the file `contenttypes.yml`
