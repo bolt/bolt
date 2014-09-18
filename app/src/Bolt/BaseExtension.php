@@ -80,7 +80,7 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
                 'json' => $composerjson
             ));
         } else {
-            return array($this->getName()=>array(
+            return array($this->getName() => array(
                 'name' => $extension->getName(),
                 'json' => array()
             ));
@@ -158,7 +158,7 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
             // There are cases where the config directory may not exist yet.
             // Firstly we try to create it.
             if (!is_dir(dirname($configfile))) {
-                @mkdir(dirname($configfile),0777, true);
+                @mkdir(dirname($configfile), 0777, true);
             }
 
             // If config.yml.dist exists, attempt to copy it to config.yml.

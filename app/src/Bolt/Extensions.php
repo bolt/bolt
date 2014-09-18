@@ -164,7 +164,7 @@ class Extensions
         }
         ob_start(function ($buffer) use ($current) {
             $error = error_get_last();
-            if ($error['type'] == E_ERROR || $error['type']== E_PARSE) {
+            if ($error['type'] == E_ERROR || $error['type'] == E_PARSE) {
                 $html = LowlevelException::$html;
                 $message = "<code>".$error['message']."<br>File ".$error['file']."<br>Line: ".$error['line']."</code><br><br>";
                 $message .= $this->app['translator']->trans("There is a fatal error in one of the extensions loaded on your Bolt Installation.");

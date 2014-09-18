@@ -122,12 +122,12 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
     public function installInfo(Silex\Application $app, Request $request)
     {
         $package = $request->get('package');
-        $versions = array('dev'=>array(),'stable'=>array());
+        $versions = array('dev' => array(), 'stable' => array());
         try {
             $url = $app['extend.site']."info.json?package=".$package."&bolt=".$app['bolt_version'];
             $info = json_decode(file_get_contents($url));
             foreach ($info->version as $version) {
-                $versions[$version->stability][]=$version;
+                $versions[$version->stability][] = $version;
             }
         } catch (\Exception $e) {
             error_log($e); // least we can do
@@ -206,7 +206,7 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
 
                 return new Response($app['translator']->trans('Theme successfully generated. You can now edit it directly from your theme folder.'));
             } catch (\Exception $e) {
-               return new Response($app['translator']->trans('We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling.'));
+                return new Response($app['translator']->trans('We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling.'));
             }
         }
     }

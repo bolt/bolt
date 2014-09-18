@@ -82,7 +82,7 @@ class ScriptHandler
                 $fromParts = array(getcwd(), 'vendor', $installedPackage->getName(),$extra['bolt-assets']);
                 $fromPath = join(DIRECTORY_SEPARATOR, $fromParts);
                 $filesystem = new Filesystem();
-                $filesystem->mirror($fromPath,$path);
+                $filesystem->mirror($fromPath, $path);
             }
         }
     }

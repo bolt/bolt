@@ -1573,7 +1573,7 @@ class Storage
             $decoded['self_paginated'] = false;
         }
 
-        if ( ($decoded['order_callback'] !== false) || ($decoded['return_single'] == true) ) {
+        if (($decoded['order_callback'] !== false) || ($decoded['return_single'] == true)) {
             // Callback sorting disables pagination
             $decoded['self_paginated'] = false;
         }
