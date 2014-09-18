@@ -24,7 +24,7 @@
     {% endif %}
 
     <div class="description">
-        {{ context.contenttype.description|markdown }}
+        {{ context.contenttype.description|default('')|markdown }}
     </div>
 
     <p><strong>{{ __("Details") }}</strong></p>
@@ -37,7 +37,7 @@
         {% endif %}
         {% if context.contenttype.relations is iterable %}
             <li>
-                {{ __("Relationships") }}: 
+                {{ __("Relationships") }}:
                 {% for rel, data in context.contenttype.relations %}
                     {{ rel }}{% if not loop.last %}, {% endif %}
                 {% endfor %}
