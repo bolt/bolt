@@ -91,7 +91,7 @@ class Extensions
      * @var array
      */
     private $assets;
-    
+
     private $isInitialized = false;
 
 
@@ -152,8 +152,8 @@ class Extensions
         }
     }
 
-   public function errorCatcher($file)
-   {
+    public function errorCatcher($file)
+    {
         $current = str_replace($this->app['resources']->getPath('extensions'), '', $file);
 
         // Flush output buffer before starting a new buffer or $current will contain
@@ -162,21 +162,23 @@ class Extensions
         if (ob_get_length()) {
             ob_end_flush();
         }
-        ob_start(function ($buffer) use ($current) {
-            $error = error_get_last();
-            if ($error['type'] == E_ERROR || $error['type']== E_PARSE) {
-                $html = LowlevelException::$html;
-                $message = "<code>".$error['message']."<br>File ".$error['file']."<br>Line: ".$error['line']."</code><br><br>";
-                $message .= $this->app['translator']->trans("There is a fatal error in one of the extensions loaded on your Bolt Installation.");
-                if ($current) {
-                    $message .= $this->app['translator']->trans(" You will only be able to continue by manually deleting the extension that was initialized at: extensions".$current);
+        ob_start(
+            function ($buffer) use ($current) {
+                $error = error_get_last();
+                if ($error['type'] == E_ERROR || $error['type'] == E_PARSE) {
+                    $html = LowlevelException::$html;
+                    $message = '<code>'.$error['message']."<br>File ".$error['file']."<br>Line: ".$error['line'].'</code><br><br>';
+                    $message .= $this->app['translator']->trans('There is a fatal error in one of the extensions loaded on your Bolt Installation.');
+                    if ($current) {
+                        $message .= $this->app['translator']->trans(' You will only be able to continue by manually deleting the extension that was initialized at: extensions'.$current);
+                    }
+
+                    return str_replace('%error%', $message, $html);
                 }
 
-                return str_replace('%error%', $message, $html);
+                return $buffer;
             }
-
-            return $buffer;
-        });
+        );
     }
 
     /**
@@ -216,13 +218,13 @@ class Extensions
      */
     public function initialize()
     {
-        $this->isInitialized = true;
         $this->autoload($this->app);
+        $this->isInitialized = true;
         foreach ($this->enabled as $extension) {
             $this->initializeExtension($extension);
         }
     }
-    
+
     protected function initializeExtension(BaseExtensionInterface $extension)
     {
         $name = $extension->getName();
@@ -238,9 +240,9 @@ class Extensions
                 }
             }
         } catch (\Exception $e) {
-            
+
         }
-        
+
 
     }
 

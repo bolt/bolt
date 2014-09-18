@@ -37,5 +37,4 @@ interface FieldInterface
      * @return array An array of options
      */
     public function getStorageOptions();
-
 }

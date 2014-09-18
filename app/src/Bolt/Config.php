@@ -477,7 +477,7 @@ class Config
                 }
 
                 // Make sure the 'type' is in the list of allowed types
-                if (!isset($field['type']) || !$this->fields->has($field['type']) ) {
+                if (!isset($field['type']) || !$this->fields->has($field['type'])) {
                     $error = __(
                         "In the contenttype for '%contenttype%', the field '%field%' has 'type: %type%', which is not a proper fieldtype. Please edit contenttypes.yml, and correct this.",
                         array('%contenttype%' => $key, '%field%' => $fieldname, '%type%' =>

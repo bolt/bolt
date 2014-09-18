@@ -1,59 +1,71 @@
 
-aside section {
-    background-color: #F2F2F2;
-    -moz-border-radius: 2px;
-    border: 1px solid $panel-default-border;    
-    padding: 0 10px 10px;
-    margin-bottom: 20px;
-}
+aside { 
+    section {
+        background-color: #F2F2F2;
+        -moz-border-radius: 2px;
+        border: 1px solid $panel-default-border;    
+        padding: 0 10px 10px;
+        margin-bottom: 20px;
+    }
 
-aside section h2 {
-    font-size: 17px;
-    line-height: 21px;
-    margin: 10px 0 6px 0;
-    color: #333;
-}
+    section h2 {
+        font-size: 17px;
+        line-height: 21px;
+        margin: 10px 0 6px 0;
+        color: #333;
+    }
 
-aside .morelink {
-    font-weight: normal;
-    line-height: 1em;
-    position: static;
-}
+    .morelink {
+        font-weight: normal;
+        line-height: 1em;
+        position: static;
+    }
 
-aside section p {
-    font-size: 12px;
-    line-height: 18px;
-    margin: 4px 0;
-}
+    section p {
+        font-size: 12px;
+        line-height: 18px;
+        margin: 4px 0;
+    }
 
 
-aside .panel-body > ul {
-    list-style: none;
-    margin-left: 0;
-    padding-left: 0.7em;
-    text-indent: -0.7em;
-}
+    .panel-body > ul {
+        list-style: none;
+        margin-left: 0;
+        padding-left: 0.7em;
+        text-indent: -0.7em;
+    }
 
-aside .panel-body > ul li:before {
-    content: "- ";
-}
+    .panel-body > ul li:before {
+        content: "- ";
+    }
 
-aside .panel-body > ul li {
-    line-height: 16px;
-    margin-bottom: 4px;
-}
+    .panel-body > ul li {
+        line-height: 18px;
+        margin-bottom: 4px;
+    }
 
-aside .panel-body > ul li small {
-    color: #777;
-}
+    .panel-body > ul li small {
+        color: #777;
+    }
 
-aside .btn-group {
-    margin-bottom: 14px;
-}
+    .btn-group {
+        margin-bottom: 14px;
+    }
 
-aside .dropdown-menu .btn-link {
-  display: block;
-  width: 100%;
-  text-align: left;
-  margin-bottom: 4px;
+    .dropdown-menu .btn-link {
+      display: block;
+      width: 100%;
+      text-align: left;
+      margin-bottom: 4px;
+    }
+
+    div.description {
+        margin: 12px 0 0;
+        line-height: 18px;
+    }
+
+    code {
+        letter-spacing: -0.5px;
+    }
+
 }

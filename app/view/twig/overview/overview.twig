@@ -17,7 +17,7 @@
 {% block page_main %}
 
     <div class="row">
-        <div class="col-md-9">
+        <div class="col-md-8">
 
             {% include '_sub/_messages.twig' %}
 
@@ -25,10 +25,9 @@
             
         </div>
 
-        <aside class="col-md-3">
+        <aside class="col-md-4">
             {% include 'overview/_panel-actions_overview.twig' %}
             {{ panels.lastmodified(context.contenttype.slug) }}
-            {{ panels.stack(7) }}
         </aside>
     </div>
 

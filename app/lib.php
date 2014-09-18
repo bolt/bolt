@@ -852,7 +852,7 @@ function str_replace_first($search, $replace, $subject)
  * @author Gabriel Sobrinho <gabriel (dot) sobrinho (at) gmail (dot) com>
  * @author Bob for bolt-specific excludes
  */
-function array_merge_recursive_distinct (array &$array1, array &$array2)
+function array_merge_recursive_distinct(array &$array1, array &$array2)
 {
     $merged = $array1;
 
@@ -865,7 +865,7 @@ function array_merge_recursive_distinct (array &$array1, array &$array2)
         }
 
         if (is_array($value) && isset($merged[$key]) && is_array($merged[$key])) {
-            $merged[$key] = array_merge_recursive_distinct($merged [$key], $value);
+            $merged[$key] = array_merge_recursive_distinct($merged[$key], $value);
         } else {
             $merged[$key] = $value;
         }

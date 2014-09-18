@@ -201,7 +201,6 @@ class Async implements ControllerProviderInterface
 
     public function readme($filename, Silex\Application $app, Request $request)
     {
-
         $paths = $app['resources']->getPaths();
 
         $filename = $paths['extensionspath'] . '/vendor/' . $filename;

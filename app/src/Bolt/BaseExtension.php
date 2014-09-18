@@ -1,11 +1,9 @@
 <?php
-
 namespace Bolt;
 
 use Bolt\Extensions\BaseExtensionInterface;
 use Symfony\Component\Console\Command\Command;
 use Composer\Json\JsonFile;
-
 
 abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInterface
 {
@@ -74,15 +72,15 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
     {
         $json = new JsonFile($this->getBasepath() . '/composer.json');
 
-        if($json->exists()) {
+        if ($json->exists()) {
             $composerjson = $json->read();
+
             return array(strtolower($composerjson['name']) => array(
                 'name' => $this->getName(),
                 'json' => $composerjson
             ));
-        }
-        else {
-            return array($this->getName()=>array(
+        } else {
+            return array($this->getName() => array(
                 'name' => $extension->getName(),
                 'json' => array()
             ));
@@ -144,8 +142,7 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
         if (file_exists($configfile)) {
             if (is_readable($configfile)) {
                 return true;
-            }
-            else {
+            } else {
                 // Config file exists but is not readable
                 $configdir = dirname($configfile);
                 $message = "Couldn't read $configfile. Please correct file " .
@@ -155,14 +152,13 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
 
                 return false;
             }
-        }
-        elseif ($create) {
+        } elseif ($create) {
             $configdistfile = $this->basepath. "/config.yml.dist";
 
             // There are cases where the config directory may not exist yet.
             // Firstly we try to create it.
             if (!is_dir(dirname($configfile))) {
-                @mkdir(dirname($configfile),0777, true);
+                @mkdir(dirname($configfile), 0777, true);
             }
 
             // If config.yml.dist exists, attempt to copy it to config.yml.
@@ -175,8 +171,7 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
                     );
 
                     return true;
-                }
-                else {
+                } else {
                     // Failure!!
                     $configdir = dirname($configfile);
                     $message = "Couldn't copy $configdistfile to $configfile: " .
@@ -188,6 +183,7 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
                     return false;
                 }
             }
+
             return false;
         }
     }

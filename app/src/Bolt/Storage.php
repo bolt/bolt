@@ -1573,7 +1573,7 @@ class Storage
             $decoded['self_paginated'] = false;
         }
 
-        if ( ($decoded['order_callback'] !== false) || ($decoded['return_single'] == true) ) {
+        if (($decoded['order_callback'] !== false) || ($decoded['return_single'] == true)) {
             // Callback sorting disables pagination
             $decoded['self_paginated'] = false;
         }
@@ -2151,7 +2151,6 @@ class Storage
      */
     public function getSortOrder($name = '-datepublish')
     {
-
         // If we don't get a string, we can't determine a sortorder.
         if (!is_string($name)) {
             return false;

@@ -59,7 +59,7 @@ EOM;
      *
      * @param string $message
      */
-    public function __construct($message, $code=null, $previous=null)
+    public function __construct($message, $code = null, $previous = null)
     {
         $html = self::$html;
         $output = str_replace('%error%', $message, $html);
