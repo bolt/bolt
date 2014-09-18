@@ -26,6 +26,25 @@ directory by hand and would have to adjust the path to the Symfony2 ruleset insi
 #### NetBeans/PHPCSMD-plugin
 Specify the path to standards directory <path-to-bolt>/CodeSniffer/Bolt in Options / PHP / PHPCSMD "--standard".
 
+#### Eclipse
+- Install Eclipse PTI plugin. (http://www.phpsrc.org/projects/pti/wiki/Installation)
+- You need to check PTI Core and PHP Tool CodeSniffer at least.
+- Overwrite PTI CodeSniffer plugin sources with that comes with Bolt...
+- ...PTI CodeSniffer is here about: <path_to_eclipse>/plugins/org.phpsrc.eclipse.pti.library.pear_1.2.2.R20120127000000/php/library/PEAR/PHP/
+- ...Our codesniffer is here: <bolt_project_path>/vendor/squizlabs/php_codesniffer/
+
+##### Setting up PTI CodeSniffer in Eclipse
+- Go to `Window - Preferences - PHP Tools - PHP CodeSniffer`
+- Setup your PHP Executable and PEAR library
+- Beside the `CodeSniffer Standards` box click `New` button and add Bolt as new standard with the path `<bolt_project_path>/CodeSniffer/Bolt`
+- May check Bolt as default standard now in the list
+
+##### Check validation settings
+- Go to `Window - Preferences - Validation` and check in `CodeSniffer validation` as you need Manual or Build mode or
+- enable it for your `Project specific settings` at `Project - Properties - Validation`
+
+Finally you may need `Problems` view to open to see results wehn you clicked `Validate` on a php file.
+
 #### Others
 
 See the manual of your editor if it supports PHP_CodeSniffer and how to use it.
