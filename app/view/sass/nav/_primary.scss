@@ -32,6 +32,9 @@
         a {
             padding: 12px;
             min-height: 42px;
+            @include old-ie() {
+                min-height:20px;
+            }
         }
     }
 
