@@ -35,7 +35,7 @@
         {% if context.contenttype.taxonomy is iterable %}
             <li>{{ __("Taxonomy") }}: {{ context.contenttype.taxonomy|join(', ') }}</li>
         {% endif %}
-        {% if context.contenttype.relations is iterable %}
+        {% if context.contenttype.relations|default('') is iterable %}
             <li>
                 {{ __("Relationships") }}:
                 {% for rel, data in context.contenttype.relations %}
