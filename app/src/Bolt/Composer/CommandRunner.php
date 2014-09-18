@@ -182,13 +182,14 @@ class CommandRunner
     {
         $args = func_get_args();
         $format = array_shift($args);
-        $sanitize = function($arg) {
+        $sanitize = function ($arg) {
             if (preg_match('/^-/', $arg)) {
                 return ''; // starts with a dash: skip
             }
             if (preg_match('#[^a-zA-Z0-9\\-_/~^\\\\.*]#', $arg)) {
                 return ''; // contains invalid characters: skip
             }
+
             return escapeshellarg($arg);
         };
         $params = array_map($sanitize, $args);
