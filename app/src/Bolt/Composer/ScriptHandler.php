@@ -7,10 +7,15 @@
 namespace Bolt\Composer;
 
 use Symfony\Component\Filesystem\Filesystem;
+use Composer\Script\CommandEvent;
 
 class ScriptHandler
 {
-    public static function installAssets($event)
+    /**
+     *
+     * @param CommandEvent $event
+     */
+    public static function installAssets(CommandEvent $event)
     {
         $options = self::getOptions($event);
         $webDir = $options['bolt-web-dir'];
@@ -61,13 +66,14 @@ class ScriptHandler
             $filesystem->mkdir($appDir, $dirMode);
         }
 
-
-
-
     }
 
-
-    public static function extensions($event)
+    /**
+     * Composer post-package-install and post-package-update event handler
+     *
+     * @param CommandEvent $event
+     */
+    public static function extensions(CommandEvent $event)
     {
         $installedPackage = $event->getOperation()->getPackage();
         $rootExtra = $event->getComposer()->getPackage()->getExtra();
@@ -88,7 +94,12 @@ class ScriptHandler
         }
     }
 
-    protected static function getOptions($event)
+    /**
+     *
+     * @param  CommandEvent $event
+     * @return array
+     */
+    protected static function getOptions(CommandEvent $event)
     {
         $options = array_merge(
             array(
