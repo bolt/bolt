@@ -48,7 +48,7 @@ class BrowsePlugin implements PluginInterface
                 } catch (\Exception $e) {
                     $url = $entry['path'];
                 }
-                
+
 
                 // Ugh, for some reason the foldername for the theme is included twice. Why?
                 // For now we 'fix' this with an ugly hack, replacing it. :-/

@@ -1573,7 +1573,7 @@ class Storage
             $decoded['self_paginated'] = false;
         }
 
-        if ( ($decoded['order_callback'] !== false) || ($decoded['return_single'] == true) ) {
+        if (($decoded['order_callback'] !== false) || ($decoded['return_single'] == true)) {
             // Callback sorting disables pagination
             $decoded['self_paginated'] = false;
         }
@@ -2017,7 +2017,7 @@ class Storage
             }
         }
 
-        // Perform pagination if necessary, but never paginate when 'returnsingle' is used. 
+        // Perform pagination if necessary, but never paginate when 'returnsingle' is used.
         $offset = 0;
         $limit = false;
         if (($decoded['self_paginated'] == false) && (isset($decoded['parameters']['page'])) && (!$decoded['return_single'])) {
@@ -2150,7 +2150,6 @@ class Storage
      */
     public function getSortOrder($name = '-datepublish')
     {
-
         // If we don't get a string, we can't determine a sortorder.
         if (!is_string($name)) {
             return false;
