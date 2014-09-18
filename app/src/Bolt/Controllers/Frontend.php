@@ -5,6 +5,7 @@ namespace Bolt\Controllers;
 use Silex;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Bolt\Pager;
 
 /**
  * Standard Frontend actions
@@ -197,9 +198,11 @@ class Frontend
     public static function listing(Silex\Application $app, $contenttypeslug)
     {
         $contenttype = $app['storage']->getContentType($contenttypeslug);
-
+        $pagerid = Pager::makeParameterId($contenttypeslug);
+        /* @var $query \Symfony\Component\HttpFoundation\ParameterBag */
+        $query = $app['request']->query;
         // First, get some content
-        $page = $app['request']->query->get('page', 1);
+        $page = $query->get($pagerid, $query->get('page', 1));
         $amount = (!empty($contenttype['listing_records']) ? $contenttype['listing_records'] : $app['config']->get('general/listing_records'));
         $order = (!empty($contenttype['sort']) ? $contenttype['sort'] : $app['config']->get('general/listing_sort'));
         $content = $app['storage']->getContent($contenttype['slug'], array('limit' => $amount, 'order' => $order, 'page' => $page, 'paging' => true));
@@ -254,7 +257,11 @@ class Frontend
     public static function taxonomy(Silex\Application $app, $taxonomytype, $slug)
     {
         // First, get some content
-        $page = $app['request']->query->get('page', 1);
+        $context = $taxonomytype . '_' . $slug;
+        $pagerid = Pager::makeParameterId($context);
+         /* @var $query \Symfony\Component\HttpFoundation\ParameterBag */
+        $query = $app['request']->query;
+        $page = $query->get($pagerid, $query->get('page', 1));
         $amount = $app['config']->get('general/listing_records');
         $order = $app['config']->get('general/listing_sort');
         $content = $app['storage']->getContentByTaxonomy($taxonomytype, $slug, array('limit' => $amount, 'order' => $order, 'page' => $page));
