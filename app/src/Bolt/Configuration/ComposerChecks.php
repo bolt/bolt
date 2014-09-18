@@ -86,6 +86,7 @@ EOM;
                 $status[] = $check;
             }
         }
+
         return call_user_func_array('sprintf', $status);
     }
 

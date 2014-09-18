@@ -2,6 +2,7 @@
 namespace Bolt;
 
 use Bolt\Configuration\LowlevelException;
+
 // Do bootstrapping within a new local scope to avoid polluting the global
 return call_user_func(function ()
 {

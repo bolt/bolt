@@ -55,7 +55,6 @@ class LowlevelChecks
 
     public function doChecks()
     {
-
         foreach($this->checks as $check) {
             $method = "check".ucfirst($check);
             $this->$method();
@@ -135,7 +134,6 @@ class LowlevelChecks
      **/
     public function checkApache()
     {
-
         if (isset($_SERVER['SERVER_SOFTWARE']) && false !== strpos($_SERVER['SERVER_SOFTWARE'], 'Apache')) {
             if (!is_readable($this->config->getPath('web').'/.htaccess')) {
                 throw new LowlevelException(

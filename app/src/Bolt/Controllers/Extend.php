@@ -95,6 +95,7 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
     private function getRenderContext(Silex\Application $app)
     {
         $extensionsPath = $app['resources']->getPath('extensions');
+
         return array(
                 'messages' => $app['extend.runner']->messages,
                 'enabled' => $this->readWriteMode,

@@ -46,7 +46,6 @@ class ResourceManager
      */
     public function __construct($loader, Request $request = null, $verifier = null)
     {
-
         if ($loader instanceof ClassLoader) {
             $this->useLoader($loader);
         } else {

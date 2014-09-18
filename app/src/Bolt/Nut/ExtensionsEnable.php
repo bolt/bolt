@@ -28,6 +28,7 @@ class ExtensionsEnable extends BaseCommand
                 $this->app['translator']->trans('You must specify both a name and a version to install!').
                 "</error>"
             );
+
             return;
         }
 
