@@ -53,10 +53,12 @@ class Pager extends \ArrayObject
         } else {
             unset($parameters['page']);
         }
-        array_walk($parameters, function (&$item, $key)
-        {
-            $item = "$key=$item";
-        });
+        array_walk(
+            $parameters,
+            function (&$item, $key) {
+                $item = "$key=$item";
+            }
+        );
         $parameters[] = $pageid . '=';
         // $parameters[] = 'page=';
         $link = '?' . implode('&', $parameters);
