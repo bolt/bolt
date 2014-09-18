@@ -78,7 +78,7 @@ class CommandRunner
         foreach ($installed as $package => $packageInfo) {
 
             if (is_array($packageInfo)) {
-                $response = $this->execute('update --dry-run %', $package);
+                $response = $this->execute('update --dry-run %s', $package);
                 if (!$response) {
                     continue;
                 }
