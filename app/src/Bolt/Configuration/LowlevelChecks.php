@@ -101,12 +101,14 @@ class LowlevelChecks
         if (!is_dir($path)) {
             throw new LowlevelException(
                 "The folder <code>" . htmlspecialchars($path, ENT_QUOTES) . "</code> doesn't exist. Make sure it is " .
-                "present and writable to the user that the webserver is using.");
+                "present and writable to the user that the webserver is using."
+            );
         }
         if (!is_writable($path)) {
             throw new LowlevelException(
                 "The folder <code>" . htmlspecialchars($path, ENT_QUOTES) . "</code> isn't writable. Make sure it is " .
-                "present and writable to the user that the webserver is using.");
+                "present and writable to the user that the webserver is using."
+            );
         }
     }
 

@@ -102,7 +102,8 @@ EOM;
             throw new LowlevelException(
                 "The default folder <code>" . $location .
                 "</code> doesn't exist. Make sure it's " .
-                "present and writable to the user that the webserver is using.". $this->checkSummary());
+                "present and writable to the user that the webserver is using.". $this->checkSummary()
+            );
         } elseif (!is_writable($location)) {
             throw new LowlevelException(
                 "The default folder <code>" . $location .
