@@ -35,7 +35,7 @@ class CommandRunner
             );
         }
 
-        $this->execute('config repositories.bolt composer '.$app['extend.site'].'satis/');
+        $this->execute('config repositories.bolt composer %s', $app['extend.site'] . 'satis/');
         $json = json_decode(file_get_contents($this->packageFile));
         $json->repositories->packagist = false;
         $json->{'minimum-stability'} = "dev";
@@ -70,7 +70,7 @@ class CommandRunner
         $packages = $json->require;
         $installed = array();
         foreach ($packages as $package => $version) {
-            $installed[$package] = $this->execute("show -N -i $package $version");
+            $installed[$package] = $this->execute("show -N -i %s %s", $package, $version);
         }
 
         $updates = array();
@@ -78,7 +78,7 @@ class CommandRunner
         foreach ($installed as $package => $packageInfo) {
 
             if (is_array($packageInfo)) {
-                $response = $this->execute('update --dry-run '.$package);
+                $response = $this->execute('update --dry-run %', $package);
                 if (!$response) {
                     continue;
                 }
@@ -97,14 +97,14 @@ class CommandRunner
 
     public function info($package, $version)
     {
-        $check = $this->execute("show -N -i $package $version");
+        $check = $this->execute("show -N -i %s %s", $package, $version);
 
         return $this->showCleanup((array) $check, $package, $version);
     }
 
     public function update($package)
     {
-        $response = $this->execute("update $package");
+        $response = $this->execute("update %s", $package);
 
         if (false !== $response) {
             return implode($response, '<br>');
@@ -117,7 +117,7 @@ class CommandRunner
 
     public function install($package, $version)
     {
-        $response = $this->execute("require $package $version");
+        $response = $this->execute("require %s %s", $package, $version);
         if (false !== $response) {
             return implode('<br>', $response);
         } else {
@@ -163,7 +163,7 @@ class CommandRunner
         $packages = $json->require;
 
         foreach ($packages as $package => $version) {
-            $check = $this->execute("show -N -i $package $version");
+            $check = $this->execute("show -N -i %s %s", $package, $version);
             $installed[] = $this->showCleanup((array) $check, $package, $version);
         }
 
@@ -174,8 +174,26 @@ class CommandRunner
         }
     }
 
-    protected function execute($command)
+    /**
+     * @param string $format sprintf-style format string.
+     * @param string, ... $params one or more parameters to interpolate into the format
+     */
+    protected function execute()
     {
+        $args = func_get_args();
+        $format = array_shift($args);
+        $sanitize = function($arg) {
+            if (preg_match('/^-/', $arg)) {
+                return ''; // starts with a dash: skip
+            }
+            if (preg_match('#[^a-zA-Z0-9\\-_/~^\\\\.*]#', $arg)) {
+                return ''; // contains invalid characters: skip
+            }
+            return escapeshellarg($arg);
+        };
+        $params = array_map($sanitize, $args);
+        $command = vsprintf($format, $params);
+
         // Try to prevent time-outs.
         set_time_limit(0);
 
