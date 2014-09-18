@@ -77,8 +77,8 @@ EOM;
             $this->config->getPath('extensions'),
             $this->config->getPath('web')."/extensions"
         );
-        foreach($checks as $check) {
-            if(is_readable($check) && is_writable($check)) {
+        foreach ($checks as $check) {
+            if (is_readable($check) && is_writable($check)) {
                 $status[] = 'ok';
                 $status[] = $check;
             } else {
@@ -94,7 +94,7 @@ EOM;
     protected function checkDir($location)
     {
         // As a last resort we can try to create the directory here:
-        if(!is_dir($location)) {
+        if (!is_dir($location)) {
             @mkdir($location, 0777, true);
         }
 

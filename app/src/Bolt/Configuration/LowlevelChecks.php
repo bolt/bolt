@@ -55,7 +55,7 @@ class LowlevelChecks
 
     public function doChecks()
     {
-        foreach($this->checks as $check) {
+        foreach ($this->checks as $check) {
             $method = "check".ucfirst($check);
             $this->$method();
         }

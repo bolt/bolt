@@ -19,7 +19,7 @@ class Extensions extends BaseCommand
         $result = $this->app['extend.runner']->installed();
         $json = $result->getContent();
 
-        foreach(json_decode($json) as $ext) {
+        foreach (json_decode($json) as $ext) {
             $rows[]= array($ext->name, $ext->version, $ext->type, $ext->descrip);
         }
 

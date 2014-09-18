@@ -72,15 +72,14 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
     {
         $json = new JsonFile($this->getBasepath() . '/composer.json');
 
-        if($json->exists()) {
+        if ($json->exists()) {
             $composerjson = $json->read();
 
             return array(strtolower($composerjson['name']) => array(
                 'name' => $this->getName(),
                 'json' => $composerjson
             ));
-        }
-        else {
+        } else {
             return array($this->getName()=>array(
                 'name' => $extension->getName(),
                 'json' => array()
@@ -143,8 +142,7 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
         if (file_exists($configfile)) {
             if (is_readable($configfile)) {
                 return true;
-            }
-            else {
+            } else {
                 // Config file exists but is not readable
                 $configdir = dirname($configfile);
                 $message = "Couldn't read $configfile. Please correct file " .
@@ -154,8 +152,7 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
 
                 return false;
             }
-        }
-        elseif ($create) {
+        } elseif ($create) {
             $configdistfile = $this->basepath. "/config.yml.dist";
 
             // There are cases where the config directory may not exist yet.
@@ -174,8 +171,7 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
                     );
 
                     return true;
-                }
-                else {
+                } else {
                     // Failure!!
                     $configdir = dirname($configfile);
                     $message = "Couldn't copy $configdistfile to $configfile: " .

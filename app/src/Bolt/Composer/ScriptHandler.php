@@ -71,7 +71,7 @@ class ScriptHandler
         $installedPackage = $event->getOperation()->getPackage();
         $rootExtra = $event->getComposer()->getPackage()->getExtra();
         $extra = $installedPackage->getExtra();
-        if(isset($extra['bolt-assets'])) {
+        if (isset($extra['bolt-assets'])) {
             $type = $installedPackage->getType();
             $pathToPublic = $rootExtra['bolt-web-path'];
 

@@ -31,8 +31,7 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
             function ($app) use ($me) {
                 if ($me->readWriteMode) {
                     return new CommandRunner($app, $app['extend.repo']);
-                }
-                else {
+                } else {
                     return null;
                 }
             }
@@ -130,8 +129,7 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
             foreach ($info->version as $version) {
                 $versions[$version->stability][]=$version;
             }
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             error_log($e); // least we can do
         }
 
