@@ -44,11 +44,11 @@ class CommandRunner
         $json->provide = new \stdClass();
         $json->provide->$basePackage = $app['bolt_version'];
         $json->scripts = array(
-            'post-package-install'=>"Bolt\\Composer\\ScriptHandler::extensions",
-            'post-package-update'=>"Bolt\\Composer\\ScriptHandler::extensions"
+            'post-package-install' => "Bolt\\Composer\\ScriptHandler::extensions",
+            'post-package-update' => "Bolt\\Composer\\ScriptHandler::extensions"
         );
         $pathToWeb = $app['resources']->findRelativePath($this->app['resources']->getPath('extensions'), $this->app['resources']->getPath('web'));
-        $json->extra = array('bolt-web-path'=>$pathToWeb);
+        $json->extra = array('bolt-web-path' => $pathToWeb);
         file_put_contents($this->packageFile, json_encode($json, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 
         try {
@@ -99,7 +99,7 @@ class CommandRunner
     {
         $check = $this->execute("show -N -i $package $version");
 
-        return $this->showCleanup( (array) $check, $package, $version);
+        return $this->showCleanup((array) $check, $package, $version);
     }
 
     public function update($package)
@@ -249,9 +249,9 @@ class CommandRunner
         // Note we only do this for successfully loaded extensions.
         if (isset($this->app['extensions']->composer[$name])) {
             $paths = $this->app['resources']->getPaths();
-            if (is_readable($paths['extensionspath'] . '/vendor/' . $pack['name'] . '/README.md' )) {
+            if (is_readable($paths['extensionspath'] . '/vendor/' . $pack['name'] . '/README.md')) {
                 $pack['readme'] = $pack['name'] . '/README.md';
-            } elseif (is_readable($paths['extensionspath'] . '/vendor/' . $pack['name'] . '/readme.md' )) {
+            } elseif (is_readable($paths['extensionspath'] . '/vendor/' . $pack['name'] . '/readme.md')) {
                 $pack['readme'] = $pack['name'] . '/readme.md';
             }
 

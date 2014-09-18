@@ -1502,5 +1502,4 @@ class TwigExtension extends \Twig_Extension
 
         }
     }
-
 }

@@ -4,12 +4,12 @@ namespace Bolt\Configuration;
 /**
  * Inherits from default and adds some specific checks for composer installs.
  *
- * @author Ross Riley <riley.ross@gmail.com> 
+ * @author Ross Riley <riley.ross@gmail.com>
  **/
 
 class ComposerChecks extends LowlevelChecks
 {
-    
+
     public $composerSuffix = <<< EOM
     </strong></p><p>When using Bolt as a Composer package it will need to have access to the following folders:</p>
     <ol>
@@ -38,34 +38,34 @@ EOM;
         $this->addCheck('database', true);
         $this->addCheck('config', true);
     }
-    
-    
-    
+
+
+
     public function checkConfig()
-    {                    
+    {
         $this->checkDir($this->config->getPath('config'));
     }
-    
+
     public function checkCache()
-    {                    
+    {
         $this->checkDir($this->config->getPath('cache'));
     }
-    
+
     public function checkDatabase()
-    {                    
+    {
         $this->checkDir($this->config->getPath('database'));
     }
-    
+
     public function checkExtensions()
-    {                    
+    {
         $this->checkDir($this->config->getPath('extensions'));
     }
-    
+
     public function checkPublicAssets()
-    {                    
+    {
         $this->checkDir($this->config->getPath('web')."/extensions");
     }
-    
+
     protected function checkSummary()
     {
         $status = array();
@@ -77,8 +77,8 @@ EOM;
             $this->config->getPath('extensions'),
             $this->config->getPath('web')."/extensions"
         );
-        foreach($checks as $check) {
-            if(is_readable($check) && is_writable($check)) {
+        foreach ($checks as $check) {
+            if (is_readable($check) && is_writable($check)) {
                 $status[] = 'ok';
                 $status[] = $check;
             } else {
@@ -86,29 +86,29 @@ EOM;
                 $status[] = $check;
             }
         }
+
         return call_user_func_array('sprintf', $status);
     }
-    
-    
+
+
     protected function checkDir($location)
     {
         // As a last resort we can try to create the directory here:
-        if(!is_dir($location)) {
+        if (!is_dir($location)) {
             @mkdir($location, 0777, true);
         }
-        
+
         if (!is_dir($location)) {
             throw new LowlevelException(
-                "The default folder <code>" . $location . 
+                "The default folder <code>" . $location .
                 "</code> doesn't exist. Make sure it's " .
-                "present and writable to the user that the webserver is using.". $this->checkSummary());
+                "present and writable to the user that the webserver is using.". $this->checkSummary()
+            );
         } elseif (!is_writable($location)) {
             throw new LowlevelException(
-                "The default folder <code>" . $location . 
+                "The default folder <code>" . $location .
                 "</code> isn't writable. Make sure it's writable to the user that the webserver is using.".$this->checkSummary()
             );
         }
     }
-
-
 }

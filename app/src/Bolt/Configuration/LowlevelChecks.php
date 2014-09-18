@@ -55,8 +55,7 @@ class LowlevelChecks
 
     public function doChecks()
     {
-
-        foreach($this->checks as $check) {
+        foreach ($this->checks as $check) {
             $method = "check".ucfirst($check);
             $this->$method();
         }
@@ -97,16 +96,19 @@ class LowlevelChecks
         }
     }
 
-    private function assertWritableDir($path) {
+    private function assertWritableDir($path)
+    {
         if (!is_dir($path)) {
             throw new LowlevelException(
                 "The folder <code>" . htmlspecialchars($path, ENT_QUOTES) . "</code> doesn't exist. Make sure it is " .
-                "present and writable to the user that the webserver is using.");
+                "present and writable to the user that the webserver is using."
+            );
         }
         if (!is_writable($path)) {
             throw new LowlevelException(
                 "The folder <code>" . htmlspecialchars($path, ENT_QUOTES) . "</code> isn't writable. Make sure it is " .
-                "present and writable to the user that the webserver is using.");
+                "present and writable to the user that the webserver is using."
+            );
         }
     }
 
@@ -135,7 +137,6 @@ class LowlevelChecks
      **/
     public function checkApache()
     {
-
         if (isset($_SERVER['SERVER_SOFTWARE']) && false !== strpos($_SERVER['SERVER_SOFTWARE'], 'Apache')) {
             if (!is_readable($this->config->getPath('web').'/.htaccess')) {
                 throw new LowlevelException(
@@ -268,5 +269,4 @@ class LowlevelChecks
             throw new LowlevelException($message);
         }
     }
-
 }

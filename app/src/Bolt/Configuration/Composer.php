@@ -26,7 +26,7 @@ class Composer extends Standard
         }
         parent::compat();
     }
-    
+
     public function getVerifier()
     {
         if (! $this->verifier) {
