@@ -104,9 +104,9 @@ entries:
 
 kitchensinks:
     name: Kitchensinks
-    slug: Kitchensinks
+    slug: kitchensinks
     singular_name: Kitchensink    
-    singular_slug: Kitchensink
+    singular_slug: kitchensink
     description: | 
       The **Kitchensinks** contentype is used to show all of the available common field types. 
       In practice, its uses are limited, but be sure to take a look to see which fields are 
