@@ -4,6 +4,9 @@
 
 .select2-container {
     min-height: 30px;
+    @include old-ie() {
+        min-height:20px;
+    }
 }
 
 .select2-container-multi .select2-choices {
