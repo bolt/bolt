@@ -118,7 +118,7 @@ class Cache extends FilesystemCache
 
                 /* @codingStandardsIgnoreStart */
                 if (@rmdir($currentfolder."/".$entry)) {
-                /* @codingStandardsIgnoreStart */
+                /* @codingStandardsIgnoreEnd */
                     $result['successfolders']++;
                 } else {
                     $result['failedfolders']++;
