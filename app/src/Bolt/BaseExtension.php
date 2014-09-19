@@ -160,9 +160,7 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
             // There are cases where the config directory may not exist yet.
             // Firstly we try to create it.
             if (!is_dir(dirname($configfile))) {
-                /* @codingStandardsIgnoreStart */
                 @mkdir(dirname($configfile), 0777, true);
-                /* @codingStandardsIgnoreEnd */
             }
 
             // If config.yml.dist exists, attempt to copy it to config.yml.

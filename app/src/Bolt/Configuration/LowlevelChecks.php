@@ -257,9 +257,8 @@ class LowlevelChecks
             );
             throw new LowlevelException($error);
         }
-        /* @codingStandardsIgnoreStart */
+
         if (!@copy($distname, $ymlname)) {
-            /* @codingStandardsIgnoreEnd */
             $message = sprintf(
                 "Couldn't create a new <code>%s</code>-file inside <code>%s</code>. Create the file manually by copying
                 <code>%s</code>, and optionally make it writable to the user that the webserver is using.",

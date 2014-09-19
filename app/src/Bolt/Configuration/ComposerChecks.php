@@ -95,9 +95,7 @@ EOM;
     {
         // As a last resort we can try to create the directory here:
         if (!is_dir($location)) {
-            /* @codingStandardsIgnoreStart */
             @mkdir($location, 0777, true);
-            /* @codingStandardsIgnoreEnd */
         }
 
         if (!is_dir($location)) {
