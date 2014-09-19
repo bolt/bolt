@@ -202,6 +202,11 @@
     <!-- Checks for usage of "$this" in static methods, which will cause runtime errors. -->
     <rule ref="Squiz.Scope.StaticThisUsage"/>
 
+    <!-- ##### STRINGS ############################################################################################# -->
+
+    <!-- Makes sure that any strings that are "echoed" are not enclosed in brackets like a function call. -->
+    <rule ref="Squiz.Strings.EchoedStrings"/>
+
     <!-- ##### OTHERS ############################################################################################## -->
 
     <!-- Checks that two strings are not concatenated together; suggests using one string instead. -->
