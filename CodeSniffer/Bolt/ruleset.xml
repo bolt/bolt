@@ -150,6 +150,10 @@
     <!-- Trait names should be suffixed with "Trait" -->
     <rule ref="Bolt.NamingConventions.TraitSuffix"/>
 
+    <!-- Makes sure there are spaces between the concatenation operator (.) and the strings being concatenated. -->
+    <rule ref="Bolt.Whitespace.ConcatenationSpacing"/>
+
+
     <!-- ##### WHITESPACE ########################################################################################## -->
 
     <!-- All language constructs must contain a single space between themselves and their content. -->
