@@ -175,15 +175,15 @@ var BoltExtender = Object.extend(Object, {
 
                         if (ext["readmelink"]) {
                             html += "<a data-action='package-readme' data-readme='" + ext["readmelink"] + 
-                            "' class='btn btn-sm btn-tertiary' href=''><i class='fa fa-quote-right'></i> Readme</a> ";
+                            "' class='btn btn-sm btn-tertiary' href=''><i class='fa fa-quote-right fa-fw'></i> Readme</a> ";
                         }
 
                         if (ext["config"]) {
-                            html += "<a href='" + ext["config"] + "' class='btn btn-sm btn-tertiary' ><i class='fa fa-cog'></i> Config</a> ";
+                            html += "<a href='" + ext["config"] + "' class='btn btn-sm btn-tertiary' ><i class='fa fa-cog fa-fw'></i> Config</a> ";
                         }
 
                         html += "<a data-action='uninstall-package' class='btn btn-sm btn-danger' href='" + baseurl + 
-                            "uninstall?package=" + ext["name"] + "'><i class='fa fa-trash'></i> Uninstall</a>" + "</td></tr>";
+                            "uninstall?package=" + ext["name"] + "'><i class='fa fa-trash-o fa-fw'></i> Uninstall</a>" + "</td></tr>";
                         //console.log(ext);
                         target.find('.installed-list-items').append(html);
                     } 
