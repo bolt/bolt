@@ -205,6 +205,7 @@
     <!-- ##### OTHERS ############################################################################################## -->
 
     <!-- Checks that two strings are not concatenated together; suggests using one string instead. -->
+    <!-- Nice to have, but must be patched to allow multiline concatenation first -->
     <!-- <rule ref="Generic.Strings.UnnecessaryStringConcat"/> -->
 
     <!-- Makes sure that any use of Double Quotes ("") are warranted. -->
