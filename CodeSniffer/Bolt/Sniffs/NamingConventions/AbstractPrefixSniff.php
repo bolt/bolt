@@ -14,7 +14,9 @@
 /**
  * Symfony_Sniffs_NamingConventions_AbstractPrefixSniff.
  *
- * Throws errors if abstract classes names are not suffixed with "Abstract".
+ * Throws errors if abstract classes names are not prefixed with "Abstract".
+ *
+ * This rule has added an exception for "BaseExtension" as discussed in https://github.com/bolt/bolt/pull/1706
  *
  * @category PHP
  * @package  PHP_CodeSniffer
@@ -59,9 +61,11 @@ class Bolt_Sniffs_NamingConventions_AbstractPrefixSniff implements PHP_CodeSniff
 
         while ($tokens[$stackPtr]['line'] == $line) {
             if ('T_STRING' == $tokens[$stackPtr]['type']) {
-                if (strpos($tokens[$stackPtr]['content'], 'Abstract') !== 0) {
+                if (strpos($tokens[$stackPtr]['content'], 'Abstract') !== 0 &&
+                    $tokens[$stackPtr]['content'] !== 'BaseExtension'
+                ) {
                     $phpcsFile->addError(
-                        'Abstract class is not prefixed with "Abstract"',
+                        'Abstract class "' . $tokens[$stackPtr]['content'] . '" is not prefixed with "Abstract"',
                         $stackPtr
                     );
                 }
