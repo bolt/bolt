@@ -137,7 +137,7 @@ class Extensions
             $loader->register();
         }
 
-        $filepath = $this->basefolder.'/vendor/composer/autoload_files.php';
+        $filepath = $this->basefolder . '/vendor/composer/autoload_files.php';
         if (is_readable($filepath)) {
             $files = include $filepath;
             foreach ($files as $file) {
@@ -168,10 +168,10 @@ class Extensions
                 $isExtensionError = strpos($error['file'], $this->app['resources']->getPath('extensions'));
                 if (($error['type'] == E_ERROR || $error['type'] == E_PARSE) && false !== $isExtensionError) {
                     $html = LowlevelException::$html;
-                    $message = '<code>'.$error['message']."<br>File ".$error['file']."<br>Line: ".$error['line'].'</code><br><br>';
+                    $message = '<code>' . $error['message'] . '<br>File ' . $error['file'] . '<br>Line: ' . $error['line'] . '</code><br><br>';
                     $message .= $this->app['translator']->trans('There is a fatal error in one of the extensions loaded on your Bolt Installation.');
                     if ($current) {
-                        $message .= $this->app['translator']->trans(' You will only be able to continue by manually deleting the extension that was initialized at: extensions'.$current);
+                        $message .= $this->app['translator']->trans(' You will only be able to continue by manually deleting the extension that was initialized at: extensions' . $current);
                     }
 
                     return str_replace('%error%', $message, $html);
@@ -191,8 +191,8 @@ class Extensions
     public function register(BaseExtensionInterface $extension)
     {
         $name = $extension->getName();
-        $this->app['extensions.'.$name] = $extension;
-        $this->enabled[$name] = $this->app['extensions.'.$name];
+        $this->app['extensions.' . $name] = $extension;
+        $this->enabled[$name] = $this->app['extensions.' . $name];
 
         // Store the composer part of the extensions config
         array_push($this->composer, $extension->getExtensionConfig());

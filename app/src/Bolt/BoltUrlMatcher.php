@@ -32,7 +32,7 @@ class BoltUrlMatcher implements UrlMatcherInterface
                 } catch (\Exception $e) {
                 }
             } else {
-                $withTrailingSlash = $path.'/';
+                $withTrailingSlash = $path . '/';
 
                 try {
                     // See if an exception is thrown matching the URL including a trailing slash.
@@ -66,11 +66,11 @@ class BoltUrlMatcher implements UrlMatcherInterface
 
     protected function redirect($path)
     {
-        $url = $this->getContext()->getBaseUrl().$path;
+        $url = $this->getContext()->getBaseUrl() . $path;
 
         $query = $this->getContext()->getQueryString() ?: '';
         if ($query !== '') {
-            $url .= '?'.$query;
+            $url .= '?' . $query;
         }
 
         return array(

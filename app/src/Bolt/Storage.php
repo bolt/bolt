@@ -968,7 +968,7 @@ class Storage
         // Build actual where
         $where = array();
         $where[] = sprintf("%s.status = 'published'", $table);
-        $where[] = '(( ' . implode(' OR ', $fields_where) . ' ) '.$tags_query. ' )';
+        $where[] = '(( ' . implode(' OR ', $fields_where) . ' ) ' . $tags_query . ' )';
         $where = array_merge($where, $filter_where);
 
         // Build SQL query
@@ -2651,7 +2651,7 @@ class Storage
 
                 // Make it look like 'desktop#10'
                 $valuewithorder = $slug . "#" . $currentsortorder;
-                $slugkey = '/'.$configTaxonomies[$taxonomytype]['slug'].'/'.$slug;
+                $slugkey = '/' . $configTaxonomies[$taxonomytype]['slug'] . '/' . $slug;
 
                 if (!in_array($slug, $newslugs) && !in_array($valuewithorder, $newslugs) && !array_key_exists($slugkey, $newslugs)) {
                     $this->app['db']->delete($tablename, array('id' => $id));

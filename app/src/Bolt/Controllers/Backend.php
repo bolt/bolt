@@ -767,7 +767,7 @@ class Backend implements ControllerProviderInterface
                  */
                 if ($app['request']->get('returnto')) {
                     if ($app['request']->get('returnto') == "new") {
-                        return redirect('editcontent', array('contenttypeslug' => $contenttype['slug'], 'id' => $id), "#".$app['request']->get('returnto'));
+                        return redirect('editcontent', array('contenttypeslug' => $contenttype['slug'], 'id' => $id), '#' . $app['request']->get('returnto'));
                     } elseif ($app['request']->get('returnto') == "ajax") {
                         /*
                          * Flush any buffers from saveConent() dispatcher hooks
@@ -1015,7 +1015,7 @@ class Backend implements ControllerProviderInterface
             if ($dbdriver == 'sqlite' || $dbdriver == 'pdo_sqlite') {
                 $note = __(
                     'You are currently using SQLite to set up the first user. If you wish to use MySQL or PostgreSQL ' .
-                    'instead, edit the configuration file at <tt>\'app/config/config.yml\'</tt> and Bolt will set '.
+                    'instead, edit the configuration file at <tt>\'app/config/config.yml\'</tt> and Bolt will set ' .
                     'up the database tables for you. Be sure to reload this page before continuing.'
                 );
             }
@@ -1403,7 +1403,7 @@ class Backend implements ControllerProviderInterface
                         if ($app['filepermissions']->allowedUpload($filename)) {
 
                             $handler = $app['upload'];
-                            $handler->setPrefix($path."/");
+                            $handler->setPrefix($path . '/');
                             $result = $app['upload']->process($fileToProcess);
 
                             if ($result->isValid()) {
@@ -1624,7 +1624,7 @@ class Backend implements ControllerProviderInterface
             // copy from the locale_fallback version (en)
             if (!file_exists($filename) || filesize($filename) < 10) {
                 $srcfile = "app/resources/translations/en/$domain.en.$type";
-                $srcfilename = realpath(__DIR__ . '/../../../..') . '/'.$srcfile;
+                $srcfilename = realpath(__DIR__ . '/../../../..') . '/' . $srcfile;
                 $content = file_get_contents($srcfilename);
             } else {
                 $content = file_get_contents($filename);

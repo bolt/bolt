@@ -28,13 +28,13 @@ class Content implements \ArrayAccess
             // If this contenttype has a taxonomy with 'grouping', initialize the group.
             if (isset($this->contenttype['taxonomy'])) {
                 foreach ($this->contenttype['taxonomy'] as $taxonomytype) {
-                    if ($this->app['config']->get('taxonomy/'.$taxonomytype.'/behaves_like') == "grouping") {
+                    if ($this->app['config']->get('taxonomy/' . $taxonomytype . '/behaves_like') == 'grouping') {
                         $this->setGroup('', '', $taxonomytype);
                     }
 
                     // add support for taxonomy default value when options is set
-                    $default_value = $this->app['config']->get('taxonomy/'.$taxonomytype.'/default');
-                    $options = $this->app['config']->get('taxonomy/'.$taxonomytype.'/options');
+                    $default_value = $this->app['config']->get('taxonomy/' . $taxonomytype . '/default');
+                    $options = $this->app['config']->get('taxonomy/' . $taxonomytype . '/options');
                     if (isset($options) &&
                             isset($default_value) &&
                             array_search($default_value, array_keys($options)) !== false ) {
@@ -167,8 +167,8 @@ class Content implements \ArrayAccess
 
                 // update the HTML, according to given width and height
                 if (!empty($video['width']) && !empty($video['height'])) {
-                    $video['html'] = preg_replace("/width=(['\"])([0-9]+)(['\"])/i", 'width=${1}'.$video['width'].'${3}', $video['html']);
-                    $video['html'] = preg_replace("/height=(['\"])([0-9]+)(['\"])/i", 'height=${1}'.$video['height'].'${3}', $video['html']);
+                    $video['html'] = preg_replace("/width=(['\"])([0-9]+)(['\"])/i", 'width=${1}' . $video['width'] . '${3}', $video['html']);
+                    $video['html'] = preg_replace("/height=(['\"])([0-9]+)(['\"])/i", 'height=${1}' . $video['height'] . '${3}', $video['html']);
                 }
 
                 $responsiveclass = "responsive-video";
@@ -398,7 +398,7 @@ class Content implements \ArrayAccess
         $index = isset($matches[1]) ? intval($matches[1]) + 1 : 1;
         $ext = isset($matches[2]) ? $matches[2] : '';
 
-        return ' ('.$index.')'.$ext;
+        return ' (' . $index . ')' . $ext;
     }
 
     public function setContenttype($contenttype)
@@ -436,7 +436,7 @@ class Content implements \ArrayAccess
         }
 
         // Make sure sortorder is set correctly;
-        if ($this->app['config']->get('taxonomy/'.$taxonomytype.'/has_sortorder') == false) {
+        if ($this->app['config']->get('taxonomy/' . $taxonomytype . '/has_sortorder') == false) {
             $sortorder = false;
         } else {
             $sortorder = (int) $sortorder;
@@ -448,8 +448,8 @@ class Content implements \ArrayAccess
         $link = sprintf("%s%s/%s", $this->app['paths']['root'], $taxonomytype, $slug);
 
         // Set the 'name', for displaying the pretty name, if there is any.
-        if ($this->app['config']->get('taxonomy/'.$taxonomytype.'/options/'.$slug)) {
-            $name = $this->app['config']->get('taxonomy/'.$taxonomytype.'/options/'.$slug);
+        if ($this->app['config']->get('taxonomy/' . $taxonomytype . '/options/' . $slug)) {
+            $name = $this->app['config']->get('taxonomy/' . $taxonomytype . '/options/' . $slug);
         } elseif (empty($name)) {
             $name = $slug;
         }
@@ -457,7 +457,7 @@ class Content implements \ArrayAccess
         $this->taxonomy[$taxonomytype][$link] = $name;
 
         // If it's a "grouping" type, set $this->group.
-        if ($this->app['config']->get('taxonomy/'.$taxonomytype.'/behaves_like') == "grouping") {
+        if ($this->app['config']->get('taxonomy/' . $taxonomytype . '/behaves_like') == 'grouping') {
             $this->setGroup($slug, $name, $taxonomytype, $sortorder);
         }
 
@@ -476,7 +476,7 @@ class Content implements \ArrayAccess
         }
 
         foreach ($this->taxonomy as $type => $values) {
-            $taxonomytype = $this->app['config']->get('taxonomy/'.$type);
+            $taxonomytype = $this->app['config']->get('taxonomy/' . $type);
             // Don't order tags..
             if ($taxonomytype['behaves_like'] == "tags") {
                 continue;
@@ -484,7 +484,7 @@ class Content implements \ArrayAccess
 
             // Order them by the order in the contenttype.
             $new = array();
-            foreach ($this->app['config']->get('taxonomy/'.$type.'/options') as $key => $value) {
+            foreach ($this->app['config']->get('taxonomy/' . $type . '/options') as $key => $value) {
                 if ($foundkey = array_search($key, $this->taxonomy[$type])) {
                     $new[$foundkey] = $value;
                 } elseif ($foundkey = array_search($value, $this->taxonomy[$type])) {
@@ -534,7 +534,7 @@ class Content implements \ArrayAccess
             'name' => $name
         );
 
-        $has_sortorder = $this->app['config']->get('taxonomy/'.$taxonomytype.'/has_sortorder');
+        $has_sortorder = $this->app['config']->get('taxonomy/' . $taxonomytype . '/has_sortorder');
 
         // Only set the sortorder, if the contenttype has a taxonomy that has sortorder
         if ($has_sortorder !== false) {
@@ -542,7 +542,7 @@ class Content implements \ArrayAccess
         }
 
         // Set the 'index', so we can sort on it later.
-        $index = array_search($group, array_keys($this->app['config']->get('taxonomy/'.$taxonomytype.'/options')));
+        $index = array_search($group, array_keys($this->app['config']->get('taxonomy/' . $taxonomytype . '/options')));
 
         if ($index !== false) {
             $this->group['index'] = $index;
@@ -875,7 +875,7 @@ class Content implements \ArrayAccess
         $order = $asc ? ' DESC' : ' ASC';
 
         $params = array(
-            $field => $operator .$this->values[$field],
+            $field => $operator . $this->values[$field],
             'limit' => 1,
             'order' => $field . $order,
             'returnsingle' => true,
@@ -900,7 +900,7 @@ class Content implements \ArrayAccess
         $order = $asc ? ' ASC' : ' DESC';
 
         $params = array(
-            $field => $operator .$this->values[$field],
+            $field => $operator . $this->values[$field],
             'limit' => 1,
             'order' => $field . $order,
             'returnsingle' => true,
@@ -1168,8 +1168,8 @@ class Content implements \ArrayAccess
 
         if (isset($this->contenttype['taxonomy'])) {
             foreach ($this->contenttype['taxonomy'] as $key) {
-                if ($this->app['config']->get('taxonomy/'.$key.'/behaves_like') == 'tags') {
-                    $taxonomies[$key] = $this->app['config']->get('taxonomy/'.$key.'/searchweight', 75);
+                if ($this->app['config']->get('taxonomy/' . $key . '/behaves_like') == 'tags') {
+                    $taxonomies[$key] = $this->app['config']->get('taxonomy/' . $key . '/searchweight', 75);
                 }
             }
         }

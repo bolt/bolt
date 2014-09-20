@@ -59,7 +59,7 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
         $app['upload.namespace'] = 'files';
 
         // This gets prepended to all file saves, can be reset to "" or add your own closure for more complex ones.
-        $app['upload.prefix'] = date('Y-m').'/';
+        $app['upload.prefix'] = date('Y-m') . '/';
 
         $app['upload.overwrite'] = false;
     }
@@ -79,7 +79,7 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
                     } else {
                         $namespace = $app['upload.namespace'];
                     }
-                    $prefix = rtrim($parts[0], '/').'/';
+                    $prefix = rtrim($parts[0], '/') . '/';
 
                     return array($namespace, $prefix);
                 };
@@ -102,8 +102,8 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
                             list($namespace, $prefix) = $parser($copy);
                             $manager = $app['filesystem'];
                             $manager->put(
-                                $namespace.'://'.$prefix.basename($result['name']),
-                                $manager->read($original.'://'.$result['name'])
+                                $namespace . '://' . $prefix . basename($result['name']),
+                                $manager->read($original . '://' . $result['name'])
                             );
                         }
                     }
@@ -159,7 +159,7 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
             } elseif ($result instanceof Collection) {
                 foreach ($result as $resultFile) {
                     $successfulFiles[] = array(
-                        'url' => $namespace."/".$resultFile->name,
+                        'url' => $namespace . '/' . $resultFile->name,
                         'name' => $resultFile->name
                     );
                 }
@@ -176,7 +176,7 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
             foreach ($result as $resultFile) {
                 $errors = $resultFile->getMessages();
                 $errorFiles[] = array(
-                    'url' => $namespace."/".$resultFile->original_name,
+                    'url' => $namespace . '/' . $resultFile->original_name,
                     'name' => $resultFile->original_name,
                     'error' => $errors[0]->__toString()
                 );

@@ -339,7 +339,7 @@ class ResourceManager
         // Add '..' until the path is the same
         while ($i <= $j) {
             if (!empty($from[$j])) {
-                $relpath .= '..'.DIRECTORY_SEPARATOR;
+                $relpath .= '..' . DIRECTORY_SEPARATOR;
             }
             $j--;
         }
@@ -347,7 +347,7 @@ class ResourceManager
         // Go to folder from where it starts differing
         while (isset($to[$i])) {
             if (!empty($to[$i])) {
-                $relpath .= $to[$i].DIRECTORY_SEPARATOR;
+                $relpath .= $to[$i] . DIRECTORY_SEPARATOR;
             }
             $i++;
         }

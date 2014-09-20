@@ -202,7 +202,7 @@ class Users
 
         if ($key != $this->currentuser['sessionkey']) {
             $this->app['log']->add("keys don't match. Invalidating session: $key != " . $this->currentuser['sessionkey'], 2);
-            $this->app['log']->add("Automatically logged out user '".$this->currentuser['username']."': Session data didn't match.", 3, '', 'issue');
+            $this->app['log']->add("Automatically logged out user '" . $this->currentuser['username'] . "': Session data didn't match.", 3, '', 'issue');
             $this->logout();
 
             return false;
@@ -239,13 +239,13 @@ class Users
         $seed = $name . "-" . $salt;
 
         if ($this->app['config']->get('general/cookies_use_remoteaddr')) {
-            $seed .= "-". $this->remoteIP;
+            $seed .= '-' . $this->remoteIP;
         }
         if ($this->app['config']->get('general/cookies_use_browseragent')) {
-            $seed .= "-". $_SERVER['HTTP_USER_AGENT'];
+            $seed .= '-' . $_SERVER['HTTP_USER_AGENT'];
         }
         if ($this->app['config']->get('general/cookies_use_httphost')) {
-            $seed .= "-". (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : $_SERVER['SERVER_NAME']);
+            $seed .= '-' . (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : $_SERVER['SERVER_NAME']);
         }
 
         $token = md5($seed);
@@ -307,13 +307,13 @@ class Users
         $seed = $this->app['request']->cookies->get('bolt_session');
 
         if ($this->app['config']->get('general/cookies_use_remoteaddr')) {
-            $seed .= "-". $this->remoteIP;
+            $seed .= '-' . $this->remoteIP;
         }
         if ($this->app['config']->get('general/cookies_use_browseragent')) {
-            $seed .= "-". $_SERVER['HTTP_USER_AGENT'];
+            $seed .= '-' . $_SERVER['HTTP_USER_AGENT'];
         }
         if ($this->app['config']->get('general/cookies_use_httphost')) {
-            $seed .= "-". (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : $_SERVER['SERVER_NAME']);
+            $seed .= '-' . (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : $_SERVER['SERVER_NAME']);
         }
 
         $token = substr(md5($seed), 0, 8);

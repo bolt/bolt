@@ -125,7 +125,7 @@ function formatFilesize($size)
     } elseif ($size > 1024) {
         return sprintf("%0.2f kb", ($size / 1024));
     } else {
-        return $size." b";
+        return $size . ' b';
     }
 }
 
@@ -522,7 +522,7 @@ function path($path, $param = array(), $add = '')
         $param = array();
     }
 
-    return $app['url_generator']->generate($path, $param). $add;
+    return $app['url_generator']->generate($path, $param) . $add;
 }
 
 /**
@@ -747,7 +747,7 @@ function saveSerialize($filename, &$data)
 {
     $filename = fixPath($filename);
 
-    $ser_string = "<?php /* bolt */ die(); ?".">json:" . json_encode($data);
+    $ser_string = '<?php /* bolt */ die(); ?>json:' . json_encode($data);
 
     // disallow user to interrupt
     ignore_user_abort(true);

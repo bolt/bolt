@@ -24,7 +24,7 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
 
     public function tearDown()
     {
-        @unlink(TEST_ROOT.'/app/cache/config_cache.php');
+        @unlink(TEST_ROOT . '/app/cache/config_cache.php');
     }
 
     public function testConstruction()
@@ -36,13 +36,13 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
     public function testDefaultPaths()
     {
         $config = new ResourceManager($this->loader);
-        $this->assertEquals(TEST_ROOT,                    $config->getPath("rootpath"));
-        $this->assertEquals(TEST_ROOT."/app",             $config->getPath("apppath"));
-        $this->assertEquals(TEST_ROOT."/extensions",      $config->getPath("extensions"));
-        $this->assertEquals(TEST_ROOT."/files",           $config->getPath("filespath"));
-        $this->assertEquals(TEST_ROOT,                    $config->getPath("web"));
-        $this->assertEquals(TEST_ROOT."/app/cache",       $config->getPath("cache"));
-        $this->assertEquals(TEST_ROOT."/app/config",      $config->getPath("config"));
+        $this->assertEquals(TEST_ROOT, $config->getPath('rootpath'));
+        $this->assertEquals(TEST_ROOT . '/app', $config->getPath('apppath'));
+        $this->assertEquals(TEST_ROOT . '/extensions', $config->getPath('extensions'));
+        $this->assertEquals(TEST_ROOT . '/files', $config->getPath('filespath'));
+        $this->assertEquals(TEST_ROOT, $config->getPath('web'));
+        $this->assertEquals(TEST_ROOT . '/app/cache', $config->getPath('cache'));
+        $this->assertEquals(TEST_ROOT . '/app/config', $config->getPath('config'));
     }
 
     /**
@@ -70,9 +70,9 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
     public function testShorAliasedPaths()
     {
         $config = new ResourceManager($this->loader);
-        $this->assertEquals(TEST_ROOT,            $config->getPath("root"));
-        $this->assertEquals(TEST_ROOT."/app",     $config->getPath("app"));
-        $this->assertEquals(TEST_ROOT."/files",   $config->getPath("files"));
+        $this->assertEquals(TEST_ROOT, $config->getPath('root'));
+        $this->assertEquals(TEST_ROOT . '/app', $config->getPath('app'));
+        $this->assertEquals(TEST_ROOT . '/files', $config->getPath('files'));
     }
 
     public function testDefaultUrls()
@@ -118,7 +118,7 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($config->getPaths(), $app['resources']->getPaths());
 
         // Test that the Application has initialised the resources, injecting in config values.
-        $this->assertContains(TEST_ROOT."/theme",      $config->getPath("theme"));
+        $this->assertContains(TEST_ROOT . '/theme', $config->getPath('theme'));
         $this->assertNotEmpty($config->getUrl("canonical"));
     }
 
