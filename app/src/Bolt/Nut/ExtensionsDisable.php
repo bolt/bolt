@@ -21,6 +21,6 @@ class ExtensionsDisable extends BaseCommand
     {
         $name = $input->getArgument('name');
         $result = $this->app['extend.runner']->uninstall($name);
-        $output->writeln("<info>".$result."</info>", OutputInterface::OUTPUT_PLAIN);
+        $output->writeln('<info>' . $result . '</info>', OutputInterface::OUTPUT_PLAIN);
     }
 }

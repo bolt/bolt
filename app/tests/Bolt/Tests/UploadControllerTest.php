@@ -26,14 +26,14 @@ class UploadControllerTest extends \PHPUnit_Framework_TestCase
         global $CLASSLOADER;
 
         $this->loader = $CLASSLOADER;
-        @mkdir(__DIR__."/files", 0777, true);
+        @mkdir(__DIR__ . '/files', 0777, true);
     }
 
     public function tearDown()
     {
-        $this->rmdir(__DIR__."/files");
-        @rmdir(__DIR__.'/files');
-        @unlink(TEST_ROOT.'/app/cache/config_cache.php');
+        $this->rmdir(__DIR__ . '/files');
+        @rmdir(__DIR__ . '/files');
+        @unlink(TEST_ROOT . '/app/cache/config_cache.php');
     }
 
 
@@ -73,8 +73,8 @@ class UploadControllerTest extends \PHPUnit_Framework_TestCase
             array(
                 "files"=>array(
                     array(
-                        'tmp_name'  => __DIR__."/resources/generic-logo.png",
-                        'name'      => 'logo.png'
+                        'tmp_name' => __DIR__ . '/resources/generic-logo.png',
+                        'name' => 'logo.png'
                     )
                 )
             ),
@@ -100,8 +100,8 @@ class UploadControllerTest extends \PHPUnit_Framework_TestCase
             array(
                 "files"=>array(
                     array(
-                        'tmp_name'  => __DIR__."/resources/generic-logo-evil.exe",
-                        'name'      => 'logo.exe'
+                        'tmp_name' => __DIR__ . '/resources/generic-logo-evil.exe',
+                        'name' => 'logo.exe'
                     )
                 )
             ),
@@ -137,7 +137,7 @@ class UploadControllerTest extends \PHPUnit_Framework_TestCase
         ));
 
         $bolt['session'] = $sessionMock;
-        $bolt['resources']->setPath('files', __DIR__."/files");
+        $bolt['resources']->setPath('files', __DIR__ . '/files');
         $bolt->initialize();
         return $bolt;
     }

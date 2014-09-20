@@ -56,7 +56,7 @@ class LowlevelChecks
     public function doChecks()
     {
         foreach ($this->checks as $check) {
-            $method = "check".ucfirst($check);
+            $method = 'check' . ucfirst($check);
             $this->$method();
         }
 
@@ -77,7 +77,7 @@ class LowlevelChecks
         if (get_magic_quotes_gpc()) {
             throw new LowlevelException(
                 "Bolt requires 'Magic Quotes' to be <b>off</b>. Please send your hoster to " .
-                "<a href='http://www.php.net/manual/en/info.configuration.php#ini.magic-quotes-gpc'>this page</a>, and point out the ".
+                "<a href='http://www.php.net/manual/en/info.configuration.php#ini.magic-quotes-gpc'>this page</a>, and point out the " .
                 "<span style='color: #F00;'>BIG RED BANNER</span> that states that magic_quotes are <u>DEPRECATED</u>. Seriously. <br><br>" .
                 "If you can't change it in the server-settings, or your admin won't do it for you, try adding this line to your " .
                 "`.htaccess`-file: <pre>php_value magic_quotes_gpc off</pre>"
@@ -90,7 +90,7 @@ class LowlevelChecks
         if (ini_get('safe_mode')) {
             throw new LowlevelException(
                 "Bolt requires 'Safe mode' to be <b>off</b>. Please send your hoster to " .
-                "<a href='http://php.net/manual/en/features.safe-mode.php'>this page</a>, and point out the ".
+                "<a href='http://php.net/manual/en/features.safe-mode.php'>this page</a>, and point out the " .
                 "<span style='color: #F00;'>BIG RED BANNER</span> that states that safe_mode is <u>DEPRECATED</u>. Seriously."
             );
         }
@@ -138,9 +138,9 @@ class LowlevelChecks
     public function checkApache()
     {
         if (isset($_SERVER['SERVER_SOFTWARE']) && false !== strpos($_SERVER['SERVER_SOFTWARE'], 'Apache')) {
-            if (!is_readable($this->config->getPath('web').'/.htaccess')) {
+            if (!is_readable($this->config->getPath('web') . '/.htaccess')) {
                 throw new LowlevelException(
-                    "The file <code>" . htmlspecialchars($this->config->getPath('web'), ENT_QUOTES) . "/.htaccess".
+                    'The file <code>' . htmlspecialchars($this->config->getPath('web'), ENT_QUOTES) . '/.htaccess' .
                     "</code> doesn't exist. Make sure it's present and readable to the user that the " .
                     "webserver is using. " .
                     "If you are not running Apache, or your Apache setup performs the correct rewrites without " .
@@ -211,7 +211,7 @@ class LowlevelChecks
         // Check if the app/database folder and .db file are present and writable
         if (!is_writable($this->config->getPath('database'))) {
             throw new LowlevelException(
-                "The folder <code>".
+                'The folder <code>' .
                 $this->config->getPath('database') .
                 "</code> doesn't exist or it is not writable. Make sure it's " .
                 "present and writable to the user that the webserver is using."
@@ -219,7 +219,7 @@ class LowlevelChecks
         }
 
         // If the .db file is present, make sure it is writable
-        if (file_exists($this->config->getPath('database')."/".$filename) && !is_writable($this->config->getPath('database')."/".$filename)) {
+        if (file_exists($this->config->getPath('database') . '/' . $filename) && !is_writable($this->config->getPath('database') . '/' . $filename)) {
             throw new LowlevelException(
                 "The database file <code>app/database/" .
                 htmlspecialchars($filename, ENT_QUOTES) .
@@ -242,8 +242,8 @@ class LowlevelChecks
      */
     private function lowlevelConfigFix($name)
     {
-        $distname = realpath(__DIR__."/../../../config/$name.yml.dist");
-        $ymlname = realpath($this->config->getPath('config')."/") . "/$name.yml";
+        $distname = realpath(__DIR__ . '/../../../config/' . $name . '.yml.dist');
+        $ymlname = realpath($this->config->getPath('config') . '/') . '/' . $name . '.yml';
 
         if (file_exists($ymlname) && is_readable($ymlname)) {
             return; // Okidoki..

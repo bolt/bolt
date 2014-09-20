@@ -79,7 +79,7 @@ class Omnisearch
             if ($this->showViewContenttype) {
                 $viewKeywords   = $keywords;
                 $viewKeywords[] = $viewContenttype;
-                $viewKeywords[] = 'View '.$pluralname;
+                $viewKeywords[] = 'View ' . $pluralname;
 
                 $this->register(
                     array(
@@ -87,7 +87,7 @@ class Omnisearch
                         'label' => $viewContenttype,
                         'description' => '',
                         'priority' => self::OMNISEARCH_CONTENTTYPE,
-                        'path' => $this->backend.'overview/'.$slug
+                        'path' => $this->backend . 'overview/' . $slug
                     )
                 );
             }
@@ -95,7 +95,7 @@ class Omnisearch
             if ($this->showNewContenttype) {
                 $newKeywords    = $keywords;
                 $newKeywords[]  = $newContenttype;
-                $newKeywords[]  = 'New '.$singularname;
+                $newKeywords[]  = 'New ' . $singularname;
 
                 $this->register(
                     array(
@@ -103,7 +103,7 @@ class Omnisearch
                         'label' => $newContenttype,
                         'description' => '',
                         'priority' => self::OMNISEARCH_CONTENTTYPE,
-                        'path' => $this->backend.'editcontent/'.$slug
+                        'path' => $this->backend . 'editcontent/' . $slug
                     )
                 );
             }
@@ -259,7 +259,7 @@ class Omnisearch
         $options = array();
 
         $this->find($query, '/theme', '*.twig', $query, -10); // find in file contents
-        $this->find($query, '/theme', '*'.$query.'*.twig', false, 10); // find in filenames, '/'.preg_quote($query).'.*\.twig$/i';
+        $this->find($query, '/theme', '*' . $query . '*.twig', false, 10); // find in filenames, '/'.preg_quote($query).'.*\.twig$/i';
         $this->search($query, $withRecord);
 
         foreach ($this->data as $item) {
@@ -366,7 +366,7 @@ class Omnisearch
 
             $item = array(
                 'label' => sprintf('%s %s № %s » <span>%s</span>', __('Edit'), $contenttypesingular, $contentid, $contenttitle),
-                'path' => $this->backend.'editcontent/'.$contenttypeslug.'/'.$contentid,
+                'path' => $this->backend . 'editcontent/' . $contenttypeslug . '/' . $contentid,
                 'description' => '',
                 'keywords' => array($query),
                 'priority' => self::OMNISEARCH_CONTENT - $index,

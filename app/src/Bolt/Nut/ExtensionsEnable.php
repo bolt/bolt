@@ -24,9 +24,9 @@ class ExtensionsEnable extends BaseCommand
         $version = $input->getArgument('version');
         if (!isset($name) || !isset($version)) {
             $output->writeln(
-                "<error>".
-                $this->app['translator']->trans('You must specify both a name and a version to install!').
-                "</error>"
+                '<error>' .
+                $this->app['translator']->trans('You must specify both a name and a version to install!') .
+                '</error>'
             );
 
             return;

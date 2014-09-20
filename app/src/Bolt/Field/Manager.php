@@ -24,7 +24,7 @@ class Manager
             if ($default == 'number') {
                 $field = new Base($default, 'editcontent/fields/_float.twig');
             } else {
-                $field = new Base($default, 'editcontent/fields/_'.$default.".twig");
+                $field = new Base($default, 'editcontent/fields/_' . $default . '.twig');
             }
             $this->addField($field);
         }

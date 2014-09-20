@@ -103,20 +103,20 @@ class Cache extends FilesystemCache
                 continue;
             }
 
-            if (is_file($currentfolder."/".$entry)) {
-                if (is_writable($currentfolder."/".$entry) && unlink($currentfolder."/".$entry)) {
+            if (is_file($currentfolder . '/' . $entry)) {
+                if (is_writable($currentfolder . '/' . $entry) && unlink($currentfolder . '/' . $entry)) {
                     $result['successfiles']++;
                 } else {
                     $result['failedfiles']++;
-                    $result['failed'][] = str_replace($startFolder, "cache", $currentfolder."/".$entry);
+                    $result['failed'][] = str_replace($startFolder, 'cache', $currentfolder . '/' . $entry);
                 }
             }
 
-            if (is_dir($currentfolder."/".$entry)) {
+            if (is_dir($currentfolder . '/' . $entry)) {
 
-                $this->clearCacheHelper($startFolder, $additional."/".$entry, $result);
+                $this->clearCacheHelper($startFolder, $additional . '/' . $entry, $result);
 
-                if (@rmdir($currentfolder."/".$entry)) {
+                if (@rmdir($currentfolder . '/' . $entry)) {
                     $result['successfolders']++;
                 } else {
                     $result['failedfolders']++;

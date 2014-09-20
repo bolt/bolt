@@ -188,7 +188,7 @@ class Routing implements ControllerProviderInterface
      */
     public static function getTaxonomyRequirement($taxonomyName, $emptyValue = null)
     {
-        $taxonomyValues = self::$app['config']->get('taxonomy/'.$taxonomyName.'/options');
+        $taxonomyValues = self::$app['config']->get('taxonomy/' . $taxonomyName . '/options');
 
         // If by accident, someone uses a "tags" taxonomy.
         if ($taxonomyValues == null) {
@@ -198,7 +198,7 @@ class Routing implements ControllerProviderInterface
         $requirements = implode('|', $taxonomyValues);
 
         if ($emptyValue != null) {
-            $requirements .= '|'.$emptyValue;
+            $requirements .= '|' . $emptyValue;
         }
 
         return $requirements;

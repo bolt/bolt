@@ -23,7 +23,7 @@ class DatabaseRepair extends BaseCommand
         } else {
             $content = "<info>Modifications made to the database:</info>\n";
             foreach ($result as $line) {
-                $content .= " - ". str_replace("tt>", "info>", $line) . "\n";
+                $content .= ' - ' . str_replace('tt>', 'info>', $line) . "\n";
             }
             $content .= "<info>Your database is now up to date.</info>";
         }

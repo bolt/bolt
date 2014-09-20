@@ -124,7 +124,7 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
         $package = $request->get('package');
         $versions = array('dev' => array(), 'stable' => array());
         try {
-            $url = $app['extend.site']."info.json?package=".$package."&bolt=".$app['bolt_version'];
+            $url = $app['extend.site'] . 'info.json?package=' . $package . '&bolt=' . $app['bolt_version'];
             $info = json_decode(file_get_contents($url));
             foreach ($info->version as $version) {
                 $versions[$version->stability][] = $version;
@@ -196,8 +196,8 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
             $newName = basename($theme);
         }
 
-        $source = $app['resources']->getPath('extensions').'/vendor/'.$theme;
-        $destination = $app['resources']->getPath('themebase').'/'.$newName;
+        $source = $app['resources']->getPath('extensions') . '/vendor/' . $theme;
+        $destination = $app['resources']->getPath('themebase') . '/' . $newName;
         if (is_dir($source)) {
             try {
                 $filesystem = new Filesystem();

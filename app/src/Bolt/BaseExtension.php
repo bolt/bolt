@@ -114,13 +114,13 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
         $basefile = $this->app['resources']->getPath('extensionsconfig') . '/' . $this->getName();
 
         // Load main config
-        if ($this->isConfigValid($basefile.'.yml', true)) {
-            $this->loadConfigFile($basefile.'.yml');
+        if ($this->isConfigValid($basefile . '.yml', true)) {
+            $this->loadConfigFile($basefile . '.yml');
         }
 
         // Load local config
-        if ($this->isConfigValid($basefile.'_local.yml', false)) {
-            $this->loadConfigFile($basefile.'.yml');
+        if ($this->isConfigValid($basefile . '_local.yml', false)) {
+            $this->loadConfigFile($basefile . '.yml');
         }
 
         $this->configLoaded = true;
@@ -153,7 +153,7 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
                 return false;
             }
         } elseif ($create) {
-            $configdistfile = $this->basepath. "/config.yml.dist";
+            $configdistfile = $this->basepath . '/config.yml.dist';
 
             // There are cases where the config directory may not exist yet.
             // Firstly we try to create it.

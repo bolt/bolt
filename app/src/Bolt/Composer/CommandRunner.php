@@ -19,9 +19,9 @@ class CommandRunner
 
         $this->basedir = $app['resources']->getPath('extensions');
         $this->packageRepo = $packageRepo;
-        $this->packageFile = $app['resources']->getPath('root').'/extensions/composer.json';
+        $this->packageFile = $app['resources']->getPath('root') . '/extensions/composer.json';
         umask(0000);
-        putenv("COMPOSER_HOME=".$app['resources']->getPath('cache').'/composer');
+        putenv('COMPOSER_HOME=' . $app['resources']->getPath('cache') . '/composer');
 
         $this->wrapper = \evidev\composer\Wrapper::create();
 
@@ -121,8 +121,8 @@ class CommandRunner
         if (false !== $response) {
             return implode('<br>', $response);
         } else {
-            $message = 'The requested extension version could not be installed. The most likely reason is that the version'."\n".
-                'requested is not compatible with this version of Bolt.'."\n\n".
+            $message = 'The requested extension version could not be installed. The most likely reason is that the version' . "\n" .
+                'requested is not compatible with this version of Bolt.' . "\n\n" .
                 'Check on the extensions site for more information.';
 
             return $message;
@@ -149,9 +149,9 @@ class CommandRunner
         file_put_contents($this->packageFile, json_encode($json, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
         $response = $this->execute('update --prefer-dist');
         if ($response) {
-            return $package.' successfully removed';
+            return $package . ' successfully removed';
         } else {
-            return $package.' could not be uninstalled. Try checking that your composer.json file is writable.';
+            return $package . ' could not be uninstalled. Try checking that your composer.json file is writable.';
         }
     }
 
@@ -203,7 +203,7 @@ class CommandRunner
         // @see https://github.com/composer/composer/issues/2146#issuecomment-35478940
         putenv("DYLD_LIBRARY_PATH=''");
 
-        $command .= ' -d '.$this->basedir.' --no-ansi';
+        $command .= ' -d ' . $this->basedir . ' --no-ansi';
         $output = new \Symfony\Component\Console\Output\BufferedOutput();
         $responseCode = $this->wrapper->run($command, $output);
         $this->app['log']->add($command, 2, '', 'composer');

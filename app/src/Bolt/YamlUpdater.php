@@ -97,7 +97,7 @@ class YamlUpdater
             return false;
         }
 
-        $needle = substr("                                      ", 0, 2 * $indent) . $keypart.":";
+        $needle = substr('                                      ', 0, 2 * $indent) . $keypart . ':';
 
         if (strpos($this->file[$this->pointer], $needle) === 0) {
             return $this->pointer;
@@ -191,8 +191,8 @@ class YamlUpdater
             // TODO: make a backup..
         }
 
-        $tmpfile = $this->filename.".tmp";
-        file_put_contents($tmpfile, implode("", $this->file));
+        $tmpfile = $this->filename . '.tmp';
+        file_put_contents($tmpfile, implode('', $this->file));
 
         if (is_readable($tmpfile) && is_writable($this->filename)) {
             rename($tmpfile, $this->filename);

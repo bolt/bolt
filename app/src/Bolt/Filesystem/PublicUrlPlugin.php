@@ -14,6 +14,6 @@ class PublicUrlPlugin extends AdapterPlugin
     {
         $prefix = $this->app['resources']->getUrl($this->namespace);
 
-        return $prefix.$path;
+        return $prefix . $path;
     }
 }

@@ -2,7 +2,7 @@
 
 // namespace <none> * sad panda face *
 // (which means no autoloading..)
-require_once dirname(dirname(__DIR__)) .'/lib.php';
+require_once dirname(dirname(__DIR__)) . '/lib.php';
 
 class libTest extends \PHPUnit_Framework_TestCase {
 
