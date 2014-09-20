@@ -2,18 +2,12 @@
 <ruleset name="Bolt">
     <description>The coding standard for Bolt CMS – Work in progress</description>
 
-    <!-- Start with only Bolt's own files, perhaps later this restriction could be lowered -->
-    <exclude-pattern>/tests/*</exclude-pattern>
+    <!-- Nothing to check in there -->
     <exclude-pattern>/files/*</exclude-pattern>
     <exclude-pattern>/theme/*</exclude-pattern>
-    <exclude-pattern>/app/extensions/*</exclude-pattern>
     <!-- Exclude third party stuff -->
+    <exclude-pattern>/extensions/*</exclude-pattern>
     <exclude-pattern>/vendor/*</exclude-pattern>
-    <exclude-pattern>/app/classes/markdownify/*</exclude-pattern>
-    <exclude-pattern>/app/extensions/Authenticate/lib/Hybrid/*</exclude-pattern>
-    <exclude-pattern>/app/extensions/GoogleAnalytics/gapi/*</exclude-pattern>
-    <exclude-pattern>/app/extensions/ImportWXR/src/*</exclude-pattern>
-    <exclude-pattern>/app/extensions/SimpleForms/recaptcha-php-1.11/*</exclude-pattern>
     <!-- Sofar Check only php files -->
     <exclude-pattern>*.js</exclude-pattern>
     <exclude-pattern>*.css</exclude-pattern>
@@ -150,11 +144,15 @@
     <!-- Allow indented fluent interface -->
     <rule ref="Bolt.Functions.FunctionCallSignature"/>
 
-    <!-- Abstract class names should be suffixed with "Abstract" -->
+    <!-- Abstract class names (except of "BaseExtension") should be prefixed with "Abstract" -->
     <rule ref="Bolt.NamingConventions.AbstractPrefix"/>
 
     <!-- Trait names should be suffixed with "Trait" -->
     <rule ref="Bolt.NamingConventions.TraitSuffix"/>
+
+    <!-- Makes sure there are spaces between the concatenation operator (.) and the strings being concatenated. -->
+    <rule ref="Bolt.Whitespace.ConcatenationSpacing"/>
+
 
     <!-- ##### WHITESPACE ########################################################################################## -->
 
@@ -204,9 +202,15 @@
     <!-- Checks for usage of "$this" in static methods, which will cause runtime errors. -->
     <rule ref="Squiz.Scope.StaticThisUsage"/>
 
+    <!-- ##### STRINGS ############################################################################################# -->
+
+    <!-- Makes sure that any strings that are "echoed" are not enclosed in brackets like a function call. -->
+    <rule ref="Squiz.Strings.EchoedStrings"/>
+
     <!-- ##### OTHERS ############################################################################################## -->
 
     <!-- Checks that two strings are not concatenated together; suggests using one string instead. -->
+    <!-- Nice to have, but must be patched to allow multiline concatenation first -->
     <!-- <rule ref="Generic.Strings.UnnecessaryStringConcat"/> -->
 
     <!-- Makes sure that any use of Double Quotes ("") are warranted. -->

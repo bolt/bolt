@@ -9,29 +9,29 @@ This standard is a work in progress and will be refined over time!
 
 ###Installation
 
-- Install/update using composers --require-dev command
+- Install/update using composers `--require-dev` command
 - Install PHP_CodeSniffer or use the one that is installed with compooser
-- Start phpcs with --standard Bolt <path-to-bolt>/CodeSniffer/Bolt
+- Start phpcs with `--standard Bolt <path-to-bolt>/CodeSniffer/Bolt`
 
 ###Run
 
-#### CLI
+#### • CLI
 
-phpcs --standard Bolt <path-to-bolt>/CodeSniffer/Bolt
+`phpcs --standard Bolt <path-to-bolt>/CodeSniffer/Bolt`
 
-#### NetBeans
+#### • NetBeans
 As of 8.0 there's no way to specify standards-path directly. You would have to copy over Bolt and Symfony2 standards
 directory by hand and would have to adjust the path to the Symfony2 ruleset inside Bolt ruleset.
 
-#### NetBeans/PHPCSMD-plugin
-Specify the path to standards directory <path-to-bolt>/CodeSniffer/Bolt in Options / PHP / PHPCSMD "--standard".
+##### PHPCSMD-plugin
+Specify the path to standards directory `<path-to-bolt>/CodeSniffer/Bolt` in Options | PHP | PHPCSMD | "--standard".
 
-#### Eclipse
+#### • Eclipse
 - Install Eclipse PTI plugin. (http://www.phpsrc.org/projects/pti/wiki/Installation)
 - You need to check PTI Core and PHP Tool CodeSniffer at least.
 - Overwrite PTI CodeSniffer plugin sources with that comes with Bolt...
-- ...PTI CodeSniffer is here about: <path_to_eclipse>/plugins/org.phpsrc.eclipse.pti.library.pear_1.2.2.R20120127000000/php/library/PEAR/PHP/
-- ...Our codesniffer is here: <bolt_project_path>/vendor/squizlabs/php_codesniffer/
+- …PTI CodeSniffer is here about: <path_to_eclipse>/plugins/org.phpsrc.eclipse.pti.library.pear_1.2.2.R20120127000000/php/library/PEAR/PHP/
+- …Our codesniffer is here: <bolt_project_path>/vendor/squizlabs/php_codesniffer/
 
 ##### Setting up PTI CodeSniffer in Eclipse
 - Go to `Window - Preferences - PHP Tools - PHP CodeSniffer`
@@ -45,7 +45,11 @@ Specify the path to standards directory <path-to-bolt>/CodeSniffer/Bolt in Optio
 
 Finally you may need `Problems` view to open to see results wehn you clicked `Validate` on a php file.
 
-#### Others
+#### • PhpStorm
+See [here] (http://www.jetbrains.com/phpstorm/webhelp/using-php-code-sniffer-tool.html) and add
+`<path-to-bolt>/CodeSniffer/Bolt` as described in point "To appoint a custom coding style to use".
+
+#### • Others
 
 See the manual of your editor if it supports PHP_CodeSniffer and how to use it.
 
