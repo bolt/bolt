@@ -81,7 +81,7 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
             ));
         } else {
             return array($this->getName() => array(
-                'name' => $extension->getName(),
+                'name' => $this->getName(),
                 'json' => array()
             ));
         }
