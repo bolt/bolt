@@ -23,7 +23,7 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
         $app['extend.repo'] = 'http://extensions.bolt.cm/list.json';
         $app['extend'] = $this;
         $extensionsPath = $app['resources']->getPath('extensions');
-        $this->readWriteMode = is_dir("$extensionsPath/") && is_writable("$extensionsPath/composer.json");
+        $this->readWriteMode = is_dir("$extensionsPath/") && is_writable("$extensionsPath/");
 
         // This exposes the main upload object as a service
         $me = $this;

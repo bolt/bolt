@@ -36,7 +36,9 @@ var BoltExtender = Object.extend(Object, {
         jQuery(document).ajaxStart(function() {
             // show loader on start
             active_interval = setInterval(function(){
-                active_console.append(".");
+                if(active_console) {
+                    active_console.append(".");
+                }
             },1000);
         }).ajaxSuccess(function() {
             clearInterval(active_interval);
@@ -65,7 +67,7 @@ var BoltExtender = Object.extend(Object, {
         var controller = this;
         jQuery('#installModal').on('hide.bs.modal', function (e) {
             controller.find(".stable-version-container .installed-version-item").html('<tr><td colspan="3"><strong>'+controller.messages['noStable']+'</strong></td></tr>');
-            controller.find(".dev-version-container .installed-version-item").html('<tr><td colspan="3"><strong>'+controller.messages['noDev']+'</strong></td></tr>');
+            controller.find(".dev-version-container .installed-version-item").html('<tr><td colspan="3"><strong>'+controller.messages['noTest']+'</strong></td></tr>');
             controller.find('.extension-postinstall').hide();
             controller.find('.install-version-container').hide();
             controller.find("#installModal .loader").show();
@@ -163,9 +165,8 @@ var BoltExtender = Object.extend(Object, {
                 target.show();
                 if(data.length > 0) {
                     active_console.html(data.length + " installed extension(s).");
-                    delay(function(){
-                        controller.find(".installed-container .console").hide();
-                    },7000);
+                    controller.find(".installed-container .console").hide();
+                    
                     target.find('.installed-list-items').html('');
                     for(var e in data) {
                         ext = data[e];
@@ -198,7 +199,7 @@ var BoltExtender = Object.extend(Object, {
     checkPackage: function(e) {
         var controller = this;
         var ext = this.find('input[name="check-package"]').val();
-        active_console = this.find(".check-package");
+        active_console = false;
         jQuery.get(baseurl+'installInfo?package='+ext, function(data) {
             
             var devpacks = data['dev'];
@@ -246,6 +247,7 @@ var BoltExtender = Object.extend(Object, {
         controller.find('.install-response-container').show();
         controller.find('.install-version-container').hide();
         active_console = controller.find('.install-response-container .console');
+        active_console.html(controller.messages['installing']);
         controller.find("#installModal .loader .message").html(controller.messages['installing']);
         jQuery.get(
             baseurl+'install', 
@@ -254,9 +256,6 @@ var BoltExtender = Object.extend(Object, {
         .done(function(data) {
             active_console.html(data);
             controller.postInstall(package, version);
-            setTimeout(function(){
-                controller.find('.install-response-container').hide();
-            }, 5000);
             controller.find(".check-package").show()
             controller.find('input[name="check-package"]').val('');
             controller.checkInstalled();
@@ -369,7 +368,6 @@ var BoltExtender = Object.extend(Object, {
     
     prefill: function(e) {
         var target = jQuery(e.target);
-        console.log(target.text());
         this.find('input[name="check-package"]').val( target.text());
         target.parent().hide();
     },

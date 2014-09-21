@@ -35,7 +35,7 @@ class CommandRunner
             );
         }
 
-        $this->execute('config repositories.bolt composer %s', $app['extend.site'] . 'satis/');
+        $this->execute('config repositories.bolt composer '. $app['extend.site'] . 'satis/');
         $json = json_decode(file_get_contents($this->packageFile));
         $json->repositories->packagist = false;
         $json->{'minimum-stability'} = "dev";
@@ -43,10 +43,13 @@ class CommandRunner
         $basePackage = "bolt/bolt";
         $json->provide = new \stdClass();
         $json->provide->$basePackage = $app['bolt_version'];
-        $json->scripts = array(
-            'post-package-install' => "Bolt\\Composer\\ScriptHandler::extensions",
-            'post-package-update' => "Bolt\\Composer\\ScriptHandler::extensions"
-        );
+        // $json->scripts = array(
+        //     'post-package-install' => "Bolt\\Composer\\ScriptHandler::extensions",
+        //     'post-package-update' => "Bolt\\Composer\\ScriptHandler::extensions"
+        // );
+        // $json->autoload = array(
+        //     "files"=> array($app['resources']->getPath('root')."/vendor/autoload.php")
+        // );
         $pathToWeb = $app['resources']->findRelativePath($this->app['resources']->getPath('extensions'), $this->app['resources']->getPath('web'));
         $json->extra = array('bolt-web-path' => $pathToWeb);
         file_put_contents($this->packageFile, json_encode($json, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
@@ -186,7 +189,7 @@ class CommandRunner
             if (preg_match('/^-/', $arg)) {
                 return ''; // starts with a dash: skip
             }
-            if (preg_match('#[^a-zA-Z0-9\\-_/~^\\\\.*]#', $arg)) {
+            if (preg_match('#[^a-zA-Z0-9\\-_:/~^\\\\.*]#', $arg)) {
                 return ''; // contains invalid characters: skip
             }
 
@@ -204,7 +207,7 @@ class CommandRunner
         // @see https://github.com/composer/composer/issues/2146#issuecomment-35478940
         putenv("DYLD_LIBRARY_PATH=''");
 
-        $command .= ' -d ' . $this->basedir . ' --no-ansi';
+        $command .= ' -d ' . $this->basedir . ' -n --no-ansi';
         $output = new \Symfony\Component\Console\Output\BufferedOutput();
         $responseCode = $this->wrapper->run($command, $output);
         $this->app['log']->add($command, 2, '', 'composer');
