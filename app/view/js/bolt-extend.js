@@ -247,6 +247,7 @@ var BoltExtender = Object.extend(Object, {
         controller.find('.install-response-container').show();
         controller.find('.install-version-container').hide();
         active_console = controller.find('.install-response-container .console');
+        active_console.html("");
         controller.find("#installModal .loader .message").html(controller.messages['installing']);
         jQuery.get(
             baseurl+'install', 
@@ -255,9 +256,6 @@ var BoltExtender = Object.extend(Object, {
         .done(function(data) {
             active_console.html(data);
             controller.postInstall(package, version);
-            setTimeout(function(){
-                controller.find('.install-response-container').hide();
-            }, 5000);
             controller.find(".check-package").show()
             controller.find('input[name="check-package"]').val('');
             controller.checkInstalled();
