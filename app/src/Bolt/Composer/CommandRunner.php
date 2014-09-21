@@ -47,6 +47,9 @@ class CommandRunner
             'post-package-install' => "Bolt\\Composer\\ScriptHandler::extensions",
             'post-package-update' => "Bolt\\Composer\\ScriptHandler::extensions"
         );
+        $json->autoload = array(
+            "files"=> array($app['resources']->getPath('root')."/vendor/autoload.php")
+        );
         $pathToWeb = $app['resources']->findRelativePath($this->app['resources']->getPath('extensions'), $this->app['resources']->getPath('web'));
         $json->extra = array('bolt-web-path' => $pathToWeb);
         file_put_contents($this->packageFile, json_encode($json, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
