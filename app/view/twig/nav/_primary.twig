@@ -4,7 +4,7 @@
     </button>
     <a class="navbar-brand" href="{{ path('dashboard') }}">
         {# <img src="{{ paths.app }}view/img/bolt-icon.svg"> #}
-        Bolt
+        {{ app.config.get('general/branding/name')|default('Bolt') }}
     </a>
     <a href="{{ path('dashboard') }}" class="navbar-site hidden-xs"><span>{% if app.config.get('general/sitename') %}{{ app.config.get('general/sitename') }}{% else %}Site{% endif %}</span></a>
 </div>
