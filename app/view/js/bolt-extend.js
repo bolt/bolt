@@ -163,9 +163,8 @@ var BoltExtender = Object.extend(Object, {
                 target.show();
                 if(data.length > 0) {
                     active_console.html(data.length + " installed extension(s).");
-                    delay(function(){
-                        controller.find(".installed-container .console").hide();
-                    },7000);
+                    controller.find(".installed-container .console").hide();
+                    
                     target.find('.installed-list-items').html('');
                     for(var e in data) {
                         ext = data[e];
