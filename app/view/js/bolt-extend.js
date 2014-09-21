@@ -247,7 +247,7 @@ var BoltExtender = Object.extend(Object, {
         controller.find('.install-response-container').show();
         controller.find('.install-version-container').hide();
         active_console = controller.find('.install-response-container .console');
-        active_console.html("");
+        active_console.html(controller.messages['installing']);
         controller.find("#installModal .loader .message").html(controller.messages['installing']);
         jQuery.get(
             baseurl+'install', 
