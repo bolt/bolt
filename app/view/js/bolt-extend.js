@@ -65,7 +65,7 @@ var BoltExtender = Object.extend(Object, {
         var controller = this;
         jQuery('#installModal').on('hide.bs.modal', function (e) {
             controller.find(".stable-version-container .installed-version-item").html('<tr><td colspan="3"><strong>'+controller.messages['noStable']+'</strong></td></tr>');
-            controller.find(".dev-version-container .installed-version-item").html('<tr><td colspan="3"><strong>'+controller.messages['noDev']+'</strong></td></tr>');
+            controller.find(".dev-version-container .installed-version-item").html('<tr><td colspan="3"><strong>'+controller.messages['noTest']+'</strong></td></tr>');
             controller.find('.extension-postinstall').hide();
             controller.find('.install-version-container').hide();
             controller.find("#installModal .loader").show();
