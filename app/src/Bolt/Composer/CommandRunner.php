@@ -207,7 +207,7 @@ class CommandRunner
         // @see https://github.com/composer/composer/issues/2146#issuecomment-35478940
         putenv("DYLD_LIBRARY_PATH=''");
 
-        $command .= ' -d ' . $this->basedir . ' --no-ansi';
+        $command .= ' -d ' . $this->basedir . '-n --no-ansi';
         $output = new \Symfony\Component\Console\Output\BufferedOutput();
         $responseCode = $this->wrapper->run($command, $output);
         $this->app['log']->add($command, 2, '', 'composer');
