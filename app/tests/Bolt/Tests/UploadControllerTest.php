@@ -1,12 +1,12 @@
 <?php
 namespace Bolt\Tests;
+
 use Bolt\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Storage\MockFileSessionStorage;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 use Bolt\Configuration as Config;
-
 
 /**
  * Class to test correct operation of Upload Controller.
@@ -17,8 +17,6 @@ use Bolt\Configuration as Config;
 
 class UploadControllerTest extends \PHPUnit_Framework_TestCase
 {
-
-
     protected $loader;
 
     public function setup()
@@ -71,7 +69,7 @@ class UploadControllerTest extends \PHPUnit_Framework_TestCase
             array(),
             array(),
             array(
-                "files"=>array(
+                "files" => array(
                     array(
                         'tmp_name' => __DIR__ . '/resources/generic-logo.png',
                         'name' => 'logo.png'
@@ -93,12 +91,12 @@ class UploadControllerTest extends \PHPUnit_Framework_TestCase
         global $app;
         $app = $this->getApp();
         $request = Request::create(
-            "/upload/files",
-            "POST",
+            '/upload/files',
+            'POST',
             array(),
             array(),
             array(
-                "files"=>array(
+                'files' => array(
                     array(
                         'tmp_name' => __DIR__ . '/resources/generic-logo-evil.exe',
                         'name' => 'logo.exe'
@@ -114,7 +112,7 @@ class UploadControllerTest extends \PHPUnit_Framework_TestCase
         $content = json_decode($response->getContent());
         $file = $content[0];
         $this->assertAttributeNotEmpty('error', $file);
-        $this->assertRegExp('/extension/i',$file->error);
+        $this->assertRegExp('/extension/i', $file->error);
     }
 
 
@@ -128,25 +126,30 @@ class UploadControllerTest extends \PHPUnit_Framework_TestCase
         $config = new Config\ResourceManager($this->loader);
         $config->compat();
 
-        $bolt = new Application(array('resources'=>$config));
-        $bolt['config']->set('general/database', array(
-            'driver'=>'sqlite',
-            'databasename'=>'test',
-            'username'=>'test',
-            'memory'=>true
-        ));
+        $bolt = new Application(array('resources' => $config));
+        $bolt['config']->set(
+            'general/database',
+            array(
+                'driver' => 'sqlite',
+                'databasename' => 'test',
+                'username' => 'test',
+                'memory' => true,
+            )
+        );
 
         $bolt['session'] = $sessionMock;
         $bolt['resources']->setPath('files', __DIR__ . '/files');
         $bolt->initialize();
+
         return $bolt;
     }
 
-    protected function rmdir($dir) {
+    protected function rmdir($dir)
+    {
         $iterator = new \RecursiveIteratorIterator(
-                            new \RecursiveDirectoryIterator($dir , \FilesystemIterator::SKIP_DOTS),
-                            \RecursiveIteratorIterator::CHILD_FIRST
-                        );
+            new \RecursiveDirectoryIterator($dir, \FilesystemIterator::SKIP_DOTS),
+            \RecursiveIteratorIterator::CHILD_FIRST
+        );
         foreach ($iterator as $file) {
             if ($file->isDir()) {
                 rmdir($file->getPathname());
@@ -155,7 +158,4 @@ class UploadControllerTest extends \PHPUnit_Framework_TestCase
             }
         }
     }
-
-
 }
-

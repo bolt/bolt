@@ -1,12 +1,12 @@
 <?php
-
 namespace Bolt\Tests;
 
-class FooObject {
-
+class FooObject
+{
     private $value;
 
-    public function __construct($value = 'bar'){
+    public function __construct($value = 'bar')
+    {
         $this->value = $value;
     }
 }

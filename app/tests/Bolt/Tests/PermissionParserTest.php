@@ -23,7 +23,8 @@ class PermissionParserTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public static function lexProvider() {
+    public static function lexProvider()
+    {
         return array(
             // A regular "word"
             array(
@@ -220,7 +221,8 @@ class PermissionParserTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public static function runProvider() {
+    public static function runProvider()
+    {
         return array(
             // A single query
             array(
@@ -272,8 +274,7 @@ class PermissionParserTest extends \PHPUnit_Framework_TestCase
                     )
                 )
             ),
-            // combined AND/OR query with precedence ("or" binds tighter than
-            // "and")
+            // combined AND/OR query with precedence ("or" binds tighter than "and")
             array(
                 "this and that or something",
                 array('type' => PermissionParser::P_AND, 'value' =>

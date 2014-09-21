@@ -1,7 +1,7 @@
 <?php
 namespace Codeception\Module;
 
-// here you can define custom functions for WebGuy 
+// here you can define custom functions for WebGuy
 
 class WebHelper extends \Codeception\Module
 {
@@ -10,7 +10,8 @@ class WebHelper extends \Codeception\Module
      * @param array $user An associative array containing keys 'username'
      * and 'password'.
      */
-    public function loginAs($user) {
+    public function loginAs($user)
+    {
         $web = $this->getModule('PhpBrowser');
         $web->amOnPage('/bolt/login');
         $web->fillField('username', $user['username']);

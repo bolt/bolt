@@ -1,21 +1,16 @@
 <?php
 namespace Bolt\Tests;
+
 use Bolt\Application;
+use Bolt\Configuration as Config;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Storage\MockFileSessionStorage;
-
-
-use Bolt\Configuration as Config;
-
-
 
 /**
  * Class to test correct operation of Filesystem Service Provider.
  *
  * @author Ross Riley <riley.ross@gmail.com>
  **/
-
-
 class FilesystemProviderTest extends \PHPUnit_Framework_TestCase
 {
 
@@ -60,21 +55,22 @@ class FilesystemProviderTest extends \PHPUnit_Framework_TestCase
         ->getMock();
 
         $config = new Config\ResourceManager($this->loader);
-        $bolt = new Application(array('resources'=>$config));
+        $bolt = new Application(array('resources' => $config));
 
-        $bolt['config']->set('general/database', array(
-            'driver'=>'sqlite',
-            'databasename'=>'test',
-            'username'=>'test',
-            'memory'=>true
-        ));
+        $bolt['config']->set(
+            'general/database',
+            array(
+                'driver' => 'sqlite',
+                'databasename' => 'test',
+                'username' => 'test',
+                'memory' => true,
+            )
+        );
 
         $bolt['session'] = $sessionMock;
         $bolt['resources']->setPath('files', __DIR__);
         $bolt->initialize();
+
         return $bolt;
     }
-
-
 }
-
