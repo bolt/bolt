@@ -36,7 +36,9 @@ var BoltExtender = Object.extend(Object, {
         jQuery(document).ajaxStart(function() {
             // show loader on start
             active_interval = setInterval(function(){
-                active_console.append(".");
+                if(active_console) {
+                    active_console.append(".");
+                }
             },1000);
         }).ajaxSuccess(function() {
             clearInterval(active_interval);
@@ -368,7 +370,6 @@ var BoltExtender = Object.extend(Object, {
     
     prefill: function(e) {
         var target = jQuery(e.target);
-        console.log(target.text());
         this.find('input[name="check-package"]').val( target.text());
         target.parent().hide();
     },
