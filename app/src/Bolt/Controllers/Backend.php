@@ -1594,12 +1594,21 @@ class Backend implements ControllerProviderInterface
             }
         }
 
+        // For 'related' files we might need to keep track of the current dirname on top of the namespace. 
+        if (dirname($file) != '') {
+            $additionalpath = dirname($file) . '/';
+        } else {
+            $additionalpath = '';
+        }
+
         $context = array(
             'form' => $form->createView(),
             'filetype' => $type,
             'file' => $file,
             'basename' => basename($file),
             'pathsegments' => $pathsegments,
+            'additionalpath' => $additionalpath,
+            'namespace' => $namespace,
             'write_allowed' => $writeallowed,
             'filegroup' => $filegroup
         );
