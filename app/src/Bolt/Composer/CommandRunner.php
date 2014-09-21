@@ -35,7 +35,7 @@ class CommandRunner
             );
         }
 
-        $this->execute('config repositories.bolt composer %s', $app['extend.site'] . 'satis/');
+        $this->execute('config repositories.bolt composer '. $app['extend.site'] . 'satis/');
         $json = json_decode(file_get_contents($this->packageFile));
         $json->repositories->packagist = false;
         $json->{'minimum-stability'} = "dev";
@@ -189,7 +189,7 @@ class CommandRunner
             if (preg_match('/^-/', $arg)) {
                 return ''; // starts with a dash: skip
             }
-            if (preg_match('#[^a-zA-Z0-9\\-_/~^\\\\.*]#', $arg)) {
+            if (preg_match('#[^a-zA-Z0-9\\-_:/~^\\\\.*]#', $arg)) {
                 return ''; // contains invalid characters: skip
             }
 
