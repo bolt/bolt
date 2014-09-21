@@ -198,7 +198,7 @@ var BoltExtender = Object.extend(Object, {
     checkPackage: function(e) {
         var controller = this;
         var ext = this.find('input[name="check-package"]').val();
-        active_console = this.find(".check-package");
+        active_console = false;
         jQuery.get(baseurl+'installInfo?package='+ext, function(data) {
             
             var devpacks = data['dev'];
