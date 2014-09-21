@@ -4,13 +4,14 @@
 // (which means no autoloading..)
 require_once dirname(dirname(__DIR__)) . '/lib.php';
 
-class libTest extends \PHPUnit_Framework_TestCase {
-
+class libTest extends \PHPUnit_Framework_TestCase
+{
     /**
      * The data provider for trim text. Should contain all possible type of
      * crap which can be thrown at it.
      */
-    public static function trimTextDataProvider(){
+    public static function trimTextDataProvider()
+    {
         return array(
             // all ok case
             array("123456789012345678901234567890", 20,
@@ -70,7 +71,8 @@ class libTest extends \PHPUnit_Framework_TestCase {
     /**
      * @dataProvider trimTextDataProvider
      */
-    public function testTrimText($str, $length, $nbsp, $hellip, $striptags, $expected){
+    public function testTrimText($str, $length, $nbsp, $hellip, $striptags, $expected)
+    {
         $result = trimText($str, $length, $nbsp, $hellip, $striptags);
         $this->assertEquals($expected, $result);
     }
@@ -78,16 +80,19 @@ class libTest extends \PHPUnit_Framework_TestCase {
     /**
      * @dataProvider trimTextDataProvider
      */
-    public function testTrimToHTML($html, $length, $nbsp, $hellip, $striptags, $expected) {
-        if ($hellip)
+    public function testTrimToHTML($html, $length, $nbsp, $hellip, $striptags, $expected)
+    {
+        if ($hellip) {
             $ellipseStr = '…';
-        else
+        } else {
             $ellipseStr = '';
+        }
         $actual = trimToHTML($html, $length, $ellipseStr, $striptags, $nbsp);
         $this->assertEquals($expected, $actual);
     }
 
-    public static function getExtensionDataProvider() {
+    public static function getExtensionDataProvider()
+    {
         return array(
                 array('foobar.baz', 'baz'),
                 array('foobar.baz.quux', 'quux'),
@@ -101,7 +106,8 @@ class libTest extends \PHPUnit_Framework_TestCase {
     /**
      * @dataProvider getExtensionDataProvider
      */
-    public function testGetExtension($filename, $expected) {
+    public function testGetExtension($filename, $expected)
+    {
         $actual = getExtension($filename);
         $this->assertEquals($expected, $actual);
     }
