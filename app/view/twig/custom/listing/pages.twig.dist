@@ -1,6 +1,6 @@
 {# Example template for individual listings in dashboard and overview
 
-   Add a template "/app/view/custom/listing/<contenttypeslug>.twig" and add the blocks you want to display different.
+   Add a template "/app/view/twig/custom/listing/<contenttypeslug>.twig" and add the blocks you want to display different.
    Unchanged Blocks use the defaults
 #}
 {% extends '_base/_listing.twig' %}
