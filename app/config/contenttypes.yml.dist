@@ -92,8 +92,8 @@ entries:
     record_template: entry.twig
     listing_template: listing.twig
     listing_records: 10
-    default_status: published
-    sort: datepublish DESC
+    default_status: publish
+    sort: -datepublish
     recordsperpage: 10
 
 # The 'Showcases' is not particularly useful in most cases, but it does a good
@@ -191,7 +191,7 @@ showcases:
             label: Select zero or more pages
     taxonomy: [ categories, tags ]
     show_on_dashboard: true
-    default_status: published
+    default_status: publish
     searchable: false
     icon: cubes
     icon_singular: cube
