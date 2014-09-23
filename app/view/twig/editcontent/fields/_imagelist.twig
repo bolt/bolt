@@ -54,7 +54,7 @@
                     <input{{ macro.attr(attr_fileupload) }}>
                 </span>
 
-                <a data-target="#selectModal-{{ key }}" href="{{ paths.async }}browse/files/{{ context.contenttype.upload|default('') }}?key={{ key }}" class="btn btn-tertiary fileinput-select" data-toggle="modal">
+                <a data-target="#selectModal-{{ key }}" href="{{ paths.async }}browse/files{{ option.handler ? '/'~option.handler : '' }}?key={{ key }}" class="btn btn-tertiary fileinput-select" data-toggle="modal">
                     <i class="fa fa-download"></i> {{ __('Select from server') }}
                 </a>
 
