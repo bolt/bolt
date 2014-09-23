@@ -18,14 +18,20 @@
 {# Convert from old stored image format that is used until re-saved #}
 {% set image = (context.content.get(key) is iterable) ? context.content.get(key) : {'file': context.content.get(key)} %}
 
-{# Note: jQuery file-upload expects types separated by a '|', unlike the HTML spec. #}
 {% set attr_inp = {
-    accept:  option.extensions|join('|'),
     class:   option.class~' imageinput wide',
     id:      'field-'~key,
     name:    key~'[file]',
     type:    'text',
     value:   image.file|default(''),
+}%}
+
+{% set attr_upl = {
+    accept:    option.extensions ? '.'~option.extensions|join(',.') : '',
+    data_url:  url('upload', {'handler': option.handler}),
+    id:        'fileupload-'~key,
+    name:      'fileupload-'~key~'[]',
+    type:      'file',
 }%}
 
 {#=== BLOCKS =========================================================================================================#}
@@ -34,11 +40,11 @@
 
 {% macro imagepath(labelkey, option, image, attr_inp) %}
     {% import '_macro/_macro.twig' as macro %}
-{#     
+{#
     sbonardt: put this label as any other field in it's own place outside the div wrapper. More fine grained control over positioning and alignment
     <label class="control-label" style="min-width: 180px;">{{ macro.infopop(labelkey, option.info) }}</label>
     note: the 'min-width: 180px;' is a bit of a nasty hack. if omitted, Chrome renders the
-    span 1px too small, making the 'info' popup go to the next line. 
+    span 1px too small, making the 'info' popup go to the next line.
 #}
     <label>{{ __('Path to image file') }}</label>
     <input{{ macro.attr(attr_inp) }}>
@@ -73,12 +79,13 @@
     {% endif %}
 {% endmacro %}
 
-{% macro buttons(key, paths, option) %}
+{% macro buttons(key, paths, option, attr_upl) %}
+    {% import '_macro/_macro.twig' as macro %}
     {# The fileinput-button span is used to style the file input field as button #}
         <span class="btn btn-secondary fileinput-button">
             <i class="fa fa-upload"></i>
             <span>{{ __('Upload image') }}</span>
-            <input id="fileupload-{{ key }}" type="file" name="fileupload-{{ key }}[]" data-url="{{ url('upload',{'handler':option.handler}) }}">
+            <input{{ macro.attr(attr_upl) }}>
         </span>
 
         <a data-target="#selectModal-{{ key }}" href="{{ paths.async }}browse/files/{{context.contenttype.upload|default('')}}?key={{ key }}" class="btn btn-tertiary" data-toggle="modal">
@@ -129,7 +136,7 @@
         {{ block.imagepath(labelkey, option, image, attr_inp) }}
         {{ block.attributes(key, option, image) }}
         <div class="button-wrap">
-            {{ block.buttons(key, paths, option) }}
+            {{ block.buttons(key, paths, option, attr_upl) }}
             {{ block.stack(key, stackitems(7, 'image')) }}
         </div>
         {{ block.progress(key) }}
