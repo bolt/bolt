@@ -12,7 +12,7 @@
 {% set items = stackitems(7, 'other,document') %}
 
 {% set attr_fileupload = {
-    accept:    option.extensions|join('|'),
+    accept:    option.extensions ? '.'~option.extensions|join(',.') : '',
     data_url:  url('upload', {'handler': option.upload}),
     id:        'fileupload-'~key,
     name:      'fileupload-'~key~'[]',
