@@ -5,7 +5,7 @@
     label:       field.label|default(''),
     extensions:  field.extensions|default([]),
     attrib:      (field.attrib is defined) ? (field.attrib is iterable ?: {0: field.attrib}) : false,
-    handler:     field.upload|default(''),
+    upload:      field.upload|default(''),
     info:        field.info|default('info.upload.image')
 }%}
 {# attrib[title] #}
@@ -28,7 +28,7 @@
 
 {% set attr_upl = {
     accept:    option.extensions ? '.'~option.extensions|join(',.') : '',
-    data_url:  url('upload', {'handler': option.handler}),
+    data_url:  url('upload', {'handler': option.upload}),
     id:        'fileupload-'~key,
     name:      'fileupload-'~key~'[]',
     type:      'file',
@@ -87,7 +87,7 @@
         <input{{ macro.attr(attr_upl) }}>
     </span>
 
-    <a data-target="#selectModal-{{ key }}" href="{{ paths.async }}browse/files{{ option.handler ? '/'~option.handler : '' }}?key={{ key }}" class="btn btn-tertiary" data-toggle="modal">
+    <a data-target="#selectModal-{{ key }}" href="{{ paths.async }}browse/files{{ option.upload ? '/'~option.upload : '' }}?key={{ key }}" class="btn btn-tertiary" data-toggle="modal">
         <i class="fa fa-download"></i>
         {{ __('Select from server') }}
     </a>

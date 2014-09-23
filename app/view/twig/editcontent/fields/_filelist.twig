@@ -3,7 +3,7 @@
 {% set option = {
     extensions:  field.extensions|default([]),
     label:       field.label|default(''),
-    handler:     field.upload|default(''),
+    upload:      field.upload|default(''),
     info:        field.info|default('info.upload.filelist')
 }%}
 
@@ -13,7 +13,7 @@
 
 {% set attr_fileupload = {
     accept:    option.extensions|join('|'),
-    data_url:  url('upload',{'handler':option.handler}),
+    data_url:  url('upload', {'handler': option.upload}),
     id:        'fileupload-'~key,
     name:      'fileupload-'~key~'[]',
     type:      'file',
