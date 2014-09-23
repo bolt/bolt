@@ -17,6 +17,7 @@
     id:        'fileupload-'~key,
     name:      'fileupload-'~key~'[]',
     type:      'file',
+    multiple:  true,
 }%}
 
 {% if context.content.get(key) is defined %}

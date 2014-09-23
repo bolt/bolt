@@ -25,7 +25,7 @@
     accept:    option.extensions ? '.'~option.extensions|join(',.') : '',
     data_url:  url('upload', {'handler': option.upload}),
     id:        'fileupload-'~key,
-    name:      'fileupload-'~key~'[]',
+    name:      'files[]',
     type:      'file',
 }%}
 

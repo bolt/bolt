@@ -87,12 +87,12 @@ jQuery(function($) {
             mouseEvt = event;
         }
         $(item).parent().on('show.bs.dropdown', function(e){
-            
-            //prevent breakage on old IE. 
-            if (typeof mouseEvt == "undefined" || mouseEvt == null) { 
+
+            //prevent breakage on old IE.
+            if (typeof mouseEvt == "undefined" || mouseEvt == null) {
                 return false;
             }
-            
+
             var button = e.relatedTarget;
             var self = $(this).find('[data-toggle="dropdown"]');
             var menu = self.next('.dropdown-menu');
@@ -536,10 +536,7 @@ function bindFileUpload(key) {
     // Since jQuery File Upload's 'paramName' option seems to be ignored,
     // it requires the name of the upload input to be "images[]". Which clashes
     // with the non-fancy fallback, so we hackishly set it here. :-/
-    $('#fileupload-' + key).attr({
-            'name': 'files[]',
-            'multiple': 'multiple'
-        })
+    $('#fileupload-' + key)
         .fileupload({
             dataType: 'json',
             dropZone: $('#dropzone-' + key),
@@ -798,8 +795,8 @@ var Sidebar = Backbone.Model.extend({
         if ($('#navpage-secondary').is(':visible')) {
 
             // Note: It might seem easier to do this with a simple .popover, but we
-            // shouldn't. People using keyboard access will not appreciate the menu timing 
-            // out and disappearing after a split-second of losing focus. 
+            // shouldn't. People using keyboard access will not appreciate the menu timing
+            // out and disappearing after a split-second of losing focus.
             $('#navpage-secondary a.menu-pop').on('mouseover focus', function() {
                 $('#navpage-secondary a.menu-pop').not(this).popover('hide');
                 $(this).popover('show');
@@ -807,7 +804,7 @@ var Sidebar = Backbone.Model.extend({
 
             // Likewise, we need to distinct events, to hide the sidebar's popovers:
             // One for 'mouseleave' on the sidebar itself, and one for keyboard 'focus'
-            // on the items before and after. 
+            // on the items before and after.
             $('#navpage-secondary').on('mouseleave', function() {
                 window.setTimeout(function() {
                     $('#navpage-secondary a.menu-pop').popover('hide');
@@ -825,7 +822,7 @@ var Sidebar = Backbone.Model.extend({
     },
 
     /*
-     * Make sure the sidebar is as long as the document height. Also: Typecasting! love it or hate it! 
+     * Make sure the sidebar is as long as the document height. Also: Typecasting! love it or hate it!
      */
     fixlength: function() {
         var documentheight = $('#navpage-content').height() + 22;
@@ -861,9 +858,9 @@ var Sidebar = Backbone.Model.extend({
         sidebar.closePopOvers();
         $('#navpage-wrapper').removeClass('nav-secondary-opened').addClass('nav-secondary-collapsed');
         // We add the '-hoverable' class to make sure the sidebar _first_ collapses, and only _then_
-        // can be opened by hovering on it. 
-        setTimeout(function(){ 
-            $('#navpage-wrapper').addClass('nav-secondary-collapsed-hoverable'); 
+        // can be opened by hovering on it.
+        setTimeout(function(){
+            $('#navpage-wrapper').addClass('nav-secondary-collapsed-hoverable');
         }, 300);
         $.cookie('sidebar', 'collapsed', { expires: 21, path: '/' });
     },
@@ -1234,10 +1231,7 @@ var FilelistHolder = Backbone.View.extend({
             distance: 5
         });
 
-        $('#fileupload-' + contentkey).attr({
-                'name': 'files[]',
-                'multiple': 'multiple'
-            })
+        $('#fileupload-' + contentkey)
             .fileupload({
                 dataType: 'json',
                 dropZone: $holder,
@@ -1247,7 +1241,8 @@ var FilelistHolder = Backbone.View.extend({
                         $this.add(filename, filename);
                     });
                 }
-            }).bind('fileuploadsubmit', function (e, data) {
+            })
+            .bind('fileuploadsubmit', function (e, data) {
                 var that = this,
                 fileTypes = $('#fileupload-' + contentkey).attr('accept');
 
@@ -1389,10 +1384,7 @@ var ImagelistHolder = Backbone.View.extend({
             distance: 5
         });
 
-        $('#fileupload-' + contentkey).attr({
-                'name': 'files[]',
-                'multiple': 'multiple'
-            })
+        $('#fileupload-' + contentkey)
             .fileupload({
                 dataType: 'json',
                 dropZone: $holder,
