@@ -1,17 +1,26 @@
 // Don't break on browsers without console.log();
-try { console.assert(1); } catch(e) { console = { log: function() {}, assert: function() {} } }
+try {
+    console.assert(1);
+} catch(e) {
+    console = {
+        log: function() {},
+        assert: function() {}
+    }
+}
 
 jQuery(function($) {
 
     // Any link (or clickable <i>-icon) with a class='confirm' gets a confirmation dialog..
-    $('.confirm').on('click', function(){
-        return confirm( $(this).data('confirm') );
+    $('.confirm').on('click', function() {
+        return confirm($(this).data('confirm'));
     });
 
     // Initialize the Magnific popup shizzle. Fancybox is still here as a trigger, for backwards compatibility.
     $('.magnific, .fancybox').magnificPopup({
         type: 'image',
-        gallery: { enabled: true },
+        gallery: {
+            enabled: true
+        },
         disableOn: 400,
         closeBtnInside: true,
         enableEscapeKey: true,
@@ -28,13 +37,13 @@ jQuery(function($) {
 
     initActions();
 
-    window.setTimeout(function(){
+    window.setTimeout(function() {
         initKeyboardShortcuts();
     }, 1000);
 
     // Show 'dropzone' for jQuery file uploader.
     // @todo make it prettier, and distinguish between '.in' and '.hover'.
-    $(document).bind('dragover', function (e) {
+    $(document).bind('dragover', function(e) {
         var dropZone = $('.dropzone'),
             timeout = window.dropZoneTimeout;
         if (!timeout) {
@@ -47,7 +56,7 @@ jQuery(function($) {
         } else {
             dropZone.removeClass('hover');
         }
-        window.dropZoneTimeout = setTimeout(function () {
+        window.dropZoneTimeout = setTimeout(function() {
             window.dropZoneTimeout = null;
             dropZone.removeClass('in hover');
         }, 100);
@@ -56,20 +65,23 @@ jQuery(function($) {
     // Initialize popovers.
     $('.info-pop').popover({
         trigger: 'hover',
-        delay: { show: 500, hide: 200 }
+        delay: {
+            show: 500,
+            hide: 200
+        }
     });
 
-    // Add Date and Timepickers..
-    $(".datepicker").datepicker({ dateFormat: "DD, d MM yy" });
+    // Add Date and Timepickers.
+    $(".datepicker").datepicker({dateFormat: "DD, d MM yy"});
 
     // initialize 'moment' timestamps..
     if ($('.moment').is('*')) {
         updateMoments();
     }
 
-    // Auto-update the 'latest activity' widget..
+    // Auto-update the 'latest activity' widget.
     if ($('#latestactivity').is('*')) {
-        setTimeout( function(){ updateLatestActivity(); }, 20 * 1000);
+        setTimeout(function() {updateLatestActivity();}, 20 * 1000);
     }
 
     /**
@@ -82,11 +94,10 @@ jQuery(function($) {
             $(item).parent().click(function(e) {
                 mouseEvt = e;
             });
-        }
-        else {
+        } else {
             mouseEvt = event;
         }
-        $(item).parent().on('show.bs.dropdown', function(e){
+        $(item).parent().on('show.bs.dropdown', function(e) {
 
             //prevent breakage on old IE.
             if (typeof mouseEvt == "undefined" || mouseEvt == null) {
@@ -109,8 +120,8 @@ jQuery(function($) {
             // prefer to 'dropdown' (= default).
             if ((mousey - menuHeight) > 20 && menuVisY < profilerHeight) {
                 menu.css({
-                    'top': 'auto',
-                    'bottom': '100%'
+                    top: 'auto',
+                    bottom: '100%'
                 });
             }
         })
@@ -152,7 +163,7 @@ jQuery(function($) {
     });
 
     // Toggle options for showing / hiding the password input on the logon screen
-    $('.login-forgot').bind('click', function(e){
+    $('.login-forgot').bind('click', function(e) {
         $('.login-group, .password-group').slideUp('slow');
         $('.reset-group').slideDown('slow');
     });
@@ -161,9 +172,8 @@ jQuery(function($) {
         $('.reset-group').slideUp('slow');
     });
 
-    $( window ).konami({
+    $(window).konami({
         cheat: function() {
-
             $.ajax({
                 url: 'http://bolt.cm/easter',
                 type: 'GET',
@@ -192,11 +202,11 @@ jQuery(function($) {
     // Check if any records in the overview have been checked, and if so: show action buttons
     $('.dashboardlisting input:checkbox').click(function() {
         var aItems = getSelectedItems();
-        if(aItems.length>=1){
+        if (aItems.length >= 1) {
             // if checked
             $('a.checkchosen').removeClass('disabled');
             $('a.showifchosen').show();
-        }else{
+        } else {
             // if none checked
             $('a.checkchosen').addClass('disabled');
             $('a.showifchosen').hide();
@@ -208,20 +218,20 @@ jQuery(function($) {
         e.preventDefault();
         aItems = getSelectedItems();
 
-        if(aItems.length <1){
+        if (aItems.length < 1) {
             bootbox.alert("Nothing chosen to delete");
-        }else{
-            var notice = "Are you sure you wish to <strong>delete "+(aItems.length===1? "this record":"these records")+"</strong>? There is no undo."
+        } else {
+            var notice = "Are you sure you wish to <strong>delete " + (aItems.length=== 1 ? "this record" : "these records") + "</strong>? There is no undo."
             bootbox.confirm(notice, function(confirmed) {
                 $(".alert").alert();
-                if(confirmed===true){
-                    $.each(aItems, function( index, id ) {
+                if (confirmed === true) {
+                    $.each(aItems, function(index, id) {
                         // delete request
                         $.ajax({
-                            url: $('#baseurl').attr('value')+'content/deletecontent/'+$('#item_'+id).closest('table').data('contenttype')+'/'+id+'?token='+$('#item_'+id).closest('table').data('token'),
+                            url: $('#baseurl').attr('value') + 'content/deletecontent/' + $('#item_' + id).closest('table').data('contenttype') + '/' + id + '?token=' + $('#item_' + id).closest('table').data('token'),
                             type: 'get',
                             success: function(feedback){
-                                $('#item_'+id).hide();
+                                $('#item_' + id).hide();
                                 $('a.deletechosen').hide();
                             }
                         });
@@ -231,20 +241,19 @@ jQuery(function($) {
         }
     });
 
-
     $('tbody.sortable').sortable({
         items: 'tr',
         opacity: '0.5',
-        axis:'y',
-        handle:'.sorthandle',
-        update: function(e, ui){
+        axis: 'y',
+        handle: '.sorthandle',
+        update: function(e, ui) {
             serial = $(this).sortable('serialize');
             // sorting request
             $.ajax({
                 url: $('#baseurl').attr('value')+'content/sortcontent/'+$(this).parent('table').data('contenttype'),
                 type: 'POST',
                 data: serial,
-                success: function(feedback){
+                success: function(feedback) {
                     // do nothing
                 }
             });
@@ -276,10 +285,10 @@ jQuery(function($) {
                         priority: item.priority
                     });
                 });
-                return { results: results };
+                return {results: results};
             }
         },
-        formatResult: function(item){
+        formatResult: function(item) {
             var markup = "<table class='omnisearch-result'><tr>";
             markup += "<td class='omnisearch-result-info'>";
             markup += "<div class='omnisearch-result-label'>" + item.label + "</div>";
@@ -287,12 +296,14 @@ jQuery(function($) {
             markup += "</td></tr></table>";
             return markup;
         },
-        formatSelection: function(item){
+        formatSelection: function(item) {
             window.location.href = item.path;
             return item.label;
         },
         dropdownCssClass: "bigdrop",
-        escapeMarkup: function (m) { return m; }
+        escapeMarkup: function(m) {
+            return m;
+        }
     });
 
     files = new Files();
@@ -310,10 +321,11 @@ jQuery(function($) {
 function getSelectedItems(){
     var aItems = [];
     $('.dashboardlisting input:checked').each(function(index) {
-        if($(this).parents('tr').attr('id'))
+        if ($(this).parents('tr').attr('id')) {
             aItems.push($(this).parents('tr').attr('id').substr(5));
+        }
     });
-    console.log('getSelectedItems: '+aItems);
+    console.log('getSelectedItems: ' + aItems);
     return aItems;
 }
 
@@ -321,12 +333,11 @@ function getSelectedItems(){
  * Helper to make things like '<button data-action="eventView.load()">' work
  */
 function initActions() {
-
     // Unbind the click events, with the 'action' namespace.
     $('button, input[type=button], a').off('click.action');
 
     // Bind the click events, with the 'action' namespace.
-    $('[data-action]').on('click.action', function(e){
+    $('[data-action]').on('click.action', function(e) {
         var action = $(this).data('action');
         if (typeof(action) != "undefined" && (action != "") ) {
             eval(action);
@@ -335,10 +346,9 @@ function initActions() {
         }
     })
     // Prevent propagation to parent's click handler from anchor in popover.
-    .on('click.popover', '.popover', function(e){
+    .on('click.popover', '.popover', function(e) {
         e.stopPropagation();
     });
-
 }
 
 
@@ -350,10 +360,9 @@ function initActions() {
  *
  */
 function initKeyboardShortcuts() {
-
     // We're on a regular 'edit content' page, if we have a sidebarsavecontinuebutton.
     // If we're on an 'edit file' screen,  we have a #saveeditfile
-    if ( $('#sidebarsavecontinuebutton').is('*') || $('#saveeditfile').is('*') ) {
+    if ($('#sidebarsavecontinuebutton').is('*') || $('#saveeditfile').is('*')) {
 
         // Bind ctrl-s and meta-s for saving..
         $('body, input').bind('keydown.ctrl_s keydown.meta_s', function(event) {
@@ -363,12 +372,11 @@ function initKeyboardShortcuts() {
         });
 
         // Initialize watching for changes on "the form".
-        window.setTimeout(function(){
+        window.setTimeout(function() {
             var $form = $('form').watchChanges();
         }, 1000);
 
-        function confirmExit()
-        {
+        function confirmExit() {
             if ($('form').hasChanged()) {
                 return "You have unfinished changes on this page. If you continue without saving, you will lose these changes.";
             }
@@ -377,9 +385,6 @@ function initKeyboardShortcuts() {
         // Initialize handler for 'closing window'
         window.onbeforeunload = confirmExit;
     }
-
-
-
 }
 
 
@@ -388,7 +393,6 @@ function initKeyboardShortcuts() {
  * Initialise CKeditor instances.
  */
 CKEDITOR.editorConfig = function( config ) {
-
     config.language = ckeditor_lang || 'en';
     config.uiColor = '#DDDDDD';
     config.resize_enabled = true;
@@ -484,7 +488,6 @@ CKEDITOR.editorConfig = function( config ) {
              config[key] = wysiwyg.ck[key];
         }
     }
-
 };
 
 
@@ -499,10 +502,10 @@ function updateMoments() {
 
     $('time.moment').each(function(){
         var stamp = moment($(this).attr('datetime'));
-        $(this).html( stamp.fromNow() );
+        $(this).html(stamp.fromNow());
     });
     clearTimeout(momentstimeout);
-    momentstimeout = setTimeout( function(){ updateMoments(); }, 16 * 1000);
+    momentstimeout = setTimeout(function() { updateMoments(); }, 16 * 1000);
 
 }
 
@@ -518,7 +521,7 @@ function updateLatestActivity() {
     $.get(asyncpath+'latestactivity', function(data) {
         $('#latesttemp').html(data);
         updateMoments();
-        $('#latestactivity').html( $('#latesttemp').html() );
+        $('#latestactivity').html($('#latesttemp').html());
     });
 
     setTimeout( function(){ updateLatestActivity(); }, 30 * 1000);
@@ -541,12 +544,12 @@ function bindFileUpload(key) {
             dataType: 'json',
             dropZone: $('#dropzone-' + key),
             done: function (e, data) {
-                $.each(data.result, function (index, file) {
+                $.each(data.result, function(index, file) {
                     if (file.error == undefined) {
                         var filename = decodeURI(file.url).replace("files/", "");
                         $('#field-' + key).val(filename);
-                        $('#thumbnail-' + key).html("<img src='" + path + "../thumbs/120x120c/"+encodeURI(filename) +"' width='120' height='120'>");
-                        window.setTimeout(function(){ $('#progress-' + key).fadeOut('slow'); }, 1500);
+                        $('#thumbnail-' + key).html("<img src='" + path + "../thumbs/120x120c/" + encodeURI(filename) + "' width='120' height='120'>");
+                        window.setTimeout(function() { $('#progress-' + key).fadeOut('slow'); }, 1500);
 
                         // Add the uploaded file to our stack..
                         stack.addToStack(filename);
@@ -557,7 +560,7 @@ function bindFileUpload(key) {
                             + file.error + ")";
 
                         alert(message);
-                        window.setTimeout(function(){ $('#progress-' + key).fadeOut('slow'); }, 50);
+                        window.setTimeout(function() { $('#progress-' + key).fadeOut('slow'); }, 50);
                     }
                     $('#progress-' + key + ' div.bar').css('width', "100%");
                     $('#progress-' + key).removeClass('progress-striped active');
@@ -567,7 +570,7 @@ function bindFileUpload(key) {
         .bind('fileuploadprogress', function (e, data) {
             var progress = Math.round(100 * data._bitrateTimer.loaded / data.files[0].size);
             $('#progress-' + key).show().addClass('progress-striped active');
-            $('#progress-' + key + ' div.bar').css('width', progress+"%");
+            $('#progress-' + key + ' div.bar').css('width', progress + "%");
         });
 
 }
@@ -581,14 +584,14 @@ function bindFileUpload(key) {
 function makeUri(contenttypeslug, id, usesfields, slugfield, fulluri) {
 
     $(usesfields).each( function() {
-        $('#'+this).on('propertychange.bolt input.bolt change.bolt', function() {
+        $('#' + this).on('propertychange.bolt input.bolt change.bolt', function() {
             var usesvalue = "";
             $(usesfields).each( function() {
-                if ($("#"+this).is("select") && $("#"+this).hasClass("slug-text")) {
+                if ($("#" + this).is("select") && $("#" + this).hasClass("slug-text")) {
                     usesvalue += $("#"+this).val() ? $("#"+this).find("option[value=" + $("#"+this).val() + "]").text() : "";
                 }
                 else {
-                    usesvalue += $("#"+this).val() ? $("#"+this).val() : "";
+                    usesvalue += $("#" + this).val() ? $("#"+this).val() : "";
                 }
                 usesvalue += " ";
             })
@@ -602,7 +605,7 @@ function makeUri(contenttypeslug, id, usesfields, slugfield, fulluri) {
 function stopMakeUri(usesfields) {
 
     $(usesfields).each( function() {
-        $('#'+this).unbind('propertychange.bolt input.bolt change.bolt');
+        $('#' + this).unbind('propertychange.bolt input.bolt change.bolt');
     });
     clearTimeout(makeuritimeout);
 
@@ -614,10 +617,15 @@ function makeUriAjax(text, contenttypeslug, id, slugfield, fulluri) {
     $.ajax({
         url: asyncpath + 'makeuri',
         type: 'GET',
-        data: { title: text, contenttypeslug: contenttypeslug, id: id, fulluri: fulluri },
+        data: {
+            title: text,
+            contenttypeslug: contenttypeslug,
+            id: id,
+            fulluri: fulluri
+        },
         success: function(uri) {
-            $('#'+slugfield).val(uri);
-            $('#show-'+slugfield).html(uri);
+            $('#' + slugfield).val(uri);
+            $('#show-' + slugfield).html(uri);
         },
         error: function() {
             console.log('failed to get an URI');
@@ -632,70 +640,65 @@ function makeUriAjax(text, contenttypeslug, id, slugfield, fulluri) {
  *
  */
 function bindVideoEmbed(key) {
-
-    $('#video-'+key).bind('propertychange input', function() {
+    $('#video-' + key).bind('propertychange input', function() {
         clearTimeout(videoembedtimeout);
-        videoembedtimeout = setTimeout( function(){ bindVideoEmbedAjax(key); }, 400);
+        videoembedtimeout = setTimeout(function() { bindVideoEmbedAjax(key); }, 400);
     });
 
-    $('#video-'+key+'-width').bind('propertychange input', function() {
-        if ($('#video-'+key+'-ratio').val() > 0 ) {
-            $('#video-'+key+'-height').val( Math.round($('#video-'+key+'-width').val() / $('#video-'+key+'-ratio').val()) );
+    $('#video-' + key+'-width').bind('propertychange input', function() {
+        if ($('#video-' + key + '-ratio').val() > 0) {
+            $('#video-' + key + '-height').val( Math.round($('#video-'+key+'-width').val() / $('#video-'+key+'-ratio').val()));
         }
     });
 
-    $('#video-'+key+'-height').bind('propertychange input', function() {
-        if ($('#video-'+key+'-ratio').val() > 0 ) {
-            $('#video-'+key+'-width').val( Math.round($('#video-'+key+'-height').val() * $('#video-'+key+'-ratio').val()) );
+    $('#video-' + key+'-height').bind('propertychange input', function() {
+        if ($('#video-' + key + '-ratio').val() > 0) {
+            $('#video-' + key + '-width').val( Math.round($('#video-'+key+'-height').val() * $('#video-'+key+'-ratio').val()));
         }
     });
-
-
 }
 
 var videoembedtimeout;
 
 function bindVideoEmbedAjax(key) {
-
     // oembed endpoint http://api.embed.ly/1/oembed?format=json&callback=:callbackurl=
     // @todo make less dependant on key..
     var endpoint = "http://api.embed.ly/1/oembed?format=json&key=51fa004148ad4d05b115940be9dd3c7e&url=";
-    var val = $('#video-'+key).val();
+    var val = $('#video-' + key).val();
     var url = endpoint + encodeURI(val);
 
     // If val is emptied, clear the video fields..
     if (val.length < 2) {
-        $('#video-'+key+'-html').val('');
-        $('#video-'+key+'-width').val('');
-        $('#video-'+key+'-height').val('');
-        $('#video-'+key+'-ratio').val('');
-        $('#video-'+key+'-text').html('');
+        $('#video-' + key + '-html').val('');
+        $('#video-' + key + '-width').val('');
+        $('#video-' + key + '-height').val('');
+        $('#video-' + key + '-ratio').val('');
+        $('#video-' + key + '-text').html('');
         $('#myModal').find('.modal-body').html('');
-        $('#video-'+key+'-author_name').val('');
-        $('#video-'+key+'-author_url').val('');
-        $('#video-'+key+'-title').val('');
-        $('#thumbnail-'+key).html('');
-        $('#video-'+key+'-thumbnail').val('');
+        $('#video-' + key + '-author_name').val('');
+        $('#video-' + key + '-author_url').val('');
+        $('#video-' + key + '-title').val('');
+        $('#thumbnail-'+ key).html('');
+        $('#video-' + key + '-thumbnail').val('');
         return;
     }
 
-
     $.getJSON(url, function(data) {
         if (data.html) {
-            $('#video-'+key+'-html').val(data.html);
-            $('#video-'+key+'-width').val(data.width);
-            $('#video-'+key+'-height').val(data.height);
-            $('#video-'+key+'-ratio').val(data.width / data.height);
-            $('#video-'+key+'-text').html('"<b>' + data.title + '</b>" by ' + data.author_name);
+            $('#video-' + key + '-html').val(data.html);
+            $('#video-' + key + '-width').val(data.width);
+            $('#video-' + key + '-height').val(data.height);
+            $('#video-' + key + '-ratio').val(data.width / data.height);
+            $('#video-' + key + '-text').html('"<b>' + data.title + '</b>" by ' + data.author_name);
             $('#myModal').find('.modal-body').html(data.html);
-            $('#video-'+key+'-author_name').val(data.author_name);
-            $('#video-'+key+'-author_url').val(data.author_url);
-            $('#video-'+key+'-title').val(data.title);
+            $('#video-' + key + '-author_name').val(data.author_name);
+            $('#video-' + key + '-author_url').val(data.author_url);
+            $('#video-' + key + '-title').val(data.title);
         }
 
         if (data.thumbnail_url) {
-            $('#thumbnail-'+key).html("<img src='" + data.thumbnail_url + "' width='160' height='120'>");
-            $('#video-'+key+'-thumbnail').val(data.thumbnail_url);
+            $('#thumbnail-' + key).html("<img src='" + data.thumbnail_url + "' width='160' height='120'>");
+            $('#video-' + key + '-thumbnail').val(data.thumbnail_url);
         }
 
     });
@@ -709,12 +712,16 @@ function bindGeolocation(key, latitude, longitude) {
     longitude = parseFloat(longitude);
 
     // Default location is Two Kings, for now.
-    if (latitude == 0 || isNaN(latitude)) { latitude = 52.08184; }
-    if (longitude == 0 || isNaN(longitude)) { longitude = 4.292368; }
+    if (latitude == 0 || isNaN(latitude)) {
+        latitude = 52.08184;
+    }
+    if (longitude == 0 || isNaN(longitude)) {
+        longitude = 4.292368;
+    }
 
     $("#" + key + "-address").bind('propertychange input', function() {
         clearTimeout(geotimeout);
-        geotimeout = setTimeout( function(){ bindGeoAjax(key); }, 800);
+        geotimeout = setTimeout(function(){ bindGeoAjax(key); }, 800);
     });
 
     $("#map-"+key).goMap({
@@ -754,8 +761,8 @@ function bindGeoAjax(key) {
         return;
     }
 
-    $.goMap.setMap({ address: address });
-    $.goMap.setMarker('pinmarker', { address: address });
+    $.goMap.setMap({address: address});
+    $.goMap.setMarker('pinmarker', {address: address});
 
     setTimeout( function(){ updateGeoCoords(key); }, 500);
 
@@ -766,8 +773,8 @@ function updateGeoCoords(key) {
     var marker = markers[0].split(",");
 
     if (typeof(marker[0] != "undefined")) {
-        $('#' + key + '-latitude').val( marker[0] );
-        $('#' + key + '-longitude').val( marker[1] );
+        $('#' + key + '-latitude').val(marker[0]);
+        $('#' + key + '-longitude').val(marker[1]);
 
         // update the 'according to Google' info:
         var geocoder = new google.maps.Geocoder();
@@ -776,9 +783,7 @@ function updateGeoCoords(key) {
             $('#' + key + '-reversegeo').html(results[0].formatted_address);
             $('#' + key + '-formatted_address').val(results[0].formatted_address);
         });
-
     }
-
 };
 
 
@@ -859,7 +864,7 @@ var Sidebar = Backbone.Model.extend({
         $('#navpage-wrapper').removeClass('nav-secondary-opened').addClass('nav-secondary-collapsed');
         // We add the '-hoverable' class to make sure the sidebar _first_ collapses, and only _then_
         // can be opened by hovering on it.
-        setTimeout(function(){
+        setTimeout(function() {
             $('#navpage-wrapper').addClass('nav-secondary-collapsed-hoverable');
         }, 300);
         $.cookie('sidebar', 'collapsed', { expires: 21, path: '/' });
@@ -871,7 +876,7 @@ var Sidebar = Backbone.Model.extend({
     expand: function() {
         sidebar.closePopOvers();
         $('#navpage-wrapper').removeClass('nav-secondary-collapsed nav-secondary-opened nav-secondary-collapsed-hoverable');
-        $.removeCookie('sidebar', { path: '/' });
+        $.removeCookie('sidebar', {path: '/'});
     },
 
     /**
@@ -924,10 +929,10 @@ var Files = Backbone.Model.extend({
             url: asyncpath + 'renamefile',
             type: 'POST',
             data: {
-                'namespace': namespace,
-                'parent':  parentPath,
-                'oldname': oldName,
-                'newname': newName
+                namespace: namespace,
+                parent:  parentPath,
+                oldname: oldName,
+                newname: newName
             },
             success: function(result) {
                 document.location.reload();
@@ -945,14 +950,17 @@ var Files = Backbone.Model.extend({
      */
     deleteFile: function(namespace, filename, element) {
 
-        if(!confirm('Are you sure you want to delete ' + filename + '?')) {
+        if (!confirm('Are you sure you want to delete ' + filename + '?')) {
             return;
         }
 
         $.ajax({
             url: asyncpath + 'deletefile',
             type: 'POST',
-            data: { 'namespace': namespace, 'filename': filename },
+            data: {
+                namespace: namespace,
+                filename: filename
+            },
             success: function(result) {
                 console.log('Deleted file ' + filename  + ' from the server');
 
@@ -974,7 +982,10 @@ var Files = Backbone.Model.extend({
         $.ajax({
             url: asyncpath + 'duplicatefile',
             type: 'POST',
-            data: { 'namespace': namespace, 'filename': filename },
+            data: {
+                namespace: namespace,
+                filename: filename
+            },
             success: function(result) {
                 document.location.reload();
             },
@@ -1003,7 +1014,7 @@ var Stack = Backbone.Model.extend({
         bindFileUpload('stack');
 
         // In the modal dialog, to navigate folders..
-        $('#selectImageModal-stack').on('click','.folder', function(e) {
+        $('#selectImageModal-stack').on('click', '.folder', function(e) {
             e.preventDefault();
             $('#selectImageModal-stack .modal-content').load($(this).attr('href'));
         });
@@ -1142,7 +1153,7 @@ var Filelist = Backbone.Collection.extend({
     },
     setOrder: function(id, order, title) {
         _.each(this.models, function(item) {
-            if (item.get('id')==id) {
+            if (item.get('id') == id) {
                 item.set('order', order);
                 item.set('title', title);
             }
@@ -1154,9 +1165,9 @@ var FilelistHolder = Backbone.View.extend({
 
     initialize: function(id) {
         this.list = new Filelist();
-        var prelist = $('#'+this.id).val();
+        var prelist = $('#' + this.id).val();
         if (prelist != "") {
-            var prelist = $.parseJSON($('#'+this.id).val());
+            var prelist = $.parseJSON($('#' + this.id).val());
             _.each(prelist, function(item){
                 var file = new FilelistModel({filename: item.filename, title: item.title, id: this.list.length });
                 this.list.add(file);
@@ -1169,7 +1180,7 @@ var FilelistHolder = Backbone.View.extend({
     render: function() {
         this.list.sort();
 
-        var $list = $('#filelist-'+this.id+' .list');
+        var $list = $('#filelist-' + this.id + ' .list');
         $list.html('');
         _.each(this.list.models, function(file){
             var fileName = file.get('filename');
@@ -1187,7 +1198,7 @@ var FilelistHolder = Backbone.View.extend({
     },
 
     add: function(filename, title) {
-        var file = new FileModel({filename: filename, title: title, id: this.list.length });
+        var file = new FileModel({filename: filename, title: title, id: this.list.length});
 
         this.list.add(file);
         this.render();
@@ -1204,12 +1215,12 @@ var FilelistHolder = Backbone.View.extend({
 
     serialize: function() {
         var ser = JSON.stringify(this.list);
-        $('#'+this.id).val(ser);
+        $('#' + this.id).val(ser);
     },
 
     doneSort: function() {
         var list = this.list; // jQuery's .each overwrites 'this' scope, set it here..
-        $('#filelist-'+this.id+' .list div').each(function(index) {
+        $('#filelist-' + this.id + ' .list div').each(function(index) {
             var id = $(this).data('id');
             var title = $(this).find('input').val()
             list.setOrder(id, index, title);
@@ -1220,7 +1231,7 @@ var FilelistHolder = Backbone.View.extend({
     bindEvents: function() {
         var $this = this,
             contentkey = this.id,
-            $holder = $('#filelist-'+this.id);
+            $holder = $('#filelist-' + this.id);
 
         $holder.find("div.list").sortable({
             stop: function() {
@@ -1235,20 +1246,20 @@ var FilelistHolder = Backbone.View.extend({
                 dataType: 'json',
                 dropZone: $holder,
                 done: function (e, data) {
-                    $.each(data.result, function (index, file) {
+                    $.each(data.result, function(index, file) {
                         var filename = decodeURI(file.url).replace("files/", "");
                         $this.add(filename, filename);
                     });
                 }
             })
-            .bind('fileuploadsubmit', function (e, data) {
+            .bind('fileuploadsubmit', function(e, data) {
                 var that = this,
                 fileTypes = $('#fileupload-' + contentkey).attr('accept');
 
                 if( typeof fileTypes !== 'undefined' ) {
                     var pattern = new RegExp( "\.(" + fileTypes.replace(/,/g, '|').replace(/\./g, '') + ")$", "i" );
                     $.each( data.files , function (index, file) {
-                        if( !pattern.test(file.name) ) {
+                        if (!pattern.test(file.name)) {
                             var message = "Oops! There was an error uploading the file. Make sure that the file type is correct."
                                             + "\n\n(accept type was: "
                                             + fileTypes + ")";
@@ -1296,7 +1307,7 @@ var Imagelist = Backbone.Collection.extend({
     },
     setOrder: function(id, order, title) {
         _.each(this.models, function(item) {
-            if (item.get('id')==id) {
+            if (item.get('id') == id) {
                 item.set('order', order);
                 item.set('title', title);
             }
@@ -1308,9 +1319,9 @@ var ImagelistHolder = Backbone.View.extend({
 
     initialize: function(id) {
         this.list = new Imagelist();
-        var prelist = $('#'+this.id).val();
+        var prelist = $('#' + this.id).val();
         if (prelist != "") {
-            var prelist = $.parseJSON($('#'+this.id).val());
+            var prelist = $.parseJSON($('#' + this.id).val());
             _.each(prelist, function(item){
                 var image = new Imagemodel({filename: item.filename, title: item.title, id: this.list.length });
                 this.list.add(image);
@@ -1323,7 +1334,7 @@ var ImagelistHolder = Backbone.View.extend({
     render: function() {
         this.list.sort();
 
-        var $list = $('#imagelist-'+this.id+' .list');
+        var $list = $('#imagelist-' + this.id + ' .list');
         var index = 0;
         $list.html('');
         _.each(this.list.models, function(image){
@@ -1357,12 +1368,12 @@ var ImagelistHolder = Backbone.View.extend({
 
     serialize: function() {
         var ser = JSON.stringify(this.list);
-        $('#'+this.id).val(ser);
+        $('#' + this.id).val(ser);
     },
 
     doneSort: function() {
         var list = this.list; // jQuery's .each overwrites 'this' scope, set it here..
-        $('#imagelist-'+this.id+' .list div').each(function(index) {
+        $('#imagelist-' + this.id + ' .list div').each(function(index) {
             var id = $(this).data('id');
             var title = $(this).find('input').val()
             list.setOrder(id, index, title);
@@ -1373,7 +1384,7 @@ var ImagelistHolder = Backbone.View.extend({
     bindEvents: function() {
         var $this = this,
             contentkey = this.id,
-            $holder = $('#imagelist-'+this.id);
+            $holder = $('#imagelist-' + this.id);
 
         $holder.find("div.list").sortable({
             stop: function() {
@@ -1387,13 +1398,13 @@ var ImagelistHolder = Backbone.View.extend({
             .fileupload({
                 dataType: 'json',
                 dropZone: $holder,
-                done: function (e, data) {
-                    $.each(data.result, function (index, file) {
+                done: function(e, data) {
+                    $.each(data.result, function(index, file) {
                         var filename = decodeURI(file.url).replace("files/", "");
                         $this.add(filename, filename);
                     });
                 }
-            }).bind('fileuploadsubmit', function (e, data) {
+            }).bind('fileuploadsubmit', function(e, data) {
                 var that = this,
                 fileTypes = $('#fileupload-' + contentkey).attr('accept');
 
@@ -1489,9 +1500,9 @@ var Folders = Backbone.Model.extend({
             url: asyncpath + 'folder/create',
             type: 'POST',
             data: {
-                'parent':     parentPath,
-                'foldername': newFolderName,
-                'namespace': namespace
+                parent: parentPath,
+                foldername: newFolderName,
+                namespace: namespace
             },
             success: function(result) {
                 document.location.reload();
@@ -1522,10 +1533,10 @@ var Folders = Backbone.Model.extend({
             url: asyncpath + 'folder/rename',
             type: 'POST',
             data: {
-                'namespace': namespace,
-                'parent':  parentPath,
-                'oldname': oldFolderName,
-                'newname': newFolderName
+                namespace: namespace,
+                parent: parentPath,
+                oldname: oldFolderName,
+                newname: newFolderName
             },
             success: function(result) {
                 document.location.reload();
@@ -1548,9 +1559,9 @@ var Folders = Backbone.Model.extend({
             url: asyncpath + 'folder/remove',
             type: 'POST',
             data: {
-                'namespace': namespace,
-                'parent':     parentPath,
-                'foldername': folderName
+                namespace: namespace,
+                parent: parentPath,
+                foldername: folderName
             },
             success: function(result) {
                 document.location.reload();
@@ -1560,5 +1571,4 @@ var Folders = Backbone.Model.extend({
             }
         });
     }
-
 });
