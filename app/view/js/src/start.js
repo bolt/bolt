@@ -15,7 +15,6 @@ jQuery(function ($) {
     init.deferredWidgets();
     init.passwordInput();
     init.dashboardCheckboxes();
-    init.deleteChosenItems();
     init.sortables();
     init.omnisearch();
 
