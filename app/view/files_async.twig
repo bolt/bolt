@@ -4,7 +4,7 @@
     <p>{{ __('Path:') }}
     {% for path, segment in pathsegments %}
     {% if not loop.first %} / {% endif %}
-    <a href="#" data-action="stack.changeFolder('{{ key }}', '{{ path('asyncbrowse', { 'path': path, 'key': key }) }}');" class="folder">{{segment}}</a>
+    <a href="#" data-action="stack.changeFolder('{{ key }}', '{{ path('asyncbrowse', { 'path': path, 'key': key, 'show': app.request.get('show')|default('') }) }}');" class="folder">{{segment}}</a>
     {% endfor %}
     </p>
 {% endif %}
@@ -15,7 +15,7 @@
 {% for folder in folders %}
     <tr>
         <td>
-            <a href="#" data-action="stack.changeFolder('{{ key }}', '{{ path('asyncbrowse', { 'path': folder.newpath, 'key': key }) }}');" class="folder">
+            <a href="#" data-action="stack.changeFolder('{{ key }}', '{{ path('asyncbrowse', { 'path': folder.newpath, 'key': key, 'show': app.request.get('show')|default('') }) }}');" class="folder">
                 <i class="icon-folder-open"></i> <b>{{ folder.foldername }}/</b>
             </a>
         </td>
@@ -49,6 +49,22 @@
                 <a href="{{ file.newpath|thumbnail(1000, 1000, 'r') }}" class="btn btn-small preview fancybox" rel='fancybox' title="Image: {{ file.filename }}">
                 {{ __('Preview') }}</a>
             </td>
+        </tr>
+    {% elseif app.request.get('show') == "all" %}
+        <tr>
+            <td>
+                {% if file.readable %}
+                    <a href="#" data-action="stack.selectFromPulldown('{{ key }}', '{{ file.relativepath }}');" class='file'>
+                        <b>{{ file.filename|trimtext(40) }}</b>
+                    </a>
+                {% else %}
+                    <b>{{ file.filename|trimtext(40) }} </b><i class="icon-lock"></i>
+                {% endif %}
+            </td>
+            <td>{{ file.filesize }}.</td>
+            <td>&nbsp;</td>
+            <td class='listthumb'>&nbsp;</td>
+            <td>&nbsp;</td>
         </tr>
     {% endif %}
 {% endfor %}

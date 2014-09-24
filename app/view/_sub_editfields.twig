@@ -359,6 +359,13 @@
             </span>
         </div>
 
+        <div class="btn-group" style="margin-left: 0px;">
+            <a data-target="#selectModal-{{key}}" href="{{ paths.async }}browse/files?key={{ key }}&show=all" class="btn fileinput-select" data-toggle="modal">
+                <i class="icon-upload-alt"></i>
+                {{ __('Select from server') }}
+            </a>
+        </div>
+
         {% set items = stackitems(7, 'other,document') %}
         {% if items %}
             <div class="btn-group">
@@ -380,6 +387,16 @@
 
         <div class="progress progress-striped active" id="progress-{{key}}">
             <div class="bar" style="width: 0%;"></div>
+        </div>
+
+        <!-- Modal "select from server"  -->
+        <div class="modal hide modal-wide" id="selectModal-{{key}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <button class="btn" data-dismiss="modal" aria-hidden="true">{{ __('Cancel') }}</button>
+            </div>
         </div>
 
     {% if not ismobileclient() %}
@@ -511,8 +528,26 @@
                    data-url="{{ paths.app }}classes/upload/index.php"
                    accept="{{ field.extensions|join('|') }}">
         </span>
+
+        <div class="btn-group" style="margin-left: 0px;">
+            <a data-target="#selectModal-{{key}}" href="{{ paths.async }}browse/files?key={{ key }}&show=all" class="btn fileinput-select" data-toggle="modal">
+                <i class="icon-upload-alt"></i>
+                {{ __('Select from server') }}
+            </a>
+        </div>
+
     </div>
     <textarea name="{{key}}" id="{{key}}" class="hide">{% if content.get(key) is defined %}{{ content.get(key)|json_encode() }}{% endif %}</textarea>
+
+    <!-- Modal "select from server"  -->
+    <div class="modal hide modal-wide" id="selectModal-{{key}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-body">
+        </div>
+        <div class="modal-footer">
+            <button class="btn" data-dismiss="modal" aria-hidden="true">{{ __('Close') }}</button>
+        </div>
+    </div>
+
 </div>
 <div class='clearfix'></div>
 

@@ -385,7 +385,12 @@ function makeUri(contenttypeslug, id, usesfields, slugfield, fulluri) {
         $('#'+this).on('propertychange.bolt input.bolt change.bolt', function() {
             var usesvalue = "";
             $(usesfields).each( function() {
-                usesvalue += $("#"+this).val() ? $("#"+this).val() : "";
+                if ($("#"+this).is("select") && $("#"+this).hasClass("slug-text")) {
+                    usesvalue += $("#"+this).val() ? $("#"+this).find("option[value=" + $("#"+this).val() + "]").text() : "";
+                }
+                else {
+                    usesvalue += $("#"+this).val() ? $("#"+this).val() : "";
+                }
                 usesvalue += " ";
             })
             clearTimeout(makeuritimeout);
@@ -737,6 +742,11 @@ var Stack = Backbone.Model.extend({
         // For Imagelist fields. Check if imagelist[key] is an object.
         if (typeof imagelist == "object" && typeof imagelist[key] == "object") {
             imagelist[key].add(filename, filename);
+        }
+
+        // For Filelist fields. Check if filelist[key] is an object.
+        if (typeof filelist == "object" && typeof filelist[key] == "object") {
+            filelist[key].add(filename, filename);
         }
 
         // If the field has a thumbnail, set it.
