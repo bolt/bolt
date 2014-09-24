@@ -74,7 +74,6 @@ module.exports = function(grunt) {
             js: {
                 src: [
                     'js/src/console.js',
-                    'js/src/start.js',
                     'js/src/fnc-helpers.js',
                     'js/src/init-keyboard-shortcuts.js',
                     'js/src/init-ckeditor.js',
@@ -89,6 +88,7 @@ module.exports = function(grunt) {
                     'js/src/obj-files.js',
                     'js/src/obj-stack.js',
                     'js/src/obj-folders.js',
+                    'js/src/start.js',
                 ],
                 dest: 'js/bolt.js',
             },
