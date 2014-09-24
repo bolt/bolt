@@ -85,8 +85,6 @@ module.exports = function(grunt) {
                     'js/src/geolocation.js',
                     'js/src/upload-files.js',
                     'js/src/upload-images.js',
-                    'js/src/konami-code.js',
-                    'js/src/fnc-open-video.js',
                     'js/src/obj-sidebar.js',
                     'js/src/obj-files.js',
                     'js/src/obj-stack.js',

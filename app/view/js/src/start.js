@@ -157,19 +157,6 @@ jQuery(function($) {
         $('.reset-group').slideUp('slow');
     });
 
-    $(window).konami({
-        cheat: function() {
-            $.ajax({
-                url: 'http://bolt.cm/easter',
-                type: 'GET',
-                dataType: 'jsonp',
-                success: function(data) {
-                    openVideo(data.url);
-                }
-            });
-        }
-    });
-
     // Check all checkboxes
     $(".dashboardlisting tr th:first-child input:checkbox").click(function() {
         var checkedStatus = this.checked;
