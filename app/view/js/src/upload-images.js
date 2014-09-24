@@ -47,8 +47,9 @@ var ImagelistHolder = Backbone.View.extend({
     render: function() {
         this.list.sort();
 
-        var $list = $('#imagelist-' + this.id + ' .list');
-        var index = 0;
+        var $list = $('#imagelist-' + this.id + ' .list'),
+            index = 0;
+
         $list.html('');
         _.each(this.list.models, function(image){
             image.set('id', index++);
@@ -85,10 +86,11 @@ var ImagelistHolder = Backbone.View.extend({
     },
 
     doneSort: function() {
-        var list = this.list; // jQuery's .each overwrites 'this' scope, set it here..
+        var list = this.list; // jQuery's .each overwrites 'this' scope, set it here.
         $('#imagelist-' + this.id + ' .list div').each(function(index) {
-            var id = $(this).data('id');
-            var title = $(this).find('input').val();
+            var id = $(this).data('id'),
+                title = $(this).find('input').val();
+
             list.setOrder(id, index, title);
         });
         this.render();
@@ -118,8 +120,7 @@ var ImagelistHolder = Backbone.View.extend({
                     });
                 }
             }).bind('fileuploadsubmit', function(e, data) {
-                var that = this,
-                fileTypes = $('#fileupload-' + contentkey).attr('accept');
+                var fileTypes = $('#fileupload-' + contentkey).attr('accept');
 
                 if (typeof fileTypes !== 'undefined') {
                     var pattern = new RegExp("(\.|\/)(" + fileTypes + ")$", "i");

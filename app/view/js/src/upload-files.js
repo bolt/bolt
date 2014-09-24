@@ -61,12 +61,11 @@ var FilelistHolder = Backbone.View.extend({
         var $list = $('#filelist-' + this.id + ' .list');
         $list.html('');
         _.each(this.list.models, function(file){
-            var fileName = file.get('filename');
-            var html = "<div data-id='" + file.get('id') + "' class='ui-state-default'>" +
+            var fileName = file.get('filename'),
+                html = "<div data-id='" + file.get('id') + "' class='ui-state-default'>" +
                             "<span class='fileDescription'>" + fileName + "</span>" +
-                            "<input type='text' value='" +
-                            _.escape(file.get('title')) +
-                             "'><a href='#'><i class='fa fa-times'></i></a></div>";
+                            "<input type='text' value='" + _.escape(file.get('title')) + "'>" +
+                            "<a href='#'><i class='fa fa-times'></i></a></div>";
             $list.append(html);
         });
         if (this.list.models.length === 0) {
@@ -99,8 +98,9 @@ var FilelistHolder = Backbone.View.extend({
     doneSort: function() {
         var list = this.list; // jQuery's .each overwrites 'this' scope, set it here..
         $('#filelist-' + this.id + ' .list div').each(function(index) {
-            var id = $(this).data('id');
-            var title = $(this).find('input').val();
+            var id = $(this).data('id'),
+                title = $(this).find('input').val();
+
             list.setOrder(id, index, title);
         });
         this.render();
@@ -131,8 +131,7 @@ var FilelistHolder = Backbone.View.extend({
                 }
             })
             .bind('fileuploadsubmit', function(e, data) {
-                var that = this,
-                fileTypes = $('#fileupload-' + contentkey).attr('accept');
+                var fileTypes = $('#fileupload-' + contentkey).attr('accept');
 
                 if (typeof fileTypes !== 'undefined') {
                     var pattern = new RegExp("(\.|\/)(" + fileTypes + ")$", "i");

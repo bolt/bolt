@@ -18,7 +18,7 @@ function initKeyboardShortcuts() {
 
         // Initialize watching for changes on "the form".
         window.setTimeout(function() {
-            var $form = $('form').watchChanges();
+            $('form').watchChanges();
         }, 1000);
 
         function confirmExit() {

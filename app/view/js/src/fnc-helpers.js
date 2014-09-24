@@ -22,7 +22,7 @@ function initActions() {
     // Bind the click events, with the 'action' namespace.
     $('[data-action]').on('click.action', function(e) {
         var action = $(this).data('action');
-        if (typeof(action) !== "undefined" && (action !== "") ) {
+        if (typeof action !== "undefined" && action !== "") {
             eval(action);
             e.stopPropagation();
             e.preventDefault();

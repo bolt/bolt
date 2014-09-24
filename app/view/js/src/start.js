@@ -94,17 +94,12 @@ jQuery(function($) {
                 return false;
             }
 
-            var button = e.relatedTarget;
-            var self = $(this).find('[data-toggle="dropdown"]');
-            var menu = self.next('.dropdown-menu');
-            var mousey = mouseEvt.pageY + 20;
-            var menuHeight = menu.height();
-
-            // Distance of element from the bottom of viewport
-            var menuVisY = $(window).height() - (mousey + menuHeight);
-
-            // The size of the Symfony Profiler Bar is 37px.
-            var profilerHeight = 37;
+            var self = $(this).find('[data-toggle="dropdown"]'),
+                menu = self.next('.dropdown-menu'),
+                mousey = mouseEvt.pageY + 20,
+                menuHeight = menu.height(),
+                menuVisY = $(window).height() - (mousey + menuHeight), // Distance of element from the bottom of viewport
+                profilerHeight = 37; // The size of the Symfony Profiler Bar is 37px.
 
             // The whole menu must fit when trying to 'dropup', but always
             // prefer to 'dropdown' (= default).
@@ -206,7 +201,7 @@ jQuery(function($) {
     // Delete chosen Items
     $("a.deletechosen").click(function(e) {
         e.preventDefault();
-        aItems = getSelectedItems();
+        var aItems = getSelectedItems();
 
         if (aItems.length < 1) {
             bootbox.alert("Nothing chosen to delete");

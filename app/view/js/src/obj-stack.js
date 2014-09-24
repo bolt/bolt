@@ -31,15 +31,16 @@ var Stack = Backbone.Model.extend({
      */
     addToStack: function(filename, element) {
 
-        var ext = filename.substr(filename.lastIndexOf('.') + 1).toLowerCase();
+        var ext = filename.substr(filename.lastIndexOf('.') + 1).toLowerCase(),
+            type;
+
         if (ext === "jpg" || ext === "jpeg" || ext === "png" || ext === "gif" ) {
             type = "image";
         } else {
             type = "other";
         }
 
-        // We don't need 'files/' in the path. Accept input with or without it, but strip
-        // it out here..
+        // We don't need 'files/' in the path. Accept input with or without it, but strip it out here.
         filename = filename.replace(/files\//ig, '');
 
         $.ajax({
@@ -49,9 +50,13 @@ var Stack = Backbone.Model.extend({
                 console.log('Added file ' + filename  + ' to stack');
 
                 // Move all current items one down, and remove the last one
-                var stack = $('#stackholder div.stackitem');
-                for (var i=stack.length; i>=1; i--) {
-                    var item = $("#stackholder div.stackitem.item-" + i);
+                var stack = $('#stackholder div.stackitem'),
+                    i,
+                    item,
+                    html;
+
+                for (i=stack.length; i>=1; i--) {
+                    item = $("#stackholder div.stackitem.item-" + i);
                     item.addClass('item-' + (i+1)).removeClass('item-' + i);
                 }
                 if ($("#stackholder div.stackitem.item-8").is('*')) {
@@ -63,12 +68,12 @@ var Stack = Backbone.Model.extend({
                     $(element).addClass('disabled');
                 }
 
-                // Insert new item at the front..
+                // Insert new item at the front.
                 if (type === "image") {
-                    var html = $('#protostack div.image').clone();
+                    html = $('#protostack div.image').clone();
                     $(html).find('img').attr('src', path + "../thumbs/100x100c/"+encodeURI(filename) );
                 } else {
-                    var html = $('#protostack div.other').clone();
+                    html = $('#protostack div.other').clone();
                     $(html).find('strong').html(ext.toUpperCase());
                     $(html).find('small').html(filename);
                 }

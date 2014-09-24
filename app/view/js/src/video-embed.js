@@ -2,33 +2,14 @@
  * Making the 'video embed' filetype work.
  */
 
-function bindVideoEmbed(key) {
-    $('#video-' + key).bind('propertychange input', function() {
-        clearTimeout(videoembedtimeout);
-        videoembedtimeout = setTimeout(function() { bindVideoEmbedAjax(key); }, 400);
-    });
-
-    $('#video-' + key+'-width').bind('propertychange input', function() {
-        if ($('#video-' + key + '-ratio').val() > 0) {
-            $('#video-' + key + '-height').val( Math.round($('#video-'+key+'-width').val() / $('#video-'+key+'-ratio').val()));
-        }
-    });
-
-    $('#video-' + key+'-height').bind('propertychange input', function() {
-        if ($('#video-' + key + '-ratio').val() > 0) {
-            $('#video-' + key + '-width').val( Math.round($('#video-'+key+'-height').val() * $('#video-'+key+'-ratio').val()));
-        }
-    });
-}
-
 var videoembedtimeout;
 
 function bindVideoEmbedAjax(key) {
-    // oembed endpoint http://api.embed.ly/1/oembed?format=json&callback=:callbackurl=
+    // Embed endpoint http://api.embed.ly/1/oembed?format=json&callback=:callbackurl=
     // @todo make less dependant on key..
-    var endpoint = "http://api.embed.ly/1/oembed?format=json&key=51fa004148ad4d05b115940be9dd3c7e&url=";
-    var val = $('#video-' + key).val();
-    var url = endpoint + encodeURI(val);
+    var endpoint = "http://api.embed.ly/1/oembed?format=json&key=51fa004148ad4d05b115940be9dd3c7e&url=",
+        val = $('#video-' + key).val(),
+        url = endpoint + encodeURI(val);
 
     // If val is emptied, clear the video fields..
     if (val.length < 2) {
@@ -62,6 +43,25 @@ function bindVideoEmbedAjax(key) {
         if (data.thumbnail_url) {
             $('#thumbnail-' + key).html("<img src='" + data.thumbnail_url + "' width='160' height='120'>");
             $('#video-' + key + '-thumbnail').val(data.thumbnail_url);
+        }
+    });
+}
+
+function bindVideoEmbed(key) {
+    $('#video-' + key).bind('propertychange input', function() {
+        clearTimeout(videoembedtimeout);
+        videoembedtimeout = setTimeout(function() { bindVideoEmbedAjax(key); }, 400);
+    });
+
+    $('#video-' + key+'-width').bind('propertychange input', function() {
+        if ($('#video-' + key + '-ratio').val() > 0) {
+            $('#video-' + key + '-height').val( Math.round($('#video-' + key + '-width').val() / $('#video-' + key + '-ratio').val()));
+        }
+    });
+
+    $('#video-' + key+'-height').bind('propertychange input', function() {
+        if ($('#video-' + key + '-ratio').val() > 0) {
+            $('#video-' + key + '-width').val( Math.round($('#video-' + key + '-height').val() * $('#video-' + key + '-ratio').val()));
         }
     });
 }
