@@ -88,6 +88,7 @@ module.exports = function(grunt) {
                     'js/src/obj-files.js',
                     'js/src/obj-stack.js',
                     'js/src/obj-folders.js',
+                    'js/src/init.js',
                     'js/src/start.js',
                 ],
                 dest: 'js/bolt.js',
