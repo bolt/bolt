@@ -12,8 +12,10 @@ var Folders = Backbone.Model.extend({
     /**
      * Create a folder.
      *
-     * @param string promptQuestionString Translated version of "What's the new filename?".
-     * @param string parentPath Parent path of the folder to create.
+     * @param {string} promptQuestionString Translated version of "What's the new filename?".
+     * @param {string} namespace
+     * @param {string} parentPath Parent path of the folder to create.
+     * @param {object} element
      */
     create: function(promptQuestionString, namespace, parentPath, element)
     {
@@ -43,10 +45,11 @@ var Folders = Backbone.Model.extend({
     /**
      * Rename a folder.
      *
-     * @param string promptQuestionString Translated version of "Which file to rename?".
-     * @param string parentPath           Parent path of the folder to rename.
-     * @param string oldName              Old name of the folder to be renamed.
-     * @param string newName              New name of the folder to be renamed.
+     * @param {string} promptQuestionString Translated version of "Which file to rename?".
+     * @param {string} namespace
+     * @param {string} parentPath           Parent path of the folder to rename.
+     * @param {string} oldFolderName        Old name of the folder to be renamed.
+     * @param {object} element
      */
     rename: function(promptQuestionString, namespace, parentPath, oldFolderName, element)
     {
@@ -77,8 +80,10 @@ var Folders = Backbone.Model.extend({
     /**
      * Remove a folder.
      *
-     * @param string parentPath Parent path of the folder to remove.
-     * @param string folderName Name of the folder to remove.
+     * @param {string} namespace
+     * @param {string} parentPath Parent path of the folder to remove.
+     * @param {string} folderName Name of the folder to remove.
+     * @param {object} element
      */
     remove: function(namespace, parentPath, folderName, element)
     {

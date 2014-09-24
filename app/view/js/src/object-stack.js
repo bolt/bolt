@@ -26,7 +26,8 @@ var Stack = Backbone.Model.extend({
     /**
      * Add a file to our simple Stack.
      *
-     * @param string filename
+     * @param {string} filename
+     * @param {object} element
      */
     addToStack: function(filename, element) {
 

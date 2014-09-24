@@ -12,11 +12,11 @@ var Files = Backbone.Model.extend({
     /**
      * Rename a file.
      *
-     * @param string promptQuestionString Translated version of "Which file to rename?".
-     * @param string namespace            The namespace.
-     * @param string parentPath           Parent path of the folder to rename.
-     * @param string oldName              Old name of the file to be renamed.
-     * @param object element              The object that calls this function, usually of type HTMLAnchorElement)
+     * @param {string} promptQuestionString Translated version of "Which file to rename?".
+     * @param {string} namespace            The namespace.
+     * @param {string} parentPath           Parent path of the folder to rename.
+     * @param {string} oldName              Old name of the file to be renamed.
+     * @param {object} element              The object that calls this function, usually of type HTMLAnchorElement)
      */
     renameFile: function(promptQuestionString, namespace, parentPath, oldName, element)
     {
@@ -47,7 +47,9 @@ var Files = Backbone.Model.extend({
     /**
      * Delete a file from the server.
      *
-     * @param string filename
+     * @param {string} namespace
+     * @param {string} filename
+     * @param {object} element
      */
     deleteFile: function(namespace, filename, element) {
 

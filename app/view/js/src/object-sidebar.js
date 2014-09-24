@@ -50,6 +50,8 @@ var Sidebar = Backbone.Model.extend({
 
     /**
      * Hide / show subitems in the sidebar for mobile devices.
+     *
+     * @param {string} name
      */
     showSidebarItems: function(name) {
         sidebar.closePopOvers();
