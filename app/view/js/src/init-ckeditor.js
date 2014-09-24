@@ -1,7 +1,7 @@
 /**
  * Initialise CKeditor instances.
  */
-CKEDITOR.editorConfig = function( config ) {
+CKEDITOR.editorConfig = function(config) {
     config.language = ckeditor_lang || 'en';
     config.uiColor = '#DDDDDD';
     config.resize_enabled = true;

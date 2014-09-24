@@ -7,7 +7,7 @@ var init = {
      */
     activityWidget: function () {
         if ($('#latestactivity').is('*')) {
-            setTimeout(function() {
+            setTimeout(function () {
                 updateLatestActivity();
             }, 20 * 1000);
         }
@@ -19,7 +19,7 @@ var init = {
      * @returns {undefined}
      */
     confirmationDialogs: function () {
-        $('.confirm').on('click', function() {
+        $('.confirm').on('click', function () {
             return confirm($(this).data('confirm'));
         });
     },
@@ -31,9 +31,9 @@ var init = {
      */
     dashboardCheckboxes: function () {
         // Check all checkboxes
-        $(".dashboardlisting tr th:first-child input:checkbox").click(function() {
+        $(".dashboardlisting tr th:first-child input:checkbox").click(function () {
             var checkedStatus = this.checked;
-            $(".dashboardlisting tr td:first-child input:checkbox").each(function() {
+            $(".dashboardlisting tr td:first-child input:checkbox").each(function () {
                 this.checked = checkedStatus;
                 if (checkedStatus === this.checked) {
                     $(this).closest('table tbody tr').removeClass('row-checked');
@@ -44,7 +44,7 @@ var init = {
             });
         });
         // Check if any records in the overview have been checked, and if so: show action buttons
-        $('.dashboardlisting input:checkbox').click(function() {
+        $('.dashboardlisting input:checkbox').click(function () {
             var aItems = getSelectedItems();
             if (aItems.length >= 1) {
                 // if checked
@@ -57,7 +57,7 @@ var init = {
             }
         });
         // Delete chosen Items
-        $("a.deletechosen").click(function(e) {
+        $("a.deletechosen").click(function (e) {
             e.preventDefault();
             var aItems = getSelectedItems();
 
@@ -65,15 +65,15 @@ var init = {
                 bootbox.alert("Nothing chosen to delete");
             } else {
                 var notice = "Are you sure you wish to <strong>delete " + (aItems.length=== 1 ? "this record" : "these records") + "</strong>? There is no undo.";
-                bootbox.confirm(notice, function(confirmed) {
+                bootbox.confirm(notice, function (confirmed) {
                     $(".alert").alert();
                     if (confirmed === true) {
-                        $.each(aItems, function(index, id) {
+                        $.each(aItems, function (index, id) {
                             // delete request
                             $.ajax({
                                 url: $('#baseurl').attr('value') + 'content/deletecontent/' + $('#item_' + id).closest('table').data('contenttype') + '/' + id + '?token=' + $('#item_' + id).closest('table').data('token'),
                                 type: 'get',
-                                success: function(feedback){
+                                success: function (feedback){
                                     $('#item_' + id).hide();
                                     $('a.deletechosen').hide();
                                 }
@@ -95,7 +95,7 @@ var init = {
         $('button, input[type=button], a').off('click.action');
 
         // Bind the click events, with the 'action' namespace.
-        $('[data-action]').on('click.action', function(e) {
+        $('[data-action]').on('click.action', function (e) {
             var action = $(this).data('action');
             if (typeof action !== "undefined" && action !== "") {
                 eval(action);
@@ -104,7 +104,7 @@ var init = {
             }
         })
         // Prevent propagation to parent's click handler from anchor in popover.
-        .on('click.popover', '.popover', function(e) {
+        .on('click.popover', '.popover', function (e) {
             e.stopPropagation();
         });
     },
@@ -126,7 +126,7 @@ var init = {
      * @returns {undefined}
      */
     deferredWidgets: function () {
-        $('div.widget').each(function() {
+        $('div.widget').each(function () {
             if (typeof $(this).data('defer') === 'undefined') {
                 return;
             }
@@ -136,10 +136,10 @@ var init = {
             $.ajax({
                 url: asyncpath + 'widget/' + key,
                 type: 'GET',
-                success: function(result) {
+                success: function (result) {
                     $('#widget-' + key).html(result);
                 },
-                error: function() {
+                error: function () {
                     console.log('failed to get widget');
                 }
             });
@@ -153,7 +153,7 @@ var init = {
      * @returns {undefined}
      */
     dropDowns: function () {
-        $('[data-toggle="dropdown"]').each(function(index, item) {
+        $('[data-toggle="dropdown"]').each(function (index, item) {
             var mouseEvt;
             if (typeof event === 'undefined') {
                 $(item).parent().click(function(e) {
@@ -162,7 +162,7 @@ var init = {
             } else {
                 mouseEvt = event;
             }
-            $(item).parent().on('show.bs.dropdown', function(e) {
+            $(item).parent().on('show.bs.dropdown', function (e) {
 
                 // Prevent breakage on old IE.
                 if (typeof mouseEvt === "undefined" || mouseEvt === null) {
@@ -194,7 +194,7 @@ var init = {
      */
     dropZone: function() {
         // @todo make it prettier, and distinguish between '.in' and '.hover'.
-        $(document).bind('dragover', function(e) {
+        $(document).bind('dragover', function (e) {
             var dropZone = $('.dropzone'),
                 timeout = window.dropZoneTimeout;
             if (!timeout) {
@@ -207,7 +207,7 @@ var init = {
             } else {
                 dropZone.removeClass('hover');
             }
-            window.dropZoneTimeout = setTimeout(function() {
+            window.dropZoneTimeout = setTimeout(function () {
                 window.dropZoneTimeout = null;
                 dropZone.removeClass('in hover');
             }, 100);
@@ -221,7 +221,7 @@ var init = {
      *
      * @returns {undefined}
      */
-    keyboardShortcuts: function() {
+    keyboardShortcuts: function () {
         function confirmExit() {
             if ($('form').hasChanged()) {
                 return "You have unfinished changes on this page. If you continue without saving, you will lose these changes.";
@@ -233,14 +233,14 @@ var init = {
         if ($('#sidebarsavecontinuebutton').is('*') || $('#saveeditfile').is('*')) {
 
             // Bind ctrl-s and meta-s for saving..
-            $('body, input').bind('keydown.ctrl_s keydown.meta_s', function(event) {
+            $('body, input').bind('keydown.ctrl_s keydown.meta_s', function (event) {
                 event.preventDefault();
                 $('form').watchChanges();
                 $('#sidebarsavecontinuebutton, #saveeditfile').trigger('click');
             });
 
             // Initialize watching for changes on "the form".
-            window.setTimeout(function() {
+            window.setTimeout(function () {
                 $('form').watchChanges();
             }, 1000);
 
@@ -267,7 +267,7 @@ var init = {
                 enabled: true,
                 duration: 300,
                 easing: 'ease-in-out',
-                opener: function(openerElement) {
+                opener: function (openerElement) {
                     return openerElement.parent().parent().find('img');
                 }
             }
@@ -275,11 +275,11 @@ var init = {
     },
 
     /*
-     * Initialize 'moment' timestamps..
+     * Initialize 'moment' timestamps.
      *
      * @returns {undefined}
      */
-    momentTimestamps: function() {
+    momentTimestamps: function () {
         if ($('.moment').is('*')) {
             updateMoments();
         }
@@ -290,7 +290,7 @@ var init = {
      *
      * @returns {undefined}
      */
-    omnisearch: function() {
+    omnisearch: function () {
         $('.omnisearch').select2({
             placeholder: '',
             minimumInputLength: 3,
@@ -317,22 +317,22 @@ var init = {
                     return {results: results};
                 }
             },
-            formatResult: function(item) {
-                var markup = "<table class='omnisearch-result'><tr>" +
-                    "<td class='omnisearch-result-info'>" +
-                    "<div class='omnisearch-result-label'>" + item.label + "</div>" +
-                    "<div class='omnisearch-result-description'>" + item.path + "</div>" +
-                    "</td></tr></table>";
+            formatResult: function (item) {
+                var markup = '<table class="omnisearch-result"><tr>' +
+                    '<td class="omnisearch-result-info">' +
+                    '<div class="omnisearch-result-label">' + item.label + '</div>' +
+                    '<div class="omnisearch-result-description">' + item.path + '</div>' +
+                    '</td></tr></table>';
 
                 return markup;
             },
-            formatSelection: function(item) {
+            formatSelection: function (item) {
                 window.location.href = item.path;
 
                 return item.label;
             },
             dropdownCssClass: "bigdrop",
-            escapeMarkup: function(m) {
+            escapeMarkup: function (m) {
                 return m;
             }
         });
@@ -343,8 +343,8 @@ var init = {
      *
      * @returns {undefined}
      */
-    passwordInput: function() {
-        $(".togglepass").on('click', function() {
+    passwordInput: function () {
+        $(".togglepass").on('click', function () {
             if ($(this).hasClass('show-password')) {
                 $('input[name="password"]').attr('type', 'text');
                 $('.togglepass.show-password').hide();
@@ -356,12 +356,12 @@ var init = {
             }
         });
 
-        $('.login-forgot').bind('click', function(e) {
+        $('.login-forgot').bind('click', function (e) {
             $('.login-group, .password-group').slideUp('slow');
             $('.reset-group').slideDown('slow');
         });
 
-        $('.login-remembered').bind('click', function(e){
+        $('.login-remembered').bind('click', function (e){
             $('.login-group, .password-group').slideDown('slow');
             $('.reset-group').slideUp('slow');
         });
@@ -370,7 +370,7 @@ var init = {
     /*
      * Initialize popovers.
      */
-    popOvers: function() {
+    popOvers: function () {
         $('.info-pop').popover({
             trigger: 'hover',
             delay: {
@@ -383,20 +383,20 @@ var init = {
     /*
      * ?
      */
-    sortables: function() {
+    sortables: function () {
         $('tbody.sortable').sortable({
             items: 'tr',
             opacity: '0.5',
             axis: 'y',
             handle: '.sorthandle',
-            update: function(e, ui) {
+            update: function (e, ui) {
                 serial = $(this).sortable('serialize');
                 // sorting request
                 $.ajax({
                     url: $('#baseurl').attr('value') + 'content/sortcontent/' + $(this).parent('table').data('contenttype'),
                     type: 'POST',
                     data: serial,
-                    success: function(feedback) {
+                    success: function (feedback) {
                         // do nothing
                     }
                 });
