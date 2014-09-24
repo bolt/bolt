@@ -4,7 +4,7 @@ namespace Bolt\Extensions;
 
 use Bolt\Application;
 
-interface BaseExtensionInterface
+interface IsExtension
 {
     public function __construct(Application $app);
     public function initialize();
