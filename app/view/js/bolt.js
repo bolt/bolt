@@ -351,8 +351,6 @@ function initActions() {
     });
 }
 
-
-
 /**
  * Initialize keyboard shortcuts:
  * - Click 'save' in Edit content screen.
@@ -386,8 +384,6 @@ function initKeyboardShortcuts() {
         window.onbeforeunload = confirmExit;
     }
 }
-
-
 
 /**
  * Initialise CKeditor instances.
@@ -491,12 +487,8 @@ CKEDITOR.editorConfig = function( config ) {
 };
 
 
-
-
 /**
- *
  * Initialize 'moment' timestamps..
- *
  */
 function updateMoments() {
 
@@ -512,30 +504,22 @@ function updateMoments() {
 var momentstimeout;
 
 /**
- *
- * Auto-update the 'latest activity' widget..
- *
+ * Auto-update the 'latest activity' widget.
  */
 function updateLatestActivity() {
-
     $.get(asyncpath+'latestactivity', function(data) {
         $('#latesttemp').html(data);
         updateMoments();
         $('#latestactivity').html($('#latesttemp').html());
     });
 
-    setTimeout( function(){ updateLatestActivity(); }, 30 * 1000);
-
+    setTimeout(function() { updateLatestActivity(); }, 30 * 1000);
 }
 
-
 /**
- *
  * Bind the file upload when editing content, so it works and stuff
- *
  */
 function bindFileUpload(key) {
-
     // Since jQuery File Upload's 'paramName' option seems to be ignored,
     // it requires the name of the upload input to be "images[]". Which clashes
     // with the non-fancy fallback, so we hackishly set it here. :-/
@@ -551,7 +535,7 @@ function bindFileUpload(key) {
                         $('#thumbnail-' + key).html("<img src='" + path + "../thumbs/120x120c/" + encodeURI(filename) + "' width='120' height='120'>");
                         window.setTimeout(function() { $('#progress-' + key).fadeOut('slow'); }, 1500);
 
-                        // Add the uploaded file to our stack..
+                        // Add the uploaded file to our stack.
                         stack.addToStack(filename);
 
                     } else {
@@ -572,17 +556,13 @@ function bindFileUpload(key) {
             $('#progress-' + key).show().addClass('progress-striped active');
             $('#progress-' + key + ' div.bar').css('width', progress + "%");
         });
-
 }
 
-
 /**
- *
  * Functions for working with the automagic URI/Slug generation.
- *
  */
-function makeUri(contenttypeslug, id, usesfields, slugfield, fulluri) {
 
+function makeUri(contenttypeslug, id, usesfields, slugfield, fulluri) {
     $(usesfields).each( function() {
         $('#' + this).on('propertychange.bolt input.bolt change.bolt', function() {
             var usesvalue = "";
@@ -599,7 +579,6 @@ function makeUri(contenttypeslug, id, usesfields, slugfield, fulluri) {
             makeuritimeout = setTimeout( function(){ makeUriAjax(usesvalue, contenttypeslug, id, slugfield, fulluri); }, 200);
         }).trigger('change.bolt');
     });
-
 }
 
 function stopMakeUri(usesfields) {
@@ -633,12 +612,10 @@ function makeUriAjax(text, contenttypeslug, id, slugfield, fulluri) {
     });
 }
 
-
 /**
- *
  * Making the 'video embed' filetype work.
- *
  */
+
 function bindVideoEmbed(key) {
     $('#video-' + key).bind('propertychange input', function() {
         clearTimeout(videoembedtimeout);
@@ -700,14 +677,10 @@ function bindVideoEmbedAjax(key) {
             $('#thumbnail-' + key).html("<img src='" + data.thumbnail_url + "' width='160' height='120'>");
             $('#video-' + key + '-thumbnail').val(data.thumbnail_url);
         }
-
     });
-
 }
 
-
 function bindGeolocation(key, latitude, longitude) {
-
     latitude = parseFloat(latitude);
     longitude = parseFloat(longitude);
 
@@ -724,7 +697,7 @@ function bindGeolocation(key, latitude, longitude) {
         geotimeout = setTimeout(function(){ bindGeoAjax(key); }, 800);
     });
 
-    $("#map-"+key).goMap({
+    $("#map-" + key).goMap({
         latitude: latitude,
         longitude: longitude,
         zoom: 15,
@@ -743,13 +716,11 @@ function bindGeolocation(key, latitude, longitude) {
 
     // Handler for when the marker is dropped..
     $.goMap.createListener({type:'marker', marker:'pinmarker'}, 'mouseup', function() { updateGeoCoords(key); });
-
 }
 
 var geotimeout;
 
 function bindGeoAjax(key) {
-
     var address = $("#" + key + "-address").val();
 
     // If address is emptied, clear the address fields..
@@ -765,7 +736,6 @@ function bindGeoAjax(key) {
     $.goMap.setMarker('pinmarker', {address: address});
 
     setTimeout( function(){ updateGeoCoords(key); }, 500);
-
 }
 
 function updateGeoCoords(key) {
@@ -785,117 +755,6 @@ function updateGeoCoords(key) {
         });
     }
 };
-
-
-/**
- * Backbone object for collapsable sidebar.
- */
-var Sidebar = Backbone.Model.extend({
-
-    defaults: {
-    },
-
-    initialize: function() {
-        // Do this, only if the sidebar is visible. (not when in small-responsive view)
-        if ($('#navpage-secondary').is(':visible')) {
-
-            // Note: It might seem easier to do this with a simple .popover, but we
-            // shouldn't. People using keyboard access will not appreciate the menu timing
-            // out and disappearing after a split-second of losing focus.
-            $('#navpage-secondary a.menu-pop').on('mouseover focus', function() {
-                $('#navpage-secondary a.menu-pop').not(this).popover('hide');
-                $(this).popover('show');
-            });
-
-            // Likewise, we need to distinct events, to hide the sidebar's popovers:
-            // One for 'mouseleave' on the sidebar itself, and one for keyboard 'focus'
-            // on the items before and after.
-            $('#navpage-secondary').on('mouseleave', function() {
-                window.setTimeout(function() {
-                    $('#navpage-secondary a.menu-pop').popover('hide');
-                }, 500);
-            });
-            $('.nav-secondary-collapse a, .nav-secondary-dashboard a').on('focus', function() {
-                $('#navpage-secondary a.menu-pop').popover('hide');
-            });
-
-        }
-
-        // set up 'fixlength'
-        window.setTimeout(function(){ sidebar.fixlength(); }, 500);
-
-    },
-
-    /*
-     * Make sure the sidebar is as long as the document height. Also: Typecasting! love it or hate it!
-     */
-    fixlength: function() {
-        var documentheight = $('#navpage-content').height() + 22;
-        if (documentheight > $('#navpage-secondary').height()) {
-            $('#navpage-secondary').height( documentheight + "px");
-            window.setTimeout(function(){ sidebar.fixlength(); }, 500);
-        }
-    },
-
-    /**
-     * Hide / show subitems in the sidebar for mobile devices.
-     */
-    showSidebarItems: function(name) {
-        sidebar.closePopOvers();
-        // Check if the "hamburger menu" is actually visible. If not, we're not on mobile
-        // or tablet, and we should just redirect to the first link, to prevent confusion.
-        if (!$('.navbar-toggle').is(':visible')) {
-            window.location.href = $('#navpage-secondary .submenu-'+name).find('a').first().attr('href');
-        } else {
-            if ($('#navpage-secondary .submenu-'+name).hasClass('show')) {
-                $('#navpage-secondary .submenu-'+name).removeClass('show');
-            } else {
-                $('#navpage-secondary .submenu').removeClass('show');
-                $('#navpage-secondary .submenu-'+name).addClass('show');
-            }
-        }
-    },
-
-    /**
-     * Collapse secondary navigation to icon only design
-     */
-    collapse: function() {
-        sidebar.closePopOvers();
-        $('#navpage-wrapper').removeClass('nav-secondary-opened').addClass('nav-secondary-collapsed');
-        // We add the '-hoverable' class to make sure the sidebar _first_ collapses, and only _then_
-        // can be opened by hovering on it.
-        setTimeout(function() {
-            $('#navpage-wrapper').addClass('nav-secondary-collapsed-hoverable');
-        }, 300);
-        $.cookie('sidebar', 'collapsed', { expires: 21, path: '/' });
-    },
-
-    /**
-     * Expand secondary navigation to icon full width design
-     */
-    expand: function() {
-        sidebar.closePopOvers();
-        $('#navpage-wrapper').removeClass('nav-secondary-collapsed nav-secondary-opened nav-secondary-collapsed-hoverable');
-        $.removeCookie('sidebar', {path: '/'});
-    },
-
-    /**
-     * Show/hide secondary navigation
-     */
-    toggle: function() {
-        var wrapper = $('#navpage-wrapper');
-        if (wrapper.hasClass('nav-secondary-opened')) {
-            wrapper.removeClass('nav-secondary-opened nav-secondary-collapsed');
-        } else {
-            wrapper.removeClass('nav-secondary-collapsed').addClass('nav-secondary-opened');
-        }
-    },
-
-    closePopOvers: function() {
-        $('#navpage-secondary a.menu-pop').popover('hide');
-    }
-
-});
 
 /**
  * Backbone object for all file actions functionality.
@@ -998,7 +857,7 @@ var Files = Backbone.Model.extend({
 });
 
 /**
- * Backbone object for all Stack-related functionality.
+ * Model, Collection and View for Filelist.
  */
 var Stack = Backbone.Model.extend({
 
@@ -1285,10 +1144,10 @@ var FilelistHolder = Backbone.View.extend({
     }
 });
 
-
 /**
  * Model, Collection and View for Imagelist.
  */
+
 var Imagemodel = Backbone.Model.extend({
     defaults: {
         id: null,
@@ -1461,115 +1320,10 @@ var ImagelistHolder = Backbone.View.extend({
  */
 (function(e) {"use strict";e.fn.konami=function(t){var n,r,i,s,o,u,a,n=e.extend({},e.fn.konami.defaults,t);return this.each(function(){r=[38,38,40,40,37,39,37,39,66,65];i=[];e(window).keyup(function(e){s=e.keyCode?e.keyCode:e.which;i.push(s);if(10===i.length){o=!0;for(u=0,a=r.length;u<a;u++)r[u]!==i[u]&&(o=!1);o&&n.cheat();i=[]}})})};e.fn.konami.defaults={cheat:null}})(jQuery);
 
-
 function openVideo(url) {
-
     var modal = '<div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"><div class="modal-body">'
         + url +
         '</div><div class="modal-footer"><button class="btn" data-dismiss="modal" aria-hidden="true">Close</button></div></div>';
 
     $('body').append(modal);
-
 }
-
-/**
- * This backbone model cares about folder actions within /files in the backend.
- */
-var Folders = Backbone.Model.extend({
-
-    defaults: {
-    },
-
-    initialize: function() {
-    },
-
-    /**
-     * Create a folder.
-     *
-     * @param string promptQuestionString Translated version of "What's the new filename?".
-     * @param string parentPath Parent path of the folder to create.
-     */
-    create: function(promptQuestionString, namespace, parentPath, element)
-    {
-        var newFolderName = window.prompt(promptQuestionString);
-
-        if (!newFolderName.length) {
-            return;
-        }
-
-        $.ajax({
-            url: asyncpath + 'folder/create',
-            type: 'POST',
-            data: {
-                parent: parentPath,
-                foldername: newFolderName,
-                namespace: namespace
-            },
-            success: function(result) {
-                document.location.reload();
-            },
-            error: function() {
-                console.log('Something went wrong renaming this folder!');
-            }
-        });
-    },
-
-    /**
-     * Rename a folder.
-     *
-     * @param string promptQuestionString Translated version of "Which file to rename?".
-     * @param string parentPath           Parent path of the folder to rename.
-     * @param string oldName              Old name of the folder to be renamed.
-     * @param string newName              New name of the folder to be renamed.
-     */
-    rename: function(promptQuestionString, namespace, parentPath, oldFolderName, element)
-    {
-        var newFolderName = window.prompt(promptQuestionString, oldFolderName);
-
-        if (!newFolderName.length) {
-            return;
-        }
-
-        $.ajax({
-            url: asyncpath + 'folder/rename',
-            type: 'POST',
-            data: {
-                namespace: namespace,
-                parent: parentPath,
-                oldname: oldFolderName,
-                newname: newFolderName
-            },
-            success: function(result) {
-                document.location.reload();
-            },
-            error: function() {
-                console.log('Something went wrong renaming this folder!');
-            }
-        });
-    },
-
-    /**
-     * Remove a folder.
-     *
-     * @param string parentPath Parent path of the folder to remove.
-     * @param string folderName Name of the folder to remove.
-     */
-    remove: function(namespace, parentPath, folderName, element)
-    {
-        $.ajax({
-            url: asyncpath + 'folder/remove',
-            type: 'POST',
-            data: {
-                namespace: namespace,
-                parent: parentPath,
-                foldername: folderName
-            },
-            success: function(result) {
-                document.location.reload();
-            },
-            error: function() {
-                console.log('Something went wrong renaming this folder!');
-            }
-        });
-    }
-});
