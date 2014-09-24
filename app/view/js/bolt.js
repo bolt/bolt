@@ -518,6 +518,8 @@ function updateLatestActivity() {
 
 /**
  * Bind the file upload when editing content, so it works and stuff
+ *
+ * @param {string} key
  */
 function bindFileUpload(key) {
     // Since jQuery File Upload's 'paramName' option seems to be ignored,
