@@ -90,7 +90,7 @@ jQuery(function($) {
      */
     $('[data-toggle="dropdown"]').each(function(index, item) {
         var mouseEvt;
-        if (typeof event == 'undefined') {
+        if (typeof event === 'undefined') {
             $(item).parent().click(function(e) {
                 mouseEvt = e;
             });
@@ -100,7 +100,7 @@ jQuery(function($) {
         $(item).parent().on('show.bs.dropdown', function(e) {
 
             //prevent breakage on old IE.
-            if (typeof mouseEvt == "undefined" || mouseEvt == null) {
+            if (typeof mouseEvt === "undefined" || mouseEvt === null) {
                 return false;
             }
 
@@ -190,7 +190,7 @@ jQuery(function($) {
         var checkedStatus = this.checked;
         $(".dashboardlisting tr td:first-child input:checkbox").each(function() {
             this.checked = checkedStatus;
-            if (checkedStatus == this.checked) {
+            if (checkedStatus === this.checked) {
                 $(this).closest('table tbody tr').removeClass('row-checked');
             }
             if (this.checked) {
@@ -339,7 +339,7 @@ function initActions() {
     // Bind the click events, with the 'action' namespace.
     $('[data-action]').on('click.action', function(e) {
         var action = $(this).data('action');
-        if (typeof(action) != "undefined" && (action != "") ) {
+        if (typeof(action) !== "undefined" && (action !== "") ) {
             eval(action);
             e.stopPropagation();
             e.preventDefault();
@@ -545,7 +545,7 @@ function bindFileUpload(key) {
             dropZone: $('#dropzone-' + key),
             done: function (e, data) {
                 $.each(data.result, function(index, file) {
-                    if (file.error == undefined) {
+                    if (file.error === undefined) {
                         var filename = decodeURI(file.url).replace("files/", "");
                         $('#field-' + key).val(filename);
                         $('#thumbnail-' + key).html("<img src='" + path + "../thumbs/120x120c/" + encodeURI(filename) + "' width='120' height='120'>");
@@ -712,10 +712,10 @@ function bindGeolocation(key, latitude, longitude) {
     longitude = parseFloat(longitude);
 
     // Default location is Two Kings, for now.
-    if (latitude == 0 || isNaN(latitude)) {
+    if (latitude === 0 || isNaN(latitude)) {
         latitude = 52.08184;
     }
-    if (longitude == 0 || isNaN(longitude)) {
+    if (longitude === 0 || isNaN(longitude)) {
         longitude = 4.292368;
     }
 
@@ -772,7 +772,7 @@ function updateGeoCoords(key) {
     var markers = $.goMap.getMarkers();
     var marker = markers[0].split(",");
 
-    if (typeof(marker[0] != "undefined")) {
+    if (typeof(marker[0] !== "undefined")) {
         $('#' + key + '-latitude').val(marker[0]);
         $('#' + key + '-longitude').val(marker[1]);
 
@@ -965,7 +965,7 @@ var Files = Backbone.Model.extend({
                 console.log('Deleted file ' + filename  + ' from the server');
 
                 // If we are on the files table, remove image row from the table, as visual feedback
-                if (element != null) {
+                if (element !== null) {
                     $(element).closest('tr').slideUp();
                 }
 
@@ -1029,7 +1029,7 @@ var Stack = Backbone.Model.extend({
     addToStack: function(filename, element) {
 
         var ext = filename.substr(filename.lastIndexOf('.') + 1).toLowerCase();
-        if (ext == "jpg" || ext == "jpeg" || ext == "png" || ext == "gif" ) {
+        if (ext === "jpg" || ext === "jpeg" || ext === "png" || ext === "gif" ) {
             type = "image";
         } else {
             type = "other";
@@ -1056,12 +1056,12 @@ var Stack = Backbone.Model.extend({
                 }
 
                 // If added via a button on the page, disable the button, as visual feedback
-                if (element != null) {
+                if (element !== null) {
                     $(element).addClass('disabled');
                 }
 
                 // Insert new item at the front..
-                if (type == "image") {
+                if (type === "image") {
                     var html = $('#protostack div.image').clone();
                     $(html).find('img').attr('src', path + "../thumbs/100x100c/"+encodeURI(filename) );
                 } else {
@@ -1090,12 +1090,12 @@ var Stack = Backbone.Model.extend({
         }
 
         // For Imagelist fields. Check if imagelist[key] is an object.
-        if (typeof imagelist == "object" && typeof imagelist[key] == "object") {
+        if (typeof imagelist === "object" && typeof imagelist[key] === "object") {
             imagelist[key].add(filename, filename);
         }
 
         // For Filelist fields. Check if filelist[key] is an object.
-        if (typeof filelist == "object" && typeof filelist[key] == "object") {
+        if (typeof filelist === "object" && typeof filelist[key] === "object") {
             filelist[key].add(filename, filename);
         }
 
@@ -1111,7 +1111,7 @@ var Stack = Backbone.Model.extend({
         }
 
         // If we need to place it on the stack as well, do so.
-        if (key == "stack") {
+        if (key === "stack") {
             stack.addToStack(filename);
         }
 
@@ -1153,7 +1153,7 @@ var Filelist = Backbone.Collection.extend({
     },
     setOrder: function(id, order, title) {
         _.each(this.models, function(item) {
-            if (item.get('id') == id) {
+            if (item.get('id') === id) {
                 item.set('order', order);
                 item.set('title', title);
             }
@@ -1166,7 +1166,7 @@ var FilelistHolder = Backbone.View.extend({
     initialize: function(id) {
         this.list = new Filelist();
         var prelist = $('#' + this.id).val();
-        if (prelist != "") {
+        if (prelist !== "") {
             var prelist = $.parseJSON($('#' + this.id).val());
             _.each(prelist, function(item){
                 var file = new FilelistModel({filename: item.filename, title: item.title, id: this.list.length });
@@ -1191,7 +1191,7 @@ var FilelistHolder = Backbone.View.extend({
                              "'><a href='#'><i class='fa fa-times'></i></a></div>";
             $list.append(html);
         });
-        if (this.list.models.length == 0) {
+        if (this.list.models.length === 0) {
             $list.append("<p>No files in the list, yet.</p>");
         }
         this.serialize();
@@ -1206,7 +1206,7 @@ var FilelistHolder = Backbone.View.extend({
 
     remove: function(id) {
         _.each(this.list.models, function(item) {
-            if (item.get('id') == id) {
+            if (item.get('id') === id) {
                 this.list.remove(item);
             }
         }, this);
@@ -1307,7 +1307,7 @@ var Imagelist = Backbone.Collection.extend({
     },
     setOrder: function(id, order, title) {
         _.each(this.models, function(item) {
-            if (item.get('id') == id) {
+            if (item.get('id') === id) {
                 item.set('order', order);
                 item.set('title', title);
             }
@@ -1320,7 +1320,7 @@ var ImagelistHolder = Backbone.View.extend({
     initialize: function(id) {
         this.list = new Imagelist();
         var prelist = $('#' + this.id).val();
-        if (prelist != "") {
+        if (prelist !== "") {
             var prelist = $.parseJSON($('#' + this.id).val());
             _.each(prelist, function(item){
                 var image = new Imagemodel({filename: item.filename, title: item.title, id: this.list.length });
@@ -1344,7 +1344,7 @@ var ImagelistHolder = Backbone.View.extend({
                 _.escape(image.get('title'))  + "'><a href='#'><i class='fa fa-times'></i></a></div>";
             $list.append(html);
         });
-        if (this.list.models.length == 0) {
+        if (this.list.models.length === 0) {
             $list.append("<p>No images in the list, yet.</p>");
         }
         this.serialize();
@@ -1359,7 +1359,7 @@ var ImagelistHolder = Backbone.View.extend({
 
     remove: function(id) {
         _.each(this.list.models, function(item) {
-            if (item.get('id') == id) {
+            if (item.get('id') === id) {
                 this.list.remove(item);
             }
         }, this);
