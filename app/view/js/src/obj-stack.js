@@ -34,7 +34,7 @@ var Stack = Backbone.Model.extend({
         var ext = filename.substr(filename.lastIndexOf('.') + 1).toLowerCase(),
             type;
 
-        if (ext === "jpg" || ext === "jpeg" || ext === "png" || ext === "gif" ) {
+        if (ext === "jpg" || ext === "jpeg" || ext === "png" || ext === "gif") {
             type = "image";
         } else {
             type = "other";

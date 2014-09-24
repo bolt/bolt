@@ -3,21 +3,27 @@
  */
 
 var ImageModel = Backbone.Model.extend({
+
     defaults: {
         id: null,
         filename: null,
         title: "Untitled image",
         order: 1
     },
+
     initialize: function () {
     }
+
 });
 
 var Imagelist = Backbone.Collection.extend({
+
     model: ImageModel,
+
     comparator: function (image) {
         return image.get('order');
     },
+
     setOrder: function (id, order, title) {
         _.each(this.models, function (item) {
             if (item.get('id') === id) {
@@ -26,6 +32,7 @@ var Imagelist = Backbone.Collection.extend({
             }
         });
     }
+
 });
 
 var ImagelistHolder = Backbone.View.extend({
@@ -128,13 +135,14 @@ var ImagelistHolder = Backbone.View.extend({
                         $this.add(filename, filename);
                     });
                 }
-            }).bind('fileuploadsubmit', function (e, data) {
+            })
+            .bind('fileuploadsubmit', function (e, data) {
                 var fileTypes = $('#fileupload-' + contentkey).attr('accept');
 
                 if (typeof fileTypes !== 'undefined') {
                     var pattern = new RegExp("\.(" + fileTypes.replace(/,/g, '|').replace(/\./g, '') + ")$", "i");
                     $.each(data.files , function (index, file) {
-                        if (!pattern.test(file.name) ) {
+                        if (!pattern.test(file.name)) {
                             var message = "Oops! There was an error uploading the image. Make sure that the file " +
                                 "type is correct.\n\n(accept type was: " + fileTypes + ")";
                             alert(message);

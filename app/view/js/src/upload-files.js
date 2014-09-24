@@ -3,32 +3,41 @@
  */
 
 var FileModel = Backbone.Model.extend({
+
     defaults: {
         id: null,
         filename: null,
         title: "Untitled file",
         order: 1
     },
+
     initialize: function () {
     }
+
 });
 
 var FilelistModel = Backbone.Model.extend({
+
     defaults: {
         id: null,
         filename: null,
         title: "Untitled file",
         order: 1
     },
+
     initialize: function () {
     }
+
 });
 
 var Filelist = Backbone.Collection.extend({
+
     model: FilelistModel,
+
     comparator: function (file) {
         return file.get('order');
     },
+
     setOrder: function (id, order, title) {
         _.each(this.models, function (item) {
             if (item.get('id') === id) {
@@ -37,6 +46,7 @@ var Filelist = Backbone.Collection.extend({
             }
         });
     }
+
 });
 
 var FilelistHolder = Backbone.View.extend({
@@ -79,7 +89,11 @@ var FilelistHolder = Backbone.View.extend({
     },
 
     add: function (filename, title) {
-        var file = new FileModel({filename: filename, title: title, id: this.list.length});
+        var file = new FileModel({
+            filename: filename,
+            title: title,
+            id: this.list.length
+        });
 
         this.list.add(file);
         this.render();
@@ -100,7 +114,7 @@ var FilelistHolder = Backbone.View.extend({
     },
 
     doneSort: function () {
-        var list = this.list; // jQuery's .each overwrites 'this' scope, set it here..
+        var list = this.list; // jQuery's .each overwrites 'this' scope, set it here.
         $('#filelist-' + this.id + ' .list div').each(function (index) {
             var id = $(this).data('id'),
                 title = $(this).find('input').val();
@@ -163,4 +177,5 @@ var FilelistHolder = Backbone.View.extend({
             $this.doneSort();
         });
     }
+
 });
