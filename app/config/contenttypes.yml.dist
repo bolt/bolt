@@ -43,7 +43,7 @@ entries:
     listing_template: listing.twig
     listing_records: 10
     default_status: publish
-    sort: datepublish DESC
+    sort: -datepublish
     recordsperpage: 10
 
 # Pages can be used for the more 'static' pages on your site. Things like
@@ -160,7 +160,7 @@ kitchensink:
             multiple: true
             order: title
             label: Select zero or more pages
-    taxonomy: [ categories, tags, chapters ]
+    taxonomy: [ categories, tags ]
     show_on_dashboard: true
     default_status: publish
     searchable: false
