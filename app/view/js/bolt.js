@@ -5,7 +5,7 @@ try {
     console = {
         log: function() {},
         assert: function() {}
-    }
+    };
 }
 
 jQuery(function($) {
@@ -124,7 +124,7 @@ jQuery(function($) {
                     bottom: '100%'
                 });
             }
-        })
+        });
     });
 
     // Render any deferred widgets, if any.
@@ -221,7 +221,7 @@ jQuery(function($) {
         if (aItems.length < 1) {
             bootbox.alert("Nothing chosen to delete");
         } else {
-            var notice = "Are you sure you wish to <strong>delete " + (aItems.length=== 1 ? "this record" : "these records") + "</strong>? There is no undo."
+            var notice = "Are you sure you wish to <strong>delete " + (aItems.length=== 1 ? "this record" : "these records") + "</strong>? There is no undo.";
             bootbox.confirm(notice, function(confirmed) {
                 $(".alert").alert();
                 if (confirmed === true) {
@@ -594,7 +594,7 @@ function makeUri(contenttypeslug, id, usesfields, slugfield, fulluri) {
                     usesvalue += $("#" + this).val() ? $("#"+this).val() : "";
                 }
                 usesvalue += " ";
-            })
+            });
             clearTimeout(makeuritimeout);
             makeuritimeout = setTimeout( function(){ makeUriAjax(usesvalue, contenttypeslug, id, slugfield, fulluri); }, 200);
         }).trigger('change.bolt');
@@ -742,7 +742,7 @@ function bindGeolocation(key, latitude, longitude) {
     });
 
     // Handler for when the marker is dropped..
-    $.goMap.createListener({type:'marker', marker:'pinmarker'}, 'mouseup', function() { updateGeoCoords(key) });
+    $.goMap.createListener({type:'marker', marker:'pinmarker'}, 'mouseup', function() { updateGeoCoords(key); });
 
 }
 
@@ -895,7 +895,7 @@ var Sidebar = Backbone.Model.extend({
         $('#navpage-secondary a.menu-pop').popover('hide');
     }
 
-})
+});
 
 /**
  * Backbone object for all file actions functionality.
@@ -1222,7 +1222,7 @@ var FilelistHolder = Backbone.View.extend({
         var list = this.list; // jQuery's .each overwrites 'this' scope, set it here..
         $('#filelist-' + this.id + ' .list div').each(function(index) {
             var id = $(this).data('id');
-            var title = $(this).find('input').val()
+            var title = $(this).find('input').val();
             list.setOrder(id, index, title);
         });
         this.render();
@@ -1375,7 +1375,7 @@ var ImagelistHolder = Backbone.View.extend({
         var list = this.list; // jQuery's .each overwrites 'this' scope, set it here..
         $('#imagelist-' + this.id + ' .list div').each(function(index) {
             var id = $(this).data('id');
-            var title = $(this).find('input').val()
+            var title = $(this).find('input').val();
             list.setOrder(id, index, title);
         });
         this.render();
@@ -1458,7 +1458,8 @@ var ImagelistHolder = Backbone.View.extend({
  *
  * Copyright 2011 - 2013 8BIT, http://8BIT.io
  * Released under the MIT License
- */(function(e){"use strict";e.fn.konami=function(t){var n,r,i,s,o,u,a,n=e.extend({},e.fn.konami.defaults,t);return this.each(function(){r=[38,38,40,40,37,39,37,39,66,65];i=[];e(window).keyup(function(e){s=e.keyCode?e.keyCode:e.which;i.push(s);if(10===i.length){o=!0;for(u=0,a=r.length;u<a;u++)r[u]!==i[u]&&(o=!1);o&&n.cheat();i=[]}})})};e.fn.konami.defaults={cheat:null}})(jQuery);
+ */
+(function(e) {"use strict";e.fn.konami=function(t){var n,r,i,s,o,u,a,n=e.extend({},e.fn.konami.defaults,t);return this.each(function(){r=[38,38,40,40,37,39,37,39,66,65];i=[];e(window).keyup(function(e){s=e.keyCode?e.keyCode:e.which;i.push(s);if(10===i.length){o=!0;for(u=0,a=r.length;u<a;u++)r[u]!==i[u]&&(o=!1);o&&n.cheat();i=[]}})})};e.fn.konami.defaults={cheat:null}})(jQuery);
 
 
 function openVideo(url) {
