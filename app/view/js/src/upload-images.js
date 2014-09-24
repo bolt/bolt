@@ -123,7 +123,7 @@ var ImagelistHolder = Backbone.View.extend({
                 var fileTypes = $('#fileupload-' + contentkey).attr('accept');
 
                 if (typeof fileTypes !== 'undefined') {
-                    var pattern = new RegExp("(\.|\/)(" + fileTypes + ")$", "i");
+                    var pattern = new RegExp( "\.(" + fileTypes.replace(/,/g, '|').replace(/\./g, '') + ")$", "i" );
                     $.each( data.files , function (index, file) {
                         if( !pattern.test(file.name) ) {
                             var message = "Oops! There was an error uploading the image. Make sure that the file type is correct."
