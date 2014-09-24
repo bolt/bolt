@@ -73,6 +73,7 @@ module.exports = function(grunt) {
         concat: {
             js: {
                 src: [
+                    'js/src/jslint-conf.js',
                     'js/src/console.js',
                     'js/src/fnc-helpers.js',
                     'js/src/init-keyboard-shortcuts.js',
