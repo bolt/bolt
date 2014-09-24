@@ -1,9 +1,9 @@
-jQuery(function($) {
+jQuery(function ($) {
 
     init.confirmationDialogs();
     init.magnificPopup();
     init.dataActions();
-    window.setTimeout(function() {
+    window.setTimeout(function () {
         init.keyboardShortcuts();
     }, 1000);
     init.dropZone();

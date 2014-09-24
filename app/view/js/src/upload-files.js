@@ -9,7 +9,7 @@ var FileModel = Backbone.Model.extend({
         title: "Untitled file",
         order: 1
     },
-    initialize: function() {
+    initialize: function () {
     }
 });
 
@@ -20,17 +20,17 @@ var FilelistModel = Backbone.Model.extend({
         title: "Untitled file",
         order: 1
     },
-    initialize: function() {
+    initialize: function () {
     }
 });
 
 var Filelist = Backbone.Collection.extend({
     model: FilelistModel,
-    comparator: function(file) {
+    comparator: function (file) {
         return file.get('order');
     },
-    setOrder: function(id, order, title) {
-        _.each(this.models, function(item) {
+    setOrder: function (id, order, title) {
+        _.each(this.models, function (item) {
             if (item.get('id') === id) {
                 item.set('order', order);
                 item.set('title', title);
@@ -41,13 +41,17 @@ var Filelist = Backbone.Collection.extend({
 
 var FilelistHolder = Backbone.View.extend({
 
-    initialize: function(id) {
+    initialize: function (id) {
         this.list = new Filelist();
         var prelist = $('#' + this.id).val();
         if (prelist !== "") {
             var prelist = $.parseJSON($('#' + this.id).val());
-            _.each(prelist, function(item){
-                var file = new FilelistModel({filename: item.filename, title: item.title, id: this.list.length });
+            _.each(prelist, function (item) {
+                var file = new FilelistModel({
+                    filename: item.filename,
+                    title: item.title,
+                    id: this.list.length
+                });
                 this.list.add(file);
             }, this);
         }
@@ -55,17 +59,17 @@ var FilelistHolder = Backbone.View.extend({
         this.bindEvents();
     },
 
-    render: function() {
+    render: function () {
         this.list.sort();
 
         var $list = $('#filelist-' + this.id + ' .list');
         $list.html('');
-        _.each(this.list.models, function(file){
+        _.each(this.list.models, function (file) {
             var fileName = file.get('filename'),
                 html = "<div data-id='" + file.get('id') + "' class='ui-state-default'>" +
-                            "<span class='fileDescription'>" + fileName + "</span>" +
-                            "<input type='text' value='" + _.escape(file.get('title')) + "'>" +
-                            "<a href='#'><i class='fa fa-times'></i></a></div>";
+                        "<span class='fileDescription'>" + fileName + "</span>" +
+                        "<input type='text' value='" + _.escape(file.get('title')) + "'>" +
+                        "<a href='#'><i class='fa fa-times'></i></a></div>";
             $list.append(html);
         });
         if (this.list.models.length === 0) {
@@ -74,15 +78,15 @@ var FilelistHolder = Backbone.View.extend({
         this.serialize();
     },
 
-    add: function(filename, title) {
+    add: function (filename, title) {
         var file = new FileModel({filename: filename, title: title, id: this.list.length});
 
         this.list.add(file);
         this.render();
     },
 
-    remove: function(id) {
-        _.each(this.list.models, function(item) {
+    remove: function (id) {
+        _.each(this.list.models, function (item) {
             if (item.get('id') === id) {
                 this.list.remove(item);
             }
@@ -90,14 +94,14 @@ var FilelistHolder = Backbone.View.extend({
         this.render();
     },
 
-    serialize: function() {
+    serialize: function () {
         var ser = JSON.stringify(this.list);
         $('#' + this.id).val(ser);
     },
 
-    doneSort: function() {
+    doneSort: function () {
         var list = this.list; // jQuery's .each overwrites 'this' scope, set it here..
-        $('#filelist-' + this.id + ' .list div').each(function(index) {
+        $('#filelist-' + this.id + ' .list div').each(function (index) {
             var id = $(this).data('id'),
                 title = $(this).find('input').val();
 
@@ -106,13 +110,13 @@ var FilelistHolder = Backbone.View.extend({
         this.render();
     },
 
-    bindEvents: function() {
+    bindEvents: function () {
         var $this = this,
             contentkey = this.id,
             $holder = $('#filelist-' + this.id);
 
         $holder.find("div.list").sortable({
-            stop: function() {
+            stop: function () {
                 $this.doneSort();
             },
             delay: 100,
@@ -124,22 +128,21 @@ var FilelistHolder = Backbone.View.extend({
                 dataType: 'json',
                 dropZone: $holder,
                 done: function (e, data) {
-                    $.each(data.result, function(index, file) {
+                    $.each(data.result, function (index, file) {
                         var filename = decodeURI(file.url).replace("files/", "");
                         $this.add(filename, filename);
                     });
                 }
             })
-            .bind('fileuploadsubmit', function(e, data) {
+            .bind('fileuploadsubmit', function (e, data) {
                 var fileTypes = $('#fileupload-' + contentkey).attr('accept');
 
                 if (typeof fileTypes !== 'undefined') {
-                    var pattern = new RegExp( "\.(" + fileTypes.replace(/,/g, '|').replace(/\./g, '') + ")$", "i" );
-                    $.each( data.files , function (index, file) {
+                    var pattern = new RegExp("\.(" + fileTypes.replace(/,/g, '|').replace(/\./g, '') + ")$", "i");
+                    $.each(data.files , function (index, file) {
                         if (!pattern.test(file.name)) {
-                            var message = "Oops! There was an error uploading the file. Make sure that the file type is correct."
-                                            + "\n\n(accept type was: "
-                                            + fileTypes + ")";
+                            var message = "Oops! There was an error uploading the file. Make sure that the file " +
+                                "type is correct.\n\n(accept type was: " + fileTypes + ")";
                             alert(message);
                             e.preventDefault();
                             return false;
@@ -148,7 +151,7 @@ var FilelistHolder = Backbone.View.extend({
                 }
             });
 
-        $holder.find("div.list").on('click', 'a', function(e) {
+        $holder.find("div.list").on('click', 'a', function (e) {
             e.preventDefault();
             if (confirm('Are you sure you want to remove this image?')) {
                 var id = $(this).parent().data('id');
@@ -156,7 +159,7 @@ var FilelistHolder = Backbone.View.extend({
             }
         });
 
-        $holder.find("div.list").on('blur', 'input', function() {
+        $holder.find("div.list").on('blur', 'input', function () {
             $this.doneSort();
         });
     }

@@ -3,7 +3,7 @@ try {
     console.assert(1);
 } catch(e) {
     console = {
-        log: function() {},
-        assert: function() {}
+        log: function () {},
+        assert: function () {}
     };
 }

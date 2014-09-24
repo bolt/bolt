@@ -6,7 +6,7 @@ var Files = Backbone.Model.extend({
     defaults: {
     },
 
-    initialize: function() {
+    initialize: function () {
     },
 
     /**
@@ -18,7 +18,7 @@ var Files = Backbone.Model.extend({
      * @param {string} oldName              Old name of the file to be renamed.
      * @param {object} element              The object that calls this function, usually of type HTMLAnchorElement)
      */
-    renameFile: function(promptQuestionString, namespace, parentPath, oldName, element)
+    renameFile: function (promptQuestionString, namespace, parentPath, oldName, element)
     {
         var newName = window.prompt(promptQuestionString, oldName);
 
@@ -35,10 +35,10 @@ var Files = Backbone.Model.extend({
                 oldname: oldName,
                 newname: newName
             },
-            success: function(result) {
+            success: function (result) {
                 document.location.reload();
             },
-            error: function() {
+            error: function () {
                 console.log('Something went wrong renaming this file!');
             }
         });
@@ -51,7 +51,7 @@ var Files = Backbone.Model.extend({
      * @param {string} filename
      * @param {object} element
      */
-    deleteFile: function(namespace, filename, element) {
+    deleteFile: function (namespace, filename, element) {
 
         if (!confirm('Are you sure you want to delete ' + filename + '?')) {
             return;
@@ -64,7 +64,7 @@ var Files = Backbone.Model.extend({
                 namespace: namespace,
                 filename: filename
             },
-            success: function(result) {
+            success: function (result) {
                 console.log('Deleted file ' + filename  + ' from the server');
 
                 // If we are on the files table, remove image row from the table, as visual feedback
@@ -75,13 +75,13 @@ var Files = Backbone.Model.extend({
                 // TODO delete from Stack if applicable
 
             },
-            error: function() {
+            error: function () {
                 console.log('Failed to delete the file from the server');
             }
         });
     },
 
-    duplicateFile: function(namespace, filename) {
+    duplicateFile: function (namespace, filename) {
         $.ajax({
             url: asyncpath + 'duplicatefile',
             type: 'POST',
@@ -89,10 +89,10 @@ var Files = Backbone.Model.extend({
                 namespace: namespace,
                 filename: filename
             },
-            success: function(result) {
+            success: function (result) {
                 document.location.reload();
             },
-            error: function() {
+            error: function () {
                 console.log('Something went wrong duplicating this file!');
             }
         });

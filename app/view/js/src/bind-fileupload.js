@@ -12,12 +12,12 @@ function bindFileUpload(key) {
             dataType: 'json',
             dropZone: $('#dropzone-' + key),
             done: function (e, data) {
-                $.each(data.result, function(index, file) {
+                $.each(data.result, function (index, file) {
                     if (file.error === undefined) {
                         var filename = decodeURI(file.url).replace("files/", "");
                         $('#field-' + key).val(filename);
                         $('#thumbnail-' + key).html("<img src='" + path + "../thumbs/120x120c/" + encodeURI(filename) + "' width='120' height='120'>");
-                        window.setTimeout(function() { $('#progress-' + key).fadeOut('slow'); }, 1500);
+                        window.setTimeout(function () { $('#progress-' + key).fadeOut('slow'); }, 1500);
 
                         // Add the uploaded file to our stack.
                         stack.addToStack(filename);
@@ -28,7 +28,7 @@ function bindFileUpload(key) {
                             + file.error + ")";
 
                         alert(message);
-                        window.setTimeout(function() { $('#progress-' + key).fadeOut('slow'); }, 50);
+                        window.setTimeout(function () { $('#progress-' + key).fadeOut('slow'); }, 50);
                     }
                     $('#progress-' + key + ' div.bar').css('width', "100%");
                     $('#progress-' + key).removeClass('progress-striped active');

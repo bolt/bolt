@@ -1,7 +1,7 @@
 /**
  * Initialise CKeditor instances.
  */
-CKEDITOR.editorConfig = function(config) {
+CKEDITOR.editorConfig = function (config) {
     config.language = ckeditor_lang || 'en';
     config.uiColor = '#DDDDDD';
     config.resize_enabled = true;
@@ -92,7 +92,7 @@ CKEDITOR.editorConfig = function(config) {
     };
 
     /* Parse override settings from config.yml */
-    for (var key in wysiwyg.ck){
+    for (var key in wysiwyg.ck) {
         if (wysiwyg.ck.hasOwnProperty(key)) {
              config[key] = wysiwyg.ck[key];
         }

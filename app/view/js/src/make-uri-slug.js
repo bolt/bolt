@@ -14,23 +14,23 @@ function makeUriAjax(text, contenttypeslug, id, slugfield, fulluri) {
             id: id,
             fulluri: fulluri
         },
-        success: function(uri) {
+        success: function (uri) {
             $('#' + slugfield).val(uri);
             $('#show-' + slugfield).html(uri);
         },
-        error: function() {
+        error: function () {
             console.log('failed to get an URI');
         }
     });
 }
 
 function makeUri(contenttypeslug, id, usesfields, slugfield, fulluri) {
-    $(usesfields).each( function() {
-        $('#' + this).on('propertychange.bolt input.bolt change.bolt', function() {
+    $(usesfields).each(function () {
+        $('#' + this).on('propertychange.bolt input.bolt change.bolt', function () {
             var usesvalue = "";
-            $(usesfields).each( function() {
+            $(usesfields).each(function () {
                 if ($("#" + this).is("select") && $("#" + this).hasClass("slug-text")) {
-                    usesvalue += $("#"+this).val() ? $("#"+this).find("option[value=" + $("#"+this).val() + "]").text() : "";
+                    usesvalue += $("#" + this).val() ? $("#" + this).find("option[value=" + $("#" + this).val() + "]").text() : "";
                 }
                 else {
                     usesvalue += $("#" + this).val() || "";
@@ -38,14 +38,14 @@ function makeUri(contenttypeslug, id, usesfields, slugfield, fulluri) {
                 usesvalue += " ";
             });
             clearTimeout(makeuritimeout);
-            makeuritimeout = setTimeout( function(){ makeUriAjax(usesvalue, contenttypeslug, id, slugfield, fulluri); }, 200);
+            makeuritimeout = setTimeout(function () { makeUriAjax(usesvalue, contenttypeslug, id, slugfield, fulluri); }, 200);
         }).trigger('change.bolt');
     });
 }
 
 function stopMakeUri(usesfields) {
 
-    $(usesfields).each( function() {
+    $(usesfields).each(function () {
         $('#' + this).unbind('propertychange.bolt input.bolt change.bolt');
     });
     clearTimeout(makeuritimeout);

@@ -73,7 +73,7 @@ var init = {
                             $.ajax({
                                 url: $('#baseurl').attr('value') + 'content/deletecontent/' + $('#item_' + id).closest('table').data('contenttype') + '/' + id + '?token=' + $('#item_' + id).closest('table').data('token'),
                                 type: 'get',
-                                success: function (feedback){
+                                success: function (feedback) {
                                     $('#item_' + id).hide();
                                     $('a.deletechosen').hide();
                                 }
@@ -156,7 +156,7 @@ var init = {
         $('[data-toggle="dropdown"]').each(function (index, item) {
             var mouseEvt;
             if (typeof event === 'undefined') {
-                $(item).parent().click(function(e) {
+                $(item).parent().click(function (e) {
                     mouseEvt = e;
                 });
             } else {
@@ -192,7 +192,7 @@ var init = {
      *
      * @returns {undefined}
      */
-    dropZone: function() {
+    dropZone: function () {
         // @todo make it prettier, and distinguish between '.in' and '.hover'.
         $(document).bind('dragover', function (e) {
             var dropZone = $('.dropzone'),
@@ -252,7 +252,7 @@ var init = {
     /*
      * Initialize the Magnific popup shizzle. Fancybox is still here as a trigger, for backwards compatibility.
      */
-    magnificPopup: function() {
+    magnificPopup: function () {
         //
         $('.magnific, .fancybox').magnificPopup({
             type: 'image',
@@ -305,7 +305,7 @@ var init = {
                 },
                 results: function (data, page) {
                     var results = [];
-                    $.each(data, function(index, item){
+                    $.each(data, function (index, item) {
                         results.push({
                             id: item.path,
                             path: item.path,
@@ -361,7 +361,7 @@ var init = {
             $('.reset-group').slideDown('slow');
         });
 
-        $('.login-remembered').bind('click', function (e){
+        $('.login-remembered').bind('click', function (e) {
             $('.login-group, .password-group').slideDown('slow');
             $('.reset-group').slideUp('slow');
         });

@@ -6,7 +6,7 @@ var Folders = Backbone.Model.extend({
     defaults: {
     },
 
-    initialize: function() {
+    initialize: function () {
     },
 
     /**
@@ -17,7 +17,7 @@ var Folders = Backbone.Model.extend({
      * @param {string} parentPath Parent path of the folder to create.
      * @param {object} element
      */
-    create: function(promptQuestionString, namespace, parentPath, element)
+    create: function (promptQuestionString, namespace, parentPath, element)
     {
         var newFolderName = window.prompt(promptQuestionString);
 
@@ -33,10 +33,10 @@ var Folders = Backbone.Model.extend({
                 foldername: newFolderName,
                 namespace: namespace
             },
-            success: function(result) {
+            success: function (result) {
                 document.location.reload();
             },
-            error: function() {
+            error: function () {
                 console.log('Something went wrong renaming this folder!');
             }
         });
@@ -51,7 +51,7 @@ var Folders = Backbone.Model.extend({
      * @param {string} oldFolderName        Old name of the folder to be renamed.
      * @param {object} element
      */
-    rename: function(promptQuestionString, namespace, parentPath, oldFolderName, element)
+    rename: function (promptQuestionString, namespace, parentPath, oldFolderName, element)
     {
         var newFolderName = window.prompt(promptQuestionString, oldFolderName);
 
@@ -68,10 +68,10 @@ var Folders = Backbone.Model.extend({
                 oldname: oldFolderName,
                 newname: newFolderName
             },
-            success: function(result) {
+            success: function (result) {
                 document.location.reload();
             },
-            error: function() {
+            error: function () {
                 console.log('Something went wrong renaming this folder!');
             }
         });
@@ -85,7 +85,7 @@ var Folders = Backbone.Model.extend({
      * @param {string} folderName Name of the folder to remove.
      * @param {object} element
      */
-    remove: function(namespace, parentPath, folderName, element)
+    remove: function (namespace, parentPath, folderName, element)
     {
         $.ajax({
             url: asyncpath + 'folder/remove',
@@ -95,10 +95,10 @@ var Folders = Backbone.Model.extend({
                 parent: parentPath,
                 foldername: folderName
             },
-            success: function(result) {
+            success: function (result) {
                 document.location.reload();
             },
-            error: function() {
+            error: function () {
                 console.log('Something went wrong renaming this folder!');
             }
         });
