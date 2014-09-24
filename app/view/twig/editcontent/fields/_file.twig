@@ -4,7 +4,7 @@
     class:       field.class|default(''),
     label:       field.label|default(''),
     extensions:  field.extensions|default([]),
-    handler:     field.upload|default(''),
+    upload:      field.upload|default(''),
     info:        field.info|default('info.upload.file')
 }%}
 
@@ -13,7 +13,6 @@
 {% set items = stackitems(7, 'other,document') %}
 
 {% set attr_filepath = {
-    accept:  option.extensions|join('|'),
     class:   option.class~' imageinput',
     id:      'field-'~key,
     name:    key,
@@ -23,9 +22,9 @@
 
 {% set attr_upload = {
     accept:    option.extensions ? '.'~option.extensions|join(',.') : '',
-    data_url:  url('upload',{'handler':option.handler}),
+    data_url:  url('upload', {'handler': option.upload}),
     id:        'fileupload-'~key,
-    name:      'fileupload-'~key~'[]',
+    name:      'files[]',
     type:      'file',
 }%}
 
