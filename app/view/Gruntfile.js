@@ -55,7 +55,6 @@ module.exports = function(grunt) {
                     'js/src/jslint-conf.js',
                     'js/src/console.js',
                     'js/src/fnc-helpers.js',
-                    'js/src/init-keyboard-shortcuts.js',
                     'js/src/activity.js',
                     'js/src/bind-fileupload.js',
                     'js/src/make-uri-slug.js',
