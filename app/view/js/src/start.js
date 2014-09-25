@@ -8,6 +8,7 @@ jQuery(function ($) {
     bolt.filelist = [];
 
     // Initialisation
+    init.ckeditor();
     init.confirmationDialogs();
     init.magnificPopup();
     init.dataActions();

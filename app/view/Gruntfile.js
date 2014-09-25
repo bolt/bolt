@@ -56,7 +56,6 @@ module.exports = function(grunt) {
                     'js/src/console.js',
                     'js/src/fnc-helpers.js',
                     'js/src/init-keyboard-shortcuts.js',
-                    'js/src/init-ckeditor.js',
                     'js/src/activity.js',
                     'js/src/bind-fileupload.js',
                     'js/src/make-uri-slug.js',
