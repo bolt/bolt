@@ -5,13 +5,17 @@ module.exports = function(grunt) {
         config: grunt.file.readYAML('../config/config.yml'),
 
         watch: {
+            options: {
+                spawn: false,
+                livereload: true
+            },
             scripts: {
-                files: ['js/*.js', 'sass/*.scss', 'sass/nav/*.scss'],
+                files: ['sass/*.scss', 'sass/nav/*.scss'],
                 tasks: ['sass'],
-                options: {
-                    spawn: false,
-                    livereload: true
-                }
+            },
+            js: {
+                files: ['js/*.js', 'js/src/*.js'],
+                tasks: ['concat:js'],
             }
         },
 
@@ -66,6 +70,32 @@ module.exports = function(grunt) {
         //     },
         // },
 
+        concat: {
+            js: {
+                src: [
+                    'js/src/jslint-conf.js',
+                    'js/src/console.js',
+                    'js/src/fnc-helpers.js',
+                    'js/src/init-keyboard-shortcuts.js',
+                    'js/src/init-ckeditor.js',
+                    'js/src/activity.js',
+                    'js/src/bind-fileupload.js',
+                    'js/src/make-uri-slug.js',
+                    'js/src/video-embed.js',
+                    'js/src/geolocation.js',
+                    'js/src/upload-files.js',
+                    'js/src/upload-images.js',
+                    'js/src/obj-sidebar.js',
+                    'js/src/obj-files.js',
+                    'js/src/obj-stack.js',
+                    'js/src/obj-folders.js',
+                    'js/src/init.js',
+                    'js/src/start.js',
+                ],
+                dest: 'js/bolt.js',
+            },
+        },
+
         uglify: {
             bootstrap: {
                 files: {
@@ -87,6 +117,6 @@ module.exports = function(grunt) {
 
     require('load-grunt-tasks')(grunt);
 
-    grunt.registerTask('default', ['sass', 'watch']);
+    grunt.registerTask('default', ['sass', 'concat:js', 'watch']);
 
 };
