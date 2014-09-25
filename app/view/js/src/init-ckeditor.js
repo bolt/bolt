@@ -2,7 +2,7 @@
  * Initialise CKeditor instances.
  */
 CKEDITOR.editorConfig = function (config) {
-    var key;
+    var key, custom;
 
     config.language = bolt.ckeditorLang || 'en';
     config.uiColor = '#DDDDDD';
@@ -118,12 +118,13 @@ CKEDITOR.editorConfig = function (config) {
         }
     }
 
-    /* Parse override settings from field in contenttypes.yml */
-    var custom = $('[name='+this.name+']').data('ckconfig');
-    for (var key in custom){
-        if (custom.hasOwnProperty(key)) {
-            config[key] = custom[key];
+    // Parse override settings from field in contenttypes.yml
+    custom = $('textarea[name=' + this.name + ']').data('ckconfig');
+    if ($.isArray(custom)) {
+        for (key in custom){
+            if (custom.hasOwnProperty(key)) {
+                config[key] = custom[key];
+            }
         }
     }
-
 };
