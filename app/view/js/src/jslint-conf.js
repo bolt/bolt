@@ -1,5 +1,5 @@
 /*jslint browser: true, devel: true, debug: false, indent: 4, maxlen: 120, nomen: true, plusplus: true, sloppy: true, unparam: true */
-/*global $, jQuery, _, google, Backbone, bootbox, CKEDITOR, moment, bolt */
+/*global $, jQuery, _, google, Backbone, bootbox, CKEDITOR, moment */
 
 /*
  * Globals:

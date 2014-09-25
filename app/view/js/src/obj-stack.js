@@ -44,7 +44,7 @@ var Stack = Backbone.Model.extend({
         filename = filename.replace(/files\//ig, '');
 
         $.ajax({
-            url: bolt.asyncPath + 'addstack/' + filename,
+            url: bolt.paths.async + 'addstack/' + filename,
             type: 'GET',
             success: function (result) {
                 console.log('Added file ' + filename  + ' to stack');
@@ -71,7 +71,7 @@ var Stack = Backbone.Model.extend({
                 // Insert new item at the front.
                 if (type === "image") {
                     html = $('#protostack div.image').clone();
-                    $(html).find('img').attr('src', bolt.path + "../thumbs/100x100c/" + encodeURI(filename) );
+                    $(html).find('img').attr('src', bolt.paths.bolt + "../thumbs/100x100c/" + encodeURI(filename) );
                 } else {
                     html = $('#protostack div.other').clone();
                     $(html).find('strong').html(ext.toUpperCase());
@@ -109,7 +109,7 @@ var Stack = Backbone.Model.extend({
 
         // If the field has a thumbnail, set it.
         if ($('#thumbnail-' + key).is('*')) {
-            var src = bolt.path + '../thumbs/200x150c/' + encodeURI(filename);
+            var src = bolt.paths.bolt + '../thumbs/200x150c/' + encodeURI(filename);
             $('#thumbnail-' + key).html('<img src="' + src + '" width="200" height="150">');
         }
 

@@ -1,4 +1,8 @@
+
 jQuery(function ($) {
+    bolt = $('script[data-config]').first().data('config');
+    console.log(bolt);
+
     // Initialize objects
     bolt.files = new Files();
     bolt.folders = new Folders();

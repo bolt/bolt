@@ -18,7 +18,7 @@ function bindFileUpload(key) {
                     if (file.error === undefined) {
                         filename = decodeURI(file.url).replace("files/", "");
                         $('#field-' + key).val(filename);
-                        $('#thumbnail-' + key).html('<img src="' + bolt.pathRoot + 'thumbs/200x150c/' +
+                        $('#thumbnail-' + key).html('<img src="' + bolt.paths.root + 'thumbs/200x150c/' +
                             encodeURI(filename) + '" width="200" height="150">');
                         window.setTimeout(function () { $('#progress-' + key).fadeOut('slow'); }, 1500);
 

@@ -26,7 +26,7 @@ var Folders = Backbone.Model.extend({
         }
 
         $.ajax({
-            url: bolt.asyncPath + 'folder/create',
+            url: bolt.paths.async + 'folder/create',
             type: 'POST',
             data: {
                 parent: parentPath,
@@ -60,7 +60,7 @@ var Folders = Backbone.Model.extend({
         }
 
         $.ajax({
-            url: bolt.asyncPath + 'folder/rename',
+            url: bolt.paths.async + 'folder/rename',
             type: 'POST',
             data: {
                 namespace: namespace,
@@ -88,7 +88,7 @@ var Folders = Backbone.Model.extend({
     remove: function (namespace, parentPath, folderName, element)
     {
         $.ajax({
-            url: bolt.asyncPath + 'folder/remove',
+            url: bolt.paths.async + 'folder/remove',
             type: 'POST',
             data: {
                 namespace: namespace,

@@ -18,9 +18,11 @@ var init = {
      */
     ckeditor: function () {
         CKEDITOR.editorConfig = function (config) {
-            var key, custom;
+            var key,
+                custom,
+                set = bolt.ckeditor;
 
-            config.language = bolt.ckeditorLang || 'en';
+            config.language = set.language;
             config.uiColor = '#DDDDDD';
             config.resize_enabled = true;
             config.entities = false;
@@ -31,7 +33,7 @@ var init = {
                 { name: 'paragraph', items: ['NumberedList', 'BulletedList', 'Indent', 'Outdent', '-', 'Blockquote'] }
             ];
 
-            if (bolt.wysiwyg.anchor) {
+            if (set.anchor) {
                 config.toolbar = config.toolbar.concat({
                     name: 'links', items: ['Link', 'Unlink', '-', 'Anchor']
                 });
@@ -41,17 +43,17 @@ var init = {
                 });
             }
 
-            if (bolt.wysiwyg.subsuper) {
+            if (set.subsuper) {
                 config.toolbar = config.toolbar.concat({
                     name: 'subsuper', items: ['Subscript', 'Superscript']
                 });
             }
-            if (bolt.wysiwyg.images) {
+            if (set.images) {
                 config.toolbar = config.toolbar.concat({
                     name: 'image', items: ['Image']
                 });
             }
-            if (bolt.wysiwyg.embed) {
+            if (set.embed) {
                 config.extraPlugins += ',oembed,widget';
                 config.oembed_maxWidth = '853';
                 config.oembed_maxHeight = '480';
@@ -60,17 +62,17 @@ var init = {
                 });
             }
 
-            if (bolt.wysiwyg.tables) {
+            if (set.tables) {
                 config.toolbar = config.toolbar.concat({
                     name: 'table', items: ['Table']
                 });
             }
-            if (bolt.wysiwyg.align) {
+            if (set.align) {
                 config.toolbar = config.toolbar.concat({
                     name: 'align', items: ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock']
                 });
             }
-            if (bolt.wysiwyg.fontcolor) {
+            if (set.fontcolor) {
                 config.toolbar = config.toolbar.concat({
                     name: 'colors', items: ['TextColor', 'BGColor']
                 });
@@ -88,18 +90,18 @@ var init = {
             config.removePlugins = 'elementspath';
             config.resize_dir = 'vertical';
 
-            if (bolt.wysiwyg.filebrowser) {
-                if (bolt.wysiwyg.filebrowser.browseUrl) {
-                    config.filebrowserBrowseUrl = bolt.wysiwyg.filebrowser.browseUrl;
+            if (set.filebrowser) {
+                if (set.filebrowser.browseUrl) {
+                    config.filebrowserBrowseUrl = set.filebrowser.browseUrl;
                 }
-                if (bolt.wysiwyg.filebrowser.imageBrowseUrl) {
-                    config.filebrowserImageBrowseUrl = bolt.wysiwyg.filebrowser.imageBrowseUrl;
+                if (set.filebrowser.imageBrowseUrl) {
+                    config.filebrowserImageBrowseUrl = set.filebrowser.imageBrowseUrl;
                 }
-                if (bolt.wysiwyg.filebrowser.uploadUrl) {
-                    config.filebrowserUploadUrl = bolt.wysiwyg.filebrowser.uploadUrl;
+                if (set.filebrowser.uploadUrl) {
+                    config.filebrowserUploadUrl = set.filebrowser.uploadUrl;
                 }
-                if (bolt.wysiwyg.filebrowser.imageUploadUrl) {
-                    config.filebrowserImageUploadUrl = bolt.wysiwyg.filebrowser.imageUploadUrl;
+                if (set.filebrowser.imageUploadUrl) {
+                    config.filebrowserImageUploadUrl = set.filebrowser.imageUploadUrl;
                 }
             } else {
                 config.filebrowserBrowseUrl = '';
@@ -128,9 +130,11 @@ var init = {
             };
 
             // Parse override settings from config.yml
-            for (key in bolt.wysiwyg.ck) {
-                if (bolt.wysiwyg.ck.hasOwnProperty(key)) {
-                     config[key] = bolt.wysiwyg.ck[key];
+            if ($.isArray(set.ck)) {
+                for (key in set.ck) {
+                    if (set.ck.hasOwnProperty(key)) {
+                         config[key] = set.ck[key];
+                    }
                 }
             }
 
@@ -271,7 +275,7 @@ var init = {
             var key = $(this).data('key');
 
             $.ajax({
-                url: bolt.asyncPath + 'widget/' + key,
+                url: bolt.paths.async + 'widget/' + key,
                 type: 'GET',
                 success: function (result) {
                     $('#widget-' + key).html(result);
@@ -434,7 +438,7 @@ var init = {
             minimumInputLength: 3,
             multiple: true, // this is for better styling …
             ajax: {
-                url: bolt.asyncPath + "omnisearch",
+                url: bolt.paths.async + 'omnisearch',
                 dataType: 'json',
                 data: function (term, page) {
                     return {
@@ -530,7 +534,7 @@ var init = {
                     bindFileUpload(data.key);
 
                     autocomplete_conf = {
-                        source: bolt.asyncPath + 'filesautocomplete?ext=' + encodeURIComponent(accept),
+                        source: bolt.paths.async + 'filesautocomplete?ext=' + encodeURIComponent(accept),
                         minLength: 2
                     };
                     if (data.type === 'image') {
@@ -539,9 +543,9 @@ var init = {
                                 url;
 
                             if (path) {
-                                url = bolt.pathRoot +'thumbs/' + data.width + 'x' + data.height + 'c/' + encodeURI(path);
+                                url = bolt.paths.root +'thumbs/' + data.width + 'x' + data.height + 'c/' + encodeURI(path);
                             } else {
-                                url = bolt.pathApp + 'view/img/default_empty_4x3.png';
+                                url = bolt.paths.app + 'view/img/default_empty_4x3.png';
                             }
                             $('#thumbnail-' + data.key).html(
                                 '<img src="'+ url + '" width="' + data.width + '" height="' + data.height + '">'

@@ -6,7 +6,7 @@ var makeuritimeout;
 
 function makeUriAjax(text, contenttypeslug, id, slugfield, fulluri) {
     $.ajax({
-        url: bolt.asyncPath + 'makeuri',
+        url: bolt.paths.async + 'makeuri',
         type: 'GET',
         data: {
             title: text,
