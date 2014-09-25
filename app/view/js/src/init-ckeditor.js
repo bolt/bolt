@@ -97,5 +97,14 @@ CKEDITOR.editorConfig = function (config) {
              config[key] = wysiwyg.ck[key];
         }
     }
+
+    /* Parse override settings from field in contenttypes.yml */
+    var custom = $('[name='+this.name+']').data('ckconfig');
+    for (var key in custom){
+        if (custom.hasOwnProperty(key)) {
+            config[key] = custom[key];
+        }
+    }
+
 };
 

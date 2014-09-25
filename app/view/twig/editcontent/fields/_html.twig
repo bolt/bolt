@@ -5,7 +5,8 @@
     height:    field.height|default(''),
     label:     field.label|default(''),
     required:  field.required|default(false),
-    info:      field.info|default('')
+    info:      field.info|default(''),
+    ckconfig:  field.ckconfig|json_encode|raw|default('{}')
 }%}
 
 {#=== INIT ===========================================================================================================#}
@@ -20,10 +21,9 @@
 {#=== FIELDSET =======================================================================================================#}
 
 <fieldset class="html">
-
     <div class="col-sm-12">
         <label class="control-label">{{ (option.info) ? macro.infopop(labelkey, option.info) : labelkey }}</label>
-        <textarea{{ macro.attr(attr_html) }}>{{ context.content.get(key)|default('') }}</textarea>
+        <textarea{{ macro.attr(attr_html) }} data-ckconfig="{{ option.ckconfig }}">{{ context.content.get(key)|default('') }}</textarea>
     </div>
 
 </fieldset>
