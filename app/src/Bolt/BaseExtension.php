@@ -1,11 +1,11 @@
 <?php
 namespace Bolt;
 
-use Bolt\Extensions\BaseExtensionInterface;
+use Bolt\Extensions\ExtensionInterface;
 use Symfony\Component\Console\Command\Command;
 use Composer\Json\JsonFile;
 
-abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInterface
+abstract class BaseExtension extends \Twig_Extension implements ExtensionInterface
 {
     protected $app;
     protected $basepath;
