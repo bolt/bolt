@@ -49,27 +49,6 @@ module.exports = function(grunt) {
             }
         },
 
-        // concat: {
-        //     bootstrap: {
-        //         src: [
-        //             'node_modules/bootstrap-sass/vendor/assets/javascripts/bootstrap/alert.js',
-        //             'node_modules/bootstrap-sass/vendor/assets/javascripts/bootstrap/button.js',
-        //             'node_modules/bootstrap-sass/vendor/assets/javascripts/bootstrap/dropdown.js',
-        //             'node_modules/bootstrap-sass/vendor/assets/javascripts/bootstrap/tab.js',
-        //             'node_modules/bootstrap-sass/vendor/assets/javascripts/bootstrap/transition.js',
-        //             'node_modules/bootstrap-sass/vendor/assets/javascripts/bootstrap/modal.js',
-        //             'node_modules/bootstrap-sass/vendor/assets/javascripts/bootstrap/tooltip.js',
-        //             'node_modules/bootstrap-sass/vendor/assets/javascripts/bootstrap/popover.js',
-        //         ],
-        //         dest: 'js/bootstrap-concat.js',
-        //     },
-        //     bolt: {
-        //         // TODO: configure this.
-        //         //src: ['src/main.js', 'src/extras.js'],
-        //         //dest: 'dist/with_extras.js',
-        //     },
-        // },
-
         concat: {
             js: {
                 src: [
