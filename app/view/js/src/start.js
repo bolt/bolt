@@ -1,4 +1,12 @@
 jQuery(function ($) {
+    // Initialize objects
+    bolt.files = new Files();
+    bolt.folders = new Folders();
+    bolt.stack = new Stack();
+    bolt.sidebar = new Sidebar();
+    bolt.imagelist = [];
+    bolt.filelist = [];
+
     // Initialisation
     init.confirmationDialogs();
     init.magnificPopup();
@@ -17,10 +25,5 @@ jQuery(function ($) {
     init.dashboardCheckboxes();
     init.sortables();
     init.omnisearch();
-
-    // Initialize objects
-    bolt.files = new Files();
-    bolt.folders = new Folders();
-    bolt.stack = new Stack();
-    bolt.sidebar = new Sidebar();
+    init.uploads();
 });

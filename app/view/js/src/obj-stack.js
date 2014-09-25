@@ -97,14 +97,14 @@ var Stack = Backbone.Model.extend({
             $('#field-' + key).val(filename);
         }
 
-        // For Imagelist fields. Check if imagelist[key] is an object.
-        if (typeof imagelist === 'object' && typeof imagelist[key] === 'object') {
-            imagelist[key].add(filename, filename);
+        // For Imagelist fields. Check if bolt.imagelist[key] is an object.
+        if (typeof bolt.imagelist === 'object' && typeof bolt.imagelist[key] === 'object') {
+            bolt.imagelist[key].add(filename, filename);
         }
 
         // For Filelist fields. Check if filelist[key] is an object.
-        if (typeof filelist === 'object' && typeof filelist[key] === 'object') {
-            filelist[key].add(filename, filename);
+        if (typeof bolt.filelist === 'object' && typeof bolt.filelist[key] === 'object') {
+            bolt.filelist[key].add(filename, filename);
         }
 
         // If the field has a thumbnail, set it.

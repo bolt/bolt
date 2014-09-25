@@ -27,12 +27,14 @@
 }%}
 
 {% set attr_upl = {
-    accept:    option.extensions ? '.'~option.extensions|join(',.') : '',
-    data_url:  url('upload', {'handler': option.upload}),
-    id:        'fileupload-'~key,
-    name:      'files[]',
-    type:      'file',
+    accept:       option.extensions ? '.'~option.extensions|join(',.') : '',
+    data_upload:  {type: 'Image', key: key, width: preview_w, height: preview_h}|json_encode(),
+    data_url:     url('upload', {'handler': option.upload}),
+    id:           'fileupload-'~key,
+    name:         'files[]',
+    type:         'file',
 }%}
+
 
 {#=== BLOCKS =========================================================================================================#}
 
@@ -157,25 +159,3 @@
 </div>
 
 </fieldset>
-
-{#=== SCRIPT =========================================================================================================#}
-
-{% if not ismobileclient() %}
-    <script>
-        $(function() {
-            bindFileUpload('{{ key }}');
-
-            $("#field-{{ key }}").autocomplete({
-                source: "{{ paths.async }}filesautocomplete?ext=gif,jpg,jpeg,png",
-                minLength: 2,
-                close: function() {
-                    if ($('#field-{{ key }}').val() != "") {
-                        $('#thumbnail-{{ key }}').html("<img src='{{ app.paths.root }}thumbs/{{ preview_w }}x{{ preview_h }}c/" + encodeURI($('#field-{{ key }}').val()) + "' width='{{ preview_w }}' height='{{ preview_h }}'>");
-                    } else {
-                        $('#thumbnail-{{ key }}').html("<img src='{{ app.paths.app }}view/img/default_empty_4x3.png' width='{{ preview_w }}' height='{{ preview_h }}'>");
-                    }
-                }
-            });
-        });
-    </script>
-{% endif %}

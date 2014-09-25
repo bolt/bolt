@@ -98,6 +98,8 @@
     bolt.ckeditorLang = "{{ app.locale|default('en') }}";
     bolt.path = "{{ paths.bolt }}";
     bolt.asyncPath = "{{ paths.async }}";
+    bolt.pathApp = "{{ paths.app }}";
+    bolt.pathRoot = "{{ paths.root }}";
     {% if page_hasnav %}
         bolt.wysiwyg = {
            images: {{ 0 + config.get('general/wysiwyg/images') }},

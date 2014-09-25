@@ -12,12 +12,13 @@
 {% set items = stackitems(7, 'other,document') %}
 
 {% set attr_fileupload = {
-    accept:    option.extensions ? '.'~option.extensions|join(',.') : '',
-    data_url:  url('upload', {'handler': option.upload}),
-    id:        'fileupload-'~key,
-    name:      'files[]',
-    type:      'file',
-    multiple:  true,
+    accept:       option.extensions ? '.'~option.extensions|join(',.') : '',
+    data_upload:  {type: 'FileList', key: key}|json_encode(),
+    data_url:     url('upload', {'handler': option.upload}),
+    id:           'fileupload-'~key,
+    name:         'files[]',
+    type:         'file',
+    multiple:     true,
 }%}
 
 {% if context.content.get(key) is defined %}
@@ -83,14 +84,3 @@
     {{ block.serverselect(key) }}
 
 </fieldset>
-
-{#=== SCRIPT =========================================================================================================#}
-
-<script type="text/javascript">
-    $(function() {
-        if (typeof filelist == "undefined") {
-            filelist = [];
-        }
-        filelist['{{ key }}'] = new FilelistHolder({id: '{{ key }}'});
-    });
-</script>

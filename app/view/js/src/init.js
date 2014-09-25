@@ -385,6 +385,50 @@ var init = {
         });
     },
 
+    uploads: function () {
+        $('input[data-upload]').each(function (item) {
+            var data = $(this).data('upload'),
+                accept = $(this).attr('accept').replace(/\./g, ''),
+                autocomplete_conf;
+
+            switch (data.type) {
+                case 'Image':
+                case 'File':
+                    bindFileUpload(data.key);
+
+                    autocomplete_conf = {
+                        source: bolt.asyncPath + 'filesautocomplete?ext=' + encodeURIComponent(accept),
+                        minLength: 2
+                    };
+                    if (data.type === 'image') {
+                        autocomplete_conf.close = function () {
+                            var path = $('#field-' + data.key).val(),
+                                url;
+
+                            if (path) {
+                                url = bolt.pathRoot +'thumbs/' + data.width + 'x' + data.height + 'c/' + encodeURI(path);
+                            } else {
+                                url = bolt.pathApp + 'view/img/default_empty_4x3.png';
+                            }
+                            $('#thumbnail-' + data.key).html(
+                                '<img src="'+ url + '" width="' + data.width + '" height="' + data.height + '">'
+                            );
+                        };
+                    }
+                    $('#field-' + data.key).autocomplete(autocomplete_conf);
+                    break;
+
+                case 'ImageList':
+                    bolt.imagelist[data.key] = new ImagelistHolder({id: data.key});
+                    break;
+
+                case 'FileList':
+                    bolt.filelist[data.key] = new FilelistHolder({id: data.key});
+                    break;
+            }
+        });
+    },
+
     /*
      * ?
      */
