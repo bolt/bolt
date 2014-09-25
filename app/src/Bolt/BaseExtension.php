@@ -14,6 +14,9 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
     protected $filterlist;
     protected $snippetlist;
 
+    private $extensionConfig;
+    private $composerJsonLoaded;
+    private $composerJson;
     private $configLoaded;
 
     public function __construct(Application $app)
@@ -27,6 +30,8 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
         // lazy-loading mechanism to do its thing.
         // $this->getConfig();
         $this->configLoaded = false;
+        $this->extensionConfig = null;
+        $this->composerJsonLoaded = false;
 
         $this->functionlist = array();
         $this->filterlist = array();
@@ -68,23 +73,81 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
         return $this->app['resources']->getUrl('extensions') . ltrim($relative, "/") . "/";
     }
 
+    /**
+     * Gets the Composer name, e.g. 'bolt/foobar-extension'.
+     * @return string The Composer name for this extension, or NULL if the
+     *                extension is not composerized.
+     */
+    public function getComposerName()
+    {
+        $composerjson = $this->getComposerJSON();
+        if (isset($composerjson['name'])) {
+            return $composerjson['name'];
+        }
+        else {
+            return null;
+        }
+    }
+
+    /**
+     * Gets a 'machine name' for this extension.
+     * The machine name is the composer name, if available, or a slugified
+     * version of the name as reported by getName() otherwise.
+     *
+     * @return string
+     */
+    public function getMachineName()
+    {
+        $composerName = $this->getComposerName();
+        if (empty($composerName)) {
+            return util::slugify($this->getName());
+        }
+        else {
+            return $composerName;
+        }
+    }
+
+    /**
+     * Get the contents of the extension's composer.json file, lazy-loading
+     * as needed.
+     */
+    private function getComposerJSON()
+    {
+        if (!$this->composerJsonLoaded) {
+            $this->composerJsonLoaded = true;
+            $this->composerJson = null;
+            $jsonFile = new JsonFile($this->getBasepath() . '/composer.json');
+            if ($jsonFile->exists()) {
+                $this->composerJson = $jsonFile->read();
+            }
+        }
+        return $this->composerJson;
+    }
+
+    /**
+     * Builds an array suitable for conversion to JSON, which in turn will end
+     * up in a consolidated JSON file containing the configurations of all
+     * installed extensions.
+     */
     public function getExtensionConfig()
     {
-        $json = new JsonFile($this->getBasepath() . '/composer.json');
-
-        if ($json->exists()) {
-            $composerjson = $json->read();
-
-            return array(strtolower($composerjson['name']) => array(
-                'name' => $this->getName(),
-                'json' => $composerjson
-            ));
-        } else {
-            return array($this->getName() => array(
-                'name' => $this->getName(),
-                'json' => array()
-            ));
+        $composerjson = $this->getComposerJSON();
+        if (!is_array($this->extensionConfig)) {
+            $composerjson = $this->getComposerJSON();
+            if (is_array($composerjson)) {
+                $this->extensionConfig = array(strtolower($composerjson['name']) => array(
+                    'name' => $this->getName(),
+                    'json' => $composerjson
+                ));
+            }
+            else {
+                $this->extensionConfig = array($this->getName() => array(
+                    'name' => $this->getName(),
+                    'json' => array()
+                ));
+            }
         }
+        return $this->extensionConfig;
     }
 
     /**
@@ -111,7 +174,7 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
 
         $this->config = $this->getDefaultConfig();
 
-        $basefile = $this->app['resources']->getPath('extensionsconfig') . '/' . $this->getName();
+        $basefile = $this->app['resources']->getPath('extensionsconfig') . '/' . $this->getMachineName();
 
         // Load main config
         if ($this->isConfigValid($basefile . '.yml', true)) {
