@@ -59,19 +59,23 @@ var init = {
         // Delete chosen Items
         $("a.deletechosen").click(function (e) {
             e.preventDefault();
-            var aItems = getSelectedItems();
+            var aItems = getSelectedItems(),
+                notice;
 
             if (aItems.length < 1) {
                 bootbox.alert("Nothing chosen to delete");
             } else {
-                var notice = "Are you sure you wish to <strong>delete " + (aItems.length=== 1 ? "this record" : "these records") + "</strong>? There is no undo.";
+                notice = "Are you sure you wish to <strong>delete " +
+                    (aItems.length=== 1 ? "this record" : "these records") + "</strong>? There is no undo.";
                 bootbox.confirm(notice, function (confirmed) {
                     $(".alert").alert();
                     if (confirmed === true) {
                         $.each(aItems, function (index, id) {
-                            // delete request
+                            // Delete request
                             $.ajax({
-                                url: $('#baseurl').attr('value') + 'content/deletecontent/' + $('#item_' + id).closest('table').data('contenttype') + '/' + id + '?token=' + $('#item_' + id).closest('table').data('token'),
+                                url: $('#baseurl').attr('value') + 'content/deletecontent/' +
+                                    $('#item_' + id).closest('table').data('contenttype') + '/' + id + '?token=' +
+                                    $('#item_' + id).closest('table').data('token'),
                                 type: 'get',
                                 success: function (feedback) {
                                     $('#item_' + id).hide();
@@ -134,7 +138,7 @@ var init = {
             var key = $(this).data('key');
 
             $.ajax({
-                url: asyncpath + 'widget/' + key,
+                url: bolt.asyncPath + 'widget/' + key,
                 type: 'GET',
                 success: function (result) {
                     $('#widget-' + key).html(result);
@@ -173,7 +177,7 @@ var init = {
                     menu = self.next('.dropdown-menu'),
                     mousey = mouseEvt.pageY + 20,
                     menuHeight = menu.height(),
-                    menuVisY = $(window).height() - (mousey + menuHeight), // Distance of element from the bottom of viewport
+                    menuVisY = $(window).height() - (mousey + menuHeight), // Distance from the bottom of viewport
                     profilerHeight = 37; // The size of the Symfony Profiler Bar is 37px.
 
                 // The whole menu must fit when trying to 'dropup', but always prefer to 'dropdown' (= default).
@@ -224,7 +228,8 @@ var init = {
     keyboardShortcuts: function () {
         function confirmExit() {
             if ($('form').hasChanged()) {
-                return "You have unfinished changes on this page. If you continue without saving, you will lose these changes.";
+                return "You have unfinished changes on this page. " +
+                    "If you continue without saving, you will lose these changes.";
             }
         }
 
@@ -296,7 +301,7 @@ var init = {
             minimumInputLength: 3,
             multiple: true, // this is for better styling …
             ajax: {
-                url: asyncpath + "omnisearch",
+                url: bolt.asyncPath + "omnisearch",
                 dataType: 'json',
                 data: function (term, page) {
                     return {
@@ -390,14 +395,15 @@ var init = {
             axis: 'y',
             handle: '.sorthandle',
             update: function (e, ui) {
-                serial = $(this).sortable('serialize');
-                // sorting request
+                var serial = $(this).sortable('serialize');
+                // Sorting request
                 $.ajax({
-                    url: $('#baseurl').attr('value') + 'content/sortcontent/' + $(this).parent('table').data('contenttype'),
+                    url: $('#baseurl').attr('value') + 'content/sortcontent/' +
+                        $(this).parent('table').data('contenttype'),
                     type: 'POST',
                     data: serial,
                     success: function (feedback) {
-                        // do nothing
+                        // Do nothing
                     }
                 });
             }

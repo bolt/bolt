@@ -6,7 +6,7 @@ var makeuritimeout;
 
 function makeUriAjax(text, contenttypeslug, id, slugfield, fulluri) {
     $.ajax({
-        url: asyncpath + 'makeuri',
+        url: bolt.asyncPath + 'makeuri',
         type: 'GET',
         data: {
             title: text,
@@ -30,7 +30,8 @@ function makeUri(contenttypeslug, id, usesfields, slugfield, fulluri) {
             var usesvalue = "";
             $(usesfields).each(function () {
                 if ($("#" + this).is("select") && $("#" + this).hasClass("slug-text")) {
-                    usesvalue += $("#" + this).val() ? $("#" + this).find("option[value=" + $("#" + this).val() + "]").text() : "";
+                    usesvalue += $("#" + this).val() ?
+                        $("#" + this).find("option[value=" + $("#" + this).val() + "]").text() : "";
                 }
                 else {
                     usesvalue += $("#" + this).val() || "";
@@ -38,16 +39,16 @@ function makeUri(contenttypeslug, id, usesfields, slugfield, fulluri) {
                 usesvalue += " ";
             });
             clearTimeout(makeuritimeout);
-            makeuritimeout = setTimeout(function () { makeUriAjax(usesvalue, contenttypeslug, id, slugfield, fulluri); }, 200);
+            makeuritimeout = setTimeout(function () {
+                makeUriAjax(usesvalue, contenttypeslug, id, slugfield, fulluri);
+            }, 200);
         }).trigger('change.bolt');
     });
 }
 
 function stopMakeUri(usesfields) {
-
     $(usesfields).each(function () {
         $('#' + this).unbind('propertychange.bolt input.bolt change.bolt');
     });
     clearTimeout(makeuritimeout);
-
 }

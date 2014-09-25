@@ -5,8 +5,8 @@
 var videoembedtimeout;
 
 function bindVideoEmbedAjax(key) {
-    // Embed endpoint http://api.embed.ly/1/oembed?format=json&callback=:callbackurl=
-    // @todo make less dependant on key..
+    // oembed endpoint http://api.embed.ly/1/oembed?format=json&callback=:callbackurl=
+    // @todo make less dependant on key.
     var endpoint = "http://api.embed.ly/1/oembed?format=json&key=51fa004148ad4d05b115940be9dd3c7e&url=",
         val = $('#video-' + key).val(),
         url = endpoint + encodeURI(val);
@@ -55,13 +55,17 @@ function bindVideoEmbed(key) {
 
     $('#video-' + key + '-width').bind('propertychange input', function () {
         if ($('#video-' + key + '-ratio').val() > 0) {
-            $('#video-' + key + '-height').val(Math.round($('#video-' + key + '-width').val() / $('#video-' + key + '-ratio').val()));
+            $('#video-' + key + '-height').val(Math.round(
+                $('#video-' + key + '-width').val() / $('#video-' + key + '-ratio').val()
+            ));
         }
     });
 
     $('#video-' + key + '-height').bind('propertychange input', function () {
         if ($('#video-' + key + '-ratio').val() > 0) {
-            $('#video-' + key + '-width').val(Math.round($('#video-' + key + '-height').val() * $('#video-' + key + '-ratio').val()));
+            $('#video-' + key + '-width').val(Math.round(
+                $('#video-' + key + '-height').val() * $('#video-' + key + '-ratio').val()
+            ));
         }
     });
 }

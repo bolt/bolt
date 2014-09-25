@@ -44,7 +44,7 @@ var Stack = Backbone.Model.extend({
         filename = filename.replace(/files\//ig, '');
 
         $.ajax({
-            url: asyncpath + 'addstack/' + filename,
+            url: bolt.asyncPath + 'addstack/' + filename,
             type: 'GET',
             success: function (result) {
                 console.log('Added file ' + filename  + ' to stack');
@@ -71,7 +71,7 @@ var Stack = Backbone.Model.extend({
                 // Insert new item at the front.
                 if (type === "image") {
                     html = $('#protostack div.image').clone();
-                    $(html).find('img').attr('src', path + "../thumbs/100x100c/" + encodeURI(filename) );
+                    $(html).find('img').attr('src', bolt.path + "../thumbs/100x100c/" + encodeURI(filename) );
                 } else {
                     html = $('#protostack div.other').clone();
                     $(html).find('strong').html(ext.toUpperCase());
@@ -98,19 +98,19 @@ var Stack = Backbone.Model.extend({
         }
 
         // For Imagelist fields. Check if imagelist[key] is an object.
-        if (typeof imagelist === "object" && typeof imagelist[key] === "object") {
+        if (typeof imagelist === 'object' && typeof imagelist[key] === 'object') {
             imagelist[key].add(filename, filename);
         }
 
         // For Filelist fields. Check if filelist[key] is an object.
-        if (typeof filelist === "object" && typeof filelist[key] === "object") {
+        if (typeof filelist === 'object' && typeof filelist[key] === 'object') {
             filelist[key].add(filename, filename);
         }
 
         // If the field has a thumbnail, set it.
         if ($('#thumbnail-' + key).is('*')) {
-            src = path + "../thumbs/200x150/" + encodeURI(filename);
-            $('#thumbnail-' + key).html("<img src='" + src + "' width='200' height='150'>");
+            var src = bolt.path + '../thumbs/200x150c/' + encodeURI(filename);
+            $('#thumbnail-' + key).html('<img src="' + src + '" width="200" height="150">');
         }
 
         // Close the modal dialog, if this image/file was selected through one.
@@ -120,11 +120,11 @@ var Stack = Backbone.Model.extend({
 
         // If we need to place it on the stack as well, do so.
         if (key === "stack") {
-            stack.addToStack(filename);
+            bolt.stack.addToStack(filename);
         }
 
         // Make sure the dropdown menu is closed. (Using the "blunt axe" method)
-        $('.in,.open').removeClass('in open'); 
+        $('.in,.open').removeClass('in open');
 
     },
 

@@ -7,6 +7,7 @@ var momentstimeout;
 function updateMoments() {
     $('time.moment').each(function () {
         var stamp = moment($(this).attr('datetime'));
+
         $(this).html(stamp.fromNow());
     });
     clearTimeout(momentstimeout);
@@ -19,7 +20,7 @@ function updateMoments() {
  * Auto-update the 'latest activity' widget.
  */
 function updateLatestActivity() {
-    $.get(asyncpath + 'latestactivity', function (data) {
+    $.get(bolt.asyncPath + 'latestactivity', function (data) {
         $('#latesttemp').html(data);
         updateMoments();
         $('#latestactivity').html($('#latesttemp').html());

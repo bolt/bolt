@@ -1,5 +1,5 @@
 jQuery(function ($) {
-
+    // Initialisation
     init.confirmationDialogs();
     init.magnificPopup();
     init.dataActions();
@@ -19,9 +19,8 @@ jQuery(function ($) {
     init.omnisearch();
 
     // Initialize objects
-
-    files = new Files();
-    folders = new Folders();
-    stack = new Stack();
-    sidebar = new Sidebar();
+    bolt.files = new Files();
+    bolt.folders = new Folders();
+    bolt.stack = new Stack();
+    bolt.sidebar = new Sidebar();
 });

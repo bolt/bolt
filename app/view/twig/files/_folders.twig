@@ -33,11 +33,11 @@
                         <ul class="dropdown-menu pull-right">
                             <li>
                                 <a href="#"
-                                   data-action="folders.rename('{{__("Please enter a new folder name")}}',
-                                                               '{{ context.namespace }}',
-                                                               '{{ context.pathsegments|keys|last }}',
-                                                               '{{ folder.foldername }}',
-                                                               this);">
+                                   data-action="bolt.folders.rename('{{__("Please enter a new folder name")}}',
+                                                                    '{{ context.namespace }}',
+                                                                    '{{ context.pathsegments|keys|last }}',
+                                                                    '{{ folder.foldername }}',
+                                                                    this);">
 
                                     <i class="fa fa-keyboard-o"></i>
                                     {{ __('Rename %foldername%', { '%foldername%': folder.foldername }) }}
@@ -46,10 +46,10 @@
                                    class="confirm"
                                    data-confirm="{{ __("Do you really want to delete %foldername%?",
                                                         {'%foldername%': folder.foldername }) }}"
-                                   data-action="folders.remove('{{ context.namespace }}',
-                                                               '{{ context.pathsegments|keys|last }}',
-                                                               '{{ folder.foldername }}',
-                                                               this);">
+                                   data-action="bolt.folders.remove('{{ context.namespace }}',
+                                                                    '{{ context.pathsegments|keys|last }}',
+                                                                    '{{ folder.foldername }}',
+                                                                    this);">
 
                                     <i class="fa fa-ban"></i>
                                     {{ __('Delete %foldername%', { '%foldername%': folder.foldername }) }}

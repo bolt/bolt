@@ -24,7 +24,7 @@
 <!DOCTYPE html>
 <html lang="{{ page_locale }}">
 <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" /> 
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
 
@@ -61,15 +61,14 @@
     <script src="{{ paths.app }}view/js/moment.min.js"></script>
     <script>
         moment.lang('{{ app.locale|default('en') }}');
-        var ckeditor_lang="{{ app.locale|default('en') }}";
     </script>
 
     <script src="{{ paths.app }}view/js/bootbox.min.js"></script>
     <script src="{{ paths.app }}view/js/modernizr.custom.2.8.3.js"></script>
 
     <link href="//fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,400italic&amp;subset=latin,latin-ext" rel="stylesheet" type="text/css">
-    {# <link href='//fonts.googleapis.com/css?family=Fira+Sans:400,700,400italic&amp;subset=latin,latin-ext' rel='stylesheet' type='text/css'> #} 
-    
+    {# <link href='//fonts.googleapis.com/css?family=Fira+Sans:400,700,400italic&amp;subset=latin,latin-ext' rel='stylesheet' type='text/css'> #}
+
     <!--[if lt IE 9]>
         <link rel="stylesheet" href="{{ paths.app }}view/css/bolt-old-ie.css" media="screen, projection" type="text/css">
     <![endif]-->
@@ -95,11 +94,12 @@
     {% block page_plain %}{% endblock page_plain %}
 
 <script>
-    var path = "{{ paths.bolt }}";
-    var asyncpath = "{{ paths.async }}";
-    var apppath = "{{ paths.app }}";
+    var bolt = {};
+    bolt.ckeditorLang = "{{ app.locale|default('en') }}";
+    bolt.path = "{{ paths.bolt }}";
+    bolt.asyncPath = "{{ paths.async }}";
     {% if page_hasnav %}
-        var wysiwyg = {
+        bolt.wysiwyg = {
            images: {{ 0 + config.get('general/wysiwyg/images') }},
            tables: {{ 0 + config.get('general/wysiwyg/tables') }},
            anchor: {{ 0 + config.get('general/wysiwyg/anchor') }},
@@ -107,9 +107,15 @@
            align: {{ 0 + config.get('general/wysiwyg/align') }},
            subsuper: {{ 0 + config.get('general/wysiwyg/subsuper') }},
            embed: {{ 0 + config.get('general/wysiwyg/embed') }},
-           {% if config.get('general/wysiwyg/ck') is iterable %}ck: {{ config.get('general/wysiwyg/ck')|json_encode()|raw }},{% endif %}
-           {% if config.get('general/wysiwyg/filebrowser') is iterable %}filebrowser: {{ config.get('general/wysiwyg/filebrowser')|json_encode()|raw }}{% else %}filebrowser: false{% endif %}
-           };
+           {% if config.get('general/wysiwyg/ck') is iterable %}
+               ck: {{ config.get('general/wysiwyg/ck')|json_encode()|raw }},
+           {% endif %}
+           {% if config.get('general/wysiwyg/filebrowser') is iterable %}
+               filebrowser: {{ config.get('general/wysiwyg/filebrowser')|json_encode()|raw }}
+           {% else %}
+               filebrowser: false
+           {% endif %}
+        };
     {% endif %}
 </script>
 <script src="{{ paths.app }}view/js/bolt.js"></script>

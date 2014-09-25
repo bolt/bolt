@@ -112,7 +112,7 @@
 
 {% macro stackbutton(file) %}
     {% if not stacked(file.newpath) %}
-        <a href="#" class="btn btn-default btn-sm" data-action="stack.addToStack('{{file.newpath}}', this);">
+        <a href="#" class="btn btn-default btn-sm" data-action="bolt.stack.addToStack('{{file.newpath}}', this);">
             <i class="fa fa-paperclip"></i>
             {{ __('Place on stack') }}
         </a>
