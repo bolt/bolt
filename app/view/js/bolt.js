@@ -724,6 +724,10 @@ var Stack = Backbone.Model.extend({
                     $(html).find('small').html(filename);
                 }
                 $('#stackholder').prepend(html);
+
+                // If the "empty stack" notice was showing, remove it.
+                $('.nostackitems').remove();
+
             },
             error: function() {
                 console.log('Failed to add file to stack');
