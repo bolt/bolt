@@ -32,4 +32,12 @@ jQuery(function ($) {
     init.omnisearch();
     init.uploads();
     init.geolocation();
+
+    $('input[data-bind]').each(function () {
+        var data = $(this).data('bind');
+        switch (data.bind) {
+            case 'date': init.bindDate(data); break;
+            default: console.log('Bind ' + data.bind + 'failed!');
+        }
+    });
 });

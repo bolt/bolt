@@ -49,6 +49,8 @@
                     name="{{ value }}" id="{{ value }}"
                 {% elseif attrname == 'class' %}
                     class="{{ value|trim }}"
+                {% elseif attrname == 'bind' %}
+                    data-bind="{{ value|json_encode }}"
                 {% else %}
                     {{ attrname|replace({'_': '-'}) }}="{{ value }}"
                 {% endif %}

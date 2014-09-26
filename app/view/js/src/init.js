@@ -14,6 +14,19 @@ var init = {
     },
 
     /*
+     * Bind Date field
+     *
+     * @param {array} data
+     * @returns {undefined}
+     */
+    bindDate: function (data) {
+        $('#' + data.id + '-date').on('change.bolt', function () {
+            var date = $('#' + data.id + '-date').datepicker('getDate');
+            $('#' + data.id).val($.datepicker.formatDate('yy-mm-dd', date));
+        }).trigger('change.bolt');
+    },
+
+    /*
      * Initialise CKeditor instances.
      */
     ckeditor: function () {
