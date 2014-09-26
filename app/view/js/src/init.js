@@ -16,7 +16,7 @@ var init = {
     /*
      * Bind date field
      *
-     * @param {array} data
+     * @param {object} data
      * @returns {undefined}
      */
     bindDate: function (data) {
@@ -29,7 +29,7 @@ var init = {
     /*
      * Bind datetime field
      *
-     * @param {array} data
+     * @param {object} data
      * @returns {undefined}
      */
     bindDateTime: function (data) {
@@ -38,6 +38,40 @@ var init = {
             var time = $.formatDateTime('hh:ii', new Date('2014/01/01 ' + $('#' + data.id + '-time').val()));
             $('#' + data.id).val($.datepicker.formatDate('yy-mm-dd', date) + ' ' + time);
         }).trigger('change.bolt');
+    },
+
+    /*
+     * Bind slug field
+     *
+     * @param {type} data
+     * @returns {undefined}
+     */
+    bindSlug: function (data) {
+        $('.sluglocker').bind('click', function () {
+            if ($('.sluglocker i').hasClass('fa-lock')) {
+                // "unlock" if it's currently empty, _or_ we've confirmed that we want to do so.
+                if (data.isEmpty || confirm(data.messageUnlock)) {
+                    $('.sluglocker i').removeClass('fa-lock').addClass('fa-unlock');
+                    makeUri(data.slug, data.contentId, data.uses, data.key, false);
+                }
+            } else {
+                $('.sluglocker i').addClass('fa-lock').removeClass('fa-unlock');
+                stopMakeUri(data.uses);
+            }
+        });
+
+        $('.slugedit').bind('click', function () {
+            newslug = prompt(data.messageSet, $('#show-' + data.key).text());
+            if (newslug) {
+                $('.sluglocker i').addClass('fa-lock').removeClass('fa-unlock');
+                stopMakeUri(data.uses);
+                makeUriAjax(newslug, data.slug, data.contentId, data.key, false);
+            }
+        });
+
+        if (data.isEmpty) {
+            $('.sluglocker').trigger('click');
+        }
     },
 
     /*

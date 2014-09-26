@@ -38,6 +38,7 @@ jQuery(function ($) {
         switch (data.bind) {
             case 'date': init.bindDate(data); break;
             case 'datetime': init.bindDateTime(data); break;
+            case 'slug': init.bindSlug(data); break;
             default: console.log('Bind ' + data.bind + 'failed!');
         }
     });

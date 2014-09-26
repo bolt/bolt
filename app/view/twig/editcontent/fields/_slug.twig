@@ -6,7 +6,19 @@
 
 {#=== INIT ===========================================================================================================#}
 
+{% set bind_values = option.uses ? {
+    bind:           'slug',
+    contentId:      context.content.id,
+    isEmpty:        (context.content.get(key) == ''),
+    key:            key,
+    messageSet:     __('Set the slug to:'),
+    messageUnlock:  __('Are you sure you wish to unlock the slug? This might break existing links to this record.'),
+    slug:           context.content.contenttype.slug,
+    uses:           option.uses,
+} : '' %}
+
 {% set attr_slug = {
+    bind:     bind_values,
     class:    'editslug',
     name_id:  key,
     type:     'text',
@@ -26,41 +38,3 @@
     </div>
 
 </fieldset>
-
-{#=== SCRIPT =========================================================================================================#}
-
-{% if option.uses %}
-<script>
-$(function() {
-    $('.sluglocker').bind('click', function() {
-        if ($('.sluglocker i').hasClass('fa-lock')) {
-
-            // "unlock" if it's currently empty, _or_ we've confirmed that we want to do so.
-            var unlock = ('{{ context.content.get(key) }}' == '') || confirm("Are you sure you wish to unlock the slug? This might break existing links to this record.");
-
-            if (unlock) {
-                $('.sluglocker i').removeClass('fa-lock').addClass('fa-unlock');
-                makeUri('{{ context.content.contenttype.slug }}', '{{ context.content.id }}', {{ field.uses|json_encode|raw }}, '{{ key }}', false);
-            }
-        } else {
-            $('.sluglocker i').addClass('fa-lock').removeClass('fa-unlock');
-            stopMakeUri({{ option.uses|json_encode|raw }});
-        }
-    });
-
-    $('.slugedit').bind('click', function() {
-        newslug = prompt("Set the slug to:", $('#show-{{ key }}').text());
-        if(newslug) {
-            $('.sluglocker i').addClass('fa-lock').removeClass('fa-unlock');
-            stopMakeUri({{ option.uses|json_encode|raw }});
-            makeUriAjax(newslug, '{{ context.content.contenttype.slug }}', '{{ context.content.id }}', '{{ key }}', false);
-        }
-    });
-
-    {% if context.content.get(key) is empty %}
-    $('.sluglocker').trigger('click');
-    {% endif %}
-
-});
-</script>
-{% endif %}
