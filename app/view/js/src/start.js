@@ -33,11 +33,13 @@ jQuery(function ($) {
     init.uploads();
     init.geolocation();
 
-    $('input[data-bind]').each(function () {
+    $('[data-bind]').each(function () {
         var data = $(this).data('bind');
+
         switch (data.bind) {
             case 'date': init.bindDate(data); break;
             case 'datetime': init.bindDateTime(data); break;
+            case 'editfile': init.bindEditFile(data); break;
             case 'slug': init.bindSlug(data); break;
             case 'video': init.bindVideo(data); break;
             default: console.log('Binding ' + data.bind + 'failed!');

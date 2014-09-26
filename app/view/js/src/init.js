@@ -40,6 +40,29 @@ var init = {
         }).trigger('change.bolt');
     },
 
+    bindEditFile: function (data) {
+        $('#saveeditfile').bind('click', function (e) {
+            // Reset the handler for checking changes to the form.
+            window.onbeforeunload = null;
+        });
+
+        var editor = CodeMirror.fromTextArea(document.getElementById('form_contents'), {
+            lineNumbers: true,
+            autofocus: true,
+            tabSize: 4,
+            indentUnit: 4,
+            indentWithTabs: false,
+            readOnly: data.readonly
+        });
+
+        var newheight = $(window).height() - 312;
+        if (newheight < 200) {
+            newheight = 200;
+        }
+
+        editor.setSize(null, newheight);
+    },
+
     /*
      * Bind slug field
      *

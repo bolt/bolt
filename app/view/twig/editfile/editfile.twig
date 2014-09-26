@@ -10,6 +10,17 @@
 
 {% block page_main %}
 
+    {% import '_macro/_macro.twig' as macro %}
+
+    {% set attr_text = {
+        bind:      ismobileclient() ? '' : {bind: 'editfile', readonly: context.write_allowed ? false : true},
+        class:     'CodeMirror-scroll',
+        id:        'form_contents',
+        name:      'form[contents]',
+        required:  true,
+        style:     'width: 98%; min-height: 350px;',
+    }%}
+
     <div class="row">
         <div class="col-xs-12">
             {% if context.pathsegments|length > 1 %}
@@ -25,7 +36,7 @@
                 {{ form_widget(context.form._token) }}
 
                 <div>
-                    <textarea id="form_contents" name="form[contents]" required="required" class="CodeMirror-scroll" style="width: 98%; min-height: 350px;">{{ context.form.vars.value.contents }}</textarea>
+                    <textarea{{ macro.attr(attr_text) }}>{{ context.form.vars.value.contents }}</textarea>
                 </div>
 
                 <div>
@@ -41,7 +52,7 @@
 
                   <div class="relatedfiles">
                     {% if context.filegroup|length > 1 %}
-                      {{ __("Note, this file has related files:") }} 
+                      {{ __("Note, this file has related files:") }}
                       {% for related in context.filegroup %}
                         {% if related != context.basename %}
                           <a class="btn btn-tertiary btn-small" href="{{ path('fileedit', { 'namespace': context.namespace, 'file': context.additionalpath ~ related } )  }}">{{ related }}</a>
@@ -71,39 +82,12 @@
             {% set codemirror = [] %}
         {% endif %}
 
-        {% set readonly = context.write_allowed ? 'false' : 'true' %}
-
         {# use the files includes in ckeditor/codemirror plugin, instead of duplicating files. #}
         <link rel="stylesheet" href="{{ paths.app }}view/lib/ckeditor/plugins/codemirror/css/codemirror.min.css">
         <script src="{{ paths.app }}view/lib/ckeditor/plugins/codemirror/js/codemirror.min.js"></script>
         {% for file in codemirror %}
             <script src="{{ paths.app }}view/lib/codemirror/{{ file }}.js"></script>
         {% endfor %}
-
-        <script>
-            $(function() {
-                $('#saveeditfile').bind('click', function(e){
-                    // Re-set the handler for checking changes to the form..
-                    window.onbeforeunload = null;
-                });
-
-                var editor = CodeMirror.fromTextArea(document.getElementById("form_contents"), {
-                    lineNumbers: true,
-                    autofocus: true,
-                    tabSize: 4,
-                    indentUnit: 4,
-                    indentWithTabs: false,
-                    readOnly: {{ readonly }}
-                });
-
-                var newheight = $(window).height() - 312;
-                if (newheight < 200) {
-                    newheight = 200;
-                }
-
-                editor.setSize(null, newheight);
-            });
-        </script>
     {% endif %}
 
 {% endblock page_main %}
