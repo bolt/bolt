@@ -43,7 +43,7 @@ var init = {
     /*
      * Bind slug field
      *
-     * @param {type} data
+     * @param {object} data
      * @returns {undefined}
      */
     bindSlug: function (data) {
@@ -72,6 +72,16 @@ var init = {
         if (data.isEmpty) {
             $('.sluglocker').trigger('click');
         }
+    },
+
+    /*
+     * Bind video field
+     *
+     * @param {object} data
+     * @returns {undefined}
+     */
+    bindVideo: function (data) {
+        bindVideoEmbed(data.key);
     },
 
     /*
