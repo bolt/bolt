@@ -37,6 +37,7 @@ jQuery(function ($) {
         var data = $(this).data('bind');
         switch (data.bind) {
             case 'date': init.bindDate(data); break;
+            case 'datetime': init.bindDateTime(data); break;
             default: console.log('Bind ' + data.bind + 'failed!');
         }
     });

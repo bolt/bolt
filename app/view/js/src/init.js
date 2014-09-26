@@ -14,7 +14,7 @@ var init = {
     },
 
     /*
-     * Bind Date field
+     * Bind date field
      *
      * @param {array} data
      * @returns {undefined}
@@ -23,6 +23,20 @@ var init = {
         $('#' + data.id + '-date').on('change.bolt', function () {
             var date = $('#' + data.id + '-date').datepicker('getDate');
             $('#' + data.id).val($.datepicker.formatDate('yy-mm-dd', date));
+        }).trigger('change.bolt');
+    },
+
+    /*
+     * Bind datetime field
+     *
+     * @param {array} data
+     * @returns {undefined}
+     */
+    bindDateTime: function (data) {
+        $('#' + data.id + '-date, #' + data.id + '-time').on('change.bolt', function () {
+            var date = $('#' + data.id + '-date').datepicker('getDate');
+            var time = $.formatDateTime('hh:ii', new Date('2014/01/01 ' + $('#' + data.id + '-time').val()));
+            $('#' + data.id).val($.datepicker.formatDate('yy-mm-dd', date) + ' ' + time);
         }).trigger('change.bolt');
     },
 

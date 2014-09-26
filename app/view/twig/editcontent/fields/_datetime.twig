@@ -9,6 +9,7 @@
 {#=== INIT ===========================================================================================================#}
 
 {% set attr_date = {
+    bind:   {bind: 'datetime', id: key},
     class:  option.class~' datepicker',
     id:     key~'-date',
     name:   key~'-dateformatted',
@@ -42,15 +43,3 @@
     </div>
 
 </fieldset>
-
-{#=== SCRIPT =========================================================================================================#}
-
-<script>
-$(function() {
-    $('#{{key}}-date, #{{key}}-time').on('change.bolt', function(){
-        var date = $('#{{key}}-date').datepicker("getDate");
-        var time = $.formatDateTime('hh:ii', new Date('2014/01/01 ' + $('#{{key}}-time').val() ));
-        $('#{{ key }}').val($.datepicker.formatDate('yy-mm-dd', date)+" "+time);
-    }).trigger('change.bolt');
-});
-</script>
