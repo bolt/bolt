@@ -10,11 +10,22 @@
 
 {% block page_main %}
 
+    {% import '_macro/_macro.twig' as macro %}
+
+    {% set attr_text = {
+        bind:      ismobileclient() ? '' : {bind: 'editlocale', readonly: context.write_allowed ? false : true},
+        class:     'CodeMirror-scroll',
+        id:        'form_contents',
+        name:      'form[contents]',
+        required:  true,
+        style:     'width: 98%;',
+    }%}
+
     <div class="row">
         <div class="col-xs-12">
             <form action="" method="post" class="form-inline" autocomplete="off">
                 <div>
-                    <textarea id="form_contents" name="form[contents]" required="required" class="CodeMirror-scroll" style="width: 98%">{{ context.form.vars.value.contents }}</textarea>
+                    <textarea{{ macro.attr(attr_text) }}>{{ context.form.vars.value.contents }}</textarea>
                 </div>
                 {% if context.write_allowed %}
                     {{ form_widget(context.form._token) }}
@@ -30,20 +41,6 @@
         <link rel="stylesheet" href="{{ paths.app }}view/lib/ckeditor/plugins/codemirror/css/codemirror.min.css">
         <script src="{{ paths.app }}view/lib/ckeditor/plugins/codemirror/js/codemirror.min.js"></script>
         <script src="{{ paths.app }}view/lib/codemirror/yaml.js"></script>
-
-        <script>
-            var editor = CodeMirror.fromTextArea(document.getElementById("form_contents"), {
-                lineNumbers: true,
-                autofocus: true,
-                tabSize: 4,
-                indentUnit: 4,
-                indentWithTabs: false,
-                readOnly: {% if context.write_allowed %}false{% else %}true{% endif %}
-            });
-
-            editor.setSize(null, $(window).height() - 276);
-
-        </script>
     {% endif %}
 
 {% endblock page_main %}

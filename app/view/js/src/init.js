@@ -40,6 +40,12 @@ var init = {
         }).trigger('change.bolt');
     },
 
+    /*
+     * Bind editfile field
+     *
+     * @param {object} data
+     * @returns {undefined}
+     */
     bindEditFile: function (data) {
         $('#saveeditfile').bind('click', function (e) {
             // Reset the handler for checking changes to the form.
@@ -61,6 +67,25 @@ var init = {
         }
 
         editor.setSize(null, newheight);
+    },
+
+    /*
+     * Bind editlocale field
+     *
+     * @param {object} data
+     * @returns {undefined}
+     */
+    bindEditLocale: function (data) {
+        var editor = CodeMirror.fromTextArea(document.getElementById('form_contents'), {
+            lineNumbers: true,
+            autofocus: true,
+            tabSize: 4,
+            indentUnit: 4,
+            indentWithTabs: false,
+            readOnly: data.readonly
+        });
+
+        editor.setSize(null, $(window).height() - 276);
     },
 
     /*
