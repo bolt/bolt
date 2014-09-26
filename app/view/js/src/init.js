@@ -329,6 +329,17 @@ var init = {
     },
 
     /*
+     * Bind geolocation
+     */
+    geolocation: function () {
+        $('input[data-geolocation]').each(function (item) {
+            var data = $(this).data('geolocation');
+
+            bindGeolocation(data.key, data.lat, data.lon);
+        });
+    },
+
+    /*
      * Show 'dropzone' for jQuery file uploader.
      *
      * @returns {undefined}

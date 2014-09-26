@@ -1,7 +1,7 @@
 
 jQuery(function ($) {
+    // Get configuration
     bolt = $('script[data-config]').first().data('config');
-    console.log(bolt);
 
     // Initialize objects
     bolt.files = new Files();
@@ -31,4 +31,5 @@ jQuery(function ($) {
     init.sortables();
     init.omnisearch();
     init.uploads();
+    init.geolocation();
 });
