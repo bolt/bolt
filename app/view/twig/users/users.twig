@@ -11,7 +11,7 @@
 
 {% block page_main %}
 
-    <div class="row">
+    <div class="row" data-bind="{{ {bind: 'users'}|json_encode }}">
         <div class="col-md-9">
 
             {% include '_sub/_messages.twig' %}

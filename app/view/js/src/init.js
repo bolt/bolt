@@ -88,6 +88,23 @@ var init = {
         editor.setSize(null, $(window).height() - 276);
     },
 
+    bindCkFileSelect: function (data) {
+        var getUrlParam = function (paramName) {
+            var reParam = new RegExp('(?:[\?&]|&)' + paramName + '=([^&]+)', 'i'),
+                match = window.location.search.match(reParam);
+
+            return (match && match.length > 1) ? match[1] : null;
+        };
+
+        var funcNum = getUrlParam('CKEditorFuncNum');
+        $('a.filebrowserCallbackLink').bind('click', function (event) {
+            event.preventDefault();
+            var url = $(this).attr('href');
+            window.opener.CKEDITOR.tools.callFunction(funcNum, url);
+            window.close();
+        });
+    },
+
     /*
      * Bind slug field
      *
