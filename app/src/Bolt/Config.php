@@ -164,7 +164,7 @@ class Config
         $config = array();
 
         // Read the config
-        $config['general']     = array_merge_recursive(
+        $config['general']     = array_merge_recursive_distinct(
             $this->parseConfigYaml('config.yml'),
             $this->parseConfigYaml('config_local.yml')
         );

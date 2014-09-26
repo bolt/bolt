@@ -264,7 +264,7 @@ abstract class BaseExtension extends \Twig_Extension implements ExtensionInterfa
 
         // Don't error on empty config files
         if (is_array($new_config)) {
-            $this->config = array_merge_recursive($this->config, $new_config);
+            $this->config = array_merge_recursive_distinct($this->config, $new_config);
         }
     }
 
