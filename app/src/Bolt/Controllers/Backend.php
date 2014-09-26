@@ -78,7 +78,7 @@ class Backend implements ControllerProviderInterface
             ->before(array($this, 'before'))
             ->bind('deletecontent');
 
-        $ctl->get('/content/{action}/{contenttypeslug}/{id}', array($this, 'contentAction'))
+        $ctl->get("/content/{action}/{contenttypeslug}/{id}", array($this, 'contentaction'))
             ->before(array($this, 'before'))
             ->method('POST')
             ->bind('contentaction');
@@ -444,7 +444,7 @@ class Backend implements ControllerProviderInterface
 
         $multiplecontent = $app['storage']->getContent(
             $contenttype['slug'],
-            array('limit' => $limit, 'order' => $order, 'page' => $page, 'filter' => $filter)
+            array('limit' => $limit, 'order' => $order, 'page' => $page, 'filter' => $filter, 'hydrate' => true)
         );
 
         // @todo Do we need pager here?
