@@ -41,7 +41,7 @@ function bindVideoEmbedAjax(key) {
         }
 
         if (data.thumbnail_url) {
-            $('#thumbnail-' + key).html("<img src='" + data.thumbnail_url + "' width='160' height='120'>");
+            $('#thumbnail-' + key).html("<img src='" + data.thumbnail_url + "' width='200' height='150'>");
             $('#video-' + key + '-thumbnail').val(data.thumbnail_url);
         }
     });

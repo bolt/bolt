@@ -109,8 +109,8 @@ var Stack = Backbone.Model.extend({
 
         // If the field has a thumbnail, set it.
         if ($('#thumbnail-' + key).is('*')) {
-            src = path + "../thumbs/120x120c/" + encodeURI(filename);
-            $('#thumbnail-' + key).html("<img src='" + src + "' width='120' height='120'>");
+            src = path + "../thumbs/200x150/" + encodeURI(filename);
+            $('#thumbnail-' + key).html("<img src='" + src + "' width='200' height='150'>");
         }
 
         // Close the modal dialog, if this image/file was selected through one.

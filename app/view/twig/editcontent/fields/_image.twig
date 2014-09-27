@@ -148,10 +148,10 @@
             {% if context.content.get(key) != '' %}
                 {% set preview_path = image.file|thumbnail(preview_w, preview_h, 'c') %}
             {% else %}
-                {% set preview_path = app.paths.app~'view/img/default_empty.png' %}
+                {% set preview_path = app.paths.app~'view/img/default_empty_4x3.png' %}
             {% endif %}
             {# <img src="{{ preview_path }}" width="{{ preview_w }}" height="{{ preview_h }}" alt="Preview"> #}
-            <img src="{{ preview_path }}" alt="Preview">
+            <img src="{{ preview_path }}" alt="Preview" width="{{ preview_w }}" height="{{ preview_h }}">
         </div>
     </div>
 </div>
@@ -172,7 +172,7 @@
                     if ($('#field-{{ key }}').val() != "") {
                         $('#thumbnail-{{ key }}').html("<img src='{{ app.paths.root }}thumbs/{{ preview_w }}x{{ preview_h }}c/" + encodeURI($('#field-{{ key }}').val()) + "' width='{{ preview_w }}' height='{{ preview_h }}'>");
                     } else {
-                        $('#thumbnail-{{ key }}').html("<img src='{{ app.paths.app }}view/img/default_empty.png' width='{{ preview_w }}' height='{{ preview_h }}'>");
+                        $('#thumbnail-{{ key }}').html("<img src='{{ app.paths.app }}view/img/default_empty_4x3.png' width='{{ preview_w }}' height='{{ preview_h }}'>");
                     }
                 }
             });

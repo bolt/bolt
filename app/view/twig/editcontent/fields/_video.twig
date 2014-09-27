@@ -134,9 +134,9 @@
         <label>{{ __('Preview image') }}</label>
         <div class="imageholder" id="thumbnail-{{ key }}">
             {% if video.thumbnail|default('') %}
-                <img src="{{ video.thumbnail }}" width="auto" height="auto">
+                <img src="{{ video.thumbnail }}" width="200" height="150">
             {% else %}
-                <img src="{{ app.paths.app }}view/img/default_empty.png" width="" height="auto">
+                <img src="{{ app.paths.app }}view/img/default_empty_4x3.png" width="200" height="150">
             {% endif %}
         </div>
     </div>

@@ -16,7 +16,7 @@ function bindFileUpload(key) {
                     if (file.error === undefined) {
                         var filename = decodeURI(file.url).replace("files/", "");
                         $('#field-' + key).val(filename);
-                        $('#thumbnail-' + key).html("<img src='" + path + "../thumbs/120x120c/" + encodeURI(filename) + "' width='120' height='120'>");
+                        $('#thumbnail-' + key).html("<img src='" + path + "../thumbs/200x150c/" + encodeURI(filename) + "' width='200' height='150'>");
                         window.setTimeout(function () { $('#progress-' + key).fadeOut('slow'); }, 1500);
 
                         // Add the uploaded file to our stack.
