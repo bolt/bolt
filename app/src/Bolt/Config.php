@@ -163,12 +163,12 @@ class Config
     {
         $config = array();
 
-        // Read the config
-        $config['general']     = array_merge_recursive_distinct(
-            $this->parseConfigYaml('config.yml'),
-            $this->parseConfigYaml('config_local.yml')
-        );
+        // Read the config and merge it. (note: We use temp variables to prevent 
+        // "Only variables should be passed by reference")
+        $tempconfig            = $this->parseConfigYaml('config.yml');
+        $tempconfiglocal       = $this->parseConfigYaml('config_local.yml');
 
+        $config['general']     = array_merge_recursive_distinct($tempconfig, $tempconfiglocal);
         $config['taxonomy']    = $this->parseConfigYaml('taxonomy.yml');
         $tempContentTypes      = $this->parseConfigYaml('contenttypes.yml');
         $config['menu']        = $this->parseConfigYaml('menu.yml');
