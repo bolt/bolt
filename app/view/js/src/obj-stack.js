@@ -123,6 +123,9 @@ var Stack = Backbone.Model.extend({
             stack.addToStack(filename);
         }
 
+        // Make sure the dropdown menu is closed. (Using the "blunt axe" method)
+        $('.in,.open').removeClass('in open'); 
+
     },
 
     changeFolder: function (key, foldername) {
