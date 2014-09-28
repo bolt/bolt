@@ -211,7 +211,6 @@ class CommandRunner
         $command .= ' -d ' . $this->basedir . ' -n --no-ansi';
         $output = new \Symfony\Component\Console\Output\BufferedOutput();
         $responseCode = $this->wrapper->run($command, $output);
-        $this->app['log']->add($command, 2, '', 'composerXX');
         
         if ($responseCode == 0) {
             $outputText = $output->fetch();
@@ -220,9 +219,6 @@ class CommandRunner
             return array_filter(explode("\n", $this->clean($outputText)));
         } else {
             $outputText = $output->fetch();
-            //$outputText = $this->clean($this->lastOutput);
-
-            //$this->app['log']->add($this->lastOutput, 2, '', 'composer-fail');
             $this->writeLog('error', $command, $outputText);
 
             return false;
@@ -308,8 +304,12 @@ class CommandRunner
     public function writeLog($type, $command, $output) {
 
         $log = sprintf("<span class='timestamp'>[%s]</span> ", date("H:i:s"));
-
         $log .= sprintf("&gt; <span class='command'>composer %s</span>\n", $command); 
+
+        // Perhaps color some output:
+        $output = preg_replace('/(\[[a-z]+Exception\])/i', "<span class='error'>$1</span>", $output);
+        $output = preg_replace('/(Warning:)/i', "<span class='warning'>$1</span>", $output);
+
         $log .= sprintf("%s\n", $output); 
 
         file_put_contents($this->logfile, $log, FILE_APPEND);
