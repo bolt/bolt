@@ -221,7 +221,6 @@ class CommandRunner
         $command .= ' -d ' . $this->basedir . ' -n --no-ansi';
         $this->writeLog('command', $command);
 
-
         $output = new \Symfony\Component\Console\Output\BufferedOutput();
         $responseCode = $this->wrapper->run($command, $output);
         
@@ -314,7 +313,12 @@ class CommandRunner
 
     }
 
-    public function writeLog($type, $command = '', $output = '') {
+    public function writeLog($type, $command = '', $output = '') 
+    {
+        // Don't log the 'config' command to prevent noise.         
+        if (substr($command, 0, 7) == "config ") {
+            return;
+        }
 
         $log = "";
         $timestamp = sprintf("<span class='timestamp'>[%s]</span> ", date("H:i:s"));
