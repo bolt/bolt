@@ -789,32 +789,41 @@ var ImagelistHolder = Backbone.View.extend({
 /**
  * Backbone object for collapsable sidebar.
  */
+
 var Sidebar = Backbone.Model.extend({
 
     defaults: {
     },
 
     initialize: function () {
+
+        var menuTimeout = "";
+
         // Do this, only if the sidebar is visible. (not when in small-responsive view)
         if ($('#navpage-secondary').is(':visible')) {
 
             // Note: It might seem easier to do this with a simple .popover, but we
             // shouldn't. People using keyboard access will not appreciate the menu timing
             // out and disappearing after a split-second of losing focus.
-            $('#navpage-secondary a.menu-pop').on('mouseover focus', function () {
-                $('#navpage-secondary a.menu-pop').not(this).popover('hide');
-                $(this).popover('show');
+            $('#navpage-secondary a.menu-pop').on('mouseover focus', function (e) {
+                var thiselem = this;
+                window.clearTimeout(menuTimeout);
+                menuTimeout = window.setTimeout(function () { 
+                    $('#navpage-secondary a.menu-pop').not(thiselem).popover('hide');
+                    $(thiselem).popover('show');
+                }, 400);
             });
 
-            // Likewise, we need to distinct events, to hide the sidebar's popovers:
-            // One for 'mouseleave' on the sidebar itself, and one for keyboard 'focus'
-            // on the items before and after.
+            // We need two distinct events, to hide the sidebar's popovers:
+            // One for 'mouseleave' on the sidebar itself, and one for keyboard 
+            // 'focus' on the items before and after.
             $('#navpage-secondary').on('mouseleave', function () {
-                window.setTimeout(function () {
+                menuTimeout = window.setTimeout(function () {
                     $('#navpage-secondary a.menu-pop').popover('hide');
-                }, 500);
+                }, 800);
             });
             $('.nav-secondary-collapse a, .nav-secondary-dashboard a').on('focus', function () {
+                window.clearTimeout(menuTimeout);
                 $('#navpage-secondary a.menu-pop').popover('hide');
             });
 
