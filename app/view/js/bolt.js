@@ -194,7 +194,7 @@ function bindFileUpload(key) {
                     if (file.error === undefined) {
                         var filename = decodeURI(file.url).replace("files/", "");
                         $('#field-' + key).val(filename);
-                        $('#thumbnail-' + key).html("<img src='" + path + "../thumbs/120x120c/" + encodeURI(filename) + "' width='120' height='120'>");
+                        $('#thumbnail-' + key).html("<img src='" + path + "../thumbs/200x150c/" + encodeURI(filename) + "' width='200' height='150'>");
                         window.setTimeout(function () { $('#progress-' + key).fadeOut('slow'); }, 1500);
 
                         // Add the uploaded file to our stack.
@@ -317,7 +317,7 @@ function bindVideoEmbedAjax(key) {
         }
 
         if (data.thumbnail_url) {
-            $('#thumbnail-' + key).html("<img src='" + data.thumbnail_url + "' width='160' height='120'>");
+            $('#thumbnail-' + key).html("<img src='" + data.thumbnail_url + "' width='200' height='150'>");
             $('#video-' + key + '-thumbnail').val(data.thumbnail_url);
         }
     });
@@ -832,7 +832,9 @@ var Sidebar = Backbone.Model.extend({
         var documentheight = $('#navpage-content').height() + 22;
         if (documentheight > $('#navpage-secondary').height()) {
             $('#navpage-secondary').height(documentheight + "px");
-            window.setTimeout(function () { sidebar.fixlength(); }, 500);
+            window.setTimeout(function () { sidebar.fixlength(); }, 300);
+        } else {
+            window.setTimeout(function () { sidebar.fixlength(); }, 3000);
         }
     },
 
@@ -1110,8 +1112,8 @@ var Stack = Backbone.Model.extend({
 
         // If the field has a thumbnail, set it.
         if ($('#thumbnail-' + key).is('*')) {
-            src = path + "../thumbs/120x120c/" + encodeURI(filename);
-            $('#thumbnail-' + key).html("<img src='" + src + "' width='120' height='120'>");
+            src = path + "../thumbs/200x150/" + encodeURI(filename);
+            $('#thumbnail-' + key).html("<img src='" + src + "' width='200' height='150'>");
         }
 
         // Close the modal dialog, if this image/file was selected through one.
@@ -1123,6 +1125,9 @@ var Stack = Backbone.Model.extend({
         if (key === "stack") {
             stack.addToStack(filename);
         }
+
+        // Make sure the dropdown menu is closed. (Using the "blunt axe" method)
+        $('.in,.open').removeClass('in open'); 
 
     },
 
