@@ -107,6 +107,7 @@ var BoltExtender = Object.extend(Object, {
         var target = controller.find(".update-output" );
         active_console = target;
         active_console.html("Running update....");
+        controller.updateLog();
         jQuery.get(baseurl+'update', function(data) {
             target.html(data);
             setTimeout(function(){

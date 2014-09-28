@@ -106,9 +106,13 @@ class CommandRunner
         return $this->showCleanup((array) $check, $package, $version);
     }
 
-    public function update($package)
+    public function update($package = '')
     {
-        $response = $this->execute("update %s", $package);
+        if (empty($update)) {
+            $response = $this->execute("update");
+        } else {
+            $response = $this->execute("update %s", $package);            
+        }
 
         if (false !== $response) {
             return implode($response, '<br>');
@@ -135,6 +139,12 @@ class CommandRunner
 
     public function installAll()
     {
+
+        $lockfile = $this->basedir . "/composer.lock";
+        if (is_writable($lockfile)) {
+            unlink($lockfile);
+        }
+
         $response = $this->execute('install');
 
         if (false !== $response) {
@@ -209,17 +219,20 @@ class CommandRunner
         putenv("DYLD_LIBRARY_PATH=''");
 
         $command .= ' -d ' . $this->basedir . ' -n --no-ansi';
+        $this->writeLog('command', $command);
+
+
         $output = new \Symfony\Component\Console\Output\BufferedOutput();
         $responseCode = $this->wrapper->run($command, $output);
         
         if ($responseCode == 0) {
             $outputText = $output->fetch();
-            $this->writeLog('success', $command, $outputText);
+            $this->writeLog('success', '', $outputText);
 
             return array_filter(explode("\n", $this->clean($outputText)));
         } else {
             $outputText = $output->fetch();
-            $this->writeLog('error', $command, $outputText);
+            $this->writeLog('error', '', $outputText);
 
             return false;
         }
@@ -301,16 +314,22 @@ class CommandRunner
 
     }
 
-    public function writeLog($type, $command, $output) {
+    public function writeLog($type, $command = '', $output = '') {
 
-        $log = sprintf("<span class='timestamp'>[%s]</span> ", date("H:i:s"));
-        $log .= sprintf("&gt; <span class='command'>composer %s</span>\n", $command); 
+        $log = "";
+        $timestamp = sprintf("<span class='timestamp'>[%s]</span> ", date("H:i:s"));
 
-        // Perhaps color some output:
-        $output = preg_replace('/(\[[a-z]+Exception\])/i', "<span class='error'>$1</span>", $output);
-        $output = preg_replace('/(Warning:)/i', "<span class='warning'>$1</span>", $output);
+        if (!empty($command)) {
+            $log .= sprintf("%s &gt; <span class='command'>composer %s</span>\n", $timestamp, $command); 
+        }
 
-        $log .= sprintf("%s\n", $output); 
+        if (!empty($output)) {
+            // Perhaps color some output:
+            $output = preg_replace('/(\[[a-z]+Exception\])/i', "<span class='error'>$1</span>", $output);
+            $output = preg_replace('/(Warning:)/i', "<span class='warning'>$1</span>", $output);
+
+            $log .= sprintf("%s %s\n", $timestamp, $output); 
+        }
 
         file_put_contents($this->logfile, $log, FILE_APPEND);
 
