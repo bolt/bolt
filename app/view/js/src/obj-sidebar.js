@@ -44,7 +44,9 @@ var Sidebar = Backbone.Model.extend({
         var documentheight = $('#navpage-content').height() + 22;
         if (documentheight > $('#navpage-secondary').height()) {
             $('#navpage-secondary').height(documentheight + "px");
-            window.setTimeout(function () { sidebar.fixlength(); }, 500);
+            window.setTimeout(function () { sidebar.fixlength(); }, 300);
+        } else {
+            window.setTimeout(function () { sidebar.fixlength(); }, 3000);
         }
     },
 
