@@ -96,6 +96,7 @@ var BoltExtender = Object.extend(Object, {
             } else {
                 active_console.html(controller.messages['updated']);
             }
+            controller.updateLog();
         });            
     },
     
@@ -111,6 +112,7 @@ var BoltExtender = Object.extend(Object, {
             setTimeout(function(){
                 controller.find('.update-container').hide();
             },7000);
+            controller.updateLog();
         });
     },
     
@@ -133,6 +135,7 @@ var BoltExtender = Object.extend(Object, {
                 controller.find('.update-container').hide();
             }
             controller.checkInstalled();
+            controller.updateLog();
         });
             
         e.preventDefault();
@@ -150,6 +153,7 @@ var BoltExtender = Object.extend(Object, {
             delay(function(){
                 controller.find('.update-container').hide();
             },7000);
+            controller.updateLog();
         });
         e.stopPropagation();
         e.preventDefault();
@@ -192,6 +196,9 @@ var BoltExtender = Object.extend(Object, {
                     target.find('.installed-list-items').html("<tr><td colspan='4'><strong>No Bolt Extensions installed.</strong></td></tr>");
                     active_console.hide();
                 }
+
+                controller.updateLog();
+
             });
         });
     },
@@ -230,6 +237,8 @@ var BoltExtender = Object.extend(Object, {
             
             controller.find(".install-version-container").show();
             controller.find("#installModal .loader").hide();
+
+            controller.updateLog();
         });
         
             
@@ -259,6 +268,7 @@ var BoltExtender = Object.extend(Object, {
             controller.find(".check-package").show()
             controller.find('input[name="check-package"]').val('');
             controller.checkInstalled();
+            controller.updateLog();
         });
         e.preventDefault();
     },
@@ -276,6 +286,7 @@ var BoltExtender = Object.extend(Object, {
             if(data['type']=='bolt-theme') {
                 controller.themePostInstall(data);
             }
+            controller.updateLog();
         });
     },
     
@@ -303,6 +314,7 @@ var BoltExtender = Object.extend(Object, {
         .done(function(data) {
             controller.find('.theme-generate-response').html("<p>"+data+"</p>").show();
             controller.find('.theme-generation-container').hide();
+            controller.updateLog();
         });
         e.preventDefault();
     },
@@ -314,6 +326,7 @@ var BoltExtender = Object.extend(Object, {
             bootbox.dialog({
                 message: data
             });
+            controller.updateLog();
         });
 
         e.preventDefault();
@@ -333,6 +346,7 @@ var BoltExtender = Object.extend(Object, {
             delay(function(){
                 active_console.hide();
             }, 2000);
+            controller.updateLog();
         });
             
         e.preventDefault();
@@ -372,6 +386,17 @@ var BoltExtender = Object.extend(Object, {
         target.parent().hide();
     },
     
+    updateLog: function() {
+        jQuery.get(baseurl+'getLog', function(data) {
+            $('#extension-log').html(data);
+            $('#extension-log').animate({ scrollTop: $('#extension-log')[0].scrollHeight }, "fast");
+        });
+    },
+
+    clearLog: function() {
+        $('#extension-log').html('');
+        jQuery.get(baseurl+'clearLog', function(data) {});
+    },
 
 
     events: {
@@ -394,6 +419,7 @@ var BoltExtender = Object.extend(Object, {
                 case "generate-theme"   : controller.generateTheme(e.originalEvent); break;
                 case "package-readme"   : controller.packageReadme(e.originalEvent); break;
                 case "package-config"   : controller.packageConfig(e.originalEvent); break;
+                case "clear-log"   : controller.clearLog(e.originalEvent); break;
             }
         }
 

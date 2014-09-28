@@ -88,6 +88,15 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
             ->before(array($this, 'before'))
             ->bind('generateTheme');
 
+        $ctr->get('/getLog', array($this, 'getLog'))
+            ->before(array($this, 'before'))
+            ->bind('getLog');
+
+        $ctr->get('/clearLog', array($this, 'clearLog'))
+            ->before(array($this, 'before'))
+            ->bind('clearLog');
+
+
         return $ctr;
     }
 
@@ -105,6 +114,9 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
 
     public function overview(Silex\Application $app, Request $request)
     {
+
+        $app['extend.runner']->clearLog();
+
         return $app['render']->render(
             'extend/extend.twig',
             $this->getRenderContext($app)
@@ -210,6 +222,31 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
             }
         }
     }
+
+    /**
+     * Fetch the log and return it. 
+     */ 
+    public function getLog(Silex\Application $app, Request $request) {
+
+        $log = $app['extend.runner']->getLog();
+
+        $log = nl2br($log);
+
+        return new Response($log);
+
+    }
+
+    /**
+     * Clear the log and return it. 
+     */ 
+    public function clearLog(Silex\Application $app, Request $request) {
+
+        $app['extend.runner']->clearLog();
+
+        return new Response('');
+
+    }
+
 
     /**
      * Middleware function to check whether a user is logged on.

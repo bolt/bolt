@@ -18,6 +18,7 @@ class CommandRunner
         $this->app = $app;
 
         $this->basedir = $app['resources']->getPath('extensions');
+        $this->logfile = $app['resources']->getPath('cachepath') . "/composer_log";
         $this->packageRepo = $packageRepo;
         $this->packageFile = $app['resources']->getPath('root') . '/extensions/composer.json';
         umask(0000);
@@ -210,19 +211,19 @@ class CommandRunner
         $command .= ' -d ' . $this->basedir . ' -n --no-ansi';
         $output = new \Symfony\Component\Console\Output\BufferedOutput();
         $responseCode = $this->wrapper->run($command, $output);
-        $this->app['log']->add($command, 2, '', 'composer');
+        $this->app['log']->add($command, 2, '', 'composerXX');
+        
         if ($responseCode == 0) {
             $outputText = $output->fetch();
-            $outputText = $this->clean($outputText);
+            $this->writeLog('success', $command, $outputText);
 
-            $this->app['log']->add($outputText, 2, '', 'composer-success');
-
-            return array_filter(explode("\n", $outputText));
+            return array_filter(explode("\n", $this->clean($outputText)));
         } else {
-            $this->lastOutput = $output->fetch();
-            $outputText = $this->clean($this->lastOutput);
+            $outputText = $output->fetch();
+            //$outputText = $this->clean($this->lastOutput);
 
-            $this->app['log']->add($this->lastOutput, 2, '', 'composer-fail');
+            //$this->app['log']->add($this->lastOutput, 2, '', 'composer-fail');
+            $this->writeLog('error', $command, $outputText);
 
             return false;
         }
@@ -294,4 +295,33 @@ class CommandRunner
 
         return $pack;
     }
+
+
+    public function clearLog() {
+        
+        if (is_writable($this->logfile)) {
+            unlink($this->logfile);
+        }
+
+    }
+
+    public function writeLog($type, $command, $output) {
+
+        $log = sprintf("<span class='timestamp'>[%s]</span> ", date("H:i:s"));
+
+        $log .= sprintf("&gt; <span class='command'>composer %s</span>\n", $command); 
+        $log .= sprintf("%s\n", $output); 
+
+        file_put_contents($this->logfile, $log, FILE_APPEND);
+
+    }
+
+    public function getLog() {
+
+        $log = file_get_contents($this->logfile);
+
+        return $log;
+
+    }
+
 }
