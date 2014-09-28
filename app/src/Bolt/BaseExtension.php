@@ -174,7 +174,11 @@ abstract class BaseExtension extends \Twig_Extension implements ExtensionInterfa
 
         $this->config = $this->getDefaultConfig();
 
-        $basefile = $this->app['resources']->getPath('extensionsconfig') . '/' . $this->getMachineName();
+        // Config file name should follow the format of {ext_name}.{vendor}.yml
+        // and be in the root of the extension config directory
+        $basefile = explode('/', $this->getMachineName());
+        $basefile = isset($basefile[1]) ? $basefile[1] . '.' . $basefile[0] : $basefile[0];
+        $basefile = $this->app['resources']->getPath('extensionsconfig') . '/' . $basefile;
 
         // Load main config
         if ($this->isConfigValid($basefile . '.yml', true)) {
