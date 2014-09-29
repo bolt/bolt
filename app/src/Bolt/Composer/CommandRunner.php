@@ -24,7 +24,14 @@ class CommandRunner
         umask(0000);
         putenv('COMPOSER_HOME=' . $app['resources']->getPath('cache') . '/composer');
 
+        // Since we output JSON most of the time, we do _not_ want notices or warnings. 
+        // Set the error reporting before initializing the wrapper, to suppress them. 
+        $oldErrorReporting = error_reporting(E_ERROR);
+
         $this->wrapper = \evidev\composer\Wrapper::create();
+
+        // re-set error reporting to the value it should be. 
+        error_reporting($oldErrorReporting);
 
         if (!is_file($this->packageFile)) {
             $this->execute('init');
