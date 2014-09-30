@@ -1,13 +1,21 @@
-/*jslint browser: true, devel: true, debug: false, indent: 4, maxlen: 120, nomen: true, plusplus: true, sloppy: true */
-/*global $ wysiwyg ckeditor_lang */
+/*jslint browser: true, devel: true, debug: false, indent: 4, maxlen: 120, nomen: true, plusplus: true, sloppy: true, unparam: true */
+/*global $, jQuery, _, google, Backbone, bootbox, CKEDITOR, moment */
 
 /*
  * Globals:
- * $:             jQuery
+ * $:               jQuery
+ * jQuery:          jQuery
+ * _:               underscore.js
+ * google:          ?
+ * Backbone:        backbone.min.js
+ * CKEDITOR:        ckeditor.js
+ * bootbox          bootbox.min.js
+ * moment:          moment.min.js
  *
- * wysiwyg:       inline _page.twig
- * ckeditor_lang: inline _page.twig
+ * bolt:            inline _page.twig
  */
+
+var bolt = {};
 
 // Don't break on browsers without console.log();
 try {
@@ -24,7 +32,7 @@ try {
  */
 function getSelectedItems() {
     var aItems = [];
-    $('.dashboardlisting input:checked').each(function (index) {
+    $('.dashboardlisting input:checked').each(function () {
         if ($(this).parents('tr').attr('id')) {
             aItems.push($(this).parents('tr').attr('id').substr(5));
         }
@@ -32,117 +40,6 @@ function getSelectedItems() {
     console.log('getSelectedItems: ' + aItems);
     return aItems;
 }
-
-/**
- * Initialise CKeditor instances.
- */
-CKEDITOR.editorConfig = function (config) {
-    config.language = ckeditor_lang || 'en';
-    config.uiColor = '#DDDDDD';
-    config.resize_enabled = true;
-    config.entities = false;
-    config.extraPlugins = 'codemirror';
-    config.toolbar = [
-        { name: 'styles', items: [ 'Format' ] },
-        { name: 'basicstyles', items: [ 'Bold', 'Italic', 'Underline', 'Strike' ] },
-        { name: 'paragraph', items: [ 'NumberedList', 'BulletedList', 'Indent', 'Outdent', '-', 'Blockquote' ] }
-    ];
-
-    if (wysiwyg.anchor) {
-        config.toolbar = config.toolbar.concat({ name: 'links', items: [ 'Link', 'Unlink', '-', 'Anchor' ] });
-    } else {
-        config.toolbar = config.toolbar.concat({ name: 'links', items: [ 'Link', 'Unlink' ] });
-    }
-
-    if (wysiwyg.subsuper) {
-        config.toolbar = config.toolbar.concat({ name: 'subsuper', items: [ 'Subscript', 'Superscript' ] });
-    }
-    if (wysiwyg.images) {
-        config.toolbar = config.toolbar.concat({ name: 'image', items: [ 'Image' ] });
-    }
-    if (wysiwyg.embed) {
-        config.extraPlugins += ',oembed,widget';
-        config.oembed_maxWidth = '853';
-        config.oembed_maxHeight = '480';
-        config.toolbar = config.toolbar.concat({ name: 'embed', items: [ 'oembed' ] });
-    }
-
-    if (wysiwyg.tables) {
-        config.toolbar = config.toolbar.concat({ name: 'table', items: [ 'Table' ] });
-    }
-    if (wysiwyg.align) {
-        config.toolbar = config.toolbar.concat({ name: 'align', items: [ 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock' ] });
-    }
-    if (wysiwyg.fontcolor) {
-        config.toolbar = config.toolbar.concat({ name: 'colors', items: [ 'TextColor', 'BGColor' ] });
-    }
-
-    config.toolbar = config.toolbar.concat({ name: 'tools', items: [ 'SpecialChar', '-', 'RemoveFormat', 'Maximize', '-', 'Source' ] });
-
-    config.height = 250;
-    config.autoGrow_onStartup = true;
-    config.autoGrow_minHeight = 150;
-    config.autoGrow_maxHeight = 400;
-    config.autoGrow_bottomSpace = 24;
-    config.removePlugins = 'elementspath';
-    config.resize_dir = 'vertical';
-
-    if (wysiwyg.filebrowser) {
-        if (wysiwyg.filebrowser.browseUrl) {
-            config.filebrowserBrowseUrl = wysiwyg.filebrowser.browseUrl;
-        }
-        if (wysiwyg.filebrowser.imageBrowseUrl) {
-            config.filebrowserImageBrowseUrl = wysiwyg.filebrowser.imageBrowseUrl;
-        }
-        if (wysiwyg.filebrowser.uploadUrl) {
-            config.filebrowserUploadUrl = wysiwyg.filebrowser.uploadUrl;
-        }
-        if (wysiwyg.filebrowser.imageUploadUrl) {
-            config.filebrowserImageUploadUrl = wysiwyg.filebrowser.imageUploadUrl;
-        }
-    } else {
-        config.filebrowserBrowseUrl = '';
-        config.filebrowserImageBrowseUrl = '';
-        config.filebrowserUploadUrl = '';
-        config.filebrowserImageUploadUrl = '';
-    }
-
-    config.codemirror = {
-        theme: 'default',
-        lineNumbers: true,
-        lineWrapping: true,
-        matchBrackets: true,
-        autoCloseTags: true,
-        autoCloseBrackets: true,
-        enableSearchTools: true,
-        enableCodeFolding: true,
-        enableCodeFormatting: true,
-        autoFormatOnStart: true,
-        autoFormatOnUncomment: true,
-        highlightActiveLine: true,
-        highlightMatches: true,
-        showFormatButton: false,
-        showCommentButton: false,
-        showUncommentButton: false
-    };
-
-    /* Parse override settings from config.yml */
-    for (var key in wysiwyg.ck) {
-        if (wysiwyg.ck.hasOwnProperty(key)) {
-             config[key] = wysiwyg.ck[key];
-        }
-    }
-
-    /* Parse override settings from field in contenttypes.yml */
-    var custom = $('[name='+this.name+']').data('ckconfig');
-    for (var key in custom){
-        if (custom.hasOwnProperty(key)) {
-            config[key] = custom[key];
-        }
-    }
-
-};
-
 
 /**
  * Initialize 'moment' timestamps.
@@ -153,6 +50,7 @@ var momentstimeout;
 function updateMoments() {
     $('time.moment').each(function () {
         var stamp = moment($(this).attr('datetime'));
+
         $(this).html(stamp.fromNow());
     });
     clearTimeout(momentstimeout);
@@ -165,7 +63,7 @@ function updateMoments() {
  * Auto-update the 'latest activity' widget.
  */
 function updateLatestActivity() {
-    $.get(asyncpath + 'latestactivity', function (data) {
+    $.get(bolt.paths.async + 'latestactivity', function (data) {
         $('#latesttemp').html(data);
         updateMoments();
         $('#latestactivity').html($('#latesttemp').html());
@@ -191,19 +89,22 @@ function bindFileUpload(key) {
             dropZone: $('#dropzone-' + key),
             done: function (e, data) {
                 $.each(data.result, function (index, file) {
+                    var filename, message;
+
                     if (file.error === undefined) {
-                        var filename = decodeURI(file.url).replace("files/", "");
+                        filename = decodeURI(file.url).replace("files/", "");
                         $('#field-' + key).val(filename);
-                        $('#thumbnail-' + key).html("<img src='" + path + "../thumbs/200x150c/" + encodeURI(filename) + "' width='200' height='150'>");
+                        $('#thumbnail-' + key).html('<img src="' + bolt.paths.root + 'thumbs/200x150c/' +
+                            encodeURI(filename) + '" width="200" height="150">');
                         window.setTimeout(function () { $('#progress-' + key).fadeOut('slow'); }, 1500);
 
                         // Add the uploaded file to our stack.
-                        stack.addToStack(filename);
+                        bolt.stack.addToStack(filename);
 
                     } else {
-                        var message = "Oops! There was an error uploading the file. Make sure the file is not corrupt, and that the 'files/'-folder is writable."
-                            + "\n\n(error was: "
-                            + file.error + ")";
+                        message = "Oops! There was an error uploading the file. Make sure the file is not " +
+                            "corrupt, and that the 'files/'-folder is writable." +
+                            "\n\n(error was: " + file.error + ")";
 
                         alert(message);
                         window.setTimeout(function () { $('#progress-' + key).fadeOut('slow'); }, 50);
@@ -228,7 +129,7 @@ var makeuritimeout;
 
 function makeUriAjax(text, contenttypeslug, id, slugfield, fulluri) {
     $.ajax({
-        url: asyncpath + 'makeuri',
+        url: bolt.paths.async + 'makeuri',
         type: 'GET',
         data: {
             title: text,
@@ -252,7 +153,8 @@ function makeUri(contenttypeslug, id, usesfields, slugfield, fulluri) {
             var usesvalue = "";
             $(usesfields).each(function () {
                 if ($("#" + this).is("select") && $("#" + this).hasClass("slug-text")) {
-                    usesvalue += $("#" + this).val() ? $("#" + this).find("option[value=" + $("#" + this).val() + "]").text() : "";
+                    usesvalue += $("#" + this).val() ?
+                        $("#" + this).find("option[value=" + $("#" + this).val() + "]").text() : "";
                 }
                 else {
                     usesvalue += $("#" + this).val() || "";
@@ -260,18 +162,18 @@ function makeUri(contenttypeslug, id, usesfields, slugfield, fulluri) {
                 usesvalue += " ";
             });
             clearTimeout(makeuritimeout);
-            makeuritimeout = setTimeout(function () { makeUriAjax(usesvalue, contenttypeslug, id, slugfield, fulluri); }, 200);
+            makeuritimeout = setTimeout(function () {
+                makeUriAjax(usesvalue, contenttypeslug, id, slugfield, fulluri);
+            }, 200);
         }).trigger('change.bolt');
     });
 }
 
 function stopMakeUri(usesfields) {
-
     $(usesfields).each(function () {
         $('#' + this).unbind('propertychange.bolt input.bolt change.bolt');
     });
     clearTimeout(makeuritimeout);
-
 }
 
 /**
@@ -281,13 +183,13 @@ function stopMakeUri(usesfields) {
 var videoembedtimeout;
 
 function bindVideoEmbedAjax(key) {
-    // Embed endpoint http://api.embed.ly/1/oembed?format=json&callback=:callbackurl=
-    // @todo make less dependant on key..
-    var endpoint = "http://api.embed.ly/1/oembed?format=json&key=51fa004148ad4d05b115940be9dd3c7e&url=",
+    // oembed endpoint http://api.embed.ly/1/oembed?format=json&callback=:callbackurl=
+    // @todo make less dependant on key.
+    var endpoint = 'http://api.embed.ly/1/oembed?format=json&key=51fa004148ad4d05b115940be9dd3c7e&url=',
         val = $('#video-' + key).val(),
         url = endpoint + encodeURI(val);
 
-    // If val is emptied, clear the video fields..
+    // If val is emptied, clear the video fields.
     if (val.length < 2) {
         $('#video-' + key + '-html').val('');
         $('#video-' + key + '-width').val('');
@@ -317,7 +219,7 @@ function bindVideoEmbedAjax(key) {
         }
 
         if (data.thumbnail_url) {
-            $('#thumbnail-' + key).html("<img src='" + data.thumbnail_url + "' width='200' height='150'>");
+            $('#thumbnail-' + key).html('<img src="' + data.thumbnail_url + '" width="200" height="150">');
             $('#video-' + key + '-thumbnail').val(data.thumbnail_url);
         }
     });
@@ -326,18 +228,24 @@ function bindVideoEmbedAjax(key) {
 function bindVideoEmbed(key) {
     $('#video-' + key).bind('propertychange input', function () {
         clearTimeout(videoembedtimeout);
-        videoembedtimeout = setTimeout(function () { bindVideoEmbedAjax(key); }, 400);
+        videoembedtimeout = setTimeout(function () {
+            bindVideoEmbedAjax(key);
+        }, 400);
     });
 
     $('#video-' + key + '-width').bind('propertychange input', function () {
         if ($('#video-' + key + '-ratio').val() > 0) {
-            $('#video-' + key + '-height').val(Math.round($('#video-' + key + '-width').val() / $('#video-' + key + '-ratio').val()));
+            $('#video-' + key + '-height').val(Math.round(
+                $('#video-' + key + '-width').val() / $('#video-' + key + '-ratio').val()
+            ));
         }
     });
 
     $('#video-' + key + '-height').bind('propertychange input', function () {
         if ($('#video-' + key + '-ratio').val() > 0) {
-            $('#video-' + key + '-width').val(Math.round($('#video-' + key + '-height').val() * $('#video-' + key + '-ratio').val()));
+            $('#video-' + key + '-width').val(Math.round(
+                $('#video-' + key + '-height').val() * $('#video-' + key + '-ratio').val()
+            ));
         }
     });
 }
@@ -358,7 +266,7 @@ function updateGeoCoords(key) {
         geocoder = new google.maps.Geocoder();
         latlng = new google.maps.LatLng(marker[0], marker[1]);
 
-        geocoder.geocode({'latLng': latlng}, function (results, status) {
+        geocoder.geocode({latLng: latlng}, function (results, status) {
             $('#' + key + '-reversegeo').html(results[0].formatted_address);
             $('#' + key + '-formatted_address').val(results[0].formatted_address);
         });
@@ -380,7 +288,9 @@ function bindGeoAjax(key) {
     $.goMap.setMap({address: address});
     $.goMap.setMarker('pinmarker', {address: address});
 
-    setTimeout(function () { updateGeoCoords(key); }, 500);
+    setTimeout(function () {
+        updateGeoCoords(key);
+    }, 500);
 }
 
 function bindGeolocation(key, latitude, longitude) {
@@ -397,7 +307,9 @@ function bindGeolocation(key, latitude, longitude) {
 
     $("#" + key + "-address").bind('propertychange input', function () {
         clearTimeout(geotimeout);
-        geotimeout = setTimeout(function () { bindGeoAjax(key); }, 800);
+        geotimeout = setTimeout(function () {
+            bindGeoAjax(key);
+        }, 800);
     });
 
     $("#map-" + key).goMap({
@@ -407,7 +319,7 @@ function bindGeolocation(key, latitude, longitude) {
         maptype: 'ROADMAP',
         disableDoubleClickZoom: true,
         addMarker: false,
-        icon: apppath + 'view/img/pin_red.png',
+        icon: bolt.paths.app + 'view/img/pin_red.png',
         markers: [{
             latitude: latitude,
             longitude: longitude,
@@ -417,8 +329,14 @@ function bindGeolocation(key, latitude, longitude) {
         }]
     });
 
-    // Handler for when the marker is dropped..
-    $.goMap.createListener({type:'marker', marker:'pinmarker'}, 'mouseup', function () { updateGeoCoords(key); });
+    // Handler for when the marker is dropped.
+    $.goMap.createListener(
+        {type: 'marker', marker: 'pinmarker'},
+        'mouseup',
+        function () {
+            updateGeoCoords(key);
+        }
+    );
 }
 
 /**
@@ -478,7 +396,7 @@ var FilelistHolder = Backbone.View.extend({
         this.list = new Filelist();
         var prelist = $('#' + this.id).val();
         if (prelist !== "") {
-            var prelist = $.parseJSON($('#' + this.id).val());
+            prelist = $.parseJSON($('#' + this.id).val());
             _.each(prelist, function (item) {
                 var file = new FilelistModel({
                     filename: item.filename,
@@ -572,13 +490,15 @@ var FilelistHolder = Backbone.View.extend({
                 }
             })
             .bind('fileuploadsubmit', function (e, data) {
-                var fileTypes = $('#fileupload-' + contentkey).attr('accept');
+                var fileTypes = $('#fileupload-' + contentkey).attr('accept'),
+                    pattern,
+                    message;
 
                 if (typeof fileTypes !== 'undefined') {
-                    var pattern = new RegExp("\.(" + fileTypes.replace(/,/g, '|').replace(/\./g, '') + ")$", "i");
+                    pattern = new RegExp("\\.(" + fileTypes.replace(/,/g, '|').replace(/\./g, '') + ")$", "i");
                     $.each(data.files , function (index, file) {
                         if (!pattern.test(file.name)) {
-                            var message = "Oops! There was an error uploading the file. Make sure that the file " +
+                            message = "Oops! There was an error uploading the file. Make sure that the file " +
                                 "type is correct.\n\n(accept type was: " + fileTypes + ")";
                             alert(message);
                             e.preventDefault();
@@ -646,7 +566,7 @@ var ImagelistHolder = Backbone.View.extend({
         this.list = new Imagelist();
         var prelist = $('#' + this.id).val();
         if (prelist !== "") {
-            var prelist = $.parseJSON($('#' + this.id).val());
+            prelist = $.parseJSON($('#' + this.id).val());
             _.each(prelist, function (item) {
                 var image = new ImageModel({
                     filename: item.filename,
@@ -670,7 +590,7 @@ var ImagelistHolder = Backbone.View.extend({
         _.each(this.list.models, function (image) {
             image.set('id', index++);
             var html = "<div data-id='" + image.get('id') + "' class='ui-state-default'>" +
-                "<img src='" + path + "../thumbs/60x40/" + image.get('filename') + "' width=60 height=40>" +
+                "<img src='" + bolt.paths.bolt + "../thumbs/60x40/" + image.get('filename') + "' width=60 height=40>" +
                 "<input type='text' value='" + _.escape(image.get('title'))  + "'>" +
                 "<a href='#'><i class='fa fa-times'></i></a></div>";
             $list.append(html);
@@ -742,16 +662,19 @@ var ImagelistHolder = Backbone.View.extend({
                 }
             })
             .bind('fileuploadsubmit', function (e, data) {
-                var fileTypes = $('#fileupload-' + contentkey).attr('accept');
+                var fileTypes = $('#fileupload-' + contentkey).attr('accept'),
+                    pattern,
+                    message;
 
                 if (typeof fileTypes !== 'undefined') {
-                    var pattern = new RegExp("\.(" + fileTypes.replace(/,/g, '|').replace(/\./g, '') + ")$", "i");
+                    pattern = new RegExp("\\.(" + fileTypes.replace(/,/g, '|').replace(/\./g, '') + ")$", "i");
                     $.each(data.files , function (index, file) {
                         if (!pattern.test(file.name)) {
-                            var message = "Oops! There was an error uploading the image. Make sure that the file " +
+                            message = "Oops! There was an error uploading the image. Make sure that the file " +
                                 "type is correct.\n\n(accept type was: " + fileTypes + ")";
                             alert(message);
                             e.preventDefault();
+
                             return false;
                         }
                     });
@@ -808,14 +731,14 @@ var Sidebar = Backbone.Model.extend({
             $('#navpage-secondary a.menu-pop').on('mouseover focus', function (e) {
                 var thiselem = this;
                 window.clearTimeout(menuTimeout);
-                menuTimeout = window.setTimeout(function () { 
+                menuTimeout = window.setTimeout(function () {
                     $('#navpage-secondary a.menu-pop').not(thiselem).popover('hide');
                     $(thiselem).popover('show');
                 }, 400);
             });
 
             // We need two distinct events, to hide the sidebar's popovers:
-            // One for 'mouseleave' on the sidebar itself, and one for keyboard 
+            // One for 'mouseleave' on the sidebar itself, and one for keyboard
             // 'focus' on the items before and after.
             $('#navpage-secondary').on('mouseleave', function () {
                 menuTimeout = window.setTimeout(function () {
@@ -830,7 +753,7 @@ var Sidebar = Backbone.Model.extend({
         }
 
         // set up 'fixlength'
-        window.setTimeout(function () { sidebar.fixlength(); }, 500);
+        window.setTimeout(function () { bolt.sidebar.fixlength(); }, 500);
 
     },
 
@@ -841,9 +764,9 @@ var Sidebar = Backbone.Model.extend({
         var documentheight = $('#navpage-content').height() + 22;
         if (documentheight > $('#navpage-secondary').height()) {
             $('#navpage-secondary').height(documentheight + "px");
-            window.setTimeout(function () { sidebar.fixlength(); }, 300);
+            window.setTimeout(function () { bolt.sidebar.fixlength(); }, 300);
         } else {
-            window.setTimeout(function () { sidebar.fixlength(); }, 3000);
+            window.setTimeout(function () { bolt.sidebar.fixlength(); }, 3000);
         }
     },
 
@@ -853,7 +776,7 @@ var Sidebar = Backbone.Model.extend({
      * @param {string} name
      */
     showSidebarItems: function (name) {
-        sidebar.closePopOvers();
+        bolt.sidebar.closePopOvers();
         // Check if the "hamburger menu" is actually visible. If not, we're not on mobile
         // or tablet, and we should just redirect to the first link, to prevent confusion.
         if (!$('.navbar-toggle').is(':visible')) {
@@ -872,7 +795,7 @@ var Sidebar = Backbone.Model.extend({
      * Collapse secondary navigation to icon only design
      */
     collapse: function () {
-        sidebar.closePopOvers();
+        bolt.sidebar.closePopOvers();
         $('#navpage-wrapper').removeClass('nav-secondary-opened').addClass('nav-secondary-collapsed');
         // We add the '-hoverable' class to make sure the sidebar _first_ collapses, and only _then_
         // can be opened by hovering on it.
@@ -886,8 +809,10 @@ var Sidebar = Backbone.Model.extend({
      * Expand secondary navigation to icon full width design
      */
     expand: function () {
-        sidebar.closePopOvers();
-        $('#navpage-wrapper').removeClass('nav-secondary-collapsed nav-secondary-opened nav-secondary-collapsed-hoverable');
+        bolt.sidebar.closePopOvers();
+        $('#navpage-wrapper').removeClass(
+            'nav-secondary-collapsed nav-secondary-opened nav-secondary-collapsed-hoverable'
+        );
         $.removeCookie('sidebar', {path: '/'});
     },
 
@@ -937,7 +862,7 @@ var Files = Backbone.Model.extend({
         }
 
         $.ajax({
-            url: asyncpath + 'renamefile',
+            url: bolt.paths.async + 'renamefile',
             type: 'POST',
             data: {
                 namespace: namespace,
@@ -968,7 +893,7 @@ var Files = Backbone.Model.extend({
         }
 
         $.ajax({
-            url: asyncpath + 'deletefile',
+            url: bolt.paths.async + 'deletefile',
             type: 'POST',
             data: {
                 namespace: namespace,
@@ -993,7 +918,7 @@ var Files = Backbone.Model.extend({
 
     duplicateFile: function (namespace, filename) {
         $.ajax({
-            url: asyncpath + 'duplicatefile',
+            url: bolt.paths.async + 'duplicatefile',
             type: 'POST',
             data: {
                 namespace: namespace,
@@ -1056,7 +981,7 @@ var Stack = Backbone.Model.extend({
         filename = filename.replace(/files\//ig, '');
 
         $.ajax({
-            url: asyncpath + 'addstack/' + filename,
+            url: bolt.paths.async + 'addstack/' + filename,
             type: 'GET',
             success: function (result) {
                 console.log('Added file ' + filename  + ' to stack');
@@ -1083,7 +1008,7 @@ var Stack = Backbone.Model.extend({
                 // Insert new item at the front.
                 if (type === "image") {
                     html = $('#protostack div.image').clone();
-                    $(html).find('img').attr('src', path + "../thumbs/100x100c/" + encodeURI(filename) );
+                    $(html).find('img').attr('src', bolt.paths.bolt + "../thumbs/100x100c/" + encodeURI(filename) );
                 } else {
                     html = $('#protostack div.other').clone();
                     $(html).find('strong').html(ext.toUpperCase());
@@ -1109,20 +1034,20 @@ var Stack = Backbone.Model.extend({
             $('#field-' + key).val(filename);
         }
 
-        // For Imagelist fields. Check if imagelist[key] is an object.
-        if (typeof imagelist === "object" && typeof imagelist[key] === "object") {
-            imagelist[key].add(filename, filename);
+        // For Imagelist fields. Check if bolt.imagelist[key] is an object.
+        if (typeof bolt.imagelist === 'object' && typeof bolt.imagelist[key] === 'object') {
+            bolt.imagelist[key].add(filename, filename);
         }
 
         // For Filelist fields. Check if filelist[key] is an object.
-        if (typeof filelist === "object" && typeof filelist[key] === "object") {
-            filelist[key].add(filename, filename);
+        if (typeof bolt.filelist === 'object' && typeof bolt.filelist[key] === 'object') {
+            bolt.filelist[key].add(filename, filename);
         }
 
         // If the field has a thumbnail, set it.
         if ($('#thumbnail-' + key).is('*')) {
-            src = path + "../thumbs/200x150/" + encodeURI(filename);
-            $('#thumbnail-' + key).html("<img src='" + src + "' width='200' height='150'>");
+            var src = bolt.paths.bolt + '../thumbs/200x150c/' + encodeURI(filename);
+            $('#thumbnail-' + key).html('<img src="' + src + '" width="200" height="150">');
         }
 
         // Close the modal dialog, if this image/file was selected through one.
@@ -1132,11 +1057,11 @@ var Stack = Backbone.Model.extend({
 
         // If we need to place it on the stack as well, do so.
         if (key === "stack") {
-            stack.addToStack(filename);
+            bolt.stack.addToStack(filename);
         }
 
         // Make sure the dropdown menu is closed. (Using the "blunt axe" method)
-        $('.in,.open').removeClass('in open'); 
+        $('.in,.open').removeClass('in open');
 
     },
 
@@ -1174,7 +1099,7 @@ var Folders = Backbone.Model.extend({
         }
 
         $.ajax({
-            url: asyncpath + 'folder/create',
+            url: bolt.paths.async + 'folder/create',
             type: 'POST',
             data: {
                 parent: parentPath,
@@ -1208,7 +1133,7 @@ var Folders = Backbone.Model.extend({
         }
 
         $.ajax({
-            url: asyncpath + 'folder/rename',
+            url: bolt.paths.async + 'folder/rename',
             type: 'POST',
             data: {
                 namespace: namespace,
@@ -1236,7 +1161,7 @@ var Folders = Backbone.Model.extend({
     remove: function (namespace, parentPath, folderName, element)
     {
         $.ajax({
-            url: asyncpath + 'folder/remove',
+            url: bolt.paths.async + 'folder/remove',
             type: 'POST',
             data: {
                 namespace: namespace,
@@ -1266,6 +1191,279 @@ var init = {
                 updateLatestActivity();
             }, 20 * 1000);
         }
+    },
+
+    /*
+     * Bind date field
+     *
+     * @param {object} data
+     * @returns {undefined}
+     */
+    bindDate: function (data) {
+        $('#' + data.id + '-date').on('change.bolt', function () {
+            var date = $('#' + data.id + '-date').datepicker('getDate');
+            $('#' + data.id).val($.datepicker.formatDate('yy-mm-dd', date));
+        }).trigger('change.bolt');
+    },
+
+    /*
+     * Bind datetime field
+     *
+     * @param {object} data
+     * @returns {undefined}
+     */
+    bindDateTime: function (data) {
+        $('#' + data.id + '-date, #' + data.id + '-time').on('change.bolt', function () {
+            var date = $('#' + data.id + '-date').datepicker('getDate');
+            var time = $.formatDateTime('hh:ii', new Date('2014/01/01 ' + $('#' + data.id + '-time').val()));
+            $('#' + data.id).val($.datepicker.formatDate('yy-mm-dd', date) + ' ' + time);
+        }).trigger('change.bolt');
+    },
+
+    /*
+     * Bind editfile field
+     *
+     * @param {object} data
+     * @returns {undefined}
+     */
+    bindEditFile: function (data) {
+        $('#saveeditfile').bind('click', function (e) {
+            // Reset the handler for checking changes to the form.
+            window.onbeforeunload = null;
+        });
+
+        var editor = CodeMirror.fromTextArea(document.getElementById('form_contents'), {
+            lineNumbers: true,
+            autofocus: true,
+            tabSize: 4,
+            indentUnit: 4,
+            indentWithTabs: false,
+            readOnly: data.readonly
+        });
+
+        var newheight = $(window).height() - 312;
+        if (newheight < 200) {
+            newheight = 200;
+        }
+
+        editor.setSize(null, newheight);
+    },
+
+    /*
+     * Bind editlocale field
+     *
+     * @param {object} data
+     * @returns {undefined}
+     */
+    bindEditLocale: function (data) {
+        var editor = CodeMirror.fromTextArea(document.getElementById('form_contents'), {
+            lineNumbers: true,
+            autofocus: true,
+            tabSize: 4,
+            indentUnit: 4,
+            indentWithTabs: false,
+            readOnly: data.readonly
+        });
+
+        editor.setSize(null, $(window).height() - 276);
+    },
+
+    bindCkFileSelect: function (data) {
+        var getUrlParam = function (paramName) {
+            var reParam = new RegExp('(?:[\?&]|&)' + paramName + '=([^&]+)', 'i'),
+                match = window.location.search.match(reParam);
+
+            return (match && match.length > 1) ? match[1] : null;
+        };
+
+        var funcNum = getUrlParam('CKEditorFuncNum');
+        $('a.filebrowserCallbackLink').bind('click', function (event) {
+            event.preventDefault();
+            var url = $(this).attr('href');
+            window.opener.CKEDITOR.tools.callFunction(funcNum, url);
+            window.close();
+        });
+    },
+
+    /*
+     * Bind slug field
+     *
+     * @param {object} data
+     * @returns {undefined}
+     */
+    bindSlug: function (data) {
+        $('.sluglocker').bind('click', function () {
+            if ($('.sluglocker i').hasClass('fa-lock')) {
+                // "unlock" if it's currently empty, _or_ we've confirmed that we want to do so.
+                if (data.isEmpty || confirm(data.messageUnlock)) {
+                    $('.sluglocker i').removeClass('fa-lock').addClass('fa-unlock');
+                    makeUri(data.slug, data.contentId, data.uses, data.key, false);
+                }
+            } else {
+                $('.sluglocker i').addClass('fa-lock').removeClass('fa-unlock');
+                stopMakeUri(data.uses);
+            }
+        });
+
+        $('.slugedit').bind('click', function () {
+            newslug = prompt(data.messageSet, $('#show-' + data.key).text());
+            if (newslug) {
+                $('.sluglocker i').addClass('fa-lock').removeClass('fa-unlock');
+                stopMakeUri(data.uses);
+                makeUriAjax(newslug, data.slug, data.contentId, data.key, false);
+            }
+        });
+
+        if (data.isEmpty) {
+            $('.sluglocker').trigger('click');
+        }
+    },
+
+    /*
+     * Bind video field
+     *
+     * @param {object} data
+     * @returns {undefined}
+     */
+    bindVideo: function (data) {
+        bindVideoEmbed(data.key);
+    },
+
+    /*
+     * Initialise CKeditor instances.
+     */
+    ckeditor: function () {
+        CKEDITOR.editorConfig = function (config) {
+            var key,
+                custom,
+                set = bolt.ckeditor;
+
+            config.language = set.language;
+            config.uiColor = '#DDDDDD';
+            config.resize_enabled = true;
+            config.entities = false;
+            config.extraPlugins = 'codemirror';
+            config.toolbar = [
+                { name: 'styles', items: ['Format'] },
+                { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike'] },
+                { name: 'paragraph', items: ['NumberedList', 'BulletedList', 'Indent', 'Outdent', '-', 'Blockquote'] }
+            ];
+
+            if (set.anchor) {
+                config.toolbar = config.toolbar.concat({
+                    name: 'links', items: ['Link', 'Unlink', '-', 'Anchor']
+                });
+            } else {
+                config.toolbar = config.toolbar.concat({
+                    name: 'links', items: ['Link', 'Unlink']
+                });
+            }
+
+            if (set.subsuper) {
+                config.toolbar = config.toolbar.concat({
+                    name: 'subsuper', items: ['Subscript', 'Superscript']
+                });
+            }
+            if (set.images) {
+                config.toolbar = config.toolbar.concat({
+                    name: 'image', items: ['Image']
+                });
+            }
+            if (set.embed) {
+                config.extraPlugins += ',oembed,widget';
+                config.oembed_maxWidth = '853';
+                config.oembed_maxHeight = '480';
+                config.toolbar = config.toolbar.concat({
+                    name: 'embed', items: ['oembed']
+                });
+            }
+
+            if (set.tables) {
+                config.toolbar = config.toolbar.concat({
+                    name: 'table', items: ['Table']
+                });
+            }
+            if (set.align) {
+                config.toolbar = config.toolbar.concat({
+                    name: 'align', items: ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock']
+                });
+            }
+            if (set.fontcolor) {
+                config.toolbar = config.toolbar.concat({
+                    name: 'colors', items: ['TextColor', 'BGColor']
+                });
+            }
+
+            config.toolbar = config.toolbar.concat({
+                name: 'tools', items: ['SpecialChar', '-', 'RemoveFormat', 'Maximize', '-', 'Source']
+            });
+
+            config.height = 250;
+            config.autoGrow_onStartup = true;
+            config.autoGrow_minHeight = 150;
+            config.autoGrow_maxHeight = 400;
+            config.autoGrow_bottomSpace = 24;
+            config.removePlugins = 'elementspath';
+            config.resize_dir = 'vertical';
+
+            if (set.filebrowser) {
+                if (set.filebrowser.browseUrl) {
+                    config.filebrowserBrowseUrl = set.filebrowser.browseUrl;
+                }
+                if (set.filebrowser.imageBrowseUrl) {
+                    config.filebrowserImageBrowseUrl = set.filebrowser.imageBrowseUrl;
+                }
+                if (set.filebrowser.uploadUrl) {
+                    config.filebrowserUploadUrl = set.filebrowser.uploadUrl;
+                }
+                if (set.filebrowser.imageUploadUrl) {
+                    config.filebrowserImageUploadUrl = set.filebrowser.imageUploadUrl;
+                }
+            } else {
+                config.filebrowserBrowseUrl = '';
+                config.filebrowserImageBrowseUrl = '';
+                config.filebrowserUploadUrl = '';
+                config.filebrowserImageUploadUrl = '';
+            }
+
+            config.codemirror = {
+                theme: 'default',
+                lineNumbers: true,
+                lineWrapping: true,
+                matchBrackets: true,
+                autoCloseTags: true,
+                autoCloseBrackets: true,
+                enableSearchTools: true,
+                enableCodeFolding: true,
+                enableCodeFormatting: true,
+                autoFormatOnStart: true,
+                autoFormatOnUncomment: true,
+                highlightActiveLine: true,
+                highlightMatches: true,
+                showFormatButton: false,
+                showCommentButton: false,
+                showUncommentButton: false
+            };
+
+            // Parse override settings from config.yml
+            if ($.isArray(set.ck)) {
+                for (key in set.ck) {
+                    if (set.ck.hasOwnProperty(key)) {
+                         config[key] = set.ck[key];
+                    }
+                }
+            }
+
+            // Parse override settings from field in contenttypes.yml
+            custom = $('textarea[name=' + this.name + ']').data('ckconfig');
+            if ($.isArray(custom)) {
+                for (key in custom){
+                    if (custom.hasOwnProperty(key)) {
+                        config[key] = custom[key];
+                    }
+                }
+            }
+        };
     },
 
     /**
@@ -1314,19 +1512,23 @@ var init = {
         // Delete chosen Items
         $("a.deletechosen").click(function (e) {
             e.preventDefault();
-            var aItems = getSelectedItems();
+            var aItems = getSelectedItems(),
+                notice;
 
             if (aItems.length < 1) {
                 bootbox.alert("Nothing chosen to delete");
             } else {
-                var notice = "Are you sure you wish to <strong>delete " + (aItems.length=== 1 ? "this record" : "these records") + "</strong>? There is no undo.";
+                notice = "Are you sure you wish to <strong>delete " +
+                    (aItems.length=== 1 ? "this record" : "these records") + "</strong>? There is no undo.";
                 bootbox.confirm(notice, function (confirmed) {
                     $(".alert").alert();
                     if (confirmed === true) {
                         $.each(aItems, function (index, id) {
-                            // delete request
+                            // Delete request
                             $.ajax({
-                                url: $('#baseurl').attr('value') + 'content/deletecontent/' + $('#item_' + id).closest('table').data('contenttype') + '/' + id + '?token=' + $('#item_' + id).closest('table').data('token'),
+                                url: $('#baseurl').attr('value') + 'content/deletecontent/' +
+                                    $('#item_' + id).closest('table').data('contenttype') + '/' + id + '?token=' +
+                                    $('#item_' + id).closest('table').data('token'),
                                 type: 'get',
                                 success: function (feedback) {
                                     $('#item_' + id).hide();
@@ -1389,7 +1591,7 @@ var init = {
             var key = $(this).data('key');
 
             $.ajax({
-                url: asyncpath + 'widget/' + key,
+                url: bolt.paths.async + 'widget/' + key,
                 type: 'GET',
                 success: function (result) {
                     $('#widget-' + key).html(result);
@@ -1428,7 +1630,7 @@ var init = {
                     menu = self.next('.dropdown-menu'),
                     mousey = mouseEvt.pageY + 20,
                     menuHeight = menu.height(),
-                    menuVisY = $(window).height() - (mousey + menuHeight), // Distance of element from the bottom of viewport
+                    menuVisY = $(window).height() - (mousey + menuHeight), // Distance from the bottom of viewport
                     profilerHeight = 37; // The size of the Symfony Profiler Bar is 37px.
 
                 // The whole menu must fit when trying to 'dropup', but always prefer to 'dropdown' (= default).
@@ -1439,6 +1641,17 @@ var init = {
                     });
                 }
             });
+        });
+    },
+
+    /*
+     * Bind geolocation
+     */
+    geolocation: function () {
+        $('input[data-geolocation]').each(function (item) {
+            var data = $(this).data('geolocation');
+
+            bindGeolocation(data.key, data.lat, data.lon);
         });
     },
 
@@ -1479,7 +1692,8 @@ var init = {
     keyboardShortcuts: function () {
         function confirmExit() {
             if ($('form').hasChanged()) {
-                return "You have unfinished changes on this page. If you continue without saving, you will lose these changes.";
+                return "You have unfinished changes on this page. " +
+                    "If you continue without saving, you will lose these changes.";
             }
         }
 
@@ -1551,7 +1765,7 @@ var init = {
             minimumInputLength: 3,
             multiple: true, // this is for better styling …
             ajax: {
-                url: asyncpath + "omnisearch",
+                url: bolt.paths.async + 'omnisearch',
                 dataType: 'json',
                 data: function (term, page) {
                     return {
@@ -1635,6 +1849,50 @@ var init = {
         });
     },
 
+    uploads: function () {
+        $('input[data-upload]').each(function (item) {
+            var data = $(this).data('upload'),
+                accept = $(this).attr('accept').replace(/\./g, ''),
+                autocomplete_conf;
+
+            switch (data.type) {
+                case 'Image':
+                case 'File':
+                    bindFileUpload(data.key);
+
+                    autocomplete_conf = {
+                        source: bolt.paths.async + 'filesautocomplete?ext=' + encodeURIComponent(accept),
+                        minLength: 2
+                    };
+                    if (data.type === 'image') {
+                        autocomplete_conf.close = function () {
+                            var path = $('#field-' + data.key).val(),
+                                url;
+
+                            if (path) {
+                                url = bolt.paths.root +'thumbs/' + data.width + 'x' + data.height + 'c/' + encodeURI(path);
+                            } else {
+                                url = bolt.paths.app + 'view/img/default_empty_4x3.png';
+                            }
+                            $('#thumbnail-' + data.key).html(
+                                '<img src="'+ url + '" width="' + data.width + '" height="' + data.height + '">'
+                            );
+                        };
+                    }
+                    $('#field-' + data.key).autocomplete(autocomplete_conf);
+                    break;
+
+                case 'ImageList':
+                    bolt.imagelist[data.key] = new ImagelistHolder({id: data.key});
+                    break;
+
+                case 'FileList':
+                    bolt.filelist[data.key] = new FilelistHolder({id: data.key});
+                    break;
+            }
+        });
+    },
+
     /*
      * ?
      */
@@ -1645,14 +1903,15 @@ var init = {
             axis: 'y',
             handle: '.sorthandle',
             update: function (e, ui) {
-                serial = $(this).sortable('serialize');
-                // sorting request
+                var serial = $(this).sortable('serialize');
+                // Sorting request
                 $.ajax({
-                    url: $('#baseurl').attr('value') + 'content/sortcontent/' + $(this).parent('table').data('contenttype'),
+                    url: $('#baseurl').attr('value') + 'content/sortcontent/' +
+                        $(this).parent('table').data('contenttype'),
                     type: 'POST',
                     data: serial,
                     success: function (feedback) {
-                        // do nothing
+                        // Do nothing
                     }
                 });
             }
@@ -1660,8 +1919,22 @@ var init = {
     }
 
 };
-jQuery(function ($) {
 
+
+jQuery(function ($) {
+    // Get configuration
+    bolt = $('script[data-config]').first().data('config');
+
+    // Initialize objects
+    bolt.files = new Files();
+    bolt.folders = new Folders();
+    bolt.stack = new Stack();
+    bolt.sidebar = new Sidebar();
+    bolt.imagelist = [];
+    bolt.filelist = [];
+
+    // Initialisation
+    init.ckeditor();
     init.confirmationDialogs();
     init.magnificPopup();
     init.dataActions();
@@ -1679,11 +1952,22 @@ jQuery(function ($) {
     init.dashboardCheckboxes();
     init.sortables();
     init.omnisearch();
+    init.uploads();
+    init.geolocation();
 
-    // Initialize objects
+    $('[data-bind]').each(function () {
+        var data = $(this).data('bind');
+        console.log('Binding: ' + data.bind);
 
-    files = new Files();
-    folders = new Folders();
-    stack = new Stack();
-    sidebar = new Sidebar();
+        switch (data.bind) {
+            case 'date': init.bindDate(data); break;
+            case 'datetime': init.bindDateTime(data); break;
+            case 'editfile': init.bindEditFile(data); break;
+            case 'editlocale': init.bindEditLocale(data); break;
+            case 'ckfileselect': init.bindCkFileSelect(); break;
+            case 'slug': init.bindSlug(data); break;
+            case 'video': init.bindVideo(data); break;
+            default: console.log('Binding ' + data.bind + ' failed!');
+        }
+    });
 });
