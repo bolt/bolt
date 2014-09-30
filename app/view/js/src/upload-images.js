@@ -41,7 +41,7 @@ var ImagelistHolder = Backbone.View.extend({
         this.list = new Imagelist();
         var prelist = $('#' + this.id).val();
         if (prelist !== "") {
-            var prelist = $.parseJSON($('#' + this.id).val());
+            prelist = $.parseJSON($('#' + this.id).val());
             _.each(prelist, function (item) {
                 var image = new ImageModel({
                     filename: item.filename,
@@ -65,7 +65,7 @@ var ImagelistHolder = Backbone.View.extend({
         _.each(this.list.models, function (image) {
             image.set('id', index++);
             var html = "<div data-id='" + image.get('id') + "' class='ui-state-default'>" +
-                "<img src='" + path + "../thumbs/60x40/" + image.get('filename') + "' width=60 height=40>" +
+                "<img src='" + bolt.paths.bolt + "../thumbs/60x40/" + image.get('filename') + "' width=60 height=40>" +
                 "<input type='text' value='" + _.escape(image.get('title'))  + "'>" +
                 "<a href='#'><i class='fa fa-times'></i></a></div>";
             $list.append(html);
@@ -137,16 +137,19 @@ var ImagelistHolder = Backbone.View.extend({
                 }
             })
             .bind('fileuploadsubmit', function (e, data) {
-                var fileTypes = $('#fileupload-' + contentkey).attr('accept');
+                var fileTypes = $('#fileupload-' + contentkey).attr('accept'),
+                    pattern,
+                    message;
 
                 if (typeof fileTypes !== 'undefined') {
-                    var pattern = new RegExp("\.(" + fileTypes.replace(/,/g, '|').replace(/\./g, '') + ")$", "i");
+                    pattern = new RegExp("\\.(" + fileTypes.replace(/,/g, '|').replace(/\./g, '') + ")$", "i");
                     $.each(data.files , function (index, file) {
                         if (!pattern.test(file.name)) {
-                            var message = "Oops! There was an error uploading the image. Make sure that the file " +
+                            message = "Oops! There was an error uploading the image. Make sure that the file " +
                                 "type is correct.\n\n(accept type was: " + fileTypes + ")";
                             alert(message);
                             e.preventDefault();
+
                             return false;
                         }
                     });

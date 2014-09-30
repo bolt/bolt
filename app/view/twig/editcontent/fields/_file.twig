@@ -21,12 +21,14 @@
 }%}
 
 {% set attr_upload = {
-    accept:    option.extensions ? '.'~option.extensions|join(',.') : '',
-    data_url:  url('upload', {'handler': option.upload}),
-    id:        'fileupload-'~key,
-    name:      'files[]',
-    type:      'file',
+    accept:       option.extensions ? '.'~option.extensions|join(',.') : '',
+    data_upload:  {type: 'File', key: key}|json_encode(),
+    data_url:     url('upload', {'handler': option.upload}),
+    id:           'fileupload-'~key,
+    name:         'files[]',
+    type:         'file',
 }%}
+
 
 {#=== FIELDSET =======================================================================================================#}
 
@@ -55,7 +57,7 @@
                     <ul class="dropdown-menu" id="stack-{{ key }}">
                         {% for item in items %}
                             <li>
-                                <a href="#" data-action="stack.selectFromPulldown('{{ key }}', '{{ item.filepath }}');">
+                                <a href="#" data-action="bolt.stack.selectFromPulldown('{{ key }}', '{{ item.filepath }}');">
                                     {{ item.basename }} <small>({{ item.filesize }})</small>
                                 </a>
                             </li>
@@ -77,18 +79,3 @@
     </div>
 
 </fieldset>
-
-{#=== SCRIPT =========================================================================================================#}
-
-{% if not ismobileclient() %}
-    <script>
-        $(function() {
-            bindFileUpload('{{ key }}');
-
-            $("#field-{{ key }}").autocomplete({
-                source: "{{ paths.async }}filesautocomplete?ext={{ option.extensions|join(',') }}",
-                minLength: 2
-            });
-        });
-    </script>
-{% endif %}

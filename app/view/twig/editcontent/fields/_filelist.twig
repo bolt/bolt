@@ -12,12 +12,13 @@
 {% set items = stackitems(7, 'other,document') %}
 
 {% set attr_fileupload = {
-    accept:    option.extensions ? '.'~option.extensions|join(',.') : '',
-    data_url:  url('upload', {'handler': option.upload}),
-    id:        'fileupload-'~key,
-    name:      'files[]',
-    type:      'file',
-    multiple:  true,
+    accept:       option.extensions ? '.'~option.extensions|join(',.') : '',
+    data_upload:  {type: 'FileList', key: key}|json_encode(),
+    data_url:     url('upload', {'handler': option.upload}),
+    id:           'fileupload-'~key,
+    name:         'files[]',
+    type:         'file',
+    multiple:     true,
 }%}
 
 {% if context.content.get(key) is defined %}
@@ -68,7 +69,7 @@
                     <ul class="dropdown-menu" id="stack-{{ key }}">
                         {% for item in items %}
                             <li>
-                                <a href="#" data-action="stack.selectFromPulldown('{{ key }}', '{{ item.filepath }}');">{{ item.basename }} <small>({{ item.filesize }})</small></a>
+                                <a href="#" data-action="bolt.stack.selectFromPulldown('{{ key }}', '{{ item.filepath }}');">{{ item.basename }} <small>({{ item.filesize }})</small></a>
                             </li>
                         {% endfor %}
                     </ul>
@@ -83,14 +84,3 @@
     {{ block.serverselect(key) }}
 
 </fieldset>
-
-{#=== SCRIPT =========================================================================================================#}
-
-<script type="text/javascript">
-    $(function() {
-        if (typeof filelist == "undefined") {
-            filelist = [];
-        }
-        filelist['{{ key }}'] = new FilelistHolder({id: '{{ key }}'});
-    });
-</script>

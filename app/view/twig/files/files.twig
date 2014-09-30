@@ -23,10 +23,10 @@
 
             <p>
                 <a href="#" class="btn btn-default"
-                   data-action="folders.create('{{ __("Please enter a new folder name") }}',
-                                               '{{ context.namespace }}',
-                                               '{{ context.pathsegments|keys|last }}',
-                                               this);">
+                   data-action="bolt.folders.create('{{ __("Please enter a new folder name") }}',
+                                                    '{{ context.namespace }}',
+                                                    '{{ context.pathsegments|keys|last }}',
+                                                    this);">
                     <i class="fa fa-fw fa-plus"></i>
                     {{ __('Create folder') }}
                 </a>
