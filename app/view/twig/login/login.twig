@@ -11,7 +11,10 @@
 
         <div class="form-group">
             <label for="username" class="control-label">{{ __('Username') }}</label>
-            <input id="username" class="form-control" type="text" autofocus="true" name="username" placeholder="{{ __('Your username') }} …" {% if username is defined %}value="{{username}}"{%endif%} required>
+            <div class="input-group">
+                <label for="username" class="input-group-addon"><i class="fa fa-fw fa-user"></i></label>
+                <input id="username" class="form-control" type="text" autofocus="true" name="username" placeholder="{{ __('Your username') }} …" {% if username is defined %}value="{{username}}"{%endif%} required>
+            </div>
         </div>
 
         <div class="form-group password-group">
@@ -20,7 +23,10 @@
                 <span class="togglepass show-password"><i class="fa fa-fw fa-eye"></i> {{ __('Show') }}</span>
                 <span class="togglepass hide-password"><i class="fa fa-fw fa-eye-slash"></i> {{ __('Hide') }}</span>
             </label>
-            <input id="password" class="form-control" type="password" name="password" placeholder="{{ __('Your password') }} …">
+            <div class="input-group">
+                <label for="password" class="input-group-addon"><i class="fa fa-fw fa-key"></i></label>
+                <input id="password" class="form-control" type="password" name="password" placeholder="{{ __('Your password') }} …">
+            </div>
         </div>
 
         <p class="login-group">
