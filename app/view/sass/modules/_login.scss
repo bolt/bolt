@@ -8,7 +8,7 @@ body.login {
     }
 
     .login-block {
-        width: 360px;
+        width: 380px;
     }
 
     .panel {
@@ -17,7 +17,7 @@ body.login {
     }
 
     .panel-body {
-        padding: 40px;
+        padding: 40px 40px 30px;
     }
 
     .panel-title {
@@ -60,7 +60,9 @@ body.login {
 
     .login-forgot,
     .login-remembered {
-        float: right;
+        display: block;
+        margin-top: 5px;
+        padding-left: 0;
     }
 
   p.cookie-notice {
