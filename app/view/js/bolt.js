@@ -1612,13 +1612,13 @@ var init = {
         });
 
         $('.login-forgot').bind('click', function (e) {
-            $('.login-group, .password-group').slideUp('slow');
-            $('.reset-group').slideDown('slow');
+            $('.login-group, .password-group').hide();
+            $('.reset-group').show();
         });
 
         $('.login-remembered').bind('click', function (e) {
-            $('.login-group, .password-group').slideDown('slow');
-            $('.reset-group').slideUp('slow');
+            $('.login-group, .password-group').show();
+            $('.reset-group').hide();
         });
     },
 
