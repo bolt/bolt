@@ -12,13 +12,13 @@
 {% set videotitle = (video.title is defined) ? '"<b>' ~ video.title|trimtext(18)~'</b>" by '~video.authorname|trimtext(18) %}
 
 {% set attr_url = {
-    bind:        {bind: 'video', key: key},
-    class:       'form-control',
-    id:          'video-'~key,
-    name:        key~'[url]',
-    type:        'url',
-    placeholder: __('URL of video on Youtube, Vimeo or other video website') ~ ' …',
-    value:       video.url|default(''),
+    _bind:        ['video', {key: key}],
+    class:        'form-control',
+    id:           'video-'~key,
+    name:         key~'[url]',
+    placeholder:  __('URL of video on Youtube, Vimeo or other video website') ~ ' …',
+    type:         'url',
+    value:        video.url|default(''),
 }%}
 
 {% set attr_width = {

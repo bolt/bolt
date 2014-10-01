@@ -53,8 +53,8 @@
                     style="{{ value|trim }}"
                 {% elseif attrname == 'checked' %}
                     {% if value != false %}checked="checked"{% endif %}
-                {% elseif attrname == 'bind' %}
-                    data-bind="{{ value|json_encode }}"
+                {% elseif attrname == '_bind' %}
+                    data-bind="{{ {bind: value[0]}|merge(value[1]|default({}))|json_encode }}"
                 {% else %}
                     {{ attrname|replace({'_': '-'}) }}="{{ value }}"
                 {% endif %}
