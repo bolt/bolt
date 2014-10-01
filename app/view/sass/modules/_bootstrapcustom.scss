@@ -191,9 +191,6 @@
 
     min-height: 54px;
     margin-bottom: 0;
-    @include old-ie() {
-        height: 60px;
-    }
 
     form {
         padding: 0 0 0 0;

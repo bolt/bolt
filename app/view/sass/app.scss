@@ -1,7 +1,11 @@
+/* 
+ * Read the README.TXT in main SASS folder for project details
+ */
+
 /**
  * Variables for colours
  */
-@import "colors";
+//@import "modules/colors";
 
 /**
  * External resource: Bootstrap.
@@ -59,38 +63,38 @@
 @import "bootstrap/responsive-utilities";
 
 /**
- * base variables, mixins and helpers
- */
-@import "base";
-
-/**
  * External resource: Font Awesome.
  */
 @import "font-awesome.scss";
 
 /**
+ * base variables, mixins and helpers
+ */
+@import "base";
+
+/**
  * Override bootstrap defaults
  */
-@import "bootstrapcustom";
-@import "ckeditorcustom";
-@import "codemirrorcustom";
-@import "select2custom";
+@import "modules/bootstrapcustom";
+@import "modules/ckeditorcustom";
+@import "modules/codemirrorcustom";
+@import "modules/select2custom";
 
 /**
  * Some modules
  */
-@import "nav/main";
-@import "footer";
-@import "textstyles";
-@import "popover";
-@import "dashboard";
-@import "aside";
-@import "stack";
-@import "forms";
-@import "login";
-@import "extend";
+@import "nav/nav";
+@import "modules/footer";
+@import "modules/textstyles";
+@import "modules/popover";
+@import "modules/dashboard";
+@import "modules/aside";
+@import "modules/stack";
+@import "modules/forms";
+@import "modules/login";
+@import "modules/extend";
 
 /**
  * The leftover styles
  */
-@import "bolt";
+@import "modules/bolt";

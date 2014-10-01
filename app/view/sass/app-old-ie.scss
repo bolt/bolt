@@ -1,18 +1,22 @@
 /**
-This is the app.css for old IE browsers: lt IE9
-It has a $old-ie variable set to true to generate specific 
-content in the scss files that are wrapped in $oldie conditional
-**/
+ * Read the README.TXT in main SASS folder for project details
+ *
+ * This is the app.css for old IE browsers: lt IE9
+ * It has a $old-ie variable set to true to generate specific 
+ * content in the scss files that are wrapped in $oldie conditional
+ */
 
 /**
-set old-ie to true, to include all old-ie code in the scss files in generated bolt-old-ie.css
-**/
+ * set old-ie to true, to include all old-ie code in the scss files in generated bolt-old-ie.css
+ * set fixed-mq to a value to include all styles up to and including that MQ
+ */
 $old-ie: true;
+$fixed-mq: 60; //gets compared to breakpoints in mixon respond-to(): includes all mq styles up to 60em's; change if needed
 
 /**
  * Variables for colours
  */
-@import "colors";
+//@import "modules/colors";
 
 /**
  * External resource: Bootstrap.
@@ -74,7 +78,6 @@ $old-ie: true;
  */
 @import "font-awesome.scss";
 
-
 /**
  * base variables, mixins and helpers
  */
@@ -83,26 +86,26 @@ $old-ie: true;
 /**
  * Override bootstrap defaults
  */
-@import "bootstrapcustom";
-@import "ckeditorcustom";
-@import "codemirrorcustom";
-@import "select2custom";
+@import "modules/bootstrapcustom";
+@import "modules/ckeditorcustom";
+@import "modules/codemirrorcustom";
+@import "modules/select2custom";
 
 /**
  * Some modules
  */
-@import "nav/main";
-@import "footer";
-@import "textstyles";
-@import "popover";
-@import "dashboard";
-@import "aside";
-@import "stack";
-@import "forms";
-@import "login";
-@import "extend";
+@import "nav/nav";
+@import "modules/footer";
+@import "modules/textstyles";
+@import "modules/popover";
+@import "modules/dashboard";
+@import "modules/aside";
+@import "modules/stack";
+@import "modules/forms";
+@import "modules/login";
+@import "modules/extend";
 
 /**
  * The leftover styles
  */
-@import "bolt";
+@import "modules/bolt";

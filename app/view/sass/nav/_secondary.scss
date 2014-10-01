@@ -66,8 +66,7 @@
 
 /**** MODE: Expanded ****/
 
-@include in-large-mode() {
-
+@include respond-to(medium-screens) {
     #navpage-secondary {
         width: $nav-secondary-large-width;
         left: 0;
@@ -82,8 +81,7 @@
 
 /**** MODE: Collapsed ****/
 
-@include in-large-mode() {
-
+@include respond-to(medium-screens) {
     #navpage-wrapper.nav-secondary-collapsed {
 
         #navpage-secondary {
@@ -201,7 +199,7 @@
             color: $sidebarlink;
         }
 
-        @include in-large-mode() {
+        @include respond-to(medium-screens) {
             @include hide();
         }
     }
@@ -290,29 +288,23 @@
 .nav-secondary-expand {
     @include nav-secondary-divider();
     @include hide();
-
     i.icon {
         background: none !important;
         color: $sidebarlink !important;
     }
 }
 
-@include in-large-mode() {
-
+@include respond-to(medium-screens) {
     .nav-secondary-collapse {
         @include show();
     }
-
     .nav-secondary-expand {
         @include hide();
     }
-
     .nav-secondary-collapsed {
-
         .nav-secondary-collapse {
             @include hide();
         }
-
         .nav-secondary-expand {
             @include show();
         }
