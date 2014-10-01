@@ -10,7 +10,7 @@ module.exports = function(grunt) {
                 livereload: true
             },
             scripts: {
-                files: ['sass/*.scss', 'sass/nav/*.scss'],
+                files: ['sass/*.scss', 'sass/nav/*.scss', 'sass/modules/*.scss',],
                 tasks: ['sass'],
             },
             js: {
