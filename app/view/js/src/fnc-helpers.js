@@ -3,7 +3,7 @@
  */
 function getSelectedItems() {
     var aItems = [];
-    $('.dashboardlisting input:checked').each(function (index) {
+    $('.dashboardlisting input:checked').each(function () {
         if ($(this).parents('tr').attr('id')) {
             aItems.push($(this).parents('tr').attr('id').substr(5));
         }

@@ -20,14 +20,14 @@ var Sidebar = Backbone.Model.extend({
             $('#navpage-secondary a.menu-pop').on('mouseover focus', function (e) {
                 var thiselem = this;
                 window.clearTimeout(menuTimeout);
-                menuTimeout = window.setTimeout(function () { 
+                menuTimeout = window.setTimeout(function () {
                     $('#navpage-secondary a.menu-pop').not(thiselem).popover('hide');
                     $(thiselem).popover('show');
                 }, 400);
             });
 
             // We need two distinct events, to hide the sidebar's popovers:
-            // One for 'mouseleave' on the sidebar itself, and one for keyboard 
+            // One for 'mouseleave' on the sidebar itself, and one for keyboard
             // 'focus' on the items before and after.
             $('#navpage-secondary').on('mouseleave', function () {
                 menuTimeout = window.setTimeout(function () {
@@ -42,7 +42,7 @@ var Sidebar = Backbone.Model.extend({
         }
 
         // set up 'fixlength'
-        window.setTimeout(function () { sidebar.fixlength(); }, 500);
+        window.setTimeout(function () { bolt.sidebar.fixlength(); }, 500);
 
     },
 
@@ -53,9 +53,9 @@ var Sidebar = Backbone.Model.extend({
         var documentheight = $('#navpage-content').height() + 22;
         if (documentheight > $('#navpage-secondary').height()) {
             $('#navpage-secondary').height(documentheight + "px");
-            window.setTimeout(function () { sidebar.fixlength(); }, 300);
+            window.setTimeout(function () { bolt.sidebar.fixlength(); }, 300);
         } else {
-            window.setTimeout(function () { sidebar.fixlength(); }, 3000);
+            window.setTimeout(function () { bolt.sidebar.fixlength(); }, 3000);
         }
     },
 
@@ -65,7 +65,7 @@ var Sidebar = Backbone.Model.extend({
      * @param {string} name
      */
     showSidebarItems: function (name) {
-        sidebar.closePopOvers();
+        bolt.sidebar.closePopOvers();
         // Check if the "hamburger menu" is actually visible. If not, we're not on mobile
         // or tablet, and we should just redirect to the first link, to prevent confusion.
         if (!$('.navbar-toggle').is(':visible')) {
@@ -84,7 +84,7 @@ var Sidebar = Backbone.Model.extend({
      * Collapse secondary navigation to icon only design
      */
     collapse: function () {
-        sidebar.closePopOvers();
+        bolt.sidebar.closePopOvers();
         $('#navpage-wrapper').removeClass('nav-secondary-opened').addClass('nav-secondary-collapsed');
         // We add the '-hoverable' class to make sure the sidebar _first_ collapses, and only _then_
         // can be opened by hovering on it.
@@ -98,8 +98,10 @@ var Sidebar = Backbone.Model.extend({
      * Expand secondary navigation to icon full width design
      */
     expand: function () {
-        sidebar.closePopOvers();
-        $('#navpage-wrapper').removeClass('nav-secondary-collapsed nav-secondary-opened nav-secondary-collapsed-hoverable');
+        bolt.sidebar.closePopOvers();
+        $('#navpage-wrapper').removeClass(
+            'nav-secondary-collapsed nav-secondary-opened nav-secondary-collapsed-hoverable'
+        );
         $.removeCookie('sidebar', {path: '/'});
     },
 

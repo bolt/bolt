@@ -6,16 +6,17 @@
     label:     field.label|default(''),
     required:  field.required|default(false),
     info:      field.info|default(''),
-    ckconfig:  field.ckconfig|json_encode|raw|default('{}')
+    ckconfig:  field.ckconfig|default('')
 }%}
 
 {#=== INIT ===========================================================================================================#}
 
 {% set attr_html = {
-    class:     option.class~' ckeditor',
-    name:      key,
-    required:  option.required,
-    style:     (option.height) ? 'height: '~option.height : '',
+    class:          option.class~' ckeditor',
+    data_ckconfig:  option.ckconfig ? option.ckconfig|json_encode : '',
+    name:           key,
+    required:       option.required,
+    style:          (option.height) ? 'height: '~option.height : '',
 }%}
 
 {#=== FIELDSET =======================================================================================================#}
@@ -23,7 +24,6 @@
 <fieldset class="html">
     <div class="col-sm-12">
         <label class="control-label">{{ (option.info) ? macro.infopop(labelkey, option.info) : labelkey }}</label>
-        <textarea{{ macro.attr(attr_html) }} data-ckconfig="{{ option.ckconfig }}">{{ context.content.get(key)|default('') }}</textarea>
+        <textarea{{ macro.attr(attr_html) }}>{{ context.content.get(key)|default('') }}</textarea>
     </div>
-
 </fieldset>

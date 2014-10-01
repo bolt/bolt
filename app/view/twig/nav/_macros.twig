@@ -42,7 +42,7 @@
     {% if allowedany %}
         <li{% if class %} class="{{ class }}"{% endif %}>
             <a href="{% if popoveritems %}{{ popoveritems.0.link }}{% else %}#{% endif %}"
-               data-action="sidebar.showSidebarItems('{{ name }}')"
+               data-action="bolt.sidebar.showSidebarItems('{{ name }}')"
                class="menu-pop"
                data-html="true"
                data-title=""
@@ -87,12 +87,12 @@
     {% from _self import label %}
 
     <li class="nav-secondary-collapse">
-        <a href="#" data-action="sidebar.collapse()">
+        <a href="#" data-action="bolt.sidebar.collapse()">
             {{ label('compress', __('Collapse sidebar')) }}
         </a>
     </li>
     <li class="nav-secondary-expand">
-        <a href="#" data-action="sidebar.expand()">
+        <a href="#" data-action="bolt.sidebar.expand()">
             {{ label('expand', __('Expand sidebar')) }}
         </a>
     </li>

@@ -14,7 +14,7 @@ function updateGeoCoords(key) {
         geocoder = new google.maps.Geocoder();
         latlng = new google.maps.LatLng(marker[0], marker[1]);
 
-        geocoder.geocode({'latLng': latlng}, function (results, status) {
+        geocoder.geocode({latLng: latlng}, function (results, status) {
             $('#' + key + '-reversegeo').html(results[0].formatted_address);
             $('#' + key + '-formatted_address').val(results[0].formatted_address);
         });
@@ -36,7 +36,9 @@ function bindGeoAjax(key) {
     $.goMap.setMap({address: address});
     $.goMap.setMarker('pinmarker', {address: address});
 
-    setTimeout(function () { updateGeoCoords(key); }, 500);
+    setTimeout(function () {
+        updateGeoCoords(key);
+    }, 500);
 }
 
 function bindGeolocation(key, latitude, longitude) {
@@ -53,7 +55,9 @@ function bindGeolocation(key, latitude, longitude) {
 
     $("#" + key + "-address").bind('propertychange input', function () {
         clearTimeout(geotimeout);
-        geotimeout = setTimeout(function () { bindGeoAjax(key); }, 800);
+        geotimeout = setTimeout(function () {
+            bindGeoAjax(key);
+        }, 800);
     });
 
     $("#map-" + key).goMap({
@@ -63,7 +67,7 @@ function bindGeolocation(key, latitude, longitude) {
         maptype: 'ROADMAP',
         disableDoubleClickZoom: true,
         addMarker: false,
-        icon: apppath + 'view/img/pin_red.png',
+        icon: bolt.paths.app + 'view/img/pin_red.png',
         markers: [{
             latitude: latitude,
             longitude: longitude,
@@ -73,6 +77,12 @@ function bindGeolocation(key, latitude, longitude) {
         }]
     });
 
-    // Handler for when the marker is dropped..
-    $.goMap.createListener({type:'marker', marker:'pinmarker'}, 'mouseup', function () { updateGeoCoords(key); });
+    // Handler for when the marker is dropped.
+    $.goMap.createListener(
+        {type: 'marker', marker: 'pinmarker'},
+        'mouseup',
+        function () {
+            updateGeoCoords(key);
+        }
+    );
 }

@@ -11,6 +11,15 @@
 
 {% set videotitle = (video.title is defined) ? '"<b>' ~ video.title|trimtext(18)~'</b>" by '~video.authorname|trimtext(18) %}
 
+{% set attr_url = {
+    bind:   {bind: 'video', key: key},
+    class:  'form-control',
+    id:     'video-'~key,
+    name:   key~'[url]',
+    type:   'url',
+    value:  video.url|default(''),
+}%}
+
 {% set attr_width = {
     class:  'form-control pull-left',
     id:     'video-'~key~'-width',
@@ -84,9 +93,8 @@
         <div class="form-group">
             <div class="col-sm-12">
                 <label>{{ __('URL of video to embed') }}</label>
-                <input type="url" name="{{key}}[url]" id="video-{{key}}" value='{{ video.url|default('') }}' class="form-control">
+                <input{{ macro.attr(attr_url) }}>
             </div>
-
         </div>
 
         <div class="form-group">
@@ -106,6 +114,7 @@
                 <span><b>{{ __('Matched video') }}</b></span>
                 <p id="video-{{ key }}-text">{{ videotitle|raw }}</p>
             </div>
+
             <div class="hidden-xs col-sm-3">
                 <span class="hidden-xs" style="float:right">
                     <a href="#myModal" role="button" class="btn btn-default" data-toggle="modal">
@@ -120,14 +129,7 @@
             <input{{ macro.attr(attr_hid_authorurl) }}>
             <input{{ macro.attr(attr_hid_html) }}>
             <input{{ macro.attr(attr_hid_thumbnail) }}>
-
         </div>
-
-        <script type="text/javascript">
-            $(function() {
-                bindVideoEmbed('{{ key }}');
-            });
-        </script>
     </div>
 
     <div class="col-sm-4">

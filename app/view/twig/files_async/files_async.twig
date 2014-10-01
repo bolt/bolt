@@ -11,12 +11,12 @@
             {% if context.pathsegments|length > 0 %}
                 <p>
                     {{ __('Path:') }}
-                    <a href="#" data-action="stack.changeFolder('{{ context.key }}', '{{ path('asyncbrowse', {'namespace': context.namespace, 'key': context.key}) }}');" class="folder">
+                    <a href="#" data-action="bolt.stack.changeFolder('{{ context.key }}', '{{ path('asyncbrowse', {'namespace': context.namespace, 'key': context.key}) }}');" class="folder">
                         {{ context.namespace -}}
                     </a> /
                     {% for path, segment in context.pathsegments %}
                     {% if not loop.first %} / {% endif %}
-                    <a href="#" data-action="stack.changeFolder('{{ context.key }}', '{{ path('asyncbrowse', {'namespace': context.namespace, 'path': path, 'key': context.key}) }}');" class="folder">{{ segment|default('…') }}</a>
+                    <a href="#" data-action="bolt.stack.changeFolder('{{ context.key }}', '{{ path('asyncbrowse', {'namespace': context.namespace, 'path': path, 'key': context.key}) }}');" class="folder">{{ segment|default('…') }}</a>
                     {% endfor %}
                 </p>
             {% endif %}
@@ -29,8 +29,8 @@
 
                     {% for folder in context.folders %}
                         <tr style='height: 30px;'>
-                            <td> <i class="fa fa-fw fa-folder-open-o"></i> 
-                                <a href="#" data-action="stack.changeFolder('{{ context.key }}', '{{ path('asyncbrowse', {'namespace': context.namespace, 'path': folder.newpath, 'key': context.key}) }}');" class="folder"><b>{{ folder.foldername }}/</b>
+                            <td> <i class="fa fa-fw fa-folder-open-o"></i>
+                                <a href="#" data-action="bolt.stack.changeFolder('{{ context.key }}', '{{ path('asyncbrowse', {'namespace': context.namespace, 'path': folder.newpath, 'key': context.key}) }}');" class="folder"><b>{{ folder.foldername }}/</b>
                                 </a>
                             </td>
                         </tr>
@@ -52,11 +52,11 @@
                     {% if file.type in ['jpeg', 'jpg', 'png', 'gif'] %}
                         <tr>
                             <td>
-                                
+
                                 <i class="fa fa-fw fa-file-image-o"></i>
 
                                 {% if file.readable %}
-                                    <a href="#" data-action="stack.selectFromPulldown('{{ context.key }}', '{{ file.relativepath }}');" class='file'>
+                                    <a href="#" data-action="bolt.stack.selectFromPulldown('{{ context.key }}', '{{ file.relativepath }}');" class='file'>
                                         <b>{{ file.filename|trimtext(30) }}</b>
                                     </a>
                                 {% else %}

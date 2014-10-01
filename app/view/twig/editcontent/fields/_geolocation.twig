@@ -8,6 +8,8 @@
 {#=== INIT ===========================================================================================================#}
 
 {% set geolocation = context.content.get(key) %}
+{% set geolocation_lat = geolocation.latitude|default('') %}
+{% set geolocation_lon = geolocation.longitude|default('') %}
 
 {% set attr_lat = {
     class:  'form-control',
@@ -15,7 +17,7 @@
     name:   key~'[latitude]',
     style:  '',
     type:   'text',
-    value:  geolocation.latitude|default(''),
+    value:  geolocation_lat,
 }%}
 
 {% set attr_lon = {
@@ -24,7 +26,7 @@
     name:   key~'[longitude]',
     style:  '',
     type:   'text',
-    value:  geolocation.longitude|default(''),
+    value:  geolocation_lon,
 }%}
 
 {% set attr_address = {
@@ -36,11 +38,12 @@
 }%}
 
 {% set attr_formatted = {
-    id:     key~'-formatted_address',
-    name:   key~'[formatted_address]',
-    style:  'width: 30%;',
-    type:   'hidden',
-    value:  geolocation.formatted_address|default(''),
+    data_geolocation:  {key: key, lat: geolocation_lat, lon: geolocation_lon}|json_encode,
+    id:                key~'-formatted_address',
+    name:              key~'[formatted_address]',
+    style:             'width: 30%;',
+    type:              'hidden',
+    value:             geolocation.formatted_address|default(''),
 }%}
 
 {#=== FIELDSET =======================================================================================================#}
@@ -86,8 +89,3 @@
 
 <script src="https://maps.google.com/maps/api/js?sensor=false"></script>
 <script src="{{ paths.app }}view/js/jquery.gomap-1.3.2.min.js"></script>
-<script>
-    $(function() {
-        bindGeolocation('{{ key }}', '{{ geolocation.latitude|default('') }}', '{{ geolocation.longitude|default('') }}');
-    });
-</script>

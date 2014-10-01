@@ -55,7 +55,7 @@ var FilelistHolder = Backbone.View.extend({
         this.list = new Filelist();
         var prelist = $('#' + this.id).val();
         if (prelist !== "") {
-            var prelist = $.parseJSON($('#' + this.id).val());
+            prelist = $.parseJSON($('#' + this.id).val());
             _.each(prelist, function (item) {
                 var file = new FilelistModel({
                     filename: item.filename,
@@ -149,13 +149,15 @@ var FilelistHolder = Backbone.View.extend({
                 }
             })
             .bind('fileuploadsubmit', function (e, data) {
-                var fileTypes = $('#fileupload-' + contentkey).attr('accept');
+                var fileTypes = $('#fileupload-' + contentkey).attr('accept'),
+                    pattern,
+                    message;
 
                 if (typeof fileTypes !== 'undefined') {
-                    var pattern = new RegExp("\.(" + fileTypes.replace(/,/g, '|').replace(/\./g, '') + ")$", "i");
+                    pattern = new RegExp("\\.(" + fileTypes.replace(/,/g, '|').replace(/\./g, '') + ")$", "i");
                     $.each(data.files , function (index, file) {
                         if (!pattern.test(file.name)) {
-                            var message = "Oops! There was an error uploading the file. Make sure that the file " +
+                            message = "Oops! There was an error uploading the file. Make sure that the file " +
                                 "type is correct.\n\n(accept type was: " + fileTypes + ")";
                             alert(message);
                             e.preventDefault();
