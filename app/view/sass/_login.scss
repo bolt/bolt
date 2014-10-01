@@ -3,15 +3,21 @@ body.login {
     background-color: #F8F8F8;
 
     .logo {
-        margin: 80px 0 20px 20px;
+        display: block;
+        margin: 80px auto 30px;
     }
 
-    input.form-control {
-        max-width: 300px;
+    .login-block {
+        width: 360px;
     }
 
     .panel {
+        border-radius: 6px;
         box-shadow: 0 0 150px rgba(0, 0, 0, .15);
+    }
+
+    .panel-body {
+        padding: 40px;
     }
 
     .panel-title {
@@ -21,6 +27,7 @@ body.login {
     .togglepass {
         color: #999;
         cursor: pointer;
+        float: right;
     }
 
     .togglepass.hide-password {
@@ -33,9 +40,22 @@ body.login {
         top: 18px;
     }
 
+    .control-label {
+        color: #8F8F8F;
+        font-size: 14px;
+        font-weight: normal;
+    }
+
+    .form-control {
+        height: 40px;
+    }
+
+    .form-group {
+        margin-bottom: 30px;
+    }
+
     .btn-primary {
-        padding-left: 4em;
-        padding-right: 4em;
+        padding: 0.6em 1.1em;
     }
 
     .login-forgot,
@@ -61,13 +81,17 @@ html.no-cookies p.cookie-notice {
         }
 
         .logo {
-            margin: 18px 0 18px 18px;
+            margin: 18px auto 18px;
             width: 120px;
         }
 
         .view-site {
             right: 12px;
             top: 8px;
+        }
+
+        .login-block {
+            width: 320px;
         }
 
         .login-forgot,
