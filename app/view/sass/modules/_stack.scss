@@ -12,6 +12,14 @@
     /* overflow: hidden; */
 }
 
+.stack-buttons {
+    margin-top:16px;
+    .btn-group {
+        display: inline-block;
+        margin: 0;
+    }
+}
+
 .stackitem {
     border: 6px solid #fff;
     background-color: #DDD;

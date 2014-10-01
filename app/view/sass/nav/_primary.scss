@@ -1,5 +1,4 @@
 #navpage-primary {
-
     .navbar-form {
         border: 0;
         box-shadow: none !important;
@@ -7,7 +6,6 @@
         margin-right: 8px;
         padding: 0 15px 8px 6px;
     }
-
     input.semitransparent {
         opacity: 0.5;
 
@@ -18,17 +16,13 @@
 }
 
 /* Top Right Navigation Dropdown Styles */
-
 .navbar-top-links {
     margin-top: 9px;
-
     li {
         display: inline-block;
-
         &:last-child {
             margin-right: 15px;
         }
-
         a {
             padding: 12px;
             min-height: 42px;
@@ -39,19 +33,15 @@
     }
 
     .dropdown-menu {
-
         li {
             display: block;
-
             &:last-child {
                 margin-right: 0;
             }
-
             a div {
                 white-space: normal;
             }
         }
-
         & > li a {
             color: $dropdown-link-color;
             min-height: 0;
@@ -64,27 +54,22 @@
         width: 310px;
         min-width: 0;
     }
-
     .dropdown-messages {
         margin-left: 5px;
     }
-
     .dropdown-tasks {
         margin-left: -59px;
     }
-
     .dropdown-alerts {
         margin-left: -123px;
     }
-
     .dropdown-user {
         right: 0;
         left: auto;
     }
 }
 
-@include in-large-mode() {
-
+@include respond-to(medium-screens) {
     .navbar-top-links .dropdown-messages,
     .navbar-top-links .dropdown-tasks,
     .navbar-top-links .dropdown-alerts {
@@ -93,48 +78,38 @@
 }
 
 .navbar-static-top .nav > li {
-
     & > a {
         color: $sidebarlink;
     }
-
     &:hover > a {
         color: $sidebarlinkhover;
         background: lighten($sidebarbackgroundhover, 5);
     }
 }
 
-
+// Media Query tweak! 
 @media (max-width: 979px) {
-
     .navbar-inner {
         min-height: $nav-primary-min-height;
     }
-
     .navbar-inner ul.dropdown-menu li {
         float: left;
         padding: 0;
     }
-
     .navbar-collapse .navbar > li {
         clear: both;
     }
-
     .navbar-collapse.collapse {
         margin-left: 8px;
     }
-
     .navbar-collapse .navbar .navbar-header {
         padding: 5px 12px 5px 24px;
     }
-
     .navbar-collapse .navbar > li > a, .navbar-collapse .dropdown-menu a {
         padding: 5px 12px;
         color: #555 !important;
     }
-
     .navbar .navbar-btn {
         margin-top: 14px !important;
     }
-
 }

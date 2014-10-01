@@ -1,0 +1,30 @@
+.extend-bolt-container {
+    .hide-block {
+        display:none;
+    }
+    
+    .install-container {
+        position:relative;
+        input {
+            width:50%;
+            padding:0.5em;
+        }
+        label {
+            display:block;
+            margin-top:15px;
+        }
+    }
+    .auto-search {
+        position:absolute;
+        top:28px;
+        background-color: #f1f2f7;
+        border-radius: 2px;
+        box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);
+        width:50%;
+        
+        .btn {
+            border-radius:0;
+            margin-top:0;
+        }
+    }
+}
