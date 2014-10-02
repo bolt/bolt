@@ -328,22 +328,23 @@ class Frontend
     public static function search(Request $request, Silex\Application $app)
     {
         $q = '';
+        $context = __FUNCTION__;
+
         if ($request->query->has('q')) {
             $q = $request->get('q');
-        } elseif ($request->query->has('search')) {
-            $q = $request->get('search');
+        } elseif ($request->query->has($context)) {
+            $q = $request->get($context);
         }
         $q = cleanPostedData($q, false);
 
-        // Make paging work
-        $page_size = 10;
-        $page = 1;
-        if ($request->query->has('page')) {
-            $page = intval($request->get('page'));
-        }
-        if ($page < 1) {
-            $page = 1;
-        }
+        $param = Pager::makeParameterId($context);
+        /* @var $query \Symfony\Component\HttpFoundation\ParameterBag */
+        $query = $request->query;
+        $page = ($query) ? $query->get($param, $query->get('page', 1)) : 1;
+
+        $config = $app['config'];
+        $page_size = $config->get('general/search_results_records') ?: ($config->get('general/listing_records') ?: 10);
+
         $offset = ($page - 1) * $page_size;
         $limit = $page_size;
 
@@ -351,7 +352,7 @@ class Frontend
         $filters = array();
         foreach ($request->query->all() as $key => $value) {
             if (strpos($key, '_') > 0) {
-                list($contenttypeslug, $field) = explode('_', $key, 2);
+                list ($contenttypeslug, $field) = explode('_', $key, 2);
                 if (isset($filters[$contenttypeslug])) {
                     $filters[$contenttypeslug][$field] = $value;
                 } else {
@@ -371,7 +372,7 @@ class Frontend
         $result = $app['storage']->searchContent($q, null, $filters, $limit, $offset);
 
         $pager = array(
-            'for' => 'search',
+            'for' => $context,
             'count' => $result['no_of_results'],
             'totalpages' => ceil($result['no_of_results'] / $page_size),
             'current' => $page,
@@ -380,13 +381,13 @@ class Frontend
             'link' => '/search?q=' . rawurlencode($q) . '&page_search='
         );
 
-        $app['storage']->setPager('search', $pager);
+        $app['storage']->setPager($context, $pager);
 
         $app['twig']->addGlobal('records', $result['results']);
-        $app['twig']->addGlobal('search', $result['query']['use_q']);
+        $app['twig']->addGlobal($context, $result['query']['use_q']);
         $app['twig']->addGlobal('searchresult', $result);
 
-        $template = $app['config']->get('general/search_results_template', $app['config']->get('general/listing_template'));
+        $template = $config->get('general/search_results_template', $config->get('general/listing_template'));
 
         return $app['render']->render($template);
     }
