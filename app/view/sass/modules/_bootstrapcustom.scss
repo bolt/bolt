@@ -279,6 +279,10 @@ ul.dropdown-menu li button {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
+ul.dropdown-menu li a:hover {
+    background-color: $dropdown-link-hover-bg;
+}
+
 ul.dropdown-menu li.divider {
     margin: 4px 1px;
 }

@@ -46,6 +46,12 @@
             color: $dropdown-link-color;
             min-height: 0;
         }
+
+        button:hover {
+            background-color: $dropdown-link-hover-bg;
+            color: $dropdown-link-hover-color;
+        }
+
     }
 
     .dropdown-messages,
@@ -85,6 +91,11 @@
         color: $sidebarlinkhover;
         background: lighten($sidebarbackgroundhover, 5);
     }
+}
+
+.nav .open>a, .nav .open>a:hover, .nav .open>a:focus {
+    background-color: lighten($sidebarbackgroundhover, 5);
+
 }
 
 // Media Query tweak! 
