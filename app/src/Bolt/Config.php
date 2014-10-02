@@ -2,6 +2,7 @@
 
 namespace Bolt;
 
+use Bolt\Configuration\LowlevelException;
 use Symfony\Component\Yaml;
 
 /**
@@ -289,13 +290,11 @@ class Config
             // neither 'singular_name' nor 'singular_slug' is set.
             if (!isset($temp['name']) && !isset($temp['slug'])) {
                 $error = sprintf("In contenttype <code>%s</code>, neither 'name' nor 'slug' is set. Please edit <code>contenttypes.yml</code>, and correct this.", $key);
-                $llc = new Configuration\LowlevelChecks($this->app['resources']);
-                $llc->lowlevelError($error);
+                throw new LowlevelException($error);
             }
             if (!isset($temp['singular_name']) && !isset($temp['singular_slug'])) {
                 $error = sprintf("In contenttype <code>%s</code>, neither 'singular_name' nor 'singular_slug' is set. Please edit <code>contenttypes.yml</code>, and correct this.", $key);
-                $llc = new Configuration\LowlevelChecks($this->app['resources']);
-                $llc->lowlevelError($error);
+                throw new LowlevelException($error);
             }
 
             if (!isset($temp['slug'])) {
