@@ -8,6 +8,7 @@ namespace Bolt\Composer;
 
 use Symfony\Component\Filesystem\Filesystem;
 use Composer\Script\CommandEvent;
+use Composer\Script\PackageEvent;
 
 class ScriptHandler
 {
@@ -71,9 +72,9 @@ class ScriptHandler
     /**
      * Composer post-package-install and post-package-update event handler
      *
-     * @param CommandEvent $event
+     * @param PackageEvent $event
      */
-    public static function extensions(CommandEvent $event)
+    public static function extensions(PackageEvent $event)
     {
         $installedPackage = $event->getOperation()->getPackage();
         $rootExtra = $event->getComposer()->getPackage()->getExtra();
