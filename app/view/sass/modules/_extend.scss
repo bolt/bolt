@@ -27,4 +27,40 @@
             margin-top:0;
         }
     }
+
+    #extension-log {
+        border: 1px solid #000;
+        padding: 4px;
+        font-size: 10px;
+        line-height: 1em;
+        font-family: Menlo, Consolas, Monaco, "Courier New", monospace;
+        color: #CCC;
+        background-color: #333;
+        max-height: 300px;
+        height: 300px;
+        overflow-y: scroll;
+
+        .timestamp {
+            color: #BBF;
+        }
+
+        .command {
+            font-weight: normal;
+            color: #8F8;
+        }
+
+        .error {
+            font-weight: bold;
+            color: #F44;
+        }
+
+        .warning {
+            font-weight: bold;
+            color: #FF4;
+        }
+
+
+
+    }
+
 }
