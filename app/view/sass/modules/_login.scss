@@ -48,6 +48,7 @@ body.login {
 
     .form-control {
         height: 40px;
+        @include placeholder();
     }
 
     .form-group {

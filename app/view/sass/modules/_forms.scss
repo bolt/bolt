@@ -18,6 +18,10 @@ label.permalink {
     }
 }
 
+.form-control {
+    @include placeholder();
+}
+
 .form-horizontal .control-label {
     text-align: left;
     font-size: $font-size-base + 1px;
@@ -88,8 +92,6 @@ fieldset.checkbox div {
     border-color: #CCC;
     font-size: $font-size-base + 1px;
 }
-
-
 
 #editcontent input.large {
     font-size: 150%;

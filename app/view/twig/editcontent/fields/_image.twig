@@ -19,11 +19,12 @@
 {% set image = (context.content.get(key) is iterable) ? context.content.get(key) : {'file': context.content.get(key)} %}
 
 {% set attr_inp = {
-    class:   option.class~' imageinput wide',
-    id:      'field-'~key,
-    name:    key~'[file]',
-    type:    'text',
-    value:   image.file|default(''),
+    class:       option.class~' imageinput wide',
+    id:          'field-'~key,
+    name:        key~'[file]',
+    type:        'text',
+    placeholder: __('Allowed filetypes are:') ~ ' ' ~ option.extensions|join(', ') ~ ' …',
+    value:       image.file|default(''),
 }%}
 
 {% set attr_upl = {
@@ -49,7 +50,6 @@
         span 1px too small, making the 'info' popup go to the next line. #}
     <label>{{ __('Path to image file') }}</label>
     <input{{ macro.attr(attr_inp) }}>
-    <p class="filetypes">{{ __('Allowed filetypes are:') }} <code>{{ option.extensions|join('</code>, <code>')|raw }}</code>.</p>
 {% endmacro %}
 
 {% macro attributes(key, option, image) %}
@@ -134,7 +134,11 @@
     <div class="dropzone clearfix" id="dropzone-{{ key }}">
     <label class="col-xs-12 control-label">{{ macro.infopop(labelkey, option.info) }}</label>
     <div class="col-sm-8">
-        {{ block.imagepath(labelkey, option, image, attr_inp) }}
+        <div class="form-group">
+            <div class="col-sm-12">
+                {{ block.imagepath(labelkey, option, image, attr_inp) }}
+            </div>
+        </div>
         {{ block.attributes(key, option, image) }}
         <div class="button-wrap">
             {{ block.buttons(key, paths, option, attr_upl) }}

@@ -205,3 +205,26 @@ $old-ie: false !default;
     padding-top: $nav-secondary-divider-padding;
     margin-top: $nav-secondary-divider-margin;
 }
+
+@mixin placeholder() {
+    &::-webkit-input-placeholder {
+        color: #999 !important;
+        font-style: italic !important;
+        font-size: 85% !important;
+    }
+    &:-moz-placeholder { /* FF 4-18 */
+        color: #999 !important;
+        font-style: italic !important;
+        font-size: 85% !important;
+    }
+    &::-moz-placeholder { /* FF 19+ */
+        color: #999 !important;
+        font-style: italic !important;
+        font-size: 85% !important;
+    }
+    &:-ms-input-placeholder { /* IE 10+ */
+        color: #999 !important;
+        font-style: italic !important;
+        font-size: 92% !important;
+    }
+}

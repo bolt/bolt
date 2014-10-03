@@ -13,11 +13,12 @@
 {% set items = stackitems(7, 'other,document') %}
 
 {% set attr_filepath = {
-    class:   option.class~' imageinput',
-    id:      'field-'~key,
-    name:    key,
-    type:    'text',
-    value:   context.content.get(key),
+    class:       option.class~' imageinput',
+    id:          'field-'~key,
+    name:        key,
+    type:        'text',
+    placeholder: __('Allowed filetypes are:') ~ ' ' ~ option.extensions|join(', ') ~ ' …',    
+    value:       context.content.get(key),
 }%}
 
 {% set attr_upload = {
