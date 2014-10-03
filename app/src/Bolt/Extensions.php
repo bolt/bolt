@@ -94,7 +94,6 @@ class Extensions
 
     private $isInitialized = false;
 
-
     public function __construct(Application $app)
     {
         $this->app = $app;
@@ -185,7 +184,7 @@ class Extensions
     /**
      * Extension register method. Allows any extension to register itself onto the enabled stack.
      *
-     * @param ExtensionInterface $extension
+     * @param  ExtensionInterface $extension
      * @return void
      */
     public function register(ExtensionInterface $extension)
@@ -200,7 +199,6 @@ class Extensions
             $this->initializeExtension($extension);
         }
     }
-
 
     /**
      * Check if an extension is enabled, case sensitive.
@@ -229,22 +227,50 @@ class Extensions
     protected function initializeExtension(ExtensionInterface $extension)
     {
         $name = $extension->getName();
+
+        // Attempt to get extension YAML config
         try {
             $extension->getConfig();
+        } catch (\Exception $e) {
+            $this->app['log']->add("[EXT] YAML config failed to load for {$name}: " . $e->getMessage(), 2);
+
+            return;
+        }
+
+        // Call extension initialize()
+        try {
             $extension->initialize();
-            $this->initialized[$name] = $extension;
+        } catch (\Exception $e) {
+            $this->app['log']->add("[EXT] Initialisation failed for {$name}: " . $e->getMessage(), 2);
+
+            return;
+        }
+
+        // Flag the extension as initialised
+        $this->initialized[$name] = $extension;
+
+        // Get the extension defined snippets
+        try {
             $this->getSnippets($name);
-            if ($extension instanceof \Twig_Extension) {
+        } catch (\Exception $e) {
+            $this->app['log']->add("[EXT] Snippet loading failed for {$name}: " . $e->getMessage(), 2);
+
+            return;
+        }
+
+        // Add Twig extensions
+        if ($extension instanceof \Twig_Extension) {
+             try {
                 $this->app['twig']->addExtension($extension);
                 if (!empty($info['allow_in_user_content'])) {
                     $this->app['safe_twig']->addExtension($extension);
                 }
+            } catch (\Exception $e) {
+                $this->app['log']->add("[EXT] Failed to regsiter Twig extension for {$name}: " . $e->getMessage(), 2);
+
+                return;
             }
-        } catch (\Exception $e) {
-
         }
-
-
     }
 
     /**
