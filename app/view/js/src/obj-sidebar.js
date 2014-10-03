@@ -50,7 +50,7 @@ var Sidebar = Backbone.Model.extend({
      * Make sure the sidebar is as long as the document height. Also: Typecasting! love it or hate it!
      */
     fixlength: function () {
-        var documentheight = $('#navpage-content').height() + 22;
+        var documentheight = $('#navpage-content').height() + 34;
         if (documentheight > $('#navpage-secondary').height()) {
             $('#navpage-secondary').height(documentheight + "px");
             window.setTimeout(function () { bolt.sidebar.fixlength(); }, 300);
