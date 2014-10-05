@@ -52,6 +52,9 @@ module.exports = function(grunt) {
 
         concat: {
             js: {
+                options: {
+                    separator: '\n/**********************************************************************************************************************/\n\n'
+                },
                 src: [
                     'js/src/jslint-conf.js',
                     'js/src/console.js',
