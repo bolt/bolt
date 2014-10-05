@@ -84,8 +84,7 @@ abstract class BaseExtension extends \Twig_Extension implements ExtensionInterfa
         $composerjson = $this->getComposerJSON();
         if (isset($composerjson['name'])) {
             return $composerjson['name'];
-        }
-        else {
+        } else {
             return null;
         }
     }
@@ -102,8 +101,7 @@ abstract class BaseExtension extends \Twig_Extension implements ExtensionInterfa
         $composerName = $this->getComposerName();
         if (empty($composerName)) {
             return util::slugify($this->getName());
-        }
-        else {
+        } else {
             return $composerName;
         }
     }
@@ -122,6 +120,7 @@ abstract class BaseExtension extends \Twig_Extension implements ExtensionInterfa
                 $this->composerJson = $jsonFile->read();
             }
         }
+
         return $this->composerJson;
     }
 
@@ -140,14 +139,16 @@ abstract class BaseExtension extends \Twig_Extension implements ExtensionInterfa
                     'name' => $this->getName(),
                     'json' => $composerjson
                 ));
-            }
-            else {
-                $this->extensionConfig = array($this->getName() => array(
-                    'name' => $this->getName(),
-                    'json' => array()
-                ));
+            } else {
+                $this->extensionConfig = array(
+                    $this->getName() => array(
+                        'name' => $this->getName(),
+                        'json' => array()
+                    )
+                );
             }
         }
+
         return $this->extensionConfig;
     }
 
