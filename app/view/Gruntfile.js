@@ -80,6 +80,7 @@ module.exports = function(grunt) {
                             " * You can edit files in <js/src/*.js> and run 'grunt' to generate this file.\n" +
                             " */\n\n"
                 },
+                nonull: true,
                 src: [
                     'js/src/jslint-conf.js',
                     'js/src/console.js',
