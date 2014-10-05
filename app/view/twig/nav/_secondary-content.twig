@@ -20,10 +20,12 @@
 
             {% setcontent records = slug limit 4 nohydrate %}
             {% for record in records %}
+                {% set rec_title = record.title|trim %}
+                {% set rec_excerpt = record.excerpt(80 - record.title|length)|trim %}
                 {% set sub = sub|merge([
                     {
                         icon: contenttype.icon_singular|default('file-text-o'),
-                        label: record.excerpt(80, true)|trim,
+                        label: (rec_title~rec_excerpt)|length > 0 ? {title: rec_title, excerpt: rec_excerpt} : '',
                         link: path('editcontent', {'contenttypeslug': slug, 'id': record.id})
                     }
                 ]) %}
