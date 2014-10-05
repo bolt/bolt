@@ -73,7 +73,12 @@ module.exports = function(grunt) {
         concat: {
             js: {
                 options: {
-                    separator: '\n/**********************************************************************************************************************/\n\n'
+                    separator: '\n/**********************************************************************************************************************/\n\n',
+                    banner: "/**\n" +
+                            " * These are Bolt's COMPILED JS files!\n" +
+                            " * Do not edit these files, because all changes will be lost.\n" +
+                            " * You can edit files in <js/src/*.js> and run 'grunt' to generate this file.\n" +
+                            " */\n\n"
                 },
                 src: [
                     'js/src/jslint-conf.js',
