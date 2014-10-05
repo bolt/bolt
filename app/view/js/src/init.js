@@ -373,7 +373,7 @@ var init = {
 
         // Bind the click events, with the 'action' namespace.
         $('[data-action]').on('click.action', function (e) {
-            var action = $(this).data('action');
+            var action = $(this).attr('data-action');
             if (typeof action !== "undefined" && action !== "") {
                 eval(action);
                 e.stopPropagation();
