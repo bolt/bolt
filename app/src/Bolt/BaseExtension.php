@@ -4,6 +4,7 @@ namespace Bolt;
 use Bolt\Extensions\ExtensionInterface;
 use Symfony\Component\Console\Command\Command;
 use Composer\Json\JsonFile;
+use utilphp\util;
 
 abstract class BaseExtension extends \Twig_Extension implements ExtensionInterface
 {
