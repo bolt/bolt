@@ -1017,7 +1017,7 @@ class Content implements \ArrayAccess
     public function excerpt($length = 200, $includetitle = false)
     {
         if ($includetitle) {
-            $title = $this->getTitle();
+            $title = trimText(strip_tags($this->getTitle()), $length);
             $length = $length - strlen($title);
         }
 
