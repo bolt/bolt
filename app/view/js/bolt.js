@@ -1,3 +1,9 @@
+/**
+ * These are Bolt's COMPILED JS files!
+ * Do not edit these files, because all changes will be lost.
+ * You can edit files in <js/src/*.js> and run 'grunt' to generate this file.
+ */
+
 /*jslint browser: true, devel: true, debug: false, indent: 4, maxlen: 120, nomen: true, plusplus: true, sloppy: true, unparam: true */
 /*global $, jQuery, _, google, Backbone, bootbox, CKEDITOR, moment */
 
@@ -15,6 +21,8 @@
  * bolt:            inline _page.twig
  */
 
+/**********************************************************************************************************************/
+
 var bolt = {};
 
 // Don't break on browsers without console.log();
@@ -26,6 +34,8 @@ try {
         assert: function () {}
     };
 }
+
+/**********************************************************************************************************************/
 
 /**
  * Helper to get all selected Items and return Array
@@ -40,6 +50,8 @@ function getSelectedItems() {
     console.log('getSelectedItems: ' + aItems);
     return aItems;
 }
+
+/**********************************************************************************************************************/
 
 /**
  * Initialize 'moment' timestamps.
@@ -73,6 +85,8 @@ function updateLatestActivity() {
         updateLatestActivity();
     }, 30 * 1000);
 }
+
+/**********************************************************************************************************************/
 
 /**
  * Bind the file upload when editing content, so it works and stuff
@@ -120,6 +134,8 @@ function bindFileUpload(key) {
             $('#progress-' + key + ' div.bar').css('width', progress + "%");
         });
 }
+
+/**********************************************************************************************************************/
 
 /**
  * Functions for working with the automagic URI/Slug generation.
@@ -175,6 +191,8 @@ function stopMakeUri(usesfields) {
     });
     clearTimeout(makeuritimeout);
 }
+
+/**********************************************************************************************************************/
 
 /**
  * Making the 'video embed' filetype work.
@@ -249,6 +267,8 @@ function bindVideoEmbed(key) {
         }
     });
 }
+
+/**********************************************************************************************************************/
 
 var geotimeout;
 
@@ -338,6 +358,8 @@ function bindGeolocation(key, latitude, longitude) {
         }
     );
 }
+
+/**********************************************************************************************************************/
 
 /**
  * Model, Collection and View for Filelist.
@@ -522,6 +544,8 @@ var FilelistHolder = Backbone.View.extend({
     }
 
 });
+
+/**********************************************************************************************************************/
 
 /**
  * Model, Collection and View for Imagelist.
@@ -709,6 +733,8 @@ var ImagelistHolder = Backbone.View.extend({
 
 });
 
+/**********************************************************************************************************************/
+
 /**
  * Backbone object for collapsable sidebar.
  */
@@ -852,6 +878,8 @@ var Sidebar = Backbone.Model.extend({
     }
 });
 
+/**********************************************************************************************************************/
+
 /**
  * Backbone object for all file actions functionality.
  */
@@ -953,6 +981,8 @@ var Files = Backbone.Model.extend({
     }
 
 });
+
+/**********************************************************************************************************************/
 
 /**
  * Backbone object for all Stack-related functionality.
@@ -1090,6 +1120,8 @@ var Stack = Backbone.Model.extend({
 
 });
 
+/**********************************************************************************************************************/
+
 /**
  * This backbone model cares about folder actions within /files in the backend.
  */
@@ -1196,6 +1228,8 @@ var Folders = Backbone.Model.extend({
         });
     }
 });
+
+/**********************************************************************************************************************/
 
 var init = {
 
@@ -1939,6 +1973,8 @@ var init = {
 
 };
 
+/**********************************************************************************************************************/
+
 
 jQuery(function ($) {
     // Get configuration
@@ -1990,3 +2026,5 @@ jQuery(function ($) {
         }
     });
 });
+
+//# sourceMappingURL=bolt.js.map
