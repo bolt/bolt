@@ -46,17 +46,21 @@
                class="menu-pop"
                data-html="true"
                data-title=""
-               data-content="{% spaceless %}
+               data-content="
                     {% for item in popoveritems %}
                         {% if item == '-' %}
                             <hr>
                         {% elseif isallowed(item.isallowed|default('dashboard')) %}
-                            <a href='{{ item.link }}'>
-                                <i class='fa fa-fw fa-{{ item.icon }}'> </i>{{ item.label|default("<em>(" ~ __("no content…") ~ ")</em>")|raw }}
-                            </a>
+                            {% if item.label is iterable %}
+                                {% set text = '<b>' ~ item.label['title']|e ~ '</b> ' ~ item.label['excerpt']|e %}
+                            {% elseif item.label is empty %}
+                                {% set text = '<em>' ~ __('no content…') ~ '</em>' %}
+                            {% else %}
+                                {% set text = item.label|e %}
+                            {% endif %}
+                            <a href='{{ item.link }}'><i class='fa fa-fw fa-{{ item.icon }}'></i>{{ text|raw }}</a>
                         {% endif %}
-                    {% endfor %}
-                {% endspaceless %}">
+                    {% endfor %}">
                 {{ label(icon, label) }}
             </a>
             <ul class="nav submenu submenu-{{ name }}">
@@ -65,9 +69,16 @@
                     {% if item == '-' %}
                         {% set divider = true %}
                     {% elseif isallowed(item.isallowed|default('dashboard')) %}
+                        {% if item.label is iterable %}
+                            {% set text = '<b>' ~ item.label['title']|e ~ '</b> ' ~ item.label['excerpt']|e %}
+                        {% elseif item.label is empty %}
+                            {% set text = '<em>' ~ __('no content…') ~ '</em>' %}
+                        {% else %}
+                            {% set text = item.label|e %}
+                        {% endif %}
                         <li{% if divider %} class="subdivider"{% endif %}>
                             <a href="{{ item.link }}">
-                                <i class="fa fa-{{ item.icon }} fa-fw"> </i>{{ item.label|default("<em>(" ~ __("no content…") ~ ")</em>")|raw }}
+                                <i class="fa fa-fw fa-{{ item.icon }}"></i>{{ text|raw }}
                             </a>
                         </li>
                         {% set divider = false %}
