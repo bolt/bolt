@@ -119,10 +119,10 @@ class Log
     {
         $codes = array('save content', 'login', 'logout', 'fixme', 'user');
 
-        $page = $this->app['request']->query->get('page');
-        if (empty($page)) {
-            $page = 1;
-        }
+        $param = Pager::makeParameterId('activity');
+        /* @var $query \Symfony\Component\HttpFoundation\ParameterBag */
+        $query = $this->app['request']->query;
+        $page = ($query) ? $query->get($param, $query->get('page', 1)) : 1;
 
         $query = sprintf(
             "SELECT * FROM %s WHERE code IN (?) OR (level >= ?) ORDER BY date DESC",

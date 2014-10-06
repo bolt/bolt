@@ -1,3 +1,9 @@
+/**
+ * These are Bolt's COMPILED JS files!
+ * Do not edit these files, because all changes will be lost.
+ * You can edit files in <js/src/*.js> and run 'grunt' to generate this file.
+ */
+
 /*jslint browser: true, devel: true, debug: false, indent: 4, maxlen: 120, nomen: true, plusplus: true, sloppy: true, unparam: true */
 /*global $, jQuery, _, google, Backbone, bootbox, CKEDITOR, moment */
 
@@ -15,6 +21,8 @@
  * bolt:            inline _page.twig
  */
 
+/**********************************************************************************************************************/
+
 var bolt = {};
 
 // Don't break on browsers without console.log();
@@ -26,6 +34,8 @@ try {
         assert: function () {}
     };
 }
+
+/**********************************************************************************************************************/
 
 /**
  * Helper to get all selected Items and return Array
@@ -40,6 +50,8 @@ function getSelectedItems() {
     console.log('getSelectedItems: ' + aItems);
     return aItems;
 }
+
+/**********************************************************************************************************************/
 
 /**
  * Initialize 'moment' timestamps.
@@ -73,6 +85,8 @@ function updateLatestActivity() {
         updateLatestActivity();
     }, 30 * 1000);
 }
+
+/**********************************************************************************************************************/
 
 /**
  * Bind the file upload when editing content, so it works and stuff
@@ -120,6 +134,8 @@ function bindFileUpload(key) {
             $('#progress-' + key + ' div.bar').css('width', progress + "%");
         });
 }
+
+/**********************************************************************************************************************/
 
 /**
  * Functions for working with the automagic URI/Slug generation.
@@ -175,6 +191,8 @@ function stopMakeUri(usesfields) {
     });
     clearTimeout(makeuritimeout);
 }
+
+/**********************************************************************************************************************/
 
 /**
  * Making the 'video embed' filetype work.
@@ -249,6 +267,8 @@ function bindVideoEmbed(key) {
         }
     });
 }
+
+/**********************************************************************************************************************/
 
 var geotimeout;
 
@@ -338,6 +358,8 @@ function bindGeolocation(key, latitude, longitude) {
         }
     );
 }
+
+/**********************************************************************************************************************/
 
 /**
  * Model, Collection and View for Filelist.
@@ -522,6 +544,8 @@ var FilelistHolder = Backbone.View.extend({
     }
 
 });
+
+/**********************************************************************************************************************/
 
 /**
  * Model, Collection and View for Imagelist.
@@ -709,6 +733,8 @@ var ImagelistHolder = Backbone.View.extend({
 
 });
 
+/**********************************************************************************************************************/
+
 /**
  * Backbone object for collapsable sidebar.
  */
@@ -720,7 +746,25 @@ var Sidebar = Backbone.Model.extend({
 
     initialize: function () {
 
-        var menuTimeout = "";
+        var menuTimeout = '';
+
+        // Build popup menus
+        $('#navpage-secondary a.menu-pop').each(function () {
+            var name = $(this).attr('data-action'),
+                menu = '';
+
+            $('ul .submenu-' + name + ' li').each(function () {
+                if ($(this).hasClass('subdivider')) {
+                    menu += '<hr>';
+                }
+                menu += $(this).html().trim().replace(/[ \n]+/g, ' ').replace(/(>) | (<)/g, '$1$2');
+            });
+
+            $(this) .attr('data-html', true)
+                    .attr('data-title', '')
+                    .attr('data-action', 'bolt.sidebar.showSidebarItems("' + name + '")')
+                    .attr('data-content', menu);
+        });
 
         // Do this, only if the sidebar is visible. (not when in small-responsive view)
         if ($('#navpage-secondary').is(':visible')) {
@@ -729,11 +773,12 @@ var Sidebar = Backbone.Model.extend({
             // shouldn't. People using keyboard access will not appreciate the menu timing
             // out and disappearing after a split-second of losing focus.
             $('#navpage-secondary a.menu-pop').on('mouseover focus', function (e) {
-                var thiselem = this;
+                var item = this;
+
                 window.clearTimeout(menuTimeout);
                 menuTimeout = window.setTimeout(function () {
-                    $('#navpage-secondary a.menu-pop').not(thiselem).popover('hide');
-                    $(thiselem).popover('show');
+                    $('#navpage-secondary a.menu-pop').not(item).popover('hide');
+                    $(item).popover('show');
                 }, 400);
             });
 
@@ -761,7 +806,7 @@ var Sidebar = Backbone.Model.extend({
      * Make sure the sidebar is as long as the document height. Also: Typecasting! love it or hate it!
      */
     fixlength: function () {
-        var documentheight = $('#navpage-content').height() + 22;
+        var documentheight = $('#navpage-content').height() + 34;
         if (documentheight > $('#navpage-secondary').height()) {
             $('#navpage-secondary').height(documentheight + "px");
             window.setTimeout(function () { bolt.sidebar.fixlength(); }, 300);
@@ -832,6 +877,8 @@ var Sidebar = Backbone.Model.extend({
         $('#navpage-secondary a.menu-pop').popover('hide');
     }
 });
+
+/**********************************************************************************************************************/
 
 /**
  * Backbone object for all file actions functionality.
@@ -934,6 +981,8 @@ var Files = Backbone.Model.extend({
     }
 
 });
+
+/**********************************************************************************************************************/
 
 /**
  * Backbone object for all Stack-related functionality.
@@ -1071,6 +1120,8 @@ var Stack = Backbone.Model.extend({
 
 });
 
+/**********************************************************************************************************************/
+
 /**
  * This backbone model cares about folder actions within /files in the backend.
  */
@@ -1177,6 +1228,8 @@ var Folders = Backbone.Model.extend({
         });
     }
 });
+
+/**********************************************************************************************************************/
 
 var init = {
 
@@ -1553,7 +1606,7 @@ var init = {
 
         // Bind the click events, with the 'action' namespace.
         $('[data-action]').on('click.action', function (e) {
-            var action = $(this).data('action');
+            var action = $(this).attr('data-action');
             if (typeof action !== "undefined" && action !== "") {
                 eval(action);
                 e.stopPropagation();
@@ -1826,13 +1879,13 @@ var init = {
         });
 
         $('.login-forgot').bind('click', function (e) {
-            $('.login-group, .password-group').slideUp('slow');
-            $('.reset-group').slideDown('slow');
+            $('.login-group, .password-group').hide();
+            $('.reset-group').show();
         });
 
         $('.login-remembered').bind('click', function (e) {
-            $('.login-group, .password-group').slideDown('slow');
-            $('.reset-group').slideUp('slow');
+            $('.login-group, .password-group').show();
+            $('.reset-group').hide();
         });
     },
 
@@ -1920,6 +1973,8 @@ var init = {
 
 };
 
+/**********************************************************************************************************************/
+
 
 jQuery(function ($) {
     // Get configuration
@@ -1971,3 +2026,5 @@ jQuery(function ($) {
         }
     });
 });
+
+//# sourceMappingURL=bolt.js.map

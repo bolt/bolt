@@ -1,7 +1,93 @@
-/*
+/**
  * This _base.scss file (should) only contain variables, mixins and helpers
+ * Read the README.TXT in main SASS folder for project details
  */
 
+/**
+ * Colour scheme, copied from colors.scss
+ */
+ 
+// for easier layouting.. Will be deleted..
+$columnborders: false; 
+
+$boltblue: #204460;
+$boltbluedarker: darken($boltblue, 5);
+$boltbluelighter: lighten($boltblue, 5);
+
+$basebgcolour: #FDFDF9;
+$bodytextcolour: #333;
+
+$lightgrey: #ccc;
+// The color of <hr> lines.
+$hr-border: #ccc;
+
+$linkmain: lighten(saturate($boltblue, 100), 4);
+$linkvisited: $linkmain;
+$linkactive: lighten(saturate($boltblue, 100), 10);
+
+// The padding to the left and right of form-control inputs.
+$padding-base-horizontal: 8px;
+
+// Primary button
+$btn-primary-color: #FFF;
+$btn-primary-bg: #DC6A23;
+$btn-primary-border: darken($btn-primary-bg, 6%);
+
+// Secondary button
+$btn-secondary-bg: desaturate(lighten($btn-primary-bg, 7%), 20);
+$btn-secondary-border: darken($btn-secondary-bg, 6%);
+
+// Tertiary button
+$btn-tertiary-bg: desaturate(lighten($boltblue, 35%), 20);
+$btn-tertiary-border: darken($btn-tertiary-bg, 6%);
+
+// Default button
+$btn-default-color: #666;
+$btn-default-bg: #E0E0E0;
+$btn-default-border: darken($btn-default-bg, 5);
+
+$btn-danger-color: #FFF;
+$btn-danger-bg: #CC3333;
+$btn-danger-border: darken($btn-danger-bg, 5);
+
+// Special BOLT button
+$btn-bolt-color: #FFF;
+$btn-bolt-bg: $boltblue;
+$btn-bolt-border: darken($btn-bolt-bg, 6%);
+
+// Text-links in dropdowns and pop-overs
+$dropdown-link-color: #555;
+$dropdown-link-hover-color: $boltbluedarker;
+$dropdown-link-hover-bg: #DDD;
+
+// Sidebar panel headings.
+$panel-default-heading-bg: #DDD; 
+$panel-default-border: #E2E2E2;
+$panel-border-radius: 0;
+
+// Table border color: mostly used for the contenttype 'overviews'
+$table-border-color: #CCC;
+$table-bg-accent: #F6F6F9;
+
+// Width of the gutter in the grid. Bit wider than default, because whitespace is free.
+$grid-gutter-width: 40px;
+
+// Pagination
+$pagination-color: lighten(desaturate($boltblue, 35), 6);
+$pagination-active-bg: lighten(desaturate($boltblue, 35), 6);
+$pagination-active-border: lighten(desaturate($boltblue, 35), 3);
+
+// Line-heights for headings. Also influences margin at top and bottom of headings.
+$headings-line-height: 1.5;
+
+$nav-tabs-border-color: $btn-tertiary-bg;
+$nav-tabs-active-link-hover-border-color: $nav-tabs-border-color;
+$nav-tabs-bg: desaturate(lighten($boltblue, 50%), 30);
+
+
+/**
+ * Colors in _base.scss
+ */ 
 $sidebarbackground: #333; 
 $sidebartextcolour: #DDD;
 $sidebartextcolourcollapsed: #AAA;
@@ -11,7 +97,15 @@ $sidebarlinkhover: #FFF;
 $sidebarbackgroundactive: lighten(desaturate($boltblue, 20), 7);
 $sidebarbackgroundhover: lighten(desaturate($boltblue, 20), 18);
 
-$nav-secondary-breakpoint: 768px;
+/**
+ * New media query approach
+ *
+ * Breakpoints
+ */
+$mid-mobile: (400/16); //25em == 400px, between mobile portrait and landscape
+$medium-screens: (768/16); //48em == 768px, Ipad tabs and up 
+$large-screens: (960/16); //60em == 960px, ye' olde classic 12col width
+$wide-screens: (1280/16); //80em == 1280px, anything up and wide
 
 $nav-primary-min-height: 50px;
 $nav-secondary-small-width: 280px;
@@ -27,10 +121,62 @@ $nav-secondary-icon-margin: 8px;
 $nav-secondary-indent: ($nav-secondary-icon-size + $nav-secondary-icon-margin);
 $nav-secondary-collapsed-width: ($nav-secondary-h-padding + $nav-secondary-indent + 1);
 
-@mixin in-large-mode() {
-    @media (min-width: $nav-secondary-breakpoint) {
-        @content;
+/**
+ * a fixed media query size for app-old-ie.scss, defaults to false. 
+ */
+$fixed-mq: false !default;
+/**
+ * Media Query handling
+ */ 
+@mixin respond-to($media) {
+    @if $media == mid-mobile {
+        @if $fixed-mq {
+            @if $fixed-mq >= $mid-mobile { 
+                @content
+            }
+        }
+        @else {
+            @media only screen and (min-width: $mid-mobile + 'em') { 
+               @content;
+            }
+        }      
     }
+    @if $media == medium-screens {
+        @if $fixed-mq {
+            @if $fixed-mq >= $medium-screens { 
+                @content
+            }
+        }
+        @else {
+            @media only screen and (min-width: $medium-screens + 'em') { 
+               @content;
+            }
+        }      
+    }  
+    @if $media == large-screens {
+        @if $fixed-mq {
+            @if $fixed-mq >= $large-screens { 
+                @content
+            }
+        }
+        @else {
+            @media only screen and (min-width: $large-screens + 'em') { 
+               @content;
+            }
+        }      
+    }  
+    @if $media == wide-screens {
+        @if $fixed-mq {
+            @if $fixed-mq >= $wide-screens { 
+                @content
+            }
+        }
+        @else {
+            @media only screen and (min-width: $wide-screens + 'em') { 
+               @content;
+            }
+        }      
+    }  
 }
 
 /*
@@ -58,4 +204,27 @@ $old-ie: false !default;
     border-top: 1px solid lighten($sidebarbackground, 8);
     padding-top: $nav-secondary-divider-padding;
     margin-top: $nav-secondary-divider-margin;
+}
+
+@mixin placeholder() {
+    &::-webkit-input-placeholder {
+        color: #999 !important;
+        font-style: italic !important;
+        font-size: 85% !important;
+    }
+    &:-moz-placeholder { /* FF 4-18 */
+        color: #999 !important;
+        font-style: italic !important;
+        font-size: 85% !important;
+    }
+    &::-moz-placeholder { /* FF 19+ */
+        color: #999 !important;
+        font-style: italic !important;
+        font-size: 85% !important;
+    }
+    &:-ms-input-placeholder { /* IE 10+ */
+        color: #999 !important;
+        font-style: italic !important;
+        font-size: 92% !important;
+    }
 }

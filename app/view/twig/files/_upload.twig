@@ -1,16 +1,29 @@
 <form action="" method="post" id="filescreenuploader" {{ form_enctype(context.form) }}>
     <fieldset>
-        {{ form_widget(context.form) }}
-        <button type="submit" class="btn btn-secondary">
+        {{ form_widget(context.form) }} 
+        <div>
+        <button type="submit" class="btn btn-primary" disabled>
             <i class="fa fa-fw fa-upload"></i>
             <span>{{ __('Upload file') }}</span>
         </button>
         {{ macro.typepopover() }}
+        </div>
     </fieldset>
 </form>
 
 <script type="text/javascript">
     $(function() {
         $('input[type=file]').addClass('btn-secondary').bootstrapFileInput();
+
+        $('input:file').change(
+            function(){
+                if ($(this).val()) {
+                    $('button:submit').removeAttr('disabled'); 
+                    console.log('joe!');
+                } 
+            }
+        );
+
     });
+
 </script>

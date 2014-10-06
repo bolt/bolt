@@ -12,13 +12,13 @@
 {% set items = stackitems(7, 'image') %}
 
 {% set attr_fileupload = {
-    accept:       option.extensions ? '.'~option.extensions|join(',.') : '',
-    data_upload:  {type: 'ImageList', key: key}|json_encode(),
-    data_url:     url('upload', {'handler': option.upload}),
-    id:           'fileupload-'~key,
-    name:         'files[]',
-    type:         'file',
-    multiple:     true,
+    accept:      option.extensions ? '.'~option.extensions|join(',.') : '',
+    data_upload: {type: 'ImageList', key: key}|json_encode(),
+    data_url:    url('upload', {'handler': option.upload}),
+    id:          'fileupload-'~key,
+    name:        'files[]',
+    type:        'file',
+    multiple:    true,
 }%}
 
 {% if context.content.get(key) is defined %}

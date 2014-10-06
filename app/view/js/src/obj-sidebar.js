@@ -9,7 +9,25 @@ var Sidebar = Backbone.Model.extend({
 
     initialize: function () {
 
-        var menuTimeout = "";
+        var menuTimeout = '';
+
+        // Build popup menus
+        $('#navpage-secondary a.menu-pop').each(function () {
+            var name = $(this).attr('data-action'),
+                menu = '';
+
+            $('ul .submenu-' + name + ' li').each(function () {
+                if ($(this).hasClass('subdivider')) {
+                    menu += '<hr>';
+                }
+                menu += $(this).html().trim().replace(/[ \n]+/g, ' ').replace(/(>) | (<)/g, '$1$2');
+            });
+
+            $(this) .attr('data-html', true)
+                    .attr('data-title', '')
+                    .attr('data-action', 'bolt.sidebar.showSidebarItems("' + name + '")')
+                    .attr('data-content', menu);
+        });
 
         // Do this, only if the sidebar is visible. (not when in small-responsive view)
         if ($('#navpage-secondary').is(':visible')) {
@@ -18,11 +36,12 @@ var Sidebar = Backbone.Model.extend({
             // shouldn't. People using keyboard access will not appreciate the menu timing
             // out and disappearing after a split-second of losing focus.
             $('#navpage-secondary a.menu-pop').on('mouseover focus', function (e) {
-                var thiselem = this;
+                var item = this;
+
                 window.clearTimeout(menuTimeout);
                 menuTimeout = window.setTimeout(function () {
-                    $('#navpage-secondary a.menu-pop').not(thiselem).popover('hide');
-                    $(thiselem).popover('show');
+                    $('#navpage-secondary a.menu-pop').not(item).popover('hide');
+                    $(item).popover('show');
                 }, 400);
             });
 
@@ -50,7 +69,7 @@ var Sidebar = Backbone.Model.extend({
      * Make sure the sidebar is as long as the document height. Also: Typecasting! love it or hate it!
      */
     fixlength: function () {
-        var documentheight = $('#navpage-content').height() + 22;
+        var documentheight = $('#navpage-content').height() + 34;
         if (documentheight > $('#navpage-secondary').height()) {
             $('#navpage-secondary').height(documentheight + "px");
             window.setTimeout(function () { bolt.sidebar.fixlength(); }, 300);

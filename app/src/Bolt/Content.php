@@ -1017,27 +1017,31 @@ class Content implements \ArrayAccess
     public function excerpt($length = 200, $includetitle = false)
     {
         if ($includetitle) {
-            $title = $this->getTitle();
+            $title = trimText(strip_tags($this->getTitle()), $length);
             $length = $length - strlen($title);
         }
 
-        $excerpt = array();
+        if ($length > 0) {
+            $excerptParts = array();
 
-        if (!empty($this->contenttype['fields'])) {
-            foreach ($this->contenttype['fields'] as $key => $field) {
-                if (in_array($field['type'], array('text', 'html', 'textarea', 'markdown'))
-                    && isset($this->values[$key])
-                    && !in_array($key, array('title', 'name')) ) {
-                    $excerpt[] = $this->values[$key];
+            if (!empty($this->contenttype['fields'])) {
+                foreach ($this->contenttype['fields'] as $key => $field) {
+                    if (in_array($field['type'], array('text', 'html', 'textarea', 'markdown'))
+                        && isset($this->values[$key])
+                        && !in_array($key, array('title', 'name')) ) {
+                        $excerptParts[] = $this->values[$key];
+                    }
                 }
             }
+
+            $excerpt = str_replace('>', '> ', implode(' ', $excerptParts));
+            $excerpt = trimText(strip_tags($excerpt), $length);
+        } else {
+            $excerpt = '';
         }
 
-        $excerpt = str_replace('>', '> ', implode(' ', $excerpt));
-        $excerpt = trimText(strip_tags($excerpt), $length);
-
         if (!empty($title)) {
-            $excerpt = sprintf('<b>%s</b> %s', $title, $excerpt);
+            $excerpt = '<b>' . $title . '</b> ' . $excerpt;
         }
 
         return new \Twig_Markup($excerpt, 'UTF-8');

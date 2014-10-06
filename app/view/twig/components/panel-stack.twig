@@ -27,8 +27,8 @@
         {% endfor %}
     </div>
 
-    <div style="text-align:center; margin-top: 12px;">
-        <div class="btn-group" style="display: inline-block; margin: 0;">
+    <div class="stack-buttons">
+        <div class="btn-group">
             <span class="btn btn-tertiary fileinput-button">
                 <i class="fa fa-upload"></i>
                 <span>{{ __('Upload') }}</span>
@@ -40,7 +40,7 @@
             </span>
         </div>
 
-        <div class="btn-group" style="margin: 0; display: inline-block;">
+        <div class="btn-group">
             <a href="{{ paths.async }}browse/files?key=stack" class="btn btn-tertiary" data-toggle="modal" data-target="#selectModal-stack">
                 <i class="fa fa-download"></i>
                 {{ __('Select') }}

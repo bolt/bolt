@@ -21,15 +21,11 @@
     </div>
 
     <div class="row">
-        <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+        <div class="{{ form_class|default('col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2') }}">
 
             <img src="{{ app.paths.app }}view/img/bolt-logo.png" width="150" height="62" alt="Bolt" class="logo">
 
             <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">{{ block('page_title') }}</h3>
-                </div>
-
                 <div class="panel-body">
                     {% include '_sub/_messages.twig' %}
                     {% block page_main %}[PAGE_MAIN]{% endblock page_main %}

@@ -1,32 +1,34 @@
 {# Page: Login #}
 {% extends '_base/_page-no_nav.twig' %}
 
+{% set form_class = 'login-block center-block' %}
+
 {% block page_title __('Sign in to Bolt') %}
 
 {% block page_main %}
 
-    <form method="post" class="form-horizontal" role="form">
+    <form method="post" role="form">
 
-        <label class="control-label">{{ __('Username') }}</label>
-        <div class="input-group">
-            <span class="input-group-addon"><i class="fa fa-fw fa-user"></i></span>
-            <input class="form-control" type="text" autofocus="true" name="username" placeholder="{{ __('Your username') }} …" {% if username is defined %}value="{{username}}"{%endif%}>
+        <div class="form-group">
+            <label for="username" class="control-label">{{ __('Username') }}</label>
+            <div class="input-group">
+                <label for="username" class="input-group-addon"><i class="fa fa-fw fa-user"></i></label>
+                <input id="username" class="form-control" type="text" autofocus="true" name="username" placeholder="{{ __('Your username') }} …" {% if username is defined %}value="{{username}}"{%endif%} required>
+            </div>
         </div>
 
-        <div class="password-group">
-            <label class="control-label">
+        <div class="form-group password-group">
+            <label for="password" class="control-label">
                 {{ __('Password') }} &nbsp;
                 <span class="togglepass show-password"><i class="fa fa-fw fa-eye"></i> {{ __('Show') }}</span>
                 <span class="togglepass hide-password"><i class="fa fa-fw fa-eye-slash"></i> {{ __('Hide') }}</span>
             </label>
-            <div class="input-group" >
-                <span class="input-group-addon"><i class="fa fa-fw fa-key"></i></span>
-                <input class="form-control" type="password" name="password" placeholder="{{ __('Your password') }} …">
-
+            <div class="input-group">
+                <label for="password" class="input-group-addon"><i class="fa fa-fw fa-key"></i></label>
+                <input id="password" class="form-control" type="password" name="password" placeholder="{{ __('Your password') }} …">
             </div>
         </div>
 
-        <br>
         <p class="login-group">
             <button type="submit" class="btn btn-primary" name="action" value="login"><i class="icon-signin"></i> {{ __('Log on') }}</button>
             <button type="button" class="btn btn-link login-forgot"> {{ __('I forgot my password…') }}</button>

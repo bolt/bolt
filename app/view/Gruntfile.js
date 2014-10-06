@@ -1,4 +1,5 @@
 module.exports = function(grunt) {
+    grunt.util.linefeed = '\n';
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
@@ -10,12 +11,23 @@ module.exports = function(grunt) {
                 livereload: true
             },
             scripts: {
-                files: ['sass/*.scss', 'sass/nav/*.scss'],
-                tasks: ['sass'],
+                files: [
+                    'sass/*.scss',
+                    'sass/nav/*.scss',
+                    'sass/modules/*.scss'
+                ],
+                tasks: [
+                    'sass'
+                ]
             },
             js: {
-                files: ['js/*.js', 'js/src/*.js'],
-                tasks: ['concat:js'],
+                files: [
+                    'js/*.js',
+                    'js/src/*.js'
+                ],
+                tasks: [
+                    'concat:js'
+                ]
             }
         },
 
@@ -29,7 +41,11 @@ module.exports = function(grunt) {
                     ],
                     lineNumbers: false,
                     unixNewlines: true,
-                    banner: "/**\n * These are Bolt's COMPILED CSS files! \n * Do not edit these files, because all changes will be lost. \n * You can edit ../scss/app.scss & ../scss/app-old-ie.scss, and run 'grunt' to generate this file. \n */"
+                    banner: "/**\n" +
+                            " * These are Bolt's COMPILED CSS files!\n" +
+                            " * Do not edit these files, because all changes will be lost.\n" +
+                            " * You can edit ../scss/app.scss & ../scss/app-old-ie.scss, and run 'grunt' to generate this file.\n" +
+                            " */\n"
                 },
                 files: {
                     'css/bolt-old-ie.css': 'sass/app-old-ie.scss',
@@ -39,18 +55,34 @@ module.exports = function(grunt) {
 
         },
 
-
         copy: {
             main: {
-                files: [
-                    // includes files within path
-                    {expand: true, flatten: true, src: ['node_modules/font-awesome/fonts/*'], dest: 'fonts/', filter: 'isFile'}
-                ]
+                // Includes files within path
+                files: [{
+                    expand: true,
+                    flatten: true,
+                    src: [
+                        'node_modules/font-awesome/fonts/*'
+                    ],
+                    filter: 'isFile',
+                    dest: 'fonts/'
+                }]
             }
         },
 
         concat: {
             js: {
+                options: {
+                    separator: '\n/**********************************************************************************************************************/\n\n',
+                    banner: "/**\n" +
+                            " * These are Bolt's COMPILED JS files!\n" +
+                            " * Do not edit these files, because all changes will be lost.\n" +
+                            " * You can edit files in <js/src/*.js> and run 'grunt' to generate this file.\n" +
+                            " */\n\n",
+                    sourceMap: true,
+                    sourceMapStyle: 'link'
+                },
+                nonull: true,
                 src: [
                     'js/src/jslint-conf.js',
                     'js/src/console.js',
@@ -67,10 +99,10 @@ module.exports = function(grunt) {
                     'js/src/obj-stack.js',
                     'js/src/obj-folders.js',
                     'js/src/init.js',
-                    'js/src/start.js',
+                    'js/src/start.js'
                 ],
-                dest: 'js/bolt.js',
-            },
+                dest: 'js/bolt.js'
+            }
         },
 
         uglify: {

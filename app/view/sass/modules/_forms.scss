@@ -1,4 +1,3 @@
-
 /**
  * Editing content ..
  */
@@ -19,15 +18,19 @@ label.permalink {
     }
 }
 
+.form-control {
+    @include placeholder();
+}
+
 .form-horizontal .control-label {
     text-align: left;
     font-size: $font-size-base + 1px;
     font-weight: normal;
     margin-bottom: 5px;
-    @include old-ie() {
-        @include in-large-mode() {
-            text-align:left;
-            margin-bottom: 5px;
+    @include respond-to(medium-screens) {
+        @include old-ie() {
+            text-align:left!important; /* sadly... :( ) */
+            margin-bottom: 5px!important; /* sadly... :( ) */
         }
     }
 }
@@ -90,8 +93,6 @@ fieldset.checkbox div {
     font-size: $font-size-base + 1px;
 }
 
-
-
 #editcontent input.large {
     font-size: 150%;
 }
@@ -126,7 +127,7 @@ fieldset.checkbox div {
 
 #editcontent input.timepicker {
     width: 10%;
-    min-width: 92px;
+    min-width: 80px;
     float: left;
 }
 
@@ -226,7 +227,7 @@ fieldset.checkbox div {
     height: 160px;
     padding: 2px;
     //box-shadow:  2px 2px 0 rgba(0, 0, 0, 0.2);
-    @include in-large-mode() {
+    @include respond-to(medium-screens) {
         min-width: 160px;
         max-width:200px;
     }
@@ -305,9 +306,6 @@ fieldset.checkbox div {
     background-color: #FFF;
     border-radius: 3px;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1) inset;
-    @include in-large-mode() {
-
-    }
 }
 
 #editcontent div.imagelistholder div.list div {
@@ -325,7 +323,7 @@ fieldset.checkbox div {
     cursor: ns-resize;
     box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.2);
     overflow: hidden;
-    background: url("smoothness/images/ui-bg_glass_75_e6e6e6_1x400.png") repeat-x scroll 50% 61% rgb(230, 230, 230);
+    background: url("/app/view/css/smoothness/images/ui-bg_glass_75_e6e6e6_1x400.png") repeat-x scroll 50% 61% rgb(230, 230, 230);
 }
 #editcontent div.filelistholder div.list .fileDescription {
     font-size: 80%;
@@ -349,7 +347,7 @@ fieldset.checkbox div {
     padding:3px 0 0 5px;
     width:65%;
     border:0;
-    @include in-large-mode() {
+    @include respond-to(medium-screens) {
         width: 83%;
     }
 }
@@ -400,7 +398,7 @@ fieldset.checkbox div {
 #filtertabs {
     margin-bottom: 16px;
     border:0;
-    @include in-large-mode() {
+    @include respond-to(medium-screens) {
         border-bottom:1px solid #d3d3d3;
     }
     a {
@@ -408,7 +406,7 @@ fieldset.checkbox div {
         background-color: #dfdfdf; 
         border: 1px solid #d3d3d3;
         cursor: pointer;
-        padding:5px 10px;
+        padding:5px 15px;
     }
     a:hover {
         color: #555;
@@ -422,7 +420,7 @@ fieldset.checkbox div {
             a {
                 background-color: #F8F8F8;
                 color: #333;
-                padding:7px 10px 8px 10px;
+                padding:7px 15px 8px 15px;
             }
             &:hover {
 

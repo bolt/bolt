@@ -82,6 +82,10 @@
     margin: 6px 0 20px;
 }
 
+// Enhance center-block
+.center-block {
+    float: none;
+}
 
 /**
  * Override navbar styles
@@ -191,9 +195,6 @@
 
     min-height: 54px;
     margin-bottom: 0;
-    @include old-ie() {
-        height: 60px;
-    }
 
     form {
         padding: 0 0 0 0;
@@ -276,6 +277,10 @@ ul.dropdown-menu li a,
 ul.dropdown-menu li button {
     font-size: 13px;
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+ul.dropdown-menu li a:hover {
+    background-color: $dropdown-link-hover-bg;
 }
 
 ul.dropdown-menu li.divider {

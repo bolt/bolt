@@ -7,7 +7,7 @@
 
     "repositories": [{
         "type": "vcs",
-        "url": "http://github.com/rossriley/flysystem"
+        "url": "https://github.com/rossriley/flysystem"
     }],
 
     "require": {
