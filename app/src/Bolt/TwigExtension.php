@@ -49,8 +49,6 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFunction('listcontent', array($this, 'listContent')),
             new \Twig_SimpleFunction('htmllang', array($this, 'htmlLang')),
             new \Twig_SimpleFunction('pager', array($this, 'pager'), array('needs_environment' => true)),
-            new \Twig_SimpleFunction('max', array($this, 'max')),
-            new \Twig_SimpleFunction('min', array($this, 'min')),
             new \Twig_SimpleFunction('request', array($this, 'request')),
             new \Twig_SimpleFunction('debugbar', array($this, 'debugBar')),
             new \Twig_SimpleFunction('ismobileclient', array($this, 'isMobileClient')),
@@ -80,7 +78,6 @@ class TwigExtension extends \Twig_Extension
         return array(
             new \Twig_SimpleFilter('localdate', array($this, 'localeDateTime'), array('is_safe' => array('html'))),
             new \Twig_SimpleFilter('localedatetime', array($this, 'localeDateTime'), array('is_safe' => array('html'))), // Deprecated
-            new \Twig_SimpleFilter('rot13', array($this, 'rot13Filter')),
             new \Twig_SimpleFilter('excerpt', array($this, 'excerpt'), array('is_safe' => array('html'))),
             new \Twig_SimpleFilter('trimtext', array($this, 'trim'), array('is_safe' => array('html'))), // Deprecated..
             new \Twig_SimpleFilter('markdown', array($this, 'markdown'), array('is_safe' => array('html'))),
@@ -729,7 +726,7 @@ class TwigExtension extends \Twig_Extension
     }
 
     /**
-     * Output a simple pager, for paged pages.
+     * Output a simple pager, for paginated listing pages.
      *
      * @param  \Twig_Environment $env
      * @param  string            $pagerName
@@ -762,30 +759,6 @@ class TwigExtension extends \Twig_Extension
         }
 
         return new \Twig_Markup($env->render($template, $context), 'utf-8');
-    }
-
-    /**
-     * return the 'max' of two values..
-     *
-     * @param  mixed $a
-     * @param  mixed $b
-     * @return mixed
-     */
-    public function max($a, $b)
-    {
-        return max($a, $b);
-    }
-
-    /**
-     * return the 'min' of two values..
-     *
-     * @param  mixed $a
-     * @param  mixed $b
-     * @return mixed
-     */
-    public function min($a, $b)
-    {
-        return min($a, $b);
     }
 
     /**
