@@ -187,7 +187,7 @@
 "Install all updates": "Installiere alle Aktualisierungen"
 "Installation Complete": "Installation ausgeführt"
 "Installing package": "Installiere Paket"
-"Installing selected package version \n(this may take up to 60 seconds).": "Installiere ausgewählte Paketversion (Dies kann bis zu 60 Sekunden dauern)."
+"Installing selected package version (this may take up to 60 seconds).": "Installiere ausgewählte Paketversion (Dies kann bis zu 60 Sekunden dauern)."
 "It seems there's no content in the database.": "Es scheint, als seien keine Inhalte in der Datenbank."
 "Javascript disabled": "Javascript nicht verfügbar"
 "Javascript is currently disabled in your browser. Most functionality in Bolt will work without it, but for greater ease of use we recommend you enable Javascript in your browser.": "Javascript ist in Ihrem Browser deaktiviert. Vieles wird auch ohne funtkionieren, doch um Bolt vollständig nutzen zu können raten wir ihnen Javascript zu aktivieren."
