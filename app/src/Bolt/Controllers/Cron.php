@@ -87,7 +87,13 @@ class Cron extends Event
         $this->output = $output;
         $this->param = $param;
         $this->runtime = date("Y-m-d H:i:s", time());
-        $this->next_run_time = array('hourly' => 0, 'daily' => 0, 'weekly' => 0, 'monthly' => 0, 'yearly' => 0);
+        $this->next_run_time = array(
+            CronEvents::CRON_HOURLY  => 0,
+            CronEvents::CRON_DAILY   => 0,
+            CronEvents::CRON_WEEKLY  => 0,
+            CronEvents::CRON_MONTHLY => 0,
+            CronEvents::CRON_YEARLY  => 0);
+
         $this->setTableName();
 
         // Get schedules
@@ -114,7 +120,7 @@ class Cron extends Event
                 $this->handleError($e, CronEvents::CRON_HOURLY);
             }
 
-            $this->setLastRun('hourly');
+            $this->setLastRun(CronEvents::CRON_HOURLY);
         }
 
         if ($this->isExecutable(CronEvents::CRON_DAILY)) {
@@ -126,7 +132,7 @@ class Cron extends Event
                 $this->handleError($e, CronEvents::CRON_DAILY);
             }
 
-            $this->setLastRun('daily');
+            $this->setLastRun(CronEvents::CRON_DAILY);
         }
 
         if ($this->isExecutable(CronEvents::CRON_WEEKLY)) {
@@ -138,7 +144,7 @@ class Cron extends Event
                 $this->handleError($e, CronEvents::CRON_WEEKLY);
             }
 
-            $this->setLastRun('weekly');
+            $this->setLastRun(CronEvents::CRON_WEEKLY);
         }
 
         if ($this->isExecutable(CronEvents::CRON_MONTHLY)) {
@@ -150,7 +156,7 @@ class Cron extends Event
                 $this->handleError($e, CronEvents::CRON_MONTHLY);
             }
 
-            $this->setLastRun('monthly');
+            $this->setLastRun(CronEvents::CRON_MONTHLY);
         }
 
         if ($this->isExecutable(CronEvents::CRON_YEARLY)) {
@@ -162,7 +168,7 @@ class Cron extends Event
                 $this->handleError($e, CronEvents::CRON_YEARLY);
             }
 
-            $this->setLastRun('yearly');
+            $this->setLastRun(CronEvents::CRON_YEARLY);
         }
     }
 
@@ -178,17 +184,17 @@ class Cron extends Event
         if ($this->param['run'] && $this->param['event'] == $name) {
             return true;
         } elseif ($this->app['dispatcher']->hasListeners($name)) {
-            if ($name == CronEvents::CRON_HOURLY && $this->next_run_time['hourly'] <= $this->runtime) {
+            if ($name == CronEvents::CRON_HOURLY && $this->next_run_time[CronEvents::CRON_HOURLY] <= $this->runtime) {
                 return true;
             } elseif (time() > $this->cron_hour) {
                 // Only check the running of these if we've passed our cron hour today
-                if ($name == CronEvents::CRON_DAILY         && $this->next_run_time['daily']   <= $this->runtime) {
+                if ($name == CronEvents::CRON_DAILY         && $this->next_run_time[CronEvents::CRON_DAILY]   <= $this->runtime) {
                     return true;
-                } elseif ($name == CronEvents::CRON_WEEKLY  && $this->next_run_time['weekly']  <= $this->runtime) {
+                } elseif ($name == CronEvents::CRON_WEEKLY  && $this->next_run_time[CronEvents::CRON_WEEKLY]  <= $this->runtime) {
                     return true;
-                } elseif ($name == CronEvents::CRON_MONTHLY && $this->next_run_time['monthly'] <= $this->runtime) {
+                } elseif ($name == CronEvents::CRON_MONTHLY && $this->next_run_time[CronEvents::CRON_MONTHLY] <= $this->runtime) {
                     return true;
-                } elseif ($name == CronEvents::CRON_YEARLY  && $this->next_run_time['yearly']  <= $this->runtime) {
+                } elseif ($name == CronEvents::CRON_YEARLY  && $this->next_run_time[CronEvents::CRON_YEARLY]  <= $this->runtime) {
                     return true;
                 }
             }
@@ -270,12 +276,12 @@ class Cron extends Event
     /**
      * Get the next run time for a given interim
      *
-     * @param string $interim       The interim; 'hourly', 'daily', 'weekly', 'monthly' or 'yearly'
+     * @param string $interim       The interim; CRON_HOURLY, CRON_DAILY, CRON_WEEKLY, CRON_MONTHLY or CRON_YEARLY
      * @param string $last_run_time The last execution time of the interim
      */
     private function getNextIterimRunTime($interim, $last_run_time)
     {
-        if ($interim == 'hourly') {
+        if ($interim == CronEvents::CRON_HOURLY) {
             // For hourly we just default to the turn of the hour
             $last_cron_hour  = strtotime(date('Y-m-d H', strtotime($last_run_time)) . ':00:00');
             return strtotime("+1 hour", $last_cron_hour);
@@ -283,13 +289,13 @@ class Cron extends Event
             // Get the cron time of the last run time/date
             $last_cron_hour  = strtotime(date('Y-m-d', strtotime($last_run_time)) . ' ' . $this->cron_hour);
 
-            if ($interim == 'daily') {
+            if ($interim == CronEvents::CRON_DAILY) {
                 return strtotime("+1 day", $last_cron_hour);
-            } elseif ($interim == 'weekly') {
+            } elseif ($interim == CronEvents::CRON_WEEKLY) {
                 return strtotime("+1 week", $last_cron_hour);
-            } elseif ($interim == 'monthly') {
+            } elseif ($interim == CronEvents::CRON_MONTHLY) {
                 return strtotime("+1 month", $last_cron_hour);
-            } elseif ($interim == 'yearly') {
+            } elseif ($interim == CronEvents::CRON_YEARLY) {
                 return strtotime("+1 year", $last_cron_hour);
             }
         }
