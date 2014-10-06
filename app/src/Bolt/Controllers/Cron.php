@@ -186,17 +186,9 @@ class Cron extends Event
         } elseif ($this->app['dispatcher']->hasListeners($name)) {
             if ($name == CronEvents::CRON_HOURLY && $this->next_run_time[CronEvents::CRON_HOURLY] <= $this->runtime) {
                 return true;
-            } elseif (time() > $this->cron_hour) {
-                // Only check the running of these if we've passed our cron hour today
-                if ($name == CronEvents::CRON_DAILY         && $this->next_run_time[CronEvents::CRON_DAILY]   <= $this->runtime) {
-                    return true;
-                } elseif ($name == CronEvents::CRON_WEEKLY  && $this->next_run_time[CronEvents::CRON_WEEKLY]  <= $this->runtime) {
-                    return true;
-                } elseif ($name == CronEvents::CRON_MONTHLY && $this->next_run_time[CronEvents::CRON_MONTHLY] <= $this->runtime) {
-                    return true;
-                } elseif ($name == CronEvents::CRON_YEARLY  && $this->next_run_time[CronEvents::CRON_YEARLY]  <= $this->runtime) {
-                    return true;
-                }
+            } elseif (time() > $this->cron_hour && $this->next_run_time[$name] <= $this->runtime) {
+                // Only run non-hourly event jobs if we've passed our cron hour today
+                return true;
             }
         }
 
