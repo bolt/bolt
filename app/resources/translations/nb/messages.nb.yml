@@ -20,7 +20,7 @@
 "Actions": "Handlinger"
 "Activity log": "Aktivitetslogg"
 "Add some sample <a href='%url%' class='btn btn-small'>Records with Loripsum text</a>": "Legg til litt <a href='%url%' class='btn btn-small'>eksempelinnhold med Loripsum-tekst</a>"
-"Add …": "Legg til …"
+"Add…": "Legg til …"
 "Added to <tt>%key%</tt> '%title%'": "La til i <tt>%key%</tt> «%title%»"
 "Added user '%s'.": "La til bruker «%s»."
 "Address lookup:": "Adresseoppslag:"

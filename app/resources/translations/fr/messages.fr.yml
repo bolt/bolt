@@ -18,7 +18,7 @@
 "Actions": "Actions"
 "Activity log": "Journal d'activité"
 "Add some sample <a href='%url%' class='btn btn-small'>Records with Loripsum text</a>": "Ajoutez quelques exemples <a href='%url%' class='btn btn-small'>d'enregistrements avec du texte Lorem ipsum</a>"
-"Add …": "Ajouter …"
+"Add…": "Ajouter …"
 "Added to <tt>%key%</tt> '%title%'": "Ajouté à <tt>%key%</tt> '%title%'"
 "Added user '%s'.": "Utilisateur '%s' ajouté."
 "Address lookup:": "Rechercher l'adresse"

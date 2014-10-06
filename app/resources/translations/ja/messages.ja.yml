@@ -26,7 +26,7 @@
 "Add new menu": "新規メニューを追加"
 "Add some sample <a href='%url%' class='btn btn-small'>Records with Loripsum text</a>": "サンプルを追加<a href='%url%' class='btn btn-small'>ダミーテキスト（Loripsum）のレコード</a>"
 "Add to menu": "メニューに追加"
-"Add …": "追加 …"
+"Add…": "追加 …"
 "Added to <tt>%key%</tt> '%title%'": "<tt>%key%</tt> '%title%' に追加しました"
 "Added user '%s'.": "ユーザー '%s' を追加しました"
 "Address lookup:": "アドレス検索："
