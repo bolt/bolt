@@ -1,9 +1,7 @@
 <?php
 namespace Bolt;
 
-use Bolt\CronEvents;
 use Symfony\Component\EventDispatcher\Event;
-use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -12,23 +10,30 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class CronEvent extends Event
 {
+    /**
+     * @var Application
+     */
     private $app;
-    private $output;
+
+    /**
+     * @var Symfony\Component\Console\Output\OutputInterface
+     */
+    public $output;
 
     /**
      *
      */
-    public function __construct(Application $app, $output = false)
+    public function __construct(Application $app, OutputInterface $output = null)
     {
         $this->app = $app;
         $this->output = $output;
 
         // Add listeners
-        $this->app['dispatcher']->addListener(CronEvents::CRON_HOURLY, array($this, 'doRunScheduledJobs'));
-        $this->app['dispatcher']->addListener(CronEvents::CRON_DAILY, array($this, 'doRunScheduledJobs'));
-        $this->app['dispatcher']->addListener(CronEvents::CRON_WEEKLY, array($this, 'doRunScheduledJobs'));
+        $this->app['dispatcher']->addListener(CronEvents::CRON_HOURLY,  array($this, 'doRunScheduledJobs'));
+        $this->app['dispatcher']->addListener(CronEvents::CRON_DAILY,   array($this, 'doRunScheduledJobs'));
+        $this->app['dispatcher']->addListener(CronEvents::CRON_WEEKLY,  array($this, 'doRunScheduledJobs'));
         $this->app['dispatcher']->addListener(CronEvents::CRON_MONTHLY, array($this, 'doRunScheduledJobs'));
-        $this->app['dispatcher']->addListener(CronEvents::CRON_YEARLY, array($this, 'doRunScheduledJobs'));
+        $this->app['dispatcher']->addListener(CronEvents::CRON_YEARLY,  array($this, 'doRunScheduledJobs'));
     }
 
     public function doRunScheduledJobs(Event $event, $eventName, EventDispatcherInterface $dispatcher)
@@ -52,14 +57,12 @@ class CronEvent extends Event
         }
     }
 
-
     /**
      * Hourly jobs
      */
     private function cronHourly()
     {
     }
-
 
     /**
      * Daily jobs
@@ -68,7 +71,6 @@ class CronEvent extends Event
     {
         // Check for Bolt updates
     }
-
 
     /**
      * Weekly jobs
@@ -84,14 +86,12 @@ class CronEvent extends Event
         $this->notify("Trimming logs");
     }
 
-
     /**
      * Monthly jobs
      */
     private function cronMonthly()
     {
     }
-
 
     /**
      * Yearly jobs
@@ -100,15 +100,14 @@ class CronEvent extends Event
     {
     }
 
-
     /**
      * If we're passed an OutputInterface, we're called from Nut and can notify
      * the end user
      */
     private function notify($msg)
     {
-        if($this->output !== false) {
-            $this->output->writeln("<info>    {$msg}</info>");
+        if ($this->output !== false) {
+            $this->output->writeln("<comment>    {$msg}</comment>");
         }
     }
 }
