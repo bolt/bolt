@@ -91,7 +91,7 @@ class Cron extends Event
         $this->setTableName();
 
         // Get schedules
-        $this->getLastRun();
+        $this->getNextRunTimes();
 
         // Time of day for daily, weekly, monthly and yearly jobs
         $this->getScheduleThreshold();
@@ -214,34 +214,6 @@ class Cron extends Event
     }
 
     /**
-     * Get the next run time for a given interim
-     *
-     * @param string $interim       The interim; 'hourly', 'daily', 'weekly', 'monthly' or 'yearly'
-     * @param string $last_run_time The last execution time of the interim
-     */
-    function getNextRunTime($interim, $last_run_time)
-    {
-        if ($interim == 'hourly') {
-            // For hourly we just default to the turn of the hour
-            $last_cron_hour  = strtotime(date('Y-m-d H', strtotime($last_run_time)) . ':00:00');
-            return strtotime("+1 hour", $last_cron_hour);
-        } else {
-            // Get the cron time of the last run time/date
-            $last_cron_hour  = strtotime(date('Y-m-d', strtotime($last_run_time)) . ' ' . $this->cron_hour);
-
-            if ($interim == 'daily') {
-                return strtotime("+1 day", $last_cron_hour);
-            } elseif ($interim == 'weekly') {
-                return strtotime("+1 week", $last_cron_hour);
-            } elseif ($interim == 'monthly') {
-                return strtotime("+1 month", $last_cron_hour);
-            } elseif ($interim == 'yearly') {
-                return strtotime("+1 year", $last_cron_hour);
-            }
-        }
-    }
-
-    /**
      * If we're passed an OutputInterface, we're called from Nut and can notify
      * the end user
      */
@@ -269,9 +241,9 @@ class Cron extends Event
     }
 
     /**
-     * Query table for last run time of each interim
+     * Query table for next run time of each interim
      */
-    private function getLastRun()
+    private function getNextRunTimes()
     {
         foreach ($this->next_run_time as $interim => $date) {
             $query =
@@ -286,10 +258,39 @@ class Cron extends Event
             // run time and notify the update method to do an INSERT rather than
             // an UPDATE.
             if (empty($result)) {
+                $this->next_run_time[$interim] = $this->runtime;
                 $this->insert[$interim] = true;
             } else {
-                $this->next_run_time[$interim] = strtotime($result['lastrun']);
+                $this->next_run_time[$interim] = $this->getNextIterimRunTime($interim, $result['lastrun']);
                 $this->insert[$interim] = false;
+            }
+        }
+    }
+
+    /**
+     * Get the next run time for a given interim
+     *
+     * @param string $interim       The interim; 'hourly', 'daily', 'weekly', 'monthly' or 'yearly'
+     * @param string $last_run_time The last execution time of the interim
+     */
+    private function getNextIterimRunTime($interim, $last_run_time)
+    {
+        if ($interim == 'hourly') {
+            // For hourly we just default to the turn of the hour
+            $last_cron_hour  = strtotime(date('Y-m-d H', strtotime($last_run_time)) . ':00:00');
+            return strtotime("+1 hour", $last_cron_hour);
+        } else {
+            // Get the cron time of the last run time/date
+            $last_cron_hour  = strtotime(date('Y-m-d', strtotime($last_run_time)) . ' ' . $this->cron_hour);
+
+            if ($interim == 'daily') {
+                return strtotime("+1 day", $last_cron_hour);
+            } elseif ($interim == 'weekly') {
+                return strtotime("+1 week", $last_cron_hour);
+            } elseif ($interim == 'monthly') {
+                return strtotime("+1 month", $last_cron_hour);
+            } elseif ($interim == 'yearly') {
+                return strtotime("+1 year", $last_cron_hour);
             }
         }
     }
