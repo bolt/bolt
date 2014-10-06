@@ -1013,11 +1013,7 @@ class Backend implements ControllerProviderInterface
             // Add a note, if we're setting up the first user using SQLite..
             $dbdriver = $app['config']->get('general/database/driver');
             if ($dbdriver == 'sqlite' || $dbdriver == 'pdo_sqlite') {
-                $note = __(
-                    'You are currently using SQLite to set up the first user. If you wish to use MySQL or PostgreSQL ' .
-                    'instead, edit the configuration file at <tt>\'app/config/config.yml\'</tt> and Bolt will set ' .
-                    'up the database tables for you. Be sure to reload this page before continuing.'
-                );
+                $note = __('You are currently using SQLite to set up the first user. If you wish to use MySQL or PostgreSQL instead, edit the configuration file at <tt>\'app/config/config.yml\'</tt> and Bolt will set up the database tables for you. Be sure to reload this page before continuing.');
             }
 
             // If we get here, chances are we don't have the tables set up, yet.
@@ -1598,7 +1594,7 @@ class Backend implements ControllerProviderInterface
             }
         }
 
-        // For 'related' files we might need to keep track of the current dirname on top of the namespace. 
+        // For 'related' files we might need to keep track of the current dirname on top of the namespace.
         if (dirname($file) != '') {
             $additionalpath = dirname($file) . '/';
         } else {
