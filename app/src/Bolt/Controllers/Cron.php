@@ -140,13 +140,13 @@ class Cron extends Event
                 return true;
             } elseif (time() > $this->threshold) {
                 // Only check the running of these if we've passed our threshold hour today
-                if ($name == CronEvents::CRON_DAILY && $this->interims['hourly'] < strtotime("-1 day")) {
+                if ($name == CronEvents::CRON_DAILY && $this->interims['daily'] < strtotime("-1 day")) {
                     return true;
-                } elseif ($name == CronEvents::CRON_WEEKLY && $this->interims['hourly'] < strtotime("-1 week")) {
+                } elseif ($name == CronEvents::CRON_WEEKLY && $this->interims['weekly'] < strtotime("-1 week")) {
                     return true;
-                } elseif ($name == CronEvents::CRON_MONTHLY && $this->interims['hourly'] < strtotime("-1 month")) {
+                } elseif ($name == CronEvents::CRON_MONTHLY && $this->interims['monthly'] < strtotime("-1 month")) {
                     return true;
-                } elseif ($name == CronEvents::CRON_YEARLY && $this->interims['hourly'] < strtotime("-1 year")) {
+                } elseif ($name == CronEvents::CRON_YEARLY && $this->interims['yearly'] < strtotime("-1 year")) {
                     return true;
                 }
             }
