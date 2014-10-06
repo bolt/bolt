@@ -244,13 +244,16 @@ class Cron extends Event
     private function getNextRunTimes()
     {
         foreach ($this->next_run_time as $interim => $date) {
+            // Handle old style naming
+            $oldname = strtolower(str_replace('cron.', '', $interim));;
+
             $query =
                 "SELECT lastrun " .
                 "FROM {$this->tablename} " .
-                "WHERE interim = :interim " .
+                "WHERE (interim = :interim OR interim = :oldname) " .
                 "ORDER BY lastrun DESC";
 
-            $result = $this->app['db']->fetchAssoc($query, array('interim' => $interim));
+            $result = $this->app['db']->fetchAssoc($query, array('interim' => $interim, 'oldname' => $oldname));
 
             // If we get an empty result for the interim, set it to the current
             // run time and notify the update method to do an INSERT rather than
