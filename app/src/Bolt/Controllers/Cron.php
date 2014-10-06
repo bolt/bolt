@@ -214,6 +214,34 @@ class Cron extends Event
     }
 
     /**
+     * Get the next run time for a given interim
+     *
+     * @param string $interim       The interim; 'hourly', 'daily', 'weekly', 'monthly' or 'yearly'
+     * @param string $last_run_time The last execution time of the interim
+     */
+    function getNextRunTime($interim, $last_run_time)
+    {
+        if ($interim == 'hourly') {
+            // For hourly we just default to the turn of the hour
+            $last_cron_hour  = strtotime(date('Y-m-d H', strtotime($last_run_time)) . ':00:00');
+            return strtotime("+1 hour", $last_cron_hour);
+        } else {
+            // Get the cron time of the last run time/date
+            $last_cron_hour  = strtotime(date('Y-m-d', strtotime($last_run_time)) . ' ' . $this->cron_hour);
+
+            if ($interim == 'daily') {
+                return strtotime("+1 day", $last_cron_hour);
+            } elseif ($interim == 'weekly') {
+                return strtotime("+1 week", $last_cron_hour);
+            } elseif ($interim == 'monthly') {
+                return strtotime("+1 month", $last_cron_hour);
+            } elseif ($interim == 'yearly') {
+                return strtotime("+1 year", $last_cron_hour);
+            }
+        }
+    }
+
+    /**
      * If we're passed an OutputInterface, we're called from Nut and can notify
      * the end user
      */
