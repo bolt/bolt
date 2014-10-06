@@ -98,9 +98,6 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFilter('last', array($this, 'last')),
             new \Twig_SimpleFilter('__', array($this, 'trans'), array('is_safe' => array('html'))),
             new \Twig_SimpleFilter('safestring', array($this, 'safeString'), array('is_safe' => array('html'))),
-            new \Twig_SimpleFilter('round', array($this, 'round')),
-            new \Twig_SimpleFilter('floor', array($this, 'floor')),
-            new \Twig_SimpleFilter('ceil', array($this, 'ceil')),
             new \Twig_SimpleFilter('imageinfo', array($this, 'imageInfo')),
             new \Twig_SimpleFilter('selectfield', array($this, 'selectField')),
             new \Twig_SimpleFilter('shuffle', array($this, 'shuffle')),
@@ -759,39 +756,6 @@ class TwigExtension extends \Twig_Extension
         }
 
         return new \Twig_Markup($env->render($template, $context), 'utf-8');
-    }
-
-    /**
-     * return the 'round' of a value..
-     *
-     * @param  float|int $a
-     * @return int
-     */
-    public function round($a)
-    {
-        return round($a);
-    }
-
-    /**
-     * return the 'floor' of a value..
-     *
-     * @param  float|int $a
-     * @return int
-     */
-    public function floor($a)
-    {
-        return floor($a);
-    }
-
-    /**
-     * return the 'ceil' of a value..
-     *
-     * @param  float|int $a
-     * @return int
-     */
-    public function ceil($a)
-    {
-        return ceil($a);
     }
 
     /**
