@@ -41,7 +41,7 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFunction('dump', array($this, 'printDump'), array('is_safe' => array('html'))),
             new \Twig_SimpleFunction('backtrace', array($this, 'printBacktrace'), array('is_safe' => array('html'))),
             new \Twig_SimpleFunction('excerpt', array($this, 'excerpt'), array('is_safe' => array('html'))),
-            new \Twig_SimpleFunction('trimtext', array($this, 'trim'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFunction('trimtext', array($this, 'trim'), array('is_safe' => array('html'))), // Deprecated..
             new \Twig_SimpleFunction('markdown', array($this, 'markdown'), array('is_safe' => array('html'))),
             new \Twig_SimpleFunction('current', array($this, 'current')),
             new \Twig_SimpleFunction('token', array($this, 'token')),
@@ -81,12 +81,12 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFilter('localdate', array($this, 'localeDateTime'), array('is_safe' => array('html'))),
             new \Twig_SimpleFilter('localedatetime', array($this, 'localeDateTime'), array('is_safe' => array('html'))), // Deprecated
             new \Twig_SimpleFilter('rot13', array($this, 'rot13Filter')),
-            new \Twig_SimpleFilter('trimtext', array($this, 'trim'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFilter('excerpt', array($this, 'excerpt'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFilter('trimtext', array($this, 'trim'), array('is_safe' => array('html'))), // Deprecated..
             new \Twig_SimpleFilter('markdown', array($this, 'markdown'), array('is_safe' => array('html'))),
             new \Twig_SimpleFilter('twig', array($this, 'twig'), array('is_safe' => array('html'))),
             new \Twig_SimpleFilter('tt', array($this, 'decorateTT'), array('is_safe' => array('html'))),
             new \Twig_SimpleFilter('ucfirst', array($this, 'ucfirst')),
-            new \Twig_SimpleFilter('excerpt', array($this, 'excerpt'), array('is_safe' => array('html'))),
             new \Twig_SimpleFilter('ymllink', array($this, 'ymllink'), array('is_safe' => array('html'))),
             new \Twig_SimpleFilter('slug', array($this, 'slug')),
             new \Twig_SimpleFilter('current', array($this, 'current')),
@@ -285,6 +285,22 @@ class TwigExtension extends \Twig_Extension
         return $output;
     }
 
+
+    /**
+     * Trims the given string to a particular length. Deprecated, use excerpt
+     * instead.
+     *
+     * @param  string $content
+     * @param  int    $length  Defaults to 200
+     * @return string Trimmed output
+     *
+     */
+    public function trim($content, $length = 200)
+    {
+        return $this->excerpt($content);
+    }
+
+
     /**
      * Create a link to edit a .yml file, if a filename is detected in the string. Mostly
      * for use in Flashbag messages, to allow easy editing.
@@ -386,20 +402,6 @@ class TwigExtension extends \Twig_Extension
         return $slug;
     }
 
-    /**
-     * Trims the given string to a particular length.
-     *
-     * @param  string $content
-     * @param  int    $length  Defaults to 200
-     * @return string Trimmed output
-     *
-     */
-    public function trim($content, $length = 200)
-    {
-        $output = trimText(strip_tags($content), $length);
-
-        return $output;
-    }
 
     /**
      * Formats the given string as Markdown in HTML
