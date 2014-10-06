@@ -506,7 +506,7 @@ class IntegrityChecker
         // Note: we're keeping the 'interval' column around for backwards compatibility. We do not use
         // it anymore, but removing it breaks Doctrine's migration.
         // @todo: Remove this column, without the migration choking on the reserved word 'interval'.
-        $cronTable->addColumn("interval", "string", array("length" => 16));
+        $cronTable->addColumn("interval", "string", array("length" => 16, "default" => ""));
         $cronTable->addColumn("interim", "string", array("length" => 16));
         $cronTable->addIndex(array('interim'));
         $cronTable->addColumn("lastrun", "datetime");
