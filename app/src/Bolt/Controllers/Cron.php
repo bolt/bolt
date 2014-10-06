@@ -86,7 +86,7 @@ class Cron extends Event
         $this->app = $app;
         $this->output = $output;
         $this->param = $param;
-        $this->runtime = date("Y-m-d H:i:s", time());
+        $this->runtime = time();
         $this->next_run_time = array(
             CronEvents::CRON_HOURLY  => 0,
             CronEvents::CRON_DAILY   => 0,
@@ -273,6 +273,7 @@ class Cron extends Event
      *
      * @param string $interim       The interim; CRON_HOURLY, CRON_DAILY, CRON_WEEKLY, CRON_MONTHLY or CRON_YEARLY
      * @param string $last_run_time The last execution time of the interim
+     * @return integer The UNIX timestamp for the interims next valid execution time
      */
     private function getNextIterimRunTime($interim, $last_run_time)
     {
@@ -304,7 +305,7 @@ class Cron extends Event
         // Define the mapping
         $map = array(
             'interim'  => $interim,
-            'lastrun'   => $this->runtime,
+            'lastrun'   => date('Y-m-d H:i:s', $this->runtime),
         );
 
         // Insert or update as required
