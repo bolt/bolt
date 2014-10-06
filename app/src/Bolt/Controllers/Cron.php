@@ -248,7 +248,7 @@ class Cron extends Event
             $oldname = strtolower(str_replace('cron.', '', $interim));;
 
             $query =
-                "SELECT lastrun " .
+                "SELECT lastrun, interim " .
                 "FROM {$this->tablename} " .
                 "WHERE (interim = :interim OR interim = :oldname) " .
                 "ORDER BY lastrun DESC";
@@ -263,7 +263,14 @@ class Cron extends Event
                 $this->insert[$interim] = true;
             } else {
                 $this->next_run_time[$interim] = $this->getNextIterimRunTime($interim, $result['lastrun']);
-                $this->insert[$interim] = false;
+
+                // @TODO remove this in v3.0
+                // Update old record types
+                if ($result['interim'] == $oldname) {
+                    $this->insert[$interim] = true;
+                } else {
+                    $this->insert[$interim] = false;
+                }
             }
         }
     }
