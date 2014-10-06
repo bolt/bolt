@@ -175,9 +175,8 @@ class Cron extends Event
     /**
      * Test whether or not to call dispatcher
      *
-     * @param string $name The cron event name
-     * @return boolean True  - Dispatch event
-     *                 False - Passover event
+     * @param  string  $name The cron event name
+     * @return boolean Dispatch event or not
      */
     private function isExecutable($name)
     {
@@ -278,8 +277,8 @@ class Cron extends Event
     /**
      * Get the next run time for a given interim
      *
-     * @param string $interim       The interim; CRON_HOURLY, CRON_DAILY, CRON_WEEKLY, CRON_MONTHLY or CRON_YEARLY
-     * @param string $last_run_time The last execution time of the interim
+     * @param  string  $interim       The interim; CRON_HOURLY, CRON_DAILY, CRON_WEEKLY, CRON_MONTHLY or CRON_YEARLY
+     * @param  string  $last_run_time The last execution time of the interim
      * @return integer The UNIX timestamp for the interims next valid execution time
      */
     private function getNextIterimRunTime($interim, $last_run_time)
@@ -287,6 +286,7 @@ class Cron extends Event
         if ($interim == CronEvents::CRON_HOURLY) {
             // For hourly we just default to the turn of the hour
             $last_cron_hour  = strtotime(date('Y-m-d H', strtotime($last_run_time)) . ':00:00');
+
             return strtotime("+1 hour", $last_cron_hour);
         } else {
             // Get the cron time of the last run time/date
