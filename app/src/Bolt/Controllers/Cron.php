@@ -178,17 +178,17 @@ class Cron extends Event
         if ($this->param['run'] && $this->param['event'] == $name) {
             return true;
         } elseif ($this->app['dispatcher']->hasListeners($name)) {
-            if ($name == CronEvents::CRON_HOURLY && $this->next_run_time['hourly'] < strtotime("-1 hour")) {
+            if ($name == CronEvents::CRON_HOURLY && $this->next_run_time['hourly'] <= $this->runtime) {
                 return true;
             } elseif (time() > $this->cron_hour) {
                 // Only check the running of these if we've passed our cron hour today
-                if ($name == CronEvents::CRON_DAILY && $this->next_run_time['daily'] < strtotime("-1 day")) {
+                if ($name == CronEvents::CRON_DAILY         && $this->next_run_time['daily']   <= $this->runtime) {
                     return true;
-                } elseif ($name == CronEvents::CRON_WEEKLY && $this->next_run_time['weekly'] < strtotime("-1 week")) {
+                } elseif ($name == CronEvents::CRON_WEEKLY  && $this->next_run_time['weekly']  <= $this->runtime) {
                     return true;
-                } elseif ($name == CronEvents::CRON_MONTHLY && $this->next_run_time['monthly'] < strtotime("-1 month")) {
+                } elseif ($name == CronEvents::CRON_MONTHLY && $this->next_run_time['monthly'] <= $this->runtime) {
                     return true;
-                } elseif ($name == CronEvents::CRON_YEARLY && $this->next_run_time['yearly'] < strtotime("-1 year")) {
+                } elseif ($name == CronEvents::CRON_YEARLY  && $this->next_run_time['yearly']  <= $this->runtime) {
                     return true;
                 }
             }
