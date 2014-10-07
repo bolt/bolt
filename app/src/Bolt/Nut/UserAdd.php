@@ -35,7 +35,7 @@ class UserAdd extends BaseCommand
         $user['displayname'] = $displayname;
         $user['email'] = $email;
         
-        $res = $app['users']->saveUser($user);
+        $res = $this->app['users']->saveUser($user);
         if ($res) {
             $output->writeln("<info>Successfully created user: {$user->username}</info>");
         } else {
