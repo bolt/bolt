@@ -36,10 +36,11 @@ class UserAdd extends BaseCommand
         $user['email'] = $email;
         
         $res = $this->app['users']->saveUser($user);
+        print_r($res); exit;
         if ($res) {
-            $output->writeln("<info>Successfully created user: {$user->username}</info>");
+            $output->writeln("<info>Successfully created user: {$res->username}</info>");
         } else {
-            $output->writeln("<error>Error creating user: {$user->username}</error>");
+            $output->writeln("<error>Error creating user: {$res->username}</error>");
         }
     }
 }
