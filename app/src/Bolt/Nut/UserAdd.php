@@ -35,11 +35,29 @@ class UserAdd extends BaseCommand
         $user['displayname'] = $displayname;
         $user['email'] = $email;
         
-        $res = $this->app['users']->saveUser($user);
-        if ($res) {
-            $output->writeln("<info>Successfully created user: {$user['username']}</info>");
-        } else {
-            $output->writeln("<error>Error creating user: {$user['username']}</error>");
+        $valid = true;
+        if (! $app['users']->checkAvailability('username', $user['username'])) {
+            $valid = false;
+            $output->writeln("<error>Error creating user: username {$user['username']} already exists</error>");
         }
+        if (! $app['users']->checkAvailability('email', $user['email'])) {
+            $valid = false;
+            $output->writeln("<error>Error creating user: email {$user['email']} exists</error>");
+        }
+        if (! $app['users']->checkAvailability('displayname', $user['displayname'])) {
+            $valid = false;
+            $output->writeln("<error>Error creating user: - display name {$user['displayname']} already exists</error>");
+        }
+        
+        if ($valid) {
+            $res = $this->app['users']->saveUser($user);
+            if ($res) {
+                $output->writeln("<info>Successfully created user: {$user['username']}</info>");
+            } else {
+                $output->writeln("<error>Error creating user: {$user['username']}</error>");
+            }
+        }
+        
+        
     }
 }
