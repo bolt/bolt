@@ -28,6 +28,7 @@ class UserAdd extends BaseCommand
         $displayname = $input->getArgument('displayname');
         $role = $input->getArgument('role');
         
+        $this->app['users']->getUsers();
         $user = $this->app['users']->getEmptyUser();
         $user['roles'] = array($role);
         $user['username'] = $username;
@@ -35,7 +36,6 @@ class UserAdd extends BaseCommand
         $user['displayname'] = $displayname;
         $user['email'] = $email;
         
-        print_r($this->app['users']->users); exit;
         
         $valid = true;
         if (! $this->app['users']->checkAvailability('username', $user['username'])) {
