@@ -48,7 +48,7 @@ class UserAdd extends BaseCommand
         }
         if (! $this->app['users']->checkAvailability('displayname', $user['displayname'])) {
             $valid = false;
-            $output->writeln("<error>Error creating user: - display name {$user['displayname']} already exists</error>");
+            $output->writeln("<error>Error creating user: display name {$user['displayname']} already exists</error>");
         }
         
         if ($valid) {
