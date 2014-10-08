@@ -123,7 +123,7 @@ showcases:
             group: Text
         slug:
             type: slug
-            uses: [ selectfield, title ]
+            uses: [ title ]
         html:
             type: html
             height: 150px
