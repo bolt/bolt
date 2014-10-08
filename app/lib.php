@@ -1009,14 +1009,6 @@ function gatherTranslatableStrings($locale = null, $translated = array())
 {
     $app = ResourceManager::getApp();
 
-    $isPhp = function ($fname) {
-        return pathinfo(strtolower($fname), PATHINFO_EXTENSION) == 'php';
-    };
-
-    $isTwig = function ($fname) {
-        return pathinfo(strtolower($fname), PATHINFO_EXTENSION) == 'twig';
-    };
-
     $ctypes = $app['config']->get('contenttypes');
 
     // Function that generates a string for each variation of contenttype/contenttypes
@@ -1054,58 +1046,60 @@ function gatherTranslatableStrings($locale = null, $translated = array())
     foreach ($finder as $file) {
         $s = file_get_contents($file);
 
-        // Scan twig templates for  __('...' and __("..."
-        if ($isTwig($file)) {
-            foreach ($twigRegex as $regex) {
-                if (preg_match_all($regex, $s, $matches)) {
-                    foreach ($matches[1] as $t) {
-                        $nstr++;
-                        if (!in_array($t, $strings) && strlen($t) > 1) {
-                            $strings[] = $t;
-                            sort($strings);
-                        }
-                    }
-                }
-            }
-        }
-
-        // Scan php files for  __('...' and __("..."
-        // All translatables strings have to be called with:
-        // __("text", $params=array(), $domain='messages', locale=null) // $app['translator']->trans()
-        // __("text", count, $params=array(), $domain='messages', locale=null) // $app['translator']->transChoice()
-        //
-        if ($isPhp($file)) {
-            $tokens = token_get_all($s);
-            $num_tokens = count($tokens);
-            for ($x = 0; $x < $num_tokens; $x++) {
-                $token = $tokens[$x];
-                if (is_array($token) && $token[0] == T_STRING && $token[1] == '__') {
-                    $token = $tokens[++$x];
-                    if ($x < $num_tokens && is_array($token) && $token[0] == T_WHITESPACE) {
-                        $token = $tokens[++$x];
-                    }
-                    if ($x < $num_tokens && !is_array($token) && $token == '(') {
-                        // In our func args...
-                        $token = $tokens[++$x];
-                        if ($x < $num_tokens && is_array($token) && $token[0] == T_WHITESPACE) {
-                            $token = $tokens[++$x];
-                        }
-                        if (!is_array($token)) {
-                            // Give up
-                            continue;
-                        }
-                        if ($token[0] == T_CONSTANT_ENCAPSED_STRING) {
-                            $t = substr($token[1], 1, strlen($token[1]) - 2);
+        switch (pathinfo(strtolower($file), PATHINFO_EXTENSION)) {
+            // Scan twig templates for  __('...' and __("..."
+            case 'twig':
+                foreach ($twigRegex as $regex) {
+                    if (preg_match_all($regex, $s, $matches)) {
+                        foreach ($matches[1] as $t) {
                             $nstr++;
                             if (!in_array($t, $strings) && strlen($t) > 1) {
                                 $strings[] = $t;
                                 sort($strings);
                             }
-                            // TODO: retrieve domain?
                         }
                     }
                 }
-            }
+                break;
+
+            // Scan php files for  __('...' and __("..."
+            // All translatables strings have to be called with:
+            // __("text", $params=array(), $domain='messages', locale=null) // $app['translator']->trans()
+            // __("text", count, $params=array(), $domain='messages', locale=null) // $app['translator']->transChoice()
+            //
+            case 'php':
+                $tokens = token_get_all($s);
+                $num_tokens = count($tokens);
+                for ($x = 0; $x < $num_tokens; $x++) {
+                    $token = $tokens[$x];
+                    if (is_array($token) && $token[0] == T_STRING && $token[1] == '__') {
+                        $token = $tokens[++$x];
+                        if ($x < $num_tokens && is_array($token) && $token[0] == T_WHITESPACE) {
+                            $token = $tokens[++$x];
+                        }
+                        if ($x < $num_tokens && !is_array($token) && $token == '(') {
+                            // In our func args...
+                            $token = $tokens[++$x];
+                            if ($x < $num_tokens && is_array($token) && $token[0] == T_WHITESPACE) {
+                                $token = $tokens[++$x];
+                            }
+                            if (!is_array($token)) {
+                                // Give up
+                                continue;
+                            }
+                            if ($token[0] == T_CONSTANT_ENCAPSED_STRING) {
+                                $t = substr($token[1], 1, strlen($token[1]) - 2);
+                                $nstr++;
+                                if (!in_array($t, $strings) && strlen($t) > 1) {
+                                    $strings[] = $t;
+                                    sort($strings);
+                                }
+                                // TODO: retrieve domain?
+                            }
+                        }
+                    }
+                }
+                break;
         }
     }
 
