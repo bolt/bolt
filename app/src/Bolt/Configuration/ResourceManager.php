@@ -91,8 +91,9 @@ class ResourceManager
     public function useLoader(ClassLoader $loader)
     {
         $this->classLoader = $loader;
-        $app = dirname($loader->findFile('Bolt\\Application'));
-        $this->root = realpath($app . '/../../../../../..');
+        $ldpath = dirname($loader->findFile('Composer\\Autoload\\ClassLoader'));
+        $expath = explode('vendor', $ldpath);
+        $this->root = realpath($expath[0]);
     }
 
     public function setPath($name, $value)
