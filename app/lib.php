@@ -1045,8 +1045,6 @@ function gatherTranslatableStrings($locale = null, $translated = array())
         ->in(dirname($app['paths']['themepath'])) //
         ->in($app['paths']['apppath']);
     // regex from: stackoverflow.com/questions/5695240/php-regex-to-ignore-escaped-quotes-within-quotes
-    $re_dq = '/"[^"\\\\]*(?:\\\\.[^"\\\\]*)*"/s';
-    $re_sq = "/'[^'\\\\]*(?:\\\\.[^'\\\\]*)*'/s";
     $nstr = 0;
     $strings = array();
     foreach ($finder as $file) {
