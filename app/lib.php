@@ -1003,34 +1003,22 @@ function __()
 }
 
 /**
- * Find all twig templates and bolt php code, extract translatables
- * strings, merge with existing translations, return
+ * Find all twig templates and bolt php code, extract translatables strings, merge with existing translations, return
  */
 function gatherTranslatableStrings($locale = null, $translated = array())
 {
     $app = ResourceManager::getApp();
 
-    $isPhp = function ($fname) {
-        return pathinfo(strtolower($fname), PATHINFO_EXTENSION) == 'php';
-    };
-
-    $isTwig = function ($fname) {
-        return pathinfo(strtolower($fname), PATHINFO_EXTENSION) == 'twig';
-    };
-
     $ctypes = $app['config']->get('contenttypes');
 
-    // function that generates a string for each variation of contenttype/contenttypes
+    // Function that generates a string for each variation of contenttype/contenttypes
     $genContentTypes = function ($txt) use ($ctypes) {
         $stypes = array();
-        if (strpos($txt, '%contenttypes%') !== false) {
-            foreach ($ctypes as $key => $ctype) {
-                $stypes[] = str_replace('%contenttypes%', $ctype['name'], $txt);
-            }
-        }
-        if (strpos($txt, '%contenttype%') !== false) {
-            foreach ($ctypes as $key => $ctype) {
-                $stypes[] = str_replace('%contenttype%', $ctype['singular_name'], $txt);
+        foreach (array('%contenttype%' => 'singular_name', '%contenttypes%' => 'name') as $placeholder => $name) {
+            if (strpos($txt, $placeholder) !== false) {
+                foreach ($ctypes as $ctype) {
+                    $stypes[] = str_replace($placeholder, $ctype[$name], $txt);
+                }
             }
         }
 
@@ -1046,79 +1034,72 @@ function gatherTranslatableStrings($locale = null, $translated = array())
         ->name('*.php')
         ->notName('*~')
         ->exclude(array('cache', 'config', 'database', 'resources', 'tests'))
-        ->in(dirname($app['paths']['themepath'])) //
+        ->in(dirname($app['paths']['themepath']))
         ->in($app['paths']['apppath']);
-    // regex from: stackoverflow.com/questions/5695240/php-regex-to-ignore-escaped-quotes-within-quotes
-    $re_dq = '/"[^"\\\\]*(?:\\\\.[^"\\\\]*)*"/s';
-    $re_sq = "/'[^'\\\\]*(?:\\\\.[^'\\\\]*)*'/s";
+    // Regex from: stackoverflow.com/questions/5695240/php-regex-to-ignore-escaped-quotes-within-quotes
+    $twigRegex = array(
+        "/\b__\(\s*'([^'\\\\]*(?:\\\\.[^'\\\\]*)*)'(?U).*\)/s", // __('single_quoted_string'…
+        '/\b__\(\s*"([^"\\\\]*(?:\\\\.[^"\\\\]*)*)"(?U).*\)/s', // __("double_quoted_string"…
+    );
     $nstr = 0;
     $strings = array();
     foreach ($finder as $file) {
-        $s = file_get_contents($file);
+        $contents = file_get_contents($file);
 
-        // Scan twig templates for  __('...' and __("..."
-        if ($isTwig($file)) {
-            // __('single_quoted_string'...
-            if (preg_match_all("/\b__\(\s*'([^'\\\\]*(?:\\\\.[^'\\\\]*)*)'(?U).*\)/s", $s, $matches)) {
-                //print_r($matches[1]);
-                foreach ($matches[1] as $t) {
-                    $nstr++;
-                    if (!in_array($t, $strings) && strlen($t) > 1) {
-                        $strings[] = $t;
-                        sort($strings);
-                    }
-                }
-            }
-            // __("double_quoted_string"...
-            if (preg_match_all('/\b__\(\s*"([^"\\\\]*(?:\\\\.[^"\\\\]*)*)"(?U).*\)/s', $s, $matches)) {
-                //print_r($matches[1]);
-                foreach ($matches[1] as $t) {
-                    $nstr++;
-                    if (!in_array($t, $strings) && strlen($t) > 1) {
-                        $strings[] = $t;
-                        sort($strings);
-                    }
-                }
-            }
-        }
-
-        // php :
-        /** all translatables strings have to be called with:
-         *  __("text", $params=array(), $domain='messages', locale=null) // $app['translator']->trans()
-         *  __("text", count, $params=array(), $domain='messages', locale=null) // $app['translator']->transChoice()
-         */
-        if ($isPhp($file)) {
-            $tokens = token_get_all($s);
-            $num_tokens = count($tokens);
-            for ($x = 0; $x < $num_tokens; $x++) {
-                $token = $tokens[$x];
-                if (is_array($token) && $token[0] == T_STRING && $token[1] == '__') {
-                    $token = $tokens[++$x];
-                    if ($x < $num_tokens && is_array($token) && $token[0] == T_WHITESPACE) {
-                        $token = $tokens[++$x];
-                    }
-                    if ($x < $num_tokens && !is_array($token) && $token == '(') {
-                        // in our func args...
-                        $token = $tokens[++$x];
-                        if ($x < $num_tokens && is_array($token) && $token[0] == T_WHITESPACE) {
-                            $token = $tokens[++$x];
-                        }
-                        if (!is_array($token)) {
-                            // give up
-                            continue;
-                        }
-                        if ($token[0] == T_CONSTANT_ENCAPSED_STRING) {
-                            $t = substr($token[1], 1, strlen($token[1]) - 2);
+        switch (pathinfo(strtolower($file), PATHINFO_EXTENSION)) {
+            // Scan twig templates for  __('...' and __("..."
+            case 'twig':
+                foreach ($twigRegex as $regex) {
+                    if (preg_match_all($regex, $contents, $matches)) {
+                        foreach ($matches[1] as $t) {
                             $nstr++;
                             if (!in_array($t, $strings) && strlen($t) > 1) {
                                 $strings[] = $t;
                                 sort($strings);
                             }
-                            // TODO: retrieve domain?
                         }
                     }
                 }
-            }// end for $x
+                break;
+
+            // Scan php files for  __('...' and __("..."
+            // All translatables strings have to be called with:
+            // __("text", $params=array(), $domain='messages', locale=null) // $app['translator']->trans()
+            // __("text", count, $params=array(), $domain='messages', locale=null) // $app['translator']->transChoice()
+            //
+            case 'php':
+                $tokens = token_get_all($contents);
+                $num_tokens = count($tokens);
+                for ($x = 0; $x < $num_tokens; $x++) {
+                    $token = $tokens[$x];
+                    if (is_array($token) && $token[0] == T_STRING && $token[1] == '__') {
+                        $token = $tokens[++$x];
+                        if ($x < $num_tokens && is_array($token) && $token[0] == T_WHITESPACE) {
+                            $token = $tokens[++$x];
+                        }
+                        if ($x < $num_tokens && !is_array($token) && $token == '(') {
+                            // In our func args...
+                            $token = $tokens[++$x];
+                            if ($x < $num_tokens && is_array($token) && $token[0] == T_WHITESPACE) {
+                                $token = $tokens[++$x];
+                            }
+                            if (!is_array($token)) {
+                                // Give up
+                                continue;
+                            }
+                            if ($token[0] == T_CONSTANT_ENCAPSED_STRING) {
+                                $t = substr($token[1], 1, strlen($token[1]) - 2);
+                                $nstr++;
+                                if (!in_array($t, $strings) && strlen($t) > 1) {
+                                    $strings[] = $t;
+                                    sort($strings);
+                                }
+                                // TODO: retrieve domain?
+                            }
+                        }
+                    }
+                }
+                break;
         }
     }
 
@@ -1159,8 +1140,9 @@ function gatherTranslatableStrings($locale = null, $translated = array())
         }
     }
 
-    // Return the previously translated string if exists,
-    // Return an empty string otherwise
+    // Step 2: find already translated strings
+
+    // Return the previously translated string if exists, otherwise return an empty string
     $getTranslated = function ($key) use ($app, $translated) {
         if (($trans = $app['translator']->trans($key)) == $key) {
             if (is_array($translated) && array_key_exists($key, $translated) && !empty($translated[$key])) {
@@ -1172,8 +1154,6 @@ function gatherTranslatableStrings($locale = null, $translated = array())
 
         return $trans;
     };
-
-    // Step 2: find already translated strings
 
     sort($strings);
     if (!$locale) {
