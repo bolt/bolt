@@ -13,6 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Bolt\Permissions;
+use Bolt\Translation;
 
 class Backend implements ControllerProviderInterface
 {
@@ -1621,6 +1622,7 @@ class Backend implements ControllerProviderInterface
      */
     public function translation($domain, $tr_locale, Silex\Application $app, Request $request)
     {
+        $translation = new Translation($app);
         $short_locale = substr($tr_locale, 0, 2);
         $type = 'yml';
         $file = "app/resources/translations/$short_locale/$domain.$short_locale.$type";
@@ -1647,7 +1649,7 @@ class Backend implements ControllerProviderInterface
                     $app['session']->getFlashBag()->set('error', printf("Unable to parse the YAML translations: %s", $e->getMessage()));
                 }
             }
-            list($msg, $ctype) = gatherTranslatableStrings($tr_locale, $translated);
+            list($msg, $ctype) = $translation->gatherTranslatableStrings($tr_locale, $translated);
             $ts = date("Y/m/d H:i:s");
             $content = "# $file -- generated on $ts\n";
             if ($domain == 'messages') {
