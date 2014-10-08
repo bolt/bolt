@@ -1042,9 +1042,13 @@ function gatherTranslatableStrings($locale = null, $translated = array())
         ->name('*.php')
         ->notName('*~')
         ->exclude(array('cache', 'config', 'database', 'resources', 'tests'))
-        ->in(dirname($app['paths']['themepath'])) //
+        ->in(dirname($app['paths']['themepath']))
         ->in($app['paths']['apppath']);
-    // regex from: stackoverflow.com/questions/5695240/php-regex-to-ignore-escaped-quotes-within-quotes
+    // Regex from: stackoverflow.com/questions/5695240/php-regex-to-ignore-escaped-quotes-within-quotes
+    $twigRegex = array(
+        "/\b__\(\s*'([^'\\\\]*(?:\\\\.[^'\\\\]*)*)'(?U).*\)/s", // __('single_quoted_string'…
+        '/\b__\(\s*"([^"\\\\]*(?:\\\\.[^"\\\\]*)*)"(?U).*\)/s', // __("double_quoted_string"…
+    );
     $nstr = 0;
     $strings = array();
     foreach ($finder as $file) {
@@ -1052,25 +1056,14 @@ function gatherTranslatableStrings($locale = null, $translated = array())
 
         // Scan twig templates for  __('...' and __("..."
         if ($isTwig($file)) {
-            // __('single_quoted_string'...
-            if (preg_match_all("/\b__\(\s*'([^'\\\\]*(?:\\\\.[^'\\\\]*)*)'(?U).*\)/s", $s, $matches)) {
-                //print_r($matches[1]);
-                foreach ($matches[1] as $t) {
-                    $nstr++;
-                    if (!in_array($t, $strings) && strlen($t) > 1) {
-                        $strings[] = $t;
-                        sort($strings);
-                    }
-                }
-            }
-            // __("double_quoted_string"...
-            if (preg_match_all('/\b__\(\s*"([^"\\\\]*(?:\\\\.[^"\\\\]*)*)"(?U).*\)/s', $s, $matches)) {
-                //print_r($matches[1]);
-                foreach ($matches[1] as $t) {
-                    $nstr++;
-                    if (!in_array($t, $strings) && strlen($t) > 1) {
-                        $strings[] = $t;
-                        sort($strings);
+            foreach ($twigRegex as $regex) {
+                if (preg_match_all($regex, $s, $matches)) {
+                    foreach ($matches[1] as $t) {
+                        $nstr++;
+                        if (!in_array($t, $strings) && strlen($t) > 1) {
+                            $strings[] = $t;
+                            sort($strings);
+                        }
                     }
                 }
             }
