@@ -1022,14 +1022,11 @@ function gatherTranslatableStrings($locale = null, $translated = array())
     // Function that generates a string for each variation of contenttype/contenttypes
     $genContentTypes = function ($txt) use ($ctypes) {
         $stypes = array();
-        if (strpos($txt, '%contenttypes%') !== false) {
-            foreach ($ctypes as $key => $ctype) {
-                $stypes[] = str_replace('%contenttypes%', $ctype['name'], $txt);
-            }
-        }
-        if (strpos($txt, '%contenttype%') !== false) {
-            foreach ($ctypes as $key => $ctype) {
-                $stypes[] = str_replace('%contenttype%', $ctype['singular_name'], $txt);
+        foreach (array('%contenttype%' => 'singular_name', '%contenttypes%' => 'name') as $placeholder => $name) {
+            if (strpos($txt, $placeholder) !== false) {
+                foreach ($ctypes as $ctype) {
+                    $stypes[] = str_replace($placeholder, $ctype[$name], $txt);
+                }
             }
         }
 
