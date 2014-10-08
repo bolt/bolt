@@ -173,14 +173,14 @@ wysiwyg:
   anchor: false
   tables: false
   fontcolor: false
-  align: false
-  subsuper: false
-  embed: false
-  underline: false
-  strike: false
+  align: false        # Add 'align left', 'align right',etc. 
+  subsuper: false     # Add buttons for subscript and superscript, using <sub> and <sup>
+  embed: false        # allows the user to insert embedded video's from Youtube, Vimeo, etc. 
+  underline: false    # add a button to underline text, using the <u>-tag.
+  strike: false       # add a button to add stikethrough, using the <s>-tag.
   blockquote: false 
   codesnippet: false
-  specialchar: false
+  specialchar: false  # adds a button to insert special chars like '€' or '™'. 
   ck:
     allowedContent: true # If set to 'true', any elements and attributes are allowed in Wysiwg Elements
     autoParagraph: true # If set to 'true', any pasted content is wrapped in <p> tags for multiple line-breaks
