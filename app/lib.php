@@ -1044,13 +1044,13 @@ function gatherTranslatableStrings($locale = null, $translated = array())
     $nstr = 0;
     $strings = array();
     foreach ($finder as $file) {
-        $s = file_get_contents($file);
+        $contents = file_get_contents($file);
 
         switch (pathinfo(strtolower($file), PATHINFO_EXTENSION)) {
             // Scan twig templates for  __('...' and __("..."
             case 'twig':
                 foreach ($twigRegex as $regex) {
-                    if (preg_match_all($regex, $s, $matches)) {
+                    if (preg_match_all($regex, $contents, $matches)) {
                         foreach ($matches[1] as $t) {
                             $nstr++;
                             if (!in_array($t, $strings) && strlen($t) > 1) {
@@ -1068,7 +1068,7 @@ function gatherTranslatableStrings($locale = null, $translated = array())
             // __("text", count, $params=array(), $domain='messages', locale=null) // $app['translator']->transChoice()
             //
             case 'php':
-                $tokens = token_get_all($s);
+                $tokens = token_get_all($contents);
                 $num_tokens = count($tokens);
                 for ($x = 0; $x < $num_tokens; $x++) {
                     $token = $tokens[$x];
