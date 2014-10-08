@@ -1069,11 +1069,11 @@ function gatherTranslatableStrings($locale = null, $translated = array())
             }
         }
 
-        // php :
-        /** all translatables strings have to be called with:
-         *  __("text", $params=array(), $domain='messages', locale=null) // $app['translator']->trans()
-         *  __("text", count, $params=array(), $domain='messages', locale=null) // $app['translator']->transChoice()
-         */
+        // Scan php files for  __('...' and __("..."
+        // All translatables strings have to be called with:
+        // __("text", $params=array(), $domain='messages', locale=null) // $app['translator']->trans()
+        // __("text", count, $params=array(), $domain='messages', locale=null) // $app['translator']->transChoice()
+        //
         if ($isPhp($file)) {
             $tokens = token_get_all($s);
             $num_tokens = count($tokens);
@@ -1085,13 +1085,13 @@ function gatherTranslatableStrings($locale = null, $translated = array())
                         $token = $tokens[++$x];
                     }
                     if ($x < $num_tokens && !is_array($token) && $token == '(') {
-                        // in our func args...
+                        // In our func args...
                         $token = $tokens[++$x];
                         if ($x < $num_tokens && is_array($token) && $token[0] == T_WHITESPACE) {
                             $token = $tokens[++$x];
                         }
                         if (!is_array($token)) {
-                            // give up
+                            // Give up
                             continue;
                         }
                         if ($token[0] == T_CONSTANT_ENCAPSED_STRING) {
@@ -1105,7 +1105,7 @@ function gatherTranslatableStrings($locale = null, $translated = array())
                         }
                     }
                 }
-            }// end for $x
+            }
         }
     }
 
