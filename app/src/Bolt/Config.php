@@ -164,7 +164,7 @@ class Config
     {
         $config = array();
 
-        // Read the config and merge it. (note: We use temp variables to prevent 
+        // Read the config and merge it. (note: We use temp variables to prevent
         // "Only variables should be passed by reference")
         $tempconfig            = $this->parseConfigYaml('config.yml');
         $tempconfiglocal       = $this->parseConfigYaml('config_local.yml');
