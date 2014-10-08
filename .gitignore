@@ -38,3 +38,5 @@ npm-debug.log
 node_modules
 bower_components
 /bolt.log
+
+*.map
