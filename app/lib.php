@@ -1003,8 +1003,7 @@ function __()
 }
 
 /**
- * Find all twig templates and bolt php code, extract translatables
- * strings, merge with existing translations, return
+ * Find all twig templates and bolt php code, extract translatables strings, merge with existing translations, return
  */
 function gatherTranslatableStrings($locale = null, $translated = array())
 {
@@ -1020,7 +1019,7 @@ function gatherTranslatableStrings($locale = null, $translated = array())
 
     $ctypes = $app['config']->get('contenttypes');
 
-    // function that generates a string for each variation of contenttype/contenttypes
+    // Function that generates a string for each variation of contenttype/contenttypes
     $genContentTypes = function ($txt) use ($ctypes) {
         $stypes = array();
         if (strpos($txt, '%contenttypes%') !== false) {
