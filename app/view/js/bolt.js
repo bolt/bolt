@@ -1446,6 +1446,11 @@ var init = {
                     name: 'colors', items: ['TextColor', 'BGColor']
                 });
             }
+            if (set.codesnippet) {
+                config.toolbar = config.toolbar.concat({
+                    name: 'code', items: ['-', 'CodeSnippet']
+                });
+            }
 
             config.toolbar = config.toolbar.concat({
                 name: 'tools', items: ['SpecialChar', '-', 'RemoveFormat', 'Maximize', '-', 'Source']

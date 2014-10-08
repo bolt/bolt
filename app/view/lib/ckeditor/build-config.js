@@ -13,10 +13,10 @@
  * (1) http://ckeditor.com/builder
  *     Visit online builder to build CKEditor from scratch.
  *
- * (2) http://ckeditor.com/builder/adf8cb447840350b5ce0ac47dad7914c
+ * (2) http://ckeditor.com/builder/8b72a3e904f8f658684bb4699bbea782
  *     Visit online builder to build CKEditor, starting with the same setup as before.
  *
- * (3) http://ckeditor.com/builder/download/adf8cb447840350b5ce0ac47dad7914c
+ * (3) http://ckeditor.com/builder/download/8b72a3e904f8f658684bb4699bbea782
  *     Straight download link to the latest version of CKEditor (Optimized) with the same setup as before.
  *
  * NOTE:
@@ -29,15 +29,19 @@ var CKBUILDER_CONFIG = {
 	preset: 'basic',
 	ignore: [
 		'.bender',
-		'.DS_Store',
-		'.gitignore',
-		'.gitattributes',
-		'.idea',
-		'.mailmap',
 		'bender.js',
 		'bender-err.log',
 		'bender-out.log',
 		'dev',
+		'.DS_Store',
+		'.gitattributes',
+		'.gitignore',
+		'Gruntfile.js',
+		'.idea',
+		'.jscsrc',
+		'.jshintignore',
+		'.jshintrc',
+		'.mailmap',
 		'node_modules',
 		'package.json',
 		'README.md',
@@ -51,6 +55,7 @@ var CKBUILDER_CONFIG = {
 		'button' : 1,
 		'clipboard' : 1,
 		'codemirror' : 1,
+		'codesnippet' : 1,
 		'colorbutton' : 1,
 		'contextmenu' : 1,
 		'dialog' : 1,
