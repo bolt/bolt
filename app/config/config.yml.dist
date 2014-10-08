@@ -169,17 +169,23 @@ strict_variables: false
 # options are set to 'false'. If you choose to enable them for your editors, please
 # instruct them thoroughly on their responsibility not to break the layout.
 wysiwyg:
-  images: true
+  images: false
   anchor: false
-  tables: true
+  tables: false
   fontcolor: false
   align: false
   subsuper: false
-  embed: true
+  embed: false
+  underline: false
+  strike: false
+  blockquote: false 
+  codesnippet: false
+  specialchar: false
   ck:
     allowedContent: true # If set to 'true', any elements and attributes are allowed in Wysiwg Elements
     autoParagraph: true # If set to 'true', any pasted content is wrapped in <p> tags for multiple line-breaks
     disableNativeSpellChecker: true # If set to 'true' it will stop browsers from underlining spelling mistakes
+    # viewSourceRoles: [ 'admin', 'developer' ] # the roles which are allowed to use the [Source]-button. 
 
 # by default, mail is sent using PHP's built-in mail function. In general, it's advised to use SMTP for sending mail
 # instead. Uncomment the following lines to use an SMTP server with authentication.

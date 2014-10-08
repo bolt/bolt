@@ -587,13 +587,18 @@ class Config
                 'request'   => false
             ),
             'wysiwyg'                     => array(
-                'images'      => true,
+                'images'      => false,
                 'tables'      => false,
                 'fontcolor'   => false,
                 'align'       => false,
                 'subsuper'    => false,
                 'embed'       => true,
                 'anchor'      => false,
+                'underline'   => false,
+                'strike'      => false,
+                'blockquote'  => true,
+                'codesnippet' => false,
+                'specialchar' => false,    
                 'ck'          => array(
                     'allowedContent'          => true,
                     'autoParagraph'           => true,
