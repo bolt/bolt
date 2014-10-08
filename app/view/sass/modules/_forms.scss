@@ -8,13 +8,13 @@ label label {
 
 label {
     display: block;
-    margin-bottom:3px;
+    margin-bottom: 3px;
 }
 
 label.permalink {
     margin: 0 0 0.5em;
     code {
-        white-space:normal;
+        white-space: normal;
     }
 }
 
@@ -29,8 +29,8 @@ label.permalink {
     margin-bottom: 5px;
     @include respond-to(medium-screens) {
         @include old-ie() {
-            text-align:left!important; /* sadly... :( ) */
-            margin-bottom: 5px!important; /* sadly... :( ) */
+            text-align: left!important; /* sadly... : ( ) */
+            margin-bottom: 5px!important; /* sadly... : ( ) */
         }
     }
 }
@@ -50,10 +50,10 @@ label.permalink {
 }
 
 .button-wrap {
-    margin:8px 0 4px;
-    position:relative;
+    margin: 8px 0 4px;
+    position: relative;
     .btn {
-        margin:0 4px 2px 0;
+        margin: 0 4px 2px 0;
     }
 }
 
@@ -62,15 +62,15 @@ input[type="checkbox"] {
 }
 
 .prefix, .postfix {
-    padding-bottom:4px;
-    color:#666;
-    padding-left:20px;
-    padding-right:20px;
+    padding-bottom: 4px;
+    color: #666;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
 .postfix {
-    padding-top:5px;
-    padding-bottom:0;
+    padding-top: 5px;
+    padding-bottom: 0;
 }
 
 fieldset.checkbox {
@@ -184,7 +184,7 @@ fieldset.checkbox div {
     //box-shadow:  2px 2px 0 rgba(0, 0, 0, 0.2);
     img {
         max-height: 148px;
-        max-width:100%;
+        max-width: 100%;
         border: 1px solid #BBB;
     }
 }
@@ -208,17 +208,17 @@ fieldset.checkbox div {
 }
 
 #editcontent fieldset.checkbox {
-    display:block;
+    display: block;
     label {
-        display:inline;
-        padding-left:0;
-        font-weight:bold;
+        display: inline;
+        padding-left: 0;
+        font-weight: normal;
     }
     input {
-        display:inline;
-        height:1em;
-        margin-left:10px;
-        width:auto;
+        display: inline;
+        height: 1em;
+        margin-left: 10px;
+        width: auto;
     }
 }
 
@@ -229,7 +229,7 @@ fieldset.checkbox div {
     //box-shadow:  2px 2px 0 rgba(0, 0, 0, 0.2);
     @include respond-to(medium-screens) {
         min-width: 160px;
-        max-width:200px;
+        max-width: 200px;
     }
 }
 
@@ -267,7 +267,7 @@ fieldset.checkbox div {
 
 #editcontent fieldset.slug {
     // pull the slug closer to the field previous, usually the title
-    margin-top:-10px;
+    margin-top: -10px;
 }
 
 #editcontent input.editslug {
@@ -302,7 +302,7 @@ fieldset.checkbox div {
     border: 1px solid #ccc;
     padding: 0;
     //width: 285px;
-    width:100%;
+    width: 100%;
     background-color: #FFF;
     border-radius: 3px;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1) inset;
@@ -328,9 +328,9 @@ fieldset.checkbox div {
 #editcontent div.filelistholder div.list .fileDescription {
     font-size: 80%;
     font-weight: bold;
-    float:none;
-    display:block;
-    padding:3px 0 0 5px;
+    float: none;
+    display: block;
+    padding: 3px 0 0 5px;
 }
 
 #editcontent div.imagelistholder div.list div *,
@@ -344,9 +344,9 @@ fieldset.checkbox div {
 #editcontent div.filelistholder div.list div input {
     //width: 170px;
     margin: 9px 0 0;
-    padding:3px 0 0 5px;
-    width:65%;
-    border:0;
+    padding: 3px 0 0 5px;
+    width: 65%;
+    border: 0;
     @include respond-to(medium-screens) {
         width: 83%;
     }
@@ -362,11 +362,11 @@ fieldset.checkbox div {
     padding: 0;
     cursor: pointer;
     color: #999;
-    float:right;
+    float: right;
 }
 
 #editcontent div.filelistholder div.list div a {
-    margin-top:10px;
+    margin-top: 10px;
 }
 
 #editcontent div.imagelistholder div.buttons,
@@ -397,32 +397,32 @@ fieldset.checkbox div {
 
 #filtertabs {
     margin-bottom: 16px;
-    border:0;
+    border: 0;
     @include respond-to(medium-screens) {
-        border-bottom:1px solid #d3d3d3;
+        border-bottom: 1px solid #d3d3d3;
     }
     a {
         color: #777;
         background-color: #dfdfdf; 
         border: 1px solid #d3d3d3;
         cursor: pointer;
-        padding:5px 15px;
+        padding: 5px 15px;
     }
     a:hover {
         color: #555;
         background-color: #F8F8F8 !important;
-        border-botom:0;
+        border-botom: 0;
     }
     li {
-        margin-left:-3px;
+        margin-left: -3px;
         &.active {
-            margin-top:-5px;
+            margin-top: -5px;
             a {
                 background-color: #F8F8F8;
                 color: #333;
-                padding:7px 15px 8px 15px;
+                padding: 7px 15px 8px 15px;
             }
-            &:hover {
+            &:hover { 
 
             }
         }
