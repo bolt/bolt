@@ -21,6 +21,7 @@ $application->add(new Bolt\Nut\ConfigSet($app));
 $application->add(new Bolt\Nut\Extensions($app));
 $application->add(new Bolt\Nut\ExtensionsEnable($app));
 $application->add(new Bolt\Nut\ExtensionsDisable($app));
+$application->add(new Bolt\Nut\UserAdd($app));
 $application->add(new Bolt\Nut\UserRoleAdd($app));
 $application->add(new Bolt\Nut\UserRoleRemove($app));
 //$application->add(new Bolt\Nut\ExtensionsInstall($app));

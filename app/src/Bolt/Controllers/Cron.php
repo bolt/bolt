@@ -28,15 +28,57 @@ use Bolt\CronEvents;
  **/
 class Cron extends Event
 {
+    /**
+     * @var Silex\Application
+     */
     private $app;
+
+    /**
+     * @var Symfony\Component\Console\Output\OutputInterface
+     */
     private $output;
+
+    /**
+     * Passed in console paramters
+     *
+     * @var array
+     */
     private $param;
-    private $interims;
+
+    /**
+     * The next elegible run time for each interim
+     *
+     * @var array
+     */
+    private $next_run_time;
+
+    /**
+     * True for a required database insert
+     *
+     * @var boolean
+     */
     private $insert;
-    private $prefix;
+
+    /**
+     * @var string
+     */
     private $tablename;
+
+    /**
+     * The start of the execution time for this cron instance
+     *
+     * @var string
+     */
     private $runtime;
 
+    /**
+     * @var string
+     */
+    private $cron_hour;
+
+    /**
+     * @var array
+     */
     public $lastruns = array();
 
     public function __construct(Silex\Application $app, OutputInterface $output = null, $param = false)
@@ -44,12 +86,18 @@ class Cron extends Event
         $this->app = $app;
         $this->output = $output;
         $this->param = $param;
-        $this->runtime = date("Y-m-d H:i:s", time());
-        $this->interims = array('hourly' => 0, 'daily' => 0, 'weekly' => 0, 'monthly' => 0, 'yearly' => 0);
+        $this->runtime = time();
+        $this->next_run_time = array(
+            CronEvents::CRON_HOURLY  => 0,
+            CronEvents::CRON_DAILY   => 0,
+            CronEvents::CRON_WEEKLY  => 0,
+            CronEvents::CRON_MONTHLY => 0,
+            CronEvents::CRON_YEARLY  => 0);
+
         $this->setTableName();
 
         // Get schedules
-        $this->getLastRun();
+        $this->getNextRunTimes();
 
         // Time of day for daily, weekly, monthly and yearly jobs
         $this->getScheduleThreshold();
@@ -72,7 +120,7 @@ class Cron extends Event
                 $this->handleError($e, CronEvents::CRON_HOURLY);
             }
 
-            $this->setLastRun('hourly');
+            $this->setLastRun(CronEvents::CRON_HOURLY);
         }
 
         if ($this->isExecutable(CronEvents::CRON_DAILY)) {
@@ -84,7 +132,7 @@ class Cron extends Event
                 $this->handleError($e, CronEvents::CRON_DAILY);
             }
 
-            $this->setLastRun('daily');
+            $this->setLastRun(CronEvents::CRON_DAILY);
         }
 
         if ($this->isExecutable(CronEvents::CRON_WEEKLY)) {
@@ -96,7 +144,7 @@ class Cron extends Event
                 $this->handleError($e, CronEvents::CRON_WEEKLY);
             }
 
-            $this->setLastRun('weekly');
+            $this->setLastRun(CronEvents::CRON_WEEKLY);
         }
 
         if ($this->isExecutable(CronEvents::CRON_MONTHLY)) {
@@ -108,7 +156,7 @@ class Cron extends Event
                 $this->handleError($e, CronEvents::CRON_MONTHLY);
             }
 
-            $this->setLastRun('monthly');
+            $this->setLastRun(CronEvents::CRON_MONTHLY);
         }
 
         if ($this->isExecutable(CronEvents::CRON_YEARLY)) {
@@ -120,35 +168,26 @@ class Cron extends Event
                 $this->handleError($e, CronEvents::CRON_YEARLY);
             }
 
-            $this->setLastRun('yearly');
+            $this->setLastRun(CronEvents::CRON_YEARLY);
         }
     }
 
     /**
      * Test whether or not to call dispatcher
      *
-     * @param string $name The cron event name
-     * @return boolean True  - Dispatch event
-     *                 False - Passover event
+     * @param  string  $name The cron event name
+     * @return boolean Dispatch event or not
      */
     private function isExecutable($name)
     {
         if ($this->param['run'] && $this->param['event'] == $name) {
             return true;
         } elseif ($this->app['dispatcher']->hasListeners($name)) {
-            if ($name == CronEvents::CRON_HOURLY && $this->interims['hourly'] < strtotime("-1 hour")) {
+            if ($name == CronEvents::CRON_HOURLY && $this->next_run_time[CronEvents::CRON_HOURLY] <= $this->runtime) {
                 return true;
-            } elseif (time() > $this->threshold) {
-                // Only check the running of these if we've passed our threshold hour today
-                if ($name == CronEvents::CRON_DAILY && $this->interims['hourly'] < strtotime("-1 day")) {
-                    return true;
-                } elseif ($name == CronEvents::CRON_WEEKLY && $this->interims['hourly'] < strtotime("-1 week")) {
-                    return true;
-                } elseif ($name == CronEvents::CRON_MONTHLY && $this->interims['hourly'] < strtotime("-1 month")) {
-                    return true;
-                } elseif ($name == CronEvents::CRON_YEARLY && $this->interims['hourly'] < strtotime("-1 year")) {
-                    return true;
-                }
+            } elseif (time() > $this->cron_hour && $this->next_run_time[$name] <= $this->runtime) {
+                // Only run non-hourly event jobs if we've passed our cron hour today
+                return true;
             }
         }
 
@@ -163,11 +202,11 @@ class Cron extends Event
         $hour = $this->app['config']->get('general/cron_hour');
 
         if (empty($hour)) {
-            $this->threshold = strtotime("03:00");
+            $this->cron_hour = strtotime("03:00");
         } elseif (is_numeric($hour)) {
-            $this->threshold = strtotime($hour . ":00");
+            $this->cron_hour = strtotime($hour . ":00");
         } elseif (is_string($hour)) {
-            $this->threshold = strtotime($hour);
+            $this->cron_hour = strtotime($hour);
         }
     }
 
@@ -189,37 +228,78 @@ class Cron extends Event
      */
     private function setTableName()
     {
-        $this->prefix = $this->app['config']->get('general/database/prefix', "bolt_");
+        $prefix = $this->app['config']->get('general/database/prefix', "bolt_");
 
-        if ($this->prefix[strlen($this->prefix) - 1] != "_") {
-            $this->prefix .= "_";
+        if ($prefix[strlen($prefix) - 1] != "_") {
+            $prefix .= "_";
         }
 
-        $this->tablename = $this->prefix . "cron";
+        $this->tablename = $prefix . "cron";
     }
 
     /**
-     * Query table for last run time of each interim
+     * Query table for next run time of each interim
      */
-    private function getLastRun()
+    private function getNextRunTimes()
     {
-        foreach ($this->interims as $interim => $date) {
+        foreach ($this->next_run_time as $interim => $date) {
+            // Handle old style naming
+            $oldname = strtolower(str_replace('cron.', '', $interim));;
+
             $query =
-                "SELECT lastrun " .
+                "SELECT lastrun, interim " .
                 "FROM {$this->tablename} " .
-                "WHERE interim = :interim " .
+                "WHERE (interim = :interim OR interim = :oldname) " .
                 "ORDER BY lastrun DESC";
 
-            $result = $this->app['db']->fetchAssoc($query, array('interim' => $interim));
+            $result = $this->app['db']->fetchAssoc($query, array('interim' => $interim, 'oldname' => $oldname));
 
             // If we get an empty result for the interim, set it to the current
             // run time and notify the update method to do an INSERT rather than
             // an UPDATE.
             if (empty($result)) {
+                $this->next_run_time[$interim] = $this->runtime;
                 $this->insert[$interim] = true;
             } else {
-                $this->interims[$interim] = strtotime($result['lastrun']);
-                $this->insert[$interim] = false;
+                $this->next_run_time[$interim] = $this->getNextIterimRunTime($interim, $result['lastrun']);
+
+                // @TODO remove this in v3.0
+                // Update old record types
+                if ($result['interim'] == $oldname) {
+                    $this->insert[$interim] = true;
+                } else {
+                    $this->insert[$interim] = false;
+                }
+            }
+        }
+    }
+
+    /**
+     * Get the next run time for a given interim
+     *
+     * @param  string  $interim       The interim; CRON_HOURLY, CRON_DAILY, CRON_WEEKLY, CRON_MONTHLY or CRON_YEARLY
+     * @param  string  $last_run_time The last execution time of the interim
+     * @return integer The UNIX timestamp for the interims next valid execution time
+     */
+    private function getNextIterimRunTime($interim, $last_run_time)
+    {
+        if ($interim == CronEvents::CRON_HOURLY) {
+            // For hourly we just default to the turn of the hour
+            $last_cron_hour  = strtotime(date('Y-m-d H', strtotime($last_run_time)) . ':00:00');
+
+            return strtotime("+1 hour", $last_cron_hour);
+        } else {
+            // Get the cron time of the last run time/date
+            $last_cron_hour  = strtotime(date('Y-m-d', strtotime($last_run_time)) . ' ' . $this->cron_hour);
+
+            if ($interim == CronEvents::CRON_DAILY) {
+                return strtotime("+1 day", $last_cron_hour);
+            } elseif ($interim == CronEvents::CRON_WEEKLY) {
+                return strtotime("+1 week", $last_cron_hour);
+            } elseif ($interim == CronEvents::CRON_MONTHLY) {
+                return strtotime("+1 month", $last_cron_hour);
+            } elseif ($interim == CronEvents::CRON_YEARLY) {
+                return strtotime("+1 year", $last_cron_hour);
             }
         }
     }
@@ -232,7 +312,7 @@ class Cron extends Event
         // Define the mapping
         $map = array(
             'interim'  => $interim,
-            'lastrun'   => $this->runtime,
+            'lastrun'   => date('Y-m-d H:i:s', $this->runtime),
         );
 
         // Insert or update as required
