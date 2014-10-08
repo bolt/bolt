@@ -1,6 +1,6 @@
 /**** MODE: Hidden + Shown ****/
 #navpage-content {
-    padding: 16px 16px 60px 30px;
+    padding: 16px 16px 60px 8px;
     transition: left 0.3s;
     position: absolute;
     left: 0;
@@ -10,14 +10,15 @@
 @include respond-to(medium-screens) {
     /**** MODE: Expanded ****/
     #navpage-content {
+        padding-left: 30px;
         left: $nav-secondary-large-width;
     }
 
     /**** MODE: Collapsed ****/
     #navpage-wrapper.nav-secondary-collapsed {
         #navpage-content {
+            padding-left: 30px;
             left: $nav-secondary-collapsed-width;
         }
     }
 }
-
