@@ -13,7 +13,7 @@
     class:    option.class,
     name_id:  key,
     type:     'checkbox',
-    value:    '1',
+    value:    '1'
 }%}
 
 {#=== FIELDSET =======================================================================================================#}
@@ -21,8 +21,11 @@
 {# fieldset.checkbox already used: -> chkbox #}
 <fieldset class="checkbox">
     <div class="col-sm-12">
-        <label class="control-label">{{ (option.info) ? macro.infopop(labelkey, option.info) : labelkey }}</label>
-        <input{{ macro.attr(attr_checkbox) }}>
+        <label class="col-sm-3 control-label" for="{{ key }}">
+            {{ (option.info) ? macro.infopop(labelkey, option.info) : labelkey }}
+        </label>
+        <label class="col-sm-9 control-label">
+            <input{{ macro.attr(attr_checkbox) }}>
+        </label>
     </div>
-
 </fieldset>
