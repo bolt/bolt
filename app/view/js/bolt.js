@@ -1391,6 +1391,27 @@ var init = {
                 custom,
                 set = bolt.ckeditor;
 
+            var basicStyles = ['Bold', 'Italic'];
+            var linkItems = ['Link', 'Unlink'];
+            var toolItems = [ 'RemoveFormat', 'Maximize', '-', 'Source'];
+            var paragraphItems = ['NumberedList', 'BulletedList', 'Indent', 'Outdent'];
+
+            if (set.underline) {
+                basicStyles = basicStyles.concat('Underline');
+            }
+            if (set.strike) {
+                basicStyles = basicStyles.concat('Strike');
+            }
+            if (set.anchor) {
+                linkItems = linkItems.concat('-', 'Anchor');
+            }
+            if (set.specialchar) {
+                toolItems = ['SpecialChar', '-'].concat(toolItems);
+            }
+            if (set.blockquote) {
+                paragraphItems = paragraphItems.concat('-', 'Blockquote');
+            }
+
             config.language = set.language;
             config.uiColor = '#DDDDDD';
             config.resize_enabled = true;
@@ -1398,19 +1419,11 @@ var init = {
             config.extraPlugins = 'codemirror';
             config.toolbar = [
                 { name: 'styles', items: ['Format'] },
-                { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike'] },
-                { name: 'paragraph', items: ['NumberedList', 'BulletedList', 'Indent', 'Outdent', '-', 'Blockquote'] }
+                { name: 'basicstyles', items: basicStyles }, // ['Bold', 'Italic', 'Underline', 'Strike']
+                { name: 'paragraph', items: paragraphItems },
+                { name: 'links', items: linkItems }
             ];
 
-            if (set.anchor) {
-                config.toolbar = config.toolbar.concat({
-                    name: 'links', items: ['Link', 'Unlink', '-', 'Anchor']
-                });
-            } else {
-                config.toolbar = config.toolbar.concat({
-                    name: 'links', items: ['Link', 'Unlink']
-                });
-            }
 
             if (set.subsuper) {
                 config.toolbar = config.toolbar.concat({
@@ -1446,14 +1459,9 @@ var init = {
                     name: 'colors', items: ['TextColor', 'BGColor']
                 });
             }
-            if (set.codesnippet) {
-                config.toolbar = config.toolbar.concat({
-                    name: 'code', items: ['-', 'CodeSnippet']
-                });
-            }
 
             config.toolbar = config.toolbar.concat({
-                name: 'tools', items: ['SpecialChar', '-', 'RemoveFormat', 'Maximize', '-', 'Source']
+                name: 'tools', items: toolItems 
             });
 
             config.height = 250;
