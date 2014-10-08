@@ -1140,8 +1140,9 @@ function gatherTranslatableStrings($locale = null, $translated = array())
         }
     }
 
-    // Return the previously translated string if exists,
-    // Return an empty string otherwise
+    // Step 2: find already translated strings
+
+    // Return the previously translated string if exists, otherwise return an empty string
     $getTranslated = function ($key) use ($app, $translated) {
         if (($trans = $app['translator']->trans($key)) == $key) {
             if (is_array($translated) && array_key_exists($key, $translated) && !empty($translated[$key])) {
@@ -1153,8 +1154,6 @@ function gatherTranslatableStrings($locale = null, $translated = array())
 
         return $trans;
     };
-
-    // Step 2: find already translated strings
 
     sort($strings);
     if (!$locale) {
