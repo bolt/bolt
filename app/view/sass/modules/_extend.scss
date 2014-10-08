@@ -21,6 +21,9 @@
         border-radius: 2px;
         box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);
         width:50%;
+        z-index: 1000;
+        max-height: 410px;
+        overflow: scroll;        
         
         .btn {
             border-radius:0;

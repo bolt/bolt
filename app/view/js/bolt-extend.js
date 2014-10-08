@@ -371,7 +371,8 @@ var BoltExtender = Object.extend(Object, {
                     cont.html("").show();
                     for(var p in data['packages']) {
                         var t = data['packages'][p];
-                        cont.append("<a data-action='prefill-package' class='btn btn-block btn-tertiary prefill-package'>"+t.name+"</a>");
+                        cont.append("<a data-action='prefill-package' class='btn btn-block btn-default prefill-package' style='text-align: left;'>" 
+                                + t.title + " <small>(" + t.authors + " - " + t.name + ")</small></a>");
                     }
                     livesearch.on('blur', function(){
                        cont.fadeOut(); 
