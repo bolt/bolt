@@ -92,7 +92,7 @@ class ResourceManager
     {
         $this->classLoader = $loader;
         $app = dirname($loader->findFile('Bolt\\Application'));
-        $this->root = realpath($app . '/../../../');
+        $this->root = realpath($app . '/../../../../../..');
     }
 
     public function setPath($name, $value)
