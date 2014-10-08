@@ -18,6 +18,22 @@ class Translation
         $this->app = $app;
     }
 
+    /*
+     * Return the previously translated string if exists, otherwise return an empty string
+     */
+    private function getTranslated($key, $translated)
+    {
+        if (($trans = $this->app['translator']->trans($key)) == $key) {
+            if (is_array($translated) && array_key_exists($key, $translated) && !empty($translated[$key])) {
+                return $translated[$key];
+            } else {
+                return '';
+            }
+        } else {
+            return $trans;
+        }
+    }
+
     /**
      * Find all twig templates and bolt php code, extract translatables strings, merge with existing translations, return
      */
@@ -156,20 +172,6 @@ class Translation
 
         // Step 2: find already translated strings
 
-        // Return the previously translated string if exists, otherwise return an empty string
-        $app = $this->app;
-        $getTranslated = function ($key) use ($app, $translated) {
-            if (($trans = $app['translator']->trans($key)) == $key) {
-                if (is_array($translated) && array_key_exists($key, $translated) && !empty($translated[$key])) {
-                    return $translated[$key];
-                }
-
-                return '';
-            }
-
-            return $trans;
-        };
-
         sort($strings);
         if (!$locale) {
             $locale = $this->app['request']->getLocale();
@@ -187,7 +189,9 @@ class Translation
             $key = stripslashes($key);
             $raw_key = $key;
             $key = Escaper::escapeWithDoubleQuotes($key);
-            if (($trans = $getTranslated($raw_key)) == '' && ($trans = $getTranslated($key)) == '') {
+            if (($trans = $this->getTranslated($raw_key, $translated)) == '' &&
+                ($trans = $this->getTranslated($key, $translated)) == ''
+            ) {
                 $msg_domain['not_translated'][] = $key;
             } else {
                 $trans = Escaper::escapeWithDoubleQuotes($trans);
@@ -197,7 +201,9 @@ class Translation
             if (strpos($raw_key, '%contenttype%') !== false || strpos($raw_key, '%contenttypes%') !== false) {
                 foreach ($genContentTypes($raw_key) as $ctypekey) {
                     $key = Escaper::escapeWithDoubleQuotes($ctypekey);
-                    if (($trans = $getTranslated($ctypekey)) == '' && ($trans = $getTranslated($key)) == '') {
+                    if (($trans = $this->getTranslated($ctypekey, $translated)) == '' &&
+                        ($trans = $this->getTranslated($key, $translated)) == ''
+                    ) {
                         // Not translated
                         $ctype_domain['not_translated'][] = $key;
                     } else {
