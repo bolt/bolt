@@ -5,7 +5,6 @@ use Bolt\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Storage\MockFileSessionStorage;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-
 use Bolt\Configuration as Config;
 
 /**
@@ -17,13 +16,9 @@ use Bolt\Configuration as Config;
 
 class UploadControllerTest extends \PHPUnit_Framework_TestCase
 {
-    protected $loader;
 
     public function setup()
     {
-        global $CLASSLOADER;
-
-        $this->loader = $CLASSLOADER;
         @mkdir(__DIR__ . '/files', 0777, true);
     }
 
@@ -42,8 +37,8 @@ class UploadControllerTest extends \PHPUnit_Framework_TestCase
         $app = $this->getApp();
 
         $request = Request::create(
-            "/upload/files",
-            "POST",
+            '/upload/files',
+            'POST',
             array(),
             array(),
             array(),
@@ -64,12 +59,12 @@ class UploadControllerTest extends \PHPUnit_Framework_TestCase
         global $app;
         $app = $this->getApp();
         $request = Request::create(
-            "/upload/files",
-            "POST",
+            '/upload/files',
+            'POST',
             array(),
             array(),
             array(
-                "files" => array(
+                'files' => array(
                     array(
                         'tmp_name' => __DIR__ . '/resources/generic-logo.png',
                         'name' => 'logo.png'
@@ -115,7 +110,6 @@ class UploadControllerTest extends \PHPUnit_Framework_TestCase
         $this->assertRegExp('/extension/i', $file->error);
     }
 
-
     protected function getApp()
     {
         $sessionMock = $this->getMockBuilder('Symfony\Component\HttpFoundation\Session\Session')
@@ -123,7 +117,7 @@ class UploadControllerTest extends \PHPUnit_Framework_TestCase
         ->setConstructorArgs(array(new MockFileSessionStorage()))
         ->getMock();
 
-        $config = new Config\ResourceManager($this->loader);
+        $config = new Config\ResourceManager(TEST_ROOT);
         $config->compat();
 
         $bolt = new Application(array('resources' => $config));
@@ -133,7 +127,7 @@ class UploadControllerTest extends \PHPUnit_Framework_TestCase
                 'driver' => 'sqlite',
                 'databasename' => 'test',
                 'username' => 'test',
-                'memory' => true,
+                'memory' => true
             )
         );
 
