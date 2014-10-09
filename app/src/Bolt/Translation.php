@@ -174,6 +174,7 @@ class Translation
                     break;
             }
         }
+        krumo($strings);
 
         // Add fields name|label for contenttype (forms)
         foreach ($ctypes as $ckey => $contenttype) {
@@ -187,7 +188,10 @@ class Translation
                     $strings[] = $t;
                 }
             }
-            // Relation name|label if exists
+        }
+
+        // Add relation name|label if exists
+        foreach ($ctypes as $ckey => $contenttype) {
             if (array_key_exists('relations', $contenttype)) {
                 foreach ($contenttype['relations'] as $fkey => $field) {
                     if (isset($field['label'])) {
