@@ -66,6 +66,80 @@ class Translation
     }
 
     /**
+     * Scan twig templates for  __('...' and __("..."
+     *
+     * @param array List of translation strings
+     * @param string $twigTemplate Contents of a twig template
+     * @return array List of translation strings with found strings added
+     */
+    private function scanTwig($strings, $twigTemplate)
+    {
+        // Regex from: stackoverflow.com/questions/5695240/php-regex-to-ignore-escaped-quotes-within-quotes
+        $twigRegex = array(
+            "/\b__\(\s*'([^'\\\\]*(?:\\\\.[^'\\\\]*)*)'(?U).*\)/s", // __('single_quoted_string'…
+            '/\b__\(\s*"([^"\\\\]*(?:\\\\.[^"\\\\]*)*)"(?U).*\)/s', // __("double_quoted_string"…
+        );
+
+        foreach ($twigRegex as $regex) {
+            if (preg_match_all($regex, $twigTemplate, $matches)) {
+                foreach ($matches[1] as $foundString) {
+                    if (!in_array($foundString, $strings) && strlen($foundString) > 1) {
+                        $strings[] = $foundString;
+                    }
+                }
+            }
+        }
+
+        return $strings;
+    }
+
+    /**
+     * Scan php files for  __('...' and __("..."
+     *
+     * All translatables strings have to be called with:
+     * __("text", $params=array(), $domain='messages', locale=null) // $app['translator']->trans()
+     * __("text", count, $params=array(), $domain='messages', locale=null) // $app['translator']->transChoice()
+     *
+     * @param array List of translation strings
+     * @param string $contents Contents of a twig template
+     * @return array List of translation strings with found strings added
+     */
+    private function scanPhp($strings, $contents)
+    {
+        $tokens = token_get_all($contents);
+        $num_tokens = count($tokens);
+        for ($x = 0; $x < $num_tokens; $x++) {
+            $token = $tokens[$x];
+            if (is_array($token) && $token[0] == T_STRING && $token[1] == '__') {
+                $token = $tokens[++$x];
+                if ($x < $num_tokens && is_array($token) && $token[0] == T_WHITESPACE) {
+                    $token = $tokens[++$x];
+                }
+                if ($x < $num_tokens && !is_array($token) && $token == '(') {
+                    // In our func args...
+                    $token = $tokens[++$x];
+                    if ($x < $num_tokens && is_array($token) && $token[0] == T_WHITESPACE) {
+                        $token = $tokens[++$x];
+                    }
+                    if (!is_array($token)) {
+                        // Give up
+                        continue;
+                    }
+                    if ($token[0] == T_CONSTANT_ENCAPSED_STRING) {
+                        $t = substr($token[1], 1, strlen($token[1]) - 2);
+                        if (!in_array($t, $strings) && strlen($t) > 1) {
+                            $strings[] = $t;
+                        }
+                        // TODO: retrieve domain?
+                    }
+                }
+            }
+        }
+
+        return $strings;
+    }
+
+    /**
      * Find all twig templates and bolt php code, extract translatables strings, merge with existing translations
      *
      * @param type $locale
@@ -87,64 +161,18 @@ class Translation
             ->exclude(array('cache', 'config', 'database', 'resources', 'tests'))
             ->in(dirname($this->app['paths']['themepath']))
             ->in($this->app['paths']['apppath']);
-        // Regex from: stackoverflow.com/questions/5695240/php-regex-to-ignore-escaped-quotes-within-quotes
-        $twigRegex = array(
-            "/\b__\(\s*'([^'\\\\]*(?:\\\\.[^'\\\\]*)*)'(?U).*\)/s", // __('single_quoted_string'…
-            '/\b__\(\s*"([^"\\\\]*(?:\\\\.[^"\\\\]*)*)"(?U).*\)/s', // __("double_quoted_string"…
-        );
+
         $strings = array();
         foreach ($finder as $file) {
             $contents = file_get_contents($file);
 
             switch (pathinfo(strtolower($file), PATHINFO_EXTENSION)) {
-                // Scan twig templates for  __('...' and __("..."
                 case 'twig':
-                    foreach ($twigRegex as $regex) {
-                        if (preg_match_all($regex, $contents, $matches)) {
-                            foreach ($matches[1] as $t) {
-                                if (!in_array($t, $strings) && strlen($t) > 1) {
-                                    $strings[] = $t;
-                                }
-                            }
-                        }
-                    }
+                    $strings = $this->scanTwig($strings, $contents);
                     break;
 
-                // Scan php files for  __('...' and __("..."
-                // All translatables strings have to be called with:
-                // __("text", $params=array(), $domain='messages', locale=null) // $app['translator']->trans()
-                // __("text", count, $params=array(), $domain='messages', locale=null) // $app['translator']->transChoice()
-                //
                 case 'php':
-                    $tokens = token_get_all($contents);
-                    $num_tokens = count($tokens);
-                    for ($x = 0; $x < $num_tokens; $x++) {
-                        $token = $tokens[$x];
-                        if (is_array($token) && $token[0] == T_STRING && $token[1] == '__') {
-                            $token = $tokens[++$x];
-                            if ($x < $num_tokens && is_array($token) && $token[0] == T_WHITESPACE) {
-                                $token = $tokens[++$x];
-                            }
-                            if ($x < $num_tokens && !is_array($token) && $token == '(') {
-                                // In our func args...
-                                $token = $tokens[++$x];
-                                if ($x < $num_tokens && is_array($token) && $token[0] == T_WHITESPACE) {
-                                    $token = $tokens[++$x];
-                                }
-                                if (!is_array($token)) {
-                                    // Give up
-                                    continue;
-                                }
-                                if ($token[0] == T_CONSTANT_ENCAPSED_STRING) {
-                                    $t = substr($token[1], 1, strlen($token[1]) - 2);
-                                    if (!in_array($t, $strings) && strlen($t) > 1) {
-                                        $strings[] = $t;
-                                    }
-                                    // TODO: retrieve domain?
-                                }
-                            }
-                        }
-                    }
+                    $strings = $this->scanPhp($strings, $contents);
                     break;
             }
         }
