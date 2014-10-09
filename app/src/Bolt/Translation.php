@@ -169,6 +169,22 @@ class Translation
     }
 
     /**
+     *  Add fields name|label for contenttype (forms)
+     */
+    private function scanContenttypeFields()
+    {
+        foreach ($this->app['config']->get('contenttypes') as $ckey => $contenttype) {
+            foreach ($contenttype['fields'] as $fkey => $field) {
+                if (isset($field['label'])) {
+                    $this->addTranslatable($field['label']);
+                } else {
+                    $this->addTranslatable(ucfirst($fkey));
+                }
+            }
+        }
+    }
+
+    /**
      * Find all twig templates and bolt php code, extract translatables strings, merge with existing translations
      *
      * @param type $locale
@@ -184,17 +200,8 @@ class Translation
 
         $this->scanTwigFiles();
         $this->scanPhpFiles();
+        $this->scanContenttypeFields();
 
-        // Add fields name|label for contenttype (forms)
-        foreach ($ctypes as $ckey => $contenttype) {
-            foreach ($contenttype['fields'] as $fkey => $field) {
-                if (isset($field['label'])) {
-                    $this->addTranslatable($field['label']);
-                } else {
-                    $this->addTranslatable(ucfirst($fkey));
-                }
-            }
-        }
 
         // Add relation name|label if exists
         foreach ($ctypes as $ckey => $contenttype) {
