@@ -203,6 +203,18 @@ class Translation
     }
 
     /**
+     * Add name + singular_name for taxonomies
+     */
+    private function scanTaxonomies()
+    {
+        foreach ($this->app['config']->get('taxonomy') as $txkey => $value) {
+            foreach (array('name', 'singular_name') as $key) {
+                $this->addTranslatable($value[$key]);
+            }
+        }
+    }
+
+    /**
      * Find all twig templates and bolt php code, extract translatables strings, merge with existing translations
      *
      * @param type $locale
@@ -211,22 +223,17 @@ class Translation
      */
     public function gatherTranslatableStrings($locale = null, $translated = array())
     {
-        $this->translatables = array();
         $ctypes = $this->app['config']->get('contenttypes');
 
         // Step one: gather all translatable strings
+
+        $this->translatables = array();
 
         $this->scanTwigFiles();
         $this->scanPhpFiles();
         $this->scanContenttypeFields();
         $this->scanContenttypeRelations();
-
-        // Add name + singular_name for taxonomies
-        foreach ($this->app['config']->get('taxonomy') as $txkey => $value) {
-            foreach (array('name', 'singular_name') as $key) {
-                $this->addTranslatable($value[$key]);
-            }
-        }
+        $this->scanTaxonomies();
 
         sort($this->translatables);
 
