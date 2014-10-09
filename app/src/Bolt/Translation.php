@@ -11,6 +11,11 @@ use Symfony\Component\Yaml\Escaper;
  */
 class Translation
 {
+    /**
+     * Injected Application object
+     *
+     * @var type
+     */
     private $app;
 
     /**
