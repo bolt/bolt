@@ -143,8 +143,8 @@ class Application extends Silex\Application
             // set utf8 on names and connection as all tables has this charset
 
             $this['db']->query("SET NAMES 'utf8';");
-            $this['db']->query("SET CHARACTER SET 'utf8';");
             $this['db']->query("SET CHARACTER_SET_CONNECTION = 'utf8';");
+            $this['db']->query("SET CHARACTER SET utf8;");
         }
 
         $this->register(
