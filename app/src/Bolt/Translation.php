@@ -166,7 +166,7 @@ class Translation
         foreach ($finder as $file) {
             $contents = file_get_contents($file);
 
-            switch (pathinfo(strtolower($file), PATHINFO_EXTENSION)) {
+            switch ($file->getExtension()) {
                 case 'twig':
                     $strings = $this->scanTwig($strings, $contents);
                     break;
