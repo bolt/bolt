@@ -91,22 +91,30 @@ class Translation
 
     /**
      * Scan twig templates for  __('...' and __("..."
-     *
-     * @param string $twigTemplate Contents of a twig template
-     * @return array List of translation strings with found strings added
      */
-    private function scanTwig($twigTemplate)
+    private function scanTwigFiles()
     {
+        $finder = new Finder();
+        $finder->files()
+            ->ignoreVCS(true)
+            ->name('*.twig')
+            ->notName('*~')
+            ->exclude(array('cache', 'config', 'database', 'resources', 'tests'))
+            ->in(dirname($this->app['paths']['themepath']))
+            ->in($this->app['paths']['apppath']);
+
         // Regex from: stackoverflow.com/questions/5695240/php-regex-to-ignore-escaped-quotes-within-quotes
         $twigRegex = array(
             "/\b__\(\s*'([^'\\\\]*(?:\\\\.[^'\\\\]*)*)'(?U).*\)/s", // __('single_quoted_string'…
             '/\b__\(\s*"([^"\\\\]*(?:\\\\.[^"\\\\]*)*)"(?U).*\)/s', // __("double_quoted_string"…
         );
 
-        foreach ($twigRegex as $regex) {
-            if (preg_match_all($regex, $twigTemplate, $matches)) {
-                foreach ($matches[1] as $foundString) {
-                    $this->addTranslatable($foundString);
+        foreach ($finder as $file) {
+            foreach ($twigRegex as $regex) {
+                if (preg_match_all($regex, $file->getContents(), $matches)) {
+                    foreach ($matches[1] as $foundString) {
+                        $this->addTranslatable($foundString);
+                    }
                 }
             }
         }
@@ -118,34 +126,42 @@ class Translation
      * All translatables strings have to be called with:
      * __("text", $params=array(), $domain='messages', locale=null) // $app['translator']->trans()
      * __("text", count, $params=array(), $domain='messages', locale=null) // $app['translator']->transChoice()
-     *
-     * @param string $contents Contents of a twig template
-     * @return array List of translation strings with found strings added
      */
-    private function scanPhp($contents)
+    private function scanPhpFiles()
     {
-        $tokens = token_get_all($contents);
-        $num_tokens = count($tokens);
-        for ($x = 0; $x < $num_tokens; $x++) {
-            $token = $tokens[$x];
-            if (is_array($token) && $token[0] == T_STRING && $token[1] == '__') {
-                $token = $tokens[++$x];
-                if ($x < $num_tokens && is_array($token) && $token[0] == T_WHITESPACE) {
-                    $token = $tokens[++$x];
-                }
-                if ($x < $num_tokens && !is_array($token) && $token == '(') {
-                    // In our func args...
+        $finder = new Finder();
+        $finder->files()
+            ->ignoreVCS(true)
+            ->name('*.php')
+            ->notName('*~')
+            ->exclude(array('cache', 'config', 'database', 'resources', 'tests'))
+            ->in(dirname($this->app['paths']['themepath']))
+            ->in($this->app['paths']['apppath']);
+
+        foreach ($finder as $file) {
+            $tokens = token_get_all($file->getContents());
+            $num_tokens = count($tokens);
+            for ($x = 0; $x < $num_tokens; $x++) {
+                $token = $tokens[$x];
+                if (is_array($token) && $token[0] == T_STRING && $token[1] == '__') {
                     $token = $tokens[++$x];
                     if ($x < $num_tokens && is_array($token) && $token[0] == T_WHITESPACE) {
                         $token = $tokens[++$x];
                     }
-                    if (!is_array($token)) {
-                        // Give up
-                        continue;
-                    }
-                    if ($token[0] == T_CONSTANT_ENCAPSED_STRING) {
-                        $this->addTranslatable(substr($token[1], 1, strlen($token[1]) - 2));
-                        // TODO: retrieve domain?
+                    if ($x < $num_tokens && !is_array($token) && $token == '(') {
+                        // In our func args...
+                        $token = $tokens[++$x];
+                        if ($x < $num_tokens && is_array($token) && $token[0] == T_WHITESPACE) {
+                            $token = $tokens[++$x];
+                        }
+                        if (!is_array($token)) {
+                            // Give up
+                            continue;
+                        }
+                        if ($token[0] == T_CONSTANT_ENCAPSED_STRING) {
+                            $this->addTranslatable(substr($token[1], 1, strlen($token[1]) - 2));
+                            // TODO: retrieve domain?
+                        }
                     }
                 }
             }
@@ -166,27 +182,8 @@ class Translation
 
         // Step one: gather all translatable strings
 
-        $finder = new Finder();
-        $finder->files()
-            ->ignoreVCS(true)
-            ->name('*.twig')
-            ->name('*.php')
-            ->notName('*~')
-            ->exclude(array('cache', 'config', 'database', 'resources', 'tests'))
-            ->in(dirname($this->app['paths']['themepath']))
-            ->in($this->app['paths']['apppath']);
-
-        foreach ($finder as $file) {
-            switch ($file->getExtension()) {
-                case 'twig':
-                    $this->scanTwig($file->getContents());
-                    break;
-
-                case 'php':
-                    $this->scanPhp($file->getContents());
-                    break;
-            }
-        }
+        $this->scanTwigFiles();
+        $this->scanPhpFiles();
 
         // Add fields name|label for contenttype (forms)
         foreach ($ctypes as $ckey => $contenttype) {
