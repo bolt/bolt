@@ -172,7 +172,7 @@ class Translation
      */
     private function scanContenttypeFields()
     {
-        foreach ($this->app['config']->get('contenttypes') as $ckey => $contenttype) {
+        foreach ($this->app['config']->get('contenttypes') as $contenttype) {
             foreach ($contenttype['fields'] as $fkey => $field) {
                 if (isset($field['label'])) {
                     $this->addTranslatable($field['label']);
@@ -188,7 +188,7 @@ class Translation
      */
     private function scanContenttypeRelations()
     {
-        foreach ($this->app['config']->get('contenttypes') as $ckey => $contenttype) {
+        foreach ($this->app['config']->get('contenttypes') as $contenttype) {
             if (array_key_exists('relations', $contenttype)) {
                 foreach ($contenttype['relations'] as $fkey => $field) {
                     if (isset($field['label'])) {
@@ -206,7 +206,7 @@ class Translation
      */
     private function scanTaxonomies()
     {
-        foreach ($this->app['config']->get('taxonomy') as $txkey => $value) {
+        foreach ($this->app['config']->get('taxonomy') as $value) {
             foreach (array('name', 'singular_name') as $key) {
                 $this->addTranslatable($value[$key]);
             }
@@ -248,7 +248,7 @@ class Translation
             'not_translated' => array(),
         );
 
-        foreach ($this->translatables as $idx => $key) {
+        foreach ($this->translatables as $key) {
             $key = stripslashes($key);
             $raw_key = $key;
             $key = Escaper::escapeWithDoubleQuotes($key);
