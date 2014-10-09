@@ -92,7 +92,6 @@ class Translation
             "/\b__\(\s*'([^'\\\\]*(?:\\\\.[^'\\\\]*)*)'(?U).*\)/s", // __('single_quoted_string'…
             '/\b__\(\s*"([^"\\\\]*(?:\\\\.[^"\\\\]*)*)"(?U).*\)/s', // __("double_quoted_string"…
         );
-        $nstr = 0;
         $strings = array();
         foreach ($finder as $file) {
             $contents = file_get_contents($file);
@@ -103,7 +102,6 @@ class Translation
                     foreach ($twigRegex as $regex) {
                         if (preg_match_all($regex, $contents, $matches)) {
                             foreach ($matches[1] as $t) {
-                                $nstr++;
                                 if (!in_array($t, $strings) && strlen($t) > 1) {
                                     $strings[] = $t;
                                 }
@@ -139,7 +137,6 @@ class Translation
                                 }
                                 if ($token[0] == T_CONSTANT_ENCAPSED_STRING) {
                                     $t = substr($token[1], 1, strlen($token[1]) - 2);
-                                    $nstr++;
                                     if (!in_array($t, $strings) && strlen($t) > 1) {
                                         $strings[] = $t;
                                     }
