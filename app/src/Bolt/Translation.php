@@ -164,15 +164,13 @@ class Translation
 
         $strings = array();
         foreach ($finder as $file) {
-            $contents = file_get_contents($file);
-
             switch ($file->getExtension()) {
                 case 'twig':
-                    $strings = $this->scanTwig($strings, $contents);
+                    $strings = $this->scanTwig($strings, $file->getContents());
                     break;
 
                 case 'php':
-                    $strings = $this->scanPhp($strings, $contents);
+                    $strings = $this->scanPhp($strings, $file->getContents());
                     break;
             }
         }
