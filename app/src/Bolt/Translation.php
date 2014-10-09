@@ -185,6 +185,24 @@ class Translation
     }
 
     /**
+     *  Add relation name|label if exists
+     */
+    private function scanContenttypeRelations()
+    {
+        foreach ($this->app['config']->get('contenttypes') as $ckey => $contenttype) {
+            if (array_key_exists('relations', $contenttype)) {
+                foreach ($contenttype['relations'] as $fkey => $field) {
+                    if (isset($field['label'])) {
+                        $this->addTranslatable($field['label']);
+                    } else {
+                        $this->addTranslatable(ucfirst($fkey));
+                    }
+                }
+            }
+        }
+    }
+
+    /**
      * Find all twig templates and bolt php code, extract translatables strings, merge with existing translations
      *
      * @param type $locale
@@ -201,20 +219,7 @@ class Translation
         $this->scanTwigFiles();
         $this->scanPhpFiles();
         $this->scanContenttypeFields();
-
-
-        // Add relation name|label if exists
-        foreach ($ctypes as $ckey => $contenttype) {
-            if (array_key_exists('relations', $contenttype)) {
-                foreach ($contenttype['relations'] as $fkey => $field) {
-                    if (isset($field['label'])) {
-                        $this->addTranslatable($field['label']);
-                    } else {
-                        $this->addTranslatable(ucfirst($fkey));
-                    }
-                }
-            }
-        }
+        $this->scanContenttypeRelations();
 
         // Add name + singular_name for taxonomies
         foreach ($this->app['config']->get('taxonomy') as $txkey => $value) {
