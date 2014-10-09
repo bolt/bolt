@@ -13,13 +13,22 @@ class Translation
 {
     private $app;
 
+    /**
+     * Constructor
+     *
+     * @param Silex\Application $app
+     */
     public function __construct(Silex\Application $app)
     {
         $this->app = $app;
     }
 
-    /*
+    /**
      * Return the previously translated string if exists, otherwise return an empty string
+     *
+     * @param string $key
+     * @param array $translated
+     * @return string
      */
     private function getTranslated($key, $translated)
     {
@@ -56,9 +65,12 @@ class Translation
         return $stypes;
     }
 
-
     /**
-     * Find all twig templates and bolt php code, extract translatables strings, merge with existing translations, return
+     * Find all twig templates and bolt php code, extract translatables strings, merge with existing translations
+     *
+     * @param type $locale
+     * @param array $translated
+     * @return array
      */
     public function gatherTranslatableStrings($locale = null, $translated = array())
     {
