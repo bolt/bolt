@@ -85,7 +85,6 @@ class Translation
                                 $nstr++;
                                 if (!in_array($t, $strings) && strlen($t) > 1) {
                                     $strings[] = $t;
-                                    sort($strings);
                                 }
                             }
                         }
@@ -122,7 +121,6 @@ class Translation
                                     $nstr++;
                                     if (!in_array($t, $strings) && strlen($t) > 1) {
                                         $strings[] = $t;
-                                        sort($strings);
                                     }
                                     // TODO: retrieve domain?
                                 }
