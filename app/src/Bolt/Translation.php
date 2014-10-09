@@ -71,16 +71,15 @@ class Translation
      * Generates a string for each variation of contenttype/contenttypes
      *
      * @param string $txt String with %contenttype%/%contenttypes% placeholders
-     * @param array $ctypes List of contenttypes
      * @return array
      */
-    private function genContentTypes($txt, $ctypes)
+    private function genContentTypes($txt)
     {
         $stypes = array();
 
         foreach (array('%contenttype%' => 'singular_name', '%contenttypes%' => 'name') as $placeholder => $name) {
             if (strpos($txt, $placeholder) !== false) {
-                foreach ($ctypes as $ctype) {
+                foreach ($this->app['config']->get('contenttypes') as $ctype) {
                     $stypes[] = str_replace($placeholder, $ctype[$name], $txt);
                 }
             }
@@ -223,8 +222,6 @@ class Translation
      */
     public function gatherTranslatableStrings($locale = null, $translated = array())
     {
-        $ctypes = $this->app['config']->get('contenttypes');
-
         // Step one: gather all translatable strings
 
         $this->translatables = array();
@@ -265,7 +262,7 @@ class Translation
             }
             // Step 3: generate additionals strings for contenttypes
             if (strpos($raw_key, '%contenttype%') !== false || strpos($raw_key, '%contenttypes%') !== false) {
-                foreach ($this->genContentTypes($raw_key, $ctypes) as $ctypekey) {
+                foreach ($this->genContentTypes($raw_key) as $ctypekey) {
                     $key = Escaper::escapeWithDoubleQuotes($ctypekey);
                     if (($trans = $this->getTranslated($ctypekey, $translated)) == '' &&
                         ($trans = $this->getTranslated($key, $translated)) == ''
