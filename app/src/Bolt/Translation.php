@@ -89,7 +89,7 @@ class Translation
     }
 
     /**
-     * Scan twig templates for  __('...' and __("..."
+     * Scan twig templates for  __('...' and __("..." and add the strings found to the list of translatable strings
      */
     private function scanTwigFiles()
     {
@@ -120,7 +120,7 @@ class Translation
     }
 
     /**
-     * Scan php files for  __('...' and __("..."
+     * Scan php files for  __('...' and __("..." and add the strings found to the list of translatable strings
      *
      * All translatables strings have to be called with:
      * __("text", $params=array(), $domain='messages', locale=null) // $app['translator']->trans()
@@ -168,7 +168,7 @@ class Translation
     }
 
     /**
-     *  Add fields name|label for contenttype (forms)
+     *  Add fields names and labels for contenttype (forms) to the list of translatable strings
      */
     private function scanContenttypeFields()
     {
@@ -184,7 +184,7 @@ class Translation
     }
 
     /**
-     *  Add relation name|label if exists
+     *  Add relation names and labels to the list of translatable strings
      */
     private function scanContenttypeRelations()
     {
@@ -202,7 +202,7 @@ class Translation
     }
 
     /**
-     * Add name + singular_name for taxonomies
+     * Add name ans singular names for taxonomies to the list of translatable strings
      */
     private function scanTaxonomies()
     {
