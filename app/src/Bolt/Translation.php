@@ -35,25 +35,34 @@ class Translation
     }
 
     /**
+     * Generates a string for each variation of contenttype/contenttypes
+     *
+     * @param string $txt String with %contenttype%/%contenttypes% placeholders
+     * @param array $ctypes List of contenttypes
+     * @return array
+     */
+    private function genContentTypes($txt, $ctypes)
+    {
+        $stypes = array();
+
+        foreach (array('%contenttype%' => 'singular_name', '%contenttypes%' => 'name') as $placeholder => $name) {
+            if (strpos($txt, $placeholder) !== false) {
+                foreach ($ctypes as $ctype) {
+                    $stypes[] = str_replace($placeholder, $ctype[$name], $txt);
+                }
+            }
+        }
+
+        return $stypes;
+    }
+
+
+    /**
      * Find all twig templates and bolt php code, extract translatables strings, merge with existing translations, return
      */
     public function gatherTranslatableStrings($locale = null, $translated = array())
     {
         $ctypes = $this->app['config']->get('contenttypes');
-
-        // Function that generates a string for each variation of contenttype/contenttypes
-        $genContentTypes = function ($txt) use ($ctypes) {
-            $stypes = array();
-            foreach (array('%contenttype%' => 'singular_name', '%contenttypes%' => 'name') as $placeholder => $name) {
-                if (strpos($txt, $placeholder) !== false) {
-                    foreach ($ctypes as $ctype) {
-                        $stypes[] = str_replace($placeholder, $ctype[$name], $txt);
-                    }
-                }
-            }
-
-            return $stypes;
-        };
 
         // Step one: gather all translatable strings
 
@@ -197,7 +206,7 @@ class Translation
             }
             // Step 3: generate additionals strings for contenttypes
             if (strpos($raw_key, '%contenttype%') !== false || strpos($raw_key, '%contenttypes%') !== false) {
-                foreach ($genContentTypes($raw_key) as $ctypekey) {
+                foreach ($this->genContentTypes($raw_key, $ctypes) as $ctypekey) {
                     $key = Escaper::escapeWithDoubleQuotes($ctypekey);
                     if (($trans = $this->getTranslated($ctypekey, $translated)) == '' &&
                         ($trans = $this->getTranslated($key, $translated)) == ''
