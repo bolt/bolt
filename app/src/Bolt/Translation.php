@@ -222,7 +222,7 @@ class Translation
      */
     public function gatherTranslatableStrings($locale = null, $translated = array())
     {
-        // Step one: gather all translatable strings
+        // Step 1: Gather all translatable strings
 
         $this->translatables = array();
 
@@ -234,7 +234,7 @@ class Translation
 
         sort($this->translatables);
 
-        // Step 2: find already translated strings
+        // Step 2: Find already translated strings
 
         if (!$locale) {
             $locale = $this->app['request']->getLocale();
@@ -260,7 +260,7 @@ class Translation
                 $trans = Escaper::escapeWithDoubleQuotes($trans);
                 $msg_domain['translated'][$key] = $trans;
             }
-            // Step 3: generate additionals strings for contenttypes
+            // Step 3: Generate additional strings for contenttypes
             if (strpos($raw_key, '%contenttype%') !== false || strpos($raw_key, '%contenttypes%') !== false) {
                 foreach ($this->genContentTypes($raw_key) as $ctypekey) {
                     $key = Escaper::escapeWithDoubleQuotes($ctypekey);
