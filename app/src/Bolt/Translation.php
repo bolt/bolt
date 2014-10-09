@@ -19,6 +19,13 @@ class Translation
     private $app;
 
     /**
+     * List of all translatable Strings found
+     *
+     * @var array
+     */
+    private $translatables = array();
+
+    /**
      * Constructor
      *
      * @param Silex\Application $app
@@ -26,6 +33,18 @@ class Translation
     public function __construct(Silex\Application $app)
     {
         $this->app = $app;
+    }
+
+    /**
+     * Adds a string to the internal list of translatable strings
+     *
+     * @param string $Text
+     */
+    private function addTranslatable($Text)
+    {
+        if (!in_array($Text, $this->translatables) && strlen($Text) > 1) {
+            $this->translatables[] = $Text;
+        }
     }
 
     /**
@@ -73,11 +92,10 @@ class Translation
     /**
      * Scan twig templates for  __('...' and __("..."
      *
-     * @param array List of translation strings
      * @param string $twigTemplate Contents of a twig template
      * @return array List of translation strings with found strings added
      */
-    private function scanTwig($strings, $twigTemplate)
+    private function scanTwig($twigTemplate)
     {
         // Regex from: stackoverflow.com/questions/5695240/php-regex-to-ignore-escaped-quotes-within-quotes
         $twigRegex = array(
@@ -88,14 +106,10 @@ class Translation
         foreach ($twigRegex as $regex) {
             if (preg_match_all($regex, $twigTemplate, $matches)) {
                 foreach ($matches[1] as $foundString) {
-                    if (!in_array($foundString, $strings) && strlen($foundString) > 1) {
-                        $strings[] = $foundString;
-                    }
+                    $this->addTranslatable($foundString);
                 }
             }
         }
-
-        return $strings;
     }
 
     /**
@@ -105,11 +119,10 @@ class Translation
      * __("text", $params=array(), $domain='messages', locale=null) // $app['translator']->trans()
      * __("text", count, $params=array(), $domain='messages', locale=null) // $app['translator']->transChoice()
      *
-     * @param array List of translation strings
      * @param string $contents Contents of a twig template
      * @return array List of translation strings with found strings added
      */
-    private function scanPhp($strings, $contents)
+    private function scanPhp($contents)
     {
         $tokens = token_get_all($contents);
         $num_tokens = count($tokens);
@@ -131,17 +144,12 @@ class Translation
                         continue;
                     }
                     if ($token[0] == T_CONSTANT_ENCAPSED_STRING) {
-                        $t = substr($token[1], 1, strlen($token[1]) - 2);
-                        if (!in_array($t, $strings) && strlen($t) > 1) {
-                            $strings[] = $t;
-                        }
+                        $this->addTranslatable(substr($token[1], 1, strlen($token[1]) - 2));
                         // TODO: retrieve domain?
                     }
                 }
             }
         }
-
-        return $strings;
     }
 
     /**
@@ -153,6 +161,7 @@ class Translation
      */
     public function gatherTranslatableStrings($locale = null, $translated = array())
     {
+        $this->translatables = array();
         $ctypes = $this->app['config']->get('contenttypes');
 
         // Step one: gather all translatable strings
@@ -167,30 +176,25 @@ class Translation
             ->in(dirname($this->app['paths']['themepath']))
             ->in($this->app['paths']['apppath']);
 
-        $strings = array();
         foreach ($finder as $file) {
             switch ($file->getExtension()) {
                 case 'twig':
-                    $strings = $this->scanTwig($strings, $file->getContents());
+                    $this->scanTwig($file->getContents());
                     break;
 
                 case 'php':
-                    $strings = $this->scanPhp($strings, $file->getContents());
+                    $this->scanPhp($file->getContents());
                     break;
             }
         }
-        krumo($strings);
 
         // Add fields name|label for contenttype (forms)
         foreach ($ctypes as $ckey => $contenttype) {
             foreach ($contenttype['fields'] as $fkey => $field) {
                 if (isset($field['label'])) {
-                    $t = $field['label'];
+                    $this->addTranslatable($field['label']);
                 } else {
-                    $t = ucfirst($fkey);
-                }
-                if (!in_array($t, $strings) && strlen($t) > 1) {
-                    $strings[] = $t;
+                    $this->addTranslatable(ucfirst($fkey));
                 }
             }
         }
@@ -200,12 +204,9 @@ class Translation
             if (array_key_exists('relations', $contenttype)) {
                 foreach ($contenttype['relations'] as $fkey => $field) {
                     if (isset($field['label'])) {
-                        $t = $field['label'];
+                        $this->addTranslatable($field['label']);
                     } else {
-                        $t = ucfirst($fkey);
-                    }
-                    if (!in_array($t, $strings) && strlen($t) > 1) {
-                        $strings[] = $t;
+                        $this->addTranslatable(ucfirst($fkey));
                     }
                 }
             }
@@ -214,16 +215,14 @@ class Translation
         // Add name + singular_name for taxonomies
         foreach ($this->app['config']->get('taxonomy') as $txkey => $value) {
             foreach (array('name', 'singular_name') as $key) {
-                $t = $value[$key];
-                if (!in_array($t, $strings)) {
-                    $strings[] = $t;
-                }
+                $this->addTranslatable($value[$key]);
             }
         }
 
+        sort($this->translatables);
+
         // Step 2: find already translated strings
 
-        sort($strings);
         if (!$locale) {
             $locale = $this->app['request']->getLocale();
         }
@@ -236,7 +235,7 @@ class Translation
             'not_translated' => array(),
         );
 
-        foreach ($strings as $idx => $key) {
+        foreach ($this->translatables as $idx => $key) {
             $key = stripslashes($key);
             $raw_key = $key;
             $key = Escaper::escapeWithDoubleQuotes($key);
