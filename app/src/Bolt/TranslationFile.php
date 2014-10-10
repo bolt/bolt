@@ -337,6 +337,33 @@ class TranslationFile
     }
 
     /**
+     * Builds the translations file data with added translations
+     *
+     * @return string
+     */
+    private function buildNewContent($translated, $untranslated)
+    {
+        $content = '# ' . $this->relPath . ' -- generated on ' . date('Y/m/d H:i:s') . "\n";
+
+        $cnt = count($untranslated);
+        if ($cnt) {
+            $content .= '# ' . $cnt . ' untranslated strings' . "\n\n";
+            foreach ($untranslated as $key) {
+                $content .= $key . ':  #' . "\n";
+            }
+            $content .= "\n" . '#-----------------------------------------' . "\n";
+        } else {
+            $content .= '# no untranslated strings' . "\n\n";
+        }
+        $content .= '# ' . count($translated) . ' translated strings' . "\n\n";
+        foreach ($translated as $key => $translation) {
+            $content .= $key . ': ' . $translation . "\n";
+        }
+
+        return $content;
+    }
+
+    /**
      * Get the content of the info translation file or the fallback file
      *
      * @return string
@@ -371,24 +398,7 @@ class TranslationFile
 
         list($msgTranslated, $msgUntranslated) = $this->gatherTranslatableStrings($translated, $this->domain == 'messages');
 
-        $content = '# ' . $this->relPath . ' -- generated on ' . date('Y/m/d H:i:s') . "\n";
-
-        $cnt = count($msgUntranslated);
-        if ($cnt) {
-            $content .= '# ' . $cnt . ' untranslated strings' . "\n\n";
-            foreach ($msgUntranslated as $key) {
-                $content .= $key . ':  #' . "\n";
-            }
-            $content .= "\n" . '#-----------------------------------------' . "\n";
-        } else {
-            $content .= '# no untranslated strings' . "\n\n";
-        }
-        $content .= '# ' . count($msgTranslated) . ' translated strings' . "\n\n";
-        foreach ($msgTranslated as $key => $trans) {
-            $content .= $key . ': ' . $trans . "\n";
-        }
-
-        return $content;
+        return $this->buildNewContent($msgTranslated, $msgUntranslated);
     }
 
     /**
