@@ -22,12 +22,20 @@
     <div class="form-group">
 
         {% for relcontenttype, relation in context.contenttype.relations %}
+        
+            {# --------------- prefix --------------- #}
+            {% if relation.prefix is defined and relation.prefix is not empty %}
+                <div class='prefix'>
+                    {{ relation.prefix|markdown }}
+                </div>
+            {% endif %}        
+
             <fieldset>
                 {# We set the 'format' for the rendering of each <option>. With fallback to a sensible default. #}
                 {% set format = relation.format|default("{{ item.title|escape }} <span>(№ {{ item.id }})</span>") %}
 
-                {{ macro.label(relation.label, relcontenttype|ucfirst, 'col-sm-3 control-label', 'relation-' ~ relcontenttype) }}
-                <div class="col-sm-9">
+                {{ macro.label(relation.label, relcontenttype|ucfirst, 'col-sm-4 control-label', 'relation-' ~ relcontenttype) }}
+                <div class="col-sm-8">
 
                     {% if relation.multiple is defined and relation.multiple == 1 %}
                     <select name='relation[{{relcontenttype}}][]' id='relation-{{relcontenttype}}' class='wide' multiple  style="width: 100%;" data-placeholder="(none)">
@@ -59,6 +67,14 @@
 
                 </div>
             </fieldset>
+
+            {# --------------- postfix --------------- #}
+            {% if relation.postfix is defined and relation.postfix is not empty %}
+                <div class='prefix'>
+                    {{ relation.postfix|markdown }}
+                </div>
+            {% endif %}   
+
         {% endfor %}
 
     </div>
