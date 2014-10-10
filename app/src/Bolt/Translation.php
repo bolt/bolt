@@ -5,6 +5,8 @@ namespace Bolt;
 use Silex;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Escaper;
+use Symfony\Component\Yaml\Exception\ParseException;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * Handles translation dependent tasks
@@ -40,12 +42,13 @@ class Translation
      *
      * @param string $domain Requested resource
      * @param string $locale Requested locale
+     * @param bool $short If true just return project relative path
      * @return string
      */
-    private function path($domain, $locale)
+    private function path($domain, $locale, $short = false)
     {
         $shortLocale = substr($locale, 0, 2);
-        $path = $this->app['paths']['apppath'] . '/resources/translations/' . $shortLocale;
+        $path = ($short ? 'app' : $this->app['paths']['apppath']) . '/resources/translations/' . $shortLocale;
 
         return $path . '/' . $domain . '.' . $shortLocale . '.yml';
     }
@@ -235,7 +238,7 @@ class Translation
      * @param array $translated
      * @return array
      */
-    public function gatherTranslatableStrings($locale = null, $translated = array())
+    private function gatherTranslatableStrings($locale = null, $translated = array())
     {
         // Step 1: Gather all translatable strings
 
@@ -317,5 +320,57 @@ class Translation
         }
 
         return file_get_contents($path);
+    }
+
+    public function getContent($domain, $locale)
+    {
+        $path = $this->path($domain, $locale);
+
+        $translated = array();
+        if (is_file($path) && is_readable($path)) {
+            try {
+                $translated = Yaml::parse($path);
+            } catch (ParseException $e) {
+                $app['session']->getFlashBag()->set('error', printf('Unable to parse the YAML translations: %s', $e->getMessage()));
+            }
+        }
+
+        list($msg, $ctype) = $this->gatherTranslatableStrings($locale, $translated);
+        $content = '# ' . $this->path($domain, $locale, true) . ' -- generated on ' . date('Y/m/d H:i:s') . "\n";
+        if ($domain == 'messages') {
+            $cnt = count($msg['not_translated']);
+            if ($cnt) {
+                $content .= "# " . $cnt . ' untranslated strings' . "\n\n";
+                foreach ($msg['not_translated'] as $key) {
+                    $content .= $key . ":  #\n";
+                }
+                $content .= "\n" . '#-----------------------------------------' . "\n";
+            } else {
+                $content .= '# no untranslated strings;' . "\n\n";
+            }
+            $cnt = count($msg['translated']);
+            $content .= '# ' . $cnt . " translated strings" . "\n\n";
+            foreach ($msg['translated'] as $key => $trans) {
+                $content .= $key . ": $trans" . "\n";
+            }
+        } else {
+            $cnt = count($ctype['not_translated']);
+            if ($cnt) {
+                $content .= "# " . $cnt . ' untranslated strings' . "\n\n";
+                foreach ($ctype['not_translated'] as $key) {
+                    $content .= $key . ':  #' . "\n";
+                }
+                $content .= "\n" . '#-----------------------------------------' . "\n";
+            } else {
+                $content .= '# no untranslated strings:' . "\n\n";
+            }
+            $cnt = count($ctype['translated']);
+            $content .= '# ' . $cnt . ' translated strings' . "\n\n";
+            foreach ($ctype['translated'] as $key => $trans) {
+                $content .= $key . ': ' . $trans . "\n";
+            }
+        }
+
+        return $content;
     }
 }

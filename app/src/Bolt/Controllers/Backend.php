@@ -11,7 +11,6 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Yaml\Yaml;
-use Symfony\Component\Yaml\Exception\ParseException;
 use Bolt\Permissions;
 use Bolt\Translation;
 
@@ -1633,50 +1632,7 @@ class Backend implements ControllerProviderInterface
         if ($domain == 'infos') {
             $content = $translation->getInfoContent($tr_locale);
         } else {
-            $translated = array();
-            if (is_file($filename) && is_readable($filename)) {
-                try {
-                    $translated = Yaml::parse($filename);
-                } catch (ParseException $e) {
-                    $app['session']->getFlashBag()->set('error', printf("Unable to parse the YAML translations: %s", $e->getMessage()));
-                }
-            }
-            list($msg, $ctype) = $translation->gatherTranslatableStrings($tr_locale, $translated);
-            $ts = date("Y/m/d H:i:s");
-            $content = "# $file -- generated on $ts\n";
-            if ($domain == 'messages') {
-                $cnt = count($msg['not_translated']);
-                if ($cnt) {
-                    $content .= sprintf("# %d untranslated strings\n\n", $cnt);
-                    foreach ($msg['not_translated'] as $key) {
-                        $content .= "$key:  #\n";
-                    }
-                    $content .= "\n#-----------------------------------------\n";
-                } else {
-                    $content .= "# no untranslated strings; good ;-)\n\n";
-                }
-                $cnt = count($msg['translated']);
-                $content .= sprintf("# %d translated strings\n\n", $cnt);
-                foreach ($msg['translated'] as $key => $trans) {
-                    $content .= "$key: $trans\n";
-                }
-            } else {
-                $cnt = count($ctype['not_translated']);
-                if ($cnt) {
-                    $content .= sprintf("# %d untranslated strings\n\n", $cnt);
-                    foreach ($ctype['not_translated'] as $key) {
-                        $content .= "$key:  #\n";
-                    }
-                    $content .= "\n#-----------------------------------------\n";
-                } else {
-                    $content .= "# no untranslated strings: good ;-)\n\n";
-                }
-                $cnt = count($ctype['translated']);
-                $content .= sprintf("# %d translated strings\n\n", $cnt);
-                foreach ($ctype['translated'] as $key => $trans) {
-                    $content .= "$key: $trans\n";
-                }
-            }
+            $content = $translation->getContent($domain, $tr_locale);
         }
         // maybe no translations yet
         if (!file_exists($filename) && !is_writable(dirname($filename))) {
