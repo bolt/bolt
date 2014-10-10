@@ -1621,20 +1621,19 @@ class Backend implements ControllerProviderInterface
      */
     public function translation($domain, $tr_locale, Silex\Application $app, Request $request)
     {
-        $translation = new TranslationFile($app);
+        $translation = new TranslationFile($app, $domain, $tr_locale);
 
-        $path = $translation->path($domain, $tr_locale);
-        $shortPath = $translation->shortPath($domain, $tr_locale);
+        list($path, $shortPath) = $translation->path();
 
         $app['log']->add('Editing translation: ' . $shortPath, $app['debug'] ? 1 : 3);
 
         if ($domain == 'infos') {
-            $data['contents'] = $translation->getInfoContent($tr_locale);
+            $data['contents'] = $translation->getInfoContent();
         } else {
-            $data['contents'] = $translation->getContent($domain, $tr_locale);
+            $data['contents'] = $translation->getContent();
         }
 
-        $writeallowed = $translation->isWriteAllowed($domain, $tr_locale);
+        $writeallowed = $translation->isWriteAllowed();
 
         $form = $app['form.factory']->createBuilder('form', $data)
             ->add(

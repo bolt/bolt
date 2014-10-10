@@ -21,6 +21,32 @@ class TranslationFile
     private $app;
 
     /**
+     * Requested Domain
+     *
+     * @var type
+     */
+    private $domain;
+
+    /**
+     * Requested locale
+     */
+    private $locale;
+
+    /**
+     * Path to the translation file
+     *
+     * @var type
+     */
+    private $absPath;
+
+    /**
+     * Project relative path to the translation file
+     *
+     * @var type
+     */
+    private $relPath;
+
+    /**
      * List of all translatable Strings found
      *
      * @var array
@@ -31,10 +57,17 @@ class TranslationFile
      * Constructor
      *
      * @param Silex\Application $app
+     * @param string $domain Requested resource
+     * @param string $locale Requested locale
      */
-    public function __construct(Silex\Application $app)
+    public function __construct(Silex\Application $app, $domain, $locale)
     {
         $this->app = $app;
+        $this->domain = $domain;
+        $this->locale = $locale;
+
+        // Build Path
+        list($this->absPath, $this->relPath) = $this->buildPath($domain, $locale);
     }
 
     /**
@@ -42,27 +75,27 @@ class TranslationFile
      *
      * @param string $domain Requested resource
      * @param string $locale Requested locale
-     * @param bool $short If true just return project relative path
-     * @return string
+     * @return array returnsarray(absolute path, relative path)
      */
-    public function path($domain, $locale, $short = false)
+    private function buildPath($domain, $locale)
     {
         $shortLocale = substr($locale, 0, 2);
-        $path = ($short ? 'app' : $this->app['paths']['apppath']) . '/resources/translations/' . $shortLocale;
+        $path = '/resources/translations/' . $shortLocale . '/' . $domain . '.' . $shortLocale . '.yml';
 
-        return $path . '/' . $domain . '.' . $shortLocale . '.yml';
+        return array(
+            $this->app['paths']['apppath'] . $path,
+            'app' . $path,
+        );
     }
 
     /**
-     * Get the project relative path to a tranlsation resource
+     * Get the path to a tranlsation resource
      *
-     * @param string $domain Requested resource
-     * @param string $locale Requested locale
-     * @return string
+     * @return array returns array(absolute path, relative path)
      */
-    public function shortPath($domain, $locale)
+    public function path()
     {
-        return $this->path($domain, $locale, true);
+        return array($this->absPath, $this->relPath);
     }
 
     /**
@@ -246,12 +279,11 @@ class TranslationFile
     /**
      * Find all twig templates and bolt php code, extract translatables strings, merge with existing translations
      *
-     * @param type $locale
      * @param array $translated
      * @param array $getMessages True returns translation datat for messages, false for contenttypes
      * @return array
      */
-    private function gatherTranslatableStrings($locale, $translated, $getMessages)
+    private function gatherTranslatableStrings($translated, $getMessages)
     {
         // Step 1: Gather all translatable strings
 
@@ -307,16 +339,15 @@ class TranslationFile
     /**
      * Get the content of the info translation file or the fallback file
      *
-     * @param string $locale Wanted locale
      * @return string
      */
-    public function getInfoContent($locale)
+    public function getInfoContent()
     {
-        $path = $this->path('infos', $locale);
+        $path = $this->absPath;
 
         // No gathering here: if the file doesn't exist yet, we load a copy from the locale_fallback version (en)
         if (!file_exists($path) || filesize($path) < 10) {
-            $path = $this->path('infos', 'en');
+            list($path) = $this->buildPath('infos', 'en');
         }
 
         return file_get_contents($path);
@@ -325,26 +356,22 @@ class TranslationFile
     /**
      * Gets all translatable strings and returns a translationsfile for messages or contenttypes
      *
-     * @param string $domain
-     * @param string $locale
      * @return string
      */
-    public function getContent($domain, $locale)
+    public function getContent()
     {
-        $path = $this->path($domain, $locale);
-
         $translated = array();
-        if (is_file($path) && is_readable($path)) {
+        if (is_file($this->absPath) && is_readable($this->absPath)) {
             try {
-                $translated = Yaml::parse($path);
+                $translated = Yaml::parse($this->absPath);
             } catch (ParseException $e) {
                 $app['session']->getFlashBag()->set('error', printf('Unable to parse the YAML translations: %s', $e->getMessage()));
             }
         }
 
-        list($msgTranslated, $msgUntranslated) = $this->gatherTranslatableStrings($locale, $translated, $domain == 'messages');
+        list($msgTranslated, $msgUntranslated) = $this->gatherTranslatableStrings($translated, $this->domain == 'messages');
 
-        $content = '# ' . $this->shortPath($domain, $locale) . ' -- generated on ' . date('Y/m/d H:i:s') . "\n";
+        $content = '# ' . $this->relPath . ' -- generated on ' . date('Y/m/d H:i:s') . "\n";
 
         $cnt = count($msgUntranslated);
         if ($cnt) {
@@ -367,28 +394,25 @@ class TranslationFile
     /**
      * Checks if translations file is allowed to write to
      *
-     * @param string $domain
-     * @param string $locale
      * @return bool
      */
-    public function isWriteAllowed($domain, $locale)
+    public function isWriteAllowed()
     {
-        $path = $this->path($domain, $locale);
-        $msgRepl = array('%s' => $this->shortPath($domain, $locale));
+        $msgRepl = array('%s' => $this->relPath);
 
         // No translations yet: info
-        if (!file_exists($path) && !is_writable(dirname($path))) {
+        if (!file_exists($this->absPath) && !is_writable(dirname($this->absPath))) {
             $msg = __(
                 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.",
                 $msgRepl
             );
             $this->app['session']->getFlashBag()->set('info', $msg);
         // File is not readable: abort
-        } elseif (file_exists($path) && !is_readable($path)) {
+        } elseif (file_exists($this->absPath) && !is_readable($this->absPath)) {
             $msg = __("The translations file '%s' is not readable.", $msgRepl);
             $this->app->abort(404, $msg);
         // File is not writeable: warning
-        } elseif (!is_writable($path)) {
+        } elseif (!is_writable($this->absPath)) {
             $msg = __(
                 "The file '%s' is not writable. You will have to use your own editor to make modifications to this file.",
                 $msgRepl
