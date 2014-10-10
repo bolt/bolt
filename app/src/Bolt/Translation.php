@@ -236,9 +236,10 @@ class Translation
      *
      * @param type $locale
      * @param array $translated
+     * @param array $getMessages True returns translation datat for messages, false for contenttypes
      * @return array
      */
-    private function gatherTranslatableStrings($locale = null, $translated = array())
+    private function gatherTranslatableStrings($locale = null, $translated, $getMessages)
     {
         // Step 1: Gather all translatable strings
 
@@ -252,56 +253,48 @@ class Translation
 
         sort($this->translatables);
 
-        // Step 2: Find already translated strings
+        // Build lists
 
         if (!$locale) {
             $locale = $this->app['request']->getLocale();
         }
-        $msg_domain = array(
-            'translated' => array(),
-            'not_translated' => array(),
-        );
-        $ctype_domain = array(
-            'translated' => array(),
-            'not_translated' => array(),
-        );
+        $msgTranslated = array();
+        $msgUntranslated = array();
 
         foreach ($this->translatables as $key) {
-            $key = stripslashes($key);
-            $raw_key = $key;
-            $key = Escaper::escapeWithDoubleQuotes($key);
-            if (($trans = $this->getTranslated($raw_key, $translated)) == '' &&
-                ($trans = $this->getTranslated($key, $translated)) == ''
-            ) {
-                $msg_domain['not_translated'][] = $key;
+            $keyRaw = stripslashes($key);
+            $keyEsc = Escaper::escapeWithDoubleQuotes($keyRaw);
+            if ($getMessages) {
+                // Step 2: Find already translated strings
+                if (($trans = $this->getTranslated($keyRaw, $translated)) == '' &&
+                    ($trans = $this->getTranslated($keyEsc, $translated)) == ''
+                ) {
+                    $msgUntranslated[] = $keyEsc;
+                } else {
+                    $trans = Escaper::escapeWithDoubleQuotes($trans);
+                    $msgTranslated[$keyEsc] = $trans;
+                }
             } else {
-                $trans = Escaper::escapeWithDoubleQuotes($trans);
-                $msg_domain['translated'][$key] = $trans;
-            }
-            // Step 3: Generate additional strings for contenttypes
-            if (strpos($raw_key, '%contenttype%') !== false || strpos($raw_key, '%contenttypes%') !== false) {
-                foreach ($this->genContentTypes($raw_key) as $ctypekey) {
-                    $key = Escaper::escapeWithDoubleQuotes($ctypekey);
-                    if (($trans = $this->getTranslated($ctypekey, $translated)) == '' &&
-                        ($trans = $this->getTranslated($key, $translated)) == ''
-                    ) {
-                        // Not translated
-                        $ctype_domain['not_translated'][] = $key;
-                    } else {
-                        $trans = Escaper::escapeWithDoubleQuotes($trans);
-                        $ctype_domain['translated'][$key] = $trans;
+                // Step 3: Generate additional strings for contenttypes
+                if (strpos($keyRaw, '%contenttype%') !== false || strpos($keyRaw, '%contenttypes%') !== false) {
+                    foreach ($this->genContentTypes($keyRaw) as $ctypekey) {
+                        $keyEsc = Escaper::escapeWithDoubleQuotes($ctypekey);
+                        if (($trans = $this->getTranslated($ctypekey, $translated)) == '' &&
+                            ($trans = $this->getTranslated($keyEsc, $translated)) == ''
+                        ) {
+                            $msgUntranslated[] = $keyEsc; // Not translated
+                        } else {
+                            $msgTranslated[$keyEsc] = Escaper::escapeWithDoubleQuotes($trans);
+                        }
                     }
                 }
             }
         }
 
-        sort($msg_domain['not_translated']);
-        ksort($msg_domain['translated']);
+        sort($msgUntranslated);
+        ksort($msgTranslated);
 
-        sort($ctype_domain['not_translated']);
-        ksort($ctype_domain['translated']);
-
-        return array($msg_domain, $ctype_domain);
+        return array($msgTranslated, $msgUntranslated);
     }
 
     /**
@@ -322,6 +315,13 @@ class Translation
         return file_get_contents($path);
     }
 
+    /**
+     * Gets all translatable strings and returns a translationsfile for messages or contenttypes
+     *
+     * @param string $domain
+     * @param string $locale
+     * @return string
+     */
     public function getContent($domain, $locale)
     {
         $path = $this->path($domain, $locale);
@@ -335,25 +335,22 @@ class Translation
             }
         }
 
-        list($msg, $ctype) = $this->gatherTranslatableStrings($locale, $translated);
+        list($msgTranslated, $msgUntranslated) = $this->gatherTranslatableStrings($locale, $translated, $domain == 'messages');
 
         $content = '# ' . $this->path($domain, $locale, true) . ' -- generated on ' . date('Y/m/d H:i:s') . "\n";
 
-        $data = ($domain == 'messages') ? $msg : $ctype;
-
-        $cnt = count($data['not_translated']);
+        $cnt = count($msgUntranslated);
         if ($cnt) {
             $content .= '# ' . $cnt . ' untranslated strings' . "\n\n";
-            foreach ($data['not_translated'] as $key) {
+            foreach ($msgUntranslated as $key) {
                 $content .= $key . ':  #' . "\n";
             }
             $content .= "\n" . '#-----------------------------------------' . "\n";
         } else {
             $content .= '# no untranslated strings' . "\n\n";
         }
-        $cnt = count($data['translated']);
-        $content .= '# ' . $cnt . ' translated strings' . "\n\n";
-        foreach ($data['translated'] as $key => $trans) {
+        $content .= '# ' . count($msgTranslated) . ' translated strings' . "\n\n";
+        foreach ($msgTranslated as $key => $trans) {
             $content .= $key . ': ' . $trans . "\n";
         }
 
