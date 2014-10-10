@@ -251,8 +251,6 @@ class Translation
         $this->scanContenttypeRelations();
         $this->scanTaxonomies();
 
-        sort($this->translatables);
-
         // Build lists
 
         $msgTranslated = array();
