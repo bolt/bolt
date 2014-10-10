@@ -363,6 +363,20 @@ class TranslationFile
         return $content;
     }
 
+    private function readTranslations()
+    {
+        if (is_file($this->absPath) && is_readable($this->absPath)) {
+            try {
+                return Yaml::parse($this->absPath);
+            } catch (ParseException $e) {
+                $app['session']->getFlashBag()->set('error', printf('Unable to parse the YAML translations: %s', $e->getMessage()));
+                // Todo: do something better than just returning an empty array
+
+                return array();
+            }
+        }
+    }
+
     /**
      * Get the content of the info translation file or the fallback file
      *
@@ -387,14 +401,7 @@ class TranslationFile
      */
     private function contentMsgCs()
     {
-        $translated = array();
-        if (is_file($this->absPath) && is_readable($this->absPath)) {
-            try {
-                $translated = Yaml::parse($this->absPath);
-            } catch (ParseException $e) {
-                $app['session']->getFlashBag()->set('error', printf('Unable to parse the YAML translations: %s', $e->getMessage()));
-            }
-        }
+        $translated = readTranslations();
 
         list($msgTranslated, $msgUntranslated) = $this->gatherTranslatableStrings($translated, $this->domain == 'messages');
 
