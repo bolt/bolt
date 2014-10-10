@@ -7,7 +7,7 @@ use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Escaper;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
-
+function ___() {};
 /**
  * Handles translation file dependent tasks
  */
@@ -191,6 +191,11 @@ class TranslationFile
      */
     private function scanPhpFiles()
     {
+        $msg = __(
+            "_Test-(A)" .
+            '(\'B\')' . "(\"C\")" . "(D)"
+        );
+
         $finder = new Finder();
         $finder->files()
             ->ignoreVCS(true)
@@ -203,25 +208,62 @@ class TranslationFile
         foreach ($finder as $file) {
             $tokens = token_get_all($file->getContents());
             $num_tokens = count($tokens);
+
+            // Skip whitespace and comments
+            $next = function () use (&$x, $tokens, $num_tokens) {
+                $token = $tokens[++$x];
+                while ($x < $num_tokens && is_array($token) && ($token[0] == T_WHITESPACE || $token[0] == T_COMMENT)) {
+                    $token = $tokens[++$x];
+                }
+
+                return $token;
+            };
+            // Test if token is string, whitespace or comment
+            $isArg = function ($token) {
+                if (is_array($token)) {
+                    if ($token[0] == T_CONSTANT_ENCAPSED_STRING ||
+                        $token[0] == T_WHITESPACE ||
+                        $token[0] == T_COMMENT
+                    ) {
+                        return true;
+                    }
+                } elseif (is_string($token) && $token == '.') {
+                    return true;
+                }
+
+                return false;
+            };
+
             for ($x = 0; $x < $num_tokens; $x++) {
                 $token = $tokens[$x];
+                // Found function __()
                 if (is_array($token) && $token[0] == T_STRING && $token[1] == '__') {
-                    $token = $tokens[++$x];
-                    if ($x < $num_tokens && is_array($token) && $token[0] == T_WHITESPACE) {
-                        $token = $tokens[++$x];
-                    }
+                    // Skip whitespace and comments between "___" and "("
+                    $token = $next();
+
+                    // Found "("?
                     if ($x < $num_tokens && !is_array($token) && $token == '(') {
-                        // In our func args...
-                        $token = $tokens[++$x];
-                        if ($x < $num_tokens && is_array($token) && $token[0] == T_WHITESPACE) {
-                            $token = $tokens[++$x];
-                        }
-                        if (!is_array($token)) {
-                            // Give up
-                            continue;
-                        }
-                        if ($token[0] == T_CONSTANT_ENCAPSED_STRING) {
-                            $this->addTranslatable(substr($token[1], 1, strlen($token[1]) - 2));
+                        // Skip whitespace and comments between "(___)" and first function argument
+                        $token = $next();
+                        // Found String?
+                        if (is_array($token) && $token[0] == T_CONSTANT_ENCAPSED_STRING) {
+                            $string = '';
+                            // Get string, also if concatenated
+                            while ($x < $num_tokens && $isArg($token)) {
+                                if (is_array($token) && $token[0] == T_CONSTANT_ENCAPSED_STRING) {
+                                    $raw = substr($token[1], 1, strlen($token[1]) - 2);
+                                    if (substr($token[1], 0, 1) == '"') {
+                                        // Double quoted string
+                                        $string .= str_replace('\"', '"', $raw);
+                                    } else {
+                                        // Single quoted string
+                                        $string .= str_replace('\\\'', '\'', $raw);
+                                    }
+                                }
+                                $token = $tokens[++$x];
+                            }
+                            $this->addTranslatable($string);
+                            //
                             // TODO: retrieve domain?
                         }
                     }
