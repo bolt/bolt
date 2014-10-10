@@ -35,7 +35,7 @@ var init = {
     bindDateTime: function (data) {
         $('#' + data.id + '-date, #' + data.id + '-time').on('change.bolt', function () {
             var date = $('#' + data.id + '-date').datepicker('getDate');
-            var time = $.formatDateTime('hh:ii', new Date('2014/01/01 ' + $('#' + data.id + '-time').val()));
+            var time = $.formatDateTime('hh:ii:00', new Date('2014/01/01 ' + $('#' + data.id + '-time').val()));
             $('#' + data.id).val($.datepicker.formatDate('yy-mm-dd', date) + ' ' + time);
         }).trigger('change.bolt');
     },
