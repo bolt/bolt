@@ -1677,10 +1677,6 @@ class Backend implements ControllerProviderInterface
                     $content .= "$key: $trans\n";
                 }
             }
-            //==========================
-            //$file = "app/resources/translations/$short_locale/$domain.yml";
-            //$filename = realpath(__DIR__."/../../../..")."/$file";
-            //$type = 'yml';
         }
         // maybe no translations yet
         if (!file_exists($filename) && !is_writable(dirname($filename))) {
