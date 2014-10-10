@@ -7,7 +7,7 @@
         {# --------------- prefix --------------- #}
         {% if field.prefix is defined and field.prefix is not empty %}
             <div class='prefix'>
-                {{ field.prefix|raw }}
+                {{ field.prefix|markdown }}
             </div>
         {% endif %}
 
@@ -25,7 +25,7 @@
 
         {% if field.postfix is defined and field.postfix is not empty %}
             <div class='postfix'>
-                {{ field.postfix|raw }}
+                {{ field.postfix|markdown }}
             </div>
         {% endif %}
 
