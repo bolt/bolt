@@ -1631,15 +1631,7 @@ class Backend implements ControllerProviderInterface
         $app['log']->add('Editing translation: ' . $file, $app['debug'] ? 1 : 3);
 
         if ($domain == 'infos') {
-            // no gathering here : if the file doesn't exist yet, we load a
-            // copy from the locale_fallback version (en)
-            if (!file_exists($filename) || filesize($filename) < 10) {
-                $srcfile = "app/resources/translations/en/$domain.en.$type";
-                $srcfilename = realpath(__DIR__ . '/../../../..') . '/' . $srcfile;
-                $content = file_get_contents($srcfilename);
-            } else {
-                $content = file_get_contents($filename);
-            }
+            $content = $translation->getInfoContent($tr_locale);
         } else {
             $translated = array();
             if (is_file($filename) && is_readable($filename)) {

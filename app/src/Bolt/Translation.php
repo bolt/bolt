@@ -36,6 +36,21 @@ class Translation
     }
 
     /**
+     * Get the path to a tranlsation resource
+     *
+     * @param string $domain Requested resource
+     * @param string $locale Requested locale
+     * @return string
+     */
+    private function path($domain, $locale)
+    {
+        $shortLocale = substr($locale, 0, 2);
+        $path = $this->app['paths']['apppath'] . '/resources/translations/' . $shortLocale;
+
+        return $path . '/' . $domain . '.' . $shortLocale . '.yml';
+    }
+
+    /**
      * Adds a string to the internal list of translatable strings
      *
      * @param string $Text
@@ -284,5 +299,23 @@ class Translation
         ksort($ctype_domain['translated']);
 
         return array($msg_domain, $ctype_domain);
+    }
+
+    /**
+     * Get the content of the info translation file or the fallback file
+     *
+     * @param string $locale Wanted locale
+     * @return string
+     */
+    public function getInfoContent($locale)
+    {
+        $path = $this->path('infos', $locale);
+
+        // No gathering here: if the file doesn't exist yet, we load a copy from the locale_fallback version (en)
+        if (!file_exists($path) || filesize($path) < 10) {
+            $path = $this->path('infos', 'en');
+        }
+
+        return file_get_contents($path);
     }
 }
