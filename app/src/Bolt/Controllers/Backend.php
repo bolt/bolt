@@ -1627,11 +1627,7 @@ class Backend implements ControllerProviderInterface
 
         $app['log']->add('Editing translation: ' . $shortPath, $app['debug'] ? 1 : 3);
 
-        if ($domain == 'infos') {
-            $data['contents'] = $translation->getInfoContent();
-        } else {
-            $data['contents'] = $translation->getContent();
-        }
+        $data['contents'] = $translation->content();
 
         $writeallowed = $translation->isWriteAllowed();
 

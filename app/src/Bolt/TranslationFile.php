@@ -341,7 +341,7 @@ class TranslationFile
      *
      * @return string
      */
-    public function getInfoContent()
+    private function contentInfo()
     {
         $path = $this->absPath;
 
@@ -358,7 +358,7 @@ class TranslationFile
      *
      * @return string
      */
-    public function getContent()
+    private function contentMsgCs()
     {
         $translated = array();
         if (is_file($this->absPath) && is_readable($this->absPath)) {
@@ -389,6 +389,16 @@ class TranslationFile
         }
 
         return $content;
+    }
+
+    /**
+     * Gets all translatable strings and returns a translationsfile for messages or contenttypes
+     *
+     * @return string
+     */
+    public function content()
+    {
+        return ($this->domain == 'infos') ? $this->contentInfo() : $this->contentMsgCs();
     }
 
     /**
