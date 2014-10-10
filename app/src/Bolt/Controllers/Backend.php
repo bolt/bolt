@@ -11,8 +11,8 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Yaml\Yaml;
-use Symfony\Component\Yaml\Exception\ParseException;
 use Bolt\Permissions;
+use Bolt\TranslationFile;
 
 class Backend implements ControllerProviderInterface
 {
@@ -1621,106 +1621,23 @@ class Backend implements ControllerProviderInterface
      */
     public function translation($domain, $tr_locale, Silex\Application $app, Request $request)
     {
-        $short_locale = substr($tr_locale, 0, 2);
-        $type = 'yml';
-        $file = "app/resources/translations/$short_locale/$domain.$short_locale.$type";
-        $filename = realpath(__DIR__ . '/../../../..') . '/' . $file;
+        $translation = new TranslationFile($app, $domain, $tr_locale);
 
-        $app['log']->add('Editing translation: ' . $file, $app['debug'] ? 1 : 3);
+        list($path, $shortPath) = $translation->path();
 
-        if ($domain == 'infos') {
-            // no gathering here : if the file doesn't exist yet, we load a
-            // copy from the locale_fallback version (en)
-            if (!file_exists($filename) || filesize($filename) < 10) {
-                $srcfile = "app/resources/translations/en/$domain.en.$type";
-                $srcfilename = realpath(__DIR__ . '/../../../..') . '/' . $srcfile;
-                $content = file_get_contents($srcfilename);
-            } else {
-                $content = file_get_contents($filename);
-            }
-        } else {
-            $translated = array();
-            if (is_file($filename) && is_readable($filename)) {
-                try {
-                    $translated = Yaml::parse($filename);
-                } catch (ParseException $e) {
-                    $app['session']->getFlashBag()->set('error', printf("Unable to parse the YAML translations: %s", $e->getMessage()));
-                }
-            }
-            list($msg, $ctype) = gatherTranslatableStrings($tr_locale, $translated);
-            $ts = date("Y/m/d H:i:s");
-            $content = "# $file -- generated on $ts\n";
-            if ($domain == 'messages') {
-                $cnt = count($msg['not_translated']);
-                if ($cnt) {
-                    $content .= sprintf("# %d untranslated strings\n\n", $cnt);
-                    foreach ($msg['not_translated'] as $key) {
-                        $content .= "$key:  #\n";
-                    }
-                    $content .= "\n#-----------------------------------------\n";
-                } else {
-                    $content .= "# no untranslated strings; good ;-)\n\n";
-                }
-                $cnt = count($msg['translated']);
-                $content .= sprintf("# %d translated strings\n\n", $cnt);
-                foreach ($msg['translated'] as $key => $trans) {
-                    $content .= "$key: $trans\n";
-                }
-            } else {
-                $cnt = count($ctype['not_translated']);
-                if ($cnt) {
-                    $content .= sprintf("# %d untranslated strings\n\n", $cnt);
-                    foreach ($ctype['not_translated'] as $key) {
-                        $content .= "$key:  #\n";
-                    }
-                    $content .= "\n#-----------------------------------------\n";
-                } else {
-                    $content .= "# no untranslated strings: good ;-)\n\n";
-                }
-                $cnt = count($ctype['translated']);
-                $content .= sprintf("# %d translated strings\n\n", $cnt);
-                foreach ($ctype['translated'] as $key => $trans) {
-                    $content .= "$key: $trans\n";
-                }
-            }
-            //==========================
-            //$file = "app/resources/translations/$short_locale/$domain.yml";
-            //$filename = realpath(__DIR__."/../../../..")."/$file";
-            //$type = 'yml';
-        }
-        // maybe no translations yet
-        if (!file_exists($filename) && !is_writable(dirname($filename))) {
-            $app['session']->getFlashBag()->set(
-                'info',
-                __(
-                    "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.",
-                    array('%s' => $file)
-                )
-            );
-            $writeallowed = false;
-        } elseif (file_exists($filename) && !is_readable($filename)) {
-            $error = __("The translations file '%s' is not readable.", array('%s' => $file));
-            $app->abort(404, $error);
-        } elseif (!is_writable($filename)) {
-            $app['session']->getFlashBag()->set(
-                'warning',
-                __(
-                    "The file '%s' is not writable. You will have to use your own editor to make modifications to this file.",
-                    array('%s' => $file)
-                )
-            );
-            $writeallowed = false;
-        } else {
-            $writeallowed = true;
-        }
+        $app['log']->add('Editing translation: ' . $shortPath, $app['debug'] ? 1 : 3);
 
-        $data['contents'] = $content;
+        $data['contents'] = $translation->content();
+
+        $writeallowed = $translation->isWriteAllowed();
+
         $form = $app['form.factory']->createBuilder('form', $data)
-            ->add('contents', 'textarea', array(
-                'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min' => 10)))
-            ));
-
-        $form = $form->getForm();
+            ->add(
+                'contents',
+                'textarea',
+                array('constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min' => 10))))
+            )
+            ->getForm();
 
         // Check if the form was POST-ed, and valid. If so, store the file.
         if ($request->getMethod() == 'POST') {
@@ -1731,27 +1648,24 @@ class Backend implements ControllerProviderInterface
                 $data = $form->getData();
                 $contents = cleanPostedData($data['contents']) . "\n";
 
-                $ok = true;
-
                 // Before trying to save a yaml file, check if it's valid.
-                if ($type == 'yml') {
-                    //$yamlparser = new \Symfony\Component\Yaml\Parser();
-                    try {
-                        //$ok = $yamlparser->parse($contents);
-                        $ok = Yaml::parse($contents);
-                    } catch (\Symfony\Component\Yaml\Exception\ParseException $e) {
-                        $ok = false;
-                        $app['session']->getFlashBag()->set('error', __("File '%s' could not be saved: ", array('%s' => $file)) . $e->getMessage());
-                    }
+                try {
+                    $ok = Yaml::parse($contents);
+                } catch (\Symfony\Component\Yaml\Exception\ParseException $e) {
+                    $ok = false;
+                    $msg = __("File '%s' could not be saved: ", array('%s' => $shortPath));
+                    $app['session']->getFlashBag()->set('error', $msg . $e->getMessage());
                 }
 
                 if ($ok) {
-                    if (file_put_contents($filename, $contents)) {
-                        $app['session']->getFlashBag()->set('info', __("File '%s' has been saved.", array('%s' => $file)));
+                    if (file_put_contents($path, $contents)) {
+                        $msg = __("File '%s' has been saved.", array('%s' => $shortPath));
+                        $app['session']->getFlashBag()->set('info', $msg);
 
                         return redirect('translation', array('domain' => $domain, 'tr_locale' => $tr_locale));
                     } else {
-                        $app['session']->getFlashBag()->set('error', __("File '%s' could not be saved, for some reason.", array('%s' => $file)));
+                        $msg = __("File '%s' could not be saved, for some reason.", array('%s' => $shortPath));
+                        $app['session']->getFlashBag()->set('error', $msg);
                     }
                 }
 
@@ -1760,8 +1674,8 @@ class Backend implements ControllerProviderInterface
 
         $context = array(
             'form' => $form->createView(),
-            'basename' => basename($file),
-            'filetype' => $type,
+            'basename' => basename($shortPath),
+            'filetype' => 'yml',
             'write_allowed' => $writeallowed,
         );
 
