@@ -12,7 +12,7 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Yaml\Yaml;
 use Bolt\Permissions;
-use Bolt\Translation;
+use Bolt\TranslationFile;
 
 class Backend implements ControllerProviderInterface
 {
@@ -1621,7 +1621,7 @@ class Backend implements ControllerProviderInterface
      */
     public function translation($domain, $tr_locale, Silex\Application $app, Request $request)
     {
-        $translation = new Translation($app);
+        $translation = new TranslationFile($app);
 
         $path = $translation->path($domain, $tr_locale);
         $shortPath = $translation->shortPath($domain, $tr_locale);

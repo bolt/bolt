@@ -9,9 +9,9 @@ use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
 
 /**
- * Handles translation dependent tasks
+ * Handles translation file dependent tasks
  */
-class Translation
+class TranslationFile
 {
     /**
      * Injected Application object
