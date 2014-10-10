@@ -45,7 +45,7 @@ class Translation
      * @param bool $short If true just return project relative path
      * @return string
      */
-    private function path($domain, $locale, $short = false)
+    public function path($domain, $locale, $short = false)
     {
         $shortLocale = substr($locale, 0, 2);
         $path = ($short ? 'app' : $this->app['paths']['apppath']) . '/resources/translations/' . $shortLocale;

@@ -1622,28 +1622,27 @@ class Backend implements ControllerProviderInterface
     public function translation($domain, $tr_locale, Silex\Application $app, Request $request)
     {
         $translation = new Translation($app);
-        $short_locale = substr($tr_locale, 0, 2);
-        $type = 'yml';
-        $file = "app/resources/translations/$short_locale/$domain.$short_locale.$type";
-        $filename = realpath(__DIR__ . '/../../../..') . '/' . $file;
 
-        $app['log']->add('Editing translation: ' . $file, $app['debug'] ? 1 : 3);
+        $path = $translation->path($domain, $tr_locale);
+        $shortPath = $translation->shortPath($domain, $tr_locale);
+
+        $app['log']->add('Editing translation: ' . $shortPath, $app['debug'] ? 1 : 3);
 
         if ($domain == 'infos') {
-            $content = $translation->getInfoContent($tr_locale);
+            $data['contents'] = $translation->getInfoContent($tr_locale);
         } else {
-            $content = $translation->getContent($domain, $tr_locale);
+            $data['contents'] = $translation->getContent($domain, $tr_locale);
         }
 
         $writeallowed = $translation->isWriteAllowed($domain, $tr_locale);
 
-        $data['contents'] = $content;
         $form = $app['form.factory']->createBuilder('form', $data)
-            ->add('contents', 'textarea', array(
-                'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min' => 10)))
-            ));
-
-        $form = $form->getForm();
+            ->add(
+                'contents',
+                'textarea',
+                array('constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min' => 10))))
+            )
+            ->getForm();
 
         // Check if the form was POST-ed, and valid. If so, store the file.
         if ($request->getMethod() == 'POST') {
@@ -1654,27 +1653,24 @@ class Backend implements ControllerProviderInterface
                 $data = $form->getData();
                 $contents = cleanPostedData($data['contents']) . "\n";
 
-                $ok = true;
-
                 // Before trying to save a yaml file, check if it's valid.
-                if ($type == 'yml') {
-                    //$yamlparser = new \Symfony\Component\Yaml\Parser();
-                    try {
-                        //$ok = $yamlparser->parse($contents);
-                        $ok = Yaml::parse($contents);
-                    } catch (\Symfony\Component\Yaml\Exception\ParseException $e) {
-                        $ok = false;
-                        $app['session']->getFlashBag()->set('error', __("File '%s' could not be saved: ", array('%s' => $file)) . $e->getMessage());
-                    }
+                try {
+                    $ok = Yaml::parse($contents);
+                } catch (\Symfony\Component\Yaml\Exception\ParseException $e) {
+                    $ok = false;
+                    $msg = __("File '%s' could not be saved: ", array('%s' => $shortPath));
+                    $app['session']->getFlashBag()->set('error', $msg . $e->getMessage());
                 }
 
                 if ($ok) {
-                    if (file_put_contents($filename, $contents)) {
-                        $app['session']->getFlashBag()->set('info', __("File '%s' has been saved.", array('%s' => $file)));
+                    if (file_put_contents($path, $contents)) {
+                        $msg = __("File '%s' has been saved.", array('%s' => $shortPath));
+                        $app['session']->getFlashBag()->set('info', $msg);
 
                         return redirect('translation', array('domain' => $domain, 'tr_locale' => $tr_locale));
                     } else {
-                        $app['session']->getFlashBag()->set('error', __("File '%s' could not be saved, for some reason.", array('%s' => $file)));
+                        $msg = __("File '%s' could not be saved, for some reason.", array('%s' => $shortPath));
+                        $app['session']->getFlashBag()->set('error', $msg);
                     }
                 }
 
@@ -1683,8 +1679,8 @@ class Backend implements ControllerProviderInterface
 
         $context = array(
             'form' => $form->createView(),
-            'basename' => basename($file),
-            'filetype' => $type,
+            'basename' => basename($shortPath),
+            'filetype' => 'yml',
             'write_allowed' => $writeallowed,
         );
 
