@@ -1634,31 +1634,8 @@ class Backend implements ControllerProviderInterface
         } else {
             $content = $translation->getContent($domain, $tr_locale);
         }
-        // maybe no translations yet
-        if (!file_exists($filename) && !is_writable(dirname($filename))) {
-            $app['session']->getFlashBag()->set(
-                'info',
-                __(
-                    "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.",
-                    array('%s' => $file)
-                )
-            );
-            $writeallowed = false;
-        } elseif (file_exists($filename) && !is_readable($filename)) {
-            $error = __("The translations file '%s' is not readable.", array('%s' => $file));
-            $app->abort(404, $error);
-        } elseif (!is_writable($filename)) {
-            $app['session']->getFlashBag()->set(
-                'warning',
-                __(
-                    "The file '%s' is not writable. You will have to use your own editor to make modifications to this file.",
-                    array('%s' => $file)
-                )
-            );
-            $writeallowed = false;
-        } else {
-            $writeallowed = true;
-        }
+
+        $writeallowed = $translation->isWriteAllowed($domain, $tr_locale);
 
         $data['contents'] = $content;
         $form = $app['form.factory']->createBuilder('form', $data)

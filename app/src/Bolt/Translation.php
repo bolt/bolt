@@ -54,6 +54,18 @@ class Translation
     }
 
     /**
+     * Get the project relative path to a tranlsation resource
+     *
+     * @param string $domain Requested resource
+     * @param string $locale Requested locale
+     * @return string
+     */
+    public function shortPath($domain, $locale)
+    {
+        return $this->path($domain, $locale, true);
+    }
+
+    /**
      * Adds a string to the internal list of translatable strings
      *
      * @param string $Text
@@ -332,7 +344,7 @@ class Translation
 
         list($msgTranslated, $msgUntranslated) = $this->gatherTranslatableStrings($locale, $translated, $domain == 'messages');
 
-        $content = '# ' . $this->path($domain, $locale, true) . ' -- generated on ' . date('Y/m/d H:i:s') . "\n";
+        $content = '# ' . $this->shortPath($domain, $locale) . ' -- generated on ' . date('Y/m/d H:i:s') . "\n";
 
         $cnt = count($msgUntranslated);
         if ($cnt) {
@@ -350,5 +362,43 @@ class Translation
         }
 
         return $content;
+    }
+
+    /**
+     * Checks if translations file is allowed to write to
+     *
+     * @param string $domain
+     * @param string $locale
+     * @return bool
+     */
+    public function isWriteAllowed($domain, $locale)
+    {
+        $path = $this->path($domain, $locale);
+        $msgRepl = array('%s' => $this->shortPath($domain, $locale));
+
+        // No translations yet: info
+        if (!file_exists($path) && !is_writable(dirname($path))) {
+            $msg = __(
+                "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.",
+                $msgRepl
+            );
+            $this->app['session']->getFlashBag()->set('info', $msg);
+        // File is not readable: abort
+        } elseif (file_exists($path) && !is_readable($path)) {
+            $msg = __("The translations file '%s' is not readable.", $msgRepl);
+            $this->app->abort(404, $msg);
+        // File is not writeable: warning
+        } elseif (!is_writable($path)) {
+            $msg = __(
+                "The file '%s' is not writable. You will have to use your own editor to make modifications to this file.",
+                $msgRepl
+            );
+            $this->app['session']->getFlashBag()->set('warning', $msg);
+        // File is writeable
+        } else {
+            return true;
+        }
+
+        return false;
     }
 }
