@@ -336,39 +336,25 @@ class Translation
         }
 
         list($msg, $ctype) = $this->gatherTranslatableStrings($locale, $translated);
+
         $content = '# ' . $this->path($domain, $locale, true) . ' -- generated on ' . date('Y/m/d H:i:s') . "\n";
-        if ($domain == 'messages') {
-            $cnt = count($msg['not_translated']);
-            if ($cnt) {
-                $content .= "# " . $cnt . ' untranslated strings' . "\n\n";
-                foreach ($msg['not_translated'] as $key) {
-                    $content .= $key . ":  #\n";
-                }
-                $content .= "\n" . '#-----------------------------------------' . "\n";
-            } else {
-                $content .= '# no untranslated strings;' . "\n\n";
+
+        $data = ($domain == 'messages') ? $msg : $ctype;
+
+        $cnt = count($data['not_translated']);
+        if ($cnt) {
+            $content .= '# ' . $cnt . ' untranslated strings' . "\n\n";
+            foreach ($data['not_translated'] as $key) {
+                $content .= $key . ':  #' . "\n";
             }
-            $cnt = count($msg['translated']);
-            $content .= '# ' . $cnt . " translated strings" . "\n\n";
-            foreach ($msg['translated'] as $key => $trans) {
-                $content .= $key . ": $trans" . "\n";
-            }
+            $content .= "\n" . '#-----------------------------------------' . "\n";
         } else {
-            $cnt = count($ctype['not_translated']);
-            if ($cnt) {
-                $content .= "# " . $cnt . ' untranslated strings' . "\n\n";
-                foreach ($ctype['not_translated'] as $key) {
-                    $content .= $key . ':  #' . "\n";
-                }
-                $content .= "\n" . '#-----------------------------------------' . "\n";
-            } else {
-                $content .= '# no untranslated strings:' . "\n\n";
-            }
-            $cnt = count($ctype['translated']);
-            $content .= '# ' . $cnt . ' translated strings' . "\n\n";
-            foreach ($ctype['translated'] as $key => $trans) {
-                $content .= $key . ': ' . $trans . "\n";
-            }
+            $content .= '# no untranslated strings' . "\n\n";
+        }
+        $cnt = count($data['translated']);
+        $content .= '# ' . $cnt . ' translated strings' . "\n\n";
+        foreach ($data['translated'] as $key => $trans) {
+            $content .= $key . ': ' . $trans . "\n";
         }
 
         return $content;
