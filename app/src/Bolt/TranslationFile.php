@@ -363,6 +363,11 @@ class TranslationFile
         return $content;
     }
 
+    /**
+     * Parses translations file ans returns translations
+     *
+     * @return array Translations found
+     */
     private function readTranslations()
     {
         if (is_file($this->absPath) && is_readable($this->absPath)) {
@@ -399,11 +404,23 @@ class TranslationFile
      *
      * @return string
      */
-    private function contentMsgCs()
+    private function contentMessages()
     {
-        $translated = readTranslations();
+        $translated = $this->readTranslations();
+        list($msgTranslated, $msgUntranslated) = $this->gatherTranslatableStrings($translated, true);
 
-        list($msgTranslated, $msgUntranslated) = $this->gatherTranslatableStrings($translated, $this->domain == 'messages');
+        return $this->buildNewContent($msgTranslated, $msgUntranslated);
+    }
+
+    /**
+     * Gets all translatable strings and returns a translationsfile for messages or contenttypes
+     *
+     * @return string
+     */
+    private function contentContenttypes()
+    {
+        $translated = $this->readTranslations();
+        list($msgTranslated, $msgUntranslated) = $this->gatherTranslatableStrings($translated, false);
 
         return $this->buildNewContent($msgTranslated, $msgUntranslated);
     }
@@ -415,7 +432,14 @@ class TranslationFile
      */
     public function content()
     {
-        return ($this->domain == 'infos') ? $this->contentInfo() : $this->contentMsgCs();
+        switch ($this->domain) {
+            case 'infos':
+                return $this->contentInfo();
+            case 'messages':
+                return $this->contentMessages();
+            default:
+                return $this->contentContenttypes();
+        }
     }
 
     /**
