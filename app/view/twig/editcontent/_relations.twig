@@ -30,6 +30,7 @@
                 </div>
             {% endif %}        
 
+            {# ------------- the relationship ------------ #}
             <fieldset>
                 {# We set the 'format' for the rendering of each <option>. With fallback to a sensible default. #}
                 {% set format = relation.format|default("{{ item.title|escape }} <span>(№ {{ item.id }})</span>") %}
@@ -70,7 +71,7 @@
 
             {# --------------- postfix --------------- #}
             {% if relation.postfix is defined and relation.postfix is not empty %}
-                <div class='prefix'>
+                <div class='postfix'>
                     {{ relation.postfix|markdown }}
                 </div>
             {% endif %}   

@@ -18,6 +18,13 @@
 
         {% set taxonomy = config.get('taxonomy')[taxonomyslug] %}
 
+        {# --------------- prefix --------------- #}
+        {% if taxonomy.prefix is defined and taxonomy.prefix is not empty %}
+            <div class='prefix'>
+                {{ taxonomy.prefix|markdown }}
+            </div>
+        {% endif %}        
+
         {{ macro.label(taxonomy.name, '', 'col-sm-3 control-label', 'taxonomy-' ~ taxonomy.slug) }}
         <div class="col-sm-9">
 
@@ -144,6 +151,13 @@
         {% endif %}
 
         </div>
+
+        {# --------------- postfix --------------- #}
+        {% if taxonomy.postfix is defined and taxonomy.postfix is not empty %}
+            <div class='postfix'>
+                {{ taxonomy.postfix|markdown }}
+            </div>
+        {% endif %}        
 
     {% endif %}
 
