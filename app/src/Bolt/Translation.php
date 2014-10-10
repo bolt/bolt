@@ -239,7 +239,7 @@ class Translation
      * @param array $getMessages True returns translation datat for messages, false for contenttypes
      * @return array
      */
-    private function gatherTranslatableStrings($locale = null, $translated, $getMessages)
+    private function gatherTranslatableStrings($locale, $translated, $getMessages)
     {
         // Step 1: Gather all translatable strings
 
@@ -255,9 +255,6 @@ class Translation
 
         // Build lists
 
-        if (!$locale) {
-            $locale = $this->app['request']->getLocale();
-        }
         $msgTranslated = array();
         $msgUntranslated = array();
 
