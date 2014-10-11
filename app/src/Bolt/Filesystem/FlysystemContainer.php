@@ -36,7 +36,7 @@ class FlysystemContainer implements ContainerInterface
     public function moveUploadedFile($localFile, $destination)
     {
         $stream = fopen($localFile, "r+");
-        if (true === $this->filesystem->putStream($destination, $stream)) {
+        if ($this->filesystem->putStream($destination, $stream) === true) {
             return $destination;
         }
 

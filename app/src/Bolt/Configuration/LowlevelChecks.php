@@ -137,7 +137,7 @@ class LowlevelChecks
      **/
     public function checkApache()
     {
-        if (isset($_SERVER['SERVER_SOFTWARE']) && false !== strpos($_SERVER['SERVER_SOFTWARE'], 'Apache')) {
+        if (isset($_SERVER['SERVER_SOFTWARE']) && strpos($_SERVER['SERVER_SOFTWARE'], 'Apache') !== false) {
             if (!is_readable($this->config->getPath('web') . '/.htaccess')) {
                 throw new LowlevelException(
                     'The file <code>' . htmlspecialchars($this->config->getPath('web'), ENT_QUOTES) . '/.htaccess' .
@@ -199,7 +199,7 @@ class LowlevelChecks
             throw new LowlevelException('The selected database type is not supported.');
         }
 
-        if (isset($cfg['memory']) && true == $cfg['memory']) {
+        if (isset($cfg['memory']) && $cfg['memory'] == true) {
             return;
         }
 

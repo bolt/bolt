@@ -95,7 +95,7 @@ class Cache extends FilesystemCache
 
         $dir = dir($currentfolder);
 
-        while (false !== ($entry = $dir->read())) {
+        while (($entry = $dir->read()) !== false) {
 
             $exclude = array('.', '..', 'index.html', '.gitignore');
 
