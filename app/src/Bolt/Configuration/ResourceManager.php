@@ -55,7 +55,7 @@ class ResourceManager
 
         $this->requestObject = $request;
 
-        if (null !== $verifier) {
+        if ($verifier !== null) {
             $this->verifier = $verifier;
         }
 
@@ -164,10 +164,10 @@ class ResourceManager
      */
     public function initializeRequest(Request $request = null)
     {
-        if (null === $request) {
+        if ($request === null) {
             $request = Request::createFromGlobals();
         }
-        if (null !== $request->server->get("SERVER_PROTOCOL")) {
+        if ($request->server->get("SERVER_PROTOCOL") !== null) {
             $protocol = strtolower(substr($request->server->get("SERVER_PROTOCOL"), 0, 5)) == 'https' ? 'https' : 'http';
         } else {
             $protocol = "cli";

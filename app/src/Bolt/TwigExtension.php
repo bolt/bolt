@@ -655,7 +655,7 @@ class TwigExtension extends \Twig_Extension
 
         $ignored = array(".", "..", ".DS_Store", ".gitignore", ".htaccess");
 
-        while (false !== ($file = $d->read())) {
+        while (($file = $d->read()) !== false) {
 
             if (in_array($file, $ignored) || substr($file, 0, 2) == "._") {
                 continue;

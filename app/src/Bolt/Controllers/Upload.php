@@ -131,7 +131,7 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
     {
         $app['upload.namespace'] = $namespace;
 
-        if (null === $files) {
+        if ($files === null) {
             $files = $request->files->get($namespace);
         }
 

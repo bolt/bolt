@@ -121,7 +121,7 @@ class CommandRunner
             $response = $this->execute("update %s", $package);            
         }
 
-        if (false !== $response) {
+        if ($response !== false) {
             return implode($response, '<br>');
         } else {
             $message = 'There was an error updating.';
@@ -133,7 +133,7 @@ class CommandRunner
     public function install($package, $version)
     {
         $response = $this->execute("require %s %s", $package, $version);
-        if (false !== $response) {
+        if ($response !== false) {
             return implode('<br>', $response);
         } else {
             $message = 'The requested extension version could not be installed. The most likely reason is that the version' . "\n" .
@@ -154,7 +154,7 @@ class CommandRunner
 
         $response = $this->execute('install');
 
-        if (false !== $response) {
+        if ($response !== false) {
             return implode($response, '<br>');
         } else {
             $message = 'There was an error during install.';
