@@ -5,11 +5,6 @@
     "keywords": ["CMS", "Silex", "PHP", "Symfony"],
     "license": "MIT",
 
-    "repositories": [{
-        "type": "vcs",
-        "url": "https://github.com/rossriley/flysystem"
-    }],
-
     "require": {
         "bolt/dumper": ">=0.7",
         "bolt/thumbs": "1.7.*@dev",
@@ -23,7 +18,7 @@
         "hautelook/phpass": "dev-master",
         "ircmaxell/random-lib": "dev-master",
         "jbroadway/urlify": "1.0.0-stable",
-        "league/flysystem": "~0.5",
+        "rossriley/flysystem53": "dev-master",
         "php": ">=5.3.3",
         "rossriley/upload": "~1.2",
         "silex/silex": "1.*",
