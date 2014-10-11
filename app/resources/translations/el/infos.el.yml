@@ -23,17 +23,16 @@ info:
             μια εικόνα που φορτώσατε παλιότερα, πληκτρολογήστε ένα μέρος του ονόματος αρχείου στην περιοχή εισόδου
             και θα συμπληρωθεί το υπόλοιπο αυτόματα.
         imagelist: |
-            Use this field to upload a set of photos or image. Click the button to upload a file from your
-                computer, or if you're using a recent version of Chrome or Firefox, you can simply drag'n'drop the file
-                from your desktop or from a different browser window. <br />
-                Alternatively, you can use a previously uploaded image. <br />
-                You can rearrange the images using drag'n'drop, and change the descriptions of the images.
+            Χρησιμοποιείστε αυτο το κουμπί για να φορτώσετε πολλά αρχεία. Κάντε κλικ στο κουμπί για να φορτώσετε ένα
+            αρχείοαπο τον υπολογιστή σας, ή εάν χρησιμοποιείτε τελευταίες εκδόσεις του Chrome ή Firefox, μπορείτε απλά
+            να σύρετε ένα αρχείο απο την επιφάνει εργασίας ή απο άλλο παράθυρο εξερεύνησης.<br /> Εναλλακτικά, μπορείτε
+            να χρησιμοποιείσετε μια εικόνα που φορτώσατε παλιότερα. Σύρετε για ν'αλλάξετε την σειρά και αλλάξτε τις
+            περιγραφές.
         video: |
-            Use this field to embed a video inside a page on the website. Just copy/paste the
-                  URL of a video-page on Youtube, Vimeo or almost any other video sharing website. <br>
-                  Bolt will automatically fetch the &amp;lt;embed&amp;gt;-code, with the correct width, height and the original
-                  title. If you change the width or height, the other value will change accordingly, to maintain the
-                  aspect ratio.
+            Χρησιμοποιείστε αυτο το πεδίο για να ενσωματώσετε ένα video σε μια σελίδα. Αντιγράψτε το URL ενός video
+            απο το Youtube, Vimeo ή οποιαδήποτε άλλη σελίδα διαμοιριασμού video.<br />
+            Το Bolt θα φέρει αυτόματα τον κώδικα &amp;lt;embed&amp;gt; με τον σωστό ύψος και πλάτος και τον τίτλο.
+            Εάν αλλάξετε τον ύψος ή το πλάτος, η άλλη τιμή θα αλλάξει για να διατηρηθεί η αναλογία.
     geolocation: |
         Use this field to get the geolocation of any address, or place the marker
             manually by dragging the pin. First, enter an (approximate) address in the 'address'-field,
@@ -64,30 +63,29 @@ info:
             website, this can by used for 'related articles', 'see also' or to display
             how this record fits into a certain structure.
     taxonomy: |
-        By selecting one or more taxonomies for this record,
-                  you are classifying this record to have those properties. On the
-                  website this can be used to group certain records together, or
-                  to automatically create links to records that share a
-                  classification.
+        Επιλέγοντας μία ή περισσότερες taxonomies γι'αυτήν την εγγραφή,
+        By selecting one or more taxonomies for this record, ορίζετε ότι η εγγραφή αυτη θα περιέχει αυτες τις ιδιοτήτες.
+        Στο website αυτο θα χρησιμοποιηθεί για ομαδοποιήσει ορισμένες εγγραφές, ή για να δημιουρήσει αυτόματα
+        συνδέσμους προς τις ομαδοποιημένες εγγραφές.
 about:
     bolt: |
-        <p>Bolt is a CMS that strives to be simple, fast, straightforward and enjoyable to use. Both for
-            developers and content-editors. Bolt is Open Source, and as such it uses other Open Source
-            components. If you are a developer you're very welcome to help in the further development of Bolt.
+        <p>Το Bolt είναι ένα σύστημα διαχείρισης περιεχομένου(CMS), που τήνει να είναι απλό,
+        γρήγορο και εύκολο στην χρήση του. Και για developers και για content-editors. Το Bolt είναι ανοιχτού κώδικα.
+         Εάν είστε developer, είστε καλοδεχούμνος να συμβάλετε στην ανάπτυξη του Bolt
         </p>
     licence: |
-        <p>All parts of Bolt are free to use under the open-source MIT license. The full licensing text can be
-            found here, in the included <a href="%paths_app%LICENSE.txt">LICENSE.txt</a>.
-        </p>
+        <p>Όλα τα συστατικά του Bolt είναι ελεύθερα και υπο την αιγίδα της άδειας ΜΙΤ. Μπορείτε να βρείτε
+        ολοκληρωμενό το κείμενο της άδειας <a href="%paths_app%LICENSE.txt">εδώ</a>.</p>
 prefill:
     short_help: |
-        <p>Check the contenttypes for which you want to automatically generate some records that are filled with Lorem Ipsum dummy content.<p>
-        <p>If all checkboxes are left unchecked, Bolt will only prefill the contenttypes that have no content yet.</p>
+        <p>Ελεγξτε τα contenttypes για τα οποία θέλετε αυτόματα να παράγετε εγγραφές με χαζό περιεχόμενο Lorem Ipsum.</p>
+        <p>Εάν δεν επιλεχτεί κανένα, το Bolt θα γεμίσει μόνο τα contenttypes που δεν έχουν ακόμη περιεχόμενο.</p>
 extension:
     enable: |
-        <p>To enable extensions, add them to the <code>enabled_extensions</code> array in
-                <code>config.yml</code>. You must use the exact name of the extension, as
-                shown in the first label on the bottom row of its tile. Note that the names
-                are <em>case sensitive</em>, to eliminate issues with the filesystem. </p>
-            <p>example:</p>
-            <pre><code>enabled_extensions: [ HelloWorld, GoogleAnalytics ]</code></pre>
+        <p>Για να ενεργοποιήσετε extensions, αντιγράψτε στο <code>enabled_extensions</code> array του
+        <code>config.yml</code>. Θα πρέπει να χρησιμοποιήσετε το ακριβές όνομα, όπως αναγράφετε στην πρώτη ετικέτα
+        στην κάτω γραμμή του τίτλου. Σημειώστε ότι τα ονόματα είναι <em>case sensitive</em>, προς αποφυγή προβλημάτων
+        με το σύστημα αρχείων.
+        </p>
+        <p>παράδειγμα:</p>
+        <pre><code>enabled_extensions: [ HelloWorld, GoogleAnalytics ]</code></pre>
