@@ -1460,6 +1460,12 @@ var init = {
                 });
             }
 
+            if (set.codesnippet) {
+                config.toolbar = config.toolbar.concat({
+                    name: 'code', items: ['-', 'CodeSnippet']
+                });
+            }
+
             config.toolbar = config.toolbar.concat({
                 name: 'tools', items: toolItems 
             });
