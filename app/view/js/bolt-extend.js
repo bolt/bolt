@@ -378,9 +378,10 @@ var BoltExtender = Object.extend(Object, {
                     cont.html("").show();
                     for(var p in data['packages']) {
                         var t = data['packages'][p];
-                        cont.append("<a data-action='prefill-package' data-packagename='"+ t.name 
-                                + "' class='btn btn-block btn-default prefill-package' style='text-align: left;'>" 
-                                + t.title + " <small>(" + t.authors + " - " + t.name + ")</small></a>");
+                        var dataattr = "data-action='prefill-package' data-packagename='"+ t.name + "'";
+                        cont.append("<a class='btn btn-block btn-default prefill-package' " + 
+                            dataattr + "style='text-align: left;'>" + t.title + 
+                            " <small " + dataattr +">(" + t.authors + " - " + t.name + ")</small></a>");
                     }
                     livesearch.on('blur', function(){
                        cont.fadeOut(); 
@@ -418,19 +419,20 @@ var BoltExtender = Object.extend(Object, {
         
         click: function(e, t){
             var controller = e.data;
-            switch(jQuery(e.target).data('action')) {
-                case "update-check"     : controller.updateCheck(); break;
-                case "update-run"       : controller.updateRun(); break;
-                case "update-package"   : controller.updatePackage(e.originalEvent); break;
-                case "check-package"    : controller.checkPackage(e.originalEvent); break;
-                case "uninstall-package": controller.uninstall(e.originalEvent); break;
-                case "install-package"  : controller.install(e.originalEvent); break;
-                case "prefill-package"  : controller.prefill(e.originalEvent); break;
-                case "install-run"      : controller.installRun(e.originalEvent); break;
-                case "generate-theme"   : controller.generateTheme(e.originalEvent); break;
-                case "package-readme"   : controller.packageReadme(e.originalEvent); break;
-                case "package-config"   : controller.packageConfig(e.originalEvent); break;
-                case "clear-log"   : controller.clearLog(e.originalEvent); break;
+            var action = jQuery(e.target).data('action');
+            switch(action) {
+                case "update-check"      : controller.updateCheck(); break;
+                case "update-run"        : controller.updateRun(); break;
+                case "update-package"    : controller.updatePackage(e.originalEvent); break;
+                case "check-package"     : controller.checkPackage(e.originalEvent); break;
+                case "uninstall-package" : controller.uninstall(e.originalEvent); break;
+                case "install-package"   : controller.install(e.originalEvent); break;
+                case "prefill-package"   : controller.prefill(e.originalEvent); break;
+                case "install-run"       : controller.installRun(e.originalEvent); break;
+                case "generate-theme"    : controller.generateTheme(e.originalEvent); break;
+                case "package-readme"    : controller.packageReadme(e.originalEvent); break;
+                case "package-config"    : controller.packageConfig(e.originalEvent); break;
+                case "clear-log"         : controller.clearLog(e.originalEvent); break;
             }
         }
 
