@@ -393,9 +393,9 @@ var BoltExtender = Object.extend(Object, {
     
     prefill: function(e) {
         var target = jQuery(e.target);
-        this.find('input[name="check-package"]').val(target.text());
+        this.find('input[name="check-package"]').val(target.closest('a').text());
         this.find('input[name="check-package"]').data('packagename', target.data('packagename'));
-        target.parent().hide();
+        this.find('.auto-search').hide();
     },
     
     updateLog: function() {
