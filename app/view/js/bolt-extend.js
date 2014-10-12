@@ -206,7 +206,14 @@ var BoltExtender = Object.extend(Object, {
     
     checkPackage: function(e) {
         var controller = this;
+
+        // Depending on whether we 'autocompleted' an extension name or not, either
+        // pick the value from the input itself, or from the data attribute.
         var ext = this.find('input[name="check-package"]').val();
+        var packagename = this.find('input[name="check-package"]').data('packagename');
+        if (packagename) { 
+            ext = packagename;
+        }
         active_console = false;
         jQuery.get(baseurl+'installInfo?package='+ext, function(data) {
             
@@ -371,7 +378,8 @@ var BoltExtender = Object.extend(Object, {
                     cont.html("").show();
                     for(var p in data['packages']) {
                         var t = data['packages'][p];
-                        cont.append("<a data-action='prefill-package' class='btn btn-block btn-default prefill-package' style='text-align: left;'>" 
+                        cont.append("<a data-action='prefill-package' data-packagename='"+ t.name 
+                                + "' class='btn btn-block btn-default prefill-package' style='text-align: left;'>" 
                                 + t.title + " <small>(" + t.authors + " - " + t.name + ")</small></a>");
                     }
                     livesearch.on('blur', function(){
@@ -384,7 +392,8 @@ var BoltExtender = Object.extend(Object, {
     
     prefill: function(e) {
         var target = jQuery(e.target);
-        this.find('input[name="check-package"]').val( target.text());
+        this.find('input[name="check-package"]').val(target.text());
+        this.find('input[name="check-package"]').data('packagename', target.data('packagename'));
         target.parent().hide();
     },
     
