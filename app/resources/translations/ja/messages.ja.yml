@@ -266,7 +266,7 @@
 "Set the slug to:": "スラグを設定："
 "Settings": "設定"
 "Show": "表示"
-"Showing %pager_for% %from% - %to% of %count%": "%page_for%を表示  %from%～%to%件目 / 全 %count% 件"
+"Showing %pager_for% %from% - %to% of %count%": "%page_for%を表示 %from%～%to%件目 / 全 %count% 件"
 "Showing": "表示しています"
 "Sitemap": "サイトマップ"
 "Size": "サイズ"

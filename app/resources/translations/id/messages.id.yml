@@ -65,9 +65,9 @@
 "Showing %pager_for% %from% - %to% of %count%":  #
 "Skipped <tt>%key%</tt> (already has records)":  #
 "Skipped <tt>%key%</tt> (not checked)":  #
-"Something went wrong":  "Ada yang salah"
+"Something went wrong": "Ada yang salah"
 "Something went wrong, please reload the page and try again":  #
-"Special elements":  "elemen khusus"
+"Special elements": "elemen khusus"
 "The %contenttype% you were looking for does not exist. It was probably deleted, or it never existed.":  #
 "The backup could not be restored:":  #
 "The database needs to be updated / repaired. Go to 'Settings' > '<a href=\"%link%\">Check Database</a>' to do this now.":  #

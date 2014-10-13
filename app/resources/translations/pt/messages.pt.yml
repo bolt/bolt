@@ -291,7 +291,7 @@
 "The backup could not be restored:": "O backup não pode ser restaurado"
 "The changes to this %contenttype% have been saved.": "As mudanças para este %contenttype% foram salvas."
 "The database needs to be updated / repaired. Go to 'Settings' > '<a href=\"%link%\">Check Database</a>' to do this now.": "O banco de dados precisa ser atualizado / reparado. Vá para 'Configurações' > '<a href=\"%link%\">Verificar banco de dados</a>' para fazer isto agora."
-"The field %field% has been changed to '%newValue%'": "Campo %field%  alterado para '%newValue%'"
+"The field %field% has been changed to '%newValue%'": "Campo %field% alterado para '%newValue%'"
 "The file '%s' doesn't exist, or is not readable.": "O arquivo '%s' não existe ou não é legível."
 "The file '%s' is not writable. You will have to use your own editor to make modifications to this file.": "O arquivo '%s' não é gravável. Você precisa fazer suas modificações em seu editor de texto."
 "The following file could not be read:": "O seguinte arquivo não pode ser lido:"

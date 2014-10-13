@@ -240,7 +240,7 @@
 "The %contenttype% you were looking for does not exist. It was probably deleted, or it never existed.": "El %contenttype% que estás buscando no existe. Probablemente fue eliminado, o nunca existió."
 "The activitylog has been cleared.": "El registro de actividad ha sido limpiado."
 "The activitylog has been trimmed.": "El registro de actividad ha sido cortado."
-"The changes to this %contenttype% have been saved.": "Los cambios a este  %contenttype% han sido guardados."
+"The changes to this %contenttype% have been saved.": "Los cambios a este %contenttype% han sido guardados."
 "The database needs to be updated / repaired. Go to 'Settings' > '<a href=\"%link%\">Check Database</a>' to do this now.": "La base de datos necesita ser actualizada / reparada. Ve a 'Configuración' > '<a href=\"%link%\">Verificar base de datos</a>'"
 "The file '%s' doesn't exist, or is not readable.": "El archivo '%s' no existe o no se puede leer."
 "The file '%s' is not writable. You will have to use your own editor to make modifications to this file.": "El archivo '%s' no es editable. Necesitas usar tu propio editor para hacer modificaciones al archivo."
