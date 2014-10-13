@@ -90,7 +90,7 @@
 "File '%file%' could not be uploaded.": "Il File '%file%' non può essere caricato."
 "File '%file%' was uploaded successfully.": "Il File '%file%' è stato caricato con successo."
 "File '%s' could not be saved, for some reason.": "Per quealche motivo il file '%s' non può esser salvato."
-"File '%s' could not be saved: ": "Il file '%s' non può esser salvato: "
+"File '%s' could not be saved:": "Il file '%s' non può esser salvato:"
 "File '%s' has been saved.": "Il file '%s' è stato salvato."
 "File Management": "Gestione File"
 "File is not readable!": "Il file non è leggibile"

@@ -87,7 +87,7 @@
 "Excerpt": "Выдержка"
 "Extensions": "Расширения"
 "File '%s' could not be saved, for some reason.": "Файл '%s' не может быть сохранен, по некоторым причинам."
-"File '%s' could not be saved: ": "Файл '%s' не может быть сохранен"
+"File '%s' could not be saved:": "Файл '%s' не может быть сохранен"
 "File '%s' has been saved.": "Файл '%s' был сохранён."
 "File Management": "Управление файлами"
 "File": "Файл"

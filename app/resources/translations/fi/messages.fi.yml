@@ -81,7 +81,7 @@
 "Excerpt": "Poiminto/ingressi"
 "Extensions": "Laajennukset"
 "File '%s' could not be saved, for some reason.": "Syystä tahi toisesta tiedostoa '%s' ei voida tallentaa"
-"File '%s' could not be saved: ": "Tiedostoa '%s' ei voida tallentaa:"
+"File '%s' could not be saved:": "Tiedostoa '%s' ei voida tallentaa:"
 "File '%s' has been saved.": "Tiedosto '%s' tallennettu."
 "File Management": "Tiedostohallinta"
 "File": "Tiedosto"

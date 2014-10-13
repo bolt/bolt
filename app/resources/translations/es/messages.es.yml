@@ -101,7 +101,7 @@
 "File '%file%' could not be uploaded.": "El archivo '%file%' no puede ser subido"
 "File '%file%' was uploaded successfully.": "El archivo '%file%' se ha subido satisfactoriamente"
 "File '%s' could not be saved, for some reason.": "Por alguna razón el archivo '%s' no puede ser guardado."
-"File '%s' could not be saved: ": "El archivo '%s' no puede ser guardado:"
+"File '%s' could not be saved:": "El archivo '%s' no puede ser guardado:"
 "File '%s' has been saved.": "El archivo '%s' ha sido guardado."
 "File Management": "Gestión de archivos"
 "File is not readable!": "¡El archivo no puede ser leido!"

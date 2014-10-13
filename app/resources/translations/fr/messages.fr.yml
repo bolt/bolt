@@ -89,7 +89,7 @@
 "File '%file%' could not be uploaded.": "Le fichier '%file%' n'a pas pu être téléversé."
 "File '%file%' was uploaded successfully.": "Le fichier '%file%' a été téléversé avec succès."
 "File '%s' could not be saved, for some reason.": "Le fichier '%s' ne peut être enregistré."
-"File '%s' could not be saved: ": "Le fichier '%s' ne peut être enregistré :"
+"File '%s' could not be saved:": "Le fichier '%s' ne peut être enregistré :"
 "File '%s' has been saved.": "Le fichier '%s' a été enregistré."
 "File Management": "Gestion des fichiers"
 "File is not readable!": "Le fichier n'est pas lisible !"

@@ -8,7 +8,7 @@
 "Current (saved) status:": "Huidige (opgeslagen) status:"  #
 "Display the file or directory '%s' is forbidden.":  #
 "Edit the file '%s' is forbidden.":  #
-"File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following: ":  #
+"File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:":  #
 "Full list …":  #
 "Homepage":  #
 "In the contenttype for '%contenttype%', the field '%field%' has 'type: %type%', which is not a proper fieldtype. Please edit contenttypes.yml, and correct this.":  #
@@ -29,7 +29,7 @@
 "Something went wrong":  #
 "Something went wrong, please reload the page and try again":  #
 "Special elements":  #
-"The backup could not be restored: ":  #
+"The backup could not be restored:":  #
 "The menu.yml config-file was edited by someone else in the meantime, please reload the page.":  #
 "The settings for roles and permissions are stored in <code>%permissions%</code>.":  #
 "There should always be at least one 'root' user. You have just been promoted. Congratulations!":  #
@@ -160,7 +160,7 @@
 "File '%file%' could not be uploaded.": "Bestand '%file%' kon niet geüpload worden."
 "File '%file%' was uploaded successfully.": "Bestand '%file%' is goed geüpload."
 "File '%s' could not be saved, for some reason.": "Bestand '%s' kon niet worden opgeslagen, om onduidelijke reden."
-"File '%s' could not be saved: ": "Bestand '%s' kon niet worden opgeslagen: "
+"File '%s' could not be saved:": "Bestand '%s' kon niet worden opgeslagen: "
 "File '%s' has been saved.": "Bestand '%s' is opgeslagen."
 "File Management": "Bestandsbeheer"
 "File is not readable!": "Bestand is niet leesbaar!"

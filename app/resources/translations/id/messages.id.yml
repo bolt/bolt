@@ -69,7 +69,7 @@
 "Something went wrong, please reload the page and try again":  #
 "Special elements":  "elemen khusus"
 "The %contenttype% you were looking for does not exist. It was probably deleted, or it never existed.":  #
-"The backup could not be restored: ":  #
+"The backup could not be restored:":  #
 "The database needs to be updated / repaired. Go to 'Settings' > '<a href=\"%link%\">Check Database</a>' to do this now.":  #
 "The file '%s' doesn't exist, or is not readable.":  #
 "The file '%s' is not writable. You will have to use your own editor to make modifications to this file.":  #
@@ -204,7 +204,7 @@
 "File '%file%' could not be uploaded.": "Berkas '%file%' tidak dapat diunggah."
 "File '%file%' was uploaded successfully.": "Berkas '%file%' sukses diunggah."
 "File '%s' could not be saved, for some reason.": "Berkas '%s' tidak dapat disimpan karena suatu alasan."
-"File '%s' could not be saved: ": "Berkas '%s' tidak dapat disimpan: "
+"File '%s' could not be saved:": "Berkas '%s' tidak dapat disimpan:"
 "File '%s' has been saved.": "Berkas '%s' telah disimpan."
 "File Management": "Manajemen Berkas"
 "File is not readable!": "Berkas tidak terbaca"
