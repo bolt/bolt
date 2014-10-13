@@ -1,3 +1,8 @@
+# app/resources/translations/de/messages.de.yml – generated on 2014-10-13 09:49:12 UTC
+# no untranslated strings
+
+# 442 translated strings
+
 "Actions for Entries": "Aktionen für Einträge"
 "Actions for Pages": "Aktionen für Seiten"
 "Actions for Showcases": "Aktionen für Showcases"
@@ -12,9 +17,9 @@
 "Content was duplicated. Click 'Save Page' to finalize.": "Inhalt wurde dupliziert. Zum Beenden 'Seite speichern' klicken."
 "Content was duplicated. Click 'Save Showcase' to finalize.": "Inhalt wurde dupliziert. Zum Beenden 'Showcase speichern' klicken."
 "Could not save %contenttype%.": "Konnte %contenttype% nicht speichern."
-"Could not save Entry.":  "Konnte den Eintrag nicht speichern."
-"Could not save Page.":  "Konnte die Seite nicht speichern."
-"Could not save Showcase.":  "Konnte den Showcase nicht speichern."
+"Could not save Entry.": "Konnte den Eintrag nicht speichern."
+"Could not save Page.": "Konnte die Seite nicht speichern."
+"Could not save Showcase.": "Konnte den Showcase nicht speichern."
 "Current (saved) status:": "Momentaner (gespeicherter) Status:"
 "Delete Entry": "Eintrag löschen"
 "Delete Page": "Seite löschen"
@@ -27,13 +32,13 @@
 "Edit Showcase": "Bearbeite Showcase"
 "Entries overview": "Übersicht Einträge"
 "Entries": "Einträge"
-"In the contenttype for 'Entry', the field '%field%' has 'type: %type%', which is not a proper fieldtype. Please edit contenttypes.yml, and correct this.":  "Der 'Eintrags'-Inhaltstyp hat im Feld '%field%' den Typen 'type: %type%' gesetzt, was kein gültiger Feldtyp ist. Bitte contenttypes.yml bearbeiten dies korrigieren."
+"In the contenttype for 'Entry', the field '%field%' has 'type: %type%', which is not a proper fieldtype. Please edit contenttypes.yml, and correct this.": "Der 'Eintrags'-Inhaltstyp hat im Feld '%field%' den Typen 'type: %type%' gesetzt, was kein gültiger Feldtyp ist. Bitte contenttypes.yml bearbeiten dies korrigieren."
 "In the contenttype for 'Entry', the field '%field%' has 'uses: %uses%', but the field '%uses%' does not exist. Please edit contenttypes.yml, and correct this.": "Beim Inhaltstyp 'Entry' wurde das Feld '%field%' auf 'uses: %uses%' gesetzt, leider exististiert das Feld '%uses%' nicht. Bitte contenttypes.yml bearbeiten dies korrigieren."
 "In the contenttype for 'Entry', the field '%field%' is defined, which is a reserved name. Please edit contenttypes.yml, and correct this.": "Beim Inhaltstyp 'Entry' wurde der Feldname '%field%' gesetzt. Da dies ein reservierter Name ist, bitte in contenttypes.yml den Namen ändern."
-"In the contenttype for 'Page', the field '%field%' has 'type: %type%', which is not a proper fieldtype. Please edit contenttypes.yml, and correct this.":  "Der 'Seiten'-Inhaltstyp hat im Feld '%field%' den Typen 'type: %type%' gesetzt, was kein gültiger Feldtyp ist. Bitte contenttypes.yml bearbeiten dies korrigieren."
+"In the contenttype for 'Page', the field '%field%' has 'type: %type%', which is not a proper fieldtype. Please edit contenttypes.yml, and correct this.": "Der 'Seiten'-Inhaltstyp hat im Feld '%field%' den Typen 'type: %type%' gesetzt, was kein gültiger Feldtyp ist. Bitte contenttypes.yml bearbeiten dies korrigieren."
 "In the contenttype for 'Page', the field '%field%' has 'uses: %uses%', but the field '%uses%' does not exist. Please edit contenttypes.yml, and correct this.": "Beim Inhaltstyp 'Page' wurde das Feld '%field%' auf 'uses: %uses%' gesetzt, leider exististiert das Feld '%uses%' nicht. Bitte contenttypes.yml bearbeiten dies korrigieren."
 "In the contenttype for 'Page', the field '%field%' is defined, which is a reserved name. Please edit contenttypes.yml, and correct this.": "Beim Inhaltstyp 'Page' wurde der Feldname '%field%' gesetzt. Da dies ein reservierter Name ist, bitte in contenttypes.yml den Namen ändern."
-"In the contenttype for 'Showcase', the field '%field%' has 'type: %type%', which is not a proper fieldtype. Please edit contenttypes.yml, and correct this.":  "Der 'Showcases'-Inhaltstyp hat im Feld '%field%' den Typen 'type: %type%' gesetzt, was kein gültiger Feldtyp ist. Bitte contenttypes.yml bearbeiten dies korrigieren."
+"In the contenttype for 'Showcase', the field '%field%' has 'type: %type%', which is not a proper fieldtype. Please edit contenttypes.yml, and correct this.": "Der 'Showcases'-Inhaltstyp hat im Feld '%field%' den Typen 'type: %type%' gesetzt, was kein gültiger Feldtyp ist. Bitte contenttypes.yml bearbeiten dies korrigieren."
 "In the contenttype for 'Showcase', the field '%field%' has 'uses: %uses%', but the field '%uses%' does not exist. Please edit contenttypes.yml, and correct this.": "Beim Inhaltstyp 'Showcase' wurde das Feld '%field%' auf 'uses: %uses%' gesetzt, leider exististiert das Feld '%uses%' nicht. Bitte contenttypes.yml bearbeiten dies korrigieren."
 "In the contenttype for 'Showcase', the field '%field%' is defined, which is a reserved name. Please edit contenttypes.yml, and correct this.": "Beim Inhaltstyp 'Showcase' wurde der Feldname '%field%' gesetzt. Da dies ein reservierter Name ist, bitte in contenttypes.yml den Namen ändern."
 "Last modified Entries": "Zuletzt geänderte Einträge"
@@ -70,7 +75,7 @@
 "Save Page": "Seite speichern"
 "Save Showcase": "Showcase speichern"
 "Saved on:": "Gespeichert am:"
-"Saving…": "Speichere …"
+"Saving …": "Speichere …"
 "Showcases overview": "Übersicht Showcases"
 "Showcases": "Showcases"
 "The Entry you were looking for does not exist. It was probably deleted, or it never existed.": "Der Eintrag ist nicht vorhanden. Entweder wurde dieser gelöscht, oder hat nie existiert."

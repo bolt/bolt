@@ -8,8 +8,8 @@
 "Current (saved) status:": "Huidige (opgeslagen) status:"  #
 "Display the file or directory '%s' is forbidden.":  #
 "Edit the file '%s' is forbidden.":  #
-"File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following: ":  #
-"Full list…":  #
+"File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:":  #
+"Full list …":  #
 "Homepage":  #
 "In the contenttype for '%contenttype%', the field '%field%' has 'type: %type%', which is not a proper fieldtype. Please edit contenttypes.yml, and correct this.":  #
 "Links":  #
@@ -29,7 +29,7 @@
 "Something went wrong":  #
 "Something went wrong, please reload the page and try again":  #
 "Special elements":  #
-"The backup could not be restored: ":  #
+"The backup could not be restored:":  #
 "The menu.yml config-file was edited by someone else in the meantime, please reload the page.":  #
 "The settings for roles and permissions are stored in <code>%permissions%</code>.":  #
 "There should always be at least one 'root' user. You have just been promoted. Congratulations!":  #
@@ -60,8 +60,7 @@
 "(default template)": "(standaard template)"
 "(no category)": "(geen categorie)"
 "(no group)": "(geen groep)"
-"<p>The following file could not be read:</p>%s": "<p>Het volgende bestand kon niet worden gelezen:</p>%s"
-"A menu with this name already exists…": "Er bestaat al een menu met deze naam…"
+"A menu with this name already exists …": "Er bestaat al een menu met deze naam…"
 "A password reset link has been sent to '%user%'.": "Een link om het wachtwoord te resetten is verstuurd aan '%user%'."
 "About Bolt": "Over Bolt"
 "About": "Over"
@@ -73,7 +72,7 @@
 "Add new menu": "Voeg nieuw menu toe"
 "Add some sample <a href='%url%' class='btn btn-small'>Records with Loripsum text</a>": "Voeg een aantal <a href='%url%' class='btn btn-small'>Records met Loripsum tekst toe</a>"
 "Add to menu": "Voeg aan menu toe"
-"Add…": "Voeg toe …"
+"Add …": "Voeg toe …"
 "Added to <tt>%key%</tt> '%title%'": "Toegevoegd aan <tt>%key%</tt> '%title%'"
 "Added user '%s'.": "Gebruiker '%s' toegevoegd."
 "Address lookup:": "Adres opzoeken:"
@@ -142,7 +141,7 @@
 "Deleted %s files from cache.": "%s bestanden verwijderd uit de cache"
 "Depublication date:": "Depublicatiedatum:"
 "Deselect all": "Deselecteer alles"
-"Details are shown above. The importer will now try again with a different parser…": "Details staan hier boven. Het importeren wordt nogmaals geprobeerd met een andere parser…"
+"Details are shown above. The importer will now try again with a different parser …": "Details staan hier boven. Het importeren wordt nogmaals geprobeerd met een andere parser…"
 "Disable %username%": "Schakel %username% uit"
 "Display name": "Weergavenaam"
 "Done!": "Klaar!"
@@ -161,7 +160,7 @@
 "File '%file%' could not be uploaded.": "Bestand '%file%' kon niet geüpload worden."
 "File '%file%' was uploaded successfully.": "Bestand '%file%' is goed geüpload."
 "File '%s' could not be saved, for some reason.": "Bestand '%s' kon niet worden opgeslagen, om onduidelijke reden."
-"File '%s' could not be saved: ": "Bestand '%s' kon niet worden opgeslagen: "
+"File '%s' could not be saved:": "Bestand '%s' kon niet worden opgeslagen: "
 "File '%s' has been saved.": "Bestand '%s' is opgeslagen."
 "File Management": "Bestandsbeheer"
 "File is not readable!": "Bestand is niet leesbaar!"
@@ -179,7 +178,7 @@
 "Generic": "Generiek"
 "Global Permissions": "Globale permissies"
 "Hide": "Verberg"
-"I forgot my password…": "Ik ben mijn wachtwoord vergeten…"
+"I forgot my password …": "Ik ben mijn wachtwoord vergeten…"
 "IP address": "IP-adres"
 "If there was a Page with 'about' for a slug, it would've been shown here. But there isn't one, so that's why you're seeing this placeholder.": "Als er een pagina was die 'about' als slug had, dan zou je deze nu hier zien. Maar die is er niet, en daarom zie je deze tekst."
 "Image": "Afbeelding"
@@ -266,10 +265,10 @@
 "Save": "Opslaan"
 "Saved on:": "Opgeslagen op:"
 "Saved": "Opgeslagen"
-"Saving…": "Opslaan…"
+"Saving …": "Opslaan…"
 "Search results for <b> %search% </b>.": "Zoekresultaten voor <b> %search% </b>."
 "Search": "Zoeken"
-"Search…": "Zoek…"
+"Search …": "Zoek…"
 "Select a page": "Kies een pagina"
 "Select all": "Selecteer alles"
 "Select from server": "Kies vanaf de server"
@@ -304,6 +303,7 @@
 "The database needs to be updated / repaired. Go to 'Settings' > '<a href=\"%link%\">Check Database</a>' to do this now.": "De database moet bijgewerkt of gerepareerd worden. Ga naar 'Instellingen' > '<a href=\"%link%\">Controleer Database</a>' om dit nu te doen."
 "The file '%s' doesn't exist, or is not readable.": "Het bestand '%s' bestaat niet, of is niet leesbaar."
 "The file '%s' is not writable. You will have to use your own editor to make modifications to this file.": "Het bestand '%s' is niet schrijfbaar. Gebruik je eigen editor om wijzigingen in dit bestand aan te brengen."
+"The following file could not be read:": "Het volgende bestand kon niet worden gelezen:"
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "De identifier en slug voor '%taxonomytype%' zijn niet hetzelfde ('%slug%' vs. '%taxonomytype%'). Bewerk taxonomy.yml, en laat ze overeenkomen om inconsistenties tussen de database-opslag en je templates te voorkomen."
 "The new %contenttype% has been saved.": "De nieuwe %contenttype% is opgeslagen."
 "The requested changelog entry doesn't exist.": "De gevraagde changelog-regel bestaat niet."

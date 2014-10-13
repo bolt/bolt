@@ -691,13 +691,15 @@ function loadSerialize($filename, $silent = false)
             return false;
         }
 
-        $format = __(
-            "<p>The following file could not be read:</p>%s" .
-            "<p>Try logging in with your ftp-client and make the file readable. " .
-            "Else try to go <a href='javascript:history.go(-1)'>back</a> to the last page.</p>"
+        $part = __(
+            'Try logging in with your ftp-client and make the file readable. ' .
+            'Else try to go <a>back</a> to the last page.'
         );
-        $message = sprintf($format, '<pre>' . htmlspecialchars($filename) . '</pre>');
-        renderErrorpage(__("File is not readable!"), $message);
+        $message = '<p>' . __('The following file could not be read:') . '</p>' .
+            '<pre>' . htmlspecialchars($filename) . '</pre>' .
+            '<p>' . str_replace('<a>', '<a href="javascript:history.go(-1)">', $part) . '</p>';
+
+        renderErrorpage(__('File is not readable!'), $message);
     }
 
     $serialized_data = trim(implode("", file($filename)));

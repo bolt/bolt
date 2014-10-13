@@ -2,7 +2,7 @@
 # 2 untranslated strings
 
 "Cancel": "Peruuta"
-"Please choose the %contenttype% you want to link to:":  "Valitse haluamasi %contenttype%, joihin haluat linkata"
+"Please choose the %contenttype% you want to link to:": "Valitse haluamasi %contenttype%, joihin haluat linkata"
 
 #-----------------------------------------
 # 243 translated strings
@@ -20,7 +20,7 @@
 "Activity log": "Tapahtumaloki"
 "Add existing image": "Lisää olemassaoleva kuva"
 "Add some sample <a href='%url%'>Records with Loripsum text</a>.": "Lisää esimerksiksi <a href='%url%'>Diibadaaba tekstiä</a>."
-"Add…": "Lisää …"
+"Add …": "Lisää …"
 "Added to <tt>%key%</tt> '%title%'": "Lisätty <tt>%key%</tt> '%title%'"
 "Address lookup:": "Osoitehaku:"
 "Alas, no about!": "Voi ei, ei lisätietoja saatavilla!"
@@ -81,7 +81,7 @@
 "Excerpt": "Poiminto/ingressi"
 "Extensions": "Laajennukset"
 "File '%s' could not be saved, for some reason.": "Syystä tahi toisesta tiedostoa '%s' ei voida tallentaa"
-"File '%s' could not be saved: ": "Tiedostoa '%s' ei voida tallentaa:"
+"File '%s' could not be saved:": "Tiedostoa '%s' ei voida tallentaa:"
 "File '%s' has been saved.": "Tiedosto '%s' tallennettu."
 "File Management": "Tiedostohallinta"
 "File": "Tiedosto"
@@ -97,7 +97,7 @@
 "Folders": "Hakemistot"
 "Geolocation": "Geolokaatio"
 "Html": "Html"
-"I forgot my password…": "Unohdin salasanani…"
+"I forgot my password …": "Unohdin salasanani…"
 "If there was a Page with 'about' for a slug, it would've been shown here. But there isn't one, so that's why you're seeing this placeholder.": "Jos tässä olisi sivu osoitteella 'about', se näytettäisiin tässä. Sitä ei ole, joten tässä tämä diibadaaba-sivu."
 "Image": "Kuva"
 "Imagelist": "Kuvalista"

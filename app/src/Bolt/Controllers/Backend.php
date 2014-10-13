@@ -1381,7 +1381,7 @@ class Backend implements ControllerProviderInterface
                     'label' => __("Upload a file to this folder"),
                     'attr' => array(
                     'data-filename-placement' => 'inside',
-                    'title' => __("Select file…"))))
+                    'title' => __('Select file …'))))
                 ->getForm();
 
             // Handle the upload.
@@ -1426,7 +1426,7 @@ class Backend implements ControllerProviderInterface
                             $extensionList = implode(' ', $extensionList);
                             $app['session']->getFlashBag()->set(
                                 'error',
-                                __("File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following: ", array('%file%' => $filename))
+                                __("File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:", array('%file%' => $filename))
                                 . $extensionList
                             );
                         }
@@ -1573,7 +1573,7 @@ class Backend implements ControllerProviderInterface
                         $ok = $yamlparser->parse($contents);
                     } catch (\Symfony\Component\Yaml\Exception\ParseException $e) {
                         $ok = false;
-                        $app['session']->getFlashBag()->set('error', __("File '%s' could not be saved: ", array('%s' => $file)) . $e->getMessage());
+                        $app['session']->getFlashBag()->set('error', __("File '%s' could not be saved:", array('%s' => $file)) . $e->getMessage());
                     }
                 }
 
@@ -1653,7 +1653,7 @@ class Backend implements ControllerProviderInterface
                     $ok = Yaml::parse($contents);
                 } catch (\Symfony\Component\Yaml\Exception\ParseException $e) {
                     $ok = false;
-                    $msg = __("File '%s' could not be saved: ", array('%s' => $shortPath));
+                    $msg = __("File '%s' could not be saved:", array('%s' => $shortPath));
                     $app['session']->getFlashBag()->set('error', $msg . $e->getMessage());
                 }
 

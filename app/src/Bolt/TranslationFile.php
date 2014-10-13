@@ -7,7 +7,7 @@ use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Escaper;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
-function ___() {};
+
 /**
  * Handles translation file dependent tasks
  */
@@ -191,11 +191,6 @@ class TranslationFile
      */
     private function scanPhpFiles()
     {
-        $msg = __(
-            "_Test-(A)" .
-            '(\'B\')' . "(\"C\")" . "(D)"
-        );
-
         $finder = new Finder();
         $finder->files()
             ->ignoreVCS(true)
@@ -385,7 +380,7 @@ class TranslationFile
      */
     private function buildNewContent($translated, $untranslated)
     {
-        $content = '# ' . $this->relPath . ' -- generated on ' . date('Y/m/d H:i:s') . "\n";
+        $content = '# ' . $this->relPath . ' – generated on ' . date('Y-m-d H:i:s e') . "\n";
 
         $cnt = count($untranslated);
         if ($cnt) {

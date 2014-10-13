@@ -5,7 +5,7 @@
 "%s files could not be deleted. You should delete them manually.":  #
 "(default template)":  #
 "(no category)":  #
-"A menu with this name already exists…":  #
+"A menu with this name already exists …":  #
 "Added to <tt>%key%</tt> '%title%'":  #
 "Anonymous":  #
 "Are you sure you want to revert changes you have made since you last saved your menus?":  #
@@ -23,11 +23,11 @@
 "Content '%title%' has been changed to '%newStatus%'":  #
 "Content Type Permissions":  #
 "Could not save %contenttype%.":  #
-"Details are shown above. The importer will now try again with a different parser…":  #
+"Details are shown above. The importer will now try again with a different parser …":  #
 "Display name":  #
 "Files on the stack":  #
 "Filtering:":  #
-"Full list…":  #
+"Full list …":  #
 "If there was a Page with 'about' for a slug, it would've been shown here. But there isn't one, so that's why you're seeing this placeholder.":  #
 "In the contenttype for '%contenttype%', the field '%field%' has 'type: %type%', which is not a proper fieldtype. Please edit contenttypes.yml, and correct this.":  #
 "In the contenttype for '%contenttype%', the field '%field%' has 'uses: %uses%', but the field '%uses%' does not exist. Please edit contenttypes.yml, and correct this.":  #
@@ -65,11 +65,11 @@
 "Showing %pager_for% %from% - %to% of %count%":  #
 "Skipped <tt>%key%</tt> (already has records)":  #
 "Skipped <tt>%key%</tt> (not checked)":  #
-"Something went wrong":  "Ada yang salah"
+"Something went wrong": "Ada yang salah"
 "Something went wrong, please reload the page and try again":  #
-"Special elements":  "elemen khusus"
+"Special elements": "elemen khusus"
 "The %contenttype% you were looking for does not exist. It was probably deleted, or it never existed.":  #
-"The backup could not be restored: ":  #
+"The backup could not be restored:":  #
 "The database needs to be updated / repaired. Go to 'Settings' > '<a href=\"%link%\">Check Database</a>' to do this now.":  #
 "The file '%s' doesn't exist, or is not readable.":  #
 "The file '%s' is not writable. You will have to use your own editor to make modifications to this file.":  #
@@ -122,7 +122,6 @@
 "%contenttypes% overview": "ikhtisar %contenttypes%"
 "%contenttypes%": "%contenttypes%"
 "(no group)": "(Tidak ada kelompok)"
-"<p>The following file could not be read:</p>%s": "<p>Berkas berikut ini tidak terbaca:</p>%s"
 "A password reset link has been sent to '%user%'.": "Taut reset kata sandi telah dikirim ke '%user%'."
 "About Bolt": "Tentang Bolt"
 "About": "Tentang"
@@ -134,7 +133,7 @@
 "Add new menu": "Tambah menu baru"
 "Add some sample <a href='%url%' class='btn btn-small'>Records with Loripsum text</a>": "Tambah contoh<a href='%url%' class='btn btn-small'>Isian dengan teks Loripsum</a>"
 "Add to menu": "Tambah ke menu"
-"Add…": "Tambah …"
+"Add …": "Tambah …"
 "Added user '%s'.": "User '%s' ditambah."
 "Address lookup:": "Tabel Alamat"
 "Alas, no about!": "Waduh, tidak ada tentang kami!"
@@ -205,7 +204,7 @@
 "File '%file%' could not be uploaded.": "Berkas '%file%' tidak dapat diunggah."
 "File '%file%' was uploaded successfully.": "Berkas '%file%' sukses diunggah."
 "File '%s' could not be saved, for some reason.": "Berkas '%s' tidak dapat disimpan karena suatu alasan."
-"File '%s' could not be saved: ": "Berkas '%s' tidak dapat disimpan: "
+"File '%s' could not be saved:": "Berkas '%s' tidak dapat disimpan:"
 "File '%s' has been saved.": "Berkas '%s' telah disimpan."
 "File Management": "Manajemen Berkas"
 "File is not readable!": "Berkas tidak terbaca"
@@ -222,7 +221,7 @@
 "Global Permissions": "Ijin global"
 "Hide": "Sembunyikan"
 "Homepage": "Beranda"
-"I forgot my password…": "Saya lupa passwordku…"
+"I forgot my password …": "Saya lupa passwordku…"
 "IP address": "Alamat IP"
 "Image": "Citra"
 "Info": "Info"
@@ -293,9 +292,9 @@
 "Save": "Simpan"
 "Saved on:": "Disimpan pada:"
 "Saved": "Disimpan"
-"Saving…": "Menyimpan…"
+"Saving …": "Menyimpan…"
 "Search": "Cari"
-"Search…": "Mencari…"
+"Search …": "Mencari…"
 "Select a page": "Pilih halaman"
 "Select all": "Pilih semua"
 "Select from server": "Pilih dari server"
@@ -320,6 +319,7 @@
 "The activitylog has been cleared.": "Log Aktifitas telah dibersikan."
 "The activitylog has been trimmed.": "Log Aktifitas telah dirampingkan."
 "The changes to this %contenttype% have been saved.": "Perubahan untuk %contenttype% ini telah disimpan."
+"The following file could not be read:": "Berkas berikut ini tidak terbaca:"
 "The new %contenttype% has been saved.": "%contenttype% baru telah disimpan."
 "This is a checkbox": "Ini kotak centang"
 "Tip:": "Saran"

@@ -1,9 +1,9 @@
 # app/resources/translations/cs/contenttypes.cs.yml -- generated on 2014/07/07 11:56:54
 # 3 untranslated strings
 
-"In the contenttype for 'Entry', the field '%field%' is defined, which is a reserved name. Please edit contenttypes.yml, and correct this.":  "Typ obsahu 'Příspěvek' má definované pole '%field%', což je rezervovaný název. Přejmenujte prosím toto pole v contenttypes.yml."
-"In the contenttype for 'Kitchensink', the field '%field%' is defined, which is a reserved name. Please edit contenttypes.yml, and correct this.":  "Typ obsahu 'Kuchyňský dřez' má definované pole '%field%', což je rezervovaný název. Přejmenujte prosím toto pole v contenttypes.yml."
-"In the contenttype for 'Page', the field '%field%' is defined, which is a reserved name. Please edit contenttypes.yml, and correct this.":  "Typ obsahu 'Strana' má definované pole '%field%', což je rezervovaný název. Přejmenujte prosím toto pole v contenttypes.yml."
+"In the contenttype for 'Entry', the field '%field%' is defined, which is a reserved name. Please edit contenttypes.yml, and correct this.": "Typ obsahu 'Příspěvek' má definované pole '%field%', což je rezervovaný název. Přejmenujte prosím toto pole v contenttypes.yml."
+"In the contenttype for 'Kitchensink', the field '%field%' is defined, which is a reserved name. Please edit contenttypes.yml, and correct this.": "Typ obsahu 'Kuchyňský dřez' má definované pole '%field%', což je rezervovaný název. Přejmenujte prosím toto pole v contenttypes.yml."
+"In the contenttype for 'Page', the field '%field%' is defined, which is a reserved name. Please edit contenttypes.yml, and correct this.": "Typ obsahu 'Strana' má definované pole '%field%', což je rezervovaný název. Přejmenujte prosím toto pole v contenttypes.yml."
 
 #-----------------------------------------
 # 90 translated strings
@@ -17,9 +17,9 @@
 "Can't set %field% in Entry: Not a valid field.": "Nemohu nastavit %field% u příspěvků: neplatné pole."
 "Can't set %field% in Kitchensink: Not a valid field.": "Nemohu nastavit %field% u Kuchyňského dřezu: neplatné pole."
 "Can't set %field% in Page: Not a valid field.": "Nemohu nastavit %field% u Strany: neplatné pole."
-"Content was duplicated. Click 'Save Entry' to finalize.": "Obsah byl zduplikován. Klikněte na  'Uložit Příspěvek' pro dokončení."
-"Content was duplicated. Click 'Save Kitchensink' to finalize.": "Obsah byl zduplikován. Klikněte na  'Uložit Kuchyňský dřez' pro dokončení."
-"Content was duplicated. Click 'Save Page' to finalize.": "Obsah byl zduplikován. Klikněte na  'Uložit Stranu' pro dokončení."
+"Content was duplicated. Click 'Save Entry' to finalize.": "Obsah byl zduplikován. Klikněte na 'Uložit Příspěvek' pro dokončení."
+"Content was duplicated. Click 'Save Kitchensink' to finalize.": "Obsah byl zduplikován. Klikněte na 'Uložit Kuchyňský dřez' pro dokončení."
+"Content was duplicated. Click 'Save Page' to finalize.": "Obsah byl zduplikován. Klikněte na 'Uložit Stranu' pro dokončení."
 "Could not save Entry.": "Nelze uložit Příspěvek."
 "Could not save Kitchensink.": "Nelze uložit Kuchyňský dřez."
 "Could not save Page.": "Nelze uložit Stranu."
