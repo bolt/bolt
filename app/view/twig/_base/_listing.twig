@@ -61,11 +61,11 @@
             <strong>
                 {% if editable %}
                     <a href="{{ path('editcontent', { 'contenttypeslug': content.contenttype.slug, 'id': content.id }) }}" title="Slug: {{ content.slug }}">
-                        {{ content.getTitle|default("<em>(" ~ __("no title…") ~ ")</em>")|raw }}
+                        {{ content.getTitle|default("<em>(" ~ __("no title …") ~ ")</em>")|raw }}
                     </a>
                 {% else %}
                      <strong>
-                        {{ content.getTitle|default("<em>(" ~ __("no title…") ~ ")</em>")|raw }}
+                        {{ content.getTitle|default("<em>(" ~ __("no title …") ~ ")</em>")|raw }}
                     </strong>
                  {% endif %}
             </strong>
