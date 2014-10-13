@@ -380,7 +380,7 @@ class TranslationFile
      */
     private function buildNewContent($translated, $untranslated)
     {
-        $content = '# ' . $this->relPath . ' -- generated on ' . date('Y/m/d H:i:s') . "\n";
+        $content = '# ' . $this->relPath . ' – generated on ' . date('Y-m-d H:i:s') . "\n";
 
         $cnt = count($untranslated);
         if ($cnt) {
