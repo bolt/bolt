@@ -1381,7 +1381,7 @@ class Backend implements ControllerProviderInterface
                     'label' => __("Upload a file to this folder"),
                     'attr' => array(
                     'data-filename-placement' => 'inside',
-                    'title' => __("Select file…"))))
+                    'title' => __('Select file …'))))
                 ->getForm();
 
             // Handle the upload.

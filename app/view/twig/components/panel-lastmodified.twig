@@ -59,7 +59,7 @@
     </ul>
     {% if context.changelog is defined and context.contentid and context.filtered %}
         <a href="{{ path('changeloglist', { 'contenttype': context.contenttype.slug, 'contentid': context.contentid}) }}">
-            {{ __('Full list…') }}
+            {{ __('Full list …') }}
         </a>
     {% endif %}
 

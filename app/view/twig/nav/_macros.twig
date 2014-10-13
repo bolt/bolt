@@ -52,7 +52,7 @@
                     {% elseif isallowed(item.isallowed|default('dashboard')) %}
                         <li{% if divider %} class="subdivider"{% endif %}>
                             <a href="{{ item.link }}">
-                                <i class="fa fa-{{ item.icon }} fa-fw"> </i>{{ item.label|default("<em>(" ~ __("no content…") ~ ")</em>")|raw }}
+                                <i class="fa fa-{{ item.icon }} fa-fw"> </i>{{ item.label|default("<em>(" ~ __("no content …") ~ ")</em>")|raw }}
                             </a>
                         </li>
                         {% set divider = false %}

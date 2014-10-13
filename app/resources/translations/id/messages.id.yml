@@ -5,7 +5,7 @@
 "%s files could not be deleted. You should delete them manually.":  #
 "(default template)":  #
 "(no category)":  #
-"A menu with this name already exists…":  #
+"A menu with this name already exists …":  #
 "Added to <tt>%key%</tt> '%title%'":  #
 "Anonymous":  #
 "Are you sure you want to revert changes you have made since you last saved your menus?":  #
@@ -23,11 +23,11 @@
 "Content '%title%' has been changed to '%newStatus%'":  #
 "Content Type Permissions":  #
 "Could not save %contenttype%.":  #
-"Details are shown above. The importer will now try again with a different parser…":  #
+"Details are shown above. The importer will now try again with a different parser …":  #
 "Display name":  #
 "Files on the stack":  #
 "Filtering:":  #
-"Full list…":  #
+"Full list …":  #
 "If there was a Page with 'about' for a slug, it would've been shown here. But there isn't one, so that's why you're seeing this placeholder.":  #
 "In the contenttype for '%contenttype%', the field '%field%' has 'type: %type%', which is not a proper fieldtype. Please edit contenttypes.yml, and correct this.":  #
 "In the contenttype for '%contenttype%', the field '%field%' has 'uses: %uses%', but the field '%uses%' does not exist. Please edit contenttypes.yml, and correct this.":  #
@@ -133,7 +133,7 @@
 "Add new menu": "Tambah menu baru"
 "Add some sample <a href='%url%' class='btn btn-small'>Records with Loripsum text</a>": "Tambah contoh<a href='%url%' class='btn btn-small'>Isian dengan teks Loripsum</a>"
 "Add to menu": "Tambah ke menu"
-"Add…": "Tambah …"
+"Add …": "Tambah …"
 "Added user '%s'.": "User '%s' ditambah."
 "Address lookup:": "Tabel Alamat"
 "Alas, no about!": "Waduh, tidak ada tentang kami!"
@@ -221,7 +221,7 @@
 "Global Permissions": "Ijin global"
 "Hide": "Sembunyikan"
 "Homepage": "Beranda"
-"I forgot my password…": "Saya lupa passwordku…"
+"I forgot my password …": "Saya lupa passwordku…"
 "IP address": "Alamat IP"
 "Image": "Citra"
 "Info": "Info"
@@ -292,9 +292,9 @@
 "Save": "Simpan"
 "Saved on:": "Disimpan pada:"
 "Saved": "Disimpan"
-"Saving…": "Menyimpan…"
+"Saving …": "Menyimpan…"
 "Search": "Cari"
-"Search…": "Mencari…"
+"Search …": "Mencari…"
 "Select a page": "Pilih halaman"
 "Select all": "Pilih semua"
 "Select from server": "Pilih dari server"
