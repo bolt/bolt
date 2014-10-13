@@ -46,7 +46,7 @@
 "Before you can start using the theme on your site we need to make a copy to your theme folder.": "Das Theme muss zuerst ihn ihr Theme-Verzeichnis kopiert werde, bevor sie es auf ihrer Webseite verwenden können."
 "Below are the third party libraries that are used by Bolt.": "Hier die Bibliotheken von Drittanbietern, welche Bolt verwendet."
 "Bolt - Fatal error.": "Bolt - Schwerwiegender Fehler"
-"Bolt Extension could not be found. Please check at ": "Die Bolt Erweiterung konnte nicht gefunden werden. Bitte prüfen sie auf "
+"Bolt Extension could not be found. Please check at %site% to ensure correct name.": "Die Bolt Erweiterung konnte nicht gefunden werden. Bitte prüfen sie auf %site% um den richtigen Namen sicherzustellen"
 "Bolt documentation on Github": "Bolt-Dokumentation auf Github (EN)"
 "Bolt on Github": "Bolt auf Github"
 "Browscap file updated.": "Browscap Datei wurde geändert."
