@@ -1,5 +1,8 @@
 {# This file is inserted as the 'footer' of each listed record. #}
 <h6>
+    {% if record.editlink() %}
+        <span class="edit-link"><a href="{{ record.editlink() }}"><strong>Edit</strong></a> -
+    {% endif %}
     {% set recdate = record.datepublish|localdate("%A %B %e, %Y") %}
     {{ __('Written by <em>%name%</em> on %date%',{ '%name%': record.user.displayname, '%date%': recdate }) }} <br>
     <a href="{{ record.link }}">{{ __('Permalink') }}</a> -
