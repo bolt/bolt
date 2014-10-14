@@ -152,20 +152,7 @@ class Storage
 
         $content['ownerid'] = $user['id'];
 
-        switch (rand(1, 20)) {
-            case 1:
-                $content['status'] = "timed";
-                break;
-            case 2:
-                $content['status'] = "draft";
-                break;
-            case 3:
-                $content['status'] = "held";
-                break;
-            default:
-                $content['status'] = "published";
-                break;
-        }
+        $content['status'] = "published";
 
         foreach ($contenttype['fields'] as $field => $values) {
 

@@ -1058,7 +1058,6 @@ class Content implements \ArrayAccess
      * @param  int    $excerptLength Number of chars of the excerpt
      * @return string RSS safe string
      */
-
     public function /*@codingStandardsIgnoreStart*/rss_safe/*@codingStandardsIgnoreEnd*/($fields = '', $excerptLength = 0)
     {
         // Make sure we have an array of fields. Even if it's only one.
