@@ -6,6 +6,7 @@ use Bolt;
 use Bolt\Extensions\Snippets\Location as SnippetLocation;
 use Bolt\Extensions\ExtensionInterface;
 use Bolt\Configuration\LowlevelException;
+use Symfony\Component\Finder\Finder;
 
 class Extensions
 {
@@ -151,6 +152,29 @@ class Extensions
         }
     }
 
+    /**
+     * Workaround to load locally installed extensions
+     *
+     * @param Application $app
+     */
+    public function localload($app)
+    {
+        // Find init.php files that are exactly 2 directories below etensions/local/
+        $finder = new Finder();
+        $finder->files()
+               ->in($this->basefolder . '/local')
+               ->name('init.php')
+               ->depth('== 2');
+
+        foreach ($finder as $file) {
+            // Include the extensions core file
+            require_once dirname($file->getRealpath()) . '/Extension.php';
+
+            // Include the init file
+            require_once $file->getRealpath();
+        }
+    }
+
     public function errorCatcher($file)
     {
         $current = str_replace($this->app['resources']->getPath('extensions'), '', $file);
@@ -218,6 +242,7 @@ class Extensions
     public function initialize()
     {
         $this->autoload($this->app);
+        $this->localload($this->app);
         $this->isInitialized = true;
         foreach ($this->enabled as $extension) {
             $this->initializeExtension($extension);
