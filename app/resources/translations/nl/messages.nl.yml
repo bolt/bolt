@@ -1,55 +1,6 @@
 # app/resources/translations/nl/messages.nl.yml -- generated on 2014/04/25 15:13:20
 # 49 untranslated strings
 
-"Built-in role, only valid in the context of a resource, and automatically assigned to the owner of that resource.":  #
-"Content '%title%' has been changed to '%newStatus%'":  #
-"Content Type Permissions":  #
-"Content for home not found!":  #
-"Current (saved) status:": "Huidige (opgeslagen) status:"  #
-"Display the file or directory '%s' is forbidden.":  #
-"Edit the file '%s' is forbidden.":  #
-"File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:":  #
-"Full list …":  #
-"Homepage":  #
-"In the contenttype for '%contenttype%', the field '%field%' has 'type: %type%', which is not a proper fieldtype. Please edit contenttypes.yml, and correct this.":  #
-"Links":  #
-"Menu editor":  #
-"Menu successfully saved":  #
-"Menus successfully saved":  #
-"Message:":  #
-"Name of new menu":  #
-"Overview of all":  #
-"Password reset not successful! Either the token was incorrect, or you were too late, or you tried to reset the password from a different IP-address.":  #
-"Password reset successful! You can now log on with the password that was sent to you via email.":  #
-"Please confirm that you wish to restore the menu":  #
-"Please make sure that the MenuEditor/backups folder is writeable by your webserver or disable the backup-feature in config.yml":  #
-"Please make sure that there is a MenuEditor/backups folder or disable the backup-feature in config.yml":  #
-"Restore %filename%":  #
-"Select an item to add":  #
-"Something went wrong":  #
-"Something went wrong, please reload the page and try again":  #
-"Special elements":  #
-"The backup could not be restored:":  #
-"The menu.yml config-file was edited by someone else in the meantime, please reload the page.":  #
-"The settings for roles and permissions are stored in <code>%permissions%</code>.":  #
-"There should always be at least one 'root' user. You have just been promoted. Congratulations!":  #
-"There's something wrong with this extension, please report to the author and edit your menu manually until this is fixed.":  #
-"Timed publish":  #
-"Title/Alt Text:":  #
-"Types":  #
-"Unable to overwrite menu.yml":  #
-"Unable to save backup! Please make sure MenuEditor/backups is writable by your webserver or disable the feature in the extensions configuration.":  #
-"Unable to save your menu.":  #
-"You do not have the right privileges to create a new record.":  #
-"You should set 'homepage:' in your 'app/config/config.yml' to an existing record.":  #
-"css classes":  #
-"field":  #
-"http://":  #
-"in:":  #
-"label":  #
-"no label set":  #
-"old value":  #
-
 #-----------------------------------------
 # 346 translated strings
 
