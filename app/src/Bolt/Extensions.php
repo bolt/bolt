@@ -174,11 +174,14 @@ class Extensions
             ->depth('== 2');
 
             foreach ($finder as $file) {
-                // Include the extensions core file
-                require_once dirname($file->getRealpath()) . '/Extension.php';
+                try {
+                        // Include the extensions core file
+                        require_once dirname($file->getRealpath()) . '/Extension.php';
 
-                // Include the init file
-                require_once $file->getRealpath();
+                        // Include the init file
+                        require_once $file->getRealpath();
+                    } catch (\Exception $e) {
+                    }
             }
         }
     }
