@@ -767,7 +767,7 @@ class Backend implements ControllerProviderInterface
                  */
                 if ($app['request']->get('returnto')) {
                     if ($app['request']->get('returnto') == "new") {
-                        return redirect('editcontent', array('contenttypeslug' => $contenttype['slug'], 'id' => $id), '#' . $app['request']->get('returnto'));
+                        return redirect('editcontent', array('contenttypeslug' => $contenttype['slug'], 'id' => 0), '#' . $app['request']->get('returnto'));
                     } elseif ($app['request']->get('returnto') == "ajax") {
                         /*
                          * Flush any buffers from saveConent() dispatcher hooks
