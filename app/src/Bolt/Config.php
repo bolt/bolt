@@ -505,7 +505,7 @@ class Config
            (count($this->app['integritychecker']->checkTablesIntegrity()) > 0) &&
             $this->app['users']->getCurrentUsername()) {
             $msg = __(
-                "The database needs to be updated / repaired. Go to 'Settings' > '<a href=\"%link%\">Check Database</a>' to do this now.",
+                "The database needs to be updated/repaired. Go to 'Settings' > '<a href=\"%link%\">Check Database</a>' to do this now.",
                 array('%link%' => path('dbcheck'))
             );
             $this->app['session']->getFlashBag()->set('error', $msg);
@@ -598,7 +598,7 @@ class Config
                 'strike'      => false,
                 'blockquote'  => true,
                 'codesnippet' => false,
-                'specialchar' => false,    
+                'specialchar' => false,
                 'ck'          => array(
                     'allowedContent'          => true,
                     'autoParagraph'           => true,
