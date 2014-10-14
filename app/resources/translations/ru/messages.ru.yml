@@ -207,7 +207,7 @@
 "The activitylog has been cleared.": "Журнал активности был очищен."
 "The activitylog has been trimmed.": "Журнал активности был обрезан."
 "The changes to this %contenttype% have been saved.": "Изменения в этом %contenttype% были сохранены."
-"The database needs to be updated / repaired. Go to 'Settings' > '<a href=\"%link%\">Check Database</a>' to do this now.": "База данных должна быть обновлена / восстановлена. Перейдите в раздел 'Настройки' -> '<a href=\"%link%\">Проверка базы данных</a>', чтобы это сделать."
+"The database needs to be updated/repaired. Go to 'Settings' > '<a href=\"%link%\">Check Database</a>' to do this now.": "База данных должна быть обновлена / восстановлена. Перейдите в раздел 'Настройки' -> '<a href=\"%link%\">Проверка базы данных</a>', чтобы это сделать."
 "The file '%s' doesn't exist, or is not readable.": "Файл '%s' не существует, или не читается."
 "The file '%s' is not writable. You will have to use your own editor to make modifications to this file.": "Файл '%s' не доступен для записи. Вам придется использовать собственный редактор для внесения изменений в этот файл."
 "The name and singular_name for '%contenttype%' are the same (%name%). Please edit contenttypes.yml, and make them distinct.": "Имя и singular_name для '%contenttype%' одинаковы (%name%). Пожалуйста, отредактируйте contenttypes.yml и сделайте их различными."

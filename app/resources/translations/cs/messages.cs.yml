@@ -280,7 +280,7 @@
 "The activitylog has been trimmed.": "Ze záznamu aktivit byla odstraněna jedna strana."
 "The backup could not be restored:": "Zálohu nelze obnovit:"
 "The changes to this %contenttype% have been saved.": "Změny byly uloženy (%contenttype%)."
-"The database needs to be updated / repaired. Go to 'Settings' > '<a href=\"%link%\">Check Database</a>' to do this now.": "Databáze potřebuje být aktualizována / opravena. Volbu naleznete v 'Nastavení' > '<a href=\"%link%\">Ověřit databázi</a>'."
+"The database needs to be updated/repaired. Go to 'Settings' > '<a href=\"%link%\">Check Database</a>' to do this now.": "Databáze potřebuje být aktualizována / opravena. Volbu naleznete v 'Nastavení' > '<a href=\"%link%\">Ověřit databázi</a>'."
 "The file '%s' doesn't exist, or is not readable.": "Soubor '%s' neexistuje nebo nelze přečíst."
 "The file '%s' is not writable. You will have to use your own editor to make modifications to this file.": "Soubor '%s' nelze zapsat. Pro úpravu souboru budete muset použít vlastní editor."
 "The following file could not be read:": "Nelze načíst soubor:"

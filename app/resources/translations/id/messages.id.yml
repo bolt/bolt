@@ -70,7 +70,7 @@
 "Special elements": "elemen khusus"
 "The %contenttype% you were looking for does not exist. It was probably deleted, or it never existed.":  #
 "The backup could not be restored:":  #
-"The database needs to be updated / repaired. Go to 'Settings' > '<a href=\"%link%\">Check Database</a>' to do this now.":  #
+"The database needs to be updated/repaired. Go to 'Settings' > '<a href=\"%link%\">Check Database</a>' to do this now.":  #
 "The file '%s' doesn't exist, or is not readable.":  #
 "The file '%s' is not writable. You will have to use your own editor to make modifications to this file.":  #
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.":  #

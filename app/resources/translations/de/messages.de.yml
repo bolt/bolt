@@ -327,7 +327,7 @@
 "The activitylog has been cleared.": "Die Aktivitätshistorie wurde gelöscht."
 "The activitylog has been trimmed.": "Die Aktivitätshistorie wurde aufgeräumt."
 "The changes to this %contenttype% have been saved.": "Die Änderungen an %contenttype% wurden gespeichert."
-"The database needs to be updated / repaired. Go to 'Settings' > '<a href=\"%link%\">Check Database</a>' to do this now.": "Die Datenbank muss auf den neuesten Stand gebracht oder repariert werden. Gehen sie auf 'Einstellungen' > '<a href=\"%link%\"'>Datenbank überprüfen</a>' um dies zu tun."
+"The database needs to be updated/repaired. Go to 'Settings' > '<a href=\"%link%\">Check Database</a>' to do this now.": "Die Datenbank muss auf den neuesten Stand gebracht oder repariert werden. Gehen sie auf 'Einstellungen' > '<a href=\"%link%\"'>Datenbank überprüfen</a>' um dies zu tun."
 "The extensions directory (<code>%dir%</code>) does not exist, or it is not writable.": "Das Erweiterungsverzeichnis (<code>%dir%</code>) existiert nicht oder ist nicht beschreibbar."
 "The field %field% has been changed to \"%newValue%\"": "Das Feld %field% wurde in \"%newValue%\" geändert"
 "The file '%s' doesn't exist, or is not readable.": "Die Datei '%s' wurde nicht gefunden oder ist nicht beschreibbar."

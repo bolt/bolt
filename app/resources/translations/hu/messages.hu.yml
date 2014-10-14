@@ -287,7 +287,7 @@
 "The activitylog has been trimmed.": "Az aktivitási napló tömörítve."
 "The backup could not be restored:": "A mentés nem visszaállítható:"
 "The changes to this %contenttype% have been saved.": "A %contenttype% módosításai mentve."
-"The database needs to be updated / repaired. Go to 'Settings' > '<a href=\"%link%\">Check Database</a>' to do this now.": "Az adatbázist frissíteni / javítani kell. Menjen a 'Beállítások' > '<a href=\"%link%\">Adatbázis ellenőrzése</a>' menüpontba, hogy ezt megtehesse."
+"The database needs to be updated/repaired. Go to 'Settings' > '<a href=\"%link%\">Check Database</a>' to do this now.": "Az adatbázist frissíteni / javítani kell. Menjen a 'Beállítások' > '<a href=\"%link%\">Adatbázis ellenőrzése</a>' menüpontba, hogy ezt megtehesse."
 "The file '%s' doesn't exist, or is not readable.": "A '%s' fájl nem létezik vagy nem olvasható."
 "The file '%s' is not writable. You will have to use your own editor to make modifications to this file.": "A '%s' fájl nem írható. Az ön saját szerkesztőjét kell használnia a fájl módosításához."
 "The following file could not be read:": "A következő fájl nem olvasható:"
