@@ -6,6 +6,8 @@ use Bolt;
 use Bolt\Extensions\Snippets\Location as SnippetLocation;
 use Bolt\Extensions\ExtensionInterface;
 use Bolt\Configuration\LowlevelException;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Symfony\Component\Finder\Finder;
 
 class Extensions
@@ -159,19 +161,25 @@ class Extensions
      */
     public function localload($app)
     {
-        // Find init.php files that are exactly 2 directories below etensions/local/
-        $finder = new Finder();
-        $finder->files()
-               ->in($this->basefolder . '/local')
-               ->name('init.php')
-               ->depth('== 2');
+        $fs = new Filesystem();
+        $flag = $fs->exists($this->basefolder . '/local');
 
-        foreach ($finder as $file) {
-            // Include the extensions core file
-            require_once dirname($file->getRealpath()) . '/Extension.php';
+        // Check that local exists
+        if ($flag) {
+            // Find init.php files that are exactly 2 directories below etensions/local/
+            $finder = new Finder();
+            $finder->files()
+            ->in($this->basefolder . '/local')
+            ->name('init.php')
+            ->depth('== 2');
 
-            // Include the init file
-            require_once $file->getRealpath();
+            foreach ($finder as $file) {
+                // Include the extensions core file
+                require_once dirname($file->getRealpath()) . '/Extension.php';
+
+                // Include the init file
+                require_once $file->getRealpath();
+            }
         }
     }
 
