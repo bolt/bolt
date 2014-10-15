@@ -247,7 +247,7 @@ var BoltExtender = Object.extend(Object, {
         var tpl = "";
         for(var v in packages) {
             version = packages[v];
-            tpl = tpl+'<tr><td>'+version.name+'</td><td>'+version.version+'</td><td><span class="label label-default"';
+            tpl = tpl+'<tr><td>'+version.name+'</td><td>'+version.version+'</td><td><span class="label label-default';
             if(version.buildStatus=='approved') tpl = tpl+' label-success';
             tpl = tpl+'">'+version.buildStatus+'</span></td>';
             tpl = tpl+'<td><div class="btn-group"><a href="#" data-action="install-package" class="btn btn-primary btn-sm" data-package="'+version.name+'" data-version="'+version.version+'">';
