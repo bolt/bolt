@@ -10,8 +10,8 @@
     contentId:      context.content.id,
     isEmpty:        (context.content.get(key) == ''),
     key:            key,
-    messageSet:     __('Set the slug to:'),
-    messageUnlock:  __('Are you sure you wish to unlock the slug? This might break existing links to this record.'),
+    messageSet:     __('field.slug.message.set'),
+    messageUnlock:  __('field.slug.message.unlock'),
     slug:           context.content.contenttype.slug,
     uses:           option.uses,
 }] : '' %}
@@ -29,7 +29,7 @@
 <fieldset class="slug">
 
     <div class="col-sm-12">
-        <label class="permalink">{{ __('Permalink') }}:
+        <label class="permalink">{{ __('field.slug.permalink') }}:
             <code>/{{ context.content.contenttype.singular_slug }}/<span id="show-{{ key }}">{{ context.content.get(key) }}</span></code>
             <input{{ macro.attr(attr_slug) }}>
             <span class="sluglocker"><i class="fa fa-lock"></i></span> <span class="slugedit"><i class="fa fa-pencil"></i></span>
