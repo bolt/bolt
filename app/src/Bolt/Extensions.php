@@ -169,9 +169,9 @@ class Extensions
             // Find init.php files that are exactly 2 directories below etensions/local/
             $finder = new Finder();
             $finder->files()
-            ->in($this->basefolder . '/local')
-            ->name('init.php')
-            ->depth('== 2');
+                   ->in($this->basefolder . '/local')
+                   ->name('init.php')
+                   ->depth('== 2');
 
             foreach ($finder as $file) {
                 try {
