@@ -222,12 +222,12 @@ var BoltExtender = Object.extend(Object, {
             
             if(devpacks.length > 0) {
               controller.find('.dev-version-container .installed-version-item').html("");
-              controller.find('.dev-version-container .installed-version-item').append(this.buildVersionTable(devpacks)); 
+              controller.find('.dev-version-container .installed-version-item').append(controller.buildVersionTable(devpacks)); 
             }
             
             if(stablepacks.length > 0) {
               controller.find('.stable-version-container .installed-version-item').html("");
-              controller.find('.stable-version-container .installed-version-item').append(this.buildVersionTable(stablepacks)); 
+              controller.find('.stable-version-container .installed-version-item').append(controller.buildVersionTable(stablepacks)); 
             }
          
             
