@@ -786,6 +786,7 @@ var Sidebar = Backbone.Model.extend({
             // One for 'mouseleave' on the sidebar itself, and one for keyboard
             // 'focus' on the items before and after.
             $('#navpage-secondary').on('mouseleave', function () {
+                window.clearTimeout(menuTimeout);                
                 menuTimeout = window.setTimeout(function () {
                     $('#navpage-secondary a.menu-pop').popover('hide');
                 }, 800);
