@@ -35,6 +35,18 @@
 
             {% include '_recordfooter.twig' with {record: record} %}
 
+            {% if Disqus is defined %}
+                {# Show the Disqus comment box, if the Disqus extension is installed .. #}
+                <h4>Leave a comment</h4>
+                {{ Disqus.disqus() }}
+                <hr>
+            {% elseif FacebookComments is defined %}
+                {# Show the Facebook comment box, if Facebookcomments extension is installed .. #}
+                <h4>Leave a comment</h4>                
+                {{ FacebookComments.facebookComments() }}            
+                <hr>
+            {% endif %}
+
             <p class="meta">
                 {% set previous = record.previous('id') %}
                 {% if previous %}

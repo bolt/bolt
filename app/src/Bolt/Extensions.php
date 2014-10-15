@@ -276,6 +276,13 @@ class Extensions
         // Call extension initialize()
         try {
             $extension->initialize();
+
+            // Add an object of this extension to the global Twig scope. 
+            $namespace = $this->getNamespace($extension);
+            if (!empty($namespace)) {
+                $this->app['twig']->addGlobal($namespace, $extension);
+            }
+
         } catch (\Exception $e) {
             $this->app['log']->add("[EXT] Initialisation failed for {$name}: " . $e->getMessage(), 2);
 
@@ -333,6 +340,19 @@ class Extensions
     public function getAssets()
     {
         return $this->assets;
+    }
+
+    private function getNamespace($extension)
+    {
+        $classname = get_class($extension);
+        $classatoms = explode('\\', $classname);
+
+        // throw away last atom.
+        array_pop($classatoms);
+
+        // return second to last as namespace name
+        return (array_pop($classatoms));
+
     }
 
     /**
