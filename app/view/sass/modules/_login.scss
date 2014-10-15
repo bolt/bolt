@@ -30,6 +30,14 @@ body.login {
         float: right;
     }
 
+    /* Make sure the columns are a bit wider than usual.. */
+    .col-sm-2 {
+        min-width: 180px;
+    }
+    .col-lg-4 {
+        min-width: 280px;        
+    }
+
     .togglepass.hide-password {
         display: none;
     }
@@ -69,6 +77,12 @@ body.login {
         display: block;
         margin-top: 5px;
         float: right;
+    }
+
+    p.first-user { 
+        font-size: 14px;
+        max-width: 32em;
+        margin-bottom: 1.5em;
     }
 
     p.cookie-notice {

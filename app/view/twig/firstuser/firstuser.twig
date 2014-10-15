@@ -8,13 +8,13 @@
 
     {% form_theme context.form 'form_bolt_layout.twig' %}
 
-    <p>
+    <p class="first-user">
         {{ __('There are no users present in the system. Please create the first user, which will be granted root privileges.') }}
     </p>
 
     <form action="#" method="post" class="form-horizontal" role="form" autocomplete="off">
         {{ form_widget(context.form) }}
-        <input type="submit" value="{{ __('Save user') }}" name="submit" class="btn btn-primary">
+        <input type="submit" value="{{ __('Create the first user') }}" name="submit" class="btn btn-primary">
     </form>
 
     {% if context.note is not empty %}

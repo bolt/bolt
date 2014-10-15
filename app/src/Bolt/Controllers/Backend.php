@@ -1029,23 +1029,39 @@ class Backend implements ControllerProviderInterface
             ->add('id', 'hidden')
             ->add('username', 'text', array(
                 'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min' => 2, 'max' => 32))),
-                'label' => __('Username')
+                'label' => __('Username'),
+                'attr' => array( 
+                    'placeholder' => __('Pick a username, lowercase only')
+                )
             ))
             ->add('password', 'password', array(
                 'required' => false,
-                'label' => __('Password')
+                'label' => __('Password'),
+                'attr' => array( 
+                    'placeholder' => __('Enter a password, longer than 6 chars')
+                )
+
             ))
             ->add('password_confirmation', 'password', array(
                 'required' => false,
-                'label' => __('Password (confirm)')
+                'label' => __('Password (confirm)'),
+                'attr' => array( 
+                    'placeholder' => __('Confirm your password')
+                )
             ))
             ->add('email', 'text', array(
                 'constraints' => new Assert\Email(),
-                'label' => __('Email')
+                'label' => __('Email'),
+                'attr' => array( 
+                    'placeholder' => __('Enter a valid email address')
+                )
             ))
             ->add('displayname', 'text', array(
                 'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min' => 2, 'max' => 32))),
-                'label' => __('Display name')
+                'label' => __('Display name'),
+                'attr' => array( 
+                    'placeholder' => __('Pick a display name / alias')
+                )
             ));
 
         // If we're adding the first user, add them as 'developer' by default, so don't
