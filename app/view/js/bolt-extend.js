@@ -221,27 +221,15 @@ var BoltExtender = Object.extend(Object, {
             var stablepacks = data['stable'];
             
             if(devpacks.length > 0) {
-              controller.find('.dev-version-container .installed-version-item').html("");  
+              controller.find('.dev-version-container .installed-version-item').html("");
+              controller.find('.dev-version-container .installed-version-item').append(controller.buildVersionTable(devpacks)); 
             }
             
             if(stablepacks.length > 0) {
-              controller.find('.stable-version-container .installed-version-item').html("");  
+              controller.find('.stable-version-container .installed-version-item').html("");
+              controller.find('.stable-version-container .installed-version-item').append(controller.buildVersionTable(stablepacks)); 
             }
-
-            for(var v in devpacks) {
-                version = devpacks[v];
-                var tpl = '<tr><td>'+version.name+'</td><td>'+version.version+'</td>';
-                tpl = tpl+'<td><div class="btn-group"><a href="#" data-action="install-package" class="btn btn-primary btn-sm" data-package="'+version.name+'" data-version="'+version.version+'">'
-                tpl = tpl+'<i class="icon-gears"></i> Install This Version</a></div></td></tr>';
-                controller.find('.dev-version-container .installed-version-item').append(tpl);
-            }
-            for(var v in stablepacks) {
-                version = stablepacks[v];
-                var tpl = '<tr><td>'+version.name+'</td><td>'+version.version+'</td>';
-                tpl = tpl+'<td><div class="btn-group"><a href="#" data-action="install-package" class="btn btn-primary btn-sm" data-package="'+version.name+'" data-version="'+version.version+'">';
-                tpl = tpl+'<i class="icon-gears"></i> Install This Version</a></div></td></tr>';
-                controller.find('.stable-version-container .installed-version-item').append(tpl);
-            }
+         
             
             controller.find(".install-version-container").show();
             controller.find("#installModal .loader").hide();
@@ -253,6 +241,19 @@ var BoltExtender = Object.extend(Object, {
         
         
         e.preventDefault();  
+    },
+    
+    buildVersionTable: function(packages) {
+        var tpl = "";
+        for(var v in packages) {
+            version = packages[v];
+            tpl = tpl+'<tr><td>'+version.name+'</td><td>'+version.version+'</td><td><span class="label label-default';
+            if(version.buildStatus=='approved') tpl = tpl+' label-success';
+            tpl = tpl+'">'+version.buildStatus+'</span></td>';
+            tpl = tpl+'<td><div class="btn-group"><a href="#" data-action="install-package" class="btn btn-primary btn-sm" data-package="'+version.name+'" data-version="'+version.version+'">';
+            tpl = tpl+'<i class="icon-gears"></i> Install This Version</a></div></td></tr>';
+        }
+        return tpl;
     },
     
     install: function(e) {
