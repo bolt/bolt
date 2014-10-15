@@ -230,14 +230,14 @@ var BoltExtender = Object.extend(Object, {
 
             for(var v in devpacks) {
                 version = devpacks[v];
-                var tpl = '<tr><td>'+version.name+'</td><td>'+version.version+'</td>';
+                var tpl = '<tr><td>'+version.name+'</td><td>'+version.version+'</td><td><span class="label label-default">'+version.buildStatus+'</span></td>';
                 tpl = tpl+'<td><div class="btn-group"><a href="#" data-action="install-package" class="btn btn-primary btn-sm" data-package="'+version.name+'" data-version="'+version.version+'">'
                 tpl = tpl+'<i class="icon-gears"></i> Install This Version</a></div></td></tr>';
                 controller.find('.dev-version-container .installed-version-item').append(tpl);
             }
             for(var v in stablepacks) {
                 version = stablepacks[v];
-                var tpl = '<tr><td>'+version.name+'</td><td>'+version.version+'</td>';
+                var tpl = '<tr><td>'+version.name+'</td><td>'+version.version+'</td><td><span class="label label-default">'+version.buildStatus+'</span></td>';
                 tpl = tpl+'<td><div class="btn-group"><a href="#" data-action="install-package" class="btn btn-primary btn-sm" data-package="'+version.name+'" data-version="'+version.version+'">';
                 tpl = tpl+'<i class="icon-gears"></i> Install This Version</a></div></td></tr>';
                 controller.find('.stable-version-container .installed-version-item').append(tpl);
