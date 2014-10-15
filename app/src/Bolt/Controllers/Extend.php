@@ -173,7 +173,7 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
     {
         $package = $request->get('package');
         $version = $request->get('version');
-
+        $this->app['extensions.stats']->recordInstall($package, $version);
         return new Response($app['extend.runner']->install($package, $version));
     }
 
