@@ -38,10 +38,10 @@
                 <div class="col-sm-8">
 
                     {% if relation.multiple is defined and relation.multiple == 1 %}
-                        <select name="relation[{{ relcontenttype }}][]" id="relation-{{ relcontenttype }}" class="wide" multiple style="width: 100%;" data-placeholder="(none)">
+                        <select name="relation[{{ relcontenttype }}][]" id="relation-{{ relcontenttype }}" class="wide" multiple style="width: 100%;" data-placeholder="{{ __('(none)') }}">
                     {% else %}
-                        <select name="relation[{{ relcontenttype }}][]" id="relation-{{ relcontenttype }}" class="wide" style="width: 100%;" data-placeholder="(none)">
-                            <option value="0">(none)</option>
+                        <select name="relation[{{ relcontenttype }}][]" id="relation-{{ relcontenttype }}" class="wide" style="width: 100%;" data-placeholder="{{ __('(none)') }}">
+                            <option value="0">{{ __('(none)') }}</option>
                     {% endif %}
                         {% for item in listcontent(relcontenttype, relation, context.content) %}
                             {% if relcontenttype == app.request.get('relation') and item.id == app.request.get('relationid') %}
@@ -59,7 +59,7 @@
                     <script>
                         $(function() {
                             $('#relation-{{ relcontenttype }}').select2({
-                                placeholder: "(none)",
+                                placeholder: "{{ __('(none)') }}",
                                 allowClear: true
                             });
                         });
