@@ -1468,7 +1468,7 @@ var init = {
             }
 
             config.toolbar = config.toolbar.concat({
-                name: 'tools', items: toolItems 
+                name: 'tools', items: toolItems
             });
 
             config.height = 250;
@@ -1519,21 +1519,17 @@ var init = {
             };
 
             // Parse override settings from config.yml
-            if ($.isArray(set.ck)) {
-                for (key in set.ck) {
-                    if (set.ck.hasOwnProperty(key)) {
-                         config[key] = set.ck[key];
-                    }
+            for (key in set.ck) {
+                if (set.ck.hasOwnProperty(key)) {
+                     config[key] = set.ck[key];
                 }
             }
 
             // Parse override settings from field in contenttypes.yml
             custom = $('textarea[name=' + this.name + ']').data('ckconfig');
-            if ($.isArray(custom)) {
-                for (key in custom){
-                    if (custom.hasOwnProperty(key)) {
-                        config[key] = custom[key];
-                    }
+            for (key in custom) {
+                if (custom.hasOwnProperty(key)) {
+                    config[key] = custom[key];
                 }
             }
         };
