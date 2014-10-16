@@ -285,11 +285,9 @@ var init = {
             };
 
             // Parse override settings from config.yml
-            if ($.isArray(set.ck)) {
-                for (key in set.ck) {
-                    if (set.ck.hasOwnProperty(key)) {
-                         config[key] = set.ck[key];
-                    }
+            for (key in set.ck) {
+                if (set.ck.hasOwnProperty(key)) {
+                     config[key] = set.ck[key];
                 }
             }
 
