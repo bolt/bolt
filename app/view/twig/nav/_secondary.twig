@@ -6,8 +6,14 @@
         {# Omnisearch: one here for "extra small", the other in the header-navbar #}
         {% include 'nav/_secondary-search.twig' %}
 
+
         {# Dashboard #}
         {{ nav.link('dashboard', __('Dashboard'), 'dashboard', (page_nav == 'Dashboard')) }}
+
+        {# View site #}
+        <li>
+            <a href="{{ paths.root }}" target="_blank"><i class="icon fa fa-external-link-square"></i> {{ __('View site') }}</a>
+        </li>
 
         {# Contenttypes #}
         {{ nav.heading(__('Content'), 'file-text') }}
