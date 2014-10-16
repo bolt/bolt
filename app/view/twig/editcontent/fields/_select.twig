@@ -22,13 +22,11 @@
     {% set values = lookups|selectfield(lookupfield) %}
 {% endif %}
 
-{# TODO: move style to CSS #}
 {% set attr_select = {
     class:     option.class,
     id:        key,
     multiple:  option.multiple,
     name:      (option.multiple) ? key~'[]' : key,
-    style:     (option.multiple) ? 'display: block;' : '',
 }%}
 
 {#=== FIELDSET =======================================================================================================#}
@@ -52,7 +50,7 @@
                 {% endfor %}
             </select>
 
-            <div style='margin-top: 8px;'>{# TODO: move style to CSS, onclick-events to JS #}
+            <div>{# TODO: move onclick-events to JS #}
                 <a href="#" class="btn btn-default btn-xs" onclick="jQuery('#{{ key }} option').prop('selected', true); return false;">
                     <i class="fa fa-fw fa-check-square-o"></i>{{ __("Select all") }}
                 </a>
