@@ -4,7 +4,7 @@ namespace Bolt\Configuration;
 class LowlevelException extends \Exception
 {
 
-    public static $html_head = <<< EOM
+    public static $html = <<< EOM
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,8 +25,6 @@ class LowlevelException extends \Exception
         .status-error {color: #B94A48;background-color: #F2DEDE;border-color: #EED3D7;margin:5px;padding:5px;}
     </style>
 </head>
-EOM;
-    public static $html_body = <<< EOM
 <body style="padding: 20px;">
 
     <div style="max-width: 530px; margin: auto;">
@@ -35,11 +33,7 @@ EOM;
 
     <p><strong>%error%</strong></p>
 
-    <p>This is a fatal error. Please fix the error, and refresh the page.
-    Bolt can not run, until this error has been corrected. <br>
-    Make sure you've read the instructions in the documentation for help. If you
-    can't get it to work, post a message on our forum, and we'll try to help you
-    out. Be sure to include the exact error message you're getting!</p>
+    %info%
 
     <ul>
         <li><a href="http://docs.bolt.cm/installation"><span class="hide"> * http://docs.bolt.cm/installation - </span>Bolt documentation - Setup</a></li>
@@ -53,6 +47,14 @@ EOM;
 </html>
 EOM;
 
+    public static $info = <<< EOM
+    <p>This is a fatal error. Please fix the error, and refresh the page.
+    Bolt can not run, until this error has been corrected. <br>
+    Make sure you've read the instructions in the documentation for help. If you
+    can't get it to work, post a message on our forum, and we'll try to help you
+    out. Be sure to include the exact error message you're getting!</p>
+EOM;
+
     /**
      * Print a 'low level' error page, and quit. The user has to fix something.
      *
@@ -63,9 +65,9 @@ EOM;
      */
     public function __construct($message, $code = null, $previous = null)
     {
-        $html = self::$html_head . self::$html_body;
-        $output = str_replace('%error_title%', 'Bolt - Fatal Error', $html);
-        $output = str_replace('%error%', $message, $html);
+        $output = str_replace('%error_title%', 'Bolt - Fatal Error', self::html);
+        $output = str_replace('%error%', $message, $output);
+        $output = str_replace('%info%', self::info, $output);
 
         // TODO: Information disclosure vulnerability. A misconfigured system
         // will give an attacker detailed information about the state of the
@@ -90,29 +92,45 @@ EOM;
         $error = error_get_last();
 
         if (($error['type'] == E_ERROR || $error['type'] == E_PARSE)) {
+            $html = self::$html;
+            //$html = str_replace('%info%', self::info, $html);
+
             // Detect if we're being called from a core, an extension or vendor
             $isBoltCoreError  = strpos($error['file'], $app['resources']->getPath('rootpath') . '/app');
             $isVendorError    = strpos($error['file'], $app['resources']->getPath('rootpath') . '/vendor');
             $isExtensionError = strpos($error['file'], $app['resources']->getPath('extensions'));
 
+            // Assembe error trace
             $errorblock  = '<code>Error: ' . $error['message'] . '</code><br>';
             $errorblock .= '<code>File:  ' . $error['file'] . '</code><br>';
             $errorblock .= '<code>Line:  ' . $error['line'] . '</code><br><br>';
 
             if ($isBoltCoreError === 0) {
+                $html = str_replace('%error_title%', 'Bolt Core - Fatal Error', $html);
                 $message .= $errorblock;
             } elseif ($isVendorError === 0) {
+                $html = str_replace('%error_title%', 'Bolt Vendor Library - Fatal Error', $html);
                 $message .= $errorblock;
             } elseif ($isExtensionError === 0) {
-                $message  = $app['translator']->trans('<h4>There is a fatal error in one of the extensions loaded on your Bolt Installation.<h4>');
+                $vendor = $app['resources']->getPath('extensions') . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR;
+                $base = str_replace($vendor, '', $error['file']);
+                $parts = explode(DIRECTORY_SEPARATOR, $base);
+
+                $package = $parts[0] . '/' . $parts[1];
+                $delete =  $vendor . $parts[0] . DIRECTORY_SEPARATOR . $parts[1];
+
+                $html = str_replace('%error_title%', 'Bolt Extensions - Fatal Error', $html);
+                $html = str_replace('%info%', '<p>' . $app['translator']->trans('You will only be able to continue by manually deleting the extension that is installed at:') . "</p><code>$delete</code><br><br>", $html);
+                $message  = $app['translator']->trans("<h4>There is a fatal error in the '$package' extension loaded on your Bolt Installation.<h4>");
                 $message .= $errorblock;
-                $message .= $app['translator']->trans('You will only be able to continue by manually deleting the extension that was initialized at: extensions' . $current);
+
             } else {
                 // Unknown
+                $html = str_replace('%error_title%', 'Bolt - Fatal Error', $html);
                 $message .= $errorblock;
             }
 
-            echo str_replace('%error%', $message, self::$html);
+            echo str_replace('%error%', $message, $html);
         }
     }
 
