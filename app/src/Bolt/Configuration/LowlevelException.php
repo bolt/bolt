@@ -105,22 +105,22 @@ EOM;
 
             // Assembe error trace
             $errorblock  = '<code>Error: ' . $error['message'] . '</code><br>';
-            $errorblock .= '<code>File:  ' . $error['file'] . '</code><br>';
+            $errorblock .= '<code>File:  ' . str_replace($app['resources']->getPath('rootpath') . DIRECTORY_SEPARATOR, '', $error['file']) . '</code><br>';
             $errorblock .= '<code>Line:  ' . $error['line'] . '</code><br><br>';
 
             if ($isBoltCoreError === 0) {
                 $html = str_replace('%error_title%', 'Bolt Core - Fatal Error', $html);
-                $message .= $errorblock;
+                $message = $errorblock;
             } elseif ($isVendorError === 0) {
                 $html = str_replace('%error_title%', 'Bolt Vendor Library - Fatal Error', $html);
-                $message .= $errorblock;
+                $message = $errorblock;
             } elseif ($isExtensionError === 0) {
                 $vendor = $app['resources']->getPath('extensions') . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR;
                 $base = str_replace($vendor, '', $error['file']);
                 $parts = explode(DIRECTORY_SEPARATOR, $base);
 
                 $package = $parts[0] . '/' . $parts[1];
-                $delete =  $vendor . $parts[0] . DIRECTORY_SEPARATOR . $parts[1];
+                $delete =  'extensions/vendor' . DIRECTORY_SEPARATOR . $parts[0] . DIRECTORY_SEPARATOR . $parts[1];
 
                 $html = str_replace('%error_title%', 'Bolt Extensions - Fatal Error', $html);
                 $html = str_replace('%info%', '<p>' . $app['translator']->trans('You will only be able to continue by manually deleting the extension that is installed at:') . "</p><code>$delete</code><br><br>", $html);
@@ -130,7 +130,7 @@ EOM;
             } else {
                 // Unknown
                 $html = str_replace('%error_title%', 'Bolt - Fatal Error', $html);
-                $message .= $errorblock;
+                $message = $errorblock;
             }
 
             echo str_replace('%error%', $message, $html);
