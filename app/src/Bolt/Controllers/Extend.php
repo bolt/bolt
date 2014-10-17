@@ -253,11 +253,6 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
         // Start the 'stopwatch' for the profiler.
         $app['stopwatch']->start('bolt.backend.before');
 
-        // If there's no active session, don't do anything..
-        if (!$app['users']->isValidSession()) {
-            $app->abort(404, 'You must be logged in to use this.');
-        }
-
         // Most of the 'check if user is allowed' happens here: match the current route to the 'allowed' settings.
         if (!$app['users']->isAllowed('extensions')) {
             $app['session']->getFlashBag()->set('error', __('You do not have the right privileges to view that page.'));
