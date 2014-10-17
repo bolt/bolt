@@ -65,9 +65,12 @@ EOM;
      */
     public function __construct($message, $code = null, $previous = null)
     {
-        $output = str_replace('%error_title%', 'Bolt - Fatal Error', self::html);
+        $html = self::$html;
+        $info = self::$info;
+
+        $output = str_replace('%error_title%', 'Bolt - Fatal Error', $html);
         $output = str_replace('%error%', $message, $output);
-        $output = str_replace('%info%', self::info, $output);
+        $output = str_replace('%info%', $info, $output);
 
         // TODO: Information disclosure vulnerability. A misconfigured system
         // will give an attacker detailed information about the state of the
