@@ -282,10 +282,17 @@ class CommandRunner
             $pack['descrip'] = 'Not yet installed';
         }
 
+        // flatten the composer array one level to make working easier
+        $initialized_extensions = array();
+        foreach($this->app['extensions']->composer as $val) {
+          $initialized_extensions += $val;
+        }
+
         // For Bolt, we also need to know if the extension has a 'README' and a 'config.yml' file.
         // Note we only do this for successfully loaded extensions.
-        if (isset($this->app['extensions']->composer[$name])) {
+        if (isset($initialized_extensions[$name])) {
             $paths = $this->app['resources']->getPaths();
+
             if (is_readable($paths['extensionspath'] . '/vendor/' . $pack['name'] . '/README.md')) {
                 $pack['readme'] = $pack['name'] . '/README.md';
             } elseif (is_readable($paths['extensionspath'] . '/vendor/' . $pack['name'] . '/readme.md')) {
@@ -296,13 +303,13 @@ class CommandRunner
                 $pack['readmelink'] = $paths['async'] . 'readme/' . $pack['readme'];
             }
 
-        }
+            // generate the configfilename from the extension $name
+            $configfilename = join(".", array_reverse(explode("/", $name))). '.yml';
 
-        // Check if we hve a config file, and if it's readable. (yet)
-        if (isset($this->app['extensions']->composer[$name]['name'])) {
-            $configfilepath = $paths['extensionsconfig'] . '/' . $this->app['extensions']->composer[$name]['name'] . '.yml';
+            // Check if we have a config file, and if it's readable. (yet)
+            $configfilepath = $paths['extensionsconfig'] . '/' . $configfilename;
             if (is_readable($configfilepath)) {
-                $configfilename = 'extensions/' . $this->app['extensions']->composer[$name]['name'] . '.yml';
+                $configfilename = 'extensions/' . $configfilename;
                 $pack['config'] = path('fileedit', array('namespace' => 'config', 'file' => $configfilename));
             }
         }
