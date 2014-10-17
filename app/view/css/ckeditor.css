@@ -1,0 +1,12 @@
+/* Overrides for CKeditor. Do not make modifications to this file. Instead, 
+configure the location of the file to be used in the global config.yml, or the
+theme specific config.yml */
+
+.cke_editable {
+    margin: 14px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    line-height: 22px;
+    color: #333333;
+}
+
