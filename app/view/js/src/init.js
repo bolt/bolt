@@ -216,6 +216,36 @@ var init = {
         editor.setSize(null, $(window).height() - 276);
     },
 
+    /*
+     * Bind filebrowser
+     */
+    bindFileBrowser: function () {
+        console.log("bindFileBrowser");
+        $('#myTab a').click(function (e) {
+            e.preventDefault();
+            $(this).tab('show');
+        })
+
+        var getUrlParam = function(paramName) {
+            var reParam = new RegExp('(?:[\?&]|&)' + paramName + '=([^&]+)', 'i'),
+                match = window.location.search.match(reParam);
+
+            return (match && match.length > 1) ? match[1] : null;
+        };
+        var funcNum = getUrlParam('CKEditorFuncNum');
+
+        $('a.filebrowserCallbackLink').bind('click', function (e) {
+            e.preventDefault();
+            var url = $(this).attr('href');
+            window.opener.CKEDITOR.tools.callFunction(funcNum, url);
+            window.close();
+        });
+
+        $('a.filebrowserCloseLink').bind('click', function () {
+            window.close();
+        })
+    },
+
     bindCkFileSelect: function (data) {
         var getUrlParam = function (paramName) {
             var reParam = new RegExp('(?:[\?&]|&)' + paramName + '=([^&]+)', 'i'),
