@@ -3,7 +3,7 @@
     {% for item in context.stack %}
         <li>
             <a href="{{ app.paths.files }}{{ item.filepath }}" class="filebrowserCallbackLink">{{ item.basename }}
-                <small>({{ item.filesize }} {%- if item.imagesize %}, {{ item.imagesize }} px{% endif %})</small>
+                <small>({{ item.filesize }} {%- if item.imagesize|default() %}, {{ item.imagesize }} px{% endif %})</small>
             </a>
         </li>
     {% endfor %}
