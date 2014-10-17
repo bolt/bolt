@@ -9,7 +9,7 @@ class LowlevelException extends \Exception
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>Bolt - Error</title>
+    <title>Bolt - Fatal Error</title>
     <style>
         body{font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;color:#333;font-size:14px;line-height:20px;margin:0px;}
         h1 {font-size: 38.5px;line-height: 40px;margin: 10px 0px;}
@@ -63,7 +63,7 @@ EOM;
      */
     public function __construct($message, $code = null, $previous = null)
     {
-        $html = self::$html;
+        $html = self::$html_head . self::$html_body;
         $output = str_replace('%error%', $message, $html);
 
         // TODO: Information disclosure vulnerability. A misconfigured system
@@ -75,10 +75,7 @@ EOM;
 
         // Determine if we're on the Command line. If so, don't output HTML.
         if (php_sapi_name() == 'cli') {
-            $output = preg_replace('/<title>.*<\/title>/smi', "", $output);
-            $output = preg_replace('/<style>.*<\/style>/smi', "", $output);
-            $output = strip_tags($output);
-            $output = preg_replace('/(\n+)(\s+)/smi', "\n", $output);
+            $output = self::cleanHTML($output);
         }
 
         echo $output;
@@ -116,5 +113,15 @@ EOM;
 
             echo str_replace('%error%', $message, self::$html);
         }
+    }
+
+    private function cleanHTML($output)
+    {
+        $output = preg_replace('/<title>.*<\/title>/smi', "", $output);
+        $output = preg_replace('/<style>.*<\/style>/smi', "", $output);
+        $output = strip_tags($output);
+        $output = preg_replace('/(\n+)(\s+)/smi', "\n", $output);
+
+        return $output;
     }
 }
