@@ -1,4 +1,6 @@
-<table class="dashboardlisting" data-bind="{{ {bind: 'ckfileselect'}|json_encode }}">
+{% import '_macro/_macro.twig' as macro %}
+
+<table class="dashboardlisting"{{ macro.attr({_bind: ['ckfileselect']}) }}>
     <thead>
         <tr>
             <th>{{ __('Files') }}</th>
