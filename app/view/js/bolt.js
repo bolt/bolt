@@ -1275,6 +1275,134 @@ var init = {
     },
 
     /*
+     * Bind editcontent
+     *
+     * @param {type} data
+     * @returns {undefined}
+     */
+    bindEditContent: function (data) {
+        // Save the page.
+        $('#sidebarsavebutton').bind('click', function () {
+            $('#savebutton').trigger('click');
+        });
+
+        $('#savebutton').bind('click', function () {
+            // Reset the changes to the form.
+            $('form').watchChanges();
+        });
+
+        // Handle "save and new".
+        $('#sidebarsavenewbutton, #savenewbutton').bind('click', function () {
+            // Reset the changes to the form.
+            $('form').watchChanges();
+
+            // Do a regular post, and expect to be redirected back to the "new record" page.
+            var newaction = "?returnto=new";
+            $('#editcontent').attr('action', newaction).submit();
+        });
+
+        // Clicking the 'save & continue' button either triggers an 'ajaxy' post, or a regular post which returns
+        // to this page. The latter happens if the record doesn't exist yet, so it doesn't have an id yet.
+        $('#sidebarsavecontinuebutton, #savecontinuebutton').bind('click', function (e) {
+            e.preventDefault();
+
+            var newrecord = data.newRecord;
+
+            // Disable the buttons, to indicate stuff is being done.
+            $('#sidebarsavecontinuebutton, #savecontinuebutton').addClass('disabled');
+            $('p.lastsaved').text(data.msgSaving);
+
+            if (newrecord) {
+                // Reset the changes to the form.
+                $('form').watchChanges();
+
+                // New record. Do a regular post, and expect to be redirected back to this page.
+                var newaction = "?returnto=new";
+                $('#editcontent').attr('action', newaction).submit();
+            } else {
+                // Existing record. Do an 'ajaxy' post to update the record.
+
+                // Reset the changes to the form.
+                $('form').watchChanges();
+
+                // Let the controller know we're calling AJAX and expecting to be returned JSON
+                var ajaxaction = "?returnto=ajax";
+                $.post(ajaxaction, $("#editcontent").serialize())
+                    .done(function (data) {
+                        $('p.lastsaved').html(data.savedon);
+                        $('p.lastsaved').find('strong').text(moment().format('MMM D, HH:mm'));
+                        $('p.lastsaved').find('time').attr('datetime', moment().format());
+                        $('p.lastsaved').find('time').attr('title', moment().format());
+                        updateMoments();
+
+                        $('a#lastsavedstatus strong').html(
+                            '<i class="fa fa-circle status-' + $("#statusselect option:selected").val() + '"></i> ' +
+                            $("#statusselect option:selected").text()
+                        );
+
+                        // Update anything changed by POST_SAVE handlers
+                        if ($.type(data) === 'object') {
+                            $.each(data, function (index, item) {
+
+                                // Things like images are stored in JSON arrays
+                                if ($.type(item) === 'object') {
+                                    $.each(item, function (subindex, subitem) {
+                                        $(":input[name='" + index + "[" + subindex + "]']").val(subitem);
+                                    });
+                                } else {
+                                    $(":input[name='" + index + "']").val(item);
+                                }
+                            });
+                        }
+
+                        // Reset the changes to the form from any updates we got from POST_SAVE changes
+                        $('form').watchChanges();
+
+                    })
+                    .fail(function(){
+                        $('p.lastsaved').text(data.msgNotSaved);
+                    })
+                    .always(function(){
+                        // Re-enable buttons
+                        $('#sidebarsavecontinuebutton, #savecontinuebutton').removeClass('disabled');
+                    });
+            }
+
+        });
+
+        // To preview the page, we set the target of the form to a new URL, and open it in a new window.
+        $('#previewbutton, #sidebarpreviewbutton').bind('click', function (e) {
+            e.preventDefault();
+            var newaction = data.pathsRoot + "preview/" + data.singularSlug;
+            $('#editcontent').attr('action', newaction).attr('target', '_blank').submit();
+            $('#editcontent').attr('action', '').attr('target', "_self");
+        });
+
+        // Only if we have grouping tabs.
+        if (data.hasGroups) {
+            // Filter for tabs
+            var allf = $('.tabgrouping');
+            allf.hide();
+            // Click function
+            $(".filter").click(function() {
+                var customType = $(this).data('filter');
+                allf
+                    .hide()
+                    .filter(function () {
+                        return $(this).data('tab') === customType;
+                    })
+                    .show();
+                $('#filtertabs li').removeClass('active');
+                $(this).parent().attr('class', 'active');
+            });
+
+            $(document).ready(function () {
+                $('#filtertabs li a:first').trigger('click');
+            });
+        }
+    },
+
+    /*
      * Bind editfile field
      *
      * @param {object} data
@@ -1322,6 +1450,36 @@ var init = {
         editor.setSize(null, $(window).height() - 276);
     },
 
+    /*
+     * Bind filebrowser
+     */
+    bindFileBrowser: function () {
+        console.log("bindFileBrowser");
+        $('#myTab a').click(function (e) {
+            e.preventDefault();
+            $(this).tab('show');
+        })
+
+        var getUrlParam = function(paramName) {
+            var reParam = new RegExp('(?:[\?&]|&)' + paramName + '=([^&]+)', 'i'),
+                match = window.location.search.match(reParam);
+
+            return (match && match.length > 1) ? match[1] : null;
+        };
+        var funcNum = getUrlParam('CKEditorFuncNum');
+
+        $('a.filebrowserCallbackLink').bind('click', function (e) {
+            e.preventDefault();
+            var url = $(this).attr('href');
+            window.opener.CKEDITOR.tools.callFunction(funcNum, url);
+            window.close();
+        });
+
+        $('a.filebrowserCloseLink').bind('click', function () {
+            window.close();
+        })
+    },
+
     bindCkFileSelect: function (data) {
         var getUrlParam = function (paramName) {
             var reParam = new RegExp('(?:[\?&]|&)' + paramName + '=([^&]+)', 'i'),
@@ -1336,6 +1494,20 @@ var init = {
             var url = $(this).attr('href');
             window.opener.CKEDITOR.tools.callFunction(funcNum, url);
             window.close();
+        });
+    },
+
+    /*
+     * Bind prefill
+     */
+    bindPrefill: function () {
+        $('#check-all').on('click', function() {
+            // because jQuery is being retarded.
+            // See: http://stackoverflow.com/questions/5907645/jquery-chrome-and-checkboxes-strange-behavior
+            $("#form_contenttypes :checkbox").removeAttr('checked').trigger('click')
+        });
+        $('#uncheck-all').on('click', function() {
+            $("#form_contenttypes :checkbox").removeAttr('checked');
         });
     },
 
@@ -1371,6 +1543,18 @@ var init = {
         if (data.isEmpty) {
             $('.sluglocker').trigger('click');
         }
+    },
+
+    /*
+     * Bind ua
+     */
+    bindUserAgents: function () {
+        $('.useragent').each(function () {
+            var parser = new UAParser($(this).data('ua')),
+                result = parser.getResult();
+
+            $(this).html(result.browser.name + " " + result.browser.major + " / " + result.os.name + " " + result.os.version);
+        });
     },
 
     /*
@@ -2033,10 +2217,14 @@ jQuery(function ($) {
         switch (data.bind) {
             case 'date': init.bindDate(data); break;
             case 'datetime': init.bindDateTime(data); break;
+            case 'editcontent': init.bindEditContent(data); break;
             case 'editfile': init.bindEditFile(data); break;
             case 'editlocale': init.bindEditLocale(data); break;
+            case 'filebrowser': init.bindFileBrowser(); break;
             case 'ckfileselect': init.bindCkFileSelect(); break;
+            case 'prefill': init.bindPrefill(); break;
             case 'slug': init.bindSlug(data); break;
+            case 'useragents': init.bindUserAgents(); break;
             case 'video': init.bindVideo(data); break;
             default: console.log('Binding ' + data.bind + ' failed!');
         }
