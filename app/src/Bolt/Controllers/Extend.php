@@ -114,7 +114,6 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
 
     public function overview(Silex\Application $app, Request $request)
     {
-
         $app['extend.runner']->clearLog();
 
         return $app['render']->render(
@@ -174,6 +173,7 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
         $package = $request->get('package');
         $version = $request->get('version');
         $app['extensions.stats']->recordInstall($package, $version);
+
         return new Response($app['extend.runner']->install($package, $version));
     }
 
@@ -224,27 +224,24 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
     }
 
     /**
-     * Fetch the log and return it. 
-     */ 
-    public function getLog(Silex\Application $app, Request $request) {
-
+     * Fetch the log and return it.
+     */
+    public function getLog(Silex\Application $app, Request $request)
+    {
         $log = $app['extend.runner']->getLog();
-
         $log = nl2br($log);
 
         return new Response($log);
-
     }
 
     /**
-     * Clear the log and return it. 
-     */ 
-    public function clearLog(Silex\Application $app, Request $request) {
-
+     * Clear the log and return it.
+     */
+    public function clearLog(Silex\Application $app, Request $request)
+    {
         $app['extend.runner']->clearLog();
 
         return new Response('');
-
     }
 
 

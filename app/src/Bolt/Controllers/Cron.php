@@ -244,7 +244,7 @@ class Cron extends Event
     {
         foreach ($this->next_run_time as $interim => $date) {
             // Handle old style naming
-            $oldname = strtolower(str_replace('cron.', '', $interim));;
+            $oldname = strtolower(str_replace('cron.', '', $interim));
 
             $query =
                 "SELECT lastrun, interim " .

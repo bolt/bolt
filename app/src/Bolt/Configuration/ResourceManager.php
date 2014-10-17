@@ -19,7 +19,10 @@ class ResourceManager
 
     public $app;
 
-    protected static $_app;
+    /**
+     * Don't use! Will probably refactored out soon
+     */
+    protected static $theApp;
 
     protected $root;
 
@@ -85,7 +88,7 @@ class ResourceManager
 
     public function setApp(Application $app)
     {
-        static::$_app = $this->app = $app;
+        static::$theApp = $this->app = $app;
     }
 
     public function useLoader(ClassLoader $loader)
@@ -302,12 +305,12 @@ class ResourceManager
 
     public static function getApp()
     {
-        if (! static::$_app) {
+        if (! static::$theApp) {
             $message = sprintf("The Bolt 'Application' object isn't initialized yet so the container can't be accessed here: <code>%s</code>", htmlspecialchars(debug_backtrace(), ENT_QUOTES));
             throw new LowlevelException($message);
         }
 
-        return static::$_app;
+        return static::$theApp;
     }
 
     /**
