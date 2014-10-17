@@ -264,6 +264,20 @@ var init = {
     },
 
     /*
+     * Bind prefill
+     */
+    bindPrefill: function () {
+        $('#check-all').on('click', function() {
+            // because jQuery is being retarded.
+            // See: http://stackoverflow.com/questions/5907645/jquery-chrome-and-checkboxes-strange-behavior
+            $("#form_contenttypes :checkbox").removeAttr('checked').trigger('click')
+        });
+        $('#uncheck-all').on('click', function() {
+            $("#form_contenttypes :checkbox").removeAttr('checked');
+        });
+    },
+
+    /*
      * Bind slug field
      *
      * @param {object} data
