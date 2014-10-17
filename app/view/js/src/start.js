@@ -40,6 +40,7 @@ jQuery(function ($) {
         switch (data.bind) {
             case 'date': init.bindDate(data); break;
             case 'datetime': init.bindDateTime(data); break;
+            case 'editcontent': init.bindEditContent(data); break;
             case 'editfile': init.bindEditFile(data); break;
             case 'editlocale': init.bindEditLocale(data); break;
             case 'ckfileselect': init.bindCkFileSelect(); break;
