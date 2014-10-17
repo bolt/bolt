@@ -83,4 +83,36 @@ EOM;
 
         die();
     }
+
+    public static function catchFatalErrors($app)
+    {
+        // Get last error, if any
+        $error = error_get_last();
+
+        if (($error['type'] == E_ERROR || $error['type'] == E_PARSE)) {
+            // Detect if we're being called from a core, an extension or vendor
+            $isBoltCoreError  = strpos($error['file'], $app['resources']->getPath('rootpath') . '/app');
+            $isVendorError    = strpos($error['file'], $app['resources']->getPath('rootpath') . '/vendor');
+            $isExtensionError = strpos($error['file'], $app['resources']->getPath('extensions'));
+
+            $errorblock  = '<code>Error: ' . $error['message'] . '</code><br>';
+            $errorblock .= '<code>File:  ' . $error['file'] . '</code><br>';
+            $errorblock .= '<code>Line:  ' . $error['line'] . '</code><br><br>';
+
+            if ($isBoltCoreError === 0) {
+                $message .= $errorblock;
+            } elseif ($isVendorError === 0) {
+                $message .= $errorblock;
+            } elseif ($isExtensionError === 0) {
+                $message  = $app['translator']->trans('<h4>There is a fatal error in one of the extensions loaded on your Bolt Installation.<h4>');
+                $message .= $errorblock;
+                $message .= $app['translator']->trans('You will only be able to continue by manually deleting the extension that was initialized at: extensions' . $current);
+            } else {
+                // Unknown
+                $message .= $errorblock;
+            }
+
+            echo str_replace('%error%', $message, self::$html);
+        }
+    }
 }
