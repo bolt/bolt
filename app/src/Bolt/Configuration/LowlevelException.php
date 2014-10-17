@@ -9,7 +9,7 @@ class LowlevelException extends \Exception
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>Bolt - Fatal Error</title>
+    <title>%error_title%</title>
     <style>
         body{font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;color:#333;font-size:14px;line-height:20px;margin:0px;}
         h1 {font-size: 38.5px;line-height: 40px;margin: 10px 0px;}
@@ -31,7 +31,7 @@ EOM;
 
     <div style="max-width: 530px; margin: auto;">
 
-    <h1>Bolt - Fatal error.</h1>
+    <h1>%error_title%</h1>
 
     <p><strong>%error%</strong></p>
 
@@ -64,6 +64,7 @@ EOM;
     public function __construct($message, $code = null, $previous = null)
     {
         $html = self::$html_head . self::$html_body;
+        $output = str_replace('%error_title%', 'Bolt - Fatal Error', $html);
         $output = str_replace('%error%', $message, $html);
 
         // TODO: Information disclosure vulnerability. A misconfigured system
