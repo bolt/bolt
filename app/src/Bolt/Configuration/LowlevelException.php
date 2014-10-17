@@ -4,7 +4,7 @@ namespace Bolt\Configuration;
 class LowlevelException extends \Exception
 {
 
-    public static $html = <<< EOM
+    public static $html_head = <<< EOM
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,6 +25,8 @@ class LowlevelException extends \Exception
         .status-error {color: #B94A48;background-color: #F2DEDE;border-color: #EED3D7;margin:5px;padding:5px;}
     </style>
 </head>
+EOM;
+    public static $html_body = <<< EOM
 <body style="padding: 20px;">
 
     <div style="max-width: 530px; margin: auto;">
