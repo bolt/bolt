@@ -6,8 +6,7 @@
 
 {#=== INIT ===========================================================================================================#}
 
-{% set bind_values = option.uses ? {
-    bind:           'slug',
+{% set bind_values = option.uses ? ['slug', {
     contentId:      context.content.id,
     isEmpty:        (context.content.get(key) == ''),
     key:            key,
@@ -15,10 +14,10 @@
     messageUnlock:  __('Are you sure you wish to unlock the slug? This might break existing links to this record.'),
     slug:           context.content.contenttype.slug,
     uses:           option.uses,
-} : '' %}
+}] : '' %}
 
 {% set attr_slug = {
-    bind:     bind_values,
+    _bind:    bind_values,
     class:    'editslug',
     name_id:  key,
     type:     'text',

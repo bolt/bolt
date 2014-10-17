@@ -9,6 +9,11 @@
         {# Dashboard #}
         {{ nav.link('dashboard', __('Dashboard'), 'dashboard', (page_nav == 'Dashboard')) }}
 
+        {# View site #}
+        <li class="visible-xs">
+            <a href="{{ paths.root }}" target="_blank"><i class="icon fa fa-external-link-square"></i> {{ __('View site') }}</a>
+        </li>
+
         {# Contenttypes #}
         {{ nav.heading(__('Content'), 'file-text') }}
         {% include 'nav/_secondary-content.twig' %}

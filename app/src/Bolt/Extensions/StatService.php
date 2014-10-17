@@ -8,18 +8,17 @@ class StatService
 {
     public $app;
     public $urls = array(
-        'install' => 'stat/install/%s/%s'  
+        'install' => 'stat/install/%s/%s'
     );
-    
-    public function __construct(Application $app) 
+
+    public function __construct(Application $app)
     {
         $this->app = $app;
     }
-    
+
     public function recordInstall($package, $version)
     {
         $url = sprintf($this->app['extend.site'].$this->urls['install'], $package, $version);
         @file_get_contents($url);
     }
-    
 }

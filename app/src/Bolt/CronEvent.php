@@ -29,11 +29,11 @@ class CronEvent extends Event
         $this->output = $output;
 
         // Add listeners
-        $this->app['dispatcher']->addListener(CronEvents::CRON_HOURLY,  array($this, 'doRunScheduledJobs'));
-        $this->app['dispatcher']->addListener(CronEvents::CRON_DAILY,   array($this, 'doRunScheduledJobs'));
-        $this->app['dispatcher']->addListener(CronEvents::CRON_WEEKLY,  array($this, 'doRunScheduledJobs'));
+        $this->app['dispatcher']->addListener(CronEvents::CRON_HOURLY, array($this, 'doRunScheduledJobs'));
+        $this->app['dispatcher']->addListener(CronEvents::CRON_DAILY, array($this, 'doRunScheduledJobs'));
+        $this->app['dispatcher']->addListener(CronEvents::CRON_WEEKLY, array($this, 'doRunScheduledJobs'));
         $this->app['dispatcher']->addListener(CronEvents::CRON_MONTHLY, array($this, 'doRunScheduledJobs'));
-        $this->app['dispatcher']->addListener(CronEvents::CRON_YEARLY,  array($this, 'doRunScheduledJobs'));
+        $this->app['dispatcher']->addListener(CronEvents::CRON_YEARLY, array($this, 'doRunScheduledJobs'));
     }
 
     public function doRunScheduledJobs(Event $event, $eventName, EventDispatcherInterface $dispatcher)

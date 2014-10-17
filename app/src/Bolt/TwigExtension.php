@@ -1367,7 +1367,6 @@ class TwigExtension extends \Twig_Extension
         json_decode($string);
 
         return (json_last_error() == JSON_ERROR_NONE);
-
     }
 
     /**
@@ -1381,5 +1380,4 @@ class TwigExtension extends \Twig_Extension
     {
         return json_decode($string);
     }
-
 }

@@ -24,13 +24,13 @@ class CommandRunner
         umask(0000);
         putenv('COMPOSER_HOME=' . $app['resources']->getPath('cache') . '/composer');
 
-        // Since we output JSON most of the time, we do _not_ want notices or warnings. 
-        // Set the error reporting before initializing the wrapper, to suppress them. 
+        // Since we output JSON most of the time, we do _not_ want notices or warnings.
+        // Set the error reporting before initializing the wrapper, to suppress them.
         $oldErrorReporting = error_reporting(E_ERROR);
 
         $this->wrapper = \evidev\composer\Wrapper::create();
 
-        // re-set error reporting to the value it should be. 
+        // re-set error reporting to the value it should be.
         error_reporting($oldErrorReporting);
 
         if (!is_file($this->packageFile)) {
@@ -43,7 +43,7 @@ class CommandRunner
             );
         }
 
-        $this->execute('config repositories.bolt composer '. $app['extend.site'] . 'satis/');
+        $this->execute('config repositories.bolt composer ' . $app['extend.site'] . 'satis/');
         $json = json_decode(file_get_contents($this->packageFile));
         $json->repositories->packagist = false;
         $json->{'minimum-stability'} = "dev";
@@ -118,7 +118,7 @@ class CommandRunner
         if (empty($update)) {
             $response = $this->execute("update");
         } else {
-            $response = $this->execute("update %s", $package);            
+            $response = $this->execute("update %s", $package);
         }
 
         if ($response !== false) {
@@ -146,7 +146,6 @@ class CommandRunner
 
     public function installAll()
     {
-
         $lockfile = $this->basedir . "/composer.lock";
         if (is_writable($lockfile)) {
             unlink($lockfile);
@@ -230,7 +229,7 @@ class CommandRunner
 
         $output = new \Symfony\Component\Console\Output\BufferedOutput();
         $responseCode = $this->wrapper->run($command, $output);
-        
+
         if ($responseCode == 0) {
             $outputText = $output->fetch();
             $this->writeLog('success', '', $outputText);
@@ -312,17 +311,16 @@ class CommandRunner
     }
 
 
-    public function clearLog() {
-        
+    public function clearLog()
+    {
         if (is_writable($this->logfile)) {
             unlink($this->logfile);
         }
-
     }
 
-    public function writeLog($type, $command = '', $output = '') 
+    public function writeLog($type, $command = '', $output = '')
     {
-        // Don't log the 'config' command to prevent noise.         
+        // Don't log the 'config' command to prevent noise.
         if (substr($command, 0, 7) == "config ") {
             return;
         }
@@ -331,7 +329,7 @@ class CommandRunner
         $timestamp = sprintf("<span class='timestamp'>[%s]</span> ", date("H:i:s"));
 
         if (!empty($command)) {
-            $log .= sprintf("%s &gt; <span class='command'>composer %s</span>\n", $timestamp, $command); 
+            $log .= sprintf("%s &gt; <span class='command'>composer %s</span>\n", $timestamp, $command);
         }
 
         if (!empty($output)) {
@@ -339,19 +337,17 @@ class CommandRunner
             $output = preg_replace('/(\[[a-z]+Exception\])/i', "<span class='error'>$1</span>", $output);
             $output = preg_replace('/(Warning:)/i', "<span class='warning'>$1</span>", $output);
 
-            $log .= sprintf("%s %s\n", $timestamp, $output); 
+            $log .= sprintf("%s %s\n", $timestamp, $output);
         }
 
         file_put_contents($this->logfile, $log, FILE_APPEND);
 
     }
 
-    public function getLog() {
-
+    public function getLog()
+    {
         $log = file_get_contents($this->logfile);
 
         return $log;
-
     }
-
 }
