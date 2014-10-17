@@ -35,7 +35,7 @@ jQuery(function ($) {
 
     $('[data-bind]').each(function () {
         var data = $(this).data('bind');
-        console.log('Binding: ' + data.bind);
+        //console.log('Binding: ' + data.bind);
 
         switch (data.bind) {
             case 'date': init.bindDate(data); break;
@@ -47,6 +47,7 @@ jQuery(function ($) {
             case 'ckfileselect': init.bindCkFileSelect(); break;
             case 'prefill': init.bindPrefill(); break;
             case 'slug': init.bindSlug(data); break;
+            case 'useragents': init.bindUserAgents(); break;
             case 'video': init.bindVideo(data); break;
             default: console.log('Binding ' + data.bind + ' failed!');
         }

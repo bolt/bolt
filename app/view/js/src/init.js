@@ -312,6 +312,18 @@ var init = {
     },
 
     /*
+     * Bind ua
+     */
+    bindUserAgents: function () {
+        $('.useragent').each(function () {
+            var parser = new UAParser($(this).data('ua')),
+                result = parser.getResult();
+
+            $(this).html(result.browser.name + " " + result.browser.major + " / " + result.os.name + " " + result.os.version);
+        });
+    },
+
+    /*
      * Bind video field
      *
      * @param {object} data
