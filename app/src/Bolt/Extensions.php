@@ -277,7 +277,7 @@ class Extensions
         try {
             $extension->initialize();
 
-            // Add an object of this extension to the global Twig scope. 
+            // Add an object of this extension to the global Twig scope.
             $namespace = $this->getNamespace($extension);
             if (!empty($namespace)) {
                 $this->app['twig']->addGlobal($namespace, $extension);
