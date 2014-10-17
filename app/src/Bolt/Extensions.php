@@ -180,8 +180,8 @@ class Extensions
 
                         // Include the init file
                         require_once $file->getRealpath();
-                    } catch (\Exception $e) {
-                    }
+                } catch (\Exception $e) {
+                }
             }
         }
     }
@@ -277,7 +277,7 @@ class Extensions
         try {
             $extension->initialize();
 
-            // Add an object of this extension to the global Twig scope. 
+            // Add an object of this extension to the global Twig scope.
             $namespace = $this->getNamespace($extension);
             if (!empty($namespace)) {
                 $this->app['twig']->addGlobal($namespace, $extension);
@@ -303,7 +303,7 @@ class Extensions
 
         // Add Twig extensions
         if ($extension instanceof \Twig_Extension) {
-             try {
+            try {
                 $this->app['twig']->addExtension($extension);
                 if (!empty($info['allow_in_user_content'])) {
                     $this->app['safe_twig']->addExtension($extension);
