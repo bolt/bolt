@@ -345,15 +345,16 @@ class CommandRunner
         $basePackage = "bolt/bolt";
         $json->provide = new \stdClass();
         $json->provide->$basePackage = $this->app['bolt_version'];
-        // $json->scripts = array(
-        //     'post-package-install' => "Bolt\\Composer\\ScriptHandler::extensions",
-        //     'post-package-update' => "Bolt\\Composer\\ScriptHandler::extensions"
-        // );
-        // $json->autoload = array(
-        //     "files"=> array($app['resources']->getPath('root')."/vendor/autoload.php")
-        // );
+        $json->scripts = array(
+            'post-package-install' => "Bolt\\Composer\\ScriptHandler::extensions",
+            'post-package-update' => "Bolt\\Composer\\ScriptHandler::extensions"
+        );
+        
         $pathToWeb = $this->app['resources']->findRelativePath($this->app['resources']->getPath('extensions'), $this->app['resources']->getPath('web'));
+        $pathToRoot = $this->app['resources']->findRelativePath($this->app['resources']->getPath('extensions'), $this->app['resources']->getPath('root'));        
         $json->extra = array('bolt-web-path' => $pathToWeb);
+        $json->autoload = array('files'=>array($pathToRoot."/vendor/autoload.php"));
+
 
         // Write out the file, but only if it's actually changed, and if it's writable.
         if ($jsonfile !== json_encode($json, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)) {
