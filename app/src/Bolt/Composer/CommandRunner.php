@@ -265,6 +265,10 @@ class CommandRunner
                 $configfilename = 'extensions/' . $configfilename;
                 $pack['config'] = path('fileedit', array('namespace' => 'config', 'file' => $configfilename));
             }
+
+            // as a bonus we add the extension title to the pack
+            $pack['title'] = $initialized_extensions[$name]['name'];
+            $pack['authors'] = $initialized_extensions[$name]['json']['authors'];
         }
 
         return $pack;
@@ -349,9 +353,9 @@ class CommandRunner
             'post-package-install' => "Bolt\\Composer\\ScriptHandler::extensions",
             'post-package-update' => "Bolt\\Composer\\ScriptHandler::extensions"
         );
-        
+
         $pathToWeb = $this->app['resources']->findRelativePath($this->app['resources']->getPath('extensions'), $this->app['resources']->getPath('web'));
-        $pathToRoot = $this->app['resources']->findRelativePath($this->app['resources']->getPath('extensions'), $this->app['resources']->getPath('root'));        
+        $pathToRoot = $this->app['resources']->findRelativePath($this->app['resources']->getPath('extensions'), $this->app['resources']->getPath('root'));
         $json->extra = array('bolt-web-path' => $pathToWeb);
         $json->autoload = array('files'=>array($pathToRoot."/vendor/autoload.php"));
 
