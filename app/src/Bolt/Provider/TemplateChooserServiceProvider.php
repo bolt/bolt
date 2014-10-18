@@ -23,5 +23,4 @@ class TemplateChooserServiceProvider implements ServiceProviderInterface
     public function boot(Application $app)
     {
     }
-
 }

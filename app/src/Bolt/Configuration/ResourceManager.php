@@ -55,7 +55,6 @@ class ResourceManager
             $this->root = $loader;
         }
 
-
         $this->requestObject = $request;
 
         if ($verifier !== null) {
@@ -265,13 +264,12 @@ class ResourceManager
      */
     public function setThemePath($generalConfig)
     {
-
         $theme_dir = isset($generalConfig['theme']) ? '/' . $generalConfig['theme'] : '';
         $theme_path = isset($generalConfig['theme_path']) ? $generalConfig['theme_path'] : '/theme';
         $theme_url = isset($generalConfig['theme_path']) ? $generalConfig['theme_path'] : $this->getUrl('root') . 'theme';
-        
+
         // See if the user has set a theme path otherwise use the default
-        if(!isset($generalConfig['theme_path'])) {
+        if (!isset($generalConfig['theme_path'])) {
             $this->setPath('themepath', $this->getPath('themebase') . $theme_dir);
             $this->setUrl('theme', $theme_url . $theme_dir . '/');
         } else {
