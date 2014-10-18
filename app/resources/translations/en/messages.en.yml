@@ -1,4 +1,3 @@
-
 field:
     general:
         allowed-filetypes: "Allowed filetypes are:"
@@ -26,6 +25,13 @@ field:
         preview.button.close: "Close"
         preview.no-url: "No video url is set, no video to show."
 
+generic:
+    noscript:
+        headline: "Javascript disabled"
+        message: "Javascript is currently disabled in your browser. Most functionality in Bolt will work without it, but for greater ease of use we recommend you enable Javascript in your browser."
+    text:
+        new-contentype: "New %contenttype%"
+
 page:
     ckeditor-browse-server:
         files: "Files"
@@ -34,6 +40,13 @@ page:
         pixel: "px."
         size: "Filesize"
         title: "Files"
+    dashboard:
+        button.add: "Add …"
+        empty-database: "It seems there's no content in the database."
+        link.show-more: "More %contenttypes%"
+        quickstart: "To get started quickly, <a href='%url%'>add some Lorem Ipsum dummy content</a>."
+        recently-edited: "Recently edited %contenttypes%"
+        title: "Dashboard"
     edit-file:
         button.revert: "Revert changes"
         button.save: "Save"

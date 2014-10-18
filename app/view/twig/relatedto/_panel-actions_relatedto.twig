@@ -14,7 +14,7 @@
     {% import '_macro/_panels.twig' as panels %}
 
     <a class="btn btn-default" href="{{ path('editcontent', {'contenttypeslug': context.show_contenttype.slug, 'id': '', 'relation': context.contenttype.slug, 'relationid': context.id }) }}">
-        <i class="fa fa-plus"></i> {{ __('New %contenttype%', {'%contenttype%': context.show_contenttype.singular_name}) }}
+        <i class="fa fa-plus"></i> {{ __('generic.text.new-contentype', {'%contenttype%': context.show_contenttype.singular_name}) }}
     </a>
 
     {% if isallowed('edit', context.contenttype) %}

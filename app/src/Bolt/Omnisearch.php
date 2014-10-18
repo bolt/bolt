@@ -74,7 +74,7 @@ class Omnisearch
             );
 
             $viewContenttype = __('View %contenttypes%', array('%contenttypes%' => $pluralname));
-            $newContenttype  = __('New %contenttype%', array('%contenttype%' => $singularname));
+            $newContenttype  = __('generic.text.new-contentype%', array('%contenttype%' => $singularname));
 
             if ($this->showViewContenttype) {
                 $viewKeywords   = $keywords;
