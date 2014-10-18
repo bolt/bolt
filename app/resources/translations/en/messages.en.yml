@@ -77,3 +77,14 @@ page:
         password-hide: "Hide"
         password-show: "Show"
         title: "Sign in to Bolt"
+
+panel:
+    latest-activity:
+        button.more: "more activity"
+        by: "by"
+        fixme: "Fixme:"
+        headline: "Latest activity"
+        logged-in: "logged in"
+        logged-out: "logged out"
+        saved: "Saved"
+        unknown: "unknown"
