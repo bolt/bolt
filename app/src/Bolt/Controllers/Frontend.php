@@ -67,12 +67,11 @@ class Frontend
         $app['stopwatch']->stop('bolt.frontend.before');
     }
 
-    /** 
-     * Controller for the "Homepage" route. Usually the front page of the website. 
+    /**
+     * Controller for the "Homepage" route. Usually the front page of the website.
      */
     public static function homepage(Silex\Application $app)
     {
-
         $content = $app['storage']->getContent($app['config']->get('general/homepage'));
 
         $template = $app['templatechooser']->homepage();

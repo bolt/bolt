@@ -1,7 +1,6 @@
 <?php
 namespace Bolt\Configuration;
 
-use Bolt\Application;
 use Symfony\Component\HttpFoundation\Request;
 
 class Composer extends Standard
@@ -35,6 +34,4 @@ class Composer extends Standard
 
         return $this->verifier;
     }
-
-    
 }
