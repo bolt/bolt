@@ -24,55 +24,8 @@ class CommandRunner
         umask(0000);
         putenv('COMPOSER_HOME=' . $app['resources']->getPath('cache') . '/composer');
 
-        // Since we output JSON most of the time, we do _not_ want notices or warnings.
-        // Set the error reporting before initializing the wrapper, to suppress them.
-        $oldErrorReporting = error_reporting(E_ERROR);
-
-        $this->wrapper = \evidev\composer\Wrapper::create();
-
-        // re-set error reporting to the value it should be.
-        error_reporting($oldErrorReporting);
-
-        if (!is_file($this->packageFile)) {
-            $this->execute('init');
-        }
-        if (is_file($this->packageFile) && !is_writable($this->packageFile)) {
-            $this->messages[] = sprintf(
-                "The file '%s' is not writable. You will not be able to use this feature without changing the permissions.",
-                $this->packageFile
-            );
-        }
-
-        $this->execute('config repositories.bolt composer ' . $app['extend.site'] . 'satis/');
-        $json = json_decode(file_get_contents($this->packageFile));
-        $json->repositories->packagist = false;
-        $json->{'minimum-stability'} = "dev";
-        $json->{'prefer-stable'} = true;
-        $basePackage = "bolt/bolt";
-        $json->provide = new \stdClass();
-        $json->provide->$basePackage = $app['bolt_version'];
-        // $json->scripts = array(
-        //     'post-package-install' => "Bolt\\Composer\\ScriptHandler::extensions",
-        //     'post-package-update' => "Bolt\\Composer\\ScriptHandler::extensions"
-        // );
-        // $json->autoload = array(
-        //     "files"=> array($app['resources']->getPath('root')."/vendor/autoload.php")
-        // );
-        $pathToWeb = $app['resources']->findRelativePath($this->app['resources']->getPath('extensions'), $this->app['resources']->getPath('web'));
-        $json->extra = array('bolt-web-path' => $pathToWeb);
-        file_put_contents($this->packageFile, json_encode($json, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
-
-        try {
-            $json = json_decode((file_get_contents($this->packageRepo)));
-            $this->available = $json->packages;
-        } catch (\Exception $e) {
-            $this->messages[] = sprintf(
-                $app['translator']->trans("The Bolt extensions Repo at %s is currently unavailable. Check your connection and try again shortly."),
-                $this->packageRepo
-            );
-            $this->available = array();
-        }
-
+        // Set up composer
+        $this->setup();
     }
 
     public function check()
@@ -356,5 +309,57 @@ class CommandRunner
         $log = file_get_contents($this->logfile);
 
         return $log;
+    }
+
+    private function setup()
+    {
+        // Since we output JSON most of the time, we do _not_ want notices or warnings.
+        // Set the error reporting before initializing the wrapper, to suppress them.
+        $oldErrorReporting = error_reporting(E_ERROR);
+
+        $this->wrapper = \evidev\composer\Wrapper::create();
+
+        // re-set error reporting to the value it should be.
+        error_reporting($oldErrorReporting);
+
+        if (!is_file($this->packageFile)) {
+            $this->execute('init');
+        }
+        if (is_file($this->packageFile) && !is_writable($this->packageFile)) {
+            $this->messages[] = sprintf(
+                "The file '%s' is not writable. You will not be able to use this feature without changing the permissions.",
+                $this->packageFile
+            );
+        }
+
+        $this->execute('config repositories.bolt composer ' . $this->app['extend.site'] . 'satis/');
+        $json = json_decode(file_get_contents($this->packageFile));
+        $json->repositories->packagist = false;
+        $json->{'minimum-stability'} = "dev";
+        $json->{'prefer-stable'} = true;
+        $basePackage = "bolt/bolt";
+        $json->provide = new \stdClass();
+        $json->provide->$basePackage = $app['bolt_version'];
+        // $json->scripts = array(
+        //     'post-package-install' => "Bolt\\Composer\\ScriptHandler::extensions",
+        //     'post-package-update' => "Bolt\\Composer\\ScriptHandler::extensions"
+        // );
+        // $json->autoload = array(
+        //     "files"=> array($app['resources']->getPath('root')."/vendor/autoload.php")
+        // );
+        $pathToWeb = $this->app['resources']->findRelativePath($this->app['resources']->getPath('extensions'), $this->app['resources']->getPath('web'));
+        $json->extra = array('bolt-web-path' => $pathToWeb);
+        file_put_contents($this->packageFile, json_encode($json, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+
+        try {
+            $json = json_decode((file_get_contents($this->packageRepo)));
+            $this->available = $json->packages;
+        } catch (\Exception $e) {
+            $this->messages[] = sprintf(
+                $app['translator']->trans("The Bolt extensions Repo at %s is currently unavailable. Check your connection and try again shortly."),
+                $this->packageRepo
+            );
+            $this->available = array();
+        }
     }
 }
