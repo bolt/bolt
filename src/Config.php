@@ -657,7 +657,7 @@ class Config
         if ($end == 'frontend' && file_exists($themepath)) {
             $twigpath = array($themepath);
         } else {
-            $twigpath = array(realpath(__DIR__ . '/../../view/twig'));
+            $twigpath = array(realpath($this->app['resources']->getPath('app') . '/view/twig'));
         }
 
         // If the template path doesn't exist, attempt to set a Flash error on the dashboard.
@@ -668,7 +668,7 @@ class Config
 
         // We add these later, because the order is important: By having theme/ourtheme first,
         // files in that folder will take precedence. For instance when overriding the menu template.
-        $twigpath[] = realpath(__DIR__ . '/../../theme_defaults');
+        $twigpath[] = realpath($this->app['resources']->getPath('app') . '/theme_defaults');
 
         $this->data['twigpath'] = $twigpath;
     }

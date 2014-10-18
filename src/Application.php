@@ -429,7 +429,8 @@ class Application extends Silex\Application
                 BOLT_PROJECT_ROOT_DIR . '/vendor/symfony/web-profiler-bundle/Symfony/Bundle/WebProfilerBundle/Resources/views',
                 'WebProfiler'
             );
-            $this['twig.loader.filesystem']->addPath(__DIR__ . '/../../view', 'BoltProfiler');
+
+            $this['twig.loader.filesystem']->addPath($this['resources']->getPath('app') . '/view', 'BoltProfiler');
 
             // PHP 5.3 does not allow 'use ($this)' in closures.
             $app = $this;
