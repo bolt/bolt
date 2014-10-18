@@ -80,7 +80,7 @@
 "Search for …":  #
 "Searching for available updates …":  #
 "Select file …":  #
-"Sign in to Bolt":  #
+"page.login.title":  #
 "Stable Versions":  #
 "Status":  #
 "Street, ZIP code, city or other location":  #
@@ -152,7 +152,7 @@
 "page.edit-file.confirm-revert": "Tem certeza que deseja reverter? Suas alterações serão perdidas, se você não salvá-las."
 "Assigned roles": "Papéis atribuídos"
 "Author:": "Autor:"
-"Back to login": "Voltar ao login"
+"page.login.button.back": "Voltar ao login"
 "Below are the third party libraries that are used by Bolt.": "Abaixo as bibliotecas de terceiros usadas pelo Bolt"
 "Bolt - Fatal error.": "Bolt - Erro fatal"
 "Bolt documentation on Github": "Bolt-Documentação no Github (en)"
@@ -252,8 +252,8 @@
 "page.ckeditor-browse-server.folders": "Pastas"
 "Full list …": "Lista completa…"
 "Global Permissions": "Permissões Globais"
-"Hide": "Esconder"
-"I forgot my password …": "Esqueci minha senha…"
+"page.login.password-hide": "Esconder"
+"page.login.button.forgot-password": "Esqueci minha senha…"
 "IP address": "Endereço IP"
 "If there was a Page with 'about' for a slug, it would've been shown here. But there isn't one, so that's why you're seeing this placeholder.": "Se houver uma página com o slug 'about', mas não existe. Por isso você está visualizando este espaço reservado."
 "Image": "Imagem"
@@ -273,7 +273,7 @@
 "Latest entries": "Últimas entradas"
 "field.geolocation.label.latitude": "Latitude"
 "Links": "Links"
-"Log on": "Cadastrar"
+"page.login.button.log-on": "Cadastrar"
 "Login": "Entrar"
 "Long messages": "Mensagens longas"
 "field.geolocation.label.longitude": "Longitude"
@@ -299,7 +299,7 @@
 "field.video.preview.no-url": "Nenhuma URL de vídeo fornecida, nenhum vídeo será mostrado."
 "None": "Nenhum"
 "Not published": "Não publicado"
-"Note: Cookies are required to log on to Bolt. Please allow cookies.": "Nota: Cookies são necessários para entrar no Bolt. Por favor habilite os cookies"
+"page.login.cookies-required": "Nota: Cookies são necessários para entrar no Bolt. Por favor habilite os cookies"
 "Options": "Opções"
 "Order: %sort%": "Ordenar: %sort%"
 "Overview for": "Visualização para"
@@ -311,6 +311,7 @@
 "Password reset not successful! Either the token was incorrect, or you were too late, or you tried to reset the password from a different IP-address.": "Redefinição de senha não foi bem sucedida! Ou o token está incorreto, ou você demorou muito tempo, ou você tentou redefinir a senha de um endereço IP diferente."
 "Password reset successful! You can now log on with the password that was sent to you via email.": "Senha redefinida com sucesso! Você pode se conectar com sua nova senha enviada ao seu e-mail."
 "Password": "Senha"
+"page.login.label.password": "Senha"
 "Passwords must match.": "Senhas precisam ser iguais"
 "Path": "Caminho"
 "Path:": "Caminho"
@@ -339,7 +340,7 @@
 "Related content:": "Conteúdo relacionado"
 "Relationships": "Relacionamentos"
 "Rename %foldername%": "Renomear %foldername%"
-"Reset my password": "Redefinir minha senha"
+"page.login.button.reset-password": "Redefinir minha senha"
 "page.edit-file.button.revert": "Reverter mudanças"
 "Roles and Permissions": "Papéis e permissões"
 "Roles": "Papéis"
@@ -366,7 +367,7 @@
 "Session resumed.": "Sessão resumida."
 "field.slug.message.set": "Define slug para"
 "Settings": "Configurações"
-"Show": "Mostar"
+"page.login.password-show": "Mostar"
 "Showing %pager_for% %from% - %to% of %count%": "Mostrando página %pager_for% %from% - %to% de %count%"
 "Showing": "Mostrando"
 "field.video.label.size": "Tamanho"
@@ -434,6 +435,7 @@
 "User is enabled": "Usuário está desabilitado."
 "Username or password not correct. Please check your input.": "Login/Senha incorretos. Verifique e tente novamente."
 "Username": "Login"
+"page.login.label.username": "Login"
 "Users": "Usuários"
 "Version:": "Versão:"
 "View %contenttypes%": "Visualizar %contenttypes%"
@@ -452,7 +454,7 @@
 "Your database is already up to date.": "Seu banco de dados está atualizado."
 "Your database is now up to date.": "Seu banco de dados agora está atualizado!"
 "Your password": "Sua senha"
-"Your username": "Seu nome de usuário"
+"page.login.placeholder.password": "Seu nome de usuário"
 "and edited": "e alterado"
 "back to editing": "voltar para edição"
 "by": "por"
