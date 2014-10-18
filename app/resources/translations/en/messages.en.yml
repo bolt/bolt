@@ -24,3 +24,12 @@ field:
         placeholder.url: "URL of video on Youtube, Vimeo or other video website"
         preview.button.close: "Close"
         preview.no-url: "No video url is set, no video to show."
+
+page:
+    ckeditor-browse-server:
+        files: "Files"
+        folders: "Folders"
+        modified: "Modified"
+        pixel: "px."
+        size: "Filesize"
+        title: "Files"
