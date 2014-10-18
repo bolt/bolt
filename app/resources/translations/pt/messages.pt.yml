@@ -57,7 +57,7 @@
 "No Stable Versions Available":  #
 "No Test Versions Available":  #
 "No relations found!":  #
-"Note, this file has related files:":  #
+"page.edit-file.note-related":  #
 "Note:":  #
 "Omnisearch":  #
 "Other contenttypes":  #
@@ -107,7 +107,7 @@
 "Version":  #
 "View (saved version) on site":  #
 "View related content":  #
-"View/install Extensions": "Visualizar/instalar Extensões" #
+"View/install Extensions": "Visualizar/instalar Extensões"
 "You are currently using SQLite to set up the first user. If you wish to use MySQL or PostgreSQL instead, edit the configuration file at <tt>'app/config/config.yml'</tt> and Bolt will set up the database tables for you. Be sure to reload this page before continuing.":  #
 "You can discover new extensions by visiting":  #
 "You can now start using the installed extension, documentation and implementation instructions can be found using the link below.":  #
@@ -149,7 +149,7 @@
 "An error occurred.": "Ocorreu um erro."
 "Anonymous": "Anônimo"
 "Are you sure you want to delete %username%?": "Tem certeza que deseja excluir %username%?"
-"Are you sure you wish to revert? Your changes will be lost, if you don't save them.": "Tem certeza que deseja reverter? Suas alterações serão perdidas, se você não salvá-las."
+"page.edit-file.confirm-revert": "Tem certeza que deseja reverter? Suas alterações serão perdidas, se você não salvá-las."
 "Assigned roles": "Papéis atribuídos"
 "Author:": "Autor:"
 "Back to login": "Voltar ao login"
@@ -219,6 +219,7 @@
 "Duplicate %filename%": "Duplicar %filename%"
 "Edit %contenttype%": "Editar %contenttype%"
 "Edit file": "Editar arquivo"
+"page.edit-file.title.edit": "Editar arquivo"
 "Edit user": "Editar usuário"
 "Edit": "Alterar"
 "Email": "E-mail"
@@ -312,6 +313,7 @@
 "Passwords must match.": "Senhas precisam ser iguais"
 "Path": "Caminho"
 "Path:": "Caminho"
+"page.edit-file.path": "Caminho"
 "field.slug.permalink": "Link permanente"
 "Permalink": "Link permanente"
 "Permission denied": "Permissão recusada"
@@ -337,13 +339,14 @@
 "Relationships": "Relacionamentos"
 "Rename %foldername%": "Renomear %foldername%"
 "Reset my password": "Redefinir minha senha"
-"Revert changes": "Reverter mudanças"
+"page.edit-file.button.revert": "Reverter mudanças"
 "Roles and Permissions": "Papéis e permissões"
 "Roles": "Papéis"
 "Routing setup": "Configuração de Rotas"
 "Save %contenttype%": "Salvar %contenttype%"
 "Save & return to overview": "Salvar & retornar para visualização"
 "Save": "Salvar"
+"page.edit-file.button.save": "Salvar"
 "Saved on:": "Salvo em"
 "Saved": "Salvo"
 "Saving …": "Salvando…"
@@ -434,6 +437,7 @@
 "Version:": "Versão:"
 "View %contenttypes%": "Visualizar %contenttypes%"
 "View file": "Ver arquivo"
+"page.edit-file.title.view": "Ver arquivo"
 "View on site": "Visualizar no site"
 "View site": "Visualizar site"
 "View/edit Templates": "Visualizar / alterar Templates"

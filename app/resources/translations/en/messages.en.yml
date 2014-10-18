@@ -33,3 +33,11 @@ page:
         pixel: "px."
         size: "Filesize"
         title: "Files"
+    edit-file:
+        button.revert: "Revert changes"
+        button.save: "Save"
+        confirm-revert: "Are you sure you wish to revert? Your changes will be lost, if you don't save them."
+        note-related: "Note, this file has related files:"
+        path: "Path:"
+        title.edit: "Edit file"
+        title.view: "View file"

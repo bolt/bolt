@@ -4,7 +4,7 @@
 
 {% block page_nav 'Settings/Configuration' %}
 
-{% block page_title context.write_allowed ? __('Edit file') : __('View file') %}
+{% block page_title context.write_allowed ? __('page.edit-file.title.edit') : __('page.edit-file.title.view') %}
 
 {% block page_subtitle context.basename %}
 
@@ -24,7 +24,7 @@
     <div class="row">
         <div class="col-xs-12">
             {% if context.pathsegments|length > 1 %}
-                <p>{{ __('Path:') }}
+                <p>{{ __('page.edit-file.path') }}
                     {% for path, segment in context.pathsegments %}
                         {% if not loop.first %} / {% endif %}
                         <a href="{{ path('files', {'path': path}) }}">{{ segment }}</a>
@@ -41,18 +41,18 @@
 
                 <div>
                     <button type="submit" id="saveeditfile" class="btn btn-primary" {% if not context.write_allowed %}disabled{% endif %}>
-                        <i class="fa fa-flag"></i> {{ __('Save') }}
+                        <i class="fa fa-flag"></i> {{ __('page.edit-file.button.save') }}
                     </button>
                     <a class="btn confirm" style="margin-left: 24px;"
-                       data-confirm="{{ __("Are you sure you wish to revert? Your changes will be lost, if you don't save them.") }}"
+                       data-confirm="{{ __("page.edit-file.confirm-revert") }}"
                        href="{{ path('fileedit', { 'file': context.file }) }}"
                     >
-                        <i class="fa fa-undo"></i> {{ __('Revert changes') }}
+                        <i class="fa fa-undo"></i> {{ __("page.edit-file.button.revert") }}
                     </a>
 
                   <div class="relatedfiles">
                     {% if context.filegroup|length > 1 %}
-                      {{ __("Note, this file has related files:") }}
+                      {{ __("page.edit-file.note-related") }}
                       {% for related in context.filegroup %}
                         {% if related != context.basename %}
                           <a class="btn btn-tertiary btn-small" href="{{ path('fileedit', { 'namespace': context.namespace, 'file': context.additionalpath ~ related } )  }}">{{ related }}</a>
