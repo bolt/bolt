@@ -1,25 +1,38 @@
 <?php
-// Very low level runtime environment checks
-// See: https://github.com/bolt/bolt/issues/1531
+/**
+ * First stage loader
+ *
+ * Here we get things started by ensuring the PHP version we're running on
+ * is supported by the app.  We'll display a friendly error page if not.
+ *
+ * Next, we'll check if the script is being run with PHP's built in web
+ * server, and make sure static assets are handled gracefully.
+ *
+ * Last but not least, we pass things off to the second stage loader
+ */
 
-// Check if we're at least on PHP 5.3.3. We do this check here, because as soon as
-// we require any other files, we'll get a fatal error, because the parser chokes
-// on the backslashes in Namespaces.
+/**
+ * Version must be greater than 5.3.3.
+ * See: https://github.com/bolt/bolt/issues/1531
+ */
 if (version_compare(PHP_VERSION, '5.3.3', '<')) {
     require __DIR__ . '/legacy.php';
     exit;
 }
 
-// PHP -S (built-in webserver) doesn't handle static assets without a `return false`
-// For more information, see: http://silex.sensiolabs.org/doc/web_servers.html#php-5-4
+/**
+ * Return false if the requested file is available on the filesystem.
+ * See: http://silex.sensiolabs.org/doc/web_servers.html#php-5-4
+ */
 if ('cli-server' == php_sapi_name()) {
     $filename = __DIR__ . preg_replace('#(\?.*)$#', '', $_SERVER['REQUEST_URI']);
 
-    // If it is a file, just return false.
     if (is_file($filename)) {
         return false;
     }
 }
 
-// Invoke the second-stage loader and pass back the application instance it returned
+/**
+ * Bring in the second stage loader.
+ */
 return require_once __DIR__ . '/bootstrap.php';
