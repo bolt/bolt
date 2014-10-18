@@ -12,7 +12,7 @@ class CommandRunner
     public $packageFile;
     public $basedir;
 
-    public function __construct(Silex\Application $app, $packageRepo = null, $readWriteMode)
+    public function __construct(Silex\Application $app, $packageRepo = null, $readWriteMode = false)
     {
         // Needed (for now) to log errors to the bolt_log table.
         $this->app = $app;
@@ -148,7 +148,7 @@ class CommandRunner
     }
 
     /**
-     * @param string $format sprintf-style format string.
+     * @param string      $format sprintf-style format string.
      * @param string, ... $params one or more parameters to interpolate into the format
      */
     protected function execute()
@@ -237,8 +237,8 @@ class CommandRunner
 
         // flatten the composer array one level to make working easier
         $initialized_extensions = array();
-        foreach($this->app['extensions']->composer as $val) {
-          $initialized_extensions += $val;
+        foreach ($this->app['extensions']->composer as $val) {
+            $initialized_extensions += $val;
         }
 
         // For Bolt, we also need to know if the extension has a 'README' and a 'config.yml' file.
@@ -257,7 +257,7 @@ class CommandRunner
             }
 
             // generate the configfilename from the extension $name
-            $configfilename = join(".", array_reverse(explode("/", $name))). '.yml';
+            $configfilename = join(".", array_reverse(explode("/", $name))) . '.yml';
 
             // Check if we have a config file, and if it's readable. (yet)
             $configfilepath = $paths['extensionsconfig'] . '/' . $configfilename;
@@ -269,7 +269,6 @@ class CommandRunner
 
         return $pack;
     }
-
 
     public function clearLog()
     {
@@ -349,12 +348,11 @@ class CommandRunner
             'post-package-install' => "Bolt\\Composer\\ScriptHandler::extensions",
             'post-package-update' => "Bolt\\Composer\\ScriptHandler::extensions"
         );
-        
-        $pathToWeb = $this->app['resources']->findRelativePath($this->app['resources']->getPath('extensions'), $this->app['resources']->getPath('web'));
-        $pathToRoot = $this->app['resources']->findRelativePath($this->app['resources']->getPath('extensions'), $this->app['resources']->getPath('root'));        
-        $json->extra = array('bolt-web-path' => $pathToWeb);
-        $json->autoload = array('files'=>array($pathToRoot."/vendor/autoload.php"));
 
+        $pathToWeb = $this->app['resources']->findRelativePath($this->app['resources']->getPath('extensions'), $this->app['resources']->getPath('web'));
+        $pathToRoot = $this->app['resources']->findRelativePath($this->app['resources']->getPath('extensions'), $this->app['resources']->getPath('root'));
+        $json->extra = array('bolt-web-path' => $pathToWeb);
+        $json->autoload = array('files' => array($pathToRoot . "/vendor/autoload.php"));
 
         // Write out the file, but only if it's actually changed, and if it's writable.
         if ($jsonfile !== json_encode($json, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)) {
