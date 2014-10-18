@@ -10,24 +10,29 @@ namespace Bolt;
 class TemplateChooser
 {
 
-
     public function __construct(Application $app)
     {
         $this->app = $app;
-
         $this->initialize();
     }
 
-    public function initialize()
-    {
-    }
-
+    /**
+     * Choose a template for the homepage. 
+     */
     public function homepage()
     {
 
+        // First candidate: Global config.yml file.
         $template = $this->app['config']->get('general/homepage_template');
         $chosen = 'homepage config';
 
+        // Second candidate: Theme-specific config.yml file.
+        if ($this->app['config']->get('theme/homepage_template')) {
+            $template = $this->app['config']->get('theme/homepage_template');
+            $chosen = 'homepage config in theme';
+        }
+
+        // Fallback: "index.twig"
         if (empty($template)) {
             $template = 'index.twig';
             $chosen = 'homepage fallback';
@@ -39,18 +44,31 @@ class TemplateChooser
 
     }
 
+    /**
+     * Choose a template for a single record page, like '/page/about' or 
+     * '/entry/lorum-ipsum'
+     */
     public function record($record) 
     {
-
+        // First candidate: global config.yml
         $template = $this->app['config']->get('general/record_template');
-        $chosen = 'config';
+        $chosen = 'record config';
 
+        // Second candidate: Theme-specific config.yml file.
+        if ($this->app['config']->get('theme/record_template')) {
+            $template = $this->app['config']->get('theme/record_template');
+            $chosen = 'record config in theme';
+        }
+
+        // Third candidate: a template with the same filename as the name of 
+        // the contenttype.
         $templatefile = $this->app['paths']['themepath'] . '/' . $record->contenttype['singular_slug'] . '.twig';
         if (is_readable($templatefile)) {
             $template = $record->contenttype['singular_slug'] . ".twig";
             $chosen = 'singular_slug';
         }
 
+        // Fourth candidate: defined specificaly in the contenttype. 
         if (isset($record->contenttype['record_template'])) {
             $templatefile = $this->app['paths']['themepath'] . '/' . $record->contenttype['record_template'];
             if (file_exists($templatefile)) {
@@ -59,6 +77,7 @@ class TemplateChooser
             }
         }
 
+        // Fifth candidate: The record has a templateselect field, and it's set.
         foreach ($record->contenttype['fields'] as $name => $field) {
             if ($field['type'] == 'templateselect' && !empty($this->values[$name])) {
                 $template = $this->values[$name];
@@ -77,20 +96,29 @@ class TemplateChooser
      */ 
     public function listing($contenttype) 
     {
-        // Then, select which template to use, based on our 'cascading templates rules'
+
+        // First candidate: Global config.yml
+        $template = $this->app['config']->get('general/listing_template');
+        $chosen = 'listing config';
+
+        // Second candidate: Theme-specific config.yml file.
+        if ($this->app['config']->get('theme/listing_template')) {
+            $template = $this->app['config']->get('theme/listing_template');
+            $chosen = 'listing config in theme';
+        }
+
+        // Third candidate: a template with the same filename as the name of 
+        // the contenttype.
+        $filename = $this->app['paths']['themepath'] . '/' . $contenttype['slug'] . '.twig';
+        if (file_exists($filename) && is_readable($filename)) {
+                $template = $contenttype['slug'] . '.twig';
+                $chosen = 'slug';
+        }
+
+        // Fourth candidate: defined specificaly in the contenttype. 
         if (!empty($contenttype['listing_template'])) {
             $template = $contenttype['listing_template'];
             $chosen = 'contenttype';
-        } else {
-            $filename = $this->app['paths']['themepath'] . '/' . $contenttype['slug'] . '.twig';
-            if (file_exists($filename) && is_readable($filename)) {
-                $template = $contenttype['slug'] . '.twig';
-                $chosen = 'slug';
-            } else {
-                $template = $this->app['config']->get('general/listing_template');
-                $chosen = 'config';
-
-            }
         }    
 
         $this->app['log']->setValue('templatechosen', $this->app['config']->get('general/theme') . "/$template ($chosen)");
@@ -105,7 +133,8 @@ class TemplateChooser
     public function taxonomy($taxonomyslug)
     {
 
-        // Set the template based on the (optional) setting in taxonomy.yml, or fall back to default listing template
+        // Set the template based on the (optional) setting in taxonomy.yml, 
+        // or fall back to default listing template
         if ($this->app['config']->get('taxonomy/' . $taxonomyslug . '/listing_template')) {
             $template = $this->app['config']->get('taxonomy/' . $taxonomyslug . '/listing_template');
         } else {
@@ -125,8 +154,21 @@ class TemplateChooser
      */
     public function search()
     {
+        // First candidate: listing config setting.
+        $template = $this->app['config']->get('general/listing_template');
+        $chosen = "listing config";
 
-        $template = $this->app['config']->get('general/search_results_template', $this->app['config']->get('general/listing_template'));
+        // Second candidate: specific search setting in global config.
+        if ($this->app['config']->get('general/search_results_template')) {
+            $template = $this->app['config']->get('general/search_results_template');
+            $chosen = 'search config';
+        }
+
+        // Third candidate: specific search setting in global config.
+        if ($this->app['config']->get('theme/search_results_template')) {
+            $template = $this->app['config']->get('theme/search_results_template');
+            $chosen = 'search config in theme';
+        }
 
         return $template;
 
@@ -138,7 +180,14 @@ class TemplateChooser
     public function maintenance() 
     {
 
+        // First candidate: global config. 
         $template = $this->app['config']->get('general/maintenance_template');
+
+        // Second candidate: specific search setting in global config.
+        if ($this->app['config']->get('theme/maintenance_template')) {
+            $template = $this->app['config']->get('theme/maintenance_template');
+            $chosen = 'search config';
+        }
 
         return $template;
     }
