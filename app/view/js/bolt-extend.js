@@ -175,28 +175,57 @@ var BoltExtender = Object.extend(Object, {
                     target.find('.installed-list-items').html('');
                     for(var e in data) {
                         ext = data[e];
-                        var html = "<div class='panel panel-default'>";
-                        html += "<div class='panel-heading'><i class='fa fa-cube fa-fw'></i> " + ext["name"] + "</div> ";
+                        var html = "<div class='panel panel-default'><div class='panel-heading'>";
+                        // title and version in panel heading box
+                        if(ext['title']) {
+                            html += "<i class='fa fa-cube fa-fw'></i> " + ext["title"] + " <span class='pull-right text-muted'>"  + ext["name"] + " - " + ext["version"] + "</span> ";
+                        } else {
+                            html += "<i class='fa fa-cube fa-fw'></i> " + ext["name"] + " - " + ext["version"];
+                        }
+
+                        // show the autors if any
+                        if (ext["authors"]) {
+                            html += "<span class='authors'>";
+                            var authorsArray = ext["authors"];
+                            for (var i = 0; i < authorsArray.length; i++) {
+                                html += "<span class='author label label-primary'>" + authorsArray[i]['name'] + "</span> ";
+                            }
+                            html += "</span> ";
+                        }
+                        html += "</div> ";
+
                         html += "<div class='panel-body'>";
 
-                        html += "<div class='actions pull-right btn-group'> ";
+                        // action buttons
+                        html += "<div class='actions pull-right'><div class='btn-group'> ";
                         if (ext["readmelink"]) {
                             html += "<a data-action='package-readme' data-readme='" + ext["readmelink"] + "' class='btn btn-sm btn-tertiary' href=''><i class='fa fa-quote-right fa-fw'></i> Readme</a> ";
                         }
                         if (ext["config"]) {
                             html += "<a href='" + ext["config"] + "' class='btn btn-sm btn-tertiary' ><i class='fa fa-cog fa-fw'></i> Config</a> ";
                         }
-                        html += "<a data-action='uninstall-package' class='btn btn-sm btn-danger' href='" + baseurl + "uninstall?package=" + ext["name"] + "'><i class='fa fa-trash-o fa-fw'></i> Uninstall</a>" + "</div> ";
+                        html += "</div> ";
 
+                        html += "<a data-action='uninstall-package' class='btn btn-sm btn-danger' href='" + baseurl + "uninstall?package=" + ext["name"] + "'><i class='fa fa-trash-o fa-fw'></i> Uninstall</a>";
+                        html += "</div> ";
+
+                        // plain description
                         html += "<div class='description text-muted'>" + ext["descrip"] + "</div> ";
-                        html += "<span class='version label label-default'>" + ext["version"] + "</span> ";
-                        html += "<span class='type label label-default'>" + ext["type"] + "</span> ";
+
+                        // tags
                         if (ext["keywords"]) {
-                            html += "<span class='type label label-info'>" + ext["keywords"] + "</span> ";
+                            html += "<span class='tags'><i class='fa fa-tag ta-fw'></i> ";
+                            var keywordsArray = ext["keywords"].split(',');
+                            for (var i = 0; i < keywordsArray.length; i++) {
+                                html += "<span class='tag label label-info'>" +  keywordsArray[i] + "</span> ";
+                            }
+                            html += "</span>";
                         }
 
+                        html += "<i class='fa fa-briefcase ta-fw'></i> <span class='type label label-default'>" + ext["type"] + "</span> ";
+
                         html += "</div></div>";
-                        console.log(ext);
+                        //console.log(ext);
                         target.find('.installed-list-items').append(html);
                     }
                 } else {
