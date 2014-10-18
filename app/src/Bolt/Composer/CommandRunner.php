@@ -141,7 +141,7 @@ class CommandRunner
         }
 
         if (!count($installed)) {
-            return new JsonResponse([]);
+            return new JsonResponse(array());
         } else {
             return new JsonResponse($installed);
         }
