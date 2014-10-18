@@ -63,27 +63,16 @@
                 </div>
             </div>
             <section class="installed-container">
-                <h3>{{ __('Your Currently Installed Extensions') }}</h3>
+                <h2>{{ __('Your Currently Installed Extensions') }}</h2>
                 {% if enabled %}
                 <pre class="installed console" data-action="installed">{{ __('Checking installed packages') }}..</pre>
                 {% else %}
                 <pre class="installed">{{ __('Cannot check installed packages in read-only mode') }}</pre>
                 {% endif %}
                 <div class="installed-list hide-block">
-                    <table class="dashboardlisting table">
-                        <thead>
-                            <tr>
-                                <th>{{ __('Extension') }}</th>
-                                <th>{{ __('Version') }}</th>
-                                <th>{{ __('Type') }}</th>
-                                <th>{{ __('Description') }}</th>
-                                <th>{{ __('Actions') }}</th>
-                            </tr>
-                        </thead>
-                        <tbody class="installed-list-items">
+                    <div class="installed-list-items">
 
-                        </tbody>
-                    </table>
+                    </div>
                 </div>
             </section>
 
@@ -106,7 +95,7 @@
 
             <hr />
             <section>
-                <h3>{{ __('Install a new Extension') }}</h3>
+                <h2>{{ __('Install a new Extension') }}</h2>
                 <p>
                     {% if enabled %}
                     {{ __('Add a new extension using the form below.') }}
