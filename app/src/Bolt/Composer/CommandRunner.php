@@ -334,7 +334,8 @@ class CommandRunner
         }
 
         $this->execute('config repositories.bolt composer ' . $this->app['extend.site'] . 'satis/');
-        $json = json_decode(file_get_contents($this->packageFile));
+        $jsonfile = file_get_contents($this->packageFile);
+        $json = json_decode($jsonfile);
         $json->repositories->packagist = false;
         $json->{'minimum-stability'} = "dev";
         $json->{'prefer-stable'} = true;
@@ -350,7 +351,11 @@ class CommandRunner
         // );
         $pathToWeb = $this->app['resources']->findRelativePath($this->app['resources']->getPath('extensions'), $this->app['resources']->getPath('web'));
         $json->extra = array('bolt-web-path' => $pathToWeb);
-        file_put_contents($this->packageFile, json_encode($json, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+
+        // Write out the file, but only if it's actually changed, and if it's writable.
+        if ($jsonfile !== json_encode($json, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)) {
+            file_put_contents($this->packageFile, json_encode($json, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+        }
 
         try {
             $json = json_decode((file_get_contents($this->packageRepo)));
