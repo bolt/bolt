@@ -271,7 +271,7 @@ class ResourceManager
         
         // See if the user has set a theme path otherwise use the default
         if(!isset($generalConfig['theme_path'])) {
-            $this->setPath('themepath', $this->getPath('themebase') . "/" . $theme_dir);
+            $this->setPath('themepath', $this->getPath('themebase') . $theme_dir);
             $this->setUrl('theme', $theme_dir . '/');
         } else {
             $this->setPath('themepath', $this->getPath('rootpath') . $theme_path . $theme_dir);
