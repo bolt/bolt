@@ -41,3 +41,7 @@ page:
         path: "Path:"
         title.edit: "Edit file"
         title.view: "View file"
+    edit-locale:
+        button.save: "Save"
+        title.edit: "Edit file"
+        title.view: "View file"
