@@ -1,0 +1,10 @@
+/build/
+data/*
+java/*
+.buildpath
+.externalToolBuilders
+.settings
+.project
+/composer.*
+tests/*
+.git/*
