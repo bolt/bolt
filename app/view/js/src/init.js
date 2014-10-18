@@ -72,7 +72,8 @@ var init = {
         $('#sidebarsavecontinuebutton, #savecontinuebutton').bind('click', function (e) {
             e.preventDefault();
 
-            var newrecord = data.newRecord;
+            var newrecord = data.newRecord,
+                savedon = data.savedon;
 
             // Disable the buttons, to indicate stuff is being done.
             $('#sidebarsavecontinuebutton, #savecontinuebutton').addClass('disabled');
@@ -95,7 +96,7 @@ var init = {
                 var ajaxaction = "?returnto=ajax";
                 $.post(ajaxaction, $("#editcontent").serialize())
                     .done(function (data) {
-                        $('p.lastsaved').html(data.savedon);
+                        $('p.lastsaved').html(savedon);
                         $('p.lastsaved').find('strong').text(moment().format('MMM D, HH:mm'));
                         $('p.lastsaved').find('time').attr('datetime', moment().format());
                         $('p.lastsaved').find('time').attr('title', moment().format());
