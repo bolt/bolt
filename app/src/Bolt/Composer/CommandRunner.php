@@ -21,8 +21,6 @@ class CommandRunner
         $this->logfile = $app['resources']->getPath('cachepath') . "/composer_log";
         $this->packageRepo = $packageRepo;
         $this->packageFile = $app['resources']->getPath('root') . '/extensions/composer.json';
-        umask(0000);
-        putenv('COMPOSER_HOME=' . $app['resources']->getPath('cache') . '/composer');
 
         // Set up composer
         $this->setup();
@@ -313,6 +311,9 @@ class CommandRunner
 
     private function setup()
     {
+        umask(0000);
+        putenv('COMPOSER_HOME=' . $app['resources']->getPath('cache') . '/composer');
+
         // Since we output JSON most of the time, we do _not_ want notices or warnings.
         // Set the error reporting before initializing the wrapper, to suppress them.
         $oldErrorReporting = error_reporting(E_ERROR);
