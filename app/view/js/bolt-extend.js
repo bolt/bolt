@@ -88,11 +88,11 @@ var BoltExtender = Object.extend(Object, {
             if(data.updates.length > 0 || data.installs.length >0) {
                 for(var e in data.installs) {
                     var ext = data.installs[e];
-                    target.append("<tr data-package='"+ext+"'><td class='ext-list'><strong class='title'>"+ext+"</strong></td><td> <a data-action='update-package' class='btn btn-sm btn-warning' data-package='"+ext+"'>Install New Package</a></td></tr>");
+                    target.append("<tr data-package='"+ext+"'><td class='ext-list'><strong class='title'>"+ext+"</strong></td><td> <a data-request='update-package' class='btn btn-sm btn-warning' data-package='"+ext+"'>Install New Package</a></td></tr>");
                 }
                 for(var e in data.updates) {
                     var ext = data.updates[e];
-                    target.append("<tr data-package='"+ext+"'><td class='ext-list'><strong class='title'>"+ext+"</strong></td><td> <a data-action='update-package' class='btn btn-sm btn-tertiary' data-package='"+ext+"'>Install Package Update</a></td></tr>");
+                    target.append("<tr data-package='"+ext+"'><td class='ext-list'><strong class='title'>"+ext+"</strong></td><td> <a data-request='update-package' class='btn btn-sm btn-tertiary' data-package='"+ext+"'>Install Package Update</a></td></tr>");
                 }
                 active_console.hide();
                 controller.find('.update-list').show();
@@ -202,14 +202,14 @@ var BoltExtender = Object.extend(Object, {
                         // action buttons
                         html += "<div class='actions pull-right'><div class='btn-group'> ";
                         if (ext["readmelink"]) {
-                            html += "<a data-action='package-readme' data-readme='" + ext["readmelink"] + "' class='btn btn-sm btn-tertiary' href=''><i class='fa fa-quote-right fa-fw'></i> Readme</a> ";
+                            html += "<a data-request='package-readme' data-readme='" + ext["readmelink"] + "' class='btn btn-sm btn-tertiary' href=''><i class='fa fa-quote-right fa-fw'></i> Readme</a> ";
                         }
                         if (ext["config"]) {
                             html += "<a href='" + ext["config"] + "' class='btn btn-sm btn-tertiary' ><i class='fa fa-cog fa-fw'></i> Config</a> ";
                         }
                         html += "</div> ";
 
-                        html += "<a data-action='uninstall-package' class='btn btn-sm btn-danger' href='" + baseurl + "uninstall?package=" + ext["name"] + "'><i class='fa fa-trash-o fa-fw'></i> Uninstall</a>";
+                        html += "<a data-request='uninstall-package' class='btn btn-sm btn-danger' href='" + baseurl + "uninstall?package=" + ext["name"] + "'><i class='fa fa-trash-o fa-fw'></i> Uninstall</a>";
                         html += "</div> ";
 
                         // plain description
@@ -288,7 +288,7 @@ var BoltExtender = Object.extend(Object, {
             tpl = tpl+'<tr><td>'+version.name+'</td><td>'+version.version+'</td><td><span class="label label-default';
             if(version.buildStatus=='approved') tpl = tpl+' label-success';
             tpl = tpl+'">'+version.buildStatus+'</span></td>';
-            tpl = tpl+'<td><div class="btn-group"><a href="#" data-action="install-package" class="btn btn-primary btn-sm" data-package="'+version.name+'" data-version="'+version.version+'">';
+            tpl = tpl+'<td><div class="btn-group"><a href="#" data-request="install-package" class="btn btn-primary btn-sm" data-package="'+version.name+'" data-version="'+version.version+'">';
             tpl = tpl+'<i class="icon-gears"></i> Install This Version</a></div></td></tr>';
         }
         return tpl;
@@ -417,7 +417,7 @@ var BoltExtender = Object.extend(Object, {
                     cont.html("").show();
                     for(var p in data['packages']) {
                         var t = data['packages'][p];
-                        var dataattr = "data-action='prefill-package' data-packagename='"+ t.name + "'";
+                        var dataattr = "data-request='prefill-package' data-packagename='"+ t.name + "'";
                         cont.append("<a class='btn btn-block btn-default prefill-package' " +
                             dataattr + "style='text-align: left;'>" + t.title +
                             " <small " + dataattr +">(" + t.authors + " - " + t.name + ")</small></a>");
@@ -458,8 +458,8 @@ var BoltExtender = Object.extend(Object, {
 
         click: function(e, t){
             var controller = e.data;
-            var action = jQuery(e.target).data('action');
-            switch(action) {
+            var request = jQuery(e.target).data('request');
+            switch(request) {
                 case "update-check"      : controller.updateCheck(); break;
                 case "update-run"        : controller.updateRun(); break;
                 case "update-package"    : controller.updatePackage(e.originalEvent); break;
