@@ -312,7 +312,7 @@ class CommandRunner
     private function setup()
     {
         umask(0000);
-        putenv('COMPOSER_HOME=' . $app['resources']->getPath('cache') . '/composer');
+        putenv('COMPOSER_HOME=' . $this->app['resources']->getPath('cache') . '/composer');
 
         // Since we output JSON most of the time, we do _not_ want notices or warnings.
         // Set the error reporting before initializing the wrapper, to suppress them.
@@ -326,6 +326,7 @@ class CommandRunner
         if (!is_file($this->packageFile)) {
             $this->execute('init');
         }
+
         if (is_file($this->packageFile) && !is_writable($this->packageFile)) {
             $this->messages[] = sprintf(
                 "The file '%s' is not writable. You will not be able to use this feature without changing the permissions.",
@@ -341,7 +342,7 @@ class CommandRunner
         $json->{'prefer-stable'} = true;
         $basePackage = "bolt/bolt";
         $json->provide = new \stdClass();
-        $json->provide->$basePackage = $app['bolt_version'];
+        $json->provide->$basePackage = $this->app['bolt_version'];
         // $json->scripts = array(
         //     'post-package-install' => "Bolt\\Composer\\ScriptHandler::extensions",
         //     'post-package-update' => "Bolt\\Composer\\ScriptHandler::extensions"
@@ -362,7 +363,7 @@ class CommandRunner
             $this->available = $json->packages;
         } catch (\Exception $e) {
             $this->messages[] = sprintf(
-                $app['translator']->trans("The Bolt extensions Repo at %s is currently unavailable. Check your connection and try again shortly."),
+                $this->app['translator']->trans("The Bolt extensions Repo at %s is currently unavailable. Check your connection and try again shortly."),
                 $this->packageRepo
             );
             $this->available = array();
