@@ -32,7 +32,7 @@ var BoltExtender = Object.extend(Object, {
     constructor: function(){
         jQuery(this.selector).on("change", this, this.events.change);
         jQuery(this.selector).on("click", this, this.events.click);
-        
+
         jQuery(document).ajaxStart(function() {
             // show loader on start
             active_interval = setInterval(function(){
@@ -43,26 +43,26 @@ var BoltExtender = Object.extend(Object, {
         }).ajaxSuccess(function() {
             clearInterval(active_interval);
         });
-        
+
         this.checkInstalled();
         this.liveSearch();
         this.installReset();
-        
+
     },
-    
+
     find: function(selector) {
         return jQuery(this.selector).find(selector);
     },
-    
+
     setMessage: function(key, value) {
         this.messages[key]=value;
     },
 
-    
+
     setPath: function(key, value) {
         this.paths[key]=value;
-    },    
-    
+    },
+
     installReset: function() {
         var controller = this;
         jQuery('#installModal').on('hide.bs.modal', function (e) {
@@ -72,11 +72,11 @@ var BoltExtender = Object.extend(Object, {
             controller.find('.install-version-container').hide();
             controller.find("#installModal .loader").show();
         });
-    },   
-    
+    },
+
     updateCheck: function() {
         var controller = this;
-        
+
         controller.find('.update-container').show();
         var target = controller.find(".update-list-items");
         active_console = controller.find('.update-output');
@@ -97,12 +97,12 @@ var BoltExtender = Object.extend(Object, {
                 active_console.html(controller.messages['updated']);
             }
             controller.updateLog();
-        });            
+        });
     },
-    
+
     updateRun: function() {
         var controller = this;
-        
+
         controller.find('.update-container').show();
         var target = controller.find(".update-output" );
         active_console = target;
@@ -116,7 +116,7 @@ var BoltExtender = Object.extend(Object, {
             controller.updateLog();
         });
     },
-    
+
     updatePackage: function(e) {
         var controller = this;
         var t = this.find('.update-output').html(controller.messages['updating']);
@@ -138,13 +138,13 @@ var BoltExtender = Object.extend(Object, {
             controller.checkInstalled();
             controller.updateLog();
         });
-            
+
         e.preventDefault();
     },
-    
+
     installRun: function(e) {
         var controller = this;
-        
+
         controller.find('.update-container').show();
         var target = controller.find(".update-output" );
         active_console = target;
@@ -159,10 +159,10 @@ var BoltExtender = Object.extend(Object, {
         e.stopPropagation();
         e.preventDefault();
     },
-    
+
     checkInstalled: function() {
         var controller = this;
-        
+
         controller.find('.installed-container').each(function(){
             active_console = controller.find(".installed-container .console");
             var target = jQuery(this).find('.installed-list');
@@ -171,30 +171,36 @@ var BoltExtender = Object.extend(Object, {
                 if(data.length > 0) {
                     active_console.html(data.length + " installed extension(s).");
                     controller.find(".installed-container .console").hide();
-                    
+
                     target.find('.installed-list-items').html('');
                     for(var e in data) {
                         ext = data[e];
-                        var html = "<tr><td class='ext-list'><strong class='title'>" + ext["name"] + 
-                            "</strong></td><td>" + ext["version"] + "</td><td> " + ext["type"] + 
-                            "</td><td> " + ext["descrip"] + "</td><td align='right'> ";
+                        var html = "<div class='panel panel-default'>";
+                        html += "<div class='panel-heading'><i class='fa fa-cube fa-fw'></i> " + ext["name"] + "</div> ";
+                        html += "<div class='panel-body'>";
 
+                        html += "<div class='actions pull-right btn-group'> ";
                         if (ext["readmelink"]) {
-                            html += "<a data-action='package-readme' data-readme='" + ext["readmelink"] + 
-                            "' class='btn btn-sm btn-tertiary' href=''><i class='fa fa-quote-right fa-fw'></i> Readme</a> ";
+                            html += "<a data-action='package-readme' data-readme='" + ext["readmelink"] + "' class='btn btn-sm btn-tertiary' href=''><i class='fa fa-quote-right fa-fw'></i> Readme</a> ";
                         }
-
                         if (ext["config"]) {
                             html += "<a href='" + ext["config"] + "' class='btn btn-sm btn-tertiary' ><i class='fa fa-cog fa-fw'></i> Config</a> ";
                         }
+                        html += "<a data-action='uninstall-package' class='btn btn-sm btn-danger' href='" + baseurl + "uninstall?package=" + ext["name"] + "'><i class='fa fa-trash-o fa-fw'></i> Uninstall</a>" + "</div> ";
 
-                        html += "<a data-action='uninstall-package' class='btn btn-sm btn-danger' href='" + baseurl + 
-                            "uninstall?package=" + ext["name"] + "'><i class='fa fa-trash-o fa-fw'></i> Uninstall</a>" + "</td></tr>";
-                        //console.log(ext);
+                        html += "<div class='description text-muted'>" + ext["descrip"] + "</div> ";
+                        html += "<span class='version label label-default'>" + ext["version"] + "</span> ";
+                        html += "<span class='type label label-default'>" + ext["type"] + "</span> ";
+                        if (ext["keywords"]) {
+                            html += "<span class='type label label-info'>" + ext["keywords"] + "</span> ";
+                        }
+
+                        html += "</div></div>";
+                        console.log(ext);
                         target.find('.installed-list-items').append(html);
-                    } 
+                    }
                 } else {
-                    target.find('.installed-list-items').html("<tr><td colspan='4'><strong>No Bolt Extensions installed.</strong></td></tr>");
+                    target.find('.installed-list-items').html("<div class='ext-list'><strong class='no-results'>No Bolt Extensions installed.</strong></div>");
                     active_console.hide();
                 }
 
@@ -203,7 +209,7 @@ var BoltExtender = Object.extend(Object, {
             });
         });
     },
-    
+
     checkPackage: function(e) {
         var controller = this;
 
@@ -211,38 +217,38 @@ var BoltExtender = Object.extend(Object, {
         // pick the value from the input itself, or from the data attribute.
         var ext = this.find('input[name="check-package"]').val();
         var packagename = this.find('input[name="check-package"]').data('packagename');
-        if (packagename) { 
+        if (packagename) {
             ext = packagename;
         }
         active_console = false;
         jQuery.get(baseurl+'installInfo?package='+ext, function(data) {
-            
+
             var devpacks = data['dev'];
             var stablepacks = data['stable'];
-            
+
             if(devpacks.length > 0) {
               controller.find('.dev-version-container .installed-version-item').html("");
-              controller.find('.dev-version-container .installed-version-item').append(controller.buildVersionTable(devpacks)); 
+              controller.find('.dev-version-container .installed-version-item').append(controller.buildVersionTable(devpacks));
             }
-            
+
             if(stablepacks.length > 0) {
               controller.find('.stable-version-container .installed-version-item').html("");
-              controller.find('.stable-version-container .installed-version-item').append(controller.buildVersionTable(stablepacks)); 
+              controller.find('.stable-version-container .installed-version-item').append(controller.buildVersionTable(stablepacks));
             }
-         
-            
+
+
             controller.find(".install-version-container").show();
             controller.find("#installModal .loader").hide();
 
             controller.updateLog();
         });
-        
-            
-        
-        
-        e.preventDefault();  
+
+
+
+
+        e.preventDefault();
     },
-    
+
     buildVersionTable: function(packages) {
         var tpl = "";
         for(var v in packages) {
@@ -255,22 +261,22 @@ var BoltExtender = Object.extend(Object, {
         }
         return tpl;
     },
-    
+
     install: function(e) {
         var controller = this;
-        
+
         var package = jQuery(e.target).data("package");
         var version = jQuery(e.target).data("version");
-        
+
         controller.find('.install-response-container').show();
         controller.find('.install-version-container').hide();
         active_console = controller.find('.install-response-container .console');
         active_console.html(controller.messages['installing']);
         controller.find("#installModal .loader .message").html(controller.messages['installing']);
         jQuery.get(
-            baseurl+'install', 
+            baseurl+'install',
             {'package':package,'version':version}
-        ) 
+        )
         .done(function(data) {
             active_console.html(data);
             controller.postInstall(package, version);
@@ -281,11 +287,11 @@ var BoltExtender = Object.extend(Object, {
         });
         e.preventDefault();
     },
-    
+
     postInstall: function(package, version) {
         var controller = this;
         jQuery.get(
-            baseurl+'packageInfo', 
+            baseurl+'packageInfo',
             {'package':package,'version':version}
         )
         .done(function(data) {
@@ -298,26 +304,26 @@ var BoltExtender = Object.extend(Object, {
             controller.updateLog();
         });
     },
-    
+
     extensionPostInstall: function(extension) {
         var controller = this;
         controller.find('.extension-postinstall .ext-link').attr("href", extension.source);
         controller.find('.extension-postinstall').show();
     },
-    
+
     themePostInstall: function(extension) {
         var controller = this;
         controller.find('.theme-postinstall').show();
         controller.find('.theme-postinstall .theme-generator').data("theme",extension['name']);
     },
-    
+
     generateTheme: function(e) {
         var controller = this;
         var trigger = jQuery(e.target);
         var theme = trigger.data("theme");
         var themename  = controller.find('#theme-name').val();
         jQuery.get(
-            baseurl+'generateTheme', 
+            baseurl+'generateTheme',
             {'theme':theme,'name':themename}
         )
         .done(function(data) {
@@ -327,10 +333,10 @@ var BoltExtender = Object.extend(Object, {
         });
         e.preventDefault();
     },
-    
+
     packageReadme: function(e) {
 
-        jQuery.get( jQuery(e.target).data("readme") ) 
+        jQuery.get( jQuery(e.target).data("readme") )
         .done(function(data) {
             bootbox.dialog({
                 message: data
@@ -357,13 +363,13 @@ var BoltExtender = Object.extend(Object, {
             }, 2000);
             controller.updateLog();
         });
-            
+
         e.preventDefault();
     },
-    
+
     liveSearch: function() {
-        var livesearch = this.find('input[name="check-package"]');   
-        
+        var livesearch = this.find('input[name="check-package"]');
+
         livesearch.on('keyup', function(e){
             var searchVal = jQuery(this).val();
             if(searchVal.length < 3) return;
@@ -380,25 +386,25 @@ var BoltExtender = Object.extend(Object, {
                     for(var p in data['packages']) {
                         var t = data['packages'][p];
                         var dataattr = "data-action='prefill-package' data-packagename='"+ t.name + "'";
-                        cont.append("<a class='btn btn-block btn-default prefill-package' " + 
-                            dataattr + "style='text-align: left;'>" + t.title + 
+                        cont.append("<a class='btn btn-block btn-default prefill-package' " +
+                            dataattr + "style='text-align: left;'>" + t.title +
                             " <small " + dataattr +">(" + t.authors + " - " + t.name + ")</small></a>");
                     }
                     livesearch.on('blur', function(){
-                       cont.fadeOut(); 
+                       cont.fadeOut();
                     });
                 });
             }, 500 );
         });
     },
-    
+
     prefill: function(e) {
         var target = jQuery(e.target);
         this.find('input[name="check-package"]').val(target.closest('a').text());
         this.find('input[name="check-package"]').data('packagename', target.data('packagename'));
         this.find('.auto-search').hide();
     },
-    
+
     updateLog: function() {
         jQuery.get(baseurl+'getLog', function(data) {
             $('#extension-log').html(data);
@@ -415,9 +421,9 @@ var BoltExtender = Object.extend(Object, {
     events: {
         change: function(e, t){
             var controller = e.data;
-            
+
         },
-        
+
         click: function(e, t){
             var controller = e.data;
             var action = jQuery(e.target).data('action');
