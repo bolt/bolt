@@ -73,7 +73,8 @@ var init = {
             e.preventDefault();
 
             var newrecord = data.newRecord,
-                savedon = data.savedon;
+                savedon = data.savedon,
+                msgNotSaved = data.msgNotSaved;
 
             // Disable the buttons, to indicate stuff is being done.
             $('#sidebarsavecontinuebutton, #savecontinuebutton').addClass('disabled');
@@ -127,14 +128,13 @@ var init = {
 
                     })
                     .fail(function(){
-                        $('p.lastsaved').text(data.msgNotSaved);
+                        $('p.lastsaved').text(msgNotSaved);
                     })
                     .always(function(){
                         // Re-enable buttons
                         $('#sidebarsavecontinuebutton, #savecontinuebutton').removeClass('disabled');
                     });
             }
-
         });
 
         // To preview the page, we set the target of the form to a new URL, and open it in a new window.
