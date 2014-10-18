@@ -1,6 +1,5 @@
 Bolt
 ====
-[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/bolt/bolt?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 Sophisticated, lightweight & simple CMS. Homepage: [Bolt.cm](http://bolt.cm)
 
@@ -15,8 +14,13 @@ together with a number of [Symfony](http://symfony.com/) [components](http://sym
 and [other libraries](http://docs.bolt.cm/credits). Bolt is released under the open source 
 [MIT-license](http://opensource.org/licenses/mit-license.php).
 
-Current build status and code quality
--------------------------------------
+
+Build status, code quality and other badges
+-------------------------------------------
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/bolt/bolt/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/bolt/bolt?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 [![Build Status](https://secure.travis-ci.org/bolt/bolt.png?branch=master)](http://travis-ci.org/bolt/bolt)
 [![Scrutinizer Continuous Inspections](https://scrutinizer-ci.com/g/bolt/bolt/badges/general.png?s=74400dd068f81fe3ba434e5952b961bb83bbea62)](https://scrutinizer-ci.com/g/bolt/bolt/)
@@ -67,6 +71,6 @@ Currently, these are the third party extensions we're aware of:
 The extensions can be placed in the `app/extensions` folder.
 Learn more about writing extensions from our [docs](https://github.com/bolt/bolt-docs/blob/master/source/extensions.md).
 
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/bolt/bolt/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
 
 -------
