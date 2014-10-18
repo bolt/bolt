@@ -6,6 +6,8 @@
 
 {% block page_main %}
 
+    {% import '_macro/_macro.twig' as macro %}
+
     <div class="row">
         <div class="col-xs-12">
             <h1 class="page-header">{{ __('Please choose the record you want to link to:') }}</h1>
@@ -13,7 +15,7 @@
     </div>
 
     <div class="row">
-        <div class="col-xs-12">
+        <div class="col-xs-12"{{ macro.attr({_bind: ['filebrowser']}) }}>
             {% include 'filebrowser/_navigation.twig' %}
 
             {% include 'filebrowser/_content.twig' %}
@@ -26,33 +28,3 @@
     </div>
 
 {% endblock page_main %}
-
-{% block page_script %}
-    <script>
-        $(function() {
-            $('#myTab a').click(function (e) {
-                e.preventDefault();
-                $(this).tab('show');
-            })
-
-            var getUrlParam = function( paramName ) {
-                var reParam = new RegExp( '(?:[\?&]|&)' + paramName + '=([^&]+)', 'i' ) ;
-                var match = window.location.search.match(reParam) ;
-
-                return ( match && match.length > 1 ) ? match[ 1 ] : null ;
-            };
-            var funcNum = getUrlParam('CKEditorFuncNum');
-
-            $('a.filebrowserCallbackLink').bind('click', function(e) {
-                e.preventDefault();
-                var url = $(this).attr('href');
-                window.opener.CKEDITOR.tools.callFunction(funcNum, url);
-                window.close();
-            });
-
-            $('a.filebrowserCloseLink').bind('click', function() {
-                window.close();
-            })
-        });
-    </script>
-{% endblock page_script %}
