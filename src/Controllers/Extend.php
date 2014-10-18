@@ -29,7 +29,7 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
         $me = $this;
         $app['extend.runner'] = $app->share(
             function ($app) use ($me) {
-                return new CommandRunner($app, $app['extend.repo'], $this->readWriteMode);
+                return new CommandRunner($app, $app['extend.repo'], $me->readWriteMode);
             }
         );
     }
