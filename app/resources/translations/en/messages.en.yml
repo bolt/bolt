@@ -76,6 +76,7 @@ page:
         label.username: "Username"
         password-hide: "Hide"
         password-show: "Show"
+        placeholder.password: "Your username"
         title: "Sign in to Bolt"
 
 panel:
