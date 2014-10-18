@@ -139,8 +139,13 @@ class TemplateChooser
         } else {
             $template = $this->app['config']->get('general/listing_template');
         }
-
         $chosen = 'taxonomy';
+
+        // Second candidate: Theme-specific config.yml file.
+        if ($this->app['config']->get('theme/listing_template')) {
+            $template = $this->app['config']->get('theme/listing_template');
+            $chosen = 'taxonomy config in theme';
+        }
 
         $this->app['log']->setValue('templatechosen', $this->app['config']->get('general/theme') . "/$template ($chosen)");
 
