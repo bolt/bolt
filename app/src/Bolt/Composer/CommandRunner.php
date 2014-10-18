@@ -12,7 +12,7 @@ class CommandRunner
     public $packageFile;
     public $basedir;
 
-    public function __construct(Silex\Application $app, $packageRepo = null)
+    public function __construct(Silex\Application $app, $packageRepo = null, $readWriteMode)
     {
         // Needed (for now) to log errors to the bolt_log table.
         $this->app = $app;
@@ -23,7 +23,9 @@ class CommandRunner
         $this->packageFile = $app['resources']->getPath('root') . '/extensions/composer.json';
 
         // Set up composer
-        $this->setup();
+        if ($readWriteMode) {
+            $this->setup();
+        }
     }
 
     public function check()
