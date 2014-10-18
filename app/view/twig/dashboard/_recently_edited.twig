@@ -1,10 +1,10 @@
 <h3>
     <span class="pull-right">
         <a href="{{ path('overview', { 'contenttypeslug': contenttype }) }}" class="morelink">
-            {{ __('More %contenttypes% »',{'%contenttypes%': app.config.get('contenttypes')[contenttype].name}) }}
+            {{ __('page.dashboard.link.show-more', {'%contenttypes%': app.config.get('contenttypes')[contenttype].name}) }} »
         </a>
     </span>
-    {{ __('Recently edited %contenttypes%', {'%contenttypes%': app.config.get('contenttypes')[contenttype].name}) }}
+    {{ __('page.dashboard.recently-edited', {'%contenttypes%': app.config.get('contenttypes')[contenttype].name}) }}
 </h3>
 
 <table class="table table-striped dashboardlisting">

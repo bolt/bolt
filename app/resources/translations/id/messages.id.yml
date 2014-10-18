@@ -1,121 +1,6 @@
 # app/resources/translations/id/messages.id.yml -- generated on 2014/02/23 09:34:39
 # 120 untranslated strings
 
-"%name% № %id%":  #
-"%s files could not be deleted. You should delete them manually.":  #
-"(default template)":  #
-"(no category)":  #
-"A menu with this name already exists …":  #
-"Added to <tt>%key%</tt> '%title%'":  #
-"Anonymous":  #
-"Are you sure you want to revert changes you have made since you last saved your menus?":  #
-"Are you sure you wish to remove this item from the menu, along with all its sub-items?":  #
-"Are you sure you wish to revert? Your changes will be lost, if you don't save them.":  #
-"Assigned roles":  #
-"Backup file could not be found":  #
-"Backup successfully restored":  #
-"Below are the third party libraries that are used by Bolt.":  #
-"Built-in role, automatically granted at all times, even if no user is logged in":  #
-"Built-in role, automatically granted to every registered user":  #
-"Built-in role, only valid in the context of a resource, and automatically assigned to the owner of that resource.":  #
-"Built-in superuser role, automatically grants all permissions":  #
-"Can't set %field% in %contenttype%: Not a valid field.":  #
-"Content '%title%' has been changed to '%newStatus%'":  #
-"Content Type Permissions":  #
-"Could not save %contenttype%.":  #
-"Details are shown above. The importer will now try again with a different parser …":  #
-"Display name":  #
-"Files on the stack":  #
-"Filtering:":  #
-"Full list …":  #
-"If there was a Page with 'about' for a slug, it would've been shown here. But there isn't one, so that's why you're seeing this placeholder.":  #
-"In the contenttype for '%contenttype%', the field '%field%' has 'type: %type%', which is not a proper fieldtype. Please edit contenttypes.yml, and correct this.":  #
-"In the contenttype for '%contenttype%', the field '%field%' has 'uses: %uses%', but the field '%uses%' does not exist. Please edit contenttypes.yml, and correct this.":  #
-"In the contenttype for '%contenttype%', the field '%field%' is defined, which is a reserved name. Please edit contenttypes.yml, and correct this.":  #
-"Javascript is currently disabled in your browser. Most functionality in Bolt will work without it, but for greater ease of use we recommend you enable Javascript in your browser.":  #
-"Last modified %contenttypes%":  #
-"Matched address:":  #
-"Modifications made to the database:":  #
-"Modifications needed:":  #
-"Name of new menu":  #
-"No results found for '%search%'. Please try another search.":  #
-"No such action for content.":  #
-"No such action for user '%s'.":  #
-"No video url is set, no video to show.":  #
-"Overview of all":  #
-"Password reset not successful! Either the token was incorrect, or you were too late, or you tried to reset the password from a different IP-address.":  #
-"Password reset successful! You can now log on with the password that was sent to you via email.":  #
-"Place on stack":  #
-"Please choose the record you want to link to:":  #
-"Please confirm that you wish to restore the menu":  #
-"Please log on.":  #
-"Please make sure that the MenuEditor/backups folder is writeable by your webserver or disable the backup-feature in config.yml":  #
-"Please make sure that there is a MenuEditor/backups folder or disable the backup-feature in config.yml":  #
-"Please provide a username":  #
-"Prefill database":  #
-"Recently edited %contenttypes%":  #
-"Related content:":  #
-"Relationships":  #
-"Roles and Permissions":  #
-"Save & return to overview":  #
-"Search results for <b> %search% </b>.":  #
-"Select an item to add":  #
-"Select from stack":  #
-"Select zero or more pages":  #
-"Showing %pager_for% %from% - %to% of %count%":  #
-"Skipped <tt>%key%</tt> (already has records)":  #
-"Skipped <tt>%key%</tt> (not checked)":  #
-"Something went wrong": "Ada yang salah"
-"Something went wrong, please reload the page and try again":  #
-"Special elements": "elemen khusus"
-"The %contenttype% you were looking for does not exist. It was probably deleted, or it never existed.":  #
-"The backup could not be restored:":  #
-"The database needs to be updated/repaired. Go to 'Settings' > '<a href=\"%link%\">Check Database</a>' to do this now.":  #
-"The file '%s' doesn't exist, or is not readable.":  #
-"The file '%s' is not writable. You will have to use your own editor to make modifications to this file.":  #
-"The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.":  #
-"The menu.yml config-file was edited by someone else in the meantime, please reload the page.":  #
-"The requested changelog entry doesn't exist.":  #
-"The settings for roles and permissions are stored in <code>%permissions%</code>.":  #
-"The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.":  #
-"The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.":  #
-"The translations file '%s' is not readable.":  #
-"There are no users in the database. Please create the first user.":  #
-"There should always be at least one 'root' user. You have just been promoted. Congratulations!":  #
-"There was an error saving this %contenttype%.":  #
-"There was an error when reading this WXR file":  #
-"There's something wrong with this extension, please report to the author and edit your menu manually until this is fixed.":  #
-"This %contenttype% has not been saved yet.":  #
-"This %contenttype% was created":  #
-"This displayname is already in use. Choose another displayname.":  #
-"This does not appear to be a WXR file, missing/invalid WXR version number":  #
-"This email address is already in use. Choose another email address.":  #
-"This record is related to %contenttype%":  #
-"This username is already in use. Choose another username.":  #
-"This value is too short. It should have 6 characters or more.":  #
-"This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.":  #
-"Timed publish":  #
-"To get started quickly, <a href='%url%'>add some Lorem Ipsum dummy content</a>.":  #
-"Unable to overwrite menu.yml":  #
-"Unable to save backup! Please make sure MenuEditor/backups is writable by your webserver or disable the feature in the extensions configuration.":  #
-"Unable to save your menu.":  #
-"Upload a file to this folder:":  #
-"Used Libraries / Components":  #
-"User %s could not be saved, or nothing was changed.":  #
-"Username or password not correct. Please check your input.":  #
-"View %contenttypes%":  #
-"View/edit Templates":  #
-"You do not have the right privileges to create a new record.":  #
-"You do not have the right privileges to edit that record.":  #
-"You do not have the right privileges to view that page.":  #
-"You have been logged out.":  #
-"You've been logged on successfully.":  #
-"back to editing":  #
-"field":  #
-"logged in":  #
-"logged out":  #
-"no label set":  #
-
 #-----------------------------------------
 # 265 translated strings
 
@@ -133,16 +18,16 @@
 "Add new menu": "Tambah menu baru"
 "Add some sample <a href='%url%' class='btn btn-small'>Records with Loripsum text</a>": "Tambah contoh<a href='%url%' class='btn btn-small'>Isian dengan teks Loripsum</a>"
 "Add to menu": "Tambah ke menu"
-"Add …": "Tambah …"
+"page.dashboard.button.add": "Tambah …"
 "Added user '%s'.": "User '%s' ditambah."
-"Address lookup:": "Tabel Alamat"
+"field.geolocation.label.address-lookup:": "Tabel Alamat"
 "Alas, no about!": "Waduh, tidak ada tentang kami!"
 "All content types": "Semua tipe konten"
 "All users": "Semua Pengguna"
 "An error occurred.": "Galat terjadi."
 "Are you sure you want to delete %username%?": "Anda yakin menghapus %username%?"
 "Author:": "Penulis:"
-"Back to login": "Kembali ke halaman masuk"
+"page.login.button.back": "Kembali ke halaman masuk"
 "Bolt - Fatal error.": "Bolt - Galat fatal"
 "Bolt documentation on Github": "Dokumentasi Bolt di Github"
 "Bolt on Github": "Bolt di Github"
@@ -165,7 +50,7 @@
 "Clear filter": "Bersihkan saringan"
 "Clear sort/filter": "Bersihkan urutan/saringan"
 "Clear the cache": "Bersihkan tembolok"
-"Close": "Tutup"
+"field.video.preview.button.close": "Tutup"
 "Code:": "Kode"
 "Configuration": "Konfigurasi"
 "Content '%title%' could not be deleted.": "Konten '%title%' tidak dapat dihapus."
@@ -174,12 +59,13 @@
 "Content was duplicated. Click 'Save %contenttype%' to finalize.": "Konten telah digandakan. Klik 'Simpan %contenttype%' untuk memastikannya."
 "Content": "Konten"
 "Contenttypes": "Tipe Konten"
-"Create a new user": "Buat pengguna baru"
+"page.edit-users.title.create": "Buat pengguna baru"
 "Create the first user": "Buat pengguna pertama"
 "Created on:": "Dibuat pada:"
 "Current sessions": "Sesi sekarang"
 "Current status:": "Status sekarang"
 "Dashboard": "Dasbor"
+"page.dashboard.title": "Dasbor"
 "Database check / update": "Cek/Perbarui basis data"
 "Delete %contenttype%": "Hapus %contenttype%"
 "Delete %filename%": "Hapus %filename%"
@@ -194,7 +80,9 @@
 "Duplicate %filename%": "Gandakan %filename%"
 "Edit %contenttype%": "Ubah %contenttype%"
 "Edit file": "Ubah berkas"
-"Edit user": "Ubah pengguna"
+"page.edit-locale.title.edit": "Ubah berkas"
+"page.edit-file.title.edit": "Ubah berkas"
+"page.edit-users.title.edit": "Ubah pengguna"
 "Edit": "Ubah"
 "Email": "Surel"
 "Enable %username%": "Aktfikan %username%"
@@ -210,36 +98,40 @@
 "File is not readable!": "Berkas tidak terbaca"
 "Files in %s": "Berkas-berkas di %s"
 "Files": "Berkas-berkas"
+"page.ckeditor-browse-server.title": "Berkas-berkas"
+"page.ckeditor-browse-server.files": "Berkas-berkas"
 "Files: %path%": "Berkas-berkas: %path%"
 "Filesize": "Ukuran berkas"
+"page.ckeditor-browse-server.size": "Ukuran berkas"
 "Fill the database with Dummy Content": "Penuhi basis data dengan konten bohongan"
 "Filter": "Saringan"
-"Fixme:": "Perbaiki Saya:"
+"panel.latest-activity.fixme": "Perbaiki Saya:"
 "Folder '%s' could not be found, or is not readable.": "Map '%s' tidak dapat ditemukan atau tidak terbaca."
 "Folders": "Map"
+"page.ckeditor-browse-server.folders": "Map"
 "Generic": "Umum"
 "Global Permissions": "Ijin global"
-"Hide": "Sembunyikan"
+"page.login.password-hide": "Sembunyikan"
 "Homepage": "Beranda"
-"I forgot my password …": "Saya lupa passwordku…"
+"page.login.button.forgot-password": "Saya lupa passwordku…"
 "IP address": "Alamat IP"
 "Image": "Citra"
 "Info": "Info"
-"It seems there's no content in the database.": "Tampaknya belum ada konten dalam basis data."
-"Javascript disabled": "Javascript dinonaktifkan"
+"page.dashboard.empty-database": "Tampaknya belum ada konten dalam basis data."
+"generic.noscript.headline": "Javascript dinonaktifkan"
 "Last IP": "IP Terakhir"
 "Last edited on:": "Terakhir diubah:"
 "Last known IP": "IP dikenal terakhir"
 "Last seen": "Terakhir terlihat"
-"Latest activity": "Aktifitas terakhir"
+"panel.latest-activity.headline": "Aktifitas terakhir"
 "Latest entries": "Entri terbaru"
-"Latitude": "Lintang"
+"field.geolocation.label.latitude": "Lintang"
 "Links": "Tautan-tautan"
-"Log on": "Masuk"
+"page.login.button.log-on": "Masuk"
 "Login": "Masuk"
 "Logout %name%": "Keluar %name%"
 "Long messages": "Pesan Panjang"
-"Longitude": "Bujur"
+"field.geolocation.label.longitude": "Bujur"
 "Maintenance": "Perawatan"
 "Menu editor": "Editor menu"
 "Menu setup": "Pengaturan menu"
@@ -250,8 +142,9 @@
 "Meta information": "Informasi Meta"
 "Meta": "Meta"
 "Modified": "Dimodifikasi"
-"More %contenttypes% »": "%contenttypes% lainnya »"
-"New %contenttype%": "%contenttype% baru"
+"page.ckeditor-browse-server.modified": "Dimodifikasi"
+"page.dashboard.link.show-more": "%contenttypes% lainnya"
+"generic.text.new-contentype": "%contenttype% baru"
 "New user": "Pengguna baru"
 "No %contenttypes% available.": "Tidak ada %contenttypes%"
 "No latest %contenttype%": "Tidak ada %contenttype terakhir"
@@ -267,13 +160,17 @@
 "Page": "Halaman"
 "Password (confirmation)": "Kata sandi (konfirmasi)"
 "Password": "Kata sandi"
+"page.login.label.password": "Kata sandi"
 "Passwords must match.": "Kata sandi harus sama."
 "Path": "Jalur"
 "Path:": "Jalur"
+"page.edit-file.path": "Jalur"
+"field.slug.permalink": "Taut Permanen"
 "Permalink": "Taut Permanen"
 "Permission denied": "Ijin ditolak"
 "Permissions": "Ijin"
 "Preview video": "Pratinjau video"
+"field.video.button.preview": "Pratinjau"
 "Preview": "Pratinjau"
 "Provided by:": "Disediakan oleh:"
 "Publication date:": "Tanggal terbit"
@@ -283,28 +180,30 @@
 "Read more": "Baca selengkapnya"
 "Recent %contenttypes%": "%contenttypes% terbaru"
 "Req. Bolt": "Kebutuhan Bolt"
-"Reset my password": "Reset kata kunciku"
+"page.login.button.reset-password": "Reset kata kunciku"
 "Restore %filename%": "Pulihkan %filename%"
-"Revert changes": "Kembalikan perubahan"
+"page.edit-file.button.revert": "Kembalikan perubahan"
 "Roles": "Peran"
 "Routing setup": "Pengaturan Routing"
 "Save %contenttype%": "Simpan %contenttype%"
-"Save": "Simpan"
+"page.edit-locale.button.save": "Simpan"
+"page.edit-file.button.save": "Simpan"
 "Saved on:": "Disimpan pada:"
-"Saved": "Disimpan"
+"panel.latest-activity.saved": "Disimpan"
 "Saving …": "Menyimpan…"
 "Search": "Cari"
 "Search …": "Mencari…"
 "Select a page": "Pilih halaman"
 "Select all": "Pilih semua"
-"Select from server": "Pilih dari server"
+"field.general.select-from-server": "Pilih dari server"
 "Select": "Pilih"
 "Session expires": "Sesi Kadarluarsa"
 "Session resumed.": "Sesi dilanjutkan."
 "Settings": "Setelan"
-"Show": "Tampilkan"
+"page.login.password-show": "Tampilkan"
 "Showing": "Menampilkan"
 "Sitemap": "Peta Situs"
+"field.video.label.size": "Ukuran"
 "Size": "Ukuran"
 "Size:": "Ukuran:"
 "Slug:": "Slug:"
@@ -328,7 +227,6 @@
 "Trim Activitylog": "Rampingkan Log Aktifitas"
 "URL:": "URL"
 "Update the database": "Perbarui basis data"
-"Upload File": "Unggah Berkas"
 "Upload file": "Unggah berkas"
 "Upload files": "Unggah berkas-berkas:"
 "Upload image": "Unggah citra"
@@ -344,10 +242,12 @@
 "User '%s' is enabled.": "Pengguna '%s' diaktifkan."
 "User is enabled": "Pengguna diaktfikan"
 "Username": "Nama Pengguna"
+"page.login.label.username": "Nama Pengguna"
 "Users": "Pengguna-pengguna"
 "Version:": "Versi:"
 "View file '%s'.": "Lihat berkas '%s'."
-"View file": "Lihat berkas"
+"page.edit-locale.title.view": "Lihat berkas"
+"page.edit-file.title.view": "Lihat berkas"
 "View on site": "Lihat di site"
 "View site": "Lihat site"
 "Written by <em>%name%</em> on %date%": "Ditulis oleh <em>%name%</em> pada %date%"
@@ -355,22 +255,23 @@
 "Your database is already up to date.": "Basis data anda telah dimuktahirkan."
 "Your database is now up to date.": "Basis data anda telah dimuktahirkan."
 "Your password": "Kata sandimu"
-"Your username": "Usernamemu"
+"page.login.placeholder.password": "Usernamemu"
 "and edited": "dan diedit"
 "by": "oleh"
+"panel.latest-activity.by": "oleh"
 "css classes": "kelas css"
 "http://": "http://"
 "in:": "di:"
 "label": "label"
 "line": "baris"
-"more activity": "Aktifitas lainnya"
+"panel.latest-activity.button.more": "Aktifitas lainnya"
 "new value": "nilai baru"
 "no": "tidak"
 "none": "Tidak ada"
 "of": "dari"
 "old value": "nilai lama"
-"px.": "px."
+"page.ckeditor-browse-server.pixel": "px."
 "show all": "tampilkan semua"
 "title": "judul"
-"unknown": "tidak diketahui"
+"panel.latest-activity.unknown": "tidak diketahui"
 "yes": "ya"

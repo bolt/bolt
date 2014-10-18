@@ -382,6 +382,7 @@ class TranslationFile
     {
         $content = '# ' . $this->relPath . ' – generated on ' . date('Y-m-d H:i:s e') . "\n";
 
+        // Untranslated
         $cnt = count($untranslated);
         if ($cnt) {
             $content .= '# ' . $cnt . ' untranslated strings' . "\n\n";
@@ -392,9 +393,30 @@ class TranslationFile
         } else {
             $content .= '# no untranslated strings' . "\n\n";
         }
-        $content .= '# ' . count($translated) . ' translated strings' . "\n\n";
+        $content .= '# ' . count($translated) . ' translated strings' . "\n";
+        // Translated: non keyword based
+        $first = "\n";
         foreach ($translated as $key => $translation) {
-            $content .= $key . ': ' . $translation . "\n";
+            if (!preg_match('%^"[a-z0-9-]+\.[a-z0-9-]+\.[a-z0-9.-]+"$%', $key)) {
+                $content .= $first . $key . ': ' . $translation . "\n";
+                $first = '';
+            }
+        }
+        // Translated: keyword based
+        $div = '    ';
+        $level = array(1 => '', 2 => '');
+        foreach ($translated as $key => $translation) {
+            if (preg_match('%^"([a-z0-9-]+)\.([a-z0-9-]+)\.([a-z0-9.-]+)"$%', $key, $match)) {
+                if ($level[1] != $match[1]) {
+                    $content .= "\n" . $match[1] . ':' . "\n";
+                    $level[1] = $match[1];
+                }
+                if ($level[2] != $match[2]) {
+                    $content .= $div . $match[2] . ':' . "\n";
+                    $level[2] = $match[2];
+                }
+                $content .= $div . $div . $match[3] . ': ' . $translation . "\n";
+            }
         }
 
         return $content;
@@ -409,7 +431,24 @@ class TranslationFile
     {
         if (is_file($this->absPath) && is_readable($this->absPath)) {
             try {
-                return Yaml::parse($this->absPath);
+                $flattened = array();
+                $translated = Yaml::parse($this->absPath);
+
+                $flatten = function ($data, $prefix = '') use (&$flatten, &$flattened) {
+                    if ($prefix) {
+                        $prefix .= '.';
+                    }
+                    foreach ($data as $key => $value) {
+                        if (is_array($value)) {
+                            $flatten($value, $prefix . $key);
+                        } else {
+                            $flattened[$prefix . $key] = $value;
+                        }
+                    }
+                };
+                $flatten($translated);
+
+                return $flattened;
             } catch (ParseException $e) {
                 $app['session']->getFlashBag()->set('error', printf('Unable to parse the YAML translations: %s', $e->getMessage()));
                 // Todo: do something better than just returning an empty array

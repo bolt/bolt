@@ -11,7 +11,7 @@
     {% if context.content.title is not empty %}
         {{ __('Edit %contenttype%', contenttype) }}
     {% else %}
-        {{ __('New %contenttype%', contenttype) }}
+        {{ __('generic.text.new-contentype', contenttype) }}
     {% endif %}
 {% endblock page_title %}
 

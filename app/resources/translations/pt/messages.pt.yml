@@ -21,14 +21,12 @@
 "Collapse sidebar":  #
 "Configure Extensions": "Configurar Extensões" #
 "Confirm your password":  #
-"Create a new user, using the form below. The password field is required.":  #
 "Default status":  #
 "Delete selected":  #
 "Depublish selected":  #
 "Description":  #
 "Detail template":  #
 "Details":  #
-"Edit an existing user, using the form below. Leave the password fields empty, unless you wish to change the password.":  #
 "Enter a password, longer than 6 chars":  #
 "Enter a valid email address":  #
 "Everything is up to date!":  #
@@ -57,7 +55,7 @@
 "No Stable Versions Available":  #
 "No Test Versions Available":  #
 "No relations found!":  #
-"Note, this file has related files:":  #
+"page.edit-file.note-related":  #
 "Note:":  #
 "Omnisearch":  #
 "Other contenttypes":  #
@@ -69,18 +67,16 @@
 "Preparing to install package …":  #
 "Preparing to remove package …":  #
 "Preview image":  #
-"Profile": "Perfil" #
 "Publish selected":  #
 "Related content":  #
 "Run all Updates":  #
 "Run update check":  #
 "Running install of all packages …":  #
 "Save & create new record":  #
-"Save user":  #
 "Search for …":  #
 "Searching for available updates …":  #
 "Select file …":  #
-"Sign in to Bolt":  #
+"page.login.title":  #
 "Stable Versions":  #
 "Status":  #
 "Street, ZIP code, city or other location":  #
@@ -107,7 +103,7 @@
 "Version":  #
 "View (saved version) on site":  #
 "View related content":  #
-"View/install Extensions": "Visualizar/instalar Extensões" #
+"View/install Extensions": "Visualizar/instalar Extensões"
 "You are currently using SQLite to set up the first user. If you wish to use MySQL or PostgreSQL instead, edit the configuration file at <tt>'app/config/config.yml'</tt> and Bolt will set up the database tables for you. Be sure to reload this page before continuing.":  #
 "You can discover new extensions by visiting":  #
 "You can now start using the installed extension, documentation and implementation instructions can be found using the link below.":  #
@@ -138,20 +134,21 @@
 "Actions": "Ações"
 "Activity log": "Registro de atividades"
 "Add a comment:": "Adicione um comentário"
-"Add …": "Adicionar …"
+"page.dashboard.button.add": "Adicionar …"
 "Added to <tt>%key%</tt> '%title%'": "Adicionado a <tt>%key%</tt> '%title%'"
 "Added user '%s'.": "Usuário adicionado '%s'."
+"field.geolocation.label.address-lookup:": "Buscar endereço:"
 "Alas, no about!": "Ooops. nada sobre :( "
 "All content types": "Todos tipos de conteúdo"
 "All users": "Todos usuários"
-"Allowed filetypes are:": "Tipos de arquivos permitidos são:"
+"field.general.allowed-filetypes": "Tipos de arquivos permitidos são:"
 "An error occurred.": "Ocorreu um erro."
 "Anonymous": "Anônimo"
 "Are you sure you want to delete %username%?": "Tem certeza que deseja excluir %username%?"
-"Are you sure you wish to revert? Your changes will be lost, if you don't save them.": "Tem certeza que deseja reverter? Suas alterações serão perdidas, se você não salvá-las."
+"page.edit-file.confirm-revert": "Tem certeza que deseja reverter? Suas alterações serão perdidas, se você não salvá-las."
 "Assigned roles": "Papéis atribuídos"
 "Author:": "Autor:"
-"Back to login": "Voltar ao login"
+"page.login.button.back": "Voltar ao login"
 "Below are the third party libraries that are used by Bolt.": "Abaixo as bibliotecas de terceiros usadas pelo Bolt"
 "Bolt - Fatal error.": "Bolt - Erro fatal"
 "Bolt documentation on Github": "Bolt-Documentação no Github (en)"
@@ -180,7 +177,7 @@
 "Clear sort/filter": "Limpar ordenação/filtro"
 "Clear the cache": "Limpar o cache"
 "Click to change current status.": "Clique para alterar o status atual."
-"Close": "Fechar"
+"field.video.preview.button.close": "Fechar"
 "Code:": "Código"
 "Configuration": "Configurações"
 "Content '%title%' could not be deleted.": "O conteúdo %title% não pode ser excluído."
@@ -193,7 +190,7 @@
 "Content": "Conteúdo"
 "Contenttypes": "Tipos de conteúdo"
 "Could not save %contenttype%.": "Não é possível gravar %contenttype%."
-"Create a new user": "Criar um novo usuário"
+"page.edit-users.title.create": "Criar um novo usuário"
 "Create folder": "Criar diretório"
 "Create the first user": "Criar o primeiro usuário"
 "Created on:": "Criado em:"
@@ -201,6 +198,7 @@
 "Current sessions": "Sessões atuais"
 "Current status:": "Status atual:"
 "Dashboard": "Dashboard"
+"page.dashboard.title": "Dashboard"
 "Database check / update": "Verificar/atualizar banco de dados"
 "Delete %contenttype%": "Excluir %contenttype%"
 "Delete %filename%": "Excluir %filename%"
@@ -218,7 +216,9 @@
 "Duplicate %filename%": "Duplicar %filename%"
 "Edit %contenttype%": "Editar %contenttype%"
 "Edit file": "Editar arquivo"
-"Edit user": "Editar usuário"
+"page.edit-locale.title.edit": "Editar arquivo"
+"page.edit-file.title.edit": "Editar arquivo"
+"page.edit-users.title.edit": "Editar usuário"
 "Edit": "Alterar"
 "Email": "E-mail"
 "Enable %username%": "Habilitar %username%"
@@ -236,17 +236,21 @@
 "Files in %s": "Arquivos em %s"
 "Files on the stack": "Arquivos na pilha"
 "Files": "Arquivos"
+"page.ckeditor-browse-server.title": "Arquivos"
+"page.ckeditor-browse-server.files": "Arquivos"
 "Filesize": "Tamanho do arquivo"
+"page.ckeditor-browse-server.size": "Tamanho do arquivo"
 "Fill the database with Dummy Content": "Preencher com conteúdo aleatório"
 "Filter": "Filtro"
-"Fixme:": "Corrija-me"
+"panel.latest-activity.fixme": "Corrija-me"
 "Folder '%s' could not be found, or is not readable.": "Pasta '%s' não foi encontrada ou não pode ser lida."
 "Folder permissions insufficient": "Permissões insuficientes na pasta"
 "Folders": "Pastas"
+"page.ckeditor-browse-server.folders": "Pastas"
 "Full list …": "Lista completa…"
 "Global Permissions": "Permissões Globais"
-"Hide": "Esconder"
-"I forgot my password …": "Esqueci minha senha…"
+"page.login.password-hide": "Esconder"
+"page.login.button.forgot-password": "Esqueci minha senha…"
 "IP address": "Endereço IP"
 "If there was a Page with 'about' for a slug, it would've been shown here. But there isn't one, so that's why you're seeing this placeholder.": "Se houver uma página com o slug 'about', mas não existe. Por isso você está visualizando este espaço reservado."
 "Image": "Imagem"
@@ -254,22 +258,23 @@
 "In the contenttype for '%contenttype%', the field '%field%' has 'uses: %uses%', but the field '%uses%' does not exist. Please edit contenttypes.yml, and correct this.": "No tipo de conteúdo '%contenttype%', o campo '%field%' tem 'uses: %uses%', mas o campo '%uses%' não existe. Por favor, edite o contenttypes.yml, e corrija isso."
 "In the contenttype for '%contenttype%', the field '%field%' is defined, which is a reserved name. Please edit contenttypes.yml, and correct this.": "No tipo de conteúdo '%contenttype%', o campo '%field%' definido, é um nome reservado. Por favor, edite o contenttypes.yml, e corrija isso."
 "Info": "Informações"
-"It seems there's no content in the database.": "Parece que não há conteúdo no banco de dados."
-"Javascript disabled": "Javascript desabilitado"
-"Javascript is currently disabled in your browser. Most functionality in Bolt will work without it, but for greater ease of use we recommend you enable Javascript in your browser.": "Javascript está desativado em seu navegador. A maioria das funcionalidades no Bolt não funcionarão sem ele, mas para maior facilidade de uso, nós recomendamos que você ative o Javascript em seu navegador."
+"page.dashboard.empty-database": "Parece que não há conteúdo no banco de dados."
+"generic.noscript.headline": "Javascript desabilitado"
+"generic.noscript.message": "Javascript está desativado em seu navegador. A maioria das funcionalidades no Bolt não funcionarão sem ele, mas para maior facilidade de uso, nós recomendamos que você ative o Javascript em seu navegador."
 "Last IP": "Último IP"
-"Last edited on:": "Alterado em:"
 "Last known IP": "Último IP conhecido"
 "Last modified %contenttypes%": "Última modificação em %contenttypes%"
 "Last seen": "Última visualização"
-"Latest activity": "Últimas atividades"
+"panel.latest-activity.headline": "Últimas atividades"
 "Latest entries": "Últimas entradas"
-"Latitude": "Latitude"
-"Log on": "Cadastrar"
+"field.geolocation.label.latitude": "Latitude"
+"Links": "Links"
+"page.login.button.log-on": "Cadastrar"
 "Login": "Entrar"
 "Long messages": "Mensagens longas"
-"Longitude": "Longitude"
+"field.geolocation.label.longitude": "Longitude"
 "Maintenance": "Manutenção"
+"field.geolocation.matched-address": "Endereços encontrados:"
 "Menu setup": "Configuração de Menu"
 "Message:": "Mensagem"
 "Messages": "Mensagens"
@@ -278,18 +283,19 @@
 "Modifications made to the database:": "Modificações a fazer no banco de dados:"
 "Modifications needed:": "Modificações necessárias"
 "Modified": "Modificado"
-"More %contenttypes% »": "Mais %contenttypes% »"
-"New %contenttype%": "Novo %contenttype%"
+"page.ckeditor-browse-server.modified": "Modificado"
+"page.dashboard.link.show-more": "Mais %contenttypes%"
+"generic.text.new-contentype": "Novo %contenttype%"
 "No %contenttypes% available.": "Sem %contenttypes%."
 "No latest %contenttype%": "Nenhum %contenttype%"
 "No recent %contenttype%.": "Nenhum %contenttype% recente"
 "No results found for '%search%'. Please try another search.": "Nenhum resultado encontrado para %search%. Tente outros termos."
 "No such action for content.": "Nenhuma ação para este conteúdo"
 "No such action for user '%s'.": "Nenhuma ação para o usuário '%s'."
-"No video url is set, no video to show.": "Nenhuma URL de vídeo fornecida, nenhum vídeo será mostrado."
+"field.video.preview.no-url": "Nenhuma URL de vídeo fornecida, nenhum vídeo será mostrado."
 "None": "Nenhum"
 "Not published": "Não publicado"
-"Note: Cookies are required to log on to Bolt. Please allow cookies.": "Nota: Cookies são necessários para entrar no Bolt. Por favor habilite os cookies"
+"page.login.cookies-required": "Nota: Cookies são necessários para entrar no Bolt. Por favor habilite os cookies"
 "Options": "Opções"
 "Order: %sort%": "Ordenar: %sort%"
 "Overview for": "Visualização para"
@@ -301,9 +307,12 @@
 "Password reset not successful! Either the token was incorrect, or you were too late, or you tried to reset the password from a different IP-address.": "Redefinição de senha não foi bem sucedida! Ou o token está incorreto, ou você demorou muito tempo, ou você tentou redefinir a senha de um endereço IP diferente."
 "Password reset successful! You can now log on with the password that was sent to you via email.": "Senha redefinida com sucesso! Você pode se conectar com sua nova senha enviada ao seu e-mail."
 "Password": "Senha"
+"page.login.label.password": "Senha"
 "Passwords must match.": "Senhas precisam ser iguais"
 "Path": "Caminho"
 "Path:": "Caminho"
+"page.edit-file.path": "Caminho"
+"field.slug.permalink": "Link permanente"
 "Permalink": "Link permanente"
 "Permission denied": "Permissão recusada"
 "Permissions": "Permissões"
@@ -313,6 +322,8 @@
 "Please log on.": "Por favor, faça seu login"
 "Please provide a username": "Por favor, forneça um nome de usuário"
 "Prefill database": "Pré-preenchimento do banco de dados"
+"Preview video": "Pré-visualizar vídeo"
+"field.video.button.preview": "Pré-visualizar"
 "Preview": "Pré-visualizar"
 "Provided by:": "Fornecido por:"
 "Publication date:": "Data de publicação: "
@@ -321,38 +332,41 @@
 "Published": "Publicado"
 "Read more": "Veja mais…"
 "Recent %contenttypes%": "Novos %contenttypes%"
-"Recently edited %contenttypes%": "Recentimente editado %contenttypes%"
+"page.dashboard.recently-edited": "Recentimente editado %contenttypes%"
 "Related content:": "Conteúdo relacionado"
 "Relationships": "Relacionamentos"
 "Rename %foldername%": "Renomear %foldername%"
-"Reset my password": "Redefinir minha senha"
-"Revert changes": "Reverter mudanças"
+"page.login.button.reset-password": "Redefinir minha senha"
+"page.edit-file.button.revert": "Reverter mudanças"
 "Roles and Permissions": "Papéis e permissões"
 "Roles": "Papéis"
 "Routing setup": "Configuração de Rotas"
 "Save %contenttype%": "Salvar %contenttype%"
 "Save & return to overview": "Salvar & retornar para visualização"
-"Save": "Salvar"
+"page.edit-locale.button.save": "Salvar"
+"page.edit-file.button.save": "Salvar"
 "Saved on:": "Salvo em"
-"Saved": "Salvo"
+"panel.latest-activity.saved": "Salvo"
 "Saving …": "Salvando…"
 "Search results for <b> %search% </b>.": "Resultados para <b> %search% </b>."
 "Search …": "Procurar…"
 "Search": "Busca"
 "Select a page": "Selecione uma página"
 "Select all": "Selecionar todos"
-"Select from server": "Selecionar a partir do servidor"
-"Select from stack": "Selecionar a partir da pilha"
+"Select an item to add": "Selecionar um item para adicionar"
+"field.general.select-from-server": "Selecionar a partir do servidor"
+"field.general.select-from-stack": "Selecionar a partir da pilha"
 "Select none": "Selecionar nenhum"
 "Select zero or more pages": "Selecione zero ou mais páginas"
 "Select": "Selecione"
 "Session expires": "Sessão expira"
 "Session resumed.": "Sessão resumida."
-"Set the slug to:": "Define slug para"
+"field.slug.message.set": "Define slug para"
 "Settings": "Configurações"
-"Show": "Mostar"
+"page.login.password-show": "Mostar"
 "Showing %pager_for% %from% - %to% of %count%": "Mostrando página %pager_for% %from% - %to% de %count%"
 "Showing": "Mostrando"
+"field.video.label.size": "Tamanho"
 "Size": "Tamanho"
 "Skipped <tt>%key%</tt> (already has records)": "Ignorado <tt>%key%</tt> (já possui um registro)"
 "Skipped <tt>%key%</tt> (not checked)": "Ignorado <tt>%key%</tt> (não marcado)"
@@ -395,12 +409,11 @@
 "Timed publish": "Publicação temporária"
 "Tip:": "Dica:"
 "Title": "Título"
-"To get started quickly, <a href='%url%'>add some Lorem Ipsum dummy content</a>.": "Para iniciar rapidamente, <a href='%url%'>adicione um conteúdo Lorem Ipsum</a>."
+"page.dashboard.quickstart": "Para iniciar rapidamente, <a href='%url%'>adicione um conteúdo Lorem Ipsum</a>."
 "Translations": "Traduções"
 "Trim Activitylog": "Aparar registro de atividades"
 "Types": "Tipos"
 "Update the database": "Atualizar o banco de dados"
-"Upload File": "Enviar arquivo"
 "Upload file": "Upload de arquivo"
 "Upload image": "Enviar imagem"
 "Upload": "Upload"
@@ -418,10 +431,12 @@
 "User is enabled": "Usuário está desabilitado."
 "Username or password not correct. Please check your input.": "Login/Senha incorretos. Verifique e tente novamente."
 "Username": "Login"
+"page.login.label.username": "Login"
 "Users": "Usuários"
 "Version:": "Versão:"
 "View %contenttypes%": "Visualizar %contenttypes%"
-"View file": "Ver arquivo"
+"page.edit-locale.title.view": "Ver arquivo"
+"page.edit-file.title.view": "Ver arquivo"
 "View on site": "Visualizar no site"
 "View site": "Visualizar site"
 "View/edit Templates": "Visualizar / alterar Templates"
@@ -435,22 +450,23 @@
 "Your database is already up to date.": "Seu banco de dados está atualizado."
 "Your database is now up to date.": "Seu banco de dados agora está atualizado!"
 "Your password": "Sua senha"
-"Your username": "Seu nome de usuário"
+"page.login.placeholder.password": "Seu nome de usuário"
 "and edited": "e alterado"
 "back to editing": "voltar para edição"
 "by": "por"
+"panel.latest-activity.by": "por"
 "field": "campo"
 "in:": "em"
 "line": "linha"
-"logged in": "conectado"
-"logged out": "desconectado"
-"more activity": "mais atividades"
+"panel.latest-activity.logged-in": "conectado"
+"panel.latest-activity.logged-out": "desconectado"
+"panel.latest-activity.button.more": "mais atividades"
 "new value": "novo valor"
 "no": "não"
 "none": "nenhum"
 "of": "de"
 "old value": "valor antigo"
-"px.": "px."
+"page.ckeditor-browse-server.pixel": "px."
 "show all": "mostrar todos"
-"unknown": "desconhecido"
+"panel.latest-activity.unknown": "desconhecido"
 "yes": "sim"
