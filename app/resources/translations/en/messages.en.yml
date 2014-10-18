@@ -1,3 +1,4 @@
+
 field:
     general:
         allowed-filetypes: "Allowed filetypes are:"
@@ -45,6 +46,13 @@ page:
         button.save: "Save"
         title.edit: "Edit file"
         title.view: "View file"
+    edit-users:
+        button.save: "Save user"
+        title.create: "Create a new user"
+        title.edit: "Edit user"
+        title.profile: "Profile"
+        user-create: "Create a new user, using the form below. The password field is required."
+        user-edit: "Edit an existing user, using the form below. Leave the password fields empty, unless you wish to change the password."
     login:
         button.back: "Back to login"
         button.forgot-password: "I forgot my password …"

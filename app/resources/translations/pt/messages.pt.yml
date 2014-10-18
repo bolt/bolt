@@ -21,14 +21,12 @@
 "Collapse sidebar":  #
 "Configure Extensions": "Configurar Extensões" #
 "Confirm your password":  #
-"Create a new user, using the form below. The password field is required.":  #
 "Default status":  #
 "Delete selected":  #
 "Depublish selected":  #
 "Description":  #
 "Detail template":  #
 "Details":  #
-"Edit an existing user, using the form below. Leave the password fields empty, unless you wish to change the password.":  #
 "Enter a password, longer than 6 chars":  #
 "Enter a valid email address":  #
 "Everything is up to date!":  #
@@ -69,14 +67,12 @@
 "Preparing to install package …":  #
 "Preparing to remove package …":  #
 "Preview image":  #
-"Profile": "Perfil" #
 "Publish selected":  #
 "Related content":  #
 "Run all Updates":  #
 "Run update check":  #
 "Running install of all packages …":  #
 "Save & create new record":  #
-"Save user":  #
 "Search for …":  #
 "Searching for available updates …":  #
 "Select file …":  #
@@ -194,7 +190,7 @@
 "Content": "Conteúdo"
 "Contenttypes": "Tipos de conteúdo"
 "Could not save %contenttype%.": "Não é possível gravar %contenttype%."
-"Create a new user": "Criar um novo usuário"
+"page.edit-users.title.create": "Criar um novo usuário"
 "Create folder": "Criar diretório"
 "Create the first user": "Criar o primeiro usuário"
 "Created on:": "Criado em:"
@@ -221,7 +217,7 @@
 "Edit file": "Editar arquivo"
 "page.edit-locale.title.edit": "Editar arquivo"
 "page.edit-file.title.edit": "Editar arquivo"
-"Edit user": "Editar usuário"
+"page.edit-users.title.edit": "Editar usuário"
 "Edit": "Alterar"
 "Email": "E-mail"
 "Enable %username%": "Habilitar %username%"

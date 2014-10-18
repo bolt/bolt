@@ -57,7 +57,7 @@
 "Content was duplicated. Click 'Save %contenttype%' to finalize.": "Sisältö on duplikaatti. Klikkaa 'tallenna %contentype%' jatkaaksesi."
 "Content": "Sisältö"
 "Contenttypes": "Sisältötyypit"
-"Create a new user": "Luo uusi käyttäjä"
+"page.edit-users.title.create": "Luo uusi käyttäjä"
 "Create the first user": "Luo ensimmäinen käyttäjä"
 "Created on:": "Luotu:"
 "Current status:": "Tämänhetkinen tila:"
