@@ -115,7 +115,7 @@ class CommandRunner
 
     public function update($package = '')
     {
-        if (empty($update)) {
+        if (empty($package)) {
             $response = $this->execute("update");
         } else {
             $response = $this->execute("update %s", $package);
