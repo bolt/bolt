@@ -958,40 +958,6 @@ class Content implements \ArrayAccess
         return $records;
     }
 
-    /**
-     * Gets the correct template to use, based on our cascading template rules.
-     *
-     */
-    public function template()
-    {
-        $template = $this->app['config']->get('general/record_template');
-        $chosen = 'config';
-
-        $templatefile = $this->app['paths']['themepath'] . '/' . $this->contenttype['singular_slug'] . '.twig';
-        if (is_readable($templatefile)) {
-            $template = $this->contenttype['singular_slug'] . ".twig";
-            $chosen = 'singular_slug';
-        }
-
-        if (isset($this->contenttype['record_template'])) {
-            $templatefile = $this->app['paths']['themepath'] . '/' . $this->contenttype['record_template'];
-            if (file_exists($templatefile)) {
-                $template = $this->contenttype['record_template'];
-                $chosen = 'contenttype';
-            }
-        }
-
-        foreach ($this->contenttype['fields'] as $name => $field) {
-            if ($field['type'] == 'templateselect' && !empty($this->values[$name])) {
-                $template = $this->values[$name];
-                $chosen = 'record';
-            }
-        }
-
-        $this->app['log']->setValue('templatechosen', $this->app['config']->get('general/theme') . "/$template ($chosen)");
-
-        return $template;
-    }
 
     /**
      * Get field information for the given field.

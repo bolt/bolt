@@ -56,7 +56,7 @@ class Frontend
         // @see /app/app.php, $app->error()
         if ($app['config']->get('general/maintenance_mode')) {
             if (!$app['users']->isAllowed('maintenance-mode')) {
-                $template = $app['config']->get('general/maintenance_template');
+                $template = $app['templatechooser']->maintenance();
                 $body = $app['render']->render($template);
 
                 return new Response($body, 503);
@@ -67,43 +67,36 @@ class Frontend
         $app['stopwatch']->stop('bolt.frontend.before');
     }
 
+    /** 
+     * Controller for the "Homepage" route. Usually the front page of the website. 
+     */
     public static function homepage(Silex\Application $app)
     {
-        if ($app['config']->get('general/homepage_template')) {
-            $template = $app['config']->get('general/homepage_template');
-            $content = $app['storage']->getContent($app['config']->get('general/homepage'));
 
-            // Set the 'editlink', if $content contains a valid record.
-            if (!empty($content->contenttype['slug'])) {
-                $app['editlink'] = path('editcontent', array('contenttypeslug' => $content->contenttype['slug'], 'id' => $content->id));
-                $app['edittitle'] = $content->getTitle();
-            }
+        $content = $app['storage']->getContent($app['config']->get('general/homepage'));
 
-            if (is_array($content)) {
-                $first = $record = current($content);
-                $app['twig']->addGlobal('records', $content);
-                $app['twig']->addGlobal($first->contenttype['slug'], $content);
-            } elseif (!empty($content)) {
-                $record = $content;
-                $app['twig']->addGlobal('record', $content);
-                $app['twig']->addGlobal($content->contenttype['singular_slug'], $content);
-            }
+        $template = $app['templatechooser']->homepage();
 
-            if (!empty($record)) {
-                self::checkFrontendPermission($app, $record);
-            }
-
-            $chosen = 'homepage config';
-        } else {
-            $template = 'index.twig';
-            $chosen = 'homepage fallback';
+        if (is_array($content)) {
+            $first = $record = current($content);
+            $app['twig']->addGlobal('records', $content);
+            $app['twig']->addGlobal($first->contenttype['slug'], $content);
+        } elseif (!empty($content)) {
+            $record = $content;
+            $app['twig']->addGlobal('record', $content);
+            $app['twig']->addGlobal($content->contenttype['singular_slug'], $content);
         }
 
-        $app['log']->setValue('templatechosen', $app['config']->get('general/theme') . "/$template ($chosen)");
+        if (!empty($record)) {
+            self::checkFrontendPermission($app, $record);
+        }
 
         return $app['render']->render($template);
     }
 
+    /**
+     * Controller for a single record page, like '/page/about/' or '/entry/lorum'
+     */
     public static function record(Silex\Application $app, $contenttypeslug, $slug)
     {
         $contenttype = $app['storage']->getContentType($contenttypeslug);
@@ -131,7 +124,7 @@ class Frontend
         }
 
         // Then, select which template to use, based on our 'cascading templates rules'
-        $template = $content->template();
+        $template = $app['templatechooser']->record($content);
 
         // Fallback: If file is not OK, show an error page
         $filename = $app['paths']['themepath'] . "/" . $template;
@@ -172,7 +165,7 @@ class Frontend
         self::checkFrontendPermission($app, $content);
 
         // Then, select which template to use, based on our 'cascading templates rules'
-        $template = $content->template();
+        $template = $app['templatechooser']->record($content);
 
         // Fallback: If file is not OK, show an error page
         $filename = $app['paths']['themepath'] . "/" . $template;
@@ -208,29 +201,7 @@ class Frontend
         $content = $app['storage']->getContent($contenttype['slug'], array('limit' => $amount, 'order' => $order, 'page' => $page, 'paging' => true));
         self::checkFrontendPermission($app, $contenttype['slug']);
 
-        // We do _not_ abort when there's no content. Instead, we handle this in the template:
-        // {% for record in records %} .. {% else %} no records! {% endif %}
-        // if (!$content) {
-        //     $app->abort(404, "Content for '$contenttypeslug' not found.");
-        // }
-
-        // Then, select which template to use, based on our 'cascading templates rules'
-        if (!empty($contenttype['listing_template'])) {
-            $template = $contenttype['listing_template'];
-            $chosen = 'contenttype';
-        } else {
-            $filename = $app['paths']['themepath'] . '/' . $contenttype['slug'] . '.twig';
-            if (file_exists($filename) && is_readable($filename)) {
-                $template = $contenttype['slug'] . '.twig';
-                $chosen = 'slug';
-            } else {
-                $template = $app['config']->get('general/listing_template');
-                $chosen = 'config';
-
-            }
-        }
-
-        $app['log']->setValue('templatechosen', $app['config']->get('general/theme') . "/$template ($chosen)");
+        $template = $app['templatechooser']->listing($contenttype);
 
         // Fallback: If file is not OK, show an error page
         $filename = $app['paths']['themepath'] . "/" . $template;
@@ -279,16 +250,7 @@ class Frontend
             $app->abort(404, "Content for '$taxonomyslug/$slug' not found.");
         }
 
-        $chosen = 'taxonomy';
-
-        // Set the template based on the (optional) setting in taxonomy.yml, or fall back to default listing template
-        if ($app['config']->get('taxonomy/' . $taxonomyslug . '/listing_template')) {
-            $template = $app['config']->get('taxonomy/' . $taxonomyslug . '/listing_template');
-        } else {
-            $template = $app['config']->get('general/listing_template');
-        }
-
-        $app['log']->setValue('templatechosen', $app['config']->get('general/theme') . "/$template ($chosen)");
+        $template = $app['templatechooser']->taxonomy($taxonomyslug);
 
         // Fallback: If file is not OK, show an error page
         $filename = $app['paths']['themepath'] . "/" . $template;
@@ -387,7 +349,7 @@ class Frontend
         $app['twig']->addGlobal($context, $result['query']['use_q']);
         $app['twig']->addGlobal('searchresult', $result);
 
-        $template = $config->get('general/search_results_template', $config->get('general/listing_template'));
+        $template = $app['templatechooser']->search();
 
         return $app['render']->render($template);
     }

@@ -246,6 +246,7 @@ class Application extends Silex\Application
             ->register(new Provider\ExtensionServiceProvider())
             ->register(new Provider\StackServiceProvider())
             ->register(new Provider\OmnisearchServiceProvider())
+            ->register(new Provider\TemplateChooserServiceProvider())
             ->register(new Provider\CronServiceProvider())
             ->register(new Provider\SafeTwigServiceProvider())
             ->register(new Provider\FilePermissionsServiceProvider())
