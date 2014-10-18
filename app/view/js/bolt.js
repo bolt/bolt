@@ -1297,7 +1297,7 @@ var init = {
             $('form').watchChanges();
 
             // Do a regular post, and expect to be redirected back to the "new record" page.
-            var newaction = "?returnto=new";
+            var newaction = "?returnto=saveandnew";
             $('#editcontent').attr('action', newaction).submit();
         });
 
