@@ -176,12 +176,14 @@ var BoltExtender = Object.extend(Object, {
                     for(var e in data) {
                         ext = data[e];
                         var html = "<div class='panel panel-default'><div class='panel-heading'>";
+                        // title and version in panel heading box
                         if(ext['title']) {
                             html += "<i class='fa fa-cube fa-fw'></i> " + ext["title"] + " <span class='pull-right text-muted'>"  + ext["name"] + " - " + ext["version"] + "</span> ";
                         } else {
                             html += "<i class='fa fa-cube fa-fw'></i> " + ext["name"] + " - " + ext["version"];
                         }
 
+                        // show the autors if any
                         if (ext["authors"]) {
                             html += "<span class='authors'>";
                             var authorsArray = ext["authors"];
@@ -203,13 +205,14 @@ var BoltExtender = Object.extend(Object, {
                             html += "<a href='" + ext["config"] + "' class='btn btn-sm btn-tertiary' ><i class='fa fa-cog fa-fw'></i> Config</a> ";
                         }
                         html += "</div> ";
+
                         html += "<a data-action='uninstall-package' class='btn btn-sm btn-danger' href='" + baseurl + "uninstall?package=" + ext["name"] + "'><i class='fa fa-trash-o fa-fw'></i> Uninstall</a>";
                         html += "</div> ";
 
                         // plain description
                         html += "<div class='description text-muted'>" + ext["descrip"] + "</div> ";
-                        // version and tags
 
+                        // tags
                         if (ext["keywords"]) {
                             html += "<span class='tags'><i class='fa fa-tag ta-fw'></i> ";
                             var keywordsArray = ext["keywords"].split(',');
@@ -222,7 +225,7 @@ var BoltExtender = Object.extend(Object, {
                         html += "<i class='fa fa-briefcase ta-fw'></i> <span class='type label label-default'>" + ext["type"] + "</span> ";
 
                         html += "</div></div>";
-                        console.log(ext);
+                        //console.log(ext);
                         target.find('.installed-list-items').append(html);
                     }
                 } else {
