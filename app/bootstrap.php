@@ -1,4 +1,16 @@
 <?php
+/**
+ * Second stage loader
+ *
+ * After verifying the first stage was run, we bootstrap the app:
+ *
+ * - Initialize mb functions for UTF-8
+ * - Figure out path structure
+ * - Bring in the autoloader
+ * - Load and verify configuration
+ * - Initialize the application
+ */
+
 namespace Bolt;
 
 use Bolt\Configuration\LowlevelException;
