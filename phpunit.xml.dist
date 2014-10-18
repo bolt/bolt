@@ -21,10 +21,10 @@
     </testsuites>
     <filter>
         <whitelist>
-            <directory>./</directory>
+            <directory>./tests</directory>
             <exclude>
-                <directory>./tests</directory>
-                <directory>../vendor</directory>
+                <directory>./test</directory>
+                <directory>./vendor</directory>
             </exclude>
         </whitelist>
     </filter>

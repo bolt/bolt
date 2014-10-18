@@ -55,8 +55,8 @@
     "prefer-stable": true,
     "autoload": {
         "psr-4": {
-            "Bolt\\": "app/src/Bolt",
-            "Bolt\\Tests\\": "app/tests/Bolt/Tests"
+            "Bolt\\": "src",
+            "Bolt\\Tests\\": "tests/Bolt/Tests"
         }
     },
     "bin": ["app/nut"]

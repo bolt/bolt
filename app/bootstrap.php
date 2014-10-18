@@ -27,7 +27,7 @@ return call_user_func(
         // Second to last entry must be load.php
         $isLoadChainOk = $includeCount >= 3 && $includes[$includeCount - 2] == $loaderPath;
 
-        require_once __DIR__ . '/src/Bolt/Configuration/LowlevelException.php';
+        require_once __DIR__ . '/../src/Configuration/LowlevelException.php';
 
         if (! $isLoadChainOk) {
             throw new LowlevelException('Include load.php, not bootstrap.php');

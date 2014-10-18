@@ -12,7 +12,7 @@ matrix:
     - php: hhvm
 
 script:
-  - phpunit -c app/
+  - phpunit -c phpunit.xml.dist
   - ./run-functional-tests
 
 before_script:
