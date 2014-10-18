@@ -80,7 +80,7 @@ class Config
             $yml = self::$yamlParser->parse(file_get_contents($filename) . "\n");
 
             // To prevent an edge-case where an existing-but-empty .yml file returns
-            // something else (`NULL`) than a non-existing files (`array()`), we 
+            // something else (`NULL`) than a non-existing files (`array()`), we
             // check the result instead of returning it blindly.
             if (!empty($yml)) {
                 return $yml;
