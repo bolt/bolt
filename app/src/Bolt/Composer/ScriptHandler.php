@@ -76,7 +76,7 @@ class ScriptHandler
      */
     public static function extensions(PackageEvent $event)
     {
-        $installedPackage = $event->getOperation()->getPackage();
+        $installedPackage = $event->getComposer()->getPackage();
         $rootExtra = $event->getComposer()->getPackage()->getExtra();
         $extra = $installedPackage->getExtra();
         if (isset($extra['bolt-assets'])) {
