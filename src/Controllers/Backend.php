@@ -761,14 +761,18 @@ class Backend implements ControllerProviderInterface
                 }
 
                 /*
-                 * Bolt 2:
                  * We now only get a returnto parameter if we are saving a new
                  * record and staying on the same page, i.e. "Save {contenttype}"
                  */
                 if ($app['request']->get('returnto')) {
-                    if ($app['request']->get('returnto') == "new") {
+
+                    $returnto = $app['request']->get('returnto');
+
+                    if ($returnto == "new") {
+                        return redirect('editcontent', array('contenttypeslug' => $contenttype['slug'], 'id' => $id), '#' . $app['request']->get('returnto'));
+                    } elseif ($returnto == "saveandnew") {
                         return redirect('editcontent', array('contenttypeslug' => $contenttype['slug'], 'id' => 0), '#' . $app['request']->get('returnto'));
-                    } elseif ($app['request']->get('returnto') == "ajax") {
+                    } elseif ($returnto == "ajax") {
                         /*
                          * Flush any buffers from saveConent() dispatcher hooks
                          * and make sure our JSON output is clean.
