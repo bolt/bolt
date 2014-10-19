@@ -242,7 +242,7 @@ class LowlevelChecks
      */
     private function lowlevelConfigFix($name)
     {
-        $distname = realpath(__DIR__ . '/../../../config/' . $name . '.yml.dist');
+        $distname = realpath(__DIR__ . '/../../app/config/' . $name . '.yml.dist');
         $ymlname = realpath($this->config->getPath('config') . '/') . '/' . $name . '.yml';
 
         if (file_exists($ymlname) && is_readable($ymlname)) {
