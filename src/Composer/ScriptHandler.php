@@ -40,11 +40,11 @@ class ScriptHandler
         $filesystem->mkdir($targetDir, $dirMode);
 
         foreach (array('css', 'fonts', 'img', 'js', 'lib') as $dir) {
-            $filesystem->mirror(__DIR__ . '/../../../view/' . $dir, $targetDir . '/view/' . $dir);
+            $filesystem->mirror(__DIR__ . '/../../app/view/' . $dir, $targetDir . '/view/' . $dir);
         }
 
         if (!$filesystem->exists($webDir . '/files/')) {
-            $filesystem->mirror(__DIR__ . '/../../../../files', $webDir . '/files');
+            $filesystem->mirror(__DIR__ . '/../../files', $webDir . '/files');
         }
 
         if (!$filesystem->exists($webDir . '/theme/')) {
