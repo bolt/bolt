@@ -2110,6 +2110,7 @@ jQuery(function ($) {
     bolt.folders = new Folders();
     bolt.stack = new Stack();
     bolt.sidebar = new Sidebar();
+    bolt.navpopups = new Navpopups();
     bolt.imagelist = [];
     bolt.filelist = [];
 
