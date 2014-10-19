@@ -112,7 +112,7 @@ class Frontend
     }
 
     /**
-     * Controller for a single recore page, like '/page/about/' or '/entry/lorum'.
+     * Controller for a single record page, like '/page/about/' or '/entry/lorum'.
      *
      * @param Silex\Application $app             The application/container
      * @param string            $contenttypeslug The content type slug
