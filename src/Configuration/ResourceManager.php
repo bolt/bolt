@@ -179,7 +179,7 @@ class ResourceManager
         if ("" !== $request->getBasePath()) {
             $this->setUrl('root', $request->getBasePath() . "/");
             $this->setUrl("app", $this->getUrl('root') . "app/");
-            $this->setUrl("extensions", $this->getUrl('app') . "extensions/");
+            $this->setUrl("extensions", $this->getUrl('root') . "extensions/");
             $this->setUrl("files", $this->getUrl('root') . "files/");
             $this->setUrl("async", $this->getUrl('root') . "async/");
             $this->setUrl("upload", $this->getUrl('root') . "upload/");
