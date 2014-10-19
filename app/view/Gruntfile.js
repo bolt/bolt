@@ -95,6 +95,7 @@ module.exports = function(grunt) {
                     'js/src/upload-files.js',
                     'js/src/upload-images.js',
                     'js/src/obj-sidebar.js',
+                    'js/src/obj-navpopups.js',
                     'js/src/obj-files.js',
                     'js/src/obj-stack.js',
                     'js/src/obj-folders.js',

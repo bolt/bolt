@@ -746,58 +746,6 @@ var Sidebar = Backbone.Model.extend({
 
     initialize: function () {
 
-        var menuTimeout = '';
-
-        // Build popup menus
-        $('#navpage-secondary a.menu-pop').each(function () {
-            var name = $(this).attr('data-action'),
-                menu = '';
-
-            $('ul .submenu-' + name + ' li').each(function () {
-                if ($(this).hasClass('subdivider')) {
-                    menu += '<hr>';
-                }
-                menu += $(this).html().trim().replace(/[ \n]+/g, ' ').replace(/(>) | (<)/g, '$1$2');
-            });
-
-            $(this) .attr('data-html', true)
-                    .attr('data-title', '')
-                    .attr('data-action', 'bolt.sidebar.showSidebarItems("' + name + '")')
-                    .attr('data-content', menu);
-        });
-
-        // Do this, only if the sidebar is visible. (not when in small-responsive view)
-        if ($('#navpage-secondary').is(':visible')) {
-
-            // Note: It might seem easier to do this with a simple .popover, but we
-            // shouldn't. People using keyboard access will not appreciate the menu timing
-            // out and disappearing after a split-second of losing focus.
-            $('#navpage-secondary a.menu-pop').on('mouseover focus', function (e) {
-                var item = this;
-
-                window.clearTimeout(menuTimeout);
-                menuTimeout = window.setTimeout(function () {
-                    $('#navpage-secondary a.menu-pop').not(item).popover('hide');
-                    $(item).popover('show');
-                }, 400);
-            });
-
-            // We need two distinct events, to hide the sidebar's popovers:
-            // One for 'mouseleave' on the sidebar itself, and one for keyboard
-            // 'focus' on the items before and after.
-            $('#navpage-secondary').on('mouseleave', function () {
-                window.clearTimeout(menuTimeout);                
-                menuTimeout = window.setTimeout(function () {
-                    $('#navpage-secondary a.menu-pop').popover('hide');
-                }, 800);
-            });
-            $('.nav-secondary-collapse a, .nav-secondary-dashboard a').on('focus', function () {
-                window.clearTimeout(menuTimeout);
-                $('#navpage-secondary a.menu-pop').popover('hide');
-            });
-
-        }
-
         // set up 'fixlength'
         window.setTimeout(function () { bolt.sidebar.fixlength(); }, 500);
 
@@ -817,34 +765,14 @@ var Sidebar = Backbone.Model.extend({
     },
 
     /**
-     * Hide / show subitems in the sidebar for mobile devices.
-     *
-     * @param {string} name
-     */
-    showSidebarItems: function (name) {
-        bolt.sidebar.closePopOvers();
-        // Check if the "hamburger menu" is actually visible. If not, we're not on mobile
-        // or tablet, and we should just redirect to the first link, to prevent confusion.
-        if (!$('.navbar-toggle').is(':visible')) {
-            window.location.href = $('#navpage-secondary .submenu-' + name).find('a').first().attr('href');
-        } else {
-            if ($('#navpage-secondary .submenu-' + name).hasClass('show')) {
-                $('#navpage-secondary .submenu-' + name).removeClass('show');
-            } else {
-                $('#navpage-secondary .submenu').removeClass('show');
-                $('#navpage-secondary .submenu-' + name).addClass('show');
-            }
-        }
-    },
-
-    /**
      * Collapse secondary navigation to icon only design
      */
     collapse: function () {
-        bolt.sidebar.closePopOvers();
-        $('#navpage-wrapper').removeClass('nav-secondary-opened').addClass('nav-secondary-collapsed');
-        // We add the '-hoverable' class to make sure the sidebar _first_ collapses, and only _then_
-        // can be opened by hovering on it.
+        $('#navpage-wrapper')
+            .removeClass('nav-secondary-opened')
+            .addClass('nav-secondary-collapsed');
+        // We add the '-hoverable' class to make sure the sidebar _first_ collapses,
+        // and only _then_ can be opened by hovering on it.
         setTimeout(function () {
             $('#navpage-wrapper').addClass('nav-secondary-collapsed-hoverable');
         }, 300);
@@ -855,7 +783,6 @@ var Sidebar = Backbone.Model.extend({
      * Expand secondary navigation to icon full width design
      */
     expand: function () {
-        bolt.sidebar.closePopOvers();
         $('#navpage-wrapper').removeClass(
             'nav-secondary-collapsed nav-secondary-opened nav-secondary-collapsed-hoverable'
         );
@@ -872,10 +799,80 @@ var Sidebar = Backbone.Model.extend({
         } else {
             wrapper.removeClass('nav-secondary-collapsed').addClass('nav-secondary-opened');
         }
+    }
+
+});
+
+/**********************************************************************************************************************/
+
+/**
+ * Backbone object for collapsable sidebar.
+ */
+
+var Navpopups = Backbone.Model.extend({
+
+    defaults: {
     },
 
-    closePopOvers: function () {
-        $('#navpage-secondary a.menu-pop').popover('hide');
+    initialize: function () {
+
+        var menuTimeout = '';
+
+        // Add the submenus to the data-content for bootstrap.popover
+        $('#navpage-secondary a.menu-pop').each(
+            function(i) {
+                var name = $(this).attr('data-name'),
+                    menu = '';
+
+                $('ul .submenu-' + name + ' li').each(function () {
+                    if ($(this).hasClass('subdivider')) {
+                        menu += '<hr>';
+                    }
+                    menu += $(this).html().trim().replace(/[ \n]+/g, ' ').replace(/(>) | (<)/g, '$1$2');
+                });
+
+                $(this).attr('data-html', true).attr('data-content', menu);
+            }
+        );
+        if ($('.navbar-toggle').is(':visible')) {
+            // we're on mobile view - so do not trigger the popups,
+            // console.log('mobile view');
+            // only trigger the mobile open action
+            $('#navpage-secondary a.menu-pop').on('click', function(e) {
+                    e.preventDefault();
+                    var name = $(this).attr('data-name');
+                    if ($('#navpage-secondary .submenu-' + name).hasClass('show')) {
+                        $('#navpage-secondary .submenu-' + name).removeClass('show');
+                    } else {
+                        $('#navpage-secondary .submenu').removeClass('show');
+                        $('#navpage-secondary .submenu-' + name).addClass('show');
+                    }
+                }
+            );
+        } else {
+            // Add hover focus and leave blur event handlers for popovers - on desktop
+            $('#navpage-secondary')
+                .on('mouseover focus', 'a.menu-pop', function () {
+                        var item = this;
+                        window.clearTimeout(menuTimeout);
+                        menuTimeout = window.setTimeout(function () {
+                            $('#navpage-secondary a.menu-pop').not(item).popover('hide');
+                            $(item).popover('show');
+                        }, 400);
+                    }
+                )
+                .on('mouseenter focus', '.popover', function () {
+                        window.clearTimeout(menuTimeout);
+                    }
+                )
+                .on('mouseleave blur', 'a.menu-pop, .popover', function () {
+                        window.clearTimeout(menuTimeout);
+                        menuTimeout = window.setTimeout(function () {
+                            $('#navpage-secondary a.menu-pop').popover('hide');
+                        }, 800);
+                    }
+                );
+        }
     }
 });
 
@@ -1809,9 +1806,9 @@ var init = {
         $('[data-action]').on('click.action', function (e) {
             var action = $(this).attr('data-action');
             if (typeof action !== "undefined" && action !== "") {
+                e.preventDefault();
                 eval(action);
                 e.stopPropagation();
-                e.preventDefault();
             }
         })
         // Prevent propagation to parent's click handler from anchor in popover.
@@ -2186,6 +2183,7 @@ jQuery(function ($) {
     bolt.folders = new Folders();
     bolt.stack = new Stack();
     bolt.sidebar = new Sidebar();
+    bolt.navpopups = new Navpopups();
     bolt.imagelist = [];
     bolt.filelist = [];
 
