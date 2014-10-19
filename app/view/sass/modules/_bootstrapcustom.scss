@@ -5,6 +5,7 @@
     font-size: 14px;
     font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-weight: normal !important;
+    border-radius: 3px;
 }
 
 .btn-group > .btn-xs {
@@ -109,7 +110,7 @@
     background-image: -ms-linear-gradient(top, $boltblue 80%, $boltbluedarker 100%);
     background-color: $boltblue;
     background-repeat: repeat-x;
-    box-shadow: 0 4px 0px rgba(0, 0, 0, .2);
+    // box-shadow: 0 4px 0px rgba(0, 0, 0, .2);
     @include old-ie() {
         border-bottom: 4px solid $lightgrey;
     }
@@ -267,6 +268,8 @@
  */
 ul.dropdown-menu {
     margin: 0;
+    border-radius: 0;
+    box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.15);    
 }
 
 ul.dropdown-menu li {
@@ -293,6 +296,31 @@ ul.dropdown-menu li a.nolink {
 }
 
 
+/**
+ * styles for pagination
+ */
+
+.pagination {
+
+    border-radius: 2px !important;
+
+    &>li {
+
+        &>a {
+            color: $linkmain;
+        }
+
+        &>span {
+            color: #666;
+        }
+    }
+
+    .active a {
+        background-color: $linkmain;
+        border-color: $linkmain;
+    }
+
+}
 
 /**
  * End of styles for pagination

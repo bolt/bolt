@@ -144,7 +144,7 @@
         text-indent: 0;
         font-size: 120%;
         padding-left: 4px;
-        color: darken($sidebarlink, 50);
+        color: darken($sidebarlink, 25);
         line-height: $nav-secondary-icon-size;
     }
 
@@ -216,7 +216,7 @@
         font-style: normal;
         font-weight: bold;
         background: $sidebarlink;
-        border-radius: 5px;
+        border-radius: 3px;
         font-size: ($nav-secondary-icon-size - 8px);
         color: #333;
 

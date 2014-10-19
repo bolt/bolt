@@ -18,8 +18,12 @@
     padding: 1px;
 }
 
+.dashboardlisting tbody {
+    border-top: 0px !important;
+}
+
 .dashboardlisting th {
-    background-color: #E2E2E2;
+    background-color: #F2F2F2 !important;
     text-align: left;
     font-weight: bold;
     color: #888;
@@ -47,7 +51,7 @@
     text-align: left;
     font-weight: bold;
     color: #333;
-    padding: 1px 5px;
+    padding: 4px 5px 12px;
     border: 0px solid #FFF;
 }
 
@@ -85,7 +89,7 @@
 .dashboardlisting td.listthumb  {
     white-space: nowrap;
     color: #666;
-    padding: 8px 2px;
+    padding: 12px 2px;
 }
 
 .dashboardlisting td.username {
@@ -93,7 +97,11 @@
 }
 
 .dashboardlisting td.listthumb {
-    padding: 4px 2px 2px;
+    padding: 9px 2px 2px;
+}
+
+.dashboardlisting td.check {
+    padding-top: 10px;
 }
 
 .dashboardlisting td.listthumb img {
@@ -119,7 +127,8 @@
 }
 
 .dashboardlisting td.excerpt span {
-    height: 36px;
+    height: 40px;
+    padding-top: 3px;
     display: block;
     color: #777;
     overflow: hidden;
