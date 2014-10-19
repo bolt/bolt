@@ -7,13 +7,6 @@ info:
             Εναλλακτικά, μπορείτε να χρησιμοποιείσετε μια εικόνα που φορτώσατε παλιότερα. Για να επιλέξετε,
             πληκτρολογήστε ένα μέρος του ονόματος αρχείου στην περιοχή εισόδου και θα συμπληρωθεί το υπόλοιπο
             αυτόματα.
-        file: |
-            Use this field to upload a file to include as a download or to use inside a page on the
-            website. Click the button to upload a file from your computer, or if you're using a recent version
-            of Chrome or Firefox, you can simply drag'n'drop the file from your desktop or from a different
-            browser window. <br />
-            Alternatively, you can use a previously uploaded file. To select a previously uploaded file, just
-            type (part) of the filename in the input area, and it will be autocompleted.
         filelist: |
             Χρησιμοποιείστε αυτο το πεδίο για φορτώσετε πολλαπλά αρχεία και μερικές περιγραφές. Όπως και με την
             περιοχή φόρτωσης μοναδικού αρχείου, πρόσφατες εκδόσεις Chrome και Firefox μπορούν να αντιληφθούν πότε ένα
@@ -33,35 +26,6 @@ info:
             απο το Youtube, Vimeo ή οποιαδήποτε άλλη σελίδα διαμοιριασμού video.<br />
             Το Bolt θα φέρει αυτόματα τον κώδικα &amp;lt;embed&amp;gt; με τον σωστό ύψος και πλάτος και τον τίτλο.
             Εάν αλλάξετε τον ύψος ή το πλάτος, η άλλη τιμή θα αλλάξει για να διατηρηθεί η αναλογία.
-    geolocation: |
-        Use this field to get the geolocation of any address, or place the marker
-            manually by dragging the pin. First, enter an (approximate) address in the 'address'-field,
-            and the corresponding latitude and longitude will be retrieved using the Google Maps API,
-            together with the closest matching address, according to Google. <br>
-            If you want to move the marker to a different location, just drag'n'drop the pin on the
-            mini-map. The latitide and longitude will be updated automatically.
-    markdown: |
-        Markdown is a text-to-HTML conversion tool for web writers.
-            <p>Markdown allows you to write using an easy-to-read, easy-to-write plain text format,
-            which is then converted to structurally valid HTML.</p>
-            <p><strong>Quick reference:</strong><br>
-            # This is an &lt;h1&gt;-tag<br>
-            ## This is an &lt;h2&gt;-tag<br>
-            ###### This is an &lt;h6&gt;-tag</p>
-            <p>This _<em>is italic</em>_, this __<strong>is bold</strong>__, and this
-            ___<em><strong>is both</strong></em>___. You can also use asterixes: This *<em>is italic</em>*,
-            this **<strong>is bold</strong>**.
-            <p>Create <a href='#'>links</a> like this:<br>
-            An [exciting website](http://example.org/ &amp;quot;Title of link&amp;quot;)</p>
-            <p>&nbsp; * This is an unordered list<br>
-            &nbsp; * Item 2</p>
-            <p>&nbsp; 1 This is an ordered list<br>
-            &nbsp; 2 Item 2</p>
-    relationships: |
-        By selecting other records as a 'relation', you are actually
-            creating a link between this record, and the one you selected. On the
-            website, this can by used for 'related articles', 'see also' or to display
-            how this record fits into a certain structure.
     taxonomy: |
         Επιλέγοντας μία ή περισσότερες taxonomies γι'αυτήν την εγγραφή,
         By selecting one or more taxonomies for this record, ορίζετε ότι η εγγραφή αυτη θα περιέχει αυτες τις ιδιοτήτες.
