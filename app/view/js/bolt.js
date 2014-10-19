@@ -836,11 +836,8 @@ var Navpopups = Backbone.Model.extend({
         );
         // Add hover focus and leave blur event handlers for popovers - on desktop
         $('#navpage-secondary')
-            .on('mouseover focus', 'a.menu-pop', function (e) {
-                    e.preventDefault();
-
+            .on('mouseover focus', 'a.menu-pop', function () {
                     var item = this;
-
                     window.clearTimeout(menuTimeout);
                     menuTimeout = window.setTimeout(function () {
                         $('#navpage-secondary a.menu-pop').not(item).popover('hide');
@@ -848,15 +845,11 @@ var Navpopups = Backbone.Model.extend({
                     }, 400);
                 }
             )
-            .on('mouseenter focus', '.popover', function (e) {
-                    e.preventDefault();
-
+            .on('mouseenter focus', '.popover', function () {
                     window.clearTimeout(menuTimeout);
                 }
             )
-            .on('mouseleave blur', 'a.menu-pop, .popover', function (e) {
-                    e.preventDefault();
-
+            .on('mouseleave blur', 'a.menu-pop, .popover', function () {
                     window.clearTimeout(menuTimeout);
                     menuTimeout = window.setTimeout(function () {
                         $('#navpage-secondary a.menu-pop').popover('hide');
