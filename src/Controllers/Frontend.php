@@ -12,7 +12,7 @@ use Bolt\Pager;
  *
  * This file acts as a grouping for the default front-end controllers.
  *
- * For overridding the default behavior here, please reference
+ * For overriding the default behavior here, please reference
  * http://docs.bolt.cm/templates-routes#routing or the routing.yml
  * file in your configuration.
  */
