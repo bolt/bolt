@@ -806,6 +806,41 @@ var Sidebar = Backbone.Model.extend({
 /**********************************************************************************************************************/
 
 /**
+ * Backbone object for collapsable sidebar.
+ */
+
+var Navpopups = Backbone.Model.extend({
+
+    defaults: {
+    },
+
+    initialize: function () {
+        // Do stuff on menu-pop stuff
+        $('#navpage-secondary a[data-toggle="popover"]').each(
+            function(e) {
+                $(this).attr('data-action', null);
+                $(this).data('action', null);
+            }
+        );
+        $('#navpage-secondary').on(
+            'mouseover focus',
+            'a[data-toggle="popover"]',
+            function (e) {
+                e.preventDefault();
+                console.log('hovering over', $(this));
+            }
+        );
+
+        console.log('initialized Navpopups');
+
+    }
+
+
+});
+
+/**********************************************************************************************************************/
+
+/**
  * Backbone object for all file actions functionality.
  */
 var Files = Backbone.Model.extend({
@@ -1733,9 +1768,9 @@ var init = {
         $('[data-action]').on('click.action', function (e) {
             var action = $(this).attr('data-action');
             if (typeof action !== "undefined" && action !== "") {
+                e.preventDefault();
                 eval(action);
                 e.stopPropagation();
-                e.preventDefault();
             }
         })
         // Prevent propagation to parent's click handler from anchor in popover.

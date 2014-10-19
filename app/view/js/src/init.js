@@ -575,9 +575,9 @@ var init = {
         $('[data-action]').on('click.action', function (e) {
             var action = $(this).attr('data-action');
             if (typeof action !== "undefined" && action !== "") {
+                e.preventDefault();
                 eval(action);
                 e.stopPropagation();
-                e.preventDefault();
             }
         })
         // Prevent propagation to parent's click handler from anchor in popover.
