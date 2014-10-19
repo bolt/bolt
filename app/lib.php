@@ -186,6 +186,11 @@ function safeString($str, $strict = false, $extrachars = "")
  */
 function makeSlug($str, $length = 64)
 {
+
+    if (is_array($str)) {
+        $str = implode(" ", $str);
+    }
+
     $str = safeString(strip_tags($str));
 
     $str = str_replace(" ", "-", $str);
