@@ -815,27 +815,55 @@ var Navpopups = Backbone.Model.extend({
     },
 
     initialize: function () {
-        // Do stuff on menu-pop stuff
-        $('#navpage-secondary a[data-toggle="popover"]').each(
-            function(e) {
-                $(this).attr('data-action', null);
-                $(this).data('action', null);
+
+        var menuTimeout = '';
+
+        // Add the submenus to the data-content for bootstrap.popover
+        $('#navpage-secondary a.menu-pop').each(
+            function(i) {
+                var name = $(this).attr('data-name'),
+                    menu = '';
+
+                $('ul .submenu-' + name + ' li').each(function () {
+                    if ($(this).hasClass('subdivider')) {
+                        menu += '<hr>';
+                    }
+                    menu += $(this).html().trim().replace(/[ \n]+/g, ' ').replace(/(>) | (<)/g, '$1$2');
+                });
+
+                $(this).attr('data-html', true).attr('data-content', menu);
             }
         );
-        $('#navpage-secondary').on(
-            'mouseover focus',
-            'a[data-toggle="popover"]',
-            function (e) {
-                e.preventDefault();
-                console.log('hovering over', $(this));
-            }
-        );
+        // Add hover focus and leave blur event handlers for popovers - on desktop
+        $('#navpage-secondary')
+            .on('mouseover focus', 'a.menu-pop', function (e) {
+                    e.preventDefault();
 
-        console.log('initialized Navpopups');
+                    var item = this;
 
+                    window.clearTimeout(menuTimeout);
+                    menuTimeout = window.setTimeout(function () {
+                        $('#navpage-secondary a.menu-pop').not(item).popover('hide');
+                        $(item).popover('show');
+                    }, 400);
+                }
+            )
+            .on('mouseenter focus', '.popover', function (e) {
+                    e.preventDefault();
+
+                    window.clearTimeout(menuTimeout);
+                }
+            )
+            .on('mouseleave blur', 'a.menu-pop, .popover', function (e) {
+                    e.preventDefault();
+
+                    window.clearTimeout(menuTimeout);
+                    menuTimeout = window.setTimeout(function () {
+                        $('#navpage-secondary a.menu-pop').popover('hide');
+                    }, 800);
+                }
+            );
     }
-
-
 });
 
 /**********************************************************************************************************************/

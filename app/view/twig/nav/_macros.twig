@@ -43,9 +43,7 @@
         <li{% if class %} class="{{ class }}"{% endif %}>
             <a  href="{% if popoveritems %}{{ popoveritems.0.link }}{% else %}#{% endif %}"
                 class="menu-pop"
-                title="{{ name }}"
-                data-toggle="popover"
-                data-content='<a href="#">hellow {{ name }}!</a>'
+                data-name="{{ name }}"
                 >
                 {{ label(icon, label) }}
             </a>
