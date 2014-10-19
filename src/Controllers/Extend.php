@@ -19,8 +19,8 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
 
     public function register(Silex\Application $app)
     {
-        $app['extend.site'] = 'http://extensions.bolt.cm/';
-        $app['extend.repo'] = 'http://extensions.bolt.cm/list.json';
+        $app['extend.site'] = 'https://extensions.bolt.cm/';
+        $app['extend.repo'] = 'https://extensions.bolt.cm/list.json';
         $app['extend'] = $this;
         $extensionsPath = $app['resources']->getPath('extensions');
         $this->readWriteMode = is_dir("$extensionsPath/") && is_writable("$extensionsPath/");
