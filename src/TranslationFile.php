@@ -341,7 +341,8 @@ class TranslationFile
             $keyRaw = stripslashes($key);
             if ($getMessages) {
                 // Step 2: Find already translated strings
-                if (($trans = $this->getTranslated($keyRaw, $translated)) == '') {
+                $trans = $this->getTranslated($keyRaw, $translated);
+                if ($trans == '') {
                     $msgUntranslated[$keyRaw] = null;
                 } else {
                     $msgTranslated[$keyRaw] = $trans;
@@ -350,7 +351,8 @@ class TranslationFile
                 // Step 3: Generate additional strings for contenttypes
                 if (strpos($keyRaw, '%contenttype%') !== false || strpos($keyRaw, '%contenttypes%') !== false) {
                     foreach ($this->genContentTypes($keyRaw) as $ctypekey) {
-                        if (($trans = $this->getTranslated($ctypekey, $translated)) == '') {
+                        $trans = $this->getTranslated($ctypekey, $translated);
+                        if ($trans == '') {
                             $msgUntranslated[$keyRaw] = null; // Not translated
                         } else {
                             $msgTranslated[$keyRaw] = $trans;
