@@ -46,7 +46,7 @@ class TranslationServiceProvider implements ServiceProviderInterface
             }
 
             // Load fallback for infos domain
-            $infosfilename = dirname(dirname(dirname(__DIR__))) . '/resources/translations/en/infos.en.yml';
+            $infosfilename = $paths['apppath'] . '/resources/translations/en/infos.en.yml';
             if (is_readable($infosfilename)) {
                 $app['translator']->addResource('yml', $infosfilename, 'en', 'infos');
             }
