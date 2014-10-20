@@ -339,28 +339,21 @@ class TranslationFile
 
         foreach ($this->translatables as $key => $empty) {
             $keyRaw = stripslashes($key);
-            $keyEsc = Escaper::escapeWithDoubleQuotes($keyRaw);
             if ($getMessages) {
                 // Step 2: Find already translated strings
-                if (($trans = $this->getTranslated($keyRaw, $translated)) == '' &&
-                    ($trans = $this->getTranslated($keyEsc, $translated)) == ''
-                ) {
-                    $msgUntranslated[] = $keyEsc;
+                if (($trans = $this->getTranslated($keyRaw, $translated)) == '') {
+                    $msgUntranslated[] = $keyRaw;
                 } else {
-                    $trans = Escaper::escapeWithDoubleQuotes($trans);
-                    $msgTranslated[$keyEsc] = $trans;
+                    $msgTranslated[$keyRaw] = $trans;
                 }
             } else {
                 // Step 3: Generate additional strings for contenttypes
                 if (strpos($keyRaw, '%contenttype%') !== false || strpos($keyRaw, '%contenttypes%') !== false) {
                     foreach ($this->genContentTypes($keyRaw) as $ctypekey) {
-                        $keyEsc = Escaper::escapeWithDoubleQuotes($ctypekey);
-                        if (($trans = $this->getTranslated($ctypekey, $translated)) == '' &&
-                            ($trans = $this->getTranslated($keyEsc, $translated)) == ''
-                        ) {
-                            $msgUntranslated[] = $keyEsc; // Not translated
+                        if (($trans = $this->getTranslated($ctypekey, $translated)) == '') {
+                            $msgUntranslated[] = $keyRaw; // Not translated
                         } else {
-                            $msgTranslated[$keyEsc] = Escaper::escapeWithDoubleQuotes($trans);
+                            $msgTranslated[$keyRaw] = $trans;
                         }
                     }
                 }
@@ -387,7 +380,7 @@ class TranslationFile
         if ($cnt) {
             $content .= '# ' . $cnt . ' untranslated strings' . "\n\n";
             foreach ($untranslated as $key) {
-                $content .= $key . ':  #' . "\n";
+                $content .= Escaper::escapeWithDoubleQuotes($key) . ': #' . "\n";
             }
             $content .= "\n" . '#-----------------------------------------' . "\n";
         } else {
@@ -397,8 +390,8 @@ class TranslationFile
         // Translated: non keyword based
         $first = "\n";
         foreach ($translated as $key => $translation) {
-            if (!preg_match('%^"[a-z0-9-]+\.[a-z0-9-]+\.[a-z0-9.-]+"$%', $key)) {
-                $content .= $first . $key . ': ' . $translation . "\n";
+            if (!preg_match('%^[a-z0-9-]+\.[a-z0-9-]+\.[a-z0-9.-]+$%', $key)) {
+                $content .= $first . Escaper::escapeWithDoubleQuotes($key) . ': ' . Escaper::escapeWithDoubleQuotes($translation) . "\n";
                 $first = '';
             }
         }
@@ -406,7 +399,7 @@ class TranslationFile
         $div = '    ';
         $level = array(1 => '', 2 => '');
         foreach ($translated as $key => $translation) {
-            if (preg_match('%^"([a-z0-9-]+)\.([a-z0-9-]+)\.([a-z0-9.-]+)"$%', $key, $match)) {
+            if (preg_match('%^([a-z0-9-]+)\.([a-z0-9-]+)\.([a-z0-9.-]+)$%', $key, $match)) {
                 if ($level[1] != $match[1]) {
                     $content .= "\n" . $match[1] . ':' . "\n";
                     $level[1] = $match[1];
@@ -415,7 +408,7 @@ class TranslationFile
                     $content .= $div . $match[2] . ':' . "\n";
                     $level[2] = $match[2];
                 }
-                $content .= $div . $div . $match[3] . ': ' . $translation . "\n";
+                $content .= $div . $div . $match[3] . ': ' . Escaper::escapeWithDoubleQuotes($translation) . "\n";
             }
         }
 
