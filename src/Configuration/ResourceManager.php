@@ -69,7 +69,7 @@ class ResourceManager
 
         $this->setUrl("extensions", "/extensions/");
         $this->setPath("extensionsconfig", $this->root . "/app/config/extensions");
-        $this->setPath("extensionspath", $this->root . "/extensions");
+        $this->setPath("extensionspath", $this->root . DIRECTORY_SEPARATOR . "extensions");
 
         $this->setUrl("files", "/files/");
         $this->setPath("filespath", $this->root . "/files");
