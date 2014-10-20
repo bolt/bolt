@@ -342,7 +342,7 @@ class TranslationFile
             if ($getMessages) {
                 // Step 2: Find already translated strings
                 if (($trans = $this->getTranslated($keyRaw, $translated)) == '') {
-                    $msgUntranslated[] = $keyRaw;
+                    $msgUntranslated[$keyRaw] = null;
                 } else {
                     $msgTranslated[$keyRaw] = $trans;
                 }
@@ -351,7 +351,7 @@ class TranslationFile
                 if (strpos($keyRaw, '%contenttype%') !== false || strpos($keyRaw, '%contenttypes%') !== false) {
                     foreach ($this->genContentTypes($keyRaw) as $ctypekey) {
                         if (($trans = $this->getTranslated($ctypekey, $translated)) == '') {
-                            $msgUntranslated[] = $keyRaw; // Not translated
+                            $msgUntranslated[$keyRaw] = null; // Not translated
                         } else {
                             $msgTranslated[$keyRaw] = $trans;
                         }
@@ -360,7 +360,7 @@ class TranslationFile
             }
         }
 
-        sort($msgUntranslated);
+        ksort($msgUntranslated);
         ksort($msgTranslated);
 
         return array($msgTranslated, $msgUntranslated);
@@ -379,7 +379,7 @@ class TranslationFile
         $cnt = count($untranslated);
         if ($cnt) {
             $content .= '# ' . $cnt . ' untranslated strings' . "\n\n";
-            foreach ($untranslated as $key) {
+            foreach ($untranslated as $key => $empty) {
                 $content .= Escaper::escapeWithDoubleQuotes($key) . ': #' . "\n";
             }
             $content .= "\n" . '#-----------------------------------------' . "\n";
