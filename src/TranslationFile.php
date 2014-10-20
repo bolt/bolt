@@ -274,7 +274,7 @@ class TranslationFile
     {
         foreach ($this->app['config']->get('contenttypes') as $contenttype) {
             foreach ($contenttype['fields'] as $fkey => $field) {
-                if (isset($field['label'])) {
+                if ($field['label'] !== '') {
                     $this->addTranslatable($field['label']);
                 } else {
                     $this->addTranslatable(ucfirst($fkey));
