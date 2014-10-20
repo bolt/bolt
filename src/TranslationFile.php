@@ -105,8 +105,8 @@ class TranslationFile
      */
     private function addTranslatable($Text)
     {
-        if (!in_array($Text, $this->translatables) && strlen($Text) > 1) {
-            $this->translatables[] = $Text;
+        if (strlen($Text) > 1 && !isset($this->translatables[$Text])) {
+            $this->translatables[$Text] = null;
         }
     }
 
@@ -337,7 +337,7 @@ class TranslationFile
         $msgTranslated = array();
         $msgUntranslated = array();
 
-        foreach ($this->translatables as $key) {
+        foreach ($this->translatables as $key => $empty) {
             $keyRaw = stripslashes($key);
             $keyEsc = Escaper::escapeWithDoubleQuotes($keyRaw);
             if ($getMessages) {
