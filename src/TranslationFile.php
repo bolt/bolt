@@ -178,7 +178,7 @@ class TranslationFile
             ->notName('*~')
             ->exclude(array('cache', 'config', 'database', 'resources', 'tests'))
             ->in($this->app['paths']['apppath'])
-            ->in($this->app['paths']['apppath'] . '/../src/');
+            ->in(__DIR__);
 
         foreach ($finder as $file) {
             $tokens = token_get_all($file->getContents());
