@@ -316,14 +316,10 @@ class TranslationFile
     /**
      * Find all twig templates and bolt php code, extract translatables strings, merge with existing translations
      *
-     * @param array $translated
-     * @param array $getMessages True returns translation datat for messages, false for contenttypes
      * @return array
      */
-    private function gatherTranslatableStrings($translated, $getMessages)
+    private function gatherTranslatableStrings()
     {
-        // Step 1: Gather all translatable strings
-
         $this->translatables = array();
 
         $this->scanTwigFiles();
@@ -332,30 +328,7 @@ class TranslationFile
         $this->scanContenttypeRelations();
         $this->scanTaxonomies();
 
-        // Build lists
-
-        $msgTranslated = array();
-
-        foreach ($this->translatables as $key => $empty) {
-            $keyRaw = stripslashes($key);
-            if ($getMessages) {
-                // Step 2: Find already translated strings
-                $trans = $this->getTranslated($keyRaw, $translated);
-                $msgTranslated[$keyRaw] = ($trans == '') ? null : $trans;
-            } else {
-                // Step 3: Generate additional strings for contenttypes
-                if (strpos($keyRaw, '%contenttype%') !== false || strpos($keyRaw, '%contenttypes%') !== false) {
-                    foreach ($this->genContentTypes($keyRaw) as $ctypekey) {
-                        $trans = $this->getTranslated($ctypekey, $translated);
-                        $msgTranslated[$keyRaw] = ($trans == '') ? null : $trans;
-                    }
-                }
-            }
-        }
-
-        ksort($msgTranslated);
-
-        return $msgTranslated;
+        ksort($this->translatables);
     }
 
     /**
@@ -482,7 +455,16 @@ class TranslationFile
     private function contentMessages()
     {
         $translated = $this->readTranslations();
-        $msgTranslated = $this->gatherTranslatableStrings($translated, true);
+        $this->gatherTranslatableStrings();
+
+        // Find already translated strings
+        $msgTranslated = array();
+        foreach (array_keys($this->translatables) as $key) {
+            $keyRaw = stripslashes($key);
+            $trans = $this->getTranslated($keyRaw, $translated);
+            $msgTranslated[$keyRaw] = ($trans == '') ? null : $trans;
+        }
+        ksort($msgTranslated);
 
         return $this->buildNewContent($msgTranslated);
     }
@@ -495,7 +477,20 @@ class TranslationFile
     private function contentContenttypes()
     {
         $translated = $this->readTranslations();
-        $msgTranslated = $this->gatherTranslatableStrings($translated, false);
+        $this->gatherTranslatableStrings();
+
+        // Generate strings for contenttypes
+        $msgTranslated = array();
+        foreach (array_keys($this->translatables) as $key) {
+            $keyRaw = stripslashes($key);
+            if (strpos($keyRaw, '%contenttype%') !== false || strpos($keyRaw, '%contenttypes%') !== false) {
+                foreach ($this->genContentTypes($keyRaw) as $ctypekey) {
+                    $trans = $this->getTranslated($ctypekey, $translated);
+                    $msgTranslated[$keyRaw] = ($trans == '') ? null : $trans;
+                }
+            }
+        }
+        ksort($msgTranslated);
 
         return $this->buildNewContent($msgTranslated);
     }
