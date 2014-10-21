@@ -1,3 +1,11 @@
+component:
+    changelog-detail:
+        by: "by"
+        field: "field"
+        no-comment: "Not commented"
+        value-new: "new value"
+        value-old: "old value"
+
 field:
     general:
         allowed-filetypes: "Allowed filetypes are:"

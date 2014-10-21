@@ -5,7 +5,7 @@
         "{{ entry.title }}"
         {{ macro.changelogmutation(entry.effectiveMutationType) }}
         {{ macro.datetime(entry.date) }}
-        {{ __('by') }}
+        {{ __('component.changelog-detail.by') }}
         {{ entry.username }}
     </h3>
 
@@ -31,16 +31,16 @@
             <div class="text">
                 <p>
                     <i class="icon-comments-alt"></i>
-                    {{ entry.comment|default('Not commented') }}
+                    {{ entry.comment|default(__('component.changelog-detail.no-comment')) }}
                 </p>
             </div>
 
             <table class="table table-bordered table-condensed table-changelog-details">
                 <thead>
                     <tr>
-                        <th>{{ __('field') }}</th>
-                        <th>{{ __('old value') }}</th>
-                        <th>{{ __('new value') }}</th>
+                        <th>{{ __('component.changelog-detail.field') }}</th>
+                        <th>{{ __('component.changelog-detail.value-old') }}</th>
+                        <th>{{ __('component.changelog-detail.value-new') }}</th>
                     </tr>
                 </thead>
 
