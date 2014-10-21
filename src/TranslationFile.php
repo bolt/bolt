@@ -362,7 +362,9 @@ class TranslationFile
             // Header
             $count = (count($translations) > 0 ? sprintf('%3s', count($translations)) : ' no');
             $status .= '# ' . $count . $text . "\n";
-            $content .= "\n" . '#--- ' . str_pad(ltrim($count) . $text . ' ', 74, '-') . "\n\n";
+            if (count($translations) > 0) {
+                $content .= "\n" . '#--- ' . str_pad(ltrim($count) . $text . ' ', 74, '-') . "\n\n";
+            }
             // List
             $lastKey = array();
             $linebreak = '';
