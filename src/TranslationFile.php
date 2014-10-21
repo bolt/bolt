@@ -382,7 +382,13 @@ class TranslationFile
                     $content .= Escaper::escapeWithDoubleQuotes($tdata->key) . ': ';
                 }
                 // Value
-                $content .= ($tdata->trans === '' ? '#' : Escaper::escapeWithDoubleQuotes($tdata->trans)) . "\n";
+                if ($tdata->trans === '') {
+                    $key = is_array($tdata->key) ? join($tdata->key, '.') : $tdata->key;
+                    $t = $this->app['translator']->trans($key);
+                    $content .= '#' . ($t === '' ? '' : ' ' . Escaper::escapeWithDoubleQuotes(print_r($t, 1))) . "\n";
+                } else {
+                    $content .= Escaper::escapeWithDoubleQuotes($tdata->trans) . "\n";
+                }
             }
         }
 
