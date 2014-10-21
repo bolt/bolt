@@ -324,7 +324,7 @@ class CommandRunner
         // Set the error reporting before initializing the wrapper, to suppress them.
         $oldErrorReporting = error_reporting(E_ERROR);
 
-        $this->wrapper = \evidev\composer\Wrapper::create();
+        $this->wrapper = \evidev\composer\Wrapper::create($this->app['resources']->getPath('cache') . '/composer');
 
         // re-set error reporting to the value it should be.
         error_reporting($oldErrorReporting);
