@@ -334,18 +334,22 @@ class TranslationFile
     /**
      * Builds the translations file data with added translations
      *
+     * @param array $newTranslations New translation data to write
+     * @param array $savedTranslations Translation data read from file
      * @return string
      */
-    private function buildNewContent($newTranslations)
+    private function buildNewContent($newTranslations, $savedTranslations)
     {
         // Presort
+        $unusedTranslations = $savedTranslations;
         $transByType = array(
+            'Unused' => array(' unused messages', array()),
             'TodoReal' => array(' untranslated messages', array()),
             'TodoKey' => array(' untranslated keyword based messages', array()),
             'DoneReal' => array(' translations', array()),
             'DoneKey' => array(' keyword based translations', array()),
         );
-        foreach ($newTranslations as $key => $translations) {
+        foreach ($newTranslations as $key => $translation) {
             if (preg_match('%^([a-z0-9-]+)\.([a-z0-9-]+)\.([a-z0-9-]+)(?:\.([a-z0-9.-]+))?$%', $key, $match)) {
                 $type = 'Key';
                 $setkey = array_slice($match, 1);
@@ -353,8 +357,14 @@ class TranslationFile
                 $type = 'Real';
                 $setkey = $key;
             }
-            $done = ($translations === null) ? 'Todo' : 'Done';
-            $transByType[$done . $type][1][] = (object) array('key' => $setkey, 'trans' => $translations);
+            $done = ($translation === null) ? 'Todo' : 'Done';
+            $transByType[$done . $type][1][] = (object) array('key' => $setkey, 'trans' => $translation);
+            if (isset($unusedTranslations[$key])) {
+                unset($unusedTranslations[$key]);
+            }
+        }
+        foreach ($unusedTranslations as $key => $translation) {
+            $transByType['Unused'][1][] = (object) array('key' => $key, 'trans' => $translation);
         }
 
         // Build List
@@ -465,7 +475,7 @@ class TranslationFile
         }
         ksort($newTranslations);
 
-        return $this->buildNewContent($newTranslations);
+        return $this->buildNewContent($newTranslations, $savedTranslations);
     }
 
     /**
@@ -490,7 +500,7 @@ class TranslationFile
         }
         ksort($newTranslations);
 
-        return $this->buildNewContent($newTranslations);
+        return $this->buildNewContent($newTranslations, $savedTranslations);
     }
 
     /**
