@@ -111,27 +111,6 @@ class TranslationFile
     }
 
     /**
-     * Generates a string for each variation of contenttype/contenttypes
-     *
-     * @param string $txt String with %contenttype%/%contenttypes% placeholders
-     * @return array
-     */
-    private function genContentTypes($txt)
-    {
-        $stypes = array();
-
-        foreach (array('%contenttype%' => 'singular_name', '%contenttypes%' => 'name') as $placeholder => $name) {
-            if (strpos($txt, $placeholder) !== false) {
-                foreach ($this->app['config']->get('contenttypes') as $ctype) {
-                    $stypes[] = str_replace($placeholder, $ctype[$name], $txt);
-                }
-            }
-        }
-
-        return $stypes;
-    }
-
-    /**
      * Scan twig templates for  __('...' and __("..." and add the strings found to the list of translatable strings
      */
     private function scanTwigFiles()
@@ -485,8 +464,13 @@ class TranslationFile
         $newTranslations = array();
         foreach (array_keys($this->translatables) as $key) {
             if (strpos($key, '%contenttype%') !== false || strpos($key, '%contenttypes%') !== false) {
-                foreach ($this->genContentTypes($key) as $ctypekey) {
-                    $newTranslations[$ctypekey] = isset($savedTranslations[$ctypekey]) ? $savedTranslations[$ctypekey] : '';
+                foreach (array('%contenttype%' => 'singular_name', '%contenttypes%' => 'name') as $placeholder => $name) {
+                    if (strpos($key, $placeholder) !== false) {
+                        foreach ($this->app['config']->get('contenttypes') as $ctype) {
+                            $ctypekey = str_replace($placeholder, $ctype[$name], $key);
+                            $newTranslations[$ctypekey] = isset($savedTranslations[$ctypekey]) ? $savedTranslations[$ctypekey] : '';
+                        }
+                    }
                 }
             }
         }
