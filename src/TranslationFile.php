@@ -121,7 +121,7 @@ class TranslationFile
     {
         $trans = $this->app['translator']->trans($key);
         if ($trans == $key) {
-            if (is_array($translated) && array_key_exists($key, $translated) && !empty($translated[$key])) {
+            if (isset($translated[$key]) && !empty($translated[$key])) {
                 return $translated[$key];
             } else {
                 return '';
