@@ -24,7 +24,6 @@
 "Default status":  #
 "Delete selected":  #
 "Depublish selected":  #
-"Description":  #
 "Detail template":  #
 "Details":  #
 "Enter a password, longer than 6 chars":  #
@@ -93,7 +92,6 @@
 "This will make sure all packages listed are installed. Use this if you've recently moved to a new server or if you have manually added an extension.":  #
 "This won't install anything, just show you available updates":  #
 "Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.":  #
-"Type":  #
 "URL of video on Youtube, Vimeo or other video website":  #
 "URL of video to embed":  #
 "Unstable Test Versions":  #
