@@ -46,10 +46,12 @@ class TranslationServiceProvider implements ServiceProviderInterface
             }
 
             // Load english fallbacks for domains
-            foreach (array('messages', 'infos') as $domain) {
-                $path = $paths['apppath'] . '/resources/translations/en/' . $domain . '.en.yml';
-                if (is_readable($path)) {
-                    $app['translator']->addResource('yml', $path, 'en', $domain);
+            if ($app['locale'] != 'en') {
+                foreach (array('messages', 'infos') as $domain) {
+                    $path = $paths['apppath'] . '/resources/translations/en/' . $domain . '.en.yml';
+                    if (is_readable($path)) {
+                        $app['translator']->addResource('yml', $path, 'en', $domain);
+                    }
                 }
             }
         }
