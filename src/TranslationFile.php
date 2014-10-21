@@ -330,21 +330,21 @@ class TranslationFile
             'DoneKey' => array(' keyword based translations', array()),
         );
         foreach ($newTranslations as $key => $translation) {
+            $set = array('trans' => $translation);
             if (preg_match('%^([a-z0-9-]+)\.([a-z0-9-]+)\.([a-z0-9-]+)(?:\.([a-z0-9.-]+))?$%', $key, $match)) {
                 $type = 'Key';
-                $setkey = array_slice($match, 1);
+                $set['key'] = array_slice($match, 1);
             } else {
                 $type = 'Real';
-                $setkey = $key;
             }
             $done = ($translation === '') ? 'Todo' : 'Done';
-            $transByType[$done . $type][1][] = (object) array('key' => $setkey, 'trans' => $translation);
+            $transByType[$done . $type][1][$key] = $set;
             if (isset($unusedTranslations[$key])) {
                 unset($unusedTranslations[$key]);
             }
         }
         foreach ($unusedTranslations as $key => $translation) {
-            $transByType['Unused'][1][] = (object) array('key' => $key, 'trans' => $translation);
+            $transByType['Unused'][1][$key] = array('trans' => $translation);
         }
 
         // Build List
@@ -365,29 +365,30 @@ class TranslationFile
             $content .= "\n" . '#--- ' . str_pad(ltrim($count) . $text . ' ', 74, '-') . "\n\n";
             // List
             $lastKey = array();
-            foreach ($translations as $n => $tdata) {
+            $linebreak = '';
+            foreach ($translations as $key => $tdata) {
                 // Key
-                if (is_array($tdata->key)) {
-                    for ($level = 0, $end = count($tdata->key) - 1; $level < $end; $level++) {
-                        if ($level >= count($lastKey) - 1 || $lastKey[$level] != $tdata->key[$level]) {
-                            if ($n > 0 && $level == 0) {
-                                $content .= "\n";
+                if (isset($tdata['key'])) {
+                    for ($level = 0, $end = count($tdata['key']) - 1; $level < $end; $level++) {
+                        if ($level >= count($lastKey) - 1 || $lastKey[$level] != $tdata['key'][$level]) {
+                            if ($level == 0) {
+                                $content .= $linebreak = '';
+                                $linebreak = "\n";
                             }
-                            $content .= str_repeat($indent, $level) . $tdata->key[$level] . ':' . "\n";
+                            $content .= str_repeat($indent, $level) . $tdata['key'][$level] . ':' . "\n";
                         }
                     }
-                    $lastKey = $tdata->key;
-                    $content .= str_repeat($indent, $level) . $tdata->key[$level] . ': ';
+                    $lastKey = $tdata['key'];
+                    $content .= str_repeat($indent, $level) . $tdata['key'][$level] . ': ';
                 } else {
-                    $content .= Escaper::escapeWithDoubleQuotes($tdata->key) . ': ';
+                    $content .= Escaper::escapeWithDoubleQuotes($key) . ': ';
                 }
                 // Value
-                if ($tdata->trans === '') {
-                    $key = is_array($tdata->key) ? join($tdata->key, '.') : $tdata->key;
+                if ($tdata['trans'] === '') {
                     $t = $this->app['translator']->trans($key);
                     $content .= '#' . ($t === '' ? '' : ' ' . Escaper::escapeWithDoubleQuotes(print_r($t, 1))) . "\n";
                 } else {
-                    $content .= Escaper::escapeWithDoubleQuotes($tdata->trans) . "\n";
+                    $content .= Escaper::escapeWithDoubleQuotes($tdata['trans']) . "\n";
                 }
             }
         }
