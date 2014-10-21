@@ -111,27 +111,6 @@ class TranslationFile
     }
 
     /**
-     * Return the previously translated string if exists, otherwise return an empty string
-     *
-     * @param string $key
-     * @param array $translated
-     * @return string
-     */
-    private function getSavedTranslation($key, $translated)
-    {
-        $trans = $this->app['translator']->trans($key);
-        if ($trans == $key) {
-            if (isset($translated[$key]) && !empty($translated[$key])) {
-                return $translated[$key];
-            } else {
-                return '';
-            }
-        } else {
-            return $trans;
-        }
-    }
-
-    /**
      * Generates a string for each variation of contenttype/contenttypes
      *
      * @param string $txt String with %contenttype%/%contenttypes% placeholders
@@ -471,8 +450,8 @@ class TranslationFile
         // Find already translated strings
         $newTranslations = array();
         foreach (array_keys($this->translatables) as $key) {
-            $trans = $this->getSavedTranslation($key, $savedTranslations);
-            $newTranslations[$key] = ($trans == '') ? null : $trans;
+            $trans = isset($savedTranslations[$key]) ? $savedTranslations[$key] : '';
+            $newTranslations[$key] = ($trans === '') ? null : $trans;
         }
         ksort($newTranslations);
 
@@ -494,8 +473,8 @@ class TranslationFile
         foreach (array_keys($this->translatables) as $key) {
             if (strpos($key, '%contenttype%') !== false || strpos($key, '%contenttypes%') !== false) {
                 foreach ($this->genContentTypes($key) as $ctypekey) {
-                    $trans = $this->getSavedTranslation($ctypekey, $savedTranslations);
-                    $newTranslations[$key] = ($trans == '') ? null : $trans;
+                    $trans = isset($savedTranslations[$key]) ? $savedTranslations[$key] : '';
+                    $newTranslations[$key] = ($trans === '') ? null : $trans;
                 }
             }
         }
