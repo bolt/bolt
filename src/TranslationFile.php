@@ -367,14 +367,14 @@ class TranslationFile
             }
             // List
             $lastKey = array();
-            $linebreak = '';
+            $linebreak = ''; // We want an empty line before each 1st level key
             foreach ($translations as $key => $tdata) {
                 // Key
                 if (isset($tdata['key'])) {
                     for ($level = 0, $end = count($tdata['key']) - 1; $level < $end; $level++) {
                         if ($level >= count($lastKey) - 1 || $lastKey[$level] != $tdata['key'][$level]) {
                             if ($level == 0) {
-                                $content .= $linebreak = '';
+                                $content .= $linebreak;
                                 $linebreak = "\n";
                             }
                             $content .= str_repeat($indent, $level) . $tdata['key'][$level] . ':' . "\n";
