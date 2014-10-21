@@ -119,7 +119,8 @@ class TranslationFile
      */
     private function getSavedTranslation($key, $translated)
     {
-        if (($trans = $this->app['translator']->trans($key)) == $key) {
+        $trans = $this->app['translator']->trans($key);
+        if ($trans == $key) {
             if (is_array($translated) && array_key_exists($key, $translated) && !empty($translated[$key])) {
                 return $translated[$key];
             } else {
