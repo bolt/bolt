@@ -458,15 +458,15 @@ class TranslationFile
         $this->gatherTranslatableStrings();
 
         // Find already translated strings
-        $msgTranslated = array();
+        $translations = array();
         foreach (array_keys($this->translatables) as $key) {
             $keyRaw = stripslashes($key);
             $trans = $this->getTranslated($keyRaw, $translated);
-            $msgTranslated[$keyRaw] = ($trans == '') ? null : $trans;
+            $translations[$keyRaw] = ($trans == '') ? null : $trans;
         }
-        ksort($msgTranslated);
+        ksort($translations);
 
-        return $this->buildNewContent($msgTranslated);
+        return $this->buildNewContent($translations);
     }
 
     /**
@@ -480,19 +480,19 @@ class TranslationFile
         $this->gatherTranslatableStrings();
 
         // Generate strings for contenttypes
-        $msgTranslated = array();
+        $translations = array();
         foreach (array_keys($this->translatables) as $key) {
             $keyRaw = stripslashes($key);
             if (strpos($keyRaw, '%contenttype%') !== false || strpos($keyRaw, '%contenttypes%') !== false) {
                 foreach ($this->genContentTypes($keyRaw) as $ctypekey) {
                     $trans = $this->getTranslated($ctypekey, $translated);
-                    $msgTranslated[$keyRaw] = ($trans == '') ? null : $trans;
+                    $translations[$keyRaw] = ($trans == '') ? null : $trans;
                 }
             }
         }
-        ksort($msgTranslated);
+        ksort($translations);
 
-        return $this->buildNewContent($msgTranslated);
+        return $this->buildNewContent($translations);
     }
 
     /**
