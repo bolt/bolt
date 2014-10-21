@@ -336,7 +336,7 @@ class TranslationFile
      *
      * @return string
      */
-    private function buildNewContent($translated)
+    private function buildNewContent($newTranslations)
     {
         // Presort
         $transByType = array(
@@ -345,7 +345,7 @@ class TranslationFile
             'DoneReal' => array(' translations', array()),
             'DoneKey' => array(' keyword based translations', array()),
         );
-        foreach ($translated as $key => $translations) {
+        foreach ($newTranslations as $key => $translations) {
             if (preg_match('%^([a-z0-9-]+)\.([a-z0-9-]+)\.([a-z0-9-]+)(?:\.([a-z0-9.-]+))?$%', $key, $match)) {
                 $type = 'Key';
                 $setkey = array_slice($match, 1);
@@ -399,12 +399,12 @@ class TranslationFile
      *
      * @return array Translations found
      */
-    private function readTranslations()
+    private function readSavedTranslations()
     {
         if (is_file($this->absPath) && is_readable($this->absPath)) {
             try {
                 $flattened = array();
-                $translated = Yaml::parse($this->absPath);
+                $savedTranslations = Yaml::parse($this->absPath);
 
                 $flatten = function ($data, $prefix = '') use (&$flatten, &$flattened) {
                     if ($prefix) {
@@ -418,7 +418,7 @@ class TranslationFile
                         }
                     }
                 };
-                $flatten($translated);
+                $flatten($savedTranslations);
 
                 return $flattened;
             } catch (ParseException $e) {
@@ -454,18 +454,18 @@ class TranslationFile
      */
     private function contentMessages()
     {
-        $translated = $this->readTranslations();
+        $savedTranslations = $this->readSavedTranslations();
         $this->gatherTranslatableStrings();
 
         // Find already translated strings
-        $translations = array();
+        $newTranslations = array();
         foreach (array_keys($this->translatables) as $key) {
-            $trans = $this->getTranslated($key, $translated);
-            $translations[$key] = ($trans == '') ? null : $trans;
+            $trans = $this->getTranslated($key, $savedTranslations);
+            $newTranslations[$key] = ($trans == '') ? null : $trans;
         }
-        ksort($translations);
+        ksort($newTranslations);
 
-        return $this->buildNewContent($translations);
+        return $this->buildNewContent($newTranslations);
     }
 
     /**
@@ -475,22 +475,22 @@ class TranslationFile
      */
     private function contentContenttypes()
     {
-        $translated = $this->readTranslations();
+        $savedTranslations = $this->readSavedTranslations();
         $this->gatherTranslatableStrings();
 
         // Generate strings for contenttypes
-        $translations = array();
+        $newTranslations = array();
         foreach (array_keys($this->translatables) as $key) {
             if (strpos($key, '%contenttype%') !== false || strpos($key, '%contenttypes%') !== false) {
                 foreach ($this->genContentTypes($key) as $ctypekey) {
-                    $trans = $this->getTranslated($ctypekey, $translated);
-                    $translations[$key] = ($trans == '') ? null : $trans;
+                    $trans = $this->getTranslated($ctypekey, $savedTranslations);
+                    $newTranslations[$key] = ($trans == '') ? null : $trans;
                 }
             }
         }
-        ksort($translations);
+        ksort($newTranslations);
 
-        return $this->buildNewContent($translations);
+        return $this->buildNewContent($newTranslations);
     }
 
     /**
