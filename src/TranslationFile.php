@@ -167,15 +167,15 @@ class TranslationFile
 
         // Regex from: stackoverflow.com/questions/5695240/php-regex-to-ignore-escaped-quotes-within-quotes
         $twigRegex = array(
-            "/\b__\(\s*'([^'\\\\]*(?:\\\\.[^'\\\\]*)*)'(?U).*\)/s", // __('single_quoted_string'…
-            '/\b__\(\s*"([^"\\\\]*(?:\\\\.[^"\\\\]*)*)"(?U).*\)/s', // __("double_quoted_string"…
+            "/\b__\(\s*'([^'\\\\]*(?:\\\\.[^'\\\\]*)*)'(?U).*\)/s" => array('\\\'' => '\''), // __('single_quoted_string'…
+            '/\b__\(\s*"([^"\\\\]*(?:\\\\.[^"\\\\]*)*)"(?U).*\)/s' => array('\"' => '"'), // __("double_quoted_string"…
         );
 
         foreach ($finder as $file) {
-            foreach ($twigRegex as $regex) {
+            foreach ($twigRegex as $regex => $stripslashes) {
                 if (preg_match_all($regex, $file->getContents(), $matches)) {
                     foreach ($matches[1] as $foundString) {
-                        $this->addTranslatable($foundString);
+                        $this->addTranslatable(strtr($foundString, $stripslashes));
                     }
                 }
             }
@@ -460,9 +460,8 @@ class TranslationFile
         // Find already translated strings
         $translations = array();
         foreach (array_keys($this->translatables) as $key) {
-            $keyRaw = stripslashes($key);
-            $trans = $this->getTranslated($keyRaw, $translated);
-            $translations[$keyRaw] = ($trans == '') ? null : $trans;
+            $trans = $this->getTranslated($key, $translated);
+            $translations[$key] = ($trans == '') ? null : $trans;
         }
         ksort($translations);
 
@@ -482,11 +481,10 @@ class TranslationFile
         // Generate strings for contenttypes
         $translations = array();
         foreach (array_keys($this->translatables) as $key) {
-            $keyRaw = stripslashes($key);
-            if (strpos($keyRaw, '%contenttype%') !== false || strpos($keyRaw, '%contenttypes%') !== false) {
-                foreach ($this->genContentTypes($keyRaw) as $ctypekey) {
+            if (strpos($key, '%contenttype%') !== false || strpos($key, '%contenttypes%') !== false) {
+                foreach ($this->genContentTypes($key) as $ctypekey) {
                     $trans = $this->getTranslated($ctypekey, $translated);
-                    $translations[$keyRaw] = ($trans == '') ? null : $trans;
+                    $translations[$key] = ($trans == '') ? null : $trans;
                 }
             }
         }
