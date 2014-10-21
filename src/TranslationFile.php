@@ -486,7 +486,7 @@ class TranslationFile
         foreach (array_keys($this->translatables) as $key) {
             if (strpos($key, '%contenttype%') !== false || strpos($key, '%contenttypes%') !== false) {
                 foreach ($this->genContentTypes($key) as $ctypekey) {
-                    $newTranslations[$key] = isset($savedTranslations[$key]) ? $savedTranslations[$key] : '';
+                    $newTranslations[$ctypekey] = isset($savedTranslations[$ctypekey]) ? $savedTranslations[$ctypekey] : '';
                 }
             }
         }
