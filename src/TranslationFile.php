@@ -335,37 +335,27 @@ class TranslationFile
         // Build lists
 
         $msgTranslated = array();
-        $msgUntranslated = array();
 
         foreach ($this->translatables as $key => $empty) {
             $keyRaw = stripslashes($key);
             if ($getMessages) {
                 // Step 2: Find already translated strings
                 $trans = $this->getTranslated($keyRaw, $translated);
-                if ($trans == '') {
-                    $msgUntranslated[$keyRaw] = null;
-                } else {
-                    $msgTranslated[$keyRaw] = $trans;
-                }
+                $msgTranslated[$keyRaw] = ($trans == '') ? null : $trans;
             } else {
                 // Step 3: Generate additional strings for contenttypes
                 if (strpos($keyRaw, '%contenttype%') !== false || strpos($keyRaw, '%contenttypes%') !== false) {
                     foreach ($this->genContentTypes($keyRaw) as $ctypekey) {
                         $trans = $this->getTranslated($ctypekey, $translated);
-                        if ($trans == '') {
-                            $msgUntranslated[$keyRaw] = null; // Not translated
-                        } else {
-                            $msgTranslated[$keyRaw] = $trans;
-                        }
+                        $msgTranslated[$keyRaw] = ($trans == '') ? null : $trans;
                     }
                 }
             }
         }
 
-        ksort($msgUntranslated);
         ksort($msgTranslated);
 
-        return array($msgTranslated, $msgUntranslated);
+        return $msgTranslated;
     }
 
     /**
@@ -373,48 +363,62 @@ class TranslationFile
      *
      * @return string
      */
-    private function buildNewContent($translated, $untranslated)
+    private function buildNewContent($translated)
     {
-        $content = '# ' . $this->relPath . ' – generated on ' . date('Y-m-d H:i:s e') . "\n";
-
-        // Untranslated
-        $cnt = count($untranslated);
-        if ($cnt) {
-            $content .= '# ' . $cnt . ' untranslated strings' . "\n\n";
-            foreach ($untranslated as $key => $empty) {
-                $content .= Escaper::escapeWithDoubleQuotes($key) . ': #' . "\n";
+        // Presort
+        $transByType = array(
+            'TodoReal' => array(' untranslated messages', array()),
+            'TodoKey' => array(' untranslated keyword based messages', array()),
+            'DoneReal' => array(' translations', array()),
+            'DoneKey' => array(' keyword based translations', array()),
+        );
+        foreach ($translated as $key => $translations) {
+            if (preg_match('%^([a-z0-9-]+)\.([a-z0-9-]+)\.([a-z0-9-]+)(?:\.([a-z0-9.-]+))?$%', $key, $match)) {
+                $type = 'Key';
+                $setkey = array_slice($match, 1);
+            } else {
+                $type = 'Real';
+                $setkey = $key;
             }
-            $content .= "\n" . '#-----------------------------------------' . "\n";
-        } else {
-            $content .= '# no untranslated strings' . "\n\n";
-        }
-        $content .= '# ' . count($translated) . ' translated strings' . "\n";
-        // Translated: non keyword based
-        $first = "\n";
-        foreach ($translated as $key => $translation) {
-            if (!preg_match('%^[a-z0-9-]+\.[a-z0-9-]+\.[a-z0-9.-]+$%', $key)) {
-                $content .= $first . Escaper::escapeWithDoubleQuotes($key) . ': ' . Escaper::escapeWithDoubleQuotes($translation) . "\n";
-                $first = '';
-            }
-        }
-        // Translated: keyword based
-        $div = '    ';
-        $level = array(1 => '', 2 => '');
-        foreach ($translated as $key => $translation) {
-            if (preg_match('%^([a-z0-9-]+)\.([a-z0-9-]+)\.([a-z0-9.-]+)$%', $key, $match)) {
-                if ($level[1] != $match[1]) {
-                    $content .= "\n" . $match[1] . ':' . "\n";
-                    $level[1] = $match[1];
-                }
-                if ($level[2] != $match[2]) {
-                    $content .= $div . $match[2] . ':' . "\n";
-                    $level[2] = $match[2];
-                }
-                $content .= $div . $div . $match[3] . ': ' . Escaper::escapeWithDoubleQuotes($translation) . "\n";
-            }
+            $done = ($translations === null) ? 'Todo' : 'Done';
+            $transByType[$done . $type][1][] = (object) array('key' => $setkey, 'trans' => $translations);
         }
 
-        return $content;
+        // Build List
+        $indent = '    ';
+        $status = '# ' . $this->relPath . ' – generated on ' . date('Y-m-d H:i:s e') . "\n\n";
+        $content = '';
+
+        foreach ($transByType as $type => $transData) {
+            list($text, $translations) = $transData;
+            // Header
+            $count = (count($translations) > 0 ? sprintf('%3s', count($translations)) : ' no');
+            $status .= '# ' . $count . $text . "\n";
+            $content .= "\n" . '#--- ' . str_pad(ltrim($count) . $text . ' ', 74, '-') . "\n\n";
+            // List
+            $lastKey = array();
+            foreach ($translations as $n => $tdata) {
+                // Key
+                if (is_array($tdata->key)) {
+                    for ($level = 0, $end = count($tdata->key) - 1; $level < $end; $level++) {
+                        if ($level >= count($lastKey) - 1 || $lastKey[$level] != $tdata->key[$level]) {
+                            if ($n > 0 && $level == 0) {
+                                $content .= "\n";
+                            }
+                            $content .= str_repeat($indent, $level) . $tdata->key[$level] . ':' . "\n";
+                        }
+                    }
+                    $lastKey = $tdata->key;
+                    $content .= str_repeat($indent, $level) . $tdata->key[$level] . ': ';
+                } else {
+                    $content .= Escaper::escapeWithDoubleQuotes($tdata->key) . ': ';
+                }
+                // Value
+                $content .= ($tdata->trans === null ? '#' : Escaper::escapeWithDoubleQuotes($tdata->trans)) . "\n";
+            }
+        }
+
+        return $status . $content;
     }
 
     /**
@@ -478,9 +482,9 @@ class TranslationFile
     private function contentMessages()
     {
         $translated = $this->readTranslations();
-        list($msgTranslated, $msgUntranslated) = $this->gatherTranslatableStrings($translated, true);
+        $msgTranslated = $this->gatherTranslatableStrings($translated, true);
 
-        return $this->buildNewContent($msgTranslated, $msgUntranslated);
+        return $this->buildNewContent($msgTranslated);
     }
 
     /**
@@ -491,9 +495,9 @@ class TranslationFile
     private function contentContenttypes()
     {
         $translated = $this->readTranslations();
-        list($msgTranslated, $msgUntranslated) = $this->gatherTranslatableStrings($translated, false);
+        $msgTranslated = $this->gatherTranslatableStrings($translated, false);
 
-        return $this->buildNewContent($msgTranslated, $msgUntranslated);
+        return $this->buildNewContent($msgTranslated);
     }
 
     /**
