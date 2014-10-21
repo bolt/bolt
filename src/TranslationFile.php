@@ -197,8 +197,8 @@ class TranslationFile
             ->name('*.php')
             ->notName('*~')
             ->exclude(array('cache', 'config', 'database', 'resources', 'tests'))
-            ->in(dirname($this->app['paths']['themepath']))
-            ->in($this->app['paths']['apppath']);
+            ->in($this->app['paths']['apppath'])
+            ->in($this->app['paths']['apppath'] . '/../src/');
 
         foreach ($finder as $file) {
             $tokens = token_get_all($file->getContents());
