@@ -106,7 +106,7 @@ class TranslationFile
     private function addTranslatable($Text)
     {
         if (strlen($Text) > 1 && !isset($this->translatables[$Text])) {
-            $this->translatables[$Text] = null;
+            $this->translatables[$Text] = '';
         }
     }
 
@@ -337,7 +337,7 @@ class TranslationFile
                 $type = 'Real';
                 $setkey = $key;
             }
-            $done = ($translation === null) ? 'Todo' : 'Done';
+            $done = ($translation === '') ? 'Todo' : 'Done';
             $transByType[$done . $type][1][] = (object) array('key' => $setkey, 'trans' => $translation);
             if (isset($unusedTranslations[$key])) {
                 unset($unusedTranslations[$key]);
@@ -377,7 +377,7 @@ class TranslationFile
                     $content .= Escaper::escapeWithDoubleQuotes($tdata->key) . ': ';
                 }
                 // Value
-                $content .= ($tdata->trans === null ? '#' : Escaper::escapeWithDoubleQuotes($tdata->trans)) . "\n";
+                $content .= ($tdata->trans === '' ? '#' : Escaper::escapeWithDoubleQuotes($tdata->trans)) . "\n";
             }
         }
 
@@ -404,7 +404,7 @@ class TranslationFile
                         if (is_array($value)) {
                             $flatten($value, $prefix . $key);
                         } else {
-                            $flattened[$prefix . $key] = $value;
+                            $flattened[$prefix . $key] = ($value === null) ? '' : $value;
                         }
                     }
                 };
@@ -450,8 +450,7 @@ class TranslationFile
         // Find already translated strings
         $newTranslations = array();
         foreach (array_keys($this->translatables) as $key) {
-            $trans = isset($savedTranslations[$key]) ? $savedTranslations[$key] : '';
-            $newTranslations[$key] = ($trans === '') ? null : $trans;
+            $newTranslations[$key] = isset($savedTranslations[$key]) ? $savedTranslations[$key] : '';
         }
         ksort($newTranslations);
 
@@ -473,8 +472,7 @@ class TranslationFile
         foreach (array_keys($this->translatables) as $key) {
             if (strpos($key, '%contenttype%') !== false || strpos($key, '%contenttypes%') !== false) {
                 foreach ($this->genContentTypes($key) as $ctypekey) {
-                    $trans = isset($savedTranslations[$key]) ? $savedTranslations[$key] : '';
-                    $newTranslations[$key] = ($trans === '') ? null : $trans;
+                    $newTranslations[$key] = isset($savedTranslations[$key]) ? $savedTranslations[$key] : '';
                 }
             }
         }
