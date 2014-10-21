@@ -117,7 +117,7 @@ class TranslationFile
      * @param array $translated
      * @return string
      */
-    private function getTranslated($key, $translated)
+    private function getSavedTranslation($key, $translated)
     {
         if (($trans = $this->app['translator']->trans($key)) == $key) {
             if (is_array($translated) && array_key_exists($key, $translated) && !empty($translated[$key])) {
@@ -470,7 +470,7 @@ class TranslationFile
         // Find already translated strings
         $newTranslations = array();
         foreach (array_keys($this->translatables) as $key) {
-            $trans = $this->getTranslated($key, $savedTranslations);
+            $trans = $this->getSavedTranslation($key, $savedTranslations);
             $newTranslations[$key] = ($trans == '') ? null : $trans;
         }
         ksort($newTranslations);
@@ -493,7 +493,7 @@ class TranslationFile
         foreach (array_keys($this->translatables) as $key) {
             if (strpos($key, '%contenttype%') !== false || strpos($key, '%contenttypes%') !== false) {
                 foreach ($this->genContentTypes($key) as $ctypekey) {
-                    $trans = $this->getTranslated($ctypekey, $savedTranslations);
+                    $trans = $this->getSavedTranslation($ctypekey, $savedTranslations);
                     $newTranslations[$key] = ($trans == '') ? null : $trans;
                 }
             }
