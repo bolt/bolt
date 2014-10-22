@@ -63,7 +63,7 @@ class ResourceManager
             $this->root = $this->setPath('root', $container['rootpath']);
         }
 
-        if (!empty($container['request'])) {
+        if (!($container instanceof Application) && !empty($container['request'])) {
             $this->requestObject = $container['request'];
         }
 
