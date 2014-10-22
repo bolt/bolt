@@ -69,6 +69,7 @@ class Render
     {
         $html = $response->getContent();
         $html = $this->app['extensions']->processSnippetQueue($html);
+        $html = $this->app['extensions']->processAssets($html);
         $this->cacheRequest($html);
 
         return $html;

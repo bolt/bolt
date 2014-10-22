@@ -330,17 +330,15 @@ class Extensions
      *
      * @param string $filename
      * @param bool   $late
+     * @param int    $priority
      */
-    public function addCss($filename, $late = false)
+    public function addCss($filename, $late = false, $priority = 0)
     {
-        $html = sprintf('<link rel="stylesheet" href="%s" media="screen">', $filename);
-        $this->assets['css'][] = $filename;
-
-        if ($late) {
-            $this->insertSnippet(SnippetLocation::END_OF_BODY, $html);
-        } else {
-            $this->insertSnippet(SnippetLocation::BEFORE_CSS, $html);
-        }
+        $this->assets['css'][md5($filename)] = array(
+            'filename' => $filename,
+            'late' => $late,
+            'priority' => $priority
+        );
     }
 
     /**
@@ -348,17 +346,15 @@ class Extensions
      * the other javascript files.
      * @param string $filename
      * @param bool   $late
+     * @param int    $priority
      */
-    public function addJavascript($filename, $late = false)
+    public function addJavascript($filename, $late = false, $priority = 0)
     {
-        $html = sprintf('<script src="%s"></script>', $filename);
-        $this->assets['js'][] = $filename;
-
-        if ($late) {
-            $this->insertSnippet(SnippetLocation::END_OF_BODY, $html);
-        } else {
-            $this->insertSnippet(SnippetLocation::AFTER_JS, $html);
-        }
+        $this->assets['js'][md5($filename)] = array(
+            'filename'  => $filename,
+            'late'      => $late,
+            'priority'  => $priority
+        );
     }
 
     /**
@@ -565,6 +561,55 @@ class Extensions
         // Finally, replace back ###comment### with its original comment.
         if (!empty($this->matchedcomments)) {
             $html = preg_replace(array_keys($this->matchedcomments), $this->matchedcomments, $html, 1);
+        }
+
+        return $html;
+    }
+
+    /**
+     * Insert all assets in template. Use sorting by priority
+     *
+     * @param $html
+     *
+     * @return string
+     */
+    public function processAssets($html)
+    {
+        foreach ($this->getAssets() as $type => $files) {
+
+            if($this->app['config']->get('general/assets_priority_sorting')){
+
+                // Use http://en.wikipedia.org/wiki/Schwartzian_transform for stable sort
+                // create_function() faster then closure
+                // decorate
+                array_walk( $files, create_function('&$v, $k', '$v = array($v[\'priority\'], $k, $v);'));
+                // sort
+                sort($files);
+                // undecorate
+                array_walk( $files, create_function('&$v, $k', '$v = $v[2];'));
+            }
+
+            foreach ($files as $file) {
+
+                $late = $file['late'];
+                $filename = $file['filename'];
+
+                if($type == 'js'){
+                    $htmlJs = sprintf('<script src="%s"></script>', $filename);
+                    if ($late) {
+                        $html = $this->insertEndOfBody($htmlJs, $html);
+                    } else {
+                        $html = $this->insertAfterJs($htmlJs, $html);
+                    }
+                }else{
+                    $htmlCss = sprintf('<link rel="stylesheet" href="%s" media="screen">', $filename);
+                    if ($late) {
+                        $html = $this->insertEndOfBody($htmlCss, $html);
+                    } else {
+                        $html = $this->insertBeforeCss($htmlCss, $html);
+                    }
+                }
+            }
         }
 
         return $html;
