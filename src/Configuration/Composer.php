@@ -11,12 +11,12 @@ class Composer extends Standard
      *
      * @param string $path
      */
-    public function __construct($loader, Request $request = null)
+    public function __construct($loader)
     {
-        parent::__construct($loader, $request);
-        $this->setPath("composer", realpath(dirname(__DIR__)."/../"));
-        $this->setPath("app", realpath(dirname(__DIR__)."/../app/"));
-        $this->setUrl("app", "/bolt-public/");
+        parent::__construct($loader);
+        $this->setPath('composer', realpath(dirname(__DIR__) . '/../'));
+        $this->setPath('app', realpath(dirname(__DIR__) . '/../app/'));
+        $this->setUrl('app', '/bolt-public/');
     }
 
     public function compat()
