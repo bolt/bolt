@@ -386,8 +386,11 @@ class TranslationFile
     {
         if (is_file($this->absPath) && is_readable($this->absPath)) {
             try {
-                $flattened = array();
                 $savedTranslations = Yaml::parse($this->absPath);
+
+                if ($savedTranslations === null) {
+                    return array(); // File seems to be empty
+                }
 
                 $flatten = function ($data, $prefix = '') use (&$flatten, &$flattened) {
                     if ($prefix) {
@@ -401,6 +404,7 @@ class TranslationFile
                         }
                     }
                 };
+                $flattened = array();
                 $flatten($savedTranslations);
 
                 return $flattened;
