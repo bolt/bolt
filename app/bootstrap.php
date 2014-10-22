@@ -14,6 +14,7 @@
 namespace Bolt;
 
 use Bolt\Configuration\LowlevelException;
+use Eloquent\Pathogen\FileSystem\Factory\PlatformFileSystemPathFactory;
 
 // Do bootstrapping within a new local scope to avoid polluting the global
 return call_user_func(
@@ -53,8 +54,14 @@ return call_user_func(
         foreach ($autodetectionMappings as $autoloadPath => $configType) {
             if (file_exists($autoloadPath)) {
                 $loader = require_once $autoloadPath;
+                $container = new \Pimple(
+                    array(
+                        'classloader' => $loader,
+                        'pathmanager' => new PlatformFileSystemPathFactory()
+                    )
+                );
                 $configClass = '\\Bolt\\Configuration\\' . $configType;
-                $config = new $configClass($loader);
+                $config = new $configClass($container);
                 break;
             }
         }
