@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Stopwatch;
 use Whoops\Provider\Silex\WhoopsServiceProvider;
+use Bolt\Provider\PathServiceProvider;
 
 class Application extends Silex\Application
 {
@@ -22,13 +23,15 @@ class Application extends Silex\Application
 
         parent::__construct($values);
 
+        $this->register(new PathServiceProvider());
+
         // Initialize the config. Note that we do this here, on 'construct'.
         // All other initialisation is triggered from bootstrap.php
         // Warning!
         // One of a valid ResourceManager ['resources'] or ClassLoader ['classloader']
         // must be defined for working properly
         if (!isset($this['resources'])) {
-            $this['resources'] = new Configuration\ResourceManager($this['classloader']);
+            $this['resources'] = new Configuration\ResourceManager($this);
             $this['resources']->compat();
         } else {
             $this['classloader'] = $this['resources']->getClassLoader();
