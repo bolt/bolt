@@ -77,8 +77,8 @@ class TemplateChooser
 
         // Fifth candidate: The record has a templateselect field, and it's set.
         foreach ($record->contenttype['fields'] as $name => $field) {
-            if ($field['type'] == 'templateselect' && !empty($this->values[$name])) {
-                $template = $this->values[$name];
+            if ($field['type'] == 'templateselect' && !empty($record->values[$name])) {
+                $template = $record->values[$name];
                 $chosen = 'record';
             }
         }
