@@ -2,6 +2,8 @@
 namespace Bolt\Configuration;
 
 use Bolt\Application;
+use Eloquent\Pathogen\FileSystem\Factory\PlatformFileSystemPathFactory;
+use Composer\Autoload\ClassLoader;
 
 /**
  * Left as a blank extension of ResourceManager for now, this semantically represents a default configuration
@@ -12,12 +14,15 @@ class Standard extends ResourceManager
 
     public function __construct($loader)
     {
-        if ($loader instanceof \Pimple) {
-            $container = $loader;
+        $container = new \Pimple();
+
+        if ($loader instanceof ClassLoader) {
+            $container['classloader'] = $loader;
         } else {
-            $container = new \Pimple();
             $container['rootpath'] = $loader;
         }
+
+        $container['pathmanager'] = new PlatformFileSystemPathFactory();
 
         parent::__construct($container);
     }
