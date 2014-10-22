@@ -119,7 +119,7 @@ class CommandRunner
     {
         $json = json_decode(file_get_contents($this->packageFile));
         unset($json->require->$package);
-        file_put_contents($this->packageFile, json_encode($json, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+        file_put_contents($this->packageFile, json_encode($json, 128 | 64)); // Used integers to avoid PHP5.3 errors
         $response = $this->execute('update --prefer-dist');
         if ($response) {
             return $package . ' successfully removed';
