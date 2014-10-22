@@ -49,9 +49,14 @@ class ResourceManager
     /**
      * Constructor initialises on the app root path.
      *
-     * @param string $loader ClassLoader | string
-     * Classloader instance will use introspection to find root path
-     * String will be treated as an existing directory.
+     * @param \ArrayAccess $container
+     * ArrayAccess compatible DI container that must contain one of:
+     * 'classloader' of instance a ClassLoader will use introspection to find root path or
+     * 'rootpath' will be treated as an existing directory as string.
+     *
+     * Optional ones:
+     * 'request' - Symfony\Component\HttpFoundation\Request
+     * 'verifier' -
      */
     public function __construct(\ArrayAccess $container)
     {
