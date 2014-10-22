@@ -361,8 +361,8 @@ class CommandRunner
 
 
         // Write out the file, but only if it's actually changed, and if it's writable.
-        if ($jsonfile !== json_encode($json, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)) {
-            file_put_contents($this->packageFile, json_encode($json, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+        if ($jsonfile !== json_encode($json, 128 | 64)) {
+            file_put_contents($this->packageFile, json_encode($json, 128 | 64));
         }
 
         try {
