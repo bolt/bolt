@@ -60,7 +60,7 @@ class ResourceManager
         if (!empty($container['classloader']) && $container['classloader'] instanceof ClassLoader) {
             $this->root = $this->useLoader($container['classloader']);
         } else {
-            $this->root = $this->setPath('rootpath', $container['rootpath']);
+            $this->root = $this->setPath('root', $container['rootpath']);
         }
 
         if (!empty($container['request'])) {
@@ -93,6 +93,7 @@ class ResourceManager
         $this->setPath('config', 'app/config');
         $this->setPath('database', 'app/database');
         $this->setPath('themebase', 'theme');
+
     }
 
     public function setApp(Application $app)
