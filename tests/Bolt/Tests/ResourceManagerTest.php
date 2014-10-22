@@ -6,6 +6,7 @@ use Bolt\Configuration\ResourceManager;
 use Bolt\Configuration\Composer;
 use Symfony\Component\HttpFoundation\Request;
 use Eloquent\Pathogen\FileSystem\PlatformFileSystemPath;
+use Eloquent\Pathogen\FileSystem\Factory\PlatformFileSystemPathFactory;
 
 /**
  * Class to test correct operation and locations of resource manager class and extensions.
