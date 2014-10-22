@@ -106,6 +106,7 @@ class ResourceManager
         $this->classLoader = $loader;
         $ldpath = dirname($loader->findFile('Composer\\Autoload\\ClassLoader'));
         $expath = explode('vendor', $ldpath);
+
         return $this->setPath('root', $expath[0]);
     }
 
@@ -114,8 +115,7 @@ class ResourceManager
         if (! preg_match("/^(?:\/|\\\\|\w:\\\\|\w:\/).*$/", $value)) {
             $path = $this->pathManager->create($value);
             $path = $this->paths['root']->resolve($path);
-        }
-        else {
+        } else {
             $path = $this->pathManager->create($value);
         }
 
