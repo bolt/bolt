@@ -5,6 +5,7 @@ use Bolt\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Storage\MockFileSessionStorage;
 use Bolt\Configuration as Config;
+use Eloquent\Pathogen\FileSystem\Factory\PlatformFileSystemPathFactory;
 
 /**
  * Class to test correct operation of Filesystem Service Provider.
@@ -27,7 +28,14 @@ class FilesystemProviderTest extends \PHPUnit_Framework_TestCase
 
     public function testAppRegistries()
     {
-        $config = new Config\ResourceManager(TEST_ROOT);
+        $config = new Config\ResourceManager(
+            new \Pimple(
+                array(
+                    'rootpath' => TEST_ROOT,
+                    'pathmanager' => new PlatformFileSystemPathFactory()
+                )
+            )
+        );
         $config->compat();
         $bolt = $this->getApp();
 
@@ -37,7 +45,14 @@ class FilesystemProviderTest extends \PHPUnit_Framework_TestCase
 
     public function testDefaultManagers()
     {
-        $config = new Config\ResourceManager(TEST_ROOT);
+        $config = new Config\ResourceManager(
+            new \Pimple(
+                array(
+                    'rootpath' => TEST_ROOT,
+                    'pathmanager' => new PlatformFileSystemPathFactory()
+                )
+            )
+        );
         $config->compat();
         $bolt = $this->getApp();
         $this->assertInstanceOf('League\Flysystem\Filesystem', $bolt['filesystem']->getManager());
@@ -51,7 +66,14 @@ class FilesystemProviderTest extends \PHPUnit_Framework_TestCase
             ->setConstructorArgs(array(new MockFileSessionStorage()))
             ->getMock();
 
-        $config = new Config\ResourceManager(TEST_ROOT);
+        $config = new Config\ResourceManager(
+            new \Pimple(
+                array(
+                    'rootpath' => TEST_ROOT,
+                    'pathmanager' => new PlatformFileSystemPathFactory()
+                )
+            )
+        );
         $bolt = new Application(array('resources' => $config));
 
         $bolt['config']->set(
