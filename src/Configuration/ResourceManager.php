@@ -13,11 +13,17 @@ use Composer\Autoload\ClassLoader;
  *
  * @author Ross Riley, riley.ross@gmail.com
  *
+ * @property \Composer\Autoload\ClassLoader $classloader
+ * @property \Bolt\Appplication $app
+ * @property \Symfony\Component\HttpFoundation\Request $requestObject
+ * @property \Eloquent\Pathogen\FileSystem\Factory\FileSystemPathFactoryInterface $pathManager
  */
 class ResourceManager
 {
 
     public $app;
+
+    public $urlPrefix = "";
 
     /**
      * Don't use! Will probably refactored out soon
@@ -34,11 +40,11 @@ class ResourceManager
 
     protected $request = array();
 
-    public $urlPrefix = "";
-
     protected $verifier = false;
 
     protected $classLoader;
+
+    protected $pathManager;
 
     /**
      * Constructor initialises on the app root path.
@@ -47,43 +53,46 @@ class ResourceManager
      * Classloader instance will use introspection to find root path
      * String will be treated as an existing directory.
      */
-    public function __construct($loader, Request $request = null, $verifier = null)
+    public function __construct(\ArrayAccess $container)
     {
-        if ($loader instanceof ClassLoader) {
-            $this->useLoader($loader);
+        $this->pathManager = $container['pathmanager'];
+
+        if (!empty($container['classloader']) && $container['classloader'] instanceof ClassLoader) {
+            $this->root = $this->useLoader($container['classloader']);
         } else {
-            $this->root = $loader;
+            $this->root = $this->setPath('rootpath', $container['rootpath']);
         }
 
-        $this->requestObject = $request;
-
-        if ($verifier !== null) {
-            $this->verifier = $verifier;
+        if (!empty($container['request'])) {
+            $this->requestObject = $container['request'];
         }
 
-        $this->setUrl("root", "/");
-        $this->setPath("rootpath", $this->root);
+        if (!empty($container['verifier'])) {
+            $this->verifier = $container['verifier'];
+        }
 
-        $this->setUrl("app", "/app/");
-        $this->setPath("apppath", $this->root . '/app');
+        $this->setUrl('root', '/');
 
-        $this->setUrl("extensions", "/extensions/");
-        $this->setPath("extensionsconfig", $this->root . "/app/config/extensions");
-        $this->setPath("extensionspath", $this->root . DIRECTORY_SEPARATOR . "extensions");
+        $this->setUrl('app', '/app/');
+        $this->setPath('apppath', 'app');
 
-        $this->setUrl("files", "/files/");
-        $this->setPath("filespath", $this->root . "/files");
+        $this->setUrl('extensions', '/extensions/');
+        $this->setPath('extensionsconfig', 'app/config/extensions');
+        $this->setPath('extensionspath', 'extensions');
 
-        $this->setUrl("async", "/async/");
-        $this->setUrl("upload", "/upload/");
-        $this->setUrl("bolt", "/bolt/");
-        $this->setUrl("theme", "/theme/");
+        $this->setUrl('files', '/files/');
+        $this->setPath('filespath', 'files');
 
-        $this->setPath("web", $this->root);
-        $this->setPath("cache", $this->root . "/app/cache");
-        $this->setPath("config", $this->root . "/app/config");
-        $this->setPath("database", $this->root . "/app/database");
-        $this->setPath("themebase", $this->root . "/theme");
+        $this->setUrl('async', '/async/');
+        $this->setUrl('upload', '/upload/');
+        $this->setUrl('bolt', '/bolt/');
+        $this->setUrl('theme', '/theme/');
+
+        $this->setPath('web', '');
+        $this->setPath('cache', 'app/cache');
+        $this->setPath('config', 'app/config');
+        $this->setPath('database', 'app/database');
+        $this->setPath('themebase', 'theme');
     }
 
     public function setApp(Application $app)
@@ -96,31 +105,38 @@ class ResourceManager
         $this->classLoader = $loader;
         $ldpath = dirname($loader->findFile('Composer\\Autoload\\ClassLoader'));
         $expath = explode('vendor', $ldpath);
-        $this->root = realpath($expath[0]);
+        return $this->setPath('root', $expath[0]);
     }
 
     public function setPath($name, $value)
     {
         if (! preg_match("/^(?:\/|\\\\|\w:\\\\|\w:\/).*$/", $value)) {
-            $value = $this->root . "/" . $value;
+            $path = $this->pathManager->create($value);
+            $path = $this->paths['root']->resolve($path);
         }
-        $this->paths[$name] = $value;
+        else {
+            $path = $this->pathManager->create($value);
+        }
+
+        $this->paths[$name] = $path;
         if (strpos($name, "path") === false) {
-            $this->paths[$name . "path"] = $value;
+            $this->paths[$name . "path"] = $path;
         }
+
+        return $path;
     }
 
     public function getPath($name)
     {
         if (array_key_exists($name . "path", $this->paths)) {
-            return $this->paths[$name . "path"];
+            return $this->paths[$name . "path"]->string();
         }
 
         if (! array_key_exists($name, $this->paths)) {
             throw new \InvalidArgumentException("Requested path $name is not available", 1);
         }
 
-        return $this->paths[$name];
+        return $this->paths[$name]->string();
     }
 
     public function setUrl($name, $value)
