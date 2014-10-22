@@ -14,7 +14,6 @@
 namespace Bolt;
 
 use Bolt\Configuration\LowlevelException;
-use Eloquent\Pathogen\FileSystem\Factory\PlatformFileSystemPathFactory;
 
 // Do bootstrapping within a new local scope to avoid polluting the global
 return call_user_func(
