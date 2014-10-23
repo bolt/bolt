@@ -521,16 +521,6 @@ class TranslationFile
                         }
                     }
                 }
-            // Old behavior, to be removed when mapping is done
-            } elseif ((strpos($key, '%contenttype%') !== false || strpos($key, '%contenttypes%') !== false)) {
-                foreach (array('%contenttype%' => 'singular_name', '%contenttypes%' => 'name') as $placeholder => $name) {
-                    if (strpos($key, $placeholder) !== false) {
-                        foreach ($ctypes as $ctype) {
-                            $ctypekey = str_replace($placeholder, $ctype[$name], $key);
-                            $newTranslations[$ctypekey] = isset($savedTranslations[$ctypekey]) ? $savedTranslations[$ctypekey] : '';
-                        }
-                    }
-                }
             }
         }
 
