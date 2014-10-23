@@ -490,7 +490,7 @@ class Users
 
         // Check if there's already a token stored for this token / IP combo.
         try {
-            $query = "SELECT * FROM " . $this->authtokentable . " WHERE token=? AND ip=? AND useragent=?";
+            $query = sprintf('SELECT * FROM %s WHERE token=? AND ip=? AND useragent=?', $this->authtokentable);
             $query = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($query, 1);
             $row = $this->db->executeQuery($query, array($authtoken, $remoteip, $browser), array(\PDO::PARAM_STR))->fetch();
         } catch (\Doctrine\DBAL\DBALException $e) {
