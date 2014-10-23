@@ -16,7 +16,7 @@ use Composer\Autoload\ClassLoader;
  * @property \Composer\Autoload\ClassLoader $classloader
  * @property \Bolt\Appplication $app
  * @property \Symfony\Component\HttpFoundation\Request $requestObject
- * @property \Eloquent\Pathogen\FileSystem\Factory\FileSystemPathFactoryInterface $pathManager
+ * @property \Eloquent\Pathogen\FileSystem\Factory\FileSystemPathFactory $pathManager
  */
 class ResourceManager
 {
