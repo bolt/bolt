@@ -266,12 +266,11 @@ class Config
             // Make sure the options are $key => $value pairs, and not have implied integers for keys.
             if (!empty($config['taxonomy'][$key]['options']) && is_array($config['taxonomy'][$key]['options'])) {
                 $options = array();
-                // FIXME using $value variable seems bad idea because of outer loop uses too
-                foreach ($config['taxonomy'][$key]['options'] as $optionkey => $value) {
+                foreach ($config['taxonomy'][$key]['options'] as $optionkey => $optionvalue) {
                     if (is_numeric($optionkey)) {
-                        $optionkey = makeSlug($value); 
+                        $optionkey = makeSlug($optionvalue);
                     }
-                    $options[$optionkey] = $value;
+                    $options[$optionkey] = $optionvalue;
                 }
                 $config['taxonomy'][$key]['options'] = $options;
             }
@@ -329,7 +328,6 @@ class Config
             $temp['groups'] = array();
 
             foreach ($tempfields as $key => $value) {
-                // FIXME Fix name 'keys' for fields
                 $key = str_replace('-', '_', strtolower(safeString($key, true)));
                 $temp['fields'][$key] = $value;
 
@@ -387,11 +385,10 @@ class Config
 
             // when adding relations, make sure they're added by their slug. Not their 'name' or 'singular name'.
             if (!empty($temp['relations']) && is_array($temp['relations'])) {
-                // FIXME using variable $key seems a bad idea while outer loop uses the same
-                foreach ($temp['relations'] as $key => $relation) {
-                    if ($key != makeSlug($key)) {
-                        $temp['relations'][makeSlug($key)] = $temp['relations'][$key];
-                        unset($temp['relations'][$key]);
+                foreach ($temp['relations'] as $relkey => $relation) {
+                    if ($relkey != makeSlug($relkey)) {
+                        $temp['relations'][makeSlug($relkey)] = $temp['relations'][$relkey];
+                        unset($temp['relations'][$relkey]);
                     }
                 }
             }

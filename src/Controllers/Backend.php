@@ -683,7 +683,6 @@ class Backend implements ControllerProviderInterface
         // now.
         // Note that if either $limit or $pagecount is empty, the template will
         // skip rendering the pager.
-        // FIXME $itemcount is currently undefined so causes error
         $pagecount = $limit ? ceil($itemcount / $limit) : null;
 
         $context = array(
@@ -692,15 +691,14 @@ class Backend implements ControllerProviderInterface
             'content' => $content,
             'title' => $title,
             'currentpage' => $page,
-            'pagecount' => $pagecount,
-            //'itemcount' => $itemcount,
+            'pagecount' => $pagecount
         );
 
         return $app['render']->render('changeloglist/changeloglist.twig', array('context' => $context));
     }
 
     /**
-     * Show changelog deatails.
+     * Show changelog details.
      *
      * @param string            $contenttype The content type slug
      * @param integer           $contentid   The content ID
@@ -802,7 +800,7 @@ class Backend implements ControllerProviderInterface
                 if (!isset($request_all[$key])) {
                     switch ($values['type']) {
                         case 'select':
-                            if (isset($values['multiple']) and $values['multiple'] == true) {
+                            if (isset($values['multiple']) && $values['multiple'] == true) {
                                 $request_all[$key] = array();
                             }
                             break;
