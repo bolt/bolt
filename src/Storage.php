@@ -959,11 +959,14 @@ class Storage
         $where = array_merge($where, $filter_where);
 
         // Build SQL query
-        $select = sprintf('SELECT   %s.id', $table);
-        $select .= ' FROM ' . $table;
-        $select .= ' LEFT JOIN ' . $taxonomytable;
-        $select .= sprintf(' ON %s.id = %s.content_id', $table, $taxonomytable);
-        $select .= ' WHERE ' . implode(' AND ', $where);
+        $select = sprintf(
+            'SELECT %s.id FROM %s LEFT JOIN %s ON %s.id = %s.content_id WHERE %s',
+            $table,
+            $table,
+            $taxonomytable,
+            $table,
+            $taxonomytable,
+            implode(' AND ', $where));
 
         // Run Query
         $results = $this->app['db']->fetchAll($select);
