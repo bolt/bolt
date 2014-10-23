@@ -1681,7 +1681,7 @@ class Storage
                         continue;
                     }
 
-                    if ($key == 'filter') {
+                    if ($key == 'filter' && !empty($value)) {
 
                         $filter_where = array();
                         foreach ($contenttype['fields'] as $name => $fieldconfig) {
