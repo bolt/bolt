@@ -2950,7 +2950,7 @@ class Storage
 
     protected function hasRecords($tablename)
     {
-        $count = $this->app['db']->fetchColumn('SELECT COUNT(id) FROM ' . $tablename);
+        $count = $this->app['db']->fetchColumn(sprintf('SELECT COUNT(id) FROM %s', $tablename));
 
         return intval($count) > 0;
     }
