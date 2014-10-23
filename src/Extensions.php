@@ -577,17 +577,14 @@ class Extensions
     {
         foreach ($this->getAssets() as $type => $files) {
 
-            if($this->app['config']->get('general/assets_priority_sorting')){
-
-                // Use http://en.wikipedia.org/wiki/Schwartzian_transform for stable sort
-                // create_function() faster then closure
-                // decorate
-                array_walk( $files, create_function('&$v, $k', '$v = array($v[\'priority\'], $k, $v);'));
-                // sort
-                sort($files);
-                // undecorate
-                array_walk( $files, create_function('&$v, $k', '$v = $v[2];'));
-            }
+            // Use http://en.wikipedia.org/wiki/Schwartzian_transform for stable sort
+            // We use create_function(), because it's faster than closure
+            // decorate
+            array_walk( $files, create_function('&$v, $k', '$v = array($v[\'priority\'], $k, $v);'));
+            // sort
+            sort($files);
+            // undecorate
+            array_walk( $files, create_function('&$v, $k', '$v = $v[2];'));
 
             foreach ($files as $file) {
 

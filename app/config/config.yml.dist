@@ -83,9 +83,6 @@ search_results_records: 10
 # Add jQuery to the rendered HTML, whether or not it's added by an extension.
 add_jquery: false
 
-# Sort js and css by sorting attribute. Set 'true' to enable this only if you need it
-assets_priority_sorting: false
-
 # The default amount of records to show on overview pages. Can be overridden
 # for each contenttype.
 recordsperpage: 10
