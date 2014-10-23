@@ -142,7 +142,7 @@ class ResourceManager
             throw new \InvalidArgumentException("Requested path $name is not available", 1);
         }
 
-        return $this->paths[$name]->string();
+        return $this->paths[$name];
     }
 
     public function setUrl($name, $value)
