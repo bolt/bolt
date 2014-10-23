@@ -10,8 +10,8 @@ database:
 sitename: A sample site
 payoff: The amazing payoff goes here
 
-# The theme to use. Be sure to copy the {theme_path}/base-2013 folder, and change the
-# name here accordingly. Don't edit the templates in theme/base-2013, because
+# The theme to use. Be sure to copy the {theme_path}/base-2014 folder, and change the
+# name here accordingly. Don't edit the templates in theme/base-2014, because
 # they _will_ get updated in next releases
 theme: base-2014
 
@@ -65,6 +65,11 @@ record_template: record.twig
 listing_template: listing.twig
 listing_records: 6
 listing_sort: datepublish DESC
+
+# Because of limitations on how the underlying database queries work, there are 
+# only two options for sorting on taxonomies. 'ASC' for roughly "oldest first" 
+# and 'DESC' for roughly 'newest first'. 
+taxonomy_sort: DESC
 
 # Template for showing the search results. If not defined, uses the settings
 # for listing_template and listing_records
@@ -175,6 +180,7 @@ wysiwyg:
   ck:
     allowedContent: true # If set to 'true', any elements and attributes are allowed in Wysiwg Elements
     autoParagraph: true # If set to 'true', any pasted content is wrapped in <p> tags for multiple line-breaks
+    disableNativeSpellChecker: true # If set to 'true' it will stop browsers from underlining spelling mistakes
 
 # by default, mail is sent using PHP's built-in mail function. In general, it's advised to use SMTP for sending mail
 # instead. Uncomment the following lines to use an SMTP server with authentication.

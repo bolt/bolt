@@ -2,8 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>{{ app.config.get('general/sitename') }}</title>
-        <atom:link href="{{ paths.currenturl }}" rel="self"
-                   type="application/rss+xml"/>
+        <atom:link href="{{ paths.currenturl }}" rel="self" type="application/rss+xml"/>
         <link>{{ paths.rooturl }}</link>
 {% if app.config.get('general/payoff') is defined %}
         <description>{{ app.config.get('general/payoff') }}</description>
@@ -35,6 +34,11 @@
                     {{ record.rss_safe('teaser, body', content_length)|raw }}
                 {% endif %}
                 </description>
+{% if record.image is not empty %}
+                <image>{{ paths.hosturl }}{{ thumbnail(record.image, 600, 400) }}</image>
+                <enclosure url="{{ paths.hosturl }}{{ thumbnail(record.image, 600, 400) }}" type="image/jpeg" />
+{% endif %}
+                
             </item>
 
 {% endfor %}

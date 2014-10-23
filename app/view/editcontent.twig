@@ -42,8 +42,7 @@
         <script>
             $('#datepublish-date, #datepublish-time').on('change', function(){
                 var date = $('#datepublish-date').datepicker("getDate");
-                var time = $('#datepublish-time').val() + ":00";
-                if(time == ":00") time = "00:00:00";
+                var time = $.formatDateTime('hh:ii:00', new Date('2014/01/01 ' + $('#datepublish-time').val() ));
                 $('#datepublish').val($.datepicker.formatDate('yy-mm-dd', date)+" "+time);
             });
         </script>
@@ -64,7 +63,7 @@
         <script>
             $('#datedepublish-date, #datedepublish-time').on('change', function(){
                 var date = $('#datedepublish-date').datepicker("getDate");
-                var time = $('#datedepublish-time').val() + ":00";
+                var time = $.formatDateTime('hh:ii:00', new Date('2014/01/01 ' + $('#datedepublish-time').val() ));
                 $('#datedepublish').val($.datepicker.formatDate('yy-mm-dd', date)+" "+time);
             });
         </script>

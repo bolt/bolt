@@ -6,13 +6,11 @@ body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, p, blockqu
     font-size: 16px;
 }
 
-
 h1 {
     font-weight: normal;
     font-size: 40px;
     font-family: 'Open Sans', serif;
 }
-
 
 h2 {
     font-weight: normal;
@@ -20,13 +18,11 @@ h2 {
     font-family: 'Open Sans', serif;
 }
 
-
 h3 {
     font-weight: normal;
     font-size: 28px;
     font-family: 'Open Sans', serif;
 }
-
 
 h4 {
     font-size: 24px;
@@ -38,13 +34,11 @@ h5 {
     font-family: 'Open Sans', serif;
 }
 
-
 h6 {
     font-size: 15px;
     color: #666;
     line-height: 1.5em;
 }
-
 
 a {
     color: #284F76;
@@ -66,7 +60,6 @@ ul {
 ol {
     margin-left: 20px;
 }
-
 
 pre {
     padding: 4px 0;
@@ -92,6 +85,7 @@ aside p {
 .top-bar h1 {
     font-family: "Helvetica Neue","Helvetica",Helvetica,Arial,sans-serif;
 }
+
 .top-bar h5 {
     font-family: "Helvetica Neue","Helvetica",Helvetica,Arial,sans-serif;
 }
@@ -112,7 +106,7 @@ aside p {
     bottom: 0;
     right: 0;
     color: #FFF;
-    text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.2);
+    text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.4);
     font-size: 48px;
     line-height: 48px;
     font-family: 'Open Sans', serif;
@@ -130,7 +124,7 @@ aside p {
 div.imageholder {
     background-color: #FFF;
     border: 1px solid #BBBBBB;
-    box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.4);
     padding: 4px;
     float: right;
     margin: 0 0 5px 5px;

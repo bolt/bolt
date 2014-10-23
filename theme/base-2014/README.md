@@ -19,8 +19,10 @@ npm install
 grunt watch
 ```
   
-If you need some pointers to get started with node, grunt and bower in
+If you could use some pointers to get started with node, grunt and bower in
 combination with Foundation, I recommend these links:
 
  - http://24ways.org/2013/grunt-is-not-weird-and-hard/
  - http://foundation.zurb.com/docs/sass.html
+ - http://webdesign.tutsplus.com/tutorials/foundations-sassy-styles-explained--webdesign-15549
+ - http://blog.teamtreehouse.com/getting-started-bower

@@ -284,7 +284,7 @@ class Async implements ControllerProviderInterface
         $contenttype = $app['storage']->getContentType($contenttypeslug);
 
         // get the 'latest' from the requested contenttype.
-        $latest = $app['storage']->getContent($contenttype['slug'], array('limit' => 5, 'order' => 'datechanged DESC'));
+        $latest = $app['storage']->getContent($contenttype['slug'], array('limit' => 5, 'order' => 'datechanged DESC', 'hydrate' => false));
 
         $body = $app['render']->render('_sub_lastmodified.twig', array('latest' => $latest, 'contenttype' => $contenttype));
         return new Response($body, 200, array('Cache-Control' => 's-maxage=60, public'));
@@ -327,7 +327,7 @@ class Async implements ControllerProviderInterface
     {
         foreach ($app['storage']->getContentTypes() as $contenttype) {
 
-            $records = $app['storage']->getContent($contenttype, array('published' => true));
+            $records = $app['storage']->getContent($contenttype, array('published' => true, 'hydrate' => false));
 
             foreach ($records as $key => $record) {
                 $results[$contenttype][] = array(

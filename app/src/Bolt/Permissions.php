@@ -307,11 +307,11 @@ class Permissions
 
         if ($contenttype) {
             $parts = array(
-                        'contenttype',
-                        $contenttype,
-                        $what,
-                        $contentid,
-                        );
+                'contenttype',
+                $contenttype,
+                $what,
+                $contentid,
+            );
         } else {
             $parts = explode(':', $what);
         }
@@ -349,7 +349,7 @@ class Permissions
                 // won't see a lot of traffic here, so it's probably
                 // forgivable.
                 if (!empty($contentid)) {
-                    $content = $this->app['storage']->getContent("$contenttype/$contentid");
+                    $content = $this->app['storage']->getContent("$contenttype/$contentid", array('hydrate' => false));
                     if (intval($content['ownerid']) &&
                         (intval($content['ownerid']) === intval($user['id']))) {
                         $userRoles[] = Permissions::ROLE_OWNER;

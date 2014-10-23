@@ -1048,28 +1048,33 @@ class Content implements \ArrayAccess
      * Creates RSS safe content. Wraps it in CDATA tags, strips style and
      * scripts out. Can optionally also return a (cleaned) excerpt.
      *
-     * @param  string $field         The field to clean up
+     * Note: To conform to the template style, this method name is not following PSR-1:
+     *    {{ record.rss_safe() }}
+     *
+     * @param  string $fields        Comma separated list of fields to clean up
      * @param  int    $excerptLength Number of chars of the excerpt
      * @return string RSS safe string
      */
-    public function rss_safe($field = '', $excerptLength = 0)
+    public function rss_safe($fields = '', $excerptLength = 0)
     {
         // Make sure we have an array of fields. Even if it's only one.
         if (!is_array($fields)) {
-            $fields = explode(",", $fields);
+            $fields = explode(',', $fields);
         }
         $fields = array_map('trim', $fields);
 
-        $result = "";
+        $result = '';
 
         foreach ($fields as $field) {
             if (array_key_exists($field, $this->values)) {
 
                 // Completely remove style and script blocks
-                $maid = new \Maid\Maid(array(
-                    'allowed-tags' => array('a', 'b', 'br', 'hr', 'h1', 'h2', 'h3', 'h4', 'p', 'strong', 'em', 'i', 'u', 'strike', 'ul', 'ol', 'li', 'img'),
-                    'output-format' => 'html'
-                ));
+                $maid = new \Maid\Maid(
+                    array(
+                        'allowed-tags' => array('a', 'b', 'br', 'hr', 'h1', 'h2', 'h3', 'h4', 'p', 'strong', 'em', 'i', 'u', 'strike', 'ul', 'ol', 'li', 'img'),
+                        'output-format' => 'html'
+                    )
+                );
                 $result .= $maid->clean($this->values[$field]);
             }
         }
