@@ -352,4 +352,18 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
             $app['config']->get('general/wysiwyg/filebrowser/imageBrowseUrl')
         );
     }
+
+    public function testFindRelativePath() {
+        $config = new ResourceManager(
+            new \Pimple(
+                array(
+                    'rootpath' => TEST_ROOT,
+                    'pathmanager' => new PlatformFileSystemPathFactory()
+                )
+            )
+        );
+
+        $rel = $config->findRelativePath(TEST_ROOT, TEST_ROOT . '/A/B');
+        $this->assertEquals('A/B', $rel);
+    }
 }
