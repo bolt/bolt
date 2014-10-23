@@ -373,7 +373,6 @@ class Application extends Silex\Application
         $this['safe_twig']->addGlobal($this['config']->getWhichEnd(), true);
 
         $this['safe_twig']->addGlobal('user', $this['users']->getCurrentUser());
-        // $this['safe_twig']->addGlobal('config', $this['config']);
         $this['safe_twig']->addGlobal('theme', $this['config']->get('theme'));
 
         if ($response = $this['render']->fetchCachedRequest()) {

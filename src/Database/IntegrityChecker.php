@@ -126,7 +126,6 @@ class IntegrityChecker
         foreach ($sm->listTables() as $table) {
             if (strpos($table->getName(), $this->prefix) === 0) {
                 $this->tables[$table->getName()] = $table;
-                // $output[] = "Found table <tt>" . $table->getName() . "</tt>.";
             }
         }
 
@@ -163,9 +162,6 @@ class IntegrityChecker
 
         $comparator = new Comparator();
 
-        // FIXME Unnecessary I think
-        // $baseTables = $this->getBoltTablesNames();
-
         $tables = $this->getTablesSchema();
 
         /** @var $table Table */
@@ -195,10 +191,6 @@ class IntegrityChecker
                         foreach ($diff->addedIndexes as $index) {
                             $msgParts[] = 'missing index on `' . implode(', ', $index->getUnquotedColumns()) . '`';
                         }
-                        ///** @var $fk ForeignKeyConstraint */
-                        //foreach ($diff->addedForeignKeys as $fk) {
-                        //    $msgParts[] = "missing foreign key `" . $fk->getName() . "`";
-                        //}
                         /** @var $col ColumnDiff */
                         foreach ($diff->changedColumns as $col) {
                             $msgParts[] = 'invalid column `' . $col->oldColumnName . '`';
@@ -207,19 +199,12 @@ class IntegrityChecker
                         foreach ($diff->changedIndexes as $index) {
                             $msgParts[] = 'invalid index on `' . implode(', ', $index->getUnquotedColumns()) . '`';
                         }
-                        ///** @var $fk ForeignKeyConstraint */
-                        //foreach ($diff->changedForeignKeys as $fk) {
-                        //    $msgParts[] = "invalid foreign key " . $fk->getName() . "`";
-                        //}
                         foreach ($diff->removedColumns as $colName => $val) {
                             $msgParts[] = 'removed column `' . $colName . '`';
                         }
                         foreach ($diff->removedIndexes as $indexName => $val) {
                             $msgParts[] = 'removed index `' . $indexName . '`';
                         }
-                        //foreach ($diff->removedForeignKeys as $fkName => $val) {
-                        //    $msgParts[] = "removed foreign key `" . $fkName . "`";
-                        //}
                         $msg .= implode(', ', $msgParts);
                         $messages[] = $msg;
                     }
@@ -317,11 +302,10 @@ class IntegrityChecker
         if (!in_array($diff->fromTable->getName(), $baseTables)) {
             // we don't remove fields from contenttype tables to prevent accidental data removal
             if ($diff->removedColumns) {
-                //var_dump($diff->removedColumns);
                 /** @var $column Column */
                 foreach ($diff->removedColumns as $column) {
-                    //$output[] = "<i>Field <tt>" . $column->getName() . "</tt> in <tt>" . $table->getName() . "</tt> " .
-                    //    "is no longer defined in the config, delete manually if no longer needed.</i>";
+                    $output[] = "<i>Field <tt>" . $column->getName() . "</tt> in <tt>" . $table->getName() . "</tt> " .
+                        "is no longer defined in the config, delete manually if no longer needed.</i>";
                 }
             }
             $diff->removedColumns = array();

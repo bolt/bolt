@@ -592,8 +592,6 @@ class Users
                 )
             );
 
-            // echo $mailhtml;
-
             $subject = sprintf("[ Bolt / %s ] Password reset.", $this->app['config']->get('general/sitename'));
 
             $message = \Swift_Message::newInstance()

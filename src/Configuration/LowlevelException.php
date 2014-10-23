@@ -96,7 +96,6 @@ EOM;
 
         if (($error['type'] == E_ERROR || $error['type'] == E_PARSE)) {
             $html = self::$html;
-            //$html = str_replace('%info%', self::info, $html);
 
             // Detect if we're being called from a core, an extension or vendor
             $isBoltCoreError  = strpos($error['file'], $app['resources']->getPath('rootpath') . '/app');

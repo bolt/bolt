@@ -38,8 +38,6 @@ class Content implements \ArrayAccess
                     if (isset($options) &&
                             isset($default_value) &&
                             array_search($default_value, array_keys($options)) !== false ) {
-                            // FIXME it is a remainder of something, remove next revision if really is
-                            // $name = $this->app['config']->get('taxonomy/'.$taxonomytype.'/options/'.$default_value);
                             $this->setTaxonomy($taxonomytype, $default_value);
                             $this->sortTaxonomy();
                     }

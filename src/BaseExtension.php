@@ -29,7 +29,6 @@ abstract class BaseExtension extends \Twig_Extension implements ExtensionInterfa
         // Don't load config just yet. Let 'Extensions' handle this when
         // activating, just clear the "configLoaded" flag to tell the
         // lazy-loading mechanism to do its thing.
-        // $this->getConfig();
         $this->configLoaded = false;
         $this->extensionConfig = null;
         $this->composerJsonLoaded = false;

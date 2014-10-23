@@ -176,7 +176,6 @@ class Storage
                         $params = 'medium/decorate/link/1';
                     } else {
                         $params = 'medium/decorate/link/ol/ul/3';
-                        //$params = 'long/1';
                     }
                     $content[$field] = trim($this->guzzleclient->get($params)->send()->getBody(true));
 
@@ -1987,8 +1986,6 @@ class Storage
 
             return false;
         }
-
-        //$this->app['log']->add('Storage: running textquery: '.$textquery);
 
         // Run checks and some actions (@todo put these somewhere else?)
         if (!$this->runContenttypeChecks($decoded['contenttypes'])) {

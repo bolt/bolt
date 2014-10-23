@@ -33,8 +33,6 @@ return call_user_func(
             throw new LowlevelException('Include load.php, not bootstrap.php');
         }
 
-        // Bootstrap:
-
         // Use UTF-8 for all multi-byte functions
         mb_internal_encoding('UTF-8');
         mb_http_output('UTF-8');

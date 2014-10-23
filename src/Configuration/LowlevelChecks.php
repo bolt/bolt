@@ -15,7 +15,6 @@ class LowlevelChecks
         'magicQuotes',
         'safeMode',
         'cache',
-        'extensions',
         'apache'
     );
 
@@ -60,7 +59,6 @@ class LowlevelChecks
             $this->$method();
         }
 
-
         // If the config folder is OK, but the config files are missing, attempt to fix it.
         $this->lowlevelConfigFix('config');
         $this->lowlevelConfigFix('menu');
@@ -69,7 +67,6 @@ class LowlevelChecks
         $this->lowlevelConfigFix('routing');
         $this->lowlevelConfigFix('permissions');
 
-        // throw new LowlevelException("Done");
     }
 
     public function checkMagicQuotes()
@@ -118,14 +115,6 @@ class LowlevelChecks
     public function checkCache()
     {
         $this->assertWritableDir($this->config->getPath('cache'));
-    }
-
-    /**
-     * Check if there is a writable extension path
-     */
-    public function checkExtensions()
-    {
-        // $this->assertWritableDir($this->config->getPath('extensions'));
     }
 
     /**

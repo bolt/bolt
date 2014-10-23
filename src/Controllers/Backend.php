@@ -564,12 +564,14 @@ class Backend implements ControllerProviderInterface
             $relations = null;
         }
 
-        // TODO: Set the amount of items to show per page.
-        //if (empty($contenttype['recordsperpage'])) {
-        //    $limit = $app['config']->get('general/recordsperpage');
-        //} else {
-        //    $limit = $contenttype['recordsperpage'];
-        //}
+        /**
+         * TODO: Set the amount of items to show per page.
+         * if (empty($contenttype['recordsperpage'])) {
+         *     $limit = $app['config']->get('general/recordsperpage');
+         * } else {
+         *    $limit = $contenttype['recordsperpage'];
+         * }
+         */
 
         $content = $app['storage']->getContent($contenttypeslug, array('id' => $id));
         $related_content = $content->related($show_contenttype['slug']);
@@ -637,7 +639,7 @@ class Backend implements ControllerProviderInterface
             $title = __('All content types');
             $logEntries = $app['storage']->getChangelog($options);
             // @todo: Unused in template. Leave it in for now
-            //$itemcount = $app['storage']->countChangelog($options);
+            $itemcount = $app['storage']->countChangelog($options);
         } else {
             // We have a content type, and possibly a contentid.
             $contenttypeObj = $app['storage']->getContentType($contenttype);
@@ -648,7 +650,7 @@ class Backend implements ControllerProviderInterface
             // Getting a slice of data and the total count
             $logEntries = $app['storage']->getChangelogByContentType($contenttype, $options);
             // @todo: Unused in template. Leave it in for now
-            //$itemcount = $app['storage']->countChangelogByContentType($contenttype, $options);
+            $itemcount = $app['storage']->countChangelogByContentType($contenttype, $options);
 
             // The page title we're sending to the template depends on a few
             // things: if no contentid is given, we'll use the plural form
@@ -716,8 +718,6 @@ class Backend implements ControllerProviderInterface
         }
         $prev = $app['storage']->getPrevChangelogEntry($contenttype, $contentid, $id);
         $next = $app['storage']->getNextChangelogEntry($contenttype, $contentid, $id);
-        // @todo: Unused in template. Leave it in for now
-        //$content = $app['storage']->getContent($contenttype, array('id' => $contentid));
 
         $context = array(
             'contenttype' => array('slug' => $contenttype),
@@ -1235,8 +1235,6 @@ class Backend implements ControllerProviderInterface
                 // If adding a new user (empty $id) or if the password is not empty (indicating we want to change it),
                 // then make sure it's at least 6 characters long.
                 if ((empty($id) || !empty($pass1)) && strlen($pass1) < 6) {
-                    // screw it. Let's just not translate this message for now. Damn you, stupid non-cooperative translation thingy.
-                    //$error = new FormError("This value is too short. It should have {{ limit }} characters or more.", array('{{ limit }}' => 6), 2);
                     $error = new FormError(__('This value is too short. It should have 6 characters or more.'));
                     $form['password']->addError($error);
                 }
@@ -1270,7 +1268,6 @@ class Backend implements ControllerProviderInterface
 
         // Check if the form was POST-ed, and valid. If so, store the user.
         if ($request->getMethod() == 'POST') {
-            //$form->bindRequest($request);
             $form->submit($app['request']->get($form->getName()));
 
             if ($form->isValid()) {
@@ -1327,11 +1324,6 @@ class Backend implements ControllerProviderInterface
     {
         $user = $app['users']->getCurrentUser();
 
-/*         $enabledoptions = array(
-            1 => __('yes'),
-            0 => __('no')
-        );
- */
         // Start building the form..
         $form = $app['form.factory']->createBuilder('form', $user)
             ->add('id', 'hidden')

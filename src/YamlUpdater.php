@@ -145,7 +145,6 @@ class YamlUpdater
 
         $this->file[$match['line']] = sprintf("%s%s: %s\n", $match['indentation'], $match['key'], $value);
 
-        // print_r($match);
         return $this->save();
     }
 

@@ -273,7 +273,7 @@ class Config
                 // FIXME using $value variable seems bad idea because of outer loop uses too
                 foreach ($config['taxonomy'][$key]['options'] as $optionkey => $value) {
                     if (is_numeric($optionkey)) {
-                        $optionkey = makeSlug($value); // was: strtolower(safeString($value));
+                        $optionkey = makeSlug($value); 
                     }
                     $options[$optionkey] = $value;
                 }
@@ -424,19 +424,20 @@ class Config
         $wrongctype = false;
 
         foreach ($this->data['contenttypes'] as $key => $ct) {
-            // Make sure any field that has a 'uses' parameter actually points to a field that exists.
-            // For example, this will show a notice:
-            // entries:
-            //   name: Entries
-            //     singular_name: Entry
-            //     fields:
-            //       title:
-            //         type: text
-            //         class: large
-            //       slug:
-            //         type: slug
-            //         uses: name
-            //
+            /**
+             * Make sure any field that has a 'uses' parameter actually points to a field that exists.
+             * For example, this will show a notice:
+             * entries:
+             *   name: Entries
+             *     singular_name: Entry
+             *     fields:
+             *       title:
+             *         type: text
+             *         class: large
+             *       slug:
+             *         type: slug
+             *         uses: name
+             */
             foreach ($ct['fields'] as $fieldname => $field) {
                 // Verify that the contenttype doesn't try to add fields that are reserved.
                 if ($fieldname != 'slug' && in_array($fieldname, $this->reservedFieldNames)) {
