@@ -700,7 +700,7 @@ class Storage
 
         // Decide whether to insert a new record, or update an existing one.
         if ($create) {
-            $id = $this->insertContent($fieldvalues, $contenttype, '', $comment);
+            $id = $this->insertContent($fieldvalues, $contenttype, $comment);
             $fieldvalues['id'] = $id;
             $content->setValue('id', $id);
         } else {
@@ -766,7 +766,7 @@ class Storage
         return $res;
     }
 
-    protected function insertContent($content, $contenttype, $taxonomy = "", $comment = null)
+    protected function insertContent($content, $contenttype, $comment = null)
     {
         // Make sure $contenttype is a 'slug'
         if (is_array($contenttype)) {
