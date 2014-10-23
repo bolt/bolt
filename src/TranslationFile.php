@@ -470,6 +470,7 @@ class TranslationFile
         $ctypes = $this->app['config']->get('contenttypes');
         $hinting = array();
         $ctnames = array();
+        $newTranslations = array();
 
         $savedTranslations = $this->readSavedTranslations();
         $this->gatherTranslatableStrings();
@@ -505,7 +506,6 @@ class TranslationFile
         }
 
         // Generate strings for contenttypes
-        $newTranslations = array();
         foreach (array_keys($this->translatables) as $key) {
             if (substr($key, 0, 21) == 'contenttypes.generic.') {
                 foreach ($ctypes as $ctname => $ctype) {
