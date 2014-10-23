@@ -363,13 +363,13 @@ class Storage
     {
         $sql = '';
         if (isset($options['order'])) {
-            $sql .= " ORDER BY " . $options['order'];
+            $sql .= sprintf(" ORDER BY %s", $options['order']);
         }
         if (isset($options['limit'])) {
             if (isset($options['offset'])) {
                 $sql .= sprintf(" LIMIT %s, %s ", intval($options['offset']), intval($options['limit']));
             } else {
-                $sql .= " LIMIT " . intval($options['limit']);
+                $sql .= sprintf(" LIMIT %d", intval($options['limit']));
             }
         }
 
@@ -1259,7 +1259,7 @@ class Storage
         } else {
             $order = 'asc';
         }
-        
+
         // Add the limit
         $query = "SELECT * FROM $tablename" . $where . " ORDER BY id " . $order;
         $query = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($query, $limit, ($page - 1) * $limit);
