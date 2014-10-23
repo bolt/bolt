@@ -464,6 +464,7 @@ class TranslationFile
         $csFilter = function ($val) {
             return (strpos($val, '%contenttype%') !== false || strpos($val, '%contenttypes%') !== false);
         };
+        $ctypes = $this->app['config']->get('contenttypes');
 
         $savedTranslations = $this->readSavedTranslations();
         $this->gatherTranslatableStrings();
@@ -473,13 +474,38 @@ class TranslationFile
         foreach (array_filter(array_keys($this->translatables), $csFilter) as $key) {
             foreach (array('%contenttype%' => 'singular_name', '%contenttypes%' => 'name') as $placeholder => $name) {
                 if (strpos($key, $placeholder) !== false) {
-                    foreach ($this->app['config']->get('contenttypes') as $ctype) {
+                    foreach ($ctypes as $ctype) {
                         $ctypekey = str_replace($placeholder, $ctype[$name], $key);
                         $newTranslations[$ctypekey] = isset($savedTranslations[$ctypekey]) ? $savedTranslations[$ctypekey] : '';
                     }
                 }
             }
         }
+
+        // Add names, labels, …
+        foreach ($ctypes as $ctname => $ctype) {
+            //krumo($ctname);
+            $keyprefix = 'contenttypes.' . strtolower($ctname) . '.';
+
+            // Names & description
+            $setkeys = array(
+                'name.plural' => 'name',
+                'name.singular' => 'singular_name',
+                //'description' => 'description',
+            );
+            foreach ($setkeys as $setkey => $getkey) {
+                $key = $keyprefix . $setkey;
+
+                if (isset($savedTranslations[$key]) && $savedTranslations[$key] !== '') {
+                    $newTranslations[$key] = $savedTranslations[$key];
+                } elseif (isset($ctype[$getkey]) && $ctype[$getkey] !== '') {
+                    $newTranslations[$key] = '';
+                } else {
+                    $newTranslations[$key] = '';
+                }
+            }
+        }
+
         ksort($newTranslations);
 
         return $this->buildNewContent($newTranslations, $savedTranslations);
