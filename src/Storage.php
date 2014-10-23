@@ -362,13 +362,13 @@ class Storage
     {
         $sql = '';
         if (isset($options['order'])) {
-            $sql .= " ORDER BY " . $options['order'];
+            $sql .= sprintf(" ORDER BY %s", $options['order']);
         }
         if (isset($options['limit'])) {
             if (isset($options['offset'])) {
                 $sql .= sprintf(" LIMIT %s, %s ", intval($options['offset']), intval($options['limit']));
             } else {
-                $sql .= " LIMIT " . intval($options['limit']);
+                $sql .= sprintf(" LIMIT %d", intval($options['limit']));
             }
         }
 
@@ -958,11 +958,14 @@ class Storage
         $where = array_merge($where, $filter_where);
 
         // Build SQL query
-        $select = sprintf('SELECT   %s.id', $table);
-        $select .= ' FROM ' . $table;
-        $select .= ' LEFT JOIN ' . $taxonomytable;
-        $select .= sprintf(' ON %s.id = %s.content_id', $table, $taxonomytable);
-        $select .= ' WHERE ' . implode(' AND ', $where);
+        $select = sprintf(
+            'SELECT %s.id FROM %s LEFT JOIN %s ON %s.id = %s.content_id WHERE %s',
+            $table,
+            $table,
+            $taxonomytable,
+            $table,
+            $taxonomytable,
+            implode(' AND ', $where));
 
         // Run Query
         $results = $this->app['db']->fetchAll($select);
@@ -1148,8 +1151,6 @@ class Storage
             if (!empty($filter_where)) {
                 $where[] = "(" . implode(" OR ", $filter_where) . ")";
             }
-
-
         }
 
         $limit = !empty($parameters['limit']) ? $parameters['limit'] : 100;
@@ -1164,24 +1165,24 @@ class Storage
 
         // implode 'where'
         if (!empty($where)) {
-            $queryparams .= " WHERE (" . implode(" AND ", $where) . ")";
+            $queryparams .= sprintf('WHERE (%s)', implode(" AND ", $where));
         }
 
         // Order, with a special case for 'RANDOM'.
         if (!empty($parameters['order'])) {
             if ($parameters['order'] == "RANDOM") {
                 $dboptions = $this->app['config']->getDBOptions();
-                $queryparams .= " ORDER BY " . $dboptions['randomfunction'];
+                $queryparams .= sprintf(' ORDER BY %s', $dboptions['randomfunction']);
             } else {
                 $order = $this->getEscapedSortorder($parameters['order'], false);
                 if (!empty($order)) {
-                    $queryparams .= " ORDER BY " . $order;
+                    $queryparams .= sprintf(' ORDER BY %s', $order);
                 }
             }
         }
 
-        // Make the query for the pager..
-        $pagerquery = "SELECT COUNT(*) AS count FROM $tablename" . $queryparams;
+        // Make the query for the pager.
+        $pagerquery = sprintf('SELECT COUNT(*) AS count FROM %s %s', $tablename, $queryparams);
 
         // Add the limit
         $queryparams = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($queryparams, $limit, ($page - 1) * $limit);
@@ -1244,22 +1245,24 @@ class Storage
             return false;
         }
 
-        $where = " WHERE (taxonomytype=" . $this->app['db']->quote($taxonomytype['slug']) . "
-        AND (slug=" . $this->app['db']->quote($slug) . " OR name=" . $this->app['db']->quote($name) . ") )";
+        $where = sprintf(' WHERE (taxonomytype = %s AND (slug = %s OR name = %s))',
+            $this->app['db']->quote($taxonomytype['slug']),
+            $this->app['db']->quote($slug),
+            $this->app['db']->quote($name));
 
         // Make the query for the pager..
-        $pagerquery = "SELECT COUNT(*) AS count FROM $tablename" . $where;
+        $pagerquery = sprintf('SELECT COUNT(*) AS count FROM %s %s', $tablename, $where);
 
         // Sort on either 'ascending' or 'descending'
         // Make sure we set the order.
         if ($this->app['config']->get('general/taxonomy_sort') == 'desc') {
-            $order = 'desc';
+            $order = 'DESC';
         } else {
-            $order = 'asc';
+            $order = 'ASC';
         }
-        
+
         // Add the limit
-        $query = "SELECT * FROM $tablename" . $where . " ORDER BY id " . $order;
+        $query = sprintf('SELECT * FROM %s %s ORDER BY id %s', $tablename, $where, $order);
         $query = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($query, $limit, ($page - 1) * $limit);
 
         $taxorows = $this->app['db']->fetchAll($query);
@@ -1777,12 +1780,12 @@ class Storage
             }
 
             if (count($where) > 0) {
-                $query['where'] = 'WHERE ( ' . implode(' AND ', $where) . ' )';
+                $query['where'] = sprintf('WHERE (%s)', implode(' AND ', $where));
             }
             if (count($order) > 0) {
                 $order = implode(', ', $order);
                 if (!empty($order)) {
-                    $query['order'] = 'ORDER BY ' . $order;
+                    $query['order'] = sprintf('ORDER BY %s', $order);
                 }
             }
 
@@ -2943,7 +2946,7 @@ class Storage
 
     protected function hasRecords($tablename)
     {
-        $count = $this->app['db']->fetchColumn('SELECT COUNT(id) FROM ' . $tablename);
+        $count = $this->app['db']->fetchColumn(sprintf('SELECT COUNT(id) FROM %s', $tablename));
 
         return intval($count) > 0;
     }
