@@ -282,7 +282,7 @@ class Users
 
         try {
             // Check if there's already a token stored for this name / IP combo.
-            $query = "SELECT id FROM " . $this->authtokentable . " WHERE username=? AND ip=? AND useragent=?";
+            $query = sprintf('SELECT id FROM %s WHERE username=? AND ip=? AND useragent=?', $this->authtokentable);
             $query = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($query, 1);
             $row = $this->db->executeQuery($query, array($token['username'], $token['ip'], $token['useragent']), array(\PDO::PARAM_STR))->fetch();
 
