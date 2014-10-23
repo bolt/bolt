@@ -356,8 +356,8 @@ class ResourceManager
     */
     public function findRelativePath($frompath, $topath)
     {
-        $from = explode(DIRECTORY_SEPARATOR, $frompath); // Folders/File
-        $to = explode(DIRECTORY_SEPARATOR, $topath); // Folders/File
+        $from = $this->pathManager->create($frompath)->atoms();
+        $to = $this->pathManager->create($topath)->atoms();
         $relpath = '';
 
         $i = 0;
