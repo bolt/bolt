@@ -4,6 +4,7 @@ namespace Bolt\Configuration;
 use Bolt\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Composer\Autoload\ClassLoader;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * A Base Class to handle resource management of paths and urls within a Bolt App.
@@ -356,40 +357,10 @@ class ResourceManager
     */
     public function findRelativePath($frompath, $topath)
     {
-        $from = $this->pathManager->create($frompath)->atoms();
-        $to = $this->pathManager->create($topath)->atoms();
-        $relpath = '';
+        $filesystem = new Filesystem();
+        $relative = $filesystem->makePathRelative($topath, $frompath);
 
-        $i = 0;
-
-        // Find how far the path is the same
-        while (isset($from[$i]) && isset($to[$i])) {
-            if ($from[$i] != $to[$i]) {
-                break;
-            }
-            $i++;
-        }
-
-        $j = count($from) - 1;
-
-        // Add '..' until the path is the same
-        while ($i <= $j) {
-            if (!empty($from[$j])) {
-                $relpath .= '..' . DIRECTORY_SEPARATOR;
-            }
-            $j--;
-        }
-
-        // Go to folder from where it starts differing
-        while (isset($to[$i])) {
-            if (!empty($to[$i])) {
-                $relpath .= $to[$i] . DIRECTORY_SEPARATOR;
-            }
-            $i++;
-        }
-
-        // Strip last separator
-        return $this->pathManager->create(substr($relpath, 0, -1));
+        return $relative;
     }
 
 }
