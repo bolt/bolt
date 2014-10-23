@@ -608,9 +608,6 @@ class Users
 
         }
 
-        // Take a nap, to prevent brute-forcing. Zzzzz...
-        sleep(1);
-
         return true;
     }
 
