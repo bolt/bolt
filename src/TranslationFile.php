@@ -295,9 +295,10 @@ class TranslationFile
      *
      * @param array $newTranslations New translation data to write
      * @param array $savedTranslations Translation data read from file
+     * @param array $hinting Translation data that can be used as hinting
      * @return string
      */
-    private function buildNewContent($newTranslations, $savedTranslations)
+    private function buildNewContent($newTranslations, $savedTranslations, $hinting = array())
     {
         // Presort
         $unusedTranslations = $savedTranslations;
@@ -368,10 +369,11 @@ class TranslationFile
                 if ($tdata['trans'] === '') {
                     $thint = $this->app['translator']->trans($key);
                     if ($thint == $key) {
-                        $content .= '#' . "\n";
+                        $thint = isset($hinting[$key]) ? $hinting[$key] : '';
                     } else {
-                        $content .= '#' . Escaper::escapeWithDoubleQuotes($thint) . "\n";
+                        $thint = Escaper::escapeWithDoubleQuotes($thint);
                     }
+                    $content .= '#' . ($thint ? ' ' . Escaper::escapeWithDoubleQuotes($thint) : '') . "\n";
                 } else {
                     $content .= Escaper::escapeWithDoubleQuotes($tdata['trans']) . "\n";
                 }
@@ -468,7 +470,9 @@ class TranslationFile
         $csFilter = function ($val) {
             return (strpos($val, '%contenttype%') !== false || strpos($val, '%contenttypes%') !== false);
         };
+
         $ctypes = $this->app['config']->get('contenttypes');
+        $hinting = array();
 
         $savedTranslations = $this->readSavedTranslations();
         $this->gatherTranslatableStrings();
@@ -488,7 +492,6 @@ class TranslationFile
 
         // Add names, labels, …
         foreach ($ctypes as $ctname => $ctype) {
-            //krumo($ctname);
             $keyprefix = 'contenttypes.' . strtolower($ctname) . '.';
 
             // Names & description
@@ -502,9 +505,10 @@ class TranslationFile
 
                 if (isset($savedTranslations[$key]) && $savedTranslations[$key] !== '') {
                     $newTranslations[$key] = $savedTranslations[$key];
-                } elseif (isset($ctype[$getkey]) && $ctype[$getkey] !== '') {
-                    $newTranslations[$key] = '';
                 } else {
+                    if (isset($ctype[$getkey]) && $ctype[$getkey] !== '') {
+                        $hinting[$key] = $ctype[$getkey];
+                    }
                     $newTranslations[$key] = '';
                 }
             }
@@ -512,7 +516,7 @@ class TranslationFile
 
         ksort($newTranslations);
 
-        return $this->buildNewContent($newTranslations, $savedTranslations);
+        return $this->buildNewContent($newTranslations, $savedTranslations, $hinting);
     }
 
     /**
