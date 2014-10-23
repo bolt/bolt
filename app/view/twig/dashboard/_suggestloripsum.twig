@@ -1,7 +1,7 @@
 <div class="alert alert-info">
     <button class="close" data-dismiss="alert">×</button>
-    {{ __("It seems there's no content in the database.") }}
+    {{ __("page.dashboard.empty-database") }}
     {% if isallowed('prefill') %}
-        {{ __("To get started quickly, <a href='%url%'>add some Lorem Ipsum dummy content</a>.", {'%url%': path('prefill', {'force': 1}) }) }}
+        {{ __("page.dashboard.quickstart", {'%url%': path('prefill', {'force': 1}) }) }}
     {% endif %}
 </div>

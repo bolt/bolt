@@ -11,7 +11,7 @@
     {% if context.content.title is not empty %}
         {{ __('Edit %contenttype%', contenttype) }}
     {% else %}
-        {{ __('New %contenttype%', contenttype) }}
+        {{ __('generic.text.new-contentype', contenttype) }}
     {% endif %}
 {% endblock page_title %}
 
@@ -23,6 +23,35 @@
 {% block page_main %}
 
     {% set status_names = { "published": __("Published"), "held": __("Not published"), "timed": __("Timed publish"), "draft": __("Draft") } %}
+
+    {% set dateChanged %}{{ macro.datetime(context.content.datechanged) }}{% endset %}
+
+    {% set bind_data = {
+        savedon:        __('Saved on:') ~ ' <strong></strong> <small>(' ~ dateChanged ~ ')</small></p>',
+        newRecord:      context.content.id != 0 ? false : true,
+        msgNotSaved:    __('Could not save %contenttype%.', {'%contenttype%': context.contenttype.singular_name}),
+        pathsRoot:      paths.root,
+        msgSaving:      __('Saving …'),
+        hasGroups:      context.contenttype.groups|default is not empty,
+        singularSlug:   context.contenttype.singular_slug,
+    }%}
+
+    {% set attr_form = {
+        _bind:   ['editcontent', {
+                    savedon:        __('Saved on:') ~ ' <strong></strong> <small>(' ~ dateChanged ~ ')</small></p>',
+                    newRecord:      context.content.id != 0 ? false : true,
+                    msgNotSaved:    __('Could not save %contenttype%.', {'%contenttype%': context.contenttype.singular_name}),
+                    pathsRoot:      paths.root,
+                    msgSaving:      __('Saving …'),
+                    hasGroups:      context.contenttype.groups|default is not empty,
+                    singularSlug:   context.contenttype.singular_slug,
+                }],
+        class:   "form-horizontal",
+        enctype: "multipart/form-data",
+        id:      "editcontent",
+        method:  "post",
+        role:    "form",
+    }%}
 
     <div class="row">
         <div class="col-md-8">
@@ -42,7 +71,7 @@
                 </ul>
             {% endif %}
 
-            <form method="post" id="editcontent" enctype="multipart/form-data" class="form-horizontal" role="form">
+            <form{{ macro.attr(attr_form) }}>
                 {% include '_sub/_csrf_token.twig' %}
 
                 {% include 'editcontent/_fields.twig' %}
@@ -119,143 +148,3 @@
     </div>
 
 {% endblock page_main %}
-
-{% block page_script %}
-
-    {% import '_macro/_macro.twig' as macro %}
-
-    <script>
-        $(function() {
-
-            // Save the page..
-            $('#sidebarsavebutton').bind('click', function(e){
-                $('#savebutton').trigger('click');
-            });
-
-            $('#savebutton').bind('click', function(e){
-                // Reset the changes to the form.
-                $('form').watchChanges();
-            });
-
-            // Handle "save and new".
-            $('#sidebarsavenewbutton, #savenewbutton').bind('click', function(e){
-                // Reset the changes to the form.
-                $('form').watchChanges();
-
-                // Do a regular post, and expect to be redirected back to the "new record" page.
-                var newaction = "?returnto=new";
-                $('#editcontent').attr('action', newaction).submit();
-            });
-
-            // Clicking the 'save & continue' button either triggers an 'ajaxy' post, or a regular
-            // post which returns to this page. The latter happens if the record doesn't exist yet, so it doesn't
-            // have an id yet.
-            $('#sidebarsavecontinuebutton, #savecontinuebutton').bind('click', function(e){
-                e.preventDefault();
-
-                var newrecord = {% if context.content.id != 0 %}false{% else %}true{% endif %};
-
-                // Disable the buttons, to indicate stuff is being done.
-                $('#sidebarsavecontinuebutton, #savecontinuebutton').addClass('disabled');
-
-                $('p.lastsaved').text('{{ __("Saving …") }}');
-
-                if (newrecord) {
-
-                    // Reset the changes to the form.
-                    $('form').watchChanges();
-
-                    // New record. Do a regular post, and expect to be redirected back to this page.
-                    var newaction = "?returnto=new";
-                    $('#editcontent').attr('action', newaction).submit();
-                } else {
-                    // Existing record. Do an 'ajaxy' post to update the record.
-
-                    // Reset the changes to the form.
-                    $('form').watchChanges();
-
-                    // Let the controller know we're calling AJAX and expecting to be returned JSON
-                    var ajaxaction = "?returnto=ajax";
-                    $.post(ajaxaction, $( "#editcontent" ).serialize() )
-                        .done(function(data) {
-                            // var message = "{{ __('The changes to this %contenttype% have been saved.', {'%contenttype%': context.contenttype.singular_name}) }}";
-                            $('p.lastsaved').html('{{ __('Saved on:') }} <strong></strong> <small>({{ macro.datetime(context.content.datechanged) }})</small></p>');
-                            $('p.lastsaved').find('strong').text(moment().format('MMM D, HH:mm'));
-                            $('p.lastsaved').find('time').attr('datetime', moment().format());
-                            $('p.lastsaved').find('time').attr('title', moment().format());
-                            updateMoments();
-
-                            $('a#lastsavedstatus strong').html(
-                                '<i class="fa fa-circle status-' + $("#statusselect option:selected").val() + '"></i> ' +
-                                $("#statusselect option:selected").text()
-                            );
-
-                            // Update anything changed by POST_SAVE handlers
-                            if ($.type(data) == 'object') {
-
-                                $.each(data, function(index, item) {
-
-                                    // Things like images are stored in JSON arrays
-                                    if ($.type(item) == 'object') {
-                                        $.each(item, function(subindex, subitem) {
-                                            $(":input[name='" + index + "[" + subindex + "]']").val(subitem);
-                                        });
-                                    } else {
-                                        $(":input[name='" + index + "']").val(item);
-                                    }
-
-                                });
-                            }
-
-                            // Reset the changes to the form from any updates we got from POST_SAVE changes
-                            $('form').watchChanges();
-
-                        })
-                        .fail(function(){
-                            $('p.lastsaved').text('{{ __('Could not save %contenttype%.', { '%contenttype%': context.contenttype.singular_name }) }}');
-                        })
-                        .always(function(){
-                            // Re-enable buttons
-                            $('#sidebarsavecontinuebutton, #savecontinuebutton').removeClass('disabled');
-                        });
-                }
-
-            });
-
-            // To preview the page, we set the target of the form to a new URL, and open it in a new window.
-            $('#previewbutton, #sidebarpreviewbutton').bind('click', function(e){
-                e.preventDefault();
-                var newaction = "{{ paths.root }}" + "preview" + "/{{ context.contenttype.singular_slug }}";
-                $('#editcontent').attr('action', newaction).attr('target', "_blank").submit();
-                $('#editcontent').attr('action', '').attr('target', "_self");
-            });
-
-            {# only if we have grouping tabs. #}
-            {% if context.contenttype.groups|default is not empty %}
-                // Filter for tabs
-                var allf = $('.tabgrouping');
-                allf.hide();
-                // Click function
-                $( ".filter" ).click(function() {
-                    var customType = $( this ).data('filter');
-                    allf
-                        .hide()
-                        .filter(function () {
-                            return $(this).data('tab') === customType;
-                        })
-                        .show();
-                    $( '#filtertabs li' ).removeClass( "active" );
-                    $( this ).parent().attr('class', 'active')
-                });
-
-                $( document ).ready(function() {
-                    $( '#filtertabs li a:first' ).trigger('click');
-                });
-            {% endif %}
-
-        });
-
-
-    </script>
-
-{% endblock page_script %}

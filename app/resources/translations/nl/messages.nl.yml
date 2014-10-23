@@ -1,55 +1,6 @@
 # app/resources/translations/nl/messages.nl.yml -- generated on 2014/04/25 15:13:20
 # 49 untranslated strings
 
-"Built-in role, only valid in the context of a resource, and automatically assigned to the owner of that resource.":  #
-"Content '%title%' has been changed to '%newStatus%'":  #
-"Content Type Permissions":  #
-"Content for home not found!":  #
-"Current (saved) status:": "Huidige (opgeslagen) status:"  #
-"Display the file or directory '%s' is forbidden.":  #
-"Edit the file '%s' is forbidden.":  #
-"File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:":  #
-"Full list …":  #
-"Homepage":  #
-"In the contenttype for '%contenttype%', the field '%field%' has 'type: %type%', which is not a proper fieldtype. Please edit contenttypes.yml, and correct this.":  #
-"Links":  #
-"Menu editor":  #
-"Menu successfully saved":  #
-"Menus successfully saved":  #
-"Message:":  #
-"Name of new menu":  #
-"Overview of all":  #
-"Password reset not successful! Either the token was incorrect, or you were too late, or you tried to reset the password from a different IP-address.":  #
-"Password reset successful! You can now log on with the password that was sent to you via email.":  #
-"Please confirm that you wish to restore the menu":  #
-"Please make sure that the MenuEditor/backups folder is writeable by your webserver or disable the backup-feature in config.yml":  #
-"Please make sure that there is a MenuEditor/backups folder or disable the backup-feature in config.yml":  #
-"Restore %filename%":  #
-"Select an item to add":  #
-"Something went wrong":  #
-"Something went wrong, please reload the page and try again":  #
-"Special elements":  #
-"The backup could not be restored:":  #
-"The menu.yml config-file was edited by someone else in the meantime, please reload the page.":  #
-"The settings for roles and permissions are stored in <code>%permissions%</code>.":  #
-"There should always be at least one 'root' user. You have just been promoted. Congratulations!":  #
-"There's something wrong with this extension, please report to the author and edit your menu manually until this is fixed.":  #
-"Timed publish":  #
-"Title/Alt Text:":  #
-"Types":  #
-"Unable to overwrite menu.yml":  #
-"Unable to save backup! Please make sure MenuEditor/backups is writable by your webserver or disable the feature in the extensions configuration.":  #
-"Unable to save your menu.":  #
-"You do not have the right privileges to create a new record.":  #
-"You should set 'homepage:' in your 'app/config/config.yml' to an existing record.":  #
-"css classes":  #
-"field":  #
-"http://":  #
-"in:":  #
-"label":  #
-"no label set":  #
-"old value":  #
-
 #-----------------------------------------
 # 346 translated strings
 
@@ -72,23 +23,23 @@
 "Add new menu": "Voeg nieuw menu toe"
 "Add some sample <a href='%url%' class='btn btn-small'>Records with Loripsum text</a>": "Voeg een aantal <a href='%url%' class='btn btn-small'>Records met Loripsum tekst toe</a>"
 "Add to menu": "Voeg aan menu toe"
-"Add …": "Voeg toe …"
+"page.dashboard.button.add": "Voeg toe …"
 "Added to <tt>%key%</tt> '%title%'": "Toegevoegd aan <tt>%key%</tt> '%title%'"
 "Added user '%s'.": "Gebruiker '%s' toegevoegd."
-"Address lookup:": "Adres opzoeken:"
+"field.geolocation.label.address-lookup:": "Adres opzoeken:"
 "Alas, no about!": "Helaas, geen 'over ons'!"
 "All content types": "Alle contenttypes"
 "All users": "Alle gebruikers"
-"Allowed filetypes are:": "Toegestane bestandtypes:"
+"field.general.allowed-filetypes": "Toegestane bestandtypes:"
 "An error occurred.": "Er is een fout opgetreden."
 "Anonymous": "Anoniem"
 "Are you sure you want to delete %username%?": "Weet je zeker dat je gebruiker %username% wilt verwijderen?"
 "Are you sure you want to revert changes you have made since you last saved your menus?": "Weet je zeker dat je de niet-opgeslagen wijzigingen wilt terugdraaien?"
 "Are you sure you wish to remove this item from the menu, along with all its sub-items?": "Weet je zeker dat je dit menu-item wilt verwijderen, samen met alle sub-items?"
-"Are you sure you wish to revert? Your changes will be lost, if you don't save them.": "Weet je zeker dat je wilt terugdraaien? Je wijzigingen gaan verloren, tenzij je ze opslaat."
+"page.edit-file.confirm-revert": "Weet je zeker dat je wilt terugdraaien? Je wijzigingen gaan verloren, tenzij je ze opslaat."
 "Assigned roles": "Toegekende rollen"
 "Author:": "Auteur:"
-"Back to login": "Terug naar login"
+"page.login.button.back": "Terug naar login"
 "Backup file could not be found": "De backup kon niet worden gevonden"
 "Backup successfully restored": "Backup met succes hersteld"
 "Below are the third party libraries that are used by Bolt.": "Hieronder staan de externe libraries waar Bolt gebruik van maakt"
@@ -118,7 +69,7 @@
 "Clear filter": "Wis filter"
 "Clear sort/filter": "Wis sortering/filter"
 "Clear the cache": "Leeg de cache"
-"Close": "Sluit"
+"field.video.preview.button.close": "Sluit"
 "Code:": "Code"
 "Configuration": "Configuratie"
 "Content '%title%' could not be deleted.": "Inhoud '%title%' kon niet worden opgeslagen."
@@ -128,12 +79,13 @@
 "Content": "Inhoud"
 "Contenttypes": "Contenttypen"
 "Could not save %contenttype%.": "Kon %contenttype% niet opslaan."
-"Create a new user": "Maak een nieuwe gebruiker aan"
+"page.edit-users.title.create": "Maak een nieuwe gebruiker aan"
 "Create the first user": "Maak de eerste gebruiker aan"
 "Created on:": "Aangemaakt op:"
 "Current sessions": "Huidige sessie"
 "Current status:": "Huidige status:"
 "Dashboard": "Dashboard"
+"page.dashboard.title": "Dashboard"
 "Database check / update": "Database controleren / bijwerken"
 "Delete %contenttype%": "Verwijder %contenttype%"
 "Delete %filename%": "Verwijder %filename%"
@@ -150,7 +102,9 @@
 "Duplicate %filename%": "Dupliceer %filename%"
 "Edit %contenttype%": "Bewerk %contenttype%"
 "Edit file": "Bewerk bestand"
-"Edit user": "Bewerk gebruiker"
+"page.edit-locale.title.edit": "Bewerk bestand"
+"page.edit-file.title.edit": "Bewerk bestand"
+"page.edit-users.title.edit": "Bewerk gebruiker"
 "Edit": "Bewerk"
 "Email": "E-mail"
 "Enable %username%": "Schakel %username% in"
@@ -167,42 +121,46 @@
 "Files in %s": "Bestanden in %s"
 "Files on the stack": "Bestanden op de Stack"
 "Files": "Bestanden"
+"page.ckeditor-browse-server.title": "Bestanden"
+"page.ckeditor-browse-server.files": "Bestanden"
 "Files: %path%": "Bestanden: %path%"
 "Filesize": "Bestandsgrootte"
+"page.ckeditor-browse-server.size": "Bestandsgrootte"
 "Fill the database with Dummy Content": "Vul de database met Dummy-inhoud"
 "Filter": "Filter"
 "Filtering:": "Filtering:"
-"Fixme:": "Fixmij:"
+"panel.latest-activity.fixme": "Fixmij:"
 "Folder '%s' could not be found, or is not readable.": "Map '%s' werd niet gevonden, of is niet leesbaar."
 "Folders": "Mappen"
+"page.ckeditor-browse-server.folders": "Mappen"
 "Generic": "Generiek"
 "Global Permissions": "Globale permissies"
-"Hide": "Verberg"
-"I forgot my password …": "Ik ben mijn wachtwoord vergeten…"
+"page.login.password-hide": "Verberg"
+"page.login.button.forgot-password": "Ik ben mijn wachtwoord vergeten…"
 "IP address": "IP-adres"
 "If there was a Page with 'about' for a slug, it would've been shown here. But there isn't one, so that's why you're seeing this placeholder.": "Als er een pagina was die 'about' als slug had, dan zou je deze nu hier zien. Maar die is er niet, en daarom zie je deze tekst."
 "Image": "Afbeelding"
 "In the contenttype for '%contenttype%', the field '%field%' has 'uses: %uses%', but the field '%uses%' does not exist. Please edit contenttypes.yml, and correct this.": "In het contenttype voor '%contenttype%', heeft het veld '%field%' de regel 'uses: %uses%', maar het veld '%uses%' bestaat niet. Bewerk contenttypes.yml, en corrigeer dit."
 "In the contenttype for '%contenttype%', the field '%field%' is defined, which is a reserved name. Please edit contenttypes.yml, and correct this.": "In het contenttype voor '%contenttype%', is het veld '%field%' gedefinieerd, maar dit is een gereserveerde naam. Bewerk contenttypes.yml, en corrigeer dit."
 "Info": "Info"
-"It seems there's no content in the database.": "Het lijkt er op dat geen inhoud in de database zit."
-"Javascript disabled": "Javascript uitgeschakeld"
-"Javascript is currently disabled in your browser. Most functionality in Bolt will work without it, but for greater ease of use we recommend you enable Javascript in your browser.": "Momenteel is Javascript uitgeschakeld in je browser. De meeste functionaliteiten in Bolt werken wel, maar voor prettiger gebruik adviseren we om Javascript in te schakelen."
+"page.dashboard.empty-database": "Het lijkt er op dat geen inhoud in de database zit."
+"generic.noscript.headline": "Javascript uitgeschakeld"
+"generic.noscript.message": "Momenteel is Javascript uitgeschakeld in je browser. De meeste functionaliteiten in Bolt werken wel, maar voor prettiger gebruik adviseren we om Javascript in te schakelen."
 "Last IP": "Laatste IP"
 "Last edited on:": "Laatst aangepast op:"
 "Last known IP": "Laatst bekende IP"
 "Last modified %contenttypes%": "Laatst aangepaste %contenttypes%"
 "Last seen": "Laatst gezien"
-"Latest activity": "Laatste activiteit"
+"panel.latest-activity.headline": "Laatste activiteit"
 "Latest entries": "Nieuwste berichten"
-"Latitude": "Breedtegraad"
-"Log on": "Inloggen"
+"field.geolocation.label.latitude": "Breedtegraad"
+"page.login.button.log-on": "Inloggen"
 "Login": "Log in"
 "Logout %name%": "%name% uitloggen"
 "Long messages": "Lange meldingen"
-"Longitude": "Lengtegraad"
+"field.geolocation.label.longitude": "Lengtegraad"
 "Maintenance": "Onderhoud"
-"Matched address:": "Overeenkomstig adres:"
+"field.geolocation.matched-address": "Overeenkomstig adres:"
 "Menu setup": "Menu instellingen"
 "Messages": "Meldingen"
 "Meta information": "Meta informatie"
@@ -210,8 +168,9 @@
 "Modifications made to the database:": "Aanpassingen gedaan aan de database:"
 "Modifications needed:": "Vereiste aanpassingen:"
 "Modified": "Aangepast"
-"More %contenttypes% »": "Meer %contenttypes% »"
-"New %contenttype%": "Nieuwe %contenttype%"
+"page.ckeditor-browse-server.modified": "Aangepast"
+"page.dashboard.link.show-more": "Meer %contenttypes%"
+"generic.text.new-contentype": "Nieuwe %contenttype%"
 "New user": "Nieuwe gebruiker"
 "No %contenttypes% available.": "Geen %contenttypes% beschikbaar."
 "No latest %contenttype%": "Geen nieuwste %contenttype%"
@@ -219,7 +178,7 @@
 "No results found for '%search%'. Please try another search.": "Geen resultaat gevonden voor '%search%'. Probeer het met een andere zoekterm."
 "No such action for content.": "Die actie kun je niet uitvoeren."
 "No such action for user '%s'.": "Die actie kun je niet uitvoeren op gebruiker '%s'."
-"No video url is set, no video to show.": "Geen URL van de video ingesteld, dus niets om te tonen."
+"field.video.preview.no-url": "Geen URL van de video ingesteld, dus niets om te tonen."
 "Not published": "Niet gepubliceerd"
 "Oops! An error has occurred!": "Oeps! Er is een fout opgetreden."
 "Options": "Opties"
@@ -231,9 +190,12 @@
 "Page": "Pagina"
 "Password (confirmation)": "Wachtwoord (opnieuw)"
 "Password": "Wachtwoord"
+"page.login.label.password": "Wachtwoord"
 "Passwords must match.": "Wachtwoorden moeten overeenkomen."
 "Path": "Pad"
 "Path:": "Pad:"
+"page.edit-file.path": "Pad:"
+"field.slug.permalink": "Permalink"
 "Permalink": "Permalink"
 "Permission denied": "Permissie gewiegerd"
 "Permissions": "Permissies"
@@ -243,6 +205,7 @@
 "Please provide a username": "Geef een gebruikersnaam op"
 "Prefill database": "Voorvullen van de database"
 "Preview video": "Video voorvertonen"
+"field.video.button.preview": "Voorvertoning"
 "Preview": "Voorvertoning"
 "Provided by:": "Geleverd door:"
 "Publication date:": "Publicatiedatum:"
@@ -251,38 +214,40 @@
 "Published": "Gepubliceerd"
 "Read more": "Lees verder"
 "Recent %contenttypes%": "Recente %contenttypes%"
-"Recently edited %contenttypes%": "Recent bewerkte %contenttypes%"
+"page.dashboard.recently-edited": "Recent bewerkte %contenttypes%"
 "Related content:": "Gerelateerde content:"
 "Relationships": "Relaties"
 "Req. Bolt": "Vereiste Bolt"
-"Reset my password": "Reset mijn wachtwoord"
-"Revert changes": "Terugdraaien"
+"page.login.button.reset-password": "Reset mijn wachtwoord"
+"page.edit-file.button.revert": "Terugdraaien"
 "Roles and Permissions": "Rollen en permissies"
 "Roles": "Rollen"
 "Routing setup": "Route instellingen"
 "Save %contenttype%": "Sla %contenttype% op"
 "Save & return to overview": "Sla op & naar overzicht"
-"Save": "Opslaan"
+"page.edit-locale.button.save": "Opslaan"
+"page.edit-file.button.save": "Opslaan"
 "Saved on:": "Opgeslagen op:"
-"Saved": "Opgeslagen"
+"panel.latest-activity.saved": "Opgeslagen"
 "Saving …": "Opslaan…"
 "Search results for <b> %search% </b>.": "Zoekresultaten voor <b> %search% </b>."
 "Search": "Zoeken"
 "Search …": "Zoek…"
 "Select a page": "Kies een pagina"
 "Select all": "Selecteer alles"
-"Select from server": "Kies vanaf de server"
-"Select from stack": "Kies van de stack"
+"field.general.select-from-server": "Kies vanaf de server"
+"field.general.select-from-stack": "Kies van de stack"
 "Select none": "Selecteer niets"
 "Select zero or more pages": "Kies nul of meer pagina's"
 "Select": "Kies"
 "Session expires": "Sessie verloopt"
 "Session resumed.": "Sessie hervat."
 "Settings": "Instellingen"
-"Show": "Toon"
+"page.login.password-show": "Toon"
 "Showing %pager_for% %from% - %to% of %count%": "Toont %pager_for% %from% - %to% van %count%"
 "Showing": "Toont"
 "Sitemap": "Sitemap"
+"field.video.label.size": "Grootte"
 "Size": "Grootte"
 "Size:": "Grootte:"
 "Skipped <tt>%key%</tt> (already has records)": "Overgeslagen: <tt>%key%</tt> (deze heeft al records)"
@@ -325,12 +290,11 @@
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Deze website is <a href='%url%' target='_blank' title='Weldoordacht, lichtgewicht en eenvoudig CMS'>Gebouwd met Bolt</a>."
 "Tip:": "Tip:"
 "Title": "Titel"
-"To get started quickly, <a href='%url%'>add some Lorem Ipsum dummy content</a>.": "Om snel te kunnen starten, <a href='%url%'>voeg wat Lorem Ipsum dummy-inhoud toe</a>."
+"page.dashboard.quickstart": "Om snel te kunnen starten, <a href='%url%'>voeg wat Lorem Ipsum dummy-inhoud toe</a>."
 "Translations": "Vertalingen"
 "Trim Activitylog": "Verklein activiteitenlog"
 "URL:": "URL:"
 "Update the database": "Werk de database bij"
-"Upload File": "Upload bestand"
 "Upload a file to this folder:": "Upload een bestand naar deze map:"
 "Upload file": "Upload bestand"
 "Upload files": "Upload bestanden"
@@ -350,12 +314,14 @@
 "User is enabled": "Gebruiker is ingeschakeld"
 "Username or password not correct. Please check your input.": "Gebruikersnaam of wachtwoord niet juist. Controleer de invoer, en probeer opnieuw."
 "Username": "Gebruikersnaam"
+"page.login.label.username": "Gebruikersnaam"
 "Users": "Gebruikers"
 "Version:": "Versie:"
 "View %contenttypes%": "Bekijk %contenttypes%"
 "View/edit Templates": "Bekijk / bewerk templates"
 "View file '%s'.": "Bekijk bestand '%s'."
-"View file": "Bekijk bestand"
+"page.edit-locale.title.view": "Bekijk bestand"
+"page.edit-file.title.view": "Bekijk bestand"
 "View on site": "Bekijk op site"
 "View site": "Bekijk site"
 "Written by <em>%name%</em> on %date%": "Geschreven door <em>%name%</em> op %date%"
@@ -367,20 +333,21 @@
 "Your database is already up to date.": "Je database was al bijgewerkt."
 "Your database is now up to date.": "Je database is nu bijgewerkt."
 "Your password": "Je wachtwoord"
-"Your username": "Je inlognaam"
+"page.login.placeholder.password": "Je inlognaam"
 "and edited": "en bewerkt"
 "back to editing": "terug naar bewerken"
 "by": "door"
+"panel.latest-activity.by": "door"
 "line": "regel"
-"logged in": "ingelogd"
-"logged out": "uitgelogd"
-"more activity": "meer activiteit"
+"panel.latest-activity.logged-in": "ingelogd"
+"panel.latest-activity.logged-out": "uitgelogd"
+"panel.latest-activity.button.more": "meer activiteit"
 "new value": "nieuwe waarde"
 "no": "nee"
 "none": "geen"
 "of": "van"
-"px.": "px."
+"page.ckeditor-browse-server.pixel": "px."
 "show all": "Toon alle"
 "title": "titel"
-"unknown": "onbekend"
+"panel.latest-activity.unknown": "onbekend"
 "yes": "ja"

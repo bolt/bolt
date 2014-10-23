@@ -7,10 +7,11 @@
 {% block page_title __('Fill the database with Dummy Content') %}
 
 {% block page_main %}
+    {% import '_macro/_macro.twig' as macro %}
 
     <div class="row">
         <div class="col-xs-12">
-            <form method="post" id="prefill" class="form-horizontal">
+            <form method="post" id="prefill" class="form-horizontal"{{ macro.attr({_bind: ['prefill']}) }}>
                 <div id="form">
                     <div class="control-group">
                         <div class="info">
@@ -36,7 +37,7 @@
 
                 <div style="margin-top: 12px">
                     <button type="button" class="btn btn-xs" id="check-all"><i class="fa fa-fw fa-check-square-o"></i> {{ __('Select all') }}</button>
-                    <button type="button" class="btn btn-xs" id="uncheck-all"><i class="fa fa-fw fa-square-o"></i> {{ __('Deselect all') }}</button> 
+                    <button type="button" class="btn btn-xs" id="uncheck-all"><i class="fa fa-fw fa-square-o"></i> {{ __('Deselect all') }}</button>
                 </div>
                 <div style="margin-top: 12px">
                     <button type="submit" class="btn btn-primary"><i class="fa fa-wrench"></i> {{ __('Prefill database') }}</button>
@@ -48,17 +49,3 @@
     </div>
 
 {% endblock page_main %}
-
-{% block page_script %}
-    <script>
-        $(function() {
-            $('#check-all').on('click', function() {
-                // because jQuery is being retarded. See: http://stackoverflow.com/questions/5907645/jquery-chrome-and-checkboxes-strange-behavior
-                $("#form_contenttypes :checkbox").removeAttr('checked').trigger('click')
-            });
-            $('#uncheck-all').on('click', function() {
-                $("#form_contenttypes :checkbox").removeAttr('checked');
-            });
-        });
-    </script>
-{% endblock page_script %}

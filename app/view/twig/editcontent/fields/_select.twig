@@ -22,13 +22,11 @@
     {% set values = lookups|selectfield(lookupfield) %}
 {% endif %}
 
-{# TODO: move style to CSS #}
 {% set attr_select = {
     class:     option.class,
     id:        key,
     multiple:  option.multiple,
     name:      (option.multiple) ? key~'[]' : key,
-    style:     (option.multiple) ? 'display: block;' : '',
 }%}
 
 {#=== FIELDSET =======================================================================================================#}
@@ -48,11 +46,11 @@
                         selected:  (is_array ? (value[0] in context.content.get(key)) : (value in context.content.get(key))),
                     }%}
 
-                    <option{{ macro.attr(attr_opt) }}>{{ is_array ? value|join(' / ') : value }}</option>
+                    <option{{ macro.attr(attr_opt) }}>{{ is_array ? value[1] : value }}</option>
                 {% endfor %}
             </select>
 
-            <div style='margin-top: 8px;'>{# TODO: move style to CSS, onclick-events to JS #}
+            <div>{# TODO: move onclick-events to JS #}
                 <a href="#" class="btn btn-default btn-xs" onclick="jQuery('#{{ key }} option').prop('selected', true); return false;">
                     <i class="fa fa-fw fa-check-square-o"></i>{{ __("Select all") }}
                 </a>
@@ -79,7 +77,7 @@
                         selected:  (context.content.get(key) == (is_array ? value[0] : value)),
                     }%}
 
-                    <option{{ macro.attr(attr_opt) }}>{{ is_array ? value|join(' / ') : value }}</option>
+                    <option{{ macro.attr(attr_opt) }}>{{ is_array ? value[1] : value }}</option>
                 {% endfor %}
             </select>
         </div>

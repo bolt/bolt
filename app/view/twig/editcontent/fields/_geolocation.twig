@@ -36,7 +36,7 @@
     id:          key~'-address',
     name:        key~'[address]',
     type:        'text',
-    placeholder: __('Street, ZIP code, city or other location') ~ ' …',
+    placeholder: __('field.geolocation.placeholder.address') ~ ' …',
     value:       geolocation.address|default(''),
 }%}
 
@@ -57,23 +57,23 @@
     <div class="col-sm-8">
         <div class="form-group">
             <div class="col-sm-12">
-                <label>{{ __('Address lookup') }}</label>
+                <label>{{ __('field.geolocation.label.address-lookup') }}</label>
                 <input{{ macro.attr(attr_address) }}>
             </div>
         </div>
         <div class="form-group">
             <div class="col-xs-6">
-                <label>{{ __('Latitude') }}</label>
+                <label>{{ __('field.geolocation.label.latitude') }}</label>
                 <input{{ macro.attr(attr_lat) }}>
             </div>
             <div class="col-xs-6">
-                <label>{{ __('Longitude') }}</label>
+                <label>{{ __('field.geolocation.label.longitude') }}</label>
                 <input{{ macro.attr(attr_lon) }}>
             </div>
         </div>
         <div class="form-group">
             <div class="col-sm-12">
-                <span><b>{{ __('Matched address') }}</b></span>
+                <span><b>{{ __('field.geolocation.matched-address') }}</b></span>
                 <p id="{{ key }}-reversegeo"> {{ geolocation.formatted_address|default('') }}</p>
                 <input{{ macro.attr(attr_formatted) }}>
             </div>
@@ -81,7 +81,7 @@
     </div>
 
     <div class="col-sm-4">
-        <label>{{ __('Marker placement') }}</label>
+        <label>{{ __('field.geolocation.label.marker-placement') }}</label>
         <div class="mapholder" id="map-{{ key }}">
             <img src="{{ geo.map|default('') }}" width="100%" height="100%">
         </div>

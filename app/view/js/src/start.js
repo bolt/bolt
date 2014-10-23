@@ -8,6 +8,7 @@ jQuery(function ($) {
     bolt.folders = new Folders();
     bolt.stack = new Stack();
     bolt.sidebar = new Sidebar();
+    bolt.navpopups = new Navpopups();
     bolt.imagelist = [];
     bolt.filelist = [];
 
@@ -35,15 +36,19 @@ jQuery(function ($) {
 
     $('[data-bind]').each(function () {
         var data = $(this).data('bind');
-        console.log('Binding: ' + data.bind);
+        //console.log('Binding: ' + data.bind);
 
         switch (data.bind) {
             case 'date': init.bindDate(data); break;
             case 'datetime': init.bindDateTime(data); break;
+            case 'editcontent': init.bindEditContent(data); break;
             case 'editfile': init.bindEditFile(data); break;
             case 'editlocale': init.bindEditLocale(data); break;
+            case 'filebrowser': init.bindFileBrowser(); break;
             case 'ckfileselect': init.bindCkFileSelect(); break;
+            case 'prefill': init.bindPrefill(); break;
             case 'slug': init.bindSlug(data); break;
+            case 'useragents': init.bindUserAgents(); break;
             case 'video': init.bindVideo(data); break;
             default: console.log('Binding ' + data.bind + ' failed!');
         }

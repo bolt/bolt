@@ -23,7 +23,7 @@
     id:          'field-'~key,
     name:        key~'[file]',
     type:        'text',
-    placeholder: __('Allowed filetypes are:') ~ ' ' ~ option.extensions|join(', ') ~ ' …',
+    placeholder: __('field.general.allowed-filetypes') ~ ' ' ~ option.extensions|join(', ') ~ ' …',
     value:       image.file|default(''),
 }%}
 
@@ -91,7 +91,7 @@
 
     <a data-target="#selectModal-{{ key }}" href="{{ paths.async }}browse/files{{ option.upload ? '/'~option.upload : '' }}?key={{ key }}" class="btn btn-tertiary" data-toggle="modal">
         <i class="fa fa-download"></i>
-        {{ __('Select from server') }}
+        {{ __('field.general.select-from-server') }}
     </a>
 {% endmacro %}
 
@@ -100,7 +100,7 @@
         <div class="btn-group">
             <a class="btn btn-tertiary dropdown-toggle" data-toggle="dropdown">
                 <i class="fa fa-paperclip"></i>
-                {{ __('Select from stack') }}<span class="caret"></span>
+                {{ __('field.general.select-from-stack') }}<span class="caret"></span>
             </a>
             <ul class="dropdown-menu" id="stack-{{ key }}">
                 {% for item in items %}

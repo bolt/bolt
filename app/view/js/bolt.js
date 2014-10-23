@@ -746,58 +746,6 @@ var Sidebar = Backbone.Model.extend({
 
     initialize: function () {
 
-        var menuTimeout = '';
-
-        // Build popup menus
-        $('#navpage-secondary a.menu-pop').each(function () {
-            var name = $(this).attr('data-action'),
-                menu = '';
-
-            $('ul .submenu-' + name + ' li').each(function () {
-                if ($(this).hasClass('subdivider')) {
-                    menu += '<hr>';
-                }
-                menu += $(this).html().trim().replace(/[ \n]+/g, ' ').replace(/(>) | (<)/g, '$1$2');
-            });
-
-            $(this) .attr('data-html', true)
-                    .attr('data-title', '')
-                    .attr('data-action', 'bolt.sidebar.showSidebarItems("' + name + '")')
-                    .attr('data-content', menu);
-        });
-
-        // Do this, only if the sidebar is visible. (not when in small-responsive view)
-        if ($('#navpage-secondary').is(':visible')) {
-
-            // Note: It might seem easier to do this with a simple .popover, but we
-            // shouldn't. People using keyboard access will not appreciate the menu timing
-            // out and disappearing after a split-second of losing focus.
-            $('#navpage-secondary a.menu-pop').on('mouseover focus', function (e) {
-                var item = this;
-
-                window.clearTimeout(menuTimeout);
-                menuTimeout = window.setTimeout(function () {
-                    $('#navpage-secondary a.menu-pop').not(item).popover('hide');
-                    $(item).popover('show');
-                }, 400);
-            });
-
-            // We need two distinct events, to hide the sidebar's popovers:
-            // One for 'mouseleave' on the sidebar itself, and one for keyboard
-            // 'focus' on the items before and after.
-            $('#navpage-secondary').on('mouseleave', function () {
-                window.clearTimeout(menuTimeout);                
-                menuTimeout = window.setTimeout(function () {
-                    $('#navpage-secondary a.menu-pop').popover('hide');
-                }, 800);
-            });
-            $('.nav-secondary-collapse a, .nav-secondary-dashboard a').on('focus', function () {
-                window.clearTimeout(menuTimeout);
-                $('#navpage-secondary a.menu-pop').popover('hide');
-            });
-
-        }
-
         // set up 'fixlength'
         window.setTimeout(function () { bolt.sidebar.fixlength(); }, 500);
 
@@ -817,34 +765,14 @@ var Sidebar = Backbone.Model.extend({
     },
 
     /**
-     * Hide / show subitems in the sidebar for mobile devices.
-     *
-     * @param {string} name
-     */
-    showSidebarItems: function (name) {
-        bolt.sidebar.closePopOvers();
-        // Check if the "hamburger menu" is actually visible. If not, we're not on mobile
-        // or tablet, and we should just redirect to the first link, to prevent confusion.
-        if (!$('.navbar-toggle').is(':visible')) {
-            window.location.href = $('#navpage-secondary .submenu-' + name).find('a').first().attr('href');
-        } else {
-            if ($('#navpage-secondary .submenu-' + name).hasClass('show')) {
-                $('#navpage-secondary .submenu-' + name).removeClass('show');
-            } else {
-                $('#navpage-secondary .submenu').removeClass('show');
-                $('#navpage-secondary .submenu-' + name).addClass('show');
-            }
-        }
-    },
-
-    /**
      * Collapse secondary navigation to icon only design
      */
     collapse: function () {
-        bolt.sidebar.closePopOvers();
-        $('#navpage-wrapper').removeClass('nav-secondary-opened').addClass('nav-secondary-collapsed');
-        // We add the '-hoverable' class to make sure the sidebar _first_ collapses, and only _then_
-        // can be opened by hovering on it.
+        $('#navpage-wrapper')
+            .removeClass('nav-secondary-opened')
+            .addClass('nav-secondary-collapsed');
+        // We add the '-hoverable' class to make sure the sidebar _first_ collapses,
+        // and only _then_ can be opened by hovering on it.
         setTimeout(function () {
             $('#navpage-wrapper').addClass('nav-secondary-collapsed-hoverable');
         }, 300);
@@ -855,7 +783,6 @@ var Sidebar = Backbone.Model.extend({
      * Expand secondary navigation to icon full width design
      */
     expand: function () {
-        bolt.sidebar.closePopOvers();
         $('#navpage-wrapper').removeClass(
             'nav-secondary-collapsed nav-secondary-opened nav-secondary-collapsed-hoverable'
         );
@@ -872,10 +799,80 @@ var Sidebar = Backbone.Model.extend({
         } else {
             wrapper.removeClass('nav-secondary-collapsed').addClass('nav-secondary-opened');
         }
+    }
+
+});
+
+/**********************************************************************************************************************/
+
+/**
+ * Backbone object for collapsable sidebar.
+ */
+
+var Navpopups = Backbone.Model.extend({
+
+    defaults: {
     },
 
-    closePopOvers: function () {
-        $('#navpage-secondary a.menu-pop').popover('hide');
+    initialize: function () {
+
+        var menuTimeout = '';
+
+        // Add the submenus to the data-content for bootstrap.popover
+        $('#navpage-secondary a.menu-pop').each(
+            function(i) {
+                var name = $(this).attr('data-name'),
+                    menu = '';
+
+                $('ul .submenu-' + name + ' li').each(function () {
+                    if ($(this).hasClass('subdivider')) {
+                        menu += '<hr>';
+                    }
+                    menu += $(this).html().trim().replace(/[ \n]+/g, ' ').replace(/(>) | (<)/g, '$1$2');
+                });
+
+                $(this).attr('data-html', true).attr('data-content', menu);
+            }
+        );
+        if ($('.navbar-toggle').is(':visible')) {
+            // we're on mobile view - so do not trigger the popups,
+            // console.log('mobile view');
+            // only trigger the mobile open action
+            $('#navpage-secondary a.menu-pop').on('click', function(e) {
+                    e.preventDefault();
+                    var name = $(this).attr('data-name');
+                    if ($('#navpage-secondary .submenu-' + name).hasClass('show')) {
+                        $('#navpage-secondary .submenu-' + name).removeClass('show');
+                    } else {
+                        $('#navpage-secondary .submenu').removeClass('show');
+                        $('#navpage-secondary .submenu-' + name).addClass('show');
+                    }
+                }
+            );
+        } else {
+            // Add hover focus and leave blur event handlers for popovers - on desktop
+            $('#navpage-secondary')
+                .on('mouseover focus', 'a.menu-pop', function () {
+                        var item = this;
+                        window.clearTimeout(menuTimeout);
+                        menuTimeout = window.setTimeout(function () {
+                            $('#navpage-secondary a.menu-pop').not(item).popover('hide');
+                            $(item).popover('show');
+                        }, 400);
+                    }
+                )
+                .on('mouseenter focus', '.popover', function () {
+                        window.clearTimeout(menuTimeout);
+                    }
+                )
+                .on('mouseleave blur', 'a.menu-pop, .popover', function () {
+                        window.clearTimeout(menuTimeout);
+                        menuTimeout = window.setTimeout(function () {
+                            $('#navpage-secondary a.menu-pop').popover('hide');
+                        }, 800);
+                    }
+                );
+        }
     }
 });
 
@@ -1275,6 +1272,135 @@ var init = {
     },
 
     /*
+     * Bind editcontent
+     *
+     * @param {type} data
+     * @returns {undefined}
+     */
+    bindEditContent: function (data) {
+        // Save the page.
+        $('#sidebarsavebutton').bind('click', function () {
+            $('#savebutton').trigger('click');
+        });
+
+        $('#savebutton').bind('click', function () {
+            // Reset the changes to the form.
+            $('form').watchChanges();
+        });
+
+        // Handle "save and new".
+        $('#sidebarsavenewbutton, #savenewbutton').bind('click', function () {
+            // Reset the changes to the form.
+            $('form').watchChanges();
+
+            // Do a regular post, and expect to be redirected back to the "new record" page.
+            var newaction = "?returnto=saveandnew";
+            $('#editcontent').attr('action', newaction).submit();
+        });
+
+        // Clicking the 'save & continue' button either triggers an 'ajaxy' post, or a regular post which returns
+        // to this page. The latter happens if the record doesn't exist yet, so it doesn't have an id yet.
+        $('#sidebarsavecontinuebutton, #savecontinuebutton').bind('click', function (e) {
+            e.preventDefault();
+
+            var newrecord = data.newRecord,
+                savedon = data.savedon,
+                msgNotSaved = data.msgNotSaved;
+
+            // Disable the buttons, to indicate stuff is being done.
+            $('#sidebarsavecontinuebutton, #savecontinuebutton').addClass('disabled');
+            $('p.lastsaved').text(data.msgSaving);
+
+            if (newrecord) {
+                // Reset the changes to the form.
+                $('form').watchChanges();
+
+                // New record. Do a regular post, and expect to be redirected back to this page.
+                var newaction = "?returnto=new";
+                $('#editcontent').attr('action', newaction).submit();
+            } else {
+                // Existing record. Do an 'ajaxy' post to update the record.
+
+                // Reset the changes to the form.
+                $('form').watchChanges();
+
+                // Let the controller know we're calling AJAX and expecting to be returned JSON
+                var ajaxaction = "?returnto=ajax";
+                $.post(ajaxaction, $("#editcontent").serialize())
+                    .done(function (data) {
+                        $('p.lastsaved').html(savedon);
+                        $('p.lastsaved').find('strong').text(moment().format('MMM D, HH:mm'));
+                        $('p.lastsaved').find('time').attr('datetime', moment().format());
+                        $('p.lastsaved').find('time').attr('title', moment().format());
+                        updateMoments();
+
+                        $('a#lastsavedstatus strong').html(
+                            '<i class="fa fa-circle status-' + $("#statusselect option:selected").val() + '"></i> ' +
+                            $("#statusselect option:selected").text()
+                        );
+
+                        // Update anything changed by POST_SAVE handlers
+                        if ($.type(data) === 'object') {
+                            $.each(data, function (index, item) {
+
+                                // Things like images are stored in JSON arrays
+                                if ($.type(item) === 'object') {
+                                    $.each(item, function (subindex, subitem) {
+                                        $(":input[name='" + index + "[" + subindex + "]']").val(subitem);
+                                    });
+                                } else {
+                                    $(":input[name='" + index + "']").val(item);
+                                }
+                            });
+                        }
+
+                        // Reset the changes to the form from any updates we got from POST_SAVE changes
+                        $('form').watchChanges();
+
+                    })
+                    .fail(function(){
+                        $('p.lastsaved').text(msgNotSaved);
+                    })
+                    .always(function(){
+                        // Re-enable buttons
+                        $('#sidebarsavecontinuebutton, #savecontinuebutton').removeClass('disabled');
+                    });
+            }
+        });
+
+        // To preview the page, we set the target of the form to a new URL, and open it in a new window.
+        $('#previewbutton, #sidebarpreviewbutton').bind('click', function (e) {
+            e.preventDefault();
+            var newaction = data.pathsRoot + "preview/" + data.singularSlug;
+            $('#editcontent').attr('action', newaction).attr('target', '_blank').submit();
+            $('#editcontent').attr('action', '').attr('target', "_self");
+        });
+
+        // Only if we have grouping tabs.
+        if (data.hasGroups) {
+            // Filter for tabs
+            var allf = $('.tabgrouping');
+            allf.hide();
+            // Click function
+            $(".filter").click(function() {
+                var customType = $(this).data('filter');
+                allf
+                    .hide()
+                    .filter(function () {
+                        return $(this).data('tab') === customType;
+                    })
+                    .show();
+                $('#filtertabs li').removeClass('active');
+                $(this).parent().attr('class', 'active');
+            });
+
+            $(document).ready(function () {
+                $('#filtertabs li a:first').trigger('click');
+            });
+        }
+    },
+
+    /*
      * Bind editfile field
      *
      * @param {object} data
@@ -1322,6 +1448,36 @@ var init = {
         editor.setSize(null, $(window).height() - 276);
     },
 
+    /*
+     * Bind filebrowser
+     */
+    bindFileBrowser: function () {
+        console.log("bindFileBrowser");
+        $('#myTab a').click(function (e) {
+            e.preventDefault();
+            $(this).tab('show');
+        })
+
+        var getUrlParam = function(paramName) {
+            var reParam = new RegExp('(?:[\?&]|&)' + paramName + '=([^&]+)', 'i'),
+                match = window.location.search.match(reParam);
+
+            return (match && match.length > 1) ? match[1] : null;
+        };
+        var funcNum = getUrlParam('CKEditorFuncNum');
+
+        $('a.filebrowserCallbackLink').bind('click', function (e) {
+            e.preventDefault();
+            var url = $(this).attr('href');
+            window.opener.CKEDITOR.tools.callFunction(funcNum, url);
+            window.close();
+        });
+
+        $('a.filebrowserCloseLink').bind('click', function () {
+            window.close();
+        })
+    },
+
     bindCkFileSelect: function (data) {
         var getUrlParam = function (paramName) {
             var reParam = new RegExp('(?:[\?&]|&)' + paramName + '=([^&]+)', 'i'),
@@ -1336,6 +1492,20 @@ var init = {
             var url = $(this).attr('href');
             window.opener.CKEDITOR.tools.callFunction(funcNum, url);
             window.close();
+        });
+    },
+
+    /*
+     * Bind prefill
+     */
+    bindPrefill: function () {
+        $('#check-all').on('click', function() {
+            // because jQuery is being retarded.
+            // See: http://stackoverflow.com/questions/5907645/jquery-chrome-and-checkboxes-strange-behavior
+            $("#form_contenttypes :checkbox").removeAttr('checked').trigger('click')
+        });
+        $('#uncheck-all').on('click', function() {
+            $("#form_contenttypes :checkbox").removeAttr('checked');
         });
     },
 
@@ -1371,6 +1541,18 @@ var init = {
         if (data.isEmpty) {
             $('.sluglocker').trigger('click');
         }
+    },
+
+    /*
+     * Bind ua
+     */
+    bindUserAgents: function () {
+        $('.useragent').each(function () {
+            var parser = new UAParser($(this).data('ua')),
+                result = parser.getResult();
+
+            $(this).html(result.browser.name + " " + result.browser.major + " / " + result.os.name + " " + result.os.version);
+        });
     },
 
     /*
@@ -1468,7 +1650,7 @@ var init = {
             }
 
             config.toolbar = config.toolbar.concat({
-                name: 'tools', items: toolItems 
+                name: 'tools', items: toolItems
             });
 
             config.height = 250;
@@ -1519,21 +1701,17 @@ var init = {
             };
 
             // Parse override settings from config.yml
-            if ($.isArray(set.ck)) {
-                for (key in set.ck) {
-                    if (set.ck.hasOwnProperty(key)) {
-                         config[key] = set.ck[key];
-                    }
+            for (key in set.ck) {
+                if (set.ck.hasOwnProperty(key)) {
+                     config[key] = set.ck[key];
                 }
             }
 
             // Parse override settings from field in contenttypes.yml
             custom = $('textarea[name=' + this.name + ']').data('ckconfig');
-            if ($.isArray(custom)) {
-                for (key in custom){
-                    if (custom.hasOwnProperty(key)) {
-                        config[key] = custom[key];
-                    }
+            for (key in custom) {
+                if (custom.hasOwnProperty(key)) {
+                    config[key] = custom[key];
                 }
             }
         };
@@ -1628,9 +1806,9 @@ var init = {
         $('[data-action]').on('click.action', function (e) {
             var action = $(this).attr('data-action');
             if (typeof action !== "undefined" && action !== "") {
+                e.preventDefault();
                 eval(action);
                 e.stopPropagation();
-                e.preventDefault();
             }
         })
         // Prevent propagation to parent's click handler from anchor in popover.
@@ -2005,6 +2183,7 @@ jQuery(function ($) {
     bolt.folders = new Folders();
     bolt.stack = new Stack();
     bolt.sidebar = new Sidebar();
+    bolt.navpopups = new Navpopups();
     bolt.imagelist = [];
     bolt.filelist = [];
 
@@ -2032,15 +2211,19 @@ jQuery(function ($) {
 
     $('[data-bind]').each(function () {
         var data = $(this).data('bind');
-        console.log('Binding: ' + data.bind);
+        //console.log('Binding: ' + data.bind);
 
         switch (data.bind) {
             case 'date': init.bindDate(data); break;
             case 'datetime': init.bindDateTime(data); break;
+            case 'editcontent': init.bindEditContent(data); break;
             case 'editfile': init.bindEditFile(data); break;
             case 'editlocale': init.bindEditLocale(data); break;
+            case 'filebrowser': init.bindFileBrowser(); break;
             case 'ckfileselect': init.bindCkFileSelect(); break;
+            case 'prefill': init.bindPrefill(); break;
             case 'slug': init.bindSlug(data); break;
+            case 'useragents': init.bindUserAgents(); break;
             case 'video': init.bindVideo(data); break;
             default: console.log('Binding ' + data.bind + ' failed!');
         }

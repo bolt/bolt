@@ -1,8 +1,10 @@
-<table class="dashboardlisting" data-bind="{{ {bind: 'ckfileselect'}|json_encode }}">
+{% import '_macro/_macro.twig' as macro %}
+
+<table class="dashboardlisting"{{ macro.attr({_bind: ['ckfileselect']}) }}>
     <thead>
         <tr>
-            <th>{{ __('Files') }}</th>
-            <th>{{ __('Filesize') }}</th>
+            <th>{{ __('page.ckeditor-browse-server.files') }}</th>
+            <th>{{ __('page.ckeditor-browse-server.size') }}</th>
             <th>&nbsp;</th>
             <th>&nbsp;</th>
             {# <th>&nbsp;</th> #}
@@ -27,7 +29,7 @@
                         {% endif %}
                     </td>
                     <td>{{ file.filesize }}.</td>
-                    <td>{% if file.imagesize is defined %}{{ file.imagesize }} {{ __('px.') }}{% endif %}</td>
+                    <td>{% if file.imagesize is defined %}{{ file.imagesize }} {{ __('page.ckeditor-browse-server.pixel') }}{% endif %}</td>
                     <td class='listthumb'>
                         {{file.newpath|showimage(54, 40, 'c')}}
                     </td>

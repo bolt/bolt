@@ -11,7 +11,9 @@
 
 {% block page_main %}
 
-    <div class="row" data-bind="{{ {bind: 'users'}|json_encode }}">
+    {% import '_macro/_macro.twig' as macro %}
+
+    <div class="row"{{ macro.attr({_bind: ['useragents']}) }}>
         <div class="col-md-9">
 
             {% include '_sub/_messages.twig' %}
@@ -37,17 +39,5 @@
 
 {% block page_script %}
     {# parsing the useragents into something more readable. #}
-    <script type="text/javascript" src="{{ paths.app }}view/js/ua-parser.min.js"></script>
-    <script>
-        jQuery(function($) {
-            var useragents = $('.useragent').each(function(e){
-                console.log($(this).data('ua'));
-
-                var parser = new UAParser($(this).data('ua'));
-                var result = parser.getResult();
-                $(this).html(result.browser.name + " " + result.browser.major + " / " + result.os.name + " " + result.os.version);
-            });
-
-        });
-    </script>
+    <script src="{{ paths.app }}view/js/ua-parser.min.js"></script>
 {% endblock page_script %}

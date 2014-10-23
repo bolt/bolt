@@ -120,14 +120,14 @@ fieldset.checkbox div {
 
 #editcontent input.datepicker {
     width: 30%;
-    min-width: 200px;
+    min-width: 240px;
     margin-right: 8px;
     float: left;
 }
 
 #editcontent input.timepicker {
     width: 10%;
-    min-width: 80px;
+    min-width: 100px;
     float: left;
 }
 
@@ -270,6 +270,13 @@ fieldset.checkbox div {
     margin-top: -10px;
 }
 
+#editcontent fieldset.multiselect {
+    select {
+        display: block;
+        margin-bottom: 8px;
+    }
+}
+
 #editcontent input.editslug {
     display: none;
 }
@@ -403,7 +410,7 @@ fieldset.checkbox div {
     }
     a {
         color: #777;
-        background-color: #dfdfdf; 
+        background-color: #dfdfdf;
         border: 1px solid #d3d3d3;
         cursor: pointer;
         padding: 5px 15px;
@@ -422,7 +429,7 @@ fieldset.checkbox div {
                 color: #333;
                 padding: 7px 15px 8px 15px;
             }
-            &:hover { 
+            &:hover {
 
             }
         }

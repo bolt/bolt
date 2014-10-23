@@ -9,7 +9,7 @@
         } %}
         {% set sub_new = {
             icon: 'plus',
-            label: __('New %contenttype%', {'%contenttype%': contenttype.singular_name}),
+            label: __('generic.text.new-contentype', {'%contenttype%': contenttype.singular_name}),
             link: path('editcontent', {'contenttypeslug': slug, 'id': ''}),
             isallowed: 'contenttype:' ~ slug ~ ':create'
         } %}

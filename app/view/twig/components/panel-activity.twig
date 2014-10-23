@@ -8,7 +8,7 @@
 
 {% block panel_icon 'fa-clock-o' %}
 
-{% block panel_head __('Latest activity') %}
+{% block panel_head __('panel.latest-activity.headline') %}
 
 {% block panel_body %}
 
@@ -19,7 +19,7 @@
             {% if attribute(users, log.username) is defined %}
                 {% set userlink = macro.userlink(attribute(users, log.username)) %}
             {% else %}
-                {% set userlink = __('unknown') %}
+                {% set userlink = __('panel.latest-activity.unknown') %}
             {% endif %}
             <li>
                 {% if log.code == 'save content' %}
@@ -32,16 +32,16 @@
                         {% set content_display_name = log.message %}
                     {% endif %}
 
-                    {{ __('Saved') }} {{ contenttype_display_name }}
-                    "<strong>{{ content_display_name }}</strong>" {{ __('by') }} <em>{{ userlink }}</em>
+                    {{ __('panel.latest-activity.saved') }} {{ contenttype_display_name }}
+                    "<strong>{{ content_display_name }}</strong>" {{ __('panel.latest-activity.by') }} <em>{{ userlink }}</em>
                 {% elseif log.code == 'login' %}
-                    <em>{{ userlink }}</em> {{ __('logged in') }}
+                    <em>{{ userlink }}</em> {{ __('panel.latest-activity.logged-in') }}
                 {% elseif log.code == 'logout' %}
-                    <em>{{ userlink }}</em> {{ __('logged out') }}
+                    <em>{{ userlink }}</em> {{ __('panel.latest-activity.logged-out') }}
                 {% elseif log.code == 'fixme' %}
-                    <b>{{ __('Fixme:') }}</b> {{ log.message }}
+                    <b>{{ __('panel.latest-activity.fixme') }}</b> {{ log.message }}
                 {% elseif log.code == 'user' %}
-                    <b>{{ log.message }}</b> {{ __('by') }} {{ userlink }}
+                    <b>{{ log.message }}</b> {{ __('panel.latest-activity.by') }} {{ userlink }}
                 {% else %}
                     {{ log.message }}
                 {% endif %}
@@ -52,6 +52,6 @@
         {% endfor %}
     </ul>
 
-    <p><a href="{{ path('activitylog') }}" class="btn btn-default btn-block">{{ __('more activity') }} »</a></p>
+    <p><a href="{{ path('activitylog') }}" class="btn btn-default btn-block">{{ __('panel.latest-activity.button.more') }} »</a></p>
 
 {% endblock panel_body %}

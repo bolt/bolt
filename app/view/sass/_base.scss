@@ -28,9 +28,10 @@ $linkactive: lighten(saturate($boltblue, 100), 10);
 // The padding to the left and right of form-control inputs.
 $padding-base-horizontal: 8px;
 
+
 // Primary button
 $btn-primary-color: #FFF;
-$btn-primary-bg: #DC6A23;
+$btn-primary-bg: #FB4D08; //#DC6A23;
 $btn-primary-border: darken($btn-primary-bg, 6%);
 
 // Secondary button
@@ -88,7 +89,7 @@ $nav-tabs-bg: desaturate(lighten($boltblue, 50%), 30);
 /**
  * Colors in _base.scss
  */ 
-$sidebarbackground: #333; 
+$sidebarbackground: #181818; 
 $sidebartextcolour: #DDD;
 $sidebartextcolourcollapsed: #AAA;
 

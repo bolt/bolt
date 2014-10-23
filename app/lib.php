@@ -186,6 +186,11 @@ function safeString($str, $strict = false, $extrachars = "")
  */
 function makeSlug($str, $length = 64)
 {
+
+    if (is_array($str)) {
+        $str = implode(" ", $str);
+    }
+
     $str = safeString(strip_tags($str));
 
     $str = str_replace(" ", "-", $str);
@@ -878,7 +883,6 @@ function getReferrer(Symfony\Component\HttpFoundation\Request $request)
 {
     $tmp = parse_url($request->server->get('HTTP_REFERER'));
 
-    // \Dumper::dump($tmp);
     $referrer = $tmp['path'];
     if (!empty($tmp['query'])) {
         $referrer .= "?" . $tmp['query'];
@@ -950,7 +954,7 @@ function __()
                 $text = str_replace($keytypes, $tr_args[$keytypes], $args[0]);
                 unset($tr_args[$keytypes]);
             }
-            //echo "\n" . '<!-- contenttype replaced: '.htmlentities($text)." -->\n";
+
             if ($fn == 'transChoice') {
                     $trans = $app['translator']->transChoice(
                         $text,
@@ -967,7 +971,7 @@ function __()
                         isset($args[3]) ? $args[3] : $app['request']->getLocale()
                     );
             }
-            //echo '<!-- translation : '.htmlentities($trans)." -->\n";
+
             if ($text != $trans) {
                 return $trans;
             }
@@ -982,24 +986,15 @@ function __()
         case 5:
             return $app['translator']->transChoice($args[0], $args[1], $args[2], $args[3], $args[4]);
         case 4:
-            //echo "<!-- 4. call: $fn($args[0], $args[1], $args[2], $args[3]) -->\n";
             return $app['translator']->$fn($args[0], $args[1], $args[2], $args[3]);
         case 3:
-            //echo "<!-- 3. call: $fn($args[0], $args[1], $args[2]) -->\n";
             return $app['translator']->$fn($args[0], $args[1], $args[2]);
         case 2:
-            //echo "<!-- 2. call: $fn($args[0],$args[1] -->\n";
             return $app['translator']->$fn($args[0], $args[1]);
         case 1:
-            //echo "<!-- 1. call: $fn($args[0]) -->\n";
             return $app['translator']->$fn($args[0]);
     }
-    /*}
-    catch (\Exception $e) {
-        echo "<!-- ARGHH !!! -->\n";
-        //return $args[0];
-        die($e->getMessage());
-    }*/
+
 }
 
 /**

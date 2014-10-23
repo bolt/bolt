@@ -1,0 +1,91 @@
+field:
+    general:
+        allowed-filetypes: "Allowed filetypes are:"
+        select-from-server: "Select from server"
+        select-from-stack: "Select from stack"
+    geolocation:
+        label.address-lookup: "Address lookup"
+        label.latitude: "Latitude"
+        label.longitude: "Longitude"
+        label.marker-placement: "Marker placement"
+        matched-address: "Matched address"
+        placeholder.address: "Street, ZIP code, city or other location"
+    slug:
+        message.set: "Set the slug to:"
+        message.unlock: "Are you sure you wish to unlock the slug? This might break existing links to this record."
+        permalink: "Permalink"
+    video:
+        button.preview: "Preview"
+        label.preview: "Preview image"
+        label.size: "Size"
+        label.url: "URL of video to embed"
+        matched-video: "Matched video"
+        pixel: "pixel"
+        placeholder.url: "URL of video on Youtube, Vimeo or other video website"
+        preview.button.close: "Close"
+        preview.no-url: "No video url is set, no video to show."
+
+generic:
+    noscript:
+        headline: "Javascript disabled"
+        message: "Javascript is currently disabled in your browser. Most functionality in Bolt will work without it, but for greater ease of use we recommend you enable Javascript in your browser."
+    text:
+        new-contentype: "New %contenttype%"
+
+page:
+    ckeditor-browse-server:
+        files: "Files"
+        folders: "Folders"
+        modified: "Modified"
+        pixel: "px."
+        size: "Filesize"
+        title: "Files"
+    dashboard:
+        button.add: "Add …"
+        empty-database: "It seems there's no content in the database."
+        link.show-more: "More %contenttypes%"
+        quickstart: "To get started quickly, <a href='%url%'>add some Lorem Ipsum dummy content</a>."
+        recently-edited: "Recently edited %contenttypes%"
+        title: "Dashboard"
+    edit-file:
+        button.revert: "Revert changes"
+        button.save: "Save"
+        confirm-revert: "Are you sure you wish to revert? Your changes will be lost, if you don't save them."
+        note-related: "Note, this file has related files:"
+        path: "Path:"
+        title.edit: "Edit file"
+        title.view: "View file"
+    edit-locale:
+        button.save: "Save"
+        title.edit: "Edit file"
+        title.view: "View file"
+    edit-users:
+        button.save: "Save user"
+        title.create: "Create a new user"
+        title.edit: "Edit user"
+        title.profile: "Profile"
+        user-create: "Create a new user, using the form below. The password field is required."
+        user-edit: "Edit an existing user, using the form below. Leave the password fields empty, unless you wish to change the password."
+    login:
+        button.back: "Back to login"
+        button.forgot-password: "I forgot my password …"
+        button.log-on: "Log on"
+        button.reset-password: "Reset my password"
+        cookies-required: "Note: Cookies are required to log on to Bolt. Please allow cookies."
+        label.password: "Password"
+        label.username: "Username"
+        password-hide: "Hide"
+        password-show: "Show"
+        placeholder.password: "Your username"
+        title: "Sign in to Bolt"
+
+panel:
+    latest-activity:
+        button.more: "more activity"
+        by: "by"
+        fixme: "Fixme:"
+        headline: "Latest activity"
+        logged-in: "logged in"
+        logged-out: "logged out"
+        saved: "Saved"
+        unknown: "unknown"

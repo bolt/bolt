@@ -11,7 +11,7 @@
 
 {% block panel_body %}
     <a class="btn btn-primary" href="{{ path('editcontent', {'contenttypeslug': context.contenttype.slug, 'id': ''}) }}">
-        <i class="fa fa-plus"></i> {{ __('New %contenttype%', {'%contenttype%': context.contenttype.singular_name}) }}
+        <i class="fa fa-plus"></i> {{ __('generic.text.new-contentype', {'%contenttype%': context.contenttype.singular_name}) }}
     </a>
 
     <form class="form-inline" style="margin-top:15px;">

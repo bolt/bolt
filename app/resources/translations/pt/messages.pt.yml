@@ -1,7 +1,122 @@
-# app/resources/translations/pt/messages.pt.yml -- generated on 2014/06/18 23:01:46
-# no untranslated strings; good ;-)
+# app/resources/translations/pt/messages.pt.yml – generated on 2014-10-17 18:10:56 UTC
+# 117 untranslated strings
 
-# 406 translated strings
+"(none)":  #
+"Add a brief, optional comment to describe what's changed.":  #
+"Add a new extension using the form below.":  #
+"Add a new user": "Adicionar novo usuário" #
+"Add some sample <a href='%url%' class='btn btn-tertiary'>Records with Loripsum text</a>":  #
+"Address lookup":  #
+"Alt":  #
+"Are you sure you wish to unlock the slug? This might break existing links to this record.":  #
+"Before you can start using the theme on your site we need to make a copy to your theme folder.":  #
+"Bolt Extension could not be found. Please check at %site% to ensure correct name.":  #
+"Browse Versions":  #
+"Cannot check for updates in read-only mode":  #
+"Cannot check installed packages in read-only mode":  #
+"Check for updates":  #
+"Checking for available updates (this may take up to 60 seconds)":  #
+"Checking installed packages":  #
+"Clear the current log":  #
+"Collapse sidebar":  #
+"Configure Extensions": "Configurar Extensões" #
+"Confirm your password":  #
+"Default status":  #
+"Delete selected":  #
+"Depublish selected":  #
+"Description":  #
+"Detail template":  #
+"Details":  #
+"Enter a password, longer than 6 chars":  #
+"Enter a valid email address":  #
+"Everything is up to date!":  #
+"Expand sidebar":  #
+"Extend ":  #
+"Extension log":  #
+"Extension":  #
+"Extras":  #
+"Filtering …":  #
+"Filtering":  #
+"Find": "Procurar" #
+"If you would like to give the theme an alternative name you can add one here.":  #
+"Install a new Extension":  #
+"Install all Packages":  #
+"Install all updates":  #
+"Installation complete":  #
+"Installing package":  #
+"Installing selected package version (this may take up to 60 seconds).":  #
+"Listing template":  #
+"Logout": "Sair" #
+"Main configuration": "Principais Configurações" #
+"Marker placement":  #
+"Matched address":  #
+"Matched video":  #
+"More info/help":  #
+"No Stable Versions Available":  #
+"No Test Versions Available":  #
+"No relations found!":  #
+"page.edit-file.note-related":  #
+"Note:":  #
+"Omnisearch":  #
+"Other contenttypes":  #
+"Password (confirm)":  #
+"Path to image file":  #
+"Pick a display name / alias":  #
+"Pick a username, lowercase only":  #
+"Please enter a new file name":  #
+"Preparing to install package …":  #
+"Preparing to remove package …":  #
+"Preview image":  #
+"Publish selected":  #
+"Related content":  #
+"Run all Updates":  #
+"Run update check":  #
+"Running install of all packages …":  #
+"Save & create new record":  #
+"Search for …":  #
+"Searching for available updates …":  #
+"Select file …":  #
+"page.login.title":  #
+"Stable Versions":  #
+"Status":  #
+"Street, ZIP code, city or other location":  #
+"The extensions directory (<code>%dir%</code>) does not exist, or it is not writable.":  #
+"The field %field% has been changed to \"%newValue%\"":  #
+"The folder '%s' could not be found, or is not readable.":  #
+"The versions listed below are compatible with the version of Bolt you are using. Since they are unstable versions, we recommend you <strong>do not</strong> use these on production systems.":  #
+"The versions listed below are marked as stable releases by the developer and are compatible with the version of Bolt you are currently using.":  #
+"Theme Installation Complete":  #
+"There are no items on the Stack, yet.":  #
+"There are no users present in the system. Please create the first user, which will be granted root privileges.":  #
+"This record is related to:":  #
+"This will install all available updates.":  #
+"This will make sure all packages listed are installed. Use this if you've recently moved to a new server or if you have manually added an extension.":  #
+"This won't install anything, just show you available updates":  #
+"Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.":  #
+"Type":  #
+"URL of video on Youtube, Vimeo or other video website":  #
+"URL of video to embed":  #
+"Unstable Test Versions":  #
+"Updated user '%s'.":  #
+"Updates":  #
+"Upload a file to this folder":  #
+"Version":  #
+"View (saved version) on site":  #
+"View related content":  #
+"View/install Extensions": "Visualizar/instalar Extensões"
+"You are currently using SQLite to set up the first user. If you wish to use MySQL or PostgreSQL instead, edit the configuration file at <tt>'app/config/config.yml'</tt> and Bolt will set up the database tables for you. Be sure to reload this page before continuing.":  #
+"You can discover new extensions by visiting":  #
+"You can now start using the installed extension, documentation and implementation instructions can be found using the link below.":  #
+"You don't have correct permissions to edit the file '%s'.":  #
+"You don't have the correct permissions to display the file or directory '%s'.":  #
+"You should set 'homepage:' in your 'app/config/config.yml' to an existing record. Make sure that the content is published, otherwise it will not be shown.":  #
+"Your Currently Installed Extensions":  #
+"no content …":  #
+"no title …":  #
+"pixels":  #
+
+#-----------------------------------------
+# 332 translated strings
 
 "%contenttypes% overview": "%contenttypes% visão geral "
 "%contenttypes%": "%contenttypes%"
@@ -10,7 +125,6 @@
 "(default template)": "(template padrão)"
 "(no category)": "(sem categoria)"
 "(no group)": "(sem grupo)"
-"A menu with this name already exists …": "Um menu com este nome já existe…"
 "A password reset link has been sent to '%user%'.": "Um link para redefinir a senha foi enviado para '%user%'."
 "About Bolt": "Sobre o Bolt"
 "About": "Sobre"
@@ -20,28 +134,21 @@
 "Actions": "Ações"
 "Activity log": "Registro de atividades"
 "Add a comment:": "Adicione um comentário"
-"Add new menu": "Adicionar novo menu"
-"Add some sample <a href='%url%' class='btn btn-small'>Records with Loripsum text</a>": "Adicionar algum exemplo <a href='%url%' class='btn btn-small'>Registrar com testo Loripsum</a>"
-"Add to menu": "Adicionar para o menu"
-"Add …": "Adicionar …"
+"page.dashboard.button.add": "Adicionar …"
 "Added to <tt>%key%</tt> '%title%'": "Adicionado a <tt>%key%</tt> '%title%'"
 "Added user '%s'.": "Usuário adicionado '%s'."
-"Address lookup:": "Buscar endereço:"
+"field.geolocation.label.address-lookup:": "Buscar endereço:"
 "Alas, no about!": "Ooops. nada sobre :( "
 "All content types": "Todos tipos de conteúdo"
 "All users": "Todos usuários"
-"Allowed filetypes are:": "Tipos de arquivos permitidos são:"
+"field.general.allowed-filetypes": "Tipos de arquivos permitidos são:"
 "An error occurred.": "Ocorreu um erro."
 "Anonymous": "Anônimo"
 "Are you sure you want to delete %username%?": "Tem certeza que deseja excluir %username%?"
-"Are you sure you want to revert changes you have made since you last saved your menus?": "Tem certeza que quer reverter as alterações feitas desde a última vez que salvou seus menus?"
-"Are you sure you wish to remove this item from the menu, along with all its sub-items?": "Tem certeza que deseja remover este item do menu, juntamente com todos os seus sub-itens?"
-"Are you sure you wish to revert? Your changes will be lost, if you don't save them.": "Tem certeza que deseja reverter? Suas alterações serão perdidas, se você não salvá-las."
+"page.edit-file.confirm-revert": "Tem certeza que deseja reverter? Suas alterações serão perdidas, se você não salvá-las."
 "Assigned roles": "Papéis atribuídos"
 "Author:": "Autor:"
-"Back to login": "Voltar ao login"
-"Backup file could not be found": "Arquivo de backup não foi encontrado"
-"Backup successfully restored": "Backup restaurado com sucesso"
+"page.login.button.back": "Voltar ao login"
 "Below are the third party libraries that are used by Bolt.": "Abaixo as bibliotecas de terceiros usadas pelo Bolt"
 "Bolt - Fatal error.": "Bolt - Erro fatal"
 "Bolt documentation on Github": "Bolt-Documentação no Github (en)"
@@ -70,9 +177,8 @@
 "Clear sort/filter": "Limpar ordenação/filtro"
 "Clear the cache": "Limpar o cache"
 "Click to change current status.": "Clique para alterar o status atual."
-"Close": "Fechar"
+"field.video.preview.button.close": "Fechar"
 "Code:": "Código"
-"Comment": "Comentário"
 "Configuration": "Configurações"
 "Content '%title%' could not be deleted.": "O conteúdo %title% não pode ser excluído."
 "Content '%title%' could not be modified.": "O conteúdo %title% não pode ser modificado."
@@ -84,7 +190,7 @@
 "Content": "Conteúdo"
 "Contenttypes": "Tipos de conteúdo"
 "Could not save %contenttype%.": "Não é possível gravar %contenttype%."
-"Create a new user": "Criar um novo usuário"
+"page.edit-users.title.create": "Criar um novo usuário"
 "Create folder": "Criar diretório"
 "Create the first user": "Criar o primeiro usuário"
 "Created on:": "Criado em:"
@@ -92,6 +198,7 @@
 "Current sessions": "Sessões atuais"
 "Current status:": "Status atual:"
 "Dashboard": "Dashboard"
+"page.dashboard.title": "Dashboard"
 "Database check / update": "Verificar/atualizar banco de dados"
 "Delete %contenttype%": "Excluir %contenttype%"
 "Delete %filename%": "Excluir %filename%"
@@ -100,10 +207,8 @@
 "Deleted %s files from cache.": "%s Arquivos excluídos do cache."
 "Depublication date:": "Date de Despublicação"
 "Deselect all": "Deselecionar todos"
-"Details are shown above. The importer will now try again with a different parser …": "Detalhes são mostrados acima. O importador vai tentar novamente com um analisador diferente…"
 "Disable %username%": "Desabilitar %username%"
 "Display name": "Nome de exibição"
-"Display the file or directory '%s' is forbidden.": "Proibido exibir o arquivo ou diretório '%s'."
 "Do you really want to delete %foldername%?": "Você realmente deseja excluir %foldername%?"
 "Done!": "Pronto!"
 "Draft": "Rascunho"
@@ -111,8 +216,9 @@
 "Duplicate %filename%": "Duplicar %filename%"
 "Edit %contenttype%": "Editar %contenttype%"
 "Edit file": "Editar arquivo"
-"Edit the file '%s' is forbidden.": "Proibido editar o arquivo '%s'"
-"Edit user": "Editar usuário"
+"page.edit-locale.title.edit": "Editar arquivo"
+"page.edit-file.title.edit": "Editar arquivo"
+"page.edit-users.title.edit": "Editar usuário"
 "Edit": "Alterar"
 "Email": "E-mail"
 "Enable %username%": "Habilitar %username%"
@@ -130,21 +236,21 @@
 "Files in %s": "Arquivos em %s"
 "Files on the stack": "Arquivos na pilha"
 "Files": "Arquivos"
-"Files: %path%": "Arquivos: %path%"
+"page.ckeditor-browse-server.title": "Arquivos"
+"page.ckeditor-browse-server.files": "Arquivos"
 "Filesize": "Tamanho do arquivo"
+"page.ckeditor-browse-server.size": "Tamanho do arquivo"
 "Fill the database with Dummy Content": "Preencher com conteúdo aleatório"
 "Filter": "Filtro"
-"Filtering:": "Filtrando:"
-"Fixme:": "Corrija-me"
+"panel.latest-activity.fixme": "Corrija-me"
 "Folder '%s' could not be found, or is not readable.": "Pasta '%s' não foi encontrada ou não pode ser lida."
 "Folder permissions insufficient": "Permissões insuficientes na pasta"
 "Folders": "Pastas"
+"page.ckeditor-browse-server.folders": "Pastas"
 "Full list …": "Lista completa…"
-"Generic": "Genérico"
 "Global Permissions": "Permissões Globais"
-"Hide": "Esconder"
-"Homepage": "Homepage"
-"I forgot my password …": "Esqueci minha senha…"
+"page.login.password-hide": "Esconder"
+"page.login.button.forgot-password": "Esqueci minha senha…"
 "IP address": "Endereço IP"
 "If there was a Page with 'about' for a slug, it would've been shown here. But there isn't one, so that's why you're seeing this placeholder.": "Se houver uma página com o slug 'about', mas não existe. Por isso você está visualizando este espaço reservado."
 "Image": "Imagem"
@@ -152,29 +258,24 @@
 "In the contenttype for '%contenttype%', the field '%field%' has 'uses: %uses%', but the field '%uses%' does not exist. Please edit contenttypes.yml, and correct this.": "No tipo de conteúdo '%contenttype%', o campo '%field%' tem 'uses: %uses%', mas o campo '%uses%' não existe. Por favor, edite o contenttypes.yml, e corrija isso."
 "In the contenttype for '%contenttype%', the field '%field%' is defined, which is a reserved name. Please edit contenttypes.yml, and correct this.": "No tipo de conteúdo '%contenttype%', o campo '%field%' definido, é um nome reservado. Por favor, edite o contenttypes.yml, e corrija isso."
 "Info": "Informações"
-"It seems there's no content in the database.": "Parece que não há conteúdo no banco de dados."
-"Javascript disabled": "Javascript desabilitado"
-"Javascript is currently disabled in your browser. Most functionality in Bolt will work without it, but for greater ease of use we recommend you enable Javascript in your browser.": "Javascript está desativado em seu navegador. A maioria das funcionalidades no Bolt não funcionarão sem ele, mas para maior facilidade de uso, nós recomendamos que você ative o Javascript em seu navegador."
+"page.dashboard.empty-database": "Parece que não há conteúdo no banco de dados."
+"generic.noscript.headline": "Javascript desabilitado"
+"generic.noscript.message": "Javascript está desativado em seu navegador. A maioria das funcionalidades no Bolt não funcionarão sem ele, mas para maior facilidade de uso, nós recomendamos que você ative o Javascript em seu navegador."
 "Last IP": "Último IP"
-"Last edited on:": "Alterado em:"
 "Last known IP": "Último IP conhecido"
 "Last modified %contenttypes%": "Última modificação em %contenttypes%"
 "Last seen": "Última visualização"
-"Latest activity": "Últimas atividades"
+"panel.latest-activity.headline": "Últimas atividades"
 "Latest entries": "Últimas entradas"
-"Latitude": "Latitude"
+"field.geolocation.label.latitude": "Latitude"
 "Links": "Links"
-"Log on": "Cadastrar"
+"page.login.button.log-on": "Cadastrar"
 "Login": "Entrar"
-"Logout %name%": "Sair de %name%"
 "Long messages": "Mensagens longas"
-"Longitude": "Longitude"
+"field.geolocation.label.longitude": "Longitude"
 "Maintenance": "Manutenção"
-"Matched address:": "Endereços encontrados:"
-"Menu editor": "Edição do Menu"
+"field.geolocation.matched-address": "Endereços encontrados:"
 "Menu setup": "Configuração de Menu"
-"Menu successfully saved": "Menu salvo com sucesso"
-"Menus successfully saved": "Menus salvos com sucesso"
 "Message:": "Mensagem"
 "Messages": "Mensagens"
 "Meta information": "Meta Informação"
@@ -182,24 +283,22 @@
 "Modifications made to the database:": "Modificações a fazer no banco de dados:"
 "Modifications needed:": "Modificações necessárias"
 "Modified": "Modificado"
-"More %contenttypes% »": "Mais %contenttypes% »"
-"Name of new menu": "Nome do novo menu"
-"New %contenttype%": "Novo %contenttype%"
-"New user": "Novo usuário"
+"page.ckeditor-browse-server.modified": "Modificado"
+"page.dashboard.link.show-more": "Mais %contenttypes%"
+"generic.text.new-contentype": "Novo %contenttype%"
 "No %contenttypes% available.": "Sem %contenttypes%."
 "No latest %contenttype%": "Nenhum %contenttype%"
 "No recent %contenttype%.": "Nenhum %contenttype% recente"
 "No results found for '%search%'. Please try another search.": "Nenhum resultado encontrado para %search%. Tente outros termos."
 "No such action for content.": "Nenhuma ação para este conteúdo"
 "No such action for user '%s'.": "Nenhuma ação para o usuário '%s'."
-"No video url is set, no video to show.": "Nenhuma URL de vídeo fornecida, nenhum vídeo será mostrado."
+"field.video.preview.no-url": "Nenhuma URL de vídeo fornecida, nenhum vídeo será mostrado."
 "None": "Nenhum"
 "Not published": "Não publicado"
-"Note: Cookies are required to log on to Bolt. Please allow cookies.": "Nota: Cookies são necessários para entrar no Bolt. Por favor habilite os cookies"
+"page.login.cookies-required": "Nota: Cookies são necessários para entrar no Bolt. Por favor habilite os cookies"
 "Options": "Opções"
 "Order: %sort%": "Ordenar: %sort%"
 "Overview for": "Visualização para"
-"Overview of all": "Visualizar todos"
 "Overview": "Visualizar"
 "Owner": "Proprietário"
 "Owner:": "Criador"
@@ -208,22 +307,23 @@
 "Password reset not successful! Either the token was incorrect, or you were too late, or you tried to reset the password from a different IP-address.": "Redefinição de senha não foi bem sucedida! Ou o token está incorreto, ou você demorou muito tempo, ou você tentou redefinir a senha de um endereço IP diferente."
 "Password reset successful! You can now log on with the password that was sent to you via email.": "Senha redefinida com sucesso! Você pode se conectar com sua nova senha enviada ao seu e-mail."
 "Password": "Senha"
+"page.login.label.password": "Senha"
 "Passwords must match.": "Senhas precisam ser iguais"
 "Path": "Caminho"
 "Path:": "Caminho"
+"page.edit-file.path": "Caminho"
+"field.slug.permalink": "Link permanente"
 "Permalink": "Link permanente"
 "Permission denied": "Permissão recusada"
 "Permissions": "Permissões"
 "Place on stack": "Coloque na pilha"
 "Please choose the record you want to link to:": "Por favor, escolha o registro que deseja vincular"
-"Please confirm that you wish to restore the menu": "Por favor, confirme que deseja restaurar o menu "
 "Please enter a new folder name": "Por favor digite um novo nome para pasta"
 "Please log on.": "Por favor, faça seu login"
-"Please make sure that the MenuEditor/backups folder is writeable by your webserver or disable the backup-feature in config.yml": "Por favor, certifique-se que a pasta MenuEditor/backups é gravavél pelo seu servidor ou desative o recurso de backup no config.yml"
-"Please make sure that there is a MenuEditor/backups folder or disable the backup-feature in config.yml": "Por favor, certifique-se que é uma pasta MenuEditor/backups ou desative o recurso de backup no config.yml"
 "Please provide a username": "Por favor, forneça um nome de usuário"
 "Prefill database": "Pré-preenchimento do banco de dados"
 "Preview video": "Pré-visualizar vídeo"
+"field.video.button.preview": "Pré-visualizar"
 "Preview": "Pré-visualizar"
 "Provided by:": "Fornecido por:"
 "Publication date:": "Data de publicação: "
@@ -232,52 +332,47 @@
 "Published": "Publicado"
 "Read more": "Veja mais…"
 "Recent %contenttypes%": "Novos %contenttypes%"
-"Recently edited %contenttypes%": "Recentimente editado %contenttypes%"
+"page.dashboard.recently-edited": "Recentimente editado %contenttypes%"
 "Related content:": "Conteúdo relacionado"
 "Relationships": "Relacionamentos"
 "Rename %foldername%": "Renomear %foldername%"
-"Req. Bolt": "Req. Bolt"
-"Reset my password": "Redefinir minha senha"
-"Restore %filename%": "Restaurar %filename%"
-"Revert changes": "Reverter mudanças"
+"page.login.button.reset-password": "Redefinir minha senha"
+"page.edit-file.button.revert": "Reverter mudanças"
 "Roles and Permissions": "Papéis e permissões"
 "Roles": "Papéis"
 "Routing setup": "Configuração de Rotas"
 "Save %contenttype%": "Salvar %contenttype%"
 "Save & return to overview": "Salvar & retornar para visualização"
-"Save": "Salvar"
+"page.edit-locale.button.save": "Salvar"
+"page.edit-file.button.save": "Salvar"
 "Saved on:": "Salvo em"
-"Saved": "Salvo"
+"panel.latest-activity.saved": "Salvo"
 "Saving …": "Salvando…"
-"Search for an item to add": "Procure um item para adicionar"
 "Search results for <b> %search% </b>.": "Resultados para <b> %search% </b>."
-"Search": "Busca"
 "Search …": "Procurar…"
+"Search": "Busca"
 "Select a page": "Selecione uma página"
 "Select all": "Selecionar todos"
 "Select an item to add": "Selecionar um item para adicionar"
-"Select from server": "Selecionar a partir do servidor"
-"Select from stack": "Selecionar a partir da pilha"
+"field.general.select-from-server": "Selecionar a partir do servidor"
+"field.general.select-from-stack": "Selecionar a partir da pilha"
 "Select none": "Selecionar nenhum"
 "Select zero or more pages": "Selecione zero ou mais páginas"
 "Select": "Selecione"
 "Session expires": "Sessão expira"
 "Session resumed.": "Sessão resumida."
-"Set the slug to:": "Define slug para"
+"field.slug.message.set": "Define slug para"
 "Settings": "Configurações"
-"Show": "Mostar"
+"page.login.password-show": "Mostar"
 "Showing %pager_for% %from% - %to% of %count%": "Mostrando página %pager_for% %from% - %to% de %count%"
 "Showing": "Mostrando"
-"Sitemap": "Mapa do site"
+"field.video.label.size": "Tamanho"
 "Size": "Tamanho"
-"Size:": "Tamanho:"
 "Skipped <tt>%key%</tt> (already has records)": "Ignorado <tt>%key%</tt> (já possui um registro)"
 "Skipped <tt>%key%</tt> (not checked)": "Ignorado <tt>%key%</tt> (não marcado)"
 "Slug:": "Slug:"
 "Something went wrong": "Algo deu errado"
-"Something went wrong, please reload the page and try again": "Something went wrong, por favor recarregue a página e tente novamente"
 "Sophisticated, lightweight & simple CMS": "CMS sofisticado, leve & simples"
-"Special elements": "Elemtos especiais"
 "Stack": "Pilha"
 "Status:": "Status:"
 "Tag": "Tag"
@@ -288,15 +383,12 @@
 "The %contenttype% you were looking for does not exist. It was probably deleted, or it never existed.": "O %contenttype% que você está procurando não existe. Provavelmente foi excluído, ou nunca existiu."
 "The activitylog has been cleared.": "O registro de atividades foi limpo."
 "The activitylog has been trimmed.": "O registro de atividades foi aparado."
-"The backup could not be restored:": "O backup não pode ser restaurado"
 "The changes to this %contenttype% have been saved.": "As mudanças para este %contenttype% foram salvas."
 "The database needs to be updated/repaired. Go to 'Settings' > '<a href=\"%link%\">Check Database</a>' to do this now.": "O banco de dados precisa ser atualizado / reparado. Vá para 'Configurações' > '<a href=\"%link%\">Verificar banco de dados</a>' para fazer isto agora."
-"The field %field% has been changed to '%newValue%'": "Campo %field% alterado para '%newValue%'"
 "The file '%s' doesn't exist, or is not readable.": "O arquivo '%s' não existe ou não é legível."
 "The file '%s' is not writable. You will have to use your own editor to make modifications to this file.": "O arquivo '%s' não é gravável. Você precisa fazer suas modificações em seu editor de texto."
 "The following file could not be read:": "O seguinte arquivo não pode ser lido:"
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "O identificador e o slug para '%taxonomytype%' não são os mesmos ('%slug%' vs. '%taxonomytype%'). Edite taxonomy.yml, e faça-os coincidirem para evitar inconsistências entre o armazenamento do banco de dados e seus templates."
-"The menu.yml config-file was edited by someone else in the meantime, please reload the page.": "O arquivo de configuração menu.yml foi editado por outra pessoa, entretanto, por favor, recarregue a página."
 "The new %contenttype% has been saved.": "%contenttype% foi salvo."
 "The requested changelog entry doesn't exist.": "O registro não existe no registro de alterações."
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": "As definições para papéis e permissões são armazenadas em <code>%permissions%</code>."
@@ -306,35 +398,23 @@
 "There are no users in the database. Please create the first user.": "Não há usuários no banco de dados. Por favor, crie o primeiro usuário."
 "There should always be at least one 'root' user. You have just been promoted. Congratulations!": "Sempre deve haver pelo menos um usuário 'root'. Você acaba de ser promovido. Parabéns!"
 "There was an error saving this %contenttype%.": "Ocorreu um erro ao salvar este %contenttype%."
-"There was an error when reading this WXR file": "Houve um erro ao ler este arquivo WXR"
-"There's something wrong with this extension, please report to the author and edit your menu manually until this is fixed.": "Há algo de errado com essa extensão, por favor informe o autor e edite seu menu manualmente até que isso seja corrigido."
 "This %contenttype% has not been saved yet.": "Este %contenttype% ainda não foi salvo."
 "This %contenttype% was created": "%contenttype% criado"
 "This displayname is already in use. Choose another displayname.": "Este nome já está em uso. Escolha outro por favor."
-"This does not appear to be a WXR file, missing/invalid WXR version number": "Isso não parece ser um arquivo WXR, inválida ou número da versão WXR ausente"
 "This email address is already in use. Choose another email address.": "Este endereço de email já está em uso. Escolha outro por favor."
 "This is a checkbox": "Este é um checkbox"
-"This record is related to %contenttype%": "Este registro está relacionado a %contenttype%"
 "This username is already in use. Choose another username.": "Este nome de usuário já está em uso. Escolha outro por favor."
 "This value is too short. It should have 6 characters or more.": "Esta informação é muito curta. Informe ao menos 6 caracteres."
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Este site é <a href='%url%' target='_blank' title='Sofisticado, leve e simples - CMS Bolt'>Bolt</a>."
 "Timed publish": "Publicação temporária"
 "Tip:": "Dica:"
 "Title": "Título"
-"Title/Alt Text:": "Título/Alt Texto"
-"To get started quickly, <a href='%url%'>add some Lorem Ipsum dummy content</a>.": "Para iniciar rapidamente, <a href='%url%'>adicione um conteúdo Lorem Ipsum</a>."
+"page.dashboard.quickstart": "Para iniciar rapidamente, <a href='%url%'>adicione um conteúdo Lorem Ipsum</a>."
 "Translations": "Traduções"
 "Trim Activitylog": "Aparar registro de atividades"
 "Types": "Tipos"
-"URL:": "URL:"
-"Unable to overwrite menu.yml": "Impossível substituir o menu.yml"
-"Unable to save backup! Please make sure MenuEditor/backups is writable by your webserver or disable the feature in the extensions configuration.": "Impossível salvar o backup! Por favor, certifique-se que MenuEditor/backups é gravavél em seu servidor ou desativo este recurso na configuração da extensão."
-"Unable to save your menu.": "Impossível salvar seu menu."
 "Update the database": "Atualizar o banco de dados"
-"Upload File": "Enviar arquivo"
-"Upload a file to this folder:": "Upload de um arquivo para esta pasta:"
 "Upload file": "Upload de arquivo"
-"Upload files": "Upload de arquivos"
 "Upload image": "Enviar imagem"
 "Upload": "Upload"
 "Uploaded files": "Enviar arquivos"
@@ -351,47 +431,42 @@
 "User is enabled": "Usuário está desabilitado."
 "Username or password not correct. Please check your input.": "Login/Senha incorretos. Verifique e tente novamente."
 "Username": "Login"
+"page.login.label.username": "Login"
 "Users": "Usuários"
 "Version:": "Versão:"
 "View %contenttypes%": "Visualizar %contenttypes%"
-"View/edit Templates": "Visualizar / alterar Templates"
-"View file '%s'.": "Visualizar arquivo '%s'."
-"View file": "Ver arquivo"
+"page.edit-locale.title.view": "Ver arquivo"
+"page.edit-file.title.view": "Ver arquivo"
 "View on site": "Visualizar no site"
 "View site": "Visualizar site"
-"Write a brief comment, it will help other editors to get a quick overview of what's changed.": "Escreva um breve comentário, ele vai ajudar outros editores com uma visão geral do que mudou."
+"View/edit Templates": "Visualizar / alterar Templates"
 "Written by <em>%name%</em> on %date%": "Escrito por <em>%name%</em> em %date%"
 "You do not have the right privileges to create a new record.": "Você não tem os privilégios corretos para criar um novo registro."
 "You do not have the right privileges to edit that record.": "Você não possui permissões para alterar este registro."
 "You do not have the right privileges to view that page.": "Você não possui privilégios para visualizar esta página."
 "You have been logged out.": "Você desconectou."
-"You should set 'homepage:' in your 'app/config/config.yml' to an existing record.": "Você deve definir a 'homepage:' em seu arquivo 'app/config/config.yml' para um registro existente."
 "You've been logged on successfully.": "Autenticação realizada com sucesso!"
 "Your account is disabled. Sorry about that.": "Sua conta está desabilitada."
 "Your database is already up to date.": "Seu banco de dados está atualizado."
 "Your database is now up to date.": "Seu banco de dados agora está atualizado!"
 "Your password": "Sua senha"
-"Your username": "Seu nome de usuário"
+"page.login.placeholder.password": "Seu nome de usuário"
 "and edited": "e alterado"
 "back to editing": "voltar para edição"
 "by": "por"
-"css classes": "classes css"
+"panel.latest-activity.by": "por"
 "field": "campo"
-"http://": "http://"
 "in:": "em"
-"label": "label"
 "line": "linha"
-"logged in": "conectado"
-"logged out": "desconectado"
-"more activity": "mais atividades"
+"panel.latest-activity.logged-in": "conectado"
+"panel.latest-activity.logged-out": "desconectado"
+"panel.latest-activity.button.more": "mais atividades"
 "new value": "novo valor"
-"no label set": "sem label definido"
 "no": "não"
 "none": "nenhum"
 "of": "de"
 "old value": "valor antigo"
-"px.": "px."
+"page.ckeditor-browse-server.pixel": "px."
 "show all": "mostrar todos"
-"title": "título"
-"unknown": "desconhecido"
+"panel.latest-activity.unknown": "desconhecido"
 "yes": "sim"
