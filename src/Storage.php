@@ -1152,7 +1152,6 @@ class Storage
 
         }
 
-        // @todo This is preparation for stage 2..
         $limit = !empty($parameters['limit']) ? $parameters['limit'] : 100;
         $page = !empty($parameters['page']) ? $parameters['page'] : 1;
 
