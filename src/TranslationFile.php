@@ -469,30 +469,10 @@ class TranslationFile
     {
         $ctypes = $this->app['config']->get('contenttypes');
         $hinting = array();
+        $ctnames = array();
 
         $savedTranslations = $this->readSavedTranslations();
         $this->gatherTranslatableStrings();
-
-        // Generate strings for contenttypes
-        $newTranslations = array();
-        foreach (array_keys($this->translatables) as $key) {
-            if (substr($key, 0, 21) == 'contenttypes.generic.') {
-                foreach ($ctypes as $ctname => $ctype) {
-                    $setkey = 'contenttypes.' . $ctname . '.text.' . substr($key, 21);
-                    $newTranslations[$setkey] = isset($savedTranslations[$setkey]) ? $savedTranslations[$setkey] : '';
-                }
-            // Old behavior, to be removed when mapping is done
-            } elseif ((strpos($key, '%contenttype%') !== false || strpos($key, '%contenttypes%') !== false)) {
-                foreach (array('%contenttype%' => 'singular_name', '%contenttypes%' => 'name') as $placeholder => $name) {
-                    if (strpos($key, $placeholder) !== false) {
-                        foreach ($ctypes as $ctype) {
-                            $ctypekey = str_replace($placeholder, $ctype[$name], $key);
-                            $newTranslations[$ctypekey] = isset($savedTranslations[$ctypekey]) ? $savedTranslations[$ctypekey] : '';
-                        }
-                    }
-                }
-            }
-        }
 
         // Add names, labels, …
         foreach ($ctypes as $ctname => $ctype) {
@@ -514,6 +494,42 @@ class TranslationFile
                         $hinting[$key] = $ctype[$getkey];
                     }
                     $newTranslations[$key] = '';
+                }
+                // Remember names for later usage
+                if ($setkey == 'name.plural') {
+                    $ctnames[$ctname]['%contenttypes%'] = $newTranslations[$key];
+                } elseif ($setkey == 'name.singular') {
+                    $ctnames[$ctname]['%contenttype%'] = $newTranslations[$key];
+                }
+            }
+        }
+
+        // Generate strings for contenttypes
+        $newTranslations = array();
+        foreach (array_keys($this->translatables) as $key) {
+            if (substr($key, 0, 21) == 'contenttypes.generic.') {
+                foreach ($ctypes as $ctname => $ctype) {
+                    $setkey = 'contenttypes.' . $ctname . '.text.' . substr($key, 21);
+                    $newTranslations[$setkey] = isset($savedTranslations[$setkey]) ? $savedTranslations[$setkey] : '';
+                    if ($newTranslations[$setkey] === '') {
+                        $generic = $this->app['translator']->trans($key);
+                        if ($generic != $key) {
+                            foreach ($ctnames[$ctname] as $placeholder => $replace) {
+                                $generic = str_replace($placeholder, $replace, $generic);
+                            }
+                            $hinting[$setkey] = $generic;
+                        }
+                    }
+                }
+            // Old behavior, to be removed when mapping is done
+            } elseif ((strpos($key, '%contenttype%') !== false || strpos($key, '%contenttypes%') !== false)) {
+                foreach (array('%contenttype%' => 'singular_name', '%contenttypes%' => 'name') as $placeholder => $name) {
+                    if (strpos($key, $placeholder) !== false) {
+                        foreach ($ctypes as $ctype) {
+                            $ctypekey = str_replace($placeholder, $ctype[$name], $key);
+                            $newTranslations[$ctypekey] = isset($savedTranslations[$ctypekey]) ? $savedTranslations[$ctypekey] : '';
+                        }
+                    }
                 }
             }
         }
