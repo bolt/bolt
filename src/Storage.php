@@ -1705,7 +1705,8 @@ class Storage
                         $keyParts = explode(" ||| ", $key);
                         $valParts = explode(" ||| ", $value);
                         $orPart = '( ';
-                        for ($i = 0; $i < count($keyParts); $i++) {
+                        $countParts = count($keyParts)
+                        for ($i = 0; $i < $countParts; $i++) {
                             if (in_array($keyParts[$i], $this->getContentTypeFields($contenttype['slug'])) ||
                                 in_array($keyParts[$i], Content::getBaseColumns()) ) {
                                 $rkey = $tablename . '.' . $keyParts[$i];
