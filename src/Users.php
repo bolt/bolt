@@ -355,7 +355,7 @@ class Users
     private function deleteExpiredSessions()
     {
         try {
-            $stmt = $this->db->prepare("DELETE FROM " . $this->authtokentable . " WHERE validity < :now");
+            $stmt = $this->db->prepare(sprintf('DELETE FROM %s WHERE validity < :now"', $this->authtokentable));
             $stmt->bindValue("now", date("Y-m-d H:i:s"));
             $stmt->execute();
         } catch (\Doctrine\DBAL\DBALException $e) {
