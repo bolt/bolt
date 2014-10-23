@@ -366,8 +366,12 @@ class TranslationFile
                 }
                 // Value
                 if ($tdata['trans'] === '') {
-                    $t = $this->app['translator']->trans($key);
-                    $content .= '#' . ($t === '' ? '' : ' ' . Escaper::escapeWithDoubleQuotes(print_r($t, 1))) . "\n";
+                    $thint = $this->app['translator']->trans($key);
+                    if ($thint == $key) {
+                        $content .= '#' . "\n";
+                    } else {
+                        $content .= '#' . Escaper::escapeWithDoubleQuotes($thint) . "\n";
+                    }
                 } else {
                     $content .= Escaper::escapeWithDoubleQuotes($tdata['trans']) . "\n";
                 }
