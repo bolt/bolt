@@ -467,10 +467,6 @@ class TranslationFile
      */
     private function contentContenttypes()
     {
-        $csFilter = function ($val) {
-            return (strpos($val, '%contenttype%') !== false || strpos($val, '%contenttypes%') !== false);
-        };
-
         $ctypes = $this->app['config']->get('contenttypes');
         $hinting = array();
 
@@ -479,12 +475,20 @@ class TranslationFile
 
         // Generate strings for contenttypes
         $newTranslations = array();
-        foreach (array_filter(array_keys($this->translatables), $csFilter) as $key) {
-            foreach (array('%contenttype%' => 'singular_name', '%contenttypes%' => 'name') as $placeholder => $name) {
-                if (strpos($key, $placeholder) !== false) {
-                    foreach ($ctypes as $ctype) {
-                        $ctypekey = str_replace($placeholder, $ctype[$name], $key);
-                        $newTranslations[$ctypekey] = isset($savedTranslations[$ctypekey]) ? $savedTranslations[$ctypekey] : '';
+        foreach (array_keys($this->translatables) as $key) {
+            if (substr($key, 0, 21) == 'contenttypes.generic.') {
+                foreach ($ctypes as $ctname => $ctype) {
+                    $setkey = 'contenttypes.' . $ctname . '.text.' . substr($key, 21);
+                    $newTranslations[$setkey] = isset($savedTranslations[$setkey]) ? $savedTranslations[$setkey] : '';
+                }
+            // Old behavior, to be removed when mapping is done
+            } elseif ((strpos($key, '%contenttype%') !== false || strpos($key, '%contenttypes%') !== false)) {
+                foreach (array('%contenttype%' => 'singular_name', '%contenttypes%' => 'name') as $placeholder => $name) {
+                    if (strpos($key, $placeholder) !== false) {
+                        foreach ($ctypes as $ctype) {
+                            $ctypekey = str_replace($placeholder, $ctype[$name], $key);
+                            $newTranslations[$ctypekey] = isset($savedTranslations[$ctypekey]) ? $savedTranslations[$ctypekey] : '';
+                        }
                     }
                 }
             }
