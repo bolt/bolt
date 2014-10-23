@@ -1247,22 +1247,24 @@ class Storage
             return false;
         }
 
-        $where = " WHERE (taxonomytype=" . $this->app['db']->quote($taxonomytype['slug']) . "
-        AND (slug=" . $this->app['db']->quote($slug) . " OR name=" . $this->app['db']->quote($name) . ") )";
+        $where = sprintf(' WHERE (taxonomytype = %s AND (slug = %s OR name = %s))',
+            $this->app['db']->quote($taxonomytype['slug']),
+            $this->app['db']->quote($slug),
+            $this->app['db']->quote($name));
 
         // Make the query for the pager..
-        $pagerquery = "SELECT COUNT(*) AS count FROM $tablename" . $where;
+        $pagerquery = sprintf('SELECT COUNT(*) AS count FROM %s %s', $tablename, $where);
 
         // Sort on either 'ascending' or 'descending'
         // Make sure we set the order.
         if ($this->app['config']->get('general/taxonomy_sort') == 'desc') {
-            $order = 'desc';
+            $order = 'DESC';
         } else {
-            $order = 'asc';
+            $order = 'ASC';
         }
 
         // Add the limit
-        $query = "SELECT * FROM $tablename" . $where . " ORDER BY id " . $order;
+        $query = sprintf('SELECT * FROM %s %s ORDER BY id %s', $tablename, $where, $order);
         $query = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($query, $limit, ($page - 1) * $limit);
 
         $taxorows = $this->app['db']->fetchAll($query);
