@@ -20,10 +20,6 @@ class Config
     private $reservedFieldNames = array(
         'id', 'slug', 'datecreated', 'datechanged', 'datepublish', 'datedepublish', 'ownerid', 'username', 'status', 'link'
     );
-    private $defaultFieldTypes = array(
-        'text', 'integer', 'float', 'geolocation', 'imagelist', 'image', 'file', 'filelist', 'video', 'html',
-        'textarea', 'datetime', 'date', 'select', 'templateselect', 'markdown', 'checkbox', 'slug'
-    );
 
     public $fields;
 

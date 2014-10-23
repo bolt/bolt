@@ -290,7 +290,7 @@ class CommandRunner
         }
 
         $log = "";
-        $timestamp = sprintf("<span class='timestamp'>[%s]</span> ", date("H:i:s"));
+        $timestamp = sprintf("<span class='timestamp'>[%s/%s]</span> ", $type, date("H:i:s"));
 
         if (!empty($command)) {
             $log .= sprintf("%s &gt; <span class='command'>composer %s</span>\n", $timestamp, $command);

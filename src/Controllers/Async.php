@@ -401,11 +401,9 @@ class Async implements ControllerProviderInterface
         }
 
         try {
-            $list = $filesystem->listContents($path);
-            $validFolder = true;
+            $filesystem->listContents($path);
         } catch (\Exception $e) {
             $app['session']->getFlashBag()->set('error', __("Folder '%s' could not be found, or is not readable.", array('%s' => $path)));
-            $validFolder = false;
         }
 
         $app['twig']->addGlobal('title', __("Files in %s", array('%s' => $path)));

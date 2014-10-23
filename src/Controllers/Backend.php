@@ -1387,7 +1387,6 @@ class Backend implements ControllerProviderInterface
 
         // Check if the form was POST-ed, and valid. If so, store the user.
         if ($request->getMethod() == 'POST') {
-            //$form->bindRequest($request);
             $form->submit($app['request']->get($form->getName()));
 
             if ($form->isValid()) {
@@ -1512,10 +1511,8 @@ class Backend implements ControllerProviderInterface
         }
 
         try {
-            $list = $filesystem->listContents($path);
             $validFolder = true;
         } catch (\Exception $e) {
-            $list = array();
             $app['session']->getFlashBag()->set('error', __("The folder '%s' could not be found, or is not readable.", array('%s' => $path)));
             $formview = false;
             $validFolder = false;

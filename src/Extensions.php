@@ -51,13 +51,6 @@ class Extensions
     private $menuoptions;
 
     /**
-     * Files which may be in the extensions folder, but have to be ignored.
-     *
-     * @var array
-     */
-    private $ignored;
-
-    /**
      * Whether or not to add jQuery.
      *
      * @var bool

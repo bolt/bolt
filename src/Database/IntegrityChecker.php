@@ -252,8 +252,6 @@ class IntegrityChecker
 
         $comparator = new Comparator();
 
-        // FIXME Unnecessary I think
-        // $baseTables = $this->getBoltTablesNames();
         $tables = $this->getTablesSchema();
 
         /** @var $table Table */
@@ -294,20 +292,12 @@ class IntegrityChecker
      * @param  TableDiff $diff
      * @return TableDiff
      */
-    // FIXME Does it do something?
     protected function cleanupTableDiff(TableDiff $diff)
     {
         $baseTables = $this->getBoltTablesNames();
 
         if (!in_array($diff->fromTable->getName(), $baseTables)) {
             // we don't remove fields from contenttype tables to prevent accidental data removal
-            if ($diff->removedColumns) {
-                /** @var $column Column */
-                foreach ($diff->removedColumns as $column) {
-                    $output[] = "<i>Field <tt>" . $column->getName() . "</tt> in <tt>" . $table->getName() . "</tt> " .
-                        "is no longer defined in the config, delete manually if no longer needed.</i>";
-                }
-            }
             $diff->removedColumns = array();
         }
 

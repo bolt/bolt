@@ -400,7 +400,7 @@ class Storage
         return $objs;
     }
 
-    public function countChangelog($options)
+    public function countChangelog()
     {
         $tablename = $this->getTablename('content_changelog');
         $sql = "SELECT COUNT(1) " .
@@ -781,7 +781,7 @@ class Storage
         // id is set to autoincrement, so let the DB handle it
         unset($content['id']);
 
-        $res = $this->app['db']->insert($tablename, $content);
+        $this->app['db']->insert($tablename, $content);
 
         $seq = null;
         if ($this->app['db']->getDatabasePlatform() instanceof PostgreSqlPlatform) {
@@ -1426,10 +1426,9 @@ class Storage
             $contenttypes[] = $text;
         }
 
-        $app_ct = $this->app['config']->get('contenttypes');
         $instance = $this;
         $contenttypes = array_map(
-            function ($name) use ($app_ct, $instance) {
+            function ($name) use ($instance) {
                 $ct = $instance->getContentType($name);
 
                 return $ct['slug'];
@@ -1438,24 +1437,6 @@ class Storage
         );
 
         return $contenttypes;
-    }
-
-    /**
-     * Return the proper contenttype for a singlular slug
-     *
-     * @param $singular_slug
-     * @return mixed name of contenttype if the singular_slug was found
-     *                  false, if singular_slug was not found
-     */
-    private function searchSingularContentTypeSlug($singular_slug)
-    {
-        foreach ($this->app['config']->get('contenttypes') as $key => $ct) {
-            if (isset($ct['singular_slug']) && ($ct['singular_slug'] == $singular_slug)) {
-                return $this->app['config']->get('contenttypes/' . $key . '/slug');
-            }
-        }
-
-        return false;
     }
 
     /**
@@ -1898,7 +1879,7 @@ class Storage
      *
      * @see $this->getContent()
      */
-    private function executeGetContentQueries($decoded, $parameters)
+    private function executeGetContentQueries($decoded)
     {
         // Perform actual queries and hydrate
         $total_results = false;
