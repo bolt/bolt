@@ -2,7 +2,6 @@
 
 namespace Bolt;
 
-use Silex;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
