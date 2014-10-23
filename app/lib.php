@@ -910,7 +910,7 @@ function htmlencode_params($params)
  * i18n made right, second attempt...
  *
  * Instead of calling directly $app['translator']->trans(), we check
- * for the presence of a placeholder named '%contentype%'.
+ * for the presence of a placeholder named '%contenttype%'.
  *
  * If one is found, we replace it with the contenttype.name parameter,
  * and try to get a translated string. If there is not, we revert to

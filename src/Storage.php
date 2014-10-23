@@ -838,7 +838,7 @@ class Storage
         $id = intval($id);
 
         if (!$this->isValidColumn($field, $contenttype)) {
-            $error = __("Can't set %field% in %contenttype%: Not a valid field.", array('%field%' => $field, '%contenttype%' => $contenttype));
+            $error = __('contenttypes.generic.invalid-field', array('%field%' => $field, '%contenttype%' => $contenttype));
             $this->app['session']->getFlashBag()->set('error', $error);
 
             return false;

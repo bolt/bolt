@@ -435,7 +435,7 @@ class Config
                 // Verify that the contenttype doesn't try to add fields that are reserved.
                 if ($fieldname != 'slug' && in_array($fieldname, $this->reservedFieldNames)) {
                     $error = __(
-                        "In the contenttype for '%contenttype%', the field '%field%' is defined, which is a reserved name. Please edit contenttypes.yml, and correct this.",
+                        'contenttypes.generic.reserved-name',
                         array('%contenttype%' => $key, '%field%' => $fieldname)
                     );
                     $this->app['session']->getFlashBag()->set('error', $error);
@@ -449,7 +449,7 @@ class Config
                     foreach ($field['uses'] as $useField) {
                         if (!empty($field['uses']) && empty($ct['fields'][$useField]) && !in_array($useField, $this->reservedFieldNames)) {
                             $error = __(
-                                "In the contenttype for '%contenttype%', the field '%field%' has 'uses: %uses%', but the field '%uses%' does not exist. Please edit contenttypes.yml, and correct this.",
+                                'contenttypes.generic.wrong-use-field',
                                 array('%contenttype%' => $key, '%field%' => $fieldname, '%uses%' => $useField)
                             );
                             $this->app['session']->getFlashBag()->set('error', $error);
@@ -481,7 +481,7 @@ class Config
                 // Make sure the 'type' is in the list of allowed types
                 if (!isset($field['type']) || !$this->fields->has($field['type'])) {
                     $error = __(
-                        "In the contenttype for '%contenttype%', the field '%field%' has 'type: %type%', which is not a proper fieldtype. Please edit contenttypes.yml, and correct this.",
+                        'contenttypes.generic.no-proper-type',
                         array('%contenttype%' => $key, '%field%' => $fieldname, '%type%' =>
                          $field['type'])
                     );

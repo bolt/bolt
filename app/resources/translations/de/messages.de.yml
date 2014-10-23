@@ -1,54 +1,42 @@
-# app/resources/translations/de/messages.de.yml – generated on 2014-10-21 12:31:44 UTC
+# app/resources/translations/de/messages.de.yml – generated on 2014-10-23 21:27:11 UTC
 
 # Warning: Translations are moved to a new keyword based translation at the moment.
-#          This is an ongoing process. Translations in repo are automatically mapped 
-#          to the new scheme. Be aware that there can be a race condition between 
+#          This is an ongoing process. Translations in repo are automatically mapped
+#          to the new scheme. Be aware that there can be a race condition between
 #          that process and your PR so that it's eventiually neccessry to remap your
 #          translations. So perhaps it's best to ask on IRC to time your contribution.
 
 #  no unused messages
-#  30 untranslated messages
+#  20 untranslated messages
 #  no untranslated keyword based messages
-# 382 translations
-#  76 keyword based translations
+# 335 translations
+# 130 keyword based translations
 
-#--- 30 untranslated messages -------------------------------------------------
+#--- 20 untranslated messages -------------------------------------------------
 
-"(none)": # "(none)"
-"Add a new user": # "Add a new user"
-"Body": # "Body"
-"Confirm your password": # "Confirm your password"
-"Date": # "Date"
-"Datetime": # "Datetime"
-"Enter a password, longer than 6 chars": # "Enter a password, longer than 6 chars"
-"Enter a valid email address": # "Enter a valid email address"
-"File1": # "File1"
-"File2": # "File2"
-"Filelist": # "Filelist"
-"Floatfield": # "Floatfield"
-"Geolocation": # "Geolocation"
-"Html": # "Html"
-"Image1": # "Image1"
-"Image2": # "Image2"
-"Imagelist": # "Imagelist"
-"Integerfield": # "Integerfield"
-"Markdown": # "Markdown"
-"Multiselect": # "Multiselect"
-"Pick a display name / alias": # "Pick a display name / alias"
-"Pick a username, lowercase only": # "Pick a username, lowercase only"
-"Selectentry": # "Selectentry"
-"Selectfield": # "Selectfield"
-"Slug": # "Slug"
-"Status": # "Status"
-"Teaser": # "Teaser"
-"Template": # "Template"
-"Textarea": # "Textarea"
-"Video": # "Video"
+"Body": #
+"Date": #
+"Datetime": #
+"File": #
+"Filelist": #
+"Floatfield": #
+"Geolocation": #
+"Html": #
+"Imagelist": #
+"Integerfield": #
+"Markdown": #
+"Multiselect": #
+"Selectentry": #
+"Selectfield": #
+"Slug": #
+"Status": #
+"Teaser": #
+"Template": #
+"Textarea": #
+"Video": #
 
-#--- 382 translations ---------------------------------------------------------
+#--- 335 translations ---------------------------------------------------------
 
-"%contenttypes%": "%contenttypes%"
-"%contenttypes% overview": "%contenttypes% Übersicht"
 "%name% № %id%": "%name% Nr. %id%"
 "%s files could not be deleted. You should delete them manually.": " %s Dateien konnten nicht gelöscht werden. Bitte manuell löschen."
 "(default template)": "(Standardvorlage)"
@@ -58,16 +46,12 @@
 "About": "Über"
 "About Bolt": "Über Bolt"
 "Actions": "Aktionen"
-"Actions for %contenttypes%": "Aktionen für %contenttypes%"
-"Actions for Users": "Aktionen für Benutzer"
-"Actions for this %contenttype%": "Aktionen für %contenttype%"
 "Activity log": "Aktivitätshistorie"
 "Add a brief, optional comment to describe what's changed.": "Optional: Kommentieren sie was sich geändert hat"
 "Add a comment:": "Einen Kommentar hinzufügen"
 "Add a new extension using the form below.": "Eine neue Erweiterung in dem Formular darunter hinzufügen."
 "Add some sample <a href='%url%' class='btn btn-tertiary'>Records with Loripsum text</a>": "Einige Beispieldatensätze mit <a href='%url%' class='btn btn-tertiary'>mit Loripsum Text</a> hinzufügen."
 "Added to <tt>%key%</tt> '%title%'": "Hinzugefügt zu <tt>%key%</tt> '%title%'"
-"Added user '%s'.": "Benutzer '%s' hinzugefügt."
 "Alas, no about!": "Leider kein „Über“!"
 "All content types": "Alle Datentypen"
 "All users": "Alle Benutzer"
@@ -75,7 +59,6 @@
 "An error occurred.": "Ein Fehler ist aufgetreten"
 "Anonymous": "Anonym"
 "Are you sure you want to delete %username%?": "Sicher, dass sie %username% löschen möchten?"
-"Assigned roles": "Zugewiesene Rollen"
 "Author:": "Autor:"
 "Before you can start using the theme on your site we need to make a copy to your theme folder.": "Das Theme muss zuerst ihn ihr Theme-Verzeichnis kopiert werde, bevor sie es auf ihrer Webseite verwenden können."
 "Below are the third party libraries that are used by Bolt.": "Hier die Bibliotheken von Drittanbietern, welche Bolt verwendet."
@@ -89,7 +72,7 @@
 "Built-in role, automatically granted to every registered user": "Standard-Rolle, automatisch eingeräumt für jeden registrierten Benutzer"
 "Built-in role, only valid in the context of a resource, and automatically assigned to the owner of that resource.": "Standard-Rolle, nur kontextbezogen gültig und automatisch an den Besitzer einer Quelle zugewiesen."
 "Built-in superuser role, automatically grants all permissions": "Standard Superuser Rolle, vergibt automatisch alle Berechtigungen"
-"Can't set %field% in %contenttype%: Not a valid field.": "Kann %field% in %contenttype% nicht setzen. Kein gültiges Feld."
+"(none)": "(nichts)"
 "Cancel": "Abbrechen"
 "Cannot check for updates in read-only mode": "Kann im Nur-lesen-Modus nicht nach Aktualisierungen suchen"
 "Cannot check installed packages in read-only mode": "Kann im Nur-lesen-Modus die installierten Pakete nicht überprüfen"
@@ -125,9 +108,7 @@
 "Content '%title%' has been deleted.": "Inhalt %title% wurde gelöscht."
 "Content Type Permissions": "Datentyp-Berechtigungen"
 "Content for home not found!": "Inhalt für die Startseite nicht gefunden!"
-"Content was duplicated. Click 'Save %contenttype%' to finalize.": "Inhalt kopiert. Zum Fertigstellen '%contentype% speichern' klicken."
-"Contenttypes": "Datentypen"
-"Could not save %contenttype%.": "Konnte %contenttype% nicht speichern."
+"Actions for Users": "Aktionen für Benutzer"
 "Create folder": "Verzeichnis erstellen"
 "Create the first user": "Den ersten Benutzer erstellen"
 "Created on:": "Erstellt am:"
@@ -137,7 +118,6 @@
 "Dashboard": "Übersicht"
 "Database check / update": "Datenbank prüfen/aktualisieren"
 "Default status": "Vorgabestatus"
-"Delete %contenttype%": "%contenttype% löschen"
 "Delete %filename%": "%filename% löschen"
 "Delete %foldername%": "%foldername% löschen"
 "Delete %username%": "%username% löschen"
@@ -149,16 +129,6 @@
 "Detail template": "Anzeigevorlage"
 "Details": "Details"
 "Disable %username%": "%username% deaktivieren"
-"Display name": "Angezeigter Name"
-"Do you really want to delete %foldername%?": "Möchten sie das Verzeichnis %foldername% wirklich löschen?"
-"Done!": "Fertig!"
-"Draft": "Entwurf"
-"Duplicate %contenttype%": "%contenttype% kopieren"
-"Duplicate %filename%": "%filename% kopieren"
-"Edit": "Bearbeiten"
-"Edit %contenttype%": "%contenttype% bearbeiten"
-"Edit file": "Datei bearbeiten"
-"Email": "E-Mail"
 "Enable %username%": "%username% aktivieren"
 "Everybody": "Jeder"
 "Everything is up to date!": "Alles ist aktuell!"
@@ -195,9 +165,6 @@
 "If there was a Page with 'about' for a slug, it would've been shown here. But there isn't one, so that's why you're seeing this placeholder.": "Wenn es eine Seite mit dem Slug „about“ gäbe, würde deren Inhalt an dieser Stelle stehen."
 "If you would like to give the theme an alternative name you can add one here.": "Wenn sie dem Theme einen alternativen Namen geben wollen, dann können sie hier einen angeben."
 "Image": "Bild"
-"In the contenttype for '%contenttype%', the field '%field%' has 'type: %type%', which is not a proper fieldtype. Please edit contenttypes.yml, and correct this.": "%contenttype%': das Feld '%field%' hat den Typ '%type%', was kein valider Feldtyp mehr ist. Bitte contenttypes.yml editieren und dies korregieren."
-"In the contenttype for '%contenttype%', the field '%field%' has 'uses: %uses%', but the field '%uses%' does not exist. Please edit contenttypes.yml, and correct this.": "%contenttype%': das Feld '%field%' nutzt die Angabe 'uses: %uses%', und referenziert auf ein nicht existentes Feld. Bitte contenttypes.yml editieren und dies korregieren."
-"In the contenttype for '%contenttype%', the field '%field%' is defined, which is a reserved name. Please edit contenttypes.yml, and correct this.": "%contenttype%: Das Feld '%field%' ist definiert, was ein reservierter Name ist. Bitte contenttypes.yml editieren und dies korregieren."
 "Info": "Info"
 "Install a new Extension": "Eine neue Erweiterung installieren"
 "Install all Packages": "Installiere alle Pakete"
@@ -205,10 +172,7 @@
 "Installation complete": "Installation ausgeführt"
 "Installing package": "Installiere Paket"
 "Installing selected package version (this may take up to 60 seconds).": "Installiere ausgewählte Paketversion (Dies kann bis zu 60 Sekunden dauern)."
-"Last IP": "Letzte IP"
-"Last edited on:": "Zuletzt bearbeitet am:"
-"Last known IP": "Letzte IP-Adresse"
-"Last modified %contenttypes%": "Zuletzt bearbeitete %contenttypes%"
+"Contenttypes": "Datentypen"
 "Last seen": "Zuletzt gesehen"
 "Latest entries": "Neueste Einträge"
 "Listing template": "Listenvorlage"
@@ -226,11 +190,6 @@
 "Modifications needed:": "Benötigte Änderungen:"
 "Modified": "Bearbeitet"
 "More info/help": "Mehr Info/Hilfe"
-"No %contenttypes% available.": "Keine %contenttypes%."
-"No Stable Versions Available": "Keine stabilen Versionen verfügbar"
-"No Test Versions Available": "Keine Test-Versionen verfügbar"
-"No latest %contenttype%": "Keine neuesten %contenttype%"
-"No recent %contenttype%.": "Keine letzten %contenttype%"
 "No relations found!": "Keine Verknüpfungen gefunden!"
 "No results found for '%search%'. Please try another search.": "Keine Ergebnisse für %search% gefunden. Bitte einen anderen Suchbegriff probieren."
 "No such action for content.": "Aktion für diesen Inhalt nicht gefunden."
@@ -246,13 +205,12 @@
 "Overview for": "Übersicht für"
 "Owner": "Besitzer"
 "Owner:": "Besitzer:"
-"Page": "Seite"
-"Password": "Passwort"
-"Password (confirm)": "Passwort (bestätigen)"
-"Password (confirmation)": "Passwort (Bestätigung)"
-"Password reset not successful! Either the token was incorrect, or you were too late, or you tried to reset the password from a different IP-address.": "Passwort wurde nicht zurückgesetzt. Entweder war das Token verkehrt, die Zeit war überschritten, oder sie haben versucht von einer anderen IP-Adresse das Passwort zurückzusetzen."
-"Password reset successful! You can now log on with the password that was sent to you via email.": "Passwort erfolgreich zurückgesetzt! Sie können sich nun mit dem an sie per E-Mail versandten Passwort neu anmelden."
-"Passwords must match.": "Passwörter müssen gleich sein."
+"Do you really want to delete %foldername%?": "Möchten sie das Verzeichnis %foldername% wirklich löschen?"
+"Done!": "Fertig!"
+"Draft": "Entwurf"
+"Duplicate %filename%": "%filename% kopieren"
+"Edit": "Bearbeiten"
+"Edit file": "Datei bearbeiten"
 "Path": "Pfad"
 "Path to image file": "Bildpfad"
 "Path:": "Pfad"
@@ -272,12 +230,12 @@
 "Profile": "Profil"
 "Provided by:": "Veröffentlicht von:"
 "Publication date:": "Datum der Veröffentlichung:"
-"Publish %contenttype%": "%contenttype% veröffentlichen"
 "Publish selected": "Veröffentlichen angewählt"
 "Published": "Veröffentlicht"
 "Published on:": "Veröffentlicht am:"
 "Read more": "Mehr …"
-"Recent %contenttypes%": "Neue %contenttypes%"
+"Last edited on:": "Zuletzt bearbeitet am:"
+"Last known IP": "Letzte IP-Adresse"
 "Related content": "Verknüpfter Inhalt"
 "Related content:": "Verknüpfte Inhalte"
 "Relationships": "Beziehungen"
@@ -288,7 +246,8 @@
 "Run all Updates": "Alle Aktualisierungen ausführen"
 "Run update check": "Auf Aktualisierungen prüfen"
 "Running install of all packages …": "Installation aller Pakete ausführen …"
-"Save %contenttype%": "%contenttype% speichern"
+"No Stable Versions Available": "Keine stabilen Versionen verfügbar"
+"No Test Versions Available": "Keine Test-Versionen verfügbar"
 "Save & create new record": "Speichern & neuen Datensatz erstellen"
 "Save & return to overview": "Speichern & zurück zur Übersicht"
 "Saved on:": "Gespeichert am:"
@@ -323,10 +282,8 @@
 "Taxonomy": "Taxonomie"
 "Thanks": "Dank an"
 "That user does not exist.": "Der Benutzer ist nicht bekannt."
-"The %contenttype% you were looking for does not exist. It was probably deleted, or it never existed.": "Der gesuchte Datentyp '%contenttype%' konnte nicht gefunden werden."
-"The activitylog has been cleared.": "Die Aktivitätshistorie wurde gelöscht."
-"The activitylog has been trimmed.": "Die Aktivitätshistorie wurde aufgeräumt."
-"The changes to this %contenttype% have been saved.": "Die Änderungen an %contenttype% wurden gespeichert."
+"Password reset not successful! Either the token was incorrect, or you were too late, or you tried to reset the password from a different IP-address.": "Passwort wurde nicht zurückgesetzt. Entweder war das Token verkehrt, die Zeit war überschritten, oder sie haben versucht von einer anderen IP-Adresse das Passwort zurückzusetzen."
+"Password reset successful! You can now log on with the password that was sent to you via email.": "Passwort erfolgreich zurückgesetzt! Sie können sich nun mit dem an sie per E-Mail versandten Passwort neu anmelden."
 "The database needs to be updated/repaired. Go to 'Settings' > '<a href=\"%link%\">Check Database</a>' to do this now.": "Die Datenbank muss auf den neuesten Stand gebracht oder repariert werden. Gehen sie auf 'Einstellungen' > '<a href=\"%link%\"'>Datenbank überprüfen</a>' um dies zu tun."
 "The extensions directory (<code>%dir%</code>) does not exist, or it is not writable.": "Das Erweiterungsverzeichnis (<code>%dir%</code>) existiert nicht oder ist nicht beschreibbar."
 "The field %field% has been changed to \"%newValue%\"": "Das Feld %field% wurde in \"%newValue%\" geändert"
@@ -335,7 +292,6 @@
 "The folder '%s' could not be found, or is not readable.": "Verzeichnis '%s' nicht gefunden oder nicht lesbar"
 "The following file could not be read:": "Die folgende Datei konnte nicht gelesen werden:"
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "Die ID und das Kürzel für '%taxonomytype%' sind nicht die selben ('%slug%' und '%taxonomytype%'). Bitte editieren sie taxonomy.yml um eventuelle Inkonsistenzen in Templates oder der Datenbank zu verhindern."
-"The new %contenttype% has been saved.": "Neuer %contenttype% wurde gespeichert."
 "The requested changelog entry doesn't exist.": "Der angeforderte Änderungsverlauf existiert nicht."
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": "Die Einstellungen und Berechtigungen werden in <code>%permissions%</code> gespeichert."
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "Das Kürzel '%slug%' wird in mehreren Datentypen verwendet. Bitte sorgen sie in contenttypes.yml für Einzigartigkeit."
@@ -348,15 +304,6 @@
 "There are no users in the database. Please create the first user.": "Es gibt keine Benutzer in der Datenbank. Bitte zunächst einen Benutzer erstellen."
 "There are no users present in the system. Please create the first user, which will be granted root privileges.": "Auf dem System existieren keine Benutzer. Bitte legen sie den ersten Benutzer an. Dieser bekommt automatisch Root-Rechte."
 "There should always be at least one 'root' user. You have just been promoted. Congratulations!": "Es sollte immer nur einen 'root' Benutzer geben. Sie wurden soeben befördert. Glückwunsch!"
-"There was an error saving this %contenttype%.": "Fehler beim Speichern von %contenttype%."
-"This %contenttype% has not been saved yet.": "%contenttype% wurde noch nicht gespeichert."
-"This %contenttype% was created": "%contenttype% wurde erstellt"
-"This displayname is already in use. Choose another displayname.": "Dieser Anzeigename ist bereits in Verwendung. Bitte andere Wahl treffen."
-"This email address is already in use. Choose another email address.": "Diese E-Mail Adresse wird bereits benutzt. Bitte eine andere wählen."
-"This is a checkbox": "Das ist ein Kontrollkästchen"
-"This record is related to:": "Dieser Datensatz ist verknüpft mit:"
-"This username is already in use. Choose another username.": "Benutzername bereits in Verwendung. Bitte andere Wahl treffen."
-"This value is too short. It should have 6 characters or more.": "Der Wert ist zu kurz. Bitte mindestens 6 Zeichen Länge."
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Erstellt mit <a href='%url%' target='_blank' title='Anspruchsvolles, leichtgewichtiges & simples CMS'>Bolt</a>."
 "This will install all available updates.": "Dies wird alle verfügbaren Aktualisierungen vornehmen"
 "This will make sure all packages listed are installed. Use this if you've recently moved to a new server or if you have manually added an extension.": "Dies überprüft, ob alle gelisteten Pakete auch installiert sind. Prüfen sie hiermit, wenn sie kürzlich auf einen neuen Server umgezogen sind oder eine Erweiterung manuell hinzugefügt haben."
@@ -370,7 +317,6 @@
 "Types": "Typen"
 "Unstable Test Versions": "Nichtstabile Testversionen"
 "Update the database": "Datenbank updaten"
-"Updated user '%s'.": "Benutzer '%s' aktualisiert."
 "Updates": "Aktualisierungen"
 "Upload": "Hochladen"
 "Upload a file to this folder": "Eine Datei in dieses Verzeichnis hochladen"
@@ -379,21 +325,19 @@
 "Uploaded files": "Hochgeladene Dateien"
 "Uploading to this folder is not allowed.": "Das Hochladen in dieses Verzeichnis ist nicht erlaubt."
 "Used Libraries / Components": "Verwendete Bibliotheken/Komponenten"
-"User %s could not be saved, or nothing was changed.": "Benutzer %s konnte nicht gespeichert werden, oder es wurde nichts geändert."
-"User %s has been saved.": "Benutzer %s wurde gespeichert."
+"The activitylog has been cleared.": "Die Aktivitätshistorie wurde gelöscht."
+"The activitylog has been trimmed.": "Die Aktivitätshistorie wurde aufgeräumt."
 "User '%s' could not be deleted.": "Benutzer '%s' konnte nicht gelöscht werden."
 "User '%s' could not be disabled.": "Benutzer '%s' konnte nicht deaktiviert werden."
 "User '%s' could not be enabled.": "Benutzer '%s' konnte nicht aktiviert werden."
 "User '%s' is deleted.": "Benutzer '%s' wurde gelöscht."
 "User '%s' is disabled.": "Benutzer '%s' wurde deaktiviert."
 "User '%s' is enabled.": "Benutzer '%s' wurde aktiviert."
-"User is enabled": "Benutzer ist aktiviert."
 "Username": "Benutzername"
 "Username or password not correct. Please check your input.": "Benutzername oder Passwort falsch. Bitte Eingabe überprüfen."
 "Users": "Benutzer"
 "Version": "Version"
 "Version:": "Version:"
-"View %contenttypes%": "%contenttypes% anzeigen"
 "View (saved version) on site": "(Gespeicherte Version) innerhalb der Webseite anzeigen"
 "View on site": "Auf der Site anzeigen"
 "View related content": "Verknüpfte Inhalte anzeigen"
@@ -401,7 +345,8 @@
 "View/edit Templates": "Templates anzeigen/bearbeiten"
 "View/install Extensions": "Erweiterungen anzeigen/installieren"
 "Written by <em>%name%</em> on %date%": "Geschrieben von <em>%name%</em> am %date%"
-"You are currently using SQLite to set up the first user. If you wish to use MySQL or PostgreSQL instead, edit the configuration file at <tt>'app/config/config.yml'</tt> and Bolt will set up the database tables for you. Be sure to reload this page before continuing.": "Sie verwenden momentan SQLite um den ersten Benutzer anzulegen. Wenn sie MySQL oder PostgreSQL benutzen wollen, bearbeiten sie <tt>'app/config/config.yml'</tt> und Bolt wir die Datenbank für sie erzeugen. Laden sie dann die Seite neu, bevor sie fortfahren"
+"This is a checkbox": "Das ist ein Kontrollkästchen"
+"This record is related to:": "Dieser Datensatz ist verknüpft mit:"
 "You can discover new extensions by visiting": "Sie können hier neue Erweiterungen entdecken:"
 "You can now start using the installed extension, documentation and implementation instructions can be found using the link below.": "Sie können die installierte Eerweiterung jetzt verwenden. Dokumentation und weitere Anweisungen kann unter dem Link weiter unten gefunden werden."
 "You do not have the right privileges to create a new record.": "Sie haben nicht die passende Berechtigung um einen neuen Eintrag zu verfassen."
@@ -422,15 +367,11 @@
 "by": "von"
 "in:": "in:"
 "line": "Zeile"
-"no": "nein"
 "no content …": "kein Inhalt"
 "no title …": "kein Titel"
 "none": "nichts"
 "of": "von"
 "show all": "alle anzeigen"
-"yes": "ja"
-
-#--- 76 keyword based translations --------------------------------------------
 
 component:
     changelog-detail:
@@ -478,8 +419,6 @@ generic:
     noscript:
         headline: "Javascript nicht verfügbar"
         message: "Javascript ist in Ihrem Browser deaktiviert. Vieles wird auch ohne funtkionieren, doch um Bolt vollständig nutzen zu können raten wir ihnen Javascript zu aktivieren."
-    text:
-        new-contentype: "%contenttype% erstellen"
 
 page:
     ckeditor-browse-server:
@@ -493,10 +432,6 @@ page:
         button:
             add: "Hinzufügen …"
         empty-database: "Es scheint, als seien keine Inhalte in der Datenbank."
-        link:
-            show-more: "Weitere %contenttypes%"
-        quickstart: "Um schnell zu starten, können sie die die Datenbank einfach mit <a href='%url%'>Lorem Ipsum Inhalten füllen</a>."
-        recently-edited: "Kürzlich bearbeitete %contenttypes%"
         title: "Übersicht"
     edit-file:
         button:
@@ -515,8 +450,6 @@ page:
             edit: "Datei bearbeiten"
             view: "Datei anzeigen"
     edit-users:
-        button:
-            save: "Benutzer speichern"
         title:
             create: "Neuen Benutzer erstellen"
             edit: "Benutzer bearbeiten"
@@ -550,3 +483,5 @@ panel:
         logged-out: "abgemeldet"
         saved: "Gespeichert"
         unknown: "unbekannt"
+
+#--- 130 keyword based translations -------------------------------------------

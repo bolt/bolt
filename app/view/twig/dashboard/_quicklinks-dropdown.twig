@@ -9,7 +9,7 @@
             <li>
                 <a href="{{ path('editcontent', { 'contenttypeslug': contenttypeslug, 'id': '' }) }}">
                     <i class="fa fa-plus"></i>
-                    {{ __('generic.text.new-contentype', {'%contenttype%': contenttype.singular_name}) }}
+                    {{ __('contenttypes.generic.new', {'%contenttype%': contenttypeslug}) }}
                 </a>
             </li>
         {% endif %}

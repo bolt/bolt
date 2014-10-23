@@ -135,7 +135,7 @@
                     {% if content.status != 'published' %}
                         {% if isallowed('publish', content) %}
 
-                        <li>{{ macro.actionform(content, 'publish', 'fa-circle status-published', __('Publish %contenttype%',{'%contenttype%':content.contenttype.singular_name})) }}</li>
+                        <li>{{ macro.actionform(content, 'publish', 'fa-circle status-published', __('contenttypes.generic.publish',{'%contenttype%':content.contenttype.slug})) }}</li>
                         {% endif %}
                     {% else %}
                         {% if isallowed('depublish', content) %}
@@ -146,12 +146,12 @@
                     {% endif %}
                     {% if isallowed('create', content) %}
                     <li><a href="{{ path('editcontent', { 'contenttypeslug': content.contenttype.slug, 'id': content.id, 'duplicate': 1 }) }}">
-                        <i class="fa fa-copy"></i> {{ __('Duplicate %contenttype%', {'%contenttype%': content.contenttype.singular_name}) }}</a></li>
+                        <i class="fa fa-copy"></i> {{ __('contenttypes.generic.duplicate', {'%contenttype%': content.contenttype.slug}) }}</a></li>
                     {% endif %}
                     {% if isallowed('delete', content) %}
                     <li>{{ macro.actionform(content, 'delete',
                                           'fa-trash',
-                                          __('Delete %contenttype%',{'%contenttype%':content.contenttype.singular_name}),
+                                          __('contenttypes.generic.delete', {'%contenttype%': content.contenttype.slug}),
                                           "Are you sure you want to delete '" ~ content.getTitle ~ "'?" ) }}
                     </li>
 
