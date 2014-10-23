@@ -364,6 +364,6 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
         );
 
         $rel = $config->findRelativePath(TEST_ROOT, TEST_ROOT . '/A/B');
-        $this->assertEquals('A/B', $rel);
+        $this->assertEquals('A/B/', $rel);
     }
 }
