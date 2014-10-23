@@ -346,7 +346,7 @@ class Users
     {
         $this->deleteExpiredSessions();
 
-        $query = "SELECT * FROM " . $this->authtokentable;
+        $query = sprintf('SELECT * FROM %s', $this->authtokentable);
         $sessions = $this->db->fetchAll($query);
 
         return $sessions;
