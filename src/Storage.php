@@ -1782,12 +1782,12 @@ class Storage
             }
 
             if (count($where) > 0) {
-                $query['where'] = 'WHERE ( ' . implode(' AND ', $where) . ' )';
+                $query['where'] = sprintf('WHERE (%s)', implode(' AND ', $where));
             }
             if (count($order) > 0) {
                 $order = implode(', ', $order);
                 if (!empty($order)) {
-                    $query['order'] = 'ORDER BY ' . $order;
+                    $query['order'] = sprintf('ORDER BY %s', $order);
                 }
             }
 
