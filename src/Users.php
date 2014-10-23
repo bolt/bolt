@@ -463,9 +463,6 @@ class Users
                 // Oops. User will get a warning on the dashboard about tables that need to be repaired.
             }
 
-            // Take a nap, to prevent brute-forcing. Zzzzz...
-            sleep(1);
-
             return false;
         }
     }
