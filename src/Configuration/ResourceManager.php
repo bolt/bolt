@@ -56,7 +56,7 @@ class ResourceManager
      *
      * Optional ones:
      * 'request' - Symfony\Component\HttpFoundation\Request
-     * 'verifier' -
+     * 'verifier' - LowLevelChecks verifier
      */
     public function __construct(\ArrayAccess $container)
     {
@@ -101,11 +101,6 @@ class ResourceManager
 
     }
 
-    public function setApp(Application $app)
-    {
-        static::$theApp = $this->app = $app;
-    }
-
     public function useLoader(ClassLoader $loader)
     {
         $this->classLoader = $loader;
@@ -113,6 +108,15 @@ class ResourceManager
         $expath = explode('vendor', $ldpath);
 
         return $this->setPath('root', $expath[0]);
+    }
+
+    /*
+     * Setters
+     */
+
+    public function setApp(Application $app)
+    {
+        static::$theApp = $this->app = $app;
     }
 
     public function setPath($name, $value)
@@ -385,6 +389,7 @@ class ResourceManager
         }
 
         // Strip last separator
-        return substr($relpath, 0, -1);
+        return $this->pathManager->create(substr($relpath, 0, -1));
     }
+
 }
