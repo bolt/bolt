@@ -1152,8 +1152,6 @@ class Storage
             if (!empty($filter_where)) {
                 $where[] = "(" . implode(" OR ", $filter_where) . ")";
             }
-
-
         }
 
         // @todo This is preparation for stage 2..
@@ -1169,24 +1167,24 @@ class Storage
 
         // implode 'where'
         if (!empty($where)) {
-            $queryparams .= " WHERE (" . implode(" AND ", $where) . ")";
+            $queryparams .= sprintf('WHERE (%s)', implode(" AND ", $where));
         }
 
         // Order, with a special case for 'RANDOM'.
         if (!empty($parameters['order'])) {
             if ($parameters['order'] == "RANDOM") {
                 $dboptions = $this->app['config']->getDBOptions();
-                $queryparams .= " ORDER BY " . $dboptions['randomfunction'];
+                $queryparams .= sprintf(' ORDER BY %s', $dboptions['randomfunction']);
             } else {
                 $order = $this->getEscapedSortorder($parameters['order'], false);
                 if (!empty($order)) {
-                    $queryparams .= " ORDER BY " . $order;
+                    $queryparams .= sprintf(' ORDER BY %s', $order);
                 }
             }
         }
 
-        // Make the query for the pager..
-        $pagerquery = "SELECT COUNT(*) AS count FROM $tablename" . $queryparams;
+        // Make the query for the pager.
+        $pagerquery = sprintf('SELECT COUNT(*) AS count FROM %s %s', $tablename, $queryparams);
 
         // Add the limit
         $queryparams = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($queryparams, $limit, ($page - 1) * $limit);
