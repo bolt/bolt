@@ -737,7 +737,7 @@ class Users
     {
         if (empty($this->users) || !is_array($this->users)) {
 
-            $query = "SELECT * FROM " . $this->usertable;
+            $query = sprintf('SELECT * FROM %s', $this->usertable);
             $this->users = array();
 
             try {
