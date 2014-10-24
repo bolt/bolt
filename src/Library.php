@@ -880,7 +880,7 @@ class Library
     {
         $result = array();
         foreach ($params as $key => $val) {
-            $result[$key] = htmlencode($val);
+            $result[$key] = self::htmlencode($val);
         }
 
         return $result;
