@@ -21,7 +21,7 @@ class Library
      * @param bool $strip_control_chars
      * @return string
      */
-    function cleanPostedData($var, $stripslashes = true, $strip_control_chars = false)
+    public public static function cleanPostedData($var, $stripslashes = true, $strip_control_chars = false)
     {
         if (is_array($var)) {
             foreach ($var as $key => $value) {
@@ -56,7 +56,7 @@ class Library
      * @param string $requiredversion
      * @return boolean
      */
-    function checkVersion($currentversion, $requiredversion)
+    public static function checkVersion($currentversion, $requiredversion)
     {
         return version_compare($currentversion, $requiredversion) > -1;
     }
@@ -71,7 +71,7 @@ class Library
      * @param bool $nodoubleleadingslashes
      * @return string
      */
-    function fixPath($path, $nodoubleleadingslashes = true)
+    public static function fixPath($path, $nodoubleleadingslashes = true)
     {
         $path = str_replace("\\", "/", stripTrailingSlash($path));
 
@@ -110,7 +110,7 @@ class Library
      * @param string $path
      * @return string
      */
-    function stripTrailingSlash($path)
+    public static function stripTrailingSlash($path)
     {
         if (substr($path, -1, 1) == "/") {
             $path = substr($path, 0, -1);
@@ -125,7 +125,7 @@ class Library
      * @param integer $size
      * @return string
      */
-    function formatFilesize($size)
+    public static function formatFilesize($size)
     {
         if ($size > 1024 * 1024) {
             return sprintf("%0.2f mb", ($size / 1024 / 1024));
@@ -142,7 +142,7 @@ class Library
      * @param string $filename
      * @return string
      */
-    function getExtension($filename)
+    public static function getExtension($filename)
     {
         $pos = strrpos($filename, '.');
         if ($pos === false) {
@@ -163,7 +163,7 @@ class Library
      * @param string $extrachars
      * @return string
      */
-    function safeString($str, $strict = false, $extrachars = "")
+    public static function safeString($str, $strict = false, $extrachars = "")
     {
         $str = URLify::downcode($str);
         $str = str_replace("&amp;", "", $str);
@@ -193,7 +193,7 @@ class Library
      * @internal param string $type
      * @return string
      */
-    function makeSlug($str, $length = 64)
+    public static function makeSlug($str, $length = 64)
     {
 
         if (is_array($str)) {
@@ -219,7 +219,7 @@ class Library
      * @param string $filename
      * @return string
      */
-    function safeFilename($filename)
+    public static function safeFilename($filename)
     {
         $filename = rawurlencode($filename); // Use 'rawurlencode', because we prefer '%20' over '+' for spaces.
         $filename = str_replace("%2F", "/", $filename);
@@ -240,7 +240,7 @@ class Library
      * @param string $value
      * @return array
      */
-    function makeValuepairs($array, $key, $value)
+    public static function makeValuepairs($array, $key, $value)
     {
         $temp_array = array();
 
@@ -268,7 +268,7 @@ class Library
      * @param bool $striptags Strip html tags
      * @return string Trimmed string
      */
-    function trimText($str, $desiredLength, $nbsp = false, $hellip = true, $striptags = true)
+    public static function trimText($str, $desiredLength, $nbsp = false, $hellip = true, $striptags = true)
     {
         if ($hellip) {
             $ellipseStr = '…';
@@ -298,7 +298,7 @@ class Library
      * This function is not intended for 'public' usage, but since we're not in a
      * class, there is no way to enforce this.
      */
-    function _collectNodesUpToLength(\DOMNode $node, \DOMNode $parentNode, &$remainingLength, $ellipseStr = '…')
+    private function _collectNodesUpToLength(\DOMNode $node, \DOMNode $parentNode, &$remainingLength, $ellipseStr = '…')
     {
         if ($remainingLength <= 0) {
             return;
@@ -342,7 +342,7 @@ class Library
      *
      * @param DOMNode $node The node to process. Note that processing is in-place.
      */
-    function domSpacesToNBSP(\DOMNode $node)
+    public static function domSpacesToNBSP(\DOMNode $node)
     {
         $nbsp = html_entity_decode('&nbsp;');
         if ($node instanceof \DOMCharacterData) {
@@ -370,7 +370,7 @@ class Library
      * @param bool $nbsp If TRUE, convert all whitespace runs to non-breaking
      *                   spaces ('&nbsp;' entities).
      */
-    function trimToHTML($html, $desiredLength = null, $ellipseStr = "…", $stripTags = false, $nbsp = false)
+    public static function trimToHTML($html, $desiredLength = null, $ellipseStr = "…", $stripTags = false, $nbsp = false)
     {
         // We'll use htmlmaid to clean up the HTML, but because we also have to
         // step through the DOM ourselves to perform the trimming, so we'll do
@@ -465,7 +465,7 @@ class Library
      * @param string $str Input string. Treated as plain text.
      * @return string The resulting HTML
      */
-    function decorateTT($str)
+    public static function decorateTT($str)
     {
         $str = htmlspecialchars($str, ENT_QUOTES);
         $str = preg_replace('/`([^`]*)`/', '<tt>\\1</tt>', $str);
@@ -480,7 +480,7 @@ class Library
      * @param string $str
      * @return int String length
      */
-    function getStringLength($str)
+    public static function getStringLength($str)
     {
         if (function_exists('mb_strwidth')) {
             return mb_strwidth($str, 'UTF-8');
@@ -497,7 +497,7 @@ class Library
      * @param object $obj
      * @return array
      */
-    function hackislyParseRegexTemplates($obj)
+    public static function hackislyParseRegexTemplates($obj)
     {
         $str = print_r($obj, true);
 
@@ -522,7 +522,7 @@ class Library
      * @param string $add
      * @return string
      */
-    function path($path, $param = array(), $add = '')
+    public static function path($path, $param = array(), $add = '')
     {
         $app = ResourceManager::getApp();
 
@@ -545,7 +545,7 @@ class Library
      * @param string $add
      * @return string
      */
-    function redirect($path, $param = array(), $add = '')
+    public static function redirect($path, $param = array(), $add = '')
     {
         $app = ResourceManager::getApp();
 
@@ -572,7 +572,7 @@ class Library
      * @param string $path
      * @param boolean $die
      */
-    function simpleredirect($path, $die = true)
+    public static function simpleredirect($path, $die = true)
     {
         if (empty($path)) {
             $path = "/";
@@ -593,7 +593,7 @@ class Library
      * @param int $flags
      * @return bool
      */
-    function pcreFnmatch($pattern, $string, $flags = 0)
+    public static function pcreFnmatch($pattern, $string, $flags = 0)
     {
         $modifiers = null;
         $transforms = array(
@@ -644,7 +644,7 @@ class Library
      * @param string $html
      * @return bool
      */
-    function isHtml($html)
+    public static function isHtml($html)
     {
         $len = strlen($html);
 
@@ -670,7 +670,7 @@ class Library
      *            Set to true if you want an visible error.
      * @return mixed
      */
-    function loadSerialize($filename, $silent = false)
+    public static function loadSerialize($filename, $silent = false)
     {
         $filename = fixpath($filename);
 
@@ -732,7 +732,7 @@ class Library
      * @param mixed $data
      * @return boolean
      */
-    function saveSerialize($filename, &$data)
+    public static function saveSerialize($filename, &$data)
     {
         $filename = fixPath($filename);
 
@@ -805,7 +805,7 @@ class Library
      *
      * @see http://stackoverflow.com/a/2606638
      */
-    function str_replace_first($search, $replace, $subject)
+    public static function str_replace_first($search, $replace, $subject)
     {
         $pos = strpos($subject, $search);
         if ($pos !== false) {
@@ -841,7 +841,7 @@ class Library
      * @author Gabriel Sobrinho <gabriel (dot) sobrinho (at) gmail (dot) com>
      * @author Bob for bolt-specific excludes
      */
-    function array_merge_recursive_distinct(array &$array1, array &$array2)
+    public static function array_merge_recursive_distinct(array &$array1, array &$array2)
     {
         $merged = $array1;
 
@@ -863,7 +863,7 @@ class Library
         return $merged;
     }
 
-    function getReferrer(Symfony\Component\HttpFoundation\Request $request)
+    public static function getReferrer(Symfony\Component\HttpFoundation\Request $request)
     {
         $tmp = parse_url($request->server->get('HTTP_REFERER'));
 
@@ -875,12 +875,12 @@ class Library
         return $referrer;
     }
 
-    function htmlencode($str)
+    public static function htmlencode($str)
     {
         return htmlspecialchars($str, ENT_QUOTES);
     }
 
-    function htmlencode_params($params)
+    public static function htmlencode_params($params)
     {
         $result = array();
         foreach ($params as $key => $val) {
@@ -900,7 +900,7 @@ class Library
      * and try to get a translated string. If there is not, we revert to
      * the generic (%contenttype%) string, which must have a translation.
      */
-    function __()
+    public static function __()
     {
         $app = ResourceManager::getApp();
 
@@ -1044,7 +1044,7 @@ class Library
      * Leniently decode a serialized compound data structure, detecting whether
      * it's dealing with JSON-encoded data or a PHP-serialized string.
      */
-    function smart_unserialize($str, $assoc = true)
+    public static function smart_unserialize($str, $assoc = true)
     {
         if ($str[0] === '{' || $str[0] === '[') {
             $data = json_decode($str, $assoc);
