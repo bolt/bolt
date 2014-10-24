@@ -9,7 +9,7 @@
                 <li><span><i style="font-weight: bold" class="fa fa-angle-left"></i></span></li>
             {% endif %}
 
-            <li><span>{{ __('Page') }} {{ currentpage }} / {{ pagecount }}</span></li>
+            <li><span>{{ __('component.changelog-pager.page') }} {{ currentpage }} / {{ pagecount }}</span></li>
 
             {% if currentpage < pagecount %}
                 <li><a href="?page={{ currentpage + 1 }}"><i style="font-weight: bold" class="fa fa-angle-right"></i></a></li>
