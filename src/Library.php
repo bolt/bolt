@@ -195,7 +195,6 @@ class Library
      */
     public static function makeSlug($str, $length = 64)
     {
-
         if (is_array($str)) {
             $str = implode(" ", $str);
         }
