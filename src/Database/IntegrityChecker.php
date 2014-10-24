@@ -15,6 +15,8 @@ use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\TableDiff;
 
+use Bolt\Library as Lib;
+
 class IntegrityChecker
 {
     /**
@@ -619,7 +621,7 @@ class IntegrityChecker
      */
     protected function getTablename($name)
     {
-        $name = str_replace("-", "_", makeSlug($name));
+        $name = str_replace("-", "_", Lib::makeSlug($name));
         $tablename = sprintf("%s%s", $this->prefix, $name);
 
         return $tablename;
