@@ -346,7 +346,7 @@ class Library
         }
         if (!empty($node->childNodes)) {
             foreach ($node->childNodes as $child) {
-                domSpacesToNBSP($child);
+                self::domSpacesToNBSP($child);
             }
         }
     }
@@ -420,7 +420,7 @@ class Library
         // This will actually insert the unicode non-breaking space, so we'll have
         // to massage our output at the HTML byte-string level later.
         if ($nbsp) {
-            domSpacesToNBSP($newNode->firstChild->firstChild);
+            self::domSpacesToNBSP($newNode->firstChild->firstChild);
         }
 
         // This is some terrible shotgun hacking; for some reason, the above code
