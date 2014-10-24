@@ -1111,8 +1111,8 @@ class Backend implements ControllerProviderInterface
         $note = '';
 
         $enabledoptions = array(
-            1 => Lib::__('yes'),
-            0 => Lib::__('no')
+            1 => Lib::__('page.edit-users.activated.yes'),
+            0 => Lib::__('page.edit-users.activated.no')
         );
 
         $allRoles = $app['permissions']->getDefinedRoles($app);
@@ -1130,7 +1130,7 @@ class Backend implements ControllerProviderInterface
             // Add a note, if we're setting up the first user using SQLite..
             $dbdriver = $app['config']->get('general/database/driver');
             if ($dbdriver == 'sqlite' || $dbdriver == 'pdo_sqlite') {
-                $note = Lib::__('You are currently using SQLite to set up the first user. If you wish to use MySQL or PostgreSQL instead, edit the configuration file at <tt>\'app/config/config.yml\'</tt> and Bolt will set up the database tables for you. Be sure to reload this page before continuing.');
+                $note = Lib::__('page.edit-users.note-sqlite');
             }
 
             // If we get here, chances are we don't have the tables set up, yet.
@@ -1146,38 +1146,38 @@ class Backend implements ControllerProviderInterface
             ->add('id', 'hidden')
             ->add('username', 'text', array(
                 'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min' => 2, 'max' => 32))),
-                'label' => Lib::__('Username'),
+                'label' => Lib::__('page.edit-users.label.username'),
                 'attr' => array(
-                    'placeholder' => Lib::__('Pick a username, lowercase only')
+                    'placeholder' => Lib::__('page.edit-users.placeholder.username')
                 )
             ))
             ->add('password', 'password', array(
                 'required' => false,
-                'label' => Lib::__('Password'),
+                'label' => Lib::__('page.edit-users.label.password'),
                 'attr' => array(
-                    'placeholder' => Lib::__('Enter a password, longer than 6 chars')
+                    'placeholder' => Lib::__('page.edit-users.placeholder.password')
                 )
 
             ))
             ->add('password_confirmation', 'password', array(
                 'required' => false,
-                'label' => Lib::__('Password (confirm)'),
+                'label' => Lib::__('page.edit-users.label.password-confirm'),
                 'attr' => array(
-                    'placeholder' => Lib::__('Confirm your password')
+                    'placeholder' => Lib::__('page.edit-users.placeholder.password-confirm')
                 )
             ))
             ->add('email', 'text', array(
                 'constraints' => new Assert\Email(),
-                'label' => Lib::__('Email'),
+                'label' => Lib::__('page.edit-users.label.email'),
                 'attr' => array(
-                    'placeholder' => Lib::__('Enter a valid email address')
+                    'placeholder' => Lib::__('page.edit-users.placeholder.email')
                 )
             ))
             ->add('displayname', 'text', array(
                 'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min' => 2, 'max' => 32))),
-                'label' => Lib::__('Display name'),
+                'label' => Lib::__('page.edit-users.label.display-name'),
                 'attr' => array(
-                    'placeholder' => Lib::__('Pick a display name / alias')
+                    'placeholder' => Lib::__('page.edit-users.placeholder.displayname')
                 )
             ));
 
@@ -1191,7 +1191,7 @@ class Backend implements ControllerProviderInterface
                     'choices' => $enabledoptions,
                     'expanded' => false,
                     'constraints' => new Assert\Choice(array_keys($enabledoptions)),
-                    'label' => Lib::__('User is enabled'),
+                    'label' => Lib::__('page.edit-users.label.user-enabled'),
                 )
             )->add(
                 'roles',
@@ -1200,7 +1200,7 @@ class Backend implements ControllerProviderInterface
                     'choices' => $roles,
                     'expanded' => true,
                     'multiple' => true,
-                    'label' => Lib::__('Assigned roles'),
+                    'label' => Lib::__('page.edit-users.label.assigned-roles'),
                 )
             );
         }
@@ -1212,14 +1212,14 @@ class Backend implements ControllerProviderInterface
                 'text',
                 array(
                     'disabled' => true,
-                    'label' => Lib::__('Last seen')
+                    'label' => Lib::__('page.edit-users.label.last-seen')
                 )
             )->add(
                 'lastip',
                 'text',
                 array(
                     'disabled' => true,
-                    'label' => Lib::__('Last IP')
+                    'label' => Lib::__('page.edit-users.label.last-ip')
                 )
             );
         }
@@ -1236,28 +1236,28 @@ class Backend implements ControllerProviderInterface
                 // If adding a new user (empty $id) or if the password is not empty (indicating we want to change it),
                 // then make sure it's at least 6 characters long.
                 if ((empty($id) || !empty($pass1)) && strlen($pass1) < 6) {
-                    $error = new FormError(Lib::__('This value is too short. It should have 6 characters or more.'));
+                    $error = new FormError(Lib::__('page.edit-users.error.password-short'));
                     $form['password']->addError($error);
                 }
 
                 // Passwords must be identical..
                 if ($pass1 != $pass2) {
-                    $form['password_confirmation']->addError(new FormError(Lib::__('Passwords must match.')));
+                    $form['password_confirmation']->addError(new FormError(Lib::__('page.edit-users.error.password-mismatch')));
                 }
 
                 // Usernames must be unique..
                 if (!$app['users']->checkAvailability('username', $form['username']->getData(), $id)) {
-                    $form['username']->addError(new FormError(Lib::__('This username is already in use. Choose another username.')));
+                    $form['username']->addError(new FormError(Lib::__('page.edit-users.error.username-used')));
                 }
 
                 // Email addresses must be unique..
                 if (!$app['users']->checkAvailability('email', $form['email']->getData(), $id)) {
-                    $form['email']->addError(new FormError(Lib::__('This email address is already in use. Choose another email address.')));
+                    $form['email']->addError(new FormError(Lib::__('page.edit-users.error.email-used')));
                 }
 
                 // Displaynames must be unique..
                 if (!$app['users']->checkAvailability('displayname', $form['displayname']->getData(), $id)) {
-                    $form['displayname']->addError(new FormError(Lib::__('This displayname is already in use. Choose another displayname.')));
+                    $form['displayname']->addError(new FormError(Lib::__('page.edit-users.error.displayname-used')));
                 }
             }
         );
@@ -1281,15 +1281,15 @@ class Backend implements ControllerProviderInterface
                 $res = $app['users']->saveUser($user);
 
                 if ($user['id']) {
-                    $app['log']->add(Lib::__("Updated user '%s'.", array('%s' => $user['displayname'])), 3, '', 'user');
+                    $app['log']->add(Lib::__('page.edit-users.log.user-updated', array('%user%' => $user['displayname'])), 3, '', 'user');
                 } else {
-                    $app['log']->add(Lib::__("Added user '%s'.", array('%s' => $user['displayname'])), 3, '', 'user');
+                    $app['log']->add(Lib::__('page.edit-users.log.user-added', array('%user%' => $user['displayname'])), 3, '', 'user');
                 }
 
                 if ($res) {
-                    $app['session']->getFlashBag()->set('success', Lib::__('User %s has been saved.', array('%s' => $user['displayname'])));
+                    $app['session']->getFlashBag()->set('success', Lib::__('page.edit-users.message.user-saved', array('%user%' => $user['displayname'])));
                 } else {
-                    $app['session']->getFlashBag()->set('error', Lib::__('User %s could not be saved, or nothing was changed.', array('%s' => $user['displayname'])));
+                    $app['session']->getFlashBag()->set('error', Lib::__('page.edit-users.message.saving-user', array('%user%' => $user['displayname'])));
                 }
 
                 if ($firstuser) {
@@ -1330,19 +1330,19 @@ class Backend implements ControllerProviderInterface
             ->add('id', 'hidden')
             ->add('password', 'password', array(
                 'required' => false,
-                'label' => Lib::__('Password')
+                'label' => Lib::__('page.edit-users.label.password')
             ))
             ->add('password_confirmation', 'password', array(
                 'required' => false,
-                'label' => Lib::__("Password (confirmation)")
+                'label' => Lib::__('page.edit-users.label.password-confirm')
             ))
             ->add('email', 'text', array(
                 'constraints' => new Assert\Email(),
-                'label' => Lib::__('Email')
+                'label' => Lib::__('page.edit-users.label.email')
             ))
             ->add('displayname', 'text', array(
                 'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min' => 2, 'max' => 32))),
-                'label' => Lib::__('Display name')
+                'label' => Lib::__('page.edit-users.label.display-name')
             ));
 
         // Make sure the passwords are identical and some other check, with a custom validator.
@@ -1360,23 +1360,23 @@ class Backend implements ControllerProviderInterface
                     // screw it. Let's just not translate this message for now. Damn you, stupid non-cooperative
                     // translation thingy. $error = new FormError("This value is too short. It should have {{ limit }}
                     // characters or more.", array('{{ limit }}' => 6), 2);
-                    $error = new FormError(Lib::__('This value is too short. It should have 6 characters or more.'));
+                    $error = new FormError(Lib::__('page.edit-users.error.password-short'));
                     $form['password']->addError($error);
                 }
 
                 // Passwords must be identical.
                 if ($pass1 != $pass2) {
-                    $form['password_confirmation']->addError(new FormError(Lib::__('Passwords must match.')));
+                    $form['password_confirmation']->addError(new FormError(Lib::__('page.edit-users.error.password-mismatch')));
                 }
 
                 // Email addresses must be unique..
                 if (!$app['users']->checkAvailability('email', $form['email']->getData(), $id)) {
-                    $form['email']->addError(new FormError(Lib::__('This email address is already in use. Choose another email address.')));
+                    $form['email']->addError(new FormError(Lib::__('page.edit-users.error.email-used')));
                 }
 
                 // Displaynames must be unique..
                 if (!$app['users']->checkAvailability('displayname', $form['displayname']->getData(), $id)) {
-                    $form['displayname']->addError(new FormError(Lib::__('This displayname is already in use. Choose another displayname.')));
+                    $form['displayname']->addError(new FormError(Lib::__('page.edit-users.error.displayname-used')));
                 }
             }
         );
@@ -1395,11 +1395,11 @@ class Backend implements ControllerProviderInterface
                 $user = $form->getData();
 
                 $res = $app['users']->saveUser($user);
-                $app['log']->add(Lib::__("Updated user '%s'.", array('%s' => $user['displayname'])), 3, '', 'user');
+                $app['log']->add(Lib::__('page.edit-users.log.user-updated', array('%user%' => $user['displayname'])), 3, '', 'user');
                 if ($res) {
-                    $app['session']->getFlashBag()->set('success', Lib::__('User %s has been saved.', array('%s' => $user['displayname'])));
+                    $app['session']->getFlashBag()->set('success', Lib::__('page.edit-users.message.user-saved', array('%user%' => $user['displayname'])));
                 } else {
-                    $app['session']->getFlashBag()->set('error', Lib::__('User %s could not be saved, or nothing was changed.', array('%s' => $user['displayname'])));
+                    $app['session']->getFlashBag()->set('error', Lib::__('page.edit-users.message.saving-user', array('%user%' => $user['displayname'])));
                 }
 
                 return Lib::redirect('profile');

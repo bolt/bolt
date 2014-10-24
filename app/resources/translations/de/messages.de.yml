@@ -1,10 +1,12 @@
-# app/resources/translations/de/messages.de.yml – generated on 2014-10-23 21:27:11 UTC
+# app/resources/translations/de/messages.de.yml – generated on 2014-10-24 21:35:20 UTC
 
-# Warning: Translations are moved to a new keyword based translation at the moment.
-#          This is an ongoing process. Translations in repo are automatically mapped
-#          to the new scheme. Be aware that there can be a race condition between
-#          that process and your PR so that it's eventiually neccessry to remap your
-#          translations. So perhaps it's best to ask on IRC to time your contribution.
+# Warning: Translations are in the process of being moved to a new keyword-based translation
+#          at the moment. This is an ongoing process. Translations currently in the
+#          repository are automatically mapped to the new scheme. Be aware that there
+#          can be a race condition between that process and your PR so that it's
+#          eventually neccessary to remap your translations. If you're planning on
+#          updating your translations, it's best to ask on IRC to time your contribution
+#          in order to prevent merge conflicts.
 
 #  no unused messages
 #  20 untranslated messages

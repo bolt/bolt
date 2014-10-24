@@ -992,46 +992,8 @@ class Library
 
                 return $trans;
             }
-            // BEGIN OLD CODE
-            $keytype = '%contenttype%';
-            $keytypes = '%contenttypes%';
-            $have_singular = array_key_exists($keytype, $tr_args);
-            $have_plural = array_key_exists($keytypes, $tr_args);
-            if ($have_singular || $have_plural) {
-                // have a %contenttype% placeholder, try to find a specialized translation
-                if ($have_singular) {
-                    $text = str_replace($keytype, $tr_args[$keytype], $args[0]);
-                    unset($tr_args[$keytype]);
-                } else {
-                    $text = str_replace($keytypes, $tr_args[$keytypes], $args[0]);
-                    unset($tr_args[$keytypes]);
-                }
-
-                if ($fn == 'transChoice') {
-                        $trans = $app['translator']->transChoice(
-                            $text,
-                            $args[1],
-                            self::htmlencode_params($tr_args),
-                            isset($args[3]) ? $args[3] : 'contenttypes',
-                            isset($args[4]) ? $args[4] : $app['request']->getLocale()
-                        );
-                } else {
-                        $trans = $app['translator']->trans(
-                            $text,
-                            self::htmlencode_params($tr_args),
-                            isset($args[2]) ? $args[2] : 'contenttypes',
-                            isset($args[3]) ? $args[3] : $app['request']->getLocale()
-                        );
-                }
-
-                if ($text != $trans) {
-                    return $trans;
-                }
-            }
-            // END OLD CODE
         }
 
-        //try {
         if (isset($args[1])) {
             $args[1] = self::htmlencode_params($args[1]);
         }
