@@ -1501,7 +1501,7 @@ class Backend implements ControllerProviderInterface
     public function files($namespace, $path, Silex\Application $app, Request $request)
     {
         // No trailing slashes in the path.
-        $path = stripTrailingSlash($path);
+        $path = Lib::stripTrailingSlash($path);
 
         $filesystem = $app['filesystem']->getManager($namespace);
         $fullPath = $filesystem->getAdapter()->applyPathPrefix($path);
