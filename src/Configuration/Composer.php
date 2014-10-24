@@ -14,9 +14,9 @@ class Composer extends Standard
     public function __construct($loader, Request $request = null)
     {
         parent::__construct($loader, $request);
-        $this->setPath("composer", realpath(dirname(__DIR__)."/../"));
-        $this->setPath("app", realpath(dirname(__DIR__)."/../app/"));
-        $this->setUrl("app", "/bolt-public/");
+        $this->setPath('composer', realpath(dirname(__DIR__) . '/../'));
+        $this->setPath('app', realpath(dirname(__DIR__) . '/../app/'));
+        $this->setUrl('app', '/bolt-public/');
     }
 
     public function compat()

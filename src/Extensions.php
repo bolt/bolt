@@ -571,25 +571,25 @@ class Extensions
             // Use http://en.wikipedia.org/wiki/Schwartzian_transform for stable sort
             // We use create_function(), because it's faster than closure
             // decorate
-            array_walk( $files, create_function('&$v, $k', '$v = array($v[\'priority\'], $k, $v);'));
+            array_walk($files, create_function('&$v, $k', '$v = array($v[\'priority\'], $k, $v);'));
             // sort
             sort($files);
             // undecorate
-            array_walk( $files, create_function('&$v, $k', '$v = $v[2];'));
+            array_walk($files, create_function('&$v, $k', '$v = $v[2];'));
 
             foreach ($files as $file) {
 
                 $late = $file['late'];
                 $filename = $file['filename'];
 
-                if($type == 'js'){
+                if ($type == 'js') {
                     $htmlJs = sprintf('<script src="%s"></script>', $filename);
                     if ($late) {
                         $html = $this->insertEndOfBody($htmlJs, $html);
                     } else {
                         $html = $this->insertAfterJs($htmlJs, $html);
                     }
-                }else{
+                } else {
                     $htmlCss = sprintf('<link rel="stylesheet" href="%s" media="screen">', $filename);
                     if ($late) {
                         $html = $this->insertEndOfBody($htmlCss, $html);
