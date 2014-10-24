@@ -27,7 +27,7 @@ class UserAdd extends BaseCommand
         $email = $input->getArgument('email');
         $displayname = $input->getArgument('displayname');
         $role = $input->getArgument('role');
-        
+
         $this->app['users']->getUsers();
         $user = $this->app['users']->getEmptyUser();
         $user['roles'] = array($role);
@@ -35,8 +35,8 @@ class UserAdd extends BaseCommand
         $user['password'] = $password;
         $user['displayname'] = $displayname;
         $user['email'] = $email;
-        
-        
+
+
         $valid = true;
         if (! $this->app['users']->checkAvailability('username', $user['username'])) {
             $valid = false;
@@ -50,7 +50,7 @@ class UserAdd extends BaseCommand
             $valid = false;
             $output->writeln("<error>Error creating user: display name {$user['displayname']} already exists</error>");
         }
-        
+
         if ($valid) {
             $res = $this->app['users']->saveUser($user);
             if ($res) {
@@ -59,7 +59,7 @@ class UserAdd extends BaseCommand
                 $output->writeln("<error>Error creating user: {$user['username']}</error>");
             }
         }
-        
-        
+
+
     }
 }
