@@ -384,7 +384,7 @@ class Async implements ControllerProviderInterface
     public function browse($namespace, $path, Silex\Application $app, Request $request)
     {
         // No trailing slashes in the path.
-        $path = stripTrailingSlash($path);
+        $path = Lib::stripTrailingSlash($path);
 
         $filesystem = $app['filesystem']->getManager($namespace);
 
