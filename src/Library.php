@@ -25,7 +25,7 @@ class Library
     {
         if (is_array($var)) {
             foreach ($var as $key => $value) {
-                $var[$key] = cleanPostedData($value);
+                $var[$key] = self::cleanPostedData($value);
             }
         } elseif (is_string($var)) {
             // expand tabs
