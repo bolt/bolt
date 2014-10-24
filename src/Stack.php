@@ -170,7 +170,7 @@ class Stack
                 'type' => $type,
                 'writable' => is_writable($fullpath),
                 'readable' => is_readable($fullpath),
-                'filesize' => formatFilesize(filesize($fullpath)),
+                'filesize' => Lib::formatFilesize(filesize($fullpath)),
                 'modified' => date("Y/m/d H:i:s", filemtime($fullpath)),
                 'permissions' => \utilphp\util::full_permissions($fullpath)
             );
