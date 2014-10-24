@@ -7,11 +7,11 @@
 {% block page_nav 'Content/*' %}
 
 {% block page_title %}
-    {% set contenttype = {'%contenttype%': context.contenttype.singular_name} %}
+    {% set contenttype = {'%contenttype%': context.contenttype.slug} %}
     {% if context.content.title is not empty %}
-        {{ __('Edit %contenttype%', contenttype) }}
+        {{ __('contenttypes.generic.edit', contenttype) }}
     {% else %}
-        {{ __('generic.text.new-contentype', contenttype) }}
+        {{ __('contenttypes.generic.new', contenttype) }}
     {% endif %}
 {% endblock page_title %}
 
@@ -29,7 +29,7 @@
     {% set bind_data = {
         savedon:        __('Saved on:') ~ ' <strong></strong> <small>(' ~ dateChanged ~ ')</small></p>',
         newRecord:      context.content.id != 0 ? false : true,
-        msgNotSaved:    __('Could not save %contenttype%.', {'%contenttype%': context.contenttype.singular_name}),
+        msgNotSaved:    __('contenttypes.generic.saving-impossible', {'%contenttype%': context.contenttype.slug}),
         pathsRoot:      paths.root,
         msgSaving:      __('Saving …'),
         hasGroups:      context.contenttype.groups|default is not empty,
@@ -40,7 +40,7 @@
         _bind:   ['editcontent', {
                     savedon:        __('Saved on:') ~ ' <strong></strong> <small>(' ~ dateChanged ~ ')</small></p>',
                     newRecord:      context.content.id != 0 ? false : true,
-                    msgNotSaved:    __('Could not save %contenttype%.', {'%contenttype%': context.contenttype.singular_name}),
+                    msgNotSaved:    __('contenttypes.generic.saving-impossible', {'%contenttype%': context.contenttype.slug}),
                     pathsRoot:      paths.root,
                     msgSaving:      __('Saving …'),
                     hasGroups:      context.contenttype.groups|default is not empty,
@@ -87,7 +87,7 @@
 
                         <div class="btn-group">
                             <button type="button" class="btn btn-primary" id="savecontinuebutton">
-                                <i class="fa fa-flag"></i> {{  __('Save %contenttype%',{'%contenttype%': context.contenttype.singular_name}) }}
+                                <i class="fa fa-flag"></i> {{  __('contenttypes.generic.save',{'%contenttype%': context.contenttype.slug}) }}
                             </button>
                             <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                                 <span class="caret"></span>
@@ -130,7 +130,7 @@
                             {% if context.content.id != 0 %}
                                 {{ __('Saved on:') }} <strong>{{ context.content.datechanged|localdate("%b %e, %H:%M") }}</strong> <small>({{ macro.datetime(context.content.datechanged) }})</small></p>
                             {% else %}
-                                {{ __('This %contenttype% has not been saved yet.', {'%contenttype%': context.contenttype.singular_name}) }}
+                                {{ __('contenttypes.generic.not-saved-yet', {'%contenttype%': context.contenttype.slug}) }}
                             {% endif %}
                         </p>
 

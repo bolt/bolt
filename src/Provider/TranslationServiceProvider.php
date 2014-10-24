@@ -24,31 +24,41 @@ class TranslationServiceProvider implements ServiceProviderInterface
     public function boot(Application $app)
     {
         if (isset($app['translator'])) {
-            $paths = $app['resources']->getPaths();
-
             $app['translator']->addLoader('yml', new TranslationLoader\YamlFileLoader());
 
-            // Directory to look for translation file(s)
-            $translationDir = $paths['apppath'] . '/resources/translations/' . $app['locale'];
+            $this->addResources($app, $app['locale']);
 
-            if (is_dir($translationDir)) {
-                $iterator = new \DirectoryIterator($translationDir);
-                /**
-                 * @var \SplFileInfo $fileInfo
-                 */
-                foreach ($iterator as $fileInfo) {
-                    if ($fileInfo->isFile() && (getExtension($fileInfo->getFilename()) == "yml")) {
-                        $fnameParts = explode(".", $fileInfo->getFilename());
-                        $domain = $fnameParts[0];
-                        $app['translator']->addResource('yml', $fileInfo->getRealPath(), $app['locale'], $domain);
-                    }
-                }
+            // Load english fallbacks
+            if ($app['locale'] != 'en') {
+                $this->addResources($app, 'en');
             }
+        }
+    }
 
-            // Load fallback for infos domain
-            $infosfilename = $paths['apppath'] . '/resources/translations/en/infos.en.yml';
-            if (is_readable($infosfilename)) {
-                $app['translator']->addResource('yml', $infosfilename, 'en', 'infos');
+    /**
+     * Adds all resources that belong to a locale
+     *
+     * @param Application $app
+     * @param string $locale
+     */
+    private function addResources(Application $app, $locale)
+    {
+        $paths = $app['resources']->getPaths();
+
+        // Directory to look for translation file(s)
+        $translationDir = $paths['apppath'] . '/resources/translations/' . $locale;
+
+        if (is_dir($translationDir)) {
+            $iterator = new \DirectoryIterator($translationDir);
+            /**
+             * @var \SplFileInfo $fileInfo
+             */
+            foreach ($iterator as $fileInfo) {
+                if ($fileInfo->isFile() && (getExtension($fileInfo->getFilename()) == 'yml')) {
+                    $fnameParts = explode('.', $fileInfo->getFilename());
+                    $domain = $fnameParts[0];
+                    $app['translator']->addResource('yml', $fileInfo->getRealPath(), $locale, $domain);
+                }
             }
         }
     }

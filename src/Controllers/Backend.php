@@ -444,7 +444,9 @@ class Backend implements ControllerProviderInterface
     {
         $choices = array();
         foreach ($app['config']->get('contenttypes') as $key => $cttype) {
-            $choices[$key] = __('%contenttypes%', array('%contenttypes%' => $cttype['name']));
+            $namekey = 'contenttypes.' . $key . '.name.plural';
+            $name = $app['translator']->trans($namekey, array(), 'contenttypes');
+            $choices[$key] = ($name == $namekey) ? $cttype['name'] : $name;
         }
         $form = $app['form.factory']
             ->createBuilder('form')
@@ -837,9 +839,9 @@ class Backend implements ControllerProviderInterface
                 $app['log']->add($content->getTitle(), 3, $content, 'save content');
 
                 if ($new) {
-                    $app['session']->getFlashBag()->set('success', __('The new %contenttype% has been saved.', array('%contenttype%' => $contenttype['singular_name'])));
+                    $app['session']->getFlashBag()->set('success', __('contenttypes.generic.saved-new', array('%contenttype%' => $contenttypeslug)));
                 } else {
-                    $app['session']->getFlashBag()->set('success', __('The changes to this %contenttype% have been saved.', array('%contenttype%' => $contenttype['singular_name'])));
+                    $app['session']->getFlashBag()->set('success', __('contenttypes.generic.saved-changes', array('%contenttype%' => $contenttype['slug'])));
                 }
 
                 /*
@@ -898,7 +900,7 @@ class Backend implements ControllerProviderInterface
                 }
 
             } else {
-                $app['session']->getFlashBag()->set('error', __('There was an error saving this %contenttype%.', array('%contenttype%' => $contenttype['singular_name'])));
+                $app['session']->getFlashBag()->set('error', __('contenttypes.generic.error-saving', array('%contenttype%' => $contenttype['slug'])));
                 $app['log']->add("Save content error", 3, $content, 'error');
             }
         }
@@ -908,7 +910,7 @@ class Backend implements ControllerProviderInterface
             $content = $app['storage']->getContent($contenttype['slug'], array('id' => $id));
 
             if (empty($content)) {
-                $app->abort(404, __('The %contenttype% you were looking for does not exist. It was probably deleted, or it never existed.', array('%contenttype%' => $contenttype['singular_name'])));
+                $app->abort(404, __('contenttypes.generic.not-existing', array('%contenttype%' => $contenttype['slug'])));
             }
 
             // Check if we're allowed to edit this content..
@@ -949,7 +951,7 @@ class Backend implements ControllerProviderInterface
             $content->setValue('datechanged', "");
             $content->setValue('username', "");
             $content->setValue('ownerid', "");
-            $app['session']->getFlashBag()->set('info', __("Content was duplicated. Click 'Save %contenttype%' to finalize.", array('%contenttype%' => $contenttype['singular_name'])));
+            $app['session']->getFlashBag()->set('info', __("contenttypes.generic.duplicated-finalize", array('%contenttype%' => $contenttype['slug'])));
         }
 
         // Set the users and the current owner of this content.

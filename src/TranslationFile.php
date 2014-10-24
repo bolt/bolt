@@ -105,50 +105,9 @@ class TranslationFile
      */
     private function addTranslatable($Text)
     {
-        if (!in_array($Text, $this->translatables) && strlen($Text) > 1) {
-            $this->translatables[] = $Text;
+        if (strlen($Text) > 1 && !isset($this->translatables[$Text])) {
+            $this->translatables[$Text] = '';
         }
-    }
-
-    /**
-     * Return the previously translated string if exists, otherwise return an empty string
-     *
-     * @param string $key
-     * @param array $translated
-     * @return string
-     */
-    private function getTranslated($key, $translated)
-    {
-        if (($trans = $this->app['translator']->trans($key)) == $key) {
-            if (is_array($translated) && array_key_exists($key, $translated) && !empty($translated[$key])) {
-                return $translated[$key];
-            } else {
-                return '';
-            }
-        } else {
-            return $trans;
-        }
-    }
-
-    /**
-     * Generates a string for each variation of contenttype/contenttypes
-     *
-     * @param string $txt String with %contenttype%/%contenttypes% placeholders
-     * @return array
-     */
-    private function genContentTypes($txt)
-    {
-        $stypes = array();
-
-        foreach (array('%contenttype%' => 'singular_name', '%contenttypes%' => 'name') as $placeholder => $name) {
-            if (strpos($txt, $placeholder) !== false) {
-                foreach ($this->app['config']->get('contenttypes') as $ctype) {
-                    $stypes[] = str_replace($placeholder, $ctype[$name], $txt);
-                }
-            }
-        }
-
-        return $stypes;
     }
 
     /**
@@ -167,15 +126,15 @@ class TranslationFile
 
         // Regex from: stackoverflow.com/questions/5695240/php-regex-to-ignore-escaped-quotes-within-quotes
         $twigRegex = array(
-            "/\b__\(\s*'([^'\\\\]*(?:\\\\.[^'\\\\]*)*)'(?U).*\)/s", // __('single_quoted_string'…
-            '/\b__\(\s*"([^"\\\\]*(?:\\\\.[^"\\\\]*)*)"(?U).*\)/s', // __("double_quoted_string"…
+            "/\b__\(\s*'([^'\\\\]*(?:\\\\.[^'\\\\]*)*)'(?U).*\)/s" => array('\\\'' => '\''), // __('single_quoted_string'…
+            '/\b__\(\s*"([^"\\\\]*(?:\\\\.[^"\\\\]*)*)"(?U).*\)/s' => array('\"' => '"'), // __("double_quoted_string"…
         );
 
         foreach ($finder as $file) {
-            foreach ($twigRegex as $regex) {
+            foreach ($twigRegex as $regex => $stripslashes) {
                 if (preg_match_all($regex, $file->getContents(), $matches)) {
                     foreach ($matches[1] as $foundString) {
-                        $this->addTranslatable($foundString);
+                        $this->addTranslatable(strtr($foundString, $stripslashes));
                     }
                 }
             }
@@ -197,8 +156,8 @@ class TranslationFile
             ->name('*.php')
             ->notName('*~')
             ->exclude(array('cache', 'config', 'database', 'resources', 'tests'))
-            ->in(dirname($this->app['paths']['themepath']))
-            ->in($this->app['paths']['apppath']);
+            ->in($this->app['paths']['apppath'])
+            ->in(__DIR__);
 
         foreach ($finder as $file) {
             $tokens = token_get_all($file->getContents());
@@ -274,7 +233,7 @@ class TranslationFile
     {
         foreach ($this->app['config']->get('contenttypes') as $contenttype) {
             foreach ($contenttype['fields'] as $fkey => $field) {
-                if (isset($field['label'])) {
+                if ($field['label'] !== '') {
                     $this->addTranslatable($field['label']);
                 } else {
                     $this->addTranslatable(ucfirst($fkey));
@@ -291,7 +250,7 @@ class TranslationFile
         foreach ($this->app['config']->get('contenttypes') as $contenttype) {
             if (array_key_exists('relations', $contenttype)) {
                 foreach ($contenttype['relations'] as $fkey => $field) {
-                    if (isset($field['label'])) {
+                    if (isset($field['label']) && $field['label'] !== '') {
                         $this->addTranslatable($field['label']);
                     } else {
                         $this->addTranslatable(ucfirst($fkey));
@@ -316,14 +275,10 @@ class TranslationFile
     /**
      * Find all twig templates and bolt php code, extract translatables strings, merge with existing translations
      *
-     * @param array $translated
-     * @param array $getMessages True returns translation datat for messages, false for contenttypes
      * @return array
      */
-    private function gatherTranslatableStrings($translated, $getMessages)
+    private function gatherTranslatableStrings()
     {
-        // Step 1: Gather all translatable strings
-
         $this->translatables = array();
 
         $this->scanTwigFiles();
@@ -332,94 +287,100 @@ class TranslationFile
         $this->scanContenttypeRelations();
         $this->scanTaxonomies();
 
-        // Build lists
-
-        $msgTranslated = array();
-        $msgUntranslated = array();
-
-        foreach ($this->translatables as $key) {
-            $keyRaw = stripslashes($key);
-            $keyEsc = Escaper::escapeWithDoubleQuotes($keyRaw);
-            if ($getMessages) {
-                // Step 2: Find already translated strings
-                if (($trans = $this->getTranslated($keyRaw, $translated)) == '' &&
-                    ($trans = $this->getTranslated($keyEsc, $translated)) == ''
-                ) {
-                    $msgUntranslated[] = $keyEsc;
-                } else {
-                    $trans = Escaper::escapeWithDoubleQuotes($trans);
-                    $msgTranslated[$keyEsc] = $trans;
-                }
-            } else {
-                // Step 3: Generate additional strings for contenttypes
-                if (strpos($keyRaw, '%contenttype%') !== false || strpos($keyRaw, '%contenttypes%') !== false) {
-                    foreach ($this->genContentTypes($keyRaw) as $ctypekey) {
-                        $keyEsc = Escaper::escapeWithDoubleQuotes($ctypekey);
-                        if (($trans = $this->getTranslated($ctypekey, $translated)) == '' &&
-                            ($trans = $this->getTranslated($keyEsc, $translated)) == ''
-                        ) {
-                            $msgUntranslated[] = $keyEsc; // Not translated
-                        } else {
-                            $msgTranslated[$keyEsc] = Escaper::escapeWithDoubleQuotes($trans);
-                        }
-                    }
-                }
-            }
-        }
-
-        sort($msgUntranslated);
-        ksort($msgTranslated);
-
-        return array($msgTranslated, $msgUntranslated);
+        ksort($this->translatables);
     }
 
     /**
      * Builds the translations file data with added translations
      *
+     * @param array $newTranslations New translation data to write
+     * @param array $savedTranslations Translation data read from file
+     * @param array $hinting Translation data that can be used as hinting
      * @return string
      */
-    private function buildNewContent($translated, $untranslated)
+    private function buildNewContent($newTranslations, $savedTranslations, $hinting = array())
     {
-        $content = '# ' . $this->relPath . ' – generated on ' . date('Y-m-d H:i:s e') . "\n";
-
-        // Untranslated
-        $cnt = count($untranslated);
-        if ($cnt) {
-            $content .= '# ' . $cnt . ' untranslated strings' . "\n\n";
-            foreach ($untranslated as $key) {
-                $content .= $key . ':  #' . "\n";
+        // Presort
+        $unusedTranslations = $savedTranslations;
+        $transByType = array(
+            'Unused' => array(' unused messages', array()),
+            'TodoReal' => array(' untranslated messages', array()),
+            'TodoKey' => array(' untranslated keyword based messages', array()),
+            'DoneReal' => array(' translations', array()),
+            'DoneKey' => array(' keyword based translations', array()),
+        );
+        foreach ($newTranslations as $key => $translation) {
+            $set = array('trans' => $translation);
+            if (preg_match('%^([a-z0-9-]+)\.([a-z0-9-]+)\.([a-z0-9-]+)(?:\.([a-z0-9.-]+))?$%', $key, $match)) {
+                $type = 'Key';
+                $set['key'] = array_slice($match, 1);
+            } else {
+                $type = 'Real';
             }
-            $content .= "\n" . '#-----------------------------------------' . "\n";
-        } else {
-            $content .= '# no untranslated strings' . "\n\n";
+            $done = ($translation === '') ? 'Todo' : 'Done';
+            $transByType[$done . $type][1][$key] = $set;
+            if (isset($unusedTranslations[$key])) {
+                unset($unusedTranslations[$key]);
+            }
         }
-        $content .= '# ' . count($translated) . ' translated strings' . "\n";
-        // Translated: non keyword based
-        $first = "\n";
-        foreach ($translated as $key => $translation) {
-            if (!preg_match('%^"[a-z0-9-]+\.[a-z0-9-]+\.[a-z0-9.-]+"$%', $key)) {
-                $content .= $first . $key . ': ' . $translation . "\n";
-                $first = '';
-            }
-        }
-        // Translated: keyword based
-        $div = '    ';
-        $level = array(1 => '', 2 => '');
-        foreach ($translated as $key => $translation) {
-            if (preg_match('%^"([a-z0-9-]+)\.([a-z0-9-]+)\.([a-z0-9.-]+)"$%', $key, $match)) {
-                if ($level[1] != $match[1]) {
-                    $content .= "\n" . $match[1] . ':' . "\n";
-                    $level[1] = $match[1];
-                }
-                if ($level[2] != $match[2]) {
-                    $content .= $div . $match[2] . ':' . "\n";
-                    $level[2] = $match[2];
-                }
-                $content .= $div . $div . $match[3] . ': ' . $translation . "\n";
-            }
+        foreach ($unusedTranslations as $key => $translation) {
+            $transByType['Unused'][1][$key] = array('trans' => $translation);
         }
 
-        return $content;
+        // Build List
+        $indent = '    ';
+        $status = '# ' . $this->relPath . ' – generated on ' . date('Y-m-d H:i:s e') . "\n\n" .
+            '# Warning: Translations are moved to a new keyword based translation at the moment.' . "\n" .
+            '#          This is an ongoing process. Translations in repo are automatically mapped ' . "\n" .
+            '#          to the new scheme. Be aware that there can be a race condition between ' . "\n" .
+            '#          that process and your PR so that it\'s eventiually neccessry to remap your' . "\n" .
+            '#          translations. So perhaps it\'s best to ask on IRC to time your contribution.' . "\n\n";
+        $content = '';
+
+        foreach ($transByType as $type => $transData) {
+            list($text, $translations) = $transData;
+            // Header
+            $count = (count($translations) > 0 ? sprintf('%3s', count($translations)) : ' no');
+            $status .= '# ' . $count . $text . "\n";
+            if (count($translations) > 0) {
+                $content .= "\n" . '#--- ' . str_pad(ltrim($count) . $text . ' ', 74, '-') . "\n\n";
+            }
+            // List
+            $lastKey = array();
+            $linebreak = ''; // We want an empty line before each 1st level key
+            foreach ($translations as $key => $tdata) {
+                // Key
+                if ($type == 'DoneKey') {
+                    for ($level = 0, $end = count($tdata['key']) - 1; $level < $end; $level++) {
+                        if ($level >= count($lastKey) - 1 || $lastKey[$level] != $tdata['key'][$level]) {
+                            if ($level == 0) {
+                                $content .= $linebreak;
+                                $linebreak = "\n";
+                            }
+                            $content .= str_repeat($indent, $level) . $tdata['key'][$level] . ':' . "\n";
+                        }
+                    }
+                    $lastKey = $tdata['key'];
+                    $content .= str_repeat($indent, $level) . $tdata['key'][$level] . ': ';
+                } else {
+                    $content .= Escaper::escapeWithDoubleQuotes($key) . ': ';
+                }
+                // Value
+                if ($tdata['trans'] === '') {
+                    $thint = $this->app['translator']->trans($key);
+                    if ($thint == $key) {
+                        $thint = isset($hinting[$key]) ? $hinting[$key] : '';
+                    } else {
+                        $thint = Escaper::escapeWithDoubleQuotes($thint);
+                    }
+                    $content .= '#' . ($thint ? ' ' . Escaper::escapeWithDoubleQuotes($thint) : '') . "\n";
+                } else {
+                    $content .= Escaper::escapeWithDoubleQuotes($tdata['trans']) . "\n";
+                }
+            }
+        }
+
+        return $status . $content;
     }
 
     /**
@@ -427,12 +388,15 @@ class TranslationFile
      *
      * @return array Translations found
      */
-    private function readTranslations()
+    private function readSavedTranslations()
     {
         if (is_file($this->absPath) && is_readable($this->absPath)) {
             try {
-                $flattened = array();
-                $translated = Yaml::parse($this->absPath);
+                $savedTranslations = Yaml::parse($this->absPath);
+
+                if ($savedTranslations === null) {
+                    return array(); // File seems to be empty
+                }
 
                 $flatten = function ($data, $prefix = '') use (&$flatten, &$flattened) {
                     if ($prefix) {
@@ -442,20 +406,21 @@ class TranslationFile
                         if (is_array($value)) {
                             $flatten($value, $prefix . $key);
                         } else {
-                            $flattened[$prefix . $key] = $value;
+                            $flattened[$prefix . $key] = ($value === null) ? '' : $value;
                         }
                     }
                 };
-                $flatten($translated);
+                $flattened = array();
+                $flatten($savedTranslations);
 
                 return $flattened;
             } catch (ParseException $e) {
                 $app['session']->getFlashBag()->set('error', printf('Unable to parse the YAML translations: %s', $e->getMessage()));
                 // Todo: do something better than just returning an empty array
-
-                return array();
             }
         }
+
+        return array();
     }
 
     /**
@@ -482,10 +447,17 @@ class TranslationFile
      */
     private function contentMessages()
     {
-        $translated = $this->readTranslations();
-        list($msgTranslated, $msgUntranslated) = $this->gatherTranslatableStrings($translated, true);
+        $savedTranslations = $this->readSavedTranslations();
+        $this->gatherTranslatableStrings();
 
-        return $this->buildNewContent($msgTranslated, $msgUntranslated);
+        // Find already translated strings
+        $newTranslations = array();
+        foreach (array_keys($this->translatables) as $key) {
+            $newTranslations[$key] = isset($savedTranslations[$key]) ? $savedTranslations[$key] : '';
+        }
+        ksort($newTranslations);
+
+        return $this->buildNewContent($newTranslations, $savedTranslations);
     }
 
     /**
@@ -495,10 +467,66 @@ class TranslationFile
      */
     private function contentContenttypes()
     {
-        $translated = $this->readTranslations();
-        list($msgTranslated, $msgUntranslated) = $this->gatherTranslatableStrings($translated, false);
+        $ctypes = $this->app['config']->get('contenttypes');
+        $hinting = array();
+        $ctnames = array();
+        $newTranslations = array();
 
-        return $this->buildNewContent($msgTranslated, $msgUntranslated);
+        $savedTranslations = $this->readSavedTranslations();
+        $this->gatherTranslatableStrings();
+
+        // Add names, labels, …
+        foreach ($ctypes as $ctname => $ctype) {
+            $keyprefix = 'contenttypes.' . strtolower($ctname) . '.';
+
+            // Names & description
+            $setkeys = array(
+                'name.plural' => 'name',
+                'name.singular' => 'singular_name',
+                //'description' => 'description',
+            );
+            foreach ($setkeys as $setkey => $getkey) {
+                $key = $keyprefix . $setkey;
+
+                if (isset($savedTranslations[$key]) && $savedTranslations[$key] !== '') {
+                    $newTranslations[$key] = $savedTranslations[$key];
+                } else {
+                    if (isset($ctype[$getkey]) && $ctype[$getkey] !== '') {
+                        $hinting[$key] = $ctype[$getkey];
+                    }
+                    $newTranslations[$key] = '';
+                }
+                // Remember names for later usage
+                if ($setkey == 'name.plural') {
+                    $ctnames[$ctname]['%contenttypes%'] = $newTranslations[$key];
+                } elseif ($setkey == 'name.singular') {
+                    $ctnames[$ctname]['%contenttype%'] = $newTranslations[$key];
+                }
+            }
+        }
+
+        // Generate strings for contenttypes
+        foreach (array_keys($this->translatables) as $key) {
+            if (substr($key, 0, 21) == 'contenttypes.generic.') {
+                foreach ($ctypes as $ctname => $ctype) {
+                    $setkey = 'contenttypes.' . $ctname . '.text.' . substr($key, 21);
+                    $newTranslations[$setkey] = isset($savedTranslations[$setkey]) ? $savedTranslations[$setkey] : '';
+                    if ($newTranslations[$setkey] === '') {
+                        $generic = $this->app['translator']->trans($key);
+                        if ($generic != $key) {
+                            foreach ($ctnames[$ctname] as $placeholder => $replace) {
+                                $generic = str_replace($placeholder, $replace, $generic);
+                            }
+                            $hinting[$setkey] = $generic;
+                        }
+                    }
+                }
+            }
+        }
+
+        ksort($newTranslations);
+
+        return $this->buildNewContent($newTranslations, $savedTranslations, $hinting);
     }
 
     /**

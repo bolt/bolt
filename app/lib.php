@@ -910,7 +910,7 @@ function htmlencode_params($params)
  * i18n made right, second attempt...
  *
  * Instead of calling directly $app['translator']->trans(), we check
- * for the presence of a placeholder named '%contentype%'.
+ * for the presence of a placeholder named '%contenttype%'.
  *
  * If one is found, we replace it with the contenttype.name parameter,
  * and try to get a translated string. If there is not, we revert to
@@ -941,6 +941,64 @@ function __()
     }
     // Check for contenttype(s) placeholder
     if ($tr_args) {
+        $x = $tr_args;
+        if (isset($tr_args['%contenttype%'])) {
+            $key_arg = '%contenttype%';
+        } elseif (isset($tr_args['%contenttypes%'])) {
+            $key_arg = '%contenttypes%';
+        } else {
+            $key_arg = false;
+        }
+        $key_generic = $args[0];
+        if ($key_arg && substr($key_generic, 0, 21) == 'contenttypes.generic.') {
+
+            // Translates a key to text, returns false when not found
+            $fnc_trans = function ($key, $tr_args, $domain) use ($fn, $args, $app) {
+                if ($fn == 'transChoice') {
+                    $trans = $app['translator']->transChoice(
+                        $key,
+                        $args[1],
+                        htmlencode_params($tr_args),
+                        isset($args[3]) ? $args[3] : $domain,
+                        isset($args[4]) ? $args[4] : $app['request']->getLocale()
+                    );
+                } else {
+                    $trans = $app['translator']->trans(
+                        $key,
+                        htmlencode_params($tr_args),
+                        isset($args[2]) ? $args[2] : $domain,
+                        isset($args[3]) ? $args[3] : $app['request']->getLocale()
+                    );
+                }
+
+                return ($trans == $key) ? false : $trans;
+            };
+            $ctype = $tr_args[$key_arg];
+            unset($tr_args[$key_arg]);
+            $key_ctype = 'contenttypes.' . $ctype . '.text.' . substr($key_generic, 21);
+
+            // Try to get a direct translation, fallback to en
+            $trans = $fnc_trans($key_ctype, $tr_args, 'contenttypes');
+
+            // No translation found, use generic translation
+            if ($trans === false) {
+                // Get contenttype name
+                $key_name = 'contenttypes.' . $ctype . '.name.' . (($key_arg == '%contenttype%') ? 'singular' : 'plural');
+                $key_ctname = ($key_arg == '%contenttype%') ? 'singular_name' : 'name';
+
+                $ctname = $fnc_trans($key_name, $tr_args, 'contenttypes');
+                if ($ctname === false) {
+                    $ctypes = $app['config']->get('contenttypes');
+                    $ctname = empty($ctypes[$ctype][$key_ctname]) ? ucfirst($ctype) : $ctypes[$ctype][$key_ctname];
+                }
+                // Get generic translation with name replaced
+                $tr_args[$key_arg] = $ctname;
+                $trans = $fnc_trans($key_generic, $tr_args, 'messages');
+            }
+
+            return $trans;
+        }
+        // BEGIN OLD CODE
         $keytype = '%contenttype%';
         $keytypes = '%contenttypes%';
         $have_singular = array_key_exists($keytype, $tr_args);
@@ -976,6 +1034,7 @@ function __()
                 return $trans;
             }
         }
+        // END OLD CODE
     }
 
     //try {

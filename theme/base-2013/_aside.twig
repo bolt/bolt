@@ -39,15 +39,15 @@
 
         {% setcontent records = ct.slug ~ "/latest/5" %}
 
-        <h5>{{ __('Recent %contenttypes%',{'%contenttypes%': ct.name }) }}</h5>
+        <h5>{{ __('contenttypes.generic.recent', {'%contenttypes%': ct.slug}) }}</h5>
         <ul>
             {% for record in records %}
                 <li><a href="{{ record.link }}">{{ record.title }}</a></li>
             {% else %}
-                <li>{{ __('No recent %contenttype%.',{'%contenttype%': ct.singular_name }) }}</li>
+                <li>{{ __('contenttypes.generic.no-recent', {'%contenttype%': ct.slug}) }}</li>
             {% endfor %}
         </ul>
-        <p><a href="{{ paths.root }}{{ct.slug}}">{{ __('%contenttypes% overview',{'%contenttypes%':ct.name }) }} &raquo;</a></p>
+        <p><a href="{{ paths.root }}{{ct.slug}}">{{ __('contenttypes.generic.overview', {'%contenttypes%': ct.slug}) }} &raquo;</a></p>
 
 
     {% endfor %}

@@ -13,6 +13,6 @@
     {{ __('Saved on:') }} <strong>{{ context.content.datechanged|localdate("%b %e, %H:%M") }}</strong>
     <small>({{ macro.datetime(context.content.datechanged) }})</small></p>
 {% else %}
-    {{ __('This %contenttype% has not been saved yet.', {'%contenttype%': context.contenttype.singular_name}) }}
+    {{ __('contenttypes.generic.not-saved-yet', {'%contenttype%': context.contenttype.slug}) }}
 {% endif %}
 </p>

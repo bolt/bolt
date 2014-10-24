@@ -13,7 +13,7 @@
     {% if context.filtered|default %}
         {{ 'Recent modifications' }}
     {% else %}
-        {{ __('Last modified %contenttypes%', {'%contenttypes%': context.contenttype.name}) }}
+        {{ __('contenttypes.generic.last-modified', {'%contenttypes%': context.contenttype.slug}) }}
     {% endif %}
 
 {% endblock panel_head %}
@@ -43,7 +43,7 @@
                     <small><a href="{{ path('changelogdetails', {'contenttype': context.contenttype.slug, 'contentid': entry.contentid, 'id': entry.id }) }}">view</a></small>
                 </li>
             {% else %}
-                <li><em>{{ __('No latest %contenttype%', {'%contenttype%': context.contenttype.name}) }}.</em></li>
+                <li><em>{{ __('contenttypes.generic.no-latest', {'%contenttype%': context.contenttype.slug}) }}.</em></li>
             {% endfor %}
         {% else %}
             {% for content in context.latest %}
@@ -53,7 +53,7 @@
                     <small>({{ macro.datetime(content.datechanged) }})</small>
                 </li>
             {% else %}
-                <li><em>{{ __('No latest %contenttype%', {'%contenttype%': context.contenttype.name}) }}.</em></li>
+                <li><em>{{ __('contenttypes.generic.no-latest', {'%contenttype%': context.contenttype.slug}) }}.</em></li>
             {% endfor %}
         {% endif %}
     </ul>
