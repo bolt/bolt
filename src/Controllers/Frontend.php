@@ -141,7 +141,7 @@ class Frontend
             // There's one special edge-case we check for: if the request is for the backend, without trailing
             // slash and it is intercepted by custom routing, we forward the client to that location.
             if ($slug == trim($app['config']->get('general/branding/path'), '/')) {
-                simpleredirect($app['config']->get('general/branding/path') . '/');
+                Lib::simpleredirect($app['config']->get('general/branding/path') . '/');
             }
             $app->abort(404, "Page $contenttypeslug/$slug not found.");
         }
