@@ -663,14 +663,8 @@ class TwigExtension extends \Twig_Extension
 
             if (is_file($foldername . "/" . $file) && is_readable($foldername . "/" . $file)) {
 
-                if (!function_exists('fnmatch')) {
-                    if (!empty($filter) && !Lib::fnmatch($filter, $file)) {
-                        continue;
-                    }
-                } else {
-                    if (!empty($filter) && !fnmatch($filter, $file)) {
-                        continue;
-                    }
+                if (!empty($filter) && !fnmatch($filter, $file)) {
+                    continue;
                 }
 
                 // Skip filenames that start with _
