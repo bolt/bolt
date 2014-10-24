@@ -21,7 +21,7 @@ class Library
      * @param bool $strip_control_chars
      * @return string
      */
-    public public static function cleanPostedData($var, $stripslashes = true, $strip_control_chars = false)
+    public static function cleanPostedData($var, $stripslashes = true, $strip_control_chars = false)
     {
         if (is_array($var)) {
             foreach ($var as $key => $value) {
