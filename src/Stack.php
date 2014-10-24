@@ -108,7 +108,7 @@ class Stack
      */
     public function isStackable($filename)
     {
-        $ext = getExtension($filename);
+        $ext = Lib::getExtension($filename);
 
         return in_array($ext, $this->getFileTypes());
     }
@@ -136,7 +136,7 @@ class Stack
         $list = array();
 
         foreach ($items as $item) {
-            $extension = strtolower(getExtension($item));
+            $extension = strtolower(Lib::getExtension($item));
             if (in_array($extension, $this->imagetypes)) {
                 $type = "image";
             } elseif (in_array($extension, $this->documenttypes)) {
