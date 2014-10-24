@@ -274,7 +274,7 @@ class TwigExtension extends \Twig_Extension
         }
 
         $output = str_replace(">", "> ", $output);
-        $output = trimText(strip_tags($output), $length);
+        $output = Lib::trimText(strip_tags($output), $length);
 
         return $output;
     }
