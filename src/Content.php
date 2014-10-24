@@ -244,7 +244,7 @@ class Content implements \ArrayAccess
 
     public function setFromPost($values, $contenttype)
     {
-        $values = cleanPostedData($values);
+        $values = Lib::cleanPostedData($values);
 
         if (!$this->id) {
             // this is a new record: current user becomes the owner.
