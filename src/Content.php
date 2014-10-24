@@ -996,7 +996,7 @@ class Content implements \ArrayAccess
     public function excerpt($length = 200, $includetitle = false)
     {
         if ($includetitle) {
-            $title = trimText(strip_tags($this->getTitle()), $length);
+            $title = Lib::trimText(strip_tags($this->getTitle()), $length);
             $length = $length - strlen($title);
         }
 
@@ -1014,7 +1014,7 @@ class Content implements \ArrayAccess
             }
 
             $excerpt = str_replace('>', '> ', implode(' ', $excerptParts));
-            $excerpt = trimText(strip_tags($excerpt), $length);
+            $excerpt = Lib::trimText(strip_tags($excerpt), $length);
         } else {
             $excerpt = '';
         }
@@ -1062,7 +1062,7 @@ class Content implements \ArrayAccess
         }
 
         if ($excerptLength > 0) {
-            $result .= trimText($result, $excerptLength, false, true, false);
+            $result .= Lib::trimText($result, $excerptLength, false, true, false);
         }
 
         return '<![CDATA[ ' . $result . ' ]]>';
