@@ -313,7 +313,8 @@ class Frontend
         $q = cleanPostedData($q, false);
 
         // Make paging work
-        $page_size = 10;
+        $config = $app['config'];
+        $page_size = $config->get('general/search_results_records') ?: ($config->get('general/listing_records') ?: 10);
         $page = 1;
         if ($request->query->has('page')) {
             $page = intval($request->get('page'));
