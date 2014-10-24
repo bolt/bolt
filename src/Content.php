@@ -778,7 +778,7 @@ class Content implements \ArrayAccess
         $perm = "contenttype:" . $this->contenttype['slug'] . ":edit:" . $this->id;
 
         if ($this->app['users']->isAllowed($perm)) {
-            return path('editcontent', array('contenttypeslug' => $this->contenttype['slug'], 'id' => $this->id ));
+            return Lib::path('editcontent', array('contenttypeslug' => $this->contenttype['slug'], 'id' => $this->id ));
         } else {
             return false;
         }
