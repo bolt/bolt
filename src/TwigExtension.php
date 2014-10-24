@@ -391,7 +391,7 @@ class TwigExtension extends \Twig_Extension
      */
     public function slug($str)
     {
-        $slug = makeSlug($str);
+        $slug = Lib::makeSlug($str);
 
         return $slug;
     }
