@@ -758,7 +758,7 @@ class Config
 
         if (isset($configdb['driver']) && in_array($configdb['driver'], array('pdo_sqlite', 'sqlite'))) {
             $basename = isset($configdb['databasename']) ? basename($configdb['databasename']) : 'bolt';
-            if (getExtension($basename) != 'db') {
+            if (Lib::getExtension($basename) != 'db') {
                 $basename .= '.db';
             }
 
