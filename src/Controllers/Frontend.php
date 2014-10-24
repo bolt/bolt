@@ -5,6 +5,7 @@ namespace Bolt\Controllers;
 use Silex;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Bolt\Library as Lib;
 use Bolt\Pager;
 
 /**
@@ -59,7 +60,7 @@ class Frontend
         // the DB, and let's add a new user.
         if (!$app['users']->getUsers()) {
             //!$app['storage']->getIntegrityChecker()->checkUserTableIntegrity() ||
-            $app['session']->getFlashBag()->set('info', __('There are no users in the database. Please create the first user.'));
+            $app['session']->getFlashBag()->set('info', Lib::__('There are no users in the database. Please create the first user.'));
 
             return redirect('useredit', array('id' => ''));
         }
