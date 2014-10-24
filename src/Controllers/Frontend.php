@@ -62,7 +62,7 @@ class Frontend
             //!$app['storage']->getIntegrityChecker()->checkUserTableIntegrity() ||
             $app['session']->getFlashBag()->set('info', Lib::__('There are no users in the database. Please create the first user.'));
 
-            return redirect('useredit', array('id' => ''));
+            return Lib::redirect('useredit', array('id' => ''));
         }
 
         $app['debugbar'] = true;
