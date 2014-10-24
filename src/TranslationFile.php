@@ -368,8 +368,6 @@ class TranslationFile
                     $thint = $this->app['translator']->trans($key);
                     if ($thint == $key) {
                         $thint = isset($hinting[$key]) ? $hinting[$key] : '';
-                    } else {
-                        $thint = Escaper::escapeWithDoubleQuotes($thint);
                     }
                     $content .= '#' . ($thint ? ' ' . Escaper::escapeWithDoubleQuotes($thint) : '') . "\n";
                 } else {
