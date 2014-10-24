@@ -276,7 +276,7 @@ class Library
             $ellipseStr = '';
         }
 
-        return trimToHTML($str, $desiredLength, $ellipseStr, $striptags, $nbsp);
+        return self::trimToHTML($str, $desiredLength, $ellipseStr, $striptags, $nbsp);
     }
 
 
