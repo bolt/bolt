@@ -57,9 +57,6 @@ return call_user_func(
             }
         }
 
-        // TODO: Phase out lib.php
-        require_once __DIR__ . '/lib.php';
-
         // None of the mappings matched, error
         if (!isset($config)) {
             throw new LowlevelException(

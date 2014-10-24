@@ -7,6 +7,7 @@ use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Escaper;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
+use Bolt\Library as Lib;
 
 /**
  * Handles translation file dependent tasks
@@ -559,18 +560,18 @@ class TranslationFile
 
         // No translations yet: info
         if (!file_exists($this->absPath) && !is_writable(dirname($this->absPath))) {
-            $msg = __(
+            $msg = Lib::__(
                 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.",
                 $msgRepl
             );
             $this->app['session']->getFlashBag()->set('info', $msg);
         // File is not readable: abort
         } elseif (file_exists($this->absPath) && !is_readable($this->absPath)) {
-            $msg = __("The translations file '%s' is not readable.", $msgRepl);
+            $msg = Lib::__("The translations file '%s' is not readable.", $msgRepl);
             $this->app->abort(404, $msg);
         // File is not writeable: warning
         } elseif (!is_writable($this->absPath)) {
-            $msg = __(
+            $msg = Lib::__(
                 "The file '%s' is not writable. You will have to use your own editor to make modifications to this file.",
                 $msgRepl
             );

@@ -5,6 +5,7 @@ namespace Bolt\Filesystem;
 use League\Flysystem\PluginInterface;
 use League\Flysystem\FilesystemInterface;
 use Bolt\Application;
+use Bolt\Library as Lib;
 
 class BrowsePlugin implements PluginInterface
 {
@@ -66,7 +67,7 @@ class BrowsePlugin implements PluginInterface
                     'writable' => true,
                     'readable' => false,
                     'type' => isset($entry['extension']) ? $entry['extension'] : '',
-                    'filesize' => formatFilesize($entry['size']),
+                    'filesize' => Lib::formatFilesize($entry['size']),
                     'modified' => date("Y/m/d H:i:s", $entry['timestamp']),
                     'permissions' => 'public',
                     'url' => $url

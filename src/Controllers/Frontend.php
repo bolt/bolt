@@ -5,6 +5,7 @@ namespace Bolt\Controllers;
 use Silex;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Bolt\Library as Lib;
 use Bolt\Pager;
 
 /**
@@ -59,9 +60,9 @@ class Frontend
         // the DB, and let's add a new user.
         if (!$app['users']->getUsers()) {
             //!$app['storage']->getIntegrityChecker()->checkUserTableIntegrity() ||
-            $app['session']->getFlashBag()->set('info', __('There are no users in the database. Please create the first user.'));
+            $app['session']->getFlashBag()->set('info', Lib::__('There are no users in the database. Please create the first user.'));
 
-            return redirect('useredit', array('id' => ''));
+            return Lib::redirect('useredit', array('id' => ''));
         }
 
         $app['debugbar'] = true;
@@ -123,7 +124,7 @@ class Frontend
     {
         $contenttype = $app['storage']->getContentType($contenttypeslug);
 
-        $slug = makeSlug($slug, -1);
+        $slug = Lib::makeSlug($slug, -1);
 
         // First, try to get it by slug.
         $content = $app['storage']->getContent($contenttype['slug'], array('slug' => $slug, 'returnsingle' => true));
@@ -140,7 +141,7 @@ class Frontend
             // There's one special edge-case we check for: if the request is for the backend, without trailing
             // slash and it is intercepted by custom routing, we forward the client to that location.
             if ($slug == trim($app['config']->get('general/branding/path'), '/')) {
-                simpleredirect($app['config']->get('general/branding/path') . '/');
+                Lib::simpleredirect($app['config']->get('general/branding/path') . '/');
             }
             $app->abort(404, "Page $contenttypeslug/$slug not found.");
         }
@@ -164,7 +165,7 @@ class Frontend
         // Setting the canonical path and the editlink.
         $app['canonicalpath'] = $content->link();
         $app['paths'] = $app['resources']->getPaths();
-        $app['editlink'] = path('editcontent', array('contenttypeslug' => $contenttype['slug'], 'id' => $content->id));
+        $app['editlink'] = Lib::path('editcontent', array('contenttypeslug' => $contenttype['slug'], 'id' => $content->id));
         $app['edittitle'] = $content->getTitle();
 
         // Make sure we can also access it as {{ page.title }} for pages, etc. We set these in the global scope,
@@ -349,7 +350,7 @@ class Frontend
         } elseif ($request->query->has($context)) {
             $q = $request->get($context);
         }
-        $q = cleanPostedData($q, false);
+        $q = Lib::cleanPostedData($q, false);
 
         $param = Pager::makeParameterId($context);
         /* @var $query \Symfony\Component\HttpFoundation\ParameterBag */

@@ -3,6 +3,7 @@
 namespace Bolt;
 
 use Bolt\Configuration\LowlevelException;
+use Bolt\Library as Lib;
 use RandomLib;
 use SecurityLib;
 use Silex;
@@ -436,7 +437,7 @@ class Application extends Silex\Application
 
             $this->after(
                 function () use ($app) {
-                    foreach (hackislyParseRegexTemplates($app['twig.loader.filesystem']) as $template) {
+                    foreach (Lib::hackislyParseRegexTemplates($app['twig.loader.filesystem']) as $template) {
                         $app['twig.logger']->collectTemplateData($template);
                     }
                 }

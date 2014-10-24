@@ -4,6 +4,7 @@ namespace Bolt;
 
 use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
 use Bolt;
+use Bolt\Library as Lib;
 use Doctrine\DBAL\Connection as DoctrineConn;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -109,10 +110,10 @@ class Storage
 
             $tablename = $this->getTablename($key);
             if ($empty_only && $this->hasRecords($tablename)) {
-                $output .= __("Skipped <tt>%key%</tt> (already has records)", array('%key%' => $key)) . "<br>\n";
+                $output .= Lib::__("Skipped <tt>%key%</tt> (already has records)", array('%key%' => $key)) . "<br>\n";
                 continue;
             } elseif (!in_array($key, $contenttypes) && !$empty_only) {
-                $output .= __("Skipped <tt>%key%</tt> (not checked)", array('%key%' => $key)) . "<br>\n";
+                $output .= Lib::__("Skipped <tt>%key%</tt> (not checked)", array('%key%' => $key)) . "<br>\n";
                 continue;
             }
 
@@ -124,7 +125,7 @@ class Storage
 
         }
 
-        $output .= "<br>\n\n" . __('Done!');
+        $output .= "<br>\n\n" . Lib::__('Done!');
 
         return $output;
     }
@@ -219,7 +220,7 @@ class Storage
 
         $this->saveContent($contentobject);
 
-        $output = __(
+        $output = Lib::__(
             "Added to <tt>%key%</tt> '%title%'",
             array('%key%' => $key, '%title%' => $contentobject->getTitle())
         ) . "<br>\n";
@@ -620,9 +621,9 @@ class Storage
                         foreach ($values['uses'] as $usesField) {
                             $uses .= $fieldvalues[$usesField] . ' ';
                         }
-                        $fieldvalues['slug'] = makeSlug($uses);
+                        $fieldvalues['slug'] = Lib::makeSlug($uses);
                     } elseif (!empty($fieldvalues['slug'])) {
-                        $fieldvalues['slug'] = makeSlug($fieldvalues['slug']);
+                        $fieldvalues['slug'] = Lib::makeSlug($fieldvalues['slug']);
                     } elseif (empty($fieldvalues['slug']) && $fieldvalues['id']) {
                         $fieldvalues['slug'] = $fieldvalues['id'];
                     }
@@ -838,7 +839,7 @@ class Storage
         $id = intval($id);
 
         if (!$this->isValidColumn($field, $contenttype)) {
-            $error = __('contenttypes.generic.invalid-field', array('%field%' => $field, '%contenttype%' => $contenttype));
+            $error = Lib::__('contenttypes.generic.invalid-field', array('%field%' => $field, '%contenttype%' => $contenttype));
             $this->app['session']->getFlashBag()->set('error', $error);
 
             return false;
@@ -848,7 +849,7 @@ class Storage
 
         $content->setValue($field, $value);
 
-        $comment = __(
+        $comment = Lib::__(
             'The field %field% has been changed to "%newValue%"',
             array(
                 '%field%'    => $field,
@@ -1234,7 +1235,7 @@ class Storage
     {
         $tablename = $this->getTablename("taxonomy");
 
-        $slug = makeSlug($name);
+        $slug = Lib::makeSlug($name);
 
         $limit = $parameters['limit'] ? : 100;
         $page = $parameters['page'] ? : 1;
@@ -1588,7 +1589,7 @@ class Storage
                 $order = $this->getEscapedSortorder($contenttype['sort'], false);
             }
         } else {
-            $par_order = safeString($order_value);
+            $par_order = Lib::safeString($order_value);
             if ($par_order == 'RANDOM') {
                 $dboptions = $this->app['config']->getDBOptions();
                 $order = $dboptions['randomfunction'];
@@ -2267,7 +2268,7 @@ class Storage
      */
     public function getContentType($contenttypeslug)
     {
-        $contenttypeslug = makeSlug($contenttypeslug);
+        $contenttypeslug = Lib::makeSlug($contenttypeslug);
 
         // Return false if empty, can't find it..
         if (empty($contenttypeslug)) {
@@ -2283,7 +2284,7 @@ class Storage
                     $contenttype = $this->app['config']->get('contenttypes/' . $key);
                     break;
                 }
-                if ($contenttypeslug == makeSlug($ct['singular_name']) || $contenttypeslug == makeSlug($ct['name'])) {
+                if ($contenttypeslug == Lib::makeSlug($ct['singular_name']) || $contenttypeslug == Lib::makeSlug($ct['name'])) {
                     $contenttype = $this->app['config']->get('contenttypes/' . $key);
                     break;
                 }
@@ -2305,7 +2306,7 @@ class Storage
      */
     public function getTaxonomyType($taxonomyslug)
     {
-        $taxonomyslug = makeSlug($taxonomyslug);
+        $taxonomyslug = Lib::makeSlug($taxonomyslug);
 
         // Return false if empty, can't find it..
         if (empty($taxonomyslug)) {
@@ -2604,7 +2605,7 @@ class Storage
                         $slug = array_search($slug, $configTaxonomies[$taxonomytype]['options']);
                     } else {
                         // make sure it's at least a slug-like value.
-                        $slug = makeSlug($slug);
+                        $slug = Lib::makeSlug($slug);
                     }
 
                 }
@@ -2824,7 +2825,7 @@ class Storage
         $id = intval($id);
         $fulluri = \utilphp\util::str_to_bool($fulluri);
 
-        $slug = makeSlug($title);
+        $slug = Lib::makeSlug($title);
 
         // don't allow strictly numeric slugs.
         if (is_numeric($slug)) {
@@ -2866,7 +2867,7 @@ class Storage
 
             // otherwise, just get a random slug.
             if (empty($uri)) {
-                $slug = trimText($slug, 32, false, false) . "-" . $this->app['randomgenerator']->generateString(6, 'abcdefghijklmnopqrstuvwxyz01234567890');
+                $slug = Lib::trimText($slug, 32, false, false) . "-" . $this->app['randomgenerator']->generateString(6, 'abcdefghijklmnopqrstuvwxyz01234567890');
                 $uri = $prefix . $slug;
             }
         }
@@ -2923,7 +2924,7 @@ class Storage
      */
     protected function getTablename($name)
     {
-        $name = str_replace("-", "_", makeSlug($name));
+        $name = str_replace("-", "_", Lib::makeSlug($name));
         $tablename = sprintf("%s%s", $this->prefix, $name);
 
         return $tablename;

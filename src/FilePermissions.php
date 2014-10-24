@@ -2,6 +2,8 @@
 
 namespace Bolt;
 
+use Bolt\Library as Lib;
+
 /**
  * Use to check if an access to a file is allowed.
  *
@@ -90,7 +92,7 @@ class FilePermissions
             return false;
         }
         // only whitelisted extensions
-        $extension = strtolower(getExtension($originalFilename));
+        $extension = strtolower(Lib::getExtension($originalFilename));
         $allowedExtensions = $this->getAllowedUploadExtensions();
 
         return (in_array($extension, $allowedExtensions));
