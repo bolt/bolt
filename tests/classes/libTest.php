@@ -1,5 +1,7 @@
 <?php
 
+use Bolt\Library as Lib;
+
 // namespace <none> * sad panda face *
 // (which means no autoloading..)
 require_once dirname(dirname(__DIR__)) . '/app/lib.php';
@@ -108,7 +110,7 @@ class libTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetExtension($filename, $expected)
     {
-        $actual = getExtension($filename);
+        $actual = Lib::getExtension($filename);
         $this->assertEquals($expected, $actual);
     }
 }
