@@ -29,11 +29,6 @@ class TranslationFile
     private $domain;
 
     /**
-     * Requested locale
-     */
-    private $locale;
-
-    /**
      * Path to the translation file
      *
      * @var type
