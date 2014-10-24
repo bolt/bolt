@@ -330,11 +330,13 @@ class TranslationFile
         // Build List
         $indent = '    ';
         $status = '# ' . $this->relPath . ' – generated on ' . date('Y-m-d H:i:s e') . "\n\n" .
-            '# Warning: Translations are moved to a new keyword based translation at the moment.' . "\n" .
-            '#          This is an ongoing process. Translations in repo are automatically mapped ' . "\n" .
-            '#          to the new scheme. Be aware that there can be a race condition between ' . "\n" .
-            '#          that process and your PR so that it\'s eventiually neccessry to remap your' . "\n" .
-            '#          translations. So perhaps it\'s best to ask on IRC to time your contribution.' . "\n\n";
+            '# Warning: Translations are in the process of being moved to a new keyword-based translation' . "\n" .
+            '#          at the moment. This is an ongoing process. Translations currently in the ' . "\n" .
+            '#          repository are automatically mapped to the new scheme. Be aware that there ' . "\n" .
+            '#          can be a race condition between that process and your PR so that it\'s ' . "\n" .
+            '#          eventually neccessary to remap your translations. If you\'re planning on ' . "\n" .
+            '#          updating your translations, it\'s best to ask on IRC to time your contribution' . "\n" .
+            '#          in order to prevent merge conflicts.' . "\n\n";
         $content = '';
 
         foreach ($transByType as $type => $transData) {
