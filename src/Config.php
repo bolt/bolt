@@ -235,7 +235,7 @@ class Config
         }
 
         // Make sure Bolt's mount point is OK:
-        $config['general']['branding']['path'] = '/' . safeString($config['general']['branding']['path']);
+        $config['general']['branding']['path'] = '/' . Lib::safeString($config['general']['branding']['path']);
 
         // Make sure $config['taxonomy'] is an array. (if the file is empty, YAML parses it as NULL)
         if (empty($config['taxonomy'])) {
@@ -255,10 +255,10 @@ class Config
                 }
             }
             if (!isset($config['taxonomy'][$key]['slug'])) {
-                $config['taxonomy'][$key]['slug'] = strtolower(safeString($config['taxonomy'][$key]['name']));
+                $config['taxonomy'][$key]['slug'] = strtolower(Lib::safeString($config['taxonomy'][$key]['name']));
             }
             if (!isset($config['taxonomy'][$key]['singular_slug'])) {
-                $config['taxonomy'][$key]['singular_slug'] = strtolower(safeString($config['taxonomy'][$key]['singular_name']));
+                $config['taxonomy'][$key]['singular_slug'] = strtolower(Lib::safeString($config['taxonomy'][$key]['singular_name']));
             }
             if (!isset($config['taxonomy'][$key]['has_sortorder'])) {
                 $config['taxonomy'][$key]['has_sortorder'] = false;
@@ -329,7 +329,7 @@ class Config
             $temp['groups'] = array();
 
             foreach ($tempfields as $key => $value) {
-                $key = str_replace('-', '_', strtolower(safeString($key, true)));
+                $key = str_replace('-', '_', strtolower(Lib::safeString($key, true)));
                 $temp['fields'][$key] = $value;
 
                 // If field is a "file" type, make sure the 'extensions' are set, and it's an array.
