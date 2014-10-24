@@ -200,7 +200,7 @@ class Library
             $str = implode(" ", $str);
         }
 
-        $str = safeString(strip_tags($str));
+        $str = self::safeString(strip_tags($str));
 
         $str = str_replace(" ", "-", $str);
         $str = strtolower(preg_replace("/[^a-zA-Z0-9_-]/i", "", $str));
