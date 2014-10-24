@@ -3,6 +3,7 @@
 namespace Bolt;
 
 use Bolt\Configuration\LowlevelException;
+use Bolt\Library as Lib;
 use Symfony\Component\Yaml;
 
 /**
@@ -434,7 +435,7 @@ class Config
             foreach ($ct['fields'] as $fieldname => $field) {
                 // Verify that the contenttype doesn't try to add fields that are reserved.
                 if ($fieldname != 'slug' && in_array($fieldname, $this->reservedFieldNames)) {
-                    $error = __(
+                    $error = Lib::__(
                         'contenttypes.generic.reserved-name',
                         array('%contenttype%' => $key, '%field%' => $fieldname)
                     );
@@ -448,7 +449,7 @@ class Config
                 if (is_array($field) && !empty($field['uses'])) {
                     foreach ($field['uses'] as $useField) {
                         if (!empty($field['uses']) && empty($ct['fields'][$useField]) && !in_array($useField, $this->reservedFieldNames)) {
-                            $error = __(
+                            $error = Lib::__(
                                 'contenttypes.generic.wrong-use-field',
                                 array('%contenttype%' => $key, '%field%' => $fieldname, '%uses%' => $useField)
                             );
@@ -480,7 +481,7 @@ class Config
 
                 // Make sure the 'type' is in the list of allowed types
                 if (!isset($field['type']) || !$this->fields->has($field['type'])) {
-                    $error = __(
+                    $error = Lib::__(
                         'contenttypes.generic.no-proper-type',
                         array('%contenttype%' => $key, '%field%' => $fieldname, '%type%' =>
                          $field['type'])
@@ -507,7 +508,7 @@ class Config
         if (!$wrongctype && $this->app['integritychecker']->needsCheck() &&
            (count($this->app['integritychecker']->checkTablesIntegrity()) > 0) &&
             $this->app['users']->getCurrentUsername()) {
-            $msg = __(
+            $msg = Lib::__(
                 "The database needs to be updated/repaired. Go to 'Settings' > '<a href=\"%link%\">Check Database</a>' to do this now.",
                 array('%link%' => path('dbcheck'))
             );
@@ -520,7 +521,7 @@ class Config
         foreach ($this->data['taxonomy'] as $key => $taxo) {
             // Show some helpful warnings if slugs or keys are not set correctly.
             if ($taxo['slug'] != $key) {
-                $error = __(
+                $error = Lib::__(
                     "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.",
                     array('%taxonomytype%' => $key, '%slug%' => $taxo['slug'])
                 );
@@ -534,7 +535,7 @@ class Config
         if (!$this->app['session']->getFlashBag()->has('error')) {
             foreach ($slugs as $slug => $count) {
                 if ($count > 1) {
-                    $error = __(
+                    $error = Lib::__(
                         "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.",
                         array('%slug%' => $slug)
                     );
