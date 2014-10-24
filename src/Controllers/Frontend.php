@@ -350,7 +350,7 @@ class Frontend
         } elseif ($request->query->has($context)) {
             $q = $request->get($context);
         }
-        $q = cleanPostedData($q, false);
+        $q = Lib::cleanPostedData($q, false);
 
         $param = Pager::makeParameterId($context);
         /* @var $query \Symfony\Component\HttpFoundation\ParameterBag */
