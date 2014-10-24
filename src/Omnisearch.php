@@ -4,6 +4,7 @@ namespace Bolt;
 
 use Silex;
 use Symfony\Component\Finder\Finder;
+use Bolt\Library as Lib;
 
 /**
  * Simple search implementation for the Bolt backend.
@@ -73,8 +74,8 @@ class Omnisearch
                 $key,
             );
 
-            $viewContenttype = __('contenttypes.generic.view', array('%contenttypes%' => $key));
-            $newContenttype  = __('contenttypes.generic.new', array('%contenttype%' => $key));
+            $viewContenttype = Lib::__('contenttypes.generic.view', array('%contenttypes%' => $key));
+            $newContenttype  = Lib::__('contenttypes.generic.new', array('%contenttype%' => $key));
 
             if ($this->showViewContenttype) {
                 $viewKeywords   = $keywords;
@@ -117,7 +118,7 @@ class Omnisearch
             $this->register(
                 array(
                     'keywords' => array('Configuration'),
-                    'label' => __('Configuration'),
+                    'label' => Lib::__('Configuration'),
                     'description' => '',
                     'priority' => self::OMNISEARCH_MENUITEM,
                     'path' => $this->backend . 'file/edit/app/config/config.yml',
@@ -126,7 +127,7 @@ class Omnisearch
             $this->register(
                 array(
                     'keywords' => array('Users', 'Configuration'),
-                    'label' => __('Configuration') . ' » ' . __('Users'),
+                    'label' => Lib::__('Configuration') . ' » ' . Lib::__('Users'),
                     'description' => '',
                     'priority' => self::OMNISEARCH_MENUITEM - 1,
                     'path' => $this->backend . 'users',
@@ -135,7 +136,7 @@ class Omnisearch
             $this->register(
                 array(
                     'keywords' => array('Contenttypes', 'Configuration'),
-                    'label' => __('Configuration') . ' » ' . __('Contenttypes'),
+                    'label' => Lib::__('Configuration') . ' » ' . Lib::__('Contenttypes'),
                     'description' => '',
                     'priority' => self::OMNISEARCH_MENUITEM - 2,
                     'path' => $this->backend . 'file/edit/app/config/contenttypes.yml',
@@ -144,7 +145,7 @@ class Omnisearch
             $this->register(
                 array(
                     'keywords' => array('Taxonomy', 'Configuration'),
-                    'label' => __('Configuration') . ' » ' . __('Taxonomy'),
+                    'label' => Lib::__('Configuration') . ' » ' . Lib::__('Taxonomy'),
                     'description' => '',
                     'priority' => self::OMNISEARCH_MENUITEM - 3,
                     'path' => $this->backend . 'file/edit/app/config/taxonomy.yml',
@@ -153,7 +154,7 @@ class Omnisearch
             $this->register(
                 array(
                     'keywords' => array('Menu setup', 'Configuration'),
-                    'label' => __('Configuration') . ' » ' . __('Menu setup'),
+                    'label' => Lib::__('Configuration') . ' » ' . Lib::__('Menu setup'),
                     'description' => '',
                     'priority' => self::OMNISEARCH_MENUITEM - 4,
                     'path' => $this->backend . 'file/edit/app/config/menu.yml',
@@ -162,7 +163,7 @@ class Omnisearch
             $this->register(
                 array(
                     'keywords' => array('Routing setup', 'Configuration'),
-                    'label' => __('Configuration') . ' » ' . __('Routing setup'),
+                    'label' => Lib::__('Configuration') . ' » ' . Lib::__('Routing setup'),
                     'description' => '',
                     'priority' => self::OMNISEARCH_MENUITEM - 5,
                     'path' => $this->backend . 'file/edit/app/config/routing.yml',
@@ -175,7 +176,7 @@ class Omnisearch
             $this->register(
                 array(
                     'keywords' => array('Extensions', 'Maintenance'),
-                    'label' => __('Maintenance') . ' » ' . __('Extensions'),
+                    'label' => Lib::__('Maintenance') . ' » ' . Lib::__('Extensions'),
                     'description' => '',
                     'priority' => self::OMNISEARCH_MENUITEM - 6,
                     'path' => $this->backend . 'extensions',
@@ -184,7 +185,7 @@ class Omnisearch
             $this->register(
                 array(
                     'keywords' => array('Check database', 'Maintenance'),
-                    'label' => __('Maintenance') . ' » ' . __('Check database'),
+                    'label' => Lib::__('Maintenance') . ' » ' . Lib::__('Check database'),
                     'description' => '',
                     'priority' => self::OMNISEARCH_MENUITEM - 7,
                     'path' => $this->backend . 'dbcheck',
@@ -193,7 +194,7 @@ class Omnisearch
             $this->register(
                 array(
                     'keywords' => array('Clear the cache', 'Maintenance'),
-                    'label' => __('Maintenance') . ' » ' . __('Clear the cache'),
+                    'label' => Lib::__('Maintenance') . ' » ' . Lib::__('Clear the cache'),
                     'description' => '',
                     'priority' => self::OMNISEARCH_MENUITEM - 8,
                     'path' => $this->backend . 'clearcache',
@@ -202,7 +203,7 @@ class Omnisearch
             $this->register(
                 array(
                     'keywords' => array('Activity log', 'Maintenance'),
-                    'label' => __('Maintenance') . ' » ' . __('Activity log'),
+                    'label' => Lib::__('Maintenance') . ' » ' . Lib::__('Activity log'),
                     'description' => '',
                     'priority' => self::OMNISEARCH_MENUITEM - 9,
                     'path' => $this->backend . 'activitylog',
@@ -224,7 +225,7 @@ class Omnisearch
                 $this->register(
                     array(
                         'keywords' => array($extension['label'], 'Extensions'),
-                        'label' => __('Extensions') . ' » ' . $extension['label'],
+                        'label' => Lib::__('Extensions') . ' » ' . $extension['label'],
                         'description' => '',
                         'priority' => self::OMNISEARCH_EXTENSION - $index,
                         'path' => $this->backend . $extension['path'],
@@ -248,7 +249,7 @@ class Omnisearch
         // automatically adds the translations
         $keywords = $options['keywords'];
         foreach ($keywords as $keyword) {
-            $options['keywords'][] = __($keyword);
+            $options['keywords'][] = Lib::__($keyword);
         }
 
         $this->data[$options['path']] = $options;
@@ -285,7 +286,7 @@ class Omnisearch
 
             $options[] = array(
                 'keywords' => array('Omnisearch'),
-                'label' => sprintf("%s", __('Omnisearch')),
+                'label' => sprintf("%s", Lib::__('Omnisearch')),
                 'description' => '',
                 'priority' => self::OMNISEARCH_LANDINGPAGE,
                 'path' => $this->backend . 'omnisearch?q=' . $query,
@@ -332,7 +333,7 @@ class Omnisearch
 
             $this->register(
                 array(
-                    'label' => sprintf("%s » <span>%s</span>", __('Edit file'), $filename),
+                    'label' => sprintf("%s » <span>%s</span>", Lib::__('Edit file'), $filename),
                     'path' => $this->backend . 'file/edit/theme/' . $relativePathname,
                     'description' => '',
                     'priority' => self::OMNISEARCH_FILE + $priority,
@@ -365,7 +366,7 @@ class Omnisearch
             $contenttypesingular = $result->contenttype['singular_name'];
 
             $item = array(
-                'label' => sprintf('%s %s № %s » <span>%s</span>', __('Edit'), $contenttypesingular, $contentid, $contenttitle),
+                'label' => sprintf('%s %s № %s » <span>%s</span>', Lib::__('Edit'), $contenttypesingular, $contentid, $contenttitle),
                 'path' => $this->backend . 'editcontent/' . $contenttypeslug . '/' . $contentid,
                 'description' => '',
                 'keywords' => array($query),
