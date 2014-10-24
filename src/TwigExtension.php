@@ -1128,7 +1128,7 @@ class TwigExtension extends \Twig_Extension
 
             } else {
                 // we assume the user links to this on purpose.
-                $item['link'] = fixPath($this->app['paths']['root'] . $item['path']);
+                $item['link'] = Lib::fixPath($this->app['paths']['root'] . $item['path']);
             }
 
         }
