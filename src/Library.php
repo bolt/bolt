@@ -17,9 +17,9 @@ class Library
      * Clean posted data. Convert tabs to spaces (primarily for yaml) and
      * stripslashes when magic quotes are turned on.
      *
-     * @param mixed $var
-     * @param bool $stripslashes
-     * @param bool $strip_control_chars
+     * @param  mixed  $var
+     * @param  bool   $stripslashes
+     * @param  bool   $strip_control_chars
      * @return string
      */
     public static function cleanPostedData($var, $stripslashes = true, $strip_control_chars = false)
@@ -46,15 +46,14 @@ class Library
         return $var;
     }
 
-
     /**
      * Compares versions of software.
      *
      * Versions should use the "MAJOR.MINOR.EDIT" scheme, or in other words
      * the format "x.y.z" where (x, y, z) are numbers in [0-9].
      *
-     * @param string $currentversion
-     * @param string $requiredversion
+     * @param  string  $currentversion
+     * @param  string  $requiredversion
      * @return boolean
      */
     public static function checkVersion($currentversion, $requiredversion)
@@ -68,8 +67,8 @@ class Library
      * As an example '/site/pivotx/../index.php' becomes '/site/index.php'.
      * In addition (non-leading) double slashes are removed.
      *
-     * @param string $path
-     * @param bool $nodoubleleadingslashes
+     * @param  string $path
+     * @param  bool   $nodoubleleadingslashes
      * @return string
      */
     public static function fixPath($path, $nodoubleleadingslashes = true)
@@ -108,7 +107,7 @@ class Library
     /**
      * Ensures that a path has no trailing slash
      *
-     * @param string $path
+     * @param  string $path
      * @return string
      */
     public static function stripTrailingSlash($path)
@@ -123,7 +122,7 @@ class Library
     /**
      * Format a filesize like '10.3 kb' or '2.5 mb'
      *
-     * @param integer $size
+     * @param  integer $size
      * @return string
      */
     public static function formatFilesize($size)
@@ -140,7 +139,7 @@ class Library
     /**
      * Gets the extension (if any) of a filename.
      *
-     * @param string $filename
+     * @param  string $filename
      * @return string
      */
     public static function getExtension($filename)
@@ -159,9 +158,9 @@ class Library
      * Returns a "safe" version of the given string - basically only US-ASCII and
      * numbers. Needed because filenames and titles and such, can't use all characters.
      *
-     * @param string $str
-     * @param boolean $strict
-     * @param string $extrachars
+     * @param  string  $str
+     * @param  boolean $strict
+     * @param  string  $extrachars
      * @return string
      */
     public static function safeString($str, $strict = false, $extrachars = "")
@@ -189,8 +188,8 @@ class Library
      * Modify a string, so that we can use it for slugs. Like
      * safeString, but using hyphens instead of underscores.
      *
-     * @param string $str
-     * @param int $length
+     * @param  string $str
+     * @param  int    $length
      * @internal param string $type
      * @return string
      */
@@ -217,7 +216,7 @@ class Library
     /**
      * Encodes a filename, for use in thumbnails, magnific popup, etc.
      *
-     * @param string $filename
+     * @param  string $filename
      * @return string
      */
     public static function safeFilename($filename)
@@ -236,9 +235,9 @@ class Library
      * Make a simple array consisting of key=>value pairs, that can be used
      * in select-boxes in forms.
      *
-     * @param array $array
-     * @param string $key
-     * @param string $value
+     * @param  array  $array
+     * @param  string $key
+     * @param  string $value
      * @return array
      */
     public static function makeValuepairs($array, $key, $value)
@@ -262,11 +261,11 @@ class Library
     /**
      * Wrapper around trimToHTML for backwards-compatibility
      *
-     * @param string $str String to trim
-     * @param int $desiredLength Target string length
-     * @param bool $nbsp Transform spaces to their html entity
-     * @param bool $hellip Add dots when the string is too long
-     * @param bool $striptags Strip html tags
+     * @param  string $str           String to trim
+     * @param  int    $desiredLength Target string length
+     * @param  bool   $nbsp          Transform spaces to their html entity
+     * @param  bool   $hellip        Add dots when the string is too long
+     * @param  bool   $striptags     Strip html tags
      * @return string Trimmed string
      */
     public static function trimText($str, $desiredLength, $nbsp = false, $hellip = true, $striptags = true)
@@ -280,20 +279,19 @@ class Library
         return self::trimToHTML($str, $desiredLength, $ellipseStr, $striptags, $nbsp);
     }
 
-
     /**
      * Recursively collect nodes from a DOM tree until the tree is exhausted or the
      * desired text length is fulfilled.
      *
-     * @param DOMNode $node The current node
-     * @param DOMNode $parentNode A target node that will receive copies of all
-     *                            collected nodes as child nodes.
-     * @param int $remainingLength The remaining number of characters to collect.
-     *                             When this value reaches zero, the traversal is
-     *                             stopped.
-     * @param string $ellipseStr If non-empty, this string will be appended to the
-     *                           last collected node when the document gets
-     *                           truncated.
+     * @param DOMNode $node            The current node
+     * @param DOMNode $parentNode      A target node that will receive copies of all
+     *                                 collected nodes as child nodes.
+     * @param int     $remainingLength The remaining number of characters to collect.
+     *                                 When this value reaches zero, the traversal is
+     *                                 stopped.
+     * @param string  $ellipseStr      If non-empty, this string will be appended to the
+     *                                 last collected node when the document gets
+     *                                 truncated.
      */
     private static function collectNodesUpToLength(\DOMNode $node, \DOMNode $parentNode, &$remainingLength, $ellipseStr = '…')
     {
@@ -356,16 +354,16 @@ class Library
      * Truncate a given HTML fragment to the desired length (measured as character
      * count), additionally performing some cleanup.
      *
-     * @param string $html The HTML fragment to clean up
-     * @param int $desiredLength The desired number of characters, or NULL to do
-     *                           just the cleanup (but no truncating).
-     * @param string $ellipseStr If non-empty, this string will be appended to the
-     *                           last collected node when the document gets
-     *                           truncated.
-     * @param bool $stripTags If TRUE, remove *all* HTML tags. Otherwise, keep a
-     *                        whitelisted 'safe' set.
-     * @param bool $nbsp If TRUE, convert all whitespace runs to non-breaking
-     *                   spaces ('&nbsp;' entities).
+     * @param string $html          The HTML fragment to clean up
+     * @param int    $desiredLength The desired number of characters, or NULL to do
+     *                              just the cleanup (but no truncating).
+     * @param string $ellipseStr    If non-empty, this string will be appended to the
+     *                              last collected node when the document gets
+     *                              truncated.
+     * @param bool   $stripTags     If TRUE, remove *all* HTML tags. Otherwise, keep a
+     *                              whitelisted 'safe' set.
+     * @param bool   $nbsp          If TRUE, convert all whitespace runs to non-breaking
+     *                              spaces ('&nbsp;' entities).
      */
     public static function trimToHTML($html, $desiredLength = null, $ellipseStr = "…", $stripTags = false, $nbsp = false)
     {
@@ -459,7 +457,7 @@ class Library
      * Transforms plain text to HTML. Plot twist: text between backticks (`) is
      * wrapped in a <tt> element.
      *
-     * @param string $str Input string. Treated as plain text.
+     * @param  string $str Input string. Treated as plain text.
      * @return string The resulting HTML
      */
     public static function decorateTT($str)
@@ -470,12 +468,11 @@ class Library
         return $str;
     }
 
-
     /**
      * String length wrapper. Uses mb_strwidth when available. Fallback to strlen.
      *
-     * @param string $str
-     * @return int String length
+     * @param  string $str
+     * @return int    String length
      */
     public static function getStringLength($str)
     {
@@ -491,7 +488,7 @@ class Library
      *
      * We use this for showing them in the debug toolbar.
      *
-     * @param object $obj
+     * @param  object $obj
      * @return array
      */
     public static function hackislyParseRegexTemplates($obj)
@@ -509,14 +506,12 @@ class Library
         return $templates;
     }
 
-
-
     /**
      * Simple wrapper for $app['url_generator']->generate()
      *
-     * @param string $path
-     * @param array $param
-     * @param string $add
+     * @param  string $path
+     * @param  array  $param
+     * @param  string $add
      * @return string
      */
     public static function path($path, $param = array(), $add = '')
@@ -537,9 +532,9 @@ class Library
     /**
      * Simple wrapper for $app->redirect($app['url_generator']->generate());
      *
-     * @param string $path
-     * @param array $param
-     * @param string $add
+     * @param  string $path
+     * @param  array  $param
+     * @param  string $add
      * @return string
      */
     public static function redirect($path, $param = array(), $add = '')
@@ -566,7 +561,7 @@ class Library
     /**
      * Create a simple redirect to a page / path and die.
      *
-     * @param string $path
+     * @param string  $path
      * @param boolean $die
      */
     public static function simpleredirect($path, $die = true)
@@ -590,7 +585,7 @@ class Library
      * @param  int    $flags
      * @return bool
      */
-    function fnmatch($pattern, $string, $flags = 0)
+    public static function fnmatch($pattern, $string, $flags = 0)
     {
         return pcreFnmatch($pattern, $string, $flags);
     }
@@ -598,9 +593,9 @@ class Library
     /**
      * Helper function for fnmatch() - Match filename against a pattern
      *
-     * @param string $pattern
-     * @param string $string
-     * @param int $flags
+     * @param  string $pattern
+     * @param  string $string
+     * @param  int    $flags
      * @return bool
      */
     public static function pcreFnmatch($pattern, $string, $flags = 0)
@@ -656,7 +651,7 @@ class Library
      * the lengths of the strings before and after strip_tagging. If it's significantly
      * shorter, it's probably HTML.
      *
-     * @param string $html
+     * @param  string $html
      * @return bool
      */
     public static function isHtml($html)
@@ -680,9 +675,8 @@ class Library
      * If the file isn't readable (or doesn't exist) or reading it fails,
      * false is returned.
      *
-     * @param string $filename
-     * @param boolean $silent
-     *            Set to true if you want an visible error.
+     * @param  string  $filename
+     * @param  boolean $silent   Set to true if you want an visible error.
      * @return mixed
      */
     public static function loadSerialize($filename, $silent = false)
@@ -739,12 +733,11 @@ class Library
 
     }
 
-
     /**
      * Serializes some data and then saves it.
      *
-     * @param string $filename
-     * @param mixed $data
+     * @param  string  $filename
+     * @param  mixed   $data
      * @return boolean
      */
     public static function saveSerialize($filename, &$data)
@@ -849,8 +842,8 @@ class Library
      * Parameters are passed by reference, though only for performance reasons. They're not
      * altered by this function.
      *
-     * @param array $array1
-     * @param array $array2
+     * @param  array $array1
+     * @param  array $array2
      * @return array
      * @author Daniel <daniel (at) danielsmedegaardbuus (dot) dk>
      * @author Gabriel Sobrinho <gabriel (dot) sobrinho (at) gmail (dot) com>
@@ -1043,7 +1036,7 @@ class Library
         if (isset($args[1])) {
             $args[1] = self::htmlencode_params($args[1]);
         }
-        switch($num_args) {
+        switch ($num_args) {
             case 5:
                 return $app['translator']->transChoice($args[0], $args[1], $args[2], $args[3], $args[4]);
             case 4:
