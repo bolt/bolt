@@ -555,7 +555,7 @@ class Library
             $app['session']->set('retreat', '');
         }
 
-        return $app->redirect(path($path, $param, $add));
+        return $app->redirect(self::path($path, $param, $add));
     }
 
     /**
