@@ -621,9 +621,9 @@ class Storage
                         foreach ($values['uses'] as $usesField) {
                             $uses .= $fieldvalues[$usesField] . ' ';
                         }
-                        $fieldvalues['slug'] = makeSlug($uses);
+                        $fieldvalues['slug'] = Lib::makeSlug($uses);
                     } elseif (!empty($fieldvalues['slug'])) {
-                        $fieldvalues['slug'] = makeSlug($fieldvalues['slug']);
+                        $fieldvalues['slug'] = Lib::makeSlug($fieldvalues['slug']);
                     } elseif (empty($fieldvalues['slug']) && $fieldvalues['id']) {
                         $fieldvalues['slug'] = $fieldvalues['id'];
                     }
@@ -1234,7 +1234,7 @@ class Storage
     {
         $tablename = $this->getTablename("taxonomy");
 
-        $slug = makeSlug($name);
+        $slug = Lib::makeSlug($name);
 
         $limit = $parameters['limit'] ? : 100;
         $page = $parameters['page'] ? : 1;
@@ -2265,7 +2265,7 @@ class Storage
      */
     public function getContentType($contenttypeslug)
     {
-        $contenttypeslug = makeSlug($contenttypeslug);
+        $contenttypeslug = Lib::makeSlug($contenttypeslug);
 
         // Return false if empty, can't find it..
         if (empty($contenttypeslug)) {
@@ -2281,7 +2281,7 @@ class Storage
                     $contenttype = $this->app['config']->get('contenttypes/' . $key);
                     break;
                 }
-                if ($contenttypeslug == makeSlug($ct['singular_name']) || $contenttypeslug == makeSlug($ct['name'])) {
+                if ($contenttypeslug == Lib::makeSlug($ct['singular_name']) || $contenttypeslug == Lib::makeSlug($ct['name'])) {
                     $contenttype = $this->app['config']->get('contenttypes/' . $key);
                     break;
                 }
@@ -2303,7 +2303,7 @@ class Storage
      */
     public function getTaxonomyType($taxonomyslug)
     {
-        $taxonomyslug = makeSlug($taxonomyslug);
+        $taxonomyslug = Lib::makeSlug($taxonomyslug);
 
         // Return false if empty, can't find it..
         if (empty($taxonomyslug)) {
@@ -2602,7 +2602,7 @@ class Storage
                         $slug = array_search($slug, $configTaxonomies[$taxonomytype]['options']);
                     } else {
                         // make sure it's at least a slug-like value.
-                        $slug = makeSlug($slug);
+                        $slug = Lib::makeSlug($slug);
                     }
 
                 }
@@ -2822,7 +2822,7 @@ class Storage
         $id = intval($id);
         $fulluri = \utilphp\util::str_to_bool($fulluri);
 
-        $slug = makeSlug($title);
+        $slug = Lib::makeSlug($title);
 
         // don't allow strictly numeric slugs.
         if (is_numeric($slug)) {
@@ -2921,7 +2921,7 @@ class Storage
      */
     protected function getTablename($name)
     {
-        $name = str_replace("-", "_", makeSlug($name));
+        $name = str_replace("-", "_", Lib::makeSlug($name));
         $tablename = sprintf("%s%s", $this->prefix, $name);
 
         return $tablename;
