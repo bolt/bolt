@@ -738,7 +738,7 @@ class Config
         $this->data['version'] = $this->app->getVersion();
 
         if ($this->get('general/caching/config')) {
-            saveSerialize($this->app['resources']->getPath('cache') . '/config_cache.php', $this->data);
+            Lib::saveSerialize($this->app['resources']->getPath('cache') . '/config_cache.php', $this->data);
 
             return;
         }
