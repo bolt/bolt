@@ -254,7 +254,7 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
         if (!$app['users']->isAllowed('extensions')) {
             $app['session']->getFlashBag()->set('error', Lib::__('You do not have the right privileges to view that page.'));
 
-            return redirect('dashboard');
+            return Lib::redirect('dashboard');
         }
 
         // Stop the 'stopwatch' for the profiler.
