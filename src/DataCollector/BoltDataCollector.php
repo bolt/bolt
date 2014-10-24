@@ -40,7 +40,7 @@ class BoltDataCollector extends DataCollector
             'name' => $this->app['bolt_name'],
             'fullversion' => sprintf('%s %s %s', Lib::__('Version:'), $this->app['bolt_version'], $this->app['bolt_name']),
             'payoff' => Lib::__('Sophisticated, lightweight & simple CMS'),
-            'aboutlink' => sprintf("<a href=\"%s\">%s</a>", path('about'), Lib::__('About')),
+            'aboutlink' => sprintf("<a href=\"%s\">%s</a>", Lib::path('about'), Lib::__('About')),
             'branding' => null,
             'editlink' => null,
             'edittitle' => null
