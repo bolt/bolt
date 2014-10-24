@@ -294,7 +294,7 @@ class Library
      *                           last collected node when the document gets
      *                           truncated.
      */
-    private function collectNodesUpToLength(\DOMNode $node, \DOMNode $parentNode, &$remainingLength, $ellipseStr = '…')
+    private static function collectNodesUpToLength(\DOMNode $node, \DOMNode $parentNode, &$remainingLength, $ellipseStr = '…')
     {
         if ($remainingLength <= 0) {
             return;
