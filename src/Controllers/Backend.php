@@ -224,7 +224,7 @@ class Backend implements ControllerProviderInterface
                     $retreat = $app['session']->get('retreat');
                     $redirect = !empty($retreat) && is_array($retreat) ? $retreat : array('route' => 'dashboard', 'params' => array());
 
-                    return redirect($redirect['route'], $redirect['params']);
+                    return Lib::redirect($redirect['route'], $redirect['params']);
                 }
 
                 return $this->getLogin($app, $request);
@@ -237,7 +237,7 @@ class Backend implements ControllerProviderInterface
                 } else {
                     $app['users']->resetPasswordRequest($request->get('username'));
 
-                    return redirect('login');
+                    return Lib::redirect('login');
                 }
 
                 return $this->getLogin($app, $request);
@@ -258,7 +258,7 @@ class Backend implements ControllerProviderInterface
     public function getLogin(Silex\Application $app, Request $request)
     {
         if (!empty($app['users']->currentuser) && $app['users']->currentuser['enabled'] == 1) {
-            return redirect('dashboard', array());
+            return Lib::redirect('dashboard', array());
         }
 
         $context = array(
@@ -280,7 +280,7 @@ class Backend implements ControllerProviderInterface
 
         $app['users']->logout();
 
-        return redirect('login');
+        return Lib::redirect('login');
     }
 
     /**
@@ -295,7 +295,7 @@ class Backend implements ControllerProviderInterface
     {
         $app['users']->resetPasswordConfirm($request->get('token'));
 
-        return redirect('login');
+        return Lib::redirect('login');
     }
 
     /**
@@ -335,9 +335,9 @@ class Backend implements ControllerProviderInterface
             }
             $app['session']->getFlashBag()->set('success', $content);
 
-            return redirect('fileedit', array('file' => 'app/config/contenttypes.yml'));
+            return Lib::redirect('fileedit', array('file' => 'app/config/contenttypes.yml'));
         } else {
-            return redirect('dbupdate_result', array('messages' => json_encode($output)));
+            return Lib::redirect('dbupdate_result', array('messages' => json_encode($output)));
         }
     }
 
@@ -394,12 +394,12 @@ class Backend implements ControllerProviderInterface
             $app['log']->clear();
             $app['session']->getFlashBag()->set('success', Lib::__('The activitylog has been cleared.'));
 
-            return redirect('activitylog');
+            return Lib::redirect('activitylog');
         } elseif ($action == 'trim') {
             $app['log']->trim();
             $app['session']->getFlashBag()->set('success', Lib::__('The activitylog has been trimmed.'));
 
-            return redirect('activitylog');
+            return Lib::redirect('activitylog');
         }
 
         $activity = $app['log']->getActivity(16);
@@ -464,7 +464,7 @@ class Backend implements ControllerProviderInterface
             $content = $app['storage']->preFill($ctypes);
             $app['session']->getFlashBag()->set('success', $content);
 
-            return redirect('prefill');
+            return Lib::redirect('prefill');
         }
 
         $context = array(
@@ -489,7 +489,7 @@ class Backend implements ControllerProviderInterface
         if (!$app['users']->isAllowed('contenttype:' . $contenttypeslug)) {
             $app['session']->getFlashBag()->set('error', Lib::__('You do not have the right privileges to view that page.'));
 
-            return redirect('dashboard');
+            return Lib::redirect('dashboard');
         }
 
         $contenttype = $app['storage']->getContentType($contenttypeslug);
@@ -533,7 +533,7 @@ class Backend implements ControllerProviderInterface
         if (!$app['users']->isAllowed('contenttype:' . $contenttypeslug)) {
             $app['session']->getFlashBag()->set('error', Lib::__('You do not have the right privileges to edit that record.'));
 
-            return redirect('dashboard');
+            return Lib::redirect('dashboard');
         }
 
         $show_contenttype = null;
@@ -754,7 +754,7 @@ class Backend implements ControllerProviderInterface
         if (!$app['users']->isAllowed($perm)) {
             $app['session']->getFlashBag()->set('error', Lib::__('You do not have the right privileges to edit that record.'));
 
-            return redirect('dashboard');
+            return Lib::redirect('dashboard');
         }
 
         // set the editreferrer in twig if it was not set yet.
@@ -774,14 +774,14 @@ class Backend implements ControllerProviderInterface
                 if (!$app['users']->isAllowed("contenttype:{$contenttype['slug']}:edit:$id")) {
                     $app['session']->getFlashBag()->set('error', Lib::__('You do not have the right privileges to edit that record.'));
 
-                    return redirect('dashboard');
+                    return Lib::redirect('dashboard');
                 }
             } else {
                 // Check if we're allowed to create content..
                 if (!$app['users']->isAllowed("contenttype:{$contenttype['slug']}:create")) {
                     $app['session']->getFlashBag()->set('error', Lib::__('You do not have the right privileges to create a new record.'));
 
-                    return redirect('dashboard');
+                    return Lib::redirect('dashboard');
                 }
             }
 
@@ -824,7 +824,7 @@ class Backend implements ControllerProviderInterface
             if (!empty($content['id']) && $id != $content['id']) {
                 $app['session']->getFlashBag()->set('error', "Don't try to spoof the id!");
 
-                return redirect('dashboard');
+                return Lib::redirect('dashboard');
             }
 
             // Save the record, and return to the overview screen, or to the record (if we clicked 'save and continue')
@@ -854,9 +854,9 @@ class Backend implements ControllerProviderInterface
                     $returnto = $app['request']->get('returnto');
 
                     if ($returnto == "new") {
-                        return redirect('editcontent', array('contenttypeslug' => $contenttype['slug'], 'id' => $id), '#' . $app['request']->get('returnto'));
+                        return Lib::redirect('editcontent', array('contenttypeslug' => $contenttype['slug'], 'id' => $id), '#' . $app['request']->get('returnto'));
                     } elseif ($returnto == "saveandnew") {
-                        return redirect('editcontent', array('contenttypeslug' => $contenttype['slug'], 'id' => 0), '#' . $app['request']->get('returnto'));
+                        return Lib::redirect('editcontent', array('contenttypeslug' => $contenttype['slug'], 'id' => 0), '#' . $app['request']->get('returnto'));
                     } elseif ($returnto == "ajax") {
                         /*
                          * Flush any buffers from saveConent() dispatcher hooks
@@ -897,7 +897,7 @@ class Backend implements ControllerProviderInterface
                 if ($editreferrer) {
                     Lib::simpleredirect($editreferrer);
                 } else {
-                    return redirect('overview', array('contenttypeslug' => $contenttype['slug']));
+                    return Lib::redirect('overview', array('contenttypeslug' => $contenttype['slug']));
                 }
 
             } else {
@@ -918,7 +918,7 @@ class Backend implements ControllerProviderInterface
             if (!$app['users']->isAllowed("contenttype:{$contenttype['slug']}:edit:{$content['id']}")) {
                 $app['session']->getFlashBag()->set('error', Lib::__('You do not have the right privileges to edit that record.'));
 
-                return redirect('dashboard');
+                return  Lib::redirect('dashboard');
             }
             $app['log']->add("Edit content", 1, $content, 'edit');
         } else {
@@ -926,7 +926,7 @@ class Backend implements ControllerProviderInterface
             if (!$app['users']->isAllowed("contenttype:{$contenttype['slug']}:create")) {
                 $app['session']->getFlashBag()->set('error', Lib::__('You do not have the right privileges to create a new record.'));
 
-                return redirect('dashboard');
+                return Lib::redirect('dashboard');
             }
 
             $content = $app['storage']->getEmptyContent($contenttype['slug']);
@@ -998,7 +998,7 @@ class Backend implements ControllerProviderInterface
             $app['session']->getFlashBag()->set('info', Lib::__("Content '%title%' could not be deleted.", array('%title%' => $title)));
         }
 
-        return redirect('overview', array('contenttypeslug' => $contenttype['slug']));
+        return Lib::redirect('overview', array('contenttypeslug' => $contenttype['slug']));
     }
 
     /**
@@ -1029,7 +1029,7 @@ class Backend implements ControllerProviderInterface
         if (!isset($actionStatuses[$action])) {
             $app['session']->getFlashBag()->set('error', Lib::__('No such action for content.'));
 
-            return redirect('overview', array('contenttypeslug' => $contenttype['slug']));
+            return Lib::redirect('overview', array('contenttypeslug' => $contenttype['slug']));
         }
         $newStatus = $actionStatuses[$action];
 
@@ -1037,7 +1037,7 @@ class Backend implements ControllerProviderInterface
             !$app['users']->isContentStatusTransitionAllowed($content['status'], $newStatus, $contenttype['slug'], $id)) {
             $app['session']->getFlashBag()->set('error', Lib::__('You do not have the right privileges to edit that record.'));
 
-            return redirect('overview', array('contenttypeslug' => $contenttype['slug']));
+            return Lib::redirect('overview', array('contenttypeslug' => $contenttype['slug']));
         }
 
         if ($app['storage']->updateSingleValue($contenttype['slug'], $id, 'status', $newStatus)) {
@@ -1046,7 +1046,7 @@ class Backend implements ControllerProviderInterface
             $app['session']->getFlashBag()->set('info', Lib::__("Content '%title%' could not be modified.", array('%title%' => $title)));
         }
 
-        return redirect('overview', array('contenttypeslug' => $contenttype['slug']));
+        return Lib::redirect('overview', array('contenttypeslug' => $contenttype['slug']));
     }
 
 
@@ -1294,9 +1294,9 @@ class Backend implements ControllerProviderInterface
 
                 if ($firstuser) {
                     // To the dashboard, where 'login' will be triggered..
-                    return redirect('dashboard');
+                    return Lib::redirect('dashboard');
                 } else {
-                    return redirect('users');
+                    return Lib::redirect('users');
                 }
 
             }
@@ -1402,7 +1402,7 @@ class Backend implements ControllerProviderInterface
                     $app['session']->getFlashBag()->set('error', Lib::__('User %s could not be saved, or nothing was changed.', array('%s' => $user['displayname'])));
                 }
 
-                return redirect('profile');
+                return Lib::redirect('profile');
             }
         }
 
@@ -1429,14 +1429,14 @@ class Backend implements ControllerProviderInterface
         if (!$app['users']->checkAntiCSRFToken()) {
             $app['session']->getFlashBag()->set('info', Lib::__('An error occurred.'));
 
-            return redirect('users');
+            return Lib::redirect('users');
         }
         $user = $app['users']->getUser($id);
 
         if (!$user) {
             $app['session']->getFlashBag()->set('error', 'No such user.');
 
-            return redirect('users');
+            return Lib::redirect('users');
         }
 
         switch ($action) {
@@ -1475,7 +1475,7 @@ class Backend implements ControllerProviderInterface
 
         }
 
-        return redirect('users');
+        return Lib::redirect('users');
     }
 
     /**
@@ -1585,7 +1585,7 @@ class Backend implements ControllerProviderInterface
                     );
                 }
 
-                return redirect('files', array('path' => $path));
+                return Lib::redirect('files', array('path' => $path));
             }
 
             $formview = $form->createView();
@@ -1737,9 +1737,9 @@ class Backend implements ControllerProviderInterface
                         $app['session']->getFlashBag()->set('info', Lib::__("File '%s' has been saved.", array('%s' => $file)));
                         // If we've saved a translation, back to it
                         if (preg_match('#resources/translations/(..)/(.*)\.yml$#', $filename, $m)) {
-                            return redirect('translation', array('domain' => $m[2], 'tr_locale' => $m[1]));
+                            return Lib::redirect('translation', array('domain' => $m[2], 'tr_locale' => $m[1]));
                         }
-                        redirect('fileedit', array('file' => $file), '');
+                        Lib::redirect('fileedit', array('file' => $file), '');
                     } else {
                         $app['session']->getFlashBag()->set('error', Lib::__("File '%s' could not be saved, for some reason.", array('%s' => $file)));
                     }
@@ -1823,7 +1823,7 @@ class Backend implements ControllerProviderInterface
                         $msg = Lib::__("File '%s' has been saved.", array('%s' => $shortPath));
                         $app['session']->getFlashBag()->set('info', $msg);
 
-                        return redirect('translation', array('domain' => $domain, 'tr_locale' => $tr_locale));
+                        return Lib::redirect('translation', array('domain' => $domain, 'tr_locale' => $tr_locale));
                     } else {
                         $msg = Lib::__("File '%s' could not be saved, for some reason.", array('%s' => $shortPath));
                         $app['session']->getFlashBag()->set('error', $msg);
@@ -1875,7 +1875,7 @@ class Backend implements ControllerProviderInterface
             $app['integritychecker']->repairTables();
             $app['session']->getFlashBag()->set('info', Lib::__('There are no users in the database. Please create the first user.'));
 
-            return redirect('useredit', array('id' => ""));
+            return Lib::redirect('useredit', array('id' => ""));
         }
 
         // Check if there's at least one 'root' user, and otherwise promote the current user.
@@ -1885,11 +1885,11 @@ class Backend implements ControllerProviderInterface
         if (!$app['users']->isValidSession() && !$app['users']->isAllowed($route)) {
             $app['session']->getFlashBag()->set('info', Lib::__('Please log on.'));
 
-            return redirect('login');
+            return Lib::redirect('login');
         } elseif (!$app['users']->isAllowed($route)) {
             $app['session']->getFlashBag()->set('error', Lib::__('You do not have the right privileges to view that page.'));
 
-            return redirect('dashboard');
+            return Lib::redirect('dashboard');
         }
         // Stop the 'stopwatch' for the profiler.
         $app['stopwatch']->stop('bolt.backend.before');
