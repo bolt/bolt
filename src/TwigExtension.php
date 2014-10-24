@@ -3,6 +3,7 @@
 namespace Bolt;
 
 use Silex;
+use Bolt\Library as Lib;
 
 /**
  * The class for Bolt' Twig tags, functions and filters.
@@ -927,7 +928,7 @@ class TwigExtension extends \Twig_Extension
             $large = $this->thumbnail($filename, $fullwidth, $fullheight, 'r');
 
             if (empty($title)) {
-                $title = sprintf('%s: %s', __("Image"), $filename);
+                $title = sprintf('%s: %s', Lib::__("Image"), $filename);
             }
 
             $output = sprintf(
@@ -1231,15 +1232,15 @@ class TwigExtension extends \Twig_Extension
         $num_args = func_num_args();
         switch ($num_args) {
             case 5:
-                return __($args[0], $args[1], $args[2], $args[3], $args[4]);
+                return Lib::__($args[0], $args[1], $args[2], $args[3], $args[4]);
             case 4:
-                return __($args[0], $args[1], $args[2], $args[3]);
+                return Lib::__($args[0], $args[1], $args[2], $args[3]);
             case 3:
-                return __($args[0], $args[1], $args[2]);
+                return Lib::__($args[0], $args[1], $args[2]);
             case 2:
-                return __($args[0], $args[1]);
+                return Lib::__($args[0], $args[1]);
             case 1:
-                return __($args[0]);
+                return Lib::__($args[0]);
         }
 
         return null;
