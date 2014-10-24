@@ -676,15 +676,15 @@ class Library
                 return false;
             }
 
-            $part = __(
+            $part = self::__(
                 'Try logging in with your ftp-client and make the file readable. ' .
                 'Else try to go <a>back</a> to the last page.'
             );
-            $message = '<p>' . __('The following file could not be read:') . '</p>' .
+            $message = '<p>' . self::__('The following file could not be read:') . '</p>' .
                 '<pre>' . htmlspecialchars($filename) . '</pre>' .
                 '<p>' . str_replace('<a>', '<a href="javascript:history.go(-1)">', $part) . '</p>';
 
-            renderErrorpage(__('File is not readable!'), $message);
+            renderErrorpage(self::__('File is not readable!'), $message);
         }
 
         $serialized_data = trim(implode("", file($filename)));
