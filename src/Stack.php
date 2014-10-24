@@ -3,6 +3,7 @@
 namespace Bolt;
 
 use Silex;
+use Bolt\Library as Lib;
 
 /**
  * Simple stack implementation for remembering "10 last items".
@@ -176,20 +177,20 @@ class Stack
 
             $thisitem['info'] = sprintf(
                 "%s: <code>%s</code><br>%s: %s<br>%s: %s<br>%s: <code>%s</code>",
-                __('Path'),
+                Lib::__('Path'),
                 $thisitem['filepath'],
-                __('Filesize'),
+                Lib::__('Filesize'),
                 $thisitem['filesize'],
-                __('Modified'),
+                Lib::__('Modified'),
                 $thisitem['modified'],
-                __('Permissions'),
+                Lib::__('Permissions'),
                 $thisitem['permissions']
             );
 
             if ($type == "image") {
                 $size = getimagesize($fullpath);
                 $thisitem['imagesize'] = sprintf("%s × %s", $size[0], $size[1]);
-                $thisitem['info'] .= sprintf("<br>%s: %s × %s px", __("Size"), $size[0], $size[1]);
+                $thisitem['info'] .= sprintf("<br>%s: %s × %s px", Lib::__("Size"), $size[0], $size[1]);
             }
 
             //add it to our list..
