@@ -124,7 +124,7 @@ class Frontend
     {
         $contenttype = $app['storage']->getContentType($contenttypeslug);
 
-        $slug = makeSlug($slug, -1);
+        $slug = Lib::makeSlug($slug, -1);
 
         // First, try to get it by slug.
         $content = $app['storage']->getContent($contenttype['slug'], array('slug' => $slug, 'returnsingle' => true));
