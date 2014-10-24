@@ -582,6 +582,19 @@ class Library
     }
 
     /**
+     * Match filename against a pattern
+     *
+     * @param  string $pattern
+     * @param  string $string
+     * @param  int    $flags
+     * @return bool
+     */
+    function fnmatch($pattern, $string, $flags = 0)
+    {
+        return pcreFnmatch($pattern, $string, $flags);
+    }
+
+    /**
      * Helper function for fnmatch() - Match filename against a pattern
      *
      * @param string $pattern
@@ -591,6 +604,11 @@ class Library
      */
     public static function pcreFnmatch($pattern, $string, $flags = 0)
     {
+        define('FNM_PATHNAME', 1);
+        define('FNM_NOESCAPE', 2);
+        define('FNM_PERIOD', 4);
+        define('FNM_CASEFOLD', 16);
+
         $modifiers = null;
         $transforms = array(
             '\*' => '.*',
