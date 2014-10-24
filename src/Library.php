@@ -293,12 +293,8 @@ class Library
      * @param string $ellipseStr If non-empty, this string will be appended to the
      *                           last collected node when the document gets
      *                           truncated.
-     *
-     * @internal
-     * This function is not intended for 'public' usage, but since we're not in a
-     * class, there is no way to enforce this.
      */
-    private function _collectNodesUpToLength(\DOMNode $node, \DOMNode $parentNode, &$remainingLength, $ellipseStr = '…')
+    private function collectNodesUpToLength(\DOMNode $node, \DOMNode $parentNode, &$remainingLength, $ellipseStr = '…')
     {
         if ($remainingLength <= 0) {
             return;
@@ -330,7 +326,7 @@ class Library
         $newNode = $parentNode->ownerDocument->importNode($node, false);
         $parentNode->appendChild($newNode);
         for ($childNode = $node->firstChild; $childNode; $childNode = $childNode->nextSibling) {
-            _collectNodesUpToLength($childNode, $newNode, $remainingLength, $ellipseStr);
+            self::collectNodesUpToLength($childNode, $newNode, $remainingLength, $ellipseStr);
             if ($remainingLength <= 0) {
                 break;
             }
@@ -419,7 +415,7 @@ class Library
         $newDoc->loadHTML('<html><body><div></div></body></html>');
         $newNode = $newDoc->documentElement->firstChild->firstChild;
         $length = $desiredLength;
-        _collectNodesUpToLength($cleanedNode, $newNode, $length, $ellipseStr);
+        self::collectNodesUpToLength($cleanedNode, $newNode, $length, $ellipseStr);
         // Convert spaces inside text nodes to &nbsp;
         // This will actually insert the unicode non-breaking space, so we'll have
         // to massage our output at the HTML byte-string level later.
