@@ -311,7 +311,7 @@ class TwigExtension extends \Twig_Extension
         }
 
         if (preg_match("/ ([a-z0-9_-]+\.yml)/i", $str, $matches)) {
-            $path = path('fileedit', array('file' => "app/config/" . $matches[1]));
+            $path = Lib::path('fileedit', array('file' => "app/config/" . $matches[1]));
             $link = sprintf(" <a href='%s'>%s</a>", $path, $matches[1]);
             $str = preg_replace("/ ([a-z0-9_-]+\.yml)/i", $link, $str);
         }
@@ -1105,7 +1105,7 @@ class TwigExtension extends \Twig_Extension
             $param = empty($item['param']) ? array() : $item['param'];
             $add = empty($item['add']) ? '' : $item['add'];
 
-            $item['link'] = path($item['route'], $param, $add);
+            $item['link'] = Lib::path($item['route'], $param, $add);
         } elseif (isset($item['path'])) {
             // if the item is like 'content/1', get that content.
             if (preg_match('#^([a-z0-9_-]+)/([a-z0-9_-]+)$#i', $item['path'])) {
