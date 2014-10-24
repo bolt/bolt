@@ -865,7 +865,7 @@ class TwigExtension extends \Twig_Extension
             round($width),
             round($height),
             $scale,
-            safeFilename($filename)
+            Lib::safeFilename($filename)
         );
 
         return $path;
@@ -971,7 +971,7 @@ class TwigExtension extends \Twig_Extension
         $image = sprintf(
             "%sfiles/%s",
             $this->app['paths']['root'],
-            safeFilename($filename)
+            Lib::safeFilename($filename)
         );
 
         return $image;
