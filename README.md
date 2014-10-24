@@ -54,7 +54,7 @@ For running unit tests you need [phpunit](http://www.phpunit.de/).
 
 After installing, you can run the unit test suite by running:
 
-    $ phpunit -c app/
+    $ phpunit
 
 This can now also be done by using app/nut:
 
