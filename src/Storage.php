@@ -965,7 +965,8 @@ class Storage
             $taxonomytable,
             $table,
             $taxonomytable,
-            implode(' AND ', $where));
+            implode(' AND ', $where)
+        );
 
         // Run Query
         $results = $this->app['db']->fetchAll($select);
@@ -1245,10 +1246,12 @@ class Storage
             return false;
         }
 
-        $where = sprintf(' WHERE (taxonomytype = %s AND (slug = %s OR name = %s))',
+        $where = sprintf(
+            ' WHERE (taxonomytype = %s AND (slug = %s OR name = %s))',
             $this->app['db']->quote($taxonomytype['slug']),
             $this->app['db']->quote($slug),
-            $this->app['db']->quote($name));
+            $this->app['db']->quote($name)
+        );
 
         // Make the query for the pager..
         $pagerquery = sprintf('SELECT COUNT(*) AS count FROM %s %s', $tablename, $where);
