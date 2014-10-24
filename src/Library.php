@@ -730,7 +730,7 @@ class Library
      */
     public static function saveSerialize($filename, &$data)
     {
-        $filename = fixPath($filename);
+        $filename = self::fixPath($filename);
 
         $ser_string = '<?php /* bolt */ die(); ?>json:' . json_encode($data);
 
