@@ -165,7 +165,7 @@ class Library
      */
     public static function safeString($str, $strict = false, $extrachars = "")
     {
-        $str = URLify::downcode($str);
+        $str = \URLify::downcode($str);
         $str = str_replace("&amp;", "", $str);
 
         $delim = '/';
