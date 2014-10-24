@@ -110,7 +110,7 @@ class Users
         }
 
         // make sure the username is slug-like
-        $user['username'] = makeSlug($user['username']);
+        $user['username'] = Lib::makeSlug($user['username']);
 
         if (empty($user['lastseen'])) {
             $user['lastseen'] = "1900-01-01";
@@ -392,7 +392,7 @@ class Users
      */
     public function login($user, $password)
     {
-        $userslug = makeSlug($user);
+        $userslug = Lib::makeSlug($user);
 
         // for once we don't use getUser(), because we need the password.
         $query = sprintf('SELECT * FROM %s WHERE username=?',  $this->usertable);
