@@ -269,7 +269,7 @@ class Config
                 $options = array();
                 foreach ($config['taxonomy'][$key]['options'] as $optionkey => $optionvalue) {
                     if (is_numeric($optionkey)) {
-                        $optionkey = makeSlug($optionvalue);
+                        $optionkey = Lib::makeSlug($optionvalue);
                     }
                     $options[$optionkey] = $optionvalue;
                 }
@@ -288,7 +288,7 @@ class Config
 
             // If the slug isn't set, and the 'key' isn't numeric, use that as the slug.
             if (!isset($temp['slug']) && !is_numeric($key)) {
-                $temp['slug'] = makeSlug($key);
+                $temp['slug'] = Lib::makeSlug($key);
             }
 
             // If neither 'name' nor 'slug' is set, we need to warn the user. Same goes for when
@@ -303,10 +303,10 @@ class Config
             }
 
             if (!isset($temp['slug'])) {
-                $temp['slug'] = makeSlug($temp['name']);
+                $temp['slug'] = Lib::makeSlug($temp['name']);
             }
             if (!isset($temp['singular_slug'])) {
-                $temp['singular_slug'] = makeSlug($temp['singular_name']);
+                $temp['singular_slug'] = Lib::makeSlug($temp['singular_name']);
             }
             if (!isset($temp['show_on_dashboard'])) {
                 $temp['show_on_dashboard'] = true;
@@ -387,8 +387,8 @@ class Config
             // when adding relations, make sure they're added by their slug. Not their 'name' or 'singular name'.
             if (!empty($temp['relations']) && is_array($temp['relations'])) {
                 foreach ($temp['relations'] as $relkey => $relation) {
-                    if ($relkey != makeSlug($relkey)) {
-                        $temp['relations'][makeSlug($relkey)] = $temp['relations'][$relkey];
+                    if ($relkey != Lib::makeSlug($relkey)) {
+                        $temp['relations'][Lib::makeSlug($relkey)] = $temp['relations'][$relkey];
                         unset($temp['relations'][$relkey]);
                     }
                 }
