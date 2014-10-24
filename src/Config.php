@@ -708,7 +708,7 @@ class Config
         }
 
         if ($cachetimestamp > max($timestamps)) {
-            $this->data = loadSerialize($this->app['resources']->getPath('cache') . '/config_cache.php');
+            $this->data = Lib::loadSerialize($this->app['resources']->getPath('cache') . '/config_cache.php');
 
             // Check if we loaded actual data.
             if (count($this->data) < 4 || empty($this->data['general'])) {
