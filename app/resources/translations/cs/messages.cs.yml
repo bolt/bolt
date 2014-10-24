@@ -1,20 +1,20 @@
-# app/resources/translations/cs/messages.cs.yml – generated on 2014-10-24 20:05:00 UTC
+# app/resources/translations/cs/messages.cs.yml – generated on 2014-10-24 22:31:34 UTC
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the 
-#          repository are automatically mapped to the new scheme. Be aware that there 
-#          can be a race condition between that process and your PR so that it's 
-#          eventually neccessary to remap your translations. If you're planning on 
+#          at the moment. This is an ongoing process. Translations currently in the
+#          repository are automatically mapped to the new scheme. Be aware that there
+#          can be a race condition between that process and your PR so that it's
+#          eventually neccessary to remap your translations. If you're planning on
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
 #  no unused messages
 #  no untranslated messages
 #  no untranslated keyword based messages
-# 382 translations
-# 102 keyword based translations
+# 355 translations
+# 130 keyword based translations
 
-#--- 382 translations ---------------------------------------------------------
+#--- 355 translations ---------------------------------------------------------
 
 "%name% № %id%": "%name% č. %id%"
 "%s files could not be deleted. You should delete them manually.": "%s soubory nelze odstranit. Smažte je ručně."
@@ -31,10 +31,8 @@
 "Add a brief, optional comment to describe what's changed.": "Přidat stručný, volitelný komentář k provedeným změnám."
 "Add a comment:": "Přidat komentář"
 "Add a new extension using the form below.": "Přidat rozšíření pomocí formuláře níže"
-"Add a new user": "Přidat nového uživatele"
 "Add some sample <a href='%url%' class='btn btn-tertiary'>Records with Loripsum text</a>": "Přidat ukázku <a href='%url%' class='btn btn-tertiary'>Záznam s Lorem ipsum</a>"
 "Added to <tt>%key%</tt> '%title%'": "Přidáno do <tt>%key%</tt> '%title%'"
-"Added user '%s'.": "Přidat uživatele '%s'."
 "Alas, no about!": "Běda, žádná info strana!"
 "All content types": "Všechny typy obsahu"
 "All users": "Všichni uživatelé"
@@ -42,7 +40,6 @@
 "An error occurred.": "Došlo k nějaké chybě."
 "Anonymous": "Anonymous"
 "Are you sure you want to delete %username%?": "Určitě chcete odstranit %username%?"
-"Assigned roles": "Přidělená oprávnění"
 "Author:": "Autor:"
 "Before you can start using the theme on your site we need to make a copy to your theme folder.": "Předtím než začnete používat tuto šablonu na vaší stránce, potřebujeme udělat kopii do vaší složky s šablonou."
 "Below are the third party libraries that are used by Bolt.": "Níže jsou uveden knihovny třetích stran použité v Bolt."
@@ -85,7 +82,6 @@
 "Collapse sidebar": "Skrýt postranní lištu"
 "Configuration": "Konfigurace"
 "Configure Extensions": "Nastavení rozšíření"
-"Confirm your password": "Potvrdit Vaše heslo"
 "Content": "Obsah"
 "Content '%title%' could not be deleted.": "Obsah '%title%' nelze odstranit."
 "Content '%title%' could not be modified.": "Obsah '%title%' nelze upravit."
@@ -116,17 +112,13 @@
 "Detail template": "Detail šablony"
 "Details": "Podrobnosti"
 "Disable %username%": "Zablokovat %username%"
-"Display name": "Zobrazit jméno"
 "Do you really want to delete %foldername%?": "Opravdu chcete smazat složku %foldername%?"
 "Done!": "Hotovo!"
 "Draft": "Koncept"
 "Duplicate %filename%": "Duplikovat %filename%"
 "Edit": "Upravit"
 "Edit file": "Upravit soubor"
-"Email": "E-mail"
 "Enable %username%": "Povolit %username%"
-"Enter a password, longer than 6 chars": "Zadejte heslo, které je delší než 6 znaků"
-"Enter a valid email address": "Zadejte platnou emialovou adresu"
 "Everybody": "Všichni"
 "Everything is up to date!": "Vše je aktuální!"
 "Excerpt": "Souhrn"
@@ -176,7 +168,6 @@
 "Installing package": "Instalování balíčku"
 "Installing selected package version (this may take up to 60 seconds).": "Instalování vybrané verze balíčku (toto může trvat i 60 vteřin)"
 "Integerfield": "Číslo"
-"Last IP": "Poslední IP adresa"
 "Last edited on:": "Upraveno:"
 "Last known IP": "Poslední známá IP adresa"
 "Last seen": "Naposledy přihlášen"
@@ -215,21 +206,14 @@
 "Overview for": "Přehled"
 "Owner": "Vlastník"
 "Owner:": "Vlastník:"
-"Page": "Strana"
-"Password": "Heslo"
-"Password (confirm)": "Heslo (potvrzení)"
-"Password (confirmation)": "Heslo (ověření)"
 "Password reset not successful! Either the token was incorrect, or you were too late, or you tried to reset the password from a different IP-address.": "Reset hesla nebylo možné provés! Pokoušíte se o reset z jiné IP adresy, došlo k vypršení časové lhůty apod."
 "Password reset successful! You can now log on with the password that was sent to you via email.": "Nové heslo vám bylo úspěšně zasláno emailem. Použijte ho pro příští přihlášení."
-"Passwords must match.": "Hesla se musí shodovat."
 "Path": "Cesta"
 "Path to image file": "Cesta k souboru obrázku"
 "Path:": "Cesta:"
 "Permalink": "Trvalý odkaz"
 "Permission denied": "Přístup zamítnut"
 "Permissions": "Oprávnění"
-"Pick a display name / alias": "Zvolte zobrazovaané uživatelské jméno / přezdívku"
-"Pick a username, lowercase only": "Zvolte uživatelské jméno, pouze malými písmeny"
 "Place on stack": "Dát do zásobníku"
 "Please choose the record you want to link to:": "Zvolte prosím záznam pro vytvoření vazby:"
 "Please enter a new file name": "Prosím zadejte nové jméno souboru"
@@ -320,12 +304,8 @@
 "There are no users in the database. Please create the first user.": "V databázi není žádný uživatel. Vytvořte prosím prvního uživatele."
 "There are no users present in the system. Please create the first user, which will be granted root privileges.": "V systému nejsou žádní uživatelé. Prosím vytvořte prvního uživatele, kterému bude poskytnuto oprávnění root."
 "There should always be at least one 'root' user. You have just been promoted. Congratulations!": "Vždy musí být alespoň jeden uživatel s právy 'root'. Gratulujeme! Právě jste byl/a vybrán/a."
-"This displayname is already in use. Choose another displayname.": "Zvolené uživatelské jméno k zobrazení je již používáno. Zvolte si jiné."
-"This email address is already in use. Choose another email address.": "Uvedená e-mailová adresa je již používána. Použijte jinou."
 "This is a checkbox": "Toto je zašrtávací políčko"
 "This record is related to:": "Tento záznam souvisí s:"
-"This username is already in use. Choose another username.": "Toto uživatelské jméno se již používá. Zvolte si jiné."
-"This value is too short. It should have 6 characters or more.": "Příliš krátké heslo. Musí mít alespoň 6 znaků."
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Tento web běží na <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Bolt</a>."
 "This will install all available updates.": "Tímto se nainstalují všechny dostupné aktualizace."
 "This will make sure all packages listed are installed. Use this if you've recently moved to a new server or if you have manually added an extension.": "Tímto bude zkontrolováno zda jsou všechny uvedené balíčky nainstalovány. Použijte v případě, že jste nedávno měnil server nebo pokud jste ručně přidával rozšíření."
@@ -339,7 +319,6 @@
 "Types": "Typy"
 "Unstable Test Versions": "Nestabilní testovací verze"
 "Update the database": "Aktualizovat databázi"
-"Updated user '%s'.": "Uživatel '%s' byl updatován."
 "Updates": "Aktualizace"
 "Upload": "Nahrát"
 "Upload a file to this folder": "Nahrajte soubor do této složky"
@@ -348,15 +327,12 @@
 "Uploaded files": "Nahrané soubory"
 "Uploading to this folder is not allowed.": "Ukládání do této složky není povoleno."
 "Used Libraries / Components": "Použité knihovny / komponenty"
-"User %s could not be saved, or nothing was changed.": "Nelze uložit uživatele %s nebo nedošlo k žádným změnám."
-"User %s has been saved.": "Uživatel %s byl uložen."
 "User '%s' could not be deleted.": "Uživatele '%s' nelze odstranit."
 "User '%s' could not be disabled.": "Uživatele '%s' nelze zablokovat."
 "User '%s' could not be enabled.": "Uživatele '%s' nelze povolit."
 "User '%s' is deleted.": "Uživatel '%s' byl odstraněn."
 "User '%s' is disabled.": "Uživatel '%s' byl zablokován."
 "User '%s' is enabled.": "Uživatel '%s' byl povolen."
-"User is enabled": "Uživatel je povolen"
 "Username": "Uživatelské jméno"
 "Username or password not correct. Please check your input.": "Uživatelské jméno nebo heslo není správně."
 "Users": "Uživatelé"
@@ -370,7 +346,6 @@
 "View/edit Templates": "Zobrazit / upravit Šablony"
 "View/install Extensions": "Zobrazit / Instalovat Rozšíření"
 "Written by <em>%name%</em> on %date%": "Vytvořeno <em>%name%</em> %date%"
-"You are currently using SQLite to set up the first user. If you wish to use MySQL or PostgreSQL instead, edit the configuration file at <tt>'app/config/config.yml'</tt> and Bolt will set up the database tables for you. Be sure to reload this page before continuing.": "K vytvoření prvního uživatele využíváte databázi SQLite. Pokud chcete raději použít MySQL nebo PostgreSQL, upravte konfigurační soubor <tt>'app/config/config.yml'</tt>. Poté reloadujte tuto stránku a Bolt vytvoří potřebné tabulky."
 "You can discover new extensions by visiting": "Nová rozšíření objevíte navštívením"
 "You can now start using the installed extension, documentation and implementation instructions can be found using the link below.": "Můžete začít používat nainstalované rozšíření. Dokumentaci a instrukce k použití zobrazíte pomocí linku níže."
 "You do not have the right privileges to create a new record.": "Nemáte oprávnění pro vytvoření nového záznamu."
@@ -391,15 +366,13 @@
 "by": "od"
 "in:": "v:"
 "line": "řádek"
-"no": "ne"
 "no content …": "žádný obsah …"
 "no title …": "žádný nadpis …"
 "none": "žádný"
 "of": "z"
 "show all": "zobrazit vše"
-"yes": "ano"
 
-#--- 102 keyword based translations -------------------------------------------
+#--- 130 keyword based translations -------------------------------------------
 
 component:
     changelog-detail:
@@ -408,6 +381,8 @@ component:
         no-comment: "\"Bez komentářů\""
         value-new: "nová hodnota"
         value-old: "původní hodnota"
+    changelog-pager:
+        page: "Strana"
 
 contenttypes:
     generic:
@@ -511,8 +486,40 @@ page:
             edit: "Upravit soubor"
             view: "Zobrazit soubor"
     edit-users:
+        activated:
+            no: "ne"
+            yes: "ano"
         button:
             save: "\"Uložit uživatele\""
+        error:
+            displayname-used: "Uživatelské jméno již existuje. Zvolte si jiné."
+            email-used: "Tato emailová adresa je již používána. Zvolte jinou."
+            password-mismatch: "Hesla se musí shodovat."
+            password-short: "Příliš krátké zadání. Vložte minimálně 6 znaků."
+            username-used: "Toto uživatelské jméno již bohužel existuje. Zvolte jiné."
+        label:
+            assigned-roles: "Přidělená práva"
+            display-name: "Zobrazovat jméno"
+            email: "Email"
+            last-ip: "Poslední IP adresa"
+            last-seen: "Naposledy přihlášen"
+            password: "Heslo"
+            password-confirm: "Ověření hesla"
+            user-enabled: "Povolit uživatele."
+            username: "Uživatelské jméno"
+        log:
+            user-added: "Přidán uživatel '%user%'."
+            user-updated: "Uživatel '%s' byl updatován."
+        message:
+            saving-user: "Nepodařilo se uložit uživatele %user% (nebo nedošlo k žádným změnám)."
+            user-saved: "Zobrazit soubor '%user%'."
+        note-sqlite: "K vytvoření prvního uživatele využíváte databázi SQLite. Pokud chcete raději použít MySQL nebo PostgreSQL, upravte konfigurační soubor <tt>'app/config/config.yml'</tt>. Poté reloadujte tuto stránku a Bolt vytvoří potřebné tabulky."
+        placeholder:
+            displayname: "Zvolte zobrazovaané uživatelské jméno / přezdívku"
+            email: "Zadejte platnou emialovou adresu"
+            password: "Zadejte heslo, které je delší než 6 znaků"
+            password-confirm: "Potvrdit Vaše heslo"
+            username: "Zvolte uživatelské jméno, pouze malými písmeny"
         title:
             create: "\"Vytvořit nového uživatele\""
             edit: "\"Upravit uživatele\""
@@ -546,4 +553,6 @@ panel:
         logged-out: "odhlášen/a"
         saved: "Uloženo"
         unknown: "neznámý"
-
+    user-actions:
+        button:
+            add: "Přidat nového uživatele"
