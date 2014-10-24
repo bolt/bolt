@@ -35,4 +35,5 @@ if ('cli-server' == php_sapi_name()) {
 /**
  * Bring in the second stage loader.
  */
+
 return require_once __DIR__ . '/bootstrap.php';

@@ -394,7 +394,7 @@ class Users
         $userslug = makeSlug($user);
 
         // for once we don't use getUser(), because we need the password.
-        $query = sprintf('SELECT * FROM %s WHERE username=?',  $this->usertable);
+        $query = sprintf('SELECT * FROM %s WHERE username=?', $this->usertable);
         $query = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($query, 1);
         $user = $this->db->executeQuery($query, array($userslug), array(\PDO::PARAM_STR))->fetch();
 
