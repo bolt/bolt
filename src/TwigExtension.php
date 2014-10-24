@@ -1249,7 +1249,7 @@ class TwigExtension extends \Twig_Extension
     /**
      * Return a 'safe string' version of a given string.
      *
-     * @see function safeString() in app/classes/lib.php.
+     * @see function Bolt\Library::safeString()
      *
      * @param $str
      * @param  bool   $strict
@@ -1258,7 +1258,7 @@ class TwigExtension extends \Twig_Extension
      */
     public function safeString($str, $strict = false, $extrachars = "")
     {
-        return safeString($str, $strict, $extrachars);
+        return Lib::safeString($str, $strict, $extrachars);
     }
 
     /**
