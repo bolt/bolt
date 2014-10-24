@@ -188,12 +188,12 @@ class TranslationFile
                 $token = $tokens[$x];
                 // Found function __()
                 if (is_array($token) && $token[0] == T_STRING && $token[1] == '__') {
-                    // Skip whitespace and comments between "___" and "("
+                    // Skip whitespace and comments between "__" and "("
                     $token = $next();
 
                     // Found "("?
                     if ($x < $num_tokens && !is_array($token) && $token == '(') {
-                        // Skip whitespace and comments between "(___)" and first function argument
+                        // Skip whitespace and comments between "__()" and first function argument
                         $token = $next();
                         // Found String?
                         if (is_array($token) && $token[0] == T_CONSTANT_ENCAPSED_STRING) {
