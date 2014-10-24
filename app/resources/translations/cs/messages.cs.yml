@@ -1,4 +1,4 @@
-# app/resources/translations/cs/messages.cs.yml – generated on 2014-10-24 12:08:49 UTC
+# app/resources/translations/cs/messages.cs.yml – generated on 2014-10-24 20:05:00 UTC
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
 #          at the moment. This is an ongoing process. Translations currently in the 
@@ -8,106 +8,11 @@
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#  92 unused messages
+#  no unused messages
 #  no untranslated messages
 #  no untranslated keyword based messages
 # 382 translations
 # 102 keyword based translations
-
-#--- 92 unused messages -------------------------------------------------------
-
-"A menu with this name already exists …": "Menu s tímto názvem již existuje…"
-"Add new menu": "Přidat nové menu"
-"Add some sample <a href='%url%' class='btn btn-small'>Records with Loripsum text</a>": "<a href='%url%' class='btn btn-small'>Přidat vzorový obsah</a> se zástupným Loripsum textem."
-"Add to menu": "Přidat do menu"
-"field.geolocation.label.address-lookup:": "Vyhledání adresy:"
-"fields.general.allwowd-filetypes:": "Povolené typy souborů jsou:"
-"Are you sure you want to revert changes you have made since you last saved your menus?": "Určitě chcete zahodit úpravy v menu, které jste právě udělali a vrátit se k předchozí verzi?"
-"Are you sure you wish to remove this item from the menu, along with all its sub-items?": "Určitě chcete odstranit tuto položku menu, včetně všech vnořených položek?"
-"Backup file could not be found": "Záložní soubor nebyl nalezen"
-"Backup successfully restored": "Obnovení ze zálohy proběhlo úspěšně."
-"Details are shown above. The importer will now try again with a different parser …": "Detaily zobrazeny výše. Importér to teď zkusí znovu s jiným parserem…"
-"Display the file or directory '%s' is forbidden.": "Zobrazení souboru či složky '%s' je zakázáno."
-"Edit the file '%s' is forbidden.": "Editování souboru '%s' není povoleno."
-"Files: %path%": "Soubory: %path%"
-"Filtering:": "Vyhledat / filtrovat:"
-"Generic": "Obecně"
-"Homepage": "Úvodní strana"
-"Links": "Odkazy"
-"Logout %name%": "Odhlásit %name%"
-"Menu editor": "Editor menu"
-"Menu successfully saved": "Menu úspěšně uloženo"
-"Menus successfully saved": "Menu úspěšně uložena"
-"Name of new menu": "Název nového menu"
-"New user": "Nový uživatel"
-"Overview of all": "Celkový přehled"
-"Please confirm that you wish to restore the menu": "Potvrďte prosím, že chcete obnovit menu"
-"Please make sure that the MenuEditor/backups folder is writeable by your webserver or disable the backup-feature in config.yml": "Zkontrolujte prosím, že složka MenuEditor/backups na serveru je zapisovatelná nebo vypněte zálohování v config.yml"
-"Please make sure that there is a MenuEditor/backups folder or disable the backup-feature in config.yml": "Ujistěte se prosím, že existuje složka záloha pro MenuEditor nebo vypněte možnost záloh v souboru config.yml"
-"Preview video": "Náhled videa"
-"Req. Bolt": "Ver. Bolt"
-"Restore %filename%": "Obnovit %filename%"
-"Search for an item to add": "Vyhledat "
-"Select an item to add": "Vyberte položku pro přidání"
-"Sitemap": "Mapa webu\""
-"Size:": "Velikost:"
-"Something went wrong, please reload the page and try again": "Něco je špatně, načtěte stranu znovu a zkuste to ještě jednou"
-"Special elements": "Zvláštní prvky"
-"The backup could not be restored:": "Zálohu nelze obnovit:"
-"The menu.yml config-file was edited by someone else in the meantime, please reload the page.": "Konfigurační soubor menu.yml byl v mezičase někým pozměněn, prosím, reloadujte stránku."
-"There was an error when reading this WXR file": "Při čtení souboru WXR nastala chyba"
-"There's something wrong with this extension, please report to the author and edit your menu manually until this is fixed.": "S tímto rozšířením není něco v pořádku, informujte prosím autora. Prozatím upravte menu ručně."
-"This does not appear to be a WXR file, missing/invalid WXR version number": "Toto není patrně WXR soubor – nebylo nalezeno platné číslo verze WXR."
-"This record is related to %contenttype%": "Záznam souvisí s %contenttype%"
-"Title/Alt Text:": "Název/Alt. text"
-"URL:": "URL:"
-"Unable to overwrite menu.yml": "menu.yml nelze přepsat."
-"Unable to save backup! Please make sure MenuEditor/backups is writable by your webserver or disable the feature in the extensions configuration.": "Nelze zazálohovat! Ujistěte se prosím, že MenuEditor/backups na vašem webserveru je zapisovatelný nebo vypněte tuto možnost v nastavení rozšíření."
-"Unable to save your menu.": "Menu nelze uložit."
-"Upload a file to this folder:": "Uložit soubor do této složky:"
-"Upload files": "Nahrát soubory"
-"View file '%s'.": "Zobrazit soubor"
-"You should set 'homepage:' in your 'app/config/config.yml' to an existing record.": "Úvodní strana 'homepage:' by měla být v konfiguračním souboru 'app/config/config.yml' nasměrována na existující obsah."
-"css classes": "css třídy"
-"http://": "http://"
-"label": "označení"
-"no label set": "žádná sada označení"
-"title": "Název"
-"File1": #
-"File2": #
-"Image1": #
-"Image2": #
-"page.edit-users.log.user-updated": # "\"Updated user '%user%'.\""
-"page.edit-users.note-sqlite": # "\"You are currently using SQLite to set up the first user. If you wish to use MySQL or PostgreSQL instead, edit the configuration file at <tt>'app/config/config.yml'</tt> and Bolt will set up the database tables for you. Be sure to reload this page before continuing.\""
-"page.edit-users.placeholder.displayname": # "\"Pick a display name / alias\""
-"page.edit-users.placeholder.email": # "\"Enter a valid email address\""
-"page.edit-users.placeholder.password": # "\"Enter a password, longer than 6 chars\""
-"page.edit-users.placeholder.password-confirm": # "\"Confirm your password\""
-"page.edit-users.placeholder.username": # "\"Pick a username, lowercase only\""
-"panel.user-actions.button.add": # "\"Add a new user\""
-"%contenttypes%": "%contenttypes%"
-"component.changelog-pager.page": "Strana"
-"page.edit-users.activated.no": "ne"
-"page.edit-users.activated.yes": "ano"
-"page.edit-users.error.displayname-used": "Uživatelské jméno již existuje. Zvolte si jiné."
-"page.edit-users.error.email-used": "Tato emailová adresa je již používána. Zvolte jinou."
-"page.edit-users.error.password-mismatch": "Hesla se musí shodovat."
-"page.edit-users.error.password-short": "Příliš krátké zadání. Vložte minimálně 6 znaků."
-"page.edit-users.error.username-used": "Toto uživatelské jméno již bohužel existuje. Zvolte jiné."
-"page.edit-users.label.assigned-roles": "Přidělená práva"
-"page.edit-users.label.display-name": "Zobrazovat jméno"
-"page.edit-users.label.email": "Email"
-"page.edit-users.label.last-ip": "Poslední IP adresa"
-"page.edit-users.label.last-seen": "Naposledy přihlášen"
-"page.edit-users.label.password": "Heslo"
-"page.edit-users.label.password-confirm": "Ověření hesla"
-"page.edit-users.label.user-enabled": "Povolit uživatele."
-"page.edit-users.label.username": "Uživatelské jméno"
-"page.edit-users.log.user-added": "Přidán uživatel '%user%'."
-"page.edit-users.message.saving-user": "Nepodařilo se uložit uživatele %user% (nebo nedošlo k žádným změnám)."
-"page.edit-users.message.user-saved": "Zobrazit soubor '%user%'."
-"page.edit-users.create": "Vytvořit nového uživatele"
-"page.edit-users.edit": "Upravit uživatele"
 
 #--- 382 translations ---------------------------------------------------------
 
@@ -641,3 +546,4 @@ panel:
         logged-out: "odhlášen/a"
         saved: "Uloženo"
         unknown: "neznámý"
+
