@@ -35,7 +35,7 @@ class TestRunner extends BaseCommand
         if (is_null($executable)) {
             $output->writeln("No PHPUnit test runner found in the vendor dir or your path");
         } else {
-            system($executable . ' -c app/');
+            system($executable);
         }
     }
 }
