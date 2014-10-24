@@ -936,7 +936,6 @@ class Library
         }
         // Check for contenttype(s) placeholder
         if ($tr_args) {
-            $x = $tr_args;
             if (isset($tr_args['%contenttype%'])) {
                 $key_arg = '%contenttype%';
             } elseif (isset($tr_args['%contenttypes%'])) {
