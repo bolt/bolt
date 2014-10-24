@@ -1659,7 +1659,7 @@ class Backend implements ControllerProviderInterface
             $app->abort(403, $error);
         }
 
-        $type = getExtension($filename);
+        $type = Lib::getExtension($filename);
 
         // Get the pathsegments, so we can show the path..
         $path = dirname($file);
