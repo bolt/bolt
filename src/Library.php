@@ -4,6 +4,7 @@ namespace Bolt;
 
 use Maid\Maid;
 use Bolt\Configuration\ResourceManager;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class for Bolt's generic library functions
@@ -877,7 +878,7 @@ class Library
         return $merged;
     }
 
-    public static function getReferrer(Symfony\Component\HttpFoundation\Request $request)
+    public static function getReferrer(Request $request)
     {
         $tmp = parse_url($request->server->get('HTTP_REFERER'));
 
