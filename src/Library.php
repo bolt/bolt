@@ -871,6 +871,9 @@ class Library
         return $referrer;
     }
 
+    /**
+     * htmlencode() and htmlencode_params() are not used in the codebase.
+     */
     public static function htmlencode($str)
     {
         return htmlspecialchars($str, ENT_QUOTES);
