@@ -1271,7 +1271,7 @@ class TwigExtension extends \Twig_Extension
             return null;
         }
 
-        simpleredirect($path);
+        Lib::simpleredirect($path);
 
         $result = $this->app->redirect($path);
 
