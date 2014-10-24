@@ -444,7 +444,7 @@ class TwigExtension extends \Twig_Extension
 
     public function decorateTT($str)
     {
-        return decorateTT($str);
+        return Lib::decorateTT($str);
     }
 
     /**
