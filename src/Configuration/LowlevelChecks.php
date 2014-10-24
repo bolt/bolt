@@ -1,6 +1,8 @@
 <?php
 namespace Bolt\Configuration;
 
+use Bolt\Library as Lib;
+
 /**
  * A class to perform several 'low level' checks. Since we're doing it (by design)
  * _before_ the autoloader gets initialized, we can't use autoloading.
@@ -193,7 +195,7 @@ class LowlevelChecks
         }
 
         $filename = isset($cfg['databasename']) ? basename($cfg['databasename']) : 'bolt';
-        if (getExtension($filename) != 'db') {
+        if (Lib::getExtension($filename) != 'db') {
             $filename .= '.db';
         }
 
