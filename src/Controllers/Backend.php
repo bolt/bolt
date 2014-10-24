@@ -1717,7 +1717,7 @@ class Backend implements ControllerProviderInterface
             if ($form->isValid()) {
 
                 $data = $form->getData();
-                $contents = cleanPostedData($data['contents']) . "\n";
+                $contents = Lib::cleanPostedData($data['contents']) . "\n";
 
                 $ok = true;
 
@@ -1807,7 +1807,7 @@ class Backend implements ControllerProviderInterface
             if ($form->isValid()) {
 
                 $data = $form->getData();
-                $contents = cleanPostedData($data['contents']) . "\n";
+                $contents = Lib::cleanPostedData($data['contents']) . "\n";
 
                 // Before trying to save a yaml file, check if it's valid.
                 try {
