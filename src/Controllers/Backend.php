@@ -895,7 +895,7 @@ class Backend implements ControllerProviderInterface
                 // check if a pager was set in the referrer - if yes go back there
                 $editreferrer = $app['request']->get('editreferrer');
                 if ($editreferrer) {
-                    simpleredirect($editreferrer);
+                    Lib::simpleredirect($editreferrer);
                 } else {
                     return redirect('overview', array('contenttypeslug' => $contenttype['slug']));
                 }
