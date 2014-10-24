@@ -938,14 +938,14 @@ class Library
                         $trans = $app['translator']->transChoice(
                             $key,
                             $args[1],
-                            htmlencode_params($tr_args),
+                            self::htmlencode_params($tr_args),
                             isset($args[3]) ? $args[3] : $domain,
                             isset($args[4]) ? $args[4] : $app['request']->getLocale()
                         );
                     } else {
                         $trans = $app['translator']->trans(
                             $key,
-                            htmlencode_params($tr_args),
+                            self::htmlencode_params($tr_args),
                             isset($args[2]) ? $args[2] : $domain,
                             isset($args[3]) ? $args[3] : $app['request']->getLocale()
                         );
@@ -997,14 +997,14 @@ class Library
                         $trans = $app['translator']->transChoice(
                             $text,
                             $args[1],
-                            htmlencode_params($tr_args),
+                            self::htmlencode_params($tr_args),
                             isset($args[3]) ? $args[3] : 'contenttypes',
                             isset($args[4]) ? $args[4] : $app['request']->getLocale()
                         );
                 } else {
                         $trans = $app['translator']->trans(
                             $text,
-                            htmlencode_params($tr_args),
+                            self::htmlencode_params($tr_args),
                             isset($args[2]) ? $args[2] : 'contenttypes',
                             isset($args[3]) ? $args[3] : $app['request']->getLocale()
                         );
@@ -1019,7 +1019,7 @@ class Library
 
         //try {
         if (isset($args[1])) {
-            $args[1] = htmlencode_params($args[1]);
+            $args[1] = self::htmlencode_params($args[1]);
         }
         switch($num_args) {
             case 5:
