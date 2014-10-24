@@ -510,7 +510,7 @@ class Config
             $this->app['users']->getCurrentUsername()) {
             $msg = Lib::__(
                 "The database needs to be updated/repaired. Go to 'Settings' > '<a href=\"%link%\">Check Database</a>' to do this now.",
-                array('%link%' => path('dbcheck'))
+                array('%link%' => Lib::path('dbcheck'))
             );
             $this->app['session']->getFlashBag()->set('error', $msg);
 
