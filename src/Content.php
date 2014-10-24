@@ -4,6 +4,7 @@ namespace Bolt;
 
 use Silex;
 use Symfony\Component\Filesystem\Filesystem;
+use Bolt\Library as Lib;
 
 class Content implements \ArrayAccess
 {
@@ -322,9 +323,9 @@ class Content implements \ArrayAccess
                     '%s/files/%s/%s',
                     $this->app['paths']['rootpath'],
                     date('Y-m'),
-                    safeString($file['name'][0], false, '[]{}()')
+                    Lib::safeString($file['name'][0], false, '[]{}()')
                 );
-                $basename = sprintf('/%s/%s', date('Y-m'), safeString($file['name'][0], false, "[]{}()"));
+                $basename = sprintf('/%s/%s', date('Y-m'), Lib::safeString($file['name'][0], false, "[]{}()"));
 
                 if ($file['error'][0] != UPLOAD_ERR_OK) {
                     $this->app['log']->add('Upload: Error occured during upload: ' . $file['error'][0] . ' - ' . $filename, 2);
