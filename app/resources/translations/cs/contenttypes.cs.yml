@@ -1,13 +1,24 @@
-# app/resources/translations/cs/contenttypes.cs.yml -- generated on 2014/07/07 11:56:54
-# 3 untranslated strings
+# app/resources/translations/cs/contenttypes.cs.yml – generated on 2014-10-24 12:25:51 UTC
+
+# Warning: Translations are in the process of being moved to a new keyword-based translation
+#          at the moment. This is an ongoing process. Translations currently in the 
+#          repository are automatically mapped to the new scheme. Be aware that there 
+#          can be a race condition between that process and your PR so that it's 
+#          eventually neccessary to remap your translations. If you're planning on 
+#          updating your translations, it's best to ask on IRC to time your contribution
+#          in order to prevent merge conflicts.
+
+#  93 unused messages
+#  no untranslated messages
+#  no untranslated keyword based messages
+#  no translations
+#  93 keyword based translations
+
+#--- 93 unused messages -------------------------------------------------------
 
 "In the contenttype for 'Entry', the field '%field%' is defined, which is a reserved name. Please edit contenttypes.yml, and correct this.": "Typ obsahu 'Příspěvek' má definované pole '%field%', což je rezervovaný název. Přejmenujte prosím toto pole v contenttypes.yml."
 "In the contenttype for 'Kitchensink', the field '%field%' is defined, which is a reserved name. Please edit contenttypes.yml, and correct this.": "Typ obsahu 'Kuchyňský dřez' má definované pole '%field%', což je rezervovaný název. Přejmenujte prosím toto pole v contenttypes.yml."
 "In the contenttype for 'Page', the field '%field%' is defined, which is a reserved name. Please edit contenttypes.yml, and correct this.": "Typ obsahu 'Strana' má definované pole '%field%', což je rezervovaný název. Přejmenujte prosím toto pole v contenttypes.yml."
-
-#-----------------------------------------
-# 90 translated strings
-
 "Actions for Entries": "Akce pro Příspěvky"
 "Actions for Kitchensinks": "Akce pro Kuchyňské dřezy"
 "Actions for Pages": "Akce pro Strany"
@@ -98,3 +109,109 @@
 "View Entries": "Zobrazit Příspěvky"
 "View Kitchensinks": "Zobrazit Kuchyňské dřezy"
 "View Pages": "Zobrazit Strany"
+
+#--- 93 keyword based translations --------------------------------------------
+
+contenttypes:
+    entries:
+        name:
+            plural: "Novinky"
+            singular: "Novinka"
+        text:
+            actions-all: "Akce pro "
+            actions-one: "Akce pro "
+            created: "Tento  byl vytvořen"
+            delete: "Odstranit "
+            duplicate: "Duplikovat "
+            duplicated-finalize: "Obsah byl zduplikován. Klikněte na 'Uložit ' pro dokončení."
+            edit: "Upravit "
+            error-saving: "Při ukládání  nastala chyba."
+            invalid-field: "Nezlez anstavit pole %field% v : Neplatné pole."
+            last-modified: "Poslední úpravy "
+            new: "Novinka"
+            no-latest: "Žádný poslední "
+            no-proper-type: "Typ obsahu '', pole '%field%' používá 'typ: %type%', což není korektní typ pole. Proveďte prosím potřebné úpravy v contenttypes.yml."
+            no-recent: "Prázdný: ."
+            none-available: " nenalezen."
+            not-existing: "Typ obsahu , který hledáte, neexistuje. Buď byl smazán a nebo nikdy neexistoval."
+            not-saved-yet: " zatím neuloženo."
+            overview: " přehled"
+            publish: "Publikovat "
+            recent: "Poslední "
+            recently-edited: "Poslední úpravy: "
+            reserved-name: "Typ obsahu '' má definováno pole '%field%', což je rezervovaný název. Proveďte prosím potřebné úpravy v contenttypes.yml."
+            save: "Uložit "
+            saved-changes: "Změny byly uloženy ()."
+            saved-new: "Nový  byl uložen."
+            saving-impossible: "Nelze uložit ."
+            show-more: "Více "
+            view: "Zobrazit novinky"
+            wrong-use-field: "Typ obsahu '', pole '%field%' používá: '%uses%', ale pole '%uses%' neexistuje. Proveďte prosím potřebné úpravy v contenttypes.yml."
+    pages:
+        name:
+            plural: "Pages"
+            singular: "Page"
+        text:
+            actions-all: "Akce pro "
+            actions-one: "Akce pro "
+            created: "Tento  byl vytvořen"
+            delete: "Odstranit "
+            duplicate: "Duplikovat "
+            duplicated-finalize: "Obsah byl zduplikován. Klikněte na 'Uložit ' pro dokončení."
+            edit: "Upravit "
+            error-saving: "Při ukládání  nastala chyba."
+            invalid-field: "Nezlez anstavit pole %field% v : Neplatné pole."
+            last-modified: "Poslední úpravy "
+            new: "Strana"
+            no-latest: "Žádný poslední "
+            no-proper-type: "Typ obsahu '', pole '%field%' používá 'typ: %type%', což není korektní typ pole. Proveďte prosím potřebné úpravy v contenttypes.yml."
+            no-recent: "Prázdný: ."
+            none-available: " nenalezen."
+            not-existing: "Typ obsahu , který hledáte, neexistuje. Buď byl smazán a nebo nikdy neexistoval."
+            not-saved-yet: " zatím neuloženo."
+            overview: " přehled"
+            publish: "Publikovat "
+            recent: "Poslední "
+            recently-edited: "Poslední úpravy: "
+            reserved-name: "Typ obsahu '' má definováno pole '%field%', což je rezervovaný název. Proveďte prosím potřebné úpravy v contenttypes.yml."
+            save: "Uložit "
+            saved-changes: "Změny byly uloženy ()."
+            saved-new: "Nový  byl uložen."
+            saving-impossible: "Nelze uložit ."
+            show-more: "Více "
+            view: "Zobrazit strany"
+            wrong-use-field: "Typ obsahu '', pole '%field%' používá: '%uses%', ale pole '%uses%' neexistuje. Proveďte prosím potřebné úpravy v contenttypes.yml."
+    showcases:
+        name:
+            plural: "Ukázky"
+            singular: "Ukázka"
+        text:
+            actions-all: "Akce pro "
+            actions-one: "Akce pro "
+            created: "Tento  byl vytvořen"
+            delete: "Odstranit "
+            duplicate: "Duplikovat "
+            duplicated-finalize: "Obsah byl zduplikován. Klikněte na 'Uložit ' pro dokončení."
+            edit: "Upravit "
+            error-saving: "Při ukládání  nastala chyba."
+            invalid-field: "Nezlez anstavit pole %field% v : Neplatné pole."
+            last-modified: "Poslední úpravy "
+            new: "Ukázka"
+            no-latest: "Žádný poslední "
+            no-proper-type: "Typ obsahu '', pole '%field%' používá 'typ: %type%', což není korektní typ pole. Proveďte prosím potřebné úpravy v contenttypes.yml."
+            no-recent: "Prázdný: ."
+            none-available: " nenalezen."
+            not-existing: "Typ obsahu , který hledáte, neexistuje. Buď byl smazán a nebo nikdy neexistoval."
+            not-saved-yet: " zatím neuloženo."
+            overview: " přehled"
+            publish: "Publikovat "
+            recent: "Poslední "
+            recently-edited: "Poslední úpravy: "
+            reserved-name: "Typ obsahu '' má definováno pole '%field%', což je rezervovaný název. Proveďte prosím potřebné úpravy v contenttypes.yml."
+            save: "Uložit "
+            saved-changes: "Změny byly uloženy ()."
+            saved-new: "Nový  byl uložen."
+            saving-impossible: "Nelze uložit ."
+            show-more: "Více "
+            view: "Zobrazit ukázky"
+            wrong-use-field: "Typ obsahu '', pole '%field%' používá: '%uses%', ale pole '%uses%' neexistuje. Proveďte prosím potřebné úpravy v contenttypes.yml."
