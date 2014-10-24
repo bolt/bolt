@@ -175,7 +175,7 @@ class Config
         $tempconfig            = $this->parseConfigYaml('config.yml');
         $tempconfiglocal       = $this->parseConfigYaml('config_local.yml');
 
-        $config['general']     = array_merge_recursive_distinct($tempconfig, $tempconfiglocal);
+        $config['general']     = Lib::array_merge_recursive_distinct($tempconfig, $tempconfiglocal);
         $config['taxonomy']    = $this->parseConfigYaml('taxonomy.yml');
         $tempContentTypes      = $this->parseConfigYaml('contenttypes.yml');
         $config['menu']        = $this->parseConfigYaml('menu.yml');
@@ -208,7 +208,7 @@ class Config
         }
 
         // Merge the array with the defaults. Setting the required values that aren't already set.
-        $config['general'] = array_merge_recursive_distinct($this->defaultConfig, $config['general']);
+        $config['general'] = Lib::array_merge_recursive_distinct($this->defaultConfig, $config['general']);
 
         // Make sure the cookie_domain for the sessions is set properly.
         if (empty($config['general']['cookies_domain'])) {
