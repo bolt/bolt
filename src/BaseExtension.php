@@ -2,6 +2,7 @@
 namespace Bolt;
 
 use Bolt\Extensions\ExtensionInterface;
+use Bolt\Library as Lib;
 use Symfony\Component\Console\Command\Command;
 use Composer\Json\JsonFile;
 use utilphp\util;
@@ -538,7 +539,7 @@ abstract class BaseExtension extends \Twig_Extension implements ExtensionInterfa
         if ($this->app['users']->isAllowed($permission)) {
             return true;
         } else {
-            simpleredirect($this->app['config']->get('general/branding/path'));
+            Lib::simpleredirect($this->app['config']->get('general/branding/path'));
 
             return false;
         }
