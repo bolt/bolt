@@ -2,10 +2,6 @@
 
 use Bolt\Library as Lib;
 
-// namespace <none> * sad panda face *
-// (which means no autoloading..)
-require_once dirname(dirname(__DIR__)) . '/app/lib.php';
-
 class libTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -75,7 +71,7 @@ class libTest extends \PHPUnit_Framework_TestCase
      */
     public function testTrimText($str, $length, $nbsp, $hellip, $striptags, $expected)
     {
-        $result = trimText($str, $length, $nbsp, $hellip, $striptags);
+        $result = Lib::trimText($str, $length, $nbsp, $hellip, $striptags);
         $this->assertEquals($expected, $result);
     }
 
@@ -89,7 +85,7 @@ class libTest extends \PHPUnit_Framework_TestCase
         } else {
             $ellipseStr = '';
         }
-        $actual = trimToHTML($html, $length, $ellipseStr, $striptags, $nbsp);
+        $actual = Lib::trimToHTML($html, $length, $ellipseStr, $striptags, $nbsp);
         $this->assertEquals($expected, $actual);
     }
 
