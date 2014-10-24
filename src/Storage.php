@@ -1586,7 +1586,7 @@ class Storage
                 $order = $this->getEscapedSortorder($contenttype['sort'], false);
             }
         } else {
-            $par_order = safeString($order_value);
+            $par_order = Lib::safeString($order_value);
             if ($par_order == 'RANDOM') {
                 $dboptions = $this->app['config']->getDBOptions();
                 $order = $dboptions['randomfunction'];
