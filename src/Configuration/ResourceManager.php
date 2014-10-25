@@ -107,8 +107,8 @@ class ResourceManager
         $this->classLoader = $loader;
         $ldpath = dirname($loader->findFile('Composer\\Autoload\\ClassLoader'));
         $expath = explode('vendor', $ldpath);
-
-        return $this->setPath('root', $expath[0]);
+        array_pop($expath);
+        return $this->setPath('root', join('vendor', $expath));
     }
 
     /*
