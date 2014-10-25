@@ -1,8 +1,10 @@
 <?php
+namespace Bolt\Configuration;
 
 use Bolt\Application;
 use Eloquent\Pathogen\FileSystem\Factory\PlatformFileSystemPathFactory;
 use Composer\Autoload\ClassLoader;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Left as a blank extension of ResourceManager for now, this semantically represents a default configuration
@@ -11,7 +13,7 @@ use Composer\Autoload\ClassLoader;
 class Standard extends ResourceManager
 {
 
-    public function __construct($loader)
+    public function __construct($loader, Request $request = null)
     {
         $container = new \Pimple();
 
@@ -22,6 +24,7 @@ class Standard extends ResourceManager
         }
 
         $container['pathmanager'] = new PlatformFileSystemPathFactory();
+        $container['request'] = $request;
 
         parent::__construct($container);
     }
