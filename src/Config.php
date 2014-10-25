@@ -689,17 +689,18 @@ class Config
 
     private function loadCache()
     {
+        $dir = $this->app['resources']->getPath('config');
         /* Get the timestamps for the config files. config_local defaults to '0', because if it isn't present,
            it shouldn't trigger an update for the cache, while the others should.
         */
         $timestamps = array(
-            file_exists(BOLT_CONFIG_DIR . '/config.yml') ? filemtime(BOLT_CONFIG_DIR . '/config.yml') : 10000000000,
-            file_exists(BOLT_CONFIG_DIR . '/taxonomy.yml') ? filemtime(BOLT_CONFIG_DIR . '/taxonomy.yml') : 10000000000,
-            file_exists(BOLT_CONFIG_DIR . '/contenttypes.yml') ? filemtime(BOLT_CONFIG_DIR . '/contenttypes.yml') : 10000000000,
-            file_exists(BOLT_CONFIG_DIR . '/menu.yml') ? filemtime(BOLT_CONFIG_DIR . '/menu.yml') : 10000000000,
-            file_exists(BOLT_CONFIG_DIR . '/routing.yml') ? filemtime(BOLT_CONFIG_DIR . '/routing.yml') : 10000000000,
-            file_exists(BOLT_CONFIG_DIR . '/permissions.yml') ? filemtime(BOLT_CONFIG_DIR . '/permissions.yml') : 10000000000,
-            file_exists(BOLT_CONFIG_DIR . '/config_local.yml') ? filemtime(BOLT_CONFIG_DIR . '/config_local.yml') : 0,
+            file_exists($dir . '/config.yml') ? filemtime($dir . '/config.yml') : 10000000000,
+            file_exists($dir . '/taxonomy.yml') ? filemtime($dir . '/taxonomy.yml') : 10000000000,
+            file_exists($dir . '/contenttypes.yml') ? filemtime($dir . '/contenttypes.yml') : 10000000000,
+            file_exists($dir . '/menu.yml') ? filemtime($dir . '/menu.yml') : 10000000000,
+            file_exists($dir . '/routing.yml') ? filemtime($dir . '/routing.yml') : 10000000000,
+            file_exists($dir . '/permissions.yml') ? filemtime($dir . '/permissions.yml') : 10000000000,
+            file_exists($dir . '/config_local.yml') ? filemtime($dir . '/config_local.yml') : 0,
         );
         if (file_exists($this->app['resources']->getPath('cache') . '/config_cache.php')) {
             $cachetimestamp = filemtime($this->app['resources']->getPath('cache') . '/config_cache.php');
