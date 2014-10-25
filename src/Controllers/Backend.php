@@ -760,7 +760,13 @@ class Backend implements ControllerProviderInterface
         }
 
         // set the editreferrer in twig if it was not set yet.
-        $tmpreferrer = Lib::getReferrer($app['request']);
+        $tmp = parse_url($app['request']->server->get('HTTP_REFERER'));
+
+        $tmpreferrer = $tmp['path'];
+        if (!empty($tmp['query'])) {
+            $tmpreferrer .= "?" . $tmp['query'];
+        }
+
         if (strpos($tmpreferrer, '/overview/') !== false || ($tmpreferrer == $app['paths']['bolt'])) {
             $app['twig']->addGlobal('editreferrer', $tmpreferrer);
         }

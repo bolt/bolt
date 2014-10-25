@@ -342,18 +342,6 @@ class Library
         return true;
     }
 
-    public static function getReferrer(Request $request)
-    {
-        $tmp = parse_url($request->server->get('HTTP_REFERER'));
-
-        $referrer = $tmp['path'];
-        if (!empty($tmp['query'])) {
-            $referrer .= "?" . $tmp['query'];
-        }
-
-        return $referrer;
-    }
-
     /**
      * Leniently decode a serialized compound data structure, detecting whether
      * it's dealing with JSON-encoded data or a PHP-serialized string.
