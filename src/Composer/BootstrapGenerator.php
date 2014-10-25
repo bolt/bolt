@@ -81,10 +81,10 @@ EOD;
     public function generate()
     {
         if ($this->webroot) {
-            $autoload = "../vendor/autoload";
+            $autoload = "../vendor/autoload.php";
             $base = "dirname(__DIR__)";
         } else {
-            $autoload = "vendor/autoload";
+            $autoload = "vendor/autoload.php";
             $base = "__DIR__";
         }
         
