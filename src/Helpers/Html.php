@@ -31,13 +31,13 @@ class Html
      * Recursively collect nodes from a DOM tree until the tree is exhausted or the
      * desired text length is fulfilled.
      *
-     * @param DOMNode $node            The current node
-     * @param DOMNode $parentNode      A target node that will receive copies of all
+     * @param \DOMNode $node            The current node
+     * @param \DOMNode $parentNode      A target node that will receive copies of all
      *                                 collected nodes as child nodes.
-     * @param int     $remainingLength The remaining number of characters to collect.
+     * @param int      $remainingLength The remaining number of characters to collect.
      *                                 When this value reaches zero, the traversal is
      *                                 stopped.
-     * @param string  $ellipseStr      If non-empty, this string will be appended to the
+     * @param string   $ellipseStr      If non-empty, this string will be appended to the
      *                                 last collected node when the document gets
      *                                 truncated.
      */
@@ -83,7 +83,7 @@ class Html
     /**
      * Helper function to convert 'soft' spaces to non-breaking spaces in a given DOMNode.
      *
-     * @param DOMNode $node The node to process. Note that processing is in-place.
+     * @param \DOMNode $node The node to process. Note that processing is in-place.
      */
     private static function domSpacesToNBSP(\DOMNode $node)
     {
@@ -112,6 +112,7 @@ class Html
      *                              whitelisted 'safe' set.
      * @param bool   $nbsp          If TRUE, convert all whitespace runs to non-breaking
      *                              spaces ('&nbsp;' entities).
+     * @return string
      */
     public static function trimToHTML($html, $desiredLength = null, $ellipseStr = "…", $stripTags = false, $nbsp = false)
     {
