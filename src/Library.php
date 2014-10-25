@@ -395,21 +395,6 @@ class Library
     }
 
     /**
-     * String length wrapper. Uses mb_strwidth when available. Fallback to strlen.
-     *
-     * @param  string $str
-     * @return int    String length
-     */
-    public static function getStringLength($str)
-    {
-        if (function_exists('mb_strwidth')) {
-            return mb_strwidth($str, 'UTF-8');
-        } else {
-            return strlen($str);
-        }
-    }
-
-    /**
      * parse the used .twig templates from the Twig Loader object, using regular expressions.
      *
      * We use this for showing them in the debug toolbar.
