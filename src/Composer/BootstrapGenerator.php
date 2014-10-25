@@ -19,6 +19,7 @@ $configuration = new Bolt\Configuration\Composer(%s);
 EOD;
 
     public $templateEnd = <<<'EOD'
+$configuration->getVerifier()->disableApacheChecks();
 $configuration->verify();
 $app = new Bolt\Application(array('resources'=>$configuration));
 $app->initialize();
