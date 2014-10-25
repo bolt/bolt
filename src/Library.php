@@ -47,21 +47,6 @@ class Library
     }
 
     /**
-     * Compares versions of software.
-     *
-     * Versions should use the "MAJOR.MINOR.EDIT" scheme, or in other words
-     * the format "x.y.z" where (x, y, z) are numbers in [0-9].
-     *
-     * @param  string  $currentversion
-     * @param  string  $requiredversion
-     * @return boolean
-     */
-    public static function checkVersion($currentversion, $requiredversion)
-    {
-        return version_compare($currentversion, $requiredversion) > -1;
-    }
-
-    /**
      * Cleans up/fixes a relative paths.
      *
      * As an example '/site/pivotx/../index.php' becomes '/site/index.php'.
