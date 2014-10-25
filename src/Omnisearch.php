@@ -317,7 +317,7 @@ class Omnisearch
         $finder->files()
                   ->ignoreVCS(true)
                   ->notName('*~')
-                  ->in(BOLT_PROJECT_ROOT_DIR . $folder);
+                  ->in($this->app['resources']->getPath('root') . $folder);
 
         if ($name) {
             $finder->name($name);

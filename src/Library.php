@@ -492,6 +492,8 @@ class Library
      */
     public static function hackislyParseRegexTemplates($obj)
     {
+        $app = ResourceManager::getApp();
+        
         $str = print_r($obj, true);
 
         preg_match_all('| => (.+\.twig)|i', $str, $matches);
@@ -499,7 +501,7 @@ class Library
         $templates = array();
 
         foreach ($matches[1] as $match) {
-            $templates[] = str_replace(BOLT_PROJECT_ROOT_DIR . DIRECTORY_SEPARATOR, '', $match);
+            $templates[] = str_replace($app['resources']->getPath('root') . DIRECTORY_SEPARATOR, '', $match);
         }
 
         return $templates;

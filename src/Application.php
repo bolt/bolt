@@ -214,8 +214,8 @@ class Application extends Silex\Application
 
         // Loading stub functions for when intl / IntlDateFormatter isn't available.
         if (!function_exists('intl_get_error_code')) {
-            require_once BOLT_PROJECT_ROOT_DIR . '/vendor/symfony/locale/Symfony/Component/Locale/Resources/stubs/functions.php';
-            require_once BOLT_PROJECT_ROOT_DIR . '/vendor/symfony/locale/Symfony/Component/Locale/Resources/stubs/IntlDateFormatter.php';
+            require_once $this->app['resources']->getPath('root') . '/vendor/symfony/locale/Symfony/Component/Locale/Resources/stubs/functions.php';
+            require_once $this->app['resources']->getPath('root') . '/vendor/symfony/locale/Symfony/Component/Locale/Resources/stubs/IntlDateFormatter.php';
         }
 
         $this->register(new Provider\TranslationServiceProvider());
@@ -426,7 +426,7 @@ class Application extends Silex\Application
             $this->register(new Provider\TwigProfilerServiceProvider());
 
             $this['twig.loader.filesystem']->addPath(
-                BOLT_PROJECT_ROOT_DIR . '/vendor/symfony/web-profiler-bundle/Symfony/Bundle/WebProfilerBundle/Resources/views',
+                $this['resources']->getPath('root') . '/vendor/symfony/web-profiler-bundle/Symfony/Bundle/WebProfilerBundle/Resources/views',
                 'WebProfiler'
             );
 
@@ -534,7 +534,7 @@ class Application extends Silex\Application
 
             // Don't display the full path..
             if (isset( $trace[$key]['file'])) {
-                $trace[$key]['file'] = str_replace(BOLT_PROJECT_ROOT_DIR, '[root]', $trace[$key]['file']);
+                $trace[$key]['file'] = str_replace($this['resources']->getPath('root'), '[root]', $trace[$key]['file']);
             }
         }
 
