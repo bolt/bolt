@@ -12,8 +12,9 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Yaml\Yaml;
 use Bolt\Library as Lib;
+use Bolt\Translation\Translation as Trans;
 use Bolt\Permissions;
-use Bolt\TranslationFile;
+use Bolt\Translation\TranslationFile;
 
 /**
  * Backend controller grouping.
@@ -233,7 +234,7 @@ class Backend implements ControllerProviderInterface
                 // Send a password request mail, if username exists.
                 $username = trim($request->get('username'));
                 if (empty($username)) {
-                    $app['users']->session->getFlashBag()->set('error', Lib::__('Please provide a username', array()));
+                    $app['users']->session->getFlashBag()->set('error', Trans::__('Please provide a username', array()));
                 } else {
                     $app['users']->resetPasswordRequest($request->get('username'));
 
@@ -329,9 +330,9 @@ class Backend implements ControllerProviderInterface
         $return = $app['request']->query->get('return');
         if ($return == 'edit') {
             if (empty($output)) {
-                $content = Lib::__('Your database is already up to date.');
+                $content = Trans::__('Your database is already up to date.');
             } else {
-                $content = Lib::__('Your database is now up to date.');
+                $content = Trans::__('Your database is now up to date.');
             }
             $app['session']->getFlashBag()->set('success', $content);
 
@@ -368,10 +369,10 @@ class Backend implements ControllerProviderInterface
     {
         $result = $app['cache']->clearCache();
 
-        $output = Lib::__("Deleted %s files from cache.", array('%s' => $result['successfiles']));
+        $output = Trans::__('Deleted %s files from cache.', array('%s' => $result['successfiles']));
 
         if (!empty($result['failedfiles'])) {
-            $output .= " " . Lib::__("%s files could not be deleted. You should delete them manually.", array('%s' => $result['failedfiles']));
+            $output .= ' ' . Trans::__('%s files could not be deleted. You should delete them manually.', array('%s' => $result['failedfiles']));
             $app['session']->getFlashBag()->set('error', $output);
         } else {
             $app['session']->getFlashBag()->set('success', $output);
@@ -392,12 +393,12 @@ class Backend implements ControllerProviderInterface
 
         if ($action == 'clear') {
             $app['log']->clear();
-            $app['session']->getFlashBag()->set('success', Lib::__('The activitylog has been cleared.'));
+            $app['session']->getFlashBag()->set('success', Trans::__('The activitylog has been cleared.'));
 
             return Lib::redirect('activitylog');
         } elseif ($action == 'trim') {
             $app['log']->trim();
-            $app['session']->getFlashBag()->set('success', Lib::__('The activitylog has been trimmed.'));
+            $app['session']->getFlashBag()->set('success', Trans::__('The activitylog has been trimmed.'));
 
             return Lib::redirect('activitylog');
         }
@@ -487,7 +488,7 @@ class Backend implements ControllerProviderInterface
         // Make sure the user is allowed to see this page, based on 'allowed contenttypes'
         // for Editors.
         if (!$app['users']->isAllowed('contenttype:' . $contenttypeslug)) {
-            $app['session']->getFlashBag()->set('error', Lib::__('You do not have the right privileges to view that page.'));
+            $app['session']->getFlashBag()->set('error', Trans::__('You do not have the right privileges to view that page.'));
 
             return Lib::redirect('dashboard');
         }
@@ -531,7 +532,7 @@ class Backend implements ControllerProviderInterface
     {
         // Make sure the user is allowed to see this page, based on 'allowed contenttypes' for Editors.
         if (!$app['users']->isAllowed('contenttype:' . $contenttypeslug)) {
-            $app['session']->getFlashBag()->set('error', Lib::__('You do not have the right privileges to edit that record.'));
+            $app['session']->getFlashBag()->set('error', Trans::__('You do not have the right privileges to edit that record.'));
 
             return Lib::redirect('dashboard');
         }
@@ -559,7 +560,7 @@ class Backend implements ControllerProviderInterface
                     $show_contenttype = $relatedtype;
                 }
                 $relations[$relatedslug] = array(
-                    'name' => Lib::__($relatedtype['name']),
+                    'name' => Trans::__($relatedtype['name']),
                     'active' => ($relatedtype['slug'] == $show_slug),
                 );
             }
@@ -581,7 +582,7 @@ class Backend implements ControllerProviderInterface
 
         $context = array(
             'id' => $id,
-            'name' => Lib::__($contenttype['singular_name']),
+            'name' => Trans::__($contenttype['singular_name']),
             'title' => $content['title'],
             'contenttype' => $contenttype,
             'relations' => $relations,
@@ -639,7 +640,7 @@ class Backend implements ControllerProviderInterface
         if (empty($contenttype)) {
             // Case 1: No content type given, show from *all* items.
             // This is easy:
-            $title = Lib::__('All content types');
+            $title = Trans::__('All content types');
             $logEntries = $app['storage']->getChangelog($options);
             // @todo: Unused in template. Leave it in for now
             $itemcount = $app['storage']->countChangelog($options);
@@ -714,7 +715,7 @@ class Backend implements ControllerProviderInterface
     {
         $entry = $app['storage']->getChangelogEntry($contenttype, $contentid, $id);
         if (empty($entry)) {
-            $error = Lib::__("The requested changelog entry doesn't exist.");
+            $error = Trans::__("The requested changelog entry doesn't exist.");
             $app->abort(404, $error);
         }
         $prev = $app['storage']->getPrevChangelogEntry($contenttype, $contentid, $id);
@@ -752,7 +753,7 @@ class Backend implements ControllerProviderInterface
             $new = false;
         }
         if (!$app['users']->isAllowed($perm)) {
-            $app['session']->getFlashBag()->set('error', Lib::__('You do not have the right privileges to edit that record.'));
+            $app['session']->getFlashBag()->set('error', Trans::__('You do not have the right privileges to edit that record.'));
 
             return Lib::redirect('dashboard');
         }
@@ -767,19 +768,19 @@ class Backend implements ControllerProviderInterface
 
         if ($request->getMethod() == "POST") {
             if (!$app['users']->checkAntiCSRFToken()) {
-                $app->abort(400, Lib::__("Something went wrong"));
+                $app->abort(400, Trans::__('Something went wrong'));
             }
             if (!empty($id)) {
                 // Check if we're allowed to edit this content..
                 if (!$app['users']->isAllowed("contenttype:{$contenttype['slug']}:edit:$id")) {
-                    $app['session']->getFlashBag()->set('error', Lib::__('You do not have the right privileges to edit that record.'));
+                    $app['session']->getFlashBag()->set('error', Trans::__('You do not have the right privileges to edit that record.'));
 
                     return Lib::redirect('dashboard');
                 }
             } else {
                 // Check if we're allowed to create content..
                 if (!$app['users']->isAllowed("contenttype:{$contenttype['slug']}:create")) {
-                    $app['session']->getFlashBag()->set('error', Lib::__('You do not have the right privileges to create a new record.'));
+                    $app['session']->getFlashBag()->set('error', Trans::__('You do not have the right privileges to create a new record.'));
 
                     return Lib::redirect('dashboard');
                 }
@@ -840,9 +841,9 @@ class Backend implements ControllerProviderInterface
                 $app['log']->add($content->getTitle(), 3, $content, 'save content');
 
                 if ($new) {
-                    $app['session']->getFlashBag()->set('success', Lib::__('contenttypes.generic.saved-new', array('%contenttype%' => $contenttypeslug)));
+                    $app['session']->getFlashBag()->set('success', Trans::__('contenttypes.generic.saved-new', array('%contenttype%' => $contenttypeslug)));
                 } else {
-                    $app['session']->getFlashBag()->set('success', Lib::__('contenttypes.generic.saved-changes', array('%contenttype%' => $contenttype['slug'])));
+                    $app['session']->getFlashBag()->set('success', Trans::__('contenttypes.generic.saved-changes', array('%contenttype%' => $contenttype['slug'])));
                 }
 
                 /*
@@ -901,7 +902,7 @@ class Backend implements ControllerProviderInterface
                 }
 
             } else {
-                $app['session']->getFlashBag()->set('error', Lib::__('contenttypes.generic.error-saving', array('%contenttype%' => $contenttype['slug'])));
+                $app['session']->getFlashBag()->set('error', Trans::__('contenttypes.generic.error-saving', array('%contenttype%' => $contenttype['slug'])));
                 $app['log']->add("Save content error", 3, $content, 'error');
             }
         }
@@ -911,12 +912,12 @@ class Backend implements ControllerProviderInterface
             $content = $app['storage']->getContent($contenttype['slug'], array('id' => $id));
 
             if (empty($content)) {
-                $app->abort(404, Lib::__('contenttypes.generic.not-existing', array('%contenttype%' => $contenttype['slug'])));
+                $app->abort(404, Trans::__('contenttypes.generic.not-existing', array('%contenttype%' => $contenttype['slug'])));
             }
 
             // Check if we're allowed to edit this content..
             if (!$app['users']->isAllowed("contenttype:{$contenttype['slug']}:edit:{$content['id']}")) {
-                $app['session']->getFlashBag()->set('error', Lib::__('You do not have the right privileges to edit that record.'));
+                $app['session']->getFlashBag()->set('error', Trans::__('You do not have the right privileges to edit that record.'));
 
                 return Lib::redirect('dashboard');
             }
@@ -924,7 +925,7 @@ class Backend implements ControllerProviderInterface
         } else {
             // Check if we're allowed to create content..
             if (!$app['users']->isAllowed("contenttype:{$contenttype['slug']}:create")) {
-                $app['session']->getFlashBag()->set('error', Lib::__('You do not have the right privileges to create a new record.'));
+                $app['session']->getFlashBag()->set('error', Trans::__('You do not have the right privileges to create a new record.'));
 
                 return Lib::redirect('dashboard');
             }
@@ -952,7 +953,7 @@ class Backend implements ControllerProviderInterface
             $content->setValue('datechanged', "");
             $content->setValue('username', "");
             $content->setValue('ownerid', "");
-            $app['session']->getFlashBag()->set('info', Lib::__("contenttypes.generic.duplicated-finalize", array('%contenttype%' => $contenttype['slug'])));
+            $app['session']->getFlashBag()->set('info', Trans::__('contenttypes.generic.duplicated-finalize', array('%contenttype%' => $contenttype['slug'])));
         }
 
         // Set the users and the current owner of this content.
@@ -991,11 +992,11 @@ class Backend implements ControllerProviderInterface
         $title = $content->getTitle();
 
         if (!$app['users']->isAllowed("contenttype:{$contenttype['slug']}:delete:$id")) {
-            $app['session']->getFlashBag()->set('error', Lib::__("Permission denied", array()));
+            $app['session']->getFlashBag()->set('error', Trans::__('Permission denied', array()));
         } elseif ($app['users']->checkAntiCSRFToken() && $app['storage']->deleteContent($contenttype['slug'], $id)) {
-            $app['session']->getFlashBag()->set('info', Lib::__("Content '%title%' has been deleted.", array('%title%' => $title)));
+            $app['session']->getFlashBag()->set('info', Trans::__("Content '%title%' has been deleted.", array('%title%' => $title)));
         } else {
-            $app['session']->getFlashBag()->set('info', Lib::__("Content '%title%' could not be deleted.", array('%title%' => $title)));
+            $app['session']->getFlashBag()->set('info', Trans::__("Content '%title%' could not be deleted.", array('%title%' => $title)));
         }
 
         return Lib::redirect('overview', array('contenttypeslug' => $contenttype['slug']));
@@ -1027,7 +1028,7 @@ class Backend implements ControllerProviderInterface
             'draft' => 'draft',
         );
         if (!isset($actionStatuses[$action])) {
-            $app['session']->getFlashBag()->set('error', Lib::__('No such action for content.'));
+            $app['session']->getFlashBag()->set('error', Trans::__('No such action for content.'));
 
             return Lib::redirect('overview', array('contenttypeslug' => $contenttype['slug']));
         }
@@ -1035,15 +1036,15 @@ class Backend implements ControllerProviderInterface
 
         if (!$app['users']->isAllowed("contenttype:{$contenttype['slug']}:edit:$id") ||
             !$app['users']->isContentStatusTransitionAllowed($content['status'], $newStatus, $contenttype['slug'], $id)) {
-            $app['session']->getFlashBag()->set('error', Lib::__('You do not have the right privileges to edit that record.'));
+            $app['session']->getFlashBag()->set('error', Trans::__('You do not have the right privileges to edit that record.'));
 
             return Lib::redirect('overview', array('contenttypeslug' => $contenttype['slug']));
         }
 
         if ($app['storage']->updateSingleValue($contenttype['slug'], $id, 'status', $newStatus)) {
-            $app['session']->getFlashBag()->set('info', Lib::__("Content '%title%' has been changed to '%newStatus%'", array('%title%' => $title, '%newStatus%' => $newStatus)));
+            $app['session']->getFlashBag()->set('info', Trans::__("Content '%title%' has been changed to '%newStatus%'", array('%title%' => $title, '%newStatus%' => $newStatus)));
         } else {
-            $app['session']->getFlashBag()->set('info', Lib::__("Content '%title%' could not be modified.", array('%title%' => $title)));
+            $app['session']->getFlashBag()->set('info', Trans::__("Content '%title%' could not be modified.", array('%title%' => $title)));
         }
 
         return Lib::redirect('overview', array('contenttypeslug' => $contenttype['slug']));
@@ -1111,8 +1112,8 @@ class Backend implements ControllerProviderInterface
         $note = '';
 
         $enabledoptions = array(
-            1 => Lib::__('page.edit-users.activated.yes'),
-            0 => Lib::__('page.edit-users.activated.no')
+            1 => Trans::__('page.edit-users.activated.yes'),
+            0 => Trans::__('page.edit-users.activated.no')
         );
 
         $allRoles = $app['permissions']->getDefinedRoles($app);
@@ -1130,7 +1131,7 @@ class Backend implements ControllerProviderInterface
             // Add a note, if we're setting up the first user using SQLite..
             $dbdriver = $app['config']->get('general/database/driver');
             if ($dbdriver == 'sqlite' || $dbdriver == 'pdo_sqlite') {
-                $note = Lib::__('page.edit-users.note-sqlite');
+                $note = Trans::__('page.edit-users.note-sqlite');
             }
 
             // If we get here, chances are we don't have the tables set up, yet.
@@ -1146,38 +1147,38 @@ class Backend implements ControllerProviderInterface
             ->add('id', 'hidden')
             ->add('username', 'text', array(
                 'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min' => 2, 'max' => 32))),
-                'label' => Lib::__('page.edit-users.label.username'),
+                'label' => Trans::__('page.edit-users.label.username'),
                 'attr' => array(
-                    'placeholder' => Lib::__('page.edit-users.placeholder.username')
+                    'placeholder' => Trans::__('page.edit-users.placeholder.username')
                 )
             ))
             ->add('password', 'password', array(
                 'required' => false,
-                'label' => Lib::__('page.edit-users.label.password'),
+                'label' => Trans::__('page.edit-users.label.password'),
                 'attr' => array(
-                    'placeholder' => Lib::__('page.edit-users.placeholder.password')
+                    'placeholder' => Trans::__('page.edit-users.placeholder.password')
                 )
 
             ))
             ->add('password_confirmation', 'password', array(
                 'required' => false,
-                'label' => Lib::__('page.edit-users.label.password-confirm'),
+                'label' => Trans::__('page.edit-users.label.password-confirm'),
                 'attr' => array(
-                    'placeholder' => Lib::__('page.edit-users.placeholder.password-confirm')
+                    'placeholder' => Trans::__('page.edit-users.placeholder.password-confirm')
                 )
             ))
             ->add('email', 'text', array(
                 'constraints' => new Assert\Email(),
-                'label' => Lib::__('page.edit-users.label.email'),
+                'label' => Trans::__('page.edit-users.label.email'),
                 'attr' => array(
-                    'placeholder' => Lib::__('page.edit-users.placeholder.email')
+                    'placeholder' => Trans::__('page.edit-users.placeholder.email')
                 )
             ))
             ->add('displayname', 'text', array(
                 'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min' => 2, 'max' => 32))),
-                'label' => Lib::__('page.edit-users.label.display-name'),
+                'label' => Trans::__('page.edit-users.label.display-name'),
                 'attr' => array(
-                    'placeholder' => Lib::__('page.edit-users.placeholder.displayname')
+                    'placeholder' => Trans::__('page.edit-users.placeholder.displayname')
                 )
             ));
 
@@ -1191,7 +1192,7 @@ class Backend implements ControllerProviderInterface
                     'choices' => $enabledoptions,
                     'expanded' => false,
                     'constraints' => new Assert\Choice(array_keys($enabledoptions)),
-                    'label' => Lib::__('page.edit-users.label.user-enabled'),
+                    'label' => Trans::__('page.edit-users.label.user-enabled'),
                 )
             )->add(
                 'roles',
@@ -1200,7 +1201,7 @@ class Backend implements ControllerProviderInterface
                     'choices' => $roles,
                     'expanded' => true,
                     'multiple' => true,
-                    'label' => Lib::__('page.edit-users.label.assigned-roles'),
+                    'label' => Trans::__('page.edit-users.label.assigned-roles'),
                 )
             );
         }
@@ -1212,14 +1213,14 @@ class Backend implements ControllerProviderInterface
                 'text',
                 array(
                     'disabled' => true,
-                    'label' => Lib::__('page.edit-users.label.last-seen')
+                    'label' => Trans::__('page.edit-users.label.last-seen')
                 )
             )->add(
                 'lastip',
                 'text',
                 array(
                     'disabled' => true,
-                    'label' => Lib::__('page.edit-users.label.last-ip')
+                    'label' => Trans::__('page.edit-users.label.last-ip')
                 )
             );
         }
@@ -1236,28 +1237,28 @@ class Backend implements ControllerProviderInterface
                 // If adding a new user (empty $id) or if the password is not empty (indicating we want to change it),
                 // then make sure it's at least 6 characters long.
                 if ((empty($id) || !empty($pass1)) && strlen($pass1) < 6) {
-                    $error = new FormError(Lib::__('page.edit-users.error.password-short'));
+                    $error = new FormError(Trans::__('page.edit-users.error.password-short'));
                     $form['password']->addError($error);
                 }
 
                 // Passwords must be identical..
                 if ($pass1 != $pass2) {
-                    $form['password_confirmation']->addError(new FormError(Lib::__('page.edit-users.error.password-mismatch')));
+                    $form['password_confirmation']->addError(new FormError(Trans::__('page.edit-users.error.password-mismatch')));
                 }
 
                 // Usernames must be unique..
                 if (!$app['users']->checkAvailability('username', $form['username']->getData(), $id)) {
-                    $form['username']->addError(new FormError(Lib::__('page.edit-users.error.username-used')));
+                    $form['username']->addError(new FormError(Trans::__('page.edit-users.error.username-used')));
                 }
 
                 // Email addresses must be unique..
                 if (!$app['users']->checkAvailability('email', $form['email']->getData(), $id)) {
-                    $form['email']->addError(new FormError(Lib::__('page.edit-users.error.email-used')));
+                    $form['email']->addError(new FormError(Trans::__('page.edit-users.error.email-used')));
                 }
 
                 // Displaynames must be unique..
                 if (!$app['users']->checkAvailability('displayname', $form['displayname']->getData(), $id)) {
-                    $form['displayname']->addError(new FormError(Lib::__('page.edit-users.error.displayname-used')));
+                    $form['displayname']->addError(new FormError(Trans::__('page.edit-users.error.displayname-used')));
                 }
             }
         );
@@ -1281,15 +1282,15 @@ class Backend implements ControllerProviderInterface
                 $res = $app['users']->saveUser($user);
 
                 if ($user['id']) {
-                    $app['log']->add(Lib::__('page.edit-users.log.user-updated', array('%user%' => $user['displayname'])), 3, '', 'user');
+                    $app['log']->add(Trans::__('page.edit-users.log.user-updated', array('%user%' => $user['displayname'])), 3, '', 'user');
                 } else {
-                    $app['log']->add(Lib::__('page.edit-users.log.user-added', array('%user%' => $user['displayname'])), 3, '', 'user');
+                    $app['log']->add(Trans::__('page.edit-users.log.user-added', array('%user%' => $user['displayname'])), 3, '', 'user');
                 }
 
                 if ($res) {
-                    $app['session']->getFlashBag()->set('success', Lib::__('page.edit-users.message.user-saved', array('%user%' => $user['displayname'])));
+                    $app['session']->getFlashBag()->set('success', Trans::__('page.edit-users.message.user-saved', array('%user%' => $user['displayname'])));
                 } else {
-                    $app['session']->getFlashBag()->set('error', Lib::__('page.edit-users.message.saving-user', array('%user%' => $user['displayname'])));
+                    $app['session']->getFlashBag()->set('error', Trans::__('page.edit-users.message.saving-user', array('%user%' => $user['displayname'])));
                 }
 
                 if ($firstuser) {
@@ -1330,19 +1331,19 @@ class Backend implements ControllerProviderInterface
             ->add('id', 'hidden')
             ->add('password', 'password', array(
                 'required' => false,
-                'label' => Lib::__('page.edit-users.label.password')
+                'label' => Trans::__('page.edit-users.label.password')
             ))
             ->add('password_confirmation', 'password', array(
                 'required' => false,
-                'label' => Lib::__('page.edit-users.label.password-confirm')
+                'label' => Trans::__('page.edit-users.label.password-confirm')
             ))
             ->add('email', 'text', array(
                 'constraints' => new Assert\Email(),
-                'label' => Lib::__('page.edit-users.label.email')
+                'label' => Trans::__('page.edit-users.label.email')
             ))
             ->add('displayname', 'text', array(
                 'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min' => 2, 'max' => 32))),
-                'label' => Lib::__('page.edit-users.label.display-name')
+                'label' => Trans::__('page.edit-users.label.display-name')
             ));
 
         // Make sure the passwords are identical and some other check, with a custom validator.
@@ -1360,23 +1361,23 @@ class Backend implements ControllerProviderInterface
                     // screw it. Let's just not translate this message for now. Damn you, stupid non-cooperative
                     // translation thingy. $error = new FormError("This value is too short. It should have {{ limit }}
                     // characters or more.", array('{{ limit }}' => 6), 2);
-                    $error = new FormError(Lib::__('page.edit-users.error.password-short'));
+                    $error = new FormError(Trans::__('page.edit-users.error.password-short'));
                     $form['password']->addError($error);
                 }
 
                 // Passwords must be identical.
                 if ($pass1 != $pass2) {
-                    $form['password_confirmation']->addError(new FormError(Lib::__('page.edit-users.error.password-mismatch')));
+                    $form['password_confirmation']->addError(new FormError(Trans::__('page.edit-users.error.password-mismatch')));
                 }
 
                 // Email addresses must be unique..
                 if (!$app['users']->checkAvailability('email', $form['email']->getData(), $id)) {
-                    $form['email']->addError(new FormError(Lib::__('page.edit-users.error.email-used')));
+                    $form['email']->addError(new FormError(Trans::__('page.edit-users.error.email-used')));
                 }
 
                 // Displaynames must be unique..
                 if (!$app['users']->checkAvailability('displayname', $form['displayname']->getData(), $id)) {
-                    $form['displayname']->addError(new FormError(Lib::__('page.edit-users.error.displayname-used')));
+                    $form['displayname']->addError(new FormError(Trans::__('page.edit-users.error.displayname-used')));
                 }
             }
         );
@@ -1395,11 +1396,11 @@ class Backend implements ControllerProviderInterface
                 $user = $form->getData();
 
                 $res = $app['users']->saveUser($user);
-                $app['log']->add(Lib::__('page.edit-users.log.user-updated', array('%user%' => $user['displayname'])), 3, '', 'user');
+                $app['log']->add(Trans::__('page.edit-users.log.user-updated', array('%user%' => $user['displayname'])), 3, '', 'user');
                 if ($res) {
-                    $app['session']->getFlashBag()->set('success', Lib::__('page.edit-users.message.user-saved', array('%user%' => $user['displayname'])));
+                    $app['session']->getFlashBag()->set('success', Trans::__('page.edit-users.message.user-saved', array('%user%' => $user['displayname'])));
                 } else {
-                    $app['session']->getFlashBag()->set('error', Lib::__('page.edit-users.message.saving-user', array('%user%' => $user['displayname'])));
+                    $app['session']->getFlashBag()->set('error', Trans::__('page.edit-users.message.saving-user', array('%user%' => $user['displayname'])));
                 }
 
                 return Lib::redirect('profile');
@@ -1427,7 +1428,7 @@ class Backend implements ControllerProviderInterface
     public function userAction(Silex\Application $app, $action, $id)
     {
         if (!$app['users']->checkAntiCSRFToken()) {
-            $app['session']->getFlashBag()->set('info', Lib::__('An error occurred.'));
+            $app['session']->getFlashBag()->set('info', Trans::__('An error occurred.'));
 
             return Lib::redirect('users');
         }
@@ -1445,18 +1446,18 @@ class Backend implements ControllerProviderInterface
                 if ($app['users']->setEnabled($id, 0)) {
                     $app['log']->add("Disabled user '" . $user['displayname'] . "'.", 3, '', 'user');
 
-                    $app['session']->getFlashBag()->set('info', Lib::__("User '%s' is disabled.", array('%s' => $user['displayname'])));
+                    $app['session']->getFlashBag()->set('info', Trans::__("User '%s' is disabled.", array('%s' => $user['displayname'])));
                 } else {
-                    $app['session']->getFlashBag()->set('info', Lib::__("User '%s' could not be disabled.", array('%s' => $user['displayname'])));
+                    $app['session']->getFlashBag()->set('info', Trans::__("User '%s' could not be disabled.", array('%s' => $user['displayname'])));
                 }
                 break;
 
             case "enable":
                 if ($app['users']->setEnabled($id, 1)) {
                     $app['log']->add("Enabled user '" . $user['displayname'] . "'.", 3, '', 'user');
-                    $app['session']->getFlashBag()->set('info', Lib::__("User '%s' is enabled.", array('%s' => $user['displayname'])));
+                    $app['session']->getFlashBag()->set('info', Trans::__("User '%s' is enabled.", array('%s' => $user['displayname'])));
                 } else {
-                    $app['session']->getFlashBag()->set('info', Lib::__("User '%s' could not be enabled.", array('%s' => $user['displayname'])));
+                    $app['session']->getFlashBag()->set('info', Trans::__("User '%s' could not be enabled.", array('%s' => $user['displayname'])));
                 }
                 break;
 
@@ -1464,14 +1465,14 @@ class Backend implements ControllerProviderInterface
 
                 if ($app['users']->checkAntiCSRFToken() && $app['users']->deleteUser($id)) {
                     $app['log']->add("Deleted user '" . $user['displayname'] . "'.", 3, '', 'user');
-                    $app['session']->getFlashBag()->set('info', Lib::__("User '%s' is deleted.", array('%s' => $user['displayname'])));
+                    $app['session']->getFlashBag()->set('info', Trans::__("User '%s' is deleted.", array('%s' => $user['displayname'])));
                 } else {
-                    $app['session']->getFlashBag()->set('info', Lib::__("User '%s' could not be deleted.", array('%s' => $user['displayname'])));
+                    $app['session']->getFlashBag()->set('info', Trans::__("User '%s' could not be deleted.", array('%s' => $user['displayname'])));
                 }
                 break;
 
             default:
-                $app['session']->getFlashBag()->set('error', Lib::__("No such action for user '%s'.", array('%s' => $user['displayname'])));
+                $app['session']->getFlashBag()->set('error', Trans::__("No such action for user '%s'.", array('%s' => $user['displayname'])));
 
         }
 
@@ -1507,14 +1508,14 @@ class Backend implements ControllerProviderInterface
         $fullPath = $filesystem->getAdapter()->applyPathPrefix($path);
 
         if (!$app['filepermissions']->authorized($fullPath)) {
-            $error = Lib::__("You don't have the correct permissions to display the file or directory '%s'.", array('%s' => $path));
+            $error = Trans::__("You don't have the correct permissions to display the file or directory '%s'.", array('%s' => $path));
             $app->abort(403, $error);
         }
 
         try {
             $validFolder = true;
         } catch (\Exception $e) {
-            $app['session']->getFlashBag()->set('error', Lib::__("The folder '%s' could not be found, or is not readable.", array('%s' => $path)));
+            $app['session']->getFlashBag()->set('error', Trans::__("The folder '%s' could not be found, or is not readable.", array('%s' => $path)));
             $formview = false;
             $validFolder = false;
         }
@@ -1524,10 +1525,10 @@ class Backend implements ControllerProviderInterface
             $form = $app['form.factory']
                 ->createBuilder('form')
                 ->add('FileUpload', 'file', array(
-                    'label' => Lib::__("Upload a file to this folder"),
+                    'label' => Trans::__('Upload a file to this folder'),
                     'attr' => array(
                     'data-filename-placement' => 'inside',
-                    'title' => Lib::__('Select file …'))))
+                    'title' => Trans::__('Select file …'))))
                 ->getForm();
 
             // Handle the upload.
@@ -1556,7 +1557,7 @@ class Backend implements ControllerProviderInterface
 
                                 $app['session']->getFlashBag()->set(
                                     'info',
-                                    Lib::__("File '%file%' was uploaded successfully.", array('%file%' => $filename))
+                                    Trans::__("File '%file%' was uploaded successfully.", array('%file%' => $filename))
                                 );
 
                                 // Add the file to our stack..
@@ -1572,7 +1573,7 @@ class Backend implements ControllerProviderInterface
                             $extensionList = implode(' ', $extensionList);
                             $app['session']->getFlashBag()->set(
                                 'error',
-                                Lib::__("File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:", array('%file%' => $filename))
+                                Trans::__("File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:", array('%file%' => $filename))
                                 . $extensionList
                             );
                         }
@@ -1581,7 +1582,7 @@ class Backend implements ControllerProviderInterface
                 } else {
                     $app['session']->getFlashBag()->set(
                         'error',
-                        Lib::__("File '%file%' could not be uploaded.", array('%file%' => $filename))
+                        Trans::__("File '%file%' could not be uploaded.", array('%file%' => $filename))
                     );
                 }
 
@@ -1655,7 +1656,7 @@ class Backend implements ControllerProviderInterface
         }
 
         if (! $app['filepermissions']->authorized($filename)) {
-            $error = Lib::__("You don't have correct permissions to edit the file '%s'.", array('%s' => $file));
+            $error = Trans::__("You don't have correct permissions to edit the file '%s'.", array('%s' => $file));
             $app->abort(403, $error);
         }
 
@@ -1673,14 +1674,14 @@ class Backend implements ControllerProviderInterface
         }
 
         if (!file_exists($filename) || !is_readable($filename)) {
-            $error = Lib::__("The file '%s' doesn't exist, or is not readable.", array('%s' => $file));
+            $error = Trans::__("The file '%s' doesn't exist, or is not readable.", array('%s' => $file));
             $app->abort(404, $error);
         }
 
         if (!is_writable($filename)) {
             $app['session']->getFlashBag()->set(
                 'info',
-                Lib::__(
+                Trans::__(
                     "The file '%s' is not writable. You will have to use your own editor to make modifications to this file.",
                     array('%s' => $file)
                 )
@@ -1728,20 +1729,20 @@ class Backend implements ControllerProviderInterface
                         $ok = $yamlparser->parse($contents);
                     } catch (\Symfony\Component\Yaml\Exception\ParseException $e) {
                         $ok = false;
-                        $app['session']->getFlashBag()->set('error', Lib::__("File '%s' could not be saved:", array('%s' => $file)) . $e->getMessage());
+                        $app['session']->getFlashBag()->set('error', Trans::__("File '%s' could not be saved:", array('%s' => $file)) . $e->getMessage());
                     }
                 }
 
                 if ($ok) {
                     if (file_put_contents($filename, $contents)) {
-                        $app['session']->getFlashBag()->set('info', Lib::__("File '%s' has been saved.", array('%s' => $file)));
+                        $app['session']->getFlashBag()->set('info', Trans::__("File '%s' has been saved.", array('%s' => $file)));
                         // If we've saved a translation, back to it
                         if (preg_match('#resources/translations/(..)/(.*)\.yml$#', $filename, $m)) {
                             return Lib::redirect('translation', array('domain' => $m[2], 'tr_locale' => $m[1]));
                         }
                         Lib::redirect('fileedit', array('file' => $file), '');
                     } else {
-                        $app['session']->getFlashBag()->set('error', Lib::__("File '%s' could not be saved, for some reason.", array('%s' => $file)));
+                        $app['session']->getFlashBag()->set('error', Trans::__("File '%s' could not be saved, for some reason.", array('%s' => $file)));
                     }
                 }
                 // If we reach this point, the form will be shown again, with the error
@@ -1814,18 +1815,18 @@ class Backend implements ControllerProviderInterface
                     $ok = Yaml::parse($contents);
                 } catch (\Symfony\Component\Yaml\Exception\ParseException $e) {
                     $ok = false;
-                    $msg = Lib::__("File '%s' could not be saved:", array('%s' => $shortPath));
+                    $msg = Trans::__("File '%s' could not be saved:", array('%s' => $shortPath));
                     $app['session']->getFlashBag()->set('error', $msg . $e->getMessage());
                 }
 
                 if ($ok) {
                     if (file_put_contents($path, $contents)) {
-                        $msg = Lib::__("File '%s' has been saved.", array('%s' => $shortPath));
+                        $msg = Trans::__("File '%s' has been saved.", array('%s' => $shortPath));
                         $app['session']->getFlashBag()->set('info', $msg);
 
                         return Lib::redirect('translation', array('domain' => $domain, 'tr_locale' => $tr_locale));
                     } else {
-                        $msg = Lib::__("File '%s' could not be saved, for some reason.", array('%s' => $shortPath));
+                        $msg = Trans::__("File '%s' could not be saved, for some reason.", array('%s' => $shortPath));
                         $app['session']->getFlashBag()->set('error', $msg);
                     }
                 }
@@ -1873,7 +1874,7 @@ class Backend implements ControllerProviderInterface
         // the DB, and let's add a new user.
         if (!$app['integritychecker']->checkUserTableIntegrity() || !$app['users']->getUsers()) {
             $app['integritychecker']->repairTables();
-            $app['session']->getFlashBag()->set('info', Lib::__('There are no users in the database. Please create the first user.'));
+            $app['session']->getFlashBag()->set('info', Trans::__('There are no users in the database. Please create the first user.'));
 
             return Lib::redirect('useredit', array('id' => ""));
         }
@@ -1883,11 +1884,11 @@ class Backend implements ControllerProviderInterface
 
         // Most of the 'check if user is allowed' happens here: match the current route to the 'allowed' settings.
         if (!$app['users']->isValidSession() && !$app['users']->isAllowed($route)) {
-            $app['session']->getFlashBag()->set('info', Lib::__('Please log on.'));
+            $app['session']->getFlashBag()->set('info', Trans::__('Please log on.'));
 
             return Lib::redirect('login');
         } elseif (!$app['users']->isAllowed($route)) {
-            $app['session']->getFlashBag()->set('error', Lib::__('You do not have the right privileges to view that page.'));
+            $app['session']->getFlashBag()->set('error', Trans::__('You do not have the right privileges to view that page.'));
 
             return Lib::redirect('dashboard');
         }

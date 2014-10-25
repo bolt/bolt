@@ -6,6 +6,7 @@ use Silex;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Bolt\Library as Lib;
+use Bolt\Translation\Translation as Trans;
 use Bolt\Pager;
 
 /**
@@ -60,7 +61,7 @@ class Frontend
         // the DB, and let's add a new user.
         if (!$app['users']->getUsers()) {
             //!$app['storage']->getIntegrityChecker()->checkUserTableIntegrity() ||
-            $app['session']->getFlashBag()->set('info', Lib::__('There are no users in the database. Please create the first user.'));
+            $app['session']->getFlashBag()->set('info', Trans::__('There are no users in the database. Please create the first user.'));
 
             return Lib::redirect('useredit', array('id' => ''));
         }
