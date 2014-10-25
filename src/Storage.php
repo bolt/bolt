@@ -6,9 +6,9 @@ use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
 use Bolt;
 use Bolt\Events\StorageEvent;
 use Bolt\Events\StorageEvents;
-use Bolt\Library as Lib;
 use Bolt\Helpers\Arr;
 use Bolt\Helpers\String;
+use Bolt\Helpers\Html;
 use Bolt\Translation\Translation as Trans;
 use Doctrine\DBAL\Connection as DoctrineConn;
 use Symfony\Component\HttpFoundation\Request;
@@ -2872,7 +2872,7 @@ class Storage
 
             // otherwise, just get a random slug.
             if (empty($uri)) {
-                $slug = Lib::trimText($slug, 32, false, false) . "-" . $this->app['randomgenerator']->generateString(6, 'abcdefghijklmnopqrstuvwxyz01234567890');
+                $slug = Html::trimText($slug, 32, false, false) . "-" . $this->app['randomgenerator']->generateString(6, 'abcdefghijklmnopqrstuvwxyz01234567890');
                 $uri = $prefix . $slug;
             }
         }

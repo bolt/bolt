@@ -5,6 +5,7 @@ namespace Bolt;
 use Silex;
 use Bolt\Library as Lib;
 use Bolt\Helpers\String;
+use Bolt\Helpers\Html;
 use Bolt\Translation\Translation as Trans;
 
 /**
@@ -276,7 +277,7 @@ class TwigExtension extends \Twig_Extension
         }
 
         $output = str_replace(">", "> ", $output);
-        $output = Lib::trimText(strip_tags($output), $length);
+        $output = Html::trimText(strip_tags($output), $length);
 
         return $output;
     }
@@ -446,7 +447,7 @@ class TwigExtension extends \Twig_Extension
 
     public function decorateTT($str)
     {
-        return Lib::decorateTT($str);
+        return Html::decorateTT($str);
     }
 
     /**

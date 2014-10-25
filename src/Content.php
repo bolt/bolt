@@ -7,6 +7,7 @@ use Symfony\Component\Filesystem\Filesystem;
 use Bolt\Library as Lib;
 use Bolt\Helpers\String;
 use Bolt\Helpers\Input;
+use Bolt\Helpers\Html;
 
 class Content implements \ArrayAccess
 {
@@ -998,7 +999,7 @@ class Content implements \ArrayAccess
     public function excerpt($length = 200, $includetitle = false)
     {
         if ($includetitle) {
-            $title = Lib::trimText(strip_tags($this->getTitle()), $length);
+            $title = Html::trimText(strip_tags($this->getTitle()), $length);
             $length = $length - strlen($title);
         }
 
@@ -1016,7 +1017,7 @@ class Content implements \ArrayAccess
             }
 
             $excerpt = str_replace('>', '> ', implode(' ', $excerptParts));
-            $excerpt = Lib::trimText(strip_tags($excerpt), $length);
+            $excerpt = Html::trimText(strip_tags($excerpt), $length);
         } else {
             $excerpt = '';
         }
@@ -1064,7 +1065,7 @@ class Content implements \ArrayAccess
         }
 
         if ($excerptLength > 0) {
-            $result .= Lib::trimText($result, $excerptLength, false, true, false);
+            $result .= Html::trimText($result, $excerptLength, false, true, false);
         }
 
         return '<![CDATA[ ' . $result . ' ]]>';
