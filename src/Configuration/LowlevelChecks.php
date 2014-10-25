@@ -2,6 +2,7 @@
 namespace Bolt\Configuration;
 
 use Bolt\Library as Lib;
+use Bolt\Translation\Translation as Trans;
 
 /**
  * A class to perform several 'low level' checks. Since we're doing it (by design)
