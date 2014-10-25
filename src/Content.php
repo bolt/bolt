@@ -5,6 +5,7 @@ namespace Bolt;
 use Silex;
 use Symfony\Component\Filesystem\Filesystem;
 use Bolt\Library as Lib;
+use Bolt\Translation\Translation as Trans;
 
 class Content implements \ArrayAccess
 {
