@@ -6,7 +6,7 @@ use Silex;
 use Symfony\Component\Filesystem\Filesystem;
 use Bolt\Library as Lib;
 use Bolt\Helpers\String;
-use Bolt\Translation\Translation as Trans;
+use Bolt\Helpers\Input;
 
 class Content implements \ArrayAccess
 {
@@ -246,7 +246,7 @@ class Content implements \ArrayAccess
 
     public function setFromPost($values, $contenttype)
     {
-        $values = Lib::cleanPostedData($values);
+        $values = Input::cleanPostedData($values);
 
         if (!$this->id) {
             // this is a new record: current user becomes the owner.

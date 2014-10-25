@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Bolt\Library as Lib;
 use Bolt\Helpers\String;
+use Bolt\Helpers\Input;
 use Bolt\Translation\Translation as Trans;
 use Bolt\Pager;
 
@@ -352,7 +353,7 @@ class Frontend
         } elseif ($request->query->has($context)) {
             $q = $request->get($context);
         }
-        $q = Lib::cleanPostedData($q, false);
+        $q = Input::cleanPostedData($q, false);
 
         $param = Pager::makeParameterId($context);
         /* @var $query \Symfony\Component\HttpFoundation\ParameterBag */

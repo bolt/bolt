@@ -12,6 +12,7 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Yaml\Yaml;
 use Bolt\Library as Lib;
+use Bolt\Helpers\Input;
 use Bolt\Translation\Translation as Trans;
 use Bolt\Permissions;
 use Bolt\Translation\TranslationFile;
@@ -1718,7 +1719,7 @@ class Backend implements ControllerProviderInterface
             if ($form->isValid()) {
 
                 $data = $form->getData();
-                $contents = Lib::cleanPostedData($data['contents']) . "\n";
+                $contents = Input::cleanPostedData($data['contents']) . "\n";
 
                 $ok = true;
 
@@ -1808,7 +1809,7 @@ class Backend implements ControllerProviderInterface
             if ($form->isValid()) {
 
                 $data = $form->getData();
-                $contents = Lib::cleanPostedData($data['contents']) . "\n";
+                $contents = Input::cleanPostedData($data['contents']) . "\n";
 
                 // Before trying to save a yaml file, check if it's valid.
                 try {
