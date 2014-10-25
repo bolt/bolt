@@ -6,6 +6,7 @@ use Silex;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Bolt\Library as Lib;
+use Bolt\Helpers\String;
 use Bolt\Translation\Translation as Trans;
 use Bolt\Pager;
 
@@ -125,7 +126,7 @@ class Frontend
     {
         $contenttype = $app['storage']->getContentType($contenttypeslug);
 
-        $slug = Lib::makeSlug($slug, -1);
+        $slug = String::slug($slug, -1);
 
         // First, try to get it by slug.
         $content = $app['storage']->getContent($contenttype['slug'], array('slug' => $slug, 'returnsingle' => true));

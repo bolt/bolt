@@ -7,6 +7,7 @@ use Bolt;
 use Bolt\Events\StorageEvent;
 use Bolt\Events\StorageEvents;
 use Bolt\Library as Lib;
+use Bolt\Helpers\String;
 use Bolt\Translation\Translation as Trans;
 use Doctrine\DBAL\Connection as DoctrineConn;
 use Symfony\Component\HttpFoundation\Request;
@@ -624,9 +625,9 @@ class Storage
                         foreach ($values['uses'] as $usesField) {
                             $uses .= $fieldvalues[$usesField] . ' ';
                         }
-                        $fieldvalues['slug'] = Lib::makeSlug($uses);
+                        $fieldvalues['slug'] = String::slug($uses);
                     } elseif (!empty($fieldvalues['slug'])) {
-                        $fieldvalues['slug'] = Lib::makeSlug($fieldvalues['slug']);
+                        $fieldvalues['slug'] = String::slug($fieldvalues['slug']);
                     } elseif (empty($fieldvalues['slug']) && $fieldvalues['id']) {
                         $fieldvalues['slug'] = $fieldvalues['id'];
                     }
@@ -1238,7 +1239,7 @@ class Storage
     {
         $tablename = $this->getTablename("taxonomy");
 
-        $slug = Lib::makeSlug($name);
+        $slug = String::slug($name);
 
         $limit = $parameters['limit'] ? : 100;
         $page = $parameters['page'] ? : 1;
@@ -1592,7 +1593,7 @@ class Storage
                 $order = $this->getEscapedSortorder($contenttype['sort'], false);
             }
         } else {
-            $par_order = Lib::safeString($order_value);
+            $par_order = String::makeSafe($order_value);
             if ($par_order == 'RANDOM') {
                 $dboptions = $this->app['config']->getDBOptions();
                 $order = $dboptions['randomfunction'];
@@ -2271,7 +2272,7 @@ class Storage
      */
     public function getContentType($contenttypeslug)
     {
-        $contenttypeslug = Lib::makeSlug($contenttypeslug);
+        $contenttypeslug = String::slug($contenttypeslug);
 
         // Return false if empty, can't find it..
         if (empty($contenttypeslug)) {
@@ -2287,7 +2288,7 @@ class Storage
                     $contenttype = $this->app['config']->get('contenttypes/' . $key);
                     break;
                 }
-                if ($contenttypeslug == Lib::makeSlug($ct['singular_name']) || $contenttypeslug == Lib::makeSlug($ct['name'])) {
+                if ($contenttypeslug == String::slug($ct['singular_name']) || $contenttypeslug == String::slug($ct['name'])) {
                     $contenttype = $this->app['config']->get('contenttypes/' . $key);
                     break;
                 }
@@ -2309,7 +2310,7 @@ class Storage
      */
     public function getTaxonomyType($taxonomyslug)
     {
-        $taxonomyslug = Lib::makeSlug($taxonomyslug);
+        $taxonomyslug = String::slug($taxonomyslug);
 
         // Return false if empty, can't find it..
         if (empty($taxonomyslug)) {
@@ -2608,7 +2609,7 @@ class Storage
                         $slug = array_search($slug, $configTaxonomies[$taxonomytype]['options']);
                     } else {
                         // make sure it's at least a slug-like value.
-                        $slug = Lib::makeSlug($slug);
+                        $slug = String::slug($slug);
                     }
 
                 }
@@ -2828,7 +2829,7 @@ class Storage
         $id = intval($id);
         $fulluri = \utilphp\util::str_to_bool($fulluri);
 
-        $slug = Lib::makeSlug($title);
+        $slug = String::slug($title);
 
         // don't allow strictly numeric slugs.
         if (is_numeric($slug)) {
@@ -2927,7 +2928,7 @@ class Storage
      */
     protected function getTablename($name)
     {
-        $name = str_replace("-", "_", Lib::makeSlug($name));
+        $name = str_replace("-", "_", String::slug($name));
         $tablename = sprintf("%s%s", $this->prefix, $name);
 
         return $tablename;

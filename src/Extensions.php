@@ -5,8 +5,7 @@ namespace Bolt;
 use Bolt;
 use Bolt\Extensions\Snippets\Location as SnippetLocation;
 use Bolt\Extensions\ExtensionInterface;
-use Bolt\Library as Lib;
-use Bolt\Translation\Translation as Trans;
+use Bolt\Helpers\String;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 
@@ -622,7 +621,7 @@ class Extensions
 
             // Try to insert it after <head>
             $replacement = sprintf("%s\n%s\t%s", $matches[0], $matches[1], $tag);
-            $html = Lib::str_replace_first($matches[0], $replacement, $html);
+            $html = String::replaceFirst($matches[0], $replacement, $html);
 
         } else {
 
@@ -650,7 +649,7 @@ class Extensions
 
             // Try to insert it after <body>
             $replacement = sprintf("%s\n%s\t%s", $matches[0], $matches[1], $tag);
-            $html = Lib::str_replace_first($matches[0], $replacement, $html);
+            $html = String::replaceFirst($matches[0], $replacement, $html);
 
         } else {
 
@@ -678,7 +677,7 @@ class Extensions
 
             // Try to insert it just before </head>
             $replacement = sprintf("%s\t%s\n%s", $matches[1], $tag, $matches[0]);
-            $html = Lib::str_replace_first($matches[0], $replacement, $html);
+            $html = String::replaceFirst($matches[0], $replacement, $html);
 
         } else {
 
@@ -705,7 +704,7 @@ class Extensions
 
             // Try to insert it just before </head>
             $replacement = sprintf("%s\t%s\n%s", $matches[1], $tag, $matches[0]);
-            $html = Lib::str_replace_first($matches[0], $replacement, $html);
+            $html = String::replaceFirst($matches[0], $replacement, $html);
 
         } else {
 
@@ -732,7 +731,7 @@ class Extensions
 
             // Try to insert it just before </head>
             $replacement = sprintf("%s\t%s\n%s", $matches[1], $tag, $matches[0]);
-            $html = Lib::str_replace_first($matches[0], $replacement, $html);
+            $html = String::replaceFirst($matches[0], $replacement, $html);
 
         } else {
 
@@ -759,7 +758,7 @@ class Extensions
             // matches[0] has some elements, the last index is -1, because zero indexed.
             $last = count($matches[0]) - 1;
             $replacement = sprintf("%s\n%s%s", $matches[0][$last], $matches[1][$last], $tag);
-            $html = Lib::str_replace_first($matches[0][$last], $replacement, $html);
+            $html = String::replaceFirst($matches[0][$last], $replacement, $html);
 
         } else {
             $html = $this->insertEndOfHead($tag, $html);
@@ -783,7 +782,7 @@ class Extensions
             // matches[0] has some elements, the last index is -1, because zero indexed.
             $last = count($matches[0]) - 1;
             $replacement = sprintf("%s\n%s%s", $matches[0][$last], $matches[1][$last], $tag);
-            $html = Lib::str_replace_first($matches[0][$last], $replacement, $html);
+            $html = String::replaceFirst($matches[0][$last], $replacement, $html);
 
         } else {
             $html = $this->insertEndOfHead($tag, $html);
@@ -806,7 +805,7 @@ class Extensions
 
             // Try to insert it before the match
             $replacement = sprintf("%s%s\n%s\t%s", $matches[1], $tag, $matches[0], $matches[1]);
-            $html = Lib::str_replace_first($matches[0], $replacement, $html);
+            $html = String::replaceFirst($matches[0], $replacement, $html);
 
         } else {
 
@@ -832,7 +831,7 @@ class Extensions
 
             // Try to insert it before the match
             $replacement = sprintf("%s%s\n%s\t%s", $matches[1], $tag, $matches[0], $matches[1]);
-            $html = Lib::str_replace_first($matches[0], $replacement, $html);
+            $html = String::replaceFirst($matches[0], $replacement, $html);
 
         } else {
 
@@ -869,7 +868,7 @@ class Extensions
             // matches[0] has some elements, the last index is -1, because zero indexed.
             $last = count($matches[0]) - 1;
             $replacement = sprintf("%s\n%s%s", $matches[0][$last], $matches[1][$last], $tag);
-            $html = Lib::str_replace_first($matches[0][$last], $replacement, $html);
+            $html = String::replaceFirst($matches[0][$last], $replacement, $html);
 
         } elseif ($insidehead) {
             // Second attempt: entire document
