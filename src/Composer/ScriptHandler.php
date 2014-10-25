@@ -112,6 +112,8 @@ class ScriptHandler
             $webname = $event->getIO()->ask('<info>What do you want your public directory to be named? [default: public] </info>', 'public');
             $webname = trim($webname, "/");
             $assetDir = "./".$webname;
+        } else {
+            $webname = null;
         }
         
         $generator = new BootstrapGenerator($webroot, $webname);
