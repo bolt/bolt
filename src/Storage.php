@@ -7,6 +7,7 @@ use Bolt;
 use Bolt\Events\StorageEvent;
 use Bolt\Events\StorageEvents;
 use Bolt\Library as Lib;
+use Bolt\Translation\Translation as Trans;
 use Doctrine\DBAL\Connection as DoctrineConn;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -112,10 +113,10 @@ class Storage
 
             $tablename = $this->getTablename($key);
             if ($empty_only && $this->hasRecords($tablename)) {
-                $output .= Lib::__("Skipped <tt>%key%</tt> (already has records)", array('%key%' => $key)) . "<br>\n";
+                $output .= Trans::__("Skipped <tt>%key%</tt> (already has records)", array('%key%' => $key)) . "<br>\n";
                 continue;
             } elseif (!in_array($key, $contenttypes) && !$empty_only) {
-                $output .= Lib::__("Skipped <tt>%key%</tt> (not checked)", array('%key%' => $key)) . "<br>\n";
+                $output .= Trans::__("Skipped <tt>%key%</tt> (not checked)", array('%key%' => $key)) . "<br>\n";
                 continue;
             }
 
@@ -127,7 +128,7 @@ class Storage
 
         }
 
-        $output .= "<br>\n\n" . Lib::__('Done!');
+        $output .= "<br>\n\n" . Trans::__('Done!');
 
         return $output;
     }
@@ -222,7 +223,7 @@ class Storage
 
         $this->saveContent($contentobject);
 
-        $output = Lib::__(
+        $output = Trans::__(
             "Added to <tt>%key%</tt> '%title%'",
             array('%key%' => $key, '%title%' => $contentobject->getTitle())
         ) . "<br>\n";
@@ -841,7 +842,7 @@ class Storage
         $id = intval($id);
 
         if (!$this->isValidColumn($field, $contenttype)) {
-            $error = Lib::__('contenttypes.generic.invalid-field', array('%field%' => $field, '%contenttype%' => $contenttype));
+            $error = Trans::__('contenttypes.generic.invalid-field', array('%field%' => $field, '%contenttype%' => $contenttype));
             $this->app['session']->getFlashBag()->set('error', $error);
 
             return false;
@@ -851,7 +852,7 @@ class Storage
 
         $content->setValue($field, $value);
 
-        $comment = Lib::__(
+        $comment = Trans::__(
             'The field %field% has been changed to "%newValue%"',
             array(
                 '%field%'    => $field,
