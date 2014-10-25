@@ -118,7 +118,7 @@ class ScriptHandler
         $location = $generator->create();
         $options = array_merge(self::getOptions($event), array('bolt-web-dir'=>$assetDir));
         self::installAssets($event, $options);
-        $event->getIO()->writeln("<info>Your project has been setup</info>");
+        $event->getIO()->write("<info>Your project has been setup</info>");
     }
 
     /**
