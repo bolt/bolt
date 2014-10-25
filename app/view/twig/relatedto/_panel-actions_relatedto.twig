@@ -7,19 +7,19 @@
 
 {% block panel_icon 'fa-cog' %}
 
-{% block panel_head __('Actions for %contenttypes%', {'%contenttypes%': context.show_contenttype.name}) %}
+{% block panel_head __('contenttypes.generic.actions-all', {'%contenttypes%': context.show_contenttype.slug}) %}
 
 {% block panel_body %}
 
     {% import '_macro/_panels.twig' as panels %}
 
     <a class="btn btn-default" href="{{ path('editcontent', {'contenttypeslug': context.show_contenttype.slug, 'id': '', 'relation': context.contenttype.slug, 'relationid': context.id }) }}">
-        <i class="fa fa-plus"></i> {{ __('generic.text.new-contentype', {'%contenttype%': context.show_contenttype.singular_name}) }}
+        <i class="fa fa-plus"></i> {{ __('contenttypes.generic.new', {'%contenttype%': context.show_contenttype.slug}) }}
     </a>
 
     {% if isallowed('edit', context.contenttype) %}
         <a class="btn btn-default" href="{{ path('editcontent', {'contenttypeslug': context.contenttype.slug, 'id': context.id }) }}">
-            <i class="fa fa-edit"></i> {{ __('Edit %contenttype%', {'%contenttype%': context.contenttype.singular_name}) }}
+            <i class="fa fa-edit"></i> {{ __('contenttypes.generic.edit', {'%contenttype%': context.contenttype.slug}) }}
         </a>
     {% endif %}
 

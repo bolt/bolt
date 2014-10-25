@@ -1,5 +1,4 @@
 <?php
-namespace Bolt\Configuration;
 
 use Bolt\Application;
 use Eloquent\Pathogen\FileSystem\Factory\PlatformFileSystemPathFactory;

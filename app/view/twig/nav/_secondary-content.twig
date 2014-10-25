@@ -4,12 +4,12 @@
     {% if isallowed('contenttype:' ~ slug) %}
         {% set sub_view = {
             icon: contenttype.icon|default(contenttype.show_in_menu ? 'files-o' : 'th-list'),
-            label: __('View %contenttypes%', {'%contenttypes%': contenttype.name}),
+            label: __('contenttypes.generic.view', {'%contenttypes%': contenttype.slug}),
             link: path('overview', { 'contenttypeslug': slug })
         } %}
         {% set sub_new = {
             icon: 'plus',
-            label: __('generic.text.new-contentype', {'%contenttype%': contenttype.singular_name}),
+            label: __('contenttypes.generic.new', {'%contenttype%': slug}),
             link: path('editcontent', {'contenttypeslug': slug, 'id': ''}),
             isallowed: 'contenttype:' ~ slug ~ ':create'
         } %}

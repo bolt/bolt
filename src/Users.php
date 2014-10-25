@@ -3,6 +3,7 @@
 namespace Bolt;
 
 use Silex;
+use Bolt\Library as Lib;
 
 /**
  * Class to handle things dealing with users..
@@ -109,7 +110,7 @@ class Users
         }
 
         // make sure the username is slug-like
-        $user['username'] = makeSlug($user['username']);
+        $user['username'] = Lib::makeSlug($user['username']);
 
         if (empty($user['lastseen'])) {
             $user['lastseen'] = "1900-01-01";
@@ -282,7 +283,7 @@ class Users
 
         try {
             // Check if there's already a token stored for this name / IP combo.
-            $query = "SELECT id FROM " . $this->authtokentable . " WHERE username=? AND ip=? AND useragent=?";
+            $query = sprintf('SELECT id FROM %s WHERE username=? AND ip=? AND useragent=?', $this->authtokentable);
             $query = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($query, 1);
             $row = $this->db->executeQuery($query, array($token['username'], $token['ip'], $token['useragent']), array(\PDO::PARAM_STR))->fetch();
 
@@ -346,7 +347,7 @@ class Users
     {
         $this->deleteExpiredSessions();
 
-        $query = "SELECT * FROM " . $this->authtokentable;
+        $query = sprintf('SELECT * FROM %s', $this->authtokentable);
         $sessions = $this->db->fetchAll($query);
 
         return $sessions;
@@ -355,7 +356,7 @@ class Users
     private function deleteExpiredSessions()
     {
         try {
-            $stmt = $this->db->prepare("DELETE FROM " . $this->authtokentable . " WHERE validity < :now");
+            $stmt = $this->db->prepare(sprintf('DELETE FROM %s WHERE validity < :now"', $this->authtokentable));
             $stmt->bindValue("now", date("Y-m-d H:i:s"));
             $stmt->execute();
         } catch (\Doctrine\DBAL\DBALException $e) {
@@ -374,7 +375,7 @@ class Users
         $user = $this->getUser($id);
 
         if (empty($user['id'])) {
-            $this->session->getFlashBag()->set('error', __('That user does not exist.'));
+            $this->session->getFlashBag()->set('error', Lib::__('That user does not exist.'));
 
             return false;
         } else {
@@ -391,15 +392,15 @@ class Users
      */
     public function login($user, $password)
     {
-        $userslug = makeSlug($user);
+        $userslug = Lib::makeSlug($user);
 
         // for once we don't use getUser(), because we need the password.
-        $query = "SELECT * FROM " . $this->usertable . " WHERE username=?";
+        $query = sprintf('SELECT * FROM %s WHERE username=?', $this->usertable);
         $query = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($query, 1);
         $user = $this->db->executeQuery($query, array($userslug), array(\PDO::PARAM_STR))->fetch();
 
         if (empty($user)) {
-            $this->session->getFlashBag()->set('error', __('Username or password not correct. Please check your input.'));
+            $this->session->getFlashBag()->set('error', Lib::__('Username or password not correct. Please check your input.'));
 
             return false;
         }
@@ -409,7 +410,7 @@ class Users
         if ($hasher->CheckPassword($password, $user['password'])) {
 
             if (!$user['enabled']) {
-                $this->session->getFlashBag()->set('error', __('Your account is disabled. Sorry about that.'));
+                $this->session->getFlashBag()->set('error', Lib::__('Your account is disabled. Sorry about that.'));
 
                 return false;
             }
@@ -437,7 +438,7 @@ class Users
             // @see: https://bugs.php.net/bug.php?id=63379
             @$this->session->migrate(true);
             $this->session->set('user', $user);
-            $this->session->getFlashBag()->set('success', __("You've been logged on successfully."));
+            $this->session->getFlashBag()->set('success', Lib::__("You've been logged on successfully."));
 
             $this->currentuser = $user;
 
@@ -447,7 +448,7 @@ class Users
 
         } else {
 
-            $this->session->getFlashBag()->set('error', __('Username or password not correct. Please check your input.'));
+            $this->session->getFlashBag()->set('error', Lib::__('Username or password not correct. Please check your input.'));
             $this->app['log']->add("Failed login attempt for '" . $user['displayname'] . "'.", 3, '', 'issue');
 
             // Update the failed login attempts, and perhaps throttle the logins.
@@ -462,9 +463,6 @@ class Users
             } catch (\Doctrine\DBAL\DBALException $e) {
                 // Oops. User will get a warning on the dashboard about tables that need to be repaired.
             }
-
-            // Take a nap, to prevent brute-forcing. Zzzzz...
-            sleep(1);
 
             return false;
         }
@@ -490,7 +488,7 @@ class Users
 
         // Check if there's already a token stored for this token / IP combo.
         try {
-            $query = "SELECT * FROM " . $this->authtokentable . " WHERE token=? AND ip=? AND useragent=?";
+            $query = sprintf('SELECT * FROM %s WHERE token=? AND ip=? AND useragent=?', $this->authtokentable);
             $query = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($query, 1);
             $row = $this->db->executeQuery($query, array($authtoken, $remoteip, $browser), array(\PDO::PARAM_STR))->fetch();
         } catch (\Doctrine\DBAL\DBALException $e) {
@@ -525,7 +523,7 @@ class Users
             $user['sessionkey'] = $this->getAuthToken($user['username']);
 
             $this->session->set('user', $user);
-            $this->session->getFlashBag()->set('success', __("Session resumed."));
+            $this->session->getFlashBag()->set('success', Lib::__("Session resumed."));
 
             $this->currentuser = $user;
 
@@ -555,7 +553,7 @@ class Users
         $user = $this->getUser($username);
 
         // For safety, this is the message we display, regardless of whether $user exists.
-        $this->session->getFlashBag()->set('info', __("A password reset link has been sent to '%user%'.", array('%user%' => $username)));
+        $this->session->getFlashBag()->set('info', Lib::__("A password reset link has been sent to '%user%'.", array('%user%' => $username)));
 
         if (!empty($user)) {
 
@@ -592,8 +590,6 @@ class Users
                 )
             );
 
-            // echo $mailhtml;
-
             $subject = sprintf("[ Bolt / %s ] Password reset.", $this->app['config']->get('general/sitename'));
 
             $message = \Swift_Message::newInstance()
@@ -613,9 +609,6 @@ class Users
 
         }
 
-        // Take a nap, to prevent brute-forcing. Zzzzz...
-        sleep(1);
-
         return true;
     }
 
@@ -626,14 +619,14 @@ class Users
         $now = date("Y-m-d H:i:s");
 
         // Let's see if the token is valid, and it's been requested within two hours...
-        $query = "SELECT * FROM " . $this->usertable . " WHERE shadowtoken = ? AND shadowvalidity > ?";
+        $query = sprintf('SELECT * FROM %s WHERE shadowtoken = ? AND shadowvalidity > ?', $this->usertable);
         $query = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($query, 1);
         $user = $this->db->executeQuery($query, array($token, $now), array(\PDO::PARAM_STR))->fetch();
 
         if (!empty($user)) {
 
             // allright, we can reset this user..
-            $this->app['session']->getFlashBag()->set('success', __("Password reset successful! You can now log on with the password that was sent to you via email."));
+            $this->app['session']->getFlashBag()->set('success', Lib::__("Password reset successful! You can now log on with the password that was sent to you via email."));
 
             $update = array(
                 'password' => $user['shadowpassword'],
@@ -647,7 +640,7 @@ class Users
 
             // That was not a valid token, or too late, or not from the correct IP.
             $this->app['log']->add("Somebody tried to reset a password with an invalid token.", 3, '', 'issue');
-            $this->app['session']->getFlashBag()->set('error', __("Password reset not successful! Either the token was incorrect, or you were too late, or you tried to reset the password from a different IP-address."));
+            $this->app['session']->getFlashBag()->set('error', Lib::__("Password reset not successful! Either the token was incorrect, or you were too late, or you tried to reset the password from a different IP-address."));
 
         }
     }
@@ -679,7 +672,7 @@ class Users
      */
     public function logout()
     {
-        $this->session->getFlashBag()->set('info', __('You have been logged out.'));
+        $this->session->getFlashBag()->set('info', Lib::__('You have been logged out.'));
         $this->session->remove('user');
         @$this->session->migrate(true);
 
@@ -737,7 +730,7 @@ class Users
     {
         if (empty($this->users) || !is_array($this->users)) {
 
-            $query = "SELECT * FROM " . $this->usertable;
+            $query = sprintf('SELECT * FROM %s', $this->usertable);
             $this->users = array();
 
             try {
@@ -921,7 +914,7 @@ class Users
         $this->addRole($this->getCurrentUsername(), 'root');
 
         // Show a helpful message to the user.
-        $this->app['session']->getFlashBag()->set('info', __("There should always be at least one 'root' user. You have just been promoted. Congratulations!"));
+        $this->app['session']->getFlashBag()->set('info', Lib::__("There should always be at least one 'root' user. You have just been promoted. Congratulations!"));
     }
 
     /**

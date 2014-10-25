@@ -1,0 +1,121 @@
+# app/resources/translations/en/contenttypes.en.yml – generated on 2014-10-24 21:31:50 UTC
+
+# Warning: Translations are in the process of being moved to a new keyword-based translation
+#          at the moment. This is an ongoing process. Translations currently in the
+#          repository are automatically mapped to the new scheme. Be aware that there
+#          can be a race condition between that process and your PR so that it's
+#          eventually neccessary to remap your translations. If you're planning on
+#          updating your translations, it's best to ask on IRC to time your contribution
+#          in order to prevent merge conflicts.
+
+#  no unused messages
+#  no untranslated messages
+#  no untranslated keyword based messages
+#  no translations
+#  93 keyword based translations
+
+#--- 93 keyword based translations --------------------------------------------
+
+contenttypes:
+    entries:
+        name:
+            plural: "Entries"
+            singular: "Entry"
+        text:
+            actions-all: "Actions for Entries"
+            actions-one: "Actions for this Entry"
+            created: "This Entry was created"
+            delete: "Delete Entry"
+            duplicate: "Duplicate Entry"
+            duplicated-finalize: "Content was duplicated. Click 'Save Entry' to finalize."
+            edit: "Edit Entry"
+            error-saving: "There was an error saving this Entry."
+            invalid-field: "Can't set %field% in Entry: Not a valid field."
+            last-modified: "Last modified Entries"
+            new: "New Entries"
+            no-latest: "No latest Entry"
+            no-proper-type: "In the contenttype for 'Entry', the field '%field%' has 'type: %type%', which is not a proper fieldtype. Please edit contenttypes.yml, and correct this."
+            no-recent: "No recent Entry."
+            none-available: "No Entries available."
+            not-existing: "The Entry you were looking for does not exist. It was probably deleted, or it never existed."
+            not-saved-yet: "This Entry has not been saved yet."
+            overview: "Entries overview"
+            publish: "Publish Entry"
+            recent: "Recent Entries"
+            recently-edited: "Recently edited Entries"
+            reserved-name: "In the contenttype for 'Entry', the field '%field%' is defined, which is a reserved name. Please edit contenttypes.yml, and correct this."
+            save: "Save Entry"
+            saved-changes: "The changes to this Entry have been saved."
+            saved-new: "The new Entry has been saved."
+            saving-impossible: "Could not save Entry."
+            show-more: "More Entries"
+            view: "View Entries"
+            wrong-use-field: "In the contenttype for 'Entry', the field '%field%' has 'uses: %uses%', but the field '%uses%' does not exist. Please edit contenttypes.yml, and correct this."
+    pages:
+        name:
+            plural: "Pages"
+            singular: "Page"
+        text:
+            actions-all: "Actions for Pages"
+            actions-one: "Actions for this Page"
+            created: "This Page was created"
+            delete: "Delete Page"
+            duplicate: "Duplicate Page"
+            duplicated-finalize: "Content was duplicated. Click 'Save Page' to finalize."
+            edit: "Edit Page"
+            error-saving: "There was an error saving this Page."
+            invalid-field: "Can't set %field% in Page: Not a valid field."
+            last-modified: "Last modified Pages"
+            new: "New Pages"
+            no-latest: "No latest Page"
+            no-proper-type: "In the contenttype for 'Page', the field '%field%' has 'type: %type%', which is not a proper fieldtype. Please edit contenttypes.yml, and correct this."
+            no-recent: "No recent Page."
+            none-available: "No Pages available."
+            not-existing: "The Page you were looking for does not exist. It was probably deleted, or it never existed."
+            not-saved-yet: "This Page has not been saved yet."
+            overview: "Pages overview"
+            publish: "Publish Page"
+            recent: "Recent Pages"
+            recently-edited: "Recently edited Pages"
+            reserved-name: "In the contenttype for 'Page', the field '%field%' is defined, which is a reserved name. Please edit contenttypes.yml, and correct this."
+            save: "Save Page"
+            saved-changes: "The changes to this Page have been saved."
+            saved-new: "The new Page has been saved."
+            saving-impossible: "Could not save Page."
+            show-more: "More Pages"
+            view: "View Pages"
+            wrong-use-field: "In the contenttype for 'Page', the field '%field%' has 'uses: %uses%', but the field '%uses%' does not exist. Please edit contenttypes.yml, and correct this."
+    showcases:
+        name:
+            plural: "Showcases"
+            singular: "Showcase"
+        text:
+            actions-all: "Actions for Showcases"
+            actions-one: "Actions for this Showcase"
+            created: "This Showcase was created"
+            delete: "Delete Showcase"
+            duplicate: "Duplicate Showcase"
+            duplicated-finalize: "Content was duplicated. Click 'Save Showcase' to finalize."
+            edit: "Edit Showcase"
+            error-saving: "There was an error saving this Showcase."
+            invalid-field: "Can't set %field% in Showcase: Not a valid field."
+            last-modified: "Last modified Showcases"
+            new: "New Showcases"
+            no-latest: "No latest Showcase"
+            no-proper-type: "In the contenttype for 'Showcase', the field '%field%' has 'type: %type%', which is not a proper fieldtype. Please edit contenttypes.yml, and correct this."
+            no-recent: "No recent Showcase."
+            none-available: "No Showcases available."
+            not-existing: "The Showcase you were looking for does not exist. It was probably deleted, or it never existed."
+            not-saved-yet: "This Showcase has not been saved yet."
+            overview: "Showcases overview"
+            publish: "Publish Showcase"
+            recent: "Recent Showcases"
+            recently-edited: "Recently edited Showcases"
+            reserved-name: "In the contenttype for 'Showcase', the field '%field%' is defined, which is a reserved name. Please edit contenttypes.yml, and correct this."
+            save: "Save Showcase"
+            saved-changes: "The changes to this Showcase have been saved."
+            saved-new: "The new Showcase has been saved."
+            saving-impossible: "Could not save Showcase."
+            show-more: "More Showcases"
+            view: "View Showcases"
+            wrong-use-field: "In the contenttype for 'Showcase', the field '%field%' has 'uses: %uses%', but the field '%uses%' does not exist. Please edit contenttypes.yml, and correct this."

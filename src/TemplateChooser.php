@@ -171,6 +171,8 @@ class TemplateChooser
             $chosen = 'search config in theme';
         }
 
+        $this->app['log']->setValue('templatechosen', $this->app['config']->get('general/theme') . "/$template ($chosen)");
+
         return $template;
 
     }
@@ -188,6 +190,8 @@ class TemplateChooser
             $template = $this->app['config']->get('theme/maintenance_template');
             $chosen = 'search config';
         }
+
+        $this->app['log']->setValue('templatechosen', $this->app['config']->get('general/theme') . "/$template ($chosen)");
 
         return $template;
     }

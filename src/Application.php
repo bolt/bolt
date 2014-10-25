@@ -3,6 +3,7 @@
 namespace Bolt;
 
 use Bolt\Configuration\LowlevelException;
+use Bolt\Library as Lib;
 use RandomLib;
 use SecurityLib;
 use Silex;
@@ -216,8 +217,8 @@ class Application extends Silex\Application
 
         // Loading stub functions for when intl / IntlDateFormatter isn't available.
         if (!function_exists('intl_get_error_code')) {
-            require_once BOLT_PROJECT_ROOT_DIR . '/vendor/symfony/locale/Symfony/Component/Locale/Resources/stubs/functions.php';
-            require_once BOLT_PROJECT_ROOT_DIR . '/vendor/symfony/locale/Symfony/Component/Locale/Resources/stubs/IntlDateFormatter.php';
+            require_once $this->app['resources']->getPath('root') . '/vendor/symfony/locale/Symfony/Component/Locale/Resources/stubs/functions.php';
+            require_once $this->app['resources']->getPath('root') . '/vendor/symfony/locale/Symfony/Component/Locale/Resources/stubs/IntlDateFormatter.php';
         }
 
         $this->register(new Provider\TranslationServiceProvider());
@@ -376,7 +377,6 @@ class Application extends Silex\Application
         $this['safe_twig']->addGlobal($this['config']->getWhichEnd(), true);
 
         $this['safe_twig']->addGlobal('user', $this['users']->getCurrentUser());
-        // $this['safe_twig']->addGlobal('config', $this['config']);
         $this['safe_twig']->addGlobal('theme', $this['config']->get('theme'));
 
         if ($response = $this['render']->fetchCachedRequest()) {
@@ -429,7 +429,7 @@ class Application extends Silex\Application
             $this->register(new Provider\TwigProfilerServiceProvider());
 
             $this['twig.loader.filesystem']->addPath(
-                BOLT_PROJECT_ROOT_DIR . '/vendor/symfony/web-profiler-bundle/Symfony/Bundle/WebProfilerBundle/Resources/views',
+                $this['resources']->getPath('root') . '/vendor/symfony/web-profiler-bundle/Symfony/Bundle/WebProfilerBundle/Resources/views',
                 'WebProfiler'
             );
 
@@ -440,7 +440,7 @@ class Application extends Silex\Application
 
             $this->after(
                 function () use ($app) {
-                    foreach (hackislyParseRegexTemplates($app['twig.loader.filesystem']) as $template) {
+                    foreach (Lib::hackislyParseRegexTemplates($app['twig.loader.filesystem']) as $template) {
                         $app['twig.logger']->collectTemplateData($template);
                     }
                 }
@@ -537,7 +537,7 @@ class Application extends Silex\Application
 
             // Don't display the full path..
             if (isset( $trace[$key]['file'])) {
-                $trace[$key]['file'] = str_replace(BOLT_PROJECT_ROOT_DIR, '[root]', $trace[$key]['file']);
+                $trace[$key]['file'] = str_replace($this['resources']->getPath('root'), '[root]', $trace[$key]['file']);
             }
         }
 

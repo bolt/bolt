@@ -20,7 +20,7 @@
         {% endif %}
 
     {% else %}
-        {{ __('No %contenttypes% available.', {'%contenttypes%':subcontenttype.name}) }}
+        {{ __('contenttypes.generic.none-available', {'%contenttypes%': subcontenttype.slug}) }}
     {% endfor %}
 </table>
 
@@ -33,7 +33,7 @@
     </div>
 {% endif %}
 
-{# -- commented out for now.. Finish when needed. 
+{# -- commented out for now.. Finish when needed.
 {% if any_editable %}
     <div class="btn-group">
         <a href="#" class="btn btn-default publishchosen showifchosen" style="display:none;">
@@ -46,7 +46,7 @@
             <i class="fa fa-circle status-held"></i>
             {{ __('Depublish selected', {'%contenttype%': contenttype.name}) }}
         </a>
-    </div>    
+    </div>
 {% endif %}
 #}
 

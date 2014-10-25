@@ -1,51 +1,51 @@
 info:
     upload:
         image: |
-            Utiliza este campo para subir una foto o imagen. 
-            Pulsa el botón para subir un fichero de tu ordenador o, si utilizas una versión reciente de Chrome o Firefox, 
+            Utiliza este campo para subir una foto o imagen.
+            Pulsa el botón para subir un fichero de tu ordenador o, si utilizas una versión reciente de Chrome o Firefox,
             puedes simplemente arrastrar y soltar el fichero desde tu escritorio o desde otra ventana del navegador.<br/>
-            También puedes usar una imagen subida previamente. 
-            Para seleccionar un fichero subido previamente, escribe un fragmento del nombre del fichero 
+            También puedes usar una imagen subida previamente.
+            Para seleccionar un fichero subido previamente, escribe un fragmento del nombre del fichero
             en el área de entrada y será autocompletado.
-            
+
         file: |
             Utiliza este campo para subir un fichero que se incluirá como una descarga o para usar dentro de una página de la web.
-            Pulsa el botón para subir un fichero de tu ordenador o, si utilizas una versión reciente de Chrome o Firefox, 
+            Pulsa el botón para subir un fichero de tu ordenador o, si utilizas una versión reciente de Chrome o Firefox,
             puedes simplemente arrastrar y soltar el fichero desde tu escritorio o desde otra ventana del navegador.<br/>
-            También puedes usar una imagen subida previamente. 
-            Para seleccionar un fichero subido previamente, escribe un fragmento del nombre del fichero 
-            en el área de entrada y será autocompletado.  
-            
+            También puedes usar una imagen subida previamente.
+            Para seleccionar un fichero subido previamente, escribe un fragmento del nombre del fichero
+            en el área de entrada y será autocompletado.
+
         filelist: |
             Utiliza este campo para subir múltiples archivos y algunas descripciones. Cómo en el campo de archivo individual, en los
             navegadores modernos puedes arrastrar y soltar archivos en el campo para subirlos. ¿Por qué no lo intentas?
 
         filesmall: |
-            Utiliza el botón para subir un fichero. 
-            Para seleccionar un fichero subido previamente, escribe un fragmento del nombre del fichero 
-            en el área de entrada y será autocompletado.  
-            
+            Utiliza el botón para subir un fichero.
+            Para seleccionar un fichero subido previamente, escribe un fragmento del nombre del fichero
+            en el área de entrada y será autocompletado.
+
         imagelist: |
             Utiliza este campo para subir un conjunto de fotos o imágenes.
-            Pulsa el botón para subir un fichero de tu ordenador o, si utilizas una versión reciente de Chrome o Firefox, 
+            Pulsa el botón para subir un fichero de tu ordenador o, si utilizas una versión reciente de Chrome o Firefox,
             puedes simplemente arrastrar y soltar el fichero desde tu escritorio o desde otra ventana del navegador.<br/>
-            También puedes usar una imagen subida previamente. 
-            Para seleccionar un fichero subido previamente, escribe un fragmento del nombre del fichero   
-             
+            También puedes usar una imagen subida previamente.
+            Para seleccionar un fichero subido previamente, escribe un fragmento del nombre del fichero
+
         video: |
             Utiliza este campo para incrustar un video dentro de una página de la web. Copia y pega una URL de una
             página de Youtube, Vimeo o casi cualquier otra web de compartición de vídeo. <br/>
-            Bolt recogerá automáticamente el código &lt;embed&gt; con el ancho y alto correctos y el título original. 
-            Si cambias el ancho o el alto, el otro valor cambiará automáticamente, para mantener la relación de aspecto.       
-            
+            Bolt recogerá automáticamente el código &lt;embed&gt; con el ancho y alto correctos y el título original.
+            Si cambias el ancho o el alto, el otro valor cambiará automáticamente, para mantener la relación de aspecto.
+
     geolocation: |
             Utiliza este campo para obtener la geolocalización de cualquier dirección, o coloca el marcador manualmente
-            desplazando la chincheta. En primer lugar, introduce una dirección (aproximada) en el campo "dirección" 
+            desplazando la chincheta. En primer lugar, introduce una dirección (aproximada) en el campo "dirección"
             y se recuperá la latitud y longitud correspondiente usando la API de Google Maps junto con la dirección
             coincidente más cercana, según Google. <br/>
-            Si quieres mover el marcador a una ubicación diferente, sólo tienes que arrastrar y soltar la chincheta en el 
-            mini mapa. La latitud y longitud se actualizarán automáticamente.  
-            
+            Si quieres mover el marcador a una ubicación diferente, sólo tienes que arrastrar y soltar la chincheta en el
+            mini mapa. La latitud y longitud se actualizarán automáticamente.
+
     markdown: |
             Markdown es una herramienta de conversión de texto a HTML para autores web.
             <p>Markdown permite escribir utilizando un formato de texto fácil de leer y fácil de escribir,
@@ -63,41 +63,40 @@ info:
             &nbsp; * Elemento 2</p>
             <p>&nbsp; 1. Esto es una lista ordenada<br/>
             &nbsp; 2. Elemento 2</p>
-            
+
     relationships: |
             Al seleccionar otros registros como 'relacionados' estás creando un vínculo entre este registro
-            y los seleccionados. En la web esto se puede utilizar para mostrar 'artículos relacionados', 'más información' 
-            o para mostrar la posición de este registro dentro de cierta estructura. 
-            
+            y los seleccionados. En la web esto se puede utilizar para mostrar 'artículos relacionados', 'más información'
+            o para mostrar la posición de este registro dentro de cierta estructura.
+
     taxonomy: |
             Al seleccionar una o más taxonomías para este registro estás clasificándolo con estas propiedades.
             En la web esto se puede utilizar para agrupar ciertos registros o para crear vínculos automáticos
             entre registros que comparten la misma clasificación.
 about:
     bolt: |
-        <p>Bolt es un Sistema de Gestión de Contenidos (CMS) que quiere ser simple, rápido, sencillo y agradable de usar, 
-           tanto para los desarrolladores como para los editores de contenido. Bolt es Código Abierto (Open Source) y como tal 
+        <p>Bolt es un Sistema de Gestión de Contenidos (CMS) que quiere ser simple, rápido, sencillo y agradable de usar,
+           tanto para los desarrolladores como para los editores de contenido. Bolt es Código Abierto (Open Source) y como tal
            utiliza otros componentes de Código Abierto. Si eres un desarrollador eres bienvenido a ayudar en el desarrollo
            de Bolt.
-        </p> 
-        
+        </p>
+
     licence: |
         <p>Todas las partes de Bolt se pueden usar libremente bajo la licencia MIT de código abierto. El texto completo de la licencia
-           se encuentra aquí, en el fichero incluido <a href="%paths_app%LICENSE.txt">LICENSE.txt</a>. 
+           se encuentra aquí, en el fichero incluido <a href="%paths_app%LICENSE.txt">LICENSE.txt</a>.
         </p>
-        
+
 prefill:
     short_help: |
         <p>Verifica para qué tipos de contenido quieres generar automáticamente registros con contenido de prueba 'Lorem Ipsum'.</p>
         <p>Si se dejan todas las casillas sin marcar, Bolt solo generará registros para los tipos de contenido que no tienen ninguno todavía.</p>
-        
+
 extension:
     enable: |
-        <p>Para habilitar las extensiones, añádelas al array <code>enabled_extensions</code> en 
+        <p>Para habilitar las extensiones, añádelas al array <code>enabled_extensions</code> en
            <code>config.yml</code>. Debes usar el nombre exacto de la extensión, tal y como se
            muestra en la primera etiqueta en la fila inferior del cuadro correspondiente a esa extensión. Todos los nombres
            son <em>sensibles a mayúsculas</em>, para eliminar problemas con el sistema de ficheros.</p>
         <p>Ejemplo:</p>
         <pre><code>enabled_extensions: [ HelloWorld, GoogleAnalytics ]</code></pre>
-        
-            
+

@@ -12,20 +12,17 @@ class YamlUpdater
 {
 
     /**
-     * Denotes if the file is changed.
-     * @var bool
-     */
-    private $changed = false;
-    /**
      * "File pointer". Basically used as offset for searching.
      * @var int
      */
     private $pointer = 0;
+
     /**
      * Number of lines in the file.
      * @var int
      */
     private $lines = 0;
+
     /**
      * Contains a line of the file per index.
      * @var array
@@ -145,7 +142,6 @@ class YamlUpdater
 
         $this->file[$match['line']] = sprintf("%s%s: %s\n", $match['indentation'], $match['key'], $value);
 
-        // print_r($match);
         return $this->save();
     }
 

@@ -56,11 +56,6 @@ EOM;
         $this->checkDir($this->config->getPath('database'));
     }
 
-    public function checkExtensions()
-    {
-        $this->checkDir($this->config->getPath('extensions'));
-    }
-
     public function checkPublicAssets()
     {
         $this->checkDir($this->config->getPath('web') . '/extensions');

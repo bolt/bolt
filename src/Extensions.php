@@ -5,9 +5,8 @@ namespace Bolt;
 use Bolt;
 use Bolt\Extensions\Snippets\Location as SnippetLocation;
 use Bolt\Extensions\ExtensionInterface;
-use Bolt\Configuration\LowlevelException;
+use Bolt\Library as Lib;
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Symfony\Component\Finder\Finder;
 
 class Extensions
@@ -51,13 +50,6 @@ class Extensions
      * @var array
      */
     private $menuoptions;
-
-    /**
-     * Files which may be in the extensions folder, but have to be ignored.
-     *
-     * @var array
-     */
-    private $ignored;
 
     /**
      * Whether or not to add jQuery.
@@ -330,17 +322,15 @@ class Extensions
      *
      * @param string $filename
      * @param bool   $late
+     * @param int    $priority
      */
-    public function addCss($filename, $late = false)
+    public function addCss($filename, $late = false, $priority = 0)
     {
-        $html = sprintf('<link rel="stylesheet" href="%s" media="screen">', $filename);
-        $this->assets['css'][] = $filename;
-
-        if ($late) {
-            $this->insertSnippet(SnippetLocation::END_OF_BODY, $html);
-        } else {
-            $this->insertSnippet(SnippetLocation::BEFORE_CSS, $html);
-        }
+        $this->assets['css'][md5($filename)] = array(
+            'filename' => $filename,
+            'late' => $late,
+            'priority' => $priority
+        );
     }
 
     /**
@@ -348,17 +338,15 @@ class Extensions
      * the other javascript files.
      * @param string $filename
      * @param bool   $late
+     * @param int    $priority
      */
-    public function addJavascript($filename, $late = false)
+    public function addJavascript($filename, $late = false, $priority = 0)
     {
-        $html = sprintf('<script src="%s"></script>', $filename);
-        $this->assets['js'][] = $filename;
-
-        if ($late) {
-            $this->insertSnippet(SnippetLocation::END_OF_BODY, $html);
-        } else {
-            $this->insertSnippet(SnippetLocation::AFTER_JS, $html);
-        }
+        $this->assets['js'][md5($filename)] = array(
+            'filename'  => $filename,
+            'late'      => $late,
+            'priority'  => $priority
+        );
     }
 
     /**
@@ -571,6 +559,52 @@ class Extensions
     }
 
     /**
+     * Insert all assets in template. Use sorting by priority
+     *
+     * @param $html
+     *
+     * @return string
+     */
+    public function processAssets($html)
+    {
+        foreach ($this->getAssets() as $type => $files) {
+
+            // Use http://en.wikipedia.org/wiki/Schwartzian_transform for stable sort
+            // We use create_function(), because it's faster than closure
+            // decorate
+            array_walk($files, create_function('&$v, $k', '$v = array($v[\'priority\'], $k, $v);'));
+            // sort
+            sort($files);
+            // undecorate
+            array_walk($files, create_function('&$v, $k', '$v = $v[2];'));
+
+            foreach ($files as $file) {
+
+                $late = $file['late'];
+                $filename = $file['filename'];
+
+                if ($type == 'js') {
+                    $htmlJs = sprintf('<script src="%s"></script>', $filename);
+                    if ($late) {
+                        $html = $this->insertEndOfBody($htmlJs, $html);
+                    } else {
+                        $html = $this->insertAfterJs($htmlJs, $html);
+                    }
+                } else {
+                    $htmlCss = sprintf('<link rel="stylesheet" href="%s" media="screen">', $filename);
+                    if ($late) {
+                        $html = $this->insertEndOfBody($htmlCss, $html);
+                    } else {
+                        $html = $this->insertBeforeCss($htmlCss, $html);
+                    }
+                }
+            }
+        }
+
+        return $html;
+    }
+
+    /**
      *
      * Helper function to insert some HTML into thestart of the head section of
      * an HTML page, right after the <head> tag.
@@ -587,7 +621,7 @@ class Extensions
 
             // Try to insert it after <head>
             $replacement = sprintf("%s\n%s\t%s", $matches[0], $matches[1], $tag);
-            $html = str_replace_first($matches[0], $replacement, $html);
+            $html = Lib::str_replace_first($matches[0], $replacement, $html);
 
         } else {
 
@@ -615,7 +649,7 @@ class Extensions
 
             // Try to insert it after <body>
             $replacement = sprintf("%s\n%s\t%s", $matches[0], $matches[1], $tag);
-            $html = str_replace_first($matches[0], $replacement, $html);
+            $html = Lib::str_replace_first($matches[0], $replacement, $html);
 
         } else {
 
@@ -643,7 +677,7 @@ class Extensions
 
             // Try to insert it just before </head>
             $replacement = sprintf("%s\t%s\n%s", $matches[1], $tag, $matches[0]);
-            $html = str_replace_first($matches[0], $replacement, $html);
+            $html = Lib::str_replace_first($matches[0], $replacement, $html);
 
         } else {
 
@@ -670,7 +704,7 @@ class Extensions
 
             // Try to insert it just before </head>
             $replacement = sprintf("%s\t%s\n%s", $matches[1], $tag, $matches[0]);
-            $html = str_replace_first($matches[0], $replacement, $html);
+            $html = Lib::str_replace_first($matches[0], $replacement, $html);
 
         } else {
 
@@ -697,7 +731,7 @@ class Extensions
 
             // Try to insert it just before </head>
             $replacement = sprintf("%s\t%s\n%s", $matches[1], $tag, $matches[0]);
-            $html = str_replace_first($matches[0], $replacement, $html);
+            $html = Lib::str_replace_first($matches[0], $replacement, $html);
 
         } else {
 
@@ -724,7 +758,7 @@ class Extensions
             // matches[0] has some elements, the last index is -1, because zero indexed.
             $last = count($matches[0]) - 1;
             $replacement = sprintf("%s\n%s%s", $matches[0][$last], $matches[1][$last], $tag);
-            $html = str_replace_first($matches[0][$last], $replacement, $html);
+            $html = Lib::str_replace_first($matches[0][$last], $replacement, $html);
 
         } else {
             $html = $this->insertEndOfHead($tag, $html);
@@ -748,7 +782,7 @@ class Extensions
             // matches[0] has some elements, the last index is -1, because zero indexed.
             $last = count($matches[0]) - 1;
             $replacement = sprintf("%s\n%s%s", $matches[0][$last], $matches[1][$last], $tag);
-            $html = str_replace_first($matches[0][$last], $replacement, $html);
+            $html = Lib::str_replace_first($matches[0][$last], $replacement, $html);
 
         } else {
             $html = $this->insertEndOfHead($tag, $html);
@@ -771,7 +805,7 @@ class Extensions
 
             // Try to insert it before the match
             $replacement = sprintf("%s%s\n%s\t%s", $matches[1], $tag, $matches[0], $matches[1]);
-            $html = str_replace_first($matches[0], $replacement, $html);
+            $html = Lib::str_replace_first($matches[0], $replacement, $html);
 
         } else {
 
@@ -797,7 +831,7 @@ class Extensions
 
             // Try to insert it before the match
             $replacement = sprintf("%s%s\n%s\t%s", $matches[1], $tag, $matches[0], $matches[1]);
-            $html = str_replace_first($matches[0], $replacement, $html);
+            $html = Lib::str_replace_first($matches[0], $replacement, $html);
 
         } else {
 
@@ -834,7 +868,7 @@ class Extensions
             // matches[0] has some elements, the last index is -1, because zero indexed.
             $last = count($matches[0]) - 1;
             $replacement = sprintf("%s\n%s%s", $matches[0][$last], $matches[1][$last], $tag);
-            $html = str_replace_first($matches[0][$last], $replacement, $html);
+            $html = Lib::str_replace_first($matches[0][$last], $replacement, $html);
 
         } elseif ($insidehead) {
             // Second attempt: entire document

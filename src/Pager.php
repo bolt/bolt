@@ -60,7 +60,6 @@ class Pager extends \ArrayObject
             }
         );
         $parameters[] = $pageid . '=';
-        // $parameters[] = 'page=';
         $link = '?' . implode('&', $parameters);
 
         return $link;

@@ -67,7 +67,7 @@
         {% endif %}
 
         {% if context.content.datecreated > '1970-01-01 01:01:01' %}
-        <p>{{ __('This %contenttype% was created', {'%contenttype%': context.contenttype.singular_name}) }}
+        <p>{{ __('contenttypes.generic.created', {'%contenttype%': context.contenttype.slug}) }}
             <time class="moment" datetime="{{ context.content.datecreated|date("c") }}" title="{{ context.content.datecreated }}">{{ context.content.datecreated }}</time>
             {{ __('and edited') }}
             <time class="moment" datetime="{{ context.content.datechanged|date("c") }}" title="{{ context.content.datechanged }}">{{ context.content.datechanged }}</time>.

@@ -3,6 +3,7 @@ namespace Bolt\Composer;
 
 use Silex;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Bolt\Library as Lib;
 
 class CommandRunner
 {
@@ -263,7 +264,7 @@ class CommandRunner
             $configfilepath = $paths['extensionsconfig'] . '/' . $configfilename;
             if (is_readable($configfilepath)) {
                 $configfilename = 'extensions/' . $configfilename;
-                $pack['config'] = path('fileedit', array('namespace' => 'config', 'file' => $configfilename));
+                $pack['config'] = Lib::path('fileedit', array('namespace' => 'config', 'file' => $configfilename));
             }
 
             // as a bonus we add the extension title to the pack
@@ -290,7 +291,7 @@ class CommandRunner
         }
 
         $log = "";
-        $timestamp = sprintf("<span class='timestamp'>[%s]</span> ", date("H:i:s"));
+        $timestamp = sprintf("<span class='timestamp'>[%s/%s]</span> ", $type, date("H:i:s"));
 
         if (!empty($command)) {
             $log .= sprintf("%s &gt; <span class='command'>composer %s</span>\n", $timestamp, $command);

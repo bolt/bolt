@@ -10,7 +10,7 @@
                 {% for record in records %}
                     <li><a class="filebrowserCallbackLink" href="{{ record.link }}" >№ {{record.id}}. {{ record.title }}</a></li>
                 {% else %}
-                    <li><a class="filebrowserCloseLink">{{ __('No %contenttypes% available.',{'%contenttypes%':contenttype.name}) }}</a></li>
+                    <li><a class="filebrowserCloseLink">{{ __('contenttypes.generic.none-available', {'%contenttypes%': contenttype.slug}) }}</a></li>
                 {% endfor %}
             </ul>
         </div>

@@ -4,6 +4,7 @@ namespace Bolt;
 
 use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
 use Bolt;
+use Bolt\Library as Lib;
 use Doctrine\DBAL\Connection as DoctrineConn;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -109,10 +110,10 @@ class Storage
 
             $tablename = $this->getTablename($key);
             if ($empty_only && $this->hasRecords($tablename)) {
-                $output .= __("Skipped <tt>%key%</tt> (already has records)", array('%key%' => $key)) . "<br>\n";
+                $output .= Lib::__("Skipped <tt>%key%</tt> (already has records)", array('%key%' => $key)) . "<br>\n";
                 continue;
             } elseif (!in_array($key, $contenttypes) && !$empty_only) {
-                $output .= __("Skipped <tt>%key%</tt> (not checked)", array('%key%' => $key)) . "<br>\n";
+                $output .= Lib::__("Skipped <tt>%key%</tt> (not checked)", array('%key%' => $key)) . "<br>\n";
                 continue;
             }
 
@@ -124,7 +125,7 @@ class Storage
 
         }
 
-        $output .= "<br>\n\n" . __('Done!');
+        $output .= "<br>\n\n" . Lib::__('Done!');
 
         return $output;
     }
@@ -176,7 +177,6 @@ class Storage
                         $params = 'medium/decorate/link/1';
                     } else {
                         $params = 'medium/decorate/link/ol/ul/3';
-                        //$params = 'long/1';
                     }
                     $content[$field] = trim($this->guzzleclient->get($params)->send()->getBody(true));
 
@@ -220,7 +220,7 @@ class Storage
 
         $this->saveContent($contentobject);
 
-        $output = __(
+        $output = Lib::__(
             "Added to <tt>%key%</tt> '%title%'",
             array('%key%' => $key, '%title%' => $contentobject->getTitle())
         ) . "<br>\n";
@@ -363,13 +363,13 @@ class Storage
     {
         $sql = '';
         if (isset($options['order'])) {
-            $sql .= " ORDER BY " . $options['order'];
+            $sql .= sprintf(" ORDER BY %s", $options['order']);
         }
         if (isset($options['limit'])) {
             if (isset($options['offset'])) {
                 $sql .= sprintf(" LIMIT %s, %s ", intval($options['offset']), intval($options['limit']));
             } else {
-                $sql .= " LIMIT " . intval($options['limit']);
+                $sql .= sprintf(" LIMIT %d", intval($options['limit']));
             }
         }
 
@@ -401,7 +401,7 @@ class Storage
         return $objs;
     }
 
-    public function countChangelog($options)
+    public function countChangelog()
     {
         $tablename = $this->getTablename('content_changelog');
         $sql = "SELECT COUNT(1) " .
@@ -621,9 +621,9 @@ class Storage
                         foreach ($values['uses'] as $usesField) {
                             $uses .= $fieldvalues[$usesField] . ' ';
                         }
-                        $fieldvalues['slug'] = makeSlug($uses);
+                        $fieldvalues['slug'] = Lib::makeSlug($uses);
                     } elseif (!empty($fieldvalues['slug'])) {
-                        $fieldvalues['slug'] = makeSlug($fieldvalues['slug']);
+                        $fieldvalues['slug'] = Lib::makeSlug($fieldvalues['slug']);
                     } elseif (empty($fieldvalues['slug']) && $fieldvalues['id']) {
                         $fieldvalues['slug'] = $fieldvalues['id'];
                     }
@@ -701,7 +701,7 @@ class Storage
 
         // Decide whether to insert a new record, or update an existing one.
         if ($create) {
-            $id = $this->insertContent($fieldvalues, $contenttype, '', $comment);
+            $id = $this->insertContent($fieldvalues, $contenttype, $comment);
             $fieldvalues['id'] = $id;
             $content->setValue('id', $id);
         } else {
@@ -767,7 +767,7 @@ class Storage
         return $res;
     }
 
-    protected function insertContent($content, $contenttype, $taxonomy = "", $comment = null)
+    protected function insertContent($content, $contenttype, $comment = null)
     {
         // Make sure $contenttype is a 'slug'
         if (is_array($contenttype)) {
@@ -782,7 +782,7 @@ class Storage
         // id is set to autoincrement, so let the DB handle it
         unset($content['id']);
 
-        $res = $this->app['db']->insert($tablename, $content);
+        $this->app['db']->insert($tablename, $content);
 
         $seq = null;
         if ($this->app['db']->getDatabasePlatform() instanceof PostgreSqlPlatform) {
@@ -839,7 +839,7 @@ class Storage
         $id = intval($id);
 
         if (!$this->isValidColumn($field, $contenttype)) {
-            $error = __("Can't set %field% in %contenttype%: Not a valid field.", array('%field%' => $field, '%contenttype%' => $contenttype));
+            $error = Lib::__('contenttypes.generic.invalid-field', array('%field%' => $field, '%contenttype%' => $contenttype));
             $this->app['session']->getFlashBag()->set('error', $error);
 
             return false;
@@ -849,7 +849,7 @@ class Storage
 
         $content->setValue($field, $value);
 
-        $comment = __(
+        $comment = Lib::__(
             'The field %field% has been changed to "%newValue%"',
             array(
                 '%field%'    => $field,
@@ -959,11 +959,15 @@ class Storage
         $where = array_merge($where, $filter_where);
 
         // Build SQL query
-        $select = sprintf('SELECT   %s.id', $table);
-        $select .= ' FROM ' . $table;
-        $select .= ' LEFT JOIN ' . $taxonomytable;
-        $select .= sprintf(' ON %s.id = %s.content_id', $table, $taxonomytable);
-        $select .= ' WHERE ' . implode(' AND ', $where);
+        $select = sprintf(
+            'SELECT %s.id FROM %s LEFT JOIN %s ON %s.id = %s.content_id WHERE %s',
+            $table,
+            $table,
+            $taxonomytable,
+            $table,
+            $taxonomytable,
+            implode(' AND ', $where)
+        );
 
         // Run Query
         $results = $this->app['db']->fetchAll($select);
@@ -1149,11 +1153,8 @@ class Storage
             if (!empty($filter_where)) {
                 $where[] = "(" . implode(" OR ", $filter_where) . ")";
             }
-
-
         }
 
-        // @todo This is preparation for stage 2..
         $limit = !empty($parameters['limit']) ? $parameters['limit'] : 100;
         $page = !empty($parameters['page']) ? $parameters['page'] : 1;
 
@@ -1166,24 +1167,24 @@ class Storage
 
         // implode 'where'
         if (!empty($where)) {
-            $queryparams .= " WHERE (" . implode(" AND ", $where) . ")";
+            $queryparams .= sprintf('WHERE (%s)', implode(" AND ", $where));
         }
 
         // Order, with a special case for 'RANDOM'.
         if (!empty($parameters['order'])) {
             if ($parameters['order'] == "RANDOM") {
                 $dboptions = $this->app['config']->getDBOptions();
-                $queryparams .= " ORDER BY " . $dboptions['randomfunction'];
+                $queryparams .= sprintf(' ORDER BY %s', $dboptions['randomfunction']);
             } else {
                 $order = $this->getEscapedSortorder($parameters['order'], false);
                 if (!empty($order)) {
-                    $queryparams .= " ORDER BY " . $order;
+                    $queryparams .= sprintf(' ORDER BY %s', $order);
                 }
             }
         }
 
-        // Make the query for the pager..
-        $pagerquery = "SELECT COUNT(*) AS count FROM $tablename" . $queryparams;
+        // Make the query for the pager.
+        $pagerquery = sprintf('SELECT COUNT(*) AS count FROM %s %s', $tablename, $queryparams);
 
         // Add the limit
         $queryparams = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($queryparams, $limit, ($page - 1) * $limit);
@@ -1234,7 +1235,7 @@ class Storage
     {
         $tablename = $this->getTablename("taxonomy");
 
-        $slug = makeSlug($name);
+        $slug = Lib::makeSlug($name);
 
         $limit = $parameters['limit'] ? : 100;
         $page = $parameters['page'] ? : 1;
@@ -1246,22 +1247,26 @@ class Storage
             return false;
         }
 
-        $where = " WHERE (taxonomytype=" . $this->app['db']->quote($taxonomytype['slug']) . "
-        AND (slug=" . $this->app['db']->quote($slug) . " OR name=" . $this->app['db']->quote($name) . ") )";
+        $where = sprintf(
+            ' WHERE (taxonomytype = %s AND (slug = %s OR name = %s))',
+            $this->app['db']->quote($taxonomytype['slug']),
+            $this->app['db']->quote($slug),
+            $this->app['db']->quote($name)
+        );
 
         // Make the query for the pager..
-        $pagerquery = "SELECT COUNT(*) AS count FROM $tablename" . $where;
+        $pagerquery = sprintf('SELECT COUNT(*) AS count FROM %s %s', $tablename, $where);
 
         // Sort on either 'ascending' or 'descending'
         // Make sure we set the order.
         if ($this->app['config']->get('general/taxonomy_sort') == 'desc') {
-            $order = 'desc';
+            $order = 'DESC';
         } else {
-            $order = 'asc';
+            $order = 'ASC';
         }
-        
+
         // Add the limit
-        $query = "SELECT * FROM $tablename" . $where . " ORDER BY id " . $order;
+        $query = sprintf('SELECT * FROM %s %s ORDER BY id %s', $tablename, $where, $order);
         $query = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($query, $limit, ($page - 1) * $limit);
 
         $taxorows = $this->app['db']->fetchAll($query);
@@ -1425,10 +1430,9 @@ class Storage
             $contenttypes[] = $text;
         }
 
-        $app_ct = $this->app['config']->get('contenttypes');
         $instance = $this;
         $contenttypes = array_map(
-            function ($name) use ($app_ct, $instance) {
+            function ($name) use ($instance) {
                 $ct = $instance->getContentType($name);
 
                 return $ct['slug'];
@@ -1437,24 +1441,6 @@ class Storage
         );
 
         return $contenttypes;
-    }
-
-    /**
-     * Return the proper contenttype for a singlular slug
-     *
-     * @param $singular_slug
-     * @return mixed name of contenttype if the singular_slug was found
-     *                  false, if singular_slug was not found
-     */
-    private function searchSingularContentTypeSlug($singular_slug)
-    {
-        foreach ($this->app['config']->get('contenttypes') as $key => $ct) {
-            if (isset($ct['singular_slug']) && ($ct['singular_slug'] == $singular_slug)) {
-                return $this->app['config']->get('contenttypes/' . $key . '/slug');
-            }
-        }
-
-        return false;
     }
 
     /**
@@ -1603,7 +1589,7 @@ class Storage
                 $order = $this->getEscapedSortorder($contenttype['sort'], false);
             }
         } else {
-            $par_order = safeString($order_value);
+            $par_order = Lib::safeString($order_value);
             if ($par_order == 'RANDOM') {
                 $dboptions = $this->app['config']->getDBOptions();
                 $order = $dboptions['randomfunction'];
@@ -1699,7 +1685,7 @@ class Storage
                         continue;
                     }
 
-                    if ($key == 'filter') {
+                    if ($key == 'filter' && !empty($value)) {
 
                         $filter_where = array();
                         foreach ($contenttype['fields'] as $name => $fieldconfig) {
@@ -1723,7 +1709,8 @@ class Storage
                         $keyParts = explode(" ||| ", $key);
                         $valParts = explode(" ||| ", $value);
                         $orPart = '( ';
-                        for ($i = 0; $i < count($keyParts); $i++) {
+                        $countParts = count($keyParts);
+                        for ($i = 0; $i < $countParts; $i++) {
                             if (in_array($keyParts[$i], $this->getContentTypeFields($contenttype['slug'])) ||
                                 in_array($keyParts[$i], Content::getBaseColumns()) ) {
                                 $rkey = $tablename . '.' . $keyParts[$i];
@@ -1779,12 +1766,12 @@ class Storage
             }
 
             if (count($where) > 0) {
-                $query['where'] = 'WHERE ( ' . implode(' AND ', $where) . ' )';
+                $query['where'] = sprintf('WHERE (%s)', implode(' AND ', $where));
             }
             if (count($order) > 0) {
                 $order = implode(', ', $order);
                 if (!empty($order)) {
-                    $query['order'] = 'ORDER BY ' . $order;
+                    $query['order'] = sprintf('ORDER BY %s', $order);
                 }
             }
 
@@ -1897,7 +1884,7 @@ class Storage
      *
      * @see $this->getContent()
      */
-    private function executeGetContentQueries($decoded, $parameters)
+    private function executeGetContentQueries($decoded)
     {
         // Perform actual queries and hydrate
         $total_results = false;
@@ -1987,8 +1974,6 @@ class Storage
 
             return false;
         }
-
-        //$this->app['log']->add('Storage: running textquery: '.$textquery);
 
         // Run checks and some actions (@todo put these somewhere else?)
         if (!$this->runContenttypeChecks($decoded['contenttypes'])) {
@@ -2283,7 +2268,7 @@ class Storage
      */
     public function getContentType($contenttypeslug)
     {
-        $contenttypeslug = makeSlug($contenttypeslug);
+        $contenttypeslug = Lib::makeSlug($contenttypeslug);
 
         // Return false if empty, can't find it..
         if (empty($contenttypeslug)) {
@@ -2299,7 +2284,7 @@ class Storage
                     $contenttype = $this->app['config']->get('contenttypes/' . $key);
                     break;
                 }
-                if ($contenttypeslug == makeSlug($ct['singular_name']) || $contenttypeslug == makeSlug($ct['name'])) {
+                if ($contenttypeslug == Lib::makeSlug($ct['singular_name']) || $contenttypeslug == Lib::makeSlug($ct['name'])) {
                     $contenttype = $this->app['config']->get('contenttypes/' . $key);
                     break;
                 }
@@ -2321,7 +2306,7 @@ class Storage
      */
     public function getTaxonomyType($taxonomyslug)
     {
-        $taxonomyslug = makeSlug($taxonomyslug);
+        $taxonomyslug = Lib::makeSlug($taxonomyslug);
 
         // Return false if empty, can't find it..
         if (empty($taxonomyslug)) {
@@ -2620,7 +2605,7 @@ class Storage
                         $slug = array_search($slug, $configTaxonomies[$taxonomytype]['options']);
                     } else {
                         // make sure it's at least a slug-like value.
-                        $slug = makeSlug($slug);
+                        $slug = Lib::makeSlug($slug);
                     }
 
                 }
@@ -2840,7 +2825,7 @@ class Storage
         $id = intval($id);
         $fulluri = \utilphp\util::str_to_bool($fulluri);
 
-        $slug = makeSlug($title);
+        $slug = Lib::makeSlug($title);
 
         // don't allow strictly numeric slugs.
         if (is_numeric($slug)) {
@@ -2882,7 +2867,7 @@ class Storage
 
             // otherwise, just get a random slug.
             if (empty($uri)) {
-                $slug = trimText($slug, 32, false, false) . "-" . $this->app['randomgenerator']->generateString(6, 'abcdefghijklmnopqrstuvwxyz01234567890');
+                $slug = Lib::trimText($slug, 32, false, false) . "-" . $this->app['randomgenerator']->generateString(6, 'abcdefghijklmnopqrstuvwxyz01234567890');
                 $uri = $prefix . $slug;
             }
         }
@@ -2939,7 +2924,7 @@ class Storage
      */
     protected function getTablename($name)
     {
-        $name = str_replace("-", "_", makeSlug($name));
+        $name = str_replace("-", "_", Lib::makeSlug($name));
         $tablename = sprintf("%s%s", $this->prefix, $name);
 
         return $tablename;
@@ -2947,7 +2932,7 @@ class Storage
 
     protected function hasRecords($tablename)
     {
-        $count = $this->app['db']->fetchColumn('SELECT COUNT(id) FROM ' . $tablename);
+        $count = $this->app['db']->fetchColumn(sprintf('SELECT COUNT(id) FROM %s', $tablename));
 
         return intval($count) > 0;
     }

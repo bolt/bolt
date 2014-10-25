@@ -2,6 +2,8 @@
 
 namespace Bolt\Controllers;
 
+use Bolt\Library as Lib;
+
 use Guzzle\Http\Exception\RequestException;
 use Silex;
 use Silex\ControllerProviderInterface;
@@ -382,7 +384,7 @@ class Async implements ControllerProviderInterface
     public function browse($namespace, $path, Silex\Application $app, Request $request)
     {
         // No trailing slashes in the path.
-        $path = stripTrailingSlash($path);
+        $path = Lib::stripTrailingSlash($path);
 
         $filesystem = $app['filesystem']->getManager($namespace);
 
@@ -401,14 +403,12 @@ class Async implements ControllerProviderInterface
         }
 
         try {
-            $list = $filesystem->listContents($path);
-            $validFolder = true;
+            $filesystem->listContents($path);
         } catch (\Exception $e) {
-            $app['session']->getFlashBag()->set('error', __("Folder '%s' could not be found, or is not readable.", array('%s' => $path)));
-            $validFolder = false;
+            $app['session']->getFlashBag()->set('error', Lib::__("Folder '%s' could not be found, or is not readable.", array('%s' => $path)));
         }
 
-        $app['twig']->addGlobal('title', __("Files in %s", array('%s' => $path)));
+        $app['twig']->addGlobal('title', Lib::__("Files in %s", array('%s' => $path)));
 
         list($files, $folders) = $filesystem->browse($path, $app);
 
@@ -632,8 +632,6 @@ class Async implements ControllerProviderInterface
     public function createfolder(Silex\Application $app, Request $request)
     {
         $namespace = $request->request->get('namespace', 'files');
-        // FIXME seems it never used
-        // $base = $app['resources']->getPath($namespace);
 
         $parentPath = $request->request->get('parent');
         $folderName = $request->request->get('foldername');

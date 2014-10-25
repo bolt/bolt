@@ -2,7 +2,7 @@
     {% for contenttypeslug, contenttype in app.config.get('contenttypes') %}
         {% if isallowed('contenttype:' ~ contenttypeslug ~ ':create') %}
             <a class="btn btn-default" href="{{ path('editcontent', { 'contenttypeslug': contenttypeslug, 'id': '' }) }}">
-                <i class="fa fa-plus"></i> {{ __('generic.text.new-contentype', {'%contenttype%': contenttype.singular_name}) }}
+                <i class="fa fa-plus"></i> {{ __('contenttypes.generic.new', {'%contenttype%': contenttypeslug}) }}
             </a>
         {% endif %}
     {% endfor %}

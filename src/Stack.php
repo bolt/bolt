@@ -3,6 +3,7 @@
 namespace Bolt;
 
 use Silex;
+use Bolt\Library as Lib;
 
 /**
  * Simple stack implementation for remembering "10 last items".
@@ -29,10 +30,10 @@ class Stack
 
         $stack_items = false;
         if (isset($_SESSION['stack'])) {
-            $stack_items = smart_unserialize($_SESSION['stack']);
+            $stack_items = Lib::smart_unserialize($_SESSION['stack']);
         }
         if (!is_array($stack_items)) {
-            $stack_items = smart_unserialize($currentuser['stack']);
+            $stack_items = Lib::smart_unserialize($currentuser['stack']);
         }
         if (!is_array($stack_items)) {
             $stack_items = array();
@@ -107,7 +108,7 @@ class Stack
      */
     public function isStackable($filename)
     {
-        $ext = getExtension($filename);
+        $ext = Lib::getExtension($filename);
 
         return in_array($ext, $this->getFileTypes());
     }
@@ -135,7 +136,7 @@ class Stack
         $list = array();
 
         foreach ($items as $item) {
-            $extension = strtolower(getExtension($item));
+            $extension = strtolower(Lib::getExtension($item));
             if (in_array($extension, $this->imagetypes)) {
                 $type = "image";
             } elseif (in_array($extension, $this->documenttypes)) {
@@ -169,27 +170,27 @@ class Stack
                 'type' => $type,
                 'writable' => is_writable($fullpath),
                 'readable' => is_readable($fullpath),
-                'filesize' => formatFilesize(filesize($fullpath)),
+                'filesize' => Lib::formatFilesize(filesize($fullpath)),
                 'modified' => date("Y/m/d H:i:s", filemtime($fullpath)),
                 'permissions' => \utilphp\util::full_permissions($fullpath)
             );
 
             $thisitem['info'] = sprintf(
                 "%s: <code>%s</code><br>%s: %s<br>%s: %s<br>%s: <code>%s</code>",
-                __('Path'),
+                Lib::__('Path'),
                 $thisitem['filepath'],
-                __('Filesize'),
+                Lib::__('Filesize'),
                 $thisitem['filesize'],
-                __('Modified'),
+                Lib::__('Modified'),
                 $thisitem['modified'],
-                __('Permissions'),
+                Lib::__('Permissions'),
                 $thisitem['permissions']
             );
 
             if ($type == "image") {
                 $size = getimagesize($fullpath);
                 $thisitem['imagesize'] = sprintf("%s × %s", $size[0], $size[1]);
-                $thisitem['info'] .= sprintf("<br>%s: %s × %s px", __("Size"), $size[0], $size[1]);
+                $thisitem['info'] .= sprintf("<br>%s: %s × %s px", Lib::__("Size"), $size[0], $size[1]);
             }
 
             //add it to our list..

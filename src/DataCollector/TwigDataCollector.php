@@ -5,6 +5,7 @@ namespace Bolt\DataCollector;
 use Symfony\Component\HttpKernel\DataCollector\DataCollector;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Bolt\Library as Lib;
 
 /**
  * TwigDataCollector
@@ -97,7 +98,7 @@ class TwigDataCollector extends DataCollector
             'tests' => $tests,
             'filters' => $filters,
             'functions' => $functions,
-            'templates' => hackislyParseRegexTemplates($this->app['twig.loader']),
+            'templates' => Lib::hackislyParseRegexTemplates($this->app['twig.loader']),
             'templatechosen' => $this->app['log']->getValue('templatechosen'),
             'templateerror' => $this->app['log']->getValue('templateerror')
         );
