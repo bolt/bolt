@@ -58,7 +58,7 @@ class Library
      */
     public static function fixPath($path, $nodoubleleadingslashes = true)
     {
-        $path = str_replace("\\", "/", self::stripTrailingSlash($path));
+        $path = str_replace("\\", "/", rtrim($path, '/'));
 
         // Handle double leading slash (that shouldn't be removed).
         if (!$nodoubleleadingslashes && (strpos($path, '//') === 0)) {
@@ -87,21 +87,6 @@ class Library
         }
 
         return $lead . implode('/', $new_path);
-    }
-
-    /**
-     * Ensures that a path has no trailing slash
-     *
-     * @param  string $path
-     * @return string
-     */
-    public static function stripTrailingSlash($path)
-    {
-        if (substr($path, -1, 1) == "/") {
-            $path = substr($path, 0, -1);
-        }
-
-        return $path;
     }
 
     /**
