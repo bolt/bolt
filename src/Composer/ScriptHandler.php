@@ -98,7 +98,7 @@ class ScriptHandler
     public static function bootstrap(CommandEvent $event)
     {
         
-        $webroot = $event->getIO()->ask('Do you want your web directory to be a separate folder to root? [y/n]',false);
+        $webroot = $event->getIO()->ask('<info>Do you want your web directory to be a separate folder to root? [y/n] </info>',false);
         if ($webroot === "y") {
             $webroot = true;
         } else {
@@ -106,7 +106,7 @@ class ScriptHandler
         }
         
         if ($webroot) {
-            $webname = $event->getIO()->ask('What do you want your public directory to be named? [default: public]', 'public');
+            $webname = $event->getIO()->ask('<info>What do you want your public directory to be named? [default: public] </info>', 'public');
         }
         
         $generator = new BootstrapGenerator($webroot, $webname);
