@@ -36,7 +36,8 @@
         "symfony/web-profiler-bundle": "~2.5",
         "symfony/yaml": "~2.5",
         "tdammers/htmlmaid": "~0.7",
-        "twig/twig": "~1.16"
+        "twig/twig": "~1.16",
+        "eloquent/pathogen" : "0.6.1"
     },
     "require-dev": {
         "phpunit/php-code-coverage": "1.2.*@dev",

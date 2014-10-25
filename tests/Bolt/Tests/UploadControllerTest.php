@@ -6,6 +6,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Storage\MockFileSessionStorage;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Bolt\Configuration as Config;
+use Eloquent\Pathogen\FileSystem\Factory\PlatformFileSystemPathFactory;
+use Bolt\Configuration\ResourceManager;
 
 /**
  * Class to test correct operation of Upload Controller.
@@ -117,7 +119,14 @@ class UploadControllerTest extends \PHPUnit_Framework_TestCase
         ->setConstructorArgs(array(new MockFileSessionStorage()))
         ->getMock();
 
-        $config = new Config\ResourceManager(TEST_ROOT);
+        $config = new ResourceManager(
+            new \Pimple(
+                array(
+                    'rootpath' => TEST_ROOT,
+                    'pathmanager' => new PlatformFileSystemPathFactory()
+                )
+            )
+        );
         $config->compat();
 
         $bolt = new Application(array('resources' => $config));

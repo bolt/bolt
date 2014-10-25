@@ -4,6 +4,8 @@ namespace Bolt\Tests;
 
 use Bolt\Cache;
 use Symfony\Component\Filesystem\Filesystem;
+use Eloquent\Pathogen\FileSystem\PlatformFileSystemPath;
+use Eloquent\Pathogen\FileSystem\Factory\PlatformFileSystemPathFactory;
 
 class CacheTest extends \PHPUnit_Framework_TestCase
 {
@@ -20,7 +22,8 @@ class CacheTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->workspace = rtrim(sys_get_temp_dir(), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . time() . rand(0, 1000);
+        $path = new PlatformFileSystemPathFactory();
+        $this->workspace = $path->createTemporaryPath();
         mkdir($this->workspace, 0777, true);
         $this->workspace = realpath($this->workspace);
         $this->cache = new Cache($this->workspace);
@@ -87,17 +90,24 @@ class CacheTest extends \PHPUnit_Framework_TestCase
     {
         $cacheDirLocation = $this->cache->getDirectory();
         $filesystem = new Filesystem();
-        $relative = $filesystem->makePathRelative($cacheDirLocation, __DIR__);
+        $relative = $filesystem->makePathRelative($cacheDirLocation, realpath(__DIR__ . '/../../../src'));
         $newCache = new Cache($relative);
         $this->assertEquals($cacheDirLocation, $newCache->getDirectory());
     }
+
+    // Windows can achieve both of these tests therefore it is meaningless there
 
     /**
      * @expectedException \InvalidArgumentException
      */
     public function testNonExistingDirCantBeCreated()
     {
-        $newCache = new Cache("/foo/bar/baz");
+        if (strtoupper(substr(PHP_OS, 0, 3)=='WIN')) {
+            throw new \InvalidArgumentException('Win can');
+        }
+        else {
+            $newCache = new Cache("/foo/bar/baz");
+        }
     }
 
     /**
@@ -105,8 +115,13 @@ class CacheTest extends \PHPUnit_Framework_TestCase
      */
     public function testUnwriteableCacheDir()
     {
-        $this->clean($this->workspace);
-        mkdir($this->workspace, 0400);
-        $this->cache = new Cache($this->workspace);
+        if (strtoupper(substr(PHP_OS, 0, 3)=='WIN')) {
+            throw new \InvalidArgumentException('Win can');
+        } else {
+            $this->clean($this->workspace);
+            mkdir($this->workspace, 0400);
+            $this->cache = new Cache($this->workspace);
+        }
     }
+
 }

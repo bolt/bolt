@@ -4,6 +4,7 @@ namespace Bolt\Configuration;
 use Bolt\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Composer\Autoload\ClassLoader;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * A Base Class to handle resource management of paths and urls within a Bolt App.
@@ -13,11 +14,17 @@ use Composer\Autoload\ClassLoader;
  *
  * @author Ross Riley, riley.ross@gmail.com
  *
+ * @property \Composer\Autoload\ClassLoader $classloader
+ * @property \Bolt\Appplication $app
+ * @property \Symfony\Component\HttpFoundation\Request $requestObject
+ * @property \Eloquent\Pathogen\FileSystem\Factory\FileSystemPathFactory $pathManager
  */
 class ResourceManager
 {
 
     public $app;
+
+    public $urlPrefix = "";
 
     /**
      * Don't use! Will probably refactored out soon
@@ -34,61 +41,65 @@ class ResourceManager
 
     protected $request = array();
 
-    public $urlPrefix = "";
-
     protected $verifier = false;
 
     protected $classLoader;
 
+    protected $pathManager;
+
     /**
      * Constructor initialises on the app root path.
      *
-     * @param string $loader ClassLoader | string
-     * Classloader instance will use introspection to find root path
-     * String will be treated as an existing directory.
+     * @param \ArrayAccess $container
+     * ArrayAccess compatible DI container that must contain one of:
+     * 'classloader' of instance a ClassLoader will use introspection to find root path or
+     * 'rootpath' will be treated as an existing directory as string.
+     *
+     * Optional ones:
+     * 'request' - Symfony\Component\HttpFoundation\Request
+     * 'verifier' - LowLevelChecks verifier
      */
-    public function __construct($loader, Request $request = null, $verifier = null)
+    public function __construct(\ArrayAccess $container)
     {
-        if ($loader instanceof ClassLoader) {
-            $this->useLoader($loader);
+        $this->pathManager = $container['pathmanager'];
+
+        if (!empty($container['classloader']) && $container['classloader'] instanceof ClassLoader) {
+            $this->root = $this->useLoader($container['classloader']);
         } else {
-            $this->root = $loader;
+            $this->root = $this->setPath('root', $container['rootpath']);
         }
 
-        $this->requestObject = $request;
-
-        if ($verifier !== null) {
-            $this->verifier = $verifier;
+        if (!($container instanceof Application) && !empty($container['request'])) {
+            $this->requestObject = $container['request'];
         }
 
-        $this->setUrl("root", "/");
-        $this->setPath("rootpath", $this->root);
+        if (!empty($container['verifier'])) {
+            $this->verifier = $container['verifier'];
+        }
 
-        $this->setUrl("app", "/app/");
-        $this->setPath("apppath", $this->root . '/app');
+        $this->setUrl('root', '/');
 
-        $this->setUrl("extensions", "/extensions/");
-        $this->setPath("extensionsconfig", $this->root . "/app/config/extensions");
-        $this->setPath("extensionspath", $this->root . DIRECTORY_SEPARATOR . "extensions");
+        $this->setUrl('app', '/app/');
+        $this->setPath('apppath', 'app');
 
-        $this->setUrl("files", "/files/");
-        $this->setPath("filespath", $this->root . "/files");
+        $this->setUrl('extensions', '/extensions/');
+        $this->setPath('extensionsconfig', 'app/config/extensions');
+        $this->setPath('extensionspath', 'extensions');
 
-        $this->setUrl("async", "/async/");
-        $this->setUrl("upload", "/upload/");
-        $this->setUrl("bolt", "/bolt/");
-        $this->setUrl("theme", "/theme/");
+        $this->setUrl('files', '/files/');
+        $this->setPath('filespath', 'files');
 
-        $this->setPath("web", $this->root);
-        $this->setPath("cache", $this->root . "/app/cache");
-        $this->setPath("config", $this->root . "/app/config");
-        $this->setPath("database", $this->root . "/app/database");
-        $this->setPath("themebase", $this->root . "/theme");
-    }
+        $this->setUrl('async', '/async/');
+        $this->setUrl('upload', '/upload/');
+        $this->setUrl('bolt', '/bolt/');
+        $this->setUrl('theme', '/theme/');
 
-    public function setApp(Application $app)
-    {
-        static::$theApp = $this->app = $app;
+        $this->setPath('web', '');
+        $this->setPath('cache', 'app/cache');
+        $this->setPath('config', 'app/config');
+        $this->setPath('database', 'app/database');
+        $this->setPath('themebase', 'theme');
+
     }
 
     public function useLoader(ClassLoader $loader)
@@ -96,24 +107,40 @@ class ResourceManager
         $this->classLoader = $loader;
         $ldpath = dirname($loader->findFile('Composer\\Autoload\\ClassLoader'));
         $expath = explode('vendor', $ldpath);
-        $this->root = realpath($expath[0]);
+
+        return $this->setPath('root', $expath[0]);
+    }
+
+    /*
+     * Setters
+     */
+
+    public function setApp(Application $app)
+    {
+        static::$theApp = $this->app = $app;
     }
 
     public function setPath($name, $value)
     {
         if (! preg_match("/^(?:\/|\\\\|\w:\\\\|\w:\/).*$/", $value)) {
-            $value = $this->root . "/" . $value;
+            $path = $this->pathManager->create($value);
+            $path = $this->paths['root']->resolve($path);
+        } else {
+            $path = $this->pathManager->create($value);
         }
-        $this->paths[$name] = $value;
+
+        $this->paths[$name] = $path;
         if (strpos($name, "path") === false) {
-            $this->paths[$name . "path"] = $value;
+            $this->paths[$name . "path"] = $path;
         }
+
+        return $path;
     }
 
     public function getPath($name)
     {
         if (array_key_exists($name . "path", $this->paths)) {
-            return $this->paths[$name . "path"];
+            return $this->paths[$name . "path"]->string();
         }
 
         if (! array_key_exists($name, $this->paths)) {
@@ -330,39 +357,10 @@ class ResourceManager
     */
     public function findRelativePath($frompath, $topath)
     {
-        $from = explode(DIRECTORY_SEPARATOR, $frompath); // Folders/File
-        $to = explode(DIRECTORY_SEPARATOR, $topath); // Folders/File
-        $relpath = '';
+        $filesystem = new Filesystem();
+        $relative = $filesystem->makePathRelative($topath, $frompath);
 
-        $i = 0;
-
-        // Find how far the path is the same
-        while (isset($from[$i]) && isset($to[$i])) {
-            if ($from[$i] != $to[$i]) {
-                break;
-            }
-            $i++;
-        }
-
-        $j = count($from) - 1;
-
-        // Add '..' until the path is the same
-        while ($i <= $j) {
-            if (!empty($from[$j])) {
-                $relpath .= '..' . DIRECTORY_SEPARATOR;
-            }
-            $j--;
-        }
-
-        // Go to folder from where it starts differing
-        while (isset($to[$i])) {
-            if (!empty($to[$i])) {
-                $relpath .= $to[$i] . DIRECTORY_SEPARATOR;
-            }
-            $i++;
-        }
-
-        // Strip last separator
-        return substr($relpath, 0, -1);
+        return $relative;
     }
+
 }
