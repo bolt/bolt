@@ -66,12 +66,12 @@ var BoltExtender = Object.extend(Object, {
     installReset: function() {
         var controller = this;
         jQuery('#installModal').on('hide.bs.modal', function (e) {
-            console.log('hide');
             controller.find(".stable-version-container .installed-version-item").html('<tr><td colspan="3"><strong>'+controller.messages['noStable']+'</strong></td></tr>');
             controller.find(".dev-version-container .installed-version-item").html('<tr><td colspan="3"><strong>'+controller.messages['noTest']+'</strong></td></tr>');
             controller.find(".install-response-container .console").html(controller.messages['installing']);
 
             controller.find('.theme-postinstall').hide();
+            controller.find('.theme-generate-response').hide();
             controller.find('.extension-postinstall').hide();
             controller.find('.install-response-container').hide();
             controller.find('.install-version-container').hide();
@@ -235,7 +235,6 @@ var BoltExtender = Object.extend(Object, {
                         html += "<i class='fa fa-briefcase ta-fw'></i> <span class='type label label-default'>" + ext["type"] + "</span> ";
 
                         html += "</div></div>";
-                        //console.log(ext);
                         target.find('.installed-list-items').append(html);
                     }
                 } else {
@@ -355,6 +354,7 @@ var BoltExtender = Object.extend(Object, {
 
         controller.find('.install-response-container').hide();
         controller.find('.theme-postinstall').show();
+        controller.find('.theme-generation-container').show();
         var name = extension['name'].split(/\/+/).pop();
         controller.find('.theme-postinstall .theme-generator').data("theme",extension['name']);
         controller.find('.theme-postinstall #theme-name').val(name);
