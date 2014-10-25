@@ -129,6 +129,9 @@ class LowlevelChecks
      **/
     public function checkApache()
     {
+        if ($this->disableApacheChecks) {
+            return;
+        }
         if (isset($_SERVER['SERVER_SOFTWARE']) && strpos($_SERVER['SERVER_SOFTWARE'], 'Apache') !== false) {
             if (!is_readable($this->config->getPath('web') . '/.htaccess')) {
                 throw new LowlevelException(
