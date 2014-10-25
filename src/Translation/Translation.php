@@ -8,7 +8,10 @@ namespace Bolt\Translation;
 class Translation
 {
     /**
-     * htmlencodeParams() is not used in the codebase.
+     * Encode array values as html special chars
+     *
+     * @param array $params Parameter to encode
+     * @return array
      */
     public static function htmlencodeParams($params)
     {
