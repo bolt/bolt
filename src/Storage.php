@@ -7,6 +7,7 @@ use Bolt;
 use Bolt\Events\StorageEvent;
 use Bolt\Events\StorageEvents;
 use Bolt\Library as Lib;
+use Bolt\Helpers\Arr;
 use Bolt\Helpers\String;
 use Bolt\Translation\Translation as Trans;
 use Doctrine\DBAL\Connection as DoctrineConn;
@@ -2568,7 +2569,7 @@ class Storage
 
             if (!empty($currentvalues)) {
                 $currentsortorder = $currentvalues[0]['sortorder'];
-                $currentvalues = makeValuePairs($currentvalues, 'id', 'slug');
+                $currentvalues = Arr::makeValuePairs($currentvalues, 'id', 'slug');
             } else {
                 $currentsortorder = 'id';
                 $currentvalues = array();

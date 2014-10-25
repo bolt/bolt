@@ -4,6 +4,7 @@ namespace Bolt;
 
 use Bolt\Configuration\LowlevelException;
 use Bolt\Library as Lib;
+use Bolt\Helpers\Arr;
 use Bolt\Helpers\String;
 use Bolt\Translation\Translation as Trans;
 use Symfony\Component\Yaml;
@@ -177,7 +178,7 @@ class Config
         $tempconfig            = $this->parseConfigYaml('config.yml');
         $tempconfiglocal       = $this->parseConfigYaml('config_local.yml');
 
-        $config['general']     = Lib::array_merge_recursive_distinct($tempconfig, $tempconfiglocal);
+        $config['general']     = Arr::mergeRecursiveDistinct($tempconfig, $tempconfiglocal);
         $config['taxonomy']    = $this->parseConfigYaml('taxonomy.yml');
         $tempContentTypes      = $this->parseConfigYaml('contenttypes.yml');
         $config['menu']        = $this->parseConfigYaml('menu.yml');
@@ -210,7 +211,7 @@ class Config
         }
 
         // Merge the array with the defaults. Setting the required values that aren't already set.
-        $config['general'] = Lib::array_merge_recursive_distinct($this->defaultConfig, $config['general']);
+        $config['general'] = Arr::mergeRecursiveDistinct($this->defaultConfig, $config['general']);
 
         // Make sure the cookie_domain for the sessions is set properly.
         if (empty($config['general']['cookies_domain'])) {
