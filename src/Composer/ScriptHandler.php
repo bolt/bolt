@@ -16,9 +16,11 @@ class ScriptHandler
      *
      * @param CommandEvent $event
      */
-    public static function installAssets(CommandEvent $event)
+    public static function installAssets(CommandEvent $event, $options = false)
     {
-        $options = self::getOptions($event);
+        if (false === $options) {
+            $options = self::getOptions($event);
+        }
         $webDir = $options['bolt-web-dir'];
         $dirMode = $options['bolt-dir-mode'];
         if (is_string($dirMode)) {
@@ -103,15 +105,19 @@ class ScriptHandler
             $webroot = true;
         } else {
             $webroot = false;
+            $assetDir = ".";
         }
         
         if ($webroot) {
             $webname = $event->getIO()->ask('<info>What do you want your public directory to be named? [default: public] </info>', 'public');
+            $webname = trim($webname, "/");
+            $assetDir = "./".$webname;
         }
         
         $generator = new BootstrapGenerator($webroot, $webname);
         $location = $generator->create();
-        
+        self::installAssets($event, array('bolt-web-dir'=>$assetDir));
+        $event->getIO()->writeln("<info>Your project has been setup</info>");
     }
 
     /**
