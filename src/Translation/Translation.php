@@ -2,6 +2,8 @@
 
 namespace Bolt\Translation;
 
+use Bolt\Configuration\ResourceManager;
+
 /**
  * Handles translation
  */
