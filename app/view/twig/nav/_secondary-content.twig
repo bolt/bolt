@@ -23,7 +23,7 @@
                 {% set sub = sub|merge([
                     {
                         icon: contenttype.icon_singular|default('file-text-o'),
-                        label: record.excerpt(80, true)|trim,
+                        label: record.excerpt(80, true)|replace({"</b>": "&nbsp;</b>"})|trim,
                         link: path('editcontent', {'contenttypeslug': slug, 'id': record.id})
                     }
                 ]) %}
