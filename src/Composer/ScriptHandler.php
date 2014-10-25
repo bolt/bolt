@@ -94,6 +94,25 @@ class ScriptHandler
             }
         }
     }
+    
+    public static function bootstrap(CommandEvent $event)
+    {
+        
+        $webroot = $event->getIO()->ask('Do you want your web directory to be a separate folder to root? [y/n]',false);
+        if ($webroot === "y") {
+            $webroot = true;
+        } else {
+            $webroot = false;
+        }
+        
+        if ($webroot) {
+            $webname = $event->getIO()->ask('What do you want your public directory to be named? [default: public]', 'public');
+        }
+        
+        $generator = new BootstrapGenerator($webroot, $webname);
+        $location = $generator->create();
+        
+    }
 
     /**
      *
