@@ -130,7 +130,7 @@ EOD;
      **/
     protected function getPathCode($name, $value)
     {
-        $template = '$configuration->setPath("%s", "%s")'.PHP_EOL;
+        $template = '$configuration->setPath("%s", "%s");'.PHP_EOL;
         return sprintf($template, $name, $value);
     }
     
