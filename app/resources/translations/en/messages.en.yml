@@ -396,7 +396,7 @@ contenttypes:
         error-saving: "There was an error saving this %contenttype%."
         invalid-field: "Can't set %field% in %contenttype%: Not a valid field."
         last-modified: "Last modified %contenttypes%"
-        new: "New %contenttypes%"
+        new: "New %contenttype%"
         no-latest: "No latest %contenttype%"
         no-proper-type: "In the contenttype for '%contenttype%', the field '%field%' has 'type: %type%', which is not a proper fieldtype. Please edit contenttypes.yml, and correct this."
         no-recent: "No recent %contenttype%."
