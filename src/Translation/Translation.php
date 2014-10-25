@@ -7,6 +7,13 @@ namespace Bolt\Translation;
  */
 class Translation
 {
+    /**
+     * htmlencode() is not used in the codebase.
+     */
+    public static function htmlencode($str)
+    {
+        return htmlspecialchars($str, ENT_QUOTES);
+    }
 
     /**
      * htmlencode_params() is not used in the codebase.

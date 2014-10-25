@@ -816,14 +816,6 @@ class Library
     }
 
     /**
-     * htmlencode() is not used in the codebase.
-     */
-    public static function htmlencode($str)
-    {
-        return htmlspecialchars($str, ENT_QUOTES);
-    }
-
-    /**
      * Leniently decode a serialized compound data structure, detecting whether
      * it's dealing with JSON-encoded data or a PHP-serialized string.
      */
