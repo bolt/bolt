@@ -4,6 +4,8 @@ namespace Bolt;
 
 use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
 use Bolt;
+use Bolt\Events\StorageEvent;
+use Bolt\Events\StorageEvents;
 use Bolt\Library as Lib;
 use Doctrine\DBAL\Connection as DoctrineConn;
 use Symfony\Component\HttpFoundation\Request;

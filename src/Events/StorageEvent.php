@@ -1,5 +1,5 @@
 <?php
-namespace Bolt;
+namespace Bolt\Events;
 
 use Bolt;
 use Symfony\Component\EventDispatcher\Event;

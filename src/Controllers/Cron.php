@@ -5,14 +5,14 @@ namespace Bolt\Controllers;
 use Silex;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\EventDispatcher\Event;
-use Bolt\CronEvent;
-use Bolt\CronEvents;
+use Bolt\Events\CronEvent;
+use Bolt\Events\CronEvents;
 
 /**
  * Simple cron dispatch class for Bolt
  *
  * To create a listener you need to something similar in your class:
- *      use Bolt\CronEvents;
+ *      use Bolt\Events\CronEvents;
  *      $this->app['dispatcher']->addListener(CronEvents::CRON_INTERVAL, array($this, 'myJobCallbackMethod'));
  *
  * CRON_INTERVAL should be replace with one of the following:

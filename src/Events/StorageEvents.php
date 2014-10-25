@@ -1,5 +1,5 @@
 <?php
-namespace Bolt;
+namespace Bolt\Events;
 
 /**
  * Definitions for all possible StorageEvents
