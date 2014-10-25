@@ -70,6 +70,8 @@ var BoltExtender = Object.extend(Object, {
             controller.find(".dev-version-container .installed-version-item").html('<tr><td colspan="3"><strong>'+controller.messages['noTest']+'</strong></td></tr>');
             controller.find(".install-response-container .console").html(controller.messages['installing']);
 
+            controller.find('.theme-postinstall').hide();
+            controller.find('.theme-generate-response').hide();
             controller.find('.extension-postinstall').hide();
             controller.find('.install-response-container').hide();
             controller.find('.install-version-container').hide();
@@ -207,6 +209,11 @@ var BoltExtender = Object.extend(Object, {
                         if (ext["config"]) {
                             html += "<a href='" + ext["config"] + "' class='btn btn-sm btn-tertiary' ><i class='fa fa-cog fa-fw'></i> Config</a> ";
                         }
+
+                        if (ext["type"] == "bolt-theme") {
+                            html += "<a data-request='package-copy' class='btn btn-sm btn-tertiary' href=''><i class='fa fa-copy fa-fw'></i> Copy to themes</a> ";
+                        }
+
                         html += "</div> ";
 
                         html += "<a data-request='uninstall-package' class='btn btn-sm btn-danger' href='" + baseurl + "uninstall?package=" + ext["name"] + "'><i class='fa fa-trash-o fa-fw'></i> Uninstall</a>";
@@ -228,7 +235,6 @@ var BoltExtender = Object.extend(Object, {
                         html += "<i class='fa fa-briefcase ta-fw'></i> <span class='type label label-default'>" + ext["type"] + "</span> ";
 
                         html += "</div></div>";
-                        //console.log(ext);
                         target.find('.installed-list-items').append(html);
                     }
                 } else {
@@ -345,8 +351,13 @@ var BoltExtender = Object.extend(Object, {
 
     themePostInstall: function(extension) {
         var controller = this;
+
+        controller.find('.install-response-container').hide();
         controller.find('.theme-postinstall').show();
+        controller.find('.theme-generation-container').show();
+        var name = extension['name'].split(/\/+/).pop();
         controller.find('.theme-postinstall .theme-generator').data("theme",extension['name']);
+        controller.find('.theme-postinstall #theme-name').val(name);
     },
 
     generateTheme: function(e) {
@@ -365,6 +376,15 @@ var BoltExtender = Object.extend(Object, {
         });
         e.preventDefault();
     },
+
+
+    copyTheme: function(e) {
+
+        // Magic goes here. 
+        alert('Needs to be implemented');
+
+    },
+
 
     packageReadme: function(e) {
 
@@ -469,6 +489,7 @@ var BoltExtender = Object.extend(Object, {
                 case "prefill-package"   : controller.prefill(e.originalEvent); break;
                 case "install-run"       : controller.installRun(e.originalEvent); break;
                 case "generate-theme"    : controller.generateTheme(e.originalEvent); break;
+                case "package-copy"      : controller.copyTheme(e.originalEvent); break;
                 case "package-readme"    : controller.packageReadme(e.originalEvent); break;
                 case "package-config"    : controller.packageConfig(e.originalEvent); break;
                 case "clear-log"         : controller.clearLog(e.originalEvent); break;
