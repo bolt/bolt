@@ -118,7 +118,7 @@ class TranslationFile
             ->notName('*~')
             ->exclude(array('cache', 'config', 'database', 'resources', 'tests'))
             ->in(dirname($this->app['paths']['themepath']))
-            ->in($this->app['paths']['apppath']);
+            ->in($this->app['paths']['apppath']->string());
 
         // Regex from: stackoverflow.com/questions/5695240/php-regex-to-ignore-escaped-quotes-within-quotes
         $twigRegex = array(
@@ -152,7 +152,7 @@ class TranslationFile
             ->name('*.php')
             ->notName('*~')
             ->exclude(array('cache', 'config', 'database', 'resources', 'tests'))
-            ->in($this->app['paths']['apppath'])
+            ->in($this->app['paths']['apppath']->string())
             ->in(__DIR__ . DIRECTORY_SEPARATOR . '..');
 
         foreach ($finder as $file) {
