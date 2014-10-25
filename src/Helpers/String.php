@@ -69,9 +69,9 @@ class String
      *
      * @see http://stackoverflow.com/a/2606638
      *
-     * @param string $search
-     * @param string $replace
-     * @param string $subject
+     * @param  string $search
+     * @param  string $replace
+     * @param  string $subject
      * @return string
      */
     public static function replaceFirst($search, $replace, $subject)

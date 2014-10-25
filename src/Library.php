@@ -506,29 +506,6 @@ class Library
     }
 
     /**
-     * Detect whether or not a given string is (likely) HTML. It does this by comparing
-     * the lengths of the strings before and after strip_tagging. If it's significantly
-     * shorter, it's probably HTML.
-     *
-     * @param  string $html
-     * @return bool
-     */
-    public static function isHtml($html)
-    {
-        $len = strlen($html);
-
-        $trimlen = strlen(strip_tags($html));
-
-        $factor = $trimlen / $len;
-
-        if ($factor < 0.97) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /**
      * Loads a serialized file, unserializes it, and returns it.
      *
      * If the file isn't readable (or doesn't exist) or reading it fails,
