@@ -816,21 +816,11 @@ class Library
     }
 
     /**
-     * htmlencode() and htmlencode_params() are not used in the codebase.
+     * htmlencode() is not used in the codebase.
      */
     public static function htmlencode($str)
     {
         return htmlspecialchars($str, ENT_QUOTES);
-    }
-
-    public static function htmlencode_params($params)
-    {
-        $result = array();
-        foreach ($params as $key => $val) {
-            $result[$key] = self::htmlencode($val);
-        }
-
-        return $result;
     }
 
     /**

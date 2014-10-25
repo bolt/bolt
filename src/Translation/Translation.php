@@ -7,6 +7,20 @@ namespace Bolt\Translation;
  */
 class Translation
 {
+
+    /**
+     * htmlencode_params() is not used in the codebase.
+     */
+    public static function htmlencode_params($params)
+    {
+        $result = array();
+        foreach ($params as $key => $val) {
+            $result[$key] = self::htmlencode($val);
+        }
+
+        return $result;
+    }
+
     /**
      * i18n made right, second attempt...
      *
