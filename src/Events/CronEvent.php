@@ -1,6 +1,7 @@
 <?php
 namespace Bolt\Events;
 
+use Bolt\Application;
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Console\Output\OutputInterface;
