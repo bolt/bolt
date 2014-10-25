@@ -13,6 +13,7 @@ use Symfony\Component\Filesystem\Filesystem;
 
 use Bolt\Composer\CommandRunner;
 use Bolt\Library as Lib;
+use Bolt\Translation\Translation as Trans;
 
 class Extend implements ControllerProviderInterface, ServiceProviderInterface
 {
@@ -256,7 +257,7 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
 
         // Most of the 'check if user is allowed' happens here: match the current route to the 'allowed' settings.
         if (!$app['users']->isAllowed('extensions')) {
-            $app['session']->getFlashBag()->set('error', Lib::__('You do not have the right privileges to view that page.'));
+            $app['session']->getFlashBag()->set('error', Trans::__('You do not have the right privileges to view that page.'));
 
             return Lib::redirect('dashboard');
         }
