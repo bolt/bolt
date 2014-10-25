@@ -116,7 +116,8 @@ class ScriptHandler
         
         $generator = new BootstrapGenerator($webroot, $webname);
         $location = $generator->create();
-        self::installAssets($event, array('bolt-web-dir'=>$assetDir));
+        $options = array_merge(self::getOptions($event), array('bolt-web-dir'=>$assetDir));
+        self::installAssets($event, $options);
         $event->getIO()->writeln("<info>Your project has been setup</info>");
     }
 
