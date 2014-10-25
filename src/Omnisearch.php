@@ -4,7 +4,7 @@ namespace Bolt;
 
 use Silex;
 use Symfony\Component\Finder\Finder;
-use Bolt\Library as Lib;
+use Bolt\Translation\Translation as Trans;
 
 /**
  * Simple search implementation for the Bolt backend.
@@ -74,8 +74,8 @@ class Omnisearch
                 $key,
             );
 
-            $viewContenttype = Lib::__('contenttypes.generic.view', array('%contenttypes%' => $key));
-            $newContenttype  = Lib::__('contenttypes.generic.new', array('%contenttype%' => $key));
+            $viewContenttype = Trans::__('contenttypes.generic.view', array('%contenttypes%' => $key));
+            $newContenttype  = Trans::__('contenttypes.generic.new', array('%contenttype%' => $key));
 
             if ($this->showViewContenttype) {
                 $viewKeywords   = $keywords;
@@ -118,7 +118,7 @@ class Omnisearch
             $this->register(
                 array(
                     'keywords' => array('Configuration'),
-                    'label' => Lib::__('Configuration'),
+                    'label' => Trans::__('Configuration'),
                     'description' => '',
                     'priority' => self::OMNISEARCH_MENUITEM,
                     'path' => $this->backend . 'file/edit/app/config/config.yml',
@@ -127,7 +127,7 @@ class Omnisearch
             $this->register(
                 array(
                     'keywords' => array('Users', 'Configuration'),
-                    'label' => Lib::__('Configuration') . ' » ' . Lib::__('Users'),
+                    'label' => Trans::__('Configuration') . ' » ' . Trans::__('Users'),
                     'description' => '',
                     'priority' => self::OMNISEARCH_MENUITEM - 1,
                     'path' => $this->backend . 'users',
@@ -136,7 +136,7 @@ class Omnisearch
             $this->register(
                 array(
                     'keywords' => array('Contenttypes', 'Configuration'),
-                    'label' => Lib::__('Configuration') . ' » ' . Lib::__('Contenttypes'),
+                    'label' => Trans::__('Configuration') . ' » ' . Trans::__('Contenttypes'),
                     'description' => '',
                     'priority' => self::OMNISEARCH_MENUITEM - 2,
                     'path' => $this->backend . 'file/edit/app/config/contenttypes.yml',
@@ -145,7 +145,7 @@ class Omnisearch
             $this->register(
                 array(
                     'keywords' => array('Taxonomy', 'Configuration'),
-                    'label' => Lib::__('Configuration') . ' » ' . Lib::__('Taxonomy'),
+                    'label' => Trans::__('Configuration') . ' » ' . Trans::__('Taxonomy'),
                     'description' => '',
                     'priority' => self::OMNISEARCH_MENUITEM - 3,
                     'path' => $this->backend . 'file/edit/app/config/taxonomy.yml',
@@ -154,7 +154,7 @@ class Omnisearch
             $this->register(
                 array(
                     'keywords' => array('Menu setup', 'Configuration'),
-                    'label' => Lib::__('Configuration') . ' » ' . Lib::__('Menu setup'),
+                    'label' => Trans::__('Configuration') . ' » ' . Trans::__('Menu setup'),
                     'description' => '',
                     'priority' => self::OMNISEARCH_MENUITEM - 4,
                     'path' => $this->backend . 'file/edit/app/config/menu.yml',
@@ -163,7 +163,7 @@ class Omnisearch
             $this->register(
                 array(
                     'keywords' => array('Routing setup', 'Configuration'),
-                    'label' => Lib::__('Configuration') . ' » ' . Lib::__('Routing setup'),
+                    'label' => Trans::__('Configuration') . ' » ' . Trans::__('Routing setup'),
                     'description' => '',
                     'priority' => self::OMNISEARCH_MENUITEM - 5,
                     'path' => $this->backend . 'file/edit/app/config/routing.yml',
@@ -176,7 +176,7 @@ class Omnisearch
             $this->register(
                 array(
                     'keywords' => array('Extensions', 'Maintenance'),
-                    'label' => Lib::__('Maintenance') . ' » ' . Lib::__('Extensions'),
+                    'label' => Trans::__('Maintenance') . ' » ' . Trans::__('Extensions'),
                     'description' => '',
                     'priority' => self::OMNISEARCH_MENUITEM - 6,
                     'path' => $this->backend . 'extensions',
@@ -185,7 +185,7 @@ class Omnisearch
             $this->register(
                 array(
                     'keywords' => array('Check database', 'Maintenance'),
-                    'label' => Lib::__('Maintenance') . ' » ' . Lib::__('Check database'),
+                    'label' => Trans::__('Maintenance') . ' » ' . Trans::__('Check database'),
                     'description' => '',
                     'priority' => self::OMNISEARCH_MENUITEM - 7,
                     'path' => $this->backend . 'dbcheck',
@@ -194,7 +194,7 @@ class Omnisearch
             $this->register(
                 array(
                     'keywords' => array('Clear the cache', 'Maintenance'),
-                    'label' => Lib::__('Maintenance') . ' » ' . Lib::__('Clear the cache'),
+                    'label' => Trans::__('Maintenance') . ' » ' . Trans::__('Clear the cache'),
                     'description' => '',
                     'priority' => self::OMNISEARCH_MENUITEM - 8,
                     'path' => $this->backend . 'clearcache',
@@ -203,7 +203,7 @@ class Omnisearch
             $this->register(
                 array(
                     'keywords' => array('Activity log', 'Maintenance'),
-                    'label' => Lib::__('Maintenance') . ' » ' . Lib::__('Activity log'),
+                    'label' => Trans::__('Maintenance') . ' » ' . Trans::__('Activity log'),
                     'description' => '',
                     'priority' => self::OMNISEARCH_MENUITEM - 9,
                     'path' => $this->backend . 'activitylog',
@@ -225,7 +225,7 @@ class Omnisearch
                 $this->register(
                     array(
                         'keywords' => array($extension['label'], 'Extensions'),
-                        'label' => Lib::__('Extensions') . ' » ' . $extension['label'],
+                        'label' => Trans::__('Extensions') . ' » ' . $extension['label'],
                         'description' => '',
                         'priority' => self::OMNISEARCH_EXTENSION - $index,
                         'path' => $this->backend . $extension['path'],
@@ -249,7 +249,7 @@ class Omnisearch
         // automatically adds the translations
         $keywords = $options['keywords'];
         foreach ($keywords as $keyword) {
-            $options['keywords'][] = Lib::__($keyword);
+            $options['keywords'][] = Trans::__($keyword);
         }
 
         $this->data[$options['path']] = $options;
@@ -286,7 +286,7 @@ class Omnisearch
 
             $options[] = array(
                 'keywords' => array('Omnisearch'),
-                'label' => sprintf("%s", Lib::__('Omnisearch')),
+                'label' => sprintf("%s", Trans::__('Omnisearch')),
                 'description' => '',
                 'priority' => self::OMNISEARCH_LANDINGPAGE,
                 'path' => $this->backend . 'omnisearch?q=' . $query,
@@ -333,7 +333,7 @@ class Omnisearch
 
             $this->register(
                 array(
-                    'label' => sprintf("%s » <span>%s</span>", Lib::__('Edit file'), $filename),
+                    'label' => sprintf("%s » <span>%s</span>", Trans::__('Edit file'), $filename),
                     'path' => $this->backend . 'file/edit/theme/' . $relativePathname,
                     'description' => '',
                     'priority' => self::OMNISEARCH_FILE + $priority,
@@ -366,7 +366,7 @@ class Omnisearch
             $contenttypesingular = $result->contenttype['singular_name'];
 
             $item = array(
-                'label' => sprintf('%s %s № %s » <span>%s</span>', Lib::__('Edit'), $contenttypesingular, $contentid, $contenttitle),
+                'label' => sprintf('%s %s № %s » <span>%s</span>', Trans::__('Edit'), $contenttypesingular, $contentid, $contenttitle),
                 'path' => $this->backend . 'editcontent/' . $contenttypeslug . '/' . $contentid,
                 'description' => '',
                 'keywords' => array($query),
