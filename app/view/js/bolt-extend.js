@@ -207,6 +207,11 @@ var BoltExtender = Object.extend(Object, {
                         if (ext["config"]) {
                             html += "<a href='" + ext["config"] + "' class='btn btn-sm btn-tertiary' ><i class='fa fa-cog fa-fw'></i> Config</a> ";
                         }
+
+                        if (ext["type"] == "bolt-theme") {
+                            html += "<a data-request='package-copy' class='btn btn-sm btn-tertiary' href=''><i class='fa fa-copy fa-fw'></i> Copy to themes</a> ";
+                        }
+
                         html += "</div> ";
 
                         html += "<a data-request='uninstall-package' class='btn btn-sm btn-danger' href='" + baseurl + "uninstall?package=" + ext["name"] + "'><i class='fa fa-trash-o fa-fw'></i> Uninstall</a>";
@@ -366,6 +371,15 @@ var BoltExtender = Object.extend(Object, {
         e.preventDefault();
     },
 
+
+    copyTheme: function(e) {
+
+        // Magic goes here. 
+        alert('Needs to be implemented');
+
+    },
+
+
     packageReadme: function(e) {
 
         jQuery.get( jQuery(e.target).data("readme") )
@@ -469,6 +483,7 @@ var BoltExtender = Object.extend(Object, {
                 case "prefill-package"   : controller.prefill(e.originalEvent); break;
                 case "install-run"       : controller.installRun(e.originalEvent); break;
                 case "generate-theme"    : controller.generateTheme(e.originalEvent); break;
+                case "package-copy"      : controller.copyTheme(e.originalEvent); break;
                 case "package-readme"    : controller.packageReadme(e.originalEvent); break;
                 case "package-config"    : controller.packageConfig(e.originalEvent); break;
                 case "clear-log"         : controller.clearLog(e.originalEvent); break;
