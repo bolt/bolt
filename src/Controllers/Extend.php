@@ -213,6 +213,10 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
                 $filesystem->mkdir($destination);
                 $filesystem->mirror($source, $destination);
 
+                if (file_exists($destination . "/config.yml.dist")) {
+                    $filesystem->copy($destination . "/config.yml.dist", $destination . "/config.yml");
+                }
+
                 return new Response($app['translator']->trans('Theme successfully generated. You can now edit it directly from your theme folder.'));
             } catch (\Exception $e) {
                 return new Response($app['translator']->trans('We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling.'));
