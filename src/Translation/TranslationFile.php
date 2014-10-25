@@ -1,6 +1,6 @@
 <?php
 
-namespace Bolt;
+namespace Bolt\Translation;
 
 use Silex;
 use Symfony\Component\Finder\Finder;
@@ -153,7 +153,7 @@ class TranslationFile
             ->notName('*~')
             ->exclude(array('cache', 'config', 'database', 'resources', 'tests'))
             ->in($this->app['paths']['apppath'])
-            ->in(__DIR__);
+            ->in(__DIR__ . DIRECTORY_SEPARATOR . '..');
 
         foreach ($finder as $file) {
             $tokens = token_get_all($file->getContents());

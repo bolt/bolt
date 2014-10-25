@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Yaml\Yaml;
 use Bolt\Library as Lib;
 use Bolt\Permissions;
-use Bolt\TranslationFile;
+use Bolt\Translation\TranslationFile;
 
 /**
  * Backend controller grouping.
