@@ -8,21 +8,13 @@ namespace Bolt\Translation;
 class Translation
 {
     /**
-     * htmlencode() is not used in the codebase.
+     * htmlencodeParams() is not used in the codebase.
      */
-    public static function htmlencode($str)
-    {
-        return htmlspecialchars($str, ENT_QUOTES);
-    }
-
-    /**
-     * htmlencode_params() is not used in the codebase.
-     */
-    public static function htmlencode_params($params)
+    public static function htmlencodeParams($params)
     {
         $result = array();
         foreach ($params as $key => $val) {
-            $result[$key] = self::htmlencode($val);
+            $result[$key] = htmlspecialchars($val, ENT_QUOTES);
         }
 
         return $result;
@@ -79,14 +71,14 @@ class Translation
                         $trans = $app['translator']->transChoice(
                             $key,
                             $args[1],
-                            self::htmlencode_params($tr_args),
+                            self::htmlencodeParams($tr_args),
                             isset($args[3]) ? $args[3] : $domain,
                             isset($args[4]) ? $args[4] : $app['request']->getLocale()
                         );
                     } else {
                         $trans = $app['translator']->trans(
                             $key,
-                            self::htmlencode_params($tr_args),
+                            self::htmlencodeParams($tr_args),
                             isset($args[2]) ? $args[2] : $domain,
                             isset($args[3]) ? $args[3] : $app['request']->getLocale()
                         );
@@ -122,7 +114,7 @@ class Translation
         }
 
         if (isset($args[1])) {
-            $args[1] = self::htmlencode_params($args[1]);
+            $args[1] = self::htmlencodeParams($args[1]);
         }
         switch ($num_args) {
             case 5:
