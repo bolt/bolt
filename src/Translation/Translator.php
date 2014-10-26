@@ -10,22 +10,6 @@ use Bolt\Configuration\ResourceManager;
 class Translator
 {
     /**
-     * Encode array values as html special chars
-     *
-     * @param array $params Parameter to encode
-     * @return array
-     */
-    private static function htmlencodeParams($params)
-    {
-        $result = array();
-        foreach ($params as $key => $val) {
-            $result[$key] = htmlspecialchars($val, ENT_QUOTES);
-        }
-
-        return $result;
-    }
-
-    /**
      * i18n made right, second attempt...
      *
      * Instead of calling directly $app['translator']->trans(), we check
@@ -72,18 +56,24 @@ class Translator
 
                 // Translates a key to text, returns false when not found
                 $fnc_trans = function ($key, $tr_args, $domain) use ($fn, $args, $app) {
+                    $escArgs = array_map(
+                        function ($val) {
+                            return htmlspecialchars($val, ENT_QUOTES);
+                        },
+                        $tr_args
+                    );
                     if ($fn == 'transChoice') {
                         $trans = $app['translator']->transChoice(
                             $key,
                             $args[1],
-                            self::htmlencodeParams($tr_args),
+                            $escArgs,
                             isset($args[3]) ? $args[3] : $domain,
                             isset($args[4]) ? $args[4] : $app['request']->getLocale()
                         );
                     } else {
                         $trans = $app['translator']->trans(
                             $key,
-                            self::htmlencodeParams($tr_args),
+                            $escArgs,
                             isset($args[2]) ? $args[2] : $domain,
                             isset($args[3]) ? $args[3] : $app['request']->getLocale()
                         );
