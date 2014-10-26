@@ -108,8 +108,8 @@ class Translator
                     $key_name = 'contenttypes.' . $ctype . '.name.' . (($key_arg == '%contenttype%') ? 'singular' : 'plural');
                     $key_ctname = ($key_arg == '%contenttype%') ? 'singular_name' : 'name';
 
-                    $ctname = self::translate($app, $fn, $args, $key_name, $tr_args);
-                    if ($ctname === false) {
+                    $ctname = $app['translator']->trans($key_name, array(), 'contenttypes', $app['request']->getLocale());
+                    if ($ctname === $key_name) {
                         $ctypes = $app['config']->get('contenttypes');
                         $ctname = empty($ctypes[$ctype][$key_ctname]) ? ucfirst($ctype) : $ctypes[$ctype][$key_ctname];
                     }
