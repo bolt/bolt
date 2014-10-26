@@ -10,6 +10,22 @@ use Bolt\Configuration\ResourceManager;
  */
 class Translator
 {
+   /**
+    * Encode array values as html special chars
+    *
+    * @param array $params Parameter to encode
+    * @return array
+    */
+    private static function htmlencodeParams($params)
+    {
+        return array_map(
+            function ($val) {
+                return htmlspecialchars($val, ENT_QUOTES);
+            },
+            $params
+        );
+    }
+
     /**
      * Translates a key to text, returns false when not found
      *
@@ -23,25 +39,18 @@ class Translator
      */
     private static function translate(Application $app, $fn, $args, $key, $replace, $domain = 'contenttypes')
     {
-        $escArgs = array_map(
-            function ($val) {
-                return htmlspecialchars($val, ENT_QUOTES);
-            },
-            $replace
-        );
-
         if ($fn == 'transChoice') {
             $trans = $app['translator']->transChoice(
                 $key,
                 $args[1],
-                $escArgs,
+                self::htmlencodeParams($replace),
                 isset($args[3]) ? $args[3] : $domain,
                 isset($args[4]) ? $args[4] : $app['request']->getLocale()
             );
         } else {
             $trans = $app['translator']->trans(
                 $key,
-                $escArgs,
+                self::htmlencodeParams($replace),
                 isset($args[2]) ? $args[2] : $domain,
                 isset($args[3]) ? $args[3] : $app['request']->getLocale()
             );
