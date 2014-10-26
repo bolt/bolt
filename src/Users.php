@@ -3,7 +3,7 @@
 namespace Bolt;
 
 use Silex;
-use Bolt\Library as Lib;
+use Bolt\Helpers\String;
 use Bolt\Translation\Translation as Trans;
 
 /**
@@ -111,7 +111,7 @@ class Users
         }
 
         // make sure the username is slug-like
-        $user['username'] = Lib::makeSlug($user['username']);
+        $user['username'] = String::slug($user['username']);
 
         if (empty($user['lastseen'])) {
             $user['lastseen'] = "1900-01-01";
@@ -393,7 +393,7 @@ class Users
      */
     public function login($user, $password)
     {
-        $userslug = Lib::makeSlug($user);
+        $userslug = String::slug($user);
 
         // for once we don't use getUser(), because we need the password.
         $query = sprintf('SELECT * FROM %s WHERE username=?', $this->usertable);

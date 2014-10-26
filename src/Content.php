@@ -5,7 +5,9 @@ namespace Bolt;
 use Silex;
 use Symfony\Component\Filesystem\Filesystem;
 use Bolt\Library as Lib;
-use Bolt\Translation\Translation as Trans;
+use Bolt\Helpers\String;
+use Bolt\Helpers\Input;
+use Bolt\Helpers\Html;
 
 class Content implements \ArrayAccess
 {
@@ -245,7 +247,7 @@ class Content implements \ArrayAccess
 
     public function setFromPost($values, $contenttype)
     {
-        $values = Lib::cleanPostedData($values);
+        $values = Input::cleanPostedData($values);
 
         if (!$this->id) {
             // this is a new record: current user becomes the owner.
@@ -324,9 +326,9 @@ class Content implements \ArrayAccess
                     '%s/files/%s/%s',
                     $this->app['paths']['rootpath'],
                     date('Y-m'),
-                    Lib::safeString($file['name'][0], false, '[]{}()')
+                    String::makeSafe($file['name'][0], false, '[]{}()')
                 );
-                $basename = sprintf('/%s/%s', date('Y-m'), Lib::safeString($file['name'][0], false, "[]{}()"));
+                $basename = sprintf('/%s/%s', date('Y-m'), String::makeSafe($file['name'][0], false, "[]{}()"));
 
                 if ($file['error'][0] != UPLOAD_ERR_OK) {
                     $this->app['log']->add('Upload: Error occured during upload: ' . $file['error'][0] . ' - ' . $filename, 2);
@@ -997,7 +999,7 @@ class Content implements \ArrayAccess
     public function excerpt($length = 200, $includetitle = false)
     {
         if ($includetitle) {
-            $title = Lib::trimText(strip_tags($this->getTitle()), $length);
+            $title = Html::trimText(strip_tags($this->getTitle()), $length);
             $length = $length - strlen($title);
         }
 
@@ -1015,7 +1017,7 @@ class Content implements \ArrayAccess
             }
 
             $excerpt = str_replace('>', '> ', implode(' ', $excerptParts));
-            $excerpt = Lib::trimText(strip_tags($excerpt), $length);
+            $excerpt = Html::trimText(strip_tags($excerpt), $length);
         } else {
             $excerpt = '';
         }
@@ -1063,7 +1065,7 @@ class Content implements \ArrayAccess
         }
 
         if ($excerptLength > 0) {
-            $result .= Lib::trimText($result, $excerptLength, false, true, false);
+            $result .= Html::trimText($result, $excerptLength, false, true, false);
         }
 
         return '<![CDATA[ ' . $result . ' ]]>';

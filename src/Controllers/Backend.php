@@ -12,6 +12,7 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Yaml\Yaml;
 use Bolt\Library as Lib;
+use Bolt\Helpers\Input;
 use Bolt\Translation\Translation as Trans;
 use Bolt\Permissions;
 use Bolt\Translation\TranslationFile;
@@ -759,7 +760,13 @@ class Backend implements ControllerProviderInterface
         }
 
         // set the editreferrer in twig if it was not set yet.
-        $tmpreferrer = Lib::getReferrer($app['request']);
+        $tmp = parse_url($app['request']->server->get('HTTP_REFERER'));
+
+        $tmpreferrer = $tmp['path'];
+        if (!empty($tmp['query'])) {
+            $tmpreferrer .= "?" . $tmp['query'];
+        }
+
         if (strpos($tmpreferrer, '/overview/') !== false || ($tmpreferrer == $app['paths']['bolt'])) {
             $app['twig']->addGlobal('editreferrer', $tmpreferrer);
         }
@@ -1502,7 +1509,7 @@ class Backend implements ControllerProviderInterface
     public function files($namespace, $path, Silex\Application $app, Request $request)
     {
         // No trailing slashes in the path.
-        $path = Lib::stripTrailingSlash($path);
+        $path = rtrim($path, '/');
 
         $filesystem = $app['filesystem']->getManager($namespace);
         $fullPath = $filesystem->getAdapter()->applyPathPrefix($path);
@@ -1718,7 +1725,7 @@ class Backend implements ControllerProviderInterface
             if ($form->isValid()) {
 
                 $data = $form->getData();
-                $contents = Lib::cleanPostedData($data['contents']) . "\n";
+                $contents = Input::cleanPostedData($data['contents']) . "\n";
 
                 $ok = true;
 
@@ -1808,7 +1815,7 @@ class Backend implements ControllerProviderInterface
             if ($form->isValid()) {
 
                 $data = $form->getData();
-                $contents = Lib::cleanPostedData($data['contents']) . "\n";
+                $contents = Input::cleanPostedData($data['contents']) . "\n";
 
                 // Before trying to save a yaml file, check if it's valid.
                 try {
