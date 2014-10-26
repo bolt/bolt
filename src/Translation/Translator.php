@@ -7,7 +7,7 @@ use Bolt\Configuration\ResourceManager;
 /**
  * Handles translation
  */
-class Translation
+class Translator
 {
     /**
      * Encode array values as html special chars
