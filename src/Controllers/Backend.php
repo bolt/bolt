@@ -15,7 +15,7 @@ use Bolt\Library as Lib;
 use Bolt\Helpers\Input;
 use Bolt\Translation\Translator as Trans;
 use Bolt\Permissions;
-use Bolt\Translation\TranslatorFile;
+use Bolt\Translation\TranslationFile;
 
 /**
  * Backend controller grouping.
