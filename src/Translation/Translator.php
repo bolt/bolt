@@ -2,6 +2,7 @@
 
 namespace Bolt\Translation;
 
+use Bolt\Application;
 use Bolt\Configuration\ResourceManager;
 
 /**
@@ -9,6 +10,46 @@ use Bolt\Configuration\ResourceManager;
  */
 class Translator
 {
+    /**
+     * Translates a key to text, returns false when not found
+     *
+     * @param Application $app
+     * @param string $fn
+     * @param array $args
+     * @param string $key
+     * @param array $replace
+     * @param string $domain
+     * @return mixed
+     */
+    private static function translate(Application $app, $fn, $args, $key, $replace, $domain = 'contenttypes')
+    {
+        $escArgs = array_map(
+            function ($val) {
+                return htmlspecialchars($val, ENT_QUOTES);
+            },
+            $replace
+        );
+
+        if ($fn == 'transChoice') {
+            $trans = $app['translator']->transChoice(
+                $key,
+                $args[1],
+                $escArgs,
+                isset($args[3]) ? $args[3] : $domain,
+                isset($args[4]) ? $args[4] : $app['request']->getLocale()
+            );
+        } else {
+            $trans = $app['translator']->trans(
+                $key,
+                $escArgs,
+                isset($args[2]) ? $args[2] : $domain,
+                isset($args[3]) ? $args[3] : $app['request']->getLocale()
+            );
+        }
+
+        return ($trans == $key) ? false : $trans;
+    }
+
     /**
      * i18n made right, second attempt...
      *
@@ -54,39 +95,12 @@ class Translator
             $key_generic = $args[0];
             if ($key_arg && substr($key_generic, 0, 21) == 'contenttypes.generic.') {
 
-                // Translates a key to text, returns false when not found
-                $fnc_trans = function ($key, $tr_args, $domain) use ($fn, $args, $app) {
-                    $escArgs = array_map(
-                        function ($val) {
-                            return htmlspecialchars($val, ENT_QUOTES);
-                        },
-                        $tr_args
-                    );
-                    if ($fn == 'transChoice') {
-                        $trans = $app['translator']->transChoice(
-                            $key,
-                            $args[1],
-                            $escArgs,
-                            isset($args[3]) ? $args[3] : $domain,
-                            isset($args[4]) ? $args[4] : $app['request']->getLocale()
-                        );
-                    } else {
-                        $trans = $app['translator']->trans(
-                            $key,
-                            $escArgs,
-                            isset($args[2]) ? $args[2] : $domain,
-                            isset($args[3]) ? $args[3] : $app['request']->getLocale()
-                        );
-                    }
-
-                    return ($trans == $key) ? false : $trans;
-                };
                 $ctype = $tr_args[$key_arg];
                 unset($tr_args[$key_arg]);
                 $key_ctype = 'contenttypes.' . $ctype . '.text.' . substr($key_generic, 21);
 
                 // Try to get a direct translation, fallback to en
-                $trans = $fnc_trans($key_ctype, $tr_args, 'contenttypes');
+                $trans = static::translate($app, $fn, $args, $key_ctype, $tr_args);
 
                 // No translation found, use generic translation
                 if ($trans === false) {
@@ -94,14 +108,14 @@ class Translator
                     $key_name = 'contenttypes.' . $ctype . '.name.' . (($key_arg == '%contenttype%') ? 'singular' : 'plural');
                     $key_ctname = ($key_arg == '%contenttype%') ? 'singular_name' : 'name';
 
-                    $ctname = $fnc_trans($key_name, $tr_args, 'contenttypes');
+                    $ctname = self::translate($app, $fn, $args, $key_name, $tr_args);
                     if ($ctname === false) {
                         $ctypes = $app['config']->get('contenttypes');
                         $ctname = empty($ctypes[$ctype][$key_ctname]) ? ucfirst($ctype) : $ctypes[$ctype][$key_ctname];
                     }
                     // Get generic translation with name replaced
                     $tr_args[$key_arg] = $ctname;
-                    $trans = $fnc_trans($key_generic, $tr_args, 'messages');
+                    $trans = self::translate($app, $fn, $args, $key_generic, $tr_args, 'messages');
                 }
 
                 return $trans;
