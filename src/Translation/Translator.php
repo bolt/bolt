@@ -134,17 +134,7 @@ class Translator
         if (isset($args[1])) {
             $args[1] = self::htmlencodeParams($args[1]);
         }
-        switch ($num_args) {
-            case 5:
-                return $app['translator']->$fn($args[0], $args[1], $args[2], $args[3], $args[4]);
-            case 4:
-                return $app['translator']->$fn($args[0], $args[1], $args[2], $args[3]);
-            case 3:
-                return $app['translator']->$fn($args[0], $args[1], $args[2]);
-            case 2:
-                return $app['translator']->$fn($args[0], $args[1]);
-            case 1:
-                return $app['translator']->$fn($args[0]);
-        }
+
+        return call_user_func_array(array($app['translator'], $fn), $args);
     }
 }
