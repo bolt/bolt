@@ -15,7 +15,7 @@ use Symfony\Component\Filesystem\Filesystem;
  * @author Ross Riley, riley.ross@gmail.com
  *
  * @property \Composer\Autoload\ClassLoader $classloader
- * @property \Bolt\Appplication $app
+ * @property \Bolt\Application $app
  * @property \Symfony\Component\HttpFoundation\Request $requestObject
  * @property \Eloquent\Pathogen\FileSystem\Factory\FileSystemPathFactory $pathManager
  */
