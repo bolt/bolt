@@ -1,7 +1,7 @@
 <?php
 
 use Bolt\Library as Lib;
-use Bolt\Translation\Translation as Trans;
+use Bolt\Translation\Translator as Trans;
 
 class libTest extends \PHPUnit_Framework_TestCase
 {

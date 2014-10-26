@@ -4,7 +4,7 @@ namespace Bolt;
 
 use Silex;
 use Symfony\Component\Finder\Finder;
-use Bolt\Translation\Translation as Trans;
+use Bolt\Translation\Translator as Trans;
 
 /**
  * Simple search implementation for the Bolt backend.

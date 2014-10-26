@@ -2,7 +2,7 @@
 
 namespace Bolt;
 
-use Bolt\Translation\Translation as Trans;
+use Bolt\Translation\Translator as Trans;
 
 /**
  * This class implements role-based permissions.
