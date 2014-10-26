@@ -33,7 +33,6 @@ EOM;
     public function __construct($config = null)
     {
         parent::__construct($config);
-        $this->addCheck('extensions');
         $this->addCheck('publicAssets');
         $this->addCheck('database', true);
         $this->addCheck('config', true);
