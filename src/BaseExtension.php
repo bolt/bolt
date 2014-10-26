@@ -51,7 +51,8 @@ abstract class BaseExtension extends \Twig_Extension implements ExtensionInterfa
     private function setBasepath()
     {
         $reflection = new \ReflectionClass($this);
-        $this->basepath = dirname($reflection->getFileName());
+        $basepath = dirname($reflection->getFileName());
+        $this->basepath = $this->app['pathmanager']->create($basepath);
         $this->namespace = basename(dirname($reflection->getFileName()));
     }
 
