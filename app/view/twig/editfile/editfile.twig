@@ -43,7 +43,7 @@
                     <button type="submit" id="saveeditfile" class="btn btn-primary" {% if not context.write_allowed %}disabled{% endif %}>
                         <i class="fa fa-flag"></i> {{ __('page.edit-file.button.save') }}
                     </button>
-                    <a class="btn confirm" style="margin-left: 24px;"
+                    <a class="btn btn-default confirm" style="margin-left: 24px;"
                        data-confirm="{{ __("page.edit-file.confirm-revert") }}"
                        href="{{ path('fileedit', { 'file': context.file }) }}"
                     >
