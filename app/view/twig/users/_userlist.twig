@@ -1,4 +1,4 @@
-<table class='table table-striped dashboardlisting'>
+<table class='table-striped dashboardlisting userlist'>
     <thead>
         <tr>
             <th>#</th>
@@ -19,7 +19,7 @@
                     {% if user.enabled == 0 %}</s>{% endif %}
                 </td>
 
-                <td>
+                <td class="username">
                     {% if user.enabled == 0 %}<s>{% endif %}
                     <strong>{{ user.displayname }}</strong> ({{ user.username}})
                     {% if user.enabled == 0 %}</s>{% endif %}
