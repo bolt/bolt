@@ -9,7 +9,7 @@ use Bolt\Events\StorageEvents;
 use Bolt\Helpers\Arr;
 use Bolt\Helpers\String;
 use Bolt\Helpers\Html;
-use Bolt\Translation\Translation as Trans;
+use Bolt\Translation\Translator as Trans;
 use Doctrine\DBAL\Connection as DoctrineConn;
 use Symfony\Component\HttpFoundation\Request;
 

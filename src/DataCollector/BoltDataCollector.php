@@ -6,7 +6,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\DataCollector\DataCollector;
 use Bolt\Library as Lib;
-use Bolt\Translation\Translation as Trans;
+use Bolt\Translation\Translator as Trans;
 
 /**
  * BoltDataCollector.

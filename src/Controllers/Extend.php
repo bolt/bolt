@@ -13,7 +13,7 @@ use Symfony\Component\Filesystem\Filesystem;
 
 use Bolt\Composer\CommandRunner;
 use Bolt\Library as Lib;
-use Bolt\Translation\Translation as Trans;
+use Bolt\Translation\Translator as Trans;
 
 class Extend implements ControllerProviderInterface, ServiceProviderInterface
 {

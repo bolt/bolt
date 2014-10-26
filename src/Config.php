@@ -6,7 +6,7 @@ use Bolt\Configuration\LowlevelException;
 use Bolt\Library as Lib;
 use Bolt\Helpers\Arr;
 use Bolt\Helpers\String;
-use Bolt\Translation\Translation as Trans;
+use Bolt\Translation\Translator as Trans;
 use Symfony\Component\Yaml;
 
 /**

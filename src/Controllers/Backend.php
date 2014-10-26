@@ -13,9 +13,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Yaml\Yaml;
 use Bolt\Library as Lib;
 use Bolt\Helpers\Input;
-use Bolt\Translation\Translation as Trans;
+use Bolt\Translation\Translator as Trans;
 use Bolt\Permissions;
-use Bolt\Translation\TranslationFile;
+use Bolt\Translation\TranslatorFile;
 
 /**
  * Backend controller grouping.

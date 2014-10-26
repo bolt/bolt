@@ -6,7 +6,7 @@ use Silex;
 use Bolt\Library as Lib;
 use Bolt\Helpers\String;
 use Bolt\Helpers\Html;
-use Bolt\Translation\Translation as Trans;
+use Bolt\Translation\Translator as Trans;
 
 /**
  * The class for Bolt' Twig tags, functions and filters.

@@ -2,6 +2,7 @@
 
 use Bolt\Library as Lib;
 use Bolt\Helpers\Html;
+use Bolt\Translation\Translator as Trans;
 
 class libTest extends \PHPUnit_Framework_TestCase
 {

@@ -4,7 +4,7 @@ namespace Bolt;
 
 use Silex;
 use Bolt\Helpers\String;
-use Bolt\Translation\Translation as Trans;
+use Bolt\Translation\Translator as Trans;
 
 /**
  * Class to handle things dealing with users..
