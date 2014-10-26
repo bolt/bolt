@@ -136,7 +136,7 @@ class Translator
         }
         switch ($num_args) {
             case 5:
-                return $app['translator']->transChoice($args[0], $args[1], $args[2], $args[3], $args[4]);
+                return $app['translator']->$fn($args[0], $args[1], $args[2], $args[3], $args[4]);
             case 4:
                 return $app['translator']->$fn($args[0], $args[1], $args[2], $args[3]);
             case 3:
