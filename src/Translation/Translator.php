@@ -15,7 +15,7 @@ class Translator
      * @param array $params Parameter to encode
      * @return array
      */
-    public static function htmlencodeParams($params)
+    private static function htmlencodeParams($params)
     {
         $result = array();
         foreach ($params as $key => $val) {
