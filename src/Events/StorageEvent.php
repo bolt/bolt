@@ -2,6 +2,7 @@
 namespace Bolt\Events;
 
 use Bolt;
+use Bolt\Content;
 use Symfony\Component\EventDispatcher\Event;
 
 /**
@@ -99,8 +100,10 @@ class StorageEvent extends Event
 
     /**
      * Set the content
+     *
+     * @param Content $content
      */
-    private function setContent($content)
+    private function setContent(Content $content)
     {
         $this->content = $content;
 
