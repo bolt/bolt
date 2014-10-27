@@ -55,6 +55,8 @@ class StorageEvent extends Event
 
     /**
      * Return the id
+     *
+     * @return integer
      */
     public function getId()
     {
@@ -63,6 +65,8 @@ class StorageEvent extends Event
 
     /**
      * Return the content type
+     *
+     * @return string
      */
     public function getContentType()
     {
@@ -71,6 +75,8 @@ class StorageEvent extends Event
 
     /**
      * Return the content (if any)
+     *
+     * @return Bolt\Content
      */
     public function getContent()
     {
@@ -91,6 +97,9 @@ class StorageEvent extends Event
 
     /**
      * Set the content type and id
+     *
+     * @param string  $content_type
+     * @param integer $id
      */
     private function setContentTypeAndId($content_type, $id)
     {
