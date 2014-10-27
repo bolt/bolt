@@ -109,9 +109,11 @@ EOM;
 
             if ($isBoltCoreError === 0) {
                 $html = str_replace('%error_title%', 'Bolt Core - Fatal Error', $html);
+                $html = str_replace('%info%', '', $html);
                 $message = $errorblock;
             } elseif ($isVendorError === 0) {
                 $html = str_replace('%error_title%', 'Bolt Vendor Library - Fatal Error', $html);
+                $html = str_replace('%info%', '', $html);
                 $message = $errorblock;
             } elseif ($isExtensionError === 0) {
                 $vendor = $app['resources']->getPath('extensions') . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR;
@@ -129,6 +131,7 @@ EOM;
             } else {
                 // Unknown
                 $html = str_replace('%error_title%', 'Bolt - Fatal Error', $html);
+                $html = str_replace('%info%', '', $html);
                 $message = $errorblock;
             }
 
