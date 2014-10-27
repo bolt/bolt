@@ -133,7 +133,7 @@ EOM;
             }
 
             $html = str_replace('%error%', $message, $html);
-            echo str_replace($app['resources']->getPath('rootpath') . DIRECTORY_SEPARATOR, '', $html);
+            echo str_replace($app['resources']->getPath('rootpath'), '', $html);
         }
     }
 
