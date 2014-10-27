@@ -2,7 +2,6 @@
 
 namespace Bolt\Controllers;
 
-use Bolt\Library as Lib;
 use Bolt\Translation\Translator as Trans;
 
 use Guzzle\Http\Exception\RequestException;
