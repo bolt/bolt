@@ -44,7 +44,7 @@ class StorageEvent extends Event
      */
     public function __construct($in = null, $create = null)
     {
-        if ($in instanceof Content) {
+        if ($in instanceof \Bolt\Content) {
             $this->setContent($in);
         } elseif (is_array($in)) {
             $this->setContentTypeAndId($in[0], $in[1]);
