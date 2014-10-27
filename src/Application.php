@@ -511,7 +511,7 @@ class Application extends Silex\Application
     public function errorHandler(\Exception $exception)
     {
         // If we are in maintenance mode and current user is not logged in, show maintenance notice.
-        // @see /app/src/Bolt/Controllers/Frontend.php, Frontend::before()
+        // @see Controllers\Frontend::before()
         if ($this['config']->get('general/maintenance_mode')) {
             $user = $this['users']->getCurrentUser();
             if ($user['userlevel'] < 2) {
