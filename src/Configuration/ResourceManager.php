@@ -108,6 +108,7 @@ class ResourceManager
         $ldpath = dirname($loader->findFile('Composer\\Autoload\\ClassLoader'));
         $expath = explode('vendor', $ldpath);
         array_pop($expath);
+
         return $this->setPath('root', join('vendor', $expath));
     }
 
@@ -376,5 +377,4 @@ class ResourceManager
 
         return $relative;
     }
-
 }
