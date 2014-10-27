@@ -3,7 +3,6 @@
 namespace Bolt;
 
 use Bolt\Configuration\ResourceManager;
-use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class for Bolt's generic library functions

@@ -8,7 +8,6 @@ use Bolt\Library as Lib;
 use Bolt\Helpers\String;
 use Bolt\Helpers\Input;
 use Bolt\Helpers\Html;
-use Bolt\Translation\Translator as Trans;
 
 class Content implements \ArrayAccess
 {

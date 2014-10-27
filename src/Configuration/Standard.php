@@ -1,7 +1,6 @@
 <?php
 namespace Bolt\Configuration;
 
-use Bolt\Application;
 use Eloquent\Pathogen\FileSystem\Factory\PlatformFileSystemPathFactory;
 use Composer\Autoload\ClassLoader;
 use Symfony\Component\HttpFoundation\Request;

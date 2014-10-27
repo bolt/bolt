@@ -16,7 +16,6 @@ use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\TableDiff;
 
 use Bolt\Helpers\String;
-use Bolt\Translation\Translator as Trans;
 
 class IntegrityChecker
 {
