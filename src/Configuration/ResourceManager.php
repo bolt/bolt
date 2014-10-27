@@ -181,9 +181,23 @@ class ResourceManager
         return $this->request[$name];
     }
 
+    /**
+     * Returns merged array of Urls, Paths and current request.
+     * However $this->paths can be either mixed array elements of String or Path
+     * getPaths() will convert them string to provide homogeneous type result.
+     *
+     * @return array String array of merge
+     */
     public function getPaths()
     {
-        return array_merge($this->paths, $this->urls, $this->request);
+        $paths = array_map(
+            function ($item) {
+                return (string) $item;
+            },
+            $this->paths
+        );
+
+        return array_merge($paths, $this->urls, $this->request);
     }
 
     /**
