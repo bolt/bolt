@@ -107,12 +107,6 @@ class StorageEvent extends Event
     {
         $this->content = $content;
 
-        $content_type = $content->contenttype;
-        // TODO: weird stuff
-        if (is_array($content_type)) {
-            $content_type = $content_type['slug'];
-        }
-
-        $this->setContentTypeAndId($content_type, $content->id);
+        $this->setContentTypeAndId($content->contenttype['slug'], $content->id);
     }
 }
