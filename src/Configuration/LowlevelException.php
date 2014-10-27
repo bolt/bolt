@@ -104,7 +104,7 @@ EOM;
 
             // Assembe error trace
             $errorblock  = '<code>Error: ' . $error['message'] . '</code><br>';
-            $errorblock .= '<code>File:  ' . str_replace($app['resources']->getPath('rootpath') . DIRECTORY_SEPARATOR, '', $error['file']) . '</code><br>';
+            $errorblock .= '<code>File:  ' . $error['file'] . '</code><br>';
             $errorblock .= '<code>Line:  ' . $error['line'] . '</code><br><br>';
 
             if ($isBoltCoreError === 0) {
@@ -132,7 +132,8 @@ EOM;
                 $message = $errorblock;
             }
 
-            echo str_replace('%error%', $message, $html);
+            $html = str_replace('%error%', $message, $html);
+            echo str_replace($app['resources']->getPath('rootpath') . DIRECTORY_SEPARATOR, '', $html);
         }
     }
 
