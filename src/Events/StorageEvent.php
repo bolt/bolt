@@ -2,6 +2,7 @@
 namespace Bolt\Events;
 
 use Bolt;
+use Bolt\Content;
 use Symfony\Component\EventDispatcher\Event;
 
 /**
@@ -43,7 +44,7 @@ class StorageEvent extends Event
      */
     public function __construct($in = null, $create = null)
     {
-        if ($in instanceof Content) {
+        if ($in instanceof \Bolt\Content) {
             $this->setContent($in);
         } elseif (is_array($in)) {
             $this->setContentTypeAndId($in[0], $in[1]);
@@ -54,6 +55,8 @@ class StorageEvent extends Event
 
     /**
      * Return the id
+     *
+     * @return integer
      */
     public function getId()
     {
@@ -62,6 +65,8 @@ class StorageEvent extends Event
 
     /**
      * Return the content type
+     *
+     * @return string
      */
     public function getContentType()
     {
@@ -70,6 +75,8 @@ class StorageEvent extends Event
 
     /**
      * Return the content (if any)
+     *
+     * @return Bolt\Content
      */
     public function getContent()
     {
@@ -90,6 +97,9 @@ class StorageEvent extends Event
 
     /**
      * Set the content type and id
+     *
+     * @param string  $content_type
+     * @param integer $id
      */
     private function setContentTypeAndId($content_type, $id)
     {
@@ -99,17 +109,13 @@ class StorageEvent extends Event
 
     /**
      * Set the content
+     *
+     * @param Content $content
      */
-    private function setContent($content)
+    private function setContent(Content $content)
     {
         $this->content = $content;
 
-        $content_type = $content->contenttype;
-        // TODO: weird stuff
-        if (is_array($content_type)) {
-            $content_type = $content_type['slug'];
-        }
-
-        $this->setContentTypeAndId($content_type, $content->id);
+        $this->setContentTypeAndId($content->contenttype['slug'], $content->id);
     }
 }

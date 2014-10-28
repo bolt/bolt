@@ -16,7 +16,6 @@ use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\TableDiff;
 
 use Bolt\Helpers\String;
-use Bolt\Translation\Translator as Trans;
 
 class IntegrityChecker
 {
@@ -106,7 +105,11 @@ class IntegrityChecker
     public static function isValid()
     {
         // compare app/cache/dbcheck-ts vs. current timestamp
-        $validityTS = intval(@file_get_contents(self::getValidityTimestampFilename()));
+        if (is_readable(self::getValidityTimestampFilename())) {
+            $validityTS = intval(file_get_contents(self::getValidityTimestampFilename()));
+        } else {
+            $validityTS = 0;
+        }
 
         return ($validityTS >= time() - self::INTEGRITY_CHECK_INTERVAL);
     }

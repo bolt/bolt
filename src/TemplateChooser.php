@@ -46,7 +46,7 @@ class TemplateChooser
      * Choose a template for a single record page, like '/page/about' or
      * '/entry/lorum-ipsum'
      */
-    public function record($record)
+    public function record(\Bolt\Content $record)
     {
         // First candidate: global config.yml
         $template = $this->app['config']->get('general/record_template');

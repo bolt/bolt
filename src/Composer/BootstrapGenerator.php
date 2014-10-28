@@ -1,6 +1,6 @@
 <?php
 /**
- * 
+ *
  * @see https://github.com/bolt/composer-install
  */
 
@@ -10,7 +10,7 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class BootstrapGenerator
 {
-    
+
     public $templateStart = <<<'EOD'
 <?php
 require_once "%s";
@@ -34,32 +34,32 @@ EOD;
      * @var bool
      **/
     public $webroot = false;
-    
+
     /**
      * Configures name of folder above.
      *
      * @var string
      **/
     public $webName = 'public';
-    
-    
+
+
     /**
      * Constructor, takes options and sets up class.
      *
      * @return void
-     * @author 
+     * @author
      **/
     public function __construct($webroot = false, $webname = null)
     {
         if ($webroot) {
-           $this->webroot = $webroot; 
+            $this->webroot = $webroot;
         }
-        
+
         if ($webname) {
             $this->webname = $webname;
         }
     }
-    
+
     /**
      * Main public function that creates and writes a Bootstrap file.
      *
@@ -68,12 +68,13 @@ EOD;
     public function create()
     {
         $bootstrap = $this->generate();
+
         return $this->write($bootstrap);
     }
-    
-    
-    
-    
+
+
+
+
     /**
      * Generate method builds the bootstrap file as a string
      *
@@ -88,22 +89,22 @@ EOD;
             $autoload = "vendor/autoload.php";
             $base = "__DIR__";
         }
-        
-        
-        $template = "";
+
+
+        $template = '';
         $template .= sprintf($this->templateStart, $autoload, $base);
-        
+
         if ($this->webroot) {
-           $template .= $this->getPathCode('web', $this->webname); 
-           $template .= $this->getPathCode('files', $this->webname.'/files'); 
-           $template .= $this->getPathCode('themebase', $this->webname.'/theme'); 
+            $template .= $this->getPathCode('web', $this->webname);
+            $template .= $this->getPathCode('files', $this->webname . '/files');
+            $template .= $this->getPathCode('themebase', $this->webname . '/theme');
         }
-        
+
         $template .= $this->templateEnd;
+
         return $template;
     }
-    
-    
+
     /**
      * Writes the generated template to the correct location.
      *
@@ -114,16 +115,16 @@ EOD;
         $filesystem = new Filesystem();
         if ($this->webroot) {
             $filesystem->mkdir($this->webname);
-            $location = $this->webname.'/index.php';
+            $location = $this->webname . '/index.php';
             $filesystem->dumpFile($location, $template);
         } else {
             $location = 'index.php';
-            $filesystem->dumpFile($location, $template);            
+            $filesystem->dumpFile($location, $template);
         }
+
         return $location;
     }
-    
-    
+
     /**
      * generates a line of code to set paths.
      *
@@ -131,10 +132,8 @@ EOD;
      **/
     protected function getPathCode($name, $value)
     {
-        $template = '$configuration->setPath("%s", "%s");'.PHP_EOL;
+        $template = '$configuration->setPath("%s", "%s");' . PHP_EOL;
+
         return sprintf($template, $name, $value);
     }
-    
-    
-    
 }

@@ -104,14 +104,16 @@ EOM;
 
             // Assembe error trace
             $errorblock  = '<code>Error: ' . $error['message'] . '</code><br>';
-            $errorblock .= '<code>File:  ' . str_replace($app['resources']->getPath('rootpath') . DIRECTORY_SEPARATOR, '', $error['file']) . '</code><br>';
+            $errorblock .= '<code>File:  ' . $error['file'] . '</code><br>';
             $errorblock .= '<code>Line:  ' . $error['line'] . '</code><br><br>';
 
             if ($isBoltCoreError === 0) {
                 $html = str_replace('%error_title%', 'Bolt Core - Fatal Error', $html);
+                $html = str_replace('%info%', '', $html);
                 $message = $errorblock;
             } elseif ($isVendorError === 0) {
                 $html = str_replace('%error_title%', 'Bolt Vendor Library - Fatal Error', $html);
+                $html = str_replace('%info%', '', $html);
                 $message = $errorblock;
             } elseif ($isExtensionError === 0) {
                 $vendor = $app['resources']->getPath('extensions') . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR;
@@ -129,10 +131,12 @@ EOM;
             } else {
                 // Unknown
                 $html = str_replace('%error_title%', 'Bolt - Fatal Error', $html);
+                $html = str_replace('%info%', '', $html);
                 $message = $errorblock;
             }
 
-            echo str_replace('%error%', $message, $html);
+            $html = str_replace('%error%', $message, $html);
+            echo str_replace($app['resources']->getPath('rootpath'), '', $html);
         }
     }
 

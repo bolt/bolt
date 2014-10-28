@@ -6,7 +6,6 @@ use Bolt;
 use Bolt\Extensions\Snippets\Location as SnippetLocation;
 use Bolt\Extensions\ExtensionInterface;
 use Bolt\Helpers\String;
-use Bolt\Translation\Translator as Trans;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 
@@ -119,14 +118,14 @@ class Extensions
 
         $mapfile = $this->basefolder . '/vendor/composer/autoload_psr4.php';
         if (is_readable($mapfile)) {
-            $map = require_once $mapfile;
+            $map = require $mapfile;
             foreach ($map as $namespace => $path) {
                 $loader->setPsr4($namespace, $path);
             }
 
             $mapfile = $this->basefolder . '/vendor/composer/autoload_classmap.php';
             if (is_readable($mapfile)) {
-                $map = require_once $mapfile;
+                $map = require $mapfile;
                 $loader->addClassMap($map);
             }
             $loader->register();

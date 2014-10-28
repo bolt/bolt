@@ -582,7 +582,7 @@ class Storage
         }
     }
 
-    public function saveContent($content, $comment = null)
+    public function saveContent(\Bolt\Content $content, $comment = null)
     {
         $contenttype = $content->contenttype;
         $fieldvalues = $content->values;
@@ -1264,10 +1264,10 @@ class Storage
 
         // Sort on either 'ascending' or 'descending'
         // Make sure we set the order.
-        if ($this->app['config']->get('general/taxonomy_sort') == 'desc') {
+        $order = 'ASC';
+        $taxonomysort = strtoupper($this->app['config']->get('general/taxonomy_sort'));
+        if ($taxonomysort == 'DESC') {
             $order = 'DESC';
-        } else {
-            $order = 'ASC';
         }
 
         // Add the limit
@@ -2159,11 +2159,11 @@ class Storage
     /**
      * Helper function for sorting Records of content that have a Grouping.
      *
-     * @param  object $a
-     * @param  object $b
+     * @param  \Bolt\Content $a
+     * @param  \Bolt\Content $b
      * @return int
      */
-    private function groupingSort($a, $b)
+    private function groupingSort(\Bolt\Content $a, \Bolt\Content $b)
     {
         // Same group, sort within group..
         if ($a->group['slug'] == $b->group['slug']) {

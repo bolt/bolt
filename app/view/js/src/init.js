@@ -792,6 +792,19 @@ var init = {
     },
 
     /*
+     * Initialize current status display setting focus on status select
+     *
+     * @returns {undefined}
+     */
+    focusStatusSelect: function () {
+        $('#lastsavedstatus').click(function (e) {
+            e.preventDefault();
+            $('a[data-filter="meta"]').click();
+            $('#statusselect').focus();
+        });
+     },
+
+    /*
      * Omnisearch
      *
      * @returns {undefined}

@@ -3,7 +3,6 @@
 namespace Bolt;
 
 use Bolt\Library as Lib;
-use Bolt\Translation\Translator as Trans;
 
 /**
  * Use to check if an access to a file is allowed.

@@ -6,7 +6,6 @@ use Silex\Application;
 use Silex\ServiceProviderInterface;
 use Symfony\Component\Translation\Loader as TranslationLoader;
 use Bolt\Library as Lib;
-use Bolt\Translation\Translator as Trans;
 
 class TranslationServiceProvider implements ServiceProviderInterface
 {
