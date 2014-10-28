@@ -3,7 +3,7 @@
 {% for slug, contenttype in app.config.get('contenttypes') %}
     {% if isallowed('contenttype:' ~ slug) %}
         {% set sub_view = {
-            icon: contenttype.icon|default(contenttype.show_in_menu ? 'fa:files-o' : 'fa:th-list'),
+            icon: contenttype.icon_many|default(contenttype.show_in_menu ? 'fa:files-o' : 'fa:th-list'),
             label: __('contenttypes.generic.view', {'%contenttypes%': contenttype.slug}),
             link: path('overview', { 'contenttypeslug': slug })
         } %}
@@ -22,7 +22,7 @@
             {% for record in records %}
                 {% set sub = sub|merge([
                     {
-                        icon: contenttype.icon_singular|default('fa:file-text-o'),
+                        icon: contenttype.icon_one|default('fa:file-text-o'),
                         label: record.excerpt(80, true)|replace({"</b>": "&nbsp;</b>"})|trim,
                         link: path('editcontent', {'contenttypeslug': slug, 'id': record.id})
                     }
@@ -30,7 +30,7 @@
             {% endfor %}
 
             {% set active = (page_nav == 'Content/*' and context.contenttype.slug|default == slug) %}
-            {{ nav.submenu(contenttype.icon|default(''), contenttype.name, sub, active, true) }}
+            {{ nav.submenu(contenttype.icon_many|default(''), contenttype.name, sub, active, true) }}
 
         {# Contenttypes, where show_in_menu is set false #}
         {% else %}
@@ -41,4 +41,4 @@
     {% endif %}
 {% endfor %}
 
-{{ nav.submenu(contenttype.icon|default('fa:th-list'), __('Other contenttypes'), sub_hide) }}
+{{ nav.submenu(contenttype.icon_many|default('fa:th-list'), __('Other contenttypes'), sub_hide) }}
