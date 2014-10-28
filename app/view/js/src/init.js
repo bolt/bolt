@@ -477,7 +477,7 @@ var init = {
             }
 
             // Parse override settings from field in contenttypes.yml
-            custom = $('textarea[name=' + this.name + ']').data('ckconfig');
+            custom = $('textarea[name=' + this.name + ']').data('field-options');
             for (key in custom) {
                 if (custom.hasOwnProperty(key)) {
                     config[key] = custom[key];
@@ -592,9 +592,26 @@ var init = {
      * @returns {undefined}
      */
     dateTimePickers: function () {
-        $(".datepicker").datepicker({
-            dateFormat: "DD, d MM yy"
+
+        $(".datepicker").each(function(){
+
+            var options = {};
+
+            // Parse override settings from field in contenttypes.yml
+            var custom = $(this).data('field-options');
+            for (key in custom) {
+                if (custom.hasOwnProperty(key)) {
+                    options[key] = custom[key];
+                }
+            }
+
+            // Reset dateFormat to Bolt internal date format
+            options.dateFormat = "DD, d MM yy";
+
+            $(this).datepicker( options );
         });
+
+
     },
 
     /*
