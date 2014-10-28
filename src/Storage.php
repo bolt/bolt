@@ -1264,10 +1264,10 @@ class Storage
 
         // Sort on either 'ascending' or 'descending'
         // Make sure we set the order.
-        if ($this->app['config']->get('general/taxonomy_sort') == 'desc') {
+        $order = 'ASC';
+        $taxonomysort = strtoupper($this->app['config']->get('general/taxonomy_sort'));
+        if ($taxonomysort == 'DESC') {
             $order = 'DESC';
-        } else {
-            $order = 'ASC';
         }
 
         // Add the limit
