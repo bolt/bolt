@@ -477,7 +477,7 @@ var init = {
             }
 
             // Parse override settings from field in contenttypes.yml
-            custom = $('textarea[name=' + this.name + ']').data('ckconfig');
+            custom = $('textarea[name=' + this.name + ']').data('field-options');
             for (key in custom) {
                 if (custom.hasOwnProperty(key)) {
                     config[key] = custom[key];
