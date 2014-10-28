@@ -1596,7 +1596,7 @@ class Backend implements ControllerProviderInterface
                     );
                 }
 
-                return Lib::redirect('files', array('path' => $path));
+                return Lib::redirect('files', array('path' => $path, 'namespace'=> $namespace));
             }
 
             $formview = $form->createView();
