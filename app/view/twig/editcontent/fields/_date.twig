@@ -1,9 +1,10 @@
 {#=== OPTIONS ========================================================================================================#}
 
 {% set option = {
-    class:  field.class|default(''),
-    label:  field.label|default(''),
-    info:   field.info|default('')
+    class:   field.class|default(''),
+    label:   field.label|default(''),
+    info:    field.info|default(''),
+    options: field.options.datepicker|default('')    
 }%}
 
 {#=== INIT ===========================================================================================================#}
@@ -15,6 +16,7 @@
     name:   key~'-dateformatted',
     type:   'text',
     value:  (context.content.get(key) and (context.content.get(key) > '0001-01-01 00:00:00') ? context.content.get(key)|localdate('%A, %d %B %Y') : ''),
+    data_field_options:  option.options ? option.options|json_encode : '',
 }%}
 
 {% set attr_hidden = {
