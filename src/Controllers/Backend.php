@@ -895,6 +895,9 @@ class Backend implements ControllerProviderInterface
                             }
                         }
 
+                        // unset flashbag for ajax
+                        $app['session']->getFlashBag()->clear('success');
+
                         return new JsonResponse($val);
                     }
                 }
