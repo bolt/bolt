@@ -775,6 +775,19 @@ var init = {
     },
 
     /*
+     * Initialize 'moment' timestamps.
+     *
+     * @returns {undefined}
+     */
+    focusStatusSelect: function () {
+        $('#lastsavedstatus').click(function (e) {
+            e.preventDefault();
+            $('a[data-filter="meta"]').click();
+            $('#statusselect').focus();
+        });
+     },
+
+    /*
      * Omnisearch
      *
      * @returns {undefined}

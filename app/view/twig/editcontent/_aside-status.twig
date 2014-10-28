@@ -1,6 +1,6 @@
 <p>
     {{ __("Current (saved) status:") }}
-    <a href="#statusselect" data-action="$('#statusselect').focus();" id="lastsavedstatus" title="{{ __("Click to change current status.") }}">
+    <a href="#statusselect" id="lastsavedstatus" title="{{ __("Click to change current status.") }}">
         <strong>
             <i class="fa fa-circle status-{{ context.content.status|default(__("none")) }}"></i>
             {{ status_names[context.content.status]|default(__("None")) }}
