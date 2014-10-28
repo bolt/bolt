@@ -6,13 +6,13 @@
     {# Add the "view" and "configure" options #}
     {% set sub = sub|merge([
         {
-            icon: 'cubes',
+            icon: 'fa:cubes',
             label: __('View/install Extensions'),
             link: url('extend', {}),
             isallowed: 'extensions'
         },
         {
-            icon: 'cog',
+            icon: 'fa:cog',
             label: __('Configure Extensions'),
             link: url('files', {'namespace': 'config', 'path': 'extensions'}),
             isallowed: 'extensions:config'
@@ -31,11 +31,11 @@
 {% for extension in app.extensions.getMenuoptions %}
     {% set sub = sub|merge([
         {
-            icon: extension.icon|default('briefcase'),
+            icon: extension.icon|default('fa:briefcase'),
             label: extension.label,
             link: extension.path
         }
     ]) %}
 {% endfor %}
 
-{{ nav.submenu('cubes', __("Extras"), sub, (page_nav == 'Settings/ExtendBolt')) }}
+{{ nav.submenu('fa:cubes', __('Extras'), sub, (page_nav == 'Settings/ExtendBolt')) }}

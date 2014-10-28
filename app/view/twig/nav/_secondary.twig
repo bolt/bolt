@@ -7,7 +7,7 @@
         {% include 'nav/_secondary-search.twig' %}
 
         {# Dashboard #}
-        {{ nav.link('dashboard', __('Dashboard'), 'dashboard', (page_nav == 'Dashboard')) }}
+        {{ nav.link('fa:dashboard', __('Dashboard'), 'dashboard', (page_nav == 'Dashboard')) }}
 
         {# View site #}
         <li class="visible-xs">
@@ -15,13 +15,13 @@
         </li>
 
         {# Contenttypes #}
-        {{ nav.heading(__('Content'), 'file-text') }}
+        {{ nav.heading(__('Content'), 'fa:file-text') }}
         {% include 'nav/_secondary-content.twig' %}
 
         {# Settings #}
         {% if isallowed('settings') %}
 
-            {{ nav.heading(__('Settings'), 'wrench') }}
+            {{ nav.heading(__('Settings'), 'fa:wrench') }}
 
             {% include 'nav/_secondary-configuration.twig' %}
 
