@@ -194,8 +194,8 @@ showcases:
     show_on_dashboard: true
     default_status: publish
     searchable: false
-    icon: "fa:cubes"
-    icon_singular: "fa:cube"
+    icon_many: "fa:cubes"
+    icon_one: "fa:cube"
 
 
 # possible field types:
