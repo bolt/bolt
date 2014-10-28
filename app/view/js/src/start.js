@@ -33,6 +33,7 @@ jQuery(function ($) {
     init.omnisearch();
     init.uploads();
     init.geolocation();
+    init.focusStatusSelect();
 
     $('[data-bind]').each(function () {
         var data = $(this).data('bind');
