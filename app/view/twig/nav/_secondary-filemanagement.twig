@@ -1,15 +1,15 @@
 {% set sub = [
     {
-        icon: 'desktop',
+        icon: 'fa:desktop',
         label: __('View/edit Templates'),
         link: url('files', {'namespace': 'theme', 'path': ''}),
         isallowed: 'files:theme'
     }, {
-        icon: 'folder-open-o',
+        icon: 'fa:folder-open-o',
         label: __('Uploaded files'),
         link: url('files', {'namespace': 'files', 'path': ''}),
         isallowed: 'files:uploads'
     }
 ] %}
 
-{{ nav.submenu('folder-open', __('File Management'), sub, (page_nav == 'Settings/FileManagement')) }}
+{{ nav.submenu('fa:folder-open', __('File Management'), sub, (page_nav == 'Settings/FileManagement')) }}

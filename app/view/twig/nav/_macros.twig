@@ -21,7 +21,7 @@
  #}
 {% macro submenu(icon, label, popoveritems, active, wide, subitems) %}
 
-    {% from _self import label %}
+    {% from _self import label, icon %}
 
     {% if subitems is empty %}
         {% set subitems = popoveritems %}
@@ -55,7 +55,7 @@
                     {% elseif isallowed(item.isallowed|default('dashboard')) %}
                         <li{% if divider %} class="subdivider"{% endif %}>
                             <a href="{{ item.link }}">
-                                <i class="fa fa-{{ item.icon }} fa-fw"> </i>{{ item.label|default("<em>(" ~ __("no content …") ~ ")</em>")|raw }}
+                                {{ icon(item.icon) }}{{ item.label|default("<em>(" ~ __("no content …") ~ ")</em>")|raw }}
                             </a>
                         </li>
                         {% set divider = false %}
@@ -76,12 +76,12 @@
 
     <li class="nav-secondary-collapse">
         <a href="#" data-action="bolt.sidebar.collapse()">
-            {{ label('compress', __('Collapse sidebar')) }}
+            {{ label('fa:compress', __('Collapse sidebar')) }}
         </a>
     </li>
     <li class="nav-secondary-expand">
         <a href="#" data-action="bolt.sidebar.expand()">
-            {{ label('expand', __('Expand sidebar')) }}
+            {{ label('fa:expand', __('Expand sidebar')) }}
         </a>
     </li>
 {% endmacro %}
@@ -107,10 +107,27 @@
  # Sidebar-menu label
  #}
 {% macro label(icon, label) %}
+    {% from _self import icon %}
+
     {% if icon is empty %}
         <i class="icon">{{ label|slice(0, 1) }}</i>
     {% elseif icon != '-' %}
-        <i class="icon fa fa-{{ icon }}"></i>
+        {{ icon(icon, true) }}
     {% endif %}
     {{ label }}
+{% endmacro %}
+
+
+{##
+ # Icon
+ #}
+{% macro icon(icon, box) %}
+    {% set class = box|default(false) ? 'icon' : 'fa-fw' %}
+    {# Font Awsome #}
+    {% if icon|slice(0,3) == 'fa:' %}
+        <i class="fa fa-{{ icon|slice(3) }} {{ class }}"></i>
+    {# Defaults to (?) #}
+    {% else %}
+        <i class="fa fa-question-circle {{ class }}" title="{{ icon }}"></i>
+    {% endif %}
 {% endmacro %}

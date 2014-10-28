@@ -1,59 +1,59 @@
 {% set sub = [
     {
-        icon: 'group',
+        icon: 'fa:group',
         label: __('Users'),
         link: path('users'),
         isallowed: 'fileedit'
     }, {
-        icon: 'cog',
+        icon: 'fa:cog',
         label: __('Main configuration'),
         link: path('fileedit', {'namespace': 'app', 'file': 'config/config.yml'}),
         isallowed: 'files:config'
     }, {
-        icon: 'paint-brush',
+        icon: 'fa:paint-brush',
         label: __('Contenttypes'),
         link: path('fileedit', {'namespace': 'app', 'file': 'config/contenttypes.yml'}),
         isallowed: 'files:config'
     }, {
-        icon: 'tags',
+        icon: 'fa:tags',
         label: __('Taxonomy'),
         link: path('fileedit', {'namespace': 'app', 'file': 'config/taxonomy.yml'}),
         isallowed: 'files:config'
     }, {
-        icon: 'sliders',
+        icon: 'fa:sliders',
         label: __('Permissions'),
         link: path('fileedit', {'namespace': 'app', 'file': 'config/permissions.yml'}),
         isallowed: 'files:config'
     },
     '-',
     {
-        icon: 'list',
+        icon: 'fa:list',
         label: __('Menu setup'),
         link: path('fileedit', {'namespace': 'app', 'file': 'config/menu.yml'}),
         isallowed: 'files:config'
     }, {
-        icon: 'random',
+        icon: 'fa:random',
         label: __('Routing setup'),
         link: path('fileedit', {'namespace': 'app', 'file': 'config/routing.yml'}),
         isallowed: 'files:config'
     },
     '-',
     {
-        icon: 'database',
+        icon: 'fa:database',
         label: __('Check database'),
         link: path('dbcheck'),
         isallowed: 'dbupdate'
     }, {
-        icon: 'eraser',
+        icon: 'fa:eraser',
         label: __('Clear the cache'),
         link: path('clearcache'),
         isallowed: 'clearcache'
     }, {
-        icon: 'archive',
+        icon: 'fa:archive',
         label: __('Activity log'),
         link: path('activitylog'),
         isallowed: 'activitylog'
     }
 ] %}
 
-{{ nav.submenu('cogs', __('Configuration'), sub, (page_nav == 'Settings/Configuration')) }}
+{{ nav.submenu('fa:cogs', __('Configuration'), sub, (page_nav == 'Settings/Configuration')) }}
