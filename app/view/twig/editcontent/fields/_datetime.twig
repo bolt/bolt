@@ -14,7 +14,7 @@
     id:     key~'-date',
     name:   key~'-dateformatted',
     type:   'text',
-    value:  (context.content.get(key) and (context.content.get(key) > '0001-01-01 00:00:00') ? context.content.get(key)|date('l, d F Y') : ''),
+    value:  (context.content.get(key) and (context.content.get(key) > '0001-01-01 00:00:00') ? context.content.get(key)|localdate('%A, %d %B %Y') : ''),
 }%}
 
 {% set attr_time = {
