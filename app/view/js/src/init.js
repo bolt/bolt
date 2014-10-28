@@ -775,7 +775,7 @@ var init = {
     },
 
     /*
-     * Initialize 'moment' timestamps.
+     * Initialize current status display setting focus on status select
      *
      * @returns {undefined}
      */
