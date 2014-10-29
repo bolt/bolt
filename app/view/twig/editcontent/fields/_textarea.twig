@@ -4,8 +4,9 @@
     class:     field.class|default(''),
     height:    field.height|default(''),
     label:     field.label|default(''),
+    info:      field.info|default(''),
     required:  field.required|default(false),
-    info:      field.info|default('')
+    errortext: field.error|default(''),
 }%}
 
 {#=== INIT ===========================================================================================================#}
@@ -15,6 +16,7 @@
     name:      key,
     required:  option.required,
     style:     option.height ? 'height: '~option.height~';' : '',
+    data_errortext: option.errortext,
 }%}
 
 {#=== FIELDSET =======================================================================================================#}

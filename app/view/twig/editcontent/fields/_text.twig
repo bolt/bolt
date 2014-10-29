@@ -4,6 +4,7 @@
     class:        field.class|default(''),
     label:        field.label|default(''),
     pattern:      field.pattern|default(''),
+    errortext:    field.error|default(''),
     placeholder:  field.placeholder|default(''),
     required:     field.required|default(false),
     readonly:     field.readonly|default(false),
@@ -16,16 +17,17 @@
 {#=== INIT ===========================================================================================================#}
 
 {% set attr_text = {
-    class:        option.class,
-    name_id:      key,
-    pattern:      (option.pattern and option.pattern not in ['url', 'email']) ? option.pattern : '',
-    maxlength:    255,
-    placeholder:  option.placeholder,
-    required:     option.required,
-    readonly:     option.readonly,
-    title:        option.title,
-    type:         (option.pattern in ['url', 'email']) ? option.pattern : 'text',
-    value:        context.content.get(key),
+    class:          option.class,
+    name_id:        key,
+    pattern:        (option.pattern and option.pattern not in ['url', 'email']) ? option.pattern : '',
+    data_errortext: option.errortext,
+    maxlength:      255,
+    placeholder:    option.placeholder,
+    required:       option.required,
+    readonly:       option.readonly,
+    title:          option.title,
+    type:           (option.pattern in ['url', 'email']) ? option.pattern : 'text',
+    value:          context.content.get(key),
 }%}
 
 {#=== FIELDSET =======================================================================================================#}

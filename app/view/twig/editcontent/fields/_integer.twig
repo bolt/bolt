@@ -8,24 +8,26 @@
     required:     field.required|default(false),
     readonly:     field.readonly|default(false),
     title:        field.title|default(''),
-    info:         field.info|default('')
+    info:         field.info|default(''),
+    errortext:    field.error|default(''),
 }%}
 
 {#=== INIT ===========================================================================================================#}
 
 {% set attr_number = {
-    class:        option.class~' narrow',
-    name_id:      key,
-    pattern:      option.pattern,
-    placeholder:  option.placeholder,
-    required:     option.required,
-    readonly:     option.readonly,
-    step:         '1',
-    min:          '-2147483647',
-    max:          '2147483647',
-    title:        option.title,
-    type:         'number',
-    value:        0 + context.content.get(key),
+    class:          option.class~' narrow',
+    name_id:        key,
+    pattern:        option.pattern,
+    placeholder:    option.placeholder,
+    required:       option.required,
+    readonly:       option.readonly,
+    step:           '1',
+    min:            '-2147483647',
+    max:            '2147483647',
+    title:          option.title,
+    type:           'number',
+    value:          0 + context.content.get(key),
+    data_errortext: option.errortext,
 }%}
 
 {#=== FIELDSET =======================================================================================================#}
