@@ -24,7 +24,7 @@
     required:     option.required,
     readonly:     option.readonly,
     title:        option.title,
-    type:         (option.pattern in ['url', 'email']) ?: 'text',
+    type:         (option.pattern in ['url', 'email']) ? option.pattern : 'text',
     value:        context.content.get(key),
 }%}
 
