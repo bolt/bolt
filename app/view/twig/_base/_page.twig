@@ -30,6 +30,21 @@
 
     <title>{{ page_title|striptags|trim }} – {{ app.config.get('general/branding/name') }}</title>
 
+    <link rel="stylesheet" type="text/css" href="{{ paths.app }}view/css/smoothness/jquery-ui-1.10.3.custom.min.css">
+    <link rel="stylesheet" type="text/css" href="{{ paths.app }}view/css/magnific-popup.css">
+    <link rel="stylesheet" href="{{ paths.app }}view/lib/select2/select2.css">
+    <link rel="stylesheet" href="{{ paths.app }}view/lib/upload/jquery.fileupload-ui.css">
+    <link href="//fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,400italic&amp;subset=latin,latin-ext" rel="stylesheet" type="text/css">
+    {# <link href='//fonts.googleapis.com/css?family=Fira+Sans:400,700,400italic&amp;subset=latin,latin-ext' rel='stylesheet' type='text/css'> #}
+
+    <!--[if lt IE 9]>
+        <link rel="stylesheet" href="{{ paths.app }}view/css/bolt-old-ie.css" media="screen, projection" type="text/css">
+    <![endif]-->
+
+    <!--[if gte IE 9]><!-->
+    <link rel="stylesheet" href="{{ paths.app }}view/css/bolt.css" media="screen, projection" type="text/css">
+    <!--<![endif]-->
+
     <script src="{{ paths.app }}view/js/jquery-1.11.1.min.js"></script>
     <script src="{{ paths.app }}view/js/underscore-min.js"></script>
     <script src="{{ paths.app }}view/js/backbone-min.js"></script>
@@ -39,24 +54,15 @@
         <script src="{{ paths.app }}view/js/i18n/datepicker-{{ page_locale }}.js"></script>
     {% endif %}
 
-    <link rel="stylesheet" type="text/css" href="{{ paths.app }}view/css/smoothness/jquery-ui-1.10.3.custom.min.css">
 
     <script src="{{ paths.app }}view/js/jquery.plugins.js"></script>
-
     {# Bolt's compiled and uglified Bootstrap javascript. Generate with 'grunt uglify:bootstrap' #}
     <script src="{{ paths.app }}view/js/bootstrap.js"></script>
-
     <script src="{{ paths.app }}view/js/jquery.magnific-popup.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="{{ paths.app }}view/css/magnific-popup.css">
-
-    <link rel="stylesheet" href="{{ paths.app }}view/lib/select2/select2.css">
     <script src="{{ paths.app }}view/lib/select2/select2.min.js"></script>
-
     <script src="{{ paths.app }}view/lib/ckeditor/ckeditor.js"></script>
-
     <script src="{{ paths.app }}view/lib/upload/jquery.iframe-transport.js"></script>
     <script src="{{ paths.app }}view/lib/upload/jquery.fileupload.js"></script>
-    <link rel="stylesheet" href="{{ paths.app }}view/lib/upload/jquery.fileupload-ui.css">
 
     <script src="{{ paths.app }}view/js/moment.min.js"></script>
     <script>
@@ -65,16 +71,6 @@
 
     <script src="{{ paths.app }}view/js/bootbox.min.js"></script>
     <script src="{{ paths.app }}view/js/modernizr.custom.2.8.3.js"></script>
-
-    <link href="//fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,400italic&amp;subset=latin,latin-ext" rel="stylesheet" type="text/css">
-    {# <link href='//fonts.googleapis.com/css?family=Fira+Sans:400,700,400italic&amp;subset=latin,latin-ext' rel='stylesheet' type='text/css'> #}
-
-    <!--[if lt IE 9]>
-        <link rel="stylesheet" href="{{ paths.app }}view/css/bolt-old-ie.css" media="screen, projection" type="text/css">
-    <![endif]-->
-    <!--[if gte IE 9]><!-->
-    <link rel="stylesheet" href="{{ paths.app }}view/css/bolt.css" media="screen, projection" type="text/css">
-    <!--<![endif]-->
 
     <link rel="shortcut icon" href="{% if app.config.get('general/branding/favicon') %}{{ app.config.get('general/branding/favicon') }}{% else %}{{ paths.app }}view/img/favicon-bolt.ico{% endif %}">
     <link rel="apple-touch-icon" sizes="57x57" href="{% if app.config.get('general/branding/apple-touch-icon') %}{{ app.config.get('general/branding/apple-touch-icon') }}{% else %}{{ paths.app }}view/img/apple-touch-icon.png{% endif %}">
@@ -120,7 +116,8 @@
     },
 }%}
 <script src="{{ paths.app }}view/js/bolt.js" data-config="{{ bconfig|json_encode }}"></script>
-{% block page_script %}{% endblock page_script %}
+{% block page_script %}
+{% endblock page_script %}
 
 {# Add the Grunt livereload script, if Grunt livereload is enabled in config.yml. #}
 {% if app.config.get('general/grunt/livereload') %}
