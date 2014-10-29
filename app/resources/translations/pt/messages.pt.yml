@@ -1,117 +1,119 @@
 # app/resources/translations/pt/messages.pt.yml – generated on 2014-10-17 18:10:56 UTC
 # 117 untranslated strings
+#-----------------------------------------
+# update on 2014-10-29 14:55 UTC: all strings translated
 
-"(none)":  #
-"Add a brief, optional comment to describe what's changed.":  #
-"Add a new extension using the form below.":  #
+"(none)": "(nenhum)" #
+"Add a brief, optional comment to describe what's changed.": "Adicionar um curto comentário para descrever o que mudou. (opcional)" #
+"Add a new extension using the form below.": "Adicionar uma nova extensão usando o formulário abaixo." #
 "Add a new user": "Adicionar novo usuário" #
-"Add some sample <a href='%url%' class='btn btn-tertiary'>Records with Loripsum text</a>":  #
-"Address lookup":  #
-"Alt":  #
-"Are you sure you wish to unlock the slug? This might break existing links to this record.":  #
-"Before you can start using the theme on your site we need to make a copy to your theme folder.":  #
-"Bolt Extension could not be found. Please check at %site% to ensure correct name.":  #
-"Browse Versions":  #
-"Cannot check for updates in read-only mode":  #
-"Cannot check installed packages in read-only mode":  #
-"Check for updates":  #
-"Checking for available updates (this may take up to 60 seconds)":  #
-"Checking installed packages":  #
-"Clear the current log":  #
-"Collapse sidebar":  #
+"Add some sample <a href='%url%' class='btn btn-tertiary'>Records with Loripsum text</a>": "Adicionar uma amostra <a href='%url%' class='btn btn-tertiary'>de registro com Loripsum text</a>" #
+"Address lookup": "Pesquisa de Endereço" #
+"Alt": "Alt" #
+"Are you sure you wish to unlock the slug? This might break existing links to this record.": "Tem certeza que você quer destravar o slug? Isso pode quebrar links existentes nesse registro." #
+"Before you can start using the theme on your site we need to make a copy to your theme folder.": "Antes de poder começar a usar o tema no seu site nós precisamos fazer uma cópia na sua pasta de temas." #
+"Bolt Extension could not be found. Please check at %site% to ensure correct name.": "Bolt Extensões não pode ser encontrado. Por favor verifique no %site% para garantir o nome correto." #
+"Browse Versions": "Procurar Versões" #
+"Cannot check for updates in read-only mode": "Não é possível verificar atualizações no modo leitura" #
+"Cannot check installed packages in read-only mode": "Não é possível verificar pacotes instalados no modo leitura" #
+"Check for updates": "Verificação de atualizações" #
+"Checking for available updates (this may take up to 60 seconds)": "Verificando atualizações disponíveis (isso pode levar até 60 segundos)" #
+"Checking installed packages": "Verificando pacotes instalados" #
+"Clear the current log": "Limpar o registro atual" #
+"Collapse sidebar": "Minimizar barra lateral" #
 "Configure Extensions": "Configurar Extensões" #
-"Confirm your password":  #
-"Default status":  #
-"Delete selected":  #
-"Depublish selected":  #
-"Detail template":  #
-"Details":  #
-"Enter a password, longer than 6 chars":  #
-"Enter a valid email address":  #
-"Everything is up to date!":  #
-"Expand sidebar":  #
-"Extend ":  #
-"Extension log":  #
-"Extension":  #
-"Extras":  #
-"Filtering …":  #
-"Filtering":  #
+"Confirm your password": "Confirme sua senha" #
+"Default status": "Status padrão" #
+"Delete selected": "Deletar selecionado" #
+"Depublish selected": "Despublicar selecionado" #
+"Detail template": "Template detalhe" #
+"Details": "Detalhes" #
+"Enter a password, longer than 6 chars": "Digite uma senha, maior do que 6 caracteres" #
+"Enter a valid email address": "Insira um endereço de email válido" #
+"Everything is up to date!": "Tudo está atualizado!" #
+"Expand sidebar": "Expandir barra lateral" #
+"Extend ": "Estender" #
+"Extension log": "Registro de extensão" #
+"Extension": "Extensão" #
+"Extras": "Extras" #
+"Filtering …": "Filtrando …" #
+"Filtering": "Filtrando" #
 "Find": "Procurar" #
-"If you would like to give the theme an alternative name you can add one here.":  #
-"Install a new Extension":  #
-"Install all Packages":  #
-"Install all updates":  #
-"Installation complete":  #
-"Installing package":  #
-"Installing selected package version (this may take up to 60 seconds).":  #
-"Listing template":  #
+"If you would like to give the theme an alternative name you can add one here.": "Se você quiser dar um nome alternativo para o tema você pode adiciona-lo aqui." #
+"Install a new Extension": "Instalar uma nova Extensão" #
+"Install all Packages": "Instalar todos os Pacotes" #
+"Install all updates": "Instalar todos as atualizações" #
+"Installation complete": "Instalação completa" #
+"Installing package": "Instalando pacote" #
+"Installing selected package version (this may take up to 60 seconds).": "Instalando a versão selecionada do pacote (isso pode levar até 60 segundos)." #
+"Listing template": "Listando template" #
 "Logout": "Sair" #
 "Main configuration": "Principais Configurações" #
-"Marker placement":  #
-"Matched address":  #
-"Matched video":  #
-"More info/help":  #
-"No Stable Versions Available":  #
-"No Test Versions Available":  #
-"No relations found!":  #
-"page.edit-file.note-related":  #
-"Note:":  #
-"Omnisearch":  #
-"Other contenttypes":  #
-"Password (confirm)":  #
-"Path to image file":  #
-"Pick a display name / alias":  #
-"Pick a username, lowercase only":  #
-"Please enter a new file name":  #
-"Preparing to install package …":  #
-"Preparing to remove package …":  #
-"Preview image":  #
-"Publish selected":  #
-"Related content":  #
-"Run all Updates":  #
-"Run update check":  #
-"Running install of all packages …":  #
-"Save & create new record":  #
-"Search for …":  #
-"Searching for available updates …":  #
-"Select file …":  #
-"page.login.title":  #
-"Stable Versions":  #
-"Status":  #
-"Street, ZIP code, city or other location":  #
-"The extensions directory (<code>%dir%</code>) does not exist, or it is not writable.":  #
-"The field %field% has been changed to \"%newValue%\"":  #
-"The folder '%s' could not be found, or is not readable.":  #
-"The versions listed below are compatible with the version of Bolt you are using. Since they are unstable versions, we recommend you <strong>do not</strong> use these on production systems.":  #
-"The versions listed below are marked as stable releases by the developer and are compatible with the version of Bolt you are currently using.":  #
-"Theme Installation Complete":  #
-"There are no items on the Stack, yet.":  #
-"There are no users present in the system. Please create the first user, which will be granted root privileges.":  #
-"This record is related to:":  #
-"This will install all available updates.":  #
-"This will make sure all packages listed are installed. Use this if you've recently moved to a new server or if you have manually added an extension.":  #
-"This won't install anything, just show you available updates":  #
-"Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.":  #
-"URL of video on Youtube, Vimeo or other video website":  #
-"URL of video to embed":  #
-"Unstable Test Versions":  #
-"Updated user '%s'.":  #
-"Updates":  #
-"Upload a file to this folder":  #
-"Version":  #
-"View (saved version) on site":  #
-"View related content":  #
+"Marker placement": "Colocação do marcador" #
+"Matched address": "Endereço correspondente" #
+"Matched video": "Video correspondente" #
+"More info/help": "Mais informação/ajuda" #
+"No Stable Versions Available": "Versões estáveis não disponíveis" #
+"No Test Versions Available": "Versões de teste não disponíveis" #
+"No relations found!": "Não há relações encontradas!" #
+"page.edit-file.note-related": "Nota, esse arquivo tem arquivos relacionados:" #
+"Note:": "Nota:" #
+"Omnisearch": "Omnisearch" #
+"Other contenttypes": "Outro tipo de conteúdo" #
+"Password (confirm)": "Senha (confirmação)" #
+"Path to image file": "Caminho para o arquivo de imagem" #
+"Pick a display name / alias": "Escolha um nome / apelido de exibição" #
+"Pick a username, lowercase only": "Escolha um nome de usuário, somente minúsculas" #
+"Please enter a new file name": "Por favor insira um novo nome de arquivo" #
+"Preparing to install package …": "Preparando para instalar pacote …" #
+"Preparing to remove package …": "Preparando para remover pacote …" #
+"Preview image": "Pré-visualizar imagem" #
+"Publish selected": "Publicar selecionado" #
+"Related content": "Conteúdo relacionado" #
+"Run all Updates": "Executar todas as atualizações" #
+"Run update check": "Executar verificador de atualizações" #
+"Running install of all packages …": "Executando instalação de todos os pacotes …" #
+"Save & create new record": "Salvar e criar um novo registro" #
+"Search for …": "Procurar por …" #
+"Searching for available updates …": "Procurando por atualizações disponíveis …" #
+"Select file …": "Selecione um arquivo …" #
+"page.login.title": "Registrar no Bolt" #
+"Stable Versions": "Versões Estáveis" #
+"Status": "Status" #
+"Street, ZIP code, city or other location": "Rua, Código Postal, Cidade ou outra localização" #
+"The extensions directory (<code>%dir%</code>) does not exist, or it is not writable.": "O diretório de extensões (<code>%dir%</code>) não existe, ou não é gravável." #
+"The field %field% has been changed to \"%newValue%\"": "O campo %field% mudou para \"%newValue%\"" #
+"The folder '%s' could not be found, or is not readable.": "A pasta '%s' não pode ser encontrada, ou não é legível." #
+"The versions listed below are compatible with the version of Bolt you are using. Since they are unstable versions, we recommend you <strong>do not</strong> use these on production systems.": "As versões listadas abaixo são compatíveis com a versão do Bolt que você está usando. Como elas são versões instáveis recomendamos que você <strong>não</strong> use-as em sistemas de produção." #
+"The versions listed below are marked as stable releases by the developer and are compatible with the version of Bolt you are currently using.": "As versões listadas abaixo são marcadas como versões estáveis pelo desenvolvedor e são compatíveis com a versão do Bolt que você está usando atualmente." #
+"Theme Installation Complete": "Instalação do Tema Completa" #
+"There are no items on the Stack, yet.": "Ainda não há itens na pilha." #
+"There are no users present in the system. Please create the first user, which will be granted root privileges.": "Não há usuários presentes no sistema. Po favor, crie o primeiro usuário, que será concedido privilégios de root." #
+"This record is related to:": "Esse registro é relacionado a:" #
+"This will install all available updates.": "Isso irá instalar todas as atualizações disponíveis." #
+"This will make sure all packages listed are installed. Use this if you've recently moved to a new server or if you have manually added an extension.": "Isso irá garantir que todos os pacotes listados estão instalados. Use isto se você recentemente mudo para um novo servidor ou se você tiver adicionado uma extensão manualmente." #
+"This won't install anything, just show you available updates": "Isso não vai instalar nada, apenas mostrar as atualizações disponíveis" #
+"Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": "Tente fazer o login com o seu ftp-client e tornar o arquivo legível. Caso contrário, tente <a>voltar</a> para a última página." #
+"URL of video on Youtube, Vimeo or other video website": "URL do vídeo no Youtube, Vimeo ou outro website de vídeos" #
+"URL of video to embed": "URL do vídeo a ser adicionado" #
+"Unstable Test Versions": "Versões de Test Instáveis" #
+"Updated user '%s'.": "Usuários atualizados '%s'." #
+"Updates": "Atualizações" #
+"Upload a file to this folder": "Fazer upload de um arquivo para esta pasta" #
+"Version": "Versão" #
+"View (saved version) on site": "Visualizar (versão salva) no site" #
+"View related content": "Visualizar conteúdo relacionado" #
 "View/install Extensions": "Visualizar/instalar Extensões"
-"You are currently using SQLite to set up the first user. If you wish to use MySQL or PostgreSQL instead, edit the configuration file at <tt>'app/config/config.yml'</tt> and Bolt will set up the database tables for you. Be sure to reload this page before continuing.":  #
-"You can discover new extensions by visiting":  #
-"You can now start using the installed extension, documentation and implementation instructions can be found using the link below.":  #
-"You don't have correct permissions to edit the file '%s'.":  #
-"You don't have the correct permissions to display the file or directory '%s'.":  #
-"You should set 'homepage:' in your 'app/config/config.yml' to an existing record. Make sure that the content is published, otherwise it will not be shown.":  #
-"Your Currently Installed Extensions":  #
-"no content …":  #
-"no title …":  #
-"pixels":  #
+"You are currently using SQLite to set up the first user. If you wish to use MySQL or PostgreSQL instead, edit the configuration file at <tt>'app/config/config.yml'</tt> and Bolt will set up the database tables for you. Be sure to reload this page before continuing.": "Você está usando SQLite para criar o primeiro usuário. Se você deseja usar o MySQL ou PostgreSQL, edite o arquivo de configuração em <tt>'app/config/config.yml'</tt> e Bolt irá configurar as tabelas na base de dados para você. Certifique-se de recarregar esta página antes de continuar." #
+"You can discover new extensions by visiting": "Você pode descobrir novas extensões visitando" #
+"You can now start using the installed extension, documentation and implementation instructions can be found using the link below.": "Agora você pode começar a usar a extensão instalada, documentação e instruções de execução pode ser encontrada usando o link abaixo." #
+"You don't have correct permissions to edit the file '%s'.": "Você não tem permissões corretas para editar o arquivo '%s'" #
+"You don't have the correct permissions to display the file or directory '%s'.": "Você não tem as permissões corretas para mostrar o arquivo ou diretório '%s'." #
+"You should set 'homepage:' in your 'app/config/config.yml' to an existing record. Make sure that the content is published, otherwise it will not be shown.": "Você deve definir 'homepage:' em seu 'app / config / config.yml' para um registro existente. Certifique-se de que o conteúdo está publicado, caso contrário ele não será mostrado." #
+"Your Currently Installed Extensions": "Suas extensões instalados atualmente" #
+"no content …": "sem conteúdo …" #
+"no title …": "sem título …" #
+"pixels": "pixels" #
 
 #-----------------------------------------
 # 332 translated strings
