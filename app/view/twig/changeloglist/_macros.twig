@@ -1,23 +1,22 @@
 {% macro changelog_pager(currentpage, pagecount) %}
-    <div class="pagination pagination-centered">
-        <ul>
+        <ul class="pagination pagination-centered">
             {% if currentpage > 1 %}
-                <li><a href="?page=1"><i style="font-weight: bold" class="fa fa-double-angle-left"></i></a></li>
+                <li><a href="?page=1"><i style="font-weight: bold" class="fa fa-angle-double-left"></i></a></li>
                 <li><a href="?page={{ currentpage - 1 }}"><i style="font-weight: bold" class="fa fa-angle-left"></i></a></li>
             {% else %}
-                <li><span><i style="font-weight: bold" class="fa fa-double-angle-left"></i></span></li>
-                <li><span><i style="font-weight: bold" class="fa fa-angle-left"></i></span></li>
+                <li class="disabled"><span><i style="font-weight: bold" class="fa fa-angle-double-left"></i></span></li>
+                <li class="disabled"><span><i style="font-weight: bold" class="fa fa-angle-left"></i></span></li>
             {% endif %}
 
             <li><span>{{ __('component.changelog-pager.page') }} {{ currentpage }} / {{ pagecount }}</span></li>
 
             {% if currentpage < pagecount %}
                 <li><a href="?page={{ currentpage + 1 }}"><i style="font-weight: bold" class="fa fa-angle-right"></i></a></li>
-                <li><a href="?page={{ pagecount }}"><i style="font-weight: bold" class="fa fa-double-angle-right"></i></a></li>
+                <li><a href="?page={{ pagecount }}"><i style="font-weight: bold" class="fa fa-angle-double-right"></i></a></li>
             {% else %}
-                <li><span><i style="font-weight: bold" class="fa fa-angle-right"></i></span></li>
-                <li><span><i style="font-weight: bold" class="fa fa-double-angle-right"></i></span></li>
+                <li class="disabled"><span><i style="font-weight: bold" class="fa fa-angle-right"></i></span></li>
+                <li class="disabled"><span><i style="font-weight: bold" class="fa fa-angle-double-right"></i></span></li>
             {% endif %}
         </ul>
-    </div>
+
 {% endmacro %}

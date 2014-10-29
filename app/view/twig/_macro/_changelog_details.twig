@@ -4,14 +4,9 @@
     <h3>
         "{{ entry.title }}"
         {{ macro.changelogmutation(entry.effectiveMutationType) }}
-        {{ macro.datetime(entry.date) }}
-        {{ __('component.changelog-detail.by') }}
-        {{ entry.username }}
+        {# {{ macro.datetime(entry.date) }} #}
+        {{ __('component.changelog-detail.by') }} <strong>{{ entry.username }}</strong>
     </h3>
-
-    {% if isChangelogEnabled() %}
-        <h4>{{ entry.comment }}</h4>
-    {% endif %}
 
     <div class="changelog-details">
         <div class="user">
@@ -20,20 +15,15 @@
 
         <div class="body">
             <div class="time">
-                <i class="icon icon-time"></i>
-                <span>{{ macro.changelogmutation(entry.effectiveMutationType) }} {{ macro.datetime(entry.date) }}</span>
-            </div>
-
-            <div class="name">
-                <span class="label label-info arrowed arrowed-in-right">{{ entry.username }}</span>
-            </div>
-
-            <div class="text">
                 <p>
-                    <i class="icon-comments-alt"></i>
-                    {{ entry.comment|default(__('component.changelog-detail.no-comment')) }}
+                    <span>{{ macro.changelogmutation(entry.effectiveMutationType) }} {{ macro.datetime(entry.date) }}</span>
+                    {{ __('component.changelog-detail.by') }} <strong>{{ entry.username }}</strong>
                 </p>
+                {% if isChangelogEnabled() %}
+                    {% if entry.comment %}<h4><strong>Comment</strong>: {{ entry.comment }}</h4>{% endif %}
+                {% endif %}
             </div>
+
 
             <table class="table table-bordered table-condensed table-changelog-details">
                 <thead>
