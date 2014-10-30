@@ -17,7 +17,7 @@
 
                         {% if file.readable %}
                             <a href="{{file.newpath|thumbnail(1000, 1000, 'r') }}"
-                               class='magnific'
+                               class="magnific"
                                title="Image: {{ file.filename }}">
                                 <b>{{ file.filename }}</b>
                             </a>
@@ -71,12 +71,12 @@
                         {{ file.modified }}
                     </time>
                 </td>
-                <td class='listthumb'>
+                <td class="listthumb">
                     {% if file.imagesize is defined %}
                         {{ file.newpath|showimage(54, 40, 'c') }}
                     {% endif %}
                 </td>
-                <td class='actions' style="min-width: 196px;">
+                <td class="actions" style="min-width: 196px;">
 
                     <div class="btn-group">
 
