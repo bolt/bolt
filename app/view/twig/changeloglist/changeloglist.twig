@@ -26,9 +26,11 @@
             {{ changelog_pager(context.currentpage, context.pagecount) }}
 
             {% if context.contenttype.slug %}
-                <a href="{{ path('editcontent', {'contenttypeslug': context.contenttype.slug, 'id': context.content.id}) }}">
-                    {{ __('back to editing') }}
-                </a>
+                <div>                
+                    <a class="btn btn-default" href="{{ path('editcontent', {'contenttypeslug': context.contenttype.slug, 'id': context.content.id}) }}">
+                        {{ __('back to editing') }}
+                    </a>
+                </div>
             {% endif %}
         </div>
     </div>

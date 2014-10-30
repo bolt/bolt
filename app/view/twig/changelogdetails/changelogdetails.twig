@@ -40,33 +40,27 @@
 
     <div class="row">
         <div class="col-xs-12">
-            <div class="pagination pagination-centered">
-                <ul>
-                    <li>
-                        {% if left_link %}
-                            <a href="{{ left_link }}"><i style="font-weight: bold" class="fa fa-angle-left"></i></a>
-                        {% else %}
-                            <span><i style="font-weight: bold" class="fa fa-angle-left"></i></span>
-                        {% endif %}
-                    </li>
+            <ul class="pagination pagination-centered">
+                {% if left_link %}
+                    <li><a href="{{ left_link }}"><i style="font-weight: bold" class="fa fa-angle-left"></i></a></li>
+                {% else %}
+                    <li class="disabled"><span><i style="font-weight: bold" class="fa fa-angle-left"></i></span></li>
+                {% endif %}
 
-                    <li>
-                        {% if centerLink %}
-                            <a href="{{ centerLink }}">{{ __('show all') }}</a>
-                        {% else %}
-                            <span>{{ __('show all') }}</span>
-                        {% endif %}
-                    </li>
+                <li>
+                    {% if centerLink %}
+                        <a href="{{ centerLink }}">{{ __('show all') }}</a>
+                    {% else %}
+                        <span>{{ __('show all') }}</span>
+                    {% endif %}
+                </li>
 
-                    <li>
-                        {% if right_link %}
-                            <a href="{{ right_link }}"><i style="font-weight: bold" class="fa fa-angle-right"></i></a>
-                        {% else %}
-                            <span><i style="font-weight: bold" class="fa fa-angle-right"></i></span>
-                        {% endif %}
-                    </li>
-                </ul>
-            </div>
+                {% if right_link %}
+                    <li><a href="{{ right_link }}"><i style="font-weight: bold" class="fa fa-angle-right"></i></a></li>
+                {% else %}
+                    <li class="disabled"><span><i style="font-weight: bold" class="fa fa-angle-right"></i></span></li>
+                {% endif %}
+            </ul>
             {{ changelog_details(context.entry) }}
         </div>
     </div>
