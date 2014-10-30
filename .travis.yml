@@ -18,5 +18,5 @@ script:
 before_script:
   - composer self-update || true
   - composer install --prefer-source
-  - mkdir -p tests/_log
-  - chmod 777 tests/_log
+  - mkdir -p test/_log
+  - chmod 777 test/_log
