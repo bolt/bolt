@@ -434,7 +434,7 @@ class Permissions
                 break;
 
             case 'relatedto':
-                $contenttype = $parts[1];
+                $contenttype = isset($parts[1]) ? $parts[1] : '';
                 if (empty($contenttype)) {
                     $this->audit("Granting 'relatedto' globally (hard-coded override)");
 
