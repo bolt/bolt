@@ -14,7 +14,7 @@
         {% if deletable %}
             {% set any_deletable = true %}
         {% endif %}
-        {% include ['custom/listing/' ~ contenttype.slug ~ '.twig', '_sub/_listing.twig'] with {'excerptlength': 380, 'thumbsize': 80, 'compact': false} %}
+        {% include ['custom/listing/' ~ subcontenttype.slug ~ '.twig', '_sub/_listing.twig'] with {'excerptlength': 380, 'thumbsize': 80, 'compact': false} %}
         {% if content.group.name is defined and (loop.first or content.group.name != lastgroup) %}
             {% set lastgroup = content.group.name %}
         {% endif %}
