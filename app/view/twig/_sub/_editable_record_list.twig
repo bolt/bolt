@@ -1,7 +1,7 @@
 {% macro editable_record_list(contenttype, subcontenttype, multiplecontent, extra_classes) %}
 {% set lastgroup = "----" %}
 
-<table class='{{ extra_classes }} dashboardlisting' data-contenttype="{{ subcontenttype.slug }}" data-token="{{ token() }}">
+<table class="{{ extra_classes }} dashboardlisting" data-contenttype="{{ subcontenttype.slug }}" data-token="{{ token() }}">
 
     {% set any_deletable = false %}
     {% set any_editable = false %}
