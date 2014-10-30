@@ -1,0 +1,11 @@
+{% macro list(headline, list) %}
+    {% if list|length > 0 %}
+        <h4>{{ headline }}</h4>
+
+        <ul>
+            {% for item in list %}
+                <li>{{ item|tt }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endmacro %}
