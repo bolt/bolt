@@ -20,7 +20,7 @@ class Manager extends MountManager
         $this->mount('default', $app['resources']->getPath('files'));
         $this->mount('files', $app['resources']->getPath('files'));
         $this->mount('config', $app['resources']->getPath('config'));
-        $this->mount('theme', $app['resources']->getPath('theme'));
+        $this->mount('theme', $app['resources']->getPath('themebase'));
         $this->mount('extensions', $app['resources']->getPath('extensionspath') . '/vendor');
         $this->initManagers();
     }
