@@ -1561,7 +1561,7 @@ class Backend implements ControllerProviderInterface
                             $app['upload.namespace'] = $namespace;
                             $handler = $app['upload'];
                             $handler->setPrefix($path . '/');
-                            $result = $app['upload']->process($fileToProcess);
+                            $result = $handler->process($fileToProcess);
 
                             if ($result->isValid()) {
 
