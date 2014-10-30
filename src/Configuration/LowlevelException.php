@@ -69,6 +69,7 @@ EOM;
         $info = self::$info;
 
         $output = str_replace('%error_title%', 'Bolt - Fatal Error', $html);
+        $message = nl2br($message);
         $output = str_replace('%error%', $message, $output);
         $output = str_replace('%info%', $info, $output);
 
@@ -135,6 +136,7 @@ EOM;
                 $message = $errorblock;
             }
 
+            $message = nl2br($message);
             $html = str_replace('%error%', $message, $html);
             echo str_replace($app['resources']->getPath('rootpath'), '', $html);
         }
