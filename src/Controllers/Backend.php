@@ -1558,10 +1558,10 @@ class Backend implements ControllerProviderInterface
                         $filename = preg_replace('/[^a-zA-Z0-9_\\.]/', '_', basename($originalFilename));
 
                         if ($app['filepermissions']->allowedUpload($filename)) {
-
+                            $app['upload.namespace'] = $namespace;
                             $handler = $app['upload'];
                             $handler->setPrefix($path . '/');
-                            $result = $app['upload']->process($fileToProcess);
+                            $result = $handler->process($fileToProcess);
 
                             if ($result->isValid()) {
 
@@ -1596,7 +1596,7 @@ class Backend implements ControllerProviderInterface
                     );
                 }
 
-                return Lib::redirect('files', array('path' => $path));
+                return Lib::redirect('files', array('path' => $path, 'namespace'=> $namespace));
             }
 
             $formview = $form->createView();

@@ -26,8 +26,7 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
     public function register(Silex\Application $app)
     {
         // This exposes the main upload object as a service
-        $app['upload'] = $app->share(
-            function ($app) {
+        $app['upload'] = function() use($app) {
                 $allowedExensions = $app['config']->get('general/accept_file_types');
                 $uploadHandler = new UploadHandler($app['upload.container']);
                 $uploadHandler->setPrefix($app['upload.prefix']);
@@ -35,14 +34,12 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
                 $uploadHandler->addRule('extension', array('allowed' => $allowedExensions));
 
                 return $uploadHandler;
-            }
-        );
+        };
 
         // This exposes the file container as a configurabole object please refer to:
         // Sirius\Upload\Container\ContainerInterface
         // Any compatible file handler can be used.
-        $app['upload.container'] = $app->share(
-            function ($app) {
+        $app['upload.container'] = function() use($app) {
                 $base = $app['resources']->getPath($app['upload.namespace']);
                 if (!is_writable($base)) {
                     throw new \RuntimeException("Unable to write to upload destination. Check permissions on $base", 1);
@@ -50,8 +47,7 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
                 $container = new FlysystemContainer($app['filesystem']->getManager($app['upload.namespace']));
 
                 return $container;
-            }
-        );
+        };
 
         // This allows multiple upload locations, all prefixed with a namespace. The default is /files
         // Note, if you want to provide an alternative namespace, you must set a path on the $app['resources']
