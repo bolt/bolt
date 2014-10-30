@@ -43,24 +43,28 @@ roles:
 # inside the code, so they don't appear here.
 global:
     about: [ editor, admin, developer ] # view the 'About Bolt' page
-    activitylog: [ admin, developer ]
+    activitylog: [ admin, developer, chief-editor ]
     clearcache: [ admin, developer ]
     contentaction: [ editor, admin, developer ]
     dashboard: [ everyone ]
     dbcheck: [ admin, developer ]
     dbupdate: [ admin, developer ]
+    dbupdate_result: [ admin, developer ]
     extensions: [ developer ]
     fileedit: [ admin, developer ]
     files:config: [ developer ]
     files:theme: [ developer ]
-    files:uploads: [ admin, developer ]
+    files:uploads: [ admin, developer, chief-editor ]
     files: [ editor, admin, developer ]
     prefill: [ developer ]
+    profile: [ everyone ] # edit own profile
     settings: [ admin, developer, everyone ]
     translation: [ developer ]
     useraction: [ admin, developer ] # enable/disable/delete
     useredit: [ admin, developer ] # user settings
     users: [ admin, developer ] # view user overview
+    maintenance-mode: [ everyone ] # view the frontend when in maintenance mode
+    omnisearch: [ everyone ]
     # The following permissions are particularly important: login and postLogin
     # determine who may see and use the login form. If you set them to anything
     # but 'anonymous', only users will be able to log in that are logged in
