@@ -308,9 +308,12 @@ class Backend implements ControllerProviderInterface
      */
     public function dbCheck(\Bolt\Application $app)
     {
+        list($messages, $hints) = $app['integritychecker']->checkTablesIntegrity(true);
+
         $context = array(
             'modifications_made' => null,
-            'modifications_required' => $app['integritychecker']->checkTablesIntegrity(),
+            'modifications_required' => $messages,
+            'modifications_hints' => $hints,
         );
 
         return $app['render']->render('dbcheck/dbcheck.twig', array('context' => $context));
