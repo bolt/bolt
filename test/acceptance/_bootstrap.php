@@ -94,5 +94,5 @@ foreach ($users as $user) {
 if (file_exists('app/config/permissions.yml') && !file_exists('app/config/permissions.yml.codeception-backup')) {
     rename('app/config/permissions.yml', 'app/config/permissions.yml.codeception-backup');
 }
-copy('tests/_data/permissions.yml', 'app/config/permissions.yml');
+copy('test/_data/permissions.yml', 'app/config/permissions.yml');
 system('php app/nut cache:clear');

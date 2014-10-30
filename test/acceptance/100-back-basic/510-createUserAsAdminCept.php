@@ -8,7 +8,7 @@ $I = new WebGuy($scenario);
 $I->wantTo('Create a user');
 $I->loginAs($users['admin']);
 $I->click('Users');
-$I->click('New user');
+$I->click('Add a new user');
 $I->see("Create a new user");
 $I->fillField('form[username]', $foobar['username']);
 $I->fillField('form[password]', $foobar['password']);
