@@ -158,11 +158,13 @@ class IntegrityChecker
     /**
      * Check if all required tables and columns are present in the DB
      *
-     * @return array Messages with errors, if any
+     * @return boolean $hinting return hints if true
+     * @return array Messages with errors, if any or array(messages, hints)
      */
-    public function checkTablesIntegrity()
+    public function checkTablesIntegrity($hinting = false)
     {
         $messages = array();
+        $hints = array();
 
         $currentTables = $this->getTableObjects();
 
@@ -181,6 +183,12 @@ class IntegrityChecker
 
                 $diff = $comparator->diffTable($currentTables[$table->getName()], $table);
                 if ($diff) {
+                    if ($hinting && count($diff->removedColumns) > 0) {
+                        $hints[] = 'In table `' . $table->getName() . '` the following fields are no ' .
+                            'longer defined in the config. You could delete them manually if no longer needed: ' .
+                            '`' . join('`, `', array_keys($diff->removedColumns)) . '`';
+                    }
+
                     $diff = $this->cleanupTableDiff($diff);
 
                     // diff may be just deleted columns which we have reset above
@@ -224,7 +232,7 @@ class IntegrityChecker
             self::markValid();
         }
 
-        return $messages;
+        return $hinting ? array($messages, $hints) : $messages;
     }
 
     /**

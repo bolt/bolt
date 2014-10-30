@@ -2,23 +2,22 @@
 
 {% extends '_base/_page-nav.twig' %}
 
+{% from 'dbcheck/_macros.twig' import list %}
+
 {% block page_nav 'Settings/Configuration' %}
 
 {% block page_title __("Database check / update") %}
 
 {% block page_main %}
 
+    {% set hints = context.modifications_hints|default([]) %}
+
     <div class="row">
         <div class="col-xs-12">
             {% if context.modifications_made %}
 
-                <h4>{{ __('Modifications made to the database:') }}</h4>
-
-                <ul>
-                    {% for item in context.modifications_made %}
-                        <li>{{ item|tt }}</li>
-                    {% endfor %}
-                </ul>
+                {{ list(__('Modifications made to the database:'), context.modifications_made) }}
+                {{ list(__('Hints:'), hints) }}
 
                 <p>{{ __('Your database is now up to date.') }}</p>
 
@@ -28,13 +27,8 @@
 
             {% elseif context.modifications_required %}
 
-                <h4>{{ __('Modifications needed:') }}</h4>
-
-                <ul>
-                    {% for item in context.modifications_required %}
-                        <li>{{ item|tt }}</li>
-                    {% endfor %}
-                </ul>
+                {{ list(__('Modifications needed:'), context.modifications_required) }}
+                {{ list(__('Hints:'), hints) }}
 
                 <form action="{{ path('dbupdate') }}" method="post">
                     <p><button type="submit" class="btn btn-default btn-primary">{{ __('Update the database') }}</button></p>
@@ -43,6 +37,8 @@
             {% else %}
 
                 <p>{{ __("Your database is already up to date.") }}</p>
+
+                {{ list(__('Hints:'), hints) }}
 
                 {% if isallowed('prefill') %}
                 <br>
