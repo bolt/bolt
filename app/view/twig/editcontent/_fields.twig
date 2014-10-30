@@ -6,15 +6,15 @@
 
         {# --------------- prefix --------------- #}
         {% if field.prefix is defined and field.prefix is not empty %}
-            <div class='prefix'>
+            <div class="prefix">
                 {{ field.prefix|markdown }}
             </div>
         {% endif %}
 
         {# --------------- fields --------------- #}
         {% set labelkey = field.label ?: key|ucfirst %}
-        
-        
+
+
         {% for fieldtype in context.fields %}
             {% if field.type == fieldtype.name %}
                 {% include fieldtype.template %}
@@ -24,7 +24,7 @@
         {# ---------------postfix & divider --------------- #}
 
         {% if field.postfix is defined and field.postfix is not empty %}
-            <div class='postfix'>
+            <div class="postfix">
                 {{ field.postfix|markdown }}
             </div>
         {% endif %}

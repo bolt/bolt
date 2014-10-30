@@ -20,10 +20,10 @@
 
         {# --------------- prefix --------------- #}
         {% if taxonomy.prefix is defined and taxonomy.prefix is not empty %}
-            <div class='prefix'>
+            <div class="prefix">
                 {{ taxonomy.prefix|markdown }}
             </div>
-        {% endif %}        
+        {% endif %}
 
         {{ macro.label(taxonomy.name, '', 'col-sm-3 control-label', 'taxonomy-' ~ taxonomy.slug) }}
         <div class="col-sm-9">
@@ -38,7 +38,7 @@
                 {% set tags = "" %}
             {% endif %}
 
-            <input type='text' name='taxonomy[{{taxonomy.slug}}]' id='taxonomy-{{taxonomy.slug}}' value="{{tags}}" style="width: 100%;" />
+            <input type="text" name="taxonomy[{{taxonomy.slug}}]" id="taxonomy-{{taxonomy.slug}}" value="{{tags}}" style="width: 100%;" />
 
             <div class="tagcloud" id="tagcloud-{{taxonomy.slug}}"></div>
             <script>
@@ -98,28 +98,28 @@
         {% if taxonomy.behaves_like == "categories" %}
 
             {% if taxonomy.multiple is defined and taxonomy.multiple == 1 %}
-            <select name='taxonomy[{{taxonomy.slug}}][]' id='taxonomy-{{taxonomy.slug}}' class="form-control" multiple>
+            <select name="taxonomy[{{taxonomy.slug}}][]" id="taxonomy-{{taxonomy.slug}}" class="form-control" multiple>
             {% else %}
-            <select name='taxonomy[{{taxonomy.slug}}][]' id='taxonomy-{{taxonomy.slug}}' class="form-control">
+            <select name="taxonomy[{{taxonomy.slug}}][]" id="taxonomy-{{taxonomy.slug}}" class="form-control">
                 <option value="">{{ __('(no category)') }}</option>
                 <option value="" disabled>-----------</option>
             {% endif %}
 
             {% for slug, cat in taxonomy.options %}
-                <option value='{{ slug }}' {% if context.content.taxonomy[taxonomy.slug] is defined and cat in context.content.taxonomy[taxonomy.slug] %}selected{% endif %}>{{cat}}</option>
+                <option value=""{{ slug }}" {% if context.content.taxonomy[taxonomy.slug] is defined and cat in context.content.taxonomy[taxonomy.slug] %}selected{% endif %}>{{cat}}</option>
             {% endfor %}
 
             </select>
 
             {% if taxonomy.multiple is defined and taxonomy.multiple == 1 %}
-            <label><span class='left' style="line-height: 1px;">&nbsp;</span></label>
+            <label><span class="left" style="line-height: 1px;">&nbsp;</span></label>
             <div style="margin-top: -14px;">{# TODO:onclick-events to JS #}
                 <a href="#" class="btn btn-default btn-xs" onclick="jQuery('#taxonomy-{{taxonomy.slug}} option').prop('selected', true); return false;">
                     <i class="fa fa-fw fa-check-square-o"></i>{{ __("Select all") }}
                 </a>
                 <a href="#" class="btn btn-default btn-xs" onclick="jQuery('#taxonomy-{{taxonomy.slug}} option').prop('selected', false); return false;">
                     <i class="fa fa-fw fa-square-o"></i>{{ __("Select none") }}
-                </a>                
+                </a>
             </div>
             {% endif %}
 
@@ -129,11 +129,11 @@
 
         {% if taxonomy.behaves_like == "grouping" %}
 
-            <select name='taxonomy[{{taxonomy.slug}}][]' id='taxonomy-{{taxonomy.slug}}' class="narrow form-control pull-left">
+            <select name="taxonomy[{{taxonomy.slug}}][]" id="taxonomy-{{taxonomy.slug}}" class="narrow form-control pull-left">
                 <option value="">{{ __('(no group)') }}</option>
                 <option value="" disabled>-----------</option>
             {% for slug, group in taxonomy.options %}
-                <option value='{{ slug }}' {% if context.content.taxonomy[taxonomy.slug] is defined and group in context.content.taxonomy[taxonomy.slug] or context.content.taxonomy[taxonomy.slug] is not defined and taxonomy.default is defined and taxonomy.default==slug %}selected{% endif %}>{{group}}</option>
+                <option value="{{ slug }}" {% if context.content.taxonomy[taxonomy.slug] is defined and group in context.content.taxonomy[taxonomy.slug] or context.content.taxonomy[taxonomy.slug] is not defined and taxonomy.default is defined and taxonomy.default==slug %}selected{% endif %}>{{group}}</option>
             {% endfor %}
             </select>
 
@@ -145,7 +145,7 @@
                     {% set sortorder = 0 %}
                 {% endif %}
                 <input type="number" name="taxonomy-order[{{taxonomy.slug}}]" id="taxonomy-order-{{taxonomy.slug}}" step="1"
-                       value='{{ sortorder }}' class='verynarrow form-control pull-left'>
+                       value="{{ sortorder }}" class="verynarrow form-control pull-left">
             {% endif %}
 
         {% endif %}
@@ -154,10 +154,10 @@
 
         {# --------------- postfix --------------- #}
         {% if taxonomy.postfix is defined and taxonomy.postfix is not empty %}
-            <div class='postfix'>
+            <div class="postfix">
                 {{ taxonomy.postfix|markdown }}
             </div>
-        {% endif %}        
+        {% endif %}
 
     {% endif %}
 

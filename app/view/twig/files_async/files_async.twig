@@ -22,13 +22,13 @@
             {% endif %}
 
             {% if context.folders|length > 0 %}
-                <table class='dashboardlisting'>
+                <table class="dashboardlisting">
                     <tr>
                         <th>{{ __('Folders') }}</th>
                     </tr>
 
                     {% for folder in context.folders %}
-                        <tr style='height: 30px;'>
+                        <tr style="height: 30px;">
                             <td> <i class="fa fa-fw fa-folder-open-o"></i>
                                 <a href="#" data-action="bolt.stack.changeFolder('{{ context.key }}', '{{ path('asyncbrowse', {'namespace': context.namespace, 'path': folder.newpath, 'key': context.key}) }}');" class="folder"><b>{{ folder.foldername }}/</b>
                                 </a>
@@ -39,7 +39,7 @@
             {% endif %}
 
             {% if context.files|length > 0 %}
-            <table class='dashboardlisting'>
+            <table class="dashboardlisting">
                 <tr>
                     <th>{{ __('Files') }}</th>
                     <th>{{ __('Filesize') }}</th>
@@ -56,7 +56,7 @@
                                 <i class="fa fa-fw fa-file-image-o"></i>
 
                                 {% if file.readable %}
-                                    <a href="#" data-action="bolt.stack.selectFromPulldown('{{ context.key }}', '{{ file.relativepath }}');" class='file'>
+                                    <a href="#" data-action="bolt.stack.selectFromPulldown('{{ context.key }}', '{{ file.relativepath }}');" class="file">
                                         <b>{{ file.filename|trimtext(30) }}</b>
                                     </a>
                                 {% else %}
@@ -68,7 +68,7 @@
 
                             <td>{% if file.imagesize is defined %}{{ file.imagesize }} px.{% endif %}</td>
 
-                            <td class='listthumb'>
+                            <td class="listthumb">
                                     {{file.newpath|showimage(54, 40, 'c')}}
                             </td>
 
