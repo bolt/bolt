@@ -1,4 +1,4 @@
-<table class='table-striped dashboardlisting userlist'>
+<table class="table-striped dashboardlisting userlist">
     <thead>
         <tr>
             <th>#</th>
@@ -13,7 +13,7 @@
         {% for user in context.users %}
 
             <tr>
-                <td class='id'>
+                <td class="id">
                     {% if user.enabled == 0 %}<s>{% endif %}
                     № {{user.id}}
                     {% if user.enabled == 0 %}</s>{% endif %}
@@ -33,7 +33,7 @@
                     {% endif %}
                 </td>
 
-                <td class='contenttypes'>
+                <td class="contenttypes">
                     {% if 'root' in user.roles %}
                         <strong><em>root</em></strong>
                     {% else %}
@@ -41,7 +41,7 @@
                     {% endif %}
                 </td>
 
-                <td class='actions'>
+                <td class="actions">
                     {% include 'users/_userlist-actions.twig' %}
                 </td>
             </tr>
