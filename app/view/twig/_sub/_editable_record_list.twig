@@ -1,10 +1,13 @@
 {% macro editable_record_list(contenttype, multiplecontent, extra_classes) %}
 {% set lastgroup = "----" %}
+{% set any_deletable = false %}
+{% set any_editable = false %}
+{% set includes = [
+    'custom/listing/' ~ contenttype.slug ~ '.twig',
+    '_sub/_listing.twig']
+%}
 
-<table class='{{ extra_classes }} dashboardlisting' data-contenttype="{{ contenttype.slug }}" data-token="{{ token() }}">
-
-    {% set any_deletable = false %}
-    {% set any_editable = false %}
+<table class="{{ extra_classes }} dashboardlisting" data-contenttype="{{ contenttype.slug }}" data-token="{{ token() }}">
     {% for content in multiplecontent %}
         {% set editable = isallowed('edit', content) %}
         {% if editable %}
@@ -14,11 +17,10 @@
         {% if deletable %}
             {% set any_deletable = true %}
         {% endif %}
-        {% include ['custom/listing/' ~ contenttype.slug ~ '.twig', '_sub/_listing.twig'] with {'excerptlength': 380, 'thumbsize': 80, 'compact': false} %}
+        {% include includes with {'excerptlength': 380, 'thumbsize': 80, 'compact': false} %}
         {% if content.group.name is defined and (loop.first or content.group.name != lastgroup) %}
             {% set lastgroup = content.group.name %}
         {% endif %}
-
     {% else %}
         {{ __('contenttypes.generic.none-available', {'%contenttypes%': contenttype.slug}) }}
     {% endfor %}
