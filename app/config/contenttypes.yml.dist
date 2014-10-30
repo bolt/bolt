@@ -119,7 +119,8 @@ showcases:
             type: text
             class: large
             required: true
-            pattern: "*{2,255}" # see: http://html5pattern.com/
+            pattern: ".{2,255}" # see: http://html5pattern.com/
+            error: "The Title field is required, and must contain at least 2 characters"
             group: Text
         slug:
             type: slug

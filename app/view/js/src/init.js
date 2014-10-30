@@ -47,6 +47,28 @@ var init = {
      * @returns {undefined}
      */
     bindEditContent: function (data) {
+
+        // set handler to validate form submit
+        $('#editcontent')
+          .attr('novalidate', 'novalidate')
+          .on('submit', function(event){
+              var valid = validateContent(this);
+              $(this).data('valid', valid);
+              if ( ! valid){
+                  event.preventDefault();
+                  return false;
+              }
+              // submitting, disable warning
+              window.onbeforeunload = null;
+        });
+
+        // basic custom validation handler
+        $('#editcontent').on('boltvalidate', function(){
+            var valid = validateContent(this);
+            $(this).data('valid', valid);
+            return valid;
+        });
+
         // Save the page.
         $('#sidebarsavebutton').bind('click', function () {
             $('#savebutton').trigger('click');
@@ -70,7 +92,15 @@ var init = {
         // Clicking the 'save & continue' button either triggers an 'ajaxy' post, or a regular post which returns
         // to this page. The latter happens if the record doesn't exist yet, so it doesn't have an id yet.
         $('#sidebarsavecontinuebutton, #savecontinuebutton').bind('click', function (e) {
+
             e.preventDefault();
+
+            // trigger form validation
+            $('#editcontent').trigger('boltvalidate');
+            // check validation
+            if ( ! $('#editcontent').data('valid')) {
+                return false;
+            }
 
             var newrecord = data.newRecord,
                 savedon = data.savedon,
