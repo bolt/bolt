@@ -28,7 +28,7 @@
     <div class="btn-group">
         <a href="#" class="btn btn-default deletechosen showifchosen" style="display:none;">
             <i class="fa fa-trash"></i>
-            {{ __('Delete selected', {'%contenttype%': contenttype.name}) }}
+            {{ __('Delete selected') }}
         </a>
     </div>
 {% endif %}
@@ -38,13 +38,13 @@
     <div class="btn-group">
         <a href="#" class="btn btn-default publishchosen showifchosen" style="display:none;">
             <i class="fa fa-circle status-published"></i>
-            {{ __('Publish selected', {'%contenttype%': contenttype.name}) }}
+            {{ __('Publish selected') }}
         </a>
     </div>
     <div class="btn-group">
         <a href="#" class="btn btn-default unpublishchosen showifchosen" style="display:none;">
             <i class="fa fa-circle status-held"></i>
-            {{ __('Depublish selected', {'%contenttype%': contenttype.name}) }}
+            {{ __('Depublish selected') }}
         </a>
     </div>
 {% endif %}
