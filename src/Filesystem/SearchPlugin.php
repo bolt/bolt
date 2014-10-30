@@ -25,16 +25,14 @@ class SearchPlugin implements PluginInterface
         $extensions = explode(",", $extensions);
         $allFiles = $this->filesystem->listContents('', true);
         $files = array();
+
         foreach ($allFiles as $file) {
-
-            if ($term == "*" || strpos($file['path'], $term) !== false) {
-
-                if (in_array($file['extension'], $extensions)) {
-                    $files[] = $file['path'];
-                }
-
+            if ($file['type'] == 'file' &&
+                ($term == '*' || strpos($file['path'], $term) !== false) &&
+                in_array($file['extension'], $extensions)
+            ) {
+                $files[] = $file['path'];
             }
-
         }
 
         return $files;
