@@ -1,7 +1,7 @@
-{% macro editable_record_list(subcontenttype, multiplecontent, extra_classes) %}
+{% macro editable_record_list(contenttype, multiplecontent, extra_classes) %}
 {% set lastgroup = "----" %}
 
-<table class='{{ extra_classes }} dashboardlisting' data-contenttype="{{ subcontenttype.slug }}" data-token="{{ token() }}">
+<table class='{{ extra_classes }} dashboardlisting' data-contenttype="{{ contenttype.slug }}" data-token="{{ token() }}">
 
     {% set any_deletable = false %}
     {% set any_editable = false %}
@@ -14,13 +14,13 @@
         {% if deletable %}
             {% set any_deletable = true %}
         {% endif %}
-        {% include ['custom/listing/' ~ subcontenttype.slug ~ '.twig', '_sub/_listing.twig'] with {'excerptlength': 380, 'thumbsize': 80, 'compact': false} %}
+        {% include ['custom/listing/' ~ contenttype.slug ~ '.twig', '_sub/_listing.twig'] with {'excerptlength': 380, 'thumbsize': 80, 'compact': false} %}
         {% if content.group.name is defined and (loop.first or content.group.name != lastgroup) %}
             {% set lastgroup = content.group.name %}
         {% endif %}
 
     {% else %}
-        {{ __('contenttypes.generic.none-available', {'%contenttypes%': subcontenttype.slug}) }}
+        {{ __('contenttypes.generic.none-available', {'%contenttypes%': contenttype.slug}) }}
     {% endfor %}
 </table>
 
