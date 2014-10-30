@@ -29,8 +29,8 @@ Vagrantfile
 .swp
 *.lock
 .gitignore
-tests/_log
-tests/*/*Guy.php
+test/_log
+test/*/*Guy.php
 .buildpath
 .project
 npm-debug.log
