@@ -33,16 +33,16 @@
             <input type="checkbox" name="checkRow" title="{{ __('Select all') }}" />
             <input type="hidden" id="baseurl" value="{{ paths['hosturl'] }}{{ paths['bolt'] }}"></th>{% endif %}
 
-        <th class="hidden-xs"><a href='{{link}}{% if request('order')=="id" %}-{%endif%}id'>#</a></th>
+        <th class="hidden-xs"><a href="{{link}}{% if request('order') == 'id' %}-{% endif %}id">#</a></th>
 
-        <th style="width:80%"><a href='{{link}}{% if request('order')==content.TitleColumnName() %}-{%endif%}{{content.TitleColumnName()}}'>
+        <th style="width:80%"><a href="{{link}}{% if request('order') == content.TitleColumnName() %}-{% endif %}{{content.TitleColumnName()}}">
             {{ __('Title') }} / {{ __('Excerpt') }}</a></th>
 
         <th>&nbsp;</th>
 
-        <th class='username hidden-xs'><a href='{{link}}{% if request('order')=="datecreated" %}-{%endif%}datecreated'>{{ __('Meta') }}</a></th>
+        <th class="username hidden-xs"><a href="{{link}}{% if request('order') == "datecreated" %}-{% endif %}datecreated">{{ __('Meta') }}</a></th>
 
-        <th><a href='?'>{{ __('Actions') }}</a></th>
+        <th><a href="?">{{ __('Actions') }}</a></th>
         {% endblock %}
     </tr>
 {% endif %}
@@ -50,13 +50,13 @@
 <tr {% if content.status!='published' %}class="dim"{% endif %} id="item_{{content.id}}">
     {% block listing_id %}
 
-        {% if not compact and editable %}<td class='check hidden-xs'>{% if isallowed('delete', contenttype) %}<input type="checkbox" name="checkRow" />{% endif %}</td>{% endif %}
-        <td class='id hidden-xs'>№ {{content.id}}</td>
+        {% if not compact and editable %}<td class="check hidden-xs">{% if isallowed('delete', contenttype) %}<input type="checkbox" name="checkRow" />{% endif %}</td>{% endif %}
+        <td class="id hidden-xs">№ {{content.id}}</td>
 
     {% endblock %}
 
     {% block listing_content %}
-        <td class='excerpt {% if not compact %}large{% endif %}'><span>
+        <td class="excerpt {% if not compact %}large{% endif %}"><span>
             <strong class="visible-xs">№ {{content.id}}. </strong>
             <strong>
                 {% if editable %}
@@ -71,7 +71,7 @@
             </strong>
             {{ content.excerpt(excerptlength) }}
                         </span></td>
-        <td class='listthumb'>
+        <td class="listthumb">
             {% if content.getImage is not empty %}
                 {{content.getImage|popup(thumbsize, thumbsize*0.75, 'c')}}
             {% endif %}
@@ -80,7 +80,7 @@
 
     {% if not compact %}
         {% block listing_meta %}
-            <td class='username hidden-xs'>
+            <td class="username hidden-xs">
                 <i class="fa fa-user fa-fw"></i>
                 {% if content.user.displayname is defined %}
                     {{ content.user.displayname|trimtext(15) }}
@@ -101,7 +101,7 @@
     {% endif %}
 
     {% block listing_actions %}
-        <td class='actions'>
+        <td class="actions">
             <div class="btn-group">
                 {% if editable %}
                 <a class="btn btn-default btn-xs" href="{{ path('editcontent', { 'contenttypeslug': content.contenttype.slug, 'id': content.id }) }}">
