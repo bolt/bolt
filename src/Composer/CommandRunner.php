@@ -358,7 +358,7 @@ class CommandRunner
         $pathToWeb = $this->app['resources']->findRelativePath($this->app['resources']->getPath('extensions'), $this->app['resources']->getPath('web'));
         $pathToRoot = $this->app['resources']->findRelativePath($this->app['resources']->getPath('extensions'), $this->app['resources']->getPath('root'));
         $json->extra = array('bolt-web-path' => $pathToWeb);
-        $json->autoload = array('files' => array($pathToRoot . "/vendor/autoload.php"));
+        $json->autoload = array('files' => array($pathToRoot . "vendor/autoload.php"));
 
 
         // Write out the file, but only if it's actually changed, and if it's writable.
