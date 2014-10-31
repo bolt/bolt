@@ -75,8 +75,16 @@ class TranslationFile
      */
     private function buildPath($domain, $locale)
     {
-        $shortLocale = substr($locale, 0, 2);
-        $path = '/resources/translations/' . $shortLocale . '/' . $domain . '.' . $shortLocale . '.yml';
+        $path = '/resources/translations/' . $locale . '/' . $domain . '.' . $locale . '.yml';
+
+        // If long locale dir doesn't exists try short locale and return it if that exists
+        if (strlen($locale) == 5 && !is_dir($this->app['paths']['apppath'] . $path)) {
+            $paths = $this->buildPath($domain, substr($locale, 0, 2));
+
+            if (is_dir($paths[0])) {
+                return $paths;
+            }
+        }
 
         return array(
             $this->app['paths']['apppath'] . $path,
