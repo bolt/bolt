@@ -27,7 +27,7 @@ class TranslationServiceProvider implements ServiceProviderInterface
         if (isset($app['translator'])) {
             $app['translator']->addLoader('yml', new TranslationLoader\YamlFileLoader());
 
-            $this->addResources($app, $app['locale']);
+            $this->addResources($app, $app['locale'], $app['territory']);
 
             // Load english fallbacks
             if ($app['locale'] != 'en') {
@@ -41,16 +41,17 @@ class TranslationServiceProvider implements ServiceProviderInterface
      *
      * @param Application $app
      * @param string $locale
+     * @param string $territory
      */
-    private function addResources(Application $app, $locale)
+    private function addResources(Application $app, $locale, $territory = '')
     {
         $paths = $app['resources']->getPaths();
 
         // Directory to look for translation file(s)
-        $translationDir = $paths['apppath'] . '/resources/translations/' . $locale;
+        $transDir = $paths['apppath'] . '/resources/translations/' . $locale . ($territory ? '_' . $territory : '');
 
-        if (is_dir($translationDir)) {
-            $iterator = new \DirectoryIterator($translationDir);
+        if (is_dir($transDir)) {
+            $iterator = new \DirectoryIterator($transDir);
             /**
              * @var \SplFileInfo $fileInfo
              */
@@ -61,6 +62,8 @@ class TranslationServiceProvider implements ServiceProviderInterface
                     $app['translator']->addResource('yml', $fileInfo->getRealPath(), $locale, $domain);
                 }
             }
+        } elseif ($territory) {
+            $this->addResources($app, $locale);
         }
     }
 }
