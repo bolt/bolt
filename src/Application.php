@@ -198,7 +198,7 @@ class Application extends Silex\Application
 
     public function initLocale()
     {
-        list ($this['locale'], $this['territory']) = explode('_', $this['config']->get('general/locale'));
+        $this['locale'] = $this['config']->get('general/locale');
 
         // Set The Timezone Based on the Config, fallback to UTC
         date_default_timezone_set(
@@ -209,7 +209,9 @@ class Application extends Silex\Application
         $locale = array(
             $this['config']->get('general/locale') . '.utf8',
             $this['config']->get('general/locale'),
-            'en_GB.utf8', 'en_GB', 'en'
+            'en_GB.utf8',
+            'en_GB',
+            'en'
         );
         setlocale(LC_ALL, $locale);
 

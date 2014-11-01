@@ -27,11 +27,11 @@ class TranslationServiceProvider implements ServiceProviderInterface
         if (isset($app['translator'])) {
             $app['translator']->addLoader('yml', new TranslationLoader\YamlFileLoader());
 
-            $this->addResources($app, $app['locale'], $app['territory']);
+            $this->addResources($app, $app['locale']);
 
             // Load english fallbacks
-            if ($app['locale'] != 'en') {
-                $this->addResources($app, 'en');
+            if ($app['locale'] != 'en_GB') {
+                $this->addResources($app, 'en_GB');
             }
         }
     }
@@ -43,12 +43,12 @@ class TranslationServiceProvider implements ServiceProviderInterface
      * @param string $locale
      * @param string $territory
      */
-    private function addResources(Application $app, $locale, $territory = '')
+    private function addResources(Application $app, $locale)
     {
         $paths = $app['resources']->getPaths();
 
         // Directory to look for translation file(s)
-        $transDir = $paths['apppath'] . '/resources/translations/' . $locale . ($territory ? '_' . $territory : '');
+        $transDir = $paths['apppath'] . '/resources/translations/' . $locale;
 
         if (is_dir($transDir)) {
             $iterator = new \DirectoryIterator($transDir);
@@ -62,8 +62,8 @@ class TranslationServiceProvider implements ServiceProviderInterface
                     $app['translator']->addResource('yml', $fileInfo->getRealPath(), $locale, $domain);
                 }
             }
-        } elseif ($territory) {
-            $this->addResources($app, $locale);
+        } elseif (strlen($locale) == 5) {
+            $this->addResources($app, substr($locale, 0, 2));
         }
     }
 }
