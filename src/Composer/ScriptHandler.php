@@ -70,32 +70,7 @@ class ScriptHandler
         }
 
     }
-
-    /**
-     * Composer post-package-install and post-package-update event handler
-     *
-     * @param PackageEvent $event
-     */
-    public static function extensions(PackageEvent $event)
-    {
-        $installedPackage = $event->getComposer()->getPackage();
-        $rootExtra = $event->getComposer()->getPackage()->getExtra();
-        $extra = $installedPackage->getExtra();
-        if (isset($extra['bolt-assets'])) {
-            $type = $installedPackage->getType();
-            $pathToPublic = $rootExtra['bolt-web-path'];
-
-            // Get the path from extensions base through to public
-            $parts = array(getcwd(), $pathToPublic, "extensions", 'vendor', $installedPackage->getName(), $extra['bolt-assets']);
-            $path = join(DIRECTORY_SEPARATOR, $parts);
-            if ($type == 'bolt-extension' && isset($extra['bolt-assets'])) {
-                $fromParts = array(getcwd(), 'vendor', $installedPackage->getName(), $extra['bolt-assets']);
-                $fromPath = join(DIRECTORY_SEPARATOR, $fromParts);
-                $filesystem = new Filesystem();
-                $filesystem->mirror($fromPath, $path);
-            }
-        }
-    }
+    
 
     public static function bootstrap(CommandEvent $event)
     {

@@ -24,8 +24,5 @@ $application->add(new Bolt\Nut\ExtensionsDisable($app));
 $application->add(new Bolt\Nut\UserAdd($app));
 $application->add(new Bolt\Nut\UserRoleAdd($app));
 $application->add(new Bolt\Nut\UserRoleRemove($app));
-//$application->add(new Bolt\Nut\ExtensionsInstall($app));
-//$application->add(new Bolt\Nut\ExtensionsUpdate($app));
-//$application->add(new Bolt\Nut\ExtensionsUninstall($app));
 
 $application->run();
