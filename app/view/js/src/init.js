@@ -996,6 +996,13 @@ var init = {
                 });
             }
         });
+    },
+
+    /*
+     * Initialize moments
+     */
+    moments: function () {
+        moment.lang(bolt.locale.short);
     }
 
 };
