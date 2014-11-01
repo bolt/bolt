@@ -34,6 +34,7 @@ jQuery(function ($) {
     init.uploads();
     init.geolocation();
     init.focusStatusSelect();
+    init.moments();
 
     $('[data-bind]').each(function () {
         var data = $(this).data('bind');
