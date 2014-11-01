@@ -40,13 +40,13 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
         // Sirius\Upload\Container\ContainerInterface
         // Any compatible file handler can be used.
         $app['upload.container'] = function () use ($app) {
-                $base = $app['resources']->getPath($app['upload.namespace']);
-                if (!is_writable($base)) {
-                    throw new \RuntimeException("Unable to write to upload destination. Check permissions on $base", 1);
-                }
-                $container = new FlysystemContainer($app['filesystem']->getManager($app['upload.namespace']));
+            $base = $app['resources']->getPath($app['upload.namespace']);
+            if (!is_writable($base)) {
+                throw new \RuntimeException("Unable to write to upload destination. Check permissions on $base", 1);
+            }
+            $container = new FlysystemContainer($app['filesystem']->getManager($app['upload.namespace']));
 
-                return $container;
+            return $container;
         };
 
         // This allows multiple upload locations, all prefixed with a namespace. The default is /files

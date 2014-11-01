@@ -31,11 +31,11 @@ class ExtensionInstaller
             \RecursiveIteratorIterator::SELF_FIRST
         );
         foreach ($iterator as $item) {
-          if ($item->isDir()) {
-            mkdir($dest . DIRECTORY_SEPARATOR . $iterator->getSubPathName());
-          } else {
-            copy($item, $dest . DIRECTORY_SEPARATOR . $iterator->getSubPathName());
-          }
+            if ($item->isDir()) {
+                mkdir($dest . DIRECTORY_SEPARATOR . $iterator->getSubPathName());
+            } else {
+                copy($item, $dest . DIRECTORY_SEPARATOR . $iterator->getSubPathName());
+            }
         }
     }
 }
