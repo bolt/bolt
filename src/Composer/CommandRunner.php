@@ -11,6 +11,7 @@ class CommandRunner
     public $messages = array();
     public $lastOutput;
     public $packageFile;
+    public $installer;
     public $basedir;
 
     public function __construct(Silex\Application $app, $packageRepo = null, $readWriteMode = false)
@@ -22,10 +23,12 @@ class CommandRunner
         $this->logfile = $app['resources']->getPath('cachepath') . "/composer_log";
         $this->packageRepo = $packageRepo;
         $this->packageFile = $app['resources']->getPath('root') . '/extensions/composer.json';
+        $this->installer = $app['resources']->getPath('root') . '/extensions/installer.php';
 
         // Set up composer
         if ($readWriteMode) {
             $this->setup();
+            $this->copyInstaller();
         }
     }
 
@@ -376,5 +379,12 @@ class CommandRunner
             );
             $this->available = array();
         }
+    }
+    
+    private function copyInstaller()
+    {
+        $class = new ReflectionClass("Bolt\\Composer\\ExtensionInstaller");
+        $filename = $class->getFileName();
+        copy($filename , $this->installer);
     }
 }
