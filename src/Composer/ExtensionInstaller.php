@@ -22,11 +22,11 @@ class ExtensionInstaller
             }
         }
     }
-    
-    public static function mirror($source, $dest) 
+
+    public static function mirror($source, $dest)
     {
         @mkdir($dest, 0755, true);
-        $iterator = new \RecursiveIteratorIterator( 
+        $iterator = new \RecursiveIteratorIterator(
             new \RecursiveDirectoryIterator($source, \RecursiveDirectoryIterator::SKIP_DOTS),
             \RecursiveIteratorIterator::SELF_FIRST
         );
