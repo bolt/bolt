@@ -2,16 +2,6 @@
 
 namespace Bolt;
 
-use \Exception;
-
-/**
- * Signals an error in the parser.
- */
-/* @codingStandardsIgnoreStart */
-class PermissionParserException extends Exception
-{
-}
-/* @codingStandardsIgnoreEnd */
 /**
  * Lexer and parser for permission query syntax.
  *
