@@ -20,18 +20,23 @@
 
         {# Settings #}
         {% if isallowed('settings') %}
-
-            {{ nav.heading(__('Settings'), 'fa:wrench') }}
-
-            {% include 'nav/_secondary-configuration.twig' %}
-
-            {% include 'nav/_secondary-filemanagement.twig' %}
-
-            {% include 'nav/_secondary-translations.twig' %}
-
+            {% set nav_config %}{% include 'nav/_secondary-configuration.twig' %}{% endset %}
+            {% set nav_files %}{% include 'nav/_secondary-filemanagement.twig' %}{% endset %}
+            {% set nav_trans %}{% include 'nav/_secondary-translations.twig' %}{% endset %}
             {# Link to Extend Bolt #}
             {% if app.extensions.hasMenuoptions or isallowed('extensions') %}
-                {% include 'nav/_secondary-extensions.twig' %}
+                {% set nav_extend %}{% include 'nav/_secondary-extensions.twig' %}{% endset %}
+            {% else %}
+                {% set nav_extend = '' %}
+            {% endif %}
+
+            {% if nav_config|trim or nav_files|trim or nav_trans|trim or nav_extend|trim %}
+                {{ nav.heading(__('Settings'), 'fa:wrench') }}
+
+                {{ nav_config }}
+                {{ nav_files }}
+                {{ nav_trans }}
+                {{ nav_extend }}
             {% endif %}
 
         {% endif %}
