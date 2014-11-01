@@ -30,8 +30,8 @@ class TranslationServiceProvider implements ServiceProviderInterface
             $this->addResources($app, $app['locale']);
 
             // Load english fallbacks
-            if ($app['locale'] != Application::DEFAULT_LOCALE) {
-                $this->addResources($app, Application::DEFAULT_LOCALE);
+            if ($app['locale'] != \Bolt\Application::DEFAULT_LOCALE) {
+                $this->addResources($app, \Bolt\Application::DEFAULT_LOCALE);
             }
         }
     }
