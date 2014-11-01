@@ -2,6 +2,9 @@
 
 namespace Bolt;
 
+use Bolt\PermissionLexerException;
+use Bolt\PermissionParserException;
+
 /**
  * Lexer and parser for permission query syntax.
  *
