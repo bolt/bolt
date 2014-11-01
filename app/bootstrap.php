@@ -31,7 +31,6 @@ return call_user_func(
 
         if (!$isLoadChainOk) {
             throw new LowlevelException('Include load.php, not bootstrap.php');
-            return false;
         }
 
         // Use UTF-8 for all multi-byte functions
@@ -65,7 +64,6 @@ return call_user_func(
                 "<code>vendor/autoload.php</code> doesn't exist. Make sure " .
                 "you've installed the required components with Composer."
             );
-            return false;
         }
 
         /**
