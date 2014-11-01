@@ -20,6 +20,32 @@
     {% set page_title = block('page_title') ~ ' » ' ~ block('page_subtitle') %}
 {% endif %}
 
+{# bootstrap.js: Bolt's compiled and uglified Bootstrap javascript. Generate with 'grunt uglify:bootstrap' #}
+{% set page_scripts = [
+    'view/js/jquery-1.11.1.min.js',
+    'view/js/underscore-min.js',
+    'view/js/backbone-min.js',
+    'view/js/jquery-ui-1.10.3.custom.min.js',
+    'view/js/jquery.plugins.js',
+    'view/js/bootstrap.js',
+    'view/js/jquery.magnific-popup.min.js',
+    'view/lib/select2/select2.min.js',
+    'view/lib/ckeditor/ckeditor.js',
+    'view/lib/upload/jquery.iframe-transport.js',
+    'view/lib/upload/jquery.fileupload.js',
+    'view/js/moment.min.js',
+    'view/js/bootbox.min.js',
+    'view/js/modernizr.custom.2.8.3.js',
+] %}
+
+{# Add locale include for datepicker #}
+{% set dppath = 'view/js/i18n/datepicker-' %}
+{% if file_exists(paths.apppath ~ '/' ~ dppath ~ page_locale_long|replace({'_': '-'}) ~ '.js') %}
+    {% set page_scripts = page_scripts|merge([dppath ~ page_locale_long|replace({'_': '-'}) ~ '.js']) %}
+{% elseif page_locale_short != 'en' and file_exists(paths.apppath ~ '/' ~ dppath ~ page_locale_short ~ '.js') %}
+    {% set page_scripts = page_scripts|merge([dppath ~ page_locale_short ~ '.js']) %}
+{% endif %}
+
 {% endspaceless -%}
 
 <!DOCTYPE html>
@@ -44,34 +70,9 @@
     <link rel="stylesheet" href="{{ paths.app }}view/css/bolt.css" media="screen, projection" type="text/css">
     <!--<![endif]-->
 
-    <script src="{{ paths.app }}view/js/jquery-1.11.1.min.js"></script>
-    <script src="{{ paths.app }}view/js/underscore-min.js"></script>
-    <script src="{{ paths.app }}view/js/backbone-min.js"></script>
-    <script src="{{ paths.app }}view/js/jquery-ui-1.10.3.custom.min.js"></script>
-
-    {% set dppath = 'view/js/i18n/datepicker-' %}
-    {% if file_exists(paths.apppath ~ '/' ~ dppath ~ page_locale_long|replace({'_': '-'}) ~ '.js') %}
-        <script src="{{ paths.app ~ dppath ~ page_locale_long|replace({'_': '-'}) }}.js"></script>
-    {% elseif page_locale_short != 'en' and file_exists(paths.apppath ~ '/' ~ dppath ~ page_locale_short ~ '.js') %}
-        <script src="{{ paths.app ~ dppath ~ page_locale_short }}.js"></script>
-    {% endif %}
-
-    <script src="{{ paths.app }}view/js/jquery.plugins.js"></script>
-    {# Bolt's compiled and uglified Bootstrap javascript. Generate with 'grunt uglify:bootstrap' #}
-    <script src="{{ paths.app }}view/js/bootstrap.js"></script>
-    <script src="{{ paths.app }}view/js/jquery.magnific-popup.min.js"></script>
-    <script src="{{ paths.app }}view/lib/select2/select2.min.js"></script>
-    <script src="{{ paths.app }}view/lib/ckeditor/ckeditor.js"></script>
-    <script src="{{ paths.app }}view/lib/upload/jquery.iframe-transport.js"></script>
-    <script src="{{ paths.app }}view/lib/upload/jquery.fileupload.js"></script>
-
-    <script src="{{ paths.app }}view/js/moment.min.js"></script>
-    <script>
-        moment.lang('{{ page_locale_short }}');
-    </script>
-
-    <script src="{{ paths.app }}view/js/bootbox.min.js"></script>
-    <script src="{{ paths.app }}view/js/modernizr.custom.2.8.3.js"></script>
+    {% for script in page_scripts -%}
+        <script src="{{ paths.app ~ script }}"></script>
+    {% endfor %}
 
     <link rel="shortcut icon" href="{% if app.config.get('general/branding/favicon') %}{{ app.config.get('general/branding/favicon') }}{% else %}{{ paths.app }}view/img/favicon-bolt.ico{% endif %}">
     <link rel="apple-touch-icon" sizes="57x57" href="{% if app.config.get('general/branding/apple-touch-icon') %}{{ app.config.get('general/branding/apple-touch-icon') }}{% else %}{{ paths.app }}view/img/apple-touch-icon.png{% endif %}">
@@ -85,6 +86,9 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 
+    <script>
+        moment.lang('{{ page_locale_short }}');
+    </script>
 </head>
 
 <body{% if page_bodyclass %} class="{{ page_bodyclass }}"{% endif %}>
