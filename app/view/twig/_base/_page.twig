@@ -50,10 +50,13 @@
     <script src="{{ paths.app }}view/js/backbone-min.js"></script>
     <script src="{{ paths.app }}view/js/jquery-ui-1.10.3.custom.min.js"></script>
 
-    {% if page_locale != 'en' and file_exists(paths.apppath ~ '/view/js/i18n/datepicker-' ~ page_locale ~ '.js') %}
-        <script src="{{ paths.app }}view/js/i18n/datepicker-{{ page_locale }}.js"></script>
+    {% set dppath = 'view/js/i18n/datepicker-' %}
+    {% set short_locale = page_locale|slice(0, 2) %}
+    {% if file_exists(paths.apppath ~ '/' ~ dppath ~ page_locale ~ '.js') %}
+        <script src="{{ paths.app ~ dppath ~ page_locale }}.js"></script>
+    {% elseif short_locale != 'en' and file_exists(paths.apppath ~ '/' ~ dppath ~ short_locale ~ '.js') %}
+        <script src="{{ paths.app ~ dppath ~ short_locale }}.js"></script>
     {% endif %}
-
 
     <script src="{{ paths.app }}view/js/jquery.plugins.js"></script>
     {# Bolt's compiled and uglified Bootstrap javascript. Generate with 'grunt uglify:bootstrap' #}
