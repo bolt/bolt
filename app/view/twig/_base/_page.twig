@@ -21,7 +21,7 @@
 {% endif %}
 
 {# bootstrap.js: Bolt's compiled and uglified Bootstrap javascript. Generate with 'grunt uglify:bootstrap' #}
-{% set page_scripts = [
+{% set page_scripts_inc = [
     'view/js/jquery-1.11.1.min.js',
     'view/js/underscore-min.js',
     'view/js/backbone-min.js',
@@ -41,9 +41,9 @@
 {# Add locale include for datepicker #}
 {% set dppath = 'view/js/i18n/datepicker-' %}
 {% if file_exists(paths.apppath ~ '/' ~ dppath ~ page_locale_long|replace({'_': '-'}) ~ '.js') %}
-    {% set page_scripts = page_scripts|merge([dppath ~ page_locale_long|replace({'_': '-'}) ~ '.js']) %}
+    {% set page_scripts_inc = page_scripts_inc|merge([dppath ~ page_locale_long|replace({'_': '-'}) ~ '.js']) %}
 {% elseif page_locale_short != 'en' and file_exists(paths.apppath ~ '/' ~ dppath ~ page_locale_short ~ '.js') %}
-    {% set page_scripts = page_scripts|merge([dppath ~ page_locale_short ~ '.js']) %}
+    {% set page_scripts_inc = page_scripts_inc|merge([dppath ~ page_locale_short ~ '.js']) %}
 {% endif %}
 
 {% endspaceless -%}
@@ -70,7 +70,7 @@
         <link rel="stylesheet" href="{{ paths.app }}view/css/bolt.css" media="screen, projection">
     <!--<![endif]-->
 
-    {% for script in page_scripts -%}
+    {% for script in page_scripts_inc -%}
         <script src="{{ paths.app ~ script }}"></script>
     {% endfor %}
 
