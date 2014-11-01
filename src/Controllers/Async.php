@@ -209,10 +209,10 @@ class Async implements ControllerProviderInterface
 
         // don't allow viewing of anything but "readme.md" files.
         if (strtolower(basename($filename)) != 'readme.md') {
-            die('Not allowed');
+            $app->abort(401, 'Not allowed');
         }
         if (!is_readable($filename)) {
-            die('Not readable');
+            $app->abort(401, 'Not readable');
         }
 
         $readme = file_get_contents($filename);

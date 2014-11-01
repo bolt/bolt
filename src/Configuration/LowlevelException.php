@@ -86,8 +86,6 @@ EOM;
         }
 
         echo $output;
-
-        die();
     }
 
     public static function catchFatalErrors($app)

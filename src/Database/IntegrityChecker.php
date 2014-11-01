@@ -91,7 +91,7 @@ class IntegrityChecker
                 "The file '%s' exists, but couldn't be removed. Please remove this file manually, and try again.",
                 self::getValidityTimestampFilename()
             );
-            die($message);
+            $app->abort(401, $message);
         }
     }
 

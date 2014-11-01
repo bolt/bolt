@@ -190,7 +190,7 @@ class Library
      * @param string  $path
      * @param boolean $die
      */
-    public static function simpleredirect($path, $die = true)
+    public static function simpleredirect($path, $abort = true)
     {
         if (empty($path)) {
             $path = "/";
@@ -198,8 +198,8 @@ class Library
         header("location: $path");
         echo "<p>Redirecting to <a href='$path'>$path</a>.</p>";
         echo "<script>window.setTimeout(function(){ window.location='$path'; }, 500);</script>";
-        if ($die) {
-            die();
+        if ($abort) {
+            $app->abort(303, "Redirecting to '$path'.");
         }
     }
 
@@ -301,37 +301,32 @@ class Library
                     flock($fp, LOCK_UN);
                     fclose($fp);
 
-                    // todo: handle errors better.
-                    die(
-                        'Error opening file<br/><br/>' .
+                    $message = 'Error opening file<br/><br/>' .
                         'The file <b>' . $filename . '</b> could not be written! <br /><br />' .
                         'Try logging in with your ftp-client and check to see if it is chmodded to be readable by ' .
                         'the webuser (ie: 777 or 766, depending on the setup of your server). <br /><br />' .
-                        'Current path: ' . getcwd() . '.'
-                    );
+                        'Current path: ' . getcwd() . '.';
+                    $app->abort(401, $message);
                 }
             } else {
                 fclose($fp);
 
-                // todo: handle errors better.
-                die(
-                    'Error opening file<br/><br/>' .
+                $message = 'Error opening file<br/><br/>' .
                     'Could not lock <b>' . $filename . '</b> for writing! <br /><br />' .
                     'Try logging in with your ftp-client and check to see if it is chmodded to be readable by the ' .
                     'webuser (ie: 777 or 766, depending on the setup of your server). <br /><br />' .
-                    'Current path: ' . getcwd() . '.'
-                );
+                    'Current path: ' . getcwd() . '.';
+                $app->abort(401, $message);
             }
         } else {
-            // todo: handle errors better.
-            print
-                'Error opening file<br/><br/>' .
+
+            $message = 'Error opening file<br/><br/>' .
                 'The file <b>' . $filename . '</b> could not be opened for writing! <br /><br />' .
                 'Try logging in with your ftp-client and check to see if it is chmodded to be readable by the ' .
                 'webuser (ie: 777 or 766, depending on the setup of your server). <br /><br />' .
                 'Current path: ' . getcwd() . '.';
             debug_print_backtrace();
-            die();
+            $app->abort(401, $message);
         }
         umask($old_umask);
 
