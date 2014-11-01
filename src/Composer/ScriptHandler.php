@@ -86,10 +86,10 @@ class ScriptHandler
             $pathToPublic = $rootExtra['bolt-web-path'];
 
             // Get the path from extensions base through to public
-            $parts = array(getcwd(),$pathToPublic,"extensions",'vendor',$installedPackage->getName(), $extra['bolt-assets']);
+            $parts = array(getcwd(), $pathToPublic, "extensions", 'vendor', $installedPackage->getName(), $extra['bolt-assets']);
             $path = join(DIRECTORY_SEPARATOR, $parts);
             if ($type == 'bolt-extension' && isset($extra['bolt-assets'])) {
-                $fromParts = array(getcwd(), 'vendor', $installedPackage->getName(),$extra['bolt-assets']);
+                $fromParts = array(getcwd(), 'vendor', $installedPackage->getName(), $extra['bolt-assets']);
                 $fromPath = join(DIRECTORY_SEPARATOR, $fromParts);
                 $filesystem = new Filesystem();
                 $filesystem->mirror($fromPath, $path);
