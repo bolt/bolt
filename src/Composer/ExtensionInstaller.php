@@ -5,7 +5,7 @@ class ExtensionInstaller
 {
     public static function handle($event)
     {
-        $installedPackage = $event->getComposer()->getPackage();
+        $installedPackage = $event->getOperation()->getPackage();
         $rootExtra = $event->getComposer()->getPackage()->getExtra();
         $extra = $installedPackage->getExtra();
         if (isset($extra['bolt-assets'])) {
@@ -18,17 +18,17 @@ class ExtensionInstaller
             if ($type == 'bolt-extension' && isset($extra['bolt-assets'])) {
                 $fromParts = array(getcwd(), 'vendor', $installedPackage->getName(),$extra['bolt-assets']);
                 $fromPath = join(DIRECTORY_SEPARATOR, $fromParts);
-                $this->mirror($fromPath, $path);
+                self::mirror($fromPath, $path);
             }
         }
     }
     
-    public function mirror($source, $dest) 
+    public static function mirror($source, $dest) 
     {
-        mkdir($dest, 0755);
-        $iterator = new RecursiveIteratorIterator( 
-            new RecursiveDirectoryIterator($source, RecursiveDirectoryIterator::SKIP_DOTS),
-            RecursiveIteratorIterator::SELF_FIRST
+        @mkdir($dest, 0755, true);
+        $iterator = new \RecursiveIteratorIterator( 
+            new \RecursiveDirectoryIterator($source, \RecursiveDirectoryIterator::SKIP_DOTS),
+            \RecursiveIteratorIterator::SELF_FIRST
         );
         foreach ($iterator as $item) {
           if ($item->isDir()) {
