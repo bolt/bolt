@@ -354,14 +354,14 @@ class CommandRunner
         $json->provide = new \stdClass();
         $json->provide->$basePackage = $this->app['bolt_version'];
         $json->scripts = array(
-            'post-package-install' => "Bolt\\Composer\\ScriptHandler::extensions",
-            'post-package-update' => "Bolt\\Composer\\ScriptHandler::extensions"
+            'post-package-install' => "Bolt\\Composer\\ExtensionInstaller::handle",
+            'post-package-update' => "Bolt\\Composer\\ExtensionInstaller::handle"
         );
 
         $pathToWeb = $this->app['resources']->findRelativePath($this->app['resources']->getPath('extensions'), $this->app['resources']->getPath('web'));
         $pathToRoot = $this->app['resources']->findRelativePath($this->app['resources']->getPath('extensions'), $this->app['resources']->getPath('root'));
         $json->extra = array('bolt-web-path' => $pathToWeb);
-        $json->autoload = array('files' => array($pathToRoot . "vendor/autoload.php"));
+        $json->autoload = array('files' => array("installer.php"));
 
 
         // Write out the file, but only if it's actually changed, and if it's writable.

@@ -3,7 +3,7 @@ namespace Bolt\Composer;
 
 class ExtensionInstaller
 {
-    public static function extensions(PackageEvent $event)
+    public static function handle($event)
     {
         $installedPackage = $event->getComposer()->getPackage();
         $rootExtra = $event->getComposer()->getPackage()->getExtra();
