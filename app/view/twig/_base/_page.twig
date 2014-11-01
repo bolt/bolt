@@ -52,8 +52,8 @@
     <script src="{{ paths.app }}view/js/jquery-ui-1.10.3.custom.min.js"></script>
 
     {% set dppath = 'view/js/i18n/datepicker-' %}
-    {% if file_exists(paths.apppath ~ '/' ~ dppath ~ page_locale_long ~ '.js') %}
-        <script src="{{ paths.app ~ dppath ~ page_locale_long }}.js"></script>
+    {% if file_exists(paths.apppath ~ '/' ~ dppath ~ page_locale_long|replace({'_': '-'}) ~ '.js') %}
+        <script src="{{ paths.app ~ dppath ~ page_locale_long|replace({'_': '-'}) }}.js"></script>
     {% elseif page_locale_short != 'en' and file_exists(paths.apppath ~ '/' ~ dppath ~ page_locale_short ~ '.js') %}
         <script src="{{ paths.app ~ dppath ~ page_locale_short }}.js"></script>
     {% endif %}
