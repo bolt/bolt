@@ -93,6 +93,10 @@
     {% block page_plain %}{% endblock page_plain %}
 
 {% set bconfig = {
+    locale: {
+        short: page_locale_short,
+        long: page_locale_long,
+    },
     paths: {
         bolt:  paths.bolt,
         async: paths.async,
