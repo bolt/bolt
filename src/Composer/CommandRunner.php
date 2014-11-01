@@ -383,7 +383,7 @@ class CommandRunner
     
     private function copyInstaller()
     {
-        $class = new ReflectionClass("Bolt\\Composer\\ExtensionInstaller");
+        $class = new \ReflectionClass("Bolt\\Composer\\ExtensionInstaller");
         $filename = $class->getFileName();
         copy($filename , $this->installer);
     }
