@@ -2334,6 +2334,13 @@ var init = {
                 });
             }
         });
+    },
+
+    /*
+     * Initialize moments
+     */
+    moments: function () {
+        moment.lang(bolt.locale.short);
     }
 
 };
@@ -2376,6 +2383,7 @@ jQuery(function ($) {
     init.uploads();
     init.geolocation();
     init.focusStatusSelect();
+    init.moments();
 
     $('[data-bind]').each(function () {
         var data = $(this).data('bind');
