@@ -57,17 +57,17 @@
 
     <title>{{ page_title|striptags|trim }} – {{ app.config.get('general/branding/name') }}</title>
 
-    <link rel="stylesheet" type="text/css" href="{{ paths.app }}view/css/smoothness/jquery-ui-1.10.3.custom.min.css">
-    <link rel="stylesheet" type="text/css" href="{{ paths.app }}view/css/magnific-popup.css">
+    <link rel="stylesheet" href="{{ paths.app }}view/css/smoothness/jquery-ui-1.10.3.custom.min.css">
+    <link rel="stylesheet" href="{{ paths.app }}view/css/magnific-popup.css">
     <link rel="stylesheet" href="{{ paths.app }}view/lib/select2/select2.css">
     <link rel="stylesheet" href="{{ paths.app }}view/lib/upload/jquery.fileupload-ui.css">
 
     <!--[if lt IE 9]>
-        <link rel="stylesheet" href="{{ paths.app }}view/css/bolt-old-ie.css" media="screen, projection" type="text/css">
+        <link rel="stylesheet" href="{{ paths.app }}view/css/bolt-old-ie.css" media="screen, projection">
     <![endif]-->
 
     <!--[if gte IE 9]><!-->
-        <link rel="stylesheet" href="{{ paths.app }}view/css/bolt.css" media="screen, projection" type="text/css">
+        <link rel="stylesheet" href="{{ paths.app }}view/css/bolt.css" media="screen, projection">
     <!--<![endif]-->
 
     {% for script in page_scripts -%}
