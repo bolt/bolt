@@ -12,6 +12,7 @@
 {%- spaceless %}
 
 {% set page_locale = app.locale %}
+{% set page_short_locale = page_locale|slice(0, 2) %}
 
 {% if block('page_subtitle') is empty %}
     {% set page_title = block('page_title') %}
@@ -22,7 +23,7 @@
 {% endspaceless -%}
 
 <!DOCTYPE html>
-<html lang="{{ page_locale|slice(0, 2) }}">
+<html lang="{{ page_short_locale }}">
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta charset="utf-8">
@@ -51,11 +52,10 @@
     <script src="{{ paths.app }}view/js/jquery-ui-1.10.3.custom.min.js"></script>
 
     {% set dppath = 'view/js/i18n/datepicker-' %}
-    {% set short_locale = page_locale|slice(0, 2) %}
     {% if file_exists(paths.apppath ~ '/' ~ dppath ~ page_locale ~ '.js') %}
         <script src="{{ paths.app ~ dppath ~ page_locale }}.js"></script>
-    {% elseif short_locale != 'en' and file_exists(paths.apppath ~ '/' ~ dppath ~ short_locale ~ '.js') %}
-        <script src="{{ paths.app ~ dppath ~ short_locale }}.js"></script>
+    {% elseif page_short_locale != 'en' and file_exists(paths.apppath ~ '/' ~ dppath ~ page_short_locale ~ '.js') %}
+        <script src="{{ paths.app ~ dppath ~ page_short_locale }}.js"></script>
     {% endif %}
 
     <script src="{{ paths.app }}view/js/jquery.plugins.js"></script>
