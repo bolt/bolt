@@ -5,15 +5,6 @@ namespace Bolt;
 use \Exception;
 
 /**
- * Signals an error in the lexer.
- */
-/* @codingStandardsIgnoreStart */
-class PermissionLexerException extends Exception
-{
-}
-/* @codingStandardsIgnoreEnd */
-
-/**
  * Signals an error in the parser.
  */
 /* @codingStandardsIgnoreStart */
