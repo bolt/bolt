@@ -11,7 +11,8 @@
  #}
 {%- spaceless %}
 
-{% set page_locale = app.locale|default('en') %}
+{% set page_locale_long = app.locale %}
+{% set page_locale_short = page_locale_long|slice(0, 2) %}
 
 {% if block('page_subtitle') is empty %}
     {% set page_title = block('page_title') %}
@@ -22,7 +23,7 @@
 {% endspaceless -%}
 
 <!DOCTYPE html>
-<html lang="{{ page_locale }}">
+<html lang="{{ page_locale_short }}">
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta charset="utf-8">
@@ -48,10 +49,12 @@
     <script src="{{ paths.app }}view/js/backbone-min.js"></script>
     <script src="{{ paths.app }}view/js/jquery-ui-1.10.3.custom.min.js"></script>
 
-    {% if page_locale != 'en' and file_exists(paths.apppath ~ '/view/js/i18n/datepicker-' ~ page_locale ~ '.js') %}
-        <script src="{{ paths.app }}view/js/i18n/datepicker-{{ page_locale }}.js"></script>
+    {% set dppath = 'view/js/i18n/datepicker-' %}
+    {% if file_exists(paths.apppath ~ '/' ~ dppath ~ page_locale_long|replace({'_': '-'}) ~ '.js') %}
+        <script src="{{ paths.app ~ dppath ~ page_locale_long|replace({'_': '-'}) }}.js"></script>
+    {% elseif page_locale_short != 'en' and file_exists(paths.apppath ~ '/' ~ dppath ~ page_locale_short ~ '.js') %}
+        <script src="{{ paths.app ~ dppath ~ page_locale_short }}.js"></script>
     {% endif %}
-
 
     <script src="{{ paths.app }}view/js/jquery.plugins.js"></script>
     {# Bolt's compiled and uglified Bootstrap javascript. Generate with 'grunt uglify:bootstrap' #}
@@ -64,7 +67,7 @@
 
     <script src="{{ paths.app }}view/js/moment.min.js"></script>
     <script>
-        moment.lang('{{ app.locale|default('en') }}');
+        moment.lang('{{ page_locale_short }}');
     </script>
 
     <script src="{{ paths.app }}view/js/bootbox.min.js"></script>
@@ -88,6 +91,10 @@
     {% block page_plain %}{% endblock page_plain %}
 
 {% set bconfig = {
+    locale: {
+        short: page_locale_short,
+        long: page_locale_long,
+    },
     paths: {
         bolt:  paths.bolt,
         async: paths.async,
@@ -95,7 +102,7 @@
         root:  paths.root,
     },
     ckeditor: {
-        language:    app.locale|default('en'),
+        language:    page_locale_short,
         images:      0 + config.get('general/wysiwyg/images'),
         tables:      0 + config.get('general/wysiwyg/tables'),
         anchor:      0 + config.get('general/wysiwyg/anchor'),

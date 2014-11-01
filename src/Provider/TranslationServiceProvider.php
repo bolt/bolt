@@ -30,8 +30,8 @@ class TranslationServiceProvider implements ServiceProviderInterface
             $this->addResources($app, $app['locale']);
 
             // Load english fallbacks
-            if ($app['locale'] != 'en') {
-                $this->addResources($app, 'en');
+            if ($app['locale'] != \Bolt\Application::DEFAULT_LOCALE) {
+                $this->addResources($app, \Bolt\Application::DEFAULT_LOCALE);
             }
         }
     }
@@ -41,16 +41,17 @@ class TranslationServiceProvider implements ServiceProviderInterface
      *
      * @param Application $app
      * @param string $locale
+     * @param string $territory
      */
     private function addResources(Application $app, $locale)
     {
         $paths = $app['resources']->getPaths();
 
         // Directory to look for translation file(s)
-        $translationDir = $paths['apppath'] . '/resources/translations/' . $locale;
+        $transDir = $paths['apppath'] . '/resources/translations/' . $locale;
 
-        if (is_dir($translationDir)) {
-            $iterator = new \DirectoryIterator($translationDir);
+        if (is_dir($transDir)) {
+            $iterator = new \DirectoryIterator($transDir);
             /**
              * @var \SplFileInfo $fileInfo
              */
@@ -61,6 +62,8 @@ class TranslationServiceProvider implements ServiceProviderInterface
                     $app['translator']->addResource('yml', $fileInfo->getRealPath(), $locale, $domain);
                 }
             }
+        } elseif (strlen($locale) == 5) {
+            $this->addResources($app, substr($locale, 0, 2));
         }
     }
 }

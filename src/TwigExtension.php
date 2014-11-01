@@ -180,13 +180,7 @@ class TwigExtension extends \Twig_Extension
      */
     public function htmlLang()
     {
-        $locale = $this->app['config']->get('general/locale');
-        if ($locale == "") {
-            // return fallback
-            return 'en';
-        }
-
-        return str_replace("_", "-", $locale);
+        return str_replace('_', '-', $this->app['config']->get('general/locale', Application::DEFAULT_LOCALE));
     }
 
     /**
