@@ -30,8 +30,8 @@ class TranslationServiceProvider implements ServiceProviderInterface
             $this->addResources($app, $app['locale']);
 
             // Load english fallbacks
-            if ($app['locale'] != 'en_GB') {
-                $this->addResources($app, 'en_GB');
+            if ($app['locale'] != Application::DEFAULT_LOCALE) {
+                $this->addResources($app, Application::DEFAULT_LOCALE);
             }
         }
     }

@@ -17,6 +17,11 @@ use Bolt\Provider\PathServiceProvider;
 
 class Application extends Silex\Application
 {
+    /**
+     * The default locale, used as fallback
+     */
+    const DEFAULT_LOCALE = 'en_GB';
+
     public function __construct(array $values = array())
     {
         $values['bolt_version'] = '2.0.0';
@@ -198,7 +203,7 @@ class Application extends Silex\Application
 
     public function initLocale()
     {
-        $this['locale'] = $this['config']->get('general/locale');
+        $this['locale'] = $this['config']->get('general/locale', Application::DEFAULT_LOCALE);
 
         // Set The Timezone Based on the Config, fallback to UTC
         date_default_timezone_set(
@@ -209,9 +214,9 @@ class Application extends Silex\Application
         $locale = array(
             $this['config']->get('general/locale') . '.utf8',
             $this['config']->get('general/locale'),
-            'en_GB.utf8',
-            'en_GB',
-            'en'
+            Application::DEFAULT_LOCALE . '.utf8',
+            Application::DEFAULT_LOCALE,
+            substr(Application::DEFAULT_LOCALE, 0, 2)
         );
         setlocale(LC_ALL, $locale);
 
