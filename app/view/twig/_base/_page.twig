@@ -11,8 +11,8 @@
  #}
 {%- spaceless %}
 
-{% set page_locale = app.locale %}
-{% set page_locale_short = page_locale|slice(0, 2) %}
+{% set page_locale_long = app.locale %}
+{% set page_locale_short = page_locale_long|slice(0, 2) %}
 
 {% if block('page_subtitle') is empty %}
     {% set page_title = block('page_title') %}
@@ -52,8 +52,8 @@
     <script src="{{ paths.app }}view/js/jquery-ui-1.10.3.custom.min.js"></script>
 
     {% set dppath = 'view/js/i18n/datepicker-' %}
-    {% if file_exists(paths.apppath ~ '/' ~ dppath ~ page_locale ~ '.js') %}
-        <script src="{{ paths.app ~ dppath ~ page_locale }}.js"></script>
+    {% if file_exists(paths.apppath ~ '/' ~ dppath ~ page_locale_long ~ '.js') %}
+        <script src="{{ paths.app ~ dppath ~ page_locale_long }}.js"></script>
     {% elseif page_locale_short != 'en' and file_exists(paths.apppath ~ '/' ~ dppath ~ page_locale_short ~ '.js') %}
         <script src="{{ paths.app ~ dppath ~ page_locale_short }}.js"></script>
     {% endif %}
