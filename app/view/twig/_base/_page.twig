@@ -11,7 +11,7 @@
  #}
 {%- spaceless %}
 
-{% set page_locale = app.locale|default('en') %}
+{% set page_locale = app.locale %}
 
 {% if block('page_subtitle') is empty %}
     {% set page_title = block('page_title') %}
