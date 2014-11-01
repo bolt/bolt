@@ -26,7 +26,7 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
     public function register(Silex\Application $app)
     {
         // This exposes the main upload object as a service
-        $app['upload'] = function() use($app) {
+        $app['upload'] = function () use ($app) {
                 $allowedExensions = $app['config']->get('general/accept_file_types');
                 $uploadHandler = new UploadHandler($app['upload.container']);
                 $uploadHandler->setPrefix($app['upload.prefix']);
@@ -39,7 +39,7 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
         // This exposes the file container as a configurabole object please refer to:
         // Sirius\Upload\Container\ContainerInterface
         // Any compatible file handler can be used.
-        $app['upload.container'] = function() use($app) {
+        $app['upload.container'] = function () use ($app) {
                 $base = $app['resources']->getPath($app['upload.namespace']);
                 if (!is_writable($base)) {
                     throw new \RuntimeException("Unable to write to upload destination. Check permissions on $base", 1);
