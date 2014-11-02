@@ -338,7 +338,7 @@ class TranslationFile
             '#          at the moment. This is an ongoing process. Translations currently in the ' . "\n" .
             '#          repository are automatically mapped to the new scheme. Be aware that there ' . "\n" .
             '#          can be a race condition between that process and your PR so that it\'s ' . "\n" .
-            '#          eventually neccessary to remap your translations. If you\'re planning on ' . "\n" .
+            '#          eventually necessary to remap your translations. If you\'re planning on ' . "\n" .
             '#          updating your translations, it\'s best to ask on IRC to time your contribution' . "\n" .
             '#          in order to prevent merge conflicts.' . "\n\n";
         $content = '';
