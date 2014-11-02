@@ -41,13 +41,10 @@
     {# Show stuff! #}
     {% if allowedany %}
         <li{% if class %} class="{{ class }}"{% endif %}>
-            <a  href="{% if popoveritems %}{{ popoveritems.0.link }}{% else %}#{% endif %}"
-                class="menu-pop"
-                data-name="{{ name }}"
-                >
+            <a  href="{% if popoveritems %}{{ popoveritems.0.link }}{% else %}#{% endif %}"class="menu-pop">
                 {{ label(icon, label) }}
             </a>
-            <ul class="nav submenu submenu-{{ name }}">
+            <ul class="nav submenu">
                 {% set divider = false %}
                 {% for item in popoveritems %}
                     {% if item == '-' %}
