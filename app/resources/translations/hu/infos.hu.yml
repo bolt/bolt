@@ -79,10 +79,4 @@ prefill:
     short_help: |
         <p>Jelölje be a tartalomtípusokat, amiket automatikusan fel kíván tölteni Lorem Ipsum álszöveggel.</p>
         <p>Ha mindet jelöletlenül hagyja, a Bolt csak azokat fogja feltölteni, amikhez még egyáltalán nem tartozik tartalom.</p>
-extension:
-    enable: |
-        <p>Kiterjesztések engedélyezéséhez adja őket a <code>enabled_extensions</code> tömbhöz a <code>config.yml</code> fájlban.
-            Ehhez a kiterjesztés pontos nevét kell használnia, ahogyan az megjelenik az első címkén annak alsó sorában.
-            A fájlrendszerrel kapcsolatos problémák elkerülése miatt figyeljen arra, hogy a nevek <em>kis- és nagybetű érzékenyek</em>.</p>
-            <p>Példa:</p>
-            <pre><code>enabled_extensions: [ HelloWorld, GoogleAnalytics ]</code></pre>
+

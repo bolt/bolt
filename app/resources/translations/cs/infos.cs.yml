@@ -61,10 +61,4 @@ prefill:
     short_help: |
         <p>Označte typy obsahu, které chcet naplnit zkušebním (obsahem.<p>
         <p>Bolt naplní do databáze pouze ty typy obsahu, které nemají v databázi žádný záznam. A to i v případě, že jsou označeny k vyplnění.</p>
-extension:
-    enable: |
-        <p>Pro aktivování rošíření přesuňte jeho záznam (název) do pole <code>enabled_extensions</code> v souboru
-                <code>config.yml</code>. Musíte použít shodný název rozšíření, jak je pojmenováno ve spodním řádku svého popisu v položce <em>Název</em>.
-                Rozlišují se <em>velká a malá písmena</em>, aby se předešlo problémům v souborovém systému. </p>
-            <p>Příklad:</p>
-            <pre><code>enabled_extensions: [ HelloWorld, GoogleAnalytics ]</code></pre>
+
