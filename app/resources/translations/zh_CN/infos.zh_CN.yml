@@ -1,0 +1,72 @@
+info:
+    upload:
+        image: |
+            可以使用此字段上传照片/图像，通过点击按钮从电脑上上传文件。如果你有新版本的Chrome或者Firefox浏览器，也可以
+            从桌面上或者从浏览的其他窗口拖曳文件。<br/>
+            另外，你可以使用之前上传的文件。要选择这些文件，可以在输入框中输入文件的(部分)名称，它能够自动补全。
+        file: |
+            可以使用此字段上传提供下载的文件，或者在网站页面内使用。
+            点击按钮可以从电脑上上传文件。如果你有新版本的Chrome或者Firefox浏览器，也可以
+            从桌面上或者从浏览的其他窗口拖曳文件。<br/>
+            另外，你可以使用之前上传的文件。要选择这些文件，可以在输入框中输入文件的(部分)名称，它能够自动补全。
+        filelist: |
+            可以使用此字段上传多个文件和描述。与单个的“文件”字段一样，新版本的浏览器可以识别拖曳到输入框区域的文件。
+            或许你可以尝试一下？
+        filesmall: |
+            可以使用按钮上传文件。要选择之前上传的文件，你可以在输入框中输入文件的(部分)名称，它能够自动补全。
+        imagelist: |
+            可以使用此字段上传一系列的照片/图像，通过点击按钮从电脑上上传文件。如果你有新版本的Chrome或者Firefox浏览器，也可以
+            从桌面上或者从浏览的其他窗口拖曳文件。<br/>
+            另外，你可以使用之前上传的文件。<br/>
+            你可以使用拖曳重新安排图像，也可以更改图像的描述。
+        video: |
+            可以使用此字段在网站页面上嵌入视频。只需要复制/粘贴Youtube, Vimeo等视频分享网站页面的URL。<br>
+            Bolt会自动取回带有正确宽高和源标题信息的<embed>代码。如果你改变宽高中的任一值，另一项也将随即改变，
+            维持视频的宽高比。
+    geolocation: |
+        可以使用此字段获得任何地址的地理坐标，或者手动使用标注点标记。首先，在“地址”一栏中输入(大概)地址，
+        就会通过Google Maps API取回对应的经纬度信息，以及根据Google搜索结果取回的附近地址信息。<br>
+        如果你想将标注点移动到不同的位置，只需要在小地图上拖曳标记。经纬度信息将自动更新。
+    markdown: |
+        Markdown是一个将文本转换成HTML的网页撰写工具。
+            <p>Markdown让你能使用易于读写的纯文本格式撰写文稿，再稍后将它转换成规整的HTML格式。</p>
+            <p><strong>快速参考：</strong><br>
+            # This is an &lt;h1&gt;-tag<br>
+            ## This is an &lt;h2&gt;-tag<br>
+            ###### This is an &lt;h6&gt;-tag</p>
+            <p>This _<em>is italic</em>_, this __<strong>is bold</strong>__, and this
+            ___<em><strong>is both</strong></em>___. You can also use asterixes: This *<em>is italic</em>*,
+            this **<strong>is bold</strong>**.
+            <p>Create <a href='#'>links</a> like this:<br>
+            An [exciting website](http://example.org/ &amp;quot;Title of link&amp;quot;)</p>
+            <p>&nbsp; * This is an unordered list<br>
+            &nbsp; * Item 2</p>
+            <p>&nbsp; 1 This is an ordered list<br>
+            &nbsp; 2 Item 2</p>
+    relationships: |
+        指定与其他记录关联，实际上就是在这些记录和本条记录之间创建了一条链接。
+        在网站上，这项特性可以用于“关联的文章”、“请参阅”功能或者展示这项记录符合的特定结构。
+    taxonomy: |
+        为记录选择了一个或者多个分类，就是在给记录指定某些属性。在网站上，这项特性可以将
+        特定的记录组织起来，或者为这些记录自动创建到某个相同分类的链接。
+about:
+    bolt: |
+        <p>Bolt 是一款力求保持简洁、快速、直接和乐于使用的CMS系统。同时为开发者和内容管理者而设计。
+            Bolt是开源项目，也用到了其他的开源组件。如果你是开发者，也欢迎你参与到Bolt的后续开发之中。
+        </p>
+    licence: |
+        <p>Bolt的所有组件都可以在MIT开源协议下使用，协议文本可以在 <a href="%paths_app%LICENSE.txt">LICENSE.txt</a>
+        中找到。
+        </p>
+prefill:
+    short_help: |
+        <p>选中那些你想要自动生成Lorem Ipsum填充内容的contenttypes。<p>
+        <p>如果所有的复选框都未选中，Bolt只会填充那些没有内容的contenttypes。</p>
+extension:
+    enable: |
+        <p>要启用扩展，你需要编辑位于<code>config.yml</code>的<code>enabled_extensions</code>数组。
+                你需要准确输入扩展的名称，就像
+                shown in the first label on the bottom row of its tile. 
+                请注意为了避免文件系统间的差异问题，名称是<em>区分大小写</em>的。</p>
+            <p>示例：</p>
+            <pre><code>enabled_extensions: [ HelloWorld, GoogleAnalytics ]</code></pre>
