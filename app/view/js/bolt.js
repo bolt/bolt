@@ -927,11 +927,10 @@ var Navpopups = Backbone.Model.extend({
 
         // Add the submenus to the data-content for bootstrap.popover
         $('#navpage-secondary a.menu-pop').each(
-            function(i) {
-                var name = $(this).attr('data-name'),
-                    menu = '';
+            function() {
+                var menu = '';
 
-                $('ul .submenu-' + name + ' li').each(function () {
+                $(this).nextAll('.submenu').children().each(function () {
                     if ($(this).hasClass('subdivider')) {
                         menu += '<hr>';
                     }
@@ -947,12 +946,13 @@ var Navpopups = Backbone.Model.extend({
             // only trigger the mobile open action
             $('#navpage-secondary a.menu-pop').on('click', function(e) {
                     e.preventDefault();
-                    var name = $(this).attr('data-name');
-                    if ($('#navpage-secondary .submenu-' + name).hasClass('show')) {
-                        $('#navpage-secondary .submenu-' + name).removeClass('show');
+                    var submenu = $(this).nextAll('.submenu');
+
+                    if (submenu.hasClass('show')) {
+                        submenu.removeClass('show');
                     } else {
                         $('#navpage-secondary .submenu').removeClass('show');
-                        $('#navpage-secondary .submenu-' + name).addClass('show');
+                        submenu.addClass('show');
                     }
                 }
             );
