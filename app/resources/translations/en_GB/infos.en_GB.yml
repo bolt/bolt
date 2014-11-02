@@ -5,20 +5,20 @@ info:
             computer, or if you're using a recent version of Chrome or Firefox, you can simply drag'n'drop the file
             from your desktop or from a different browser window.<br/>
             Alternatively, you can use a previously uploaded image. To select a previously uploaded file, just
-            type (part) of the filename in the input area, and it will be autocompleted.
+            type (part) of the file name in the input area, and it will be autocompleted.
         file: |
             Use this field to upload a file to include as a download or to use inside a page on the
             website. Click the button to upload a file from your computer, or if you're using a recent version
             of Chrome or Firefox, you can simply drag'n'drop the file from your desktop or from a different
             browser window. <br />
             Alternatively, you can use a previously uploaded file. To select a previously uploaded file, just
-            type (part) of the filename in the input area, and it will be autocompleted.
+            type (part) of the file name in the input area, and it will be autocompleted.
         filelist: |
             Use this field to upload multiple files and some descriptions. Like with the singular "file" field, recent
             browser versions are able to understand you dragging a file into the input field. Maybe give it a try?
         filesmall: |
             Use the button to upload a file. To select a previously uploaded file, you can
-            type (part) of the filename in the input area, and it will be autocompleted.
+            type (part) of the file name in the input area, and it will be autocompleted.
         imagelist: |
             Use this field to upload a set of photos or image. Click the button to upload a file from your
                 computer, or if you're using a recent version of Chrome or Firefox, you can simply drag'n'drop the file
@@ -37,7 +37,7 @@ info:
             and the corresponding latitude and longitude will be retrieved using the Google Maps API,
             together with the closest matching address, according to Google. <br>
             If you want to move the marker to a different location, just drag'n'drop the pin on the
-            mini-map. The latitide and longitude will be updated automatically.
+            mini-map. The latitude and longitude will be updated automatically.
     markdown: |
         Markdown is a text-to-HTML conversion tool for web writers.
             <p>Markdown allows you to write using an easy-to-read, easy-to-write plain text format,
@@ -47,7 +47,7 @@ info:
             ## This is an &lt;h2&gt;-tag<br>
             ###### This is an &lt;h6&gt;-tag</p>
             <p>This _<em>is italic</em>_, this __<strong>is bold</strong>__, and this
-            ___<em><strong>is both</strong></em>___. You can also use asterixes: This *<em>is italic</em>*,
+            ___<em><strong>is both</strong></em>___. You can also use asterisks: This *<em>is italic</em>*,
             this **<strong>is bold</strong>**.
             <p>Create <a href='#'>links</a> like this:<br>
             An [exciting website](http://example.org/ &amp;quot;Title of link&amp;quot;)</p>
