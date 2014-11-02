@@ -13,11 +13,10 @@ var Navpopups = Backbone.Model.extend({
 
         // Add the submenus to the data-content for bootstrap.popover
         $('#navpage-secondary a.menu-pop').each(
-            function(i) {
-                var name = $(this).attr('data-name'),
-                    menu = '';
+            function() {
+                var menu = '';
 
-                $('ul .submenu-' + name + ' li').each(function () {
+                $(this).nextAll('.submenu').children().each(function () {
                     if ($(this).hasClass('subdivider')) {
                         menu += '<hr>';
                     }
