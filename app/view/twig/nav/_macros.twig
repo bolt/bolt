@@ -26,7 +26,6 @@
     {% if subitems is empty %}
         {% set subitems = popoveritems %}
     {% endif %}
-    {% set name = label|slug()|lower() %}
 
     {# Only display the 'root' option, if any of the subitems are allowed to be shown. #}
     {% set allowedany = false %}
