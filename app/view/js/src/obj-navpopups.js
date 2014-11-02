@@ -32,12 +32,13 @@ var Navpopups = Backbone.Model.extend({
             // only trigger the mobile open action
             $('#navpage-secondary a.menu-pop').on('click', function(e) {
                     e.preventDefault();
-                    var name = $(this).attr('data-name');
-                    if ($('#navpage-secondary .submenu-' + name).hasClass('show')) {
-                        $('#navpage-secondary .submenu-' + name).removeClass('show');
+                    var submenu = $(this).nextAll('.submenu');
+
+                    if (submenu.hasClass('show')) {
+                        submenu.removeClass('show');
                     } else {
                         $('#navpage-secondary .submenu').removeClass('show');
-                        $('#navpage-secondary .submenu-' + name).addClass('show');
+                        submenu.addClass('show');
                     }
                 }
             );
