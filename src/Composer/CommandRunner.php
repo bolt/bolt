@@ -380,11 +380,11 @@ class CommandRunner
             $this->available = array();
         }
     }
-    
+
     private function copyInstaller()
     {
         $class = new \ReflectionClass("Bolt\\Composer\\ExtensionInstaller");
         $filename = $class->getFileName();
-        copy($filename , $this->installer);
+        copy($filename, $this->installer);
     }
 }

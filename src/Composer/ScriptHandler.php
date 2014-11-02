@@ -70,7 +70,7 @@ class ScriptHandler
         }
 
     }
-    
+
 
     public static function bootstrap(CommandEvent $event)
     {

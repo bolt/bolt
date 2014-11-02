@@ -1056,7 +1056,7 @@ class Content implements \ArrayAccess
                 // Completely remove style and script blocks
                 $maid = new \Maid\Maid(
                     array(
-                        'output-format' => 'html',                        
+                        'output-format' => 'html',
                         'allowed-tags' => array('a', 'b', 'br', 'hr', 'h1', 'h2', 'h3', 'h4', 'p', 'strong', 'em', 'i', 'u', 'strike', 'ul', 'ol', 'li', 'img'),
                         'allowed-attribs' => array('id', 'class', 'name', 'value', 'href', 'src')
                     )

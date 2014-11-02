@@ -17,6 +17,7 @@
  */
 if (version_compare(PHP_VERSION, '5.3.3', '<')) {
     require __DIR__ . '/legacy.php';
+
     return false;
 }
 
