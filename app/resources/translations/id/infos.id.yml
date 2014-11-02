@@ -77,11 +77,4 @@ prefill:
     short_help: |
         <p>Check the contenttypes for which you want to automatically generate some records that are filled with Lorem Ipsum dommy content.<p>
         <p>If all checkboxes are left unchecked, Bolt will only prefill the contenttypes that have no content yet.</p>
-extension:
-    enable: |
-        <p>To enable extensions, add them to the <code>enabled_extensions</code> array in
-                <code>config.yml</code>. You must use the exact name of the extension, as
-                shown in the first label on the bottom row of its tile. Note that the names
-                are <em>case sensitive</em>, to eliminate issues with the filesystem. </p>
-            <p>example:</p>
-            <pre><code>enabled_extensions: [ HelloWorld, GoogleAnalytics ]</code></pre>
+

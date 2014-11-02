@@ -44,12 +44,4 @@ prefill:
     short_help: |
         <p>Ελεγξτε τα contenttypes για τα οποία θέλετε αυτόματα να παράγετε εγγραφές με χαζό περιεχόμενο Lorem Ipsum.</p>
         <p>Εάν δεν επιλεχτεί κανένα, το Bolt θα γεμίσει μόνο τα contenttypes που δεν έχουν ακόμη περιεχόμενο.</p>
-extension:
-    enable: |
-        <p>Για να ενεργοποιήσετε extensions, αντιγράψτε στο <code>enabled_extensions</code> array του
-        <code>config.yml</code>. Θα πρέπει να χρησιμοποιήσετε το ακριβές όνομα, όπως αναγράφετε στην πρώτη ετικέτα
-        στην κάτω γραμμή του τίτλου. Σημειώστε ότι τα ονόματα είναι <em>case sensitive</em>, προς αποφυγή προβλημάτων
-        με το σύστημα αρχείων.
-        </p>
-        <p>παράδειγμα:</p>
-        <pre><code>enabled_extensions: [ HelloWorld, GoogleAnalytics ]</code></pre>
+

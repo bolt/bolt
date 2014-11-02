@@ -74,10 +74,4 @@ prefill:
     short_help: |
         <p>ダミーコンテンツ（Lorem Ipsum）を含むレコードを自動生成したいコンテンツタイプをチェックしてください。<p>
         <p>すべてのチェックボックスが未チェックの場合、Boltはまだコンテンツのないコンテンツタイプに対しダミーコンテンツを生成します。</p>
-extension:
-    enable: |
-        <p>エクステンションを有効にするには、<code>config.yml</code>の<code>enabled_extensions</code>の配列に追加してください。
-        正確なエクステンションの名前を利用しなければなりません。エクステンションのタイトルの一番下の行の最初のラベルがそれです。
-        ファイルシステムの問題を除去するため、名前は<em>大文字小文字を区別する</em>ことに注意してください。
-        <p>例：</p>
-        <pre><code>enabled_extensions: [ HelloWorld, GoogleAnalytics ]</code></pre>
+
