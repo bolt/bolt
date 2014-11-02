@@ -73,11 +73,4 @@ prefill:
     short_help: |
         <p>Verifique os tipos de arquivo para cada um dos campos que precisa popular com conteúdo Lorem Ipsum.<p>
         <p>Se todos os checkboxes a esquerda estão desmarcados, Bolt somente irá pré-popular os contenttypes que ainda não possuem conteúdo.</p>
-extension:
-    enable: |
-        <p>Para habilitar extensões, adicione um vetor <code>enabled_extensions</code> no arquivo
-                <code>config.yml</code>. Você precisa usar o nome exato da extensão, as
-                como mostrado no primeiro label na linha abaixo deste bloco. Note que os nomes
-                são <em>case sensitive</em>, para evitar problemas com o gerenciador de arquivos. </p>
-            <p>exemplo:</p>
-            <pre><code>enabled_extensions: [ HelloWorld, GoogleAnalytics ]</code></pre>
+

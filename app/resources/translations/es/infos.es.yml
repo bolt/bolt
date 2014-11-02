@@ -91,12 +91,3 @@ prefill:
         <p>Verifica para qué tipos de contenido quieres generar automáticamente registros con contenido de prueba 'Lorem Ipsum'.</p>
         <p>Si se dejan todas las casillas sin marcar, Bolt solo generará registros para los tipos de contenido que no tienen ninguno todavía.</p>
 
-extension:
-    enable: |
-        <p>Para habilitar las extensiones, añádelas al array <code>enabled_extensions</code> en
-           <code>config.yml</code>. Debes usar el nombre exacto de la extensión, tal y como se
-           muestra en la primera etiqueta en la fila inferior del cuadro correspondiente a esa extensión. Todos los nombres
-           son <em>sensibles a mayúsculas</em>, para eliminar problemas con el sistema de ficheros.</p>
-        <p>Ejemplo:</p>
-        <pre><code>enabled_extensions: [ HelloWorld, GoogleAnalytics ]</code></pre>
-

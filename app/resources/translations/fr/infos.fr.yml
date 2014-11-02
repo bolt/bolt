@@ -85,11 +85,4 @@ prefill:
     short_help: |
         <p>SVP, cochez les types de contenu que vous voulez remplir automatiquement.<p>
         <p>Si aucun n'est coché, Bolt ne pré-remplira que les types n'ayant encore aucun contenu.</p>
-extension:
-    enable: |
-        <p>Pour activer une extension, il suffit de l'ajouter au tableau <code>enabled_extensions</code>
-            dans le fichier de configuration <code>config.yml</code>. Utilisez le nom exact
-            de l'extension, comme affiché dans le premier libellé de la ligne du bas dans
-            son panneau. Notez que les noms sont <em>sensibles à la casse</em>, recopiez bien le nom sinon vous risquez d'obtenir une erreur.</p>
-            <p>exemple:</p>
-            <pre><code>enabled_extensions: [ HelloWorld, GoogleAnalytics ]</code></pre>
+
