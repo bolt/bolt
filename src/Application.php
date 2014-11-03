@@ -287,7 +287,7 @@ class Application extends Silex\Application
             }
         );
 
-        // @todo: make a provider for the Integrity checker and Random generator..
+        // @todo: make a provider for the Random generator..
     }
 
     public function initExtensions()

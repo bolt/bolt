@@ -246,14 +246,13 @@ class Log
 
         } else {
 
-            // mysql
+            // mysql and pgsql the same
             $query = sprintf(
                 'TRUNCATE %s;',
                 $this->tablename
             );
 
         }
-        // @todo: handle postgres (and other non mysql) database syntax
 
         $this->app['db']->executeQuery($query);
     }

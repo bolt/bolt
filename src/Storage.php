@@ -1222,7 +1222,6 @@ class Storage
             'showing_to' => ($page - 1) * $limit + count($content)
         );
 
-        // @todo Need to rewrite pager-code to make the pager work properly
         return $content;
     }
 
