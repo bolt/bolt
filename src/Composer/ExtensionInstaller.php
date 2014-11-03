@@ -5,7 +5,12 @@ class ExtensionInstaller
 {
     public static function handle($event)
     {
-        $installedPackage = $event->getOperation()->getPackage();
+        try {
+            $installedPackage = $event->getOperation()->getPackage();
+        } catch (\Exception $e) {
+            return;   
+        }
+        
         $rootExtra = $event->getComposer()->getPackage()->getExtra();
         $extra = $installedPackage->getExtra();
         if (isset($extra['bolt-assets'])) {
@@ -32,7 +37,10 @@ class ExtensionInstaller
         );
         foreach ($iterator as $item) {
             if ($item->isDir()) {
-                mkdir($dest . DIRECTORY_SEPARATOR . $iterator->getSubPathName());
+                $new =  $dest . DIRECTORY_SEPARATOR . $iterator->getSubPathName();
+                if(!is_dir($new)) {
+                    mkdir($dest . DIRECTORY_SEPARATOR . $iterator->getSubPathName());
+                }
             } else {
                 copy($item, $dest . DIRECTORY_SEPARATOR . $iterator->getSubPathName());
             }
