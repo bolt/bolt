@@ -33,10 +33,13 @@
             <input type="checkbox" name="checkRow" title="{{ __('Select all') }}" />
             <input type="hidden" id="baseurl" value="{{ paths['hosturl'] }}{{ paths['bolt'] }}"></th>{% endif %}
 
-        <th class="hidden-xs"><a href="{{link}}{% if request('order') == 'id' %}-{% endif %}id">#</a></th>
+        <th class="hidden-xs"><a href="{{link}}{% if request('order') == 'id' %}-{% endif %}id">
+            {{ __('Id') }}
+        </a></th>
 
         <th style="width:80%"><a href="{{link}}{% if request('order') == content.TitleColumnName() %}-{% endif %}{{content.TitleColumnName()}}">
-            {{ __('Title') }} / {{ __('Excerpt') }}</a></th>
+            {{ __('Title') }} / {{ __('Excerpt') }}
+        </a></th>
 
         <th>&nbsp;</th>
 
