@@ -3,6 +3,27 @@ Bolt 2.0 "Beta 2"
 
 Work in progress. Notable changes: 
 
+- Fixed: "open_basedir restriction in effect" error related to Composer.
+- Fixed: "File(/dev/urandom) is not within the allowed path(s)" error. 
+- Added: min/max/step options for float and integer fieldtypes
+- Switching from Googlefonts to our local version of Source Sans Pro. fixes #2038
+- Ongoing fixes and changes to the translation files. (and added Chinese)
+- A bunch of fixes to the automatic acceptance tests
+- Fixed: Editable record list calls wrong listing template (for related content) #2028
+- Added: Javascript form validation #2019
+- Fixed: Fix notice in SearchPlugin::handle() #2025
+- Added: Added hints generation for removed columns in dbcheck 
+- Fixed: Exception when viewing related items #2026
+- Uploads from the "files" screens upload to the correct folder, instead of always to `files/`
+- Updated HTML/CSS for the "Changelog" screen.
+- Added Pathogen, in order to handle paths on Windows systems better ..
+- .. and immediately factored out [Isolator](https://github.com/IcecaveStudios/isolator), because that shit's just wrong, man. 
+
+Bolt 2.0 "Beta 2" 
+-----------------
+
+Released 2014-11-29
+
 - Ongoing fixes to the 'Translation' module (for the backend): extra labels, updated translations, code cleanup
 - Ongoing fixes to the 'Paths' module (for the backend): Fixed some missing paths and edge-cases.
 - installing "Extensions" works much better on Windows servers now.
