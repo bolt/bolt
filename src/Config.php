@@ -318,7 +318,7 @@ class Config
                 $temp['show_in_menu'] = true;
             }
             if (!isset($temp['sort'])) {
-                $temp['sort'] = '';
+                $temp['sort'] = false;
             }
             if (!isset($temp['default_status'])) {
                 $temp['default_status'] = 'draft';

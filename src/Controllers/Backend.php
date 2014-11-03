@@ -499,7 +499,12 @@ class Backend implements ControllerProviderInterface
 
         $contenttype = $app['storage']->getContentType($contenttypeslug);
 
-        $order = $app['request']->query->get('order', false);
+        // Order has to be set carefully. Either set it explicitly when the user
+        // sorts, or fall back to what's defined in the contenttype. The exception
+        // is a contenttype that has a "grouping taxonomy", because that should
+        // override it. The exception is handled in $app['storage']->getContent().
+        $order = $app['request']->query->get('order', $contenttype['sort']);
+
         $page = $app['request']->query->get('page');
         $filter = $app['request']->query->get('filter');
 
