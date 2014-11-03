@@ -14,7 +14,7 @@ class Html
      * @param  bool   $hellip        Add dots when the string is too long
      * @return string Trimmed string
      */
-    public static function trimText($str, $desiredLength)
+    public static function trimText($str, $desiredLength, $hellip = true)
     {
         if ($hellip) {
             $ellipseStr = '…';
