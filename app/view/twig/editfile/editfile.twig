@@ -27,7 +27,7 @@
                 <p>{{ __('page.edit-file.path') }}
                     {% for path, segment in context.pathsegments %}
                         {% if not loop.first %} / {% endif %}
-                        <a href="{{ path('files', {'path': path, 'namespace': namespace}) }}">{{ segment }}</a>
+                        <a href="{{ path('files', {'path': path, 'namespace': context.namespace}) }}">{{ segment }}</a>
                     {% endfor %}
                 </p>
             {% endif %}
