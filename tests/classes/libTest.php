@@ -24,7 +24,7 @@ class libTest extends \PHPUnit_Framework_TestCase
                 false, "1234567890 1234567890 12345678"),
             // add dots when the input is too long
             array("123456789012345678901234567890", 20,
-                true, "12345678901234567890…"),
+                true, "1234567890123456789…"),
             // and don't when it's not
             array("12345678901234567890", 20,
                 true, "12345678901234567890"),
