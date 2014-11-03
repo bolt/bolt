@@ -11,17 +11,27 @@ class Html
      *
      * @param  string $str           String to trim
      * @param  int    $desiredLength Target string length
+     * @param  bool   $hellip        Add dots when the string is too long
      * @return string Trimmed string
      */
     public static function trimText($str, $desiredLength)
     {
+        if ($hellip) {
+            $ellipseStr = '…';
+            $newLength = $desiredLength - 1;
+        } else {
+            $ellipseStr = '';
+            $newLength = $desiredLength;
+        }
+
         $str = strip_tags($str);
 
         if (mb_strlen($str) > $desiredLength) {
-            $str = mb_substr($str, 0, $desiredLength - 1) . '…';
+            $str = mb_substr($str, 0, $newLength - 1) . $ellipseStr;
         } 
 
         return $str;
+
     }
 
 
