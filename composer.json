@@ -37,7 +37,7 @@
         "symfony/yaml": "~2.5",
         "tdammers/htmlmaid": "~0.7",
         "twig/twig": "~1.16",
-        "eloquent/pathogen" : "0.6.1"
+        "bolt/pathogen": "~0.6"
     },
     "require-dev": {
         "phpunit/php-code-coverage": "1.2.*@dev",
