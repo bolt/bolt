@@ -4,14 +4,14 @@ Bolt 2.0 "Beta 3"
 Work in progress. Notable changes: 
 
 - Fixed: "open_basedir restriction in effect" error related to Composer.
-- Fixed: "File(/dev/urandom) is not within the allowed path(s)" error. 
+- Fixed: "File(`/dev/urandom`) is not within the allowed path(s)" error. 
 - Added: min/max/step options for float and integer fieldtypes
 - Switching from Googlefonts to our local version of Source Sans Pro. fixes #2038
 - Ongoing fixes and changes to the translation files. (and added Chinese)
 - A bunch of fixes to the automatic acceptance tests
 - Fixed: Editable record list calls wrong listing template (for related content) #2028
 - Added: Javascript form validation #2019
-- Fixed: Fix notice in SearchPlugin::handle() #2025
+- Fixed: Fix notice in `SearchPlugin::handle()` #2025
 - Added: Added hints generation for removed columns in dbcheck 
 - Fixed: Exception when viewing related items #2026
 - Uploads from the "files" screens upload to the correct folder, instead of always to `files/`
