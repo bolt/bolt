@@ -32,7 +32,7 @@ class libTest extends \PHPUnit_Framework_TestCase
             array("1234567890<b>123456789012345</b>67890", 20,
                 false, "12345678901234567890"),
             // http:// shouldn't get stripped
-            array('http://bolt.cm', 11, false, false, false, 'http://bolt'),
+            array('http://bolt.cm', 11, false, 'http://bolt'),
         );
     }
 
