@@ -11,6 +11,7 @@ Work in progress. Notable changes:
 - A bunch of fixes to the automatic acceptance tests
 - Fixed: Editable record list calls wrong listing template (for related content) #2028
 - Added: Javascript form validation #2019
+- Added: custom `error: "message"` for use with javascript form validation
 - Fixed: Fix notice in `SearchPlugin::handle()` #2025
 - Added: Added hints generation for removed columns in dbcheck 
 - Fixed: Exception when viewing related items #2026
