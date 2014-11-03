@@ -1,4 +1,4 @@
-Bolt 2.0 "Beta 2" 
+Bolt 2.0 "Beta 3" 
 -----------------
 
 Work in progress. Notable changes: 
