@@ -3,6 +3,8 @@ namespace Bolt\Composer;
 
 use Silex;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Bolt\Library as Lib;
 
 class CommandRunner
@@ -13,6 +15,7 @@ class CommandRunner
     public $packageFile;
     public $installer;
     public $basedir;
+    private $cachedir;
 
     public function __construct(Silex\Application $app, $packageRepo = null, $readWriteMode = false)
     {
@@ -24,6 +27,7 @@ class CommandRunner
         $this->packageRepo = $packageRepo;
         $this->packageFile = $app['resources']->getPath('root') . '/extensions/composer.json';
         $this->installer = $app['resources']->getPath('root') . '/extensions/installer.php';
+        $this->cachedir = $this->app['resources']->getPath('cache') . '/composer';
 
         // Set up composer
         if ($readWriteMode) {
@@ -328,7 +332,20 @@ class CommandRunner
         // Set the error reporting before initializing the wrapper, to suppress them.
         $oldErrorReporting = error_reporting(E_ERROR);
 
-        $this->wrapper = \evidev\composer\Wrapper::create($this->app['resources']->getPath('cache') . '/composer');
+        // Check that our Composer cache directory exists, as the wrapper will
+        // fallback to the system temp directory, which in turn breaks systems
+        // with open_basedir() restrictions in place
+        $fs = new Filesystem();
+        if (! $fs->exists($this->cachedir)) {
+            try {
+                $fs->mkdir($this->cachedir, 0777);
+            } catch (IOExceptionInterface $e) {
+                throw new LowlevelException("Unable to create the Composer cache directory:\n" . $e->getMessage());
+            }
+        }
+
+        // Create the Composer wrapper object
+        $this->wrapper = \evidev\composer\Wrapper::create($this->cachedir);
 
         // re-set error reporting to the value it should be.
         error_reporting($oldErrorReporting);
