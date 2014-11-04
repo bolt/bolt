@@ -2871,7 +2871,7 @@ class Storage
 
             // otherwise, just get a random slug.
             if (empty($uri)) {
-                $slug = Html::trimText($slug, 32, false, false) . "-" . $this->app['randomgenerator']->generateString(6, 'abcdefghijklmnopqrstuvwxyz01234567890');
+                $slug = Html::trimText($slug, 32, false) . "-" . $this->app['randomgenerator']->generateString(6, 'abcdefghijklmnopqrstuvwxyz01234567890');
                 $uri = $prefix . $slug;
             }
         }

@@ -1067,7 +1067,7 @@ class Content implements \ArrayAccess
         }
 
         if ($excerptLength > 0) {
-            $result .= Html::trimText($result, $excerptLength, false, true, false);
+            $result .= Html::trimText($result, $excerptLength);
         }
 
         return '<![CDATA[ ' . $result . ' ]]>';
