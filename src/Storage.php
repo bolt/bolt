@@ -2584,11 +2584,9 @@ class Storage
                 // If you save this content via anything other than the Bolt
                 // backend (see Content->setFromPost), then taxonomies that
                 // behave like groupings, will have their sortorders reset to 0.
-                if ($configTaxonomies[$taxonomytype]['behaves_like'] == 'grouping' && empty($sortorder) && $sortorder !== '0') {
-                    $sortorder = $currentsortorder;
-                }
-
-                if (empty($sortorder)) {
+                if (($configTaxonomies[$taxonomytype]['behaves_like'] == 'grouping' && $sortorder !== '0')
+                    || empty($sortorder)) {
+                    // acting like comment says above
                     $sortorder = 0;
                 }
 
