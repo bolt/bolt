@@ -9,6 +9,7 @@ jQuery(function ($) {
     bolt.stack = new Stack();
     bolt.sidebar = new Sidebar();
     bolt.navpopups = new Navpopups();
+    bolt.moments = new Moments();
     bolt.imagelist = [];
     bolt.filelist = [];
 
