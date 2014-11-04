@@ -4,7 +4,7 @@ Bolt 2.0 "Beta 3"
 Released 2014-11-04. Notable changes: 
 
 - Updated Moments.js to 2.8.3. Use moment.locale() instead of deprecated moment.lang() #2088
-- Fixed: Simplified Html::trimText(), "excerpt" now works better on non-western-european strings. [cl]
+- Fixed: Simplified Html::trimText(), "excerpt" now works better on non-western-european strings. 
 - Fixed: Breadcrumbs in "edit file" screens work correctly now. #2077
 - Fixed: Proper sorting in Backend overview. Fixes #2036
 - Fixed: "open_basedir restriction in effect" error related to Composer.
