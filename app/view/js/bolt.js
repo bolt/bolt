@@ -1732,7 +1732,7 @@ var init = {
                 paragraphItems = paragraphItems.concat('-', 'Blockquote');
             }
 
-            config.language = set.language;
+            config.language = bolt.locale.short;
             config.uiColor = '#DDDDDD';
             config.resize_enabled = true;
             config.entities = false;
