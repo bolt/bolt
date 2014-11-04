@@ -438,10 +438,14 @@ class TranslationFile
 
         // No gathering here: if the file doesn't exist yet, we load a copy from the locale_fallback version (en)
         if (!file_exists($path) || filesize($path) < 10) {
-            list($path) = $this->buildPath('infos', 'en');
+            list($path) = $this->buildPath('infos', 'en_GB');
         }
 
-        return file_get_contents($path);
+        if (file_exists($path)) {
+            return file_get_contents($path);
+        }else{
+            $this->app['session']->getFlashBag()->set('error', 'File not found. Fallback also not found: '.$path);
+        }
     }
 
     /**
@@ -571,7 +575,7 @@ class TranslationFile
             $msg = Trans::__("The translations file '%s' is not readable.", $msgRepl);
             $this->app->abort(404, $msg);
         // File is not writeable: warning
-        } elseif (!is_writable($this->absPath)) {
+        } elseif (!is_writable(dirname($this->absPath))) {
             $msg = Trans::__(
                 "The file '%s' is not writable. You will have to use your own editor to make modifications to this file.",
                 $msgRepl
