@@ -2,7 +2,7 @@
 namespace Bolt;
 
 use Bolt\Extensions\ExtensionInterface;
-use Bolt\Extensions\TwigExtension;
+use Bolt\Extensions\TwigExtension as TwigProxy;
 use Bolt\Library as Lib;
 use Bolt\Helpers\Arr;
 use Symfony\Component\Console\Command\Command;
@@ -340,7 +340,7 @@ abstract class BaseExtension implements ExtensionInterface
     protected function initializeTwig()
     {
         if (!$this->twigExtension) {
-            $this->twigExtension = new TwigExtension();
+            $this->twigExtension = new TwigProxy();
         }
     }
     
