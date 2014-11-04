@@ -17,13 +17,13 @@ abstract class BaseExtension implements ExtensionInterface
     protected $functionlist;
     protected $filterlist;
     protected $snippetlist;
+    protected $twigExtension;
 
     private $extensionConfig;
     private $composerJsonLoaded;
     private $composerJson;
     private $configLoaded;
     
-    public $twigExtension;
 
     public function __construct(Application $app)
     {
