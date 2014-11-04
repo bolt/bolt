@@ -811,17 +811,6 @@ var init = {
     },
 
     /*
-     * Initialize 'moment' timestamps.
-     *
-     * @returns {undefined}
-     */
-    momentTimestamps: function () {
-        if ($('.moment').is('*')) {
-            updateMoments();
-        }
-    },
-
-    /*
      * Initialize current status display setting focus on status select
      *
      * @returns {undefined}
@@ -999,10 +988,14 @@ var init = {
     },
 
     /*
-     * Initialize moments
+     * Initialize 'moment' timestamps.
      */
     moments: function () {
         moment.locale(bolt.locale.long);
+
+        if ($('.moment').is('*')) {
+            updateMoments();
+        }
     }
 
 };
