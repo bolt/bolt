@@ -2,13 +2,14 @@
 namespace Bolt;
 
 use Bolt\Extensions\ExtensionInterface;
+use Bolt\Extensions\TwigProxy;
 use Bolt\Library as Lib;
 use Bolt\Helpers\Arr;
 use Symfony\Component\Console\Command\Command;
 use Composer\Json\JsonFile;
 use utilphp\util;
 
-abstract class BaseExtension extends \Twig_Extension implements ExtensionInterface
+abstract class BaseExtension implements ExtensionInterface
 {
     protected $app;
     protected $basepath;
@@ -16,11 +17,13 @@ abstract class BaseExtension extends \Twig_Extension implements ExtensionInterfa
     protected $functionlist;
     protected $filterlist;
     protected $snippetlist;
+    protected $twigExtension;
 
     private $extensionConfig;
     private $composerJsonLoaded;
     private $composerJson;
     private $configLoaded;
+    
 
     public function __construct(Application $app)
     {
@@ -306,14 +309,7 @@ abstract class BaseExtension extends \Twig_Extension implements ExtensionInterfa
     {
     }
 
-    /**
-     * Return the available Twig Functions, override for \Twig_extension::getFunctions
-     * @return array
-     */
-    public function getFunctions()
-    {
-        return $this->functionlist;
-    }
+
 
     /**
      * Add a Twig Function
@@ -324,16 +320,8 @@ abstract class BaseExtension extends \Twig_Extension implements ExtensionInterfa
      */
     public function addTwigFunction($name, $callback, $options = array())
     {
-        $this->functionlist[] = new \Twig_SimpleFunction($name, array($this, $callback), $options);
-    }
-
-    /**
-     * Return the available Twig Filters, override for \Twig_extension::getFilters
-     * @return array
-     */
-    public function getFilters()
-    {
-        return $this->filterlist;
+        $this->initializeTwig();
+        $this->twigExtension->addTwigFunction(new \Twig_SimpleFunction($name, array($this, $callback), $options));
     }
 
     /**
@@ -345,7 +333,24 @@ abstract class BaseExtension extends \Twig_Extension implements ExtensionInterfa
      */
     public function addTwigFilter($name, $callback, $options = array())
     {
-        $this->filterlist[] = new \Twig_SimpleFilter($name, array($this, $callback), $options);
+        $this->initializeTwig();
+        $this->twigExtension->addTwigFilter(new \Twig_SimpleFilter($name, array($this, $callback), $options));
+    }
+    
+    protected function initializeTwig()
+    {
+        if (!$this->twigExtension) {
+            $this->twigExtension = new TwigProxy($this->getName());
+        }
+    }
+    
+    
+    public function getTwigExtensions()
+    {
+        if ($this->twigExtension) {
+            return array($this->twigExtension);
+        }
+        return array();
     }
 
     /**
