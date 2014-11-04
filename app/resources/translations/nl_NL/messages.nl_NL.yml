@@ -1,4 +1,4 @@
-# app/resources/translations/nl_NL/messages.nl_NL.yml – generated on 2014-11-02 15:11:09 UTC
+# app/resources/translations/nl_NL/messages.nl_NL.yml – generated on 2014-11-04 09:28:37 UTC
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
 #          at the moment. This is an ongoing process. Translations currently in the 
@@ -8,13 +8,13 @@
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#  47 unused messages
-# 147 untranslated messages
+#  58 unused messages
+#  60 untranslated messages
 #  47 untranslated keyword based messages
-# 219 translations
-#  82 keyword based translations
+# 299 translations
+#  81 keyword based translations
 
-#--- 47 unused messages -------------------------------------------------------
+#--- 58 unused messages -------------------------------------------------------
 
 "%contenttypes%": "%contenttypes%"
 "A menu with this name already exists …": "Er bestaat al een menu met deze naam…"
@@ -63,100 +63,26 @@
 "no": "nee"
 "title": "titel"
 "yes": "ja"
+"%contenttypes% overview": "%contenttypes% overzicht"
+"Next": "Volgende"
+"No recent %contenttype%.": "Geen recente %contenttype%"
+"Originally by %1, ported by %2": "Oorspronkelijk door %1, omgezet door %2"
+"Previous": "Vorige"
+"Proudly powered by %s": #
+"Recent %contenttypes%": #
+"Search for:": #
+"Search…": #
+"Skip to content": #
+"page.edit-file.path": "Pad:"
 
-#--- 147 untranslated messages ------------------------------------------------
+#--- 60 untranslated messages -------------------------------------------------
 
-"%contenttypes% overview": "%contenttypes% overzicht" #
-"(none)": "(geen)" #
-"Add a brief, optional comment to describe what's changed.": "Plaats optioneel een korte opmerking om de aanpassingen te beschrijven." #
-"Add a comment:": "Voeg een opmerking toe:" #
-"Add a new extension using the form below.": "Voeg een nieuwe extensie toe met onderstaand formulier." #
-"Add some sample <a href='%url%' class='btn btn-tertiary'>Records with Loripsum text</a>": "Voeg een aantal <a href='%url%' class='btn btn-small'>Records met Loripsum tekst toe</a>"
-"Alt": #
-"Before you can start using the theme on your site we need to make a copy to your theme folder.": #
-"Body": #
-"Bolt Extension could not be found. Please check at %site% to ensure correct name.": #
-"Browse Versions": #
-"Built-in role, only valid in the context of a resource, and automatically assigned to the owner of that resource.": #
-"Cannot check for updates in read-only mode": #
-"Cannot check installed packages in read-only mode": #
-"Check for updates": #
-"Checking for available updates (this may take up to 60 seconds)": #
-"Checking installed packages": #
-"Clear the current log": #
-"Click to change current status.": #
-"Collapse sidebar": #
-"Configure Extensions": #
-"Content '%title%' has been changed to '%newStatus%'": #
-"Content Type Permissions": #
-"Content for home not found!": #
-"Create folder": #
-"Current (saved) status:": #
-"Date": #
-"Datetime": #
-"Default status": #
-"Delete %foldername%": #
-"Delete selected": #
-"Depublish selected": #
-"Detail template": #
-"Details": #
-"Do you really want to delete %foldername%?": #
-"Everything is up to date!": #
-"Expand sidebar": #
-"Extend ": #
-"Extension": #
-"Extension log": #
-"Extras": #
-"File": #
 "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": #
-"Filelist": #
-"Filtering": #
-"Filtering …": #
-"Find": #
-"Floatfield": #
-"Folder permissions insufficient": #
-"Full list …": #
-"Geolocation": #
-"Hints:": #
-"Html": #
-"If you would like to give the theme an alternative name you can add one here.": #
-"Imagelist": #
-"Install a new Extension": #
-"Install all Packages": #
-"Install all updates": #
-"Installation complete": #
-"Installing package": #
-"Installing selected package version (this may take up to 60 seconds).": #
-"Integerfield": #
-"Listing template": #
-"Logout": #
-"Main configuration": #
-"Markdown": #
-"Message:": #
-"More info/help": #
-"Multiselect": #
-"Next": #
-"No Stable Versions Available": #
-"No Test Versions Available": #
-"No recent %contenttype%.": #
-"No relations found!": #
-"None": #
-"Note:": #
-"Omnisearch": #
-"Originally by %1, ported by %2": #
-"Other contenttypes": #
+"Fontawesome Icon": #
+"Id": #
 "Password reset not successful! Either the token was incorrect, or you were too late, or you tried to reset the password from a different IP-address.": #
 "Password reset successful! You can now log on with the password that was sent to you via email.": #
-"Path to image file": #
-"Please enter a new file name": #
-"Please enter a new folder name": #
-"Preparing to install package …": #
-"Preparing to remove package …": #
-"Previous": #
-"Profile": #
-"Proudly powered by %s": #
 "Publish selected": #
-"Recent %contenttypes%": #
 "Related content": #
 "Rename %foldername%": #
 "Run all Updates": #
@@ -164,15 +90,13 @@
 "Running install of all packages …": #
 "Save & create new record": #
 "Search for …": #
-"Search for:": #
 "Searching for available updates …": #
-"Search…": #
 "Select file …": #
 "Selectentry": #
 "Selectfield": #
-"Skip to content": #
 "Slug": #
 "Something went wrong": #
+"Sorting": #
 "Stable versions": #
 "Status": #
 "Teaser": #
@@ -264,36 +188,49 @@
 "page.login.title": #
 "panel.user-actions.button.add": #
 
-#--- 219 translations ---------------------------------------------------------
+#--- 299 translations ---------------------------------------------------------
 
 "%name% № %id%": "%name% № %id%"
 "%s files could not be deleted. You should delete them manually.": "%s bestanden konden niet verwijderd worden. Verwijder deze handmatig."
 "(default template)": "(standaard template)"
 "(no category)": "(geen categorie)"
 "(no group)": "(geen groep)"
+"(none)": "(geen)"
 "A password reset link has been sent to '%user%'.": "Een link om het wachtwoord te resetten is verstuurd aan '%user%'."
 "About": "Over"
 "About Bolt": "Over Bolt"
 "Actions": "Acties"
 "Actions for Users": "Handelingen voor Gebruikers"
 "Activity log": "Activiteitenlog"
+"Add a brief, optional comment to describe what's changed.": "Plaats optioneel een korte opmerking om de aanpassingen te beschrijven."
+"Add a comment:": "Voeg een opmerking toe:"
+"Add a new extension using the form below.": "Voeg een nieuwe extensie toe met onderstaand formulier."
+"Add some sample <a href='%url%' class='btn btn-tertiary'>Records with Loripsum text</a>": "Voeg een aantal <a href='%url%' class='btn btn-small'>Records met Loripsum tekst toe</a>"
 "Added to <tt>%key%</tt> '%title%'": "Toegevoegd aan <tt>%key%</tt> '%title%'"
 "Alas, no about!": "Helaas, geen 'over ons'!"
 "All content types": "Alle contenttypes"
 "All users": "Alle gebruikers"
+"Alt": "Alt."
 "An error occurred.": "Er is een fout opgetreden."
 "Anonymous": "Anoniem"
 "Are you sure you want to delete %username%?": "Weet je zeker dat je gebruiker %username% wilt verwijderen?"
 "Author:": "Auteur:"
+"Before you can start using the theme on your site we need to make a copy to your theme folder.": "Voordat je deze theme kunt gebruiken, moeten we een kopie maken naar je theme map."
 "Below are the third party libraries that are used by Bolt.": "Hieronder staan de externe libraries waar Bolt gebruik van maakt"
+"Body": "Broodtekst"
 "Bolt - Fatal error.": "Bolt - Kritieke fout."
+"Bolt Extension could not be found. Please check at %site% to ensure correct name.": "De Bolt extensie kon niet worden gevonden. Controleer op %site% of je de goede naam gebruikt."
 "Bolt documentation on Github": "Bolt documentatie op Github"
 "Bolt on Github": "Bolt op Github"
+"Browse Versions": "Blader tussen versies"
 "Browser / platform": "Browser / platform"
 "Built-in role, automatically granted at all times, even if no user is logged in": "Ingebouwde rol die aan iedereen wordt toegekend, ook als de gebruiker niet is ingelogd"
 "Built-in role, automatically granted to every registered user": "Ingebouwde rol die aan iedere ingelogde gebruiker wordt toegekend"
+"Built-in role, only valid in the context of a resource, and automatically assigned to the owner of that resource.": "Ingebouwde rol, alleen geldig in specifieke context, en word automatisch toegekend aan de eigenaar van deze data."
 "Built-in superuser role, automatically grants all permissions": "Ingebouwde super-user rol, krijgt automatisch alle permissies"
 "Cancel": "Annuleer"
+"Cannot check for updates in read-only mode": "Updates kunnen niet gecontroleerd worden in alleen-lezen modus."
+"Cannot check installed packages in read-only mode": "Geïnstalleerde packages kunnen niet gecontroleerd worden in alleen-lezen modus."
 "Categories": "Categorieën"
 "Category": "Categorie"
 "Change Log": "Changelog"
@@ -303,6 +240,9 @@
 "Chapters": "Hoofdstukken"
 "Check again": "Controleer nogmaals"
 "Check database": "Controleer de database"
+"Check for updates": "Controleer op updates"
+"Checking for available updates (this may take up to 60 seconds)": "Updates aan het controleren (dit kan tot 60 seconden duren)"
+"Checking installed packages": "Controleer geïnstalleerde packages"
 "Choose an entry": "Kies een entry"
 "Class:": "Class"
 "Clear Activitylog": "Wis activiteitenlog"
@@ -310,25 +250,43 @@
 "Clear filter": "Wis filter"
 "Clear sort/filter": "Wis sortering/filter"
 "Clear the cache": "Leeg de cache"
+"Clear the current log": "Wis de huidige log"
+"Click to change current status.": "Klik om de huidige status aan te passen."
 "Code:": "Code"
+"Collapse sidebar": "Zijbalk invouwen"
 "Configuration": "Configuratie"
+"Configure Extensions": "Configureer Extensies"
 "Content": "Inhoud"
 "Content '%title%' could not be deleted.": "Inhoud '%title%' kon niet worden opgeslagen."
 "Content '%title%' could not be modified.": "Inhoud '%title%' kon niet worden aangepast."
+"Content '%title%' has been changed to '%newStatus%'": "Content '%title%' is aangepast naar '%newStatus%'"
 "Content '%title%' has been deleted.": "Inhoud '%title%' is verwijderd."
+"Content Type Permissions": "Content type permissies"
+"Content for home not found!": "Content voor 'home' kon niet gevonden worden."
 "Contenttypes": "Contenttypen"
+"Create folder": "Maak map aan"
 "Create the first user": "Maak de eerste gebruiker aan"
 "Created on:": "Aangemaakt op:"
+"Current (saved) status:": "Huidige (opgeslagen) status"
 "Current sessions": "Huidige sessie"
 "Current status:": "Huidige status:"
 "Dashboard": "Dashboard"
 "Database check / update": "Database controleren / bijwerken"
+"Date": "Datum"
+"Datetime": "Datum/tijd"
+"Default status": "Standaard status"
 "Delete %filename%": "Verwijder %filename%"
+"Delete %foldername%": "Verwijder %foldername%"
 "Delete %username%": "Verwijder %username%"
+"Delete selected": "Verwijder geselecteerd"
 "Deleted %s files from cache.": "%s bestanden verwijderd uit de cache"
 "Depublication date:": "Depublicatiedatum:"
+"Depublish selected": "Depubliceer geselecteerd"
 "Deselect all": "Deselecteer alles"
+"Detail template": "Detail template"
+"Details": "Details"
 "Disable %username%": "Schakel %username% uit"
+"Do you really want to delete %foldername%?": "Weet je zeker dat je %foldername% wilt verwijderen?"
 "Done!": "Klaar!"
 "Draft": "Klad"
 "Duplicate %filename%": "Dupliceer %filename%"
@@ -336,8 +294,15 @@
 "Edit file": "Bewerk bestand"
 "Enable %username%": "Schakel %username% in"
 "Everybody": "Iedereen"
+"Everything is up to date!": "Alles is up-to-date!"
 "Excerpt": "Samenvatting"
+"Expand sidebar": "Zijbalk uitklappen"
+"Extend ": "Uitbreiden"
+"Extension": "Extensie"
+"Extension log": "Extensie log"
 "Extensions": "Extensies"
+"Extras": "Extra's"
+"File": "Bestand"
 "File '%file%' could not be uploaded.": "Bestand '%file%' kon niet geüpload worden."
 "File '%file%' was uploaded successfully.": "Bestand '%file%' is goed geüpload."
 "File '%s' could not be saved, for some reason.": "Bestand '%s' kon niet worden opgeslagen, om onduidelijke reden."
@@ -345,54 +310,93 @@
 "File '%s' has been saved.": "Bestand '%s' is opgeslagen."
 "File Management": "Bestandsbeheer"
 "File is not readable!": "Bestand is niet leesbaar!"
+"Filelist": "Bestandenlijst"
 "Files": "Bestanden"
 "Files in %s": "Bestanden in %s"
 "Files on the stack": "Bestanden op de Stack"
 "Filesize": "Bestandsgrootte"
 "Fill the database with Dummy Content": "Vul de database met Dummy-inhoud"
 "Filter": "Filter"
+"Filtering": "Filtering"
+"Filtering …": "Filtering …"
+"Find": "Vind"
+"Floatfield": "Floatveld"
 "Folder '%s' could not be found, or is not readable.": "Map '%s' werd niet gevonden, of is niet leesbaar."
+"Folder permissions insufficient": "Onvoldoende permissies op map"
 "Folders": "Mappen"
+"Full list …": "Volledige lijst…"
+"Geolocation": "Geolocatie"
 "Global Permissions": "Globale permissies"
+"Hints:": "Hints:"
+"Html": "Html"
 "IP address": "IP-adres"
 "If there was a Page with 'about' for a slug, it would've been shown here. But there isn't one, so that's why you're seeing this placeholder.": "Als er een pagina was die 'about' als slug had, dan zou je deze nu hier zien. Maar die is er niet, en daarom zie je deze tekst."
+"If you would like to give the theme an alternative name you can add one here.": "Als je een alternatieve naam wilt opgeven voor het theme, dan kan dat hier."
 "Image": "Afbeelding"
+"Imagelist": "Afbeeldingenlijst"
 "Info": "Info"
+"Install a new Extension": "Installeer een nieuwe extensie"
+"Install all Packages": "Installeer alle packages"
+"Install all updates": "Installeer alle updates"
+"Installation complete": "Installatie voltooid"
+"Installing package": "Package installeren"
+"Installing selected package version (this may take up to 60 seconds).": "Geselecteerde packages worden geinstalleerd. (Dit kan tot 60 seconden duren)"
+"Integerfield": "Integer getallen veld"
 "Last edited on:": "Laatst aangepast op:"
 "Last known IP": "Laatst bekende IP"
 "Last seen": "Laatst gezien"
 "Latest entries": "Nieuwste berichten"
+"Listing template": "Lijst template"
 "Login": "Log in"
+"Logout": "Uitloggen"
 "Long messages": "Lange meldingen"
+"Main configuration": "Algemene configuratie"
 "Maintenance": "Onderhoud"
+"Markdown": "Markdown"
 "Menu setup": "Menu instellingen"
+"Message:": "Bericht:"
 "Messages": "Meldingen"
 "Meta": "Meta"
 "Meta information": "Meta informatie"
 "Modifications made to the database:": "Aanpassingen gedaan aan de database:"
 "Modifications needed:": "Vereiste aanpassingen:"
 "Modified": "Aangepast"
+"More info/help": "Meer info/help"
+"Multiselect": "Multiselect"
+"No Stable Versions Available": "Geen stabiele versies beschikbaar"
+"No Test Versions Available": "Geet testversies beschikbaar"
+"No relations found!": "Geen relaties gevonden!"
 "No results found for '%search%'. Please try another search.": "Geen resultaat gevonden voor '%search%'. Probeer het met een andere zoekterm."
 "No such action for content.": "Die actie kun je niet uitvoeren."
 "No such action for user '%s'.": "Die actie kun je niet uitvoeren op gebruiker '%s'."
+"None": "Geen"
 "Not published": "Niet gepubliceerd"
+"Note:": "Opmerking: "
+"Omnisearch": "Omnisearch"
 "Options": "Opties"
 "Order: %sort%": "Volgorde: %sort%"
+"Other contenttypes": "Andere contenttypes"
 "Overview": "Overzicht"
 "Overview for": "Overzicht van"
 "Owner": "Eigenaar"
 "Owner:": "Eigenaar:"
 "Path": "Pad"
+"Path to image file": "Pad naar afbeeldings-bestand"
 "Path:": "Pad:"
 "Permalink": "Permalink"
 "Permission denied": "Permissie gewiegerd"
 "Permissions": "Permissies"
 "Place on stack": "Plaats op stack"
 "Please choose the record you want to link to:": "Kies het record waarnaar je wilt linken:"
+"Please enter a new file name": "Voer een nieuwe bestandsnaam in"
+"Please enter a new folder name": "Voer een nieuwe mapnaam in"
 "Please log on.": "Inloggen, graag."
 "Please provide a username": "Geef een gebruikersnaam op"
 "Prefill database": "Voorvullen van de database"
+"Preparing to install package …": "Package installatie aan het voorbereiden …"
+"Preparing to remove package …": "Package verwijderen aan het voorbereiden …"
 "Preview": "Voorvertoning"
+"Profile": "Profiel"
 "Provided by:": "Geleverd door:"
 "Publication date:": "Publicatiedatum:"
 "Published": "Gepubliceerd"
@@ -486,7 +490,7 @@
 "of": "van"
 "show all": "Toon alle"
 
-#--- 82 keyword based translations --------------------------------------------
+#--- 81 keyword based translations --------------------------------------------
 
 component:
     changelog-detail:
@@ -569,7 +573,6 @@ page:
             revert: "Terugdraaien"
             save: "Opslaan"
         confirm-revert: "Weet je zeker dat je wilt terugdraaien? Je wijzigingen gaan verloren, tenzij je ze opslaat."
-        path: "Pad:"
         title:
             edit: "Bewerk bestand"
             view: "Bekijk bestand"
