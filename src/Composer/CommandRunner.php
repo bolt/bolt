@@ -188,6 +188,11 @@ class CommandRunner
         $command .= ' -d ' . $this->basedir . ' -n --no-ansi';
         $this->writeLog('command', $command);
 
+        // APC and Composer do NOT get along
+        if (extension_loaded('apc')) {
+            ini_set('apc.enable_cli', 0);
+        }
+
         $output = new \Symfony\Component\Console\Output\BufferedOutput();
         $responseCode = $this->wrapper->run($command, $output);
 
