@@ -55,9 +55,9 @@ function getSelectedItems() {
 // basic form validation before submit, adapted from
 // http://www.sitepoint.com/html5-forms-javascript-constraint-validation-api/
 // =========================================================
- 
+
 function validateContent(form) {
- 
+
     var formLength = form.elements.length,
         f, field, formvalid = true;
 
@@ -87,9 +87,9 @@ function validateContent(form) {
             field.validity = field.validity || {};
             // set to result of validation function
             field.validity.valid = LegacyValidation(field);
- 
+
             // if "invalid" events are required, trigger it here
- 
+
         }
 
         var noticeID = field.id + '-notice';
@@ -104,7 +104,7 @@ function validateContent(form) {
         }
         else {
             // style field, show error, etc.
-            $(field).addClass('error'); 
+            $(field).addClass('error');
 
             var msg = $(field).data('errortext') || 'The '+field.name+' field is required or needs to match a pattern';
 
@@ -114,11 +114,11 @@ function validateContent(form) {
             formvalid = false;
         }
     }
- 
+
     return formvalid;
 }
- 
- 
+
+
 // basic legacy validation checking
 function LegacyValidation(field) {
     var
@@ -130,28 +130,28 @@ function LegacyValidation(field) {
         minlength = field.getAttribute("minlength"),
         maxlength = field.getAttribute("maxlength"),
         pattern = field.getAttribute("pattern");
- 
+
     // disabled fields should not be validated
     if (field.disabled) return valid;
- 
+
     // value required?
     valid = valid && (!required ||
         (chkbox && field.checked) ||
         (!chkbox && val !== "")
     );
- 
+
     // minlength or maxlength set?
     valid = valid && (chkbox || (
         (!minlength || val.length >= minlength) &&
         (!maxlength || val.length <= maxlength)
     ));
- 
+
     // test pattern
     if (valid && pattern) {
         pattern = new RegExp('^(?:'+pattern+')$');
         valid = pattern.test(val);
     }
- 
+
     return valid;
 }
 
@@ -161,30 +161,12 @@ function LegacyValidation(field) {
 /**********************************************************************************************************************/
 
 /**
- * Initialize 'moment' timestamps.
- */
-
-var momentstimeout;
-
-function updateMoments() {
-    $('time.moment').each(function () {
-        var stamp = moment($(this).attr('datetime'));
-
-        $(this).html(stamp.fromNow());
-    });
-    clearTimeout(momentstimeout);
-    momentstimeout = setTimeout(function () {
-        updateMoments();
-    }, 16 * 1000);
-}
-
-/**
  * Auto-update the 'latest activity' widget.
  */
 function updateLatestActivity() {
     $.get(bolt.paths.async + 'latestactivity', function (data) {
         $('#latesttemp').html(data);
-        updateMoments();
+        bolt.moments.update();
         $('#latestactivity').html($('#latesttemp').html());
     });
 
@@ -988,6 +970,50 @@ var Navpopups = Backbone.Model.extend({
 /**
  * Backbone object for all file actions functionality.
  */
+var Moments = Backbone.Model.extend({
+
+    defaults: {
+        timeout: undefined,
+        wait: 16 * 1000 // 16 seconds
+    },
+
+    initialize: function () {
+        // Set locale
+        moment.locale(bolt.locale.long);
+
+        // Something to update?
+        if ($('time.moment').length) {
+            this.update();
+        }
+    },
+
+    update: function () {
+        var that = this,
+            next;
+
+        // Update all moment fields
+        $('time.moment').each(function () {
+            $(this).html(moment($(this).attr('datetime')).fromNow());
+        });
+
+        // Clear pending timeout
+        clearTimeout(this.get('timeout'));
+
+        // Set next call to update
+        next = setTimeout(function () {
+            that.update();
+        }, this.get('wait'));
+
+        // Remember timeout
+        this.set('timeout', next);
+    }
+});
+
+/**********************************************************************************************************************/
+
+/**
+ * Backbone object for all file actions functionality.
+ */
 var Files = Backbone.Model.extend({
 
     defaults: {
@@ -1469,7 +1495,7 @@ var init = {
                         $('p.lastsaved').find('strong').text(moment().format('MMM D, HH:mm'));
                         $('p.lastsaved').find('time').attr('datetime', moment().format());
                         $('p.lastsaved').find('time').attr('title', moment().format());
-                        updateMoments();
+                        bolt.moments.update();
 
                         $('a#lastsavedstatus strong').html(
                             '<i class="fa fa-circle status-' + $("#statusselect option:selected").val() + '"></i> ' +
@@ -2149,17 +2175,6 @@ var init = {
     },
 
     /*
-     * Initialize 'moment' timestamps.
-     *
-     * @returns {undefined}
-     */
-    momentTimestamps: function () {
-        if ($('.moment').is('*')) {
-            updateMoments();
-        }
-    },
-
-    /*
      * Initialize current status display setting focus on status select
      *
      * @returns {undefined}
@@ -2336,13 +2351,6 @@ var init = {
         });
     },
 
-    /*
-     * Initialize moments
-     */
-    moments: function () {
-        moment.locale(bolt.locale.long);
-    }
-
 };
 
 /**********************************************************************************************************************/
@@ -2358,6 +2366,7 @@ jQuery(function ($) {
     bolt.stack = new Stack();
     bolt.sidebar = new Sidebar();
     bolt.navpopups = new Navpopups();
+    bolt.moments = new Moments();
     bolt.imagelist = [];
     bolt.filelist = [];
 
@@ -2382,8 +2391,6 @@ jQuery(function ($) {
     init.uploads();
     init.geolocation();
     init.focusStatusSelect();
-    init.moments();
-    init.momentTimestamps();
 
     $('[data-bind]').each(function () {
         var data = $(this).data('bind');

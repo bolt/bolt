@@ -1,28 +1,10 @@
 /**
- * Initialize 'moment' timestamps.
- */
-
-var momentstimeout;
-
-function updateMoments() {
-    $('time.moment').each(function () {
-        var stamp = moment($(this).attr('datetime'));
-
-        $(this).html(stamp.fromNow());
-    });
-    clearTimeout(momentstimeout);
-    momentstimeout = setTimeout(function () {
-        updateMoments();
-    }, 16 * 1000);
-}
-
-/**
  * Auto-update the 'latest activity' widget.
  */
 function updateLatestActivity() {
     $.get(bolt.paths.async + 'latestactivity', function (data) {
         $('#latesttemp').html(data);
-        updateMoments();
+        bolt.moments.update();
         $('#latestactivity').html($('#latesttemp').html());
     });
 
