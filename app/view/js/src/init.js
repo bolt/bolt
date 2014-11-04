@@ -991,7 +991,7 @@ var init = {
      * Initialize 'moment' timestamps.
      */
     moments: function () {
-        moment.locale(bolt.locale.long);
+        moment().locale(bolt.locale.long);
 
         if ($('.moment').is('*')) {
             updateMoments();
