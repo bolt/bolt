@@ -1,3 +1,5 @@
+{% from '_macro/_translation.twig' import trans_ct %}
+
 {% set sub_hide = [] %}
 
 {% for slug, contenttype in app.config.get('contenttypes') %}
@@ -29,8 +31,10 @@
                 ]) %}
             {% endfor %}
 
+            {% set label = trans_ct(contenttype.slug, 'name.plural', contenttype.name) %}
             {% set active = (page_nav == 'Content/*' and context.contenttype.slug|default == slug) %}
-            {{ nav.submenu(contenttype.icon_many|default(''), contenttype.name, sub, active, true) }}
+
+            {{ nav.submenu(contenttype.icon_many|default(''), label, sub, active, true) }}
 
         {# Contenttypes, where show_in_menu is set false #}
         {% else %}

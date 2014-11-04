@@ -1,0 +1,14 @@
+{##
+ # Get a translation from contentypes.xx.yml based on contentype and key
+ #
+ # @param string  contentype (e.g. 'pages')
+ # @param string  select (e.g. 'name.plural')
+ # @param string  default (defaults to the requested key)
+ #}
+{% macro trans_ct(contentype, select, default) -%}
+    {% spaceless %}
+        {% set key = 'contenttypes.' ~ contentype ~ '.' ~ select %}
+        {% set trans = key|trans([], 'contenttypes') %}
+        {{ (trans == key) ? default|default(key) : trans }}
+    {% endspaceless %}
+{% endmacro %}
