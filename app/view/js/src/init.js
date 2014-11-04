@@ -131,7 +131,7 @@ var init = {
                         $('p.lastsaved').find('strong').text(moment().format('MMM D, HH:mm'));
                         $('p.lastsaved').find('time').attr('datetime', moment().format());
                         $('p.lastsaved').find('time').attr('title', moment().format());
-                        updateMoments();
+                        bolt.moments.update();
 
                         $('a#lastsavedstatus strong').html(
                             '<i class="fa fa-circle status-' + $("#statusselect option:selected").val() + '"></i> ' +
@@ -986,16 +986,5 @@ var init = {
             }
         });
     },
-
-    /*
-     * Initialize 'moment' timestamps.
-     */
-    moments: function () {
-        moment.locale(bolt.locale.long);
-
-        if ($('.moment').is('*')) {
-            updateMoments();
-        }
-    }
 
 };
