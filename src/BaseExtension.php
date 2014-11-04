@@ -350,6 +350,7 @@ abstract class BaseExtension implements ExtensionInterface
         if ($this->twigExtension) {
             return array($this->twigExtension);
         }
+        return array();
     }
 
     /**
