@@ -2372,7 +2372,6 @@ jQuery(function ($) {
     init.dropZone();
     init.popOvers();
     init.dateTimePickers();
-    init.momentTimestamps();
     init.activityWidget();
     init.dropDowns();
     init.deferredWidgets();
@@ -2384,6 +2383,7 @@ jQuery(function ($) {
     init.geolocation();
     init.focusStatusSelect();
     init.moments();
+    init.momentTimestamps();
 
     $('[data-bind]').each(function () {
         var data = $(this).data('bind');
