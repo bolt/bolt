@@ -1,7 +1,7 @@
 Bolt 2.0 "Beta 3" 
 -----------------
 
-Work in progress. Notable changes: 
+Released 2014-11-04. Notable changes: 
 
 - Updated Moments.js to 2.8.3. Use moment.locale() instead of deprecated moment.lang() #2088
 - Fixed: Simplified Html::trimText(), "excerpt" now works better on non-western-european strings. [cl]
