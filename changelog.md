@@ -24,6 +24,10 @@ Released 2014-11-04. Notable changes:
 - Added Pathogen, in order to handle paths on Windows systems better ..
 - .. and immediately factored out [Isolator](https://github.com/IcecaveStudios/isolator), because that shit's just wrong, man. 
 
+Known issues: 
+
+- If you have PHP 5.3 or PHP 5.4 with APC enabled, the installation of extensions might not work. PHP 5.3 and PHP 5.4 _will_ work with APC disabled. PHP 5.5 works as expected, regardless of whether APC is enabled. 
+
 Bolt 2.0 "Beta 2" 
 -----------------
 
