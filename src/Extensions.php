@@ -263,11 +263,13 @@ class Extensions
         }
 
         // Add Twig extensions
-        if ($extension instanceof \Twig_Extension) {
+        if (is_callable(array($extension, 'getTwigExtensions'))) {
             try {
-                $this->app['twig']->addExtension($extension);
-                if (!empty($info['allow_in_user_content'])) {
-                    $this->app['safe_twig']->addExtension($extension);
+                foreach ($extension->getTwigExtensions() as $extension) {
+                    $this->app['twig']->addExtension($extension);
+                    if (!empty($info['allow_in_user_content'])) {
+                        $this->app['safe_twig']->addExtension($extension);
+                    }
                 }
             } catch (\Exception $e) {
                 $this->app['log']->add("[EXT] Failed to regsiter Twig extension for {$name}: " . $e->getMessage(), 2);
