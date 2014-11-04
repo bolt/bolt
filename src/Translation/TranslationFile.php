@@ -575,7 +575,7 @@ class TranslationFile
             $msg = Trans::__("The translations file '%s' is not readable.", $msgRepl);
             $this->app->abort(404, $msg);
         // File is not writeable: warning
-        } elseif (!is_writable($this->absPath)) {
+        } elseif (!is_writable(dirname($this->absPath))) {
             $msg = Trans::__(
                 "The file '%s' is not writable. You will have to use your own editor to make modifications to this file.",
                 $msgRepl
