@@ -5,7 +5,7 @@
  # @param string  select (e.g. 'name.plural')
  # @param string  default (defaults to the requested key)
  #}
-{% macro ct_trans(contentype, select, default) -%}
+{% macro trans_ct(contentype, select, default) -%}
     {% spaceless %}
         {% set key = 'contenttypes.' ~ contentype ~ '.' ~ select %}
         {% set trans = key|trans([], 'contenttypes') %}
