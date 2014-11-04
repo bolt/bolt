@@ -7,7 +7,12 @@ class TwigExtension extends \Twig_Extension
 {
     public $functions;
     public $filters;
+    public $name;
 
+    public function __construct($name)
+    {
+        $this->name = $name;
+    }
     
     
     public function getFunctions()
@@ -18,6 +23,11 @@ class TwigExtension extends \Twig_Extension
     public function getFilters()
     {
         return $this->filters;
+    }
+    
+    public function getName()
+    {
+        return $this->name;
     }
     
     

@@ -340,7 +340,7 @@ abstract class BaseExtension implements ExtensionInterface
     protected function initializeTwig()
     {
         if (!$this->twigExtension) {
-            $this->twigExtension = new TwigProxy();
+            $this->twigExtension = new TwigProxy($this->getName());
         }
     }
     
