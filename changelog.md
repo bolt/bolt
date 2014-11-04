@@ -3,6 +3,7 @@ Bolt 2.0 "Beta 3"
 
 Work in progress. Notable changes: 
 
+- Fixed: Breadcrumbs in "edit file" screens work correctly now. #2077
 - Fixed: Proper sorting in Backend overview. Fixes #2036
 - Fixed: "open_basedir restriction in effect" error related to Composer.
 - Fixed: "File(`/dev/urandom`) is not within the allowed path(s)" error. 
