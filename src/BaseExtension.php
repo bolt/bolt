@@ -2,7 +2,7 @@
 namespace Bolt;
 
 use Bolt\Extensions\ExtensionInterface;
-use Bolt\Extensions\TwigExtension as TwigProxy;
+use Bolt\Extensions\TwigProxy;
 use Bolt\Library as Lib;
 use Bolt\Helpers\Arr;
 use Symfony\Component\Console\Command\Command;
