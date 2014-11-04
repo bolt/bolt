@@ -1,4 +1,4 @@
-# app/resources/translations/nl_NL/messages.nl_NL.yml – generated on 2014-11-04 09:28:37 UTC
+# app/resources/translations/nl_NL/messages.nl_NL.yml – generated on 2014-11-04 09:40:30 UTC
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
 #          at the moment. This is an ongoing process. Translations currently in the 
@@ -9,9 +9,9 @@
 #          in order to prevent merge conflicts.
 
 #  58 unused messages
-#  60 untranslated messages
+#  32 untranslated messages
 #  47 untranslated keyword based messages
-# 299 translations
+# 327 translations
 #  81 keyword based translations
 
 #--- 58 unused messages -------------------------------------------------------
@@ -75,33 +75,14 @@
 "Skip to content": #
 "page.edit-file.path": "Pad:"
 
-#--- 60 untranslated messages -------------------------------------------------
+#--- 32 untranslated messages -------------------------------------------------
 
 "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": #
-"Fontawesome Icon": #
-"Id": #
 "Password reset not successful! Either the token was incorrect, or you were too late, or you tried to reset the password from a different IP-address.": #
 "Password reset successful! You can now log on with the password that was sent to you via email.": #
-"Publish selected": #
-"Related content": #
-"Rename %foldername%": #
-"Run all Updates": #
-"Run update check": #
-"Running install of all packages …": #
-"Save & create new record": #
-"Search for …": #
-"Searching for available updates …": #
-"Select file …": #
 "Selectentry": #
 "Selectfield": #
-"Slug": #
-"Something went wrong": #
-"Sorting": #
-"Stable versions": #
 "Status": #
-"Teaser": #
-"Template": #
-"Textarea": #
 "The extensions directory (<code>%dir%</code>) does not exist, or it is not writable.": #
 "The field %field% has been changed to \"%newValue%\"": #
 "The folder '%s' could not be found, or is not readable.": #
@@ -109,21 +90,15 @@
 "The versions listed below are compatible with the version of Bolt you are using. Since they are unstable versions, we recommend you <strong>do not</strong> use these on production systems.": #
 "The versions listed below are marked as stable releases by the developer and are compatible with the version of Bolt you are currently using.": #
 "Theme installation complete": #
-"There are no items on the Stack, yet.": #
 "There are no users present in the system. Please create the first user, which will be granted root privileges.": #
 "There should always be at least one 'root' user. You have just been promoted. Congratulations!": #
-"This record is related to:": #
 "This will install all available updates.": #
 "This will make sure all packages listed are installed. Use this if you've recently moved to a new server or if you have manually added an extension.": #
 "This won't install anything, just show you available updates": #
 "Timed publish": #
 "Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": #
-"Types": #
 "Unstable test versions": #
-"Updates": #
 "Upload a file to this folder": #
-"Version": #
-"Video": #
 "View (saved version) on site": #
 "View related content": #
 "View/install Extensions": #
@@ -134,9 +109,6 @@
 "You don't have the correct permissions to display the file or directory '%s'.": #
 "You should set 'homepage:' in your 'app/config/config.yml' to an existing record. Make sure that the content is published, otherwise it will not be shown.": #
 "Your Currently Installed Extensions": #
-"in:": #
-"no content …": #
-"no title …": #
 
 #--- 47 untranslated keyword based messages -----------------------------------
 
@@ -188,7 +160,7 @@
 "page.login.title": #
 "panel.user-actions.button.add": #
 
-#--- 299 translations ---------------------------------------------------------
+#--- 327 translations ---------------------------------------------------------
 
 "%name% № %id%": "%name% № %id%"
 "%s files could not be deleted. You should delete them manually.": "%s bestanden konden niet verwijderd worden. Verwijder deze handmatig."
@@ -324,12 +296,14 @@
 "Folder '%s' could not be found, or is not readable.": "Map '%s' werd niet gevonden, of is niet leesbaar."
 "Folder permissions insufficient": "Onvoldoende permissies op map"
 "Folders": "Mappen"
+"Fontawesome Icon": "Fontawesome icoon"
 "Full list …": "Volledige lijst…"
 "Geolocation": "Geolocatie"
 "Global Permissions": "Globale permissies"
 "Hints:": "Hints:"
 "Html": "Html"
 "IP address": "IP-adres"
+"Id": "Id"
 "If there was a Page with 'about' for a slug, it would've been shown here. But there isn't one, so that's why you're seeing this placeholder.": "Als er een pagina was die 'about' als slug had, dan zou je deze nu hier zien. Maar die is er niet, en daarom zie je deze tekst."
 "If you would like to give the theme an alternative name you can add one here.": "Als je een alternatieve naam wilt opgeven voor het theme, dan kan dat hier."
 "Image": "Afbeelding"
@@ -399,23 +373,33 @@
 "Profile": "Profiel"
 "Provided by:": "Geleverd door:"
 "Publication date:": "Publicatiedatum:"
+"Publish selected": "Publiceer geselecteerde"
 "Published": "Gepubliceerd"
 "Published on:": "Gepubliceerd op:"
 "Read more": "Lees verder"
+"Related content": "Gerelateerde content"
 "Related content:": "Gerelateerde content:"
 "Relationships": "Relaties"
+"Rename %foldername%": "Hernoem %foldername%"
 "Roles": "Rollen"
 "Roles and Permissions": "Rollen en permissies"
 "Routing setup": "Route instellingen"
+"Run all Updates": "Doe alle updates"
+"Run update check": "Doe update check"
+"Running install of all packages …": "Doe installatie voor alle pacakges"
+"Save & create new record": "Sla op & maak nieuwe"
 "Save & return to overview": "Sla op & naar overzicht"
 "Saved on:": "Opgeslagen op:"
 "Saving …": "Opslaan…"
 "Search": "Zoeken"
+"Search for …": "Zoek naar …"
 "Search results for <b> %search% </b>.": "Zoekresultaten voor <b> %search% </b>."
 "Search …": "Zoek…"
+"Searching for available updates …": "Zoek naar beschikbare updates …"
 "Select": "Kies"
 "Select a page": "Kies een pagina"
 "Select all": "Selecteer alles"
+"Select file …": "Kies bestand …"
 "Select none": "Selecteer niets"
 "Select zero or more pages": "Kies nul of meer pagina's"
 "Session expires": "Sessie verloopt"
@@ -426,13 +410,20 @@
 "Size": "Grootte"
 "Skipped <tt>%key%</tt> (already has records)": "Overgeslagen: <tt>%key%</tt> (deze heeft al records)"
 "Skipped <tt>%key%</tt> (not checked)": "Overgeslagen: <tt>%key%</tt> (niet aangevinkt)"
+"Slug": "Slug"
 "Slug:": "Slug:"
+"Something went wrong": "Er ging iets mis"
 "Sophisticated, lightweight & simple CMS": "Weldoordacht, lichtgewicht en eenvoudig CMS"
+"Sorting": "Sorteren"
+"Stable versions": "Stabiele versies"
 "Stack": "Stack"
 "Status:": "Status:"
 "Tag": "Tag"
 "Tags": "Tags"
 "Taxonomy": "Taxonomie"
+"Teaser": "Ankeiler"
+"Template": "Template"
+"Textarea": "Tekstveld"
 "Thanks": "Bedankt"
 "That user does not exist.": "Die gebruiker bestaat niet."
 "The activitylog has been cleared.": "De activiteitenlog is gewist."
@@ -446,14 +437,18 @@
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "De slug '%slug%' wordt gebruikt in meerdere contenttypes. Bewerk contenttypes.yml, en maak ze verschillend."
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "Het vertalingenbestand '%s' is niet schrijfbaar. Gebruik je eigen editor om wijzigingen aan dit bestand aan te brengen."
 "The translations file '%s' is not readable.": "Het vertalingenbestand '%s' is niet leesbaar."
+"There are no items on the Stack, yet.": "Nog geen bestanden op de Stack."
 "There are no users in the database. Please create the first user.": "Er zijn geen gebruikers in de database. Maak nu de eerste gebruiker aan."
 "This is a checkbox": "Dit is een checkbox"
+"This record is related to:": "Dit record is gerelateerd aan:"
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Deze website is <a href='%url%' target='_blank' title='Weldoordacht, lichtgewicht en eenvoudig CMS'>Gebouwd met Bolt</a>."
 "Tip:": "Tip:"
 "Title": "Titel"
 "Translations": "Vertalingen"
 "Trim Activitylog": "Verklein activiteitenlog"
+"Types": "Types"
 "Update the database": "Werk de database bij"
+"Updates": "Updates"
 "Upload": "Uploaden"
 "Upload file": "Upload bestand"
 "Upload image": "Upload beeld"
@@ -469,7 +464,9 @@
 "Username": "Gebruikersnaam"
 "Username or password not correct. Please check your input.": "Gebruikersnaam of wachtwoord niet juist. Controleer de invoer, en probeer opnieuw."
 "Users": "Gebruikers"
+"Version": "Versie"
 "Version:": "Versie:"
+"Video": "Video"
 "View on site": "Bekijk op site"
 "View site": "Bekijk site"
 "View/edit Templates": "Bekijk / bewerk templates"
@@ -485,7 +482,10 @@
 "and edited": "en bewerkt"
 "back to editing": "terug naar bewerken"
 "by": "door"
+"in:": "in:"
 "line": "regel"
+"no content …": "geen content …"
+"no title …": "geen titel …"
 "none": "geen"
 "of": "van"
 "show all": "Toon alle"
