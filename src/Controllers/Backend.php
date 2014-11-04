@@ -1663,9 +1663,11 @@ class Backend implements ControllerProviderInterface
             try {
                 // Catch-22: If namespace is 'theme', we actually want to have 'themebase'.
                 if ($namespace == "theme") {
-                    $namespace = "themebase";
+                    $path = $app['resources']->getPath("themebase");
+                } else {
+                    $path = $app['resources']->getPath($namespace);
                 }
-                $path = $app['resources']->getPath($namespace);
+                
                 $filename = realpath($path . "/" . $file);
             } catch (\Exception $e) {
                 $path = $app['resources']->getPath('files');
