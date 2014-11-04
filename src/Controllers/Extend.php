@@ -253,7 +253,7 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
     public function before(Request $request, \Bolt\Application $app)
     {
         
-        // This disallows extensions from adding any extra snippets to the 
+        // This disallows extensions from adding any extra snippets to the output
         if ($request->get("_route") !== 'extend') {
             $app['htmlsnippets'] = false;
         }
