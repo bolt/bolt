@@ -623,6 +623,9 @@ var init = {
 
             // Set Datepicker
             inpDate.datepicker(options);
+            if (id == 'datedepublish' && inpData.val() == '1900-01-01 00:00:00') {
+                setDate = '';
+            }
             inpDate.datepicker('setDate', setDate);
 
             // If a time field exists, bind it

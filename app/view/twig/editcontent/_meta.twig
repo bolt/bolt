@@ -1,3 +1,57 @@
+{#=== INIT ===========================================================================================================#}
+
+{% set can_publish = isallowed('contenttype:' ~ context.contenttype.slug ~ ':publish:' ~ context.content.id) %}
+{% set can_depublish = isallowed('contenttype:' ~ context.contenttype.slug ~ ':depublish:' ~ context.content.id) %}
+
+{% set attr_publish_date = {
+    class:    'form-control datepicker',
+    id:       'datepublish-date',
+    name:     'datepublish-dateformatted',
+    type:     'text',
+    value:    '',
+    disabled:  (not can_publish),
+}%}
+
+{% set attr_publish_time = {
+    class:     'form-control timepicker',
+    id:        'datepublish-time',
+    name:      'datepublish-timeformatted',
+    type:      'time',
+    value:     context.content.datepublish > '1900-01-01 00:00:00' ? context.content.datepublish|date('H:i') : '',
+    disabled:  (not can_publish),
+}%}
+
+{% set attr_publish_hidden = {
+    name_id:  'datepublish',
+    type:     'hidden',
+    value:    context.content.datepublish,
+}%}
+
+{% set attr_depublish_date = {
+    class:    'form-control datepicker',
+    id:       'datedepublish-date',
+    name:     'datedepublish-dateformatted',
+    type:     'text',
+    value:    '',
+    disabled:  (not can_depublish),
+}%}
+
+{% set attr_depublish_time = {
+    class:     'form-control timepicker',
+    id:        'datedepublish-time',
+    name:      'datedepublish-timeformatted',
+    type:      'time',
+    value:     context.content.datedepublish > '1900-01-01 00:00:00' ? context.content.datepublish|date('H:i') : '',
+    disabled:  (not can_depublish),
+}%}
+
+{% set attr_depublish_hidden = {
+    name_id:  'datedepublish',
+    type:     'hidden',
+    value:    context.content.datedepublish,
+}%}
+
+{#====================================================================================================================#}
 
 <div class="tabgrouping" data-tab="meta">
 
@@ -16,55 +70,23 @@
 
     <input type="hidden" name="editreferrer" id="editreferrer"{% if editreferrer is defined %} value="{{ editreferrer }}"{% endif %}>
 
-    {% set can_publish = isallowed('contenttype:' ~ context.contenttype.slug ~ ':publish:' ~ context.content.id) %}
-
     <div class="form-group">
         {{ macro.label(__('Publication date:'), '', 'col-sm-4 control-label') }}
         <div class="col-sm-8">
-            <input type="text" name="datepublish-dateformatted" id="datepublish-date"
-                   {% if not can_publish %}disabled="disabled"{%endif%}
-                   value="{{ context.content.datepublish|localdate('%A')|capitalize ~ context.content.datepublish|date(', d') ~ context.content.datepublish|localdate(' %B') ~ context.content.datepublish|date(' Y') }}" class="form-control datepicker">
-            <input type="text" name="datepublish-timeformatted" id="datepublish-time"
-                   {% if not can_publish %}disabled="disabled"{%endif%}
-                   value="{{ context.content.datepublish|date('H:i') }}" class="form-control timepicker">
-            <input type="hidden" name="datepublish" id="datepublish" value="{{ context.content.datepublish }}">
+            <input{{ macro.attr(attr_publish_date) }}>
+            <input{{ macro.attr(attr_publish_time) }}>
+            <input{{ macro.attr(attr_publish_hidden) }}>
         </div>
     </div>
-
-    {% if isallowed('contenttype:' ~ context.contenttype.slug ~ ':publish:' ~ context.content.id) %}
-    <script>
-        $('#datepublish-date, #datepublish-time').on('change', function(){
-            var date = $('#datepublish-date').datepicker("getDate");
-            var time = $.formatDateTime('hh:ii:00', new Date('2014/01/01 ' + $('#datepublish-time').val() ));
-            $('#datepublish').val($.datepicker.formatDate('yy-mm-dd', date)+" "+time);
-        });
-    </script>
-    {% endif %}
-
-    {% set can_depublish = isallowed('contenttype:' ~ context.contenttype.slug ~ ':depublish:' ~ context.content.id) %}
 
     <div class="form-group">
         {{ macro.label(__('Depublication date:'), '', 'col-sm-4 control-label') }}
         <div class="col-sm-8">
-            <input type="text" name="datedepublish-dateformatted" id="datedepublish-date"
-                   {% if not can_depublish %}disabled="disabled"{%endif%}
-                   value="{% if context.content.datedepublish > '1970-01-01 01:01:01' %}{{ context.content.datedepublish|localdate('%A')|capitalize ~ context.content.datedepublish|date(', d') ~ context.content.datedepublish|localdate(' %B') ~ context.content.datedepublish|date(' Y') }}{% endif %}" class="form-control datepicker">
-            <input type="text" name="datedepublish-timeformatted" id="datedepublish-time"
-                   {% if not can_depublish %}disabled="disabled"{%endif%}
-                   value="{% if context.content.datedepublish > '1970-01-01 01:01:01' %}{{ context.content.datedepublish|date('H:i') }}{% endif %}" class="form-control timepicker">
-            <input type="hidden" name="datedepublish" id="datedepublish" value="{{ context.content.datedepublish }}">
+            <input{{ macro.attr(attr_depublish_date) }}>
+            <input{{ macro.attr(attr_depublish_time) }}>
+            <input{{ macro.attr(attr_depublish_hidden) }}>
         </div>
     </div>
-
-    {% if isallowed('contenttype:' ~ context.contenttype.slug ~ ':depublish:' ~ context.content.id) %}
-    <script>
-        $('#datedepublish-date, #datedepublish-time').on('change', function(){
-            var date = $('#datedepublish-date').datepicker("getDate");
-            var time = $.formatDateTime('hh:ii:00', new Date('2014/01/01 ' + $('#datedepublish-time').val() ));
-            $('#datedepublish').val($.datepicker.formatDate('yy-mm-dd', date)+" "+time);
-        });
-    </script>
-    {% endif %}
 
     {% if context.content.datecreated > '1970-01-01 01:01:01' %}
     <p>{{ __('contenttypes.generic.created', {'%contenttype%': context.contenttype.slug}) }}
