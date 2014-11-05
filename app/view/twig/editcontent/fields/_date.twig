@@ -4,15 +4,14 @@
     class:     field.class|default(''),
     label:     field.label|default(''),
     info:      field.info|default(''),
-    options:   field.options.datepicker|default(''),   
+    options:   field.options.datepicker|default(''),
     required:  field.required|default(false),
-    errortext: field.error|default(''),    
+    errortext: field.error|default(''),
 }%}
 
 {#=== INIT ===========================================================================================================#}
 
 {% set attr_date = {
-    _bind:  ['date', {id: key}],
     class:  option.class~' datepicker',
     id:     key~'-date',
     name:   key~'-dateformatted',

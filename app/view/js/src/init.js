@@ -14,19 +14,6 @@ var init = {
     },
 
     /*
-     * Bind date field
-     *
-     * @param {object} data
-     * @returns {undefined}
-     */
-    bindDate: function (data) {
-        $('#' + data.id + '-date').on('change.bolt', function () {
-            var date = $('#' + data.id + '-date').datepicker('getDate');
-            $('#' + data.id).val($.datepicker.formatDate('yy-mm-dd', date));
-        }).trigger('change.bolt');
-    },
-
-    /*
      * Bind datetime field
      *
      * @param {object} data
@@ -648,8 +635,19 @@ var init = {
                 inpData.val(date + ' ' + time)
             };
 
+            // Set Datepicker
             inpDate.datepicker(options);
             inpDate.datepicker('setDate', setDate);
+
+            // If a time field exists, bind it
+            if (inpTime.length) {
+                inpTime.change(function () {
+                    var date = $.datepicker.formatDate('yy-mm-dd', inpDate.datepicker('getDate')),
+                        time = $.formatDateTime('hh:ii:00', new Date('2014/01/01 ' + inpTime.val()));
+                    // TODO: Validate time format, as Browser like Firefox with no input.time accept illegal input
+                    hiddenField.val(date + ' ' + time);
+                });
+            }
         });
     },
 
