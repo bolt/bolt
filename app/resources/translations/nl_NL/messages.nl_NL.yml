@@ -1,4 +1,4 @@
-# app/resources/translations/nl_NL/messages.nl_NL.yml – generated on 2014-11-05 09:43:39 UTC
+# app/resources/translations/nl_NL/messages.nl_NL.yml – generated on 2014-11-05 13:47:01 UTC
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
 #          at the moment. This is an ongoing process. Translations currently in the 
@@ -10,9 +10,9 @@
 
 #  60 unused messages
 #  no untranslated messages
-#  11 untranslated keyword based messages
+#  no untranslated keyword based messages
 # 357 translations
-# 117 keyword based translations
+# 128 keyword based translations
 
 #--- 60 unused messages -------------------------------------------------------
 
@@ -76,20 +76,6 @@
 "page.edit-file.path": "Pad:"
 "Fontawesome Icon": "Fontawesome icoon"
 "Sorting": "Sorteren"
-
-#--- 11 untranslated keyword based messages -----------------------------------
-
-"component.changelog-detail.field": #
-"component.changelog-detail.value-old": #
-"component.changelog-pager.page": #
-"contenttypes.generic.no-proper-type": #
-"field.slug.message.set": #
-"field.slug.message.unlock": #
-"field.video.matched-video": #
-"page.edit-file.note-related": #
-"page.edit-users.label.user-enabled": #
-"page.edit-users.message.saving-user": #
-"page.edit-users.note-sqlite": #
 
 #--- 357 translations ---------------------------------------------------------
 
@@ -451,12 +437,16 @@
 "of": "van"
 "show all": "Toon alle"
 
-#--- 117 keyword based translations -------------------------------------------
+#--- 128 keyword based translations -------------------------------------------
 
 component:
     changelog-detail:
         by: "door"
+        field: "veld"
         value-new: "nieuwe waarde"
+        value-old: "oude waarde"
+    changelog-pager:
+        page: "pagina"
 
 contenttypes:
     generic:
@@ -472,6 +462,7 @@ contenttypes:
         last-modified: "Laatst aangepaste %contenttypes%"
         new: "Nieuwe %contenttype%"
         no-latest: "Geen nieuwste %contenttype%"
+        no-proper-type: "In the contenttype for '%contenttype%', the field '%field%' has 'type: %type%', which is not a proper field type. Please edit contenttypes.yml, and correct this."
         no-recent: "Geen recente %contenttype%."
         none-available: "Geen %contenttypes% beschikbaar."
         not-existing: "Het record van %contenttype% dat je zoekt bestaat niet. Het is ofwel verwijderd, of het heeft nooit bestaan."
@@ -504,6 +495,9 @@ field:
         placeholder:
             address: "Adres invullen"
     slug:
+        message:
+            set: "Stel de slug in als:"
+            unlock: "Weet je zeker dat je de slug wilt ontgrendelen? Dit kan mogelijk bestaande links naar deze record breken."
         permalink: "Permalink"
     video:
         button:
@@ -512,6 +506,7 @@ field:
             preview: "Voorbeeld video"
             size: "Grootte"
             url: "Url naar video"
+        matched-video: "Gevonden video"
         pixel: "pixels"
         placeholder:
             url: "Url van de video invullen"
@@ -543,6 +538,7 @@ page:
             revert: "Terugdraaien"
             save: "Opslaan"
         confirm-revert: "Weet je zeker dat je wilt terugdraaien? Je wijzigingen gaan verloren, tenzij je ze opslaat."
+        note-related: "Gerelateerde opmerking"
         title:
             edit: "Bewerk bestand"
             view: "Bekijk bestand"
@@ -572,12 +568,15 @@ page:
             last-seen: "Laatst gezien"
             password: "Wachtwoord"
             password-confirm: "Wachtwoord bevestigen"
+            user-enabled: "Gebruiker ingeschakeld"
             username: "Gebruikersnaam"
         log:
-            user-added: "Gebruiker toegevoegd"
-            user-updated: "Gebruiker opgeslagen"
+            user-added: "Gebruiker '%gebruiker%' toegevoegd"
+            user-updated: "Gebruiker '%gebruiker%' bijgewerkt"
         message:
-            user-saved: "Gebruiker opgeslagen"
+            saving-user: "Gebruiker %user% kon niet worden opgeslagen, of er was niets aangepast."
+            user-saved: "Gebruiker %gebruiker% is opgeslagen"
+        note-sqlite: "Je gebruikt momenteel SQLite om de eerste gebruiker aan te maken. Als je liever MySQL of PostgreSQL wilt gebruikern, pas dan het configuratie-bestand op <tt>'app/config/config.yml'</tt> aan, en Bolt zal de database tabellen voor je aanmaken. Denk er dan aan om deze pagina te herladen, voor je doorgaat."
         placeholder:
             displayname: "Weergavenaam invullen"
             email: "E-mailadres invullen"
