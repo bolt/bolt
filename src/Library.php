@@ -192,6 +192,8 @@ class Library
      */
     public static function simpleredirect($path, $abort = true)
     {
+        $app = ResourceManager::getApp();
+
         if (empty($path)) {
             $path = "/";
         }
@@ -276,6 +278,7 @@ class Library
      */
     public static function saveSerialize($filename, &$data)
     {
+        $app = ResourceManager::getApp();
         $filename = self::fixPath($filename);
 
         $ser_string = '<?php /* bolt */ die(); ?>json:' . json_encode($data);
