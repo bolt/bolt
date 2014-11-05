@@ -1,4 +1,4 @@
-# app/resources/translations/nl_NL/messages.nl_NL.yml – generated on 2014-11-04 09:40:30 UTC
+# app/resources/translations/nl_NL/messages.nl_NL.yml – generated on 2014-11-05 09:43:39 UTC
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
 #          at the moment. This is an ongoing process. Translations currently in the 
@@ -8,13 +8,13 @@
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#  58 unused messages
-#  32 untranslated messages
-#  47 untranslated keyword based messages
-# 327 translations
-#  81 keyword based translations
+#  60 unused messages
+#  no untranslated messages
+#  11 untranslated keyword based messages
+# 357 translations
+# 117 keyword based translations
 
-#--- 58 unused messages -------------------------------------------------------
+#--- 60 unused messages -------------------------------------------------------
 
 "%contenttypes%": "%contenttypes%"
 "A menu with this name already exists …": "Er bestaat al een menu met deze naam…"
@@ -74,93 +74,24 @@
 "Search…": #
 "Skip to content": #
 "page.edit-file.path": "Pad:"
+"Fontawesome Icon": "Fontawesome icoon"
+"Sorting": "Sorteren"
 
-#--- 32 untranslated messages -------------------------------------------------
-
-"File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": #
-"Password reset not successful! Either the token was incorrect, or you were too late, or you tried to reset the password from a different IP-address.": #
-"Password reset successful! You can now log on with the password that was sent to you via email.": #
-"Selectentry": #
-"Selectfield": #
-"Status": #
-"The extensions directory (<code>%dir%</code>) does not exist, or it is not writable.": #
-"The field %field% has been changed to \"%newValue%\"": #
-"The folder '%s' could not be found, or is not readable.": #
-"The settings for roles and permissions are stored in <code>%permissions%</code>.": #
-"The versions listed below are compatible with the version of Bolt you are using. Since they are unstable versions, we recommend you <strong>do not</strong> use these on production systems.": #
-"The versions listed below are marked as stable releases by the developer and are compatible with the version of Bolt you are currently using.": #
-"Theme installation complete": #
-"There are no users present in the system. Please create the first user, which will be granted root privileges.": #
-"There should always be at least one 'root' user. You have just been promoted. Congratulations!": #
-"This will install all available updates.": #
-"This will make sure all packages listed are installed. Use this if you've recently moved to a new server or if you have manually added an extension.": #
-"This won't install anything, just show you available updates": #
-"Timed publish": #
-"Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": #
-"Unstable test versions": #
-"Upload a file to this folder": #
-"View (saved version) on site": #
-"View related content": #
-"View/install Extensions": #
-"You can discover new extensions by visiting": #
-"You can now start using the installed extension, documentation and implementation instructions can be found using the link below.": #
-"You do not have the right privileges to create a new record.": #
-"You don't have correct permissions to edit the file '%s'.": #
-"You don't have the correct permissions to display the file or directory '%s'.": #
-"You should set 'homepage:' in your 'app/config/config.yml' to an existing record. Make sure that the content is published, otherwise it will not be shown.": #
-"Your Currently Installed Extensions": #
-
-#--- 47 untranslated keyword based messages -----------------------------------
+#--- 11 untranslated keyword based messages -----------------------------------
 
 "component.changelog-detail.field": #
 "component.changelog-detail.value-old": #
 "component.changelog-pager.page": #
 "contenttypes.generic.no-proper-type": #
-"field.geolocation.label.address-lookup": #
-"field.geolocation.label.marker-placement": #
-"field.geolocation.placeholder.address": #
 "field.slug.message.set": #
 "field.slug.message.unlock": #
-"field.video.label.preview": #
-"field.video.label.url": #
 "field.video.matched-video": #
-"field.video.pixel": #
-"field.video.placeholder.url": #
 "page.edit-file.note-related": #
-"page.edit-users.activated.no": #
-"page.edit-users.activated.yes": #
-"page.edit-users.button.save": #
-"page.edit-users.error.email-used": #
-"page.edit-users.error.password-mismatch": #
-"page.edit-users.error.password-short": #
-"page.edit-users.error.username-used": #
-"page.edit-users.label.assigned-roles": #
-"page.edit-users.label.display-name": #
-"page.edit-users.label.email": #
-"page.edit-users.label.last-ip": #
-"page.edit-users.label.last-seen": #
-"page.edit-users.label.password": #
-"page.edit-users.label.password-confirm": #
 "page.edit-users.label.user-enabled": #
-"page.edit-users.label.username": #
-"page.edit-users.log.user-added": #
-"page.edit-users.log.user-updated": #
 "page.edit-users.message.saving-user": #
-"page.edit-users.message.user-saved": #
 "page.edit-users.note-sqlite": #
-"page.edit-users.placeholder.displayname": #
-"page.edit-users.placeholder.email": #
-"page.edit-users.placeholder.password": #
-"page.edit-users.placeholder.password-confirm": #
-"page.edit-users.placeholder.username": #
-"page.edit-users.title.profile": #
-"page.edit-users.user-create": #
-"page.edit-users.user-edit": #
-"page.login.cookies-required": #
-"page.login.title": #
-"panel.user-actions.button.add": #
 
-#--- 327 translations ---------------------------------------------------------
+#--- 357 translations ---------------------------------------------------------
 
 "%name% № %id%": "%name% № %id%"
 "%s files could not be deleted. You should delete them manually.": "%s bestanden konden niet verwijderd worden. Verwijder deze handmatig."
@@ -275,6 +206,7 @@
 "Extensions": "Extensies"
 "Extras": "Extra's"
 "File": "Bestand"
+"File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": "Het bestand '%file%' kon niet worden geÃ¼pload (foutief bestandstype). Zorg ervoor dat de bestandsextensie een van de volgende is."
 "File '%file%' could not be uploaded.": "Bestand '%file%' kon niet geüpload worden."
 "File '%file%' was uploaded successfully.": "Bestand '%file%' is goed geüpload."
 "File '%s' could not be saved, for some reason.": "Bestand '%s' kon niet worden opgeslagen, om onduidelijke reden."
@@ -296,7 +228,6 @@
 "Folder '%s' could not be found, or is not readable.": "Map '%s' werd niet gevonden, of is niet leesbaar."
 "Folder permissions insufficient": "Onvoldoende permissies op map"
 "Folders": "Mappen"
-"Fontawesome Icon": "Fontawesome icoon"
 "Full list …": "Volledige lijst…"
 "Geolocation": "Geolocatie"
 "Global Permissions": "Globale permissies"
@@ -354,6 +285,8 @@
 "Overview for": "Overzicht van"
 "Owner": "Eigenaar"
 "Owner:": "Eigenaar:"
+"Password reset not successful! Either the token was incorrect, or you were too late, or you tried to reset the password from a different IP-address.": "Resetten van het wachtwoord is mislukt! Is het token correct? Wellicht heeft u te lang gewacht of geprobeerd het wachtwoord te resetten vanaf een ander ip-adres."
+"Password reset successful! You can now log on with the password that was sent to you via email.": "Gelukt! Je kunt nu inloggen met het wachtwoord dat per e-mail is verzonden."
 "Path": "Pad"
 "Path to image file": "Pad naar afbeeldings-bestand"
 "Path:": "Pad:"
@@ -402,6 +335,8 @@
 "Select file …": "Kies bestand …"
 "Select none": "Selecteer niets"
 "Select zero or more pages": "Kies nul of meer pagina's"
+"Selectentry": "Selecteer bericht"
+"Selectfield": "Selecteer veld"
 "Session expires": "Sessie verloopt"
 "Session resumed.": "Sessie hervat."
 "Settings": "Instellingen"
@@ -414,9 +349,9 @@
 "Slug:": "Slug:"
 "Something went wrong": "Er ging iets mis"
 "Sophisticated, lightweight & simple CMS": "Weldoordacht, lichtgewicht en eenvoudig CMS"
-"Sorting": "Sorteren"
 "Stable versions": "Stabiele versies"
 "Stack": "Stack"
+"Status": "Status"
 "Status:": "Status:"
 "Tag": "Tag"
 "Tags": "Tags"
@@ -429,27 +364,43 @@
 "The activitylog has been cleared.": "De activiteitenlog is gewist."
 "The activitylog has been trimmed.": "De activiteitenlog is verkleind."
 "The database needs to be updated/repaired. Go to 'Settings' > '<a href=\"%link%\">Check Database</a>' to do this now.": "De database moet bijgewerkt of gerepareerd worden. Ga naar 'Instellingen' > '<a href=\"%link%\">Controleer Database</a>' om dit nu te doen."
+"The extensions directory (<code>%dir%</code>) does not exist, or it is not writable.": "De directory voor extensies (<code>%dir%</code> bestaat niet of is niet schrijfbaar."
+"The field %field% has been changed to \"%newValue%\"": "Het veld %field% is gewijzigd in \"%newValue%\"."
 "The file '%s' doesn't exist, or is not readable.": "Het bestand '%s' bestaat niet, of is niet leesbaar."
 "The file '%s' is not writable. You will have to use your own editor to make modifications to this file.": "Het bestand '%s' is niet schrijfbaar. Gebruik je eigen editor om wijzigingen in dit bestand aan te brengen."
+"The folder '%s' could not be found, or is not readable.": "De map '%s' kon niet worden gevonden of is niet schrijfbaar."
 "The following file could not be read:": "Het volgende bestand kon niet worden gelezen:"
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "De identifier en slug voor '%taxonomytype%' zijn niet hetzelfde ('%slug%' vs. '%taxonomytype%'). Bewerk taxonomy.yml, en laat ze overeenkomen om inconsistenties tussen de database-opslag en je templates te voorkomen."
 "The requested changelog entry doesn't exist.": "De gevraagde changelog-regel bestaat niet."
+"The settings for roles and permissions are stored in <code>%permissions%</code>.": "De instellingen voor rollen en permissies zijn opgeslagen in <code>%permissions%</code>."
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "De slug '%slug%' wordt gebruikt in meerdere contenttypes. Bewerk contenttypes.yml, en maak ze verschillend."
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "Het vertalingenbestand '%s' is niet schrijfbaar. Gebruik je eigen editor om wijzigingen aan dit bestand aan te brengen."
 "The translations file '%s' is not readable.": "Het vertalingenbestand '%s' is niet leesbaar."
+"The versions listed below are compatible with the version of Bolt you are using. Since they are unstable versions, we recommend you <strong>do not</strong> use these on production systems.": "De hieronder opgesomde versies zijn compatibel met de Bolt-versie die je gebruikt. Aangezien het onstabiele versies zijn, raden we aan deze <strond>niet</strong> te gebruiken op productiesystemen."
+"The versions listed below are marked as stable releases by the developer and are compatible with the version of Bolt you are currently using.": "De hieronder opgesomde versies zijn als stabiel aangemerkt door de ontwikkelaar en zijn compatibel met de Bolt-versie die je momenteel gebruikt."
+"Theme installation complete": "Installatie van het thema is gereed."
 "There are no items on the Stack, yet.": "Nog geen bestanden op de Stack."
 "There are no users in the database. Please create the first user.": "Er zijn geen gebruikers in de database. Maak nu de eerste gebruiker aan."
+"There are no users present in the system. Please create the first user, which will be granted root privileges.": "Het systeem heeft nog geen gebruikers. Maak de eerste gebruiker aan, die root-privileges zullen worden toegekend."
+"There should always be at least one 'root' user. You have just been promoted. Congratulations!": "Er moet altijd minstens één 'root'-gebruiker zijn. Gefeliciteerd, je hebt promotie gekregen!"
 "This is a checkbox": "Dit is een checkbox"
 "This record is related to:": "Dit record is gerelateerd aan:"
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Deze website is <a href='%url%' target='_blank' title='Weldoordacht, lichtgewicht en eenvoudig CMS'>Gebouwd met Bolt</a>."
+"This will install all available updates.": "Dit zal alle updates installeren."
+"This will make sure all packages listed are installed. Use this if you've recently moved to a new server or if you have manually added an extension.": "Dit zorgt ervoor dat alle opgesomde pakketten worden geÃ¯nstalleerd. Gebruik dit als je een nieuwe server in gebruik hebt genomen of als je handmatig een nieuwe extensie hebt geÃ¯nstalleerd."
+"This won't install anything, just show you available updates": "Hiermee installeer je niets, bekijk alleen de beschikbare updates."
+"Timed publish": "Publicatiedatum"
 "Tip:": "Tip:"
 "Title": "Titel"
 "Translations": "Vertalingen"
 "Trim Activitylog": "Verklein activiteitenlog"
+"Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": "Log in met je ftp-account en maak het bestand leesbaar. Of ga <a>terug</a> naar de vorige pagina."
 "Types": "Types"
+"Unstable test versions": "Onstabiele testversies"
 "Update the database": "Werk de database bij"
 "Updates": "Updates"
 "Upload": "Uploaden"
+"Upload a file to this folder": "Upload een bestand naar deze map"
 "Upload file": "Upload bestand"
 "Upload image": "Upload beeld"
 "Uploaded files": "Geüploade bestanden"
@@ -467,14 +418,24 @@
 "Version": "Versie"
 "Version:": "Versie:"
 "Video": "Video"
+"View (saved version) on site": "Bekijk (opgeslagen versie) op de website"
 "View on site": "Bekijk op site"
+"View related content": "Bekijk gerelateerde inhoud"
 "View site": "Bekijk site"
 "View/edit Templates": "Bekijk / bewerk templates"
+"View/install Extensions": "Bekijk/installeer extensies"
 "Written by <em>%name%</em> on %date%": "Geschreven door <em>%name%</em> op %date%"
+"You can discover new extensions by visiting": "Ontdek nieuwe extensies"
+"You can now start using the installed extension, documentation and implementation instructions can be found using the link below.": "Je kunt de geÃ¯nstalleerde extensie gebruiken. Documentatie en gebruiksinstructies zijn te vinden via de volgende link."
+"You do not have the right privileges to create a new record.": "Je hebt niet de juiste privileges om een record aan te maken."
 "You do not have the right privileges to edit that record.": "Je bent niet gerechtigd om dat record te wijzigen."
 "You do not have the right privileges to view that page.": "Je bent niet gerechtigd om die pagina te bekijken."
+"You don't have correct permissions to edit the file '%s'.": "Je hebt niet de juiste rechten om het bestand '%s' te bewerken."
+"You don't have the correct permissions to display the file or directory '%s'.": "Je hebt niet de juiste rechten om het bestand of directory '%s' weer te geven."
 "You have been logged out.": "Je bent uitgelogd."
+"You should set 'homepage:' in your 'app/config/config.yml' to an existing record. Make sure that the content is published, otherwise it will not be shown.": "Link 'homepage:' in 'app/config/config.yml' aan een bestaande record. Zorg ervoor dat de content is gepubliceerd, omdat het anders niet weergegeven wordt."
 "You've been logged on successfully.": "Je bent succesvol ingelogd."
+"Your Currently Installed Extensions": "Geïnstalleerde extensies"
 "Your account is disabled. Sorry about that.": "Je account is uitgeschakeld. Sorry daarvoor."
 "Your database is already up to date.": "Je database was al bijgewerkt."
 "Your database is now up to date.": "Je database is nu bijgewerkt."
@@ -490,7 +451,7 @@
 "of": "van"
 "show all": "Toon alle"
 
-#--- 81 keyword based translations --------------------------------------------
+#--- 117 keyword based translations -------------------------------------------
 
 component:
     changelog-detail:
@@ -535,16 +496,25 @@ field:
         select-from-stack: "Kies van de stack"
     geolocation:
         label:
+            address-lookup: "Adres zoeken"
             latitude: "Breedtegraad"
             longitude: "Lengtegraad"
+            marker-placement: "Adres op kaart"
         matched-address: "Overeenkomstig adres:"
+        placeholder:
+            address: "Adres invullen"
     slug:
         permalink: "Permalink"
     video:
         button:
             preview: "Voorvertoning"
         label:
+            preview: "Voorbeeld video"
             size: "Grootte"
+            url: "Url naar video"
+        pixel: "pixels"
+        placeholder:
+            url: "Url van de video invullen"
         preview:
             button.close: "Sluit"
             no-url: "Geen URL van de video ingesteld, dus niets om te tonen."
@@ -583,17 +553,50 @@ page:
             edit: "Bewerk bestand"
             view: "Bekijk bestand"
     edit-users:
+        activated:
+            no: "Gebruiker gedeactiveerd"
+            yes: "Gebruiker geactiveerd"
+        button:
+            save: "Gebruiker opslaan"
         error:
             displayname-used: "Deze schermnaam is al in gebruik. Kies een andere schermnaam."
+            email-used: "Dit e-mailadres is al in gebruik"
+            password-mismatch: "Wachtwoord komt niet overeen"
+            password-short: "Het wachtwoord is te kort"
+            username-used: "Gebruikersnaam al in gebruik"
+        label:
+            assigned-roles: "Toegekende rollen"
+            display-name: "Weergavenaam"
+            email: "E-mailadres"
+            last-ip: "Laatste bekende IP-adres"
+            last-seen: "Laatst gezien"
+            password: "Wachtwoord"
+            password-confirm: "Wachtwoord bevestigen"
+            username: "Gebruikersnaam"
+        log:
+            user-added: "Gebruiker toegevoegd"
+            user-updated: "Gebruiker opgeslagen"
+        message:
+            user-saved: "Gebruiker opgeslagen"
+        placeholder:
+            displayname: "Weergavenaam invullen"
+            email: "E-mailadres invullen"
+            password: "Wachtwoord invullen"
+            password-confirm: "Wachtwoord bevestigen"
+            username: "Gebruikersnaam invullen"
         title:
             create: "Maak een nieuwe gebruiker aan"
             edit: "Bewerk gebruiker"
+            profile: "Profiel"
+        user-create: "Nieuwe gebruiker aanmaken"
+        user-edit: "Gebruiker bewerken"
     login:
         button:
             back: "Terug naar login"
             forgot-password: "Ik ben mijn wachtwoord vergeten…"
             log-on: "Inloggen"
             reset-password: "Reset mijn wachtwoord"
+        cookies-required: "Cookies vereist"
         label:
             password: "Wachtwoord"
             username: "Gebruikersnaam"
@@ -601,6 +604,7 @@ page:
         password-show: "Toon"
         placeholder:
             password: "Je inlognaam"
+        title: "Inloggen"
 
 panel:
     latest-activity:
@@ -613,3 +617,6 @@ panel:
         logged-out: "uitgelogd"
         saved: "Opgeslagen"
         unknown: "onbekend"
+    user-actions:
+        button:
+            add: "Nieuwe gebruiker toevoegen"
