@@ -436,16 +436,23 @@ class TranslationFile
     {
         $path = $this->absPath;
 
-        // No gathering here: if the file doesn't exist yet, we load a copy from the locale_fallback version (en)
+        // if the file doesn't exist yet, point to the fallback one
         if (!file_exists($path) || filesize($path) < 10) {
+
+            // fallback
             list($path) = $this->buildPath('infos', 'en_GB');
+
+            if (!file_exists($path)) {
+                $this->app['session']->getFlashBag()->set('error', 'Locale infos yml file not found. Fallback also not found.');
+    
+                // fallback failed
+                return null;
+            }
+            // we got the fallback, notify user we loaded the fallback
+            $this->app['session']->getFlashBag()->set('warning', 'Locale infos yml file not found, loading the default one.');
         }
 
-        if (file_exists($path)) {
-            return file_get_contents($path);
-        }else{
-            $this->app['session']->getFlashBag()->set('error', 'File not found. Fallback also not found: '.$path);
-        }
+        return file_get_contents($path);
     }
 
     /**

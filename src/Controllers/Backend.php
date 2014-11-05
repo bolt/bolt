@@ -1825,6 +1825,9 @@ class Backend implements ControllerProviderInterface
         if ($request->getMethod() == 'POST') {
             $form->bind($app['request']->get($form->getName()));
 
+            // file be saved, so clear warning flashbag that file could not be fetched
+            $app['session']->getFlashBag()->clear('warning');
+
             if ($form->isValid()) {
 
                 $data = $form->getData();
