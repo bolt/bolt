@@ -631,7 +631,7 @@ var init = {
                     var date = $.datepicker.formatDate('yy-mm-dd', inpDate.datepicker('getDate')),
                         time = $.formatDateTime('hh:ii:00', new Date('2014/01/01 ' + inpTime.val()));
                     // TODO: Validate time format, as Browser like Firefox with no input.time accept illegal input
-                    hiddenField.val(date + ' ' + time);
+                    inpData.val(date + ' ' + time);
                 });
             }
         });
