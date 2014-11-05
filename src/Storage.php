@@ -2570,7 +2570,7 @@ class Storage
                 $currentsortorder = $currentvalues[0]['sortorder'];
                 $currentvalues = Arr::makeValuePairs($currentvalues, 'id', 'slug');
             } else {
-                $currentsortorder = 'id';
+                $currentsortorder = 0;
                 $currentvalues = array();
             }
 
@@ -2622,7 +2622,7 @@ class Storage
                         'taxonomytype' => $taxonomytype,
                         'slug' => $slug,
                         'name' => $name,
-                        'sortorder' => $sortorder
+                        'sortorder' => (int) $sortorder
                     );
 
                     $this->app['db']->insert($tablename, $row);
