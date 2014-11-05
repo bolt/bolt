@@ -37,40 +37,12 @@ a:active {
     color: $linkactive;
 }
 
-
 strong, b {
     font-weight: 600;
     line-height: normal;
 }
 
-// styles for em and i elements
-// This gets us into a situation of "semantic web" and all that other stuff
-//======================================================================================================================
-//  http://html5doctor.com/i-b-em-strong-element/
-//  https://developer.mozilla.org/en-US/docs/Web/HTML/Element/em
-// ---------------------------------------------------------------------------------------------------------------------
-//  * <i>
-//  * "represents a span of text in an alternate voice or mood, or otherwise offset from the normal prose in a
-//  *  manner indicating a different quality of text, such as a taxonomic designation, a technical term, an idiomatic
-//  *  phrase from another language, a thought, or a ship name in Western texts."
-//  *
-//  * "Things that are typically italicised include transliterated foreign words (using the attribute lang=""),
-//  *  inline stage directions in a script, some musical notation, and when representing hand-written text inline"
-// ---------------------------------------------------------------------------------------------------------------------
-//  * <em>
-//  * representing stress emphasis (i.e., something you’d pronounce differently)
-//  *
-//  * "The ‘stress’ being referred to is linguistic. If spoken, this stress would be emphasised pronunciation on a
-//  *  word that can change the nuance of a sentence. For example, “Call a doctor now!” emphasises the importance of
-//  *  calling a doctor"
-// ---------------------------------------------------------------------------------------------------------------------
-//  * The <em> tag represents stress emphasis of its contents, while the <i> tag represents text that is set off from
-//  * the normal prose, such as the name of a movie or book, a foreign word, or when the text refers to the definition
-//  * of a word instead of representing its semantic meaning
-//
-//  in short I'm leaving both here and let the person who does the markup to decide whats best for them.
 em, i {
-    font-family: 'Source Sans Pro Italic', Helvetica Neue, Helvetica, Arial, sans-serif;
     font-style: italic;
 }
 

@@ -1,3 +1,6 @@
+// Use @font-face, but prevent faux italics. 
+// ref: http://www.metaltoad.com/blog/how-use-font-face-avoid-faux-italic-and-bold-browser-styles
+
 @font-face {
   font-family: 'Source Sans Pro';
   font-style: normal;
@@ -6,10 +9,8 @@
        url('../fonts/SourceSansPro-Regular.woff') format('woff'); /* Safari, Android, iOS */
 }
 
-
-
 @font-face {
-  font-family: 'Source Sans Pro Semibold';
+  font-family: 'Source Sans Pro';
   font-style: normal;
   font-weight: 600;
   src: url('../fonts/SourceSansPro-Semibold.woff2') format('woff2'),
@@ -17,9 +18,9 @@
 }
 
 @font-face {
-  font-family: 'Source Sans Pro Italic';
+  font-family: 'Source Sans Pro';
   font-style: italic;
   font-weight: 400;
-  src: url('../fonts/SourceSansPro-It.woff2') format('woff2'), /* Serve Woff2 to browsers who accept it fall back to woff below */
+  src: url('../fonts/SourceSansPro-It.woff2') format('woff2'),
        url('../fonts/SourceSansPro-It.woff') format('woff');
 }
