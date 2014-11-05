@@ -23,11 +23,13 @@
 }%}
 
 {% set attr_time = {
-    class:  option.class~' timepicker',
-    id:     key~'-time',
-    name:   key~'-timeformatted',
-    type:   'time',
-    value:  (context.content.get(key) and (context.content.get(key) > '0001-01-01 00:00:00') ? context.content.get(key)|date('H:i') : ''),
+    class:    option.class~' timepicker',
+    id:       key~'-time',
+    name:     key~'-timeformatted',
+    type:     'time',
+    pattern:  '^(([01]?[0-9]|2[0-3]):[0-5][0-9]|)$',
+    title:    __('Time in 24h format'),
+    value:    (context.content.get(key) and (context.content.get(key) > '0001-01-01 00:00:00') ? context.content.get(key)|date('H:i') : ''),
 }%}
 
 {% set attr_hidden = {

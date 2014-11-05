@@ -17,6 +17,8 @@
     id:        'datepublish-time',
     name:      'datepublish-timeformatted',
     type:      'time',
+    pattern:   '^(([01]?[0-9]|2[0-3]):[0-5][0-9]|)$',
+    title:     __('Time in 24h format'),
     value:     context.content.datepublish > '1900-01-01 00:00:00' ? context.content.datepublish|date('H:i') : '',
     disabled:  (not can_publish),
 }%}
@@ -41,6 +43,8 @@
     id:        'datedepublish-time',
     name:      'datedepublish-timeformatted',
     type:      'time',
+    pattern:   '^(([01]?[0-9]|2[0-3]):[0-5][0-9]|)$',
+    title:     __('Time in 24h format'),
     value:     context.content.datedepublish > '1900-01-01 00:00:00' ? context.content.datepublish|date('H:i') : '',
     disabled:  (not can_depublish),
 }%}
