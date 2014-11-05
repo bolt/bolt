@@ -2,19 +2,24 @@
   font-family: 'Source Sans Pro';
   font-style: normal;
   font-weight: 400;
-  src: local('Source Sans Pro'), local('SourceSansPro-Regular'), url('../fonts/SourceSansPro-Regular.otf.woff') format('woff2');
+  src: url('../fonts/SourceSansPro-Regular.woff2') format('woff2'),  /* Serve Woff2 to browsers who accept it fall back to woff below */
+       url('../fonts/SourceSansPro-Regular.woff') format('woff'); /* Safari, Android, iOS */
 }
 
+
+
 @font-face {
-  font-family: 'Source Sans Pro';
+  font-family: 'Source Sans Pro Semibold';
   font-style: normal;
   font-weight: 600;
-  src: local('Source Sans Pro Semibold'), local('SourceSansPro-Semibold'), url('../fonts/SourceSansPro-Semibold.otf.woff') format('woff2');
+  src: url('../fonts/SourceSansPro-Semibold.woff2') format('woff2'),
+       url('../fonts/SourceSansPro-Semibold.woff') format('woff');
 }
 
 @font-face {
-  font-family: 'Source Sans Pro';
+  font-family: 'Source Sans Pro Italic';
   font-style: italic;
   font-weight: 400;
-  src: local('Source Sans Pro Italic'), local('SourceSansPro-It'), url('../fonts/SourceSansPro-It.otf.woff') format('woff2');
+  src: url('../fonts/SourceSansPro-It.woff2') format('woff2'), /* Serve Woff2 to browsers who accept it fall back to woff below */
+       url('../fonts/SourceSansPro-It.woff') format('woff');
 }
