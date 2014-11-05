@@ -1825,9 +1825,6 @@ class Backend implements ControllerProviderInterface
         if ($request->getMethod() == 'POST') {
             $form->bind($app['request']->get($form->getName()));
 
-            // file be saved, so clear warning flashbag that file could not be fetched
-            $app['session']->getFlashBag()->clear('warning');
-
             if ($form->isValid()) {
 
                 $data = $form->getData();
@@ -1842,18 +1839,22 @@ class Backend implements ControllerProviderInterface
                     $app['session']->getFlashBag()->set('error', $msg . $e->getMessage());
                 }
 
+                // Before trying to save, check if it's writable.
                 if ($ok) {
-                    if (file_put_contents($path, $contents)) {
+                    // clear any warning for file not found, we are creating it here
+                    // we'll set an error if someone still submits the form and write is not allowed
+                    $app['session']->getFlashBag()->clear('warning');
+
+                    if ( ! $writeallowed){
+                        $msg = Trans::__("The file '%s' is not writable. You will have to use your own editor to make modifications to this file.", array('%s' => $shortPath));
+                        $app['session']->getFlashBag()->set('error', $msg);
+                    }else{
+                        file_put_contents($path, $contents);
                         $msg = Trans::__("File '%s' has been saved.", array('%s' => $shortPath));
                         $app['session']->getFlashBag()->set('info', $msg);
-
                         return Lib::redirect('translation', array('domain' => $domain, 'tr_locale' => $tr_locale));
-                    } else {
-                        $msg = Trans::__("File '%s' could not be saved, for some reason.", array('%s' => $shortPath));
-                        $app['session']->getFlashBag()->set('error', $msg);
                     }
                 }
-
             }
         }
 

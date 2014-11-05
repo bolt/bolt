@@ -570,24 +570,27 @@ class TranslationFile
     {
         $msgRepl = array('%s' => $this->relPath);
 
-        // No translations yet: info
-        if (!file_exists($this->absPath) && !is_writable(dirname($this->absPath))) {
+        // No file, directory not writable
+        if (!file_exists($this->absPath) && !is_writable(dirname($this->absPath))){
             $msg = Trans::__(
                 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.",
                 $msgRepl
             );
-            $this->app['session']->getFlashBag()->set('info', $msg);
-        // File is not readable: abort
-        } elseif (file_exists($this->absPath) && !is_readable($this->absPath)) {
-            $msg = Trans::__("The translations file '%s' is not readable.", $msgRepl);
-            $this->app->abort(404, $msg);
-        // File is not writeable: warning
-        } elseif (!is_writable(dirname($this->absPath))) {
+            $this->app['session']->getFlashBag()->set('warning', $msg);
+
+        // Have a file, but not writable
+        } elseif (file_exists($this->absPath) && !is_writable($this->absPath)){
             $msg = Trans::__(
                 "The file '%s' is not writable. You will have to use your own editor to make modifications to this file.",
                 $msgRepl
             );
             $this->app['session']->getFlashBag()->set('warning', $msg);
+
+        // File is not readable: abort
+        } elseif (file_exists($this->absPath) && !is_readable($this->absPath)) {
+            $msg = Trans::__("The translations file '%s' is not readable.", $msgRepl);
+            $this->app->abort(404, $msg);
+
         // File is writeable
         } else {
             return true;
