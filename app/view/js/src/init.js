@@ -622,6 +622,7 @@ var init = {
      * @returns {undefined}
      */
     dateTimePickers: function () {
+        $.datepicker.setDefaults($.datepicker.regional[bolt.locale.long]);
 
         $(".datepicker").each(function(){
 
