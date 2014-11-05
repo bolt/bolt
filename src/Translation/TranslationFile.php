@@ -419,7 +419,7 @@ class TranslationFile
 
                 return $flattened;
             } catch (ParseException $e) {
-                $this->app['session']->getFlashBag()->set('error', printf('Unable to parse the YAML translations: %s', $e->getMessage()));
+                $this->app['session']->getFlashBag()->set('error', '<strong>Unable to parse the YAML translations</strong><br>' . $e->getMessage());
                 // Todo: do something better than just returning an empty array
             }
         }
@@ -472,7 +472,16 @@ class TranslationFile
         }
         ksort($newTranslations);
 
-        return $this->buildNewContent($newTranslations, $savedTranslations);
+        try {
+        
+            return $this->buildNewContent($newTranslations, $savedTranslations);
+        
+        } catch (\Symfony\Component\Translation\Exception\InvalidResourceException $e) {
+        
+            // last resort fallback, edit the file
+            return file_get_contents($this->absPath);
+        
+        }
     }
 
     /**
