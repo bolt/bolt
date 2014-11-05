@@ -161,6 +161,7 @@ class Extensions
             $finder = new Finder();
             $finder->files()
                    ->in($this->basefolder . '/local')
+                   ->followLinks()
                    ->name('init.php')
                    ->depth('== 2');
 
