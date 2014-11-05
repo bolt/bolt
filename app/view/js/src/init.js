@@ -625,8 +625,12 @@ var init = {
         $.datepicker.setDefaults($.datepicker.regional[bolt.locale.long]);
 
         $(".datepicker").each(function(){
-
-            var options = {};
+            var id = $(this).attr('id').replace(/-date$/, ''),
+                inpDate = $(this),
+                inpTime = $('#' + id + '-time'),
+                inpData = $('#' + id),
+                setDate = $.datepicker.parseDate('yy-mm-dd', inpData.val()),
+                options = {};
 
             // Parse override settings from field in contenttypes.yml
             var custom = $(this).data('field-options');
@@ -636,13 +640,17 @@ var init = {
                 }
             }
 
-            // Reset dateFormat to Bolt internal date format
-            options.dateFormat = "DD, d MM yy";
+            // Update hidden field on selection
+            options.onSelect = function (text, inst) {
+                var date = $.datepicker.formatDate('yy-mm-dd', $(this).datepicker('getDate')),
+                    time = (inpTime.length ? inpTime.val() : '00:00') + ':00';
 
-            $(this).datepicker( options );
+                inpData.val(date + ' ' + time)
+            };
+
+            inpDate.datepicker(options);
+            inpDate.datepicker('setDate', setDate);
         });
-
-
     },
 
     /*
