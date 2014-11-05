@@ -148,13 +148,21 @@ footer ul.dropdown {
 
 /* Styles for 'responsive video embeds' --------------------------------  */
 
-.embeddedContent {
+.responsive-video {
+    padding-top: 25px;
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 */
+    height: 0;
     margin: 0 0 1em 0;
 }
 
-.embeddedContent iframe {
-    max-width: 100%;
+.responsive-video iframe {
     width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    max-width: 100%;
 }
 
 /* Styles for 'max-width 479px' -----------------------------------------  */
