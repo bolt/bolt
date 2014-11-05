@@ -60,8 +60,8 @@ about:
         </p>
 prefill:
     short_help: |
-        <p>选中那些你想要自动生成Lorem Ipsum填充内容的contenttypes。<p>
-        <p>如果所有的复选框都未选中，Bolt只会填充那些没有内容的contenttypes。</p>
+        <p>选中那些你想要自动生成Lorem Ipsum填充内容的内容格式。<p>
+        <p>如果所有的复选框都未选中，Bolt只会填充那些无默认内容的内容格式。</p>
 extension:
     enable: |
         <p>要启用扩展，你需要编辑位于<code>config.yml</code>的<code>enabled_extensions</code>数组。
