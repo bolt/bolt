@@ -16,9 +16,9 @@ function getSelectedItems() {
 // basic form validation before submit, adapted from
 // http://www.sitepoint.com/html5-forms-javascript-constraint-validation-api/
 // =========================================================
- 
+
 function validateContent(form) {
- 
+
     var formLength = form.elements.length,
         f, field, formvalid = true;
 
@@ -48,9 +48,9 @@ function validateContent(form) {
             field.validity = field.validity || {};
             // set to result of validation function
             field.validity.valid = LegacyValidation(field);
- 
+
             // if "invalid" events are required, trigger it here
- 
+
         }
 
         var noticeID = field.id + '-notice';
@@ -65,7 +65,7 @@ function validateContent(form) {
         }
         else {
             // style field, show error, etc.
-            $(field).addClass('error'); 
+            $(field).addClass('error');
 
             var msg = $(field).data('errortext') || 'The '+field.name+' field is required or needs to match a pattern';
 
@@ -75,11 +75,11 @@ function validateContent(form) {
             formvalid = false;
         }
     }
- 
+
     return formvalid;
 }
- 
- 
+
+
 // basic legacy validation checking
 function LegacyValidation(field) {
     var
@@ -91,28 +91,28 @@ function LegacyValidation(field) {
         minlength = field.getAttribute("minlength"),
         maxlength = field.getAttribute("maxlength"),
         pattern = field.getAttribute("pattern");
- 
+
     // disabled fields should not be validated
     if (field.disabled) return valid;
- 
+
     // value required?
     valid = valid && (!required ||
         (chkbox && field.checked) ||
         (!chkbox && val !== "")
     );
- 
+
     // minlength or maxlength set?
     valid = valid && (chkbox || (
         (!minlength || val.length >= minlength) &&
         (!maxlength || val.length <= maxlength)
     ));
- 
+
     // test pattern
     if (valid && pattern) {
         pattern = new RegExp('^(?:'+pattern+')$');
         valid = pattern.test(val);
     }
- 
+
     return valid;
 }
 
