@@ -630,13 +630,13 @@ var init = {
                 inpTime = $('#' + id + '-time'),
                 inpData = $('#' + id),
                 setDate = $.datepicker.parseDate('yy-mm-dd', inpData.val()),
-                options = {};
+                options = {},
+                fieldOptions = $(this).data('field-options');
 
             // Parse override settings from field in contenttypes.yml
-            var custom = $(this).data('field-options');
-            for (key in custom) {
-                if (custom.hasOwnProperty(key)) {
-                    options[key] = custom[key];
+            for (key in fieldOptions) {
+                if (fieldOptions.hasOwnProperty(key)) {
+                    options[key] = fieldOptions[key];
                 }
             }
 
