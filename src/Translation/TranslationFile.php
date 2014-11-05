@@ -419,7 +419,7 @@ class TranslationFile
 
                 return $flattened;
             } catch (ParseException $e) {
-                $this->app['session']->getFlashBag()->set('error', printf('Unable to parse the YAML translations: %s', $e->getMessage()));
+                $this->app['session']->getFlashBag()->set('error', '<strong>Unable to parse the YAML translations</strong><br>' . $e->getMessage());
                 // Todo: do something better than just returning an empty array
             }
         }
@@ -436,16 +436,23 @@ class TranslationFile
     {
         $path = $this->absPath;
 
-        // No gathering here: if the file doesn't exist yet, we load a copy from the locale_fallback version (en)
+        // if the file doesn't exist yet, point to the fallback one
         if (!file_exists($path) || filesize($path) < 10) {
+
+            // fallback
             list($path) = $this->buildPath('infos', 'en_GB');
+
+            if (!file_exists($path)) {
+                $this->app['session']->getFlashBag()->set('error', 'Locale infos yml file not found. Fallback also not found.');
+    
+                // fallback failed
+                return null;
+            }
+            // we got the fallback, notify user we loaded the fallback
+            $this->app['session']->getFlashBag()->set('warning', 'Locale infos yml file not found, loading the default one.');
         }
 
-        if (file_exists($path)) {
-            return file_get_contents($path);
-        }else{
-            $this->app['session']->getFlashBag()->set('error', 'File not found. Fallback also not found: '.$path);
-        }
+        return file_get_contents($path);
     }
 
     /**
@@ -465,7 +472,16 @@ class TranslationFile
         }
         ksort($newTranslations);
 
-        return $this->buildNewContent($newTranslations, $savedTranslations);
+        try {
+        
+            return $this->buildNewContent($newTranslations, $savedTranslations);
+        
+        } catch (\Symfony\Component\Translation\Exception\InvalidResourceException $e) {
+        
+            // last resort fallback, edit the file
+            return file_get_contents($this->absPath);
+        
+        }
     }
 
     /**
@@ -563,24 +579,27 @@ class TranslationFile
     {
         $msgRepl = array('%s' => $this->relPath);
 
-        // No translations yet: info
-        if (!file_exists($this->absPath) && !is_writable(dirname($this->absPath))) {
+        // No file, directory not writable
+        if (!file_exists($this->absPath) && !is_writable(dirname($this->absPath))){
             $msg = Trans::__(
                 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.",
                 $msgRepl
             );
-            $this->app['session']->getFlashBag()->set('info', $msg);
-        // File is not readable: abort
-        } elseif (file_exists($this->absPath) && !is_readable($this->absPath)) {
-            $msg = Trans::__("The translations file '%s' is not readable.", $msgRepl);
-            $this->app->abort(404, $msg);
-        // File is not writeable: warning
-        } elseif (!is_writable(dirname($this->absPath))) {
+            $this->app['session']->getFlashBag()->set('warning', $msg);
+
+        // Have a file, but not writable
+        } elseif (file_exists($this->absPath) && !is_writable($this->absPath)){
             $msg = Trans::__(
                 "The file '%s' is not writable. You will have to use your own editor to make modifications to this file.",
                 $msgRepl
             );
             $this->app['session']->getFlashBag()->set('warning', $msg);
+
+        // File is not readable: abort
+        } elseif (file_exists($this->absPath) && !is_readable($this->absPath)) {
+            $msg = Trans::__("The translations file '%s' is not readable.", $msgRepl);
+            $this->app->abort(404, $msg);
+
         // File is writeable
         } else {
             return true;
