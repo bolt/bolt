@@ -88,13 +88,16 @@ EOM;
         echo $output;
     }
 
-    public static function catchFatalErrors($app)
+    public static function catchFatalErrors()
     {
         // Get last error, if any
         $error = error_get_last();
 
         if (($error['type'] == E_ERROR || $error['type'] == E_PARSE)) {
             $html = self::$html;
+
+            // Get the application object
+            $app = \Bolt\Configuration\ResourceManager::getApp();
 
             // Detect if we're being called from a core, an extension or vendor
             $isBoltCoreError  = strpos($error['file'], $app['resources']->getPath('rootpath') . '/app');
