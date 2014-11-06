@@ -66,6 +66,9 @@ return call_user_func(
             );
         }
 
+        // Register a PHP shutdown function to catch fatal error
+        register_shutdown_function(array('\Bolt\Configuration\LowlevelException', 'catchFatalErrors'), $this);
+
         /**
          * @var $config Configuration\ResourceManager
          */
