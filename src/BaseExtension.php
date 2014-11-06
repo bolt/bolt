@@ -194,7 +194,7 @@ abstract class BaseExtension implements ExtensionInterface
 
         // Load local config
         if ($this->isConfigValid($basefile . '_local.yml', false)) {
-            $this->loadConfigFile($basefile . '.yml');
+            $this->loadConfigFile($basefile . '_local.yml');
         }
 
         $this->configLoaded = true;
