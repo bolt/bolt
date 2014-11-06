@@ -64,15 +64,17 @@ class Extension extends \Bolt\BaseExtension
         $links = array(array('link' => $this->app['paths']['root'], 'title' => $this->app['config']->get('general/sitename')));
         foreach( $this->app['config']->get('contenttypes') as $contenttype ) {
             if(!in_array($contenttype['slug'], $this->config['ignore_contenttype'])) {
+                $baseDepth = 0;
                 if (isset($contenttype['listing_template'])) {
-                    $links[] = array( 'link' => $this->app['paths']['root'].$contenttype['slug'], 'title' => $contenttype['name'] );
+                    $baseDepth = 1;
+                    $links[] = array( 'link' => $this->app['paths']['root'].$contenttype['slug'], 'title' => $contenttype['name'], 'depth' => 1 );
                 }
                 $content = $this->app['storage']->getContent(
                     $contenttype['slug'],
                     array('limit' => 10000, 'order' => 'datepublish desc')
                 );
                 foreach( $content as $entry ) {
-                    $links[] = array('link' => $entry->link(), 'title' => $entry->getTitle(),
+                    $links[] = array('link' => $entry->link(), 'title' => $entry->getTitle(), 'depth' => $baseDepth + 1,
                         'lastmod' => date( \DateTime::W3C, strtotime($entry->get('datechanged'))));
                 }
             }

@@ -6,12 +6,6 @@
 </head>
 <body>
     <h1>{{ __('Sitemap') }}</h1>
-    <ul>
-    {% for entry in entries %}
-        {% if entry.link is defined %}
-          <li><a href="{{ entry.link }}">{{ entry.title }}</a></li>
-        {% endif %}
-    {% endfor %}
-    </ul>
+    {% include 'assets/_sitemap_list.twig' %}
 </body>
 </html>
