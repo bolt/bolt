@@ -283,7 +283,7 @@ class ResourceManager
             define('BOLT_COMPOSER_INSTALLED', false);
         }
         if (! defined("BOLT_PROJECT_ROOT_DIR")) {
-            define('BOLT_PROJECT_ROOT_DIR', $this->root);
+            define('BOLT_PROJECT_ROOT_DIR', $this->getPath('root'));
         }
         if (! defined('BOLT_WEB_DIR')) {
             define('BOLT_WEB_DIR', $this->getPath('web'));
