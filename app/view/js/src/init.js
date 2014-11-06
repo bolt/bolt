@@ -597,7 +597,7 @@ var init = {
     dateTimePickers: function () {
         $.datepicker.setDefaults($.datepicker.regional[bolt.locale.long]);
 
-        $(".datepicker").each(function(){
+        $('.datepicker').each(function(){
             var id = $(this).attr('id').replace(/-date$/, ''),
                 inpDate = $(this),
                 inpTime = $('#' + id + '-time'),
@@ -618,12 +618,12 @@ var init = {
                 var date = $.datepicker.formatDate('yy-mm-dd', $(this).datepicker('getDate')),
                     time = (inpTime.length ? inpTime.val() : '00:00') + ':00';
 
-                inpData.val(date + ' ' + time)
+                inpData.val(date + ' ' + time);
             };
 
             // Set Datepicker
             inpDate.datepicker(options);
-            if (id == 'datedepublish' && inpData.val() == '1900-01-01 00:00:00') {
+            if (id === 'datedepublish' && inpData.val() === '1900-01-01 00:00:00') {
                 setDate = '';
             }
             inpDate.datepicker('setDate', setDate);
