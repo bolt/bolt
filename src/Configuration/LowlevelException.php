@@ -104,7 +104,7 @@ EOM;
             $isVendorError    = strpos($error['file'], $app['resources']->getPath('rootpath') . 'vendor');
             $isExtensionError = strpos($error['file'], $app['resources']->getPath('extensions'));
 
-            // Assembe error trace
+            // Assemble error trace
             $errorblock  = '<code>Error: ' . $error['message'] . '</code><br>';
             $errorblock .= '<code>File:  ' . $error['file'] . '</code><br>';
             $errorblock .= '<code>Line:  ' . $error['line'] . '</code><br><br>';
