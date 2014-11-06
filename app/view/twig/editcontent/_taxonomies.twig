@@ -106,7 +106,7 @@
             {% endif %}
 
             {% for slug, cat in taxonomy.options %}
-                <option value=""{{ slug }}" {% if context.content.taxonomy[taxonomy.slug] is defined and cat in context.content.taxonomy[taxonomy.slug] %}selected{% endif %}>{{cat}}</option>
+                <option value="{{ slug }}" {% if context.content.taxonomy[taxonomy.slug] is defined and cat in context.content.taxonomy[taxonomy.slug] %}selected{% endif %}>{{cat}}</option>
             {% endfor %}
 
             </select>
