@@ -633,7 +633,8 @@ var init = {
                 inpTime.change(function () {
                     var date = $.datepicker.formatDate('yy-mm-dd', inpDate.datepicker('getDate')),
                         time = $.formatDateTime('hh:ii:00', new Date('2014/01/01 ' + inpTime.val()));
-                    // TODO: Validate time format, as Browser like Firefox with no input.time accept illegal input
+                    // TODO: Validate time format, as Browsers like Firefox with no input.time accepts illegal input
+                    // At the moment there's a pattern to prevent that
                     inpData.val(date + ' ' + time);
                 });
             }
