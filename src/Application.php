@@ -84,9 +84,6 @@ class Application extends Silex\Application
 
     public function initialize()
     {
-        // Register our shutdown handler
-        $this->shutdown();
-
         // Set up locale and translations.
         $this->initLocale();
 
@@ -116,14 +113,6 @@ class Application extends Silex\Application
 
         // Initialise the 'error' handler.
         $this->error(array($this, 'errorHandler'));
-    }
-
-    /**
-     * Register a PHP shutdown function to catch fatal error
-     */
-    public function shutdown()
-    {
-        register_shutdown_function(array('Bolt\Configuration\LowlevelException', 'catchFatalErrors'), $this);
     }
 
     /**
