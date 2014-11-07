@@ -607,7 +607,6 @@ var init = {
                 fieldOptions = $(this).data('field-options'),
                 setfnc = function () {
                     var date = $.datepicker.formatDate('yy-mm-dd', inpDate.datepicker('getDate')),
-                            x = date + (inpTime.length ? inpTime.val() : '00:00') + ':00',
                         dt = new Date(date + 'T'+(inpTime.length && inpTime.val() !== ''? inpTime.val() : '00:00') + ':00');
 
                     if (Object.prototype.toString.call(dt) === '[object Date]' && !isNaN(dt.getTime())) {
