@@ -57,7 +57,7 @@
     "autoload": {
         "psr-4": {
             "Bolt\\": "src",
-            "Bolt\\Tests\\": "tests/Bolt/Tests"
+            "Bolt\\Tests\\": "tests"
         }
     },
     "bin": ["app/nut"]
