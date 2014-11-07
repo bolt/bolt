@@ -10,21 +10,14 @@ use Bolt\Application;
  * @author Ross Riley <riley.ross@gmail.com>
  *
  */
-class ExtensionWithTwig extends Extension
+class TwigExtension extends \Twig_Extension
 {
 
     
     public function getName()
     {
-        return "extensionwithtwig";
+        return "testTwig";
     }
     
-    public function getTwigExtensions()
-    {
-        return array(
-            new TwigExtension()    
-        );
-    }
-
    
 }
