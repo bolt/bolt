@@ -10,6 +10,8 @@
 {% block panel_head __('contenttypes.generic.actions-all', {'%contenttypes%': context.contenttype.slug}) %}
 
 {% block panel_body %}
+    {% from '_macro/_translation.twig' import trans_ct %}
+
     <a class="btn btn-primary" href="{{ path('editcontent', {'contenttypeslug': context.contenttype.slug, 'id': ''}) }}">
         <i class="fa fa-plus"></i> {{ __('contenttypes.generic.new', {'%contenttype%': context.contenttype.slug}) }}
     </a>
@@ -23,9 +25,14 @@
         <a class="btn btn-tertiary" href="?" style="margin-top: 15px">{{ __('Clear sort/filter') }}</a>
     {% endif %}
 
-    <div class="description">
-        {{ context.contenttype.description|default('')|markdown }}
-    </div>
+    {% set description %}{{
+        trans_ct(context.contenttype.slug, 'description', context.contenttype.description|default())
+    }}{% endset %}
+    {% if description %}
+        <div class="description">
+            {{ description|markdown }}
+        </div>
+    {% endif %}
 
     <p><strong>{{ __("Details") }}</strong></p>
     <ul>

@@ -502,7 +502,7 @@ class TranslationFile
             $setkeys = array(
                 'name.plural' => 'name',
                 'name.singular' => 'singular_name',
-                //'description' => 'description',
+                'description' => 'description',
             );
             foreach ($setkeys as $setkey => $getkey) {
                 $key = $keyprefix . $setkey;
