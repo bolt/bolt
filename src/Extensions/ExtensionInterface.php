@@ -11,4 +11,6 @@ interface ExtensionInterface
     public function getConfig();
     public function getName();
     public function getExtensionConfig();
+    public function getSnippets();
+    
 }
