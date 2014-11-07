@@ -628,7 +628,7 @@ var init = {
                 setDate = '';
             }
             inpDate.datepicker('setDate', setDate);
-            inpDate.val(moment(setDate).format('LL'));
+            inpDate.val(setDate ? moment(setDate).format('LL') : '');
 
             // If a time field exists, bind it
             if (inpTime.length) {
