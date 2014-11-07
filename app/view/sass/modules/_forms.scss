@@ -98,11 +98,10 @@ div.form-notice:last-child{
     margin-bottom: 18px;    
 }
 
-.form-notice.error,
 #editcontent .error{
-    border-color: #f44;
-    box-shadow: 1px 1px 4px rgba(255, 0, 0, 0.6);
-    background: rgba(255, 150, 120, 0.3);
+    border-color: #888;
+    color: $state-danger-text;
+    background: $alert-danger-bg;
 }
 
 
