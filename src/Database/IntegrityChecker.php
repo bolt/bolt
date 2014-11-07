@@ -314,6 +314,16 @@ class IntegrityChecker
     {
         $baseTables = $this->getBoltTablesNames();
 
+        // Work around reserved column name removal
+        if ($diff->fromTable->getName() == $this->prefix . 'cron') {
+            foreach ($diff->renamedColumns as $key => $col) {
+                if ($col->getName() == 'interim') {
+                    $diff->addedColumns[] = $col;
+                    unset($diff->renamedColumns[$key]);
+                }
+            }
+        }
+
         if (!in_array($diff->fromTable->getName(), $baseTables)) {
             // we don't remove fields from contenttype tables to prevent accidental data removal
             $diff->removedColumns = array();
@@ -503,13 +513,9 @@ class IntegrityChecker
         $contentChangelogTable->addColumn("comment", "string", array('length' => 150, "default" => "", "notnull" => false));
         $tables[] = $contentChangelogTable;
 
-        // Deprecation notice:
-        // We will remove the interval column for the 3.x stream unless we
-        // figure out earlier a way to avoid the attempt to rename it
         $cronTable = $schema->createTable($this->prefix . 'cron');
         $cronTable->addColumn("id", "integer", array('autoincrement' => true));
         $cronTable->setPrimaryKey(array("id"));
-        $cronTable->addColumn("interval", "string", array("length" => 16));
         $cronTable->addColumn("interim", "string", array("length" => 16));
         $cronTable->addIndex(array('interim'));
         $cronTable->addColumn("lastrun", "datetime");
