@@ -604,7 +604,15 @@ var init = {
                 inpData = $('#' + id),
                 setDate = $.datepicker.parseDate('yy-mm-dd', inpData.val()),
                 options = {},
-                fieldOptions = $(this).data('field-options');
+                fieldOptions = $(this).data('field-options'),
+                setfnc = function () {
+                    var date = $.datepicker.formatDate('yy-mm-dd', inpDate.datepicker('getDate')),
+                        dt = new Date(date + 'T'+(inpTime.length && inpTime.val() !== ''? inpTime.val() : '00:00') + ':00');
+
+                    if (Object.prototype.toString.call(dt) === '[object Date]' && !isNaN(dt.getTime())) {
+                        inpData.val($.formatDateTime('yy-mm-dd hh:ii:00', dt));
+                    }
+                };
 
             // Parse override settings from field in contenttypes.yml
             for (key in fieldOptions) {
@@ -614,13 +622,7 @@ var init = {
             }
 
             // Update hidden field on selection
-            options.onSelect = function (text, inst) {
-                var date = $.datepicker.formatDate('yy-mm-dd', $(this).datepicker('getDate')),
-                    time = (inpTime.length ? inpTime.val() : '00:00') + ':00';
-
-                inpData.val(date + ' ' + time);
-                inpDate.val(moment(date).format('LL'));
-            };
+            options.onSelect = setfnc;
 
             // Set Datepicker
             inpDate.datepicker(options);
@@ -628,17 +630,10 @@ var init = {
                 setDate = '';
             }
             inpDate.datepicker('setDate', setDate);
-            inpDate.val(moment(setDate).format('LL'));
 
             // If a time field exists, bind it
             if (inpTime.length) {
-                inpTime.change(function () {
-                    var date = $.datepicker.formatDate('yy-mm-dd', inpDate.datepicker('getDate')),
-                        time = $.formatDateTime('hh:ii:00', new Date('2014/01/01 ' + inpTime.val()));
-                    // TODO: Validate time format, as Browsers like Firefox with no input.time accepts illegal input
-                    // At the moment there's a pattern to prevent that
-                    inpData.val(date + ' ' + time);
-                });
+                inpTime.change(setfnc);
             }
         });
     },
