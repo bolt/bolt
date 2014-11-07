@@ -22,6 +22,7 @@
 
             {# if the entry has a video, display it. #}
             {% if record.video is not empty %}
+                <div class="clearfix"></div>
                 {{ record.video.responsive }}
             {% endif %}
 

@@ -1378,33 +1378,6 @@ var init = {
     },
 
     /*
-     * Bind date field
-     *
-     * @param {object} data
-     * @returns {undefined}
-     */
-    bindDate: function (data) {
-        $('#' + data.id + '-date').on('change.bolt', function () {
-            var date = $('#' + data.id + '-date').datepicker('getDate');
-            $('#' + data.id).val($.datepicker.formatDate('yy-mm-dd', date));
-        }).trigger('change.bolt');
-    },
-
-    /*
-     * Bind datetime field
-     *
-     * @param {object} data
-     * @returns {undefined}
-     */
-    bindDateTime: function (data) {
-        $('#' + data.id + '-date, #' + data.id + '-time').on('change.bolt', function () {
-            var date = $('#' + data.id + '-date').datepicker('getDate');
-            var time = $.formatDateTime('hh:ii:00', new Date('2014/01/01 ' + $('#' + data.id + '-time').val()));
-            $('#' + data.id).val($.datepicker.formatDate('yy-mm-dd', date) + ' ' + time);
-        }).trigger('change.bolt');
-    },
-
-    /*
      * Bind editcontent
      *
      * @param {type} data
@@ -1986,26 +1959,47 @@ var init = {
      * @returns {undefined}
      */
     dateTimePickers: function () {
+        $.datepicker.setDefaults($.datepicker.regional[bolt.locale.long]);
 
-        $(".datepicker").each(function(){
+        $('.datepicker').each(function(){
+            var id = $(this).attr('id').replace(/-date$/, ''),
+                inpDate = $(this),
+                inpTime = $('#' + id + '-time'),
+                inpData = $('#' + id),
+                setDate = $.datepicker.parseDate('yy-mm-dd', inpData.val()),
+                options = {},
+                fieldOptions = $(this).data('field-options'),
+                setfnc = function () {
+                    var date = $.datepicker.formatDate('yy-mm-dd', inpDate.datepicker('getDate')),
+                        dt = new Date(date + 'T'+(inpTime.length && inpTime.val() !== ''? inpTime.val() : '00:00') + ':00');
 
-            var options = {};
+                    if (Object.prototype.toString.call(dt) === '[object Date]' && !isNaN(dt.getTime())) {
+                        inpData.val($.formatDateTime('yy-mm-dd hh:ii:00', dt));
+                    }
+                };
 
             // Parse override settings from field in contenttypes.yml
-            var custom = $(this).data('field-options');
-            for (key in custom) {
-                if (custom.hasOwnProperty(key)) {
-                    options[key] = custom[key];
+            for (key in fieldOptions) {
+                if (fieldOptions.hasOwnProperty(key)) {
+                    options[key] = fieldOptions[key];
                 }
             }
 
-            // Reset dateFormat to Bolt internal date format
-            options.dateFormat = "DD, d MM yy";
+            // Update hidden field on selection
+            options.onSelect = setfnc;
 
-            $(this).datepicker( options );
+            // Set Datepicker
+            inpDate.datepicker(options);
+            if (id === 'datedepublish' && inpData.val() === '1900-01-01 00:00:00') {
+                setDate = '';
+            }
+            inpDate.datepicker('setDate', setDate);
+
+            // If a time field exists, bind it
+            if (inpTime.length) {
+                inpTime.change(setfnc);
+            }
         });
-
-
     },
 
     /*
@@ -2397,8 +2391,6 @@ jQuery(function ($) {
         //console.log('Binding: ' + data.bind);
 
         switch (data.bind) {
-            case 'date': init.bindDate(data); break;
-            case 'datetime': init.bindDateTime(data); break;
             case 'editcontent': init.bindEditContent(data); break;
             case 'editfile': init.bindEditFile(data); break;
             case 'editlocale': init.bindEditLocale(data); break;

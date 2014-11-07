@@ -15,7 +15,7 @@
         "eviweb/composer-wrapper" : "~1.0",
         "filp/whoops": "~1.1",
         "guzzle/guzzle": "~3.9",
-        "hautelook/phpass": "dev-master",
+        "hautelook/phpass": "~0.3",
         "ircmaxell/random-lib": "dev-master",
         "jbroadway/urlify": "1.0.0-stable",
         "rossriley/flysystem53": "~0.5",
