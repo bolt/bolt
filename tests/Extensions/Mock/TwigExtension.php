@@ -19,5 +19,10 @@ class TwigExtension extends \Twig_Extension
         return "testTwig";
     }
     
+    public function isSafe()
+    {
+        return true;
+    }
+    
    
 }
