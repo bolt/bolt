@@ -1987,16 +1987,7 @@ var init = {
             }
 
             // Update hidden field on selection
-            options.onSelect = setfnc;/*function () {
-                var date = $.datepicker.formatDate('yy-mm-dd ', inpDate.datepicker('getDate')),
-                    dt = new Date(date + (inpTime.length ? inpTime.val() : '00:00'));
-            console.log(date+' :: '+Object.prototype.toString.call(dt)+' :: '+isNaN(dt.getTime())+' T: '+inpTime.val());
-
-                if (Object.prototype.toString.call(dt) === '[object Date]' && !isNaN(dt.getTime())) {
-            console.log('SET');
-                    inpData.val($.formatDateTime('yy-mm-dd hh:ii:00', dt));
-                }
-            };*/
+            options.onSelect = setfnc;
 
             // Set Datepicker
             inpDate.datepicker(options);
@@ -2008,16 +1999,6 @@ var init = {
             // If a time field exists, bind it
             if (inpTime.length) {
                 inpTime.change(setfnc);
-                /*inpTime.change(function () {
-                    var date = $.datepicker.formatDate('yy-mm-dd ', inpDate.datepicker('getDate')),
-                        dt = new Date(date + inpTime.val());
-            console.log(date+' :: '+Object.prototype.toString.call(dt)+' :: '+isNaN(dt.getTime()));
-
-                    if (Object.prototype.toString.call(dt) === '[object Date]' && !isNaN(dt.getTime())) {
-            console.log('SET');
-                        inpData.val($.formatDateTime('yy-mm-dd hh:ii:00', dt));
-                    }
-                });*/
             }
         });
     },
