@@ -268,7 +268,7 @@ class Extensions
             try {
                 foreach ($extension->getTwigExtensions() as $extension) {
                     $this->app['twig']->addExtension($extension);
-                    if (is_callable($extension, 'isSafe') && $extension->isSafe() === true) {
+                    if (is_callable(array($extension, 'isSafe')) && $extension->isSafe() === true) {
                         $this->app['safe_twig']->addExtension($extension);
                     }
                 }
