@@ -344,6 +344,15 @@ class CommandRunner
             }
         }
 
+        // Ping the extensions server to confirm connection
+        $response = $this->ping();
+        if ($response != 200) {
+            $this->messages[] = sprintf(
+                'The extensions server returned a bad status code: %s',
+                $response
+            );
+        }
+
         // Create the Composer wrapper object
         $this->wrapper = \evidev\composer\Wrapper::create($this->cachedir);
 
@@ -403,5 +412,29 @@ class CommandRunner
         $class = new \ReflectionClass("Bolt\\Composer\\ExtensionInstaller");
         $filename = $class->getFileName();
         copy($filename, $this->installer);
+    }
+
+    /**
+     * Ping extensions site to see if we have a valid connection and it is responding correctly
+     *
+     * @return boolean
+     */
+    private function ping()
+    {
+        $query = array(
+            'bolt_ver'  => $this->app['bolt_version'],
+            'bolt_name' => $this->app['bolt_name'],
+            'php'       => phpversion(),
+            'www'       => $_SERVER['SERVER_SOFTWARE']
+        );
+
+        $this->guzzleclient = new \Guzzle\Http\Client($this->app['extend.site']);
+
+        try {
+            $response = $this->guzzleclient->get('ping', null, array('query' => $query))->send();
+            return $response->getStatusCode();
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 }
