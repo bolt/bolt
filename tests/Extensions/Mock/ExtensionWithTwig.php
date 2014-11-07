@@ -22,7 +22,8 @@ class ExtensionWithTwig extends Extension
     public function getTwigExtensions()
     {
         return array(
-            new TwigExtension()    
+            new TwigExtension(),
+            new BadTwigExtension()    
         );
     }
 
