@@ -34,6 +34,9 @@ class ScriptHandler
         foreach (array('css', 'font', 'img', 'js', 'lib') as $dir) {
             $filesystem->mirror(__DIR__ . '/../../../view/' . $dir, $targetDir . '/view/' . $dir);
         }
+        foreach (array('markdownify', 'upload') as $dir) {
+            $filesystem->mirror(__DIR__ . '/../../../classes/' . $dir, $targetDir . '/classes/' . $dir);
+        }
 
         if (!$filesystem->exists($webDir . '/files/')) {
             $filesystem->mirror(__DIR__ . '/../../../../files', $webDir . '/files');
