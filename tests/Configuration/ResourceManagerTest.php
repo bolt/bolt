@@ -1,11 +1,12 @@
 <?php
-namespace Bolt\Tests;
+namespace Bolt\Tests\Configuration;
 
 use Bolt\Application;
 use Bolt\Configuration\ResourceManager;
 use Bolt\Configuration\Composer;
+use Bolt\Configuration\Standard;
 use Symfony\Component\HttpFoundation\Request;
-use Eloquent\Pathogen\FileSystem\PlatformFileSystemPath;
+use Eloquent\Pathogen\FileSystem\PlatformFileSystemPath as Path;
 use Eloquent\Pathogen\FileSystem\Factory\PlatformFileSystemPathFactory;
 
 /**
@@ -36,7 +37,7 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
             )
         );
         $config = new ResourceManager($container);
-        $this->assertEquals(PlatformFileSystemPath::fromString(TEST_ROOT), \PHPUnit_Framework_Assert::readAttribute($config, 'root'));
+        $this->assertEquals(Path::fromString(TEST_ROOT), \PHPUnit_Framework_Assert::readAttribute($config, 'root'));
     }
 
     public function testDefaultPaths()
@@ -49,13 +50,13 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
                 )
             )
         );
-        $this->assertEquals(PlatformFileSystemPath::fromString(TEST_ROOT), $config->getPath('rootpath'));
-        $this->assertEquals(PlatformFileSystemPath::fromString(TEST_ROOT . '/app'), $config->getPath('apppath'));
-        $this->assertEquals(PlatformFileSystemPath::fromString(TEST_ROOT . '/extensions'), $config->getPath('extensions'));
-        $this->assertEquals(PlatformFileSystemPath::fromString(TEST_ROOT . '/files'), $config->getPath('filespath'));
-        $this->assertEquals(PlatformFileSystemPath::fromString(TEST_ROOT . '/.'), $config->getPath('web'));
-        $this->assertEquals(PlatformFileSystemPath::fromString(TEST_ROOT . '/app/cache'), $config->getPath('cache'));
-        $this->assertEquals(PlatformFileSystemPath::fromString(TEST_ROOT . '/app/config'), $config->getPath('config'));
+        $this->assertEquals(Path::fromString(TEST_ROOT), $config->getPath('rootpath'));
+        $this->assertEquals(Path::fromString(TEST_ROOT . '/app'), $config->getPath('apppath'));
+        $this->assertEquals(Path::fromString(TEST_ROOT . '/extensions'), $config->getPath('extensions'));
+        $this->assertEquals(Path::fromString(TEST_ROOT . '/files'), $config->getPath('filespath'));
+        $this->assertEquals(Path::fromString(TEST_ROOT . '/.'), $config->getPath('web'));
+        $this->assertEquals(Path::fromString(TEST_ROOT . '/app/cache'), $config->getPath('cache'));
+        $this->assertEquals(Path::fromString(TEST_ROOT . '/app/config'), $config->getPath('config'));
      }
 
     /**
@@ -97,9 +98,9 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
                 )
             )
         );
-        $this->assertEquals(PlatformFileSystemPath::fromString(TEST_ROOT), $config->getPath('root'));
-        $this->assertEquals(PlatformFileSystemPath::fromString(TEST_ROOT . '/app'), $config->getPath('app'));
-        $this->assertEquals(PlatformFileSystemPath::fromString(TEST_ROOT . '/files'), $config->getPath('files'));
+        $this->assertEquals(Path::fromString(TEST_ROOT), $config->getPath('root'));
+        $this->assertEquals(Path::fromString(TEST_ROOT . '/app'), $config->getPath('app'));
+        $this->assertEquals(Path::fromString(TEST_ROOT . '/files'), $config->getPath('files'));
     }
 
     public function testDefaultUrls()
@@ -165,7 +166,7 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($config->getPaths(), $app['resources']->getPaths());
 
         // Test that the Application has initialised the resources, injecting in config values.
-        $this->assertContains(PlatformFileSystemPath::fromString(TEST_ROOT . '/theme')->string(), $config->getPath('theme'));
+        $this->assertContains(Path::fromString(TEST_ROOT . '/theme')->string(), $config->getPath('theme'));
         $this->assertNotEmpty($config->getUrl('canonical'));
     }
 
@@ -246,13 +247,6 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('https://bolt.dev/bolt/test/location', $config->getUrl('canonical'));
     }
 
-    public function testComposerCustomConfig()
-    {
-        $config = new Composer(TEST_ROOT);
-        $config->compat();
-        $app = new Application(array('resources' => $config));
-        $this->assertEquals('/bolt-public/', $config->getUrl('app'));
-    }
 
     public function testNonRootDirectory()
     {
@@ -366,4 +360,16 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
         $rel = $config->findRelativePath(TEST_ROOT, TEST_ROOT . '/A/B');
         $this->assertEquals('A/B/', $rel);
     }
+    
+    public function testSetThemePath()
+    {
+        $config = new Standard(TEST_ROOT);
+        $theme = array('theme'=>'test');
+        $config->setThemePath($theme);
+        $this->assertEquals(Path::fromString(TEST_ROOT . '/theme/test'), $config->getPath('theme'));
+        $theme = array('theme'=>'test', 'theme_path'=>'/testpath');
+        $config->setThemePath($theme);
+        $this->assertEquals(Path::fromString(TEST_ROOT . '/testpath/test'), $config->getPath('theme'));
+    }
+    
 }
