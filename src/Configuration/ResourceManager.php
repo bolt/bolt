@@ -73,10 +73,6 @@ class ResourceManager
             $this->requestObject = $container['request'];
         }
 
-        if (!empty($container['verifier'])) {
-            $this->verifier = $container['verifier'];
-        }
-
         $this->setUrl('root', '/');
 
         $this->setUrl('app', '/app/');
@@ -123,7 +119,8 @@ class ResourceManager
 
     public function setPath($name, $value)
     {
-        if (! preg_match("/^(?:\/|\\\\|\w:\\\\|\w:\/).*$/", $value)) {
+        // If this is a relative path make it relative to root.
+        if (! preg_match("/^(?:\/|\\\\|\w:\\\\|\w:\/).*$/", $value) ) {
             $path = $this->pathManager->create($value);
             $path = $this->paths['root']->resolve($path);
         } else {
@@ -351,6 +348,11 @@ class ResourceManager
         }
 
         return $this->verifier;
+    }
+    
+    public function setVerifier($verifier)
+    {
+        $this->verifier = $verifier;
     }
 
     public function getClassLoader()
