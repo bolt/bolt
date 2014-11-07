@@ -40,7 +40,7 @@
     {# Show stuff! #}
     {% if allowedany %}
         <li{% if class %} class="{{ class }}"{% endif %}>
-            <a  href="{% if popoveritems %}{{ popoveritems.0.link }}{% else %}#{% endif %}"class="menu-pop">
+            <a  href="{% if popoveritems %}{{ popoveritems.0.link }}{% else %}#{% endif %}" class="menu-pop">
                 {{ label(icon, label) }}
             </a>
             <ul class="nav submenu">
