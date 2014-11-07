@@ -1,11 +1,16 @@
 # This file defines role-based access control for your Bolt site.
+# Before making any modifications to this file, make sure you've thoroughly read
+# the documentation at http://docs.bolt.cm/permissions, and understand the
+# consequences of making uninformed changes to the roles and permissions.
+
 # First, we need to define some roles. There are three built-in roles that you
 # should never add manually:
 # - 'root', the "superuser" role; Bolt will automatically grant all permissions
 #   to this role. Manually adding it to any permission is pointless, because it
 #   implicitly grants every permission anyway.
-# - 'everyone', the "anonymous" role; every user automatically has this role.
-#   Adding the 'everyone' role to any permission will grant it to all users.
+# - 'everyone', the "base" role; every logged-in user automatically has this
+#   role. Adding the 'everyone' role to any permission will grant it to all
+#   users (but not to unauthenticated users).
 # - 'owner': this role is only valid in the context of an individual content
 #   item, and the user who "owns" the item (usually the person who created it)
 #   will be in the 'owner' role.
@@ -13,14 +18,11 @@
 #   no user is logged in at all.
 roles:
     editor:
-        description: This user can edit stuff
+        description: This user can edit some content.
         label: Editor
     chief-editor:
-        description: This user can edit anything
+        description: This user can edit any content in the system.
         label: Chief Editor
-    page-editor:
-        description: A specialized editor who can only edit Pages
-        label: Page Editor
     admin:
         description: User-level administrator.
         label: Administrator
@@ -28,6 +30,7 @@ roles:
         description: Developer access. Only required to change system-level settings.
         label: Developer
     guest:
+        description: This user can log on, but is not allowed to edit any content.
         label: Guest Editor
 
 # Now we'll define some permissions. Each permission comes with a list of roles
@@ -51,6 +54,7 @@ global:
     dbupdate: [ admin, developer ]
     dbupdate_result: [ admin, developer ]
     extensions: [ developer ]
+    extensions:config: [ developer ]
     fileedit: [ admin, developer ]
     files:config: [ developer ]
     files:theme: [ developer ]
@@ -110,6 +114,23 @@ global:
 # defined with an empty role list, it overrides the role list in
 # contenttype-default; but if the permission is not mentioned, the
 # corresponding entry in contenttype-default applies.
+#
+# The following permissions are available on a per-contenttype basis:
+#
+# - edit: allows updating existing records
+# - create: allows creating new records
+# - publish: allows changing the status of a record to "published", as well as
+#            scheduling a record for future publishing
+# - depublish: allows changing the status of a record from "published"
+# - delete: allows (hard) deletion of records
+# - change-ownership: allows changing a record's owner. Note that ownership may
+#                     grant additional permissions on a record, so this
+#                     permission can indirectly enable users more permissions
+#                     in ways that may not be immediately obvious.
+# - view: allows viewing records in the backend
+# - frontend: allows front-end access to records (note that this requires the
+#             'frontend_permission_checks' global configuration setting, for
+#             backwards-compatibility reasons as well as performance)
 contenttype-all:
     edit: [ developer, admin, chief-editor ]
     create: [ developer, admin, chief-editor ]
@@ -123,13 +144,36 @@ contenttype-default:
     create: [ editor ]
     change-ownership: [ owner ]
     view: [ anonymous ]
+    frontend: [ anonymous ]
 
 contenttypes:
-  pages:
-    edit: [ editor, page-editor ]
-    create: [ editor, page-editor ]
-    change-ownership: [ owner ]
-  entries:
-  kitchensinks:
-    publish: [ admin ]
-    change-ownership: [ ]
+    pages:
+        edit: [ editor, page-editor ]
+        create: [ editor, page-editor ]
+        change-ownership: [ owner ]
+    entries:
+    showcases:
+        publish: [ admin ]
+        change-ownership: [ ]
+
+# This is an example of how to define Contenttype specific permissions
+#
+# contenttypes:
+#    # Keys in this dictionary map to keys in the contenttypes.yml specification.
+#    showcases:
+#        # Rules defined here *override* rules defined in contenttype-default,
+#        # but *add* to rules in contenttype-all. This means that permissions
+#        # granted through contenttype-all cannot be revoked here, merely
+#        # amended.
+#
+#        # Only the Admin and Chief Editor are allowed to edit records
+#        edit: [ admin, chief-editor ]
+#        create: [ admin, chief-editor ]
+#        publish: [ admin, chief-editor ]
+#        depublish: [ admin, chief-editor ]
+#        delete: [ admin, chief-editor ]
+#        # Roles that can see the area in the admin section
+#        view: [ developer, admin, chief-editor ]
+#        # Do not expose this content type on the front-end unless user is
+#        logged into the backend
+#        frontend: [ everyone ]

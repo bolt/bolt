@@ -54,6 +54,7 @@ global:
     dbupdate: [ admin, developer ]
     dbupdate_result: [ admin, developer ]
     extensions: [ developer ]
+    extensions:config: [ developer ]
     fileedit: [ admin, developer ]
     files:config: [ developer ]
     files:theme: [ developer ]
@@ -151,7 +152,7 @@ contenttypes:
 #
 # contenttypes:
 #    # Keys in this dictionary map to keys in the contenttypes.yml specification.
-#    kitchensink:
+#    showcases:
 #        # Rules defined here *override* rules defined in contenttype-default,
 #        # but *add* to rules in contenttype-all. This means that permissions
 #        # granted through contenttype-all cannot be revoked here, merely
