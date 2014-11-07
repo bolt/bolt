@@ -90,7 +90,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
     {
         $cacheDirLocation = $this->cache->getDirectory();
         $filesystem = new Filesystem();
-        $relative = $filesystem->makePathRelative($cacheDirLocation, realpath(__DIR__ . '/../../../src'));
+        $relative = $filesystem->makePathRelative($cacheDirLocation, realpath(__DIR__ . '/../src'));
         $newCache = new Cache($relative);
         $this->assertEquals($cacheDirLocation, $newCache->getDirectory());
     }
