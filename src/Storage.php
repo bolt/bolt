@@ -2168,10 +2168,10 @@ class Storage
         if ($a->group['slug'] == $b->group['slug']) {
 
             if (!empty($a->sortorder) || !empty($b->sortorder)) {
-                if (empty($a->sortorder)) {
-                    return -1;
-                } elseif (empty($b->sortorder)) {
+                if (!isset($a->sortorder)) {
                     return 1;
+                } elseif (!isset($b->sortorder)) {
+                    return -1;
                 } else {
                     return ($a->sortorder < $b->sortorder) ? -1 : 1;
                 }
