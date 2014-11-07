@@ -503,9 +503,13 @@ class IntegrityChecker
         $contentChangelogTable->addColumn("comment", "string", array('length' => 150, "default" => "", "notnull" => false));
         $tables[] = $contentChangelogTable;
 
+        // Deprecation notice:
+        // We will remove the interval column for the 3.x stream unless we
+        // figure out earlier a way to avoid the attempt to rename it
         $cronTable = $schema->createTable($this->prefix . 'cron');
         $cronTable->addColumn("id", "integer", array('autoincrement' => true));
         $cronTable->setPrimaryKey(array("id"));
+        $cronTable->addColumn("interval", "string", array("length" => 16));
         $cronTable->addColumn("interim", "string", array("length" => 16));
         $cronTable->addIndex(array('interim'));
         $cronTable->addColumn("lastrun", "datetime");
