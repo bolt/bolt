@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Bolt\Library as Lib;
+use Bolt\Configuration\LowlevelException;
 
 class CommandRunner
 {
