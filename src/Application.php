@@ -546,7 +546,7 @@ class Application extends Silex\Application
 
             // Then, select which template to use, based on our 'cascading templates rules'
             if ($content instanceof \Bolt\Content && !empty($content->id)) {
-                $template = $content->template();
+                $template = $this['templatechooser']->record($content);
 
                 return $this['render']->render($template, $content->getTemplateContext());
             }
