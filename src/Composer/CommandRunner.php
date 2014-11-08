@@ -345,7 +345,7 @@ class CommandRunner
         }
 
         // Ping the extensions server to confirm connection
-        $response = $this->ping();
+        $response = $this->ping($this->app['extend.site']);
         if ($response != 200) {
             $this->messages[] = sprintf(
                 'The extensions server returned a bad status code: %s',
@@ -415,20 +415,24 @@ class CommandRunner
     }
 
     /**
-     * Ping extensions site to see if we have a valid connection and it is responding correctly
+     * Ping site to see if we have a valid connection and it is responding correctly
      *
      * @return boolean
      */
-    private function ping()
+    private function ping($site, $addquery = false)
     {
-        $query = array(
-            'bolt_ver'  => $this->app['bolt_version'],
-            'bolt_name' => $this->app['bolt_name'],
-            'php'       => phpversion(),
-            'www'       => $_SERVER['SERVER_SOFTWARE']
-        );
+        if ($addquery) {
+            $query = array(
+                'bolt_ver'  => $this->app['bolt_version'],
+                'bolt_name' => $this->app['bolt_name'],
+                'php'       => phpversion(),
+                'www'       => $_SERVER['SERVER_SOFTWARE']
+            );
+        } else {
+            $query = array();
+        }
 
-        $this->guzzleclient = new \Guzzle\Http\Client($this->app['extend.site']);
+        $this->guzzleclient = new \Guzzle\Http\Client($site);
 
         try {
             $response = $this->guzzleclient->get('ping', null, array('query' => $query))->send();
