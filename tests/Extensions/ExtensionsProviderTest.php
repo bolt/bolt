@@ -24,6 +24,7 @@ class ExtensionsProviderTest extends BoltUnitTest
 <link rel="stylesheet" href="existing.css" media="screen">
 </head>
 <body>
+<script src="existing.js"></script>
 </body>
 </html>
 EOM;
@@ -36,6 +37,7 @@ EOM;
 <link rel="stylesheet" href="existing.css" media="screen">
 </head>
 <body>
+<script src="existing.js"></script>
 </body>
 </html>
 EOM;
@@ -47,6 +49,7 @@ EOM;
 <link rel="stylesheet" href="existing.css" media="screen">
 </head>
 <body>
+<script src="existing.js"></script>
 <link rel="stylesheet" href="testfile.css" media="screen">
 </body>
 </html>
@@ -57,9 +60,10 @@ EOM;
 <head>
 <meta charset="utf-8" />
 <link rel="stylesheet" href="existing.css" media="screen">
-<script src="testfile.js"></script>
 </head>
 <body>
+<script src="existing.js"></script>
+<script src="testfile.js"></script>
 </body>
 </html>
 EOM;
@@ -71,6 +75,7 @@ EOM;
 <link rel="stylesheet" href="existing.css" media="screen">
 </head>
 <body>
+<script src="existing.js"></script>
 <script src="testfile.js"></script>
 </body>
 </html>
@@ -84,6 +89,7 @@ EOM;
 <link rel="stylesheet" href="existing.css" media="screen">
 </head>
 <body>
+<script src="existing.js"></script>
 </body>
 </html>
 EOM;
@@ -96,6 +102,7 @@ EOM;
 <meta name="test-snippet" />
 </head>
 <body>
+<script src="existing.js"></script>
 </body>
 </html>
 EOM;
@@ -108,6 +115,7 @@ EOM;
 </head>
 <body>
 <p class="test-snippet"></p>
+<script src="existing.js"></script>
 </body>
 </html>
 EOM;
@@ -119,6 +127,7 @@ EOM;
 <link rel="stylesheet" href="existing.css" media="screen">
 </head>
 <body>
+<script src="existing.js"></script>
 </body>
 <p class="test-snippet"></p>
 </html>
@@ -132,6 +141,7 @@ EOM;
 <link rel="stylesheet" href="existing.css" media="screen">
 </head>
 <body>
+<script src="existing.js"></script>
 </body>
 </html>
 EOM;
@@ -144,6 +154,7 @@ EOM;
 <meta name="test-snippet" />
 </head>
 <body>
+<script src="existing.js"></script>
 </body>
 </html>
 EOM;
@@ -156,9 +167,18 @@ EOM;
 <link rel="stylesheet" href="existing.css" media="screen">
 </head>
 <body>
+<script src="existing.js"></script>
 </body>
 </html>
 EOM;
+
+
+    public function tearDown()
+    {
+        $app = $this->getApp();
+        $cache = $app['resources']->getPath('cache');
+        $this->rmdir($cache);
+    }
     
     
     public function testExtensionRegister()
@@ -386,6 +406,16 @@ EOM;
         $this->assertNotContains("js/jquery", $html);
     }
     
+    public function testAddJqueryOnlyOnce()
+    {
+        $app = $this->getApp();
+        $app['extensions']->register(new Mock\Extension($app));
+        $app['extensions']->addJquery();
+        $html = $app['extensions']->processSnippetQueue($this->template);
+        $html = $app['extensions']->processSnippetQueue($html);
+        
+    }
+    
     public function testSnippetsWorkWithBadHtml()
     {
         $locations = array(
@@ -397,7 +427,9 @@ EOM;
             SnippetLocation::AFTER_CSS,
             SnippetLocation::BEFORE_CSS,
             SnippetLocation::BEFORE_JS,
-            SnippetLocation::AFTER_CSS
+            SnippetLocation::AFTER_CSS,
+            SnippetLocation::AFTER_JS,
+            'madeuplocation'
         );
         foreach ($locations as $location) {
             $app = $this->getApp();
@@ -429,6 +461,20 @@ EOM;
         
     }
     
+    public function testWidgetCaches()
+    {
+        $app = $this->getApp();
+        $app['cache'] = new Mock\Cache();
+        $app['extensions']->register(new Mock\SnippetCallbackExtension($app));
+        $this->assertFalse($app['cache']->fetch('5e4c97cb'));
+        $app['extensions']->insertWidget('test', SnippetLocation::AFTER_JS, "snippetCallBack", "snippetcallback", "", false);
+        
+        // Double call to ensure second one hits cache
+        $html = $app['extensions']->renderWidget('5e4c97cb');
+        $html = $app['extensions']->renderWidget('5e4c97cb');
+        $this->assertEquals($html, $app['cache']->fetch('widget_5e4c97cb'));
+    }
+    
     public function testInvalidWidget()
     {
         $app = $this->getApp();
@@ -442,8 +488,8 @@ EOM;
         $app = $this->getApp();
         $app['extensions']->register(new Mock\SnippetCallbackExtension($app));
         
-        $app['extensions']->insertWidget('test', SnippetLocation::START_OF_BODY, "snippetCallBack", "snippetcallback", "", false);
-        $html = $app['extensions']->renderWidget('c8a4f7f7');
+        $app['extensions']->insertWidget('test', SnippetLocation::AFTER_JS, "snippetCallBack", "snippetcallback", "", false);
+        $html = $app['extensions']->renderWidget('5e4c97cb');
         $this->assertEquals('<meta name="test-snippet" />', $html);
     }
     
@@ -474,6 +520,16 @@ EOM;
         $log = $app['log']->lastLog();
         $this->assertContains('[EXT] Failed', $log);
         $this->assertContains('instance of Bolt\Tests\Extensions\Mock\BadTwigExtension given', $log);
+    }
+    
+    public function testCommentsHandled()
+    {
+        $template = $this->template."<!-- This is a comment -->";
+        $app = $this->getApp();
+        $snip = '<meta name="test-snippet" />';
+        $app['extensions']->insertSnippet($location, $snip);
+        $html = $app['extensions']->processSnippetQueue($template);
+        $this->assertEquals($template.$snip.PHP_EOL, $html);
     }
 
    
