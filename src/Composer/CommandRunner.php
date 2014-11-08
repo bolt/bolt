@@ -11,7 +11,7 @@ use Bolt\Library as Lib;
 
 class CommandRunner
 {
-    public $disabled = false;
+    public $offline = false;
     public $wrapper;
     public $messages = array();
     public $lastOutput;
@@ -37,7 +37,7 @@ class CommandRunner
             $this->setup();
             $this->copyInstaller();
         } else {
-            $this->disabled = true;
+            $this->offline = true;
         }
 
     }
@@ -356,7 +356,7 @@ class CommandRunner
             $response = $this->ping('https://getcomposer.org/', 'version');
             if ($response != 200) {
                 $this->messages[] = 'https://getcomposer.org/ is unreachable.';
-                $this->disabled = true;
+                $this->offline = true;
             }
         }
 
@@ -365,10 +365,10 @@ class CommandRunner
         if ($response != 200) {
             $this->messages[] = $this->app['extend.site'] . ' is unreachable.';
 
-            $this->disabled = true;
+            $this->offline = true;
         }
 
-        if ($this->disabled) {
+        if ($this->offline) {
             $this->messages[] = 'Unable to install/update extensions!';
             return false;
         }
