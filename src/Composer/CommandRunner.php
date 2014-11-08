@@ -5,6 +5,7 @@ use Silex;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
+use Guzzle\Http\Client as GuzzleClient;
 use Bolt\Library as Lib;
 
 class CommandRunner
@@ -417,6 +418,8 @@ class CommandRunner
     /**
      * Ping site to see if we have a valid connection and it is responding correctly
      *
+     * @param  string        $site
+     * @param  boolean|array $addquery
      * @return boolean
      */
     private function ping($site, $addquery = false)
@@ -432,7 +435,7 @@ class CommandRunner
             $query = array();
         }
 
-        $this->guzzleclient = new \Guzzle\Http\Client($site);
+        $this->guzzleclient = new GuzzleClient($site);
 
         try {
             $response = $this->guzzleclient->get('ping', null, array('query' => $query))->send();
