@@ -13,4 +13,8 @@ if (is_dir(__DIR__ . '/../../../../vendor/')) {
 }
 
 require_once 'upload-bootstrap.php';
-define('TEST_ROOT', realpath(__DIR__ . '/../'));
+require_once 'lowlevel-bootstrap.php';
+
+if(!defined('TEST_ROOT')) {
+    define('TEST_ROOT', realpath(__DIR__ . '/../'));
+}
