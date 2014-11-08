@@ -357,7 +357,7 @@ class CommandRunner
         // If there is no composer.phar in our cache, ping the getcomposer.org
         // server to make sure we can access it
         if (! $fs->exists($this->cachedir . 'composer.phar')) {
-            $response = $this->ping('https://getcomposer.org/', 'version');
+            $response = $this->ping('https://getcomposer.org/', 'composer.phar');
             if (! in_array($response, $httpOk)) {
                 $this->messages[] = 'https://getcomposer.org/ is unreachable.';
                 $this->offline = true;
