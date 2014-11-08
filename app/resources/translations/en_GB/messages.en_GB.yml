@@ -31,7 +31,7 @@
 "Add a brief, optional comment to describe what's changed.": "Add a brief, optional comment to describe what's changed."
 "Add a comment:": "Add a comment:"
 "Add a new extension using the form below.": "Add a new extension using the form below."
-"Add some sample <a href='%url%' class='btn btn-tertiary'>Records with Loripsum text</a>": "Add some sample <a href='%url%' class='btn btn-tertiary'>Records with Loripsum text</a>"
+"Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>"
 "Added to <tt>%key%</tt> '%title%'": "Added to <tt>%key%</tt> '%title%'"
 "Alas, no about!": "Alas, no about!"
 "All content types": "All content types"

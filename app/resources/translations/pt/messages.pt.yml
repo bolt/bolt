@@ -7,7 +7,7 @@
 "Add a brief, optional comment to describe what's changed.": "Adicionar um curto comentário para descrever o que mudou. (opcional)" #
 "Add a new extension using the form below.": "Adicionar uma nova extensão usando o formulário abaixo." #
 "Add a new user": "Adicionar novo usuário" #
-"Add some sample <a href='%url%' class='btn btn-tertiary'>Records with Loripsum text</a>": "Adicionar uma amostra <a href='%url%' class='btn btn-tertiary'>de registro com Loripsum text</a>" #
+"Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Adicionar uma amostra <a href='%url%' class='btn btn-default'>de registro com Loripsum text</a>" #
 "Address lookup": "Pesquisa de Endereço" #
 "Alt": "Alt" #
 "Are you sure you wish to unlock the slug? This might break existing links to this record.": "Tem certeza que você quer destravar o slug? Isso pode quebrar links existentes nesse registro." #

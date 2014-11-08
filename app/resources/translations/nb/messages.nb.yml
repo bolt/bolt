@@ -18,7 +18,7 @@
 "contenttypes.generic.actions-one": "Handlinger for denne %contenttypes%"
 "Actions": "Handlinger"
 "Activity log": "Aktivitetslogg"
-"Add some sample <a href='%url%' class='btn btn-small'>Records with Loripsum text</a>": "Legg til litt <a href='%url%' class='btn btn-small'>eksempelinnhold med Loripsum-tekst</a>"
+"Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Legg til litt <a href='%url%' class='btn btn-default'>eksempelinnhold med Loripsum-tekst</a>"
 "page.dashboard.button.add": "Legg til …"
 "Added to <tt>%key%</tt> '%title%'": "La til i <tt>%key%</tt> «%title%»"
 "Added user '%s'.": "La til bruker «%s»."

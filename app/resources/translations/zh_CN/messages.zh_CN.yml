@@ -31,7 +31,7 @@
 "Add a brief, optional comment to describe what's changed.": "添加一个可选的简短注释描述变更。"
 "Add a comment:": "添加注释："
 "Add a new extension using the form below.": "请用下列表单添加新扩展，"
-"Add some sample <a href='%url%' class='btn btn-tertiary'>Records with Loripsum text</a>": "可以添加一些 <a href='%url%' class='btn btn-tertiary'>带有 Loripsum 示例文本</a> 的记录"
+"Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "可以添加一些 <a href='%url%' class='btn btn-default'>带有 Loripsum 示例文本</a> 的记录"
 "Added to <tt>%key%</tt> '%title%'": "添加到 <tt>%key%</tt> '%title%'"
 "Alas, no about!": "没有关于信息"
 "All content types": "所有内容格式"

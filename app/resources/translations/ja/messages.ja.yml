@@ -20,7 +20,7 @@
 "Actions": "操作"
 "Activity log": "アクティビティログ"
 "Add new menu": "新規メニューを追加"
-"Add some sample <a href='%url%' class='btn btn-small'>Records with Loripsum text</a>": "サンプルを追加<a href='%url%' class='btn btn-small'>ダミーテキスト（Loripsum）のレコード</a>"
+"Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "サンプルを追加<a href='%url%' class='btn btn-default'>ダミーテキスト（Loripsum）のレコード</a>"
 "Add to menu": "メニューに追加"
 "page.dashboard.button.add": "追加 …"
 "Added to <tt>%key%</tt> '%title%'": "<tt>%key%</tt> '%title%' に追加しました"

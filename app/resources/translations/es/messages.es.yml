@@ -18,7 +18,7 @@
 "contenttypes.generic.actions-one": "Acciones para %contenttype%"
 "Actions": "Acciones"
 "Activity log": "Registro de actividad"
-"Add some sample <a href='%url%' class='btn btn-small'>Records with Loripsum text</a>": "Agregar algunas <a href='%url%' class='btn btn-small'>entradas con texto Loripsum</a> de ejemplo"
+"Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Agregar algunas <a href='%url%' class='btn btn-default'>entradas con texto Loripsum</a> de ejemplo"
 "page.dashboard.button.add": "Agregar …"
 "Added to <tt>%key%</tt> '%title%'": "Agregado a <tt>%key%</tt> '%title%'"
 "Added user '%s'.": "Agregado el usuario '%s'"

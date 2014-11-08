@@ -31,7 +31,7 @@
 "Add a brief, optional comment to describe what's changed.": "Přidat stručný, volitelný komentář k provedeným změnám."
 "Add a comment:": "Přidat komentář"
 "Add a new extension using the form below.": "Přidat rozšíření pomocí formuláře níže"
-"Add some sample <a href='%url%' class='btn btn-tertiary'>Records with Loripsum text</a>": "Přidat ukázku <a href='%url%' class='btn btn-tertiary'>Záznam s Lorem ipsum</a>"
+"Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Přidat ukázku <a href='%url%' class='btn btn-default'>Záznam s Lorem ipsum</a>"
 "Added to <tt>%key%</tt> '%title%'": "Přidáno do <tt>%key%</tt> '%title%'"
 "Alas, no about!": "Běda, žádná info strana!"
 "All content types": "Všechny typy obsahu"

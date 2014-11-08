@@ -16,7 +16,7 @@
 "Actions": "Ενέργεις"
 "Activity log": "Πρόσφατες ενέργειες"
 "Add new menu": "Δημιουργία καινούριου μενού"
-"Add some sample <a href='%url%' class='btn btn-small'>Records with Loripsum text</a>": "<a href='%url%' class='btn btn-small'>Προσθέστε</a> εγγραφές με χαζό περιεχόμενο Lorem Ipsum."
+"Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "<a href='%url%' class='btn btn-default'>Προσθέστε</a> εγγραφές με χαζό περιεχόμενο Lorem Ipsum."
 "Add to menu": "Προσθήκη στο μενού"
 "Add…": "Προσθήκη..."
 "Added to <tt>%key%</tt> '%title%'": "Προστεθηκε στο <tt>%key%</tt> '%title%'"

@@ -16,7 +16,7 @@
 "Actions": "Aksi"
 "Activity log": "Catatan aktifitas"
 "Add new menu": "Tambah menu baru"
-"Add some sample <a href='%url%' class='btn btn-small'>Records with Loripsum text</a>": "Tambah contoh<a href='%url%' class='btn btn-small'>Isian dengan teks Loripsum</a>"
+"Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Tambah contoh<a href='%url%' class='btn btn-default'>Isian dengan teks Loripsum</a>"
 "Add to menu": "Tambah ke menu"
 "page.dashboard.button.add": "Tambah …"
 "Added user '%s'.": "User '%s' ditambah."

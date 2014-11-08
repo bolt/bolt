@@ -20,7 +20,7 @@
 "Actions": "Műveletek"
 "Activity log": "Aktivitási napló"
 "Add new menu": "Új menü felvétele"
-"Add some sample <a href='%url%' class='btn btn-small'>Records with Loripsum text</a>": "Néhány <a href='%url%' class='btn btn-small'>Lorem ipsum bejegyzés</a> felvétele"
+"Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Néhány <a href='%url%' class='btn btn-default'>Lorem ipsum bejegyzés</a> felvétele"
 "Add to menu": "Hozzáadás a menühöz"
 "page.dashboard.button.add": "Hozzáadás …"
 "Added to <tt>%key%</tt> '%title%'": "Hozzáadva a <tt>%key%</tt> '%title%'"
