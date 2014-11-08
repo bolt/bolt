@@ -331,6 +331,8 @@ class CommandRunner
 
     private function setup()
     {
+        $httpOk = array(200, 301, 302);
+
         umask(0000);
         putenv('COMPOSER_HOME=' . $this->app['resources']->getPath('cache') . '/composer');
 
@@ -354,7 +356,7 @@ class CommandRunner
         // server to make sure we can access it
         if (! $fs->exists($this->cachedir . 'composer.phar')) {
             $response = $this->ping('https://getcomposer.org/', 'version');
-            if ($response != 200) {
+            if (! in_array($response, $httpOk)) {
                 $this->messages[] = 'https://getcomposer.org/ is unreachable.';
                 $this->offline = true;
             }
@@ -362,7 +364,7 @@ class CommandRunner
 
         // Ping the extensions server to confirm connection
         $response = $this->ping($this->app['extend.site'], 'ping', true);
-        if ($response != 200) {
+        if (! in_array($response, $httpOk)) {
             $this->messages[] = $this->app['extend.site'] . ' is unreachable.';
 
             $this->offline = true;
