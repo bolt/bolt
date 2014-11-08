@@ -6,10 +6,12 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Guzzle\Http\Client as GuzzleClient;
+use Guzzle\Http\Exception\RequestException;
 use Bolt\Library as Lib;
 
 class CommandRunner
 {
+    public $disabled = false;
     public $wrapper;
     public $messages = array();
     public $lastOutput;
@@ -34,7 +36,10 @@ class CommandRunner
         if ($readWriteMode) {
             $this->setup();
             $this->copyInstaller();
+        } else {
+            $this->disabled = true;
         }
+
     }
 
     public function check()
@@ -345,13 +350,27 @@ class CommandRunner
             }
         }
 
+        // If there is no composer.phar in our cache, ping the getcomposer.org
+        // server to make sure we can access it
+        if (! $fs->exists($this->cachedir . 'composer.phar')) {
+            $response = $this->ping('https://getcomposer.org/', 'version');
+            if ($response != 200) {
+                $this->messages[] = 'https://getcomposer.org/ is unreachable.';
+                $this->disabled = true;
+            }
+        }
+
         // Ping the extensions server to confirm connection
-        $response = $this->ping($this->app['extend.site']);
+        $response = $this->ping($this->app['extend.site'], 'ping', true);
         if ($response != 200) {
-            $this->messages[] = sprintf(
-                'The extensions server returned a bad status code: %s',
-                $response
-            );
+            $this->messages[] = $this->app['extend.site'] . ' is unreachable.';
+
+            $this->disabled = true;
+        }
+
+        if ($this->disabled) {
+            $this->messages[] = 'Unable to install/update extensions!';
+            return false;
         }
 
         // Create the Composer wrapper object
@@ -419,10 +438,11 @@ class CommandRunner
      * Ping site to see if we have a valid connection and it is responding correctly
      *
      * @param  string        $site
+     * @param  string        $uri
      * @param  boolean|array $addquery
      * @return boolean
      */
-    private function ping($site, $addquery = false)
+    private function ping($site, $uri = '', $addquery = false)
     {
         if ($addquery) {
             $query = array(
@@ -438,9 +458,9 @@ class CommandRunner
         $this->guzzleclient = new GuzzleClient($site);
 
         try {
-            $response = $this->guzzleclient->get('ping', null, array('query' => $query))->send();
+            $response = $this->guzzleclient->head($uri, null, array('query' => $query))->send();
             return $response->getStatusCode();
-        } catch (\Exception $e) {
+        } catch (RequestException $e) {
             return false;
         }
     }
