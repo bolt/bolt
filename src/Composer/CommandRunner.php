@@ -2,11 +2,13 @@
 namespace Bolt\Composer;
 
 use Silex;
+use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Guzzle\Http\Client as GuzzleClient;
 use Guzzle\Http\Exception\RequestException;
+use evidev\composer\Wrapper;
 use Bolt\Library as Lib;
 
 class CommandRunner
@@ -194,7 +196,7 @@ class CommandRunner
         $command .= ' -d ' . $this->basedir . ' -n --no-ansi';
         $this->writeLog('command', $command);
 
-        $output = new \Symfony\Component\Console\Output\BufferedOutput();
+        $output = new BufferedOutput();
         $responseCode = $this->wrapper->run($command, $output);
 
         if ($responseCode == 0) {
@@ -376,7 +378,7 @@ class CommandRunner
         }
 
         // Create the Composer wrapper object
-        $this->wrapper = \evidev\composer\Wrapper::create($this->cachedir);
+        $this->wrapper = Wrapper::create($this->cachedir);
 
         // re-set error reporting to the value it should be.
         error_reporting($oldErrorReporting);
