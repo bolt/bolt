@@ -122,7 +122,7 @@ class Application extends Silex\Application
         //
         $this->register(new Silex\Provider\MonologServiceProvider(), array(
             'monolog.name'    => 'bolt',
-            'monolog.level'   => Logger::WARNING,
+            'monolog.level'   => $this['config']->get('general/systemlog/level'),
             'monolog.logfile' => '/tmp/bolt.log'
         ));
     }
