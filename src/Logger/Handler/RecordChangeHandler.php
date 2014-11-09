@@ -72,7 +72,7 @@ class RecordChangeHandler extends AbstractProcessingHandler
             $this->initialize();
         }
 
-        if (isset($this->app['db'])) {
+        try {
             $this->app['db']->insert($this->tablename, array(
                 'date'          => $record['datetime']->format('Y-m-d H:i:s'),
                 'ownerid'       => $record[''],
@@ -83,6 +83,8 @@ class RecordChangeHandler extends AbstractProcessingHandler
                 'diff'          => $record[''],
                 'comment'       => $record['']
             ));
+        } catch (\Exception $e) {
+            // Nothing..
         }
 
 //         $this->statement->execute(array(
