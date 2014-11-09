@@ -71,30 +71,32 @@ class SystemHandler extends AbstractProcessingHandler
             $this->initialize();
         }
 
+        $backtrace = debug_backtrace();
+        $filename = str_replace($this->app['resources']->getPath('root'), "", $backtrace[0]['file']);
+
+        $this->user = $this->app['session']->get('user');
+        $username = isset($this->user['username']) ? $this->user['username'] : "";
+
+        /*
+         * To kill list:
+         *  - code
+         *  - dump
+         */
         if (isset($this->app['db'])) {
             $this->app['db']->insert($this->tablename, array(
                 'level'       => $record['level'],
-                'date'        => $record['datetime']->format('U'),
-                'message'     => $record['formatted'],
-                'requesturi'  => $record[''],
-                'route'       => $record[''],
-                'ip'          => $record[''],
-                'file'        => $record[''],
-                'line'        => $record[''],
-                'contenttype' => $record[''],
-                'content_id'  => $record[''],
-                'code'        => $record[''],
-                'dump'        => $record['']
+                'date'        => $record['datetime']->format('Y-m-d H:i:s'),
+                'message'     => $record['message'],
+                'username'    => $username,
+                'requesturi'  => $this->app['request']->getRequestUri(),
+                'route'       => $this->app['request']->get('_route'),
+                'ip'          => $this->app['request']->getClientIp(),
+                'file'        => $filename,
+                'line'        => $backtrace[0]['line'],
+                'code'        => '',
+                'dump'        => ''
             ));
         }
-
-
-//         $this->statement->execute(array(
-//             'channel' => $record['channel'],
-//             'level' => $record['level'],
-//             'message' => $record['formatted'],
-//             'time' => $record['datetime']->format('U'),
-//         ));
     }
 
     /**
@@ -126,12 +128,12 @@ class SystemHandler extends AbstractProcessingHandler
     /**
      *
      */
-    public function getFormatter()
-    {
-        if (!$this->formatter) {
-            $this->formatter = new System();
-        }
+//     public function getFormatter()
+//     {
+//         if (!$this->formatter) {
+//             $this->formatter = new System();
+//         }
 
-        return $this->formatter;
-    }
+//         return $this->formatter;
+//     }
 }

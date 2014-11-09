@@ -74,7 +74,7 @@ class RecordChangeHandler extends AbstractProcessingHandler
 
         if (isset($this->app['db'])) {
             $this->app['db']->insert($this->tablename, array(
-                'date'          => $record['datetime']->format('U'),
+                'date'          => $record['datetime']->format('Y-m-d H:i:s'),
                 'ownerid'       => $record[''],
                 'title'         => $record[''],
                 'contenttype'   => $record[''],
@@ -122,12 +122,12 @@ class RecordChangeHandler extends AbstractProcessingHandler
     /**
      *
      */
-    public function getFormatter()
-    {
-        if (!$this->formatter) {
-            $this->formatter = new RecordChange();
-        }
+//     public function getFormatter()
+//     {
+//         if (!$this->formatter) {
+//             $this->formatter = new RecordChange();
+//         }
 
-        return $this->formatter;
-    }
+//         return $this->formatter;
+//     }
 }
