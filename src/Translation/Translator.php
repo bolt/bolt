@@ -136,11 +136,8 @@ class Translator
         }
 
         try {
-
             return call_user_func_array(array($app['translator'], $fn), $args);
-
         } catch (\Symfony\Component\Translation\Exception\InvalidResourceException $e) {
-
             $app['session']->getFlashBag()->set(
                 'warning',
                 '<strong>Error: You should fix this now, before continuing!</strong><br> ' . $e->getMessage()

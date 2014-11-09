@@ -438,7 +438,6 @@ class TranslationFile
 
         // if the file doesn't exist yet, point to the fallback one
         if (!file_exists($path) || filesize($path) < 10) {
-
             // fallback
             list($path) = $this->buildPath('infos', 'en_GB');
 
@@ -473,14 +472,10 @@ class TranslationFile
         ksort($newTranslations);
 
         try {
-
             return $this->buildNewContent($newTranslations, $savedTranslations);
-
         } catch (\Symfony\Component\Translation\Exception\InvalidResourceException $e) {
-
             // last resort fallback, edit the file
             return file_get_contents($this->absPath);
-
         }
     }
 
