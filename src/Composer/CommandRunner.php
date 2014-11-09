@@ -2,15 +2,24 @@
 namespace Bolt\Composer;
 
 use Silex;
+use Symfony\Component\Console\Input\StringInput;
+use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
+use Composer\Console\Application as ComposerApp;
+use Guzzle\Http\Client as GuzzleClient;
+use Guzzle\Http\Exception\RequestException;
 use Bolt\Library as Lib;
 use Bolt\Configuration\LowlevelException;
 
 class CommandRunner
 {
-    public $wrapper;
+    /**
+     * @var \Composer\Console\Application
+     */
+    public $composerapp;
+    public $offline = false;
     public $messages = array();
     public $lastOutput;
     public $packageFile;
@@ -34,7 +43,10 @@ class CommandRunner
         if ($readWriteMode) {
             $this->setup();
             $this->copyInstaller();
+        } else {
+            $this->offline = true;
         }
+
     }
 
     public function check()
@@ -189,8 +201,14 @@ class CommandRunner
         $command .= ' -d ' . $this->basedir . ' -n --no-ansi';
         $this->writeLog('command', $command);
 
-        $output = new \Symfony\Component\Console\Output\BufferedOutput();
-        $responseCode = $this->wrapper->run($command, $output);
+        // Create an InputInterface object to pass to Composer
+        $command = new StringInput($command);
+
+        // Create the output buffer
+        $output = new BufferedOutput();
+
+        // Execute the Composer task
+        $responseCode = $this->composerapp->run($command, $output);
 
         if ($responseCode == 0) {
             $outputText = $output->fetch();
@@ -326,27 +344,20 @@ class CommandRunner
 
     private function setup()
     {
+        $httpOk = array(200, 301, 302);
+
         umask(0000);
         putenv('COMPOSER_HOME=' . $this->app['resources']->getPath('cache') . '/composer');
 
         // Since we output JSON most of the time, we do _not_ want notices or warnings.
-        // Set the error reporting before initializing the wrapper, to suppress them.
+        // Set the error reporting before initializing Composer, to suppress them.
         $oldErrorReporting = error_reporting(E_ERROR);
 
-        // Check that our Composer cache directory exists, as the wrapper will
-        // fallback to the system temp directory, which in turn breaks systems
-        // with open_basedir() restrictions in place
-        $fs = new Filesystem();
-        if (! $fs->exists($this->cachedir)) {
-            try {
-                $fs->mkdir($this->cachedir, 0777);
-            } catch (IOExceptionInterface $e) {
-                throw new LowlevelException("Unable to create the Composer cache directory:\n" . $e->getMessage());
-            }
-        }
+        // Create the Composer application object
+        $this->composerapp = new ComposerApp();
 
-        // Create the Composer wrapper object
-        $this->wrapper = \evidev\composer\Wrapper::create($this->cachedir);
+        // Don't automatically exit after a command execution
+        $this->composerapp->setAutoExit(false);
 
         // re-set error reporting to the value it should be.
         error_reporting($oldErrorReporting);
@@ -355,11 +366,27 @@ class CommandRunner
             $this->execute('init');
         }
 
+        // Check to see if composer.json is writable
         if (is_file($this->packageFile) && !is_writable($this->packageFile)) {
             $this->messages[] = sprintf(
                 "The file '%s' is not writable. You will not be able to use this feature without changing the permissions.",
                 $this->packageFile
             );
+
+            $this->offline = true;
+        }
+
+        // Ping the extensions server to confirm connection
+        $response = $this->ping($this->app['extend.site'], 'ping', true);
+        if (! in_array($response, $httpOk)) {
+            $this->messages[] = $this->app['extend.site'] . ' is unreachable.';
+
+            $this->offline = true;
+        }
+
+        if ($this->offline) {
+            $this->messages[] = 'Unable to install/update extensions!';
+            return false;
         }
 
         $this->execute('config repositories.bolt composer ' . $this->app['extend.site'] . 'satis/');
@@ -404,5 +431,36 @@ class CommandRunner
         $class = new \ReflectionClass("Bolt\\Composer\\ExtensionInstaller");
         $filename = $class->getFileName();
         copy($filename, $this->installer);
+    }
+
+    /**
+     * Ping site to see if we have a valid connection and it is responding correctly
+     *
+     * @param  string        $site
+     * @param  string        $uri
+     * @param  boolean|array $addquery
+     * @return boolean
+     */
+    private function ping($site, $uri = '', $addquery = false)
+    {
+        if ($addquery) {
+            $query = array(
+                'bolt_ver'  => $this->app['bolt_version'],
+                'bolt_name' => $this->app['bolt_name'],
+                'php'       => phpversion(),
+                'www'       => $_SERVER['SERVER_SOFTWARE']
+            );
+        } else {
+            $query = array();
+        }
+
+        $this->guzzleclient = new GuzzleClient($site);
+
+        try {
+            $response = $this->guzzleclient->head($uri, null, array('query' => $query))->send();
+            return $response->getStatusCode();
+        } catch (RequestException $e) {
+            return false;
+        }
     }
 }

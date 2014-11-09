@@ -19,7 +19,7 @@
                 <div class="alert alert-info">
                     <button class="close" data-dismiss="alert">×</button>
                     {% for message in messages %}
-                        {{ message }}
+                        {{ message }}<br>
                     {% endfor %}
                 </div>
             </div>
@@ -97,13 +97,13 @@
             <section>
                 <h2>{{ __('Install a new Extension') }}</h2>
                 <p>
-                    {% if enabled %}
+                    {% if enabled and not offline %}
                     {{ __('Add a new extension using the form below.') }}
                     {% endif %}
                     {{ __('You can discover new extensions by visiting') }}
                     <a href="{{site}}" target="_blank">{{ site }}</a>
                 </p>
-                {% if enabled %}
+                {% if enabled and not offline %}
                 <div class="install-container">
                         <div class="auto-search hide-block"></div>
                         <input type="text" name="check-package" placeholder="Extension name eg: bolt/widget">
@@ -144,7 +144,7 @@
                 <div class="panel-body">
                         <p><strong>{{ __('Check for updates') }}</strong></p>
                         <div class="btn-group">
-                            <a class="btn btn-tertiary{% if not enabled %} disabled{% endif %}" data-request="update-check">
+                            <a class="btn btn-tertiary{% if not enabled or offline %} disabled{% endif %}" data-request="update-check">
                                 <i class="fa fa-refresh fa-fw"></i> {{ __('Run update check') }}
                             </a>
                         </div>
@@ -152,14 +152,14 @@
                         <hr>
                         <p><strong>{{ __('Install all updates') }}</strong></p>
                         <div class="btn-group">
-                            <a class="btn btn-primary{% if not enabled %} disabled{% endif %}" data-request="update-run">
+                            <a class="btn btn-primary{% if not enabled or offline %} disabled{% endif %}" data-request="update-run">
                                 <i class="fa fa-refresh fa-fw"></i> {{ __('Run all Updates') }}
                             </a>
                         </div>
                         <p>{{__("This will install all available updates.")}}</p>
                         <hr>
                         <div class="btn-group">
-                            <a class="btn btn-primary{% if not enabled %} disabled{% endif %}" data-request="install-run">
+                            <a class="btn btn-primary{% if not enabled or offline %} disabled{% endif %}" data-request="install-run">
                                 <i class="fa fa-download fa-fw"></i> {{ __('Install all Packages') }}
                             </a>
                         </div>
