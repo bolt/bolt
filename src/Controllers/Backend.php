@@ -1852,6 +1852,7 @@ class Backend implements ControllerProviderInterface
                         file_put_contents($path, $contents);
                         $msg = Trans::__("File '%s' has been saved.", array('%s' => $shortPath));
                         $app['session']->getFlashBag()->set('info', $msg);
+
                         return Lib::redirect('translation', array('domain' => $domain, 'tr_locale' => $tr_locale));
                     }
                 }

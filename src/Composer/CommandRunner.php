@@ -386,6 +386,7 @@ class CommandRunner
 
         if ($this->offline) {
             $this->messages[] = 'Unable to install/update extensions!';
+
             return false;
         }
 
@@ -458,6 +459,7 @@ class CommandRunner
 
         try {
             $response = $this->guzzleclient->head($uri, null, array('query' => $query))->send();
+
             return $response->getStatusCode();
         } catch (RequestException $e) {
             return false;
