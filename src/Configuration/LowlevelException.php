@@ -123,7 +123,7 @@ EOM;
                 $parts = explode(DIRECTORY_SEPARATOR, $base);
 
                 $package = $parts[0] . '/' . $parts[1];
-                $delete = 'extensions/vendor' . DIRECTORY_SEPARATOR . $parts[0] . DIRECTORY_SEPARATOR . $parts[1];
+                $delete = 'extensions' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . $parts[0] . DIRECTORY_SEPARATOR . $parts[1];
 
                 $html = str_replace('%error_title%', 'Fatal Error: Bolt Extensions', $html);
                 $html = str_replace('%info%', '<p>' . $app['translator']->trans('You will only be able to continue by manually deleting the extension that is installed at:') . "</p><code>$delete</code><br><br>", $html);
