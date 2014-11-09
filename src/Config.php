@@ -600,6 +600,9 @@ class Config
                 'enabled' => true,
                 'level'   => Logger::WARNING
             ),
+            'changelog'                   => array(
+                'enabled' => false
+            ),
             'debug'                       => false,
             'debug_show_loggedoff'        => false,
             'debug_error_level'           => 6135,
