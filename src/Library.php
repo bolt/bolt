@@ -365,7 +365,6 @@ class Library
             }
         }
         $data = unserialize($str);
-
         return $data;
     }
 }
