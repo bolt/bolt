@@ -69,7 +69,7 @@ class Translator
      * and try to get a translated string. If there is not, we revert to
      * the generic (%contenttype%) string, which must have a translation.
      */
-    public static function __()
+    public static function /*@codingStandardsIgnoreStart*/__/*@codingStandardsIgnoreEnd*/()
     {
         $app = ResourceManager::getApp();
 
