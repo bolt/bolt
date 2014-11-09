@@ -44,8 +44,8 @@ class ExtensionInstaller
         );
         foreach ($iterator as $item) {
             if ($item->isDir()) {
-                $new =  $dest . DIRECTORY_SEPARATOR . $iterator->getSubPathName();
-                if(!is_dir($new)) {
+                $new = $dest . DIRECTORY_SEPARATOR . $iterator->getSubPathName();
+                if (!is_dir($new)) {
                     mkdir($dest . DIRECTORY_SEPARATOR . $iterator->getSubPathName());
                 }
             } else {

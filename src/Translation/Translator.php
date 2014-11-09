@@ -141,7 +141,10 @@ class Translator
 
         } catch (\Symfony\Component\Translation\Exception\InvalidResourceException $e) {
 
-            $app['session']->getFlashBag()->set('warning', '<strong>Error: You should fix this now, before continuing!</strong><br> '.$e->getMessage());
+            $app['session']->getFlashBag()->set(
+                'warning',
+                '<strong>Error: You should fix this now, before continuing!</strong><br> ' . $e->getMessage()
+            );
 
             return $args[0];//$app->abort(500, 'Error reading locale files, Translation files misformed');
         }
