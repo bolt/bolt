@@ -77,6 +77,34 @@
                                 {{ __('Preview') }}</a>
                             </td> #}
                         </tr>
+                    {% else %}
+
+                        <tr>
+                            <td>
+
+                                <i class="fa fa-fw fa-file-image-o"></i>
+
+                                {% if file.readable %}
+                                    <a href="#" data-action="bolt.stack.selectFromPulldown('{{ context.key }}', '{{ file.relativepath }}');" class="file">
+                                        <b>{{ file.filename|trimtext(30) }}</b>
+                                    </a>
+                                {% else %}
+                                    <b>{{ file.filename|trimtext(30) }} </b><i class="fa fa-lock"></i>
+                                {% endif %}
+                            </td>
+
+                            <td>{{ file.filesize }}.</td>
+
+                            <td>&nbsp;</td>
+
+                            <td class="listthumb">&nbsp;</td>
+
+                            {# <td>
+                                <a href="{{ file.newpath|thumbnail(1000, 1000, 'r') }}" class="btn btn-small preview magnific" title="Image: {{ file.filename }}">
+                                {{ __('Preview') }}</a>
+                            </td> #}
+                        </tr>
+
                     {% endif %}
                 {% endfor %}
                 </table>
