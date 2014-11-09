@@ -123,12 +123,24 @@ class Application extends Silex\Application
 
     public function initLogger()
     {
-        //
-        $this->register(new Silex\Provider\MonologServiceProvider(), array(
-            'monolog.name'    => 'bolt',
-            'monolog.level'   => $this['config']->get('general/systemlog/level'),
-            'monolog.logfile' => '/tmp/bolt.log'
-        ));
+        // System log
+        if ($this['config']->get('general/systemlog/enabled')) {
+            $this->register(new Provider\LoggerSystemServiceProvider(), array());
+        }
+
+        // Changelog
+        if ($this['config']->get('general/changelog/enabled')) {
+            $this->register(new Provider\LoggerChangeServiceProvider(), array());
+        }
+
+        // Debug log
+//         if ($this['config']->get('general/debuglog/enabled')) {
+//             $this->register(new Silex\Provider\MonologServiceProvider(), array(
+//                 'monolog.name'    => 'bolt',
+//                 'monolog.level'   => $this['config']->get('general/systemlog/level'),
+//                 'monolog.logfile' => '/tmp/bolt.log'
+//             ));
+//         }
     }
 
     /**

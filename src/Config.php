@@ -572,8 +572,7 @@ class Config
             'recordsperpage'              => 10,
             'recordsperdashboardwidget'   => 5,
             'systemlog'                   => array(
-                'enabled' => true,
-                'level'   => Logger::WARNING
+                'enabled' => true
             ),
             'changelog'                   => array(
                 'enabled' => false
