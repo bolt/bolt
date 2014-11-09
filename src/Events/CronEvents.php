@@ -3,6 +3,7 @@ namespace Bolt\Events;
 
 /**
  * Definitions for all possible Cron Events
+ * @codeCoverageIgnore
  */
 final class CronEvents
 {
