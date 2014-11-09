@@ -365,16 +365,6 @@ class CommandRunner
             }
         }
 
-        // If there is no composer.phar in our cache, ping the getcomposer.org
-        // server to make sure we can access it
-        if (! $fs->exists($this->cachedir . 'composer.phar')) {
-            $response = $this->ping('https://getcomposer.org/', 'composer.phar');
-            if (! in_array($response, $httpOk)) {
-                $this->messages[] = 'https://getcomposer.org/ is unreachable.';
-                $this->offline = true;
-            }
-        }
-
         // Ping the extensions server to confirm connection
         $response = $this->ping($this->app['extend.site'], 'ping', true);
         if (! in_array($response, $httpOk)) {
