@@ -130,7 +130,7 @@ class Application extends Silex\Application
 
         // Changelog
         if ($this['config']->get('general/changelog/enabled')) {
-            $this->register(new Provider\LoggerChangeServiceProvider(), array());
+            $this->register(new Provider\LoggerRecordChangeServiceProvider(), array());
         }
 
         // Debug log
