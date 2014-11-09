@@ -7,6 +7,7 @@ use Bolt\Library as Lib;
 use Bolt\Helpers\Arr;
 use Bolt\Helpers\String;
 use Bolt\Translation\Translator as Trans;
+use Monolog\Logger;
 use Symfony\Component\Yaml;
 use Symfony\Component\Yaml\Parser;
 
@@ -570,6 +571,10 @@ class Config
             'locale'                      => \Bolt\Application::DEFAULT_LOCALE,
             'recordsperpage'              => 10,
             'recordsperdashboardwidget'   => 5,
+            'systemlog'                   => array(
+                'enabled' => true,
+                'level'   => Logger::WARNING
+            ),
             'debug'                       => false,
             'debug_show_loggedoff'        => false,
             'debug_error_level'           => 6135,
