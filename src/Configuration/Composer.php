@@ -18,15 +18,7 @@ class Composer extends Standard
         $this->setPath('app', realpath(dirname(__DIR__) . '/../app/'));
         $this->setUrl('app', '/bolt-public/');
     }
-
-    public function compat()
-    {
-        if (! defined("BOLT_COMPOSER_INSTALLED")) {
-            define('BOLT_COMPOSER_INSTALLED', true);
-        }
-        parent::compat();
-    }
-
+    
     public function getVerifier()
     {
         if (! $this->verifier) {
