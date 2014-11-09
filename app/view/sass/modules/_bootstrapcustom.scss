@@ -328,20 +328,6 @@ ul.dropdown-menu li a.nolink {
  */
 
 
-.modal-backdrop, .modal-backdrop.fade.in {
-    opacity: 0.5;
-}
-
-.modal-wide {
-    width: 660px;
-    margin-left: -330px;
-}
-
-.modal .btn {
-    padding-left: 20px;
-    padding-right: 20px;
-}
-
 
 @if $columnborders {
     $list: '';
