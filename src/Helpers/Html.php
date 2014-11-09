@@ -28,7 +28,7 @@ class Html
 
         if (mb_strlen($str) > $desiredLength) {
             $str = mb_substr($str, 0, $newLength) . $ellipseStr;
-        } 
+        }
 
         return $str;
 

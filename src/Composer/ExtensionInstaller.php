@@ -8,9 +8,9 @@ class ExtensionInstaller
         try {
             $installedPackage = $event->getOperation()->getPackage();
         } catch (\Exception $e) {
-            return;   
+            return;
         }
-        
+
         $rootExtra = $event->getComposer()->getPackage()->getExtra();
         $extra = $installedPackage->getExtra();
         if (isset($extra['bolt-assets'])) {
@@ -31,13 +31,13 @@ class ExtensionInstaller
     public static function mirror($source, $dest)
     {
         @mkdir($dest, 0755, true);
-        
-        
+
+
         // We only want to do this if the two directories don't match
         if (realpath($source) === realpath($dest)) {
             return;
         }
-        
+
         $iterator = new \RecursiveIteratorIterator(
             new \RecursiveDirectoryIterator($source, \RecursiveDirectoryIterator::SKIP_DOTS),
             \RecursiveIteratorIterator::SELF_FIRST

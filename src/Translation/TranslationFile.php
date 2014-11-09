@@ -444,7 +444,7 @@ class TranslationFile
 
             if (!file_exists($path)) {
                 $this->app['session']->getFlashBag()->set('error', 'Locale infos yml file not found. Fallback also not found.');
-    
+
                 // fallback failed
                 return null;
             }
@@ -473,14 +473,14 @@ class TranslationFile
         ksort($newTranslations);
 
         try {
-        
+
             return $this->buildNewContent($newTranslations, $savedTranslations);
-        
+
         } catch (\Symfony\Component\Translation\Exception\InvalidResourceException $e) {
-        
+
             // last resort fallback, edit the file
             return file_get_contents($this->absPath);
-        
+
         }
     }
 

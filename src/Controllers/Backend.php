@@ -1667,7 +1667,7 @@ class Backend implements ControllerProviderInterface
                 } else {
                     $path = $app['resources']->getPath($namespace);
                 }
-                
+
                 $filename = realpath($path . "/" . $file);
             } catch (\Exception $e) {
                 $path = $app['resources']->getPath('files');
