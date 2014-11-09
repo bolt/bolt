@@ -224,6 +224,7 @@ class BoltLibraryTest extends BoltUnitTest
         file_put_contents($file, serialize(range(1,100)));
         $data = Library::loadSerialize($file);
         $this->assertEquals(range(1,100), $data);
+        unlink($file);
     }
     
     
