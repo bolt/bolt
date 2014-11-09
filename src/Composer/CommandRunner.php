@@ -2,10 +2,12 @@
 namespace Bolt\Composer;
 
 use Silex;
+use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
+use Composer\Console\Application as ComposerApp;
 use Guzzle\Http\Client as GuzzleClient;
 use Guzzle\Http\Exception\RequestException;
 use evidev\composer\Wrapper;
@@ -13,8 +15,11 @@ use Bolt\Library as Lib;
 
 class CommandRunner
 {
+    /**
+     * @var \Composer\Console\Application
+     */
+    public $composerapp;
     public $offline = false;
-    public $wrapper;
     public $messages = array();
     public $lastOutput;
     public $packageFile;
@@ -196,8 +201,14 @@ class CommandRunner
         $command .= ' -d ' . $this->basedir . ' -n --no-ansi';
         $this->writeLog('command', $command);
 
+        // Create an InputInterface object to pass to Composer
+        $command = new StringInput($command);
+
+        // Create the output buffer
         $output = new BufferedOutput();
-        $responseCode = $this->wrapper->run($command, $output);
+
+        // Execute the Composer task
+        $responseCode = $this->composerapp->run($command, $output);
 
         if ($responseCode == 0) {
             $outputText = $output->fetch();
@@ -339,7 +350,7 @@ class CommandRunner
         putenv('COMPOSER_HOME=' . $this->app['resources']->getPath('cache') . '/composer');
 
         // Since we output JSON most of the time, we do _not_ want notices or warnings.
-        // Set the error reporting before initializing the wrapper, to suppress them.
+        // Set the error reporting before initializing Composer, to suppress them.
         $oldErrorReporting = error_reporting(E_ERROR);
 
         // Check that our Composer cache directory exists, as the wrapper will
@@ -377,8 +388,11 @@ class CommandRunner
             return false;
         }
 
-        // Create the Composer wrapper object
-        $this->wrapper = Wrapper::create($this->cachedir);
+        // Create the Composer application object
+        $this->composerapp = new ComposerApp();
+
+        // Don't automatically exit after a command execution
+        $this->composerapp->setAutoExit(false);
 
         // re-set error reporting to the value it should be.
         error_reporting($oldErrorReporting);
