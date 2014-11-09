@@ -366,11 +366,14 @@ class CommandRunner
             $this->execute('init');
         }
 
+        // Check to see if composer.json is writable
         if (is_file($this->packageFile) && !is_writable($this->packageFile)) {
             $this->messages[] = sprintf(
                 "The file '%s' is not writable. You will not be able to use this feature without changing the permissions.",
                 $this->packageFile
             );
+
+            $this->offline = true;
         }
 
         // Ping the extensions server to confirm connection
