@@ -353,18 +353,6 @@ class CommandRunner
         // Set the error reporting before initializing Composer, to suppress them.
         $oldErrorReporting = error_reporting(E_ERROR);
 
-        // Check that our Composer cache directory exists, as the wrapper will
-        // fallback to the system temp directory, which in turn breaks systems
-        // with open_basedir() restrictions in place
-        $fs = new Filesystem();
-        if (! $fs->exists($this->cachedir)) {
-            try {
-                $fs->mkdir($this->cachedir, 0777);
-            } catch (IOExceptionInterface $e) {
-                throw new LowlevelException("Unable to create the Composer cache directory:\n" . $e->getMessage());
-            }
-        }
-
         // Ping the extensions server to confirm connection
         $response = $this->ping($this->app['extend.site'], 'ping', true);
         if (! in_array($response, $httpOk)) {
