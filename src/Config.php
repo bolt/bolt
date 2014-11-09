@@ -577,6 +577,10 @@ class Config
             'changelog'                   => array(
                 'enabled' => false
             ),
+            'debuglog'                    => array(
+                'enabled' => false,
+                'level'   => Logger::DEBUG
+            ),
             'debug'                       => false,
             'debug_show_loggedoff'        => false,
             'debug_error_level'           => 6135,

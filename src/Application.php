@@ -134,13 +134,13 @@ class Application extends Silex\Application
         }
 
         // Debug log
-//         if ($this['config']->get('general/debuglog/enabled')) {
-//             $this->register(new Silex\Provider\MonologServiceProvider(), array(
-//                 'monolog.name'    => 'bolt',
-//                 'monolog.level'   => $this['config']->get('general/systemlog/level'),
-//                 'monolog.logfile' => '/tmp/bolt.log'
-//             ));
-//         }
+        if ($this['config']->get('general/debuglog/enabled')) {
+            $this->register(new Silex\Provider\MonologServiceProvider(), array(
+                'monolog.name'    => 'bolt',
+                'monolog.level'   => $this['config']->get('general/debuglog/level'),
+                'monolog.logfile' => $this['resources']->getPath('cache') . '/bolt-debug.log'
+            ));
+        }
     }
 
     /**
