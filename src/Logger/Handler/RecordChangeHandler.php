@@ -72,16 +72,18 @@ class RecordChangeHandler extends AbstractProcessingHandler
             $this->initialize();
         }
 
-        $this->app['db']->insert($this->tablename, array(
-            'date'          => $record['datetime']->format('U'),
-            'ownerid'       => $record[''],
-            'title'         => $record[''],
-            'contenttype'   => $record[''],
-            'contentid'     => $record[''],
-            'mutation_type' => $record[''],
-            'diff'          => $record[''],
-            'comment'       => $record['']
-        ));
+        if (isset($this->app['db'])) {
+            $this->app['db']->insert($this->tablename, array(
+                'date'          => $record['datetime']->format('U'),
+                'ownerid'       => $record[''],
+                'title'         => $record[''],
+                'contenttype'   => $record[''],
+                'contentid'     => $record[''],
+                'mutation_type' => $record[''],
+                'diff'          => $record[''],
+                'comment'       => $record['']
+            ));
+        }
 
 //         $this->statement->execute(array(
 //             'channel' => $record['channel'],
