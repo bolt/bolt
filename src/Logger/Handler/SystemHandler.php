@@ -82,7 +82,7 @@ class SystemHandler extends AbstractProcessingHandler
          *  - code
          *  - dump
          */
-        if (isset($this->app['db'])) {
+        try {
             $this->app['db']->insert($this->tablename, array(
                 'level'       => $record['level'],
                 'date'        => $record['datetime']->format('Y-m-d H:i:s'),
@@ -96,6 +96,8 @@ class SystemHandler extends AbstractProcessingHandler
                 'code'        => '',
                 'dump'        => ''
             ));
+        } catch (\Exception $e) {
+            // Nothing..
         }
     }
 
