@@ -12,7 +12,6 @@
         "composer/composer": "1.0.*@dev",
         "doctrine/dbal": "~2.4",
         "erusev/parsedown-extra": "~0.2",
-        "eviweb/composer-wrapper" : "~1.0",
         "filp/whoops": "~1.1",
         "guzzle/guzzle": "~3.9",
         "hautelook/phpass": "~0.3",
