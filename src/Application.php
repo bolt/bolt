@@ -4,6 +4,7 @@ namespace Bolt;
 
 use Bolt\Configuration\LowlevelException;
 use Bolt\Library as Lib;
+use Monolog\Logger;
 use RandomLib;
 use SecurityLib;
 use Silex;
@@ -82,12 +83,13 @@ class Application extends Silex\Application
         if ($this['config']->get('general/session_use_storage_handler') === false) {
             $this['session.storage.handler'] = null;
         }
-
-        $this->register(new Provider\LogServiceProvider());
     }
 
     public function initialize()
     {
+        // Initialise logging
+        $this->initLogger();
+
         // Set up locale and translations.
         $this->initLocale();
 
@@ -117,6 +119,16 @@ class Application extends Silex\Application
 
         // Initialise the 'error' handler.
         $this->error(array($this, 'errorHandler'));
+    }
+
+    public function initLogger()
+    {
+        //
+        $this->register(new Silex\Provider\MonologServiceProvider(), array(
+            'monolog.name'    => 'bolt',
+            'monolog.level'   => Logger::WARNING,
+            'monolog.logfile' => '/tmp/bolt.log'
+        ));
     }
 
     /**
