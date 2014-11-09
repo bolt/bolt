@@ -137,9 +137,8 @@ class LowlevelChecksTest extends BoltUnitTest
     
     public function testMissingDb()
     {
+        // This should silently ignore the checks
         $check = $this->getMockedChecker('mockNoDriver');
-        $this->setExpectedException(LowlevelException::class);
-        $this->expectOutputRegex("/Bolt - Fatal Error/");
         $check->doDatabaseCheck();      
     }
     
