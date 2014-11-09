@@ -2,7 +2,7 @@
 
 namespace Bolt\Provider;
 
-use Bolt\Database\LoggerHandler;
+use Bolt\Logger\Handler\RecordChangeHandler;
 use Monolog\Logger;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
@@ -19,7 +19,7 @@ class LoggerRecordChangeServiceProvider implements ServiceProviderInterface
         $app['logger.change'] = $app->share(function ($app) {
             $log = new Logger('logger.system');
 
-            $log->pushHandler(new LoggerHandler($app, 'change'));
+            $log->pushHandler(new RecordChangeHandler($app));
 
             return $log;
         });
