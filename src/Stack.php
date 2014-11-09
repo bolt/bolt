@@ -31,10 +31,10 @@ class Stack
 
         $stack_items = false;
         if (isset($_SESSION['stack'])) {
-            $stack_items = Lib::smart_unserialize($_SESSION['stack']);
+            $stack_items = Lib::smartUnserialize($_SESSION['stack']);
         }
         if (!is_array($stack_items)) {
-            $stack_items = Lib::smart_unserialize($currentuser['stack']);
+            $stack_items = Lib::smartUnserialize($currentuser['stack']);
         }
         if (!is_array($stack_items)) {
             $stack_items = array();
