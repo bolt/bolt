@@ -21,11 +21,7 @@ class Manager
     public function __construct()
     {
         foreach ($this->defaults as $default) {
-            if ($default == 'number') {
-                $field = new Base($default, 'editcontent/fields/_float.twig');
-            } else {
-                $field = new Base($default, 'editcontent/fields/_' . $default . '.twig');
-            }
+            $field = new Base($default, 'editcontent/fields/_' . $default . '.twig');
             $this->addField($field);
         }
     }
@@ -44,6 +40,8 @@ class Manager
     {
         if ($this->has($name)) {
             return $this->fields[$name];
+        } else {
+            return false;
         }
     }
 
