@@ -71,20 +71,23 @@ class SystemHandler extends AbstractProcessingHandler
             $this->initialize();
         }
 
-        $this->app['db']->insert($this->tablename, array(
-            'level'       => $record['level'],
-            'date'        => $record['datetime']->format('U'),
-            'message'     => $record['formatted'],
-            'requesturi'  => $record[''],
-            'route'       => $record[''],
-            'ip'          => $record[''],
-            'file'        => $record[''],
-            'line'        => $record[''],
-            'contenttype' => $record[''],
-            'content_id'  => $record[''],
-            'code'        => $record[''],
-            'dump'        => $record['']
-        ));
+        if (isset($this->app['db'])) {
+            $this->app['db']->insert($this->tablename, array(
+                'level'       => $record['level'],
+                'date'        => $record['datetime']->format('U'),
+                'message'     => $record['formatted'],
+                'requesturi'  => $record[''],
+                'route'       => $record[''],
+                'ip'          => $record[''],
+                'file'        => $record[''],
+                'line'        => $record[''],
+                'contenttype' => $record[''],
+                'content_id'  => $record[''],
+                'code'        => $record[''],
+                'dump'        => $record['']
+            ));
+        }
+
 
 //         $this->statement->execute(array(
 //             'channel' => $record['channel'],
