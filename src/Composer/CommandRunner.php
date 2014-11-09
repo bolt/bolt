@@ -10,7 +10,6 @@ use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Composer\Console\Application as ComposerApp;
 use Guzzle\Http\Client as GuzzleClient;
 use Guzzle\Http\Exception\RequestException;
-use evidev\composer\Wrapper;
 use Bolt\Library as Lib;
 
 class CommandRunner
