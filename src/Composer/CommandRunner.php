@@ -353,19 +353,6 @@ class CommandRunner
         // Set the error reporting before initializing Composer, to suppress them.
         $oldErrorReporting = error_reporting(E_ERROR);
 
-        // Ping the extensions server to confirm connection
-        $response = $this->ping($this->app['extend.site'], 'ping', true);
-        if (! in_array($response, $httpOk)) {
-            $this->messages[] = $this->app['extend.site'] . ' is unreachable.';
-
-            $this->offline = true;
-        }
-
-        if ($this->offline) {
-            $this->messages[] = 'Unable to install/update extensions!';
-            return false;
-        }
-
         // Create the Composer application object
         $this->composerapp = new ComposerApp();
 
@@ -384,6 +371,19 @@ class CommandRunner
                 "The file '%s' is not writable. You will not be able to use this feature without changing the permissions.",
                 $this->packageFile
             );
+        }
+
+        // Ping the extensions server to confirm connection
+        $response = $this->ping($this->app['extend.site'], 'ping', true);
+        if (! in_array($response, $httpOk)) {
+            $this->messages[] = $this->app['extend.site'] . ' is unreachable.';
+
+            $this->offline = true;
+        }
+
+        if ($this->offline) {
+            $this->messages[] = 'Unable to install/update extensions!';
+            return false;
         }
 
         $this->execute('config repositories.bolt composer ' . $this->app['extend.site'] . 'satis/');
