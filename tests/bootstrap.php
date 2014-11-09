@@ -12,8 +12,8 @@ if (is_dir(__DIR__ . '/../../../../vendor/')) {
     $CLASSLOADER = require_once __DIR__ . '/../vendor/autoload.php';
 }
 
-require_once 'upload-bootstrap.php';
-require_once 'lowlevel-bootstrap.php';
+require_once 'bootstraps/upload-bootstrap.php';
+require_once 'bootstraps/lowlevel-bootstrap.php';
 
 if(!defined('TEST_ROOT')) {
     define('TEST_ROOT', realpath(__DIR__ . '/../'));
