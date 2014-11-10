@@ -10,6 +10,7 @@ jQuery(function ($) {
     bolt.sidebar = new Sidebar();
     bolt.navpopups = new Navpopups();
     bolt.moments = new Moments();
+    bolt.datetime = new DateTime();
     bolt.imagelist = [];
     bolt.filelist = [];
 
