@@ -14,7 +14,7 @@ use Silex\ServiceProviderInterface;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class LoggerSystemServiceProvider implements ServiceProviderInterface
+class LoggerServiceProvider implements ServiceProviderInterface
 {
     public function register(Application $app)
     {
