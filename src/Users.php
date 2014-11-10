@@ -202,9 +202,9 @@ class Users
 
         $key = $this->getAuthToken($this->currentuser['username']);
 
-        if ($key !== $this->currentuser['sessionkey']) {
-            $this->app['log']->add("keys don't match. Invalidating session: $key != " . $this->currentuser['sessionkey'], 2);
-            $this->app['log']->add("Automatically logged out user '" . $this->currentuser['username'] . "': Session data didn't match.", 3, '', 'issue');
+        if ($key != $this->currentuser['sessionkey']) {
+            $this->app['logger.system']->addError("keys don't match. Invalidating session: $key != " . $this->currentuser['sessionkey']);
+            $this->app['logger.system']->addInfo("Automatically logged out user '" . $this->currentuser['username'] . "': Session data didn't match.", array('event' => 'issue'));
             $this->logout();
 
             return false;
@@ -450,7 +450,7 @@ class Users
         } else {
 
             $this->session->getFlashBag()->set('error', Trans::__('Username or password not correct. Please check your input.'));
-            $this->app['log']->add("Failed login attempt for '" . $user['displayname'] . "'.", 3, '', 'issue');
+            $this->app['logger.system']->addInfo("Failed login attempt for '" . $user['displayname'] . "'.",  array('event' => 'issue'));
 
             // Update the failed login attempts, and perhaps throttle the logins.
             $update = array(
@@ -603,9 +603,9 @@ class Users
             $res = $this->app['mailer']->send($message);
 
             if ($res) {
-                $this->app['log']->add("Password request sent to '" . $user['displayname'] . "'.", 3, '', 'issue');
+                $this->app['logger.system']->addInfo("Password request sent to '" . $user['displayname'] . "'.", array('event' => 'issue'));
             } else {
-                $this->app['log']->add("Failed to send password request sent to '" . $user['displayname'] . "'.", 3, '', 'issue');
+                $this->app['logger.system']->addInfo("Failed to send password request sent to '" . $user['displayname'] . "'.", array('event' => 'issue'));
             }
 
         }
@@ -640,8 +640,8 @@ class Users
         } else {
 
             // That was not a valid token, or too late, or not from the correct IP.
-            $this->app['log']->add("Somebody tried to reset a password with an invalid token.", 3, '', 'issue');
-            $this->app['session']->getFlashBag()->set('error', Trans::__("Password reset not successful! Either the token was incorrect, or you were too late, or you tried to reset the password from a different IP-address."));
+            $this->app['logger.system']->addInfo('Somebody tried to reset a password with an invalid token.', array('event' => 'issue'));
+            $this->app['session']->getFlashBag()->set('error', Trans::__('Password reset not successful! Either the token was incorrect, or you were too late, or you tried to reset the password from a different IP-address.'));
 
         }
     }
