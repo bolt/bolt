@@ -52,6 +52,15 @@ var datetimes = function () {
         }
     }
 
+    function setDatepickerOptions(item, options) {
+        for (key in options) {
+            if (fieldOptions.hasOwnProperty(key)) {
+                options[key] = fieldOptions[key];
+            }
+        }
+        item.datepicker(options);
+    }
+
     return {
         init: function () {
             // Set global datepicker locale
@@ -64,7 +73,6 @@ var datetimes = function () {
                 var options = {},
                     setDate,
                     id = $(this).attr('id').replace(/-date$/, ''),
-                    fieldOptions = $(this).data('field-options');
                     field = {
                         data: $('#' + id),
                         date: $(this),
@@ -80,22 +88,14 @@ var datetimes = function () {
                 }
 
                 // Parse override settings from field in contenttypes.yml
-                for (key in fieldOptions) {
-                    if (fieldOptions.hasOwnProperty(key)) {
-                        options[key] = fieldOptions[key];
-                    }
-                }
+                setDatepickerOptions(field.date, $(this).data('field-options'));
 
                 // Update hidden field on selection
-                //options.onSelect = function () {
-                //    hasChanged(field);
-                //};
                 field.date.change(function () {
                     hasChanged(field);
                 });
 
                 // Set Datepicker
-                field.date.datepicker(options);
                 field.date.datepicker('setDate', setDate);
 
                 // If a time field exists, bind it
