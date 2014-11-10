@@ -93,7 +93,7 @@ class SystemHandler extends AbstractProcessingHandler
                 'ip'          => $this->app['request']->getClientIp(),
                 'file'        => $filename,
                 'line'        => $backtrace[0]['line'],
-                'code'        => '',
+                'code'        => isset($record['context']['event']) ? $record['context']['event'] : '',
                 'dump'        => ''
             ));
         } catch (\Exception $e) {

@@ -109,7 +109,7 @@ class Config
         // Only do something if we get at least one key.
         if (empty($path[0])) {
             $logline = "Config: can't set empty path to '" . (string) $value . "'";
-            $this->app['logger.system']->addCritical($logline);
+            $this->app['logger.system']->addCritical($logline, array('event' => 'config'));
 
             return false;
         }
