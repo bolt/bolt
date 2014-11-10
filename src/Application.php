@@ -15,6 +15,7 @@ use Symfony\Component\Stopwatch;
 use Whoops\Handler\JsonResponseHandler;
 use Whoops\Provider\Silex\WhoopsServiceProvider;
 use Bolt\Provider\PathServiceProvider;
+use Bolt\Provider\LoggerServiceProvider;
 
 class Application extends Silex\Application
 {
@@ -121,12 +122,12 @@ class Application extends Silex\Application
     {
         // System log
         if ($this['config']->get('general/systemlog/enabled')) {
-            $this->register(new Provider\LoggerSystemServiceProvider(), array());
+            $this->register(new LoggerServiceProvider(), array());
         }
 
         // Changelog
         if ($this['config']->get('general/changelog/enabled')) {
-            $this->register(new Provider\LoggerRecordChangeServiceProvider(), array());
+            $this->register(new LoggerServiceProvider(), array());
         }
 
         // Debug log
