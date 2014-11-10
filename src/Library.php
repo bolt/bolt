@@ -210,9 +210,12 @@ class Library
             $path = "/";
         }
         header("location: $path");
-        echo "<noscript><p>Redirecting to <a href='$path'>$path</a>.</p></noscript>";
-        echo "<script>window.setTimeout(function(){ window.location='$path'; }, 50);</script>";
-
+        echo "<p>Redirecting to <a href='$path'>$path</a>.</p>";
+        echo "<script>window.setTimeout(function(){ window.location='$path'; }, 500);</script>";
+        if ($abort) {
+            return $app->abort(303, "Redirecting to '$path'.");
+        }
+        return $path;
     }
 
     /**
@@ -360,8 +363,9 @@ class Library
             if ($data !== false) {
                 return $data;
             }
+        } else {
+            $data = unserialize($str);
+            return $data;
         }
-        $data = unserialize($str);
-        return $data;
     }
 }
