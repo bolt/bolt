@@ -124,15 +124,7 @@ class Application extends Silex\Application
 
     public function initLogger()
     {
-        // System log
-        if ($this['config']->get('general/systemlog/enabled')) {
-            $this->register(new LoggerServiceProvider(), array());
-        }
-
-        // Changelog
-        if ($this['config']->get('general/changelog/enabled')) {
-            $this->register(new LoggerServiceProvider(), array());
-        }
+        $this->register(new LoggerServiceProvider(), array());
 
         // Debug log
         if ($this['config']->get('general/debuglog/enabled')) {
