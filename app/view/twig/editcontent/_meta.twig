@@ -43,7 +43,7 @@
     name:      'datedepublish-timeformatted',
     type:      'text',
     title:     __('Time in 24h format'),
-    value:     context.content.datedepublish > '1900-01-01 00:00:00' ? context.content.datepublish|date('H:i') : '',
+    value:     context.content.datedepublish > '1900-01-01 00:00:00' ? context.content.datedepublish|date('H:i') : '',
     disabled:  (not can_depublish),
 }%}
 
