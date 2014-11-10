@@ -113,29 +113,6 @@ class Content implements \ArrayAccess
             $this->setValue($key, $value);
         }
 
-        $now = date("Y-m-d H:i:s");
-
-        if (!isset($this->values['datecreated']) ||
-            !preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $this->values['datecreated'])) {
-            $this->values['datecreated'] = $now;
-        }
-
-        if (!isset($this->values['datepublish']) || ($this->values['datepublish'] < "1971-01-01 01:01:01") ||
-            !preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $this->values['datepublish'])) {
-            $this->values['datepublish'] = $now;
-        }
-
-        if (!isset($this->values['datechanged']) || ($this->values['datepublish'] < "1971-01-01 01:01:01") ||
-            !preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $this->values['datechanged'])) {
-            $this->values['datechanged'] = $now;
-        }
-
-        if (!isset($this->values['datedepublish']) ||
-            !preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $this->values['datecreated'])) {
-            // Not all DB-engines can handle a date like '0000-00-00', so we pick a safe date, that's far enough in the past.
-            $this->values['datedepublish'] = "1900-01-01 00:00:00";
-        }
-
         // If default status is set in contentttype..
         if (empty($this->values['status'])) {
             $this->values['status'] = $this->contenttype['default_status'];
@@ -273,6 +250,29 @@ class Content implements \ArrayAccess
             } else {
                 $values['status'] = "draft";
             }
+        }
+
+        $now = date("Y-m-d H:i:s");
+
+        if (!isset($values['datecreated']) ||
+            !preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $values['datecreated'])) {
+            $values['datecreated'] = $now;
+        }
+
+        if (!isset($values['datepublish']) || ($values['datepublish'] < "1971-01-01 01:01:01") ||
+            !preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $values['datepublish'])) {
+            $values['datepublish'] = $now;
+        }
+
+        if (!isset($values['datechanged']) || ($values['datepublish'] < "1971-01-01 01:01:01") ||
+            !preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $values['datechanged'])) {
+            $values['datechanged'] = $now;
+        }
+
+        if (!isset($values['datedepublish']) ||
+            !preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $values['datecreated'])) {
+            // Not all DB-engines can handle a date like '0000-00-00', so we pick a safe date, that's far enough in the past.
+            $values['datedepublish'] = "1900-01-01 00:00:00";
         }
 
         // If we set a 'publishdate' in the future, and the status is 'published', set it to 'timed' instead.
