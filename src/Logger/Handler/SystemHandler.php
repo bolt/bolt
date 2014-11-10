@@ -2,8 +2,6 @@
 
 namespace Bolt\Logger\Handler;
 
-use Doctrine\DBAL\Schema\Schema;
-
 use Monolog\Logger;
 use Monolog\Handler\AbstractProcessingHandler;
 
