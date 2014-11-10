@@ -119,7 +119,7 @@ class Async implements ControllerProviderInterface
         // If not cached, get fresh news..
         if ($news === false) {
 
-            $app['log']->add("News: fetch from remote server..", 1);
+            $app['logger.system']->add("[News] Fetching from remote server: http://news.bolt.cm/");
 
             $driver = $app['config']->get('general/database/driver', 'sqlite');
 
@@ -149,15 +149,15 @@ class Async implements ControllerProviderInterface
 
                     $app['cache']->save('dashboardnews', $news, 7200);
                 } else {
-                    $app['log']->add("News: got invalid JSON feed", 1);
+                    $app['logger.system']->addError("[News] Invalid JSON feed returned");
                 }
 
             } catch (RequestException $re) {
-                $app['log']->add("News: got exception: " . $re->getMessage(), 1);
+                $app['logger.system']->addError("[News] Error occurred during fetch: " . $re->getMessage());
             }
 
         } else {
-            $app['log']->add("News: get from cache..", 1);
+            $app['logger.system']->add("[News] Using cached data");
         }
 
         $body = $app['render']->render('components/panel-news.twig', array('news' => $news));
