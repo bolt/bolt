@@ -11,6 +11,7 @@ use Monolog\Handler\AbstractProcessingHandler;
 use Bolt\Application;
 use Bolt\Helpers\String;
 use Bolt\Logger\Formatter\System;
+use Bolt\Pager;
 
 /**
  *
@@ -25,6 +26,16 @@ class Manager
     private $app;
 
     /**
+     * @var boolean
+     */
+    private $initialized = false;
+
+    /**
+     * @var string
+     */
+    private $tablename;
+
+    /**
      *
      * @param Application $app
      */
@@ -35,6 +46,10 @@ class Manager
 
     public function trim()
     {
+        if (!$this->initialized) {
+            $this->initialize();
+        }
+
         $query = sprintf(
             "DELETE FROM %s WHERE level='1';",
             $this->tablename
@@ -65,6 +80,10 @@ class Manager
 
     public function clear()
     {
+        if (!$this->initialized) {
+            $this->initialize();
+        }
+
         $configdb = $this->app['config']->getDBOptions();
 
         if (isset($configdb['driver']) && ($configdb['driver'] == "pdo_sqlite")) {
@@ -91,6 +110,10 @@ class Manager
 
     public function getActivity($amount = 10, $minlevel = 1)
     {
+        if (!$this->initialized) {
+            $this->initialize();
+        }
+
         $codes = array('save content', 'login', 'logout', 'fixme', 'user');
 
         $param = Pager::makeParameterId('activity');
@@ -136,5 +159,14 @@ class Manager
         $this->app['storage']->setPager('activity', $pager);
 
         return $rows;
+    }
+
+    /**
+     * Initialize
+     */
+    private function initialize()
+    {
+        $this->tablename = sprintf("%s%s", $this->app['config']->get('general/database/prefix', "bolt_"), 'log');
+        $this->initialized = true;
     }
 }
