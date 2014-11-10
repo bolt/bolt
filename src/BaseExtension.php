@@ -222,7 +222,7 @@ abstract class BaseExtension implements ExtensionInterface
                 $configdir = dirname($configfile);
                 $message = "Couldn't read $configfile. Please correct file " .
                            "permissions and ensure the $configdir directory readable.";
-                $this->app['log']->add($message, 3);
+                $this->app['logger.system']->addCritical($message);
                 $this->app['session']->getFlashBag()->set('error', $message);
 
                 return false;
@@ -240,10 +240,7 @@ abstract class BaseExtension implements ExtensionInterface
             if (is_readable($configdistfile) && is_dir(dirname($configfile))) {
                 if (copy($configdistfile, $configfile)) {
                     // Success!
-                    $this->app['log']->add(
-                        "Copied $configdistfile to $configfile",
-                        2
-                    );
+                    $this->app['logger.system']->addInfo("Copied $configdistfile to $configfile");
 
                     return true;
                 } else {
@@ -252,7 +249,7 @@ abstract class BaseExtension implements ExtensionInterface
                     $message = "Couldn't copy $configdistfile to $configfile: " .
                                "File is not writable. Create the file manually, " .
                                "or make the $configdir directory writable.";
-                    $this->app['log']->add($message, 3);
+                    $this->app['logger.system']->addCritical($message);
                     $this->app['session']->getFlashBag()->set('error', $message);
 
                     return false;
@@ -423,7 +420,7 @@ abstract class BaseExtension implements ExtensionInterface
             $this->app['extensions']->addJavascript($this->app['paths']['theme'] . $filename, $late, $priority);
         } else {
             // Nope, can't add the CSS..
-            $this->app['log']->add("Couldn't add Javascript '$filename': File does not exist in '" . $this->getBaseUrl() . "'.", 2);
+            $this->app['logger.system']->addError("Couldn't add Javascript '$filename': File does not exist in '" . $this->getBaseUrl() . "'.");
         }
     }
 
@@ -445,7 +442,7 @@ abstract class BaseExtension implements ExtensionInterface
             $this->app['extensions']->addCss($this->app['paths']['theme'] . $filename, $late, $priority);
         } else {
             // Nope, can't add the CSS..
-            $this->app['log']->add("Couldn't add CSS '$filename': File does not exist in '" . $this->getBaseUrl() . "'.", 2);
+            $this->app['logger.system']->addError("Couldn't add CSS '$filename': File does not exist in '" . $this->getBaseUrl() . "'.");
         }
     }
 
