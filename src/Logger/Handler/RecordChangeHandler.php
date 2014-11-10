@@ -80,6 +80,11 @@ class RecordChangeHandler extends AbstractProcessingHandler
             return;
         }
 
+        // Initialise ourselves if not already
+        if (!$this->initialized) {
+            $this->initialize();
+        }
+
         // Check for a valid call
         if (!in_array($record['context']['action'], $this->allowed)) {
             throw new \Exception("Invalid action '{$record['context']['action']}' specified for changelog (must be one of [ " . implode(', ', $this->allowed) . " ])");
@@ -92,11 +97,6 @@ class RecordChangeHandler extends AbstractProcessingHandler
         }
         if (empty($record['context']['new']) && in_array($record['context']['action'], array('INSERT', 'UPDATE'))) {
             throw new \Exception("Cannot log action '{$record['context']['action']}' when new content is empty");
-        }
-
-        // Initialise ourselves if not already
-        if (!$this->initialized) {
-            $this->initialize();
         }
 
         $data = array();
