@@ -270,7 +270,7 @@ class Content implements \ArrayAccess
         }
 
         if (!isset($values['datedepublish']) ||
-            !preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $values['datecreated'])) {
+            !preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $values['datedepublish'])) {
             // Not all DB-engines can handle a date like '0000-00-00', so we pick a safe date, that's far enough in the past.
             $values['datedepublish'] = "1900-01-01 00:00:00";
         }
