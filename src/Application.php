@@ -588,7 +588,7 @@ class Application extends Silex\Application
 
         $message = $exception->getMessage();
 
-        $this['log']->add($message, 2, '', 'abort');
+        $this['logger.system']->addCritical($message);
 
         $end = $this['config']->getWhichEnd();
 
