@@ -343,7 +343,7 @@ class Library
      * Leniently decode a serialized compound data structure, detecting whether
      * it's dealing with JSON-encoded data or a PHP-serialized string.
      */
-    public static function smart_unserialize($str, $assoc = true)
+    public static function smartUnserialize($str, $assoc = true)
     {
         if ($str[0] === '{' || $str[0] === '[') {
             $data = json_decode($str, $assoc);

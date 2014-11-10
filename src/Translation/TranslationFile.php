@@ -438,13 +438,12 @@ class TranslationFile
 
         // if the file doesn't exist yet, point to the fallback one
         if (!file_exists($path) || filesize($path) < 10) {
-
             // fallback
             list($path) = $this->buildPath('infos', 'en_GB');
 
             if (!file_exists($path)) {
                 $this->app['session']->getFlashBag()->set('error', 'Locale infos yml file not found. Fallback also not found.');
-    
+
                 // fallback failed
                 return null;
             }
@@ -473,14 +472,10 @@ class TranslationFile
         ksort($newTranslations);
 
         try {
-        
             return $this->buildNewContent($newTranslations, $savedTranslations);
-        
         } catch (\Symfony\Component\Translation\Exception\InvalidResourceException $e) {
-        
             // last resort fallback, edit the file
             return file_get_contents($this->absPath);
-        
         }
     }
 
@@ -580,7 +575,7 @@ class TranslationFile
         $msgRepl = array('%s' => $this->relPath);
 
         // No file, directory not writable
-        if (!file_exists($this->absPath) && !is_writable(dirname($this->absPath))){
+        if (!file_exists($this->absPath) && !is_writable(dirname($this->absPath))) {
             $msg = Trans::__(
                 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.",
                 $msgRepl
@@ -588,7 +583,7 @@ class TranslationFile
             $this->app['session']->getFlashBag()->set('warning', $msg);
 
         // Have a file, but not writable
-        } elseif (file_exists($this->absPath) && !is_writable($this->absPath)){
+        } elseif (file_exists($this->absPath) && !is_writable($this->absPath)) {
             $msg = Trans::__(
                 "The file '%s' is not writable. You will have to use your own editor to make modifications to this file.",
                 $msgRepl

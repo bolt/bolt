@@ -253,7 +253,6 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
      */
     public function before(Request $request, \Bolt\Application $app)
     {
-
         // This disallows extensions from adding any extra snippets to the output
         if ($request->get("_route") !== 'extend') {
             $app['htmlsnippets'] = false;
@@ -271,7 +270,6 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
 
         // Stop the 'stopwatch' for the profiler.
         $app['stopwatch']->stop('bolt.backend.before');
-
     }
 
     public function boot(Silex\Application $app)

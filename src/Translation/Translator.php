@@ -69,7 +69,7 @@ class Translator
      * and try to get a translated string. If there is not, we revert to
      * the generic (%contenttype%) string, which must have a translation.
      */
-    public static function __()
+    public static function /*@codingStandardsIgnoreStart*/__/*@codingStandardsIgnoreEnd*/()
     {
         $app = ResourceManager::getApp();
 
@@ -136,12 +136,12 @@ class Translator
         }
 
         try {
-            
             return call_user_func_array(array($app['translator'], $fn), $args);
-
         } catch (\Symfony\Component\Translation\Exception\InvalidResourceException $e) {
-
-            $app['session']->getFlashBag()->set('warning', '<strong>Error: You should fix this now, before continuing!</strong><br> '.$e->getMessage());
+            $app['session']->getFlashBag()->set(
+                'warning',
+                '<strong>Error: You should fix this now, before continuing!</strong><br> ' . $e->getMessage()
+            );
 
             return $args[0];//$app->abort(500, 'Error reading locale files, Translation files misformed');
         }
