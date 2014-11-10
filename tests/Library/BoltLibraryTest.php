@@ -192,7 +192,7 @@ class BoltLibraryTest extends BoltUnitTest
     {
         $data = range(0,100);
         $file = TEST_ROOT."/non/existent/path/data.php";
-        $this->setExpectedException('PHPUnit_Framework_Error_Warning');
+        $this->setExpectedException('ErrorException');
             
         $this->assertTrue(Library::saveSerialize($file, $data));
     }
