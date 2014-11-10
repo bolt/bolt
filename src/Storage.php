@@ -1677,7 +1677,7 @@ class Storage
             );
 
             if ($contenttype === false) {
-                $this->app['log']->add("Storage: No valid contenttype '$contenttypeslug'");
+                $this->app['logger.system']->addError("Storage: No valid contenttype '$contenttypeslug'", array('event' => 'storage'));
                 continue;
             }
 
@@ -1985,7 +1985,7 @@ class Storage
         // Decode this textquery
         $decoded = $this->decodeContentQuery($textquery, $parameters);
         if ($decoded === false) {
-            $this->app['log']->add("Storage: No valid query '$textquery'");
+            $this->app['logger.system']->addError("Storage: No valid query '$textquery'", array('event' => 'storage'));
             $this->app['stopwatch']->stop('bolt.getcontent');
 
             return false;
@@ -2037,7 +2037,7 @@ class Storage
                 "Storage: requested specific query '%s', not found.",
                 $textquery
             );
-            $this->app['log']->add($msg);
+            $this->app['logger.system']->addError($msg, array('event' => 'storage'));
             $this->app['stopwatch']->stop('bolt.getcontent');
 
             return false;
