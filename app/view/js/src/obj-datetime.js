@@ -7,9 +7,10 @@ var DateTime = Backbone.Model.extend({
     },
 
     initialize: function () {
-        console.log('DateTime:initialize');
+        // Set global datepicker locale
         $.datepicker.setDefaults($.datepicker.regional[bolt.locale.long]);
 
+        // Initialize each date/datetime input
         $('.datepicker').each(function(){
             var id = $(this).attr('id').replace(/-date$/, ''),
                 inpDate = $(this),
@@ -21,7 +22,7 @@ var DateTime = Backbone.Model.extend({
                 is12h = moment.localeData()._longDateFormat.LT.replace(/\[.+?\]/gi, '').match(/A/i) ? true : false,
                 setfnc;
 
-            // For debug purpose
+            // For debug purpose make hidden datafields visible
             if (1) {
                 inpData.attr('type', 'text');
             }
