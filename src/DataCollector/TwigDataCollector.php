@@ -18,6 +18,8 @@ class TwigDataCollector extends DataCollector
 
     protected $data;
 
+    private $trackedvalues;
+
     /**
      * The Constructor for the Twig Datacollector
      *
@@ -99,8 +101,8 @@ class TwigDataCollector extends DataCollector
             'filters' => $filters,
             'functions' => $functions,
             'templates' => Lib::hackislyParseRegexTemplates($this->app['twig.loader']),
-            'templatechosen' => $this->app['log']->getValue('templatechosen'),
-            'templateerror' => $this->app['log']->getValue('templateerror')
+            'templatechosen' => $this->getTrackedValue('templatechosen'),
+            'templateerror' => $this->getTrackedValue('templateerror')
         );
     }
 
@@ -270,5 +272,32 @@ class TwigDataCollector extends DataCollector
     public function getName()
     {
         return 'twig';
+    }
+
+
+    /**
+     * Setting a value for later use..
+     *
+     * @param string $key
+     * @param string $value
+     */
+    public function setTrackedValue($key, $value)
+    {
+        $this->trackedvalues[$key] = $value;
+    }
+
+    /**
+     * Getting a previously set value
+     *
+     * @param  string $key
+     * @return string
+     */
+    public function getTrackedValue($key)
+    {
+        if (isset($this->trackedvalues[$key])) {
+            return $this->trackedvalues[$key];
+        } else {
+            return false;
+        }
     }
 }

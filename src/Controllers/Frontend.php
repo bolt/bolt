@@ -166,6 +166,7 @@ class Frontend
                 basename($app['config']->get('general/theme')),
                 $template
             );
+            $app['twig.logger']->setTrackedValue('templateerror', $error);
             $app['logger.system']->addError($error, array('event' => 'template'));
             $app->abort(404, $error);
         }
@@ -215,6 +216,7 @@ class Frontend
                 basename($app['config']->get('general/theme')),
                 $template
             );
+            $app['twig.logger']->setTrackedValue('templateerror', $error);
             $app['logger.system']->addError($error, array('event' => 'template'));
             $app->abort(404, $error);
         }
@@ -264,6 +266,7 @@ class Frontend
                 basename($app['config']->get('general/theme')),
                 $template
             );
+            $app['twig.logger']->setTrackedValue('templateerror', $error);
             $app['logger.system']->addError($error, array('event' => 'template'));
             $app->abort(404, $error);
         }
@@ -321,6 +324,7 @@ class Frontend
                 basename($app['config']->get('general/theme')),
                 $template
             );
+            $app['twig.logger']->setTrackedValue('templateerror', $error);
             $app['logger.system']->addError($error, array('event' => 'template'));
             $app->abort(404, $error);
         }
