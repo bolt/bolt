@@ -264,7 +264,7 @@ class Content implements \ArrayAccess
             $values['datepublish'] = $now;
         }
 
-        if (!isset($values['datechanged']) || ($values['datepublish'] < "1971-01-01 01:01:01") ||
+        if (!isset($values['datechanged']) || ($values['datechanged'] < "1971-01-01 01:01:01") ||
             !preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $values['datechanged'])) {
             $values['datechanged'] = $now;
         }
