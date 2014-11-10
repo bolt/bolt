@@ -170,7 +170,7 @@ class Async implements ControllerProviderInterface
      */
     public function latestactivity(Silex\Application $app)
     {
-        $activity = $app['log']->getActivity(8, 3);
+        $activity = $app['logger.manager']->getActivity(8, 3);
 
         $body = $app['render']->render('components/panel-activity.twig', array('activity' => $activity));
 

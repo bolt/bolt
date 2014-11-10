@@ -407,7 +407,7 @@ class Backend implements ControllerProviderInterface
             return Lib::redirect('activitylog');
         }
 
-        $activity = $app['log']->getActivity(16);
+        $activity = $app['logger.manager']->getActivity(16);
 
         $context = array(
             'activity' => $activity

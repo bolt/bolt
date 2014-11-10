@@ -3,6 +3,7 @@
 namespace Bolt\Logger;
 
 use Doctrine\DBAL\Schema\Schema;
+use Doctrine\DBAL\Connection as DoctrineConn;
 
 use Monolog\Logger;
 use Monolog\Handler\AbstractProcessingHandler;
@@ -32,7 +33,7 @@ class Manager
         $this->app = $app;
     }
 
-public function trim()
+    public function trim()
     {
         $query = sprintf(
             "DELETE FROM %s WHERE level='1';",
