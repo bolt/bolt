@@ -157,6 +157,19 @@ class Frontend
         // Then, select which template to use, based on our 'cascading templates rules'
         $template = $app['templatechooser']->record($content);
 
+        // Fallback: If file is not OK, show an error page
+        $filename = $app['paths']['themepath'] . "/" . $template;
+        if (!file_exists($filename) || !is_readable($filename)) {
+            $error = sprintf(
+                "No template for '%s' defined. Tried to use '%s/%s'.",
+                $content->getTitle(),
+                basename($app['config']->get('general/theme')),
+                $template
+            );
+            $app['logger.system']->addError($error, array('event' => 'template'));
+            $app->abort(404, $error);
+        }
+
         // Setting the canonical path and the editlink.
         $app['canonicalpath'] = $content->link();
         $app['paths'] = $app['resources']->getPaths();
@@ -193,6 +206,19 @@ class Frontend
         // Then, select which template to use, based on our 'cascading templates rules'
         $template = $app['templatechooser']->record($content);
 
+        // Fallback: If file is not OK, show an error page
+        $filename = $app['paths']['themepath'] . "/" . $template;
+        if (!file_exists($filename) || !is_readable($filename)) {
+            $error = sprintf(
+                "No template for '%s' defined. Tried to use '%s/%s'.",
+                $content->getTitle(),
+                basename($app['config']->get('general/theme')),
+                $template
+            );
+            $app['logger.system']->addError($error, array('event' => 'template'));
+            $app->abort(404, $error);
+        }
+
         // Make sure we can also access it as {{ page.title }} for pages, etc. We set these in the global scope,
         // So that they're also available in menu's and templates rendered by extensions.
         $app['twig']->addGlobal('record', $content);
@@ -228,6 +254,19 @@ class Frontend
         self::checkFrontendPermission($app, $contenttype['slug']);
 
         $template = $app['templatechooser']->listing($contenttype);
+
+        // Fallback: If file is not OK, show an error page
+        $filename = $app['paths']['themepath'] . "/" . $template;
+        if (!file_exists($filename) || !is_readable($filename)) {
+            $error = sprintf(
+                "No template for '%s'-listing defined. Tried to use '%s/%s'.",
+                $contenttypeslug,
+                basename($app['config']->get('general/theme')),
+                $template
+            );
+            $app['logger.system']->addError($error, array('event' => 'template'));
+            $app->abort(404, $error);
+        }
 
         // Make sure we can also access it as {{ pages }} for pages, etc. We set these in the global scope,
         // So that they're also available in menu's and templates rendered by extensions.
@@ -272,6 +311,19 @@ class Frontend
         }
 
         $template = $app['templatechooser']->taxonomy($taxonomyslug);
+
+        // Fallback: If file is not OK, show an error page
+        $filename = $app['paths']['themepath'] . "/" . $template;
+        if (!file_exists($filename) || !is_readable($filename)) {
+            $error = sprintf(
+                "No template for '%s'-listing defined. Tried to use '%s/%s'.",
+                $taxonomyslug,
+                basename($app['config']->get('general/theme')),
+                $template
+            );
+            $app['logger.system']->addError($error, array('event' => 'template'));
+            $app->abort(404, $error);
+        }
 
         $name = $slug;
         // Look in taxonomies in 'content', to get a display value for '$slug', perhaps.
