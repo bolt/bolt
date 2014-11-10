@@ -304,64 +304,66 @@ class Storage
      */
     private function writeChangelog($action, $contenttype, $contentid, $newContent = null, $oldContent = null, $comment = null)
     {
+        if (!$this->app['config']->get('general/changelog/enabled')) {
+            return;
+        }
+
         $allowed = array('INSERT', 'UPDATE', 'DELETE');
         if (!in_array($action, $allowed)) {
             throw new \Exception("Invalid action '$action' specified for changelog (must be one of [ " . implode(', ', $allowed) . " ])");
         }
 
-        if ($this->app['config']->get('general/changelog/enabled')) {
-            if (empty($oldContent) && empty($newContent)) {
-                throw new \Exception("Tried to log something that cannot be: both old and new content are empty");
-            }
-            if (empty($oldContent) && in_array($action, array('UPDATE', 'DELETE'))) {
-                throw new \Exception("Cannot log action $action when old content doesn't exist");
-            }
-            if (empty($newContent) && in_array($action, array('INSERT', 'UPDATE'))) {
-                throw new \Exception("Cannot log action $action when new content is empty");
-            }
-            switch ($action) {
-                case 'UPDATE':
-                    $diff = DeepDiff::diff($oldContent, $newContent);
-                    foreach ($diff as $item) {
-                        list($k, $old, $new) = $item;
-                        if (isset($newContent[$k])) {
-                            $data[$k] = array($old, $new);
-                        }
-                    }
-                    break;
-                case 'INSERT':
-                    foreach ($newContent as $k => $val) {
-                        $data[$k] = array(null, $val);
-                    }
-                    break;
-                case 'DELETE':
-                    foreach ($oldContent as $k => $val) {
-                        $data[$k] = array($val, null);
-                    }
-                    break;
-            }
-            if ($newContent) {
-                $content = new Content($this->app, $contenttype, $newContent);
-            } else {
-                $content = new Content($this->app, $contenttype, $oldContent);
-            }
-            $title = $content->getTitle();
-            if (empty($title)) {
-                $content = $this->getContent("$contenttype/$contentid");
-                $title = $content->getTitle();
-            }
-            $str = json_encode($data);
-            $user = $this->app['users']->getCurrentUser();
-            $entry['title'] = $title;
-            $entry['date'] = date('Y-m-d H:i:s');
-            $entry['ownerid'] = $user['id'];
-            $entry['contenttype'] = $contenttype;
-            $entry['contentid'] = $contentid;
-            $entry['mutation_type'] = $action;
-            $entry['diff'] = $str;
-            $entry['comment'] = $comment;
-            $this->app['db']->insert($this->getTablename('content_changelog'), $entry);
+        if (empty($oldContent) && empty($newContent)) {
+            throw new \Exception("Tried to log something that cannot be: both old and new content are empty");
         }
+        if (empty($oldContent) && in_array($action, array('UPDATE', 'DELETE'))) {
+            throw new \Exception("Cannot log action $action when old content doesn't exist");
+        }
+        if (empty($newContent) && in_array($action, array('INSERT', 'UPDATE'))) {
+            throw new \Exception("Cannot log action $action when new content is empty");
+        }
+        switch ($action) {
+            case 'UPDATE':
+                $diff = DeepDiff::diff($oldContent, $newContent);
+                foreach ($diff as $item) {
+                    list($k, $old, $new) = $item;
+                    if (isset($newContent[$k])) {
+                        $data[$k] = array($old, $new);
+                    }
+                }
+                break;
+            case 'INSERT':
+                foreach ($newContent as $k => $val) {
+                    $data[$k] = array(null, $val);
+                }
+                break;
+            case 'DELETE':
+                foreach ($oldContent as $k => $val) {
+                    $data[$k] = array($val, null);
+                }
+                break;
+        }
+        if ($newContent) {
+            $content = new Content($this->app, $contenttype, $newContent);
+        } else {
+            $content = new Content($this->app, $contenttype, $oldContent);
+        }
+        $title = $content->getTitle();
+        if (empty($title)) {
+            $content = $this->getContent("$contenttype/$contentid");
+            $title = $content->getTitle();
+        }
+        $str = json_encode($data);
+        $user = $this->app['users']->getCurrentUser();
+        $entry['title'] = $title;
+        $entry['date'] = date('Y-m-d H:i:s');
+        $entry['ownerid'] = $user['id'];
+        $entry['contenttype'] = $contenttype;
+        $entry['contentid'] = $contentid;
+        $entry['mutation_type'] = $action;
+        $entry['diff'] = $str;
+        $entry['comment'] = $comment;
+        $this->app['db']->insert($this->getTablename('content_changelog'), $entry);
     }
 
     private function makeOrderLimitSql($options)
