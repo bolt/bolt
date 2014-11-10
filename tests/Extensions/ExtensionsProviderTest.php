@@ -175,9 +175,7 @@ EOM;
 
     public function tearDown()
     {
-        $app = $this->getApp();
-        $cache = $app['resources']->getPath('cache');
-        $this->rmdir($cache);
+        
     }
     
     
