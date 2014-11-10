@@ -28,7 +28,7 @@
     name:     key~'-timeformatted',
     type:     'text',
     title:    __('Time in 12h/24h format'),
-    value:    (context.content.get(key) and (context.content.get(key) > '0001-01-01 00:00:00') ? context.content.get(key)|date('H:i') : ''),
+    value:    '',
 }%}
 
 {% set attr_hidden = {
