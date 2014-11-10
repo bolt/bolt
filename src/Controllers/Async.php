@@ -119,7 +119,7 @@ class Async implements ControllerProviderInterface
         // If not cached, get fresh news..
         if ($news === false) {
 
-            $app['logger.system']->add("[News] Fetching from remote server: http://news.bolt.cm/");
+            $app['logger.system']->addInfo("[News] Fetching from remote server: http://news.bolt.cm/", array('event' => 'news'));
 
             $driver = $app['config']->get('general/database/driver', 'sqlite');
 
@@ -157,7 +157,7 @@ class Async implements ControllerProviderInterface
             }
 
         } else {
-            $app['logger.system']->add("[News] Using cached data");
+            $app['logger.system']->addInfo("[News] Using cached data", array('event' => 'news'));
         }
 
         $body = $app['render']->render('components/panel-news.twig', array('news' => $news));

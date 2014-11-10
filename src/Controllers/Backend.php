@@ -1497,7 +1497,7 @@ class Backend implements ControllerProviderInterface
             case "delete":
 
                 if ($app['users']->checkAntiCSRFToken() && $app['users']->deleteUser($id)) {
-                    $app['logger.system']->add("Deleted user '{$user['displayname']}'.", array('event' => 'user'));
+                    $app['logger.system']->addInfo("Deleted user '{$user['displayname']}'.", array('event' => 'user'));
                     $app['session']->getFlashBag()->set('info', Trans::__("User '%s' is deleted.", array('%s' => $user['displayname'])));
                 } else {
                     $app['session']->getFlashBag()->set('info', Trans::__("User '%s' could not be deleted.", array('%s' => $user['displayname'])));

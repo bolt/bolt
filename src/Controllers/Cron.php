@@ -220,7 +220,7 @@ class Cron extends Event
             $this->output->writeln("<info>{$msg}</info>");
         }
 
-        $this->app['logger.system']->add("[Cron] $msg", array('event' => 'cron'));
+        $this->app['logger.system']->addInfo("[Cron] $msg", array('event' => 'cron'));
     }
 
     /**
