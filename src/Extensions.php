@@ -236,7 +236,7 @@ class Extensions
         try {
             $extension->getConfig();
         } catch (\Exception $e) {
-            $this->logInitFailure('YAML config failed to load for', $name, $e);
+            $this->app['logger.system']->addCritical("[EXT] YAML config failed to load for {$name}: " . $e->getMessage());
 
             return;
         }
@@ -261,6 +261,7 @@ class Extensions
 
         } catch (\Exception $e) {
             $this->logInitFailure('Initialisation failed for', $name, $e);
+            $this->app['logger.system']->addCritical("[EXT] Initialisation failed for {$name}: " . $e->getMessage());
 
             return;
         }
@@ -273,37 +274,44 @@ class Extensions
             $this->getSnippets($name);
         } catch (\Exception $e) {
             $this->logInitFailure('Snippet loading failed for', $name, $e);
+            $this->app['logger.system']->addError("[EXT] Snippet loading failed for {$name}: " . $e->getMessage());
 
             return;
         }
 
         // Add Twig extensions
         if (is_callable(array($extension, 'getTwigExtensions'))) {
-            /** @var \Twig_Extension[] $extensions */
-            $twigExtensions = $extension->getTwigExtensions();
-            $addTwigExFunc = array($this, 'addTwigExtension');
-            foreach ($twigExtensions as $twigExtension) {
-                $this->app['twig'] = $this->app->share(
-                    $this->app->extend(
-                        'twig',
-                        function(\Twig_Environment $twig) use ($addTwigExFunc, $twigExtension, $name) {
-                            call_user_func($addTwigExFunc, $twig, $twigExtension, $name);
-                            return $twig;
-                        }
-                    )
-                );
-
-                if (is_callable(array($extension, 'isSafe')) && $extension->isSafe() === true) {
-                    $this->app['safe_twig'] = $this->app->share(
+            try {
+                /** @var \Twig_Extension[] $extensions */
+                $twigExtensions = $extension->getTwigExtensions();
+                $addTwigExFunc = array($this, 'addTwigExtension');
+                foreach ($twigExtensions as $twigExtension) {
+                    $this->app['twig'] = $this->app->share(
                         $this->app->extend(
-                            'safe_twig',
+                            'twig',
                             function(\Twig_Environment $twig) use ($addTwigExFunc, $twigExtension, $name) {
                                 call_user_func($addTwigExFunc, $twig, $twigExtension, $name);
                                 return $twig;
                             }
-                        )
+                    )
                     );
+
+                    if (is_callable(array($extension, 'isSafe')) && $extension->isSafe() === true) {
+                        $this->app['safe_twig'] = $this->app->share(
+                            $this->app->extend(
+                                'safe_twig',
+                                function(\Twig_Environment $twig) use ($addTwigExFunc, $twigExtension, $name) {
+                                    call_user_func($addTwigExFunc, $twig, $twigExtension, $name);
+                                    return $twig;
+                                }
+                        )
+                        );
+                    }
                 }
+            } catch (\Exception $e) {
+                $this->app['logger.system']->addError("[EXT] Failed to regsiter Twig extension for {$name}: " . $e->getMessage());
+
+                return;
             }
         }
     }
@@ -323,7 +331,7 @@ class Extensions
             $this->logInitFailure('Twig function registration', $name, $e);
         }
     }
-    
+
     /**
      * @param string $msg
      * @param string $name
