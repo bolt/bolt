@@ -35,6 +35,13 @@ class LoggerSystemServiceProvider implements ServiceProviderInterface
 
             return $log;
         });
+
+        // Manager
+        $app['logger.manager'] = $app->share(function ($app) {
+            $mgr = new Manager($app);
+
+            return $mgr;
+        });
     }
 
     public function boot(Application $app)
