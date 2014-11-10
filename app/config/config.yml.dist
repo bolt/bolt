@@ -177,6 +177,14 @@ debug_error_level: 6135 # equivalent to E_ALL &~ E_NOTICE &~ E_DEPRECATED &~ E_U
 #debug_error_level: 30719 # equivalent to E_ALL
 debug_enable_whoops: true # change this to false to use PHP's built-in error handling instead of Whoops
 
+# System debug logging
+# This will enable intensive logging of Silex functions and will be very hard on 
+# performance and log file size.  The log file will be created in your cache directory
+# Enable this for short time periods only when diagnosing system issues.
+debuglog:
+  enabled: false
+  filename: bolt-debug.log
+
 # Uncomment to enable permission checks in the frontend.
 # This allows hiding certain content types from regular (unauthenticated
 # visitors) through the permission system; see permissions.yml for details.
