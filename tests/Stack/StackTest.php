@@ -7,7 +7,7 @@ use Bolt\Stack;
 use Bolt\Users;
 
 /**
- * Class to test src/Field/Base.
+ * Class to test src/Stack.
  *
  * @author Ross Riley <riley.ross@gmail.com>
  *
