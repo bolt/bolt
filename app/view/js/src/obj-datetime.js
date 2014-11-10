@@ -5,7 +5,7 @@ var datetimes = function () {
     var is24h;
 
     function hasChanged(field) {
-        console.log('dattim:hasChanged()');
+        console.log('hasChanged()');
 
         var date = moment(field.date.datepicker('getDate')),
             time = moment([2001, 11, 24]),
@@ -87,9 +87,12 @@ var datetimes = function () {
                 }
 
                 // Update hidden field on selection
-                options.onSelect = function () {
+                //options.onSelect = function () {
+                //    hasChanged(field);
+                //};
+                field.date.change(function () {
                     hasChanged(field);
-                };
+                });
 
                 // Set Datepicker
                 field.date.datepicker(options);
