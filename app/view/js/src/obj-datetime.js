@@ -15,7 +15,7 @@ var datetimes = function () {
             t;
 
         // Process time field
-        if (field.time.length) {
+        if (field.time) {
             res = field.time.val().match(/^\s*(?:(?:([01]?[0-9]|2[0-3])[:,.]([0-5]?[0-9]))|(1[012]|0?[1-9])[:,.]([0-5]?[0-9])(?:\s*([AP])[. ]?M\.?))\s*$/i);
             if (res) {
                 hours = parseInt(res[1] ? res[1] :res[3]);
@@ -37,7 +37,7 @@ var datetimes = function () {
         // Write back
         if (field.data.val() !== '' && date.isValid()) {
             field.date.datepicker('setDate', $.datepicker.parseDate('yy-mm-dd', date.format('YYYY-MM-DD')));
-            if (field.time.length) {
+            if (field.time) {
                 if (this.is24h) {
                     t = field.data.val().slice(11, 16);
                 } else {
@@ -71,6 +71,7 @@ var datetimes = function () {
                         time: $('#' + id + '-time')
                     };
 
+                field.time = field.time.length ? field.time : false;
                 setDate = $.datepicker.parseDate('yy-mm-dd', field.data.val());
 
                 // For debug purpose make hidden datafields visible
@@ -95,7 +96,7 @@ var datetimes = function () {
                 field.date.datepicker('setDate', setDate);
 
                 // If a time field exists, bind it
-                if (field.time.length) {
+                if (field.time) {
                     if (setDate == '' || field.data.val() === '') {
                         field.time.val('');
                     } else {
