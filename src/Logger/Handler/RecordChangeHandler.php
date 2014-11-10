@@ -133,12 +133,14 @@ class RecordChangeHandler extends AbstractProcessingHandler
             $content = $this->getContent($record['context']['contenttype'] . '/' . $record['context']['id']);
             $title = $content->getTitle();
         }
+
         $str = json_encode($data);
+        $user = $this->app['users']->getCurrentUser();
 
         try {
             $this->app['db']->insert($this->tablename, array(
                 'date'          => $record['datetime']->format('Y-m-d H:i:s'),
-                'ownerid'       => $this->app['users']->getCurrentUser(),
+                'ownerid'       => $user['id'],
                 'title'         => $title,
                 'contenttype'   => $record['context']['contenttype'],
                 'contentid'     => $record['context']['id'],
