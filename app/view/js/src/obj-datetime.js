@@ -4,11 +4,14 @@
 var DateTime = Backbone.Model.extend({
 
     defaults: {
+        is24h: true
     },
 
     initialize: function () {
         // Set global datepicker locale
         $.datepicker.setDefaults($.datepicker.regional[bolt.locale.long]);
+        // Remember if this locale uses 24h format
+        this.set('is24h', moment.localeData()._longDateFormat.LT.replace(/\[.+?\]/gi, '').match(/A/) ? false : true);
 
         // Initialize each date/datetime input
         $('.datepicker').each(function(){
@@ -19,7 +22,6 @@ var DateTime = Backbone.Model.extend({
                 setDate = $.datepicker.parseDate('yy-mm-dd', inpData.val()),
                 options = {},
                 fieldOptions = $(this).data('field-options'),
-                is12h = moment.localeData()._longDateFormat.LT.replace(/\[.+?\]/gi, '').match(/A/i) ? true : false,
                 setfnc;
 
             // For debug purpose make hidden datafields visible
@@ -58,11 +60,11 @@ var DateTime = Backbone.Model.extend({
                 if (inpData.val() !== '' && date.isValid()) {
                     inpDate.datepicker('setDate', $.datepicker.parseDate('yy-mm-dd', date.format('YYYY-MM-DD')));
                     if (inpTime.length) {
-                        if (is12h) {
+                        if (this.get('is24h')) {
+                            t = inpData.val().slice(11, 16);
+                        } else {
                             h = parseInt(inpData.val().slice(11, 13));
                             t = (inpData.val().slice(11, 13) % 12 || 12) + inpData.val().slice(13, 16) + ' ' + (h < 12 ? 'AM' : 'PM');
-                        } else {
-                            t = inpData.val().slice(11, 16);
                         }
                         inpTime.val(t);
                     }
@@ -91,16 +93,16 @@ var DateTime = Backbone.Model.extend({
                 if (setDate == '' || inpData.val() === '') {
                     inpTime.val('');
                 } else {
-                    if (is12h) {
+                    if (this.get('is24h')) {
+                        t = inpData.val().slice(11, 16);
+                    } else {
                         h = parseInt(inpData.val().slice(11, 13));
                         t = (inpData.val().slice(11, 13) % 12 || 12) + inpData.val().slice(13, 16) + ' ' + (h < 12 ? 'AM' : 'PM');
-                    } else {
-                        t = inpData.val().slice(11, 16);
                     }
                     inpTime.val(t);
                 }
                 inpTime.change(setfnc);
             }
         });
-    },
+    }
 });
