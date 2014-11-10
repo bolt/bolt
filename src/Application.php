@@ -127,7 +127,7 @@ class Application extends Silex\Application
             $this->register(new Silex\Provider\MonologServiceProvider(), array(
                 'monolog.name'    => 'bolt',
                 'monolog.level'   => $this['config']->get('general/debuglog/level'),
-                'monolog.logfile' => $this['resources']->getPath('cache') . '/bolt-debug.log'
+                'monolog.logfile' => $this['resources']->getPath('cache') . '/' . $this['config']->get('general/debuglog/filename')
             ));
         }
     }

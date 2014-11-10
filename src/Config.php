@@ -603,8 +603,9 @@ class Config
                 'enabled' => false
             ),
             'debuglog'                    => array(
-                'enabled' => false,
-                'level'   => Logger::DEBUG
+                'enabled'  => false,
+                'level'    => Logger::DEBUG,
+                'filename' => 'bolt-debug.log'
             ),
             'debug'                       => false,
             'debug_show_loggedoff'        => false,
