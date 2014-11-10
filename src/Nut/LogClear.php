@@ -30,7 +30,7 @@ class LogClear extends BaseCommand
             return;
         }
 
-        $this->app['log']->clear();
+        $this->app['logger.manager']->clear();
 
         $output->writeln("<info>Activity logs cleared!</info>");
     }
