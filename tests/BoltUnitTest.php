@@ -42,7 +42,6 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
                 )
             )
         );
-        $config->compat();
 
         $bolt = new Application(array('resources' => $config));
         $bolt['config']->set(
