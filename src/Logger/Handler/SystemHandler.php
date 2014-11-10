@@ -77,6 +77,14 @@ class SystemHandler extends AbstractProcessingHandler
         $this->user = $this->app['session']->get('user');
         $username = isset($this->user['username']) ? $this->user['username'] : "";
 
+        if (is_object($record['context']['content'])) {
+            $contenttype = $record['context']['content']->contenttype['slug'];
+            $content_id  = intval($record['context']['content']->id);
+        } else {
+            $contenttype = '';
+            $content_id  = 0;
+        }
+
         /*
          * To kill list:
          *  - code
@@ -93,6 +101,8 @@ class SystemHandler extends AbstractProcessingHandler
                 'ip'          => $this->app['request']->getClientIp(),
                 'file'        => $filename,
                 'line'        => $backtrace[0]['line'],
+                'contenttype' => $contenttype,
+                'content_id'  => $content_id,
                 'code'        => isset($record['context']['event']) ? $record['context']['event'] : '',
                 'dump'        => ''
             ));
