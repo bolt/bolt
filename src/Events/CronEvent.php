@@ -83,7 +83,7 @@ class CronEvent extends Event
         $this->notify("Clearing cache");
 
         // Trim log files
-        $this->app['log']->trim();
+        $this->app['logger.manager']->trim();
         $this->notify("Trimming logs");
     }
 
