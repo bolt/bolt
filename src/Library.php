@@ -214,8 +214,9 @@ class Library
         echo "<p>Redirecting to <a href='$path'>$path</a>.</p>";
         echo "<script>window.setTimeout(function(){ window.location='$path'; }, 500);</script>";
         if ($abort) {
-            $app->abort(303, "Redirecting to '$path'.");
+            return $app->abort(303, "Redirecting to '$path'.");
         }
+        return $path;
     }
 
     /**
@@ -363,8 +364,9 @@ class Library
             if ($data !== false) {
                 return $data;
             }
+        } else {
+            $data = unserialize($str);
+            return $data;
         }
-        $data = unserialize($str);
-        return $data;
     }
 }
