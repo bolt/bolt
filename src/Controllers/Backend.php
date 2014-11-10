@@ -1905,8 +1905,6 @@ class Backend implements ControllerProviderInterface
 
         $route = $request->get('_route');
 
-        $app['log']->setRoute($route);
-
         $app['debugbar'] = true;
 
         // If the users table is present, but there are no users, and we're on /bolt/useredit,
