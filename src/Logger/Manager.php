@@ -2,15 +2,12 @@
 
 namespace Bolt\Logger;
 
-use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Connection as DoctrineConn;
 
 use Monolog\Logger;
-use Monolog\Handler\AbstractProcessingHandler;
 
 use Bolt\Application;
 use Bolt\Helpers\String;
-use Bolt\Logger\Formatter\System;
 use Bolt\Pager;
 
 /**

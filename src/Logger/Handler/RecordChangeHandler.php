@@ -2,8 +2,6 @@
 
 namespace Bolt\Logger\Handler;
 
-use Doctrine\DBAL\Schema\Schema;
-
 use Monolog\Logger;
 use Monolog\Handler\AbstractProcessingHandler;
 
@@ -151,39 +149,6 @@ class RecordChangeHandler extends AbstractProcessingHandler
         } catch (\Exception $e) {
             // Nothing..
         }
-    }
-
-
-
-    /**
-     * Writes a content-changelog entry.
-     *
-     * @param string $action Must be one of 'INSERT', 'UPDATE', or 'DELETE'.
-     * @param string $contenttype The contenttype setting to log.
-     * @param int $contentid ID of the content item to log.
-     * @param array $newContent For 'INSERT' and 'UPDATE', the new content;
-     *                          null for 'DELETE'.
-     * @param array $oldContent For 'UPDATE' and 'DELETE', the current content;
-     *                          null for 'INSTERT'.
-     * For the 'UPDATE' and 'DELETE' actions, this function fetches the
-     * previous data from the database; this means that you must call it
-     * _before_ running the actual update/delete query; for the 'INSERT'
-     * action, this is not necessary, and since you really want to provide
-     * an ID, you can only really call the logging function _after_ the update.
-     * @param string $comment Add a comment to save on change log.
-     * @throws \Exception
-     */
-    private function writeChangelog($action, $contenttype, $id, $newContent = null, $oldContent = null, $comment = null)
-    {
-        array(
-            'action' => '',
-            'contenttype' => '',
-            'id' => '',
-            'new' => '',
-            'old' => '',
-            'comment' => '',
-        );
-
     }
 
     /**
