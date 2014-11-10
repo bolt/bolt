@@ -19,15 +19,6 @@ use Bolt\Configuration\LowlevelException;
 class ResourceManagerTest extends \PHPUnit_Framework_TestCase
 {
 
-    public function setup()
-    {
-
-    }
-
-    public function tearDown()
-    {
-        @unlink(TEST_ROOT . '/app/cache/config_cache.php');
-    }
 
     public function testConstruction()
     {
