@@ -27,7 +27,7 @@
                 {% for log in context.activity %}
                     <tr>
                         <td>
-                            № {{ log.id }}<br>Lvl {{ log.level }}
+                            № {{ log.id }}<br>Lvl {{ log.level|loglevel }}
                         </td>
                         <td>
                             <b>{{ log.message }} / {{ log.code }}</b> <br>
