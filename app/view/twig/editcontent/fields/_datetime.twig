@@ -11,6 +11,12 @@
 
 {#=== INIT ===========================================================================================================#}
 
+{% set attr_data = {
+    name_id:  key,
+    type:     'hidden',
+    value:    context.content.get(key)|date('Y-m-d H:i:s'),
+}%}
+
 {% set attr_date = {
     class:    option.class~' datepicker',
     id:       key~'-date',
@@ -29,12 +35,6 @@
     type:     'text',
     title:    __('Time in 12h/24h format'),
     value:    '',
-}%}
-
-{% set attr_data = {
-    name_id:  key,
-    type:     'hidden',
-    value:    context.content.get(key)|date('Y-m-d H:i:s'),
 }%}
 
 {#=== FIELDSET =======================================================================================================#}

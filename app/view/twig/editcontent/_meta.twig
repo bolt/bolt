@@ -6,6 +6,12 @@
 {% set can_publish = isallowed('contenttype:' ~ context.contenttype.slug ~ ':publish:' ~ context.content.id) %}
 {% set can_depublish = isallowed('contenttype:' ~ context.contenttype.slug ~ ':depublish:' ~ context.content.id) %}
 
+{% set attr_publish_data = {
+    name_id:  'datepublish',
+    type:     'hidden',
+    value:    (context.content.datepublish == magic_date) ? '' : context.content.datepublish,
+}%}
+
 {% set attr_publish_date = {
     class:    'form-control datepicker',
     id:       'datepublish-date',
@@ -25,10 +31,10 @@
     disabled:  (not can_publish),
 }%}
 
-{% set attr_publish_data = {
-    name_id:  'datepublish',
+{% set attr_depublish_data = {
+    name_id:  'datedepublish',
     type:     'hidden',
-    value:    (context.content.datepublish == magic_date) ? '' : context.content.datepublish,
+    value:    (context.content.datedepublish == magic_date) ? '' : context.content.datedepublish,
 }%}
 
 {% set attr_depublish_date = {
@@ -48,12 +54,6 @@
     title:     __('Time in 12h/24h format'),
     value:     '',
     disabled:  (not can_depublish),
-}%}
-
-{% set attr_depublish_data = {
-    name_id:  'datedepublish',
-    type:     'hidden',
-    value:    (context.content.datedepublish == magic_date) ? '' : context.content.datedepublish,
 }%}
 
 {#====================================================================================================================#}
