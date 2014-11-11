@@ -128,6 +128,7 @@
 {% macro input_datetime(setup, attr_date, attr_time) %}
     {% from _self import attr %}
 
+    {% set class = setup.class|default('')|replace({'form-control': ''}) ~ ' form-control' %}
     {% set attr_data = {
         name: setup.id,
         value: setup.value,
@@ -138,8 +139,9 @@
         name:      setup.id ~ '-dateformatted',
         type:      'text',
         value:     '',
-        disabled:  setup.disabled|default:(false),
-        required:  setup.required|default:(false),
+        disabled:  setup.disabled|default(false),
+        required:  setup.required|default(false),
+        class:     (class ~ ' datepicker')|trim,
     })%}
     {% set attr_time = attr_time|merge({
         id:        setup.id ~ '-time',
@@ -147,8 +149,9 @@
         type:      'text',
         value:     '',
         title:     __('Time in 24h/12h format'),
-        disabled:  setup.disabled|default:(false),
-        required:  setup.required|default:(false),
+        disabled:  setup.disabled|default(false),
+        required:  setup.required|default(false),
+        class:     (class ~ ' timepicker')|trim,
     })%}
 
     <div class="input-group">

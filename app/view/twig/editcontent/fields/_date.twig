@@ -16,10 +16,10 @@
     has_time:  false,
     value:     context.content.get(key)|date('Y-m-d H:i:s'),
     required:  option.required,
+    class:     option.class,
 }%}
 
 {% set attr_date = {
-    class:               option.class~' datepicker',
     data_errortext:      option.errortext,
     data_field_options:  option.options ? option.options|json_encode : '',
 }%}
@@ -27,8 +27,8 @@
 {#=== FIELDSET =======================================================================================================#}
 
 <fieldset class="date">
-    <label class="col-sm-3 control-label">{{ (option.info) ? macro.infopop(labelkey, option.info) : labelkey  }}</label>
+    <label class="col-sm-3 control-label">{{ (option.info) ? macro.infopop(labelkey, option.info) : labelkey }}</label>
     <div class="col-sm-9">
-        {{ macro.input_datetime(attr_data, attr_date) }}
+        {{ macro.input_datetime(attr_data, attr_date, {}) }}
     </div>
 </fieldset>
