@@ -119,10 +119,9 @@ class StorageTest extends BoltUnitTest
         $app['config']->set('general/changelog/enabled', true);
         $storage = new Storage($app);
         
-        $log = $storage->getChangelogByContentType('pages',array('contentid'=>1, 'limit'=>1));
-        $this->assertGreaterThan(0, count($log));
-        $this->assertInstanceOf('Bolt\ChangelogItem', $log[0]);
-        $this->assertAttributeEquals(1, 'contentid', $log[0]);
+        $log = $storage->getChangelogEntry('pages',1,2);
+        $this->assertInstanceOf('Bolt\ChangelogItem', $log);
+        $this->assertAttributeEquals(1, 'contentid', $log);
     }
     
     public function testGetNextChangelogEntry()
@@ -149,7 +148,11 @@ class StorageTest extends BoltUnitTest
     
     public function testGetPrevChangelogEntry()
     {
-        
+        $app = $this->getApp();
+        $storage = new Storage($app);
+        $log = $storage->getPrevChangelogEntry('pages', 1, 10);
+        $this->assertInstanceOf('Bolt\ChangelogItem', $log);
+        $this->assertAttributeEquals(1, 'contentid', $log);
     }
     
     public function testSaveContent()
