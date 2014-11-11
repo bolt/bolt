@@ -30,7 +30,8 @@
                             № {{ log.id }}<br>Lvl {{ log.level|loglevel }}
                         </td>
                         <td>
-                            <b>{{ log.message }} / {{ log.code }}</b> <br>
+                            {% if log.code is not empty %}<b>[{{ log.code|ucfirst }}]</b> {% endif %}
+                            <b>{{ log.message }}</b> <br>
                             {{ __('in:') }} {{ log.file }}::{{ log.line }} ({{ log.route }})
                         </td>
                         <td>
