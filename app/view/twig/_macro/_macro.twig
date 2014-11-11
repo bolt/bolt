@@ -139,6 +139,7 @@
         type:      'text',
         value:     '',
         disabled:  setup.disabled|default:(false),
+        required:  setup.required|default:(false),
     })%}
     {% set attr_time = attr_time|merge({
         id:        setup.id ~ '-time',
@@ -147,6 +148,7 @@
         value:     '',
         title:     __('Time in 24h/12h format'),
         disabled:  setup.disabled|default:(false),
+        required:  setup.required|default:(false),
     })%}
 
     <div class="input-group">

@@ -12,13 +12,13 @@
 {#=== INIT ===========================================================================================================#}
 
 {% set attr_data = {
-    id:       key,
-    value:    context.content.get(key)|date('Y-m-d H:i:s'),
+    id:        key,
+    value:     context.content.get(key)|date('Y-m-d H:i:s'),
+    required:  option.required,
 }%}
 
 {% set attr_date = {
     class:               option.class~' datepicker',
-    required:            option.required,
     data_errortext:      option.errortext,
     data_field_options:  option.options ? option.options|json_encode : '',
 }%}
