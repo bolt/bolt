@@ -553,13 +553,6 @@ class Storage
             case '>':
                 $ordering = " ORDER BY date ";
                 break;
-            default:
-                throw new \Exception(
-                    sprintf(
-                        "Invalid value for argument 'cmp_op'; must be one of '=', '<', '>' (got '%s')",
-                        $cmp_op
-                    )
-                );
         }
         $tablename = $this->getTablename('content_changelog');
         $content_tablename = $this->getTablename($contenttype);
