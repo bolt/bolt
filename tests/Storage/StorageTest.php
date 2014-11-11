@@ -47,31 +47,62 @@ class StorageTest extends BoltUnitTest
     
     public function testPreFill()
     {
-        $app = $this->getApp();
+        $app = $this->makeApp();
+        $app['resources']->setPath('files', TEST_ROOT . '/tests/resources');
+        $app->initialize();
         $storage = new Storage($app);
         $output = $storage->prefill(array('showcases'));
         $this->assertRegExp('#Added#', $output);
         $this->assertRegExp('#Done#', $output);
+        
+        $output = $storage->prefill();
+        $this->assertRegExp('#Skipped#', $output);
     }
     
     public function testGetChangelog()
     {
-        
+        $app = $this->getApp();
+        $app['config']->set('general/changelog/enabled', true);
+        $storage = new Storage($app);
+
+        $content = $storage->getContentObject('pages');
+        $storage->saveContent($content, 'pages');
+        $logs = $storage->getChangeLog(array('limit'=>1,'offset'=>0,'order'=>'id'));
+        $logs2 = $storage->getChangeLog(array('limit'=>1));
+        $this->assertEquals(1, count($logs));
+        $this->assertEquals(1, count($logs2));
     }
     
     public function testCountChangelog()
     {
-        
+        $app = $this->getApp();
+        $storage = new Storage($app);
+        $count = $storage->countChangelog();
+        $this->assertNotEmpty($count);
     }
     
     public function testGetChangelogByContentType()
     {
-        
+        $app = $this->getApp();
+        $storage = new Storage($app);
+        $log = $storage->getChangelogByContentType('pages', array('limit'=>1,'offset'=>0,'order'=>'id'));
+        $this->assertEquals(1, count($log));
+    }
+    
+    public function testGetChangelogByContentTypeArray()
+    {
+        $app = $this->getApp();
+        $storage = new Storage($app);
+        $log = $storage->getChangelogByContentType(array('slug'=>'pages'), array('limit'=>1,'contentid'=>6));
+        $this->assertEquals(1, count($log));
     }
     
     public function testCountChangelogByContentType()
     {
-        
+        $app = $this->getApp();
+        $storage = new Storage($app);
+        $count = $storage->countChangelog('pages');
+        $this->assertGreaterThan(0, $count);
     }
     
     public function testGetChangelogEntry()
