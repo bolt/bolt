@@ -890,6 +890,8 @@ class Backend implements ControllerProviderInterface
                         // Get our record after POST_SAVE hooks are dealt with and return the JSON
                         $content = $app['storage']->getContent($contenttype['slug'], array('id' => $id, 'returnsingle' => true));
 
+                        $val = array();
+
                         foreach ($content->values as $key => $value) {
                             // Some values are returned as \Twig_Markup and JSON can't deal with that
                             if (is_array($value)) {
