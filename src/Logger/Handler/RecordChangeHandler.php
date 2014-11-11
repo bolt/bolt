@@ -48,7 +48,6 @@ class RecordChangeHandler extends AbstractProcessingHandler
     public function __construct(Application $app, $level = Logger::DEBUG, $bubble = true)
     {
         $this->app = $app;
-        $this->formatter = new RecordChange();
         parent::__construct($level, $bubble);
     }
 
