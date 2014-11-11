@@ -108,7 +108,10 @@ function validateContent(form) {
 
             var msg = $(field).data('errortext') || 'The '+field.name+' field is required or needs to match a pattern';
 
-            $('.page-header').after('<div id='+noticeID+' class="alert alert-danger"><button class="close" data-dismiss="alert">×</button>'+msg+'</div>');
+            $('<div id='+noticeID+' class="alert alert-danger"><button class="close" data-dismiss="alert">×</button>'+msg+'</div>')
+                .hide()
+                .insertAfter('.page-header')
+                .slideDown('fast');
 
             // form is invalid
             formvalid = false;
@@ -1365,7 +1368,9 @@ var Folders = Backbone.Model.extend({
 /**
  * DateTime object
  */
-var datetimes = function () {
+bolt.datetimes = function () {
+    var is24h;
+
     function evaluate(field) {
         var date = moment(field.date.datepicker('getDate')),
             time = moment([2001, 11, 24]),
@@ -1401,9 +1406,15 @@ var datetimes = function () {
         var date = '',
             time = '',
             hour,
-            match = field.data.val().match(/^(\d{4}-\d{2}-\d{2}) (\d{2}:\d{2}:00)$/);
+            match;
+
+        // Correct no depublish date
+        if (field.data.attr('id') === 'datedepublish' && field.data.val() === '1900-01-01 00:00:00') {
+            field.data.val('');
+        }
 
         // If data is a valid datetime
+        match = field.data.val().match(/^(\d{4}-\d{2}-\d{2}) (\d{2}:\d{2}:00)$/);
         if (match) {
             date = match[1];
             time = match[2];
@@ -1416,7 +1427,7 @@ var datetimes = function () {
         if (field.time.length) {
             if (time === '') {
                 time = '';
-            } else if (field.is24h) {
+            } else if (bolt.datetimes.is24h) {
                 time = field.data.val().slice(11, 16);
             } else {
                 hour = parseInt(time.slice(0, 2));
@@ -1441,7 +1452,6 @@ var datetimes = function () {
         field.date.datepicker(options);
         // Bind show button
         field.show.click(function () {
-            console.log('CLICK:' +field.date.attr('id'));
             field.date.datepicker('show');
         });
         // Bind clear button
@@ -1457,19 +1467,18 @@ var datetimes = function () {
             $.datepicker.setDefaults($.datepicker.regional[bolt.locale.long]);
 
             // Find out if locale uses 24h format
-            var is24h = moment.localeData()._longDateFormat.LT.replace(/\[.+?\]/gi, '').match(/A/) ? false : true;
+            this.is24h = moment.localeData()._longDateFormat.LT.replace(/\[.+?\]/gi, '').match(/A/) ? false : true;
+            this.is24h = false;
 
             // Initialize each available date/datetime field
             $('.datepicker').each(function () {
-                var setDate,
-                    id = $(this).attr('id').replace(/-date$/, ''),
+                var id = $(this).attr('id').replace(/-date$/, ''),
                     field = {
                         data: $('#' + id),
                         date: $(this),
                         time: $('#' + id + '-time'),
                         show: $('#' + id + '-show'),
-                        clear: $('#' + id + '-clear'),
-                        is24h: is24h
+                        clear: $('#' + id + '-clear')
                     };
 
                 // For debug purpose make hidden datafields visible
@@ -1491,6 +1500,19 @@ var datetimes = function () {
                     evaluate(field);
                     display(field);
                 });
+            });
+        },
+
+        update: function () {
+            $('.datepicker').each(function () {
+                var id = $(this).attr('id').replace(/-date$/, ''),
+                    field = {
+                        data: $('#' + id),
+                        date: $(this),
+                        time: $('#' + id + '-time')
+                    };
+
+                display(field);
             });
         }
     };
@@ -1628,6 +1650,7 @@ var init = {
 
                         // Reset the changes to the form from any updates we got from POST_SAVE changes
                         $('form').watchChanges();
+                        bolt.datetimes.update();
 
                     })
                     .fail(function(){
@@ -2439,7 +2462,10 @@ var init = {
 
 jQuery(function ($) {
     // Get configuration
-    bolt = $('script[data-config]').first().data('config');
+    var config = $('script[data-config]').first().data('config');
+    for (key in config) {
+        bolt[key] = config[key];
+    }
 
     // Initialize objects
     bolt.files = new Files();
@@ -2448,13 +2474,11 @@ jQuery(function ($) {
     bolt.sidebar = new Sidebar();
     bolt.navpopups = new Navpopups();
     bolt.moments = new Moments();
-    //bolt.datetime = new DateTime();
     bolt.imagelist = [];
     bolt.filelist = [];
 
-
     // Initialisation
-    datetimes.init();
+    bolt.datetimes.init();
     //
     init.ckeditor();
     init.confirmationDialogs();
