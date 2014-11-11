@@ -64,10 +64,11 @@ var datetimes = function () {
         }
     }
 
-    function bindDatepicker(item, fieldOptions) {
-        var options = {};
+    function bindDatepicker(item) {
+        var fieldOptions = item.data('field-options'),
+            options = {};
 
-        for (key in options) {
+        for (key in fieldOptions) {
             if (fieldOptions.hasOwnProperty(key)) {
                 options[key] = fieldOptions[key];
             }
@@ -100,7 +101,7 @@ var datetimes = function () {
                 }
 
                 // Bind datepicker to date field and set options from field in contenttypes.yml
-                bindDatepicker(field.date, $(this).data('field-options'));
+                bindDatepicker(field.date);
 
                 display(field);
 
