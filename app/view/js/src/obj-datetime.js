@@ -1,7 +1,7 @@
 /**
  * DateTime object
  */
-var datetimes = function () {
+bolt.datetimes = function () {
     function evaluate(field) {
         var date = moment(field.date.datepicker('getDate')),
             time = moment([2001, 11, 24]),

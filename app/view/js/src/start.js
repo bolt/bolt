@@ -1,7 +1,10 @@
 
 jQuery(function ($) {
     // Get configuration
-    bolt = $('script[data-config]').first().data('config');
+    var config = $('script[data-config]').first().data('config');
+    for (key in config) {
+        bolt[key] = config[key];
+    }
 
     // Initialize objects
     bolt.files = new Files();
@@ -10,13 +13,11 @@ jQuery(function ($) {
     bolt.sidebar = new Sidebar();
     bolt.navpopups = new Navpopups();
     bolt.moments = new Moments();
-    //bolt.datetime = new DateTime();
     bolt.imagelist = [];
     bolt.filelist = [];
 
-
     // Initialisation
-    datetimes.init();
+    bolt.datetimes.init();
     //
     init.ckeditor();
     init.confirmationDialogs();
