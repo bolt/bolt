@@ -24,6 +24,7 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
     {
         $bolt = $this->makeApp();
         $bolt->initialize();
+        $bolt['integritychecker']->repairTables();
         return $bolt;
     }
     
@@ -48,12 +49,10 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
             'general/database',
             array(
                 'driver' => 'sqlite',
-                'databasename' => 'test',
                 'username' => 'test',
                 'memory' => true
             )
         );
-
         $bolt['session'] = $sessionMock;
         $bolt['resources']->setPath('files', TEST_ROOT . '/tests/resources/files');
         return $bolt;
