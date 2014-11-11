@@ -101,7 +101,6 @@ bolt.datetimes = function () {
 
             // Find out if locale uses 24h format
             this.is24h = moment.localeData()._longDateFormat.LT.replace(/\[.+?\]/gi, '').match(/A/) ? false : true;
-            this.is24h = false;
 
             // Initialize each available date/datetime field
             $('.datepicker').each(function () {
