@@ -207,10 +207,15 @@ class Content implements \ArrayAccess
             return;
         }
 
-        if ($key == 'datecreated' || $key == 'datechanged' || $key == 'datepublish' || $key == 'datedepublish') {
+        if (in_array($key, array('datecreated', 'datechanged', 'datepublish', 'datedepublish'))) {
             if (!preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $value)) {
-                // @todo Try better date-parsing, instead of just setting it to 'now'..
-                $value = date("Y-m-d H:i:s");
+                // @todo Try better date-parsing, instead of just setting it to 
+                // 'now' (or 'the past' for datedepublish)
+                if ($key == 'datedepublish') {
+                    $value = date("1900-01-01 00:00:00");
+                } else {
+                    $value = date("Y-m-d H:i:s");
+                }
             }
         }
 
