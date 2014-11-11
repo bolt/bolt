@@ -5,6 +5,8 @@ use Bolt\Application;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Storage;
 use Bolt\Content;
+use Symfony\Component\HttpFoundation\Request;
+
 
 /**
  * Class to test src/Storage.
@@ -101,18 +103,48 @@ class StorageTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $storage = new Storage($app);
-        $count = $storage->countChangelog('pages');
+        $count = $storage->countChangelogByContentType('pages', array());
+        $this->assertGreaterThan(0, $count);
+        
+        $count = $storage->countChangelogByContentType('pages', array('contentid'=>6));
+        $this->assertGreaterThan(0, $count);
+        
+        $count = $storage->countChangelogByContentType(array('slug'=>'pages'), array('id'=>1));
         $this->assertGreaterThan(0, $count);
     }
     
     public function testGetChangelogEntry()
     {
+        $app = $this->getApp();
+        $app['config']->set('general/changelog/enabled', true);
+        $storage = new Storage($app);
         
+        $log = $storage->getChangelogByContentType('pages',array('contentid'=>1, 'limit'=>1));
+        $this->assertGreaterThan(0, count($log));
+        $this->assertInstanceOf('Bolt\ChangelogItem', $log[0]);
+        $this->assertAttributeEquals(1, 'contentid', $log[0]);
     }
     
     public function testGetNextChangelogEntry()
     {
+        $app = $this->getApp();
+        $app['config']->set('general/changelog/enabled', true);
+        $storage = new Storage($app);
+
         
+        // To generate an extra changelog we fetch and save a content item
+        // For now we need to mock the request object.
+        $app['request'] = Request::create('/');
+        $content = $storage->getContent('pages/1');
+        $content->setValues(array('status'=>'draft','ownerid'=>99));
+        $storage->saveContent($content, 'Test Suite Update');
+        $content->setValues(array('status'=>'published','ownerid'=>1));
+        $storage->saveContent($content, 'Test Suite Update');
+        
+                
+        $log = $storage->getNextChangelogEntry('pages', 1, 1);
+        $this->assertInstanceOf('Bolt\ChangelogItem', $log);
+        $this->assertAttributeEquals(1, 'contentid', $log);
     }
     
     public function testGetPrevChangelogEntry()
