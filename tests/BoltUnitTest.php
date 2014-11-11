@@ -50,7 +50,8 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
             array(
                 'driver' => 'sqlite',
                 'username' => 'test',
-                'memory' => true
+                'memory' => true,
+                'path' => false
             )
         );
         $bolt['session'] = $sessionMock;
