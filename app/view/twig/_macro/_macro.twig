@@ -133,6 +133,10 @@
     {% set attr_data = attr_data|merge({
         name: id
     })%}
+    {% set attr_date = attr_date|merge({
+        id:     id ~ '-date',
+        name:   id ~ '-dateformatted',
+    })%}
 
     <div class="input-group">
         <span class="input-group-btn">
