@@ -135,13 +135,15 @@
         type: 'hidden',
     }%}
     {% set attr_date = attr_date|merge({
-        id:        setup.id ~ '-date',
-        name:      setup.id ~ '-dateformatted',
-        type:      'text',
-        value:     '',
-        disabled:  setup.disabled|default(false),
-        required:  setup.required|default(false),
-        class:     (class ~ ' datepicker')|trim,
+        id:                  setup.id ~ '-date',
+        name:                setup.id ~ '-dateformatted',
+        type:                'text',
+        value:               '',
+        disabled:            setup.disabled|default(false),
+        required:            setup.required|default(false),
+        class:               (class ~ ' datepicker')|trim,
+        data_errortext:      setup.errortext,
+        data_field_options:  setup.options ? setup.options|json_encode : '',
     })%}
     {% set attr_time = attr_time|merge({
         id:        setup.id ~ '-time',

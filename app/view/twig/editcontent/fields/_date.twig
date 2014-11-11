@@ -12,16 +12,16 @@
 {#=== INIT ===========================================================================================================#}
 
 {% set attr_data = {
-    id:        key,
-    has_time:  false,
-    value:     context.content.get(key)|date('Y-m-d H:i:s'),
-    required:  option.required,
-    class:     option.class,
+    id:         key,
+    has_time:   false,
+    value:      context.content.get(key)|date('Y-m-d H:i:s'),
+    required:   option.required,
+    class:      option.class,
+    errortext:  option.errortext,
+    options:    option.options,
 }%}
 
 {% set attr_date = {
-    data_errortext:      option.errortext,
-    data_field_options:  option.options ? option.options|json_encode : '',
 }%}
 
 {#=== FIELDSET =======================================================================================================#}
