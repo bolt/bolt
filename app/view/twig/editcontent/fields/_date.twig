@@ -11,7 +11,7 @@
 
 {#=== INIT ===========================================================================================================#}
 
-{% set attr_data = {
+{% set attr_date = {
     id:         key,
     has_time:   false,
     value:      context.content.get(key)|date('Y-m-d H:i:s'),
@@ -21,14 +21,11 @@
     options:    option.options,
 }%}
 
-{% set attr_date = {
-}%}
-
 {#=== FIELDSET =======================================================================================================#}
 
 <fieldset class="date">
     <label class="col-sm-3 control-label">{{ (option.info) ? macro.infopop(labelkey, option.info) : labelkey }}</label>
     <div class="col-sm-9">
-        {{ macro.input_datetime(attr_data, attr_date, {}) }}
+        {{ macro.input_datetime(attr_date) }}
     </div>
 </fieldset>

@@ -125,48 +125,48 @@
     {% endif %}
 {% endmacro %}
 
-{% macro input_datetime(setup, attr_date, attr_time) %}
+{% macro input_datetime(opt) %}
     {% from _self import attr %}
 
-    {% set class = setup.class|default('')|replace({'form-control': ''}) ~ ' form-control' %}
+    {% set class = opt.class|default('')|replace({'form-control': ''}) ~ ' form-control' %}
     {% set attr_data = {
-        name: setup.id,
-        value: setup.value,
-        type: 'hidden',
-    }%}
-    {% set attr_date = attr_date|merge({
-        id:                  setup.id ~ '-date',
-        name:                setup.id ~ '-dateformatted',
+        name:   opt.id,
+        value:  opt.value,
+        type:   'hidden',
+    } %}
+    {% set attr_date = {
+        id:                  opt.id ~ '-date',
+        name:                opt.id ~ '-dateformatted',
         type:                'text',
         value:               '',
-        disabled:            setup.disabled|default(false),
-        required:            setup.required|default(false),
+        disabled:            opt.disabled|default(false),
+        required:            opt.required|default(false),
         class:               (class ~ ' datepicker')|trim,
-        data_errortext:      setup.errortext,
-        data_field_options:  setup.options ? setup.options|json_encode : '',
-    })%}
-    {% set attr_time = attr_time|merge({
-        id:        setup.id ~ '-time',
-        name:      setup.id ~ '-timeformatted',
+        data_errortext:      opt.errortext|default(''),
+        data_field_options:  opt.options|default(false) ? opt.options|json_encode : '',
+    } %}
+    {% set attr_time = {
+        id:        opt.id ~ '-time',
+        name:      opt.id ~ '-timeformatted',
         type:      'text',
         value:     '',
-        title:     __('Time in 24h/12h format'),
-        disabled:  setup.disabled|default(false),
-        required:  setup.required|default(false),
+        disabled:  opt.disabled|default(false),
+        required:  opt.required|default(false),
         class:     (class ~ ' timepicker')|trim,
-    })%}
+        title:     __('Time in 24h/12h format'),
+    } %}
 
     <div class="input-group">
         <span class="input-group-btn">
-            <button class="btn btn-default" type="button" id="{{ setup.id }}-show">
+            <button class="btn btn-default" type="button" id="{{ opt.id }}-show">
                 <i class="fa fa-calendar"></i>
             </button>
-            <button class="btn" type="button" id="{{ setup.id }}-clear">
+            <button class="btn" type="button" id="{{ opt.id }}-clear">
                 <i class="fa fa-close"></i>
             </button>
         </span>
         <input{{ attr(attr_date) }} style="margin-right:0;">
-        {% if setup.has_time|default(true) %}<input{{ attr(attr_time) }} style="border-left:none;">{% endif %}
+        {% if opt.has_time|default(true) %}<input{{ attr(attr_time) }} style="border-left:none;">{% endif %}
     </div>
     <input{{ attr(attr_data) }}>
 {% endmacro %}

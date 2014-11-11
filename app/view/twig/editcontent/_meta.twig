@@ -6,24 +6,16 @@
 {% set can_publish = isallowed('contenttype:' ~ context.contenttype.slug ~ ':publish:' ~ context.content.id) %}
 {% set can_depublish = isallowed('contenttype:' ~ context.contenttype.slug ~ ':depublish:' ~ context.content.id) %}
 
-{% set attr_publish_data = {
+{% set attr_publish = {
     id:       'datepublish',
     value:    (context.content.datepublish == magic_date) ? '' : context.content.datepublish,
     disabled: (not can_publish),
 }%}
-{% set attr_publish_date = {
-}%}
-{% set attr_publish_time = {
-}%}
 
-{% set attr_depublish_data = {
+{% set attr_depublish = {
     id:        'datedepublish',
     value:     (context.content.datedepublish == magic_date) ? '' : context.content.datedepublish,
     disabled:  (not can_depublish),
-}%}
-{% set attr_depublish_date = {
-}%}
-{% set attr_depublish_time = {
 }%}
 
 {#====================================================================================================================#}
@@ -48,14 +40,14 @@
     <div class="form-group">
         {{ macro.label(__('Publication date:'), '', 'col-sm-4 control-label') }}
         <div class="col-sm-8">
-            {{ macro.input_datetime(attr_publish_data, attr_publish_date, attr_publish_time) }}
+            {{ macro.input_datetime(attr_publish) }}
         </div>
     </div>
 
     <div class="form-group">
         {{ macro.label(__('Depublication date:'), '', 'col-sm-4 control-label') }}
         <div class="col-sm-8">
-            {{ macro.input_datetime(attr_depublish_data, attr_depublish_date, attr_depublish_time) }}
+            {{ macro.input_datetime(attr_depublish) }}
         </div>
     </div>
 
