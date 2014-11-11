@@ -14,14 +14,12 @@
 {% set attr_publish_date = {
     class:    'form-control datepicker',
     type:     'text',
-    value:    '',
     disabled:  (not can_publish),
 }%}
 
 {% set attr_publish_time = {
     class:     'form-control timepicker',
     title:     __('Time in 24h format'),
-    value:     '',
     disabled:  (not can_publish),
 }%}
 
@@ -32,15 +30,12 @@
 
 {% set attr_depublish_date = {
     class:    'form-control datepicker',
-    value:    '',
     disabled:  (not can_depublish),
 }%}
 
 {% set attr_depublish_time = {
     class:     'form-control timepicker',
-    type:      'text',
     title:     __('Time in 12h/24h format'),
-    value:     '',
     disabled:  (not can_depublish),
 }%}
 
