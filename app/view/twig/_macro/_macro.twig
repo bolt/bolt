@@ -128,12 +128,18 @@
 {% macro input_datetime(attr_data, attr_date, attr_time) %}
     {% from _self import attr %}
 
+    {% set id = attr_data.id %}
+
+    {% set attr_data = attr_data|merge({
+        name: id
+    })%}
+
     <div class="input-group">
         <span class="input-group-btn">
-            <button class="btn btn-default" type="button" id="{{ attr_data.name_id }}-show">
+            <button class="btn btn-default" type="button" id="{{ id }}-show">
                 <i class="fa fa-calendar"></i>
             </button>
-            <button class="btn" type="button" id="{{ attr_data.name_id }}-clear">
+            <button class="btn" type="button" id="{{ id }}-clear">
                 <i class="fa fa-close"></i>
             </button>
         </span>

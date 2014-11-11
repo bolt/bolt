@@ -12,7 +12,7 @@
 {#=== INIT ===========================================================================================================#}
 
 {% set attr_data = {
-    name_id:  key,
+    id:       key,
     type:     'hidden',
     value:    context.content.get(key)|date('Y-m-d H:i:s'),
 }%}

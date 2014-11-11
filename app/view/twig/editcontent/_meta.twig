@@ -7,7 +7,7 @@
 {% set can_depublish = isallowed('contenttype:' ~ context.contenttype.slug ~ ':depublish:' ~ context.content.id) %}
 
 {% set attr_publish_data = {
-    name_id:  'datepublish',
+    id:       'datepublish',
     type:     'hidden',
     value:    (context.content.datepublish == magic_date) ? '' : context.content.datepublish,
 }%}
@@ -32,7 +32,7 @@
 }%}
 
 {% set attr_depublish_data = {
-    name_id:  'datedepublish',
+    id:       'datedepublish',
     type:     'hidden',
     value:    (context.content.datedepublish == magic_date) ? '' : context.content.datedepublish,
 }%}
