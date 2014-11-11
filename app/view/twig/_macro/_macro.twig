@@ -137,6 +137,10 @@
         id:     id ~ '-date',
         name:   id ~ '-dateformatted',
     })%}
+    {% set attr_time = attr_time|merge({
+        id:     id ~ '-time',
+        name:   id ~ '-timeformatted',
+    })%}
 
     <div class="input-group">
         <span class="input-group-btn">
