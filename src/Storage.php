@@ -447,7 +447,7 @@ class Storage
         }
         if (isset($options['id'])) {
             $sql .= "    AND log.id = ? ";
-            $params[] = intval($options['contentid']);
+            $params[] = intval($options['id']);
         }
         $sql .= $this->makeOrderLimitSql($options);
 
