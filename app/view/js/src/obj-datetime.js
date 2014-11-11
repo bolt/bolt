@@ -10,10 +10,8 @@ var datetimes = function () {
 
         // Process time field
         if (field.time.length) {
-            console.log('<'+field.time.val()+'>');
             res = field.time.val().match(/^\s*(?:(?:([01]?[0-9]|2[0-3])[:,.]([0-5]?[0-9]))|(1[012]|0?[1-9])[:,.]([0-5]?[0-9])(?:\s*([AP])[. ]?M\.?))\s*$/i);
             if (res) {
-            console.log(res);
                 hours = parseInt(res[1] ? res[1] :res[3]);
                 minutes = parseInt(res[2] ? res[2] :res[4]);
                 if ((res[5] === 'p' || res[5] === 'P') && hours !== 12) {
@@ -64,16 +62,23 @@ var datetimes = function () {
         }
     }
 
-    function bindDatepicker(item) {
-        var fieldOptions = item.data('field-options'),
-            options = {};
+    function bindDatepicker(field) {
+        var fieldOptions = field.date.data('field-options'),
+            options = {
+                showOn: 'none'
+            };
 
         for (key in fieldOptions) {
             if (fieldOptions.hasOwnProperty(key)) {
                 options[key] = fieldOptions[key];
             }
         }
-        item.datepicker(options);
+        // Bind datepicker button
+        field.date.datepicker(options);
+        // Bind show button
+        field.show.click(function () {
+            field.date.datepicker('show');
+        });
     }
 
     return {
@@ -92,6 +97,7 @@ var datetimes = function () {
                         data: $('#' + id),
                         date: $(this),
                         time: $('#' + id + '-time'),
+                        show: $('#' + id + '-show'),
                         is24h: is24h
                     };
 
@@ -101,7 +107,7 @@ var datetimes = function () {
                 }
 
                 // Bind datepicker to date field and set options from field in contenttypes.yml
-                bindDatepicker(field.date);
+                bindDatepicker(field);
 
                 display(field);
 

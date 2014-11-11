@@ -128,7 +128,14 @@
 {% macro input_datetime(attr_data, attr_date, attr_time) %}
     {% from _self import attr %}
 
-    <input{{ attr(attr_date) }}>
-    {% if attr_time %}<input{{ attr(attr_time) }}>{% endif %}
+    <div class="input-group">
+        <span class="input-group-btn">
+            <button class="btn btn-default" type="button" id="{{ attr_data.name_id }}-show">
+                <i class="fa fa-calendar"></i>
+            </button>
+        </span>
+        <input{{ attr(attr_date) }}>
+        {% if attr_time %}<input{{ attr(attr_time) }}>{% endif %}
+    </div>
     <input{{ attr(attr_data) }}>
 {% endmacro %}
