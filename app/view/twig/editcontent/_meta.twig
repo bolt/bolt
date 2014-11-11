@@ -25,7 +25,7 @@
     disabled:  (not can_publish),
 }%}
 
-{% set attr_publish_hidden = {
+{% set attr_publish_data = {
     name_id:  'datepublish',
     type:     'hidden',
     value:    (context.content.datepublish == magic_date) ? '' : context.content.datepublish,
@@ -50,7 +50,7 @@
     disabled:  (not can_depublish),
 }%}
 
-{% set attr_depublish_hidden = {
+{% set attr_depublish_data = {
     name_id:  'datedepublish',
     type:     'hidden',
     value:    (context.content.datedepublish == magic_date) ? '' : context.content.datedepublish,
@@ -78,14 +78,14 @@
     <div class="form-group">
         {{ macro.label(__('Publication date:'), '', 'col-sm-4 control-label') }}
         <div class="col-sm-8">
-            {{ macro.input_datetime(attr_publish_hidden, attr_publish_date, attr_publish_time) }}
+            {{ macro.input_datetime(attr_publish_data, attr_publish_date, attr_publish_time) }}
         </div>
     </div>
 
     <div class="form-group">
         {{ macro.label(__('Depublication date:'), '', 'col-sm-4 control-label') }}
         <div class="col-sm-8">
-            {{ macro.input_datetime(attr_depublish_hidden, attr_depublish_date, attr_depublish_time) }}
+            {{ macro.input_datetime(attr_depublish_data, attr_depublish_date, attr_depublish_time) }}
         </div>
     </div>
 
