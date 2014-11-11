@@ -124,3 +124,11 @@
         </a>
     {% endif %}
 {% endmacro %}
+
+{% macro input_datetime(attr_data, attr_date, attr_time) %}
+    {% from _self import attr %}
+
+    <input{{ attr(attr_date) }}>
+    {% if attr_time %}<input{{ attr(attr_time) }}>{% endif %}
+    <input{{ attr(attr_data) }}>
+{% endmacro %}

@@ -1,5 +1,7 @@
 {#=== INIT ===========================================================================================================#}
 
+{% import '_macro/_macro.twig' as macro %}
+
 {% set magic_date = '1900-01-01 00:00:00' %}
 {% set can_publish = isallowed('contenttype:' ~ context.contenttype.slug ~ ':publish:' ~ context.content.id) %}
 {% set can_depublish = isallowed('contenttype:' ~ context.contenttype.slug ~ ':depublish:' ~ context.content.id) %}
@@ -76,18 +78,14 @@
     <div class="form-group">
         {{ macro.label(__('Publication date:'), '', 'col-sm-4 control-label') }}
         <div class="col-sm-8">
-            <input{{ macro.attr(attr_publish_date) }}>
-            <input{{ macro.attr(attr_publish_time) }}>
-            <input{{ macro.attr(attr_publish_hidden) }}>
+            {{ macro.input_datetime(attr_publish_hidden, attr_publish_date, attr_publish_time) }}
         </div>
     </div>
 
     <div class="form-group">
         {{ macro.label(__('Depublication date:'), '', 'col-sm-4 control-label') }}
         <div class="col-sm-8">
-            <input{{ macro.attr(attr_depublish_date) }}>
-            <input{{ macro.attr(attr_depublish_time) }}>
-            <input{{ macro.attr(attr_depublish_hidden) }}>
+            {{ macro.input_datetime(attr_depublish_hidden, attr_depublish_date, attr_depublish_time) }}
         </div>
     </div>
 
