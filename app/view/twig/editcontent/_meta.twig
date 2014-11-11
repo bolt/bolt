@@ -19,7 +19,6 @@
 
 {% set attr_publish_time = {
     class:     'form-control timepicker',
-    title:     __('Time in 24h format'),
     disabled:  (not can_publish),
 }%}
 
@@ -35,7 +34,6 @@
 
 {% set attr_depublish_time = {
     class:     'form-control timepicker',
-    title:     __('Time in 12h/24h format'),
     disabled:  (not can_depublish),
 }%}
 
