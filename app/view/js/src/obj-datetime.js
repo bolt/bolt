@@ -2,6 +2,8 @@
  * DateTime object
  */
 bolt.datetimes = function () {
+    var is24h;
+
     function evaluate(field) {
         var date = moment(field.date.datepicker('getDate')),
             time = moment([2001, 11, 24]),
@@ -58,7 +60,7 @@ bolt.datetimes = function () {
         if (field.time.length) {
             if (time === '') {
                 time = '';
-            } else if (field.is24h) {
+            } else if (bolt.datetimes.is24h) {
                 time = field.data.val().slice(11, 16);
             } else {
                 hour = parseInt(time.slice(0, 2));
@@ -83,7 +85,6 @@ bolt.datetimes = function () {
         field.date.datepicker(options);
         // Bind show button
         field.show.click(function () {
-            console.log('CLICK:' +field.date.attr('id'));
             field.date.datepicker('show');
         });
         // Bind clear button
@@ -99,19 +100,18 @@ bolt.datetimes = function () {
             $.datepicker.setDefaults($.datepicker.regional[bolt.locale.long]);
 
             // Find out if locale uses 24h format
-            var is24h = moment.localeData()._longDateFormat.LT.replace(/\[.+?\]/gi, '').match(/A/) ? false : true;
+            this.is24h = moment.localeData()._longDateFormat.LT.replace(/\[.+?\]/gi, '').match(/A/) ? false : true;
+            this.is24h = false;
 
             // Initialize each available date/datetime field
             $('.datepicker').each(function () {
-                var setDate,
-                    id = $(this).attr('id').replace(/-date$/, ''),
+                var id = $(this).attr('id').replace(/-date$/, ''),
                     field = {
                         data: $('#' + id),
                         date: $(this),
                         time: $('#' + id + '-time'),
                         show: $('#' + id + '-show'),
-                        clear: $('#' + id + '-clear'),
-                        is24h: is24h
+                        clear: $('#' + id + '-clear')
                     };
 
                 // For debug purpose make hidden datafields visible
@@ -137,15 +137,12 @@ bolt.datetimes = function () {
         },
 
         update: function () {
-            var is24h = moment.localeData()._longDateFormat.LT.replace(/\[.+?\]/gi, '').match(/A/) ? false : true;
-
             $('.datepicker').each(function () {
                 var id = $(this).attr('id').replace(/-date$/, ''),
                     field = {
                         data: $('#' + id),
                         date: $(this),
-                        time: $('#' + id + '-time'),
-                        is24h: is24h
+                        time: $('#' + id + '-time')
                     };
 
                 display(field);
