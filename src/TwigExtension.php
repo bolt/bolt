@@ -96,6 +96,7 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFilter('last', array($this, 'last')),
             new \Twig_SimpleFilter('localdate', array($this, 'localeDateTime'), array('is_safe' => array('html'))),
             new \Twig_SimpleFilter('localedatetime', array($this, 'localeDateTime'), array('is_safe' => array('html'))), // Deprecated
+            new \Twig_SimpleFilter('loglevel', array($this, 'logLevel')),
             new \Twig_SimpleFilter('markdown', array($this, 'markdown'), array('is_safe' => array('html'))),
             new \Twig_SimpleFilter('order', array($this, 'order')),
             new \Twig_SimpleFilter('popup', array($this, 'popup'), array('is_safe' => array('html'))),
@@ -1476,6 +1477,7 @@ class TwigExtension extends \Twig_Extension
     }
 
     /**
+<<<<<<< HEAD
      * Add JavaScript data to app['jsdata']
      *
      * @param string $key
@@ -1504,4 +1506,22 @@ class TwigExtension extends \Twig_Extension
         $this->app['jsdata'] = $jsdata;
     }
 
+    /**
+     * Convert a Monolog log level to textual equivalent
+     *
+     * @param  integer $level
+     * @return string
+     */
+    public function logLevel($level)
+    {
+        if (!is_numeric($level)) {
+            return $level;
+        }
+
+        try {
+            return ucfirst(strtolower(\Monolog\Logger::getLevelName($level)));
+        } catch (Exception $e) {
+            return $level;
+        }
+    }
 }
