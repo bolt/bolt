@@ -126,7 +126,7 @@ class Application extends Silex\Application
         if ($this['config']->get('general/debuglog/enabled')) {
             $this->register(new Silex\Provider\MonologServiceProvider(), array(
                 'monolog.name'    => 'bolt',
-                'monolog.level'   => $this['config']->get('general/debuglog/level'),
+                'monolog.level'   => constant('Monolog\Logger::'. strtoupper($this['config']->get('general/debuglog/level'))),
                 'monolog.logfile' => $this['resources']->getPath('cache') . '/' . $this['config']->get('general/debuglog/filename')
             ));
         }

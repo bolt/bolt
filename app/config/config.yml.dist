@@ -181,9 +181,11 @@ debug_enable_whoops: true # change this to false to use PHP's built-in error han
 # This will enable intensive logging of Silex functions and will be very hard on 
 # performance and log file size.  The log file will be created in your cache directory
 # Enable this for short time periods only when diagnosing system issues.
+# The level can be either: DEBUG, INFO, NOTICE, WARNING, ERROR, CRITICAL, ALERT, EMERGENCY
 debuglog:
   enabled: false
   filename: bolt-debug.log
+  level: DEBUG
 
 # Uncomment to enable permission checks in the frontend.
 # This allows hiding certain content types from regular (unauthenticated
