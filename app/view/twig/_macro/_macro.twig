@@ -130,6 +130,7 @@
 
     {% set class = opt.class|default('')|replace({'form-control': ''}) ~ ' form-control' %}
     {% set attr_data = {
+        id:     opt.id,
         name:   opt.id,
         value:  opt.value,
         type:   'hidden',
@@ -138,35 +139,35 @@
         id:                  opt.id ~ '-date',
         name:                opt.id ~ '-dateformatted',
         type:                'text',
-        value:               '',
         disabled:            opt.disabled|default(false),
         required:            opt.required|default(false),
         class:               (class ~ ' datepicker')|trim,
         data_errortext:      opt.errortext|default(''),
         data_field_options:  opt.options|default(false) ? opt.options|json_encode : '',
+        style:               "margin-right:0;",
     } %}
     {% set attr_time = {
         id:        opt.id ~ '-time',
         name:      opt.id ~ '-timeformatted',
         type:      'text',
-        value:     '',
         disabled:  opt.disabled|default(false),
         required:  opt.required|default(false),
         class:     (class ~ ' timepicker')|trim,
         title:     __('Time in 24h/12h format'),
+        style:     "border-left:none;",
     } %}
 
     <div class="input-group">
         <span class="input-group-btn">
-            <button class="btn btn-default" type="button" id="{{ opt.id }}-show">
+            <button class="btn" type="button" id="{{ opt.id }}-show">
                 <i class="fa fa-calendar"></i>
             </button>
             <button class="btn" type="button" id="{{ opt.id }}-clear">
                 <i class="fa fa-close"></i>
             </button>
         </span>
-        <input{{ attr(attr_date) }} style="margin-right:0;">
-        {% if opt.has_time|default(true) %}<input{{ attr(attr_time) }} style="border-left:none;">{% endif %}
+        <input{{ attr(attr_date) }}>
+        {% if opt.has_time|default(true) %}<input{{ attr(attr_time) }}>{% endif %}
     </div>
     <input{{ attr(attr_data) }}>
 {% endmacro %}

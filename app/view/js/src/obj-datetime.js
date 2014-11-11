@@ -77,6 +77,7 @@ var datetimes = function () {
         field.date.datepicker(options);
         // Bind show button
         field.show.click(function () {
+            console.log('CLICK:' +field.date.attr('id'));
             field.date.datepicker('show');
         });
         // Bind clear button
