@@ -1,7 +1,10 @@
 
 jQuery(function ($) {
     // Get configuration
-    bolt = $('script[data-config]').first().data('config');
+    var config = $('script[data-config]').first().data('config');
+    for (key in config) {
+        bolt[key] = config[key];
+    }
 
     // Initialize objects
     bolt.files = new Files();
@@ -14,6 +17,8 @@ jQuery(function ($) {
     bolt.filelist = [];
 
     // Initialisation
+    bolt.datetimes.init();
+    //
     init.ckeditor();
     init.confirmationDialogs();
     init.magnificPopup();
@@ -23,7 +28,6 @@ jQuery(function ($) {
     }, 1000);
     init.dropZone();
     init.popOvers();
-    init.dateTimePickers();
     init.activityWidget();
     init.dropDowns();
     init.deferredWidgets();

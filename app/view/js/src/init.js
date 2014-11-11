@@ -125,6 +125,8 @@ var init = {
                                 }
                             });
                         }
+                        // Update dates and times from new values
+                        bolt.datetimes.update();
 
                         // Reset the changes to the form from any updates we got from POST_SAVE changes
                         $('form').watchChanges();
@@ -586,55 +588,6 @@ var init = {
         // Prevent propagation to parent's click handler from anchor in popover.
         .on('click.popover', '.popover', function (e) {
             e.stopPropagation();
-        });
-    },
-
-    /*
-     * Add Date and Timepickers.
-     *
-     * @returns {undefined}
-     */
-    dateTimePickers: function () {
-        $.datepicker.setDefaults($.datepicker.regional[bolt.locale.long]);
-
-        $('.datepicker').each(function(){
-            var id = $(this).attr('id').replace(/-date$/, ''),
-                inpDate = $(this),
-                inpTime = $('#' + id + '-time'),
-                inpData = $('#' + id),
-                setDate = $.datepicker.parseDate('yy-mm-dd', inpData.val()),
-                options = {},
-                fieldOptions = $(this).data('field-options'),
-                setfnc = function () {
-                    var date = $.datepicker.formatDate('yy-mm-dd', inpDate.datepicker('getDate')),
-                        dt = new Date(date + 'T'+(inpTime.length && inpTime.val() !== ''? inpTime.val() : '00:00') + ':00');
-
-                    if (Object.prototype.toString.call(dt) === '[object Date]' && !isNaN(dt.getTime())) {
-                        inpData.val($.formatDateTime('yy-mm-dd hh:ii:00', dt));
-                    }
-                };
-
-            // Parse override settings from field in contenttypes.yml
-            for (key in fieldOptions) {
-                if (fieldOptions.hasOwnProperty(key)) {
-                    options[key] = fieldOptions[key];
-                }
-            }
-
-            // Update hidden field on selection
-            options.onSelect = setfnc;
-
-            // Set Datepicker
-            inpDate.datepicker(options);
-            if (id === 'datedepublish' && inpData.val() === '1900-01-01 00:00:00') {
-                setDate = '';
-            }
-            inpDate.datepicker('setDate', setDate);
-
-            // If a time field exists, bind it
-            if (inpTime.length) {
-                inpTime.change(setfnc);
-            }
         });
     },
 

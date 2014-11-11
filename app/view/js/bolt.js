@@ -108,7 +108,10 @@ function validateContent(form) {
 
             var msg = $(field).data('errortext') || 'The '+field.name+' field is required or needs to match a pattern';
 
-            $('.page-header').after('<div id='+noticeID+' class="alert alert-danger"><button class="close" data-dismiss="alert">×</button>'+msg+'</div>');
+            $('<div id='+noticeID+' class="alert alert-danger"><button class="close" data-dismiss="alert">×</button>'+msg+'</div>')
+                .hide()
+                .insertAfter('.page-header')
+                .slideDown('fast');
 
             // form is invalid
             formvalid = false;
@@ -1362,6 +1365,160 @@ var Folders = Backbone.Model.extend({
 
 /**********************************************************************************************************************/
 
+/**
+ * DateTime object
+ */
+bolt.datetimes = function () {
+    var is24h;
+
+    function evaluate(field) {
+        var date = moment(field.date.datepicker('getDate')),
+            time = moment([2001, 11, 24]),
+            hours = 0,
+            minutes = 0;
+
+        // Process time field
+        if (field.time.length) {
+            res = field.time.val().match(/^\s*(?:(?:([01]?[0-9]|2[0-3])[:,.]([0-5]?[0-9]))|(1[012]|0?[1-9])[:,.]([0-5]?[0-9])(?:\s*([AP])[. ]?M\.?))\s*$/i);
+            if (res) {
+                hours = parseInt(res[1] ? res[1] :res[3]);
+                minutes = parseInt(res[2] ? res[2] :res[4]);
+                if ((res[5] === 'p' || res[5] === 'P') && hours !== 12) {
+                    hours += 12;
+                } else if ((res[5] === 'a' || res[5] === 'A') && hours === 12) {
+                    hours -= 12;
+                }
+                time = moment([2001, 11, 24, hours, minutes]);
+            }
+        }
+
+        // Set data field
+        if (date.isValid()) {
+            field.data.val(date.format('YYYY-MM-DD') + ' ' + time.format('HH:mm:00'));
+        } else if (field.date.val() === '') {
+            field.data.val('');
+        } else {
+            // Error
+        }
+    }
+
+    function display(field) {
+        var date = '',
+            time = '',
+            hour,
+            match;
+
+        // Correct no depublish date
+        if (field.data.attr('id') === 'datedepublish' && field.data.val() === '1900-01-01 00:00:00') {
+            field.data.val('');
+        }
+
+        // If data is a valid datetime
+        match = field.data.val().match(/^(\d{4}-\d{2}-\d{2}) (\d{2}:\d{2}:\d{2})$/);
+        if (match) {
+            date = match[1];
+            time = match[2];
+        }
+
+        // Set date field
+        field.date.datepicker('setDate', (date === '') ? '' : $.datepicker.parseDate('yy-mm-dd', date));
+
+        // Set time field
+        if (field.time.length) {
+            if (time === '') {
+                time = '';
+            } else if (bolt.datetimes.is24h) {
+                time = field.data.val().slice(11, 16);
+            } else {
+                hour = parseInt(time.slice(0, 2));
+                time = (hour % 12 || 12) + time.slice(2, 5) + (hour < 12 ? ' AM' : ' PM');
+            }
+            field.time.val(time);
+        }
+    }
+
+    function bindDatepicker(field) {
+        var fieldOptions = field.date.data('field-options'),
+            options = {
+                showOn: 'none'
+            };
+
+        for (key in fieldOptions) {
+            if (fieldOptions.hasOwnProperty(key)) {
+                options[key] = fieldOptions[key];
+            }
+        }
+        // Bind datepicker button
+        field.date.datepicker(options);
+        // Bind show button
+        field.show.click(function () {
+            field.date.datepicker('show');
+        });
+        // Bind clear button
+        field.clear.click(function () {
+            field.data.val('');
+            display(field);
+        });
+    }
+
+    return {
+        init: function () {
+            // Set global datepicker locale
+            $.datepicker.setDefaults($.datepicker.regional[bolt.locale.long]);
+
+            // Find out if locale uses 24h format
+            this.is24h = moment.localeData()._longDateFormat.LT.replace(/\[.+?\]/gi, '').match(/A/) ? false : true;
+
+            // Initialize each available date/datetime field
+            $('.datepicker').each(function () {
+                var id = $(this).attr('id').replace(/-date$/, ''),
+                    field = {
+                        data: $('#' + id),
+                        date: $(this),
+                        time: $('#' + id + '-time'),
+                        show: $('#' + id + '-show'),
+                        clear: $('#' + id + '-clear')
+                    };
+
+                // For debug purpose make hidden datafields visible
+                if (false) {
+                    field.data.attr('type', 'text');
+                }
+
+                // Bind datepicker to date field and set options from field in contenttypes.yml
+                bindDatepicker(field);
+
+                display(field);
+
+                // Bind change action to date and time field
+                field.date.change(function () {
+                    evaluate(field);
+                    display(field);
+                });
+                field.time.change(function () {
+                    evaluate(field);
+                    display(field);
+                });
+            });
+        },
+
+        update: function () {
+            $('.datepicker').each(function () {
+                var id = $(this).attr('id').replace(/-date$/, ''),
+                    field = {
+                        data: $('#' + id),
+                        date: $(this),
+                        time: $('#' + id + '-time')
+                    };
+
+                display(field);
+            });
+        }
+    };
+}();
+
+/**********************************************************************************************************************/
+
 var init = {
 
     /*
@@ -1489,6 +1646,8 @@ var init = {
                                 }
                             });
                         }
+                        // Update dates and times from new values
+                        bolt.datetimes.update();
 
                         // Reset the changes to the form from any updates we got from POST_SAVE changes
                         $('form').watchChanges();
@@ -1954,55 +2113,6 @@ var init = {
     },
 
     /*
-     * Add Date and Timepickers.
-     *
-     * @returns {undefined}
-     */
-    dateTimePickers: function () {
-        $.datepicker.setDefaults($.datepicker.regional[bolt.locale.long]);
-
-        $('.datepicker').each(function(){
-            var id = $(this).attr('id').replace(/-date$/, ''),
-                inpDate = $(this),
-                inpTime = $('#' + id + '-time'),
-                inpData = $('#' + id),
-                setDate = $.datepicker.parseDate('yy-mm-dd', inpData.val()),
-                options = {},
-                fieldOptions = $(this).data('field-options'),
-                setfnc = function () {
-                    var date = $.datepicker.formatDate('yy-mm-dd', inpDate.datepicker('getDate')),
-                        dt = new Date(date + 'T'+(inpTime.length && inpTime.val() !== ''? inpTime.val() : '00:00') + ':00');
-
-                    if (Object.prototype.toString.call(dt) === '[object Date]' && !isNaN(dt.getTime())) {
-                        inpData.val($.formatDateTime('yy-mm-dd hh:ii:00', dt));
-                    }
-                };
-
-            // Parse override settings from field in contenttypes.yml
-            for (key in fieldOptions) {
-                if (fieldOptions.hasOwnProperty(key)) {
-                    options[key] = fieldOptions[key];
-                }
-            }
-
-            // Update hidden field on selection
-            options.onSelect = setfnc;
-
-            // Set Datepicker
-            inpDate.datepicker(options);
-            if (id === 'datedepublish' && inpData.val() === '1900-01-01 00:00:00') {
-                setDate = '';
-            }
-            inpDate.datepicker('setDate', setDate);
-
-            // If a time field exists, bind it
-            if (inpTime.length) {
-                inpTime.change(setfnc);
-            }
-        });
-    },
-
-    /*
      * Render any deferred widgets, if any.
      *
      * @returns {undefined}
@@ -2352,7 +2462,10 @@ var init = {
 
 jQuery(function ($) {
     // Get configuration
-    bolt = $('script[data-config]').first().data('config');
+    var config = $('script[data-config]').first().data('config');
+    for (key in config) {
+        bolt[key] = config[key];
+    }
 
     // Initialize objects
     bolt.files = new Files();
@@ -2365,6 +2478,8 @@ jQuery(function ($) {
     bolt.filelist = [];
 
     // Initialisation
+    bolt.datetimes.init();
+    //
     init.ckeditor();
     init.confirmationDialogs();
     init.magnificPopup();
@@ -2374,7 +2489,6 @@ jQuery(function ($) {
     }, 1000);
     init.dropZone();
     init.popOvers();
-    init.dateTimePickers();
     init.activityWidget();
     init.dropDowns();
     init.deferredWidgets();

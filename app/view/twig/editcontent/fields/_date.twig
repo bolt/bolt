@@ -12,28 +12,20 @@
 {#=== INIT ===========================================================================================================#}
 
 {% set attr_date = {
-    class:  option.class~' datepicker',
-    id:     key~'-date',
-    name:   key~'-dateformatted',
-    type:   'text',
-    value:  '',
-    required:            option.required,
-    data_errortext:      option.errortext,
-    data_field_options:  option.options ? option.options|json_encode : '',
-}%}
-
-{% set attr_hidden = {
-    name_id:  key,
-    type:     'hidden',
-    value:    context.content.get(key)|date('Y-m-d H:i:s'),
+    id:         key,
+    has_time:   false,
+    value:      context.content.get(key)|date('Y-m-d H:i:s'),
+    required:   option.required,
+    class:      option.class,
+    errortext:  option.errortext,
+    options:    option.options,
 }%}
 
 {#=== FIELDSET =======================================================================================================#}
 
 <fieldset class="date">
-    <label class="col-sm-3 control-label">{{ (option.info) ? macro.infopop(labelkey, option.info) : labelkey  }}</label>
+    <label class="col-sm-3 control-label">{{ (option.info) ? macro.infopop(labelkey, option.info) : labelkey }}</label>
     <div class="col-sm-9">
-        <input{{ macro.attr(attr_date) }}>
-        <input{{ macro.attr(attr_hidden) }}>
+        {{ macro.input_datetime(attr_date) }}
     </div>
 </fieldset>

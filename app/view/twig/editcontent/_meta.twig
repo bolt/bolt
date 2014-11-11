@@ -1,58 +1,21 @@
 {#=== INIT ===========================================================================================================#}
 
+{% import '_macro/_macro.twig' as macro %}
+
+{% set magic_date = '1900-01-01 00:00:00' %}
 {% set can_publish = isallowed('contenttype:' ~ context.contenttype.slug ~ ':publish:' ~ context.content.id) %}
 {% set can_depublish = isallowed('contenttype:' ~ context.contenttype.slug ~ ':depublish:' ~ context.content.id) %}
 
-{% set attr_publish_date = {
-    class:    'form-control datepicker',
-    id:       'datepublish-date',
-    name:     'datepublish-dateformatted',
-    type:     'text',
-    value:    '',
-    disabled:  (not can_publish),
+{% set attr_publish = {
+    id:       'datepublish',
+    value:    (context.content.datepublish == magic_date) ? '' : context.content.datepublish,
+    disabled: (not can_publish),
 }%}
 
-{% set attr_publish_time = {
-    class:     'form-control timepicker',
-    id:        'datepublish-time',
-    name:      'datepublish-timeformatted',
-    type:      'time',
-    pattern:   '^(([01]?[0-9]|2[0-3]):[0-5][0-9]|)$',
-    title:     __('Time in 24h format'),
-    value:     context.content.datepublish > '1900-01-01 00:00:00' ? context.content.datepublish|date('H:i') : '',
-    disabled:  (not can_publish),
-}%}
-
-{% set attr_publish_hidden = {
-    name_id:  'datepublish',
-    type:     'hidden',
-    value:    context.content.datepublish,
-}%}
-
-{% set attr_depublish_date = {
-    class:    'form-control datepicker',
-    id:       'datedepublish-date',
-    name:     'datedepublish-dateformatted',
-    type:     'text',
-    value:    '',
+{% set attr_depublish = {
+    id:        'datedepublish',
+    value:     (context.content.datedepublish == magic_date) ? '' : context.content.datedepublish,
     disabled:  (not can_depublish),
-}%}
-
-{% set attr_depublish_time = {
-    class:     'form-control timepicker',
-    id:        'datedepublish-time',
-    name:      'datedepublish-timeformatted',
-    type:      'time',
-    pattern:   '^(([01]?[0-9]|2[0-3]):[0-5][0-9]|)$',
-    title:     __('Time in 24h format'),
-    value:     context.content.datedepublish > '1900-01-01 00:00:00' ? context.content.datepublish|date('H:i') : '',
-    disabled:  (not can_depublish),
-}%}
-
-{% set attr_depublish_hidden = {
-    name_id:  'datedepublish',
-    type:     'hidden',
-    value:    context.content.datedepublish,
 }%}
 
 {#====================================================================================================================#}
@@ -77,18 +40,14 @@
     <div class="form-group">
         {{ macro.label(__('Publication date:'), '', 'col-sm-4 control-label') }}
         <div class="col-sm-8">
-            <input{{ macro.attr(attr_publish_date) }}>
-            <input{{ macro.attr(attr_publish_time) }}>
-            <input{{ macro.attr(attr_publish_hidden) }}>
+            {{ macro.input_datetime(attr_publish) }}
         </div>
     </div>
 
     <div class="form-group">
         {{ macro.label(__('Depublication date:'), '', 'col-sm-4 control-label') }}
         <div class="col-sm-8">
-            <input{{ macro.attr(attr_depublish_date) }}>
-            <input{{ macro.attr(attr_depublish_time) }}>
-            <input{{ macro.attr(attr_depublish_hidden) }}>
+            {{ macro.input_datetime(attr_depublish) }}
         </div>
     </div>
 
