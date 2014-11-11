@@ -119,7 +119,7 @@ class Manager
         $page = ($query) ? $query->get($param, $query->get('page', 1)) : 1;
 
         $query = sprintf(
-            "SELECT * FROM %s WHERE code IN (?) OR (level >= ?) ORDER BY date DESC",
+            "SELECT * FROM %s WHERE code IN (?) OR (level >= ?) ORDER BY id DESC",
             $this->tablename
         );
         $query = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($query, intval($amount), intval(($page - 1) * $amount));
