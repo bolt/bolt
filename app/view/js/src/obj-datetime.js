@@ -79,6 +79,11 @@ var datetimes = function () {
         field.show.click(function () {
             field.date.datepicker('show');
         });
+        // Bind clear button
+        field.clear.click(function () {
+            field.data.val('');
+            display(field);
+        });
     }
 
     return {
@@ -98,6 +103,7 @@ var datetimes = function () {
                         date: $(this),
                         time: $('#' + id + '-time'),
                         show: $('#' + id + '-show'),
+                        clear: $('#' + id + '-clear'),
                         is24h: is24h
                     };
 
