@@ -37,9 +37,15 @@ var datetimes = function () {
         var date = '',
             time = '',
             hour,
-            match = field.data.val().match(/^(\d{4}-\d{2}-\d{2}) (\d{2}:\d{2}:00)$/);
+            match;
+
+        // Correct no depublish date
+        if (field.data.attr('id') === 'datedepublish' && field.data.val() === '1900-01-01 00:00:00') {
+            field.data.val('');
+        }
 
         // If data is a valid datetime
+        match = field.data.val().match(/^(\d{4}-\d{2}-\d{2}) (\d{2}:\d{2}:00)$/);
         if (match) {
             date = match[1];
             time = match[2];
