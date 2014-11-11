@@ -115,7 +115,7 @@ bolt.datetimes = function () {
                     };
 
                 // For debug purpose make hidden datafields visible
-                if (true) {
+                if (false) {
                     field.data.attr('type', 'text');
                 }
 
