@@ -252,8 +252,6 @@ class Content implements \ArrayAccess
             }
         }
 
-        $now = date("Y-m-d H:i:s");
-
         if (!empty($values['taxonomy'])) {
             foreach ($values['taxonomy'] as $taxonomytype => $value) {
                 if (!is_array($value)) {
