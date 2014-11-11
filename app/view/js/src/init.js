@@ -128,6 +128,7 @@ var init = {
 
                         // Reset the changes to the form from any updates we got from POST_SAVE changes
                         $('form').watchChanges();
+                        bolt.datetimes.update();
 
                     })
                     .fail(function(){

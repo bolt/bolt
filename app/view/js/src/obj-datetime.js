@@ -134,6 +134,22 @@ bolt.datetimes = function () {
                     display(field);
                 });
             });
+        },
+
+        update: function () {
+            var is24h = moment.localeData()._longDateFormat.LT.replace(/\[.+?\]/gi, '').match(/A/) ? false : true;
+
+            $('.datepicker').each(function () {
+                var id = $(this).attr('id').replace(/-date$/, ''),
+                    field = {
+                        data: $('#' + id),
+                        date: $(this),
+                        time: $('#' + id + '-time'),
+                        is24h: is24h
+                    };
+
+                display(field);
+            });
         }
     };
 }();
