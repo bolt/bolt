@@ -13,6 +13,7 @@
 
 {% set attr_data = {
     id:        key,
+    has_time:  false,
     value:     context.content.get(key)|date('Y-m-d H:i:s'),
     required:  option.required,
 }%}

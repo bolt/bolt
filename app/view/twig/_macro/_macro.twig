@@ -161,7 +161,7 @@
             </button>
         </span>
         <input{{ attr(attr_date) }} style="margin-right:0;">
-        {% if attr_time %}<input{{ attr(attr_time) }} style="border-left:none;">{% endif %}
+        {% if setup.has_time|default(true) %}<input{{ attr(attr_time) }} style="border-left:none;">{% endif %}
     </div>
     <input{{ attr(attr_data) }}>
 {% endmacro %}
