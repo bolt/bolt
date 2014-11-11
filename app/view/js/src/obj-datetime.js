@@ -2,8 +2,6 @@
  * DateTime object
  */
 var datetimes = function () {
-    var is24h;
-
     function hasChanged(field) {
         console.log('hasChanged()');
 
@@ -37,7 +35,7 @@ var datetimes = function () {
         // Write back
         if (field.data.val() !== '' && date.isValid()) {
             field.date.datepicker('setDate', $.datepicker.parseDate('yy-mm-dd', date.format('YYYY-MM-DD')));
-            if (field.time) {
+            if (field.time.length) {
                 if (this.is24h) {
                     t = field.data.val().slice(11, 16);
                 } else {
@@ -52,7 +50,38 @@ var datetimes = function () {
         }
     }
 
-    function setDatepickerOptions(item, options) {
+    function display(field) {
+        var date = '',
+            time = '',
+            hour,
+            match = field.data.val().match(/^(\d{4}-\d{2}-\d{2}) (\d{2}:\d{2}:00)$/);
+
+        // If data is a valid datetime
+        if (match) {
+            date = match[1];
+            time = match[2];
+        }
+
+        // Set date field
+        field.date.datepicker('setDate', (date === '') ? '' : $.datepicker.parseDate('yy-mm-dd', date));
+
+        // Set time field
+        if (field.time.length) {
+            if (time === '') {
+                time = '';
+            } else if (field.is24h) {
+                time = field.data.val().slice(11, 16);
+            } else {
+                hour = parseInt(time.slice(0, 2));
+                time = (hour % 12 || 12) + time.slice(2, 5) + ' ' + (hour < 12 ? 'AM' : 'PM');
+            }
+            field.time.val(time);
+        }
+    }
+
+    function bindDatepicker(item, fieldOptions) {
+        var options = {};
+
         for (key in options) {
             if (fieldOptions.hasOwnProperty(key)) {
                 options[key] = fieldOptions[key];
@@ -65,56 +94,38 @@ var datetimes = function () {
         init: function () {
             // Set global datepicker locale
             $.datepicker.setDefaults($.datepicker.regional[bolt.locale.long]);
-            // Find out if locale uses 24h format
-            this.is24h = moment.localeData()._longDateFormat.LT.replace(/\[.+?\]/gi, '').match(/A/) ? false : true;
 
-            // Initialize each available date/datetime input
+            // Find out if locale uses 24h format
+            var is24h = moment.localeData()._longDateFormat.LT.replace(/\[.+?\]/gi, '').match(/A/) ? false : true;
+
+            // Initialize each available date/datetime field
             $('.datepicker').each(function () {
-                var options = {},
-                    setDate,
+                var setDate,
                     id = $(this).attr('id').replace(/-date$/, ''),
                     field = {
                         data: $('#' + id),
                         date: $(this),
-                        time: $('#' + id + '-time')
+                        time: $('#' + id + '-time'),
+                        is24h: is24h
                     };
-
-                field.time = field.time.length ? field.time : false;
-                setDate = $.datepicker.parseDate('yy-mm-dd', field.data.val());
 
                 // For debug purpose make hidden datafields visible
                 if (true) {
                     field.data.attr('type', 'text');
                 }
 
-                // Parse override settings from field in contenttypes.yml
-                setDatepickerOptions(field.date, $(this).data('field-options'));
+                // Bind datepicker to date field and set options from field in contenttypes.yml
+                bindDatepicker(field.date, $(this).data('field-options'));
 
-                // Update hidden field on selection
+                display(field);
+
+                // Bind change action to date and time field
                 field.date.change(function () {
                     hasChanged(field);
                 });
-
-                // Set Datepicker
-                field.date.datepicker('setDate', setDate);
-
-                // If a time field exists, bind it
-                if (field.time) {
-                    if (setDate == '' || field.data.val() === '') {
-                        field.time.val('');
-                    } else {
-                        if (this.is24h) {
-                            t = field.data.val().slice(11, 16);
-                        } else {
-                            h = parseInt(field.data.val().slice(11, 13));
-                            t = (field.data.val().slice(11, 13) % 12 || 12) + field.data.val().slice(13, 16) + ' ' + (h < 12 ? 'AM' : 'PM');
-                        }
-                        field.time.val(t);
-                    }
-                    field.time.change(function () {
-                        hasChanged(field);
-                    });
-                }
+                field.time.change(function () {
+                    hasChanged(field);
+                });
             });
         }
     };
