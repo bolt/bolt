@@ -202,7 +202,7 @@ class Users
 
         $key = $this->getAuthToken($this->currentuser['username']);
 
-        if ($key != $this->currentuser['sessionkey']) {
+        if ($key !== $this->currentuser['sessionkey']) {
             $this->app['log']->add("keys don't match. Invalidating session: $key != " . $this->currentuser['sessionkey'], 2);
             $this->app['log']->add("Automatically logged out user '" . $this->currentuser['username'] . "': Session data didn't match.", 3, '', 'issue');
             $this->logout();
@@ -503,7 +503,7 @@ class Users
 
         $checksalt = $this->getAuthToken($row['username'], $row['salt']);
 
-        if ($checksalt == $row['token']) {
+        if ($checksalt === $row['token']) {
 
             $user = $this->getUser($row['username']);
 
