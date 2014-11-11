@@ -143,8 +143,7 @@
         required:            opt.required|default(false),
         class:               (class ~ ' datepicker')|trim,
         data_errortext:      opt.errortext|default(''),
-        data_field_options:  opt.options|default(false) ? opt.options|json_encode : '',
-        style:               "margin-right:0;",
+        data_field_options:  opt.options|default(false) ? opt.options|json_encode : ''
     } %}
     {% set attr_time = {
         id:        opt.id ~ '-time',
@@ -153,21 +152,22 @@
         disabled:  opt.disabled|default(false),
         required:  opt.required|default(false),
         class:     (class ~ ' timepicker')|trim,
-        title:     __('Time in 24h/12h format'),
-        style:     "border-left:none;",
+        title:     __('Time in 24h/12h format')
     } %}
 
     <div class="input-group">
         <span class="input-group-btn">
-            <button class="btn" type="button" id="{{ opt.id }}-show">
+            <button class="btn btn-tertiary" type="button" id="{{ opt.id }}-show">
                 <i class="fa fa-calendar"></i>
-            </button>
-            <button class="btn" type="button" id="{{ opt.id }}-clear">
-                <i class="fa fa-close"></i>
             </button>
         </span>
         <input{{ attr(attr_date) }}>
         {% if opt.has_time|default(true) %}<input{{ attr(attr_time) }}>{% endif %}
+
+            <button class="btn btn-default btn-xs" type="button" id="{{ opt.id }}-clear" style="margin: 4px 0 0 6px; ">
+                <i class="fa fa-close"></i>
+            </button>
+
     </div>
     <input{{ attr(attr_data) }}>
 {% endmacro %}

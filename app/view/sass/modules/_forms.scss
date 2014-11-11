@@ -20,6 +20,7 @@ label.permalink {
 
 .form-control {
     @include placeholder();
+    height: 33px;
 }
 
 .form-horizontal .control-label {
@@ -139,15 +140,15 @@ div.form-notice:last-child{
 }
 
 #editcontent input.datepicker {
-    width: 30%;
-    min-width: 240px;
-    margin-right: 8px;
+    width: 21%;
+    min-width: 132px;
+    margin-right: 6px;
     float: left;
 }
 
 #editcontent input.timepicker {
     width: 10%;
-    min-width: 100px;
+    min-width: 93px;
     float: left;
 }
 
