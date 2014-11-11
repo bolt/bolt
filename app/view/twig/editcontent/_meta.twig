@@ -9,32 +9,26 @@
 {% set attr_publish_data = {
     id:       'datepublish',
     value:    (context.content.datepublish == magic_date) ? '' : context.content.datepublish,
+    disabled: (not can_publish),
 }%}
-
 {% set attr_publish_date = {
-    class:    'form-control datepicker',
-    type:     'text',
-    disabled:  (not can_publish),
+    class:     'form-control datepicker',
+    type:      'text',
 }%}
-
 {% set attr_publish_time = {
     class:     'form-control timepicker',
-    disabled:  (not can_publish),
 }%}
 
 {% set attr_depublish_data = {
-    id:       'datedepublish',
-    value:    (context.content.datedepublish == magic_date) ? '' : context.content.datedepublish,
+    id:        'datedepublish',
+    value:     (context.content.datedepublish == magic_date) ? '' : context.content.datedepublish,
+    disabled:  (not can_depublish),
 }%}
-
 {% set attr_depublish_date = {
     class:    'form-control datepicker',
-    disabled:  (not can_depublish),
 }%}
-
 {% set attr_depublish_time = {
     class:     'form-control timepicker',
-    disabled:  (not can_depublish),
 }%}
 
 {#====================================================================================================================#}

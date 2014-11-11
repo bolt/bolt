@@ -125,35 +125,36 @@
     {% endif %}
 {% endmacro %}
 
-{% macro input_datetime(attr_data, attr_date, attr_time) %}
+{% macro input_datetime(setup, attr_date, attr_time) %}
     {% from _self import attr %}
 
-    {% set id = attr_data.id %}
-
-    {% set attr_data = attr_data|merge({
-        name: id
+    {% set attr_data = {
+        name: setup.id,
+        value: setup.value,
         type: 'hidden',
-    })%}
+    }%}
     {% set attr_date = attr_date|merge({
-        id:     id ~ '-date',
-        name:   id ~ '-dateformatted',
-        type:   'text',
-        value:  '',
+        id:        setup.id ~ '-date',
+        name:      setup.id ~ '-dateformatted',
+        type:      'text',
+        value:     '',
+        disabled:  setup.disabled|default:(false),
     })%}
     {% set attr_time = attr_time|merge({
-        id:     id ~ '-time',
-        name:   id ~ '-timeformatted',
-        type:   'text',
-        value:  '',
-        title:  __('Time in 24h/12h format'),
+        id:        setup.id ~ '-time',
+        name:      setup.id ~ '-timeformatted',
+        type:      'text',
+        value:     '',
+        title:     __('Time in 24h/12h format'),
+        disabled:  setup.disabled|default:(false),
     })%}
 
     <div class="input-group">
         <span class="input-group-btn">
-            <button class="btn btn-default" type="button" id="{{ id }}-show">
+            <button class="btn btn-default" type="button" id="{{ setup.id }}-show">
                 <i class="fa fa-calendar"></i>
             </button>
-            <button class="btn" type="button" id="{{ id }}-clear">
+            <button class="btn" type="button" id="{{ setup.id }}-clear">
                 <i class="fa fa-close"></i>
             </button>
         </span>
