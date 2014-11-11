@@ -254,36 +254,6 @@ class Content implements \ArrayAccess
 
         $now = date("Y-m-d H:i:s");
 
-        if (!isset($values['datecreated']) ||
-            !preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $values['datecreated'])) {
-            $values['datecreated'] = $now;
-        }
-
-        if (!isset($values['datepublish']) || ($values['datepublish'] < "1971-01-01 01:01:01") ||
-            !preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $values['datepublish'])) {
-            $values['datepublish'] = $now;
-        }
-
-        if (!isset($values['datechanged']) || ($values['datechanged'] < "1971-01-01 01:01:01") ||
-            !preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $values['datechanged'])) {
-            $values['datechanged'] = $now;
-        }
-
-        if (!isset($values['datedepublish']) ||
-            !preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $values['datedepublish'])) {
-            // Not all DB-engines can handle a date like '0000-00-00', so we pick a safe date, that's far enough in the past.
-            $values['datedepublish'] = "1900-01-01 00:00:00";
-        }
-
-        // If we set a 'publishdate' in the future, and the status is 'published', set it to 'timed' instead.
-        if ($values['datepublish'] > date("Y-m-d H:i:s") && $values['status'] == "published") {
-            $values['status'] = "timed";
-        }
-
-        // Get the taxonomies from the POST-ed values. We don't support 'order' for taxonomies that
-        // can have multiple values.
-        // @todo use $this->setTaxonomy() for this
-
         if (!empty($values['taxonomy'])) {
             foreach ($values['taxonomy'] as $taxonomytype => $value) {
                 if (!is_array($value)) {
