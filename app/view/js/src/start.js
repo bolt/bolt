@@ -28,7 +28,6 @@ jQuery(function ($) {
     }, 1000);
     init.dropZone();
     init.popOvers();
-    init.dateTimePickers();
     init.activityWidget();
     init.dropDowns();
     init.deferredWidgets();
