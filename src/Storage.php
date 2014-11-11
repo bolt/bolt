@@ -446,7 +446,7 @@ class Storage
             $params[] = intval($options['contentid']);
         }
         if (isset($options['id'])) {
-            $sql .= "    AND log.id = ? ";
+            $sql .= " AND log.id = ? ";
             $params[] = intval($options['id']);
         }
         $sql .= $this->makeOrderLimitSql($options);
@@ -476,7 +476,7 @@ class Storage
         }
         if (isset($options['id'])) {
             $sql .= "    AND log.id = ? ";
-            $params[] = intval($options['contentid']);
+            $params[] = intval($options['id']);
         }
 
         return $this->app['db']->fetchColumn($sql, $params);
