@@ -13,13 +13,11 @@
 
 {% set attr_data = {
     id:       key,
-    type:     'hidden',
     value:    context.content.get(key)|date('Y-m-d H:i:s'),
 }%}
 
 {% set attr_date = {
     class:  option.class~' datepicker',
-    type:   'text',
     value:  '',
     required:            option.required,
     data_errortext:      option.errortext,

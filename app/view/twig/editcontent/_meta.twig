@@ -8,7 +8,6 @@
 
 {% set attr_publish_data = {
     id:       'datepublish',
-    type:     'hidden',
     value:    (context.content.datepublish == magic_date) ? '' : context.content.datepublish,
 }%}
 
@@ -21,7 +20,6 @@
 
 {% set attr_publish_time = {
     class:     'form-control timepicker',
-    type:      'text',
     title:     __('Time in 24h format'),
     value:     '',
     disabled:  (not can_publish),
@@ -29,13 +27,11 @@
 
 {% set attr_depublish_data = {
     id:       'datedepublish',
-    type:     'hidden',
     value:    (context.content.datedepublish == magic_date) ? '' : context.content.datedepublish,
 }%}
 
 {% set attr_depublish_date = {
     class:    'form-control datepicker',
-    type:     'text',
     value:    '',
     disabled:  (not can_depublish),
 }%}

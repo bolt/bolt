@@ -132,14 +132,17 @@
 
     {% set attr_data = attr_data|merge({
         name: id
+        type: 'hidden',
     })%}
     {% set attr_date = attr_date|merge({
         id:     id ~ '-date',
         name:   id ~ '-dateformatted',
+        type:   'text',
     })%}
     {% set attr_time = attr_time|merge({
         id:     id ~ '-time',
         name:   id ~ '-timeformatted',
+        type:   'text',
     })%}
 
     <div class="input-group">
