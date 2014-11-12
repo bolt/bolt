@@ -5,7 +5,9 @@ use Bolt\Application;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Storage;
 use Bolt\Content;
+use Bolt\Events\StorageEvents;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 
 /**
@@ -51,6 +53,7 @@ class StorageTest extends BoltUnitTest
     {
         $app = $this->makeApp();
         $app['resources']->setPath('files', TEST_ROOT . '/tests/resources');
+        $app['config']->set('general/changelog/enabled', true);
         $app->initialize();
         $storage = new Storage($app);
         $output = $storage->prefill(array('showcases'));
@@ -106,10 +109,10 @@ class StorageTest extends BoltUnitTest
         $count = $storage->countChangelogByContentType('pages', array());
         $this->assertGreaterThan(0, $count);
         
-        $count = $storage->countChangelogByContentType('pages', array('contentid'=>6));
+        $count = $storage->countChangelogByContentType('showcases', array('contentid'=>1));
         $this->assertGreaterThan(0, $count);
         
-        $count = $storage->countChangelogByContentType(array('slug'=>'pages'), array('id'=>1));
+        $count = $storage->countChangelogByContentType(array('slug'=>'showcases'), array('id'=>1));
         $this->assertGreaterThan(0, $count);
     }
     
@@ -118,8 +121,11 @@ class StorageTest extends BoltUnitTest
         $app = $this->getApp();
         $app['config']->set('general/changelog/enabled', true);
         $storage = new Storage($app);
+        //$all = $storage->getChangelogByContentType('pages', array());
+
+
         
-        $log = $storage->getChangelogEntry('pages',1,2);
+        $log = $storage->getChangelogEntry('showcases',1,1);
         $this->assertInstanceOf('Bolt\ChangelogItem', $log);
         $this->assertAttributeEquals(1, 'contentid', $log);
     }
@@ -157,17 +163,64 @@ class StorageTest extends BoltUnitTest
     
     public function testSaveContent()
     {
+        $app = $this->getApp();
+        $app['request'] = Request::create('/');
+        $storage = new Storage($app);
+        
+        // Test missing contenttype handled
+        $content = new Content($app);
+        $this->expectOutputString('Contenttype is required.');
+        $this->assertFalse($storage->saveContent($content));
+        
+        // Test dispatcher is called pre-save and post-save
+        $content = $storage->getContent('showcases/1');
+
+        $presave = 0;
+        $postsave = 0;
+        $listener = function() use(&$presave) {
+            $presave++;
+        };
+        $listener2 = function() use(&$postsave) {
+            $postsave++;
+        };
+        $app['dispatcher']->addListener(StorageEvents::PRE_SAVE, $listener);
+        $app['dispatcher']->addListener(StorageEvents::POST_SAVE, $listener2);
+        $storage->saveContent($content);
+        $this->assertEquals(1, $presave);
+        $this->assertEquals(1, $postsave);
         
     }
     
     public function testDeleteContent()
     {
+        $app = $this->getApp();
+        $app['request'] = Request::create('/');
+        $storage = new Storage($app);
         
+        
+        // Test delete fails on missing params
+        $this->expectOutputString('Contenttype is required.');
+        $this->assertFalse($storage->deleteContent('', 999));
+        
+        $content = $storage->getContent('showcases/1');
+        
+        // Test the delete events are triggered
+        $delete = 0;
+        $listener = function() use(&$delete) {
+            $delete++;
+        };
+        $app['dispatcher']->addListener(StorageEvents::PRE_DELETE, $listener);
+        $app['dispatcher']->addListener(StorageEvents::POST_DELETE, $listener);
+        
+        $storage->deleteContent('showcases',1);
+        
+        $this->assertFalse($storage->getContent('showcases/1'));
+        $this->assertEquals(2, $delete);
     }
     
     public function testUpdateSingleValue()
     {
-        
+           
     }
     
     public function testGetEmptyContent()
