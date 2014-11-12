@@ -1033,7 +1033,7 @@ class Storage
      * @return mixed   false if query is invalid,
      *                                      an array with results if query was executed
      */
-    public function searchContent($q, array $contenttypes = null, array $filters = null, $limit = 100, $offset = 0)
+    public function searchContent($q, array $contenttypes = null, array $filters = null, $limit = 9999, $offset = 0)
     {
         $query = $this->decodeSearchQuery($q);
         if (!$query['valid']) {
@@ -1160,7 +1160,7 @@ class Storage
             }
         }
 
-        $limit = !empty($parameters['limit']) ? $parameters['limit'] : 100;
+        $limit = !empty($parameters['limit']) ? $parameters['limit'] : 9999;
         $page = !empty($parameters['page']) ? $parameters['page'] : 1;
 
         // If we're allowed to use pagination, use the 'page' parameter.
@@ -1241,7 +1241,7 @@ class Storage
 
         $slug = String::slug($name);
 
-        $limit = $parameters['limit'] ? : 100;
+        $limit = $parameters['limit'] ? : 9999;
         $page = $parameters['page'] ? : 1;
 
         $taxonomytype = $this->getTaxonomyType($taxonomyslug);
@@ -1572,7 +1572,7 @@ class Storage
         }
 
         if (!isset($meta_parameters['limit'])) {
-            $meta_parameters['limit'] = 100;
+            $meta_parameters['limit'] = 9999;
         }
     }
 
