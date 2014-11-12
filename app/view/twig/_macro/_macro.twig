@@ -125,16 +125,32 @@
     {% endif %}
 {% endmacro %}
 
+{##
+ # Renders a datetime/date input component
+ #
+ # Required options:
+ #    id:                 id of that group
+ # Optional options:
+ #    disabled  [false]:  disabled input
+ #    required  [false]:  make input required
+ #    class     []:       class added to date/time input
+ #    errortext []:       error text
+ #    options   []:       options passd to datepicker
+ #
+ # @param array opt Options definging the component
+ #}
 {% macro input_datetime(opt) %}
     {% from _self import attr %}
 
     {% set class = opt.class|default('')|replace({'form-control': ''}) ~ ' form-control' %}
+
     {% set attr_data = {
         id:     opt.id,
         name:   opt.id,
         value:  opt.value,
         type:   'hidden',
     } %}
+
     {% set attr_date = {
         id:                  opt.id ~ '-date',
         name:                opt.id ~ '-dateformatted',
@@ -145,6 +161,7 @@
         data_errortext:      opt.errortext|default(''),
         data_field_options:  opt.options|default(false) ? opt.options|json_encode : ''
     } %}
+
     {% set attr_time = {
         id:        opt.id ~ '-time',
         name:      opt.id ~ '-timeformatted',
@@ -152,7 +169,8 @@
         disabled:  opt.disabled|default(false),
         required:  opt.required|default(false),
         class:     (class ~ ' timepicker')|trim,
-        title:     __('Time in 24h/12h format')
+        title:     __('Time in 24h/12h format'),
+        style:     'margin-right: 6px;'
     } %}
 
     <div class="input-group">
@@ -162,12 +180,12 @@
             </button>
         </span>
         <input{{ attr(attr_date) }}>
-        {% if opt.has_time|default(true) %}<input{{ attr(attr_time) }}>{% endif %}
-
-            <button class="btn btn-default btn-xs" type="button" id="{{ opt.id }}-clear" style="margin: 4px 0 0 6px; ">
-                <i class="fa fa-close"></i>
-            </button>
-
+        {% if opt.has_time is not defined or opt.has_time != false %}
+            <input{{ attr(attr_time) }}>
+        {% endif %}
+        <button class="btn btn-default btn-xs" type="button" id="{{ opt.id }}-clear" style="margin: 4px 0 0 0;">
+            <i class="fa fa-close"></i>
+        </button>
     </div>
     <input{{ attr(attr_data) }}>
 {% endmacro %}
