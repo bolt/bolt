@@ -1241,7 +1241,7 @@ class Storage
 
         $slug = String::slug($name);
 
-        $limit = $parameters['limit'] ? : 100;
+        $limit = $parameters['limit'] ? : 9999;
         $page = $parameters['page'] ? : 1;
 
         $taxonomytype = $this->getTaxonomyType($taxonomyslug);
