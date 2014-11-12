@@ -32,7 +32,6 @@ class ExtensionInstaller
     {
         @mkdir($dest, 0755, true);
 
-
         // We only want to do this if the two directories don't match
         if (realpath($source) === realpath($dest)) {
             return;

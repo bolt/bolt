@@ -42,7 +42,6 @@ EOD;
      **/
     public $webName = 'public';
 
-
     /**
      * Constructor, takes options and sets up class.
      *
@@ -72,9 +71,6 @@ EOD;
         return $this->write($bootstrap);
     }
 
-
-
-
     /**
      * Generate method builds the bootstrap file as a string
      *
@@ -89,7 +85,6 @@ EOD;
             $autoload = "vendor/autoload.php";
             $base = "__DIR__";
         }
-
 
         $template = '';
         $template .= sprintf($this->templateStart, $autoload, $base);

@@ -23,7 +23,6 @@ class ComposerChecks extends LowlevelChecks
     <strong>
 EOM;
 
-
     /**
      * The constructor requires a resource manager object to perform checks against.
      * This should ideally be typehinted to Bolt\Configuration\ResourceManager
@@ -37,8 +36,6 @@ EOM;
         $this->addCheck('database', true);
         $this->addCheck('config', true);
     }
-
-
 
     public function checkConfig()
     {
@@ -83,7 +80,6 @@ EOM;
 
         return call_user_func_array('sprintf', $status);
     }
-
 
     protected function checkDir($location)
     {

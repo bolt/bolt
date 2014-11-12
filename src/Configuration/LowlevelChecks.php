@@ -31,7 +31,6 @@ class LowlevelChecks
         $this->config = $config;
     }
 
-
     public function removeCheck($check)
     {
         if (in_array($check, $this->checks)) {
