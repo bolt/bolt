@@ -1572,7 +1572,7 @@ class Storage
         }
 
         if (!isset($meta_parameters['limit'])) {
-            $meta_parameters['limit'] = 100;
+            $meta_parameters['limit'] = 9999;
         }
     }
 
