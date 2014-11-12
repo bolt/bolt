@@ -11,24 +11,22 @@ class TwigProxy extends \Twig_Extension
     {
         $this->name = $name;
     }
-    
-    
+
     public function getFunctions()
     {
         return $this->functions;
     }
-    
+
     public function getFilters()
     {
         return $this->filters;
     }
-    
+
     public function getName()
     {
         return $this->name;
     }
-    
-    
+
     /**
      * Add a Twig Function
      *
@@ -53,5 +51,4 @@ class TwigProxy extends \Twig_Extension
         $this->filters[] = $twigFilter;
     }
 
-    
 }

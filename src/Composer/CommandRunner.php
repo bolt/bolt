@@ -6,12 +6,10 @@ use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Composer\Console\Application as ComposerApp;
 use Guzzle\Http\Client as GuzzleClient;
 use Guzzle\Http\Exception\RequestException;
 use Bolt\Library as Lib;
-use Bolt\Configuration\LowlevelException;
 
 class CommandRunner
 {
@@ -169,7 +167,7 @@ class CommandRunner
     }
 
     /**
-     * @param string $format sprintf-style format string.
+     * @param string      $format sprintf-style format string.
      * @param string, ... $params one or more parameters to interpolate into the format
      */
     protected function execute()
@@ -301,7 +299,6 @@ class CommandRunner
         return $pack;
     }
 
-
     public function clearLog()
     {
         if (is_writable($this->logfile)) {
@@ -408,7 +405,6 @@ class CommandRunner
         $pathToRoot = $this->app['resources']->findRelativePath($this->app['resources']->getPath('extensions'), $this->app['resources']->getPath('root'));
         $json->extra = array('bolt-web-path' => $pathToWeb);
         $json->autoload = array('files' => array("installer.php"));
-
 
         // Write out the file, but only if it's actually changed, and if it's writable.
         if ($jsonfile !== json_encode($json, 128 | 64)) {
