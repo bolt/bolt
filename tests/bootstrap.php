@@ -18,3 +18,8 @@ require_once 'bootstraps/lowlevel-bootstrap.php';
 if(!defined('TEST_ROOT')) {
     define('TEST_ROOT', realpath(__DIR__ . '/../'));
 }
+
+// Make sure we wipe the db file to start with a clean one
+if(is_readable(TEST_ROOT.'/bolt.db')) {
+    unlink(TEST_ROOT.'/bolt.db');
+}
