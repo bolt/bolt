@@ -162,7 +162,7 @@
             </button>
         </span>
         <input{{ attr(attr_date) }}>
-        {% if opt.has_time|default(true) %}<input{{ attr(attr_time) }}>{% endif %}
+        {% if opt.has_time is not defined or opt.has_time != false %}<input{{ attr(attr_time) }}>{% endif %}
 
             <button class="btn btn-default btn-xs" type="button" id="{{ opt.id }}-clear" style="margin: 4px 0 0 6px; ">
                 <i class="fa fa-close"></i>
