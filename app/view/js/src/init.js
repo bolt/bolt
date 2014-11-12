@@ -101,9 +101,9 @@ var init = {
                 $.post(ajaxaction, $("#editcontent").serialize())
                     .done(function (data) {
                         $('p.lastsaved').html(savedon);
-                        $('p.lastsaved').find('strong').text(moment().format('MMM D, HH:mm'));
-                        $('p.lastsaved').find('time').attr('datetime', moment().format());
-                        $('p.lastsaved').find('time').attr('title', moment().format());
+                        $('p.lastsaved').find('strong').text(moment(data.datechanged).format('MMM D, HH:mm'));
+                        $('p.lastsaved').find('time').attr('datetime', moment(data.datechanged).format());
+                        $('p.lastsaved').find('time').attr('title', moment(data.datechanged).format());
                         bolt.moments.update();
 
                         $('a#lastsavedstatus strong').html(
