@@ -125,6 +125,19 @@
     {% endif %}
 {% endmacro %}
 
+{##
+ # Renders a datetime/date input. Available options:
+ # Required options:
+ #    id:                 id of that group
+ # Optional options:s
+ #    disabled  [false]:  disabled input
+ #    required  [false]:  make input required
+ #    class     []:       class added to date/time input
+ #    errortext []:       error text
+ #    options   []:       options passd to datepicker
+ #
+ # @param array opt Options definging the component
+ #}
 {% macro input_datetime(opt) %}
     {% from _self import attr %}
 
