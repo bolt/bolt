@@ -1372,7 +1372,7 @@ class Storage
 
             // If there's a result, we need to set these to 'held'..
             if ($stmt->fetch() != false) {
-                $query = "UPDATE $tablename SET status = 'held', datechanged = :now, datedepublish = '1900-01-01 00:00:00'  WHERE status = 'published' and datedepublish < :now and datedepublish > '1900-01-01 00:00:01'";
+                $query = "UPDATE $tablename SET status = 'held', datechanged = :now WHERE status = 'published' and datedepublish < :now and datedepublish > '1900-01-01 00:00:01'";
                 $stmt = $this->app['db']->prepare($query);
                 $stmt->bindValue("now", $now);
                 $stmt->execute();
