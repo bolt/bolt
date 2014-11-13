@@ -1147,7 +1147,6 @@ class Storage
             }
 
             $where[] = $this->parseWhereParameter($key, $value);
-
         }
 
         // @todo update with nice search string
@@ -1182,7 +1181,7 @@ class Storage
 
         // implode 'where'
         if (!empty($where)) {
-            $queryparams .= sprintf('WHERE (%s)', implode(" AND ", $where));
+            $queryparams .= sprintf(' WHERE (%s)', implode(" AND ", $where));
         }
 
         // Order, with a special case for 'RANDOM'.
