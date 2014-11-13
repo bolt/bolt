@@ -105,7 +105,7 @@ class ContenttypesKeygen
     private function generateNamesDescription()
     {
         foreach ($this->app['config']->get('contenttypes') as $ctname => $ctype) {
-            $keyprefix = 'contenttypes.' . strtolower($ctname) . '.';
+            $keyprefix = 'contenttypes.' . $this->slugifyKey($ctname) . '.';
 
             // Names & description
             $setkeys = array(
@@ -145,11 +145,11 @@ class ContenttypesKeygen
     private function generateGroups()
     {
         foreach ($this->app['config']->get('contenttypes') as $ctname => $ctype) {
-            $keyprefix = 'contenttypes.' . strtolower($ctname) . '.group.';
+            $keyprefix = 'contenttypes.' . $this->slugifyKey($ctname) . '.group.';
 
             if (isset($ctype['groups'])) {
                 foreach ($ctype['groups'] as $groupname) {
-                    $key = $keyprefix . preg_replace('%[^a-z]%u', '', strtolower($groupname));
+                    $key = $keyprefix . $this->slugifyKey($groupname);
 
                     if (isset($this->saved[$key]) && $this->saved[$key] !== '') {
                         $this->translation[$key] = $this->saved[$key];
@@ -187,5 +187,16 @@ class ContenttypesKeygen
                 }
             }
         }
+    }
+
+    /**
+     * Only allow "a-z_" in key parts
+     *
+     * @param string $key
+     * @return string
+     */
+    private function slugifyKey($key)
+    {
+        return preg_replace('/[^a-z_]/u', '', strtolower($key));
     }
 }
