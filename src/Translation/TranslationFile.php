@@ -486,82 +486,14 @@ class TranslationFile
      */
     private function contentContenttypes()
     {
-        $ctypes = $this->app['config']->get('contenttypes');
-        $hinting = array();
-        $ctnames = array();
-        $newTranslations = array();
-
         $savedTranslations = $this->readSavedTranslations();
         $this->gatherTranslatableStrings();
 
-        // Add names, labels, …
-        foreach ($ctypes as $ctname => $ctype) {
-            $keyprefix = 'contenttypes.' . strtolower($ctname) . '.';
+        $keygen = new ContenttypesKeygen($this->app, $this->translatables, $savedTranslations);
+        $keygen->generate();
 
-            // Names & description
-            $setkeys = array(
-                'name.plural' => 'name',
-                'name.singular' => 'singular_name',
-                'description' => 'description',
-            );
-            foreach ($setkeys as $setkey => $getkey) {
-                $key = $keyprefix . $setkey;
-
-                if (isset($savedTranslations[$key]) && $savedTranslations[$key] !== '') {
-                    $newTranslations[$key] = $savedTranslations[$key];
-                } else {
-                    if (isset($ctype[$getkey]) && $ctype[$getkey] !== '') {
-                        $hinting[$key] = $ctype[$getkey];
-                    } else {
-                        $fallback = $this->app['translator']->trans($key, array(), 'contenttypes');
-                        if ($fallback !== $key) {
-                            $hinting[$key] = $fallback;
-                        }
-                    }
-                    $newTranslations[$key] = '';
-                }
-                // Remember names for later usage
-                if ($setkey == 'name.plural') {
-                    $ctnames[$ctname]['%contenttypes%'] = $newTranslations[$key];
-                } elseif ($setkey == 'name.singular') {
-                    $ctnames[$ctname]['%contenttype%'] = $newTranslations[$key];
-                }
-            }
-            // Groups
-            if (isset($ctype['groups'])) {
-                foreach ($ctype['groups'] as $groupname) {
-                    $key = $keyprefix . 'group.' . preg_replace('%[^a-z]%u', '', strtolower($groupname));
-
-                    if (isset($savedTranslations[$key]) && $savedTranslations[$key] !== '') {
-                        $newTranslations[$key] = $savedTranslations[$key];
-                    } else {
-                        $fallback = $this->app['translator']->trans($key, array(), 'contenttypes');
-                        $hinting[$key] = ($fallback !== $key) ? $fallback : ucfirst($groupname);
-                        $newTranslations[$key] = '';
-                    }
-                }
-            }
-        }
-
-        // Generate strings for contenttypes
-        foreach (array_keys($this->translatables) as $key) {
-            if (substr($key, 0, 21) == 'contenttypes.generic.') {
-                foreach ($ctypes as $ctname => $ctype) {
-                    $setkey = 'contenttypes.' . $ctname . '.text.' . substr($key, 21);
-                    $newTranslations[$setkey] = isset($savedTranslations[$setkey]) ? $savedTranslations[$setkey] : '';
-                    if ($newTranslations[$setkey] === '') {
-                        $generic = $this->app['translator']->trans($key);
-                        if ($generic != $key) {
-                            foreach ($ctnames[$ctname] as $placeholder => $replace) {
-                                $generic = str_replace($placeholder, $replace, $generic);
-                            }
-                            $hinting[$setkey] = $generic;
-                        }
-                    }
-                }
-            }
-        }
-
+        $newTranslations = $keygen->translations();
+        $hinting = $keygen->hints();
         ksort($newTranslations);
 
         return $this->buildNewContent($newTranslations, $savedTranslations, $hinting);
