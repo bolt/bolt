@@ -1,4 +1,4 @@
-# app/resources/translations/de_DE/contenttypes.de_DE.yml – generated on 2014-11-13 20:41:43 UTC
+# app/resources/translations/de_DE/contenttypes.de_DE.yml – generated on 2014-11-13 23:08:19 UTC
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
 #          at the moment. This is an ongoing process. Translations currently in the 
@@ -10,9 +10,19 @@
 
 #  no unused messages
 #  no untranslated messages
-#  no untranslated keyword based messages
+#   7 untranslated keyword based messages
 #  no translations
 #  96 keyword based translations
+
+#--- 7 untranslated keyword based messages ------------------------------------
+
+"contenttypes.entries.group.content": "Inhalt"
+"contenttypes.entries.group.media":  "Medien"
+"contenttypes.pages.group.content":  "Inhalt"
+"contenttypes.showcases.group.files":  "Dateien"
+"contenttypes.showcases.group.media":  "Medien"
+"contenttypes.showcases.group.other":  "Sonstiges"
+"contenttypes.showcases.group.text":  "Text"
 
 #--- 96 keyword based translations --------------------------------------------
 
