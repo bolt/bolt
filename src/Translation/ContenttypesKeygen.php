@@ -94,10 +94,8 @@ class ContenttypesKeygen
      */
     public function generate()
     {
-        $ctypes = $this->app['config']->get('contenttypes');
-
         // Add names, labels, …
-        foreach ($ctypes as $ctname => $ctype) {
+        foreach ($this->app['config']->get('contenttypes') as $ctname => $ctype) {
             $keyprefix = 'contenttypes.' . strtolower($ctname) . '.';
 
             // Names & description
@@ -129,7 +127,18 @@ class ContenttypesKeygen
                     $this->ctnames[$ctname]['%contenttype%'] = $this->translation[$key];
                 }
             }
-            // Groups
+        }
+
+        $this->generateGroups();
+        $this->generateFromGeneric();
+    }
+
+    /**
+     * Generates keys for tab group names
+     */
+    private function generateGroups()
+    {
+        foreach ($this->app['config']->get('contenttypes') as $ctname => $ctype) {
             if (isset($ctype['groups'])) {
                 foreach ($ctype['groups'] as $groupname) {
                     $key = $keyprefix . 'group.' . preg_replace('%[^a-z]%u', '', strtolower($groupname));
@@ -144,8 +153,6 @@ class ContenttypesKeygen
                 }
             }
         }
-
-        $this->generateFromGeneric();
     }
 
     /**
