@@ -527,6 +527,20 @@ class TranslationFile
                     $ctnames[$ctname]['%contenttype%'] = $newTranslations[$key];
                 }
             }
+            // Groups
+            if (isset($ctype['groups'])) {
+                foreach ($ctype['groups'] as $groupname) {
+                    $key = $keyprefix . 'group.' . preg_replace('%[^a-z]%u', '', strtolower($groupname));
+
+                    if (isset($savedTranslations[$key]) && $savedTranslations[$key] !== '') {
+                        $newTranslations[$key] = $savedTranslations[$key];
+                    } else {
+                        $fallback = $this->app['translator']->trans($key, array(), 'contenttypes');
+                        $hinting[$key] = ($fallback !== $key) ? $fallback : ucfirst($groupname);
+                        $newTranslations[$key] = '';
+                    }
+                }
+            }
         }
 
         // Generate strings for contenttypes
