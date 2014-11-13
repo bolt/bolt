@@ -1,6 +1,7 @@
 {# Page: NavSecondary > Content ... > #}
 
 {% from '_sub/_editable_record_list.twig' import editable_record_list as list %}
+{% from '_macro/_translation.twig' import trans_ct %}
 {% import '_macro/_panels.twig' as panels %}
 
 {% extends '_base/_page-nav.twig' %}
@@ -9,7 +10,7 @@
 
 {% block page_title __('Overview') %}
 
-{% block page_subtitle context.contenttype.name %}
+{% block page_subtitle trans_ct(context.contenttype.slug, 'name.plural', context.contenttype.name) %}
 
 {# clear default messages, because we use them in a different spot, in this template #}
 {% block messages "" %}
