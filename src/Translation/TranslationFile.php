@@ -439,7 +439,7 @@ class TranslationFile
         // if the file doesn't exist yet, point to the fallback one
         if (!file_exists($path) || filesize($path) < 10) {
             // fallback
-            list($path) = $this->buildPath('infos', 'en_GB');
+            list($path) = $this->buildPath('infos', \Bolt\Application::DEFAULT_LOCALE);
 
             if (!file_exists($path)) {
                 $this->app['session']->getFlashBag()->set('error', 'Locale infos yml file not found. Fallback also not found.');
