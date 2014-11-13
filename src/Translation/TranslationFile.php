@@ -512,6 +512,11 @@ class TranslationFile
                 } else {
                     if (isset($ctype[$getkey]) && $ctype[$getkey] !== '') {
                         $hinting[$key] = $ctype[$getkey];
+                    } else {
+                        $fallback = $this->app['translator']->trans($key, array(), 'contenttypes');
+                        if ($fallback !== $key) {
+                            $hinting[$key] = $fallback;
+                        }
                     }
                     $newTranslations[$key] = '';
                 }
