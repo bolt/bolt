@@ -122,8 +122,8 @@ class ContenttypesKeygen
                     if (isset($ctype[$getkey]) && $ctype[$getkey] !== '') {
                         $this->hints[$key] = $ctype[$getkey];
                     } else {
-                        $fallback = $this->app['translator']->trans($key, array(), 'contenttypes');
-                        if ($fallback !== $key) {
+                        $fallback = $this->fallback($key);
+                        if ($fallback !== false) {
                             $this->hints[$key] = $fallback;
                         }
                     }
@@ -154,8 +154,8 @@ class ContenttypesKeygen
                     if ($this->isSaved($key)) {
                         $this->translation[$key] = $this->saved[$key];
                     } else {
-                        $fallback = $this->app['translator']->trans($key, array(), 'contenttypes');
-                        $this->hints[$key] = ($fallback !== $key) ? $fallback : ucfirst($groupname);
+                        $fallback = $this->fallback($key);
+                        $this->hints[$key] = ($fallback !== false) ? $fallback : ucfirst($groupname);
                         $this->translation[$key] = '';
                     }
                 }
@@ -209,5 +209,18 @@ class ContenttypesKeygen
     private function isSaved($key)
     {
         return (isset($this->saved[$key]) && $this->saved[$key] !== '');
+    }
+
+    /**
+     * Returns a fallback translation for a key or false if none can be found
+     *
+     * @param string $key
+     * @return mixed
+     */
+    private function fallback($key)
+    {
+        $fallback = $this->app['translator']->trans($key, array(), 'contenttypes');
+
+        return ($fallback === $key) ? false : $fallback;
     }
 }
