@@ -116,7 +116,7 @@ class ContenttypesKeygen
             foreach ($setkeys as $setkey => $getkey) {
                 $key = $keyprefix . $setkey;
 
-                if (isset($this->saved[$key]) && $this->saved[$key] !== '') {
+                if ($this->isSaved($key)) {
                     $this->translation[$key] = $this->saved[$key];
                 } else {
                     if (isset($ctype[$getkey]) && $ctype[$getkey] !== '') {
@@ -151,7 +151,7 @@ class ContenttypesKeygen
                 foreach ($ctype['groups'] as $groupname) {
                     $key = $keyprefix . $this->slugifyKey($groupname);
 
-                    if (isset($this->saved[$key]) && $this->saved[$key] !== '') {
+                    if ($this->isSaved($key)) {
                         $this->translation[$key] = $this->saved[$key];
                     } else {
                         $fallback = $this->app['translator']->trans($key, array(), 'contenttypes');
@@ -198,5 +198,16 @@ class ContenttypesKeygen
     private function slugifyKey($key)
     {
         return preg_replace('/[^a-z_]/u', '', strtolower($key));
+    }
+
+    /**
+     * Test if a translation already exists for a key
+     *
+     * @param string $key
+     * @return bool
+     */
+    private function isSaved($key)
+    {
+        return (isset($this->saved[$key]) && $this->saved[$key] !== '');
     }
 }
