@@ -1,10 +1,10 @@
 # app/resources/translations/en_GB/contenttypes.en_GB.yml – generated on 2014-11-13 08:53:47 UTC
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the 
-#          repository are automatically mapped to the new scheme. Be aware that there 
-#          can be a race condition between that process and your PR so that it's 
-#          eventually necessary to remap your translations. If you're planning on 
+#          at the moment. This is an ongoing process. Translations currently in the
+#          repository are automatically mapped to the new scheme. Be aware that there
+#          can be a race condition between that process and your PR so that it's
+#          eventually necessary to remap your translations. If you're planning on
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
@@ -18,7 +18,7 @@
 
 contenttypes:
     entries:
-        description: "The **Entries** contenttype can be used for things like _'news'_ or _'blogpostings'_. They have a teaser, which can be used for a short blurb on listing-pages, allowing visitors to click-through to the rest of the entry. It also has fields for an image and an optional video. To change the fields that are in this contenttype, edit the file `contenttypes.yml` in the\nfolder `app/config/`, using the editor of your choice, or by going to 'Configuration' » 'Contenttypes' in the menu on the left."
+        description: "The **Entries** contenttype can be used for things like _'news'_ or _'blogpostings'_. They have a teaser, which can be used for a short blurb on listing-pages, allowing visitors to click-through to the rest of the entry. It also has fields for an image and an optional video. To change the fields that are in this contenttype, edit the file `contenttypes.yml` in the folder `app/config/`, using the editor of your choice, or by going to 'Configuration' » 'Contenttypes' in the menu on the left."
         name:
             plural: "Entries"
             singular: "Entry"
