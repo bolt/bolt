@@ -229,6 +229,10 @@ class StorageTest extends BoltUnitTest
         $this->assertEquals(2, $result);
         $fetch2 = $storage->getContent('showcases/2');
         $this->assertEquals('10', $fetch2->get('ownerid'));
+        
+        // Test invalid column fails
+        $shouldError = $storage->updateSingleValue('showcases', 2 ,'nonexistent', '10');
+        $this->assertFalse($shouldError);
     }
     
     public function testGetEmptyContent()
