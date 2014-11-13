@@ -145,9 +145,18 @@ class ContenttypesKeygen
             }
         }
 
-        // Generate strings for contenttypes
+        $this->generateFromGeneric();
+    }
+
+    /**
+     * Generates strings for contenttypes from generic translations
+     */
+    private function generateFromGeneric()
+    {
+        $ctypes = $this->app['config']->get('contenttypes');
+
         foreach (array_keys($this->translatables) as $key) {
-            if (substr($key, 0, 21) == 'contenttypes.generic.') {
+            if (substr($key, 0, 21) === 'contenttypes.generic.') {
                 foreach ($ctypes as $ctname => $ctype) {
                     $setkey = 'contenttypes.' . $ctname . '.text.' . substr($key, 21);
                     $this->translation[$setkey] = isset($this->saved[$setkey]) ? $this->saved[$setkey] : '';
