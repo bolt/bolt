@@ -1,10 +1,10 @@
-# app/resources/translations/en/contenttypes.en.yml – generated on 2014-10-24 21:31:50 UTC
+# app/resources/translations/en_GB/contenttypes.en_GB.yml – generated on 2014-11-13 08:53:47 UTC
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the
-#          repository are automatically mapped to the new scheme. Be aware that there
-#          can be a race condition between that process and your PR so that it's
-#          eventually necessary to remap your translations. If you're planning on
+#          at the moment. This is an ongoing process. Translations currently in the 
+#          repository are automatically mapped to the new scheme. Be aware that there 
+#          can be a race condition between that process and your PR so that it's 
+#          eventually necessary to remap your translations. If you're planning on 
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
@@ -12,12 +12,13 @@
 #  no untranslated messages
 #  no untranslated keyword based messages
 #  no translations
-#  93 keyword based translations
+#  96 keyword based translations
 
-#--- 93 keyword based translations --------------------------------------------
+#--- 96 keyword based translations --------------------------------------------
 
 contenttypes:
     entries:
+        description: "The **Entries** contenttype can be used for things like _'news'_ or _'blogpostings'_. They have a teaser, which can be used for a short blurb on listing-pages, allowing visitors to click-through to the rest of the entry. It also has fields for an image and an optional video. To change the fields that are in this contenttype, edit the file `contenttypes.yml` in the\nfolder `app/config/`, using the editor of your choice, or by going to 'Configuration' » 'Contenttypes' in the menu on the left."
         name:
             plural: "Entries"
             singular: "Entry"
@@ -52,6 +53,7 @@ contenttypes:
             view: "View Entries"
             wrong-use-field: "In the contenttype for 'Entry', the field '%field%' has 'uses: %uses%', but the field '%uses%' does not exist. Please edit contenttypes.yml, and correct this."
     pages:
+        description: "The **Pages** contenttype can be used for the more 'static' pages on your site. Things like _'about us'_, _'contact'_ or a _'disclaimer'_. To change the fields that are in this contenttype, edit the file `contenttypes.yml` in the folder `app/config/`, using the editor of your choice, or by going to 'Configuration' » 'Contenttypes' in the menu on the left."
         name:
             plural: "Pages"
             singular: "Page"
@@ -86,6 +88,7 @@ contenttypes:
             view: "View Pages"
             wrong-use-field: "In the contenttype for 'Page', the field '%field%' has 'uses: %uses%', but the field '%uses%' does not exist. Please edit contenttypes.yml, and correct this."
     showcases:
+        description: "The **Showcases** contenttype is used to show all of the available common field types. In practice, its uses are limited, but be sure to take a look to see which fields are available for use. To change (or delete) the fields that are in this contenttype, edit the file `contenttypes.yml` in the folder `app/config/`, using the editor of your choice, or by going to 'Configuration' » 'Contenttypes' in the menu on the left."
         name:
             plural: "Showcases"
             singular: "Showcase"
@@ -119,4 +122,3 @@ contenttypes:
             show-more: "More Showcases"
             view: "View Showcases"
             wrong-use-field: "In the contenttype for 'Showcase', the field '%field%' has 'uses: %uses%', but the field '%uses%' does not exist. Please edit contenttypes.yml, and correct this."
-
