@@ -237,17 +237,39 @@ class StorageTest extends BoltUnitTest
     
     public function testGetEmptyContent()
     {
-        
+        $app = $this->getApp();
+        $storage = new Storage($app);
+        $showcase = $storage->getEmptyContent('showcase');
+        $this->assertInstanceOf('Bolt\Content', $showcase);
+        $this->assertEquals('showcases', $showcase->contenttype['slug']);
     }
     
     public function testSearchContent()
     {
+        $app = $this->getApp();
+        $app['request'] = Request::create('/');
+        $storage = new Storage($app);
+        $result = $storage->searchContent('lorem');
+        $this->assertGreaterThan(0, count($result));
+        $this->assertTrue($result['query']['valid']);
         
+        // Test invalid query fails
+        $result = $storage->searchContent('x');
+        $this->assertFalse($result);
+        
+        // Test filters
+        $result = $storage->searchContent('lorem', array('showcases'), array('showcases'=>array('title'=>"nonexistent")));
+        $this->assertTrue($result['query']['valid']);
+        $this->assertEquals(0, $result['query']['no_of_results']);
+
     }
     
     public function testSearchAllContentTypes()
     {
-        
+        $app = $this->getApp();
+        $app['request'] = Request::create('/');
+        $storage = new Storage($app);
+        $results = $storage->searchAllContentTypes(array('title'=>'lorem'));
     }
     
     
