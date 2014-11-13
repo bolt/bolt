@@ -39,5 +39,6 @@ node_modules
 bower_components
 /bolt.log
 tests/report
+tests/resources
 
 *.map
