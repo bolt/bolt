@@ -212,7 +212,7 @@ class StorageTest extends BoltUnitTest
         $app['dispatcher']->addListener(StorageEvents::PRE_DELETE, $listener);
         $app['dispatcher']->addListener(StorageEvents::POST_DELETE, $listener);
         
-        $storage->deleteContent('showcases',1);
+        $storage->deleteContent(array('slug'=>'showcases'),1);
         
         $this->assertFalse($storage->getContent('showcases/1'));
         $this->assertEquals(2, $delete);
@@ -220,7 +220,15 @@ class StorageTest extends BoltUnitTest
     
     public function testUpdateSingleValue()
     {
-           
+        $app = $this->getApp();
+        $app['request'] = Request::create('/');
+        $storage = new Storage($app);
+        $fetch1 = $storage->getContent('showcases/2');
+        $this->assertEquals(false, $fetch1->get('ownerid'));
+        $result = $storage->updateSingleValue('showcases', 2 ,'ownerid', '10');
+        $this->assertEquals(2, $result);
+        $fetch2 = $storage->getContent('showcases/2');
+        $this->assertEquals('10', $fetch2->get('ownerid'));
     }
     
     public function testGetEmptyContent()
