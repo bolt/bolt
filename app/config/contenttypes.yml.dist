@@ -14,12 +14,6 @@
 pages:
     name: Pages
     singular_name: Page
-    description: |
-      The **Pages** contenttype can be used for the more 'static' pages on your site. Things like
-      _'about us'_, _'contact'_ or a _'disclaimer'_.
-      To change the fields that are in this contenttype, edit the file `contenttypes.yml` in the
-      folder `app/config/`, using the editor of your choice, or by going to 'Configuration' »
-      'Contenttypes' in the menu on the left.
     fields:
         title:
             type: text
@@ -57,13 +51,6 @@ pages:
 entries:
     name: Entries
     singular_name: Entry
-    description: |
-      The **Entries** contenttype can be used for things like _'news'_ or _'blogpostings'_. They
-      have a teaser, which can be used for a short blurb on listing-pages, allowing visitors to
-      click-through to the rest of the entry. It also has fields for an image and an optional video.
-      To change the fields that are in this contenttype, edit the file `contenttypes.yml` in the
-      folder `app/config/`, using the editor of your choice, or by going to 'Configuration' »
-      'Contenttypes' in the menu on the left.
     fields:
         title:
             type: text
@@ -107,13 +94,6 @@ showcases:
     slug: showcases
     singular_name: Showcase
     singular_slug: showcase
-    description: |
-      The **Showcases** contenttype is used to show all of the available common field types.
-      In practice, its uses are limited, but be sure to take a look to see which fields are
-      available for use.
-      To change (or delete) the fields that are in this contenttype, edit the file `contenttypes.yml`
-      in the folder `app/config/`, using the editor of your choice, or by going to 'Configuration' »
-      'Contenttypes' in the menu on the left.
     fields:
         title:
             type: text

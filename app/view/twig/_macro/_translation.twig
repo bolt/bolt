@@ -2,11 +2,19 @@
  # Get a translation from contentypes.xx.yml based on contentype and key
  #
  # @param string  contentype (e.g. 'pages')
- # @param string  select (e.g. 'name.plural')
+ # @param string/array  select (e.g. 'name.plural' or ['name', 'plural'])
  # @param string  default (defaults to the requested key)
  #}
 {% macro trans_ct(contentype, select, default) -%}
     {% spaceless %}
+        {# if array, skugify #}
+        {% if select is iterable %}
+            {% set newselect = '' %}
+            {% for v in select %}
+                {% set newselect = newselect ~ '.' ~ v|lower|replace({' ': '_'}) %}
+            {% endfor %}
+            {% set select = newselect|slice(1) %}
+        {% endif %}
         {% set key = 'contenttypes.' ~ contentype ~ '.' ~ select %}
         {% set trans = key|trans([], 'contenttypes') %}
         {{ (trans == key) ? default|default(key) : trans }}

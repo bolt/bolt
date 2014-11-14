@@ -22,6 +22,8 @@
 
 {% block page_main %}
 
+    {% from '_macro/_translation.twig' import trans_ct %}
+
     {% set status_names = { "published": __("Published"), "held": __("Not published"), "timed": __("Timed publish"), "draft": __("Draft") } %}
 
     {% set dateChanged %}{{ macro.datetime(context.content.datechanged) }}{% endset %}
@@ -65,27 +67,31 @@
                     {# Add an extra tab, if there are "ungrouped" fields #}
                     {% set firstfield = context.contenttype.fields|first %}
                     {% if firstfield.group is empty %}
-                        <li><a class="filter" data-filter="ungrouped">{{ __("Ungrouped") }}</a></li>
+                        <li><a class="filter" data-filter="ungrouped">{{ __('contenttypes.generic.group.ungrouped') }}</a></li>
                     {% endif %}
 
                     {# Defined groups #}
-                    {% for groups in context.contenttype.groups %}
-                        <li><a class="filter" data-filter="{{ groups }}">{{ __(groups|capitalize) }}</a></li>
+                    {% for group in context.contenttype.groups %}
+                        <li>
+                            <a class="filter" data-filter="{{ group }}">
+                                {{ trans_ct(context.contenttype.slug, ['group', group], group|capitalize) }}
+                            </a>
+                        </li>
                     {% endfor %}
 
                     {# Relationships and/or Taxonomy #}
                     {% if context.contenttype.relations is defined and context.contenttype.taxonomy is defined %}
-                        <li><a class="filter" data-filter="taxonomy">{{ __('Relationships') }} / {{ __('Taxonomy') }}</a></li>
+                        <li><a class="filter" data-filter="taxonomy">{{ __('contenttypes.generic.group.relations') }} / {{ __('contenttypes.generic.group.taxonomy') }}</a></li>
                     {% endif %}
                     {% if context.contenttype.relations is defined and context.contenttype.taxonomy is not defined %}
-                        <li><a class="filter" data-filter="taxonomy">{{ __('Relationships') }}</a></li>
+                        <li><a class="filter" data-filter="taxonomy">{{ __('contenttypes.generic.group.relations') }}</a></li>
                     {% endif %}
                     {% if context.contenttype.relations is not defined and context.contenttype.taxonomy is defined %}
-                        <li><a class="filter" data-filter="taxonomy">{{ __('Taxonomy') }}</a></li>
+                        <li><a class="filter" data-filter="taxonomy">{{ __('contenttypes.generic.group.taxonomy') }}</a></li>
                     {% endif %}
 
                     {# Finally, a tab for Meta #}
-                    <li><a class="filter" data-filter="meta">{{ __('Meta') }}</a></li>
+                    <li><a class="filter" data-filter="meta">{{ __('contenttypes.generic.group.meta') }}</a></li>
 
                 </ul>
             {% endif %}

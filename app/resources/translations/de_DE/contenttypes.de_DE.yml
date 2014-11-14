@@ -1,23 +1,34 @@
-# app/resources/translations/de/contenttypes.de.yml – generated on 2014-10-24 21:36:21 UTC
+# app/resources/translations/de_DE/contenttypes.de_DE.yml – generated on 2014-11-13 23:08:19 UTC
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the
-#          repository are automatically mapped to the new scheme. Be aware that there
-#          can be a race condition between that process and your PR so that it's
-#          eventually neccessary to remap your translations. If you're planning on
+#          at the moment. This is an ongoing process. Translations currently in the 
+#          repository are automatically mapped to the new scheme. Be aware that there 
+#          can be a race condition between that process and your PR so that it's 
+#          eventually necessary to remap your translations. If you're planning on 
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
 #  no unused messages
 #  no untranslated messages
-#  no untranslated keyword based messages
+#   7 untranslated keyword based messages
 #  no translations
-#  93 keyword based translations
+#  96 keyword based translations
 
-#--- 93 keyword based translations --------------------------------------------
+#--- 7 untranslated keyword based messages ------------------------------------
+
+"contenttypes.entries.group.content": "Inhalt"
+"contenttypes.entries.group.media":  "Medien"
+"contenttypes.pages.group.content":  "Inhalt"
+"contenttypes.showcases.group.files":  "Dateien"
+"contenttypes.showcases.group.media":  "Medien"
+"contenttypes.showcases.group.other":  "Sonstiges"
+"contenttypes.showcases.group.text":  "Text"
+
+#--- 96 keyword based translations --------------------------------------------
 
 contenttypes:
     entries:
+        description: "Der Datentyp **Einträge** kann beispielsweise für _„News“_ oder _„Blogpostings“_ verwendet werden. Er hat einen Teaser, der für eine Inhaltsangabe in den Auflistungsseiten verwendet werden kann, und den Besucher zum Rest des Eintrages führt. Er verfügt auch über Felder für ein Bild oder wahlweise ein Video. Um die Felder dieses Datentyps zu ändern bearbeiten sie die Datei `contenttypes.yml` im Verzeichnis `app/config/` mit dem Editor ihrer Wahl oder gehen sie über den Eintrag „Konfiguration“ » „Datentypen“ im Menü auf der linken Seite."
         name:
             plural: "Einträge"
             singular: "Eintrag"
@@ -52,6 +63,7 @@ contenttypes:
             view: "Einträge anzeigen"
             wrong-use-field: "Beim Datentyp „Einträge“ wurde das Feld „%field%“ auf „uses: %uses%“ gesetzt, leider exististiert das Feld „%uses%“ nicht. Bitte contenttypes.yml bearbeiten dies korrigieren."
     pages:
+        description: "Der Datentyp **Seiten** kann für eher „statische“ Seiten ihrer Webseite verwendet werden, wie beispielsweise _„Über uns“_, _„Kontakt“_ oder eine _„Haftungsablehnung“_. Um die Felder dieses Datentyps zu ändern bearbeiten sie die Datei `contenttypes.yml` im Verzeichnis `app/config/` mit dem Editor ihrer Wahl oder gehen sie über den Eintrag „Konfiguration“ » „Datentypen“ im Menü auf der linken Seite."
         name:
             plural: "Seiten"
             singular: "Seite"
@@ -86,6 +98,7 @@ contenttypes:
             view: "Seiten anzeigen"
             wrong-use-field: "Beim Datentyp „Seiten“ wurde das Feld „%field%“ auf „uses: %uses%“ gesetzt, leider exististiert das Feld „%uses%“ nicht. Bitte contenttypes.yml bearbeiten dies korrigieren."
     showcases:
+        description: "Der Datentyp **Showcases** zeigt alle verfügbaren Feldtypen auf. Praktisch eher weniger von Nutzen, aber gut um etwas über die verfügaren Felder und ihre Verwendung zu lernen. Um die Felder dieses Datentyps zu ändern bearbeiten sie die Datei `contenttypes.yml` im Verzeichnis `app/config/` mit dem Editor ihrer Wahl oder gehen sie über den Eintrag „Konfiguration“ » „Datentypen“ im Menü auf der linken Seite."
         name:
             plural: "Showcases"
             singular: "Showcase"
