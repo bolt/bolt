@@ -141,15 +141,20 @@ class Translator
             return call_user_func_array(array($app['translator'], $fn), $args);
 
         } catch (\Symfony\Component\Translation\Exception\InvalidResourceException $e) {
-            $app['session']->getFlashBag()->set(
-                'warning',
-                sprintf('<strong>Error: You should fix this now, before continuing!</strong><br> %s', $e->getMessage())
-            );
 
-            //$app->abort(500, 'Error reading locale files, Translation files misformed');
+            if (! isset($app['translationyamlerror']) || $app['translationyamlerror'] != true){
+                $app['translationyamlerror'] = true;
+
+                $app['session']->getFlashBag()->add(
+                    'warning',
+                    sprintf('<strong>Error: You should fix this now, before continuing!</strong><br> %s', $e->getMessage())
+                );
+            }
 
             // fallback, just return the key, so the user can continue and fix from backend
             return $args[0];
+
+            //$app->abort(500, 'Error reading locale files, Translation files misformed');
         }
 
     }
