@@ -419,7 +419,7 @@ class TranslationFile
 
                 return $flattened;
             } catch (ParseException $e) {
-                $this->app['session']->getFlashBag()->set('error', '<strong>Unable to parse the YAML translations</strong><br>' . $e->getMessage());
+                $this->app['session']->getFlashBag()->set('error', sprintf('<strong>Unable to parse the YAML translations</strong><br> %s', $e->getMessage()));
                 // Todo: do something better than just returning an empty array
             }
         }
