@@ -373,7 +373,7 @@ class TranslationFile
                 }
                 // Value
                 if ($tdata['trans'] === '') {
-                    $thint = $this->app['translator']->trans($key);
+                    $thint = Trans::trans($key);
                     if ($thint == $key) {
                         $thint = isset($hinting[$key]) ? $hinting[$key] : '';
                     }
