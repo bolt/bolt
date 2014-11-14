@@ -277,7 +277,7 @@ class TwigExtension extends \Twig_Extension
             if (method_exists($content, 'excerpt')) {
                 return $content->excerpt($length);
             } else {
-                $output = $content;
+                return false;
             }
 
         } elseif (is_array($content)) {
@@ -343,7 +343,7 @@ class TwigExtension extends \Twig_Extension
             return null;
         }
 
-        if (preg_match("/ ([a-z0-9_-]+\.yml)/i", $str, $matches)) {
+        if (preg_match("/([a-z0-9_-]+\.yml)/i", $str, $matches)) {
             $path = Lib::path('fileedit', array('file' => "app/config/" . $matches[1]));
             $link = sprintf(" <a href='%s'>%s</a>", $path, $matches[1]);
             $str = preg_replace("/ ([a-z0-9_-]+\.yml)/i", $link, $str);
