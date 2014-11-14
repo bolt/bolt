@@ -22,6 +22,8 @@
 
 {% block page_main %}
 
+    {% from '_macro/_translation.twig' import trans_ct %}
+
     {% set status_names = { "published": __("Published"), "held": __("Not published"), "timed": __("Timed publish"), "draft": __("Draft") } %}
 
     {% set dateChanged %}{{ macro.datetime(context.content.datechanged) }}{% endset %}
@@ -69,8 +71,12 @@
                     {% endif %}
 
                     {# Defined groups #}
-                    {% for groups in context.contenttype.groups %}
-                        <li><a class="filter" data-filter="{{ groups }}">{{ __(groups|capitalize) }}</a></li>
+                    {% for group in context.contenttype.groups %}
+                        <li>
+                            <a class="filter" data-filter="{{ group }}">
+                                {{ trans_ct(context.contenttype.slug, 'group.' ~ group|lower, group|capitalize) }}
+                            </a>
+                        </li>
                     {% endfor %}
 
                     {# Relationships and/or Taxonomy #}
