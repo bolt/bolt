@@ -74,7 +74,7 @@
                     {% for group in context.contenttype.groups %}
                         <li>
                             <a class="filter" data-filter="{{ group }}">
-                                {{ trans_ct(context.contenttype.slug, 'group.' ~ group|lower, group|capitalize) }}
+                                {{ trans_ct(context.contenttype.slug, ['group', group], group|capitalize) }}
                             </a>
                         </li>
                     {% endfor %}
