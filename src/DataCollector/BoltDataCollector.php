@@ -39,9 +39,9 @@ class BoltDataCollector extends DataCollector
         $this->data = array(
             'version' => $this->app['bolt_version'],
             'name' => $this->app['bolt_name'],
-            'fullversion' => sprintf('%s %s %s', Trans::__('Version:'), $this->app['bolt_version'], $this->app['bolt_name']),
-            'payoff' => Trans::__('Sophisticated, lightweight & simple CMS'),
-            'aboutlink' => sprintf("<a href=\"%s\">%s</a>", Lib::path('about'), Trans::__('About')),
+            'fullversion' => sprintf('%s %s %s', 'Version:', $this->app['bolt_version'], $this->app['bolt_name']),
+            'payoff' => 'Sophisticated, lightweight & simple CMS',
+            'aboutlink' => sprintf("<a href=\"%s\">%s</a>", Lib::path('about'), 'About'),
             'branding' => null,
             'editlink' => null,
             'edittitle' => null

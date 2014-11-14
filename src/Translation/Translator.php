@@ -92,58 +92,70 @@ class Translator
         } elseif ($fn == 'transChoice' && $num_args > 2) {
             $tr_args = $args[2];
         }
-        // Check for contenttype(s) placeholder
-        if ($tr_args) {
-            if (isset($tr_args['%contenttype%'])) {
-                $key_arg = '%contenttype%';
-            } elseif (isset($tr_args['%contenttypes%'])) {
-                $key_arg = '%contenttypes%';
-            } else {
-                $key_arg = false;
-            }
-            $key_generic = $args[0];
-            if ($key_arg && substr($key_generic, 0, 21) == 'contenttypes.generic.') {
-
-                $ctype = $tr_args[$key_arg];
-                unset($tr_args[$key_arg]);
-                $key_ctype = 'contenttypes.' . $ctype . '.text.' . substr($key_generic, 21);
-
-                // Try to get a direct translation, fallback to en
-                $trans = static::translate($app, $fn, $args, $key_ctype, $tr_args);
-
-                // No translation found, use generic translation
-                if ($trans === false) {
-                    // Get contenttype name
-                    $key_name = 'contenttypes.' . $ctype . '.name.' . (($key_arg == '%contenttype%') ? 'singular' : 'plural');
-                    $key_ctname = ($key_arg == '%contenttype%') ? 'singular_name' : 'name';
-
-                    $ctname = $app['translator']->trans($key_name, array(), 'contenttypes', $app['request']->getLocale());
-                    if ($ctname === $key_name) {
-                        $ctypes = $app['config']->get('contenttypes');
-                        $ctname = empty($ctypes[$ctype][$key_ctname]) ? ucfirst($ctype) : $ctypes[$ctype][$key_ctname];
-                    }
-                    // Get generic translation with name replaced
-                    $tr_args[$key_arg] = $ctname;
-                    $trans = self::translate($app, $fn, $args, $key_generic, $tr_args, 'messages');
-                }
-
-                return $trans;
-            }
-        }
-
-        if (isset($args[1])) {
-            $args[1] = self::htmlencodeParams($args[1]);
-        }
 
         try {
-            return call_user_func_array(array($app['translator'], $fn), $args);
-        } catch (\Symfony\Component\Translation\Exception\InvalidResourceException $e) {
-            $app['session']->getFlashBag()->set(
-                'warning',
-                '<strong>Error: You should fix this now, before continuing!</strong><br> ' . $e->getMessage()
-            );
 
-            return $args[0];//$app->abort(500, 'Error reading locale files, Translation files misformed');
+            // Check for contenttype(s) placeholder
+            if ($tr_args) {
+                if (isset($tr_args['%contenttype%'])) {
+                    $key_arg = '%contenttype%';
+                } elseif (isset($tr_args['%contenttypes%'])) {
+                    $key_arg = '%contenttypes%';
+                } else {
+                    $key_arg = false;
+                }
+                $key_generic = $args[0];
+                if ($key_arg && substr($key_generic, 0, 21) == 'contenttypes.generic.') {
+
+                    $ctype = $tr_args[$key_arg];
+                    unset($tr_args[$key_arg]);
+                    $key_ctype = 'contenttypes.' . $ctype . '.text.' . substr($key_generic, 21);
+
+                    // Try to get a direct translation, fallback to en
+                    $trans = static::translate($app, $fn, $args, $key_ctype, $tr_args);
+
+                    // No translation found, use generic translation
+                    if ($trans === false) {
+                        // Get contenttype name
+                        $key_name = 'contenttypes.' . $ctype . '.name.' . (($key_arg == '%contenttype%') ? 'singular' : 'plural');
+                        $key_ctname = ($key_arg == '%contenttype%') ? 'singular_name' : 'name';
+
+                        $ctname = $app['translator']->trans($key_name, array(), 'contenttypes', $app['request']->getLocale());
+                        if ($ctname === $key_name) {
+                            $ctypes = $app['config']->get('contenttypes');
+                            $ctname = empty($ctypes[$ctype][$key_ctname]) ? ucfirst($ctype) : $ctypes[$ctype][$key_ctname];
+                        }
+                        // Get generic translation with name replaced
+                        $tr_args[$key_arg] = $ctname;
+                        $trans = self::translate($app, $fn, $args, $key_generic, $tr_args, 'messages');
+                    }
+
+                    return $trans;
+                }
+            }
+
+            if (isset($args[1])) {
+                $args[1] = self::htmlencodeParams($args[1]);
+            }
+
+            return call_user_func_array(array($app['translator'], $fn), $args);
+
+        } catch (\Symfony\Component\Translation\Exception\InvalidResourceException $e) {
+
+            if (! isset($app['translationyamlerror']) && $app['request']->isXmlHttpRequest() == false){
+
+                $app['session']->getFlashBag()->add(
+                    'warning',
+                    '<strong>Error: You should fix this now, before continuing!</strong><br>' . $e->getMessage()
+                );
+            }
+            
+            $app['translationyamlerror'] = true;
+
+            // fallback, just return the key, so the user can continue and fix from backend
+            return $args[0];
+
+            //$app->abort(500, 'Error reading locale files, Translation files misformed');
         }
 
     }
