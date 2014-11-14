@@ -20,7 +20,7 @@
         {# Contenttypes, where show_in_menu is set true #}
         {% if contenttype.show_in_menu %}
 
-            {% setcontent records = slug limit 4 nohydrate orderby '-datepublish' %}
+            {% setcontent records = slug limit 4 nohydrate orderby '-datechanged' %}
             {% for record in records %}
                 {% set sub = sub|merge([
                     {
