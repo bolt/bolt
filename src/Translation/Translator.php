@@ -142,14 +142,15 @@ class Translator
 
         } catch (\Symfony\Component\Translation\Exception\InvalidResourceException $e) {
 
-            if (! isset($app['translationyamlerror']) || $app['translationyamlerror'] != true){
-                $app['translationyamlerror'] = true;
+            if (! isset($app['translationyamlerror']) && $app['request']->isXmlHttpRequest() == false){
 
                 $app['session']->getFlashBag()->add(
                     'warning',
                     '<strong>Error: You should fix this now, before continuing!</strong><br>' . $e->getMessage()
                 );
             }
+            
+            $app['translationyamlerror'] = true;
 
             // fallback, just return the key, so the user can continue and fix from backend
             return $args[0];
