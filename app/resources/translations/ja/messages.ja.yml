@@ -244,6 +244,7 @@
 "contenttypes.generic.recently-edited": "最近編集された %contenttypes%"
 "Related content:": "関連するコンテンツ："
 "Relationships": "リレーションシップ"
+"contenttypes.generic.group.relations": "リレーションシップ"
 "Rename %foldername%": "%foldername% をリネーム"
 "Req. Bolt": "必要なBoltのバージョン"
 "page.login.button.reset-password": "パスワードをリセット"

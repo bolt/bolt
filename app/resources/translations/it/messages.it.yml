@@ -189,6 +189,7 @@
 "contenttypes.generic.recently-edited": "%contenttypes% modificati di recente"
 "Related content:": "Contenuto correlato"
 "Relationships": "Relazioni"
+"contenttypes.generic.group.relations": "Relazioni"
 "page.login.button.reset-password": "Resetta la mia password"
 "page.edit-file.button.revert": "Ripristina modifiche"
 "Routing setup": "Routing setup"

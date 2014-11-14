@@ -245,6 +245,7 @@
 "contenttypes.generic.recently-edited": "Mostanában szerkesztett %contenttypes% tartalomtípusok"
 "Related content:": "Kapcsolódó tartalom:"
 "Relationships": "Kapcsolatok"
+"contenttypes.generic.group.relations": "Kapcsolatok"
 "Rename %foldername%": "%foldername% átnevezése"
 "Req. Bolt": "Min. Bolt verzió"
 "page.login.button.reset-password": "Új jelszó igénylése"

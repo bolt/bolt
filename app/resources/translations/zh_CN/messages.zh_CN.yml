@@ -236,6 +236,7 @@
 "Related content": "相关内容"
 "Related content:": "相关内容："
 "Relationships": "关系"
+"contenttypes.generic.group.relations": "关系"
 "Rename %foldername%": "重命名 %foldername%"
 "Roles": "角色"
 "Roles and Permissions": "角色和权限"

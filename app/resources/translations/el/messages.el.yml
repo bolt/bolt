@@ -201,6 +201,7 @@
 "Recently edited %contenttypes%": "Πρόσφατα επεξεργασμένα %contenttypes%"
 "Related content:": "Σχετικό περιεχόμενο:"
 "Relationships": "Σχέσεις"
+"contenttypes.generic.group.relations": "Σχέσεις"
 "Reset my password": "Επαναφορά κωδικού πρόσβασης"
 "Restore %filename%": "Αποκατάσταση %filename%"
 "Revert changes": "Επαναφορά αλλαγών"

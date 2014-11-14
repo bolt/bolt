@@ -171,6 +171,7 @@
 "contenttypes.generic.recent": "Uudet sisältötyypit %contenttypes%"
 "Related content:": "Liittyvä sisältö:"
 "Relationships": "Liitokset"
+"contenttypes.generic.group.relations": "Liitokset"
 "page.login.button.reset-password": "Uusi salasanani"
 "contenttypes.generic.save": "Tallenna %contenttype%"
 "page.edit-locale.button.save": "Tallenna"

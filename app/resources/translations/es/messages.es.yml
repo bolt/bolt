@@ -208,6 +208,7 @@
 "contenttypes.generic.recently-edited": "%contenttypes% recientemente editados"
 "Related content:": "Contenido relacionado"
 "Relationships": "Relaciones"
+"contenttypes.generic.group.relations": "Relaciones"
 "Req. Bolt": "Requiere Bolt"
 "page.login.button.reset-password": "Reiniciar mi contraseña"
 "page.edit-file.button.revert": "Revertir los cambios"

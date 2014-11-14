@@ -208,6 +208,7 @@
 "contenttypes.generic.recently-edited": "Nylig redigerte %contenttypes%"
 "Related content:": "Relatert innhold:"
 "Relationships": "Relasjoner"
+"contenttypes.generic.group.relations": "Relasjoner"
 "Req. Bolt": "Foresp. Bolt"
 "page.login.button.reset-password": "Nullstill passordet mitt"
 "page.edit-file.button.revert": "Tilbakestill endringer"

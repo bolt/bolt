@@ -245,6 +245,7 @@
 "Related content": "Verknüpfter Inhalt"
 "Related content:": "Verknüpfte Inhalte"
 "Relationships": "Beziehungen"
+"contenttypes.generic.group.relations": "Beziehungen"
 "Rename %foldername%": "%foldername% umbenennen"
 "Roles": "Rollen"
 "Roles and Permissions": "Rollen und Berechtigungen"

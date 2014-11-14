@@ -1,10 +1,10 @@
 # app/resources/translations/nl_NL/messages.nl_NL.yml – generated on 2014-11-05 13:47:01 UTC
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the 
-#          repository are automatically mapped to the new scheme. Be aware that there 
-#          can be a race condition between that process and your PR so that it's 
-#          eventually necessary to remap your translations. If you're planning on 
+#          at the moment. This is an ongoing process. Translations currently in the
+#          repository are automatically mapped to the new scheme. Be aware that there
+#          can be a race condition between that process and your PR so that it's
+#          eventually necessary to remap your translations. If you're planning on
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
@@ -299,6 +299,7 @@
 "Related content": "Gerelateerde content"
 "Related content:": "Gerelateerde content:"
 "Relationships": "Relaties"
+"contenttypes.generic.group.relations": "Relaties"
 "Rename %foldername%": "Hernoem %foldername%"
 "Roles": "Rollen"
 "Roles and Permissions": "Rollen en permissies"

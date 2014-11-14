@@ -185,6 +185,7 @@
 "contenttypes.generic.recent": "Недавние %contenttypes%"
 "Related content:": "Связанное содержимое"
 "Relationships": "Отношения"
+"contenttypes.generic.group.relations": "Отношения"
 "page.login.button.reset-password": "Сбросить мой пароль"
 "page.edit-file.button.revert": "Отменить изменения"
 "contenttypes.generic.save": "Сохранить %contenttype%"
