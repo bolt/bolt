@@ -36,7 +36,6 @@ class UserAdd extends BaseCommand
         $user['displayname'] = $displayname;
         $user['email'] = $email;
 
-
         $valid = true;
         if (! $this->app['users']->checkAvailability('username', $user['username'])) {
             $valid = false;
@@ -59,7 +58,6 @@ class UserAdd extends BaseCommand
                 $output->writeln("<error>Error creating user: {$user['username']}</error>");
             }
         }
-
 
     }
 }

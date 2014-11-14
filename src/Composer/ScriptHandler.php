@@ -8,7 +8,6 @@ namespace Bolt\Composer;
 
 use Symfony\Component\Filesystem\Filesystem;
 use Composer\Script\CommandEvent;
-use Composer\Script\PackageEvent;
 
 class ScriptHandler
 {
@@ -70,7 +69,6 @@ class ScriptHandler
         }
 
     }
-
 
     public static function bootstrap(CommandEvent $event)
     {

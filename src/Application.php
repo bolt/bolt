@@ -209,7 +209,10 @@ class Application extends Silex\Application
         );
         setlocale(LC_ALL, $locale);
 
-        $this->register(new Silex\Provider\TranslationServiceProvider(), array());
+        $this->register(
+            new Silex\Provider\TranslationServiceProvider(),
+            array('locale_fallbacks' => array(Application::DEFAULT_LOCALE))
+        );
 
         // Loading stub functions for when intl / IntlDateFormatter isn't available.
         if (!function_exists('intl_get_error_code')) {

@@ -168,11 +168,11 @@ class Extensions
 
             foreach ($finder as $file) {
                 try {
-                        // Include the extensions core file
-                        require_once dirname($file->getRealpath()) . '/Extension.php';
+                    // Include the extensions core file
+                    require_once dirname($file->getRealpath()) . '/Extension.php';
 
-                        // Include the init file
-                        require_once $file->getRealpath();
+                    // Include the init file
+                    require_once $file->getRealpath();
                 } catch (\Exception $e) {
                 }
             }
