@@ -295,6 +295,7 @@
 "Tag": "タグ"
 "Tags": "タグ"
 "Taxonomy": "タクソノミー"
+"contenttypes.generic.group.taxonomy": "タクソノミー"
 "Thanks": "ありがとうございます"
 "That user does not exist.": "そのユーザーは存在しません。"
 "contenttypes.generic.not-existing": "お探しの %contenttype% は見つかりません。削除されたか存在していない可能性があります。"

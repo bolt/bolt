@@ -280,6 +280,7 @@
 "Tag": "标签"
 "Tags": "标签"
 "Taxonomy": "分类"
+"contenttypes.generic.group.taxonomy": "分类"
 "Teaser": "摘要"
 "Template": "模板"
 "Text": "文本"

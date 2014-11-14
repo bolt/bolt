@@ -195,6 +195,7 @@
 "Tag": "Tägi"
 "Tags": "Tägit"
 "Taxonomy": "Taksonomia"
+"contenttypes.generic.group.taxonomy": "Taksonomia"
 "Teaser": "Tiiseri"
 "Template": "Sivupohja"
 "Textarea": "Tekstialue"

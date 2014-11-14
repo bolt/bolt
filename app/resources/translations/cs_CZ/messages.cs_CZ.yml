@@ -278,6 +278,7 @@
 "Tag": "Štítek"
 "Tags": "Štítky"
 "Taxonomy": "Taxonomie"
+"contenttypes.generic.group.taxonomy": "Taxonomie"
 "Teaser": "Poutač"
 "Template": "Šablona"
 "Textarea": "Textové pole"

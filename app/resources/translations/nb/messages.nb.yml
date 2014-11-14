@@ -250,6 +250,7 @@
 "Tag": "Merkelapp"
 "Tags": "Merkelapper"
 "Taxonomy": "Taksonomi"
+"contenttypes.generic.group.taxonomy": "Taksonomi"
 "Thanks": "Takk"
 "That user does not exist.": "Den brukeren eksisterer ikke."
 "contenttypes.generic.not-existing": "%contenttype%-en du ser etter fins ikke. Den ble sannsynligvis slettet, eller så har den aldri eksistert."

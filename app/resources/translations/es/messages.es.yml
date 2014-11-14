@@ -250,6 +250,7 @@
 "Tag": "Etiqueta"
 "Tags": "Etiquetas"
 "Taxonomy": "Taxonomía"
+"contenttypes.generic.group.taxonomy": "Taxonomía"
 "Thanks": "Gracias"
 "That user does not exist.": "Ese usuario no existe."
 "contenttypes.generic.not-existing": "El %contenttype% que estás buscando no existe. Probablemente fue eliminado, o nunca existió."

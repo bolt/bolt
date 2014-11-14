@@ -214,6 +214,7 @@
 "Tag": "Тег"
 "Tags": "Теги"
 "Taxonomy": "Таксономия"
+"contenttypes.generic.group.taxonomy": "Таксономия"
 "Teaser": "Тизер"
 "Template": "Шаблон"
 "Textarea": "Текстовое поле"

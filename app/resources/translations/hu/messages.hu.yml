@@ -295,6 +295,7 @@
 "Tag": "Címke"
 "Tags": "Címkék"
 "Taxonomy": "Taxonómia"
+"contenttypes.generic.group.taxonomy": "Taxonómia"
 "Thanks": "Köszönet"
 "That user does not exist.": "Ez a felhasználó nem létezik."
 "contenttypes.generic.not-existing": "A %contenttype% tartalomtípus amit keresett nem létezik. Biztosan törölték vagy nem is létezett."

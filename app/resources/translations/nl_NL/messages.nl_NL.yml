@@ -343,6 +343,7 @@
 "Tag": "Tag"
 "Tags": "Tags"
 "Taxonomy": "Taxonomie"
+"contenttypes.generic.group.taxonomy": "Taxonomie"
 "Teaser": "Ankeiler"
 "Template": "Template"
 "Textarea": "Tekstveld"

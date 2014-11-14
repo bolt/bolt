@@ -81,13 +81,13 @@
 
                     {# Relationships and/or Taxonomy #}
                     {% if context.contenttype.relations is defined and context.contenttype.taxonomy is defined %}
-                        <li><a class="filter" data-filter="taxonomy">{{ __('contenttypes.generic.group.relations') }} / {{ __('Taxonomy') }}</a></li>
+                        <li><a class="filter" data-filter="taxonomy">{{ __('contenttypes.generic.group.relations') }} / {{ __('contenttypes.generic.group.taxonomy') }}</a></li>
                     {% endif %}
                     {% if context.contenttype.relations is defined and context.contenttype.taxonomy is not defined %}
                         <li><a class="filter" data-filter="taxonomy">{{ __('contenttypes.generic.group.relations') }}</a></li>
                     {% endif %}
                     {% if context.contenttype.relations is not defined and context.contenttype.taxonomy is defined %}
-                        <li><a class="filter" data-filter="taxonomy">{{ __('Taxonomy') }}</a></li>
+                        <li><a class="filter" data-filter="taxonomy">{{ __('contenttypes.generic.group.taxonomy') }}</a></li>
                     {% endif %}
 
                     {# Finally, a tab for Meta #}
