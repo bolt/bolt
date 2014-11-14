@@ -173,15 +173,17 @@ class ContenttypesKeygen
         foreach (array_keys($this->translatables) as $key) {
             if (substr($key, 0, 21) === 'contenttypes.generic.') {
                 foreach ($ctypes as $ctname => $ctype) {
-                    $setkey = 'contenttypes.' . $ctname . '.text.' . substr($key, 21);
-                    $this->translation[$setkey] = isset($this->saved[$setkey]) ? $this->saved[$setkey] : '';
-                    if ($this->translation[$setkey] === '') {
-                        $generic = $this->app['translator']->trans($key);
-                        if ($generic != $key) {
-                            foreach ($this->ctnames[$ctname] as $placeholder => $replace) {
-                                $generic = str_replace($placeholder, $replace, $generic);
+                    if (substr($key, 21, 6) != 'group.') {
+                        $setkey = 'contenttypes.' . $ctname . '.text.' . substr($key, 21);
+                        $this->translation[$setkey] = isset($this->saved[$setkey]) ? $this->saved[$setkey] : '';
+                        if ($this->translation[$setkey] === '') {
+                            $generic = $this->app['translator']->trans($key);
+                            if ($generic != $key) {
+                                foreach ($this->ctnames[$ctname] as $placeholder => $replace) {
+                                    $generic = str_replace($placeholder, $replace, $generic);
+                                }
+                                $this->hints[$setkey] = $generic;
                             }
-                            $this->hints[$setkey] = $generic;
                         }
                     }
                 }
