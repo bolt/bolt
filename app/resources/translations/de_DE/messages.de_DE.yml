@@ -1,43 +1,56 @@
-# app/resources/translations/de/messages.de.yml – generated on 2014-10-24 21:35:20 UTC
+# app/resources/translations/de_DE/messages.de_DE.yml – generated on 2014-11-14 11:02:47 UTC
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the
-#          repository are automatically mapped to the new scheme. Be aware that there
-#          can be a race condition between that process and your PR so that it's
-#          eventually neccessary to remap your translations. If you're planning on
+#          at the moment. This is an ongoing process. Translations currently in the 
+#          repository are automatically mapped to the new scheme. Be aware that there 
+#          can be a race condition between that process and your PR so that it's 
+#          eventually necessary to remap your translations. If you're planning on 
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#  no unused messages
-#  20 untranslated messages
+#   5 unused messages
+#  30 untranslated messages
 #  no untranslated keyword based messages
-# 335 translations
-# 130 keyword based translations
+# 332 translations
+# 132 keyword based translations
 
-#--- 20 untranslated messages -------------------------------------------------
+#--- 5 unused messages --------------------------------------------------------
+
+
+#--- 30 untranslated messages -------------------------------------------------
 
 "Body": #
 "Date": #
 "Datetime": #
 "File": #
-"Filelist": #
-"Floatfield": #
+"Filelist": # "File list"
+"Floatfield": # "Float field"
 "Geolocation": #
+"Hints:": #
 "Html": #
-"Imagelist": #
-"Integerfield": #
+"Id": #
+"Imagelist": # "Image list"
+"Integerfield": # "Integer field"
 "Markdown": #
-"Multiselect": #
-"Selectentry": #
-"Selectfield": #
+"Multiselect": # "Multi-select"
+"Selectentry": # "Select entry"
+"Selectfield": # "Select field"
 "Slug": #
+"Stable versions": #
 "Status": #
 "Teaser": #
 "Template": #
 "Textarea": #
+"Theme installation complete": #
+"Time in 24h/12h format": #
+"Unstable test versions": #
 "Video": #
+"[Extension error] Initialisation failed for %ext%: %error%": #
+"[Extension error] Snippet loading failed for %ext%: %error%": #
+"[Extension error] Twig function registration failed for %ext%: %error%": #
+"[Extension error] YAML config failed to load for %ext%: %error%": #
 
-#--- 335 translations ---------------------------------------------------------
+#--- 332 translations ---------------------------------------------------------
 
 "%name% № %id%": "%name% Nr. %id%"
 "%s files could not be deleted. You should delete them manually.": " %s Dateien konnten nicht gelöscht werden. Bitte manuell löschen."
@@ -195,7 +208,6 @@
 "Message:": "Nachricht"
 "Messages": "Meldungen"
 "Meta": "Meta"
-"contenttypes.generic.group.meta": "Meta"
 "Meta information": "Metainformation"
 "Modifications made to the database:": "Durchgeführte Änderungen an der Datenbank:"
 "Modifications needed:": "Benötigte Änderungen:"
@@ -246,7 +258,6 @@
 "Related content": "Verknüpfter Inhalt"
 "Related content:": "Verknüpfte Inhalte"
 "Relationships": "Beziehungen"
-"contenttypes.generic.group.relations": "Beziehungen"
 "Rename %foldername%": "%foldername% umbenennen"
 "Roles": "Rollen"
 "Roles and Permissions": "Rollen und Berechtigungen"
@@ -280,13 +291,11 @@
 "Slug:": "Slug:"
 "Something went wrong": "Etwas ist schiefgegangen"
 "Sophisticated, lightweight & simple CMS": "Anspruchsvolles, leichtgewichtiges & simples CMS"
-"Stable Versions": "Stabile Versionen"
 "Stack": "Stapel"
 "Status:": "Status:"
 "Tag": "Tag"
 "Tags": "Tags"
 "Taxonomy": "Taxonomie"
-"contenttypes.generic.group.taxonomy": "Taxonomie"
 "Thanks": "Dank an"
 "That user does not exist.": "Der Benutzer ist nicht bekannt."
 "The activitylog has been cleared.": "Die Aktivitätshistorie wurde gelöscht."
@@ -306,7 +315,6 @@
 "The translations file '%s' is not readable.": "Übersetzungsdatei '%s' nicht lesbar."
 "The versions listed below are compatible with the version of Bolt you are using. Since they are unstable versions, we recommend you <strong>do not</strong> use these on production systems.": "Die unten gelisteten Versionen sind kompatibel mit ihrer Bolt version. Da es nicht-stabile Versionen sind, empfehlen wir diese <strong>nicht</strong> auf Produktionssystemen zu verwenden."
 "The versions listed below are marked as stable releases by the developer and are compatible with the version of Bolt you are currently using.": "Die unten gelisteten Versionen werden vom Autor als stabil empfunden und sind mit ihrer Boltversion kompatibel."
-"Theme Installation Complete": "Theme-Installation fertiggestellt"
 "There are no items on the Stack, yet.": "Noch keine Dateien auf dem Stapel"
 "There are no users in the database. Please create the first user.": "Es gibt keine Benutzer in der Datenbank. Bitte zunächst einen Benutzer erstellen."
 "There are no users present in the system. Please create the first user, which will be granted root privileges.": "Auf dem System existieren keine Benutzer. Bitte legen sie den ersten Benutzer an. Dieser bekommt automatisch Root-Rechte."
@@ -324,7 +332,6 @@
 "Trim Activitylog": "Aktivitätshistorie aufräumen"
 "Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": "Versuchen sie sich mit ihrem FTP-Programm einzuloggen und die Datei lesbar zu machen oder gehen sie <a>zurück</a> zur letzen Seite."
 "Types": "Typen"
-"Unstable Test Versions": "Nichtstabile Testversionen"
 "Update the database": "Datenbank updaten"
 "Updates": "Aktualisierungen"
 "Upload": "Hochladen"
@@ -378,13 +385,12 @@
 "of": "von"
 "show all": "alle anzeigen"
 
-#--- 130 keyword based translations -------------------------------------------
+#--- 132 keyword based translations -------------------------------------------
 
 component:
     changelog-detail:
         by: "durch"
         field: "Feld"
-        no-comment: "Kein Kommentar"
         value-new: "Neuer Wert"
         value-old: "Alter Wert"
     changelog-pager:
@@ -400,6 +406,11 @@ contenttypes:
         duplicated-finalize: "Inhalt kopiert. Zum Fertigstellen „%contenttype% speichern“ klicken."
         edit: "%contenttype% bearbeiten"
         error-saving: "Fehler beim Speichern von %contenttype%."
+        group:
+            meta: "Meta"
+            relations: "Beziehungen"
+            taxonomy: "Taxonomie"
+            ungrouped: "Nicht gruppiert"
         invalid-field: "Kann %field% in %contenttype% nicht setzen. Kein gültiges Feld."
         last-modified: "Zuletzt bearbeitete %contenttypes%"
         new: "%contenttype% erstellen"
@@ -481,7 +492,6 @@ page:
             save: "Speichern"
         confirm-revert: "Sind sie sicher, dass sie alle Änderungen verwerfen wollen?"
         note-related: "Achtung, diese Datei hat verknüpfte Dateien:"
-        path: "Pfad"
         title:
             edit: "Datei bearbeiten"
             view: "Datei anzeigen"
