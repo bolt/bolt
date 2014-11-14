@@ -82,6 +82,28 @@ class Translator
     }
 
     /**
+     * Low level translation (perhaps unused)
+     *
+     * @return string
+     */
+    public static function transChoice()
+    {
+        $app = ResourceManager::getApp();
+        $args = func_get_args();
+
+        try {
+            return call_user_func_array(array($app['translator'], 'transChoice'), $args);
+        } catch (\Symfony\Component\Translation\Exception\InvalidResourceException $e) {
+            $app['session']->getFlashBag()->set(
+                'warning',
+                '<strong>Error: You should fix this now, before continuing!</strong><br> ' . $e->getMessage()
+            );
+
+            return $args[0];
+        }
+    }
+
+    /**
      * i18n made right, second attempt...
      *
      * Instead of calling directly $app['translator']->trans(), we check
