@@ -185,6 +185,7 @@
 "Messages": "Nyelvi címkék"
 "Meta information": "Meta információ"
 "Meta": "Meta"
+"contenttypes.generic.group.meta": "Meta"
 "Modifications made to the database:": "Elvégzett módosítások az adatbázison:"
 "Modifications needed:": "Szükséges módosítások:"
 "Modified": "Módosítva"

@@ -156,6 +156,7 @@
 "Messages": "Meldinger"
 "Meta information": "Metainformasjon"
 "Meta": "Meta"
+"contenttypes.generic.group.meta": "Meta"
 "Modifications made to the database:": "Endringer gjort i databasen:"
 "Modifications needed:": "Endringer som trengs:"
 "Modified": "Endret"

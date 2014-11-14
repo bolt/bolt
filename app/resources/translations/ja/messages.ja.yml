@@ -184,6 +184,7 @@
 "Messages": "メッセージ"
 "Meta information": "メタ情報"
 "Meta": "メタ"
+"contenttypes.generic.group.meta": "メタ"
 "Modifications made to the database:": "データベースを修正しました："
 "Modifications needed:": "修正が必要です。"
 "Modified": "修正された"

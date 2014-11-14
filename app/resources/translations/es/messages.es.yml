@@ -156,6 +156,7 @@
 "Messages": "Mensajes"
 "Meta information": "Meta información"
 "Meta": "Meta"
+"contenttypes.generic.group.meta": "Meta"
 "Modifications made to the database:": "Modificaciones hechas a la base de datos:"
 "Modifications needed:": "Modificaciones necesarias"
 "Modified": "Modificado"

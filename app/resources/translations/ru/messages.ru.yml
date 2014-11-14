@@ -141,6 +141,7 @@
 "Menu setup": "Настройка меню"
 "Messages": "Сообщения"
 "Meta": "Мета"
+"contenttypes.generic.group.meta": "Мета"
 "Modifications made to the database:": "Изменения внесенны в базу данных"
 "Modifications needed:": "Необходимые изменения"
 "Modified": "Изменено"

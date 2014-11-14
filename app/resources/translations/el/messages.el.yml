@@ -153,6 +153,7 @@
 "Messages": "Μηνύματα"
 "Meta information": "Meta πληροφορίες"
 "Meta": "Meta"
+"contenttypes.generic.group.meta": "Meta"
 "Modifications made to the database:": "Αλλαγές στην Βάση Δεδομένων:"
 "Modifications needed:": "Αλλαγές που χρειάστηκαν:"
 "Modified": "Τροποποιήθηκε"

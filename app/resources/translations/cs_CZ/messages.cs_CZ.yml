@@ -183,6 +183,7 @@
 "Message:": "Zpráva:"
 "Messages": "Prostředí"
 "Meta": "Meta"
+"contenttypes.generic.group.meta": "Meta"
 "Meta information": "Metadata"
 "Modifications made to the database:": "Změny provedené v databázi:"
 "Modifications needed:": "Potřebné úpravy:"

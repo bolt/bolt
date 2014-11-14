@@ -141,6 +141,7 @@
 "Messages": "Pesan"
 "Meta information": "Informasi Meta"
 "Meta": "Meta"
+"contenttypes.generic.group.meta": "Meta"
 "Modified": "Dimodifikasi"
 "page.ckeditor-browse-server.modified": "Dimodifikasi"
 "contenttypes.generic.show-more": "%contenttypes% lainnya"

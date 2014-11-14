@@ -184,6 +184,7 @@
 "Message:": "消息:"
 "Messages": "消息"
 "Meta": "元"
+"contenttypes.generic.group.meta": "元"
 "Meta information": "元信息"
 "Modifications made to the database:": "对数据库作出的变更："
 "Modifications needed:": "需要作出的修改："

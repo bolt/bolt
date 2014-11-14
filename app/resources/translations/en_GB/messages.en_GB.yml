@@ -183,6 +183,7 @@
 "Message:": "Message:"
 "Messages": "Messages"
 "Meta": "Meta"
+"contenttypes.generic.group.meta": "Meta"
 "Meta information": "Meta information"
 "Modifications made to the database:": "Modifications made to the database:"
 "Modifications needed:": "Modifications needed:"

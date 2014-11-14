@@ -248,6 +248,7 @@
 "Message:": "Bericht:"
 "Messages": "Meldingen"
 "Meta": "Meta"
+"contenttypes.generic.group.meta": "Meta"
 "Meta information": "Meta informatie"
 "Modifications made to the database:": "Aanpassingen gedaan aan de database:"
 "Modifications needed:": "Vereiste aanpassingen:"

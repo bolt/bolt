@@ -129,6 +129,7 @@
 "Menu setup": "Valikkoasetukset"
 "Messages": "Viestit"
 "Meta": "Meta"
+"contenttypes.generic.group.meta": "Meta"
 "Modifications made to the database:": "Tietokantaan tehdyt muutokset:"
 "Modifications needed:": "Tarvittavat muutokset:"
 "Modified": "Muokattu"
