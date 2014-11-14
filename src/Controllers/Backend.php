@@ -905,6 +905,10 @@ class Backend implements ControllerProviderInterface
                             }
                         }
 
+                        if(isset($val['datechanged'])) {
+                            $val['datechanged'] = date_format(new \DateTime($val['datechanged']), 'c');
+                        }
+
                         // unset flashbag for ajax
                         $app['session']->getFlashBag()->clear('success');
 
