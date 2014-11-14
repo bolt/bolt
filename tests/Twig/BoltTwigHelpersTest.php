@@ -128,9 +128,34 @@ class BoltTwigHelpersTest extends BoltUnitTest
         $excerpt2 = $twig->excerpt($mock);
         $this->assertEquals('called', $excerpt2);
         
-        // If the object doesn't implement method, it should return empty
-        $excerpt3 = $twig->excerpt($content);
+        // If the object doesn't implement method, it should return false
+        $obj = new \ArrayObject(array('info'=>'A test title', 'body'=>$this->getDummyText()) );
+        $this->assertFalse($twig->excerpt($obj));
         
+        // Check that array works.
+        $sample = array('info'=>'A test title', 'body'=>$this->getDummyText());
+        $excerpt4 = $twig->excerpt($sample);
+        $this->assertRegExp('/'.$sample['info'].'/', $excerpt4);
+        
+        // Check that non text returns empty
+        $excerpt5 = $twig->excerpt(1);
+        $this->assertEmpty($excerpt5);
+    }
+    
+    public function testTrim()
+    {
+        $app = $this->getApp();
+        $twig = new TwigExtension($app);
+        $excerpt = $twig->trim($this->getDummyText());
+        $this->assertEquals(200, mb_strlen($excerpt));
+    }
+    
+    public function testYmlLink()
+    {
+        $app = $this->getApp();
+        $twig = new TwigExtension($app, false);
+        $link = $twig->ymllink('config.yml');
+        $this->assertEquals('', $link);
     }
     
     
