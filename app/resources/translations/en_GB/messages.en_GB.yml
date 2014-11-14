@@ -1,20 +1,41 @@
-# app/resources/translations/en/messages.en.yml – generated on 2014-10-24 21:30:19 UTC
+# app/resources/translations/en_GB/messages.en_GB.yml – generated on 2014-11-14 10:57:46 UTC
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the
-#          repository are automatically mapped to the new scheme. Be aware that there
-#          can be a race condition between that process and your PR so that it's
-#          eventually necessary to remap your translations. If you're planning on
+#          at the moment. This is an ongoing process. Translations currently in the 
+#          repository are automatically mapped to the new scheme. Be aware that there 
+#          can be a race condition between that process and your PR so that it's 
+#          eventually necessary to remap your translations. If you're planning on 
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#  no unused messages
-#  no untranslated messages
-#  no untranslated keyword based messages
-# 355 translations
-# 130 keyword based translations
+#   7 unused messages
+#  12 untranslated messages
+#   1 untranslated keyword based messages
+# 350 translations
+# 131 keyword based translations
 
-#--- 355 translations ---------------------------------------------------------
+#--- 7 unused messages --------------------------------------------------------
+
+#--- 12 untranslated messages -------------------------------------------------
+
+"Hints:": #
+"Id": #
+"Stable versions": #
+"The extensions directory (<code>%dir%</code>) does not exist, or it is not writable.": #
+"The file '%s' is not writable. You will have to use your own editor to make modifications to this file.": #
+"Theme installation complete": #
+"Time in 24h/12h format": #
+"Unstable test versions": #
+"[Extension error] Initialisation failed for %ext%: %error%": #
+"[Extension error] Snippet loading failed for %ext%: %error%": #
+"[Extension error] Twig function registration failed for %ext%: %error%": #
+"[Extension error] YAML config failed to load for %ext%: %error%": #
+
+#--- 1 untranslated keyword based messages ------------------------------------
+
+"contenttypes.generic.group.ungrouped": "Ungrouped"
+
+#--- 350 translations ---------------------------------------------------------
 
 "%name% № %id%": "%name% № %id%"
 "%s files could not be deleted. You should delete them manually.": "%s files could not be deleted. You should delete them manually."
@@ -183,7 +204,6 @@
 "Message:": "Message:"
 "Messages": "Messages"
 "Meta": "Meta"
-"contenttypes.generic.group.meta": "Meta"
 "Meta information": "Meta information"
 "Modifications made to the database:": "Modifications made to the database:"
 "Modifications needed:": "Modifications needed:"
@@ -235,7 +255,6 @@
 "Related content": "Related content"
 "Related content:": "Related content:"
 "Relationships": "Relationships"
-"contenttypes.generic.group.relations": "Relationships"
 "Rename %foldername%": "Rename %foldername%"
 "Roles": "Roles"
 "Roles and Permissions": "Roles and Permissions"
@@ -272,14 +291,12 @@
 "Slug:": "Slug:"
 "Something went wrong": "Something went wrong"
 "Sophisticated, lightweight & simple CMS": "Sophisticated, lightweight & simple CMS"
-"Stable Versions": "Stable Versions"
 "Stack": "Stack"
 "Status": "Status"
 "Status:": "Status:"
 "Tag": "Tag"
 "Tags": "Tags"
 "Taxonomy": "Taxonomy"
-"contenttypes.generic.group.taxonomy": "Taxonomy"
 "Teaser": "Teaser"
 "Template": "Template"
 "Textarea": "Textarea"
@@ -288,10 +305,8 @@
 "The activitylog has been cleared.": "The activity log has been cleared."
 "The activitylog has been trimmed.": "The activity log has been trimmed."
 "The database needs to be updated/repaired. Go to 'Settings' > '<a href=\"%link%\">Check Database</a>' to do this now.": "The database needs to be updated/repaired. Go to 'Settings' > '<a href=\"%link%\">Check Database</a>' to do this now."
-"The extensions directory (<code>%dir%</code>) does not exist, or it is not writeable.": "The extensions directory (<code>%dir%</code>) does not exist, or it is not writeable."
 "The field %field% has been changed to \"%newValue%\"": "The field %field% has been changed to \"%newValue%\""
 "The file '%s' doesn't exist, or is not readable.": "The file '%s' doesn't exist, or is not readable."
-"The file '%s' is not writeable. You will have to use your own editor to make modifications to this file.": "The file '%s' is not writeable. You will have to use your own editor to make modifications to this file."
 "The folder '%s' could not be found, or is not readable.": "The folder '%s' could not be found, or is not readable."
 "The following file could not be read:": "The following file could not be read:"
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates."
@@ -302,7 +317,6 @@
 "The translations file '%s' is not readable.": "The translations file '%s' is not readable."
 "The versions listed below are compatible with the version of Bolt you are using. Since they are unstable versions, we recommend you <strong>do not</strong> use these on production systems.": "The versions listed below are compatible with the version of Bolt you are using. Since they are unstable versions, we recommend you <strong>do not</strong> use these on production systems."
 "The versions listed below are marked as stable releases by the developer and are compatible with the version of Bolt you are currently using.": "The versions listed below are marked as stable releases by the developer and are compatible with the version of Bolt you are currently using."
-"Theme Installation Complete": "Theme Installation Complete"
 "There are no items on the Stack, yet.": "There are no items on the Stack, yet."
 "There are no users in the database. Please create the first user.": "There are no users in the database. Please create the first user."
 "There are no users present in the system. Please create the first user, which will be granted root privileges.": "There are no users present in the system. Please create the first user, which will be granted root privileges."
@@ -320,7 +334,6 @@
 "Trim Activitylog": "Trim Activitylog"
 "Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": "Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page."
 "Types": "Types"
-"Unstable Test Versions": "Unstable Test Versions"
 "Update the database": "Update the database"
 "Updates": "Updates"
 "Upload": "Upload"
@@ -375,13 +388,12 @@
 "of": "of"
 "show all": "show all"
 
-#--- 130 keyword based translations -------------------------------------------
+#--- 131 keyword based translations -------------------------------------------
 
 component:
     changelog-detail:
         by: "by"
         field: "field"
-        no-comment: "Not commented"
         value-new: "new value"
         value-old: "old value"
     changelog-pager:
@@ -397,6 +409,10 @@ contenttypes:
         duplicated-finalize: "Content was duplicated. Click 'Save %contenttype%' to finalize."
         edit: "Edit %contenttype%"
         error-saving: "There was an error saving this %contenttype%."
+        group:
+            meta: "Meta"
+            relations: "Relationships"
+            taxonomy: "Taxonomy"
         invalid-field: "Can't set %field% in %contenttype%: Not a valid field."
         last-modified: "Last modified %contenttypes%"
         new: "New %contenttype%"
@@ -478,7 +494,6 @@ page:
             save: "Save"
         confirm-revert: "Are you sure you wish to revert? Your changes will be lost if you don't save them."
         note-related: "Note, this file has related files:"
-        path: "Path:"
         title:
             edit: "Edit file"
             view: "View file"
