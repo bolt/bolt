@@ -67,7 +67,7 @@
                     {# Add an extra tab, if there are "ungrouped" fields #}
                     {% set firstfield = context.contenttype.fields|first %}
                     {% if firstfield.group is empty %}
-                        <li><a class="filter" data-filter="ungrouped">{{ __("Ungrouped") }}</a></li>
+                        <li><a class="filter" data-filter="ungrouped">{{ __('contenttypes.generic.group.ungrouped') }}</a></li>
                     {% endif %}
 
                     {# Defined groups #}
