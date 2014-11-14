@@ -147,7 +147,7 @@ class Translator
 
                 $app['session']->getFlashBag()->add(
                     'warning',
-                    sprintf('<strong>Error: You should fix this now, before continuing!</strong><br> %s', $e->getMessage())
+                    '<strong>Error: You should fix this now, before continuing!</strong><br>' . $e->getMessage()
                 );
             }
 
