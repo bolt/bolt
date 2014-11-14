@@ -531,7 +531,7 @@ class TranslationFile
                     $setkey = 'contenttypes.' . $ctname . '.text.' . substr($key, 21);
                     $newTranslations[$setkey] = isset($savedTranslations[$setkey]) ? $savedTranslations[$setkey] : '';
                     if ($newTranslations[$setkey] === '') {
-                        $generic = $this->app['translator']->trans($key);
+                        $generic = Trans::__($key);
                         if ($generic != $key) {
                             foreach ($ctnames[$ctname] as $placeholder => $replace) {
                                 $generic = str_replace($placeholder, $replace, $generic);
