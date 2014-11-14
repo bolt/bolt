@@ -40,7 +40,7 @@ class Translator
     private static function translate(Application $app, $fn, $args, $key, $replace, $domain = 'contenttypes')
     {
         if ($fn == 'transChoice') {
-            $trans = $app['translator']->transChoice(
+            $trans = self::transChoice(
                 $key,
                 $args[1],
                 self::htmlencodeParams($replace),
@@ -48,7 +48,7 @@ class Translator
                 isset($args[4]) ? $args[4] : $app['request']->getLocale()
             );
         } else {
-            $trans = $app['translator']->trans(
+            $trans = self::trans(
                 $key,
                 self::htmlencodeParams($replace),
                 isset($args[2]) ? $args[2] : $domain,
@@ -161,7 +161,7 @@ class Translator
                     $key_name = 'contenttypes.' . $ctype . '.name.' . (($key_arg == '%contenttype%') ? 'singular' : 'plural');
                     $key_ctname = ($key_arg == '%contenttype%') ? 'singular_name' : 'name';
 
-                    $ctname = $app['translator']->trans($key_name, array(), 'contenttypes', $app['request']->getLocale());
+                    $ctname = self::trans($key_name, array(), 'contenttypes', $app['request']->getLocale());
                     if ($ctname === $key_name) {
                         $ctypes = $app['config']->get('contenttypes');
                         $ctname = empty($ctypes[$ctype][$key_ctname]) ? ucfirst($ctype) : $ctypes[$ctype][$key_ctname];
