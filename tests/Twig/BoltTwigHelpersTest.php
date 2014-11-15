@@ -153,9 +153,88 @@ class BoltTwigHelpersTest extends BoltUnitTest
     public function testYmlLink()
     {
         $app = $this->getApp();
+        $this->expectOutputRegex('#Redirecting to /bolt/#');
+        $app->run();
         $twig = new TwigExtension($app, false);
-        $link = $twig->ymllink('config.yml');
-        $this->assertEquals('', $link);
+        $link = $twig->ymllink(' config.yml');
+        $this->assertRegExp('#<a href=\'/bolt/file/edit/#', $link);
+        
+        // Test nothing happens in safe mode
+        $app = $this->getApp();
+        $twig = new TwigExtension($app, true);
+        $this->assertNull($twig->ymllink('config.yml'));
+    }
+    
+    public function testImageInfo()
+    {
+        // Safe mode should return null
+        $app = $this->getApp();
+        $twig = new TwigExtension($app, true);
+        $this->assertNull($twig->imageInfo('nofile'));
+        
+        // Test on normal mode
+        $app = $this->getApp();
+        $twig = new TwigExtension($app);
+        $img = '../generic-logo.png';
+        $info = $twig->imageInfo($img);
+        $this->assertEquals(11, count($info));
+        
+        // Test non readable image fails
+        $app = $this->getApp();
+        $twig = new TwigExtension($app);
+        $this->assertFalse($twig->imageInfo('nothing'));
+        
+    }
+    
+    public function testSlug()
+    {
+        $app = $this->getApp();
+        $twig = new TwigExtension($app);
+        $this->assertEquals('<h1>My <strong>big</strong> title</h1>', $twig->markdown("# My **big** title"));
+    }
+    
+    public function testMarkdown()
+    {
+        $app = $this->getApp();
+        $twig = new TwigExtension($app);
+        $this->assertEquals('a-title-made-of-words', $twig->slug("A Title Made of Words"));
+    }
+    
+    public function testTwig()
+    {
+        $app = $this->getApp();
+        $twig = new TwigExtension($app);
+        $snippet = 'Hello {{item}}';
+        $this->assertEquals('Hello World', $twig->twig($snippet, array('item'=>'World')));
+    }
+    
+    public function testDecorateTT()
+    {
+        $app = $this->getApp();
+        $twig = new TwigExtension($app);
+        $this->assertEquals('run: <tt>cat</tt>', $twig->decorateTT('run: `cat`'));
+    }
+    
+    public function testUcfirst()
+    {
+        $app = $this->getApp();
+        $twig = new TwigExtension($app);
+        $this->assertEquals('Test this', $twig->ucfirst('test this'));
+    }
+    
+    public function testOrder()
+    {
+        $app = $this->getApp();
+        $twig = new TwigExtension($app);
+        $input = array(
+            array('title'=>'Alpha', 'id'=>10, 'date'=>'2014-02-20'),    
+            array('title'=>'Beta', 'id'=>8, 'date'=>'2014-01-10'),    
+            array('title'=>'Delta', 'id'=>6, 'date'=>'2014-01-19')    
+        );
+        $result = $twig->order($input, 'id');
+        $this->assertEquals(2, key($result[0]));
+        $this->assertEquals(1, key($result[1]));
+        $this->assertEquals(0, key($result[2]));
     }
     
     
