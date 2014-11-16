@@ -474,8 +474,6 @@ class IntegrityChecker
         $logTable->addColumn("requesturi", "string", array("length" => 128));
         $logTable->addColumn("route", "string", array("length" => 128));
         $logTable->addColumn("ip", "string", array("length" => 32, "default" => ""));
-        $logTable->addColumn("file", "string", array("length" => 128, "default" => ""));
-        $logTable->addColumn("line", "integer");
         $logTable->addColumn("contenttype", "string", array("length" => 32));
         $logTable->addColumn("content_id", "integer");
         $logTable->addColumn("code", "string", array("length" => 32));
