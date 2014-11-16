@@ -1294,7 +1294,7 @@ class Storage
         // Set up the $pager array with relevant values..
         $rowcount = $this->app['db']->executeQuery($pagerquery)->fetch();
         $pager = array(
-            'for' => $taxonomytype['slug'] . "_" . $slug,
+            'for' => $taxonomytype['singular_slug'] . "_" . $slug,
             'count' => $rowcount['count'],
             'totalpages' => ceil($rowcount['count'] / $limit),
             'current' => $page,
@@ -1302,7 +1302,7 @@ class Storage
             'showing_to' => ($page - 1) * $limit + count($taxorows)
         );
 
-        $this->app['storage']->setPager($taxonomytype['slug'] . "_" . $slug, $pager);
+        $this->app['storage']->setPager($taxonomytype['singular_slug'] . "_" . $slug, $pager);
 
         return $content;
     }
