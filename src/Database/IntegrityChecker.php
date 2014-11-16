@@ -476,8 +476,8 @@ class IntegrityChecker
         $logTable->addColumn("ip", "string", array("length" => 32, "default" => ""));
         $logTable->addColumn("contenttype", "string", array("length" => 32));
         $logTable->addColumn("content_id", "integer");
-        $logTable->addColumn("code", "string", array("length" => 32));
-        $logTable->addIndex(array( 'code'));
+        $logTable->addColumn("context", "string", array("length" => 32));
+        $logTable->addIndex(array( 'context'));
         $logTable->addColumn("dump", "string", array("length" => 1024));
         $tables[] = $logTable;
 
