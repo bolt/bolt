@@ -246,12 +246,13 @@ class Async implements ControllerProviderInterface
 
     public function populartags(Silex\Application $app, $taxonomytype)
     {
-        $prefix = $app['config']->get('general/database/prefix', "bolt_");
+        $table = $app['config']->get('general/database/prefix', "bolt_");
+        $table .= 'taxonomy';
 
         $limit = $app['request']->get('limit', 20);
 
-        $query = "select `slug` , count(`slug`) as `count` from  `%staxonomy` where `taxonomytype` = ? group by  `slug` order by `count` desc limit %s";
-        $query = sprintf($query, $prefix, intval($limit));
+        $query = sprintf("SELECT slug , COUNT(slug) as count from  %s where taxonomytype = ? GROUP BY  slug ORDER BY count DESC LIMIT %s",
+            $table, intval($limit));
         $query = $app['db']->executeQuery($query, array($taxonomytype));
 
         $results = $query->fetchAll();
