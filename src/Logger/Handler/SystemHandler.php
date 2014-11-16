@@ -69,8 +69,12 @@ class SystemHandler extends AbstractProcessingHandler
             $this->initialize();
         }
 
-        $backtrace = debug_backtrace();
-        $filename = str_replace($this->app['resources']->getPath('root'), "", $backtrace[0]['file']);
+        if ($this->app['config']->get('general/debug')) {
+            $backtrace = debug_backtrace();
+            $filename = str_replace($this->app['resources']->getPath('root'), "", $backtrace[0]['file']);
+            $record['message'] .= "\nFile: $filename";
+            $record['message'] .= "\nLine: $backtrace[0]['line']";
+        }
 
         $this->user = $this->app['session']->get('user');
         $username = isset($this->user['username']) ? $this->user['username'] : "";
@@ -97,8 +101,6 @@ class SystemHandler extends AbstractProcessingHandler
                 'requesturi'  => $this->app['request']->getRequestUri(),
                 'route'       => $this->app['request']->get('_route'),
                 'ip'          => $this->app['request']->getClientIp(),
-                'file'        => $filename,
-                'line'        => $backtrace[0]['line'],
                 'contenttype' => $contenttype,
                 'content_id'  => $content_id,
                 'code'        => isset($record['context']['event']) ? $record['context']['event'] : '',
