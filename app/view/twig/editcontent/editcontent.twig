@@ -132,6 +132,7 @@
                             </ul>
                         </div>
 
+                        {% if not context.contenttype.viewless %}{# don't show for viewless contenttypes. #}
                         <div class="btn-group">
                             <button type="button" class="btn btn-default" id="previewbutton">
                                 <i class="fa fa-external-link-square"></i> {{ __('Preview') }}
@@ -150,6 +151,8 @@
                                 </ul>
                             {% endif %}
                         </div>
+                        {% endif %}
+
 
                         <p class="lastsaved" style="margin-top: 12px;">
                             {% if context.content.id != 0 %}

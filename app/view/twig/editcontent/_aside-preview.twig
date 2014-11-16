@@ -1,3 +1,4 @@
+{% if not context.contenttype.viewless %}{# don't show for viewless contenttypes. #}
 <div class="btn-group">
     <button type="button" class="btn btn-default" id="sidebarpreviewbutton">
         <i class="fa fa-external-link-square"></i> {{ __('Preview') }}
@@ -18,3 +19,4 @@
         </ul>
     {% endif %}
 </div>
+{% endif %}
