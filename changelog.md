@@ -2,6 +2,7 @@ Bolt 2.0 DEV-head
 -----------------
 
 - Editcontent dates are now stored as entered, set the timezone in config.yml
+- Paging now works correctly for taxonomy-listings.
 
 Bolt 2.0 "Beta 3" 
 -----------------
