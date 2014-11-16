@@ -209,7 +209,7 @@ class Content implements \ArrayAccess
 
         if (in_array($key, array('datecreated', 'datechanged', 'datepublish', 'datedepublish'))) {
             if (!preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $value)) {
-                // @todo Try better date-parsing, instead of just setting it to 
+                // @todo Try better date-parsing, instead of just setting it to
                 // 'now' (or 'the past' for datedepublish)
                 if ($key == 'datedepublish') {
                     $value = date("1900-01-01 00:00:00");
