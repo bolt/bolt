@@ -451,7 +451,7 @@ class Backend implements ControllerProviderInterface
         $choices = array();
         foreach ($app['config']->get('contenttypes') as $key => $cttype) {
             $namekey = 'contenttypes.' . $key . '.name.plural';
-            $name = $app['translator']->trans($namekey, array(), 'contenttypes');
+            $name = Trans::trans($namekey, array(), 'contenttypes');
             $choices[$key] = ($name == $namekey) ? $cttype['name'] : $name;
         }
         $form = $app['form.factory']
@@ -492,7 +492,7 @@ class Backend implements ControllerProviderInterface
         // Make sure the user is allowed to see this page, based on 'allowed contenttypes'
         // for Editors.
         if (!$app['users']->isAllowed('contenttype:' . $contenttypeslug)) {
-            $app['session']->getFlashBag()->set('error', Trans::__('You do not have the right privileges to view that page.'));
+            $app['session']->getFlashBag()->add('error', Trans::__('You do not have the right privileges to view that page.'));
 
             return Lib::redirect('dashboard');
         }

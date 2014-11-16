@@ -416,7 +416,7 @@ class CommandRunner
             $this->available = $json->packages;
         } catch (\Exception $e) {
             $this->messages[] = sprintf(
-                $this->app['translator']->trans("The Bolt extensions Repo at %s is currently unavailable. Check your connection and try again shortly."),
+                Trans::trans("The Bolt extensions Repo at %s is currently unavailable. Check your connection and try again shortly."),
                 $this->packageRepo
             );
             $this->available = array();
