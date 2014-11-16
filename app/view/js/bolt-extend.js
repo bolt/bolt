@@ -400,6 +400,11 @@ var BoltExtender = Object.extend(Object, {
     },
 
     uninstall: function(e) {
+        if (confirm('Please confirm that you want to remove this extension?') === false){
+            e.stopPropagation();
+            e.preventDefault();
+            return false;
+        }
         var controller = this;
         var t = this.find('.installed-container .console').html(controller.messages['removing']);
         t.show();
