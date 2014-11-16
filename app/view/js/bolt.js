@@ -1421,9 +1421,7 @@ bolt.datetimes = function () {
         }
 
         // Set date field
-        if (date != "0000-00-00") {
-            field.date.datepicker('setDate', (date === '') ? '' : $.datepicker.parseDate('yy-mm-dd', date));
-        }
+        field.date.datepicker('setDate', (date === '' || date === '0000-00-00') ? '' : $.datepicker.parseDate('yy-mm-dd', date));
         
         // Set time field
         if (field.time.length) {
