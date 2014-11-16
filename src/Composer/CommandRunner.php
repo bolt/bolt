@@ -10,6 +10,7 @@ use Composer\Console\Application as ComposerApp;
 use Guzzle\Http\Client as GuzzleClient;
 use Guzzle\Http\Exception\RequestException;
 use Bolt\Library as Lib;
+use Bolt\Translation\Translator as Trans;
 
 class CommandRunner
 {
