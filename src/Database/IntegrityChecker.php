@@ -478,7 +478,6 @@ class IntegrityChecker
         $logTable->addColumn("content_id", "integer");
         $logTable->addColumn("context", "string", array("length" => 32));
         $logTable->addIndex(array( 'context'));
-        $logTable->addColumn("dump", "string", array("length" => 1024));
         $tables[] = $logTable;
 
         $contentChangelogTable = $schema->createTable($this->prefix . 'content_changelog');
