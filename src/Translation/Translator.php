@@ -72,7 +72,7 @@ class Translator
         try {
             return call_user_func_array(array($app['translator'], 'trans'), $args);
         } catch (\Symfony\Component\Translation\Exception\InvalidResourceException $e) {
-            if (! isset($app['translationyamlerror']) && $app['request']->isXmlHttpRequest() == false){
+            if (! isset($app['translationyamlerror']) && $app['request']->isXmlHttpRequest() == false) {
                 $app['session']->getFlashBag()->add(
                     'warning',
                     '<strong>Error: You should fix this now, before continuing!</strong><br>' . $e->getMessage()
@@ -81,9 +81,9 @@ class Translator
 
             $app['translationyamlerror'] = true;
 
-            if(isset($args[1]) && is_array($args[1])) {
+            if (isset($args[1]) && is_array($args[1])) {
                 return strtr($args[0], $args[1]);
-            }else{
+            } else {
                 return $args[0];
             }
 
@@ -103,7 +103,7 @@ class Translator
         try {
             return call_user_func_array(array($app['translator'], 'transChoice'), $args);
         } catch (\Symfony\Component\Translation\Exception\InvalidResourceException $e) {
-            if (! isset($app['translationyamlerror']) && $app['request']->isXmlHttpRequest() == false){
+            if (!isset($app['translationyamlerror']) && $app['request']->isXmlHttpRequest() == false) {
                 $app['session']->getFlashBag()->add(
                     'warning',
                     '<strong>Error: You should fix this now, before continuing!</strong><br>' . $e->getMessage()

@@ -1048,7 +1048,9 @@ class Storage
             $contenttypes = array_filter(
                 $contenttypes,
                 function ($ct) use ($app_ct) {
-                    if (($app_ct[$ct]['searchable'] === false) || (isset($app_ct[$ct]['viewless']) && $app_ct[$ct]['viewless'] === true) ) {
+                    if (($app_ct[$ct]['searchable'] === false) ||
+                        (isset($app_ct[$ct]['viewless']) && $app_ct[$ct]['viewless'] === true)
+                    ) {
                         return false;
                     }
 
