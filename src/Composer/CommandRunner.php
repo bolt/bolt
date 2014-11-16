@@ -393,7 +393,7 @@ class CommandRunner
         $json->repositories->packagist = false;
         $json->{'minimum-stability'} = "dev";
         $json->{'prefer-stable'} = true;
-        $json->config = array('discard-changes' => true);
+        $json->config = array('discard-changes' => true, 'preferred-install' => 'dist');
         $basePackage = "bolt/bolt";
         $json->provide = new \stdClass();
         $json->provide->$basePackage = $this->app['bolt_version'];
