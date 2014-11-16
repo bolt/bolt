@@ -279,7 +279,6 @@ class TwigExtension extends \Twig_Extension
         return $output;
     }
 
-
     /**
      * Trims the given string to a particular length. Deprecated, use excerpt
      * instead.
@@ -293,7 +292,6 @@ class TwigExtension extends \Twig_Extension
     {
         return $this->excerpt($content);
     }
-
 
     /**
      * Create a link to edit a .yml file, if a filename is detected in the string. Mostly
@@ -395,7 +393,6 @@ class TwigExtension extends \Twig_Extension
 
         return $slug;
     }
-
 
     /**
      * Formats the given string as Markdown in HTML
@@ -961,22 +958,20 @@ class TwigExtension extends \Twig_Extension
      * Get an array of data for a user, based on the given name or id. Returns
      * an array on success, and false otherwise.
      *
-     * @param mixed $who
+     * @param  mixed $who
      * @return mixed
      */
     public function getUser($who)
     {
-
         return $this->app['users']->getUser($who);
 
     }
-
 
     /**
      * Get an id number for a user, based on the given name. Returns
      * an integer id on success, and false otherwise.
      *
-     * @param string $who
+     * @param  string $who
      * @return mixed
      */
     public function getUserId($who)
@@ -991,7 +986,6 @@ class TwigExtension extends \Twig_Extension
         }
 
     }
-
 
     /**
      * Makes a piece of HTML editable
