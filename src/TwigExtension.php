@@ -83,32 +83,32 @@ class TwigExtension extends \Twig_Extension
     public function getFilters()
     {
         return array(
+            new \Twig_SimpleFilter('__', array($this, 'trans'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFilter('current', array($this, 'current')),
+            new \Twig_SimpleFilter('editable', array($this, 'editable'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFilter('excerpt', array($this, 'excerpt'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFilter('fancybox', array($this, 'popup'), array('is_safe' => array('html'))), // "Fancybox" is deprecated.
+            new \Twig_SimpleFilter('first', array($this, 'first')),
+            new \Twig_SimpleFilter('image', array($this, 'image')),
+            new \Twig_SimpleFilter('imageinfo', array($this, 'imageInfo')),
+            new \Twig_SimpleFilter('json_decode', array($this, 'jsonDecode')),
+            new \Twig_SimpleFilter('last', array($this, 'last')),
             new \Twig_SimpleFilter('localdate', array($this, 'localeDateTime'), array('is_safe' => array('html'))),
             new \Twig_SimpleFilter('localedatetime', array($this, 'localeDateTime'), array('is_safe' => array('html'))), // Deprecated
-            new \Twig_SimpleFilter('excerpt', array($this, 'excerpt'), array('is_safe' => array('html'))),
-            new \Twig_SimpleFilter('trimtext', array($this, 'trim'), array('is_safe' => array('html'))), // Deprecated..
             new \Twig_SimpleFilter('markdown', array($this, 'markdown'), array('is_safe' => array('html'))),
-            new \Twig_SimpleFilter('twig', array($this, 'twig'), array('is_safe' => array('html'))),
-            new \Twig_SimpleFilter('tt', array($this, 'decorateTT'), array('is_safe' => array('html'))),
-            new \Twig_SimpleFilter('ucfirst', array($this, 'ucfirst')),
-            new \Twig_SimpleFilter('ymllink', array($this, 'ymllink'), array('is_safe' => array('html'))),
-            new \Twig_SimpleFilter('slug', array($this, 'slug')),
-            new \Twig_SimpleFilter('current', array($this, 'current')),
-            new \Twig_SimpleFilter('thumbnail', array($this, 'thumbnail')),
-            new \Twig_SimpleFilter('image', array($this, 'image')),
-            new \Twig_SimpleFilter('showimage', array($this, 'showImage'), array('is_safe' => array('html'))),
-            new \Twig_SimpleFilter('fancybox', array($this, 'popup'), array('is_safe' => array('html'))), // "Fancybox" is deprecated.
-            new \Twig_SimpleFilter('popup', array($this, 'popup'), array('is_safe' => array('html'))),
-            new \Twig_SimpleFilter('editable', array($this, 'editable'), array('is_safe' => array('html'))),
             new \Twig_SimpleFilter('order', array($this, 'order')),
-            new \Twig_SimpleFilter('first', array($this, 'first')),
-            new \Twig_SimpleFilter('last', array($this, 'last')),
-            new \Twig_SimpleFilter('__', array($this, 'trans'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFilter('popup', array($this, 'popup'), array('is_safe' => array('html'))),
             new \Twig_SimpleFilter('safestring', array($this, 'safeString'), array('is_safe' => array('html'))),
-            new \Twig_SimpleFilter('imageinfo', array($this, 'imageInfo')),
             new \Twig_SimpleFilter('selectfield', array($this, 'selectField')),
+            new \Twig_SimpleFilter('showimage', array($this, 'showImage'), array('is_safe' => array('html'))),
             new \Twig_SimpleFilter('shuffle', array($this, 'shuffle')),
-            new \Twig_SimpleFilter('json_decode', array($this, 'jsonDecode'))
+            new \Twig_SimpleFilter('slug', array($this, 'slug')),
+            new \Twig_SimpleFilter('thumbnail', array($this, 'thumbnail')),
+            new \Twig_SimpleFilter('trimtext', array($this, 'trim'), array('is_safe' => array('html'))), // Deprecated..
+            new \Twig_SimpleFilter('tt', array($this, 'decorateTT'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFilter('twig', array($this, 'twig'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFilter('ucfirst', array($this, 'ucfirst')),
+            new \Twig_SimpleFilter('ymllink', array($this, 'ymllink'), array('is_safe' => array('html')))
         );
     }
 
