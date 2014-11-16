@@ -65,6 +65,8 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFunction('showimage', array($this, 'showImage'), array('is_safe' => array('html'))),
             new \Twig_SimpleFunction('fancybox', array($this, 'popup'), array('is_safe' => array('html'))), // "Fancybox" is deprecated.
             new \Twig_SimpleFunction('popup', array($this, 'popup'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFunction('getuser', array($this, 'getUser')),
+            new \Twig_SimpleFunction('getuserid', array($this, 'getUserId')),
             new \Twig_SimpleFunction('first', array($this, 'first')),
             new \Twig_SimpleFunction('last', array($this, 'last')),
             new \Twig_SimpleFunction('__', array($this, 'trans'), array('is_safe' => array('html'))),
@@ -973,6 +975,42 @@ class TwigExtension extends \Twig_Extension
 
         return $image;
     }
+
+    /**
+     * Get an array of data for a user, based on the given name or id. Returns
+     * an array on success, and false otherwise.
+     *
+     * @param mixed $who
+     * @return mixed
+     */
+    public function getUser($who)
+    {
+
+        return $this->app['users']->getUser($who);
+
+    }
+
+
+    /**
+     * Get an id number for a user, based on the given name. Returns
+     * an integer id on success, and false otherwise.
+     *
+     * @param string $who
+     * @return mixed
+     */
+    public function getUserId($who)
+    {
+
+        $user = $this->app['users']->getUser($who);
+
+        if (isset($user['id'])) {
+            return $user['id'];
+        } else {
+            return false;
+        }
+
+    }
+
 
     /**
      * Makes a piece of HTML editable
