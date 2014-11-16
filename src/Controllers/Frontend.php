@@ -127,8 +127,8 @@ class Frontend
     {
         $contenttype = $app['storage']->getContentType($contenttypeslug);
 
-        // If the contenttype is 'viewless', don't show the record page. 
-        if ($contenttype['viewless'] == true) {
+        // If the contenttype is 'viewless', don't show the record page.
+        if (isset($contenttype['viewless']) && $contenttype['viewless'] === true) {
             $app->abort(404, "Page $contenttypeslug/$slug not found.");
         }
 
