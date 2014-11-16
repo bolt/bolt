@@ -3,6 +3,7 @@
 namespace Bolt;
 
 use Silex;
+use Symfony\Component\Finder\Finder;
 use Bolt\Library as Lib;
 use Bolt\Helpers\String;
 use Bolt\Helpers\Html;
@@ -646,38 +647,18 @@ class TwigExtension extends \Twig_Extension
             return null;
         }
 
+        $finder = new Finder();
+        $finder->files()
+               ->in($this->app['paths']['themepath'])
+               ->depth('== 0')
+               ->name('/^[a-zA-Z0-9]\w+\.twig$/')
+               ->sortByName();
+
         $files = array();
-
-        $foldername = $this->app['paths']['themepath'];
-
-        $d = dir($foldername);
-
-        $ignored = array(".", "..", ".DS_Store", ".gitignore", ".htaccess");
-
-        while (($file = $d->read()) !== false) {
-
-            if (in_array($file, $ignored) || substr($file, 0, 2) == "._") {
-                continue;
-            }
-
-            if (is_file($foldername . "/" . $file) && is_readable($foldername . "/" . $file)) {
-
-                if (!empty($filter) && !fnmatch($filter, $file)) {
-                    continue;
-                }
-
-                // Skip filenames that start with _
-                if ($file[0] == "_") {
-                    continue;
-                }
-
-                $files[$file] = $file;
-            }
+        foreach ($finder as $file) {
+            $name = $file->getFilename();
+            $files[$name] = $name;
         }
-
-        $d->close();
-        // Make sure the files are sorted properly.
-        ksort($files);
 
         return $files;
     }
