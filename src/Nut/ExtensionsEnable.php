@@ -5,6 +5,7 @@ namespace Bolt\Nut;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Bolt\Translation\Translator as Trans;
 
 class ExtensionsEnable extends BaseCommand
 {
@@ -25,7 +26,7 @@ class ExtensionsEnable extends BaseCommand
         if (!isset($name) || !isset($version)) {
             $output->writeln(
                 '<error>' .
-                $this->app['translator']->trans('You must specify both a name and a version to install!') .
+                Trans::trans('You must specify both a name and a version to install!') .
                 '</error>'
             );
 

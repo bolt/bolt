@@ -10,6 +10,7 @@ use Composer\Console\Application as ComposerApp;
 use Guzzle\Http\Client as GuzzleClient;
 use Guzzle\Http\Exception\RequestException;
 use Bolt\Library as Lib;
+use Bolt\Translation\Translator as Trans;
 
 class CommandRunner
 {
@@ -417,7 +418,7 @@ class CommandRunner
             $this->available = $json->packages;
         } catch (\Exception $e) {
             $this->messages[] = sprintf(
-                $this->app['translator']->trans("The Bolt extensions Repo at %s is currently unavailable. Check your connection and try again shortly."),
+                Trans::trans("The Bolt extensions Repo at %s is currently unavailable. Check your connection and try again shortly."),
                 $this->packageRepo
             );
             $this->available = array();

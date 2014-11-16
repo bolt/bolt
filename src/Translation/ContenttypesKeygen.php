@@ -3,6 +3,7 @@
 namespace Bolt\Translation;
 
 use Silex;
+use Bolt\Translation\Translator as Trans;
 
 /**
  * Generates translations keys for contenttypes
@@ -177,7 +178,7 @@ class ContenttypesKeygen
                         $setkey = 'contenttypes.' . $ctname . '.text.' . substr($key, 21);
                         $this->translation[$setkey] = isset($this->saved[$setkey]) ? $this->saved[$setkey] : '';
                         if ($this->translation[$setkey] === '') {
-                            $generic = $this->app['translator']->trans($key);
+                            $generic = Trans::trans($key);
                             if ($generic != $key) {
                                 foreach ($this->ctnames[$ctname] as $placeholder => $replace) {
                                     $generic = str_replace($placeholder, $replace, $generic);
@@ -221,7 +222,7 @@ class ContenttypesKeygen
      */
     private function fallback($key)
     {
-        $fallback = $this->app['translator']->trans($key, array(), 'contenttypes');
+        $fallback = Trans::trans($key, array(), 'contenttypes');
 
         return ($fallback === $key) ? false : $fallback;
     }

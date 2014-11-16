@@ -16,7 +16,7 @@
             {% set select = newselect|slice(1) %}
         {% endif %}
         {% set key = 'contenttypes.' ~ contentype ~ '.' ~ select %}
-        {% set trans = key|trans([], 'contenttypes') %}
+        {% set trans = key|__([], 'contenttypes') %}
         {{ (trans == key) ? default|default(key) : trans }}
     {% endspaceless %}
 {% endmacro %}
