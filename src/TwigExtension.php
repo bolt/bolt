@@ -57,7 +57,7 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFunction('image', array($this, 'image')),
             new \Twig_SimpleFunction('imageinfo', array($this, 'imageInfo')),
             new \Twig_SimpleFunction('isallowed', array($this, 'isAllowed')),
-            new \Twig_SimpleFunction('isChangelogEnabled', array($this, 'isChangelogEnabled')),
+            new \Twig_SimpleFunction('ischangelogenabled', array($this, 'isChangelogEnabled')),
             new \Twig_SimpleFunction('ismobileclient', array($this, 'isMobileClient')),
             new \Twig_SimpleFunction('last', array($this, 'last')),
             new \Twig_SimpleFunction('listcontent', array($this, 'listContent')),

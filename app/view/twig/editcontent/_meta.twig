@@ -83,7 +83,7 @@
     <div class="form-group">
         {{ macro.label(__('Add a comment:'), '', 'col-sm-4 control-label') }}
         <div class="col-sm-8">
-            {% if isChangelogEnabled() %}
+            {% if ischangelogenabled() %}
                 <input type="text" name="changelog-comment" id="changelog-comment" class="form-control"
                 {% if not isallowed("contenttype:" ~ context.contenttype.slug ~ ":change-owner:" ~ context.content.id) %}disabled="disabled"{% endif %}
                 placeholder="{{ __('Add a brief, optional comment to describe what\'s changed.') }}"

@@ -19,7 +19,7 @@
                     <span>{{ macro.changelogmutation(entry.effectiveMutationType) }} {{ macro.datetime(entry.date) }}</span>
                     {{ __('component.changelog-detail.by') }} <strong>{{ entry.username }}</strong>
                 </p>
-                {% if isChangelogEnabled() %}
+                {% if ischangelogenabled() %}
                     {% if entry.comment %}<h4><strong>Comment</strong>: {{ entry.comment }}</h4>{% endif %}
                 {% endif %}
             </div>
