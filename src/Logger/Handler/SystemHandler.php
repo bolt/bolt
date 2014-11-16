@@ -103,7 +103,7 @@ class SystemHandler extends AbstractProcessingHandler
                 'ip'          => $this->app['request']->getClientIp(),
                 'contenttype' => $contenttype,
                 'content_id'  => $content_id,
-                'code'        => isset($record['context']['event']) ? $record['context']['event'] : '',
+                'context'     => isset($record['context']['event']) ? $record['context']['event'] : '',
                 'dump'        => ''
             ));
         } catch (\Exception $e) {
