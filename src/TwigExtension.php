@@ -98,6 +98,7 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFilter('markdown', array($this, 'markdown'), array('is_safe' => array('html'))),
             new \Twig_SimpleFilter('order', array($this, 'order')),
             new \Twig_SimpleFilter('popup', array($this, 'popup'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFilter('preg_replace', array($this, 'pregReplace')),
             new \Twig_SimpleFilter('safestring', array($this, 'safeString'), array('is_safe' => array('html'))),
             new \Twig_SimpleFilter('selectfield', array($this, 'selectField')),
             new \Twig_SimpleFilter('showimage', array($this, 'showImage'), array('is_safe' => array('html'))),
@@ -452,6 +453,20 @@ class TwigExtension extends \Twig_Extension
     public function ucfirst($str)
     {
         return ucfirst($str);
+    }
+
+    /**
+     * Perform a regular expression search and replace on the given string.
+     *
+     * @param string $str
+     * @param string $pattern
+     * @param string $replacement
+     * @param int $limit
+     * @return string Same string where first character is in upper case
+     */
+    public function pregReplace($str, $pattern, $replacement = '', $limit = -1)
+    {
+        return preg_replace($pattern, $replacement, $str, $limit);
     }
 
     /**
