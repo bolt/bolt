@@ -42,41 +42,41 @@ class TwigExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
-            new \Twig_SimpleFunction('print', array($this, 'printDump'), array('is_safe' => array('html'))), // Deprecated..
-            new \Twig_SimpleFunction('dump', array($this, 'printDump'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFunction('__', array($this, 'trans'), array('is_safe' => array('html'))),
             new \Twig_SimpleFunction('backtrace', array($this, 'printBacktrace'), array('is_safe' => array('html'))),
-            new \Twig_SimpleFunction('excerpt', array($this, 'excerpt'), array('is_safe' => array('html'))),
-            new \Twig_SimpleFunction('trimtext', array($this, 'trim'), array('is_safe' => array('html'))), // Deprecated..
-            new \Twig_SimpleFunction('markdown', array($this, 'markdown'), array('is_safe' => array('html'))),
             new \Twig_SimpleFunction('current', array($this, 'current')),
-            new \Twig_SimpleFunction('token', array($this, 'token')),
-            new \Twig_SimpleFunction('listtemplates', array($this, 'listTemplates')),
-            new \Twig_SimpleFunction('listcontent', array($this, 'listContent')),
-            new \Twig_SimpleFunction('htmllang', array($this, 'htmlLang')),
-            new \Twig_SimpleFunction('pager', array($this, 'pager'), array('needs_environment' => true)),
-            new \Twig_SimpleFunction('request', array($this, 'request')),
             new \Twig_SimpleFunction('debugbar', array($this, 'debugBar')),
-            new \Twig_SimpleFunction('ismobileclient', array($this, 'isMobileClient')),
-            new \Twig_SimpleFunction('menu', array($this, 'menu'), array('needs_environment' => true, 'is_safe' => array('html'))),
-            new \Twig_SimpleFunction('randomquote', array($this, 'randomQuote'), array('is_safe' => array('html'))),
-            new \Twig_SimpleFunction('widget', array($this, 'widget')),
-            new \Twig_SimpleFunction('isallowed', array($this, 'isAllowed')),
-            new \Twig_SimpleFunction('thumbnail', array($this, 'thumbnail')),
-            new \Twig_SimpleFunction('image', array($this, 'image')),
-            new \Twig_SimpleFunction('showimage', array($this, 'showImage'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFunction('dump', array($this, 'printDump'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFunction('excerpt', array($this, 'excerpt'), array('is_safe' => array('html'))),
             new \Twig_SimpleFunction('fancybox', array($this, 'popup'), array('is_safe' => array('html'))), // "Fancybox" is deprecated.
-            new \Twig_SimpleFunction('popup', array($this, 'popup'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFunction('file_exists', array($this, 'fileExists')),
+            new \Twig_SimpleFunction('first', array($this, 'first')),
             new \Twig_SimpleFunction('getuser', array($this, 'getUser')),
             new \Twig_SimpleFunction('getuserid', array($this, 'getUserId')),
-            new \Twig_SimpleFunction('first', array($this, 'first')),
-            new \Twig_SimpleFunction('last', array($this, 'last')),
-            new \Twig_SimpleFunction('__', array($this, 'trans'), array('is_safe' => array('html'))),
-            new \Twig_SimpleFunction('redirect', array($this, 'redirect'), array('is_safe' => array('html'))),
-            new \Twig_SimpleFunction('stackitems', array($this, 'stackItems')),
-            new \Twig_SimpleFunction('stacked', array($this, 'stacked')),
+            new \Twig_SimpleFunction('htmllang', array($this, 'htmlLang')),
+            new \Twig_SimpleFunction('image', array($this, 'image')),
             new \Twig_SimpleFunction('imageinfo', array($this, 'imageInfo')),
-            new \Twig_SimpleFunction('file_exists', array($this, 'fileExists')),
-            new \Twig_SimpleFunction('isChangelogEnabled', array($this, 'isChangelogEnabled'))
+            new \Twig_SimpleFunction('isallowed', array($this, 'isAllowed')),
+            new \Twig_SimpleFunction('isChangelogEnabled', array($this, 'isChangelogEnabled')),
+            new \Twig_SimpleFunction('ismobileclient', array($this, 'isMobileClient')),
+            new \Twig_SimpleFunction('last', array($this, 'last')),
+            new \Twig_SimpleFunction('listcontent', array($this, 'listContent')),
+            new \Twig_SimpleFunction('listtemplates', array($this, 'listTemplates')),
+            new \Twig_SimpleFunction('markdown', array($this, 'markdown'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFunction('menu', array($this, 'menu'), array('needs_environment' => true, 'is_safe' => array('html'))),
+            new \Twig_SimpleFunction('pager', array($this, 'pager'), array('needs_environment' => true)),
+            new \Twig_SimpleFunction('popup', array($this, 'popup'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFunction('print', array($this, 'printDump'), array('is_safe' => array('html'))), // Deprecated..
+            new \Twig_SimpleFunction('randomquote', array($this, 'randomQuote'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFunction('redirect', array($this, 'redirect'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFunction('request', array($this, 'request')),
+            new \Twig_SimpleFunction('showimage', array($this, 'showImage'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFunction('stacked', array($this, 'stacked')),
+            new \Twig_SimpleFunction('stackitems', array($this, 'stackItems')),
+            new \Twig_SimpleFunction('thumbnail', array($this, 'thumbnail')),
+            new \Twig_SimpleFunction('token', array($this, 'token')),
+            new \Twig_SimpleFunction('trimtext', array($this, 'trim'), array('is_safe' => array('html'))), // Deprecated..
+            new \Twig_SimpleFunction('widget', array($this, 'widget'))
         );
     }
 
