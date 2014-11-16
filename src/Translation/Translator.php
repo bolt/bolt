@@ -81,7 +81,12 @@ class Translator
             
             $app['translationyamlerror'] = true;
 
-            return $args[0];
+            if(isset($args[1]) && is_array($args[1])) {
+                return strtr($args[0], $args[1]);
+            }else{
+                return $args[0];
+            }
+            
         }
     }
 
