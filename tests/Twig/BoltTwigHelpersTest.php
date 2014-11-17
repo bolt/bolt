@@ -5,6 +5,7 @@ use Bolt\Application;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\TwigExtension;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\KernelEvents;
 use Bolt\Storage;
 
 /**
@@ -227,16 +228,82 @@ class BoltTwigHelpersTest extends BoltUnitTest
         $app = $this->getApp();
         $twig = new TwigExtension($app);
         $input = array(
+            array('title'=>'Gamma', 'id'=>10, 'date'=>'2014-01-19'),  
             array('title'=>'Alpha', 'id'=>10, 'date'=>'2014-02-20'),    
             array('title'=>'Beta', 'id'=>8, 'date'=>'2014-01-10'),    
-            array('title'=>'Delta', 'id'=>6, 'date'=>'2014-01-19')    
+            array('title'=>'Delta', 'id'=>6, 'date'=>'2014-01-19') 
         );
-        $result = $twig->order($input, 'id');
-        $this->assertEquals(2, key($result[0]));
-        $this->assertEquals(1, key($result[1]));
-        $this->assertEquals(0, key($result[2]));
+        $result = array_values($twig->order($input, 'id'));
+        $this->assertEquals('Delta', $result[0]['title']);
+        $this->assertEquals('Beta', $result[1]['title']);
+        $this->assertEquals('Alpha', $result[2]['title']);
+        
+        // Test sort on secondary keys
+        $result = array_values($twig->order($input, 'id', 'date'));
+        $this->assertEquals('Gamma', $result[2]['title']);
+        
+        
     }
     
+    public function testFirst()
+    {
+        $app = $this->getApp();
+        $twig = new TwigExtension($app);
+        $this->assertEquals(1, $twig->first(array(1,2,3,4)));
+        $this->assertFalse($twig->first(1));
+    }
+    
+    public function testLast()
+    {
+        $app = $this->getApp();
+        $twig = new TwigExtension($app);
+        $this->assertEquals(4, $twig->last(array(1,2,3,4)));
+        $this->assertFalse($twig->last(1));
+    }
+    
+    
+    public function testCurrent()
+    {
+        // Setup the db so we have a predictable content url to test
+        $this->addDefaultUser();
+        $app = $this->getApp();
+        $storage = new Storage($app);        
+        $content = $storage->getEmptyContent('showcases');
+        $content->setValues(array('title'=>'New Showcase','slug'=>'new-showcase','status'=>'published'));
+        $storage->saveContent($content);
+        
+        
+        $phpunit = $this;
+        $twig = new TwigExtension($app);
+        $storage = new Storage($app);
+        
+        // Get the content object and create a routed request
+        $request = Request::create('/showcase/new-showcase');     
+        $app->before(function($request, $app) use($phpunit, $twig, $storage){
+            $fetched = $storage->getContent('showcases/1');
+            $phpunit->assertTrue($twig->current($fetched));
+        });
+        $app->handle($request);
+        
+        
+        // Test works on custom homepage
+        $app['config']->set('general/homepage', 'showcase/new-showcase');
+        $request = Request::create('/');
+        $app->before(function($request, $app) use($phpunit, $twig, $storage){
+            $fetched = $storage->getContent('showcases/1');
+            $phpunit->assertTrue($twig->current($fetched));
+        });
+        $app->handle($request);
+        
+    }
+    
+    public function testToken()
+    {
+        $app = $this->getApp();
+        $app['request'] = Request::create('/');
+        $twig = new TwigExtension($app);
+        $this->assertNotEmpty($twig->token());
+    }
     
     protected function getDummyText($length = 1000)
     {
