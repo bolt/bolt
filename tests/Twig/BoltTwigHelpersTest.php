@@ -295,6 +295,9 @@ class BoltTwigHelpersTest extends BoltUnitTest
         });
         $app->handle($request);
         
+        // Delete the content so we're back to a clean database
+        $storage->deleteContent('showcases',1);
+        
     }
     
     public function testToken()
@@ -304,6 +307,76 @@ class BoltTwigHelpersTest extends BoltUnitTest
         $twig = new TwigExtension($app);
         $this->assertNotEmpty($twig->token());
     }
+    
+    public function testListTemplates()
+    {
+        $app = $this->getApp();
+        $twig = new TwigExtension($app);
+        $templates = $twig->listTemplates();
+        $this->assertNotEmpty($templates);
+
+        $filtered = $twig->listTemplates('index*');
+        $this->assertEquals(1, count($filtered));
+        
+        // Test safe mode does nothing
+        $app = $this->getApp();
+        $twig = new TwigExtension($app, true);
+        $this->assertNull($twig->listTemplates());
+    }
+    
+    
+    public function testListContent()
+    {
+        $app = $this->getApp();
+        $phpunit = $this;
+        $twig = new TwigExtension($app);
+        $storage = new Storage($app);
+        
+        // First up we seed the database with a showcase and some related entries.
+        $content = $storage->getEmptyContent('entries');
+        $content->setValues(array('title'=>'New Entry 1','slug'=>'new-entry-1','status'=>'published'));
+        $storage->saveContent($content);
+        
+        $content = $storage->getEmptyContent('entries');
+        $content->setValues(array('title'=>'New Entry 2','slug'=>'new-entry-2','status'=>'published'));
+        $storage->saveContent($content);
+        
+        $content = $storage->getEmptyContent('entries');
+        $content->setValues(array('title'=>'New Entry 3','slug'=>'new-entry-3','status'=>'published'));
+        $storage->saveContent($content);
+        
+        $content = $storage->getEmptyContent('showcases');
+        $content->setValues(array('title'=>'New Showcase','slug'=>'new-showcase','status'=>'published'));
+        $content->setRelation('entries',1);
+        $content->setRelation('entries',2);
+        $storage->saveContent($content);
+        
+        
+        $request = Request::create('/');
+        $app->before(function($request, $app) use($phpunit, $twig, $storage){
+            $fetched = $storage->getContent('showcases/1');
+            $content = $twig->listContent('entries', array('order'=>'title'), $fetched);
+            $phpunit->assertEquals(2, count($content));
+            $phpunit->assertFalse($content[2]['selected']);
+        });
+        $app->handle($request);
+        
+        // Clean up test database
+        $storage->deleteContent('entries',1);
+        $storage->deleteContent('entries',2);
+        $storage->deleteContent('entries',3);
+        $storage->deleteContent('showcases',1);
+    }
+    
+    
+    public function testPager()
+    {
+        $app = $this->getApp();
+        $twig = new TwigExtension($app);
+        $pager = $twig->pager($app['twig']);
+        var_dump($pager);
+    }
+    
     
     protected function getDummyText($length = 1000)
     {
