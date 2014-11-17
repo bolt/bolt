@@ -73,4 +73,16 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
             }
         }
     }
+    
+    protected function addDefaultUser()
+    {
+        $app = $this->getApp();
+        $user = $app['users']->getEmptyUser();
+        $user['roles']=array('admin');
+        $user['username'] = 'admin';
+        $user['password'] = 'password';
+        $user['email'] = 'test@example.com';
+        $user['displayname'] = 'Admin';
+        $app['users']->saveUser($user);
+    }
 }
