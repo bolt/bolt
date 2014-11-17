@@ -636,24 +636,24 @@ var init = {
             $(item).parent().on('show.bs.dropdown', function (e) {
 
                 // Prevent breakage on old IE.
-                if (typeof mouseEvt === "undefined" || mouseEvt === null) {
-                    return false;
-                }
-
-                var self = $(this).find('[data-toggle="dropdown"]'),
+                if (typeof mouseEvt !== "undefined" && mouseEvt !== null) {
+                    var self = $(this).find('[data-toggle="dropdown"]'),
                     menu = self.next('.dropdown-menu'),
                     mousey = mouseEvt.pageY + 20,
                     menuHeight = menu.height(),
                     menuVisY = $(window).height() - (mousey + menuHeight), // Distance from the bottom of viewport
                     profilerHeight = 37; // The size of the Symfony Profiler Bar is 37px.
 
-                // The whole menu must fit when trying to 'dropup', but always prefer to 'dropdown' (= default).
-                if ((mousey - menuHeight) > 20 && menuVisY < profilerHeight) {
-                    menu.css({
-                        top: 'auto',
-                        bottom: '100%'
-                    });
+                    // The whole menu must fit when trying to 'dropup', but always prefer to 'dropdown' (= default).
+                    if ((mousey - menuHeight) > 20 && menuVisY < profilerHeight) {
+                        menu.css({
+                            top: 'auto',
+                            bottom: '100%'
+                        });
+                    }
                 }
+
+                
             });
         });
     },
