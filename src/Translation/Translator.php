@@ -35,11 +35,11 @@ class Translator
      * @param string $locale
      * @return string
      */
-    public static function trans($key, array $parameters = array(), $domain = 'messages', $locale = null, $default = null)
+    public static function trans($key, array $parameters = array(), $domain = 'messages', $locale = null)
     {
         $app = ResourceManager::getApp();
 
-        // Handle special parameters
+        // Handle default parameter
         if (isset($parameters['DEFAULT'])) {
             $default = $parameters['DEFAULT'];
             unset($parameters['DEFAULT']);
@@ -47,8 +47,21 @@ class Translator
             $default = null;
         }
 
+        // Handle number parameter
+        if (isset($parameters['NUMBER'])) {
+            $number = $parameters['NUMBER'];
+            unset($parameters['NUMBER']);
+        } else {
+            $number = null;
+        }
+
+        // Translate
         try {
-            $trans = $app['translator']->trans($key, $parameters, $domain, $locale);
+            if ($number === null) {
+                $trans = $app['translator']->trans($key, $parameters, $domain, $locale);
+            } else {
+                $trans = $app['translator']->transChoice($key, $number, $parameters, $domain, $locale);
+            }
 
             return ($trans === $key && $default !== null) ? $default : $trans;
         } catch (\Symfony\Component\Translation\Exception\InvalidResourceException $e) {
@@ -141,8 +154,6 @@ class Translator
         if ($locale === null) {
             $locale = $app['request']->getLocale();
         }
-        $fn = 'trans';
-        $args = func_get_args();
 
         // If $key is an array, convert it to a sanizized string
         if (is_array($key)) {
@@ -153,13 +164,6 @@ class Translator
                 }
             );
             $key = join('.', $key);
-        }
-
-        if (isset($parameters['NUMBER'])) {
-            $number = $parameters['NUMBER'];
-            unset($parameters['NUMBER']);
-        } else {
-            $number = '';
         }
 
         //if (is_string($key) && substr($key, 0, 16) === 'contenttypes.%%.') {
