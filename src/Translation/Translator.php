@@ -127,7 +127,14 @@ class Translator
      */
     private static function dynamicContenttype(\Bolt\Application $app, $keyPattern, $Contenttype, $Default = null)
     {
-        $key = str_replace('%%', preg_replace('/[^a-z-]/', '', $Contenttype), $keyPattern);
+        if (is_array($Contenttype)) {
+            $key = $keyPattern;
+            foreach ($Contenttype as $rep) {
+                $key = preg_replace('/%%/', preg_replace('/[^a-z-]/', '', strtolower($rep)), $key, 1);
+            }
+        } else {
+            $key = str_replace('%%', preg_replace('/[^a-z-]/', '', strtolower($Contenttype)), $keyPattern);
+        }
         $trans = static::trans($key, array(), 'contenttypes', $app['request']->getLocale());
 
         if ($trans !== $key) {
