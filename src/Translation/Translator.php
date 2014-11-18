@@ -72,7 +72,7 @@ class Translator
         try {
             return call_user_func_array(array($app['translator'], 'trans'), $args);
         } catch (\Symfony\Component\Translation\Exception\InvalidResourceException $e) {
-            if (! isset($app['translationyamlerror']) && $app['request']->isXmlHttpRequest() == false) {
+            if (!isset($app['translationyamlerror']) && $app['request']->isXmlHttpRequest() == false) {
                 $app['session']->getFlashBag()->add(
                     'warning',
                     '<strong>Error: You should fix this now, before continuing!</strong><br>' . $e->getMessage()
@@ -117,6 +117,36 @@ class Translator
     }
 
     /**
+     * Return translation selected by dynamically generated key based on contenttype
+     *
+     * @param \Bolt\Application $app
+     * @param string $keyPattern A key template, like 'contenttypes.%%.select.key'
+     * @param string $Contenttype The contentype to select
+     * @param string $Default Optional default translation
+     * @return string
+     */
+    private static function dynamicContenttype(\Bolt\Application $app, $keyPattern, $Contenttype, $Default = null)
+    {
+        if (is_array($Contenttype)) {
+            $key = $keyPattern;
+            foreach ($Contenttype as $rep) {
+                $key = preg_replace('/%%/', preg_replace('/[^a-z-]/', '', strtolower($rep)), $key, 1);
+            }
+        } else {
+            $key = str_replace('%%', preg_replace('/[^a-z-]/', '', strtolower($Contenttype)), $keyPattern);
+        }
+        $trans = static::trans($key, array(), 'contenttypes', $app['request']->getLocale());
+
+        if ($trans !== $key) {
+            return $trans;
+        } elseif ($Default !== null) {
+            return $trans;
+        } else {
+            return $key;
+        }
+    }
+
+    /**
      * i18n made right, second attempt...
      *
      * Instead of calling directly $app['translator']->trans(), we check
@@ -131,11 +161,14 @@ class Translator
         $app = ResourceManager::getApp();
 
         $num_args = func_num_args();
-        if (0 == $num_args) {
+        if ($num_args == 0) {
             return null;
         }
+
         $args = func_get_args();
-        if ($num_args > 4) {
+        if ($num_args == 3 && is_string($args[0]) && substr($args[0], 0, 16) === 'contenttypes.%%.') {
+            return static::dynamicContenttype($app, $args[0], $args[1], isset($args[2]) ? $args[2] : null);
+        } elseif ($num_args > 4) {
             $fn = 'transChoice';
         } elseif ($num_args == 1 || is_array($args[1])) {
             // If only 1 arg or 2nd arg is an array call trans
