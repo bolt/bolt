@@ -71,7 +71,6 @@ class Translator
     public static function trans($key, array $parameters = array(), $domain = 'messages', $locale = null)
     {
         $app = ResourceManager::getApp();
-        $args = func_get_args();
 
         try {
             return $app['translator']->trans($key, $parameters, $domain, $locale);
@@ -81,16 +80,10 @@ class Translator
                     'warning',
                     '<strong>Error: You should fix this now, before continuing!</strong><br>' . $e->getMessage()
                 );
+                $app['translationyamlerror'] = true;
             }
 
-            $app['translationyamlerror'] = true;
-
-            if (isset($args[1]) && is_array($args[1])) {
-                return strtr($args[0], $args[1]);
-            } else {
-                return $args[0];
-            }
-
+            return strtr($key, $parameters);
         }
     }
 
@@ -121,7 +114,7 @@ class Translator
 
             $app['translationyamlerror'] = true;
 
-            return $args[0];
+            return $key;
         }
     }
 
