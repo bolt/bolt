@@ -8,6 +8,7 @@ use Bolt\Configuration\Standard;
 use Symfony\Component\HttpFoundation\Request;
 use Eloquent\Pathogen\FileSystem\PlatformFileSystemPath as Path;
 use Eloquent\Pathogen\FileSystem\Factory\PlatformFileSystemPathFactory;
+use Bolt\Configuration\LowlevelException;
 
 /**
  * Class to test correct operation and locations of resource manager class and extensions.
@@ -370,6 +371,24 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
         $theme = array('theme'=>'test', 'theme_path'=>'/testpath');
         $config->setThemePath($theme);
         $this->assertEquals(Path::fromString(TEST_ROOT . '/testpath/test'), $config->getPath('theme'));
+    }
+    
+    public function testStaticApp()
+    {
+        $config = new Standard(TEST_ROOT);
+        $app = new Application(array('resources' => $config));
+        $app2 = ResourceManager::getApp();
+        $this->assertEquals($app, $app2);
+    }
+    
+    /**
+    * @runInSeparateProcess
+    */
+    public function testEarlyStaticFails()
+    {
+        $this->setExpectedException(LowlevelException::class);
+        $app = ResourceManager::getApp();
+
     }
     
 }
