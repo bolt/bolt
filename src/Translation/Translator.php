@@ -121,26 +121,26 @@ class Translator
      *
      * @param \Bolt\Application $app
      * @param string $keyPattern A key template, like 'contenttypes.%%.select.key'
-     * @param string $Contenttype The contentype to select
-     * @param string $Default Optional default translation
+     * @param string $contenttype The contentype to select
+     * @param string $default Optional default translation
      * @return string
      */
-    private static function dynamicContenttype(\Bolt\Application $app, $keyPattern, $Contenttype, $Default = null)
+    private static function dynamicContenttype(\Bolt\Application $app, $keyPattern, $contenttype, $default = null)
     {
-        if (is_array($Contenttype)) {
+        if (is_array($contenttype)) {
             $key = $keyPattern;
-            foreach ($Contenttype as $rep) {
+            foreach ($contenttype as $rep) {
                 $key = preg_replace('/%%/', preg_replace('/[^a-z-]/', '', strtolower($rep)), $key, 1);
             }
         } else {
-            $key = str_replace('%%', preg_replace('/[^a-z-]/', '', strtolower($Contenttype)), $keyPattern);
+            $key = str_replace('%%', preg_replace('/[^a-z-]/', '', strtolower($contenttype)), $keyPattern);
         }
         $trans = static::trans($key, array(), 'contenttypes', $app['request']->getLocale());
 
         if ($trans !== $key) {
             return $trans;
-        } elseif ($Default !== null) {
-            return $Default;
+        } elseif ($default !== null) {
+            return $default;
         } else {
             return $key;
         }
