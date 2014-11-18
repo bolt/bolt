@@ -107,36 +107,6 @@ class Translator
     }
 
     /**
-     * Return translation selected by dynamically generated key based on contenttype
-     *
-     * @param \Bolt\Application $app
-     * @param string $keyPattern A key template, like 'contenttypes.%%.select.key'
-     * @param string $contenttype The contentype to select
-     * @param string $default Optional default translation
-     * @return string
-     */
-    private static function dynamicContenttype(\Bolt\Application $app, $keyPattern, $contenttype, $default = null)
-    {
-        if (is_array($contenttype)) {
-            $key = $keyPattern;
-            foreach ($contenttype as $rep) {
-                $key = preg_replace('/%%/', preg_replace('/[^a-z-]/', '', strtolower($rep)), $key, 1);
-            }
-        } else {
-            $key = str_replace('%%', preg_replace('/[^a-z-]/', '', strtolower($contenttype)), $keyPattern);
-        }
-        $trans = static::trans($key, array(), 'contenttypes', $app['request']->getLocale());
-
-        if ($trans !== $key) {
-            return $trans;
-        } elseif ($default !== null) {
-            return $default;
-        } else {
-            return $key;
-        }
-    }
-
-    /**
      * i18n made right, second attempt...
      *
      * Instead of calling directly $app['translator']->trans(), we check
@@ -165,10 +135,6 @@ class Translator
             );
             $key = join('.', $key);
         }
-
-        //if (is_string($key) && substr($key, 0, 16) === 'contenttypes.%%.') {
-        //    return static::dynamicContenttype($app, $key, $parameters, $domain);
-        //}
 
         // Check for contenttype(s) placeholder
         if (count($parameters) > 0) {
