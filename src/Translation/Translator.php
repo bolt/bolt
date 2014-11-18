@@ -68,7 +68,7 @@ class Translator
      * @param string $locale
      * @return string
      */
-    public static function trans($key, array $parameters = array(), $domain = 'messages', $locale = null)
+    public static function trans($key, array $parameters = array(), $domain = 'messages', $locale = null, $default = null)
     {
         $app = ResourceManager::getApp();
 
@@ -97,7 +97,7 @@ class Translator
      * @param string $locale
      * @return string
      */
-    public static function transChoice($key, $number, array $parameters = array(), $domain = 'messages', $locale = null)
+    public static function transChoice($key, $number, array $parameters = array(), $domain = 'messages')
     {
         $app = ResourceManager::getApp();
 
@@ -162,9 +162,35 @@ class Translator
 
         $fn = 'trans';
         $args = func_get_args();
-        if (is_string($key) && substr($key, 0, 16) === 'contenttypes.%%.') {
-            return static::dynamicContenttype($app, $key, $parameters, $domain);
+
+        // If $key is an array, convert it to a sanizized string
+        if (is_array($key)) {
+            array_walk(
+                $key,
+                function (&$value) {
+                    $value = preg_replace('/[^a-z-]/', '', strtolower($value));
+                }
+            );
+            $key = join('.', $key);
         }
+
+        // Handle special parameters
+        if (isset($parameters['DEFAULT'])) {
+            $default = $parameters['DEFAULT'];
+            unset($parameters['DEFAULT']);
+        } else {
+            $default = '';
+        }
+        if (isset($parameters['NUMBER'])) {
+            $number = $parameters['NUMBER'];
+            unset($parameters['NUMBER']);
+        } else {
+            $number = '';
+        }
+
+        //if (is_string($key) && substr($key, 0, 16) === 'contenttypes.%%.') {
+        //    return static::dynamicContenttype($app, $key, $parameters, $domain);
+        //}
 
         // Check for contenttype(s) placeholder
         if (count($parameters) > 0) {
@@ -209,6 +235,6 @@ class Translator
             $parameters = static::htmlencodeParams($parameters);
         }
 
-        return call_user_func_array(array(__NAMESPACE__ . '\Translator', $fn), $args);
+        return static::trans($key, $parameters, $domain, $locale);
     }
 }
