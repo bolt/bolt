@@ -1,83 +1,30 @@
-# app/resources/translations/nl_NL/messages.nl_NL.yml – generated on 2014-11-05 13:47:01 UTC
+# app/resources/translations/nl_NL/messages.nl_NL.yml – generated on 2014-11-18 10:29:56 Europe/Amsterdam
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the
-#          repository are automatically mapped to the new scheme. Be aware that there
-#          can be a race condition between that process and your PR so that it's
-#          eventually necessary to remap your translations. If you're planning on
+#          at the moment. This is an ongoing process. Translations currently in the 
+#          repository are automatically mapped to the new scheme. Be aware that there 
+#          can be a race condition between that process and your PR so that it's 
+#          eventually necessary to remap your translations. If you're planning on 
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#  60 unused messages
-#  no untranslated messages
-#  no untranslated keyword based messages
-# 357 translations
-# 128 keyword based translations
+#  no unused messages
+#   3 untranslated messages
+#   1 untranslated keyword based messages
+# 361 translations
+# 131 keyword based translations
 
-#--- 60 unused messages -------------------------------------------------------
+#--- 3 untranslated messages --------------------------------------------------
 
-"%contenttypes%": "%contenttypes%"
-"A menu with this name already exists …": "Er bestaat al een menu met deze naam…"
-"Add new menu": "Voeg nieuw menu toe"
-"Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Voeg een aantal <a href='%url%' class='btn btn-default'>Records met Loripsum tekst toe</a>"
-"Add to menu": "Voeg aan menu toe"
-"Added user '%s'.": "Gebruiker '%s' toegevoegd."
-"field.geolocation.label.address-lookup:": "Adres opzoeken:"
-"Are you sure you want to revert changes you have made since you last saved your menus?": "Weet je zeker dat je de niet-opgeslagen wijzigingen wilt terugdraaien?"
-"Are you sure you wish to remove this item from the menu, along with all its sub-items?": "Weet je zeker dat je dit menu-item wilt verwijderen, samen met alle sub-items?"
-"Assigned roles": "Toegekende rollen"
-"Backup file could not be found": "De backup kon niet worden gevonden"
-"Backup successfully restored": "Backup met succes hersteld"
-"Browscap file updated.": "Browscap file bijgewerkt."
-"Details are shown above. The importer will now try again with a different parser …": "Details staan hier boven. Het importeren wordt nogmaals geprobeerd met een andere parser…"
-"Display name": "Weergavenaam"
-"Email": "E-mail"
-"Files: %path%": "Bestanden: %path%"
-"Filtering:": "Filtering:"
-"Generic": "Generiek"
-"Last IP": "Laatste IP"
-"Logout %name%": "%name% uitloggen"
-"New user": "Nieuwe gebruiker"
-"Oops! An error has occurred!": "Oeps! Er is een fout opgetreden."
-"Page": "Pagina"
-"Password (confirmation)": "Wachtwoord (opnieuw)"
-"Password": "Wachtwoord"
-"Passwords must match.": "Wachtwoorden moeten overeenkomen."
-"Preview video": "Video voorvertonen"
-"Req. Bolt": "Vereiste Bolt"
-"Sitemap": "Sitemap"
-"Size:": "Grootte:"
-"There was an error when reading this WXR file": "Er was een fout met het inlezen van dit WXR bestand"
-"This does not appear to be a WXR file, missing/invalid WXR version number": "Dit lijkt geen goede WXR file te zijn, missend of ongeldig WXR versienummer"
-"This email address is already in use. Choose another email address.": "Dit e-mailadres is al in gebruik. Kies een ander adres."
-"This record is related to %contenttype%": "Deze records is gerelateerd aan %contenttype%"
-"This username is already in use. Choose another username.": "Deze gebruikersnaam is al bezet. Kies een andere gebruikersnaam."
-"This value is too short. It should have 6 characters or more.": "Deze waarde is te kort. Hij moet 6 karakters of langer zijn."
-"URL:": "URL:"
-"Upload a file to this folder:": "Upload een bestand naar deze map:"
-"Upload files": "Upload bestanden"
-"User %s could not be saved, or nothing was changed.": "Gebruiker %s kon niet worden opgeslagen, of er is niets gewijzigd."
-"User %s has been saved.": "Gebruiker %s is opgeslagen."
-"User is enabled": "Gebruiker is ingeschakeld"
-"View file '%s'.": "Bekijk bestand '%s'."
-"no": "nee"
-"title": "titel"
-"yes": "ja"
-"%contenttypes% overview": "%contenttypes% overzicht"
-"Next": "Volgende"
-"No recent %contenttype%.": "Geen recente %contenttype%"
-"Originally by %1, ported by %2": "Oorspronkelijk door %1, omgezet door %2"
-"Previous": "Vorige"
-"Proudly powered by %s": #
-"Recent %contenttypes%": #
-"Search for:": #
-"Search…": #
-"Skip to content": #
-"page.edit-file.path": "Pad:"
-"Fontawesome Icon": "Fontawesome icoon"
-"Sorting": "Sorteren"
+"contenttypes.%%.description": #
+"contenttypes.%%.group.%%": #
+"contenttypes.%%.name.plural": #
 
-#--- 357 translations ---------------------------------------------------------
+#--- 1 untranslated keyword based messages ------------------------------------
+
+"contenttypes.generic.group.ungrouped": # "Ungrouped"
+
+#--- 361 translations ---------------------------------------------------------
 
 "%name% № %id%": "%name% № %id%"
 "%s files could not be deleted. You should delete them manually.": "%s bestanden konden niet verwijderd worden. Verwijder deze handmatig."
@@ -248,7 +195,6 @@
 "Message:": "Bericht:"
 "Messages": "Meldingen"
 "Meta": "Meta"
-"contenttypes.generic.group.meta": "Meta"
 "Meta information": "Meta informatie"
 "Modifications made to the database:": "Aanpassingen gedaan aan de database:"
 "Modifications needed:": "Vereiste aanpassingen:"
@@ -300,7 +246,6 @@
 "Related content": "Gerelateerde content"
 "Related content:": "Gerelateerde content:"
 "Relationships": "Relaties"
-"contenttypes.generic.group.relations": "Relaties"
 "Rename %foldername%": "Hernoem %foldername%"
 "Roles": "Rollen"
 "Roles and Permissions": "Rollen en permissies"
@@ -344,7 +289,6 @@
 "Tag": "Tag"
 "Tags": "Tags"
 "Taxonomy": "Taxonomie"
-"contenttypes.generic.group.taxonomy": "Taxonomie"
 "Teaser": "Ankeiler"
 "Template": "Template"
 "Textarea": "Tekstveld"
@@ -378,6 +322,7 @@
 "This will install all available updates.": "Dit zal alle updates installeren."
 "This will make sure all packages listed are installed. Use this if you've recently moved to a new server or if you have manually added an extension.": "Dit zorgt ervoor dat alle opgesomde pakketten worden geÃ¯nstalleerd. Gebruik dit als je een nieuwe server in gebruik hebt genomen of als je handmatig een nieuwe extensie hebt geÃ¯nstalleerd."
 "This won't install anything, just show you available updates": "Hiermee installeer je niets, bekijk alleen de beschikbare updates."
+"Time in 24h/12h format": "Tijd in 24h/12h notering"
 "Timed publish": "Publicatiedatum"
 "Tip:": "Tip:"
 "Title": "Titel"
@@ -405,7 +350,6 @@
 "Username or password not correct. Please check your input.": "Gebruikersnaam of wachtwoord niet juist. Controleer de invoer, en probeer opnieuw."
 "Users": "Gebruikers"
 "Version": "Versie"
-"Version:": "Versie:"
 "Video": "Video"
 "View (saved version) on site": "Bekijk (opgeslagen versie) op de website"
 "View on site": "Bekijk op site"
@@ -429,6 +373,10 @@
 "Your database is already up to date.": "Je database was al bijgewerkt."
 "Your database is now up to date.": "Je database is nu bijgewerkt."
 "Your password": "Je wachtwoord"
+"[Extension error] Initialisation failed for %ext%: %error%": "[Extensie fout] Initialisatie niet gelukt in %ext%: %error%"
+"[Extension error] Snippet loading failed for %ext%: %error%": "[Extensie fout] Snippet laden niet gelukt in %ext%: %error%"
+"[Extension error] Twig function registration failed for %ext%: %error%": "[Extensie fout] Twig functie initialiseren niet gelukt in %ext%: %error%"
+"[Extension error] YAML config failed to load for %ext%: %error%": "[Extensie fout] YAML configuratie laden niet gelukt in %ext%: %error%"
 "and edited": "en bewerkt"
 "back to editing": "terug naar bewerken"
 "by": "door"
@@ -440,7 +388,7 @@
 "of": "van"
 "show all": "Toon alle"
 
-#--- 128 keyword based translations -------------------------------------------
+#--- 131 keyword based translations -------------------------------------------
 
 component:
     changelog-detail:
@@ -461,6 +409,10 @@ contenttypes:
         duplicated-finalize: "Inhoud is gedupliceerd. Klik op 'Sla %contenttype% op' om af te ronden."
         edit: "Bewerk %contenttype%"
         error-saving: "Er was een probleem met het opslaan van deze %contenttype%."
+        group:
+            meta: "Meta"
+            relations: "Relaties"
+            taxonomy: "Taxonomie"
         invalid-field: "Kan %field% in %contenttype% niet zetten: Geen geldig veld."
         last-modified: "Laatst aangepaste %contenttypes%"
         new: "Nieuwe %contenttype%"
