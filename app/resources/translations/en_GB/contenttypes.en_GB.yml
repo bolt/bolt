@@ -1,10 +1,10 @@
 # app/resources/translations/en_GB/contenttypes.en_GB.yml – generated on 2014-11-13 23:00:56 UTC
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the 
-#          repository are automatically mapped to the new scheme. Be aware that there 
-#          can be a race condition between that process and your PR so that it's 
-#          eventually necessary to remap your translations. If you're planning on 
+#          at the moment. This is an ongoing process. Translations currently in the
+#          repository are automatically mapped to the new scheme. Be aware that there
+#          can be a race condition between that process and your PR so that it's
+#          eventually necessary to remap your translations. If you're planning on
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
@@ -40,7 +40,7 @@ contenttypes:
             error-saving: "There was an error saving this Entry."
             invalid-field: "Can't set %field% in Entry: Not a valid field."
             last-modified: "Last modified Entries"
-            new: "New Entries"
+            new: "New Entry"
             no-latest: "No latest Entry"
             no-proper-type: "In the contenttype for 'Entry', the field '%field%' has 'type: %type%', which is not a proper field type. Please edit contenttypes.yml, and correct this."
             no-recent: "No recent Entry."
@@ -75,7 +75,7 @@ contenttypes:
             error-saving: "There was an error saving this Page."
             invalid-field: "Can't set %field% in Page: Not a valid field."
             last-modified: "Last modified Pages"
-            new: "New Pages"
+            new: "New Page"
             no-latest: "No latest Page"
             no-proper-type: "In the contenttype for 'Page', the field '%field%' has 'type: %type%', which is not a proper field type. Please edit contenttypes.yml, and correct this."
             no-recent: "No recent Page."
@@ -115,7 +115,7 @@ contenttypes:
             error-saving: "There was an error saving this Showcase."
             invalid-field: "Can't set %field% in Showcase: Not a valid field."
             last-modified: "Last modified Showcases"
-            new: "New Showcases"
+            new: "New Showcase"
             no-latest: "No latest Showcase"
             no-proper-type: "In the contenttype for 'Showcase', the field '%field%' has 'type: %type%', which is not a proper fieldtype. Please edit contenttypes.yml, and correct this."
             no-recent: "No recent Showcase."
