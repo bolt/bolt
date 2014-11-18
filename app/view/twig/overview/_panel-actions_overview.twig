@@ -10,8 +10,6 @@
 {% block panel_head __('contenttypes.generic.actions-all', {'%contenttypes%': context.contenttype.slug}) %}
 
 {% block panel_body %}
-    {% from '_macro/_translation.twig' import trans_ct %}
-
     <a class="btn btn-primary" href="{{ path('editcontent', {'contenttypeslug': context.contenttype.slug, 'id': ''}) }}">
         <i class="fa fa-plus"></i> {{ __('contenttypes.generic.new', {'%contenttype%': context.contenttype.slug}) }}
     </a>
