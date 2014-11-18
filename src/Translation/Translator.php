@@ -140,7 +140,7 @@ class Translator
         if ($trans !== $key) {
             return $trans;
         } elseif ($Default !== null) {
-            return $trans;
+            return $Default;
         } else {
             return $key;
         }
