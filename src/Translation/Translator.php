@@ -156,50 +156,34 @@ class Translator
      * and try to get a translated string. If there is not, we revert to
      * the generic (%contenttype%) string, which must have a translation.
      */
-    public static function /*@codingStandardsIgnoreStart*/__/*@codingStandardsIgnoreEnd*/()
+    public static function /*@codingStandardsIgnoreStart*/__/*@codingStandardsIgnoreEnd*/($key, $parameters = array(), $domain = 'messages', $locale = null)
     {
         $app = ResourceManager::getApp();
 
-        $num_args = func_num_args();
-        if ($num_args == 0) {
-            return null;
+        $fn = 'trans';
+        $args = func_get_args();
+        if (is_string($key) && substr($key, 0, 16) === 'contenttypes.%%.') {
+            return static::dynamicContenttype($app, $key, $parameters, $domain);
         }
 
-        $args = func_get_args();
-        if ($num_args == 3 && is_string($args[0]) && substr($args[0], 0, 16) === 'contenttypes.%%.') {
-            return static::dynamicContenttype($app, $args[0], $args[1], isset($args[2]) ? $args[2] : null);
-        } elseif ($num_args > 4) {
-            $fn = 'transChoice';
-        } elseif ($num_args == 1 || is_array($args[1])) {
-            // If only 1 arg or 2nd arg is an array call trans
-            $fn = 'trans';
-        } else {
-            $fn = 'transChoice';
-        }
-        $tr_args = null;
-        if ($fn == 'trans' && $num_args > 1) {
-            $tr_args = $args[1];
-        } elseif ($fn == 'transChoice' && $num_args > 2) {
-            $tr_args = $args[2];
-        }
         // Check for contenttype(s) placeholder
-        if ($tr_args) {
-            if (isset($tr_args['%contenttype%'])) {
+        if (count($parameters) > 0) {
+            if (isset($parameters['%contenttype%'])) {
                 $key_arg = '%contenttype%';
-            } elseif (isset($tr_args['%contenttypes%'])) {
+            } elseif (isset($parameters['%contenttypes%'])) {
                 $key_arg = '%contenttypes%';
             } else {
                 $key_arg = false;
             }
-            $key_generic = $args[0];
+            $key_generic = $key;
             if ($key_arg && substr($key_generic, 0, 21) == 'contenttypes.generic.') {
 
-                $ctype = $tr_args[$key_arg];
-                unset($tr_args[$key_arg]);
+                $ctype = $parameters[$key_arg];
+                unset($parameters[$key_arg]);
                 $key_ctype = 'contenttypes.' . $ctype . '.text.' . substr($key_generic, 21);
 
                 // Try to get a direct translation, fallback to en
-                $trans = static::translate($app, $fn, $args, $key_ctype, $tr_args);
+                $trans = static::translate($app, $fn, $args, $key_ctype, $parameters);
 
                 // No translation found, use generic translation
                 if ($trans === false) {
@@ -213,16 +197,16 @@ class Translator
                         $ctname = empty($ctypes[$ctype][$key_ctname]) ? ucfirst($ctype) : $ctypes[$ctype][$key_ctname];
                     }
                     // Get generic translation with name replaced
-                    $tr_args[$key_arg] = $ctname;
-                    $trans = static::translate($app, $fn, $args, $key_generic, $tr_args, 'messages');
+                    $parameters[$key_arg] = $ctname;
+                    $trans = static::translate($app, $fn, $args, $key_generic, $parameters, 'messages');
                 }
 
                 return $trans;
             }
         }
 
-        if (isset($args[1])) {
-            $args[1] = static::htmlencodeParams($args[1]);
+        if (isset($parameters)) {
+            $parameters = static::htmlencodeParams($parameters);
         }
 
         return call_user_func_array(array(__NAMESPACE__ . '\Translator', $fn), $args);
