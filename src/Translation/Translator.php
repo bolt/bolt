@@ -131,7 +131,7 @@ class Translator
         $app = ResourceManager::getApp();
 
         $num_args = func_num_args();
-        if (0 == $num_args) {
+        if ($num_args == 0) {
             return null;
         }
         $args = func_get_args();
