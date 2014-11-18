@@ -197,7 +197,7 @@ class CommandRunner
         // @see https://github.com/composer/composer/issues/2146#issuecomment-35478940
         putenv("DYLD_LIBRARY_PATH=''");
 
-        $command .= ' -d ' . $this->basedir . ' -n --no-ansi';
+        $command .= ' -d "' . $this->basedir . '" -n --no-ansi';
         $this->writeLog('command', $command);
 
         // Create an InputInterface object to pass to Composer
