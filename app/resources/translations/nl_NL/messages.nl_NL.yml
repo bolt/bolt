@@ -1,28 +1,18 @@
-# app/resources/translations/nl_NL/messages.nl_NL.yml – generated on 2014-11-18 10:29:56 Europe/Amsterdam
+# app/resources/translations/nl_NL/messages.nl_NL.yml – generated on 2014-11-18 11:29:54 UTC
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the 
-#          repository are automatically mapped to the new scheme. Be aware that there 
-#          can be a race condition between that process and your PR so that it's 
-#          eventually necessary to remap your translations. If you're planning on 
+#          at the moment. This is an ongoing process. Translations currently in the
+#          repository are automatically mapped to the new scheme. Be aware that there
+#          can be a race condition between that process and your PR so that it's
+#          eventually necessary to remap your translations. If you're planning on
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
 #  no unused messages
-#   3 untranslated messages
-#   1 untranslated keyword based messages
+#  no untranslated messages
+#  no untranslated keyword based messages
 # 361 translations
-# 131 keyword based translations
-
-#--- 3 untranslated messages --------------------------------------------------
-
-"contenttypes.%%.description": #
-"contenttypes.%%.group.%%": #
-"contenttypes.%%.name.plural": #
-
-#--- 1 untranslated keyword based messages ------------------------------------
-
-"contenttypes.generic.group.ungrouped": # "Ungrouped"
+# 132 keyword based translations
 
 #--- 361 translations ---------------------------------------------------------
 
@@ -388,7 +378,7 @@
 "of": "van"
 "show all": "Toon alle"
 
-#--- 131 keyword based translations -------------------------------------------
+#--- 132 keyword based translations -------------------------------------------
 
 component:
     changelog-detail:
@@ -413,6 +403,7 @@ contenttypes:
             meta: "Meta"
             relations: "Relaties"
             taxonomy: "Taxonomie"
+            ungrouped: "Zonder groep"
         invalid-field: "Kan %field% in %contenttype% niet zetten: Geen geldig veld."
         last-modified: "Laatst aangepaste %contenttypes%"
         new: "Nieuwe %contenttype%"

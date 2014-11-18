@@ -109,7 +109,10 @@ class TranslationFile
      */
     private function addTranslatable($Text)
     {
-        if (strlen($Text) > 1 && !isset($this->translatables[$Text])) {
+        if (strlen($Text) > 1 &&
+            !isset($this->translatables[$Text]) &&
+            substr($Text, 0, 16) !== 'contenttypes.%%.'
+        ) {
             $this->translatables[$Text] = '';
         }
     }
