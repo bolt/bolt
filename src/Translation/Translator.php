@@ -100,7 +100,6 @@ class Translator
     public static function transChoice($key, $number, array $parameters = array(), $domain = 'messages', $locale = null)
     {
         $app = ResourceManager::getApp();
-        $args = func_get_args();
 
         try {
             return $app['translator']->transChoice($key, $number, $parameters, $domain, $locale);
@@ -110,11 +109,10 @@ class Translator
                     'warning',
                     '<strong>Error: You should fix this now, before continuing!</strong><br>' . $e->getMessage()
                 );
+                $app['translationyamlerror'] = true;
             }
 
-            $app['translationyamlerror'] = true;
-
-            return $key;
+            return strtr($key, $parameters);
         }
     }
 
