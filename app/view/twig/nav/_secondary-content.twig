@@ -29,8 +29,7 @@
                 ]) %}
             {% endfor %}
 
-            {% set label = contenttype.name %} 
-            {# We shouldn't try to translate contenttype names.. __('contenttypes.%%.name.plural', contenttype.slug, contenttype.name) #}
+            {% set label = __('contenttypes.%%.name.plural', contenttype.slug, contenttype.name) %}
             {% set active = (page_nav == 'Content/*' and context.contenttype.slug|default == slug) %}
 
             {{ nav.submenu(contenttype.icon_many|default(''), label, sub, active, true) }}

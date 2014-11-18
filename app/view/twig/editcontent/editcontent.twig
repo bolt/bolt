@@ -72,9 +72,7 @@
                     {% for group in context.contenttype.groups %}
                         <li>
                             <a class="filter" data-filter="{{ group }}">
-                                {{ group|capitalize }}
-                                {# Don't try to translate content.  __('contenttypes.%%.group.%%', [context.contenttype.slug, group], group|capitalize) #}
-                                
+                                {{ __('contenttypes.%%.group.%%', [context.contenttype.slug, group], group|capitalize) }}
                             </a>
                         </li>
                     {% endfor %}
