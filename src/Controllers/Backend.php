@@ -905,7 +905,7 @@ class Backend implements ControllerProviderInterface
                             }
                         }
 
-                        if(isset($val['datechanged'])) {
+                        if (isset($val['datechanged'])) {
                             $val['datechanged'] = date_format(new \DateTime($val['datechanged']), 'c');
                         }
 

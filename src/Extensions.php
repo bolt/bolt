@@ -234,8 +234,10 @@ class Extensions
             $this->app['log']->add("[EXT] YAML config failed to load for {$name}: " . $e->getMessage(), 2);
 
             if ($this->app['config']->getWhichEnd() == 'backend') {
-                $this->app['session']->getFlashBag()->set('error',
-                    Trans::__('[Extension error] YAML config failed to load for %ext%: %error%', array('%ext%' => $name, '%error%' => $e->getMessage())));
+                $this->app['session']->getFlashBag()->set(
+                    'error',
+                    Trans::__('[Extension error] YAML config failed to load for %ext%: %error%', array('%ext%' => $name, '%error%' => $e->getMessage()))
+                );
             }
 
             return;
@@ -255,8 +257,10 @@ class Extensions
             $this->app['log']->add("[EXT] Initialisation failed for {$name}: " . $e->getMessage(), 2);
 
             if ($this->app['config']->getWhichEnd() == 'backend') {
-                $this->app['session']->getFlashBag()->set('error',
-                    Trans::__('[Extension error] Initialisation failed for %ext%: %error%', array('%ext%' => $name, '%error%' => $e->getMessage())));
+                $this->app['session']->getFlashBag()->set(
+                    'error',
+                    Trans::__('[Extension error] Initialisation failed for %ext%: %error%', array('%ext%' => $name, '%error%' => $e->getMessage()))
+                );
             }
 
             return;
@@ -272,8 +276,10 @@ class Extensions
             $this->app['log']->add("[EXT] Snippet loading failed for {$name}: " . $e->getMessage(), 2);
 
             if ($this->app['config']->getWhichEnd() == 'backend') {
-                $this->app['session']->getFlashBag()->set('error',
-                    Trans::__('[Extension error] Snippet loading failed for %ext%: %error%', array('%ext%' => $name, '%error%' => $e->getMessage())));
+                $this->app['session']->getFlashBag()->set(
+                    'error',
+                    Trans::__('[Extension error] Snippet loading failed for %ext%: %error%', array('%ext%' => $name, '%error%' => $e->getMessage()))
+                );
             }
 
             return;
@@ -292,8 +298,10 @@ class Extensions
                 $this->app['log']->add("[EXT] Twig function registration failed for {$name}: " . $e->getMessage(), 2);
 
                 if ($this->app['config']->getWhichEnd() == 'backend') {
-                    $this->app['session']->getFlashBag()->set('error',
-                        Trans::__('[Extension error] Twig function registration failed for %ext%: %error%', array('%ext%' => $name, '%error%' => $e->getMessage())));
+                    $this->app['session']->getFlashBag()->set(
+                        'error',
+                        Trans::__('[Extension error] Twig function registration failed for %ext%: %error%', array('%ext%' => $name, '%error%' => $e->getMessage()))
+                    );
                 }
 
                 return;

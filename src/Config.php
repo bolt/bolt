@@ -911,27 +911,27 @@ class Config
 
     /**
      * Get a timestamp, corrected to the timezone.
-     * 
+     *
      * @return string timestamp
      */
-    public function getTimestamp($when) 
+    public function getTimestamp($when)
     {
         $timezone = $this->get('general/timezone');
         $now = date_format(new \DateTime($when, new \DateTimeZone($timezone)), 'Y-m-d H:i:s');
 
         return $now;
-    }   
+    }
 
     /**
      * Get the current timestamp, corrected to the timezone.
-     * 
+     *
      * @return string current timestamp
      */
-    public function getCurrentTimestamp() 
+    public function getCurrentTimestamp()
     {
         $timezone = $this->get('general/timezone');
         $now = date_format(new \DateTime($timezone), 'Y-m-d H:i:s');
 
         return $now;
-    }   
+    }
 }

@@ -991,7 +991,6 @@ class TwigExtension extends \Twig_Extension
      */
     public function getUserId($who)
     {
-
         $user = $this->app['users']->getUser($who);
 
         if (isset($user['id'])) {
@@ -999,7 +998,6 @@ class TwigExtension extends \Twig_Extension
         } else {
             return false;
         }
-
     }
 
     /**
