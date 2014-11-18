@@ -39,8 +39,18 @@ class Translator
     {
         $app = ResourceManager::getApp();
 
+        // Handle special parameters
+        if (isset($parameters['DEFAULT'])) {
+            $default = $parameters['DEFAULT'];
+            unset($parameters['DEFAULT']);
+        } else {
+            $default = null;
+        }
+
         try {
-            return $app['translator']->trans($key, $parameters, $domain, $locale);
+            $trans = $app['translator']->trans($key, $parameters, $domain, $locale);
+
+            return ($trans === $key && $default !== null) ? $default : $trans;
         } catch (\Symfony\Component\Translation\Exception\InvalidResourceException $e) {
             if (!isset($app['translationyamlerror']) && $app['request']->isXmlHttpRequest() == false) {
                 $app['session']->getFlashBag()->add(
@@ -145,13 +155,6 @@ class Translator
             $key = join('.', $key);
         }
 
-        // Handle special parameters
-        if (isset($parameters['DEFAULT'])) {
-            $default = $parameters['DEFAULT'];
-            unset($parameters['DEFAULT']);
-        } else {
-            $default = '';
-        }
         if (isset($parameters['NUMBER'])) {
             $number = $parameters['NUMBER'];
             unset($parameters['NUMBER']);
