@@ -78,35 +78,6 @@ class Translator
     }
 
     /**
-     * Low level translation (perhaps unused)
-     *
-     * @param string $key
-     * @param integer $number
-     * @param array $parameters
-     * @param string $domain
-     * @param string $locale
-     * @return string
-     */
-    public static function transChoice($key, $number, array $parameters = array(), $domain = 'messages')
-    {
-        $app = ResourceManager::getApp();
-
-        try {
-            return $app['translator']->transChoice($key, $number, $parameters, $domain, $locale);
-        } catch (\Symfony\Component\Translation\Exception\InvalidResourceException $e) {
-            if (!isset($app['translationyamlerror']) && $app['request']->isXmlHttpRequest() == false) {
-                $app['session']->getFlashBag()->add(
-                    'warning',
-                    '<strong>Error: You should fix this now, before continuing!</strong><br>' . $e->getMessage()
-                );
-                $app['translationyamlerror'] = true;
-            }
-
-            return strtr($key, $parameters);
-        }
-    }
-
-    /**
      * i18n made right, second attempt...
      *
      * Instead of calling directly $app['translator']->trans(), we check
