@@ -62,15 +62,19 @@ class Translator
     /**
      * Low level translation
      *
+     * @param string $key
+     * @param array $parameters
+     * @param string $domain
+     * @param string $locale
      * @return string
      */
-    public static function trans()
+    public static function trans($key, array $parameters = array(), $domain = 'messages', $locale = null)
     {
         $app = ResourceManager::getApp();
         $args = func_get_args();
 
         try {
-            return call_user_func_array(array($app['translator'], 'trans'), $args);
+            return $app['translator']->trans($key, $parameters, $domain, $locale);
         } catch (\Symfony\Component\Translation\Exception\InvalidResourceException $e) {
             if (!isset($app['translationyamlerror']) && $app['request']->isXmlHttpRequest() == false) {
                 $app['session']->getFlashBag()->add(
