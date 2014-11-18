@@ -51,7 +51,7 @@ var Navpopups = Backbone.Model.extend({
                         menuTimeout = window.setTimeout(function () {
                             $('#navpage-secondary a.menu-pop').not(item).popover('hide');
                             $(item).popover('show');
-                        }, 400);
+                        }, 600);
                     }
                 )
                 .on('mouseenter focus', '.popover', function () {
@@ -62,7 +62,7 @@ var Navpopups = Backbone.Model.extend({
                         window.clearTimeout(menuTimeout);
                         menuTimeout = window.setTimeout(function () {
                             $('#navpage-secondary a.menu-pop').popover('hide');
-                        }, 800);
+                        }, 400);
                     }
                 );
         }
