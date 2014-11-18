@@ -27,39 +27,6 @@ class Translator
     }
 
     /**
-     * Translates a key to text, returns false when not found
-     *
-     * @param Application $app
-     * @param string $fn
-     * @param array $args
-     * @param string $key
-     * @param array $replace
-     * @param string $domain
-     * @return mixed
-     */
-    private static function translate(Application $app, $fn, $args, $key, $replace, $domain = 'contenttypes')
-    {
-        if ($fn == 'transChoice') {
-            $trans = static::transChoice(
-                $key,
-                $args[1],
-                static::htmlencodeParams($replace),
-                isset($args[3]) ? $args[3] : $domain,
-                isset($args[4]) ? $args[4] : $app['request']->getLocale()
-            );
-        } else {
-            $trans = static::trans(
-                $key,
-                static::htmlencodeParams($replace),
-                isset($args[2]) ? $args[2] : $domain,
-                isset($args[3]) ? $args[3] : $app['request']->getLocale()
-            );
-        }
-
-        return ($trans == $key) ? false : $trans;
-    }
-
-    /**
      * Low level translation
      *
      * @param string $key
@@ -160,6 +127,10 @@ class Translator
     {
         $app = ResourceManager::getApp();
 
+        // Set locale
+        if ($locale === null) {
+            $locale = $app['request']->getLocale();
+        }
         $fn = 'trans';
         $args = func_get_args();
 
@@ -209,10 +180,10 @@ class Translator
                 $key_ctype = 'contenttypes.' . $ctype . '.text.' . substr($key_generic, 21);
 
                 // Try to get a direct translation, fallback to en
-                $trans = static::translate($app, $fn, $args, $key_ctype, $parameters);
+                $trans = static::trans($key_ctype, static::htmlencodeParams($parameters), 'contenttypes', $locale);
 
                 // No translation found, use generic translation
-                if ($trans === false) {
+                if ($trans === $key_ctype) {
                     // Get contenttype name
                     $key_name = 'contenttypes.' . $ctype . '.name.' . (($key_arg == '%contenttype%') ? 'singular' : 'plural');
                     $key_ctname = ($key_arg == '%contenttype%') ? 'singular_name' : 'name';
@@ -224,17 +195,13 @@ class Translator
                     }
                     // Get generic translation with name replaced
                     $parameters[$key_arg] = $ctname;
-                    $trans = static::translate($app, $fn, $args, $key_generic, $parameters, 'messages');
+                    $trans = static::trans($key_generic, static::htmlencodeParams($parameters), 'messages', $locale);
                 }
 
                 return $trans;
             }
         }
 
-        if (isset($parameters)) {
-            $parameters = static::htmlencodeParams($parameters);
-        }
-
-        return static::trans($key, $parameters, $domain, $locale);
+        return static::trans($key, static::htmlencodeParams($parameters), $domain, $locale);
     }
 }
