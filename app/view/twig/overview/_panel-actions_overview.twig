@@ -25,9 +25,7 @@
         <a class="btn btn-tertiary" href="?" style="margin-top: 15px">{{ __('Clear sort/filter') }}</a>
     {% endif %}
 
-    {% set description %}{{
-        trans_ct(context.contenttype.slug, 'description', context.contenttype.description|default())
-    }}{% endset %}
+    {% set description = __('contenttypes.%%.description', context.contenttype.slug, context.contenttype.description|default()) %}
     {% if description %}
         <div class="description">
             {{ description|markdown }}
