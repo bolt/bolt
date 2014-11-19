@@ -229,8 +229,6 @@ class ContenttypesKeygen
      */
     private function fallback($key)
     {
-        $fallback = Trans::trans($key, array(), 'contenttypes');
-
-        return ($fallback === $key) ? false : $fallback;
+        return Trans::__($key, array('DEFAULT' => false), 'contenttypes');
     }
 }
