@@ -17,7 +17,7 @@ class Translator
     * @param string $removeKey If not empty the key is removed from result
     * @return array
     */
-    private static function htmlencodeParams($params, $removeKey = '')
+    private static function htmlencodeParams(array $params, $removeKey = '')
     {
         if ($removeKey) {
             unset($params[$removeKey]);
@@ -125,7 +125,7 @@ class Translator
      * @param mixed $locale
      * @return boolean
      */
-    private static function transContenttype($genericKey, $params, $id, $singular, $locale)
+    private static function transContenttype($genericKey, array $params, $id, $singular, $locale)
     {
         $contenttype = $params[$id];
         $encParams = static::htmlencodeParams($params, $id);
