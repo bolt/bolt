@@ -417,9 +417,9 @@ class CommandRunner
             $json = json_decode((file_get_contents($this->packageRepo)));
             $this->available = $json->packages;
         } catch (\Exception $e) {
-            $this->messages[] = sprintf(
-                Trans::trans("The Bolt extensions Repo at %s is currently unavailable. Check your connection and try again shortly."),
-                $this->packageRepo
+            $this->messages[] = Trans::__(
+                'The Bolt extensions Repo at %repository% is currently unavailable. Check your connection and try again shortly.',
+                array('%repository%' => $this->packageRepo)
             );
             $this->available = array();
         }

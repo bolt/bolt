@@ -14,10 +14,15 @@ class Translator
     * Encode array values as html special chars
     *
     * @param array $params Parameter to encode
+    * @param string $removeKey If not empty the key is removed from result
     * @return array
     */
-    private static function htmlencodeParams($params)
+    private static function htmlencodeParams(array $params, $removeKey = '')
     {
+        if ($removeKey) {
+            unset($params[$removeKey]);
+        }
+
         return array_map(
             function ($val) {
                 return htmlspecialchars($val, ENT_QUOTES);
@@ -27,204 +32,182 @@ class Translator
     }
 
     /**
-     * Translates a key to text, returns false when not found
-     *
-     * @param Application $app
-     * @param string $fn
-     * @param array $args
-     * @param string $key
-     * @param array $replace
-     * @param string $domain
-     * @return mixed
-     */
-    private static function translate(Application $app, $fn, $args, $key, $replace, $domain = 'contenttypes')
-    {
-        if ($fn == 'transChoice') {
-            $trans = static::transChoice(
-                $key,
-                $args[1],
-                static::htmlencodeParams($replace),
-                isset($args[3]) ? $args[3] : $domain,
-                isset($args[4]) ? $args[4] : $app['request']->getLocale()
-            );
-        } else {
-            $trans = static::trans(
-                $key,
-                static::htmlencodeParams($replace),
-                isset($args[2]) ? $args[2] : $domain,
-                isset($args[3]) ? $args[3] : $app['request']->getLocale()
-            );
-        }
-
-        return ($trans == $key) ? false : $trans;
-    }
-
-    /**
      * Low level translation
      *
+     * @param string $key
+     * @param array $params
+     * @param string $domain
+     * @param mixed $locale
+     * @param mixed $default
      * @return string
      */
-    public static function trans()
+    private static function trans($key, array $params = array(), $domain = 'messages', $locale = null, $default = null)
     {
         $app = ResourceManager::getApp();
-        $args = func_get_args();
 
-        try {
-            return call_user_func_array(array($app['translator'], 'trans'), $args);
-        } catch (\Symfony\Component\Translation\Exception\InvalidResourceException $e) {
-            if (!isset($app['translationyamlerror']) && $app['request']->isXmlHttpRequest() == false) {
-                $app['session']->getFlashBag()->add(
-                    'warning',
-                    '<strong>Error: You should fix this now, before continuing!</strong><br>' . $e->getMessage()
-                );
+        // Handle default parameter
+        if (isset($params['DEFAULT'])) {
+            if ($default === null) {
+                $default = $params['DEFAULT'];
             }
-
-            $app['translationyamlerror'] = true;
-
-            if (isset($args[1]) && is_array($args[1])) {
-                return strtr($args[0], $args[1]);
-            } else {
-                return $args[0];
-            }
-
+            unset($params['DEFAULT']);
         }
-    }
 
-    /**
-     * Low level translation (perhaps unused)
-     *
-     * @return string
-     */
-    public static function transChoice()
-    {
-        $app = ResourceManager::getApp();
-        $args = func_get_args();
-
-        try {
-            return call_user_func_array(array($app['translator'], 'transChoice'), $args);
-        } catch (\Symfony\Component\Translation\Exception\InvalidResourceException $e) {
-            if (!isset($app['translationyamlerror']) && $app['request']->isXmlHttpRequest() == false) {
-                $app['session']->getFlashBag()->add(
-                    'warning',
-                    '<strong>Error: You should fix this now, before continuing!</strong><br>' . $e->getMessage()
-                );
-            }
-
-            $app['translationyamlerror'] = true;
-
-            return $args[0];
-        }
-    }
-
-    /**
-     * Return translation selected by dynamically generated key based on contenttype
-     *
-     * @param \Bolt\Application $app
-     * @param string $keyPattern A key template, like 'contenttypes.%%.select.key'
-     * @param string $contenttype The contentype to select
-     * @param string $default Optional default translation
-     * @return string
-     */
-    private static function dynamicContenttype(\Bolt\Application $app, $keyPattern, $contenttype, $default = null)
-    {
-        if (is_array($contenttype)) {
-            $key = $keyPattern;
-            foreach ($contenttype as $rep) {
-                $key = preg_replace('/%%/', preg_replace('/[^a-z-]/', '', strtolower($rep)), $key, 1);
-            }
+        // Handle number parameter
+        if (isset($params['NUMBER'])) {
+            $number = $params['NUMBER'];
+            unset($params['NUMBER']);
         } else {
-            $key = str_replace('%%', preg_replace('/[^a-z-]/', '', strtolower($contenttype)), $keyPattern);
+            $number = null;
         }
-        $trans = static::trans($key, array(), 'contenttypes', $app['request']->getLocale());
 
-        if ($trans !== $key) {
+        // Translate
+        try {
+            if ($number === null) {
+                $trans = $app['translator']->trans($key, $params, $domain, $locale);
+            } else {
+                $trans = $app['translator']->transChoice($key, $number, $params, $domain, $locale);
+            }
+
+            return ($trans === $key && $default !== null) ? $default : $trans;
+        } catch (\Symfony\Component\Translation\Exception\InvalidResourceException $e) {
+            if (!isset($app['translationyamlerror']) && $app['request']->isXmlHttpRequest() == false) {
+                $app['session']->getFlashBag()->add(
+                    'warning',
+                    '<strong>Error: You should fix this now, before continuing!</strong><br>' . $e->getMessage()
+                );
+                $app['translationyamlerror'] = true;
+            }
+
+            return strtr($key, $params);
+        }
+    }
+
+    /**
+     * Returns translated contenttype name with fallback to name/slug from 'contenttypes.yml'
+     *
+     * @param string $contenttype The contentype
+     * @param bool $singular Singular or plural requested?
+     * @param string $locale Translate to this locale
+     * @return string
+     */
+    private static function transContenttypeName($contenttype, $singular, $locale)
+    {
+        $key = 'contenttypes.' . $contenttype . '.name.' . ($singular ? 'singular' : 'plural');
+
+        $name = static::trans($key, array(), 'contenttypes', $locale);
+        if ($name === $key) {
+            $app = ResourceManager::getApp();
+
+            $name = $app['config']->get('contenttypes/' . $contenttype . ($singular ? '/singular_name' : '/name'));
+            if (empty($name)) {
+                $name = ucfirst(
+                    $app['config']->get(
+                        'contenttypes/' . $contenttype . ($singular ? '/singular_slug' : '/slug'),
+                        $contenttype
+                    )
+                );
+            }
+            // Escape names coming from 'contenttypes.yml'
+            $name = htmlspecialchars($name, ENT_QUOTES);
+        }
+
+        return $name;
+    }
+
+    /**
+     * Translates contentype specific messages and falls back to building generic message or fallback locale
+     *
+     * @param string $genericKey
+     * @param array $params
+     * @param string $id
+     * @param boolean $singular
+     * @param mixed $locale
+     * @return boolean
+     */
+    private static function transContenttype($genericKey, array $params, $id, $singular, $locale)
+    {
+        $contenttype = $params[$id];
+        $encParams = static::htmlencodeParams($params, $id);
+        $key = 'contenttypes.' . $contenttype . '.text.' . substr($genericKey, 21);
+
+        // Try to get a real translation from contenttypes.xx_XX.yml
+        $trans = static::trans($key, $encParams, 'contenttypes', $locale, false);
+        $transFallback = static::trans($key, $encParams, 'contenttypes', \Bolt\Application::DEFAULT_LOCALE, false);
+
+        // We don't want fallback translation here
+        if ($trans === $transFallback) {
+            $trans = false;
+        }
+
+        // No translation found, build string from generic translation pattern
+        if ($trans === false) {
+            // Get generic translation with name replaced
+            $encParams[$id] = static::transContenttypeName($contenttype, $singular, $locale);
+            $transGeneric = static::trans($genericKey, $encParams, 'messages', $locale, false);
+        } else {
+            $transGeneric = false;
+        }
+
+        // Return: translation => generic translation => fallback translation => key
+        if ($trans) {
             return $trans;
-        } elseif ($default !== null) {
-            return $default;
+        } elseif ($transGeneric) {
+            return $transGeneric;
+        } elseif ($transFallback) {
+            return $transFallback;
         } else {
-            return $key;
+            return $genericKey;
         }
     }
 
     /**
-     * i18n made right, second attempt...
+     * i18n made right, third attempt…
      *
-     * Instead of calling directly $app['translator']->trans(), we check
-     * for the presence of a placeholder named '%contenttype%'.
+     * Instead of calling directly $app['translator']->trans(), we check for the presence of a placeholder named
+     * '%contenttype%'.
      *
-     * If one is found, we replace it with the contenttype.name parameter,
-     * and try to get a translated string. If there is not, we revert to
-     * the generic (%contenttype%) string, which must have a translation.
+     * If one is found, we replace it with the contenttype.name parameter, and try to get a translated string. If
+     * there is not, we revert to the generic (%contenttype%) string, which must have a translation.
+     *
+     * Special parameter keys:
+     * 'DEFAULT': the value is returns instead of the key of no translation is found
+     * 'NUMBER': transCjoice is triggered with the value as countvalue
+     *
+     * @param mixed $key The messsage id. If an array is passed, an sanitized key is build
+     * @param array $params Parameter for string replacement and commands ('DEFAULT', 'NUMBER')
+     * @param string $domain
+     * @param mixed $locale
+     * @return string
      */
-    public static function /*@codingStandardsIgnoreStart*/__/*@codingStandardsIgnoreEnd*/()
+    public static function /*@codingStandardsIgnoreStart*/__/*@codingStandardsIgnoreEnd*/($key, array $params = array(), $domain = 'messages', $locale = null)
     {
-        $app = ResourceManager::getApp();
-
-        $num_args = func_num_args();
-        if ($num_args == 0) {
-            return null;
+        // Set locale
+        if ($locale === null) {
+            $app = ResourceManager::getApp();
+            $locale = $app['request']->getLocale();
         }
 
-        $args = func_get_args();
-        if ($num_args == 3 && is_string($args[0]) && substr($args[0], 0, 16) === 'contenttypes.%%.') {
-            return static::dynamicContenttype($app, $args[0], $args[1], isset($args[2]) ? $args[2] : null);
-        } elseif ($num_args > 4) {
-            $fn = 'transChoice';
-        } elseif ($num_args == 1 || is_array($args[1])) {
-            // If only 1 arg or 2nd arg is an array call trans
-            $fn = 'trans';
-        } else {
-            $fn = 'transChoice';
-        }
-        $tr_args = null;
-        if ($fn == 'trans' && $num_args > 1) {
-            $tr_args = $args[1];
-        } elseif ($fn == 'transChoice' && $num_args > 2) {
-            $tr_args = $args[2];
-        }
-        // Check for contenttype(s) placeholder
-        if ($tr_args) {
-            if (isset($tr_args['%contenttype%'])) {
-                $key_arg = '%contenttype%';
-            } elseif (isset($tr_args['%contenttypes%'])) {
-                $key_arg = '%contenttypes%';
-            } else {
-                $key_arg = false;
-            }
-            $key_generic = $args[0];
-            if ($key_arg && substr($key_generic, 0, 21) == 'contenttypes.generic.') {
-
-                $ctype = $tr_args[$key_arg];
-                unset($tr_args[$key_arg]);
-                $key_ctype = 'contenttypes.' . $ctype . '.text.' . substr($key_generic, 21);
-
-                // Try to get a direct translation, fallback to en
-                $trans = static::translate($app, $fn, $args, $key_ctype, $tr_args);
-
-                // No translation found, use generic translation
-                if ($trans === false) {
-                    // Get contenttype name
-                    $key_name = 'contenttypes.' . $ctype . '.name.' . (($key_arg == '%contenttype%') ? 'singular' : 'plural');
-                    $key_ctname = ($key_arg == '%contenttype%') ? 'singular_name' : 'name';
-
-                    $ctname = static::trans($key_name, array(), 'contenttypes', $app['request']->getLocale());
-                    if ($ctname === $key_name) {
-                        $ctypes = $app['config']->get('contenttypes');
-                        $ctname = empty($ctypes[$ctype][$key_ctname]) ? ucfirst($ctype) : $ctypes[$ctype][$key_ctname];
-                    }
-                    // Get generic translation with name replaced
-                    $tr_args[$key_arg] = $ctname;
-                    $trans = static::translate($app, $fn, $args, $key_generic, $tr_args, 'messages');
+        // If $key is an array, convert it to a sanizized string
+        if (is_array($key)) {
+            array_walk(
+                $key,
+                function (&$value) {
+                    $value = preg_replace('/[^a-z-]/', '', strtolower($value));
                 }
+            );
+            $key = join('.', $key);
+        }
 
-                return $trans;
+        // Handle generic contenttypes
+        if (substr($key, 0, 21) == 'contenttypes.generic.') {
+            if (isset($params['%contenttype%'])) {
+                return static::transContenttype($key, $params, '%contenttype%', true, $locale);
+            } elseif (isset($params['%contenttypes%'])) {
+                return static::transContenttype($key, $params, '%contenttypes%', false, $locale);
             }
         }
 
-        if (isset($args[1])) {
-            $args[1] = static::htmlencodeParams($args[1]);
-        }
-
-        return call_user_func_array(array(__NAMESPACE__ . '\Translator', $fn), $args);
+        return static::trans($key, static::htmlencodeParams($params), $domain, $locale);
     }
 }

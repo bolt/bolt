@@ -109,10 +109,7 @@ class TranslationFile
      */
     private function addTranslatable($Text)
     {
-        if (strlen($Text) > 1 &&
-            !isset($this->translatables[$Text]) &&
-            substr($Text, 0, 16) !== 'contenttypes.%%.'
-        ) {
+        if (strlen($Text) > 1 && !isset($this->translatables[$Text])) {
             $this->translatables[$Text] = '';
         }
     }
@@ -360,8 +357,10 @@ class TranslationFile
             foreach ($translations as $key => $tdata) {
                 // Key
                 if ($type == 'DoneKey') {
+                    $differs = false;
                     for ($level = 0, $end = count($tdata['key']) - 1; $level < $end; $level++) {
-                        if ($level >= count($lastKey) - 1 || $lastKey[$level] != $tdata['key'][$level]) {
+                        if ($differs || $level >= count($lastKey) - 1 || $lastKey[$level] != $tdata['key'][$level]) {
+                            $differs = true;
                             if ($level == 0) {
                                 $content .= $linebreak;
                                 $linebreak = "\n";
@@ -376,7 +375,7 @@ class TranslationFile
                 }
                 // Value
                 if ($tdata['trans'] === '') {
-                    $thint = Trans::trans($key);
+                    $thint = Trans::__($key);
                     if ($thint == $key) {
                         $thint = isset($hinting[$key]) ? $hinting[$key] : '';
                     }

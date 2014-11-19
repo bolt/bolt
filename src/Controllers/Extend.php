@@ -40,8 +40,6 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
     {
         $ctr = $app['controllers_factory'];
 
-        $app['twig']->addGlobal('title', Trans::trans('Extend Bolt'));
-
         $ctr->get('', array($this, 'overview'))
             ->before(array($this, 'before'))
             ->bind('extend');
@@ -219,9 +217,9 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
                     $filesystem->copy($destination . "/config.yml.dist", $destination . "/config.yml");
                 }
 
-                return new Response(Trans::trans('Theme successfully generated. You can now edit it directly from your theme folder.'));
+                return new Response(Trans::__('Theme successfully generated. You can now edit it directly from your theme folder.'));
             } catch (\Exception $e) {
-                return new Response(Trans::trans('We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling.'));
+                return new Response(Trans::__('We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling.'));
             }
         }
     }

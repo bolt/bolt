@@ -4,7 +4,7 @@
 
 {% block page_nav 'ExtendBolt' %}
 
-{% block page_title __('Extend '~app.config.get('general/branding/name')) %}
+{% block page_title __('Extend %boltname%', {'%boltname%': app.config.get('general/branding/name')}) %}
 
 {# clear default messages, because we use them in a different spot, in this template #}
 {% block messages "" %}

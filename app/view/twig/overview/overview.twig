@@ -9,8 +9,7 @@
 
 {% block page_title __('Overview') %}
 
-{% block page_subtitle context.contenttype.name %} 
-{# don't try to translate contenttype name: __('contenttypes.%%.name.plural', context.contenttype.slug, context.contenttype.name) #}
+{% block page_subtitle __(['contenttypes', context.contenttype.slug, 'name', 'plural'], {DEFAULT: context.contenttype.name}) %}
 
 {# clear default messages, because we use them in a different spot, in this template #}
 {% block messages "" %}

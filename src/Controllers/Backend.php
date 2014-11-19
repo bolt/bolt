@@ -451,7 +451,7 @@ class Backend implements ControllerProviderInterface
         $choices = array();
         foreach ($app['config']->get('contenttypes') as $key => $cttype) {
             $namekey = 'contenttypes.' . $key . '.name.plural';
-            $name = Trans::trans($namekey, array(), 'contenttypes');
+            $name = Trans::__($namekey, array(), 'contenttypes');
             $choices[$key] = ($name == $namekey) ? $cttype['name'] : $name;
         }
         $form = $app['form.factory']

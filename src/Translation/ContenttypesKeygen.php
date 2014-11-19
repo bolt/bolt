@@ -171,21 +171,28 @@ class ContenttypesKeygen
     {
         $ctypes = $this->app['config']->get('contenttypes');
 
-        foreach (array_keys($this->translatables) as $key) {
-            if (substr($key, 0, 21) === 'contenttypes.generic.') {
-                foreach ($ctypes as $ctname => $ctype) {
-                    if (substr($key, 21, 6) != 'group.') {
-                        $setkey = 'contenttypes.' . $ctname . '.text.' . substr($key, 21);
-                        $this->translation[$setkey] = isset($this->saved[$setkey]) ? $this->saved[$setkey] : '';
-                        if ($this->translation[$setkey] === '') {
-                            $generic = Trans::trans($key);
-                            if ($generic != $key) {
-                                foreach ($this->ctnames[$ctname] as $placeholder => $replace) {
-                                    $generic = str_replace($placeholder, $replace, $generic);
-                                }
-                                $this->hints[$setkey] = $generic;
-                            }
+        $translatables = array_filter(
+            array_keys($this->translatables),
+            function ($key) {
+                return (substr($key, 0, 21) === 'contenttypes.generic.' && substr($key, 21, 6) !== 'group.');
+            }
+        );
+
+        foreach ($translatables as $key) {
+            foreach ($ctypes as $ctname => $ctype) {
+                $setkey = 'contenttypes.' . $ctname . '.text.' . substr($key, 21);
+                $this->translation[$setkey] = isset($this->saved[$setkey]) ? $this->saved[$setkey] : '';
+                if ($this->translation[$setkey] === '') {
+                    $generic = Trans::__($key);
+                    // If not translated, add hint
+                    if ($generic !== $key) {
+                        $replacement = array();
+                        if (strpos($generic, '%contenttypes%') !== false) {
+                            $replacement['%contenttypes%'] = $ctname;
+                        } elseif (strpos($generic, '%contenttype%') !== false) {
+                            $replacement['%contenttype%'] = $ctname;
                         }
+                        $this->hints[$setkey] = Trans::__($key, $replacement);
                     }
                 }
             }
@@ -222,8 +229,6 @@ class ContenttypesKeygen
      */
     private function fallback($key)
     {
-        $fallback = Trans::trans($key, array(), 'contenttypes');
-
-        return ($fallback === $key) ? false : $fallback;
+        return Trans::__($key, array('DEFAULT' => false), 'contenttypes');
     }
 }
