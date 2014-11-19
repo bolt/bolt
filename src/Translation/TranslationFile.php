@@ -373,7 +373,7 @@ class TranslationFile
                 }
                 // Value
                 if ($tdata['trans'] === '') {
-                    $thint = Trans::trans($key);
+                    $thint = Trans::__($key);
                     if ($thint == $key) {
                         $thint = isset($hinting[$key]) ? $hinting[$key] : '';
                     }
