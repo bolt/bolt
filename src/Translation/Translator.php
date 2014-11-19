@@ -41,7 +41,7 @@ class Translator
      * @param mixed $default
      * @return string
      */
-    public static function trans($key, array $params = array(), $domain = 'messages', $locale = null, $default = null)
+    private static function trans($key, array $params = array(), $domain = 'messages', $locale = null, $default = null)
     {
         $app = ResourceManager::getApp();
 
