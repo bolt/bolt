@@ -162,14 +162,23 @@ class Translator
     }
 
     /**
-     * i18n made right, second attempt...
+     * i18n made right, third attempt…
      *
-     * Instead of calling directly $app['translator']->trans(), we check
-     * for the presence of a placeholder named '%contenttype%'.
+     * Instead of calling directly $app['translator']->trans(), we check for the presence of a placeholder named
+     * '%contenttype%'.
      *
-     * If one is found, we replace it with the contenttype.name parameter,
-     * and try to get a translated string. If there is not, we revert to
-     * the generic (%contenttype%) string, which must have a translation.
+     * If one is found, we replace it with the contenttype.name parameter, and try to get a translated string. If
+     * there is not, we revert to the generic (%contenttype%) string, which must have a translation.
+     *
+     * Special parameter keys:
+     * 'DEFAULT': the value is returns instead of the key of no translation is found
+     * 'NUMBER': transCjoice is triggered with the value as countvalue
+     *
+     * @param mixed $key The messsage id. If an array is passed, an sanitized key is build
+     * @param array $params Parameter for string replacement and commands ('DEFAULT', 'NUMBER')
+     * @param string $domain
+     * @param mixed $locale
+     * @return string
      */
     public static function /*@codingStandardsIgnoreStart*/__/*@codingStandardsIgnoreEnd*/($key, array $params = array(), $domain = 'messages', $locale = null)
     {
