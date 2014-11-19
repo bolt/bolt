@@ -27,7 +27,7 @@
         <div class="col-xs-12">
             {{ files_path(context.pathsegments, context.namespace, {'path': '', 'namespace': context.namespace}) }}
 
-            
+
             <form action="" method="post" class="form-inline" autocomplete="off">
                 {{ form_widget(context.form._token) }}
 
@@ -41,7 +41,7 @@
                     </button>
                     <a class="btn btn-default confirm" style="margin-left: 24px;"
                        data-confirm="{{ __("page.edit-file.confirm-revert") }}"
-                       href="{{ path('fileedit', { 'file': context.file }) }}"
+                       href="{{ path('fileedit', { 'namespace': context.namespace, 'file': context.file }) }}"
                     >
                         <i class="fa fa-undo"></i> {{ __("page.edit-file.button.revert") }}
                     </a>
