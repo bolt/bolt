@@ -128,8 +128,14 @@ EOM;
                 $delete = 'extensions' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . $parts[0] . DIRECTORY_SEPARATOR . $parts[1];
 
                 $html = str_replace('%error_title%', 'PHP Fatal Error: Bolt Extensions', $html);
-                $html = str_replace('%info%', '<p>' . Trans::trans('You will only be able to continue by manually deleting the extension that is installed at:') . "</p><code>$delete</code><br><br>", $html);
-                $message  = Trans::trans("<h4>There is a fatal error in the '$package' extension loaded on your Bolt Installation.<h4>");
+                $html = str_replace(
+                    '%info%',
+                    '<p>You will only be able to continue by manually deleting the extension that is installed at:</p>' .
+                    '<code>' . $delete . '</code><br><br>',
+                    $html
+                );
+                $message  = '<h4>There is a fatal error in the \'' . $package . '\' extension ' .
+                    'loaded on your Bolt Installation.<h4>';
                 $message .= $errorblock;
 
             } else {
