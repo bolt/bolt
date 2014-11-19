@@ -357,8 +357,10 @@ class TranslationFile
             foreach ($translations as $key => $tdata) {
                 // Key
                 if ($type == 'DoneKey') {
+                    $differs = false;
                     for ($level = 0, $end = count($tdata['key']) - 1; $level < $end; $level++) {
-                        if ($level >= count($lastKey) - 1 || $lastKey[$level] != $tdata['key'][$level]) {
+                        if ($differs || $level >= count($lastKey) - 1 || $lastKey[$level] != $tdata['key'][$level]) {
+                            $differs = true;
                             if ($level == 0) {
                                 $content .= $linebreak;
                                 $linebreak = "\n";
