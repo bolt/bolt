@@ -35,28 +35,28 @@ class Translator
      * Low level translation
      *
      * @param string $key
-     * @param array $parameters
+     * @param array $params
      * @param string $domain
      * @param mixed $locale
      * @param mixed $default
      * @return string
      */
-    public static function trans($key, array $parameters = array(), $domain = 'messages', $locale = null, $default = null)
+    public static function trans($key, array $params = array(), $domain = 'messages', $locale = null, $default = null)
     {
         $app = ResourceManager::getApp();
 
         // Handle default parameter
-        if (isset($parameters['DEFAULT'])) {
+        if (isset($params['DEFAULT'])) {
             if ($default === null) {
-                $default = $parameters['DEFAULT'];
+                $default = $params['DEFAULT'];
             }
-            unset($parameters['DEFAULT']);
+            unset($params['DEFAULT']);
         }
 
         // Handle number parameter
-        if (isset($parameters['NUMBER'])) {
-            $number = $parameters['NUMBER'];
-            unset($parameters['NUMBER']);
+        if (isset($params['NUMBER'])) {
+            $number = $params['NUMBER'];
+            unset($params['NUMBER']);
         } else {
             $number = null;
         }
@@ -64,9 +64,9 @@ class Translator
         // Translate
         try {
             if ($number === null) {
-                $trans = $app['translator']->trans($key, $parameters, $domain, $locale);
+                $trans = $app['translator']->trans($key, $params, $domain, $locale);
             } else {
-                $trans = $app['translator']->transChoice($key, $number, $parameters, $domain, $locale);
+                $trans = $app['translator']->transChoice($key, $number, $params, $domain, $locale);
             }
 
             return ($trans === $key && $default !== null) ? $default : $trans;
@@ -79,7 +79,7 @@ class Translator
                 $app['translationyamlerror'] = true;
             }
 
-            return strtr($key, $parameters);
+            return strtr($key, $params);
         }
     }
 
@@ -171,7 +171,7 @@ class Translator
      * and try to get a translated string. If there is not, we revert to
      * the generic (%contenttype%) string, which must have a translation.
      */
-    public static function /*@codingStandardsIgnoreStart*/__/*@codingStandardsIgnoreEnd*/($key, array $parameters = array(), $domain = 'messages', $locale = null)
+    public static function /*@codingStandardsIgnoreStart*/__/*@codingStandardsIgnoreEnd*/($key, array $params = array(), $domain = 'messages', $locale = null)
     {
         // Set locale
         if ($locale === null) {
@@ -192,13 +192,13 @@ class Translator
 
         // Handle generic contenttypes
         if (substr($key, 0, 21) == 'contenttypes.generic.') {
-            if (isset($parameters['%contenttype%'])) {
-                return static::transContenttype($key, $parameters, '%contenttype%', true, $locale);
-            } elseif (isset($parameters['%contenttypes%'])) {
-                return static::transContenttype($key, $parameters, '%contenttypes%', false, $locale);
+            if (isset($params['%contenttype%'])) {
+                return static::transContenttype($key, $params, '%contenttype%', true, $locale);
+            } elseif (isset($params['%contenttypes%'])) {
+                return static::transContenttype($key, $params, '%contenttypes%', false, $locale);
             }
         }
 
-        return static::trans($key, static::htmlencodeParams($parameters), $domain, $locale);
+        return static::trans($key, static::htmlencodeParams($params), $domain, $locale);
     }
 }
