@@ -333,26 +333,12 @@ class Application extends Silex\Application
         $this->mount('', new Controllers\Routing());
     }
 
-    /**
-     * Initializes the Console Application that is responsible for CLI interactions.
+
+    /** 
+     * Add all the global twig variables, like 'user' and 'theme'
      */
-    public function initConsoleApplication()
-    {
-        $this['console'] = $this->share(
-            function (Application $app) {
-                $console = new ConsoleApplication();
-                $console->setName('Bolt console tool - Nut');
-                $console->setVersion($app->getVersion());
-
-                return $console;
-            }
-        );
-    }
-
-    public function beforeHandler(Request $request)
-    {
-        // Start the 'stopwatch' for the profiler.
-        $this['stopwatch']->start('bolt.app.before');
+    private function addTwigGlobals()
+    { 
 
         $this['twig']->addGlobal('bolt_name', $this['bolt_name']);
         $this['twig']->addGlobal('bolt_version', $this['bolt_version']);
@@ -377,6 +363,33 @@ class Application extends Silex\Application
 
         $this['safe_twig']->addGlobal('user', $this['users']->getCurrentUser());
         $this['safe_twig']->addGlobal('theme', $this['config']->get('theme'));
+
+    }
+
+
+    /**
+     * Initializes the Console Application that is responsible for CLI interactions.
+     */
+    public function initConsoleApplication()
+    {
+        $this['console'] = $this->share(
+            function (Application $app) {
+                $console = new ConsoleApplication();
+                $console->setName('Bolt console tool - Nut');
+                $console->setVersion($app->getVersion());
+
+                return $console;
+            }
+        );
+    }
+
+    public function beforeHandler(Request $request)
+    {
+        // Start the 'stopwatch' for the profiler.
+        $this['stopwatch']->start('bolt.app.before');
+
+        // Set the twig Globals, like 'user' and 'theme'.
+        $this->addTwigGlobals();
 
         if ($response = $this['render']->fetchCachedRequest()) {
             // Stop the 'stopwatch' for the profiler.
@@ -528,6 +541,9 @@ class Application extends Silex\Application
         $end = $this['config']->getWhichEnd();
 
         $trace = $exception->getTrace();
+
+        // Set the twig Globals, like 'user' and 'theme'.
+        $this->addTwigGlobals();
 
         foreach ($trace as $key => $value) {
             if (!empty($value['file']) && strpos($value['file'], '/vendor/') > 0) {
