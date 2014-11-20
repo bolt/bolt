@@ -201,9 +201,9 @@ class Application extends Silex\Application
 
         // Set default locale
         $locale = array(
-            $this['locale'] . '.utf8',
+            $this['locale'] . '.UTF-8',
             $this['locale'],
-            Application::DEFAULT_LOCALE . '.utf8',
+            Application::DEFAULT_LOCALE . '.UTF-8',
             Application::DEFAULT_LOCALE,
             substr(Application::DEFAULT_LOCALE, 0, 2)
         );
