@@ -59,5 +59,10 @@
             "Bolt\\Tests\\": "tests/Bolt/Tests"
         }
     },
-    "bin": ["app/nut"]
+    "bin": ["app/nut"],
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.0-dev"
+        }
+    }
 }
