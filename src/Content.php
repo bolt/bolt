@@ -807,8 +807,12 @@ class Content implements \ArrayAccess
                     // Special case, if we need to have a date
                     $params[$fieldName] = substr($this->values[$fieldName], 0, 10);
                 } elseif (isset($this->taxonomy[$fieldName])) {
-                    // turn something like '/chapters/meta' to 'meta'
-                    $params[$fieldName] = array_pop(explode('/', array_shift(array_keys($this->taxonomy[$fieldName]))));
+                    // Turn something like '/chapters/meta' to 'meta'. Note: we use
+                    // two temp vars here, to prevent "Only variables should be passed 
+                    // by reference"-notices.
+                    $tempKeys = array_keys($this->taxonomy[$fieldName]);
+                    $tempValues = explode('/', array_shift($tempKeys));
+                    $params[$fieldName] = array_pop($tempValues);
                 } elseif (isset($this->values[$fieldName])) {
                     $params[$fieldName] = $this->values[$fieldName];
                 } else {
