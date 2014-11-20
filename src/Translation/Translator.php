@@ -182,12 +182,6 @@ class Translator
      */
     public static function /*@codingStandardsIgnoreStart*/__/*@codingStandardsIgnoreEnd*/($key, array $params = array(), $domain = 'messages', $locale = null)
     {
-        // Set locale
-        if ($locale === null) {
-            $app = ResourceManager::getApp();
-            $locale = $app['request']->getLocale();
-        }
-
         // If $key is an array, convert it to a sanizized string
         if (is_array($key)) {
             array_walk(
