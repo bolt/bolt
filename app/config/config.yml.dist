@@ -70,9 +70,9 @@ listing_template: listing.twig
 listing_records: 6
 listing_sort: datepublish DESC
 
-# Because of limitations on how the underlying database queries work, there are 
-# only two options for sorting on taxonomies. 'ASC' for roughly "oldest first" 
-# and 'DESC' for roughly 'newest first'. 
+# Because of limitations on how the underlying database queries work, there are
+# only two options for sorting on taxonomies. 'ASC' for roughly "oldest first"
+# and 'DESC' for roughly 'newest first'.
 taxonomy_sort: DESC
 
 # Template for showing the search results. If not defined, uses the settings
@@ -178,19 +178,19 @@ wysiwyg:
   anchor: false
   tables: false
   fontcolor: false
-  align: false        # Add 'align left', 'align right',etc. 
+  align: false        # Add 'align left', 'align right',etc.
   subsuper: false     # Add buttons for subscript and superscript, using <sub> and <sup>
-  embed: false        # allows the user to insert embedded video's from Youtube, Vimeo, etc. 
+  embed: false        # allows the user to insert embedded video's from Youtube, Vimeo, etc.
   underline: false    # add a button to underline text, using the <u>-tag.
   strike: false       # add a button to add stikethrough, using the <s>-tag.
-  blockquote: false 
+  blockquote: false
   codesnippet: false
-  specialchar: false  # adds a button to insert special chars like '€' or '™'. 
+  specialchar: false  # adds a button to insert special chars like '€' or '™'.
   ck:
     allowedContent: true # If set to 'true', any elements and attributes are allowed in Wysiwg Elements
     autoParagraph: true # If set to 'true', any pasted content is wrapped in <p> tags for multiple line-breaks
     disableNativeSpellChecker: true # If set to 'true' it will stop browsers from underlining spelling mistakes
-    # viewSourceRoles: [ 'admin', 'developer' ] # the roles which are allowed to use the [Source]-button. 
+    # viewSourceRoles: [ 'admin', 'developer' ] # the roles which are allowed to use the [Source]-button.
 
 # by default, mail is sent using PHP's built-in mail function. In general, it's advised to use SMTP for sending mail
 # instead. Uncomment the following lines to use an SMTP server with authentication.
