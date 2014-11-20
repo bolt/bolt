@@ -48,6 +48,9 @@ class String
             $str = implode(" ", $str);
         }
 
+        // Strip out timestamps like "00:00:00". We don't want timestamps in slugs.
+        $str = preg_replace("/[0-2][0-9]:[0-5][0-9]:[0-5][0-9]/", "", $str);
+
         $str = static::makeSafe(strip_tags($str));
 
         $str = str_replace(" ", "-", $str);
