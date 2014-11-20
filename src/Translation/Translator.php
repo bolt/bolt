@@ -184,8 +184,9 @@ class Translator
     {
         // Set locale
         if ($locale === null) {
-            $app = ResourceManager::getApp();
-            $locale = $app['request']->getLocale();
+            //$app = ResourceManager::getApp();
+            //$locale = $app['request']->getLocale();
+            $locale = 'en_GB';
         }
 
         // If $key is an array, convert it to a sanizized string
