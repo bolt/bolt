@@ -921,10 +921,11 @@ class Config
             $scripturi = '/' . $scripturi;
         }
 
-        // If the request URI starts with '/bolt' or '/async' in the URL, we assume we're in the backend or in async.
-        if ((substr($scripturi, 0, strlen($mountpoint)) == $mountpoint)) {
+        // If the request URI is '/bolt' or '/async' (or starts with '/bolt/' etc.), assume backend or async.
+        $mountpoint = '/'.ltrim($mountpoint, '/');
+        if ($scripturi === $mountpoint || strpos($scripturi, $mountpoint.'/') === 0) {
             $end = 'backend';
-        } elseif ((substr($scripturi, 0, 6) == 'async/') || (strpos($scripturi, '/async/') !== false)) {
+        } elseif ($scripturi === '/async' || strpos($scripturi, '/async/') === 0 ) {
             $end = 'async';
         } else {
             $end = 'frontend';
