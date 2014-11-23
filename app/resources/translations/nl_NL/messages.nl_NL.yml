@@ -484,7 +484,7 @@ page:
             revert: "Terugdraaien"
             save: "Opslaan"
         confirm-revert: "Weet je zeker dat je wilt terugdraaien? Je wijzigingen gaan verloren, tenzij je ze opslaat."
-        note-related: "Gerelateerde opmerking"
+        note-related: "Let op: Er zijn gerelateerde bestanden:"
         title:
             edit: "Bewerk bestand"
             view: "Bekijk bestand"
