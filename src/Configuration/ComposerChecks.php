@@ -81,7 +81,7 @@ EOM;
         return call_user_func_array('sprintf', $status);
     }
 
-    protected function checkDir($location)
+    public function checkDir($location)
     {
         // As a last resort we can try to create the directory here:
         if (!is_dir($location)) {
