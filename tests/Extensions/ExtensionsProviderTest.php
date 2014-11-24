@@ -516,7 +516,7 @@ EOM;
         $app['extensions']->register(new Mock\ExtensionWithTwig($app));
         
         $log = $app['log']->lastLog();
-        $this->assertContains('[EXT] Failed', $log);
+        $this->assertContains('[EXT] Twig function registration failed', $log);
         $this->assertContains('instance of Bolt\Tests\Extensions\Mock\BadTwigExtension given', $log);
     }
     
