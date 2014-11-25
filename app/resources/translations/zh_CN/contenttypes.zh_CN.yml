@@ -1,23 +1,31 @@
-# app/resources/translations/zh_CN/contenttypes.zh_CN.yml – generated on 2014-10-24 21:31:50 UTC
+# app/resources/translations/zh_CN/contenttypes.zh_CN.yml – generated on 2014-11-13 23:00:56 UTC
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
 #          at the moment. This is an ongoing process. Translations currently in the
 #          repository are automatically mapped to the new scheme. Be aware that there
 #          can be a race condition between that process and your PR so that it's
-#          eventually neccessary to remap your translations. If you're planning on
+#          eventually necessary to remap your translations. If you're planning on
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
 #  no unused messages
 #  no untranslated messages
-#  no untranslated keyword based messages
+#   1 untranslated keyword based messages
 #  no translations
-#  93 keyword based translations
+# 102 keyword based translations
 
-#--- 93 keyword based translations --------------------------------------------
+#--- 1 untranslated keyword based messages ------------------------------------
+
+"contenttypes.pages.group.content":  "内容"
+
+#--- 102 keyword based translations -------------------------------------------
 
 contenttypes:
     entries:
+        description: "内容格式**条目**可用在类似于_'新闻'_或者_'博客文章'_这样的模型。这些模型都含有可用于列表页显示的梗概，允许访客点击，跳转到各个条目页面。同时，它还有图片和可选的视频字段。要更改这项内容格式的内部字段，请用自己喜欢的编辑器编辑 `app/config/` 文件夹下的 `contenttypes.yml` 文件，或者打开左侧的 '配置' » '内容格式' 菜单。"
+        group:
+            content: "内容"
+            media: "媒体"
         name:
             plural: "条目"
             singular: "条目"
@@ -52,6 +60,7 @@ contenttypes:
             view: "查看条目"
             wrong-use-field: "“条目(Entry)”的内容格式配置信息中，字段'%field%'所设置的'uses: %uses%'中'%uses%'字段并不存在。请编辑contenttypes.yml文件，修复此问题。"
     pages:
+        description: "内容格式**页面**可用在站点的 '静态' 内容上，例如 _'关于我们'_, _'联系信息'_ 或者 _'免责声明'_。要更改这项内容格式的内部字段，请用自己喜欢的编辑器编辑 `app/config/` 文件夹下的 `contenttypes.yml` 文件，或者打开左侧的 '配置' » '内容格式' 菜单。"
         name:
             plural: "页面"
             singular: "页面"
@@ -86,6 +95,12 @@ contenttypes:
             view: "查看页面"
             wrong-use-field: "“页面(Page)”的内容格式配置信息中，字段'%field%'所设置的'uses: %uses%'中'%uses%'字段并不存在。请编辑contenttypes.yml文件，修复此问题。"
     showcases:
+        description: "内容格式**展区**用来展示系统中所有可用的字段类型。在实际使用中，它的用途很小，但是可以用于找到可用的合适字段。要更改(或者删除)这项内容格式的内部字段，请用自己喜欢的编辑器编辑 `app/config/` 文件夹下的 `contenttypes.yml` 文件，或者打开左侧的 '配置' » '内容格式' 菜单。"
+        group:
+            files: "文件"
+            media: "媒体"
+            other: "其他"
+            text: "文本"
         name:
             plural: "展区"
             singular: "展区"
