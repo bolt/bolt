@@ -222,10 +222,10 @@ class BoltLibraryTest extends BoltUnitTest
     public function testSmartUnserialize()
     {
         $json = json_encode(range(1,100));
-        $this->assertEquals(Library::smart_unserialize($json), range(1,100));
+        $this->assertEquals(Library::smartUnserialize($json), range(1,100));
         
         $php = serialize(range(1,100));
-        $this->assertEquals(Library::smart_unserialize($php), range(1,100));
+        $this->assertEquals(Library::smartUnserialize($php), range(1,100));
     }
     
     public function testLegacyLoadSerialize()
