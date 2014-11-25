@@ -477,7 +477,7 @@ class Users
     public function loginAuthtoken()
     {
         // If there's no cookie, we can't resume a session from the authtoken.
-        if (empty($this->app['request']->cookies->get('bolt_authtoken'))) {
+        if (is_null($this->app['request']->cookies->get('bolt_authtoken'))) {
             return false;
         }
 
