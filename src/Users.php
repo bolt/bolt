@@ -477,11 +477,11 @@ class Users
     public function loginAuthtoken()
     {
         // If there's no cookie, we can't resume a session from the authtoken.
-        if (empty($_COOKIE['bolt_authtoken'])) {
+        if (empty($this->app['request']->cookies->get('bolt_authtoken'))) {
             return false;
         }
 
-        $authtoken = $_COOKIE['bolt_authtoken'];
+        $authtoken = $this->app['request']->cookies->get('bolt_authtoken');
         $remoteip = $this->remoteIP;
         $browser = $_SERVER['HTTP_USER_AGENT'];
 
