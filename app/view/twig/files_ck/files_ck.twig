@@ -9,7 +9,7 @@
     {% from '_macro/_files_path.twig' import files_path %}
 
     {# Only show the stack on the topmost level. #}
-    {% if context.path == "files" %}
+    {% if context.path == "" %}
         {# Show the stack with the latest items. #}
         {{ render(path("showstack", {'items': 7, 'options': 'minimal' } )) }}
     {% endif %}
