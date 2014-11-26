@@ -1,18 +1,19 @@
-# app/resources/translations/zh_CN/messages.zh_CN.yml – generated on 2014-10-24 21:30:19 UTC
+# app/resources/translations/zh_CN/messages.zh_CN.yml – generated on 2014-11-18 11:23:09 UTC
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
 #          at the moment. This is an ongoing process. Translations currently in the
 #          repository are automatically mapped to the new scheme. Be aware that there
 #          can be a race condition between that process and your PR so that it's
-#          eventually neccessary to remap your translations. If you're planning on
+#          eventually necessary to remap your translations. If you're planning on
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#  no unused messages
+#   3 unused messages
 #  no untranslated messages
 #  no untranslated keyword based messages
-# 355 translations
-# 130 keyword based translations
+# 361 translations
+# 132 keyword based translations
+
 
 #--- 355 translations ---------------------------------------------------------
 
@@ -378,13 +379,12 @@
 "of": "中的"
 "show all": "显示全部"
 
-#--- 130 keyword based translations -------------------------------------------
+#--- 132 keyword based translations -------------------------------------------
 
 component:
     changelog-detail:
         by: "由"
         field: "字段"
-        no-comment: "无评论"
         value-new: "新值"
         value-old: "旧值"
     changelog-pager:
@@ -392,7 +392,7 @@ component:
 
 contenttypes:
     generic:
-        actions-all: "对%contenttype%的操作"
+        actions-all: "对%contenttypes%的操作"
         actions-one: "对%contenttype%的操作"
         created: "已创建此%contenttype%"
         delete: "删除%contenttype%"
@@ -400,26 +400,31 @@ contenttypes:
         duplicated-finalize: "内容已复制。点击 '保存%contenttype%' 以确认。"
         edit: "编辑%contenttype%"
         error-saving: "保存次%contenttype%时发生错误"
+        group:
+            meta: "元"
+            relations: "关联"
+            taxonomy: "分类"
+            ungrouped: "未分组"
         invalid-field: "未能设置%contenttype%的%field%字段：字段无效。"
-        last-modified: "最近修改的%contenttype%"
+        last-modified: "最近修改的%contenttypes%"
         new: "新建%contenttype%"
         no-latest: "无最新%contenttype%"
         no-proper-type: "“%contenttype%(Entry)”的内容格式配置中，设置为'type: %type%'的字段'%field%'不是合适的字段类型(fieldtype)。请编辑contenttypes.yml文件，修复此问题。"
         no-recent: "无历史%contenttype%。"
-        none-available: "无可用%contenttype%。"
+        none-available: "无可用%contenttypes%。"
         not-existing: "未找到你所寻找的%contenttype%，它可能已经被删除，或者根本不存在。"
         not-saved-yet: "这项%contenttype%尚未保存。"
-        overview: "%contenttype%一览"
+        overview: "%contenttypes%一览"
         publish: "发布%contenttype%"
-        recent: "历史%contenttype%"
-        recently-edited: "曾经编辑的%contenttype%"
+        recent: "历史%contenttypes%"
+        recently-edited: "曾经编辑的%contenttypes%"
         reserved-name: "“%contenttype%”的内容格式配置中，所设置的'%field%'字段是保留字。请编辑contenttypes.yml文件，修复此问题。"
         save: "保存%contenttype%"
         saved-changes: "对此%contenttype%所做出的变更已经保存。"
         saved-new: "已保存新%contenttype%。"
         saving-impossible: "无法保存%contenttype%。"
-        show-more: "更多%contenttype%"
-        view: "查看%contenttype%"
+        show-more: "更多%contenttypes%"
+        view: "查看%contenttypes%"
         wrong-use-field: "“%contenttype%”的内容格式配置中，字段'%field%'所设置的'uses: %uses%'中'%uses%'字段并不存在。请编辑contenttypes.yml文件，修复此问题。"
 
 field:
@@ -481,7 +486,6 @@ page:
             save: "保存"
         confirm-revert: "你确认要撤回吗？如果你不保存的话所有信息将丢失。"
         note-related: "注意，此文件与以下文件有联系:"
-        path: "路径:"
         title:
             edit: "编辑文件"
             view: "查看文件"
