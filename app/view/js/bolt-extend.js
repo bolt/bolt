@@ -386,17 +386,16 @@ var BoltExtender = Object.extend(Object, {
         var theme = trigger.data("theme");
         var themename  = controller.find('#theme-name').val();
         if(confirm(controller.messages['overwrite'])) {
-            controller.find('.install-response-container').show();
-            active_console = controller.find('.install-response-container .console');
-            active_console.html(controller.messages['copying']);
-
+            var t = controller.find('.installed-container .console').html(controller.messages['copying']);
+            t.show();
+            active_console = t;
             jQuery.get(
                 baseurl+'generateTheme',
                 {'theme':theme,'name':themename}
             ).done(function(data) {
                 active_console.html(data);
                 controller.updateLog();
-                controller.find('.install-response-container').hide();
+                t.hide();
             });
         }
         e.preventDefault();
