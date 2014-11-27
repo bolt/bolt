@@ -46,8 +46,8 @@ bolt.datetimes = function () {
             field.data.val('');
         }
 
-        // If data is a valid datetime
-        match = field.data.val().match(/^(\d{4}-\d{2}-\d{2}) (\d{2}:\d{2}:\d{2})$/);
+        // If data is a valid date(time)
+        match = field.data.val().match(/^(\d{4}-\d{2}-\d{2})( \d{2}:\d{2}:\d{2})?$/);
         if (match) {
             date = match[1];
             time = match[2];
