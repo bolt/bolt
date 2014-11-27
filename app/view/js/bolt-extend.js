@@ -395,7 +395,9 @@ var BoltExtender = Object.extend(Object, {
             ).done(function(data) {
                 active_console.html(data);
                 controller.updateLog();
-                t.hide();
+                delay(function(){
+                    t.hide();
+                }, 5000);
             });
         }
         e.preventDefault();
