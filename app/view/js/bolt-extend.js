@@ -386,6 +386,7 @@ var BoltExtender = Object.extend(Object, {
         var theme = trigger.data("theme");
         var themename  = controller.find('#theme-name').val();
         if(confirm(controller.messages['overwrite'])) {
+            controller.find('.install-response-container').show();
             active_console = controller.find('.install-response-container .console');
             active_console.html(controller.messages['copying']);
 
@@ -395,6 +396,7 @@ var BoltExtender = Object.extend(Object, {
             ).done(function(data) {
                 active_console.html(data);
                 controller.updateLog();
+                controller.find('.install-response-container').hide();
             });
         }
         e.preventDefault();
