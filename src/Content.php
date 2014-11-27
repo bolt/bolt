@@ -921,17 +921,13 @@ class Content implements \ArrayAccess
             if (!empty($filtercontenttype) && ($contenttype != $filtercontenttype)) {
                 continue; // Skip other contenttypes, if we requested a specific type.
             }
-            foreach ($ids as $id) {
-                if (!empty($filterid) && ($id != $filterid)) {
-                    continue; // Skip other ids, if we requested a specific id.
-                }
 
-                $record = $this->app['storage']->getContent($contenttype . '/' . $id);
+            $params = array('hydrate' => false);
+            $where = array('id' => implode(" || ", $ids));
+            $dummy = false;
 
-                if (!empty($record)) {
-                    $records[] = $record;
-                }
-            }
+            $records = $this->app['storage']->getContent($contenttype, $params, $dummy, $where);
+
         }
 
         return $records;
