@@ -385,8 +385,15 @@ var BoltExtender = Object.extend(Object, {
         var trigger = jQuery(e.target);
         var theme = trigger.data("theme");
         var themename  = controller.find('#theme-name').val();
-        console.log(theme);
-        console.log(themename);
+        if(confirm(controller.messages['overwrite'])) {
+            jQuery.get(
+                baseurl+'generateTheme',
+                {'theme':theme,'name':themename}
+            ).done(function(data) {
+                controller.updateLog();
+            });
+        }
+        e.preventDefault();
 
     },
 
