@@ -1,9 +1,30 @@
 /**
- * DateTime object
+ * DateTime/Date inputs initalization and handling
  */
 bolt.datetimes = function () {
+    /**
+     * @typedef InputElements
+     * @type {Object} data - Element holding the data
+     * @type {Object} date - Date input element
+     * @type {Object} time - Time input element
+     * @type {Object} show - Show datepicker button
+     * @type {Object} clear - Clear datepicker button
+     */
+
+     /**
+     * Indicates if 24h or 12h format should be used
+     *
+     * @type {boolean}
+     * @private
+     */
     var is24h;
 
+    /**
+     * Evaluate the value(s) from the input field(s) and writes it to the data field
+     *
+     * @param {InputElements} field
+     * @private
+     */
     function evaluate(field) {
         var date = moment(field.date.datepicker('getDate')),
             time = moment([2001, 11, 24]),
@@ -35,6 +56,12 @@ bolt.datetimes = function () {
         }
     }
 
+    /**
+     * Displays the value read from the data field in input field(s)
+     *
+     * @param {InputElements} field
+     * @private
+     */
     function display(field) {
         var date = '',
             time = '',
@@ -70,6 +97,12 @@ bolt.datetimes = function () {
         }
     }
 
+    /**
+     * Binds the datepicker to date input and initialize it
+     *
+     * @param {InputElements} field
+     * @private
+     */
     function bindDatepicker(field) {
         var fieldOptions = field.date.data('field-options'),
             options = {
@@ -99,6 +132,9 @@ bolt.datetimes = function () {
     }
 
     return {
+        /**
+         * Initialize the datetime and date inputs
+         */
         init: function () {
             // Set global datepicker locale
             $.datepicker.setDefaults($.datepicker.regional[bolt.locale.long]);
@@ -139,6 +175,9 @@ bolt.datetimes = function () {
             });
         },
 
+        /**
+         * Updates displayof datetime and date inputs from their data fields
+         */
         update: function () {
             $('.datepicker').each(function () {
                 var id = $(this).attr('id').replace(/-date$/, ''),
