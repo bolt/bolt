@@ -48,7 +48,7 @@ bolt.datetimes = function () {
 
         // Set data field
         if (date.isValid()) {
-            field.data.val(date.format('YYYY-MM-DD') + ' ' + time.format('HH:mm:00'));
+            field.data.val(date.format('YYYY-MM-DD') + (field.time.length ? ' ' + time.format('HH:mm:00') : ''));
         } else if (field.date.val() === '') {
             field.data.val('');
         } else {
@@ -154,7 +154,7 @@ bolt.datetimes = function () {
                     };
 
                 // Uncomment for debug purpose to make hidden datafields visible
-                // field.data.attr('type', 'text');
+                 field.data.attr('type', 'text');
 
                 // Bind datepicker to date field and set options from field in contenttypes.yml
                 bindDatepicker(field);
