@@ -9,6 +9,7 @@ bolt.datetimes = function () {
      * @type {Object} time - Time input element
      * @type {Object} show - Show datepicker button
      * @type {Object} clear - Clear datepicker button
+     * @type {boolean} hasTime - 'true' if it is a datetime input, else false
      */
 
      /**
@@ -32,7 +33,7 @@ bolt.datetimes = function () {
             minutes = 0;
 
         // Process time field
-        if (field.time.length) {
+        if (field.hasTime) {
             res = field.time.val().match(/^\s*(?:(?:([01]?[0-9]|2[0-3])[:,.]([0-5]?[0-9]))|(1[012]|0?[1-9])[:,.]([0-5]?[0-9])(?:\s*([AP])[. ]?M\.?))\s*$/i);
             if (res) {
                 hours = parseInt(res[1] ? res[1] :res[3]);
@@ -48,7 +49,7 @@ bolt.datetimes = function () {
 
         // Set data field
         if (date.isValid()) {
-            field.data.val(date.format('YYYY-MM-DD') + (field.time.length ? ' ' + time.format('HH:mm:00') : ''));
+            field.data.val(date.format('YYYY-MM-DD') + (field.hasTime ? ' ' + time.format('HH:mm:00') : ''));
         } else if (field.date.val() === '') {
             field.data.val('');
         } else {
@@ -84,7 +85,7 @@ bolt.datetimes = function () {
         field.date.datepicker('setDate', (date === '' || date === '0000-00-00') ? '' : $.datepicker.parseDate('yy-mm-dd', date));
 
         // Set time field
-        if (field.time.length) {
+        if (field.hasTime) {
             if (time === '') {
                 time = '';
             } else if (bolt.datetimes.is24h) {
@@ -150,11 +151,14 @@ bolt.datetimes = function () {
                         date: $(this),
                         time: $('#' + id + '-time'),
                         show: $('#' + id + '-show'),
-                        clear: $('#' + id + '-clear')
+                        clear: $('#' + id + '-clear'),
+                        hasTime: false
                     };
 
+                field.hasTime = (field.time.length > 0);
+
                 // Uncomment for debug purpose to make hidden datafields visible
-                 field.data.attr('type', 'text');
+                // field.data.attr('type', 'text');
 
                 // Bind datepicker to date field and set options from field in contenttypes.yml
                 bindDatepicker(field);
