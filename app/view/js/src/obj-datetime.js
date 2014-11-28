@@ -46,16 +46,16 @@ bolt.datetimes = function () {
             field.data.val('');
         }
 
-        // If data is a valid date(time)
-        match = field.data.val().match(/^(\d{4}-\d{2}-\d{2})( \d{2}:\d{2}:\d{2})?$/);
+        // If data field has a valid datetime or date
+        match = field.data.val().match(/^(\d{4}-\d{2}-\d{2})(?: (\d{2}:\d{2}:\d{2}))?$/);
         if (match) {
             date = match[1];
-            time = match[2];
+            time = match[2] || '';
         }
 
         // Set date field
         field.date.datepicker('setDate', (date === '' || date === '0000-00-00') ? '' : $.datepicker.parseDate('yy-mm-dd', date));
-        
+
         // Set time field
         if (field.time.length) {
             if (time === '') {
@@ -85,7 +85,7 @@ bolt.datetimes = function () {
         field.date.datepicker(options);
         // Bind show button
         field.show.click(function () {
-            // Set the date to "today", if nothing has been picked yet. 
+            // Set the date to "today", if nothing has been picked yet.
             if (!field.date.datepicker('getDate')) {
                 field.date.datepicker('setDate', "+0");
             }
