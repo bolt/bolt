@@ -1,5 +1,5 @@
 /**
- * DateTime/Date inputs initalization and handling
+ * DateTime/Date input combo initalization and handling
  */
 bolt.datetimes = function () {
     /**
@@ -13,7 +13,7 @@ bolt.datetimes = function () {
      */
 
      /**
-     * Indicates if 24h or 12h format should be used
+     * Indicates if 24h or 12h time format should be used
      *
      * @type {boolean}
      * @private
@@ -58,7 +58,7 @@ bolt.datetimes = function () {
     }
 
     /**
-     * Displays the value read from the data field in input field(s)
+     * Displays the value read from the data field inside combos input field(s)
      *
      * @param {InputElements} field
      * @private
@@ -99,7 +99,7 @@ bolt.datetimes = function () {
     }
 
     /**
-     * Binds the datepicker to date input and initialize it
+     * Binds the datepicker to the date input and initializes it
      *
      * @param {InputElements} field
      * @private
@@ -134,7 +134,7 @@ bolt.datetimes = function () {
 
     return {
         /**
-         * Initialize the datetime and date inputs
+         * Initialize the datetime and date input combos
          */
         init: function () {
             // Set global datepicker locale
@@ -178,7 +178,7 @@ bolt.datetimes = function () {
         },
 
         /**
-         * Updates displayof datetime and date inputs from their data fields
+         * Updates display of datetime and date inputs from their data fields
          */
         update: function () {
             $('.datepicker').each(function () {
