@@ -517,11 +517,11 @@ page:
             user-enabled: "Gebruiker ingeschakeld"
             username: "Gebruikersnaam"
         log:
-            user-added: "Gebruiker '%gebruiker%' toegevoegd"
-            user-updated: "Gebruiker '%gebruiker%' bijgewerkt"
+            user-added: "Gebruiker '%user%' toegevoegd"
+            user-updated: "Gebruiker '%user%' bijgewerkt"
         message:
             saving-user: "Gebruiker %user% kon niet worden opgeslagen, of er was niets aangepast."
-            user-saved: "Gebruiker %gebruiker% is opgeslagen"
+            user-saved: "Gebruiker %user% is opgeslagen"
         note-sqlite: "Je gebruikt momenteel SQLite om de eerste gebruiker aan te maken. Als je liever MySQL of PostgreSQL wilt gebruikern, pas dan het configuratie-bestand op <tt>'app/config/config.yml'</tt> aan, en Bolt zal de database tabellen voor je aanmaken. Denk er dan aan om deze pagina te herladen, voor je doorgaat."
         placeholder:
             displayname: "Weergavenaam invullen"
