@@ -103,8 +103,7 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
                             );
                         }
                     }
-
-                    return new JsonResponse($result);
+                    return new JsonResponse($result, 200, array('Content-Type' => 'text/plain'));
                 } else {
                     list($namespace, $prefix) = $parser($handler);
                 }
@@ -114,7 +113,11 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
                 $namespace = $app['upload.namespace'];
             }
 
-            return new JsonResponse($controller->uploadFile($app, $request, $namespace));
+            return new JsonResponse(
+                $controller->uploadFile($app, $request, $namespace),
+                200,
+                array('Content-Type' => 'text/plain')
+            );
         };
         $ctr->match('/{namespace}', $func)
             ->value('namespace', 'files')
