@@ -981,11 +981,19 @@ class Content implements \ArrayAccess
 
             if (!empty($this->contenttype['fields'])) {
                 foreach ($this->contenttype['fields'] as $key => $field) {
-                    if (in_array($field['type'], array('text', 'html', 'textarea', 'markdown'))
-                        && isset($this->values[$key])
-                        && !in_array($key, array('title', 'name')) ) {
+                    // Skip empty fields, and fields called 'title' or 'name'..
+                    if (!isset($this->values[$key]) || in_array($key, array('title', 'name'))) {
+                        continue;
+                    }
+                    // add 'text', 'html' and 'textarea' fields.
+                    if (in_array($field['type'], array('text', 'html', 'textarea'))) {
                         $excerptParts[] = $this->values[$key];
                     }
+                    // add 'markdown' field
+                    if ($field['type'] === 'markdown') {
+                        $excerptParts[] = $value = \ParsedownExtra::instance()->text($this->values[$key]);
+                    }
+
                 }
             }
 
