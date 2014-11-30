@@ -1,21 +1,22 @@
-# app/resources/translations/nl_NL/messages.nl_NL.yml – generated on 2014-11-18 11:29:54 UTC
+# app/resources/translations/nl_NL/messages.nl_NL.yml – generated on 2014-11-30 13:46:16 UTC
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the
-#          repository are automatically mapped to the new scheme. Be aware that there
-#          can be a race condition between that process and your PR so that it's
-#          eventually necessary to remap your translations. If you're planning on
+#          at the moment. This is an ongoing process. Translations currently in the 
+#          repository are automatically mapped to the new scheme. Be aware that there 
+#          can be a race condition between that process and your PR so that it's 
+#          eventually necessary to remap your translations. If you're planning on 
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
 #  no unused messages
 #  no untranslated messages
 #  no untranslated keyword based messages
-# 361 translations
+# 377 translations
 # 132 keyword based translations
 
-#--- 361 translations ---------------------------------------------------------
+#--- 377 translations ---------------------------------------------------------
 
+"%contenttypes% overview": "%contenttypes% overzicht"
 "%name% № %id%": "%name% № %id%"
 "%s files could not be deleted. You should delete them manually.": "%s bestanden konden niet verwijderd worden. Verwijder deze handmatig."
 "(default template)": "(standaard template)"
@@ -90,6 +91,7 @@
 "Content Type Permissions": "Content type permissies"
 "Content for home not found!": "Content voor 'home' kon niet gevonden worden."
 "Contenttypes": "Contenttypen"
+"Copying theme assets …": "Thema-bestanden kopiëren …"
 "Create folder": "Maak map aan"
 "Create the first user": "Maak de eerste gebruiker aan"
 "Created on:": "Aangemaakt op:"
@@ -123,7 +125,7 @@
 "Everything is up to date!": "Alles is up-to-date!"
 "Excerpt": "Samenvatting"
 "Expand sidebar": "Zijbalk uitklappen"
-"Extend ": "Uitbreiden %boltname%"
+"Extend %boltname%": "%boltname% uitbreiden"
 "Extension": "Extensie"
 "Extension log": "Extensie log"
 "Extensions": "Extensies"
@@ -191,8 +193,10 @@
 "Modified": "Aangepast"
 "More info/help": "Meer info/help"
 "Multiselect": "Multiselect"
+"Next": "Volgende"
 "No Stable Versions Available": "Geen stabiele versies beschikbaar"
 "No Test Versions Available": "Geet testversies beschikbaar"
+"No recent %contenttype%.": "Geen recente %contenttype%."
 "No relations found!": "Geen relaties gevonden!"
 "No results found for '%search%'. Please try another search.": "Geen resultaat gevonden voor '%search%'. Probeer het met een andere zoekterm."
 "No such action for content.": "Die actie kun je niet uitvoeren."
@@ -203,6 +207,7 @@
 "Omnisearch": "Omnisearch"
 "Options": "Opties"
 "Order: %sort%": "Volgorde: %sort%"
+"Originally by %1, ported by %2": "Oorspronkelijk door %1, omgezet door %2"
 "Other contenttypes": "Andere contenttypes"
 "Overview": "Overzicht"
 "Overview for": "Overzicht van"
@@ -226,13 +231,16 @@
 "Preparing to install package …": "Package installatie aan het voorbereiden …"
 "Preparing to remove package …": "Package verwijderen aan het voorbereiden …"
 "Preview": "Voorvertoning"
+"Previous": "Vorige"
 "Profile": "Profiel"
+"Proudly powered by %s": "Met trots aangedreven door %s"
 "Provided by:": "Geleverd door:"
 "Publication date:": "Publicatiedatum:"
 "Publish selected": "Publiceer geselecteerde"
 "Published": "Gepubliceerd"
 "Published on:": "Gepubliceerd op:"
 "Read more": "Lees verder"
+"Recent %contenttypes%": "Recente %contenttypes%"
 "Related content": "Gerelateerde content"
 "Related content:": "Gerelateerde content:"
 "Relationships": "Relaties"
@@ -249,9 +257,11 @@
 "Saving …": "Opslaan…"
 "Search": "Zoeken"
 "Search for …": "Zoek naar …"
+"Search for:": "Zoek naar:"
 "Search results for <b> %search% </b>.": "Zoekresultaten voor <b> %search% </b>."
 "Search …": "Zoek…"
 "Searching for available updates …": "Zoek naar beschikbare updates …"
+"Search…": "Zoek…"
 "Select": "Kies"
 "Select a page": "Kies een pagina"
 "Select all": "Selecteer alles"
@@ -266,6 +276,7 @@
 "Showing": "Toont"
 "Showing %pager_for% %from% - %to% of %count%": "Toont %pager_for% %from% - %to% van %count%"
 "Size": "Grootte"
+"Skip to content": "Spring naar content"
 "Skipped <tt>%key%</tt> (already has records)": "Overgeslagen: <tt>%key%</tt> (deze heeft al records)"
 "Skipped <tt>%key%</tt> (not checked)": "Overgeslagen: <tt>%key%</tt> (niet aangevinkt)"
 "Slug": "Slug"
@@ -284,6 +295,7 @@
 "Textarea": "Tekstveld"
 "Thanks": "Bedankt"
 "That user does not exist.": "Die gebruiker bestaat niet."
+"The Bolt extensions Repo at %repository% is currently unavailable. Check your connection and try again shortly.": "De Bolt extensies Repo op %repository% is momenteel niet beschikbaar. Controleer je verbinding, en probeer het straks opnieuw"
 "The activitylog has been cleared.": "De activiteitenlog is gewist."
 "The activitylog has been trimmed.": "De activiteitenlog is verkleind."
 "The database needs to be updated/repaired. Go to 'Settings' > '<a href=\"%link%\">Check Database</a>' to do this now.": "De database moet bijgewerkt of gerepareerd worden. Ga naar 'Instellingen' > '<a href=\"%link%\">Controleer Database</a>' om dit nu te doen."
@@ -302,6 +314,7 @@
 "The versions listed below are compatible with the version of Bolt you are using. Since they are unstable versions, we recommend you <strong>do not</strong> use these on production systems.": "De hieronder opgesomde versies zijn compatibel met de Bolt-versie die je gebruikt. Aangezien het onstabiele versies zijn, raden we aan deze <strond>niet</strong> te gebruiken op productiesystemen."
 "The versions listed below are marked as stable releases by the developer and are compatible with the version of Bolt you are currently using.": "De hieronder opgesomde versies zijn als stabiel aangemerkt door de ontwikkelaar en zijn compatibel met de Bolt-versie die je momenteel gebruikt."
 "Theme installation complete": "Installatie van het thema is gereed."
+"Theme successfully generated. You can now edit it directly from your theme folder.": "Thema aangemaakt! Je kunt de bestanden bewerken in de thema-map."
 "There are no items on the Stack, yet.": "Nog geen bestanden op de Stack."
 "There are no users in the database. Please create the first user.": "Er zijn geen gebruikers in de database. Maak nu de eerste gebruiker aan."
 "There are no users present in the system. Please create the first user, which will be granted root privileges.": "Het systeem heeft nog geen gebruikers. Maak de eerste gebruiker aan, die root-privileges zullen worden toegekend."
@@ -311,6 +324,7 @@
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Deze website is <a href='%url%' target='_blank' title='Weldoordacht, lichtgewicht en eenvoudig CMS'>Gebouwd met Bolt</a>."
 "This will install all available updates.": "Dit zal alle updates installeren."
 "This will make sure all packages listed are installed. Use this if you've recently moved to a new server or if you have manually added an extension.": "Dit zorgt ervoor dat alle opgesomde pakketten worden geÃ¯nstalleerd. Gebruik dit als je een nieuwe server in gebruik hebt genomen of als je handmatig een nieuwe extensie hebt geÃ¯nstalleerd."
+"This will overwrite any existing files! Are you sure?": "Hiermee overschrijf je eventueel bestaande bestanden! Weet je het zeker?"
 "This won't install anything, just show you available updates": "Hiermee installeer je niets, bekijk alleen de beschikbare updates."
 "Time in 24h/12h format": "Tijd in 24h/12h notering"
 "Timed publish": "Publicatiedatum"
@@ -347,6 +361,7 @@
 "View site": "Bekijk site"
 "View/edit Templates": "Bekijk / bewerk templates"
 "View/install Extensions": "Bekijk/installeer extensies"
+"We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling.": "We konden het thema niet aanmaken. Waarschijnlijk is de thema-map niet schrijfbaar voor Bolt. Controleer de schrijfrechten en probeer opnieuw."
 "Written by <em>%name%</em> on %date%": "Geschreven door <em>%name%</em> op %date%"
 "You can discover new extensions by visiting": "Ontdek nieuwe extensies"
 "You can now start using the installed extension, documentation and implementation instructions can be found using the link below.": "Je kunt de geÃ¯nstalleerde extensie gebruiken. Documentatie en gebruiksinstructies zijn te vinden via de volgende link."
@@ -356,6 +371,7 @@
 "You don't have correct permissions to edit the file '%s'.": "Je hebt niet de juiste rechten om het bestand '%s' te bewerken."
 "You don't have the correct permissions to display the file or directory '%s'.": "Je hebt niet de juiste rechten om het bestand of directory '%s' weer te geven."
 "You have been logged out.": "Je bent uitgelogd."
+"You must specify both a name and a version to install!": "Je moet zowel een naam als een versie opgeven voor de installatie!"
 "You should set 'homepage:' in your 'app/config/config.yml' to an existing record. Make sure that the content is published, otherwise it will not be shown.": "Link 'homepage:' in 'app/config/config.yml' aan een bestaande record. Zorg ervoor dat de content is gepubliceerd, omdat het anders niet weergegeven wordt."
 "You've been logged on successfully.": "Je bent succesvol ingelogd."
 "Your Currently Installed Extensions": "Geïnstalleerde extensies"
