@@ -148,14 +148,13 @@ bolt.datetimes = function () {
      */
     function elements(item) {
         var field = {},
-            id = item.attr('id'),
             container = item.next();
 
         field.data = item;
         field.date = container.find('.datepicker');
         field.time = container.find('.timepicker');
         field.show = container.find('button.btn-tertiary');
-        field.clear = $('#' + id + '-clear');
+        field.clear = container.find('button.btn-default');
         field.hasTime = (field.time.length > 0);
 
         return field;
