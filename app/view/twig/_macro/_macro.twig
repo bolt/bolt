@@ -149,11 +149,10 @@
         name:   opt.id,
         value:  opt.value,
         type:   'hidden',
+        class:  'datetime',
     } %}
 
     {% set attr_date = {
-        id:                  opt.id ~ '-date',
-        name:                opt.id ~ '-dateformatted',
         type:                'text',
         disabled:            opt.disabled|default(false),
         required:            opt.required|default(false),
@@ -163,8 +162,6 @@
     } %}
 
     {% set attr_time = {
-        id:        opt.id ~ '-time',
-        name:      opt.id ~ '-timeformatted',
         type:      'text',
         disabled:  opt.disabled|default(false),
         required:  opt.required|default(false),
@@ -173,9 +170,10 @@
         style:     'margin-right: 6px;'
     } %}
 
+    <input{{ attr(attr_data) }}>
     <div class="input-group">
         <span class="input-group-btn">
-            <button class="btn btn-tertiary" type="button" id="{{ opt.id }}-show">
+            <button class="btn btn-tertiary" type="button">
                 <i class="fa fa-calendar"></i>
             </button>
         </span>
@@ -183,9 +181,8 @@
         {% if opt.has_time is not defined or opt.has_time != false %}
             <input{{ attr(attr_time) }}>
         {% endif %}
-        <button class="btn btn-default btn-xs" type="button" id="{{ opt.id }}-clear" style="margin: 4px 0 0 0;">
+        <button class="btn btn-default btn-xs" type="button" style="margin: 4px 0 0 0;">
             <i class="fa fa-close"></i>
         </button>
     </div>
-    <input{{ attr(attr_data) }}>
 {% endmacro %}
