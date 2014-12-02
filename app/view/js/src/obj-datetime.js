@@ -36,8 +36,10 @@ bolt.datetimes = function () {
     function evaluate(field) {
         var date = moment(field.date.datepicker('getDate')),
             time = moment([2001, 11, 24]),
-            hours = 0,
-            minutes = 0;
+            hours,
+            minutes,
+            res,
+            foundTime = false;
 
         // Process time field
         if (field.time.exists) {
@@ -51,16 +53,18 @@ bolt.datetimes = function () {
                     hours -= 12;
                 }
                 time = moment([2001, 11, 24, hours, minutes]);
+                foundTime = true;
             }
         }
 
         // Set data field
         if (date.isValid()) {
             field.data.val(date.format('YYYY-MM-DD') + (field.time.exists ? ' ' + time.format('HH:mm:00') : ''));
-        } else if (field.date.val() === '') {
-            field.data.val('');
+        } else if (foundTime) {
+            field.data.val(moment().format('YYYY-MM-DD') + ' ' + time.format('HH:mm:00'));
         } else {
             // Error
+            field.data.val('');
         }
     }
 
