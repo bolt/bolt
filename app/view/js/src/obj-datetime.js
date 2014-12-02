@@ -147,15 +147,13 @@ bolt.datetimes = function () {
      * @returns {InputElements}
      */
     function elements(id) {
-        var field = {
-            data: $('#' + id),
-            date: $('#' + id + '-date'),
-            time: $('#' + id + '-time'),
-            show: $('#' + id + '-show'),
-            clear: $('#' + id + '-clear'),
-            hasTime: false
-        };
+        var field = {};
 
+        field.data = $('#' + id);
+        field.date = $('#' + id + '-date');
+        field.time = $('#' + id + '-time');
+        field.show = $('#' + id + '-show');
+        field.clear = $('#' + id + '-clear');
         field.hasTime = (field.time.length > 0);
 
         return field;
@@ -175,7 +173,6 @@ bolt.datetimes = function () {
             // Initialize each available date/datetime field
             $('.datepicker').each(function () {
                 var field = elements($(this).attr('id').replace(/-date$/, ''));
-                console.log(field);
 
                 // Remember field data
                 fields.push(field);
