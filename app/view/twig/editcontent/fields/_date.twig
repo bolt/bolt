@@ -4,7 +4,7 @@
     class:     field.class|default(''),
     label:     field.label|default(''),
     info:      field.info|default(''),
-    default:   field.default|default(''),  
+    default:   (field.default) ? field.default|date('Y-m-d') : '',  
     options:   field.options.datepicker|default(''),
     required:  field.required|default(false),
     errortext: field.error|default(''),
