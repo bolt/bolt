@@ -76,6 +76,8 @@ input[type="checkbox"] {
 
 fieldset.checkbox {
     display: inline-block;
+    margin-top: -12px;
+    margin-bottom: -12px;    
 }
 
 fieldset.checkbox label {

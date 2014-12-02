@@ -211,7 +211,7 @@ var BoltExtender = Object.extend(Object, {
                         }
 
                         if (ext["type"] == "bolt-theme") {
-                            html += "<a data-request='package-copy' class='btn btn-sm btn-tertiary' href=''><i class='fa fa-copy fa-fw'></i> Copy to themes</a> ";
+                            html += "<a data-request='package-copy' data-theme='"+ ext["name"] +"' class='btn btn-sm btn-tertiary' href=''><i class='fa fa-copy fa-fw'></i> Copy to theme folder</a> ";
                         }
 
                         html += "</div> ";
@@ -381,7 +381,26 @@ var BoltExtender = Object.extend(Object, {
     copyTheme: function(e) {
 
         // Magic goes here. 
-        alert('Needs to be implemented');
+        var controller = this;
+        var trigger = jQuery(e.target);
+        var theme = trigger.data("theme");
+        var themename  = controller.find('#theme-name').val();
+        if(confirm(controller.messages['overwrite'])) {
+            var t = controller.find('.installed-container .console').html(controller.messages['copying']);
+            t.show();
+            active_console = t;
+            jQuery.get(
+                baseurl+'generateTheme',
+                {'theme':theme,'name':themename}
+            ).done(function(data) {
+                active_console.html(data);
+                controller.updateLog();
+                delay(function(){
+                    t.hide();
+                }, 5000);
+            });
+        }
+        e.preventDefault();
 
     },
 

@@ -1730,12 +1730,10 @@ class Backend implements ControllerProviderInterface
 
         $data['contents'] = file_get_contents($filename);
 
-        $form = $app['form.factory']->createBuilder('form', $data)
-            ->add('contents', 'textarea', array(
-                'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min' => 10)))
-            ));
-
-        $form = $form->getForm();
+        $form = $app['form.factory']
+            ->createBuilder('form', $data)
+            ->add('contents', 'textarea')
+            ->getForm();
 
         // Check if the form was POST-ed, and valid. If so, store the user.
         if ($request->getMethod() == "POST") {

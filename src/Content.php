@@ -921,17 +921,13 @@ class Content implements \ArrayAccess
             if (!empty($filtercontenttype) && ($contenttype != $filtercontenttype)) {
                 continue; // Skip other contenttypes, if we requested a specific type.
             }
-            foreach ($ids as $id) {
-                if (!empty($filterid) && ($id != $filterid)) {
-                    continue; // Skip other ids, if we requested a specific id.
-                }
 
-                $record = $this->app['storage']->getContent($contenttype . '/' . $id);
+            $params = array('hydrate' => false);
+            $where = array('id' => implode(" || ", $ids));
+            $dummy = false;
 
-                if (!empty($record)) {
-                    $records[] = $record;
-                }
-            }
+            $records = $this->app['storage']->getContent($contenttype, $params, $dummy, $where);
+
         }
 
         return $records;
@@ -985,11 +981,19 @@ class Content implements \ArrayAccess
 
             if (!empty($this->contenttype['fields'])) {
                 foreach ($this->contenttype['fields'] as $key => $field) {
-                    if (in_array($field['type'], array('text', 'html', 'textarea', 'markdown'))
-                        && isset($this->values[$key])
-                        && !in_array($key, array('title', 'name')) ) {
+                    // Skip empty fields, and fields called 'title' or 'name'..
+                    if (!isset($this->values[$key]) || in_array($key, array('title', 'name'))) {
+                        continue;
+                    }
+                    // add 'text', 'html' and 'textarea' fields.
+                    if (in_array($field['type'], array('text', 'html', 'textarea'))) {
                         $excerptParts[] = $this->values[$key];
                     }
+                    // add 'markdown' field
+                    if ($field['type'] === 'markdown') {
+                        $excerptParts[] = $value = \ParsedownExtra::instance()->text($this->values[$key]);
+                    }
+
                 }
             }
 

@@ -25,7 +25,7 @@ class Application extends Silex\Application
     public function __construct(array $values = array())
     {
         $values['bolt_version'] = '2.0.0';
-        $values['bolt_name'] = 'beta 4 pl 2';
+        $values['bolt_name'] = 'beta 5 pl 1';
 
         parent::__construct($values);
 
@@ -476,6 +476,9 @@ class Application extends Silex\Application
     {
         // Start the 'stopwatch' for the profiler.
         $this['stopwatch']->start('bolt.app.after');
+
+        $response->headers->set('X-Frame-Options', 'SAMEORIGIN');
+        $response->headers->set('Frame-Options', 'SAMEORIGIN');
 
         // true if we need to consider adding html snippets
         if (isset($this['htmlsnippets']) && ($this['htmlsnippets'] === true)) {
