@@ -140,6 +140,27 @@ bolt.datetimes = function () {
         });
     }
 
+    /**
+     * Collects all inputs belonging to a DateTime/Date input combo
+     *
+     * @param {string} id
+     * @returns {InputElements}
+     */
+    function elements(id) {
+        var field = {
+            data: $('#' + id),
+            date: $('#' + id + '-date'),
+            time: $('#' + id + '-time'),
+            show: $('#' + id + '-show'),
+            clear: $('#' + id + '-clear'),
+            hasTime: false
+        };
+
+        field.hasTime = (field.time.length > 0);
+
+        return field;
+    }
+
     return {
         /**
          * Initialize the datetime and date input combos
@@ -153,17 +174,8 @@ bolt.datetimes = function () {
 
             // Initialize each available date/datetime field
             $('.datepicker').each(function () {
-                var id = $(this).attr('id').replace(/-date$/, ''),
-                    field = {
-                        data: $('#' + id),
-                        date: $(this),
-                        time: $('#' + id + '-time'),
-                        show: $('#' + id + '-show'),
-                        clear: $('#' + id + '-clear'),
-                        hasTime: false
-                    };
-
-                field.hasTime = (field.time.length > 0);
+                var field = elements($(this).attr('id').replace(/-date$/, ''));
+                console.log(field);
 
                 // Remember field data
                 fields.push(field);
