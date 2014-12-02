@@ -20,6 +20,14 @@ bolt.datetimes = function () {
      */
     var is24h;
 
+     /**
+     * Hold info on used DateTime/Date input combos
+     *
+     * @type {Array}
+     * @private
+     */
+    var fields = [];
+
     /**
      * Evaluate the value(s) from the input field(s) and writes it to the data field
      *
