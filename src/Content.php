@@ -170,6 +170,12 @@ class Content implements \ArrayAccess
                 $this->values[$key] = $video;
             }
 
+            if ($this->fieldtype($key) == "date" || $this->fieldtype($key) == "datetime") {
+                if ($this->values[$key] === "") {
+                    $this->values[$key] = null;
+                }
+            }
+
         }
     }
 
