@@ -149,6 +149,7 @@
         name:   opt.id,
         value:  opt.value,
         type:   'hidden',
+        class:  'datetime',
     } %}
 
     {% set attr_date = {
@@ -173,6 +174,7 @@
         style:     'margin-right: 6px;'
     } %}
 
+    <input{{ attr(attr_data) }}>
     <div class="input-group">
         <span class="input-group-btn">
             <button class="btn btn-tertiary" type="button" id="{{ opt.id }}-show">
@@ -187,5 +189,4 @@
             <i class="fa fa-close"></i>
         </button>
     </div>
-    <input{{ attr(attr_data) }}>
 {% endmacro %}

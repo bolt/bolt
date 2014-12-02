@@ -171,8 +171,8 @@ bolt.datetimes = function () {
             is24h = moment.localeData()._longDateFormat.LT.replace(/\[.+?\]/gi, '').match(/A/) ? false : true;
 
             // Initialize each available date/datetime field
-            $('.datepicker').each(function () {
-                var field = elements($(this).attr('id').replace(/-date$/, ''));
+            $('input.datetime').each(function () {
+                var field = elements($(this).attr('id'));
 
                 // Remember field data
                 fields.push(field);
