@@ -143,14 +143,16 @@ bolt.datetimes = function () {
     /**
      * Collects all inputs belonging to a DateTime/Date input combo
      *
-     * @param {string} id
+     * @param {Object} item - Data element
      * @returns {InputElements}
      */
-    function elements(id) {
-        var field = {};
+    function elements(item) {
+        var field = {},
+            id = item.attr('id'),
+            container = item.next();
 
-        field.data = $('#' + id);
-        field.date = $('#' + id + '-date');
+        field.data = item;
+        field.date = container.find('.datepicker');
         field.time = $('#' + id + '-time');
         field.show = $('#' + id + '-show');
         field.clear = $('#' + id + '-clear');
@@ -172,7 +174,7 @@ bolt.datetimes = function () {
 
             // Initialize each available date/datetime field
             $('input.datetime').each(function () {
-                var field = elements($(this).attr('id'));
+                var field = elements($(this));
 
                 // Remember field data
                 fields.push(field);
