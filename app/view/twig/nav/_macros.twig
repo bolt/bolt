@@ -110,7 +110,7 @@
     {% elseif icon != '-' %}
         {{ icon(icon, true) }}
     {% endif %}
-    {{ label }}
+    {{ label|raw }}
 {% endmacro %}
 
 
