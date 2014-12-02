@@ -4,6 +4,7 @@
     class:     field.class|default(''),
     label:     field.label|default(''),
     info:      field.info|default(''),
+    default:   field.default|default(''),  
     options:   field.options.datepicker|default(''),
     required:  field.required|default(false),
     errortext: field.error|default(''),
@@ -14,7 +15,7 @@
 {% set attr_date = {
     id:         key,
     has_time:   false,
-    value:      context.content.get(key)|date('Y-m-d'),
+    value:      context.content.get(key)|default(option.default),
     required:   option.required,
     class:      option.class,
     errortext:  option.errortext,
