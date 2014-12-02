@@ -8,7 +8,7 @@
 
 {% set attr_publish = {
     id:       'datepublish',
-    value:    (context.content.datepublish == magic_date) ? '' : context.content.datepublish,
+    value:    ((context.content.datepublish == magic_date) ? '' : (context.content.datepublish == '') ? "now"|date('Y-m-d H:i:s') : context.content.datepublish),
     disabled: (not can_publish),
 }%}
 
