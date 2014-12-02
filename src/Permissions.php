@@ -36,6 +36,14 @@ class Permissions
      */
     const ROLE_OWNER = 'owner';
 
+    /**
+     * A special role that is used to tag the viewers of a resource when some
+     * field is defined in database for some contenttype
+     * granting possibility to set percontent permissions in addtion
+     * of per contenttype permissions.
+     */
+    const ROLE_VIEWERS = 'viewers';
+
     private $app;
 
     // per-request permission cache
@@ -168,9 +176,12 @@ class Permissions
      * @param  string $contenttype
      * @return bool   TRUE if granted, FALSE if not.
      */
-    public function checkPermission($roleNames, $permissionName, $contenttype = null)
+    public function checkPermission($roleNames, $permissionName, $contenttype = null, $contentid = null)
     {
+        // removing deplicated role names
         $roleNames = array_unique($roleNames);
+
+        // ROLE_ROOT has always access to everything
         if (in_array(Permissions::ROLE_ROOT, $roleNames)) {
                 $this->audit(
                     "Granting '$permissionName' " .
@@ -181,7 +192,7 @@ class Permissions
                 return true;
         }
         foreach ($roleNames as $roleName) {
-            if ($this->checkRolePermission($roleName, $permissionName, $contenttype)) {
+            if ($this->checkRolePermission($roleName, $permissionName, $contenttype, $contentid)) {
                 $this->audit(
                     "Granting '$permissionName' " .
                     ($contenttype ? "for $contenttype " : "") .
@@ -204,12 +215,12 @@ class Permissions
      * Checks whether the specified $roleName grants permission $permissionName
      * for the $contenttype in question (NULL for global permissions).
      */
-    private function checkRolePermission($roleName, $permissionName, $contenttype = null)
+    private function checkRolePermission($roleName, $permissionName, $contenttype = null, $contentid = null)
     {
         if ($contenttype === null) {
             return $this->checkRoleGlobalPermission($roleName, $permissionName);
         } else {
-            return $this->checkRoleContentTypePermission($roleName, $permissionName, $contenttype);
+            return $this->checkRoleContentTypePermission($roleName, $permissionName, $contenttype, $contentid);
         }
     }
 
@@ -225,9 +236,9 @@ class Permissions
         return in_array($roleName, $roles);
     }
 
-    private function checkRoleContentTypePermission($roleName, $permissionName, $contenttype)
+    private function checkRoleContentTypePermission($roleName, $permissionName, $contenttype, $contentid = null)
     {
-        $roles = $this->getRolesByContentTypePermission($permissionName, $contenttype);
+        $roles = $this->getRolesByContentTypePermission($permissionName, $contenttype, $contentid);
 
         return in_array($roleName, $roles);
     }
@@ -253,7 +264,7 @@ class Permissions
      * specified content type. Sort of a reverse lookup on the permission
      * check.
      */
-    public function getRolesByContentTypePermission($permissionName, $contenttype)
+    public function getRolesByContentTypePermission($permissionName, $contenttype, $contentid = null)
     {
         // Here's how it works:
         // - if a permission is granted through 'contenttype-all', it is effectively granted
@@ -265,12 +276,16 @@ class Permissions
             $overrideRoles = array();
         }
         $contenttypeRoles = $this->app['config']->get("permissions/contenttypes/$contenttype/$permissionName");
+        if(isset($contentid) && is_array($contenttypeRoles) && in_array(self::ROLE_VIEWERS, $contenttypeRoles)) {
+            $contenttypeRoles = $this->getRolesByContentPermission($permissionName, $contenttype, $contentid, $contenttypeRoles);
+        }
         if (!is_array($contenttypeRoles)) {
             $contenttypeRoles = $this->app['config']->get("permissions/contenttype-default/$permissionName");
         }
         if (!is_array($contenttypeRoles)) {
             $contenttypeRoles = array();
         }
+
         $effectiveRoles = array_unique(array_merge($overrideRoles, $contenttypeRoles));
 
         return $effectiveRoles;
@@ -289,7 +304,7 @@ class Permissions
     {
         if (isset($user['roles']) && is_array($user['roles'])) {
             $userRoles = $user['roles'];
-            $userRoles[] = Permissions::ROLE_EVERYONE;
+            //$userRoles[] = Permissions::ROLE_EVERYONE;
         } else {
             $userRoles = array();
         }
@@ -494,7 +509,7 @@ class Permissions
                 break;
         }
 
-        return $this->checkPermission($userRoles, $permission, $contenttype);
+        return $this->checkPermission($userRoles, $permission, $contenttype, $contentid);
     }
 
     /**
@@ -539,5 +554,33 @@ class Permissions
         }
 
         return $this->isAllowed($perm, $user, $contenttype, $contentid);
+    }
+
+    /**
+     * Addition for per content permissions
+     */
+    public function isProtected($permissionName, $contenttype,  $contentid = null)
+    {
+        // getRolesByContentTypePermission($permissionName, $contenttype)
+        $effectiveRoles = $this->getRolesByContentTypePermission($permissionName, $contenttype);
+        if(is_array($effectiveRoles) && in_array(self::ROLE_VIEWERS, $effectiveRoles)) {
+            return true;
+        } else {
+            return false;
+        }
+     }
+
+    public function getRolesByContentPermission($permissionName, $contenttype, $contentid, $contenttypeRoles)
+    {
+        // Per content filtering applies anywhere
+        $content = $this->app['storage']->getContent("$contenttype/$contentid", array('hydrate' => false));
+        $content[self::ROLE_VIEWERS] = str_replace(" ", "", $content[self::ROLE_VIEWERS]);
+        $contentRoles = explode(",", $content[self::ROLE_VIEWERS]);
+        foreach($contenttypeRoles as $contenttypeRole) {
+            if($contenttypeRole != self::ROLE_VIEWERS) {
+                array_push($contentRoles, $contenttypeRole);
+            }
+        }
+            return $contentRoles;
     }
 }
