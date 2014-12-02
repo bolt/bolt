@@ -151,8 +151,8 @@ bolt.datetimes = function () {
             container = item.next();
 
         field.data = item;
-        field.date = container.find('.datepicker');
-        field.time = container.find('.timepicker');
+        field.date = container.find('input.datepicker');
+        field.time = container.find('input.timepicker');
         field.show = container.find('button.btn-tertiary');
         field.clear = container.find('button.btn-default');
         field.hasTime = (field.time.length > 0);
