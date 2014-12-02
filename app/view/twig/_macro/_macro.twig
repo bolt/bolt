@@ -162,8 +162,6 @@
     } %}
 
     {% set attr_time = {
-        id:        opt.id ~ '-time',
-        name:      opt.id ~ '-timeformatted',
         type:      'text',
         disabled:  opt.disabled|default(false),
         required:  opt.required|default(false),
@@ -175,7 +173,7 @@
     <input{{ attr(attr_data) }}>
     <div class="input-group">
         <span class="input-group-btn">
-            <button class="btn btn-tertiary" type="button" id="{{ opt.id }}-show">
+            <button class="btn btn-tertiary" type="button">
                 <i class="fa fa-calendar"></i>
             </button>
         </span>
