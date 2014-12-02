@@ -192,16 +192,9 @@ bolt.datetimes = function () {
          * Updates display of datetime and date inputs from their data fields
          */
         update: function () {
-            $('.datepicker').each(function () {
-                var id = $(this).attr('id').replace(/-date$/, ''),
-                    field = {
-                        data: $('#' + id),
-                        date: $(this),
-                        time: $('#' + id + '-time')
-                    };
-
-                display(field);
-            });
+            for (var i in fields) {
+                display(fields[i]);
+            }
         }
     };
 } ();
