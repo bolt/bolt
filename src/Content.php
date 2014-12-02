@@ -926,7 +926,11 @@ class Content implements \ArrayAccess
             $where = array('id' => implode(" || ", $ids));
             $dummy = false;
 
-            $records = $this->app['storage']->getContent($contenttype, $params, $dummy, $where);
+            $temp_records = $this->app['storage']->getContent($contenttype, $params, $dummy, $where);
+
+            if (!empty($temp_records) && is_array($temp_records)) {
+                $records = array_merge($records, $temp_records);
+            }
 
         }
 
