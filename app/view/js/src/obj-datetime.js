@@ -88,7 +88,7 @@ bolt.datetimes = function () {
         if (field.hasTime) {
             if (time === '') {
                 time = '';
-            } else if (bolt.datetimes.is24h) {
+            } else if (is24h) {
                 time = field.data.val().slice(11, 16);
             } else {
                 hour = parseInt(time.slice(0, 2));
@@ -141,7 +141,7 @@ bolt.datetimes = function () {
             $.datepicker.setDefaults($.datepicker.regional[bolt.locale.long]);
 
             // Find out if locale uses 24h format
-            this.is24h = moment.localeData()._longDateFormat.LT.replace(/\[.+?\]/gi, '').match(/A/) ? false : true;
+            is24h = moment.localeData()._longDateFormat.LT.replace(/\[.+?\]/gi, '').match(/A/) ? false : true;
 
             // Initialize each available date/datetime field
             $('.datepicker').each(function () {
