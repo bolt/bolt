@@ -165,6 +165,9 @@ bolt.datetimes = function () {
 
                 field.hasTime = (field.time.length > 0);
 
+                // Remember field data
+                fields.push(field);
+
                 // Uncomment for debug purpose to make hidden datafields visible
                 // field.data.attr('type', 'text');
 
