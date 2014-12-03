@@ -237,6 +237,12 @@ class Frontend
     public static function listing(Silex\Application $app, $contenttypeslug)
     {
         $contenttype = $app['storage']->getContentType($contenttypeslug);
+
+        // If the contenttype is 'viewless', don't show the record page.
+        if (isset($contenttype['viewless']) && $contenttype['viewless'] === true) {
+            $app->abort(404, "Page $contenttypeslug not found.");
+        }
+
         $pagerid = Pager::makeParameterId($contenttypeslug);
         /* @var $query \Symfony\Component\HttpFoundation\ParameterBag */
         $query = $app['request']->query;
