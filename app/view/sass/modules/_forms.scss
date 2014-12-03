@@ -147,6 +147,16 @@ div.form-notice:last-child{
     margin-right: 6px;
     float: left;
 }
+/* Allow wider datepickers on desktops */
+@media (min-width: 480px) {
+
+    #editcontent input.datepicker.wide{
+        width: 35%;
+    }
+    #editcontent input.datepicker.verywide{
+        width: 55%;
+    }
+}
 
 #editcontent input.timepicker {
     width: 10%;
