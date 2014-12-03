@@ -922,7 +922,7 @@ class Content implements \ArrayAccess
                 continue; // Skip other contenttypes, if we requested a specific type.
             }
 
-            $params = array('hydrate' => false);
+            $params = array('hydrate' => true);
             $where = array('id' => implode(" || ", $ids));
             $dummy = false;
 
