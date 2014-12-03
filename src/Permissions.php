@@ -178,10 +178,8 @@ class Permissions
      */
     public function checkPermission($roleNames, $permissionName, $contenttype = null, $contentid = null)
     {
-        // removing deplicated role names
-        $roleNames = array_unique($roleNames);
-
         // ROLE_ROOT has always access to everything
+        $roleNames = array_unique($roleNames);
         if (in_array(Permissions::ROLE_ROOT, $roleNames)) {
                 $this->audit(
                     "Granting '$permissionName' " .
@@ -285,7 +283,6 @@ class Permissions
         if (!is_array($contenttypeRoles)) {
             $contenttypeRoles = array();
         }
-
         $effectiveRoles = array_unique(array_merge($overrideRoles, $contenttypeRoles));
 
         return $effectiveRoles;
@@ -304,11 +301,13 @@ class Permissions
     {
         if (isset($user['roles']) && is_array($user['roles'])) {
             $userRoles = $user['roles'];
-            //$userRoles[] = Permissions::ROLE_EVERYONE;
+            $userRoles[] = Permissions::ROLE_EVERYONE;
         } else {
             $userRoles = array();
         }
         $userRoles[] = Permissions::ROLE_ANONYMOUS;
+
+        $userRoles = array_unique($userRoles);
 
         return $userRoles;
     }
@@ -376,6 +375,12 @@ class Permissions
             $this->app['cache']->save($cacheKey, json_encode($rule));
         }
         $userRoles = $this->getEffectiveRolesForUser($user);
+        if(!isset($contentid)) {
+          $what = explode(':', $what);
+          if(isset($what[3])) {
+              $contentid = $what[3];
+          }
+        }
         $isAllowed = $this->isAllowedRule($rule, $user, $userRoles, $contenttype, $contentid);
 
         // Cache for the current request
@@ -573,6 +578,9 @@ class Permissions
     public function getRolesByContentPermission($permissionName, $contenttype, $contentid, $contenttypeRoles)
     {
         // Per content filtering applies anywhere
+//         if($permissionName == 'frontend') {
+
+        // TODO manage ownship TODO
         $content = $this->app['storage']->getContent("$contenttype/$contentid", array('hydrate' => false));
         $content[self::ROLE_VIEWERS] = str_replace(" ", "", $content[self::ROLE_VIEWERS]);
         $contentRoles = explode(",", $content[self::ROLE_VIEWERS]);
@@ -581,6 +589,7 @@ class Permissions
                 array_push($contentRoles, $contenttypeRole);
             }
         }
-            return $contentRoles;
+
+        return $contentRoles;
     }
 }

@@ -1399,7 +1399,7 @@ class Storage
         $meta_parameters = array('order' => false); // order in meta_parameters check again in line: 1530!
         if (is_array($in_parameters)) {
             foreach ($in_parameters as $key => $value) {
-                if (in_array($key, array('page', 'limit', 'offset', 'returnsingle', 'printquery', 'paging', 'order', 'what', 'bypassPerm'))) {
+                if (in_array($key, array('page', 'limit', 'offset', 'returnsingle', 'printquery', 'paging', 'order'))) {
                     $meta_parameters[$key] = $value;
                 } else {
                     $ctype_parameters[$key] = $value;
@@ -1896,31 +1896,35 @@ class Storage
         $total_results = false;
         $results = false;
         foreach ($decoded['queries'] as $query) {
-            // Perform actual query
-
             /**
-             * If we are building a frontend page
-             * We get user roles to use them in SQL query WHERE clause if user is not Root
-             * Finally we add the filter if necessary to $query['where'] before running actual request
+             * per content permissions modification
              */
+            //$this->app['permissions']->dumpItem($query['params'], $statement);
             $contenttype = $this->getContenttypeFromQuery($query);
             if($this->app['permissions']->isProtected($this->app['config']->getWhichEnd(), $contenttype)) {
+
                 // Get user roles
                 $user = $this->app['users']->getCurrentUser();
                 $effectiveUserRoles = $this->app['permissions']->getEffectiveRolesForUser($user);
+                foreach($effectiveUserRoles as $effectiveUserRole)
+                  $strUserRoles = $strUserRoles.' + "'.$effectiveUserRole.'"';
+                $this->app['permissions']->slog(' % '.$this->app['config']->getWhichEnd().' % $user[\'username\']: "'.$user['username'].'" with id = "'.$user['id'].'" as $effectiveUserRoles: '.$strUserRoles);
 
                 // Create the filter to take user roles in account
                 if(!in_array(permissions::ROLE_ROOT, $effectiveUserRoles))
-                  $filter = $this->getPerContentPermissionsFilter($filter, $effectiveUserRoles);
+                  $filter = $this->getPerContentPermissionsFilter($user, $effectiveUserRoles);
 
                 // modify $query['where'] to include the filter
                 $where = str_replace('WHERE', '', $query['where']);
                 if((str_replace(' ', '', $where) != '') && (isset($filter))) {
-                    $where = 'WHERE '.$filter.' AND '.$where;
-                    $query['where'] = $where;
+                    $query['where'] = 'WHERE ('.$filter.') AND '.$where;
                 }
             }
+            /**
+             * end of per content permissions modification
+             */
 
+            // Perform actual query
             $statement = sprintf(
                 'SELECT %s.* %s %s %s',
                 $query['tablename'],
@@ -3016,28 +3020,28 @@ class Storage
         return (count(static::$pager) === 0);
     }
 
-    // Use table name to guess contenttype
     public function getContenttypeFromQuery($query)
     {
         return str_replace('FROM '.$this->prefix, '', $query['from']);
     }
 
-    // $filter as string: SQL clause
     // $effectiveUserRoles all roles user belongs to
-    public function getPerContentPermissionsFilter($filter, $effectiveUserRoles)
+    public function getPerContentPermissionsFilter($user, $effectiveUserRoles)
     {
         // ROLE_VIEWERS field can contain spaces and roles are separated by commas ','
         // roles can be as numerous as users want to...
         // example: " (viewers REGEXP '^([a-zA-Z]* *, *)* *(anonymous|admin) *(, *[a-zA-Z]* *)* *$') "
         // once concatenated in $query['where']:
-        // WHERE  (viewers REGEXP '^([a-zA-Z]* *, *)* *(anonymous|admin) *(, *[a-zA-Z]* *)* *$') AND (`bolt_pages`.`id` = '1' AND `bolt_pages`.`status` = 'published')
+        // WHERE  (viewers 
+        //    REGEXP '^([a-zA-Z]* *, *)* *(anonymous|admin) *(, *[a-zA-Z]* *)* *$') 
+        //    OR `viewers` IS NULL OR `viewers` = '' 
+        //    OR `id` = '$users['id']'
+        //    AND (`bolt_pages`.`id` = '1' AND `bolt_pages`.`status` = 'published')
         $regexpBegin = ' ('.strval(permissions::ROLE_VIEWERS).' REGEXP \'^([a-zA-Z]* *, *)* *(';
-        $regexpEnd = ') *(, *[a-zA-Z]* *)* *$\') ';
+        $regexpEnd = ') *(, *[a-zA-Z]* *)* *$\') OR `viewers` IS NULL OR `viewers` = \'\'';
 
-        // The filter will be inserted between WHERE keyword and initial search condition
-        // so we must not put OR keyword at begining of it
-        // TODO new filter:
-        // ((viewers REGEXP '^([a-zA-Z]* *, *)* *(admin|anonymous) *(, *[a-zA-Z]* *)* *$') OR viewers IS NULL OR viewers = '') AND $query['where']
+        // The filter is meant to be inserted between WHERE keyword and initial search condition
+        // coupled as: $query['where'] = 'WHERE ('.$filter.') AND '.$where;
         if(isset($effectiveUserRoles)) {
             // several
             if(is_array($effectiveUserRoles)) {
@@ -3049,13 +3053,22 @@ class Storage
                 // just one, not sure that's possible, to be checked in 
                 $roleRegexp = $effectiveUserRoles;
             }
-            return $regexpBegin.$roleRegexp.$regexpEnd;
+            $sqlclause = $regexpBegin.$roleRegexp.$regexpEnd;
+
+            // manage ownership
+            if(isset($users['id'])) {
+                $sqlclause = $sqlclause . ' OR `id` = \''.$users['id'].'\' ';
+            }
+
+            $this->app['permissions']->slog(' ## SQL clause : "'.$sqlclause.'"');
+
+            return $sqlclause;
         } else {
             // NOTE: Can't be: $effectiveUserRoles should at least contain "anonymous"
-            throw new \Exception('In "\\Bolt\\Storage->getPerContentPermissionsFilter($filter, $effectiveUserRoles)" "$effectiveUserRoles" is NULL when it should contain at least "anynomous".');
+            throw new \Exception('In "\\Bolt\\Storage->getPerContentPermissionsFilter($user, $effectiveUserRoles)" "$effectiveUserRoles" is NULL when it should contain at least "anynomous".');
         }
 
-        return $filter;
+        return false;
     }
 
     public function canBelisted()

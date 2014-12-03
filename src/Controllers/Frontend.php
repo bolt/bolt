@@ -39,8 +39,18 @@ class Frontend
                 $contenttypeslug = (string) $content;
                 $contentid = null;
             }
+
+            $contenttypeslug = $content->contenttype['slug'];
             if (!$app['users']->isAllowed('frontend', $contenttypeslug, $contentid)) {
-                $app->abort(403, 'Not allowed.');
+            // TODO replace by function pageFromConfigOrAbort()
+                // try first to avoid the abort using configuration and all that
+                $content = $app['storage']->getContent($app['config']->get('general/access_denied'));
+                if(is_object($content) && $content instanceof \Bolt\Content) {
+                    self::record($app, $content['contenttype'], $content['slug'], true);
+                } else {
+                    $app->abort(403, 'Not allowed.');
+                }
+            // end TODO
             }
         }
     }
@@ -123,16 +133,25 @@ class Frontend
      * @param string            $slug            The content slug
      * @return mixed
      */
-    public static function record(Silex\Application $app, $contenttypeslug, $slug)
+    public static function record(Silex\Application $app, $contenttypeslug, $slug, $noFrontendPermissionCheck = null)
     {
         $contenttype = $app['storage']->getContentType($contenttypeslug);
 
         // If the contenttype is 'viewless', don't show the record page.
         if (isset($contenttype['viewless']) && $contenttype['viewless'] === true) {
-            $app->abort(404, "Page $contenttypeslug/$slug not found.");
+            // TODO replace by function pageFromConfigOrAbort()
+            // try first to avoid the abort using configuration and all that
+            $content = $app['storage']->getContent($app['config']->get('general/notfound'));
+            if(is_object($content) && $content instanceof \Bolt\Content) {
+                self::record($app, $content['contenttype'], $content['slug'], true);
+            } else {
+                $app->abort(404, "Page $contenttypeslug/$slug not found.");
+            }
+            // end TODO
         }
 
         $slug = String::slug($slug, -1);
+
 
         // First, try to get it by slug.
         $content = $app['storage']->getContent($contenttype['slug'], array('slug' => $slug, 'returnsingle' => true));
@@ -142,7 +161,9 @@ class Frontend
             $content = $app['storage']->getContent($contenttype['slug'], array('id' => $slug, 'returnsingle' => true));
         }
 
-        self::checkFrontendPermission($app, $content);
+        // A test to bypass permissions to load specific records rather than sending abort()
+        if(!$noFrontendPermissionCheck)
+            self::checkFrontendPermission($app, $content);
 
         // No content, no page!
         if (!$content) {
@@ -151,7 +172,9 @@ class Frontend
             if ($slug == trim($app['config']->get('general/branding/path'), '/')) {
                 Lib::simpleredirect($app['config']->get('general/branding/path') . '/');
             }
+            // TODO replace by function pageFromConfigOrAbort()
             $app->abort(404, "Page $contenttypeslug/$slug not found.");
+            // end TODO
         }
 
         // Then, select which template to use, based on our 'cascading templates rules'
