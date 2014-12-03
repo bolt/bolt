@@ -130,10 +130,6 @@ bolt.datetimes = function () {
         field.date.datepicker(options);
         // Bind show button
         field.show.click(function () {
-            // Set the date to "today", if nothing has been picked yet.
-            if (!field.date.datepicker('getDate')) {
-                field.date.datepicker('setDate', "+0");
-            }
             field.date.datepicker('show');
         });
         // Bind clear button
@@ -183,7 +179,7 @@ bolt.datetimes = function () {
                 fields.push(field);
 
                 // Uncomment for debug purpose to make hidden datafields visible
-                // field.data.attr('type', 'text');
+                field.data.attr('type', 'text');
 
                 // Bind datepicker to date field and set options from field in contenttypes.yml
                 bindDatepicker(field);
