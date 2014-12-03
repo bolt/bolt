@@ -1546,7 +1546,7 @@ bolt.datetimes = function () {
                 fields.push(field);
 
                 // Uncomment for debug purpose to make hidden datafields visible
-                field.data.attr('type', 'text');
+                // field.data.attr('type', 'text');
 
                 // Bind datepicker to date field and set options from field in contenttypes.yml
                 bindDatepicker(field);
