@@ -170,12 +170,10 @@ class Content implements \ArrayAccess
                 $this->values[$key] = $video;
             }
 
-            // Make sure 'date' and 'datetime' don't end in " :00".
-            if ($this->fieldtype($key) == "datetime") {
-                if (strpos($this->values[$key], ":") === false) {
-                    $this->values[$key] = trim($this->values[$key]) . " 00:00:00";
+            if ($this->fieldtype($key) == "date" || $this->fieldtype($key) == "datetime") {
+                if ($this->values[$key] === "") {
+                    $this->values[$key] = null;
                 }
-                $this->values[$key] = str_replace(" :00", " 00:00", $this->values[$key]);
             }
 
         }
