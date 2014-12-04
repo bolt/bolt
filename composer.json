@@ -7,7 +7,7 @@
 
     "require": {
         "bolt/dumper": "~0.7",
-        "bolt/thumbs": "1.7.*@dev",
+        "bolt/thumbs": "~2.0",
         "brandonwamboldt/utilphp": "~1.0",
         "composer/composer": "1.0.*@dev",
         "doctrine/dbal": "~2.4",
