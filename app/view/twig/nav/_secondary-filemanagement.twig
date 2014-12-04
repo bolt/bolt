@@ -1,14 +1,14 @@
 {% set sub = [
     {
-        icon: 'fa:desktop',
-        label: __('View/edit Templates'),
-        link: url('files', {'namespace': 'theme', 'path': ''}),
-        isallowed: 'files:theme'
-    }, {
         icon: 'fa:folder-open-o',
         label: __('Uploaded files'),
         link: url('files', {'namespace': 'files', 'path': ''}),
         isallowed: 'files:uploads'
+    }, {
+        icon: 'fa:desktop',
+        label: __('View/edit Templates'),
+        link: url('files', {'namespace': 'theme', 'path': ''}),
+        isallowed: 'files:theme'
     }
 ] %}
 
