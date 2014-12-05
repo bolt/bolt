@@ -11,13 +11,6 @@ label {
     margin-bottom: 3px;
 }
 
-label.permalink {
-    margin: 0 0 0.5em;
-    code {
-        white-space: normal;
-    }
-}
-
 .form-control {
     @include placeholder();
     height: 33px;

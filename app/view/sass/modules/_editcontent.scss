@@ -107,6 +107,13 @@
     fieldset.slug {
         margin-top: -10px; // pull the slug closer to the field previous, usually the title
 
+        label {
+            margin: 0 0 0.5em;
+            code {
+                white-space: normal;
+            }
+        }
+
         .sluginput {
             display: none;
         }
