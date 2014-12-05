@@ -193,5 +193,7 @@
  # @param string datetime ISO-datetime to display
  #}
 {% macro timemoment(datetime) %}
-    <time class="moment" datetime="{{ datetime|date("c") }}" title="{{ datetime }}">{{ datetime }}</time>
+    {% spaceless %}
+        <time class="moment" datetime="{{ datetime|date("c") }}" title="{{ datetime }}">{{ datetime }}</time>
+    {% endspaceless %}
 {% endmacro %}
