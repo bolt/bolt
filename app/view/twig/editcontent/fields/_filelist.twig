@@ -51,14 +51,7 @@
 
         <div class="button-wrap">
 
-            <span class="btn btn-secondary fileinput-button">
-                <i class="fa fa-upload"></i> <span>{{ __('Upload file') }}</span>
-                <input{{ macro.attr(attr_fileupload) }}>
-            </span>
-
-            <a data-target="#selectModal-{{ key }}" href="{{ paths.async }}browse/files{{ option.upload ? '/' ~ option.upload : '' }}?key={{ key }}" class="btn btn-tertiary" data-toggle="modal">
-                <i class="fa fa-download"></i> {{ __('field.general.select-from-server') }}
-            </a>
+            {{ macro.upload_buttons(key, __('Upload file'), attr_fileupload, paths, option.upload) }}
 
             {% if items %}
                 <div class="button-group">
