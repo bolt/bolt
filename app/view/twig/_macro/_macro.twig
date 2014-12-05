@@ -186,3 +186,12 @@
         </button>
     </div>
 {% endmacro %}
+
+{##
+ # Renders a datetime/date input component
+ #
+ # @param string datetime ISO-datetime to display
+ #}
+{% macro timemoment(datetime) %}
+    <time class="moment" datetime="{{ datetime|date("c") }}" title="{{ datetime }}">{{ datetime }}</time>
+{% endmacro %}
