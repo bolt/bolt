@@ -86,11 +86,6 @@ fieldset.checkbox div {
     width: 168px;
 }
 
-#editcontent div.image-right {
-    float: right;
-    width: 128px;
-}
-
 #editcontent div.map-right {
     float: right;
     width: 208px;
@@ -98,10 +93,8 @@ fieldset.checkbox div {
 }
 
 #editcontent .imageholder {
-    // width: 126px;
-    // height: 126px;
     overflow: hidden;
-    //box-shadow:  2px 2px 0 rgba(0, 0, 0, 0.2);
+
     img {
         max-height: 148px;
         max-width: 100%;
