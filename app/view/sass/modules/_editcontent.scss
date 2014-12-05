@@ -27,4 +27,22 @@
         min-width: 93px;
         float: left;
     }
+
+    /*** Fieldset: Slug ***/
+
+    fieldset.slug {
+        margin-top: -10px; // pull the slug closer to the field previous, usually the title
+
+        .sluginput {
+            display: none;
+        }
+
+        .sluglocker,
+        .slugedit {
+            color: #666;
+            display: inline-block;
+            padding: 0 3px;
+            cursor: pointer;
+        }
+    }
 }

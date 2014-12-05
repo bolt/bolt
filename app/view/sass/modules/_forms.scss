@@ -270,29 +270,11 @@ div.form-notice:last-child{
   margin-right: 4px;
 }
 
-#editcontent fieldset.slug {
-    // pull the slug closer to the field previous, usually the title
-    margin-top: -10px;
-}
-
 #editcontent fieldset.multiselect {
     select {
         display: block;
         margin-bottom: 8px;
     }
-}
-
-#editcontent input.editslug {
-    display: none;
-}
-
-#editcontent .sluglocker,
-#editcontent .slugedit
-{
-    color: #666;
-    display: inline-block;
-    padding: 0 3px;
-    cursor: pointer;
 }
 
 #editcontent div.imagelistholder.dropzone,
