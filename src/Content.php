@@ -806,7 +806,7 @@ class Content implements \ArrayAccess
                     $params[$fieldName] = substr($this->values[$fieldName], 0, 10);
                 } elseif (isset($this->taxonomy[$fieldName])) {
                     // Turn something like '/chapters/meta' to 'meta'. Note: we use
-                    // two temp vars here, to prevent "Only variables should be passed 
+                    // two temp vars here, to prevent "Only variables should be passed
                     // by reference"-notices.
                     $tempKeys = array_keys($this->taxonomy[$fieldName]);
                     $tempValues = explode('/', array_shift($tempKeys));

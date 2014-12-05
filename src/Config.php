@@ -47,8 +47,8 @@ class Config
         } else {
 
             // In this case the cache is loaded, but because the path of the theme
-            // folder is defined in the congif itself, we still need to check 
-            // retrospectively if we need to invalidate it. 
+            // folder is defined in the congif itself, we still need to check
+            // retrospectively if we need to invalidate it.
             $this->checkValidCache();
 
         }
@@ -769,7 +769,7 @@ class Config
         $configTimestamp = file_exists($themeConfigFile) ? filemtime($themeConfigFile) : 10000000000;
 
         if ($this->cachetimestamp <= $configTimestamp) {
-            // Invalidate cache for next request. 
+            // Invalidate cache for next request.
             @unlink($paths['cache'] . '/config_cache.php');
         }
 

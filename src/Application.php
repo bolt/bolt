@@ -336,11 +336,11 @@ class Application extends Silex\Application
     }
 
 
-    /** 
+    /**
      * Add all the global twig variables, like 'user' and 'theme'
      */
     private function addTwigGlobals()
-    { 
+    {
 
         $this['twig']->addGlobal('bolt_name', $this['bolt_name']);
         $this['twig']->addGlobal('bolt_version', $this['bolt_version']);
