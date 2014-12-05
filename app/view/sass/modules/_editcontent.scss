@@ -28,6 +28,15 @@
         float: left;
     }
 
+    /*** Fieldset: Multiselect ***/
+
+    fieldset.multiselect {
+        select {
+            display: block;
+            margin-bottom: 8px;
+        }
+    }
+
     /*** Fieldset: Slug ***/
 
     fieldset.slug {
