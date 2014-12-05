@@ -27,6 +27,18 @@
         min-width: 140px;
     }
 
+    /*** Input: Textarea ***/
+
+    textarea {
+        width: 100%;
+        height: 200px;
+        padding-right: 0;
+        font-size: 14px;
+        line-height: 21px;
+        color: #444;
+        font-family: Menlo, Consolas, Monaco, "Courier New", monospace;
+    }
+
     /*** Input: Timepicker ***/
 
     input.timepicker {
