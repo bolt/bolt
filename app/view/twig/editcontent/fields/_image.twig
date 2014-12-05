@@ -80,21 +80,6 @@
     {% endif %}
 {% endmacro %}
 
-{% macro buttons(key, paths, option, attr_upload) %}
-    {% import '_macro/_macro.twig' as macro %}
-    {# The fileinput-button span is used to style the file input field as button #}
-    <span class="btn btn-secondary fileinput-button">
-        <i class="fa fa-upload"></i>
-        <span>{{ __('Upload image') }}</span>
-        <input{{ macro.attr(attr_upload) }}>
-    </span>
-
-    <a data-target="#selectModal-{{ key }}" href="{{ paths.async }}browse/files{{ option.upload ? '/'~option.upload : '' }}?key={{ key }}" class="btn btn-tertiary" data-toggle="modal">
-        <i class="fa fa-download"></i>
-        {{ __('field.general.select-from-server') }}
-    </a>
-{% endmacro %}
-
 {% macro stack(key, items) %}
     {% if items %}
         <div class="btn-group">
@@ -141,7 +126,7 @@
         </div>
         {{ block.attributes(key, option, image) }}
         <div class="button-wrap">
-            {{ block.buttons(key, paths, option, attr_upload) }}
+            {{ macro.upload_buttons(key, __('Upload image'), attr_upload, paths, option.upload) }}
             {{ block.stack(key, stackitems(7, 'image')) }}
         </div>
         {{ block.progress(key) }}
