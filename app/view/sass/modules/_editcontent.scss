@@ -20,6 +20,13 @@
         }
     }
 
+    /*** Input: Number ***/
+
+    input[type=number] {
+        width: 20%;
+        min-width: 140px;
+    }
+
     /*** Input: Timepicker ***/
 
     input.timepicker {
