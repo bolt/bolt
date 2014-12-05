@@ -532,7 +532,7 @@ var FilelistHolder = Backbone.View.extend({
         _.each(this.list.models, function (file) {
             var fileName = file.get('filename'),
                 html = "<div data-id='" + file.get('id') + "' class='ui-state-default'>" +
-                        "<span class='fileDescription'>" + fileName + "</span>" +
+                        "<span class='file-description'>" + fileName + "</span>" +
                         "<input type='text' value='" + _.escape(file.get('title')) + "'>" +
                         "<a href='#'><i class='fa fa-times'></i></a></div>";
             $list.append(html);
