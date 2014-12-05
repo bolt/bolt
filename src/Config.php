@@ -762,7 +762,6 @@ class Config
 
     private function checkValidCache()
     {
-
         // Check the timestamp for the theme's config.yml
         $paths = $this->app['resources']->getPaths();
         $themeConfigFile = $paths['themepath'] . '/config.yml';
@@ -772,7 +771,6 @@ class Config
             // Invalidate cache for next request.
             @unlink($paths['cache'] . '/config_cache.php');
         }
-
     }
 
 

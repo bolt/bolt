@@ -341,7 +341,6 @@ class Application extends Silex\Application
      */
     private function addTwigGlobals()
     {
-
         $this['twig']->addGlobal('bolt_name', $this['bolt_name']);
         $this['twig']->addGlobal('bolt_version', $this['bolt_version']);
 
@@ -365,7 +364,6 @@ class Application extends Silex\Application
 
         $this['safe_twig']->addGlobal('user', $this['users']->getCurrentUser());
         $this['safe_twig']->addGlobal('theme', $this['config']->get('theme'));
-
     }
 
 
