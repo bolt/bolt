@@ -48,6 +48,17 @@
         min-width: 200px;
     }
 
+    /*** Dropzone ***/
+
+    .dropzone.hover,
+    .dropzone.in {
+        background: #DEF;
+
+        & * {
+            opacity: 0.7;
+        }
+    }
+
     /*** Input: Datepicker ***/
 
     input.datepicker {
