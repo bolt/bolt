@@ -4,5 +4,5 @@ $I->wantTo('make sure the page editor user cannot see any content types except p
 $I->loginAs($users['pagewriter']);
 $I->see('View Pages');
 $I->dontSee('Edit Entries');
-$I->dontSee('Edit Kitchensinks');
+$I->dontSee('Edit Showcases');
 $I->dontSee('Edit Dummies');
