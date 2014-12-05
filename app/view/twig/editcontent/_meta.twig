@@ -7,15 +7,15 @@
 {% set can_depublish = isallowed('contenttype:' ~ context.contenttype.slug ~ ':depublish:' ~ context.content.id) %}
 
 {% set attr_publish = {
+    disabled: (not can_publish),
     id:       'datepublish',
     value:    ((context.content.datepublish == magic_date) ? '' : (context.content.datepublish == '') ? "now"|date('Y-m-d H:i:s') : context.content.datepublish),
-    disabled: (not can_publish),
 }%}
 
 {% set attr_depublish = {
+    disabled:  (not can_depublish),
     id:        'datedepublish',
     value:     (context.content.datedepublish == magic_date) ? '' : context.content.datedepublish,
-    disabled:  (not can_depublish),
 }%}
 
 {% set attr_status = {
