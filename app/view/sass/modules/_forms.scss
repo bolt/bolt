@@ -77,7 +77,7 @@ input[type="checkbox"] {
 fieldset.checkbox {
     display: inline-block;
     margin-top: -12px;
-    margin-bottom: -12px;    
+    margin-bottom: -12px;
 }
 
 fieldset.checkbox label {
@@ -98,7 +98,7 @@ fieldset.checkbox div {
 }
 
 div.form-notice:last-child{
-    margin-bottom: 18px;    
+    margin-bottom: 18px;
 }
 
 #editcontent .error{
@@ -139,23 +139,6 @@ div.form-notice:last-child{
 #editcontent .narrow.wide { /* Derp! */
     width: 60%;
     min-width: 200px;
-}
-
-#editcontent input.datepicker {
-    width: 21%;
-    min-width: 120px;
-    margin-right: 6px;
-    float: left;
-}
-/* Allow wider datepickers on desktops */
-@media (min-width: 480px) {
-
-    #editcontent input.datepicker.wide{
-        width: 35%;
-    }
-    #editcontent input.datepicker.extrawide{
-        width: 55%;
-    }
 }
 
 #editcontent input.timepicker {
@@ -264,11 +247,6 @@ div.form-notice:last-child{
         min-width: 160px;
         max-width: 200px;
     }
-}
-
-#editcontent .geolocation {
-    // #1592
-    //height: 180px;
 }
 
 #editcontent .dropzone.hover, #editcontent .dropzone.in  {
