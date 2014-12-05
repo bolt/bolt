@@ -28,6 +28,25 @@
         float: left;
     }
 
+    /*** Fieldset: Checkbox ***/
+
+    fieldset.checkbox {
+        display: block;
+
+        label {
+            display: inline;
+            padding-left: 0;
+            font-weight: normal;
+        }
+
+        input {
+            display: inline;
+            height: 1em;
+            margin-left: 10px;
+            width: auto;
+        }
+    }
+
     /*** Fieldset: Multiselect ***/
 
     fieldset.multiselect {
