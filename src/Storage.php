@@ -2703,7 +2703,7 @@ class Storage
      *   [
      *      0 => str(2) "22"
      *   ]
-     *   "kitchensinks" => arr(3)
+     *   "showcases" => arr(3)
      *   [
      *      0 => str(2) "15"
      *      1 => str(1) "9"
@@ -2717,13 +2717,13 @@ class Storage
      *   0 => arr(3)
      *   [
      *     "id"             => str(1) "5"
-     *     "to_contenttype" => str(12) "kitchensinks"
+     *     "to_contenttype" => str(12) "showcases"
      *     "to_id"          => str(2) "15"
      *   ]
      *   1 => arr(3)
      *   [
      *     "id"             => str(1) "6"
-     *     "to_contenttype" => str(12) "kitchensinks"
+     *     "to_contenttype" => str(12) "showcases"
      *     "to_id"          => str(1) "9"
      *   ]
      * ]
