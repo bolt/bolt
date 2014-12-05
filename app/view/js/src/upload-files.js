@@ -76,10 +76,11 @@ var FilelistHolder = Backbone.View.extend({
         $list.html('');
         _.each(this.list.models, function (file) {
             var fileName = file.get('filename'),
-                html = "<div data-id='" + file.get('id') + "' class='ui-state-default'>" +
-                        "<span class='file-description'>" + fileName + "</span>" +
-                        "<input type='text' value='" + _.escape(file.get('title')) + "'>" +
-                        "<a href='#'><i class='fa fa-times'></i></a></div>";
+                html = '<div data-id="' + file.get('id') + '" class="ui-state-default">' +
+                            '<input type="text" value="' + _.escape(file.get('title')) + '">' +
+                            '<a href="#"><i class="fa fa-times"></i></a>' +
+                            '<span>' + fileName + '</span>' +
+                        '</div>';
             $list.append(html);
         });
         if (this.list.models.length === 0) {

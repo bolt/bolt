@@ -59,9 +59,8 @@
         }
     }
 
-    /*** Imagelistholder / Filelistholder ***/
+    /*** Filelistholder ***/
 
-    div.imagelistholder,
     div.filelistholder {
         &.dropzone {
             height: auto;
@@ -75,7 +74,7 @@
         }
 
         img {
-            padding: 4px 6px;
+            padding-right: 6px;
         }
 
         div.buttons {
@@ -92,19 +91,21 @@
             box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1) inset;
 
             div {
+                min-height: 48px;
                 margin: 6px;
+                padding: 4px 6px;
                 border-radius: 3px;
                 cursor: ns-resize;
                 box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.2);
                 overflow: hidden;
+                background: url("smoothness/images/ui-bg_glass_75_e6e6e6_1x400X.png") repeat-x scroll 50% 61% #e6e6e6;
 
                 * {
                     float: left;
                 }
 
                 input {
-                    margin: 9px 0 0;
-                    padding: 3px 0 0 5px;
+                    padding: 1px 0 0 5px;
                     width: 65%;
                     border: 0;
 
@@ -113,41 +114,27 @@
                     }
                 }
 
+                // Delete button
                 a {
-                    margin: 15px 7px 0;
-                    padding: 0;
+                    padding: 5px;
                     cursor: pointer;
                     color: #999;
                     float: right;
+                    border-radius: 3px;
+
+                    &:hover {
+                        background: #dcdcdc;
+                    }
+                }
+
+                // File description
+                span {
+                    font-size: 80%;
+                    font-weight: bold;
+                    padding: 3px 0 0 5px;
+                    clear: both;
                 }
             }
-        }
-    }
-
-    div.imagelistholder div.list div {
-        height: 48px;
-    }
-
-    div.filelistholder div.list {
-        div {
-            min-height: 50px;
-            background: url("smoothness/images/ui-bg_glass_75_e6e6e6_1x400.png") repeat-x scroll 50% 61% rgb(230, 230, 230);
-
-            input {
-                margin-top: 5px;
-            }
-
-            a {
-                margin-top: 10px;
-            }
-        }
-
-        .file-description {
-            font-size: 80%;
-            font-weight: bold;
-            float: none;
-            display: block;
-            padding: 3px 0 0 5px;
         }
     }
 
