@@ -1,14 +1,15 @@
 /**
- * Editing content ..
+ * Editing content
  */
 
-label label {
-    display: inline !important;
-}
 
 label {
     display: block;
     margin-bottom: 3px;
+
+    label {
+        display: inline !important;
+    }
 }
 
 .form-control {
@@ -16,28 +17,32 @@ label {
     height: 33px;
 }
 
-.form-horizontal .control-label {
-    text-align: left;
-    font-size: $font-size-base + 1px;
-    font-weight: normal;
-    margin-bottom: 5px;
-    @include respond-to(medium-screens) {
-        @include old-ie() {
-            text-align: left!important; /* sadly... : ( ) */
-            margin-bottom: 5px!important; /* sadly... : ( ) */
+.form-horizontal {
+    .control-label {
+        text-align: left;
+        font-size: $font-size-base + 1px;
+        font-weight: normal;
+        margin-bottom: 5px;
+
+        @include respond-to(medium-screens) {
+            @include old-ie() {
+                text-align: left !important; // sadly... : ( )
+                margin-bottom: 5px !important; // sadly... : ( )
+            }
         }
     }
-}
 
-.form-horizontal .control-label-inline {
-    font-size: $font-size-base;
-    font-weight: bold;
-    margin-bottom: 5px;
-    padding-top: 4px;
+    .control-label-inline {
+        font-size: $font-size-base;
+        font-weight: bold;
+        margin-bottom: 5px;
+        padding-top: 4px;
+    }
 }
 
 .form-group {
     margin-bottom: 20px;
+
     .form-group {
         margin-bottom: 10px;
     }
@@ -46,6 +51,7 @@ label {
 .button-wrap {
     margin: 8px 0 4px;
     position: relative;
+
     .btn {
         margin: 0 4px 2px 0;
     }
@@ -71,14 +77,14 @@ fieldset.checkbox {
     display: inline-block;
     margin-top: -12px;
     margin-bottom: -12px;
-}
 
-fieldset.checkbox label {
-    display: inline;
-}
+    label {
+        display: inline;
+    }
 
-fieldset.checkbox div {
-    margin: 0.3em 0 0.5em;
+    div {
+        margin: 0.3em 0 0.5em;
+    }
 }
 
 .progress {
@@ -88,7 +94,7 @@ fieldset.checkbox div {
 }
 
 .fileinput-button {
-  margin-right: 4px;
+    margin-right: 4px;
 }
 
 .ui-sortable-helper {
@@ -105,34 +111,37 @@ fieldset.checkbox div {
 #filtertabs {
     margin-bottom: 16px;
     border: 0;
+
     @include respond-to(medium-screens) {
         border-bottom: 1px solid #d3d3d3;
     }
+
     a {
         color: #777;
         background-color: #dfdfdf;
         border: 1px solid #d3d3d3;
         cursor: pointer;
         padding: 5px 15px;
+
+        &:hover {
+            color: #555;
+            background-color: #F8F8F8 !important;
+            border-bottom: 0;
+        }
     }
-    a:hover {
-        color: #555;
-        background-color: #F8F8F8 !important;
-        border-botom: 0;
-    }
+
+
     li {
         margin-left: -3px;
+
         &.active {
             margin-top: -5px;
+
             a {
                 background-color: #F8F8F8;
                 color: #333;
                 padding: 7px 15px 8px 15px;
             }
-            &:hover {
-
-            }
         }
     }
 }
-
