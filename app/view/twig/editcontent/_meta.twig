@@ -18,6 +18,13 @@
     disabled:  (not can_depublish),
 }%}
 
+{% set attr_status = {
+    class:     'form-control narrow',
+    disabled:  (context.allowed_status|length <= 1),
+    id:        'statusselect',
+    name:      'status',
+}%}
+
 {% set attr_ownerid = {
     class:     'form-control narrow',
     disabled:  (not isallowed('contenttype:' ~ context.contenttype.slug ~ ':change-owner:' ~ context.content.id)),
@@ -75,9 +82,13 @@
     <div class="form-group">
         {{ macro.label(__('Status:'), '', 'col-sm-4 control-label') }}
         <div class="col-sm-8">
-            <select name="status" id="statusselect" {% if context.allowed_status|length <= 1 %}disabled="disabled"{% endif %} class="form-control narrow">
+            <select{{ macro.attr(attr_status) }}>
                 {% for status in context.allowed_status %}
-                    <option value="{{status}}" {% if context.content.status == status %}selected{% endif %}>{{ status_names[status] }}</option>
+                    {% set attr_opt = {
+                        value:     status,
+                        selected:  (context.content.status == status),
+                    }%}
+                    <option{{ macro.attr(attr_opt) }}>{{ status_names[status] }}</option>
                 {% endfor %}
             </select>
         </div>
