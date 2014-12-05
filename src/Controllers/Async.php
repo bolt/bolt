@@ -240,8 +240,11 @@ class Async implements ControllerProviderInterface
         $table = $app['config']->get('general/database/prefix', "bolt_");
         $table .= 'taxonomy';
 
-        $query = sprintf("SELECT DISTINCT %s.slug from %s where taxonomytype = ? order by slug ASC;",
-            $table, $table);
+        $query = sprintf(
+            'SELECT DISTINCT %s.slug from %s where taxonomytype = ? order by slug ASC;',
+            $table,
+            $table
+        );
         $query = $app['db']->executeQuery($query, array($taxonomytype));
 
         $results = $query->fetchAll();
@@ -256,8 +259,11 @@ class Async implements ControllerProviderInterface
 
         $limit = $app['request']->get('limit', 20);
 
-        $query = sprintf("SELECT slug , COUNT(slug) as count from  %s where taxonomytype = ? GROUP BY  slug ORDER BY count DESC LIMIT %s",
-            $table, intval($limit));
+        $query = sprintf(
+            'SELECT slug, COUNT(slug) as count from  %s where taxonomytype = ? GROUP BY  slug ORDER BY count DESC LIMIT %s',
+            $table,
+            intval($limit)
+        );
         $query = $app['db']->executeQuery($query, array($taxonomytype));
 
         $results = $query->fetchAll();
