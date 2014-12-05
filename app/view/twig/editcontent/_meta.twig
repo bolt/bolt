@@ -18,6 +18,12 @@
     disabled:  (not can_depublish),
 }%}
 
+{% set attr_ownerid = {
+    class:     'form-control narrow',
+    disabled:  (not isallowed('contenttype:' ~ context.contenttype.slug ~ ':change-owner:' ~ context.content.id)),
+    name:      'ownerid',
+}%}
+
 {% set attr_comment = {
     class:        'form-control',
     disabled:     (not isallowed('contenttype:' ~ context.contenttype.slug ~ ':change-owner:' ~ context.content.id)),
@@ -80,9 +86,13 @@
     <div class="form-group">
         {{ macro.label(__('Owner:'), '', 'col-sm-4 control-label') }}
         <div class="col-sm-8">
-            <select name="ownerid" {% if not isallowed("contenttype:" ~ context.contenttype.slug ~ ":change-owner:" ~ context.content.id) %}disabled="disabled"{% endif %} class="form-control narrow">
+            <select{{ macro.attr(attr_ownerid) }}>
                 {% for user in users %}
-                    <option value="{{ user.id }}" {% if context.contentowner and user.id == context.contentowner.id %}selected="selected"{% endif %}>{{user.displayname}}</option>
+                    {% set attr_opt = {
+                        value:     user.id,
+                        selected:  (context.contentowner and user.id == context.contentowner.id),
+                    }%}
+                    <option{{ macro.attr(attr_opt) }}>{{ user.displayname }}</option>
                 {% endfor %}
             </select>
         </div>
