@@ -12,6 +12,14 @@
     value:    editreferrer|default(''),
 }%}
 
+{% set attr_id = {
+    class:     'form-control narrow',
+    id:        'id',
+    readonly:  true,
+    type:      'text',
+    value:     context.content.id,
+}%}
+
 {% set attr_publish = {
     disabled: (not can_publish),
     id:       'datepublish',
@@ -58,7 +66,7 @@
     <div class="form-group">
         {{ macro.label('Id (№)', '', 'col-sm-4 control-label') }}
         <div class="col-sm-8">
-            <input type="text" readonly="readonly" name="id" value="{{ context.content.id }}" class="form-control narrow">
+            <input{{ macro.attr(attr_id) }}>
         </div>
     </div>
 
