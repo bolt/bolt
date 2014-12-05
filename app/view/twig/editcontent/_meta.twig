@@ -41,13 +41,13 @@
 
 {% set attr_ownerid = {
     class:     'form-control narrow',
-    disabled:  (not isallowed('contenttype:' ~ context.contenttype.slug ~ ':change-owner:' ~ context.content.id)),
+    disabled:  (not isallowed('contenttype:' ~ context.contenttype.slug ~ ':change-ownership:' ~ context.content.id)),
     name:      'ownerid',
 }%}
 
 {% set attr_comment = {
     class:        'form-control',
-    disabled:     (not isallowed('contenttype:' ~ context.contenttype.slug ~ ':change-owner:' ~ context.content.id)),
+    disabled:     (not isallowed('contenttype:' ~ context.contenttype.slug ~ ':change-ownership:' ~ context.content.id)),
     name_id:      'changelog-comment',
     placeholder:  __('Add a brief, optional comment to describe what\'s changed.'),
     type:         'text',
