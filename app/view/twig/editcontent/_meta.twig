@@ -18,6 +18,14 @@
     disabled:  (not can_depublish),
 }%}
 
+{% set attr_comment = {
+    class:        'form-control',
+    disabled:     (not isallowed('contenttype:' ~ context.contenttype.slug ~ ':change-owner:' ~ context.content.id)),
+    name_id:      'changelog-comment',
+    placeholder:  __('Add a brief, optional comment to describe what\'s changed.'),
+    type:         'text',
+}%}
+
 {#====================================================================================================================#}
 
 <div class="tabgrouping" data-tab="meta">
@@ -84,10 +92,7 @@
         {{ macro.label(__('Add a comment:'), '', 'col-sm-4 control-label') }}
         <div class="col-sm-8">
             {% if ischangelogenabled() %}
-                <input type="text" name="changelog-comment" id="changelog-comment" class="form-control"
-                {% if not isallowed("contenttype:" ~ context.contenttype.slug ~ ":change-owner:" ~ context.content.id) %}disabled="disabled"{% endif %}
-                placeholder="{{ __('Add a brief, optional comment to describe what\'s changed.') }}"
-                />
+                <input{{ macro.attr(attr_comment) }}>
                 </label>
             {% endif %}
         </div>
