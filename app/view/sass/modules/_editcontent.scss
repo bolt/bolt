@@ -138,6 +138,17 @@
         }
     }
 
+    /*** Tagcloud ***/
+
+    div.tagcloud {
+        margin-top: 6px;
+
+        a {
+            margin-right: 6px;
+            display: inline-block;
+        }
+    }
+
     /*** Input: Datepicker ***/
 
     input.datepicker {
