@@ -43,7 +43,7 @@
             {% if attrname == 'value' %}
                 value="{{ value }}"
             {% elseif value is not empty %}
-                {% if attrname in ['required', 'disabled', 'autofocus', 'multiple', 'readonly'] %}
+                {% if attrname in ['required', 'disabled', 'selected', 'autofocus', 'multiple', 'readonly'] %}
                     {{ attrname }}="{{ attrname }}"
                 {% elseif attrname == 'name_id' %}
                     name="{{ value }}" id="{{ value }}"
