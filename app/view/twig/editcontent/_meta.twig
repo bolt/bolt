@@ -73,11 +73,13 @@
     </div>
 
     {% if context.content.datecreated > '1970-01-01 01:01:01' %}
-    <p>{{ __('contenttypes.generic.created', {'%contenttype%': context.contenttype.slug}) }}
-        {{ macro.timemoment(context.content.datecreated) }}
-        {{ __('and edited') }}
-        {{ macro.timemoment(context.content.datechanged) }}.
-        {% endif %}</p>
+        <p>
+            {{ __('contenttypes.generic.created', {'%contenttype%': context.contenttype.slug}) }}
+            {{ macro.timemoment(context.content.datecreated) }}
+            {{ __('and edited') }}
+            {{ macro.timemoment(context.content.datechanged) }}.
+        </p>
+    {% endif %}
 
     <div class="form-group">
         {{ macro.label(__('Status:'), '', 'col-sm-4 control-label') }}
