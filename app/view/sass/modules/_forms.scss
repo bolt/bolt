@@ -116,31 +116,6 @@ div.form-notice:last-child{
     font-size: $font-size-base + 1px;
 }
 
-#editcontent input.large {
-    font-size: 150%;
-}
-
-#editcontent .narrow {
-    width: 45%;
-    min-width: 200px;
-}
-
-#editcontent .verynarrow {
-    width: 8%;
-    min-width: 50px;
-}
-
-
-#editcontent select.wide {
-    width: 70%;
-    min-width: 200px;
-}
-
-#editcontent .narrow.wide { /* Derp! */
-    width: 60%;
-    min-width: 200px;
-}
-
 #editcontent div.video-container {
     height: 120px;
     padding-right: 180px;

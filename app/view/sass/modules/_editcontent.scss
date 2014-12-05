@@ -1,5 +1,32 @@
 #editcontent {
 
+    /*** Input widths ***/
+
+    input.large {
+        font-size: 150%;
+    }
+
+    .narrow {
+        width: 45%;
+        min-width: 200px;
+    }
+
+    .verynarrow {
+        width: 8%;
+        min-width: 50px;
+    }
+
+
+    select.wide {
+        width: 70%;
+        min-width: 200px;
+    }
+
+    .narrow.wide { /* Derp! */
+        width: 60%;
+        min-width: 200px;
+    }
+
     /*** Input: Datepicker ***/
 
     input.datepicker {
