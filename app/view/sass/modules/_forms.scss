@@ -81,27 +81,6 @@ fieldset.checkbox div {
     margin: 0.3em 0 0.5em;
 }
 
-#editcontent .imageholder {
-    overflow: hidden;
-
-    img {
-        max-height: 148px;
-        max-width: 100%;
-        border: 1px solid #BBB;
-    }
-}
-
-#editcontent .mapholder {
-    border: 1px solid #BBB;
-    height: 160px;
-    padding: 2px;
-    //box-shadow:  2px 2px 0 rgba(0, 0, 0, 0.2);
-    @include respond-to(medium-screens) {
-        min-width: 160px;
-        max-width: 200px;
-    }
-}
-
 .progress {
     width: 20%;
     display: none;

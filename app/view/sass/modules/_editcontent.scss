@@ -149,6 +149,29 @@
         }
     }
 
+    /*** Map/Image-Holder ***/
+
+    .imageholder {
+        overflow: hidden;
+
+        img {
+            max-height: 148px;
+            max-width: 100%;
+            border: 1px solid #BBB;
+        }
+    }
+
+    .mapholder {
+        border: 1px solid #BBB;
+        height: 160px;
+        padding: 2px;
+
+        @include respond-to(medium-screens) {
+            min-width: 160px;
+            max-width: 200px;
+        }
+    }
+
     /*** Input: Datepicker ***/
 
     input.datepicker {
