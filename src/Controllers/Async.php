@@ -226,11 +226,11 @@ class Async implements ControllerProviderInterface
     public function makeuri(Silex\Application $app, Request $request)
     {
         $uri = $app['storage']->getUri(
-                $request->query->get('title'),
-                $request->query->get('id'),
-                $request->query->get('contenttypeslug'),
-                $request->query->get('fulluri')
-            );
+            $request->query->get('title'),
+            $request->query->get('id'),
+            $request->query->get('contenttypeslug'),
+            $request->query->get('fulluri')
+        );
 
         return $uri;
     }
