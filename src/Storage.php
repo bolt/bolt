@@ -648,7 +648,7 @@ class Storage
                     break;
 
                 case 'geolocation':
-                    if ( !empty($fieldvalues[$key]['latitude']) && !empty($fieldvalues[$key]['longitude']) ) {
+                    if (!empty($fieldvalues[$key]['latitude']) && !empty($fieldvalues[$key]['longitude'])) {
                         $fieldvalues[$key] = json_encode($fieldvalues[$key]);
                     } else {
                         $fieldvalues[$key] = '';
