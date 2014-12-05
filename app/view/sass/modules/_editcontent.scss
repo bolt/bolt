@@ -1,5 +1,26 @@
 #editcontent {
 
+    /*** General ***/
+
+    small {
+        font-size: 12px;
+        color: #666;
+    }
+
+    input,
+    select,
+    textarea {
+        border-radius: 2px;
+        border-color: #CCC;
+        font-size: $font-size-base + 1px;
+    }
+
+    .error{
+        border-color: #888;
+        color: $state-danger-text;
+        background: $alert-danger-bg;
+    }
+
     /*** Input widths ***/
 
     input.large {

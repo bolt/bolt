@@ -94,21 +94,6 @@ div.form-notice:last-child{
     margin-bottom: 18px;
 }
 
-#editcontent .error{
-    border-color: #888;
-    color: $state-danger-text;
-    background: $alert-danger-bg;
-}
-
-
-#editcontent input,
-#editcontent select,
-#editcontent textarea {
-    border-radius: 2px;
-    border-color: #CCC;
-    font-size: $font-size-base + 1px;
-}
-
 #editcontent div.video-container {
     height: 120px;
     padding-right: 180px;
@@ -175,11 +160,6 @@ div.form-notice:last-child{
 
 #editcontent .dropzone.hover *, #editcontent .dropzone.in *  {
     opacity: 0.7;
-}
-
-#editcontent small {
-    font-size: 12px;
-    color: #666;
 }
 
 .progress {
