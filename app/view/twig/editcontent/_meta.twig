@@ -6,6 +6,12 @@
 {% set can_publish = isallowed('contenttype:' ~ context.contenttype.slug ~ ':publish:' ~ context.content.id) %}
 {% set can_depublish = isallowed('contenttype:' ~ context.contenttype.slug ~ ':depublish:' ~ context.content.id) %}
 
+{% set attr_editreferrer = {
+    name_id:  'editreferrer',
+    type:     'hidden',
+    value:    editreferrer|default(''),
+}%}
+
 {% set attr_publish = {
     disabled: (not can_publish),
     id:       'datepublish',
@@ -47,7 +53,7 @@
         {{ __('Meta information') }}
     </h3>
 
-    <input type="hidden" name="editreferrer" id="editreferrer" value="{{ editreferrer|default('') }}">
+    <input{{ macro.attr(attr_editreferrer) }}>
 
     <div class="form-group">
         {{ macro.label('Id (№)', '', 'col-sm-4 control-label') }}
