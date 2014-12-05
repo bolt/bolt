@@ -197,3 +197,18 @@
         <time class="moment" datetime="{{ datetime|date("c") }}" title="{{ datetime }}">{{ datetime }}</time>
     {% endspaceless %}
 {% endmacro %}
+
+{% macro upload_buttons(key, txt_upload, attr_upload, paths, uploadpath) %}
+    {% from _self import attr %}
+
+    <span class="btn btn-secondary fileinput-button">
+        <i class="fa fa-upload"></i>
+        <span>{{ txt_upload }}</span>
+        <input{{ attr(attr_upload) }}>
+    </span>
+
+    <a data-target="#selectModal-{{ key }}" href="{{ paths.async }}browse/files{{ uploadpath ? '/' ~ uploadpath : '' }}?key={{ key }}" class="btn btn-tertiary" data-toggle="modal">
+        <i class="fa fa-download"></i>
+        {{ __('field.general.select-from-server') }}
+    </a>
+{% endmacro %}
