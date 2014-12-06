@@ -72,19 +72,19 @@ var FilelistHolder = Backbone.View.extend({
     render: function () {
         this.list.sort();
 
-        var $list = $('#filelist-' + this.id + ' .list');
-        $list.html('');
+        var list = $('#filelist-' + this.id + ' .list'),
+            data = list.data('list');
+
+        list.html('');
         _.each(this.list.models, function (file) {
-            var fileName = file.get('filename'),
-                html = '<div data-id="' + file.get('id') + '" class="ui-state-default">' +
-                            '<input type="text" value="' + _.escape(file.get('title')) + '">' +
-                            '<a href="#"><i class="fa fa-times"></i></a>' +
-                            '<span>' + fileName + '</span>' +
-                        '</div>';
-            $list.append(html);
+            list.append(data.item.
+                replace('<ID>', file.get('id')).
+                replace('<VAL>', _.escape(file.get('title'))).
+                replace('<INF>', file.get('filename'))
+            );
         });
         if (this.list.models.length === 0) {
-            $list.append("<p>No files in the list, yet.</p>");
+            list.append(data.empty);
         }
         this.serialize();
     },

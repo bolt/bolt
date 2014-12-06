@@ -40,12 +40,29 @@
 
 {#=== FIELDSET =======================================================================================================#}
 
+{% set list_empty %}
+    <p>{{ __('No files in the list, yet.') }}</p>
+{% endset %}
+
+{% set list_item %}
+    <div data-id="{{ '<ID>' }}" class="ui-state-default">
+        <input type="text" value="{{ '<VAL>' }}">
+        <a href="#"><i class="fa fa-times"></i></a>
+        <span>{{ '<INF>' }}</span>
+    </div>
+{% endset %}
+
+{% set listdata = {
+    'empty': list_empty|trim,
+    'item':  list_item|trim|preg_replace('/>\\s+</', '><'),
+} %}
+
 <fieldset class="filelist">
     <label class="col-sm-12 control-label">{{ macro.infopop(labelkey, option.info) }}</label>
 
     <div class="col-sm-12 filelistholder dropzone" id="filelist-{{ key }}">
 
-        <div class="list"></div>
+        <div class="list" data-list="{{ listdata|json_encode }}"></div>
 
         {{ macro.upload_buttons('file', key, attr_fileupload, option.upload) }}
 
