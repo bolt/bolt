@@ -197,3 +197,56 @@
         <time class="moment" datetime="{{ datetime|date("c") }}" title="{{ datetime }}">{{ datetime }}</time>
     {% endspaceless %}
 {% endmacro %}
+
+ # Renders a upload button combo [Upload] [Select from Server] [Select from Stack]
+ #
+ # @param string type Either 'image' or 'other,document'
+ # @param string key Id of the input element
+ # @param string attr_upload Attributes for the file upload button
+ # @param string uploadpath Relative upload path
+ #}
+{% macro upload_buttons(type, key, attr_upload, uploadpath) %}
+    {% from _self import attr %}
+
+    {% set items = stackitems(7, (type == 'image') ?  'image' : 'other,document') %}
+    {% set href = paths.async ~ 'browse/files' ~ (uploadpath ? '/' ~ uploadpath : '' ) ~ '?key=' ~ key %}
+
+    <div class="button-wrap fileselectbuttongroup">
+
+        {# Button: Upload #}
+        <button type="button" class="btn btn-secondary fileinput-button">
+            <i class="fa fa-upload"></i>
+            <span>{{ (type == 'image') ? __('Upload image') : __('Upload file') }}</span>
+            <input{{ attr(attr_upload) }}>
+        </button>
+
+        {# Button: Select from Server #}
+        <button type="button" class="btn btn-tertiary" data-target="#selectModal-{{ key }}" href="{{ href }}" data-toggle="modal">
+            <i class="fa fa-download"></i>
+            {{ __('field.general.select-from-server') }}
+        </button>
+
+        {# Button: Select from Stack #}
+        {% if items %}
+            <div class="btn-group">
+                <button type="button" class="btn btn-tertiary dropdown-toggle" data-toggle="dropdown">
+                    <i class="fa fa-paperclip"></i>
+                    {{ __('field.general.select-from-stack') }}
+                    <span class="caret"></span>
+                </button>
+
+                <ul class="dropdown-menu" id="stack-{{ key }}">
+                    {% for item in items %}
+                        {% set info = item.filesize ~ (item.imagesize|default() ? ', ' ~ item.imagesize ~ ' px' : '') %}
+                        <li>
+                            <a href="#" data-action="bolt.stack.selectFromPulldown('{{ key }}', '{{ item.filepath }}');">
+                                {{ item.basename }} <small>({{ info }})</small>
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
+    </div>
+{% endmacro %}

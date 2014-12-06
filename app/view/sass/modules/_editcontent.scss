@@ -138,6 +138,18 @@
         }
     }
 
+    /*** Fileselect button group ***/
+
+    .fileselectbuttongroup {
+        & > * {
+            margin: 0 4px 4px 0;
+            float: left;
+        }
+        .caret {
+            margin: 0 -4px 0 4px;
+        }
+    }
+
     /*** Tagcloud ***/
 
     div.tagcloud {

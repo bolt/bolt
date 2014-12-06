@@ -9,8 +9,6 @@
 
 {#=== INIT ===========================================================================================================#}
 
-{% set items = stackitems(7, 'other,document') %}
-
 {% set attr_fileupload = {
     accept:       option.extensions ? '.'~option.extensions|join(',.') : '',
     data_upload:  {type: 'FileList', key: key}|json_encode(),
@@ -49,37 +47,7 @@
 
         <div class="list"></div>
 
-        <div class="button-wrap">
-
-            <span class="btn btn-secondary fileinput-button">
-                <i class="fa fa-upload"></i> <span>{{ __('Upload file') }}</span>
-                <input{{ macro.attr(attr_fileupload) }}>
-            </span>
-
-            <a data-target="#selectModal-{{ key }}" href="{{ paths.async }}browse/files?key={{ key }}" class="btn btn-tertiary" data-toggle="modal">
-                <i class="fa fa-download"></i> {{ __('field.general.select-from-server') }}
-            </a>
-
-            {% if items %}
-                <div class="button-group">
-                    <a class="btn btn-tertiary dropdown-toggle" data-toggle="dropdown">
-                        <i class="fa fa-paperclip"></i> {{ __('field.general.select-from-stack') }}
-                        <span class="caret"></span>
-                    </a>
-
-                    <ul class="dropdown-menu" id="stack-{{ key }}">
-                        {% for item in items %}
-                            <li>
-                                <a href="#" data-action="bolt.stack.selectFromPulldown('{{ key }}', '{{ item.filepath }}');">
-                                    {{ item.basename }} <small>({{ item.filesize }})</small>
-                                </a>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </div>
-            {% endif %}
-
-        </div>
+        {{ macro.upload_buttons('file', key, attr_fileupload, option.upload) }}
 
         <textarea name="{{ key }}" id="{{ key }}" class="hide">{{ list_json }}</textarea>
 
