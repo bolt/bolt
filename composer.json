@@ -6,7 +6,7 @@
     "license": "MIT",
 
     "require": {
-        "bolt/dumper": "~0.7",
+        "bolt/dumper": "~2.0",
         "bolt/thumbs": "~2.0",
         "brandonwamboldt/utilphp": "~1.0",
         "composer/composer": "1.0.*@dev",
