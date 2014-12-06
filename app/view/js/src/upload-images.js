@@ -64,10 +64,11 @@ var ImagelistHolder = Backbone.View.extend({
         $list.html('');
         _.each(this.list.models, function (image) {
             image.set('id', index++);
-            var html = "<div data-id='" + image.get('id') + "' class='ui-state-default'>" +
-                "<img src='" + bolt.paths.bolt + "../thumbs/60x40/" + image.get('filename') + "' width=60 height=40>" +
-                "<input type='text' value='" + _.escape(image.get('title'))  + "'>" +
-                "<a href='#'><i class='fa fa-times'></i></a></div>";
+            var html = '<div data-id="' + image.get('id') + '" class="ui-state-default">' +
+                    '<img src="' + bolt.paths.bolt + '../thumbs/60x40/' + image.get('filename') + '" width="60" height="40">' +
+                    '<input type="text" value="' + _.escape(image.get('title'))  + '">' +
+                    '<a href="#"><i class="fa fa-times"></i></a>' +
+                '</div>';
             $list.append(html);
         });
         if (this.list.models.length === 0) {

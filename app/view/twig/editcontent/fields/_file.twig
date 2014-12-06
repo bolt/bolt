@@ -59,7 +59,7 @@
             <ul class="dropdown-menu" id="stack-{{ key }}">
                 {% for item in items %}
                     <li>
-                        <a href="#" data-action="bolt.stack.selectFromPulldown('{{ key }}', '{{ item.filepath }}');">{{ item.basename }} <small>({{ item.filesize }}, {{ item.imagesize }} px)</small></a>
+                        <a href="#" data-action="bolt.stack.selectFromPulldown('{{ key }}', '{{ item.filepath }}');">{{ item.basename }} <small>({{ item.filesize }}{% if item.imagesize|default() %}, {{ item.imagesize }} px{% endif %})</small></a>
                     </li>
                 {% endfor %}
             </ul>

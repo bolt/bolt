@@ -46,21 +46,22 @@
     <label class="col-sm-12 control-label">{{ macro.infopop(labelkey, option.info) }}</label>
 
     <div class="col-sm-12 filelistholder dropzone" id="filelist-{{ key }}">
-            <div class="list"></div>
 
-            <div class="button-wrap">
+        <div class="list"></div>
 
-                <span class="btn btn-secondary fileinput-button">
-                    <i class="fa fa-upload"></i> <span>{{ __('Upload file') }}</span>
-                    <input{{ macro.attr(attr_fileupload) }}>
-                </span>
+        <div class="button-wrap">
 
-                <a data-target="#selectModal-{{ key }}" href="{{ paths.async }}browse/files?key={{ key }}" class="btn btn-tertiary fileinput-select" data-toggle="modal">
-                    <i class="fa fa-download"></i> {{ __('field.general.select-from-server') }}
-                </a>
+            <span class="btn btn-secondary fileinput-button">
+                <i class="fa fa-upload"></i> <span>{{ __('Upload file') }}</span>
+                <input{{ macro.attr(attr_fileupload) }}>
+            </span>
 
-                {% if items %}
-                <div class="button-group" style="margin: 0 0 6px;">
+            <a data-target="#selectModal-{{ key }}" href="{{ paths.async }}browse/files?key={{ key }}" class="btn btn-tertiary" data-toggle="modal">
+                <i class="fa fa-download"></i> {{ __('field.general.select-from-server') }}
+            </a>
+
+            {% if items %}
+                <div class="button-group">
                     <a class="btn btn-tertiary dropdown-toggle" data-toggle="dropdown">
                         <i class="fa fa-paperclip"></i> {{ __('field.general.select-from-stack') }}
                         <span class="caret"></span>
@@ -69,13 +70,16 @@
                     <ul class="dropdown-menu" id="stack-{{ key }}">
                         {% for item in items %}
                             <li>
-                                <a href="#" data-action="bolt.stack.selectFromPulldown('{{ key }}', '{{ item.filepath }}');">{{ item.basename }} <small>({{ item.filesize }})</small></a>
+                                <a href="#" data-action="bolt.stack.selectFromPulldown('{{ key }}', '{{ item.filepath }}');">
+                                    {{ item.basename }} <small>({{ item.filesize }})</small>
+                                </a>
                             </li>
                         {% endfor %}
                     </ul>
                 </div>
-                {% endif %}
-            </div>
+            {% endif %}
+
+        </div>
 
         <textarea name="{{ key }}" id="{{ key }}" class="hide">{{ list_json }}</textarea>
 
