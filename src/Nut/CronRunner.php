@@ -20,6 +20,7 @@ class CronRunner extends BaseCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $param = false;
         if ($input->getOption('run')) {
             $param = array(
                 'run' => true,
