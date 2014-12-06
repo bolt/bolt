@@ -54,8 +54,12 @@
 {% endset %}
 
 {% set listdata = {
-    'empty': list_empty|trim,
-    'item':  list_item|trim|preg_replace('/>\\s+</', '><'),
+    'message': {
+        'remove':     __('Are you sure you want to remove this image?'),
+        'wrongtype':  __('There was an error uploading the file.\nMake sure that the file type is of:\n%typelist%', {'%typelist%': option.extensions ? '.'~option.extensions|join(', .') : '–'})
+    },
+    'empty':          list_empty|trim,
+    'item':           list_item|trim|preg_replace('/>\\s+</', '><'),
 } %}
 
 <fieldset class="imagelist">
