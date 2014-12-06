@@ -34,24 +34,6 @@
 
 {% import _self as block %}
 
-{% macro stack(key, items) %}
-    {% if items %}
-        <div class="btn-group">
-            <a class="btn btn-tertiary dropdown-toggle" data-toggle="dropdown">
-                <i class="fa fa-paperclip"></i>
-                {{ __('field.general.select-from-stack') }}<span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu" id="stack-{{ key }}">
-                {% for item in items %}
-                    <li>
-                        <a href="#" data-action="bolt.stack.selectFromPulldown('{{ key }}', '{{ item.filepath }}');">{{ item.basename }} <small>({{ item.filesize }}{% if item.imagesize|default() %}, {{ item.imagesize }} px{% endif %})</small></a>
-                    </li>
-                {% endfor %}
-            </ul>
-        </div>
-    {% endif %}
-{% endmacro %}
-
 {% macro progress(key) %}
     <div class="progress progress-striped active" id="progress-{{ key }}">
         <div class="bar" style="width: 0%;"></div>
@@ -76,8 +58,7 @@
         <input{{ macro.attr(attr_filepath) }}>
 
         <div class="button-wrap">
-            {{ macro.upload_buttons(key, __('Upload file'), attr_upload, paths, option.upload) }}
-            {{ block.stack(key, items) }}
+            {{ macro.upload_buttons('file', key, __('Upload file'), attr_upload, paths, option.upload) }}
         </div>
         {{ block.progress(key) }}
         {{ block.serverselect(key, __('Cancel')) }}
