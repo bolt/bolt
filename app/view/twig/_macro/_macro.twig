@@ -43,7 +43,7 @@
             {% if attrname == 'value' %}
                 value="{{ value }}"
             {% elseif value is not empty %}
-                {% if attrname in ['required', 'disabled', 'autofocus', 'multiple', 'readonly'] %}
+                {% if attrname in ['required', 'disabled', 'selected', 'autofocus', 'multiple', 'readonly'] %}
                     {{ attrname }}="{{ attrname }}"
                 {% elseif attrname == 'name_id' %}
                     name="{{ value }}" id="{{ value }}"
@@ -185,4 +185,15 @@
             <i class="fa fa-close"></i>
         </button>
     </div>
+{% endmacro %}
+
+{##
+ # Renders a datetime/date input component
+ #
+ # @param string datetime ISO-datetime to display
+ #}
+{% macro timemoment(datetime) %}
+    {% spaceless %}
+        <time class="moment" datetime="{{ datetime|date("c") }}" title="{{ datetime }}">{{ datetime }}</time>
+    {% endspaceless %}
 {% endmacro %}
