@@ -55,9 +55,7 @@
     <div class="col-sm-12 dropzone clearfix" id="dropzone-{{ key }}">
         <input{{ macro.attr(attr_filepath) }}>
 
-        <div class="button-wrap">
-            {{ macro.upload_buttons('file', key, attr_upload, option.upload) }}
-        </div>
+        {{ macro.upload_buttons('file', key, attr_upload, option.upload) }}
         {{ block.progress(key) }}
         {{ block.serverselect(key, __('Cancel')) }}
 
