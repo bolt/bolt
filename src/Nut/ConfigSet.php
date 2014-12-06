@@ -27,7 +27,7 @@ class ConfigSet extends BaseCommand
         $result = $yaml->change($key, $value);
 
         if ($result) {
-            $result = sprintf("New value for <info>%s: %s</info> was succesful. File updated.", $key, $value);
+            $result = sprintf("New value for <info>%s: %s</info> was successful. File updated.", $key, $value);
         } else {
             $result = sprintf("<error>%s not found, or file not writable.</error>", $key);
         }
