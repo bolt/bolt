@@ -9,8 +9,6 @@
 
 {#=== INIT ===========================================================================================================#}
 
-{% set items = stackitems(7, 'other,document') %}
-
 {% set attr_fileupload = {
     accept:       option.extensions ? '.'~option.extensions|join(',.') : '',
     data_upload:  {type: 'FileList', key: key}|json_encode(),
