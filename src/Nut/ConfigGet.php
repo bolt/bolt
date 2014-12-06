@@ -3,6 +3,7 @@
 namespace Bolt\Nut;
 
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -26,7 +27,7 @@ class ConfigGet extends BaseCommand
             $file = $input->getOption('file');
         } else {
             $file = $this->app['resources']->getPath('config') . "/config.yml";
-        }        
+        }
 
         $yaml = new \Bolt\YamlUpdater($file);
         $match = $yaml->get($key);
