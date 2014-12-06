@@ -14,15 +14,22 @@ class ConfigSet extends BaseCommand
             ->setName('config:set')
             ->setDescription('Set a value in config.yml.')
             ->addArgument('key', InputArgument::REQUIRED, 'The key you wish to get.')
-            ->addArgument('value', InputArgument::REQUIRED, 'The value you wish to set it to.');
+            ->addArgument('value', InputArgument::REQUIRED, 'The value you wish to set it to.')
+            ->addOption('file', 'f', InputOption::VALUE_OPTIONAL, "Specify config file to use");
+
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $key = $input->getArgument('key');
         $value = $input->getArgument('value');
-        $file = $this->app['resources']->getPath('config') . "/config.yml";
-
+        
+        if ($input->getOption('file')) {
+            $file = $input->getOption('file');
+        } else {
+            $file = $this->app['resources']->getPath('config') . "/config.yml";
+        } 
+        
         $yaml = new \Bolt\YamlUpdater($file);
         $result = $yaml->change($key, $value);
 
