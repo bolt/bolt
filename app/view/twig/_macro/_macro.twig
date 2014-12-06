@@ -198,8 +198,10 @@
     {% endspaceless %}
 {% endmacro %}
 
-{% macro upload_buttons(key, txt_upload, attr_upload, paths, uploadpath) %}
+{% macro upload_buttons(type, key, txt_upload, attr_upload, paths, uploadpath) %}
     {% from _self import attr %}
+
+    {% set items = stackitems(7, (type == 'image') ?  'image' : 'other,document') %}
 
     <span class="btn btn-secondary fileinput-button">
         <i class="fa fa-upload"></i>
@@ -211,4 +213,21 @@
         <i class="fa fa-download"></i>
         {{ __('field.general.select-from-server') }}
     </a>
+
+    {% if items %}
+        <div class="btn-group">
+            <a class="btn btn-tertiary dropdown-toggle" data-toggle="dropdown">
+                <i class="fa fa-paperclip"></i>
+                {{ __('field.general.select-from-stack') }}
+                <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu" id="stack-{{ key }}">
+                {% for item in items %}
+                    <li>
+                        <a href="#" data-action="bolt.stack.selectFromPulldown('{{ key }}', '{{ item.filepath }}');">{{ item.basename }} <small>({{ item.filesize }}{% if item.imagesize|default() %}, {{ item.imagesize }} px{% endif %})</small></a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
 {% endmacro %}
