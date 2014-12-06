@@ -198,6 +198,13 @@
     {% endspaceless %}
 {% endmacro %}
 
+ # Renders a upload button combo [Upload] [Select from Server] [Select from Stack]
+ #
+ # @param string type Either 'image' or 'other,document'
+ # @param string key Id of the input element
+ # @param string attr_upload Attributes for the file upload button
+ # @param string uploadpath Relative upload path
+ #}
 {% macro upload_buttons(type, key, attr_upload, uploadpath) %}
     {% from _self import attr %}
 
