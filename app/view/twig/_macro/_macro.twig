@@ -198,7 +198,7 @@
     {% endspaceless %}
 {% endmacro %}
 
-{% macro upload_buttons(type, key, txt_upload, attr_upload, paths, uploadpath) %}
+{% macro upload_buttons(type, key, txt_upload, attr_upload, uploadpath) %}
     {% from _self import attr %}
 
     {% set items = stackitems(7, (type == 'image') ?  'image' : 'other,document') %}

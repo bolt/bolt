@@ -58,7 +58,7 @@
         <input{{ macro.attr(attr_filepath) }}>
 
         <div class="button-wrap">
-            {{ macro.upload_buttons('file', key, __('Upload file'), attr_upload, paths, option.upload) }}
+            {{ macro.upload_buttons('file', key, __('Upload file'), attr_upload, option.upload) }}
         </div>
         {{ block.progress(key) }}
         {{ block.serverselect(key, __('Cancel')) }}
