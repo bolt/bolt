@@ -211,7 +211,7 @@
     {% set items = stackitems(7, (type == 'image') ?  'image' : 'other,document') %}
     {% set href = paths.async ~ 'browse/files' ~ (uploadpath ? '/' ~ uploadpath : '' ) ~ '?key=' ~ key %}
 
-    <div class="button-wrap">
+    <div class="button-wrap fileselectbuttongroup">
 
         {# Button: Upload #}
         <button type="button" class="btn btn-secondary fileinput-button">
