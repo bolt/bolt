@@ -51,28 +51,7 @@
         <div class="list"></div>
 
         <div class="button-wrap">
-
-            {{ macro.upload_buttons(key, __('Upload image'), attr_fileupload, paths, option.upload) }}
-
-            {% if items %}
-                <div class="button-group">
-                    <a class="btn btn-tertiary dropdown-toggle" data-toggle="dropdown">
-                        <i class="fa fa-paperclip"></i> {{ __('field.general.select-from-stack') }}
-                        <span class="caret"></span>
-                    </a>
-
-                    <ul class="dropdown-menu" id="stack-{{ key }}">
-                        {% for item in items %}
-                            <li>
-                                <a href="#" data-action="bolt.stack.selectFromPulldown('{{ key }}', '{{ item.filepath }}');">
-                                    {{ item.basename }} <small>({{ item.filesize }}, {{ item.imagesize }} px)</small>
-                                </a>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </div>
-            {% endif %}
-
+            {{ macro.upload_buttons('image', key, __('Upload image'), attr_fileupload, paths, option.upload) }}
         </div>
 
         <textarea name="{{ key }}" id="{{ key }}" class="hide">{{ list_json }}</textarea>
