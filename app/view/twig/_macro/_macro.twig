@@ -198,14 +198,14 @@
     {% endspaceless %}
 {% endmacro %}
 
-{% macro upload_buttons(type, key, txt_upload, attr_upload, uploadpath) %}
+{% macro upload_buttons(type, key, attr_upload, uploadpath) %}
     {% from _self import attr %}
 
     {% set items = stackitems(7, (type == 'image') ?  'image' : 'other,document') %}
 
     <span class="btn btn-secondary fileinput-button">
         <i class="fa fa-upload"></i>
-        <span>{{ txt_upload }}</span>
+        <span>{{ (type == 'image') ? __('Upload image') : __('Upload file') }}</span>
         <input{{ attr(attr_upload) }}>
     </span>
 

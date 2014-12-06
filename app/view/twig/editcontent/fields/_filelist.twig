@@ -50,7 +50,7 @@
         <div class="list"></div>
 
         <div class="button-wrap">
-            {{ macro.upload_buttons('file', key, __('Upload file'), attr_fileupload, option.upload) }}
+            {{ macro.upload_buttons('file', key, attr_fileupload, option.upload) }}
         </div>
 
         <textarea name="{{ key }}" id="{{ key }}" class="hide">{{ list_json }}</textarea>

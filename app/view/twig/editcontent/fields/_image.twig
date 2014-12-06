@@ -110,7 +110,7 @@
         </div>
         {{ block.attributes(key, option, image) }}
         <div class="button-wrap">
-            {{ macro.upload_buttons('image', key, __('Upload image'), attr_upload, option.upload) }}
+            {{ macro.upload_buttons('image', key, attr_upload, option.upload) }}
         </div>
         {{ block.progress(key) }}
         {{ block.serverselect(key, __('Cancel')) }}
