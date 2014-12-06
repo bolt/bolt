@@ -1499,10 +1499,6 @@ bolt.datetimes = function () {
         field.date.datepicker(options);
         // Bind show button
         field.show.click(function () {
-            // Set the date to "today", if nothing has been picked yet.
-            if (!field.date.datepicker('getDate')) {
-                field.date.datepicker('setDate', "+0");
-            }
             field.date.datepicker('show');
         });
         // Bind clear button
