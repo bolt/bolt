@@ -848,7 +848,7 @@ class TwigExtension extends \Twig_Extension
 
         // After v1.5.1 we store image data as an array
         if (is_array($filename)) {
-            $filename = $filename['file'];
+            $filename = $filename['filename'];
         }
 
         $path = sprintf(
@@ -957,7 +957,7 @@ class TwigExtension extends \Twig_Extension
 
         // After v1.5.1 we store image data as an array
         if (is_array($filename)) {
-            $filename = $filename['file'];
+            $filename = $filename['filename'];
         }
 
         $image = sprintf(
