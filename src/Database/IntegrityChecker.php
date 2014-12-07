@@ -16,6 +16,7 @@ use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\TableDiff;
 
 use Bolt\Helpers\String;
+use Bolt\Application;
 
 class IntegrityChecker
 {
@@ -49,7 +50,7 @@ class IntegrityChecker
 
     public static $integrityCachePath;
 
-    public function __construct(\Bolt\Application $app)
+    public function __construct(Application $app)
     {
         $this->app = $app;
 
@@ -85,7 +86,7 @@ class IntegrityChecker
         return self::$integrityCachePath . '/' . self::INTEGRITY_CHECK_TS_FILENAME;
     }
 
-    public static function invalidate()
+    public static function invalidate(Application $app)
     {
         // delete the cached dbcheck-ts
         if (is_writable(self::getValidityTimestampFilename())) {
