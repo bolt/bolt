@@ -98,7 +98,11 @@ bolt.datetimes = function () {
         // Set time field
         if (field.time.exists) {
             if (time === '') {
-                time = '';
+                if (date !== '') {
+                    time = '00:00';
+                } else {
+                    time = '';
+                }
             } else if (is24h) {
                 time = field.data.val().slice(11, 16);
             } else {
