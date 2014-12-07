@@ -85,7 +85,7 @@ class IntegrityChecker
         return self::$integrityCachePath . '/' . self::INTEGRITY_CHECK_TS_FILENAME;
     }
 
-    public static function invalidate()
+    public static function invalidate(Application $app)
     {
         // delete the cached dbcheck-ts
         if (is_writable(self::getValidityTimestampFilename())) {
