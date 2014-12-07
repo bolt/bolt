@@ -4,7 +4,7 @@
 # If you're trying out Bolt, just keep it set to SQLite for now.
 database:
   driver: sqlite
-  databasename: boltpppp
+  databasename: bolt
 
 # The name of the website
 sitename: A sample site
