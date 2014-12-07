@@ -16,7 +16,6 @@ use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\TableDiff;
 
 use Bolt\Helpers\String;
-use Bolt\Application;
 
 class IntegrityChecker
 {
@@ -50,7 +49,7 @@ class IntegrityChecker
 
     public static $integrityCachePath;
 
-    public function __construct(Application $app)
+    public function __construct(\Bolt\Application $app)
     {
         $this->app = $app;
 
@@ -86,7 +85,7 @@ class IntegrityChecker
         return self::$integrityCachePath . '/' . self::INTEGRITY_CHECK_TS_FILENAME;
     }
 
-    public static function invalidate(Application $app)
+    public static function invalidate()
     {
         // delete the cached dbcheck-ts
         if (is_writable(self::getValidityTimestampFilename())) {
@@ -96,7 +95,7 @@ class IntegrityChecker
                 "The file '%s' exists, but couldn't be removed. Please remove this file manually, and try again.",
                 self::getValidityTimestampFilename()
             );
-            $app->abort(401, $message);
+            $this->app->abort(401, $message);
         }
     }
 
