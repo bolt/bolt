@@ -32,8 +32,12 @@
                     <p>{{ home.excerpt(500) }}</p>
                 {% endif %}
 
-                {% if home.link is defined and home.link is not empty %}
-                    <a href="{{ home.link }}">Read more &raquo;</a>
+                {% if home.forcedlink is defined and home.forcedlink is not empty %}
+                    <a href="{{ home.forcedlink }}">Read more &raquo;</a>
+                {% else %}
+                    {% if home.link is defined and home.link is not empty %}
+                        <a href="{{ home.link }}">Read more &raquo;</a>
+                    {% endif %}
                 {% endif %}
 
                 {# Tip: If you're curious what all of the available fields of this

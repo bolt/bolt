@@ -6,7 +6,12 @@
         <h2>{{ __('generic.noscript.headline') }}</h2>
         <p>{{ __('generic.noscript.message') }}</p>
     </section>
-</noscript>
+</noscript>{# Latest Activity #}
+
+<div id="latestactivity">
+    {{ render(path("latestactivity")) }}
+</div>
+
 
 {# News #}
 {{ render(path('dashboardnews')) }}
@@ -16,11 +21,6 @@
 
 {# Dashboard Widget #}
 {{ widget('dashboard', 'right_first') }}
-
-{# Latest Activity #}
-<div id="latestactivity">
-    {{ render(path("latestactivity")) }}
-</div>
 
 {# ? #}
 <div id="latesttemp" style="display:none; visibility: hidden;">
