@@ -98,6 +98,7 @@ bolt.datetimes = function () {
         // Set time field
         if (field.time.exists) {
             if (time === '') {
+                // if date is set, and time field exists, always set time #2288
                 if (date !== '') {
                     time = '00:00';
                 } else {
