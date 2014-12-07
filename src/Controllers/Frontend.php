@@ -39,8 +39,7 @@ class Frontend
                 $contenttypeslug = (string) $content;
                 $contentid = null;
             }
-
-            if (!$app['users']->isAllowed('frontend', $content, $contenttypeslug, $contentid)) {
+            if (!$app['users']->isAllowed('frontend', $contenttypeslug, $contentid)) {
                 $app->abort(403, 'Not allowed.');
             }
         }
@@ -124,7 +123,7 @@ class Frontend
      * @param string            $slug            The content slug
      * @return mixed
      */
-    public static function record(Silex\Application $app, $contenttypeslug, $slug, $noFrontendPermissionCheck = null)
+    public static function record(Silex\Application $app, $contenttypeslug, $slug)
     {
         $contenttype = $app['storage']->getContentType($contenttypeslug);
 
@@ -143,8 +142,7 @@ class Frontend
             $content = $app['storage']->getContent($contenttype['slug'], array('id' => $slug, 'returnsingle' => true));
         }
 
-        if(isset($content) && !isset($noFrontendPermissionCheck))
-          self::checkFrontendPermission($app, $content);
+        self::checkFrontendPermission($app, $content);
 
         // No content, no page!
         if (!$content) {
@@ -253,12 +251,6 @@ class Frontend
         $amount = (!empty($contenttype['listing_records']) ? $contenttype['listing_records'] : $app['config']->get('general/listing_records'));
         $order = (!empty($contenttype['sort']) ? $contenttype['sort'] : $app['config']->get('general/listing_sort'));
         $content = $app['storage']->getContent($contenttype['slug'], array('limit' => $amount, 'order' => $order, 'page' => $page, 'paging' => true));
-
-        /*
-          TODO reactivate that
-          change how permissions are checked.
-          defined a default frontend_view, use it there.
-        */
         self::checkFrontendPermission($app, $contenttype['slug']);
 
         $template = $app['templatechooser']->listing($contenttype);
