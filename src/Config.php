@@ -43,7 +43,7 @@ class Config
             $this->saveCache();
 
             // if we have to reload the config, we will also want to make sure the DB integrity is checked.
-            Database\IntegrityChecker::invalidate();
+            Database\IntegrityChecker::invalidate($app);
         } else {
 
             // In this case the cache is loaded, but because the path of the theme
