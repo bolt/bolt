@@ -1,0 +1,286 @@
+#editcontent {
+
+    /*** General ***/
+
+    small {
+        font-size: 12px;
+        color: #666;
+    }
+
+    input,
+    select,
+    textarea {
+        border-radius: 2px;
+        border-color: #CCC;
+        font-size: $font-size-base + 1px;
+    }
+
+    .error{
+        border-color: #888;
+        color: $state-danger-text;
+        background: $alert-danger-bg;
+    }
+
+    /*** Input widths ***/
+
+    input.large {
+        font-size: 150%;
+    }
+
+    .narrow {
+        width: 45%;
+        min-width: 200px;
+    }
+
+    .verynarrow {
+        width: 8%;
+        min-width: 50px;
+    }
+
+
+    select.wide {
+        width: 70%;
+        min-width: 200px;
+    }
+
+    .narrow.wide { /* Derp! */
+        width: 60%;
+        min-width: 200px;
+    }
+
+    /*** Dropzone ***/
+
+    .dropzone.hover,
+    .dropzone.in {
+        background: #DEF;
+
+        & * {
+            opacity: 0.7;
+        }
+    }
+
+    /*** Filelistholder ***/
+
+    div.filelistholder {
+        &.dropzone {
+            height: auto;
+        }
+
+        p {
+            padding: 8px;
+            color: #999;
+            margin: 0;
+            font-style: italic;
+        }
+
+        img {
+            padding-right: 6px;
+        }
+
+        div.buttons {
+            float: left;
+            padding: 7px 8px;
+        }
+
+        div.list {
+            border: 1px solid #ccc;
+            padding: 0;
+            width: 100%;
+            background-color: #FFF;
+            border-radius: 3px;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1) inset;
+
+            div {
+                min-height: 48px;
+                margin: 6px;
+                padding: 4px 6px;
+                border-radius: 3px;
+                cursor: ns-resize;
+                box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.2);
+                overflow: hidden;
+                background: url("smoothness/images/ui-bg_glass_75_e6e6e6_1x400X.png") repeat-x scroll 50% 61% #e6e6e6;
+
+                * {
+                    float: left;
+                }
+
+                input {
+                    padding: 1px 0 0 5px;
+                    width: 65%;
+                    border: 0;
+
+                    @include respond-to(medium-screens) {
+                        width: 83%;
+                    }
+                }
+
+                // Delete button
+                a {
+                    padding: 5px;
+                    cursor: pointer;
+                    color: #999;
+                    float: right;
+                    border-radius: 3px;
+
+                    &:hover {
+                        background: #dcdcdc;
+                    }
+                }
+
+                // File description
+                span {
+                    font-size: 80%;
+                    font-weight: bold;
+                    padding: 3px 0 0 5px;
+                    clear: both;
+                }
+            }
+        }
+    }
+
+    /*** Fileselect button group ***/
+
+    .fileselectbuttongroup {
+        & > * {
+            margin: 0 4px 4px 0;
+            float: left;
+        }
+        .caret {
+            margin: 0 -4px 0 4px;
+        }
+    }
+
+    /*** Tagcloud ***/
+
+    div.tagcloud {
+        margin-top: 6px;
+
+        a {
+            margin-right: 6px;
+            display: inline-block;
+        }
+    }
+
+    /*** Map/Image-Holder ***/
+
+    .imageholder {
+        overflow: hidden;
+
+        img {
+            max-height: 148px;
+            max-width: 100%;
+            border: 1px solid #BBB;
+        }
+    }
+
+    .mapholder {
+        border: 1px solid #BBB;
+        height: 160px;
+        padding: 2px;
+
+        @include respond-to(medium-screens) {
+            min-width: 160px;
+            max-width: 200px;
+        }
+    }
+
+    /*** Input: Datepicker ***/
+
+    input.datepicker {
+        width: 21%;
+        min-width: 120px;
+        margin-right: 6px;
+        float: left;
+
+        /* Allow wider datepickers on desktops */
+        @media (min-width: 480px) {
+            &.wide{
+                width: 35%;
+            }
+
+            &.extrawide{
+                width: 55%;
+            }
+        }
+    }
+
+    /*** Input: Number ***/
+
+    input[type=number] {
+        width: 20%;
+        min-width: 140px;
+    }
+
+    /*** Input: Textarea ***/
+
+    textarea {
+        width: 100%;
+        height: 200px;
+        padding-right: 0;
+        font-size: 14px;
+        line-height: 21px;
+        color: #444;
+        font-family: Menlo, Consolas, Monaco, "Courier New", monospace;
+    }
+
+    /*** Input: Timepicker ***/
+
+    input.timepicker {
+        width: 10%;
+        min-width: 93px;
+        float: left;
+    }
+
+    /*** Fieldset: Checkbox ***/
+
+    fieldset.checkbox {
+        display: block;
+
+        label {
+            display: inline;
+            padding-left: 0;
+            font-weight: normal;
+        }
+
+        input {
+            display: inline;
+            height: 1em;
+            margin-left: 10px;
+            width: auto;
+        }
+    }
+
+    /*** Fieldset: Multiselect ***/
+
+    fieldset.multiselect {
+        select {
+            display: block;
+            margin-bottom: 8px;
+        }
+    }
+
+    /*** Fieldset: Slug ***/
+
+    fieldset.slug {
+        margin-top: -10px; // pull the slug closer to the field previous, usually the title
+
+        label {
+            margin: 0 0 0.5em;
+            code {
+                white-space: normal;
+            }
+        }
+
+        .sluginput {
+            display: none;
+        }
+
+        .sluglocker,
+        .slugedit {
+            color: #666;
+            display: inline-block;
+            padding: 0 3px;
+            cursor: pointer;
+        }
+    }
+}
