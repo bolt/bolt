@@ -25,7 +25,7 @@ class Application extends Silex\Application
     public function __construct(array $values = array())
     {
         $values['bolt_version'] = '2.0.0';
-        $values['bolt_name'] = 'beta 5 pl 1';
+        $values['bolt_name'] = 'beta 5 pl 4';
 
         parent::__construct($values);
 
@@ -336,12 +336,11 @@ class Application extends Silex\Application
     }
 
 
-    /** 
+    /**
      * Add all the global twig variables, like 'user' and 'theme'
      */
     private function addTwigGlobals()
-    { 
-
+    {
         $this['twig']->addGlobal('bolt_name', $this['bolt_name']);
         $this['twig']->addGlobal('bolt_version', $this['bolt_version']);
 
@@ -365,7 +364,6 @@ class Application extends Silex\Application
 
         $this['safe_twig']->addGlobal('user', $this['users']->getCurrentUser());
         $this['safe_twig']->addGlobal('theme', $this['config']->get('theme'));
-
     }
 
 
@@ -597,6 +595,44 @@ class Application extends Silex\Application
     {
         return (array_key_exists($name, $this));
     }
+
+    /*
+    // NOTE Application's function
+    // so TODO change its place
+    public function DISABLED_pageFromConfigOrAbort($errorcode, $msg)
+    {
+        $this->error(function($exception) use ($this){
+            if($exception->getMessage() == 'Not allowed.') {
+                $configkeyword = 'access_denied';
+            }
+
+            if(preg_match('/Page ([\w\/])+ not found./', $exception->getMessage())) {
+                $configkeyword = 'notfound';
+            }
+
+            // try first to avoid the abort using configuration and all that
+            $content = $app['storage']->getContent($app['config']->get('general/'.$configkeyword));
+            if(is_object($content) && $content instanceof \Bolt\Content) {
+                return Frontend::record($app, $content['contenttype'], $content['slug'], true);
+            } 
+        }, 10);
+    }
+    */
+
+    /**
+     * $last_call would be an array as follow:
+        Array
+        (
+            [file] => /home/lufigueroa/Desktop/test.php
+            [line] => 12
+            [function] => theCall
+            [args] => Array
+                (
+                    [0] => lucia
+                    [1] => php
+                )
+        )
+     */
 
     public function getVersion($long = true)
     {

@@ -40,17 +40,8 @@ class Frontend
                 $contentid = null;
             }
 
-            $contenttypeslug = $content->contenttype['slug'];
-            if (!$app['users']->isAllowed('frontend', $contenttypeslug, $contentid)) {
-            // TODO replace by function pageFromConfigOrAbort()
-                // try first to avoid the abort using configuration and all that
-                $content = $app['storage']->getContent($app['config']->get('general/access_denied'));
-                if(is_object($content) && $content instanceof \Bolt\Content) {
-                    self::record($app, $content['contenttype'], $content['slug'], true);
-                } else {
-                    $app->abort(403, 'Not allowed.');
-                }
-            // end TODO
+            if (!$app['users']->isAllowed('frontend', $content, $contenttypeslug, $contentid)) {
+                $app->abort(403, 'Not allowed.');
             }
         }
     }
@@ -139,19 +130,10 @@ class Frontend
 
         // If the contenttype is 'viewless', don't show the record page.
         if (isset($contenttype['viewless']) && $contenttype['viewless'] === true) {
-            // TODO replace by function pageFromConfigOrAbort()
-            // try first to avoid the abort using configuration and all that
-            $content = $app['storage']->getContent($app['config']->get('general/notfound'));
-            if(is_object($content) && $content instanceof \Bolt\Content) {
-                self::record($app, $content['contenttype'], $content['slug'], true);
-            } else {
-                $app->abort(404, "Page $contenttypeslug/$slug not found.");
-            }
-            // end TODO
+            $app->abort(404, "Page $contenttypeslug/$slug not found.");
         }
 
         $slug = String::slug($slug, -1);
-
 
         // First, try to get it by slug.
         $content = $app['storage']->getContent($contenttype['slug'], array('slug' => $slug, 'returnsingle' => true));
@@ -161,9 +143,8 @@ class Frontend
             $content = $app['storage']->getContent($contenttype['slug'], array('id' => $slug, 'returnsingle' => true));
         }
 
-        // A test to bypass permissions to load specific records rather than sending abort()
-        if(!$noFrontendPermissionCheck)
-            self::checkFrontendPermission($app, $content);
+        if(isset($content) && !isset($noFrontendPermissionCheck))
+          self::checkFrontendPermission($app, $content);
 
         // No content, no page!
         if (!$content) {
@@ -172,9 +153,9 @@ class Frontend
             if ($slug == trim($app['config']->get('general/branding/path'), '/')) {
                 Lib::simpleredirect($app['config']->get('general/branding/path') . '/');
             }
-            // TODO replace by function pageFromConfigOrAbort()
             $app->abort(404, "Page $contenttypeslug/$slug not found.");
-            // end TODO
+        } else {
+            var_dump($slug);
         }
 
         // Then, select which template to use, based on our 'cascading templates rules'
@@ -260,6 +241,12 @@ class Frontend
     public static function listing(Silex\Application $app, $contenttypeslug)
     {
         $contenttype = $app['storage']->getContentType($contenttypeslug);
+
+        // If the contenttype is 'viewless', don't show the record page.
+        if (isset($contenttype['viewless']) && $contenttype['viewless'] === true) {
+            $app->abort(404, "Page $contenttypeslug not found.");
+        }
+
         $pagerid = Pager::makeParameterId($contenttypeslug);
         /* @var $query \Symfony\Component\HttpFoundation\ParameterBag */
         $query = $app['request']->query;
@@ -268,6 +255,12 @@ class Frontend
         $amount = (!empty($contenttype['listing_records']) ? $contenttype['listing_records'] : $app['config']->get('general/listing_records'));
         $order = (!empty($contenttype['sort']) ? $contenttype['sort'] : $app['config']->get('general/listing_sort'));
         $content = $app['storage']->getContent($contenttype['slug'], array('limit' => $amount, 'order' => $order, 'page' => $page, 'paging' => true));
+
+        /*
+          TODO reactivate that
+          change how permissions are checked.
+          defined a default frontend_view, use it there.
+        */
         self::checkFrontendPermission($app, $contenttype['slug']);
 
         $template = $app['templatechooser']->listing($contenttype);

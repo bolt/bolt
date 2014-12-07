@@ -9,8 +9,6 @@
 
 {#=== INIT ===========================================================================================================#}
 
-{% set items = stackitems(7, 'image') %}
-
 {% set attr_fileupload = {
     accept:      option.extensions ? '.'~option.extensions|join(',.') : '',
     data_upload: {type: 'ImageList', key: key}|json_encode(),
@@ -43,47 +41,40 @@
 
 {#=== FIELDSET =======================================================================================================#}
 
+{% set list_empty %}
+    <p>{{ __('No images in the list, yet.') }}</p>
+{% endset %}
+
+{% set list_item %}
+    <div data-id="{{ '<ID>' }}" class="ui-state-default">
+        <img src="{{ '<PATH>' }}../thumbs/60x40/{{ '<FNAME>' }}" width="60" height="40">
+        <input type="text" value="{{ '<VAL>' }}">
+        <a href="#"><i class="fa fa-times"></i></a>
+    </div>
+{% endset %}
+
+{% set listdata = {
+    'message': {
+        'remove':     __('Are you sure you want to remove this image?'),
+        'wrongtype':  __('There was an error uploading the file.\nMake sure that the file type is of:\n%typelist%', {'%typelist%': option.extensions ? '.'~option.extensions|join(', .') : '–'})
+    },
+    'empty':          list_empty|trim,
+    'item':           list_item|trim|preg_replace('/>\\s+</', '><'),
+} %}
+
 <fieldset class="imagelist">
     <label class="col-sm-12 control-label">{{ macro.infopop(labelkey, option.info) }}</label>
 
-    <div class="col-sm-12 imagelistholder dropzone" id="imagelist-{{ key }}">
+    <div class="col-sm-12 filelistholder dropzone" id="imagelist-{{ key }}">
 
-        <div class="list"></div>
+        <div class="list" data-list="{{ listdata|json_encode }}"></div>
 
-        <div class="button-wrap">
-                <span class="btn btn-secondary fileinput-button">
-                    <i class="fa fa-upload"></i> <span>{{ __('Upload image') }}</span>
-                    <input{{ macro.attr(attr_fileupload) }}>
-                </span>
+        {{ macro.upload_buttons('image', key, attr_fileupload, option.upload) }}
 
-                <a data-target="#selectModal-{{ key }}" href="{{ paths.async }}browse/files{{ option.upload ? '/'~option.upload : '' }}?key={{ key }}" class="btn btn-tertiary fileinput-select" data-toggle="modal">
-                    <i class="fa fa-download"></i> {{ __('field.general.select-from-server') }}
-                </a>
+        <textarea name="{{ key }}" id="{{ key }}" class="hide">{{ list_json }}</textarea>
 
-            {% if items %}
-                <div class="button-group">
-                    <a class="btn btn-tertiary dropdown-toggle" data-toggle="dropdown">
-                        <i class="fa fa-paperclip"></i> {{ __('field.general.select-from-stack') }}<span class="caret"></span>
-                    </a>
+        {{ block.serverselect(key) }}
 
-                    <ul class="dropdown-menu" id="stack-{{ key }}">
-                        {% for item in items %}
-                            <li>
-                                <a href="#" data-action="bolt.stack.selectFromPulldown('{{ key }}', '{{ item.filepath }}');">
-                                    {{ item.basename }} <small>({{ item.filesize }}, {{ item.imagesize }} px)</small>
-                                </a>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </div>
-            {% endif %}
-        </div>
-
-
-    <textarea name="{{ key }}" id="{{ key }}" class="hide">{{ list_json }}</textarea>
-
-    {{ block.serverselect(key) }}
-
-</div>
+    </div>
 
 </fieldset>
