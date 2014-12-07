@@ -5,7 +5,7 @@
     <div class="panel">
         {# The next section attempts to fill the panel in the sidebar with part of the
            'about'-page, if it exists. First, attempt to fetch a page with slug 'about' #}
-        {% setcontent about = "nolistpage/a-propos" %}
+        {% setcontent about = "page/about" %}
 
         {# check if we have a title. If so, we know we have a page. Otherwise, still
            print a text, telling us to create the 'about' page. #}
@@ -14,13 +14,7 @@
             <h5>{{ about.title }}</h5>
             {{ about.teaser }}
 
-            {% if about.forcedlink is defined and about.forcedlink is not empty %}
-                <a href="{{ about.forcedlink }}">{{ __('Read more') }} &raquo;</a>
-            {% else %}
-                {% if about.link is defined and about.link is not empty %}
-                    <a href="{{ about.link }}">{{ __('Read more') }} &raquo;</a>
-                {% endif %}
-            {% endif %}
+            <a href="{{ about.link }}">{{ __('Read more') }} &raquo;</a>
 
         {% else %}
 
@@ -41,8 +35,7 @@
        Lastly, "{{ paths.root }}{{ct.slug}}" will output something like '/pages',
        effectively creating a working link to that contenttpye's listing page.#}
 
-    {#% for ct in app.config.get('contenttypes') if not ct.viewless|default(false) %#}
-    {% for ct in app.config.get('contenttypes') if (not ct.viewless|default(false) and not ct.nofrontendlisting|default(false)) %}
+    {% for ct in app.config.get('contenttypes') if not ct.viewless|default(false) %}
 
         {% setcontent records = ct.slug ~ "/latest/5" %}
 

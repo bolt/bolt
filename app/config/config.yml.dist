@@ -242,13 +242,6 @@ session_use_storage_handler: true
 # '12' is better.
 hash_strength: 10
 
-# Bolt uses extensions.bolt.cm to fetch it's extensions by default. You can change that URL here.
-# Do not change this, unless you know what you're doing, and understand the associated risks. If 
-# you use 'http://extensions.bolt.cm', Bolt will not use SSL, increasing the risk for a MITM 
-# attack. 
-extensions:
-  site: 'https://extenxxsions.bolt.cm/'
-
 # Enforce SSL: if set, all but the front-end pages will enforce an SSL
 # connection (and redirect to HTTPS if you attempt to visit the backend over
 # plain HTTP).

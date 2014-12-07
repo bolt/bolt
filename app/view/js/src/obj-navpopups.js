@@ -1,5 +1,5 @@
 /**
- * Backbone object for popups in the collapsable sidebar.
+ * Backbone object for collapsable sidebar.
  */
 
 var Navpopups = Backbone.Model.extend({
@@ -51,7 +51,7 @@ var Navpopups = Backbone.Model.extend({
                         menuTimeout = window.setTimeout(function () {
                             $('#navpage-secondary a.menu-pop').not(item).popover('hide');
                             $(item).popover('show');
-                        }, 300);
+                        }, 600);
                     }
                 )
                 .on('mouseenter focus', '.popover', function () {
@@ -62,7 +62,7 @@ var Navpopups = Backbone.Model.extend({
                         window.clearTimeout(menuTimeout);
                         menuTimeout = window.setTimeout(function () {
                             $('#navpage-secondary a.menu-pop').popover('hide');
-                        }, 300);
+                        }, 400);
                     }
                 );
         }

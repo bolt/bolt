@@ -148,8 +148,7 @@
         line-height: $nav-secondary-icon-size;
     }
 
-    &:hover > a,
-    :focus { 
+    &:hover > a {
         color: $sidebarlinkhover;
         background: $sidebarbackgroundhover;
     }
