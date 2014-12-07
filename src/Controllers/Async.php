@@ -117,7 +117,7 @@ class Async implements ControllerProviderInterface
         $name = !empty($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : $_SERVER['HTTP_HOST'];
 
         // If not cached, get fresh news..
-        if ($news == false) {
+        if ($news === false) {
 
             $app['log']->add("News: fetch from remote server..", 1);
 

@@ -2,8 +2,6 @@
 
 namespace Bolt\Helpers;
 
-use Maid\Maid;
-
 class Html
 {
     /**

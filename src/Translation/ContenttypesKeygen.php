@@ -46,14 +46,7 @@ class ContenttypesKeygen
      */
     private $translatables;
 
-    /**
-     * Translated contenttype names
-     *
-     * @var array
-     */
-    private $ctnames;
-
-    /**
+/**
      * Constructor
      *
      * @param Silex\Application $app
