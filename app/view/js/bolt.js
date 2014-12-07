@@ -527,18 +527,19 @@ var FilelistHolder = Backbone.View.extend({
     render: function () {
         this.list.sort();
 
-        var $list = $('#filelist-' + this.id + ' .list');
-        $list.html('');
+        var list = $('#filelist-' + this.id + ' .list'),
+            data = list.data('list');
+
+        list.html('');
         _.each(this.list.models, function (file) {
-            var fileName = file.get('filename'),
-                html = "<div data-id='" + file.get('id') + "' class='ui-state-default'>" +
-                        "<span class='fileDescription'>" + fileName + "</span>" +
-                        "<input type='text' value='" + _.escape(file.get('title')) + "'>" +
-                        "<a href='#'><i class='fa fa-times'></i></a></div>";
-            $list.append(html);
+            list.append(data.item.
+                replace('<ID>', file.get('id')).
+                replace('<VAL>', _.escape(file.get('title'))).
+                replace('<INF>', file.get('filename'))
+            );
         });
         if (this.list.models.length === 0) {
-            $list.append("<p>No files in the list, yet.</p>");
+            list.append(data.empty);
         }
         this.serialize();
     },
@@ -606,15 +607,13 @@ var FilelistHolder = Backbone.View.extend({
             .bind('fileuploadsubmit', function (e, data) {
                 var fileTypes = $('#fileupload-' + contentkey).attr('accept'),
                     pattern,
-                    message;
+                    ldata = $('#filelist-' + contentkey + ' div.list').data('list');
 
                 if (typeof fileTypes !== 'undefined') {
                     pattern = new RegExp("\\.(" + fileTypes.replace(/,/g, '|').replace(/\./g, '') + ")$", "i");
                     $.each(data.files , function (index, file) {
                         if (!pattern.test(file.name)) {
-                            message = "Oops! There was an error uploading the file. Make sure that the file " +
-                                "type is correct.\n\n(accept type was: " + fileTypes + ")";
-                            alert(message);
+                            alert(ldata.message.wrongtype);
                             e.preventDefault();
                             return false;
                         }
@@ -622,11 +621,12 @@ var FilelistHolder = Backbone.View.extend({
                 }
             });
 
-        $holder.find("div.list").on('click', 'a', function (e) {
+        $holder.find('div.list').on('click', 'a', function (e) {
+            var ldata = $(this).closest('div.list').data('list');
+
             e.preventDefault();
-            if (confirm('Are you sure you want to remove this image?')) {
-                var id = $(this).parent().data('id');
-                $this.remove(id);
+            if (confirm(ldata.message.remove)) {
+                $this.remove($(this).parent().data('id'));
             }
         });
 
@@ -699,20 +699,22 @@ var ImagelistHolder = Backbone.View.extend({
     render: function () {
         this.list.sort();
 
-        var $list = $('#imagelist-' + this.id + ' .list'),
+        var list = $('#imagelist-' + this.id + ' .list'),
+            data = list.data('list'),
             index = 0;
 
-        $list.html('');
+        list.html('');
         _.each(this.list.models, function (image) {
             image.set('id', index++);
-            var html = "<div data-id='" + image.get('id') + "' class='ui-state-default'>" +
-                "<img src='" + bolt.paths.bolt + "../thumbs/60x40/" + image.get('filename') + "' width=60 height=40>" +
-                "<input type='text' value='" + _.escape(image.get('title'))  + "'>" +
-                "<a href='#'><i class='fa fa-times'></i></a></div>";
-            $list.append(html);
+            list.append(data.item.
+                replace('<ID>', image.get('id')).
+                replace('<VAL>', _.escape(image.get('title'))).
+                replace('<PATH>', bolt.paths.bolt).
+                replace('<FNAME>', image.get('filename'))
+            );
         });
         if (this.list.models.length === 0) {
-            $list.append("<p>No images in the list, yet.</p>");
+            list.append(data.empty);
         }
         this.serialize();
     },
@@ -780,15 +782,13 @@ var ImagelistHolder = Backbone.View.extend({
             .bind('fileuploadsubmit', function (e, data) {
                 var fileTypes = $('#fileupload-' + contentkey).attr('accept'),
                     pattern,
-                    message;
+                    ldata = $('#imagelist-' + contentkey + ' div.list').data('list');
 
                 if (typeof fileTypes !== 'undefined') {
                     pattern = new RegExp("\\.(" + fileTypes.replace(/,/g, '|').replace(/\./g, '') + ")$", "i");
                     $.each(data.files , function (index, file) {
                         if (!pattern.test(file.name)) {
-                            message = "Oops! There was an error uploading the image. Make sure that the file " +
-                                "type is correct.\n\n(accept type was: " + fileTypes + ")";
-                            alert(message);
+                            alert(ldata.message.wrongtype);
                             e.preventDefault();
 
                             return false;
@@ -797,11 +797,12 @@ var ImagelistHolder = Backbone.View.extend({
                 }
             });
 
-        $holder.find("div.list").on('click', 'a', function (e) {
+        $holder.find('div.list').on('click', 'a', function (e) {
+            var ldata = $(this).closest('div.list').data('list');
+
             e.preventDefault();
-            if (confirm('Are you sure you want to remove this image?')) {
-                var id = $(this).parent().data('id');
-                $this.remove(id);
+            if (confirm(ldata.message.remove)) {
+                $this.remove($(this).parent().data('id'));
             }
         });
 
@@ -1376,7 +1377,6 @@ bolt.datetimes = function () {
      * @type {Object} time - Time input element
      * @type {Object} show - Show datepicker button
      * @type {Object} clear - Clear datepicker button
-     * @type {boolean} hasTime - 'true' if it is a datetime input, else false
      */
 
      /**
@@ -1387,6 +1387,14 @@ bolt.datetimes = function () {
      */
     var is24h;
 
+     /**
+     * Hold info on used DateTime/Date input combos
+     *
+     * @type {Array}
+     * @private
+     */
+    var fields = [];
+
     /**
      * Evaluate the value(s) from the input field(s) and writes it to the data field
      *
@@ -1396,11 +1404,13 @@ bolt.datetimes = function () {
     function evaluate(field) {
         var date = moment(field.date.datepicker('getDate')),
             time = moment([2001, 11, 24]),
-            hours = 0,
-            minutes = 0;
+            hours,
+            minutes,
+            res,
+            foundTime = false;
 
         // Process time field
-        if (field.hasTime) {
+        if (field.time.exists) {
             res = field.time.val().match(/^\s*(?:(?:([01]?[0-9]|2[0-3])[:,.]([0-5]?[0-9]))|(1[012]|0?[1-9])[:,.]([0-5]?[0-9])(?:\s*([AP])[. ]?M\.?))\s*$/i);
             if (res) {
                 hours = parseInt(res[1] ? res[1] :res[3]);
@@ -1411,16 +1421,18 @@ bolt.datetimes = function () {
                     hours -= 12;
                 }
                 time = moment([2001, 11, 24, hours, minutes]);
+                foundTime = true;
             }
         }
 
         // Set data field
         if (date.isValid()) {
-            field.data.val(date.format('YYYY-MM-DD') + (field.hasTime ? ' ' + time.format('HH:mm:00') : ''));
-        } else if (field.date.val() === '') {
-            field.data.val('');
+            field.data.val(date.format('YYYY-MM-DD') + (field.time.exists ? ' ' + time.format('HH:mm:00') : ''));
+        } else if (foundTime) {
+            field.data.val(moment().format('YYYY-MM-DD') + ' ' + time.format('HH:mm:00'));
         } else {
             // Error
+            field.data.val('');
         }
     }
 
@@ -1452,10 +1464,10 @@ bolt.datetimes = function () {
         field.date.datepicker('setDate', (date === '' || date === '0000-00-00') ? '' : $.datepicker.parseDate('yy-mm-dd', date));
 
         // Set time field
-        if (field.hasTime) {
+        if (field.time.exists) {
             if (time === '') {
                 time = '';
-            } else if (bolt.datetimes.is24h) {
+            } else if (is24h) {
                 time = field.data.val().slice(11, 16);
             } else {
                 hour = parseInt(time.slice(0, 2));
@@ -1486,10 +1498,6 @@ bolt.datetimes = function () {
         field.date.datepicker(options);
         // Bind show button
         field.show.click(function () {
-            // Set the date to "today", if nothing has been picked yet.
-            if (!field.date.datepicker('getDate')) {
-                field.date.datepicker('setDate', "+0");
-            }
             field.date.datepicker('show');
         });
         // Bind clear button
@@ -1497,6 +1505,27 @@ bolt.datetimes = function () {
             field.data.val('');
             display(field);
         });
+    }
+
+    /**
+     * Collects all inputs belonging to a DateTime/Date input combo
+     *
+     * @param {Object} item - Data element
+     * @returns {InputElements}
+     */
+    function elements(item) {
+        var field = {},
+            container = item.next();
+
+        field.data = item;
+        field.date = container.find('input.datepicker');
+        field.time = container.find('input.timepicker');
+        field.show = container.find('button.btn-tertiary');
+        field.clear = container.find('button.btn-default');
+
+        field.time.exists = (field.time.length > 0);
+
+        return field;
     }
 
     return {
@@ -1508,21 +1537,14 @@ bolt.datetimes = function () {
             $.datepicker.setDefaults($.datepicker.regional[bolt.locale.long]);
 
             // Find out if locale uses 24h format
-            this.is24h = moment.localeData()._longDateFormat.LT.replace(/\[.+?\]/gi, '').match(/A/) ? false : true;
+            is24h = moment.localeData()._longDateFormat.LT.replace(/\[.+?\]/gi, '').match(/A/) ? false : true;
 
             // Initialize each available date/datetime field
-            $('.datepicker').each(function () {
-                var id = $(this).attr('id').replace(/-date$/, ''),
-                    field = {
-                        data: $('#' + id),
-                        date: $(this),
-                        time: $('#' + id + '-time'),
-                        show: $('#' + id + '-show'),
-                        clear: $('#' + id + '-clear'),
-                        hasTime: false
-                    };
+            $('input.datetime').each(function () {
+                var field = elements($(this));
 
-                field.hasTime = (field.time.length > 0);
+                // Remember field data
+                fields.push(field);
 
                 // Uncomment for debug purpose to make hidden datafields visible
                 // field.data.attr('type', 'text');
@@ -1548,16 +1570,9 @@ bolt.datetimes = function () {
          * Updates display of datetime and date inputs from their data fields
          */
         update: function () {
-            $('.datepicker').each(function () {
-                var id = $(this).attr('id').replace(/-date$/, ''),
-                    field = {
-                        data: $('#' + id),
-                        date: $(this),
-                        time: $('#' + id + '-time')
-                    };
-
-                display(field);
-            });
+            for (var i in fields) {
+                display(fields[i]);
+            }
         }
     };
 } ();

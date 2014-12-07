@@ -25,7 +25,7 @@ class Application extends Silex\Application
     public function __construct(array $values = array())
     {
         $values['bolt_version'] = '2.0.0';
-        $values['bolt_name'] = 'beta 5 pl 1';
+        $values['bolt_name'] = 'beta 5 pl 4';
 
         parent::__construct($values);
 
@@ -336,12 +336,11 @@ class Application extends Silex\Application
     }
 
 
-    /** 
+    /**
      * Add all the global twig variables, like 'user' and 'theme'
      */
     private function addTwigGlobals()
-    { 
-
+    {
         $this['twig']->addGlobal('bolt_name', $this['bolt_name']);
         $this['twig']->addGlobal('bolt_version', $this['bolt_version']);
 
@@ -365,7 +364,6 @@ class Application extends Silex\Application
 
         $this['safe_twig']->addGlobal('user', $this['users']->getCurrentUser());
         $this['safe_twig']->addGlobal('theme', $this['config']->get('theme'));
-
     }
 
 

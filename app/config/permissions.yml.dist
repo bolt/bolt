@@ -45,7 +45,7 @@ roles:
 # Also note that the 'editcontent' and 'overview' routes are special-cased
 # inside the code, so they don't appear here.
 global:
-    about: [ editor, admin, developer ] # view the 'About Bolt' page
+    about: [ everyone ] # view the 'About Bolt' page
     activitylog: [ admin, developer, chief-editor ]
     clearcache: [ admin, developer ]
     contentaction: [ editor, admin, developer ]
@@ -67,6 +67,7 @@ global:
     useraction: [ admin, developer ] # enable/disable/delete
     useredit: [ admin, developer ] # user settings
     users: [ admin, developer ] # view user overview
+    roles: [ admin, developer ] # view the roles overview    
     maintenance-mode: [ everyone ] # view the frontend when in maintenance mode
     omnisearch: [ everyone ]
     # The following permissions are particularly important: login and postLogin

@@ -648,7 +648,7 @@ class Storage
                     break;
 
                 case 'geolocation':
-                    if ( !empty($fieldvalues[$key]['latitude']) && !empty($fieldvalues[$key]['longitude']) ) {
+                    if (!empty($fieldvalues[$key]['latitude']) && !empty($fieldvalues[$key]['longitude'])) {
                         $fieldvalues[$key] = json_encode($fieldvalues[$key]);
                     } else {
                         $fieldvalues[$key] = '';
@@ -1048,7 +1048,7 @@ class Storage
             $contenttypes = array_filter(
                 $contenttypes,
                 function ($ct) use ($app_ct) {
-                    if (($app_ct[$ct]['searchable'] === false) ||
+                    if ((isset($app_ct[$ct]['searchable']) && $app_ct[$ct]['searchable'] === false) ||
                         (isset($app_ct[$ct]['viewless']) && $app_ct[$ct]['viewless'] === true)
                     ) {
                         return false;
@@ -1891,40 +1891,45 @@ class Storage
      * @see $this->getContent()
      */
     private function executeGetContentQueries($decoded)
-    {
-        // Perform actual queries and hydrate
+    {        // Perform actual queries and hydrate
         $total_results = false;
         $results = false;
         foreach ($decoded['queries'] as $query) {
-            /**
-             * per content permissions modification
-             */
-            //$this->app['permissions']->dumpItem($query['params'], $statement);
+            // Perform actual query
+            $statement = sprintf(
+                'SELECT %s.* %s %s %s',
+                $query['tablename'],
+                $query['from'],
+                $query['where'],
+                $query['order']
+            );
+
+            /*******************************************************************************************************************************/
+            /*******************************************************************************************************************************/
+            /*******************************************************************************************************************************/
             $contenttype = $this->getContenttypeFromQuery($query);
             if($this->app['permissions']->isProtected($this->app['config']->getWhichEnd(), $contenttype)) {
 
                 // Get user roles
                 $user = $this->app['users']->getCurrentUser();
                 $effectiveUserRoles = $this->app['permissions']->getEffectiveRolesForUser($user);
-                foreach($effectiveUserRoles as $effectiveUserRole)
-                  $strUserRoles = $strUserRoles.' + "'.$effectiveUserRole.'"';
-                $this->app['permissions']->slog(' % '.$this->app['config']->getWhichEnd().' % $user[\'username\']: "'.$user['username'].'" with id = "'.$user['id'].'" as $effectiveUserRoles: '.$strUserRoles);
 
                 // Create the filter to take user roles in account
-                if(!in_array(permissions::ROLE_ROOT, $effectiveUserRoles))
-                  $filter = $this->getPerContentPermissionsFilter($user, $effectiveUserRoles);
+                if((isset($decoded['return_single']) || isset($decoded['parameters']['limit']))
+                && !in_array(permissions::ROLE_ROOT, $effectiveUserRoles))
+                    $filter = $this->getPerContentPermissionsFilter($user, $effectiveUserRoles);
 
                 // modify $query['where'] to include the filter
                 $where = str_replace('WHERE', '', $query['where']);
                 if((str_replace(' ', '', $where) != '') && (isset($filter))) {
-                    $query['where'] = 'WHERE ('.$filter.') AND '.$where;
+                    $where = 'WHERE ('.$filter.') AND '.$where;
+                    $query['where'] = $where;
                 }
             }
-            /**
-             * end of per content permissions modification
-             */
+            /*******************************************************************************************************************************/
+            /*******************************************************************************************************************************/
+            /*******************************************************************************************************************************/
 
-            // Perform actual query
             $statement = sprintf(
                 'SELECT %s.* %s %s %s',
                 $query['tablename'],
@@ -2732,7 +2737,7 @@ class Storage
      *   [
      *      0 => str(2) "22"
      *   ]
-     *   "kitchensinks" => arr(3)
+     *   "showcases" => arr(3)
      *   [
      *      0 => str(2) "15"
      *      1 => str(1) "9"
@@ -2746,13 +2751,13 @@ class Storage
      *   0 => arr(3)
      *   [
      *     "id"             => str(1) "5"
-     *     "to_contenttype" => str(12) "kitchensinks"
+     *     "to_contenttype" => str(12) "showcases"
      *     "to_id"          => str(2) "15"
      *   ]
      *   1 => arr(3)
      *   [
      *     "id"             => str(1) "6"
-     *     "to_contenttype" => str(12) "kitchensinks"
+     *     "to_contenttype" => str(12) "showcases"
      *     "to_id"          => str(1) "9"
      *   ]
      * ]
@@ -3040,13 +3045,8 @@ class Storage
         $regexpBegin = ' ('.strval(permissions::ROLE_VIEWERS).' REGEXP \'^([a-zA-Z]* *, *)* *(';
         $regexpEnd = ') *(, *[a-zA-Z]* *)* *$\') OR `viewers` IS NULL OR `viewers` = \'\'';
 
-<<<<<<< HEAD
         // The filter will be inserted between WHERE keyword and initial search condition
         // so we must not put OR keyword at begining of it
-=======
-        // The filter is meant to be inserted between WHERE keyword and initial search condition
-        // coupled as: $query['where'] = 'WHERE ('.$filter.') AND '.$where;
->>>>>>> parent of 4be04ba... More than a debug: previous version should have been working in much cases. A better one so. More tests needed. Code review needed too.
         if(isset($effectiveUserRoles)) {
             // several
             if(is_array($effectiveUserRoles)) {
@@ -3061,11 +3061,9 @@ class Storage
             $sqlclause = $regexpBegin.$roleRegexp.$regexpEnd;
 
             // manage ownership
-            if(isset($users['id'])) {
-                $sqlclause = $sqlclause . ' OR `id` = \''.$users['id'].'\' ';
+            if(isset($user['id'])) {
+                $sqlclause = $sqlclause . ' OR `ownerid` = \''.$user['id'].'\' ';
             }
-
-            $this->app['permissions']->slog(' ## SQL clause : "'.$sqlclause.'"');
 
             return $sqlclause;
         } else {

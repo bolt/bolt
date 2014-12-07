@@ -2,9 +2,11 @@
 
 {% set option = {
     class:     field.class|default(''),
+    variant:   field.variant|default(''),
     label:     field.label|default(''),
     info:      field.info|default(''),
     options:   field.options.datepicker|default(''),
+    default:   (context.content.id == null and field.default) ? context.content.get(key)|date('Y-m-d H:i:s') : null,
     required:  field.required|default(false),
     errortext: field.error|default(''),
 }%}
@@ -13,7 +15,7 @@
 
 {% set attr_datetime = {
     id:         key,
-    value:      context.content.get(key)|date('Y-m-d H:i:s'),
+    value:      (context.content.get(key) != null) ? context.content.get(key)|date('Y-m-d H:i:s') : option.default,
     required:   option.required,
     class:      option.class,
     errortext:  option.errortext,
@@ -23,10 +25,19 @@
 {#=== FIELDSET =======================================================================================================#}
 
 <fieldset class="datetime">
+    {% if option.variant == 'inline' %}
 
-    <label class="col-sm-3 control-label">{{ (option.info) ? macro.infopop(labelkey, option.info) : labelkey }}</label>
-    <div class="col-sm-9">
-        {{ macro.input_datetime(attr_datetime) }}
-    </div>
+        <label class="col-sm-3 control-label">{{ (option.info) ? macro.infopop(labelkey, option.info) : labelkey }}</label>
+        <div class="col-sm-9">
+            {{ macro.input_datetime(attr_datetime) }}
+        </div>
 
+    {% else %}
+
+        <div class="col-sm-12">
+            <label class="control-label">{{ (option.info) ? macro.infopop(labelkey, option.info) : labelkey }}</label>
+            {{ macro.input_datetime(attr_datetime) }}
+        </div>
+
+    {% endif %}
 </fieldset>

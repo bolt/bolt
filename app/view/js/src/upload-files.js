@@ -72,18 +72,19 @@ var FilelistHolder = Backbone.View.extend({
     render: function () {
         this.list.sort();
 
-        var $list = $('#filelist-' + this.id + ' .list');
-        $list.html('');
+        var list = $('#filelist-' + this.id + ' .list'),
+            data = list.data('list');
+
+        list.html('');
         _.each(this.list.models, function (file) {
-            var fileName = file.get('filename'),
-                html = "<div data-id='" + file.get('id') + "' class='ui-state-default'>" +
-                        "<span class='fileDescription'>" + fileName + "</span>" +
-                        "<input type='text' value='" + _.escape(file.get('title')) + "'>" +
-                        "<a href='#'><i class='fa fa-times'></i></a></div>";
-            $list.append(html);
+            list.append(data.item.
+                replace('<ID>', file.get('id')).
+                replace('<VAL>', _.escape(file.get('title'))).
+                replace('<INF>', file.get('filename'))
+            );
         });
         if (this.list.models.length === 0) {
-            $list.append("<p>No files in the list, yet.</p>");
+            list.append(data.empty);
         }
         this.serialize();
     },
@@ -151,15 +152,13 @@ var FilelistHolder = Backbone.View.extend({
             .bind('fileuploadsubmit', function (e, data) {
                 var fileTypes = $('#fileupload-' + contentkey).attr('accept'),
                     pattern,
-                    message;
+                    ldata = $('#filelist-' + contentkey + ' div.list').data('list');
 
                 if (typeof fileTypes !== 'undefined') {
                     pattern = new RegExp("\\.(" + fileTypes.replace(/,/g, '|').replace(/\./g, '') + ")$", "i");
                     $.each(data.files , function (index, file) {
                         if (!pattern.test(file.name)) {
-                            message = "Oops! There was an error uploading the file. Make sure that the file " +
-                                "type is correct.\n\n(accept type was: " + fileTypes + ")";
-                            alert(message);
+                            alert(ldata.message.wrongtype);
                             e.preventDefault();
                             return false;
                         }
@@ -167,11 +166,12 @@ var FilelistHolder = Backbone.View.extend({
                 }
             });
 
-        $holder.find("div.list").on('click', 'a', function (e) {
+        $holder.find('div.list').on('click', 'a', function (e) {
+            var ldata = $(this).closest('div.list').data('list');
+
             e.preventDefault();
-            if (confirm('Are you sure you want to remove this image?')) {
-                var id = $(this).parent().data('id');
-                $this.remove(id);
+            if (confirm(ldata.message.remove)) {
+                $this.remove($(this).parent().data('id'));
             }
         });
 

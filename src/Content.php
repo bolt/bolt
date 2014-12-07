@@ -170,12 +170,10 @@ class Content implements \ArrayAccess
                 $this->values[$key] = $video;
             }
 
-            // Make sure 'date' and 'datetime' don't end in " :00".
-            if ($this->fieldtype($key) == "datetime") {
-                if (strpos($this->values[$key], ":") === false) {
-                    $this->values[$key] = trim($this->values[$key]) . " 00:00:00";
+            if ($this->fieldtype($key) == "date" || $this->fieldtype($key) == "datetime") {
+                if ($this->values[$key] === "") {
+                    $this->values[$key] = null;
                 }
-                $this->values[$key] = str_replace(" :00", " 00:00", $this->values[$key]);
             }
 
         }
@@ -808,7 +806,7 @@ class Content implements \ArrayAccess
                     $params[$fieldName] = substr($this->values[$fieldName], 0, 10);
                 } elseif (isset($this->taxonomy[$fieldName])) {
                     // Turn something like '/chapters/meta' to 'meta'. Note: we use
-                    // two temp vars here, to prevent "Only variables should be passed 
+                    // two temp vars here, to prevent "Only variables should be passed
                     // by reference"-notices.
                     $tempKeys = array_keys($this->taxonomy[$fieldName]);
                     $tempValues = explode('/', array_shift($tempKeys));
@@ -922,11 +920,10 @@ class Content implements \ArrayAccess
                 continue; // Skip other contenttypes, if we requested a specific type.
             }
 
-            $params = array('hydrate' => false);
+            $params = array('hydrate' => true);
             $where = array('id' => implode(" || ", $ids));
             $dummy = false;
 
-<<<<<<< HEAD
             $temp_result = $this->app['storage']->getContent($contenttype, $params, $dummy, $where);
 
             if (empty($temp_result)) {
@@ -939,10 +936,6 @@ class Content implements \ArrayAccess
             } else {
                 $records[] = $temp_result;
             }
-=======
-            $records = $this->app['storage']->getContent($contenttype, $params, $dummy, $where);
-
->>>>>>> parent of 4be04ba... More than a debug: previous version should have been working in much cases. A better one so. More tests needed. Code review needed too.
         }
 
         return $records;
