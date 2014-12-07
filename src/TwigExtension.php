@@ -663,7 +663,7 @@ class TwigExtension extends \Twig_Extension
         $finder->files()
                ->in($this->app['paths']['themepath'])
                ->depth('== 0')
-               ->name('/^[a-zA-Z0-9]\V+\.twig$/')
+               ->name('/^[a-zA-Z0-9]\w+\.twig$/')
                ->sortByName();
 
         $files = array();

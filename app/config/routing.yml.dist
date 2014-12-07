@@ -89,23 +89,23 @@ contentlisting:
 
 # Example: Use the following to add a route for contenttypes in your URL scheme. In this example we
 # add routing for the 'chapter' taxonomy, so we can link to /meta/lorum-ipsum or /main/foo-bar.
-# note that the 'showcase' in the defaults and requirements determine the fallback, for when
+# note that the 'kitchensink' in the defaults and requirements determine the fallback, for when
 # no option is specified in a specifid record. Basically, this makes the route respond to the
-# default route /showcase/foo-bar as well.
+# default route /kitchensink/foo-bar as well.
 
 # chapterbinding:
 #   path: /{chapters}/{slug}
-#   defaults: { _controller: 'Bolt\Controllers\Frontend::record', 'contenttypeslug': 'showcases', 'chapters': 'showcase' }
+#   defaults: { _controller: 'Bolt\Controllers\Frontend::record', 'contenttypeslug': 'kitchensinks', 'chapters': 'kitchensink' }
 #   requirements:
-#     chapters: [ 'Bolt\Controllers\Routing::getTaxonomyRequirement', ['chapters', 'showcase'] ]
-#   contenttype: showcases
+#     chapters: [ 'Bolt\Controllers\Routing::getTaxonomyRequirement', ['chapters', 'kitchensink'] ]
+#   contenttype: kitchensinks
 
 # categorybinding:
 #   path: /{categories}/{slug}
-#   defaults: { _controller: 'Bolt\Controllers\Frontend::record', 'contenttypeslug': 'showcases', 'categories': 'none' }
+#   defaults: { _controller: 'Bolt\Controllers\Frontend::record', 'contenttypeslug': 'kitchensinks', 'categories': 'none' }
 #   requirements:
 #     categories: [ 'Bolt\Controllers\Routing::getTaxonomyRequirement', ['categories', 'none'] ]
-#   contenttype: showcases
+#   contenttype: kitchensinks
 
 
 # Supported internal defaults are:

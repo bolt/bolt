@@ -1,4 +1,4 @@
-# app/resources/translations/nl_NL/messages.nl_NL.yml – generated on 2014-12-06 09:23:09 UTC
+# app/resources/translations/nl_NL/messages.nl_NL.yml – generated on 2014-11-30 13:46:16 UTC
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
 #          at the moment. This is an ongoing process. Translations currently in the 
@@ -11,10 +11,10 @@
 #  no unused messages
 #  no untranslated messages
 #  no untranslated keyword based messages
-# 379 translations
+# 377 translations
 # 132 keyword based translations
 
-#--- 379 translations ---------------------------------------------------------
+#--- 377 translations ---------------------------------------------------------
 
 "%contenttypes% overview": "%contenttypes% overzicht"
 "%name% № %id%": "%name% № %id%"
@@ -119,7 +119,6 @@
 "Draft": "Klad"
 "Duplicate %filename%": "Dupliceer %filename%"
 "Edit": "Bewerk"
-"Edit Roles and Permissions": "Bewerk Rollen en Permissies"
 "Edit file": "Bewerk bestand"
 "Enable %username%": "Schakel %username% in"
 "Everybody": "Iedereen"
@@ -357,7 +356,6 @@
 "Version": "Versie"
 "Video": "Video"
 "View (saved version) on site": "Bekijk (opgeslagen versie) op de website"
-"View Roles": "Bekijk Rollen"
 "View on site": "Bekijk op site"
 "View related content": "Bekijk gerelateerde inhoud"
 "View site": "Bekijk site"

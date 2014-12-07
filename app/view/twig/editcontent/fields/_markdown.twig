@@ -5,18 +5,16 @@
     height:    field.height|default(''),
     label:     field.label|default(''),
     required:  field.required|default(false),
-    errortext: field.error|default(''),
     info:      field.info|default('info.markdown')
 }%}
 
 {#=== INIT ===========================================================================================================#}
 
 {% set attr_text = {
-    class:          option.class,
-    name_id:        key,
-    required:       option.required,
-    data_errortext: option.errortext,
-    style:          (option.height) ? 'height: ' ~ option.height ~ ' !important;' : '',
+    class:     option.class,
+    name_id:   key,
+    required:  option.required,
+    style:     (option.height) ? 'height: ' ~ option.height ~ ' !important;' : '',
 }%}
 
 {% set attr_catchpaste = {

@@ -1,22 +1,22 @@
-# app/resources/translations/en_GB/messages.en_GB.yml – generated on 2014-12-06 09:22:41 UTC
+# app/resources/translations/en_GB/messages.en_GB.yml – generated on 2014-11-18 11:23:09 UTC
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the 
-#          repository are automatically mapped to the new scheme. Be aware that there 
-#          can be a race condition between that process and your PR so that it's 
-#          eventually necessary to remap your translations. If you're planning on 
+#          at the moment. This is an ongoing process. Translations currently in the
+#          repository are automatically mapped to the new scheme. Be aware that there
+#          can be a race condition between that process and your PR so that it's
+#          eventually necessary to remap your translations. If you're planning on
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#  no unused messages
+#   3 unused messages
 #  no untranslated messages
 #  no untranslated keyword based messages
-# 379 translations
+# 361 translations
 # 132 keyword based translations
 
-#--- 379 translations ---------------------------------------------------------
 
-"%contenttypes% overview": "%contenttypes% overview"
+#--- 361 translations ---------------------------------------------------------
+
 "%name% № %id%": "%name% № %id%"
 "%s files could not be deleted. You should delete them manually.": "%s files could not be deleted. You should delete them manually."
 "(default template)": "(default template)"
@@ -91,7 +91,6 @@
 "Content Type Permissions": "Content Type Permissions"
 "Content for home not found!": "Content for home not found!"
 "Contenttypes": "Contenttypes"
-"Copying theme assets …": "Copying theme assets …"
 "Create folder": "Create folder"
 "Create the first user": "Create the first user"
 "Created on:": "Created on:"
@@ -119,7 +118,6 @@
 "Draft": "Draft"
 "Duplicate %filename%": "Duplicate %filename%"
 "Edit": "Edit"
-"Edit Roles and Permissions": "Edit Roles and Permissions"
 "Edit file": "Edit file"
 "Enable %username%": "Enable %username%"
 "Everybody": "Everybody"
@@ -194,10 +192,8 @@
 "Modified": "Modified"
 "More info/help": "More info/help"
 "Multiselect": "Multi-select"
-"Next": "Next"
 "No Stable Versions Available": "No Stable Versions Available"
 "No Test Versions Available": "No Test Versions Available"
-"No recent %contenttype%.": "No recent %contenttype%."
 "No relations found!": "No relations found!"
 "No results found for '%search%'. Please try another search.": "No results found for '%search%'. Please try another search."
 "No such action for content.": "No such action for content."
@@ -208,7 +204,6 @@
 "Omnisearch": "Omnisearch"
 "Options": "Options"
 "Order: %sort%": "Order: %sort%"
-"Originally by %1, ported by %2": "Originally by %1, ported by %2"
 "Other contenttypes": "Other contenttypes"
 "Overview": "Overview"
 "Overview for": "Overview for"
@@ -232,16 +227,13 @@
 "Preparing to install package …": "Preparing to install package …"
 "Preparing to remove package …": "Preparing to remove package …"
 "Preview": "Preview"
-"Previous": "Previous"
 "Profile": "Profile"
-"Proudly powered by %s": "Proudly powered by %s"
 "Provided by:": "Provided by:"
 "Publication date:": "Publication date:"
 "Publish selected": "Publish selected"
 "Published": "Published"
 "Published on:": "Published on:"
 "Read more": "Read more"
-"Recent %contenttypes%": "Recent %contenttypes%"
 "Related content": "Related content"
 "Related content:": "Related content:"
 "Relationships": "Relationships"
@@ -258,11 +250,9 @@
 "Saving …": "Saving …"
 "Search": "Search"
 "Search for …": "Search for …"
-"Search for:": "Search for:"
 "Search results for <b> %search% </b>.": "Search results for <b> %search% </b>."
 "Search …": "Search …"
 "Searching for available updates …": "Searching for available updates …"
-"Search…": "Search…"
 "Select": "Select"
 "Select a page": "Select a page"
 "Select all": "Select all"
@@ -277,7 +267,6 @@
 "Showing": "Showing"
 "Showing %pager_for% %from% - %to% of %count%": "Showing %pager_for% %from% - %to% of %count%"
 "Size": "Size"
-"Skip to content": "Skip to content"
 "Skipped <tt>%key%</tt> (already has records)": "Skipped <tt>%key%</tt> (already has records)"
 "Skipped <tt>%key%</tt> (not checked)": "Skipped <tt>%key%</tt> (not checked)"
 "Slug": "Slug"
@@ -296,7 +285,6 @@
 "Textarea": "Textarea"
 "Thanks": "Thanks"
 "That user does not exist.": "That user does not exist."
-"The Bolt extensions Repo at %repository% is currently unavailable. Check your connection and try again shortly.": "The Bolt extensions Repo at %repository% is currently unavailable. Check your connection and try again shortly."
 "The activitylog has been cleared.": "The activity log has been cleared."
 "The activitylog has been trimmed.": "The activity log has been trimmed."
 "The database needs to be updated/repaired. Go to 'Settings' > '<a href=\"%link%\">Check Database</a>' to do this now.": "The database needs to be updated/repaired. Go to 'Settings' > '<a href=\"%link%\">Check Database</a>' to do this now."
@@ -315,7 +303,6 @@
 "The versions listed below are compatible with the version of Bolt you are using. Since they are unstable versions, we recommend you <strong>do not</strong> use these on production systems.": "The versions listed below are compatible with the version of Bolt you are using. Since they are unstable versions, we recommend you <strong>do not</strong> use these on production systems."
 "The versions listed below are marked as stable releases by the developer and are compatible with the version of Bolt you are currently using.": "The versions listed below are marked as stable releases by the developer and are compatible with the version of Bolt you are currently using."
 "Theme installation complete": "Theme installation complete"
-"Theme successfully generated. You can now edit it directly from your theme folder.": "Theme successfully generated. You can now edit it directly from your theme folder."
 "There are no items on the Stack, yet.": "There are no items on the Stack, yet."
 "There are no users in the database. Please create the first user.": "There are no users in the database. Please create the first user."
 "There are no users present in the system. Please create the first user, which will be granted root privileges.": "There are no users present in the system. Please create the first user, which will be granted root privileges."
@@ -325,7 +312,6 @@
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>."
 "This will install all available updates.": "This will install all available updates."
 "This will make sure all packages listed are installed. Use this if you've recently moved to a new server or if you have manually added an extension.": "This will make sure all packages listed are installed. Use this if you've recently moved to a new server or if you have manually added an extension."
-"This will overwrite any existing files! Are you sure?": "This will overwrite any existing files! Are you sure?"
 "This won't install anything, just show you available updates": "This won't install anything, just show you available updates"
 "Time in 24h/12h format": "Time in 24h/12h format"
 "Timed publish": "Timed publish"
@@ -357,13 +343,11 @@
 "Version": "Version"
 "Video": "Video"
 "View (saved version) on site": "View (saved version) on site"
-"View Roles": "View Roles"
 "View on site": "View on site"
 "View related content": "View related content"
 "View site": "View site"
 "View/edit Templates": "View/edit Templates"
 "View/install Extensions": "View/install Extensions"
-"We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling.": "reinstalling.\""
 "Written by <em>%name%</em> on %date%": "Written by <em>%name%</em> on %date%"
 "You can discover new extensions by visiting": "You can discover new extensions by visiting"
 "You can now start using the installed extension, documentation and implementation instructions can be found using the link below.": "You can now start using the installed extension, documentation and implementation instructions can be found using the link below."
@@ -373,7 +357,6 @@
 "You don't have correct permissions to edit the file '%s'.": "You don't have correct permissions to edit the file '%s'."
 "You don't have the correct permissions to display the file or directory '%s'.": "You don't have the correct permissions to display the file or directory '%s'."
 "You have been logged out.": "You have been logged out."
-"You must specify both a name and a version to install!": "You must specify both a name and a version to install!"
 "You should set 'homepage:' in your 'app/config/config.yml' to an existing record. Make sure that the content is published, otherwise it will not be shown.": "You should set 'homepage:' in your 'app/config/config.yml' to an existing record. Make sure that the content is published, otherwise it will not be shown."
 "You've been logged on successfully.": "You've been logged on successfully."
 "Your Currently Installed Extensions": "Your Currently Installed Extensions"

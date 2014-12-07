@@ -47,8 +47,8 @@ class Config
         } else {
 
             // In this case the cache is loaded, but because the path of the theme
-            // folder is defined in the congif itself, we still need to check
-            // retrospectively if we need to invalidate it.
+            // folder is defined in the congif itself, we still need to check 
+            // retrospectively if we need to invalidate it. 
             $this->checkValidCache();
 
         }
@@ -762,15 +762,17 @@ class Config
 
     private function checkValidCache()
     {
+
         // Check the timestamp for the theme's config.yml
         $paths = $this->app['resources']->getPaths();
         $themeConfigFile = $paths['themepath'] . '/config.yml';
         $configTimestamp = file_exists($themeConfigFile) ? filemtime($themeConfigFile) : 10000000000;
 
         if ($this->cachetimestamp <= $configTimestamp) {
-            // Invalidate cache for next request.
+            // Invalidate cache for next request. 
             @unlink($paths['cache'] . '/config_cache.php');
         }
+
     }
 
 
@@ -920,10 +922,10 @@ class Config
         }
 
         // If the request URI is '/bolt' or '/async' (or starts with '/bolt/' etc.), assume backend or async.
-        $mountpoint = '/' . ltrim($mountpoint, '/');
-        if ($scripturi === $mountpoint || strpos($scripturi, $mountpoint . '/') === 0) {
+        $mountpoint = '/'.ltrim($mountpoint, '/');
+        if ($scripturi === $mountpoint || strpos($scripturi, $mountpoint.'/') === 0) {
             $end = 'backend';
-        } elseif ($scripturi === '/async' || strpos($scripturi, '/async/') === 0) {
+        } elseif ($scripturi === '/async' || strpos($scripturi, '/async/') === 0 ) {
             $end = 'async';
         } else {
             $end = 'frontend';

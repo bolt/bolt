@@ -276,7 +276,7 @@ hash_strength: 10
 #  password: pwd
 
 
-# Options for when you're working with Grunt.
-#grunt:
-#  livereload: false
-#  livereloadport: 35729
+# options for when you're working with Grunt. Feel free to ignore these, if you don't use grunt.
+grunt:
+  livereload: false
+  livereloadport: 35729

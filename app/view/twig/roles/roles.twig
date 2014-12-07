@@ -1,4 +1,4 @@
-{# Page: Edit users > Roles #}
+{# Page: Perhaps unused??? #}
 
 {% extends '_base/_page-nav.twig' %}
 
@@ -9,10 +9,10 @@
     <div class="row">
         <div class="col-xs-12">
             {% for permissionName, roles in context.global_permissions %}
-                <dl style="display: inline-block; vertical-align: top; margin-right: 2em; width: 9em;">
+                <dl style="display: inline-block; vertical-align: top; margin-right: 2em; width: 7em">
                     <dt>{{ permissionName }}:</dt>
                     <dt style="font-weight: normal">
-                        <ul style="padding-left: 1.3em;">
+                        <ul>
                             {% for role in roles %}
                                 <li>{{ role }}</li>
                             {% endfor %}
@@ -35,10 +35,10 @@
                 <div>
                     <h3>{{ contenttype }}</h3>
                     {% for permissionName, roles in permissions %}
-                        <dl style="display: inline-block; vertical-align: top; margin-right: 2em; width: 9em;">
+                        <dl style="display: inline-block; vertical-align: top; margin-right: 2em; width: 7em">
                             <dt>{{ permissionName }}:</dt>
                             <dt style="font-weight: normal">
-                                <ul style="padding-left: 1.3em;">
+                                <ul>
                                     {% for role in roles %}
                                         <li>{{ role }}</li>
                                     {% endfor %}

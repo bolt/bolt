@@ -6,51 +6,16 @@
 {% set can_publish = isallowed('contenttype:' ~ context.contenttype.slug ~ ':publish:' ~ context.content.id) %}
 {% set can_depublish = isallowed('contenttype:' ~ context.contenttype.slug ~ ':depublish:' ~ context.content.id) %}
 
-{% set attr_editreferrer = {
-    name_id:  'editreferrer',
-    type:     'hidden',
-    value:    editreferrer|default(''),
-}%}
-
-{% set attr_id = {
-    class:     'form-control narrow',
-    id:        'id',
-    readonly:  true,
-    type:      'text',
-    value:     context.content.id,
-}%}
-
 {% set attr_publish = {
-    disabled: (not can_publish),
     id:       'datepublish',
-    value:    ((context.content.datepublish == magic_date) ? '' : (context.content.datepublish == '') ? "now"|date('Y-m-d H:i:s') : context.content.datepublish),
+    value:    (context.content.datepublish == magic_date) ? '' : context.content.datepublish,
+    disabled: (not can_publish),
 }%}
 
 {% set attr_depublish = {
-    disabled:  (not can_depublish),
     id:        'datedepublish',
     value:     (context.content.datedepublish == magic_date) ? '' : context.content.datedepublish,
-}%}
-
-{% set attr_status = {
-    class:     'form-control narrow',
-    disabled:  (context.allowed_status|length <= 1),
-    id:        'statusselect',
-    name:      'status',
-}%}
-
-{% set attr_ownerid = {
-    class:     'form-control narrow',
-    disabled:  (not isallowed('contenttype:' ~ context.contenttype.slug ~ ':change-ownership:' ~ context.content.id)),
-    name:      'ownerid',
-}%}
-
-{% set attr_comment = {
-    class:        'form-control',
-    disabled:     (not isallowed('contenttype:' ~ context.contenttype.slug ~ ':change-ownership:' ~ context.content.id)),
-    name_id:      'changelog-comment',
-    placeholder:  __('Add a brief, optional comment to describe what\'s changed.'),
-    type:         'text',
+    disabled:  (not can_depublish),
 }%}
 
 {#====================================================================================================================#}
@@ -61,14 +26,16 @@
         {{ __('Meta information') }}
     </h3>
 
-    <input{{ macro.attr(attr_editreferrer) }}>
+    <input type="hidden" name="editreferrer" id="editreferrer" value="{{ editreferrer|default('') }}">
 
     <div class="form-group">
         {{ macro.label('Id (№)', '', 'col-sm-4 control-label') }}
         <div class="col-sm-8">
-            <input{{ macro.attr(attr_id) }}>
+            <input type="text" readonly="readonly" name="id" value="{{ context.content.id }}" class="form-control narrow">
         </div>
     </div>
+
+    <input type="hidden" name="editreferrer" id="editreferrer"{% if editreferrer is defined %} value="{{ editreferrer }}"{% endif %}>
 
     <div class="form-group">
         {{ macro.label(__('Publication date:'), '', 'col-sm-4 control-label') }}
@@ -85,24 +52,18 @@
     </div>
 
     {% if context.content.datecreated > '1970-01-01 01:01:01' %}
-        <p>
-            {{ __('contenttypes.generic.created', {'%contenttype%': context.contenttype.slug}) }}
-            {{ macro.timemoment(context.content.datecreated) }}
-            {{ __('and edited') }}
-            {{ macro.timemoment(context.content.datechanged) }}.
-        </p>
-    {% endif %}
+    <p>{{ __('contenttypes.generic.created', {'%contenttype%': context.contenttype.slug}) }}
+        <time class="moment" datetime="{{ context.content.datecreated|date("c") }}" title="{{ context.content.datecreated }}">{{ context.content.datecreated }}</time>
+        {{ __('and edited') }}
+        <time class="moment" datetime="{{ context.content.datechanged|date("c") }}" title="{{ context.content.datechanged }}">{{ context.content.datechanged }}</time>.
+        {% endif %}</p>
 
     <div class="form-group">
         {{ macro.label(__('Status:'), '', 'col-sm-4 control-label') }}
         <div class="col-sm-8">
-            <select{{ macro.attr(attr_status) }}>
+            <select name="status" id="statusselect" {% if context.allowed_status|length <= 1 %}disabled="disabled"{% endif %} class="form-control narrow">
                 {% for status in context.allowed_status %}
-                    {% set attr_opt = {
-                        value:     status,
-                        selected:  (context.content.status == status),
-                    }%}
-                    <option{{ macro.attr(attr_opt) }}>{{ status_names[status] }}</option>
+                    <option value="{{status}}" {% if context.content.status == status %}selected{% endif %}>{{ status_names[status] }}</option>
                 {% endfor %}
             </select>
         </div>
@@ -111,25 +72,25 @@
     <div class="form-group">
         {{ macro.label(__('Owner:'), '', 'col-sm-4 control-label') }}
         <div class="col-sm-8">
-            <select{{ macro.attr(attr_ownerid) }}>
+            <select name="ownerid" {% if not isallowed("contenttype:" ~ context.contenttype.slug ~ ":change-owner:" ~ context.content.id) %}disabled="disabled"{% endif %} class="form-control narrow">
                 {% for user in users %}
-                    {% set attr_opt = {
-                        value:     user.id,
-                        selected:  (context.contentowner and user.id == context.contentowner.id),
-                    }%}
-                    <option{{ macro.attr(attr_opt) }}>{{ user.displayname }}</option>
+                    <option value="{{ user.id }}" {% if context.contentowner and user.id == context.contentowner.id %}selected="selected"{% endif %}>{{user.displayname}}</option>
                 {% endfor %}
             </select>
         </div>
     </div>
 
-    {% if ischangelogenabled() %}
-        <div class="form-group">
-            {{ macro.label(__('Add a comment:'), '', 'col-sm-4 control-label') }}
-            <div class="col-sm-8">
-                <input{{ macro.attr(attr_comment) }}>
-            </div>
+    <div class="form-group">
+        {{ macro.label(__('Add a comment:'), '', 'col-sm-4 control-label') }}
+        <div class="col-sm-8">
+            {% if ischangelogenabled() %}
+                <input type="text" name="changelog-comment" id="changelog-comment" class="form-control"
+                {% if not isallowed("contenttype:" ~ context.contenttype.slug ~ ":change-owner:" ~ context.content.id) %}disabled="disabled"{% endif %}
+                placeholder="{{ __('Add a brief, optional comment to describe what\'s changed.') }}"
+                />
+                </label>
+            {% endif %}
         </div>
-    {% endif %}
+    </div>
 
 </div>

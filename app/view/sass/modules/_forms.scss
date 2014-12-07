@@ -1,14 +1,20 @@
 /**
- * Editing content
+ * Editing content ..
  */
 
+label label {
+    display: inline !important;
+}
 
 label {
     display: block;
     margin-bottom: 3px;
+}
 
-    label {
-        display: inline !important;
+label.permalink {
+    margin: 0 0 0.5em;
+    code {
+        white-space: normal;
     }
 }
 
@@ -17,32 +23,28 @@ label {
     height: 33px;
 }
 
-.form-horizontal {
-    .control-label {
-        text-align: left;
-        font-size: $font-size-base + 1px;
-        font-weight: normal;
-        margin-bottom: 5px;
-
-        @include respond-to(medium-screens) {
-            @include old-ie() {
-                text-align: left !important; // sadly... : ( )
-                margin-bottom: 5px !important; // sadly... : ( )
-            }
+.form-horizontal .control-label {
+    text-align: left;
+    font-size: $font-size-base + 1px;
+    font-weight: normal;
+    margin-bottom: 5px;
+    @include respond-to(medium-screens) {
+        @include old-ie() {
+            text-align: left!important; /* sadly... : ( ) */
+            margin-bottom: 5px!important; /* sadly... : ( ) */
         }
     }
+}
 
-    .control-label-inline {
-        font-size: $font-size-base;
-        font-weight: bold;
-        margin-bottom: 5px;
-        padding-top: 4px;
-    }
+.form-horizontal .control-label-inline {
+    font-size: $font-size-base;
+    font-weight: bold;
+    margin-bottom: 5px;
+    padding-top: 4px;
 }
 
 .form-group {
     margin-bottom: 20px;
-
     .form-group {
         margin-bottom: 10px;
     }
@@ -51,7 +53,6 @@ label {
 .button-wrap {
     margin: 8px 0 4px;
     position: relative;
-
     .btn {
         margin: 0 4px 2px 0;
     }
@@ -76,15 +77,201 @@ input[type="checkbox"] {
 fieldset.checkbox {
     display: inline-block;
     margin-top: -12px;
-    margin-bottom: -12px;
+    margin-bottom: -12px;    
+}
 
+fieldset.checkbox label {
+    display: inline;
+}
+
+fieldset.checkbox div {
+    margin: 0.3em 0 0.5em;
+}
+
+/* form error styles */
+
+.form-notice{
+    margin-bottom: 8px;
+    font-style: italic;
+    font-weight: bold;
+    padding: 2px 6px;
+}
+
+div.form-notice:last-child{
+    margin-bottom: 18px;    
+}
+
+#editcontent .error{
+    border-color: #888;
+    color: $state-danger-text;
+    background: $alert-danger-bg;
+}
+
+
+#editcontent input,
+#editcontent select,
+#editcontent textarea {
+    border-radius: 2px;
+    border-color: #CCC;
+    font-size: $font-size-base + 1px;
+}
+
+#editcontent input.large {
+    font-size: 150%;
+}
+
+#editcontent .narrow {
+    width: 45%;
+    min-width: 200px;
+}
+
+#editcontent .verynarrow {
+    width: 8%;
+    min-width: 50px;
+}
+
+
+#editcontent select.wide {
+    width: 70%;
+    min-width: 200px;
+}
+
+#editcontent .narrow.wide { /* Derp! */
+    width: 60%;
+    min-width: 200px;
+}
+
+#editcontent input.datepicker {
+    width: 21%;
+    min-width: 132px;
+    margin-right: 6px;
+    float: left;
+}
+
+#editcontent input.timepicker {
+    width: 10%;
+    min-width: 93px;
+    float: left;
+}
+
+#editcontent input[type=number] {
+    width: 20%;
+    min-width: 140px;
+}
+
+#editcontent textarea {
+    width: 100%;
+    height: 200px;
+    padding-right: 0;
+    font-size: 14px;
+    line-height: 21px;
+    color: #444;
+    font-family: Menlo, Consolas, Monaco, "Courier New", monospace;
+}
+
+#editcontent div.video-container {
+    height: 120px;
+    padding-right: 180px;
+}
+
+#editcontent div.video-right {
+    float: right;
+    width: 168px;
+}
+
+#editcontent div.image-container {
+    height: 140px;
+    padding-right: 130px;
+}
+
+#editcontent div.image-right {
+    float: right;
+    width: 128px;
+}
+
+
+#editcontent div.map-container {
+    padding-right: 210px;
+}
+
+#editcontent div.map-right {
+    float: right;
+    width: 208px;
+    margin-bottom: 8px;
+}
+
+#editcontent .imageholder {
+    // width: 126px;
+    // height: 126px;
+    overflow: hidden;
+    //box-shadow:  2px 2px 0 rgba(0, 0, 0, 0.2);
+    img {
+        max-height: 148px;
+        max-width: 100%;
+        border: 1px solid #BBB;
+    }
+}
+
+#editcontent div.image-container label,
+#editcontent div.video-container label,
+#editcontent div.map-container label {
+    margin-top: 2px;
+}
+
+#editcontent .checkboxwrapper {
+    padding: 0 0 12px 0;
+}
+
+#editcontent .checkboxwrapper span.left {
+    min-width: 220px;
+}
+
+#editcontent .checkboxwrapper input {
+    margin-top: 8px;
+}
+
+#editcontent fieldset.checkbox {
+    display: block;
     label {
         display: inline;
+        padding-left: 0;
+        font-weight: normal;
     }
+    input {
+        display: inline;
+        height: 1em;
+        margin-left: 10px;
+        width: auto;
+    }
+}
 
-    div {
-        margin: 0.3em 0 0.5em;
+#editcontent .mapholder {
+    border: 1px solid #BBB;
+    height: 160px;
+    padding: 2px;
+    //box-shadow:  2px 2px 0 rgba(0, 0, 0, 0.2);
+    @include respond-to(medium-screens) {
+        min-width: 160px;
+        max-width: 200px;
     }
+}
+
+#editcontent .geolocation {
+    // #1592
+    //height: 180px;
+}
+
+#editcontent .dropzone.hover, #editcontent .dropzone.in  {
+    background: #DEF;
+}
+
+#editcontent .dropzone.hover *, #editcontent .dropzone.in *  {
+    opacity: 0.7;
+}
+
+#editcontent small {
+    font-size: 12px;
+    color: #666;
 }
 
 .progress {
@@ -93,8 +280,138 @@ fieldset.checkbox {
     margin-bottom: 0;
 }
 
+#editcontent .fileinput-select {
+    float: left;
+}
+
 .fileinput-button {
-    margin-right: 4px;
+  margin-right: 4px;
+}
+
+#editcontent fieldset.slug {
+    // pull the slug closer to the field previous, usually the title
+    margin-top: -10px;
+}
+
+#editcontent fieldset.multiselect {
+    select {
+        display: block;
+        margin-bottom: 8px;
+    }
+}
+
+#editcontent input.editslug {
+    display: none;
+}
+
+#editcontent .sluglocker,
+#editcontent .slugedit
+{
+    color: #666;
+    display: inline-block;
+    padding: 0 3px;
+    cursor: pointer;
+}
+
+#editcontent div.imagelistholder.dropzone,
+#editcontent div.filelistholder.dropzone {
+    height: auto;
+}
+
+
+#editcontent div.imagelistholder p,
+#editcontent div.filelistholder p {
+    padding: 8px;
+    color: #999;
+    margin: 0;
+    font-style: italic;
+}
+
+#editcontent div.imagelistholder div.list,
+#editcontent div.filelistholder div.list {
+    border: 1px solid #ccc;
+    padding: 0;
+    //width: 285px;
+    width: 100%;
+    background-color: #FFF;
+    border-radius: 3px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1) inset;
+}
+
+#editcontent div.imagelistholder div.list div {
+    height: 48px;
+    margin: 6px;
+    border-radius: 3px;
+    cursor: ns-resize;
+    box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+}
+#editcontent div.filelistholder div.list div {
+    min-height: 50px;
+    margin: 6px;
+    border-radius: 3px;
+    cursor: ns-resize;
+    box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    background: url("smoothness/images/ui-bg_glass_75_e6e6e6_1x400.png") repeat-x scroll 50% 61% rgb(230, 230, 230);
+}
+#editcontent div.filelistholder div.list .fileDescription {
+    font-size: 80%;
+    font-weight: bold;
+    float: none;
+    display: block;
+    padding: 3px 0 0 5px;
+}
+
+#editcontent div.imagelistholder div.list div *,
+#editcontent div.filelistholder div.list div * {
+    float: left;
+    //margin: 4px 3px 0;
+    //padding-left: 4px;
+}
+
+#editcontent div.imagelistholder div.list div input,
+#editcontent div.filelistholder div.list div input {
+    //width: 170px;
+    margin: 9px 0 0;
+    padding: 3px 0 0 5px;
+    width: 65%;
+    border: 0;
+    @include respond-to(medium-screens) {
+        width: 83%;
+    }
+}
+
+#editcontent div.filelistholder div.list div input {
+    margin-top: 5px;
+}
+
+#editcontent div.imagelistholder div.list div a,
+#editcontent div.filelistholder div.list div a {
+    margin: 15px 7px 0;
+    padding: 0;
+    cursor: pointer;
+    color: #999;
+    float: right;
+}
+
+#editcontent div.filelistholder div.list div a {
+    margin-top: 10px;
+}
+
+#editcontent div.imagelistholder div.buttons,
+#editcontent div.filelistholder div.buttons {
+    float: left;
+    padding: 7px 8px;
+}
+
+#editcontent div.tagcloud {
+    margin-top: 6px;
+}
+
+#editcontent div.tagcloud a {
+    margin-right: 6px;
+    display: inline-block;
 }
 
 .ui-sortable-helper {
@@ -111,37 +428,34 @@ fieldset.checkbox {
 #filtertabs {
     margin-bottom: 16px;
     border: 0;
-
     @include respond-to(medium-screens) {
         border-bottom: 1px solid #d3d3d3;
     }
-
     a {
         color: #777;
         background-color: #dfdfdf;
         border: 1px solid #d3d3d3;
         cursor: pointer;
         padding: 5px 15px;
-
-        &:hover {
-            color: #555;
-            background-color: #F8F8F8 !important;
-            border-bottom: 0;
-        }
     }
-
-
+    a:hover {
+        color: #555;
+        background-color: #F8F8F8 !important;
+        border-botom: 0;
+    }
     li {
         margin-left: -3px;
-
         &.active {
             margin-top: -5px;
-
             a {
                 background-color: #F8F8F8;
                 color: #333;
                 padding: 7px 15px 8px 15px;
             }
+            &:hover {
+
+            }
         }
     }
 }
+

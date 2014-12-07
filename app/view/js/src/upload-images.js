@@ -58,22 +58,20 @@ var ImagelistHolder = Backbone.View.extend({
     render: function () {
         this.list.sort();
 
-        var list = $('#imagelist-' + this.id + ' .list'),
-            data = list.data('list'),
+        var $list = $('#imagelist-' + this.id + ' .list'),
             index = 0;
 
-        list.html('');
+        $list.html('');
         _.each(this.list.models, function (image) {
             image.set('id', index++);
-            list.append(data.item.
-                replace('<ID>', image.get('id')).
-                replace('<VAL>', _.escape(image.get('title'))).
-                replace('<PATH>', bolt.paths.bolt).
-                replace('<FNAME>', image.get('filename'))
-            );
+            var html = "<div data-id='" + image.get('id') + "' class='ui-state-default'>" +
+                "<img src='" + bolt.paths.bolt + "../thumbs/60x40/" + image.get('filename') + "' width=60 height=40>" +
+                "<input type='text' value='" + _.escape(image.get('title'))  + "'>" +
+                "<a href='#'><i class='fa fa-times'></i></a></div>";
+            $list.append(html);
         });
         if (this.list.models.length === 0) {
-            list.append(data.empty);
+            $list.append("<p>No images in the list, yet.</p>");
         }
         this.serialize();
     },
@@ -141,13 +139,15 @@ var ImagelistHolder = Backbone.View.extend({
             .bind('fileuploadsubmit', function (e, data) {
                 var fileTypes = $('#fileupload-' + contentkey).attr('accept'),
                     pattern,
-                    ldata = $('#imagelist-' + contentkey + ' div.list').data('list');
+                    message;
 
                 if (typeof fileTypes !== 'undefined') {
                     pattern = new RegExp("\\.(" + fileTypes.replace(/,/g, '|').replace(/\./g, '') + ")$", "i");
                     $.each(data.files , function (index, file) {
                         if (!pattern.test(file.name)) {
-                            alert(ldata.message.wrongtype);
+                            message = "Oops! There was an error uploading the image. Make sure that the file " +
+                                "type is correct.\n\n(accept type was: " + fileTypes + ")";
+                            alert(message);
                             e.preventDefault();
 
                             return false;
@@ -156,12 +156,11 @@ var ImagelistHolder = Backbone.View.extend({
                 }
             });
 
-        $holder.find('div.list').on('click', 'a', function (e) {
-            var ldata = $(this).closest('div.list').data('list');
-
+        $holder.find("div.list").on('click', 'a', function (e) {
             e.preventDefault();
-            if (confirm(ldata.message.remove)) {
-                $this.remove($(this).parent().data('id'));
+            if (confirm('Are you sure you want to remove this image?')) {
+                var id = $(this).parent().data('id');
+                $this.remove(id);
             }
         });
 

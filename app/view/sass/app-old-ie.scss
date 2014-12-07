@@ -2,7 +2,7 @@
  * Read the README.TXT in main SASS folder for project details
  *
  * This is the app.css for old IE browsers: lt IE9
- * It has a $old-ie variable set to true to generate specific
+ * It has a $old-ie variable set to true to generate specific 
  * content in the scss files that are wrapped in $oldie conditional
  */
 
@@ -97,7 +97,6 @@ $fixed-mq: 60; //gets compared to breakpoints in mixon respond-to(): includes al
 @import "modules/aside";
 @import "modules/stack";
 @import "modules/forms";
-@import "modules/editcontent";
 @import "modules/login";
 @import "modules/extend";
 
