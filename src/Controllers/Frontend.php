@@ -154,8 +154,6 @@ class Frontend
                 Lib::simpleredirect($app['config']->get('general/branding/path') . '/');
             }
             $app->abort(404, "Page $contenttypeslug/$slug not found.");
-        } else {
-            var_dump($slug);
         }
 
         // Then, select which template to use, based on our 'cascading templates rules'

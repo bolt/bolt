@@ -3047,8 +3047,6 @@ class Storage
 
         // The filter will be inserted between WHERE keyword and initial search condition
         // so we must not put OR keyword at begining of it
-        // TODO new filter:
-        // ((viewers REGEXP '^([a-zA-Z]* *, *)* *(admin|anonymous) *(, *[a-zA-Z]* *)* *$') OR viewers IS NULL OR viewers = '') AND $query['where']
         if(isset($effectiveUserRoles)) {
             // several
             if(is_array($effectiveUserRoles)) {
