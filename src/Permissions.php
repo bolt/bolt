@@ -226,7 +226,7 @@ class Permissions
                 // user have access if $grantingRoles exists
                 if(is_array($grantingRoles)) {
                     $this->audit(
-                        "Granting fucking '$permissionName' " .
+                        "Granting '$permissionName' " .
                         ($contenttype ? "for $contenttype " : "") .
                         ($contenttype ? "with id: $contentid " : "") .
                         "based on role '".implode(', ', $grantingRoles)."' " .
