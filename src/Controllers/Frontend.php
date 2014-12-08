@@ -39,7 +39,8 @@ class Frontend
                 $contenttypeslug = (string) $content;
                 $contentid = null;
             }
-            if (!$app['users']->isAllowed('frontend', $contenttypeslug, $contentid)) {
+
+            if (!$app['users']->isAllowed('frontend', $content, $contenttypeslug, $contentid)) {
                 $app->abort(403, 'Not allowed.');
             }
         }
@@ -123,7 +124,7 @@ class Frontend
      * @param string            $slug            The content slug
      * @return mixed
      */
-    public static function record(Silex\Application $app, $contenttypeslug, $slug)
+    public static function record(Silex\Application $app, $contenttypeslug, $slug, $noFrontendPermissionCheck = null)
     {
         $contenttype = $app['storage']->getContentType($contenttypeslug);
 
@@ -142,7 +143,8 @@ class Frontend
             $content = $app['storage']->getContent($contenttype['slug'], array('id' => $slug, 'returnsingle' => true));
         }
 
-        self::checkFrontendPermission($app, $content);
+        if(isset($content) && !isset($noFrontendPermissionCheck))
+          self::checkFrontendPermission($app, $content);
 
         // No content, no page!
         if (!$content) {
