@@ -39,7 +39,7 @@ class Frontend
                 $contenttypeslug = (string) $content;
                 $contentid = null;
             }
-            if (!$app['users']->isAllowed('frontend', $contenttypeslug, $contentid)) {
+            if (!$app['users']->isAllowed('frontend', $contenttypeslug, $contentid, $content)) {
                 $app->abort(403, 'Not allowed.');
             }
         }
