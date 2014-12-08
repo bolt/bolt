@@ -389,7 +389,7 @@ class CommandRunner
         $jsonfile = file_get_contents($this->packageFile);
         $json = json_decode($jsonfile);
         $json->repositories->packagist = false;
-        $json->{'minimum-stability'} = "dev";
+        $json->{'minimum-stability'} = $this->app['config']->get('general/extensions/stability', 'stable');
         $json->{'prefer-stable'} = true;
         $json->config = array('discard-changes' => true, 'preferred-install' => 'dist');
         $basePackage = "bolt/bolt";
