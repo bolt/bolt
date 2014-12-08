@@ -696,4 +696,5 @@ class Permissions
         }
 
         return $contentRoles;
+    }
 }
