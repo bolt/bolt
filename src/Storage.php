@@ -1896,6 +1896,30 @@ class Storage
         $total_results = false;
         $results = false;
         foreach ($decoded['queries'] as $query) {
+            // Perform actual query
+            /*
+              Only for Frontend and in case "viewers" permission is set for that content type
+            */
+            $contenttype = $this->getContenttypeFromQuery($query);
+            if($this->app['permissions']->isProtected($this->app['config']->getWhichEnd(), $contenttype)) {
+
+                // Get user roles
+                $user = $this->app['users']->getCurrentUser();
+                $effectiveUserRoles = $this->app['permissions']->getEffectiveRolesForUser($user);
+
+                // Create the filter to take user roles in account
+                if((isset($decoded['return_single']) || isset($decoded['parameters']['limit']))
+                && !in_array(permissions::ROLE_ROOT, $effectiveUserRoles))
+                    $filter = $this->getPerContentPermissionsFilter($user, $effectiveUserRoles);
+
+                // modify $query['where'] to include the filter
+                $where = str_replace('WHERE', '', $query['where']);
+                if((str_replace(' ', '', $where) != '') && (isset($filter))) {
+                    $where = 'WHERE ('.$filter.') AND '.$where;
+                    $query['where'] = $where;
+                }
+            }
+
             $statement = sprintf(
                 'SELECT %s.* %s %s %s',
                 $query['tablename'],
@@ -2989,5 +3013,54 @@ class Storage
     public function isEmptyPager()
     {
         return (count(static::$pager) === 0);
+    }
+
+    public function getContenttypeFromQuery($query)
+    {
+        return str_replace('FROM '.$this->prefix, '', $query['from']);
+    }
+
+    // $effectiveUserRoles all roles user belongs to
+    public function getPerContentPermissionsFilter($user, $effectiveUserRoles)
+    {
+        // ROLE_VIEWERS field can contain spaces and roles are separated by commas ','
+        // roles can be as numerous as users want to...
+        // example: " (viewers REGEXP '^([a-zA-Z]* *, *)* *(anonymous|admin) *(, *[a-zA-Z]* *)* *$') "
+        // once concatenated in $query['where']:
+        // WHERE  (viewers 
+        //    REGEXP '^([a-zA-Z]* *, *)* *(anonymous|admin) *(, *[a-zA-Z]* *)* *$') 
+        //    OR `viewers` IS NULL OR `viewers` = '' 
+        //    OR `id` = '$users['id']'
+        //    AND (`bolt_pages`.`id` = '1' AND `bolt_pages`.`status` = 'published')
+        $regexpBegin = ' ('.strval(permissions::ROLE_VIEWERS).' REGEXP \'^([a-zA-Z]* *, *)* *(';
+        $regexpEnd = ') *(, *[a-zA-Z]* *)* *$\') OR `viewers` IS NULL OR `viewers` = \'\'';
+
+        // The filter will be inserted between WHERE keyword and initial search condition
+        // so we must not put OR keyword at begining of it
+        if(isset($effectiveUserRoles)) {
+            // several
+            if(is_array($effectiveUserRoles)) {
+                foreach($effectiveUserRoles as $role) {
+                    if(isset($roleRegexp)) $roleRegexp = $roleRegexp.'|'.$role;
+                    else $roleRegexp = $role;
+                }
+            } else {
+                // just one, not sure that's possible, to be checked in 
+                $roleRegexp = $effectiveUserRoles;
+            }
+            $sqlclause = $regexpBegin.$roleRegexp.$regexpEnd;
+
+            // manage ownership
+            if(isset($user['id'])) {
+                $sqlclause = $sqlclause . ' OR `ownerid` = \''.$user['id'].'\' ';
+            }
+
+            return $sqlclause;
+        } else {
+            // NOTE: Can't be: $effectiveUserRoles should at least contain "anonymous"
+            throw new \Exception('In "\\Bolt\\Storage->getPerContentPermissionsFilter($user, $effectiveUserRoles)" "$effectiveUserRoles" is NULL when it should contain at least "anynomous".');
+        }
+
+        return false;
     }
 }
