@@ -30,6 +30,7 @@
     disabled:  (not can_depublish),
     id:        'datedepublish',
     value:     (context.content.datedepublish == magic_date) ? '' : context.content.datedepublish,
+    notice:     __('Depublish date is in the past. Change the status if you want to depublish now'),
 }%}
 
 {% set attr_status = {

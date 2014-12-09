@@ -15,14 +15,13 @@ var init = {
 
     /*
      * Notice when (auto)depublish date is in the past
-     * TODO: add timer, to check depublish date passed during editing.
+     * TODO: add timer, to check depublish date has passed during editing.
      *
      * @returns {undefined}
      */
     depublishTracking: function () {
         var noticeID = 'dateDepublishNotice',
-            //msg = $('#datedepublish').data('msg');
-            msg = 'Depublish date is in the past. Change the status if you want to depublish now');
+            msg = $('#datedepublish').data('notice');
 
         $('#datedepublish, #statusselect').on('change', function(event){
 
