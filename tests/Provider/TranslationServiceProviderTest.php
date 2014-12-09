@@ -23,6 +23,16 @@ class TranslationServiceProviderTest extends BoltUnitTest
         $app->boot();
         $this->assertNotNull($app['translator']->getLocale());
     }
+    
+    public function testLocaleChange()
+    {
+        $app = $this->getApp();
+        $app['locale'] = 'de_XX';
+        $provider = new TranslationServiceProvider($app);    
+        $app->register($provider);
+        $app->boot();
+        $this->assertEquals('de_XX', $app['translator']->getLocale());
+    }
  
    
 }
