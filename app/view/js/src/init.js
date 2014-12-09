@@ -32,7 +32,6 @@ var init = {
             $('.'+noticeID).remove();
 
             if (depublish == '') {
-                console.log('depublish empty');
                 return;
             }
 
@@ -41,9 +40,6 @@ var init = {
                     .hide()
                     .insertAfter('.depublish-group')
                     .slideDown('fast');
-                console.log('depublish notice');
-            } else {
-                console.log('depublish ok');
             }
 
         });
