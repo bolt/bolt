@@ -14,6 +14,47 @@ var init = {
     },
 
     /*
+     * Notice when (auto)depublish date is in the past
+     * TODO: add timer, to check depublish date passed during editing.
+     *
+     * @returns {undefined}
+     */
+    depublishTracking: function () {
+        var noticeID = 'dateDepublishNotice',
+            //msg = $('#datedepublish').data('msg');
+            msg = 'Depublish date is in the past. Change the status if you want to depublish now');
+
+        $('#datedepublish, #statusselect').on('change', function(event){
+
+            var status = $('#statusselect').val(),
+                depublish = $('#datedepublish').val();
+
+            // remove old notice
+            $('.'+noticeID).remove();
+
+            if (depublish == '') {
+                console.log('depublish empty');
+                return;
+            }
+
+            if (status == 'published' && moment(depublish + bolt.timezone.offset) < moment()) {
+                $('<div class="'+noticeID+' alert alert-warning"><button class="close" data-dismiss="alert">×</button>'+msg+'</div>')
+                    .hide()
+                    .insertAfter('.depublish-group')
+                    .slideDown('fast');
+                console.log('depublish notice');
+            } else {
+                console.log('depublish ok');
+            }
+
+        });
+
+        // trigger on load
+        $('#datedepublish').trigger('change');
+
+    },
+
+    /*
      * Bind editcontent
      *
      * @param {type} data
