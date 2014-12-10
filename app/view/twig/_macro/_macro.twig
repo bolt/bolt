@@ -145,11 +145,12 @@
     {% set class = opt.class|default('')|replace({'form-control': ''}) ~ ' form-control' %}
 
     {% set attr_data = {
-        id:     opt.id,
-        name:   opt.id,
-        value:  opt.value,
-        type:   'hidden',
-        class:  'datetime',
+        id:          opt.id,
+        name:        opt.id,
+        value:       opt.value,
+        type:        'hidden',
+        class:       'datetime',
+        data_notice: opt.notice|default('')
     } %}
 
     {% set attr_date = {

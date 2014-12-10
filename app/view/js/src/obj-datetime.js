@@ -112,6 +112,8 @@ bolt.datetimes = function () {
             }
             field.time.val(time);
         }
+        // trigger 'change' on the 'real' field for listeners
+        field.data.trigger('change');
     }
 
     /**
