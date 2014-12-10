@@ -294,6 +294,7 @@ EOM;
         $app = $this->makeApp();
         $app['resources']->setPath('extensions', __DIR__."/resources");
         $app->initialize();
+        var_dump($app['extensions']);
         $this->assertTrue($app['extensions']->isEnabled('testlocal'));
     }
     
@@ -525,7 +526,7 @@ EOM;
         $template = $this->template."<!-- This is a comment -->";
         $app = $this->getApp();
         $snip = '<meta name="test-snippet" />';
-        $app['extensions']->insertSnippet($location, $snip);
+        $app['extensions']->insertSnippet('append', $snip);
         $html = $app['extensions']->processSnippetQueue($template);
         $this->assertEquals($template.$snip.PHP_EOL, $html);
     }
