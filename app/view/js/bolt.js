@@ -1466,7 +1466,12 @@ bolt.datetimes = function () {
         // Set time field
         if (field.time.exists) {
             if (time === '') {
-                time = '';
+                // if date is set, and time field exists, always set time #2288
+                if (date !== '') {
+                    time = '00:00';
+                } else {
+                    time = '';
+                }
             } else if (is24h) {
                 time = field.data.val().slice(11, 16);
             } else {
@@ -1475,6 +1480,8 @@ bolt.datetimes = function () {
             }
             field.time.val(time);
         }
+        // trigger 'change' on the 'real' field for listeners
+        field.data.trigger('change');
     }
 
     /**
@@ -1592,6 +1599,42 @@ var init = {
                 updateLatestActivity();
             }, 20 * 1000);
         }
+    },
+
+    /*
+     * Notice when (auto)depublish date is in the past
+     * TODO: add timer, to check depublish date has passed during editing.
+     *
+     * @returns {undefined}
+     */
+    depublishTracking: function () {
+        var noticeID = 'dateDepublishNotice',
+            msg = $('#datedepublish').data('notice');
+
+        $('#datedepublish, #statusselect').on('change', function(event){
+
+            var status = $('#statusselect').val(),
+                depublish = $('#datedepublish').val();
+
+            // remove old notice
+            $('.'+noticeID).remove();
+
+            if (depublish == '') {
+                return;
+            }
+
+            if (status == 'published' && moment(depublish + bolt.timezone.offset) < moment()) {
+                $('<div class="'+noticeID+' alert alert-warning"><button class="close" data-dismiss="alert">×</button>'+msg+'</div>')
+                    .hide()
+                    .insertAfter('.depublish-group')
+                    .slideDown('fast');
+            }
+
+        });
+
+        // trigger on load
+        $('#datedepublish').trigger('change');
+
     },
 
     /*
@@ -2563,6 +2606,7 @@ jQuery(function ($) {
     init.uploads();
     init.geolocation();
     init.focusStatusSelect();
+    init.depublishTracking();
 
     $('[data-bind]').each(function () {
         var data = $(this).data('bind');
