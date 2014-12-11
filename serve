@@ -1,4 +1,22 @@
 #!/usr/bin/env bash
-# A little helper script to run BoltCM on localhost (port 8000) using the PHP (>= v5.4) integrated web server,
+# A little helper script to run BoltCMS on localhost (port 8000) using the PHP (>= v5.4) integrated web server,
 # sending the error log to a file named bolt.log, in the current directory, in case something goes wrong.
-php -S localhost:8000 -t . index.php 2>> bolt.log &
+
+# Usage:
+# Default behaviour:
+# $ ./serve
+# Custom behaviour:
+# $ ./serve my/document/root development.php
+
+DOCROOT="."
+POINT="index.php"
+
+if [ $1 ]; then
+  DOCROOT=$1
+fi
+
+if [ $2 ]; then
+  POINT=$2
+fi
+
+php -S localhost:8000 -t $DOCROOT $POINT 2>> bolt.log &
