@@ -113,19 +113,19 @@ fieldset.checkbox {
     border: 0;
 
     @include respond-to(medium-screens) {
-        border-bottom: 1px solid #d3d3d3;
+        border-bottom: 1px solid #BBB;
     }
 
     a {
-        color: #777;
-        background-color: #dfdfdf;
-        border: 1px solid #d3d3d3;
+        color: #666;
+        background-color: desaturate(lighten($boltblue, 60%), 30);
+        border: 1px solid #BBB;
         cursor: pointer;
         padding: 5px 15px;
 
         &:hover {
-            color: #555;
-            background-color: #F8F8F8 !important;
+            color: #444;
+            background-color: #FFF !important;
             border-bottom: 0;
         }
     }
