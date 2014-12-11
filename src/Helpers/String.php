@@ -86,4 +86,19 @@ class String
 
         return $subject;
     }
+
+    /**
+     * Add 'soft hyphens' &shy; to a string, so that it won't break layout in HTML when 
+     * using strings without spaces or dashes. 
+     *
+     * @param string $str
+     * @return string 
+     */
+    public static function shyphenate($str)
+    {
+        $str = preg_replace("/[a-z0-9_-]/i", "$0&shy;", $str);
+
+        return $str;
+    }
+
 }

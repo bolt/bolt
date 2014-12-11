@@ -103,6 +103,7 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFilter('selectfield', array($this, 'selectField')),
             new \Twig_SimpleFilter('showimage', array($this, 'showImage'), array('is_safe' => array('html'))),
             new \Twig_SimpleFilter('shuffle', array($this, 'shuffle')),
+            new \Twig_SimpleFilter('shy', array($this, 'shy'), array('is_safe' => array('html'))),
             new \Twig_SimpleFilter('slug', array($this, 'slug')),
             new \Twig_SimpleFilter('thumbnail', array($this, 'thumbnail')),
             new \Twig_SimpleFilter('trimtext', array($this, 'trim'), array('is_safe' => array('html'))), // Deprecated..
@@ -1374,6 +1375,22 @@ class TwigExtension extends \Twig_Extension
         }
 
         return $array;
+    }
+
+    /**
+     * Add 'soft hyphens' &shy; to a string, so that it won't break layout in HTML when 
+     * using strings without spaces or dashes. 
+     *
+     * @param string $str
+     * @return string 
+     */
+    public function shy($str)
+    {
+        if (is_string($str)) {
+            $str = String::shyphenate($str);
+        }
+        
+        return $str;
     }
 
     public function isChangelogEnabled()
