@@ -25,7 +25,7 @@ class Application extends Silex\Application
     public function __construct(array $values = array())
     {
         $values['bolt_version'] = '2.0.0';
-        $values['bolt_name'] = 'beta 5 pl 5';
+        $values['bolt_name'] = 'beta 5 pl 8';
 
         parent::__construct($values);
 
@@ -198,6 +198,9 @@ class Application extends Silex\Application
         date_default_timezone_set(
             $this['config']->get('general/timezone') ?: 'UTC'
         );
+        
+        // for javascript datetime calculations, timezone offset. e.g. "+02:00"
+        $this['timezone_offset'] = date('P');
 
         // Set default locale
         $locale = array(

@@ -47,7 +47,7 @@ class Config
         } else {
 
             // In this case the cache is loaded, but because the path of the theme
-            // folder is defined in the congif itself, we still need to check
+            // folder is defined in the config file itself, we still need to check
             // retrospectively if we need to invalidate it.
             $this->checkValidCache();
 
@@ -765,7 +765,8 @@ class Config
         // Check the timestamp for the theme's config.yml
         $paths = $this->app['resources']->getPaths();
         $themeConfigFile = $paths['themepath'] . '/config.yml';
-        $configTimestamp = file_exists($themeConfigFile) ? filemtime($themeConfigFile) : 10000000000;
+        // Note: we need to check if it exists, _and_ it's too old. Not _or_, hence the '0'
+        $configTimestamp = file_exists($themeConfigFile) ? filemtime($themeConfigFile) : 0;
 
         if ($this->cachetimestamp <= $configTimestamp) {
             // Invalidate cache for next request.

@@ -894,7 +894,7 @@ class Users
     public function checkForRoot()
     {
         // Don't check for root, if we're not logged in.
-        if ($this->getCurrentUsername() == false) {
+        if ($this->getCurrentUsername() === false) {
             return false;
         }
 

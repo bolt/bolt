@@ -192,7 +192,7 @@ class Backend implements ControllerProviderInterface
         $latest = array();
         // get the 'latest' from each of the content types.
         foreach ($app['config']->get('contenttypes') as $key => $contenttype) {
-            if ($app['users']->isAllowed('contenttype:' . $key) && $contenttype['show_on_dashboard'] == true) {
+            if ($app['users']->isAllowed('contenttype:' . $key) && $contenttype['show_on_dashboard'] === true) {
                 $latest[$key] = $app['storage']->getContent($key, array('limit' => $limit, 'order' => 'datechanged DESC', 'hydrate' => false));
                 if (!empty($latest[$key])) {
                     $total += count($latest[$key]);
@@ -819,7 +819,7 @@ class Backend implements ControllerProviderInterface
                 if (!isset($request_all[$key])) {
                     switch ($values['type']) {
                         case 'select':
-                            if (isset($values['multiple']) && $values['multiple'] == true) {
+                            if (isset($values['multiple']) && $values['multiple'] === true) {
                                 $request_all[$key] = array();
                             }
                             break;

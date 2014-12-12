@@ -12,6 +12,6 @@
  */
 $app = require_once __DIR__ . '/app/load.php';
 
-if ($app != false) {
+if ($app !== false) {
     $app->run();
 }

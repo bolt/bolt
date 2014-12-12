@@ -24,11 +24,11 @@
     {% endif %}
 
     {% set description = __(['contenttypes', context.contenttype.slug, 'description'], {DEFAULT: context.contenttype.description|default()}) %}
-    {% if description %}
-        <div class="description">
+    <div class="description">
+        {% if description %}
             {{ description|markdown }}
-        </div>
-    {% endif %}
+        {% endif %}
+    </div>
 
     <p><strong>{{ __("Details") }}</strong></p>
     <ul>

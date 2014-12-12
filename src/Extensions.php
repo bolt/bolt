@@ -578,7 +578,7 @@ class Extensions
 
         }
 
-        if ($this->addjquery == true) {
+        if ($this->addjquery === true) {
             $html = $this->insertJquery($html);
         }
 

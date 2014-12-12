@@ -13,6 +13,7 @@
 
 {% set page_locale_long = app.locale %}
 {% set page_locale_short = page_locale_long|slice(0, 2) %}
+{% set page_timezone_offset = app.timezone_offset %}
 
 {% if block('page_subtitle') is empty %}
     {% set page_title = block('page_title') %}
@@ -94,6 +95,9 @@
     locale: {
         short: page_locale_short,
         long: page_locale_long,
+    },
+    timezone: {
+        offset: page_timezone_offset,
     },
     paths: {
         bolt:  paths.bolt,

@@ -87,7 +87,8 @@
     & > a {
         color: $sidebarlink;
     }
-    &:hover > a {
+    &:hover > a,
+    :focus {
         color: $sidebarlinkhover;
         background: lighten($sidebarbackgroundhover, 5);
     }

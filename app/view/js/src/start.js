@@ -38,6 +38,7 @@ jQuery(function ($) {
     init.uploads();
     init.geolocation();
     init.focusStatusSelect();
+    init.depublishTracking();
 
     $('[data-bind]').each(function () {
         var data = $(this).data('bind');

@@ -5,7 +5,6 @@ use Silex;
 use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Filesystem\Filesystem;
 use Composer\Console\Application as ComposerApp;
 use Guzzle\Http\Client as GuzzleClient;
 use Guzzle\Http\Exception\RequestException;
@@ -24,7 +23,6 @@ class CommandRunner
     public $packageFile;
     public $installer;
     public $basedir;
-    private $cachedir;
 
     public function __construct(Silex\Application $app, $packageRepo = null, $readWriteMode = false)
     {
@@ -36,7 +34,6 @@ class CommandRunner
         $this->packageRepo = $packageRepo;
         $this->packageFile = $app['resources']->getPath('root') . '/extensions/composer.json';
         $this->installer = $app['resources']->getPath('root') . '/extensions/installer.php';
-        $this->cachedir = $this->app['resources']->getPath('cache') . '/composer';
 
         // Set up composer
         if ($readWriteMode) {
@@ -392,7 +389,7 @@ class CommandRunner
         $jsonfile = file_get_contents($this->packageFile);
         $json = json_decode($jsonfile);
         $json->repositories->packagist = false;
-        $json->{'minimum-stability'} = "dev";
+        $json->{'minimum-stability'} = $this->app['config']->get('general/extensions/stability', 'stable');
         $json->{'prefer-stable'} = true;
         $json->config = array('discard-changes' => true, 'preferred-install' => 'dist');
         $basePackage = "bolt/bolt";
@@ -404,7 +401,6 @@ class CommandRunner
         );
 
         $pathToWeb = $this->app['resources']->findRelativePath($this->app['resources']->getPath('extensions'), $this->app['resources']->getPath('web'));
-        $pathToRoot = $this->app['resources']->findRelativePath($this->app['resources']->getPath('extensions'), $this->app['resources']->getPath('root'));
         $json->extra = array('bolt-web-path' => $pathToWeb);
         $json->autoload = array('files' => array("installer.php"));
 

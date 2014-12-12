@@ -409,7 +409,7 @@ class Content implements \ArrayAccess
         }
 
         // Make sure sortorder is set correctly;
-        if ($this->app['config']->get('taxonomy/' . $taxonomytype . '/has_sortorder') == false) {
+        if ($this->app['config']->get('taxonomy/' . $taxonomytype . '/has_sortorder') === false) {
             $sortorder = false;
         } else {
             $sortorder = (int) $sortorder;
@@ -999,7 +999,7 @@ class Content implements \ArrayAccess
                     }
                     // add 'markdown' field
                     if ($field['type'] === 'markdown') {
-                        $excerptParts[] = $value = \ParsedownExtra::instance()->text($this->values[$key]);
+                        $excerptParts[] = \ParsedownExtra::instance()->text($this->values[$key]);
                     }
 
                 }

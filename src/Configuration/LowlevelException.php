@@ -1,8 +1,6 @@
 <?php
 namespace Bolt\Configuration;
 
-use Bolt\Translation\Translator as Trans;
-
 class LowlevelException extends \Exception
 {
 
