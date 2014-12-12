@@ -305,8 +305,9 @@ class Frontend
         } else {
             $taxonomyslug = $taxonomytype['slug'];
         }
-
-        if (!$content) {
+        
+        // Check if slug exists in taxonomy.yml
+        if (!in_array($slug, isset($taxonomytype['options']) ? $taxonomytype['options'] : array()) ) {
             $app->abort(404, "Content for '$taxonomyslug/$slug' not found.");
         }
 
