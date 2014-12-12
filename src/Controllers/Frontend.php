@@ -307,7 +307,7 @@ class Frontend
         }
 
         // Check if slug exists in taxonomy.yml
-        if (!in_array($slug, isset($taxonomytype['options']) ? $taxonomytype['options'] : array()) ) {
+        if (!in_array($slug, isset($taxonomytype['options']) ? array_keys($taxonomytype['options']) : array()) ) {
             $app->abort(404, "No slug '$slug' in taxonomy '$taxonomyslug'");
         }
 
