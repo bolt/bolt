@@ -438,12 +438,13 @@ class CommandRunner
      */
     private function ping($site, $uri = '', $addquery = false)
     {
+        $www = isset($_SERVER['SERVER_SOFTWARE']) ? $_SERVER['SERVER_SOFTWARE'] : 'unknown';
         if ($addquery) {
             $query = array(
                 'bolt_ver'  => $this->app['bolt_version'],
                 'bolt_name' => $this->app['bolt_name'],
                 'php'       => phpversion(),
-                'www'       => $_SERVER['SERVER_SOFTWARE']
+                'www'       => $www
             );
         } else {
             $query = array();
