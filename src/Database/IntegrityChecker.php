@@ -550,7 +550,7 @@ class IntegrityChecker
             $myTable->addIndex(array('datecreated'));
             $myTable->addColumn("datechanged", "datetime");
             $myTable->addIndex(array('datechanged'));
-            $myTable->addColumn("datepublish", "datetime");
+            $myTable->addColumn("datepublish", "datetime", array("notnull" => false, 'default'=>null));
             $myTable->addIndex(array('datepublish'));
             $myTable->addColumn("datedepublish", "datetime", array("default" => "1900-01-01 00:00:00"));
             $myTable->addIndex(array('datedepublish'));
