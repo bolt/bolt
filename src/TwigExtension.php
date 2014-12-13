@@ -244,7 +244,7 @@ class TwigExtension extends \Twig_Extension
             if (method_exists($content, 'excerpt')) {
                 return $content->excerpt($length);
             } else {
-                $output = $content;
+                return false;
             }
 
         } elseif (is_array($content)) {

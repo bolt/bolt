@@ -17,7 +17,7 @@ class Input
     {
         if (is_array($var)) {
             foreach ($var as $key => $value) {
-                $var[$key] = static::cleanPostedData($value);
+                $var[$key] = static::cleanPostedData($value, $stripslashes, $strip_control_chars);
             }
         } elseif (is_string($var)) {
             // expand tabs

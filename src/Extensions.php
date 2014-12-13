@@ -206,7 +206,7 @@ class Extensions
      */
     public function isEnabled($name)
     {
-        return in_array($name, $this->enabled);
+        return array_key_exists($name, $this->enabled);
     }
 
     /**

@@ -446,8 +446,8 @@ class Storage
             $params[] = intval($options['contentid']);
         }
         if (isset($options['id'])) {
-            $sql .= "    AND log.id = ? ";
-            $params[] = intval($options['contentid']);
+            $sql .= " AND log.id = ? ";
+            $params[] = intval($options['id']);
         }
         $sql .= $this->makeOrderLimitSql($options);
 
@@ -476,7 +476,7 @@ class Storage
         }
         if (isset($options['id'])) {
             $sql .= "    AND log.id = ? ";
-            $params[] = intval($options['contentid']);
+            $params[] = intval($options['id']);
         }
 
         return $this->app['db']->fetchColumn($sql, $params);
@@ -553,13 +553,6 @@ class Storage
             case '>':
                 $ordering = " ORDER BY date ";
                 break;
-            default:
-                throw new \Exception(
-                    sprintf(
-                        "Invalid value for argument 'cmp_op'; must be one of '=', '<', '>' (got '%s')",
-                        $cmp_op
-                    )
-                );
         }
         $tablename = $this->getTablename('content_changelog');
         $content_tablename = $this->getTablename($contenttype);
@@ -1139,7 +1132,6 @@ class Storage
             }
 
             $where[] = $this->parseWhereParameter($key, $value);
-
         }
 
         // @todo update with nice search string
@@ -1174,7 +1166,7 @@ class Storage
 
         // implode 'where'
         if (!empty($where)) {
-            $queryparams .= sprintf('WHERE (%s)', implode(" AND ", $where));
+            $queryparams .= sprintf(' WHERE (%s)', implode(" AND ", $where));
         }
 
         // Order, with a special case for 'RANDOM'.

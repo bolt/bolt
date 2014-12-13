@@ -19,6 +19,6 @@ class StatService
     public function recordInstall($package, $version)
     {
         $url = sprintf($this->app['extend.site'].$this->urls['install'], $package, $version);
-        @file_get_contents($url);
+        return @file_get_contents($url);
     }
 }

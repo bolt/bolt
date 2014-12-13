@@ -186,23 +186,6 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
         }
     }
 
-    /**
-     * Middleware function to check whether a user is logged on.
-     */
-    public function before(Request $request, \Bolt\Application $app)
-    {
-        // Start the 'stopwatch' for the profiler.
-        $app['stopwatch']->start('bolt.backend.before');
-
-        // If there's no active session, don't do anything..
-        if (!$app['users']->isValidSession()) {
-            $app->abort(404, "You must be logged in to use this.");
-        }
-
-        // Stop the 'stopwatch' for the profiler.
-        $app['stopwatch']->stop('bolt.backend.before');
-    }
-
     public function boot(Silex\Application $app)
     {
     }
