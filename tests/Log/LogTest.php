@@ -155,6 +155,7 @@ class LogTest extends BoltUnitTest
         
         // Simulate non sqlite query too
         $app['config']->set('general/database/driver', 'pdo_mysql');
+        $app['config']->set('general/database/databasename', 'bolt_test');
         $log->clear();
         $this->assertEquals(
             "TRUNCATE bolt_log;", 
