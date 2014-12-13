@@ -23,6 +23,9 @@ class BaseExtensionTest extends BoltUnitTest
         $this->assertEquals('mockobject', $ext->getMachineName());
     }
     
+    /**
+    * @runInSeparateProcess
+    */
     public function testComposerLoading()
     {
         $app = $this->makeApp();
