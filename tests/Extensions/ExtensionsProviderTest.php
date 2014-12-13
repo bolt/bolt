@@ -288,13 +288,14 @@ EOM;
         return $html;
     }
     
-    
+    /**
+    * @runInSeparateProcess
+    */
     public function testLocalload()
     {
         $app = $this->makeApp();
         $app['resources']->setPath('extensions', __DIR__."/resources");
         $app->initialize();
-        var_dump($app['extensions']);
         $this->assertTrue($app['extensions']->isEnabled('testlocal'));
     }
     
