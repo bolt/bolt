@@ -316,7 +316,7 @@ class BoltTwigHelpersTest extends BoltUnitTest
         $this->assertNotEmpty($templates);
 
         $filtered = $twig->listTemplates('index*');
-        $this->assertEquals(1, count($filtered));
+        $this->assertGreaterThan(0, count($filtered));
         
         // Test safe mode does nothing
         $app = $this->getApp();
