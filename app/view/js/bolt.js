@@ -2508,7 +2508,7 @@ var init = {
                         source: bolt.paths.async + 'filesautocomplete?ext=' + encodeURIComponent(accept),
                         minLength: 2
                     };
-                    if (data.type === 'image') {
+                    if (data.type === 'Image') {
                         autocomplete_conf.close = function () {
                             var path = $('#field-' + data.key).val(),
                                 url;
