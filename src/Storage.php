@@ -172,7 +172,7 @@ class Storage
                 case 'image':
                     // Get a random image..
                     if (!empty($this->images)) {
-                        $content[$field]['file'] = $this->images[array_rand($this->images)];
+                        $content[$field]['filename'] = $this->images[array_rand($this->images)];
                     }
                     break;
                 case 'html':
