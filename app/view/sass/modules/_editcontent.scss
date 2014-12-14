@@ -257,13 +257,21 @@
         }
     }
 
-    /*** Fieldset: Multiselect ***/
+    /*** Fieldset: Select and Multiselect ***/
 
+    fieldset.select,
     fieldset.multiselect {
         select {
             display: block;
             margin-bottom: 8px;
+            width: auto;
+            min-width: 200px;
         }
+
+        .wide {
+            width: 100%;
+        }
+
     }
 
     /*** Fieldset: Slug ***/
