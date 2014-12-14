@@ -702,7 +702,7 @@ class TwigExtension extends \Twig_Extension
         $results = $this->app['storage']->getContent($contenttype, $options);
 
         // Loop the array, set records in 'current' to have a 'selected' flag.
-        if (!empty($current)) {
+        if (!empty($current) && !empty($results)) {
             foreach ($results as $key => $result) {
                 if (in_array($result->id, $current)) {
                     $results[$key]['selected'] = true;
