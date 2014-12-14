@@ -163,6 +163,12 @@
 
     /*** Map/Image-Holder ***/
 
+    @media (min-width: 768px) {
+        .right-on-large {
+            float: right;
+        }
+    }    
+
     .imageholder {
         overflow: hidden;
 
@@ -175,7 +181,8 @@
 
     .mapholder {
         border: 1px solid #BBB;
-        height: 160px;
+        width: 200px;
+        height: 148px;
         padding: 2px;
 
         @include respond-to(medium-screens) {

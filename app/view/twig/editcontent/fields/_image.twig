@@ -113,15 +113,17 @@
     </div>
 
     <div class="col-sm-4">
-        <label>{{ __('Preview') }}</label>
-        <div class="content-preview imageholder" id="thumbnail-{{ key }}">
-            {% if context.content.get(key) != '' %}
-                {% set preview_path = image.file|thumbnail(preview_w, preview_h, 'c') %}
-            {% else %}
-                {% set preview_path = app.paths.app~'view/img/default_empty_4x3.png' %}
-            {% endif %}
-            {# <img src="{{ preview_path }}" width="{{ preview_w }}" height="{{ preview_h }}" alt="Preview"> #}
-            <img src="{{ preview_path }}" alt="Preview" width="{{ preview_w }}" height="{{ preview_h }}">
+        <div class="right-on-large">{# to make the preview align right on wide screens #}
+            <label>{{ __('Preview') }}</label>
+            <div class="content-preview imageholder" id="thumbnail-{{ key }}">
+                {% if context.content.get(key) != '' %}
+                    {% set preview_path = image.file|thumbnail(preview_w, preview_h, 'c') %}
+                {% else %}
+                    {% set preview_path = app.paths.app~'view/img/default_empty_4x3.png' %}
+                {% endif %}
+                {# <img src="{{ preview_path }}" width="{{ preview_w }}" height="{{ preview_h }}" alt="Preview"> #}
+                <img src="{{ preview_path }}" alt="Preview" width="{{ preview_w }}" height="{{ preview_h }}">
+            </div>
         </div>
     </div>
 </div>

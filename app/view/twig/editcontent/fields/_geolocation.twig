@@ -81,9 +81,11 @@
     </div>
 
     <div class="col-sm-4">
-        <label>{{ __('field.geolocation.label.marker-placement') }}</label>
-        <div class="mapholder" id="map-{{ key }}">
-            <img src="{{ geo.map|default('') }}" width="100%" height="100%">
+        <div class="right-on-large">{# to make the preview align right on wide screens #}
+            <label>{{ __('field.geolocation.label.marker-placement') }}</label>
+            <div class="mapholder" id="map-{{ key }}">
+                <img src="{{ geo.map|default('') }}" width="200" height="150">
+            </div>
         </div>
     </div>
 </fieldset>
