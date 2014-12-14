@@ -41,13 +41,13 @@ class ConfigGetTest extends BoltUnitTest
         $this->assertEquals("sitename: A sample site\n", $tester->getDisplay());
     }
     
-    static public function setUpBeforeClass()
+    public function setUp()
     {
         $distname = realpath(__DIR__ . '/../../app/config/config.yml.dist');
         copy($distname, __DIR__.'/resources/config.yml');
     }
     
-    static public function tearDownAfterClass()
+    public function tearDown()
     {
         unlink(__DIR__.'/resources/config.yml');
     }

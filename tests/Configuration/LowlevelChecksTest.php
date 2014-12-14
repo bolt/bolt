@@ -170,7 +170,7 @@ class LowlevelChecksTest extends BoltUnitTest
         LowlevelException::catchFatalErrors($app);
         
         ErrorSimulator::simulateError($app, 'unknown');
-        $this->expectOutputRegex("/Bolt - Fatal Error/");
+        $this->expectOutputRegex("/PHP Fatal Error: Bolt Generic/");
         LowlevelException::catchFatalErrors($app);
         
     }
