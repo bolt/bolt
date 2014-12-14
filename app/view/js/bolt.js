@@ -1797,7 +1797,7 @@ var init = {
                 $(document).ready(function () {
                     $('#filtertabs li a:first').trigger('click');
                 });
-            }, 100);
+            }, 200);
         }
         
     },
