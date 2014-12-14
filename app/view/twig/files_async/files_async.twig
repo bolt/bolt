@@ -12,11 +12,11 @@
                 <p>
                     {{ __('Path:') }}
                     <a href="#" data-action="bolt.stack.changeFolder('{{ context.key }}', '{{ path('asyncbrowse', {'namespace': context.namespace, 'key': context.key}) }}');" class="folder">
-                        {{ context.namespace -}}
+                        {{ context.namespace|excerpt(40)|shy -}}
                     </a> /
                     {% for path, segment in context.pathsegments %}
                     {% if not loop.first %} / {% endif %}
-                    <a href="#" data-action="bolt.stack.changeFolder('{{ context.key }}', '{{ path('asyncbrowse', {'namespace': context.namespace, 'path': path, 'key': context.key}) }}');" class="folder">{{ segment|default('…') }}</a>
+                    <a href="#" data-action="bolt.stack.changeFolder('{{ context.key }}', '{{ path('asyncbrowse', {'namespace': context.namespace, 'path': path, 'key': context.key}) }}');" class="folder">{{ segment|default('…')|excerpt(40)|shy }}</a>
                     {% endfor %}
                 </p>
             {% endif %}
@@ -30,7 +30,7 @@
                     {% for folder in context.folders %}
                         <tr style="height: 30px;">
                             <td> <i class="fa fa-fw fa-folder-open-o"></i>
-                                <a href="#" data-action="bolt.stack.changeFolder('{{ context.key }}', '{{ path('asyncbrowse', {'namespace': context.namespace, 'path': folder.newpath, 'key': context.key}) }}');" class="folder"><b>{{ folder.foldername }}/</b>
+                                <a href="#" data-action="bolt.stack.changeFolder('{{ context.key }}', '{{ path('asyncbrowse', {'namespace': context.namespace, 'path': folder.newpath, 'key': context.key}) }}');" class="folder"><b>{{ folder.foldername|excerpt(40)|shy }}/</b>
                                 </a>
                             </td>
                         </tr>
@@ -57,10 +57,10 @@
 
                                 {% if file.readable %}
                                     <a href="#" data-action="bolt.stack.selectFromPulldown('{{ context.key }}', '{{ file.relativepath }}');" class="file">
-                                        <b>{{ file.filename|trimtext(30) }}</b>
+                                        <b>{{ file.filename|excerpt(80)|shy }}</b>
                                     </a>
                                 {% else %}
-                                    <b>{{ file.filename|trimtext(30) }} </b><i class="fa fa-lock"></i>
+                                    <b>{{ file.filename|excerpt(80)|shy }} </b><i class="fa fa-lock"></i>
                                 {% endif %}
                             </td>
 
@@ -86,10 +86,10 @@
 
                                 {% if file.readable %}
                                     <a href="#" data-action="bolt.stack.selectFromPulldown('{{ context.key }}', '{{ file.relativepath }}');" class="file">
-                                        <b>{{ file.filename|trimtext(30) }}</b>
+                                        <b>{{ file.filename|excerpt(80)|shy }}</b>
                                     </a>
                                 {% else %}
-                                    <b>{{ file.filename|trimtext(30) }} </b><i class="fa fa-lock"></i>
+                                    <b>{{ file.filename|excerpt(80)|shy }} </b><i class="fa fa-lock"></i>
                                 {% endif %}
                             </td>
 

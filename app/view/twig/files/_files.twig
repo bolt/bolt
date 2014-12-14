@@ -19,10 +19,10 @@
                             <a href="{{file.newpath|thumbnail(1000, 1000, 'r') }}"
                                class="magnific"
                                title="Image: {{ file.filename }}">
-                                <b>{{ file.filename|shy }}</b>
+                                <b>{{ file.filename|excerpt(80)|shy }}</b>
                             </a>
                         {% else %}
-                            <b>{{ file.filename|shy }} </b>
+                            <b>{{ file.filename|excerpt(80)|shy }} </b>
                             <i class="fa fa-lock"></i>
                         {% endif %}
 
@@ -32,10 +32,10 @@
 
                         {% if file.readable %}
                             <a href="{{ path('fileedit', {'namespace': context.namespace, 'file': file.newpath}) }}">
-                                <b>{{ file.filename|shy }}</b>
+                                <b>{{ file.filename|excerpt(80)|shy }}</b>
                             </a>
                         {% else %}
-                            <b>{{ file.filename|shy }}</b>
+                            <b>{{ file.filename|excerpt(80)|shy }}</b>
                         {% endif %}
 
                         {% if not file.readable or not file.writable %}
@@ -48,10 +48,12 @@
 
                         {% if file.readable %}
                             <a href="{{ file.url }}" target="_blank">
-                                <b>{{ file.filename|shy }}</b>
+                                {{ file.filename|trimtext(40) }}
+                                <b>{{ file.filename|excerpt(80)|shy }}</b>
+                                }
                             </a>
                         {% else %}
-                            <b>{{ file.filename|shy }} </b>
+                            <b>{{ file.filename|excerpt(80)|shy }} </b>
                             <i class="fa fa-lock"></i>
                         {% endif %}
                     {% endif %}
