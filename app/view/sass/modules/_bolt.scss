@@ -180,7 +180,7 @@ table.dataTable thead .sorting:after {
     box-shadow: none !important;
     & > .select2-search-field {
       & > input, & > input:focus {
-        min-width: 200px;
+        min-width: 280px;
       }
     }
   }
@@ -201,6 +201,10 @@ table.dataTable thead .sorting:after {
   input.select2-input {
     color: #AAA;
   }
+
+  input.select2-input:focus {
+    color: #333;
+  }  
 
 }
 
