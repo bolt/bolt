@@ -292,7 +292,7 @@ class TwigExtension extends \Twig_Extension
      */
     public function trim($content, $length = 200)
     {
-        return $this->excerpt($content);
+        return $this->excerpt($content, $length);
     }
 
     /**
