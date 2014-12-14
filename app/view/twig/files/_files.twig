@@ -2,8 +2,8 @@
     <thead>
         <tr>
             <th>{{ __('Files') }}</th>
-            <th colspan="2" class="hidden-xs">{{ __('Filesize') }}</th>
-            <th colspan="3"><span class="hidden-xs">{{ __('Modified') }}</span></th>
+            <th colspan="2" class="hidden-xs hidden-sm">{{ __('Filesize') }}</th>
+            <th colspan="3"><span class="hidden-xs hidden-sm">{{ __('Modified') }}</span></th>
         </tr>
     </thead>
 
@@ -56,13 +56,13 @@
                         {% endif %}
                     {% endif %}
                 </td>
-                <td style="min-width: 120px;"class="hidden-xs">
+                <td style="min-width: 120px;"class="hidden-xs hidden-sm">
                     {{ file.filesize }}.
                     {% if file.imagesize is defined %}
                        <br> {{ file.imagesize }} px.
                     {% endif %}
                 </td>
-                <td style="min-width: 140px;" class="hidden-xs">
+                <td style="min-width: 140px;" class="hidden-xs hidden-sm">
                     <time class="moment"
                           datetime="{{ file.modified|date("c") }}"
                           title="{{ file.modified }}">
