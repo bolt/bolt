@@ -180,7 +180,10 @@ table.dataTable thead .sorting:after {
     box-shadow: none !important;
     & > .select2-search-field {
       & > input, & > input:focus {
-        min-width: 280px;
+        min-width: 180px;
+        @media (min-width: 1024px) {
+          min-width: 280px;
+        }
       }
     }
   }

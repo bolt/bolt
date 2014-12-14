@@ -120,7 +120,8 @@
     {% if not stacked(file.newpath) %}
         <a href="#" class="btn btn-default btn-sm" data-action="bolt.stack.addToStack('{{file.newpath}}', this);">
             <i class="fa fa-paperclip"></i>
-            {{ __('Place on stack') }}
+            <span class="visible-xs">1: {{ __('Stack') }}</span>
+            <span class="hidden-xs">2: {{ __('Place on stack') }}</span>
         </a>
     {% endif %}
 {% endmacro %}

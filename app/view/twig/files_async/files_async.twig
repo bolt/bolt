@@ -64,9 +64,12 @@
                                 {% endif %}
                             </td>
 
-                            <td>{{ file.filesize }}.</td>
-
-                            <td>{% if file.imagesize is defined %}{{ file.imagesize }} px.{% endif %}</td>
+                            <td>
+                                {{ file.filesize }}.
+                                {% if file.imagesize is defined %}
+                                    <br>{{ file.imagesize }} px.
+                                {% endif %}
+                            </td>
 
                             <td class="listthumb">
                                     {{file.newpath|showimage(54, 40, 'c')}}

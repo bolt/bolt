@@ -2,8 +2,8 @@
     <thead>
         <tr>
             <th>{{ __('Files') }}</th>
-            <th colspan="2">{{ __('Filesize') }}</th>
-            <th colspan="3">{{ __('Modified') }}</th>
+            <th colspan="2" class="hidden-xs">{{ __('Filesize') }}</th>
+            <th colspan="3"><span class="hidden-xs">{{ __('Modified') }}</span></th>
         </tr>
     </thead>
 
@@ -56,15 +56,13 @@
                         {% endif %}
                     {% endif %}
                 </td>
-                <td style="min-width: 90px;">
+                <td style="min-width: 120px;"class="hidden-xs">
                     {{ file.filesize }}.
-                </td>
-                <td style="min-width: 100px;">
                     {% if file.imagesize is defined %}
-                        {{ file.imagesize }} px.
+                       <br> {{ file.imagesize }} px.
                     {% endif %}
                 </td>
-                <td style="min-width: 140px;">
+                <td style="min-width: 140px;" class="hidden-xs">
                     <time class="moment"
                           datetime="{{ file.modified|date("c") }}"
                           title="{{ file.modified }}">
@@ -76,19 +74,19 @@
                         {{ file.newpath|showimage(54, 40, 'c') }}
                     {% endif %}
                 </td>
-                <td class="actions" style="min-width: 196px;">
+                <td class="actions" style="min-width: 16px;">
 
                     <div class="btn-group">
 
                         {{ macro.stackbutton(file) }}
 
-                        <a class="btn dropdown-toggle btn-default btn-sm" data-toggle="dropdown">
+                        <a class="btn dropdown-toggle btn-default btn-sm hidden-xs" data-toggle="dropdown">
                             <i class="fa fa-info-circle"></i>
                             {{ __('Options') }}
                             <span class="caret"></span>
                         </a>
 
-                        <ul class="dropdown-menu pull-right">
+                        <ul class="dropdown-menu pull-right hidden-xs">
                             <li>
                                 <a href="#"
                                    data-action="bolt.files.renameFile('{{__("Please enter a new file name")}}',
