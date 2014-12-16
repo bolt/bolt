@@ -121,6 +121,7 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
             );
         };
         $ctr->match('/{namespace}', $func)
+            ->before(array($this, 'before'))
             ->value('namespace', 'files')
             ->bind('upload');
 
@@ -197,6 +198,12 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
         // If there's no active session, don't do anything..
         if (!$app['users']->isValidSession()) {
             $app->abort(404, "You must be logged in to use this.");
+        }
+        
+        if (!$app['users']->isAllowed("files:uploads")) {
+            $app['session']->getFlashBag()->set('error', Trans::__('You do not have the right privileges to upload.'));
+
+            return Lib::redirect('dashboard');
         }
 
         // Stop the 'stopwatch' for the profiler.

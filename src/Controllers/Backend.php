@@ -1535,6 +1535,10 @@ class Backend implements ControllerProviderInterface
             $error = Trans::__("You don't have the correct permissions to display the file or directory '%s'.", array('%s' => $path));
             $app->abort(403, $error);
         }
+        
+        if (!$app['users']->isAllowed("files:uploads")) {
+            $formview = false;
+        }
 
         try {
             $validFolder = true;
