@@ -222,6 +222,13 @@
             	<span>{{ (type == 'image') ? __('Upload image') : __('Upload file') }}</span>
             	<input{{ attr(attr_upload) }}>
         	</span>
+        {% else %}
+            <button type="button" class="btn" disabled="disabled">
+                {{ __('Upload not allowed') }}
+                {# creating a dummy stub, instead of the uploader. Needed (currently) to attach events to #}
+                {% set attr_upload = attr_upload|merge({'type' : 'hidden'}) %}
+                <input{{ attr(attr_upload) }}>
+            </button>    
         {% endif %}
 
         {# Button: Select from Server #}
