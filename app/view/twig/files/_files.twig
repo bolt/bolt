@@ -75,11 +75,12 @@
                     {% endif %}
                 </td>
                 <td class="actions" style="min-width: 16px;">
-                    {% if context.form != false %}
-                        <div class="btn-group">
+                    
+                    <div class="btn-group">
 
-                            {{ macro.stackbutton(file) }}
+                        {{ macro.stackbutton(file) }}
 
+                        {% if context.form != false %}
                             <a class="btn dropdown-toggle btn-default btn-sm hidden-xs" data-toggle="dropdown">
                                 <i class="fa fa-info-circle"></i>
                                 {{ __('Options') }}
@@ -121,8 +122,9 @@
                                     </a>
                                 </li>
                             </ul>
-                        </div>
-                    {% endif %}
+                        {% endif %}
+                    </div>
+                    
                 </td>
             </tr>
         {% endfor %}
