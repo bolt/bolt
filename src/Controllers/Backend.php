@@ -1537,7 +1537,7 @@ class Backend implements ControllerProviderInterface
         }
         
         if (!$app['users']->isAllowed("files:uploads")) {
-            $formview = false;
+            $uploadview = false;
         }
 
         try {
@@ -1617,7 +1617,11 @@ class Backend implements ControllerProviderInterface
                 return Lib::redirect('files', array('path' => $path, 'namespace' => $namespace));
             }
 
-            $formview = $form->createView();
+            if($uploadview === false) {
+                $formview = false;
+            } else {
+                $formview = $form->createView();
+            }
         }
 
         list($files, $folders) = $filesystem->browse($path, $app);
