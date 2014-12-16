@@ -297,27 +297,29 @@ class Frontend
         $order = $app['config']->get('general/listing_sort');
         $content = $app['storage']->getContentByTaxonomy($taxonomytype, $slug, array('limit' => $amount, 'order' => $order, 'page' => $page));
 
-        $taxonomytype = $app['storage']->getTaxonomyType($taxonomytype);
+        $taxonomy = $app['storage']->getTaxonomyType($taxonomytype);
 
         // No taxonomytype, no possible content..
-        if (empty($taxonomytype)) {
+        if (empty($taxonomy)) {
             return false;
         } else {
-            $taxonomyslug = $taxonomytype['slug'];
+            $taxonomy_slug = $taxonomy['slug'];
         }
 
-        if (!$content) {
-            $app->abort(404, "Content for '$taxonomyslug/$slug' not found.");
+        // See https://github.com/bolt/bolt/pull/2310
+        if (($taxonomy['behaves_like'] === 'tags' && !$content)
+            || ( in_array($taxonomy['behaves_like'], array('categories', 'grouping')) && !in_array($slug, isset($taxonomy['options']) ? array_keys($taxonomy['options']) : array()))) {
+            $app->abort(404, "No slug '$slug' in taxonomy '$taxonomyslug'");
         }
 
-        $template = $app['templatechooser']->taxonomy($taxonomyslug);
+        $template = $app['templatechooser']->taxonomy($taxonomy_slug);
 
         // Fallback: If file is not OK, show an error page
         $filename = $app['paths']['themepath'] . "/" . $template;
         if (!file_exists($filename) || !is_readable($filename)) {
             $error = sprintf(
                 "No template for '%s'-listing defined. Tried to use '%s/%s'.",
-                $taxonomyslug,
+                $taxonomy_slug,
                 basename($app['config']->get('general/theme')),
                 $template
             );
@@ -329,11 +331,11 @@ class Frontend
         // Look in taxonomies in 'content', to get a display value for '$slug', perhaps.
         foreach ($content as $record) {
             $flat = \utilphp\util::array_flatten($record->taxonomy);
-            $key = $app['paths']['root'] . $taxonomytype['slug'] . '/' . $slug;
+            $key = $app['paths']['root'] . $taxonomy['slug'] . '/' . $slug;
             if (isset($flat[$key])) {
                 $name = $flat[$key];
             }
-            $key = $app['paths']['root'] . $taxonomytype['singular_slug'] . '/' . $slug;
+            $key = $app['paths']['root'] . $taxonomy['singular_slug'] . '/' . $slug;
             if (isset($flat[$key])) {
                 $name = $flat[$key];
             }
@@ -341,8 +343,8 @@ class Frontend
 
         $app['twig']->addGlobal('records', $content);
         $app['twig']->addGlobal('slug', $name);
-        $app['twig']->addGlobal('taxonomy', $app['config']->get('taxonomy/' . $taxonomyslug));
-        $app['twig']->addGlobal('taxonomytype', $taxonomyslug);
+        $app['twig']->addGlobal('taxonomy', $app['config']->get('taxonomy/' . $taxonomy_slug));
+        $app['twig']->addGlobal('taxonomytype', $taxonomy_slug);
 
         return $app['render']->render($template);
     }
