@@ -303,7 +303,7 @@ class Frontend
         if (empty($taxonomy)) {
             return false;
         } else {
-            $taxonomy_slug = $taxonomy['slug'];
+            $taxonomyslug = $taxonomy['slug'];
         }
 
         // See https://github.com/bolt/bolt/pull/2310
@@ -312,14 +312,14 @@ class Frontend
             $app->abort(404, "No slug '$slug' in taxonomy '$taxonomyslug'");
         }
 
-        $template = $app['templatechooser']->taxonomy($taxonomy_slug);
+        $template = $app['templatechooser']->taxonomy($taxonomyslug);
 
         // Fallback: If file is not OK, show an error page
         $filename = $app['paths']['themepath'] . "/" . $template;
         if (!file_exists($filename) || !is_readable($filename)) {
             $error = sprintf(
                 "No template for '%s'-listing defined. Tried to use '%s/%s'.",
-                $taxonomy_slug,
+                $taxonomyslug,
                 basename($app['config']->get('general/theme')),
                 $template
             );
@@ -343,8 +343,8 @@ class Frontend
 
         $app['twig']->addGlobal('records', $content);
         $app['twig']->addGlobal('slug', $name);
-        $app['twig']->addGlobal('taxonomy', $app['config']->get('taxonomy/' . $taxonomy_slug));
-        $app['twig']->addGlobal('taxonomytype', $taxonomy_slug);
+        $app['twig']->addGlobal('taxonomy', $app['config']->get('taxonomy/' . $taxonomyslug));
+        $app['twig']->addGlobal('taxonomytype', $taxonomyslug);
 
         return $app['render']->render($template);
     }
