@@ -75,53 +75,56 @@
                     {% endif %}
                 </td>
                 <td class="actions" style="min-width: 16px;">
-
+                    
                     <div class="btn-group">
 
                         {{ macro.stackbutton(file) }}
 
-                        <a class="btn dropdown-toggle btn-default btn-sm hidden-xs" data-toggle="dropdown">
-                            <i class="fa fa-info-circle"></i>
-                            {{ __('Options') }}
-                            <span class="caret"></span>
-                        </a>
+                        {% if context.form != false %}
+                            <a class="btn dropdown-toggle btn-default btn-sm hidden-xs" data-toggle="dropdown">
+                                <i class="fa fa-info-circle"></i>
+                                {{ __('Options') }}
+                                <span class="caret"></span>
+                            </a>
 
-                        <ul class="dropdown-menu pull-right hidden-xs">
-                            <li>
-                                <a href="#"
-                                   data-action="bolt.files.renameFile('{{__("Please enter a new file name")}}',
-                                                                    '{{ context.namespace }}',
-                                                                    '{{ file.path }}',
-                                                                    '{{ file.filename }}',
-                                                                    this);">
+                            <ul class="dropdown-menu pull-right hidden-xs">
+                                <li>
+                                    <a href="#"
+                                       data-action="bolt.files.renameFile('{{__("Please enter a new file name")}}',
+                                                                        '{{ context.namespace }}',
+                                                                        '{{ file.path }}',
+                                                                        '{{ file.filename }}',
+                                                                        this);">
 
-                                    <i class="fa fa-keyboard-o"></i>
-                                    {{ __('Rename %foldername%', { '%foldername%': file.filename }) }}
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" data-action="bolt.files.deleteFile('{{ context.namespace }}', '{{ file.newpath }}', this);">
-                                    <i class="fa fa-ban"></i>
-                                    {{ __('Delete %filename%',
-                                          {'%filename%': file.filename }) }}
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" data-action="bolt.files.duplicateFile('{{ context.namespace }}', '{{ file.newpath }}')">
-                                    <i class="fa fa-files-o"></i>
-                                    {{ __('Duplicate %filename%',
-                                          {'%filename%': file.filename }) }}
-                                </a>
-                            </li>
-                            <li class="divider"></li>
-                            <li>
-                                <a class="nolink">
-                                    {{ __('Permissions') }}:
-                                    <strong><code>{{ file.permissions }}</code></strong>
-                                </a>
-                            </li>
-                        </ul>
+                                        <i class="fa fa-keyboard-o"></i>
+                                        {{ __('Rename %foldername%', { '%foldername%': file.filename }) }}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" data-action="bolt.files.deleteFile('{{ context.namespace }}', '{{ file.newpath }}', this);">
+                                        <i class="fa fa-ban"></i>
+                                        {{ __('Delete %filename%',
+                                              {'%filename%': file.filename }) }}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" data-action="bolt.files.duplicateFile('{{ context.namespace }}', '{{ file.newpath }}')">
+                                        <i class="fa fa-files-o"></i>
+                                        {{ __('Duplicate %filename%',
+                                              {'%filename%': file.filename }) }}
+                                    </a>
+                                </li>
+                                <li class="divider"></li>
+                                <li>
+                                    <a class="nolink">
+                                        {{ __('Permissions') }}:
+                                        <strong><code>{{ file.permissions }}</code></strong>
+                                    </a>
+                                </li>
+                            </ul>
+                        {% endif %}
                     </div>
+                    
                 </td>
             </tr>
         {% endfor %}

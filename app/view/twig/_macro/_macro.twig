@@ -216,12 +216,13 @@
     <div class="button-wrap fileselectbuttongroup">
 
         {# Button: Upload #}
+        {% if canUpload %}
         <button type="button" class="btn btn-secondary fileinput-button">
             <i class="fa fa-upload"></i>
             <span>{{ (type == 'image') ? __('Upload image') : __('Upload file') }}</span>
             <input{{ attr(attr_upload) }}>
         </button>
-
+        {% endif %}
         {# Button: Select from Server #}
         <button type="button" class="btn btn-tertiary" data-target="#selectModal-{{ key }}" href="{{ href }}" data-toggle="modal">
             <i class="fa fa-download"></i>

@@ -994,7 +994,8 @@ class Backend implements ControllerProviderInterface
             'content' => $content,
             'allowed_status' => $allowedStatuses,
             'contentowner' => $contentowner,
-            'fields' => $app['config']->fields->fields()
+            'fields' => $app['config']->fields->fields(),
+            'canUpload' => $app['users']->isAllowed('files:uploads')
         );
 
         return $app['render']->render('editcontent/editcontent.twig', array('context' => $context));
@@ -1535,6 +1536,10 @@ class Backend implements ControllerProviderInterface
             $error = Trans::__("You don't have the correct permissions to display the file or directory '%s'.", array('%s' => $path));
             $app->abort(403, $error);
         }
+        
+        if (!$app['users']->isAllowed("files:uploads")) {
+            $uploadview = false;
+        }
 
         try {
             $validFolder = true;
@@ -1613,7 +1618,11 @@ class Backend implements ControllerProviderInterface
                 return Lib::redirect('files', array('path' => $path, 'namespace' => $namespace));
             }
 
-            $formview = $form->createView();
+            if($uploadview === false) {
+                $formview = false;
+            } else {
+                $formview = $form->createView();
+            }
         }
 
         list($files, $folders) = $filesystem->browse($path, $app);

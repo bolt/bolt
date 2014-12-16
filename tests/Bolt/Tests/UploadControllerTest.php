@@ -35,7 +35,6 @@ class UploadControllerTest extends \PHPUnit_Framework_TestCase
 
     public function testResponses()
     {
-        global $app;
         $app = $this->getApp();
 
         $request = Request::create(
@@ -58,7 +57,6 @@ class UploadControllerTest extends \PHPUnit_Framework_TestCase
 
     public function testUpload()
     {
-        global $app;
         $app = $this->getApp();
         $request = Request::create(
             '/upload/files',
@@ -85,7 +83,6 @@ class UploadControllerTest extends \PHPUnit_Framework_TestCase
 
     public function testInvalidFiletype()
     {
-        global $app;
         $app = $this->getApp();
         $request = Request::create(
             '/upload/files',
@@ -143,6 +140,17 @@ class UploadControllerTest extends \PHPUnit_Framework_TestCase
         $bolt['session'] = $sessionMock;
         $bolt['resources']->setPath('files', __DIR__ . '/files');
         $bolt->initialize();
+        
+        $users = $this->getMock('Bolt\Users', array('isValidSession', 'isAllowed'), array($bolt));
+        $users->expects($this->any())
+            ->method('isValidSession')
+            ->will($this->returnValue(true));
+            
+        $users->expects($this->any())
+            ->method('isAllowed')
+            ->will($this->returnValue(true));
+            
+        $bolt['users'] = $users;
 
         return $bolt;
     }
