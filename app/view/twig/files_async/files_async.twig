@@ -41,11 +41,9 @@
             {% if context.files|length > 0 %}
             <table class="dashboardlisting">
                 <tr>
-                    <th>{{ __('Files') }}</th>
-                    <th>{{ __('Filesize') }}</th>
+                    <th>{{ __('page.ckeditor-browse-server.files') }}</th>
+                    <th style="min-width: 102px;">{{ __('page.ckeditor-browse-server.size') }}</th>
                     <th>&nbsp;</th>
-                    <th>&nbsp;</th>
-                    {# <th>&nbsp;</th> #}
                 </tr>
 
                 {% for file in context.files %}
@@ -75,10 +73,6 @@
                                     {{file.newpath|showimage(54, 40, 'c')}}
                             </td>
 
-                            {# <td>
-                                <a href="{{ file.newpath|thumbnail(1000, 1000, 'r') }}" class="btn btn-small preview magnific" title="Image: {{ file.filename }}">
-                                {{ __('Preview') }}</a>
-                            </td> #}
                         </tr>
                     {% else %}
 
@@ -98,14 +92,8 @@
 
                             <td>{{ file.filesize }}.</td>
 
-                            <td>&nbsp;</td>
-
                             <td class="listthumb">&nbsp;</td>
 
-                            {# <td>
-                                <a href="{{ file.newpath|thumbnail(1000, 1000, 'r') }}" class="btn btn-small preview magnific" title="Image: {{ file.filename }}">
-                                {{ __('Preview') }}</a>
-                            </td> #}
                         </tr>
 
                     {% endif %}
