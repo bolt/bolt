@@ -68,7 +68,7 @@
 
         <div class="list" data-list="{{ listdata|json_encode }}"></div>
 
-        {{ macro.upload_buttons('file', key, attr_fileupload, option.upload) }}
+        {{ macro.upload_buttons('file', key, attr_fileupload, option.upload, context.canUpload) }}
 
         <textarea name="{{ key }}" id="{{ key }}" class="hide">{{ list_json }}</textarea>
 

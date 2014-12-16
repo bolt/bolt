@@ -28,6 +28,7 @@
     </div>
 
     <div class="stack-buttons">
+        {% if context.canUpload %}
         <div class="btn-group">
             <span class="btn btn-tertiary fileinput-button">
                 <i class="fa fa-upload"></i>
@@ -39,6 +40,7 @@
                        accept=".{{ context.filetypes|join(',.') }}">
             </span>
         </div>
+        {% endif %}
 
         <div class="btn-group">
             <a href="{{ paths.async }}browse/files?key=stack" class="btn btn-tertiary" data-toggle="modal" data-target="#selectModal-stack">

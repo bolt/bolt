@@ -207,7 +207,7 @@
  # @param string attr_upload Attributes for the file upload button
  # @param string uploadpath Relative upload path
  #}
-{% macro upload_buttons(type, key, attr_upload, uploadpath) %}
+{% macro upload_buttons(type, key, attr_upload, uploadpath, canUpload) %}
     {% from _self import attr %}
 
     {% set items = stackitems(7, (type == 'image') ?  'image' : 'other,document') %}
@@ -217,11 +217,11 @@
 
         {# Button: Upload #}
         {% if canUpload %}
-        <span type="button" class="btn btn-secondary fileinput-button">
-            <i class="fa fa-upload"></i>
-            <span>{{ (type == 'image') ? __('Upload image') : __('Upload file') }}</span>
-            <input{{ attr(attr_upload) }}>
-        </span>
+            <span type="button" class="btn btn-secondary fileinput-button">
+            	<i class="fa fa-upload"></i>
+            	<span>{{ (type == 'image') ? __('Upload image') : __('Upload file') }}</span>
+            	<input{{ attr(attr_upload) }}>
+        	</span>
         {% endif %}
 
         {# Button: Select from Server #}
