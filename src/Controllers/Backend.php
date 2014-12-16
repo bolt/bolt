@@ -994,7 +994,8 @@ class Backend implements ControllerProviderInterface
             'content' => $content,
             'allowed_status' => $allowedStatuses,
             'contentowner' => $contentowner,
-            'fields' => $app['config']->fields->fields()
+            'fields' => $app['config']->fields->fields(),
+            'canUpload' => $app['users']->isAllowed('files:uploads')
         );
 
         return $app['render']->render('editcontent/editcontent.twig', array('context' => $context));
