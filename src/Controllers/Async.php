@@ -452,7 +452,8 @@ class Async implements ControllerProviderInterface
         $context = array(
             'stack' => $app['stack']->listitems($count),
             'filetypes' => $app['stack']->getFileTypes(),
-            'namespace' => $app['upload.namespace']
+            'namespace' => $app['upload.namespace'],
+            'canUpload' => $app['users']->isAllowed('files:uploads')
         );
 
         switch ($options) {
