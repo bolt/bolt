@@ -21,6 +21,7 @@
                     </time>
                 </td>
                 <td class="actions">
+                {% if context.form != false %}
                     <div class="btn-group">
                     {% if folder.writable %}
 
@@ -63,6 +64,7 @@
                         </a>
                     {% endif %}
                     </div>
+                {% endif %}
                 </td>
             </tr>
         {% endfor %}
