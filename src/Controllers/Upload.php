@@ -5,17 +5,15 @@ namespace Bolt\Controllers;
 use Silex;
 use Silex\ControllerProviderInterface;
 use Silex\ServiceProviderInterface;
-
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
-
 use Sirius\Upload\Handler as UploadHandler;
 use Sirius\Upload\Result\File;
 use Sirius\Upload\Result\Collection;
-
 use Bolt\Filesystem\FlysystemContainer;
-
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Bolt\Translation\Translator as Trans;
+use Bolt\Library as Lib;
 
 class Upload implements ControllerProviderInterface, ServiceProviderInterface
 {
