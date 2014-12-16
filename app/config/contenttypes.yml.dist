@@ -6,7 +6,7 @@
 # field, which allows you to override the record_template setting for an
 # individual page.
 # The taxonomy for this contenttype is defined as 'chapters', which is a so-called
-# "grouping" taxonomy. This way you can easily group sets of pages that logically
+# "grouping taxonomy". This way you can easily group sets of pages that logically
 # belong together. If your site has a 'services' section, in which you'd like to
 # list the different types of services a company provides, you can group these
 # together.
@@ -45,8 +45,8 @@ pages:
 # from your news-item.
 # This contenttype defines 'categories' and 'tags' as taxonomies, allowing the
 # editor to use both to categorize a specific entry.
-# The 'sort' is set to "datepublish DESC", which means that newer entries will
-# show above older entries.
+# The 'sort' is set to '-datepublish', which means that newer entries will be
+# shown above older entries.
 
 entries:
     name: Entries
