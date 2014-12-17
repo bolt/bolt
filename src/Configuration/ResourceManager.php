@@ -212,9 +212,14 @@ class ResourceManager
         if ($request === null) {
             $request = Request::createFromGlobals();
         }
-        if ($request->server->get("SERVER_PROTOCOL") !== null) {
-            $protocol = strtolower(substr($request->server->get("SERVER_PROTOCOL"), 0, 5)) == 'https' ? 'https' : 'http';
-        } else {
+
+        // Set the current protocol. Default to http, unless otherwise..
+        $protocol = "http";
+
+        if ( (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ||
+             (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https' || !empty($_SERVER['HTTP_X_FORWARDED_SSL']) && $_SERVER['HTTP_X_FORWARDED_SSL'] == 'on') ) {
+            $protocol = "https";
+        } elseif (empty($_SERVER["SERVER_PROTOCOL"])) {
             $protocol = "cli";
         }
 
