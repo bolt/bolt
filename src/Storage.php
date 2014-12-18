@@ -820,7 +820,11 @@ class Storage
         $content['datechanged'] = date('Y-m-d H:i:s');
 
         // Call update() and get the number of rows affected
-        $res = $this->app['db']->update($tablename, $content, array('id' => $content['id']));
+        if (empty($oldContent)) {
+            $res = $this->app['db']->insert($tablename, $content);
+        } else {
+            $res = $this->app['db']->update($tablename, $content, array('id' => $content['id']));
+        }
 
         if ($res > 0) {
             // More than one row was changed, log the update
