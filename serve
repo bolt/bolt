@@ -14,7 +14,7 @@
 # apparently do not intend to fix anytime soon. See: https://bugs.php.net/bug.php?id=67671
 
 DOCROOT="."
-POINT="index.php"
+POINT="server.php"
 
 if [ $1 ]; then
   DOCROOT=$1
