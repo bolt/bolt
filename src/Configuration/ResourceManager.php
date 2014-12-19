@@ -217,6 +217,7 @@ class ResourceManager
         $protocol = "http";
 
         if (($request->server->get('HTTPS') == 'on') || 
+            ($request->server->get('SERVER_PROTOCOL') == 'https') || 
             ($request->server->get('HTTP_X_FORWARDED_PROTO') == 'https') || 
             ($request->server->get('HTTP_X_FORWARDED_SSL') == 'on')) {
             $protocol = "https";
