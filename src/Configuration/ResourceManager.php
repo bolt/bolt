@@ -216,14 +216,16 @@ class ResourceManager
         // Set the current protocol. Default to http, unless otherwise..
         $protocol = "http";
 
-        if ( (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ||
-             (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https' || !empty($_SERVER['HTTP_X_FORWARDED_SSL']) && $_SERVER['HTTP_X_FORWARDED_SSL'] == 'on') ) {
+        if (($request->server->get('HTTPS') == 'on') || 
+            ($request->server->get('SERVER_PROTOCOL') == 'https') || 
+            ($request->server->get('HTTP_X_FORWARDED_PROTO') == 'https') || 
+            ($request->server->get('HTTP_X_FORWARDED_SSL') == 'on')) {
             $protocol = "https";
-        } elseif (empty($_SERVER["SERVER_PROTOCOL"])) {
+        } elseif ($request->server->get("SERVER_PROTOCOL") == null) {
             $protocol = "cli";
         }
 
-        if ("" !== $request->getBasePath()) {
+        if ($request->getBasePath() !== "") {
             $this->setUrl('root', $request->getBasePath() . "/");
             $this->setUrl("app", $this->getUrl('root') . "app/");
             $this->setUrl("extensions", $this->getUrl('root') . "extensions/");
