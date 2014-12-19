@@ -5,7 +5,7 @@
  # @param bool ommit_empty (default: false)
  #}
 {% macro stack(items, ommit_empty) %}
-    {% if not app.config.get('general/interface/stack/disable', false) %}
+    {% if not app.config.get('general/backend/stack/disable', false) %}
         {% if not ommit_empty|default(false) or stackitems() is not empty %}
             {{ render(path('showstack', {'items': item|default(10)} )) }}
         {% endif %}

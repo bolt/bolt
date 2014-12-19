@@ -117,7 +117,7 @@
 {% endmacro %}
 
 {% macro stackbutton(file) %}
-    {% if not app.config.get('general/interface/stack/disable', false) and not stacked(file.newpath) %}
+    {% if not app.config.get('general/backend/stack/disable', false) and not stacked(file.newpath) %}
         <a href="#" class="btn btn-default btn-sm" data-action="bolt.stack.addToStack('{{file.newpath}}', this);">
             <i class="fa fa-paperclip"></i>
             <span class="visible-sm-inline visible-xs-inline">{{ __('Stack') }}</span>
@@ -238,7 +238,7 @@
         </button>
 
         {# Button: Select from Stack #}
-        {% if not app.config.get('general/interface/stack/disable', false) and items %}
+        {% if not app.config.get('general/backend/stack/disable', false) and items %}
             <div class="btn-group">
                 <button type="button" class="btn btn-tertiary dropdown-toggle" data-toggle="dropdown">
                     <i class="fa fa-paperclip"></i>

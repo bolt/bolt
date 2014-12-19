@@ -292,7 +292,7 @@ extensions:
 #  livereload: false
 #  livereloadport: 35729
 
-# Options for user interface
-#interface:
+# Options for backend user interface
+#backend:
 #  stack:
 #    disable: true   # Disable stack usage. Defaults to false
