@@ -228,7 +228,7 @@
                 {# creating a dummy stub, instead of the uploader. Needed (currently) to attach events to #}
                 {% set attr_upload = attr_upload|merge({'type' : 'hidden'}) %}
                 <input{{ attr(attr_upload) }}>
-            </button>    
+            </button>
         {% endif %}
 
         {# Button: Select from Server #}
@@ -238,7 +238,7 @@
         </button>
 
         {# Button: Select from Stack #}
-        {% if items %}
+        {% if not app.config.get('general/interface/stack/disable', false) and items %}
             <div class="btn-group">
                 <button type="button" class="btn btn-tertiary dropdown-toggle" data-toggle="dropdown">
                     <i class="fa fa-paperclip"></i>
