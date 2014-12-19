@@ -1537,6 +1537,7 @@ class Backend implements ControllerProviderInterface
             $app->abort(403, $error);
         }
         
+        $uploadview = true;
         if (!$app['users']->isAllowed("files:uploads")) {
             $uploadview = false;
         }
