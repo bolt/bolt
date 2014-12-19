@@ -1,6 +1,7 @@
 Bolt 2.0 DEV-head
 -----------------
 
+- Added an option to disable stack funtionality
 - Fix the pager for taxonomy-listings.
 - Implemented 'viewless' property for contenttypes. Fixes #2149
 - IE9: Javascript Dropdowns #2195
