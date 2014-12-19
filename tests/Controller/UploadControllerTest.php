@@ -96,6 +96,7 @@ class UploadControllerTest extends BoltUnitTest
         $app = $this->makeApp();
         $app['resources']->setPath('files', "/path/to/nowhere");
         $app->initialize();
+        $app = $this->authApp($app);
         $request = $this->getFileRequest();
         $response = $app->handle($request);
         $this->assertEquals(500, $response->getStatusCode());
@@ -190,6 +191,27 @@ class UploadControllerTest extends BoltUnitTest
             array()
         );
         return $request;
+    }
+    
+    protected function getApp() {
+        $bolt = parent::getApp();  
+        return $this->authApp($bolt);
+    }
+    
+    protected function authApp($bolt)
+    {
+        $users = $this->getMock('Bolt\Users', array('isValidSession', 'isAllowed'), array($bolt));
+        $users->expects($this->any())
+            ->method('isValidSession')
+            ->will($this->returnValue(true));
+            
+        $users->expects($this->any())
+            ->method('isAllowed')
+            ->will($this->returnValue(true));
+            
+        $bolt['users'] = $users;
+        
+        return $bolt;
     }
 
 
