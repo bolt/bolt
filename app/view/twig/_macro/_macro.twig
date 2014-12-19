@@ -117,7 +117,7 @@
 {% endmacro %}
 
 {% macro stackbutton(file) %}
-    {% if not stacked(file.newpath) %}
+    {% if not app.config.get('general/interface/stack/disable', false) and not stacked(file.newpath) %}
         <a href="#" class="btn btn-default btn-sm" data-action="bolt.stack.addToStack('{{file.newpath}}', this);">
             <i class="fa fa-paperclip"></i>
             <span class="visible-sm-inline visible-xs-inline">{{ __('Stack') }}</span>
