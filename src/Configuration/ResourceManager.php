@@ -224,7 +224,7 @@ class ResourceManager
             $protocol = "cli";
         }
 
-        if ("" !== $request->getBasePath()) {
+        if ($request->getBasePath() !== "") {
             $this->setUrl('root', $request->getBasePath() . "/");
             $this->setUrl("app", $this->getUrl('root') . "app/");
             $this->setUrl("extensions", $this->getUrl('root') . "extensions/");
