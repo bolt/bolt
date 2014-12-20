@@ -1532,7 +1532,7 @@ class Storage
      *
      * @see $this->decodeContentQuery()
      */
-    private function prepareDecodedQueryForUse(&$decoded, &$meta_parameters, &$ctype_parameters)
+    private function prepareDecodedQueryForUse(&$decoded, &$metaParameters, &$ctype_parameters)
     {
         // If there is only 1 contenttype we assume the where is NOT nested
         if (count($decoded['contenttypes']) == 1) {
@@ -1569,7 +1569,7 @@ class Storage
             $decoded['self_paginated'] = false;
         }
 
-        if (isset($meta_parameters['order']) && $meta_parameters['order'] === false) {
+        if (isset($metaParameters['order']) && $metaParameters['order'] === false) {
             if (count($decoded['contenttypes']) == 1) {
                 if ($this->getContentTypeGrouping($decoded['contenttypes'][0])) {
                     $decoded['order_callback'] = array($this, 'groupingSort');
@@ -1577,8 +1577,8 @@ class Storage
             }
         }
 
-        if (!isset($meta_parameters['limit'])) {
-            $meta_parameters['limit'] = 9999;
+        if (!isset($metaParameters['limit'])) {
+            $metaParameters['limit'] = 9999;
         }
     }
 
