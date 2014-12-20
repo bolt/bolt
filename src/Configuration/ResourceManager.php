@@ -314,7 +314,7 @@ class ResourceManager
     public function setThemePath($generalConfig)
     {
         $themeDir = isset($generalConfig['theme']) ? '/' . $generalConfig['theme'] : '';
-        $theme_path = isset($generalConfig['theme_path']) ? $generalConfig['theme_path'] : '/theme';
+        $themePath = isset($generalConfig['theme_path']) ? $generalConfig['theme_path'] : '/theme';
         $theme_url = isset($generalConfig['theme_path']) ? $generalConfig['theme_path'] : $this->getUrl('root') . 'theme';
 
         // See if the user has set a theme path otherwise use the default
@@ -322,7 +322,7 @@ class ResourceManager
             $this->setPath('themepath', $this->getPath('themebase') . $themeDir);
             $this->setUrl('theme', $theme_url . $themeDir . '/');
         } else {
-            $this->setPath('themepath', $this->getPath('rootpath') . $theme_path . $themeDir);
+            $this->setPath('themepath', $this->getPath('rootpath') . $themePath . $themeDir);
             $this->setUrl('theme', $theme_url . $themeDir . '/');
         }
     }
