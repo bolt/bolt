@@ -1081,9 +1081,9 @@ class Storage
                 $filter = $filters[$contenttype];
             }
 
-            $sub_results = $this->searchSingleContentType($query, $contenttype, $fields, $filter);
+            $subResults = $this->searchSingleContentType($query, $contenttype, $fields, $filter);
 
-            $results = array_merge($results, $sub_results);
+            $results = array_merge($results, $subResults);
         }
 
 
