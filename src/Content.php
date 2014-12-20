@@ -1109,12 +1109,12 @@ class Content implements \ArrayAccess
     {
         // This could be more configurable
         // (see also Storage->searchSingleContentType)
-        $searchable_types = array('text', 'textarea', 'html', 'markdown');
+        $searchableTypes = array('text', 'textarea', 'html', 'markdown');
 
         $fields = array();
 
         foreach ($this->contenttype['fields'] as $key => $config) {
-            if (in_array($config['type'], $searchable_types)) {
+            if (in_array($config['type'], $searchableTypes)) {
                 $fields[$key] = isset($config['searchweight']) ? $config['searchweight'] : 50;
             }
         }
