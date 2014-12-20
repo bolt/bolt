@@ -819,17 +819,28 @@ class Storage
 
         $content['datechanged'] = date('Y-m-d H:i:s');
 
-        // Call update() and get the number of rows affected
-        if (empty($oldContent)) {
-            $res = $this->app['db']->insert($tablename, $content);
-        } else {
+        if (!empty($oldContent)) {
+
+            // Do the actual update, and log it. 
             $res = $this->app['db']->update($tablename, $content, array('id' => $content['id']));
+            if ($res > 0) {
+                $this->logUpdate($contenttype, $content['id'], $content, $oldContent, $comment);
+            }
+
+        } else {
+
+            // Content didn't exist, so do an insert after all. Log it as an insert.            
+            $res = $this->app['db']->insert($tablename, $content);
+            $seq = null;
+            if ($this->app['db']->getDatabasePlatform() instanceof PostgreSqlPlatform) {
+                $seq = $tablename . '_id_seq';
+            }
+            $id = $this->app['db']->lastInsertId($seq);
+            $this->logInsert($contenttype, $id, $content, $comment);
+
         }
 
-        if ($res > 0) {
-            // More than one row was changed, log the update
-            $this->logUpdate($contenttype, $content['id'], $content, $oldContent, $comment);
-        }
+
     }
 
     /**
