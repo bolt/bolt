@@ -286,7 +286,7 @@ class Library
         // disallow user to interrupt
         ignore_user_abort(true);
 
-        $old_umask = umask(0111);
+        $oldUmask = umask(0111);
 
         // open the file and lock it.
         if ($fp = fopen($filename, 'a')) {
@@ -331,7 +331,7 @@ class Library
             debug_print_backtrace();
             $app->abort(401, $message);
         }
-        umask($old_umask);
+        umask($oldUmask);
 
         // reset the users ability to interrupt the script
         ignore_user_abort(false);
