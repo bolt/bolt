@@ -281,7 +281,7 @@ class Library
         $app = ResourceManager::getApp();
         $filename = self::fixPath($filename);
 
-        $ser_string = '<?php /* bolt */ die(); ?>json:' . json_encode($data);
+        $serString = '<?php /* bolt */ die(); ?>json:' . json_encode($data);
 
         // disallow user to interrupt
         ignore_user_abort(true);
@@ -297,7 +297,7 @@ class Library
                 ftruncate($fp, 0);
 
                 // Write to our locked, empty file.
-                if (fwrite($fp, $ser_string)) {
+                if (fwrite($fp, $serString)) {
                     flock($fp, LOCK_UN);
                     fclose($fp);
                 } else {
