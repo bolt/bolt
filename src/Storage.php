@@ -2792,16 +2792,16 @@ class Storage
 
         // Add the ones not yet present..
         if (!empty($relation)) {
-            foreach ($relation as $to_contenttype => $newvalues) {
+            foreach ($relation as $toContenttype => $newvalues) {
 
                 foreach ($newvalues as $value) {
 
-                    if (!in_array($to_contenttype . "/" . $value, $currentvalues) && (!empty($value))) {
+                    if (!in_array($toContenttype . "/" . $value, $currentvalues) && (!empty($value))) {
                         // Insert it!
                         $row = array(
                             'from_contenttype' => $contenttype['slug'],
                             'from_id' => $contentId,
-                            'to_contenttype' => $to_contenttype,
+                            'to_contenttype' => $toContenttype,
                             'to_id' => $value
                         );
                         $this->app['db']->insert($tablename, $row);
