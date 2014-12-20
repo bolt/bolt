@@ -19,7 +19,7 @@ class Content implements \ArrayAccess
     public $contenttype;
 
     // The last time we weight a searchresult
-    private $last_weight = 0;
+    private $lastWeight = 0;
 
     public function __construct(Silex\Application $app, $contenttype = '', $values = '')
     {
@@ -1189,14 +1189,14 @@ class Content implements \ArrayAccess
             $weight += $this->weighQueryText(implode(' ', $this->taxonomy[$key]), $query['use_q'], $query['words'], $taxonomy);
         }
 
-        $this->last_weight = $weight;
+        $this->lastWeight = $weight;
     }
 
     /**
      */
     public function getSearchResultWeight()
     {
-        return $this->last_weight;
+        return $this->lastWeight;
     }
 
     /**
