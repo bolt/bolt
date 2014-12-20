@@ -1044,16 +1044,16 @@ class Storage
             return false;
         }
 
-        $app_ct = $this->app['config']->get('contenttypes');
+        $appCt = $this->app['config']->get('contenttypes');
 
         // By default we only search through searchable contenttypes
         if (is_null($contenttypes)) {
-            $contenttypes = array_keys($app_ct);
+            $contenttypes = array_keys($appCt);
             $contenttypes = array_filter(
                 $contenttypes,
-                function ($ct) use ($app_ct) {
-                    if ((isset($app_ct[$ct]['searchable']) && $app_ct[$ct]['searchable'] === false) ||
-                        (isset($app_ct[$ct]['viewless']) && $app_ct[$ct]['viewless'] === true)
+                function ($ct) use ($appCt) {
+                    if ((isset($appCt[$ct]['searchable']) && $appCt[$ct]['searchable'] === false) ||
+                        (isset($appCt[$ct]['viewless']) && $appCt[$ct]['viewless'] === true)
                     ) {
                         return false;
                     }
@@ -1062,8 +1062,8 @@ class Storage
                 }
             );
             $contenttypes = array_map(
-                function ($ct) use ($app_ct) {
-                    return $app_ct[$ct]['slug'];
+                function ($ct) use ($appCt) {
+                    return $appCt[$ct]['slug'];
                 },
                 $contenttypes
             );
