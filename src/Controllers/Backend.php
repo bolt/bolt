@@ -546,7 +546,7 @@ class Backend implements ControllerProviderInterface
             return Lib::redirect('dashboard');
         }
 
-        $show_contenttype = null;
+        $showContenttype = null;
 
         // Get contenttype config from $contenttypeslug
         $contenttype = $app['storage']->getContentType($contenttypeslug);
@@ -566,7 +566,7 @@ class Backend implements ControllerProviderInterface
             foreach (array_keys($relations) as $relatedslug) {
                 $relatedtype = $app['storage']->getContentType($relatedslug);
                 if ($relatedtype['slug'] == $show_slug) {
-                    $show_contenttype = $relatedtype;
+                    $showContenttype = $relatedtype;
                 }
                 $relations[$relatedslug] = array(
                     'name' => Trans::__($relatedtype['name']),
@@ -587,7 +587,7 @@ class Backend implements ControllerProviderInterface
          */
 
         $content = $app['storage']->getContent($contenttypeslug, array('id' => $id));
-        $relatedContent = $content->related($show_contenttype['slug']);
+        $relatedContent = $content->related($showContenttype['slug']);
 
         $context = array(
             'id' => $id,
@@ -595,7 +595,7 @@ class Backend implements ControllerProviderInterface
             'title' => $content['title'],
             'contenttype' => $contenttype,
             'relations' => $relations,
-            'show_contenttype' => $show_contenttype,
+            'show_contenttype' => $showContenttype,
             'related_content' => $relatedContent,
         );
 
