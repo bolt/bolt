@@ -701,8 +701,8 @@ class Storage
         }
 
         // We need to verify if the slug is unique. If not, we update it.
-        $get_id = $create ? null : $fieldvalues['id'];
-        $fieldvalues['slug'] = $this->getUri($fieldvalues['slug'], $get_id, $contenttype['slug'], false, false);
+        $getId = $create ? null : $fieldvalues['id'];
+        $fieldvalues['slug'] = $this->getUri($fieldvalues['slug'], $getId, $contenttype['slug'], false, false);
 
         // Decide whether to insert a new record, or update an existing one.
         if ($create) {
