@@ -952,11 +952,11 @@ class Storage
 
         // Build filter 'WHERE"
         // @todo make relations work as well
-        $filter_where = array();
+        $filterWhere = array();
         if (!is_null($filter)) {
             foreach ($fields as $field => $fieldconfig) {
                 if (isset($filter[$field])) {
-                    $filter_where[] = $this->parseWhereParameter($table . '.' . $field, $filter[$field]);
+                    $filterWhere[] = $this->parseWhereParameter($table . '.' . $field, $filter[$field]);
                 }
             }
         }
@@ -965,7 +965,7 @@ class Storage
         $where = array();
         $where[] = sprintf("%s.status = 'published'", $table);
         $where[] = '(( ' . implode(' OR ', $fields_where) . ' ) ' . $tagsQuery . ' )';
-        $where = array_merge($where, $filter_where);
+        $where = array_merge($where, $filterWhere);
 
         // Build SQL query
         $select = sprintf(
