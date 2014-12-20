@@ -924,17 +924,17 @@ class Content implements \ArrayAccess
             $where = array('id' => implode(" || ", $ids));
             $dummy = false;
 
-            $temp_result = $this->app['storage']->getContent($contenttype, $params, $dummy, $where);
+            $tempResult = $this->app['storage']->getContent($contenttype, $params, $dummy, $where);
 
-            if (empty($temp_result)) {
+            if (empty($tempResult)) {
                 continue; // Go ahead if content not found.
             }
 
             // Variable $temp_result can be an array of object.
-            if (is_array($temp_result)) {
-                $records = array_merge($records, $temp_result);
+            if (is_array($tempResult)) {
+                $records = array_merge($records, $tempResult);
             } else {
-                $records[] = $temp_result;
+                $records[] = $tempResult;
             }
         }
 
