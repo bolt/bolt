@@ -1400,11 +1400,11 @@ class Storage
     private function organizeQueryParameters($in_parameters = null)
     {
         $ctype_parameters = array();
-        $meta_parameters = array('order' => false); // order in meta_parameters check again in line: 1530!
+        $metaParameters = array('order' => false); // order in meta_parameters check again in line: 1530!
         if (is_array($in_parameters)) {
             foreach ($in_parameters as $key => $value) {
                 if (in_array($key, array('page', 'limit', 'offset', 'returnsingle', 'printquery', 'paging', 'order'))) {
-                    $meta_parameters[$key] = $value;
+                    $metaParameters[$key] = $value;
                 } else {
                     $ctype_parameters[$key] = $value;
                 }
@@ -1412,11 +1412,11 @@ class Storage
         }
 
         // if was no 'order' in $in_parameters try to find 'order' parm in req url
-        if ($meta_parameters['order'] === false) {
-            $meta_parameters['order'] = $this->app['request']->get('order', false);
+        if ($metaParameters['order'] === false) {
+            $metaParameters['order'] = $this->app['request']->get('order', false);
         }
 
-        return array($meta_parameters, $ctype_parameters);
+        return array($metaParameters, $ctype_parameters);
     }
 
     /**
