@@ -1645,20 +1645,20 @@ class Storage
             'hydrate' => true,
         );
 
-        list($metaParameters, $ctype_parameters) = $this->organizeQueryParameters($in_parameters);
+        list($metaParameters, $ctypeParameters) = $this->organizeQueryParameters($in_parameters);
 
-        $this->parseTextQuery($textquery, $decoded, $metaParameters, $ctype_parameters);
+        $this->parseTextQuery($textquery, $decoded, $metaParameters, $ctypeParameters);
 
         // $decoded['contettypes'] gotten here
         // get page nr. from url if has
         $metaParameters['page'] = $this->decodePageParameter($decoded['contenttypes'][0]);
 
-        $this->prepareDecodedQueryForUse($decoded, $metaParameters, $ctype_parameters);
+        $this->prepareDecodedQueryForUse($decoded, $metaParameters, $ctypeParameters);
 
         $decoded['parameters'] = $metaParameters;
 
         // for all the non-reserved parameters that are fields or taxonomies, we assume people want to do a 'where'
-        foreach ($ctype_parameters as $contenttypeslug => $actualParameters) {
+        foreach ($ctypeParameters as $contenttypeslug => $actualParameters) {
             $contenttype = $this->getContentType($contenttypeslug);
             $tablename = $this->getTablename($contenttype['slug']);
             $where = array();
