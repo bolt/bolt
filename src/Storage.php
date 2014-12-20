@@ -1658,7 +1658,7 @@ class Storage
         $decoded['parameters'] = $meta_parameters;
 
         // for all the non-reserved parameters that are fields or taxonomies, we assume people want to do a 'where'
-        foreach ($ctype_parameters as $contenttypeslug => $actual_parameters) {
+        foreach ($ctype_parameters as $contenttypeslug => $actualParameters) {
             $contenttype = $this->getContentType($contenttypeslug);
             $tablename = $this->getTablename($contenttype['slug']);
             $where = array();
@@ -1683,9 +1683,9 @@ class Storage
                 continue;
             }
 
-            if (is_array($actual_parameters)) {
+            if (is_array($actualParameters)) {
                 // Set the 'FROM' part of the query, without the LEFT JOIN (i.e. no taxonomies..)
-                foreach ($actual_parameters as $key => $value) {
+                foreach ($actualParameters as $key => $value) {
 
                     if ($key == 'order') {
                         $order_value = $this->decodeQueryOrder($contenttype, $value);
