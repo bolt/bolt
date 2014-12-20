@@ -1397,12 +1397,12 @@ class Storage
      *
      * @see $this->decodeContentQuery()
      */
-    private function organizeQueryParameters($in_parameters = null)
+    private function organizeQueryParameters($inParameters = null)
     {
         $ctypeParameters = array();
         $metaParameters = array('order' => false); // order in meta_parameters check again in line: 1530!
-        if (is_array($in_parameters)) {
-            foreach ($in_parameters as $key => $value) {
+        if (is_array($inParameters)) {
+            foreach ($inParameters as $key => $value) {
                 if (in_array($key, array('page', 'limit', 'offset', 'returnsingle', 'printquery', 'paging', 'order'))) {
                     $metaParameters[$key] = $value;
                 } else {
