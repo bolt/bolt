@@ -1897,7 +1897,7 @@ class Storage
     private function executeGetContentQueries($decoded)
     {
         // Perform actual queries and hydrate
-        $total_results = false;
+        $totalResults = false;
         $results = false;
         foreach ($decoded['queries'] as $query) {
             $statement = sprintf(
@@ -1917,7 +1917,7 @@ class Storage
                         $query['where']
                     );
                     $count_row = $this->app['db']->executeQuery($count_statement)->fetch();
-                    $total_results = $count_row['count'];
+                    $totalResults = $count_row['count'];
                 }
 
                 $offset = ($decoded['parameters']['page'] - 1) * $decoded['parameters']['limit'];
@@ -1950,11 +1950,11 @@ class Storage
             }
         }
 
-        if ($total_results === false) {
-            $total_results = count($results);
+        if ($totalResults === false) {
+            $totalResults = count($results);
         }
 
-        return array($results, $total_results);
+        return array($results, $totalResults);
     }
 
     /**
