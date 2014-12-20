@@ -29,22 +29,22 @@ class Stack
 
         $currentuser = $this->app['users']->getCurrentUser();
 
-        $stack_items = false;
+        $stackItems = false;
         if (isset($_SESSION['stack'])) {
-            $stack_items = Lib::smartUnserialize($_SESSION['stack']);
+            $stackItems = Lib::smartUnserialize($_SESSION['stack']);
         }
-        if (!is_array($stack_items)) {
-            $stack_items = Lib::smartUnserialize($currentuser['stack']);
+        if (!is_array($stackItems)) {
+            $stackItems = Lib::smartUnserialize($currentuser['stack']);
         }
-        if (!is_array($stack_items)) {
-            $stack_items = array();
+        if (!is_array($stackItems)) {
+            $stackItems = array();
         }
 
         // intersect the allowed types with the types set
         $this->imagetypes = array_intersect($this->imagetypes, $app['config']->get('general/accept_file_types'));
         $this->documenttypes = array_intersect($this->documenttypes, $app['config']->get('general/accept_file_types'));
 
-        $this->items = $stack_items;
+        $this->items = $stackItems;
     }
 
     /**
