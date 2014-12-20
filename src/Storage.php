@@ -1462,9 +1462,9 @@ class Storage
      * @param $textquery
      * @param array $decoded a pre-set decoded array to fill
      * @param array $metaParameters meta parameters
-     * @param array $ctype_parameters contenttype parameters
+     * @param array $ctypeParameters contenttype parameters
      */
-    private function parseTextQuery($textquery, array &$decoded, array &$metaParameters, array &$ctype_parameters)
+    private function parseTextQuery($textquery, array &$decoded, array &$metaParameters, array &$ctypeParameters)
     {
         // Our default callback
         $decoded['queries_callback'] = array($this, 'executeGetContentQueries');
@@ -1474,7 +1474,7 @@ class Storage
             // like 'entry/12' or '/page/12345'
             $decoded['contenttypes'] = $this->decodeContentTypesFromText($match[1]);
             $decoded['return_single'] = true;
-            $ctype_parameters['id'] = $match[2];
+            $ctypeParameters['id'] = $match[2];
         } elseif (preg_match('#^/?([a-z0-9_(\),-]+)/search(/([0-9]+))?$#i', $textquery, $match)) {
             // like 'page/search or '(entry,page)/search'
             $decoded['contenttypes'] = $this->decodeContentTypesFromText($match[1]);
@@ -1488,7 +1488,7 @@ class Storage
             // like 'page/lorem-ipsum-dolor' or '/page/home'
             $decoded['contenttypes'] = $this->decodeContentTypesFromText($match[1]);
             $decoded['return_single'] = true;
-            $ctype_parameters['slug'] = $match[2];
+            $ctypeParameters['slug'] = $match[2];
         } elseif (preg_match('#^/?([a-z0-9_-]+)/(latest|first)/([0-9]+)$#i', $textquery, $match)) {
             // like 'page/latest/5'
             $decoded['contenttypes'] = $this->decodeContentTypesFromText($match[1]);
@@ -1509,15 +1509,15 @@ class Storage
         } else {
             $decoded['contenttypes'] = $this->decodeContentTypesFromText($textquery);
 
-            if (isset($ctype_parameters['id']) && (is_numeric($ctype_parameters['id']))) {
+            if (isset($ctypeParameters['id']) && (is_numeric($ctypeParameters['id']))) {
                 $decoded['return_single'] = true;
             }
         }
 
         // When using from the frontend, we assume (by default) that we only want published items,
         // unless something else is specified explicitly
-        if (isset($this->app['end']) && $this->app['end'] == "frontend" && empty($ctype_parameters['status'])) {
-            $ctype_parameters['status'] = "published";
+        if (isset($this->app['end']) && $this->app['end'] == "frontend" && empty($ctypeParameters['status'])) {
+            $ctypeParameters['status'] = "published";
         }
 
         if (isset($metaParameters['returnsingle'])) {
