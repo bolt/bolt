@@ -1697,10 +1697,10 @@ class Storage
 
                     if ($key == 'filter' && !empty($value)) {
 
-                        $filter_where = array();
+                        $filterWhere = array();
                         foreach ($contenttype['fields'] as $name => $fieldconfig) {
                             if (in_array($fieldconfig['type'], array('text', 'textarea', 'html', 'markdown'))) {
-                                $filter_where[] = sprintf(
+                                $filterWhere[] = sprintf(
                                     '%s.%s LIKE %s',
                                     $tablename,
                                     $name,
@@ -1708,8 +1708,8 @@ class Storage
                                 );
                             }
                         }
-                        if (count($filter_where) > 0) {
-                            $where[] = '(' . implode(' OR ', $filter_where) . ')';
+                        if (count($filterWhere) > 0) {
+                            $where[] = '(' . implode(' OR ', $filterWhere) . ')';
                         }
                         continue;
                     }
