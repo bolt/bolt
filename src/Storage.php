@@ -1532,30 +1532,30 @@ class Storage
      *
      * @see $this->decodeContentQuery()
      */
-    private function prepareDecodedQueryForUse(&$decoded, &$metaParameters, &$ctype_parameters)
+    private function prepareDecodedQueryForUse(&$decoded, &$metaParameters, &$ctypeParameters)
     {
         // If there is only 1 contenttype we assume the where is NOT nested
         if (count($decoded['contenttypes']) == 1) {
             // So we need to add this nesting
-            $ctype_parameters = array(
-                $decoded['contenttypes'][0] => $ctype_parameters
+            $ctypeParameters = array(
+                $decoded['contenttypes'][0] => $ctypeParameters
             );
         } else {
             // We need to set every non-contenttypeslug parameters to each individual contenttypes
             $global_parameters = array();
-            foreach ($ctype_parameters as $key => $parameter) {
+            foreach ($ctypeParameters as $key => $parameter) {
                 if (!in_array($key, $decoded['contenttypes'])) {
                     $global_parameters[$key] = $parameter;
                 }
             }
             foreach ($global_parameters as $key => $parameter) {
-                unset($ctype_parameters[$key]);
+                unset($ctypeParameters[$key]);
                 foreach ($decoded['contenttypes'] as $contenttype) {
-                    if (!isset($ctype_parameters[$contenttype])) {
-                        $ctype_parameters[$contenttype] = array();
+                    if (!isset($ctypeParameters[$contenttype])) {
+                        $ctypeParameters[$contenttype] = array();
                     }
-                    if (!isset($ctype_parameters[$contenttype][$key])) {
-                        $ctype_parameters[$contenttype][$key] = $parameter;
+                    if (!isset($ctypeParameters[$contenttype][$key])) {
+                        $ctypeParameters[$contenttype][$key] = $parameter;
                     }
                 }
             }
