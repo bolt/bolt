@@ -236,13 +236,13 @@ class Library
             renderErrorpage(self::__('File is not readable!'), $message);
         }
 
-        $serialized_data = trim(implode("", file($filename)));
-        $serialized_data = str_replace("<?php /* bolt */ die(); ?" . ">", "", $serialized_data);
+        $serializedData = trim(implode('', file($filename)));
+        $serializedData = str_replace('<?php /* bolt */ die(); ?' . '>', '', $serializedData);
 
         // new-style JSON-encoded data; detect automatically
-        if (substr($serialized_data, 0, 5) === 'json:') {
-            $serialized_data = substr($serialized_data, 5);
-            $data = json_decode($serialized_data, true);
+        if (substr($serializedData, 0, 5) === 'json:') {
+            $serializedData = substr($serializedData, 5);
+            $data = json_decode($serializedData, true);
 
             return $data;
         }
@@ -250,15 +250,15 @@ class Library
         // old-style serialized data; to be phased out, but leaving intact for
         // backwards-compatibility. Up until Bolt 1.5, we used to serialize certain
         // fields, so reading in those old records will still use the code below.
-        @$data = unserialize($serialized_data);
+        @$data = unserialize($serializedData);
         if (is_array($data)) {
             return $data;
         } else {
-            $temp_serialized_data = preg_replace("/\r\n/", "\n", $serialized_data);
+            $temp_serialized_data = preg_replace("/\r\n/", "\n", $serializedData);
             if (@$data = unserialize($temp_serialized_data)) {
                 return $data;
             } else {
-                $temp_serialized_data = preg_replace("/\n/", "\r\n", $serialized_data);
+                $temp_serialized_data = preg_replace("/\n/", "\r\n", $serializedData);
                 if (@$data = unserialize($temp_serialized_data)) {
                     return $data;
                 } else {
