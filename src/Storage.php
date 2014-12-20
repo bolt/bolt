@@ -922,11 +922,11 @@ class Storage
         $table = $this->getTablename($contenttype);
 
         // Build fields 'WHERE'
-        $fields_where = array();
+        $fieldsWhere = array();
         foreach ($fields as $field => $fieldconfig) {
             if (in_array($fieldconfig['type'], $searchableTypes)) {
                 foreach ($query['words'] as $word) {
-                    $fields_where[] = sprintf('%s.%s LIKE %s', $table, $field, $this->app['db']->quote('%' . $word . '%'));
+                    $fieldsWhere[] = sprintf('%s.%s LIKE %s', $table, $field, $this->app['db']->quote('%' . $word . '%'));
                 }
             }
         }
@@ -964,7 +964,7 @@ class Storage
         // Build actual where
         $where = array();
         $where[] = sprintf("%s.status = 'published'", $table);
-        $where[] = '(( ' . implode(' OR ', $fields_where) . ' ) ' . $tagsQuery . ' )';
+        $where[] = '(( ' . implode(' OR ', $fieldsWhere) . ' ) ' . $tagsQuery . ' )';
         $where = array_merge($where, $filterWhere);
 
         // Build SQL query
