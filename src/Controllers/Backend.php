@@ -813,19 +813,19 @@ class Backend implements ControllerProviderInterface
 
             // Add non successfull control values to request values
             // http://www.w3.org/TR/html401/interact/forms.html#h-17.13.2
-            $request_all = $request->request->all();
+            $requestAll = $request->request->all();
 
             foreach ($contenttype['fields'] as $key => $values) {
-                if (!isset($request_all[$key])) {
+                if (!isset($requestAll[$key])) {
                     switch ($values['type']) {
                         case 'select':
                             if (isset($values['multiple']) && $values['multiple'] === true) {
-                                $request_all[$key] = array();
+                                $requestAll[$key] = array();
                             }
                             break;
 
                         case 'checkbox':
-                            $request_all[$key] = 0;
+                            $requestAll[$key] = 0;
                             break;
                     }
                 }
@@ -833,7 +833,7 @@ class Backend implements ControllerProviderInterface
 
             // To check whether the status is allowed, we act as if a status
             // *transition* were requested.
-            $content->setFromPost($request_all, $contenttype);
+            $content->setFromPost($requestAll, $contenttype);
             $newStatus = $content['status'];
 
             // Don't try to spoof the $id..
