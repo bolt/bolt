@@ -1542,13 +1542,13 @@ class Storage
             );
         } else {
             // We need to set every non-contenttypeslug parameters to each individual contenttypes
-            $global_parameters = array();
+            $globalParameters = array();
             foreach ($ctypeParameters as $key => $parameter) {
                 if (!in_array($key, $decoded['contenttypes'])) {
-                    $global_parameters[$key] = $parameter;
+                    $globalParameters[$key] = $parameter;
                 }
             }
-            foreach ($global_parameters as $key => $parameter) {
+            foreach ($globalParameters as $key => $parameter) {
                 unset($ctypeParameters[$key]);
                 foreach ($decoded['contenttypes'] as $contenttype) {
                     if (!isset($ctypeParameters[$contenttype])) {
