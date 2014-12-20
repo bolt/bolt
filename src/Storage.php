@@ -562,10 +562,10 @@ class Storage
                 );
         }
         $tablename = $this->getTablename('content_changelog');
-        $content_tablename = $this->getTablename($contenttype);
+        $contentTablename = $this->getTablename($contenttype);
         $sql = "SELECT log.* " .
                "    FROM $tablename as log " .
-               "    LEFT JOIN $content_tablename as content " .
+               "    LEFT JOIN " . $contentTablename . " as content " .
                "    ON content.id = log.contentid " .
                "    WHERE log.id $cmpOp ? " .
                "    AND log.contentid = ? " .
