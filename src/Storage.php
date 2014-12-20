@@ -1090,16 +1090,16 @@ class Storage
         // Sort the results
         usort($results, array($this, 'compareSearchWeights'));
 
-        $no_of_results = count($results);
+        $noOfResults = count($results);
 
         $pageResults = array();
-        if ($offset < $no_of_results) {
+        if ($offset < $noOfResults) {
             $pageResults = array_slice($results, $offset, $limit);
         }
 
         return array(
             'query' => $query,
-            'no_of_results' => $no_of_results,
+            'no_of_results' => $noOfResults,
             'results' => $pageResults
         );
     }
