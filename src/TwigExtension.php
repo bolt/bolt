@@ -1378,18 +1378,18 @@ class TwigExtension extends \Twig_Extension
     }
 
     /**
-     * Add 'soft hyphens' &shy; to a string, so that it won't break layout in HTML when 
-     * using strings without spaces or dashes. 
+     * Add 'soft hyphens' &shy; to a string, so that it won't break layout in HTML when
+     * using strings without spaces or dashes.
      *
      * @param string $str
-     * @return string 
+     * @return string
      */
     public function shy($str)
     {
         if (is_string($str)) {
             $str = String::shyphenate($str);
         }
-        
+
         return $str;
     }
 

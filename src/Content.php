@@ -929,7 +929,7 @@ class Content implements \ArrayAccess
             if (empty($temp_result)) {
                 continue; // Go ahead if content not found.
             }
-            
+
             // Variable $temp_result can be an array of object.
             if (is_array($temp_result)) {
                 $records = array_merge($records, $temp_result);

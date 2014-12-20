@@ -216,9 +216,9 @@ class ResourceManager
         // Set the current protocol. Default to http, unless otherwise..
         $protocol = "http";
 
-        if (($request->server->get('HTTPS') == 'on') || 
-            ($request->server->get('SERVER_PROTOCOL') == 'https') || 
-            ($request->server->get('HTTP_X_FORWARDED_PROTO') == 'https') || 
+        if (($request->server->get('HTTPS') == 'on') ||
+            ($request->server->get('SERVER_PROTOCOL') == 'https') ||
+            ($request->server->get('HTTP_X_FORWARDED_PROTO') == 'https') ||
             ($request->server->get('HTTP_X_FORWARDED_SSL') == 'on')) {
             $protocol = "https";
         } elseif ($request->server->get("SERVER_PROTOCOL") == null) {
