@@ -1688,9 +1688,9 @@ class Storage
                 foreach ($actualParameters as $key => $value) {
 
                     if ($key == 'order') {
-                        $order_value = $this->decodeQueryOrder($contenttype, $value);
-                        if ($order_value !== false) {
-                            $order[] = $order_value;
+                        $orderValue = $this->decodeQueryOrder($contenttype, $value);
+                        if ($orderValue !== false) {
+                            $order[] = $orderValue;
                         }
                         continue;
                     }
