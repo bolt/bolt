@@ -285,21 +285,21 @@ class Cron extends Event
     {
         if ($interim == CronEvents::CRON_HOURLY) {
             // For hourly we just default to the turn of the hour
-            $last_cron_hour  = strtotime(date('Y-m-d H', strtotime($last_run_time)) . ':00:00');
+            $lastCronHour  = strtotime(date('Y-m-d H', strtotime($last_run_time)) . ':00:00');
 
-            return strtotime("+1 hour", $last_cron_hour);
+            return strtotime("+1 hour", $lastCronHour);
         } else {
             // Get the cron time of the last run time/date
-            $last_cron_hour  = strtotime(date('Y-m-d', strtotime($last_run_time)) . ' ' . $this->cronHour);
+            $lastCronHour  = strtotime(date('Y-m-d', strtotime($last_run_time)) . ' ' . $this->cronHour);
 
             if ($interim == CronEvents::CRON_DAILY) {
-                return strtotime("+1 day", $last_cron_hour);
+                return strtotime('+1 day', $lastCronHour);
             } elseif ($interim == CronEvents::CRON_WEEKLY) {
-                return strtotime("+1 week", $last_cron_hour);
+                return strtotime('+1 week', $lastCronHour);
             } elseif ($interim == CronEvents::CRON_MONTHLY) {
-                return strtotime("+1 month", $last_cron_hour);
+                return strtotime('+1 month', $lastCronHour);
             } elseif ($interim == CronEvents::CRON_YEARLY) {
-                return strtotime("+1 year", $last_cron_hour);
+                return strtotime('+1 year', $lastCronHour);
             }
         }
     }
