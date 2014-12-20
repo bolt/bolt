@@ -2738,10 +2738,10 @@ class Storage
      *
      *
      * @param string $contenttype
-     * @param integer $content_id
+     * @param integer $contentId
      * @param array $relation
      */
-    protected function updateRelation($contenttype, $content_id, $relation)
+    protected function updateRelation($contenttype, $contentId, $relation)
     {
         $tablename = $this->getTablename("relations");
 
@@ -2752,7 +2752,7 @@ class Storage
         );
         $currentvalues = $this->app['db']->executeQuery(
             $query,
-            array($content_id, $contenttype['slug']),
+            array($contentId, $contenttype['slug']),
             array(\PDO::PARAM_INT, \PDO::PARAM_STR)
         )->fetchAll();
 
@@ -2763,7 +2763,7 @@ class Storage
         );
         $currentvalues2 = $this->app['db']->executeQuery(
             $query,
-            array($content_id, $contenttype['slug']),
+            array($contentId, $contenttype['slug']),
             array(\PDO::PARAM_INT, \PDO::PARAM_STR)
         )->fetchAll();
 
@@ -2800,7 +2800,7 @@ class Storage
                         // Insert it!
                         $row = array(
                             'from_contenttype' => $contenttype['slug'],
-                            'from_id' => $content_id,
+                            'from_id' => $contentId,
                             'to_contenttype' => $to_contenttype,
                             'to_id' => $value
                         );
