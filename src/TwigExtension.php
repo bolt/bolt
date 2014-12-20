@@ -1254,8 +1254,8 @@ class TwigExtension extends \Twig_Extension
     public function trans()
     {
         $args = func_get_args();
-        $num_args = func_num_args();
-        switch ($num_args) {
+        $numArgs = func_num_args();
+        switch ($numArgs) {
             case 5:
                 return Trans::__($args[0], $args[1], $args[2], $args[3], $args[4]);
             case 4:
