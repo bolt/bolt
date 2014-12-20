@@ -105,12 +105,12 @@ class TranslationFile
     /**
      * Adds a string to the internal list of translatable strings
      *
-     * @param string $Text
+     * @param string $text
      */
-    private function addTranslatable($Text)
+    private function addTranslatable($text)
     {
-        if (strlen($Text) > 1 && !isset($this->translatables[$Text])) {
-            $this->translatables[$Text] = '';
+        if (strlen($text) > 1 && !isset($this->translatables[$text])) {
+            $this->translatables[$text] = '';
         }
     }
 
