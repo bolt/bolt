@@ -1153,16 +1153,16 @@ class Storage
 
             $filter = $this->app['db']->quote($parameters['filter']);
 
-            $filter_where = array();
+            $filterWhere = array();
 
             foreach ($contenttype['fields'] as $key => $value) {
                 if (in_array($value['type'], array('text', 'textarea', 'html', 'markdown'))) {
-                    $filter_where[] = sprintf("%s LIKE '%%%s%%'", $key, $filter);
+                    $filterWhere[] = sprintf("%s LIKE '%%%s%%'", $key, $filter);
                 }
             }
 
-            if (!empty($filter_where)) {
-                $where[] = "(" . implode(" OR ", $filter_where) . ")";
+            if (!empty($filterWhere)) {
+                $where[] = '(' . implode(' OR ', $filterWhere) . ')';
             }
         }
 
