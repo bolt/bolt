@@ -74,7 +74,7 @@ class Cron extends Event
     /**
      * @var string
      */
-    private $cron_hour;
+    private $cronHour;
 
     /**
      * @var array
@@ -185,7 +185,7 @@ class Cron extends Event
         } elseif ($this->app['dispatcher']->hasListeners($name)) {
             if ($name == CronEvents::CRON_HOURLY && $this->next_run_time[CronEvents::CRON_HOURLY] <= $this->runtime) {
                 return true;
-            } elseif (time() > $this->cron_hour && $this->next_run_time[$name] <= $this->runtime) {
+            } elseif (time() > $this->cronHour && $this->next_run_time[$name] <= $this->runtime) {
                 // Only run non-hourly event jobs if we've passed our cron hour today
                 return true;
             }
@@ -202,11 +202,11 @@ class Cron extends Event
         $hour = $this->app['config']->get('general/cron_hour');
 
         if (empty($hour)) {
-            $this->cron_hour = strtotime("03:00");
+            $this->cronHour = strtotime('03:00');
         } elseif (is_numeric($hour)) {
-            $this->cron_hour = strtotime($hour . ":00");
+            $this->cronHour = strtotime($hour . ':00');
         } elseif (is_string($hour)) {
-            $this->cron_hour = strtotime($hour);
+            $this->cronHour = strtotime($hour);
         }
     }
 
@@ -290,7 +290,7 @@ class Cron extends Event
             return strtotime("+1 hour", $last_cron_hour);
         } else {
             // Get the cron time of the last run time/date
-            $last_cron_hour  = strtotime(date('Y-m-d', strtotime($last_run_time)) . ' ' . $this->cron_hour);
+            $last_cron_hour  = strtotime(date('Y-m-d', strtotime($last_run_time)) . ' ' . $this->cronHour);
 
             if ($interim == CronEvents::CRON_DAILY) {
                 return strtotime("+1 day", $last_cron_hour);
