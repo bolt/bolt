@@ -575,14 +575,14 @@ class TwigExtension extends \Twig_Extension
      */
     public function current($content)
     {
-        $route_params = $this->app['request']->get('_route_params');
+        $routeParams = $this->app['request']->get('_route_params');
 
         // If passed a string, and it is in the route..
-        if (is_string($content) && in_array($content, $route_params)) {
+        if (is_string($content) && in_array($content, $routeParams)) {
             return true;
         }
         // special case for "home"
-        if (empty($content) && empty($route_params)) {
+        if (empty($content) && empty($routeParams)) {
             return true;
         }
 
@@ -612,23 +612,23 @@ class TwigExtension extends \Twig_Extension
         }
 
         // No contenttypeslug or slug -> not 'current'
-        if (empty($route_params['contenttypeslug']) || empty($route_params['slug'])) {
+        if (empty($routeParams['contenttypeslug']) || empty($routeParams['slug'])) {
             return false;
         }
 
         // check against simple content.link
-        if ("/" . $route_params['contenttypeslug'] . "/" . $route_params['slug'] == $linkToCheck) {
+        if ("/" . $routeParams['contenttypeslug'] . "/" . $routeParams['slug'] == $linkToCheck) {
             return true;
         }
 
         // if the current requested page is for the same slug or singularslug..
         if (isset($content['contenttype']) &&
-            ($route_params['contenttypeslug'] == $content['contenttype']['slug'] ||
-                $route_params['contenttypeslug'] == $content['contenttype']['singular_slug'])
+            ($routeParams['contenttypeslug'] == $content['contenttype']['slug'] ||
+                $routeParams['contenttypeslug'] == $content['contenttype']['singular_slug'])
         ) {
 
             // .. and the slugs should match..
-            if ($route_params['slug'] == $content['slug']) {
+            if ($routeParams['slug'] == $content['slug']) {
                 return true;
             }
         }
