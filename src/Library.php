@@ -34,24 +34,24 @@ class Library
         }
 
         $patharray = explode('/', preg_replace('#/+#', '/', $path));
-        $new_path = array();
+        $newPath = array();
 
         foreach ($patharray as $item) {
             if ($item == '..') {
                 // remove the previous element
-                @array_pop($new_path);
+                @array_pop($newPath);
             } elseif ($item == 'http:') {
                 // Don't break for URLs with http:// scheme
-                $new_path[] = 'http:/';
+                $newPath[] = 'http:/';
             } elseif ($item == 'https:') {
                 // Don't break for URLs with https:// scheme
-                $new_path[] = 'https:/';
+                $newPath[] = 'https:/';
             } elseif (($item != '.')) {
-                $new_path[] = $item;
+                $newPath[] = $item;
             }
         }
 
-        return $lead . implode('/', $new_path);
+        return $lead . implode('/', $newPath);
     }
 
     /**
