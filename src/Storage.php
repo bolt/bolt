@@ -1645,17 +1645,17 @@ class Storage
             'hydrate' => true,
         );
 
-        list($meta_parameters, $ctype_parameters) = $this->organizeQueryParameters($in_parameters);
+        list($metaParameters, $ctype_parameters) = $this->organizeQueryParameters($in_parameters);
 
-        $this->parseTextQuery($textquery, $decoded, $meta_parameters, $ctype_parameters);
+        $this->parseTextQuery($textquery, $decoded, $metaParameters, $ctype_parameters);
 
         // $decoded['contettypes'] gotten here
         // get page nr. from url if has
-        $meta_parameters['page'] = $this->decodePageParameter($decoded['contenttypes'][0]);
+        $metaParameters['page'] = $this->decodePageParameter($decoded['contenttypes'][0]);
 
-        $this->prepareDecodedQueryForUse($decoded, $meta_parameters, $ctype_parameters);
+        $this->prepareDecodedQueryForUse($decoded, $metaParameters, $ctype_parameters);
 
-        $decoded['parameters'] = $meta_parameters;
+        $decoded['parameters'] = $metaParameters;
 
         // for all the non-reserved parameters that are fields or taxonomies, we assume people want to do a 'where'
         foreach ($ctype_parameters as $contenttypeslug => $actualParameters) {
@@ -1665,8 +1665,8 @@ class Storage
             $order = array();
 
             // Set the 'order', if specified in the meta_parameters.
-            if (!empty($meta_parameters['order'])) {
-                $order[] = $this->getEscapedSortorder($meta_parameters['order'], false);
+            if (!empty($metaParameters['order'])) {
+                $order[] = $this->getEscapedSortorder($metaParameters['order'], false);
             }
 
             $query = array(
