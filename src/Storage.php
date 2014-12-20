@@ -1916,8 +1916,8 @@ class Storage
                         $query['from'],
                         $query['where']
                     );
-                    $count_row = $this->app['db']->executeQuery($count_statement)->fetch();
-                    $totalResults = $count_row['count'];
+                    $countRow = $this->app['db']->executeQuery($count_statement)->fetch();
+                    $totalResults = $countRow['count'];
                 }
 
                 $offset = ($decoded['parameters']['page'] - 1) * $decoded['parameters']['limit'];
