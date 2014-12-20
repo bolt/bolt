@@ -109,15 +109,15 @@ class Storage
         // get a list of images..
         $this->images = $this->app['filesystem']->search('*', 'jpg,jpeg,png');
 
-        $empty_only = empty($contenttypes);
+        $emptyOnly = empty($contenttypes);
 
         foreach ($this->app['config']->get('contenttypes') as $key => $contenttype) {
 
             $tablename = $this->getTablename($key);
-            if ($empty_only && $this->hasRecords($tablename)) {
+            if ($emptyOnly && $this->hasRecords($tablename)) {
                 $output .= Trans::__("Skipped <tt>%key%</tt> (already has records)", array('%key%' => $key)) . "<br>\n";
                 continue;
-            } elseif (!in_array($key, $contenttypes) && !$empty_only) {
+            } elseif (!in_array($key, $contenttypes) && !$emptyOnly) {
                 $output .= Trans::__("Skipped <tt>%key%</tt> (not checked)", array('%key%' => $key)) . "<br>\n";
                 continue;
             }
