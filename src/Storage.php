@@ -2189,10 +2189,10 @@ class Storage
 
             if (!empty($a->contenttype['sort'])) {
                 // Same group, so we sort on contenttype['sort']
-                list($second_sort, $order) = $this->getSortOrder($a->contenttype['sort']);
+                list($secondSort, $order) = $this->getSortOrder($a->contenttype['sort']);
 
-                $vala = strtolower($a->values[$second_sort]);
-                $valb = strtolower($b->values[$second_sort]);
+                $vala = strtolower($a->values[$secondSort]);
+                $valb = strtolower($b->values[$secondSort]);
 
                 if ($vala == $valb) {
                     return 0;
