@@ -434,10 +434,10 @@ class Storage
             $contenttype = $contenttype['slug'];
         }
         $tablename = $this->getTablename('content_changelog');
-        $content_tablename = $this->getTablename($contenttype);
+        $contentTablename = $this->getTablename($contenttype);
         $sql = "SELECT log.*, log.title " .
                "    FROM $tablename as log " .
-               "    LEFT JOIN $content_tablename as content " .
+               "    LEFT JOIN " . $contentTablename . " as content " .
                "    ON content.id = log.contentid " .
                "    WHERE contenttype = ? ";
         $params = array($contenttype);
