@@ -1162,20 +1162,20 @@ class Content implements \ArrayAccess
      */
     public function weighSearchResult($query)
     {
-        static $contenttype_fields = null;
+        static $contenttypeFields = null;
         static $contenttype_taxonomies = null;
 
         $ct = $this->contenttype['slug'];
-        if ((is_null($contenttype_fields)) || (!isset($contenttype_fields[$ct]))) {
+        if ((is_null($contenttypeFields)) || (!isset($contenttypeFields[$ct]))) {
             // Should run only once per contenttype (e.g. singlular_name)
-            $contenttype_fields[$ct] = $this->getFieldWeights();
+            $contenttypeFields[$ct] = $this->getFieldWeights();
             $contenttype_taxonomies[$ct] = $this->getTaxonomyWeights();
         }
 
         $weight = 0;
 
         // Go over all field, and calculate the overall weight.
-        foreach ($contenttype_fields[$ct] as $key => $fieldWeight) {
+        foreach ($contenttypeFields[$ct] as $key => $fieldWeight) {
             $weight += $this->weighQueryText($this->values[$key], $query['use_q'], $query['words'], $fieldWeight);
         }
 
