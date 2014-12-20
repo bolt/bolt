@@ -506,12 +506,12 @@ class TwigExtension extends \Twig_Extension
     private function orderHelper($a, $b)
     {
         $aVal = $a[$this->order_on];
-        $b_val = $b[$this->order_on];
+        $bVal = $b[$this->order_on];
 
         // Check the primary sorting criterium..
-        if ($aVal < $b_val) {
+        if ($aVal < $bVal) {
             return !$this->order_ascending;
-        } elseif ($aVal > $b_val) {
+        } elseif ($aVal > $bVal) {
             return $this->order_ascending;
         } else {
             // Primary criterium is the same. Use the secondary criterium, if it is set. Otherwise return 0.
@@ -520,11 +520,11 @@ class TwigExtension extends \Twig_Extension
             }
 
             $aVal = $a[$this->order_on_secondary];
-            $b_val = $b[$this->order_on_secondary];
+            $bVal = $b[$this->order_on_secondary];
 
-            if ($aVal < $b_val) {
+            if ($aVal < $bVal) {
                 return !$this->order_ascending_secondary;
-            } elseif ($aVal > $b_val) {
+            } elseif ($aVal > $bVal) {
                 return $this->order_ascending_secondary;
             } else {
                 // both criteria are the same. Whatever!
