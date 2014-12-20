@@ -1619,7 +1619,7 @@ class Backend implements ControllerProviderInterface
                 return Lib::redirect('files', array('path' => $path, 'namespace' => $namespace));
             }
 
-            if($uploadview === false) {
+            if ($uploadview === false) {
                 $formview = false;
             } else {
                 $formview = $form->createView();

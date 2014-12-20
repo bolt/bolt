@@ -1925,7 +1925,7 @@ class Storage
 
                 // @todo this will fail when actually using params on certain databases
                 $statement = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($statement, $limit, $offset);
-            } else if (!empty($decoded['parameters']['limit'])) {
+            } elseif (!empty($decoded['parameters']['limit'])) {
                 // If we're not paging, but we _did_ provide a limit.
                 $limit = $decoded['parameters']['limit'];
                 $statement = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($statement, $limit);
