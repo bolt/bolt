@@ -945,9 +945,9 @@ class Storage
         }
         // only add taxonomies if they exist
         if (!empty($taxonomies) && !empty($tagsWhere)) {
-            $tags_query_1 = sprintf("%s.contenttype = '%s'", $taxonomytable, $contenttype);
+            $tagsQueryA = sprintf("%s.contenttype = '%s'", $taxonomytable, $contenttype);
             $tags_query_2 = implode(' OR ', $tagsWhere);
-            $tagsQuery   = sprintf(' OR (%s AND (%s))', $tags_query_1, $tags_query_2);
+            $tagsQuery   = sprintf(' OR (%s AND (%s))', $tagsQueryA, $tags_query_2);
         }
 
         // Build filter 'WHERE"
