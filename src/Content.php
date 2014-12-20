@@ -1085,8 +1085,8 @@ class Content implements \ArrayAccess
         }
 
         $word_matches = 0;
-        $cnt_words    = count($words);
-        for ($i = 0; $i < $cnt_words; $i++) {
+        $cntWords = count($words);
+        for ($i = 0; $i < $cntWords; $i++) {
             if (strstr($lowSubject, $words[$i])) {
                 $word_matches++;
             }
@@ -1094,7 +1094,7 @@ class Content implements \ArrayAccess
         if ($word_matches > 0) {
             // marcel: word matches are maximum of 50% of the maximum per word
             // xiao: made (100/100) instead of (50/100).
-            return round(($word_matches / $cnt_words) * (100 / 100) * $max);
+            return round(($word_matches / $cntWords) * (100 / 100) * $max);
         }
 
         return 0;
