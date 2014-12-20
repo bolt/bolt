@@ -532,18 +532,18 @@ class Storage
      *                           'slug'
      * @param $contentid
      * @param int $id The content-changelog ID
-     * @param string $cmp_op One of '=', '<', '>'; this parameter is used
+     * @param string $cmpOp One of '=', '<', '>'; this parameter is used
      *                       to select either the ID itself, or the subsequent
      *                       or preceding entry.
      * @throws \Exception
      * @return \Bolt\ChangelogItem|null
      */
-    private function getOrderedChangelogEntry($contenttype, $contentid, $id, $cmp_op)
+    private function getOrderedChangelogEntry($contenttype, $contentid, $id, $cmpOp)
     {
         if (is_array($contenttype)) {
             $contenttype = $contenttype['slug'];
         }
-        switch ($cmp_op) {
+        switch ($cmpOp) {
             case '=':
                 $ordering = ''; // no need to order
                 break;
@@ -557,7 +557,7 @@ class Storage
                 throw new \Exception(
                     sprintf(
                         "Invalid value for argument 'cmp_op'; must be one of '=', '<', '>' (got '%s')",
-                        $cmp_op
+                        $cmpOp
                     )
                 );
         }
@@ -567,7 +567,7 @@ class Storage
                "    FROM $tablename as log " .
                "    LEFT JOIN $content_tablename as content " .
                "    ON content.id = log.contentid " .
-               "    WHERE log.id $cmp_op ? " .
+               "    WHERE log.id $cmpOp ? " .
                "    AND log.contentid = ? " .
                "    AND contenttype = ? " .
                $ordering .
