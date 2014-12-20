@@ -1587,19 +1587,19 @@ class Storage
      * (tightly coupled to $this->getContent())
      *
      * @param  array $contenttype
-     * @param  string $order_value
+     * @param  string $orderValue
      * @return string
      */
-    private function decodeQueryOrder($contenttype, $order_value)
+    private function decodeQueryOrder($contenttype, $orderValue)
     {
         $order = false;
 
-        if (($order_value === false) || ($order_value === '')) {
+        if (($orderValue === false) || ($orderValue === '')) {
             if ($this->isValidColumn($contenttype['sort'], $contenttype, true)) {
                 $order = $this->getEscapedSortorder($contenttype['sort'], false);
             }
         } else {
-            $parOrder = String::makeSafe($order_value);
+            $parOrder = String::makeSafe($orderValue);
             if ($parOrder == 'RANDOM') {
                 $dboptions = $this->app['config']->getDBOptions();
                 $order = $dboptions['randomfunction'];
