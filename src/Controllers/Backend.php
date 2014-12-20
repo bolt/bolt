@@ -587,7 +587,7 @@ class Backend implements ControllerProviderInterface
          */
 
         $content = $app['storage']->getContent($contenttypeslug, array('id' => $id));
-        $related_content = $content->related($show_contenttype['slug']);
+        $relatedContent = $content->related($show_contenttype['slug']);
 
         $context = array(
             'id' => $id,
@@ -596,7 +596,7 @@ class Backend implements ControllerProviderInterface
             'contenttype' => $contenttype,
             'relations' => $relations,
             'show_contenttype' => $show_contenttype,
-            'related_content' => $related_content,
+            'related_content' => $relatedContent,
         );
 
         return $app['twig']->render('relatedto/relatedto.twig', array('context' => $context));
