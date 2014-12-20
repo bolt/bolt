@@ -98,12 +98,12 @@ class StorageEvent extends Event
     /**
      * Set the content type and id
      *
-     * @param string  $content_type
+     * @param string  $contentType
      * @param integer $id
      */
-    private function setContentTypeAndId($content_type, $id)
+    private function setContentTypeAndId($contentType, $id)
     {
-        $this->contentType = $content_type;
+        $this->contentType = $contentType;
         $this->id = $id;
     }
 
