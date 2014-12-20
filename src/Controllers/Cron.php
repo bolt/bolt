@@ -278,19 +278,19 @@ class Cron extends Event
      * Get the next run time for a given interim
      *
      * @param  string  $interim       The interim; CRON_HOURLY, CRON_DAILY, CRON_WEEKLY, CRON_MONTHLY or CRON_YEARLY
-     * @param  string  $last_run_time The last execution time of the interim
+     * @param  string  $lastRunTime The last execution time of the interim
      * @return integer The UNIX timestamp for the interims next valid execution time
      */
-    private function getNextIterimRunTime($interim, $last_run_time)
+    private function getNextIterimRunTime($interim, $lastRunTime)
     {
         if ($interim == CronEvents::CRON_HOURLY) {
             // For hourly we just default to the turn of the hour
-            $lastCronHour  = strtotime(date('Y-m-d H', strtotime($last_run_time)) . ':00:00');
+            $lastCronHour  = strtotime(date('Y-m-d H', strtotime($lastRunTime)) . ':00:00');
 
             return strtotime("+1 hour", $lastCronHour);
         } else {
             // Get the cron time of the last run time/date
-            $lastCronHour  = strtotime(date('Y-m-d', strtotime($last_run_time)) . ' ' . $this->cronHour);
+            $lastCronHour  = strtotime(date('Y-m-d', strtotime($lastRunTime)) . ' ' . $this->cronHour);
 
             if ($interim == CronEvents::CRON_DAILY) {
                 return strtotime('+1 day', $lastCronHour);
