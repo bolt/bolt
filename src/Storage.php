@@ -2536,10 +2536,10 @@ class Storage
      * Update / insert taxonomy for a given content-unit.
      *
      * @param string $contenttype
-     * @param integer $content_id
+     * @param integer $contentId
      * @param array $taxonomy
      */
-    protected function updateTaxonomy($contenttype, $content_id, $taxonomy)
+    protected function updateTaxonomy($contenttype, $contentId, $taxonomy)
     {
         $tablename = $this->getTablename("taxonomy");
         $configTaxonomies = $this->app['config']->get('taxonomy');
@@ -2572,7 +2572,7 @@ class Storage
             );
             $currentvalues = $this->app['db']->executeQuery(
                 $query,
-                array($content_id, $contenttypeslug, $taxonomytype),
+                array($contentId, $contenttypeslug, $taxonomytype),
                 array(\PDO::PARAM_INT, \PDO::PARAM_STR, \PDO::PARAM_STR)
             )->fetchAll();
 
@@ -2627,7 +2627,7 @@ class Storage
                 if ((!in_array($slug, $currentvalues) || ($currentsortorder != $sortorder)) && (!empty($slug))) {
                     // Insert it!
                     $row = array(
-                        'content_id' => $content_id,
+                        'content_id' => $contentId,
                         'contenttype' => $contenttypeslug,
                         'taxonomytype' => $taxonomytype,
                         'slug' => $slug,
