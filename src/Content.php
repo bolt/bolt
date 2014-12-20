@@ -37,12 +37,12 @@ class Content implements \ArrayAccess
                     }
 
                     // add support for taxonomy default value when options is set
-                    $default_value = $this->app['config']->get('taxonomy/' . $taxonomytype . '/default');
+                    $defaultValue = $this->app['config']->get('taxonomy/' . $taxonomytype . '/default');
                     $options = $this->app['config']->get('taxonomy/' . $taxonomytype . '/options');
                     if (isset($options) &&
-                            isset($default_value) &&
-                            array_search($default_value, array_keys($options)) !== false ) {
-                            $this->setTaxonomy($taxonomytype, $default_value);
+                            isset($defaultValue) &&
+                            array_search($defaultValue, array_keys($options)) !== false ) {
+                            $this->setTaxonomy($taxonomytype, $defaultValue);
                             $this->sortTaxonomy();
                     }
                 }
