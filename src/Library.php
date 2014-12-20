@@ -254,12 +254,12 @@ class Library
         if (is_array($data)) {
             return $data;
         } else {
-            $temp_serialized_data = preg_replace("/\r\n/", "\n", $serializedData);
-            if (@$data = unserialize($temp_serialized_data)) {
+            $tempSerializedData = preg_replace("/\r\n/", "\n", $serializedData);
+            if (@$data = unserialize($tempSerializedData)) {
                 return $data;
             } else {
-                $temp_serialized_data = preg_replace("/\n/", "\r\n", $serializedData);
-                if (@$data = unserialize($temp_serialized_data)) {
+                $tempSerializedData = preg_replace("/\n/", "\r\n", $serializedData);
+                if (@$data = unserialize($tempSerializedData)) {
                     return $data;
                 } else {
                     return false;
