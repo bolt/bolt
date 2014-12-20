@@ -934,8 +934,8 @@ class Storage
         // make taxonomies work
         $taxonomytable = $this->getTablename('taxonomy');
         $taxonomies    = $this->getContentTypeTaxonomy($contenttype);
-        $tagsWhere    = array();
-        $tags_query    = '';
+        $tagsWhere     = array();
+        $tagsQuery     = '';
         foreach ($taxonomies as $taxonomy) {
             if ($taxonomy['behaves_like'] == 'tags') {
                 foreach ($query['words'] as $word) {
@@ -947,7 +947,7 @@ class Storage
         if (!empty($taxonomies) && !empty($tagsWhere)) {
             $tags_query_1 = sprintf("%s.contenttype = '%s'", $taxonomytable, $contenttype);
             $tags_query_2 = implode(' OR ', $tagsWhere);
-            $tags_query   = sprintf(' OR (%s AND (%s))', $tags_query_1, $tags_query_2);
+            $tagsQuery   = sprintf(' OR (%s AND (%s))', $tags_query_1, $tags_query_2);
         }
 
         // Build filter 'WHERE"
@@ -964,7 +964,7 @@ class Storage
         // Build actual where
         $where = array();
         $where[] = sprintf("%s.status = 'published'", $table);
-        $where[] = '(( ' . implode(' OR ', $fields_where) . ' ) ' . $tags_query . ' )';
+        $where[] = '(( ' . implode(' OR ', $fields_where) . ' ) ' . $tagsQuery . ' )';
         $where = array_merge($where, $filter_where);
 
         // Build SQL query
