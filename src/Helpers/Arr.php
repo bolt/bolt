@@ -15,20 +15,20 @@ class Arr
      */
     public static function makeValuePairs($array, $key, $value)
     {
-        $temp_array = array();
+        $tempArray = array();
 
         if (is_array($array)) {
             foreach ($array as $item) {
                 if (empty($key)) {
-                    $temp_array[] = $item[$value];
+                    $tempArray[] = $item[$value];
                 } else {
-                    $temp_array[$item[$key]] = $item[$value];
+                    $tempArray[$item[$key]] = $item[$value];
                 }
 
             }
         }
 
-        return $temp_array;
+        return $tempArray;
     }
 
     /**
