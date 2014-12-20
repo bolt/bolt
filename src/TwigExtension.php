@@ -475,17 +475,17 @@ class TwigExtension extends \Twig_Extension
      *
      * @param  array  $array
      * @param  string $on
-     * @param  string $on_secondary
+     * @param  string $onSecondary
      * @return array
      */
-    public function order($array, $on, $on_secondary = '')
+    public function order($array, $on, $onSecondary = '')
     {
         // Set the 'order_on' and 'order_ascending', taking into account things like '-datepublish'.
         list($this->order_on, $this->order_ascending) = $this->app['storage']->getSortOrder($on);
 
         // Set the secondary order, if any..
-        if (!empty($on_secondary)) {
-            list($this->order_on_secondary, $this->order_ascending_secondary) = $this->app['storage']->getSortOrder($on_secondary);
+        if (!empty($onSecondary)) {
+            list($this->order_on_secondary, $this->order_ascending_secondary) = $this->app['storage']->getSortOrder($onSecondary);
         } else {
             $this->order_on_secondary = false;
             $this->order_ascending_secondary = false;
