@@ -1911,12 +1911,12 @@ class Storage
             if ($decoded['self_paginated'] === true) {
                 // self pagination requires an extra query to return the actual number of results
                 if ($decoded['return_single'] === false) {
-                    $count_statement = sprintf(
+                    $countStatement = sprintf(
                         'SELECT COUNT(*) as count %s %s',
                         $query['from'],
                         $query['where']
                     );
-                    $countRow = $this->app['db']->executeQuery($count_statement)->fetch();
+                    $countRow = $this->app['db']->executeQuery($countStatement)->fetch();
                     $totalResults = $countRow['count'];
                 }
 
