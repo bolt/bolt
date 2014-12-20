@@ -918,13 +918,13 @@ class Storage
     {
         // This could be even more configurable
         // (see also Content->getFieldWeights)
-        $searchable_types = array('text', 'textarea', 'html', 'markdown');
+        $searchableTypes = array('text', 'textarea', 'html', 'markdown');
         $table = $this->getTablename($contenttype);
 
         // Build fields 'WHERE'
         $fields_where = array();
         foreach ($fields as $field => $fieldconfig) {
-            if (in_array($fieldconfig['type'], $searchable_types)) {
+            if (in_array($fieldconfig['type'], $searchableTypes)) {
                 foreach ($query['words'] as $word) {
                     $fields_where[] = sprintf('%s.%s LIKE %s', $table, $field, $this->app['db']->quote('%' . $word . '%'));
                 }
