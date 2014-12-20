@@ -1997,7 +1997,7 @@ class Storage
         }
 
         // Run the actual queries
-        list($results, $total_results) = call_user_func(
+        list($results, $totalResults) = call_user_func(
             $decoded['queries_callback'],
             $decoded,
             $parameters
@@ -2046,8 +2046,8 @@ class Storage
             $pager_name = $decoded['contenttypes'][0];
             $pager = array(
                 'for' => $pager_name,
-                'count' => $total_results,
-                'totalpages' => ceil($total_results / $decoded['parameters']['limit']),
+                'count' => $totalResults,
+                'totalpages' => ceil($totalResults / $decoded['parameters']['limit']),
                 'current' => $decoded['parameters']['page'],
                 'showing_from' => ($decoded['parameters']['page'] - 1) * $decoded['parameters']['limit'] + 1,
                 'showing_to' => ($decoded['parameters']['page'] - 1) * $decoded['parameters']['limit'] + count($results)
