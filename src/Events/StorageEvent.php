@@ -25,7 +25,7 @@ class StorageEvent extends Event
     /**
      * The content type
      */
-    private $content_type = null;
+    private $contentType = null;
 
     /**
      * The content to act upon
@@ -70,7 +70,7 @@ class StorageEvent extends Event
      */
     public function getContentType()
     {
-        return $this->content_type;
+        return $this->contentType;
     }
 
     /**
@@ -103,8 +103,8 @@ class StorageEvent extends Event
      */
     private function setContentTypeAndId($content_type, $id)
     {
-        $this->content_type = $content_type;
-        $this->id           = $id;
+        $this->contentType = $content_type;
+        $this->id = $id;
     }
 
     /**
