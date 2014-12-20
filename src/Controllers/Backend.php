@@ -557,20 +557,20 @@ class Backend implements ControllerProviderInterface
 
             // Which related contenttype is to be shown?
             // If non is selected or selection does not exist, take the first one
-            $show_slug = $request->get('show') ? $request->get('show') : null;
-            if (!isset($relations[$show_slug])) {
+            $showSlug = $request->get('show') ? $request->get('show') : null;
+            if (!isset($relations[$showSlug])) {
                 reset($relations);
-                $show_slug = key($relations);
+                $showSlug = key($relations);
             }
 
             foreach (array_keys($relations) as $relatedslug) {
                 $relatedtype = $app['storage']->getContentType($relatedslug);
-                if ($relatedtype['slug'] == $show_slug) {
+                if ($relatedtype['slug'] == $showSlug) {
                     $showContenttype = $relatedtype;
                 }
                 $relations[$relatedslug] = array(
                     'name' => Trans::__($relatedtype['name']),
-                    'active' => ($relatedtype['slug'] == $show_slug),
+                    'active' => ($relatedtype['slug'] == $showSlug),
                 );
             }
         } else {
