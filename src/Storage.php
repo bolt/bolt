@@ -1616,7 +1616,7 @@ class Storage
      * (tightly coupled to $this->getContent())
      *
      * @param $textquery
-     * @param null $in_parameters
+     * @param null $inParameters
      * @internal param string $query the query (eg. page/about, entries/latest/5)
      * @internal param array $parameters parameters to the query
      * @return array  decoded query, keys:
@@ -1633,7 +1633,7 @@ class Storage
      *       params                - bind-parameters
      *    parameters             - parameters to use after the queries
      */
-    private function decodeContentQuery($textquery, $in_parameters = null)
+    private function decodeContentQuery($textquery, $inParameters = null)
     {
         $decoded = array(
             'contenttypes' => array(),
@@ -1645,7 +1645,7 @@ class Storage
             'hydrate' => true,
         );
 
-        list($metaParameters, $ctypeParameters) = $this->organizeQueryParameters($in_parameters);
+        list($metaParameters, $ctypeParameters) = $this->organizeQueryParameters($inParameters);
 
         $this->parseTextQuery($textquery, $decoded, $metaParameters, $ctypeParameters);
 
@@ -1787,8 +1787,8 @@ class Storage
 
             $decoded['queries'][] = $query;
 
-            if (isset($in_parameters['hydrate'])) {
-                $decoded['hydrate'] = $in_parameters['hydrate'];
+            if (isset($inParameters['hydrate'])) {
+                $decoded['hydrate'] = $inParameters['hydrate'];
             }
 
         }
