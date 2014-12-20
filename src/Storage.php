@@ -1599,12 +1599,12 @@ class Storage
                 $order = $this->getEscapedSortorder($contenttype['sort'], false);
             }
         } else {
-            $par_order = String::makeSafe($order_value);
-            if ($par_order == 'RANDOM') {
+            $parOrder = String::makeSafe($order_value);
+            if ($parOrder == 'RANDOM') {
                 $dboptions = $this->app['config']->getDBOptions();
                 $order = $dboptions['randomfunction'];
-            } elseif ($this->isValidColumn($par_order, $contenttype, true)) {
-                $order = $this->getEscapedSortorder($par_order, false);
+            } elseif ($this->isValidColumn($parOrder, $contenttype, true)) {
+                $order = $this->getEscapedSortorder($parOrder, false);
             }
         }
 
