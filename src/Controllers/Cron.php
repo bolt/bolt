@@ -50,7 +50,7 @@ class Cron extends Event
      *
      * @var array
      */
-    private $next_run_time;
+    private $nextRunTime;
 
     /**
      * True for a required database insert
@@ -87,7 +87,7 @@ class Cron extends Event
         $this->output = $output;
         $this->param = $param;
         $this->runtime = time();
-        $this->next_run_time = array(
+        $this->nextRunTime = array(
             CronEvents::CRON_HOURLY  => 0,
             CronEvents::CRON_DAILY   => 0,
             CronEvents::CRON_WEEKLY  => 0,
@@ -183,9 +183,9 @@ class Cron extends Event
         if ($this->param['run'] && $this->param['event'] == $name) {
             return true;
         } elseif ($this->app['dispatcher']->hasListeners($name)) {
-            if ($name == CronEvents::CRON_HOURLY && $this->next_run_time[CronEvents::CRON_HOURLY] <= $this->runtime) {
+            if ($name == CronEvents::CRON_HOURLY && $this->nextRunTime[CronEvents::CRON_HOURLY] <= $this->runtime) {
                 return true;
-            } elseif (time() > $this->cronHour && $this->next_run_time[$name] <= $this->runtime) {
+            } elseif (time() > $this->cronHour && $this->nextRunTime[$name] <= $this->runtime) {
                 // Only run non-hourly event jobs if we've passed our cron hour today
                 return true;
             }
@@ -242,7 +242,7 @@ class Cron extends Event
      */
     private function getNextRunTimes()
     {
-        foreach ($this->next_run_time as $interim => $date) {
+        foreach ($this->nextRunTime as $interim => $date) {
             // Handle old style naming
             $oldname = strtolower(str_replace('cron.', '', $interim));
 
@@ -258,10 +258,10 @@ class Cron extends Event
             // run time and notify the update method to do an INSERT rather than
             // an UPDATE.
             if (empty($result)) {
-                $this->next_run_time[$interim] = $this->runtime;
+                $this->nextRunTime[$interim] = $this->runtime;
                 $this->insert[$interim] = true;
             } else {
-                $this->next_run_time[$interim] = $this->getNextIterimRunTime($interim, $result['lastrun']);
+                $this->nextRunTime[$interim] = $this->getNextIterimRunTime($interim, $result['lastrun']);
 
                 // @TODO remove this in v3.0
                 // Update old record types
