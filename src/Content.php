@@ -1073,13 +1073,13 @@ class Content implements \ArrayAccess
      */
     private function weighQueryText($subject, $complete, $words, $max)
     {
-        $low_subject = mb_strtolower(trim($subject));
+        $lowSubject = mb_strtolower(trim($subject));
 
-        if ($low_subject == $complete) {
+        if ($lowSubject == $complete) {
             // a complete match is 100% of the maximum
             return round((100 / 100) * $max);
         }
-        if (strstr($low_subject, $complete)) {
+        if (strstr($lowSubject, $complete)) {
             // when the whole query is found somewhere is 70% of the maximum
             return round((70 / 100) * $max);
         }
@@ -1087,7 +1087,7 @@ class Content implements \ArrayAccess
         $word_matches = 0;
         $cnt_words    = count($words);
         for ($i = 0; $i < $cnt_words; $i++) {
-            if (strstr($low_subject, $words[$i])) {
+            if (strstr($lowSubject, $words[$i])) {
                 $word_matches++;
             }
         }
