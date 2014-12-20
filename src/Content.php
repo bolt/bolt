@@ -118,7 +118,7 @@ class Content implements \ArrayAccess
             $this->values['status'] = $this->contenttype['default_status'];
         }
 
-        $serialized_field_types = array(
+        $serializedFieldTypes = array(
             'geolocation',
             'imagelist',
             'image',
@@ -131,7 +131,7 @@ class Content implements \ArrayAccess
         );
         // Check if the values need to be unserialized, and pre-processed.
         foreach ($this->values as $key => $value) {
-            if (in_array($this->fieldtype($key), $serialized_field_types)) {
+            if (in_array($this->fieldtype($key), $serializedFieldTypes)) {
                 if (!empty($value) && is_string($value) && (substr($value, 0, 2) == "a:" || $value[0] === '[' || $value[0] === '{')) {
                     $unserdata = @Lib::smartUnserialize($value);
                     if ($unserdata !== false) {
