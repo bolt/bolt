@@ -1084,17 +1084,17 @@ class Content implements \ArrayAccess
             return round((70 / 100) * $max);
         }
 
-        $word_matches = 0;
+        $wordMatches = 0;
         $cntWords = count($words);
         for ($i = 0; $i < $cntWords; $i++) {
             if (strstr($lowSubject, $words[$i])) {
-                $word_matches++;
+                $wordMatches++;
             }
         }
-        if ($word_matches > 0) {
+        if ($wordMatches > 0) {
             // marcel: word matches are maximum of 50% of the maximum per word
             // xiao: made (100/100) instead of (50/100).
-            return round(($word_matches / $cntWords) * (100 / 100) * $max);
+            return round(($wordMatches / $cntWords) * (100 / 100) * $max);
         }
 
         return 0;
