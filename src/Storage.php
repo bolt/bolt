@@ -1092,15 +1092,15 @@ class Storage
 
         $no_of_results = count($results);
 
-        $page_results = array();
+        $pageResults = array();
         if ($offset < $no_of_results) {
-            $page_results = array_slice($results, $offset, $limit);
+            $pageResults = array_slice($results, $offset, $limit);
         }
 
         return array(
             'query' => $query,
             'no_of_results' => $no_of_results,
-            'results' => $page_results
+            'results' => $pageResults
         );
     }
 
