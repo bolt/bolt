@@ -934,19 +934,19 @@ class Storage
         // make taxonomies work
         $taxonomytable = $this->getTablename('taxonomy');
         $taxonomies    = $this->getContentTypeTaxonomy($contenttype);
-        $tags_where    = array();
+        $tagsWhere    = array();
         $tags_query    = '';
         foreach ($taxonomies as $taxonomy) {
             if ($taxonomy['behaves_like'] == 'tags') {
                 foreach ($query['words'] as $word) {
-                    $tags_where[] = sprintf('%s.slug LIKE %s', $taxonomytable, $this->app['db']->quote('%' . $word . '%'));
+                    $tagsWhere[] = sprintf('%s.slug LIKE %s', $taxonomytable, $this->app['db']->quote('%' . $word . '%'));
                 }
             }
         }
         // only add taxonomies if they exist
-        if (!empty($taxonomies) && !empty($tags_where)) {
+        if (!empty($taxonomies) && !empty($tagsWhere)) {
             $tags_query_1 = sprintf("%s.contenttype = '%s'", $taxonomytable, $contenttype);
-            $tags_query_2 = implode(' OR ', $tags_where);
+            $tags_query_2 = implode(' OR ', $tagsWhere);
             $tags_query   = sprintf(' OR (%s AND (%s))', $tags_query_1, $tags_query_2);
         }
 
