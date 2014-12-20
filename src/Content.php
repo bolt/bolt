@@ -507,10 +507,10 @@ class Content implements \ArrayAccess
             'name' => $name
         );
 
-        $has_sortorder = $this->app['config']->get('taxonomy/' . $taxonomytype . '/has_sortorder');
+        $hasSortOrder = $this->app['config']->get('taxonomy/' . $taxonomytype . '/has_sortorder');
 
         // Only set the sortorder, if the contenttype has a taxonomy that has sortorder
-        if ($has_sortorder !== false) {
+        if ($hasSortOrder !== false) {
             $this->group['order'] = (int) $sortorder;
         }
 
