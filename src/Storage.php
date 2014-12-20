@@ -1461,10 +1461,10 @@ class Storage
      *
      * @param $textquery
      * @param array $decoded a pre-set decoded array to fill
-     * @param array $meta_parameters meta parameters
+     * @param array $metaParameters meta parameters
      * @param array $ctype_parameters contenttype parameters
      */
-    private function parseTextQuery($textquery, array &$decoded, array &$meta_parameters, array &$ctype_parameters)
+    private function parseTextQuery($textquery, array &$decoded, array &$metaParameters, array &$ctype_parameters)
     {
         // Our default callback
         $decoded['queries_callback'] = array($this, 'executeGetContentQueries');
@@ -1478,9 +1478,9 @@ class Storage
         } elseif (preg_match('#^/?([a-z0-9_(\),-]+)/search(/([0-9]+))?$#i', $textquery, $match)) {
             // like 'page/search or '(entry,page)/search'
             $decoded['contenttypes'] = $this->decodeContentTypesFromText($match[1]);
-            $meta_parameters['order'] = array($this, 'compareSearchWeights');
+            $metaParameters['order'] = array($this, 'compareSearchWeights');
             if (count($match) >= 3) {
-                $meta_parameters['limit'] = $match[3];
+                $metaParameters['limit'] = $match[3];
             }
 
             $decoded['queries_callback'] = array($this, 'executeGetContentSearch');
@@ -1492,19 +1492,19 @@ class Storage
         } elseif (preg_match('#^/?([a-z0-9_-]+)/(latest|first)/([0-9]+)$#i', $textquery, $match)) {
             // like 'page/latest/5'
             $decoded['contenttypes'] = $this->decodeContentTypesFromText($match[1]);
-            if (!isset($meta_parameters['order'])) {
-                $meta_parameters['order'] = 'datepublish ' . ($match[2] == 'latest' ? 'DESC' : 'ASC');
+            if (!isset($metaParameters['order'])) {
+                $metaParameters['order'] = 'datepublish ' . ($match[2] == 'latest' ? 'DESC' : 'ASC');
             }
-            if (!isset($meta_parameters['limit'])) {
-                $meta_parameters['limit'] = $match[3];
+            if (!isset($metaParameters['limit'])) {
+                $metaParameters['limit'] = $match[3];
             }
         } elseif (preg_match('#^/?([a-z0-9_-]+)/random/([0-9]+)$#i', $textquery, $match)) {
             // like 'page/random/4'
             $decoded['contenttypes'] = $this->decodeContentTypesFromText($match[1]);
             $dboptions = $this->app['config']->getDBoptions();
-            $meta_parameters['order'] = $dboptions['randomfunction']; // 'RAND()' or 'RANDOM()'
-            if (!isset($meta_parameters['limit'])) {
-                $meta_parameters['limit'] = $match[2];
+            $metaParameters['order'] = $dboptions['randomfunction']; // 'RAND()' or 'RANDOM()'
+            if (!isset($metaParameters['limit'])) {
+                $metaParameters['limit'] = $match[2];
             }
         } else {
             $decoded['contenttypes'] = $this->decodeContentTypesFromText($textquery);
@@ -1520,9 +1520,9 @@ class Storage
             $ctype_parameters['status'] = "published";
         }
 
-        if (isset($meta_parameters['returnsingle'])) {
-            $decoded['return_single'] = $meta_parameters['returnsingle'];
-            unset($meta_parameters['returnsingle']);
+        if (isset($metaParameters['returnsingle'])) {
+            $decoded['return_single'] = $metaParameters['returnsingle'];
+            unset($metaParameters['returnsingle']);
         }
     }
 
