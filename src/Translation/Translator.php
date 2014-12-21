@@ -193,12 +193,18 @@ class Translator
             $key = join('.', $key);
         }
 
-        // Handle generic contenttypes
-        if (substr($key, 0, 21) == 'contenttypes.generic.') {
-            if (isset($params['%contenttype%'])) {
-                return static::transContenttype($key, $params, '%contenttype%', true, $locale);
-            } elseif (isset($params['%contenttypes%'])) {
-                return static::transContenttype($key, $params, '%contenttypes%', false, $locale);
+        // Handle contenttypes
+        if (substr($key, 0, 13) == 'contenttypes.') {
+            // Generic contenttypes
+            if (substr($key, 13, 8) == 'generic.') {
+                if (isset($params['%contenttype%'])) {
+                    return static::transContenttype($key, $params, '%contenttype%', true, $locale);
+                } elseif (isset($params['%contenttypes%'])) {
+                    return static::transContenttype($key, $params, '%contenttypes%', false, $locale);
+                }
+            // Switch domain
+            } elseif ($domain === 'messages') {
+                $domain = 'contenttypes';
             }
         }
 
