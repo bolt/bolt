@@ -271,11 +271,11 @@ abstract class BaseExtension implements ExtensionInterface
     {
         $yamlparser = new \Symfony\Component\Yaml\Parser();
 
-        $new_config = $yamlparser->parse(file_get_contents($configfile) . "\n");
+        $newConfig = $yamlparser->parse(file_get_contents($configfile) . "\n");
 
         // Don't error on empty config files
-        if (is_array($new_config)) {
-            $this->config = Arr::mergeRecursiveDistinct($this->config, $new_config);
+        if (is_array($newConfig)) {
+            $this->config = Arr::mergeRecursiveDistinct($this->config, $newConfig);
         }
     }
 

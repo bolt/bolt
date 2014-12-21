@@ -198,7 +198,7 @@ class Application extends Silex\Application
         date_default_timezone_set(
             $this['config']->get('general/timezone') ?: 'UTC'
         );
-        
+
         // for javascript datetime calculations, timezone offset. e.g. "+02:00"
         $this['timezone_offset'] = date('P');
 

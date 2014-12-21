@@ -50,7 +50,7 @@ class Cron extends Event
      *
      * @var array
      */
-    private $next_run_time;
+    private $nextRunTime;
 
     /**
      * True for a required database insert
@@ -74,7 +74,7 @@ class Cron extends Event
     /**
      * @var string
      */
-    private $cron_hour;
+    private $cronHour;
 
     /**
      * @var array
@@ -87,7 +87,7 @@ class Cron extends Event
         $this->output = $output;
         $this->param = $param;
         $this->runtime = time();
-        $this->next_run_time = array(
+        $this->nextRunTime = array(
             CronEvents::CRON_HOURLY  => 0,
             CronEvents::CRON_DAILY   => 0,
             CronEvents::CRON_WEEKLY  => 0,
@@ -183,9 +183,9 @@ class Cron extends Event
         if ($this->param['run'] && $this->param['event'] == $name) {
             return true;
         } elseif ($this->app['dispatcher']->hasListeners($name)) {
-            if ($name == CronEvents::CRON_HOURLY && $this->next_run_time[CronEvents::CRON_HOURLY] <= $this->runtime) {
+            if ($name == CronEvents::CRON_HOURLY && $this->nextRunTime[CronEvents::CRON_HOURLY] <= $this->runtime) {
                 return true;
-            } elseif (time() > $this->cron_hour && $this->next_run_time[$name] <= $this->runtime) {
+            } elseif (time() > $this->cronHour && $this->nextRunTime[$name] <= $this->runtime) {
                 // Only run non-hourly event jobs if we've passed our cron hour today
                 return true;
             }
@@ -202,11 +202,11 @@ class Cron extends Event
         $hour = $this->app['config']->get('general/cron_hour');
 
         if (empty($hour)) {
-            $this->cron_hour = strtotime("03:00");
+            $this->cronHour = strtotime('03:00');
         } elseif (is_numeric($hour)) {
-            $this->cron_hour = strtotime($hour . ":00");
+            $this->cronHour = strtotime($hour . ':00');
         } elseif (is_string($hour)) {
-            $this->cron_hour = strtotime($hour);
+            $this->cronHour = strtotime($hour);
         }
     }
 
@@ -242,7 +242,7 @@ class Cron extends Event
      */
     private function getNextRunTimes()
     {
-        foreach ($this->next_run_time as $interim => $date) {
+        foreach ($this->nextRunTime as $interim => $date) {
             // Handle old style naming
             $oldname = strtolower(str_replace('cron.', '', $interim));
 
@@ -258,10 +258,10 @@ class Cron extends Event
             // run time and notify the update method to do an INSERT rather than
             // an UPDATE.
             if (empty($result)) {
-                $this->next_run_time[$interim] = $this->runtime;
+                $this->nextRunTime[$interim] = $this->runtime;
                 $this->insert[$interim] = true;
             } else {
-                $this->next_run_time[$interim] = $this->getNextIterimRunTime($interim, $result['lastrun']);
+                $this->nextRunTime[$interim] = $this->getNextIterimRunTime($interim, $result['lastrun']);
 
                 // @TODO remove this in v3.0
                 // Update old record types
@@ -278,28 +278,28 @@ class Cron extends Event
      * Get the next run time for a given interim
      *
      * @param  string  $interim       The interim; CRON_HOURLY, CRON_DAILY, CRON_WEEKLY, CRON_MONTHLY or CRON_YEARLY
-     * @param  string  $last_run_time The last execution time of the interim
+     * @param  string  $lastRunTime The last execution time of the interim
      * @return integer The UNIX timestamp for the interims next valid execution time
      */
-    private function getNextIterimRunTime($interim, $last_run_time)
+    private function getNextIterimRunTime($interim, $lastRunTime)
     {
         if ($interim == CronEvents::CRON_HOURLY) {
             // For hourly we just default to the turn of the hour
-            $last_cron_hour  = strtotime(date('Y-m-d H', strtotime($last_run_time)) . ':00:00');
+            $lastCronHour  = strtotime(date('Y-m-d H', strtotime($lastRunTime)) . ':00:00');
 
-            return strtotime("+1 hour", $last_cron_hour);
+            return strtotime("+1 hour", $lastCronHour);
         } else {
             // Get the cron time of the last run time/date
-            $last_cron_hour  = strtotime(date('Y-m-d', strtotime($last_run_time)) . ' ' . $this->cron_hour);
+            $lastCronHour  = strtotime(date('Y-m-d', strtotime($lastRunTime)) . ' ' . $this->cronHour);
 
             if ($interim == CronEvents::CRON_DAILY) {
-                return strtotime("+1 day", $last_cron_hour);
+                return strtotime('+1 day', $lastCronHour);
             } elseif ($interim == CronEvents::CRON_WEEKLY) {
-                return strtotime("+1 week", $last_cron_hour);
+                return strtotime('+1 week', $lastCronHour);
             } elseif ($interim == CronEvents::CRON_MONTHLY) {
-                return strtotime("+1 month", $last_cron_hour);
+                return strtotime('+1 month', $lastCronHour);
             } elseif ($interim == CronEvents::CRON_YEARLY) {
-                return strtotime("+1 year", $last_cron_hour);
+                return strtotime('+1 year', $lastCronHour);
             }
         }
     }

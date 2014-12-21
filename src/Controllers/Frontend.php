@@ -374,10 +374,10 @@ class Frontend
         $page = ($query) ? $query->get($param, $query->get('page', 1)) : 1;
 
         $config = $app['config'];
-        $page_size = $config->get('general/search_results_records') ?: ($config->get('general/listing_records') ?: 10);
+        $pageSize = $config->get('general/search_results_records') ?: ($config->get('general/listing_records') ?: 10);
 
-        $offset = ($page - 1) * $page_size;
-        $limit = $page_size;
+        $offset = ($page - 1) * $pageSize;
+        $limit = $pageSize;
 
         // set-up filters from URL
         $filters = array();
@@ -405,7 +405,7 @@ class Frontend
         $pager = array(
             'for' => $context,
             'count' => $result['no_of_results'],
-            'totalpages' => ceil($result['no_of_results'] / $page_size),
+            'totalpages' => ceil($result['no_of_results'] / $pageSize),
             'current' => $page,
             'showing_from' => $offset + 1,
             'showing_to' => $offset + count($result['results']),

@@ -116,8 +116,8 @@ class Routing implements ControllerProviderInterface
                 }
 
                 foreach ($requirements as $variable => $regexp) {
-                    $proper_regexp = $this->getProperRegexp($regexp);
-                    $route->assert($variable, $proper_regexp);
+                    $properRegexp = $this->getProperRegexp($regexp);
+                    $route->assert($variable, $properRegexp);
                 }
                 foreach ($defaults as $variable => $default) {
                     $route->value($variable, $default);

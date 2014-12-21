@@ -24,7 +24,7 @@ class Users
     public $session;
     public $currentuser;
     public $allowed;
-    private $hash_strength;
+    private $hashStrength;
 
     public function __construct(Silex\Application $app)
     {
@@ -34,7 +34,7 @@ class Users
         $prefix = $this->app['config']->get('general/database/prefix', "bolt_");
 
         // Hashstrength has a default of '10', don't allow less than '8'.
-        $this->hash_strength = max($this->app['config']->get('general/hash_strength'), 8);
+        $this->hashStrength = max($this->app['config']->get('general/hash_strength'), 8);
 
         $this->usertable = $prefix . "users";
         $this->authtokentable = $prefix . "authtoken";
@@ -104,7 +104,7 @@ class Users
         }
 
         if (!empty($user['password']) && $user['password'] != "**dontchange**") {
-            $hasher = new \Hautelook\Phpass\PasswordHash($this->hash_strength, true);
+            $hasher = new \Hautelook\Phpass\PasswordHash($this->hashStrength, true);
             $user['password'] = $hasher->HashPassword($user['password']);
         } else {
             unset($user['password']);
@@ -406,7 +406,7 @@ class Users
             return false;
         }
 
-        $hasher = new \Hautelook\Phpass\PasswordHash($this->hash_strength, true);
+        $hasher = new \Hautelook\Phpass\PasswordHash($this->hashStrength, true);
 
         if ($hasher->CheckPassword($password, $user['password'])) {
 
@@ -561,7 +561,7 @@ class Users
             $shadowpassword = $this->app['randomgenerator']->generateString(12);
             $shadowtoken = $this->app['randomgenerator']->generateString(32);
 
-            $hasher = new \Hautelook\Phpass\PasswordHash($this->hash_strength, true);
+            $hasher = new \Hautelook\Phpass\PasswordHash($this->hashStrength, true);
             $shadowhashed = $hasher->HashPassword($shadowpassword);
 
             $shadowlink = sprintf(

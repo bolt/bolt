@@ -546,7 +546,7 @@ class Backend implements ControllerProviderInterface
             return Lib::redirect('dashboard');
         }
 
-        $show_contenttype = null;
+        $showContenttype = null;
 
         // Get contenttype config from $contenttypeslug
         $contenttype = $app['storage']->getContentType($contenttypeslug);
@@ -557,20 +557,20 @@ class Backend implements ControllerProviderInterface
 
             // Which related contenttype is to be shown?
             // If non is selected or selection does not exist, take the first one
-            $show_slug = $request->get('show') ? $request->get('show') : null;
-            if (!isset($relations[$show_slug])) {
+            $showSlug = $request->get('show') ? $request->get('show') : null;
+            if (!isset($relations[$showSlug])) {
                 reset($relations);
-                $show_slug = key($relations);
+                $showSlug = key($relations);
             }
 
             foreach (array_keys($relations) as $relatedslug) {
                 $relatedtype = $app['storage']->getContentType($relatedslug);
-                if ($relatedtype['slug'] == $show_slug) {
-                    $show_contenttype = $relatedtype;
+                if ($relatedtype['slug'] == $showSlug) {
+                    $showContenttype = $relatedtype;
                 }
                 $relations[$relatedslug] = array(
                     'name' => Trans::__($relatedtype['name']),
-                    'active' => ($relatedtype['slug'] == $show_slug),
+                    'active' => ($relatedtype['slug'] == $showSlug),
                 );
             }
         } else {
@@ -587,7 +587,7 @@ class Backend implements ControllerProviderInterface
          */
 
         $content = $app['storage']->getContent($contenttypeslug, array('id' => $id));
-        $related_content = $content->related($show_contenttype['slug']);
+        $relatedContent = $content->related($showContenttype['slug']);
 
         $context = array(
             'id' => $id,
@@ -595,8 +595,8 @@ class Backend implements ControllerProviderInterface
             'title' => $content['title'],
             'contenttype' => $contenttype,
             'relations' => $relations,
-            'show_contenttype' => $show_contenttype,
-            'related_content' => $related_content,
+            'show_contenttype' => $showContenttype,
+            'related_content' => $relatedContent,
         );
 
         return $app['twig']->render('relatedto/relatedto.twig', array('context' => $context));
@@ -813,19 +813,19 @@ class Backend implements ControllerProviderInterface
 
             // Add non successfull control values to request values
             // http://www.w3.org/TR/html401/interact/forms.html#h-17.13.2
-            $request_all = $request->request->all();
+            $requestAll = $request->request->all();
 
             foreach ($contenttype['fields'] as $key => $values) {
-                if (!isset($request_all[$key])) {
+                if (!isset($requestAll[$key])) {
                     switch ($values['type']) {
                         case 'select':
                             if (isset($values['multiple']) && $values['multiple'] === true) {
-                                $request_all[$key] = array();
+                                $requestAll[$key] = array();
                             }
                             break;
 
                         case 'checkbox':
-                            $request_all[$key] = 0;
+                            $requestAll[$key] = 0;
                             break;
                     }
                 }
@@ -833,7 +833,7 @@ class Backend implements ControllerProviderInterface
 
             // To check whether the status is allowed, we act as if a status
             // *transition* were requested.
-            $content->setFromPost($request_all, $contenttype);
+            $content->setFromPost($requestAll, $contenttype);
             $newStatus = $content['status'];
 
             // Don't try to spoof the $id..
@@ -1536,7 +1536,7 @@ class Backend implements ControllerProviderInterface
             $error = Trans::__("You don't have the correct permissions to display the file or directory '%s'.", array('%s' => $path));
             $app->abort(403, $error);
         }
-        
+
         $uploadview = true;
         if (!$app['users']->isAllowed("files:uploads")) {
             $uploadview = false;
@@ -1619,7 +1619,7 @@ class Backend implements ControllerProviderInterface
                 return Lib::redirect('files', array('path' => $path, 'namespace' => $namespace));
             }
 
-            if($uploadview === false) {
+            if ($uploadview === false) {
                 $formview = false;
             } else {
                 $formview = $form->createView();

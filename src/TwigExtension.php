@@ -475,17 +475,17 @@ class TwigExtension extends \Twig_Extension
      *
      * @param  array  $array
      * @param  string $on
-     * @param  string $on_secondary
+     * @param  string $onSecondary
      * @return array
      */
-    public function order($array, $on, $on_secondary = '')
+    public function order($array, $on, $onSecondary = '')
     {
         // Set the 'order_on' and 'order_ascending', taking into account things like '-datepublish'.
         list($this->order_on, $this->order_ascending) = $this->app['storage']->getSortOrder($on);
 
         // Set the secondary order, if any..
-        if (!empty($on_secondary)) {
-            list($this->order_on_secondary, $this->order_ascending_secondary) = $this->app['storage']->getSortOrder($on_secondary);
+        if (!empty($onSecondary)) {
+            list($this->order_on_secondary, $this->order_ascending_secondary) = $this->app['storage']->getSortOrder($onSecondary);
         } else {
             $this->order_on_secondary = false;
             $this->order_ascending_secondary = false;
@@ -505,13 +505,13 @@ class TwigExtension extends \Twig_Extension
      */
     private function orderHelper($a, $b)
     {
-        $a_val = $a[$this->order_on];
-        $b_val = $b[$this->order_on];
+        $aVal = $a[$this->order_on];
+        $bVal = $b[$this->order_on];
 
         // Check the primary sorting criterium..
-        if ($a_val < $b_val) {
+        if ($aVal < $bVal) {
             return !$this->order_ascending;
-        } elseif ($a_val > $b_val) {
+        } elseif ($aVal > $bVal) {
             return $this->order_ascending;
         } else {
             // Primary criterium is the same. Use the secondary criterium, if it is set. Otherwise return 0.
@@ -519,12 +519,12 @@ class TwigExtension extends \Twig_Extension
                 return 0;
             }
 
-            $a_val = $a[$this->order_on_secondary];
-            $b_val = $b[$this->order_on_secondary];
+            $aVal = $a[$this->order_on_secondary];
+            $bVal = $b[$this->order_on_secondary];
 
-            if ($a_val < $b_val) {
+            if ($aVal < $bVal) {
                 return !$this->order_ascending_secondary;
-            } elseif ($a_val > $b_val) {
+            } elseif ($aVal > $bVal) {
                 return $this->order_ascending_secondary;
             } else {
                 // both criteria are the same. Whatever!
@@ -575,14 +575,14 @@ class TwigExtension extends \Twig_Extension
      */
     public function current($content)
     {
-        $route_params = $this->app['request']->get('_route_params');
+        $routeParams = $this->app['request']->get('_route_params');
 
         // If passed a string, and it is in the route..
-        if (is_string($content) && in_array($content, $route_params)) {
+        if (is_string($content) && in_array($content, $routeParams)) {
             return true;
         }
         // special case for "home"
-        if (empty($content) && empty($route_params)) {
+        if (empty($content) && empty($routeParams)) {
             return true;
         }
 
@@ -612,23 +612,23 @@ class TwigExtension extends \Twig_Extension
         }
 
         // No contenttypeslug or slug -> not 'current'
-        if (empty($route_params['contenttypeslug']) || empty($route_params['slug'])) {
+        if (empty($routeParams['contenttypeslug']) || empty($routeParams['slug'])) {
             return false;
         }
 
         // check against simple content.link
-        if ("/" . $route_params['contenttypeslug'] . "/" . $route_params['slug'] == $linkToCheck) {
+        if ("/" . $routeParams['contenttypeslug'] . "/" . $routeParams['slug'] == $linkToCheck) {
             return true;
         }
 
         // if the current requested page is for the same slug or singularslug..
         if (isset($content['contenttype']) &&
-            ($route_params['contenttypeslug'] == $content['contenttype']['slug'] ||
-                $route_params['contenttypeslug'] == $content['contenttype']['singular_slug'])
+            ($routeParams['contenttypeslug'] == $content['contenttype']['slug'] ||
+                $routeParams['contenttypeslug'] == $content['contenttype']['singular_slug'])
         ) {
 
             // .. and the slugs should match..
-            if ($route_params['slug'] == $content['slug']) {
+            if ($routeParams['slug'] == $content['slug']) {
                 return true;
             }
         }
@@ -1254,8 +1254,8 @@ class TwigExtension extends \Twig_Extension
     public function trans()
     {
         $args = func_get_args();
-        $num_args = func_num_args();
-        switch ($num_args) {
+        $numArgs = func_num_args();
+        switch ($numArgs) {
             case 5:
                 return Trans::__($args[0], $args[1], $args[2], $args[3], $args[4]);
             case 4:
@@ -1378,18 +1378,18 @@ class TwigExtension extends \Twig_Extension
     }
 
     /**
-     * Add 'soft hyphens' &shy; to a string, so that it won't break layout in HTML when 
-     * using strings without spaces or dashes. 
+     * Add 'soft hyphens' &shy; to a string, so that it won't break layout in HTML when
+     * using strings without spaces or dashes.
      *
      * @param string $str
-     * @return string 
+     * @return string
      */
     public function shy($str)
     {
         if (is_string($str)) {
             $str = String::shyphenate($str);
         }
-        
+
         return $str;
     }
 

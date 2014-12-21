@@ -259,14 +259,14 @@ class CommandRunner
         }
 
         // flatten the composer array one level to make working easier
-        $initialized_extensions = array();
+        $initializedExtensions = array();
         foreach ($this->app['extensions']->composer as $val) {
-            $initialized_extensions += $val;
+            $initializedExtensions += $val;
         }
 
         // For Bolt, we also need to know if the extension has a 'README' and a 'config.yml' file.
         // Note we only do this for successfully loaded extensions.
-        if (isset($initialized_extensions[$name])) {
+        if (isset($initializedExtensions[$name])) {
             $paths = $this->app['resources']->getPaths();
 
             if (is_readable($paths['extensionspath'] . '/vendor/' . $pack['name'] . '/README.md')) {
@@ -290,8 +290,8 @@ class CommandRunner
             }
 
             // as a bonus we add the extension title to the pack
-            $pack['title'] = $initialized_extensions[$name]['name'];
-            $pack['authors'] = $initialized_extensions[$name]['json']['authors'];
+            $pack['title'] = $initializedExtensions[$name]['name'];
+            $pack['authors'] = $initializedExtensions[$name]['json']['authors'];
         }
 
         return $pack;
