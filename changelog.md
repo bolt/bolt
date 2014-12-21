@@ -9,7 +9,6 @@ Released 2014-12-21. Notable changes:
 - Update Storage to insert instead of update when content doesn't exist.
 - If we fall back from UPDATE to INSERT, we should also log it as such.
 - Added an option to disable stack functionality
-- Added an Option to disable stack usage
 - Tweaking protocol detection for HTTPS.
 
 Bolt 2.0.0
