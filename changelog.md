@@ -1,7 +1,18 @@
 Bolt 2.0 DEV-head
 -----------------
 
-- Added an option to disable stack funtionality
+Bolt 2.0.2 - released 2014-12-21
+--------------------------------
+
+- Update Storage to insert instead of update when content doesn't exist.
+- If we fall back from UPDATE to INSERT, we should also log it as such.
+- Added an option to disable stack functionality
+- Added an Option to disable stack usage
+- Tweaking protocol detection for HTTPS.
+
+Bolt 2.0.0 - released 2014-12-18
+--------------------------------
+
 - Fix the pager for taxonomy-listings.
 - Implemented 'viewless' property for contenttypes. Fixes #2149
 - IE9: Javascript Dropdowns #2195
