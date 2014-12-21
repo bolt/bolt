@@ -1,8 +1,10 @@
 Bolt 2.0 DEV-head
 -----------------
 
-Bolt 2.0.2 - released 2014-12-21
---------------------------------
+Bolt 2.0.2
+----------
+
+Released 2014-12-21. Notable changes:
 
 - Update Storage to insert instead of update when content doesn't exist.
 - If we fall back from UPDATE to INSERT, we should also log it as such.
@@ -10,8 +12,10 @@ Bolt 2.0.2 - released 2014-12-21
 - Added an Option to disable stack usage
 - Tweaking protocol detection for HTTPS.
 
-Bolt 2.0.0 - released 2014-12-18
---------------------------------
+Bolt 2.0.0
+----------
+
+Released 2014-12-18. Notable changes:
 
 - Fix the pager for taxonomy-listings.
 - Implemented 'viewless' property for contenttypes. Fixes #2149
@@ -23,7 +27,6 @@ Bolt 2.0.0 - released 2014-12-18
 - Transparent button on "focus". Tabbing is visible again, helps with accessibility
 - Add "roles" button to users screen.
 - Allowing the extensions site to bet set in config.yml
-
 - confirm extension delete/removal/uninstall
 - Refuse to display Bolt in an iframe, to prevent possible clickjacking. See #2197. Thanks, @narendrabhati
 - Editcontent dates are now stored as entered, set the timezone in config.yml
