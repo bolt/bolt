@@ -9,7 +9,9 @@
 </noscript>
 
 {# News #}
-{{ render(path('dashboardnews')) }}
+{% if not app.config.get('general/backend/news/disable', false) %}
+    {{ render(path('dashboardnews')) }}
+{% endif %}
 
 {# Stack #}
 {{ panels.stack(7, true) }}
