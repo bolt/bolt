@@ -139,8 +139,6 @@ class TwigExtension extends \Twig_Extension
     /**
      * Output pretty-printed arrays / objects.
      *
-     * @see \Dumper::dump
-     *
      * @param  mixed  $var
      * @return string
      */
@@ -150,7 +148,7 @@ class TwigExtension extends \Twig_Extension
             return '?';
         }
         if ($this->app['config']->get('general/debug')) {
-            return \Dumper::dump($var, DUMPER_CAPTURE);
+            dump($var);
         } else {
             return '';
         }
@@ -158,8 +156,6 @@ class TwigExtension extends \Twig_Extension
 
     /**
      * Output pretty-printed backtrace.
-     *
-     * @see \Dumper::backtrace
      *
      * @param  int    $depth
      * @internal param mixed $var
@@ -171,7 +167,7 @@ class TwigExtension extends \Twig_Extension
             return null;
         }
         if ($this->app['config']->get('general/debug')) {
-            return \Dumper::backtrace($depth, true);
+            return dump(debug_backtrace());
         } else {
             return '';
         }
