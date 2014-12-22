@@ -1,6 +1,8 @@
 Bolt 2.0 DEV-head
 -----------------
 
+- Fix bug where contenttype name in menu isn't translated
+
 Bolt 2.0.2
 ----------
 
