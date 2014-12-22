@@ -1,6 +1,8 @@
 Bolt 2.0 DEV-head
 -----------------
 
+- Add option to disable dashboard news
+
 Bolt 2.0.2
 ----------
 
