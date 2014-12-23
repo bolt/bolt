@@ -1,10 +1,10 @@
 Bolt 2.0 DEV-head
 -----------------
 
-- Replace home-brewed \Dumper for Symfony's VarDumper. (old 'Dumper::dump' is still present, for backward compatibility)
-- Fix bug where contenttype name in menu isn't translated
-- Add option to disable dashboard news
-- Removed ancient browser-specific tags.
+- Added: **integration of Symfony's VarDumper component**. The old 'Dumper::dump' is still present, for backwards compatibility
+- Added: option to disable dashboard news
+- Fixed: bug where contenttype name in menu isn't translated
+- Removed: ancient browser-specific tags
 
 Bolt 2.0.2
 ----------
