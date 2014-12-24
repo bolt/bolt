@@ -18,7 +18,9 @@ class BackendTest extends BoltUnitTest
 
     public function testDashboard()
     {
+        $this->resetDb();
         $app = $this->getApp();
+        $this->addDefaultUser();
         $twig = $this->getTwig();
         $phpunit = $this;
         $testHandler = function($template, $context) use($phpunit) {

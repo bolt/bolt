@@ -19,7 +19,13 @@ use Bolt\Configuration\ResourceManager;
 abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
 {
 
-
+    protected function resetDb()
+    {
+        // Make sure we wipe the db file to start with a clean one
+        if(is_readable(TEST_ROOT.'/bolt.db')) {
+            unlink(TEST_ROOT.'/bolt.db');
+        }   
+    }
     protected function getApp()
     {
         $bolt = $this->makeApp();
