@@ -45,9 +45,9 @@
 {% endset %}
 
 {% set list_item %}
-    <div data-id="{{ '<ID>' }}" class="ui-state-default">
+    <div data-id="{{ '<ID>' }}" class="list-item ui-state-default">
         <input type="text" value="{{ '<VAL>' }}">
-        <a href="#"><i class="fa fa-times"></i></a>
+        <a href="#" class="remove-button"><i class="fa fa-times"></i></a>
         <span>{{ '<INF>' }}</span>
     </div>
 {% endset %}
@@ -55,6 +55,7 @@
 {% set listdata = {
     'message': {
         'remove':     __('Are you sure you want to remove this file?'),
+        'removeMulti':  __('Are you sure you want to remove these images?'),
         'wrongtype':  __('There was an error uploading the file.\nMake sure that the file type is of:\n%typelist%', {'%typelist%': option.extensions ? '.'~option.extensions|join(', .') : '–'})
     },
     'empty':          list_empty|trim,
@@ -65,6 +66,13 @@
     <label class="col-sm-12 control-label">{{ macro.infopop(labelkey, option.info) }}</label>
 
     <div class="col-sm-12 filelistholder dropzone" id="filelist-{{ key }}">
+
+        <div class="button-wrap">
+            <span type="button" class="btn btn-secondary remove-selected-button">
+            	<i class="fa fa-trash"></i>
+            	<span>{{ __('Remove selected') }}</span>
+        	</span>
+        </div>
 
         <div class="list" data-list="{{ listdata|json_encode }}"></div>
 

@@ -555,13 +555,15 @@ var FilelistHolder = Backbone.View.extend({
         this.render();
     },
 
-    remove: function (id) {
+    remove: function (id, dontRender) {
+        var done = false;
         _.each(this.list.models, function (item) {
-            if (item.get('id') === id) {
+            if ((!done) && (item.get('id') === id)) {
                 this.list.remove(item);
+                done = true;
             }
         }, this);
-        this.render();
+        if (!dontRender) this.render();
     },
 
     serialize: function () {
@@ -586,7 +588,31 @@ var FilelistHolder = Backbone.View.extend({
             $holder = $('#filelist-' + this.id);
 
         $holder.find("div.list").sortable({
+            helper: function (e, item) {
+                if (!item.hasClass('selected')) item.toggleClass('selected');
+
+                return $('<div></div>');
+            },
+            start: function (e, ui) {
+                var elements = $holder.find('.selected').not('.ui-sortable-placeholder');
+
+
+                var len = elements.length;
+
+                var currentOuterHeight = ui.placeholder.outerHeight(),
+                    currentInnerHeight = ui.placeholder.height();
+
+                elements.css('display', 'none');
+
+                ui.placeholder.height(currentInnerHeight + (len * currentOuterHeight - currentOuterHeight));
+
+                ui.item.data('items', elements);
+            },
+            beforeStop: function (e, ui) {
+                ui.item.before(ui.item.data('items'));
+            },
             stop: function () {
+                $holder.find('.ui-state-active').css('display', '');
                 $this.doneSort();
             },
             delay: 100,
@@ -621,7 +647,49 @@ var FilelistHolder = Backbone.View.extend({
                 }
             });
 
-        $holder.find('div.list').on('click', 'a', function (e) {
+        var lastClick = null;
+        $holder.find('div.list').on('click', '.list-item', function (e) {
+            if ($(e.target).hasClass('list-item')) {
+                if (e.shiftKey) {
+                    if (lastClick) {
+                        var currentIndex = $(this).index(),
+                            lastIndex = lastClick.index();
+
+                        if (lastIndex > currentIndex) {
+                            $(this).nextUntil(lastClick).add(this).add(lastClick).addClass('selected');
+                        } else if (lastIndex < currentIndex) {
+                            $(this).prevUntil(lastClick).add(this).add(lastClick).addClass('selected');
+                        } else {
+                            $(this).toggleClass('selected');
+                        }
+                    }
+                } else if ((e.ctrlKey) || (e.metaKey)) {
+                    $(this).toggleClass('selected');
+                } else {
+                    $holder.find('.list-item').not($(this)).removeClass('selected');
+                    $(this).toggleClass('selected');
+                }
+
+                if ((!e.shiftKey) && (!e.ctrlKey) && (!e.metaKey) && (!$(this).hasClass('selected'))) {
+                    lastClick = null;
+                } else {
+                    lastClick = $(this);
+                }
+            }
+        });
+
+        $holder.find('.remove-selected-button').on('click', function (e) {
+            var ldata = $holder.find('div.list').data('list');
+
+            if (confirm(ldata.message.removeMulti)) {
+                $holder.find('.selected').each(function () {
+                    $this.remove($(this).data('id'), true);
+                });
+                $this.render();
+            }
+        });
+
+        $holder.find('div.list').on('click', '.remove-button', function (e) {
             var ldata = $(this).closest('div.list').data('list');
 
             e.preventDefault();
@@ -704,14 +772,20 @@ var ImagelistHolder = Backbone.View.extend({
             index = 0;
 
         list.html('');
+        var pathExp = /\<PATH\>/g,
+            fnameExp = /\<FNAME\>/g;
         _.each(this.list.models, function (image) {
             image.set('id', index++);
-            list.append(data.item.
+
+            var element = $(data.item.
                 replace('<ID>', image.get('id')).
                 replace('<VAL>', _.escape(image.get('title'))).
-                replace('<PATH>', bolt.paths.bolt).
-                replace('<FNAME>', image.get('filename'))
-            );
+                replace(pathExp, bolt.paths.bolt).
+                replace(fnameExp, image.get('filename')));
+
+            element.find('.thumbnail-link').magnificPopup({type: 'image'});
+
+            list.append(element);
         });
         if (this.list.models.length === 0) {
             list.append(data.empty);
@@ -730,13 +804,15 @@ var ImagelistHolder = Backbone.View.extend({
         this.render();
     },
 
-    remove: function (id) {
+    remove: function (id, dontRender) {
+        var done = false;
         _.each(this.list.models, function (item) {
-            if (item.get('id') === id) {
+            if ((!done) && (item.get('id') === id)) {
                 this.list.remove(item);
+                done = true;
             }
         }, this);
-        this.render();
+        if (!dontRender) this.render();
     },
 
     serialize: function () {
@@ -761,7 +837,31 @@ var ImagelistHolder = Backbone.View.extend({
             $holder = $('#imagelist-' + this.id);
 
         $holder.find("div.list").sortable({
+            helper: function (e, item) {
+                if (!item.hasClass('selected')) item.toggleClass('selected');
+
+                return $('<div></div>');
+            },
+            start: function (e, ui) {
+                var elements = $holder.find('.selected').not('.ui-sortable-placeholder');
+
+
+                var len = elements.length;
+
+                var currentOuterHeight = ui.placeholder.outerHeight(),
+                    currentInnerHeight = ui.placeholder.height();
+
+                elements.css('display', 'none');
+
+                ui.placeholder.height(currentInnerHeight + (len * currentOuterHeight - currentOuterHeight));
+
+                ui.item.data('items', elements);
+            },
+            beforeStop: function (e, ui) {
+                ui.item.before(ui.item.data('items'));
+            },
             stop: function () {
+                $holder.find('.ui-state-active').css('display', '');
                 $this.doneSort();
             },
             delay: 100,
@@ -797,7 +897,49 @@ var ImagelistHolder = Backbone.View.extend({
                 }
             });
 
-        $holder.find('div.list').on('click', 'a', function (e) {
+        var lastClick = null;
+        $holder.find('div.list').on('click', '.list-item', function (e) {
+            if ($(e.target).hasClass('list-item')) {
+                if (e.shiftKey) {
+                    if (lastClick) {
+                        var currentIndex = $(this).index(),
+                            lastIndex = lastClick.index();
+
+                        if (lastIndex > currentIndex) {
+                            $(this).nextUntil(lastClick).add(this).add(lastClick).addClass('selected');
+                        } else if (lastIndex < currentIndex) {
+                            $(this).prevUntil(lastClick).add(this).add(lastClick).addClass('selected');
+                        } else {
+                            $(this).toggleClass('selected');
+                        }
+                    }
+                } else if ((e.ctrlKey) || (e.metaKey)) {
+                    $(this).toggleClass('selected');
+                } else {
+                    $holder.find('.list-item').not($(this)).removeClass('selected');
+                    $(this).toggleClass('selected');
+                }
+
+                if ((!e.shiftKey) && (!e.ctrlKey) && (!e.metaKey) && (!$(this).hasClass('selected'))) {
+                    lastClick = null;
+                } else {
+                    lastClick = $(this);
+                }
+            }
+        });
+
+        $holder.find('.remove-selected-button').on('click', function (e) {
+            var ldata = $holder.find('div.list').data('list');
+
+            if (confirm(ldata.message.removeMulti)) {
+                $holder.find('.selected').each(function () {
+                    $this.remove($(this).data('id'), true);
+                });
+                $this.render();
+            }
+        });
+
+        $holder.find('div.list').on('click', '.remove-button', function (e) {
             var ldata = $(this).closest('div.list').data('list');
 
             e.preventDefault();
@@ -2508,7 +2650,7 @@ var init = {
                         source: bolt.paths.async + 'filesautocomplete?ext=' + encodeURIComponent(accept),
                         minLength: 2
                     };
-                    if (data.type === 'Image') {
+                    if (data.type === 'image') {
                         autocomplete_conf.close = function () {
                             var path = $('#field-' + data.key).val(),
                                 url;
