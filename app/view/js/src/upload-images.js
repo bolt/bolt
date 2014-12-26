@@ -144,12 +144,13 @@ var ImagelistHolder = Backbone.View.extend({
 
                 var len = elements.length;
 
-                var currentOuterHeight = ui.placeholder.outerHeight(),
-                    currentInnerHeight = ui.placeholder.height();
+                var currentOuterHeight = ui.placeholder.outerHeight(true),
+                    currentInnerHeight = ui.placeholder.height(),
+                    margin = parseInt(ui.placeholder.css('margin-top')) + parseInt(ui.placeholder.css('margin-bottom'));
 
                 elements.css('display', 'none');
 
-                ui.placeholder.height(currentInnerHeight + (len * currentOuterHeight - currentOuterHeight));
+                ui.placeholder.height(currentInnerHeight + (len * currentOuterHeight - currentOuterHeight) - margin);
 
                 ui.item.data('items', elements);
             },
