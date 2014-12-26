@@ -103,7 +103,10 @@ var ImagelistHolder = Backbone.View.extend({
                 done = true;
             }
         }, this);
-        if (!dontRender) this.render();
+
+        if (!dontRender) {
+            this.render();
+        }
     },
 
     serialize: function () {
@@ -129,7 +132,9 @@ var ImagelistHolder = Backbone.View.extend({
 
         $holder.find("div.list").sortable({
             helper: function (e, item) {
-                if (!item.hasClass('selected')) item.toggleClass('selected');
+                if (!item.hasClass('selected')) {
+                    item.toggleClass('selected');
+                }
 
                 return $('<div></div>');
             },
