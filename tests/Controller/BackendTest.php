@@ -160,6 +160,22 @@ class BackendTest extends BoltUnitTest
         $app->run($request);
     }
     
+    public function testDbCheck()
+    {
+        $app = $this->getApp();
+        $this->allowLogin($app);
+        $check = $this->getMock('Bolt\Database\IntegrityChecker', array('checkTablesIntegrity'), array($app));
+        $check->expects($this->once())
+            ->method('checkTablesIntegrity')
+            ->will($this->returnValue(array('message', 'hint')));
+            
+        $app['integritychecker'] = $check;
+        $request = Request::create('/bolt/dbcheck');
+        $this->checkTwigForTemplate($app, 'dbcheck/dbcheck.twig');
+        
+        $app->run($request);
+    }
+    
     
     
     protected function getTwig()
