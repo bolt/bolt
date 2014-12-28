@@ -43,14 +43,46 @@ class BackendTest extends BoltUnitTest
     public function testPostLogin()
     {
         $app = $this->getApp();
+
+        $request = Request::create('/bolt/login','POST', array('action'=>'login','username'=>'test','password'=>'pass'));
+            
+        $users = $this->getMock('Bolt\Users', array('login'), array($app));
+        $users->expects($this->once())
+            ->method('login')
+            ->with($this->equalTo('test'), $this->equalTo('pass'))
+            ->will($this->returnValue(true));
+        
+        $app['users'] = $users;
+        $app->run($request);
+        $this->expectOutputRegex("/Redirecting to \/bolt\//");
+
+    }
+    
+    public function testPostLoginFailures()
+    {
+        $app = $this->getApp();
+
+        $request = Request::create('/bolt/login','POST', array('action'=>'login','username'=>'test','password'=>'pass'));
+            
+        $users = $this->getMock('Bolt\Users', array('login'), array($app));
+        $users->expects($this->once())
+            ->method('login')
+            ->with($this->equalTo('test'), $this->equalTo('pass'))
+            ->will($this->returnValue(false));
+        
+        $app['users'] = $users;
         $this->checkTwigForTemplate($app, 'login/login.twig');
-        $this->allowLogin($app); 
-        $request = Request::create('/bolt/login','POST', array('action'=>'login'));
         $app->run($request);
         
         
         // Test missing data fails
+        $app = $this->getApp();
         $request = Request::create('/bolt/login','POST', array('action'=>'fake'));
+        $this->checkTwigForTemplate($app, 'error.twig');
+        $app->run($request);
+        
+        $app = $this->getApp();
+        $request = Request::create('/bolt/login','POST', array());
         $this->checkTwigForTemplate($app, 'error.twig');
         $app->run($request);
 
@@ -72,21 +104,18 @@ class BackendTest extends BoltUnitTest
     public function testResetRequest()
     {
         $app = $this->getApp();
+        $app['swiftmailer.transport'] = new \Swift_Transport_NullTransport($app['swiftmailer.transport.eventdispatcher']);
         $users = $this->getMock('Bolt\Users', array('login', 'resetPasswordRequest'), array($app));
         $users->expects($this->any())
             ->method('login')
             ->will($this->returnValue(true));
             
-        $users->expects($this->any())
+        $users->expects($this->once())
             ->method('resetPasswordRequest')
+            ->with($this->equalTo('admin'))
             ->will($this->returnValue(true));
         
-        $app['users'] = $users;
-        
-        
-        // Mock out the render method so we can test what is called
-        $this->checkTwigForTemplate($app, 'login/login.twig');
-        
+        $app['users'] = $users;        
         
         // Test missing username fails
         $request = Request::create('/bolt/login','POST', array('action'=>'reset'));
@@ -96,8 +125,38 @@ class BackendTest extends BoltUnitTest
         
         // Test normal operation
         $request = Request::create('/bolt/login','POST', array('action'=>'reset', 'username'=>'admin'));
-        $this->checkTwigForTemplate($app, false);
         $this->expectOutputRegex("/Redirecting to \/bolt\/login/");
+        $app->run($request);
+    }
+    
+    public function testLogout()
+    {
+        $app = $this->getApp();
+        $users = $this->getMock('Bolt\Users', array('logout'), array($app));
+        $users->expects($this->once())
+            ->method('logout')
+            ->will($this->returnValue(true));
+            
+        $app['users'] = $users;
+        
+        $request = Request::create('/bolt/logout','POST', array());
+        $this->expectOutputRegex("/Redirecting to \/bolt\/login/");
+        $app->run($request);
+        
+    }
+    
+    public function testResetPassword()
+    {
+        $app = $this->getApp();
+        $users = $this->getMock('Bolt\Users', array('resetPasswordConfirm'), array($app));
+        $users->expects($this->once())
+            ->method('resetPasswordConfirm')
+            ->will($this->returnValue(true));
+            
+        $app['users'] = $users;
+        $request = Request::create('/bolt/resetpassword');
+        $this->expectOutputRegex("/Redirecting to \/bolt\/login/");
+        
         $app->run($request);
     }
     
@@ -114,19 +173,13 @@ class BackendTest extends BoltUnitTest
     
     protected function checkTwigForTemplate($app, $testTemplate)
     {
-        $twig = $this->getTwig();
-        $phpunit = $this;
-        $testHandler = function($template, $context) use($phpunit, $testTemplate) {
-            if($testTemplate) {
-                $phpunit->assertEquals($testTemplate, $template);
-            }
-            return new Response;
-        };
+        $twig = $this->getTwig();        
         
-        $twig->expects($this->any())
+        $twig->expects($this->once())
             ->method('render')
-            ->will($this->returnCallBack($testHandler));
-        $this->allowLogin($app); 
+            ->with($this->equalTo($testTemplate))
+            ->will($this->returnValue(new Response));
+            
         $app['render'] = $twig; 
     }
     
