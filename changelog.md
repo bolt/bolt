@@ -5,6 +5,7 @@ Bolt 2.0 DEV-head
 - Added: option to disable dashboard news
 - Fixed: bug where contenttype name in menu isn't translated
 - Removed: ancient browser-specific tags
+- Updated: jQuery to version 1.11.2.
 
 Bolt 2.0.2
 ----------
