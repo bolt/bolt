@@ -67,16 +67,14 @@
 
     <div class="col-sm-12 filelistholder dropzone" id="filelist-{{ key }}">
 
-        <div class="button-wrap">
-            <span type="button" class="btn btn-secondary remove-selected-button">
-            	<i class="fa fa-trash"></i>
-            	<span>{{ __('Remove selected') }}</span>
-        	</span>
-        </div>
-
         <div class="list" data-list="{{ listdata|json_encode }}"></div>
 
         {{ macro.upload_buttons('file', key, attr_fileupload, option.upload, context.canUpload) }}
+
+        <span type="button" class="btn btn-default remove-selected-button">
+            <i class="fa fa-trash"></i>
+            <span>{{ __('Remove selected') }}</span>
+        </span>
 
         <textarea name="{{ key }}" id="{{ key }}" class="hide">{{ list_json }}</textarea>
 
