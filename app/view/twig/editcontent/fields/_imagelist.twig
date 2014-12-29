@@ -46,17 +46,18 @@
 {% endset %}
 
 {% set list_item %}
-    <div data-id="{{ '<ID>' }}" class="ui-state-default">
-        <img src="{{ '<PATH>' }}../thumbs/60x40/{{ '<FNAME>' }}" width="60" height="40">
+    <div data-id="{{ '<ID>' }}" class="list-item ui-state-default">
+        <a class="thumbnail-link" href="{{ '<PATH>' }}../files/{{ '<FNAME>' }}"><img src="{{ '<PATH>' }}../thumbs/60x40/{{ '<FNAME>' }}" width="60" height="40"></a>
         <input type="text" value="{{ '<VAL>' }}">
-        <a href="#"><i class="fa fa-times"></i></a>
+        <a href="#" class="remove-button"><i class="fa fa-times"></i></a>
     </div>
 {% endset %}
 
 {% set listdata = {
     'message': {
-        'remove':     __('Are you sure you want to remove this image?'),
-        'wrongtype':  __('There was an error uploading the file.\nMake sure that the file type is of:\n%typelist%', {'%typelist%': option.extensions ? '.'~option.extensions|join(', .') : '–'})
+        'remove':       __('Are you sure you want to remove this image?'),
+        'removeMulti':  __('Are you sure you want to remove these images?'),
+        'wrongtype':    __('There was an error uploading the file.\nMake sure that the file type is of:\n%typelist%', {'%typelist%': option.extensions ? '.'~option.extensions|join(', .') : '–'})
     },
     'empty':          list_empty|trim,
     'item':           list_item|trim|preg_replace('/>\\s+</', '><'),
@@ -66,6 +67,13 @@
     <label class="col-sm-12 control-label">{{ macro.infopop(labelkey, option.info) }}</label>
 
     <div class="col-sm-12 filelistholder dropzone" id="imagelist-{{ key }}">
+
+        <div class="button-wrap">
+            <span type="button" class="btn btn-secondary remove-selected-button">
+            	<i class="fa fa-trash"></i>
+            	<span>{{ __('Remove selected') }}</span>
+        	</span>
+        </div>
 
         <div class="list" data-list="{{ listdata|json_encode }}"></div>
 

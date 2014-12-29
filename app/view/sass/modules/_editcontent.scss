@@ -95,10 +95,19 @@
                 margin: 6px;
                 padding: 4px 6px;
                 border-radius: 3px;
-                cursor: ns-resize;
+                cursor: pointer;
                 box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.2);
                 overflow: hidden;
                 background: url("smoothness/images/ui-bg_glass_75_e6e6e6_1x400.png") repeat-x scroll 50% 61% #e6e6e6;
+
+                &.selected {
+                    box-shadow: 2px 2px 0px $btn-tertiary-bg;
+                    border: 1px solid $btn-tertiary-bg;
+                }
+
+                &.ui-sortable-helper {
+                    cursor: ns-resize;
+                }
 
                 * {
                     float: left;
@@ -114,8 +123,8 @@
                     }
                 }
 
-                // Delete button
-                a {
+                // Remove button
+                a.remove-button {
                     padding: 5px;
                     cursor: pointer;
                     color: #999;
