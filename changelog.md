@@ -4,6 +4,7 @@ Bolt 2.0 DEV-head
 - Added: **integration of Symfony's VarDumper component**. The old 'Dumper::dump' is still present, for backwards compatibility
 - Added: option to disable dashboard news
 - Fixed: bug where contenttype name in menu isn't translated
+- Updated: CKeditor to 4.4.6, and all used plugins to the latest versions.
 - Removed: ancient browser-specific tags
 
 Bolt 2.0.2
