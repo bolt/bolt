@@ -115,6 +115,8 @@ changelog:
 # default_thumbnail is the default size of images, when using {{ record.image|thumbnail() }}
 # default_image is the default size of images, when using {{ record.image|image() }}
 # allow_upscale determines whether small images will be enlarged to fit the requested dimensions.
+# browser_cache_time sets the amount of seconds that the browser will cache images for.
+# Set it to activate browser caching
 # Note: if you change these values, you might need to clear the cache before they show up.
 thumbnails:
   default_thumbnail: [ 160, 120 ]
@@ -125,6 +127,8 @@ thumbnails:
   error_image: view/img/default_error.png
   save_files: false
   allow_upscale: false
+  exif_orientation: true
+#  browser_cache_time: 2592000
 
 # File types that are acceptable for upload in either 'file' fields or through the 'files' screen.
 
