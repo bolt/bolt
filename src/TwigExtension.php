@@ -893,7 +893,7 @@ class TwigExtension extends \Twig_Extension
 
             $image = $this->thumbnail($filename, $width, $height, $crop);
 
-            $output = sprintf('<img src="%s" width="%s" height="%s">', $image, $width, $height);
+            $output = '<img src="' . $image . '" width="' . $width . '" height="' . $height . '">';
 
         } else {
             $output = '&nbsp;';
