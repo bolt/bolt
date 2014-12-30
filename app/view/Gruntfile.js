@@ -126,11 +126,46 @@ module.exports = function(grunt) {
 
         jshint: {
             options: {
-                browser: true,  // Defines globals exposed by modern browsers
-                curly: true,    // Always put curly braces around blocks
-                devel: true,    // Defines globals that are usually used for logging/debugging
-                indent: 4,      // Tab width
-                maxlen: 120     // Maximum length of a line
+                browser: true,      // Defines globals exposed by modern browsers
+                curly: true,        // Always put curly braces around blocks
+                devel: true,        // Defines globals that are usually used for logging/debugging
+                indent: 4,          // Tab width
+                maxlen: 120,        // Maximum length of a line
+                undef: true,        // Prohibits the use of undeclared variables
+                globals: {
+                    // Bolt
+                    bolt: true,                 // src/console.js
+                    FilelistHolder: true,       // src/upload-files.js
+                    Files: true,                // src/obj-files.js
+                    Folders: true,              // src/obj-folders.js
+                    ImagelistHolder: true,      // src/upload-images.js
+                    init: true,                 // src/init.js
+                    Moments: true,              // src/obj-moments.js
+                    Navpopups: true,            // src/obj-navpopups.js
+                    Sidebar: true,              // src/obj-sidebar.js
+                    Stack: true,                // src/obj-stack.js
+                    // Bolt global functions
+                    bindFileUpload: true,       // src/bindfileuploads.js
+                    bindGeolocation: true,      // src/geolocation.js
+                    bindVideoEmbed: true,       // src/video-embed.js
+                    getSelectedItems: true,     // src/fnc-helpers.js
+                    makeUri: true,              // src/make-uri-slug.js
+                    makeUriAjax: true,          // src/make-uri-slug.js
+                    stopMakeUri: true,          // src/make-uri-slug.js
+                    updateLatestActivity: true, // src/activity.js
+                    validateContent: true,      // src/fnc-helpers.js
+                    // Vendor
+                    $: true,                    // jQuery
+                    _: true,                    // underscore.js
+                    Backbone: true,             // backbone.min.js
+                    bootbox: true,              // bootbox.min.js
+                    CKEDITOR: true,             // ckeditor.js
+                    CodeMirror: true,           // ckeditor.js
+                    google: true,               // Google
+                    jQuery: true,               // jQuery
+                    moment: true,               // moment.min.js
+                    UAParser: true              // ua-parser.min.js
+                }
             },
             src: ['js/src/*.js']
         }

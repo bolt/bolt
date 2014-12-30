@@ -344,7 +344,7 @@ var init = {
         });
 
         $('.slugedit').bind('click', function () {
-            newslug = prompt(data.messageSet, $('#show-' + data.key).text());
+            var newslug = prompt(data.messageSet, $('#show-' + data.key).text());
             if (newslug) {
                 $('.sluglocker i').addClass('fa-lock').removeClass('fa-unlock');
                 stopMakeUri(data.uses);
