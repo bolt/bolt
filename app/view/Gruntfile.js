@@ -130,6 +130,7 @@ module.exports = function(grunt) {
                 curly: true,            // Always put curly braces around blocks
                 devel: true,            // Defines globals that are usually used for logging/debugging
                 indent: 4,              // Tab width
+                latedef: true,          // Prohibits the use of a variable before it was defined
                 maxlen: 120,            // Maximum length of a line
                 noarg: true,            // Prohibits the use of arguments.caller and arguments.callee
                 nonbsp: true,           // Warns about "non-breaking whitespace" characters
