@@ -11,6 +11,7 @@ Bolt 2.0 DEV-head
 - Updated: CKeditor to 4.4.6, and all used plugins to the latest versions.
 - Removed: ancient browser-specific tags
 - Updated: jQuery to version 1.11.2.
+- Added proportional autoscaling option to showImage() using '0' values
 
 Bolt 2.0.2
 ----------

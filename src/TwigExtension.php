@@ -863,8 +863,11 @@ class TwigExtension extends \Twig_Extension
     /**
      * Helper function to show an image on a rendered page.
      *
-     * example: {{ content.image|showimage(320, 240) }}
-     * example: {{ showimage(content.image, 320, 240) }}
+     * Set width or height parameter to '0' for proportional scaling.
+     * Set them both to '0' to get original width and height.
+     *
+     * Example: {{ content.image|showimage(320, 240) }}
+     * Example: {{ showimage(content.image, 320, 240) }}
      *
      * @param  string $filename Image filename
      * @param  int    $width    Image width
@@ -872,19 +875,31 @@ class TwigExtension extends \Twig_Extension
      * @param  string $crop     Crop image string identifier
      * @return string HTML output
      */
-    public function showImage($filename = "", $width = 100, $height = 100, $crop = "")
+    public function showImage($filename = '', $width = 100, $height = 100, $crop = '')
     {
-        if (!empty($filename)) {
+        if (empty($filename)) {
+            return '&nbsp;';
+        } else {
+            $width = intval($width);
+            $height = intval($height);
+
+            if ($width === 0 || $height === 0) {
+                $info = $this->imageInfo($filename);
+
+                if ($width !== 0) {
+                    $height = round($width / $info['aspectratio']);
+                } elseif ($height !== 0) {
+                    $width = round($height * $info['aspectratio']);
+                } else {
+                    $width = $info['width'];
+                    $height = $info['height'];
+                }
+            }
 
             $image = $this->thumbnail($filename, $width, $height, $crop);
 
-            $output = sprintf('<img src="%s" width="%s" height="%s">', $image, $width, $height);
-
-        } else {
-            $output = "&nbsp;";
+            return '<img src="' . $image . '" width="' . $width . '" height="' . $height . '">';
         }
-
-        return $output;
     }
 
     /**
