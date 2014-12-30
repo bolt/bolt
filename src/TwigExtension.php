@@ -893,13 +893,10 @@ class TwigExtension extends \Twig_Extension
 
             $image = $this->thumbnail($filename, $width, $height, $crop);
 
-            $output = '<img src="' . $image . '" width="' . $width . '" height="' . $height . '">';
-
+            return '<img src="' . $image . '" width="' . $width . '" height="' . $height . '">';
         } else {
-            $output = '&nbsp;';
+            return '&nbsp;';
         }
-
-        return $output;
     }
 
     /**
