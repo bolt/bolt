@@ -4,6 +4,7 @@ Bolt 2.0 DEV-head
 - Added: **integration of Symfony's VarDumper component**. The old 'Dumper::dump' is still
   present, for backwards compatibility
 - Added: option to disable dashboard news
+- Added: browser caching and EXIF orientation support for thumbnails
 - Added: Improvements to Imagelist and Filelist fields: Better selection and re-ordering,
   delete multiple items, and view full-size images. (Thanks @Pinpickle, See #2360)
 - Fixed: bug where contenttype name in menu isn't translated
