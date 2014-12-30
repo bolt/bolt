@@ -872,7 +872,7 @@ class TwigExtension extends \Twig_Extension
      * @param  string $crop     Crop image string identifier
      * @return string HTML output
      */
-    public function showImage($filename = "", $width = 100, $height = 100, $crop = "")
+    public function showImage($filename = '', $width = 100, $height = 100, $crop = '')
     {
         if (!empty($filename)) {
             $width = intval($width);
@@ -896,7 +896,7 @@ class TwigExtension extends \Twig_Extension
             $output = sprintf('<img src="%s" width="%s" height="%s">', $image, $width, $height);
 
         } else {
-            $output = "&nbsp;";
+            $output = '&nbsp;';
         }
 
         return $output;
