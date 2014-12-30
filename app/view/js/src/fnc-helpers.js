@@ -26,7 +26,9 @@ function validateContent(form) {
     for (f = 0; f < formLength; f++) {
         field = form.elements[f];
 
-        if (field.nodeName !== "INPUT" && field.nodeName !== "TEXTAREA" && field.nodeName !== "SELECT") continue;
+        if (field.nodeName !== "INPUT" && field.nodeName !== "TEXTAREA" && field.nodeName !== "SELECT") {
+            continue;
+        }
 
 		if (field.nodeName === "INPUT"){
 			// trim input values
@@ -97,7 +99,9 @@ function LegacyValidation(field) {
         pattern = field.getAttribute("pattern");
 
     // disabled fields should not be validated
-    if (field.disabled) return valid;
+    if (field.disabled) {
+        return valid;
+    }
 
     // value required?
     valid = valid && (!required ||
