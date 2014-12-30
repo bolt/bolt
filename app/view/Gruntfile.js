@@ -127,7 +127,8 @@ module.exports = function(grunt) {
         jshint: {
             options: {
                 browser: true,  // Defines globals exposed by modern browsers
-                devel: true     // Defines globals that are usually used for logging/debugging
+                devel: true,    // Defines globals that are usually used for logging/debugging
+                indent: 4       // Tab width
             },
             src: ['js/src/*.js']
         }
