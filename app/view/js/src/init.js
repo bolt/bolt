@@ -365,7 +365,9 @@ var init = {
             var parser = new UAParser($(this).data('ua')),
                 result = parser.getResult();
 
-            $(this).html(result.browser.name + " " + result.browser.major + " / " + result.os.name + " " + result.os.version);
+            $(this).html(
+                result.browser.name + " " + result.browser.major + " / " + result.os.name + " " + result.os.version
+            );
         });
     },
 
@@ -926,7 +928,8 @@ var init = {
                                 url;
 
                             if (path) {
-                                url = bolt.paths.root +'thumbs/' + data.width + 'x' + data.height + 'c/' + encodeURI(path);
+                                url = bolt.paths.root +'thumbs/' + data.width + 'x' + data.height + 'c/' +
+                                      encodeURI(path);
                             } else {
                                 url = bolt.paths.app + 'view/img/default_empty_4x3.png';
                             }
