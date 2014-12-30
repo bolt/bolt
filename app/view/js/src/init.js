@@ -31,12 +31,13 @@ var init = {
             // remove old notice
             $('.'+noticeID).remove();
 
-            if (depublish == '') {
+            if (depublish === '') {
                 return;
             }
 
-            if (status == 'published' && moment(depublish + bolt.timezone.offset) < moment()) {
-                $('<div class="'+noticeID+' alert alert-warning"><button class="close" data-dismiss="alert">×</button>'+msg+'</div>')
+            if (status === 'published' && moment(depublish + bolt.timezone.offset) < moment()) {
+                $('<div class="' + noticeID + ' alert alert-warning">' +
+                    '<button class="close" data-dismiss="alert">×</button>' + msg + '</div>')
                     .hide()
                     .insertAfter('.depublish-group')
                     .slideDown('fast');
@@ -211,7 +212,7 @@ var init = {
                 });
             }, 200);
         }
-        
+
     },
 
     /*
@@ -266,11 +267,10 @@ var init = {
      * Bind filebrowser
      */
     bindFileBrowser: function () {
-        console.log("bindFileBrowser");
         $('#myTab a').click(function (e) {
             e.preventDefault();
             $(this).tab('show');
-        })
+        });
 
         var getUrlParam = function(paramName) {
             var reParam = new RegExp('(?:[\?&]|&)' + paramName + '=([^&]+)', 'i'),
@@ -289,7 +289,7 @@ var init = {
 
         $('a.filebrowserCloseLink').bind('click', function () {
             window.close();
-        })
+        });
     },
 
     bindCkFileSelect: function (data) {
@@ -316,7 +316,7 @@ var init = {
         $('#check-all').on('click', function() {
             // because jQuery is being retarded.
             // See: http://stackoverflow.com/questions/5907645/jquery-chrome-and-checkboxes-strange-behavior
-            $("#form_contenttypes :checkbox").removeAttr('checked').trigger('click')
+            $("#form_contenttypes :checkbox").removeAttr('checked').trigger('click');
         });
         $('#uncheck-all').on('click', function() {
             $("#form_contenttypes :checkbox").removeAttr('checked');
@@ -619,9 +619,9 @@ var init = {
         // Bind the click events, with the 'action' namespace.
         $('[data-action]').on('click.action', function (e) {
             var action = $(this).attr('data-action');
-            if (typeof action !== "undefined" && action !== "") {
+            if (typeof action !== 'undefined' && action !== '') {
                 e.preventDefault();
-                eval(action);
+                eval(action); // jshint ignore:line
                 e.stopPropagation();
             }
         })
@@ -693,7 +693,7 @@ var init = {
                     }
                 }
 
-                
+
             });
         });
     },
@@ -972,6 +972,6 @@ var init = {
                 });
             }
         });
-    },
+    }
 
 };
