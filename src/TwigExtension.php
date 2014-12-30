@@ -875,6 +875,8 @@ class TwigExtension extends \Twig_Extension
     public function showImage($filename = "", $width = 100, $height = 100, $crop = "")
     {
         if (!empty($filename)) {
+            $width = intval($width);
+            $height = intval($height);
 
             $image = $this->thumbnail($filename, $width, $height, $crop);
 
