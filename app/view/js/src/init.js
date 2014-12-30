@@ -580,13 +580,14 @@ var init = {
         $("a.deletechosen").click(function (e) {
             e.preventDefault();
             var aItems = getSelectedItems(),
-                notice;
+                notice,
+                rec;
 
             if (aItems.length < 1) {
                 bootbox.alert("Nothing chosen to delete");
             } else {
-                notice = "Are you sure you wish to <strong>delete " +
-                    (aItems.length=== 1 ? "this record" : "these records") + "</strong>? There is no undo.";
+                rec = aItems.length === 1 ? "this record" : "these records";
+                notice = "Are you sure you wish to <strong>delete " + rec + "</strong>? There is no undo.";
                 bootbox.confirm(notice, function (confirmed) {
                     $(".alert").alert();
                     if (confirmed === true) {
@@ -683,7 +684,7 @@ var init = {
                     menu = self.next('.dropdown-menu'),
                     mousey = mouseEvt.pageY + 20,
                     menuHeight = menu.height(),
-                    menuVisY = $(window).height() - (mousey + menuHeight), // Distance from the bottom of viewport
+                    menuVisY = $(window).height() - mousey + menuHeight, // Distance from the bottom of viewport
                     profilerHeight = 37; // The size of the Symfony Profiler Bar is 37px.
 
                     // The whole menu must fit when trying to 'dropup', but always prefer to 'dropdown' (= default).

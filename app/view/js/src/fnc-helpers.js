@@ -92,7 +92,7 @@ function LegacyValidation(field) {
         valid = true,
         val = field.value,
         type = field.getAttribute("type"),
-        chkbox = (type === "checkbox" || type === "radio"),
+        chkbox = type === "checkbox" || type === "radio",
         required = field.getAttribute("required"),
         minlength = field.getAttribute("minlength"),
         maxlength = field.getAttribute("maxlength"),
@@ -102,6 +102,8 @@ function LegacyValidation(field) {
     if (field.disabled) {
         return valid;
     }
+
+    /* jshint -W126 */
 
     // value required?
     valid = valid && (!required ||
@@ -114,6 +116,8 @@ function LegacyValidation(field) {
         (!minlength || val.length >= minlength) &&
         (!maxlength || val.length <= maxlength)
     ));
+
+    /* jshint +W126 */
 
     // test pattern
     if (valid && pattern) {

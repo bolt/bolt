@@ -96,7 +96,7 @@ var ImagelistHolder = Backbone.View.extend({
     remove: function (id, dontRender) {
         var done = false;
         _.each(this.list.models, function (item) {
-            if ((!done) && (item.get('id') === id)) {
+            if (!done && item.get('id') === id) {
                 this.list.remove(item);
                 done = true;
             }
@@ -148,7 +148,7 @@ var ImagelistHolder = Backbone.View.extend({
 
                 elements.css('display', 'none');
 
-                ui.placeholder.height(currentInnerHeight + (len * currentOuterHeight - currentOuterHeight) - margin);
+                ui.placeholder.height(currentInnerHeight + len * currentOuterHeight - currentOuterHeight - margin);
 
                 ui.item.data('items', elements);
             },
@@ -208,14 +208,14 @@ var ImagelistHolder = Backbone.View.extend({
                             $(this).toggleClass('selected');
                         }
                     }
-                } else if ((e.ctrlKey) || (e.metaKey)) {
+                } else if (e.ctrlKey || e.metaKey) {
                     $(this).toggleClass('selected');
                 } else {
                     $holder.find('.list-item').not($(this)).removeClass('selected');
                     $(this).toggleClass('selected');
                 }
 
-                if ((!e.shiftKey) && (!e.ctrlKey) && (!e.metaKey) && (!$(this).hasClass('selected'))) {
+                if (!e.shiftKey && !e.ctrlKey && !e.metaKey && !$(this).hasClass('selected')) {
                     lastClick = null;
                 } else {
                     lastClick = $(this);

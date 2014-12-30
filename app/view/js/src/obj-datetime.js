@@ -61,7 +61,7 @@ bolt.datetimes = function () {
 
         // Set data field
         if (date.isValid()) {
-            field.data.val(date.format('YYYY-MM-DD') + (field.time.exists ? ' ' + time.format('HH:mm:00') : ''));
+            field.data.val(date.format('YYYY-MM-DD') + field.time.exists ? ' ' + time.format('HH:mm:00') : '');
         } else if (foundTime) {
             field.data.val(moment().format('YYYY-MM-DD') + ' ' + time.format('HH:mm:00'));
         } else {
@@ -111,7 +111,7 @@ bolt.datetimes = function () {
                 time = field.data.val().slice(11, 16);
             } else {
                 hour = parseInt(time.slice(0, 2));
-                time = (hour % 12 || 12) + time.slice(2, 5) + (hour < 12 ? ' AM' : ' PM');
+                time = (hour % 12 || 12) + time.slice(2, 5) + hour < 12 ? ' AM' : ' PM';
             }
             field.time.val(time);
         }
@@ -165,7 +165,7 @@ bolt.datetimes = function () {
         field.show = container.find('button.btn-tertiary');
         field.clear = container.find('button.btn-default');
 
-        field.time.exists = (field.time.length > 0);
+        field.time.exists = field.time.length > 0;
 
         return field;
     }
