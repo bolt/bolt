@@ -863,8 +863,11 @@ class TwigExtension extends \Twig_Extension
     /**
      * Helper function to show an image on a rendered page.
      *
-     * example: {{ content.image|showimage(320, 240) }}
-     * example: {{ showimage(content.image, 320, 240) }}
+     * Set width or height parameter to '0' for proportional scaling.
+     * Set them both to '0' to get original width and height.
+     *
+     * Example: {{ content.image|showimage(320, 240) }}
+     * Example: {{ showimage(content.image, 320, 240) }}
      *
      * @param  string $filename Image filename
      * @param  int    $width    Image width
