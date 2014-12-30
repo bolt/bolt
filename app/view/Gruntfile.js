@@ -84,7 +84,6 @@ module.exports = function(grunt) {
                 },
                 nonull: true,
                 src: [
-                    'js/src/jslint-conf.js',
                     'js/src/console.js',
                     'js/src/fnc-helpers.js',
                     'js/src/activity.js',
