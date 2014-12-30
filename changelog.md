@@ -9,6 +9,7 @@ Bolt 2.0 DEV-head
 - Fixed: bug where contenttype name in menu isn't translated
 - Updated: CKeditor to 4.4.6, and all used plugins to the latest versions.
 - Removed: ancient browser-specific tags
+- Updated: jQuery to version 1.11.2.
 
 Bolt 2.0.2
 ----------
