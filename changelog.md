@@ -7,6 +7,7 @@ Bolt 2.0 DEV-head
 - Added: Improvements to Imagelist and Filelist fields: Better selection and re-ordering,
   delete multiple items, and view full-size images. (Thanks @Pinpickle, See #2360)
 - Fixed: bug where contenttype name in menu isn't translated
+- Updated: CKeditor to 4.4.6, and all used plugins to the latest versions.
 - Removed: ancient browser-specific tags
 
 Bolt 2.0.2
