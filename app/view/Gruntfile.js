@@ -123,12 +123,16 @@ module.exports = function(grunt) {
                     ]
                 }
             }
+        },
+
+        jshint: {
+            all: ['js/src/*.js']
         }
 
     });
 
     require('load-grunt-tasks')(grunt);
 
-    grunt.registerTask('default', ['sass', 'concat:js', 'watch']);
+    grunt.registerTask('default', ['sass', 'jshint', 'concat:js', 'watch']);
 
 };
