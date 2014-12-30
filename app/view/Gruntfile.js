@@ -131,6 +131,7 @@ module.exports = function(grunt) {
                 devel: true,            // Defines globals that are usually used for logging/debugging
                 indent: 4,              // Tab width
                 maxlen: 120,            // Maximum length of a line
+                noarg: true,            // Prohibits the use of arguments.caller and arguments.callee
                 nonbsp: true,           // Warns about "non-breaking whitespace" characters
                 singleGroups: true,     // Prohibits the use of the grouping operator for single-expression statements
                 undef: true,            // Prohibits the use of undeclared variables
