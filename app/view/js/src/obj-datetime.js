@@ -128,7 +128,7 @@ bolt.datetimes = function () {
                 showOn: 'none'
             };
 
-        for (key in fieldOptions) {
+        for (var key in fieldOptions) {
             if (fieldOptions.hasOwnProperty(key)) {
                 options[key] = fieldOptions[key];
             }
