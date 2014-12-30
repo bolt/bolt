@@ -128,7 +128,8 @@ module.exports = function(grunt) {
             options: {
                 browser: true,  // Defines globals exposed by modern browsers
                 devel: true,    // Defines globals that are usually used for logging/debugging
-                indent: 4       // Tab width
+                indent: 4,      // Tab width
+                maxlen: 120     // Maximum length of a line
             },
             src: ['js/src/*.js']
         }
