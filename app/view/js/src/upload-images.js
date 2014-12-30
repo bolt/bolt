@@ -63,8 +63,8 @@ var ImagelistHolder = Backbone.View.extend({
             index = 0;
 
         list.html('');
-        var pathExp = /\<PATH\>/g,
-            fnameExp = /\<FNAME\>/g;
+        var pathExp = /\\<PATH\>/g,
+            fnameExp = /\\<FNAME\>/g;
         _.each(this.list.models, function (image) {
             image.set('id', index++);
 
