@@ -125,6 +125,9 @@ module.exports = function(grunt) {
         },
 
         jshint: {
+            options: {
+                browser: true   // Defines globals exposed by modern browsers
+            },
             src: ['js/src/*.js']
         }
 
