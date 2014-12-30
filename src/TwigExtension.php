@@ -878,6 +878,19 @@ class TwigExtension extends \Twig_Extension
             $width = intval($width);
             $height = intval($height);
 
+            if ($width === 0 || $height === 0) {
+                $info = $this->imageInfo($filename);
+
+                if ($width !== 0) {
+                    $height = round($width / $info['aspectratio']);
+                } elseif ($height !== 0) {
+                    $width = round($height * $info['aspectratio']);
+                } else {
+                    $width = $info['width'];
+                    $height = $info['height'];
+                }
+            }
+
             $image = $this->thumbnail($filename, $width, $height, $crop);
 
             $output = sprintf('<img src="%s" width="%s" height="%s">', $image, $width, $height);
