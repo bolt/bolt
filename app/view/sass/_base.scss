@@ -21,9 +21,9 @@ $lightgrey: #ccc;
 // The color of <hr> lines.
 $hr-border: #ccc;
 
-$linkmain: lighten(saturate($boltblue, 100), 4);
+$linkmain: lighten(saturate($boltblue, 50), 4);
 $linkvisited: $linkmain;
-$linkactive: lighten(saturate($boltblue, 100), 10);
+$linkactive: lighten(saturate($boltblue, 50), 10);
 
 // The padding to the left and right of form-control inputs.
 $padding-base-horizontal: 8px;
@@ -137,7 +137,7 @@ $fixed-mq: false !default;
             }
         }
         @else {
-            @media only screen and (min-width: $mid-mobile + 'em') { 
+            @media only screen and (min-width: $mid-mobile + em) { 
                @content;
             }
         }      
@@ -149,7 +149,7 @@ $fixed-mq: false !default;
             }
         }
         @else {
-            @media only screen and (min-width: $medium-screens + 'em') { 
+            @media only screen and (min-width: $medium-screens + em) { 
                @content;
             }
         }      
@@ -161,7 +161,7 @@ $fixed-mq: false !default;
             }
         }
         @else {
-            @media only screen and (min-width: $large-screens + 'em') { 
+            @media only screen and (min-width: $large-screens + em) { 
                @content;
             }
         }      
@@ -173,7 +173,7 @@ $fixed-mq: false !default;
             }
         }
         @else {
-            @media only screen and (min-width: $wide-screens + 'em') { 
+            @media only screen and (min-width: $wide-screens + em) { 
                @content;
             }
         }      
