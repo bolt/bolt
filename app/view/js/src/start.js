@@ -2,7 +2,7 @@
 jQuery(function ($) {
     // Get configuration
     var config = $('script[data-config]').first().data('config');
-    for (key in config) {
+    for (var key in config) {
         bolt[key] = config[key];
     }
 
