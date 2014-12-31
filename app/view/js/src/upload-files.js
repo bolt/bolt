@@ -16,23 +16,9 @@ var FileModel = Backbone.Model.extend({
 
 });
 
-var FilelistModel = Backbone.Model.extend({
-
-    defaults: {
-        id: null,
-        filename: null,
-        title: "Untitled file",
-        order: 1
-    },
-
-    initialize: function () {
-    }
-
-});
-
 var Filelist = Backbone.Collection.extend({
 
-    model: FilelistModel,
+    model: FileModel,
 
     comparator: function (file) {
         return file.get('order');
@@ -57,7 +43,7 @@ var FilelistHolder = Backbone.View.extend({
         if (prelist !== "") {
             prelist = $.parseJSON($('#' + this.id).val());
             _.each(prelist, function (item) {
-                var file = new FilelistModel({
+                var file = new FileModel({
                     filename: item.filename,
                     title: item.title,
                     id: this.list.length
