@@ -16,7 +16,7 @@ var FileModel = Backbone.Model.extend({
 
 });
 
-var Imagelist = Backbone.Collection.extend({
+var Filelist = Backbone.Collection.extend({
 
     model: FileModel,
 
@@ -38,7 +38,7 @@ var Imagelist = Backbone.Collection.extend({
 var ImagelistHolder = Backbone.View.extend({
 
     initialize: function (options) {
-        this.list = new Imagelist();
+        this.list = new Filelist();
         this.type = options.type;
         this.idPrefix = options.type == 'Image' ? '#imagelist-' : '#filelist-';
 
