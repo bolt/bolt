@@ -34,8 +34,8 @@ module.exports = function(grunt) {
         sass: {
             dist: {
                 options: {
-                    style: 'compressed',
-                    loadPath: [
+                    outputStyle: 'compressed',
+                    includePaths: [
                         'node_modules/bootstrap-sass/assets/stylesheets/',
                         'node_modules/font-awesome/scss/'
                     ],
@@ -45,7 +45,8 @@ module.exports = function(grunt) {
                             " * These are Bolt's COMPILED CSS files!\n" +
                             " * Do not edit these files, because all changes will be lost.\n" +
                             " * You can edit ../scss/app.scss & ../scss/app-old-ie.scss, and run 'grunt' to generate this file.\n" +
-                            " */\n"
+                            " */\n",
+                    precision: 5
                 },
                 files: {
                     'css/bolt-old-ie.css': 'sass/app-old-ie.scss',
