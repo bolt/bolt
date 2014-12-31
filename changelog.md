@@ -13,6 +13,8 @@ Bolt 2.0 DEV-head
 - Updated: jQuery to version 1.11.2.
 - Added proportional autoscaling option to showImage() using '0' values
 - Use jshint in grunt workflow
+- Unify image- and filelists
+- Make image- and filelists looking more flat
 
 Bolt 2.0.2
 ----------
