@@ -83,26 +83,25 @@
         }
 
         div.list {
-            border: 1px solid #ccc;
+            border: 1px solid #e0e0e0;
             padding: 0;
             width: 100%;
             background-color: #FFF;
             border-radius: 3px;
-            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1) inset;
 
             div {
                 min-height: 48px;
                 margin: 6px;
                 padding: 4px 6px;
+                border: 2px solid #efefef;
+                border: 2px solid #f0f0f0;
                 border-radius: 3px;
                 cursor: pointer;
-                box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.2);
                 overflow: hidden;
-                background: url("smoothness/images/ui-bg_glass_75_e6e6e6_1x400.png") repeat-x scroll 50% 61% #e6e6e6;
+                background: #f6f6f6;
 
                 &.selected {
-                    box-shadow: 2px 2px 0px $btn-tertiary-bg;
-                    border: 1px solid $btn-tertiary-bg;
+                    border: 2px solid $btn-tertiary-bg;
                 }
 
                 &.ui-sortable-helper {
@@ -176,7 +175,7 @@
         .right-on-large {
             float: right;
         }
-    }    
+    }
 
     .imageholder {
         overflow: hidden;
