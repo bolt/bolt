@@ -248,6 +248,21 @@ var FilelistHolder = Backbone.View.extend({
         $holder.find("div.list").on('blur', 'input', function () {
             $this.doneSort();
         });
+
+        if (this.type === 'Image') {
+            // In the modal dialog, to navigate folders.
+            $('#selectImageModal-' + contentkey).on('click', '.folder', function (e) {
+                e.preventDefault();
+                $('#selectImageModal-' + contentkey + ' .modal-content').load($(this).data('action'));
+            });
+
+            // In the modal dialog, to select a file.
+            $('#selectImageModal-' + contentkey).on('click', '.file', function (e) {
+                e.preventDefault();
+                var filename = $(this).data('action');
+                $this.add(filename, filename);
+            });
+        }
     }
 
 });

@@ -249,18 +249,20 @@ var ImagelistHolder = Backbone.View.extend({
             $this.doneSort();
         });
 
-        // In the modal dialog, to navigate folders.
-        $('#selectImageModal-' + contentkey).on('click', '.folder', function (e) {
-            e.preventDefault();
-            $('#selectImageModal-' + contentkey + ' .modal-content').load($(this).data('action'));
-        });
+        if (this.type === 'Image') {
+            // In the modal dialog, to navigate folders.
+            $('#selectImageModal-' + contentkey).on('click', '.folder', function (e) {
+                e.preventDefault();
+                $('#selectImageModal-' + contentkey + ' .modal-content').load($(this).data('action'));
+            });
 
-        // In the modal dialog, to select a file.
-        $('#selectImageModal-' + contentkey).on('click', '.file', function (e) {
-            e.preventDefault();
-            var filename = $(this).data('action');
-            $this.add(filename, filename);
-        });
+            // In the modal dialog, to select a file.
+            $('#selectImageModal-' + contentkey).on('click', '.file', function (e) {
+                e.preventDefault();
+                var filename = $(this).data('action');
+                $this.add(filename, filename);
+            });
+        }
     }
 
 });
