@@ -37,18 +37,20 @@ var Filelist = Backbone.Collection.extend({
 
 var FilelistHolder = Backbone.View.extend({
 
-    initialize: function (id) {
+    initialize: function (id, type) {
         this.list = new Filelist();
+        this.type = type;
         var prelist = $('#' + this.id).val();
         if (prelist !== "") {
             prelist = $.parseJSON($('#' + this.id).val());
             _.each(prelist, function (item) {
-                var file = new FileModel({
-                    filename: item.filename,
-                    title: item.title,
-                    id: this.list.length
-                });
-                this.list.add(file);
+                this.list.add(
+                    new FileModel({
+                        filename: item.filename,
+                        title: item.title,
+                        id: this.list.length
+                    })
+                );
             }, this);
         }
         this.render();

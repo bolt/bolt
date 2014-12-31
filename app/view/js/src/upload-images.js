@@ -37,18 +37,20 @@ var Imagelist = Backbone.Collection.extend({
 
 var ImagelistHolder = Backbone.View.extend({
 
-    initialize: function (id) {
+    initialize: function (id, type) {
         this.list = new Imagelist();
+        this.type = type;
         var prelist = $('#' + this.id).val();
         if (prelist !== "") {
             prelist = $.parseJSON($('#' + this.id).val());
             _.each(prelist, function (item) {
-                var image = new ImageModel({
-                    filename: item.filename,
-                    title: item.title,
-                    id: this.list.length
-                });
-                this.list.add(image);
+                this.list.add(
+                    new ImageModel({
+                        filename: item.filename,
+                        title: item.title,
+                        id: this.list.length
+                    })
+                );
             }, this);
         }
         this.render();

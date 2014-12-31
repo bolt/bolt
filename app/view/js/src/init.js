@@ -943,11 +943,11 @@ var init = {
                     break;
 
                 case 'ImageList':
-                    bolt.imagelist[data.key] = new ImagelistHolder({id: data.key});
+                    bolt.imagelist[data.key] = new ImagelistHolder({id: data.key, type: 'Image'});
                     break;
 
                 case 'FileList':
-                    bolt.filelist[data.key] = new FilelistHolder({id: data.key});
+                    bolt.filelist[data.key] = new FilelistHolder({id: data.key, type: 'File'});
                     break;
             }
         });
