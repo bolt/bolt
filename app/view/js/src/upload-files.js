@@ -76,11 +76,13 @@ var FilelistHolder = Backbone.View.extend({
     },
 
     add: function (filename, title) {
-        this.list.add(new FileModel({
-            filename: filename,
-            title: title,
-            id: this.list.length
-        }));
+        this.list.add(
+            new FileModel({
+                filename: filename,
+                title: title,
+                id: this.list.length
+            })
+        );
         this.render();
     },
 
