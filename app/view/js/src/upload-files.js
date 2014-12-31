@@ -20,8 +20,8 @@ var Filelist = Backbone.Collection.extend({
 
     model: FileModel,
 
-    comparator: function (file) {
-        return file.get('order');
+    comparator: function (upload) {
+        return upload.get('order');
     },
 
     setOrder: function (id, order, title) {

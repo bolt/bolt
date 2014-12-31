@@ -20,8 +20,8 @@ var Imagelist = Backbone.Collection.extend({
 
     model: ImageModel,
 
-    comparator: function (image) {
-        return image.get('order');
+    comparator: function (upload) {
+        return upload.get('order');
     },
 
     setOrder: function (id, order, title) {
