@@ -1,7 +1,7 @@
 /**
  * DateTime/Date input combo initalization and handling
  */
-bolt.datetimes = function () {
+bolt.datetimes = (function () {
     /**
      * @typedef InputElements
      * @type {Object} data - Element holding the data
@@ -43,7 +43,9 @@ bolt.datetimes = function () {
 
         // Process time field
         if (field.time.exists) {
+            /* jshint ignore:start,-W101 */
             res = field.time.val().match(/^\s*(?:(?:([01]?[0-9]|2[0-3])[:,.]([0-5]?[0-9]))|(1[012]|0?[1-9])[:,.]([0-5]?[0-9])(?:\s*([AP])[. ]?M\.?))\s*$/i);
+            /* jshint ignore:end,+W101 */
             if (res) {
                 hours = parseInt(res[1] ? res[1] :res[3]);
                 minutes = parseInt(res[2] ? res[2] :res[4]);
@@ -59,7 +61,7 @@ bolt.datetimes = function () {
 
         // Set data field
         if (date.isValid()) {
-            field.data.val(date.format('YYYY-MM-DD') + (field.time.exists ? ' ' + time.format('HH:mm:00') : ''));
+            field.data.val(date.format('YYYY-MM-DD') + field.time.exists ? ' ' + time.format('HH:mm:00') : '');
         } else if (foundTime) {
             field.data.val(moment().format('YYYY-MM-DD') + ' ' + time.format('HH:mm:00'));
         } else {
@@ -93,7 +95,8 @@ bolt.datetimes = function () {
         }
 
         // Set date field
-        field.date.datepicker('setDate', (date === '' || date === '0000-00-00') ? '' : $.datepicker.parseDate('yy-mm-dd', date));
+        field.date.datepicker('setDate', (date === '' || date === '0000-00-00') ?
+            '' : $.datepicker.parseDate('yy-mm-dd', date));
 
         // Set time field
         if (field.time.exists) {
@@ -108,7 +111,7 @@ bolt.datetimes = function () {
                 time = field.data.val().slice(11, 16);
             } else {
                 hour = parseInt(time.slice(0, 2));
-                time = (hour % 12 || 12) + time.slice(2, 5) + (hour < 12 ? ' AM' : ' PM');
+                time = (hour % 12 || 12) + time.slice(2, 5) + hour < 12 ? ' AM' : ' PM';
             }
             field.time.val(time);
         }
@@ -128,7 +131,7 @@ bolt.datetimes = function () {
                 showOn: 'none'
             };
 
-        for (key in fieldOptions) {
+        for (var key in fieldOptions) {
             if (fieldOptions.hasOwnProperty(key)) {
                 options[key] = fieldOptions[key];
             }
@@ -162,7 +165,7 @@ bolt.datetimes = function () {
         field.show = container.find('button.btn-tertiary');
         field.clear = container.find('button.btn-default');
 
-        field.time.exists = (field.time.length > 0);
+        field.time.exists = field.time.length > 0;
 
         return field;
     }
@@ -214,4 +217,4 @@ bolt.datetimes = function () {
             }
         }
     };
-} ();
+} ());

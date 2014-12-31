@@ -52,12 +52,14 @@ var Stack = Backbone.Model.extend({
                 // Move all current items one down, and remove the last one
                 var stack = $('#stackholder div.stackitem'),
                     i,
+                    ii,
                     item,
                     html;
 
                 for (i=stack.length; i>=1; i--) {
+                    ii = i + 1;
                     item = $("#stackholder div.stackitem.item-" + i);
-                    item.addClass('item-' + (i + 1)).removeClass('item-' + i);
+                    item.addClass('item-' + ii).removeClass('item-' + i);
                 }
                 if ($("#stackholder div.stackitem.item-8").is('*')) {
                     $("#stackholder div.stackitem.item-8").remove();

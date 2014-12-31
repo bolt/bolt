@@ -1,6 +1,11 @@
 {
   "name": "Bolt-2-backend",
   "version": "2.0.0-dev",
+  "description": "Required Node/Grunt modules for backend's frontend workflow.",
+  "repository" : {
+    "type" : "git",
+    "url" : "https://github.com/bolt/bolt.git"
+  },
   "devDependencies": {
     "bootstrap-sass": "3.2.0",
     "font-awesome": "^4.2.0",
@@ -10,6 +15,7 @@
     "grunt-contrib-sass": "^0.8.1",
     "grunt-contrib-uglify": "^0.5.1",
     "grunt-contrib-watch": "^0.6.1",
+    "grunt-contrib-jshint": "^0.10.0",
     "load-grunt-tasks": "^0.6.0"
   }
 }

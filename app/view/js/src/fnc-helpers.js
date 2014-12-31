@@ -17,6 +17,48 @@ function getSelectedItems() {
 // http://www.sitepoint.com/html5-forms-javascript-constraint-validation-api/
 // =========================================================
 
+// basic legacy validation checking
+function LegacyValidation(field) {
+    var
+        valid = true,
+        val = field.value,
+        type = field.getAttribute("type"),
+        chkbox = type === "checkbox" || type === "radio",
+        required = field.getAttribute("required"),
+        minlength = field.getAttribute("minlength"),
+        maxlength = field.getAttribute("maxlength"),
+        pattern = field.getAttribute("pattern");
+
+    // disabled fields should not be validated
+    if (field.disabled) {
+        return valid;
+    }
+
+    /* jshint -W126 */
+
+    // value required?
+    valid = valid && (!required ||
+        (chkbox && field.checked) ||
+        (!chkbox && val !== "")
+    );
+
+    // minlength or maxlength set?
+    valid = valid && (chkbox || (
+        (!minlength || val.length >= minlength) &&
+        (!maxlength || val.length <= maxlength)
+    ));
+
+    /* jshint +W126 */
+
+    // test pattern
+    if (valid && pattern) {
+        pattern = new RegExp('^(?:'+pattern+')$');
+        valid = pattern.test(val);
+    }
+
+    return valid;
+}
+
 function validateContent(form) {
 
     var formLength = form.elements.length,
@@ -26,7 +68,9 @@ function validateContent(form) {
     for (f = 0; f < formLength; f++) {
         field = form.elements[f];
 
-        if (field.nodeName !== "INPUT" && field.nodeName !== "TEXTAREA" && field.nodeName !== "SELECT") continue;
+        if (field.nodeName !== "INPUT" && field.nodeName !== "TEXTAREA" && field.nodeName !== "SELECT") {
+            continue;
+        }
 
 		if (field.nodeName === "INPUT"){
 			// trim input values
@@ -69,7 +113,8 @@ function validateContent(form) {
 
             var msg = $(field).data('errortext') || 'The '+field.name+' field is required or needs to match a pattern';
 
-            $('<div id='+noticeID+' class="alert alert-danger"><button class="close" data-dismiss="alert">×</button>'+msg+'</div>')
+            $('<div id="' + noticeID + '" class="alert alert-danger">' +
+              '<button class="close" data-dismiss="alert">×</button>' + msg + '</div>')
                 .hide()
                 .insertAfter('.page-header')
                 .slideDown('fast');
@@ -81,43 +126,5 @@ function validateContent(form) {
 
     return formvalid;
 }
-
-
-// basic legacy validation checking
-function LegacyValidation(field) {
-    var
-        valid = true,
-        val = field.value,
-        type = field.getAttribute("type"),
-        chkbox = (type === "checkbox" || type === "radio"),
-        required = field.getAttribute("required"),
-        minlength = field.getAttribute("minlength"),
-        maxlength = field.getAttribute("maxlength"),
-        pattern = field.getAttribute("pattern");
-
-    // disabled fields should not be validated
-    if (field.disabled) return valid;
-
-    // value required?
-    valid = valid && (!required ||
-        (chkbox && field.checked) ||
-        (!chkbox && val !== "")
-    );
-
-    // minlength or maxlength set?
-    valid = valid && (chkbox || (
-        (!minlength || val.length >= minlength) &&
-        (!maxlength || val.length <= maxlength)
-    ));
-
-    // test pattern
-    if (valid && pattern) {
-        pattern = new RegExp('^(?:'+pattern+')$');
-        valid = pattern.test(val);
-    }
-
-    return valid;
-}
-
 
 // =========================================================

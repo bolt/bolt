@@ -2,22 +2,26 @@ var geotimeout;
 
 function updateGeoCoords(key) {
     var markers = $.goMap.getMarkers(),
-        marker = markers[0].split(","),
+        marker,
         geocoder,
         latlng;
 
-    if (typeof(marker[0] !== "undefined")) {
-        $('#' + key + '-latitude').val(marker[0]);
-        $('#' + key + '-longitude').val(marker[1]);
+    if (typeof markers[0] !== "undefined") {
+        marker = markers[0].split(",");
 
-        // update the 'according to Google' info:
-        geocoder = new google.maps.Geocoder();
-        latlng = new google.maps.LatLng(marker[0], marker[1]);
+        if (typeof marker[0] !== "undefined" && typeof marker[1] !== "undefined") {
+            $('#' + key + '-latitude').val(marker[0]);
+            $('#' + key + '-longitude').val(marker[1]);
 
-        geocoder.geocode({latLng: latlng}, function (results, status) {
-            $('#' + key + '-reversegeo').html(results[0].formatted_address);
-            $('#' + key + '-formatted_address').val(results[0].formatted_address);
-        });
+            // update the 'according to Google' info:
+            geocoder = new google.maps.Geocoder();
+            latlng = new google.maps.LatLng(marker[0], marker[1]);
+
+            geocoder.geocode({latLng: latlng}, function (results, status) {
+                $('#' + key + '-reversegeo').html(results[0].formatted_address);
+                $('#' + key + '-formatted_address').val(results[0].formatted_address);
+            });
+        }
     }
 }
 

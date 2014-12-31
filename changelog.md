@@ -12,6 +12,7 @@ Bolt 2.0 DEV-head
 - Removed: ancient browser-specific tags
 - Updated: jQuery to version 1.11.2.
 - Added proportional autoscaling option to showImage() using '0' values
+- Use jshint in grunt workflow
 
 Bolt 2.0.2
 ----------

@@ -31,12 +31,13 @@ var init = {
             // remove old notice
             $('.'+noticeID).remove();
 
-            if (depublish == '') {
+            if (depublish === '') {
                 return;
             }
 
-            if (status == 'published' && moment(depublish + bolt.timezone.offset) < moment()) {
-                $('<div class="'+noticeID+' alert alert-warning"><button class="close" data-dismiss="alert">×</button>'+msg+'</div>')
+            if (status === 'published' && moment(depublish + bolt.timezone.offset) < moment()) {
+                $('<div class="' + noticeID + ' alert alert-warning">' +
+                    '<button class="close" data-dismiss="alert">×</button>' + msg + '</div>')
                     .hide()
                     .insertAfter('.depublish-group')
                     .slideDown('fast');
@@ -211,7 +212,7 @@ var init = {
                 });
             }, 200);
         }
-        
+
     },
 
     /*
@@ -266,11 +267,10 @@ var init = {
      * Bind filebrowser
      */
     bindFileBrowser: function () {
-        console.log("bindFileBrowser");
         $('#myTab a').click(function (e) {
             e.preventDefault();
             $(this).tab('show');
-        })
+        });
 
         var getUrlParam = function(paramName) {
             var reParam = new RegExp('(?:[\?&]|&)' + paramName + '=([^&]+)', 'i'),
@@ -289,7 +289,7 @@ var init = {
 
         $('a.filebrowserCloseLink').bind('click', function () {
             window.close();
-        })
+        });
     },
 
     bindCkFileSelect: function (data) {
@@ -316,7 +316,7 @@ var init = {
         $('#check-all').on('click', function() {
             // because jQuery is being retarded.
             // See: http://stackoverflow.com/questions/5907645/jquery-chrome-and-checkboxes-strange-behavior
-            $("#form_contenttypes :checkbox").removeAttr('checked').trigger('click')
+            $("#form_contenttypes :checkbox").removeAttr('checked').trigger('click');
         });
         $('#uncheck-all').on('click', function() {
             $("#form_contenttypes :checkbox").removeAttr('checked');
@@ -344,7 +344,7 @@ var init = {
         });
 
         $('.slugedit').bind('click', function () {
-            newslug = prompt(data.messageSet, $('#show-' + data.key).text());
+            var newslug = prompt(data.messageSet, $('#show-' + data.key).text());
             if (newslug) {
                 $('.sluglocker i').addClass('fa-lock').removeClass('fa-unlock');
                 stopMakeUri(data.uses);
@@ -365,7 +365,9 @@ var init = {
             var parser = new UAParser($(this).data('ua')),
                 result = parser.getResult();
 
-            $(this).html(result.browser.name + " " + result.browser.major + " / " + result.os.name + " " + result.os.version);
+            $(this).html(
+                result.browser.name + " " + result.browser.major + " / " + result.os.name + " " + result.os.version
+            );
         });
     },
 
@@ -578,13 +580,14 @@ var init = {
         $("a.deletechosen").click(function (e) {
             e.preventDefault();
             var aItems = getSelectedItems(),
-                notice;
+                notice,
+                rec;
 
             if (aItems.length < 1) {
                 bootbox.alert("Nothing chosen to delete");
             } else {
-                notice = "Are you sure you wish to <strong>delete " +
-                    (aItems.length=== 1 ? "this record" : "these records") + "</strong>? There is no undo.";
+                rec = aItems.length === 1 ? "this record" : "these records";
+                notice = "Are you sure you wish to <strong>delete " + rec + "</strong>? There is no undo.";
                 bootbox.confirm(notice, function (confirmed) {
                     $(".alert").alert();
                     if (confirmed === true) {
@@ -619,9 +622,9 @@ var init = {
         // Bind the click events, with the 'action' namespace.
         $('[data-action]').on('click.action', function (e) {
             var action = $(this).attr('data-action');
-            if (typeof action !== "undefined" && action !== "") {
+            if (typeof action !== 'undefined' && action !== '') {
                 e.preventDefault();
-                eval(action);
+                eval(action); // jshint ignore:line
                 e.stopPropagation();
             }
         })
@@ -681,7 +684,7 @@ var init = {
                     menu = self.next('.dropdown-menu'),
                     mousey = mouseEvt.pageY + 20,
                     menuHeight = menu.height(),
-                    menuVisY = $(window).height() - (mousey + menuHeight), // Distance from the bottom of viewport
+                    menuVisY = $(window).height() - mousey + menuHeight, // Distance from the bottom of viewport
                     profilerHeight = 37; // The size of the Symfony Profiler Bar is 37px.
 
                     // The whole menu must fit when trying to 'dropup', but always prefer to 'dropdown' (= default).
@@ -693,7 +696,7 @@ var init = {
                     }
                 }
 
-                
+
             });
         });
     },
@@ -926,7 +929,8 @@ var init = {
                                 url;
 
                             if (path) {
-                                url = bolt.paths.root +'thumbs/' + data.width + 'x' + data.height + 'c/' + encodeURI(path);
+                                url = bolt.paths.root +'thumbs/' + data.width + 'x' + data.height + 'c/' +
+                                      encodeURI(path);
                             } else {
                                 url = bolt.paths.app + 'view/img/default_empty_4x3.png';
                             }
@@ -972,6 +976,6 @@ var init = {
                 });
             }
         });
-    },
+    }
 
 };

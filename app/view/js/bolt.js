@@ -4,35 +4,18 @@
  * You can edit files in <js/src/*.js> and run 'grunt' to generate this file.
  */
 
-/*jslint browser: true, devel: true, debug: false, indent: 4, maxlen: 120, nomen: true, plusplus: true, sloppy: true, unparam: true */
-/*global $, jQuery, _, google, Backbone, bootbox, CKEDITOR, moment */
-
-/*
- * Globals:
- * $:               jQuery
- * jQuery:          jQuery
- * _:               underscore.js
- * google:          ?
- * Backbone:        backbone.min.js
- * CKEDITOR:        ckeditor.js
- * bootbox          bootbox.min.js
- * moment:          moment.min.js
- *
- * bolt:            inline _page.twig
- */
-
-/**********************************************************************************************************************/
-
 var bolt = {};
 
 // Don't break on browsers without console.log();
 try {
     console.assert(1);
 } catch(e) {
+    /* jshint -W020 */
     console = {
         log: function () {},
         assert: function () {}
     };
+    /* jshint +W020 */
 }
 
 /**********************************************************************************************************************/
@@ -56,6 +39,48 @@ function getSelectedItems() {
 // http://www.sitepoint.com/html5-forms-javascript-constraint-validation-api/
 // =========================================================
 
+// basic legacy validation checking
+function LegacyValidation(field) {
+    var
+        valid = true,
+        val = field.value,
+        type = field.getAttribute("type"),
+        chkbox = type === "checkbox" || type === "radio",
+        required = field.getAttribute("required"),
+        minlength = field.getAttribute("minlength"),
+        maxlength = field.getAttribute("maxlength"),
+        pattern = field.getAttribute("pattern");
+
+    // disabled fields should not be validated
+    if (field.disabled) {
+        return valid;
+    }
+
+    /* jshint -W126 */
+
+    // value required?
+    valid = valid && (!required ||
+        (chkbox && field.checked) ||
+        (!chkbox && val !== "")
+    );
+
+    // minlength or maxlength set?
+    valid = valid && (chkbox || (
+        (!minlength || val.length >= minlength) &&
+        (!maxlength || val.length <= maxlength)
+    ));
+
+    /* jshint +W126 */
+
+    // test pattern
+    if (valid && pattern) {
+        pattern = new RegExp('^(?:'+pattern+')$');
+        valid = pattern.test(val);
+    }
+
+    return valid;
+}
+
 function validateContent(form) {
 
     var formLength = form.elements.length,
@@ -65,7 +90,9 @@ function validateContent(form) {
     for (f = 0; f < formLength; f++) {
         field = form.elements[f];
 
-        if (field.nodeName !== "INPUT" && field.nodeName !== "TEXTAREA" && field.nodeName !== "SELECT") continue;
+        if (field.nodeName !== "INPUT" && field.nodeName !== "TEXTAREA" && field.nodeName !== "SELECT") {
+            continue;
+        }
 
 		if (field.nodeName === "INPUT"){
 			// trim input values
@@ -108,7 +135,8 @@ function validateContent(form) {
 
             var msg = $(field).data('errortext') || 'The '+field.name+' field is required or needs to match a pattern';
 
-            $('<div id='+noticeID+' class="alert alert-danger"><button class="close" data-dismiss="alert">×</button>'+msg+'</div>')
+            $('<div id="' + noticeID + '" class="alert alert-danger">' +
+              '<button class="close" data-dismiss="alert">×</button>' + msg + '</div>')
                 .hide()
                 .insertAfter('.page-header')
                 .slideDown('fast');
@@ -120,44 +148,6 @@ function validateContent(form) {
 
     return formvalid;
 }
-
-
-// basic legacy validation checking
-function LegacyValidation(field) {
-    var
-        valid = true,
-        val = field.value,
-        type = field.getAttribute("type"),
-        chkbox = (type === "checkbox" || type === "radio"),
-        required = field.getAttribute("required"),
-        minlength = field.getAttribute("minlength"),
-        maxlength = field.getAttribute("maxlength"),
-        pattern = field.getAttribute("pattern");
-
-    // disabled fields should not be validated
-    if (field.disabled) return valid;
-
-    // value required?
-    valid = valid && (!required ||
-        (chkbox && field.checked) ||
-        (!chkbox && val !== "")
-    );
-
-    // minlength or maxlength set?
-    valid = valid && (chkbox || (
-        (!minlength || val.length >= minlength) &&
-        (!maxlength || val.length <= maxlength)
-    ));
-
-    // test pattern
-    if (valid && pattern) {
-        pattern = new RegExp('^(?:'+pattern+')$');
-        valid = pattern.test(val);
-    }
-
-    return valid;
-}
-
 
 // =========================================================
 
@@ -366,22 +356,26 @@ var geotimeout;
 
 function updateGeoCoords(key) {
     var markers = $.goMap.getMarkers(),
-        marker = markers[0].split(","),
+        marker,
         geocoder,
         latlng;
 
-    if (typeof(marker[0] !== "undefined")) {
-        $('#' + key + '-latitude').val(marker[0]);
-        $('#' + key + '-longitude').val(marker[1]);
+    if (typeof markers[0] !== "undefined") {
+        marker = markers[0].split(",");
 
-        // update the 'according to Google' info:
-        geocoder = new google.maps.Geocoder();
-        latlng = new google.maps.LatLng(marker[0], marker[1]);
+        if (typeof marker[0] !== "undefined" && typeof marker[1] !== "undefined") {
+            $('#' + key + '-latitude').val(marker[0]);
+            $('#' + key + '-longitude').val(marker[1]);
 
-        geocoder.geocode({latLng: latlng}, function (results, status) {
-            $('#' + key + '-reversegeo').html(results[0].formatted_address);
-            $('#' + key + '-formatted_address').val(results[0].formatted_address);
-        });
+            // update the 'according to Google' info:
+            geocoder = new google.maps.Geocoder();
+            latlng = new google.maps.LatLng(marker[0], marker[1]);
+
+            geocoder.geocode({latLng: latlng}, function (results, status) {
+                $('#' + key + '-reversegeo').html(results[0].formatted_address);
+                $('#' + key + '-formatted_address').val(results[0].formatted_address);
+            });
+        }
     }
 }
 
@@ -558,7 +552,7 @@ var FilelistHolder = Backbone.View.extend({
     remove: function (id, dontRender) {
         var done = false;
         _.each(this.list.models, function (item) {
-            if ((!done) && (item.get('id') === id)) {
+            if (!done && item.get('id') === id) {
                 this.list.remove(item);
                 done = true;
             }
@@ -610,7 +604,7 @@ var FilelistHolder = Backbone.View.extend({
 
                 elements.css('display', 'none');
 
-                ui.placeholder.height(currentInnerHeight + (len * currentOuterHeight - currentOuterHeight) - margin);
+                ui.placeholder.height(currentInnerHeight + len * currentOuterHeight - currentOuterHeight - margin);
 
                 ui.item.data('items', elements);
             },
@@ -669,14 +663,14 @@ var FilelistHolder = Backbone.View.extend({
                             $(this).toggleClass('selected');
                         }
                     }
-                } else if ((e.ctrlKey) || (e.metaKey)) {
+                } else if (e.ctrlKey || e.metaKey) {
                     $(this).toggleClass('selected');
                 } else {
                     $holder.find('.list-item').not($(this)).removeClass('selected');
                     $(this).toggleClass('selected');
                 }
 
-                if ((!e.shiftKey) && (!e.ctrlKey) && (!e.metaKey) && (!$(this).hasClass('selected'))) {
+                if (!e.shiftKey && !e.ctrlKey && !e.metaKey && !$(this).hasClass('selected')) {
                     lastClick = null;
                 } else {
                     lastClick = $(this);
@@ -778,16 +772,14 @@ var ImagelistHolder = Backbone.View.extend({
             index = 0;
 
         list.html('');
-        var pathExp = /\<PATH\>/g,
-            fnameExp = /\<FNAME\>/g;
         _.each(this.list.models, function (image) {
             image.set('id', index++);
 
             var element = $(data.item.
-                replace('<ID>', image.get('id')).
-                replace('<VAL>', _.escape(image.get('title'))).
-                replace(pathExp, bolt.paths.bolt).
-                replace(fnameExp, image.get('filename')));
+                replace(/<ID>/g, image.get('id')).
+                replace(/<VAL>/g, _.escape(image.get('title'))).
+                replace(/<PATH>/g, bolt.paths.bolt).
+                replace(/<FNAME>/g, image.get('filename')));
 
             element.find('.thumbnail-link').magnificPopup({type: 'image'});
 
@@ -813,7 +805,7 @@ var ImagelistHolder = Backbone.View.extend({
     remove: function (id, dontRender) {
         var done = false;
         _.each(this.list.models, function (item) {
-            if ((!done) && (item.get('id') === id)) {
+            if (!done && item.get('id') === id) {
                 this.list.remove(item);
                 done = true;
             }
@@ -865,7 +857,7 @@ var ImagelistHolder = Backbone.View.extend({
 
                 elements.css('display', 'none');
 
-                ui.placeholder.height(currentInnerHeight + (len * currentOuterHeight - currentOuterHeight) - margin);
+                ui.placeholder.height(currentInnerHeight + len * currentOuterHeight - currentOuterHeight - margin);
 
                 ui.item.data('items', elements);
             },
@@ -925,14 +917,14 @@ var ImagelistHolder = Backbone.View.extend({
                             $(this).toggleClass('selected');
                         }
                     }
-                } else if ((e.ctrlKey) || (e.metaKey)) {
+                } else if (e.ctrlKey || e.metaKey) {
                     $(this).toggleClass('selected');
                 } else {
                     $holder.find('.list-item').not($(this)).removeClass('selected');
                     $(this).toggleClass('selected');
                 }
 
-                if ((!e.shiftKey) && (!e.ctrlKey) && (!e.metaKey) && (!$(this).hasClass('selected'))) {
+                if (!e.shiftKey && !e.ctrlKey && !e.metaKey && !$(this).hasClass('selected')) {
                     lastClick = null;
                 } else {
                     lastClick = $(this);
@@ -1327,12 +1319,14 @@ var Stack = Backbone.Model.extend({
                 // Move all current items one down, and remove the last one
                 var stack = $('#stackholder div.stackitem'),
                     i,
+                    ii,
                     item,
                     html;
 
                 for (i=stack.length; i>=1; i--) {
+                    ii = i + 1;
                     item = $("#stackholder div.stackitem.item-" + i);
-                    item.addClass('item-' + (i + 1)).removeClass('item-' + i);
+                    item.addClass('item-' + ii).removeClass('item-' + i);
                 }
                 if ($("#stackholder div.stackitem.item-8").is('*')) {
                     $("#stackholder div.stackitem.item-8").remove();
@@ -1523,7 +1517,7 @@ var Folders = Backbone.Model.extend({
 /**
  * DateTime/Date input combo initalization and handling
  */
-bolt.datetimes = function () {
+bolt.datetimes = (function () {
     /**
      * @typedef InputElements
      * @type {Object} data - Element holding the data
@@ -1565,7 +1559,9 @@ bolt.datetimes = function () {
 
         // Process time field
         if (field.time.exists) {
+            /* jshint ignore:start,-W101 */
             res = field.time.val().match(/^\s*(?:(?:([01]?[0-9]|2[0-3])[:,.]([0-5]?[0-9]))|(1[012]|0?[1-9])[:,.]([0-5]?[0-9])(?:\s*([AP])[. ]?M\.?))\s*$/i);
+            /* jshint ignore:end,+W101 */
             if (res) {
                 hours = parseInt(res[1] ? res[1] :res[3]);
                 minutes = parseInt(res[2] ? res[2] :res[4]);
@@ -1581,7 +1577,7 @@ bolt.datetimes = function () {
 
         // Set data field
         if (date.isValid()) {
-            field.data.val(date.format('YYYY-MM-DD') + (field.time.exists ? ' ' + time.format('HH:mm:00') : ''));
+            field.data.val(date.format('YYYY-MM-DD') + field.time.exists ? ' ' + time.format('HH:mm:00') : '');
         } else if (foundTime) {
             field.data.val(moment().format('YYYY-MM-DD') + ' ' + time.format('HH:mm:00'));
         } else {
@@ -1615,7 +1611,8 @@ bolt.datetimes = function () {
         }
 
         // Set date field
-        field.date.datepicker('setDate', (date === '' || date === '0000-00-00') ? '' : $.datepicker.parseDate('yy-mm-dd', date));
+        field.date.datepicker('setDate', (date === '' || date === '0000-00-00') ?
+            '' : $.datepicker.parseDate('yy-mm-dd', date));
 
         // Set time field
         if (field.time.exists) {
@@ -1630,7 +1627,7 @@ bolt.datetimes = function () {
                 time = field.data.val().slice(11, 16);
             } else {
                 hour = parseInt(time.slice(0, 2));
-                time = (hour % 12 || 12) + time.slice(2, 5) + (hour < 12 ? ' AM' : ' PM');
+                time = (hour % 12 || 12) + time.slice(2, 5) + hour < 12 ? ' AM' : ' PM';
             }
             field.time.val(time);
         }
@@ -1650,7 +1647,7 @@ bolt.datetimes = function () {
                 showOn: 'none'
             };
 
-        for (key in fieldOptions) {
+        for (var key in fieldOptions) {
             if (fieldOptions.hasOwnProperty(key)) {
                 options[key] = fieldOptions[key];
             }
@@ -1684,7 +1681,7 @@ bolt.datetimes = function () {
         field.show = container.find('button.btn-tertiary');
         field.clear = container.find('button.btn-default');
 
-        field.time.exists = (field.time.length > 0);
+        field.time.exists = field.time.length > 0;
 
         return field;
     }
@@ -1736,7 +1733,7 @@ bolt.datetimes = function () {
             }
         }
     };
-} ();
+} ());
 
 /**********************************************************************************************************************/
 
@@ -1773,12 +1770,13 @@ var init = {
             // remove old notice
             $('.'+noticeID).remove();
 
-            if (depublish == '') {
+            if (depublish === '') {
                 return;
             }
 
-            if (status == 'published' && moment(depublish + bolt.timezone.offset) < moment()) {
-                $('<div class="'+noticeID+' alert alert-warning"><button class="close" data-dismiss="alert">×</button>'+msg+'</div>')
+            if (status === 'published' && moment(depublish + bolt.timezone.offset) < moment()) {
+                $('<div class="' + noticeID + ' alert alert-warning">' +
+                    '<button class="close" data-dismiss="alert">×</button>' + msg + '</div>')
                     .hide()
                     .insertAfter('.depublish-group')
                     .slideDown('fast');
@@ -1953,7 +1951,7 @@ var init = {
                 });
             }, 200);
         }
-        
+
     },
 
     /*
@@ -2008,11 +2006,10 @@ var init = {
      * Bind filebrowser
      */
     bindFileBrowser: function () {
-        console.log("bindFileBrowser");
         $('#myTab a').click(function (e) {
             e.preventDefault();
             $(this).tab('show');
-        })
+        });
 
         var getUrlParam = function(paramName) {
             var reParam = new RegExp('(?:[\?&]|&)' + paramName + '=([^&]+)', 'i'),
@@ -2031,7 +2028,7 @@ var init = {
 
         $('a.filebrowserCloseLink').bind('click', function () {
             window.close();
-        })
+        });
     },
 
     bindCkFileSelect: function (data) {
@@ -2058,7 +2055,7 @@ var init = {
         $('#check-all').on('click', function() {
             // because jQuery is being retarded.
             // See: http://stackoverflow.com/questions/5907645/jquery-chrome-and-checkboxes-strange-behavior
-            $("#form_contenttypes :checkbox").removeAttr('checked').trigger('click')
+            $("#form_contenttypes :checkbox").removeAttr('checked').trigger('click');
         });
         $('#uncheck-all').on('click', function() {
             $("#form_contenttypes :checkbox").removeAttr('checked');
@@ -2086,7 +2083,7 @@ var init = {
         });
 
         $('.slugedit').bind('click', function () {
-            newslug = prompt(data.messageSet, $('#show-' + data.key).text());
+            var newslug = prompt(data.messageSet, $('#show-' + data.key).text());
             if (newslug) {
                 $('.sluglocker i').addClass('fa-lock').removeClass('fa-unlock');
                 stopMakeUri(data.uses);
@@ -2107,7 +2104,9 @@ var init = {
             var parser = new UAParser($(this).data('ua')),
                 result = parser.getResult();
 
-            $(this).html(result.browser.name + " " + result.browser.major + " / " + result.os.name + " " + result.os.version);
+            $(this).html(
+                result.browser.name + " " + result.browser.major + " / " + result.os.name + " " + result.os.version
+            );
         });
     },
 
@@ -2320,13 +2319,14 @@ var init = {
         $("a.deletechosen").click(function (e) {
             e.preventDefault();
             var aItems = getSelectedItems(),
-                notice;
+                notice,
+                rec;
 
             if (aItems.length < 1) {
                 bootbox.alert("Nothing chosen to delete");
             } else {
-                notice = "Are you sure you wish to <strong>delete " +
-                    (aItems.length=== 1 ? "this record" : "these records") + "</strong>? There is no undo.";
+                rec = aItems.length === 1 ? "this record" : "these records";
+                notice = "Are you sure you wish to <strong>delete " + rec + "</strong>? There is no undo.";
                 bootbox.confirm(notice, function (confirmed) {
                     $(".alert").alert();
                     if (confirmed === true) {
@@ -2361,9 +2361,9 @@ var init = {
         // Bind the click events, with the 'action' namespace.
         $('[data-action]').on('click.action', function (e) {
             var action = $(this).attr('data-action');
-            if (typeof action !== "undefined" && action !== "") {
+            if (typeof action !== 'undefined' && action !== '') {
                 e.preventDefault();
-                eval(action);
+                eval(action); // jshint ignore:line
                 e.stopPropagation();
             }
         })
@@ -2423,7 +2423,7 @@ var init = {
                     menu = self.next('.dropdown-menu'),
                     mousey = mouseEvt.pageY + 20,
                     menuHeight = menu.height(),
-                    menuVisY = $(window).height() - (mousey + menuHeight), // Distance from the bottom of viewport
+                    menuVisY = $(window).height() - mousey + menuHeight, // Distance from the bottom of viewport
                     profilerHeight = 37; // The size of the Symfony Profiler Bar is 37px.
 
                     // The whole menu must fit when trying to 'dropup', but always prefer to 'dropdown' (= default).
@@ -2435,7 +2435,7 @@ var init = {
                     }
                 }
 
-                
+
             });
         });
     },
@@ -2668,7 +2668,8 @@ var init = {
                                 url;
 
                             if (path) {
-                                url = bolt.paths.root +'thumbs/' + data.width + 'x' + data.height + 'c/' + encodeURI(path);
+                                url = bolt.paths.root +'thumbs/' + data.width + 'x' + data.height + 'c/' +
+                                      encodeURI(path);
                             } else {
                                 url = bolt.paths.app + 'view/img/default_empty_4x3.png';
                             }
@@ -2714,7 +2715,7 @@ var init = {
                 });
             }
         });
-    },
+    }
 
 };
 
@@ -2724,7 +2725,7 @@ var init = {
 jQuery(function ($) {
     // Get configuration
     var config = $('script[data-config]').first().data('config');
-    for (key in config) {
+    for (var key in config) {
         bolt[key] = config[key];
     }
 

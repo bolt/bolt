@@ -84,7 +84,6 @@ module.exports = function(grunt) {
                 },
                 nonull: true,
                 src: [
-                    'js/src/jslint-conf.js',
                     'js/src/console.js',
                     'js/src/fnc-helpers.js',
                     'js/src/activity.js',
@@ -123,12 +122,63 @@ module.exports = function(grunt) {
                     ]
                 }
             }
+        },
+
+        jshint: {
+            options: {
+                browser: true,          // Defines globals exposed by modern browsers
+                curly: true,            // Always put curly braces around blocks
+                devel: true,            // Defines globals that are usually used for logging/debugging
+                immed: true,            // Prohibits the use of immediate function invocations without parentheses
+                indent: 4,              // Tab width
+                latedef: true,          // Prohibits the use of a variable before it was defined
+                maxlen: 120,            // Maximum length of a line
+                noarg: true,            // Prohibits the use of arguments.caller and arguments.callee
+                nonbsp: true,           // Warns about "non-breaking whitespace" characters
+                singleGroups: true,     // Prohibits the use of the grouping operator for single-expression statements
+                undef: true,            // Prohibits the use of undeclared variables
+                globals: {
+                    // Bolt
+                    bolt: true,                 // src/console.js
+                    FilelistHolder: true,       // src/upload-files.js
+                    Files: true,                // src/obj-files.js
+                    Folders: true,              // src/obj-folders.js
+                    ImagelistHolder: true,      // src/upload-images.js
+                    init: true,                 // src/init.js
+                    Moments: true,              // src/obj-moments.js
+                    Navpopups: true,            // src/obj-navpopups.js
+                    Sidebar: true,              // src/obj-sidebar.js
+                    Stack: true,                // src/obj-stack.js
+                    // Bolt global functions
+                    bindFileUpload: true,       // src/bindfileuploads.js
+                    bindGeolocation: true,      // src/geolocation.js
+                    bindVideoEmbed: true,       // src/video-embed.js
+                    getSelectedItems: true,     // src/fnc-helpers.js
+                    makeUri: true,              // src/make-uri-slug.js
+                    makeUriAjax: true,          // src/make-uri-slug.js
+                    stopMakeUri: true,          // src/make-uri-slug.js
+                    updateLatestActivity: true, // src/activity.js
+                    validateContent: true,      // src/fnc-helpers.js
+                    // Vendor
+                    $: true,                    // jQuery
+                    _: true,                    // underscore.js
+                    Backbone: true,             // backbone.min.js
+                    bootbox: true,              // bootbox.min.js
+                    CKEDITOR: true,             // ckeditor.js
+                    CodeMirror: true,           // ckeditor.js
+                    google: true,               // Google
+                    jQuery: true,               // jQuery
+                    moment: true,               // moment.min.js
+                    UAParser: true              // ua-parser.min.js
+                }
+            },
+            src: ['js/src/*.js']
         }
 
     });
 
     require('load-grunt-tasks')(grunt);
 
-    grunt.registerTask('default', ['sass', 'concat:js', 'watch']);
+    grunt.registerTask('default', ['sass', 'jshint', 'concat:js', 'watch']);
 
 };

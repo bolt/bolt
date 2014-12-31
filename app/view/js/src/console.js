@@ -4,8 +4,10 @@ var bolt = {};
 try {
     console.assert(1);
 } catch(e) {
+    /* jshint -W020 */
     console = {
         log: function () {},
         assert: function () {}
     };
+    /* jshint +W020 */
 }
