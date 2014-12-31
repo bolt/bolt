@@ -83,13 +83,11 @@ var ImagelistHolder = Backbone.View.extend({
     },
 
     add: function (filename, title) {
-        var image = new ImageModel({
+        this.list.add(new ImageModel({
             filename: filename,
             title: title,
             id: this.list.length
-        });
-
-        this.list.add(image);
+        }));
         this.render();
     },
 
