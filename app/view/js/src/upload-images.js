@@ -63,21 +63,19 @@ var ImagelistHolder = Backbone.View.extend({
         this.list.sort();
 
         var list = $(this.idPrefix + this.id + ' .list'),
-            data = list.data('list'),
-            index = 0;
+            data = list.data('list');
 
         list.html('');
-        _.each(this.list.models, function (image) {
-            image.set('id', index++);
-
+        _.each(this.list.models, function (file) {
             var element = $(data.item.
-                replace(/<ID>/g, image.get('id')).
-                replace(/<VAL>/g, _.escape(image.get('title'))).
-                replace(/<PATH>/g, bolt.paths.bolt).
-                replace(/<FNAME>/g, image.get('filename')));
-
-            element.find('.thumbnail-link').magnificPopup({type: 'image'});
-
+                    replace(/<ID>/g, file.get('id')).
+                    replace(/<VAL>/g, _.escape(file.get('title'))).
+                    replace(/<PATH>/g, bolt.paths.bolt).
+                    replace(/<FNAME>/g, file.get('filename'))
+                );
+            if (this.type === 'Image') {
+                element.find('.thumbnail-link').magnificPopup({type: 'image'});
+            }
             list.append(element);
         });
         if (this.list.models.length === 0) {

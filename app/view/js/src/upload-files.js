@@ -67,11 +67,16 @@ var FilelistHolder = Backbone.View.extend({
 
         list.html('');
         _.each(this.list.models, function (file) {
-            list.append(data.item.
-                replace('<ID>', file.get('id')).
-                replace('<VAL>', _.escape(file.get('title'))).
-                replace('<INF>', file.get('filename'))
-            );
+            var element = $(data.item.
+                    replace(/<ID>/g, file.get('id')).
+                    replace(/<VAL>/g, _.escape(file.get('title'))).
+                    replace(/<PATH>/g, bolt.paths.bolt).
+                    replace(/<FNAME>/g, file.get('filename'))
+                );
+            if (this.type === 'Image') {
+                element.find('.thumbnail-link').magnificPopup({type: 'image'});
+            }
+            list.append(element);
         });
         if (this.list.models.length === 0) {
             list.append(data.empty);
