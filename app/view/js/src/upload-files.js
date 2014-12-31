@@ -37,9 +37,11 @@ var Filelist = Backbone.Collection.extend({
 
 var FilelistHolder = Backbone.View.extend({
 
-    initialize: function (id, type) {
+    initialize: function (options) {
         this.list = new Filelist();
-        this.type = type;
+        this.type = options.type;
+        this.idPrefix = options.type == 'Image' ? '#imagelist-' : '#filelist-';
+
         var prelist = $('#' + this.id).val();
         if (prelist !== "") {
             prelist = $.parseJSON($('#' + this.id).val());
@@ -60,7 +62,7 @@ var FilelistHolder = Backbone.View.extend({
     render: function () {
         this.list.sort();
 
-        var list = $('#filelist-' + this.id + ' .list'),
+        var list = $(this.idPrefix + this.id + ' .list'),
             data = list.data('list');
 
         list.html('');
@@ -109,7 +111,7 @@ var FilelistHolder = Backbone.View.extend({
 
     doneSort: function () {
         var list = this.list; // jQuery's .each overwrites 'this' scope, set it here.
-        $('#filelist-' + this.id + ' .list div').each(function (index) {
+        $(this.idPrefix + this.id + ' .list div').each(function (index) {
             var id = $(this).data('id'),
                 title = $(this).find('input').val();
 
@@ -121,7 +123,7 @@ var FilelistHolder = Backbone.View.extend({
     bindEvents: function () {
         var $this = this,
             contentkey = this.id,
-            $holder = $('#filelist-' + this.id);
+            $holder = $(this.idPrefix + this.id);
 
         $holder.find("div.list").sortable({
             helper: function (e, item) {
@@ -172,7 +174,7 @@ var FilelistHolder = Backbone.View.extend({
             .bind('fileuploadsubmit', function (e, data) {
                 var fileTypes = $('#fileupload-' + contentkey).attr('accept'),
                     pattern,
-                    ldata = $('#filelist-' + contentkey + ' div.list').data('list');
+                    ldata = $(this.idPrefix + contentkey + ' div.list').data('list');
 
                 if (typeof fileTypes !== 'undefined') {
                     pattern = new RegExp("\\.(" + fileTypes.replace(/,/g, '|').replace(/\./g, '') + ")$", "i");
