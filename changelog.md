@@ -15,6 +15,8 @@ Bolt 2.0 DEV-head
 - Updated: jQuery goMap to 1.3.3  (#2377)
 - Added proportional autoscaling option to showImage() using '0' values
 - Use jshint in grunt workflow
+- Unify image- and filelists
+- Make image- and filelists looking more flat
 
 Bolt 2.0.2
 ----------
