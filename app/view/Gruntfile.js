@@ -93,7 +93,6 @@ module.exports = function(grunt) {
                     'js/src/video-embed.js',
                     'js/src/geolocation.js',
                     'js/src/upload-files.js',
-                    'js/src/upload-images.js',
                     'js/src/obj-sidebar.js',
                     'js/src/obj-navpopups.js',
                     'js/src/obj-moments.js',
@@ -144,7 +143,6 @@ module.exports = function(grunt) {
                     FilelistHolder: true,       // src/upload-files.js
                     Files: true,                // src/obj-files.js
                     Folders: true,              // src/obj-folders.js
-                    ImagelistHolder: true,      // src/upload-images.js
                     init: true,                 // src/init.js
                     Moments: true,              // src/obj-moments.js
                     Navpopups: true,            // src/obj-navpopups.js
