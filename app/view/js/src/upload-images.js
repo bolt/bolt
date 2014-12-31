@@ -2,7 +2,7 @@
  * Model, Collection and View for Imagelist.
  */
 
-var ImageModel = Backbone.Model.extend({
+var FileModel = Backbone.Model.extend({
 
     defaults: {
         id: null,
@@ -18,7 +18,7 @@ var ImageModel = Backbone.Model.extend({
 
 var Imagelist = Backbone.Collection.extend({
 
-    model: ImageModel,
+    model: FileModel,
 
     comparator: function (upload) {
         return upload.get('order');
@@ -47,7 +47,7 @@ var ImagelistHolder = Backbone.View.extend({
             prelist = $.parseJSON($('#' + this.id).val());
             _.each(prelist, function (item) {
                 this.list.add(
-                    new ImageModel({
+                    new FileModel({
                         filename: item.filename,
                         title: item.title,
                         id: this.list.length
@@ -88,7 +88,7 @@ var ImagelistHolder = Backbone.View.extend({
 
     add: function (filename, title) {
         this.list.add(
-            new ImageModel({
+            new FileModel({
                 filename: filename,
                 title: title,
                 id: this.list.length
