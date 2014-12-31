@@ -182,6 +182,7 @@ var FilelistHolder = Backbone.View.extend({
                         if (!pattern.test(file.name)) {
                             alert(ldata.message.wrongtype);
                             e.preventDefault();
+
                             return false;
                         }
                     });
