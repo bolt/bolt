@@ -8,9 +8,11 @@ Bolt 2.0 DEV-head
 - Added: Improvements to Imagelist and Filelist fields: Better selection and re-ordering,
   delete multiple items, and view full-size images. (Thanks @Pinpickle, See #2360)
 - Fixed: bug where contenttype name in menu isn't translated
+- Fixed: No CSS / static files shown when using PHP's built-in server via ./serve (#2381)
 - Updated: CKeditor to 4.4.6, and all used plugins to the latest versions.
 - Removed: ancient browser-specific tags
-- Updated: jQuery to version 1.11.2.
+- Updated: jQuery to version 1.11.2
+- Updated: jQuery goMap to 1.3.3  (#2377)
 - Added proportional autoscaling option to showImage() using '0' values
 - Use jshint in grunt workflow
 
