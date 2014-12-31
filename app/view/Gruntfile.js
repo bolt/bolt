@@ -129,6 +129,7 @@ module.exports = function(grunt) {
                 browser: true,          // Defines globals exposed by modern browsers
                 curly: true,            // Always put curly braces around blocks
                 devel: true,            // Defines globals that are usually used for logging/debugging
+                immed: true,            // Prohibits the use of immediate function invocations without parentheses
                 indent: 4,              // Tab width
                 latedef: true,          // Prohibits the use of a variable before it was defined
                 maxlen: 120,            // Maximum length of a line
