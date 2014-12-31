@@ -7,7 +7,7 @@ var ImageModel = Backbone.Model.extend({
     defaults: {
         id: null,
         filename: null,
-        title: "Untitled image",
+        title: "Untitled",
         order: 1
     },
 

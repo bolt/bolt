@@ -7,7 +7,7 @@ var FileModel = Backbone.Model.extend({
     defaults: {
         id: null,
         filename: null,
-        title: "Untitled file",
+        title: "Untitled",
         order: 1
     },
 
