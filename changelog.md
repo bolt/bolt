@@ -17,6 +17,7 @@ Bolt 2.0 DEV-head
 - Updated: Unify image- and filelists
 - Updated: Make image- and filelists looking more flat
 - Removed: Ancient browser-specific tags
+- Set default width/height of showImage() to '0'
 
 Bolt 2.0.2
 ----------
