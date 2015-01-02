@@ -4,6 +4,7 @@ namespace Bolt\Tests\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Bolt\Tests\BoltUnitTest;
+use Bolt\Configuration\ResourceManager;
 
 /**
  * Class to test correct operation of src/Controller/Backend.
@@ -171,6 +172,53 @@ class BackendTest extends BoltUnitTest
             
         $app['integritychecker'] = $check;
         $request = Request::create('/bolt/dbcheck');
+        $this->checkTwigForTemplate($app, 'dbcheck/dbcheck.twig');
+        
+        $app->run($request);
+    }
+    
+    public function testDbUpdate()
+    {
+        $app = $this->getApp();
+        $this->allowLogin($app);
+        $check = $this->getMock('Bolt\Database\IntegrityChecker', array('repairTables'), array($app));
+        
+            
+        $check->expects($this->at(1))
+            ->method('repairTables')
+            ->will($this->returnValue(""));
+            
+        $check->expects($this->at(2))
+            ->method('repairTables')
+            ->will($this->returnValue("Testing"));
+            
+        $app['integritychecker'] = $check;
+        ResourceManager::setApp($app);
+
+        $request = Request::create('/bolt/dbupdate', "POST", array('return'=>'edit'));
+        $response = $app->handle($request);
+        $this->assertEquals(302, $response->getStatusCode());
+        $this->assertEquals('/bolt/file/edit/files/app/config/contenttypes.yml', $response->getTargetUrl());
+        $this->assertNotEmpty($app['session']->getFlashBag()->get('success'));     
+
+        $request = Request::create('/bolt/dbupdate', "POST", array('return'=>'edit'));
+        $response = $app->handle($request);
+        $this->assertEquals(302, $response->getStatusCode());
+        $this->assertEquals('/bolt/file/edit/files/app/config/contenttypes.yml', $response->getTargetUrl());
+
+        $request = Request::create('/bolt/dbupdate', "POST");
+        $response = $app->handle($request);
+        $this->assertEquals(302, $response->getStatusCode());
+        $this->assertEquals('/bolt/dbupdate_result?messages=null', $response->getTargetUrl());
+        
+    }
+    
+    public function testDbUpdateResult()
+    {
+        $app = $this->getApp();
+        $this->allowLogin($app);
+        
+        $request = Request::create('/bolt/dbupdate_result');
         $this->checkTwigForTemplate($app, 'dbcheck/dbcheck.twig');
         
         $app->run($request);
