@@ -1,7 +1,7 @@
 <div class="tab-content">
 
     <div class="tab-pane active" id="stacktab">
-        {{ render(path("showstack", {'items': 10, 'options': 'list' } )) }}
+        {{ render(path("showstack", {'items': 10, 'options': 'list'})) }}
     </div>
 
     {% for contenttype, records in context.results %}

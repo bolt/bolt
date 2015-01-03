@@ -12,7 +12,7 @@
                 <td style="height: 30px;">
                     <i class="fa fa-fw fa-folder-open-o"></i>
 
-                    <a href="{{ path('files', { 'path': folder.newpath, 'namespace': context.namespace, 'CKEditor': app.request.query.get('CKEditor'), 'CKEditorFuncNum': app.request.query.get('CKEditorFuncNum'), 'langCode': app.request.query.get('langCode')}) }}">
+                    <a href="{{ path('files', {'path': folder.newpath, 'namespace': context.namespace, 'CKEditor': app.request.query.get('CKEditor'), 'CKEditorFuncNum': app.request.query.get('CKEditorFuncNum'), 'langCode': app.request.query.get('langCode')}) }}">
                         <b>{{ folder.foldername|excerpt(40)|shy }}/</b>
                     </a>
                 </td>

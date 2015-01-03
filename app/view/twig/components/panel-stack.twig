@@ -36,7 +36,7 @@
                 <input id="fileupload-stack"
                        type="file"
                        name="files[]"
-                       data-url="{{ url('upload', { namespace:context.namespace }) }}"
+                       data-url="{{ url('upload', {namespace: context.namespace}) }}"
                        accept=".{{ context.filetypes|join(',.') }}">
             </span>
         </div>

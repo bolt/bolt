@@ -65,7 +65,7 @@
                 $.ajax({
                     url: "{{ paths.root }}async/populartags/{{ taxonomy.slug }}",
                     dataType: "json",
-                    data : { limit: 40 },
+                    data : {limit: 40},
                     success: function(data) {
                         if (data.length > 0) {
                             $.each(data, function(index, item){

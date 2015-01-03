@@ -49,7 +49,7 @@
         <div>
             <strong>
                 {% if editable %}
-                <a href="{{ path('editcontent', { 'contenttypeslug': content.contenttype.slug, 'id': content.id }) }}" title="Slug: {{ content.slug }}">
+                <a href="{{ path('editcontent', {'contenttypeslug': content.contenttype.slug, 'id': content.id}) }}" title="Slug: {{ content.slug }}">
                     {{ content.getTitle }}
                 </a>
                 {% else %}

@@ -97,21 +97,19 @@
                                                                         this);">
 
                                         <i class="fa fa-keyboard-o"></i>
-                                        {{ __('Rename %foldername%', { '%foldername%': file.filename }) }}
+                                        {{ __('Rename %foldername%', {'%foldername%': file.filename}) }}
                                     </a>
                                 </li>
                                 <li>
                                     <a href="#" data-action="bolt.files.deleteFile('{{ context.namespace }}', '{{ file.newpath }}', this);">
                                         <i class="fa fa-ban"></i>
-                                        {{ __('Delete %filename%',
-                                              {'%filename%': file.filename }) }}
+                                        {{ __('Delete %filename%', {'%filename%': file.filename}) }}
                                     </a>
                                 </li>
                                 <li>
                                     <a href="#" data-action="bolt.files.duplicateFile('{{ context.namespace }}', '{{ file.newpath }}')">
                                         <i class="fa fa-files-o"></i>
-                                        {{ __('Duplicate %filename%',
-                                              {'%filename%': file.filename }) }}
+                                        {{ __('Duplicate %filename%', {'%filename%': file.filename }) }}
                                     </a>
                                 </li>
                                 <li class="divider"></li>

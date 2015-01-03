@@ -45,7 +45,7 @@
             {% endif %}
 
             {% if not has_results and context.query %}
-                <p>{{ __("No results found for '%search%'. Please try another search.", { '%search%': context.query|escape }) }}</p>
+                <p>{{ __("No results found for '%search%'. Please try another search.", {'%search%': context.query|escape}) }}</p>
             {% elseif not has_results %}
                 {# <p>Some default text here...</p> #}
             {% endif %}

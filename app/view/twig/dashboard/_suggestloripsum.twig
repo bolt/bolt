@@ -2,6 +2,6 @@
     <button class="close" data-dismiss="alert">×</button>
     {{ __("page.dashboard.empty-database") }}
     {% if isallowed('prefill') %}
-        {{ __("page.dashboard.quickstart", {'%url%': path('prefill', {'force': 1}) }) }}
+        {{ __("page.dashboard.quickstart", {'%url%': path('prefill', {'force': 1})}) }}
     {% endif %}
 </div>

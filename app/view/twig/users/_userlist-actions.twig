@@ -1,5 +1,5 @@
 <div class="btn-group">
-    <a href="{{ path('useredit', { 'id' : user.id }) }}" class="btn btn-default btn-xs">
+    <a href="{{ path('useredit', {'id': user.id}) }}" class="btn btn-default btn-xs">
             <i class="fa fa-edit"></i> {{ __('Edit') }}
     </a>
 
@@ -11,7 +11,7 @@
     <ul class="dropdown-menu pull-right">
         {% if user.enabled %}
             <li>
-                <form action="{{ path('useraction', { 'action': 'disable', 'id': user.id }) }}" method="post">
+                <form action="{{ path('useraction', {'action': 'disable', 'id': user.id}) }}" method="post">
                     {% include('_sub/_csrf_token.twig') %}
                     <button type="submit" class="btn btn-block btn-link">
                         <span class="pull-left">{{ __('Disable %username%',{'%username%':user.displayname}) }}</span>
@@ -20,7 +20,7 @@
             </li>
         {% else %}
             <li>
-                <form action="{{ path('useraction', { 'action': 'enable', 'id': user.id }) }}" method="post">
+                <form action="{{ path('useraction', {'action': 'enable', 'id': user.id}) }}" method="post">
                     {% include('_sub/_csrf_token.twig') %}
                     <button type="submit" class="btn btn-block btn-link">
                         <span class="pull-left">{{ __('Enable %username%',{'%username%':user.displayname}) }}</span>
@@ -29,7 +29,7 @@
             </li>
         {% endif %}
         <li>
-            <form action="{{ path('useraction', { 'action': 'delete', 'id': user.id }) }}" method="post">
+            <form action="{{ path('useraction', {'action': 'delete', 'id': user.id}) }}" method="post">
                 {% include('_sub/_csrf_token.twig') %}
                 <button type="submit" class="btn btn-block btn-link confirm"
                 data-confirm="{{ __('Are you sure you want to delete %username%?',{'%username%':user.displayname}) }}" >
