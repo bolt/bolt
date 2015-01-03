@@ -633,7 +633,7 @@ class Users
                 'password' => $user['shadowpassword'],
                 'shadowpassword' => "",
                 'shadowtoken' => "",
-                'shadowvalidity' => "0000-00-00 00:00:00"
+                'shadowvalidity' => "1900-01-01 00:00:00"
             );
             $this->db->update($this->usertable, $update, array('id' => $user['id']));
 
@@ -659,7 +659,7 @@ class Users
     private function throttleUntil($attempts)
     {
         if ($attempts < 5) {
-            return "0000-00-00 00:00:00";
+            return "1900-01-01 00:00:00";
         } else {
             $wait = pow(($attempts - 4), 2);
 
