@@ -61,7 +61,8 @@ bolt.datetimes = (function () {
 
         // Set data field
         if (date.isValid()) {
-            field.data.val(date.format('YYYY-MM-DD') + field.time.exists ? ' ' + time.format('HH:mm:00') : '');
+            var timeString = field.time.exists ? ' ' + time.format('HH:mm:00') : '';
+            field.data.val(date.format('YYYY-MM-DD') + timeString);
         } else if (foundTime) {
             field.data.val(moment().format('YYYY-MM-DD') + ' ' + time.format('HH:mm:00'));
         } else {
@@ -80,7 +81,9 @@ bolt.datetimes = (function () {
         var date = '',
             time = '',
             hour,
-            match;
+            match,
+            setDate,
+            postfix;
 
         // Correct no depublish date
         if (field.data.attr('id') === 'datedepublish' && field.data.val() === '1900-01-01 00:00:00') {
@@ -95,8 +98,8 @@ bolt.datetimes = (function () {
         }
 
         // Set date field
-        field.date.datepicker('setDate', (date === '' || date === '0000-00-00') ?
-            '' : $.datepicker.parseDate('yy-mm-dd', date));
+        setDate = (date === '' || date === '0000-00-00') ? '' : $.datepicker.parseDate('yy-mm-dd', date);
+        field.date.datepicker('setDate', setDate);
 
         // Set time field
         if (field.time.exists) {
@@ -111,7 +114,8 @@ bolt.datetimes = (function () {
                 time = field.data.val().slice(11, 16);
             } else {
                 hour = parseInt(time.slice(0, 2));
-                time = (hour % 12 || 12) + time.slice(2, 5) + hour < 12 ? ' AM' : ' PM';
+                postfix = (hour < 12) ? ' AM' : ' PM';
+                time = (hour % 12 || 12) + time.slice(2, 5) + postfix;
             }
             field.time.val(time);
         }
