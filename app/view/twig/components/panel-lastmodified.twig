@@ -48,7 +48,7 @@
         {% else %}
             {% for content in context.latest %}
                 <li>
-                    № {{content.id}}.
+                    № {{ content.id }}.
                     {{ macro.contentlink(context.contenttype, content) }}
                     <small>({{ macro.datetime(content.datechanged) }})</small>
                 </li>

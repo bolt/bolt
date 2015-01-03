@@ -95,7 +95,7 @@
     {% include('_sub/_csrf_token.twig') %}
     <button type="submit"
         {% if confirmation_text %}
-            class="btn btn-link btn-block confirm" data-confirm="{{confirmation_text}}"
+            class="btn btn-link btn-block confirm" data-confirm="{{ confirmation_text }}"
         {%else%}
             class="btn btn-link btn-block"
         {%endif%}
@@ -118,7 +118,7 @@
 
 {% macro stackbutton(file) %}
     {% if not app.config.get('general/backend/stack/disable', false) and not stacked(file.newpath) %}
-        <a href="#" class="btn btn-default btn-sm" data-action="bolt.stack.addToStack('{{file.newpath}}', this);">
+        <a href="#" class="btn btn-default btn-sm" data-action="bolt.stack.addToStack('{{ file.newpath }}', this);">
             <i class="fa fa-paperclip"></i>
             <span class="visible-sm-inline visible-xs-inline">{{ __('Stack') }}</span>
             <span class="hidden-sm hidden-xs">{{ __('Place on stack') }}</span>

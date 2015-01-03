@@ -2,7 +2,7 @@
 
 {% for key, field in context.contenttype.fields %}
 
-    <div class="tabgrouping form-group" data-tab="{{field.group|default('ungrouped') }}">
+    <div class="tabgrouping form-group" data-tab="{{ field.group|default('ungrouped') }}">
 
         {# --------------- prefix --------------- #}
         {% if field.prefix is defined and field.prefix is not empty %}

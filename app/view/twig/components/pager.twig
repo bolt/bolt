@@ -14,11 +14,11 @@
 
             {# 'first' and 'prev' #}
             {% if context.pager.current > 1 %}
-                <li><a href="{{link}}{{context.pager.current-1}}"><i class="fa fa-angle-left" style="font-weight: bold;"></i></a></li>
+                <li><a href="{{ link }}{{ context.pager.current - 1 }}"><i class="fa fa-angle-left" style="font-weight: bold;"></i></a></li>
             {% endif %}
 
             {% if context.pager.current > context.surr+1 %}
-                <li><a href="{{link}}{{1}}"><i class="fa fa-double-angle-left" style="font-weight: bold;"></i> 1</a></li>
+                <li><a href="{{ link }}{{ 1 }}"><i class="fa fa-double-angle-left" style="font-weight: bold;"></i> 1</a></li>
             {% endif %}
 
             {# start with '...' if there are more than context.surr+1 before currentpage. #}

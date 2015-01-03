@@ -15,13 +15,13 @@
             <tr>
                 <td class="id">
                     {% if user.enabled == 0 %}<s>{% endif %}
-                    № {{user.id}}
+                    № {{ user.id }}
                     {% if user.enabled == 0 %}</s>{% endif %}
                 </td>
 
                 <td class="username">
                     {% if user.enabled == 0 %}<s>{% endif %}
-                    <strong>{{ user.displayname }}</strong> ({{ user.username}})
+                    <strong>{{ user.displayname }}</strong> ({{ user.username }})
                     {% if user.enabled == 0 %}</s>{% endif %}
                 </td>
 

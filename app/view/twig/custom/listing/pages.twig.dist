@@ -13,18 +13,18 @@
 {# The header line #}
 {% block listing_header %}
     <th style="width:50%">
-        <a href="{{link}}title {% if request('order')=="title ASC" %}DESC{%else%}ASC{%endif%}">{{ __('Title') }}</a>
+        <a href="{{ link }}title {% if request('order')=="title ASC" %}DESC{%else%}ASC{%endif%}">{{ __('Title') }}</a>
     </th>
 
     <th>
-        <a href="{{link}}slug {% if request('order')=="slug ASC" %}DESC{%else%}ASC{%endif%}">{{ __('Slug') }}</a>
+        <a href="{{ link }}slug {% if request('order')=="slug ASC" %}DESC{%else%}ASC{%endif%}">{{ __('Slug') }}</a>
     </th>
 
     <th>
-        <a href="{{link}}image {% if request('order')=="image ASC" %}DESC{%else%}ASC{%endif%}">{{ __('Image') }}</a>
+        <a href="{{ link }}image {% if request('order')=="image ASC" %}DESC{%else%}ASC{%endif%}">{{ __('Image') }}</a>
     </th>
 
-    <th class="username hidden-xs"><a href="{{link}}datecreated {% if request('order')=="datecreated ASC" %}DESC{%else%}ASC{%endif%}">{{ __('Meta') }}</a></th>
+    <th class="username hidden-xs"><a href="{{ link }}datecreated {% if request('order')=="datecreated ASC" %}DESC{%else%}ASC{%endif%}">{{ __('Meta') }}</a></th>
 
     <th><a href="?">{{ __('Actions') }}</a></th>
 {% endblock %}
@@ -50,22 +50,22 @@
             <strong>
                 {% if editable %}
                 <a href="{{ path('editcontent', { 'contenttypeslug': content.contenttype.slug, 'id': content.id }) }}" title="Slug: {{ content.slug }}">
-                    {{content.getTitle}}
+                    {{ content.getTitle }}
                 </a>
                 {% else %}
                 <strong>
-                    {{content.getTitle}}
+                    {{ content.getTitle }}
                 </strong>
                 {% endif %}
             </strong>
         </div>
     </td>
     <td>
-        {{content.slug}}
+        {{ content.slug }}
     </td>
     <td>
         {% if content.getImage is not empty %}
-            {{content.getImage|popup(thumbsize, thumbsize*0.75, 'c')}}
+            {{ content.getImage|popup(thumbsize, thumbsize * 0.75, 'c') }}
         {% endif %}
     </td>
 {% endblock %}
