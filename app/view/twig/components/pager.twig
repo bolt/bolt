@@ -3,7 +3,7 @@
 {% if context.pager.totalpages|default(0) > 1 %}
     <div style="text-align: center">
         <ul class="pagination pagination-centered">
-            {# Showing {{ context.pager.for }} {{ context.pager.showing_from }} - {{ context.pager.showing_to }} of {{  context.pager.count }} #}
+            {# Showing {{ context.pager.for }} {{ context.pager.showing_from }} - {{ context.pager.showing_to }} of {{ context.pager.count }} #}
             <li><span>{{ __('Showing %pager_for% %from% - %to% of %count%', {
                     '%pager_for%': context.pager.for,
                     '%from%': context.pager.showing_from,

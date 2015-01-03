@@ -51,7 +51,7 @@
                       {{ __("page.edit-file.note-related") }}
                       {% for related in context.filegroup %}
                         {% if related != context.basename %}
-                          <a class="btn btn-tertiary btn-small" href="{{ path('fileedit', { 'namespace': context.namespace, 'file': context.additionalpath ~ related } )  }}">{{ related }}</a>
+                          <a class="btn btn-tertiary btn-small" href="{{ path('fileedit', {'namespace': context.namespace, 'file': context.additionalpath ~ related}) }}">{{ related }}</a>
                         {% endif %}
                       {% endfor %}
                     {% endif %}

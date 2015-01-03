@@ -7,7 +7,7 @@
     <tr class="grouping">
         <th colspan="{% block listing_columns %}6{% endblock %}">
             <h3 {% if loop.first %}class="first"{% endif %}>
-                {% if content.group.name  %}
+                {% if content.group.name %}
                     {{ content.group.name }}
                 {% else %}
                     {{ __('(no group)') }}
@@ -124,10 +124,10 @@
                         </a>
                     </li>
                 {% endif %}
-                {% if content.relation  %}
+                {% if content.relation %}
                     <li>
                         <a href="{{ path('relatedto', { 'contenttypeslug': content.contenttype.slug, 'id': content.id }) }}">
-                            <i class="fa fa-link"></i> {{  __('View related content') }}
+                            <i class="fa fa-link"></i> {{ __('View related content') }}
                         </a>
                     </li>
                 {% endif %}
