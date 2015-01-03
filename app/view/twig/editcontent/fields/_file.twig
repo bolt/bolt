@@ -6,7 +6,7 @@
     extensions:  field.extensions|default([]),
     upload:      field.upload|default(''),
     info:        field.info|default('info.upload.file')
-}%}
+} %}
 
 {#=== INIT ===========================================================================================================#}
 
@@ -17,7 +17,7 @@
     type:        'text',
     placeholder: __('field.general.allowed-filetypes') ~ ' ' ~ option.extensions|join(', ') ~ ' …',
     value:       context.content.get(key),
-}%}
+} %}
 
 {% set attr_upload = {
     accept:       option.extensions ? '.'~option.extensions|join(',.') : '',
@@ -26,7 +26,7 @@
     id:           'fileupload-'~key,
     name:         'files[]',
     type:         'file',
-}%}
+} %}
 
 {#=== BLOCKS =========================================================================================================#}
 

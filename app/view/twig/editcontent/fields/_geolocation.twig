@@ -3,7 +3,7 @@
 {% set option = {
     label:  field.label|default(''),
     info:   field.info|default('info.geolocation')
-}%}
+} %}
 
 {#=== INIT ===========================================================================================================#}
 
@@ -19,7 +19,7 @@
     type:   'number',
     step:   'any',
     value:  geolocation_lat,
-}%}
+} %}
 
 {% set attr_lon = {
     class:  'form-control',
@@ -29,7 +29,7 @@
     type:   'number',
     step:   'any',
     value:  geolocation_lon,
-}%}
+} %}
 
 {% set attr_address = {
     class:       'form-control',
@@ -38,7 +38,7 @@
     type:        'text',
     placeholder: __('field.geolocation.placeholder.address') ~ ' …',
     value:       geolocation.address|default(''),
-}%}
+} %}
 
 {% set attr_formatted = {
     data_geolocation:  {key: key, lat: geolocation_lat, lon: geolocation_lon}|json_encode,
@@ -47,7 +47,7 @@
     style:             'width: 30%;',
     type:              'hidden',
     value:             geolocation.formatted_address|default(''),
-}%}
+} %}
 
 {#=== FIELDSET =======================================================================================================#}
 

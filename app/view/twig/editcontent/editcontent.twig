@@ -34,7 +34,7 @@
         msgSaving:      __('Saving …'),
         hasGroups:      context.contenttype.groups|default is not empty,
         singularSlug:   context.contenttype.singular_slug,
-    }%}
+    } %}
 
     {% set attr_form = {
         _bind:   ['editcontent', {
@@ -51,7 +51,7 @@
         id:      "editcontent",
         method:  "post",
         role:    "form",
-    }%}
+    } %}
 
     <div class="row">
         <div class="col-md-8">

@@ -16,16 +16,16 @@
     {% import _self as crosslinks %}
 
     {% if content.title is defined %}
-        {%set title = content.title %}
+        {% set title = content.title %}
     {% else %}
-        {%set title = content.name %}
+        {% set title = content.name %}
     {% endif %}
     {{ crosslinks.contentlink_by_id(contenttype, title, content.id) }}
 {% endmacro %}
 
 {% macro changelogmutation(raw) %}
     {% set mapping = {'UPDATE': 'changed', 'INSERT': 'created', 'DELETE': 'deleted', 'HOLD': 'put on hold', 'PUBLISH': 'published', 'DRAFT': 'depublished' } %}
-    {% if mapping[raw] is defined %}{{ mapping[raw] }}{%else%}{{ raw }}{%endif%}
+    {% if mapping[raw] is defined %}{{ mapping[raw] }}{% else %}{{ raw }}{% endif %}
 {% endmacro %}
 
 {# output a 'relative' datetime #}
@@ -66,7 +66,7 @@
 {# Info popup #}
 {% macro infopop(label, infoid, afterlabel) %}
     {% spaceless %}
-        {{ label }}{% if afterlabel is defined %} {{ afterlabel|raw }}{% endif%}
+        {{ label }}{% if afterlabel is defined %} {{ afterlabel|raw }}{% endif %}
         <span class="label info-pop"
               data-content="{{ app.translator.trans(infoid, {}, 'infos') }}"
               data-html="true"
@@ -96,9 +96,9 @@
     <button type="submit"
         {% if confirmation_text %}
             class="btn btn-link btn-block confirm" data-confirm="{{ confirmation_text }}"
-        {%else%}
+        {% else %}
             class="btn btn-link btn-block"
-        {%endif%}
+        {% endif %}
     >
         <span class="pull-left">
             <i class="fa {{ icon }}"></i>

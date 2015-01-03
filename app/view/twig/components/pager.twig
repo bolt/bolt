@@ -27,7 +27,7 @@
             {% endif %}
 
             {% for i in max(1, context.pager.current - context.surr) .. min(context.pager.current + context.surr, context.pager.totalpages) %}
-                <li {% if i == context.pager.current %}class="active"{%endif%}><a href="{{ link }}{{ i }}">{{ i }}</a></li>
+                <li {% if i == context.pager.current %}class="active"{% endif %}><a href="{{ link }}{{ i }}">{{ i }}</a></li>
             {% endfor %}
 
             {# end with '...' if there are more than context.surr+1 after currentpage. #}

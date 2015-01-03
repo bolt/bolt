@@ -10,7 +10,7 @@
     name_id:  'editreferrer',
     type:     'hidden',
     value:    editreferrer|default(''),
-}%}
+} %}
 
 {% set attr_id = {
     class:     'form-control narrow',
@@ -19,33 +19,33 @@
     readonly:  true,
     type:      'text',
     value:     context.content.id,
-}%}
+} %}
 
 {% set attr_publish = {
     disabled: (not can_publish),
     id:       'datepublish',
     value:    ((context.content.datepublish == magic_date) ? '' : (context.content.datepublish == '') ? "now"|date('Y-m-d H:i:s') : context.content.datepublish),
-}%}
+} %}
 
 {% set attr_depublish = {
     disabled:  (not can_depublish),
     id:        'datedepublish',
     value:     (context.content.datedepublish == magic_date) ? '' : context.content.datedepublish,
     notice:     __('Depublish date is in the past. Change the status if you want to depublish now'),
-}%}
+} %}
 
 {% set attr_status = {
     class:     'form-control narrow',
     disabled:  (context.allowed_status|length <= 1),
     id:        'statusselect',
     name:      'status',
-}%}
+} %}
 
 {% set attr_ownerid = {
     class:     'form-control narrow',
     disabled:  (not isallowed('contenttype:' ~ context.contenttype.slug ~ ':change-ownership:' ~ context.content.id)),
     name:      'ownerid',
-}%}
+} %}
 
 {% set attr_comment = {
     class:        'form-control',
@@ -53,7 +53,7 @@
     name_id:      'changelog-comment',
     placeholder:  __('Add a brief, optional comment to describe what\'s changed.'),
     type:         'text',
-}%}
+} %}
 
 {#====================================================================================================================#}
 
@@ -103,7 +103,7 @@
                     {% set attr_opt = {
                         value:     status,
                         selected:  (context.content.status == status),
-                    }%}
+                    } %}
                     <option{{ macro.attr(attr_opt) }}>{{ status_names[status] }}</option>
                 {% endfor %}
             </select>
@@ -118,7 +118,7 @@
                     {% set attr_opt = {
                         value:     user.id,
                         selected:  (context.contentowner and user.id == context.contentowner.id),
-                    }%}
+                    } %}
                     <option{{ macro.attr(attr_opt) }}>{{ user.displayname }}</option>
                 {% endfor %}
             </select>

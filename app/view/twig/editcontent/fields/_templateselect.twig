@@ -5,23 +5,23 @@
     filter:  field.filter|default({}),
     label:   field.label|default(''),
     info:    field.info|default('')
-}%}
+} %}
 
 {#=== INIT ===========================================================================================================#}
 
 {% set attr_select = {
     class:    option.class,
     name_id:  key,
-}%}
+} %}
 
 {% set attr_default = {
     value:  '',
-}%}
+} %}
 
 {% set attr_divider = {
     disabled:  true,
     value:     '',
-}%}
+} %}
 
 {#=== FIELDSET =======================================================================================================#}
 

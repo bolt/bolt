@@ -11,7 +11,7 @@
     title:        field.title|default(''),
     variant:      field.variant|default(''),
     info:         field.info|default('')
-}%}
+} %}
 {# variant[inline] #}
 
 {#=== INIT ===========================================================================================================#}
@@ -28,7 +28,7 @@
     title:          option.title,
     type:           (option.pattern in ['url', 'email']) ? option.pattern : 'text',
     value:          context.content.get(key),
-}%}
+} %}
 
 {#=== FIELDSET =======================================================================================================#}
 

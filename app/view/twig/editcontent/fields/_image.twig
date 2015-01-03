@@ -7,7 +7,7 @@
     attrib:      (field.attrib is defined) ? (field.attrib is iterable ?: {0: field.attrib}) : false,
     upload:      field.upload|default(''),
     info:        field.info|default('info.upload.image')
-}%}
+} %}
 {# attrib[title] #}
 
 {#=== INIT ===========================================================================================================#}
@@ -25,7 +25,7 @@
     type:        'text',
     placeholder: __('field.general.allowed-filetypes') ~ ' ' ~ option.extensions|join(', ') ~ ' …',
     value:       image.file|default(''),
-}%}
+} %}
 
 {% set attr_upload = {
     accept:       option.extensions ? '.'~option.extensions|join(',.') : '',
@@ -34,7 +34,7 @@
     id:           'fileupload-'~key,
     name:         'files[]',
     type:         'file',
-}%}
+} %}
 
 
 {#=== BLOCKS =========================================================================================================#}

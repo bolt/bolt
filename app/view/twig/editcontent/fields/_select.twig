@@ -6,7 +6,7 @@
     multiple:  (field.multiple is defined and field.multiple),
     values:    field.values|default([]),
     info:      field.info|default('')
-}%}
+} %}
 
 {#=== INIT ===========================================================================================================#}
 
@@ -27,7 +27,7 @@
     id:        key,
     multiple:  option.multiple,
     name:      (option.multiple) ? key~'[]' : key,
-}%}
+} %}
 
 {#=== FIELDSET =======================================================================================================#}
 
@@ -44,7 +44,7 @@
                     {% set attr_opt = {
                         value:     (is_array ? value[0] : value),
                         selected:  (is_array ? (value[0] in context.content.get(key)) : (value in context.content.get(key))),
-                    }%}
+                    } %}
 
                     <option{{ macro.attr(attr_opt) }}>{{ is_array ? value[1] : value }}</option>
                 {% endfor %}
@@ -75,7 +75,7 @@
                     {% set attr_opt = {
                         value:     (is_array ? value[0] : value),
                         selected:  (context.content.get(key) == (is_array ? value[0] : value)),
-                    }%}
+                    } %}
 
                     <option{{ macro.attr(attr_opt) }}>{{ is_array ? value[1] : value }}</option>
                 {% endfor %}

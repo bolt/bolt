@@ -13,7 +13,7 @@
             <label for="username" class="control-label">{{ __('page.login.label.username') }}</label>
             <div class="input-group">
                 <label for="username" class="input-group-addon"><i class="fa fa-fw fa-user"></i></label>
-                <input id="username" class="form-control" type="text" autofocus="true" name="username" placeholder="{{ __('page.login.placeholder.password') }} …" {% if username is defined %}value="{{ username }}"{%endif%} required>
+                <input id="username" class="form-control" type="text" autofocus="true" name="username" placeholder="{{ __('page.login.placeholder.password') }} …" {% if username is defined %}value="{{ username }}"{% endif %} required>
             </div>
         </div>
 
