@@ -19,19 +19,19 @@
 {% set image = (context.content.get(key) is iterable) ? context.content.get(key) : {'file': context.content.get(key)} %}
 
 {% set attr_inp = {
-    class:       option.class~' imageinput wide',
-    id:          'field-'~key,
-    name:        key~'[file]',
+    class:       option.class ~ ' imageinput wide',
+    id:          'field-' ~ key,
+    name:        key ~ '[file]',
     type:        'text',
     placeholder: __('field.general.allowed-filetypes') ~ ' ' ~ option.extensions|join(', ') ~ ' …',
     value:       image.file|default(''),
 } %}
 
 {% set attr_upload = {
-    accept:       option.extensions ? '.'~option.extensions|join(',.') : '',
+    accept:       option.extensions ? '.' ~ option.extensions|join(',.') : '',
     data_upload:  {type: 'Image', key: key, width: preview_w, height: preview_h}|json_encode(),
     data_url:     url('upload', {'handler': option.upload}),
-    id:           'fileupload-'~key,
+    id:           'fileupload-' ~ key,
     name:         'files[]',
     type:         'file',
 } %}
@@ -119,7 +119,7 @@
                 {% if context.content.get(key) != '' %}
                     {% set preview_path = image.file|thumbnail(preview_w, preview_h, 'c') %}
                 {% else %}
-                    {% set preview_path = app.paths.app~'view/img/default_empty_4x3.png' %}
+                    {% set preview_path = app.paths.app ~ 'view/img/default_empty_4x3.png' %}
                 {% endif %}
                 {# <img src="{{ preview_path }}" width="{{ preview_w }}" height="{{ preview_h }}" alt="Preview"> #}
                 <img src="{{ preview_path }}" alt="Preview" width="{{ preview_w }}" height="{{ preview_h }}">

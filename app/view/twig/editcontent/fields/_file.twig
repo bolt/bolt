@@ -11,8 +11,8 @@
 {#=== INIT ===========================================================================================================#}
 
 {% set attr_filepath = {
-    class:       option.class~' imageinput',
-    id:          'field-'~key,
+    class:       option.class ~ ' imageinput',
+    id:          'field-' ~ key,
     name:        key,
     type:        'text',
     placeholder: __('field.general.allowed-filetypes') ~ ' ' ~ option.extensions|join(', ') ~ ' …',
@@ -20,10 +20,10 @@
 } %}
 
 {% set attr_upload = {
-    accept:       option.extensions ? '.'~option.extensions|join(',.') : '',
+    accept:       option.extensions ? '.' ~ option.extensions|join(',.') : '',
     data_upload:  {type: 'File', key: key}|json_encode(),
     data_url:     url('upload', {'handler': option.upload}),
-    id:           'fileupload-'~key,
+    id:           'fileupload-' ~ key,
     name:         'files[]',
     type:         'file',
 } %}

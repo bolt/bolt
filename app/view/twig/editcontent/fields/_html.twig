@@ -13,12 +13,12 @@
 {#=== INIT ===========================================================================================================#}
 
 {% set attr_html = {
-    class:               option.class~' ckeditor',
+    class:               option.class ~ ' ckeditor',
     data_field_options:  option.options ? option.options|json_encode : '',
     name:                key,
     required:            option.required,
     data_errortext:      option.errortext,
-    style:               (option.height) ? 'height: '~option.height : '',
+    style:               (option.height) ? 'height: ' ~ option.height : '',
 } %}
 
 {#=== FIELDSET =======================================================================================================#}

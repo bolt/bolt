@@ -9,13 +9,13 @@
 
 {% set video = context.content.get(key) %}
 
-{% set videotitle = (video.title is defined) ? '"<b>' ~ video.title|trimtext(18)~'</b>" by '~video.authorname|trimtext(18) %}
+{% set videotitle = (video.title is defined) ? '"<b>' ~ video.title|trimtext(18) ~ '</b>" by ' ~ video.authorname|trimtext(18) %}
 
 {% set attr_url = {
     _bind:        ['video', {key: key}],
     class:        'form-control',
-    id:           'video-'~key,
-    name:         key~'[url]',
+    id:           'video-' ~ key,
+    name:         key ~ '[url]',
     type:         'url',
     placeholder:  __('field.video.placeholder.url') ~ ' …',
     value:        video.url|default(''),
@@ -23,8 +23,8 @@
 
 {% set attr_width = {
     class:  'form-control pull-left',
-    id:     'video-'~key~'-width',
-    name:   key~'[width]',
+    id:     'video-' ~ key ~ '-width',
+    name:   key ~ '[width]',
     style:  'width: 80px; min-width: 80px;',
     type:   'number',
     value:  video.width|default(''),
@@ -32,55 +32,55 @@
 
 {% set attr_height = {
     class:  'form-control pull-left',
-    id:     'video-'~key~'-height',
-    name:   key~'[height]',
+    id:     'video-' ~ key ~ '-height',
+    name:   key ~ '[height]',
     style:  'width: 80px; min-width: 80px;',
     type:   'number',
     value:  video.height|default(''),
 } %}
 
 {% set attr_hid_ratio = {
-    id:        'video-'~key~'-ratio',
-    name:      key~'[ratio]',
+    id:        'video-' ~ key ~ '-ratio',
+    name:      key ~ '[ratio]',
     type:      'hidden',
     value:     video.ratio|default(''),
 } %}
 
 {% set attr_hid_title = {
-    id:        'video-'~key~'-title',
-    name:      key~'[title]',
+    id:        'video-' ~ key ~ '-title',
+    name:      key ~ '[title]',
     readonly:  true,
     type:      'hidden',
     value:     video.title|default(''),
 } %}
 
 {% set attr_hid_authorname = {
-    id:        'video-'~key~'-author_name',
-    name:      key~'[authorname]',
+    id:        'video-' ~ key ~ '-author_name',
+    name:      key ~ '[authorname]',
     readonly:  true,
     type:      'hidden',
     value:     video.authorname|default(''),
 } %}
 
 {% set attr_hid_authorurl = {
-    id:        'video-'~key~'-author_url',
-    name:      key~'[authorurl]',
+    id:        'video-' ~ key ~ '-author_url',
+    name:      key ~ '[authorurl]',
     readonly:  true,
     type:      'hidden',
     value:     video.authorurl|default(''),
 } %}
 
 {% set attr_hid_html = {
-    id:        'video-'~key~'-html',
-    name:      key~'[html]',
+    id:        'video-' ~ key ~ '-html',
+    name:      key ~ '[html]',
     readonly:  true,
     type:      'hidden',
     value:     (video.html is defined ? video.html|replace({'"': '\''}) : ''),
 } %}
 
 {% set attr_hid_thumbnail = {
-    id:        'video-'~key~'-thumbnail',
-    name:      key~'[thumbnail]',
+    id:        'video-' ~ key ~ '-thumbnail',
+    name:      key ~ '[thumbnail]',
     readonly:  true,
     type:      'hidden',
     value:     video.thumbnail|default(''),

@@ -13,8 +13,8 @@
 
 {% set attr_lat = {
     class:  'form-control',
-    id:     key~'-latitude',
-    name:   key~'[latitude]',
+    id:     key ~ '-latitude',
+    name:   key ~ '[latitude]',
     style:  '',
     type:   'number',
     step:   'any',
@@ -23,8 +23,8 @@
 
 {% set attr_lon = {
     class:  'form-control',
-    id:     key~'-longitude',
-    name:   key~'[longitude]',
+    id:     key ~ '-longitude',
+    name:   key ~ '[longitude]',
     style:  '',
     type:   'number',
     step:   'any',
@@ -33,8 +33,8 @@
 
 {% set attr_address = {
     class:       'form-control',
-    id:          key~'-address',
-    name:        key~'[address]',
+    id:          key ~ '-address',
+    name:        key ~ '[address]',
     type:        'text',
     placeholder: __('field.geolocation.placeholder.address') ~ ' …',
     value:       geolocation.address|default(''),
@@ -42,8 +42,8 @@
 
 {% set attr_formatted = {
     data_geolocation:  {key: key, lat: geolocation_lat, lon: geolocation_lon}|json_encode,
-    id:                key~'-formatted_address',
-    name:              key~'[formatted_address]',
+    id:                key ~ '-formatted_address',
+    name:              key ~ '[formatted_address]',
     style:             'width: 30%;',
     type:              'hidden',
     value:             geolocation.formatted_address|default(''),

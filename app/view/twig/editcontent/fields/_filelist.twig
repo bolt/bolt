@@ -10,10 +10,10 @@
 {#=== INIT ===========================================================================================================#}
 
 {% set attr_fileupload = {
-    accept:       option.extensions ? '.'~option.extensions|join(',.') : '',
+    accept:       option.extensions ? '.' ~ option.extensions|join(',.') : '',
     data_upload:  {type: 'FileList', key: key}|json_encode(),
     data_url:     url('upload', {'handler': option.upload}),
-    id:           'fileupload-'~key,
+    id:           'fileupload-' ~ key,
     name:         'files[]',
     type:         'file',
     multiple:     true,
@@ -56,7 +56,7 @@
     'message': {
         'remove':     __('Are you sure you want to remove this file?'),
         'removeMulti':  __('Are you sure you want to remove these images?'),
-        'wrongtype':  __('There was an error uploading the file.\nMake sure that the file type is of:\n%typelist%', {'%typelist%': option.extensions ? '.'~option.extensions|join(', .') : '–'})
+        'wrongtype':  __('There was an error uploading the file.\nMake sure that the file type is of:\n%typelist%', {'%typelist%': option.extensions ? '.' ~ option.extensions|join(', .') : '–'})
     },
     'empty':          list_empty|trim,
     'item':           list_item|trim|preg_replace('/>\\s+</', '><'),
