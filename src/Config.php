@@ -74,7 +74,7 @@ class Config
         }
 
         if ($path) {
-            $filename = $path . $filename;
+            $filename = $path . '/' . $filename;
         } else {
             $filename = $this->app['resources']->getPath('config') . '/' . $filename;
         }
@@ -190,11 +190,8 @@ class Config
         $config['extensions']  = array();
 
         // fetch the theme config. requires special treatment due to the path being dynamic
-
         $this->app['resources']->initializeConfig($config);
-        $paths = $this->app['resources']->getPaths();
-        $themeConfigFile = $paths['themepath'] . '/config.yml';
-        $config['theme'] = $this->parseConfigYaml($themeConfigFile, array(), false);
+        $config['theme'] = $this->parseConfigYaml('config.yml', $this->app['resources']->getPath('theme'));
 
         // @todo: If no config files can be found, get them from bolt.cm/files/default/
 
