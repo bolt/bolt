@@ -419,7 +419,7 @@ class IntegrityChecker
         $usersTable->addIndex(array('username'));
         $usersTable->addColumn('password', 'string', array('length' => 128));
         $usersTable->addColumn('email', 'string', array('length' => 128));
-        $usersTable->addColumn('lastseen', 'datetime');
+        $usersTable->addColumn('lastseen', 'datetime', array('notnull' => false, 'default' => null));
         $usersTable->addColumn('lastip', 'string', array('length' => 32, 'default' => ''));
         $usersTable->addColumn('displayname', 'string', array('length' => 32));
         $usersTable->addColumn('stack', 'string', array('length' => 1024, 'default' => ''));
