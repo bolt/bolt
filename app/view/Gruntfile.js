@@ -128,7 +128,7 @@ module.exports = function(grunt) {
                             " * These are Bolt's COMPILED JS files!\n" +
                             " * You can edit files in <js/src/*.js> and run 'grunt' to generate this file.\n" +
                             " */",
-                    sourceMap: true,
+                    sourceMap: true
                 },
                 files: {
                     'js/bolt.min.js': [
