@@ -21,14 +21,13 @@
     {% set page_title = block('page_title') ~ ' » ' ~ block('page_subtitle') %}
 {% endif %}
 
-{# bootstrap.js: Bolt's compiled and uglified Bootstrap javascript. Generate with 'grunt uglify:bootstrap' #}
 {% set page_scripts_inc = [
     'view/js/jquery-1.11.2.min.js',
     'view/js/underscore-min.js',
     'view/js/backbone-min.js',
     'view/js/jquery-ui-1.10.3.custom.min.js',
     'view/js/jquery.plugins.js',
-    'view/js/bootstrap.js',
+    'view/js/bootstrap.min.js',
     'view/js/jquery.magnific-popup.min.js',
     'view/lib/select2/select2.min.js',
     'view/lib/ckeditor/ckeditor.js',
