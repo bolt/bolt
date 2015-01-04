@@ -21,7 +21,7 @@
         name:      'form[contents]',
         required:  true,
         style:     'width: 98%; min-height: 350px;',
-    }%}
+    } %}
 
     <div class="row">
         <div class="col-xs-12">
@@ -41,7 +41,7 @@
                     </button>
                     <a class="btn btn-default confirm" style="margin-left: 24px;"
                        data-confirm="{{ __("page.edit-file.confirm-revert") }}"
-                       href="{{ path('fileedit', { 'namespace': context.namespace, 'file': context.file }) }}"
+                       href="{{ path('fileedit', {'namespace': context.namespace, 'file': context.file}) }}"
                     >
                         <i class="fa fa-undo"></i> {{ __("page.edit-file.button.revert") }}
                     </a>
@@ -51,7 +51,7 @@
                       {{ __("page.edit-file.note-related") }}
                       {% for related in context.filegroup %}
                         {% if related != context.basename %}
-                          <a class="btn btn-tertiary btn-small" href="{{ path('fileedit', { 'namespace': context.namespace, 'file': context.additionalpath ~ related } )  }}">{{ related }}</a>
+                          <a class="btn btn-tertiary btn-small" href="{{ path('fileedit', {'namespace': context.namespace, 'file': context.additionalpath ~ related}) }}">{{ related }}</a>
                         {% endif %}
                       {% endfor %}
                     {% endif %}

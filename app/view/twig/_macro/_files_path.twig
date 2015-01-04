@@ -6,7 +6,7 @@
 
         {% for path, segment in pathsegments %}
             /
-            {% set pathoptions = pathoptions|merge({ 'path': path, 'namespace': namespace }) %}
+            {% set pathoptions = pathoptions|merge({'path': path, 'namespace': namespace}) %}
             <a href="{{ path('files', pathoptions) }}">{{ segment }}</a>
         {% endfor %}
     </p>

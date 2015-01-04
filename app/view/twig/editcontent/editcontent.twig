@@ -22,7 +22,7 @@
 
 {% block page_main %}
 
-    {% set status_names = { "published": __("Published"), "held": __("Not published"), "timed": __("Timed publish"), "draft": __("Draft") } %}
+    {% set status_names = {"published": __("Published"), "held": __("Not published"), "timed": __("Timed publish"), "draft": __("Draft")} %}
 
     {% set dateChanged %}{{ macro.datetime(context.content.datechanged) }}{% endset %}
 
@@ -34,7 +34,7 @@
         msgSaving:      __('Saving …'),
         hasGroups:      context.contenttype.groups|default is not empty,
         singularSlug:   context.contenttype.singular_slug,
-    }%}
+    } %}
 
     {% set attr_form = {
         _bind:   ['editcontent', {
@@ -51,7 +51,7 @@
         id:      "editcontent",
         method:  "post",
         role:    "form",
-    }%}
+    } %}
 
     <div class="row">
         <div class="col-md-8">
@@ -110,7 +110,7 @@
 
                         <div class="btn-group">
                             <button type="button" class="btn btn-primary" id="savecontinuebutton">
-                                <i class="fa fa-flag"></i> {{  __('contenttypes.generic.save',{'%contenttype%': context.contenttype.slug}) }}
+                                <i class="fa fa-flag"></i> {{ __('contenttypes.generic.save',{'%contenttype%': context.contenttype.slug}) }}
                             </button>
                             <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                                 <span class="caret"></span>

@@ -3,7 +3,7 @@
 {% if context.pager.totalpages|default(0) > 1 %}
     <div style="text-align: center">
         <ul class="pagination pagination-centered">
-            {# Showing {{ context.pager.for }} {{ context.pager.showing_from }} - {{ context.pager.showing_to }} of {{  context.pager.count }} #}
+            {# Showing {{ context.pager.for }} {{ context.pager.showing_from }} - {{ context.pager.showing_to }} of {{ context.pager.count }} #}
             <li><span>{{ __('Showing %pager_for% %from% - %to% of %count%', {
                     '%pager_for%': context.pager.for,
                     '%from%': context.pager.showing_from,
@@ -14,11 +14,11 @@
 
             {# 'first' and 'prev' #}
             {% if context.pager.current > 1 %}
-                <li><a href="{{link}}{{context.pager.current-1}}"><i class="fa fa-angle-left" style="font-weight: bold;"></i></a></li>
+                <li><a href="{{ link }}{{ context.pager.current - 1 }}"><i class="fa fa-angle-left" style="font-weight: bold;"></i></a></li>
             {% endif %}
 
             {% if context.pager.current > context.surr+1 %}
-                <li><a href="{{link}}{{1}}"><i class="fa fa-double-angle-left" style="font-weight: bold;"></i> 1</a></li>
+                <li><a href="{{ link }}{{ 1 }}"><i class="fa fa-double-angle-left" style="font-weight: bold;"></i> 1</a></li>
             {% endif %}
 
             {# start with '...' if there are more than context.surr+1 before currentpage. #}
@@ -27,7 +27,7 @@
             {% endif %}
 
             {% for i in max(1, context.pager.current - context.surr) .. min(context.pager.current + context.surr, context.pager.totalpages) %}
-                <li {% if i == context.pager.current %}class="active"{%endif%}><a href="{{ link }}{{ i }}">{{ i }}</a></li>
+                <li {% if i == context.pager.current %}class="active"{% endif %}><a href="{{ link }}{{ i }}">{{ i }}</a></li>
             {% endfor %}
 
             {# end with '...' if there are more than context.surr+1 after currentpage. #}

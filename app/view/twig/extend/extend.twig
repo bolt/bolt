@@ -101,7 +101,7 @@
                     {{ __('Add a new extension using the form below.') }}
                     {% endif %}
                     {{ __('You can discover new extensions by visiting') }}
-                    <a href="{{site}}" target="_blank">{{ site }}</a>
+                    <a href="{{ site }}" target="_blank">{{ site }}</a>
                 </p>
                 {% if enabled and not offline %}
                 <div class="install-container">
@@ -148,7 +148,7 @@
                                 <i class="fa fa-refresh fa-fw"></i> {{ __('Run update check') }}
                             </a>
                         </div>
-                        <p>{{__("This won't install anything, just show you available updates") }}</p>
+                        <p>{{ __("This won't install anything, just show you available updates") }}</p>
                         <hr>
                         <p><strong>{{ __('Install all updates') }}</strong></p>
                         <div class="btn-group">
@@ -156,14 +156,14 @@
                                 <i class="fa fa-refresh fa-fw"></i> {{ __('Run all Updates') }}
                             </a>
                         </div>
-                        <p>{{__("This will install all available updates.")}}</p>
+                        <p>{{ __("This will install all available updates.") }}</p>
                         <hr>
                         <div class="btn-group">
                             <a class="btn btn-primary{% if not enabled or offline %} disabled{% endif %}" data-request="install-run">
                                 <i class="fa fa-download fa-fw"></i> {{ __('Install all Packages') }}
                             </a>
                         </div>
-                        <p>{{__("This will make sure all packages listed are installed. Use this if you've recently moved to a new server or if you have manually added an extension.")}}</p>
+                        <p>{{ __("This will make sure all packages listed are installed. Use this if you've recently moved to a new server or if you have manually added an extension.") }}</p>
                 </div>
             </div>
         </aside>
@@ -171,24 +171,24 @@
     </div>
 
     <script>
-        var site = '{{site}}';
-        var baseurl = "{{paths.bolt}}extend/";
+        var site = '{{ site }}';
+        var baseurl = "{{ paths.bolt }}extend/";
 
         var active_console;
         var active_interval;
 
         jQuery(document).ready(function($) {
             var boltExt = new BoltExtender();
-            boltExt.setMessage('extError', '{{__('Bolt Extension could not be found. Please check at %site% to ensure correct name.')|replace({'%site%': site})}}' );
-            boltExt.setMessage('removing', '{{__('Preparing to remove package …')}}');
-            boltExt.setMessage('updating', '{{__('Searching for available updates …')}}');
-            boltExt.setMessage('updated', '{{__('Everything is up to date!')}}');
-            boltExt.setMessage('installing', '{{__('Preparing to install package …')}}');
-            boltExt.setMessage('installAll', '{{__('Running install of all packages …')}}');
-            boltExt.setMessage('noStable', '{{__('No Stable Versions Available')}}');
-            boltExt.setMessage('noTest', '{{__('No Test Versions Available')}}');
-            boltExt.setMessage('overwrite', '{{__('This will overwrite any existing files! Are you sure?')}}');
-            boltExt.setMessage('copying', '{{__('Copying theme assets …')}}');
+            boltExt.setMessage('extError', '{{ __('Bolt Extension could not be found. Please check at %site% to ensure correct name.')|replace({'%site%': site}) }}' );
+            boltExt.setMessage('removing', '{{ __('Preparing to remove package …') }}');
+            boltExt.setMessage('updating', '{{ __('Searching for available updates …') }}');
+            boltExt.setMessage('updated', '{{ __('Everything is up to date!') }}');
+            boltExt.setMessage('installing', '{{ __('Preparing to install package …') }}');
+            boltExt.setMessage('installAll', '{{ __('Running install of all packages …') }}');
+            boltExt.setMessage('noStable', '{{ __('No Stable Versions Available') }}');
+            boltExt.setMessage('noTest', '{{ __('No Test Versions Available') }}');
+            boltExt.setMessage('overwrite', '{{ __('This will overwrite any existing files! Are you sure?') }}');
+            boltExt.setMessage('copying', '{{ __('Copying theme assets …') }}');
             boltExt.setPath('extensionsconfigpath', '{{ paths.extensionsconfigpath }}');
             boltExt.setPath('extensionspath', '{{ paths.extensionspath }}');
         });

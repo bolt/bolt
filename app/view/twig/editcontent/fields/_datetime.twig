@@ -9,7 +9,7 @@
     default:   (context.content.id == null and field.default) ? context.content.get(key)|date('Y-m-d H:i:s') : null,
     required:  field.required|default(false),
     errortext: field.error|default(''),
-}%}
+} %}
 
 {#=== INIT ===========================================================================================================#}
 
@@ -20,7 +20,7 @@
     class:      option.class,
     errortext:  option.errortext,
     options:    option.options,
-}%}
+} %}
 
 {#=== FIELDSET =======================================================================================================#}
 

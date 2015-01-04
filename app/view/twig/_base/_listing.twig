@@ -7,7 +7,7 @@
     <tr class="grouping">
         <th colspan="{% block listing_columns %}6{% endblock %}">
             <h3 {% if loop.first %}class="first"{% endif %}>
-                {% if content.group.name  %}
+                {% if content.group.name %}
                     {{ content.group.name }}
                 {% else %}
                     {{ __('(no group)') }}
@@ -33,37 +33,37 @@
             <input type="checkbox" name="checkRow" title="{{ __('Select all') }}" />
             <input type="hidden" id="baseurl" value="{{ paths['hosturl'] }}{{ paths['bolt'] }}"></th>{% endif %}
 
-        <th class="hidden-xs"><a href="{{link}}{% if request('order') == 'id' %}-{% endif %}id">
+        <th class="hidden-xs"><a href="{{ link }}{% if request('order') == 'id' %}-{% endif %}id">
             {{ __('Id') }}
         </a></th>
 
-        <th style="width:80%"><a href="{{link}}{% if request('order') == content.TitleColumnName() %}-{% endif %}{{content.TitleColumnName()}}">
+        <th style="width:80%"><a href="{{ link }}{% if request('order') == content.TitleColumnName() %}-{% endif %}{{ content.TitleColumnName() }}">
             {{ __('Title') }} / {{ __('Excerpt') }}
         </a></th>
 
         <th>&nbsp;</th>
 
-        <th class="username hidden-xs"><a href="{{link}}{% if request('order') == "datecreated" %}-{% endif %}datecreated">{{ __('Meta') }}</a></th>
+        <th class="username hidden-xs"><a href="{{ link }}{% if request('order') == "datecreated" %}-{% endif %}datecreated">{{ __('Meta') }}</a></th>
 
         <th><a href="?">{{ __('Actions') }}</a></th>
         {% endblock %}
     </tr>
 {% endif %}
 
-<tr {% if content.status!='published' %}class="dim"{% endif %} id="item_{{content.id}}">
+<tr {% if content.status!='published' %}class="dim"{% endif %} id="item_{{ content.id }}">
     {% block listing_id %}
 
         {% if not compact and editable %}<td class="check hidden-xs">{% if isallowed('delete', contenttype) %}<input type="checkbox" name="checkRow" />{% endif %}</td>{% endif %}
-        <td class="id hidden-xs">№ {{content.id}}</td>
+        <td class="id hidden-xs">№ {{ content.id }}</td>
 
     {% endblock %}
 
     {% block listing_content %}
         <td class="excerpt {% if not compact %}large{% endif %}"><span>
-            <strong class="visible-xs">№ {{content.id}}. </strong>
+            <strong class="visible-xs">№ {{ content.id }}. </strong>
             <strong>
                 {% if editable %}
-                    <a href="{{ path('editcontent', { 'contenttypeslug': content.contenttype.slug, 'id': content.id }) }}" title="Slug: {{ content.slug }}">
+                    <a href="{{ path('editcontent', {'contenttypeslug': content.contenttype.slug, 'id': content.id}) }}" title="Slug: {{ content.slug }}">
                         {{ content.getTitle|default("<em>(" ~ __("no title …") ~ ")</em>")|raw }}
                     </a>
                 {% else %}
@@ -76,7 +76,7 @@
                         </span></td>
         <td class="listthumb">
             {% if content.getImage is not empty %}
-                {{content.getImage|popup(thumbsize, thumbsize*0.75, 'c')}}
+                {{ content.getImage|popup(thumbsize, thumbsize * 0.75, 'c') }}
             {% endif %}
         </td>
     {% endblock %}
@@ -107,7 +107,7 @@
         <td class="actions">
             <div class="btn-group">
                 {% if editable %}
-                <a class="btn btn-default btn-xs" href="{{ path('editcontent', { 'contenttypeslug': content.contenttype.slug, 'id': content.id }) }}">
+                <a class="btn btn-default btn-xs" href="{{ path('editcontent', {'contenttypeslug': content.contenttype.slug, 'id': content.id}) }}">
                     <i class="fa fa-edit"></i> {{ __('Edit') }}
                 </a>
                 {% endif %}
@@ -124,10 +124,10 @@
                         </a>
                     </li>
                 {% endif %}
-                {% if content.relation  %}
+                {% if content.relation %}
                     <li>
-                        <a href="{{ path('relatedto', { 'contenttypeslug': content.contenttype.slug, 'id': content.id }) }}">
-                            <i class="fa fa-link"></i> {{  __('View related content') }}
+                        <a href="{{ path('relatedto', {'contenttypeslug': content.contenttype.slug, 'id': content.id}) }}">
+                            <i class="fa fa-link"></i> {{ __('View related content') }}
                         </a>
                     </li>
                 {% endif %}
@@ -148,7 +148,7 @@
                         {% endif %}
                     {% endif %}
                     {% if isallowed('create', content) %}
-                    <li><a href="{{ path('editcontent', { 'contenttypeslug': content.contenttype.slug, 'id': content.id, 'duplicate': 1 }) }}">
+                    <li><a href="{{ path('editcontent', {'contenttypeslug': content.contenttype.slug, 'id': content.id, 'duplicate': 1}) }}">
                         <i class="fa fa-copy"></i> {{ __('contenttypes.generic.duplicate', {'%contenttype%': content.contenttype.slug}) }}</a></li>
                     {% endif %}
                     {% if isallowed('delete', content) %}
@@ -161,7 +161,7 @@
                     {% endif %}
                     <li class="divider"></li>
                 {% endif %}
-                    <li><a class="nolink">{{__('Author:') }} <strong><i class="fa fa-user"></i>
+                    <li><a class="nolink">{{ __('Author:') }} <strong><i class="fa fa-user"></i>
                         {% if content.user.displayname is defined %}
                             {{ content.user.displayname|trimtext(15) }}
                         {% else %}

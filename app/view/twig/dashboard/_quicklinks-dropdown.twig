@@ -7,7 +7,7 @@
     {% for contenttypeslug, contenttype in app.config.get('contenttypes') %}
         {% if isallowed('contenttype:' ~ contenttypeslug ~ ':create') %}
             <li>
-                <a href="{{ path('editcontent', { 'contenttypeslug': contenttypeslug, 'id': '' }) }}">
+                <a href="{{ path('editcontent', {'contenttypeslug': contenttypeslug, 'id': ''}) }}">
                     <i class="fa fa-plus"></i>
                     {{ __('contenttypes.generic.new', {'%contenttype%': contenttypeslug}) }}
                 </a>

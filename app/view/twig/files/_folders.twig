@@ -34,14 +34,14 @@
                         <ul class="dropdown-menu pull-right">
                             <li>
                                 <a href="#"
-                                   data-action="bolt.folders.rename('{{__("Please enter a new folder name")}}',
+                                   data-action="bolt.folders.rename('{{ __("Please enter a new folder name") }}',
                                                                     '{{ context.namespace }}',
                                                                     '{{ context.pathsegments|keys|last }}',
                                                                     '{{ folder.foldername }}',
                                                                     this);">
 
                                     <i class="fa fa-keyboard-o"></i>
-                                    {{ __('Rename %foldername%', { '%foldername%': folder.foldername }) }}
+                                    {{ __('Rename %foldername%', {'%foldername%': folder.foldername}) }}
                                 </a>
                                 <a href="#"
                                    class="confirm"
@@ -53,7 +53,7 @@
                                                                     this);">
 
                                     <i class="fa fa-ban"></i>
-                                    {{ __('Delete %foldername%', { '%foldername%': folder.foldername }) }}
+                                    {{ __('Delete %foldername%', {'%foldername%': folder.foldername}) }}
                                 </a>
                             </li>
                         </ul>

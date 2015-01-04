@@ -29,7 +29,7 @@
                     <td>{{ file.filesize }}.</td>
                     <td>{% if file.imagesize is defined %}{{ file.imagesize }} {{ __('page.ckeditor-browse-server.pixel') }}{% endif %}</td>
                     <td class="listthumb">
-                        {{file.newpath|showimage(54, 40, 'c')}}
+                        {{ file.newpath|showimage(54, 40, 'c') }}
                     </td>
                     {# <td>
                         <a href="{{ file.newpath|thumbnail(1000, 1000, 'r') }}" class="btn btn-mini magnifig" title="Image: {{ file.filename }}">{{ __('Preview') }}</a>

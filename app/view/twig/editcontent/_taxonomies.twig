@@ -38,51 +38,51 @@
                 {% set tags = "" %}
             {% endif %}
 
-            <input type="text" name="taxonomy[{{taxonomy.slug}}]" id="taxonomy-{{taxonomy.slug}}" value="{{tags}}" style="width: 100%;" />
+            <input type="text" name="taxonomy[{{ taxonomy.slug }}]" id="taxonomy-{{ taxonomy.slug }}" value="{{ tags }}" style="width: 100%;" />
 
-            <div class="tagcloud" id="tagcloud-{{taxonomy.slug}}"></div>
+            <div class="tagcloud" id="tagcloud-{{ taxonomy.slug }}"></div>
             <script>
             $(function() {
 
                 // load all tags
                 $.ajax({
-                    url: "{{ paths.root }}async/tags/{{taxonomy.slug}}",
+                    url: "{{ paths.root }}async/tags/{{ taxonomy.slug }}",
                     dataType: "json",
                     success: function(data) {
                         var results = [];
                         $.each(data, function(index, item){
                             results.push( item.slug );
                         });
-                        $('#taxonomy-{{taxonomy.slug}}').select2({tags: results, minimumInputLength: 1, tokenSeparators: [",", " "]});
+                        $('#taxonomy-{{ taxonomy.slug }}').select2({tags: results, minimumInputLength: 1, tokenSeparators: [",", " "]});
                     },
                     error: function() {
-                        $('#taxonomy-{{taxonomy.slug}}').select2({tags: [], minimumInputLength: 1, tokenSeparators: [",", " "]});
+                        $('#taxonomy-{{ taxonomy.slug }}').select2({tags: [], minimumInputLength: 1, tokenSeparators: [",", " "]});
                     }
                 });
 
                 {% if taxonomy.tagcloud %}
                 // popular tags
                 $.ajax({
-                    url: "{{ paths.root }}async/populartags/{{taxonomy.slug}}",
+                    url: "{{ paths.root }}async/populartags/{{ taxonomy.slug }}",
                     dataType: "json",
-                    data : { limit: 40 },
+                    data : {limit: 40},
                     success: function(data) {
                         if (data.length > 0) {
                             $.each(data, function(index, item){
-                                $("#tagcloud-{{taxonomy.slug}}").append('<a href="#" rel="' + item.count + '">' + item.slug + '</a>');
+                                $("#tagcloud-{{ taxonomy.slug }}").append('<a href="#" rel="' + item.count + '">' + item.slug + '</a>');
                             });
-                            $("#tagcloud-{{taxonomy.slug}} a").on('click', function (e) {
+                            $("#tagcloud-{{ taxonomy.slug }} a").on('click', function (e) {
                                 e.preventDefault();
-                                var data = $("#taxonomy-{{taxonomy.slug}}").select2("data")
+                                var data = $("#taxonomy-{{ taxonomy.slug }}").select2("data")
                                 data.push({id:$(this).text(), text:$(this).text()});
-                                $("#taxonomy-{{taxonomy.slug}}").select2("data", data);
+                                $("#taxonomy-{{ taxonomy.slug }}").select2("data", data);
                             });
 
                             $.fn.tagcloud.defaults = {
                                 size: {start: 12, end: 22, unit: 'px'},
                                 color: {start: '#888', end: '#194770'}
                             };
-                            $('#tagcloud-{{taxonomy.slug}} a').tagcloud();
+                            $('#tagcloud-{{ taxonomy.slug }} a').tagcloud();
                         }
                     }
                 });
@@ -98,15 +98,15 @@
         {% if taxonomy.behaves_like == "categories" %}
 
             {% if taxonomy.multiple is defined and taxonomy.multiple == 1 %}
-            <select name="taxonomy[{{taxonomy.slug}}][]" id="taxonomy-{{taxonomy.slug}}" class="form-control" multiple>
+            <select name="taxonomy[{{ taxonomy.slug }}][]" id="taxonomy-{{ taxonomy.slug }}" class="form-control" multiple>
             {% else %}
-            <select name="taxonomy[{{taxonomy.slug}}][]" id="taxonomy-{{taxonomy.slug}}" class="form-control">
+            <select name="taxonomy[{{ taxonomy.slug }}][]" id="taxonomy-{{ taxonomy.slug }}" class="form-control">
                 <option value="">{{ __('(no category)') }}</option>
                 <option value="" disabled>-----------</option>
             {% endif %}
 
             {% for slug, cat in taxonomy.options %}
-                <option value="{{ slug }}" {% if context.content.taxonomy[taxonomy.slug] is defined and cat in context.content.taxonomy[taxonomy.slug] %}selected{% endif %}>{{cat}}</option>
+                <option value="{{ slug }}" {% if context.content.taxonomy[taxonomy.slug] is defined and cat in context.content.taxonomy[taxonomy.slug] %}selected{% endif %}>{{ cat }}</option>
             {% endfor %}
 
             </select>
@@ -114,10 +114,10 @@
             {% if taxonomy.multiple is defined and taxonomy.multiple == 1 %}
             <label><span class="left" style="line-height: 1px;">&nbsp;</span></label>
             <div style="margin-top: -14px;">{# TODO:onclick-events to JS #}
-                <a href="#" class="btn btn-default btn-xs" onclick="jQuery('#taxonomy-{{taxonomy.slug}} option').prop('selected', true); return false;">
+                <a href="#" class="btn btn-default btn-xs" onclick="jQuery('#taxonomy-{{ taxonomy.slug }} option').prop('selected', true); return false;">
                     <i class="fa fa-fw fa-check-square-o"></i>{{ __("Select all") }}
                 </a>
-                <a href="#" class="btn btn-default btn-xs" onclick="jQuery('#taxonomy-{{taxonomy.slug}} option').prop('selected', false); return false;">
+                <a href="#" class="btn btn-default btn-xs" onclick="jQuery('#taxonomy-{{ taxonomy.slug }} option').prop('selected', false); return false;">
                     <i class="fa fa-fw fa-square-o"></i>{{ __("Select none") }}
                 </a>
             </div>
@@ -129,22 +129,22 @@
 
         {% if taxonomy.behaves_like == "grouping" %}
 
-            <select name="taxonomy[{{taxonomy.slug}}][]" id="taxonomy-{{taxonomy.slug}}" class="narrow form-control pull-left">
+            <select name="taxonomy[{{ taxonomy.slug }}][]" id="taxonomy-{{ taxonomy.slug }}" class="narrow form-control pull-left">
                 <option value="">{{ __('(no group)') }}</option>
                 <option value="" disabled>-----------</option>
             {% for slug, group in taxonomy.options %}
-                <option value="{{ slug }}" {% if context.content.taxonomy[taxonomy.slug] is defined and group in context.content.taxonomy[taxonomy.slug] or context.content.taxonomy[taxonomy.slug] is not defined and taxonomy.default is defined and taxonomy.default==slug %}selected{% endif %}>{{group}}</option>
+                <option value="{{ slug }}" {% if context.content.taxonomy[taxonomy.slug] is defined and group in context.content.taxonomy[taxonomy.slug] or context.content.taxonomy[taxonomy.slug] is not defined and taxonomy.default is defined and taxonomy.default == slug %}selected{% endif %}>{{ group }}</option>
             {% endfor %}
             </select>
 
             {% if taxonomy.has_sortorder is defined and taxonomy.has_sortorder == true %}
-                <label for="taxonomy-order-{{taxonomy.slug}}" class=" pull-left" style="margin: 6px 8px 0;">- Order:</label>
+                <label for="taxonomy-order-{{ taxonomy.slug }}" class=" pull-left" style="margin: 6px 8px 0;">- Order:</label>
                 {% if context.content.sortorder %}
                     {% set sortorder = context.content.sortorder %}
                 {% else %}
                     {% set sortorder = 0 %}
                 {% endif %}
-                <input type="number" name="taxonomy-order[{{taxonomy.slug}}]" id="taxonomy-order-{{taxonomy.slug}}" step="1"
+                <input type="number" name="taxonomy-order[{{ taxonomy.slug }}]" id="taxonomy-order-{{ taxonomy.slug }}" step="1"
                        value="{{ sortorder }}" class="verynarrow form-control pull-left">
             {% endif %}
 

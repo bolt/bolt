@@ -16,7 +16,7 @@
                         <i class="fa fa-fw fa-file-image-o"></i>
 
                         {% if file.readable %}
-                            <a href="{{file.newpath|thumbnail(1000, 1000, 'r') }}"
+                            <a href="{{ file.newpath|thumbnail(1000, 1000, 'r') }}"
                                class="magnific"
                                title="Image: {{ file.filename }}">
                                 <b>{{ file.filename|excerpt(80)|shy }}</b>
@@ -75,7 +75,7 @@
                     {% endif %}
                 </td>
                 <td class="actions" style="min-width: 16px;">
-                    
+
                     <div class="btn-group">
 
                         {{ macro.stackbutton(file) }}
@@ -90,28 +90,26 @@
                             <ul class="dropdown-menu pull-right hidden-xs">
                                 <li>
                                     <a href="#"
-                                       data-action="bolt.files.renameFile('{{__("Please enter a new file name")}}',
+                                       data-action="bolt.files.renameFile('{{ __("Please enter a new file name") }}',
                                                                         '{{ context.namespace }}',
                                                                         '{{ file.path }}',
                                                                         '{{ file.filename }}',
                                                                         this);">
 
                                         <i class="fa fa-keyboard-o"></i>
-                                        {{ __('Rename %foldername%', { '%foldername%': file.filename }) }}
+                                        {{ __('Rename %foldername%', {'%foldername%': file.filename}) }}
                                     </a>
                                 </li>
                                 <li>
                                     <a href="#" data-action="bolt.files.deleteFile('{{ context.namespace }}', '{{ file.newpath }}', this);">
                                         <i class="fa fa-ban"></i>
-                                        {{ __('Delete %filename%',
-                                              {'%filename%': file.filename }) }}
+                                        {{ __('Delete %filename%', {'%filename%': file.filename}) }}
                                     </a>
                                 </li>
                                 <li>
                                     <a href="#" data-action="bolt.files.duplicateFile('{{ context.namespace }}', '{{ file.newpath }}')">
                                         <i class="fa fa-files-o"></i>
-                                        {{ __('Duplicate %filename%',
-                                              {'%filename%': file.filename }) }}
+                                        {{ __('Duplicate %filename%', {'%filename%': file.filename }) }}
                                     </a>
                                 </li>
                                 <li class="divider"></li>
@@ -124,7 +122,7 @@
                             </ul>
                         {% endif %}
                     </div>
-                    
+
                 </td>
             </tr>
         {% endfor %}

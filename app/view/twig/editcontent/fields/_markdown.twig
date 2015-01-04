@@ -7,7 +7,7 @@
     required:  field.required|default(false),
     errortext: field.error|default(''),
     info:      field.info|default('info.markdown')
-}%}
+} %}
 
 {#=== INIT ===========================================================================================================#}
 
@@ -17,12 +17,12 @@
     required:       option.required,
     data_errortext: option.errortext,
     style:          (option.height) ? 'height: ' ~ option.height ~ ' !important;' : '',
-}%}
+} %}
 
 {% set attr_catchpaste = {
     id:     'jquery-catchpaste-textarea',
     style:  'position: absolute; width: 0 !important; height: 0; left: -10000px;',
-}%}
+} %}
 
 {#=== FIELDSET =======================================================================================================#}
 

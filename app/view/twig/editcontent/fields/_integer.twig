@@ -12,12 +12,12 @@
     min:          field.min|default('-2147483647'),
     max:          field.max|default('2147483647'),
     step:         field.step|default('1'),
-}%}
+} %}
 
 {#=== INIT ===========================================================================================================#}
 
 {% set attr_number = {
-    class:          option.class~' narrow',
+    class:          option.class ~ ' narrow',
     name_id:        key,
     placeholder:    option.placeholder,
     required:       option.required,
@@ -29,7 +29,7 @@
     type:           'number',
     value:          0 + context.content.get(key),
     data_errortext: option.errortext,
-}%}
+} %}
 
 {#=== FIELDSET =======================================================================================================#}
 
