@@ -51,6 +51,7 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFunction('excerpt', array($this, 'excerpt'), array('is_safe' => array('html'))),
             new \Twig_SimpleFunction('fancybox', array($this, 'popup'), array('is_safe' => array('html'))), // "Fancybox" is deprecated.
             new \Twig_SimpleFunction('file_exists', array($this, 'fileExists')),
+            new \Twig_SimpleFunction('firebug', array($this, 'printFirebug'), array('is_safe' => array('html'))),
             new \Twig_SimpleFunction('first', array($this, 'first')),
             new \Twig_SimpleFunction('getuser', array($this, 'getUser')),
             new \Twig_SimpleFunction('getuserid', array($this, 'getUserId')),
@@ -187,6 +188,31 @@ class TwigExtension extends \Twig_Extension
         }
         if ($this->app['debug']) {
             dump($var);
+        } else {
+            return '';
+        }
+    }
+
+    /**
+     * Send debug data to the developers FirePHP instance in-browser
+     *
+     * @param  mixed  $var The data to be dumped into FirePHP
+     * @param  mixed  $msg The message to associate with the data
+     * @return string FirePHP formatted string
+     */
+    public function printFirebug($var, $msg = '')
+    {
+        if ($this->safe) {
+            return '?';
+        }
+        if ($this->app['config']->get('general/debug')) {
+            if (is_array($var)) {
+                $this->app['logger.firebug']->addInfo($msg, $var);
+            } elseif (is_string($var)) {
+                $this->app['logger.firebug']->addInfo($var);
+            } else {
+                $this->app['logger.firebug']->addInfo($msg, (array) $var);
+            }
         } else {
             return '';
         }
