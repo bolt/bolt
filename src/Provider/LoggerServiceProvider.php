@@ -29,7 +29,7 @@ class LoggerServiceProvider implements ServiceProviderInterface
 
         // Changelog
         $app['logger.change'] = $app->share(function ($app) {
-            $log = new Logger('logger.system');
+            $log = new Logger('logger.change');
 
             $log->pushHandler(new RecordChangeHandler($app));
 
