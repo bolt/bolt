@@ -18,6 +18,7 @@ Bolt 2.0 DEV-head
 - Updated: Make image- and filelists looking more flat
 - Removed: Ancient browser-specific tags
 - Set default width/height of showImage() to '0'
+- Uglify bolts js files to bolt.min.js
 
 Bolt 2.0.2
 ----------
