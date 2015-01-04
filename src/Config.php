@@ -59,12 +59,8 @@ class Config
     }
 
     /**
-     * @param  string $basename
-     * @param  array  $default
-     * @param  mixed  $defaultConfigPath TRUE: use default config path
-     *                                   FALSE: just use the raw basename
-     *                                   string: use the given string as config
-     *                                   file path
+     * @param  string $filename The name of the YAML file to read
+     * @param  string $path     The (optional) path to the YAML file
      * @return array
      */
     private function parseConfigYaml($filename, $path = false)
