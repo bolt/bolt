@@ -123,6 +123,9 @@ module.exports = function(grunt) {
                 }
             },
             bolt: {
+                options: {
+                    sourceMap: true,
+                },
                 files: {
                     'js/bolt.min.js': [
                         'js/src/console.js',
