@@ -631,9 +631,9 @@ class Users
 
             $update = array(
                 'password' => $user['shadowpassword'],
-                'shadowpassword' => "",
-                'shadowtoken' => "",
-                'shadowvalidity' => "1900-01-01 00:00:00"
+                'shadowpassword' => '',
+                'shadowtoken' => '',
+                'shadowvalidity' => null
             );
             $this->db->update($this->usertable, $update, array('id' => $user['id']));
 
