@@ -409,7 +409,7 @@ class IntegrityChecker
         $authtokenTable->addColumn('lastseen', 'datetime', array('notnull' => false, 'default' => null));
         $authtokenTable->addColumn('ip', 'string', array('length' => 32, 'default' => ''));
         $authtokenTable->addColumn('useragent', 'string', array('length' => 128, 'default' => ''));
-        $authtokenTable->addColumn('validity', array('notnull' => false, 'default' => null));
+        $authtokenTable->addColumn('validity', 'datetime', array('notnull' => false, 'default' => null));
         $tables[] = $authtokenTable;
 
         $usersTable = $schema->createTable($this->prefix . 'users');
