@@ -67,23 +67,17 @@ class Config
      *                                   file path
      * @return array
      */
-    private function parseConfigYaml($basename, $default = array(), $defaultConfigPath = true)
+    private function parseConfigYaml($filename, $path = false)
     {
         if (!self::$yamlParser) {
             self::$yamlParser = new Yaml\Parser();
         }
 
-        if (is_string($defaultConfigPath)) {
-            $prefix = preg_replace('/\/+$/', '', $defaultConfigPath) . '/';
+        if ($path) {
+            $filename = $path . $filename;
         } else {
-            if ($defaultConfigPath) {
-                $prefix = $this->app['resources']->getPath('config') . '/';
-            } else {
-                $prefix = '';
-            }
+            $filename = $this->app['resources']->getPath('config') . '/' . $filename;
         }
-
-        $filename = $prefix . $basename;
 
         if (is_readable($filename)) {
             $yml = self::$yamlParser->parse(file_get_contents($filename) . "\n");
