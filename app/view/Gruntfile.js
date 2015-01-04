@@ -121,6 +121,29 @@ module.exports = function(grunt) {
                         'node_modules/bootstrap-sass/vendor/assets/javascripts/bootstrap/popover.js'
                     ]
                 }
+            },
+            bolt: {
+                files: {
+                    'js/bolt.min.js': [
+                        'js/src/console.js',
+                        'js/src/fnc-helpers.js',
+                        'js/src/activity.js',
+                        'js/src/bind-fileupload.js',
+                        'js/src/make-uri-slug.js',
+                        'js/src/video-embed.js',
+                        'js/src/geolocation.js',
+                        'js/src/upload-files.js',
+                        'js/src/obj-sidebar.js',
+                        'js/src/obj-navpopups.js',
+                        'js/src/obj-moments.js',
+                        'js/src/obj-files.js',
+                        'js/src/obj-stack.js',
+                        'js/src/obj-folders.js',
+                        'js/src/obj-datetime.js',
+                        'js/src/init.js',
+                        'js/src/start.js'
+                    ]
+                }
             }
         },
 
@@ -178,6 +201,6 @@ module.exports = function(grunt) {
 
     require('load-grunt-tasks')(grunt);
 
-    grunt.registerTask('default', ['sass', 'jshint', 'concat:js', 'watch']);
+    grunt.registerTask('default', ['sass', 'jshint', 'concat:js', 'uglify', 'watch']);
 
 };
