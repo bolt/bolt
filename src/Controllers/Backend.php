@@ -969,14 +969,14 @@ class Backend implements ControllerProviderInterface
 
         $duplicate = $app['request']->query->get('duplicate');
         if (!empty($duplicate)) {
-            $content->setValue('id', "");
-            $content->setValue('slug', "");
-            $content->setValue('datecreated', "");
-            $content->setValue('datepublish', "");
-            $content->setValue('datedepublish', "1900-01-01 00:00:00"); // Not all DB-engines can handle a date like '0000-00-00'
-            $content->setValue('datechanged', "");
-            $content->setValue('username', "");
-            $content->setValue('ownerid', "");
+            $content->setValue('id', '');
+            $content->setValue('slug', '');
+            $content->setValue('datecreated', '');
+            $content->setValue('datepublish', '');
+            $content->setValue('datedepublish', null);
+            $content->setValue('datechanged', '');
+            $content->setValue('username', '');
+            $content->setValue('ownerid', '');
             $app['session']->getFlashBag()->set('info', Trans::__('contenttypes.generic.duplicated-finalize', array('%contenttype%' => $contenttype['slug'])));
         }
 
