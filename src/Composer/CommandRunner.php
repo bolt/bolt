@@ -30,10 +30,10 @@ class CommandRunner
         $this->app = $app;
 
         $this->basedir = $app['resources']->getPath('extensions');
-        $this->logfile = $app['resources']->getPath('cachepath') . "/composer_log";
+        $this->logfile = $app['resources']->getPath('cachepath') . '/composer_log';
         $this->packageRepo = $packageRepo;
-        $this->packageFile = $app['resources']->getPath('root') . '/extensions/composer.json';
-        $this->installer = $app['resources']->getPath('root') . '/extensions/installer.php';
+        $this->packageFile = $this->basedir . '/composer.json';
+        $this->installer = $this->basedir . '/installer.php';
 
         // Set up composer
         if ($readWriteMode) {
