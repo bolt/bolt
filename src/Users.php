@@ -659,7 +659,7 @@ class Users
     private function throttleUntil($attempts)
     {
         if ($attempts < 5) {
-            return "1900-01-01 00:00:00";
+            return null;
         } else {
             $wait = pow(($attempts - 4), 2);
 
