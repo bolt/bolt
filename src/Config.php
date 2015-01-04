@@ -8,6 +8,7 @@ use Bolt\Helpers\Arr;
 use Bolt\Helpers\String;
 use Bolt\Translation\Translator as Trans;
 use Symfony\Component\Yaml;
+use Symfony\Component\Yaml\Parser;
 
 /**
  * Class for our config object. Implemented as an extension of RecursiveArrayAccess
@@ -29,7 +30,7 @@ class Config
 
     public $fields;
 
-    private static $yamlParser;
+    private $yamlParser = false;
 
     /**
      * @param Application $app
@@ -59,46 +60,36 @@ class Config
     }
 
     /**
-     * @param  string $basename
-     * @param  array  $default
-     * @param  mixed  $defaultConfigPath TRUE: use default config path
-     *                                   FALSE: just use the raw basename
-     *                                   string: use the given string as config
-     *                                   file path
+     * @param  string $filename The name of the YAML file to read
+     * @param  string $path     The (optional) path to the YAML file
      * @return array
      */
-    private function parseConfigYaml($basename, $default = array(), $defaultConfigPath = true)
+    private function parseConfigYaml($filename, $path = false)
     {
-        if (!self::$yamlParser) {
-            self::$yamlParser = new Yaml\Parser();
+        // Initialise parser
+        if ($this->yamlParser === false) {
+            $this->yamlParser = new Parser();
         }
 
-        if (is_string($defaultConfigPath)) {
-            $prefix = preg_replace('/\/+$/', '', $defaultConfigPath) . '/';
+        // By default we assume that config files are located in app/config/
+        if ($path) {
+            $filename = $path . '/' . $filename;
         } else {
-            if ($defaultConfigPath) {
-                $prefix = $this->app['resources']->getPath('config') . '/';
-            } else {
-                $prefix = '';
-            }
+            $filename = $this->app['resources']->getPath('config') . '/' . $filename;
         }
-
-        $filename = $prefix . $basename;
 
         if (is_readable($filename)) {
-            $yml = self::$yamlParser->parse(file_get_contents($filename) . "\n");
+            $yml = $this->yamlParser->parse(file_get_contents($filename) . "\n");
 
-            // To prevent an edge-case where an existing-but-empty .yml file returns
-            // something else (`NULL`) than a non-existing files (`array()`), we
-            // check the result instead of returning it blindly.
-            if (!empty($yml)) {
-                return $yml;
+            // Invalid, non-existing, or empty files return NULL
+            if (is_null($yml)) {
+                return array();
             } else {
-                return $default;
+                return $yml;
             }
+        } else {
+            return array();
         }
-
-        return $default;
     }
 
     /**
@@ -196,11 +187,8 @@ class Config
         $config['extensions']  = array();
 
         // fetch the theme config. requires special treatment due to the path being dynamic
-
         $this->app['resources']->initializeConfig($config);
-        $paths = $this->app['resources']->getPaths();
-        $themeConfigFile = $paths['themepath'] . '/config.yml';
-        $config['theme'] = $this->parseConfigYaml($themeConfigFile, array(), false);
+        $config['theme'] = $this->parseConfigYaml('config.yml', $this->app['resources']->getPath('theme'));
 
         // @todo: If no config files can be found, get them from bolt.cm/files/default/
 
