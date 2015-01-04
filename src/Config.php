@@ -66,10 +66,12 @@ class Config
      */
     private function parseConfigYaml($filename, $path = false)
     {
+        // Initialise parser
         if ($this->yamlParser === false) {
             $this->yamlParser = new Parser();
         }
 
+        // By default we assume that config files are located in app/config/
         if ($path) {
             $filename = $path . '/' . $filename;
         } else {
@@ -79,6 +81,7 @@ class Config
         if (is_readable($filename)) {
             $yml = $this->yamlParser->parse(file_get_contents($filename) . "\n");
 
+            // Invalid, non-existing, or empty files return NULL
             if (is_null($yml)) {
                 return array();
             } else {
