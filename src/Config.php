@@ -8,6 +8,7 @@ use Bolt\Helpers\Arr;
 use Bolt\Helpers\String;
 use Bolt\Translation\Translator as Trans;
 use Symfony\Component\Yaml;
+use Symfony\Component\Yaml\Parser;
 
 /**
  * Class for our config object. Implemented as an extension of RecursiveArrayAccess
@@ -29,7 +30,7 @@ class Config
 
     public $fields;
 
-    private static $yamlParser;
+    private $yamlParser = false;
 
     /**
      * @param Application $app
@@ -65,8 +66,8 @@ class Config
      */
     private function parseConfigYaml($filename, $path = false)
     {
-        if (!self::$yamlParser) {
-            self::$yamlParser = new Yaml\Parser();
+        if ($this->yamlParser === false) {
+            $this->yamlParser = new Parser();
         }
 
         if ($path) {
@@ -76,19 +77,16 @@ class Config
         }
 
         if (is_readable($filename)) {
-            $yml = self::$yamlParser->parse(file_get_contents($filename) . "\n");
+            $yml = $this->yamlParser->parse(file_get_contents($filename) . "\n");
 
-            // To prevent an edge-case where an existing-but-empty .yml file returns
-            // something else (`NULL`) than a non-existing files (`array()`), we
-            // check the result instead of returning it blindly.
-            if (!empty($yml)) {
-                return $yml;
+            if (is_null($yml)) {
+                return array();
             } else {
-                return $default;
+                return $yml;
             }
+        } else {
+            return array();
         }
-
-        return $default;
     }
 
     /**
