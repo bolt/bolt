@@ -5,6 +5,8 @@ namespace Bolt\Provider;
 use Bolt\Logger\Manager;
 use Bolt\Logger\Handler\SystemHandler;
 use Bolt\Logger\Handler\RecordChangeHandler;
+use Monolog\Formatter\WildfireFormatter;
+use Monolog\Handler\FirePHPHandler;
 use Monolog\Logger;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
@@ -32,6 +34,17 @@ class LoggerServiceProvider implements ServiceProviderInterface
             $log = new Logger('logger.change');
 
             $log->pushHandler(new RecordChangeHandler($app));
+
+            return $log;
+        });
+
+        // Firebug
+        $app['logger.firebug'] = $app->share(function ($app) {
+            $log = new Logger('logger.firebug');
+            $handler = new FirePHPHandler();
+            $handler->setFormatter(new WildfireFormatter());
+
+            $log->pushHandler($handler);
 
             return $log;
         });
