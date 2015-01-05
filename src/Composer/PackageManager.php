@@ -5,6 +5,7 @@ namespace Bolt\Composer;
 use Bolt\Composer\Action\DumpAutoload;
 use Bolt\Composer\Action\RemovePackage;
 use Bolt\Composer\Action\RequirePackage;
+use Bolt\Composer\Action\SearchPackage;
 use Composer\Factory;
 use Composer\IO\BufferIO;
 
@@ -39,6 +40,11 @@ class PackageManager
      * @var Bolt\Composer\Action\RequirePackage
      */
     private $require;
+
+    /**
+     * @var Bolt\Composer\Action\SearchPackage
+     */
+    private $search;
 
     /**
      *
@@ -108,6 +114,21 @@ class PackageManager
 
         // 0 on success or a positive error code on failure
         $status = $this->require->execute($packages);
+    }
+
+    /**
+     * Search for packages
+     *
+     * @param $packages array Indexed array of package names to search
+     * @return array List of matching packages
+     */
+    public function searchPackage(array $packages)
+    {
+        if (!$this->search) {
+            $this->search = new SearchPackage($this->io, $this->composer, $this->options);
+        }
+
+        return $this->search->execute($packages);
     }
 
     /**
