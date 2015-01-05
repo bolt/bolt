@@ -76,11 +76,19 @@ class PackageManager
         // Get default options
         $this->getOptions();
 
-        // Create the IO
-        $this->io = new BufferIO();
+        $this->basedir = $app['resources']->getPath('extensions');
+        $this->logfile = $app['resources']->getPath('cachepath') . '/composer_log';
+        $this->packageFile = $this->basedir . '/composer.json';
+        $this->installer = $this->basedir . '/installer.php';
 
-        // Use the factory to get a new Composer object
-        $this->composer = Factory::create($this->io, $this->options['composerjson'], true);
+        if ($app['extend.mode'] === 'online') {
+            // Create the IO
+            $this->io = new BufferIO();
+
+            // Use the factory to get a new Composer object
+            $this->composer = Factory::create($this->io, $this->options['composerjson'], true);
+
+        }
     }
 
     /**
