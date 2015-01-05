@@ -79,7 +79,6 @@ class PackageManager
         $this->basedir = $app['resources']->getPath('extensions');
         $this->logfile = $app['resources']->getPath('cachepath') . '/composer_log';
         $this->packageFile = $this->basedir . '/composer.json';
-        $this->installer = $this->basedir . '/installer.php';
 
         if ($app['extend.mode'] === 'online') {
             // Create the IO
@@ -88,6 +87,8 @@ class PackageManager
             // Use the factory to get a new Composer object
             $this->composer = Factory::create($this->io, $this->options['composerjson'], true);
 
+            //
+            $this->copyInstaller();
         }
     }
 
@@ -190,6 +191,16 @@ class PackageManager
 
         // 0 on success or a positive error code on failure
         $status = $this->update->execute($packages);
+    }
+
+    /**
+     * Install/update extension installer helper
+     */
+    private function copyInstaller()
+    {
+        $class = new \ReflectionClass("Bolt\\Composer\\ExtensionInstaller");
+        $filename = $class->getFileName();
+        copy($filename, $this->basedir . '/installer.php');
     }
 
     /**
