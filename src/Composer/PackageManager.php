@@ -10,6 +10,7 @@ use Bolt\Composer\Action\ShowPackage;
 use Bolt\Composer\Action\UpdatePackage;
 use Composer\Factory;
 use Composer\IO\BufferIO;
+use Silex\Application;
 
 class PackageManager
 {
@@ -59,10 +60,19 @@ class PackageManager
     private $update;
 
     /**
-     *
+     * @var Silex\Application
      */
-    public function __construct()
+    private $app;
+
+    /**
+     *
+     * @param Application $app
+     * @param boolean     $readWriteMode
+     */
+    public function __construct(Application $app)
     {
+        $this->app = $app;
+
         // Get default options
         $this->getOptions();
 
