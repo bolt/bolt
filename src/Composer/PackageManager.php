@@ -4,6 +4,7 @@ namespace Bolt\Composer;
 
 use Bolt\Composer\Action\DumpAutoload;
 use Bolt\Composer\Action\RemovePackage;
+use Bolt\Composer\Action\RequirePackage;
 use Composer\Factory;
 use Composer\IO\BufferIO;
 
@@ -33,6 +34,11 @@ class PackageManager
      * @var Bolt\Composer\Action\RemovePackage
      */
     private $remove;
+
+    /**
+     * @var Bolt\Composer\Action\RequirePackage
+     */
+    private $require;
 
     /**
      *
@@ -85,6 +91,23 @@ class PackageManager
 
         // 0 on success or a positive error code on failure
         $status = $this->remove->execute($packages);
+    }
+
+    /**
+     * Require (install) packages
+     *
+     * @param $packages array Associative array of package names/versions to remove
+     *                        Format: array('name' => '', 'version' => '')
+     * @return integer 0 on success or a positive error code on failure
+     */
+    public function requirePackage(array $packages)
+    {
+        if (!$this->require) {
+            $this->require = new RequirePackage($this->io, $this->composer, $this->options);
+        }
+
+        // 0 on success or a positive error code on failure
+        $status = $this->require->execute($packages);
     }
 
     /**
