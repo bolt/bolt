@@ -76,6 +76,9 @@ class PackageManager
         // Get default options
         $this->getOptions();
 
+        // Set composer environment variables
+        putenv('COMPOSER_HOME=' . $this->app['resources']->getPath('cache') . '/composer');
+
         $this->basedir = $app['resources']->getPath('extensions');
         $this->logfile = $app['resources']->getPath('cachepath') . '/composer_log';
         $this->packageFile = $this->basedir . '/composer.json';
