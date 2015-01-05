@@ -207,12 +207,6 @@ class PackageManager
             'onlyname'              => true,     // only-name - Search only in name
 
             'optimizeautoloader'    => true,     // optimize-autoloader - Optimizes PSR0 and PSR4 packages to be loaded with classmaps too, good for production.
-
-            'self'                  => null,     // self       - Show the root package information
-            'platform'              => null,     // platform   - List platform packages only
-            'installed'             => null,     // installed  - List installed packages only
-            'available'             => null,     // available  - List available packages only
-            'package'               => null,     // package    - Package to inspect
         );
     }
 }
