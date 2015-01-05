@@ -6,6 +6,7 @@ use Bolt\Composer\Action\DumpAutoload;
 use Bolt\Composer\Action\RemovePackage;
 use Bolt\Composer\Action\RequirePackage;
 use Bolt\Composer\Action\SearchPackage;
+use Bolt\Composer\Action\UpdatePackage;
 use Composer\Factory;
 use Composer\IO\BufferIO;
 
@@ -45,6 +46,11 @@ class PackageManager
      * @var Bolt\Composer\Action\SearchPackage
      */
     private $search;
+
+    /**
+     * @var Bolt\Composer\Action\UpdatePackage
+     */
+    private $update;
 
     /**
      *
@@ -129,6 +135,22 @@ class PackageManager
         }
 
         return $this->search->execute($packages);
+    }
+
+    /**
+     * Remove packages from the root install
+     *
+     * @param $packages array Indexed array of package names to remove
+     * @return integer 0 on success or a positive error code on failure
+     */
+    public function updatePackage(array $packages)
+    {
+        if (!$this->update) {
+            $this->update = new UpdatePackage($this->io, $this->composer, $this->options);
+        }
+
+        // 0 on success or a positive error code on failure
+        $status = $this->update->execute($packages);
     }
 
     /**
