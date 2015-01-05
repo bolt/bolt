@@ -6,6 +6,7 @@ use Bolt\Composer\Action\DumpAutoload;
 use Bolt\Composer\Action\RemovePackage;
 use Bolt\Composer\Action\RequirePackage;
 use Bolt\Composer\Action\SearchPackage;
+use Bolt\Composer\Action\ShowPackage;
 use Bolt\Composer\Action\UpdatePackage;
 use Composer\Factory;
 use Composer\IO\BufferIO;
@@ -46,6 +47,11 @@ class PackageManager
      * @var Bolt\Composer\Action\SearchPackage
      */
     private $search;
+
+    /**
+     * @var Bolt\Composer\Action\ShowPackage
+     */
+    private $show;
 
     /**
      * @var Bolt\Composer\Action\UpdatePackage
@@ -138,6 +144,21 @@ class PackageManager
     }
 
     /**
+     * Show packages
+     *
+     * @param $packages
+     * @return
+     */
+    public function showPackage($target, $package = '', $version = '')
+    {
+        if (!$this->show) {
+            $this->show = new ShowPackage($this->io, $this->composer, $this->options);
+        }
+
+        return $this->show->execute($target, $package, $version);
+    }
+
+    /**
      * Remove packages from the root install
      *
      * @param $packages array Indexed array of package names to remove
@@ -184,7 +205,6 @@ class PackageManager
                                                  //       Disables autoload-dev rules
 
             'onlyname'              => true,     // only-name - Search only in name
-            'tokens'                => array(),  // tokens    - Tokens to search for
 
             'optimizeautoloader'    => true,     // optimize-autoloader - Optimizes PSR0 and PSR4 packages to be loaded with classmaps too, good for production.
 
