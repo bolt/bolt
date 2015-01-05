@@ -1,20 +1,20 @@
-# app/resources/translations/cs/messages.cs.yml – generated on 2014-10-24 22:31:34 UTC
+# app/resources/translations/cs_CZ/messages.cs_CZ.yml – generated on 2015-01-05 08:52:07 UTC
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the
-#          repository are automatically mapped to the new scheme. Be aware that there
-#          can be a race condition between that process and your PR so that it's
-#          eventually neccessary to remap your translations. If you're planning on
+#          at the moment. This is an ongoing process. Translations currently in the 
+#          repository are automatically mapped to the new scheme. Be aware that there 
+#          can be a race condition between that process and your PR so that it's 
+#          eventually necessary to remap your translations. If you're planning on 
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
 #  no unused messages
 #  no untranslated messages
 #  no untranslated keyword based messages
-# 355 translations
-# 130 keyword based translations
+# 378 translations
+# 132 keyword based translations
 
-#--- 355 translations ---------------------------------------------------------
+#--- 378 translations ---------------------------------------------------------
 
 "%name% № %id%": "%name% č. %id%"
 "%s files could not be deleted. You should delete them manually.": "%s soubory nelze odstranit. Smažte je ručně."
@@ -40,6 +40,8 @@
 "An error occurred.": "Došlo k nějaké chybě."
 "Anonymous": "Anonymous"
 "Are you sure you want to delete %username%?": "Určitě chcete odstranit %username%?"
+"Are you sure you want to remove this file?": "Určitě chcete odstranit tento soubor?"
+"Are you sure you want to remove this image?": "Určitě chcete odstranit tento obrázek?"
 "Author:": "Autor:"
 "Before you can start using the theme on your site we need to make a copy to your theme folder.": "Předtím než začnete používat tuto šablonu na vaší stránce, potřebujeme udělat kopii do vaší složky s šablonou."
 "Below are the third party libraries that are used by Bolt.": "Níže jsou uveden knihovny třetích stran použité v Bolt."
@@ -90,6 +92,7 @@
 "Content Type Permissions": "Oprávnění typu obsahu"
 "Content for home not found!": "Obsah pro úvodní stranu nenalezen!"
 "Contenttypes": "Typy obsahu"
+"Copying theme assets …": "Kopírují se zdroje šablony …"
 "Create folder": "Vytvořit složku"
 "Create the first user": "Založení prvního uživatele"
 "Created on:": "Vytvořeno:"
@@ -107,6 +110,7 @@
 "Delete selected": "Smazat vybrané"
 "Deleted %s files from cache.": "Z cache smazáno %s souborů."
 "Depublication date:": "Datum expirace:"
+"Depublish date is in the past. Change the status if you want to depublish now": "Datum expirace je v minulosti. Pokud chcete nyní zrušit publikování, změňte status článku na nevydáno nebo koncept."
 "Depublish selected": "Zrušit status publikováno pro vybrané"
 "Deselect all": "Odznačit vše"
 "Detail template": "Detail šablony"
@@ -117,6 +121,7 @@
 "Draft": "Koncept"
 "Duplicate %filename%": "Duplikovat %filename%"
 "Edit": "Upravit"
+"Edit Roles and Permissions": "Upravit uživatelské role a oprávnění"
 "Edit file": "Upravit soubor"
 "Enable %username%": "Povolit %username%"
 "Everybody": "Všichni"
@@ -154,8 +159,10 @@
 "Full list …": "Kompletní výpis…"
 "Geolocation": "Zeměpisná poloha"
 "Global Permissions": "Globální oprávnění"
+"Hints:": "Tipy:"
 "Html": "Html"
 "IP address": "IP adresa"
+"Id": "ID"
 "If there was a Page with 'about' for a slug, it would've been shown here. But there isn't one, so that's why you're seeing this placeholder.": "kdyby zde byla informační strana s trvalým odkazem 'about', zobrazila by se zde. Jenže není. Proto čtete toto hlášení."
 "If you would like to give the theme an alternative name you can add one here.": "Pokud chcete tuto šablonu pojmenovat jinak, jméno můžete přidat zde."
 "Image": "Obrázek"
@@ -183,7 +190,6 @@
 "Message:": "Zpráva:"
 "Messages": "Prostředí"
 "Meta": "Meta"
-"contenttypes.generic.group.meta": "Meta"
 "Meta information": "Metadata"
 "Modifications made to the database:": "Změny provedené v databázi:"
 "Modifications needed:": "Potřebné úpravy:"
@@ -192,6 +198,8 @@
 "Multiselect": "Multivýběr"
 "No Stable Versions Available": "Nejsou k dispozici žádné stabilní verze"
 "No Test Versions Available": "Nejsou k dispozici žádné testovací verze"
+"No files in the list, yet.": "Žádné soubory v seznamu."
+"No images in the list, yet.": "Žádné obrázky v seznamu."
 "No relations found!": "Nenalezeno žádné související"
 "No results found for '%search%'. Please try another search.": "Pro '%search%' nebyly nalezeny žádné výsledky. Zkuste to jinak."
 "No such action for content.": "Pro obsah není tato akce možná."
@@ -235,7 +243,6 @@
 "Related content": "Související obsah"
 "Related content:": "Související obsah"
 "Relationships": "Související obsah"
-"contenttypes.generic.group.relations": "Související obsah"
 "Rename %foldername%": "Přejmenovat %foldername%"
 "Roles": "Práva"
 "Roles and Permissions": "Nastavení oprávnění"
@@ -272,19 +279,19 @@
 "Slug:": "Odkaz v URL:"
 "Something went wrong": "Něco je špatně"
 "Sophisticated, lightweight & simple CMS": "Sofistikovaný, rychlý a jednoduchý redakční systém"
-"Stable Versions": "Stabilní Verze"
+"Stable versions": "Stabilní verze"
 "Stack": "Zásobník"
 "Status": "Stav"
 "Status:": "Stav:"
 "Tag": "Štítek"
 "Tags": "Štítky"
 "Taxonomy": "Taxonomie"
-"contenttypes.generic.group.taxonomy": "Taxonomie"
 "Teaser": "Poutač"
 "Template": "Šablona"
 "Textarea": "Textové pole"
 "Thanks": "Děkujeme"
 "That user does not exist.": "Neexistující uživatel."
+"The Bolt extensions Repo at %repository% is currently unavailable. Check your connection and try again shortly.": "Repozitář rozšíření Boltu %repository% je momentálně nedostupný. Zkontrolujte připojení a po chvíli zkuste znovu."
 "The activitylog has been cleared.": "Záznam činností byl vymazán."
 "The activitylog has been trimmed.": "Ze záznamu aktivit byla odstraněna jedna strana."
 "The database needs to be updated/repaired. Go to 'Settings' > '<a href=\"%link%\">Check Database</a>' to do this now.": "Databáze potřebuje být aktualizována / opravena. Volbu naleznete v 'Nastavení' > '<a href=\"%link%\">Ověřit databázi</a>'."
@@ -302,17 +309,21 @@
 "The translations file '%s' is not readable.": "Soubor s překladem '%s' není čitelný."
 "The versions listed below are compatible with the version of Bolt you are using. Since they are unstable versions, we recommend you <strong>do not</strong> use these on production systems.": "Verze uvedené níže jsou kompatibilní s verzí Boltu, kterou používáte. Jelikož jsou to nestabilní verze doporučujeme, abyste je <strong>nepoužívali<strong> pro ostré instalace."
 "The versions listed below are marked as stable releases by the developer and are compatible with the version of Bolt you are currently using.": "Verze uvedené níže jsou označeny jako stabilní vydání vyvojářem a jsou komptatibilní s verzí Boltu kterou současně požíváte."
-"Theme Installation Complete": "Istalace šablony dokončena"
+"Theme installation complete": "Instalace šabolny dokončena"
+"Theme successfully generated. You can now edit it directly from your theme folder.": "Šablona úspěšně nainstalována. Nyní ji můžete upravovat přímo ve složce se šablonami."
 "There are no items on the Stack, yet.": "V Zásobníku nejsou zatím žádné položky."
 "There are no users in the database. Please create the first user.": "V databázi není žádný uživatel. Vytvořte prosím prvního uživatele."
 "There are no users present in the system. Please create the first user, which will be granted root privileges.": "V systému nejsou žádní uživatelé. Prosím vytvořte prvního uživatele, kterému bude poskytnuto oprávnění root."
 "There should always be at least one 'root' user. You have just been promoted. Congratulations!": "Vždy musí být alespoň jeden uživatel s právy 'root'. Gratulujeme! Právě jste byl/a vybrán/a."
+"There was an error uploading the file.\\nMake sure that the file type is of:\\n%typelist%": "Při nahrávání souboru se vyskytla chyba.Ujistěte se, že uploadovaný soubor je požadovaného typu:\\n%typelist%"
 "This is a checkbox": "Toto je zašrtávací políčko"
 "This record is related to:": "Tento záznam souvisí s:"
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Tento web běží na <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Bolt</a>."
 "This will install all available updates.": "Tímto se nainstalují všechny dostupné aktualizace."
 "This will make sure all packages listed are installed. Use this if you've recently moved to a new server or if you have manually added an extension.": "Tímto bude zkontrolováno zda jsou všechny uvedené balíčky nainstalovány. Použijte v případě, že jste nedávno měnil server nebo pokud jste ručně přidával rozšíření."
+"This will overwrite any existing files! Are you sure?": "Chystáte se přepsat existující soubory! Chcete pokračovat?"
 "This won't install anything, just show you available updates": "Tímto se nic nenainstaluje, pouze se ukáží dostupné aktualizace"
+"Time in 24h/12h format": "Formát času 24/12"
 "Timed publish": "Naplánovat vydání"
 "Tip:": "Tip:"
 "Title": "Nadpis"
@@ -320,13 +331,14 @@
 "Trim Activitylog": "Zredukovat záznam aktivit"
 "Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": "Zkuste se přihlásit pomocí ftp klienta a nastavte atributy souboru pro zápis. Nebo zkuste jít <a>zpět</a> na poslední stranu."
 "Types": "Typy"
-"Unstable Test Versions": "Nestabilní testovací verze"
+"Unstable test versions": "nestabilní testovací verze"
 "Update the database": "Aktualizovat databázi"
 "Updates": "Aktualizace"
 "Upload": "Nahrát"
 "Upload a file to this folder": "Nahrajte soubor do této složky"
 "Upload file": "Nahrát soubor"
 "Upload image": "Nahrát obrázek"
+"Upload not allowed": "Ukládání není povoleno"
 "Uploaded files": "Nahrané soubory"
 "Uploading to this folder is not allowed.": "Ukládání do této složky není povoleno."
 "Used Libraries / Components": "Použité knihovny / komponenty"
@@ -339,24 +351,28 @@
 "Username": "Uživatelské jméno"
 "Username or password not correct. Please check your input.": "Uživatelské jméno nebo heslo není správně."
 "Users": "Uživatelé"
+"Users & Permissions": "Uživatelé & Oprávnění"
 "Version": "Verze"
-"Version:": "Verze:"
 "Video": "Video"
 "View (saved version) on site": "Zobrazit uloženou verzi na webu"
+"View Roles": "Zobrazit uživatelské role"
 "View on site": "Zobrazit na webu"
 "View related content": "Zobrazit související obsah"
 "View site": "Zobrazit web"
 "View/edit Templates": "Zobrazit / upravit Šablony"
 "View/install Extensions": "Zobrazit / Instalovat Rozšíření"
+"We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling.": "Nelze vygenerovat šablonu. Do složky se šablonami patrně nelze zapisovat. Zkontrolujte oprávnění a zkuste instalaci zopakovat."
 "Written by <em>%name%</em> on %date%": "Vytvořeno <em>%name%</em> %date%"
 "You can discover new extensions by visiting": "Nová rozšíření objevíte navštívením"
 "You can now start using the installed extension, documentation and implementation instructions can be found using the link below.": "Můžete začít používat nainstalované rozšíření. Dokumentaci a instrukce k použití zobrazíte pomocí linku níže."
 "You do not have the right privileges to create a new record.": "Nemáte oprávnění pro vytvoření nového záznamu."
 "You do not have the right privileges to edit that record.": "Nemáte oprávnění pro editaci záznamu."
+"You do not have the right privileges to upload.": "Nemáte dostatečné opravnění pro ukládání."
 "You do not have the right privileges to view that page.": "Nemáte oprávnění pro zobrazení této stránky."
 "You don't have correct permissions to edit the file '%s'.": "Nemáte dostatečné oprávnění k editaci souboru '%s'."
 "You don't have the correct permissions to display the file or directory '%s'.": "Nemáte dostatečné oprávnění pro zobrazení souboru či složky '%s'."
 "You have been logged out.": "Byl jste odhlášen/a."
+"You must specify both a name and a version to install!": "Je třeba specifikovat jméno i verzi, kterou chcete instalovat!"
 "You should set 'homepage:' in your 'app/config/config.yml' to an existing record. Make sure that the content is published, otherwise it will not be shown.": "Měli byste nastavit 'homepage:' v souboru 'app/config/config.yml' na existující záznam/obsah. Ujistěte se, že daný obsah je publikovaný, jinak se nezobrazí."
 "You've been logged on successfully.": "Byl jste úspěšně přihlášen/a."
 "Your Currently Installed Extensions": "Vaše nainstalovaná rozšíření"
@@ -364,6 +380,10 @@
 "Your database is already up to date.": "Vaše databáze je již aktualizována."
 "Your database is now up to date.": "Vaše databáze je nyní aktuální."
 "Your password": "Vaše heslo"
+"[Extension error] Initialisation failed for %ext%: %error%": "[Chyba rozšíření] Inicializace selhala %ext%: %error%"
+"[Extension error] Snippet loading failed for %ext%: %error%": "[Chyba rozšíření] Nahrávání snippetu selhalo %ext%: %error%"
+"[Extension error] Twig function registration failed for %ext%: %error%": "[Chyba rozšíření] Registrace funkce Twig(u) selhala %ext%: %error%"
+"[Extension error] YAML config failed to load for %ext%: %error%": "[Chyba rozšíření] Načtení YAML konfigurace selhalo %ext%: %error%"
 "and edited": "a upraveno"
 "back to editing": "zpět do editace"
 "by": "od"
@@ -375,13 +395,12 @@
 "of": "z"
 "show all": "zobrazit vše"
 
-#--- 130 keyword based translations -------------------------------------------
+#--- 132 keyword based translations -------------------------------------------
 
 component:
     changelog-detail:
         by: "od"
         field: "pole"
-        no-comment: "\"Bez komentářů\""
         value-new: "nová hodnota"
         value-old: "původní hodnota"
     changelog-pager:
@@ -397,6 +416,11 @@ contenttypes:
         duplicated-finalize: "Obsah byl zduplikován. Klikněte na 'Uložit %contenttype%' pro dokončení."
         edit: "Upravit %contenttype%"
         error-saving: "Při ukládání %contenttype% nastala chyba."
+        group:
+            meta: "Meta"
+            relations: "Související obsah"
+            taxonomy: "Taxonomie"
+            ungrouped: "Bez zařazení"
         invalid-field: "Nezlez anstavit pole %field% v %contenttype%: Neplatné pole."
         last-modified: "Poslední úpravy %contenttypes%"
         new: "%contenttype%"
@@ -421,34 +445,34 @@ contenttypes:
 
 field:
     general:
-        allowed-filetypes: "\"Povolené typy souborů\""
+        allowed-filetypes: "Povolené typy souborů"
         select-from-server: "Vybrat na serveru"
         select-from-stack: "Vybrat ze Zásobníku"
     geolocation:
         label:
-            address-lookup: "\"Vyhledání adresy\""
+            address-lookup: "Vyhledání adresy"
             latitude: "Zeměpisná šířka"
             longitude: "Zeměpisná délka"
-            marker-placement: "\"Umístění značky\""
+            marker-placement: "Umístění značky"
         matched-address: "Odpovídající adresa:"
         placeholder:
-            address: "\"Ulice, PSČ, město nebo jiné označení polohy\""
+            address: "Ulice, PSČ, město nebo jiné označení polohy"
     slug:
         message:
-            set: "\"Nastavit trvalý odkaz na:\""
-            unlock: "\"Jste si jisti, že chcete upravit trvalý odkaz? Můžeto ovlivnit již existující vazby. \""
+            set: "Nastavit trvalý odkaz na:"
+            unlock: "Jste si jisti, že chcete upravit trvalý odkaz? Můžeto ovlivnit již existující vazby. "
         permalink: "Trvalý odkaz"
     video:
         button:
             preview: "Náhled"
         label:
-            preview: "\"Náhled obrázku\""
+            preview: "Náhled obrázku"
             size: "Velikost"
-            url: "\"URL adresa videa\""
-        matched-video: "\"Odpovídající video\""
-        pixel: "\"pixel\""
+            url: "URL adresa videa"
+        matched-video: "Odpovídající video"
+        pixel: "pixel"
         placeholder:
-            url: "\"URL videa na Youtube, Vimeo nabo jiném video webu\""
+            url: "URL videa na Youtube, Vimeo nabo jiném video webu"
         preview:
             button.close: "Zavřít"
             no-url: "Nebyla zadána URL adresa videa, není co ukázat."
@@ -477,8 +501,7 @@ page:
             revert: "Zrušit změny"
             save: "Uložit"
         confirm-revert: "Určitě chcete zahodit provedené úpravy? Budou ztraceny, pokud je neuložíte."
-        note-related: "\"Upozornění: tento soubor má související soubory:\""
-        path: "Cesta:"
+        note-related: "Upozornění: tento soubor má související soubory:"
         title:
             edit: "Upravit soubor"
             view: "Zobrazit soubor"
@@ -493,7 +516,7 @@ page:
             no: "ne"
             yes: "ano"
         button:
-            save: "\"Uložit uživatele\""
+            save: "Uložit uživatele"
         error:
             displayname-used: "Uživatelské jméno již existuje. Zvolte si jiné."
             email-used: "Tato emailová adresa je již používána. Zvolte jinou."
@@ -524,18 +547,18 @@ page:
             password-confirm: "Potvrdit Vaše heslo"
             username: "Zvolte uživatelské jméno, pouze malými písmeny"
         title:
-            create: "\"Vytvořit nového uživatele\""
-            edit: "\"Upravit uživatele\""
-            profile: "\"Profil\""
-        user-create: "\"K vytvoření nového uživatele použijte tento formulář. Heslo je povinné.\""
-        user-edit: "\"Pro upravení uživatele použijte formulář. Heslo nevyplňujte, pokud si nepřejete heslo změnit..\""
+            create: "Vytvořit nového uživatele"
+            edit: "Upravit uživatele"
+            profile: "Profil"
+        user-create: "K vytvoření nového uživatele použijte tento formulář. Heslo je povinné."
+        user-edit: "Pro upravení uživatele použijte formulář. Heslo nevyplňujte, pokud si nepřejete heslo změnit.."
     login:
         button:
             back: "Zpět na přihlášení"
             forgot-password: "Zapomněl jsem své heslo…"
             log-on: "Přihlásit se"
             reset-password: "Resetovat heslo"
-        cookies-required: "\"Upozornění: Pro přihlášení k administraci je zapotřebí cookies. Prosím, povolte si cookies ve svém prohlížeči..\""
+        cookies-required: "Upozornění: Pro přihlášení k administraci je zapotřebí cookies. Prosím, povolte si cookies ve svém prohlížeči.."
         label:
             password: "Heslo"
             username: "Uživatelské jméno"
@@ -543,7 +566,7 @@ page:
         password-show: "Zobrazit"
         placeholder:
             password: "Vaše uživatelské jméno"
-        title: "\"Přihlášení do Boltu\""
+        title: "Přihlášení do Boltu"
 
 panel:
     latest-activity:
