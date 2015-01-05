@@ -2,6 +2,7 @@
 
 namespace Bolt\Composer;
 
+use Bolt\Composer\Action\DumpAutoload;
 use Composer\Factory;
 use Composer\IO\BufferIO;
 
@@ -21,6 +22,11 @@ class PackageManager
      * @var Composer\Composer
      */
     private $composer;
+
+    /**
+     * @var Bolt\Composer\Action\DumpAutoload
+     */
+    private $dumpautoload;
 
     /**
      *
@@ -45,6 +51,18 @@ class PackageManager
     public function getOutput()
     {
         return $this->io->getOutput();
+    }
+
+    /**
+     * Dump fresh autoloader
+     */
+    public function dumpautoload()
+    {
+        if (!$this->dumpautoload) {
+            $this->dumpautoload = new DumpAutoload($this->io, $this->composer, $this->options);
+        }
+
+        $this->dumpautoload->execute();
     }
 
     /**
