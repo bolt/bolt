@@ -1,10 +1,10 @@
-# app/resources/translations/cs/contenttypes.cs.yml – generated on 2014-10-24 20:45:52 UTC
+# app/resources/translations/cs_CZ/contenttypes.cs_CZ.yml – generated on 2015-01-05 08:54:06 UTC
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the
-#          repository are automatically mapped to the new scheme. Be aware that there
-#          can be a race condition between that process and your PR so that it's
-#          eventually neccessary to remap your translations. If you're planning on
+#          at the moment. This is an ongoing process. Translations currently in the 
+#          repository are automatically mapped to the new scheme. Be aware that there 
+#          can be a race condition between that process and your PR so that it's 
+#          eventually necessary to remap your translations. If you're planning on 
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
@@ -12,12 +12,16 @@
 #  no untranslated messages
 #  no untranslated keyword based messages
 #  no translations
-#  93 keyword based translations
+# 103 keyword based translations
 
-#--- 93 keyword based translations --------------------------------------------
+#--- 103 keyword based translations -------------------------------------------
 
 contenttypes:
     entries:
+        description: "Typ obsahu **Novinky** může být použit pro obsah typu _'Novinky'_ nebo _'Blog'_. Mají teaser, který může být použít jako přehled / anotace na stránkách s výpisy, umožňujíc nášvštěvníkům procházet zbytek příspěvku. Obsahuje také obrázek či volitelně video. Pro změnu, přidání či odstranění polí obsahu je potřeba upravit soubor `contenttypes.yml` ve složce `app/config/`. Můžete použít svůj oblínbený editor nebo vestavěný v hlavní nabídce 'Konfigurace' » 'Typy obsahu' na levé straně."
+        group:
+            content: "Obsah"
+            media: "Média"
         name:
             plural: "Novinky"
             singular: "Novinka"
@@ -52,6 +56,9 @@ contenttypes:
             view: "Zobrazit "
             wrong-use-field: "Typ obsahu 'Novinka', pole '%field%' používá: '%uses%', ale pole '%uses%' neexistuje. Proveďte prosím potřebné úpravy v contenttypes.yml."
     pages:
+        description: "Typ obsahu **Strany** bývá používán pro statické typy stránek na vašem webu. tedy stránek jako jsou _'O nás'_ nebo _'Kontakt'_. Pro změnu, přidání či odstranění polí obsahu je potřeba upravit soubor `contenttypes.yml` ve složce `app/config/`. Můžete použít svůj oblínbený editor nebo vestavěný v hlavní nabídce 'Konfigurace' » 'Typy obsahu' na levé straně."
+        group:
+            content: "Obsah"
         name:
             plural: "Strany"
             singular: "Strana"
@@ -86,6 +93,12 @@ contenttypes:
             view: "Zobrazit "
             wrong-use-field: "Typ obsahu 'Strana', pole '%field%' používá: '%uses%', ale pole '%uses%' neexistuje. Proveďte prosím potřebné úpravy v contenttypes.yml."
     showcases:
+        description: "Typ obsahu **Ukázky** je typ obsahu určený k demonstrování všech dostupných typů polí. Není určený k praktickému použití, ale určitě si projděte, která jaké typy polí lze využít. Pro změnu, přidání či odstranění polí obsahu je potřeba upravit soubor `contenttypes.yml` ve složce `app/config/`. Můžete použít svůj oblínbený editor nebo vestavěný v hlavní nabídce 'Konfigurace' » 'Typy obsahu' na levé straně."
+        group:
+            files: "Soubory"
+            media: "Média"
+            other: "Další"
+            text: "Texty"
         name:
             plural: "Ukázky"
             singular: "Ukázka"
