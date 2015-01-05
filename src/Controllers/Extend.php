@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Filesystem\Filesystem;
 
-use Bolt\Composer\CommandRunner;
+use Bolt\Composer\PackageManager;
 use Bolt\Library as Lib;
 use Bolt\Translation\Translator as Trans;
 
@@ -22,16 +22,16 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
     public function register(Silex\Application $app)
     {
         $app['extend.site'] = $app['config']->get('general/extensions/site', 'https://extensions.bolt.cm/');
-        $app['extend.repo'] = $app['extend.site'] . "list.json";
+        $app['extend.repo'] = $app['extend.site'] . 'list.json';
         $app['extend'] = $this;
         $extensionsPath = $app['resources']->getPath('extensions');
-        $this->readWriteMode = is_dir("$extensionsPath/") && is_writable("$extensionsPath/");
+        $app['extend.mode'] = is_dir($extensionsPath) && is_writable($extensionsPath) ? 'online' : 'offline';
 
         // This exposes the main upload object as a service
         $me = $this;
         $app['extend.runner'] = $app->share(
             function ($app) use ($me) {
-                return new CommandRunner($app, $app['extend.repo'], $me->readWriteMode);
+                return new PackageManager($app);
             }
         );
     }
