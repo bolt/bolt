@@ -3,6 +3,7 @@
 namespace Bolt\Composer;
 
 use Bolt\Composer\Action\DumpAutoload;
+use Bolt\Composer\Action\RemovePackage;
 use Composer\Factory;
 use Composer\IO\BufferIO;
 
@@ -27,6 +28,11 @@ class PackageManager
      * @var Bolt\Composer\Action\DumpAutoload
      */
     private $dumpautoload;
+
+    /**
+     * @var Bolt\Composer\Action\RemovePackage
+     */
+    private $remove;
 
     /**
      *
@@ -63,6 +69,22 @@ class PackageManager
         }
 
         $this->dumpautoload->execute();
+    }
+
+    /**
+     * Remove packages from the root install
+     *
+     * @param $packages array Indexed array of package names to remove
+     * @return integer 0 on success or a positive error code on failure
+     */
+    public function removePackage(array $packages)
+    {
+        if (!$this->remove) {
+            $this->remove = new RemovePackage($this->io, $this->composer, $this->options);
+        }
+
+        // 0 on success or a positive error code on failure
+        $status = $this->remove->execute($packages);
     }
 
     /**
