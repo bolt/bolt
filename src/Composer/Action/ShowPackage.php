@@ -158,7 +158,7 @@ class ShowPackage
             $matchedPackage = $pool->literalToPackage($prefered[0]);
         }
 
-        return array($package->getName() => array(
+        return array($matchedPackage->getName() => array(
             'package'  => $matchedPackage,
             'versions' => $versions
         ));
