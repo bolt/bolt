@@ -9,8 +9,10 @@ use Bolt\Composer\Action\RequirePackage;
 use Bolt\Composer\Action\SearchPackage;
 use Bolt\Composer\Action\ShowPackage;
 use Bolt\Composer\Action\UpdatePackage;
+use Bolt\Translation\Translator as Trans;
 use Composer\Factory;
 use Composer\IO\BufferIO;
+use Composer\Json\JsonFile;
 use Silex\Application;
 
 class PackageManager
@@ -85,13 +87,15 @@ class PackageManager
         // Set composer environment variables
         putenv('COMPOSER_HOME=' . $this->app['resources']->getPath('cache') . '/composer');
 
-        if ($app['extend.mode'] === 'online') {
+        if ($app['extend.writeable']) {
             // Copy/update installer helper
             $this->copyInstaller();
 
             // Do required JSON set up
-            $this->setup();
+            $this->setupJson();
+        }
 
+        if ($app['extend.online']) {
             // Create the IO
             $this->io = new BufferIO();
 
@@ -226,10 +230,60 @@ class PackageManager
         copy($filename, $this->basedir . '/installer.php');
     }
 
-    private function setup()
+    private function setupJson()
     {
         if (!is_file($this->options['composerjson'])) {
             $this->init($this->options['composerjson']);
+        }
+
+        $jsonFile = new JsonFile($this->options['composerjson']);
+        if ($jsonFile->exists()) {
+            $json = $jsonorig = $jsonFile->read();
+        } else {
+            // Error
+            $this->messages[] = Trans::__(
+                "The Bolt extensions file '%composerjson%' isn't readable.",
+                array('%composerjson%' => $this->options['composerjson'])
+            );
+
+            $this->app['extend.writeable'] = false;
+            $this->app['extend.online'] = false;
+
+            return;
+        }
+
+        $pathToWeb = $this->app['resources']->findRelativePath($this->app['resources']->getPath('extensions'), $this->app['resources']->getPath('web'));
+
+        // Enforce standard settings
+        $json['repositories']['packagist'] = false;
+        $json['repositories']['bolt'] = array(
+            'type' => 'composer',
+            'url' => $this->app['extend.site'] . 'satis/'
+        );
+        $json['minimum-stability'] = $this->app['config']->get('general/extensions/stability', 'stable');
+        $json['prefer-stable'] = true;
+        $json['config'] = array(
+            'discard-changes' => true,
+            'preferred-install' => 'dist'
+        );
+        $json['provide']['bolt/bolt'] = $this->app['bolt_version'];
+        $json['scripts'] = array(
+            'post-package-install' => "Bolt\\Composer\\ExtensionInstaller::handle",
+            'post-package-update' => "Bolt\\Composer\\ExtensionInstaller::handle"
+        );
+        $json['extra'] = array('bolt-web-path' => $pathToWeb);
+        $json['autoload'] = array('files' => array("installer.php"));
+
+        // Write out the file, but only if it's actually changed, and if it's writable.
+        if ($json != $jsonorig) {
+            try {
+                $jsonFile->write($json);
+            } catch (Exception $e) {
+                $this->messages[] = Trans::__(
+                    'The Bolt extensions Repo at %repository% is currently unavailable. Check your connection and try again shortly.',
+                    array('%repository%' => $this->app['extend.site'])
+                );
+            }
         }
     }
 
