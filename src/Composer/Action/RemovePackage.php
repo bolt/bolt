@@ -45,6 +45,9 @@ class RemovePackage
             }
         }
 
+        // Reload Composer config
+        $this->composer = Factory::create($this->io, $this->options['composerjson'], true);
+
         $install = Installer::create($this->io, $this->composer);
 
         $install
