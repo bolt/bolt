@@ -2,8 +2,6 @@
 
 namespace Bolt\Composer\Action;
 
-use Bolt\Composer\PackageManager;
-
 use Composer\Factory;
 use Composer\Repository\CompositeRepository;
 use Composer\Repository\PlatformRepository;
@@ -39,14 +37,14 @@ class SearchPackage
             $repos = new CompositeRepository(array_merge(array($installedRepo), $this->composer->getRepositoryManager()->getRepositories()));
         } else {
             $defaultRepos = Factory::createDefaultRepositories($this->io);
-            
+
             //No composer.json found in the current directory, showing packages from local repo
             $installedRepo = $platformRepo;
             $repos = new CompositeRepository(array_merge(array($installedRepo), $defaultRepos));
         }
 
         $flags = $this->onlyname ? RepositoryInterface::SEARCH_NAME : RepositoryInterface::SEARCH_FULLTEXT;
-        
+
         return $repos->search(implode(' ', $packages), $flags);
     }
 }
