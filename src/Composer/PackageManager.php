@@ -86,14 +86,17 @@ class PackageManager
         putenv('COMPOSER_HOME=' . $this->app['resources']->getPath('cache') . '/composer');
 
         if ($app['extend.mode'] === 'online') {
+            // Copy/update installer helper
+            $this->copyInstaller();
+
+            // Do required JSON set up
+            $this->setup();
+
             // Create the IO
             $this->io = new BufferIO();
 
             // Use the factory to get a new Composer object
             $this->composer = Factory::create($this->io, $this->options['composerjson'], true);
-
-            // Copy/update installer helper
-            $this->copyInstaller();
         }
     }
 
@@ -221,6 +224,13 @@ class PackageManager
         $class = new \ReflectionClass("Bolt\\Composer\\ExtensionInstaller");
         $filename = $class->getFileName();
         copy($filename, $this->basedir . '/installer.php');
+    }
+
+    private function setup()
+    {
+        if (!is_file($this->options['composerjson'])) {
+            $this->init($this->options['composerjson']);
+        }
     }
 
     /**
