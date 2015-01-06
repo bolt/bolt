@@ -172,19 +172,39 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
         $package = $request->get('package');
         $version = $request->get('version');
         $app['extensions.stats']->recordInstall($package, $version);
-        $response = $app['extend.runner']->requirePackage(array(
-            'name' => $package,
-            'version' => $version
-            ));
 
-        return new Response($app['extend.runner']->getOutput());
+        try {
+            $response = $app['extend.runner']->requirePackage(array(
+                'name' => $package,
+                'version' => $version
+                ));
+
+            if ($response === 0) {
+                return new Response($app['extend.runner']->getOutput());
+            } else {
+                return new JsonResponse($this->returnAjaxException($app, $response), Response::HTTP_INTERNAL_SERVER_ERROR);
+            }
+        } catch (Exception $e) {
+            return new JsonResponse($this->returnAjaxException($app, $e), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
     }
 
     public function uninstall(Silex\Application $app, Request $request)
     {
         $package = $request->get('package');
 
-        return new Response($app['extend.runner']->removePackage(array($package)));
+        try {
+            $response = $app['extend.runner']->removePackage(array($package));
+
+            if ($response === 0) {
+                return new Response($app['extend.runner']->getOutput());
+            } else {
+                return new JsonResponse($this->returnAjaxException($app, $response), Response::HTTP_INTERNAL_SERVER_ERROR);
+            }
+        } catch (Exception $e) {
+            return new JsonResponse($this->returnAjaxException($app, $e), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
     public function installed(Silex\Application $app, Request $request)
@@ -289,13 +309,13 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
     {
         if ($error instanceof Exception) {
             return array(
-                'type' => 'Exception',
+                'type' => 'exception',
                 'io'   => $app['extend.runner']->getOutput(),
                 'msg'  => $error->getMessage()
             );
         } else {
             return array(
-                'type' => 'Exception',
+                'type' => 'badstatus',
                 'io'   => $app['extend.runner']->getOutput(),
                 'msg'  => ''
             );
