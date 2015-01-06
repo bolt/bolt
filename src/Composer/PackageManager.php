@@ -241,7 +241,7 @@ class PackageManager
     {
         $class = new \ReflectionClass("Bolt\\Composer\\ExtensionInstaller");
         $filename = $class->getFileName();
-        copy($filename, $this->basedir . '/installer.php');
+        copy($filename, $this->options['basedir'] . '/installer.php');
     }
 
     /**
@@ -289,7 +289,7 @@ class PackageManager
             'post-package-update' => "Bolt\\Composer\\ExtensionInstaller::handle"
         );
         $json['extra'] = array('bolt-web-path' => $pathToWeb);
-        $json['autoload'] = array('files' => array("installer.php"));
+        $json['autoload'] = array('files' => array('installer.php'));
 
         // Write out the file, but only if it's actually changed, and if it's writable.
         if ($json != $jsonorig) {
