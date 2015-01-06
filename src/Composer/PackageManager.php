@@ -79,10 +79,6 @@ class PackageManager
         // Set composer environment variables
         putenv('COMPOSER_HOME=' . $this->app['resources']->getPath('cache') . '/composer');
 
-        $this->basedir = $app['resources']->getPath('extensions');
-        $this->logfile = $app['resources']->getPath('cachepath') . '/composer_log';
-        $this->packageFile = $this->basedir . '/composer.json';
-
         if ($app['extend.mode'] === 'online') {
             // Create the IO
             $this->io = new BufferIO();
@@ -90,7 +86,7 @@ class PackageManager
             // Use the factory to get a new Composer object
             $this->composer = Factory::create($this->io, $this->options['composerjson'], true);
 
-            //
+            // Copy/update installer helper
             $this->copyInstaller();
         }
     }
@@ -212,7 +208,9 @@ class PackageManager
     private function getOptions()
     {
         $this->options = array(
-            'composerjson'           => 'composer.json',
+            'basedir'                => $this->app['resources']->getPath('extensions'),
+            'composerjson'           => $this->app['resources']->getPath('extensions') . 'composer.json',
+            'logfile'                => $this->app['resources']->getPath('cachepath') . '/composer_log',
 
             'dryrun'                 => null,    // dry-run              - Outputs the operations but will not execute anything (implicitly enables --verbose)
             'verbose'                => true,    // verbose              - Shows more details including new commits pulled in when updating packages
