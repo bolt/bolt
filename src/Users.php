@@ -114,7 +114,7 @@ class Users
         $user['username'] = String::slug($user['username']);
 
         if (empty($user['lastseen'])) {
-            $user['lastseen'] = "1900-01-01";
+            $user['lastseen'] = null;
         }
 
         if (empty($user['enabled']) && $user['enabled'] !== 0) {
@@ -122,11 +122,11 @@ class Users
         }
 
         if (empty($user['shadowvalidity'])) {
-            $user['shadowvalidity'] = "1900-01-01";
+            $user['shadowvalidity'] = null;
         }
 
         if (empty($user['throttleduntil'])) {
-            $user['throttleduntil'] = "1900-01-01";
+            $user['throttleduntil'] = null;
         }
 
         if (empty($user['failedlogins'])) {
@@ -631,9 +631,9 @@ class Users
 
             $update = array(
                 'password' => $user['shadowpassword'],
-                'shadowpassword' => "",
-                'shadowtoken' => "",
-                'shadowvalidity' => "0000-00-00 00:00:00"
+                'shadowpassword' => '',
+                'shadowtoken' => '',
+                'shadowvalidity' => null
             );
             $this->db->update($this->usertable, $update, array('id' => $user['id']));
 
@@ -659,7 +659,7 @@ class Users
     private function throttleUntil($attempts)
     {
         if ($attempts < 5) {
-            return "0000-00-00 00:00:00";
+            return null;
         } else {
             $wait = pow(($attempts - 4), 2);
 

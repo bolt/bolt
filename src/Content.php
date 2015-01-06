@@ -210,9 +210,9 @@ class Content implements \ArrayAccess
                 // @todo Try better date-parsing, instead of just setting it to
                 // 'now' (or 'the past' for datedepublish)
                 if ($key == 'datedepublish') {
-                    $value = date("1900-01-01 00:00:00");
+                    $value = null;
                 } else {
-                    $value = date("Y-m-d H:i:s");
+                    $value = date('Y-m-d H:i:s');
                 }
             }
         }
