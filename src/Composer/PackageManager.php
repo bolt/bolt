@@ -112,6 +112,9 @@ class PackageManager
         }
 
         if ($app['extend.online']) {
+            // Set working directory
+            chdir($this->options['basedir']);
+
             // Create the IO
             $this->io = new BufferIO();
 
