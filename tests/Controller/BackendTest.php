@@ -184,11 +184,11 @@ class BackendTest extends BoltUnitTest
         $check = $this->getMock('Bolt\Database\IntegrityChecker', array('repairTables'), array($app));
         
             
-        $check->expects($this->at(1))
+        $check->expects($this->at(0))
             ->method('repairTables')
             ->will($this->returnValue(""));
             
-        $check->expects($this->at(2))
+        $check->expects($this->at(1))
             ->method('repairTables')
             ->will($this->returnValue("Testing"));
             
@@ -205,7 +205,8 @@ class BackendTest extends BoltUnitTest
         $response = $app->handle($request);
         $this->assertEquals(302, $response->getStatusCode());
         $this->assertEquals('/bolt/file/edit/files/app/config/contenttypes.yml', $response->getTargetUrl());
-
+        $this->assertNotEmpty($app['session']->getFlashBag()->get('success'));  
+        
         $request = Request::create('/bolt/dbupdate', "POST");
         $response = $app->handle($request);
         $this->assertEquals(302, $response->getStatusCode());
@@ -220,6 +221,86 @@ class BackendTest extends BoltUnitTest
         
         $request = Request::create('/bolt/dbupdate_result');
         $this->checkTwigForTemplate($app, 'dbcheck/dbcheck.twig');
+        
+        $app->run($request);
+    }
+    
+    public function testClearCache()
+    {
+        $app = $this->getApp();
+        $this->allowLogin($app);
+        $cache = $this->getMock('Bolt\Cache', array('clearCache'));
+        $cache->expects($this->at(0))
+            ->method('clearCache')
+            ->will($this->returnValue(array('successfiles'=>'1.txt', 'failedfiles'=>'2.txt')));
+            
+        $cache->expects($this->at(1))
+            ->method('clearCache')
+            ->will($this->returnValue(array('successfiles'=>'1.txt')));
+            
+        $app['cache'] = $cache;
+        $request = Request::create('/bolt/clearcache');
+        $this->checkTwigForTemplate($app, 'clearcache/clearcache.twig');
+        $app->run($request);
+        $this->assertNotEmpty($app['session']->getFlashBag()->get('error'));  
+        
+        $request = Request::create('/bolt/clearcache');
+        $this->checkTwigForTemplate($app, 'clearcache/clearcache.twig');
+        $app->run($request);
+        $this->assertNotEmpty($app['session']->getFlashBag()->get('success')); 
+    }
+    
+    public function testActivityLog()
+    {
+        $app = $this->getApp();
+        $this->allowLogin($app);
+        $log = $this->getMock('Bolt\Log', array('clear', 'trim'), array($app));
+        $log->expects($this->once())
+            ->method('clear')
+            ->will($this->returnValue(true));
+            
+        $log->expects($this->once())
+            ->method('trim')
+            ->will($this->returnValue(true));
+            
+        $app['log'] = $log;
+        
+        ResourceManager::setApp($app);
+
+        $request = Request::create('/bolt/activitylog', "GET", array('action'=>'trim'));
+        $response = $app->handle($request);
+        $this->assertNotEmpty($app['session']->getFlashBag()->get('success'));  
+        
+        $request = Request::create('/bolt/activitylog', "GET", array('action'=>'clear'));
+        $response = $app->handle($request);
+        $this->assertNotEmpty($app['session']->getFlashBag()->get('success'));
+        
+        $this->assertEquals('/bolt/activitylog', $response->getTargetUrl());
+
+        $request = Request::create('/bolt/activitylog');
+        $this->checkTwigForTemplate($app, 'activity/activity.twig');
+        $app->run($request);
+        
+    }
+    
+    public function testOmnisearch()
+    {
+        $app = $this->getApp();
+        $this->allowLogin($app);
+        
+        $request = Request::create('/bolt/omnisearch', "GET", array('q'=>'test'));
+        $this->checkTwigForTemplate($app, 'omnisearch/omnisearch.twig');
+        
+        $app->run($request);
+    }
+    
+    public function testPrefill()
+    {
+        $app = $this->getApp();
+        $this->allowLogin($app);
+        
+        $request = Request::create('/bolt/prefill');
+        $this->checkTwigForTemplate($app, 'prefill/prefill.twig');
         
         $app->run($request);
     }
