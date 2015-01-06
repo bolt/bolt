@@ -73,6 +73,11 @@ class PackageManager
     private $app;
 
     /**
+     * @var array
+     */
+    private $messages = array();
+
+    /**
      *
      * @param Application $app
      * @param boolean     $readWriteMode
@@ -93,6 +98,15 @@ class PackageManager
 
             // Do required JSON set up
             $this->setupJson();
+
+            // Ping the extensions server to confirm connection
+            $response = $this->ping($this->app['extend.site'], 'ping', true);
+            $httpOk = array(200, 301, 302);
+            if (in_array($response, $httpOk)) {
+                $app['extend.online'] = true;
+            } else {
+                $this->messages[] = $this->app['extend.site'] . ' is unreachable.';
+            }
         }
 
         if ($app['extend.online']) {
@@ -230,6 +244,9 @@ class PackageManager
         copy($filename, $this->basedir . '/installer.php');
     }
 
+    /**
+     * Set up Composer JSON file
+     */
     private function setupJson()
     {
         if (!is_file($this->options['composerjson'])) {
@@ -277,6 +294,7 @@ class PackageManager
         // Write out the file, but only if it's actually changed, and if it's writable.
         if ($json != $jsonorig) {
             try {
+                umask(0000);
                 $jsonFile->write($json);
             } catch (Exception $e) {
                 $this->messages[] = Trans::__(
