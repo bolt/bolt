@@ -158,7 +158,7 @@ class PackageManager
         }
 
         // 0 on success or a positive error code on failure
-        $status = $this->remove->execute($packages);
+        return $this->remove->execute($packages);
     }
 
     /**
@@ -175,7 +175,7 @@ class PackageManager
         }
 
         // 0 on success or a positive error code on failure
-        $status = $this->require->execute($packages);
+        return $this->require->execute($packages);
     }
 
     /**
@@ -221,7 +221,7 @@ class PackageManager
         }
 
         // 0 on success or a positive error code on failure
-        $status = $this->update->execute($packages);
+        return $this->update->execute($packages);
     }
 
     /**
