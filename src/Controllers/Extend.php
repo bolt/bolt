@@ -184,12 +184,10 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
 
     public function installed(Silex\Application $app, Request $request)
     {
-        $result = $app['extend.runner']->installed();
-        if ($result instanceof Response) {
-            return $result;
-        } else {
-            return new Response($result);
-        }
+        $installed = $app['extend.runner']->showPackage('installed');
+        $result = $app['extend.runner']->formatPackageResponse($installed);
+
+        return new JsonResponse($result);
     }
 
     public function installAll(Silex\Application $app, Request $request)
