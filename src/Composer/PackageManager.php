@@ -396,7 +396,7 @@ class PackageManager
 
             'sortpackages'           => true,    // sort-packages        - Sorts packages when adding/updating a new dependency
             'prefersource'           => false,   // prefer-source        - Forces installation from package sources when possible, including VCS information
-            'preferdist'             => true,    // prefer-dist          - Forces installation from package dist even for dev versions
+            'preferdist'             => true,    // prefer-dist          - Forces installation from package dist (archive) even for dev versions
             'update'                 => true,    // [Custom]             - Do package update as well
             'noupdate'               => null,    // no-update            - Disables the automatic update of the dependencies
             'updatenodev'            => true,    // update-no-dev        - Run the dependency update with the --no-dev option
