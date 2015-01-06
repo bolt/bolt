@@ -25,7 +25,8 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
         $app['extend.repo'] = $app['extend.site'] . 'list.json';
         $app['extend'] = $this;
         $extensionsPath = $app['resources']->getPath('extensions');
-        $app['extend.mode'] = is_dir($extensionsPath) && is_writable($extensionsPath) ? 'online' : 'offline';
+        $app['extend.writeable'] = is_dir($extensionsPath) && is_writable($extensionsPath) ? true : false;
+        $app['extend.online'] = false;
 
         // This exposes the main upload object as a service
         $me = $this;
