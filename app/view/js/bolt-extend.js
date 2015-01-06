@@ -333,10 +333,10 @@ var BoltExtender = Object.extend(Object, {
             {'package':package,'version':version}
         )
         .done(function(data) {
-            if(data['type']=='bolt-extension') {
+            if(data[0]['type']=='bolt-extension') {
                 controller.extensionPostInstall(data);
             }
-            if(data['type']=='bolt-theme') {
+            if(data[0]['type']=='bolt-theme') {
                 controller.themePostInstall(data);
             }
             controller.updateLog();

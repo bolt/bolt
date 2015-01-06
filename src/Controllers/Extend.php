@@ -149,8 +149,9 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
     {
         $package = $request->get('package');
         $version = $request->get('version');
+        $response = $app['extend.runner']->showPackage('installed', $package, $version);
 
-        return new JsonResponse($app['extend.runner']->info($package, $version));
+        return new JsonResponse($app['extend.runner']->formatPackageResponse($response));
     }
 
     public function check(Silex\Application $app, Request $request)
