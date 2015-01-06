@@ -237,6 +237,37 @@ class PackageManager
     }
 
     /**
+     * Format a Composer API package array suitable for AJAX response
+     *
+     * @param  array $packages
+     * @return array
+     */
+    public function formatPackageResponse(array $packages) {
+        $pack = array();
+
+        foreach ($packages as $package) {
+            $pack[] = array(
+                'name'       => $package['package']->getPrettyName(),
+                'version'    => $package['package']->getPrettyVersion(),
+                'authors'    => $package['package']->getAuthors(),
+                'type'       => $package['package']->getType(),
+                'descrip'    => $package['package']->getDescription(),
+                'keywords'   => $package['package']->getKeywords()
+            );
+        }
+
+        return $pack;
+    }
+
+    private function linkReadMe($name)
+    {
+    }
+
+    private function linkConfig($name)
+    {
+    }
+
+    /**
      * Install/update extension installer helper
      */
     private function copyInstaller()
@@ -347,7 +378,7 @@ class PackageManager
     {
         $this->options = array(
             'basedir'                => $this->app['resources']->getPath('extensions'),
-            'composerjson'           => $this->app['resources']->getPath('extensions') . 'composer.json',
+            'composerjson'           => $this->app['resources']->getPath('extensions') . '/composer.json',
             'logfile'                => $this->app['resources']->getPath('cachepath') . '/composer_log',
 
             'dryrun'                 => null,    // dry-run              - Outputs the operations but will not execute anything (implicitly enables --verbose)
