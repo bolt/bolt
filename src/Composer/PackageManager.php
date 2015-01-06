@@ -77,7 +77,7 @@ class PackageManager
     /**
      * @var array
      */
-    private $messages = array();
+    public $messages = array();
 
     /**
      *
