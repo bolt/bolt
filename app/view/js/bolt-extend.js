@@ -225,7 +225,7 @@ var BoltExtender = Object.extend(Object, {
                         // tags
                         if (ext["keywords"]) {
                             html += "<span class='tags'><i class='fa fa-tag ta-fw'></i> ";
-                            var keywordsArray = ext["keywords"].split(',');
+                            var keywordsArray = ext["keywords"];
                             for (var i = 0; i < keywordsArray.length; i++) {
                                 html += "<span class='tag label label-info'>" +  keywordsArray[i] + "</span> ";
                             }
