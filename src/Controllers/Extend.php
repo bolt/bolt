@@ -103,11 +103,11 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
 
         return array(
                 'messages' => $app['extend.runner']->messages,
-                'enabled' => $this->readWriteMode,
-                'offline' => $app['extend.runner']->offline,
+                'enabled' => $app['extend.writeable'],
+                'offline' => $app['extend.online'],
                 'extensionsPath' => $extensionsPath,
                 'site' => $app['extend.site']
-            );
+        );
     }
 
     public function overview(Silex\Application $app, Request $request)
