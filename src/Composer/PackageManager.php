@@ -3,6 +3,7 @@
 namespace Bolt\Composer;
 
 use Bolt\Composer\Action\DumpAutoload;
+use Bolt\Composer\Action\InitJson;
 use Bolt\Composer\Action\RemovePackage;
 use Bolt\Composer\Action\RequirePackage;
 use Bolt\Composer\Action\SearchPackage;
@@ -33,6 +34,11 @@ class PackageManager
      * @var Bolt\Composer\Action\DumpAutoload
      */
     private $dumpautoload;
+
+    /**
+     * @var Bolt\Composer\Action\InitJson
+     */
+    private $initJson;
 
     /**
      * @var Bolt\Composer\Action\RemovePackage
@@ -190,6 +196,21 @@ class PackageManager
 
         // 0 on success or a positive error code on failure
         $status = $this->update->execute($packages);
+    }
+
+    /**
+     * Initialise a new JSON file
+     *
+     * @param string $file
+     * @param array  $data
+     */
+    public function initJson($file, array $data = array())
+    {
+        if (!$this->initJson) {
+            $this->initJson = new InitJson($this->io, $this->composer, $this->options);
+        }
+
+        $this->initJson->execute($file, $data);
     }
 
     /**
