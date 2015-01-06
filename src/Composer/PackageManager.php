@@ -13,6 +13,8 @@ use Bolt\Translation\Translator as Trans;
 use Composer\Factory;
 use Composer\IO\BufferIO;
 use Composer\Json\JsonFile;
+use Guzzle\Http\Client as GuzzleClient;
+use Guzzle\Http\Exception\RequestException;
 use Silex\Application;
 
 class PackageManager
