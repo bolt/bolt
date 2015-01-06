@@ -104,7 +104,7 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
         return array(
                 'messages' => $app['extend.runner']->messages,
                 'enabled' => $app['extend.writeable'],
-                'offline' => $app['extend.online'],
+                'online' => $app['extend.online'],
                 'extensionsPath' => $extensionsPath,
                 'site' => $app['extend.site']
         );

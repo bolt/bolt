@@ -95,13 +95,13 @@
             <section>
                 <h2>{{ __('Install a new Extension') }}</h2>
                 <p>
-                    {% if enabled and not offline %}
+                    {% if enabled and online %}
                     {{ __('Add a new extension using the form below.') }}
                     {% endif %}
                     {{ __('You can discover new extensions by visiting') }}
                     <a href="{{ site }}" target="_blank">{{ site }}</a>
                 </p>
-                {% if enabled and not offline %}
+                {% if enabled and online %}
                 <div class="install-container">
                         <div class="auto-search hide-block"></div>
                         <input type="text" name="check-package" placeholder="Extension name eg: bolt/widget">
