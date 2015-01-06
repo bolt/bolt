@@ -184,7 +184,7 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
     {
         $package = $request->get('package');
 
-        return new Response($app['extend.runner']->uninstall($package));
+        return new Response($app['extend.runner']->removePackage(array($package)));
     }
 
     public function installed(Silex\Application $app, Request $request)
