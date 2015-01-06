@@ -306,6 +306,39 @@ class PackageManager
     }
 
     /**
+     * Ping site to see if we have a valid connection and it is responding correctly
+     *
+     * @param  string        $site
+     * @param  string        $uri
+     * @param  boolean|array $addquery
+     * @return boolean
+     */
+    private function ping($site, $uri = '', $addquery = false)
+    {
+        $www = isset($_SERVER['SERVER_SOFTWARE']) ? $_SERVER['SERVER_SOFTWARE'] : 'unknown';
+        if ($addquery) {
+            $query = array(
+                'bolt_ver'  => $this->app['bolt_version'],
+                'bolt_name' => $this->app['bolt_name'],
+                'php'       => phpversion(),
+                'www'       => $www
+            );
+        } else {
+            $query = array();
+        }
+
+        $this->guzzleclient = new GuzzleClient($site);
+
+        try {
+            $response = $this->guzzleclient->head($uri, null, array('query' => $query))->send();
+
+            return $response->getStatusCode();
+        } catch (RequestException $e) {
+            return false;
+        }
+    }
+
+    /**
      * Set the default options
      */
     private function getOptions()
