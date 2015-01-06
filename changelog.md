@@ -17,8 +17,9 @@ Bolt 2.0 DEV-head
 - Updated: Unify image- and filelists
 - Updated: Make image- and filelists looking more flat
 - Removed: Ancient browser-specific tags
-- Set default width/height of showImage() to '0'
-- Uglify bolts js files to bolt.min.js
+- Change: Set default width/height of showImage() to '0'
+- Change: Fields that previously used 0000-00-00 and 1900-01-01 now default to using NULL instead (#2396)
+- Change: Uglify bolts js files to bolt.min.js (#2398)
 
 Bolt 2.0.2
 ----------
