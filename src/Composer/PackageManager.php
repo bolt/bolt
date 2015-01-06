@@ -250,7 +250,7 @@ class PackageManager
     private function setupJson()
     {
         if (!is_file($this->options['composerjson'])) {
-            $this->init($this->options['composerjson']);
+            $this->initJson($this->options['composerjson']);
         }
 
         $jsonFile = new JsonFile($this->options['composerjson']);
