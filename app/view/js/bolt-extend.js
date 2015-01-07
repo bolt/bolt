@@ -42,6 +42,8 @@ var BoltExtender = Object.extend(Object, {
             },1000);
         }).ajaxSuccess(function() {
             clearInterval(active_interval);
+        }).ajaxError(function() {
+            clearInterval(active_interval);
         });
 
         this.checkInstalled();
