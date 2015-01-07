@@ -77,11 +77,15 @@
             </div>
 
             <div class="extension-postinstall hide-block">
-                <h3>{{ __('Installation complete') }}</h3>
-                <p>
+                <div class="modal-success hide-block">
+                    <h3>{{ __('Installation complete') }}</h3>
+                    <p>
 
-                    {{ __('You can now start using the installed extension, documentation and implementation instructions can be found using the link below.') }}
-                </p>
+                        {{ __('You can now start using the installed extension, documentation and implementation instructions can be found using the link below.') }}
+                    </p>
+                </div>
+                <div class="modal-failed hide-block">
+                </div>
                 <div class="modal-footer">
                     <a href="#" class="ext-link btn btn-primary" target="_blank">{{ __('More info/help') }}</a>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
