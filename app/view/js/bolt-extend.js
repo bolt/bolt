@@ -322,6 +322,9 @@ var BoltExtender = Object.extend(Object, {
             controller.find('input[name="check-package"]').val('');
             controller.checkInstalled();
             controller.updateLog();
+        })
+        .fail(function(data) {
+        	active_console.html(controller.formatErrorLog(data));
         });
         e.preventDefault();
     },
@@ -377,7 +380,6 @@ var BoltExtender = Object.extend(Object, {
         e.preventDefault();
     },
 
-
     copyTheme: function(e) {
 
         // Magic goes here. 
@@ -403,7 +405,6 @@ var BoltExtender = Object.extend(Object, {
         e.preventDefault();
 
     },
-
 
     packageReadme: function(e) {
 
@@ -493,6 +494,17 @@ var BoltExtender = Object.extend(Object, {
         jQuery.get(baseurl+'clearLog', function(data) {});
     },
 
+    formatErrorLog: function(data) {
+        if (data.responseJSON.type === 'exception') {
+            var errHtml = '<h3>PHP Error</h3>';
+            errHtml += '<p>' + data.responseJSON.msg + '</p>';
+        } else {
+            var errHtml = '<h3>Composer Error</h3>';
+            errHtml += '<p>' + data.responseJSON.io + '</p>';
+        }
+        
+        return errHtml;
+    },
 
     events: {
         change: function(e, t){
@@ -521,9 +533,5 @@ var BoltExtender = Object.extend(Object, {
         }
 
     }
-
-
-
-
 
 });
