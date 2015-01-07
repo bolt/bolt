@@ -185,6 +185,13 @@ class Application extends Silex\Application
                 )
             )
         );
+        // Add the Bolt Twig Extension.
+        $this['twig'] = $this->share($this->extend('twig', function(\Twig_Environment $twig, $app) {
+            $twig->addExtension(new TwigExtension($app));
+            return $twig;
+        }));
+
+        $this->register(new Provider\SafeTwigServiceProvider());
 
         $this->register(new Provider\RenderServiceProvider());
         $this->register(new Provider\RenderServiceProvider(true));
@@ -256,7 +263,6 @@ class Application extends Silex\Application
             ->register(new Provider\OmnisearchServiceProvider())
             ->register(new Provider\TemplateChooserServiceProvider())
             ->register(new Provider\CronServiceProvider())
-            ->register(new Provider\SafeTwigServiceProvider())
             ->register(new Provider\FilePermissionsServiceProvider())
             ->register(new Controllers\Upload())
             ->register(new Controllers\Extend())
@@ -268,10 +274,6 @@ class Application extends Silex\Application
         // For some obscure reason, and under suspicious circumstances $app['locale'] might become 'null'.
         // Re-set it here, just to be sure. See https://github.com/bolt/bolt/issues/1405
         $this['locale'] = $currentlocale;
-
-        // Add the Bolt Twig functions, filters and tags.
-        $this['twig']->addExtension(new TwigExtension($this));
-        $this['safe_twig']->addExtension(new TwigExtension($this, true));
 
         // Initialize stopwatch even if debug is not enabled.
         $this['stopwatch'] = $this->share(
@@ -404,12 +406,19 @@ class Application extends Silex\Application
             // Register the toolbar item for the Twig toolbar item.
             $this->register(new Provider\TwigProfilerServiceProvider());
 
-            $this['twig.loader.filesystem']->addPath(
-                $this['resources']->getPath('root') . '/vendor/symfony/web-profiler-bundle/Symfony/Bundle/WebProfilerBundle/Resources/views',
-                'WebProfiler'
-            );
+            $this['twig.loader.filesystem'] = $this->share(
+                $this->extend('twig.loader.filesystem',
+                    function(\Twig_Loader_Filesystem $filesystem, $app) {
+                        $filesystem->addPath(
+                            $app['resources']->getPath('root') . '/vendor/symfony/web-profiler-bundle/Symfony/Bundle/WebProfilerBundle/Resources/views',
+                            'WebProfiler'
+                        );
+                        $filesystem->addPath($app['resources']->getPath('app') . '/view', 'BoltProfiler');
 
-            $this['twig.loader.filesystem']->addPath($this['resources']->getPath('app') . '/view', 'BoltProfiler');
+                        return $filesystem;
+                    }
+                )
+            );
 
             // PHP 5.3 does not allow 'use ($this)' in closures.
             $app = $this;
