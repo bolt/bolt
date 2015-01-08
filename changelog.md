@@ -11,7 +11,8 @@ Bolt 2.0 DEV-head
 - Added: Use jshint in grunt workflow
 - Fixed: Bug where contenttype name in menu isn't translated
 - Fixed: **No CSS / static files shown** when using PHP's built-in server via ./serve (#2381)
-- Updated: CKeditor to 4.4.6, and all used plugins to the latest versions.
+- Fixed: Reference of IntlDateFormatter stub functions (#2415)
+- Updated: CKeditor to 4.4.6, and all used plugins to the latest versions
 - Updated: jQuery to version 1.11.2
 - Updated: jQuery goMap to 1.3.3  (#2377)
 - Updated: Unify image- and filelists
