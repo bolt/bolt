@@ -126,7 +126,7 @@ class Library
         $templates = array();
 
         foreach ($matches[1] as $match) {
-            $templates[] = str_replace($app['resources']->getPath('root') . DIRECTORY_SEPARATOR, '', $match);
+            $templates[] = str_replace($app['resources']->getPath('rootpath'), '', $match);
         }
 
         return $templates;
