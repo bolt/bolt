@@ -129,19 +129,20 @@ class TemplateChooser
      */
     public function taxonomy($taxonomyslug)
     {
-        // Set the template based on the (optional) setting in taxonomy.yml,
-        // or fall back to default listing template
-        if ($this->app['config']->get('taxonomy/' . $taxonomyslug . '/listing_template')) {
-            $template = $this->app['config']->get('taxonomy/' . $taxonomyslug . '/listing_template');
-        } else {
-            $template = $this->app['config']->get('general/listing_template');
-        }
-        $chosen = 'taxonomy';
+        // First candidate: Global config.yml
+        $template = $this->app['config']->get('general/listing_template');
+        $chosen = 'taxonomy config';
 
         // Second candidate: Theme-specific config.yml file.
         if ($this->app['config']->get('theme/listing_template')) {
             $template = $this->app['config']->get('theme/listing_template');
             $chosen = 'taxonomy config in theme';
+        }
+
+        // Third candidate: defined specifically in the taxonomy
+        if ($this->app['config']->get('taxonomy/' . $taxonomyslug . '/listing_template')) {
+            $template = $this->app['config']->get('taxonomy/' . $taxonomyslug . '/listing_template');
+            $chosen = 'taxonomy';
         }
 
         $this->app['log']->setValue('templatechosen', $this->app['config']->get('general/theme') . "/$template ($chosen)");
