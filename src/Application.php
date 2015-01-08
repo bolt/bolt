@@ -299,9 +299,7 @@ class Application extends Silex\Application
         // Wire up our custom url matcher to replace the default Silex\RedirectableUrlMatcher
         $this['url_matcher'] = $this->share(
             function () use ($app) {
-                return new BoltUrlMatcher(
-                    new \Symfony\Component\Routing\Matcher\UrlMatcher($app['routes'], $app['request_context'])
-                );
+                return new BoltUrlMatcher($app['routes'], $app['request_context']);
             }
         );
 
