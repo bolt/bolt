@@ -910,10 +910,12 @@ class Config
 
         // If the request URI is '/bolt' or '/async' (or starts with '/bolt/' etc.), assume backend or async.
         $mountpoint = '/' . ltrim($mountpoint, '/');
-        if ($scripturi === $mountpoint || strpos($scripturi, $mountpoint . '/') === 0) {
-            $end = 'backend';
-        } elseif ($scripturi === '/async' || strpos($scripturi, '/async/') === 0) {
+        if (isset($_SERVER['HTTP_X_REQUESTED_WITH'] ) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest')
+            || elseif ($scripturi === '/async' || strpos($scripturi, '/async/') === 0) {
             $end = 'async';
+        }
+        elseif ($scripturi === $mountpoint || strpos($scripturi, $mountpoint . '/') === 0) {
+            $end = 'backend';
         } else {
             $end = 'frontend';
         }
