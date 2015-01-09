@@ -270,6 +270,7 @@ hash_strength: 10
 extensions:
   site: 'https://extensions.bolt.cm/'
   stability: stable
+  use_http: false
 
 # Enforce SSL: if set, all but the front-end pages will enforce an SSL
 # connection (and redirect to HTTPS if you attempt to visit the backend over
