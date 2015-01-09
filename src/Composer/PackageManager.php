@@ -118,9 +118,27 @@ class PackageManager
             // Create the IO
             $this->io = new BufferIO();
 
-            // Use the factory to get a new Composer object
-            $this->composer = Factory::create($this->io, $this->options['composerjson'], true);
+            // Create the Composer object
+            $this->composer = $this->getComposer();
         }
+    }
+
+    /**
+     * Get the Composer object
+     *
+     * @return Composer\Composer
+     */
+    public function getComposer()
+    {
+        // Use the factory to get a new Composer object
+        $composer = Factory::create($this->io, $this->options['composerjson'], true);
+        $repos = $composer->getRepositoryManager()->getRepositories();
+
+        if ($this->app['config']->get('general/extensions/use_http', false)) {
+            $this->allowSslDowngrade($repos);
+        }
+
+        return $composer;
     }
 
     /**
@@ -371,6 +389,21 @@ class PackageManager
             return $response->getStatusCode();
         } catch (RequestException $e) {
             return false;
+        }
+    }
+
+    /**
+     * Set repos to allow HTTP instead of HTTPS
+     *
+     * @param array $repos
+     */
+    private function allowSslDowngrade(array $repos)
+    {
+        foreach ($repos as $repo) {
+            $reflection = new \ReflectionClass($repo);
+            $allowSslDowngrade = $reflection->getProperty('allowSslDowngrade');
+            $allowSslDowngrade->setAccessible(true);
+            $allowSslDowngrade->setValue($repo, true);
         }
     }
 
