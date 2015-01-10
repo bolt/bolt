@@ -6,16 +6,24 @@ use Composer\Config\JsonConfigSource;
 use Composer\Factory;
 use Composer\Installer;
 use Composer\Json\JsonFile;
+use Silex\Application;
 
 class RemovePackage
 {
     /**
+     * @var Silex\Application
+     */
+    private $app;
+
+    /**
+     * @param $app      Silex\Application
      * @param $io       Composer\IO\BufferIO
      * @param $composer Composer\Composer
      * @param $options  array
      */
-    public function __construct($io, $composer, $options)
+    public function __construct(Application $app, $io, $composer, $options)
     {
+        $this->app = $app;
         $this->options = $options;
         $this->io = $io;
         $this->composer = $composer;
@@ -46,7 +54,7 @@ class RemovePackage
         }
 
         // Reload Composer config
-        $this->composer = Factory::create($this->io, $this->options['composerjson'], true);
+        $this->composer = $this->app['extend.runner']->getComposer();
 
         $install = Installer::create($this->io, $this->composer);
 

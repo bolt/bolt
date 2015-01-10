@@ -9,16 +9,24 @@ use Composer\Json\JsonManipulator;
 use Composer\Package\Version\VersionParser;
 use Composer\Repository\CompositeRepository;
 use Composer\Repository\PlatformRepository;
+use Silex\Application;
 
 class RequirePackage
 {
     /**
+     * @var Silex\Application
+     */
+    private $app;
+
+    /**
+     * @param $app      Silex\Application
      * @param $io       Composer\IO\BufferIO
      * @param $composer Composer\Composer
      * @param $options  array
      */
-    public function __construct($io, $composer, $options)
+    public function __construct(Application $app, $io, $composer, $options)
     {
+        $this->app = $app;
         $this->options = $options;
         $this->io = $io;
         $this->composer = $composer;
@@ -92,8 +100,8 @@ class RequirePackage
             return 0;
         }
 
-        // Update packages
-        $this->composer = Factory::create($this->io, $this->options['composerjson'], true);
+        // Reload Composer config
+        $this->composer = $this->app['extend.runner']->getComposer();
 
         $install = Installer::create($this->io, $this->composer);
 

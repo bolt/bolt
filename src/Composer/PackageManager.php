@@ -172,7 +172,7 @@ class PackageManager
     public function removePackage(array $packages)
     {
         if (!$this->remove) {
-            $this->remove = new RemovePackage($this->io, $this->composer, $this->options);
+            $this->remove = new RemovePackage($this->app, $this->io, $this->composer, $this->options);
         }
 
         // 0 on success or a positive error code on failure
@@ -189,7 +189,7 @@ class PackageManager
     public function requirePackage(array $packages)
     {
         if (!$this->require) {
-            $this->require = new RequirePackage($this->io, $this->composer, $this->options);
+            $this->require = new RequirePackage($this->app, $this->io, $this->composer, $this->options);
         }
 
         // 0 on success or a positive error code on failure
