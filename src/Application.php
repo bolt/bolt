@@ -12,6 +12,7 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Stopwatch;
+use Whoops\Handler\JsonResponseHandler;
 use Whoops\Provider\Silex\WhoopsServiceProvider;
 use Bolt\Provider\PathServiceProvider;
 
@@ -421,6 +422,9 @@ class Application extends Silex\Application
             // Register Whoops, to handle errors for logged in users only.
             if ($this['config']->get('general/debug_enable_whoops')) {
                 $this->register(new WhoopsServiceProvider());
+
+                // Add a special handler to deal with AJAX requests
+                $this['whoops']->pushHandler(new JsonResponseHandler);
             }
 
             $this->register(new Silex\Provider\ServiceControllerServiceProvider());
