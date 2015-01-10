@@ -185,12 +185,11 @@ class Library
     }
 
     /**
-     * Create a simple redirect to a page / path and die.
+     * Create a simple redirect to a page / path.
      *
-     * @param string  $path
-     * @param boolean $die
+     * @param string $path
      */
-    public static function simpleredirect($path, $abort = true)
+    public static function simpleredirect($path)
     {
         $app = ResourceManager::getApp();
 
@@ -198,11 +197,9 @@ class Library
             $path = "/";
         }
         header("location: $path");
-        echo "<p>Redirecting to <a href='$path'>$path</a>.</p>";
-        echo "<script>window.setTimeout(function(){ window.location='$path'; }, 500);</script>";
-        if ($abort) {
-            $app->abort(303, "Redirecting to '$path'.");
-        }
+        echo "<noscript><p>Redirecting to <a href='$path'>$path</a>.</p></noscript>";
+        echo "<script>window.setTimeout(function(){ window.location='$path'; }, 50);</script>";
+
     }
 
     /**
