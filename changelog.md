@@ -9,6 +9,7 @@ Bolt 2.0 DEV-head
   delete multiple items, and view full-size images. (Thanks @Pinpickle, See #2360)
 - Added: proportional autoscaling option to showImage() using '0' values
 - Added: Use jshint in grunt workflow
+- Added: Whoops now sends errors to AJAX callers in JSON format (#2433)
 - Fixed: Bug where contenttype name in menu isn't translated
 - Fixed: **No CSS / static files shown** when using PHP's built-in server via ./serve (#2381)
 - Fixed: Reference of IntlDateFormatter stub functions (#2415)
