@@ -94,7 +94,7 @@ module.exports = function(grunt) {
         uglify: {
             bootstrap: {
                 files: {
-                    'js/bootstrap.min.js': [
+                    'lib/bootstrap-sass.generated/bootstrap.min.js': [
                         'node_modules/bootstrap-sass/assets/javascripts/bootstrap/alert.js',
                         'node_modules/bootstrap-sass/assets/javascripts/bootstrap/button.js',
                         'node_modules/bootstrap-sass/assets/javascripts/bootstrap/dropdown.js',
