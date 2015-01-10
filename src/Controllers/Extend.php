@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Filesystem\Filesystem;
 
 use Bolt\Composer\PackageManager;
+use Bolt\Exception\BoltComposerException;
 use Bolt\Library as Lib;
 use Bolt\Translation\Translator as Trans;
 
@@ -173,37 +174,28 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
         $version = $request->get('version');
         $app['extensions.stats']->recordInstall($package, $version);
 
-        try {
-            $response = $app['extend.runner']->requirePackage(array(
-                'name' => $package,
-                'version' => $version
-                ));
+        $response = $app['extend.runner']->requirePackage(array(
+            'name' => $package,
+            'version' => $version
+            ));
 
-            if ($response === 0) {
-                return new Response($app['extend.runner']->getOutput());
-            } else {
-                return new JsonResponse($this->returnAjaxException($app, $response), Response::HTTP_INTERNAL_SERVER_ERROR);
-            }
-        } catch (Exception $e) {
-            return new JsonResponse($this->returnAjaxException($app, $e), Response::HTTP_INTERNAL_SERVER_ERROR);
+        if ($response === 0) {
+            return new Response($app['extend.runner']->getOutput());
+        } else {
+            throw new BoltComposerException($app['extend.runner']->getOutput(), $response);
         }
-
     }
 
     public function uninstall(Silex\Application $app, Request $request)
     {
         $package = $request->get('package');
 
-        try {
-            $response = $app['extend.runner']->removePackage(array($package));
+        $response = $app['extend.runner']->removePackage(array($package));
 
-            if ($response === 0) {
-                return new Response($app['extend.runner']->getOutput());
-            } else {
-                return new JsonResponse($this->returnAjaxException($app, $response), Response::HTTP_INTERNAL_SERVER_ERROR);
-            }
-        } catch (Exception $e) {
-            return new JsonResponse($this->returnAjaxException($app, $e), Response::HTTP_INTERNAL_SERVER_ERROR);
+        if ($response === 0) {
+            return new Response($app['extend.runner']->getOutput());
+        } else {
+            throw new BoltComposerException($app['extend.runner']->getOutput(), $response);
         }
     }
 
