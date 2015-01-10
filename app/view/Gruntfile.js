@@ -102,6 +102,13 @@ module.exports = function(grunt) {
                     ]
                 }
             },
+            bootstrap_file_input: {
+                files: {
+                    'lib/bootstrap-file-input/bootstrap-file-input.min.js': [
+                        'lib/bootstrap-file-input/bootstrap-file-input.js'
+                    ]
+                }
+            },
             bootstrap: {
                 files: {
                     'lib/bootstrap-sass.generated/bootstrap.min.js': [
