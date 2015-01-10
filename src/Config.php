@@ -880,6 +880,8 @@ class Config
     /**
      * Utility function to determine which 'end' we're using right now. Can be either "frontend", "backend", "async" or "cli".
      *
+     * NOTE: We retain the $_SERVER global here as this method can get called very early and the Request object might not exist yet
+     * 
      * @param  string $mountpoint
      * @return string
      */
