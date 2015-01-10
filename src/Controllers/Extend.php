@@ -289,28 +289,4 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
     public function boot(Silex\Application $app)
     {
     }
-
-    /**
-     * Format a JSON response for an error
-     *
-     * @param  Silex\Application  $app
-     * @param  \Exception|integer $error
-     * @return string
-     */
-    private function returnAjaxException(Silex\Application $app, $error)
-    {
-        if ($error instanceof Exception) {
-            return array(
-                'type' => 'exception',
-                'io'   => $app['extend.runner']->getOutput(),
-                'msg'  => $error->getMessage()
-            );
-        } else {
-            return array(
-                'type' => 'badstatus',
-                'io'   => $app['extend.runner']->getOutput(),
-                'msg'  => ''
-            );
-        }
-    }
 }
