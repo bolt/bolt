@@ -506,14 +506,16 @@ var BoltExtender = Object.extend(Object, {
     },
 
     formatErrorLog: function(data) {
-        if (data.responseJSON.type === 'exception') {
-            var errHtml = '<h3>PHP Error</h3>';
-            errHtml += '<p>' + data.responseJSON.msg + '</p>';
-        } else {
+        var errObj = $.parseJSON(data.responseText);
+        if (errObj.error.type === 'Bolt\\Exception\\BoltComposerException') {
             var errHtml = '<h3>Composer Error</h3>';
-            errHtml += '<p>' + data.responseJSON.io + '</p>';
+            errHtml += '<p>' + errObj.error.message + '</p>';
+        } else {
+            var errHtml = '<h3>PHP Error</h3>';
+            errHtml += '<p>' + errObj.error.message + '</p>';
+            errHtml += '<p>File: ' + errObj.error.file + '::' + errObj.error.line + '</p>';
         }
-        
+
         return errHtml;
     },
 
