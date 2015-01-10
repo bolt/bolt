@@ -122,6 +122,16 @@ module.exports = function(grunt) {
                     ]
                 }
             },
+            jquery_watchchanges: {
+                options: {
+                    preserveComments: 'some'
+                },
+                files: {
+                    'lib/jquery-watchchanges/jquery-watchchanges.min.js': [
+                        'lib/jquery-watchchanges/jquery-watchchanges.js'
+                    ]
+                }
+            },
             bootstrap_file_input: {
                 files: {
                     'lib/bootstrap-file-input/bootstrap-file-input.min.js': [
