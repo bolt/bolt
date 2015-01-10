@@ -16,6 +16,21 @@ use Composer\Repository\RepositoryInterface;
 class ShowPackage
 {
     /**
+     * @var array
+     */
+    private $options;
+
+    /**
+     * @var Composer\IO\BufferIO
+     */
+    private $io;
+
+    /**
+     * @var Composer\Composer
+     */
+    private $composer;
+
+    /**
      * @param $io       Composer\IO\BufferIO
      * @param $composer Composer\Composer
      * @param $options  array

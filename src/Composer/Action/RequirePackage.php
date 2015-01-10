@@ -19,6 +19,21 @@ class RequirePackage
     private $app;
 
     /**
+     * @var array
+     */
+    private $options;
+
+    /**
+     * @var Composer\IO\BufferIO
+     */
+    private $io;
+
+    /**
+     * @var Composer\Composer
+     */
+    private $composer;
+
+    /**
      * @param $app      Silex\Application
      * @param $io       Composer\IO\BufferIO
      * @param $composer Composer\Composer
