@@ -92,6 +92,16 @@ module.exports = function(grunt) {
         },
 
         uglify: {
+            jquery_catchpaste: {
+                options: {
+                    preserveComments: 'some'
+                },
+                files: {
+                    'lib/jquery-catchpaste-1.0.0p/jquery-catchpaste.min.js': [
+                        'lib/jquery-catchpaste-1.0.0p/jquery-catchpaste.js'
+                    ]
+                }
+            },
             bootstrap: {
                 files: {
                     'lib/bootstrap-sass.generated/bootstrap.min.js': [
