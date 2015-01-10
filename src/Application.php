@@ -424,7 +424,9 @@ class Application extends Silex\Application
                 $this->register(new WhoopsServiceProvider());
 
                 // Add a special handler to deal with AJAX requests
-                $this['whoops']->pushHandler(new JsonResponseHandler);
+                if ($this['config']->getWhichEnd() == 'async') {
+                    $this['whoops']->pushHandler(new JsonResponseHandler());
+                }
             }
 
             $this->register(new Silex\Provider\ServiceControllerServiceProvider());
