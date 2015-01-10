@@ -102,6 +102,16 @@ module.exports = function(grunt) {
                     ]
                 }
             },
+            jquery_tagcloud: {
+                options: {
+                    preserveComments: 'some'
+                },
+                files: {
+                    'lib/jquery-tagcloud/jquery-tagcloud.min.js': [
+                        'lib/jquery-tagcloud/jquery-tagcloud.js'
+                    ]
+                }
+            },
             bootstrap_file_input: {
                 files: {
                     'lib/bootstrap-file-input/bootstrap-file-input.min.js': [
