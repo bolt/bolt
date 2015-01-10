@@ -1,4 +1,4 @@
-/*
+/*!
  Copyright (c) 2011 Sean Cusack
 
  MIT-LICENSE:
