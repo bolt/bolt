@@ -142,6 +142,16 @@ module.exports = function(grunt) {
                     ]
                 }
             },
+            jquery_formatdatetime: {
+                options: {
+                    preserveComments: 'some'
+                },
+                files: {
+                    'lib/jquery-formatdatetime-1.1.4/jquery-formatdatetime.min.js': [
+                        'lib/jquery-formatdatetime-1.1.4/jquery-formatdatetime.js'
+                    ]
+                }
+            },
             bootstrap_file_input: {
                 files: {
                     'lib/bootstrap-file-input/bootstrap-file-input.min.js': [
