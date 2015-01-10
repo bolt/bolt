@@ -22,7 +22,10 @@ Bolt 2.0 DEV-head
 - Change: Uglify bolts js files to bolt.min.js (#2398)
 - Change: Priorities of Taxonomy listing template selection (#2420)
 - Change: Separate magnific-popup between app and theme (#2429)
-- Removed: base-2013 theme
+- Change: Also use XMLHttpRequest to detect AJAX requests in `getWhichEnd()` (#2423)
+- Change: Refactor Twig setup (Thanks @CarsonF, see #2430)
+- Change: Url matcher updates (Thanks @CarsonF, see #2431)
+- Removed: Removed the `base-2013` theme
 - Removed: Ancient browser-specific tags
 
 Bolt 2.0.2
