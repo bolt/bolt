@@ -132,6 +132,16 @@ module.exports = function(grunt) {
                     ]
                 }
             },
+            jquery_cookie: {
+                options: {
+                    preserveComments: 'some'
+                },
+                files: {
+                    'lib/jquery-cookie-1.4.0/jquery-cookie.min.js': [
+                        'lib/jquery-cookie-1.4.0/jquery-cookie.js'
+                    ]
+                }
+            },
             bootstrap_file_input: {
                 files: {
                     'lib/bootstrap-file-input/bootstrap-file-input.min.js': [
