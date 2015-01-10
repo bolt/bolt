@@ -112,6 +112,16 @@ module.exports = function(grunt) {
                     ]
                 }
             },
+            jquery_hotkeys: {
+                options: {
+                    preserveComments: 'some'
+                },
+                files: {
+                    'lib/jquery-hotkeys/jquery-hotkeys.min.js': [
+                        'lib/jquery-hotkeys/jquery-hotkeys.js'
+                    ]
+                }
+            },
             bootstrap_file_input: {
                 files: {
                     'lib/bootstrap-file-input/bootstrap-file-input.min.js': [
