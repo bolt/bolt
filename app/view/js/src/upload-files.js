@@ -169,6 +169,7 @@ var FilelistHolder = Backbone.View.extend({
             .fileupload({
                 dataType: 'json',
                 dropZone: $holder,
+                pasteZone: null,
                 done: function (e, data) {
                     $.each(data.result, function (index, file) {
                         var filename = decodeURI(file.url).replace("files/", "");
