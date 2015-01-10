@@ -74,6 +74,24 @@ module.exports = function(grunt) {
         concat: {
         },
 
+        cssmin: {
+            lib: {
+                options: {
+                    compatibility: 'ie8',
+                    relativeTo: './css/',
+                    target: './css/'
+                },
+                files: {
+                    'css/lib.css': [
+                        'lib/jquery-ui-1.10.3/jquery-ui.custom.min.css',
+                        'lib/magnific-popup-0.9.9/magnific-popup.css',
+                        'lib/select2-3.5.1/select2.css',
+                        'lib/jquery.fileupload-5.26/jquery.fileupload-ui.css'
+                    ]
+                }
+            }
+        },
+
         uglify: {
             bootstrap: {
                 files: {
@@ -175,6 +193,6 @@ module.exports = function(grunt) {
 
     require('load-grunt-tasks')(grunt);
 
-    grunt.registerTask('default', ['sass', 'jshint', 'uglify', 'watch']);
+    grunt.registerTask('default', ['sass', 'jshint', 'uglify', 'cssmin', 'watch']);
 
 };
