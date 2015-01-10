@@ -22,11 +22,10 @@ module.exports = function(grunt) {
             },
             js: {
                 files: [
-                    'js/*.js',
                     'js/src/*.js'
                 ],
                 tasks: [
-                    'concat:js'
+                    'uglify:bolt'
                 ]
             }
         },
