@@ -187,7 +187,7 @@ class ResourceManager
      * However $this->paths can be either mixed array elements of String or Path
      * getPaths() will convert them string to provide homogeneous type result.
      *
-     * @return array String array of merge
+     * @return string[] array of merged strings
      */
     public function getPaths()
     {
