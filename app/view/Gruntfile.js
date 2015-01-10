@@ -198,6 +198,7 @@ module.exports = function(grunt) {
                         'js/src/obj-stack.js',
                         'js/src/obj-folders.js',
                         'js/src/obj-datetime.js',
+                        'js/src/extend.js',
                         'js/src/init.js',
                         'js/src/start.js'
                     ]
