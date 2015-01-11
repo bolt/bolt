@@ -9,6 +9,7 @@ use Bolt\Composer\Action\RequirePackage;
 use Bolt\Composer\Action\SearchPackage;
 use Bolt\Composer\Action\ShowPackage;
 use Bolt\Composer\Action\UpdatePackage;
+use Bolt\Library as Lib;
 use Bolt\Translation\Translator as Trans;
 use Composer\Factory;
 use Composer\IO\BufferIO;
@@ -277,7 +278,8 @@ class PackageManager
                 'type'       => $package['package']->getType(),
                 'descrip'    => $package['package']->getDescription(),
                 'keywords'   => $package['package']->getKeywords(),
-                'readmelink' => $this->linkReadMe($name)
+                'readmelink' => $this->linkReadMe($name),
+                'config'     => $this->linkConfig($name)
             );
         }
 
@@ -299,6 +301,17 @@ class PackageManager
 
     private function linkConfig($name)
     {
+        $paths = $this->app['resources']->getPaths();
+
+        // Generate the configfilename from the extension $name
+        $configfilename = join(".", array_reverse(explode("/", $name))) . '.yml';
+
+        // Check if we have a config file, and if it's readable. (yet)
+        $configfilepath = $paths['extensionsconfig'] . '/' . $configfilename;
+        if (is_readable($configfilepath)) {
+            $configfilename = 'extensions/' . $configfilename;
+            return Lib::path('fileedit', array('namespace' => 'config', 'file' => $configfilename));
+        }
     }
 
     /**
