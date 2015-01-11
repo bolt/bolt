@@ -103,6 +103,8 @@ module.exports = function(grunt) {
                         'lib/bootstrap-file-input/bootstrap-file-input.js',
                         'lib/jquery-catchpaste-1.0.0p/jquery-catchpaste.js',
                         'lib/jquery-cookie-1.4.0/jquery-cookie.js',
+                        'lib/jquery-fileupload-5.26/jquery-fileupload.js',
+                        'lib/jquery-fileupload-5.26/jquery-iframe-transport.js',
                         'lib/jquery-formatdatetime-1.1.4/jquery-formatdatetime.js',
                         'lib/jquery-hotkeys/jquery-hotkeys.js',
                         'lib/jquery-tagcloud/jquery-tagcloud.js',
