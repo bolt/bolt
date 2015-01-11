@@ -185,9 +185,9 @@ var BoltExtender = Object.extend(Object, {
                         var html = "<div class='panel panel-default'><div class='panel-heading'>";
                         // title and version in panel heading box
                         if(ext['title']) {
-                            html += "<i class='fa fa-cube fa-fw'></i> " + ext["title"] + " <span class='pull-right text-muted'>"  + ext["name"] + " - " + ext["version"] + "</span> ";
+                            html += "<i class='fa fa-cube fa-fw'></i> " + ext["title"] + " <span class='pull-right text-muted'>"  + ext["name"] + " - " + ext["version"] + " </span> ";
                         } else {
-                            html += "<i class='fa fa-cube fa-fw'></i> " + ext["name"] + " - " + ext["version"];
+                            html += "<i class='fa fa-cube fa-fw'></i> " + ext["name"] + " - " + ext["version"] + " ";
                         }
 
                         // show the autors if any
