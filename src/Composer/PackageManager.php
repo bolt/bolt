@@ -267,15 +267,17 @@ class PackageManager
         $pack = array();
 
         foreach ($packages as $package) {
-            $conf = $this->app['extensions']->composer[$package['package']->getPrettyName()];
+            $name = $package['package']->getPrettyName();
+            $conf = $this->app['extensions']->composer[$name];
             $pack[] = array(
-                'name'       => $package['package']->getPrettyName(),
+                'name'       => $name,
                 'title'      => $conf['name'],
                 'version'    => $package['package']->getPrettyVersion(),
                 'authors'    => $package['package']->getAuthors(),
                 'type'       => $package['package']->getType(),
                 'descrip'    => $package['package']->getDescription(),
-                'keywords'   => $package['package']->getKeywords()
+                'keywords'   => $package['package']->getKeywords(),
+                'readmelink' => $this->linkReadMe($name)
             );
         }
 
@@ -284,6 +286,15 @@ class PackageManager
 
     private function linkReadMe($name)
     {
+        $paths = $this->app['resources']->getPaths();
+
+        if (is_readable($paths['extensionspath'] . '/vendor/' . $name . '/README.md')) {
+            $readme = $name . '/README.md';
+        } elseif (is_readable($paths['extensionspath'] . '/vendor/' . $name . '/readme.md')) {
+            $readme = $name . '/readme.md';
+        }
+
+        return $paths['async'] . 'readme/' . $readme;
     }
 
     private function linkConfig($name)
