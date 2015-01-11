@@ -22,7 +22,7 @@ module.exports = function(grunt) {
             },
             js: {
                 files: [
-                    'lib/src/*.js'
+                    'lib/bolt/*.js'
                 ],
                 tasks: [
                     'uglify:bolt'
@@ -183,24 +183,24 @@ module.exports = function(grunt) {
                 },
                 files: {
                     'js/bolt.min.js': [
-                        'lib/src/console.js',
-                        'lib/src/fnc-helpers.js',
-                        'lib/src/activity.js',
-                        'lib/src/bind-fileupload.js',
-                        'lib/src/make-uri-slug.js',
-                        'lib/src/video-embed.js',
-                        'lib/src/geolocation.js',
-                        'lib/src/upload-files.js',
-                        'lib/src/obj-sidebar.js',
-                        'lib/src/obj-navpopups.js',
-                        'lib/src/obj-moments.js',
-                        'lib/src/obj-files.js',
-                        'lib/src/obj-stack.js',
-                        'lib/src/obj-folders.js',
-                        'lib/src/obj-datetime.js',
-                        'lib/src/extend.js',
-                        'lib/src/init.js',
-                        'lib/src/start.js'
+                        'lib/bolt/console.js',
+                        'lib/bolt/fnc-helpers.js',
+                        'lib/bolt/activity.js',
+                        'lib/bolt/bind-fileupload.js',
+                        'lib/bolt/make-uri-slug.js',
+                        'lib/bolt/video-embed.js',
+                        'lib/bolt/geolocation.js',
+                        'lib/bolt/upload-files.js',
+                        'lib/bolt/obj-sidebar.js',
+                        'lib/bolt/obj-navpopups.js',
+                        'lib/bolt/obj-moments.js',
+                        'lib/bolt/obj-files.js',
+                        'lib/bolt/obj-stack.js',
+                        'lib/bolt/obj-folders.js',
+                        'lib/bolt/obj-datetime.js',
+                        'lib/bolt/extend.js',
+                        'lib/bolt/init.js',
+                        'lib/bolt/start.js'
                     ]
                 }
             }
@@ -255,7 +255,7 @@ module.exports = function(grunt) {
                     UAParser: true              // ua-parser.min.js
                 }
             },
-            src: ['lib/src/*.js']
+            src: ['lib/bolt/*.js']
         }
 
     });
