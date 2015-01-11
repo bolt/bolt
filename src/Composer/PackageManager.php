@@ -267,8 +267,10 @@ class PackageManager
         $pack = array();
 
         foreach ($packages as $package) {
+            $conf = $this->app['extensions']->composer[$package['package']->getPrettyName()];
             $pack[] = array(
                 'name'       => $package['package']->getPrettyName(),
+                'title'      => $conf['name'],
                 'version'    => $package['package']->getPrettyVersion(),
                 'authors'    => $package['package']->getAuthors(),
                 'type'       => $package['package']->getType(),
