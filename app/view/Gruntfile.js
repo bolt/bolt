@@ -22,7 +22,7 @@ module.exports = function(grunt) {
             },
             js: {
                 files: [
-                    'js/src/*.js'
+                    'lib/src/*.js'
                 ],
                 tasks: [
                     'uglify:bolt'
@@ -183,24 +183,24 @@ module.exports = function(grunt) {
                 },
                 files: {
                     'js/bolt.min.js': [
-                        'js/src/console.js',
-                        'js/src/fnc-helpers.js',
-                        'js/src/activity.js',
-                        'js/src/bind-fileupload.js',
-                        'js/src/make-uri-slug.js',
-                        'js/src/video-embed.js',
-                        'js/src/geolocation.js',
-                        'js/src/upload-files.js',
-                        'js/src/obj-sidebar.js',
-                        'js/src/obj-navpopups.js',
-                        'js/src/obj-moments.js',
-                        'js/src/obj-files.js',
-                        'js/src/obj-stack.js',
-                        'js/src/obj-folders.js',
-                        'js/src/obj-datetime.js',
-                        'js/src/extend.js',
-                        'js/src/init.js',
-                        'js/src/start.js'
+                        'lib/src/console.js',
+                        'lib/src/fnc-helpers.js',
+                        'lib/src/activity.js',
+                        'lib/src/bind-fileupload.js',
+                        'lib/src/make-uri-slug.js',
+                        'lib/src/video-embed.js',
+                        'lib/src/geolocation.js',
+                        'lib/src/upload-files.js',
+                        'lib/src/obj-sidebar.js',
+                        'lib/src/obj-navpopups.js',
+                        'lib/src/obj-moments.js',
+                        'lib/src/obj-files.js',
+                        'lib/src/obj-stack.js',
+                        'lib/src/obj-folders.js',
+                        'lib/src/obj-datetime.js',
+                        'lib/src/extend.js',
+                        'lib/src/init.js',
+                        'lib/src/start.js'
                     ]
                 }
             }
@@ -255,7 +255,7 @@ module.exports = function(grunt) {
                     UAParser: true              // ua-parser.min.js
                 }
             },
-            src: ['js/src/*.js']
+            src: ['lib/src/*.js']
         }
 
     });
