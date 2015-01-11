@@ -63,7 +63,8 @@ var FilelistHolder = Backbone.View.extend({
         this.list.sort();
 
         var list = $(this.idPrefix + this.id + ' .list'),
-            data = list.data('list');
+            data = list.data('list'),
+            listtype = this.type;
 
         list.html('');
         _.each(this.list.models, function (file) {
@@ -73,7 +74,7 @@ var FilelistHolder = Backbone.View.extend({
                     replace(/<PATH>/g, bolt.paths.bolt).
                     replace(/<FNAME>/g, file.get('filename'))
                 );
-            if (this.type === 'ImageList') {
+            if (listtype === 'ImageList') {
                 element.find('.thumbnail-link').magnificPopup({type: 'image'});
             }
             list.append(element);
