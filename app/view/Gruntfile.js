@@ -92,72 +92,23 @@ module.exports = function(grunt) {
         },
 
         uglify: {
-            jquery_catchpaste: {
+            lib: {
                 options: {
                     preserveComments: 'some'
                 },
-                files: {
-                    'lib/jquery-catchpaste-1.0.0p/jquery-catchpaste.min.js': [
-                        'lib/jquery-catchpaste-1.0.0p/jquery-catchpaste.js'
-                    ]
-                }
-            },
-            jquery_tagcloud: {
-                options: {
-                    preserveComments: 'some'
-                },
-                files: {
-                    'lib/jquery-tagcloud/jquery-tagcloud.min.js': [
-                        'lib/jquery-tagcloud/jquery-tagcloud.js'
-                    ]
-                }
-            },
-            jquery_hotkeys: {
-                options: {
-                    preserveComments: 'some'
-                },
-                files: {
-                    'lib/jquery-hotkeys/jquery-hotkeys.min.js': [
-                        'lib/jquery-hotkeys/jquery-hotkeys.js'
-                    ]
-                }
-            },
-            jquery_watchchanges: {
-                options: {
-                    preserveComments: 'some'
-                },
-                files: {
-                    'lib/jquery-watchchanges/jquery-watchchanges.min.js': [
+                files: [{
+                    expand: true,
+                    ext: '.min.js',
+                    src: [
+                        'lib/bootstrap-file-input/bootstrap-file-input.js',
+                        'lib/jquery-catchpaste-1.0.0p/jquery-catchpaste.js',
+                        'lib/jquery-cookie-1.4.0/jquery-cookie.js',
+                        'lib/jquery-formatdatetime-1.1.4/jquery-formatdatetime.js',
+                        'lib/jquery-hotkeys/jquery-hotkeys.js',
+                        'lib/jquery-tagcloud/jquery-tagcloud.js',
                         'lib/jquery-watchchanges/jquery-watchchanges.js'
                     ]
-                }
-            },
-            jquery_cookie: {
-                options: {
-                    preserveComments: 'some'
-                },
-                files: {
-                    'lib/jquery-cookie-1.4.0/jquery-cookie.min.js': [
-                        'lib/jquery-cookie-1.4.0/jquery-cookie.js'
-                    ]
-                }
-            },
-            jquery_formatdatetime: {
-                options: {
-                    preserveComments: 'some'
-                },
-                files: {
-                    'lib/jquery-formatdatetime-1.1.4/jquery-formatdatetime.min.js': [
-                        'lib/jquery-formatdatetime-1.1.4/jquery-formatdatetime.js'
-                    ]
-                }
-            },
-            bootstrap_file_input: {
-                files: {
-                    'lib/bootstrap-file-input/bootstrap-file-input.min.js': [
-                        'lib/bootstrap-file-input/bootstrap-file-input.js'
-                    ]
-                }
+                }]
             },
             bootstrap: {
                 files: {
