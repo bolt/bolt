@@ -22,11 +22,10 @@ module.exports = function(grunt) {
             },
             js: {
                 files: [
-                    'js/*.js',
-                    'js/src/*.js'
+                    'lib/bolt/*.js'
                 ],
                 tasks: [
-                    'concat:js'
+                    'uglify:bolt'
                 ]
             }
         },
@@ -72,12 +71,79 @@ module.exports = function(grunt) {
         },
 
         concat: {
+            lib: {
+                options: {
+                    separator: '\n\n'
+                },
+                nonull: true,
+                src: [
+                    'lib/jquery-1.11.2/jquery.min.js',
+                    'lib/jquery-ui-1.10.3/jquery-ui.custom.min.js',
+                    'lib/jquery-catchpaste-1.0.0p/jquery-catchpaste.min.js',
+                    'lib/bootstrap-file-input/bootstrap-file-input.min.js',
+                    'lib/jquery-tagcloud/jquery-tagcloud.min.js',
+                    'lib/jquery-hotkeys/jquery-hotkeys.min.js',
+                    'lib/jquery-watchchanges/jquery-watchchanges.min.js',
+                    'lib/jquery-cookie-1.4.0/jquery-cookie.min.js',
+                    'lib/jquery-formatdatetime-1.1.4/jquery-formatdatetime.min.js',
+                    'lib/jquery-fileupload-5.26/jquery-iframe-transport.min.js',
+                    'lib/jquery-fileupload-5.26/jquery-fileupload.min.js',
+                    'lib/underscore-1.7.0/underscore-min.js',
+                    'lib/backbone/backbone-min.js',
+                    'lib/bootstrap-sass.generated/bootstrap.min.js',
+                    'lib/magnific-popup-0.9.9/magnific-popup.min.js',
+                    'lib/select2-3.5.1/select2.min.js',
+                    'lib/moment-2.8.3/moment.min.js',
+                    'lib/bootbox-4.3.0/bootbox.min.js',
+                    'lib/modernizr-2.8.3/modernizr.custom.min.js',
+                    'lib/ua-parser/ua-parser.min.js',
+                ],
+                dest: 'js/lib.min.js'
+            }
+        },
+
+        cssmin: {
+            lib: {
+                options: {
+                    compatibility: 'ie8',
+                    relativeTo: './css/',
+                    target: './css/'
+                },
+                files: {
+                    'css/lib.css': [
+                        'lib/jquery-ui-1.10.3/jquery-ui.custom.min.css',
+                        'lib/magnific-popup-0.9.9/magnific-popup.css',
+                        'lib/select2-3.5.1/select2.css',
+                        'lib/jquery-fileupload-5.26/jquery-fileupload-ui.css'
+                    ]
+                }
+            }
         },
 
         uglify: {
+            lib: {
+                options: {
+                    preserveComments: 'some'
+                },
+                files: [{
+                    expand: true,
+                    ext: '.min.js',
+                    src: [
+                        'lib/bootstrap-file-input/bootstrap-file-input.js',
+                        'lib/jquery-catchpaste-1.0.0p/jquery-catchpaste.js',
+                        'lib/jquery-cookie-1.4.0/jquery-cookie.js',
+                        'lib/jquery-fileupload-5.26/jquery-fileupload.js',
+                        'lib/jquery-fileupload-5.26/jquery-iframe-transport.js',
+                        'lib/jquery-formatdatetime-1.1.4/jquery-formatdatetime.js',
+                        'lib/jquery-hotkeys/jquery-hotkeys.js',
+                        'lib/jquery-tagcloud/jquery-tagcloud.js',
+                        'lib/jquery-watchchanges/jquery-watchchanges.js'
+                    ]
+                }]
+            },
             bootstrap: {
                 files: {
-                    'js/bootstrap.min.js': [
+                    'lib/bootstrap-sass.generated/bootstrap.min.js': [
                         'node_modules/bootstrap-sass/assets/javascripts/bootstrap/alert.js',
                         'node_modules/bootstrap-sass/assets/javascripts/bootstrap/button.js',
                         'node_modules/bootstrap-sass/assets/javascripts/bootstrap/dropdown.js',
@@ -99,23 +165,24 @@ module.exports = function(grunt) {
                 },
                 files: {
                     'js/bolt.min.js': [
-                        'js/src/console.js',
-                        'js/src/fnc-helpers.js',
-                        'js/src/activity.js',
-                        'js/src/bind-fileupload.js',
-                        'js/src/make-uri-slug.js',
-                        'js/src/video-embed.js',
-                        'js/src/geolocation.js',
-                        'js/src/upload-files.js',
-                        'js/src/obj-sidebar.js',
-                        'js/src/obj-navpopups.js',
-                        'js/src/obj-moments.js',
-                        'js/src/obj-files.js',
-                        'js/src/obj-stack.js',
-                        'js/src/obj-folders.js',
-                        'js/src/obj-datetime.js',
-                        'js/src/init.js',
-                        'js/src/start.js'
+                        'lib/bolt/console.js',
+                        'lib/bolt/fnc-helpers.js',
+                        'lib/bolt/activity.js',
+                        'lib/bolt/bind-fileupload.js',
+                        'lib/bolt/make-uri-slug.js',
+                        'lib/bolt/video-embed.js',
+                        'lib/bolt/geolocation.js',
+                        'lib/bolt/upload-files.js',
+                        'lib/bolt/obj-sidebar.js',
+                        'lib/bolt/obj-navpopups.js',
+                        'lib/bolt/obj-moments.js',
+                        'lib/bolt/obj-files.js',
+                        'lib/bolt/obj-stack.js',
+                        'lib/bolt/obj-folders.js',
+                        'lib/bolt/obj-datetime.js',
+                        'lib/bolt/extend.js',
+                        'lib/bolt/init.js',
+                        'lib/bolt/start.js'
                     ]
                 }
             }
@@ -145,6 +212,8 @@ module.exports = function(grunt) {
                     Navpopups: true,            // src/obj-navpopups.js
                     Sidebar: true,              // src/obj-sidebar.js
                     Stack: true,                // src/obj-stack.js
+                    site: true,                 // src/extend.js/extend.twig
+                    baseurl: true,              // src/extend.js/extend.twig
                     // Bolt global functions
                     bindFileUpload: true,       // src/bindfileuploads.js
                     bindGeolocation: true,      // src/geolocation.js
@@ -168,13 +237,13 @@ module.exports = function(grunt) {
                     UAParser: true              // ua-parser.min.js
                 }
             },
-            src: ['js/src/*.js']
+            src: ['lib/bolt/*.js']
         }
 
     });
 
     require('load-grunt-tasks')(grunt);
 
-    grunt.registerTask('default', ['sass', 'jshint', 'uglify', 'watch']);
+    grunt.registerTask('default', ['sass', 'jshint', 'uglify', 'cssmin', 'concat', 'watch']);
 
 };
