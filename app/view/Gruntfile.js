@@ -71,6 +71,35 @@ module.exports = function(grunt) {
         },
 
         concat: {
+            lib: {
+                options: {
+                    separator: '\n\n'
+                },
+                nonull: true,
+                src: [
+                    'lib/jquery-1.11.2/jquery.min.js',
+                    'lib/jquery-ui-1.10.3/jquery-ui.custom.min.js',
+                    'lib/jquery-catchpaste-1.0.0p/jquery-catchpaste.min.js',
+                    'lib/bootstrap-file-input/bootstrap-file-input.min.js',
+                    'lib/jquery-tagcloud/jquery-tagcloud.min.js',
+                    'lib/jquery-hotkeys/jquery-hotkeys.min.js',
+                    'lib/jquery-watchchanges/jquery-watchchanges.min.js',
+                    'lib/jquery-cookie-1.4.0/jquery-cookie.min.js',
+                    'lib/jquery-formatdatetime-1.1.4/jquery-formatdatetime.min.js',
+                    'lib/jquery-fileupload-5.26/jquery-iframe-transport.min.js',
+                    'lib/jquery-fileupload-5.26/jquery-fileupload.min.js',
+                    'lib/underscore-1.7.0/underscore-min.js',
+                    'lib/backbone/backbone-min.js',
+                    'lib/bootstrap-sass.generated/bootstrap.min.js',
+                    'lib/magnific-popup-0.9.9/magnific-popup.min.js',
+                    'lib/select2-3.5.1/select2.min.js',
+                    'lib/moment-2.8.3/moment.min.js',
+                    'lib/bootbox-4.3.0/bootbox.min.js',
+                    'lib/modernizr-2.8.3/modernizr.custom.min.js',
+                    'lib/ua-parser/ua-parser.min.js',
+                ],
+                dest: 'js/lib.min.js'
+            }
         },
 
         cssmin: {
@@ -215,6 +244,6 @@ module.exports = function(grunt) {
 
     require('load-grunt-tasks')(grunt);
 
-    grunt.registerTask('default', ['sass', 'jshint', 'uglify', 'cssmin', 'watch']);
+    grunt.registerTask('default', ['sass', 'jshint', 'uglify', 'cssmin', 'concat', 'watch']);
 
 };
