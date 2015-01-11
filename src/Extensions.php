@@ -192,7 +192,12 @@ class Extensions
         $this->enabled[$name] = $this->app['extensions.' . $name];
 
         // Store the composer part of the extensions config
-        array_push($this->composer, $extension->getExtensionConfig());
+        $conf = $extension->getExtensionConfig();
+        foreach ($conf as $key => $value) {
+            $this->composer[$key] = $value;
+        }
+
+        // Conditionally initalise extension
         if ($this->isInitialized) {
             $this->initializeExtension($extension);
         }
