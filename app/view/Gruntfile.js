@@ -114,7 +114,7 @@ module.exports = function(grunt) {
                         'lib/jquery-ui-1.10.3/jquery-ui.custom.min.css',
                         'lib/magnific-popup-0.9.9/magnific-popup.css',
                         'lib/select2-3.5.1/select2.css',
-                        'lib/jquery.fileupload-5.26/jquery.fileupload-ui.css'
+                        'lib/jquery-fileupload-5.26/jquery-fileupload-ui.css'
                     ]
                 }
             }
