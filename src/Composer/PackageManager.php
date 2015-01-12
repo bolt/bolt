@@ -258,6 +258,15 @@ class PackageManager
         $this->initJson->execute($file, $data);
     }
 
+    private function readComposerPackages()
+    {
+        //
+        $jsonFile = new JsonFile($this->options['composerjson']);
+        if ($jsonFile->exists()) {
+            $json = $jsonorig = $jsonFile->read();
+        }
+    }
+
     /**
      * Format a Composer API package array suitable for AJAX response
      *
@@ -383,6 +392,8 @@ class PackageManager
                 );
             }
         }
+
+        $this->json = $json;
     }
 
     /**
