@@ -248,7 +248,7 @@
 "Rename %foldername%": "Hernoem %foldername%"
 "Roles": "Rollen"
 "Roles and Permissions": "Rollen en permissies"
-"Routing setup": "Route instellingen"
+menu.configuration.routing: "Route instellingen"
 "Run all Updates": "Doe alle updates"
 "Run update check": "Doe update check"
 "Running install of all packages …": "Doe installatie voor alle pacakges"
@@ -583,3 +583,5 @@ panel:
     user-actions:
         button:
             add: "Nieuwe gebruiker toevoegen"
+
+menu.configuration.routing: "Route instellingen"

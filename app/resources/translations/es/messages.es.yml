@@ -215,7 +215,7 @@
 "page.edit-file.button.revert": "Revertir los cambios"
 "Roles and Permissions": "Roles y permisos"
 "Roles": "Roles"
-"Routing setup": "Configuración de rutas"
+menu.configuration.routing: "Configuración de rutas"
 "contenttypes.generic.save": "Guardar %contenttype%"
 "Save & return to overview": "Guardar y regresar al listado"
 "page.edit-locale.button.save": "Guardar"

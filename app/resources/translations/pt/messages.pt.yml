@@ -344,7 +344,7 @@
 "Rename %foldername%": "Renomear %foldername%"
 "Roles": "Papéis"
 "Roles and Permissions": "Papéis e permissões"
-"Routing setup": "Configuração de Rotas"
+menu.configuration.routing: "Configuração de Rotas"
 "Run all Updates": "Executar todas as atualizações"
 "Run update check": "Executar verificador de atualizações"
 "Running install of all packages …": "Executando instalação de todos os pacotes …"

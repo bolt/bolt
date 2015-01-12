@@ -297,7 +297,7 @@
 "Rename %foldername%": "%foldername% átnevezése"
 "Roles": "Szerepek"
 "Roles and Permissions": "Szerepek és Engedélyek"
-"Routing setup": "Útvonalkezelő beállítása"
+menu.configuration.routing: "Útvonalkezelő beállítása"
 "Run all Updates": "Teljes frissítés"
 "Run update check": "Frissítések ellenőrzése"
 "Running install of all packages …": "A csomagok telepítése folyamatban…"
