@@ -1,0 +1,2 @@
+This is a patched version of jquery-catchpaste-1.0.0.js
+See https://github.com/bolt/bolt/commit/317548c4f58a4787d6a17e2517b7687df57d48ab

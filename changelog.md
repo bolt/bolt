@@ -9,16 +9,25 @@ Bolt 2.0 DEV-head
   delete multiple items, and view full-size images. (Thanks @Pinpickle, See #2360)
 - Added: proportional autoscaling option to showImage() using '0' values
 - Added: Use jshint in grunt workflow
+- Added: Whoops now sends errors to AJAX callers in JSON format (#2433)
 - Fixed: Bug where contenttype name in menu isn't translated
 - Fixed: **No CSS / static files shown** when using PHP's built-in server via ./serve (#2381)
-- Updated: CKeditor to 4.4.6, and all used plugins to the latest versions.
+- Fixed: Reference of IntlDateFormatter stub functions (#2415)
+- Updated: CKeditor to 4.4.6, and all used plugins to the latest versions
 - Updated: jQuery to version 1.11.2
 - Updated: jQuery goMap to 1.3.3  (#2377)
 - Updated: Unify image- and filelists
 - Updated: Make image- and filelists looking more flat
+- Change: Set default width/height of showImage() to '0'
+- Change: Fields that previously used 0000-00-00 and 1900-01-01 now default to using NULL instead (#2396)
+- Change: Uglify bolts js files to bolt.min.js (#2398)
+- Change: Priorities of Taxonomy listing template selection (#2420)
+- Change: Separate magnific-popup between app and theme (#2429)
+- Change: Also use XMLHttpRequest to detect AJAX requests in `getWhichEnd()` (#2423)
+- Change: Refactor Twig setup (Thanks @CarsonF, see #2430)
+- Change: Url matcher updates (Thanks @CarsonF, see #2431)
+- Removed: Removed the `base-2013` theme
 - Removed: Ancient browser-specific tags
-- Set default width/height of showImage() to '0'
-- Uglify bolts js files to bolt.min.js
 
 Bolt 2.0.2
 ----------

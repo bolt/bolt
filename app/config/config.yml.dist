@@ -24,8 +24,11 @@ locale: en_GB
 # While in maintenance mode, only users of level editor or higher can access the site.
 # All other visitors are presented with a notice that the site is currently offline.
 # The default template file can be found in /app/theme_defaults/ and overridden with
-# this option using your own theme.
-maintenance_mode: false
+# this option using your own theme. Note: If you've changed the filename, and
+# your changes do not show up on the website, be sure to check for a config.yml
+# file in your theme's folder. If a template is set there, it will override the
+# setting here. 
+maintenance_mode: false 
 maintenance_template: maintenance_default.twig
 
 # The hour of the day for the internal cron task scheduler to run daily, weekly,
@@ -43,7 +46,10 @@ cron_hour: 3
 # want to set the icon yourself, just don't enable the following line.
 #favicon: images/favicon-bolt.ico
 
-# The default content to use for the homepage, and the template to render it with.
+# The default content to use for the homepage, and the template to render it
+# with. Note: If you've changed the filename, and your changes do not show up on
+# the website, be sure to check for a config.yml file in your theme's folder. If
+# a template is set there, it will override the setting here.
 homepage: page/1
 homepage_template: index.twig
 
@@ -57,15 +63,20 @@ notfound: page/not-found
 # Only valid when frontend_permission_checks is set to true
 #access_denied: page/not-logged-in
 
-# The default template and amount of records to use for listing-pages on the site.
-# Can be overridden for each contenttype, and for each record, if it has a
-# 'templateselect' field.
+# The default template and amount of records to use for listing-pages on the
+# site. Can be overridden for each contenttype and for each record, if it has a
+# 'templateselect' field. Note: If you've changed the filename, and your changes
+# do not show up on the website, be sure to check for a config.yml file in your
+# theme's folder. If a template is set there, it will override the setting here.
 record_template: record.twig
 
 # The default template and amount of records to use for listing-pages on the site.
 # Can be overridden for each contenttype.
 # Note: sorting on TAXONOMY-pages will give unexpected results, if it has a pager
 # If you need sorting on those, make sure you display all the records on one page.
+# Note: If you've changed the filename, and your changes do not show up on the
+# website, be sure to check for a config.yml file in your theme's folder. If a
+# template is set there, it will override the setting here.
 listing_template: listing.twig
 listing_records: 6
 listing_sort: datepublish DESC
@@ -75,8 +86,11 @@ listing_sort: datepublish DESC
 # and 'DESC' for roughly 'newest first'.
 taxonomy_sort: DESC
 
-# Template for showing the search results. If not defined, uses the settings
-# for listing_template and listing_records
+# Template for showing the search results. If not defined, uses the settings for
+# listing_template and listing_records. Note: If you've changed the filename,
+# and your changes do not show up on the website, be sure to check for a
+# config.yml file in your theme's folder. If a template is set there, it will
+# override the setting here.
 search_results_template: listing.twig
 search_results_records: 10
 

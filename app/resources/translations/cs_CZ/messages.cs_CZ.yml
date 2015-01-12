@@ -1,4 +1,4 @@
-# app/resources/translations/cs_CZ/messages.cs_CZ.yml – generated on 2015-01-05 08:52:07 UTC
+# app/resources/translations/cs_CZ/messages.cs_CZ.yml – generated on 2015-01-06 12:39:31 UTC
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
 #          at the moment. This is an ongoing process. Translations currently in the 
@@ -11,10 +11,10 @@
 #  no unused messages
 #  no untranslated messages
 #  no untranslated keyword based messages
-# 378 translations
+# 380 translations
 # 132 keyword based translations
 
-#--- 378 translations ---------------------------------------------------------
+#--- 380 translations ---------------------------------------------------------
 
 "%name% № %id%": "%name% č. %id%"
 "%s files could not be deleted. You should delete them manually.": "%s soubory nelze odstranit. Smažte je ručně."
@@ -40,6 +40,7 @@
 "An error occurred.": "Došlo k nějaké chybě."
 "Anonymous": "Anonymous"
 "Are you sure you want to delete %username%?": "Určitě chcete odstranit %username%?"
+"Are you sure you want to remove these images?": "Určitě chcete odstranit tyto obrázky?"
 "Are you sure you want to remove this file?": "Určitě chcete odstranit tento soubor?"
 "Are you sure you want to remove this image?": "Určitě chcete odstranit tento obrázek?"
 "Author:": "Autor:"
@@ -243,6 +244,7 @@
 "Related content": "Související obsah"
 "Related content:": "Související obsah"
 "Relationships": "Související obsah"
+"Remove selected": "Odstranit vybrané"
 "Rename %foldername%": "Přejmenovat %foldername%"
 "Roles": "Práva"
 "Roles and Permissions": "Nastavení oprávnění"

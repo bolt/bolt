@@ -11,8 +11,6 @@
 
 {% block page_main %}
 
-    <script src="{{ paths.app }}view/js/bolt-extend.js"></script>
-
     {% if messages %}
         <div class="row">
             <div class="col-xs-12">
@@ -173,9 +171,6 @@
     <script>
         var site = '{{ site }}';
         var baseurl = "{{ paths.bolt }}extend/";
-
-        var active_console;
-        var active_interval;
 
         jQuery(document).ready(function($) {
             var boltExt = new BoltExtender();

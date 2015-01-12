@@ -12,6 +12,7 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Stopwatch;
+use Whoops\Handler\JsonResponseHandler;
 use Whoops\Provider\Silex\WhoopsServiceProvider;
 use Bolt\Provider\PathServiceProvider;
 
@@ -221,8 +222,8 @@ class Application extends Silex\Application
 
         // Loading stub functions for when intl / IntlDateFormatter isn't available.
         if (!function_exists('intl_get_error_code')) {
-            require_once $this->app['resources']->getPath('root') . '/vendor/symfony/locale/Symfony/Component/Locale/Resources/stubs/functions.php';
-            require_once $this->app['resources']->getPath('root') . '/vendor/symfony/locale/Symfony/Component/Locale/Resources/stubs/IntlDateFormatter.php';
+            require_once $this['resources']->getPath('root') . '/vendor/symfony/locale/Symfony/Component/Locale/Resources/stubs/functions.php';
+            require_once $this['resources']->getPath('root') . '/vendor/symfony/locale/Symfony/Component/Locale/Resources/stubs/IntlDateFormatter.php';
         }
 
         $this->register(new Provider\TranslationServiceProvider());
@@ -294,14 +295,10 @@ class Application extends Silex\Application
 
     public function initMountpoints()
     {
-        $app = $this;
-
         // Wire up our custom url matcher to replace the default Silex\RedirectableUrlMatcher
         $this['url_matcher'] = $this->share(
-            function () use ($app) {
-                return new BoltUrlMatcher(
-                    new \Symfony\Component\Routing\Matcher\UrlMatcher($app['routes'], $app['request_context'])
-                );
+            function ($app) {
+                return new BoltUrlMatcher($app['routes'], $app['request_context']);
             }
         );
 
@@ -421,6 +418,11 @@ class Application extends Silex\Application
             // Register Whoops, to handle errors for logged in users only.
             if ($this['config']->get('general/debug_enable_whoops')) {
                 $this->register(new WhoopsServiceProvider());
+
+                // Add a special handler to deal with AJAX requests
+                if ($this['config']->getWhichEnd() == 'async') {
+                    $this['whoops']->pushHandler(new JsonResponseHandler());
+                }
             }
 
             $this->register(new Silex\Provider\ServiceControllerServiceProvider());

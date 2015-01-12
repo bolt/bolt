@@ -146,19 +146,19 @@ class Storage
     private function preFillSingle($key, $contenttype)
     {
         $content = array();
-        $title = "";
+        $title = '';
 
         $content['contenttype'] = $key;
         $content['datecreated'] = date('Y-m-d H:i:s', time() - rand(0, 365 * 24 * 60 * 60));
         $content['datepublish'] = date('Y-m-d H:i:s', time() - rand(0, 365 * 24 * 60 * 60));
-        $content['datedepublish'] = "1900-01-01 00:00:00";
+        $content['datedepublish'] = null;
 
         $username = array_rand($this->app['users']->getUsers());
         $user = $this->app['users']->getUser($username);
 
         $content['ownerid'] = $user['id'];
 
-        $content['status'] = "published";
+        $content['status'] = 'published';
 
         foreach ($contenttype['fields'] as $field => $values) {
 
@@ -170,7 +170,7 @@ class Storage
                     }
                     break;
                 case 'image':
-                    // Get a random image..
+                    // Get a random image
                     if (!empty($this->images)) {
                         $content[$field]['file'] = $this->images[array_rand($this->images)];
                     }
@@ -199,7 +199,7 @@ class Storage
                     $content[$field] = rand(0, 1);
                     break;
                 case 'float':
-                case 'number': // number is deprecated..
+                case 'number': // number is deprecated
                 case 'integer':
                     $content[$field] = rand(-1000, 1000) + (rand(0, 1000) / 1000);
                     break;
@@ -821,7 +821,7 @@ class Storage
 
         if (!empty($oldContent)) {
 
-            // Do the actual update, and log it. 
+            // Do the actual update, and log it.
             $res = $this->app['db']->update($tablename, $content, array('id' => $content['id']));
             if ($res > 0) {
                 $this->logUpdate($contenttype, $content['id'], $content, $oldContent, $comment);
@@ -829,7 +829,7 @@ class Storage
 
         } else {
 
-            // Content didn't exist, so do an insert after all. Log it as an insert.            
+            // Content didn't exist, so do an insert after all. Log it as an insert.
             $res = $this->app['db']->insert($tablename, $content);
             $seq = null;
             if ($this->app['db']->getDatabasePlatform() instanceof PostgreSqlPlatform) {

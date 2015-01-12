@@ -22,20 +22,8 @@
 {% endif %}
 
 {% set page_scripts_inc = [
-    'view/js/jquery-1.11.2.min.js',
-    'view/js/underscore-min.js',
-    'view/js/backbone-min.js',
-    'view/js/jquery-ui-1.10.3.custom.min.js',
-    'view/js/jquery.plugins.js',
-    'view/js/bootstrap.min.js',
-    'view/js/jquery.magnific-popup.min.js',
-    'view/lib/select2/select2.min.js',
+    'view/js/lib.min.js',
     'view/lib/ckeditor/ckeditor.js',
-    'view/lib/upload/jquery.iframe-transport.js',
-    'view/lib/upload/jquery.fileupload.js',
-    'view/js/moment.min.js',
-    'view/js/bootbox.min.js',
-    'view/js/modernizr.custom.2.8.3.js',
 ] %}
 
 {# Add locale include for datepicker #}
@@ -57,10 +45,7 @@
 
     <title>{{ page_title|striptags|trim }} – {{ app.config.get('general/branding/name') }}</title>
 
-    <link rel="stylesheet" href="{{ paths.app }}view/css/smoothness/jquery-ui-1.10.3.custom.min.css">
-    <link rel="stylesheet" href="{{ paths.app }}view/css/magnific-popup.css">
-    <link rel="stylesheet" href="{{ paths.app }}view/lib/select2/select2.css">
-    <link rel="stylesheet" href="{{ paths.app }}view/lib/upload/jquery.fileupload-ui.css">
+    <link rel="stylesheet" href="{{ paths.app }}view/css/lib.css">
 
     <!--[if lt IE 9]>
         <link rel="stylesheet" href="{{ paths.app }}view/css/bolt-old-ie.css" media="screen, projection">
