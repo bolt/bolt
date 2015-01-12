@@ -266,21 +266,51 @@ class Extensions
 
         // Add Twig extensions
         if (is_callable(array($extension, 'getTwigExtensions'))) {
-            try {
-                foreach ($extension->getTwigExtensions() as $extension) {
-                    $this->app['twig']->addExtension($extension);
-                    if (is_callable(array($extension, 'isSafe')) && $extension->isSafe() === true) {
-                        $this->app['safe_twig']->addExtension($extension);
-                    }
-                }
-            } catch (\Exception $e) {
-                $this->logInitFailure('Twig function registration', $name, $e);
+            /** @var \Twig_Extension[] $extensions */
+            $extensions = $extension->getTwigExtensions();
+            $addTwigExFunc = array($this, 'addTwigExtension');
+            foreach ($extensions as $extension) {
+                $this->app['twig'] = $this->app->share(
+                    $this->app->extend(
+                        'twig',
+                        function(\Twig_Environment $twig) use ($addTwigExFunc, $extension, $name) {
+                            call_user_func($addTwigExFunc, $twig, $extension, $name);
+                            return $twig;
+                        }
+                    )
+                );
 
-                return;
+                if (is_callable(array($extension, 'isSafe')) && $extension->isSafe() === true) {
+                    $this->app['safe_twig'] = $this->app->share(
+                        $this->app->extend(
+                            'safe_twig',
+                            function(\Twig_Environment $twig) use ($addTwigExFunc, $extension, $name) {
+                                call_user_func($addTwigExFunc, $twig, $extension, $name);
+                                return $twig;
+                            }
+                        )
+                    );
+                }
             }
         }
     }
 
+    /**
+     * @internal DO NOT USE!
+     *
+     * @param \Twig_Environment $twig
+     * @param \Twig_Extension $extension
+     * @param string $name
+     */
+    public function addTwigExtension(\Twig_Environment $twig, $extension, $name)
+    {
+        try {
+            $twig->addExtension($extension);
+        } catch (\Exception $e) {
+            $this->logInitFailure('Twig function registration', $name, $e);
+        }
+    }
+    
     /**
      * @param string $msg
      * @param string $name
