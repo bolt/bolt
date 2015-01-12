@@ -231,14 +231,7 @@ class Extensions
         try {
             $extension->getConfig();
         } catch (\Exception $e) {
-            $this->app['log']->add("[EXT] YAML config failed to load for {$name}: " . $e->getMessage(), 2);
-
-            if ($this->app['config']->getWhichEnd() == 'backend') {
-                $this->app['session']->getFlashBag()->set(
-                    'error',
-                    Trans::__('[Extension error] YAML config failed to load for %ext%: %error%', array('%ext%' => $name, '%error%' => $e->getMessage()))
-                );
-            }
+            $this->logInitFailure('Loading YAML config', $name, $e);
 
             return;
         }
@@ -254,14 +247,7 @@ class Extensions
             }
 
         } catch (\Exception $e) {
-            $this->app['log']->add("[EXT] Initialisation failed for {$name}: " . $e->getMessage(), 2);
-
-            if ($this->app['config']->getWhichEnd() == 'backend') {
-                $this->app['session']->getFlashBag()->set(
-                    'error',
-                    Trans::__('[Extension error] Initialisation failed for %ext%: %error%', array('%ext%' => $name, '%error%' => $e->getMessage()))
-                );
-            }
+            $this->logInitFailure('Initialisation', $name, $e);
 
             return;
         }
@@ -273,14 +259,7 @@ class Extensions
         try {
             $this->getSnippets($name);
         } catch (\Exception $e) {
-            $this->app['log']->add("[EXT] Snippet loading failed for {$name}: " . $e->getMessage(), 2);
-
-            if ($this->app['config']->getWhichEnd() == 'backend') {
-                $this->app['session']->getFlashBag()->set(
-                    'error',
-                    Trans::__('[Extension error] Snippet loading failed for %ext%: %error%', array('%ext%' => $name, '%error%' => $e->getMessage()))
-                );
-            }
+            $this->logInitFailure('Snippet loading', $name, $e);
 
             return;
         }
@@ -295,17 +274,27 @@ class Extensions
                     }
                 }
             } catch (\Exception $e) {
-                $this->app['log']->add("[EXT] Twig function registration failed for {$name}: " . $e->getMessage(), 2);
-
-                if ($this->app['config']->getWhichEnd() == 'backend') {
-                    $this->app['session']->getFlashBag()->set(
-                        'error',
-                        Trans::__('[Extension error] Twig function registration failed for %ext%: %error%', array('%ext%' => $name, '%error%' => $e->getMessage()))
-                    );
-                }
+                $this->logInitFailure('Twig function registration', $name, $e);
 
                 return;
             }
+        }
+    }
+
+    /**
+     * @param string $msg
+     * @param string $name
+     * @param \Exception $e
+     */
+    protected function logInitFailure($msg, $name, \Exception $e)
+    {
+        $this->app['log']->add("[EXT] $msg {$name}: " . $e->getMessage(), 2);
+
+        if ($this->app['config']->getWhichEnd() == 'backend') {
+            $this->app['session']->getFlashBag()->set(
+                'error',
+                Trans::__("[Extension error] $msg failed for %ext%: %error%", array('%ext%' => $name, '%error%' => $e->getMessage()))
+            );
         }
     }
 
