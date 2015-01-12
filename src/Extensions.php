@@ -243,7 +243,15 @@ class Extensions
             // Add an object of this extension to the global Twig scope.
             $namespace = $this->getNamespace($extension);
             if (!empty($namespace)) {
-                $this->app['twig']->addGlobal($namespace, $extension);
+                $this->app['twig'] = $this->app->share(
+                    $this->app->extend(
+                        'twig',
+                        function(\Twig_Environment $twig) use ($namespace, $extension) {
+                            $twig->addGlobal($namespace, $extension);
+                            return $twig;
+                        }
+                    )
+                );
             }
 
         } catch (\Exception $e) {
