@@ -231,14 +231,7 @@ class Extensions
         try {
             $extension->getConfig();
         } catch (\Exception $e) {
-            $this->app['log']->add("[EXT] YAML config failed to load for {$name}: " . $e->getMessage(), 2);
-
-            if ($this->app['config']->getWhichEnd() == 'backend') {
-                $this->app['session']->getFlashBag()->set(
-                    'error',
-                    Trans::__('[Extension error] YAML config failed to load for %ext%: %error%', array('%ext%' => $name, '%error%' => $e->getMessage()))
-                );
-            }
+            $this->logInitFailure('Loading YAML config', $name, $e);
 
             return;
         }
@@ -250,18 +243,19 @@ class Extensions
             // Add an object of this extension to the global Twig scope.
             $namespace = $this->getNamespace($extension);
             if (!empty($namespace)) {
-                $this->app['twig']->addGlobal($namespace, $extension);
+                $this->app['twig'] = $this->app->share(
+                    $this->app->extend(
+                        'twig',
+                        function(\Twig_Environment $twig) use ($namespace, $extension) {
+                            $twig->addGlobal($namespace, $extension);
+                            return $twig;
+                        }
+                    )
+                );
             }
 
         } catch (\Exception $e) {
-            $this->app['log']->add("[EXT] Initialisation failed for {$name}: " . $e->getMessage(), 2);
-
-            if ($this->app['config']->getWhichEnd() == 'backend') {
-                $this->app['session']->getFlashBag()->set(
-                    'error',
-                    Trans::__('[Extension error] Initialisation failed for %ext%: %error%', array('%ext%' => $name, '%error%' => $e->getMessage()))
-                );
-            }
+            $this->logInitFailure('Initialisation', $name, $e);
 
             return;
         }
@@ -273,39 +267,72 @@ class Extensions
         try {
             $this->getSnippets($name);
         } catch (\Exception $e) {
-            $this->app['log']->add("[EXT] Snippet loading failed for {$name}: " . $e->getMessage(), 2);
-
-            if ($this->app['config']->getWhichEnd() == 'backend') {
-                $this->app['session']->getFlashBag()->set(
-                    'error',
-                    Trans::__('[Extension error] Snippet loading failed for %ext%: %error%', array('%ext%' => $name, '%error%' => $e->getMessage()))
-                );
-            }
+            $this->logInitFailure('Snippet loading', $name, $e);
 
             return;
         }
 
         // Add Twig extensions
         if (is_callable(array($extension, 'getTwigExtensions'))) {
-            try {
-                foreach ($extension->getTwigExtensions() as $extension) {
-                    $this->app['twig']->addExtension($extension);
-                    if (is_callable(array($extension, 'isSafe')) && $extension->isSafe() === true) {
-                        $this->app['safe_twig']->addExtension($extension);
-                    }
-                }
-            } catch (\Exception $e) {
-                $this->app['log']->add("[EXT] Twig function registration failed for {$name}: " . $e->getMessage(), 2);
+            /** @var \Twig_Extension[] $extensions */
+            $extensions = $extension->getTwigExtensions();
+            $addTwigExFunc = array($this, 'addTwigExtension');
+            foreach ($extensions as $extension) {
+                $this->app['twig'] = $this->app->share(
+                    $this->app->extend(
+                        'twig',
+                        function(\Twig_Environment $twig) use ($addTwigExFunc, $extension, $name) {
+                            call_user_func($addTwigExFunc, $twig, $extension, $name);
+                            return $twig;
+                        }
+                    )
+                );
 
-                if ($this->app['config']->getWhichEnd() == 'backend') {
-                    $this->app['session']->getFlashBag()->set(
-                        'error',
-                        Trans::__('[Extension error] Twig function registration failed for %ext%: %error%', array('%ext%' => $name, '%error%' => $e->getMessage()))
+                if (is_callable(array($extension, 'isSafe')) && $extension->isSafe() === true) {
+                    $this->app['safe_twig'] = $this->app->share(
+                        $this->app->extend(
+                            'safe_twig',
+                            function(\Twig_Environment $twig) use ($addTwigExFunc, $extension, $name) {
+                                call_user_func($addTwigExFunc, $twig, $extension, $name);
+                                return $twig;
+                            }
+                        )
                     );
                 }
-
-                return;
             }
+        }
+    }
+
+    /**
+     * @internal DO NOT USE!
+     *
+     * @param \Twig_Environment $twig
+     * @param \Twig_Extension $extension
+     * @param string $name
+     */
+    public function addTwigExtension(\Twig_Environment $twig, $extension, $name)
+    {
+        try {
+            $twig->addExtension($extension);
+        } catch (\Exception $e) {
+            $this->logInitFailure('Twig function registration', $name, $e);
+        }
+    }
+    
+    /**
+     * @param string $msg
+     * @param string $name
+     * @param \Exception $e
+     */
+    protected function logInitFailure($msg, $name, \Exception $e)
+    {
+        $this->app['log']->add("[EXT] $msg {$name}: " . $e->getMessage(), 2);
+
+        if ($this->app['config']->getWhichEnd() == 'backend') {
+            $this->app['session']->getFlashBag()->set(
+                'error',
+                Trans::__("[Extension error] $msg failed for %ext%: %error%", array('%ext%' => $name, '%error%' => $e->getMessage()))
+            );
         }
     }
 
