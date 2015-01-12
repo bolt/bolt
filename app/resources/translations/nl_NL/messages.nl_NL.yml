@@ -583,5 +583,3 @@ panel:
     user-actions:
         button:
             add: "Nieuwe gebruiker toevoegen"
-
-menu.configuration.routing: "Route instellingen"
