@@ -1,0 +1,60 @@
+JQuery CatchPaste
+===
+
+OVERVIEW
+---
+
+This plugin overrides paste functionality for input fields such that the paste data can be captured programmatically before it hits the input tag. This means that you can catch newlines and handle them before they get stripped off by the input tag, after which they are unrecoverable. You can then decide what gets actually pasted to the input field. Dragging text into fields is at this time deactivated, because quite frankly I couldn't figure out what events to reliably check during DnD on various platforms, and jquery-ndd is in its infancy.
+
+INSTALLATION
+---
+
+* Copy jquery-catchpaste.js or any specific or minified version of jquery-catchpaste(-x.x.x)(.min).js into your javascript directory
+* Make sure that jquery 1.5.2 or later is somewhere accessible
+* Make sure that jquery-caret 1.02 or later is somewhere accessible
+* Load jquery-catchpaste and its dependencies:
+    * &lt;script src="jquery-1.5.2.min.js"&gt;&lt;/script&gt;
+    * &lt;script src="jquery-caret.1.02.min.js"&gt;&lt;/script&gt;
+    * &lt;script src="jquery-catchpaste-1.0.0.js"&gt;&lt;/script&gt;
+* After that, a new $(selector).catchpaste() feature is available
+
+BASIC USAGE
+---
+
+This will completely trap the paste, and nothing will be added or changed in the pasted-to input field, due to the specific ''null'' value being returned:
+
+~~~~~
+$("input.myclassname").catchpaste( function( paste, options ) { return null; } );
+~~~~~
+
+FLOWTHRU USAGE
+---
+
+This will have seemingly no effect, because it catches the paste data, then passes it along. However, in so doing, you can copy the data elsewhere or do what you want with it:
+
+~~~~~
+$("input.myclassname").catchpaste( function( paste, options ) { return paste; } );
+~~~~~
+
+FILTER USAGE
+---
+
+This will change the paste data before returning it, thus limiting what portion of it gets placed into the input field. In this case, replacing numbers with XXX:
+
+~~~~~
+$("input.myclassname").catchpaste( function( paste, options ) { return paste.replace(/\d+/,"XXX"); } );
+~~~~~
+
+THE GOOEY INNARDS
+---
+
+The way it works is by creating an off-screen textarea right at paste-time, and focusing on that, allowing the data to go there. Textarea's don't strip off funny characters like inputs do. It waits for keyup (when you release the CTRL and V or COMMAND and V keys) to focus back on the original input and filter what you want.
+
+It then uses jquery-caret to optionally replace the portion of the input field that was hilighted before with the returned string, unless it's null.
+
+FUTURE
+---
+
+This was only tested on Chrome, Safari, and Firefox3. Firefox has special code in there because the paste event happens too late - it can't redirect the focus in time.
+
+This also doesn't work with "hilight and drag text into the input field" because that involves events that don't seem to make sense. Maybe native DnD is required to handle dragging in text from the Desktop, for example.
