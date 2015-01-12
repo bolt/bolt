@@ -130,7 +130,25 @@ class Application extends Silex\Application
             )
         );
 
-        // Do a dummy query, to check for a proper connection to the database.
+        $this->checkDatabaseConnection($dboptions);
+
+        $this->setupDatabase($dboptions);
+
+        $this->register(
+            new Silex\Provider\HttpCacheServiceProvider(),
+            array(
+                'http_cache.cache_dir' => $this['resources']->getPath('cache'),
+            )
+        );
+    }
+
+    /**
+     * Do a dummy query, to check for a proper connection to the database.
+     * @param array $dboptions
+     * @throws LowlevelException
+     */
+    protected function checkDatabaseConnection(array $dboptions)
+    {
         try {
             $this['db']->query("SELECT 1;");
         } catch (\PDOException $e) {
@@ -142,7 +160,13 @@ class Application extends Silex\Application
             }
             throw new LowlevelException($error);
         }
+    }
 
+    /**
+     * @param array $dboptions
+     */
+    protected function setupDatabase(array $dboptions)
+    {
         if ($dboptions['driver'] == 'pdo_sqlite') {
             $this['db']->query('PRAGMA synchronous = OFF');
         } elseif ($dboptions['driver'] == 'pdo_mysql') {
@@ -156,13 +180,6 @@ class Application extends Silex\Application
             $this['db']->query("SET CHARACTER_SET_CONNECTION = 'utf8';");
             $this['db']->query("SET CHARACTER SET utf8;");
         }
-
-        $this->register(
-            new Silex\Provider\HttpCacheServiceProvider(),
-            array(
-                'http_cache.cache_dir' => $this['resources']->getPath('cache'),
-            )
-        );
     }
 
     public function initRendering()
