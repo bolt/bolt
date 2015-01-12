@@ -187,10 +187,15 @@ class Application extends Silex\Application
             )
         );
         // Add the Bolt Twig Extension.
-        $this['twig'] = $this->share($this->extend('twig', function(\Twig_Environment $twig, $app) {
-            $twig->addExtension(new TwigExtension($app));
-            return $twig;
-        }));
+        $this['twig'] = $this->share(
+            $this->extend(
+                'twig',
+                function(\Twig_Environment $twig, $app) {
+                    $twig->addExtension(new TwigExtension($app));
+                    return $twig;
+                }
+            )
+        );
 
         $this->register(new Provider\SafeTwigServiceProvider());
 
