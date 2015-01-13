@@ -1,4 +1,9 @@
-
+/**
+ * Starting point
+ *
+ * @param {Object} $
+ * @returns {undefined}
+ */
 jQuery(function ($) {
     // Get configuration
     var config = $('script[data-config]').first().data('config');
