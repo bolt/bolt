@@ -1,0 +1,82 @@
+{% set package_empty %}
+    <div class="ext-list"><strong class="no-results">{{ __('No Bolt Extensions installed.') }}</strong></div>
+{% endset %}
+
+{% set package_item %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <i class="fa fa-cube fa-fw"></i> %TITLE% <span class="pull-right text-muted">%NAME% - %VERSION%</span>
+            <span class="authors"><span class="author label label-primary"></span>
+        </div>
+
+        <div class="panel-body">
+            <!-- Action buttons -->
+            <div class="actions pull-right">
+                <div class="btn-group">
+                    <!-- Readme -->
+                    <a data-request="package-readme" data-readme="%README%" class='btn btn-sm btn-tertiary' href="#">
+                    <i class='fa fa-quote-right fa-fw'></i> {{ __('Readme') }}</a>
+
+                    <!-- Config -->
+                    <a href="{{ '<CONFIG>' }}" class="btn btn-sm btn-tertiary">
+                    <i class="fa fa-cog fa-fw"></i> {{ __('Config') }}</a>
+
+                    <!-- Theme -->
+                    <a data-request="package-copy" data-theme="%NAME%" class="btn btn-sm btn-tertiary" href="#">
+                    <i class="fa fa-copy fa-fw"></i> {{ __('Copy to theme folder') }}</a>
+                </div>
+
+                <a data-request="uninstall-package" class="btn btn-sm btn-danger" href="%BASEURL%"uninstall?package="%NAME%">
+                <i class='fa fa-trash-o fa-fw'></i> {{ __('Uninstall') }}</a>
+            </div>
+
+            <!-- Plain description -->
+            <div class="description text-muted">%DESCRIPTION%</div>
+
+            <!-- Tags -->
+            <span class="tags">
+                <i class="fa fa-tag ta-fw"></i>
+                <span class="tag label label-info">%KEYWORDS%</span>
+            </span>
+
+            <!-- Briefcase/type -->
+            <i class="fa fa-briefcase ta-fw"></i>&nbsp;
+            <span class="type label label-default">{{ '<TYPE>' }}</span>
+
+        </div>
+    </div>
+{% endset %}
+
+{% set package_versions %}
+    <tr>
+        <td>%NAME%</td>
+        <td>%VERSION%</td>
+        <td><span class="label label-default-%CLASS%">%BUILDSTATUS%</span></td>
+        <td>
+            <div class="btn-group"><a href="#" data-request="install-package" class="btn btn-primary btn-sm" data-package="%NAME%" data-version="%VERSION%">
+            <i class="icon-gears"></i> {{ __('Install This Version') }}</a></div>
+        </td>
+    </tr>
+{% endset %}
+
+{% set package_install_new %}
+    <tr data-package="%PACKAGE%">
+        <td class="ext-list"><strong class="title">%PACKAGE%</strong></td>
+        <td><a data-request="update-package" class="btn btn-sm btn-warning" data-package="%PACKAGE%">{{ __('Install New Package') }}</a></td>
+    </tr>
+{% endset %}
+
+{% set package_install_update %}
+    <tr data-package="%PACKAGE%">
+        <td class="ext-list"><strong class="title">%PACKAGE%</strong></td>
+        <td><a data-request="update-package" class="btn btn-sm btn-tertiary" data-package="%PACKAGE%">{{ __('Install Package Update') }}</a></td>
+    </tr>
+{% endset %}
+
+{{ data('extend.package', {'empty':          package_empty|trim,
+                           'item':           package_item|trim|preg_replace('/>\\s+</', '><'),
+                           'versions':       package_versions|trim|preg_replace('/>\\s+</', '><'),
+                           'install_new':    package_install_new|trim|preg_replace('/>\\s+</', '><'),
+                           'install_update': package_install_update|trim|preg_replace('/>\\s+</', '><')
+                          })
+}}
