@@ -95,6 +95,12 @@
     </tr>
 {% endset %}
 
+{% set package_error %}
+    <h3>%ERROR_TYPE%</h3>
+    <p>%ERROR_MESSAGE%</p>
+    <p>%ERROR_LOCATION%</p>
+{% endset %}
+
 {{ data('extend.packages', {'empty':          package_empty|trim,
                             'item':           package_item|trim|preg_replace('/>\\s+</', '><'),
                             'versions':       package_versions|trim|preg_replace('/>\\s+</', '><'),
@@ -104,6 +110,7 @@
                             'config_button':  package_config_button|trim|preg_replace('/>\\s+</', '><'),
                             'theme_button':   package_theme_button|trim|preg_replace('/>\\s+</', '><'),
                             'install_new':    package_install_new|trim|preg_replace('/>\\s+</', '><'),
-                            'install_update': package_install_update|trim|preg_replace('/>\\s+</', '><')
+                            'install_update': package_install_update|trim|preg_replace('/>\\s+</', '><'),
+                            'error':          package_error|trim|preg_replace('/>\\s+</', '><')
                           })
 }}
