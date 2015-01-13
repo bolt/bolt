@@ -206,8 +206,7 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
 
     public function installed(Silex\Application $app, Request $request)
     {
-        $installed = $app['extend.manager']->showPackage('installed');
-        $result = $app['extend.manager']->formatPackageResponse($installed);
+        $result = $app['extend.manager']->getAllPackages();
 
         return new JsonResponse($result);
     }
