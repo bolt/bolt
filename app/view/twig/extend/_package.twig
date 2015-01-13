@@ -73,10 +73,10 @@
     </tr>
 {% endset %}
 
-{{ data('extend.package', {'empty':          package_empty|trim,
-                           'item':           package_item|trim|preg_replace('/>\\s+</', '><'),
-                           'versions':       package_versions|trim|preg_replace('/>\\s+</', '><'),
-                           'install_new':    package_install_new|trim|preg_replace('/>\\s+</', '><'),
-                           'install_update': package_install_update|trim|preg_replace('/>\\s+</', '><')
+{{ data('extend.packages', {'empty':          package_empty|trim,
+                            'item':           package_item|trim|preg_replace('/>\\s+</', '><'),
+                            'versions':       package_versions|trim|preg_replace('/>\\s+</', '><'),
+                            'install_new':    package_install_new|trim|preg_replace('/>\\s+</', '><'),
+                            'install_update': package_install_update|trim|preg_replace('/>\\s+</', '><')
                           })
 }}
