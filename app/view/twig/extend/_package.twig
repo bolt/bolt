@@ -6,7 +6,7 @@
     <div class="panel panel-default">
         <div class="panel-heading">
             <i class="fa fa-cube fa-fw"></i> %TITLE% <span class="pull-right text-muted">%NAME% - %VERSION%</span>
-            <span class="authors"><span class="author label label-primary">%AUTHORS%</span>
+            <span class="authors">%AUTHORS%</span>
         </div>
 
         <div class="panel-body">
@@ -47,6 +47,10 @@
     </div>
 {% endset %}
 
+{% set package_author %}
+    <span class="author label label-primary">%AUTHOR%</span>
+{% endset %}
+
 {% set package_versions %}
     <tr>
         <td>%NAME%</td>
@@ -76,6 +80,7 @@
 {{ data('extend.packages', {'empty':          package_empty|trim,
                             'item':           package_item|trim|preg_replace('/>\\s+</', '><'),
                             'versions':       package_versions|trim|preg_replace('/>\\s+</', '><'),
+                            'author' :        package_author|trim|preg_replace('/>\\s+</', '><'),
                             'install_new':    package_install_new|trim|preg_replace('/>\\s+</', '><'),
                             'install_update': package_install_update|trim|preg_replace('/>\\s+</', '><')
                           })
