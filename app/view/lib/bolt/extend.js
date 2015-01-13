@@ -191,14 +191,16 @@ var BoltExtender = Object.extend(Object, {
                     var html = '';
                     for (var e in data) {
                         var ext = data.installed[e],
+                        conf = bolt.data.extend.packages,
                         authors = '',
-                        keywords = '';
-
+                        keywords = '',
+                        i = 0;
+                        
                         // Authors array
                         if (ext.authors.length > 0) {
                             var authorsArray = ext.authors;
                             for (i = 0; i < authorsArray.length; i++) {
-                                authors += bolt.data.extend.packages.author.subst({'%AUTHOR%': authorsArray[i].name});
+                                authors += conf.author.subst({'%AUTHOR%': authorsArray[i].name});
                             }
                         }
 
@@ -206,19 +208,19 @@ var BoltExtender = Object.extend(Object, {
                         if (ext.keywords.length > 0) {
                             var keywordsArray = ext.keywords;
                             for (i = 0; i < keywordsArray.length; i++) {
-                                keywords += bolt.data.extend.packages.keyword.subst({'%KEYWORD%': keywordsArray[i]});
+                                keywords += conf.keyword.subst({'%KEYWORD%': keywordsArray[i]});
                             }
                         }
 
-                        html += bolt.data.extend.packages.item.subst({
+                        html += conf.item.subst({
                             '%TITLE%': ext.title ? ext.title : ext.name,
                             '%NAME%': ext.name,
                             '%VERSION%': ext.version,
                             '%AUTHORS%': authors,
                             '%TYPE%': ext.type,
-                            '%README%': ext.readme ? bolt.data.extend.packages.readme_button.subst({'%README%': ext.readme}) : '',
-                            '%CONFIG%': ext.config ? bolt.data.extend.packages.config_button.subst({'%CONFIG%': ext.config}) : '',
-                            '%THEME%': (ext.type == 'bolt-theme') ? bolt.data.extend.packages.theme_button : ' ',
+                            '%README%': ext.readme ? conf.readme_button.subst({'%README%': ext.readme}) : '',
+                            '%CONFIG%': ext.config ? conf.config_button.subst({'%CONFIG%': ext.config}) : '',
+                            '%THEME%': (ext.type == 'bolt-theme') ? conf.theme_button : '',
                             '%BASEURL%': baseurl,
                             '%DESCRIPTION%': ext.descrip,
                             '%KEYWORDS%': keywords});
@@ -315,6 +317,10 @@ var BoltExtender = Object.extend(Object, {
             controller.find('input[name="check-package"]').val('');
             controller.checkInstalled();
             controller.updateLog();
+        })
+        .fail(function(data) {
+        	active_console.html(controller.formatErrorLog(data));
+        	controller.extensionFailedInstall(data);
         });
         e.preventDefault();
     },
@@ -326,10 +332,10 @@ var BoltExtender = Object.extend(Object, {
             {'package': package, 'version': version}
         )
         .done(function(data) {
-            if (data.type === 'bolt-extension') {
+            if (data[0].type === 'bolt-extension') {
                 controller.extensionPostInstall(data);
             }
-            if (data.type === 'bolt-theme') {
+            if (data[0].type === 'bolt-theme') {
                 controller.themePostInstall(data);
             }
             controller.updateLog();
@@ -340,6 +346,7 @@ var BoltExtender = Object.extend(Object, {
         var controller = this;
         controller.find('.extension-postinstall .ext-link').attr('href', extension.source);
         controller.find('.extension-postinstall').show();
+        controller.find('.extension-postinstall .modal-success').show();
     },
 
     themePostInstall: function (extension) {
@@ -487,6 +494,25 @@ var BoltExtender = Object.extend(Object, {
     clearLog: function () {
         $('#extension-log').html('');
         jQuery.get(baseurl + 'clearLog', function (data) {});
+    },
+
+    formatErrorLog: function(data) {
+        var errObj = $.parseJSON(data.responseText),
+        html = '';
+        if (errObj.error.type === 'Bolt\\Exception\\BoltComposerException') {
+        	html = bolt.data.extend.packages.error.subst({
+        		'%ERROR_TYPE%': 'Composer Error',
+        		'%ERROR_MESSAGE%': errObj.error.message
+        	});
+        } else {
+        	html = bolt.data.extend.packages.error.subst({
+        		'%ERROR_TYPE%': 'PHP Error',
+        		'%ERROR_MESSAGE%': errObj.error.message,
+        		'%ERROR_LOCATION%': errObj.error.file + '::' + errObj.error.line
+        	});
+        }
+
+        return html;
     },
 
     events: {
