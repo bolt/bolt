@@ -121,6 +121,42 @@ class TwigExtension extends \Twig_Extension
         );
     }
 
+    public function getGlobals()
+    {
+        /** @var Config $config */
+        $config = $this->app['config'];
+        /** @var Users $users */
+        $users = $this->app['users'];
+        /** @var Configuration\ResourceManager $resources */
+        $resources = $this->app['resources'];
+
+        $configVal = $this->safe ? null : $config;
+        $usersVal = $this->safe ? null : $users;
+        // structured to allow PHPStorm's SymfonyPlugin to provide code completion
+        return array(
+            'bolt_name'            => $this->app['bolt_name'],
+            'bolt_version'         => $this->app['bolt_version'],
+            'frontend'             => false,
+            'backend'              => false,
+            'async'                => false,
+            $config->getWhichEnd() => true,
+            'paths'                => $resources->getPaths(),
+            'theme'                => $config->get('theme'),
+            'user'                 => $users->getCurrentUser(),
+            'users'                => $usersVal,
+            'config'               => $configVal,
+        );
+    }
+
+    public function getTokenParsers()
+    {
+        $parsers = array();
+        if (!$this->safe) {
+            $parsers[] = new SetcontentTokenParser();
+        }
+        return $parsers;
+    }
+
     /**
      * Check if a file exists.
      *
