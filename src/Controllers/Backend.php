@@ -1319,7 +1319,7 @@ class Backend implements ControllerProviderInterface
                 }
 
                 // If the current user changed their own login name, the session is effectively 
-                // invalidated. If so, we mus redirect to the login page.
+                // invalidated. If so, we must redirect to the login page with a flash message.
                 $currentuser = $app['users']->getCurrentUser();
 
                 if (($user['id'] == $currentuser['id']) && ($user['username'] != $currentuser['username'])) {
