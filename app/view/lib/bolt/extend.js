@@ -181,88 +181,54 @@ var BoltExtender = Object.extend(Object, {
             var target = jQuery(this).find('.installed-list');
             jQuery.get(baseurl + 'installed', function (data) {
                 target.show();
-                if (data.length > 0) {
+                var html = '';
+
+                if (data.installed.length > 0) {
                     active_console.html(data.length + ' installed extension(s).');
                     controller.find('.installed-container .console').hide();
-
                     target.find('.installed-list-items').html('');
+
+                    var html = '';
                     for (var e in data) {
-                        var ext = data[e],
-                            html = '<div class="panel panel-default"><div class="panel-heading">',
-                            i;
+                        var ext = data.installed[e],
+                        authors = '',
+                        keywords = '';
 
-                        // Title and version in panel heading box
-                        if (ext.title) {
-                            html += '<i class="fa fa-cube fa-fw"></i> ' + ext.title +
-                                ' <span class="pull-right text-muted">'  + ext.name + ' - ' +
-                                ext.version + '</span> ';
-                        } else {
-                            html += '<i class="fa fa-cube fa-fw"></i> ' + ext.name + ' - ' + ext.version;
-                        }
-
-                        // Show the autors if any
-                        if (ext.authors) {
-                            html += '<span class="authors">';
+                        // Authors array
+                        if (ext.authors.length > 0) {
                             var authorsArray = ext.authors;
                             for (i = 0; i < authorsArray.length; i++) {
-                                html += '<span class="author label label-primary">' +
-                                    authorsArray[i].name + '</span> ';
+                                authors += bolt.data.extend.packages.author.subst({'%AUTHOR%': authorsArray[i].name});
                             }
-                            html += '</span> ';
-                        }
-                        html += '</div> ';
-
-                        html += '<div class="panel-body">';
-
-                        // action buttons
-                        html += "<div class='actions pull-right'><div class='btn-group'> ";
-                        if (ext.readmelink) {
-                            html += "<a data-request='package-readme' data-readme='" + ext.readmelink +
-                                "' class='btn btn-sm btn-tertiary' href=''>" +
-                                "<i class='fa fa-quote-right fa-fw'></i> Readme</a> ";
-                        }
-                        if (ext.config) {
-                            html += "<a href='" + ext.config + "' class='btn btn-sm btn-tertiary' >" +
-                                "<i class='fa fa-cog fa-fw'></i> Config</a> ";
                         }
 
-                        if (ext.type === 'bolt-theme') {
-                            html += "<a data-request='package-copy' data-theme='" + ext.name +
-                                "' class='btn btn-sm btn-tertiary' href=''>" +
-                                "<i class='fa fa-copy fa-fw'></i> Copy to theme folder</a> ";
-                        }
-
-                        html += '</div> ';
-
-                        html += "<a data-request='uninstall-package' class='btn btn-sm btn-danger' href='" + baseurl +
-                            "uninstall?package=" + ext.name + "'><i class='fa fa-trash-o fa-fw'></i> Uninstall</a>";
-                        html += '</div> ';
-
-                        // plain description
-                        html += '<div class="description text-muted">' + ext.descrip + '</div> ';
-
-                        // tags
-                        if (ext.keywords) {
-                            html += "<span class='tags'><i class='fa fa-tag ta-fw'></i> ";
-                            var keywordsArray = ext.keywords.split(',');
+                        // Keyword array
+                        if (ext.keywords.length > 0) {
+                            var keywordsArray = ext.keywords;
                             for (i = 0; i < keywordsArray.length; i++) {
-                                html += "<span class='tag label label-info'>" +  keywordsArray[i] + '</span> ';
+                                keywords += bolt.data.extend.packages.keyword.subst({'%KEYWORD%': keywordsArray[i]});
                             }
-                            html += '</span>';
                         }
 
-                        html += "<i class='fa fa-briefcase ta-fw'></i> <span class='type label label-default'>" +
-                                ext.type + '</span> ';
-
-                        html += '</div></div>';
-                        target.find('.installed-list-items').append(html);
+                        html += bolt.data.extend.packages.item.subst({
+                            '%TITLE%': ext.title ? ext.title : ext.name,
+                            '%NAME%': ext.name,
+                            '%VERSION%': ext.version,
+                            '%AUTHORS%': authors,
+                            '%TYPE%': ext.type,
+                            '%README%': ext.readme ? bolt.data.extend.packages.readme_button.subst({'%README%': ext.readme}) : '',
+                            '%CONFIG%': ext.config ? bolt.data.extend.packages.config_button.subst({'%CONFIG%': ext.config}) : '',
+                            '%THEME%': (ext.type == 'bolt-theme') ? bolt.data.extend.packages.theme_button : ' ',
+                            '%BASEURL%': baseurl,
+                            '%DESCRIPTION%': ext.descrip,
+                            '%KEYWORDS%': keywords});
                     }
                 } else {
-                    target.find('.installed-list-items').html(
-                        '<div class="ext-list"><strong class="no-results">No Bolt Extensions installed.</strong></div>'
-                    );
+                    html = bolt.data.extend.packages.empty;
                     active_console.hide();
                 }
+
+                target.find('.installed-list-items').append(html);
 
                 controller.updateLog();
             });
@@ -443,13 +409,14 @@ var BoltExtender = Object.extend(Object, {
     },
 
     uninstall: function (e) {
+        var controller = this,
+        t = this.find('.installed-container .console').html(controller.messages.removing);
+
         if (confirm(controller.messages.confirmRemove) === false) {
             e.stopPropagation();
             e.preventDefault();
             return false;
         }
-        var controller = this,
-            t = this.find('.installed-container .console').html(controller.messages.removing);
 
         t.show();
         active_console = t;
