@@ -258,6 +258,41 @@ class PackageManager
         $this->initJson->execute($file, $data);
     }
 
+    /**
+     * Get packages that a properly installed, pending installed and locally installed
+     * @return array
+     */
+    public function getAllPackages()
+    {
+        $packages = array(
+            'installed' => array(),
+            'pending'   => array(),
+            'local'     => array()
+        );
+
+        // Installed Composer packages
+        $installed = $this->showPackage('installed');
+        $packages['installed'] = $this->formatPackageResponse($installed);
+
+        // Pending Composer packages
+        $keys = array_keys($installed);
+        if (!empty($this->json['require'])) {
+            foreach ($this->json['require'] as $require => $version) {
+                if (!in_array($require, $keys)) {
+                    $packages['pending'][] = array('name' => $require, 'version' => $version);
+                }
+            }
+        }
+
+        // Local packages @todo
+
+        return $packages;
+    }
+
+    /**
+     *
+     * @return array
+     */
     private function readComposerPackages()
     {
         //
