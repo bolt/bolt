@@ -1475,11 +1475,11 @@ class TwigExtension extends \Twig_Extension
      * @param string $key
      * @param mixed  $value
      */
-    public function addData($key, $value)
+    public function addData($path, $value)
     {
-        $path = explode('.', $key);
+        $path = explode('.', $path);
 
-        if (empty($key[0])) {
+        if (empty($path[0])) {
             return;
         }
 
