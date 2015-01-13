@@ -47,7 +47,7 @@
                 {% set is_array = (value is iterable and (value | length) > 1) %}
                 {% set attr_opt = {
                     value:     id,
-                    selected:  (id in selection) or (is_array ? (value[0] in selection) : (value in selection)),
+                    selected:  id in selection or (is_array ? value[0] : value) in selection,
                 } %}
 
                 <option{{ macro.attr(attr_opt) }}>{{ is_array ? value[0:]|join(' / ') : value }}</option>
