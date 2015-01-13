@@ -1,3 +1,9 @@
+String.prototype.subst = function(replacements) {
+    return this.replace(/%[A-Z][A-Z0-9_]+%/g, function (placeholder) {
+        return replacements[placeholder] || placeholder;
+    });
+};
+
 /**
  * Starting point
  *
