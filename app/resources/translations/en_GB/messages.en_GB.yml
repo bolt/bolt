@@ -248,7 +248,7 @@
 "Rename %foldername%": "Rename %foldername%"
 "Roles": "Roles"
 "Roles and Permissions": "Roles and Permissions"
-"Routing setup": "Routing set up"
+menu.configuration.routing: "Routing set up"
 "Run all Updates": "Run all Updates"
 "Run update check": "Run update check"
 "Running install of all packages …": "Running install of all packages …"

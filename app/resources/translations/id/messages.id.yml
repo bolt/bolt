@@ -185,7 +185,7 @@
 "Restore %filename%": "Pulihkan %filename%"
 "page.edit-file.button.revert": "Kembalikan perubahan"
 "Roles": "Peran"
-"Routing setup": "Pengaturan Routing"
+menu.configuration.routing: "Pengaturan Routing"
 "contenttypes.generic.save": "Simpan %contenttype%"
 "page.edit-locale.button.save": "Simpan"
 "page.edit-file.button.save": "Simpan"

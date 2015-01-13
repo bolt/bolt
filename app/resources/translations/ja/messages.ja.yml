@@ -253,7 +253,7 @@
 "page.edit-file.button.revert": "変更を元に戻す"
 "Roles and Permissions": "ロールとパーミッション"
 "Roles": "ロール"
-"Routing setup": "ルーティング設定"
+menu.configuration.routing: "ルーティング設定"
 "contenttypes.generic.save": "%contenttype% を保存"
 "Save & return to overview": "保存して一覧に戻る"
 "page.edit-locale.button.save": "保存"

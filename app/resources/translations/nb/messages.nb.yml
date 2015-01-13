@@ -215,7 +215,7 @@
 "page.edit-file.button.revert": "Tilbakestill endringer"
 "Roles and Permissions": "Roller og rettigheter"
 "Roles": "Roller"
-"Routing setup": "Rutingoppsett"
+menu.configuration.routing: "Rutingoppsett"
 "contenttypes.generic.save": "Lagre %contenttype%"
 "Save & return to overview": "Lagre og gå tilbake til oversikt"
 "page.edit-locale.button.save": "Lagre"

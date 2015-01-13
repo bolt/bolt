@@ -880,6 +880,8 @@ class Config
     /**
      * Utility function to determine which 'end' we're using right now. Can be either "frontend", "backend", "async" or "cli".
      *
+     * NOTE: We retain the $_SERVER global here as this method can get called very early and the Request object might not exist yet
+     * 
      * @param  string $mountpoint
      * @return string
      */
@@ -910,10 +912,11 @@ class Config
 
         // If the request URI is '/bolt' or '/async' (or starts with '/bolt/' etc.), assume backend or async.
         $mountpoint = '/' . ltrim($mountpoint, '/');
-        if ($scripturi === $mountpoint || strpos($scripturi, $mountpoint . '/') === 0) {
-            $end = 'backend';
-        } elseif ($scripturi === '/async' || strpos($scripturi, '/async/') === 0) {
+        if ((isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest')
+            || $scripturi === '/async' || strpos($scripturi, '/async/') === 0) {
             $end = 'async';
+        } elseif ($scripturi === $mountpoint || strpos($scripturi, $mountpoint . '/') === 0) {
+            $end = 'backend';
         } else {
             $end = 'frontend';
         }

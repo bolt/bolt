@@ -1,7 +1,0 @@
-# Optional config file for the theme.
-# Rename this file to config.yml, and it won't get overwritten on subsequent updates.
-
-# Variables that are in this file, can be used in your twig template like {{ theme.foo }}
-# Note: If variables do not immediately show up, clear the cache, in the Bolt Backend.
-
-foo: bar

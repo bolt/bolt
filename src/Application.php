@@ -12,6 +12,7 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Stopwatch;
+use Whoops\Handler\JsonResponseHandler;
 use Whoops\Provider\Silex\WhoopsServiceProvider;
 use Bolt\Provider\PathServiceProvider;
 
@@ -24,8 +25,8 @@ class Application extends Silex\Application
 
     public function __construct(array $values = array())
     {
-        $values['bolt_version'] = '2.0.2';
-        $values['bolt_name'] = '';
+        $values['bolt_version'] = '2.0.3';
+        $values['bolt_name'] = 'RC';
 
         parent::__construct($values);
 
@@ -132,7 +133,25 @@ class Application extends Silex\Application
             )
         );
 
-        // Do a dummy query, to check for a proper connection to the database.
+        $this->checkDatabaseConnection($dboptions);
+
+        $this->setupDatabase($dboptions);
+
+        $this->register(
+            new Silex\Provider\HttpCacheServiceProvider(),
+            array(
+                'http_cache.cache_dir' => $this['resources']->getPath('cache'),
+            )
+        );
+    }
+
+    /**
+     * Do a dummy query, to check for a proper connection to the database.
+     * @param array $dboptions
+     * @throws LowlevelException
+     */
+    protected function checkDatabaseConnection(array $dboptions)
+    {
         try {
             $this['db']->query("SELECT 1;");
         } catch (\PDOException $e) {
@@ -144,7 +163,13 @@ class Application extends Silex\Application
             }
             throw new LowlevelException($error);
         }
+    }
 
+    /**
+     * @param array $dboptions
+     */
+    protected function setupDatabase(array $dboptions)
+    {
         if ($dboptions['driver'] == 'pdo_sqlite') {
             $this['db']->query('PRAGMA synchronous = OFF');
         } elseif ($dboptions['driver'] == 'pdo_mysql') {
@@ -158,13 +183,6 @@ class Application extends Silex\Application
             $this['db']->query("SET CHARACTER_SET_CONNECTION = 'utf8';");
             $this['db']->query("SET CHARACTER SET utf8;");
         }
-
-        $this->register(
-            new Silex\Provider\HttpCacheServiceProvider(),
-            array(
-                'http_cache.cache_dir' => $this['resources']->getPath('cache'),
-            )
-        );
     }
 
     public function initRendering()
@@ -188,6 +206,18 @@ class Application extends Silex\Application
                 )
             )
         );
+        // Add the Bolt Twig Extension.
+        $this['twig'] = $this->share(
+            $this->extend(
+                'twig',
+                function(\Twig_Environment $twig, $app) {
+                    $twig->addExtension(new TwigExtension($app));
+                    return $twig;
+                }
+            )
+        );
+
+        $this->register(new Provider\SafeTwigServiceProvider());
 
         $this->register(new Provider\RenderServiceProvider());
         $this->register(new Provider\RenderServiceProvider(true));
@@ -224,8 +254,8 @@ class Application extends Silex\Application
 
         // Loading stub functions for when intl / IntlDateFormatter isn't available.
         if (!function_exists('intl_get_error_code')) {
-            require_once $this->app['resources']->getPath('root') . '/vendor/symfony/locale/Symfony/Component/Locale/Resources/stubs/functions.php';
-            require_once $this->app['resources']->getPath('root') . '/vendor/symfony/locale/Symfony/Component/Locale/Resources/stubs/IntlDateFormatter.php';
+            require_once $this['resources']->getPath('root') . '/vendor/symfony/locale/Symfony/Component/Locale/Resources/stubs/functions.php';
+            require_once $this['resources']->getPath('root') . '/vendor/symfony/locale/Symfony/Component/Locale/Resources/stubs/IntlDateFormatter.php';
         }
 
         $this->register(new Provider\TranslationServiceProvider());
@@ -259,7 +289,6 @@ class Application extends Silex\Application
             ->register(new Provider\OmnisearchServiceProvider())
             ->register(new Provider\TemplateChooserServiceProvider())
             ->register(new Provider\CronServiceProvider())
-            ->register(new Provider\SafeTwigServiceProvider())
             ->register(new Provider\FilePermissionsServiceProvider())
             ->register(new Controllers\Upload())
             ->register(new Controllers\Extend())
@@ -268,17 +297,9 @@ class Application extends Silex\Application
 
         $this['paths'] = $this['resources']->getPaths();
 
-        $this['twig']->addGlobal('paths', $this['paths']);
-
         // For some obscure reason, and under suspicious circumstances $app['locale'] might become 'null'.
         // Re-set it here, just to be sure. See https://github.com/bolt/bolt/issues/1405
         $this['locale'] = $currentlocale;
-
-        // Add the Bolt Twig functions, filters and tags.
-        $this['twig']->addExtension(new TwigExtension($this));
-        $this['safe_twig']->addExtension(new TwigExtension($this, true));
-
-        $this['twig']->addTokenParser(new SetcontentTokenParser());
 
         // Initialize stopwatch even if debug is not enabled.
         $this['stopwatch'] = $this->share(
@@ -297,14 +318,10 @@ class Application extends Silex\Application
 
     public function initMountpoints()
     {
-        $app = $this;
-
         // Wire up our custom url matcher to replace the default Silex\RedirectableUrlMatcher
         $this['url_matcher'] = $this->share(
-            function () use ($app) {
-                return new BoltUrlMatcher(
-                    new \Symfony\Component\Routing\Matcher\UrlMatcher($app['routes'], $app['request_context'])
-                );
+            function ($app) {
+                return new BoltUrlMatcher($app['routes'], $app['request_context']);
             }
         );
 
@@ -341,38 +358,6 @@ class Application extends Silex\Application
         $this->mount('', new Controllers\Routing());
     }
 
-
-    /**
-     * Add all the global twig variables, like 'user' and 'theme'
-     */
-    private function addTwigGlobals()
-    {
-        $this['twig']->addGlobal('bolt_name', $this['bolt_name']);
-        $this['twig']->addGlobal('bolt_version', $this['bolt_version']);
-
-        $this['twig']->addGlobal('frontend', false);
-        $this['twig']->addGlobal('backend', false);
-        $this['twig']->addGlobal('async', false);
-        $this['twig']->addGlobal($this['config']->getWhichEnd(), true);
-
-        $this['twig']->addGlobal('user', $this['users']->getCurrentUser());
-        $this['twig']->addGlobal('users', $this['users']->getUsers());
-        $this['twig']->addGlobal('config', $this['config']);
-        $this['twig']->addGlobal('theme', $this['config']->get('theme'));
-
-        $this['safe_twig']->addGlobal('bolt_name', $this['bolt_name']);
-        $this['safe_twig']->addGlobal('bolt_version', $this['bolt_version']);
-
-        $this['safe_twig']->addGlobal('frontend', false);
-        $this['safe_twig']->addGlobal('backend', false);
-        $this['safe_twig']->addGlobal('async', false);
-        $this['safe_twig']->addGlobal($this['config']->getWhichEnd(), true);
-
-        $this['safe_twig']->addGlobal('user', $this['users']->getCurrentUser());
-        $this['safe_twig']->addGlobal('theme', $this['config']->get('theme'));
-    }
-
-
     /**
      * Initializes the Console Application that is responsible for CLI interactions.
      */
@@ -393,9 +378,6 @@ class Application extends Silex\Application
     {
         // Start the 'stopwatch' for the profiler.
         $this['stopwatch']->start('bolt.app.before');
-
-        // Set the twig Globals, like 'user' and 'theme'.
-        $this->addTwigGlobals();
 
         if ($response = $this['render']->fetchCachedRequest()) {
             // Stop the 'stopwatch' for the profiler.
@@ -424,6 +406,11 @@ class Application extends Silex\Application
             // Register Whoops, to handle errors for logged in users only.
             if ($this['config']->get('general/debug_enable_whoops')) {
                 $this->register(new WhoopsServiceProvider());
+
+                // Add a special handler to deal with AJAX requests
+                if ($this['config']->getWhichEnd() == 'async') {
+                    $this['whoops']->pushHandler(new JsonResponseHandler());
+                }
             }
 
             $this->register(new Silex\Provider\ServiceControllerServiceProvider());
@@ -446,12 +433,20 @@ class Application extends Silex\Application
             // Register the toolbar item for the Twig toolbar item.
             $this->register(new Provider\TwigProfilerServiceProvider());
 
-            $this['twig.loader.filesystem']->addPath(
-                $this['resources']->getPath('root') . '/vendor/symfony/web-profiler-bundle/Symfony/Bundle/WebProfilerBundle/Resources/views',
-                'WebProfiler'
-            );
+            $this['twig.loader.filesystem'] = $this->share(
+                $this->extend(
+                    'twig.loader.filesystem',
+                    function(\Twig_Loader_Filesystem $filesystem, $app) {
+                        $filesystem->addPath(
+                            $app['resources']->getPath('root') . '/vendor/symfony/web-profiler-bundle/Symfony/Bundle/WebProfilerBundle/Resources/views',
+                            'WebProfiler'
+                        );
+                        $filesystem->addPath($app['resources']->getPath('app') . '/view', 'BoltProfiler');
 
-            $this['twig.loader.filesystem']->addPath($this['resources']->getPath('app') . '/view', 'BoltProfiler');
+                        return $filesystem;
+                    }
+                )
+            );
 
             // PHP 5.3 does not allow 'use ($this)' in closures.
             $app = $this;
@@ -550,9 +545,6 @@ class Application extends Silex\Application
         $end = $this['config']->getWhichEnd();
 
         $trace = $exception->getTrace();
-
-        // Set the twig Globals, like 'user' and 'theme'.
-        $this->addTwigGlobals();
 
         foreach ($trace as $key => $value) {
             if (!empty($value['file']) && strpos($value['file'], '/vendor/') > 0) {

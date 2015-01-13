@@ -258,7 +258,7 @@
 "Rename %foldername%": "%foldername% umbenennen"
 "Roles": "Rollen"
 "Roles and Permissions": "Rollen und Berechtigungen"
-"Routing setup": "Routing einrichten"
+menu.configuration.routing: "Routing einrichten"
 "Run all Updates": "Alle Aktualisierungen ausführen"
 "Run update check": "Auf Aktualisierungen prüfen"
 "Running install of all packages …": "Installation aller Pakete ausführen …"
