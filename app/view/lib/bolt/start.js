@@ -7,7 +7,7 @@ jQuery(function ($) {
     }
 
     // Get passed in data from Twig function data()
-    bolt.data = $('#bolt-data').data('config');
+    bolt.data = $('script[data-jsdata]').first().data('jsdata');
 
     // Initialize objects
     bolt.files = new Files();
