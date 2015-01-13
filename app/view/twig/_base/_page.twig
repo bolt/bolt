@@ -123,6 +123,8 @@
     },
 } %}
 <script src="{{ paths.app }}view/js/bolt.min.js" data-config="{{ bconfig|json_encode }}"></script>
+<div id="bolt-data" data-config="{{ app.jsdata|json_encode }}"></div>
+
 {% block page_script %}
 {% endblock page_script %}
 

@@ -6,6 +6,13 @@ jQuery(function ($) {
         bolt[key] = config[key];
     }
 
+    // Get passed in data
+    var jsdata = $('#bolt-data').data('config');
+    bolt.data = [];
+    for (key in jsdata) {
+        bolt.data[key] = jsdata[key];
+    }
+
     // Initialize objects
     bolt.files = new Files();
     bolt.folders = new Folders();
