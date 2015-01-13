@@ -540,6 +540,7 @@ page:
         message:
             saving-user: "User %user% could not be saved, or nothing was changed."
             user-saved: "User %user% has been saved."
+            change-self: "You've been logged off, because you changed your own username. Please log on again."
         note-sqlite: "You are currently using SQLite to set up the first user. If you wish to use MySQL or PostgreSQL instead, edit the configuration file at <tt>'app/config/config.yml'</tt> and Bolt will set up the database tables for you. Be sure to reload this page before continuing."
         placeholder:
             displayname: "Pick a display name / alias"

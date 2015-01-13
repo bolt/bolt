@@ -1318,10 +1318,18 @@ class Backend implements ControllerProviderInterface
                     $app['session']->getFlashBag()->set('error', Trans::__('page.edit-users.message.saving-user', array('%user%' => $user['displayname'])));
                 }
 
-                if ($firstuser) {
+                // If the current user changed their own login name, the session is effectively 
+                // invalidated. If so, we must redirect to the login page with a flash message.
+                $currentuser = $app['users']->getCurrentUser();
+
+                if (($user['id'] == $currentuser['id']) && ($user['username'] != $currentuser['username'])) {
+                    $app['session']->getFlashBag()->set('error', Trans::__('page.edit-users.message.change-self'));
+                    return Lib::redirect('login');
+                } else if ($firstuser) {
                     // To the dashboard, where 'login' will be triggered..
                     return Lib::redirect('dashboard');
                 } else {
+                    // Return to the 'Edit users' screen.
                     return Lib::redirect('users');
                 }
 
