@@ -132,7 +132,7 @@ class TwigExtension extends \Twig_Extension
         $resources = $this->app['resources'];
 
         $configVal = $this->safe ? null : $config;
-        $usersVal = $this->safe ? null : $users;
+        $usersVal = $this->safe ? null : $users->getUsers();
         // structured to allow PHPStorm's SymfonyPlugin to provide code completion
         return array(
             'bolt_name'            => $this->app['bolt_name'],
