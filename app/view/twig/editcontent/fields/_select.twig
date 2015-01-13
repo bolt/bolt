@@ -19,7 +19,13 @@
         {% set lookupfield = lookupfield|split(',') %}
     {% endif %}
     {% setcontent lookups = lookuptype order lookupfield nohydrate %}
-    {% set values = lookups|selectfield(lookupfield) %}
+    {% set values = lookups|selectfield(lookupfield, option.multiple) %}
+{% endif %}
+
+{# get the current selection. Either a single value, or an array. #}
+{% set currentsel = context.content.get(key)|default(null) %}
+{% if currentsel is not iterable %}
+    {% set currentsel = [ currentsel ] %}
 {% endif %}
 
 {% set attr_select = {
@@ -38,15 +44,15 @@
         <label class="col-sm-3 control-label">{{ (option.info) ? macro.infopop(labelkey, option.info) : labelkey }}</label>
         <div class="col-sm-9">
             <select{{ macro.attr(attr_select) }}>
-                {% for value in values %}
+                {% for id, value in values %}
 
                     {% set is_array = (value is iterable and (value | length) > 1) %}
                     {% set attr_opt = {
-                        value:     (is_array ? value[0] : value),
-                        selected:  (is_array ? (value[0] in context.content.get(key)) : (value in context.content.get(key))),
+                        value:     id,
+                        selected:  (id in currentsel) or (is_array ? (value[0] in currentsel) : (value in currentsel)),
                     } %}
 
-                    <option{{ macro.attr(attr_opt) }}>{{ is_array ? value[1] : value }}</option>
+                    <option{{ macro.attr(attr_opt) }}>{{ is_array ? value[0:]|join(' / ') : value }}</option>
                 {% endfor %}
             </select>
 
@@ -69,15 +75,15 @@
         <label class="col-sm-3 control-label">{{ (option.info) ? macro.infopop(labelkey, option.info) : labelkey }}</label>
         <div class="col-sm-9">
             <select{{ macro.attr(attr_select) }}>
-                {% for value in values %}
+                {% for id, value in values %}
 
                     {% set is_array = (value is iterable and (value | length) > 1) %}
                     {% set attr_opt = {
-                        value:     (is_array ? value[0] : value),
-                        selected:  (context.content.get(key) == (is_array ? value[0] : value)),
+                        value:     id,
+                        selected:  (id in currentsel) or (is_array ? (value[0] in currentsel) : (value in currentsel)),
                     } %}
 
-                    <option{{ macro.attr(attr_opt) }}>{{ is_array ? value[1] : value }}</option>
+                    <option{{ macro.attr(attr_opt) }}>{{ is_array ? value[0:]|join(' / ') : value }}</option>
                 {% endfor %}
             </select>
         </div>
