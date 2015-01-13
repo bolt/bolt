@@ -23,9 +23,9 @@
 {% endif %}
 
 {# get the current selection. Either a single value, or an array. #}
-{% set currentsel = context.content.get(key)|default(null) %}
-{% if currentsel is not iterable %}
-    {% set currentsel = [ currentsel ] %}
+{% set selection = context.content.get(key)|default(null) %}
+{% if selection is not iterable %}
+    {% set selection = [ selection ] %}
 {% endif %}
 
 {% set attr_select = {
@@ -47,7 +47,7 @@
                 {% set is_array = (value is iterable and (value | length) > 1) %}
                 {% set attr_opt = {
                     value:     id,
-                    selected:  (id in currentsel) or (is_array ? (value[0] in currentsel) : (value in currentsel)),
+                    selected:  (id in selection) or (is_array ? (value[0] in selection) : (value in selection)),
                 } %}
 
                 <option{{ macro.attr(attr_opt) }}>{{ is_array ? value[0:]|join(' / ') : value }}</option>
