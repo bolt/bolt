@@ -54,6 +54,9 @@ class Application extends Silex\Application
         // Initialize the 'editlink' and 'edittitle'..
         $this['editlink'] = '';
         $this['edittitle'] = '';
+        
+        // Initialise the JavaScipt data gateway
+        $this['jsdata'] = array();
     }
 
     /**

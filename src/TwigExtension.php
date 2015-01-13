@@ -45,6 +45,7 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFunction('__', array($this, 'trans'), array('is_safe' => array('html'))),
             new \Twig_SimpleFunction('backtrace', array($this, 'printBacktrace'), array('is_safe' => array('html'))),
             new \Twig_SimpleFunction('current', array($this, 'current')),
+            new \Twig_SimpleFunction('data', array($this, 'addData')),
             new \Twig_SimpleFunction('debugbar', array($this, 'debugBar')),
             new \Twig_SimpleFunction('dump', array($this, 'printDump'), array('is_safe' => array('html'))),
             new \Twig_SimpleFunction('excerpt', array($this, 'excerpt'), array('is_safe' => array('html'))),
@@ -1467,4 +1468,34 @@ class TwigExtension extends \Twig_Extension
     {
         return json_decode($string);
     }
+
+    /**
+     * Add JavaScript data to app['jsdata']
+     *
+     * @param string $key
+     * @param mixed  $value
+     */
+    public function addData($path, $value)
+    {
+        $path = explode('.', $path);
+
+        if (empty($path[0])) {
+            return;
+        }
+
+        $jsdata = $this->app['jsdata'];
+        $part = & $jsdata;
+
+        foreach ($path as $key) {
+            if (!isset($part[$key])) {
+                $part[$key] = array();
+            }
+
+            $part = & $part[$key];
+        }
+
+        $part = $value;
+        $this->app['jsdata'] = $jsdata;
+    }
+
 }

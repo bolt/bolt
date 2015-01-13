@@ -107,7 +107,8 @@
                         ? config.get('general/wysiwyg/filebrowser') : false,
     },
 } %}
-<script src="{{ paths.app }}view/js/bolt.min.js" data-config="{{ bconfig|json_encode }}"></script>
+<script src="{{ paths.app }}view/js/bolt.min.js" data-config="{{ bconfig|json_encode }}" data-jsdata="{{ app.jsdata|json_encode }}"></script>
+
 {% block page_script %}
 {% endblock page_script %}
 
