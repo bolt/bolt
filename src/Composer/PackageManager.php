@@ -315,15 +315,15 @@ class PackageManager
             $name = $package['package']->getPrettyName();
             $conf = $this->app['extensions']->composer[$name];
             $pack[] = array(
-                'name'       => $name,
-                'title'      => $conf['name'],
-                'version'    => $package['package']->getPrettyVersion(),
-                'authors'    => $package['package']->getAuthors(),
-                'type'       => $package['package']->getType(),
-                'descrip'    => $package['package']->getDescription(),
-                'keywords'   => $package['package']->getKeywords(),
-                'readmelink' => $this->linkReadMe($name),
-                'config'     => $this->linkConfig($name)
+                'name'     => $name,
+                'title'    => $conf['name'],
+                'version'  => $package['package']->getPrettyVersion(),
+                'authors'  => $package['package']->getAuthors(),
+                'type'     => $package['package']->getType(),
+                'descrip'  => $package['package']->getDescription(),
+                'keywords' => $package['package']->getKeywords(),
+                'readme'   => $this->linkReadMe($name),
+                'config'   => $this->linkConfig($name)
             );
         }
 
