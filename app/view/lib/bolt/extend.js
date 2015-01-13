@@ -121,7 +121,7 @@ var BoltExtender = Object.extend(Object, {
         controller.find('.update-container').show();
         var target = controller.find('.update-output');
         active_console = target;
-        active_console.html('Running update....');
+        active_console.html(controller.messages.runningUpdate);
         controller.updateLog();
         jQuery.get(baseurl + 'update', function(data) {
             target.html(data);
@@ -443,7 +443,7 @@ var BoltExtender = Object.extend(Object, {
     },
 
     uninstall: function (e) {
-        if (confirm('Please confirm that you want to remove this extension?') === false) {
+        if (confirm(controller.messages.confirmRemove) === false) {
             e.stopPropagation();
             e.preventDefault();
             return false;
