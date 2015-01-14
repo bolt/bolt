@@ -502,9 +502,12 @@ var BoltExtender = Object.extend(Object, {
         var errObj = $.parseJSON(data.responseText),
         html = '';
         if (errObj.error.type === 'Bolt\\Exception\\BoltComposerException') {
+        	// Clean up Composer messages
+        	var msg = errObj.error.message.replace(/(<http)/g, '<a href="http').replace(/(\w+>)/g, '">this link<\/a>');
+
         	html = bolt.data.extend.packages.error.subst({
         		'%ERROR_TYPE%': 'Composer Error',
-        		'%ERROR_MESSAGE%': errObj.error.message
+        		'%ERROR_MESSAGE%': msg;
         	});
         } else {
         	html = bolt.data.extend.packages.error.subst({
