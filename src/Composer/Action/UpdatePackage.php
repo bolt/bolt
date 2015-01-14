@@ -26,7 +26,7 @@ class UpdatePackage
      * @param $composer Composer\Composer
      * @param $options  array
      */
-    public function __construct($io, $composer, $options)
+    public function __construct(\Composer\IO\BufferIO $io, \Composer\Composer $composer, array $options)
     {
         $this->options = $options;
         $this->io = $io;

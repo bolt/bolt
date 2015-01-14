@@ -39,7 +39,7 @@ class RequirePackage
      * @param $composer Composer\Composer
      * @param $options  array
      */
-    public function __construct(Application $app, $io, $composer, $options)
+    public function __construct(Application $app, \Composer\IO\BufferIO $io, \Composer\Composer $composer, array $options)
     {
         $this->app = $app;
         $this->options = $options;
