@@ -1931,7 +1931,11 @@ class Storage
                     $totalResults = $countRow['count'];
                 }
 
-                $offset = ($decoded['parameters']['page'] - 1) * $decoded['parameters']['limit'];
+                if ($decoded['parameters']['paging']) {
+                    $offset = ($decoded['parameters']['page'] - 1) * $decoded['parameters']['limit'];
+                } else {
+                    $offset = null;
+                }
                 $limit = $decoded['parameters']['limit'];
 
                 // @todo this will fail when actually using params on certain databases
