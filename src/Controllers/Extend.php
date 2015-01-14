@@ -218,7 +218,13 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
 
     public function installAll(Silex\Application $app, Request $request)
     {
-        return new Response($app['extend.manager']->installPackages());
+        $response = $app['extend.manager']->installPackages();
+
+        if ($response === 0) {
+            return new Response($app['extend.manager']->getOutput());
+        } else {
+            throw new BoltComposerException($app['extend.manager']->getOutput(), $response);
+        }
     }
 
     public function generateTheme(Silex\Application $app, Request $request)
