@@ -279,7 +279,14 @@ class PackageManager
         if (!empty($this->json['require'])) {
             foreach ($this->json['require'] as $require => $version) {
                 if (!in_array($require, $keys)) {
-                    $packages['pending'][] = array('name' => $require, 'version' => $version);
+                    $packages['pending'][] = array(
+                        'name'     => $require,
+                        'version'  => $version,
+                        'type'     => 'unknown',
+                        'descrip'  => Trans::__('Not yet installed.'),
+                        'authors'  => array(),
+                        'keywords' => array()
+                    );
                 }
             }
         }
