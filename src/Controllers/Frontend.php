@@ -287,8 +287,9 @@ class Frontend
      */
     public static function taxonomy(Silex\Application $app, $taxonomytype, $slug)
     {
+        $taxonomy = $app['storage']->getTaxonomyType($taxonomytype);
         // First, get some content
-        $context = $taxonomytype . '_' . $slug;
+        $context = $taxonomy['singular_slug'] . '_' . $slug;
         $pagerid = Pager::makeParameterId($context);
          /* @var $query \Symfony\Component\HttpFoundation\ParameterBag */
         $query = $app['request']->query;
@@ -296,8 +297,6 @@ class Frontend
         $amount = $app['config']->get('general/listing_records');
         $order = $app['config']->get('general/listing_sort');
         $content = $app['storage']->getContentByTaxonomy($taxonomytype, $slug, array('limit' => $amount, 'order' => $order, 'page' => $page));
-
-        $taxonomy = $app['storage']->getTaxonomyType($taxonomytype);
 
         // No taxonomytype, no possible content..
         if (empty($taxonomy)) {
