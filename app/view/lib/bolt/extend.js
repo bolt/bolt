@@ -130,12 +130,15 @@ var BoltExtender = Object.extend(Object, {
         active_console = target;
         active_console.html(controller.messages.runningUpdate);
         controller.updateLog();
+
         jQuery.get(baseurl + 'update', function(data) {
             target.html(data);
             setTimeout(function(){
                 controller.find('.update-container').hide();
             }, 7000);
+            
             controller.updateLog();
+            controller.checkInstalled();
         })
         .fail(function(data) {
             active_console.html(controller.formatErrorLog(data));
@@ -183,7 +186,9 @@ var BoltExtender = Object.extend(Object, {
             delay(function () {
                 controller.find('.update-container').hide();
             }, 7000);
+
             controller.updateLog();
+            controller.checkInstalled();
         })
         .fail(function(data) {
             active_console.html(controller.formatErrorLog(data));
