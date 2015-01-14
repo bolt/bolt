@@ -92,6 +92,7 @@ var BoltExtender = Object.extend(Object, {
         target = controller.find('.update-list-items');
         active_console = controller.find('.update-output');
         active_console.html(controller.messages.updating);
+
         jQuery.get(baseurl + 'check', function(data) {
             if (data.updates.length > 0 || data.installs.length > 0) {
                 var e, ext;
@@ -114,6 +115,10 @@ var BoltExtender = Object.extend(Object, {
                 active_console.html(controller.messages.updated);
             }
             controller.updateLog();
+        })
+        .fail(function(data) {
+            active_console.html(controller.formatErrorLog(data));
+            controller.extensionFailedInstall(data);
         });
     },
 
@@ -131,6 +136,10 @@ var BoltExtender = Object.extend(Object, {
                 controller.find('.update-container').hide();
             }, 7000);
             controller.updateLog();
+        })
+        .fail(function(data) {
+            active_console.html(controller.formatErrorLog(data));
+            controller.extensionFailedInstall(data);
         });
     },
 
@@ -152,6 +161,10 @@ var BoltExtender = Object.extend(Object, {
             }
             controller.checkInstalled();
             controller.updateLog();
+        })
+        .fail(function(data) {
+            active_console.html(controller.formatErrorLog(data));
+            controller.extensionFailedInstall(data);
         });
 
         e.preventDefault();
@@ -164,13 +177,19 @@ var BoltExtender = Object.extend(Object, {
         var target = controller.find('.update-output');
         active_console = target;
         active_console.html(controller.messages.installAll);
+
         jQuery.get(baseurl + 'installAll', function (data) {
             target.html(data);
             delay(function () {
                 controller.find('.update-container').hide();
             }, 7000);
             controller.updateLog();
+        })
+        .fail(function(data) {
+            active_console.html(controller.formatErrorLog(data));
+            controller.extensionFailedInstall(data);
         });
+
         e.stopPropagation();
         e.preventDefault();
     },
@@ -181,13 +200,14 @@ var BoltExtender = Object.extend(Object, {
         controller.find('.installed-container').each(function(){
             active_console = controller.find('.installed-container .console');
             var target = jQuery(this).find('.installed-list');
+
             jQuery.get(baseurl + 'installed', function (data) {
                 target.show();
                 var html = '',
                     pack = data.installed.concat(data.pending).concat(data.local);
 
                 target.find('.installed-list-items').html('');
-//                active_console.html(data.length + ' installed extension(s).');
+                active_console.html(pack.length + ' installed extension(s).');
                 controller.find('.installed-container .console').hide();
 
                 html += controller.renderPackage(pack);
@@ -195,20 +215,25 @@ var BoltExtender = Object.extend(Object, {
                 target.find('.installed-list-items').append(html);
 
                 controller.updateLog();
+            })
+            .fail(function(data) {
+                active_console.html(controller.formatErrorLog(data));
+                controller.extensionFailedInstall(data);
             });
         });
     },
     
     renderPackage: function (data) {
+        var html = '';
+        
         if (data.length > 0) {
-            html = '';
             for (var e in data) {
                 var ext = data[e],
                 conf = bolt.data.extend.packages,
                 authors = '',
                 keywords = '',
                 i = 0;
-                
+
                 // Authors array
                 if (ext.authors.length > 0) {
                     var authorsArray = ext.authors;
@@ -279,6 +304,10 @@ var BoltExtender = Object.extend(Object, {
             controller.find('#installModal .loader').hide();
 
             controller.updateLog();
+        })
+        .fail(function(data) {
+            active_console.html(controller.formatErrorLog(data));
+            controller.extensionFailedInstall(data);
         });
 
         e.preventDefault();
@@ -348,6 +377,10 @@ var BoltExtender = Object.extend(Object, {
                 controller.themePostInstall(data);
             }
             controller.updateLog();
+        })
+        .fail(function(data) {
+            active_console.html(controller.formatErrorLog(data));
+            controller.extensionFailedInstall(data);
         });
     },
 
@@ -381,6 +414,7 @@ var BoltExtender = Object.extend(Object, {
         var trigger = jQuery(e.target);
         var theme = trigger.data('theme');
         var themename  = controller.find('#theme-name').val();
+
         jQuery.get(
             baseurl+'generateTheme',
             {'theme': theme, 'name': themename}
@@ -389,7 +423,12 @@ var BoltExtender = Object.extend(Object, {
             controller.find('.theme-generate-response').html('<p>' + data + '</p>').show();
             controller.find('.theme-generation-container').hide();
             controller.updateLog();
+        })
+        .fail(function(data) {
+            active_console.html(controller.formatErrorLog(data));
+            controller.extensionFailedInstall(data);
         });
+
         e.preventDefault();
     },
 
@@ -403,6 +442,7 @@ var BoltExtender = Object.extend(Object, {
             var t = controller.find('.installed-container .console').html(controller.messages.copying);
             t.show();
             active_console = t;
+
             jQuery.get(
                 baseurl + 'generateTheme',
                 {'theme': theme, 'name': themename}
@@ -412,6 +452,10 @@ var BoltExtender = Object.extend(Object, {
                 delay(function () {
                     t.hide();
                 }, 5000);
+            })
+            .fail(function(data) {
+                active_console.html(controller.formatErrorLog(data));
+                controller.extensionFailedInstall(data);
             });
         }
         e.preventDefault();
@@ -426,6 +470,10 @@ var BoltExtender = Object.extend(Object, {
                 message: data
             });
             controller.updateLog();
+        })
+        .fail(function(data) {
+            active_console.html(controller.formatErrorLog(data));
+            controller.extensionFailedInstall(data);
         });
 
         e.preventDefault();
@@ -443,6 +491,7 @@ var BoltExtender = Object.extend(Object, {
 
         t.show();
         active_console = t;
+
         jQuery.get(
             jQuery(e.target).attr('href')
         )
@@ -453,6 +502,10 @@ var BoltExtender = Object.extend(Object, {
                 active_console.hide();
             }, 2000);
             controller.updateLog();
+        })
+        .fail(function(data) {
+            active_console.html(controller.formatErrorLog(data));
+            controller.extensionFailedInstall(data);
         });
 
         e.preventDefault();
