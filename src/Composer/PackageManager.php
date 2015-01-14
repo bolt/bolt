@@ -356,14 +356,17 @@ class PackageManager
     private function linkReadMe($name)
     {
         $paths = $this->app['resources']->getPaths();
+        $base = $paths['extensionspath'] . '/vendor/' . $name;
 
-        if (is_readable($paths['extensionspath'] . '/vendor/' . $name . '/README.md')) {
+        if (is_readable($base . '/README.md')) {
             $readme = $name . '/README.md';
-        } elseif (is_readable($paths['extensionspath'] . '/vendor/' . $name . '/readme.md')) {
+        } elseif (is_readable($base . '/readme.md')) {
             $readme = $name . '/readme.md';
         }
 
-        return $paths['async'] . 'readme/' . $readme;
+        if ($readme) {
+            return $paths['async'] . 'readme/' . $readme;
+        }
     }
 
     private function linkConfig($name)
