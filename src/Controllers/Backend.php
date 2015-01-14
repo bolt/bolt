@@ -1324,7 +1324,7 @@ class Backend implements ControllerProviderInterface
                     // To the dashboard, where 'login' will be triggered..
                     return Lib::redirect('dashboard');
                 } else if (($user['id'] == $currentuser['id']) && ($user['username'] != $currentuser['username'])) {
-                    // If the current user changed their own login name, the session is effectively 
+                    // If the current user changed their own login name, the session is effectively
                     // invalidated. If so, we must redirect to the login page with a flash message.
                     $app['session']->getFlashBag()->set('error', Trans::__('page.edit-users.message.change-self'));
                     return Lib::redirect('login');
