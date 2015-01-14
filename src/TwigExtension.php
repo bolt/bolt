@@ -184,7 +184,7 @@ class TwigExtension extends \Twig_Extension
         if ($this->safe) {
             return '?';
         }
-        if ($this->app['config']->get('general/debug')) {
+        if ($this->app['debug']) {
             dump($var);
         } else {
             return '';
@@ -203,7 +203,7 @@ class TwigExtension extends \Twig_Extension
         if ($this->safe) {
             return null;
         }
-        if ($this->app['config']->get('general/debug')) {
+        if ($this->app['debug']) {
             return dump(debug_backtrace());
         } else {
             return '';
