@@ -183,60 +183,67 @@ var BoltExtender = Object.extend(Object, {
             var target = jQuery(this).find('.installed-list');
             jQuery.get(baseurl + 'installed', function (data) {
                 target.show();
-                var html = '';
+                var html = '',
+                    pack = data.installed.concat(data.pending).concat(data.local);
 
-                if (data.installed.length > 0) {
-                    active_console.html(data.length + ' installed extension(s).');
-                    controller.find('.installed-container .console').hide();
-                    target.find('.installed-list-items').html('');
+                target.find('.installed-list-items').html('');
+//                active_console.html(data.length + ' installed extension(s).');
+                controller.find('.installed-container .console').hide();
 
-                    var html = '';
-                    for (var e in data) {
-                        var ext = data.installed[e],
-                        conf = bolt.data.extend.packages,
-                        authors = '',
-                        keywords = '',
-                        i = 0;
-                        
-                        // Authors array
-                        if (ext.authors.length > 0) {
-                            var authorsArray = ext.authors;
-                            for (i = 0; i < authorsArray.length; i++) {
-                                authors += conf.author.subst({'%AUTHOR%': authorsArray[i].name});
-                            }
-                        }
-
-                        // Keyword array
-                        if (ext.keywords.length > 0) {
-                            var keywordsArray = ext.keywords;
-                            for (i = 0; i < keywordsArray.length; i++) {
-                                keywords += conf.keyword.subst({'%KEYWORD%': keywordsArray[i]});
-                            }
-                        }
-
-                        html += conf.item.subst({
-                            '%TITLE%': ext.title ? ext.title : ext.name,
-                            '%NAME%': ext.name,
-                            '%VERSION%': ext.version,
-                            '%AUTHORS%': authors,
-                            '%TYPE%': ext.type,
-                            '%README%': ext.readme ? conf.readme_button.subst({'%README%': ext.readme}) : '',
-                            '%CONFIG%': ext.config ? conf.config_button.subst({'%CONFIG%': ext.config}) : '',
-                            '%THEME%': (ext.type == 'bolt-theme') ? conf.theme_button : '',
-                            '%BASEURL%': baseurl,
-                            '%DESCRIPTION%': ext.descrip,
-                            '%KEYWORDS%': keywords});
-                    }
-                } else {
-                    html = bolt.data.extend.packages.empty;
-                    active_console.hide();
-                }
+                html += controller.renderPackage(pack);
 
                 target.find('.installed-list-items').append(html);
 
                 controller.updateLog();
             });
         });
+    },
+    
+    renderPackage: function (data) {
+        if (data.length > 0) {
+            html = '';
+            for (var e in data) {
+                var ext = data[e],
+                conf = bolt.data.extend.packages,
+                authors = '',
+                keywords = '',
+                i = 0;
+                
+                // Authors array
+                if (ext.authors.length > 0) {
+                    var authorsArray = ext.authors;
+                    for (i = 0; i < authorsArray.length; i++) {
+                        authors += conf.author.subst({'%AUTHOR%': authorsArray[i].name});
+                    }
+                }
+
+                // Keyword array
+                if (ext.keywords.length > 0) {
+                    var keywordsArray = ext.keywords;
+                    for (i = 0; i < keywordsArray.length; i++) {
+                        keywords += conf.keyword.subst({'%KEYWORD%': keywordsArray[i]});
+                    }
+                }
+
+                html += conf.item.subst({
+                    '%TITLE%': ext.title ? ext.title : ext.name,
+                    '%NAME%': ext.name,
+                    '%VERSION%': ext.version,
+                    '%AUTHORS%': authors,
+                    '%TYPE%': ext.type,
+                    '%README%': ext.readme ? conf.readme_button.subst({'%README%': ext.readme}) : '',
+                    '%CONFIG%': ext.config ? conf.config_button.subst({'%CONFIG%': ext.config}) : '',
+                    '%THEME%': (ext.type == 'bolt-theme') ? conf.theme_button : '',
+                    '%BASEURL%': baseurl,
+                    '%DESCRIPTION%': ext.descrip,
+                    '%KEYWORDS%': keywords});
+            }
+        } else {
+            html = bolt.data.extend.packages.empty;
+            active_console.hide();
+        }
+        
+        return html;
     },
 
     checkPackage: function (e) {
@@ -514,10 +521,10 @@ var BoltExtender = Object.extend(Object, {
 
             html = bolt.data.extend.packages.error.subst({
                 '%ERROR_TYPE%': 'Composer Error',
-                '%ERROR_MESSAGE%': msg;
+                '%ERROR_MESSAGE%': msg
             });
         } else {
-        	// Sanitize PHP error file paths
+            // Sanitize PHP error file paths
             var file = errObj.error.file.replace(new RegExp(rootpath, 'g'), '');
             
             html = bolt.data.extend.packages.error.subst({
