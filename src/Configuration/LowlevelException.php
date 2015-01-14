@@ -93,6 +93,11 @@ EOM;
         // Get last error, if any
         $error = error_get_last();
 
+        // Let Whoops handle AJAX requested fatal errors
+        if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest') {
+            return;
+        }
+
         if (($error['type'] == E_ERROR || $error['type'] == E_PARSE)) {
             $html = self::$html;
 
