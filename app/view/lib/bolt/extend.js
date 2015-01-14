@@ -321,8 +321,8 @@ var BoltExtender = Object.extend(Object, {
             controller.updateLog();
         })
         .fail(function(data) {
-        	active_console.html(controller.formatErrorLog(data));
-        	controller.extensionFailedInstall(data);
+            active_console.html(controller.formatErrorLog(data));
+            controller.extensionFailedInstall(data);
         });
         e.preventDefault();
     },
@@ -352,7 +352,7 @@ var BoltExtender = Object.extend(Object, {
     },
 
     extensionFailedInstall: function(extension) {
-    	var controller = this;
+        var controller = this;
         controller.find('.extension-postinstall .ext-link').attr("href", extension.source);
         controller.find('.extension-postinstall').show();
         controller.find('.extension-postinstall .modal-failed').show();
@@ -509,19 +509,22 @@ var BoltExtender = Object.extend(Object, {
         var errObj = $.parseJSON(data.responseText),
         html = '';
         if (errObj.error.type === 'Bolt\\Exception\\BoltComposerException') {
-        	// Clean up Composer messages
-        	var msg = errObj.error.message.replace(/(<http)/g, '<a href="http').replace(/(\w+>)/g, '">this link<\/a>');
+            // Clean up Composer messages
+            var msg = errObj.error.message.replace(/(<http)/g, '<a href="http').replace(/(\w+>)/g, '">this link<\/a>');
 
-        	html = bolt.data.extend.packages.error.subst({
-        		'%ERROR_TYPE%': 'Composer Error',
-        		'%ERROR_MESSAGE%': msg;
-        	});
+            html = bolt.data.extend.packages.error.subst({
+                '%ERROR_TYPE%': 'Composer Error',
+                '%ERROR_MESSAGE%': msg;
+            });
         } else {
-        	html = bolt.data.extend.packages.error.subst({
-        		'%ERROR_TYPE%': 'PHP Error',
-        		'%ERROR_MESSAGE%': errObj.error.message,
-        		'%ERROR_LOCATION%': errObj.error.file + '::' + errObj.error.line
-        	});
+        	// Sanitize PHP error file paths
+            var file = errObj.error.file.replace(new RegExp(rootpath, 'g'), '');
+            
+            html = bolt.data.extend.packages.error.subst({
+                '%ERROR_TYPE%': 'PHP Error',
+                '%ERROR_MESSAGE%': errObj.error.message,
+                '%ERROR_LOCATION%': 'File: ' + file + '::' + errObj.error.line
+            });
         }
 
         return html;
