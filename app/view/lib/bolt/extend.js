@@ -472,7 +472,7 @@ var BoltExtender = Object.extend(Object, {
         jQuery.get( jQuery(e.target).data('readme') )
         .done(function(data) {
             bootbox.dialog({
-                message: data
+                message: data ? data : 'Readme is empty.'
             });
             controller.updateLog();
         })
