@@ -2928,10 +2928,14 @@ class Storage
         if ($dboptions['driver'] == 'pdo_sqlite') {
             // For SQLite:
             $query = "SELECT count(*) FROM sqlite_master WHERE type='table' AND name='$name';";
-        } else {
-            // For MySQL and Postgres:
+        } elseif ($dboptions['driver'] == 'pdo_pgsql') {
+            // For Postgres
             $databasename = $this->app['config']->get('general/database/databasename');
-            $query = "SELECT count(*) FROM information_schema.tables WHERE (table_schema = '$databasename' OR table_catalog = '$databasename') AND table_name = '$name';";
+            $query = "SELECT count(*) FROM information_schema.tables WHERE table_catalog = '$databasename' AND table_name = '$name';";
+        } else {
+            // For MySQL
+            $databasename = $this->app['config']->get('general/database/databasename');
+            $query = "SELECT count(*) FROM information_schema.tables WHERE table_schema = '$databasename' AND table_name = '$name';";
         }
 
         $res = $this->app['db']->fetchColumn($query);
