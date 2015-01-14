@@ -351,6 +351,13 @@ var BoltExtender = Object.extend(Object, {
         controller.find('.extension-postinstall .modal-success').show();
     },
 
+    extensionFailedInstall: function(extension) {
+    	var controller = this;
+        controller.find('.extension-postinstall .ext-link').attr("href", extension.source);
+        controller.find('.extension-postinstall').show();
+        controller.find('.extension-postinstall .modal-failed').show();
+    },
+
     themePostInstall: function (extension) {
         var controller = this;
 
