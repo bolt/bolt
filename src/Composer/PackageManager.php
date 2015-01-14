@@ -4,6 +4,7 @@ namespace Bolt\Composer;
 
 use Bolt\Composer\Action\DumpAutoload;
 use Bolt\Composer\Action\InitJson;
+use Bolt\Composer\Action\InstallPackage;
 use Bolt\Composer\Action\RemovePackage;
 use Bolt\Composer\Action\RequirePackage;
 use Bolt\Composer\Action\SearchPackage;
@@ -162,6 +163,21 @@ class PackageManager
         }
 
         $this->dumpautoload->execute();
+    }
+
+    /**
+     * Install configured packages
+     *
+     * @return integer 0 on success or a positive error code on failure
+     */
+    public function installPackages()
+    {
+        if (!$this->install) {
+            $this->install = new InstallPackage($this->io, $this->composer, $this->options);
+        }
+
+        // 0 on success or a positive error code on failure
+        return $this->install->execute();
     }
 
     /**
