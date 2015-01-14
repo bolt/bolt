@@ -19,7 +19,13 @@
         {% set lookupfield = lookupfield|split(',') %}
     {% endif %}
     {% setcontent lookups = lookuptype order lookupfield nohydrate %}
-    {% set values = lookups|selectfield(lookupfield) %}
+    {% set values = lookups|selectfield(lookupfield, option.multiple) %}
+{% endif %}
+
+{# get the current selection. Either a single value, or an array. #}
+{% set selection = context.content.get(key)|default(null) %}
+{% if selection is not iterable %}
+    {% set selection = [ selection ] %}
 {% endif %}
 
 {% set attr_select = {
@@ -31,57 +37,33 @@
 
 {#=== FIELDSET =======================================================================================================#}
 
-{% if option.multiple %}
+<fieldset class="multiselect">
 
-    <fieldset class="multiselect">
+    <label class="col-sm-3 control-label">{{ (option.info) ? macro.infopop(labelkey, option.info) : labelkey }}</label>
+    <div class="col-sm-9">
+        <select{{ macro.attr(attr_select) }}>
+            {% for id, value in values %}
 
-        <label class="col-sm-3 control-label">{{ (option.info) ? macro.infopop(labelkey, option.info) : labelkey }}</label>
-        <div class="col-sm-9">
-            <select{{ macro.attr(attr_select) }}>
-                {% for value in values %}
+                {% set is_array = (value is iterable and (value | length) > 1) %}
+                {% set attr_opt = {
+                    value:     id,
+                    selected:  id in selection or (is_array ? value[0] : value) in selection,
+                } %}
 
-                    {% set is_array = (value is iterable and (value | length) > 1) %}
-                    {% set attr_opt = {
-                        value:     (is_array ? value[0] : value),
-                        selected:  (is_array ? (value[0] in context.content.get(key)) : (value in context.content.get(key))),
-                    } %}
+                <option{{ macro.attr(attr_opt) }}>{{ is_array ? value[0:]|join(' / ') : value }}</option>
+            {% endfor %}
+        </select>
 
-                    <option{{ macro.attr(attr_opt) }}>{{ is_array ? value[1] : value }}</option>
-                {% endfor %}
-            </select>
-
-            <div>{# TODO: move onclick-events to JS #}
-                <a href="#" class="btn btn-default btn-xs" onclick="jQuery('#{{ key }} option').prop('selected', true); return false;">
-                    <i class="fa fa-fw fa-check-square-o"></i>{{ __("Select all") }}
-                </a>
-                <a href="#" class="btn btn-default btn-xs" onclick="jQuery('#{{ key }} option').prop('selected', false); return false;">
-                    <i class="fa fa-fw fa-square-o"></i>{{ __("Select none") }}
-                </a>
-            </div>
+        {% if option.multiple %}
+        <div>{# TODO: move onclick-events to JS #}
+            <a href="#" class="btn btn-default btn-xs" onclick="jQuery('#{{ key }} option').prop('selected', true); return false;">
+                <i class="fa fa-fw fa-check-square-o"></i>{{ __("Select all") }}
+            </a>
+            <a href="#" class="btn btn-default btn-xs" onclick="jQuery('#{{ key }} option').prop('selected', false); return false;">
+                <i class="fa fa-fw fa-square-o"></i>{{ __("Select none") }}
+            </a>
         </div>
+        {% endif %}
+    </div>
 
-    </fieldset>
-
-{% else %}
-
-    <fieldset class="select">
-
-        <label class="col-sm-3 control-label">{{ (option.info) ? macro.infopop(labelkey, option.info) : labelkey }}</label>
-        <div class="col-sm-9">
-            <select{{ macro.attr(attr_select) }}>
-                {% for value in values %}
-
-                    {% set is_array = (value is iterable and (value | length) > 1) %}
-                    {% set attr_opt = {
-                        value:     (is_array ? value[0] : value),
-                        selected:  (context.content.get(key) == (is_array ? value[0] : value)),
-                    } %}
-
-                    <option{{ macro.attr(attr_opt) }}>{{ is_array ? value[1] : value }}</option>
-                {% endfor %}
-            </select>
-        </div>
-
-    </fieldset>
-
-{% endif %}
+</fieldset>

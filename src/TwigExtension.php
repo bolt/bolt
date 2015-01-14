@@ -1384,9 +1384,13 @@ class TwigExtension extends \Twig_Extension
      *                          fields, to return from each record
      * @return array
      */
-    public function selectField($content, $fieldname)
+    public function selectField($content, $fieldname, $startempty = false)
     {
-        $retval = array('');
+        if ($startempty) {
+            $retval = array();
+        } else {
+            $retval = array('');
+        }
         foreach ($content as $c) {
             if (is_array($fieldname)) {
                 $row = array();
@@ -1397,10 +1401,10 @@ class TwigExtension extends \Twig_Extension
                         $row[] = null;
                     }
                 }
-                $retval[] = $row;
+                $retval[ $c->values['id'] ] = $row;
             } else {
                 if (isset($c->values[$fieldname])) {
-                    $retval[] = $c->values[$fieldname];
+                    $retval[ $c->values['id'] ] = $c->values[$fieldname];
                 }
             }
         }
