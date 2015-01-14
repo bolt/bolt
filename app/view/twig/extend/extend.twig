@@ -169,7 +169,8 @@
 
     <script>
         var site = '{{ site }}';
-        var baseurl = "{{ paths.bolt }}extend/";
+        var baseurl = '{{ paths.bolt }}extend/';
+        var rootpath = '{{ paths.rootpath }}';
 
         jQuery(document).ready(function($) {
             var boltExt = new BoltExtender();
