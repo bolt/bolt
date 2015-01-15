@@ -124,18 +124,16 @@ class Application extends Silex\Application
      */
     public function initDatabase()
     {
-        $dboptions = $this['config']->getDBOptions();
-
         $this->register(
             new Silex\Provider\DoctrineServiceProvider(),
             array(
-                'db.options' => $dboptions
+                'db.options' => $this['config']->getDBOptions()
             )
         );
 
-        $this->checkDatabaseConnection($dboptions);
+        $this->checkDatabaseConnection();
 
-        $this->setupDatabase($dboptions);
+        $this->tweakDatabaseDefaults();
 
         $this->register(
             new Silex\Provider\HttpCacheServiceProvider(),
@@ -147,11 +145,12 @@ class Application extends Silex\Application
 
     /**
      * Do a dummy query, to check for a proper connection to the database.
-     * @param array $dboptions
      * @throws LowlevelException
      */
-    protected function checkDatabaseConnection(array $dboptions)
+    protected function checkDatabaseConnection()
     {
+        $dboptions = $this['db.options'];
+
         try {
             $this['db']->query("SELECT 1;");
         } catch (\PDOException $e) {
@@ -165,11 +164,10 @@ class Application extends Silex\Application
         }
     }
 
-    /**
-     * @param array $dboptions
-     */
-    protected function setupDatabase(array $dboptions)
+    protected function tweakDatabaseDefaults()
     {
+        $dboptions = $this['db.options'];
+
         if ($dboptions['driver'] == 'pdo_sqlite') {
             $this['db']->query('PRAGMA synchronous = OFF');
         } elseif ($dboptions['driver'] == 'pdo_mysql') {
