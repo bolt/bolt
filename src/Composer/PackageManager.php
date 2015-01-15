@@ -17,6 +17,7 @@ use Composer\IO\BufferIO;
 use Composer\Json\JsonFile;
 use Guzzle\Http\Client as GuzzleClient;
 use Guzzle\Http\Exception\RequestException;
+use Guzzle\Http\Exception\CurlException;
 use Silex\Application;
 
 class PackageManager
@@ -77,6 +78,11 @@ class PackageManager
     private $app;
 
     /**
+     * @var boolean
+     */
+    private $downgradeSsl = false;
+
+    /**
      * @var array
      */
     public $messages = array();
@@ -134,6 +140,10 @@ class PackageManager
     {
         // Use the factory to get a new Composer object
         $this->composer = Factory::create($this->io, $this->options['composerjson'], true);
+
+        if ($this->downgradeSsl) {
+            $this->allowSslDowngrade(true);
+        }
 
         return $this->composer;
     }
@@ -493,9 +503,30 @@ class PackageManager
             $response = $this->guzzleclient->head($uri, null, array('query' => $query))->send();
 
             return $response->getStatusCode();
+        } catch (CurlException $e) {
+            if ($e->getErrorNo() == 60){
+                // Eariler versions of libcurl support only SSL, whereas we require TLS.
+                // In this case, downgrade our composer to use HTTP
+                $this->downgradeSsl = true;
+                $this->allowSslDowngrade(true);
+
+                $this->messages[] = Trans::__("cURL library doesn't support TLS. Downgrading to HTTP.");
+
+                return 200;
+            } else {
+                $this->messages[] = Trans::__(
+                    "cURL experienced an error: %errormessage%",
+                    array('%errormessage%' => $e->getMessage())
+                );
+            }
         } catch (RequestException $e) {
-            return false;
+            $this->messages[] = Trans::__(
+                "Testing connection to extension server failed: %errormessage%",
+                array('%errormessage%' => $e->getMessage())
+            );
         }
+
+        return false;
     }
 
     /**
