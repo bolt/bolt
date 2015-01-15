@@ -95,7 +95,7 @@ class RequirePackage
         $packages = $this->formatRequirements($packages);
         $sortPackages = $this->options['sortpackages'];
 
-        // validate requirements format
+        // Validate requirements format
         $versionParser = new VersionParser();
         foreach ($packages as $constraint) {
             $versionParser->parseConstraints($constraint);
@@ -149,6 +149,11 @@ class RequirePackage
         return $status;
     }
 
+    /**
+     *
+     * @param  array $packages
+     * @return array
+     */
     protected function formatRequirements(array $packages)
     {
         $requires = array();
@@ -160,6 +165,12 @@ class RequirePackage
         return $requires;
     }
 
+    /**
+     * Parses a name/version pairs and returns an array of pairs
+     *
+     * @param  array   $packages a set of package/version pairs separated by ":", "=" or " "
+     * @return array[] array of arrays containing a name and (if provided) a version
+     */
     protected function normalizeRequirements(array $packages)
     {
         $parser = new VersionParser();
@@ -167,6 +178,17 @@ class RequirePackage
         return $parser->parseNameVersionPairs($packages);
     }
 
+    /**
+     * Cleanly update a Composer JSON file
+     *
+     * @param  \Composer\Json\JsonFile $json
+     * @param  array                   $base
+     * @param  array                   $new
+     * @param  string                  $requireKey
+     * @param  string                  $removeKey
+     * @param  boolean                 $sortPackages
+     * @return boolean
+     */
     private function updateFileCleanly($json, array $base, array $new, $requireKey, $removeKey, $sortPackages)
     {
         $contents = file_get_contents($json->getPath());

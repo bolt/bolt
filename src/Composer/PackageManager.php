@@ -353,6 +353,12 @@ class PackageManager
         return $pack;
     }
 
+    /**
+     * Return the URI for a package's readme
+     *
+     * @param  string $name
+     * @return string
+     */
     private function linkReadMe($name)
     {
         $paths = $this->app['resources']->getPaths();
@@ -369,6 +375,12 @@ class PackageManager
         }
     }
 
+    /**
+     * Return the URI for a package's config file edit window
+     *
+     * @param  string $name
+     * @return string
+     */
     private function linkConfig($name)
     {
         $paths = $this->app['resources']->getPaths();
