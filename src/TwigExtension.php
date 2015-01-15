@@ -693,11 +693,16 @@ class TwigExtension extends \Twig_Extension
             return null;
         }
 
+        $name = '/^[a-zA-Z0-9]\V+\.twig$/';
+        if ($filter) {
+            $name = $filter;
+        }
+
         $finder = new Finder();
         $finder->files()
                ->in($this->app['paths']['themepath'])
                ->depth('== 0')
-               ->name('/^[a-zA-Z0-9]\V+\.twig$/')
+               ->name($name)
                ->sortByName();
 
         $files = array();
