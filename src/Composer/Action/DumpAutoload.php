@@ -2,6 +2,11 @@
 
 namespace Bolt\Composer\Action;
 
+/**
+ * Composer autoloader creation class
+ *
+ * @author Gawain Lynch <gawain.lynch@gmail.com>
+ */
 class DumpAutoload
 {
     /**
