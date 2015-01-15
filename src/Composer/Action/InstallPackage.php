@@ -4,6 +4,11 @@ namespace Bolt\Composer\Action;
 
 use Composer\Installer;
 
+/**
+ * Composer package install class
+ *
+ * @author Gawain Lynch <gawain.lynch@gmail.com>
+ */
 class InstallPackage
 {
     /**

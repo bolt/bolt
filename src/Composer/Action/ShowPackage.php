@@ -13,6 +13,11 @@ use Composer\Repository\ComposerRepository;
 use Composer\Repository\PlatformRepository;
 use Composer\Repository\RepositoryInterface;
 
+/**
+ * Composer show package class
+ *
+ * @author Gawain Lynch <gawain.lynch@gmail.com>
+ */
 class ShowPackage
 {
     /**
