@@ -308,7 +308,6 @@ class PackageManager
         }
 
         // Local packages @todo
-
         return $packages;
     }
 
@@ -331,7 +330,8 @@ class PackageManager
      * @param  array $packages
      * @return array
      */
-    public function formatPackageResponse(array $packages) {
+    public function formatPackageResponse(array $packages)
+    {
         $pack = array();
 
         foreach ($packages as $package) {
@@ -380,6 +380,7 @@ class PackageManager
         $configfilepath = $paths['extensionsconfig'] . '/' . $configfilename;
         if (is_readable($configfilepath)) {
             $configfilename = 'extensions/' . $configfilename;
+
             return Lib::path('fileedit', array('namespace' => 'config', 'file' => $configfilename));
         }
     }
