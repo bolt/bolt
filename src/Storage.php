@@ -1931,8 +1931,6 @@ class Storage
                     $totalResults = $countRow['count'];
                 }
 
-                dump($decoded['parameters']);
-
                 if (isset($decoded['parameters']['paging']) && $decoded['parameters']['paging'] == true) {
                     $offset = ($decoded['parameters']['page'] - 1) * $decoded['parameters']['limit'];
                 } else {
