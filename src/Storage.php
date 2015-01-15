@@ -1503,7 +1503,7 @@ class Storage
         } elseif (preg_match('#^/?([a-z0-9_-]+)/(latest|first)/([0-9]+)$#i', $textquery, $match)) {
             // like 'page/latest/5'
             $decoded['contenttypes'] = $this->decodeContentTypesFromText($match[1]);
-            if (!isset($metaParameters['order'])) {
+            if (!isset($metaParameters['order']) || $metaParameters['order'] === false) {
                 $metaParameters['order'] = 'datepublish ' . ($match[2] == 'latest' ? 'DESC' : 'ASC');
             }
             if (!isset($metaParameters['limit'])) {
