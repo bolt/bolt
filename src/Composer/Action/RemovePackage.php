@@ -3,7 +3,6 @@
 namespace Bolt\Composer\Action;
 
 use Composer\Config\JsonConfigSource;
-use Composer\Factory;
 use Composer\Installer;
 use Composer\Json\JsonFile;
 use Silex\Application;
