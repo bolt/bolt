@@ -163,7 +163,7 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
 
     public function update(Silex\Application $app, Request $request)
     {
-        $package = $request->get('package') ?: [];
+        $package = $request->get('package') ?: array();
 
         try {
             $response = $app['extend.manager']->updatePackage($package);
