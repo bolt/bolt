@@ -268,7 +268,7 @@ class PackageManager
     public function initJson($file, array $data = array())
     {
         if (!$this->initJson) {
-            $this->initJson = new InitJson($this->io, $this->composer, $this->options);
+            $this->initJson = new InitJson($this->options);
         }
 
         $this->initJson->execute($file, $data);
