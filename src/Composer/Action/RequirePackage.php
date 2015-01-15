@@ -11,6 +11,11 @@ use Composer\Repository\CompositeRepository;
 use Composer\Repository\PlatformRepository;
 use Silex\Application;
 
+/**
+ * Composer require package class
+ *
+ * @author Gawain Lynch <gawain.lynch@gmail.com>
+ */
 class RequirePackage
 {
     /**

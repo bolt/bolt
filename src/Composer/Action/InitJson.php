@@ -4,6 +4,11 @@ namespace Bolt\Composer\Action;
 
 use Composer\Json\JsonFile;
 
+/**
+ * Initialise Composer JSON file class
+ *
+ * @author Gawain Lynch <gawain.lynch@gmail.com>
+ */
 class InitJson
 {
     /**
