@@ -8,6 +8,11 @@ use Composer\Installer;
 use Composer\Json\JsonFile;
 use Silex\Application;
 
+/**
+ * Composer remove package class
+ *
+ * @author Gawain Lynch <gawain.lynch@gmail.com>
+ */
 class RemovePackage
 {
     /**

@@ -7,6 +7,11 @@ use Composer\Repository\CompositeRepository;
 use Composer\Repository\PlatformRepository;
 use Composer\Repository\RepositoryInterface;
 
+/**
+ * Composer search package class
+ *
+ * @author Gawain Lynch <gawain.lynch@gmail.com>
+ */
 class SearchPackage
 {
     /**
