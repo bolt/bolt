@@ -27,15 +27,11 @@ class InitJson
     private $composer;
 
     /**
-     * @param $io       Composer\IO\BufferIO
-     * @param $composer Composer\Composer
      * @param $options  array
      */
-    public function __construct(\Composer\IO\BufferIO $io, \Composer\Composer $composer, array $options)
+    public function __construct(array $options)
     {
         $this->options = $options;
-        $this->io = $io;
-        $this->composer = $composer;
     }
 
     /**
