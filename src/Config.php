@@ -188,8 +188,6 @@ class Config
         $tempconfiglocal       = $this->parseConfigYaml('config_local.yml');
 
         $config['general']     = Arr::mergeRecursiveDistinct($tempconfig, $tempconfiglocal);
-        $config['taxonomy']    = $this->parseConfigYaml('taxonomy.yml');
-        $tempContentTypes      = $this->parseConfigYaml('contenttypes.yml');
         $config['menu']        = $this->parseConfigYaml('menu.yml');
         $config['routing']     = $this->parseConfigYaml('routing.yml');
         $config['permissions'] = $this->parseConfigYaml('permissions.yml');
@@ -247,175 +245,191 @@ class Config
         // Make sure Bolt's mount point is OK:
         $config['general']['branding']['path'] = '/' . String::makeSafe($config['general']['branding']['path']);
 
-        // Make sure $config['taxonomy'] is an array. (if the file is empty, YAML parses it as NULL)
-        if (empty($config['taxonomy'])) {
-            $config['taxonomy'] = array();
-        }
+        $config['taxonomy'] = $this->parseTaxonomy();
+        $config['contenttypes'] = $this->parseContentTypes($config['general']['accept_file_types']);
+
+        // Set all the distinctive arrays as part of our Config object.
+        $this->data = $config;
+    }
+
+    protected function parseTaxonomy()
+    {
+        $taxonomy = $this->parseConfigYaml('taxonomy.yml');
 
         // Clean up taxonomies
-        foreach ($config['taxonomy'] as $key => $value) {
-            if (!isset($config['taxonomy'][$key]['name'])) {
-                $config['taxonomy'][$key]['name'] = ucwords($config['taxonomy'][$key]['slug']);
+        foreach ($taxonomy as $key => $value) {
+            if (!isset($value['name'])) {
+                $value['name'] = ucwords($value['slug']);
             }
-            if (!isset($config['taxonomy'][$key]['singular_name'])) {
-                if (isset($config['taxonomy'][$key]['singular_slug'])) {
-                    $config['taxonomy'][$key]['singular_name'] = ucwords($config['taxonomy'][$key]['singular_slug']);
+            if (!isset($value['singular_name'])) {
+                if (isset($value['singular_slug'])) {
+                    $value['singular_name'] = ucwords($value['singular_slug']);
                 } else {
-                    $config['taxonomy'][$key]['singular_name'] = ucwords($config['taxonomy'][$key]['slug']);
+                    $value['singular_name'] = ucwords($value['slug']);
                 }
             }
-            if (!isset($config['taxonomy'][$key]['slug'])) {
-                $config['taxonomy'][$key]['slug'] = strtolower(String::makeSafe($config['taxonomy'][$key]['name']));
+            if (!isset($value['slug'])) {
+                $value['slug'] = strtolower(String::makeSafe($value['name']));
             }
-            if (!isset($config['taxonomy'][$key]['singular_slug'])) {
-                $config['taxonomy'][$key]['singular_slug'] = strtolower(String::makeSafe($config['taxonomy'][$key]['singular_name']));
+            if (!isset($value['singular_slug'])) {
+                $value['singular_slug'] = strtolower(String::makeSafe($value['singular_name']));
             }
-            if (!isset($config['taxonomy'][$key]['has_sortorder'])) {
-                $config['taxonomy'][$key]['has_sortorder'] = false;
+            if (!isset($value['has_sortorder'])) {
+                $value['has_sortorder'] = false;
             }
 
             // Make sure the options are $key => $value pairs, and not have implied integers for keys.
-            if (!empty($config['taxonomy'][$key]['options']) && is_array($config['taxonomy'][$key]['options'])) {
+            if (!empty($value['options']) && is_array($value['options'])) {
                 $options = array();
-                foreach ($config['taxonomy'][$key]['options'] as $optionkey => $optionvalue) {
+                foreach ($value['options'] as $optionkey => $optionvalue) {
                     if (is_numeric($optionkey)) {
                         $optionkey = String::slug($optionvalue);
                     }
                     $options[$optionkey] = $optionvalue;
                 }
-                $config['taxonomy'][$key]['options'] = $options;
+                $value['options'] = $options;
             }
 
             // If taxonomy is like tags, set 'tagcloud' to true by default.
-            if (($config['taxonomy'][$key]['behaves_like'] == 'tags') && (!isset($config['taxonomy'][$key]['tagcloud']))) {
-                $config['taxonomy'][$key]['tagcloud'] = true;
+            if (($value['behaves_like'] == 'tags') && (!isset($value['tagcloud']))) {
+                $value['tagcloud'] = true;
             }
+
+            $taxonomy[$key] = $value;
         }
 
-        // Clean up contenttypes
-        $config['contenttypes'] = array();
-        foreach ($tempContentTypes as $key => $temp) {
+        return $taxonomy;
+    }
 
-            // If the slug isn't set, and the 'key' isn't numeric, use that as the slug.
-            if (!isset($temp['slug']) && !is_numeric($key)) {
-                $temp['slug'] = String::slug($key);
-            }
+    protected function parseContentTypes($acceptableFileTypes)
+    {
+        $contentTypes = array();
+        $tempContentTypes = $this->parseConfigYaml('contenttypes.yml');
+        foreach ($tempContentTypes as $key => $contentType) {
+            $contentType = $this->parseContentType($key, $contentType, $acceptableFileTypes);
+            $contentTypes[$contentType['slug']] = $contentType;
+        }
+        return $contentTypes;
+    }
 
-            // If neither 'name' nor 'slug' is set, we need to warn the user. Same goes for when
-            // neither 'singular_name' nor 'singular_slug' is set.
-            if (!isset($temp['name']) && !isset($temp['slug'])) {
-                $error = sprintf("In contenttype <code>%s</code>, neither 'name' nor 'slug' is set. Please edit <code>contenttypes.yml</code>, and correct this.", $key);
-                throw new LowlevelException($error);
-            }
-            if (!isset($temp['singular_name']) && !isset($temp['singular_slug'])) {
-                $error = sprintf("In contenttype <code>%s</code>, neither 'singular_name' nor 'singular_slug' is set. Please edit <code>contenttypes.yml</code>, and correct this.", $key);
-                throw new LowlevelException($error);
-            }
+    protected function parseContentType($key, $contentType, $acceptableFileTypes)
+    {
+        // If the slug isn't set, and the 'key' isn't numeric, use that as the slug.
+        if (!isset($contentType['slug']) && !is_numeric($key)) {
+            $contentType['slug'] = String::slug($key);
+        }
 
-            if (!isset($temp['slug'])) {
-                $temp['slug'] = String::slug($temp['name']);
-            }
-            if (!isset($temp['singular_slug'])) {
-                $temp['singular_slug'] = String::slug($temp['singular_name']);
-            }
-            if (!isset($temp['show_on_dashboard'])) {
-                $temp['show_on_dashboard'] = true;
-            }
-            if (!isset($temp['show_in_menu'])) {
-                $temp['show_in_menu'] = true;
-            }
-            if (!isset($temp['sort'])) {
-                $temp['sort'] = false;
-            }
-            if (!isset($temp['default_status'])) {
-                $temp['default_status'] = 'draft';
-            }
-            // Make sure all fields are lowercase and 'safe'.
-            $tempfields = $temp['fields'];
-            $temp['fields'] = array();
+        // If neither 'name' nor 'slug' is set, we need to warn the user. Same goes for when
+        // neither 'singular_name' nor 'singular_slug' is set.
+        if (!isset($contentType['name']) && !isset($contentType['slug'])) {
+            $error = sprintf("In contenttype <code>%s</code>, neither 'name' nor 'slug' is set. Please edit <code>contenttypes.yml</code>, and correct this.", $key);
+            throw new LowlevelException($error);
+        }
+        if (!isset($contentType['singular_name']) && !isset($contentType['singular_slug'])) {
+            $error = sprintf("In contenttype <code>%s</code>, neither 'singular_name' nor 'singular_slug' is set. Please edit <code>contenttypes.yml</code>, and correct this.", $key);
+            throw new LowlevelException($error);
+        }
 
-            // Set a default group and groups array.
-            $currentgroup = false;
-            $temp['groups'] = array();
+        if (!isset($contentType['slug'])) {
+            $contentType['slug'] = String::slug($contentType['name']);
+        }
+        if (!isset($contentType['singular_slug'])) {
+            $contentType['singular_slug'] = String::slug($contentType['singular_name']);
+        }
+        if (!isset($contentType['show_on_dashboard'])) {
+            $contentType['show_on_dashboard'] = true;
+        }
+        if (!isset($contentType['show_in_menu'])) {
+            $contentType['show_in_menu'] = true;
+        }
+        if (!isset($contentType['sort'])) {
+            $contentType['sort'] = false;
+        }
+        if (!isset($contentType['default_status'])) {
+            $contentType['default_status'] = 'draft';
+        }
+        // Make sure all fields are lowercase and 'safe'.
+        $tempfields = $contentType['fields'];
+        $contentType['fields'] = array();
 
-            foreach ($tempfields as $key => $value) {
-                $key = str_replace('-', '_', strtolower(String::makeSafe($key, true)));
-                $temp['fields'][$key] = $value;
+        // Set a default group and groups array.
+        $currentgroup = false;
+        $contentType['groups'] = array();
 
-                // If field is a "file" type, make sure the 'extensions' are set, and it's an array.
-                if ($temp['fields'][$key]['type'] == 'file' || $temp['fields'][$key]['type'] == 'filelist') {
-                    if (empty($temp['fields'][$key]['extensions'])) {
-                        $temp['fields'][$key]['extensions'] = array_intersect(
-                            array('doc', 'docx', 'txt', 'md', 'pdf', 'xls', 'xlsx', 'ppt', 'pptx', 'csv'),
-                            $config['general']['accept_file_types']
-                        );
-                    }
+        foreach ($tempfields as $key => $value) {
+            $key = str_replace('-', '_', strtolower(String::makeSafe($key, true)));
+            $contentType['fields'][$key] = $value;
 
-                    if (!is_array($temp['fields'][$key]['extensions'])) {
-                        $temp['fields'][$key]['extensions'] = array($temp['fields'][$key]['extensions']);
-                    }
+            // If field is a "file" type, make sure the 'extensions' are set, and it's an array.
+            if ($contentType['fields'][$key]['type'] == 'file' || $contentType['fields'][$key]['type'] == 'filelist') {
+                if (empty($contentType['fields'][$key]['extensions'])) {
+                    $contentType['fields'][$key]['extensions'] = array_intersect(
+                        array('doc', 'docx', 'txt', 'md', 'pdf', 'xls', 'xlsx', 'ppt', 'pptx', 'csv'),
+                        $acceptableFileTypes
+                    );
                 }
 
-                // If field is an "image" type, make sure the 'extensions' are set, and it's an array.
-                if ($temp['fields'][$key]['type'] == 'image' || $temp['fields'][$key]['type'] == 'imagelist') {
-                    if (empty($temp['fields'][$key]['extensions'])) {
-                        $temp['fields'][$key]['extensions'] = array_intersect(
-                            array('gif', 'jpg', 'jpeg', 'png'),
-                            $config['general']['accept_file_types']
-                        );
-                    }
-
-                    if (!is_array($temp['fields'][$key]['extensions'])) {
-                        $temp['fields'][$key]['extensions'] = array($temp['fields'][$key]['extensions']);
-                    }
-                }
-
-                // If the field has a 'group', make sure it's added to the 'groups' array, so we can turn
-                // them into tabs while rendering. This also makes sure that once you started with a group,
-                // all others have a group too.
-                if (!empty($temp['fields'][$key]['group'])) {
-                    $currentgroup = $temp['fields'][$key]['group'];
-                    $temp['groups'][] = $currentgroup;
-                } else {
-                    $temp['fields'][$key]['group'] = $currentgroup;
-                }
-
-            }
-
-            // Make sure the 'uses' of the slug is an array.
-            if (isset($temp['fields']['slug']) && isset($temp['fields']['slug']['uses']) &&
-                !is_array($temp['fields']['slug']['uses'])
-            ) {
-                $temp['fields']['slug']['uses'] = array($temp['fields']['slug']['uses']);
-            }
-
-            // Make sure taxonomy is an array.
-            if (isset($temp['taxonomy']) && !is_array($temp['taxonomy'])) {
-                $temp['taxonomy'] = array($temp['taxonomy']);
-            }
-
-            // when adding relations, make sure they're added by their slug. Not their 'name' or 'singular name'.
-            if (!empty($temp['relations']) && is_array($temp['relations'])) {
-                foreach ($temp['relations'] as $relkey => $relation) {
-                    if ($relkey != String::slug($relkey)) {
-                        $temp['relations'][String::slug($relkey)] = $temp['relations'][$relkey];
-                        unset($temp['relations'][$relkey]);
-                    }
+                if (!is_array($contentType['fields'][$key]['extensions'])) {
+                    $contentType['fields'][$key]['extensions'] = array($contentType['fields'][$key]['extensions']);
                 }
             }
 
-            // Make sure the 'groups' has unique elements, if there are any.
-            if (!empty($temp['groups'])) {
-                $temp['groups'] = array_unique($temp['groups']);
+            // If field is an "image" type, make sure the 'extensions' are set, and it's an array.
+            if ($contentType['fields'][$key]['type'] == 'image' || $contentType['fields'][$key]['type'] == 'imagelist') {
+                if (empty($contentType['fields'][$key]['extensions'])) {
+                    $contentType['fields'][$key]['extensions'] = array_intersect(
+                        array('gif', 'jpg', 'jpeg', 'png'),
+                        $acceptableFileTypes
+                    );
+                }
+
+                if (!is_array($contentType['fields'][$key]['extensions'])) {
+                    $contentType['fields'][$key]['extensions'] = array($contentType['fields'][$key]['extensions']);
+                }
+            }
+
+            // If the field has a 'group', make sure it's added to the 'groups' array, so we can turn
+            // them into tabs while rendering. This also makes sure that once you started with a group,
+            // all others have a group too.
+            if (!empty($contentType['fields'][$key]['group'])) {
+                $currentgroup = $contentType['fields'][$key]['group'];
+                $contentType['groups'][] = $currentgroup;
             } else {
-                unset($temp['groups']);
+                $contentType['fields'][$key]['group'] = $currentgroup;
             }
 
-            $config['contenttypes'][$temp['slug']] = $temp;
         }
 
-        // Set all the distinctive arrays as part of our Config object.
-        $this->data = $config;
+        // Make sure the 'uses' of the slug is an array.
+        if (isset($contentType['fields']['slug']) && isset($contentType['fields']['slug']['uses']) &&
+            !is_array($contentType['fields']['slug']['uses'])
+        ) {
+            $contentType['fields']['slug']['uses'] = array($contentType['fields']['slug']['uses']);
+        }
+
+        // Make sure taxonomy is an array.
+        if (isset($contentType['taxonomy']) && !is_array($contentType['taxonomy'])) {
+            $contentType['taxonomy'] = array($contentType['taxonomy']);
+        }
+
+        // when adding relations, make sure they're added by their slug. Not their 'name' or 'singular name'.
+        if (!empty($contentType['relations']) && is_array($contentType['relations'])) {
+            foreach ($contentType['relations'] as $relkey => $relation) {
+                if ($relkey != String::slug($relkey)) {
+                    $contentType['relations'][String::slug($relkey)] = $contentType['relations'][$relkey];
+                    unset($contentType['relations'][$relkey]);
+                }
+            }
+        }
+
+        // Make sure the 'groups' has unique elements, if there are any.
+        if (!empty($contentType['groups'])) {
+            $contentType['groups'] = array_unique($contentType['groups']);
+        } else {
+            unset($contentType['groups']);
+        }
+
+        return $contentType;
     }
 
     /**
@@ -893,7 +907,7 @@ class Config
      * Utility function to determine which 'end' we're using right now. Can be either "frontend", "backend", "async" or "cli".
      *
      * NOTE: We retain the $_SERVER global here as this method can get called very early and the Request object might not exist yet
-     * 
+     *
      * @param  string $mountpoint
      * @return string
      */
