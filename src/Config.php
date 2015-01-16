@@ -43,13 +43,18 @@ class Config
     public function __construct(Application $app)
     {
         $this->app = $app;
+        $this->fields = new Field\Manager();
+        $this->initialize();
+    }
 
+    protected function initialize()
+    {
         if (!$this->loadCache()) {
             $this->getConfig();
             $this->saveCache();
 
             // if we have to reload the config, we will also want to make sure the DB integrity is checked.
-            Database\IntegrityChecker::invalidate($app);
+            Database\IntegrityChecker::invalidate($this->app);
         } else {
 
             // In this case the cache is loaded, but because the path of the theme
@@ -61,7 +66,6 @@ class Config
 
         $this->setTwigPath();
         $this->setCKPath();
-        $this->fields = new Field\Manager();
     }
 
     /**
