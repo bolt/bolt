@@ -46,6 +46,7 @@ class Config
     {
         $this->app = $app;
         $this->fields = new Field\Manager();
+        $this->defaultConfig = $this->getDefaults();
 
         $this->initialize();
     }
@@ -198,7 +199,6 @@ class Config
         // @todo: If no config files can be found, get them from bolt.cm/files/default/
 
         $this->paths = $this->app['resources']->getPaths();
-        $this->setDefaults();
 
         // Make sure old settings for 'contentsCss' are still picked up correctly
         if (isset($config['general']['wysiwyg']['ck']['contentsCss'])) {
@@ -565,9 +565,9 @@ class Config
     /**
      * Assume sensible defaults for a number of options.
      */
-    protected function setDefaults()
+    protected function getDefaults()
     {
-        $this->defaultConfig = array(
+        return array(
             'database'                    => array('prefix' => 'bolt_'),
             'sitename'                    => 'Default Bolt site',
             'homepage'                    => 'page/*',
