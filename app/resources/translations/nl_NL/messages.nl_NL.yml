@@ -47,8 +47,6 @@
 "Body": "Broodtekst"
 "Bolt - Fatal error.": "Bolt - Kritieke fout."
 "Bolt Extension could not be found. Please check at %site% to ensure correct name.": "De Bolt extensie kon niet worden gevonden. Controleer op %site% of je de goede naam gebruikt."
-"Bolt documentation on Github": "Bolt documentatie op Github"
-"Bolt on Github": "Bolt op Github"
 "Browse Versions": "Blader tussen versies"
 "Browser / platform": "Browser / platform"
 "Built-in role, automatically granted at all times, even if no user is logged in": "Ingebouwde rol die aan iedereen wordt toegekend, ook als de gebruiker niet is ingelogd"
@@ -70,7 +68,6 @@
 "Check for updates": "Controleer op updates"
 "Checking for available updates (this may take up to 60 seconds)": "Updates aan het controleren (dit kan tot 60 seconden duren)"
 "Checking installed packages": "Controleer geïnstalleerde packages"
-"Choose an entry": "Kies een entry"
 "Class:": "Class"
 "Clear Activitylog": "Wis activiteitenlog"
 "Clear cache again": "Leeg de cache nogmaals"
@@ -443,6 +440,8 @@ contenttypes:
         show-more: "Meer %contenttypes%"
         view: "Bekijk %contenttypes%"
         wrong-use-field: "In het contenttype voor '%contenttype%', heeft het veld '%field%' de regel 'uses: %uses%', maar het veld '%uses%' bestaat niet. Bewerk contenttypes.yml, en corrigeer dit."
+		
+		
 
 field:
     general:
@@ -584,3 +583,7 @@ panel:
     user-actions:
         button:
             add: "Nieuwe gebruiker toevoegen"
+
+contenttypes.general.choose-an-entry: "Kies een entry"
+general.bolt-on-github: "Bolt op Github"
+general.bolt-documentation-on-github: "Bolt documentatie op Github"
