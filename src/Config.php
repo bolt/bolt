@@ -11,7 +11,7 @@ use Symfony\Component\Yaml;
 use Symfony\Component\Yaml\Parser;
 
 /**
- * Class for our config object. Implemented as an extension of RecursiveArrayAccess
+ * Class for our config object.
  *
  * @author Bob den Otter, bob@twokings.nl
  */
