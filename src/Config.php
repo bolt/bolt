@@ -70,32 +70,6 @@ class Config
     }
 
     /**
-     * @param  string $filename The name of the YAML file to read
-     * @param  string $path     The (optional) path to the YAML file
-     * @return array
-     */
-    protected function parseConfigYaml($filename, $path = null)
-    {
-        // Initialise parser
-        if ($this->yamlParser === false) {
-            $this->yamlParser = new Parser();
-        }
-
-        // By default we assume that config files are located in app/config/
-        $path = $path ?: $this->app['resources']->getPath('config');
-        $filename = $path . '/' . $filename;
-
-        if (!is_readable($filename)) {
-            return array();
-        }
-
-        $yml = $this->yamlParser->parse(file_get_contents($filename) . "\n");
-
-        // Invalid, non-existing, or empty files return NULL
-        return $yml ?: array();
-    }
-
-    /**
      * Set a config value, using a path. For example:
      *
      * $app['config']->set('general/branding/name', 'Bolt');
@@ -429,6 +403,32 @@ class Config
 
         $groups = array_unique($groups);
         return array($fields, $groups);
+    }
+
+    /**
+     * @param  string $filename The name of the YAML file to read
+     * @param  string $path     The (optional) path to the YAML file
+     * @return array
+     */
+    protected function parseConfigYaml($filename, $path = null)
+    {
+        // Initialise parser
+        if ($this->yamlParser === false) {
+            $this->yamlParser = new Parser();
+        }
+
+        // By default we assume that config files are located in app/config/
+        $path = $path ?: $this->app['resources']->getPath('config');
+        $filename = $path . '/' . $filename;
+
+        if (!is_readable($filename)) {
+            return array();
+        }
+
+        $yml = $this->yamlParser->parse(file_get_contents($filename) . "\n");
+
+        // Invalid, non-existing, or empty files return NULL
+        return $yml ?: array();
     }
 
     /**
