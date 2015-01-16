@@ -1,6 +1,13 @@
 Bolt 2.0 DEV-head
 -----------------
 
+- (nothing yet)
+
+Bolt 2.0.3
+----------
+
+Released 2015-01-16. Notable changes:
+
 - Added: **integration of Symfony's VarDumper component**. The old 'Dumper::dump' is still
   present, for backwards compatibility
 - Added: Option to disable dashboard news
@@ -13,6 +20,12 @@ Bolt 2.0 DEV-head
 - Fixed: Bug where contenttype name in menu isn't translated
 - Fixed: **No CSS / static files shown** when using PHP's built-in server via ./serve (#2381)
 - Fixed: Reference of IntlDateFormatter stub functions (#2415)
+- Fixed: Magnific popup image preview on image lists (#2443)
+- Fixed: Added 'pasteZone: null', which prevents triggering an upload when pasting from Word in Chrome. (#2427)
+- Fixed: Pager works correctly for paging categories and other taxonomies (#2468)
+- Fixed: Only apply pagination to `setcontent`, when 'paging' is required / requested (#2417) 
+- Fixed: Select field type, with values from another content type now always uses the 'id' as the value in the DB. (#2465)
+- Fixed: When session is invalidated due to changing your own username, redirect to login screen. (#2457)
 - Updated: CKeditor to 4.4.6, and all used plugins to the latest versions
 - Updated: jQuery to version 1.11.2
 - Updated: jQuery goMap to 1.3.3  (#2377)
@@ -26,6 +39,7 @@ Bolt 2.0 DEV-head
 - Change: Also use XMLHttpRequest to detect AJAX requests in `getWhichEnd()` (#2423)
 - Change: Refactor Twig setup (Thanks @CarsonF, see #2430)
 - Change: Url matcher updates (Thanks @CarsonF, see #2431)
+- Change: Add a data() Twig function to allow storing of data to be passed en masse to JavaScript (#2458)
 - Removed: Removed the `base-2013` theme
 - Removed: Ancient browser-specific tags
 

@@ -248,7 +248,7 @@
 "Rename %foldername%": "Hernoem %foldername%"
 "Roles": "Rollen"
 "Roles and Permissions": "Rollen en permissies"
-"Routing setup": "Route instellingen"
+menu.configuration.routing: "Route instellingen"
 "Run all Updates": "Doe alle updates"
 "Run update check": "Doe update check"
 "Running install of all packages …": "Doe installatie voor alle pacakges"
@@ -540,6 +540,7 @@ page:
         message:
             saving-user: "Gebruiker %user% kon niet worden opgeslagen, of er was niets aangepast."
             user-saved: "Gebruiker %user% is opgeslagen"
+            change-self: "Je bent uitgelogd, omdat je je eigen gebruikersnaam hebt aangepast. Log opnieuw in om door te gaan."
         note-sqlite: "Je gebruikt momenteel SQLite om de eerste gebruiker aan te maken. Als je liever MySQL of PostgreSQL wilt gebruikern, pas dan het configuratie-bestand op <tt>'app/config/config.yml'</tt> aan, en Bolt zal de database tabellen voor je aanmaken. Denk er dan aan om deze pagina te herladen, voor je doorgaat."
         placeholder:
             displayname: "Weergavenaam invullen"

@@ -237,7 +237,7 @@
 "Rename %foldername%": "Переименовать %foldername%"
 "Roles": "Роли"
 "Roles and Permissions": "Роли и права доступа"
-"Routing setup": "Установка роутинга"
+menu.configuration.routing: "Установка роутинга"
 "Run all Updates": "Запустить все обновления"
 "Run update check": "Проверить обновления"
 "Running install of all packages …": "Идет установка всех пакетов …"

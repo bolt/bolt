@@ -242,7 +242,7 @@
 "Rename %foldername%": "重命名 %foldername%"
 "Roles": "角色"
 "Roles and Permissions": "角色和权限"
-"Routing setup": "路由设置"
+menu.configuration.routing: "路由设置"
 "Run all Updates": "运行全部更新"
 "Run update check": "运行更新检查"
 "Running install of all packages …": "正在安装所有包 …"

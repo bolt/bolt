@@ -2,6 +2,7 @@
 
 namespace Bolt\Provider;
 
+use Bolt\TwigExtension;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 
@@ -9,11 +10,18 @@ class SafeTwigServiceProvider implements ServiceProviderInterface
 {
     public function register(Application $app)
     {
+        $app['safe_twig.bolt_extension'] = function($app) {
+            return new TwigExtension($app, true);
+        };
+
         $app['safe_twig'] = $app->share(
-            function () {
+            function ($app) {
                 $loader = new \Twig_Loader_String();
 
-                return new \Twig_Environment($loader);
+                $twig = new \Twig_Environment($loader);
+                $twig->addExtension($app['safe_twig.bolt_extension']);
+
+                return $twig;
             }
         );
     }

@@ -1503,7 +1503,7 @@ class Storage
         } elseif (preg_match('#^/?([a-z0-9_-]+)/(latest|first)/([0-9]+)$#i', $textquery, $match)) {
             // like 'page/latest/5'
             $decoded['contenttypes'] = $this->decodeContentTypesFromText($match[1]);
-            if (!isset($metaParameters['order'])) {
+            if (!isset($metaParameters['order']) || $metaParameters['order'] === false) {
                 $metaParameters['order'] = 'datepublish ' . ($match[2] == 'latest' ? 'DESC' : 'ASC');
             }
             if (!isset($metaParameters['limit'])) {
@@ -1931,7 +1931,11 @@ class Storage
                     $totalResults = $countRow['count'];
                 }
 
-                $offset = ($decoded['parameters']['page'] - 1) * $decoded['parameters']['limit'];
+                if (isset($decoded['parameters']['paging']) && $decoded['parameters']['paging'] == true) {
+                    $offset = ($decoded['parameters']['page'] - 1) * $decoded['parameters']['limit'];
+                } else {
+                    $offset = null;
+                }
                 $limit = $decoded['parameters']['limit'];
 
                 // @todo this will fail when actually using params on certain databases
@@ -2924,10 +2928,14 @@ class Storage
         if ($dboptions['driver'] == 'pdo_sqlite') {
             // For SQLite:
             $query = "SELECT count(*) FROM sqlite_master WHERE type='table' AND name='$name';";
-        } else {
-            // For MySQL and Postgres:
+        } elseif ($dboptions['driver'] == 'pdo_pgsql') {
+            // For Postgres
             $databasename = $this->app['config']->get('general/database/databasename');
-            $query = "SELECT count(*) FROM information_schema.tables WHERE (table_schema = '$databasename' OR table_catalog = '$databasename') AND table_name = '$name';";
+            $query = "SELECT count(*) FROM information_schema.tables WHERE table_catalog = '$databasename' AND table_name = '$name';";
+        } else {
+            // For MySQL
+            $databasename = $this->app['config']->get('general/database/databasename');
+            $query = "SELECT count(*) FROM information_schema.tables WHERE table_schema = '$databasename' AND table_name = '$name';";
         }
 
         $res = $this->app['db']->fetchColumn($query);

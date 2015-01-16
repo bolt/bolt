@@ -248,7 +248,7 @@
 "Rename %foldername%": "Přejmenovat %foldername%"
 "Roles": "Práva"
 "Roles and Permissions": "Nastavení oprávnění"
-"Routing setup": "Nastavení routingu"
+menu.configuration.routing: "Nastavení routingu"
 "Run all Updates": "Spustit všechny aktualizace"
 "Run update check": "Spustit kontrolu aktualizací"
 "Running install of all packages …": "Probíhá instalace všech balíčků..."

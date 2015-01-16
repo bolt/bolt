@@ -45,6 +45,7 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFunction('__', array($this, 'trans'), array('is_safe' => array('html'))),
             new \Twig_SimpleFunction('backtrace', array($this, 'printBacktrace'), array('is_safe' => array('html'))),
             new \Twig_SimpleFunction('current', array($this, 'current')),
+            new \Twig_SimpleFunction('data', array($this, 'addData')),
             new \Twig_SimpleFunction('debugbar', array($this, 'debugBar')),
             new \Twig_SimpleFunction('dump', array($this, 'printDump'), array('is_safe' => array('html'))),
             new \Twig_SimpleFunction('excerpt', array($this, 'excerpt'), array('is_safe' => array('html'))),
@@ -121,6 +122,42 @@ class TwigExtension extends \Twig_Extension
         );
     }
 
+    public function getGlobals()
+    {
+        /** @var Config $config */
+        $config = $this->app['config'];
+        /** @var Users $users */
+        $users = $this->app['users'];
+        /** @var Configuration\ResourceManager $resources */
+        $resources = $this->app['resources'];
+
+        $configVal = $this->safe ? null : $config;
+        $usersVal = $this->safe ? null : $users->getUsers();
+        // structured to allow PHPStorm's SymfonyPlugin to provide code completion
+        return array(
+            'bolt_name'            => $this->app['bolt_name'],
+            'bolt_version'         => $this->app['bolt_version'],
+            'frontend'             => false,
+            'backend'              => false,
+            'async'                => false,
+            $config->getWhichEnd() => true,
+            'paths'                => $resources->getPaths(),
+            'theme'                => $config->get('theme'),
+            'user'                 => $users->getCurrentUser(),
+            'users'                => $usersVal,
+            'config'               => $configVal,
+        );
+    }
+
+    public function getTokenParsers()
+    {
+        $parsers = array();
+        if (!$this->safe) {
+            $parsers[] = new SetcontentTokenParser();
+        }
+        return $parsers;
+    }
+
     /**
      * Check if a file exists.
      *
@@ -147,7 +184,7 @@ class TwigExtension extends \Twig_Extension
         if ($this->safe) {
             return '?';
         }
-        if ($this->app['config']->get('general/debug')) {
+        if ($this->app['debug']) {
             dump($var);
         } else {
             return '';
@@ -166,7 +203,7 @@ class TwigExtension extends \Twig_Extension
         if ($this->safe) {
             return null;
         }
-        if ($this->app['config']->get('general/debug')) {
+        if ($this->app['debug']) {
             return dump(debug_backtrace());
         } else {
             return '';
@@ -656,11 +693,16 @@ class TwigExtension extends \Twig_Extension
             return null;
         }
 
+        $name = '/^[a-zA-Z0-9]\V+\.twig$/';
+        if ($filter) {
+            $name = $filter;
+        }
+
         $finder = new Finder();
         $finder->files()
                ->in($this->app['paths']['themepath'])
                ->depth('== 0')
-               ->name('/^[a-zA-Z0-9]\V+\.twig$/')
+               ->name($name)
                ->sortByName();
 
         $files = array();
@@ -1347,9 +1389,13 @@ class TwigExtension extends \Twig_Extension
      *                          fields, to return from each record
      * @return array
      */
-    public function selectField($content, $fieldname)
+    public function selectField($content, $fieldname, $startempty = false)
     {
-        $retval = array('');
+        if ($startempty) {
+            $retval = array();
+        } else {
+            $retval = array('');
+        }
         foreach ($content as $c) {
             if (is_array($fieldname)) {
                 $row = array();
@@ -1360,10 +1406,10 @@ class TwigExtension extends \Twig_Extension
                         $row[] = null;
                     }
                 }
-                $retval[] = $row;
+                $retval[ $c->values['id'] ] = $row;
             } else {
                 if (isset($c->values[$fieldname])) {
-                    $retval[] = $c->values[$fieldname];
+                    $retval[ $c->values['id'] ] = $c->values[$fieldname];
                 }
             }
         }
@@ -1431,4 +1477,34 @@ class TwigExtension extends \Twig_Extension
     {
         return json_decode($string);
     }
+
+    /**
+     * Add JavaScript data to app['jsdata']
+     *
+     * @param string $key
+     * @param mixed  $value
+     */
+    public function addData($path, $value)
+    {
+        $path = explode('.', $path);
+
+        if (empty($path[0])) {
+            return;
+        }
+
+        $jsdata = $this->app['jsdata'];
+        $part = & $jsdata;
+
+        foreach ($path as $key) {
+            if (!isset($part[$key])) {
+                $part[$key] = array();
+            }
+
+            $part = & $part[$key];
+        }
+
+        $part = $value;
+        $this->app['jsdata'] = $jsdata;
+    }
+
 }

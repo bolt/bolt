@@ -193,7 +193,7 @@
 "contenttypes.generic.group.relations": "Relazioni"
 "page.login.button.reset-password": "Resetta la mia password"
 "page.edit-file.button.revert": "Ripristina modifiche"
-"Routing setup": "Routing setup"
+menu.configuration.routing: "Routing setup"
 "contenttypes.generic.save": "Salva %contenttype%"
 "page.edit-locale.button.save": "Salva"
 "page.edit-file.button.save": "Salva"
