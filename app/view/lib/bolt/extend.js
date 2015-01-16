@@ -240,7 +240,7 @@ var BoltExtender = Object.extend(Object, {
                 i = 0;
 
                 // Authors array
-                if (ext.authors.length > 0) {
+                if (ext.authors && ext.authors.length > 0) {
                     var authorsArray = ext.authors;
                     for (i = 0; i < authorsArray.length; i++) {
                         authors += conf.author.subst({'%AUTHOR%': authorsArray[i].name});
@@ -248,7 +248,7 @@ var BoltExtender = Object.extend(Object, {
                 }
 
                 // Keyword array
-                if (ext.keywords.length > 0) {
+                if (ext.keywords && ext.keywords.length > 0) {
                     var keywordsArray = ext.keywords;
                     for (i = 0; i < keywordsArray.length; i++) {
                         keywords += conf.keyword.subst({'%KEYWORD%': keywordsArray[i]});
