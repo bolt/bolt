@@ -20,6 +20,9 @@ class Config
     protected $paths;
 
     protected $app;
+    /** @var Configuration\ResourceManager */
+    protected $resources;
+
     protected $data;
     protected $defaultConfig = array();
     protected $reservedFieldNames = array(
@@ -43,6 +46,7 @@ class Config
     public function __construct(Application $app)
     {
         $this->app = $app;
+        $this->resources = $app['resources'];
         $this->fields = new Field\Manager();
         $this->initialize();
     }
@@ -158,13 +162,12 @@ class Config
         $config['permissions'] = $this->parseConfigYaml('permissions.yml');
         $config['extensions']  = array();
 
-        // fetch the theme config. requires special treatment due to the path being dynamic
-        $this->app['resources']->initializeConfig($config);
-        $config['theme'] = $this->parseConfigYaml('config.yml', $this->app['resources']->getPath('theme'));
+        $this->resources->initializeConfig($config);
+        $config['theme'] = $this->parseConfigYaml('config.yml', $this->resources->getPath('theme'));
 
         // @todo: If no config files can be found, get them from bolt.cm/files/default/
 
-        $this->paths = $this->app['resources']->getPaths();
+        $this->paths = $this->resources->getPaths();
 
         return $config;
     }
@@ -418,7 +421,7 @@ class Config
         }
 
         // By default we assume that config files are located in app/config/
-        $path = $path ?: $this->app['resources']->getPath('config');
+        $path = $path ?: $this->resources->getPath('config');
         $filename = $path . '/' . $filename;
 
         if (!is_readable($filename)) {
@@ -669,13 +672,13 @@ class Config
 
     protected function setTwigPath()
     {
-        $themepath = $this->app['resources']->getPath("theme");
+        $themepath = $this->resources->getPath("theme");
         $end = $this->getWhichEnd($this->get('general/branding/path'));
 
         if ($end == 'frontend' && file_exists($themepath)) {
             $twigpath = array($themepath);
         } else {
-            $twigpath = array(realpath($this->app['resources']->getPath('app') . '/view/twig'));
+            $twigpath = array(realpath($this->resources->getPath('app') . '/view/twig'));
         }
 
         // If the template path doesn't exist, attempt to set a Flash error on the dashboard.
@@ -686,7 +689,7 @@ class Config
 
         // We add these later, because the order is important: By having theme/ourtheme first,
         // files in that folder will take precedence. For instance when overriding the menu template.
-        $twigpath[] = realpath($this->app['resources']->getPath('app') . '/theme_defaults');
+        $twigpath[] = realpath($this->resources->getPath('app') . '/theme_defaults');
 
         return $twigpath;
     }
@@ -696,7 +699,7 @@ class Config
      */
     public function setCKPath()
     {
-        $this->paths = $this->app['resources']->getPaths();
+        $this->paths = $this->resources->getPaths();
 
         // Make sure the paths for CKeditor config are always set correctly..
         $this->set(
@@ -706,16 +709,16 @@ class Config
                 $this->paths['app'] . 'view/css/ckeditor.css'
             )
         );
-        $this->set('general/wysiwyg/filebrowser/browseUrl', $this->app['resources']->getUrl('async') . 'filebrowser/');
+        $this->set('general/wysiwyg/filebrowser/browseUrl', $this->resources->getUrl('async') . 'filebrowser/');
         $this->set(
             'general/wysiwyg/filebrowser/imageBrowseUrl',
-            $this->app['resources']->getUrl('bolt') . 'files/files/'
+            $this->resources->getUrl('bolt') . 'files/files/'
         );
     }
 
     protected function loadCache()
     {
-        $dir = $this->app['resources']->getPath('config');
+        $dir = $this->resources->getPath('config');
         /* Get the timestamps for the config files. config_local defaults to '0', because if it isn't present,
            it shouldn't trigger an update for the cache, while the others should.
         */
@@ -728,14 +731,14 @@ class Config
             file_exists($dir . '/permissions.yml') ? filemtime($dir . '/permissions.yml') : 10000000000,
             file_exists($dir . '/config_local.yml') ? filemtime($dir . '/config_local.yml') : 0,
         );
-        if (file_exists($this->app['resources']->getPath('cache') . '/config_cache.php')) {
-            $this->cachetimestamp = filemtime($this->app['resources']->getPath('cache') . '/config_cache.php');
+        if (file_exists($this->resources->getPath('cache') . '/config_cache.php')) {
+            $this->cachetimestamp = filemtime($this->resources->getPath('cache') . '/config_cache.php');
         } else {
             $this->cachetimestamp = 0;
         }
 
         if ($this->cachetimestamp > max($timestamps)) {
-            $this->data = Lib::loadSerialize($this->app['resources']->getPath('cache') . '/config_cache.php');
+            $this->data = Lib::loadSerialize($this->resources->getPath('cache') . '/config_cache.php');
 
             // Check if we loaded actual data.
             if (count($this->data) < 4 || empty($this->data['general'])) {
@@ -749,7 +752,7 @@ class Config
             }
 
             // Trigger the config loaded event on the resource manager
-            $this->app['resources']->initializeConfig($this->data);
+            $this->resources->initializeConfig($this->data);
 
             // Yup, all seems to be right.
             return true;
@@ -765,18 +768,18 @@ class Config
         $this->data['version'] = $this->app->getVersion();
 
         if ($this->get('general/caching/config')) {
-            Lib::saveSerialize($this->app['resources']->getPath('cache') . '/config_cache.php', $this->data);
+            Lib::saveSerialize($this->resources->getPath('cache') . '/config_cache.php', $this->data);
 
             return;
         }
 
-        @unlink($this->app['resources']->getPath('cache') . '/config_cache.php');
+        @unlink($this->resources->getPath('cache') . '/config_cache.php');
     }
 
     protected function checkValidCache()
     {
         // Check the timestamp for the theme's config.yml
-        $paths = $this->app['resources']->getPaths();
+        $paths = $this->resources->getPaths();
         $themeConfigFile = $paths['themepath'] . '/config.yml';
         // Note: we need to check if it exists, _and_ it's too old. Not _or_, hence the '0'
         $configTimestamp = file_exists($themeConfigFile) ? filemtime($themeConfigFile) : 0;
@@ -805,7 +808,7 @@ class Config
             }
 
             if (isset($configdb["path"])) {
-                $configpaths = $this->app['resources']->getPaths();
+                $configpaths = $this->resources->getPaths();
                 if (substr($configdb['path'], 0, 1) !== "/") {
                     $configdb['path'] = $configpaths["rootpath"] . '/' . $configdb['path'];
                 }
@@ -813,7 +816,7 @@ class Config
 
             $dboptions = array(
                 'driver' => 'pdo_sqlite',
-                'path' => isset($configdb['path']) ? realpath($configdb['path']) . '/' . $basename : $this->app['resources']->getPath('database') . '/' . $basename,
+                'path' => isset($configdb['path']) ? realpath($configdb['path']) . '/' . $basename : $this->resources->getPath('database') . '/' . $basename,
                 'randomfunction' => 'RANDOM()',
                 'memory' => isset($configdb['memory']) ? true : false
             );
