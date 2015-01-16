@@ -465,7 +465,7 @@ class Config
                         'contenttypes.generic.reserved-name',
                         array('%contenttype%' => $key, '%field%' => $fieldname)
                     );
-                    $this->app['session']->getFlashBag()->set('error', $error);
+                    $this->flashError($error);
 
                     return;
                 }
@@ -479,7 +479,7 @@ class Config
                                 'contenttypes.generic.wrong-use-field',
                                 array('%contenttype%' => $key, '%field%' => $fieldname, '%uses%' => $useField)
                             );
-                            $this->app['session']->getFlashBag()->set('error', $error);
+                            $this->flashError($error);
 
                             return;
                         }
@@ -512,7 +512,7 @@ class Config
                         array('%contenttype%' => $key, '%field%' => $fieldname, '%type%' =>
                          $field['type'])
                     );
-                    $this->app['session']->getFlashBag()->set('error', $error);
+                    $this->flashError($error);
                     $wrongctype = true && $this->app['users']->getCurrentUsername();
                 }
             }
@@ -538,7 +538,7 @@ class Config
                 "The database needs to be updated/repaired. Go to 'Settings' > '<a href=\"%link%\">Check Database</a>' to do this now.",
                 array('%link%' => Lib::path('dbcheck'))
             );
-            $this->app['session']->getFlashBag()->set('error', $msg);
+            $this->flashError($msg);
 
             return;
         }
@@ -551,7 +551,7 @@ class Config
                     "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.",
                     array('%taxonomytype%' => $key, '%slug%' => $taxo['slug'])
                 );
-                $this->app['session']->getFlashBag()->set('error', $error);
+                $this->flashError($error);
 
                 return;
             }
@@ -565,7 +565,7 @@ class Config
                         "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.",
                         array('%slug%' => $slug)
                     );
-                    $this->app['session']->getFlashBag()->set('error', $error);
+                    $this->flashError($error);
 
                     return;
                 }
@@ -681,10 +681,9 @@ class Config
             $twigpath = array(realpath($this->resources->getPath('app') . '/view/twig'));
         }
 
-        // If the template path doesn't exist, attempt to set a Flash error on the dashboard.
-        if (! file_exists($themepath) && isset($this->app['session']) && (gettype($this->app['session']) == 'object')) {
+        if (!file_exists($themepath)) {
             $error = "Template folder 'theme/" . basename($this->get('general/theme')) . "' does not exist, or is not writable.";
-            $this->app['session']->getFlashBag()->set('error', $error);
+            $this->flashError($error);
         }
 
         // We add these later, because the order is important: By having theme/ourtheme first,
@@ -978,5 +977,22 @@ class Config
         $now = date_format(new \DateTime($timezone), 'Y-m-d H:i:s');
 
         return $now;
+    }
+
+    /**
+     * Add error to flash if session exists
+     * @param $error
+     */
+    protected function flashError($error)
+    {
+        if (!isset($this->app['session'])) {
+            return;
+        }
+        /** @var \Symfony\Component\HttpFoundation\Session\Session $session */
+        $session = $this->app['session'];
+        if (gettype($session) !== 'object') {
+            return;
+        }
+        $session->getFlashBag()->set('error', $error);
     }
 }
