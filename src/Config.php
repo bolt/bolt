@@ -345,63 +345,11 @@ class Config
         if (!isset($contentType['default_status'])) {
             $contentType['default_status'] = 'draft';
         }
-        // Make sure all fields are lowercase and 'safe'.
-        $tempfields = $contentType['fields'];
-        $contentType['fields'] = array();
 
-        // Set a default group and groups array.
-        $currentgroup = false;
-        $contentType['groups'] = array();
-
-        foreach ($tempfields as $key => $value) {
-            $key = str_replace('-', '_', strtolower(String::makeSafe($key, true)));
-            $contentType['fields'][$key] = $value;
-
-            // If field is a "file" type, make sure the 'extensions' are set, and it's an array.
-            if ($contentType['fields'][$key]['type'] == 'file' || $contentType['fields'][$key]['type'] == 'filelist') {
-                if (empty($contentType['fields'][$key]['extensions'])) {
-                    $contentType['fields'][$key]['extensions'] = array_intersect(
-                        array('doc', 'docx', 'txt', 'md', 'pdf', 'xls', 'xlsx', 'ppt', 'pptx', 'csv'),
-                        $acceptableFileTypes
-                    );
-                }
-
-                if (!is_array($contentType['fields'][$key]['extensions'])) {
-                    $contentType['fields'][$key]['extensions'] = array($contentType['fields'][$key]['extensions']);
-                }
-            }
-
-            // If field is an "image" type, make sure the 'extensions' are set, and it's an array.
-            if ($contentType['fields'][$key]['type'] == 'image' || $contentType['fields'][$key]['type'] == 'imagelist') {
-                if (empty($contentType['fields'][$key]['extensions'])) {
-                    $contentType['fields'][$key]['extensions'] = array_intersect(
-                        array('gif', 'jpg', 'jpeg', 'png'),
-                        $acceptableFileTypes
-                    );
-                }
-
-                if (!is_array($contentType['fields'][$key]['extensions'])) {
-                    $contentType['fields'][$key]['extensions'] = array($contentType['fields'][$key]['extensions']);
-                }
-            }
-
-            // If the field has a 'group', make sure it's added to the 'groups' array, so we can turn
-            // them into tabs while rendering. This also makes sure that once you started with a group,
-            // all others have a group too.
-            if (!empty($contentType['fields'][$key]['group'])) {
-                $currentgroup = $contentType['fields'][$key]['group'];
-                $contentType['groups'][] = $currentgroup;
-            } else {
-                $contentType['fields'][$key]['group'] = $currentgroup;
-            }
-
-        }
-
-        // Make sure the 'uses' of the slug is an array.
-        if (isset($contentType['fields']['slug']) && isset($contentType['fields']['slug']['uses']) &&
-            !is_array($contentType['fields']['slug']['uses'])
-        ) {
-            $contentType['fields']['slug']['uses'] = array($contentType['fields']['slug']['uses']);
+        list($fields, $groups) = $this->parseFieldsAndGroups($contentType['fields'], $acceptableFileTypes);
+        $contentType['fields'] = $fields;
+        if (!empty($groups)) {
+            $contentType['groups'] = $groups;
         }
 
         // Make sure taxonomy is an array.
@@ -419,14 +367,68 @@ class Config
             }
         }
 
-        // Make sure the 'groups' has unique elements, if there are any.
-        if (!empty($contentType['groups'])) {
-            $contentType['groups'] = array_unique($contentType['groups']);
-        } else {
-            unset($contentType['groups']);
+        return $contentType;
+    }
+
+    protected function parseFieldsAndGroups($fields, $acceptableFileTypes)
+    {
+        $currentGroup = false;
+        $groups = array();
+
+        foreach ($fields as $key => $field) {
+            unset($fields[$key]);
+            $key = str_replace('-', '_', strtolower(String::makeSafe($key, true)));
+
+            // If field is a "file" type, make sure the 'extensions' are set, and it's an array.
+            if ($field['type'] == 'file' || $field['type'] == 'filelist') {
+                if (empty($field['extensions'])) {
+                    $field['extensions'] = array_intersect(
+                        array('doc', 'docx', 'txt', 'md', 'pdf', 'xls', 'xlsx', 'ppt', 'pptx', 'csv'),
+                        $acceptableFileTypes
+                    );
+                }
+
+                if (!is_array($field['extensions'])) {
+                    $field['extensions'] = array($field['extensions']);
+                }
+            }
+
+            // If field is an "image" type, make sure the 'extensions' are set, and it's an array.
+            if ($field['type'] == 'image' || $field['type'] == 'imagelist') {
+                if (empty($field['extensions'])) {
+                    $field['extensions'] = array_intersect(
+                        array('gif', 'jpg', 'jpeg', 'png'),
+                        $acceptableFileTypes
+                    );
+                }
+
+                if (!is_array($field['extensions'])) {
+                    $field['extensions'] = array($field['extensions']);
+                }
+            }
+
+            // If the field has a 'group', make sure it's added to the 'groups' array, so we can turn
+            // them into tabs while rendering. This also makes sure that once you started with a group,
+            // all others have a group too.
+            if (!empty($field['group'])) {
+                $currentGroup = $field['group'];
+                $groups[] = $currentGroup;
+            } else {
+                $field['group'] = $currentGroup;
+            }
+
+            $fields[$key] = $field;
         }
 
-        return $contentType;
+        // Make sure the 'uses' of the slug is an array.
+        if (isset($fields['slug']) && isset($fields['slug']['uses']) &&
+            !is_array($fields['slug']['uses'])
+        ) {
+            $fields['slug']['uses'] = array($fields['slug']['uses']);
+        }
+
+        $groups = array_unique($groups);
+        return array($fields, $groups);
     }
 
     /**
