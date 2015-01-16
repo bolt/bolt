@@ -183,12 +183,9 @@ class Config
     {
         $config = array();
 
-        // Read the config and merge it. (note: We use temp variables to prevent
-        // "Only variables should be passed by reference")
-        $tempconfig            = $this->parseConfigYaml('config.yml');
-        $tempconfiglocal       = $this->parseConfigYaml('config_local.yml');
-
-        $config['general']     = Arr::mergeRecursiveDistinct($tempconfig, $tempconfiglocal);
+        $config['general']     = $this->parseGeneral();
+        $config['taxonomy']    = $this->parseTaxonomy();
+        $config['contenttypes'] = $this->parseContentTypes($config['general']['accept_file_types']);
         $config['menu']        = $this->parseConfigYaml('menu.yml');
         $config['routing']     = $this->parseConfigYaml('routing.yml');
         $config['permissions'] = $this->parseConfigYaml('permissions.yml');
@@ -202,24 +199,36 @@ class Config
 
         $this->paths = $this->app['resources']->getPaths();
 
+        // Set all the distinctive arrays as part of our Config object.
+        $this->data = $config;
+    }
+
+    protected function parseGeneral()
+    {
+        // Read the config and merge it. (note: We use temp variables to prevent
+        // "Only variables should be passed by reference")
+        $tempconfig = $this->parseConfigYaml('config.yml');
+        $tempconfiglocal = $this->parseConfigYaml('config_local.yml');
+        $general = Arr::mergeRecursiveDistinct($tempconfig, $tempconfiglocal);
+
         // Make sure old settings for 'contentsCss' are still picked up correctly
-        if (isset($config['general']['wysiwyg']['ck']['contentsCss'])) {
-            $config['general']['wysiwyg']['ck']['contentsCss'] = array(
-                1 => $config['general']['wysiwyg']['ck']['contentsCss']
+        if (isset($general['wysiwyg']['ck']['contentsCss'])) {
+            $general['wysiwyg']['ck']['contentsCss'] = array(
+                1 => $general['wysiwyg']['ck']['contentsCss']
             );
         }
 
         // Make sure old settings for 'accept_file_types' are not still picked up. Before 1.5.4 we used to store them
         // as a regex-like string, and we switched to an array. If we find the old style, fall back to the defaults.
-        if (isset($config['general']['accept_file_types']) && !is_array($config['general']['accept_file_types'])) {
-            unset($config['general']['accept_file_types']);
+        if (isset($general['accept_file_types']) && !is_array($general['accept_file_types'])) {
+            unset($general['accept_file_types']);
         }
 
         // Merge the array with the defaults. Setting the required values that aren't already set.
-        $config['general'] = Arr::mergeRecursiveDistinct($this->defaultConfig, $config['general']);
+        $general = Arr::mergeRecursiveDistinct($this->defaultConfig, $general);
 
         // Make sure the cookie_domain for the sessions is set properly.
-        if (empty($config['general']['cookies_domain'])) {
+        if (empty($general['cookies_domain'])) {
             if (isset($_SERVER['HTTP_HOST'])) {
                 $hostname = $_SERVER['HTTP_HOST'];
             } elseif (isset($_SERVER['SERVER_NAME'])) {
@@ -231,25 +240,21 @@ class Config
             // Don't set the domain for a cookie on a "TLD" - like 'localhost', or if the server_name is an IP-address
             if ((strpos($hostname, '.') > 0) && preg_match("/[a-z0-9]/i", $hostname)) {
                 if (preg_match("/^www[0-9]*./", $hostname)) {
-                    $config['general']['cookies_domain'] = '.' . preg_replace("/^www[0-9]*./", '', $hostname);
+                    $general['cookies_domain'] = '.' . preg_replace("/^www[0-9]*./", '', $hostname);
                 } else {
-                    $config['general']['cookies_domain'] = '.' . $hostname;
+                    $general['cookies_domain'] = '.' . $hostname;
                 }
                 // Make sure we don't have consecutive '.'-s in the cookies_domain..
-                $config['general']['cookies_domain'] = str_replace('..', '.', $config['general']['cookies_domain']);
+                $general['cookies_domain'] = str_replace('..', '.', $general['cookies_domain']);
             } else {
-                $config['general']['cookies_domain'] = '';
+                $general['cookies_domain'] = '';
             }
         }
 
         // Make sure Bolt's mount point is OK:
-        $config['general']['branding']['path'] = '/' . String::makeSafe($config['general']['branding']['path']);
+        $general['branding']['path'] = '/' . String::makeSafe($general['branding']['path']);
 
-        $config['taxonomy'] = $this->parseTaxonomy();
-        $config['contenttypes'] = $this->parseContentTypes($config['general']['accept_file_types']);
-
-        // Set all the distinctive arrays as part of our Config object.
-        $this->data = $config;
+        return $general;
     }
 
     protected function parseTaxonomy()
