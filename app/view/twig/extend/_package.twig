@@ -14,6 +14,9 @@
             <div class="actions pull-right">
                 <div class="btn-group">
 
+                    {# Available #}
+                    %AVAILABLE%
+
                     {# Readme #}
                     %README%
 
@@ -66,7 +69,12 @@
 
 {% set package_theme_button %}
     <a data-request="package-copy" data-theme="%NAME%" class="btn btn-sm btn-tertiary" href="#">
-    <i class="fa fa-copy fa-fw"></i> {{ __('Copy to theme folder') }}</a>&nbsp;
+        <i class="fa fa-copy fa-fw"></i> {{ __('Copy to theme folder') }}</a>&nbsp;
+{% endset %}
+
+{% set package_available_button %}
+    <a data-request="package-available" data-available="%NAME%" data-toggle="modal" data-target="#installModal" class='btn btn-sm btn-primary' href="#">
+        <i class='fa fa-list fa-fw'></i> {{ __('Versions') }}</a>&nbsp;
 {% endset %}
 
 {% set package_versions %}
@@ -109,6 +117,7 @@
                             'readme_button':  package_readme_button|trim|preg_replace('/>\\s+</', '><'),
                             'config_button':  package_config_button|trim|preg_replace('/>\\s+</', '><'),
                             'theme_button':   package_theme_button|trim|preg_replace('/>\\s+</', '><'),
+                            'avail_button':   package_available_button|trim|preg_replace('/>\\s+</', '><'),
                             'install_new':    package_install_new|trim|preg_replace('/>\\s+</', '><'),
                             'install_update': package_install_update|trim|preg_replace('/>\\s+</', '><'),
                             'error':          package_error|trim|preg_replace('/>\\s+</', '><')
