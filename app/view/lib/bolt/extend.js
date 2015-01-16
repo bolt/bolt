@@ -263,9 +263,10 @@ var BoltExtender = Object.extend(Object, {
                     '%VERSION%': ext.version,
                     '%AUTHORS%': authors,
                     '%TYPE%': ext.type,
+                    '%AVAILABLE%': conf.avail_button.subst({'%NAME%': ext.name}),
                     '%README%': ext.readme ? conf.readme_button.subst({'%README%': ext.readme}) : '',
                     '%CONFIG%': ext.config ? conf.config_button.subst({'%CONFIG%': ext.config}) : '',
-                    '%THEME%': (ext.type == 'bolt-theme') ? conf.theme_button : '',
+                    '%THEME%': ext.type == 'bolt-theme' ? conf.theme_button : '',
                     '%BASEURL%': baseurl,
                     '%DESCRIPTION%': ext.descrip,
                     '%KEYWORDS%': keywords});
@@ -288,6 +289,15 @@ var BoltExtender = Object.extend(Object, {
         if (packagename) {
             ext = packagename;
         }
+        
+        controller.installInfo(ext);
+
+        e.preventDefault();
+    },
+    
+    installInfo: function (ext) {
+        var controller = this;
+
         active_console = false;
         jQuery.get(baseurl + 'installInfo?package=' + ext, function(data) {
 
@@ -306,7 +316,6 @@ var BoltExtender = Object.extend(Object, {
                     .append(controller.buildVersionTable(stablepacks));
             }
 
-
             controller.find('.install-version-container').show();
             controller.find('#installModal .loader').hide();
 
@@ -316,8 +325,6 @@ var BoltExtender = Object.extend(Object, {
             active_console.html(controller.formatErrorLog(data));
             controller.extensionFailedInstall(data);
         });
-
-        e.preventDefault();
     },
 
     buildVersionTable: function (packages) {
@@ -484,6 +491,22 @@ var BoltExtender = Object.extend(Object, {
 
         e.preventDefault();
     },
+    
+    packageAvailable: function (e) {
+        var controller = this;
+
+        jQuery.get( baseurl + 'installInfo?package=' + jQuery(e.target).data('available') )
+        .done(function(data) {
+            controller.installInfo(jQuery(e.target).data('available'));
+            e.preventDefault();
+        })
+        .fail(function(data) {
+            active_console.html(controller.formatErrorLog(data));
+            controller.extensionFailedInstall(data);
+        });
+
+        e.preventDefault();
+    },
 
     uninstall: function (e) {
         var controller = this,
@@ -599,7 +622,6 @@ var BoltExtender = Object.extend(Object, {
     events: {
         change: function (e, t) {
             var controller = e.data;
-
         },
 
         click: function (e, t) {
@@ -615,9 +637,10 @@ var BoltExtender = Object.extend(Object, {
                 case "prefill-package"   : controller.prefill(e.originalEvent); break;
                 case "install-run"       : controller.installRun(e.originalEvent); break;
                 case "generate-theme"    : controller.generateTheme(e.originalEvent); break;
+                case "package-available" : controller.packageAvailable(e.originalEvent); break;
+                case "package-config"    : controller.packageConfig(e.originalEvent); break;
                 case "package-copy"      : controller.copyTheme(e.originalEvent); break;
                 case "package-readme"    : controller.packageReadme(e.originalEvent); break;
-                case "package-config"    : controller.packageConfig(e.originalEvent); break;
                 case "clear-log"         : controller.clearLog(e.originalEvent); break;
             }
         }
