@@ -228,51 +228,50 @@ class Config
 
     protected function parseTaxonomy()
     {
-        $taxonomy = $this->parseConfigYaml('taxonomy.yml');
+        $taxonomies = $this->parseConfigYaml('taxonomy.yml');
 
-        // Clean up taxonomies
-        foreach ($taxonomy as $key => $value) {
-            if (!isset($value['name'])) {
-                $value['name'] = ucwords($value['slug']);
+        foreach ($taxonomies as $key => $taxonomy) {
+            if (!isset($taxonomy['name'])) {
+                $taxonomy['name'] = ucwords($taxonomy['slug']);
             }
-            if (!isset($value['singular_name'])) {
-                if (isset($value['singular_slug'])) {
-                    $value['singular_name'] = ucwords($value['singular_slug']);
+            if (!isset($taxonomy['singular_name'])) {
+                if (isset($taxonomy['singular_slug'])) {
+                    $taxonomy['singular_name'] = ucwords($taxonomy['singular_slug']);
                 } else {
-                    $value['singular_name'] = ucwords($value['slug']);
+                    $taxonomy['singular_name'] = ucwords($taxonomy['slug']);
                 }
             }
-            if (!isset($value['slug'])) {
-                $value['slug'] = strtolower(String::makeSafe($value['name']));
+            if (!isset($taxonomy['slug'])) {
+                $taxonomy['slug'] = strtolower(String::makeSafe($taxonomy['name']));
             }
-            if (!isset($value['singular_slug'])) {
-                $value['singular_slug'] = strtolower(String::makeSafe($value['singular_name']));
+            if (!isset($taxonomy['singular_slug'])) {
+                $taxonomy['singular_slug'] = strtolower(String::makeSafe($taxonomy['singular_name']));
             }
-            if (!isset($value['has_sortorder'])) {
-                $value['has_sortorder'] = false;
+            if (!isset($taxonomy['has_sortorder'])) {
+                $taxonomy['has_sortorder'] = false;
             }
 
             // Make sure the options are $key => $value pairs, and not have implied integers for keys.
-            if (!empty($value['options']) && is_array($value['options'])) {
+            if (!empty($taxonomy['options']) && is_array($taxonomy['options'])) {
                 $options = array();
-                foreach ($value['options'] as $optionkey => $optionvalue) {
+                foreach ($taxonomy['options'] as $optionkey => $optionvalue) {
                     if (is_numeric($optionkey)) {
                         $optionkey = String::slug($optionvalue);
                     }
                     $options[$optionkey] = $optionvalue;
                 }
-                $value['options'] = $options;
+                $taxonomy['options'] = $options;
             }
 
             // If taxonomy is like tags, set 'tagcloud' to true by default.
-            if (($value['behaves_like'] == 'tags') && (!isset($value['tagcloud']))) {
-                $value['tagcloud'] = true;
+            if (($taxonomy['behaves_like'] == 'tags') && (!isset($taxonomy['tagcloud']))) {
+                $taxonomy['tagcloud'] = true;
             }
 
-            $taxonomy[$key] = $value;
+            $taxonomies[$key] = $taxonomy;
         }
 
-        return $taxonomy;
+        return $taxonomies;
     }
 
     protected function parseContentTypes($acceptableFileTypes)
