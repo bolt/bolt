@@ -51,7 +51,7 @@ class Config
     {
         $this->defaultConfig = $this->setDefaults();
         if (!$this->loadCache()) {
-            $this->getConfig();
+            $this->data = $this->getConfig();
             $this->saveCache();
 
             // if we have to reload the config, we will also want to make sure the DB integrity is checked.
@@ -192,8 +192,7 @@ class Config
 
         $this->paths = $this->app['resources']->getPaths();
 
-        // Set all the distinctive arrays as part of our Config object.
-        $this->data = $config;
+        return $config;
     }
 
     protected function parseGeneral()
