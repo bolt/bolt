@@ -74,7 +74,7 @@ class Config
      * @param  string $path     The (optional) path to the YAML file
      * @return array
      */
-    protected function parseConfigYaml($filename, $path = false)
+    protected function parseConfigYaml($filename, $path = null)
     {
         // Initialise parser
         if ($this->yamlParser === false) {
@@ -82,24 +82,17 @@ class Config
         }
 
         // By default we assume that config files are located in app/config/
-        if ($path) {
-            $filename = $path . '/' . $filename;
-        } else {
-            $filename = $this->app['resources']->getPath('config') . '/' . $filename;
-        }
+        $path = $path ?: $this->app['resources']->getPath('config');
+        $filename = $path . '/' . $filename;
 
-        if (is_readable($filename)) {
-            $yml = $this->yamlParser->parse(file_get_contents($filename) . "\n");
-
-            // Invalid, non-existing, or empty files return NULL
-            if (is_null($yml)) {
-                return array();
-            } else {
-                return $yml;
-            }
-        } else {
+        if (!is_readable($filename)) {
             return array();
         }
+
+        $yml = $this->yamlParser->parse(file_get_contents($filename) . "\n");
+
+        // Invalid, non-existing, or empty files return NULL
+        return $yml ?: array();
     }
 
     /**
