@@ -49,6 +49,7 @@ class Config
 
     protected function initialize()
     {
+        $this->defaultConfig = $this->setDefaults();
         if (!$this->loadCache()) {
             $this->getConfig();
             $this->saveCache();
@@ -200,7 +201,6 @@ class Config
         // @todo: If no config files can be found, get them from bolt.cm/files/default/
 
         $this->paths = $this->app['resources']->getPaths();
-        $this->setDefaults();
 
         // Make sure old settings for 'contentsCss' are still picked up correctly
         if (isset($config['general']['wysiwyg']['ck']['contentsCss'])) {
@@ -586,7 +586,7 @@ class Config
      */
     protected function setDefaults()
     {
-        $this->defaultConfig = array(
+        return array(
             'database'                    => array('prefix' => 'bolt_'),
             'sitename'                    => 'Default Bolt site',
             'homepage'                    => 'page/*',
