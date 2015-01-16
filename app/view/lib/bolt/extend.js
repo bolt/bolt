@@ -98,16 +98,17 @@ var BoltExtender = Object.extend(Object, {
                 var e, ext;
                 for (e in data.installs) {
                     ext = data.installs[e];
-                    target.append('<tr data-package="' + ext + '"><td class="ext-list"><strong class="title">' +
-                        ext + '</strong></td><td> ' +
-                        '<a data-request="update-package" class="btn btn-sm btn-warning" data-package="' + ext + '">' +
-                        'Install New Package</a></td></tr>');
+                    
+                    // Add an install button
+                    target.append(bolt.data.extend.packages.install_new.subst({
+                        '%PACKAGE%': ext}));
                 }
                 for (e in data.updates) {
                     ext = data.updates[e];
-                    target.append("<tr data-package='" + ext + "'><td class='ext-list'><strong class='title'>" + ext +
-                        "</strong></td><td> <a data-request='update-package' class='btn btn-sm btn-tertiary' " +
-                        "data-package='" + ext + "'>Install Package Update</a></td></tr>");
+                    
+                    // Add an update button
+                    target.append(bolt.data.extend.packages.install_update.subst({
+                        '%PACKAGE%': ext}));
                 }
                 active_console.hide();
                 controller.find('.update-list').show();
@@ -255,6 +256,7 @@ var BoltExtender = Object.extend(Object, {
                     }
                 }
 
+                // Generate the HTML for a package item
                 html += conf.item.subst({
                     '%TITLE%': ext.title ? ext.title : ext.name,
                     '%NAME%': ext.name,
@@ -327,15 +329,14 @@ var BoltExtender = Object.extend(Object, {
             version = packages[v];
             aclass = version.buildStatus === 'approved' ? ' label-success' : '';
 
-            tpl += '<tr>' +
-                    '<td>' + version.name + '</td>' +
-                    '<td>' + version.version + '</td>' +
-                    '<td><span class="label label-default' + aclass + '">' + version.buildStatus + '</span></td>' +
-                    '<td><div class="btn-group"><a href="#" data-request="install-package" class="btn btn-primary ' +
-                    'btn-sm" data-package="' + version.name + '" data-version="' + version.version + '">' +
-                    '<i class="icon-gears"></i> Install This Version</a></div></td>' +
-                '</tr>';
+            // Add a row and replace macro values
+            tpl += bolt.data.extend.packages.versions.subst({
+                '%NAME%': version.name,
+                '%VERSION%': version.version,
+                '%CLASS%%': aclass,
+                '%BUILDSTATUS%': version.buildStatus});
         }
+
         return tpl;
     },
 
