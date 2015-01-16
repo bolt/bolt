@@ -795,7 +795,6 @@ class Config
      *
      * @return array
      */
-
     public function getDBOptions()
     {
         $configdb = $this->data['general']['database'];
@@ -815,7 +814,7 @@ class Config
 
             $dboptions = array(
                 'driver' => 'pdo_sqlite',
-                'path' => isset($configdb['path']) ? realpath($configdb['path']) . '/' . $basename : $this->resources->getPath('database') . '/' . $basename,
+                'path' => (isset($configdb['path']) ? realpath($configdb['path']) : $this->resources->getPath('database')) . '/' . $basename,
                 'randomfunction' => 'RANDOM()',
                 'memory' => isset($configdb['memory']) ? true : false
             );
