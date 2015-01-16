@@ -1,6 +1,13 @@
 Bolt 2.0 DEV-head
 -----------------
 
+- (nothing yet)
+
+Bolt 2.0.3
+----------
+
+Released 2015-01-16. Notable changes:
+
 - Added: **integration of Symfony's VarDumper component**. The old 'Dumper::dump' is still
   present, for backwards compatibility
 - Added: Option to disable dashboard news
