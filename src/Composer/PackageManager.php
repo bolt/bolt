@@ -508,7 +508,6 @@ class PackageManager
                 // Eariler versions of libcurl support only SSL, whereas we require TLS.
                 // In this case, downgrade our composer to use HTTP
                 $this->downgradeSsl = true;
-                $this->allowSslDowngrade(true);
 
                 $this->messages[] = Trans::__("cURL library doesn't support TLS. Downgrading to HTTP.");
 
