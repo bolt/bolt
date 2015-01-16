@@ -29,7 +29,7 @@ class Frontend
      * @param Silex\Application    $app     The application/container
      * @param \Bolt\Content|string $content The content to check
      */
-    private static function checkFrontendPermission(Silex\Application $app, $content)
+    protected static function checkFrontendPermission(Silex\Application $app, $content)
     {
         if ($app['config']->get('general/frontend_permission_checks')) {
             if ($content instanceof \Bolt\Content) {
