@@ -15,7 +15,7 @@ use Silex\Application;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class RequirePackage
+final class RequirePackage
 {
     /**
      * @var Silex\Application

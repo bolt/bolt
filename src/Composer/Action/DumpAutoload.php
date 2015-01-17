@@ -7,7 +7,7 @@ namespace Bolt\Composer\Action;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class DumpAutoload
+final class DumpAutoload
 {
     /**
      * @var array
