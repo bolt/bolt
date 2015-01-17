@@ -77,20 +77,20 @@ class UpdatePackage
          * for changes in Composer 1.0.0-alpha10
          */
         $install
-            ->setDryRun($this->options['dryrun'])
-            ->setVerbose($this->options['verbose'])
+            ->setDryRun($options['dryrun'])
+            ->setVerbose($options['verbose'])
             ->setPreferSource($preferSource)
             ->setPreferDist($preferDist)
-            ->setDevMode(!$this->options['nodev'])
-//            ->setDumpAutoloader(!$this->options['noautoloader'])
-            ->setRunScripts(!$this->options['noscripts'])
+            ->setDevMode(!$options['nodev'])
+//            ->setDumpAutoloader(!$options['noautoloader'])
+            ->setRunScripts(!$options['noscripts'])
             ->setOptimizeAutoloader($optimize)
             ->setUpdate(true)
             ->setUpdateWhitelist($packages)
-            ->setWhitelistDependencies($this->options['withdependencies'])
-            ->setIgnorePlatformRequirements($this->options['ignoreplatformreqs'])
-//            ->setPreferStable($this->options['preferstable'])
-//            ->setPreferLowest($this->options['preferlowest'])
+            ->setWhitelistDependencies($options['withdependencies'])
+            ->setIgnorePlatformRequirements($options['ignoreplatformreqs'])
+//            ->setPreferStable($options['preferstable'])
+//            ->setPreferLowest($options['preferlowest'])
             ->disablePlugins();
         ;
 
