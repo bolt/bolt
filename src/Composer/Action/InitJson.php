@@ -17,16 +17,6 @@ class InitJson
     private $options;
 
     /**
-     * @var Composer\IO\BufferIO
-     */
-    private $io;
-
-    /**
-     * @var Composer\Composer
-     */
-    private $composer;
-
-    /**
      * @param $options  array
      */
     public function __construct(array $options)
