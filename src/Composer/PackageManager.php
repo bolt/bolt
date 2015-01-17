@@ -120,8 +120,8 @@ class PackageManager
             // Copy/update installer helper
             $this->copyInstaller();
 
-            // Do required JSON set up
-            $this->setupJson();
+            // Do required JSON update/set up
+            $this->updateJson();
 
             // Ping the extensions server to confirm connection
             $response = $this->ping($this->app['extend.site'], 'ping', true);
@@ -429,10 +429,10 @@ class PackageManager
     /**
      * Set up Composer JSON file
      */
-    private function setupJson()
+    private function updateJson()
     {
         $initjson = new BoltExtendJson($this->io, $this->composer, $this->options);
-        $this->json = $initjson->setupJson($this->app);
+        $this->json = $initjson->updateJson($this->app);
     }
 
     /**
