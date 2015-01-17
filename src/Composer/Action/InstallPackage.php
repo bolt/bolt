@@ -9,7 +9,7 @@ use Composer\Installer;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class InstallPackage
+final class InstallPackage
 {
     /**
      * @var array
