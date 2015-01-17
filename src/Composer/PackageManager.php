@@ -587,5 +587,7 @@ class PackageManager
 
             'optimizeautoloader'    => true,     // optimize-autoloader - Optimizes PSR0 and PSR4 packages to be loaded with classmaps too, good for production.
         );
+
+        return $this->options;
     }
 }
