@@ -2,8 +2,8 @@
 
 namespace Bolt\Composer;
 
+use Bolt\Composer\Action\BoltExtendJson;
 use Bolt\Composer\Action\DumpAutoload;
-use Bolt\Composer\Action\InitJson;
 use Bolt\Composer\Action\InstallPackage;
 use Bolt\Composer\Action\RemovePackage;
 use Bolt\Composer\Action\RequirePackage;
@@ -43,7 +43,7 @@ class PackageManager
     private $dumpautoload;
 
     /**
-     * @var Bolt\Composer\Action\InitJson
+     * @var Bolt\Composer\Action\BoltExtendJson
      */
     private $initJson;
 
@@ -281,13 +281,13 @@ class PackageManager
     /**
      * Initialise a new JSON file
      *
-     * @param string $file
-     * @param array  $data
+     * @param string $file File to initialise
+     * @param array  $data Data to be added as JSON paramter/value pairs
      */
     public function initJson($file, array $data = array())
     {
         if (!$this->initJson) {
-            $this->initJson = new InitJson($this->options);
+            $this->initJson = new BoltExtendJson($this->options);
         }
 
         $this->initJson->execute($file, $data);
@@ -431,7 +431,7 @@ class PackageManager
      */
     private function setupJson()
     {
-        $initjson = new InitJson($this->io, $this->composer, $this->options);
+        $initjson = new BoltExtendJson($this->io, $this->composer, $this->options);
         $this->json = $initjson->setupJson($this->app);
     }
 
