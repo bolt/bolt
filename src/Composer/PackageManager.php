@@ -126,9 +126,6 @@ class PackageManager
         }
 
         if ($app['extend.online']) {
-            // Set working directory
-            chdir($this->options['basedir']);
-
             // Create the IO
             $this->io = new BufferIO();
 
@@ -144,6 +141,9 @@ class PackageManager
      */
     public function getComposer()
     {
+        // Set working directory
+        chdir($this->options['basedir']);
+
         // Use the factory to get a new Composer object
         $this->composer = Factory::create($this->io, $this->options['composerjson'], true);
 
