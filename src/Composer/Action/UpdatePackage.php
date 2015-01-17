@@ -10,7 +10,7 @@ use Composer\Installer;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class UpdatePackage
+final class UpdatePackage
 {
     /**
      * @var array

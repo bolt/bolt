@@ -12,7 +12,7 @@ use Composer\Repository\RepositoryInterface;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class SearchPackage
+final class SearchPackage
 {
     /**
      * @var array
