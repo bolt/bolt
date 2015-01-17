@@ -57,8 +57,9 @@ class UpdatePackage
         $config = $this->composer->getConfig();
         $optimize = $config->get('optimize-autoloader');
 
+        // Set preferred install method
         $preferSource = false; // Forces installation from package sources when possible, including VCS information.
-        $preferDist = true;
+        $preferDist = false;
 
         switch ($config->get('preferred-install')) {
             case 'source':
