@@ -423,62 +423,8 @@ class PackageManager
      */
     private function setupJson()
     {
-        if (!is_file($this->options['composerjson'])) {
-            $this->initJson($this->options['composerjson']);
-        }
-
-        $jsonFile = new JsonFile($this->options['composerjson']);
-        if ($jsonFile->exists()) {
-            $json = $jsonorig = $jsonFile->read();
-        } else {
-            // Error
-            $this->messages[] = Trans::__(
-                "The Bolt extensions file '%composerjson%' isn't readable.",
-                array('%composerjson%' => $this->options['composerjson'])
-            );
-
-            $this->app['extend.writeable'] = false;
-            $this->app['extend.online'] = false;
-
-            return;
-        }
-
-        $pathToWeb = $this->app['resources']->findRelativePath($this->app['resources']->getPath('extensions'), $this->app['resources']->getPath('web'));
-
-        // Enforce standard settings
-        $json['repositories']['packagist'] = false;
-        $json['repositories']['bolt'] = array(
-            'type' => 'composer',
-            'url' => $this->app['extend.site'] . 'satis/'
-        );
-        $json['minimum-stability'] = $this->app['config']->get('general/extensions/stability', 'stable');
-        $json['prefer-stable'] = true;
-        $json['config'] = array(
-            'discard-changes' => true,
-            'preferred-install' => 'dist'
-        );
-        $json['provide']['bolt/bolt'] = $this->app['bolt_version'];
-        $json['scripts'] = array(
-            'post-package-install' => "Bolt\\Composer\\ExtensionInstaller::handle",
-            'post-package-update' => "Bolt\\Composer\\ExtensionInstaller::handle"
-        );
-        $json['extra'] = array('bolt-web-path' => $pathToWeb);
-        $json['autoload'] = array('files' => array('installer.php'));
-
-        // Write out the file, but only if it's actually changed, and if it's writable.
-        if ($json != $jsonorig) {
-            try {
-                umask(0000);
-                $jsonFile->write($json);
-            } catch (Exception $e) {
-                $this->messages[] = Trans::__(
-                    'The Bolt extensions Repo at %repository% is currently unavailable. Check your connection and try again shortly.',
-                    array('%repository%' => $this->app['extend.site'])
-                );
-            }
-        }
-
-        $this->json = $json;
+        $initjson = new InitJson($this->io, $this->composer, $this->options);
+        $this->json = $initjson->setupJson($this->app);
     }
 
     /**
