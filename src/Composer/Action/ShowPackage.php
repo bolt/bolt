@@ -51,6 +51,7 @@ class ShowPackage
      * @param string $target  Repository target, either: 'self', 'platform', 'installed' or 'available'
      * @param string $package Package name to show
      * @param string $version Package version to show
+     * @return array Array of Composer packages
      */
     public function execute($type, $package = '', $version = '')
     {
