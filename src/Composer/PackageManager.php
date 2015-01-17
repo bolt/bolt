@@ -96,19 +96,27 @@ class PackageManager
     {
         $this->app = $app;
 
-        // Get default options
-        $this->getOptions();
-
         // Set composer environment variables
         putenv('COMPOSER_HOME=' . $this->app['resources']->getPath('cache') . '/composer');
 
-        /*
-         * If the extension project area is writable, ensure the JSON is up-to-date
-         * and test connection to the extension server.
-         *
-         * If all is OK, set $app['extend.online'] to TRUE
-         */
-        if ($app['extend.writeable']) {
+        // Get default options
+        $this->getOptions();
+
+        // Set up
+        $this->setup();
+    }
+
+    /**
+     * If the extension project area is writable, ensure the JSON is up-to-date
+     * and test connection to the extension server.
+     *
+     * $app['extend.writeable'] is originally set in Extend::register()
+     *
+     * If all is OK, set $app['extend.online'] to TRUE
+     */
+    private function setup()
+    {
+        if ($this->app['extend.writeable']) {
             // Copy/update installer helper
             $this->copyInstaller();
 
@@ -119,13 +127,13 @@ class PackageManager
             $response = $this->ping($this->app['extend.site'], 'ping', true);
             $httpOk = array(200, 301, 302);
             if (in_array($response, $httpOk)) {
-                $app['extend.online'] = true;
+                $this->app['extend.online'] = true;
             } else {
                 $this->messages[] = $this->app['extend.site'] . ' is unreachable.';
             }
         }
 
-        if ($app['extend.online']) {
+        if ($this->app['extend.online']) {
             // Create the IO
             $this->io = new BufferIO();
 
@@ -255,9 +263,9 @@ class PackageManager
     }
 
     /**
-     * Remove packages from the root install
+     * Update packages in the root install
      *
-     * @param $packages array Indexed array of package names to remove
+     * @param  $packages array Indexed array of package names to update
      * @return integer 0 on success or a positive error code on failure
      */
     public function updatePackage(array $packages)
