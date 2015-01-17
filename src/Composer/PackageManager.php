@@ -431,7 +431,7 @@ class PackageManager
      */
     private function updateJson()
     {
-        $initjson = new BoltExtendJson($this->io, $this->composer, $this->options);
+        $initjson = new BoltExtendJson($this->options);
         $this->json = $initjson->updateJson($this->app);
     }
 
