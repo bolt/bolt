@@ -102,6 +102,12 @@ class PackageManager
         // Set composer environment variables
         putenv('COMPOSER_HOME=' . $this->app['resources']->getPath('cache') . '/composer');
 
+        /*
+         * If the extension project area is writable, ensure the JSON is up-to-date
+         * and test connection to the extension server.
+         *
+         * If all is OK, set $app['extend.online'] to TRUE
+         */
         if ($app['extend.writeable']) {
             // Copy/update installer helper
             $this->copyInstaller();
