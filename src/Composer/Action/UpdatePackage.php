@@ -2,6 +2,7 @@
 
 namespace Bolt\Composer\Action;
 
+use Bolt\Helpers\Arr;
 use Composer\Installer;
 
 /**
@@ -42,10 +43,16 @@ class UpdatePackage
      * Update packages
      *
      * @param  $packages array Indexed array of package names to remove
+     * @param  $options  array [Optional] changed option set
      * @return integer 0 on success or a positive error code on failure
      */
-    public function execute(array $packages = array())
+    public function execute(array $packages = array(), array $options = null)
     {
+        // Handle passed in options
+        if (!is_null($options)) {
+            $options = Arr::mergeRecursiveDistinct($this->options, $options);
+        }
+
         $install = Installer::create($this->io, $this->composer);
         $config = $this->composer->getConfig();
         $optimize = $config->get('optimize-autoloader');
