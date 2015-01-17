@@ -26,11 +26,23 @@ class InitJson
     }
 
     /**
+     * Convenience function to generalise the library
      *
      * @param string $file
      * @param array  $data
      */
     public function execute($file, array $data = array())
+    {
+        $this->initJson($file, $data);
+    }
+
+    /**
+     * Initialise a JSON file at given location with optional data input
+     *
+     * @param string $file
+     * @param array  $data
+     */
+    public function initJson($file, array $data = array())
     {
         $jsonFile = new JsonFile($file);
         $jsonFile->write($data);
