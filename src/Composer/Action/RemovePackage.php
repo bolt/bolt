@@ -12,7 +12,7 @@ use Silex\Application;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class RemovePackage
+final class RemovePackage
 {
     /**
      * @var Silex\Application

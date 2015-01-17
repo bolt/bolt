@@ -10,7 +10,7 @@ use Silex\Application;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class BoltExtendJson
+final class BoltExtendJson
 {
     /**
      * @var array

@@ -18,7 +18,7 @@ use Composer\Repository\RepositoryInterface;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class ShowPackage
+final class ShowPackage
 {
     /**
      * @var array
