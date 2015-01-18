@@ -179,9 +179,12 @@ final class ShowPackage
             $matchedPackage = $pool->literalToPackage($prefered[0]);
         }
 
-        return array($matchedPackage->getName() => array(
-            'package'  => $matchedPackage,
-            'versions' => $versions
-        ));
+        // If we have package result, return them
+        if ($matchedPackage) {
+            return array($matchedPackage->getName() => array(
+                'package'  => $matchedPackage,
+                'versions' => $versions
+            ));
+        }
     }
 }
