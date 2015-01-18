@@ -104,7 +104,7 @@ class BoltTwigHelpersTest extends BoltUnitTest
         // Locale Switch
         $app = $this->getApp();
         $twig = new TwigExtension($app);
-        setlocale(LC_ALL, 'fr_FR');
+        setlocale(LC_ALL, 'de_DE');
         $this->assertEquals('janvier  1, 2014 00:00', $twig->localeDateTime('1 Jan 2014'));
 
     }
