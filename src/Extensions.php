@@ -236,7 +236,7 @@ class Extensions
         try {
             $extension->getConfig();
         } catch (\Exception $e) {
-            $this->logInitFailure('Loading YAML config', $name, $e);
+            $this->logInitFailure('YAML config failed to load for', $name, $e);
 
             return;
         }
@@ -260,7 +260,7 @@ class Extensions
             }
 
         } catch (\Exception $e) {
-            $this->logInitFailure('Initialisation', $name, $e);
+            $this->logInitFailure('Initialisation failed for', $name, $e);
 
             return;
         }
@@ -272,7 +272,7 @@ class Extensions
         try {
             $this->getSnippets($name);
         } catch (\Exception $e) {
-            $this->logInitFailure('Snippet loading', $name, $e);
+            $this->logInitFailure('Snippet loading failed for', $name, $e);
 
             return;
         }
