@@ -3,6 +3,7 @@
 namespace Bolt\Composer;
 
 use Bolt\Composer\Action\BoltExtendJson;
+use Bolt\Composer\Action\CheckPackage;
 use Bolt\Composer\Action\DumpAutoload;
 use Bolt\Composer\Action\InstallPackage;
 use Bolt\Composer\Action\RemovePackage;
@@ -36,6 +37,11 @@ class PackageManager
      * @var Composer\Composer
      */
     private $composer;
+
+    /**
+     * @var Bolt\Composer\Action\CheckPackage
+     */
+    private $check;
 
     /**
      * @var Bolt\Composer\Action\DumpAutoload
@@ -170,6 +176,20 @@ class PackageManager
     public function getOutput()
     {
         return $this->io->getOutput();
+    }
+
+    /**
+     * Check for packages that need to be installed or updated
+     *
+     * @return array
+     */
+    public function checkPackage()
+    {
+        if (!$this->check) {
+            $this->check = new CheckPackage($this->io, $this->composer, $this->options);
+        }
+
+        return $this->check->execute();
     }
 
     /**
