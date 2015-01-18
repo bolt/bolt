@@ -137,7 +137,8 @@ class BoltLibraryTest extends BoltUnitTest
         
         $response = Library::redirect('login');
         $this->assertNotEmpty($app['session']->get('retreat'));
-        $this->assertEquals('homepage', $app['session']->get('retreat')['route']);
+        $retreat = $app['session']->get('retreat');
+        $this->assertEquals('homepage', $retreat['route']);
 
     }
 
