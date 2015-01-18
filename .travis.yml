@@ -22,4 +22,5 @@ before_script:
   - chmod 777 test/_log
   - mkdir -p tests/Nut/resources/
   - chmod 777 tests/Nut/resources/
+  - mkdir -p app/cache
   - chmod 777 app/cache
