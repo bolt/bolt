@@ -375,8 +375,8 @@ class BoltTwigHelpersTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $twig = new TwigExtension($app);
-        $pager = $twig->pager($app['twig']);
-        var_dump($pager);
+        // Test incomplete
+        //$pager = $twig->pager($app['twig']);
     }
     
     

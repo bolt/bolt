@@ -260,7 +260,7 @@ class StorageTest extends BoltUnitTest
         // Test filters
         $result = $storage->searchContent('lorem', array('showcases'), array('showcases'=>array('title'=>"nonexistent")));
         $this->assertTrue($result['query']['valid']);
-        $this->assertEquals(0, $result['query']['no_of_results']);
+        $this->assertEquals(0, $result['no_of_results']);
 
     }
     
