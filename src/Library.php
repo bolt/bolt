@@ -202,7 +202,7 @@ class Library
      *
      * @param string $path
      */
-    public static function simpleredirect($path)
+    public static function simpleredirect($path, $abort = false)
     {
         $app = ResourceManager::getApp();
 
