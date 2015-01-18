@@ -27,7 +27,7 @@ class ExtendControllerTest extends BoltUnitTest
         $this->assertNotEmpty($app['extend.site']);
         $this->assertNotEmpty($app['extend.repo']);
         $runner = $app['extend.runner'];
-        $this->assertInstanceOf(CommandRunner::class, $runner);
+        $this->assertInstanceOf('Bolt\Composer\CommandRunner', $runner);
         
     }
     
