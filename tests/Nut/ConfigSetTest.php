@@ -44,6 +44,7 @@ class ConfigSetTest extends BoltUnitTest
     
     static public function setUpBeforeClass()
     {
+        mkdir(__DIR__.'/resources/', 0777, true);
         $distname = realpath(__DIR__ . '/../../app/config/config.yml.dist');
         copy($distname, __DIR__.'/resources/config.yml');
     }
