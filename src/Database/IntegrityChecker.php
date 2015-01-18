@@ -610,6 +610,12 @@ class IntegrityChecker
                         $myTable->addColumn($field, "date", array("notnull" => false));
                         break;
                     case 'slug':
+                        // Only additional slug fields will be added. If it's the
+                        // default slug, skip it instead.
+                        if ($field != "slug") {
+                            $myTable->addColumn($field, "string", array("length" => 128, "notnull" => false, 'default' => ""));
+                        }
+                        break;
                     case 'id':
                     case 'datecreated':
                     case 'datechanged':
