@@ -18,14 +18,12 @@ class UploadControllerTest extends BoltUnitTest
 
     public function setup()
     {
-        @mkdir(TEST_ROOT . '/tests/files', 0777, true);
-        chmod(TEST_ROOT . '/tests/files', 0777);
+        @mkdir(TEST_ROOT . '/tests/resources/files', 0777, true);
+        chmod(TEST_ROOT . '/tests/resources/files', 0777);
     }
 
     public function tearDown()
     {
-        $this->rmdir(TEST_ROOT . '/tests/files');
-        @rmdir(TEST_ROOT . '/tests/files');
         @unlink(TEST_ROOT . '/app/cache/config_cache.php');
     }
 
