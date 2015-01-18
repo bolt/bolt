@@ -19,6 +19,7 @@ class UploadControllerTest extends BoltUnitTest
     public function setup()
     {
         @mkdir(TEST_ROOT . '/tests/files', 0777, true);
+        chmod(TEST_ROOT . '/tests/files', 0777);
     }
 
     public function tearDown()
@@ -56,7 +57,6 @@ class UploadControllerTest extends BoltUnitTest
         $app = $this->getApp();
         $request = $this->getFileRequest();
         $response = $app->handle($request);
-        print_r($response->getContent());
         $this->assertEquals(200, $response->getStatusCode());
 
         $content = json_decode($response->getContent());
