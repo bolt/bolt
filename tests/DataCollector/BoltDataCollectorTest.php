@@ -33,7 +33,6 @@ class BoltDataCollectorTest extends BoltUnitTest
         );
         
         
-        $this->expectOutputRegex('#Redirecting to /bolt/users/edit/#');
         $app->run($request);
         
         $response = new Response();
@@ -57,7 +56,6 @@ class BoltDataCollectorTest extends BoltUnitTest
         $app['config']->set("general/branding/provided_by/0", 'testperson');
         $app['config']->set("general/branding/provided_by/1", 'testemail');
         $request = Request::create('/','GET');
-        $this->expectOutputRegex('#Redirecting to /bolt/users/edit/#');
         $app->run($request);
         $response = new Response();
         $data = new BoltDataCollector($app);
@@ -72,7 +70,6 @@ class BoltDataCollectorTest extends BoltUnitTest
         $app['editlink'] = "editlink";
         $app['edittitle'] = "edittitle";
         $request = Request::create('/','GET');
-        $this->expectOutputRegex('#Redirecting to /bolt/users/edit/#');
         $app->run($request);
         $response = new Response();
         $data = new BoltDataCollector($app);
