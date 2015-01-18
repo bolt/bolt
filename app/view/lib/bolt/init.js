@@ -332,7 +332,7 @@ var init = {
     bindSlug: function (data) {
 
         // Make sure events are bound only once.
-        if (this.slugsBound == true) {
+        if (this.slugsBound === true) {
             return;
         } else {
             this.slugsBound = true;
