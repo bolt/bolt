@@ -330,25 +330,33 @@ var init = {
      * @returns {undefined}
      */
     bindSlug: function (data) {
+
+        // Make sure events are bound only once.
+        if (this.slugsBound == true) {
+            return;
+        } else {
+            this.slugsBound = true;
+        }
+
         $('.sluglocker').bind('click', function () {
-            if ($('.sluglocker i').hasClass('fa-lock')) {
+            if ($(this).find('i').hasClass('fa-lock')) {
                 // "unlock" if it's currently empty, _or_ we've confirmed that we want to do so.
                 if (data.isEmpty || confirm(data.messageUnlock)) {
-                    $('.sluglocker i').removeClass('fa-lock').addClass('fa-unlock');
-                    makeUri(data.slug, data.contentId, data.uses, data.key, false);
+                    $(this).find('i').removeClass('fa-lock').addClass('fa-unlock');
+                    makeUri(data.slug, data.contentId, $(this).data('uses'), $(this).data('for'), false);
                 }
             } else {
-                $('.sluglocker i').addClass('fa-lock').removeClass('fa-unlock');
-                stopMakeUri(data.uses);
+                $(this).find('i').addClass('fa-lock').removeClass('fa-unlock');
+                stopMakeUri($(this).data('for'));
             }
         });
 
         $('.slugedit').bind('click', function () {
-            var newslug = prompt(data.messageSet, $('#show-' + data.key).text());
+            var newslug = prompt(data.messageSet, $('#show-' + $(this).data('for')).text());
             if (newslug) {
                 $('.sluglocker i').addClass('fa-lock').removeClass('fa-unlock');
-                stopMakeUri(data.uses);
-                makeUriAjax(newslug, data.slug, data.contentId, data.key, false);
+                stopMakeUri($(this).data('for'));
+                makeUriAjax(newslug, data.slug, data.contentId, $(this).data('for'), false);
             }
         });
 
