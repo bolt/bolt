@@ -50,7 +50,7 @@ class ConfigSetTest extends BoltUnitTest
     
     static public function tearDownAfterClass()
     {
-        unlink(__DIR__.'/resources/config.yml');
+        @unlink(__DIR__.'/resources/config.yml');
     }
     
     
