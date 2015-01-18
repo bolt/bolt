@@ -41,7 +41,7 @@ class ManagerTest extends BoltUnitTest
     
     public function testAddingFetchingfields()
     {
-        $field = $this->getMock(Base::class, null, array('test','test.twig'));
+        $field = $this->getMock('Bolt\Field\Base', null, array('test','test.twig'));
         $manager = new Manager();
         $manager->addField($field);
         $this->assertTrue($manager->has('test'));

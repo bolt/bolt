@@ -17,7 +17,7 @@ class StatServiceTest extends BoltUnitTest
     public function testSetup()
     {
         $app = $this->getApp();
-        $stat = $this->getMock(StatService::class, array('recordInstall'), array($app));
+        $stat = $this->getMock('Bolt\Extensions\StatService', array('recordInstall'), array($app));
         $stat = new StatService($app);
         
         $response = $stat->recordInstall("mytest",'1.0.0');
