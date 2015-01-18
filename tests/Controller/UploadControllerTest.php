@@ -54,6 +54,7 @@ class UploadControllerTest extends BoltUnitTest
         $app = $this->getApp();
         $request = $this->getFileRequest();
         $response = $app->handle($request);
+        print_r($response);
         $this->assertEquals(200, $response->getStatusCode());
 
         $content = json_decode($response->getContent());
@@ -192,8 +193,7 @@ class UploadControllerTest extends BoltUnitTest
     }
     
     protected function getApp() {
-        $bolt = parent::getApp();
-        $bolt['resources']->setPath('files', TEST_ROOT.'/tests/resources/files'); 
+        $bolt = parent::getApp(); 
         return $this->authApp($bolt);
     }
     
