@@ -25,5 +25,5 @@ before_script:
   - mkdir -p app/cache
   - chmod 777 app/cache
   - mkdir -p tests/files
-  - chmod 777 tests/files
+  - chmod 777 tests
   - echo 'xdebug.max_nesting_level = 2000' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
