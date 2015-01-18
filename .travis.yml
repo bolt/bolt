@@ -20,3 +20,6 @@ before_script:
   - composer install --prefer-source
   - mkdir -p test/_log
   - chmod 777 test/_log
+  - mkdir -p tests/Nut/resources/
+  - chmod 777 tests/Nut/resources/
+  - chmod 777 app/cache
