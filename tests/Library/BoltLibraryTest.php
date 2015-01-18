@@ -168,7 +168,7 @@ class BoltLibraryTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $this->setExpectedException('Symfony\Component\HttpKernel\Exception\HttpException', "Redirecting to '/test2'.");
-        $redirect = Library::simpleredirect("/test2");    
+        $redirect = Library::simpleredirect("/test2", true);    
     }
     
     public function testSaveSerialize()
@@ -192,7 +192,7 @@ class BoltLibraryTest extends BoltUnitTest
     {
         $data = range(0,100);
         $file = TEST_ROOT."/non/existent/path/data.php";
-        $this->setExpectedException('ErrorException');
+        $this->setExpectedException('PHPUnit_Framework_Error_Warning');
             
         $this->assertTrue(Library::saveSerialize($file, $data));
     }

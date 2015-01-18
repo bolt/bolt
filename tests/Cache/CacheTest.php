@@ -1,6 +1,6 @@
 <?php
 
-namespace Bolt\Tests;
+namespace Bolt\Tests\Cache;
 
 use Bolt\Cache;
 use Symfony\Component\Filesystem\Filesystem;
@@ -67,8 +67,8 @@ class CacheTest extends \PHPUnit_Framework_TestCase
                 array('foo' => 'bar', 'baz' => 'meh')
             ),
             array(
-                new \Bolt\Tests\FooObject(),
-                new \Bolt\Tests\FooObject()
+                new FooObject(),
+                new FooObject()
             )
         );
     }
@@ -90,7 +90,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
     {
         $cacheDirLocation = $this->cache->getDirectory();
         $filesystem = new Filesystem();
-        $relative = $filesystem->makePathRelative($cacheDirLocation, realpath(__DIR__ . '/../src'));
+        $relative = $filesystem->makePathRelative($cacheDirLocation, realpath(__DIR__ . '/../'));
         $newCache = new Cache($relative);
         $this->assertEquals($cacheDirLocation, $newCache->getDirectory());
     }
