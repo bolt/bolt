@@ -1,8 +1,4 @@
 <?php
-use Symfony\Component\VarDumper\VarDumper;
-use Symfony\Component\VarDumper\Cloner\VarCloner;
-use Symfony\Component\VarDumper\Dumper\CliDumper;
-
 
 /*
  * Test bootstrapper. This leaves out all stuff registering services and
@@ -29,11 +25,3 @@ if(is_readable(TEST_ROOT.'/bolt.db')) {
 }
 @mkdir(__DIR__.'/../app/cache/', 0777, true);
 
-
-
-VarDumper::setHandler(function($var) {
-    $cloner = new VarCloner();
-    $dumper = CliDumper();
-
-    $dumper->dump($cloner->cloneVar($var));
-});
