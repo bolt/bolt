@@ -26,9 +26,9 @@ class BackendTest extends BoltUnitTest
         $phpunit = $this;
         $testHandler = function($template, $context) use($phpunit) {
             $phpunit->assertEquals('dashboard/dashboard.twig', $template);
-            $this->assertNotEmpty($context['context']);
-            $this->assertArrayHasKey('latest', $context['context']);
-            $this->assertArrayHasKey('suggestloripsum', $context['context']);
+            $phpunit->assertNotEmpty($context['context']);
+            $phpunit->assertArrayHasKey('latest', $context['context']);
+            $phpunit->assertArrayHasKey('suggestloripsum', $context['context']);
             return new Response;
         };
         
