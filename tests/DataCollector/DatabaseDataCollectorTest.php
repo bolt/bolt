@@ -29,7 +29,6 @@ class DatabaseDataCollectorTest extends BoltUnitTest
         
         $app = $this->getApp();
         $request = Request::create('/','GET');
-        $this->expectOutputRegex('#Redirecting to /bolt/users/edit/#');
         $app->run($request);
         $response = new Response();
         
@@ -49,7 +48,6 @@ class DatabaseDataCollectorTest extends BoltUnitTest
         
         $app = $this->getApp();
         $request = Request::create('/','GET');
-        $this->expectOutputRegex('#Redirecting to /bolt/users/edit/#');
         $app->run($request);
         $response = new Response();
         
