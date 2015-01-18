@@ -29,7 +29,7 @@ class LowlevelChecksTest extends BoltUnitTest
     {
         $check = $this->getCleanChecker(); 
         $check->magicQuotes = true;
-        $this->setExpectedException(LowlevelException::class);
+        $this->setExpectedException('Bolt\Configuration\LowlevelException');
         $this->expectOutputRegex("/Bolt - Fatal Error/");
         $check->doChecks();      
         
@@ -39,7 +39,7 @@ class LowlevelChecksTest extends BoltUnitTest
     {
         $check = $this->getCleanChecker(); 
         $check->safeMode = true;
-        $this->setExpectedException(LowlevelException::class);
+        $this->setExpectedException('Bolt\Configuration\LowlevelException');
         $this->expectOutputRegex("/Bolt - Fatal Error/");
         $check->doChecks();      
         
@@ -49,7 +49,7 @@ class LowlevelChecksTest extends BoltUnitTest
     {
         $config = new Standard(__DIR__);
         $check = new LowlevelChecks($config);
-        $this->setExpectedException(LowlevelException::class);
+        $this->setExpectedException('Bolt\Configuration\LowlevelException');
         $this->expectOutputRegex("/Bolt - Fatal Error/");
         $check->removeCheck('cache');
         $check->doChecks();      
@@ -60,7 +60,7 @@ class LowlevelChecksTest extends BoltUnitTest
     {
         $check = $this->getCleanChecker();
         $check->isApache = true;
-        $this->setExpectedException(LowlevelException::class);
+        $this->setExpectedException('Bolt\Configuration\LowlevelException');
         $this->expectOutputRegex("/Bolt - Fatal Error/");
         $check->doChecks();      
         
@@ -79,7 +79,7 @@ class LowlevelChecksTest extends BoltUnitTest
     {
         $check = $this->getMockedChecker('mockMysql');
         $check->mysqlLoaded = false;
-        $this->setExpectedException(LowlevelException::class);
+        $this->setExpectedException('Bolt\Configuration\LowlevelException');
         $this->expectOutputRegex("/Bolt - Fatal Error/");
         $check->doDatabaseCheck(); 
     }
@@ -88,7 +88,7 @@ class LowlevelChecksTest extends BoltUnitTest
     {
         $check = $this->getMockedChecker('mockPostgres');
         $check->postgresLoaded = false;
-        $this->setExpectedException(LowlevelException::class);
+        $this->setExpectedException('Bolt\Configuration\LowlevelException');
         $this->expectOutputRegex("/Bolt - Fatal Error/");
         $check->doDatabaseCheck(); 
     }
@@ -97,7 +97,7 @@ class LowlevelChecksTest extends BoltUnitTest
     {
         $check = $this->getMockedChecker('mockSqlite');
         $check->sqliteLoaded = false;
-        $this->setExpectedException(LowlevelException::class);
+        $this->setExpectedException('Bolt\Configuration\LowlevelException');
         $this->expectOutputRegex("/Bolt - Fatal Error/");
         $check->doDatabaseCheck(); 
     }
@@ -106,7 +106,7 @@ class LowlevelChecksTest extends BoltUnitTest
     {
         $check = $this->getMockedChecker('mockSqlite');
         $check->sqliteLoaded = true;
-        $this->setExpectedException(LowlevelException::class);
+        $this->setExpectedException('Bolt\Configuration\LowlevelException');
         $this->expectOutputRegex("/exist or it is not writable/");
         $check->doDatabaseCheck(); 
     }
@@ -114,7 +114,7 @@ class LowlevelChecksTest extends BoltUnitTest
     public function testDBFailsAsRoot()
     {
         $check = $this->getMockedChecker('mockRoot');
-        $this->setExpectedException(LowlevelException::class);
+        $this->setExpectedException('Bolt\Configuration\LowlevelException');
         $this->expectOutputRegex("/Bolt - Fatal Error/");
         $check->doDatabaseCheck();      
     }
@@ -122,7 +122,7 @@ class LowlevelChecksTest extends BoltUnitTest
     public function testEmptyDb()
     {
         $check = $this->getMockedChecker('mockEmptyDb');
-        $this->setExpectedException(LowlevelException::class);
+        $this->setExpectedException('Bolt\Configuration\LowlevelException');
         $this->expectOutputRegex("/Bolt - Fatal Error/");
         $check->doDatabaseCheck();      
     }
@@ -130,7 +130,7 @@ class LowlevelChecksTest extends BoltUnitTest
     public function testBadDb()
     {
         $check = $this->getMockedChecker('mockBadDb');
-        $this->setExpectedException(LowlevelException::class);
+        $this->setExpectedException('Bolt\Configuration\LowlevelException');
         $this->expectOutputRegex("/Bolt - Fatal Error/");
         $check->doDatabaseCheck();      
     }
@@ -145,7 +145,7 @@ class LowlevelChecksTest extends BoltUnitTest
     public function testEmptyUser()
     {
         $check = $this->getMockedChecker('mockEmptyUser');
-        $this->setExpectedException(LowlevelException::class);
+        $this->setExpectedException('Bolt\Configuration\LowlevelException');
         $this->expectOutputRegex("/Bolt - Fatal Error/");
         $check->doDatabaseCheck();      
     }
@@ -179,7 +179,7 @@ class LowlevelChecksTest extends BoltUnitTest
     {
         $badDir = "/path/to/nowhere";
         $check = $this->getCleanChecker();
-        $this->setExpectedException(LowlevelException::class);
+        $this->setExpectedException('Bolt\Configuration\LowlevelException');
         $this->expectOutputRegex("/Bolt - Fatal Error/");
         $check->assertWritableDir($badDir);
     }
