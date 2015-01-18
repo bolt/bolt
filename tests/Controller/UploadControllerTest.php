@@ -18,14 +18,11 @@ class UploadControllerTest extends BoltUnitTest
 
     public function setup()
     {
-        @mkdir(TEST_ROOT . '/tests/files', 0777, true);
-        chmod(TEST_ROOT . '/tests/files', 0777);
+
     }
 
     public function tearDown()
     {
-        $this->rmdir(TEST_ROOT . '/tests/files');
-        @rmdir(TEST_ROOT . '/tests/files');
         @unlink(TEST_ROOT . '/app/cache/config_cache.php');
     }
 
@@ -195,7 +192,8 @@ class UploadControllerTest extends BoltUnitTest
     }
     
     protected function getApp() {
-        $bolt = parent::getApp();  
+        $bolt = parent::getApp();
+        $bolt['resources']->setPath('files', TEST_ROOT.'/tests/resources/files'); 
         return $this->authApp($bolt);
     }
     
