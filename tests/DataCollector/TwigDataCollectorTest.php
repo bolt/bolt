@@ -34,7 +34,6 @@ class TwigDataCollectorTest extends BoltUnitTest
         $data = new TwigDataCollector($app);
         
         $request = Request::create('/','GET');
-        $this->expectOutputRegex('#Redirecting to /bolt/users/edit/#');
         $app->run($request);
         $response = new Response();
         
@@ -59,7 +58,6 @@ class TwigDataCollectorTest extends BoltUnitTest
         $data = new TwigDataCollector($app);
         
         $request = Request::create('/','GET');
-        $this->expectOutputRegex('#Redirecting to /bolt/users/edit/#');
         $app->run($request);
         $response = new Response();
 
