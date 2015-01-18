@@ -275,14 +275,14 @@ class Extensions
         // Add Twig extensions
         if (is_callable(array($extension, 'getTwigExtensions'))) {
             /** @var \Twig_Extension[] $extensions */
-            $twig_extensions = $extension->getTwigExtensions();
+            $twigExtensions = $extension->getTwigExtensions();
             $addTwigExFunc = array($this, 'addTwigExtension');
-            foreach ($twig_extensions as $twig_extension) {
+            foreach ($twigExtensions as $twigExtension) {
                 $this->app['twig'] = $this->app->share(
                     $this->app->extend(
                         'twig',
-                        function(\Twig_Environment $twig) use ($addTwigExFunc, $twig_extension, $name) {
-                            call_user_func($addTwigExFunc, $twig, $twig_extension, $name);
+                        function(\Twig_Environment $twig) use ($addTwigExFunc, $twigExtension, $name) {
+                            call_user_func($addTwigExFunc, $twig, $twigExtension, $name);
                             return $twig;
                         }
                     )
@@ -292,8 +292,8 @@ class Extensions
                     $this->app['safe_twig'] = $this->app->share(
                         $this->app->extend(
                             'safe_twig',
-                            function(\Twig_Environment $twig) use ($addTwigExFunc, $twig_extension, $name) {
-                                call_user_func($addTwigExFunc, $twig, $twig_extension, $name);
+                            function(\Twig_Environment $twig) use ($addTwigExFunc, $twigExtension, $name) {
+                                call_user_func($addTwigExFunc, $twig, $twigExtension, $name);
                                 return $twig;
                             }
                         )
