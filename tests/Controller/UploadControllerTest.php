@@ -56,7 +56,7 @@ class UploadControllerTest extends BoltUnitTest
         $app = $this->getApp();
         $request = $this->getFileRequest();
         $response = $app->handle($request);
-        var_dump($response);
+        print_r($response->getContent());
         $this->assertEquals(200, $response->getStatusCode());
 
         $content = json_decode($response->getContent());
