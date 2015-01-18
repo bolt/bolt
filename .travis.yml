@@ -16,7 +16,7 @@ script:
   - ./run-functional-tests
   
 before_install:
-  - sudo apt-get update && sudo apt-get --reinstall install -qq language-pack-en language-pack-fr
+  - sudo apt-get update && sudo apt-get -y install `check-language-support -l fr`
 
 
 
