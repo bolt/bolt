@@ -27,7 +27,12 @@ class ExtensionsTest extends BoltUnitTest
         $runner = $this->getMock("Bolt\Composer\CommandRunner", array('installed'), array($app));
         $runner->expects($this->any())
             ->method('installed')
-            ->will($this->returnValue(new JsonResponse(array(array('name'=>'test','version'=>'1.0')))));
+            ->will($this->returnValue(new JsonResponse(array(array(
+                    'name'=>'test',
+                    'version'=>'1.0',
+                    'type'=>'bolt-extension',
+                    'descrip'=>'An extension'
+                )))));
         
         $app['extend.runner'] = $runner;
         
