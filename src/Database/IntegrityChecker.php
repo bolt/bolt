@@ -613,7 +613,7 @@ class IntegrityChecker
                         // Only additional slug fields will be added. If it's the
                         // default slug, skip it instead.
                         if ($field != "slug") {
-                            $myTable->addColumn($field, "string", array("length" => 128));
+                            $myTable->addColumn($field, "string", array("length" => 128, "notnull" => false, 'default' => ""));
                         }
                         break;
                     case 'id':
