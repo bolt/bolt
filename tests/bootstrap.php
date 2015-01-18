@@ -23,3 +23,4 @@ if(!defined('TEST_ROOT')) {
 if(is_readable(TEST_ROOT.'/bolt.db')) {
     unlink(TEST_ROOT.'/bolt.db');
 }
+@mkdir(__DIR__.'/../app/cache/', 0777, true);

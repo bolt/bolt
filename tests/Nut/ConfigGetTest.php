@@ -43,13 +43,16 @@ class ConfigGetTest extends BoltUnitTest
     
     public function setUp()
     {
+        @mkdir(__DIR__.'/resources/', 0777, true);
+        @mkdir(__DIR__.'/../../app/cache/', 0777, true);
         $distname = realpath(__DIR__ . '/../../app/config/config.yml.dist');
-        copy($distname, __DIR__.'/resources/config.yml');
+        @copy($distname, __DIR__.'/resources/config.yml');
     }
     
     public function tearDown()
     {
-        unlink(__DIR__.'/resources/config.yml');
+        @unlink(__DIR__.'/resources/config.yml');
+        @unlink(__DIR__.'/../../app/cache/');
     }
     
  
