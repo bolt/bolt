@@ -44,7 +44,7 @@ class ComposerConfigurationTest extends \PHPUnit_Framework_TestCase
     {
         $config = new Composer(TEST_ROOT);
         $verifier = new ComposerChecks($config);
-        $this->setExpectedException(LowlevelException::class);
+        $this->setExpectedException('Bolt\Configuration\LowlevelException');
         $this->expectOutputRegex("/Bolt - Fatal Error/");
         $verifier->checkDir('/non/existent/path');
     }
