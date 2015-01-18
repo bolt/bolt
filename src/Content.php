@@ -13,7 +13,7 @@ class Content implements \ArrayAccess
 {
     protected $app;
     public $id;
-    public $values;
+    public $values = array();
     public $taxonomy;
     public $relation;
     public $contenttype;
