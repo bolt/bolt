@@ -29,8 +29,7 @@ class DatabaseDataCollectorTest extends BoltUnitTest
         
         $app = $this->getApp();
         $request = Request::create('/','GET');
-        $app->run($request);
-        $response = new Response();
+        $response = $app->handle($request);
         
         $data->collect($request, $response);
         $this->assertEquals('db', $data->getName());
@@ -48,8 +47,7 @@ class DatabaseDataCollectorTest extends BoltUnitTest
         
         $app = $this->getApp();
         $request = Request::create('/','GET');
-        $app->run($request);
-        $response = new Response();
+        $response = $app->handle($request);
         
         $data->collect($request, $response);
         $this->assertEquals(0, $data->getQueryCount());
