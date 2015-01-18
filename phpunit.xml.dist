@@ -29,7 +29,4 @@
             </exclude>
         </whitelist>
     </filter>
-    <logging>
-        <log type="coverage-html" target="./tests/report/"/>
-    </logging>
 </phpunit>
