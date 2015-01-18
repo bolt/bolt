@@ -208,6 +208,11 @@ var BoltExtender = Object.extend(Object, {
             var target = jQuery(this).find('.installed-list');
 
             jQuery.get(baseurl + 'installed', function (data) {
+                if (typeof data !== 'object') {
+                    active_console.html('Malformed JSON response. Ensure no debugging or other code is being added to the response');
+                    return;
+                }
+
                 target.show();
                 var html = '',
                     pack = data.installed.concat(data.pending).concat(data.local);
