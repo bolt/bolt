@@ -112,7 +112,7 @@ class Frontend
             self::checkFrontendPermission($app, $record);
         }
 
-        return $app['render']->render($template);
+        return self::render($app, $template, 'homepage');
     }
 
     /**
@@ -157,19 +157,6 @@ class Frontend
         // Then, select which template to use, based on our 'cascading templates rules'
         $template = $app['templatechooser']->record($content);
 
-        // Fallback: If file is not OK, show an error page
-        $filename = $app['paths']['themepath'] . "/" . $template;
-        if (!file_exists($filename) || !is_readable($filename)) {
-            $error = sprintf(
-                "No template for '%s' defined. Tried to use '%s/%s'.",
-                $content->getTitle(),
-                basename($app['config']->get('general/theme')),
-                $template
-            );
-            $app['log']->setValue('templateerror', $error);
-            $app->abort(404, $error);
-        }
-
         // Setting the canonical path and the editlink.
         $app['canonicalpath'] = $content->link();
         $app['paths'] = $app['resources']->getPaths();
@@ -182,7 +169,7 @@ class Frontend
         $app['twig']->addGlobal($contenttype['singular_slug'], $content);
 
         // Render the template and return.
-        return $app['render']->render($template);
+        return self::render($app, $template, $content->getTitle());
     }
 
     /**
@@ -206,25 +193,12 @@ class Frontend
         // Then, select which template to use, based on our 'cascading templates rules'
         $template = $app['templatechooser']->record($content);
 
-        // Fallback: If file is not OK, show an error page
-        $filename = $app['paths']['themepath'] . "/" . $template;
-        if (!file_exists($filename) || !is_readable($filename)) {
-            $error = sprintf(
-                "No template for '%s' defined. Tried to use '%s/%s'.",
-                $content->getTitle(),
-                basename($app['config']->get('general/theme')),
-                $template
-            );
-            $app['log']->setValue('templateerror', $error);
-            $app->abort(404, $error);
-        }
-
         // Make sure we can also access it as {{ page.title }} for pages, etc. We set these in the global scope,
         // So that they're also available in menu's and templates rendered by extensions.
         $app['twig']->addGlobal('record', $content);
         $app['twig']->addGlobal($contenttype['singular_slug'], $content);
 
-        return $app['render']->render($template);
+        return self::render($app, $template, $content->getTitle());
     }
 
     /**
@@ -255,26 +229,13 @@ class Frontend
 
         $template = $app['templatechooser']->listing($contenttype);
 
-        // Fallback: If file is not OK, show an error page
-        $filename = $app['paths']['themepath'] . "/" . $template;
-        if (!file_exists($filename) || !is_readable($filename)) {
-            $error = sprintf(
-                "No template for '%s'-listing defined. Tried to use '%s/%s'.",
-                $contenttypeslug,
-                basename($app['config']->get('general/theme')),
-                $template
-            );
-            $app['log']->setValue('templateerror', $error);
-            $app->abort(404, $error);
-        }
-
         // Make sure we can also access it as {{ pages }} for pages, etc. We set these in the global scope,
         // So that they're also available in menu's and templates rendered by extensions.
         $app['twig']->addGlobal('records', $content);
         $app['twig']->addGlobal($contenttype['slug'], $content);
         $app['twig']->addGlobal('contenttype', $contenttype['name']);
 
-        return $app['render']->render($template);
+        return self::render($app, $template, $contenttypeslug);
     }
 
     /**
@@ -312,19 +273,6 @@ class Frontend
 
         $template = $app['templatechooser']->taxonomy($taxonomyslug);
 
-        // Fallback: If file is not OK, show an error page
-        $filename = $app['paths']['themepath'] . "/" . $template;
-        if (!file_exists($filename) || !is_readable($filename)) {
-            $error = sprintf(
-                "No template for '%s'-listing defined. Tried to use '%s/%s'.",
-                $taxonomyslug,
-                basename($app['config']->get('general/theme')),
-                $template
-            );
-            $app['log']->setValue('templateerror', $error);
-            $app->abort(404, $error);
-        }
-
         $name = $slug;
         // Look in taxonomies in 'content', to get a display value for '$slug', perhaps.
         foreach ($content as $record) {
@@ -344,7 +292,7 @@ class Frontend
         $app['twig']->addGlobal('taxonomy', $app['config']->get('taxonomy/' . $taxonomyslug));
         $app['twig']->addGlobal('taxonomytype', $taxonomyslug);
 
-        return $app['render']->render($template);
+        return self::render($app, $template, $taxonomyslug);
     }
 
     /**
@@ -418,7 +366,7 @@ class Frontend
 
         $template = $app['templatechooser']->search();
 
-        return $app['render']->render($template);
+        return self::render($app, $template, 'search');
     }
 
     /**
@@ -437,14 +385,31 @@ class Frontend
             $template .= '.twig';
         }
 
-        $themePath    = realpath($app['paths']['themepath'] . '/');
-        $templatePath = realpath($app['paths']['themepath'] . '/' . $template);
+        return self::render($app, $template, $template);
+    }
 
-        // Verify that the resulting template path is located in the theme directory
-        if ($themePath !== substr($templatePath, 0, strlen($themePath))) {
-            throw new \Exception("Invalid template: $template");
+    /**
+     * Render a template while wrapping Twig_Error_Loader in 404
+     * in case the template is not found by Twig.
+     *
+     * @param  Silex\Application $app
+     * @param  string            $template   Ex: 'listing.twig'
+     * @param  string            $title      '%s' in "No template for '%s' defined."
+     * @return mixed                         Rendered template
+     */
+    private static function render(Silex\Application $app, $template, $title)
+    {
+        try {
+            return $app['twig']->render($template);
+        } catch (\Twig_Error_Loader $e) {
+            $error = sprintf(
+                "No template for '%s' defined. Tried to use '%s/%s'.",
+                $title,
+                basename($app['config']->get('general/theme')),
+                $template
+            );
+            $app['log']->setValue('templateerror', $error);
+            $app->abort(404, $error);
         }
-
-        return $app['render']->render(substr($templatePath, strlen($themePath)));
     }
 }
