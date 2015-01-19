@@ -5,6 +5,7 @@ namespace Bolt\Composer;
 use Bolt\Library as Lib;
 use Bolt\Translation\Translator as Trans;
 use Composer\Composer;
+use Composer\IO\BufferIO;
 use Composer\IO\IOInterface;
 use Composer\Json\JsonFile;
 use Guzzle\Http\Client as GuzzleClient;
@@ -12,7 +13,7 @@ use Guzzle\Http\Exception\RequestException;
 use Guzzle\Http\Exception\CurlException;
 use Silex\Application;
 
-class Factory extends PackageManager
+final class Factory extends PackageManager
 {
     /**
      * @var array
@@ -35,14 +36,14 @@ class Factory extends PackageManager
     private $app;
 
     /**
-     * @var boolean
-     */
-    private $downgradeSsl = false;
-
-    /**
      * @var array
      */
     public $messages = array();
+
+    /**
+     * @var boolean
+     */
+    protected $downgradeSsl;
 
     /**
      * @param Silx\Application        $app
@@ -51,9 +52,13 @@ class Factory extends PackageManager
     public function __construct(Application $app, array $options)
     {
         $this->app = $app;
+        $this->options = $options;
 
         // Create the Composer and IOInterface objects
         $this->composer = $this->getComposer();
+
+        //parent::$io = $this->io;
+        //parent::$composer = $this->composer;
     }
 
     /**
@@ -70,7 +75,7 @@ class Factory extends PackageManager
             // Use the factory to get a new Composer object
             $this->composer = \Composer\Factory::create($this->getIO(), $this->options['composerjson'], true);
 
-            if (parent::$downgradeSsl) {
+            if ($this->downgradeSsl) {
                 $this->allowSslDowngrade(true);
             }
         }
@@ -83,7 +88,7 @@ class Factory extends PackageManager
      *
      * @return Composer\IO\IOInterface
      */
-    public function getIO()
+    protected function getIO()
     {
         if (!$this->io) {
             $this->io = new BufferIO();
@@ -97,11 +102,11 @@ class Factory extends PackageManager
      *
      * @return Bolt\Composer\Factory
      */
-    public function resetComposer()
+    protected function resetComposer()
     {
         $this->composer = null;
 
-        return $this;
+        return $this->getComposer();
     }
 
     /**
