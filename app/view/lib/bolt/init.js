@@ -332,7 +332,7 @@ var init = {
     bindSlug: function (data) {
 
         // Make sure events are bound only once.
-        if (this.slugsBound == true) {
+        if (this.slugsBound === true) {
             return;
         } else {
             this.slugsBound = true;
@@ -514,9 +514,10 @@ var init = {
                 autoCloseBrackets: true,
                 enableSearchTools: true,
                 enableCodeFolding: true,
-                enableCodeFormatting: true,
-                autoFormatOnStart: true,
-                autoFormatOnUncomment: true,
+                enableCodeFormatting: false,
+                autoFormatOnStart: false,
+                autoFormatOnUncomment: false,
+                autoFormatOnModeChange: false,
                 highlightActiveLine: true,
                 highlightMatches: true,
                 showFormatButton: false,

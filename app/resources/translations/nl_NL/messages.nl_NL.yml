@@ -440,8 +440,8 @@ contenttypes:
         show-more: "Meer %contenttypes%"
         view: "Bekijk %contenttypes%"
         wrong-use-field: "In het contenttype voor '%contenttype%', heeft het veld '%field%' de regel 'uses: %uses%', maar het veld '%uses%' bestaat niet. Bewerk contenttypes.yml, en corrigeer dit."
-		
-		
+
+
 
 field:
     general:
