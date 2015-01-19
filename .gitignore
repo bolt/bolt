@@ -38,5 +38,8 @@ npm-debug.log
 node_modules
 bower_components
 /bolt.log
+tests/report
+tests/resources
+bolt.db
 
 *.map
