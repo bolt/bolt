@@ -121,7 +121,7 @@ class BoltTwigHelpersTest extends BoltUnitTest
         // First check on the raw string excerpt length 200 and ellipsis added
         $excerpt1 = $twig->excerpt($this->getDummyText());
         $this->assertEquals(200, mb_strlen($excerpt1, "UTF-8"));
-        $this->assertEquals('…', mb_substr($excerpt1, -1));
+        $this->assertEquals('…', mb_substr($excerpt1, -1, 1, 'UTF-8'));
         
         // If passed an object exceprt will try to call an excerpt() method on it
         $mock = $this->getMock('Bolt\Content', array('excerpt'), array($app));
