@@ -5,9 +5,11 @@ namespace Bolt\Composer;
 use Bolt\Library as Lib;
 use Bolt\Translation\Translator as Trans;
 use Composer\Composer;
+use Composer\DependencyResolver\Pool;
 use Composer\IO\BufferIO;
 use Composer\IO\IOInterface;
 use Composer\Json\JsonFile;
+use Composer\Package\Version\VersionSelector;
 use Guzzle\Http\Client as GuzzleClient;
 use Guzzle\Http\Exception\RequestException;
 use Guzzle\Http\Exception\CurlException;
@@ -128,5 +130,79 @@ final class Factory extends PackageManager
             $allowSslDowngrade->setAccessible($choice);
             $allowSslDowngrade->setValue($repo, $choice);
         }
+    }
+
+    /**
+     * Given a package name, this determines the best version to use in the require key.
+     *
+     * This returns a version with the ~ operator prefixed when possible.
+     *
+     * @param  string                    $name
+     * @return string
+     * @throws \InvalidArgumentException
+     */
+    public function findBestVersionForPackage($name)
+    {
+        // find the latest version allowed in this pool
+        $versionSelector = new VersionSelector($this->getPool());
+        $package = $versionSelector->findBestCandidate($name);
+
+        if (!$package) {
+            return;
+        }
+
+        return array(
+            'package'    => $package,
+            'requirever' => $versionSelector->findRecommendedRequireVersion($package)
+        );
+    }
+
+    /**
+     * Return a resolver pool that contains repositories, that provide packages
+     *
+     * @return \Composer\DependencyResolver\Pool
+     */
+    protected function getPool()
+    {
+        if (!$this->pool) {
+            $this->pool = new Pool($this->getMinimumStability());
+
+            // Add each of our configured repos to the pool,
+            // or it defaults to packagist.org
+            foreach ($this->getRepos() as $repo) {
+                $this->pool->addRepository($repo);
+            }
+        }
+
+        return $this->pool;
+    }
+
+    /**
+     * Determine the minimum requried stability
+     *
+     * @return string
+     */
+    protected function getMinimumStability()
+    {
+        $stability = $this->composer->getPackage()->getMinimumStability();
+        if (!empty($stability)) {
+            return $stability;
+        }
+
+        return 'stable';
+    }
+
+    /**
+     * Get all our repos
+     *
+     * @return \Composer\Repository\CompositeRepository
+     */
+    protected function getRepos()
+    {
+        if (!$this->repos) {
+            $this->repos = $this->composer->getRepositoryManager()->getRepositories();
+        }
+
+        return $this->repos;
     }
 }
