@@ -19,18 +19,23 @@ class Config
 {
     protected $paths;
 
-    private $app;
-    private $data;
-    private $defaultConfig = array();
-    private $reservedFieldNames = array(
+    protected $app;
+    protected $data;
+    protected $defaultConfig = array();
+    protected $reservedFieldNames = array(
         'id', 'slug', 'datecreated', 'datechanged', 'datepublish', 'datedepublish', 'ownerid', 'username', 'status', 'link'
     );
 
-    private $cachetimestamp;
+    protected $cachetimestamp;
 
+    /**
+     * Use {@see Config::getFields} instead.
+     * Will be made protected in Bolt 3.0.
+     * @var Field\Manager
+     */
     public $fields;
 
-    private $yamlParser = false;
+    protected $yamlParser = false;
 
     /**
      * @param Application $app
@@ -38,13 +43,18 @@ class Config
     public function __construct(Application $app)
     {
         $this->app = $app;
+        $this->fields = new Field\Manager();
+        $this->initialize();
+    }
 
+    protected function initialize()
+    {
         if (!$this->loadCache()) {
             $this->getConfig();
             $this->saveCache();
 
             // if we have to reload the config, we will also want to make sure the DB integrity is checked.
-            Database\IntegrityChecker::invalidate($app);
+            Database\IntegrityChecker::invalidate($this->app);
         } else {
 
             // In this case the cache is loaded, but because the path of the theme
@@ -56,7 +66,6 @@ class Config
 
         $this->setTwigPath();
         $this->setCKPath();
-        $this->fields = new Field\Manager();
     }
 
     /**
@@ -64,7 +73,7 @@ class Config
      * @param  string $path     The (optional) path to the YAML file
      * @return array
      */
-    private function parseConfigYaml($filename, $path = false)
+    protected function parseConfigYaml($filename, $path = false)
     {
         // Initialise parser
         if ($this->yamlParser === false) {
@@ -561,7 +570,7 @@ class Config
     /**
      * Assume sensible defaults for a number of options.
      */
-    private function setDefaults()
+    protected function setDefaults()
     {
         $this->defaultConfig = array(
             'database'                    => array('prefix' => 'bolt_'),
@@ -645,7 +654,7 @@ class Config
         );
     }
 
-    private function setTwigPath()
+    protected function setTwigPath()
     {
         $themepath = $this->app['resources']->getPath("theme");
         $end = $this->getWhichEnd($this->get('general/branding/path'));
@@ -669,6 +678,9 @@ class Config
         $this->data['twigpath'] = $twigpath;
     }
 
+    /**
+     * Will be made protected in Bolt 3.0
+     */
     public function setCKPath()
     {
         $this->paths = $this->app['resources']->getPaths();
@@ -688,7 +700,7 @@ class Config
         );
     }
 
-    private function loadCache()
+    protected function loadCache()
     {
         $dir = $this->app['resources']->getPath('config');
         /* Get the timestamps for the config files. config_local defaults to '0', because if it isn't present,
@@ -734,7 +746,7 @@ class Config
         return false;
     }
 
-    private function saveCache()
+    protected function saveCache()
     {
         // Store the version number along with the config.
         $this->data['version'] = $this->app->getVersion();
@@ -748,7 +760,7 @@ class Config
         @unlink($this->app['resources']->getPath('cache') . '/config_cache.php');
     }
 
-    private function checkValidCache()
+    protected function checkValidCache()
     {
         // Check the timestamp for the theme's config.yml
         $paths = $this->app['resources']->getPaths();
