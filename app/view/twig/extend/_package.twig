@@ -92,14 +92,14 @@
 {% set package_install_new %}
     <tr data-package="%PACKAGE%">
         <td class="ext-list"><strong class="title">%PACKAGE%</strong></td>
-        <td><a data-request="update-package" class="btn btn-sm btn-warning" data-package="%PACKAGE%">{{ __('Install New Package') }}</a></td>
+        <td><a data-request="update-package" class="btn btn-sm btn-warning" data-package="%PACKAGE%" data-version="%VERSION%">{{ __('Install Package') }}</a></td>
     </tr>
 {% endset %}
 
 {% set package_install_update %}
     <tr data-package="%PACKAGE%">
         <td class="ext-list"><strong class="title">%PACKAGE%</strong></td>
-        <td><a data-request="update-package" class="btn btn-sm btn-tertiary" data-package="%PACKAGE%">{{ __('Install Package Update') }}</a></td>
+        <td><a data-request="update-package" class="btn btn-sm btn-tertiary" data-package="%PACKAGE%" data-version="%VERSION%">{{ __('Update Package') }}</a></td>
     </tr>
 {% endset %}
 
