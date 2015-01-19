@@ -3,6 +3,8 @@
 namespace Bolt;
 
 use Bolt\Configuration\ResourceManager;
+use Bolt\Translation\Translator;
+use Bolt\Configuration\LowlevelException;
 
 /**
  * Class for Bolt's generic library functions
@@ -108,14 +110,25 @@ class Library
     }
 
     /**
+     *
+     * @param  object $obj
+     * @return array
+     * @deprecated
+     */
+    public static function hackislyParseRegexTemplates($obj)
+    {
+        return self::parseTwigTemplates($obj);
+    }
+    
+    /**
      * parse the used .twig templates from the Twig Loader object, using regular expressions.
      *
      * We use this for showing them in the debug toolbar.
      *
-     * @param  object $obj
+     * @param  Twig Loader $obj
      * @return array
      */
-    public static function hackislyParseRegexTemplates($obj)
+    public static function parseTwigTemplates($obj)
     {
         $app = ResourceManager::getApp();
 
@@ -189,7 +202,7 @@ class Library
      *
      * @param string $path
      */
-    public static function simpleredirect($path)
+    public static function simpleredirect($path, $abort = false)
     {
         $app = ResourceManager::getApp();
 
@@ -197,9 +210,12 @@ class Library
             $path = "/";
         }
         header("location: $path");
-        echo "<noscript><p>Redirecting to <a href='$path'>$path</a>.</p></noscript>";
-        echo "<script>window.setTimeout(function(){ window.location='$path'; }, 50);</script>";
-
+        echo "<p>Redirecting to <a href='$path'>$path</a>.</p>";
+        echo "<script>window.setTimeout(function(){ window.location='$path'; }, 500);</script>";
+        if ($abort) {
+            return $app->abort(303, "Redirecting to '$path'.");
+        }
+        return $path;
     }
 
     /**
@@ -222,15 +238,15 @@ class Library
                 return false;
             }
 
-            $part = self::__(
+            $part = Translator::__(
                 'Try logging in with your ftp-client and make the file readable. ' .
                 'Else try to go <a>back</a> to the last page.'
             );
-            $message = '<p>' . self::__('The following file could not be read:') . '</p>' .
+            $message = '<p>' . Translator::__('The following file could not be read:') . '</p>' .
                 '<pre>' . htmlspecialchars($filename) . '</pre>' .
                 '<p>' . str_replace('<a>', '<a href="javascript:history.go(-1)">', $part) . '</p>';
 
-            renderErrorpage(self::__('File is not readable!'), $message);
+            throw new LowlevelException(Translator::__('File is not readable!'), $message);
         }
 
         $serializedData = trim(implode('', file($filename)));
@@ -347,9 +363,9 @@ class Library
             if ($data !== false) {
                 return $data;
             }
+        } else {
+            $data = unserialize($str);
+            return $data;
         }
-        $data = unserialize($str);
-
-        return $data;
     }
 }
