@@ -280,7 +280,13 @@ EOM;
     // This method normalises the html so that differeing whitespace doesn't effect the strings.
     protected function html($string) {
         $doc = new \DOMDocument();
-        $doc->loadHTML($string, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+        
+        // Here for PHP 5.3 compatibility where the constants aren't available
+        if(!defined('LIBXML_HTML_NOIMPLIED')) {
+            $doc->loadHTML($string);
+        } else {
+            $doc->loadHTML($string, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+        }
         $doc->preserveWhitespace = false;
         $html = $doc->saveHTML();
         $html = str_replace("\t", "", $html);
