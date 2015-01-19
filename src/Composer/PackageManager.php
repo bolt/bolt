@@ -187,7 +187,7 @@ class PackageManager
     public function checkPackage()
     {
         if (!$this->check) {
-            $this->check = new CheckPackage($this->getIO(), $this->getComposer(), $this->options);
+            $this->check = new CheckPackage($this->app, $this->getIO(), $this->getComposer(), $this->options);
         }
 
         return $this->check->execute();
