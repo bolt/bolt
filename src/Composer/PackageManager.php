@@ -113,6 +113,16 @@ class PackageManager
     }
 
     /**
+     * Return/create our Factory object
+     *
+     * @return Factory
+     */
+    public function getFactory()
+    {
+        return $this->factory;
+    }
+
+    /**
      * If the extension project area is writable, ensure the JSON is up-to-date
      * and test connection to the extension server.
      *
@@ -145,6 +155,9 @@ class PackageManager
 
             // Create the Composer object
             $this->composer = $this->getComposer();
+
+            // Create our Factory
+            $this->factory = new Factory($this->app, $this->composer, $this->io, $this->options);
         }
     }
 
@@ -159,7 +172,7 @@ class PackageManager
         chdir($this->options['basedir']);
 
         // Use the factory to get a new Composer object
-        $this->composer = Factory::create($this->io, $this->options['composerjson'], true);
+        $this->composer = \Composer\Factory::create($this->io, $this->options['composerjson'], true);
 
         if ($this->downgradeSsl) {
             $this->allowSslDowngrade(true);
