@@ -2,6 +2,7 @@
 
 namespace Bolt\Composer\Action;
 
+use Bolt\Translation\Translator as Trans;
 use Composer\Factory;
 use Composer\Json\JsonFile;
 use Silex\Application;
@@ -50,7 +51,7 @@ final class CheckPackage
      */
     public function execute()
     {
-        $packages = array('update' => array(), 'install' => array());
+        $packages = array('updates' => array(), 'installs' => array());
 
         // Get known installed packages
         $rootpack = $this->app['extend.manager']->showPackage('installed');
@@ -60,9 +61,9 @@ final class CheckPackage
         $json = $file->read();
         $jsonpack = $json['require'];
 
+        // Find the packages that are NOT part of the root install yet and mark
+        // them as pending installs
         if (!empty($jsonpack)) {
-            // Find the packages that are NOT part of the root install yet and mark
-            // them as pending installs
             foreach ($jsonpack as $package => $packageInfo) {
                 if (!array_key_exists($package, $rootpack)) {
                     $remote = $this->app['extend.manager']->factory->findBestVersionForPackage($package);
@@ -71,14 +72,15 @@ final class CheckPackage
                     // propose as an update. Making the assumption that Composer isn't
                     // going to offer us an older version.
                     if (is_array($remote)) {
-                        $packages['install'][$package] = $remote;
+                        $packages['installs'][] = array('name' => $package, 'version' => $remote['version']);
                     } else {
-                        $packages['install'][$package] = array('error' => 'No valid package found.');
+                        $packages['installs'][] = array('name' => $package, 'version' => null);
                     }
                 }
             }
         }
 
+        // For installed packages, see if there is a valid update
         foreach ($rootpack as $package => $data) {
             $remote = $this->app['extend.manager']->factory->findBestVersionForPackage($package);
 
@@ -86,10 +88,12 @@ final class CheckPackage
             // propose as an update. Making the assumption that Composer isn't
             // going to offer us an older version.
             if (is_array($remote) && ($remote['package']->getVersion() != $data['package']->getVersion())) {
-                $packages['update'][$package] = $remote;
+                $packages['updates'][] = array('name' => $package, 'version' => $remote['version']);
+            } else {
+                $packages['updates'][] = array('name' => $package, 'version' => null);
             }
         }
 
-        return array('updates' => $packages['update'], 'installs' => $packages['installs']);
+        return $packages;
     }
 }
