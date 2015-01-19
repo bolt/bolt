@@ -101,14 +101,14 @@ var BoltExtender = Object.extend(Object, {
                     
                     // Add an install button
                     target.append(bolt.data.extend.packages.install_new.subst({
-                        '%PACKAGE%': ext}));
+                        '%PACKAGE%': ext.name}));
                 }
                 for (e in data.updates) {
                     ext = data.updates[e];
                     
                     // Add an update button
                     target.append(bolt.data.extend.packages.install_update.subst({
-                        '%PACKAGE%': ext}));
+                        '%PACKAGE%': ext.name}));
                 }
                 active_console.hide();
                 controller.find('.update-list').show();

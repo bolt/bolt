@@ -138,7 +138,7 @@ final class Factory extends PackageManager
      * This returns a version with the ~ operator prefixed when possible.
      *
      * @param  string                    $name
-     * @return string
+     * @return array
      * @throws \InvalidArgumentException
      */
     public function findBestVersionForPackage($name)
@@ -152,6 +152,8 @@ final class Factory extends PackageManager
         }
 
         return array(
+            'name'       => $name,
+            'version'    => $package->getVersion(),
             'package'    => $package,
             'requirever' => $versionSelector->findRecommendedRequireVersion($package)
         );
