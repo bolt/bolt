@@ -364,19 +364,6 @@ class PackageManager
     }
 
     /**
-     *
-     * @return array
-     */
-    private function readComposerPackages()
-    {
-        //
-        $jsonFile = new JsonFile($this->options['composerjson']);
-        if ($jsonFile->exists()) {
-            $json = $jsonorig = $jsonFile->read();
-        }
-    }
-
-    /**
      * Format a Composer API package array suitable for AJAX response
      *
      * @param  array $packages
