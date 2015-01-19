@@ -36,14 +36,14 @@ final class Factory extends PackageManager
     private $app;
 
     /**
+     * @var boolean
+     */
+    protected $downgradeSsl = false;
+
+    /**
      * @var array
      */
     public $messages = array();
-
-    /**
-     * @var boolean
-     */
-    protected $downgradeSsl;
 
     /**
      * @param Silx\Application        $app
@@ -53,12 +53,6 @@ final class Factory extends PackageManager
     {
         $this->app = $app;
         $this->options = $options;
-
-        // Create the Composer and IOInterface objects
-        $this->composer = $this->getComposer();
-
-        //parent::$io = $this->io;
-        //parent::$composer = $this->composer;
     }
 
     /**
