@@ -44,7 +44,7 @@ class Application extends Silex\Application
             $this['classloader'] = $this['resources']->getClassLoader();
         }
 
-        $this['resources']->setApp($this);
+        $this['resources']::setApp($this);
         $this->initConfig();
         $this['resources']->initialize();
 
