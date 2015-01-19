@@ -28,7 +28,7 @@ final class RequirePackage
     private $options;
 
     /**
-     * @var Composer\IO\BufferIO
+     * @var Composer\IO\IOInterface
      */
     private $io;
 
@@ -39,11 +39,11 @@ final class RequirePackage
 
     /**
      * @param $app      Silex\Application
-     * @param $io       Composer\IO\BufferIO
+     * @param $io       Composer\IO\IOInterface
      * @param $composer Composer\Composer
      * @param $options  array
      */
-    public function __construct(Application $app, \Composer\IO\BufferIO $io, \Composer\Composer $composer, array $options)
+    public function __construct(Application $app, \Composer\IO\IOInterface $io, \Composer\Composer $composer, array $options)
     {
         $this->app = $app;
         $this->options = $options;

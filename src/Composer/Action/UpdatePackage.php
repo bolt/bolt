@@ -18,7 +18,7 @@ final class UpdatePackage
     private $options;
 
     /**
-     * @var Composer\IO\BufferIO
+     * @var Composer\IO\IOInterface
      */
     private $io;
 
@@ -28,11 +28,11 @@ final class UpdatePackage
     private $composer;
 
     /**
-     * @param $io       Composer\IO\BufferIO
+     * @param $io       Composer\IO\IOInterface
      * @param $composer Composer\Composer
      * @param $options  array
      */
-    public function __construct(\Composer\IO\BufferIO $io, \Composer\Composer $composer, array $options)
+    public function __construct(\Composer\IO\IOInterface $io, \Composer\Composer $composer, array $options)
     {
         $this->options = $options;
         $this->io = $io;
