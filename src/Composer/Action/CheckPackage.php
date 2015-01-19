@@ -72,9 +72,7 @@ final class CheckPackage
                     // propose as an update. Making the assumption that Composer isn't
                     // going to offer us an older version.
                     if (is_array($remote)) {
-                        $packages['installs'][] = array('name' => $package, 'version' => $remote['version']);
-                    } else {
-                        $packages['installs'][] = array('name' => $package, 'version' => null);
+                        $packages['installs'][] = $remote;
                     }
                 }
             }
@@ -88,9 +86,7 @@ final class CheckPackage
             // propose as an update. Making the assumption that Composer isn't
             // going to offer us an older version.
             if (is_array($remote) && ($remote['package']->getVersion() != $data['package']->getVersion())) {
-                $packages['updates'][] = array('name' => $package, 'version' => $remote['version']);
-            } else {
-                $packages['updates'][] = array('name' => $package, 'version' => null);
+                $packages['updates'][] = $remote;
             }
         }
 
