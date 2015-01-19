@@ -6,8 +6,9 @@ body {
   color: $bodytextcolour;
   font-size: 13px;
   min-height: 100%;
-  overflow: scroll-y;
+  overflow-y: auto;
 }
+
 
 body.popup {
   padding: 6px 12px 0;
