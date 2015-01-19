@@ -13,7 +13,6 @@ use Bolt\Composer\Action\ShowPackage;
 use Bolt\Composer\Action\UpdatePackage;
 use Bolt\Library as Lib;
 use Bolt\Translation\Translator as Trans;
-use Composer\Factory;
 use Composer\IO\BufferIO;
 use Composer\Json\JsonFile;
 use Guzzle\Http\Client as GuzzleClient;
@@ -86,7 +85,7 @@ class PackageManager
     /**
      * @var boolean
      */
-    private $downgradeSsl = false;
+    protected $downgradeSsl = false;
 
     /**
      * @var array
@@ -162,17 +161,7 @@ class PackageManager
      */
     public function getComposer()
     {
-        // Set working directory
-        chdir($this->options['basedir']);
-
-        // Use the factory to get a new Composer object
-        $this->composer = \Composer\Factory::create($this->io, $this->options['composerjson'], true);
-
-        if ($this->downgradeSsl) {
-            $this->allowSslDowngrade(true);
-        }
-
-        return $this->composer;
+        return $this->factory->getComposer();
     }
 
     /**
@@ -182,7 +171,7 @@ class PackageManager
      */
     public function getOutput()
     {
-        return $this->io->getOutput();
+        return $this->io->factory->getOutput();
     }
 
     /**
