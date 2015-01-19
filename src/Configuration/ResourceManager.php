@@ -29,7 +29,7 @@ class ResourceManager
     /**
      * Don't use! Will probably refactored out soon
      */
-    protected static $theApp;
+    public static $theApp;
 
     protected $root;
 
@@ -387,4 +387,5 @@ class ResourceManager
 
         return $relative;
     }
+    
 }
