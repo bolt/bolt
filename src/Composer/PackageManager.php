@@ -503,23 +503,6 @@ class PackageManager
     }
 
     /**
-     * Set repos to allow HTTP instead of HTTPS
-     *
-     * @param boolean $choice
-     */
-    private function allowSslDowngrade($choice)
-    {
-        $repos = $this->composer->getRepositoryManager()->getRepositories();
-
-        foreach ($repos as $repo) {
-            $reflection = new \ReflectionClass($repo);
-            $allowSslDowngrade = $reflection->getProperty('allowSslDowngrade');
-            $allowSslDowngrade->setAccessible($choice);
-            $allowSslDowngrade->setValue($repo, $choice);
-        }
-    }
-
-    /**
      * Set the default options
      */
     private function getOptions()

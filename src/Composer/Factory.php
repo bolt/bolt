@@ -70,7 +70,7 @@ class Factory extends PackageManager
             // Use the factory to get a new Composer object
             $this->composer = \Composer\Factory::create($this->getIO(), $this->options['composerjson'], true);
 
-            if ($this->downgradeSsl) {
+            if (parent::$downgradeSsl) {
                 $this->allowSslDowngrade(true);
             }
         }
@@ -112,5 +112,22 @@ class Factory extends PackageManager
     public function getOutput()
     {
         return $this->io->getOutput();
+    }
+
+    /**
+     * Set repos to allow HTTP instead of HTTPS
+     *
+     * @param boolean $choice
+     */
+    private function allowSslDowngrade($choice)
+    {
+        $repos = $this->composer->getRepositoryManager()->getRepositories();
+
+        foreach ($repos as $repo) {
+            $reflection = new \ReflectionClass($repo);
+            $allowSslDowngrade = $reflection->getProperty('allowSslDowngrade');
+            $allowSslDowngrade->setAccessible($choice);
+            $allowSslDowngrade->setValue($repo, $choice);
+        }
     }
 }
