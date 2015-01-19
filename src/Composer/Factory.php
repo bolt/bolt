@@ -4,15 +4,15 @@ namespace Bolt\Composer;
 
 use Bolt\Library as Lib;
 use Bolt\Translation\Translator as Trans;
-use Composer\Factory;
-use Composer\IO\BufferIO;
+use Composer\Composer;
+use Composer\IO\IOInterface;
 use Composer\Json\JsonFile;
 use Guzzle\Http\Client as GuzzleClient;
 use Guzzle\Http\Exception\RequestException;
 use Guzzle\Http\Exception\CurlException;
 use Silex\Application;
 
-class Factory
+class Factory extends PackageManager
 {
     /**
      * @var array
@@ -45,17 +45,15 @@ class Factory
     public $messages = array();
 
     /**
-     *
-     * @param Application          $app
-     * @param Composer\Composer    $composer
-     * @param Composer\IO\BufferIO $io
-     * @param array                $options
+     * @param Silx\Application        $app
+     * @param array                   $options
      */
-    public function __construct(Application $app, Composer\Composer $composer, Composer\IO\BufferIO $io, array $options)
+    public function __construct(Application $app, array $options)
     {
         $this->app = $app;
-        $this->composer = $composer;
-        $this->io = $io;
+
+        // Create the Composer and IOInterface objects
+        $this->composer = $this->getComposer();
     }
 
     /**
@@ -70,7 +68,7 @@ class Factory
             chdir($this->options['basedir']);
 
             // Use the factory to get a new Composer object
-            $this->composer = \Composer\Factory::create($this->io, $this->options['composerjson'], true);
+            $this->composer = \Composer\Factory::create($this->getIO(), $this->options['composerjson'], true);
 
             if ($this->downgradeSsl) {
                 $this->allowSslDowngrade(true);
@@ -78,6 +76,20 @@ class Factory
         }
 
         return $this->composer;
+    }
+
+    /**
+     * Get the IOInterface object
+     *
+     * @return Composer\IO\IOInterface
+     */
+    public function getIO()
+    {
+        if (!$this->io) {
+            $this->io = new BufferIO();
+        }
+
+        return $this->io;
     }
 
     /**
@@ -101,5 +113,4 @@ class Factory
     {
         return $this->io->getOutput();
     }
-
 }
