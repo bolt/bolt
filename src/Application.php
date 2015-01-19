@@ -62,7 +62,7 @@ class Application extends Silex\Application
     /**
      * Initialize the config and session providers.
      */
-    private function initConfig()
+    protected function initConfig()
     {
         $this->register(new Provider\ConfigServiceProvider());
         $this->register(
