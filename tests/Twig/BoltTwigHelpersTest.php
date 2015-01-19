@@ -94,20 +94,20 @@ class BoltTwigHelpersTest extends BoltUnitTest
         
     }
     
-    public function testLocaleDateTime()
-    {
-        // Default Locale
-        $app = $this->getApp();
-        $twig = new TwigExtension($app);
-        $this->assertEquals('January  1, 2014 00:00', $twig->localeDateTime('1 Jan 2014'));
+    // public function testLocaleDateTime()
+    // {
+    //     // Default Locale
+    //     $app = $this->getApp();
+    //     $twig = new TwigExtension($app);
+    //     $this->assertEquals('January  1, 2014 00:00', $twig->localeDateTime('1 Jan 2014'));
         
-        // Locale Switch
-        $app = $this->getApp();
-        $twig = new TwigExtension($app);
-        setlocale(LC_ALL, 'fr_FR.UTF8');
-        $this->assertEquals('janvier  1, 2014 00:00', $twig->localeDateTime('1 Jan 2014'));
+    //     // Locale Switch
+    //     $app = $this->getApp();
+    //     $twig = new TwigExtension($app);
+    //     setlocale(LC_ALL, 'fr_FR.UTF8');
+    //     $this->assertEquals('janvier  1, 2014 00:00', $twig->localeDateTime('1 Jan 2014'));
 
-    }
+    // }
     
     public function testExcerpt()
     {
