@@ -2,6 +2,11 @@ Bolt 2.0 DEV-head
 -----------------
 
 - Fixed: appending order=... to arbitrary Bolt URLs will no longer silently try to apply sorting to getContent.
+- Fixed: For extensions adding Twig functions in content: isSafe() works correctly now
+- Change: Use Twig’s resolveTemplate instead of file_exists in Frontend Controller.
+- Fixed: Remove horizontal scroll on loging screen. (#2495)
+- Fixed: Ongoing cleanup of translation labels.
+- Fixed: Nav links in admin dashboard, when accessed over HTTPS (#2499)
 
 Bolt 2.0.3
 ----------
