@@ -102,7 +102,8 @@ var BoltExtender = Object.extend(Object, {
                     // Add an install button
                     target.append(bolt.data.extend.packages.install_new.subst({
                         '%PACKAGE%': ext.name,
-                        '%VERSION%': ext.version}));
+                        '%VERSION%': ext.version,
+                        '%PRETTYVERSION%': ext.prettyversion}));
                 }
                 for (e in data.updates) {
                     ext = data.updates[e];
@@ -110,7 +111,8 @@ var BoltExtender = Object.extend(Object, {
                     // Add an update button
                     target.append(bolt.data.extend.packages.install_update.subst({
                         '%PACKAGE%': ext.name,
-                        '%VERSION%': ext.version}));
+                        '%VERSION%': ext.version,
+                        '%PRETTYVERSION%': ext.prettyversion}));
                 }
                 active_console.hide();
                 controller.find('.update-list').show();

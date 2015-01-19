@@ -152,10 +152,11 @@ final class Factory extends PackageManager
         }
 
         return array(
-            'name'       => $name,
-            'version'    => $package->getVersion(),
-            'package'    => $package,
-            'requirever' => $versionSelector->findRecommendedRequireVersion($package)
+            'name'          => $name,
+            'version'       => $package->getVersion(),
+            'prettyversion' => $package->getPrettyVersion(),
+            'package'       => $package,
+            'requirever'    => $versionSelector->findRecommendedRequireVersion($package)
         );
     }
 
