@@ -94,6 +94,9 @@ blockquote.quote cite {
 
 
 /* Login Page */
+body.login{
+	overflow: hidden !important;
+}
 
 .login-panel {
   margin-top: 25%;
