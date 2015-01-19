@@ -1,7 +1,7 @@
 Bolt 2.0 DEV-head
 -----------------
 
-- (nothing yet)
+- Fixed: appending order=... to arbitrary Bolt URLs will no longer silently try to apply sorting to getContent.
 
 Bolt 2.0.3
 ----------
