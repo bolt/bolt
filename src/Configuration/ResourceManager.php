@@ -114,7 +114,7 @@ class ResourceManager
 
     public static function setApp(Application $app)
     {
-        self::$theApp = $this->app = $app;
+        self::$theApp = $app;
     }
 
     public function setPath($name, $value)
