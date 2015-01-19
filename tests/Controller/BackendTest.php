@@ -193,7 +193,7 @@ class BackendTest extends BoltUnitTest
             ->will($this->returnValue("Testing"));
             
         $app['integritychecker'] = $check;
-        ResourceManager::setApp($app);
+        ResourceManager::$theApp = $app;
 
         $request = Request::create('/bolt/dbupdate', "POST", array('return'=>'edit'));
         $response = $app->handle($request);
@@ -265,7 +265,7 @@ class BackendTest extends BoltUnitTest
             
         $app['log'] = $log;
         
-        ResourceManager::setApp($app);
+        ResourceManager::$theApp = $app;
 
         $request = Request::create('/bolt/activitylog', "GET", array('action'=>'trim'));
         $response = $app->handle($request);
