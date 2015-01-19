@@ -160,13 +160,23 @@ class PackageManager
     }
 
     /**
+     * Get a new IO object
+     *
+     * @return Composer\Composer
+     */
+    public function getIO()
+    {
+        return $this->factory->getIO();
+    }
+
+    /**
      * Return the output from the last IO
      *
      * @return array
      */
     public function getOutput()
     {
-        return $this->io->factory->getOutput();
+        return $this->getIO()->factory->getOutput();
     }
 
     /**
@@ -177,7 +187,7 @@ class PackageManager
     public function checkPackage()
     {
         if (!$this->check) {
-            $this->check = new CheckPackage($this->io, $this->composer, $this->options);
+            $this->check = new CheckPackage($this->getIO(), $this->getComposer(), $this->options);
         }
 
         return $this->check->execute();
@@ -189,7 +199,7 @@ class PackageManager
     public function dumpautoload()
     {
         if (!$this->dumpautoload) {
-            $this->dumpautoload = new DumpAutoload($this->io, $this->composer, $this->options);
+            $this->dumpautoload = new DumpAutoload($this->getIO(), $this->getComposer(), $this->options);
         }
 
         $this->dumpautoload->execute();
@@ -203,7 +213,7 @@ class PackageManager
     public function installPackages()
     {
         if (!$this->install) {
-            $this->install = new InstallPackage($this->io, $this->composer, $this->options);
+            $this->install = new InstallPackage($this->getIO(), $this->getComposer(), $this->options);
         }
 
         // 0 on success or a positive error code on failure
@@ -219,7 +229,7 @@ class PackageManager
     public function removePackage(array $packages)
     {
         if (!$this->remove) {
-            $this->remove = new RemovePackage($this->app, $this->io, $this->composer, $this->options);
+            $this->remove = new RemovePackage($this->app, $this->getIO(), $this->getComposer(), $this->options);
         }
 
         // 0 on success or a positive error code on failure
@@ -236,7 +246,7 @@ class PackageManager
     public function requirePackage(array $packages)
     {
         if (!$this->require) {
-            $this->require = new RequirePackage($this->app, $this->io, $this->composer, $this->options);
+            $this->require = new RequirePackage($this->app, $this->getIO(), $this->getComposer(), $this->options);
         }
 
         // 0 on success or a positive error code on failure
@@ -252,7 +262,7 @@ class PackageManager
     public function searchPackage(array $packages)
     {
         if (!$this->search) {
-            $this->search = new SearchPackage($this->io, $this->composer, $this->options);
+            $this->search = new SearchPackage($this->getIO(), $this->getComposer(), $this->options);
         }
 
         return $this->search->execute($packages);
@@ -267,7 +277,7 @@ class PackageManager
     public function showPackage($target, $package = '', $version = '')
     {
         if (!$this->show) {
-            $this->show = new ShowPackage($this->io, $this->composer, $this->options);
+            $this->show = new ShowPackage($this->getIO(), $this->getComposer(), $this->options);
         }
 
         return $this->show->execute($target, $package, $version);
@@ -282,7 +292,7 @@ class PackageManager
     public function updatePackage(array $packages)
     {
         if (!$this->update) {
-            $this->update = new UpdatePackage($this->io, $this->composer, $this->options);
+            $this->update = new UpdatePackage($this->getIO(), $this->getComposer(), $this->options);
         }
 
         // 0 on success or a positive error code on failure

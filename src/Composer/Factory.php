@@ -82,7 +82,7 @@ final class Factory extends PackageManager
      *
      * @return Composer\IO\IOInterface
      */
-    protected function getIO()
+    public function getIO()
     {
         if (!$this->io) {
             $this->io = new BufferIO();
