@@ -203,7 +203,7 @@ class Omnisearch
             $this->register(
                 array(
                     'keywords' => array('Activity log', 'Maintenance'),
-                    'label' => Trans::__('Maintenance') . ' » ' . Trans::__('Activity log'),
+                    'label' => Trans::__('Maintenance') . ' » ' . Trans::__('logs.activity-log'),
                     'description' => '',
                     'priority' => self::OMNISEARCH_MENUITEM - 9,
                     'path' => $this->backend . 'activitylog',
