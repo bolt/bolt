@@ -484,7 +484,7 @@ class PackageManager
 
             return $response->getStatusCode();
         } catch (CurlException $e) {
-            if ($e->getErrorNo() == 60){
+            if ($e->getErrorNo() == 60) {
                 // Eariler versions of libcurl support only SSL, whereas we require TLS.
                 // In this case, downgrade our composer to use HTTP
                 $this->downgradeSsl = true;
