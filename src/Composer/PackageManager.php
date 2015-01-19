@@ -150,14 +150,8 @@ class PackageManager
         }
 
         if ($this->app['extend.online']) {
-            // Create the IO
-            $this->io = new BufferIO();
-
-            // Create the Composer object
-            $this->composer = $this->getComposer();
-
             // Create our Factory
-            $this->factory = new Factory($this->app, $this->composer, $this->io, $this->options);
+            $this->factory = new Factory($this->app, $this->options);
         }
     }
 
