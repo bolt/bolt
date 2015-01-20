@@ -24,7 +24,7 @@ class ExtensionsEnable extends BaseCommand
         $name = $input->getArgument('name');
         $version = $input->getArgument('version');
 
-        $result = $this->app['extend.manager']->install($name, $version);
+        $result = $this->app['extend.manager']->requirePackage(array('name' => $name, 'version' => $version));
 
         $output->writeln("<info>[Done]</info> ");
         $output->writeln($result, OutputInterface::OUTPUT_PLAIN);
