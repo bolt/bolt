@@ -46,6 +46,7 @@ class Application extends Silex\Application
 
         $this['resources']->setApp($this);
         $this->initConfig();
+        $this->initSession();
         $this['resources']->initialize();
 
         $this['debug'] = $this['config']->get('general/debug', false);
@@ -59,12 +60,13 @@ class Application extends Silex\Application
         $this['jsdata'] = array();
     }
 
-    /**
-     * Initialize the config and session providers.
-     */
     protected function initConfig()
     {
         $this->register(new Provider\ConfigServiceProvider());
+    }
+
+    protected function initSession()
+    {
         $this->register(
             new Silex\Provider\SessionServiceProvider(),
             array(
