@@ -5,6 +5,7 @@ use Bolt\Nut;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 use Symfony\Component\Console\Application as ConsoleApplication;
+use Symfony\Component\Console\Command\Command;
 
 class NutServiceProvider implements ServiceProviderInterface
 {
@@ -58,5 +59,17 @@ class NutServiceProvider implements ServiceProviderInterface
 
     public function boot(Application $app)
     {
+    }
+
+    public static function addCommand(Application $app, Command $command)
+    {
+        $app['nut.commands'] = $app->share(
+            $app->extend('nut.commands',
+                function($commands) use ($command) {
+                    $commands[] = $command;
+                    return $commands;
+                }
+            )
+        );
     }
 }
