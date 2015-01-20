@@ -16,12 +16,11 @@ class Extensions extends BaseCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $result = $this->app['extend.runner']->installed();
-        $json = $result->getContent();
+        $installed = $this->app['extend.manager']->showPackage('installed');
 
         $rows = array();
-        foreach (json_decode($json) as $ext) {
-            $rows[] = array($ext->name, $ext->version, $ext->type, $ext->descrip);
+        foreach ($installed as $ext) {
+            $rows[] = array($ext['package']->getPrettyName(), $ext['package']->getPrettyVersion(), $ext['package']->getType(), $ext['package']->getDescription());
         }
 
         $table = $this->getHelper('table');

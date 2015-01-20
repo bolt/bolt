@@ -10,6 +10,7 @@
 {% block messages "" %}
 
 {% block page_main %}
+    {% include 'extend/_package.twig' %}
 
     {% if messages %}
         <div class="row">
@@ -51,6 +52,7 @@
                         <thead>
                             <tr>
                                 <th>{{ __('Extension') }}</th>
+                                <th>{{ __('Version') }}</th>
                                 <th>{{ __('Actions') }}</th>
                             </tr>
                         </thead>
@@ -74,8 +76,7 @@
                 </div>
             </section>
 
-
-            <!-- Modal for readme's-->
+            <!-- Modal for readmes -->
             <div class="modal fade" id="readmeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
               <div class="modal-dialog">
                 <div class="modal-content">
@@ -90,18 +91,17 @@
               </div>
             </div>
 
-
             <hr />
             <section>
                 <h2>{{ __('Install a new Extension') }}</h2>
                 <p>
-                    {% if enabled and not offline %}
+                    {% if enabled and online %}
                     {{ __('Add a new extension using the form below.') }}
                     {% endif %}
                     {{ __('You can discover new extensions by visiting') }}
                     <a href="{{ site }}" target="_blank">{{ site }}</a>
                 </p>
-                {% if enabled and not offline %}
+                {% if enabled and online %}
                 <div class="install-container">
                         <div class="auto-search hide-block"></div>
                         <input type="text" name="check-package" placeholder="Extension name eg: bolt/widget">
@@ -170,20 +170,25 @@
 
     <script>
         var site = '{{ site }}';
-        var baseurl = "{{ paths.bolt }}extend/";
+        var baseurl = '{{ paths.bolt }}extend/';
+        var rootpath = '{{ paths.rootpath }}';
 
         jQuery(document).ready(function($) {
             var boltExt = new BoltExtender();
+            boltExt.setMessage('badJson', '{{ __('Malformed JSON response. Ensure no debugging or other code is being added to the response') }}' );
+            boltExt.setMessage('confirmRemove', '{{ __('Please confirm that you want to remove this extension?') }}');
+            boltExt.setMessage('copying', '{{ __('Copying theme assets …') }}');
             boltExt.setMessage('extError', '{{ __('Bolt Extension could not be found. Please check at %site% to ensure correct name.')|replace({'%site%': site}) }}' );
-            boltExt.setMessage('removing', '{{ __('Preparing to remove package …') }}');
-            boltExt.setMessage('updating', '{{ __('Searching for available updates …') }}');
-            boltExt.setMessage('updated', '{{ __('Everything is up to date!') }}');
-            boltExt.setMessage('installing', '{{ __('Preparing to install package …') }}');
             boltExt.setMessage('installAll', '{{ __('Running install of all packages …') }}');
+            boltExt.setMessage('installing', '{{ __('Preparing to install package …') }}');
             boltExt.setMessage('noStable', '{{ __('No Stable Versions Available') }}');
             boltExt.setMessage('noTest', '{{ __('No Test Versions Available') }}');
+            boltExt.setMessage('nothtingInstalled', '{{ __('No Bolt Extensions installed.') }}');
             boltExt.setMessage('overwrite', '{{ __('This will overwrite any existing files! Are you sure?') }}');
-            boltExt.setMessage('copying', '{{ __('Copying theme assets …') }}');
+            boltExt.setMessage('removing', '{{ __('Preparing to remove package …') }}');
+            boltExt.setMessage('runningUpdate', '{{ __('Running update …') }}');
+            boltExt.setMessage('updating', '{{ __('Searching for available updates …') }}');
+            boltExt.setMessage('updated', '{{ __('Everything is up to date!') }}');
             boltExt.setPath('extensionsconfigpath', '{{ paths.extensionsconfigpath }}');
             boltExt.setPath('extensionspath', '{{ paths.extensionspath }}');
         });
