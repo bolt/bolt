@@ -176,7 +176,7 @@ class PackageManager
      */
     public function getOutput()
     {
-        return $this->getIO()->factory->getOutput();
+        return $this->factory->getIO()->getOutput();
     }
 
     /**
