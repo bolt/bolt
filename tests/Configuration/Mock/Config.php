@@ -77,6 +77,13 @@ class Config
         unset($this->value['driver']);
     }
     
+    public function mockSqliteMem()
+    {
+        $this->value = $this->db1;
+        $this->value['driver'] = "sqlite";
+        $this->value['memory'] = true;
+    }
+    
     
 
    
