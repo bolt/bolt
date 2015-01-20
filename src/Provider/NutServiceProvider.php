@@ -64,7 +64,8 @@ class NutServiceProvider implements ServiceProviderInterface
     public static function addCommand(Application $app, Command $command)
     {
         $app['nut.commands'] = $app->share(
-            $app->extend('nut.commands',
+            $app->extend(
+                'nut.commands',
                 function($commands) use ($command) {
                     $commands[] = $command;
                     return $commands;
