@@ -19,8 +19,8 @@ class Extensions extends BaseCommand
         $installed = $this->app['extend.manager']->showPackage('installed');
 
         $rows = array();
-        foreach (json_decode($json) as $ext) {
-            $rows[] = array($ext->name, $ext->version, $ext->type, $ext->descrip);
+        foreach ($installed as $ext) {
+            $rows[] = array($ext['package']->getPrettyName(), $ext['package']->getPrettyVersion(), $ext['package']->getType(), $ext['package']->getDescription());
         }
 
         $table = $this->getHelper('table');
