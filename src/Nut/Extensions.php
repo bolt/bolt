@@ -16,8 +16,7 @@ class Extensions extends BaseCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $result = $this->app['extend.manager']->installed();
-        $json = $result->getContent();
+        $installed = $this->app['extend.manager']->showPackage('installed');
 
         $rows = array();
         foreach (json_decode($json) as $ext) {
