@@ -7,7 +7,6 @@ use Bolt\Library as Lib;
 use RandomLib;
 use SecurityLib;
 use Silex;
-use Symfony\Component\Console\Application as ConsoleApplication;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -96,9 +95,6 @@ class Application extends Silex\Application
 
         // Initialize the Database Providers.
         $this->initDatabase();
-
-        // Initialize the Console Application for Nut
-        $this->initConsoleApplication();
 
         // Initialize the rest of the Providers.
         $this->initProviders();
@@ -291,7 +287,9 @@ class Application extends Silex\Application
             ->register(new Controllers\Upload())
             ->register(new Controllers\Extend())
             ->register(new Provider\FilesystemProvider())
-            ->register(new Thumbs\ThumbnailProvider());
+            ->register(new Thumbs\ThumbnailProvider())
+            ->register(new Provider\NutServiceProvider())
+        ;
 
         $this['paths'] = $this['resources']->getPaths();
 
@@ -354,22 +352,6 @@ class Application extends Silex\Application
 
         // Mount the 'frontend' controllers, ar defined in our Routing.yml
         $this->mount('', new Controllers\Routing());
-    }
-
-    /**
-     * Initializes the Console Application that is responsible for CLI interactions.
-     */
-    public function initConsoleApplication()
-    {
-        $this['console'] = $this->share(
-            function (Application $app) {
-                $console = new ConsoleApplication();
-                $console->setName('Bolt console tool - Nut');
-                $console->setVersion($app->getVersion());
-
-                return $console;
-            }
-        );
     }
 
     public function beforeHandler(Request $request)
