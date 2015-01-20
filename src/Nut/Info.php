@@ -16,6 +16,8 @@ class Info extends BaseCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        ob_start();
         phpinfo();
+        $output->write(ob_get_clean());
     }
 }

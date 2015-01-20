@@ -32,7 +32,8 @@
         <label>{{ __('field.slug.permalink') }}:
             <code>/{{ context.content.contenttype.singular_slug }}/<span id="show-{{ key }}">{{ context.content.get(key) }}</span></code>
             <input{{ macro.attr(attr_slug) }}>
-            <span class="sluglocker"><i class="fa fa-lock"></i></span> <span class="slugedit"><i class="fa fa-pencil"></i></span>
+            <span class="sluglocker" data-for="{{key}}" data-uses='{{option.uses|json_encode()}}'><i class="fa fa-lock"></i></span> 
+            <span class="slugedit" data-for="{{key}}" data-uses='{{option.uses|json_encode()}}'><i class="fa fa-pencil"></i></span>
         </label>
     </div>
 

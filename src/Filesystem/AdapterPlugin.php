@@ -32,12 +32,13 @@ abstract class AdapterPlugin implements PluginInterface
         $this->filesystem = $filesystem;
     }
 
-    public function handle($path)
+    public function handle()
     {
+        $args = func_get_args();
         $method = 'get' . $this->adapterType() . ucfirst($this->getMethod());
 
         if (method_exists($this, $method)) {
-            return $this->$method($path);
+            return call_user_func_array(array($this, $method), $args);
         }
 
         if (property_exists($this, 'default')) {

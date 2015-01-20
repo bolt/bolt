@@ -331,7 +331,7 @@ class Backend implements ControllerProviderInterface
 
         // If 'return=edit' is passed, we should return to the edit screen. We do redirect twice, yes,
         // but that's because the newly saved contenttype.yml needs to be re-read.
-        $return = $app['request']->query->get('return');
+        $return = $app['request']->get('return');
         if ($return == 'edit') {
             if (empty($output)) {
                 $content = Trans::__('Your database is already up to date.');

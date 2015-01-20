@@ -13,7 +13,7 @@ class Content implements \ArrayAccess
 {
     protected $app;
     public $id;
-    public $values;
+    public $values = array();
     public $taxonomy;
     public $relation;
     public $contenttype;
@@ -114,7 +114,7 @@ class Content implements \ArrayAccess
         }
 
         // If default status is set in contentttype..
-        if (empty($this->values['status'])) {
+        if (empty($this->values['status']) && isset($this->contenttype['default_status'])) {
             $this->values['status'] = $this->contenttype['default_status'];
         }
 
