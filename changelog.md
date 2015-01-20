@@ -1,12 +1,20 @@
 Bolt 2.0 DEV-head
 -----------------
 
+- Nothing yet…
+
+Bolt 2.0.4
+----------
+
+Released 2015-01-20. Notable changes:
+
 - Fixed: appending order=... to arbitrary Bolt URLs will no longer silently try to apply sorting to getContent.
 - Fixed: For extensions adding Twig functions in content: isSafe() works correctly now
 - Change: Use Twig’s resolveTemplate instead of file_exists in Frontend Controller.
 - Fixed: Remove horizontal scroll on loging screen. (#2495)
 - Fixed: Ongoing cleanup of translation labels.
 - Fixed: Nav links in admin dashboard, when accessed over HTTPS (#2499)
+- Fixed: Much better code-formatting in CKEditor (#2841)
 
 Bolt 2.0.3
 ----------
