@@ -4,6 +4,8 @@ namespace Bolt;
 
 use Bolt\Configuration\LowlevelException;
 use Bolt\Library as Lib;
+use Doctrine\DBAL\Event\ConnectionEventArgs;
+use Doctrine\DBAL\Events;
 use RandomLib;
 use SecurityLib;
 use Silex;
@@ -149,16 +151,17 @@ class Application extends Silex\Application
      */
     protected function checkDatabaseConnection()
     {
-        $dboptions = $this['db.options'];
-
+        /** @var \Doctrine\DBAL\Connection $db */
+        $db = $this['db'];
         try {
-            $this['db']->query("SELECT 1;");
+            $db->connect();
         } catch (\PDOException $e) {
             $error = "Bolt could not connect to the database. Make sure the database is configured correctly in
                     <code>app/config/config.yml</code>, that the database engine is running.";
-            if ($dboptions['driver'] != 'pdo_sqlite') {
-                $error .= "<br><br>Since you're using " . $dboptions['driver'] . ", you should also make sure that the
-                database <code>" . $dboptions['dbname'] . "</code> exists, and the configured user has access to it.";
+            $driver = $db->getDriver()->getName();
+            if ($driver != 'pdo_sqlite') {
+                $error .= "<br><br>Since you're using $driver, you should also make sure that the
+                database <code>" . $db->getDatabase() . "</code> exists, and the configured user has access to it.";
             }
             throw new LowlevelException($error);
         }
@@ -166,20 +169,22 @@ class Application extends Silex\Application
 
     protected function tweakDatabaseDefaults()
     {
-        $dboptions = $this['db.options'];
+        /** @var \Doctrine\DBAL\Connection $db */
+        $db = $this['db'];
+        $driver = $db->getDriver()->getName();
 
-        if ($dboptions['driver'] == 'pdo_sqlite') {
-            $this['db']->query('PRAGMA synchronous = OFF');
-        } elseif ($dboptions['driver'] == 'pdo_mysql') {
+        if ($driver == 'pdo_sqlite') {
+            $db->query('PRAGMA synchronous = OFF');
+        } elseif ($driver == 'pdo_mysql') {
             /**
              * @link https://groups.google.com/forum/?fromgroups=#!topic/silex-php/AR3lpouqsgs
              */
-            $this['db']->getDatabasePlatform()->registerDoctrineTypeMapping('enum', 'string');
-            // set utf8 on names and connection as all tables has this charset
+            $db->getDatabasePlatform()->registerDoctrineTypeMapping('enum', 'string');
 
-            $this['db']->query("SET NAMES 'utf8';");
-            $this['db']->query("SET CHARACTER_SET_CONNECTION = 'utf8';");
-            $this['db']->query("SET CHARACTER SET utf8;");
+            // set utf8 on names and connection as all tables has this charset
+            $db->executeQuery("SET NAMES 'utf8';");
+            $db->executeQuery("SET CHARACTER_SET_CONNECTION = 'utf8';");
+            $db->executeQuery("SET CHARACTER SET utf8;");
         }
     }
 
