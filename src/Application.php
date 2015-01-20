@@ -132,10 +132,9 @@ class Application extends Silex\Application
                 'db.options' => $this['config']->getDBOptions()
             )
         );
+        $this->register(new Database\InitListener());
 
         $this->checkDatabaseConnection();
-
-        $this->tweakDatabaseDefaults();
 
         $this->register(
             new Silex\Provider\HttpCacheServiceProvider(),
@@ -164,27 +163,6 @@ class Application extends Silex\Application
                 database <code>" . $db->getDatabase() . "</code> exists, and the configured user has access to it.";
             }
             throw new LowlevelException($error);
-        }
-    }
-
-    protected function tweakDatabaseDefaults()
-    {
-        /** @var \Doctrine\DBAL\Connection $db */
-        $db = $this['db'];
-        $driver = $db->getDriver()->getName();
-
-        if ($driver == 'pdo_sqlite') {
-            $db->query('PRAGMA synchronous = OFF');
-        } elseif ($driver == 'pdo_mysql') {
-            /**
-             * @link https://groups.google.com/forum/?fromgroups=#!topic/silex-php/AR3lpouqsgs
-             */
-            $db->getDatabasePlatform()->registerDoctrineTypeMapping('enum', 'string');
-
-            // set utf8 on names and connection as all tables has this charset
-            $db->executeQuery("SET NAMES 'utf8';");
-            $db->executeQuery("SET CHARACTER_SET_CONNECTION = 'utf8';");
-            $db->executeQuery("SET CHARACTER SET utf8;");
         }
     }
 
