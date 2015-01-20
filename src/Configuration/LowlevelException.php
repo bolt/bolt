@@ -100,8 +100,8 @@ EOM;
             $app = \Bolt\Configuration\ResourceManager::getApp();
 
             // Detect if we're being called from a core, an extension or vendor
-            $isBoltCoreError  = strpos($error['file'], $app['resources']->getPath('rootpath') . 'src');
-            $isVendorError    = strpos($error['file'], $app['resources']->getPath('rootpath') . 'vendor');
+            $isBoltCoreError  = strpos($error['file'], $app['resources']->getPath('rootpath') . '/src');
+            $isVendorError    = strpos($error['file'], $app['resources']->getPath('rootpath') . '/vendor');
             $isExtensionError = strpos($error['file'], $app['resources']->getPath('extensions'));
 
             // Assemble error trace
