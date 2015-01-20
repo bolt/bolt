@@ -15,7 +15,7 @@ class ErrorSimulator {
         if($type == 'core') {
             self::$errorType = array(
                 "type"=> E_ERROR,
-                "file"=> $app['resources']->getPath('app'),
+                "file"=> $app['resources']->getPath('rootpath').'/src',
                 "line"=> 16
             );
         }
