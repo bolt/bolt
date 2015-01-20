@@ -8,6 +8,7 @@ files/*
 extensions/*
 thumbs/
 vendor/
+phpunit.xml
 
 # unless you want to store vendor's "state" in your Git repo.
 composer.phar
