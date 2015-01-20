@@ -16,8 +16,10 @@ class InitListener implements ServiceProviderInterface, EventSubscriber
             $app->extend(
                 'dbs.event_manager',
                 function($managers) use ($self) {
-                    foreach ($managers as $name => $manager) {
+                    /** @var \Pimple $managers */
+                    foreach ($managers->keys() as $name) {
                         /** @var \Doctrine\Common\EventManager $manager */
+                        $manager = $managers[$name];
                         $manager->addEventSubscriber($self);
                     }
                     return $managers;
