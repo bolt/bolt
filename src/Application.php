@@ -72,18 +72,28 @@ class Application extends Silex\Application
             array(
                 'session.storage.options' => array(
                     'name'            => 'bolt_session',
-                    'cookie_secure'   => $this['config']->get('general/cookies_https_only'),
+                    'cookie_secure'   => function($app) {
+                        return $app['config']->get('general/cookies_https_only');
+                    },
                     'cookie_httponly' => true
                 )
             )
         );
 
-        // Disable Silex's built-in native filebased session handler, and fall back to
-        // whatever's set in php.ini.
-        // @see: http://silex.sensiolabs.org/doc/providers/session.html#custom-session-configurations
-        if ($this['config']->get('general/session_use_storage_handler') === false) {
-            $this['session.storage.handler'] = null;
-        }
+        $this['session.storage.handler'] = $this->share(
+            $this->extend(
+                'session.storage.handler',
+                function($handler, $app) {
+                    // Disable Silex's built-in native filebased session handler, and fall back to
+                    // whatever's set in php.ini.
+                    // @see: http://silex.sensiolabs.org/doc/providers/session.html#custom-session-configurations
+                    if ($app['config']->get('general/session_use_storage_handler') === false) {
+                        return null;
+                    }
+                    return $handler;
+                }
+            )
+        );
 
         $this->register(new Provider\LogServiceProvider());
     }
