@@ -67,18 +67,14 @@ class Application extends Silex\Application
 
     protected function initSession()
     {
-        $this->register(
-            new Silex\Provider\SessionServiceProvider(),
-            array(
-                'session.storage.options' => array(
-                    'name'            => 'bolt_session',
-                    'cookie_secure'   => function($app) {
-                        return $app['config']->get('general/cookies_https_only');
-                    },
-                    'cookie_httponly' => true
-                )
-            )
-        );
+        $this->register(new Silex\Provider\SessionServiceProvider());
+        $this['session.storage.options'] = function($app) {
+            return array(
+                'name'            => 'bolt_session',
+                'cookie_secure'   => $app['config']->get('general/cookies_https_only'),
+                'cookie_httponly' => true
+            );
+        };
 
         $this['session.storage.handler'] = $this->share(
             $this->extend(
