@@ -9,12 +9,13 @@ Bolt 2.0.4
 Released 2015-01-20. Notable changes:
 
 - Fixed: appending order=... to arbitrary Bolt URLs will no longer silently try to apply sorting to getContent.
-- Fixed: For extensions adding Twig functions in content: isSafe() works correctly now
-- Change: Use Twig’s resolveTemplate instead of file_exists in Frontend Controller.
-- Fixed: Remove horizontal scroll on loging screen. (#2495)
-- Fixed: Ongoing cleanup of translation labels.
-- Fixed: Nav links in admin dashboard, when accessed over HTTPS (#2499)
-- Fixed: Much better code-formatting in CKEditor (#2841)
+- Fixed: For extensions adding Twig functions in content: isSafe() works correctly now (#2492, thanks @jmschelcher)
+- Change: Use Twig’s resolveTemplate instead of file_exists in Frontend Controller. (#2494, thanks @lavoiesl)
+- Fixed: Remove horizontal scroll on loging screen. (#2495, thanks @cdowdy)
+- Fixed: Ongoing cleanup of translation labels. (thanks @Chilion)
+- Fixed: Nav links in admin dashboard, when accessed over HTTPS (#2499, thanks @glasspelican)
+- Fixed: Much better code-formatting in CKEditor (#2841, thanks @Pinpickle)
+- Added: You can now use multiple slugs in a single contenttype, should you want to. (#2490)
 
 Bolt 2.0.3
 ----------
