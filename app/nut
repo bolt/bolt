@@ -5,24 +5,7 @@ use Symfony\Component\Console\Application;
 
 $app = require_once __DIR__ . '/load.php';
 
-/** @var Application $application retrieve the Console Application from the Bolt application in the bootstrap */
-$application = $app['console'];
-
-$application->add(new Bolt\Nut\CronRunner($app));
-$application->add(new Bolt\Nut\CacheClear($app));
-$application->add(new Bolt\Nut\Info($app));
-$application->add(new Bolt\Nut\LogTrim($app));
-$application->add(new Bolt\Nut\LogClear($app));
-$application->add(new Bolt\Nut\DatabaseCheck($app));
-$application->add(new Bolt\Nut\DatabaseRepair($app));
-$application->add(new Bolt\Nut\TestRunner($app));
-$application->add(new Bolt\Nut\ConfigGet($app));
-$application->add(new Bolt\Nut\ConfigSet($app));
-$application->add(new Bolt\Nut\Extensions($app));
-$application->add(new Bolt\Nut\ExtensionsEnable($app));
-$application->add(new Bolt\Nut\ExtensionsDisable($app));
-$application->add(new Bolt\Nut\UserAdd($app));
-$application->add(new Bolt\Nut\UserRoleAdd($app));
-$application->add(new Bolt\Nut\UserRoleRemove($app));
+/** @var Application $application retrieve the Nut Console Application from the Bolt application in the bootstrap */
+$application = $app['nut'];
 
 $application->run();
