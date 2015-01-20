@@ -249,14 +249,10 @@ class LowlevelChecks
      *
      * @param string $name Filename stem; .yml extension will be added automatically.
      */
-    private function lowlevelConfigFix($name)
+    protected function lowlevelConfigFix($name)
     {
         $distname = realpath(__DIR__ . '/../../app/config/' . $name . '.yml.dist');
         $ymlname = realpath($this->config->getPath('config') . '/') . '/' . $name . '.yml';
-
-        if (file_exists($ymlname) && is_readable($ymlname)) {
-            return; // Okidoki..
-        }
 
         if (file_exists($ymlname) && !is_readable($ymlname)) {
             $error = sprintf(
@@ -265,9 +261,7 @@ class LowlevelChecks
                 htmlspecialchars($this->config->getPath('config'), ENT_QUOTES)
             );
             throw new LowlevelException($error);
-        }
-
-        if (!@copy($distname, $ymlname)) {
+        } elseif (!@copy($distname, $ymlname)) {
             $message = sprintf(
                 "Couldn't create a new <code>%s</code>-file inside <code>%s</code>. Create the file manually by copying
                 <code>%s</code>, and optionally make it writable to the user that the webserver is using.",
@@ -277,5 +271,6 @@ class LowlevelChecks
             );
             throw new LowlevelException($message);
         }
+        return;
     }
 }
