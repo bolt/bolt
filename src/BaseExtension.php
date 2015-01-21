@@ -5,6 +5,7 @@ use Bolt\Extensions\ExtensionInterface;
 use Bolt\Extensions\TwigProxy;
 use Bolt\Library as Lib;
 use Bolt\Helpers\Arr;
+use Bolt\Provider\NutServiceProvider;
 use Symfony\Component\Console\Command\Command;
 use Composer\Json\JsonFile;
 use utilphp\util;
@@ -577,6 +578,6 @@ abstract class BaseExtension implements ExtensionInterface
      */
     public function addConsoleCommand(Command $command)
     {
-        $this->app['console']->add($command);
+        NutServiceProvider::addCommand($this->app, $command);
     }
 }
