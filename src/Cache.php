@@ -2,6 +2,7 @@
 
 namespace Bolt;
 
+use Bolt\Configuration\ResourceManager;
 use Doctrine\Common\Cache\FilesystemCache;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -63,15 +64,15 @@ class Cache extends FilesystemCache
             'log' => ''
         );
 
-        // Clear Doctrine's folder..
+        // Clear Doctrine's folder.
         parent::flushAll();
 
-        // Clear our own cache folder..
+        // Clear our own cache folder.
         $this->clearCacheHelper($this->getDirectory(), '', $result);
 
-        // Clear the thumbs folder..
-        $path = dirname(dirname(dirname(__DIR__))) . "/thumbs";
-        $this->clearCacheHelper($path, '', $result);
+        // Clear the thumbs folder.
+        $app = ResourceManager::getApp();
+        $this->clearCacheHelper($app['resources']->getPath('root') . '/thumbs', '', $result);
 
         return $result;
     }
