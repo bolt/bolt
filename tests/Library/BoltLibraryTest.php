@@ -148,6 +148,7 @@ class BoltLibraryTest extends BoltUnitTest
     public function testSimpleRedirect()
     {
         $app = $this->getApp();
+        $this->expectOutputRegex("/Redirecting to/i");          
         $redirect = Library::simpleredirect("/test", false);
         $this->assertEquals( array( 'location: /test' ), xdebug_get_headers() );
     }
@@ -186,16 +187,17 @@ class BoltLibraryTest extends BoltUnitTest
         $file = TEST_ROOT."/tests/resources/data.php";
         $fp = fopen($file, 'a');
         flock($fp, LOCK_EX);
-        $this->setExpectedException('Symfony\Component\HttpKernel\Exception\HttpException');
-        $this->assertTrue(Library::saveSerialize($file, $data));
+        $this->setExpectedException('Bolt\Configuration\LowlevelException');
+        $this->expectOutputRegex("/Could not lock/i");          
+        $response = Library::saveSerialize($file, $data);
     }
     
     public function testSaveSerializeErrors()
     {
         $data = range(0,100);
         $file = TEST_ROOT."/non/existent/path/data.php";
-        $this->setExpectedException('RuntimeException');
-        @$response = Library::saveSerialize($file, $data);
+        $this->setExpectedException('PHPUnit_Framework_Error_Warning');
+        $response = Library::saveSerialize($file, $data);
         $this->assertTrue($response);
     }
     
