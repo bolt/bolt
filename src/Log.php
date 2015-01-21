@@ -16,6 +16,8 @@ class Log
 
     private $app;
     private $user;
+    /** @var \Doctrine\DBAL\Connection */
+    protected $db;
     private $prefix;
     private $tablename;
     private $route;
@@ -27,6 +29,7 @@ class Log
         $this->app = $app;
         $this->user = $app['session']->get('user');
 
+        $this->db = $app['db'];
         $this->prefix = $app['config']->get('general/database/prefix', "bolt_");
 
         // Make sure prefix ends in '_'. Prefixes without '_' are lame..
@@ -104,7 +107,7 @@ class Log
 
         // Don't choke if we try to insert into the log, but it's not working.
         try {
-            $this->app['db']->insert($this->tablename, $log);
+            $this->db->insert($this->tablename, $log);
         } catch (\Exception $e) {
             // Nothing..
         }
@@ -128,7 +131,7 @@ class Log
             "SELECT * FROM %s WHERE code IN (?) OR (level >= ?) ORDER BY date DESC",
             $this->tablename
         );
-        $query = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($query, intval($amount), intval(($page - 1) * $amount));
+        $query = $this->db->getDatabasePlatform()->modifyLimitQuery($query, intval($amount), intval(($page - 1) * $amount));
 
         $params = array(
             $codes, $minlevel
@@ -137,9 +140,7 @@ class Log
             DoctrineConn::PARAM_STR_ARRAY, \PDO::PARAM_INT
         );
 
-        $stmt = $this->app['db']->executeQuery($query, $params, $paramTypes);
-
-        $rows = $stmt->fetchAll(2); // 2 = Query::HYDRATE_COLUMN
+        $rows = $this->db->fetchAll($query, $params, $paramTypes);
 
         // Set up the pager
         $pagerQuery = sprintf(
@@ -148,7 +149,7 @@ class Log
         );
         $params = array($codes, $minlevel);
         $paramTypes = array(DoctrineConn::PARAM_STR_ARRAY, \PDO::PARAM_INT);
-        $rowcount = $this->app['db']->executeQuery($pagerQuery, $params, $paramTypes)->fetch();
+        $rowcount = $this->db->executeQuery($pagerQuery, $params, $paramTypes)->fetch();
 
         $pager = array(
             'for' => 'activity',
@@ -207,14 +208,14 @@ class Log
             "DELETE FROM %s WHERE level='1';",
             $this->tablename
         );
-        $this->app['db']->executeQuery($query);
+        $this->db->executeQuery($query);
 
         $query = sprintf(
             "DELETE FROM %s WHERE level='2' AND date < ?;",
             $this->tablename
         );
 
-        $this->app['db']->executeQuery(
+        $this->db->executeQuery(
             $query,
             array(date('Y-m-d H:i:s', strtotime('-2 day'))),
             array(\PDO::PARAM_STR)
@@ -224,7 +225,7 @@ class Log
             "DELETE FROM %s WHERE date < ?;",
             $this->tablename
         );
-        $this->app['db']->executeQuery(
+        $this->db->executeQuery(
             $query,
             array(date('Y-m-d H:i:s', strtotime('-7 day'))),
             array(\PDO::PARAM_STR)
@@ -233,19 +234,13 @@ class Log
 
     public function clear()
     {
-        $configdb = $this->app['config']->getDBOptions();
-
-        if (isset($configdb['driver']) && ($configdb['driver'] == "pdo_sqlite")) {
-
-            // sqlite
+        if ($this->db->getDriver()->getName() == 'pdo_sqlite') {
             $query = sprintf(
                 "DELETE FROM %s; UPDATE SQLITE_SEQUENCE SET seq = 0 WHERE name = '%s'",
                 $this->tablename,
                 $this->tablename
             );
-
         } else {
-
             // mysql and pgsql the same
             $query = sprintf(
                 'TRUNCATE %s;',
@@ -254,6 +249,6 @@ class Log
 
         }
 
-        $this->app['db']->executeQuery($query);
+        $this->db->executeQuery($query);
     }
 }
