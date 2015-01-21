@@ -1575,7 +1575,7 @@ class Storage
             $decoded['self_paginated'] = false;
         }
 
-        if (isset($metaParameters['order']) && $metaParameters['order'] === false) {
+        if (!isset($metaParameters['order']) || $metaParameters['order'] === false) {
             if (count($decoded['contenttypes']) == 1) {
                 if ($this->getContentTypeGrouping($decoded['contenttypes'][0])) {
                     $decoded['order_callback'] = array($this, 'groupingSort');
