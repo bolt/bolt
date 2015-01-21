@@ -11,6 +11,9 @@ namespace Bolt\Field;
 class Manager
 {
 
+    /**
+     * @var FieldInterface[]
+     */
     protected $fields = array();
 
     protected $defaults = array(
@@ -40,6 +43,10 @@ class Manager
         return $this->fields;
     }
 
+    /**
+     * @param string $name
+     * @return FieldInterface|false
+     */
     public function getField($name)
     {
         if ($this->has($name)) {
