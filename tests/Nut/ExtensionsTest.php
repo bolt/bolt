@@ -6,7 +6,7 @@ use Bolt\Tests\BoltUnitTest;
 use Bolt\Nut\Extensions;
 use Composer\Package\CompletePackage;
 use Symfony\Component\Console\Tester\CommandTester;
-use Symfony\Component\Console\Helper\Helperset;
+use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Helper\TableHelper;
 
 /**
@@ -35,7 +35,7 @@ class ExtensionsTest extends BoltUnitTest
         $app['extend.manager'] = $runner;
                 
         $command = new Extensions($app);
-        $command->setHelperset(new Helperset(array(new TableHelper)));
+        $command->setHelperset(new HelperSet(array(new TableHelper)));
         $tester = new CommandTester($command);
         
         
