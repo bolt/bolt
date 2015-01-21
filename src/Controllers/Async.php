@@ -245,9 +245,7 @@ class Async implements ControllerProviderInterface
             $table,
             $table
         );
-        $query = $app['db']->executeQuery($query, array($taxonomytype));
-
-        $results = $query->fetchAll();
+        $results = $app['db']->fetchAll($query, array($taxonomytype));
 
         return $app->json($results);
     }

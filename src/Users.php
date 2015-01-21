@@ -16,6 +16,7 @@ class Users
     const ADMIN = 4;
     const DEVELOPER = 6;
 
+    /** @var \Doctrine\DBAL\Connection */
     public $db;
     public $config;
     public $usertable;
@@ -285,7 +286,7 @@ class Users
         try {
             // Check if there's already a token stored for this name / IP combo.
             $query = sprintf('SELECT id FROM %s WHERE username=? AND ip=? AND useragent=?', $this->authtokentable);
-            $query = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($query, 1);
+            $query = $this->db->getDatabasePlatform()->modifyLimitQuery($query, 1);
             $row = $this->db->executeQuery($query, array($token['username'], $token['ip'], $token['useragent']), array(\PDO::PARAM_STR))->fetch();
 
             // Update or insert the row..
@@ -357,7 +358,7 @@ class Users
     private function deleteExpiredSessions()
     {
         try {
-            $stmt = $this->db->prepare(sprintf('DELETE FROM %s WHERE validity < :now"', $this->authtokentable));
+            $stmt = $this->db->prepare(sprintf('DELETE FROM %s WHERE validity < :now', $this->authtokentable));
             $stmt->bindValue("now", date("Y-m-d H:i:s"));
             $stmt->execute();
         } catch (\Doctrine\DBAL\DBALException $e) {
@@ -397,7 +398,7 @@ class Users
 
         // for once we don't use getUser(), because we need the password.
         $query = sprintf('SELECT * FROM %s WHERE username=?', $this->usertable);
-        $query = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($query, 1);
+        $query = $this->db->getDatabasePlatform()->modifyLimitQuery($query, 1);
         $user = $this->db->executeQuery($query, array($userslug), array(\PDO::PARAM_STR))->fetch();
 
         if (empty($user)) {
@@ -490,7 +491,7 @@ class Users
         // Check if there's already a token stored for this token / IP combo.
         try {
             $query = sprintf('SELECT * FROM %s WHERE token=? AND ip=? AND useragent=?', $this->authtokentable);
-            $query = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($query, 1);
+            $query = $this->db->getDatabasePlatform()->modifyLimitQuery($query, 1);
             $row = $this->db->executeQuery($query, array($authtoken, $remoteip, $browser), array(\PDO::PARAM_STR))->fetch();
         } catch (\Doctrine\DBAL\DBALException $e) {
             // Oops. User will get a warning on the dashboard about tables that need to be repaired.
@@ -621,7 +622,7 @@ class Users
 
         // Let's see if the token is valid, and it's been requested within two hours...
         $query = sprintf('SELECT * FROM %s WHERE shadowtoken = ? AND shadowvalidity > ?', $this->usertable);
-        $query = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($query, 1);
+        $query = $this->db->getDatabasePlatform()->modifyLimitQuery($query, 1);
         $user = $this->db->executeQuery($query, array($token, $now), array(\PDO::PARAM_STR))->fetch();
 
         if (!empty($user)) {
