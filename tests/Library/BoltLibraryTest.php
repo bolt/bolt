@@ -158,6 +158,7 @@ class BoltLibraryTest extends BoltUnitTest
     public function testSimpleRedirectEmpty()
     {
         $app = $this->getApp();
+        $this->expectOutputRegex("/Redirecting to/i");          
         $redirect = Library::simpleredirect("", false);
         $this->assertEquals( array( 'location: /' ), xdebug_get_headers() );
     }
@@ -193,9 +194,9 @@ class BoltLibraryTest extends BoltUnitTest
     {
         $data = range(0,100);
         $file = TEST_ROOT."/non/existent/path/data.php";
-        $this->setExpectedException('ErrorException');
-            
-        $this->assertTrue(Library::saveSerialize($file, $data));
+        $this->setExpectedException('RuntimeException');
+        @$response = Library::saveSerialize($file, $data);
+        $this->assertTrue($response);
     }
     
     public function testLoadSerialize()
