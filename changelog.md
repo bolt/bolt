@@ -16,6 +16,8 @@ Released 2015-01-20. Notable changes:
 - Fixed: Nav links in admin dashboard, when accessed over HTTPS (#2499, thanks @glasspelican)
 - Fixed: Much better code-formatting in CKEditor (#2841, thanks @Pinpickle)
 - Added: You can now use multiple slugs in a single contenttype, should you want to. (#2490)
+- Fixed: EXIF orientation and general breakage of thumbnails on older versions of GD.
+- Updated: Several used components were updated: Symfony components to 2.6.5, Silex to 1.2.3, Twig to 1.17, Parsedown to 1.5.0, Doctrine DBAL to 2.5.1
 
 Bolt 2.0.3
 ----------
@@ -37,7 +39,7 @@ Released 2015-01-16. Notable changes:
 - Fixed: Magnific popup image preview on image lists (#2443)
 - Fixed: Added 'pasteZone: null', which prevents triggering an upload when pasting from Word in Chrome. (#2427)
 - Fixed: Pager works correctly for paging categories and other taxonomies (#2468)
-- Fixed: Only apply pagination to `setcontent`, when 'paging' is required / requested (#2417) 
+- Fixed: Only apply pagination to `setcontent`, when 'paging' is required / requested (#2417)
 - Fixed: Select field type, with values from another content type now always uses the 'id' as the value in the DB. (#2465)
 - Fixed: When session is invalidated due to changing your own username, redirect to login screen. (#2457)
 - Updated: CKeditor to 4.4.6, and all used plugins to the latest versions
