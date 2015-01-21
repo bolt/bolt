@@ -771,29 +771,12 @@ class Config
 
     public function getDBOptions()
     {
-        $configdb = $this->data['general']['database'];
+        $config = $this->data['general']['database'];
 
-        $driver = isset($configdb['driver']) ? $configdb['driver'] : 'pdo_mysql';
+        $driver = isset($config['driver']) ? $config['driver'] : 'mysql';
 
         if (in_array($driver, array('pdo_sqlite', 'sqlite'))) {
-            $basename = isset($configdb['databasename']) ? basename($configdb['databasename']) : 'bolt';
-            if (Lib::getExtension($basename) != 'db') {
-                $basename .= '.db';
-            }
-
-            $path = isset($configdb['path']) ? $configdb['path'] : null;
-            if (substr($path, 0, 1) !== '/') {
-                $path = $this->resources->getPath('root') . '/' . $path;
-            }
-            $path = realpath($path) ?: $this->resources->getPath('database');
-
-            $dboptions = array(
-                'driver' => 'pdo_sqlite',
-                'path' => $path . '/' . $basename,
-                'randomfunction' => 'RANDOM()',
-                'memory' => isset($configdb['memory']) ? true : false
-            );
-            return $dboptions;
+            return $this->getSqliteOptions($config);
         }
 
         $randomfunction = '';
@@ -806,21 +789,102 @@ class Config
             $randomfunction = 'RANDOM()';
         }
 
-        $dboptions = array(
+        $options = array(
             'driver'         => $driver,
-            'host'           => isset($configdb['host']) ? $configdb['host'] : 'localhost',
-            'dbname'         => $configdb['databasename'],
-            'user'           => $configdb['username'],
-            'password'       => isset($configdb['password']) ? $configdb['password'] : '',
             'randomfunction' => $randomfunction,
-            'charset'        => isset($configdb['charset']) ? $configdb['charset'] : 'utf8',
+            'charset'        => isset($config['charset']) ? $config['charset'] : 'utf8',
         );
 
-        if (isset($configdb['port'])) {
-            $dboptions['port'] = $configdb['port'];
+        $defaults = array(
+            'host' => 'localhost',
+        );
+        $master = $this->parseConnectionParams($config, $defaults);
+
+        // If there are no slaves, merge the master connection into the dboptions and return
+        if (!isset($config['slaves']) || empty($config['slaves'])) {
+            $options = array_merge($options, $master);
+            return $options;
         }
 
-        return $dboptions;
+        $slaves = $config['slaves'];
+        foreach ($slaves as $name => $slave) {
+            $slaves[$name] = $this->parseConnectionParams($slave, $master);
+        }
+
+        $options['master'] = $master;
+        $options['slaves'] = $slaves;
+        $options['wrapperClass'] = '\Doctrine\DBAL\Connections\MasterSlaveConnection';
+
+        return $options;
+    }
+
+    /**
+     * @param array $config
+     * @return array
+     */
+    protected function getSqliteOptions($config)
+    {
+        $basename = isset($config['databasename']) ? basename($config['databasename']) : 'bolt';
+        if (Lib::getExtension($basename) != 'db') {
+            $basename .= '.db';
+        }
+
+        $path = isset($config['path']) ? $config['path'] : null;
+        if (substr($path, 0, 1) !== '/') {
+            $path = $this->resources->getPath('root') . '/' . $path;
+        }
+        $path = realpath($path) ?: $this->resources->getPath('database');
+
+        return array(
+            'driver'         => 'pdo_sqlite',
+            'path'           => $path . '/' . $basename,
+            'randomfunction' => 'RANDOM()',
+            'memory'         => isset($config['memory']) ? true : false
+        );
+    }
+
+    /**
+     * Parses params to valid connection parameters.
+     *
+     * Defaults are merged into the params.
+     * Bolt keys are converted to Doctrine keys.
+     * Invalid keys are filtered out.
+     *
+     * @param array|string $params
+     * @param array $defaults
+     * @return array
+     */
+    protected function parseConnectionParams($params, $defaults = array())
+    {
+        if (is_string($params)) {
+            $params = array('host' => $params);
+        }
+
+        // Convert keys from Bolt
+        $replacements = array(
+            'databasename' => 'dbname',
+            'username' => 'user',
+        );
+        foreach ($replacements as $old => $new) {
+            if (isset($params[$old])) {
+                $params[$new] = $params[$old];
+                unset($params[$old]);
+            }
+        }
+
+        $params = array_replace($defaults, $params);
+
+        // Filter out invalid keys
+        $validKeys = array(
+            'user', 'password', 'host', 'port', 'dbname', 'charset', // common
+            'unix_socket', 'driverOptions', // mysql
+            'sslmode', // postgres
+            'servicename', 'service', 'pooled', 'instancename', 'server', // oracle
+            'persistent', // sqlanywhere
+        );
+        $params = array_intersect_key($params, array_flip($validKeys));
+
+        return $params;
     }
 
     /**
