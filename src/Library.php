@@ -322,7 +322,7 @@ class Library
                         'Try logging in with your ftp-client and check to see if it is chmodded to be readable by ' .
                         'the webuser (ie: 777 or 766, depending on the setup of your server). <br /><br />' .
                         'Current path: ' . getcwd() . '.';
-                    $app->abort(401, $message);
+                    throw new LowlevelException($message);
                 }
             } else {
                 fclose($fp);
@@ -332,7 +332,7 @@ class Library
                     'Try logging in with your ftp-client and check to see if it is chmodded to be readable by the ' .
                     'webuser (ie: 777 or 766, depending on the setup of your server). <br /><br />' .
                     'Current path: ' . getcwd() . '.';
-                $app->abort(401, $message);
+                throw new LowlevelException($message);
             }
         } else {
 
@@ -341,8 +341,7 @@ class Library
                 'Try logging in with your ftp-client and check to see if it is chmodded to be readable by the ' .
                 'webuser (ie: 777 or 766, depending on the setup of your server). <br /><br />' .
                 'Current path: ' . getcwd() . '.';
-            debug_print_backtrace();
-            $app->abort(401, $message);
+            throw new LowlevelException($message);
         }
         umask($oldUmask);
 
