@@ -4,11 +4,10 @@ namespace Bolt\Tests\Nut;
 use Bolt\Application;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Nut\Extensions;
+use Composer\Package\CompletePackage;
 use Symfony\Component\Console\Tester\CommandTester;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Console\Helper\Helperset;
 use Symfony\Component\Console\Helper\TableHelper;
-use Symfony\Component\Console\Output\NullOutput;
 
 /**
  * Class to test src/Nut/Extensions.
@@ -24,18 +23,17 @@ class ExtensionsTest extends BoltUnitTest
     {
         $app = $this->getApp();
         
-        $runner = $this->getMock("Bolt\Composer\CommandRunner", array('installed'), array($app));
+        $testPackage = new CompletePackage('test','1.0.1','1.0');
+        $testPackage->setDescription('An extension');
+        $testPackage->setType('bolt-extension');
+        
+        $runner = $this->getMock("Bolt\Composer\PackageManager", array('showPackage'), array($app));
         $runner->expects($this->any())
-            ->method('installed')
-            ->will($this->returnValue(new JsonResponse(array(array(
-                    'name'=>'test',
-                    'version'=>'1.0',
-                    'type'=>'bolt-extension',
-                    'descrip'=>'An extension'
-                )))));
+            ->method('showPackage')
+            ->will($this->returnValue(array( 'test'=>array('package'=>$testPackage) )));
         
-        $app['extend.runner'] = $runner;
-        
+        $app['extend.manager'] = $runner;
+                
         $command = new Extensions($app);
         $command->setHelperset(new Helperset(array(new TableHelper)));
         $tester = new CommandTester($command);
