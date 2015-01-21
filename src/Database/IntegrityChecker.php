@@ -2,10 +2,8 @@
 
 namespace Bolt\Database;
 
-use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Platforms\SqlitePlatform;
 use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
-use Doctrine\DBAL\Schema\AbstractSchemaManager;
 use Doctrine\DBAL\Schema\Column;
 use Doctrine\DBAL\Schema\ColumnDiff;
 use Doctrine\DBAL\Schema\Comparator;
@@ -24,10 +22,15 @@ class IntegrityChecker
      * @var \Bolt\Application
      */
     private $app;
+
+    /** @var \Doctrine\DBAL\Connection */
+    protected $db;
+
     /**
      * @var string
      */
     private $prefix;
+
     /**
      * Default value for TEXT fields, differs per platform
      * @var string|null
@@ -54,6 +57,8 @@ class IntegrityChecker
     {
         $this->app = $app;
 
+        $this->db = $app['db'];
+
         $this->prefix = $this->app['config']->get('general/database/prefix', "bolt_");
 
         // Make sure prefix ends in '_'. Prefixes without '_' are lame..
@@ -64,7 +69,7 @@ class IntegrityChecker
         // Check the table integrity only once per hour, per session. (since it's pretty time-consuming.
         $this->checktimer = 3600;
 
-        $platform = $this->app['db']->getDatabasePlatform();
+        $platform = $this->db->getDatabasePlatform();
         if ($platform instanceof SqlitePlatform || $platform instanceof PostgreSqlPlatform) {
             $this->textDefault = '';
         }
@@ -130,7 +135,7 @@ class IntegrityChecker
             return $this->tables;
         }
 
-        $sm = $this->app['db']->getSchemaManager();
+        $sm = $this->db->getSchemaManager();
 
         $this->tables = array();
 
@@ -177,7 +182,6 @@ class IntegrityChecker
 
         $tables = $this->getTablesSchema();
 
-        /** @var $table Table */
         foreach ($tables as $table) {
             // Create the users table..
             if (!isset($currentTables[$table->getName()])) {
@@ -198,7 +202,7 @@ class IntegrityChecker
 
                     // diff may be just deleted columns which we have reset above
                     // only exec and add output if does really alter anything
-                    if ($this->app['db']->getDatabasePlatform()->getAlterTableSQL($diff)) {
+                    if ($this->db->getDatabasePlatform()->getAlterTableSQL($diff)) {
                         $msg = 'Table `' . $table->getName() . '` is not the correct schema: ';
                         $msgParts = array();
                         // No check on foreign keys yet because we don't use them
@@ -266,23 +270,20 @@ class IntegrityChecker
 
         $currentTables = $this->getTableObjects();
 
-        /** @var $schemaManager AbstractSchemaManager */
-        $schemaManager = $this->app['db']->getSchemaManager();
+        $schemaManager = $this->db->getSchemaManager();
 
         $comparator = new Comparator();
 
         $tables = $this->getTablesSchema();
 
-        /** @var $table Table */
         foreach ($tables as $table) {
             // Create the users table..
             if (!isset($currentTables[$table->getName()])) {
 
-                /** @var $platform AbstractPlatform */
-                $platform = $this->app['db']->getDatabasePlatform();
+                $platform = $this->db->getDatabasePlatform();
                 $queries = $platform->getCreateTableSQL($table);
                 foreach ($queries as $query) {
-                    $this->app['db']->query($query);
+                    $this->db->query($query);
                 }
 
                 $output[] = 'Created table `' . $table->getName() . '`.';
@@ -294,7 +295,7 @@ class IntegrityChecker
                     $diff = $this->cleanupTableDiff($diff);
                     // diff may be just deleted columns which we have reset above
                     // only exec and add output if does really alter anything
-                    if ($this->app['db']->getDatabasePlatform()->getAlterTableSQL($diff)) {
+                    if ($this->db->getDatabasePlatform()->getAlterTableSQL($diff)) {
                         $schemaManager->alterTable($diff);
                         $output[] = 'Updated `' . $table->getName() . '` table to match current schema.';
                     }
@@ -334,7 +335,7 @@ class IntegrityChecker
     }
 
     /**
-     * @return array
+     * @return Table[]
      */
     protected function getTablesSchema()
     {
@@ -357,6 +358,10 @@ class IntegrityChecker
         $this->extension_table_generators[] = $generator;
     }
 
+    /**
+     * @param Schema $schema
+     * @return Table[]
+     */
     protected function getExtensionTablesSchema(Schema $schema)
     {
         $tables = array();
@@ -377,12 +382,11 @@ class IntegrityChecker
     }
 
     /**
-     * @return array
+     * @return string[]
      */
     protected function getBoltTablesNames()
     {
         $baseTables = array();
-        /** @var $table Table */
         foreach ($this->getBoltTablesSchema(new Schema()) as $table) {
             $baseTables[] = $table->getName();
         }
@@ -392,7 +396,7 @@ class IntegrityChecker
 
     /**
      * @param  Schema $schema
-     * @return array
+     * @return Table[]
      */
     protected function getBoltTablesSchema(Schema $schema)
     {
@@ -527,7 +531,7 @@ class IntegrityChecker
 
     /**
      * @param  Schema $schema
-     * @return array
+     * @return Table[]
      */
     protected function getContentTypeTablesSchema(Schema $schema)
     {
@@ -646,7 +650,7 @@ class IntegrityChecker
      * Get the tablename with prefix from a given $name
      *
      * @param $name
-     * @return mixed
+     * @return string
      */
     protected function getTablename($name)
     {
