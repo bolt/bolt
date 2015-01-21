@@ -535,12 +535,13 @@ class IntegrityChecker
      */
     protected function getContentTypeTablesSchema(Schema $schema)
     {
-        $dboptions = $this->app['config']->getDBOptions();
-
         $tables = array();
 
+        /** @var \Bolt\Config $config */
+        $config = $this->app['config'];
+
         // Now, iterate over the contenttypes, and create the tables if they don't exist.
-        foreach ($this->app['config']->get('contenttypes') as $key => $contenttype) {
+        foreach ($config->get('contenttypes') as $key => $contenttype) {
 
             // create the table if necessary..
             $tablename = $this->getTablename($key);
@@ -566,17 +567,16 @@ class IntegrityChecker
             // Check if all the fields are present in the DB..
             foreach ($contenttype['fields'] as $field => $values) {
 
-                if (in_array($field, $dboptions['reservedwords'])) {
+                $reservedList = $this->db->getDatabasePlatform()->getReservedKeywordsList();
+                if ($reservedList->isKeyword($field)) {
                     $error = sprintf(
                         "You're using '%s' as a field name, but that is a reserved word in %s. Please fix it, and refresh this page.",
                         $field,
-                        $dboptions['driver']
+                        $reservedList->getName()
                     );
                     $this->app['session']->getFlashBag()->set('error', $error);
                     continue;
                 }
-
-                $handler = $this->app['config']->getFields()->getField($values['type']);
 
                 switch ($values['type']) {
                     case 'text':
@@ -631,6 +631,7 @@ class IntegrityChecker
                         // These are the default columns. Don't try to add these.
                         break;
                     default:
+                        $handler = $config->getFields()->getField($values['type']);
                         $myTable->addColumn($field, $handler->getStorageType(), $handler->getStorageOptions());
                 }
 
