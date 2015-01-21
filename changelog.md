@@ -6,7 +6,7 @@ Bolt 2.0 DEV-head
 Bolt 2.0.4
 ----------
 
-Released 2015-01-20. Notable changes:
+Released 2015-01-21. Notable changes:
 
 - Fixed: appending order=... to arbitrary Bolt URLs will no longer silently try to apply sorting to getContent.
 - Fixed: For extensions adding Twig functions in content: isSafe() works correctly now (#2492, thanks @jmschelcher)
