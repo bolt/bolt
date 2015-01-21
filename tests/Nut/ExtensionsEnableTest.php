@@ -20,14 +20,12 @@ class ExtensionsEnableTest extends BoltUnitTest
     {
         $app = $this->getApp();
         
-        $runner = $this->getMock("Bolt\Composer\CommandRunner", array('install'), array($app));
+        $runner = $this->getMock("Bolt\Composer\PackageManager", array('requirePackage'), array($app));
         $runner->expects($this->any())
-            ->method('install')
-            ->will($this->returnCallback(function($package, $version){
-                return $package.":".$version;
-            }));
+            ->method('requirePackage')
+            ->will($this->returnValue(0));
         
-        $app['extend.runner'] = $runner;
+        $app['extend.manager'] = $runner;
         
         $command = new ExtensionsEnable($app);
         $tester = new CommandTester($command);
@@ -36,7 +34,7 @@ class ExtensionsEnableTest extends BoltUnitTest
         
         $tester->execute(array('name'=>'test','version'=>'1.0'));
         $result = $tester->getDisplay();
-        $this->assertRegexp('/test\:1\.0/', trim($result));
+        $this->assertRegexp('/[Done]/', trim($result));
         
 
     }
