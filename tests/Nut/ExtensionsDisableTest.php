@@ -20,12 +20,12 @@ class ExtensionsDisableTest extends BoltUnitTest
     {
         $app = $this->getApp();
         
-        $runner = $this->getMock("Bolt\Composer\CommandRunner", array('uninstall'), array($app));
+        $runner = $this->getMock("Bolt\Composer\PackageManager", array('removePackage'), array($app));
         $runner->expects($this->any())
-            ->method('uninstall')
-            ->will($this->returnArgument(0));
+            ->method('removePackage')
+            ->will($this->returnValue(0));
         
-        $app['extend.runner'] = $runner;
+        $app['extend.manager'] = $runner;
         
         $command = new ExtensionsDisable($app);
         $tester = new CommandTester($command);
@@ -34,7 +34,7 @@ class ExtensionsDisableTest extends BoltUnitTest
         
         $tester->execute(array('name'=>'test'));
         $result = $tester->getDisplay();
-        $this->assertEquals('test', trim($result));
+        $this->assertEquals(0, trim($result));
         
 
     }
