@@ -3,21 +3,24 @@ Bolt 2.0 DEV-head
 
 - Nothing yet…
 
-Bolt 2.0.4
+Bolt 2.0.5
 ----------
 
 Released 2015-01-21. Notable changes:
 
-- Fixed: appending order=... to arbitrary Bolt URLs will no longer silently try to apply sorting to getContent.
-- Fixed: For extensions adding Twig functions in content: isSafe() works correctly now (#2492, thanks @jmschelcher)
-- Change: Use Twig’s resolveTemplate instead of file_exists in Frontend Controller. (#2494, thanks @lavoiesl)
+- Fixed: appending `order=...`` to arbitrary Bolt URLs will no longer silently try to apply sorting to getContent.
+- Fixed: For extensions adding Twig functions in content: `isSafe()` works correctly now (#2492, thanks @jmschelcher)
+- Change: Use Twig’s `resolveTemplate` instead of `file_exists` in Frontend Controller. (#2494, thanks @lavoiesl)
 - Fixed: Remove horizontal scroll on loging screen. (#2495, thanks @cdowdy)
 - Fixed: Ongoing cleanup of translation labels. (thanks @Chilion)
+- Fixed: "Clear Cache" now also clears all generated thumbs from `thumbs/`
 - Fixed: Nav links in admin dashboard, when accessed over HTTPS (#2499, thanks @glasspelican)
 - Fixed: Much better code-formatting in CKEditor (#2841, thanks @Pinpickle)
 - Added: You can now use multiple slugs in a single contenttype, should you want to. (#2490)
-- Fixed: EXIF orientation and general breakage of thumbnails on older versions of GD.
+- Fixed: EXIF orientation and general breakage of thumbnails on older versions of GD has been fixed.
 - Updated: Several used components were updated: Symfony components to 2.6.5, Silex to 1.2.3, Twig to 1.17, Parsedown to 1.5.0, Doctrine DBAL to 2.5.1
+
+Note: due to a quick fix, right after 2.0.4 was tagged, that version was skipped as a separate release.
 
 Bolt 2.0.3
 ----------
