@@ -378,6 +378,7 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
     public function testEarlyStaticFails()
     {
         $this->setExpectedException('Bolt\Configuration\LowlevelException');
+        $this->expectOutputRegex("/Bolt - Fatal Error/");
         $app = ResourceManager::getApp();
 
     }
