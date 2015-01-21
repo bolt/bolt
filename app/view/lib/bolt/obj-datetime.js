@@ -101,8 +101,8 @@ bolt.datetimes = (function () {
         setDate = (date === '' || date === '0000-00-00') ? '' : $.datepicker.parseDate('yy-mm-dd', date);
         field.date.datepicker('setDate', setDate);
 
-        // Set time field
-        if (field.time.exists) {
+        // Set time field, but only if the date isn't '0000-00-00'
+        if (field.time.exists && (date !== '0000-00-00')) {
             if (time === '') {
                 // if date is set, and time field exists, always set time #2288
                 if (date !== '') {
