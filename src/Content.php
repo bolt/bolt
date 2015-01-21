@@ -773,6 +773,10 @@ class Content implements \ArrayAccess
             return null;
         }
 
+        $slug = $this->values['slug'];
+        if (empty($slug)) {
+            $slug = $this->id;
+        }
         $link = $this->app['url_generator']->generate(
             $binding,
             array_filter(
@@ -782,7 +786,7 @@ class Content implements \ArrayAccess
                     array(
                         'contenttypeslug' => $this->contenttype['singular_slug'],
                         'id'              => $this->id,
-                        'slug'            => $this->values['slug']
+                        'slug'            => $slug
                     )
                 )
             )
