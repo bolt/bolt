@@ -10,7 +10,7 @@
         "bolt/thumbs": "~2.0",
         "brandonwamboldt/utilphp": "~1.0",
         "composer/composer": "1.0.*@dev",
-        "doctrine/dbal": "~2.4",
+        "doctrine/dbal": "2.5.1",
         "erusev/parsedown-extra": "~0.2",
         "filp/whoops": "~1.1",
         "guzzle/guzzle": "~3.9",
