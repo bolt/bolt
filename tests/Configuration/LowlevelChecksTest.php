@@ -91,13 +91,13 @@ class LowlevelChecksTest extends BoltUnitTest
     
     public function testGoodMysql()
     {
-        $check = $this->getMockedChecker('mockPostgres'); 
+        $check = $this->getMockedChecker('mockMysql'); 
         $check->doDatabaseCheck(); 
     }
     
     public function testGoodPostgres()
     {
-        $check = $this->getMockedChecker('mockMysql'); 
+        $check = $this->getMockedChecker('mockPostgres'); 
         $check->doDatabaseCheck(); 
     }
     
