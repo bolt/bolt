@@ -20,6 +20,9 @@ class Storage
      */
     private $app;
 
+    /** @var \Doctrine\DBAL\Connection */
+    protected $db;
+
     private $tables;
 
     /**
@@ -44,6 +47,7 @@ class Storage
     public function __construct(Bolt\Application $app)
     {
         $this->app = $app;
+        $this->db = $app['db'];
 
         $this->prefix = $app['config']->get('general/database/prefix', "bolt_");
 
@@ -360,7 +364,7 @@ class Storage
             $entry['mutation_type'] = $action;
             $entry['diff'] = $str;
             $entry['comment'] = $comment;
-            $this->app['db']->insert($this->getTablename('content_changelog'), $entry);
+            $this->db->insert($this->getTablename('content_changelog'), $entry);
         }
     }
 
@@ -397,7 +401,7 @@ class Storage
                "    FROM $tablename as log ";
         $sql .= $this->makeOrderLimitSql($options);
 
-        $rows = $this->app['db']->fetchAll($sql, array());
+        $rows = $this->db->fetchAll($sql, array());
         $objs = array();
         foreach ($rows as $row) {
             $objs[] = new ChangelogItem($this->app, $row);
@@ -412,7 +416,7 @@ class Storage
         $sql = "SELECT COUNT(1) " .
                "    FROM $tablename as log ";
 
-        return $this->app['db']->fetchColumn($sql, array());
+        return $this->db->fetchColumn($sql, array());
     }
 
     /**
@@ -451,7 +455,7 @@ class Storage
         }
         $sql .= $this->makeOrderLimitSql($options);
 
-        $rows = $this->app['db']->fetchAll($sql, $params);
+        $rows = $this->db->fetchAll($sql, $params);
         $objs = array();
         foreach ($rows as $row) {
             $objs[] = new ChangelogItem($this->app, $row);
@@ -479,7 +483,7 @@ class Storage
             $params[] = intval($options['contentid']);
         }
 
-        return $this->app['db']->fetchColumn($sql, $params);
+        return $this->db->fetchColumn($sql, $params);
     }
 
     /**
@@ -574,7 +578,7 @@ class Storage
                "    LIMIT 1";
         $params = array($id, $contentid, $contenttype);
 
-        $row = $this->app['db']->fetchAssoc($sql, $params);
+        $row = $this->db->fetchAssoc($sql, $params);
         if (is_array($row)) {
             return new ChangelogItem($this->app, $row);
         } else {
@@ -755,13 +759,13 @@ class Storage
 
         $this->logDelete($contenttype, $id, $oldContent);
 
-        $res = $this->app['db']->delete($tablename, array('id' => $id));
+        $res = $this->db->delete($tablename, array('id' => $id));
 
         // Make sure relations and taxonomies are deleted as well.
         if ($res) {
-            $this->app['db']->delete($this->prefix . "relations", array('from_contenttype' => $contenttype, 'from_id' => $id));
-            $this->app['db']->delete($this->prefix . "relations", array('to_contenttype' => $contenttype, 'to_id' => $id));
-            $this->app['db']->delete($this->prefix . "taxonomy", array('contenttype' => $contenttype, 'content_id' => $id));
+            $this->db->delete($this->prefix . "relations", array('from_contenttype' => $contenttype, 'from_id' => $id));
+            $this->db->delete($this->prefix . "relations", array('to_contenttype' => $contenttype, 'to_id' => $id));
+            $this->db->delete($this->prefix . "taxonomy", array('contenttype' => $contenttype, 'content_id' => $id));
         }
 
         if ($this->app['dispatcher']->hasListeners(StorageEvents::POST_DELETE)) {
@@ -787,13 +791,13 @@ class Storage
         // id is set to autoincrement, so let the DB handle it
         unset($content['id']);
 
-        $this->app['db']->insert($tablename, $content);
+        $this->db->insert($tablename, $content);
 
         $seq = null;
-        if ($this->app['db']->getDatabasePlatform() instanceof PostgreSqlPlatform) {
+        if ($this->db->getDatabasePlatform() instanceof PostgreSqlPlatform) {
             $seq = $tablename . '_id_seq';
         }
-        $id = $this->app['db']->lastInsertId($seq);
+        $id = $this->db->lastInsertId($seq);
 
         $this->logInsert($contenttype, $id, $content, $comment);
 
@@ -822,7 +826,7 @@ class Storage
         if (!empty($oldContent)) {
 
             // Do the actual update, and log it.
-            $res = $this->app['db']->update($tablename, $content, array('id' => $content['id']));
+            $res = $this->db->update($tablename, $content, array('id' => $content['id']));
             if ($res > 0) {
                 $this->logUpdate($contenttype, $content['id'], $content, $oldContent, $comment);
             }
@@ -830,12 +834,12 @@ class Storage
         } else {
 
             // Content didn't exist, so do an insert after all. Log it as an insert.
-            $res = $this->app['db']->insert($tablename, $content);
+            $res = $this->db->insert($tablename, $content);
             $seq = null;
-            if ($this->app['db']->getDatabasePlatform() instanceof PostgreSqlPlatform) {
+            if ($this->db->getDatabasePlatform() instanceof PostgreSqlPlatform) {
                 $seq = $tablename . '_id_seq';
             }
-            $id = $this->app['db']->lastInsertId($seq);
+            $id = $this->db->lastInsertId($seq);
             $this->logInsert($contenttype, $id, $content, $comment);
 
         }
@@ -937,7 +941,7 @@ class Storage
         foreach ($fields as $field => $fieldconfig) {
             if (in_array($fieldconfig['type'], $searchableTypes)) {
                 foreach ($query['words'] as $word) {
-                    $fieldsWhere[] = sprintf('%s.%s LIKE %s', $table, $field, $this->app['db']->quote('%' . $word . '%'));
+                    $fieldsWhere[] = sprintf('%s.%s LIKE %s', $table, $field, $this->db->quote('%' . $word . '%'));
                 }
             }
         }
@@ -950,7 +954,7 @@ class Storage
         foreach ($taxonomies as $taxonomy) {
             if ($taxonomy['behaves_like'] == 'tags') {
                 foreach ($query['words'] as $word) {
-                    $tagsWhere[] = sprintf('%s.slug LIKE %s', $taxonomytable, $this->app['db']->quote('%' . $word . '%'));
+                    $tagsWhere[] = sprintf('%s.slug LIKE %s', $taxonomytable, $this->db->quote('%' . $word . '%'));
                 }
             }
         }
@@ -990,7 +994,7 @@ class Storage
         );
 
         // Run Query
-        $results = $this->app['db']->fetchAll($select);
+        $results = $this->db->fetchAll($select);
 
         if (!empty($results)) {
 
@@ -1162,7 +1166,7 @@ class Storage
         // Meh, InnoDB doesn't support full text search.
         if (!empty($parameters['filter'])) {
 
-            $filter = $this->app['db']->quote($parameters['filter']);
+            $filter = $this->db->quote($parameters['filter']);
 
             $filterWhere = array();
 
@@ -1209,12 +1213,12 @@ class Storage
         $pagerquery = sprintf('SELECT COUNT(*) AS count FROM %s %s', $tablename, $queryparams);
 
         // Add the limit
-        $queryparams = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($queryparams, $limit, ($page - 1) * $limit);
+        $queryparams = $this->db->getDatabasePlatform()->modifyLimitQuery($queryparams, $limit, ($page - 1) * $limit);
 
         // Make the query to get the results..
         $query = "SELECT * FROM $tablename" . $queryparams;
 
-        $rows = $this->app['db']->fetchAll($query);
+        $rows = $this->db->fetchAll($query);
 
         // Make sure content is set, and all content has information about its contenttype
         $content = array();
@@ -1229,7 +1233,7 @@ class Storage
         $this->getRelation($content);
 
         // Set up the $pager array with relevant values..
-        $rowcount = $this->app['db']->executeQuery($pagerquery)->fetch();
+        $rowcount = $this->db->executeQuery($pagerquery)->fetch();
         $pager = array(
             'for' => 'search',
             'count' => $rowcount['count'],
@@ -1270,9 +1274,9 @@ class Storage
 
         $where = sprintf(
             ' WHERE (taxonomytype = %s AND (slug = %s OR name = %s))',
-            $this->app['db']->quote($taxonomytype['slug']),
-            $this->app['db']->quote($slug),
-            $this->app['db']->quote($name)
+            $this->db->quote($taxonomytype['slug']),
+            $this->db->quote($slug),
+            $this->db->quote($name)
         );
 
         // Make the query for the pager..
@@ -1288,9 +1292,9 @@ class Storage
 
         // Add the limit
         $query = sprintf('SELECT * FROM %s %s ORDER BY id %s', $tablename, $where, $order);
-        $query = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($query, $limit, ($page - 1) * $limit);
+        $query = $this->db->getDatabasePlatform()->modifyLimitQuery($query, $limit, ($page - 1) * $limit);
 
-        $taxorows = $this->app['db']->fetchAll($query);
+        $taxorows = $this->db->fetchAll($query);
 
         if (!empty($parameters['printquery'])) {
             // @todo formalize this
@@ -1309,7 +1313,7 @@ class Storage
         }
 
         // Set up the $pager array with relevant values..
-        $rowcount = $this->app['db']->executeQuery($pagerquery)->fetch();
+        $rowcount = $this->db->executeQuery($pagerquery)->fetch();
         $pager = array(
             'for' => $taxonomytype['singular_slug'] . "_" . $slug,
             'count' => $rowcount['count'],
@@ -1344,14 +1348,14 @@ class Storage
 
             // Check if there are any records that need publishing..
             $query = "SELECT id FROM $tablename WHERE status = 'timed' and datepublish < :now";
-            $stmt = $this->app['db']->prepare($query);
+            $stmt = $this->db->prepare($query);
             $stmt->bindValue("now", $now);
             $stmt->execute();
 
             // If there's a result, we need to set these to 'publish'..
             if ($stmt->fetch() !== false) {
                 $query = "UPDATE $tablename SET status = 'published', datechanged = :now  WHERE status = 'timed' and datepublish < :now";
-                $stmt = $this->app['db']->prepare($query);
+                $stmt = $this->db->prepare($query);
                 $stmt->bindValue("now", $now);
                 $stmt->execute();
             }
@@ -1383,14 +1387,14 @@ class Storage
 
             // Check if there are any records that need depublishing..
             $query = "SELECT id FROM $tablename WHERE status = 'published' and datedepublish <= :now and datedepublish > '1900-01-01 00:00:01' and datechanged < datedepublish";
-            $stmt = $this->app['db']->prepare($query);
+            $stmt = $this->db->prepare($query);
             $stmt->bindValue("now", $now);
             $stmt->execute();
 
             // If there's a result, we need to set these to 'held'..
             if ($stmt->fetch() !== false) {
                 $query = "UPDATE $tablename SET status = 'held', datechanged = :now WHERE status = 'published' and datedepublish <= :now and datedepublish > '1900-01-01 00:00:01' and datechanged < datedepublish";
-                $stmt = $this->app['db']->prepare($query);
+                $stmt = $this->db->prepare($query);
                 $stmt->bindValue("now", $now);
                 $stmt->execute();
             }
@@ -1710,7 +1714,7 @@ class Storage
                                     '%s.%s LIKE %s',
                                     $tablename,
                                     $name,
-                                    $this->app['db']->quote('%' . $value . '%')
+                                    $this->db->quote('%' . $value . '%')
                                 );
                             }
                         }
@@ -1763,7 +1767,7 @@ class Storage
                         // Set the extra '$where', with subselect for taxonomies..
                         $where[] = sprintf(
                             '%s %s IN (SELECT content_id AS id FROM %s where %s AND ( %s OR %s ) AND %s)',
-                            $this->app['db']->quoteIdentifier('id'),
+                            $this->db->quoteIdentifier('id'),
                             $notin,
                             $this->getTablename('taxonomy'),
                             $this->parseWhereParameter($this->getTablename('taxonomy') . '.taxonomytype', $key),
@@ -1922,7 +1926,7 @@ class Storage
                         $query['from'],
                         $query['where']
                     );
-                    $countRow = $this->app['db']->executeQuery($countStatement)->fetch();
+                    $countRow = $this->db->executeQuery($countStatement)->fetch();
                     $totalResults = $countRow['count'];
                 }
 
@@ -1934,11 +1938,11 @@ class Storage
                 $limit = $decoded['parameters']['limit'];
 
                 // @todo this will fail when actually using params on certain databases
-                $statement = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($statement, $limit, $offset);
+                $statement = $this->db->getDatabasePlatform()->modifyLimitQuery($statement, $limit, $offset);
             } elseif (!empty($decoded['parameters']['limit'])) {
                 // If we're not paging, but we _did_ provide a limit.
                 $limit = $decoded['parameters']['limit'];
-                $statement = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($statement, $limit);
+                $statement = $this->db->getDatabasePlatform()->modifyLimitQuery($statement, $limit);
             }
 
             if (!empty($decoded['parameters']['printquery'])) {
@@ -1946,7 +1950,7 @@ class Storage
                 echo nl2br(htmlentities($statement));
             }
 
-            $rows = $this->app['db']->fetchAll($statement, $query['params']);
+            $rows = $this->db->fetchAll($statement, $query['params']);
 
             // Convert the row 'arrays' into \Bolt\Content objects.
             // Only get the Taxonomies and Relations if we have to.
@@ -2134,9 +2138,9 @@ class Storage
         if (strpos($name, 'RAND') !== false) {
             $order = $name;
         } elseif ($prefix !== false) {
-            $order = $this->app['db']->quoteIdentifier($prefix . '.' . $name);
+            $order = $this->db->quoteIdentifier($prefix . '.' . $name);
         } else {
-            $order = $this->app['db']->quoteIdentifier($name);
+            $order = $this->db->quoteIdentifier($name);
         }
 
         if (! $asc) {
@@ -2279,7 +2283,7 @@ class Storage
             $value = date('Y-m-d H:i:s', $timestamp);
         }
 
-        $parameter = sprintf("%s %s %s", $this->app['db']->quoteIdentifier($key), $operator, $this->app['db']->quote($value));
+        $parameter = sprintf("%s %s %s", $this->db->quoteIdentifier($key), $operator, $this->db->quote($value));
 
         return $parameter;
     }
@@ -2527,7 +2531,7 @@ class Storage
             "SELECT * FROM %s WHERE content_id IN (?) AND contenttype=? AND taxonomytype IN (?)",
             $tablename
         );
-        $rows = $this->app['db']->executeQuery(
+        $rows = $this->db->executeQuery(
             $query,
             array($ids, $contenttype, array_keys($taxonomytypes)),
             array(DoctrineConn::PARAM_INT_ARRAY, \PDO::PARAM_STR, DoctrineConn::PARAM_STR_ARRAY)
@@ -2580,7 +2584,7 @@ class Storage
                 "SELECT id, slug, sortorder FROM %s WHERE content_id=? AND contenttype=? AND taxonomytype=?",
                 $tablename
             );
-            $currentvalues = $this->app['db']->executeQuery(
+            $currentvalues = $this->db->executeQuery(
                 $query,
                 array($contentId, $contenttypeslug, $taxonomytype),
                 array(\PDO::PARAM_INT, \PDO::PARAM_STR, \PDO::PARAM_STR)
@@ -2645,7 +2649,7 @@ class Storage
                         'sortorder' => (int) $sortorder
                     );
 
-                    $this->app['db']->insert($tablename, $row);
+                    $this->db->insert($tablename, $row);
                 }
 
             }
@@ -2658,7 +2662,7 @@ class Storage
                 $slugkey = '/' . $configTaxonomies[$taxonomytype]['slug'] . '/' . $slug;
 
                 if (!in_array($slug, $newslugs) && !in_array($valuewithorder, $newslugs) && !array_key_exists($slugkey, $newslugs)) {
-                    $this->app['db']->delete($tablename, array('id' => $id));
+                    $this->db->delete($tablename, array('id' => $id));
                 }
             }
 
@@ -2691,7 +2695,7 @@ class Storage
         );
         $params = array($contenttype, $ids);
         $paramTypes = array(\PDO::PARAM_STR, DoctrineConn::PARAM_INT_ARRAY);
-        $rows = $this->app['db']->executeQuery($query, $params, $paramTypes)->fetchAll();
+        $rows = $this->db->executeQuery($query, $params, $paramTypes)->fetchAll();
 
         foreach ($rows as $row) {
             $content[$row['from_id']]->setRelation($row['to_contenttype'], $row['to_id']);
@@ -2704,7 +2708,7 @@ class Storage
         );
         $params = array($contenttype, $ids);
         $paramTypes = array(\PDO::PARAM_STR, DoctrineConn::PARAM_INT_ARRAY);
-        $rows = $this->app['db']->executeQuery($query, $params, $paramTypes)->fetchAll();
+        $rows = $this->db->executeQuery($query, $params, $paramTypes)->fetchAll();
 
         foreach ($rows as $row) {
             $content[$row['to_id']]->setRelation($row['from_contenttype'], $row['from_id']);
@@ -2760,7 +2764,7 @@ class Storage
             "SELECT id, to_contenttype, to_id FROM %s WHERE from_id=? AND from_contenttype=?",
             $tablename
         );
-        $currentvalues = $this->app['db']->executeQuery(
+        $currentvalues = $this->db->executeQuery(
             $query,
             array($contentId, $contenttype['slug']),
             array(\PDO::PARAM_INT, \PDO::PARAM_STR)
@@ -2771,7 +2775,7 @@ class Storage
             "SELECT id, from_contenttype AS to_contenttype, from_id AS to_id FROM %s WHERE to_id=? AND to_contenttype=?",
             $tablename
         );
-        $currentvalues2 = $this->app['db']->executeQuery(
+        $currentvalues2 = $this->db->executeQuery(
             $query,
             array($contentId, $contenttype['slug']),
             array(\PDO::PARAM_INT, \PDO::PARAM_STR)
@@ -2788,7 +2792,7 @@ class Storage
                     !in_array($currentvalue['to_id'], $relation[$currentvalue['to_contenttype']])) &&
                 isset($contenttype['relations'][$currentvalue['to_contenttype']])
             ) {
-                $this->app['db']->delete($tablename, array('id' => $currentvalue['id']));
+                $this->db->delete($tablename, array('id' => $currentvalue['id']));
             }
         }
 
@@ -2814,7 +2818,7 @@ class Storage
                             'to_contenttype' => $toContenttype,
                             'to_id' => $value
                         );
-                        $this->app['db']->insert($tablename, $row);
+                        $this->db->insert($tablename, $row);
                     }
 
                 }
@@ -2832,7 +2836,7 @@ class Storage
             "SELECT id FROM %s ORDER BY datecreated DESC LIMIT 1;",
             $tablename
         );
-        $id = $this->app['db']->executeQuery($query)->fetch();
+        $id = $this->db->executeQuery($query)->fetch();
 
         if (!empty($id['id'])) {
             return $id['id'];
@@ -2867,7 +2871,7 @@ class Storage
             "SELECT id from %s WHERE slug=? and id!=?",
             $tablename
         );
-        $res = $this->app['db']->executeQuery(
+        $res = $this->db->executeQuery(
             $query,
             array($slug, $id),
             array(\PDO::PARAM_STR, \PDO::PARAM_INT)
@@ -2878,7 +2882,7 @@ class Storage
         } else {
             for ($i = 1; $i <= 10; $i++) {
                 $newslug = $slug . '-' . $i;
-                $res = $this->app['db']->executeQuery(
+                $res = $this->db->executeQuery(
                     $query,
                     array($newslug, $id),
                     array(\PDO::PARAM_STR, \PDO::PARAM_INT)
@@ -2933,7 +2937,7 @@ class Storage
             $query = "SELECT count(*) FROM information_schema.tables WHERE table_schema = '$databasename' AND table_name = '$name';";
         }
 
-        $res = $this->app['db']->fetchColumn($query);
+        $res = $this->db->fetchColumn($query);
 
         if (empty($res)) {
             return false;
@@ -2960,7 +2964,7 @@ class Storage
 
     protected function hasRecords($tablename)
     {
-        $count = $this->app['db']->fetchColumn(sprintf('SELECT COUNT(id) FROM %s', $tablename));
+        $count = $this->db->fetchColumn(sprintf('SELECT COUNT(id) FROM %s', $tablename));
 
         return intval($count) > 0;
     }
@@ -2973,7 +2977,7 @@ class Storage
      */
     protected function findContent($tablename, $contentId)
     {
-        $oldContent = $this->app['db']->fetchAssoc("SELECT * FROM $tablename WHERE id = ?", array($contentId));
+        $oldContent = $this->db->fetchAssoc("SELECT * FROM $tablename WHERE id = ?", array($contentId));
 
         return $oldContent;
     }
