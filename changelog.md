@@ -8,7 +8,7 @@ Bolt 2.0.5
 
 Released 2015-01-21. Notable changes:
 
-- Fixed: appending `order=...`` to arbitrary Bolt URLs will no longer silently try to apply sorting to getContent.
+- Fixed: appending `order=...` to arbitrary Bolt URLs will no longer silently try to apply sorting to getContent.
 - Fixed: For extensions adding Twig functions in content: `isSafe()` works correctly now (#2492, thanks @jmschelcher)
 - Change: Use Twig’s `resolveTemplate` instead of `file_exists` in Frontend Controller. (#2494, thanks @lavoiesl)
 - Fixed: Remove horizontal scroll on loging screen. (#2495, thanks @cdowdy)
