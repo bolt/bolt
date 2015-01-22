@@ -1503,7 +1503,6 @@ class TwigExtension extends \Twig_Extension
     }
 
     /**
-<<<<<<< HEAD
      * Add JavaScript data to app['jsdata']
      *
      * @param string $key
