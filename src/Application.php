@@ -4,8 +4,6 @@ namespace Bolt;
 
 use Bolt\Configuration\LowlevelException;
 use Bolt\Library as Lib;
-use Doctrine\DBAL\Event\ConnectionEventArgs;
-use Doctrine\DBAL\Events;
 use RandomLib;
 use SecurityLib;
 use Silex;
