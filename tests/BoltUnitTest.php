@@ -3,6 +3,7 @@ namespace Bolt\Tests;
 
 use Bolt\Application;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Storage\MockFileSessionStorage;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Bolt\Configuration as Config;
@@ -90,5 +91,40 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
         $user['email'] = 'test@example.com';
         $user['displayname'] = 'Admin';
         $app['users']->saveUser($user);
+    }
+    
+    protected function getMockTwig()
+    {
+        $twig = $this->getMock('Twig_Environment', array('render', 'fetchCachedRequest'));
+        $twig->expects($this->any())
+            ->method('fetchCachedRequest')
+            ->will($this->returnValue(false));
+        return $twig;
+    }
+    
+    protected function checkTwigForTemplate($app, $testTemplate)
+    {
+        $twig = $this->getMockTwig();        
+        
+        $twig->expects($this->any())
+            ->method('render')
+            ->with($this->equalTo($testTemplate))
+            ->will($this->returnValue(new Response));
+            
+        $app['render'] = $twig; 
+    }
+    
+    protected function allowLogin($app)
+    {
+        $this->addDefaultUser();
+        $users = $this->getMock('Bolt\Users', array('isValidSession','isAllowed'), array($app));
+        $users->expects($this->any())
+            ->method('isValidSession')
+            ->will($this->returnValue(true));
+            
+        $users->expects($this->any())
+            ->method('isAllowed')
+            ->will($this->returnValue(true));
+        $app['users'] = $users;
     }
 }
