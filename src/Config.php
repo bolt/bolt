@@ -799,10 +799,9 @@ class Config
             'host' => 'localhost',
         );
         $master = $this->parseConnectionParams($config, $defaults);
+        $options = array_merge($options, $master);
 
-        // If there are no slaves, merge the master connection into the dboptions and return
         if (!isset($config['slaves']) || empty($config['slaves'])) {
-            $options = array_merge($options, $master);
             return $options;
         }
 
