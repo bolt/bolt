@@ -229,3 +229,11 @@ $old-ie: false !default;
         font-size: 92% !important;
     }
 }
+
+// Mixin to add ellipsis
+
+@mixin ellipsis() {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
