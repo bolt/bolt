@@ -46,8 +46,6 @@ class ExtendControllerTest extends BoltUnitTest
         $this->assertNotEmpty($response);
 
 
-        // This currently checks for a live extension on the extend site. At some point we should mock this
-        // But if it fails then replacing the package name will fix the test.
         $request = Request::create("/", "GET", array('package'=>'bolt/theme-2014'));
         $extend = $this->getMock('Bolt\Controllers\Extend', array('installInfo', 'packageInfo', 'check'));
         $extend->expects($this->any())
@@ -76,6 +74,112 @@ class ExtendControllerTest extends BoltUnitTest
 
         $response = $extend->check($app, $request);
         $this->assertNotEmpty($response);
+    }
+    
+    public function testOverview()
+    {
+        $app = $this->getApp();
+        $this->allowLogin($app);
+        $request = Request::create('/bolt/extend/');
+        $this->checkTwigForTemplate($app, 'extend/extend.twig');
+        $response = $app->handle($request);
+        $this->assertEquals(200, $response->getStatusCode());
+    }
+    
+    public function testInstallPackage()
+    {
+        $app = $this->getApp();
+        $this->allowLogin($app);
+        $request = Request::create('/bolt/extend/installPackage');
+        $this->checkTwigForTemplate($app, 'extend/install-package.twig');
+        $response = $app->handle($request);
+        $this->assertEquals(200, $response->getStatusCode());
+    }
+    
+    
+    public function testInstallInfo()
+    {
+        $app = $this->getApp();
+        $mockInfo = $this->getMock('Bolt\Extensions\ExtensionsInfoService', array('info'), array(), 'MockInfoService', false);
+        $mockInfo->expects($this->once())
+            ->method('info')
+            ->will($this->returnValue($this->packageInfoProvider()) );
+        
+        $app['extend.info'] = $mockInfo;
+        
+        $this->allowLogin($app);
+        $request = Request::create('/bolt/extend/installInfo?package=test&bolt=2.0.0');
+        $response = $app->handle($request);
+        $this->assertEquals(200, $response->getStatusCode());
+        $parsedOutput = json_decode($response->getContent());
+        $this->assertNotEmpty($parsedOutput->dev);
+        $this->assertNotEmpty($parsedOutput->stable);
+    }
+    
+    
+    public function packageInfoProvider()
+    {
+        $info = array(
+            'package' => 
+                array(
+                    'id' => '99999',
+                    'title' => 'Test',
+                    'source' => 'https://github.com/',
+                    'name' => 'test',
+                    'keywords' =>  array(),
+                    'type' => 'bolt-extension',
+                    'description' => 'Test',
+                    'approved' => true,
+                    'requirements' => 
+                    array(
+                      'bolt/bolt' => '>=2.0.0,<3.0.0',
+                    ),
+                    'versions' => 
+                        array(
+                          0 => '1.0.0',
+                          1 => 'dev-master',
+                        )
+                ),
+            'version' => 
+                array(
+                    array(
+                          'name' => 'test',
+                          'version' => '1.0.0',
+                          'version_normalized' => '1.0.0.0',
+                          'source' => 
+                          array (
+                            'type' => 'git',
+                            'url' => 'https://github.com/',
+                            'reference' => 'xxx',
+                          ),
+                          'require' => 
+                          array (
+                            'bolt/bolt' => '>=2.0.0,<3.0.0',
+                          ),
+                          'type' => 'bolt-extension',
+                          'stability' => 'stable',
+                          'buildStatus' => 'untested',
+                    ),
+                    array(
+                        'name' => 'test',
+                        'version' => 'dev-master',
+                        'version_normalized' => '9999999-dev',
+                        'source' => 
+                            array(
+                                'type' => 'git',
+                                'url' => 'https://github.com/',
+                                'reference' => 'XXX',
+                            ),
+                        'require' => array('bolt/bolt' => '>=2.0.0,<3.0.0'),
+                        'type' => 'bolt-extension',
+                        'stability' => 'dev',
+                        'buildStatus' => 'untested',
+                    )
+                )
+            );
+        // This just ensures that the data matches the internal format of json decoded responses
+        return json_decode(json_encode($info));
+        
     }
 
 }
