@@ -30,7 +30,8 @@ class StatServiceTest extends BoltUnitTest
 
 namespace Bolt\Extensions;
 
-function file_get_contents($url) 
-{
-    return $url;
-}
+// Left for info, this mock function is called on this test
+// function file_get_contents($url) 
+// {
+//     return $url;
+// }
