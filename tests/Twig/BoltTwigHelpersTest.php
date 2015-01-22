@@ -6,6 +6,7 @@ use Bolt\Tests\BoltUnitTest;
 use Bolt\TwigExtension;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\KernelEvents;
+use Symfony\Component\VarDumper\VarDumper;
 use Bolt\Storage;
 
 /**
@@ -53,6 +54,12 @@ class BoltTwigHelpersTest extends BoltUnitTest
         $this->assertEquals('', $twig->printDump(range(1,10)));
         
         // Now test with debug enabled
+        // We need to override Symfony's default handler to get the output
+        $output = '';
+        VarDumper::setHandler(function($var) use($output) {
+            $output.=$var;
+        });
+        
         $app = $this->getApp();
         $twig = new TwigExtension($app);
         //$this->assertRegExp('/dumper-root/', $twig->printDump(range(1,10)));
