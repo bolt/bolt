@@ -773,54 +773,48 @@ class Config
     {
         $configdb = $this->data['general']['database'];
 
-        if (isset($configdb['driver']) && in_array($configdb['driver'], array('pdo_sqlite', 'sqlite'))) {
+        $driver = isset($configdb['driver']) ? $configdb['driver'] : 'pdo_mysql';
+
+        if (in_array($driver, array('pdo_sqlite', 'sqlite'))) {
             $basename = isset($configdb['databasename']) ? basename($configdb['databasename']) : 'bolt';
             if (Lib::getExtension($basename) != 'db') {
                 $basename .= '.db';
             }
 
-            if (isset($configdb["path"])) {
-                $configpaths = $this->app['resources']->getPaths();
-                if (substr($configdb['path'], 0, 1) !== "/") {
-                    $configdb['path'] = $configpaths["rootpath"] . '/' . $configdb['path'];
-                }
+            $path = isset($configdb['path']) ? $configdb['path'] : null;
+            if (substr($path, 0, 1) !== '/') {
+                $path = $this->resources->getPath('root') . '/' . $path;
             }
+            $path = realpath($path) ?: $this->resources->getPath('database');
 
             $dboptions = array(
                 'driver' => 'pdo_sqlite',
-                'path' => isset($configdb['path']) ? realpath($configdb['path']) . '/' . $basename : $this->app['resources']->getPath('database') . '/' . $basename,
+                'path' => $path . '/' . $basename,
                 'randomfunction' => 'RANDOM()',
                 'memory' => isset($configdb['memory']) ? true : false
             );
-        } else {
-            // Assume we configured it correctly. Yeehaa!
-
-            if (empty($configdb['password'])) {
-                $configdb['password'] = '';
-            }
-
-            $driver = (isset($configdb['driver']) ? $configdb['driver'] : 'pdo_mysql');
-            $randomfunction = '';
-            if (in_array($driver, array('mysql', 'mysqli'))) {
-                $driver = 'pdo_mysql';
-                $randomfunction = 'RAND()';
-            }
-            if (in_array($driver, array('postgres', 'postgresql'))) {
-                $driver = 'pdo_pgsql';
-                $randomfunction = 'RANDOM()';
-            }
-
-            $dboptions = array(
-                'driver'         => $driver,
-                'host'           => (isset($configdb['host']) ? $configdb['host'] : 'localhost'),
-                'dbname'         => $configdb['databasename'],
-                'user'           => $configdb['username'],
-                'password'       => $configdb['password'],
-                'randomfunction' => $randomfunction
-            );
-
-            $dboptions['charset'] = isset($configdb['charset']) ? $configdb['charset'] : 'utf8';
+            return $dboptions;
         }
+
+        $randomfunction = '';
+        if (in_array($driver, array('mysql', 'mysqli'))) {
+            $driver = 'pdo_mysql';
+            $randomfunction = 'RAND()';
+        }
+        if (in_array($driver, array('postgres', 'postgresql'))) {
+            $driver = 'pdo_pgsql';
+            $randomfunction = 'RANDOM()';
+        }
+
+        $dboptions = array(
+            'driver'         => $driver,
+            'host'           => isset($configdb['host']) ? $configdb['host'] : 'localhost',
+            'dbname'         => $configdb['databasename'],
+            'user'           => $configdb['username'],
+            'password'       => isset($configdb['password']) ? $configdb['password'] : '',
+            'randomfunction' => $randomfunction,
+            'charset'        => isset($configdb['charset']) ? $configdb['charset'] : 'utf8',
+        );
 
         if (isset($configdb['port'])) {
             $dboptions['port'] = $configdb['port'];
