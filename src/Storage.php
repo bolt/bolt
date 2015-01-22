@@ -1199,7 +1199,7 @@ class Storage
         // Order, with a special case for 'RANDOM'.
         if (!empty($parameters['order'])) {
             if ($parameters['order'] == "RANDOM") {
-                $dboptions = $this->app['config']->getDBOptions();
+                $dboptions = $this->db->getParams();
                 $queryparams .= sprintf(' ORDER BY %s', $dboptions['randomfunction']);
             } else {
                 $order = $this->getEscapedSortorder($parameters['order'], false);
@@ -1619,7 +1619,7 @@ class Storage
         } else {
             $parOrder = String::makeSafe($orderValue);
             if ($parOrder == 'RANDOM') {
-                $dboptions = $this->app['config']->getDBOptions();
+                $dboptions = $this->db->getParams();
                 $order = $dboptions['randomfunction'];
             } elseif ($this->isValidColumn($parOrder, $contenttype, true)) {
                 $order = $this->getEscapedSortorder($parOrder, false);
@@ -2931,17 +2931,16 @@ class Storage
         }
 
         // See if the table exists.
-        $dboptions = $this->app['config']->getDBOptions();
-        if ($dboptions['driver'] == 'pdo_sqlite') {
+        $driver = $this->db->getDriver()->getName();
+        $databasename = $this->db->getDatabase();
+        if ($driver == 'pdo_sqlite') {
             // For SQLite:
             $query = "SELECT count(*) FROM sqlite_master WHERE type='table' AND name='$name';";
-        } elseif ($dboptions['driver'] == 'pdo_pgsql') {
+        } elseif ($driver == 'pdo_pgsql') {
             // For Postgres
-            $databasename = $this->app['config']->get('general/database/databasename');
             $query = "SELECT count(*) FROM information_schema.tables WHERE table_catalog = '$databasename' AND table_name = '$name';";
         } else {
             // For MySQL
-            $databasename = $this->app['config']->get('general/database/databasename');
             $query = "SELECT count(*) FROM information_schema.tables WHERE table_schema = '$databasename' AND table_name = '$name';";
         }
 
