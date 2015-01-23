@@ -15,6 +15,7 @@ use Bolt\Composer\PackageManager;
 use Bolt\Exception\BoltComposerException;
 use Bolt\Library as Lib;
 use Bolt\Translation\Translator as Trans;
+use Bolt\Extensions\ExtensionsInfoService;
 
 class Extend implements ControllerProviderInterface, ServiceProviderInterface
 {
@@ -24,6 +25,11 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
     {
         $app['extend.site'] = $app['config']->get('general/extensions/site', 'https://extensions.bolt.cm/');
         $app['extend.repo'] = $app['extend.site'] . 'list.json';
+        $app['extend.urls'] = array(
+            'list' => 'list.json',
+            'info' => 'info.json'
+        );
+        
         $app['extend'] = $this;
         $extensionsPath = $app['resources']->getPath('extensions');
         $app['extend.writeable'] = is_dir($extensionsPath) && is_writable($extensionsPath) ? true : false;
@@ -34,6 +40,12 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
         $app['extend.manager'] = $app->share(
             function ($app) use ($me) {
                 return new PackageManager($app);
+            }
+        );
+        
+        $app['extend.info'] = $app->share(
+            function($app) use ($me) {
+                return new ExtensionsInfoService($app['extend.site'], $app['extend.urls']);
             }
         );
     }
@@ -113,8 +125,6 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
 
     public function overview(Silex\Application $app, Request $request)
     {
-//        $app['extend.manager']->clearLog();
-
         return $app['render']->render(
             'extend/extend.twig',
             $this->getRenderContext($app)
@@ -133,14 +143,13 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
     {
         $package = $request->get('package');
         $versions = array('dev' => array(), 'stable' => array());
-        try {
-            $url = $app['extend.site'] . 'info.json?package=' . $package . '&bolt=' . $app['bolt_version'];
-            $info = json_decode(file_get_contents($url));
+        $info = $app['extend.info']->info($package, $app['bolt_version']);
+        if (isset($info->version)) {
             foreach ($info->version as $version) {
                 $versions[$version->stability][] = $version;
             }
-        } catch (\Exception $e) {
-            error_log($e); // least we can do
+        } else {
+            $versions = array('error'=>true, 'dev'=>array(),'stable'=>array());
         }
 
         return new JsonResponse($versions);
