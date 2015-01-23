@@ -129,11 +129,10 @@
         text-indent: -$nav-secondary-indent;
         font-weight: normal;
         max-height: 3.7em;
-        overflow: hidden;
     }
 
     a.menu-pop {
-        overflow: visible;
+      @include ellipsis();
     }
 
     a.menu-pop:before {
