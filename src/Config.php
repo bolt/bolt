@@ -828,11 +828,10 @@ class Config
             $basename .= '.db';
         }
 
-        $path = isset($config['path']) ? $config['path'] : null;
+        $path = isset($config['path']) ? $config['path'] : $this->resources->getPath('database');
         if (substr($path, 0, 1) !== '/') {
             $path = $this->resources->getPath('root') . '/' . $path;
         }
-        $path = realpath($path) ?: $this->resources->getPath('database');
 
         return array(
             'driver'         => 'pdo_sqlite',
