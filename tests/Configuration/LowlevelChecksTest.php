@@ -7,11 +7,14 @@ use Bolt\Configuration\LowlevelChecks;
 use Bolt\Configuration\LowlevelException;
 use Bolt\Configuration\ErrorSimulator;
 use Bolt\Tests\BoltUnitTest;
+use Bolt\Configuration\ResourceManager;
 
 /**
  * Class to test src/Configuration/LowlevelChecks.php.
  *
  * @author Ross Riley <riley.ross@gmail.com>
+ * 
+ * @runTestsInSeparateProcesses
  *
  */
 class LowlevelChecksTest extends BoltUnitTest
@@ -20,6 +23,55 @@ class LowlevelChecksTest extends BoltUnitTest
     public static $isWritable = null;
     public static $isReadable = null;
     public static $fileExists = null;
+    
+    public $errorResponse = array();
+    
+    
+    public function setUp()
+    {
+                
+        $this->php = \PHPUnit_Extension_FunctionMocker::start($this, 'Bolt\Configuration')
+            ->mockFunction('is_readable')
+            ->mockFunction('is_writable')
+            ->mockFunction('file_exists')
+            ->mockFunction('is_dir')
+            ->mockFunction('copy')
+            ->mockFunction('error_get_last')
+            ->getMock();
+            
+        $this->errorResponses = array(
+            'core'=> array(
+                "type"=> E_ERROR,
+                "file"=> TEST_ROOT.'/src',
+                "line"=> 16,
+                "message"=> 'src error'
+            ),
+            'extensions'=> array(
+                "type"=> E_ERROR,
+                "file"=> TEST_ROOT.'/extensions',
+                "line"=> 1,
+                "message"=>'extension error'
+            ),
+            'vendor'=> array(
+                "type"=> E_ERROR,
+                "file"=> TEST_ROOT.'/vendor',
+                "line"=> 1,
+                "message"=> 'vendor error'
+            ),
+            'unknown'=> array(
+                "type"=> E_ERROR,
+                "file"=> TEST_ROOT,
+                "line"=> 1,
+                "message"=> 'unknown error'
+            )
+        );
+                    
+    }
+    
+    public function tearDown()
+    {
+        \PHPUnit_Extension_FunctionMocker::tearDown();
+    }
 
 
     
@@ -50,16 +102,6 @@ class LowlevelChecksTest extends BoltUnitTest
         
     }
     
-    public function testFallbackConfigFiles()
-    {
-        $config = new Standard(__DIR__);
-        $check = new LowlevelChecks($config);
-        $this->setExpectedException('Bolt\Configuration\LowlevelException');
-        $this->expectOutputRegex("/Bolt - Fatal Error/");
-        $check->removeCheck('cache');
-        $check->doChecks();      
-        
-    }
     
     public function testApacheChecks()
     {
@@ -172,39 +214,81 @@ class LowlevelChecksTest extends BoltUnitTest
         $this->expectOutputRegex("/Bolt - Fatal Error/");
         $check->doDatabaseCheck();      
     }
+
+
     
     public function testSqliteUnwritable()
     {
+        
         $check = $this->getMockedChecker('mockSqlite');
-        nativeFunctionExpects('is_writable', false);
+        $app = array('resources'=>new Standard(TEST_ROOT));
+        ResourceManager::$theApp = $app;
+        $this->php
+            ->expects($this->once())
+            ->method('is_writable')
+            ->will($this->returnValue(false));
+
         $this->setExpectedException('Bolt\Configuration\LowlevelException');
         $this->expectOutputRegex("/Bolt - Fatal Error/");
-        $check->doDatabaseCheck();      
+        $check->doDatabaseCheck();
     }
     
 
-    /**
-    * @runInSeparateProcess
-    */
-    public function testFatalErrorCatch()
+    public function testCoreFatalErrorCatch()
     {
-        $app = $this->getApp();
-        ErrorSimulator::simulateError($app, 'core');
-        $this->expectOutputRegex("/Bolt Core - Fatal Error/");
-        LowlevelException::catchFatalErrors($app);
+         
+        $app = array('resources'=>new Standard(TEST_ROOT));
+        ResourceManager::$theApp = $app;
         
-        ErrorSimulator::simulateError($app, 'vendor');
-        $this->expectOutputRegex("/Bolt Vendor Library - Fatal Error/");
-        LowlevelException::catchFatalErrors($app);
+        $this->php
+            ->expects($this->once())
+            ->method('error_get_last')
+            ->will($this->returnValue($this->errorResponses['core']));
+            
+        $this->expectOutputRegex("/PHP Fatal Error: Bolt Core/");
+        LowlevelException::catchFatalErrors();        
+    }
+    
+    public function testVendorFatalErrorCatch()
+    {
+        $app = array('resources'=>new Standard(TEST_ROOT));
+        ResourceManager::$theApp = $app;
         
-        ErrorSimulator::simulateError($app, 'extensions');
-        $this->expectOutputRegex("/Bolt Extensions - Fatal Error/");
-        LowlevelException::catchFatalErrors($app);
+        $this->php
+            ->expects($this->once())
+            ->method('error_get_last')
+            ->will($this->returnValue($this->errorResponses['vendor']));
+            
+        $this->expectOutputRegex("/PHP Fatal Error: Vendor Library/");
+        LowlevelException::catchFatalErrors();        
+    }
+    
+    public function testExtFatalErrorCatch()
+    {
+        $app = array('resources'=>new Standard(TEST_ROOT));
+        ResourceManager::$theApp = $app;
         
-        ErrorSimulator::simulateError($app, 'unknown');
+        $this->php
+            ->expects($this->once())
+            ->method('error_get_last')
+            ->will($this->returnValue($this->errorResponses['extensions']));
+            
+        $this->expectOutputRegex("/PHP Fatal Error: Bolt Extensions/");
+        LowlevelException::catchFatalErrors();        
+    }
+    
+    public function testGeneralFatalErrorCatch()
+    {
+        $app = array('resources'=>new Standard(TEST_ROOT));
+        ResourceManager::$theApp = $app;
+        
+        $this->php
+            ->expects($this->once())
+            ->method('error_get_last')
+            ->will($this->returnValue($this->errorResponses['unknown']));
+            
         $this->expectOutputRegex("/PHP Fatal Error: Bolt Generic/");
-        LowlevelException::catchFatalErrors($app);
-        
+        LowlevelException::catchFatalErrors();        
     }
     
     public function testAssertWritableDir()
@@ -216,33 +300,93 @@ class LowlevelChecksTest extends BoltUnitTest
         $check->assertWritableDir($badDir);        
     }
     
+
     public function testUnwritableDir()
     {
         $check = $this->getMockedChecker('mockSqlite');
-        nativeFunctionExpects('is_writable', false);
+
+        $this->php
+            ->expects($this->at(0))
+            ->method('is_writable')
+            ->will($this->returnValue(false));
+
         $this->setExpectedException('Bolt\Configuration\LowlevelException');
         $this->expectOutputRegex("/present and writable/");
         $check->assertWritableDir(__DIR__);
 
     }
     
+    
     public function testFileExistsAndNotWritable()
     {
         $check = $this->getMockedChecker('mockSqlite');
-        nativeFunctionExpects('is_writable', array(true, false));
-        nativeFunctionExpects('file_exists', true);
+        $this->php
+            ->expects($this->at(0))
+            ->method('is_writable')
+            ->will($this->returnValue(true));
+        
+        $this->php
+            ->expects($this->at(1))
+            ->method('is_writable')
+            ->will($this->returnValue(false));
+        
+        $this->php
+            ->expects($this->once())
+            ->method('file_exists')
+            ->will($this->returnValue(true));
+            
         $this->setExpectedException('Bolt\Configuration\LowlevelException');
         $this->expectOutputRegex("/present and writable/");
         $check->doDatabaseCheck();      
 
     }
     
+    
+
+    public function testFileAlreadyExistsSoIgnore()
+    {
+        $check = $this->getCleanChecker();
+        $check->configChecks = array('config');
+        $this->php
+            ->expects($this->at(0))
+            ->method('file_exists')
+            ->will($this->returnValue(true));
+        $this->php
+            ->expects($this->at(1))
+            ->method('file_exists')
+            ->will($this->returnValue(true));
+            
+        $this->php
+            ->expects($this->once())
+            ->method('is_readable')
+            ->will($this->returnValue(true));
+        
+        $this->php
+            ->expects($this->once())
+            ->method('is_readable')
+            ->will($this->returnValue(true));
+            
+        $check->doChecks();      
+
+    }
+    
+    
+
     public function testConfigFileCreationErrors()
     {
         $check = $this->getCleanChecker();
         $check->configChecks = array('config');
-        nativeFunctionExpects('file_exists', true);
-        nativeFunctionExpects('is_readable', false);
+        
+        $this->php
+            ->expects($this->once())
+            ->method('file_exists')
+            ->will($this->returnValue(true));
+            
+        $this->php
+            ->expects($this->once())
+            ->method('is_readable')
+            ->will($this->returnValue(false));
+        
         $this->setExpectedException('Bolt\Configuration\LowlevelException');
         $this->expectOutputRegex("/Bolt - Fatal Error/");
         $check->doChecks();              
@@ -262,7 +406,7 @@ class LowlevelChecksTest extends BoltUnitTest
     
     protected function getCleanChecker()
     {
-        $config = new Standard(__DIR__);
+        $config = new Standard(TEST_ROOT);
         $check = new LowlevelChecks($config);
         $check->removeCheck('cache');
         $check->configChecks = array();
@@ -272,26 +416,5 @@ class LowlevelChecksTest extends BoltUnitTest
    
 }
 
-namespace Bolt\Configuration;
-
-function is_writable($path)
-{
-    return mockNativeFunction('is_writable', func_get_args());
-}
-
-function is_readable($path)
-{
-    return mockNativeFunction('is_readable', func_get_args());
-}
-
-function file_exists()
-{
-    return mockNativeFunction('file_exists', func_get_args());
-}
-
-function is_dir()
-{
-    return mockNativeFunction('is_dir', func_get_args());
-}
 
 
