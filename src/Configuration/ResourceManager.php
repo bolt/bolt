@@ -365,7 +365,7 @@ class ResourceManager
     {
         if (! static::$theApp) {
             $message = sprintf("The Bolt 'Application' object isn't initialized yet so the container can't be accessed here: <code>%s</code>", htmlspecialchars(debug_print_backtrace(), ENT_QUOTES));
-            throw new LowlevelException($message);
+            throw new \RuntimeException($message);
         }
 
         return static::$theApp;

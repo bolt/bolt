@@ -216,7 +216,7 @@ class LowlevelChecks
         if (Lib::getExtension($filename) != 'db') {
             $filename .= '.db';
         }
-
+        
         // Check if the app/database folder and .db file are present and writable
         if (!is_writable($this->config->getPath('database'))) {
             throw new LowlevelException(
@@ -226,7 +226,7 @@ class LowlevelChecks
                 "present and writable to the user that the webserver is using."
             );
         }
-
+        
         // If the .db file is present, make sure it is writable
         if (file_exists($this->config->getPath('database') . '/' . $filename) && !is_writable($this->config->getPath('database') . '/' . $filename)) {
             throw new LowlevelException(
@@ -261,15 +261,22 @@ class LowlevelChecks
                 htmlspecialchars($this->config->getPath('config'), ENT_QUOTES)
             );
             throw new LowlevelException($error);
-        } elseif (!@copy($distname, $ymlname)) {
-            $message = sprintf(
-                "Couldn't create a new <code>%s</code>-file inside <code>%s</code>. Create the file manually by copying
-                <code>%s</code>, and optionally make it writable to the user that the webserver is using.",
-                htmlspecialchars($name . ".yml", ENT_QUOTES),
-                htmlspecialchars($this->config->getPath('config'), ENT_QUOTES),
-                htmlspecialchars($name . ".yml.dist", ENT_QUOTES)
-            );
-            throw new LowlevelException($message);
+        } elseif (!file_exists($ymlname)) {
+            
+            // Try and copy from the .dist config file
+            try {
+                copy($distname, $ymlname);
+            } catch (\Exception $e) {
+                $message = sprintf(
+                    "Couldn't create a new <code>%s</code>-file inside <code>%s</code>. Create the file manually by copying
+                    <code>%s</code>, and optionally make it writable to the user that the webserver is using.",
+                    htmlspecialchars($name . ".yml", ENT_QUOTES),
+                    htmlspecialchars($this->config->getPath('config'), ENT_QUOTES),
+                    htmlspecialchars($name . ".yml.dist", ENT_QUOTES)
+                );
+                throw new LowlevelException($message);      
+            }
+            
         }
         return;
     }
