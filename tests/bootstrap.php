@@ -13,7 +13,6 @@ if (is_dir(__DIR__ . '/../../../../vendor/')) {
 }
 
 require_once 'bootstraps/upload-bootstrap.php';
-require_once 'bootstraps/lowlevel-bootstrap.php';
 
 if(!defined('TEST_ROOT')) {
     define('TEST_ROOT', realpath(__DIR__ . '/../'));
@@ -24,29 +23,3 @@ if(is_readable(TEST_ROOT.'/bolt.db')) {
     unlink(TEST_ROOT.'/bolt.db');
 }
 @mkdir(__DIR__.'/../app/cache/', 0777, true);
-
-function mockNativeFunction($function, $args)
-{
-    $flag = \Bolt\Tests\BoltSystemMock::get($function);
-    if(is_null($flag)) {
-        return call_user_func_array("\\".$function, $args);
-    }
-    if(is_array($flag)) {
-        $all = \Bolt\Tests\BoltSystemMock::get($function);
-        $flag = array_shift($all);
-        if(empty($all)) {
-            \Bolt\Tests\BoltSystemMock::set($function, null);
-        } else {
-            \Bolt\Tests\BoltSystemMock::set($function, $all);
-        }
-    } else {
-        \Bolt\Tests\BoltSystemMock::set($function, null);
-    }
-    return $flag;
-}
-
-function nativeFunctionExpects($function, $args)
-{
-    \Bolt\Tests\BoltSystemMock::set($function, $args);
-}
-
