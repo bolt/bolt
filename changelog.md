@@ -1,7 +1,8 @@
 Bolt 2.0 DEV-head
 -----------------
 
-- Nothing yet…
+- Fixed: Long conttenttype names are truncated properly in the sidebar now. (See #2513)
+
 
 Bolt 2.0.5
 ----------
