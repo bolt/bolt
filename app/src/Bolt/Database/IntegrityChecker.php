@@ -476,7 +476,7 @@ class IntegrityChecker
         $contentChangelogTable->addColumn("username", "string", array("length" => 64, "default" => "")); // To be deprecated, at sometime in the future.
         $contentChangelogTable->addIndex(array('username'));
         $contentChangelogTable->addColumn("ownerid", "integer", array("notnull" => false));
-        $contentChangelogTable->addIndex(array('username'));
+        $contentChangelogTable->addIndex(array('ownerid'));
 
         // the title as it was right before changing/deleting the item, or
         // right after creating it (according to getTitle())
