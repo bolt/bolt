@@ -45,6 +45,7 @@ class Application extends Silex\Application
 
         $this['resources']->setApp($this);
         $this->initConfig();
+        $this->initSession();
         $this['resources']->initialize();
 
         $this['debug'] = $this['config']->get('general/debug', false);
@@ -58,29 +59,36 @@ class Application extends Silex\Application
         $this['jsdata'] = array();
     }
 
-    /**
-     * Initialize the config and session providers.
-     */
-    private function initConfig()
+    protected function initConfig()
     {
         $this->register(new Provider\ConfigServiceProvider());
-        $this->register(
-            new Silex\Provider\SessionServiceProvider(),
-            array(
-                'session.storage.options' => array(
-                    'name'            => 'bolt_session',
-                    'cookie_secure'   => $this['config']->get('general/cookies_https_only'),
-                    'cookie_httponly' => true
-                )
+    }
+
+    protected function initSession()
+    {
+        $this->register(new Silex\Provider\SessionServiceProvider());
+        $this['session.storage.options'] = function($app) {
+            return array(
+                'name'            => 'bolt_session',
+                'cookie_secure'   => $app['config']->get('general/cookies_https_only'),
+                'cookie_httponly' => true
+            );
+        };
+
+        $this['session.storage.handler'] = $this->share(
+            $this->extend(
+                'session.storage.handler',
+                function($handler, $app) {
+                    // Disable Silex's built-in native filebased session handler, and fall back to
+                    // whatever's set in php.ini.
+                    // @see: http://silex.sensiolabs.org/doc/providers/session.html#custom-session-configurations
+                    if ($app['config']->get('general/session_use_storage_handler') === false) {
+                        return null;
+                    }
+                    return $handler;
+                }
             )
         );
-
-        // Disable Silex's built-in native filebased session handler, and fall back to
-        // whatever's set in php.ini.
-        // @see: http://silex.sensiolabs.org/doc/providers/session.html#custom-session-configurations
-        if ($this['config']->get('general/session_use_storage_handler') === false) {
-            $this['session.storage.handler'] = null;
-        }
 
         $this->register(new Provider\LogServiceProvider());
     }
