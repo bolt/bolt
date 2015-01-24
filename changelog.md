@@ -2,6 +2,7 @@ Bolt 2.0 DEV-head
 -----------------
 
 - Fixed: Long conttenttype names are truncated properly in the sidebar now. (See #2513)
+- Fixed: Don't leak Database credentials on connection error during set up. (See #2538)
 
 
 Bolt 2.0.5
