@@ -54,7 +54,7 @@ class Application extends Silex\Application
         // Initialize the 'editlink' and 'edittitle'..
         $this['editlink'] = '';
         $this['edittitle'] = '';
-        
+
         // Initialise the JavaScipt data gateway
         $this['jsdata'] = array();
     }
@@ -131,20 +131,24 @@ class Application extends Silex\Application
             )
         );
 
-        $this->checkDatabaseConnection();
+        // [SECURITY]: We don't get an error thrown by register() if db details
+        // are incorrect, however we *will* get a \PDOException when we try to
+        // connect that will leak connection information.
+        if ($this['db']->isConnected()) {
+            $this->checkDatabaseConnection();
 
-        $this->tweakDatabaseDefaults();
+            $this->setDatabaseParmeters();
 
-        $this->register(
-            new Silex\Provider\HttpCacheServiceProvider(),
-            array(
-                'http_cache.cache_dir' => $this['resources']->getPath('cache'),
-            )
-        );
+            $this->register(
+                new Silex\Provider\HttpCacheServiceProvider(),
+                array('http_cache.cache_dir' => $this['resources']->getPath('cache'))
+            );
+        }
     }
 
     /**
      * Do a dummy query, to check for a proper connection to the database.
+     *
      * @throws LowlevelException
      */
     protected function checkDatabaseConnection()
@@ -164,7 +168,10 @@ class Application extends Silex\Application
         }
     }
 
-    protected function tweakDatabaseDefaults()
+    /**
+     * Set database engine specific parameters
+     */
+    protected function setDatabaseParmeters()
     {
         $dboptions = $this['db.options'];
 
@@ -175,8 +182,8 @@ class Application extends Silex\Application
              * @link https://groups.google.com/forum/?fromgroups=#!topic/silex-php/AR3lpouqsgs
              */
             $this['db']->getDatabasePlatform()->registerDoctrineTypeMapping('enum', 'string');
-            // set utf8 on names and connection as all tables has this charset
 
+            // Set utf8 on names and connection as all tables has this charset
             $this['db']->query("SET NAMES 'utf8';");
             $this['db']->query("SET CHARACTER_SET_CONNECTION = 'utf8';");
             $this['db']->query("SET CHARACTER SET utf8;");
