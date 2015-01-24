@@ -131,12 +131,9 @@ class Application extends Silex\Application
             )
         );
 
-        // [SECURITY]: We don't get an error thrown by register() if db details
-        // are incorrect, however we *will* get a \PDOException when we try to
-        // connect that will leak connection information.
-        if ($this['db']->isConnected()) {
-            $this->checkDatabaseConnection();
+        $this->checkDatabaseConnection();
 
+        if ($this['db']->isConnected()) {
             $this->setDatabaseParmeters();
 
             $this->register(
@@ -147,25 +144,46 @@ class Application extends Silex\Application
     }
 
     /**
-     * Do a dummy query, to check for a proper connection to the database.
+     * Set up the DBAL connection now to check for a proper connection to the database.
      *
      * @throws LowlevelException
      */
     protected function checkDatabaseConnection()
     {
-        $dboptions = $this['db.options'];
-
+        // [SECURITY]: We don't get an error thrown by register() if db details
+        // are incorrect, however we *will* get an \Exception when we try to
+        // connect that will leak connection information.
         try {
-            $this['db']->query("SELECT 1;");
-        } catch (\PDOException $e) {
-            $error = "Bolt could not connect to the database. Make sure the database is configured correctly in
-                    <code>app/config/config.yml</code>, that the database engine is running.";
-            if ($dboptions['driver'] != 'pdo_sqlite') {
-                $error .= "<br><br>Since you're using " . $dboptions['driver'] . ", you should also make sure that the
-                database <code>" . $dboptions['dbname'] . "</code> exists, and the configured user has access to it.";
+            $this['db']->connect();
+        } catch (\Doctrine\DBAL\Exception\ConnectionException $e) {
+            // Trap double exceptions caused by throwing a new LowlevelException
+            set_exception_handler(array('\Bolt\Configuration\LowlevelException', 'nullHandler'));
+
+            // Get the DB engine
+            if ($this['db.options']['driver'] == 'pdo_mysql' || $this['db.options']['driver'] == 'pdo_mysqli') {
+                $engine = 'MySQL';
+            } elseif ($this['db.options']['driver'] == 'pdo_pgsql') {
+                $engine = 'PostgreSQL';
+            } elseif ($this['db.options']['driver'] == 'pdo_sqlite') {
+                $engine = 'SQLite';
+            } else {
+                $engine = '~~ Unknown ~~';
             }
+
+            $error = "Bolt could not connect to the configured database.\n\n" .
+                     "Things to check:\n" .
+                     "&nbsp;&nbsp;* Ensure the $engine database engine is running\n" .
+                     "&nbsp;&nbsp;* Check the <code>database:</code> parameters are configured correctly in <code>app/config/config.yml</code>\n" .
+                     "&nbsp;&nbsp;&nbsp;&nbsp;* Database name is correct\n" .
+                     "&nbsp;&nbsp;&nbsp;&nbsp;* User name has access to the named database\n" .
+                     "&nbsp;&nbsp;&nbsp;&nbsp;* Password is correct\n";
             throw new LowlevelException($error);
+        } catch (\Exception $e) {
+            throw new \Exception($e);
         }
+
+        // Resume normal error handling
+        restore_error_handler();
     }
 
     /**
