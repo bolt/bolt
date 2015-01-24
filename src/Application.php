@@ -215,8 +215,9 @@ class Application extends Silex\Application
         $this['twig'] = $this->share(
             $this->extend(
                 'twig',
-                function(\Twig_Environment $twig, $app) {
+                function (\Twig_Environment $twig, $app) {
                     $twig->addExtension(new TwigExtension($app));
+
                     return $twig;
                 }
             )
@@ -441,7 +442,7 @@ class Application extends Silex\Application
             $this['twig.loader.filesystem'] = $this->share(
                 $this->extend(
                     'twig.loader.filesystem',
-                    function(\Twig_Loader_Filesystem $filesystem, $app) {
+                    function (\Twig_Loader_Filesystem $filesystem, $app) {
                         $filesystem->addPath(
                             $app['resources']->getPath('root') . '/vendor/symfony/web-profiler-bundle/Symfony/Bundle/WebProfilerBundle/Resources/views',
                             'WebProfiler'
