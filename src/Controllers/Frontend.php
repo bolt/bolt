@@ -154,6 +154,8 @@ class Frontend
             $app->abort(404, "Page $contenttypeslug/$slug not found.");
         }
 
+        $app['request']->attributes->set('content', $content);
+
         // Then, select which template to use, based on our 'cascading templates rules'
         $template = $app['templatechooser']->record($content);
 
