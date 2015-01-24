@@ -149,6 +149,15 @@ EOM;
         }
     }
 
+    /**
+     * Ignore exception handler pointed at by set_exception_handler()
+     *
+     * @param \Exception $e
+     */
+    public static function nullHandler(\Exception $e)
+    {
+    }
+
     private function cleanHTML($output)
     {
         $output = preg_replace('/<title>.*<\/title>/smi', "", $output);

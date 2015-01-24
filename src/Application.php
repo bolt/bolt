@@ -54,7 +54,7 @@ class Application extends Silex\Application
         // Initialize the 'editlink' and 'edittitle'..
         $this['editlink'] = '';
         $this['edittitle'] = '';
-        
+
         // Initialise the JavaScipt data gateway
         $this['jsdata'] = array();
     }
@@ -133,38 +133,63 @@ class Application extends Silex\Application
 
         $this->checkDatabaseConnection();
 
-        $this->tweakDatabaseDefaults();
+        if ($this['db']->isConnected()) {
+            $this->setDatabaseParmeters();
 
-        $this->register(
-            new Silex\Provider\HttpCacheServiceProvider(),
-            array(
-                'http_cache.cache_dir' => $this['resources']->getPath('cache'),
-            )
-        );
+            $this->register(
+                new Silex\Provider\HttpCacheServiceProvider(),
+                array('http_cache.cache_dir' => $this['resources']->getPath('cache'))
+            );
+        }
     }
 
     /**
-     * Do a dummy query, to check for a proper connection to the database.
+     * Set up the DBAL connection now to check for a proper connection to the database.
+     *
      * @throws LowlevelException
      */
     protected function checkDatabaseConnection()
     {
-        $dboptions = $this['db.options'];
-
+        // [SECURITY]: We don't get an error thrown by register() if db details
+        // are incorrect, however we *will* get an \Exception when we try to
+        // connect that will leak connection information.
         try {
-            $this['db']->query("SELECT 1;");
-        } catch (\PDOException $e) {
-            $error = "Bolt could not connect to the database. Make sure the database is configured correctly in
-                    <code>app/config/config.yml</code>, that the database engine is running.";
-            if ($dboptions['driver'] != 'pdo_sqlite') {
-                $error .= "<br><br>Since you're using " . $dboptions['driver'] . ", you should also make sure that the
-                database <code>" . $dboptions['dbname'] . "</code> exists, and the configured user has access to it.";
+            $this['db']->connect();
+        } catch (\Doctrine\DBAL\Exception\ConnectionException $e) {
+            // Trap double exceptions caused by throwing a new LowlevelException
+            set_exception_handler(array('\Bolt\Configuration\LowlevelException', 'nullHandler'));
+
+            // Get the DB engine
+            if ($this['db.options']['driver'] == 'pdo_mysql' || $this['db.options']['driver'] == 'pdo_mysqli') {
+                $engine = 'MySQL';
+            } elseif ($this['db.options']['driver'] == 'pdo_pgsql') {
+                $engine = 'PostgreSQL';
+            } elseif ($this['db.options']['driver'] == 'pdo_sqlite') {
+                $engine = 'SQLite';
+            } else {
+                $engine = '~~ Unknown ~~';
             }
+
+            $error = "Bolt could not connect to the configured database.\n\n" .
+                     "Things to check:\n" .
+                     "&nbsp;&nbsp;* Ensure the $engine database engine is running\n" .
+                     "&nbsp;&nbsp;* Check the <code>database:</code> parameters are configured correctly in <code>app/config/config.yml</code>\n" .
+                     "&nbsp;&nbsp;&nbsp;&nbsp;* Database name is correct\n" .
+                     "&nbsp;&nbsp;&nbsp;&nbsp;* User name has access to the named database\n" .
+                     "&nbsp;&nbsp;&nbsp;&nbsp;* Password is correct\n";
             throw new LowlevelException($error);
+        } catch (\Exception $e) {
+            throw new \Exception($e);
         }
+
+        // Resume normal error handling
+        restore_error_handler();
     }
 
-    protected function tweakDatabaseDefaults()
+    /**
+     * Set database engine specific parameters
+     */
+    protected function setDatabaseParmeters()
     {
         $dboptions = $this['db.options'];
 
@@ -175,8 +200,8 @@ class Application extends Silex\Application
              * @link https://groups.google.com/forum/?fromgroups=#!topic/silex-php/AR3lpouqsgs
              */
             $this['db']->getDatabasePlatform()->registerDoctrineTypeMapping('enum', 'string');
-            // set utf8 on names and connection as all tables has this charset
 
+            // Set utf8 on names and connection as all tables has this charset
             $this['db']->query("SET NAMES 'utf8';");
             $this['db']->query("SET CHARACTER_SET_CONNECTION = 'utf8';");
             $this['db']->query("SET CHARACTER SET utf8;");
@@ -208,8 +233,9 @@ class Application extends Silex\Application
         $this['twig'] = $this->share(
             $this->extend(
                 'twig',
-                function(\Twig_Environment $twig, $app) {
+                function (\Twig_Environment $twig, $app) {
                     $twig->addExtension(new TwigExtension($app));
+
                     return $twig;
                 }
             )
@@ -434,7 +460,7 @@ class Application extends Silex\Application
             $this['twig.loader.filesystem'] = $this->share(
                 $this->extend(
                     'twig.loader.filesystem',
-                    function(\Twig_Loader_Filesystem $filesystem, $app) {
+                    function (\Twig_Loader_Filesystem $filesystem, $app) {
                         $filesystem->addPath(
                             $app['resources']->getPath('root') . '/vendor/symfony/web-profiler-bundle/Symfony/Bundle/WebProfilerBundle/Resources/views',
                             'WebProfiler'
