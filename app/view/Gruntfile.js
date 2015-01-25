@@ -157,7 +157,6 @@ module.exports = function(grunt) {
                     ext: '.min.js',
                     src: [
                         'lib/bootstrap-file-input/bootstrap-file-input.js',
-                        'lib/jquery-catchpaste-1.0.0p/jquery-catchpaste.js',
                         'lib/jquery-cookie-1.4.0/jquery-cookie.js',
                         'lib/jquery-fileupload-5.26/jquery-fileupload.js',
                         'lib/jquery-fileupload-5.26/jquery-iframe-transport.js',
