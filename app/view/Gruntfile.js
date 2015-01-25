@@ -121,8 +121,7 @@ module.exports = function(grunt) {
                     'lib/bootstrap-sass.generated/bootstrap.min.js',                //   2 kb
                     'lib/magnific-popup-0.9.9/magnific-popup.min.js',               //  21 kb
                     'lib/select2-3.5.1/select2.min.js',                             //  66 kb
-                    'node_modules/moment/min/moment.min.js',                               // 35 kb
-//                    'lib/moment-2.8.3/moment.min.js',                               // 149 kb
+                    'lib/moment/moment.min.js',                                     //  35 kb
                     'lib/bootbox-4.3.0/bootbox.min.js',                             //   9 kb
                     'lib/modernizr-2.8.3/modernizr.custom.min.js'                   //   5 kb
                 ],
