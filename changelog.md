@@ -3,6 +3,13 @@ Bolt 2.0 DEV-head
 
 - Fixed: Long conttenttype names are truncated properly in the sidebar now. (See #2513)
 - Fixed: Don't leak Database credentials on connection error during set up. (See #2538)
+- Change: Remove unused jquery-catchpaste
+- Change: Remove ua-parser.js (See #2548)
+- Updated: PHPUnit now covers complete code base (#2542 thanks @rossriley)
+- Updated: Extensions interface had major overhaul and now uses the Composer API more extensively and provides better error handling for AJAX calls on the Extend page (#2543 thanks @GawainLynch)
+- Update: Bolt's custom logging provider has been replaced with Monolog (#2546 thanks @GawainLynch)
+- Added: Extension repo as service: extracts the queries of the Extensions repo to a separate service provider.
+ (#2550 thanks @rossriley)
 
 
 Bolt 2.0.5
