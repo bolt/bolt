@@ -254,7 +254,7 @@ class BackendTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $this->allowLogin($app);
-        $log = $this->getMock('Bolt\Log', array('clear', 'trim'), array($app));
+        $log = $this->getMock('Bolt\Logger\Manager', array('clear', 'trim'), array($app));
         $log->expects($this->once())
             ->method('clear')
             ->will($this->returnValue(true));
@@ -263,7 +263,7 @@ class BackendTest extends BoltUnitTest
             ->method('trim')
             ->will($this->returnValue(true));
             
-        $app['log'] = $log;
+        $app['logger.manager'] = $log;
         
         ResourceManager::$theApp = $app;
 
