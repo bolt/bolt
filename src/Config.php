@@ -8,6 +8,7 @@ use Bolt\Helpers\Arr;
 use Bolt\Helpers\String;
 use Bolt\Translation\Translator as Trans;
 use Monolog\Logger;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Yaml;
 use Symfony\Component\Yaml\Parser;
 
@@ -891,49 +892,50 @@ class Config
     /**
      * Utility function to determine which 'end' we're using right now. Can be either "frontend", "backend", "async" or "cli".
      *
-     * NOTE: We retain the $_SERVER global here as this method can get called very early and the Request object might not exist yet
+     * NOTE: If the Request object has not been intialized by Silex yet,
+     * we create a local version based on the request globals.
      *
      * @param  string $mountpoint
      * @return string
      */
     public function getWhichEnd($mountpoint = '')
     {
+        // Get a request object, if not initialized by Silex yet, we'll create our own
+        try {
+            $request = $this->app['request'];
+        } catch (\RuntimeException $e) {
+            // Return CLI if request not already exist and we're on the CLI
+            if (php_sapi_name() == 'cli') {
+                $this->app['end'] = 'cli';
+                return 'cli';
+            }
+
+            $request = Request::createFromGlobals();
+        }
+
+        // Ensure the request path always includes a left slash
+        $reqPath = '/' . ltrim($request->getPathInfo(), '/');
+
+        // Default mountpoint is branding path (defaults to 'bolt' unless changed in config)
         if (empty($mountpoint)) {
             $mountpoint = $this->get('general/branding/path');
         }
 
-        if (empty($_SERVER['REQUEST_URI'])) {
-            // We're probably in CLI mode.
-            $this->app['end'] = 'cli';
-
-            return 'cli';
-        }
-
-        // Set scriptname, take care of odd '/./' in the SCRIPT_NAME, which lightspeed does.
-        $scriptname = str_replace('/./', '/', $_SERVER['SCRIPT_NAME']);
-
-        // Get the script's filename, but _without_ REQUEST_URI. We need to str_replace the slashes, because of a
-        // weird quirk in dirname on windows: http://nl1.php.net/dirname#refsect1-function.dirname-notes
-        $scriptdirname = '#' . str_replace("\\", "/", dirname($scriptname));
-        $scripturi = str_replace($scriptdirname, '', '#' . $_SERVER['REQUEST_URI']);
-        // make sure it starts with '/', like our mountpoint.
-        if (empty($scripturi) || ($scripturi[0] != '/')) {
-            $scripturi = '/' . $scripturi;
-        }
-
-        // If the request URI is '/bolt' or '/async' (or starts with '/bolt/' etc.), assume backend or async.
+        // Ensure left slash on mountpoint
         $mountpoint = '/' . ltrim($mountpoint, '/');
-        if ((isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest')
-            || $scripturi === '/async' || strpos($scripturi, '/async/') === 0) {
+
+        if (strpos($request->getPathInfo(), '/async') === 0 || $request->isXmlHttpRequest()) {
+            // If path begins with '/async' or is AJAX request, is 'async'
             $end = 'async';
-        } elseif ($scripturi === $mountpoint || strpos($scripturi, $mountpoint . '/') === 0) {
+        } elseif (strpos($reqPath, $mountpoint) === 0) {
+            // If request path starts with mountpoint, is backend
             $end = 'backend';
-        } else {
+        } else { 
+            // Else assume frontend
             $end = 'frontend';
         }
 
         $this->app['end'] = $end;
-
         return $end;
     }
 
