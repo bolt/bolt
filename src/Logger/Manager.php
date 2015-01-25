@@ -111,7 +111,7 @@ class Manager
             $this->initialize();
         }
 
-        $codes = array('save content', 'login', 'logout', 'fixme', 'user');
+        $context = array('save content', 'login', 'logout', 'fixme', 'user');
 
         $param = Pager::makeParameterId('activity');
         /* @var $query \Symfony\Component\HttpFoundation\ParameterBag */
@@ -119,13 +119,13 @@ class Manager
         $page = ($query) ? $query->get($param, $query->get('page', 1)) : 1;
 
         $query = sprintf(
-            "SELECT * FROM %s WHERE code IN (?) OR (level >= ?) ORDER BY id DESC",
+            "SELECT * FROM %s WHERE context IN (?) OR (level >= ?) ORDER BY id DESC",
             $this->tablename
         );
         $query = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($query, intval($amount), intval(($page - 1) * $amount));
 
         $params = array(
-            $codes, $minlevel
+            $context, $minlevel
         );
         $paramTypes = array(
             DoctrineConn::PARAM_STR_ARRAY, \PDO::PARAM_INT
@@ -137,10 +137,10 @@ class Manager
 
         // Set up the pager
         $pagerQuery = sprintf(
-            "SELECT count(*) as count FROM %s WHERE code IN (?) OR (level >= ?)",
+            "SELECT count(*) as count FROM %s WHERE context IN (?) OR (level >= ?)",
             $this->tablename
         );
-        $params = array($codes, $minlevel);
+        $params = array($context, $minlevel);
         $paramTypes = array(DoctrineConn::PARAM_STR_ARRAY, \PDO::PARAM_INT);
         $rowcount = $this->app['db']->executeQuery($pagerQuery, $params, $paramTypes)->fetch();
 
