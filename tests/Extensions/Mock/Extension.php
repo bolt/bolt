@@ -37,7 +37,7 @@ class Extension implements ExtensionInterface
     
     public function getExtensionConfig()
     {
-        
+        return array();
     }
     
     public function getName()
