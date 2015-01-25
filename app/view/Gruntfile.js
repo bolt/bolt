@@ -182,6 +182,23 @@ module.exports = function(grunt) {
                     }
                 }]
             },
+            locale_moment: {
+                options: {
+                    preserveComments: 'some'
+                },
+                files: [{
+                    expand: true,
+                    ext: '.min.js',
+                    cwd: 'node_modules/moment/locale',
+                    src: '*.js',
+                    dest: 'js/locale/moment',
+                    rename: function(destBase, destPath) {
+                        return destBase + '/' + destPath.replace(/([a-z]+)-([a-z]+)/, function(_, a, b) {
+                            return a + '_' + b.toUpperCase();
+                        });
+                    }
+                }]
+            },
             bootstrap: {
                 files: {
                     'lib/bootstrap-sass.generated/bootstrap.min.js': [
