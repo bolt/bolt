@@ -73,25 +73,21 @@ final class UpdatePackage
                 break;
         }
 
-        /*
-         * @todo: Enable setDumpAutoloader(), setPreferStable() and setPreferLowest()
-         * for changes in Composer 1.0.0-alpha10
-         */
         $install
             ->setDryRun($options['dryrun'])
             ->setVerbose($options['verbose'])
             ->setPreferSource($preferSource)
             ->setPreferDist($preferDist)
             ->setDevMode(!$options['nodev'])
-//            ->setDumpAutoloader(!$options['noautoloader'])
+            ->setDumpAutoloader(!$options['noautoloader'])
             ->setRunScripts(!$options['noscripts'])
             ->setOptimizeAutoloader($optimize)
             ->setUpdate(true)
             ->setUpdateWhitelist($packages)
             ->setWhitelistDependencies($options['withdependencies'])
             ->setIgnorePlatformRequirements($options['ignoreplatformreqs'])
-//            ->setPreferStable($options['preferstable'])
-//            ->setPreferLowest($options['preferlowest'])
+            ->setPreferStable($options['preferstable'])
+            ->setPreferLowest($options['preferlowest'])
             ->disablePlugins();
         ;
 
