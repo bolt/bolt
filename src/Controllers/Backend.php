@@ -103,6 +103,14 @@ class Backend implements ControllerProviderInterface
             ->method('POST')
             ->bind('contentaction');
 
+        $ctl->get('/systemlog', array($this, 'systemLog'))
+	        ->before(array($this, 'before'))
+	        ->bind('systemlog');
+
+        $ctl->get('/changelog', array($this, 'changeLog'))
+	        ->before(array($this, 'before'))
+	        ->bind('changelog');
+
         $ctl->get('/changelog/{contenttype}/{contentid}', array($this, 'changelogList'))
             ->before(array($this, 'before'))
             ->value('contentid', '0')
@@ -150,10 +158,6 @@ class Backend implements ControllerProviderInterface
             ->value('namespace', 'files')
             ->value('path', '')
             ->bind('files');
-
-        $ctl->get('/activitylog', array($this, 'activityLog'))
-            ->before(array($this, 'before'))
-            ->bind('activitylog');
 
         $ctl->match('/file/edit/{namespace}/{file}', array($this, 'fileEdit'))
             ->before(array($this, 'before'))
@@ -386,34 +390,65 @@ class Backend implements ControllerProviderInterface
     }
 
     /**
-     * Show the activity-log.
+     * Show the change log.
      *
-     * @param Silex\Application $app The application/container
+     * @param  Silex\Application $app The application/container
      * @return string
      */
-    public function activityLog(Silex\Application $app)
+    public function changeLog(Silex\Application $app)
     {
         $action = $app['request']->query->get('action');
 
         if ($action == 'clear') {
-            $app['logger.manager']->clear();
-            $app['session']->getFlashBag()->set('success', Trans::__('The activitylog has been cleared.'));
+            $app['logger.manager']->clear('change');
+            $app['session']->getFlashBag()->set('success', Trans::__('The change log has been cleared.'));
 
-            return Lib::redirect('activitylog');
+            return Lib::redirect('changelog');
         } elseif ($action == 'trim') {
-            $app['logger.manager']->trim();
-            $app['session']->getFlashBag()->set('success', Trans::__('The activitylog has been trimmed.'));
+            $app['logger.manager']->trim('change');
+            $app['session']->getFlashBag()->set('success', Trans::__('The change log has been trimmed.'));
 
-            return Lib::redirect('activitylog');
+            return Lib::redirect('changelog');
         }
 
         $activity = $app['logger.manager']->getActivity(16);
 
         $context = array(
-            'activity' => $activity
+            'entries' => $activity
         );
 
-        return $app['render']->render('activity/activity.twig', array('context' => $context));
+        return $app['render']->render('activity/changelog.twig', array('context' => $context));
+    }
+
+    /**
+     * Show the system log.
+     *
+     * @param  Silex\Application $app The application/container
+     * @return string
+     */
+    public function systemLog(Silex\Application $app)
+    {
+        $action = $app['request']->query->get('action');
+
+        if ($action == 'clear') {
+            $app['logger.manager']->clear('system');
+            $app['session']->getFlashBag()->set('success', Trans::__('The system log has been cleared.'));
+
+            return Lib::redirect('systemlog');
+        } elseif ($action == 'trim') {
+            $app['logger.manager']->trim('system');
+            $app['session']->getFlashBag()->set('success', Trans::__('The system log has been trimmed.'));
+
+            return Lib::redirect('systemlog');
+        }
+
+        $activity = $app['logger.manager']->getActivity(16);
+
+        $context = array(
+            'entries' => $activity
+        );
+
+        return $app['render']->render('activity/systemlog.twig', array('context' => $context));
     }
 
     /**
