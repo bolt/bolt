@@ -177,7 +177,7 @@ module.exports = function(grunt) {
                     cwd: 'lib/datepicker',
                     src: '*.js',
                     dest: 'js/locale/datepicker',
-                    rename: function(destBase, destPath) {
+                    rename: function (destBase, destPath) {
                         return destBase + '/' + destPath.replace('datepicker-', '').replace('-', '_');
                     }
                 }]
@@ -192,8 +192,8 @@ module.exports = function(grunt) {
                     cwd: 'node_modules/moment/locale',
                     src: '*.js',
                     dest: 'js/locale/moment',
-                    rename: function(destBase, destPath) {
-                        return destBase + '/' + destPath.replace(/([a-z]+)-([a-z]+)/, function(_, a, b) {
+                    rename: function (destBase, destPath) {
+                        return destBase + '/' + destPath.replace(/([a-z]+)-([a-z]+)/, function (_, a, b) {
                             return a + '_' + b.toUpperCase();
                         });
                     }
