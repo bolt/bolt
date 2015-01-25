@@ -38,7 +38,8 @@
         "symfony/web-profiler-bundle": "~2.6",
         "symfony/yaml": "~2.6",
         "tdammers/htmlmaid": "~0.7",
-        "twig/twig": "~1.16"
+        "twig/twig": "~1.16",
+        "ua-parser/uap-php": "~3.4"
     },
     "require-dev": {
         "lstrojny/phpunit-function-mocker": "dev-master@dev",

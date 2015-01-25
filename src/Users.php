@@ -351,6 +351,14 @@ class Users
         $query = sprintf('SELECT * FROM %s', $this->authtokentable);
         $sessions = $this->db->fetchAll($query);
 
+        // Parse the user-agents to get a user-friendly Browser, version and platform.
+        $parser = \UAParser\Parser::create();
+
+        foreach ($sessions as $key => $session) {
+            $ua = $parser->parse($session['useragent']);
+            $sessions[$key]['browser'] = sprintf("%s / %s", $ua->ua->toString(), $ua->os->toString());
+        }
+
         return $sessions;
     }
 
