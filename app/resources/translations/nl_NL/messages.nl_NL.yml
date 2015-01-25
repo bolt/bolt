@@ -293,8 +293,6 @@ menu.configuration.routing: "Route instellingen"
 
 "That user does not exist.": "Die gebruiker bestaat niet."
 "The Bolt extensions Repo at %repository% is currently unavailable. Check your connection and try again shortly.": "De Bolt extensies Repo op %repository% is momenteel niet beschikbaar. Controleer je verbinding, en probeer het straks opnieuw"
-"The activitylog has been cleared.": "De activiteitenlog is gewist."
-"The activitylog has been trimmed.": "De activiteitenlog is verkleind."
 "The database needs to be updated/repaired. Go to 'Settings' > '<a href=\"%link%\">Check Database</a>' to do this now.": "De database moet bijgewerkt of gerepareerd worden. Ga naar 'Instellingen' > '<a href=\"%link%\">Controleer Database</a>' om dit nu te doen."
 "The extensions directory (<code>%dir%</code>) does not exist, or it is not writable.": "De directory voor extensies (<code>%dir%</code> bestaat niet of is niet schrijfbaar."
 "The field %field% has been changed to \"%newValue%\"": "Het veld %field% is gewijzigd in \"%newValue%\"."
