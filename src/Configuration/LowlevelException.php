@@ -27,7 +27,7 @@ class LowlevelException extends \Exception
 </head>
 <body style="padding: 20px;">
 
-    <div style="max-width: 530px; margin: auto;">
+    <div style="max-width: 640px; margin: auto;">
 
     <h1>%error_title%</h1>
 
