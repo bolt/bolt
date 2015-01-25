@@ -176,16 +176,4 @@ class RecordChangeHandler extends AbstractProcessingHandler
         $this->allowed = array('INSERT', 'UPDATE', 'DELETE');
         $this->initialized = true;
     }
-
-    /**
-     *
-     */
-//     public function getFormatter()
-//     {
-//         if (!$this->formatter) {
-//             $this->formatter = new RecordChange();
-//         }
-
-//         return $this->formatter;
-//     }
 }

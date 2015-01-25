@@ -135,16 +135,4 @@ class SystemHandler extends AbstractProcessingHandler
         $this->tablename = sprintf("%s%s", $this->app['config']->get('general/database/prefix', "bolt_"), 'log_system');
         $this->initialized = true;
     }
-
-    /**
-     *
-     */
-//     public function getFormatter()
-//     {
-//         if (!$this->formatter) {
-//             $this->formatter = new System();
-//         }
-
-//         return $this->formatter;
-//     }
 }
