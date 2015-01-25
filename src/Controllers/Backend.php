@@ -411,7 +411,7 @@ class Backend implements ControllerProviderInterface
             return Lib::redirect('changelog');
         }
 
-        $activity = $app['logger.manager']->getActivity(16);
+        $activity = $app['logger.manager']->getActivity('change', 16);
 
         $context = array(
             'entries' => $activity
@@ -442,7 +442,7 @@ class Backend implements ControllerProviderInterface
             return Lib::redirect('systemlog');
         }
 
-        $activity = $app['logger.manager']->getActivity(16);
+        $activity = $app['logger.manager']->getActivity('system', 16);
 
         $context = array(
             'entries' => $activity
