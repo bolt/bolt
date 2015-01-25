@@ -36,7 +36,7 @@ class TemplateChooser
             $chosen = 'homepage fallback';
         }
 
-        $this->app['log']->setValue('templatechosen', $this->app['config']->get('general/theme') . "/$template ($chosen)");
+        $this->app['twig.logger']->setTrackedValue('templatechosen', $this->app['config']->get('general/theme') . "/$template ($chosen)");
 
         return $template;
 
@@ -83,7 +83,7 @@ class TemplateChooser
             }
         }
 
-        $this->app['log']->setValue('templatechosen', $this->app['config']->get('general/theme') . "/$template ($chosen)");
+        $this->app['twig.logger']->setTrackedValue('templatechosen', $this->app['config']->get('general/theme') . "/$template ($chosen)");
 
         return $template;
 
@@ -118,7 +118,7 @@ class TemplateChooser
             $chosen = 'contenttype';
         }
 
-        $this->app['log']->setValue('templatechosen', $this->app['config']->get('general/theme') . "/$template ($chosen)");
+        $this->app['twig.logger']->setTrackedValue('templatechosen', $this->app['config']->get('general/theme') . "/$template ($chosen)");
 
         return $template;
 
@@ -145,7 +145,7 @@ class TemplateChooser
             $chosen = 'taxonomy';
         }
 
-        $this->app['log']->setValue('templatechosen', $this->app['config']->get('general/theme') . "/$template ($chosen)");
+        $this->app['twig.logger']->setTrackedValue('templatechosen', $this->app['config']->get('general/theme') . "/$template ($chosen)");
 
         return $template;
     }
@@ -172,7 +172,7 @@ class TemplateChooser
             $chosen = 'search config in theme';
         }
 
-        $this->app['log']->setValue('templatechosen', $this->app['config']->get('general/theme') . "/$template ($chosen)");
+        $this->app['twig.logger']->setTrackedValue('templatechosen', $this->app['config']->get('general/theme') . "/$template ($chosen)");
 
         return $template;
 
@@ -192,7 +192,7 @@ class TemplateChooser
             $chosen = 'search config';
         }
 
-        $this->app['log']->setValue('templatechosen', $this->app['config']->get('general/theme') . "/$template ($chosen)");
+        $this->app['twig.logger']->setTrackedValue('templatechosen', $this->app['config']->get('general/theme') . "/$template ($chosen)");
 
         return $template;
     }

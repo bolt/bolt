@@ -262,7 +262,14 @@ class Storage
      */
     private function logInsert($contenttype, $contentid, $content, $comment = null)
     {
-        $this->writeChangelog('INSERT', $contenttype, $contentid, $content, null, $comment);
+        $this->app['logger.change']->addInfo('Insert record', array(
+            'action' => 'INSERT',
+            'contenttype' => $contenttype,
+            'id' => $contentid,
+            'new' => $content,
+            'old' => null,
+            'comment' => $comment
+        ));
     }
 
     /**
@@ -272,7 +279,14 @@ class Storage
      */
     private function logUpdate($contenttype, $contentid, $newContent, $oldContent = null, $comment = null)
     {
-        $this->writeChangelog('UPDATE', $contenttype, $contentid, $newContent, $oldContent, $comment);
+        $this->app['logger.change']->addInfo('Update record', array(
+            'action' => 'UPDATE',
+            'contenttype' => $contenttype,
+            'id' => $contentid,
+            'new' => $newContent,
+            'old' => $oldContent,
+            'comment' => $comment
+        ));
     }
 
     /**
@@ -281,87 +295,14 @@ class Storage
      */
     private function logDelete($contenttype, $contentid, $content, $comment = null)
     {
-        $this->writeChangelog('DELETE', $contenttype, $contentid, null, $content, null, $comment);
-    }
-
-    /**
-     * Writes a content-changelog entry.
-     *
-     * @param string $action Must be one of 'INSERT', 'UPDATE', or 'DELETE'.
-     * @param string $contenttype The contenttype setting to log.
-     * @param int $contentid ID of the content item to log.
-     * @param array $newContent For 'INSERT' and 'UPDATE', the new content;
-     *                          null for 'DELETE'.
-     * @param array $oldContent For 'UPDATE' and 'DELETE', the current content;
-     *                          null for 'INSTERT'.
-     * For the 'UPDATE' and 'DELETE' actions, this function fetches the
-     * previous data from the database; this means that you must call it
-     * _before_ running the actual update/delete query; for the 'INSERT'
-     * action, this is not necessary, and since you really want to provide
-     * an ID, you can only really call the logging function _after_ the update.
-     * @param string $comment Add a comment to save on change log.
-     * @throws \Exception
-     */
-    private function writeChangelog($action, $contenttype, $contentid, $newContent = null, $oldContent = null, $comment = null)
-    {
-        $allowed = array('INSERT', 'UPDATE', 'DELETE');
-        if (!in_array($action, $allowed)) {
-            throw new \Exception("Invalid action '$action' specified for changelog (must be one of [ " . implode(', ', $allowed) . " ])");
-        }
-
-        if ($this->app['config']->get('general/changelog/enabled')) {
-            if (empty($oldContent) && empty($newContent)) {
-                throw new \Exception("Tried to log something that cannot be: both old and new content are empty");
-            }
-            if (empty($oldContent) && in_array($action, array('UPDATE', 'DELETE'))) {
-                throw new \Exception("Cannot log action $action when old content doesn't exist");
-            }
-            if (empty($newContent) && in_array($action, array('INSERT', 'UPDATE'))) {
-                throw new \Exception("Cannot log action $action when new content is empty");
-            }
-            switch ($action) {
-                case 'UPDATE':
-                    $diff = DeepDiff::diff($oldContent, $newContent);
-                    foreach ($diff as $item) {
-                        list($k, $old, $new) = $item;
-                        if (isset($newContent[$k])) {
-                            $data[$k] = array($old, $new);
-                        }
-                    }
-                    break;
-                case 'INSERT':
-                    foreach ($newContent as $k => $val) {
-                        $data[$k] = array(null, $val);
-                    }
-                    break;
-                case 'DELETE':
-                    foreach ($oldContent as $k => $val) {
-                        $data[$k] = array($val, null);
-                    }
-                    break;
-            }
-            if ($newContent) {
-                $content = new Content($this->app, $contenttype, $newContent);
-            } else {
-                $content = new Content($this->app, $contenttype, $oldContent);
-            }
-            $title = $content->getTitle();
-            if (empty($title)) {
-                $content = $this->getContent("$contenttype/$contentid");
-                $title = $content->getTitle();
-            }
-            $str = json_encode($data);
-            $user = $this->app['users']->getCurrentUser();
-            $entry['title'] = $title;
-            $entry['date'] = date('Y-m-d H:i:s');
-            $entry['ownerid'] = $user['id'];
-            $entry['contenttype'] = $contenttype;
-            $entry['contentid'] = $contentid;
-            $entry['mutation_type'] = $action;
-            $entry['diff'] = $str;
-            $entry['comment'] = $comment;
-            $this->app['db']->insert($this->getTablename('content_changelog'), $entry);
-        }
+        $this->app['logger.change']->addInfo('Delete record', array(
+            'action' => 'DELETE',
+            'contenttype' => $contenttype,
+            'id' => $contentid,
+            'new' => null,
+            'old' => $content,
+            'comment' => $comment
+        ));
     }
 
     private function makeOrderLimitSql($options)
@@ -1677,7 +1618,7 @@ class Storage
             );
 
             if ($contenttype === false) {
-                $this->app['log']->add("Storage: No valid contenttype '$contenttypeslug'");
+                $this->app['logger.system']->addError("Storage: No valid contenttype '$contenttypeslug'", array('event' => 'storage'));
                 continue;
             }
 
@@ -1985,7 +1926,7 @@ class Storage
         // Decode this textquery
         $decoded = $this->decodeContentQuery($textquery, $parameters);
         if ($decoded === false) {
-            $this->app['log']->add("Storage: No valid query '$textquery'");
+            $this->app['logger.system']->addError("Storage: No valid query '$textquery'", array('event' => 'storage'));
             $this->app['stopwatch']->stop('bolt.getcontent');
 
             return false;
@@ -2037,7 +1978,7 @@ class Storage
                 "Storage: requested specific query '%s', not found.",
                 $textquery
             );
-            $this->app['log']->add($msg);
+            $this->app['logger.system']->addError($msg, array('event' => 'storage'));
             $this->app['stopwatch']->stop('bolt.getcontent');
 
             return false;
