@@ -120,9 +120,8 @@ class BackendTest extends BoltUnitTest
         
         // Test missing username fails
         $request = Request::create('/bolt/login','POST', array('action'=>'reset'));
-        $app->run($request);
-        $this->assertSame(0, array_search('Please provide a username', $app['session']->getFlashBag()->get('error')));
-        
+        $response = $app->handle($request);
+        $this->assertRegExp('/Please provide a username/i',$response->getContent());
         
         // Test normal operation
         $request = Request::create('/bolt/login','POST', array('action'=>'reset', 'username'=>'admin'));
