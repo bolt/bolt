@@ -172,7 +172,7 @@ class RecordChangeHandler extends AbstractProcessingHandler
      */
     private function initialize()
     {
-        $this->tablename = sprintf("%s%s", $this->app['config']->get('general/database/prefix', "bolt_"), 'content_changelog');
+        $this->tablename = sprintf("%s%s", $this->app['config']->get('general/database/prefix', "bolt_"), 'log_change');
         $this->allowed = array('INSERT', 'UPDATE', 'DELETE');
         $this->initialized = true;
     }

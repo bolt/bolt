@@ -461,55 +461,53 @@ class IntegrityChecker
         $relationsTable->addIndex(array('to_id'));
         $tables[] = $relationsTable;
 
-        $logTable = $schema->createTable($this->prefix . 'log');
-        $logTable->addColumn("id", "integer", array('autoincrement' => true));
-        $logTable->setPrimaryKey(array("id"));
-        $logTable->addColumn("level", "integer");
-        $logTable->addIndex(array('level'));
-        $logTable->addColumn("date", "datetime");
-        $logTable->addIndex(array('date'));
-        $logTable->addColumn("message", "string", array("length" => 1024));
-        $logTable->addColumn("username", "string", array("length" => 64, "default" => ""));
-        $logTable->addIndex(array('username'));
-        $logTable->addColumn("requesturi", "string", array("length" => 128));
-        $logTable->addColumn("route", "string", array("length" => 128));
-        $logTable->addColumn("ip", "string", array("length" => 32, "default" => ""));
-        $logTable->addColumn("contenttype", "string", array("length" => 32));
-        $logTable->addColumn("content_id", "integer");
-        $logTable->addColumn("context", "string", array("length" => 32));
-        $logTable->addIndex(array( 'context'));
-        $tables[] = $logTable;
+        $logSystemTable = $schema->createTable($this->prefix . 'log_system');
+        $logSystemTable->addColumn("id", "integer", array('autoincrement' => true));
+        $logSystemTable->setPrimaryKey(array("id"));
+        $logSystemTable->addColumn("level", "integer");
+        $logSystemTable->addIndex(array('level'));
+        $logSystemTable->addColumn("date", "datetime");
+        $logSystemTable->addIndex(array('date'));
+        $logSystemTable->addColumn("message", "string", array("length" => 1024));
+        $logSystemTable->addColumn("username", "string", array("length" => 64, "default" => ""));
+        $logSystemTable->addIndex(array('username'));
+        $logSystemTable->addColumn("requesturi", "string", array("length" => 128));
+        $logSystemTable->addColumn("route", "string", array("length" => 128));
+        $logSystemTable->addColumn("ip", "string", array("length" => 32, "default" => ""));
+        $logSystemTable->addColumn("contenttype", "string", array("length" => 32));
+        $logSystemTable->addColumn("content_id", "integer");
+        $logSystemTable->addColumn("context", "string", array("length" => 32));
+        $logSystemTable->addIndex(array( 'context'));
+        $tables[] = $logSystemTable;
 
-        $contentChangelogTable = $schema->createTable($this->prefix . 'content_changelog');
-        $contentChangelogTable->addColumn("id", "integer", array('autoincrement' => true));
-        $contentChangelogTable->setPrimaryKey(array("id"));
-        $contentChangelogTable->addColumn("date", "datetime");
-        $contentChangelogTable->addIndex(array('date'));
-        $contentChangelogTable->addColumn("username", "string", array("length" => 64, "default" => "")); // To be deprecated, at sometime in the future.
-        $contentChangelogTable->addIndex(array('username'));
-        $contentChangelogTable->addColumn("ownerid", "integer", array("notnull" => false));
-        $contentChangelogTable->addIndex(array('ownerid'));
+        $logChangeTable = $schema->createTable($this->prefix . 'log_change');
+        $logChangeTable->addColumn("id", "integer", array('autoincrement' => true));
+        $logChangeTable->setPrimaryKey(array("id"));
+        $logChangeTable->addColumn("date", "datetime");
+        $logChangeTable->addIndex(array('date'));
+        $logChangeTable->addColumn("ownerid", "integer", array("notnull" => false));
+        $logChangeTable->addIndex(array('ownerid'));
 
         // the title as it was right before changing/deleting the item, or
         // right after creating it (according to getTitle())
-        $contentChangelogTable->addColumn("title", "string", array("length" => 256, "default" => ""));
+        $logChangeTable->addColumn("title", "string", array("length" => 256, "default" => ""));
 
         // contenttype and contentid refer to the entity type we're changing
-        $contentChangelogTable->addColumn("contenttype", "string", array('length' => 128));
-        $contentChangelogTable->addIndex(array('contenttype'));
-        $contentChangelogTable->addColumn("contentid", "integer", array());
-        $contentChangelogTable->addIndex(array('contentid'));
+        $logChangeTable->addColumn("contenttype", "string", array('length' => 128));
+        $logChangeTable->addIndex(array('contenttype'));
+        $logChangeTable->addColumn("contentid", "integer", array());
+        $logChangeTable->addIndex(array('contentid'));
 
         // should be one of 'UPDATE', 'INSERT', 'DELETE'
-        $contentChangelogTable->addColumn("mutation_type", "string", array('length' => 16));
-        $contentChangelogTable->addIndex(array('mutation_type'));
+        $logChangeTable->addColumn("mutation_type", "string", array('length' => 16));
+        $logChangeTable->addIndex(array('mutation_type'));
 
         // a plain-text summary of the differences between the old and the new version
-        $contentChangelogTable->addColumn("diff", "text", array());
+        $logChangeTable->addColumn("diff", "text", array());
 
         // message to create a story of revisions
-        $contentChangelogTable->addColumn("comment", "string", array('length' => 150, "default" => "", "notnull" => false));
-        $tables[] = $contentChangelogTable;
+        $logChangeTable->addColumn("comment", "string", array('length' => 150, "default" => "", "notnull" => false));
+        $tables[] = $logChangeTable;
 
         $cronTable = $schema->createTable($this->prefix . 'cron');
         $cronTable->addColumn("id", "integer", array('autoincrement' => true));

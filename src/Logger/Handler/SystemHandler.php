@@ -132,7 +132,7 @@ class SystemHandler extends AbstractProcessingHandler
      */
     private function initialize()
     {
-        $this->tablename = sprintf("%s%s", $this->app['config']->get('general/database/prefix', "bolt_"), 'log');
+        $this->tablename = sprintf("%s%s", $this->app['config']->get('general/database/prefix', "bolt_"), 'log_system');
         $this->initialized = true;
     }
 
