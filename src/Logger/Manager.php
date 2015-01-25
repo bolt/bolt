@@ -41,21 +41,29 @@ class Manager
         $this->app = $app;
     }
 
-    public function trim()
+    public function trim($log)
     {
         if (!$this->initialized) {
             $this->initialize();
         }
 
+        if ($log == 'system') {
+            $table = $this->table_system;
+        } elseif ($log == 'change') {
+            $table = $this->table_change;
+        } else {
+            throw new \Exception("Invalid log type requested: $log");
+        }
+
         $query = sprintf(
             "DELETE FROM %s WHERE level='1';",
-            $this->tablename
+            $table
         );
         $this->app['db']->executeQuery($query);
 
         $query = sprintf(
             "DELETE FROM %s WHERE level='2' AND date < ?;",
-            $this->tablename
+            $table
         );
 
         $this->app['db']->executeQuery(
@@ -66,7 +74,7 @@ class Manager
 
         $query = sprintf(
             "DELETE FROM %s WHERE date < ?;",
-            $this->tablename
+            $table
         );
         $this->app['db']->executeQuery(
             $query,
@@ -75,92 +83,107 @@ class Manager
         );
     }
 
-    public function clear()
+    public function clear($log)
     {
         if (!$this->initialized) {
             $this->initialize();
         }
 
+        if ($log == 'system') {
+            $table = $this->table_system;
+        } elseif ($log == 'change') {
+            $table = $this->table_change;
+        } else {
+            throw new \Exception("Invalid log type requested: $log");
+        }
+
         $configdb = $this->app['config']->getDBOptions();
 
-        if (isset($configdb['driver']) && ($configdb['driver'] == "pdo_sqlite")) {
-
-            // sqlite
+        if ($this->app['db']->getDriver()->getName() == 'pdo_sqlite') {
+            // Sqlite
             $query = sprintf(
                 "DELETE FROM %s; UPDATE SQLITE_SEQUENCE SET seq = 0 WHERE name = '%s'",
-                $this->tablename,
-                $this->tablename
+                $table,
+                $table
             );
-
         } else {
-
-            // mysql and pgsql the same
+            // MySQL and PostgreSQL the same
             $query = sprintf(
                 'TRUNCATE %s;',
-                $this->tablename
+                $table
             );
-
         }
 
         $this->app['db']->executeQuery($query);
     }
 
-    public function getActivity($amount = 10, $minlevel = 1)
+    /**
+     * Get a specific activity log
+     *
+     * @param string  $log       The log to query.  Either 'change' or 'system'
+     * @param integer $amount    Number of results to return
+     * @throws LowlevelException
+     */
+    public function getActivity($log, $amount = 10)
     {
         if (!$this->initialized) {
             $this->initialize();
         }
 
-        $context = array('save content', 'login', 'logout', 'fixme', 'user');
-
-        $param = Pager::makeParameterId('activity');
-        /* @var $query \Symfony\Component\HttpFoundation\ParameterBag */
-        $query = $this->app['request']->query;
-        $page = ($query) ? $query->get($param, $query->get('page', 1)) : 1;
-
-        $query = sprintf(
-            "SELECT * FROM %s WHERE context IN (?) OR (level >= ?) ORDER BY id DESC",
-            $this->tablename
-        );
-        $query = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($query, intval($amount), intval(($page - 1) * $amount));
-
-        $params = array(
-            $context, $minlevel
-        );
-        $paramTypes = array(
-            DoctrineConn::PARAM_STR_ARRAY, \PDO::PARAM_INT
-        );
+        if ($log == 'system') {
+            $table = $this->table_system;
+        } elseif ($log == 'change') {
+            $table = $this->table_change;
+        } else {
+            throw new \Exception("Invalid log type requested: $log");
+        }
 
         try {
-            $stmt = $this->app['db']->executeQuery($query, $params, $paramTypes);
+            /** @var $query \Symfony\Component\HttpFoundation\ParameterBag */
+            $reqquery = $this->app['request']->query;
 
-            $rows = $stmt->fetchAll(2); // 2 = Query::HYDRATE_COLUMN
+            // Test/get page number
+            $param = Pager::makeParameterId('activity');
+            $page = ($reqquery) ? $reqquery->get($param, $reqquery->get('page', 1)) : 1;
+
+            // Build the base query
+            $query = sprintf(
+                    "SELECT * FROM %s ORDER BY id DESC",
+                    $table
+            );
+
+            // Modify limit query for the pager
+            $query = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($query, intval($amount), intval(($page - 1) * $amount));
+
+            /** @var $stmt \Doctrine\DBAL\Driver\Statement */
+            $stmt = $this->app['db']->executeQuery($query);
+
+            // 2 == Query::HYDRATE_COLUMN
+            $rows = $stmt->fetchAll(2);
+
+            // Find out how many entries we're paging form
+            $pagerQuery = sprintf(
+                "SELECT count(*) as count FROM %s",
+                $table
+            );
+            $rowcount = $this->app['db']->executeQuery($pagerQuery)->fetch();
 
             // Set up the pager
-            $pagerQuery = sprintf(
-                "SELECT count(*) as count FROM %s WHERE context IN (?) OR (level >= ?)",
-                $this->tablename
-            );
-            $params = array($context, $minlevel);
-            $paramTypes = array(DoctrineConn::PARAM_STR_ARRAY, \PDO::PARAM_INT);
-            $rowcount = $this->app['db']->executeQuery($pagerQuery, $params, $paramTypes)->fetch();
-
             $pager = array(
-                'for' => 'activity',
-                'count' => $rowcount['count'],
-                'totalpages' => ceil($rowcount['count'] / $amount),
-                'current' => $page,
-                'showing_from' => ($page - 1) * $amount + 1,
-                'showing_to' => ($page - 1) * $amount + count($rows)
+                    'for' => 'activity',
+                    'count' => $rowcount['count'],
+                    'totalpages' => ceil($rowcount['count'] / $amount),
+                    'current' => $page,
+                    'showing_from' => ($page - 1) * $amount + 1,
+                    'showing_to' => ($page - 1) * $amount + count($rows)
             );
 
             $this->app['storage']->setPager('activity', $pager);
-
         } catch (\Doctrine\DBAL\DBALException $e) {
             // Oops. User will get a warning on the dashboard about tables that need to be repaired.
             $rows = array();
         }
-        
+
         return $rows;
     }
 
@@ -169,7 +192,9 @@ class Manager
      */
     private function initialize()
     {
-        $this->tablename = sprintf("%s%s", $this->app['config']->get('general/database/prefix', "bolt_"), 'log');
+        $prefix = $this->app['config']->get('general/database/prefix', "bolt_");
+        $this->table_change = sprintf("%s%s", $prefix, 'log_change');
+        $this->table_system = sprintf("%s%s", $prefix, 'log_system');
         $this->initialized = true;
     }
 }
