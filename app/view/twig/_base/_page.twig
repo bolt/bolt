@@ -21,17 +21,26 @@
     {% set page_title = block('page_title') ~ ' » ' ~ block('page_subtitle') %}
 {% endif %}
 
+{# TODO: Refactor this out. Too much business logic in the template. #}
 {% set page_scripts_inc = [
     'view/js/lib.min.js',
     'view/lib/ckeditor/ckeditor.js',
 ] %}
 
 {# Add locale include for datepicker #}
-{% set dppath = 'view/js/i18n/datepicker-' %}
-{% if file_exists(paths.apppath ~ '/' ~ dppath ~ page_locale_long|replace({'_': '-'}) ~ '.js') %}
-    {% set page_scripts_inc = page_scripts_inc|merge([dppath ~ page_locale_long|replace({'_': '-'}) ~ '.js']) %}
-{% elseif page_locale_short != 'en' and file_exists(paths.apppath ~ '/' ~ dppath ~ page_locale_short ~ '.js') %}
-    {% set page_scripts_inc = page_scripts_inc|merge([dppath ~ page_locale_short ~ '.js']) %}
+{% set localepath = 'view/js/i18n/datepicker-' %}
+{% if file_exists(paths.apppath ~ '/' ~ localepath ~ page_locale_long|replace({'_': '-'}) ~ '.js') %}
+    {% set page_scripts_inc = page_scripts_inc|merge([localepath ~ page_locale_long|replace({'_': '-'}) ~ '.js']) %}
+{% elseif page_locale_short != 'en' and file_exists(paths.apppath ~ '/' ~ localepath ~ page_locale_short ~ '.js') %}
+    {% set page_scripts_inc = page_scripts_inc|merge([localepath ~ page_locale_short ~ '.js']) %}
+{% endif %}
+
+{# Add locale include for moment #}
+{% set localepath = 'view/lib/moment/' %}
+{% if file_exists(paths.apppath ~ '/' ~ localepath ~ page_locale_long|replace({'_': '-'}) ~ '.js') %}
+    {% set page_scripts_inc = page_scripts_inc|merge([localepath ~ page_locale_long|replace({'_': '-'}) ~ '.js']) %}
+{% elseif page_locale_short != 'en' and file_exists(paths.apppath ~ '/' ~ localepath ~ page_locale_short ~ '.js') %}
+    {% set page_scripts_inc = page_scripts_inc|merge([localepath ~ page_locale_short ~ '.js']) %}
 {% endif %}
 
 {% endspaceless -%}
