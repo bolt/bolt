@@ -113,7 +113,7 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
 
     public function overview(Silex\Application $app, Request $request)
     {
-        $app['extend.manager']->clearLog();
+//         $app['extend.manager']->clearLog();
 
         return $app['render']->render(
             'extend/extend.twig',
