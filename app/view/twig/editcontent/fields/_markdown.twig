@@ -19,18 +19,12 @@
     style:          (option.height) ? 'height: ' ~ option.height ~ ' !important;' : '',
 } %}
 
-{% set attr_catchpaste = {
-    id:     'jquery-catchpaste-textarea',
-    style:  'position: absolute; width: 0 !important; height: 0; left: -10000px;',
-} %}
-
 {#=== FIELDSET =======================================================================================================#}
 
 <fieldset class="markdown">
     <div class="col-sm-12">
         <label class="control-label">{{ macro.infopop(labelkey, option.info) }}</label>
         <textarea{{ macro.attr(attr_text) }}>{{ context.content.get(key)|default('') }}</textarea>
-        <textarea{{ macro.attr(attr_catchpaste) }}></textarea>
     </div>
 </fieldset>
 

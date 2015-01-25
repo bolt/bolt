@@ -79,7 +79,6 @@ module.exports = function(grunt) {
                 src: [
                     'lib/jquery-1.11.2/jquery.min.js',
                     'lib/jquery-ui-1.10.3/jquery-ui.custom.min.js',
-                    'lib/jquery-catchpaste-1.0.0p/jquery-catchpaste.min.js',
                     'lib/bootstrap-file-input/bootstrap-file-input.min.js',
                     'lib/jquery-tagcloud/jquery-tagcloud.min.js',
                     'lib/jquery-hotkeys/jquery-hotkeys.min.js',
