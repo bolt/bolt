@@ -37,8 +37,8 @@
 
 {# Add locale include for moment #}
 {% set localepath = 'view/lib/moment/' %}
-{% if file_exists(paths.apppath ~ '/' ~ localepath ~ page_locale_long|replace({'_': '-'}) ~ '.js') %}
-    {% set page_scripts_inc = page_scripts_inc|merge([localepath ~ page_locale_long|replace({'_': '-'}) ~ '.js']) %}
+{% if file_exists(paths.apppath ~ '/' ~ localepath ~ page_locale_long|lower|replace({'_': '-'}) ~ '.js') %}
+    {% set page_scripts_inc = page_scripts_inc|merge([localepath ~ page_locale_long|lower|replace({'_': '-'}) ~ '.js']) %}
 {% elseif page_locale_short != 'en' and file_exists(paths.apppath ~ '/' ~ localepath ~ page_locale_short ~ '.js') %}
     {% set page_scripts_inc = page_scripts_inc|merge([localepath ~ page_locale_short ~ '.js']) %}
 {% endif %}
