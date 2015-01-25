@@ -20,6 +20,16 @@ class Logger
     {
         $this->logs[] =  $log;   
     }
+    
+    public function addCritical($log)
+    {
+        $this->logs[] = $log;
+    }
+    
+    public function addError($log)
+    {
+        $this->logs[] = $log;
+    }
 
     
     public function lastLog()

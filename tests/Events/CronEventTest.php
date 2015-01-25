@@ -24,12 +24,12 @@ class CronEventTest extends BoltUnitTest
         $app = $this->getApp();
         
         $app['cache'] = $this->getMock('Bolt\Cache');
-        $app['log'] = $this->getMock('Bolt\Log', array('trim'), array($app));
+        $app['logger.manager'] = $this->getMock('Bolt\Logger\Manager', array('trim'), array($app));
         
         $app['cache']->expects($this->exactly(1))
                   ->method('clearCache');
     
-        $app['log']->expects($this->exactly(1))
+        $app['logger.manager']->expects($this->exactly(1))
                   ->method('trim');
         
         $output = new BufferedOutput();

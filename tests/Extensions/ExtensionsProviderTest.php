@@ -191,31 +191,32 @@ EOM;
     public function testBadExtension()
     {
         $app = $this->getApp();
-        $app['log'] = new Mock\Logger;
-        $app['extensions']->register(new Mock\BadExtension($app));        
-        $this->assertEquals('[EXT] Initialisation failed for badextension: BadExtension', $app['log']->lastLog());
+        $app['logger.system'] = new Mock\Logger;
+        $bad = new Mock\BadExtension($app);
+        $app['extensions']->register($bad);        
+        $this->assertEquals('[EXT] Initialisation failed for badextension: BadExtension', $app['logger.system']->lastLog());
         
     }
     
     public function testBadExtensionConfig()
     {
         $app = $this->getApp();
-        $app['log'] = new Mock\Logger;
+        $app['logger.system'] = new Mock\Logger;
         $app['extensions']->register(new Mock\BadExtensionConfig($app));
         $this->assertEquals(
             '[EXT] YAML config failed to load for badextensionconfig: BadExtensionConfig', 
-            $app['log']->lastLog()
+            $app['logger.system']->lastLog()
         );
     }
     
     public function testBadExtensionSnippets()
     {
         $app = $this->getApp();
-        $app['log'] = new Mock\Logger;
+        $app['logger.system'] = new Mock\Logger;
         $app['extensions']->register(new Mock\BadExtensionSnippets($app));
         $this->assertEquals(
             '[EXT] Snippet loading failed for badextensionsnippets: BadExtensionSnippets', 
-            $app['log']->lastLog()
+            $app['logger.system']->lastLog()
         );
     }
     
