@@ -131,30 +131,36 @@ class Manager
             DoctrineConn::PARAM_STR_ARRAY, \PDO::PARAM_INT
         );
 
-        $stmt = $this->app['db']->executeQuery($query, $params, $paramTypes);
+        try {
+            $stmt = $this->app['db']->executeQuery($query, $params, $paramTypes);
 
-        $rows = $stmt->fetchAll(2); // 2 = Query::HYDRATE_COLUMN
+            $rows = $stmt->fetchAll(2); // 2 = Query::HYDRATE_COLUMN
 
-        // Set up the pager
-        $pagerQuery = sprintf(
-            "SELECT count(*) as count FROM %s WHERE context IN (?) OR (level >= ?)",
-            $this->tablename
-        );
-        $params = array($context, $minlevel);
-        $paramTypes = array(DoctrineConn::PARAM_STR_ARRAY, \PDO::PARAM_INT);
-        $rowcount = $this->app['db']->executeQuery($pagerQuery, $params, $paramTypes)->fetch();
+            // Set up the pager
+            $pagerQuery = sprintf(
+                "SELECT count(*) as count FROM %s WHERE context IN (?) OR (level >= ?)",
+                $this->tablename
+            );
+            $params = array($context, $minlevel);
+            $paramTypes = array(DoctrineConn::PARAM_STR_ARRAY, \PDO::PARAM_INT);
+            $rowcount = $this->app['db']->executeQuery($pagerQuery, $params, $paramTypes)->fetch();
 
-        $pager = array(
-            'for' => 'activity',
-            'count' => $rowcount['count'],
-            'totalpages' => ceil($rowcount['count'] / $amount),
-            'current' => $page,
-            'showing_from' => ($page - 1) * $amount + 1,
-            'showing_to' => ($page - 1) * $amount + count($rows)
-        );
+            $pager = array(
+                'for' => 'activity',
+                'count' => $rowcount['count'],
+                'totalpages' => ceil($rowcount['count'] / $amount),
+                'current' => $page,
+                'showing_from' => ($page - 1) * $amount + 1,
+                'showing_to' => ($page - 1) * $amount + count($rows)
+            );
 
-        $this->app['storage']->setPager('activity', $pager);
+            $this->app['storage']->setPager('activity', $pager);
 
+        } catch (\Doctrine\DBAL\DBALException $e) {
+            // Oops. User will get a warning on the dashboard about tables that need to be repaired.
+            $rows = array();
+        }
+        
         return $rows;
     }
 
