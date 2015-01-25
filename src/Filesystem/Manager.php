@@ -66,6 +66,8 @@ class Manager extends MountManager
     {
         if (is_dir($location)) {
             return parent::mountFilesystem($prefix, new Filesystem(new FilesystemAdapter($location)));
+        } else {
+            return false;
         }
     }
 

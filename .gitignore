@@ -8,6 +8,7 @@ files/*
 extensions/*
 thumbs/
 vendor/
+phpunit.xml
 
 # unless you want to store vendor's "state" in your Git repo.
 composer.phar
@@ -38,5 +39,8 @@ npm-debug.log
 node_modules
 bower_components
 /bolt.log
+tests/report
+tests/resources
+bolt.db
 
 *.map

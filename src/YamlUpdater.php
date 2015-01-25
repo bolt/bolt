@@ -96,7 +96,7 @@ class YamlUpdater
 
         $needle = substr('                                      ', 0, 2 * $indent) . $keypart . ':';
 
-        if (strpos($this->file[$this->pointer], $needle) === 0) {
+        if (isset($this->file[$this->pointer]) && strpos($this->file[$this->pointer], $needle) === 0) {
             return $this->pointer;
         } else {
             $this->pointer++;

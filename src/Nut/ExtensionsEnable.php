@@ -23,16 +23,7 @@ class ExtensionsEnable extends BaseCommand
     {
         $name = $input->getArgument('name');
         $version = $input->getArgument('version');
-        if (!isset($name) || !isset($version)) {
-            $output->writeln(
-                '<error>' .
-                Trans::__('You must specify both a name and a version to install!') .
-                '</error>'
-            );
-
-            return;
-        }
-
+        
         $result = $this->app['extend.runner']->install($name, $version);
 
         $output->writeln("<info>[Done]</info> ");

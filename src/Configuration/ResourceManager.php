@@ -29,7 +29,7 @@ class ResourceManager
     /**
      * Don't use! Will probably refactored out soon
      */
-    protected static $theApp;
+    public static $theApp;
 
     protected $root;
 
@@ -73,10 +73,6 @@ class ResourceManager
             $this->requestObject = $container['request'];
         }
 
-        if (!empty($container['verifier'])) {
-            $this->verifier = $container['verifier'];
-        }
-
         $this->setUrl('root', '/');
 
         $this->setUrl('app', '/app/');
@@ -118,12 +114,14 @@ class ResourceManager
 
     public function setApp(Application $app)
     {
-        static::$theApp = $this->app = $app;
+        $this->app = $app;
+        ResourceManager::$theApp = $app;
     }
 
     public function setPath($name, $value)
     {
-        if (! preg_match("/^(?:\/|\\\\|\w:\\\\|\w:\/).*$/", $value)) {
+        // If this is a relative path make it relative to root.
+        if (! preg_match("/^(?:\/|\\\\|\w:\\\\|\w:\/).*$/", $value) ) {
             $path = $this->pathManager->create($value);
             $path = $this->paths['root']->resolve($path);
         } else {
@@ -352,6 +350,11 @@ class ResourceManager
 
         return $this->verifier;
     }
+    
+    public function setVerifier($verifier)
+    {
+        $this->verifier = $verifier;
+    }
 
     public function getClassLoader()
     {
@@ -361,8 +364,8 @@ class ResourceManager
     public static function getApp()
     {
         if (! static::$theApp) {
-            $message = sprintf("The Bolt 'Application' object isn't initialized yet so the container can't be accessed here: <code>%s</code>", htmlspecialchars(debug_backtrace(), ENT_QUOTES));
-            throw new LowlevelException($message);
+            $message = sprintf("The Bolt 'Application' object isn't initialized yet so the container can't be accessed here: <code>%s</code>", htmlspecialchars(debug_print_backtrace(), ENT_QUOTES));
+            throw new \RuntimeException($message);
         }
 
         return static::$theApp;
@@ -384,4 +387,5 @@ class ResourceManager
 
         return $relative;
     }
+    
 }

@@ -14,9 +14,19 @@ matrix:
 script:
   - phpunit -c phpunit.xml.dist
   - ./run-functional-tests
+  
+before_install:
+  - sudo apt-get update && sudo apt-get --reinstall install -qq language-pack-en language-pack-fr && sudo locale-gen fr_FR
+
+
 
 before_script:
   - composer self-update || true
   - composer install --prefer-source
   - mkdir -p test/_log
   - chmod 777 test/_log
+  - mkdir -p tests/Nut/resources/
+  - chmod 777 tests/Nut/resources/
+  - mkdir -p app/cache
+  - chmod 777 app/cache
+  - echo 'xdebug.max_nesting_level = 2000' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini

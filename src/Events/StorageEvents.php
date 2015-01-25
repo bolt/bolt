@@ -3,6 +3,7 @@ namespace Bolt\Events;
 
 /**
  * Definitions for all possible StorageEvents
+ *  * @codeCoverageIgnore
  */
 final class StorageEvents
 {
