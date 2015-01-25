@@ -1,10 +1,10 @@
-{# Page: NavSecondary > Dashboard > Latest activity > more activity #}
+{# Page: NavSecondary > Dashboard > Configuration > System Log #}
 
 {% extends '_base/_page-nav.twig' %}
 
 {% block page_nav 'Settings/Configuration' %}
 
-{% block page_title __('logs.activity-log') %}
+{% block page_title __('logs.system-log') %}
 
 {% block page_main %}
 
@@ -14,17 +14,17 @@
         <div class="col-xs-12">
 
             <div class="btn-group" style="padding-bottom: 12px">
-                <a class="btn btn-default" href="{{ path('activitylog', {'action': 'trim'}) }}">
-                    <i class="fa fa-trash-o"></i> {{ __('Trim Activitylog') }}
+                <a class="btn btn-default" href="{{ path('systemlog', {'action': 'trim'}) }}">
+                    <i class="fa fa-trash-o"></i> {{ __('Trim System Log') }}
                 </a>
-                <a class="btn btn-default confirm" href="{{ path('activitylog', {'action': 'clear'}) }}" data-confirm="Are you sure you want to clear the activity logs?">
-                    <i class="fa fa-trash"></i> {{ __('Clear Activitylog') }}
+                <a class="btn btn-default confirm" href="{{ path('systemlog', {'action': 'clear'}) }}" data-confirm="Are you sure you want to clear the system logs?">
+                    <i class="fa fa-trash"></i> {{ __('Clear System Log') }}
                 </a>
             </div>
 
             <table class="table table-striped dashboardlisting">
                 <tbody>
-                {% for log in context.activity %}
+                {% for log in context.entries %}
                     <tr>
                         <td>
                             № {{ log.id }}<br>Lvl {{ log.level|loglevel }}
