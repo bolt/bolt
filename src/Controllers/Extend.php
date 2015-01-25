@@ -11,7 +11,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Filesystem\Filesystem;
 
-use Bolt\Composer\CommandRunner;
+use Bolt\Composer\PackageManager;
+use Bolt\Exception\BoltComposerException;
 use Bolt\Library as Lib;
 use Bolt\Translation\Translator as Trans;
 
@@ -22,16 +23,17 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
     public function register(Silex\Application $app)
     {
         $app['extend.site'] = $app['config']->get('general/extensions/site', 'https://extensions.bolt.cm/');
-        $app['extend.repo'] = $app['extend.site'] . "list.json";
+        $app['extend.repo'] = $app['extend.site'] . 'list.json';
         $app['extend'] = $this;
         $extensionsPath = $app['resources']->getPath('extensions');
-        $this->readWriteMode = is_dir("$extensionsPath/") && is_writable("$extensionsPath/");
+        $app['extend.writeable'] = is_dir($extensionsPath) && is_writable($extensionsPath) ? true : false;
+        $app['extend.online'] = false;
 
         // This exposes the main upload object as a service
         $me = $this;
-        $app['extend.runner'] = $app->share(
+        $app['extend.manager'] = $app->share(
             function ($app) use ($me) {
-                return new CommandRunner($app, $app['extend.repo'], $me->readWriteMode);
+                return new PackageManager($app);
             }
         );
     }
@@ -101,17 +103,17 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
         $extensionsPath = $app['resources']->getPath('extensions');
 
         return array(
-                'messages' => $app['extend.runner']->messages,
-                'enabled' => $this->readWriteMode,
-                'offline' => $app['extend.runner']->offline,
+                'messages' => $app['extend.manager']->messages,
+                'enabled' => $app['extend.writeable'],
+                'online' => $app['extend.online'],
                 'extensionsPath' => $extensionsPath,
                 'site' => $app['extend.site']
-            );
+        );
     }
 
     public function overview(Silex\Application $app, Request $request)
     {
-        $app['extend.runner']->clearLog();
+        $app['extend.manager']->clearLog();
 
         return $app['render']->render(
             'extend/extend.twig',
@@ -148,21 +150,32 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
     {
         $package = $request->get('package');
         $version = $request->get('version');
+        $response = $app['extend.manager']->showPackage('installed', $package, $version);
 
-        return new JsonResponse($app['extend.runner']->info($package, $version));
+        return new JsonResponse($app['extend.manager']->formatPackageResponse($response));
     }
 
     public function check(Silex\Application $app, Request $request)
     {
-        return new JsonResponse($app['extend.runner']->check());
+        return new JsonResponse($app['extend.manager']->checkPackage());
 
     }
 
     public function update(Silex\Application $app, Request $request)
     {
-        $package = $request->get('package');
+        $package = $request->get('package') ?: array();
 
-        return new Response($app['extend.runner']->update($package));
+        try {
+            $response = $app['extend.manager']->updatePackage(array($package));
+        } catch (Exception $e) {
+            throw new \Exception($e->getMessage(), $e->getCode(), $e->getPrevious());
+        }
+
+        if ($response === 0) {
+            return new JsonResponse($app['extend.manager']->getOutput());
+        } else {
+            throw new BoltComposerException($app['extend.manager']->getOutput(), $response);
+        }
     }
 
     public function install(Silex\Application $app, Request $request)
@@ -171,29 +184,47 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
         $version = $request->get('version');
         $app['extensions.stats']->recordInstall($package, $version);
 
-        return new Response($app['extend.runner']->install($package, $version));
+        $response = $app['extend.manager']->requirePackage(array(
+            'name' => $package,
+            'version' => $version
+            ));
+
+        if ($response === 0) {
+            return new Response($app['extend.manager']->getOutput());
+        } else {
+            throw new BoltComposerException($app['extend.manager']->getOutput(), $response);
+        }
     }
 
     public function uninstall(Silex\Application $app, Request $request)
     {
         $package = $request->get('package');
 
-        return new Response($app['extend.runner']->uninstall($package));
+        $response = $app['extend.manager']->removePackage(array($package));
+
+        if ($response === 0) {
+            return new Response($app['extend.manager']->getOutput());
+        } else {
+            throw new BoltComposerException($app['extend.manager']->getOutput(), $response);
+        }
     }
 
     public function installed(Silex\Application $app, Request $request)
     {
-        $result = $app['extend.runner']->installed();
-        if ($result instanceof Response) {
-            return $result;
-        } else {
-            return new Response($result);
-        }
+        $result = $app['extend.manager']->getAllPackages();
+
+        return new JsonResponse($result);
     }
 
     public function installAll(Silex\Application $app, Request $request)
     {
-        return new Response($app['extend.runner']->installAll());
+        $response = $app['extend.manager']->installPackages();
+
+        if ($response === 0) {
+            return new Response($app['extend.manager']->getOutput());
+        } else {
+            throw new BoltComposerException($app['extend.manager']->getOutput(), $response);
+        }
     }
 
     public function generateTheme(Silex\Application $app, Request $request)
@@ -229,7 +260,7 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
      */
     public function getLog(Silex\Application $app, Request $request)
     {
-        $log = $app['extend.runner']->getLog();
+        $log = $app['extend.manager']->getLog();
         $log = nl2br($log);
 
         return new Response($log);
@@ -240,7 +271,7 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
      */
     public function clearLog(Silex\Application $app, Request $request)
     {
-        $app['extend.runner']->clearLog();
+        $app['extend.manager']->clearLog();
 
         return new Response('');
     }

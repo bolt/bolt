@@ -1,0 +1,127 @@
+{% set package_empty %}
+    <div class="ext-list"><strong class="no-results">{{ __('No Bolt Extensions installed.') }}</strong></div>
+{% endset %}
+
+{% set package_item %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <i class="fa fa-cube fa-fw"></i> %TITLE% <span class="pull-right text-muted">%NAME% - %VERSION%</span>
+            <span class="authors">%AUTHORS%</span>
+        </div>
+
+        <div class="panel-body">
+            {# Action buttons #}
+            <div class="actions pull-right">
+                {# Available #}
+                %AVAILABLE%
+
+                <div class="btn-group">
+
+                    {# Readme #}
+                    %README%
+
+                    {# Config #}
+                    %CONFIG%
+
+                    {# Theme #}
+                    %THEME%
+
+                </div>
+
+                <a data-request="uninstall-package" class="btn btn-sm btn-danger" href="%BASEURL%uninstall?package=%NAME%">
+                    <i class="fa fa-trash-o fa-fw"></i> {{ __('Uninstall') }}</a>
+            </div>
+
+            {# Plain description #}
+            <div class="description text-muted">%DESCRIPTION%</div>
+
+            {# Tags #}
+            <span class="tags">
+                <i class="fa fa-tag ta-fw"></i>&nbsp;
+                <span class="tags">%KEYWORDS%</span>
+            </span>
+
+            {# Briefcase/type #}
+            <i class="fa fa-briefcase ta-fw"></i>&nbsp;
+            <span class="type label label-default">%TYPE%</span>
+
+        </div>
+    </div>
+{% endset %}
+
+{% set package_author %}
+    <span class="author label label-primary">%AUTHOR%</span>&nbsp;
+{% endset %}
+
+{% set package_keyword %}
+    <span class="tag label label-info">%KEYWORD%</span>&nbsp;
+{% endset %}
+
+{% set package_readme_button %}
+    <a data-request="package-readme" data-readme="%README%" class='btn btn-sm btn-tertiary' href="#">
+        <i class='fa fa-quote-right fa-fw'></i> {{ __('Readme') }}</a>&nbsp;
+{% endset %}
+
+{% set package_config_button %}
+    <a href="%CONFIG%" class="btn btn-sm btn-tertiary">
+        <i class="fa fa-cog fa-fw"></i> {{ __('Config') }}</a>&nbsp;
+{% endset %}
+
+{% set package_theme_button %}
+    <a data-request="package-copy" data-theme="%NAME%" class="btn btn-sm btn-tertiary" href="#">
+        <i class="fa fa-copy fa-fw"></i> {{ __('Copy to theme folder') }}</a>&nbsp;
+{% endset %}
+
+{% set package_available_button %}
+    <a data-request="package-available" data-available="%NAME%" data-toggle="modal" data-target="#installModal" class='btn btn-sm btn-primary' href="#">
+        <i class='fa fa-list fa-fw'></i> {{ __('Versions') }}</a>&nbsp;
+{% endset %}
+
+{% set package_versions %}
+    <tr>
+        <td>%NAME%</td>
+        <td>%VERSION%</td>
+        <td><span class="label label-default-%CLASS%">%BUILDSTATUS%</span></td>
+        <td>
+            <div class="btn-group"><a href="#" data-request="install-package" class="btn btn-primary btn-sm" data-package="%NAME%" data-version="%VERSION%">
+            <i class="icon-gears"></i> {{ __('Install This Version') }}</a></div>
+        </td>
+    </tr>
+{% endset %}
+
+{% set package_install_new %}
+    <tr data-package="%PACKAGE%">
+        <td class="ext-list"><strong class="title">%PACKAGE%</strong></td>
+        <td class="ext-list">%PRETTYVERSION%</td>
+        <td><a data-request="update-package" class="btn btn-sm btn-warning" data-package="%PACKAGE%" data-version="%VERSION%">{{ __('Install Package') }}</a></td>
+    </tr>
+{% endset %}
+
+{% set package_install_update %}
+    <tr data-package="%PACKAGE%">
+        <td class="ext-list"><strong class="title">%PACKAGE%</strong></td>
+        <td class="ext-list">%PRETTYVERSION%</td>
+        <td><a data-request="update-package" class="btn btn-sm btn-tertiary" data-package="%PACKAGE%" data-version="%VERSION%">{{ __('Update Package') }}</a></td>
+    </tr>
+{% endset %}
+
+{% set package_error %}
+    <h3>%ERROR_TYPE%</h3>
+    <code>%ERROR_MESSAGE%</code>
+    <p>%ERROR_LOCATION%</p>
+{% endset %}
+
+{{ data('extend.packages', {'empty':          package_empty|trim,
+                            'item':           package_item|trim|preg_replace('/>\\s+</', '><'),
+                            'versions':       package_versions|trim|preg_replace('/>\\s+</', '><'),
+                            'author' :        package_author|trim|preg_replace('/>\\s+</', '><'),
+                            'keyword' :       package_keyword|trim|preg_replace('/>\\s+</', '><'),
+                            'readme_button':  package_readme_button|trim|preg_replace('/>\\s+</', '><'),
+                            'config_button':  package_config_button|trim|preg_replace('/>\\s+</', '><'),
+                            'theme_button':   package_theme_button|trim|preg_replace('/>\\s+</', '><'),
+                            'avail_button':   package_available_button|trim|preg_replace('/>\\s+</', '><'),
+                            'install_new':    package_install_new|trim|preg_replace('/>\\s+</', '><'),
+                            'install_update': package_install_update|trim|preg_replace('/>\\s+</', '><'),
+                            'error':          package_error|trim|preg_replace('/>\\s+</', '><')
+                          })
+}}

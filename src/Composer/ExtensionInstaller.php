@@ -6,7 +6,7 @@ class ExtensionInstaller
     public static function handle($event)
     {
         try {
-            $installedPackage = $event->getOperation()->getPackage();
+            $installedPackage = $event->getComposer()->getPackage();
         } catch (\Exception $e) {
             return;
         }

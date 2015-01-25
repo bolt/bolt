@@ -214,6 +214,7 @@ module.exports = function(grunt) {
                     Stack: true,                // src/obj-stack.js
                     site: true,                 // src/extend.js/extend.twig
                     baseurl: true,              // src/extend.js/extend.twig
+                    rootpath: true,             // src/extend.js/extend.twig
                     // Bolt global functions
                     bindFileUpload: true,       // src/bindfileuploads.js
                     bindGeolocation: true,      // src/geolocation.js
