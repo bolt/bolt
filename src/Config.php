@@ -7,6 +7,7 @@ use Bolt\Library as Lib;
 use Bolt\Helpers\Arr;
 use Bolt\Helpers\String;
 use Bolt\Translation\Translator as Trans;
+use Monolog\Logger;
 use Symfony\Component\Yaml;
 use Symfony\Component\Yaml\Parser;
 
@@ -89,7 +90,7 @@ class Config
         // Only do something if we get at least one key.
         if (empty($path[0])) {
             $logline = "Config: can't set empty path to '" . (string) $value . "'";
-            $this->app['log']->add($logline, 3, '', 'config');
+            $this->app['logger.system']->addCritical($logline, array('event' => 'config'));
 
             return false;
         }
@@ -595,6 +596,17 @@ class Config
             'locale'                      => \Bolt\Application::DEFAULT_LOCALE,
             'recordsperpage'              => 10,
             'recordsperdashboardwidget'   => 5,
+            'systemlog'                   => array(
+                'enabled' => true
+            ),
+            'changelog'                   => array(
+                'enabled' => false
+            ),
+            'debuglog'                    => array(
+                'enabled'  => false,
+                'level'    => 'DEBUG',
+                'filename' => 'bolt-debug.log'
+            ),
             'debug'                       => false,
             'debug_show_loggedoff'        => false,
             'debug_error_level'           => 6135,

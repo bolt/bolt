@@ -51,6 +51,7 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFunction('excerpt', array($this, 'excerpt'), array('is_safe' => array('html'))),
             new \Twig_SimpleFunction('fancybox', array($this, 'popup'), array('is_safe' => array('html'))), // "Fancybox" is deprecated.
             new \Twig_SimpleFunction('file_exists', array($this, 'fileExists')),
+            new \Twig_SimpleFunction('firebug', array($this, 'printFirebug'), array('is_safe' => array('html'))),
             new \Twig_SimpleFunction('first', array($this, 'first')),
             new \Twig_SimpleFunction('getuser', array($this, 'getUser')),
             new \Twig_SimpleFunction('getuserid', array($this, 'getUserId')),
@@ -96,6 +97,7 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFilter('last', array($this, 'last')),
             new \Twig_SimpleFilter('localdate', array($this, 'localeDateTime'), array('is_safe' => array('html'))),
             new \Twig_SimpleFilter('localedatetime', array($this, 'localeDateTime'), array('is_safe' => array('html'))), // Deprecated
+            new \Twig_SimpleFilter('loglevel', array($this, 'logLevel')),
             new \Twig_SimpleFilter('markdown', array($this, 'markdown'), array('is_safe' => array('html'))),
             new \Twig_SimpleFilter('order', array($this, 'order')),
             new \Twig_SimpleFilter('popup', array($this, 'popup'), array('is_safe' => array('html'))),
@@ -192,6 +194,31 @@ class TwigExtension extends \Twig_Extension
     }
 
     /**
+     * Send debug data to the developers FirePHP instance in-browser
+     *
+     * @param  mixed  $var The data to be dumped into FirePHP
+     * @param  mixed  $msg The message to associate with the data
+     * @return string FirePHP formatted string
+     */
+    public function printFirebug($var, $msg = '')
+    {
+        if ($this->safe) {
+            return '?';
+        }
+        if ($this->app['config']->get('general/debug')) {
+            if (is_array($var)) {
+                $this->app['logger.firebug']->addInfo($msg, $var);
+            } elseif (is_string($var)) {
+                $this->app['logger.firebug']->addInfo($var);
+            } else {
+                $this->app['logger.firebug']->addInfo($msg, (array) $var);
+            }
+        } else {
+            return '';
+        }
+    }
+
+    /**
      * Output pretty-printed backtrace.
      *
      * @param  int    $depth
@@ -250,10 +277,7 @@ class TwigExtension extends \Twig_Extension
             // Various things we could do. We could fail miserably, but a more
             // graceful approach is to use the datetime to display a default
             // format
-            $this->app['log']->add(
-                "No valid locale detected. Fallback on DateTime active.",
-                2
-            );
+            $this->app['logger.system']->addInfo('No valid locale detected. Fallback on DateTime active.');
 
             return $dateTime->format('Y-m-d H:i:s');
         } else {
@@ -1479,6 +1503,7 @@ class TwigExtension extends \Twig_Extension
     }
 
     /**
+<<<<<<< HEAD
      * Add JavaScript data to app['jsdata']
      *
      * @param string $key
@@ -1507,4 +1532,22 @@ class TwigExtension extends \Twig_Extension
         $this->app['jsdata'] = $jsdata;
     }
 
+    /**
+     * Convert a Monolog log level to textual equivalent
+     *
+     * @param  integer $level
+     * @return string
+     */
+    public function logLevel($level)
+    {
+        if (!is_numeric($level)) {
+            return $level;
+        }
+
+        try {
+            return ucfirst(strtolower(\Monolog\Logger::getLevelName($level)));
+        } catch (Exception $e) {
+            return $level;
+        }
+    }
 }

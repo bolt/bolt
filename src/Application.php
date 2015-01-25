@@ -4,6 +4,7 @@ namespace Bolt;
 
 use Bolt\Configuration\LowlevelException;
 use Bolt\Library as Lib;
+use Monolog\Logger;
 use RandomLib;
 use SecurityLib;
 use Silex;
@@ -14,6 +15,7 @@ use Symfony\Component\Stopwatch;
 use Whoops\Handler\JsonResponseHandler;
 use Whoops\Provider\Silex\WhoopsServiceProvider;
 use Bolt\Provider\PathServiceProvider;
+use Bolt\Provider\LoggerServiceProvider;
 
 class Application extends Silex\Application
 {
@@ -81,12 +83,13 @@ class Application extends Silex\Application
         if ($this['config']->get('general/session_use_storage_handler') === false) {
             $this['session.storage.handler'] = null;
         }
-
-        $this->register(new Provider\LogServiceProvider());
     }
 
     public function initialize()
     {
+        // Initialise logging
+        $this->initLogger();
+
         // Set up locale and translations.
         $this->initLocale();
 
@@ -113,6 +116,20 @@ class Application extends Silex\Application
 
         // Initialise the 'error' handler.
         $this->error(array($this, 'errorHandler'));
+    }
+
+    public function initLogger()
+    {
+        $this->register(new LoggerServiceProvider(), array());
+
+        // Debug log
+        if ($this['config']->get('general/debuglog/enabled')) {
+            $this->register(new Silex\Provider\MonologServiceProvider(), array(
+                'monolog.name'    => 'bolt',
+                'monolog.level'   => constant('Monolog\Logger::'. strtoupper($this['config']->get('general/debuglog/level'))),
+                'monolog.logfile' => $this['resources']->getPath('cache') . '/' . $this['config']->get('general/debuglog/filename')
+            ));
+        }
     }
 
     /**
@@ -520,7 +537,7 @@ class Application extends Silex\Application
 
         $message = $exception->getMessage();
 
-        $this['log']->add($message, 2, '', 'abort');
+        $this['logger.system']->addCritical($message);
 
         $end = $this['config']->getWhichEnd();
 
