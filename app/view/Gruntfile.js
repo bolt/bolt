@@ -95,8 +95,7 @@ module.exports = function(grunt) {
                     'lib/select2-3.5.1/select2.min.js',
                     'lib/moment-2.8.3/moment.min.js',
                     'lib/bootbox-4.3.0/bootbox.min.js',
-                    'lib/modernizr-2.8.3/modernizr.custom.min.js',
-                    'lib/ua-parser/ua-parser.min.js',
+                    'lib/modernizr-2.8.3/modernizr.custom.min.js'
                 ],
                 dest: 'js/lib.min.js'
             }
