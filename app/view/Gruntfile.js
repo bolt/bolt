@@ -167,6 +167,21 @@ module.exports = function(grunt) {
                     ]
                 }]
             },
+            locale_datepicker: {
+                options: {
+                    preserveComments: 'some'
+                },
+                files: [{
+                    expand: true,
+                    ext: '.min.js',
+                    cwd: 'lib/datepicker',
+                    src: '*.js',
+                    dest: 'js/locale/datepicker',
+                    rename: function(destBase, destPath) {
+                        return destBase + '/' + destPath.replace('datepicker-', '').replace('-', '_');
+                    }
+                }]
+            },
             bootstrap: {
                 files: {
                     'lib/bootstrap-sass.generated/bootstrap.min.js': [
