@@ -147,17 +147,14 @@ class Application extends Silex\Application
                 'db.options' => $this['config']->getDBOptions()
             )
         );
+        $this->register(new Database\InitListener());
 
         $this->checkDatabaseConnection();
 
-        if ($this['db']->isConnected()) {
-            $this->setDatabaseParmeters();
-
-            $this->register(
-                new Silex\Provider\HttpCacheServiceProvider(),
-                array('http_cache.cache_dir' => $this['resources']->getPath('cache'))
-            );
-        }
+        $this->register(
+            new Silex\Provider\HttpCacheServiceProvider(),
+            array('http_cache.cache_dir' => $this['resources']->getPath('cache'))
+        );
     }
 
     /**
@@ -191,28 +188,6 @@ class Application extends Silex\Application
 
         // Resume normal error handling
         restore_error_handler();
-    }
-
-    /**
-     * Set database engine specific parameters
-     */
-    protected function setDatabaseParmeters()
-    {
-        $dboptions = $this['db.options'];
-
-        if ($dboptions['driver'] == 'pdo_sqlite') {
-            $this['db']->query('PRAGMA synchronous = OFF');
-        } elseif ($dboptions['driver'] == 'pdo_mysql') {
-            /**
-             * @link https://groups.google.com/forum/?fromgroups=#!topic/silex-php/AR3lpouqsgs
-             */
-            $this['db']->getDatabasePlatform()->registerDoctrineTypeMapping('enum', 'string');
-
-            // Set utf8 on names and connection as all tables has this charset
-            $this['db']->query("SET NAMES 'utf8';");
-            $this['db']->query("SET CHARACTER_SET_CONNECTION = 'utf8';");
-            $this['db']->query("SET CHARACTER SET utf8;");
-        }
     }
 
     public function initRendering()
