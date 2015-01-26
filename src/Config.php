@@ -627,15 +627,15 @@ class Config
                     'allowedContent'          => true,
                     'autoParagraph'           => true,
                     'contentsCss'             => array(
-                        $this->app['resources']->getPath('app') . 'view/lib/ckeditor/contents.css',
-                        $this->app['resources']->getPath('app') . 'view/css/ckeditor.css',
+                        $this->app['resources']->getUrl('app') . 'view/lib/ckeditor/contents.css',
+                        $this->app['resources']->getUrl('app') . 'view/css/ckeditor.css',
                     ),
                     'filebrowserWindowWidth'  => 640,
                     'filebrowserWindowHeight' => 480
                 ),
                 'filebrowser' => array(
-                    'browseUrl'      => $this->app['resources']->getPath('async') . 'filebrowser/',
-                    'imageBrowseUrl' => $this->app['resources']->getPath('bolt') . 'files/files'
+                    'browseUrl'      => $this->app['resources']->getUrl('async') . 'filebrowser/',
+                    'imageBrowseUrl' => $this->app['resources']->getUrl('bolt') . 'files/files'
                 ),
             ),
             'canonical'                   => !empty($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '',
