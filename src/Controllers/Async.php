@@ -20,88 +20,70 @@ class Async implements ControllerProviderInterface
         /** @var $ctr \Silex\ControllerCollection */
         $ctr = $app['controllers_factory'];
 
+        $ctr->before(array($this, 'before'));
+
         $ctr->get("/dashboardnews", array($this, 'dashboardnews'))
-            ->before(array($this, 'before'))
             ->bind('dashboardnews');
 
         $ctr->get("/latestactivity", array($this, 'latestactivity'))
-            ->before(array($this, 'before'))
             ->bind('latestactivity');
 
-        $ctr->get("/filesautocomplete", array($this, 'filesautocomplete'))
-            ->before(array($this, 'before'));
+        $ctr->get("/filesautocomplete", array($this, 'filesautocomplete'));
 
         $ctr->get("/readme/{filename}", array($this, 'readme'))
-            ->before(array($this, 'before'))
             ->assert('filename', '.+')
             ->bind('readme');
 
         $ctr->get("/widget/{key}", array($this, 'widget'))
-            ->before(array($this, 'before'))
             ->bind('widget');
 
-        $ctr->get("/makeuri", array($this, 'makeuri'))
-            ->before(array($this, 'before'));
+        $ctr->get("/makeuri", array($this, 'makeuri'));
 
         $ctr->get("/lastmodified/{contenttypeslug}/{contentid}", array($this, 'lastmodified'))
             ->value('contentid', '')
-            ->before(array($this, 'before'))
             ->bind('lastmodified');
 
         $ctr->get("/filebrowser/{contenttype}", array($this, 'filebrowser'))
-            ->before(array($this, 'before'))
             ->assert('contenttype', '.*')
             ->bind('contenttype');
 
         $ctr->get("/browse/{namespace}/{path}", array($this, 'browse'))
-            ->before(array($this, 'before'))
             ->assert('path', '.*')
             ->value('namespace', 'files')
             ->value('path', '')
             ->bind('asyncbrowse');
 
         $ctr->post("/renamefile", array($this, 'renamefile'))
-            ->before(array($this, 'before'))
             ->bind('renamefile');
 
         $ctr->post("/deletefile", array($this, 'deletefile'))
-            ->before(array($this, 'before'))
             ->bind('deletefile');
 
         $ctr->post("/duplicatefile", array($this, 'duplicatefile'))
-            ->before(array($this, 'before'))
             ->bind('duplicatefile');
 
         $ctr->get("/addstack/{filename}", array($this, 'addstack'))
-            ->before(array($this, 'before'))
             ->assert('filename', '.*')
             ->bind('addstack');
 
         $ctr->get("/tags/{taxonomytype}", array($this, 'tags'))
-            ->before(array($this, 'before'))
             ->bind('tags');
 
         $ctr->get("/populartags/{taxonomytype}", array($this, 'populartags'))
-            ->before(array($this, 'before'))
             ->bind('populartags');
 
         $ctr->get("/showstack", array($this, 'showstack'))
-            ->before(array($this, 'before'))
             ->bind('showstack');
 
-        $ctr->get("/omnisearch", array($this, 'omnisearch'))
-            ->before(array($this, 'before'));
+        $ctr->get("/omnisearch", array($this, 'omnisearch'));
 
         $ctr->post("/folder/rename", array($this, 'renamefolder'))
-            ->before(array($this, 'before'))
             ->bind('renamefolder');
 
         $ctr->post("/folder/remove", array($this, 'removefolder'))
-            ->before(array($this, 'before'))
             ->bind('removefolder');
 
         $ctr->post("/folder/create", array($this, 'createfolder'))
-            ->before(array($this, 'before'))
             ->bind('createfolder');
 
         return $ctr;
@@ -283,9 +265,9 @@ class Async implements ControllerProviderInterface
         return $app->json($results);
     }
 
-    public function omnisearch(Silex\Application $app)
+    public function omnisearch(Silex\Application $app, Request $request)
     {
-        $query = $app['request']->get('q', '');
+        $query = $request->query->get('q', '');
 
         if (strlen($query) < 3) {
             return $app->json(array());
@@ -404,7 +386,7 @@ class Async implements ControllerProviderInterface
 
         // $key is linked to the fieldname of the original field, so we can
         // Set the selected value in the proper field
-        $key = $app['request']->get('key');
+        $key = $request->query->get('key');
 
         // Get the pathsegments, so we can show the path..
         $pathsegments = array();
@@ -445,10 +427,10 @@ class Async implements ControllerProviderInterface
         return true;
     }
 
-    public function showstack(Silex\Application $app)
+    public function showstack(Silex\Application $app, Request $request)
     {
-        $count = $app['request']->get('items', 10);
-        $options = $app['request']->get('options', false);
+        $count = $request->query->get('items', 10);
+        $options = $request->query->get('options', false);
 
         $context = array(
             'stack' => $app['stack']->listitems($count),
@@ -664,7 +646,7 @@ class Async implements ControllerProviderInterface
     }
 
     /**
-     * Middleware function to do some tasks that should be done for all aynchronous
+     * Middleware function to do some tasks that should be done for all asynchronous
      * requests.
      */
     public function before(Request $request, Silex\Application $app)
