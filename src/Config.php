@@ -67,7 +67,6 @@ class Config
 
         }
 
-        $this->setTwigPath();
         $this->setCKPath();
     }
 
@@ -660,7 +659,7 @@ class Config
         );
     }
 
-    protected function setTwigPath()
+    public function getTwigPath()
     {
         $themepath = $this->app['resources']->getPath("theme");
         $end = $this->getWhichEnd($this->get('general/branding/path'));
@@ -681,7 +680,7 @@ class Config
         // files in that folder will take precedence. For instance when overriding the menu template.
         $twigpath[] = realpath($this->app['resources']->getPath('app') . '/theme_defaults');
 
-        $this->data['twigpath'] = $twigpath;
+        return $twigpath;
     }
 
     /**

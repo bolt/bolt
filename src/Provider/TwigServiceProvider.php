@@ -23,7 +23,7 @@ class TwigServiceProvider extends \Silex\Provider\TwigServiceProvider
         );
 
         $app['twig.path'] = function ($app) {
-            return $app['config']->get('twigpath');
+            return $app['config']->getTwigPath();
         };
 
         $app['twig.options'] = function ($app) {
