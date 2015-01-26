@@ -70,9 +70,9 @@ class SystemHandler extends AbstractProcessingHandler
 
         if ($this->app['config']->get('general/debug')) {
             $backtrace = debug_backtrace();
-            $filename = str_replace($this->app['resources']->getPath('root'), "", $backtrace[0]['file']);
+            $filename = str_replace($this->app['resources']->getPath('root'), "", $backtrace[3]['file']);
             $record['message'] .= "\nFile: $filename";
-            $record['message'] .= "\nLine: $backtrace[0]['line']";
+            $record['message'] .= "\nLine: " . $backtrace[3]['line'];
         }
 
         $this->user = $this->app['session']->get('user');
