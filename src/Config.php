@@ -19,8 +19,6 @@ use Symfony\Component\Yaml\Parser;
  */
 class Config
 {
-    protected $paths;
-
     protected $app;
     protected $data;
     protected $defaultConfig = array();
@@ -197,8 +195,6 @@ class Config
         $config['theme'] = $this->parseConfigYaml('config.yml', $this->app['resources']->getPath('theme'));
 
         // @todo: If no config files can be found, get them from bolt.cm/files/default/
-
-        $this->paths = $this->app['resources']->getPaths();
 
         // Make sure old settings for 'contentsCss' are still picked up correctly
         if (isset($config['general']['wysiwyg']['ck']['contentsCss'])) {
@@ -623,15 +619,15 @@ class Config
                     'allowedContent'          => true,
                     'autoParagraph'           => true,
                     'contentsCss'             => array(
-                        $this->paths['app'] . 'view/lib/ckeditor/contents.css',
-                        $this->paths['app'] . 'view/css/ckeditor.css',
+                        $this->app['resources']->getPath('app') . 'view/lib/ckeditor/contents.css',
+                        $this->app['resources']->getPath('app') . 'view/css/ckeditor.css',
                     ),
                     'filebrowserWindowWidth'  => 640,
                     'filebrowserWindowHeight' => 480
                 ),
                 'filebrowser' => array(
-                    'browseUrl'      => $this->paths['async'] . 'filebrowser/',
-                    'imageBrowseUrl' => $this->paths['bolt'] . 'files/files'
+                    'browseUrl'      => $this->app['resources']->getPath('async') . 'filebrowser/',
+                    'imageBrowseUrl' => $this->app['resources']->getPath('bolt') . 'files/files'
                 ),
             ),
             'canonical'                   => !empty($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '',
@@ -689,14 +685,14 @@ class Config
      */
     public function setCKPath()
     {
-        $this->paths = $this->app['resources']->getPaths();
+        $app = $this->app['resources']->getPath('app');
 
         // Make sure the paths for CKeditor config are always set correctly..
         $this->set(
             'general/wysiwyg/ck/contentsCss',
             array(
-                $this->paths['app'] . 'view/lib/ckeditor/contents.css',
-                $this->paths['app'] . 'view/css/ckeditor.css'
+                $app . 'view/lib/ckeditor/contents.css',
+                $app . 'view/css/ckeditor.css'
             )
         );
         $this->set('general/wysiwyg/filebrowser/browseUrl', $this->app['resources']->getUrl('async') . 'filebrowser/');
