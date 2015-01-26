@@ -104,12 +104,12 @@ class Backend implements ControllerProviderInterface
             ->bind('contentaction');
 
         $ctl->get('/systemlog', array($this, 'systemLog'))
-	        ->before(array($this, 'before'))
-	        ->bind('systemlog');
+            ->before(array($this, 'before'))
+            ->bind('systemlog');
 
         $ctl->get('/changelog', array($this, 'changeLog'))
-	        ->before(array($this, 'before'))
-	        ->bind('changelog');
+            ->before(array($this, 'before'))
+            ->bind('changelog');
 
         $ctl->get('/changelog/{contenttype}/{contentid}', array($this, 'changelogList'))
             ->before(array($this, 'before'))

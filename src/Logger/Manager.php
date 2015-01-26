@@ -2,13 +2,10 @@
 
 namespace Bolt\Logger;
 
-use Doctrine\DBAL\Connection as DoctrineConn;
-
-use Monolog\Logger;
-
 use Bolt\Application;
 use Bolt\Helpers\String;
 use Bolt\Pager;
+use Monolog\Logger;
 
 /**
  *
@@ -101,8 +98,8 @@ class Manager
     /**
      * Get a specific activity log
      *
-     * @param string  $log       The log to query.  Either 'change' or 'system'
-     * @param integer $amount    Number of results to return
+     * @param  string            $log    The log to query.  Either 'change' or 'system'
+     * @param  integer           $amount Number of results to return
      * @throws LowlevelException
      */
     public function getActivity($log, $amount = 10)
