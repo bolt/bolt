@@ -29,7 +29,7 @@ class CronEventTest extends BoltUnitTest
         $app['cache']->expects($this->exactly(1))
                   ->method('clearCache');
     
-        $app['logger.manager']->expects($this->exactly(1))
+        $app['logger.manager']->expects($this->exactly(2))
                   ->method('trim');
         
         $output = new BufferedOutput();

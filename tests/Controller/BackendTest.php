@@ -249,7 +249,7 @@ class BackendTest extends BoltUnitTest
         $this->assertNotEmpty($app['session']->getFlashBag()->get('success')); 
     }
     
-    public function testActivityLog()
+    public function testChangeLog()
     {
         $app = $this->getApp();
         $this->allowLogin($app);
@@ -266,18 +266,18 @@ class BackendTest extends BoltUnitTest
         
         ResourceManager::$theApp = $app;
 
-        $request = Request::create('/bolt/activitylog', "GET", array('action'=>'trim'));
+        $request = Request::create('/bolt/changelog', "GET", array('action'=>'trim'));
         $response = $app->handle($request);
         $this->assertNotEmpty($app['session']->getFlashBag()->get('success'));  
         
-        $request = Request::create('/bolt/activitylog', "GET", array('action'=>'clear'));
+        $request = Request::create('/bolt/changelog', "GET", array('action'=>'clear'));
         $response = $app->handle($request);
         $this->assertNotEmpty($app['session']->getFlashBag()->get('success'));
         
-        $this->assertEquals('/bolt/activitylog', $response->getTargetUrl());
+        $this->assertEquals('/bolt/changelog', $response->getTargetUrl());
 
-        $request = Request::create('/bolt/activitylog');
-        $this->checkTwigForTemplate($app, 'activity/activity.twig');
+        $request = Request::create('/bolt/changelog');
+        $this->checkTwigForTemplate($app, 'activity/changelog.twig');
         $app->run($request);
         
     }
