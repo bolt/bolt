@@ -240,33 +240,34 @@ class Async implements ControllerProviderInterface
         $table = $app['config']->get('general/database/prefix', "bolt_");
         $table .= 'taxonomy';
 
-        $query = sprintf(
-            'SELECT DISTINCT %s.slug from %s where taxonomytype = ? order by slug ASC;',
-            $table,
-            $table
+        $results = $app['db']->fetchAll(
+            "SELECT DISTINCT $table.slug
+            FROM $table
+            WHERE taxonomytype = ?
+            ORDER BY slug ASC",
+            array($taxonomytype)
         );
-        $query = $app['db']->executeQuery($query, array($taxonomytype));
-
-        $results = $query->fetchAll();
 
         return $app->json($results);
     }
 
-    public function populartags(Silex\Application $app, $taxonomytype)
+    public function populartags(Silex\Application $app, Request $request, $taxonomytype)
     {
         $table = $app['config']->get('general/database/prefix', "bolt_");
         $table .= 'taxonomy';
 
-        $limit = $app['request']->get('limit', 20);
-
-        $query = sprintf(
-            'SELECT slug, COUNT(slug) as count from  %s where taxonomytype = ? GROUP BY  slug ORDER BY count DESC LIMIT %s',
-            $table,
-            intval($limit)
+        $results = $app['db']->fetchAll(
+            "SELECT slug, COUNT(slug) AS count
+            FROM $table
+            WHERE taxonomytype = ?
+            GROUP BY slug
+            ORDER BY count DESC
+            LIMIT ?",
+            array(
+                $taxonomytype,
+                $request->query->getInt('limit', 20),
+            )
         );
-        $query = $app['db']->executeQuery($query, array($taxonomytype));
-
-        $results = $query->fetchAll();
 
         usort(
             $results,

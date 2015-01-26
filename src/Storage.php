@@ -2,6 +2,7 @@
 
 namespace Bolt;
 
+use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
 use Bolt;
 use Bolt\Events\StorageEvent;
@@ -1276,20 +1277,20 @@ class Storage
         try {
 
             // Check if there are any records that need publishing..
-            $query = "SELECT id FROM $tablename WHERE status = 'timed' and datepublish < :now";
-            $stmt = $this->app['db']->prepare($query);
-            $stmt->bindValue("now", $now);
-            $stmt->execute();
+            $stmt = $this->app['db']->executeQuery(
+                "SELECT id FROM $tablename WHERE status = 'timed' and datepublish < :now",
+                array('now' => $now)
+            );
 
             // If there's a result, we need to set these to 'publish'..
             if ($stmt->fetch() !== false) {
-                $query = "UPDATE $tablename SET status = 'published', datechanged = :now  WHERE status = 'timed' and datepublish < :now";
-                $stmt = $this->app['db']->prepare($query);
-                $stmt->bindValue("now", $now);
-                $stmt->execute();
+                $this->app['db']->query(
+                    "UPDATE $tablename SET status = 'published', datechanged = :now WHERE status = 'timed' and datepublish < :now",
+                    array('now' => $now)
+                );
             }
 
-        } catch (\Doctrine\DBAL\DBALException $e) {
+        } catch (DBALException $e) {
 
             // Oops. Couldn't execute the queries.
 
@@ -1315,20 +1316,20 @@ class Storage
         try {
 
             // Check if there are any records that need depublishing..
-            $query = "SELECT id FROM $tablename WHERE status = 'published' and datedepublish <= :now and datedepublish > '1900-01-01 00:00:01' and datechanged < datedepublish";
-            $stmt = $this->app['db']->prepare($query);
-            $stmt->bindValue("now", $now);
-            $stmt->execute();
+            $stmt = $this->app['db']->executeQuery(
+                "SELECT id FROM $tablename WHERE status = 'published' and datedepublish <= :now and datedepublish > '1900-01-01 00:00:01' and datechanged < datedepublish",
+                array('now' => $now)
+            );
 
             // If there's a result, we need to set these to 'held'..
             if ($stmt->fetch() !== false) {
-                $query = "UPDATE $tablename SET status = 'held', datechanged = :now WHERE status = 'published' and datedepublish <= :now and datedepublish > '1900-01-01 00:00:01' and datechanged < datedepublish";
-                $stmt = $this->app['db']->prepare($query);
-                $stmt->bindValue("now", $now);
-                $stmt->execute();
+                $this->app['db']->query(
+                    "UPDATE $tablename SET status = 'held', datechanged = :now WHERE status = 'published' and datedepublish <= :now and datedepublish > '1900-01-01 00:00:01' and datechanged < datedepublish",
+                    array('now' => $now)
+                );
             }
 
-        } catch (\Doctrine\DBAL\DBALException $e) {
+        } catch (DBALException $e) {
 
             // Oops. Couldn't execute the queries.
 
