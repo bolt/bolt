@@ -230,37 +230,7 @@ class Application extends Silex\Application
 
     public function initRendering()
     {
-        // Should we cache or not?
-        if ($this['config']->get('general/caching/templates')) {
-            $cache = $this['resources']->getPath('cache');
-        } else {
-            $cache = false;
-        }
-
-        $this->register(
-            new Silex\Provider\TwigServiceProvider(),
-            array(
-                'twig.path'    => $this['config']->get('twigpath'),
-                'twig.options' => array(
-                    'debug'            => true,
-                    'cache'            => $cache,
-                    'strict_variables' => $this['config']->get('general/strict_variables'),
-                    'autoescape'       => true,
-                )
-            )
-        );
-        // Add the Bolt Twig Extension.
-        $this['twig'] = $this->share(
-            $this->extend(
-                'twig',
-                function (\Twig_Environment $twig, $app) {
-                    $twig->addExtension(new TwigExtension($app));
-
-                    return $twig;
-                }
-            )
-        );
-
+        $this->register(new Provider\TwigServiceProvider());
         $this->register(new Provider\SafeTwigServiceProvider());
 
         $this->register(new Provider\RenderServiceProvider());
