@@ -264,9 +264,9 @@ class Async implements ControllerProviderInterface
         return $app->json($results);
     }
 
-    public function omnisearch(Silex\Application $app)
+    public function omnisearch(Silex\Application $app, Request $request)
     {
-        $query = $app['request']->get('q', '');
+        $query = $request->query->get('q', '');
 
         if (strlen($query) < 3) {
             return $app->json(array());
@@ -385,7 +385,7 @@ class Async implements ControllerProviderInterface
 
         // $key is linked to the fieldname of the original field, so we can
         // Set the selected value in the proper field
-        $key = $app['request']->get('key');
+        $key = $request->query->get('key');
 
         // Get the pathsegments, so we can show the path..
         $pathsegments = array();
@@ -426,10 +426,10 @@ class Async implements ControllerProviderInterface
         return true;
     }
 
-    public function showstack(Silex\Application $app)
+    public function showstack(Silex\Application $app, Request $request)
     {
-        $count = $app['request']->get('items', 10);
-        $options = $app['request']->get('options', false);
+        $count = $request->query->get('items', 10);
+        $options = $request->query->get('options', false);
 
         $context = array(
             'stack' => $app['stack']->listitems($count),
@@ -645,7 +645,7 @@ class Async implements ControllerProviderInterface
     }
 
     /**
-     * Middleware function to do some tasks that should be done for all aynchronous
+     * Middleware function to do some tasks that should be done for all asynchronous
      * requests.
      */
     public function before(Request $request, Silex\Application $app)
