@@ -526,8 +526,6 @@ class IntegrityChecker
      */
     protected function getContentTypeTablesSchema(Schema $schema)
     {
-        $dboptions = $this->app['config']->getDBOptions();
-
         $tables = array();
 
         // Now, iterate over the contenttypes, and create the tables if they don't exist.
@@ -557,7 +555,9 @@ class IntegrityChecker
             // Check if all the fields are present in the DB..
             foreach ($contenttype['fields'] as $field => $values) {
 
-                if (in_array($field, $dboptions['reservedwords'])) {
+                /** @var \Doctrine\DBAL\Platforms\Keywords\KeywordList $reservedList */
+                $reservedList = $this->app['db']->getDatabasePlatform()->getReservedKeywordsList();
+                if ($reservedList->isKeyword($field)) {
                     $error = sprintf(
                         "You're using '%s' as a field name, but that is a reserved word in %s. Please fix it, and refresh this page.",
                         $field,
