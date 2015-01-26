@@ -333,7 +333,7 @@ class Storage
      */
     public function getChangelog($options)
     {
-        $tablename = $this->getTablename('content_changelog');
+        $tablename = $this->getTablename('log_change');
         $sql = "SELECT log.*, log.title " .
                "    FROM $tablename as log ";
         $sql .= $this->makeOrderLimitSql($options);
@@ -349,7 +349,7 @@ class Storage
 
     public function countChangelog()
     {
-        $tablename = $this->getTablename('content_changelog');
+        $tablename = $this->getTablename('log_change');
         $sql = "SELECT COUNT(1) " .
                "    FROM $tablename as log ";
 
@@ -374,7 +374,7 @@ class Storage
         if (is_array($contenttype)) {
             $contenttype = $contenttype['slug'];
         }
-        $tablename = $this->getTablename('content_changelog');
+        $tablename = $this->getTablename('log_change');
         $contentTablename = $this->getTablename($contenttype);
         $sql = "SELECT log.*, log.title " .
                "    FROM $tablename as log " .
@@ -406,7 +406,7 @@ class Storage
         if (is_array($contenttype)) {
             $contenttype = $contenttype['slug'];
         }
-        $tablename = $this->getTablename('content_changelog');
+        $tablename = $this->getTablename('log_change');
         $sql = "SELECT COUNT(1) " .
                "    FROM $tablename as log " .
                "    WHERE contenttype = ? ";
@@ -495,7 +495,7 @@ class Storage
                 $ordering = " ORDER BY date ";
                 break;
         }
-        $tablename = $this->getTablename('content_changelog');
+        $tablename = $this->getTablename('log_change');
         $contentTablename = $this->getTablename($contenttype);
         $sql = "SELECT log.* " .
                "    FROM $tablename as log " .
@@ -1187,7 +1187,7 @@ class Storage
      */
     public function getContentByTaxonomy($taxonomyslug, $name, $parameters = "")
     {
-        $tablename = $this->getTablename("taxonomy");
+        $tablename = $this->getTablename('taxonomy');
 
         $slug = String::slug($name);
 

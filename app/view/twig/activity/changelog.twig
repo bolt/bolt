@@ -1,0 +1,54 @@
+{# Page: NavSecondary > Dashboard > Configuration > Change Log #}
+
+{% extends '_base/_page-nav.twig' %}
+
+{% block page_nav 'Settings/Configuration' %}
+
+{% block page_title __('logs.change-log') %}
+
+{% block page_main %}
+
+    {% from '_macro/_pager.twig' import pager %}
+
+    <div class="row">
+        <div class="col-xs-12">
+
+            <div class="btn-group" style="padding-bottom: 12px">
+                <a class="btn btn-default" href="{{ path('changelog', {'action': 'trim'}) }}">
+                    <i class="fa fa-trash-o"></i> {{ __('Trim Change Log') }}
+                </a>
+                <a class="btn btn-default confirm" href="{{ path('changelog', {'action': 'clear'}) }}" data-confirm="Are you sure you want to clear the change logs?">
+                    <i class="fa fa-trash"></i> {{ __('Clear Change Log') }}
+                </a>
+            </div>
+
+            <table class="table table-striped dashboardlisting">
+                <tbody>
+                {% for log in context.entries %}
+                    <tr>
+                        <td>
+                            № {{ log.id }}<br>Lvl {{ log.level|loglevel }}
+                        </td>
+                        <td>
+                            {% if log.code is not empty %}<b>[{{ log.code|ucfirst }}]</b> {% endif %}
+                            <b>{{ log.message }}</b> <br>
+                            {{ __('in:') }} {{ log.file }}::{{ log.line }} ({{ log.route }})
+                        </td>
+                        <td>
+                            {{ log.username }} <br>
+                            {{ log.ip }}
+                        </td>
+                        <td>
+                            <time class="moment" datetime="{{ log.date|date("c") }}" title="{{ log.date }}">{{ log.date }}</time>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            {{ pager() }}
+
+        </div>
+    </div>
+
+{% endblock page_main %}

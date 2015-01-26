@@ -19,7 +19,7 @@
         label: __('Taxonomy'),
         link: path('fileedit', {'namespace': 'app', 'file': 'config/taxonomy.yml'}),
         isallowed: 'files:config'
-    }, 
+    },
     '-',
     {
         icon: 'fa:list',
@@ -45,9 +45,14 @@
         isallowed: 'clearcache'
     }, {
         icon: 'fa:archive',
-        label: __('logs.activity-log'),
-        link: path('activitylog'),
-        isallowed: 'activitylog'
+        label: __('logs.change-log'),
+        link: path('changelog'),
+        isallowed: 'changelog'
+    }, {
+        icon: 'fa:archive',
+        label: __('logs.system-log'),
+        link: path('systemlog'),
+        isallowed: 'systemlog'
     }
 ] %}
 
