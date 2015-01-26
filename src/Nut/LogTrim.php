@@ -16,7 +16,8 @@ class LogTrim extends BaseCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->app['logger.manager']->trim();
+        $this->app['logger.manager']->trim('system');
+        $this->app['logger.manager']->trim('change');
 
         $output->writeln("<info>Activity logs trimmed!</info>");
     }
