@@ -35,7 +35,7 @@ class ExtensionsTest extends BoltUnitTest
         $app['extend.manager'] = $runner;
                 
         $command = new Extensions($app);
-        $command->setHelperset(new HelperSet(array(new TableHelper)));
+        $command->setHelperSet(new HelperSet(array(new TableHelper)));
         $tester = new CommandTester($command);
         
         
