@@ -71,26 +71,13 @@ class SystemHandler extends AbstractProcessingHandler
         if ($this->app['config']->get('general/debug')) {
             $backtrace = debug_backtrace();
             $filename = str_replace($this->app['resources']->getPath('root'), "", $backtrace[3]['file']);
-            $record['message'] .= "\nFile: $filename";
+            $record['message'] .= "\nFile: " . $filename;
             $record['message'] .= "\nLine: " . $backtrace[3]['line'];
         }
 
         $this->user = $this->app['session']->get('user');
-        $username = isset($this->user['username']) ? $this->user['username'] : "";
+        $username = isset($this->user['username']) ? $this->user['username'] : '';
 
-        if (is_object($record['context']['content'])) {
-            $contenttype = $record['context']['content']->contenttype['slug'];
-            $content_id  = intval($record['context']['content']->id);
-        } else {
-            $contenttype = '';
-            $content_id  = 0;
-        }
-
-        /*
-         * To kill list:
-         *  - code
-         *  - dump
-         */
         try {
             $this->app['db']->insert($this->tablename, array(
                 'level'       => $record['level'],
@@ -100,8 +87,6 @@ class SystemHandler extends AbstractProcessingHandler
                 'requesturi'  => $this->app['request']->getRequestUri(),
                 'route'       => $this->app['request']->get('_route'),
                 'ip'          => $this->app['request']->getClientIp(),
-                'contenttype' => $contenttype,
-                'content_id'  => $content_id,
                 'context'     => isset($record['context']['event']) ? $record['context']['event'] : ''
             ));
         } catch (\Exception $e) {
