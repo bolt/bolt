@@ -67,35 +67,6 @@ module.exports = function(grunt) {
                     filter: 'isFile',
                     dest: 'fonts/'
                 }]
-            },
-            momentlocales: {
-                files: [{
-                    expand: true,
-                    flatten: true,
-                    src: [
-                        'node_modules/moment/locale/cs.js',
-                        'node_modules/moment/locale/de.js',
-                        'node_modules/moment/locale/el.js',
-                        'node_modules/moment/locale/en-gb.js',
-                        'node_modules/moment/locale/es.js',
-                        'node_modules/moment/locale/fi.js',
-                        'node_modules/moment/locale/fr.js',
-                        'node_modules/moment/locale/hu.js',
-                        'node_modules/moment/locale/id.js',
-                        'node_modules/moment/locale/it.js',
-                        'node_modules/moment/locale/ja.js',
-                        'node_modules/moment/locale/nb.js',
-                        'node_modules/moment/locale/nl.js',
-                        'node_modules/moment/locale/nb.js',
-                        'node_modules/moment/locale/nl.js',
-                        'node_modules/moment/locale/pt.js',
-                        'node_modules/moment/locale/ru.js',
-                        'node_modules/moment/locale/zh-cn.js',
-                        'node_modules/moment/min/moment.min.js',
-                    ],
-                    filter: 'isFile',
-                    dest: 'lib/moment/'
-                }]
             }
         },
 
@@ -121,7 +92,7 @@ module.exports = function(grunt) {
                     'lib/bootstrap-sass.generated/bootstrap.min.js',                //   2 kb
                     'lib/magnific-popup-0.9.9/magnific-popup.min.js',               //  21 kb
                     'lib/select2-3.5.1/select2.min.js',                             //  66 kb
-                    'lib/moment/moment.min.js',                                     //  35 kb
+                    'node_modules/moment/min/moment.min.js',                        //  35 kb
                     'lib/bootbox-4.3.0/bootbox.min.js',                             //   9 kb
                     'lib/modernizr-2.8.3/modernizr.custom.min.js'                   //   5 kb
                 ],
@@ -165,6 +136,38 @@ module.exports = function(grunt) {
                         'lib/jquery-tagcloud/jquery-tagcloud.js',
                         'lib/jquery-watchchanges/jquery-watchchanges.js'
                     ]
+                }]
+            },
+            locale_datepicker: {
+                options: {
+                    preserveComments: 'some'
+                },
+                files: [{
+                    expand: true,
+                    ext: '.min.js',
+                    cwd: 'lib/datepicker',
+                    src: '*.js',
+                    dest: 'js/locale/datepicker',
+                    rename: function (destBase, destPath) {
+                        return destBase + '/' + destPath.replace('datepicker-', '').replace('-', '_');
+                    }
+                }]
+            },
+            locale_moment: {
+                options: {
+                    preserveComments: 'some'
+                },
+                files: [{
+                    expand: true,
+                    ext: '.min.js',
+                    cwd: 'node_modules/moment/locale',
+                    src: '*.js',
+                    dest: 'js/locale/moment',
+                    rename: function (destBase, destPath) {
+                        return destBase + '/' + destPath.replace(/([a-z]+)-([a-z]+)/, function (_, a, b) {
+                            return a + '_' + b.toUpperCase();
+                        });
+                    }
                 }]
             },
             bootstrap: {
