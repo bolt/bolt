@@ -25,11 +25,6 @@ class Manager
     private $initialized = false;
 
     /**
-     * @var string
-     */
-    private $tablename;
-
-    /**
      *
      * @param Application $app
      */
@@ -133,11 +128,8 @@ class Manager
             // Modify limit query for the pager
             $query = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($query, intval($amount), intval(($page - 1) * $amount));
 
-            /** @var $stmt \Doctrine\DBAL\Driver\Statement */
-            $stmt = $this->app['db']->executeQuery($query);
-
-            // 2 == Query::HYDRATE_COLUMN
-            $rows = $stmt->fetchAll(2);
+            // Get the rows from the database
+            $rows = $this->app['db']->fetchAll($query);
 
             // Find out how many entries we're paging form
             $pagerQuery = sprintf(
