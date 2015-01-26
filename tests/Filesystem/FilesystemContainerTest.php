@@ -29,6 +29,7 @@ class FlysystemContainerTest extends BoltUnitTest
         $this->assertTrue($container->isWritable());
         $this->assertFalse($container->has('nonexistent'));
         $this->assertTrue($container->save('filename', 'content'));
+        $this->setExpectedException('League\Flysystem\FileNotFoundException');
         $this->assertFalse($container->delete('filename'));
         $this->assertEquals('destination', $container->moveUploadedFile(__FILE__, 'destination'));
         $this->assertFalse($container->moveUploadedFile('/dev/null', 'destination'));
