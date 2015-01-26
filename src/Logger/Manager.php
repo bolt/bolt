@@ -56,23 +56,6 @@ class Manager
         }
 
         $query = sprintf(
-            "DELETE FROM %s WHERE level='1';",
-            $table
-        );
-        $this->app['db']->executeQuery($query);
-
-        $query = sprintf(
-            "DELETE FROM %s WHERE level='2' AND date < ?;",
-            $table
-        );
-
-        $this->app['db']->executeQuery(
-            $query,
-            array(date('Y-m-d H:i:s', strtotime('-2 day'))),
-            array(\PDO::PARAM_STR)
-        );
-
-        $query = sprintf(
             "DELETE FROM %s WHERE date < ?;",
             $table
         );
@@ -96,8 +79,6 @@ class Manager
         } else {
             throw new \Exception("Invalid log type requested: $log");
         }
-
-        $configdb = $this->app['config']->getDBOptions();
 
         if ($this->app['db']->getDriver()->getName() == 'pdo_sqlite') {
             // Sqlite
