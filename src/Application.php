@@ -29,6 +29,7 @@ class Application extends Silex\Application
     {
         $values['bolt_version'] = '2.1.0';
         $values['bolt_name'] = 'alpha1';
+        $values['bolt_released'] = false; // True for stable releases
 
         parent::__construct($values);
 
