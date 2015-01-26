@@ -561,7 +561,7 @@ class IntegrityChecker
                     $error = sprintf(
                         "You're using '%s' as a field name, but that is a reserved word in %s. Please fix it, and refresh this page.",
                         $field,
-                        $dboptions['driver']
+                        $this->app['db']->getDatabasePlatform()->getName()
                     );
                     $this->app['session']->getFlashBag()->set('error', $error);
                     continue;

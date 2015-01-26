@@ -4,6 +4,7 @@ namespace Bolt;
 
 use Bolt\Configuration\LowlevelException;
 use Bolt\Library as Lib;
+use Doctrine\DBAL\Exception\ConnectionException as DBALConnectionException;
 use Monolog\Logger;
 use RandomLib;
 use SecurityLib;
@@ -171,24 +172,14 @@ class Application extends Silex\Application
         // connect that will leak connection information.
         try {
             $this['db']->connect();
-        } catch (\Doctrine\DBAL\Exception\ConnectionException $e) {
+        } catch (DBALConnectionException $e) {
             // Trap double exceptions caused by throwing a new LowlevelException
             set_exception_handler(array('\Bolt\Configuration\LowlevelException', 'nullHandler'));
 
-            // Get the DB engine
-            if ($this['db.options']['driver'] == 'pdo_mysql' || $this['db.options']['driver'] == 'pdo_mysqli') {
-                $engine = 'MySQL';
-            } elseif ($this['db.options']['driver'] == 'pdo_pgsql') {
-                $engine = 'PostgreSQL';
-            } elseif ($this['db.options']['driver'] == 'pdo_sqlite') {
-                $engine = 'SQLite';
-            } else {
-                $engine = '~~ Unknown ~~';
-            }
-
+            $platform = $this['db']->getDatabasePlatform()->getName();
             $error = "Bolt could not connect to the configured database.\n\n" .
                      "Things to check:\n" .
-                     "&nbsp;&nbsp;* Ensure the $engine database engine is running\n" .
+                     "&nbsp;&nbsp;* Ensure the $platform database is running\n" .
                      "&nbsp;&nbsp;* Check the <code>database:</code> parameters are configured correctly in <code>app/config/config.yml</code>\n" .
                      "&nbsp;&nbsp;&nbsp;&nbsp;* Database name is correct\n" .
                      "&nbsp;&nbsp;&nbsp;&nbsp;* User name has access to the named database\n" .
