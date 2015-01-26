@@ -1128,7 +1128,7 @@ class Storage
         // Order, with a special case for 'RANDOM'.
         if (!empty($parameters['order'])) {
             if ($parameters['order'] == "RANDOM") {
-                $dboptions = $this->app['config']->getDBOptions();
+                $dboptions = $this->app['db']->getParams();
                 $queryparams .= sprintf(' ORDER BY %s', $dboptions['randomfunction']);
             } else {
                 $order = $this->getEscapedSortorder($parameters['order'], false);
@@ -1540,7 +1540,7 @@ class Storage
         } else {
             $parOrder = String::makeSafe($orderValue);
             if ($parOrder == 'RANDOM') {
-                $dboptions = $this->app['config']->getDBOptions();
+                $dboptions = $this->app['db']->getParams();
                 $order = $dboptions['randomfunction'];
             } elseif ($this->isValidColumn($parOrder, $contenttype, true)) {
                 $order = $this->getEscapedSortorder($parOrder, false);
@@ -2852,18 +2852,14 @@ class Storage
         }
 
         // See if the table exists.
-        $dboptions = $this->app['config']->getDBOptions();
-        if ($dboptions['driver'] == 'pdo_sqlite') {
-            // For SQLite:
+        $platform = $this->app['db']->getDatabasePlatform()->getName();
+        $database = $this->app['db']->getDatabase();
+        if ($platform === 'sqlite') {
             $query = "SELECT count(*) FROM sqlite_master WHERE type='table' AND name='$name';";
-        } elseif ($dboptions['driver'] == 'pdo_pgsql') {
-            // For Postgres
-            $databasename = $this->app['config']->get('general/database/databasename');
-            $query = "SELECT count(*) FROM information_schema.tables WHERE table_catalog = '$databasename' AND table_name = '$name';";
+        } elseif ($platform === 'postgresql') {
+            $query = "SELECT count(*) FROM information_schema.tables WHERE table_catalog = '$database' AND table_name = '$name';";
         } else {
-            // For MySQL
-            $databasename = $this->app['config']->get('general/database/databasename');
-            $query = "SELECT count(*) FROM information_schema.tables WHERE table_schema = '$databasename' AND table_name = '$name';";
+            $query = "SELECT count(*) FROM information_schema.tables WHERE table_schema = '$database' AND table_name = '$name';";
         }
 
         $res = $this->app['db']->fetchColumn($query);
