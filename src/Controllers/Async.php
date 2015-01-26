@@ -241,7 +241,10 @@ class Async implements ControllerProviderInterface
         $table .= 'taxonomy';
 
         $results = $app['db']->fetchAll(
-            "SELECT DISTINCT $table.slug from $table where taxonomytype = ? order by slug ASC",
+            "SELECT DISTINCT $table.slug
+            FROM $table
+            WHERE taxonomytype = ?
+            ORDER BY slug ASC",
             array($taxonomytype)
         );
 
@@ -254,7 +257,12 @@ class Async implements ControllerProviderInterface
         $table .= 'taxonomy';
 
         $results = $app['db']->fetchAll(
-            "SELECT slug, COUNT(slug) as count from $table where taxonomytype = ? GROUP BY slug ORDER BY count DESC LIMIT ?",
+            "SELECT slug, COUNT(slug) AS count
+            FROM $table
+            WHERE taxonomytype = ?
+            GROUP BY slug
+            ORDER BY count DESC
+            LIMIT ?",
             array(
                 $taxonomytype,
                 $request->query->getInt('limit', 20),
