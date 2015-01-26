@@ -20,7 +20,7 @@
         "jbroadway/urlify": "~1.0",
         "monolog/monolog": "~1.12",
         "php": ">=5.3.3",
-        "rossriley/flysystem53": "~0.5",
+        "rossriley/flysystem53": "dev-master@dev",
         "siriusphp/upload": "~1.2",
         "silex/silex": "~1.2",
         "silex/web-profiler": "~1.0",
