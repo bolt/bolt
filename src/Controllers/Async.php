@@ -94,6 +94,7 @@ class Async implements ControllerProviderInterface
      */
     public function dashboardnews(Silex\Application $app)
     {
+        $source = 'http://news.bolt.cm/';
         $news = $app['cache']->fetch('dashboardnews'); // Two hours.
 
         $name = !empty($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : $_SERVER['HTTP_HOST'];
@@ -101,12 +102,13 @@ class Async implements ControllerProviderInterface
         // If not cached, get fresh news..
         if ($news === false) {
 
-            $app['logger.system']->addInfo("[News] Fetching from remote server: http://news.bolt.cm/", array('event' => 'news'));
+            $app['logger.system']->addInfo("Fetching from remote server: $source", array('event' => 'news'));
 
             $driver = $app['config']->get('general/database/driver', 'sqlite');
 
             $url = sprintf(
-                'http://news.bolt.cm/?v=%s&p=%s&db=%s&name=%s',
+                '%s?v=%s&p=%s&db=%s&name=%s',
+                $source,
                 rawurlencode($app->getVersion()),
                 phpversion(),
                 $driver,
@@ -131,15 +133,15 @@ class Async implements ControllerProviderInterface
 
                     $app['cache']->save('dashboardnews', $news, 7200);
                 } else {
-                    $app['logger.system']->addError("[News] Invalid JSON feed returned");
+                    $app['logger.system']->addError('Invalid JSON feed returned', array('event' => 'news'));
                 }
 
-            } catch (RequestException $re) {
-                $app['logger.system']->addError("[News] Error occurred during fetch: " . $re->getMessage());
+            } catch (RequestException $e) {
+                $app['logger.system']->addError('Error occurred during fetch: ' . $e->getMessage(), array('event' => 'news'));
             }
 
         } else {
-            $app['logger.system']->addInfo("[News] Using cached data", array('event' => 'news'));
+            $app['logger.system']->addInfo('Using cached data', array('event' => 'news'));
         }
 
         $body = $app['render']->render('components/panel-news.twig', array('news' => $news));

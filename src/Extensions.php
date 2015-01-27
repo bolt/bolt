@@ -236,7 +236,7 @@ class Extensions
         try {
             $extension->getConfig();
         } catch (\Exception $e) {
-            $this->app['logger.system']->addCritical("[EXT] YAML config failed to load for {$name}: " . $e->getMessage());
+            $this->app['logger.system']->addCritical("YAML config failed to load for $name: " . $e->getMessage(), array('event' => 'extensions'));
 
             return;
         }
@@ -260,7 +260,7 @@ class Extensions
             }
 
         } catch (\Exception $e) {
-            $this->app['logger.system']->addCritical("[EXT] Initialisation failed for {$name}: " . $e->getMessage());
+            $this->app['logger.system']->addCritical("Initialisation failed for $name: " . $e->getMessage(), array('event' => 'extensions'));
 
             return;
         }
@@ -272,7 +272,7 @@ class Extensions
         try {
             $this->getSnippets($name);
         } catch (\Exception $e) {
-            $this->app['logger.system']->addError("[EXT] Snippet loading failed for {$name}: " . $e->getMessage());
+            $this->app['logger.system']->addError("Snippet loading failed for $name: " . $e->getMessage(), array('event' => 'extensions'));
 
             return;
         }
@@ -307,7 +307,7 @@ class Extensions
                     }
                 }
             } catch (\Exception $e) {
-                $this->app['logger.system']->addError("[EXT] Failed to regsiter Twig extension for {$name}: " . $e->getMessage());
+                $this->app['logger.system']->addError("Failed to regsiter Twig extension for $name: " . $e->getMessage(), array('event' => 'extensions'));
 
                 return;
             }

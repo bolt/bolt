@@ -2,13 +2,10 @@
 
 namespace Bolt\Logger;
 
-use Doctrine\DBAL\Connection as DoctrineConn;
-
-use Monolog\Logger;
-
 use Bolt\Application;
 use Bolt\Helpers\String;
 use Bolt\Pager;
+use Monolog\Logger;
 
 /**
  *
@@ -26,11 +23,6 @@ class Manager
      * @var boolean
      */
     private $initialized = false;
-
-    /**
-     * @var string
-     */
-    private $tablename;
 
     /**
      *
@@ -101,8 +93,8 @@ class Manager
     /**
      * Get a specific activity log
      *
-     * @param string  $log       The log to query.  Either 'change' or 'system'
-     * @param integer $amount    Number of results to return
+     * @param  string            $log    The log to query.  Either 'change' or 'system'
+     * @param  integer           $amount Number of results to return
      * @throws LowlevelException
      */
     public function getActivity($log, $amount = 10)
@@ -136,11 +128,8 @@ class Manager
             // Modify limit query for the pager
             $query = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($query, intval($amount), intval(($page - 1) * $amount));
 
-            /** @var $stmt \Doctrine\DBAL\Driver\Statement */
-            $stmt = $this->app['db']->executeQuery($query);
-
-            // 2 == Query::HYDRATE_COLUMN
-            $rows = $stmt->fetchAll(2);
+            // Get the rows from the database
+            $rows = $this->app['db']->fetchAll($query);
 
             // Find out how many entries we're paging form
             $pagerQuery = sprintf(
@@ -163,6 +152,29 @@ class Manager
         } catch (\Doctrine\DBAL\DBALException $e) {
             // Oops. User will get a warning on the dashboard about tables that need to be repaired.
             $rows = array();
+        }
+
+        if ($log == 'system') {
+            return $rows;
+        } elseif ($log == 'change') {
+            return $this->decodeChangeLog($rows);
+        }
+    }
+
+    /**
+     * Decode JSON in change log fields
+     *
+     * @param  array $rows
+     * @return array
+     */
+    private function decodeChangeLog($rows)
+    {
+        if (!is_array($rows)) {
+            return $rows;
+        }
+
+        foreach ($rows as $key => $row) {
+            $rows[$key]['diff'] = json_decode($row['diff'], true);
         }
 
         return $rows;
