@@ -12,6 +12,7 @@ Bolt 2.0 DEV-head
 - Added: Extension repo as service: extracts the queries of the Extensions repo to a separate service provider.
  (#2550 thanks @rossriley)
 - Updated: Magnific popup is now at 1.0.0. (#2560, thanks @cdowdy)
+- Updated: FlySystem from version 0.5 to 1.1, with php5.3 patch. (#2587)
 
 Bolt 2.0.5
 ----------
