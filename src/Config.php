@@ -190,6 +190,17 @@ class Config
 
         // @todo: If no config files can be found, get them from bolt.cm/files/default/
 
+        return $config;
+    }
+
+    protected function parseGeneral()
+    {
+        // Read the config and merge it. (note: We use temp variables to prevent
+        // "Only variables should be passed by reference")
+        $tempconfig = $this->parseConfigYaml('config.yml');
+        $tempconfiglocal = $this->parseConfigYaml('config_local.yml');
+        $general = Arr::mergeRecursiveDistinct($tempconfig, $tempconfiglocal);
+
         // Make sure old settings for 'contentsCss' are still picked up correctly
         if (isset($general['wysiwyg']['ck']['contentsCss'])) {
             $general['wysiwyg']['ck']['contentsCss'] = array(
