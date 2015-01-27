@@ -342,12 +342,10 @@ class Extensions
     {
         $this->app['log']->add("[EXT] $msg {$name}: " . $e->getMessage(), 2);
 
-        if ($this->app['config']->getWhichEnd() == 'backend') {
-            $this->app['session']->getFlashBag()->set(
-                'error',
-                Trans::__("[Extension error] $msg failed for %ext%: %error%", array('%ext%' => $name, '%error%' => $e->getMessage()))
-            );
-        }
+        $this->app['session']->getFlashBag()->set(
+            'error',
+            Trans::__("[Extension error] $msg failed for %ext%: %error%", array('%ext%' => $name, '%error%' => $e->getMessage()))
+        );
     }
 
     /**
