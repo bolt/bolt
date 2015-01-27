@@ -5,7 +5,6 @@ use Bolt\Application;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Filesystem\BrowsePlugin;
 use League\Flysystem\Filesystem;
-use League\Flysystem\Cache\Memory;
 use League\Flysystem\Adapter\NullAdapter;
 use League\Flysystem\Adapter\Local;
 
@@ -23,8 +22,7 @@ class BrowsePluginTest extends BoltUnitTest
         $app = $this->getApp();
         
         $adapter = new Local(TEST_ROOT);
-        $cache = new Memory();
-        $fs = new Filesystem($adapter, $cache);
+        $fs = new Filesystem($adapter);
         
         $plugin = new BrowsePlugin();
         $plugin->setFilesystem($fs);
@@ -42,8 +40,7 @@ class BrowsePluginTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $adapter = new Local(TEST_ROOT."/tests/resources");
-        $cache = new Memory();
-        $fs = new Filesystem($adapter, $cache);
+        $fs = new Filesystem($adapter);
         
         $plugin = new BrowsePlugin();
         $plugin->setFilesystem($fs);
