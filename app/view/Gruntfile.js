@@ -90,7 +90,7 @@ module.exports = function(grunt) {
                     'lib/underscore-1.7.0/underscore-min.js',                       //  16 kb
                     'lib/backbone/backbone-min.js',                                 //  20 kb
                     'lib/bootstrap-sass.generated/bootstrap.min.js',                //   2 kb
-                    'lib/magnific-popup-0.9.9/magnific-popup.min.js',               //  21 kb
+                    'lib/magnific-popup/magnific-popup.min.js',               //  21 kb
                     'lib/select2-3.5.1/select2.min.js',                             //  66 kb
                     'node_modules/moment/min/moment.min.js',                        //  35 kb
                     'lib/bootbox-4.3.0/bootbox.min.js',                             //   9 kb
