@@ -582,7 +582,9 @@ panel:
         headline: "Latest activity"
         logged-in: "logged in"
         logged-out: "logged out"
+        created: "Created"
         saved: "Saved"
+        deleted: "Deleted"
         unknown: "unknown"
     user-actions:
         button:

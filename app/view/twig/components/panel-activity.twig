@@ -16,34 +16,42 @@
 
     <ul class="activity">
         {% for log in activity %}
-            {% if attribute(users, log.username) is defined %}
-                {% set userlink = macro.userlink(attribute(users, log.username)) %}
+            {% set user = getuser(log.ownerid) %}
+            {% if user is not empty %}
+                {% set userlink = macro.userlink(user) %}
             {% else %}
                 {% set userlink = __('panel.latest-activity.unknown') %}
             {% endif %}
             <li>
-                {% if log.code == 'save content' %}
-                    {% if app.config.get('contenttypes')[log.contenttype] is defined %}
-                        {% set contenttype = app.config.get('contenttypes')[log.contenttype] %}
-                        {% set contenttype_display_name = contenttype.singular_name %}
-                        {% set content_display_name = macro.contentlink_by_id(contenttype, log.message, log.content_id) %}
-                    {% else %}
-                        {% set contenttype_display_name = log.contenttype %}
-                        {% set content_display_name = log.message %}
-                    {% endif %}
-
-                    {{ __('panel.latest-activity.saved') }} {{ contenttype_display_name }}
-                    "<strong>{{ content_display_name }}</strong>" {{ __('panel.latest-activity.by') }} <em>{{ userlink }}</em>
-                {% elseif log.code == 'login' %}
-                    <em>{{ userlink }}</em> {{ __('panel.latest-activity.logged-in') }}
-                {% elseif log.code == 'logout' %}
-                    <em>{{ userlink }}</em> {{ __('panel.latest-activity.logged-out') }}
-                {% elseif log.code == 'fixme' %}
-                    <b>{{ __('panel.latest-activity.fixme') }}</b> {{ log.message }}
-                {% elseif log.code == 'user' %}
-                    <b>{{ log.message }}</b> {{ __('panel.latest-activity.by') }} {{ userlink }}
+                {% if app.config.get('contenttypes')[log.contenttype] is defined %}
+                    {% set contenttype = app.config.get('contenttypes')[log.contenttype] %}
+                    {% set contenttype_display_name = contenttype.singular_name %}
+                    {% set content_display_name = macro.contentlink_by_id(contenttype, log.title, log.contentid) %}
                 {% else %}
-                    {{ log.message }}
+                    {% set contenttype_display_name = log.contenttype %}
+                    {% set content_display_name = log.title %}
+                {% endif %}
+
+                {% if log.mutation_type == 'INSERT' %}
+                    {{ __('panel.latest-activity.created') }} {{ contenttype_display_name }}
+                {% elseif log.mutation_type == 'UPDATE' %}
+                    {{ __('panel.latest-activity.saved') }} {{ contenttype_display_name }}
+                {% elseif log.mutation_type == 'DELETE' %}
+                    {{ __('panel.latest-activity.deleted') }} {{ contenttype_display_name }}
+                {% endif %}
+                    "<strong>{{ content_display_name }}</strong>" {{ __('panel.latest-activity.by') }} <em>{{ userlink }}</em>
+                <small>
+                    (<time class="moment" datetime="{{ log.date|date("c") }}" title="{{ log.date }}">{{ log.date }}</time>)
+                </small>
+            </li>
+        {% endfor %}
+
+        {% for auth in authentication %}
+            <li>
+                {% if auth.code == 'login' %}
+                    <em>{{ userlink }}</em> {{ __('panel.latest-activity.logged-in') }}
+                {% elseif auth.code == 'logout' %}
+                    <em>{{ userlink }}</em> {{ __('panel.latest-activity.logged-out') }}
                 {% endif %}
                 <small>
                     (<time class="moment" datetime="{{ log.date|date("c") }}" title="{{ log.date }}">{{ log.date }}</time>)
