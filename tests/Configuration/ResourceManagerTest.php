@@ -68,6 +68,7 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
         $config->getPath($path);
     }
 
+
     public function exceptionGetPathProvider()
     {
         return array(
@@ -93,6 +94,20 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(Path::fromString(TEST_ROOT), $config->getPath('root'));
         $this->assertEquals(Path::fromString(TEST_ROOT . '/app'), $config->getPath('app'));
         $this->assertEquals(Path::fromString(TEST_ROOT . '/files'), $config->getPath('files'));
+    }
+    
+    public function testRelativePathCreation()
+    {
+        $config = new ResourceManager(
+            new \Pimple(
+                array(
+                    'rootpath' => TEST_ROOT,
+                    'pathmanager' => new PlatformFileSystemPathFactory()
+                )
+            )
+        );
+        
+        $this->assertEquals(TEST_ROOT.'/app/cache/test', $config->getPath('cache/test'));
     }
 
     public function testDefaultUrls()
