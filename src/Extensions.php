@@ -307,7 +307,7 @@ class Extensions
                     }
                 }
             } catch (\Exception $e) {
-                $this->app['logger.system']->addError("Failed to regsiter Twig extension for $name: " . $e->getMessage(), array('event' => 'extensions'));
+                $this->app['logger.system']->addError("Failed to regisiter Twig extension for $name: " . $e->getMessage(), array('event' => 'extensions'));
 
                 return;
             }
