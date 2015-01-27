@@ -1790,7 +1790,7 @@ class Backend implements ControllerProviderInterface
      * @param Application $app The application/container
      * @return mixed
      */
-    public function before(Request $request, Application $app)
+    public static function before(Request $request, Application $app)
     {
         // Start the 'stopwatch' for the profiler.
         $app['stopwatch']->start('bolt.backend.before');
