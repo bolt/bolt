@@ -573,7 +573,6 @@ panel:
             more: "více aktivit"
         by: "od"
         fixme: "Oprav mě:"
-        headline: "Poslední úpravy"
         logged-in: "přihlášen/a"
         logged-out: "odhlášen/a"
         saved: "Uloženo"
