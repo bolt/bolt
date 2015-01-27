@@ -42,12 +42,10 @@ class Backend implements ControllerProviderInterface
         $ctl->get('/dbcheck', array($this, 'dbCheck'))
             ->bind('dbcheck');
 
-        $ctl->get('/dbupdate', array($this, 'dbUpdate'))
-            ->method('POST')
+        $ctl->post('/dbupdate', array($this, 'dbUpdate'))
             ->bind('dbupdate');
 
         $ctl->get('/dbupdate_result', array($this, 'dbUpdateResult'))
-            ->method('GET')
             ->bind('dbupdate_result');
 
         $ctl->get('/clearcache', array($this, 'clearCache'))
@@ -72,8 +70,7 @@ class Backend implements ControllerProviderInterface
         $ctl->get('/content/deletecontent/{contenttypeslug}/{id}', array($this, 'deleteContent'))
             ->bind('deletecontent');
 
-        $ctl->get('/content/{action}/{contenttypeslug}/{id}', array($this, 'contentAction'))
-            ->method('POST')
+        $ctl->post('/content/{action}/{contenttypeslug}/{id}', array($this, 'contentAction'))
             ->bind('contentaction');
 
         $ctl->get('/systemlog', array($this, 'systemLog'))
@@ -103,15 +100,13 @@ class Backend implements ControllerProviderInterface
             ->method('GET|POST')
             ->bind('profile');
 
-        $ctl->match('/roles', array($this, 'roles'))
-            ->method('GET')
+        $ctl->get('/roles', array($this, 'roles'))
             ->bind('roles');
 
         $ctl->get('/about', array($this, 'about'))
             ->bind('about');
 
-        $ctl->get('/user/{action}/{id}', array($this, 'userAction'))
-            ->method('POST')
+        $ctl->post('/user/{action}/{id}', array($this, 'userAction'))
             ->bind('useraction');
 
         $ctl->match('/files/{namespace}/{path}', array($this, 'files'))
