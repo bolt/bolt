@@ -962,7 +962,7 @@ class Backend implements ControllerProviderInterface
 
             } else {
                 $app['session']->getFlashBag()->set('error', Trans::__('contenttypes.generic.error-saving', array('%contenttype%' => $contenttype['slug'])));
-                $app['logger.system']->addError('Save error for ' . $content->getTitle(), array('event' => 'content'));
+                $app['logger.system']->addError('Save error: ' . $content->getTitle(), array('event' => 'content'));
             }
         }
 
@@ -980,7 +980,7 @@ class Backend implements ControllerProviderInterface
 
                 return Lib::redirect('dashboard');
             }
-            $app['logger.system']->addInfo('Edited ' . $content->getTitle(), array('event' => 'content'));
+            $app['logger.system']->addInfo('Edited: ' . $content->getTitle(), array('event' => 'content'));
         } else {
             // Check if we're allowed to create content..
             if (!$app['users']->isAllowed("contenttype:{$contenttype['slug']}:create")) {
@@ -990,7 +990,7 @@ class Backend implements ControllerProviderInterface
             }
 
             $content = $app['storage']->getEmptyContent($contenttype['slug']);
-            $app['logger.system']->addInfo('Created ' . $content->getTitle(), array('event' => 'content'));
+            $app['logger.system']->addInfo('Created: ' . $content->getTitle(), array('event' => 'content'));
         }
 
         $oldStatus = $content['status'];
