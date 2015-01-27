@@ -281,38 +281,35 @@ class Extensions
         }
 
         // Add Twig extensions
-        if (is_callable(array($extension, 'getTwigExtensions'))) {
-            try {
-                /** @var \Twig_Extension[] $extensions */
-                $twigExtensions = $extension->getTwigExtensions();
-                $addTwigExFunc = array($this, 'addTwigExtension');
-                foreach ($twigExtensions as $twigExtension) {
-                    $this->app['twig'] = $this->app->share(
-                        $this->app->extend(
-                            'twig',
-                            function(\Twig_Environment $twig) use ($addTwigExFunc, $twigExtension, $name) {
-                                call_user_func($addTwigExFunc, $twig, $twigExtension, $name);
-                                return $twig;
-                            }
-                    )
-                    );
-
-                    if (is_callable(array($extension, 'isSafe')) && $extension->isSafe() === true) {
-                        $this->app['safe_twig'] = $this->app->share(
-                            $this->app->extend(
-                                'safe_twig',
-                                function(\Twig_Environment $twig) use ($addTwigExFunc, $twigExtension, $name) {
-                                    call_user_func($addTwigExFunc, $twig, $twigExtension, $name);
-                                    return $twig;
-                                }
-                        ));
+        if (!is_callable(array($extension, 'getTwigExtensions'))) {
+            return;
+        }
+        /** @var \Twig_Extension[] $extensions */
+        $twigExtensions = $extension->getTwigExtensions();
+        $addTwigExFunc = array($this, 'addTwigExtension');
+        foreach ($twigExtensions as $twigExtension) {
+            $this->app['twig'] = $this->app->share(
+                $this->app->extend(
+                    'twig',
+                    function(\Twig_Environment $twig) use ($addTwigExFunc, $twigExtension, $name) {
+                        call_user_func($addTwigExFunc, $twig, $twigExtension, $name);
+                        return $twig;
                     }
-                }
-            } catch (\Exception $e) {
-                $this->app['logger.system']->addError("Failed to regisiter Twig extension for $name: " . $e->getMessage(), array('event' => 'extensions'));
+                )
+            );
 
-                return;
+            if (!is_callable(array($extension, 'isSafe')) || !$extension->isSafe()) {
+                continue;
             }
+            $this->app['safe_twig'] = $this->app->share(
+                $this->app->extend(
+                    'safe_twig',
+                    function(\Twig_Environment $twig) use ($addTwigExFunc, $twigExtension, $name) {
+                        call_user_func($addTwigExFunc, $twig, $twigExtension, $name);
+                        return $twig;
+                    }
+                )
+            );
         }
     }
 
