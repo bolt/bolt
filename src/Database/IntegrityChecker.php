@@ -474,8 +474,6 @@ class IntegrityChecker
         $logSystemTable->addColumn('requesturi', 'string', array('length' => 128));
         $logSystemTable->addColumn('route', 'string', array('length' => 128));
         $logSystemTable->addColumn('ip', 'string', array('length' => 32, 'default' => ''));
-        $logSystemTable->addColumn('contenttype', 'string', array('length' => 32));
-        $logSystemTable->addColumn('content_id', 'integer');
         $logSystemTable->addColumn('context', 'string', array('length' => 32));
         $logSystemTable->addIndex(array( 'context'));
         $tables[] = $logSystemTable;

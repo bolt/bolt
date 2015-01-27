@@ -23,20 +23,35 @@
             </div>
 
             <table class="table table-striped dashboardlisting">
+                <thead>
+                    <th></th>
+                    <th>Type</th>
+                    <th>Contenttype</th>
+                    <th>Title</th>
+                    <th>Fields</th>
+                    <th>Comment</th>
+                    <th>Date</th>
+                </thead>
                 <tbody>
                 {% for log in context.entries %}
                     <tr>
                         <td>
-                            № {{ log.id }}<br>Lvl {{ log.level|loglevel }}
+                            № {{ log.id }}
                         </td>
                         <td>
-                            {% if log.code is not empty %}<b>[{{ log.code|ucfirst }}]</b> {% endif %}
-                            <b>{{ log.message }}</b> <br>
-                            {{ __('in:') }} {{ log.file }}::{{ log.line }} ({{ log.route }})
+                            {{ log.mutation_type|title }}
                         </td>
                         <td>
-                            {{ log.username }} <br>
-                            {{ log.ip }}
+                            {{ log.contenttype }}
+                        </td>
+                        <td>
+                            [{{ log.contentid }}] {{ log.title }}
+                        </td>
+                        <td>
+                            {{ log.diff|keys|join(', ') }}
+                        </td>
+                        <td>
+                            {{ log.comment|default('') }}
                         </td>
                         <td>
                             <time class="moment" datetime="{{ log.date|date("c") }}" title="{{ log.date }}">{{ log.date }}</time>

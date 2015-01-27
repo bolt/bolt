@@ -302,12 +302,14 @@ class Content implements \ArrayAccess
                 $basename = sprintf('/%s/%s', date('Y-m'), String::makeSafe($file['name'][0], false, "[]{}()"));
 
                 if ($file['error'][0] != UPLOAD_ERR_OK) {
-                    $this->app['logger.system']->addError('Upload: Error occured during upload: ' . $file['error'][0] . ' - ' . $filename);
+                    $message = 'Error occured during upload: ' . $file['error'][0] . " - $filename";
+                    $this->app['logger.system']->addError($message, array('event' => 'upload'));
                     continue;
                 }
 
                 if (substr($key, 0, 11) != 'fileupload-') {
-                    $this->app['logger.system']->addError("Upload: skipped an upload that wasn't for Content. - " . $filename);
+                    $message = "Skipped an upload that wasn't for content: $filename";
+                    $this->app['logger.system']->addError($message, array('event' => 'upload'));
                     continue;
                 }
 
@@ -328,10 +330,10 @@ class Content implements \ArrayAccess
                 if (is_writable(dirname($filename))) {
                     // Yes, we can create the file!
                     move_uploaded_file($file['tmp_name'][0], $filename);
-                    $this->app['logger.system']->addInfo("Upload: uploaded file '$basename'.");
                     $values[$fieldname] = $basename;
+                    $this->app['logger.system']->addInfo("Upload: uploaded file '$basename'.", array('event' => 'upload'));
                 } else {
-                    $this->app['logger.system']->addError("Upload: couldn't write upload '$basename'.");
+                    $this->app['logger.system']->addError("Upload: couldn't write upload '$basename'.", array('event' => 'upload'));
                 }
 
             }

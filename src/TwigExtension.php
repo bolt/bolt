@@ -277,7 +277,7 @@ class TwigExtension extends \Twig_Extension
             // Various things we could do. We could fail miserably, but a more
             // graceful approach is to use the datetime to display a default
             // format
-            $this->app['logger.system']->addInfo('No valid locale detected. Fallback on DateTime active.');
+            $this->app['logger.system']->addError('No valid locale detected. Fallback on DateTime active.', array('event' => 'system'));
 
             return $dateTime->format('Y-m-d H:i:s');
         } else {
