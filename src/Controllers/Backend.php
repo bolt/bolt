@@ -442,7 +442,10 @@ class Backend implements ControllerProviderInterface
             return Lib::redirect('systemlog');
         }
 
-        $activity = $app['logger.manager']->getActivity('system', 16);
+        $level = $app['request']->query->get('level');
+        $context = $app['request']->query->get('context');
+
+        $activity = $app['logger.manager']->getActivity('system', 16, $level, $context);
 
         $context = array(
             'entries' => $activity
