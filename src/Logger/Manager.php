@@ -72,20 +72,8 @@ class Manager
             throw new \Exception("Invalid log type requested: $log");
         }
 
-        if ($this->app['db']->getDriver()->getName() == 'pdo_sqlite') {
-            // Sqlite
-            $query = sprintf(
-                "DELETE FROM %s; UPDATE SQLITE_SEQUENCE SET seq = 0 WHERE name = '%s'",
-                $table,
-                $table
-            );
-        } else {
-            // MySQL and PostgreSQL the same
-            $query = sprintf(
-                'TRUNCATE %s;',
-                $table
-            );
-        }
+        // Get the platform specific truncate SQL
+        $query = $this->app['db']->getDatabasePlatform()->getTruncateTableSql($table);
 
         $this->app['db']->executeQuery($query);
     }
