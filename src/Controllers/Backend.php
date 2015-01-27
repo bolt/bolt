@@ -35,6 +35,7 @@ class Backend implements ControllerProviderInterface
         $ctl = $app['controllers_factory'];
 
         $ctl->before(array($this, 'before'));
+        $ctl->method('GET|POST');
 
         $ctl->get('', array($this, 'dashboard'))
             ->bind('dashboard');
@@ -52,7 +53,6 @@ class Backend implements ControllerProviderInterface
             ->bind('clearcache');
 
         $ctl->match('/prefill', array($this, 'prefill'))
-            ->method('GET|POST')
             ->bind('prefill');
 
         $ctl->get('/overview/{contenttypeslug}', array($this, 'overview'))
@@ -64,7 +64,6 @@ class Backend implements ControllerProviderInterface
 
         $ctl->match('/editcontent/{contenttypeslug}/{id}', array($this, 'editContent'))
             ->assert('id', '\d*')
-            ->method('GET|POST')
             ->bind('editcontent');
 
         $ctl->get('/content/deletecontent/{contenttypeslug}/{id}', array($this, 'deleteContent'))
@@ -93,11 +92,9 @@ class Backend implements ControllerProviderInterface
 
         $ctl->match('/users/edit/{id}', array($this, 'userEdit'))
             ->assert('id', '\d*')
-            ->method('GET|POST')
             ->bind('useredit');
 
         $ctl->match('/profile', array($this, 'profile'))
-            ->method('GET|POST')
             ->bind('profile');
 
         $ctl->get('/roles', array($this, 'roles'))
@@ -120,14 +117,12 @@ class Backend implements ControllerProviderInterface
             ->assert('file', '.+')
             ->assert('namespace', '[^/]+')
             ->value('namespace', 'files')
-            ->method('GET|POST')
             ->bind('fileedit');
 
         $ctl->match('/tr/{domain}/{tr_locale}', array($this, 'translation'))
             ->assert('domain', 'messages|contenttypes|infos')
             ->value('domain', 'messages')
             ->value('tr_locale', $app['config']->get('general/locale'))
-            ->method('GET|POST')
             ->bind('translation');
 
         $ctl->get('/omnisearch', array($this, 'omnisearch'))
