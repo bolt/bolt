@@ -75,14 +75,14 @@ class SystemHandler extends AbstractProcessingHandler
             $record['message'] .= "\nLine: " . $backtrace[3]['line'];
         }
 
-        $this->user = $this->app['session']->get('user');
+        $user = $this->app['session']->get('user');
 
         try {
             $this->app['db']->insert($this->tablename, array(
                 'level'       => $record['level'],
                 'date'        => $record['datetime']->format('Y-m-d H:i:s'),
                 'message'     => $record['message'],
-                'ownerid'     => isset($this->user['id']) ? $this->user['id'] : '',
+                'ownerid'     => isset($user['id']) ? $user['id'] : '',
                 'requesturi'  => $this->app['request']->getRequestUri(),
                 'route'       => $this->app['request']->get('_route'),
                 'ip'          => $this->app['request']->getClientIp(),
