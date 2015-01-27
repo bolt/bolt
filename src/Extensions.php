@@ -7,6 +7,7 @@ use Bolt\Extensions\Snippets\Location as SnippetLocation;
 use Bolt\Extensions\ExtensionInterface;
 use Bolt\Helpers\String;
 use Bolt\Translation\Translator as Trans;
+use Monolog\Logger;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 
@@ -236,8 +237,7 @@ class Extensions
         try {
             $extension->getConfig();
         } catch (\Exception $e) {
-            $this->logInitFailure('YAML config failed to load for', $name, $e);
-            $this->app['logger.system']->addCritical("YAML config failed to load for $name: " . $e->getMessage(), array('event' => 'extensions'));
+            $this->logInitFailure('Failed to load YAML config', $name, $e, Logger::ERROR);
 
             return;
         }
@@ -261,8 +261,7 @@ class Extensions
             }
 
         } catch (\Exception $e) {
-            $this->logInitFailure('Initialisation failed for', $name, $e);
-            $this->app['logger.system']->addCritical("Initialisation failed for $name: " . $e->getMessage(), array('event' => 'extensions'));
+            $this->logInitFailure('Initialisation failed', $name, $e, Logger::ERROR);
 
             return;
         }
@@ -274,8 +273,7 @@ class Extensions
         try {
             $this->getSnippets($name);
         } catch (\Exception $e) {
-            $this->logInitFailure('Snippet loading failed for', $name, $e);
-            $this->app['logger.system']->addError("Snippet loading failed for $name: " . $e->getMessage(), array('event' => 'extensions'));
+            $this->logInitFailure('Snippet loading failed', $name, $e, Logger::ERROR);
 
             return;
         }
@@ -325,23 +323,30 @@ class Extensions
         try {
             $twig->addExtension($extension);
         } catch (\Exception $e) {
-            $this->logInitFailure('Failed to regisiter Twig extension for', $name, $e);
-            $this->app['logger.system']->addError("Failed to regisiter Twig extension for $name: " . $e->getMessage(), array('event' => 'extensions'));
+            $this->logInitFailure('Twig function registration failed', $name, $e, Logger::ERROR);
         }
     }
 
     /**
-     * @param string $msg
-     * @param string $name
+     * @param string     $msg
+     * @param string     $extensionName
      * @param \Exception $e
+     * @param array      $context
+     * @param int        $level
      */
-    protected function logInitFailure($msg, $name, \Exception $e)
+    protected function logInitFailure($msg, $extensionName, \Exception $e, $context = array(), $level = Logger::CRITICAL)
     {
-        $this->app['log']->add("[EXT] $msg {$name}: " . $e->getMessage(), 2);
+        $context = array_replace(array(
+            'event'     => 'extensions',
+            'extension' => $extensionName,
+            'exception' => $e,
+        ), $context);
+
+        $this->app['logger.system']->addRecord($level, $msg, $context);
 
         $this->app['session']->getFlashBag()->set(
             'error',
-            Trans::__("[Extension error] $msg failed for %ext%: %error%", array('%ext%' => $name, '%error%' => $e->getMessage()))
+            Trans::__("[Extension error] $msg for %ext%: %error%", array('%ext%' => $extensionName, '%error%' => $e->getMessage()))
         );
     }
 
