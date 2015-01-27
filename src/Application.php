@@ -500,14 +500,11 @@ class Application extends Silex\Application
             }
         }
 
+        // Log the error message
         $message = $exception->getMessage();
-
-        $this['logger.system']->addCritical($message);
-
-        $end = $this['config']->getWhichEnd();
+        $this['logger.system']->addCritical($message, array('event' => 'exception'));
 
         $trace = $exception->getTrace();
-
         foreach ($trace as $key => $value) {
             if (!empty($value['file']) && strpos($value['file'], '/vendor/') > 0) {
                 unset($trace[$key]['args']);
@@ -519,6 +516,7 @@ class Application extends Silex\Application
             }
         }
 
+        $end = $this['config']->getWhichEnd();
         if (($exception instanceof HttpException) && ($end == 'frontend')) {
             if ($exception->getStatusCode() == 403) {
                 $content = $this['storage']->getContent($this['config']->get('general/access_denied'), array('returnsingle' => true));
