@@ -47,15 +47,12 @@ class Manager
             throw new \Exception("Invalid log type requested: $log");
         }
 
-        $query = sprintf(
-            "DELETE FROM %s WHERE date < ?;",
-            $table
-        );
-        $this->app['db']->executeQuery(
-            $query,
-            array(date('Y-m-d H:i:s', strtotime('-7 day'))),
-            array(\PDO::PARAM_STR)
-        );
+        $query = $this->app['db']->createQueryBuilder()
+                                 ->delete($table)
+                                 ->where('date < :date')
+                                 ->setParameter(':date', date('Y-m-d H:i:s', strtotime('-7 day')));
+
+        $query->execute();
     }
 
     public function clear($log)
@@ -72,20 +69,8 @@ class Manager
             throw new \Exception("Invalid log type requested: $log");
         }
 
-        if ($this->app['db']->getDriver()->getName() == 'pdo_sqlite') {
-            // Sqlite
-            $query = sprintf(
-                "DELETE FROM %s; UPDATE SQLITE_SEQUENCE SET seq = 0 WHERE name = '%s'",
-                $table,
-                $table
-            );
-        } else {
-            // MySQL and PostgreSQL the same
-            $query = sprintf(
-                'TRUNCATE %s;',
-                $table
-            );
-        }
+        // Get the platform specific truncate SQL
+        $query = $this->app['db']->getDatabasePlatform()->getTruncateTableSql($table);
 
         $this->app['db']->executeQuery($query);
     }
@@ -97,7 +82,7 @@ class Manager
      * @param  integer           $amount Number of results to return
      * @throws LowlevelException
      */
-    public function getActivity($log, $amount = 10)
+    public function getActivity($log, $amount = 10, $level = null, $context = null)
     {
         if (!$this->initialized) {
             $this->initialize();
@@ -120,23 +105,28 @@ class Manager
             $page = ($reqquery) ? $reqquery->get($param, $reqquery->get('page', 1)) : 1;
 
             // Build the base query
-            $query = sprintf(
-                    "SELECT * FROM %s ORDER BY id DESC",
-                    $table
-            );
+            $query = $this->app['db']->createQueryBuilder()
+                          ->select('*')
+                          ->from($table)
+                          ->orderBy('id', 'DESC')
+                          ->setMaxResults(intval($amount))
+                          ->setFirstResult(intval(($page - 1) * $amount));
 
-            // Modify limit query for the pager
-            $query = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($query, intval($amount), intval(($page - 1) * $amount));
+            // Set up optional WHERE clause(s)
+            $query = $this->setWhere($query, $level, $context);
 
             // Get the rows from the database
-            $rows = $this->app['db']->fetchAll($query);
+            $rows = $query->execute()->fetchAll();
 
             // Find out how many entries we're paging form
-            $pagerQuery = sprintf(
-                "SELECT count(*) as count FROM %s",
-                $table
-            );
-            $rowcount = $this->app['db']->executeQuery($pagerQuery)->fetch();
+            $query = $this->app['db']->createQueryBuilder()
+                          ->select('COUNT(id) as count')
+                          ->from($table);
+
+            // Set up optional WHERE clause(s)
+            $query = $this->setWhere($query, $level, $context);
+
+            $rowcount = $query->execute()->fetch();
 
             // Set up the pager
             $pager = array(
@@ -159,6 +149,36 @@ class Manager
         } elseif ($log == 'change') {
             return $this->decodeChangeLog($rows);
         }
+    }
+
+    /**
+     * Set any required WHERE clause on a QueryBuilder
+     *
+     * @param  Doctrine\DBAL\Query\QueryBuilder $query
+     * @param  integer                          $level
+     * @param  string                           $context
+     * @return Doctrine\DBAL\Query\QueryBuilder
+     */
+    private function setWhere($query, $level = null, $context = null)
+    {
+        if ($level || $context) {
+            $where = $query->expr()->andX();
+
+            if ($level) {
+                $where->add($query->expr()->eq('level', ':level'));
+            }
+
+            if ($context) {
+                $where->add($query->expr()->eq('context', ':context'));
+            }
+            $query->where($where)
+                  ->setParameters(array(
+                      ':level'   => $level,
+                      ':context' => $context
+            ));
+        }
+
+        return $query;
     }
 
     /**

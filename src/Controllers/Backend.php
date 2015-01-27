@@ -413,11 +413,7 @@ class Backend implements ControllerProviderInterface
 
         $activity = $app['logger.manager']->getActivity('change', 16);
 
-        $context = array(
-            'entries' => $activity
-        );
-
-        return $app['render']->render('activity/changelog.twig', array('context' => $context));
+        return $app['render']->render('activity/changelog.twig', array('entries' => $activity));
     }
 
     /**
@@ -442,13 +438,12 @@ class Backend implements ControllerProviderInterface
             return Lib::redirect('systemlog');
         }
 
-        $activity = $app['logger.manager']->getActivity('system', 16);
+        $level = $app['request']->query->get('level');
+        $context = $app['request']->query->get('context');
 
-        $context = array(
-            'entries' => $activity
-        );
+        $activity = $app['logger.manager']->getActivity('system', 16, $level, $context);
 
-        return $app['render']->render('activity/systemlog.twig', array('context' => $context));
+        return $app['render']->render('activity/systemlog.twig', array('entries' => $activity));
     }
 
     /**
@@ -962,7 +957,7 @@ class Backend implements ControllerProviderInterface
 
             } else {
                 $app['session']->getFlashBag()->set('error', Trans::__('contenttypes.generic.error-saving', array('%contenttype%' => $contenttype['slug'])));
-                $app['logger.system']->addError('Save error for ' . $content->getTitle(), array('event' => 'content'));
+                $app['logger.system']->addError('Save error: ' . $content->getTitle(), array('event' => 'content'));
             }
         }
 
@@ -980,7 +975,7 @@ class Backend implements ControllerProviderInterface
 
                 return Lib::redirect('dashboard');
             }
-            $app['logger.system']->addInfo('Edited ' . $content->getTitle(), array('event' => 'content'));
+            $app['logger.system']->addInfo('Edited: ' . $content->getTitle(), array('event' => 'content'));
         } else {
             // Check if we're allowed to create content..
             if (!$app['users']->isAllowed("contenttype:{$contenttype['slug']}:create")) {
@@ -990,7 +985,7 @@ class Backend implements ControllerProviderInterface
             }
 
             $content = $app['storage']->getEmptyContent($contenttype['slug']);
-            $app['logger.system']->addInfo('Created ' . $content->getTitle(), array('event' => 'content'));
+            $app['logger.system']->addInfo('Created: ' . $content->getTitle(), array('event' => 'content'));
         }
 
         $oldStatus = $content['status'];

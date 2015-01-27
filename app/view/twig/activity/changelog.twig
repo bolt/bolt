@@ -13,7 +13,7 @@
     <div class="row">
         <div class="col-xs-12">
 
-            <div class="btn-group" style="padding-bottom: 12px">
+            <div class="btn-group pull-right" style="padding-bottom: 12px">
                 <a class="btn btn-default" href="{{ path('changelog', {'action': 'trim'}) }}">
                     <i class="fa fa-trash-o"></i> {{ __('Trim Change Log') }}
                 </a>
@@ -33,28 +33,28 @@
                     <th>Date</th>
                 </thead>
                 <tbody>
-                {% for log in context.entries %}
+                {% for entry in entries %}
                     <tr>
                         <td>
-                            № {{ log.id }}
+                            № {{ entry.id }}
                         </td>
                         <td>
-                            {{ log.mutation_type|title }}
+                            {{ entry.mutation_type|title }}
                         </td>
                         <td>
-                            {{ log.contenttype }}
+                            {{ entry.contenttype }}
                         </td>
                         <td>
-                            [{{ log.contentid }}] {{ log.title }}
+                            [{{ entry.contentid }}] {{ entry.title }}
                         </td>
                         <td>
-                            {{ log.diff|keys|join(', ') }}
+                            {{ entry.diff|keys|join(', ') }}
                         </td>
                         <td>
-                            {{ log.comment|default('') }}
+                            {{ entry.comment|default('') }}
                         </td>
                         <td>
-                            <time class="moment" datetime="{{ log.date|date("c") }}" title="{{ log.date }}">{{ log.date }}</time>
+                            <time class="moment" datetime="{{ entry.date|date("c") }}" title="{{ entry.date }}">{{ entry.date }}</time>
                         </td>
                     </tr>
                 {% endfor %}
