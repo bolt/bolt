@@ -147,7 +147,7 @@ class Render
         }
 
         // Only cache pages in the frontend.
-        if ($this->app['end'] != "frontend") {
+        if ($this->app['config']->getWhichEnd() != "frontend") {            
             return false;
         }
 
