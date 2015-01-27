@@ -13,14 +13,51 @@
     <div class="row">
         <div class="col-xs-12">
 
-            <div class="btn-group" style="padding-bottom: 12px">
-                <a class="btn btn-default" href="{{ path('systemlog', {'action': 'trim'}) }}">
-                    <i class="fa fa-trash-o"></i> {{ __('Trim System Log') }}
-                </a>
-                <a class="btn btn-default confirm" href="{{ path('systemlog', {'action': 'clear'}) }}" data-confirm="Are you sure you want to clear the system logs?">
-                    <i class="fa fa-trash"></i> {{ __('Clear System Log') }}
-                </a>
-            </div>
+            <form class="form-inline" role="form">
+                <div class="form-group">
+                    <select class="form-control" name="level" id="level">
+                        <option value="">-- Level --</option>
+                        <option value="100">{{ 100|loglevel }}</option>
+                        <option value="200">{{ 200|loglevel }}</option>
+                        <option value="250">{{ 250|loglevel }}</option>
+                        <option value="300">{{ 300|loglevel }}</option>
+                        <option value="400">{{ 400|loglevel }}</option>
+                        <option value="500">{{ 500|loglevel }}</option>
+                        <option value="550">{{ 550|loglevel }}</option>
+                        <option value="600">{{ 600|loglevel }}</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <select class="form-control" name="context" id="context">
+                        <option value="">-- Context --</option>
+                        <option value="authentication">authentication</option>
+                        <option value="config">config</option>
+                        <option value="content">content</option>
+                        <option value="cron">cron</option>
+                        <option value="exception">exception</option>
+                        <option value="news">news</option>
+                        <option value="security">security</option>
+                        <option value="template">template</option>
+                        <option value="translation">translation</option>
+                        <option value="upload">upload</option>
+
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-default pull-left"> <!-- href="{{ path('systemlog', {'action': 'trim'}) }}"> -->
+                    <i class="fa fa-filter"></i> {{ __('Filter') }}
+                </button>
+
+                <div class="btn-group pull-right" style="padding-bottom: 12px">
+                    <a class="btn btn-default" href="{{ path('systemlog', {'action': 'trim'}) }}">
+                        <i class="fa fa-trash-o"></i> {{ __('Trim System Log') }}
+                    </a>
+                    <a class="btn btn-default confirm" href="{{ path('systemlog', {'action': 'clear'}) }}" data-confirm="Are you sure you want to clear the system logs?">
+                        <i class="fa fa-trash"></i> {{ __('Clear System Log') }}
+                    </a>
+                </div>
+            </form>
 
             <table class="table table-striped dashboardlisting">
                 <thead>
