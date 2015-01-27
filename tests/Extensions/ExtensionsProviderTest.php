@@ -16,7 +16,7 @@ use Bolt\Extensions\Snippets\Location as SnippetLocation;
  */
 class ExtensionsProviderTest extends BoltUnitTest
 {
-    
+
     public $template = <<< EOM
 <html>
 <head>
@@ -175,10 +175,10 @@ EOM;
 
     public function tearDown()
     {
-        
+
     }
-    
-    
+
+
     public function testExtensionRegister()
     {
         $app = $this->getApp();
@@ -187,62 +187,62 @@ EOM;
         $this->assertTrue($app['extensions']->isEnabled('testext'));
         $app['extensions']->register(new Mock\Extension($app));
     }
-    
+
     public function testBadExtension()
     {
         $app = $this->getApp();
         $app['logger.system'] = new Mock\Logger;
         $bad = new Mock\BadExtension($app);
-        $app['extensions']->register($bad);        
-        $this->assertEquals('[EXT] Initialisation failed for badextension: BadExtension', $app['logger.system']->lastLog());
-        
+        $app['extensions']->register($bad);
+        $this->assertEquals('Initialisation failed for badextension: BadExtension', $app['logger.system']->lastLog());
+
     }
-    
+
     public function testBadExtensionConfig()
     {
         $app = $this->getApp();
         $app['logger.system'] = new Mock\Logger;
         $app['extensions']->register(new Mock\BadExtensionConfig($app));
         $this->assertEquals(
-            '[EXT] YAML config failed to load for badextensionconfig: BadExtensionConfig', 
+            'YAML config failed to load for badextensionconfig: BadExtensionConfig',
             $app['logger.system']->lastLog()
         );
     }
-    
+
     public function testBadExtensionSnippets()
     {
         $app = $this->getApp();
         $app['logger.system'] = new Mock\Logger;
         $app['extensions']->register(new Mock\BadExtensionSnippets($app));
         $this->assertEquals(
-            '[EXT] Snippet loading failed for badextensionsnippets: BadExtensionSnippets', 
+            'Snippet loading failed for badextensionsnippets: BadExtensionSnippets',
             $app['logger.system']->lastLog()
         );
     }
-    
+
     public function testAddCss()
     {
         $app = $this->getApp();
         $app['extensions']->addCss('testfile.css');
         $assets = $app['extensions']->getAssets();
-        $this->assertEquals(1, count($assets['css']));  
+        $this->assertEquals(1, count($assets['css']));
     }
-    
+
     public function testAddJs()
     {
         $app = $this->getApp();
         $app['extensions']->addJavascript('testfile.js');
         $assets = $app['extensions']->getAssets();
-        $this->assertEquals(1, count($assets['js']));  
+        $this->assertEquals(1, count($assets['js']));
     }
-    
+
     public function testEmptyProcessAssets()
     {
         $app = $this->getApp();
         $html = $app['extensions']->processAssets("html");
         $this->assertEquals("html", $html);
     }
-    
+
     public function testJsProcessAssets()
     {
         $app = $this->getApp();
@@ -250,7 +250,7 @@ EOM;
         $html = $app['extensions']->processAssets($this->template);
         $this->assertEquals($this->html($this->expectedJs), $this->html($html));
     }
-    
+
     public function testLateJs()
     {
         $app = $this->getApp();
@@ -259,7 +259,7 @@ EOM;
         $this->assertEquals($this->html($this->expectedLateJs),  $this->html($html)  );
 
     }
-    
+
     public function testCssProcessAssets()
     {
         $app = $this->getApp();
@@ -268,7 +268,7 @@ EOM;
         $this->assertEquals($this->html($this->expectedCss), $this->html($html));
 
     }
-    
+
     public function testLateCss()
     {
         $app = $this->getApp();
@@ -276,12 +276,12 @@ EOM;
         $html = $app['extensions']->processAssets($this->template);
         $this->assertEquals($this->html($this->expectedLateCss), $this->html($html));
     }
-    
-    
+
+
     // This method normalises the html so that differeing whitespace doesn't effect the strings.
     protected function html($string) {
         $doc = new \DOMDocument();
-        
+
         // Here for PHP 5.3 compatibility where the constants aren't available
         if(!defined('LIBXML_HTML_NOIMPLIED')) {
             $doc->loadHTML($string);
@@ -294,7 +294,7 @@ EOM;
         $html = str_replace("\n", "", $html);
         return $html;
     }
-    
+
     /**
     * @runInSeparateProcess
     */
@@ -305,87 +305,87 @@ EOM;
         $app->initialize();
         $this->assertTrue($app['extensions']->isEnabled('testlocal'));
     }
-    
-    
+
+
     public function testSnippet()
     {
         $app = $this->getApp();
-        
+
         // Test snippet inserts at top of <head>
         $app['extensions']->insertSnippet(SnippetLocation::START_OF_HEAD, '<meta name="test-snippet" />');
-        
+
         $html = $app['extensions']->processSnippetQueue($this->template);
         $this->assertEquals($this->html($this->expectedStartOfHead), $this->html($html));
-        
-        
+
+
         // Test snippet inserts at end of <head>
         $app['extensions']->clearSnippetQueue();
         $app['extensions']->insertSnippet(SnippetLocation::END_OF_HEAD, '<meta name="test-snippet" />');
         $html = $app['extensions']->processSnippetQueue($this->template);
         $this->assertEquals($this->html($this->expectedEndOfHead), $this->html($html));
-        
-        
+
+
         // Test snippet inserts at end of body
         $app['extensions']->clearSnippetQueue();
         $app['extensions']->insertSnippet(SnippetLocation::START_OF_BODY, '<p class="test-snippet"></p>');
         $html = $app['extensions']->processSnippetQueue($this->template);
         $this->assertEquals($this->html($this->expectedStartOfBody), $this->html($html));
-        
+
         // Test snippet inserts at end of </html>
         $app['extensions']->clearSnippetQueue();
         $app['extensions']->insertSnippet(SnippetLocation::END_OF_HTML, '<p class="test-snippet"></p>');
         $html = $app['extensions']->processSnippetQueue($this->template);
         $this->assertEquals($this->html($this->expectedEndOfHtml), $this->html($html));
-        
-        
+
+
         // Test snippet inserts before existing css
         $app['extensions']->clearSnippetQueue();
         $app['extensions']->insertSnippet(SnippetLocation::BEFORE_CSS, '<meta name="test-snippet" />');
         $html = $app['extensions']->processSnippetQueue($this->template);
         $this->assertEquals($this->html($this->expectedBeforeCss), $this->html($html));
-        
-        
+
+
         // Test snippet inserts after existing css
         $app['extensions']->clearSnippetQueue();
         $app['extensions']->insertSnippet(SnippetLocation::AFTER_CSS, '<meta name="test-snippet" />');
         $html = $app['extensions']->processSnippetQueue($this->template);
         $this->assertEquals($this->html($this->expectedAfterCss), $this->html($html));
-        
-        
+
+
         // Test snippet inserts after existing meta tags
         $app['extensions']->clearSnippetQueue();
         $app['extensions']->insertSnippet(SnippetLocation::AFTER_META, '<meta name="test-snippet" />');
         $html = $app['extensions']->processSnippetQueue($this->template);
         $this->assertEquals($this->html($this->expectedAfterMeta), $this->html($html));
-        
+
     }
-    
+
     public function testSnippetsWithCallback()
     {
         $app = $this->getApp();
         $app['extensions']->register(new Mock\SnippetCallbackExtension($app));
-        
+
         // Test snippet inserts at top of <head>
         $html = $app['extensions']->processSnippetQueue($this->template);
         $this->assertEquals($this->html($this->expectedStartOfHead), $this->html($html));
     }
-    
+
     public function testSnippetsWithGlobalCallback()
     {
         $app = $this->getApp();
         $app['extensions']->insertSnippet(
-            SnippetLocation::AFTER_META, 
-            '\Bolt\Tests\Extensions\globalSnippet', 
-            'core', 
+            SnippetLocation::AFTER_META,
+            '\Bolt\Tests\Extensions\globalSnippet',
+            'core',
             "\n"
         );
-        
+
         // Test snippet inserts at top of <head>
         $html = $app['extensions']->processSnippetQueue("<html></html>");
         $this->assertEquals("<html></html><br />".PHP_EOL.PHP_EOL, $html);
     }
-    
-    
+
+
     public function testExtensionSnippets()
     {
         $app = $this->getApp();
@@ -393,7 +393,7 @@ EOM;
         $html = $app['extensions']->processSnippetQueue($this->template);
         $this->assertEquals($this->html($this->expectedEndOfHead), $this->html($html));
     }
-    
+
     public function testAddJquery()
     {
         $app = $this->makeApp();
@@ -402,7 +402,7 @@ EOM;
         $app['extensions']->register(new Mock\Extension($app));
         $html = $app['extensions']->processSnippetQueue($this->template);
         $this->assertContains("js/jquery", $html);
-        
+
         $app = $this->getApp();
         $app['extensions']->register(new Mock\Extension($app));
         $app['extensions']->addJquery();
@@ -412,7 +412,7 @@ EOM;
         $html = $app['extensions']->processSnippetQueue($this->template);
         $this->assertNotContains("js/jquery", $html);
     }
-    
+
     public function testAddJqueryOnlyOnce()
     {
         $app = $this->getApp();
@@ -420,9 +420,9 @@ EOM;
         $app['extensions']->addJquery();
         $html = $app['extensions']->processSnippetQueue($this->template);
         $html = $app['extensions']->processSnippetQueue($html);
-        
+
     }
-    
+
     public function testSnippetsWorkWithBadHtml()
     {
         $locations = array(
@@ -447,10 +447,10 @@ EOM;
             $this->assertEquals($template.$snip.PHP_EOL, $html);
         }
 
-        
+
     }
-    
-    
+
+
     public function testAddMenuOption()
     {
         $app = $this->getApp();
@@ -458,16 +458,16 @@ EOM;
         $this->assertTrue($app['extensions']->hasMenuOptions());
         $this->assertEquals(1, count($app['extensions']->getMenuOptions()));
     }
-    
+
     public function testInsertWidget()
     {
         $app = $this->getApp();
         $app['extensions']->insertWidget('test', SnippetLocation::START_OF_BODY, "", "testext", "", false);
         $this->expectOutputString("<section><div class='widget' id='widget-dacf7046' data-key='dacf7046'></div></section>");
         $app['extensions']->renderWidgetHolder('test', SnippetLocation::START_OF_BODY);
-        
+
     }
-    
+
     public function testWidgetCaches()
     {
         $app = $this->getApp();
@@ -475,13 +475,13 @@ EOM;
         $app['extensions']->register(new Mock\SnippetCallbackExtension($app));
         $this->assertFalse($app['cache']->fetch('5e4c97cb'));
         $app['extensions']->insertWidget('test', SnippetLocation::AFTER_JS, "snippetCallBack", "snippetcallback", "", false);
-        
+
         // Double call to ensure second one hits cache
         $html = $app['extensions']->renderWidget('5e4c97cb');
         $html = $app['extensions']->renderWidget('5e4c97cb');
         $this->assertEquals($html, $app['cache']->fetch('widget_5e4c97cb'));
     }
-    
+
     public function testInvalidWidget()
     {
         $app = $this->getApp();
@@ -489,35 +489,35 @@ EOM;
         $result = $app['extensions']->renderWidget('fakekey');
         $this->assertEquals("Invalid key 'fakekey'. No widget found.", $result);
     }
-    
+
     public function testWidgetWithCallback()
     {
         $app = $this->getApp();
         $app['extensions']->register(new Mock\SnippetCallbackExtension($app));
-        
+
         $app['extensions']->insertWidget('test', SnippetLocation::AFTER_JS, "snippetCallBack", "snippetcallback", "", false);
         $html = $app['extensions']->renderWidget('5e4c97cb');
         $this->assertEquals('<meta name="test-snippet" />', $html);
     }
-    
-    
+
+
     public function testWidgetWithGlobalCallback()
     {
         $app = $this->getApp();
         $app['extensions']->register(new Mock\SnippetCallbackExtension($app));
-        
+
         $app['extensions']->insertWidget(
-            'testglobal', 
-            SnippetLocation::START_OF_BODY, 
-            "\Bolt\Tests\Extensions\globalWidget", 
-            "snippetcallback", 
-            "", 
+            'testglobal',
+            SnippetLocation::START_OF_BODY,
+            "\Bolt\Tests\Extensions\globalWidget",
+            "snippetcallback",
+            "",
             false
         );
         $html = $app['extensions']->renderWidget('7e2b9a48');
         $this->assertEquals('<meta name="test-widget" />', $html);
     }
-    
+
     public function testTwigExtensions()
     {
         $app = $this->getApp();
@@ -528,7 +528,7 @@ EOM;
         //$this->assertContains('[EXT] Twig function registration failed', $log);
         //$this->assertContains('instance of Bolt\Tests\Extensions\Mock\BadTwigExtension given', $log);
     }
-    
+
     public function testCommentsHandled()
     {
         $template = $this->template."<!-- This is a comment -->";
@@ -539,7 +539,7 @@ EOM;
         $this->assertEquals($template.$snip.PHP_EOL, $html);
     }
 
-   
+
 }
 
 
