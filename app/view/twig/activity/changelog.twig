@@ -10,6 +10,8 @@
 
     {% from '_macro/_pager.twig' import pager %}
 
+    {% import '_macro/_macro.twig' as macro %}
+
     <div class="row">
         <div class="col-xs-12">
 
@@ -30,6 +32,7 @@
                     <th>Title</th>
                     <th>Fields</th>
                     <th>Comment</th>
+                    <th>User</th>
                     <th>Date</th>
                 </thead>
                 <tbody>
@@ -52,6 +55,15 @@
                         </td>
                         <td>
                             {{ entry.comment|default('') }}
+                        </td>
+                        <td>
+                            {% set user = getuser(entry.ownerid) %}
+                            {% if user is not empty %}
+                                {% set userlink = macro.userlink(user) %}
+                            {% else %}
+                                {% set userlink = __('panel.latest-activity.unknown') %}
+                            {% endif %}
+                            <em>{{ userlink }}</em>
                         </td>
                         <td>
                             <time class="moment" datetime="{{ entry.date|date("c") }}" title="{{ entry.date }}">{{ entry.date }}</time>
