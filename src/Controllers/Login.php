@@ -16,23 +16,19 @@ class Login implements Silex\ControllerProviderInterface
         /** @var $ctl \Silex\ControllerCollection */
         $ctl = $app['controllers_factory'];
 
-        $ctl->match('/login', array($this, 'getLogin'))
-            ->method('GET')
+        $ctl->get('/login', array($this, 'getLogin'))
             ->before(array('\Bolt\Controllers\Backend', 'before'))
             ->bind('login');
 
-        $ctl->match('/login', array($this, 'postLogin'))
-            ->method('POST')
+        $ctl->post('/login', array($this, 'postLogin'))
             ->before(array('\Bolt\Controllers\Backend', 'before'))
             ->bind('postLogin');
 
-        $ctl->get('/logout', array($this, 'logout'))
-            ->method('POST')
+        $ctl->match('/logout', array($this, 'logout'))
             ->bind('logout');
 
-        $ctl->match('/resetpassword', array($this, 'resetPassword'))
-            ->bind('resetpassword')
-            ->method('GET');
+        $ctl->get('/resetpassword', array($this, 'resetPassword'))
+            ->bind('resetpassword');
 
         return $ctl;
     }
