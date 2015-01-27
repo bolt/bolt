@@ -34,107 +34,87 @@ class Backend implements ControllerProviderInterface
         /** @var $ctl \Silex\ControllerCollection */
         $ctl = $app['controllers_factory'];
 
+        $ctl->before(array($this, 'before'));
+
         $ctl->get('', array($this, 'dashboard'))
-            ->before(array($this, 'before'))
             ->bind('dashboard');
 
         $ctl->get('/dbcheck', array($this, 'dbCheck'))
-            ->before(array($this, 'before'))
             ->bind('dbcheck');
 
         $ctl->get('/dbupdate', array($this, 'dbUpdate'))
             ->method('POST')
-            ->before(array($this, 'before'))
             ->bind('dbupdate');
 
         $ctl->get('/dbupdate_result', array($this, 'dbUpdateResult'))
             ->method('GET')
-            ->before(array($this, 'before'))
             ->bind('dbupdate_result');
 
         $ctl->get('/clearcache', array($this, 'clearCache'))
-            ->before(array($this, 'before'))
             ->bind('clearcache');
 
         $ctl->match('/prefill', array($this, 'prefill'))
-            ->before(array($this, 'before'))
             ->method('GET|POST')
             ->bind('prefill');
 
         $ctl->get('/overview/{contenttypeslug}', array($this, 'overview'))
-            ->before(array($this, 'before'))
             ->bind('overview');
 
         $ctl->get('/relatedto/{contenttypeslug}/{id}', array($this, 'relatedTo'))
-            ->before(array($this, 'before'))
             ->assert('id', '\d*')
             ->bind('relatedto');
 
         $ctl->match('/editcontent/{contenttypeslug}/{id}', array($this, 'editContent'))
-            ->before(array($this, 'before'))
             ->assert('id', '\d*')
             ->method('GET|POST')
             ->bind('editcontent');
 
         $ctl->get('/content/deletecontent/{contenttypeslug}/{id}', array($this, 'deleteContent'))
-            ->before(array($this, 'before'))
             ->bind('deletecontent');
 
         $ctl->get('/content/{action}/{contenttypeslug}/{id}', array($this, 'contentAction'))
-            ->before(array($this, 'before'))
             ->method('POST')
             ->bind('contentaction');
 
         $ctl->get('/systemlog', array($this, 'systemLog'))
-            ->before(array($this, 'before'))
             ->bind('systemlog');
 
         $ctl->get('/changelog', array($this, 'changeLog'))
-            ->before(array($this, 'before'))
             ->bind('changelog');
 
         $ctl->get('/changelog/{contenttype}/{contentid}', array($this, 'changelogList'))
-            ->before(array($this, 'before'))
             ->value('contentid', '0')
             ->value('contenttype', '')
             ->bind('changeloglist');
 
         $ctl->get('/changelog/{contenttype}/{contentid}/{id}', array($this, 'changelogDetails'))
-            ->before(array($this, 'before'))
             ->assert('id', '\d*')
             ->bind('changelogdetails');
 
         $ctl->get('/users', array($this, 'users'))
-            ->before(array($this, 'before'))
             ->bind('users');
 
         $ctl->match('/users/edit/{id}', array($this, 'userEdit'))
-            ->before(array($this, 'before'))
             ->assert('id', '\d*')
             ->method('GET|POST')
             ->bind('useredit');
 
         $ctl->match('/profile', array($this, 'profile'))
-            ->before(array($this, 'before'))
             ->method('GET|POST')
             ->bind('profile');
 
         $ctl->match('/roles', array($this, 'roles'))
-            ->before(array($this, 'before'))
             ->method('GET')
             ->bind('roles');
 
         $ctl->get('/about', array($this, 'about'))
-            ->before(array($this, 'before'))
             ->bind('about');
 
         $ctl->get('/user/{action}/{id}', array($this, 'userAction'))
-            ->before(array($this, 'before'))
             ->method('POST')
             ->bind('useraction');
 
         $ctl->match('/files/{namespace}/{path}', array($this, 'files'))
-            ->before(array($this, 'before'))
             ->assert('namespace', '[^/]+')
             ->assert('path', '.*')
             ->value('namespace', 'files')
@@ -142,7 +122,6 @@ class Backend implements ControllerProviderInterface
             ->bind('files');
 
         $ctl->match('/file/edit/{namespace}/{file}', array($this, 'fileEdit'))
-            ->before(array($this, 'before'))
             ->assert('file', '.+')
             ->assert('namespace', '[^/]+')
             ->value('namespace', 'files')
@@ -150,7 +129,6 @@ class Backend implements ControllerProviderInterface
             ->bind('fileedit');
 
         $ctl->match('/tr/{domain}/{tr_locale}', array($this, 'translation'))
-            ->before(array($this, 'before'))
             ->assert('domain', 'messages|contenttypes|infos')
             ->value('domain', 'messages')
             ->value('tr_locale', $app['config']->get('general/locale'))
@@ -158,7 +136,6 @@ class Backend implements ControllerProviderInterface
             ->bind('translation');
 
         $ctl->get('/omnisearch', array($this, 'omnisearch'))
-            ->before(array($this, 'before'))
             ->bind('omnisearch');
 
         return $ctl;
