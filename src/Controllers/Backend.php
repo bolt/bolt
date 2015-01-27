@@ -413,11 +413,7 @@ class Backend implements ControllerProviderInterface
 
         $activity = $app['logger.manager']->getActivity('change', 16);
 
-        $context = array(
-            'entries' => $activity
-        );
-
-        return $app['render']->render('activity/changelog.twig', array('context' => $context));
+        return $app['render']->render('activity/changelog.twig', array('entries' => $activity));
     }
 
     /**
@@ -447,11 +443,7 @@ class Backend implements ControllerProviderInterface
 
         $activity = $app['logger.manager']->getActivity('system', 16, $level, $context);
 
-        $context = array(
-            'entries' => $activity
-        );
-
-        return $app['render']->render('activity/systemlog.twig', array('context' => $context));
+        return $app['render']->render('activity/systemlog.twig', array('entries' => $activity));
     }
 
     /**

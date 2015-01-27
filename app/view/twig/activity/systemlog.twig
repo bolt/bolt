@@ -35,35 +35,35 @@
                     <th>Date</th>
                 </thead>
                 <tbody>
-                {% for log in context.entries %}
+                {% for entry in entries %}
                     <tr>
                         <td>
-                            № {{ log.id }}
+                            № {{ entry.id }}
                         </td>
                         <td>
-                            {{ log.level|loglevel }}
+                            {{ entry.level|loglevel }}
                         </td>
                         <td>
-                            {{ log.context }}
+                            {{ entry.context }}
                         </td>
                         <td>
-                            {{ log.route }}
+                            {{ entry.route }}
                         </td>
                         <td>
-                            {{ log.requesturi }}
+                            {{ entry.requesturi }}
                         </td>
                         <td>
-                            {% if log.code is not empty %}<b>[{{ log.code|ucfirst }}]</b> {% endif %}
-                            <b>{{ log.message }}</b>
+                            {% if entry.code is not empty %}<b>[{{ entry.code|ucfirst }}]</b> {% endif %}
+                            <b>{{ entry.message }}</b>
                         </td>
                         <td>
-                            {{ log.username }}
+                            {{ entry.username }}
                         </td>
                         <td>
-                            {{ log.ip }}
+                            {{ entry.ip }}
                         </td>
                         <td>
-                            <time class="moment" datetime="{{ log.date|date("c") }}" title="{{ log.date }}">{{ log.date }}</time>
+                            <time class="moment" datetime="{{ entry.date|date("c") }}" title="{{ entry.date }}">{{ entry.date }}</time>
                         </td>
                     </tr>
                 {% endfor %}
