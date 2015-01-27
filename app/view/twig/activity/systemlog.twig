@@ -23,19 +23,43 @@
             </div>
 
             <table class="table table-striped dashboardlisting">
+                <thead>
+                    <th></th>
+                    <th>Type</th>
+                    <th>Context</th>
+                    <th>Route</th>
+                    <th>URI</th>
+                    <th>Details</th>
+                    <th>User</th>
+                    <th>IP</th>
+                    <th>Date</th>
+                </thead>
                 <tbody>
                 {% for log in context.entries %}
                     <tr>
                         <td>
-                            № {{ log.id }}<br>Lvl {{ log.level|loglevel }}
+                            № {{ log.id }}
+                        </td>
+                        <td>
+                            {{ log.level|loglevel }}
+                        </td>
+                        <td>
+                            {{ log.context }}
+                        </td>
+                        <td>
+                            {{ log.route }}
+                        </td>
+                        <td>
+                            {{ log.requesturi }}
                         </td>
                         <td>
                             {% if log.code is not empty %}<b>[{{ log.code|ucfirst }}]</b> {% endif %}
-                            <b>{{ log.message }}</b> <br>
-                            {{ __('in:') }} {{ log.file }}::{{ log.line }} ({{ log.route }})
+                            <b>{{ log.message }}</b>
                         </td>
                         <td>
-                            {{ log.username }} <br>
+                            {{ log.username }}
+                        </td>
+                        <td>
                             {{ log.ip }}
                         </td>
                         <td>
