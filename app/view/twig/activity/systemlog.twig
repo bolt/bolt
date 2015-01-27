@@ -92,7 +92,7 @@
                             {{ entry.requesturi }}
                         </td>
                         <td>
-                            <b>{{ entry.message }}</b>
+                            <span class="systemlog-source" data-source="{{ entry.source|default('') }}"><b>{{ entry.message }}</b></span>
                         </td>
                         <td>
                             {% set user = getuser(entry.ownerid) %}
