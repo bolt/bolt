@@ -36,8 +36,9 @@ class Login implements Silex\ControllerProviderInterface
     /**
      * Handle a login attempt.
      *
-     * @param Silex\Application $app     The application/container
+     * @param Silex\Application $app The application/container
      * @param Request           $request The Symfony Request
+     * @return string
      */
     public function postLogin(Silex\Application $app, Request $request)
     {
@@ -71,7 +72,7 @@ class Login implements Silex\ControllerProviderInterface
 
             default:
                 // Let's not disclose any internal information.
-                $app->abort(400, 'Invalid request');
+                return $app->abort(400, 'Invalid request');
         }
     }
 
@@ -79,10 +80,9 @@ class Login implements Silex\ControllerProviderInterface
      * Login page and "Forgotten password" page.
      *
      * @param Silex\Application $app     The application/container
-     * @param Request           $request The Symfony Request
      * @return string
      */
-    public function getLogin(Silex\Application $app, Request $request)
+    public function getLogin(Silex\Application $app)
     {
         if (!empty($app['users']->currentuser) && $app['users']->currentuser['enabled'] == 1) {
             return Lib::redirect('dashboard', array());
