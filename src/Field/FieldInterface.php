@@ -37,4 +37,13 @@ interface FieldInterface
      * @return array An array of options
      */
     public function getStorageOptions();
+
+    /**
+     * Manipulates the content before it reaches the template
+     *
+     * @param  mixed $value The original value
+     * @param  mixed $fieldinfo Information about the field
+     * @return mixed The decoded value
+     */
+    public function getDecodedValue($value, $fieldinfo);
 }
