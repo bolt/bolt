@@ -47,15 +47,12 @@ class Manager
             throw new \Exception("Invalid log type requested: $log");
         }
 
-        $query = sprintf(
-            "DELETE FROM %s WHERE date < ?;",
-            $table
-        );
-        $this->app['db']->executeQuery(
-            $query,
-            array(date('Y-m-d H:i:s', strtotime('-7 day'))),
-            array(\PDO::PARAM_STR)
-        );
+        $query = $this->app['db']->createQueryBuilder()
+                                 ->delete($table)
+                                 ->where('date < :date')
+                                 ->setParameter(':date', date('Y-m-d H:i:s', strtotime('-7 day')));
+
+        $query->execute();
     }
 
     public function clear($log)
