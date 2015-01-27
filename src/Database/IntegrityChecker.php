@@ -476,6 +476,7 @@ class IntegrityChecker
         $logSystemTable->addColumn('ip', 'string', array('length' => 32, 'default' => ''));
         $logSystemTable->addColumn('context', 'string', array('length' => 32));
         $logSystemTable->addIndex(array( 'context'));
+        $logSystemTable->addColumn('source', 'text', array());
         $tables[] = $logSystemTable;
 
         $logChangeTable = $schema->createTable($this->prefix . 'log_change');
