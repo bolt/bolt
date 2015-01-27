@@ -34,3 +34,6 @@ tools:
             paths: ["app/src/*"]
         config:
             standard: PSR2
+    external_code_coverage:
+        timeout: 600
+        runs: 3
