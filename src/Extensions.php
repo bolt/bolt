@@ -236,6 +236,7 @@ class Extensions
         try {
             $extension->getConfig();
         } catch (\Exception $e) {
+            $this->logInitFailure('YAML config failed to load for', $name, $e);
             $this->app['logger.system']->addCritical("YAML config failed to load for $name: " . $e->getMessage(), array('event' => 'extensions'));
 
             return;
@@ -260,6 +261,7 @@ class Extensions
             }
 
         } catch (\Exception $e) {
+            $this->logInitFailure('Initialisation failed for', $name, $e);
             $this->app['logger.system']->addCritical("Initialisation failed for $name: " . $e->getMessage(), array('event' => 'extensions'));
 
             return;
@@ -272,6 +274,7 @@ class Extensions
         try {
             $this->getSnippets($name);
         } catch (\Exception $e) {
+            $this->logInitFailure('Snippet loading failed for', $name, $e);
             $this->app['logger.system']->addError("Snippet loading failed for $name: " . $e->getMessage(), array('event' => 'extensions'));
 
             return;
@@ -302,8 +305,7 @@ class Extensions
                                     call_user_func($addTwigExFunc, $twig, $twigExtension, $name);
                                     return $twig;
                                 }
-                        )
-                        );
+                        ));
                     }
                 }
             } catch (\Exception $e) {
@@ -326,7 +328,8 @@ class Extensions
         try {
             $twig->addExtension($extension);
         } catch (\Exception $e) {
-            $this->logInitFailure('Twig function registration', $name, $e);
+            $this->logInitFailure('Failed to regisiter Twig extension for', $name, $e);
+            $this->app['logger.system']->addError("Failed to regisiter Twig extension for $name: " . $e->getMessage(), array('event' => 'extensions'));
         }
     }
 
