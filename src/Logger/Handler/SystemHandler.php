@@ -76,14 +76,13 @@ class SystemHandler extends AbstractProcessingHandler
         }
 
         $this->user = $this->app['session']->get('user');
-        $username = isset($this->user['username']) ? $this->user['username'] : '';
 
         try {
             $this->app['db']->insert($this->tablename, array(
                 'level'       => $record['level'],
                 'date'        => $record['datetime']->format('Y-m-d H:i:s'),
                 'message'     => $record['message'],
-                'username'    => $username,
+                'ownerid'     => isset($this->user['id']) ? $this->user['id'] : '',
                 'requesturi'  => $this->app['request']->getRequestUri(),
                 'route'       => $this->app['request']->get('_route'),
                 'ip'          => $this->app['request']->getClientIp(),
