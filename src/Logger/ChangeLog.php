@@ -49,13 +49,13 @@ class ChangeLog
      *                        - 'order' (string)
      * @return array
      */
-    public function getChangelog($options)
+    public function getChangelog(array $options)
     {
         $query = $this->app['db']->createQueryBuilder()
                       ->select('*')
                       ->from($this->table_change);
 
-        $query = $this->makeOrderLimitSql($query, $options);
+        $query = $this->setLimitOrder($query, $options);
         $rows = $query->execute()->fetchAll();
 
         $objs = array();
@@ -67,6 +67,7 @@ class ChangeLog
     }
 
     /**
+     * Get a count of change log entries
      *
      * @return integer
      */
@@ -92,7 +93,7 @@ class ChangeLog
      *                            - 'id' (int), to filter by a specific changelog entry ID
      * @return array
      */
-    public function getChangelogByContentType($contenttype, $options)
+    public function getChangelogByContentType($contenttype, array $options)
     {
         if (is_array($contenttype)) {
             $contenttype = $contenttype['slug'];
@@ -105,26 +106,11 @@ class ChangeLog
                       ->from($this->table_change, 'log')
                       ->leftJoin('log', $contentTablename, 'content', 'content.id = log.contentid');
 
-        // Set any required WHERE
-        if (isset($options['contentid']) || isset($options['id'])) {
-            $where = $query->expr()->andX();
-
-            if (isset($options['contentid'])) {
-                $where->add($query->expr()->eq('contentid', ':contentid'));
-            }
-
-            if (isset($options['id'])) {
-                $where->add($query->expr()->eq('log.id', ':logid'));
-            }
-            $query->where($where)
-                  ->setParameters(array(
-                      ':contentid' => $options['contentid'],
-                      ':logid'     => $options['id']
-            ));
-        }
+        // Set required WHERE
+        $query = $this->setWhere($query, $contenttype, $options);
 
         // Set ORDERBY and LIMIT as requested
-        $query = $this->makeOrderLimitSql($query, $options);
+        $query = $this->setLimitOrder($query, $options);
 
         $rows = $query->execute()->fetchAll();
 
@@ -137,27 +123,31 @@ class ChangeLog
         return $objs;
     }
 
-//     public function countChangelogByContentType($contenttype, $options)
-//     {
-//         if (is_array($contenttype)) {
-//             $contenttype = $contenttype['slug'];
-//         }
-//         $tablename = $this->getTablename('log_change');
-//         $sql = "SELECT COUNT(1) " .
-//                "    FROM $tablename as log " .
-//                "    WHERE contenttype = ? ";
-//         $params = array($contenttype);
-//         if (isset($options['contentid'])) {
-//             $sql .= "    AND contentid = ? ";
-//             $params[] = intval($options['contentid']);
-//         }
-//         if (isset($options['id'])) {
-//             $sql .= "    AND log.id = ? ";
-//             $params[] = intval($options['id']);
-//         }
+    /**
+     * Get a count of change log entries by contenttype
+     *
+     * @param  mixed   $contenttype
+     * @param  array   $options
+     * @return integer
+     */
+    public function countChangelogByContentType($contenttype, array $options)
+    {
+        if (is_array($contenttype)) {
+            $contenttype = $contenttype['slug'];
+        }
 
-//         return $this->app['db']->fetchColumn($sql, $params);
-//     }
+        // Build base query
+        $query = $this->app['db']->createQueryBuilder()
+                      ->select('COUNT(id) as count')
+                      ->from($this->table_change, 'log');
+
+
+        // Set any required WHERE
+        $query = $this->setWhere($query, $contenttype, $options);
+
+
+        return $query->execute()->fetchColumn();
+    }
 
 //     /**
 //      * Get a content changelog entry by ID
@@ -201,6 +191,40 @@ class ChangeLog
 //         return $this->getOrderedChangelogEntry($contenttype, $contentid, $id, '<');
 //     }
 
+    /**
+     * Set any required WHERE clause on a QueryBuilder
+     *
+     * @param  Doctrine\DBAL\Query\QueryBuilder $query
+     * @param  string                           $contenttype
+     * @param  array                            $options
+     * @return Doctrine\DBAL\Query\QueryBuilder
+     */
+    private function setWhere($query, $contenttype, array $options)
+    {
+        $where = $query->expr()->andX()
+        ->add($query->expr()->eq('contenttype', ':contenttype'));
+
+        // Set any required WHERE
+        if (isset($options['contentid']) || isset($options['id'])) {
+
+            if (isset($options['contentid'])) {
+                $where->add($query->expr()->eq('contentid', ':contentid'));
+            }
+
+            if (isset($options['id'])) {
+                $where->add($query->expr()->eq('log.id', ':logid'));
+            }
+        }
+
+        $query->where($where)
+        ->setParameters(array(
+            ':contenttype' => $contenttype,
+            ':contentid'   => $options['contentid'],
+            ':logid'       => $options['id']
+        ));
+
+        return $query;
+    }
 
     /**
      * Conditionally add LIMIT and ORDERBY to a QueryBuilder query
@@ -212,7 +236,7 @@ class ChangeLog
      *                                                   - 'order' (string)
      * @return Doctrine\DBAL\Query\QueryBuilder
      */
-    private function makeOrderLimitSql($query, $options)
+    private function setLimitOrder($query, array $options)
     {
         if (isset($options['order'])) {
             $query->orderBy($options['order']);
