@@ -3,6 +3,7 @@ namespace Bolt\Tests\Logger;
 
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Logger\ChangeLog;
+use Bolt\Logger\ChangeLogItem;
 use Bolt\Storage;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -17,9 +18,6 @@ class ChangeLogTest extends BoltUnitTest
     public function testSetup()
     {
         $app = $this->getApp();
-        $app['config']->set('general/database/prefix', 'bolt');
-        $changelog = new ChangeLog($app);
-        $this->assertEquals('bolt_', \PHPUnit_Framework_Assert::readAttribute($changelog, 'prefix'));
     }
 
     public function testGetChangelog()
@@ -76,9 +74,8 @@ class ChangeLogTest extends BoltUnitTest
         $app['config']->set('general/changelog/enabled', true);
         //$all = $app['logger.manager.change']->getChangeLogByContentType('pages', array());
 
-
         $log = $app['logger.manager.change']->getChangeLogEntry('showcases',1,1);
-        $this->assertInstanceOf('Bolt\ChangelogItem', $log);
+        $this->assertInstanceOf('Bolt\Logger\ChangeLogItem', $log);
         $this->assertAttributeEquals(1, 'contentid', $log);
     }
 
@@ -100,7 +97,7 @@ class ChangeLogTest extends BoltUnitTest
         $storage->saveContent($content, 'Test Suite Update');
 
         $log = $app['logger.manager.change']->getNextChangelogEntry('pages', 1, 1);
-        $this->assertInstanceOf('Bolt\ChangelogItem', $log);
+        $this->assertInstanceOf('Bolt\Logger\ChangeLogItem', $log);
         $this->assertAttributeEquals(1, 'contentid', $log);
     }
 
@@ -108,7 +105,7 @@ class ChangeLogTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $log = $app['logger.manager.change']->getPrevChangelogEntry('pages', 1, 10);
-        $this->assertInstanceOf('Bolt\ChangelogItem', $log);
+        $this->assertInstanceOf('Bolt\Logger\ChangeLogItem', $log);
         $this->assertAttributeEquals(1, 'contentid', $log);
     }
 
