@@ -677,7 +677,7 @@ class Config
 
     public function getTwigPath()
     {
-        $themepath = $this->app['resources']->getPath("theme");
+        $themepath = $this->app['resources']->getPath("templatespath");
         $end = $this->getWhichEnd($this->get('general/branding/path'));
 
         if ($end == 'frontend' && file_exists($themepath)) {

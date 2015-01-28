@@ -724,7 +724,7 @@ class TwigExtension extends \Twig_Extension
 
         $finder = new Finder();
         $finder->files()
-               ->in($this->app['paths']['themepath'])
+               ->in($this->app['paths']['templatespath'])
                ->depth('== 0')
                ->name($name)
                ->sortByName();
