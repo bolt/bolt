@@ -141,21 +141,19 @@ class ChangeLog
                       ->select('COUNT(id) as count')
                       ->from($this->table_change, 'log');
 
-
         // Set any required WHERE
         $query = $this->setWhere($query, $contenttype, $options);
-
 
         return $query->execute()->fetchColumn();
     }
 
     /**
      * Get a content changelog entry by ID
-     * @param mixed $contenttype Should be a string content type slug, or an
-     *                           associative array containing a key named
-     *                           'slug'
+     * @param  mixed                    $contenttype Should be a string content type slug, or an
+     *                                               associative array containing a key named
+     *                                               'slug'
      * @param $contentid
-     * @param int $id The content-changelog ID
+     * @param  int                      $id          The content-changelog ID
      * @return \Bolt\ChangeLogItem|null
      */
     public function getChangelogEntry($contenttype, $contentid, $id)
@@ -165,11 +163,11 @@ class ChangeLog
 
     /**
      * Get the content changelog entry that follows the given ID.
-     * @param mixed $contenttype Should be a string content type slug, or an
-     *                           associative array containing a key named
-     *                           'slug'
+     * @param  mixed                    $contenttype Should be a string content type slug, or an
+     *                                               associative array containing a key named
+     *                                               'slug'
      * @param $contentid
-     * @param int $id The content-changelog ID
+     * @param  int                      $id          The content-changelog ID
      * @return \Bolt\ChangeLogItem|null
      */
     public function getNextChangelogEntry($contenttype, $contentid, $id)
@@ -179,11 +177,11 @@ class ChangeLog
 
     /**
      * Get the content changelog entry that precedes the given ID.
-     * @param mixed $contenttype Should be a string content type slug, or an
-     *                           associative array containing a key named
-     *                           'slug'
+     * @param  mixed                    $contenttype Should be a string content type slug, or an
+     *                                               associative array containing a key named
+     *                                               'slug'
      * @param $contentid
-     * @param int $id The content-changelog ID
+     * @param  int                      $id          The content-changelog ID
      * @return \Bolt\ChangeLogItem|null
      */
     public function getPrevChangelogEntry($contenttype, $contentid, $id)
@@ -202,7 +200,7 @@ class ChangeLog
     private function setWhere($query, $contenttype, array $options)
     {
         $where = $query->expr()->andX()
-        ->add($query->expr()->eq('contenttype', ':contenttype'));
+                        ->add($query->expr()->eq('contenttype', ':contenttype'));
 
         // Set any required WHERE
         if (isset($options['contentid']) || isset($options['id'])) {
@@ -217,11 +215,11 @@ class ChangeLog
         }
 
         $query->where($where)
-        ->setParameters(array(
-            ':contenttype' => $contenttype,
-            ':contentid'   => $options['contentid'],
-            ':logid'       => $options['id']
-        ));
+                ->setParameters(array(
+                    ':contenttype' => $contenttype,
+                    ':contentid'   => $options['contentid'],
+                    ':logid'       => $options['id']
+                ));
 
         return $query;
     }
@@ -252,54 +250,58 @@ class ChangeLog
         return $query;
     }
 
-//     /**
-//      * Get one changelog entry from the database.
-//      *
-//      * @param mixed $contenttype Should be a string content type slug, or an
-//      *                           associative array containing a key named
-//      *                           'slug'
-//      * @param $contentid
-//      * @param int $id The content-changelog ID
-//      * @param string $cmpOp One of '=', '<', '>'; this parameter is used
-//      *                       to select either the ID itself, or the subsequent
-//      *                       or preceding entry.
-//      * @throws \Exception
-//      * @return \Bolt\ChangeLogItem|null
-//      */
-//     private function getOrderedChangelogEntry($contenttype, $contentid, $id, $cmpOp)
-//     {
-//         if (is_array($contenttype)) {
-//             $contenttype = $contenttype['slug'];
-//         }
-//         switch ($cmpOp) {
-//             case '=':
-//                 $ordering = ''; // no need to order
-//                 break;
-//             case '<':
-//                 $ordering = " ORDER BY date DESC";
-//                 break;
-//             case '>':
-//                 $ordering = " ORDER BY date ";
-//                 break;
-//         }
-//         $tablename = $this->getTablename('log_change');
-//         $contentTablename = $this->getTablename($contenttype);
-//         $sql = "SELECT log.* " .
-//                "    FROM $tablename as log " .
-//                "    LEFT JOIN " . $contentTablename . " as content " .
-//                "    ON content.id = log.contentid " .
-//                "    WHERE log.id $cmpOp ? " .
-//                "    AND log.contentid = ? " .
-//                "    AND contenttype = ? " .
-//                $ordering .
-//                "    LIMIT 1";
-//         $params = array($id, $contentid, $contenttype);
+    /**
+     * Get one changelog entry from the database.
+     *
+     * @param  mixed              $contenttype Should be a string content type slug, or an
+     *                                         associative array containing a key named
+     *                                         'slug'
+     * @param  integer            $contentid
+     * @param  integer            $id          The content-changelog ID
+     * @param  string             $cmpOp       One of '=', '<', '>'; this parameter is used
+     *                                         to select either the ID itself, or the subsequent
+     *                                         or preceding entry.
+     * @throws \Exception
+     * @return ChangeLogItem|null
+     */
+    private function getOrderedChangelogEntry($contenttype, $contentid, $id, $cmpOp)
+    {
+        if (!in_array($cmpOp, array('=', '<', '>'))) {
+            throw new \InvalidArgumentException(sprintf('Invalid comparison operator: %s', $cmpOp));
+        }
 
-//         $row = $this->app['db']->fetchAssoc($sql, $params);
-//         if (is_array($row)) {
-//             return new ChangeLogItem($this->app, $row);
-//         } else {
-//             return null;
-//         }
-//     }
+        if (is_array($contenttype)) {
+            $contenttype = $contenttype['slug'];
+        }
+
+        // Build base query
+        $contentTablename = $this->app['config']->get('general/database/prefix', 'bolt_') . $contenttype;
+        $query = $this->app['db']->createQueryBuilder()
+                                    ->select('log.*')
+                                    ->from($this->table_change, 'log')
+                                    ->leftJoin('log', $contentTablename, 'content', 'content.id = log.contentid')
+                                    ->where("log.id $cmpOp :logid")
+                                    ->andWhere('log.contentid = :contentid')
+                                    ->andWhere('contenttype = :contenttype')
+                                    ->setParameters(array(
+                                        ':logid'       => $id,
+                                        ':contentid'   => $contentid,
+                                        ':contenttype' => $contenttype))
+                                    ->setMaxResults(1);
+
+        // Set ORDER BY
+        if ($cmpOp == '<') {
+            $query->orderBy('date', 'DESC');
+        } elseif ($cmpOp == '>') {
+            $query->orderBy('date');
+        }
+
+        $row = $query->execute()->fetch(\PDO::FETCH_ASSOC);
+
+        if (is_array($row)) {
+            return new ChangeLogItem($this->app, $row);
+        } else {
+            return null;
+        }
+    }
 }
