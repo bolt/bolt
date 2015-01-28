@@ -42,22 +42,30 @@ class ChangeLog
     }
 
 
-//     private function makeOrderLimitSql($options)
-//     {
-//         $sql = '';
-//         if (isset($options['order'])) {
-//             $sql .= sprintf(" ORDER BY %s", $options['order']);
-//         }
-//         if (isset($options['limit'])) {
-//             if (isset($options['offset'])) {
-//                 $sql .= sprintf(" LIMIT %s, %s ", intval($options['offset']), intval($options['limit']));
-//             } else {
-//                 $sql .= sprintf(" LIMIT %d", intval($options['limit']));
-//             }
-//         }
+    /**
+     *
+     * @param  Doctrine\DBAL\Query\QueryBuilder $query
+     * @param  array                            $options The following options are supported:
+     *                                                   - 'limit' (int)
+     *                                                   - 'offset' (int)
+     *                                                   - 'order' (string)
+     * @return Doctrine\DBAL\Query\QueryBuilder
+     */
+    private function makeOrderLimitSql($query, $options)
+    {
+        if (isset($options['order'])) {
+            $query->orderBy($options['order']);
+        }
+        if (isset($options['limit'])) {
+            $query->setMaxResults(intval($options['limit']));
 
-//         return $sql;
-//     }
+            if (isset($options['offset'])) {
+                  $query->setFirstResult(intval($options['offset']));
+            }
+        }
+
+        return $query;
+    }
 
     /**
      * Get content changelog entries for all content types
@@ -70,12 +78,13 @@ class ChangeLog
      */
     public function getChangelog($options)
     {
-        $tablename = $this->getTablename('log_change');
-        $sql = "SELECT log.*, log.title " .
-               "    FROM $tablename as log ";
-        $sql .= $this->makeOrderLimitSql($options);
+        $query = $this->app['db']->createQueryBuilder()
+                      ->select('*')
+                      ->from($this->table_change);
 
-        $rows = $this->app['db']->fetchAll($sql, array());
+        $query = $this->makeOrderLimitSql($query, $options);
+        $rows = $query->execute()->fetchAll();
+
         $objs = array();
         foreach ($rows as $row) {
             $objs[] = new ChangeLogItem($this->app, $row);
