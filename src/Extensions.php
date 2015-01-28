@@ -334,13 +334,13 @@ class Extensions
      * @param array      $context
      * @param int        $level
      */
-    protected function logInitFailure($msg, $extensionName, \Exception $e, $context = array(), $level = Logger::CRITICAL)
+    protected function logInitFailure($msg, $extensionName, \Exception $e, $level = Logger::CRITICAL)
     {
-        $context = array_replace(array(
+        $context = array(
             'event'     => 'extensions',
             'extension' => $extensionName,
-            'exception' => $e,
-        ), $context);
+            'exception' => $e
+        );
 
         $this->app['logger.system']->addRecord($level, $msg, $context);
 
