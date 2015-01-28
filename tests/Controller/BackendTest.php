@@ -22,7 +22,7 @@ class BackendTest extends BoltUnitTest
         $this->resetDb();
         $app = $this->getApp();
         $this->addDefaultUser();
-        $twig = $this->getTwig();
+        $twig = $this->getMockTwig();
         $phpunit = $this;
         $testHandler = function($template, $context) use($phpunit) {
             $phpunit->assertEquals('dashboard/dashboard.twig', $template);
@@ -337,28 +337,6 @@ class BackendTest extends BoltUnitTest
         $app->run($request);
     }
 
-
-
-    protected function getTwig()
-    {
-        $twig = $this->getMock('Twig_Environment', array('render', 'fetchCachedRequest'));
-        $twig->expects($this->any())
-            ->method('fetchCachedRequest')
-            ->will($this->returnValue(false));
-        return $twig;
-    }
-
-    protected function checkTwigForTemplate($app, $testTemplate)
-    {
-        $twig = $this->getTwig();
-
-        $twig->expects($this->once())
-            ->method('render')
-            ->with($this->equalTo($testTemplate))
-            ->will($this->returnValue(new Response));
-
-        $app['render'] = $twig;
-    }
 
     protected function allowLogin($app)
     {
