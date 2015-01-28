@@ -41,31 +41,6 @@ class ChangeLog
     }
 
     /**
-     *
-     * @param  Doctrine\DBAL\Query\QueryBuilder $query
-     * @param  array                            $options The following options are supported:
-     *                                                   - 'limit' (int)
-     *                                                   - 'offset' (int)
-     *                                                   - 'order' (string)
-     * @return Doctrine\DBAL\Query\QueryBuilder
-     */
-    private function makeOrderLimitSql($query, $options)
-    {
-        if (isset($options['order'])) {
-            $query->orderBy($options['order']);
-        }
-        if (isset($options['limit'])) {
-            $query->setMaxResults(intval($options['limit']));
-
-            if (isset($options['offset'])) {
-                  $query->setFirstResult(intval($options['offset']));
-            }
-        }
-
-        return $query;
-    }
-
-    /**
      * Get content changelog entries for all content types
      * @param  array $options An array with additional options. Currently, the
      *                        following options are supported:
@@ -225,6 +200,33 @@ class ChangeLog
 //     {
 //         return $this->getOrderedChangelogEntry($contenttype, $contentid, $id, '<');
 //     }
+
+
+    /**
+     * Conditionally add LIMIT and ORDERBY to a QueryBuilder query
+     *
+     * @param  Doctrine\DBAL\Query\QueryBuilder $query
+     * @param  array                            $options The following options are supported:
+     *                                                   - 'limit' (int)
+     *                                                   - 'offset' (int)
+     *                                                   - 'order' (string)
+     * @return Doctrine\DBAL\Query\QueryBuilder
+     */
+    private function makeOrderLimitSql($query, $options)
+    {
+        if (isset($options['order'])) {
+            $query->orderBy($options['order']);
+        }
+        if (isset($options['limit'])) {
+            $query->setMaxResults(intval($options['limit']));
+
+            if (isset($options['offset'])) {
+                $query->setFirstResult(intval($options['offset']));
+            }
+        }
+
+        return $query;
+    }
 
 //     /**
 //      * Get one changelog entry from the database.
