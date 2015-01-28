@@ -254,14 +254,22 @@ class Manager
 //         return $objs;
 //     }
 
-//     public function countChangelog()
-//     {
-//         $tablename = $this->getTablename('log_change');
-//         $sql = "SELECT COUNT(1) " .
-//                "    FROM $tablename as log ";
+    /**
+     *
+     * @return integer
+     */
+    public function countChangelog()
+    {
+        if (!$this->initialized) {
+            $this->initialize();
+        }
 
-//         return $this->app['db']->fetchColumn($sql, array());
-//     }
+        $query = $this->app['db']->createQueryBuilder()
+                      ->select('COUNT(id) as count')
+                      ->from($this->table_change);
+
+        return $query->execute()->fetchColumn();
+    }
 
 //     /**
 //      * Get content changelog entries by content type.
