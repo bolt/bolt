@@ -337,7 +337,7 @@ class Async implements ControllerProviderInterface
             $options['contentid'] = intval($contentid);
         }
 
-        $changelog = $app['logger.manager']->getChangelogByContentType($contenttype['slug'], $options);
+        $changelog = $app['logger.manager.change']->getChangelogByContentType($contenttype['slug'], $options);
 
         $context = array(
             'changelog' => $changelog,
