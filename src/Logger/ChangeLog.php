@@ -4,7 +4,6 @@ namespace Bolt\Logger;
 
 use Bolt\Application;
 use Bolt\Helpers\String;
-use Bolt\Pager;
 use Monolog\Logger;
 
 /**
@@ -41,7 +40,6 @@ class ChangeLog
         $this->table_system = sprintf("%s%s", $prefix, 'log_system');
     }
 
-
     /**
      *
      * @param  Doctrine\DBAL\Query\QueryBuilder $query
@@ -69,11 +67,11 @@ class ChangeLog
 
     /**
      * Get content changelog entries for all content types
-     * @param array $options An array with additional options. Currently, the
-     *                       following options are supported:
-     *                       - 'limit' (int)
-     *                       - 'offset' (int)
-     *                       - 'order' (string)
+     * @param  array $options An array with additional options. Currently, the
+     *                        following options are supported:
+     *                        - 'limit' (int)
+     *                        - 'offset' (int)
+     *                        - 'order' (string)
      * @return array
      */
     public function getChangelog($options)
@@ -106,50 +104,63 @@ class ChangeLog
         return $query->execute()->fetchColumn();
     }
 
-//     /**
-//      * Get content changelog entries by content type.
-//      * @param mixed $contenttype Should be a string content type slug, or an
-//      *                           associative array containing a key named
-//      *                           'slug'
-//      * @param array $options An array with additional options. Currently, the
-//      *                       following options are supported:
-//      *                       - 'limit' (int)
-//      *                       - 'order' (string)
-//      *                       - 'contentid' (int), to filter further by content ID
-//      *                       - 'id' (int), to filter by a specific changelog entry ID
-//      * @return array
-//      */
-//     public function getChangelogByContentType($contenttype, $options)
-//     {
-//         if (is_array($contenttype)) {
-//             $contenttype = $contenttype['slug'];
-//         }
-//         $tablename = $this->getTablename('log_change');
-//         $contentTablename = $this->getTablename($contenttype);
-//         $sql = "SELECT log.*, log.title " .
-//                "    FROM $tablename as log " .
-//                "    LEFT JOIN " . $contentTablename . " as content " .
-//                "    ON content.id = log.contentid " .
-//                "    WHERE contenttype = ? ";
-//         $params = array($contenttype);
-//         if (isset($options['contentid'])) {
-//             $sql .= "    AND contentid = ? ";
-//             $params[] = intval($options['contentid']);
-//         }
-//         if (isset($options['id'])) {
-//             $sql .= " AND log.id = ? ";
-//             $params[] = intval($options['id']);
-//         }
-//         $sql .= $this->makeOrderLimitSql($options);
+    /**
+     * Get content changelog entries by content type.
+     * @param  mixed $contenttype Should be a string content type slug, or an
+     *                            associative array containing a key named
+     *                            'slug'
+     * @param  array $options     An array with additional options. Currently, the
+     *                            following options are supported:
+     *                            - 'limit' (int)
+     *                            - 'order' (string)
+     *                            - 'contentid' (int), to filter further by content ID
+     *                            - 'id' (int), to filter by a specific changelog entry ID
+     * @return array
+     */
+    public function getChangelogByContentType($contenttype, $options)
+    {
+        if (is_array($contenttype)) {
+            $contenttype = $contenttype['slug'];
+        }
 
-//         $rows = $this->app['db']->fetchAll($sql, $params);
-//         $objs = array();
-//         foreach ($rows as $row) {
-//             $objs[] = new ChangeLogItem($this->app, $row);
-//         }
+        // Build base query
+        $contentTablename = $this->app['config']->get('general/database/prefix', 'bolt_') . $contenttype;
+        $query = $this->app['db']->createQueryBuilder()
+                      ->select('log.*, log.title')
+                      ->from($this->table_change, 'log')
+                      ->leftJoin('log', $contentTablename, 'content', 'content.id = log.contentid');
 
-//         return $objs;
-//     }
+        // Set any required WHERE
+        if (isset($options['contentid']) || isset($options['id'])) {
+            $where = $query->expr()->andX();
+
+            if (isset($options['contentid'])) {
+                $where->add($query->expr()->eq('contentid', ':contentid'));
+            }
+
+            if (isset($options['id'])) {
+                $where->add($query->expr()->eq('log.id', ':logid'));
+            }
+            $query->where($where)
+                  ->setParameters(array(
+                      ':contentid' => $options['contentid'],
+                      ':logid'     => $options['id']
+            ));
+        }
+
+        // Set ORDERBY and LIMIT as requested
+        $query = $this->makeOrderLimitSql($query, $options);
+
+        $rows = $query->execute()->fetchAll();
+
+        $objs = array();
+
+        foreach ($rows as $row) {
+            $objs[] = new ChangeLogItem($this->app, $row);
+        }
+
+        return $objs;
+    }
 
 //     public function countChangelogByContentType($contenttype, $options)
 //     {
