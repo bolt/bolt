@@ -2,6 +2,7 @@
 
 namespace Bolt\Provider;
 
+use Bolt\Logger\ChangeLog;
 use Bolt\Logger\Manager;
 use Bolt\Logger\Handler\SystemHandler;
 use Bolt\Logger\Handler\RecordChangeHandler;
@@ -52,6 +53,13 @@ class LoggerServiceProvider implements ServiceProviderInterface
         // Manager
         $app['logger.manager'] = $app->share(function ($app) {
             $mgr = new Manager($app);
+
+            return $mgr;
+        });
+
+        // Change Log Manager
+        $app['logger.manager.change'] = $app->share(function ($app) {
+            $mgr = new ChangeLog($app);
 
             return $mgr;
         });
