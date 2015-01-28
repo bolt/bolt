@@ -688,7 +688,12 @@ class Config
 
         // If the template path doesn't exist, flash error on the dashboard.
         if (!file_exists($themepath)) {
-            $error = "Template folder 'theme/" . basename($this->get('general/theme')) . "' does not exist, or is not writable.";
+            $relativethemepath = basename($this->get('general/theme'));
+            if (isset($this->app['config']->get('theme')['template_directory'])) {
+                $relativethemepath .= '/' . $this->app['config']->get('theme/template_directory');
+            }
+
+            $error = "Template folder 'theme/" . $relativethemepath . "' does not exist, or is not writable.";
             $this->app['session']->getFlashBag()->set('error', $error);
         }
 
