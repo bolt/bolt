@@ -277,7 +277,7 @@ class TwigExtension extends \Twig_Extension
             // Various things we could do. We could fail miserably, but a more
             // graceful approach is to use the datetime to display a default
             // format
-            $this->app['logger.system']->addInfo('No valid locale detected. Fallback on DateTime active.');
+            $this->app['logger.system']->addError('No valid locale detected. Fallback on DateTime active.', array('event' => 'system'));
 
             return $dateTime->format('Y-m-d H:i:s');
         } else {
@@ -1408,12 +1408,13 @@ class TwigExtension extends \Twig_Extension
     /**
      * Return a selected field from a contentset
      *
-     * @param  array $content   A Bolt record array
-     * @param  mixed $fieldname Name of field (string), or array of names of
-     *                          fields, to return from each record
+     * @param  array  $content    A Bolt record array
+     * @param  mixed  $fieldname  Name of field (string), or array of names of fields, to return from each record
+     * @param  bool   $startempty Whether or not the array should start with an empty element
+     * @param  string $keyname    Name of the key in the arrat
      * @return array
      */
-    public function selectField($content, $fieldname, $startempty = false)
+    public function selectField($content, $fieldname, $startempty = false, $keyname = 'id')
     {
         if ($startempty) {
             $retval = array();
@@ -1430,10 +1431,10 @@ class TwigExtension extends \Twig_Extension
                         $row[] = null;
                     }
                 }
-                $retval[ $c->values['id'] ] = $row;
+                $retval[ $c->values[ $keyname ] ] = $row;
             } else {
                 if (isset($c->values[$fieldname])) {
-                    $retval[ $c->values['id'] ] = $c->values[$fieldname];
+                    $retval[ $c->values[ $keyname ] ] = $c->values[$fieldname];
                 }
             }
         }

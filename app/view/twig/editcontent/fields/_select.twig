@@ -19,7 +19,7 @@
         {% set lookupfield = lookupfield|split(',') %}
     {% endif %}
     {% setcontent lookups = lookuptype order lookupfield nohydrate %}
-    {% set values = lookups|selectfield(lookupfield, option.multiple) %}
+    {% set values = lookups|selectfield(lookupfield, option.multiple, field.keys|default('id')) %}
 {% endif %}
 
 {# get the current selection. Either a single value, or an array. #}

@@ -2,6 +2,7 @@
 namespace Bolt\Configuration;
 
 use Bolt\Application;
+use Eloquent\Pathogen\RelativePathInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Composer\Autoload\ClassLoader;
 use Symfony\Component\Filesystem\Filesystem;
@@ -121,11 +122,9 @@ class ResourceManager
     public function setPath($name, $value)
     {
         // If this is a relative path make it relative to root.
-        if (! preg_match("/^(?:\/|\\\\|\w:\\\\|\w:\/).*$/", $value) ) {
-            $path = $this->pathManager->create($value);
-            $path = $this->paths['root']->resolve($path);
-        } else {
-            $path = $this->pathManager->create($value);
+        $path = $this->pathManager->create($value);
+        if ($path instanceof RelativePathInterface) {
+            $path = $path->resolveAgainst($this->paths['root']);
         }
 
         $this->paths[$name] = $path;

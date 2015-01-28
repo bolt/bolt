@@ -56,12 +56,14 @@ class ManagerTest extends BoltUnitTest
         $plugin->expects($this->once())
             ->method('handle')
             ->will($this->returnValue('success'));
+        
         $plugin->expects($this->once())
             ->method('getMethod')
-            ->will($this->returnValue('test'));
+            ->will($this->returnValue('testing'));
+                   
+        $manager->getManager()->addPlugin($plugin);
         
-        $manager->addPlugin($plugin);
-        $response = $manager->test('test');
+        $response = $manager->testing('arg');
         
         $this->assertEquals('success', $response);
         

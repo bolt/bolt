@@ -2,14 +2,12 @@
 
 namespace Bolt\Logger\Handler;
 
-use Monolog\Logger;
-use Monolog\Handler\AbstractProcessingHandler;
-
 use Bolt\Application;
 use Bolt\Content;
 use Bolt\DeepDiff;
 use Bolt\Helpers\String;
-use Bolt\Logger\Formatter\RecordChange;
+use Monolog\Logger;
+use Monolog\Handler\AbstractProcessingHandler;
 
 /**
  * Monolog Database handler for record changes (changelog)

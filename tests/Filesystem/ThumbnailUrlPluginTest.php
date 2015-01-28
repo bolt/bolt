@@ -6,7 +6,6 @@ use Bolt\Tests\BoltUnitTest;
 use Bolt\Filesystem\ThumbnailUrlPlugin;
 use Bolt\Filesystem\Manager;
 use League\Flysystem\Filesystem;
-use League\Flysystem\Cache\Memory;
 use League\Flysystem\Adapter\NullAdapter;
 use League\Flysystem\Adapter\Local;
 
@@ -24,8 +23,7 @@ class ThumbnailUrlPluginTest extends BoltUnitTest
         $app = $this->getApp();
         
         $adapter = new Local(TEST_ROOT."/tests/resources");
-        $cache = new Memory();
-        $fs = new Filesystem($adapter, $cache);
+        $fs = new Filesystem($adapter);
         
         $manager = new Manager($app);
         $manager->setManager('files', $fs);
