@@ -20,28 +20,25 @@ class ChangeLog
     private $app;
 
     /**
-     * @var boolean
+     * @var string
      */
-    private $initialized = false;
+    private $table_change;
 
     /**
-     *
+     * @var string
+     */
+    private $table_system;
+
+    /**
      * @param Application $app
      */
     public function __construct(Application $app)
     {
         $this->app = $app;
-    }
 
-    /**
-     * Initialize
-     */
-    private function initialize()
-    {
-        $prefix = $this->app['config']->get('general/database/prefix', "bolt_");
+        $prefix = $app['config']->get('general/database/prefix', "bolt_");
         $this->table_change = sprintf("%s%s", $prefix, 'log_change');
         $this->table_system = sprintf("%s%s", $prefix, 'log_system');
-        $this->initialized = true;
     }
 
 
@@ -93,10 +90,6 @@ class ChangeLog
      */
     public function countChangelog()
     {
-        if (!$this->initialized) {
-            $this->initialize();
-        }
-
         $query = $this->app['db']->createQueryBuilder()
                       ->select('COUNT(id) as count')
                       ->from($this->table_change);

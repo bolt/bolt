@@ -20,25 +20,29 @@ class Manager
     private $app;
 
     /**
-     * @var boolean
+     * @var string
      */
-    private $initialized = false;
+    private $table_change;
 
     /**
-     *
+     * @var string
+     */
+    private $table_system;
+
+    /**
      * @param Application $app
      */
     public function __construct(Application $app)
     {
         $this->app = $app;
+
+        $prefix = $app['config']->get('general/database/prefix', "bolt_");
+        $this->table_change = sprintf("%s%s", $prefix, 'log_change');
+        $this->table_system = sprintf("%s%s", $prefix, 'log_system');
     }
 
     public function trim($log)
     {
-        if (!$this->initialized) {
-            $this->initialize();
-        }
-
         if ($log == 'system') {
             $table = $this->table_system;
         } elseif ($log == 'change') {
@@ -57,10 +61,6 @@ class Manager
 
     public function clear($log)
     {
-        if (!$this->initialized) {
-            $this->initialize();
-        }
-
         if ($log == 'system') {
             $table = $this->table_system;
         } elseif ($log == 'change') {
@@ -84,10 +84,6 @@ class Manager
      */
     public function getActivity($log, $amount = 10, $level = null, $context = null)
     {
-        if (!$this->initialized) {
-            $this->initialize();
-        }
-
         if ($log == 'system') {
             $table = $this->table_system;
         } elseif ($log == 'change') {
@@ -198,16 +194,5 @@ class Manager
         }
 
         return $rows;
-    }
-
-    /**
-     * Initialize
-     */
-    private function initialize()
-    {
-        $prefix = $this->app['config']->get('general/database/prefix', "bolt_");
-        $this->table_change = sprintf("%s%s", $prefix, 'log_change');
-        $this->table_system = sprintf("%s%s", $prefix, 'log_system');
-        $this->initialized = true;
     }
 }
