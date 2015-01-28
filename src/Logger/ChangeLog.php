@@ -149,47 +149,47 @@ class ChangeLog
         return $query->execute()->fetchColumn();
     }
 
-//     /**
-//      * Get a content changelog entry by ID
-//      * @param mixed $contenttype Should be a string content type slug, or an
-//      *                           associative array containing a key named
-//      *                           'slug'
-//      * @param $contentid
-//      * @param int $id The content-changelog ID
-//      * @return \Bolt\ChangeLogItem|null
-//      */
-//     public function getChangelogEntry($contenttype, $contentid, $id)
-//     {
-//         return $this->getOrderedChangelogEntry($contenttype, $contentid, $id, '=');
-//     }
+    /**
+     * Get a content changelog entry by ID
+     * @param mixed $contenttype Should be a string content type slug, or an
+     *                           associative array containing a key named
+     *                           'slug'
+     * @param $contentid
+     * @param int $id The content-changelog ID
+     * @return \Bolt\ChangeLogItem|null
+     */
+    public function getChangelogEntry($contenttype, $contentid, $id)
+    {
+        return $this->getOrderedChangelogEntry($contenttype, $contentid, $id, '=');
+    }
 
-//     /**
-//      * Get the content changelog entry that follows the given ID.
-//      * @param mixed $contenttype Should be a string content type slug, or an
-//      *                           associative array containing a key named
-//      *                           'slug'
-//      * @param $contentid
-//      * @param int $id The content-changelog ID
-//      * @return \Bolt\ChangeLogItem|null
-//      */
-//     public function getNextChangelogEntry($contenttype, $contentid, $id)
-//     {
-//         return $this->getOrderedChangelogEntry($contenttype, $contentid, $id, '>');
-//     }
+    /**
+     * Get the content changelog entry that follows the given ID.
+     * @param mixed $contenttype Should be a string content type slug, or an
+     *                           associative array containing a key named
+     *                           'slug'
+     * @param $contentid
+     * @param int $id The content-changelog ID
+     * @return \Bolt\ChangeLogItem|null
+     */
+    public function getNextChangelogEntry($contenttype, $contentid, $id)
+    {
+        return $this->getOrderedChangelogEntry($contenttype, $contentid, $id, '>');
+    }
 
-//     /**
-//      * Get the content changelog entry that precedes the given ID.
-//      * @param mixed $contenttype Should be a string content type slug, or an
-//      *                           associative array containing a key named
-//      *                           'slug'
-//      * @param $contentid
-//      * @param int $id The content-changelog ID
-//      * @return \Bolt\ChangeLogItem|null
-//      */
-//     public function getPrevChangelogEntry($contenttype, $contentid, $id)
-//     {
-//         return $this->getOrderedChangelogEntry($contenttype, $contentid, $id, '<');
-//     }
+    /**
+     * Get the content changelog entry that precedes the given ID.
+     * @param mixed $contenttype Should be a string content type slug, or an
+     *                           associative array containing a key named
+     *                           'slug'
+     * @param $contentid
+     * @param int $id The content-changelog ID
+     * @return \Bolt\ChangeLogItem|null
+     */
+    public function getPrevChangelogEntry($contenttype, $contentid, $id)
+    {
+        return $this->getOrderedChangelogEntry($contenttype, $contentid, $id, '<');
+    }
 
     /**
      * Set any required WHERE clause on a QueryBuilder
