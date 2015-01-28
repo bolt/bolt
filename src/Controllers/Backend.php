@@ -2,7 +2,7 @@
 
 namespace Bolt\Controllers;
 
-use Silex;
+use Silex\Application;
 use Silex\ControllerProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -29,130 +29,84 @@ class Backend implements ControllerProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function connect(Silex\Application $app)
+    public function connect(Application $app)
     {
         /** @var $ctl \Silex\ControllerCollection */
         $ctl = $app['controllers_factory'];
 
+        $ctl->before(array($this, 'before'));
+        $ctl->method('GET|POST');
+
         $ctl->get('', array($this, 'dashboard'))
-            ->before(array($this, 'before'))
             ->bind('dashboard');
 
-        $ctl->match('/login', array($this, 'getLogin'))
-            ->method('GET')
-            ->before(array($this, 'before'))
-            ->bind('login');
-
-        $ctl->match('/login', array($this, 'postLogin'))
-            ->method('POST')
-            ->before(array($this, 'before'))
-            ->bind('postLogin');
-
-        $ctl->get('/logout', array($this, 'logout'))
-            ->method('POST')
-            ->bind('logout');
-
-        $ctl->match('/resetpassword', array($this, 'resetPassword'))
-            ->bind('resetpassword')
-            ->method('GET');
-
         $ctl->get('/dbcheck', array($this, 'dbCheck'))
-            ->before(array($this, 'before'))
             ->bind('dbcheck');
 
-        $ctl->get('/dbupdate', array($this, 'dbUpdate'))
-            ->method('POST')
-            ->before(array($this, 'before'))
+        $ctl->post('/dbupdate', array($this, 'dbUpdate'))
             ->bind('dbupdate');
 
         $ctl->get('/dbupdate_result', array($this, 'dbUpdateResult'))
-            ->method('GET')
-            ->before(array($this, 'before'))
             ->bind('dbupdate_result');
 
         $ctl->get('/clearcache', array($this, 'clearCache'))
-            ->before(array($this, 'before'))
             ->bind('clearcache');
 
         $ctl->match('/prefill', array($this, 'prefill'))
-            ->before(array($this, 'before'))
-            ->method('GET|POST')
             ->bind('prefill');
 
         $ctl->get('/overview/{contenttypeslug}', array($this, 'overview'))
-            ->before(array($this, 'before'))
             ->bind('overview');
 
         $ctl->get('/relatedto/{contenttypeslug}/{id}', array($this, 'relatedTo'))
-            ->before(array($this, 'before'))
             ->assert('id', '\d*')
             ->bind('relatedto');
 
         $ctl->match('/editcontent/{contenttypeslug}/{id}', array($this, 'editContent'))
-            ->before(array($this, 'before'))
             ->assert('id', '\d*')
-            ->method('GET|POST')
             ->bind('editcontent');
 
         $ctl->get('/content/deletecontent/{contenttypeslug}/{id}', array($this, 'deleteContent'))
-            ->before(array($this, 'before'))
             ->bind('deletecontent');
 
-        $ctl->get('/content/{action}/{contenttypeslug}/{id}', array($this, 'contentAction'))
-            ->before(array($this, 'before'))
-            ->method('POST')
+        $ctl->post('/content/{action}/{contenttypeslug}/{id}', array($this, 'contentAction'))
             ->bind('contentaction');
 
         $ctl->get('/systemlog', array($this, 'systemLog'))
-            ->before(array($this, 'before'))
             ->bind('systemlog');
 
         $ctl->get('/changelog', array($this, 'changeLog'))
-            ->before(array($this, 'before'))
             ->bind('changelog');
 
         $ctl->get('/changelog/{contenttype}/{contentid}', array($this, 'changelogList'))
-            ->before(array($this, 'before'))
             ->value('contentid', '0')
             ->value('contenttype', '')
             ->bind('changeloglist');
 
         $ctl->get('/changelog/{contenttype}/{contentid}/{id}', array($this, 'changelogDetails'))
-            ->before(array($this, 'before'))
             ->assert('id', '\d*')
             ->bind('changelogdetails');
 
         $ctl->get('/users', array($this, 'users'))
-            ->before(array($this, 'before'))
             ->bind('users');
 
         $ctl->match('/users/edit/{id}', array($this, 'userEdit'))
-            ->before(array($this, 'before'))
             ->assert('id', '\d*')
-            ->method('GET|POST')
             ->bind('useredit');
 
         $ctl->match('/profile', array($this, 'profile'))
-            ->before(array($this, 'before'))
-            ->method('GET|POST')
             ->bind('profile');
 
-        $ctl->match('/roles', array($this, 'roles'))
-            ->before(array($this, 'before'))
-            ->method('GET')
+        $ctl->get('/roles', array($this, 'roles'))
             ->bind('roles');
 
         $ctl->get('/about', array($this, 'about'))
-            ->before(array($this, 'before'))
             ->bind('about');
 
-        $ctl->get('/user/{action}/{id}', array($this, 'userAction'))
-            ->before(array($this, 'before'))
-            ->method('POST')
+        $ctl->post('/user/{action}/{id}', array($this, 'userAction'))
             ->bind('useraction');
 
         $ctl->match('/files/{namespace}/{path}', array($this, 'files'))
-            ->before(array($this, 'before'))
             ->assert('namespace', '[^/]+')
             ->assert('path', '.*')
             ->value('namespace', 'files')
@@ -160,23 +114,18 @@ class Backend implements ControllerProviderInterface
             ->bind('files');
 
         $ctl->match('/file/edit/{namespace}/{file}', array($this, 'fileEdit'))
-            ->before(array($this, 'before'))
             ->assert('file', '.+')
             ->assert('namespace', '[^/]+')
             ->value('namespace', 'files')
-            ->method('GET|POST')
             ->bind('fileedit');
 
         $ctl->match('/tr/{domain}/{tr_locale}', array($this, 'translation'))
-            ->before(array($this, 'before'))
             ->assert('domain', 'messages|contenttypes|infos')
             ->value('domain', 'messages')
             ->value('tr_locale', $app['config']->get('general/locale'))
-            ->method('GET|POST')
             ->bind('translation');
 
         $ctl->get('/omnisearch', array($this, 'omnisearch'))
-            ->before(array($this, 'before'))
             ->bind('omnisearch');
 
         return $ctl;
@@ -185,10 +134,10 @@ class Backend implements ControllerProviderInterface
     /**
      * Dashboard or "root".
      *
-     * @param \Bolt\Application $app The application/container
+     * @param Application $app The application/container
      * @return mixed
      */
-    public function dashboard(\Bolt\Application $app)
+    public function dashboard(Application $app)
     {
         $limit = $app['config']->get('general/recordsperdashboardwidget');
 
@@ -213,104 +162,12 @@ class Backend implements ControllerProviderInterface
     }
 
     /**
-     * Handle a login attempt.
-     *
-     * @param Silex\Application $app     The application/container
-     * @param Request           $request The Symfony Request
-     */
-    public function postLogin(Silex\Application $app, Request $request)
-    {
-        switch ($request->get('action')) {
-            case 'login':
-                // Log in, if credentials are correct.
-                $result = $app['users']->login($request->get('username'), $request->get('password'));
-
-                if ($result) {
-                    $app['logger.system']->addInfo('Logged in: ' . $request->get('username'), array('event' => 'authentication'));
-                    $retreat = $app['session']->get('retreat');
-                    $redirect = !empty($retreat) && is_array($retreat) ? $retreat : array('route' => 'dashboard', 'params' => array());
-
-                    return Lib::redirect($redirect['route'], $redirect['params']);
-                }
-
-                return $this->getLogin($app, $request);
-
-            case 'reset':
-                // Send a password request mail, if username exists.
-                $username = trim($request->get('username'));
-                if (empty($username)) {
-                    $app['users']->session->getFlashBag()->set('error', Trans::__('Please provide a username', array()));
-                } else {
-                    $app['users']->resetPasswordRequest($request->get('username'));
-
-                    return Lib::redirect('login');
-                }
-
-                return $this->getLogin($app, $request);
-
-            default:
-                // Let's not disclose any internal information.
-                $app->abort(400, 'Invalid request');
-        }
-    }
-
-    /**
-     * Login page and "Forgotten password" page.
-     *
-     * @param Silex\Application $app     The application/container
-     * @param Request           $request The Symfony Request
-     * @return string
-     */
-    public function getLogin(Silex\Application $app, Request $request)
-    {
-        if (!empty($app['users']->currentuser) && $app['users']->currentuser['enabled'] == 1) {
-            return Lib::redirect('dashboard', array());
-        }
-
-        $context = array(
-            'randomquote' => true,
-        );
-
-        return $app['render']->render('login/login.twig', array('context' => $context));
-    }
-
-    /**
-     * Logout page.
-     *
-     * @param Silex\Application $app The application/container
-     * @return string
-     */
-    public function logout(Silex\Application $app)
-    {
-        $app['logger.system']->addInfo('Logged out: ', array('event' => 'authentication'));
-
-        $app['users']->logout();
-
-        return Lib::redirect('login');
-    }
-
-    /**
-     * Reset the password. This controller is normally only reached when the user
-     * clicks a "password reset" link in the email.
-     *
-     * @param Silex\Application $app     The application/container
-     * @param Request           $request The Symfony Request
-     * @return string
-     */
-    public function resetPassword(Silex\Application $app, Request $request)
-    {
-        $app['users']->resetPasswordConfirm($request->get('token'));
-
-        return Lib::redirect('login');
-    }
-
-    /**
      * Check the database for missing tables and columns. Does not do actual repairs.
      *
-     * @param \Bolt\Application $app The application/container
+     * @param Application $app The application/container
      * @return mixed
      */
-    public function dbCheck(\Bolt\Application $app)
+    public function dbCheck(Application $app)
     {
         list($messages, $hints) = $app['integritychecker']->checkTablesIntegrity(true);
 
@@ -326,10 +183,10 @@ class Backend implements ControllerProviderInterface
     /**
      * Check the database, create tables, add missing/new columns to tables.
      *
-     * @param Silex\Application $app The application/container
+     * @param Application $app The application/container
      * @return string
      */
-    public function dbUpdate(Silex\Application $app)
+    public function dbUpdate(Application $app)
     {
         $output = $app['integritychecker']->repairTables();
 
@@ -353,11 +210,11 @@ class Backend implements ControllerProviderInterface
     /**
      * Show the result of database updates.
      *
-     * @param Silex\Application $app     The application/container
-     * @param Request           $request The Symfony Request
+     * @param Application $app The application/container
+     * @param Request     $request The Symfony Request
      * @return mixed
      */
-    public function dbUpdateResult(Silex\Application $app, Request $request)
+    public function dbUpdateResult(Application $app, Request $request)
     {
         $context = array(
             'modifications_made' => json_decode($request->get('messages')),
@@ -370,10 +227,10 @@ class Backend implements ControllerProviderInterface
     /**
      * Clear the cache.
      *
-     * @param Silex\Application $app The application/container
+     * @param Application $app The application/container
      * @return mixed
      */
-    public function clearCache(Silex\Application $app)
+    public function clearCache(Application $app)
     {
         $result = $app['cache']->clearCache();
 
@@ -392,10 +249,10 @@ class Backend implements ControllerProviderInterface
     /**
      * Show the change log.
      *
-     * @param  Silex\Application $app The application/container
+     * @param Application $app The application/container
      * @return string
      */
-    public function changeLog(Silex\Application $app)
+    public function changeLog(Application $app)
     {
         $action = $app['request']->query->get('action');
 
@@ -419,10 +276,10 @@ class Backend implements ControllerProviderInterface
     /**
      * Show the system log.
      *
-     * @param  Silex\Application $app The application/container
+     * @param Application $app The application/container
      * @return string
      */
-    public function systemLog(Silex\Application $app)
+    public function systemLog(Application $app)
     {
         $action = $app['request']->query->get('action');
 
@@ -449,10 +306,10 @@ class Backend implements ControllerProviderInterface
     /**
      * Show the Omnisearch results.
      *
-     * @param Silex\Application $app The application/container
+     * @param Application $app The application/container
      * @return mixed
      */
-    public function omnisearch(Silex\Application $app)
+    public function omnisearch(Application $app)
     {
         $query = $app['request']->query->get('q', '');
         $results = array();
@@ -472,11 +329,11 @@ class Backend implements ControllerProviderInterface
     /**
      * Generate some lipsum in the DB.
      *
-     * @param Silex\Application $app     The application/container
-     * @param Request           $request The Symfony Request
+     * @param Application $app The application/container
+     * @param Request     $request The Symfony Request
      * @return string
      */
-    public function prefill(Silex\Application $app, Request $request)
+    public function prefill(Application $app, Request $request)
     {
         $choices = array();
         foreach ($app['config']->get('contenttypes') as $key => $cttype) {
@@ -513,11 +370,11 @@ class Backend implements ControllerProviderInterface
     /**
      * Content type overview page.
      *
-     * @param Silex\Application $app             The application/container
-     * @param string            $contenttypeslug The content type slug
+     * @param Application $app The application/container
+     * @param string      $contenttypeslug The content type slug
      * @return mixed
      */
-    public function overview(Silex\Application $app, $contenttypeslug)
+    public function overview(Application $app, $contenttypeslug)
     {
         // Make sure the user is allowed to see this page, based on 'allowed contenttypes'
         // for Editors.
@@ -561,13 +418,13 @@ class Backend implements ControllerProviderInterface
     /**
      * Get related records @todo
      *
-     * @param string            $contenttypeslug The content type slug
-     * @param integer           $id              The ID
-     * @param Silex\Application $app             The application/container
-     * @param Request           $request         The Symfony Request
+     * @param string      $contenttypeslug The content type slug
+     * @param integer     $id The ID
+     * @param Application $app The application/container
+     * @param Request     $request The Symfony Request
      * @return mixed
      */
-    public function relatedTo($contenttypeslug, $id, Silex\Application $app, Request $request)
+    public function relatedTo($contenttypeslug, $id, Application $app, Request $request)
     {
         // Make sure the user is allowed to see this page, based on 'allowed contenttypes' for Editors.
         if (!$app['users']->isAllowed('contenttype:' . $contenttypeslug)) {
@@ -635,13 +492,13 @@ class Backend implements ControllerProviderInterface
     /**
      * Show changelog entries.
      *
-     * @param string            $contenttype The content type slug
-     * @param integer           $contentid   The content ID
-     * @param Silex\Application $app         The application/container
-     * @param Request           $request     The Symfony Request
+     * @param string      $contenttype The content type slug
+     * @param integer     $contentid The content ID
+     * @param Application $app The application/container
+     * @param Request     $request The Symfony Request
      * @return mixed
      */
-    public function changelogList($contenttype, $contentid, Silex\Application $app, Request $request)
+    public function changelogList($contenttype, $contentid, Application $app, Request $request)
     {
         // We have to handle three cases here:
         // - $contenttype and $contentid given: get changelog entries for *one* content item
@@ -743,14 +600,14 @@ class Backend implements ControllerProviderInterface
     /**
      * Show changelog details.
      *
-     * @param string            $contenttype The content type slug
-     * @param integer           $contentid   The content ID
-     * @param integer           $id          The changelog entry ID
-     * @param Silex\Application $app         The application/container
-     * @param Request           $request     The Symfony Request
+     * @param string      $contenttype The content type slug
+     * @param integer     $contentid The content ID
+     * @param integer     $id The changelog entry ID
+     * @param Application $app The application/container
+     * @param Request     $request The Symfony Request
      * @return mixed
      */
-    public function changelogDetails($contenttype, $contentid, $id, Silex\Application $app, Request $request)
+    public function changelogDetails($contenttype, $contentid, $id, Application $app, Request $request)
     {
         $entry = $app['storage']->getChangelogEntry($contenttype, $contentid, $id);
         if (empty($entry)) {
@@ -774,13 +631,13 @@ class Backend implements ControllerProviderInterface
     /**
      * Edit a unit of content, or create a new one.
      *
-     * @param string            $contenttypeslug The content type slug
-     * @param integer           $id              The content ID
-     * @param Silex\Application $app             The application/container
-     * @param Request           $request         The Symfony Request
+     * @param string      $contenttypeslug The content type slug
+     * @param integer     $id The content ID
+     * @param Application $app The application/container
+     * @param Request     $request The Symfony Request
      * @return mixed
      */
-    public function editContent($contenttypeslug, $id, Silex\Application $app, Request $request)
+    public function editContent($contenttypeslug, $id, Application $app, Request $request)
     {
         // Make sure the user is allowed to see this page, based on 'allowed contenttypes'
         // for Editors.
@@ -1034,12 +891,12 @@ class Backend implements ControllerProviderInterface
     /**
      * Deletes a content item.
      *
-     * @param Silex\Application $app             The application/container
-     * @param string            $contenttypeslug The content type slug
-     * @param integer           $id              The content ID
+     * @param Application $app The application/container
+     * @param string      $contenttypeslug The content type slug
+     * @param integer     $id The content ID
      * @return string
      */
-    public function deleteContent(Silex\Application $app, $contenttypeslug, $id)
+    public function deleteContent(Application $app, $contenttypeslug, $id)
     {
         $contenttype = $app['storage']->getContentType($contenttypeslug);
 
@@ -1060,13 +917,13 @@ class Backend implements ControllerProviderInterface
     /**
      * Perform actions on content.
      *
-     * @param Silex\Application $app             The application/container
-     * @param string            $action          The action
-     * @param string            $contenttypeslug The content type slug
-     * @param integer           $id              The content ID
+     * @param Application $app The application/container
+     * @param string      $action The action
+     * @param string      $contenttypeslug The content type slug
+     * @param integer     $id The content ID
      * @return string
      */
-    public function contentAction(Silex\Application $app, $action, $contenttypeslug, $id)
+    public function contentAction(Application $app, $action, $contenttypeslug, $id)
     {
         if ($action === 'delete') {
             return $this->deleteContent($app, $contenttypeslug, $id);
@@ -1109,10 +966,10 @@ class Backend implements ControllerProviderInterface
     /**
      * Show a list of all available users.
      *
-     * @param Silex\Application $app The application/container
+     * @param Application $app The application/container
      * @return mixed
      */
-    public function users(Silex\Application $app)
+    public function users(Application $app)
     {
         $users = $app['users']->getUsers();
         $sessions = $app['users']->getActiveSessions();
@@ -1128,10 +985,10 @@ class Backend implements ControllerProviderInterface
     /**
      * Show the roles page.
      *
-     * @param \Bolt\Application $app The application/container
+     * @param Application $app The application/container
      * @return mixed
      */
-    public function roles(\Bolt\Application $app)
+    public function roles(Application $app)
     {
         $contenttypes = $app['config']->get('contenttypes');
         $permissions = array('view', 'edit', 'create', 'publish', 'depublish', 'change-ownership');
@@ -1155,12 +1012,12 @@ class Backend implements ControllerProviderInterface
     /**
      * Edit a user.
      *
-     * @param integer           $id      The user ID
-     * @param \Bolt\Application $app     The application/container
-     * @param Request           $request The Symfony Request
+     * @param integer     $id The user ID
+     * @param Application $app The application/container
+     * @param Request     $request The Symfony Request
      * @return mixed
      */
-    public function userEdit($id, \Bolt\Application $app, Request $request)
+    public function userEdit($id, Application $app, Request $request)
     {
         // Get the user we want to edit (if any)
         $user = empty($id) ? $app['users']->getEmptyUser() : $app['users']->getUser($id);
@@ -1381,11 +1238,11 @@ class Backend implements ControllerProviderInterface
     /**
      * User profile page.
      *
-     * @param \Bolt\Application $app     The application/container
-     * @param Request           $request The Symfony Request
+     * @param Application $app The application/container
+     * @param Request     $request The Symfony Request
      * @return string
      */
-    public function profile(\Bolt\Application $app, Request $request)
+    public function profile(Application $app, Request $request)
     {
         $user = $app['users']->getCurrentUser();
 
@@ -1483,12 +1340,12 @@ class Backend implements ControllerProviderInterface
     /**
      * Perform actions on users.
      *
-     * @param Silex\Application $app    The application/container
-     * @param string            $action The action
-     * @param integer           $id     The user ID
+     * @param Application $app The application/container
+     * @param string      $action The action
+     * @param integer     $id The user ID
      * @return string
      */
-    public function userAction(Silex\Application $app, $action, $id)
+    public function userAction(Application $app, $action, $id)
     {
         if (!$app['users']->checkAntiCSRFToken()) {
             $app['session']->getFlashBag()->set('info', Trans::__('An error occurred.'));
@@ -1545,10 +1402,10 @@ class Backend implements ControllerProviderInterface
     /**
      * Show the 'about' page.
      *
-     * @param Silex\Application $app The application/container
+     * @param Application $app The application/container
      * @return mixed
      */
-    public function about(Silex\Application $app)
+    public function about(Application $app)
     {
         return $app['render']->render('about/about.twig');
     }
@@ -1556,13 +1413,13 @@ class Backend implements ControllerProviderInterface
     /**
      * The file browser.
      *
-     * @param string            $namespace The filesystem namespace
-     * @param string            $path      The path prefix
-     * @param Silex\Application $app       The application/container
-     * @param Request           $request   The Symfony Request
+     * @param string      $namespace The filesystem namespace
+     * @param string      $path The path prefix
+     * @param Application $app The application/container
+     * @param Request     $request The Symfony Request
      * @return mixed
      */
-    public function files($namespace, $path, Silex\Application $app, Request $request)
+    public function files($namespace, $path, Application $app, Request $request)
     {
         // No trailing slashes in the path.
         $path = rtrim($path, '/');
@@ -1700,13 +1557,13 @@ class Backend implements ControllerProviderInterface
     /**
      * File editor.
      *
-     * @param string            $namespace The filesystem namespace
-     * @param string            $file      The file path
-     * @param Silex\Application $app       The application/container
-     * @param Request           $request   The Symfony Request
+     * @param string      $namespace The filesystem namespace
+     * @param string      $file The file path
+     * @param Application $app The application/container
+     * @param Request     $request The Symfony Request
      * @return mixed
      */
-    public function fileEdit($namespace, $file, Silex\Application $app, Request $request)
+    public function fileEdit($namespace, $file, Application $app, Request $request)
     {
         if ($namespace == 'app' && dirname($file) == "config") {
             // Special case: If requesting one of the major config files, like contenttypes.yml, set the path to the
@@ -1847,13 +1704,13 @@ class Backend implements ControllerProviderInterface
     /**
      * Prepare/edit/save a translation
      *
-     * @param string            $domain    The domain
-     * @param string            $tr_locale The translation locale
-     * @param Silex\Application $app       The application/container
-     * @param Request           $request   The Symfony Request
+     * @param string      $domain The domain
+     * @param string      $tr_locale The translation locale
+     * @param Application $app The application/container
+     * @param Request     $request The Symfony Request
      * @return mixed
      */
-    public function translation($domain, $tr_locale, Silex\Application $app, Request $request)
+    public function translation($domain, $tr_locale, Application $app, Request $request)
     {
         $translation = new TranslationFile($app, $domain, $tr_locale);
 
@@ -1924,11 +1781,11 @@ class Backend implements ControllerProviderInterface
     /**
      * Middleware function to check whether a user is logged on.
      *
-     * @param Request           $request The Symfony Request
-     * @param \Bolt\Application $app     The application/container
+     * @param Request     $request The Symfony Request
+     * @param Application $app The application/container
      * @return mixed
      */
-    public function before(Request $request, \Bolt\Application $app)
+    public static function before(Request $request, Application $app)
     {
         // Start the 'stopwatch' for the profiler.
         $app['stopwatch']->start('bolt.backend.before');
@@ -1940,8 +1797,6 @@ class Backend implements ControllerProviderInterface
         // If the users table is present, but there are no users, and we're on /bolt/useredit,
         // we let the user stay, because they need to set up the first user.
         if ($app['integritychecker']->checkUserTableIntegrity() && !$app['users']->getUsers() && $route == 'useredit') {
-            $app['twig']->addGlobal('frontend', false);
-
             return;
         }
 
