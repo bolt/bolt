@@ -329,13 +329,15 @@ class Async implements ControllerProviderInterface
 
         // get the changelog for the requested contenttype.
         $options = array('limit' => 5, 'order' => 'date DESC');
+
         if (intval($contentid) == 0) {
             $isFiltered = false;
         } else {
             $isFiltered = true;
             $options['contentid'] = intval($contentid);
         }
-        $changelog = $app['storage']->getChangelogByContentType($contenttype['slug'], $options);
+
+        $changelog = $app['logger.manager']->getChangelogByContentType($contenttype['slug'], $options);
 
         $context = array(
             'changelog' => $changelog,

@@ -351,9 +351,9 @@ class Backend implements ControllerProviderInterface
             // Case 1: No content type given, show from *all* items.
             // This is easy:
             $title = Trans::__('All content types');
-            $logEntries = $app['storage']->getChangelog($options);
+            $logEntries = $app['logger.manager']->getChangelog($options);
             // @todo: Unused in template. Leave it in for now
-            $itemcount = $app['storage']->countChangelog($options);
+            $itemcount = $app['logger.manager']->countChangelog($options);
         } else {
             // We have a content type, and possibly a contentid.
             $contenttypeObj = $app['storage']->getContentType($contenttype);
@@ -362,9 +362,9 @@ class Backend implements ControllerProviderInterface
                 $options['contentid'] = $contentid;
             }
             // Getting a slice of data and the total count
-            $logEntries = $app['storage']->getChangelogByContentType($contenttype, $options);
+            $logEntries = $app['logger.manager']->getChangelogByContentType($contenttype, $options);
             // @todo: Unused in template. Leave it in for now
-            $itemcount = $app['storage']->countChangelogByContentType($contenttype, $options);
+            $itemcount = $app['logger.manager']->countChangelogByContentType($contenttype, $options);
 
             // The page title we're sending to the template depends on a few
             // things: if no contentid is given, we'll use the plural form
@@ -423,13 +423,13 @@ class Backend implements ControllerProviderInterface
      */
     public function changelogDetails($contenttype, $contentid, $id, Application $app, Request $request)
     {
-        $entry = $app['storage']->getChangelogEntry($contenttype, $contentid, $id);
+        $entry = $app['logger.manager']->getChangelogEntry($contenttype, $contentid, $id);
         if (empty($entry)) {
             $error = Trans::__("The requested changelog entry doesn't exist.");
             $app->abort(404, $error);
         }
-        $prev = $app['storage']->getPrevChangelogEntry($contenttype, $contentid, $id);
-        $next = $app['storage']->getNextChangelogEntry($contenttype, $contentid, $id);
+        $prev = $app['logger.manager']->getPrevChangelogEntry($contenttype, $contentid, $id);
+        $next = $app['logger.manager']->getNextChangelogEntry($contenttype, $contentid, $id);
 
         $context = array(
             'contenttype' => array('slug' => $contenttype),
