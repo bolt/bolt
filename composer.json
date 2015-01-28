@@ -48,6 +48,7 @@
         "phpunit/dbunit": "~1.3",
         "phpmd/phpmd": "1.5.0",
         "sebastian/phpcpd": "1.4.3",
+        "scrutinizer/ocular": "~1.1",
         "squizlabs/php_codesniffer": "1.5.*",
         "m6web/symfony2-coding-standard": "dev-master@dev",
         "codeception/codeception": "*"

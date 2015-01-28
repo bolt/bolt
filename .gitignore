@@ -42,5 +42,6 @@ bower_components
 tests/report
 tests/resources
 bolt.db
+coverage.xml
 
 *.map
