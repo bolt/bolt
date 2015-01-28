@@ -1,13 +1,10 @@
 <?php
 namespace Bolt\Tests\Log;
 
-use Bolt\Application;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Logger\ChangeLog;
 use Bolt\Storage;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-
 
 /**
  * Class to test src/Logger/ChangeLog.
@@ -80,7 +77,6 @@ class ChangeLogTest extends BoltUnitTest
         //$all = $app['logger.manager.change']->getChangeLogByContentType('pages', array());
 
 
-
         $log = $app['logger.manager.change']->getChangeLogEntry('showcases',1,1);
         $this->assertInstanceOf('Bolt\ChangelogItem', $log);
         $this->assertAttributeEquals(1, 'contentid', $log);
@@ -92,7 +88,6 @@ class ChangeLogTest extends BoltUnitTest
         $app['config']->set('general/changelog/enabled', true);
         $storage = new Storage($app);
 
-
         // To generate an extra changelog we fetch and save a content item
         // For now we need to mock the request object.
         $app['request'] = Request::create('/');
@@ -103,7 +98,6 @@ class ChangeLogTest extends BoltUnitTest
         $storage->saveContent($content, 'Test Suite Update');
         $content->setValues(array('status'=>'published','ownerid'=>1));
         $storage->saveContent($content, 'Test Suite Update');
-
 
         $log = $app['logger.manager.change']->getNextChangelogEntry('pages', 1, 1);
         $this->assertInstanceOf('Bolt\ChangelogItem', $log);
