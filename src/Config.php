@@ -246,6 +246,8 @@ class Config
         // Make sure Bolt's mount point is OK:
         $general['branding']['path'] = '/' . String::makeSafe($general['branding']['path']);
 
+        $general['database'] = $this->parseDatabase($general['database']);
+
         return $general;
     }
 
@@ -818,14 +820,17 @@ class Config
 
 
     /**
-     * Get an associative array with the correct options for the chosen database type.
+     * @deprecated Use get('general/database') instead
      *
      * @return array
      */
     public function getDBOptions()
     {
-        $options = $this->data['general']['database'];
+        return $this->get('general/database');
+    }
 
+    protected function parseDatabase($options)
+    {
         // Parse master connection parameters
         $master = $this->parseConnectionParams($options);
         // Merge master connection into options
@@ -846,7 +851,7 @@ class Config
 
         // Parse SQLite separately since it has to figure out database path
         if ($driver === 'sqlite') {
-            return $this->getSqliteOptions($options);
+            return $this->parseSqliteOptions($options);
         }
 
         // If no slaves return with single connection
@@ -868,13 +873,7 @@ class Config
         return $options;
     }
 
-    /**
-     * Parses path and
-     *
-     * @param array $config
-     * @return array
-     */
-    protected function getSqliteOptions($config)
+    protected function parseSqliteOptions($config)
     {
         if (isset($config['memory']) && $config['memory']) {
             // If in-memory, no need to parse paths
