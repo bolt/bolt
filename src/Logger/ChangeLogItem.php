@@ -1,10 +1,10 @@
 <?php
 
-namespace Bolt;
+namespace Bolt\Logger;
 
 use Silex;
 
-class ChangelogItem implements \ArrayAccess
+class ChangeLogItem implements \ArrayAccess
 {
     private $app;
     public $id;
