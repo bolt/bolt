@@ -104,7 +104,7 @@ class Async implements ControllerProviderInterface
 
             $app['logger.system']->addInfo("Fetching from remote server: $source", array('event' => 'news'));
 
-            $driver = $app['config']->get('general/database/driver', 'sqlite');
+            $driver = $app['db']->getDatabasePlatform()->getName();
 
             $url = sprintf(
                 '%s?v=%s&p=%s&db=%s&name=%s',
