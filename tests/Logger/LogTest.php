@@ -1,5 +1,5 @@
 <?php
-namespace Bolt\Tests\Log;
+namespace Bolt\Tests\Logger;
 
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Log;
