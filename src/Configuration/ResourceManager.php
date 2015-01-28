@@ -140,12 +140,37 @@ class ResourceManager
         if (array_key_exists($name . "path", $this->paths)) {
             return $this->paths[$name . "path"]->string();
         }
+        
+        if (strpos($name, '/') !== false) {
+            return $this->constructRelativePath($name);
+        }
 
         if (! array_key_exists($name, $this->paths)) {
             throw new \InvalidArgumentException("Requested path $name is not available", 1);
         }
 
         return $this->paths[$name];
+    }
+    
+    /**
+     * Takes a known path with relative additional atoms and returns a new path
+     * for instance constructRelativePath('public/images/example')
+     *
+     * @return AbsoluteUnixPath Object
+     **/
+    public function constructRelativePath($name)
+    {
+        list($firstAtom) = explode('/', $name);
+        
+        if (! array_key_exists($firstAtom, $this->paths)) {
+            throw new \InvalidArgumentException("Requested path $name is not available", 1);
+        }
+        
+        $parts = explode('/', $name);
+        array_shift($parts);
+        
+        return $this->paths[$firstAtom]->joinAtomSequence($parts)->string();
+                
     }
 
     public function setUrl($name, $value)
