@@ -61,10 +61,10 @@ class ChangeLogTest extends BoltUnitTest
         $count = $app['logger.manager.change']->countChangelogByContentType('pages', array());
         $this->assertGreaterThan(0, $count);
 
-        $count = $app['logger.manager.change']->countChangelogByContentType('showcases', array('contentid'=>1));
+        $count = $app['logger.manager.change']->countChangelogByContentType('pages', array('contentid'=>1));
         $this->assertGreaterThan(0, $count);
 
-        $count = $app['logger.manager.change']->countChangelogByContentType(array('slug'=>'showcases'), array('id'=>1));
+        $count = $app['logger.manager.change']->countChangelogByContentType(array('slug'=>'pages'), array('id'=>1));
         $this->assertGreaterThan(0, $count);
     }
 
@@ -74,7 +74,7 @@ class ChangeLogTest extends BoltUnitTest
         $app['config']->set('general/changelog/enabled', true);
         //$all = $app['logger.manager.change']->getChangeLogByContentType('pages', array());
 
-        $log = $app['logger.manager.change']->getChangeLogEntry('showcases',1,1);
+        $log = $app['logger.manager.change']->getChangeLogEntry('pages',1,1);
         $this->assertInstanceOf('Bolt\Logger\ChangeLogItem', $log);
         $this->assertAttributeEquals(1, 'contentid', $log);
     }

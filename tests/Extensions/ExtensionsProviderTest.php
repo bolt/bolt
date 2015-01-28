@@ -199,7 +199,7 @@ EOM;
         $app['logger.system'] = new Mock\Logger();
         $app['extensions']->register(new Mock\BadExtensionConfig($app));
         $this->assertEquals(
-            'YAML config failed to load for badextensionconfig: BadExtensionConfig',
+            'Failed to load YAML config for badextensionconfig: BadExtensionConfig',
             $app['logger.system']->lastLog()
         );
     }
