@@ -334,7 +334,8 @@ class Backend implements ControllerProviderInterface
 
         // Some options that are the same for all three cases
         $options = array(
-            'order' => 'date DESC',
+            'order'     => 'date',
+            'direction' => 'DESC'
             );
         if ($limit) {
             $options['limit'] = $limit;

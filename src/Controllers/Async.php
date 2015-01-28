@@ -328,7 +328,7 @@ class Async implements ControllerProviderInterface
         $contenttype = $app['storage']->getContentType($contenttypeslug);
 
         // get the changelog for the requested contenttype.
-        $options = array('limit' => 5, 'order' => 'date DESC');
+        $options = array('limit' => 5, 'order' => 'date', 'direction' => 'DESC');
 
         if (intval($contentid) == 0) {
             $isFiltered = false;

@@ -47,6 +47,7 @@ class ChangeLog
      *                        - 'limit' (int)
      *                        - 'offset' (int)
      *                        - 'order' (string)
+     *                        - 'direction' (string)
      * @return array
      */
     public function getChangelog(array $options)
@@ -89,6 +90,7 @@ class ChangeLog
      *                            following options are supported:
      *                            - 'limit' (int)
      *                            - 'order' (string)
+     *                            - 'direction' (string)
      *                            - 'contentid' (int), to filter further by content ID
      *                            - 'id' (int), to filter by a specific changelog entry ID
      * @return array
@@ -232,12 +234,13 @@ class ChangeLog
      *                                                   - 'limit' (int)
      *                                                   - 'offset' (int)
      *                                                   - 'order' (string)
+     *                                                   - 'direction' (string)
      * @return Doctrine\DBAL\Query\QueryBuilder
      */
     private function setLimitOrder($query, array $options)
     {
         if (isset($options['order'])) {
-            $query->orderBy($options['order']);
+            $query->orderBy($options['order'], $options['direction']);
         }
         if (isset($options['limit'])) {
             $query->setMaxResults(intval($options['limit']));
