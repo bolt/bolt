@@ -2,6 +2,7 @@
 namespace Bolt\Configuration;
 
 use Bolt\Application;
+use Eloquent\Pathogen\AbsolutePathInterface;
 use Eloquent\Pathogen\RelativePathInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Composer\Autoload\ClassLoader;
@@ -36,6 +37,7 @@ class ResourceManager
 
     protected $requestObject;
 
+    /** @var AbsolutePathInterface[] */
     protected $paths = array();
 
     protected $urls = array();
@@ -134,43 +136,77 @@ class ResourceManager
 
         return $path;
     }
-
+    
+    /**
+     * Gets a path as a string.
+     *
+     * Subdirectories are automatically parsed to correct filesystem.
+     *
+     * For example:
+     *
+     *     $bar = getPath('root/foo/bar');
+     *
+     * @param string $name Name of path
+     *
+     * @return string
+     *
+     * @throws \InvalidArgumentException If path isn't available
+     */
     public function getPath($name)
     {
-        if (array_key_exists($name . "path", $this->paths)) {
-            return $this->paths[$name . "path"]->string();
-        }
-        
-        if (strpos($name, '/') !== false) {
-            return $this->constructRelativePath($name);
-        }
+        return $this->getPathObject($name)->string();
+    }
 
-        if (! array_key_exists($name, $this->paths)) {
+    /**
+     * Gets a path as a PathInterface.
+     *
+     * Subdirectories are automatically parsed to correct filesystem.
+     *
+     * For example:
+     *
+     *     $bar = getPath('root/foo/bar');
+     *
+     * @param string $name Name of path
+     *
+     * @return AbsolutePathInterface
+     *
+     * @throws \InvalidArgumentException If path isn't available
+     */
+    public function getPathObject($name)
+    {
+        if (array_key_exists($name . "path", $this->paths)) {
+            $path = $this->paths[$name . "path"];
+        } elseif (array_key_exists($name, $this->paths)) {
+            $path = $this->paths[$name];
+        } elseif (strpos($name, '/') !== false) {
+            $path = $this->constructRelativePath($name);
+        } else {
             throw new \InvalidArgumentException("Requested path $name is not available", 1);
         }
 
-        return $this->paths[$name];
+        return $path;
     }
-    
+
     /**
      * Takes a known path with relative additional atoms and returns a new path
      * for instance constructRelativePath('public/images/example')
      *
-     * @return AbsoluteUnixPath Object
-     **/
-    public function constructRelativePath($name)
+     * @param string $name
+     *
+     * @return AbsolutePathInterface
+     */
+    protected function constructRelativePath($name)
     {
         list($firstAtom) = explode('/', $name);
-        
-        if (! array_key_exists($firstAtom, $this->paths)) {
+
+        if (!array_key_exists($firstAtom, $this->paths)) {
             throw new \InvalidArgumentException("Requested path $name is not available", 1);
         }
-        
+
         $parts = explode('/', $name);
         array_shift($parts);
-        
-        return $this->paths[$firstAtom]->joinAtomSequence($parts)->string();
-                
+
+        return $this->paths[$firstAtom]->joinAtomSequence($parts);
     }
 
     public function setUrl($name, $value)
