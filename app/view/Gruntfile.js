@@ -276,20 +276,28 @@ module.exports = function(grunt) {
 
     require('load-grunt-tasks')(grunt);
 
-    grunt.registerTask('default', [
-        'sass',
-        'jshint:boltJs',
-        'uglify:boltJs',
-        'watch'
-    ]);
+    grunt.registerTask(
+        'default',
+        [
+            'sass',
+            'jshint:boltJs',
+            'uglify:boltJs',
+            'watch'
+        ]
+    );
 
-    grunt.registerTask('update', [
-        'copy:fonts',               // Copies fonts to view/fonts/
-        'cssmin:libCss',            // Builds view/css/lib.css from library css files
-        'uglify:bootstrap',         // Concat bootstrap scripts into one minified file
-        'uglify:libJs',             // Create minified versions of library scripts that don't have them
-        'concat:libJs',             // Concats minified library scripts to view/js/lib.min.js
-        'uglify:localeDatepicker',  // Copies minified datepicker locale to view/js/locale/datepicker
-        'uglify:localeMoment'       // Copies minified moment.js locale to view/js/locale/datepicker
-    ]);
+    grunt.registerTask(
+        'update',
+        [
+            // Prepare
+            'uglify:bootstrap',             // Concat bootstrap scripts into one minified file
+            'uglify:libJs',                 // Create minified versions of library scripts that don't have them
+            // Install
+            'copy:fonts',                   // Copies fonts                       => view/fonts/*
+            'cssmin:libCss',                // Concats and minifies library css   => view/css/lib.css
+            'concat:libJs',                 // Concats minified library scripts   => view/js/lib.min.js
+            'uglify:localeDatepicker',      // Copies minified datepicker locale  => view/js/locale/datepicker/*
+            'uglify:localeMoment'           // Copies minified moment.js locale   => view/js/locale/datepicker/*
+        ]
+    );
 };
