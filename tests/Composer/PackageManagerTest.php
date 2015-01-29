@@ -10,7 +10,7 @@ use Bolt\Composer\CommandRunner;
  * @author Ross Riley <riley.ross@gmail.com>
  *
  */
-class CommandRunnerTest extends BoltUnitTest
+class PackageManagerTest extends BoltUnitTest
 {
 
     public function testConstruct()
