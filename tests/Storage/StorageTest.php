@@ -51,10 +51,8 @@ class StorageTest extends BoltUnitTest
     
     public function testPreFill()
     {
-        $app = $this->makeApp();
-        $app['resources']->setPath('files', TEST_ROOT . '/tests/resources');
+        $app = $this->getApp();
         $app['config']->set('general/changelog/enabled', true);
-        $app->initialize();
         $storage = new Storage($app);
         $output = $storage->prefill(array('showcases'));
         $this->assertRegExp('#Added#', $output);
