@@ -138,7 +138,7 @@ class ResourceManager
     }
     
     /**
-     * Gets a path either as a string.
+     * Gets a path as a string.
      *
      * Subdirectories are automatically parsed to correct filesystem.
      *
@@ -154,8 +154,7 @@ class ResourceManager
      */
     public function getPath($name)
     {
-        $path = $this->getPathObject($name);
-        return $path->string();
+        return $this->getPathObject($name)->string();
     }
 
     /**
@@ -184,7 +183,7 @@ class ResourceManager
         } else {
             throw new \InvalidArgumentException("Requested path $name is not available", 1);
         }
-        
+
         return $path;
     }
 
@@ -193,6 +192,7 @@ class ResourceManager
      * for instance constructRelativePath('public/images/example')
      *
      * @param string $name
+     *
      * @return AbsolutePathInterface
      */
     protected function constructRelativePath($name)
