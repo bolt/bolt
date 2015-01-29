@@ -136,9 +136,9 @@ class ResourceManager
 
         return $path;
     }
-
+    
     /**
-     * Gets a path either as a string or PathInterface.
+     * Gets a path either as a string.
      *
      * Subdirectories are automatically parsed to correct filesystem.
      *
@@ -147,14 +147,33 @@ class ResourceManager
      *     $bar = getPath('root/foo/bar');
      *
      * @param string $name Name of path
-     * @param bool   $asPath Whether to return as string or PathInterface.
-     *                       String by default.
      *
-     * @return AbsolutePathInterface|string
+     * @return string
      *
      * @throws \InvalidArgumentException If path isn't available
      */
-    public function getPath($name, $asPath = false)
+    public function getPath($name)
+    {
+        $path = $this->getPathObject($name);
+        return $path->string();
+    }
+
+    /**
+     * Gets a path as a PathInterface.
+     *
+     * Subdirectories are automatically parsed to correct filesystem.
+     *
+     * For example:
+     *
+     *     $bar = getPath('root/foo/bar');
+     *
+     * @param string $name Name of path
+     *
+     * @return AbsolutePathInterface
+     *
+     * @throws \InvalidArgumentException If path isn't available
+     */
+    public function getPathObject($name)
     {
         if (array_key_exists($name . "path", $this->paths)) {
             $path = $this->paths[$name . "path"];
@@ -165,11 +184,8 @@ class ResourceManager
         } else {
             throw new \InvalidArgumentException("Requested path $name is not available", 1);
         }
-
-        if ($asPath) {
-            return $path;
-        }
-        return $path->string();
+        
+        return $path;
     }
 
     /**
