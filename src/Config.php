@@ -496,6 +496,7 @@ class Config
     {
         if (isset($config['memory']) && $config['memory']) {
             // If in-memory, no need to parse paths
+            unset($config['path']);
             return $config;
         } else {
             // Prevent SQLite driver from trying to use in-memory connection
