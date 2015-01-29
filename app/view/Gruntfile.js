@@ -25,7 +25,7 @@ module.exports = function(grunt) {
                 ],
                 tasks: [
                     'jshint:bolt_js',
-                    'uglify:bolt'
+                    'uglify:bolt_js'
                 ]
             }
         },
@@ -183,7 +183,7 @@ module.exports = function(grunt) {
                     ]
                 }
             },
-            bolt: {
+            bolt_js: {
                 options: {
                     banner: "/**\n" +
                             " * These are Bolt's COMPILED JS files!\n" +
@@ -274,6 +274,6 @@ module.exports = function(grunt) {
 
     require('load-grunt-tasks')(grunt);
 
-    grunt.registerTask('default', ['sass', 'jshint:bolt_js', 'uglify', 'cssmin', 'concat', 'watch']);
+    grunt.registerTask('default', ['sass', 'jshint:bolt_js', 'uglify:bolt_js', 'cssmin', 'concat', 'watch']);
 
 };
