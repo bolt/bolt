@@ -4,7 +4,6 @@ namespace Bolt\Tests\Cache;
 
 use Bolt\Cache;
 use Symfony\Component\Filesystem\Filesystem;
-use Eloquent\Pathogen\FileSystem\PlatformFileSystemPath;
 use Eloquent\Pathogen\FileSystem\Factory\PlatformFileSystemPathFactory;
 
 class CacheTest extends \PHPUnit_Framework_TestCase
@@ -104,8 +103,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
     {
         if (strtoupper(substr(PHP_OS, 0, 3)=='WIN')) {
             throw new \InvalidArgumentException('Win can');
-        }
-        else {
+        } else {
             $newCache = new Cache("/foo/bar/baz");
         }
     }

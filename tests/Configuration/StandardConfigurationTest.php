@@ -3,7 +3,6 @@ namespace Bolt\Tests\Configuration;
 
 use Bolt\Application;
 use Bolt\Configuration\Standard;
-use Composer\Autoload\ClassLoader;
 
 /**
  * Class to test correct operation and locations of composer configuration.
@@ -14,7 +13,6 @@ use Composer\Autoload\ClassLoader;
 class StandardConfigurationTest extends \PHPUnit_Framework_TestCase
 {
 
-    
     public function testInitWithClassloader()
     {
         $loader = require __DIR__."/../../vendor/autoload.php";
@@ -23,5 +21,4 @@ class StandardConfigurationTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('/app/', $config->getUrl('app'));
     }
 
-   
 }

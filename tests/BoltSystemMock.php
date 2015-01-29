@@ -2,22 +2,25 @@
 namespace Bolt\Tests;
 
 /**
-* 
-*/
+ * System mock
+ *
+ * @author Ross Riley <riley.ross@gmail.com>
+ */
 class BoltSystemMock
 {
-    
-    static $values = array();
-    
-    
-    static public function set($function, $values) {
+
+    public static $values = array();
+
+    public static function set($function, $values)
+    {
         self::$values[$function] = $values;
     }
-    
-    static public function get($function) {
+
+    public static function get($function)
+    {
         if (isset(self::$values[$function])) {
             return self::$values[$function];
         }
     }
-    
+
 }

@@ -11,4 +11,4 @@ use Doctrine\DBAL\Driver\Statement;
 */
 interface DoctrineDbalStatementInterface extends \Iterator, Statement
 {
-} 
+}

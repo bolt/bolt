@@ -1,7 +1,6 @@
 <?php
 namespace Bolt\Tests\DataCollector;
 
-use Bolt\Application;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\DataCollector\BoltDataCollector;
 
@@ -17,12 +16,10 @@ use Symfony\Component\HttpFoundation\Response;
 class BoltDataCollectorTest extends BoltUnitTest
 {
 
-    
     public function testBasicData()
     {
         $app = $this->getApp();
-        
-        
+
         $request = Request::create(
             '/',
             'GET',
@@ -31,10 +28,9 @@ class BoltDataCollectorTest extends BoltUnitTest
             array(),
             array()
         );
-        
-        
-        $response = $app->handle($request);        
-        
+
+        $response = $app->handle($request);
+
         $data = new BoltDataCollector($app);
         $data->collect($request, $response);
         $this->assertNotEmpty($data->getName());
@@ -46,7 +42,7 @@ class BoltDataCollectorTest extends BoltUnitTest
         $this->assertEmpty($data->getEditLink());
         $this->assertEmpty($data->getEditTitle());
     }
-    
+
     public function testBrandingData()
     {
         $app = $this->getApp();
@@ -60,7 +56,7 @@ class BoltDataCollectorTest extends BoltUnitTest
         $this->assertRegExp('/testperson/', $data->getBranding());
         $this->assertRegExp('/testemail/', $data->getBranding());
     }
-    
+
     public function testEditLinks()
     {
         $app = $this->getApp();
@@ -72,8 +68,7 @@ class BoltDataCollectorTest extends BoltUnitTest
         $data->collect($request, $response);
         $this->assertEquals("editlink", $data->getEditlink());
         $this->assertEquals("edittitle", $data->getEdittitle());
-        
+
     }
 
-   
 }

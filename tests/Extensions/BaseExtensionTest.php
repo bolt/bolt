@@ -1,7 +1,6 @@
 <?php
 namespace Bolt\Tests\Extensions;
 
-use Bolt\Application;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\BaseExtension;
 
@@ -22,7 +21,7 @@ class BaseExtensionTest extends BoltUnitTest
         $this->assertNotEmpty($ext->getBaseUrl());
         $this->assertEquals('mockobject', $ext->getMachineName());
     }
-    
+
     /**
     * @runInSeparateProcess
     */
@@ -36,7 +35,4 @@ class BaseExtensionTest extends BoltUnitTest
         $this->assertNotEmpty($config);
     }
 
-    
-   
 }
-

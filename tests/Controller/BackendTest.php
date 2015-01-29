@@ -12,10 +12,8 @@ use Bolt\Configuration\ResourceManager;
  * @author Ross Riley <riley.ross@gmail.com>
  **/
 
-
 class BackendTest extends BoltUnitTest
 {
-
 
     public function testDashboard()
     {
@@ -24,12 +22,13 @@ class BackendTest extends BoltUnitTest
         $this->addDefaultUser($app);
         $twig = $this->getMockTwig();
         $phpunit = $this;
-        $testHandler = function($template, $context) use($phpunit) {
+        $testHandler = function ($template, $context) use ($phpunit) {
             $phpunit->assertEquals('dashboard/dashboard.twig', $template);
             $phpunit->assertNotEmpty($context['context']);
             $phpunit->assertArrayHasKey('latest', $context['context']);
             $phpunit->assertArrayHasKey('suggestloripsum', $context['context']);
-            return new Response;
+
+            return new Response();
         };
 
         $twig->expects($this->any())
@@ -62,7 +61,6 @@ class BackendTest extends BoltUnitTest
         $app = $this->getApp();
         $this->allowLogin($app);
         $check = $this->getMock('Bolt\Database\IntegrityChecker', array('repairTables'), array($app));
-
 
         $check->expects($this->at(0))
             ->method('repairTables')

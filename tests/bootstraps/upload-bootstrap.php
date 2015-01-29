@@ -13,7 +13,6 @@ namespace Sirius\Upload\Container;
  *
  **/
 
-
 function is_uploaded_file($file)
 {
     return file_exists($file);

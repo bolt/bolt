@@ -1,7 +1,6 @@
 <?php
 namespace Bolt\Tests\Controller;
 
-use Bolt\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Bolt\Tests\BoltUnitTest;
@@ -11,7 +10,6 @@ use Bolt\Tests\BoltUnitTest;
  *
  * @author Ross Riley <riley.ross@gmail.com>
  **/
-
 
 class UploadControllerTest extends BoltUnitTest
 {
@@ -26,8 +24,6 @@ class UploadControllerTest extends BoltUnitTest
     {
         @unlink(TEST_ROOT . '/app/cache/config_cache.php');
     }
-
-
 
     public function testResponses()
     {
@@ -49,7 +45,7 @@ class UploadControllerTest extends BoltUnitTest
         $content = json_decode($response->getContent());
         $this->assertEquals(0, count($content));
     }
- 
+
     public function testUpload()
     {
         $app = $this->getApp();
@@ -60,7 +56,6 @@ class UploadControllerTest extends BoltUnitTest
         $content = json_decode($response->getContent());
         $this->assertEquals(1, count($content));
     }
-
 
     public function testInvalidFiletype()
     {
@@ -89,7 +84,7 @@ class UploadControllerTest extends BoltUnitTest
         $this->assertAttributeNotEmpty('error', $file);
         $this->assertRegExp('/extension/i', $file->error);
     }
-    
+
     public function testBadDefaultLocation()
     {
         $app = $this->makeApp();
@@ -100,12 +95,11 @@ class UploadControllerTest extends BoltUnitTest
         $response = $app->handle($request);
         $this->assertEquals(500, $response->getStatusCode());
     }
-    
-    
+
     public function testHandlerParsing()
     {
         $app = $this->getApp();
-        
+
         $request = Request::create(
             '/upload/files',
             'POST',
@@ -121,17 +115,16 @@ class UploadControllerTest extends BoltUnitTest
             ),
             array()
         );
-                
+
         $response = $app->handle($request);
         $this->assertEquals(200, $response->getStatusCode());
-        
+
     }
-    
-    
+
     public function testMultipleHandlerParsing()
     {
         $app = $this->getApp();
-        
+
         $request = Request::create(
             '/upload/files',
             'POST',
@@ -147,12 +140,12 @@ class UploadControllerTest extends BoltUnitTest
             ),
             array()
         );
-                
+
         $response = $app->handle($request);
         // Not properly implemented as yet, this will need to be revisited on implementation
         $this->assertEquals(500, $response->getStatusCode());
     }
-    
+
     public function testFileObjectUploads()
     {
         $app = $this->getApp();
@@ -169,8 +162,6 @@ class UploadControllerTest extends BoltUnitTest
         $response = $app->handle($request);
         $this->assertEquals(200, $response->getStatusCode());
     }
-
-
 
     protected function getFileRequest($namespace='files')
     {
@@ -189,32 +180,31 @@ class UploadControllerTest extends BoltUnitTest
             ),
             array()
         );
+
         return $request;
     }
-    
-    protected function getApp() {
-        $bolt = parent::getApp();  
+
+    protected function getApp()
+    {
+        $bolt = parent::getApp();
+
         return $this->authApp($bolt);
     }
-    
+
     protected function authApp($bolt)
     {
         $users = $this->getMock('Bolt\Users', array('isValidSession', 'isAllowed'), array($bolt));
         $users->expects($this->any())
             ->method('isValidSession')
             ->will($this->returnValue(true));
-            
+
         $users->expects($this->any())
             ->method('isAllowed')
             ->will($this->returnValue(true));
-            
+
         $bolt['users'] = $users;
-        
+
         return $bolt;
     }
-
-
-
-
 
 }

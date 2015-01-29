@@ -1,7 +1,6 @@
 <?php
 namespace Bolt\Tests\Composer;
 
-use Bolt\Application;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Composer\CommandRunner;
 
@@ -14,15 +13,9 @@ use Bolt\Composer\CommandRunner;
 class CommandRunnerTest extends BoltUnitTest
 {
 
-
     public function testConstruct()
     {
 
     }
-    
 
-    
-    
- 
-   
 }

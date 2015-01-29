@@ -2,10 +2,8 @@
 namespace Bolt\Tests;
 
 use Bolt\Application;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Storage\MockFileSessionStorage;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Bolt\Configuration as Config;
 use Eloquent\Pathogen\FileSystem\Factory\PlatformFileSystemPathFactory;
 use Bolt\Configuration\ResourceManager;
@@ -16,25 +14,25 @@ use Bolt\Configuration\ResourceManager;
  * @author Ross Riley <riley.ross@gmail.com>
  **/
 
-
 abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
 {
 
     protected function resetDb()
     {
         // Make sure we wipe the db file to start with a clean one
-        if(is_readable(TEST_ROOT.'/bolt.db')) {
+        if (is_readable(TEST_ROOT.'/bolt.db')) {
             unlink(TEST_ROOT.'/bolt.db');
-        }   
+        }
     }
     protected function getApp()
     {
         $bolt = $this->makeApp();
         $bolt->initialize();
         $bolt['integritychecker']->repairTables();
+
         return $bolt;
     }
-    
+
     protected function makeApp()
     {
         $sessionMock = $this->getMockBuilder('Symfony\Component\HttpFoundation\Session\Session')
@@ -63,6 +61,7 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
         );
         $bolt['session'] = $sessionMock;
         $bolt['resources']->setPath('files', TEST_ROOT . '/tests/resources/files');
+
         return $bolt;
     }
 
@@ -80,7 +79,7 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
             }
         }
     }
-    
+
     protected function addDefaultUser(Application $app)
     {
         $user = $app['users']->getEmptyUser();
@@ -91,28 +90,29 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
         $user['displayname'] = 'Admin';
         $app['users']->saveUser($user);
     }
-    
+
     protected function getMockTwig()
     {
         $twig = $this->getMock('Twig_Environment', array('render', 'fetchCachedRequest'));
         $twig->expects($this->any())
             ->method('fetchCachedRequest')
             ->will($this->returnValue(false));
+
         return $twig;
     }
-    
+
     protected function checkTwigForTemplate($app, $testTemplate)
     {
-        $twig = $this->getMockTwig();        
-        
+        $twig = $this->getMockTwig();
+
         $twig->expects($this->any())
             ->method('render')
             ->with($this->equalTo($testTemplate))
-            ->will($this->returnValue(new Response));
-            
-        $app['render'] = $twig; 
+            ->will($this->returnValue(new Response()));
+
+        $app['render'] = $twig;
     }
-    
+
     protected function allowLogin($app)
     {
         $this->addDefaultUser($app);
@@ -120,7 +120,7 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
         $users->expects($this->any())
             ->method('isValidSession')
             ->will($this->returnValue(true));
-            
+
         $users->expects($this->any())
             ->method('isAllowed')
             ->will($this->returnValue(true));

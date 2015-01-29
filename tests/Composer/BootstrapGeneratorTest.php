@@ -1,7 +1,6 @@
 <?php
 namespace Bolt\Tests\Composer;
 
-use Bolt\Application;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Composer\BootstrapGenerator;
 
@@ -14,14 +13,13 @@ use Bolt\Composer\BootstrapGenerator;
 class BootstrapGeneratorTest extends BoltUnitTest
 {
     public $workspace;
-    
+
     public function setup()
     {
         $this->workspace = TEST_ROOT.'/tests/resources';
         chdir($this->workspace);
-        
     }
-    
+
     public function tearDown()
     {
         if (is_dir($this->workspace.'/public3')) {
@@ -37,7 +35,7 @@ class BootstrapGeneratorTest extends BoltUnitTest
         $this->assertEquals('public2', $boot->webname);
         $this->assertTrue($boot->webroot);
     }
-    
+
     public function testGenerate()
     {
         $boot = new BootstrapGenerator(true, 'public3');
@@ -46,17 +44,17 @@ class BootstrapGeneratorTest extends BoltUnitTest
         $this->assertRegExp('#setPath\("files", "public3/files"\)#', $code);
         $this->assertRegExp('#setPath\("themebase", "public3/theme"\)#', $code);
     }
-    
+
     public function testWrite()
     {
-        
+
         $boot = new BootstrapGenerator(true, 'public3');
         $code = $boot->generate();
         $location = $boot->create();
         $this->assertEquals($code, file_get_contents($location));
-        
+
     }
-    
+
     public function testWriteToNonWebroot()
     {
         $boot = new BootstrapGenerator();
@@ -64,11 +62,5 @@ class BootstrapGeneratorTest extends BoltUnitTest
         $location = $boot->create();
         $this->assertEquals($code, file_get_contents($location));
     }
-    
-    
-    
-    
-    
- 
-   
+
 }

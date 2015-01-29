@@ -1,7 +1,6 @@
 <?php
 namespace Bolt\Tests\Nut;
 
-use Bolt\Application;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Nut\TestRunner;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -15,24 +14,23 @@ use Symfony\Component\Console\Tester\CommandTester;
 class TestRunnerTest extends BoltUnitTest
 {
 
-
     public function testRun()
     {
-        $app = $this->getApp();        
+        $app = $this->getApp();
         $command = new TestRunner($app);
         $tester = new CommandTester($command);
-        
+
         $tester->execute(array());
         $result = $tester->getDisplay();
-        $this->assertRegexp("/phpunit/", $result);        
+        $this->assertRegexp("/phpunit/", $result);
 
     }
- 
-   
+
 }
 
 namespace Bolt\Nut;
 
-function system($command) {
+function system($command)
+{
     return $command;
 }
