@@ -13,6 +13,11 @@ Bolt 2.0 DEV-head
  (#2550 thanks @rossriley)
 - Updated: Magnific popup is now at 1.0.0. (#2560, thanks @cdowdy)
 - Updated: FlySystem from version 0.5 to 1.1, with php5.3 patch. (#2587)
+- Fixed: arrays in type:select fields. (#2609)
+- Added: Allow for 'keys: slug' in 'type: select' fields, to customize the used field that's actually stored in the DB. (#2597)
+- Fixed: Small logic fix for 'groupingSort'. (See #2520)
+- Fixed: Have Cache::clearCache() use $app['resources']->getPath('root') for the 'thumbs' directory (See #2512)
+
 
 Bolt 2.0.5
 ----------
@@ -22,7 +27,7 @@ Released 2015-01-21. Notable changes:
 - Fixed: appending `order=...` to arbitrary Bolt URLs will no longer silently try to apply sorting to getContent.
 - Fixed: For extensions adding Twig functions in content: `isSafe()` works correctly now (#2492, thanks @jmschelcher)
 - Change: Use Twig’s `resolveTemplate` instead of `file_exists` in Frontend Controller. (#2494, thanks @lavoiesl)
-- Fixed: Remove horizontal scroll on loging screen. (#2495, thanks @cdowdy)
+- Fixed: Remove horizontal scroll on login screen. (#2495, thanks @cdowdy)
 - Fixed: Ongoing cleanup of translation labels. (thanks @Chilion)
 - Fixed: "Clear Cache" now also clears all generated thumbs from `thumbs/`
 - Fixed: Nav links in admin dashboard, when accessed over HTTPS (#2499, thanks @glasspelican)
