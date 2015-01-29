@@ -61,7 +61,7 @@ module.exports = function(grunt) {
         },
 
         sass: {
-            dist: {
+            boltCss: {
                 options: {
                     outputStyle: 'compressed',
                     includePaths: [
@@ -296,7 +296,7 @@ module.exports = function(grunt) {
     grunt.registerTask(
         'updateBolt',
         [
-            'sass',
+            'sass:boltCss',
             'jshint:boltJs',
             'uglify:boltJs'
         ]
