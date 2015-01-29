@@ -85,7 +85,7 @@ module.exports = function(grunt) {
         },
 
         copy: {
-            fonts: {
+            installFonts: {
                 files: [{
                     expand: true,
                     flatten: true,
@@ -99,7 +99,7 @@ module.exports = function(grunt) {
         },
 
         concat: {
-            libJs: {
+            installLibJs: {
                 options: {
                     separator: '\n\n'
                 },
@@ -129,7 +129,7 @@ module.exports = function(grunt) {
         },
 
         cssmin: {
-            libCss: {
+            installLibCss: {
                 options: {
                     compatibility: 'ie8',
                     relativeTo: 'css/',
@@ -147,7 +147,7 @@ module.exports = function(grunt) {
         },
 
         uglify: {
-            libJs: {
+            prepareLibJs: {
                 options: {
                     preserveComments: 'some'
                 },
@@ -166,7 +166,7 @@ module.exports = function(grunt) {
                     ]
                 }]
             },
-            localeDatepicker: {
+            installLocaleDatepicker: {
                 options: {
                     preserveComments: 'some'
                 },
@@ -181,7 +181,7 @@ module.exports = function(grunt) {
                     }
                 }]
             },
-            localeMoment: {
+            installLocaleMoment: {
                 options: {
                     preserveComments: 'some'
                 },
@@ -198,7 +198,7 @@ module.exports = function(grunt) {
                     }
                 }]
             },
-            bootstrap: {
+            prepareBootstrapJs: {
                 files: {
                     'lib/bootstrap-sass.generated/bootstrap.min.js': [
                         'node_modules/bootstrap-sass/assets/javascripts/bootstrap/alert.js',
@@ -307,14 +307,14 @@ module.exports = function(grunt) {
         'updateLib',
         [
             // Prepare
-            'uglify:bootstrap',             // Concat bootstrap scripts into one minified file
-            'uglify:libJs',                 // Create minified versions of library scripts that don't have them
+            'uglify:prepareBootstrapJs',        // Concat bootstrap scripts into one minified file
+            'uglify:prepareLibJs',              // Create minified versions of library scripts that don't have them
             // Install
-            'copy:fonts',                   // Copies fonts                       => view/fonts/*
-            'cssmin:libCss',                // Concats and minifies library css   => view/css/lib.css
-            'concat:libJs',                 // Concats minified library scripts   => view/js/lib.min.js
-            'uglify:localeDatepicker',      // Copies minified datepicker locale  => view/js/locale/datepicker/*
-            'uglify:localeMoment'           // Copies minified moment.js locale   => view/js/locale/datepicker/*
+            'copy:installFonts',                // Copies fonts                       => view/fonts/*
+            'cssmin:installLibCss',             // Concats and minifies library css   => view/css/lib.css
+            'concat:installLibJs',              // Concats minified library scripts   => view/js/lib.min.js
+            'uglify:installLocaleDatepicker',   // Copies minified datepicker locale  => view/js/locale/datepicker/*
+            'uglify:installLocaleMoment'        // Copies minified moment.js locale   => view/js/locale/datepicker/*
         ]
     );
 };
