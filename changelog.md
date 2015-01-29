@@ -17,7 +17,7 @@ Bolt 2.0 DEV-head
 - Added: Allow for 'keys: slug' in 'type: select' fields, to customize the used field that's actually stored in the DB. (#2597)
 - Fixed: Small logic fix for 'groupingSort'. (See #2520)
 - Fixed: Have Cache::clearCache() use $app['resources']->getPath('root') for the 'thumbs' directory (See #2512)
-
+- Fixed: Corner case bug in password reset
 
 Bolt 2.0.5
 ----------
