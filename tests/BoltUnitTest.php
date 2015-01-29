@@ -52,8 +52,8 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
         $bolt['config']->set(
             'general/database',
             array(
-                'driver' => 'sqlite',
-                'username' => 'test',
+                'driver' => 'pdo_sqlite',
+                'user' => 'test',
                 'memory' => true,
                 'path' => false
             )

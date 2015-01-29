@@ -1,13 +1,10 @@
 <?php
 namespace Bolt\Configuration;
 
-use Bolt\Library as Lib;
-
 /**
  * A class to perform several 'low level' checks. Since we're doing it (by design)
  * _before_ the autoloader gets initialized, we can't use autoloading.
  */
-
 class LowlevelChecks
 {
     public $config;
@@ -37,11 +34,8 @@ class LowlevelChecks
     public $sqliteLoaded;
 
     /**
-     * The constructor requires a resource manager object to perform checks against.
-     * This should ideally be typehinted to Bolt\Configuration\ResourceManager
-     *
-     * @return void
-     **/
+     * @param ResourceManager $config
+     */
     public function __construct($config = null)
     {
         $this->config = $config;
@@ -204,14 +198,17 @@ class LowlevelChecks
         }
 
         // If in-memory connection, skip path checks
-        if (isset($cfg['memory']) && $cfg['memory'] === true) {
+        if (isset($config['memory']) && $config['memory'] === true) {
             return;
         }
 
         // If the file is present, make sure it is writable
         $file = $config['path'];
-        if (file_exists($file) && !is_writable($file)) {
-            throw LowLevelDatabaseException::unwritableFile($file);
+        if (file_exists($file)) {
+            if (!is_writable($file)) {
+                throw LowLevelDatabaseException::unwritableFile($file);
+            }
+            return;
         }
 
         // If the file isn't present, make sure the directory

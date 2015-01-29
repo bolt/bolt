@@ -17,12 +17,10 @@ use Bolt\Configuration\ResourceManager;
  */
 class LowlevelChecksTest extends BoltUnitTest
 {
+    protected $errorResponses = array();
 
-    public static $isWritable = null;
-    public static $isReadable = null;
-    public static $fileExists = null;
-
-    public $errorResponse = array();
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
+    protected $php;
 
     public function setUp()
     {
@@ -74,7 +72,6 @@ class LowlevelChecksTest extends BoltUnitTest
     {
         $config = new Standard(TEST_ROOT);
         $check = new LowlevelChecks($config);
-
     }
 
     public function testMagicQuoteException()
@@ -84,7 +81,6 @@ class LowlevelChecksTest extends BoltUnitTest
         $this->setExpectedException('Bolt\Configuration\LowlevelException');
         $this->expectOutputRegex("/Bolt - Fatal Error/");
         $check->doChecks();
-
     }
 
     public function testSafeModeException()
@@ -94,7 +90,6 @@ class LowlevelChecksTest extends BoltUnitTest
         $this->setExpectedException('Bolt\Configuration\LowlevelException');
         $this->expectOutputRegex("/Bolt - Fatal Error/");
         $check->doChecks();
-
     }
 
     public function testApacheChecks()
@@ -104,7 +99,6 @@ class LowlevelChecksTest extends BoltUnitTest
         $this->setExpectedException('Bolt\Configuration\LowlevelException');
         $this->expectOutputRegex("/Bolt - Fatal Error/");
         $check->doChecks();
-
     }
 
     public function testApacheCheckCanBeDisabled()
@@ -113,7 +107,6 @@ class LowlevelChecksTest extends BoltUnitTest
         $check->isApache = true;
         $check->disableApacheChecks();
         $check->doChecks();
-
     }
 
     public function testPlatformFailsMysql()
@@ -164,20 +157,125 @@ class LowlevelChecksTest extends BoltUnitTest
         $check->doDatabaseCheck();
     }
 
-    public function testSqliteAttemptsFile()
+    public function testPlatformUnsupported()
     {
-        $check = $this->getMockedChecker('mockSqlite');
-        $check->sqliteLoaded = true;
+        $check = $this->getMockedChecker('mockUnsupportedPlatform');
         $this->setExpectedException('Bolt\Configuration\LowlevelException');
-        $this->expectOutputRegex("/exist or it is not writable/");
+        $this->expectOutputRegex("/database type, but it is not supported/");
         $check->doDatabaseCheck();
     }
 
-    public function testDBFailsAsRoot()
+    public function testGoodSqliteFile()
+    {
+        $check = $this->getMockedChecker('mockSqlite');
+        $check->sqliteLoaded = true;
+
+        $this->php
+            ->expects($this->once())
+            ->method('file_exists')
+            ->will($this->returnValue(true));
+        $this->php
+            ->expects($this->once())
+            ->method('is_writable')
+            ->will($this->returnValue(true));
+
+        $check->doDatabaseCheck();
+    }
+
+    public function testGoodSqliteDir()
+    {
+        $check = $this->getMockedChecker('mockSqlite');
+        $check->sqliteLoaded = true;
+
+        $this->php
+            ->expects($this->at(0))
+            ->method('file_exists')
+            ->with('test/bolt.db')
+            ->will($this->returnValue(false));
+        $this->php
+            ->expects($this->at(1))
+            ->method('file_exists')
+            ->with('test')
+            ->will($this->returnValue(true));
+        $this->php
+            ->expects($this->once())
+            ->method('is_writable')
+            ->with('test')
+            ->will($this->returnValue(true));
+
+        $check->doDatabaseCheck();
+    }
+
+    public function testSqliteFileExistsAndNotWritable()
+    {
+        $check = $this->getMockedChecker('mockSqlite');
+        $this->php
+            ->expects($this->once())
+            ->method('file_exists')
+            ->with('test/bolt.db')
+            ->will($this->returnValue(true));
+        $this->php
+            ->expects($this->once())
+            ->method('is_writable')
+            ->with('test/bolt.db')
+            ->will($this->returnValue(false));
+
+        $this->setExpectedException('Bolt\Configuration\LowlevelException');
+        $this->expectOutputRegex("/is not writable/");
+        $check->doDatabaseCheck();
+    }
+
+    public function testSqliteNonexistentDir()
+    {
+        $check = $this->getMockedChecker('mockSqlite');
+
+        $this->php
+            ->expects($this->at(0))
+            ->method('file_exists')
+            ->with('test/bolt.db')
+            ->will($this->returnValue(false));
+        $this->php
+            ->expects($this->at(1))
+            ->method('file_exists')
+            ->with('test')
+            ->will($this->returnValue(false));
+
+        $this->setExpectedException('Bolt\Configuration\LowlevelException');
+        $this->expectOutputRegex("/does not exist/");
+        $check->doDatabaseCheck();
+    }
+
+    public function testSqliteUnwritableDir()
+    {
+        $check = $this->getMockedChecker('mockSqlite');
+
+        $this->php
+            ->expects($this->at(0))
+            ->method('file_exists')
+            ->with('test/bolt.db')
+            ->will($this->returnValue(false));
+        $this->php
+            ->expects($this->at(1))
+            ->method('file_exists')
+            ->with('test')
+            ->will($this->returnValue(true));
+
+        $this->php
+            ->expects($this->once())
+            ->method('is_writable')
+            ->with('test')
+            ->will($this->returnValue(false));
+
+        $this->setExpectedException('Bolt\Configuration\LowlevelException');
+        $this->expectOutputRegex("/is not writable/");
+        $check->doDatabaseCheck();
+    }
+
+    public function testDbFailsAsRootWithoutPassword()
     {
         $check = $this->getMockedChecker('mockRoot');
         $this->setExpectedException('Bolt\Configuration\LowlevelException');
-        $this->expectOutputRegex("/Bolt - Fatal Error/");
+        $this->expectOutputRegex("/Bolt will stubbornly refuse to run until you've set a password/");
         $check->doDatabaseCheck();
     }
 
@@ -189,22 +287,7 @@ class LowlevelChecksTest extends BoltUnitTest
         $check->doDatabaseCheck();
     }
 
-    public function testBadDb()
-    {
-        $check = $this->getMockedChecker('mockBadDb');
-        $this->setExpectedException('Bolt\Configuration\LowlevelException');
-        $this->expectOutputRegex("/Bolt - Fatal Error/");
-        $check->doDatabaseCheck();
-    }
-
-    public function testMissingDb()
-    {
-        // This should silently ignore the checks
-        $check = $this->getMockedChecker('mockNoDriver');
-        $check->doDatabaseCheck();
-    }
-
-    public function testEmptyUser()
+    public function testEmptyDbUser()
     {
         $check = $this->getMockedChecker('mockEmptyUser');
         $this->setExpectedException('Bolt\Configuration\LowlevelException');
@@ -212,25 +295,8 @@ class LowlevelChecksTest extends BoltUnitTest
         $check->doDatabaseCheck();
     }
 
-    public function testSqliteUnwritable()
-    {
-
-        $check = $this->getMockedChecker('mockSqlite');
-        $app = array('resources'=>new Standard(TEST_ROOT));
-        ResourceManager::$theApp = $app;
-        $this->php
-            ->expects($this->once())
-            ->method('is_writable')
-            ->will($this->returnValue(false));
-
-        $this->setExpectedException('Bolt\Configuration\LowlevelException');
-        $this->expectOutputRegex("/Bolt - Fatal Error/");
-        $check->doDatabaseCheck();
-    }
-
     public function testCoreFatalErrorCatch()
     {
-
         $app = array('resources'=>new Standard(TEST_ROOT));
         ResourceManager::$theApp = $app;
 
@@ -294,46 +360,7 @@ class LowlevelChecksTest extends BoltUnitTest
         $check->assertWritableDir($badDir);
     }
 
-    public function testUnwritableDir()
-    {
-        $check = $this->getMockedChecker('mockSqlite');
-
-        $this->php
-            ->expects($this->at(0))
-            ->method('is_writable')
-            ->will($this->returnValue(false));
-
-        $this->setExpectedException('Bolt\Configuration\LowlevelException');
-        $this->expectOutputRegex("/present and writable/");
-        $check->assertWritableDir(__DIR__);
-
-    }
-
-    public function testFileExistsAndNotWritable()
-    {
-        $check = $this->getMockedChecker('mockSqlite');
-        $this->php
-            ->expects($this->at(0))
-            ->method('is_writable')
-            ->will($this->returnValue(true));
-
-        $this->php
-            ->expects($this->at(1))
-            ->method('is_writable')
-            ->will($this->returnValue(false));
-
-        $this->php
-            ->expects($this->once())
-            ->method('file_exists')
-            ->will($this->returnValue(true));
-
-        $this->setExpectedException('Bolt\Configuration\LowlevelException');
-        $this->expectOutputRegex("/present and writable/");
-        $check->doDatabaseCheck();
-
-    }
-
-    public function testFileAlreadyExistsSoIgnore()
+    public function testConfigFileAlreadyExistsSoIgnore()
     {
         $check = $this->getCleanChecker();
         $check->configChecks = array('config');
