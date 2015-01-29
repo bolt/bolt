@@ -328,29 +328,6 @@ class Extensions
     }
 
     /**
-     * @param string     $msg
-     * @param string     $extensionName
-     * @param \Exception $e
-     * @param array      $context
-     * @param int        $level
-     */
-    protected function logInitFailure($msg, $extensionName, \Exception $e, $level = Logger::CRITICAL)
-    {
-        $context = array(
-            'event'     => 'extensions',
-            'extension' => $extensionName,
-            'exception' => $e
-        );
-
-        $this->app['logger.system']->addRecord($level, $msg, $context);
-
-        $this->app['session']->getFlashBag()->set(
-            'error',
-            Trans::__("[Extension error] $msg for %ext%: %error%", array('%ext%' => $extensionName, '%error%' => $e->getMessage()))
-        );
-    }
-
-    /**
      * Add jQuery to the output.
      */
     public function addJquery()
@@ -1022,6 +999,29 @@ class Extensions
     public function getMenuOptions()
     {
         return $this->menuoptions;
+    }
+
+    /**
+     * @param string     $msg
+     * @param string     $extensionName
+     * @param \Exception $e
+     * @param array      $context
+     * @param int        $level
+     */
+    protected function logInitFailure($msg, $extensionName, \Exception $e, $level = Logger::CRITICAL)
+    {
+        $context = array(
+            'event'     => 'extensions',
+            'extension' => $extensionName,
+            'exception' => $e
+        );
+
+        $this->app['logger.system']->addRecord($level, $msg, $context);
+
+        $this->app['session']->getFlashBag()->set(
+            'error',
+            Trans::__("[Extension error] $msg for %ext%: %error%", array('%ext%' => $extensionName, '%error%' => $e->getMessage()))
+        );
     }
 
     /**
