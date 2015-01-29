@@ -139,7 +139,7 @@ module.exports = function(grunt) {
         },
 
         uglify: {
-            lib: {
+            libJs: {
                 options: {
                     preserveComments: 'some'
                 },
@@ -286,6 +286,7 @@ module.exports = function(grunt) {
     grunt.registerTask('update', [
         'copy:fonts',       // Copies fonts to view/fonts/
         'cssmin:libCss',    // Builds view/css/lib.css from library css files
+        'uglify:libJs',     // Create minified versions of library scripts that don't have them
         'concat:libJs'      // Concats minified library scripts to view/js/lib.min.js
     ]);
 };
