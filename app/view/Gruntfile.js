@@ -19,7 +19,7 @@ module.exports = function(grunt) {
                     'sass'
                 ]
             },
-            js: {
+            bolt_js: {
                 files: [
                     'lib/bolt/*.js'
                 ],
