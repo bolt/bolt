@@ -284,4 +284,7 @@ module.exports = function(grunt) {
         'watch'
     ]);
 
+    grunt.registerTask('update', [
+    ]);
+
 };
