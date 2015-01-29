@@ -121,11 +121,11 @@ module.exports = function(grunt) {
         },
 
         cssmin: {
-            lib: {
+            libCss: {
                 options: {
                     compatibility: 'ie8',
-                    relativeTo: './css/',
-                    target: './css/'
+                    relativeTo: 'css/',
+                    target: 'css/'
                 },
                 files: {
                     'css/lib.css': [
@@ -284,6 +284,7 @@ module.exports = function(grunt) {
     ]);
 
     grunt.registerTask('update', [
-        'copy:fonts'        // Copies fonts to view/fonts/
+        'copy:fonts',       // Copies fonts to view/fonts/
+        'cssmin:libCss'     // Builds view/css/lib.css from library css files
     ]);
 };
