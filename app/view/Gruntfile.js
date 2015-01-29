@@ -297,7 +297,7 @@ module.exports = function(grunt) {
 
     /*** UPDATE TASK:  Builds library css/js. Run after one of the externals is updated ***/
     grunt.registerTask(
-        'update',
+        'updateLib',
         [
             // Prepare
             'uglify:bootstrap',             // Concat bootstrap scripts into one minified file
