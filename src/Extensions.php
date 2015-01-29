@@ -1012,11 +1012,10 @@ class Extensions
     {
         $context = array(
             'event'     => 'extensions',
-            'extension' => $extensionName,
             'exception' => $e
         );
 
-        $this->app['logger.system']->addRecord($level, $msg, $context);
+        $this->app['logger.system']->addRecord($level, sprintf("%s for %s: %s", $msg, $extensionName, $e->getMessage()), $context);
 
         $this->app['session']->getFlashBag()->set(
             'error',
