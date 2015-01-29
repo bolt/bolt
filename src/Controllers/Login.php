@@ -103,7 +103,8 @@ class Login implements Silex\ControllerProviderInterface
      */
     public function logout(Silex\Application $app)
     {
-        $app['logger.system']->addInfo('Logged out: ', array('event' => 'authentication'));
+        $user = $app['session']->get('user');
+        $app['logger.system']->addInfo('Logged out: ' . $user['displayname'], array('event' => 'authentication'));
 
         $app['users']->logout();
 

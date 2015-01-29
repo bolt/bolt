@@ -1,5 +1,5 @@
 <?php
-namespace Bolt\Tests\Storage;
+namespace Bolt\tests\Storage;
 
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Storage;
@@ -15,7 +15,6 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class StorageTest extends BoltUnitTest
 {
-
     public function testSetup()
     {
         $app = $this->getApp();
@@ -55,102 +54,6 @@ class StorageTest extends BoltUnitTest
 
         $output = $storage->prefill();
         $this->assertRegExp('#Skipped#', $output);
-    }
-
-    public function testGetChangelog()
-    {
-        $app = $this->getApp();
-        $app['config']->set('general/changelog/enabled', true);
-        $storage = new Storage($app);
-
-        $content = $storage->getContentObject('pages');
-        $storage->saveContent($content, 'pages');
-        $logs = $storage->getChangeLog(array('limit'=>1,'offset'=>0,'order'=>'id'));
-        $logs2 = $storage->getChangeLog(array('limit'=>1));
-        $this->assertEquals(1, count($logs));
-        $this->assertEquals(1, count($logs2));
-    }
-
-    public function testCountChangelog()
-    {
-        $app = $this->getApp();
-        $storage = new Storage($app);
-        $count = $storage->countChangelog();
-        $this->assertGreaterThanOrEqual(0, $count);
-    }
-
-    public function testGetChangelogByContentType()
-    {
-        $app = $this->getApp();
-        $storage = new Storage($app);
-        $log = $storage->getChangelogByContentType('pages', array('limit'=>1,'offset'=>0,'order'=>'id'));
-        $this->assertCount(1, $log);
-    }
-
-    public function testGetChangelogByContentTypeArray()
-    {
-        $app = $this->getApp();
-        $storage = new Storage($app);
-        $log = $storage->getChangelogByContentType(array('slug'=>'pages'), array('limit'=>1,'contentid'=>6));
-        $this->assertCount(1, $log);
-    }
-
-    public function testCountChangelogByContentType()
-    {
-        $app = $this->getApp();
-        $storage = new Storage($app);
-        $count = $storage->countChangelogByContentType('pages', array());
-        $this->assertGreaterThan(0, $count);
-
-        $count = $storage->countChangelogByContentType('showcases', array('contentid'=>1));
-        $this->assertGreaterThan(0, $count);
-
-        $count = $storage->countChangelogByContentType(array('slug'=>'showcases'), array('id'=>1));
-        $this->assertGreaterThan(0, $count);
-    }
-
-    public function testGetChangelogEntry()
-    {
-        $app = $this->getApp();
-        $app['config']->set('general/changelog/enabled', true);
-        $storage = new Storage($app);
-        //$all = $storage->getChangelogByContentType('pages', array());
-
-
-        $log = $storage->getChangelogEntry('showcases',1,1);
-        $this->assertInstanceOf('Bolt\ChangelogItem', $log);
-        $this->assertAttributeEquals(1, 'contentid', $log);
-    }
-
-    public function testGetNextChangelogEntry()
-    {
-        $app = $this->getApp();
-        $app['config']->set('general/changelog/enabled', true);
-        $storage = new Storage($app);
-
-        // To generate an extra changelog we fetch and save a content item
-        // For now we need to mock the request object.
-        $app['request'] = Request::create('/');
-        $content = $storage->getContent('pages/1');
-        $this->assertInstanceOf('\Bolt\Content', $content);
-
-        $content->setValues(array('status'=>'draft','ownerid'=>99));
-        $storage->saveContent($content, 'Test Suite Update');
-        $content->setValues(array('status'=>'published','ownerid'=>1));
-        $storage->saveContent($content, 'Test Suite Update');
-
-        $log = $storage->getNextChangelogEntry('pages', 1, 1);
-        $this->assertInstanceOf('Bolt\ChangelogItem', $log);
-        $this->assertAttributeEquals(1, 'contentid', $log);
-    }
-
-    public function testGetPrevChangelogEntry()
-    {
-        $app = $this->getApp();
-        $storage = new Storage($app);
-        $log = $storage->getPrevChangelogEntry('pages', 1, 10);
-        $this->assertInstanceOf('Bolt\ChangelogItem', $log);
-        $this->assertAttributeEquals(1, 'contentid', $log);
     }
 
     public function testSaveContent()
@@ -357,5 +260,4 @@ class StorageTest extends BoltUnitTest
     {
 
     }
-
 }

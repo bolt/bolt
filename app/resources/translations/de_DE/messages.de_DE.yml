@@ -557,7 +557,6 @@ panel:
             more: "mehr Aktivitäten"
         by: "von"
         fixme: "Korrigiere mich"
-        headline: "Letzte Aktivitäten"
         logged-in: "angemeldet"
         logged-out: "abgemeldet"
         saved: "Gespeichert"

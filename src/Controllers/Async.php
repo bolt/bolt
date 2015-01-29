@@ -156,7 +156,16 @@ class Async implements ControllerProviderInterface
     {
         $activity = $app['logger.manager']->getActivity('change', 8);
 
-        $body = $app['render']->render('components/panel-activity.twig', array('activity' => $activity));
+        $body = $app['render']->render('components/panel-change.twig', array(
+            'activity' => $activity
+        ));
+
+        $activity = $app['logger.manager']->getActivity('system', 8, null, 'authentication');
+
+        $body .= $app['render']->render('components/panel-system.twig', array(
+            'activity' => $activity
+        ));
+
 
         return new Response($body, 200, array('Cache-Control' => 's-maxage=3600, public'));
     }
@@ -319,14 +328,16 @@ class Async implements ControllerProviderInterface
         $contenttype = $app['storage']->getContentType($contenttypeslug);
 
         // get the changelog for the requested contenttype.
-        $options = array('limit' => 5, 'order' => 'date DESC');
+        $options = array('limit' => 5, 'order' => 'date', 'direction' => 'DESC');
+
         if (intval($contentid) == 0) {
             $isFiltered = false;
         } else {
             $isFiltered = true;
             $options['contentid'] = intval($contentid);
         }
-        $changelog = $app['storage']->getChangelogByContentType($contenttype['slug'], $options);
+
+        $changelog = $app['logger.manager.change']->getChangelogByContentType($contenttype['slug'], $options);
 
         $context = array(
             'changelog' => $changelog,

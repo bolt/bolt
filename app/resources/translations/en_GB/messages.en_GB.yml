@@ -579,10 +579,13 @@ panel:
             more: "more activity"
         by: "by"
         fixme: "Fixme:"
-        headline: "Latest activity"
+        change: "Latest changes"
         logged-in: "logged in"
         logged-out: "logged out"
+        created: "Created"
         saved: "Saved"
+        system: "Latest system activity"
+        deleted: "Deleted"
         unknown: "unknown"
     user-actions:
         button:

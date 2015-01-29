@@ -70,24 +70,31 @@ class SystemHandler extends AbstractProcessingHandler
 
         if ($this->app['config']->get('general/debug')) {
             $backtrace = debug_backtrace();
-            $filename = str_replace($this->app['resources']->getPath('root'), "", $backtrace[3]['file']);
-            $record['message'] .= "\nFile: " . $filename;
-            $record['message'] .= "\nLine: " . $backtrace[3]['line'];
+            $backtrace = $backtrace[3];
+
+            $source = json_encode(array(
+                'file'     => str_replace($this->app['resources']->getPath('root'), "", $backtrace['file']),
+                'line'     => $backtrace['line'],
+                'class'    => isset($backtrace['class']) ? $backtrace['class'] : '',
+                'function' => isset($backtrace['function']) ? $backtrace['function'] : ''
+            ));
+        } else {
+            $source = '';
         }
 
-        $this->user = $this->app['session']->get('user');
-        $username = isset($this->user['username']) ? $this->user['username'] : '';
+        $user = $this->app['session']->get('user');
 
         try {
             $this->app['db']->insert($this->tablename, array(
-                'level'       => $record['level'],
-                'date'        => $record['datetime']->format('Y-m-d H:i:s'),
-                'message'     => $record['message'],
-                'username'    => $username,
-                'requesturi'  => $this->app['request']->getRequestUri(),
-                'route'       => $this->app['request']->get('_route'),
-                'ip'          => $this->app['request']->getClientIp(),
-                'context'     => isset($record['context']['event']) ? $record['context']['event'] : ''
+                'level'      => $record['level'],
+                'date'       => $record['datetime']->format('Y-m-d H:i:s'),
+                'message'    => $record['message'],
+                'ownerid'    => isset($user['id']) ? $user['id'] : '',
+                'requesturi' => $this->app['request']->getRequestUri(),
+                'route'      => $this->app['request']->get('_route'),
+                'ip'         => $this->app['request']->getClientIp(),
+                'context'    => isset($record['context']['event']) ? $record['context']['event'] : '',
+                'source'     => $source
             ));
         } catch (\Exception $e) {
             // Nothing..

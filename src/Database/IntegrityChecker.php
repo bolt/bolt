@@ -469,13 +469,14 @@ class IntegrityChecker
         $logSystemTable->addColumn('date', 'datetime');
         $logSystemTable->addIndex(array('date'));
         $logSystemTable->addColumn('message', 'string', array('length' => 1024));
-        $logSystemTable->addColumn('username', 'string', array('length' => 64, 'default' => ''));
-        $logSystemTable->addIndex(array('username'));
+        $logSystemTable->addColumn('ownerid', 'integer', array('notnull' => false));
+        $logSystemTable->addIndex(array('ownerid'));
         $logSystemTable->addColumn('requesturi', 'string', array('length' => 128));
         $logSystemTable->addColumn('route', 'string', array('length' => 128));
         $logSystemTable->addColumn('ip', 'string', array('length' => 32, 'default' => ''));
         $logSystemTable->addColumn('context', 'string', array('length' => 32));
         $logSystemTable->addIndex(array( 'context'));
+        $logSystemTable->addColumn('source', 'text', array());
         $tables[] = $logSystemTable;
 
         $logChangeTable = $schema->createTable($this->prefix . 'log_change');

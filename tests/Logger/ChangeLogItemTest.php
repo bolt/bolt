@@ -1,5 +1,5 @@
 <?php
-namespace Bolt\Tests\Storage;
+namespace Bolt\Tests\Logger;
 
 use Bolt\Tests\BoltUnitTest;
 
@@ -9,13 +9,11 @@ use Bolt\Tests\BoltUnitTest;
  * @author Ross Riley <riley.ross@gmail.com>
  *
  */
-class ChangelogItemTest extends BoltUnitTest
+class ChangeLogItemTest extends BoltUnitTest
 {
 
     public function testSetup()
     {
         $app = $this->getApp();
-
     }
-
 }

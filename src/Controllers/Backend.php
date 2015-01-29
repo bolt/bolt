@@ -247,6 +247,36 @@ class Backend implements ControllerProviderInterface
     }
 
     /**
+     * Show the system log.
+     *
+     * @param  Silex\Application $app The application/container
+     * @return string
+     */
+    public function systemLog(Application $app)
+    {
+        $action = $app['request']->query->get('action');
+
+        if ($action == 'clear') {
+            $app['logger.manager']->clear('system');
+            $app['session']->getFlashBag()->set('success', Trans::__('The system log has been cleared.'));
+
+            return Lib::redirect('systemlog');
+        } elseif ($action == 'trim') {
+            $app['logger.manager']->trim('system');
+            $app['session']->getFlashBag()->set('success', Trans::__('The system log has been trimmed.'));
+
+            return Lib::redirect('systemlog');
+        }
+
+        $level = $app['request']->query->get('level');
+        $context = $app['request']->query->get('context');
+
+        $activity = $app['logger.manager']->getActivity('system', 16, $level, $context);
+
+        return $app['render']->render('activity/systemlog.twig', array('entries' => $activity));
+    }
+
+    /**
      * Show the change log.
      *
      * @param Application $app The application/container
@@ -274,33 +304,143 @@ class Backend implements ControllerProviderInterface
     }
 
     /**
-     * Show the system log.
+     * Show changelog entries.
      *
-     * @param Application $app The application/container
-     * @return string
+     * @param string            $contenttype The content type slug
+     * @param integer           $contentid   The content ID
+     * @param Silex\Application $app         The application/container
+     * @param Request           $request     The Symfony Request
+     * @return mixed
      */
-    public function systemLog(Application $app)
+    public function changelogList($contenttype, $contentid, Application $app, Request $request)
     {
-        $action = $app['request']->query->get('action');
+        // We have to handle three cases here:
+        // - $contenttype and $contentid given: get changelog entries for *one* content item
+        // - only $contenttype given: get changelog entries for all items of that type
+        // - neither given: get all changelog entries
 
-        if ($action == 'clear') {
-            $app['logger.manager']->clear('system');
-            $app['session']->getFlashBag()->set('success', Trans::__('The system log has been cleared.'));
-
-            return Lib::redirect('systemlog');
-        } elseif ($action == 'trim') {
-            $app['logger.manager']->trim('system');
-            $app['session']->getFlashBag()->set('success', Trans::__('The system log has been trimmed.'));
-
-            return Lib::redirect('systemlog');
+        // But first, let's get some pagination stuff out of the way.
+        $limit = 5;
+        if ($page = $request->get('page')) {
+            if ($page === 'all') {
+                $limit = null;
+                $page = null;
+            } else {
+                $page = intval($page);
+            }
+        } else {
+            $page = 1;
         }
 
-        $level = $app['request']->query->get('level');
-        $context = $app['request']->query->get('context');
+        // Some options that are the same for all three cases
+        $options = array(
+            'order'     => 'date',
+            'direction' => 'DESC'
+            );
+        if ($limit) {
+            $options['limit'] = $limit;
+        }
+        if ($page > 0 && $limit) {
+            $options['offset'] = ($page - 1) * $limit;
+        }
 
-        $activity = $app['logger.manager']->getActivity('system', 16, $level, $context);
+        $content = null;
 
-        return $app['render']->render('activity/systemlog.twig', array('entries' => $activity));
+        // Now here things diverge.
+
+        if (empty($contenttype)) {
+            // Case 1: No content type given, show from *all* items.
+            // This is easy:
+            $title = Trans::__('All content types');
+            $logEntries = $app['logger.manager.change']->getChangelog($options);
+            // @todo: Unused in template. Leave it in for now
+            $itemcount = $app['logger.manager.change']->countChangelog($options);
+        } else {
+            // We have a content type, and possibly a contentid.
+            $contenttypeObj = $app['storage']->getContentType($contenttype);
+            if ($contentid) {
+                $content = $app['storage']->getContent($contenttype, array('id' => $contentid, 'hydrate' => false));
+                $options['contentid'] = $contentid;
+            }
+            // Getting a slice of data and the total count
+            $logEntries = $app['logger.manager.change']->getChangelogByContentType($contenttype, $options);
+            // @todo: Unused in template. Leave it in for now
+            $itemcount = $app['logger.manager.change']->countChangelogByContentType($contenttype, $options);
+
+            // The page title we're sending to the template depends on a few
+            // things: if no contentid is given, we'll use the plural form
+            // of the content type; otherwise, we'll derive it from the
+            // changelog or content item itself.
+            if ($contentid) {
+                if ($content) {
+                    // content item is available: get the current title
+                    $title = $content->getTitle();
+                } else {
+                    // content item does not exist (anymore).
+                    if (empty($logEntries)) {
+                        // No item, no entries - phew. Content type name and ID
+                        // will have to do.
+                        $title = $contenttypeObj['singular_name'] . ' #' . $contentid;
+                    } else {
+                        // No item, but we can use the most recent title.
+                        $title = $logEntries[0]['title'];
+                    }
+                }
+            } else {
+                // We're displaying all changes for the entire content type,
+                // so the plural name is most appropriate.
+                $title = $contenttypeObj['name'];
+            }
+        }
+
+        // Now calculate number of pages.
+        // We can't easily do this earlier, because we only have the item count
+        // now.
+        // Note that if either $limit or $pagecount is empty, the template will
+        // skip rendering the pager.
+        $pagecount = $limit ? ceil($itemcount / $limit) : null;
+
+        $context = array(
+            'contenttype' => array('slug' => $contenttype),
+            'entries' => $logEntries,
+            'content' => $content,
+            'title' => $title,
+            'currentpage' => $page,
+            'pagecount' => $pagecount
+        );
+
+        return $app['render']->render('changeloglist/changeloglist.twig', array('context' => $context));
+    }
+
+    /**
+     * Show changelog details.
+     *
+     * @param string            $contenttype The content type slug
+     * @param integer           $contentid   The content ID
+     * @param integer           $id          The changelog entry ID
+     * @param Silex\Application $app         The application/container
+     * @param Request           $request     The Symfony Request
+     * @return mixed
+     */
+    public function changelogDetails($contenttype, $contentid, $id, Application $app, Request $request)
+    {
+        $entry = $app['logger.manager.change']->getChangelogEntry($contenttype, $contentid, $id);
+        if (empty($entry)) {
+            $error = Trans::__("The requested changelog entry doesn't exist.");
+            $app->abort(404, $error);
+        }
+        $prev = $app['logger.manager.change']->getPrevChangelogEntry($contenttype, $contentid, $id);
+        $next = $app['logger.manager.change']->getNextChangelogEntry($contenttype, $contentid, $id);
+
+        $context = array(
+            'contenttype' => array('slug' => $contenttype),
+            'entry' => $entry,
+            'next_entry' => $next,
+            'prev_entry' => $prev,
+            //'content' => $content,
+        );
+
+        return $app['render']->render('changelogdetails/changelogdetails.twig', array('context' => $context));
     }
 
     /**
@@ -487,145 +627,6 @@ class Backend implements ControllerProviderInterface
         );
 
         return $app['twig']->render('relatedto/relatedto.twig', array('context' => $context));
-    }
-
-    /**
-     * Show changelog entries.
-     *
-     * @param string      $contenttype The content type slug
-     * @param integer     $contentid The content ID
-     * @param Application $app The application/container
-     * @param Request     $request The Symfony Request
-     * @return mixed
-     */
-    public function changelogList($contenttype, $contentid, Application $app, Request $request)
-    {
-        // We have to handle three cases here:
-        // - $contenttype and $contentid given: get changelog entries for *one* content item
-        // - only $contenttype given: get changelog entries for all items of that type
-        // - neither given: get all changelog entries
-
-        // But first, let's get some pagination stuff out of the way.
-        $limit = 5;
-        if ($page = $request->get('page')) {
-            if ($page === 'all') {
-                $limit = null;
-                $page = null;
-            } else {
-                $page = intval($page);
-            }
-        } else {
-            $page = 1;
-        }
-
-        // Some options that are the same for all three cases
-        $options = array(
-            'order' => 'date DESC',
-            );
-        if ($limit) {
-            $options['limit'] = $limit;
-        }
-        if ($page > 0 && $limit) {
-            $options['offset'] = ($page - 1) * $limit;
-        }
-
-        $content = null;
-
-        // Now here things diverge.
-
-        if (empty($contenttype)) {
-            // Case 1: No content type given, show from *all* items.
-            // This is easy:
-            $title = Trans::__('All content types');
-            $logEntries = $app['storage']->getChangelog($options);
-            // @todo: Unused in template. Leave it in for now
-            $itemcount = $app['storage']->countChangelog($options);
-        } else {
-            // We have a content type, and possibly a contentid.
-            $contenttypeObj = $app['storage']->getContentType($contenttype);
-            if ($contentid) {
-                $content = $app['storage']->getContent($contenttype, array('id' => $contentid, 'hydrate' => false));
-                $options['contentid'] = $contentid;
-            }
-            // Getting a slice of data and the total count
-            $logEntries = $app['storage']->getChangelogByContentType($contenttype, $options);
-            // @todo: Unused in template. Leave it in for now
-            $itemcount = $app['storage']->countChangelogByContentType($contenttype, $options);
-
-            // The page title we're sending to the template depends on a few
-            // things: if no contentid is given, we'll use the plural form
-            // of the content type; otherwise, we'll derive it from the
-            // changelog or content item itself.
-            if ($contentid) {
-                if ($content) {
-                    // content item is available: get the current title
-                    $title = $content->getTitle();
-                } else {
-                    // content item does not exist (anymore).
-                    if (empty($logEntries)) {
-                        // No item, no entries - phew. Content type name and ID
-                        // will have to do.
-                        $title = $contenttypeObj['singular_name'] . ' #' . $contentid;
-                    } else {
-                        // No item, but we can use the most recent title.
-                        $title = $logEntries[0]['title'];
-                    }
-                }
-            } else {
-                // We're displaying all changes for the entire content type,
-                // so the plural name is most appropriate.
-                $title = $contenttypeObj['name'];
-            }
-        }
-
-        // Now calculate number of pages.
-        // We can't easily do this earlier, because we only have the item count
-        // now.
-        // Note that if either $limit or $pagecount is empty, the template will
-        // skip rendering the pager.
-        $pagecount = $limit ? ceil($itemcount / $limit) : null;
-
-        $context = array(
-            'contenttype' => array('slug' => $contenttype),
-            'entries' => $logEntries,
-            'content' => $content,
-            'title' => $title,
-            'currentpage' => $page,
-            'pagecount' => $pagecount
-        );
-
-        return $app['render']->render('changeloglist/changeloglist.twig', array('context' => $context));
-    }
-
-    /**
-     * Show changelog details.
-     *
-     * @param string      $contenttype The content type slug
-     * @param integer     $contentid The content ID
-     * @param integer     $id The changelog entry ID
-     * @param Application $app The application/container
-     * @param Request     $request The Symfony Request
-     * @return mixed
-     */
-    public function changelogDetails($contenttype, $contentid, $id, Application $app, Request $request)
-    {
-        $entry = $app['storage']->getChangelogEntry($contenttype, $contentid, $id);
-        if (empty($entry)) {
-            $error = Trans::__("The requested changelog entry doesn't exist.");
-            $app->abort(404, $error);
-        }
-        $prev = $app['storage']->getPrevChangelogEntry($contenttype, $contentid, $id);
-        $next = $app['storage']->getNextChangelogEntry($contenttype, $contentid, $id);
-
-        $context = array(
-            'contenttype' => array('slug' => $contenttype),
-            'entry' => $entry,
-            'next_entry' => $next,
-            'prev_entry' => $prev,
-            //'content' => $content,
-        );
-
-        return $app['render']->render('changelogdetails/changelogdetails.twig', array('context' => $context));
     }
 
     /**
