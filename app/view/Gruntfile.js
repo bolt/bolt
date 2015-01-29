@@ -313,8 +313,7 @@ module.exports = function(grunt) {
                         CodeMirror: true,           // ckeditor.js
                         google: true,               // Google
                         jQuery: true,               // jQuery
-                        moment: true,               // moment.min.js
-                        UAParser: true              // ua-parser.min.js
+                        moment: true                // moment.min.js
                     }
                 },
                 src: ["<%= filesBoltJs %>"]
