@@ -281,8 +281,6 @@ module.exports = function(grunt) {
         'sass',
         'jshint:boltJs',
         'uglify:boltJs',
-        'cssmin',
-        'concat',
         'watch'
     ]);
 
