@@ -33,3 +33,9 @@ before_script:
 
 after_script:
   - ./vendor/bin/ocular code-coverage:upload --format=php-clover coverage.xml
+  
+# cache vendor dirs
+cache:
+  directories:
+    - vendor
+    - $COMPOSER_CACHE_DIR
