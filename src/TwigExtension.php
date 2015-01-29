@@ -729,6 +729,7 @@ class TwigExtension extends \Twig_Extension
         $finder = new Finder();
         $finder->files()
                ->in($this->app['paths']['templatespath'])
+               ->notname('/^_/')
                ->path($name)
                ->sortByName();
 
