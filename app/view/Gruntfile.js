@@ -49,6 +49,14 @@ module.exports = function(grunt) {
                     'jshint:boltJs',
                     'uglify:boltJs'
                 ]
+            },
+            gruntfile: {
+                files: [
+                    'Gruntfile.js'
+                ],
+                options: {
+                    reload: true
+                }
             }
         },
 
@@ -276,6 +284,7 @@ module.exports = function(grunt) {
 
     require('load-grunt-tasks')(grunt);
 
+    /*** DEFAULT TASK:  Creates Bolts own css and js files ***/
     grunt.registerTask(
         'default',
         [
@@ -286,6 +295,7 @@ module.exports = function(grunt) {
         ]
     );
 
+    /*** UPDATE TASK:  Builds library css/js. Run after one of the externals is updated ***/
     grunt.registerTask(
         'update',
         [
