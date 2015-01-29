@@ -94,7 +94,7 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(Path::fromString(TEST_ROOT), $config->getPath('rootpath'));
         $this->assertEquals(Path::fromString(TEST_ROOT . '/app'), $config->getPath('app'));
         $this->assertEquals(Path::fromString(TEST_ROOT . '/files'), $config->getPath('files'));
-        $this->assertInstanceOf('Eloquent\Pathogen\PathInterface', $config->getPath('root', true));
+        $this->assertInstanceOf('Eloquent\Pathogen\PathInterface', $config->getPathObject('root'));
     }
 
     public function testRelativePathCreation()
