@@ -4,6 +4,7 @@ namespace Bolt;
 
 use Silex;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\Finder\Glob;
 use Bolt\Library as Lib;
 use Bolt\Helpers\String;
 use Bolt\Helpers\Html;
@@ -717,21 +718,23 @@ class TwigExtension extends \Twig_Extension
             return null;
         }
 
-        $name = '/^[a-zA-Z0-9]\V+\.twig$/';
         if ($filter) {
-            $name = $filter;
+            $name = Glob::toRegex($filter, false, false);
+        } else {
+            $name = '/^[a-zA-Z0-9]\V+\.twig$/';
         }
+
+        //$dir = $this->app['paths']['templatespath'] . ($in ? '/' . $in : '');
 
         $finder = new Finder();
         $finder->files()
                ->in($this->app['paths']['templatespath'])
-               ->depth('== 0')
-               ->name($name)
+               ->path($name)
                ->sortByName();
 
         $files = array();
         foreach ($finder as $file) {
-            $name = $file->getFilename();
+            $name = $file->getRelativePathname();
             $files[$name] = $name;
         }
 
