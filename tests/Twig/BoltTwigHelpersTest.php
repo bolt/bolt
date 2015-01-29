@@ -274,9 +274,9 @@ class BoltTwigHelpersTest extends BoltUnitTest
     public function testCurrent()
     {
         // Setup the db so we have a predictable content url to test
-        $this->addDefaultUser();
         $app = $this->getApp();
-        $storage = new Storage($app);        
+        $this->addDefaultUser($app);
+        $storage = new Storage($app);
         $content = $storage->getEmptyContent('showcases');
         $content->setValues(array('title'=>'New Showcase','slug'=>'new-showcase','status'=>'published'));
         $storage->saveContent($content);

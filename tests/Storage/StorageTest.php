@@ -51,10 +51,8 @@ class StorageTest extends BoltUnitTest
     
     public function testPreFill()
     {
-        $app = $this->makeApp();
-        $app['resources']->setPath('files', TEST_ROOT . '/tests/resources');
+        $app = $this->getApp();
         $app['config']->set('general/changelog/enabled', true);
-        $app->initialize();
         $storage = new Storage($app);
         $output = $storage->prefill(array('showcases'));
         $this->assertRegExp('#Added#', $output);
@@ -83,7 +81,7 @@ class StorageTest extends BoltUnitTest
         $app = $this->getApp();
         $storage = new Storage($app);
         $count = $storage->countChangelog();
-        $this->assertNotEmpty($count);
+        $this->assertGreaterThanOrEqual(0, $count);
     }
     
     public function testGetChangelogByContentType()
@@ -91,15 +89,15 @@ class StorageTest extends BoltUnitTest
         $app = $this->getApp();
         $storage = new Storage($app);
         $log = $storage->getChangelogByContentType('pages', array('limit'=>1,'offset'=>0,'order'=>'id'));
-        $this->assertEquals(1, count($log));
+        $this->assertCount(1, $log);
     }
-    
+
     public function testGetChangelogByContentTypeArray()
     {
         $app = $this->getApp();
         $storage = new Storage($app);
         $log = $storage->getChangelogByContentType(array('slug'=>'pages'), array('limit'=>1,'contentid'=>6));
-        $this->assertEquals(1, count($log));
+        $this->assertCount(1, $log);
     }
     
     public function testCountChangelogByContentType()
@@ -141,6 +139,8 @@ class StorageTest extends BoltUnitTest
         // For now we need to mock the request object.
         $app['request'] = Request::create('/');
         $content = $storage->getContent('pages/1');
+        $this->assertInstanceOf('\Bolt\Content', $content);
+
         $content->setValues(array('status'=>'draft','ownerid'=>99));
         $storage->saveContent($content, 'Test Suite Update');
         $content->setValues(array('status'=>'published','ownerid'=>1));

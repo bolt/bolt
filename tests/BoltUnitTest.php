@@ -81,9 +81,8 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
         }
     }
     
-    protected function addDefaultUser()
+    protected function addDefaultUser(Application $app)
     {
-        $app = $this->getApp();
         $user = $app['users']->getEmptyUser();
         $user['roles']=array('admin');
         $user['username'] = 'admin';
@@ -116,7 +115,7 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
     
     protected function allowLogin($app)
     {
-        $this->addDefaultUser();
+        $this->addDefaultUser($app);
         $users = $this->getMock('Bolt\Users', array('isValidSession','isAllowed'), array($app));
         $users->expects($this->any())
             ->method('isValidSession')

@@ -22,11 +22,12 @@ class LoginTest extends BoltUnitTest
             ->method('login')
             ->with($this->equalTo('test'), $this->equalTo('pass'))
             ->will($this->returnValue(true));
-
         $app['users'] = $users;
-        $app->run($request);
-        $this->expectOutputRegex("/Redirecting to \/bolt\//");
+        $this->addDefaultUser($app);
 
+        $response = $app->handle($request);
+
+        $this->assertTrue($response->isRedirect('/bolt/'));
     }
 
     public function testPostLoginFailures()

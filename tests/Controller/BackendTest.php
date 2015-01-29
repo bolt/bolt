@@ -21,7 +21,7 @@ class BackendTest extends BoltUnitTest
     {
         $this->resetDb();
         $app = $this->getApp();
-        $this->addDefaultUser();
+        $this->addDefaultUser($app);
         $twig = $this->getMockTwig();
         $phpunit = $this;
         $testHandler = function($template, $context) use($phpunit) {
@@ -217,23 +217,5 @@ class BackendTest extends BoltUnitTest
 
         $app->run($request);
     }
-
-
-    protected function allowLogin($app)
-    {
-        $this->addDefaultUser();
-        $users = $this->getMock('Bolt\Users', array('isValidSession','isAllowed'), array($app));
-        $users->expects($this->any())
-            ->method('isValidSession')
-            ->will($this->returnValue(true));
-
-        $users->expects($this->any())
-            ->method('isAllowed')
-            ->will($this->returnValue(true));
-        $app['users'] = $users;
-    }
-
-
-
 
 }
