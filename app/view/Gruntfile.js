@@ -284,18 +284,25 @@ module.exports = function(grunt) {
 
     require('load-grunt-tasks')(grunt);
 
-    /*** DEFAULT TASK:  Creates Bolts own css and js files ***/
+    /*** DEFAULT TASK:  Watches for changes of Bolts own css and js files ***/
     grunt.registerTask(
         'default',
         [
-            'sass',
-            'jshint:boltJs',
-            'uglify:boltJs',
             'watch'
         ]
     );
 
-    /*** UPDATE TASK:  Builds library css/js. Run after one of the externals is updated ***/
+    /*** UPDATE BOLT TASK:  Creates Bolts own css and js files ***/
+    grunt.registerTask(
+        'updateBolt',
+        [
+            'sass',
+            'jshint:boltJs',
+            'uglify:boltJs'
+        ]
+    );
+
+    /*** UPDATE LIB TASK:  Builds library css/js. Run after one of the externals is updated ***/
     grunt.registerTask(
         'updateLib',
         [
