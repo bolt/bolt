@@ -40,8 +40,9 @@ node_modules
 bower_components
 /bolt.log
 tests/report
-tests/resources
-bolt.db
+tests/resources/*
+/bolt.db
+!tests/resources/db/
 coverage.xml
 
 *.map
