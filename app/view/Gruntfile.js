@@ -91,7 +91,7 @@ module.exports = function(grunt) {
         },
 
         concat: {
-            lib: {
+            libJs: {
                 options: {
                     separator: '\n\n'
                 },
@@ -285,6 +285,7 @@ module.exports = function(grunt) {
 
     grunt.registerTask('update', [
         'copy:fonts',       // Copies fonts to view/fonts/
-        'cssmin:libCss'     // Builds view/css/lib.css from library css files
+        'cssmin:libCss',    // Builds view/css/lib.css from library css files
+        'concat:libJs'      // Concats minified library scripts to view/js/lib.min.js
     ]);
 };
