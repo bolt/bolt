@@ -218,22 +218,4 @@ class BackendTest extends BoltUnitTest
         $app->run($request);
     }
 
-
-    protected function allowLogin($app)
-    {
-        $this->addDefaultUser();
-        $users = $this->getMock('Bolt\Users', array('isValidSession','isAllowed'), array($app));
-        $users->expects($this->any())
-            ->method('isValidSession')
-            ->will($this->returnValue(true));
-
-        $users->expects($this->any())
-            ->method('isAllowed')
-            ->will($this->returnValue(true));
-        $app['users'] = $users;
-    }
-
-
-
-
 }
