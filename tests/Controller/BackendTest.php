@@ -45,7 +45,7 @@ class BackendTest extends BoltUnitTest
         $app = $this->getApp();
         $this->allowLogin($app);
         $check = $this->getMock('Bolt\Database\IntegrityChecker', array('checkTablesIntegrity'), array($app));
-        $check->expects($this->once())
+        $check->expects($this->atLeastOnce())
             ->method('checkTablesIntegrity')
             ->will($this->returnValue(array('message', 'hint')));
 
