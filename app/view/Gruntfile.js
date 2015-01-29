@@ -24,6 +24,7 @@ module.exports = function(grunt) {
                     'lib/bolt/*.js'
                 ],
                 tasks: [
+                    'jshint:bolt_js',
                     'uglify:bolt'
                 ]
             }
