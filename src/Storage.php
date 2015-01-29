@@ -48,11 +48,6 @@ class Storage
 
         $this->prefix = $app['config']->get('general/database/prefix', "bolt_");
 
-        // Make sure prefix ends in '_'. Prefixes without '_' are lame..
-        if ($this->prefix[strlen($this->prefix) - 1] != "_") {
-            $this->prefix .= "_";
-        }
-
         $this->tables = array();
     }
 

@@ -15,14 +15,6 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class StorageTest extends BoltUnitTest
 {
-    public function testSetup()
-    {
-        $app = $this->getApp();
-        $app['config']->set('general/database/prefix', "bolt");
-        $storage = new Storage($app);
-        $this->assertEquals('bolt_', \PHPUnit_Framework_Assert::readAttribute($storage, 'prefix'));
-    }
-
     public function testGetContentObject()
     {
         $app = $this->getApp();

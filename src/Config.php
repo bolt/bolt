@@ -445,6 +445,11 @@ class Config
 
     protected function parseDatabase($options)
     {
+        // Make sure prefix ends with underscore
+        if (substr($options['prefix'], strlen($options['prefix']) - 1) !== '_') {
+            $options['prefix'] .= '_';
+        }
+
         // Parse master connection parameters
         $master = $this->parseConnectionParams($options);
         // Merge master connection into options
