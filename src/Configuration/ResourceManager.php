@@ -276,7 +276,8 @@ class ResourceManager
     {
         $this->setThemePath($this->app['config']->get("general"));
 
-        if (isset($this->app['config']->get('theme')['template_directory'])) {
+        $theme = $this->app['config']->get('theme');
+        if (isset($theme['template_directory'])) {
             $this->setPath('templatespath', $this->getPath('theme') . '/' . $this->app['config']->get('theme/template_directory'));
         } else {
             $this->setPath('templatespath', $this->getPath('theme'));

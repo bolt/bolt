@@ -689,7 +689,8 @@ class Config
         // If the template path doesn't exist, flash error on the dashboard.
         if (!file_exists($themepath)) {
             $relativethemepath = basename($this->get('general/theme'));
-            if (isset($this->app['config']->get('theme')['template_directory'])) {
+            $theme = $this->app['config']->get('theme');
+            if (isset($theme['template_directory'])) {
                 $relativethemepath .= '/' . $this->app['config']->get('theme/template_directory');
             }
 
