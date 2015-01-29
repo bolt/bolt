@@ -41,13 +41,13 @@ module.exports = function(grunt) {
                     'sass'
                 ]
             },
-            bolt_js: {
+            boltJs: {
                 files: [
                     "<%= filesBoltJs %>"
                 ],
                 tasks: [
-                    'jshint:bolt_js',
-                    'uglify:bolt_js'
+                    'jshint:boltJs',
+                    'uglify:boltJs'
                 ]
             }
         },
@@ -205,7 +205,7 @@ module.exports = function(grunt) {
                     ]
                 }
             },
-            bolt_js: {
+            boltJs: {
                 options: {
                     banner: "/**\n" +
                             " * These are Bolt's COMPILED JS files!\n" +
@@ -220,7 +220,7 @@ module.exports = function(grunt) {
         },
 
         jshint: {
-            bolt_js: {
+            boltJs: {
                 options: {
                     browser: true,      // Defines globals exposed by modern browsers
                     curly: true,        // Always put curly braces around blocks
@@ -279,8 +279,8 @@ module.exports = function(grunt) {
 
     grunt.registerTask('default', [
         'sass',
-        'jshint:bolt_js',
-        'uglify:bolt_js',
+        'jshint:boltJs',
+        'uglify:boltJs',
         'cssmin',
         'concat',
         'watch'
