@@ -51,7 +51,6 @@ module.exports = function(grunt) {
                     'css/bolt.css': 'sass/app.scss'
                 }
             }
-
         },
 
         copy: {
