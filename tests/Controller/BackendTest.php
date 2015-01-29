@@ -21,7 +21,7 @@ class BackendTest extends BoltUnitTest
     {
         $this->resetDb();
         $app = $this->getApp();
-        $this->addDefaultUser();
+        $this->addDefaultUser($app);
         $twig = $this->getMockTwig();
         $phpunit = $this;
         $testHandler = function($template, $context) use($phpunit) {
