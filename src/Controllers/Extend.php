@@ -29,11 +29,12 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
             'list' => 'list.json',
             'info' => 'info.json'
         );
-        
+
         $app['extend'] = $this;
         $extensionsPath = $app['resources']->getPath('extensions');
         $app['extend.writeable'] = is_dir($extensionsPath) && is_writable($extensionsPath) ? true : false;
         $app['extend.online'] = false;
+        $app['extend.enabled'] = $app['config']->get('general/extensions/enabled', true);
 
         // This exposes the main upload object as a service
         $me = $this;
@@ -42,7 +43,7 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
                 return new PackageManager($app);
             }
         );
-        
+
         $app['extend.info'] = $app->share(
             function($app) use ($me) {
                 return new ExtensionsInfoService($app['extend.site'], $app['extend.urls']);
@@ -115,11 +116,12 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
         $extensionsPath = $app['resources']->getPath('extensions');
 
         return array(
-                'messages' => $app['extend.manager']->messages,
-                'enabled' => $app['extend.writeable'],
-                'online' => $app['extend.online'],
+                'messages'       => $app['extend.manager']->messages,
+                'enabled'        => $app['extend.enabled'],
+                'writeable'      => $app['extend.writeable'],
+                'online'         => $app['extend.online'],
                 'extensionsPath' => $extensionsPath,
-                'site' => $app['extend.site']
+                'site'           => $app['extend.site']
         );
     }
 

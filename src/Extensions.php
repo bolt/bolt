@@ -221,6 +221,11 @@ class Extensions
      */
     public function initialize()
     {
+        // Don't initialise if extension loading globally disabled
+        if (!$this->app['extend.enabled']) {
+            return;
+        }
+
         $this->autoload($this->app);
         $this->localload($this->app);
         $this->isInitialized = true;
