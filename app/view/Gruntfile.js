@@ -173,7 +173,7 @@ module.exports = function(grunt) {
                     }
                 }]
             },
-            locale_moment: {
+            localeMoment: {
                 options: {
                     preserveComments: 'some'
                 },
@@ -288,6 +288,7 @@ module.exports = function(grunt) {
         'cssmin:libCss',            // Builds view/css/lib.css from library css files
         'uglify:libJs',             // Create minified versions of library scripts that don't have them
         'concat:libJs',             // Concats minified library scripts to view/js/lib.min.js
-        'uglify:localeDatepicker'   // Copies minified datepicker locale to view/js/locale/datepicker
+        'uglify:localeDatepicker',  // Copies minified datepicker locale to view/js/locale/datepicker
+        'uglify:localeMoment'       // Copies minified moment.js locale to view/js/locale/datepicker
     ]);
 };
