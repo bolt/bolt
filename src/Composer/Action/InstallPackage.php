@@ -70,14 +70,13 @@ final class InstallPackage
             $preferDist = $config->get('prefer-dist');
         }
 
-        /* @todo: Enable setDumpAutoloader() for changes in Composer 1.0.0-alpha10 */
         $install
             ->setDryRun($this->options['dry-run'])
             ->setVerbose($this->options['verbose'])
             ->setPreferSource($preferSource)
             ->setPreferDist($preferDist)
             ->setDevMode(!$this->options['no-dev'])
-//            ->setDumpAutoloader(!$this->options['no-autoloader'])
+            ->setDumpAutoloader(!$this->options['no-autoloader'])
             ->setRunScripts(!$this->options['no-scripts'])
             ->setOptimizeAutoloader($optimize)
             ->setIgnorePlatformRequirements($this->options['ignore-platform-reqs'])
