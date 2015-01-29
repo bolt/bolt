@@ -1,7 +1,6 @@
 <?php
 namespace Bolt\Tests\Extensions;
 
-use Bolt\Application;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Filesystem\Manager;
 use League\Flysystem\Adapter\NullAdapter;
@@ -21,54 +20,54 @@ class ManagerTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $app['resources']->setPath('files', __DIR__);
-        
+
         $manager = new Manager($app);
-        
+
         $this->assertNotEmpty($manager->getManager('config'));
         $this->assertNotEmpty($manager->getManager());
-        
+
         $manager->setManager('mytest', $manager->getManager());
         $this->assertNotEmpty($manager->getManager('mytest'));
 
     }
-    
+
     public function testBadMountFails()
     {
-        $app = $this->getApp();        
+        $app = $this->getApp();
         $manager = new Manager($app);
         $mount = $manager->mount('fails', "/baddir");
         $this->assertFalse($mount);
     }
-    
+
     public function testManagerForwardsToDefault()
     {
         $app = $this->getApp();
         $app['resources']->setPath('files', __DIR__);
         $manager = new Manager($app);
-        
+
         $adapter = new NullAdapter();
         $fs = $this->getMock('League\Flysystem\Filesystem', array('handle'),array($adapter));
-        
+
         $manager->setManager('default', $fs);
-        
+
         $plugin = $this->getMock('League\Flysystem\PluginInterface', array('handle','getMethod','setFilesystem'));
-                
+
         $plugin->expects($this->once())
             ->method('handle')
             ->will($this->returnValue('success'));
-        
+
         $plugin->expects($this->once())
             ->method('getMethod')
             ->will($this->returnValue('testing'));
-                   
+
         $manager->getManager()->addPlugin($plugin);
-        
+
         $response = $manager->testing('arg');
-        
+
         $this->assertEquals('success', $response);
-        
+
     }
-    
+
     public function testPlugins()
     {
         $app = $this->getApp();
@@ -76,8 +75,5 @@ class ManagerTest extends BoltUnitTest
         $manager = new Manager($app);
         $this->assertEquals('/files/findfile', $manager->url('findfile'));
     }
-    
 
- 
-   
 }

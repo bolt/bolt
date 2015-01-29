@@ -1,7 +1,6 @@
 <?php
 namespace Bolt\Tests\Provider;
 
-use Bolt\Application;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Provider\StorageServiceProvider;
 
@@ -14,15 +13,13 @@ use Bolt\Provider\StorageServiceProvider;
 class StorageServiceProviderTest extends BoltUnitTest
 {
 
-
     public function testProvider()
     {
-        $app = $this->getApp(); 
-        $provider = new StorageServiceProvider($app);    
+        $app = $this->getApp();
+        $provider = new StorageServiceProvider($app);
         $app->register($provider);
         $this->assertInstanceOf('Bolt\Storage', $app['storage']);
         $app->boot();
     }
- 
-   
+
 }

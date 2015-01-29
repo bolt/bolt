@@ -1,9 +1,6 @@
 <?php
 namespace Bolt\Tests\Extensions\Mock;
 
-use Bolt\Extensions\ExtensionInterface;
-use Bolt\Application;
-
 /**
  * Class to test correct operation and locations of composer configuration.
  *
@@ -12,30 +9,27 @@ use Bolt\Application;
  */
 class Logger
 {
-    
+
     public $logs = array();
 
-    
-    public function add($log, $level) 
+    public function add($log, $level)
     {
-        $this->logs[] =  $log;   
+        $this->logs[] =  $log;
     }
-    
+
     public function addCritical($log)
     {
         $this->logs[] = $log;
     }
-    
+
     public function addError($log)
     {
         $this->logs[] = $log;
     }
 
-    
     public function lastLog()
     {
         return array_pop($this->logs);
     }
 
-   
 }

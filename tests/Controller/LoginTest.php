@@ -46,7 +46,6 @@ class LoginTest extends BoltUnitTest
         $this->checkTwigForTemplate($app, 'login/login.twig');
         $app->run($request);
 
-
         // Test missing data fails
         $app = $this->getApp();
         $request = Request::create('/bolt/login','POST', array('action'=>'fake'));

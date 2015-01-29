@@ -5,16 +5,15 @@ use Bolt\BaseExtension;
 
 class MockLocalExtension extends BaseExtension implements ExtensionInterface
 {
-    
-    public function __construct(Application $app) 
+
+    public function __construct(Application $app)
     {
         $this->app = $app;
     }
-    
+
     public function getName()
     {
         return "testlocal";
     }
-
 
 }

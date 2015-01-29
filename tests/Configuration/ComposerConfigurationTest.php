@@ -1,7 +1,6 @@
 <?php
 namespace Bolt\Tests\Configuration;
 
-use Bolt\Application;
 use Bolt\Configuration\Composer;
 use Bolt\Configuration\ComposerChecks;
 use Bolt\Configuration\LowlevelException;
@@ -11,7 +10,7 @@ use Bolt\Configuration\ResourceManager;
  * Class to test correct operation and locations of composer configuration.
  *
  * @author Ross Riley <riley.ross@gmail.com>
- *  
+ *
  * @runTestsInSeparateProcesses
  *
  */
@@ -31,33 +30,32 @@ class ComposerConfigurationTest extends \PHPUnit_Framework_TestCase
         \PHPUnit_Extension_FunctionMocker::tearDown();
     }
 
-    
     public function testComposerCustomConfig()
     {
         $config = new Composer(TEST_ROOT);
         $this->assertEquals('/bolt-public/', $config->getUrl('app'));
     }
-    
+
     public function testComposerVerification()
     {
         $config = new Composer(TEST_ROOT);
         $verifier = new ComposerChecks($config);
-        
+
         // Return true for all theses checks
         $this->php
             ->expects($this->any())
             ->method('is_dir')
             ->will($this->returnValue(true));
-            
+
         $this->php
             ->expects($this->any())
             ->method('is_writable')
             ->will($this->returnValue(true));
-        
+
         $config->setVerifier($verifier);
-        $config->verify(); 
+        $config->verify();
     }
-    
+
     public function testCheckSummary()
     {
         $config = new Composer(TEST_ROOT);
@@ -66,7 +64,7 @@ class ComposerConfigurationTest extends \PHPUnit_Framework_TestCase
         $this->expectOutputRegex("/Bolt - Fatal Error/");
         $verifier->checkDir('/non/existent/path');
     }
-    
+
     public function testCheckSummaryReportsError()
     {
         $config = new Composer(TEST_ROOT);
@@ -77,13 +75,13 @@ class ComposerConfigurationTest extends \PHPUnit_Framework_TestCase
         $verifier->checkDir('/path/to/nowhere');
 
     }
-    
+
     public function testCheckDir()
     {
         $fakeLocation = "/path/to/nowhere";
         $config = new Composer(TEST_ROOT);
         $verifier = new ComposerChecks($config);
-        
+
         $app['resources'] = $config;
         ResourceManager::$theApp = $app;
 
@@ -92,24 +90,21 @@ class ComposerConfigurationTest extends \PHPUnit_Framework_TestCase
             ->expects($this->at(0))
             ->method('is_dir')
             ->will($this->returnValue(true));
-        
+
         $this->php
             ->expects($this->at(1))
             ->method('is_dir')
             ->will($this->returnValue(true));
-            
+
         $this->php
             ->expects($this->any())
             ->method('is_writable')
-            ->will($this->returnValue(false));    
-        
+            ->will($this->returnValue(false));
 
         $this->setExpectedException('Bolt\Configuration\LowlevelException');
         $this->expectOutputRegex("/Bolt - Fatal Error/");
         $verifier->checkDir($fakeLocation);
 
     }
-    
 
-   
 }

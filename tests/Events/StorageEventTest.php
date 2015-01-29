@@ -1,7 +1,6 @@
 <?php
 namespace Bolt\Tests\Events;
 
-use Bolt\Application;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Content;
 use Bolt\Events\StorageEvent;
@@ -25,7 +24,7 @@ class StorageEventTest extends BoltUnitTest
         $this->assertEquals(null, $event->getId());
         $this->assertEquals(null, $event->getContentType());
     }
-    
+
     public function testSetupWithRecord()
     {
         $app = $this->getApp();
@@ -33,6 +32,5 @@ class StorageEventTest extends BoltUnitTest
         $this->assertEquals(5, $event->getId());
         $this->assertEquals('test', $event->getContentType());
     }
-    
-   
+
 }

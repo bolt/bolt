@@ -1,7 +1,6 @@
 <?php
 namespace Bolt\Tests\Provider;
 
-use Bolt\Application;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Provider\FilePermissionsServiceProvider;
 
@@ -14,15 +13,13 @@ use Bolt\Provider\FilePermissionsServiceProvider;
 class FilePermissionsServiceProviderTest extends BoltUnitTest
 {
 
-
     public function testProvider()
     {
-        $app = $this->getApp(); 
-        $provider = new FilePermissionsServiceProvider($app);    
+        $app = $this->getApp();
+        $provider = new FilePermissionsServiceProvider($app);
         $app->register($provider);
         $this->assertInstanceOf('Bolt\FilePermissions', $app['filepermissions']);
         $app->boot();
     }
- 
-   
+
 }
