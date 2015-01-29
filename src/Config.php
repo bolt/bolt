@@ -715,7 +715,7 @@ class Config
      */
     public function setCKPath()
     {
-        $app = $this->app['resources']->getPath('app');
+        $app = $this->app['resources']->getUrl('app');
 
         // Make sure the paths for CKeditor config are always set correctly..
         $this->set(
