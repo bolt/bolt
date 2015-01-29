@@ -10,7 +10,7 @@ module.exports = function(grunt) {
                 spawn: false,
                 livereload: true
             },
-            scripts: {
+            sass: {
                 files: [
                     'sass/*.scss',
                     'sass/**/*.scss'
