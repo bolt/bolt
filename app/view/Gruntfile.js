@@ -77,8 +77,7 @@ module.exports = function(grunt) {
         },
 
         copy: {
-            main: {
-                // Includes files within path
+            fonts: {
                 files: [{
                     expand: true,
                     flatten: true,
@@ -285,6 +284,6 @@ module.exports = function(grunt) {
     ]);
 
     grunt.registerTask('update', [
+        'copy:fonts'        // Copies fonts to view/fonts/
     ]);
-
 };
