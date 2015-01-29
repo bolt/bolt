@@ -22,7 +22,7 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
         // Make sure we wipe the db file to start with a clean one
         if (is_readable(TEST_ROOT.'/bolt.db')) {
             unlink(TEST_ROOT.'/bolt.db');
-            copy(TEST_ROOT.'/tests/resources/db/bolt.db', TEST_ROOT."/bolt.db");
+            copy(TEST_ROOT.'/tests/resources/db/bolt.db', TEST_ROOT.'/bolt.db');
         }
     }
     protected function getApp()
