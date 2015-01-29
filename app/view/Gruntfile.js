@@ -13,8 +13,7 @@ module.exports = function(grunt) {
             scripts: {
                 files: [
                     'sass/*.scss',
-                    'sass/nav/*.scss',
-                    'sass/modules/*.scss'
+                    'sass/**/*.scss'
                 ],
                 tasks: [
                     'sass'
