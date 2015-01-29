@@ -735,7 +735,7 @@ class Config
     {
         return array(
             'database'                    => array(
-                'driver'         => 'mysql',
+                'driver'         => 'sqlite',
                 'host'           => 'localhost',
                 'slaves'         => array(),
                 'dbname'         => 'bolt',
