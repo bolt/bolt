@@ -22,7 +22,7 @@ before_install:
 
 before_script:
   - composer self-update || true
-  - composer install --prefer-source
+  - composer install --prefer-dist
   - mkdir -p test/_log
   - chmod 777 test/_log
   - mkdir -p tests/Nut/resources/
