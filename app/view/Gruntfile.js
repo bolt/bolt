@@ -3,7 +3,29 @@ module.exports = function(grunt) {
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
+
         config: grunt.file.readYAML('../config/config.yml'),
+
+        filesBoltJs: [
+            'lib/bolt/console.js',
+            'lib/bolt/fnc-helpers.js',
+            'lib/bolt/activity.js',
+            'lib/bolt/bind-fileupload.js',
+            'lib/bolt/make-uri-slug.js',
+            'lib/bolt/video-embed.js',
+            'lib/bolt/geolocation.js',
+            'lib/bolt/upload-files.js',
+            'lib/bolt/obj-sidebar.js',
+            'lib/bolt/obj-navpopups.js',
+            'lib/bolt/obj-moments.js',
+            'lib/bolt/obj-files.js',
+            'lib/bolt/obj-stack.js',
+            'lib/bolt/obj-folders.js',
+            'lib/bolt/obj-datetime.js',
+            'lib/bolt/extend.js',
+            'lib/bolt/init.js',
+            'lib/bolt/start.js'
+        ],
 
         watch: {
             options: {
@@ -21,7 +43,7 @@ module.exports = function(grunt) {
             },
             bolt_js: {
                 files: [
-                    'lib/bolt/*.js'
+                    "<%= filesBoltJs %>"
                 ],
                 tasks: [
                     'jshint:bolt_js',
@@ -192,26 +214,7 @@ module.exports = function(grunt) {
                     sourceMap: true
                 },
                 files: {
-                    'js/bolt.min.js': [
-                        'lib/bolt/console.js',
-                        'lib/bolt/fnc-helpers.js',
-                        'lib/bolt/activity.js',
-                        'lib/bolt/bind-fileupload.js',
-                        'lib/bolt/make-uri-slug.js',
-                        'lib/bolt/video-embed.js',
-                        'lib/bolt/geolocation.js',
-                        'lib/bolt/upload-files.js',
-                        'lib/bolt/obj-sidebar.js',
-                        'lib/bolt/obj-navpopups.js',
-                        'lib/bolt/obj-moments.js',
-                        'lib/bolt/obj-files.js',
-                        'lib/bolt/obj-stack.js',
-                        'lib/bolt/obj-folders.js',
-                        'lib/bolt/obj-datetime.js',
-                        'lib/bolt/extend.js',
-                        'lib/bolt/init.js',
-                        'lib/bolt/start.js'
-                    ]
+                    'js/bolt.min.js': ["<%= filesBoltJs %>"]
                 }
             }
         },
@@ -267,13 +270,20 @@ module.exports = function(grunt) {
                         UAParser: true              // ua-parser.min.js
                     }
                 },
-                src: ['lib/bolt/*.js']
+                src: ["<%= filesBoltJs %>"]
             }
         }
     });
 
     require('load-grunt-tasks')(grunt);
 
-    grunt.registerTask('default', ['sass', 'jshint:bolt_js', 'uglify:bolt_js', 'cssmin', 'concat', 'watch']);
+    grunt.registerTask('default', [
+        'sass',
+        'jshint:bolt_js',
+        'uglify:bolt_js',
+        'cssmin',
+        'concat',
+        'watch'
+    ]);
 
 };
