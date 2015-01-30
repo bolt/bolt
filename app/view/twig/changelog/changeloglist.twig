@@ -28,7 +28,7 @@
             {% if context.contenttype.slug %}
                 <div>
                     <a class="btn btn-default" href="{{ path('editcontent', {'contenttypeslug': context.contenttype.slug, 'id': context.content.id}) }}">
-                        {{ __('back to editing') }}
+                        &laquo; {{ __('back to editing') }}
                     </a>
                 </div>
             {% endif %}
