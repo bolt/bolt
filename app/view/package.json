@@ -19,6 +19,7 @@
     "load-grunt-tasks": "^0.6.0",
     "grunt-sass": "~0.17",
     "grunt-eol": "^0.2.0",
+    "grunt-bom-removal": "^0.2.0",
     "node-sass": "~1.2"
   },
   "dependencies": {
