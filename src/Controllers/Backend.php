@@ -78,14 +78,14 @@ class Backend implements ControllerProviderInterface
         $ctl->get('/changelog', array($this, 'changeLog'))
             ->bind('changelog');
 
-        $ctl->get('/changelog/{contenttype}/{contentid}', array($this, 'changelogList'))
+        $ctl->get('/changelog/{contenttype}/{contentid}', array($this, 'changelogRecordAll'))
             ->value('contentid', '0')
             ->value('contenttype', '')
-            ->bind('changeloglist');
+            ->bind('changelogrecordall');
 
-        $ctl->get('/changelog/{contenttype}/{contentid}/{id}', array($this, 'changelogDetails'))
+        $ctl->get('/changelog/{contenttype}/{contentid}/{id}', array($this, 'changelogRecordSingle'))
             ->assert('id', '\d*')
-            ->bind('changelogdetails');
+            ->bind('changelogrecordsingle');
 
         $ctl->get('/users', array($this, 'users'))
             ->bind('users');
@@ -312,7 +312,7 @@ class Backend implements ControllerProviderInterface
      * @param Request           $request     The Symfony Request
      * @return mixed
      */
-    public function changelogList($contenttype, $contentid, Application $app, Request $request)
+    public function changelogRecordAll($contenttype, $contentid, Application $app, Request $request)
     {
         // We have to handle three cases here:
         // - $contenttype and $contentid given: get changelog entries for *one* content item
@@ -409,7 +409,7 @@ class Backend implements ControllerProviderInterface
             'pagecount' => $pagecount
         );
 
-        return $app['render']->render('changeloglist/changeloglist.twig', array('context' => $context));
+        return $app['render']->render('changelog/changelogrecordall.twig', array('context' => $context));
     }
 
     /**
@@ -422,7 +422,7 @@ class Backend implements ControllerProviderInterface
      * @param Request           $request     The Symfony Request
      * @return mixed
      */
-    public function changelogDetails($contenttype, $contentid, $id, Application $app, Request $request)
+    public function changelogRecordSingle($contenttype, $contentid, $id, Application $app, Request $request)
     {
         $entry = $app['logger.manager.change']->getChangelogEntry($contenttype, $contentid, $id);
         if (empty($entry)) {
@@ -440,7 +440,7 @@ class Backend implements ControllerProviderInterface
             //'content' => $content,
         );
 
-        return $app['render']->render('changelogdetails/changelogdetails.twig', array('context' => $context));
+        return $app['render']->render('changelog/changelogrecordsingle.twig', array('context' => $context));
     }
 
     /**

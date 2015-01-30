@@ -129,6 +129,12 @@ class RecordChangeHandler extends AbstractProcessingHandler
             $title = $content->getTitle();
         }
 
+        // Don't store datechanged, or records that are only datechanged
+        unset($data['datechanged']);
+        if (empty($data)) {
+            return;
+        }
+
         $str = json_encode($data);
         $user = $this->app['users']->getCurrentUser();
 

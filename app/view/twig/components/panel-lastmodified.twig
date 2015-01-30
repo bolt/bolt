@@ -40,7 +40,7 @@
                     {{ macro.changelogmutation(entry.effectiveMutationType) }}
                     {{ __('by') }} {{ entry.username }}
                     <small>({{ macro.datetime(entry.date) }})</small>
-                    <small><a href="{{ path('changelogdetails', {'contenttype': context.contenttype.slug, 'contentid': entry.contentid, 'id': entry.id}) }}">view</a></small>
+                    <small><a href="{{ path('changelogrecordsingle', {'contenttype': context.contenttype.slug, 'contentid': entry.contentid, 'id': entry.id}) }}">view</a></small>
                 </li>
             {% else %}
                 <li><em>{{ __('contenttypes.generic.no-latest', {'%contenttype%': context.contenttype.slug}) }}.</em></li>
@@ -58,7 +58,7 @@
         {% endif %}
     </ul>
     {% if context.changelog is defined and context.contentid and context.filtered %}
-        <a href="{{ path('changeloglist', {'contenttype': context.contenttype.slug, 'contentid': context.contentid}) }}">
+        <a href="{{ path('changelogrecordall', {'contenttype': context.contenttype.slug, 'contentid': context.contentid}) }}">
             {{ __('Full list …') }}
         </a>
     {% endif %}

@@ -438,6 +438,7 @@ contenttypes:
         publish: "Publish %contenttype%"
         recent: "Recent %contenttypes%"
         recently-edited: "Recently edited %contenttypes%"
+        recent-changes-one: "Recent changes to this %contenttype%"
         reserved-name: "In the contenttype for '%contenttype%', the field '%field%' is defined, which is a reserved name. Please edit contenttypes.yml, and correct this."
         save: "Save %contenttype%"
         saved-changes: "The changes to this %contenttype% have been saved."

@@ -1,7 +1,7 @@
 {# Page: NavSecondary > Content > … > View … > Recent modifications > Full list #}
 
-{% from '_macro/_changelog_details.twig' import changelog_details %}
-{% from 'changeloglist/_macros.twig' import changelog_pager %}
+{% from 'changelog/_macros.twig' import changelog_details %}
+{% from 'changelog/_macros.twig' import changelog_pager %}
 
 {% extends '_base/_page-nav.twig' %}
 
@@ -26,9 +26,9 @@
             {{ changelog_pager(context.currentpage, context.pagecount) }}
 
             {% if context.contenttype.slug %}
-                <div>                
+                <div>
                     <a class="btn btn-default" href="{{ path('editcontent', {'contenttypeslug': context.contenttype.slug, 'id': context.content.id}) }}">
-                        {{ __('back to editing') }}
+                        &laquo; {{ __('back to editing') }}
                     </a>
                 </div>
             {% endif %}
