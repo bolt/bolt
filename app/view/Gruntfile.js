@@ -24,7 +24,7 @@ module.exports = function(grunt) {
             'lib/bolt/obj-datetime.js',
             'lib/bolt/extend.js',
             'lib/bolt/init.js',
-            'lib/boleditort/start.js'
+            'lib/bolt/start.js'
         ],
 
         /*
