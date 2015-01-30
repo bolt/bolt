@@ -138,7 +138,7 @@ module.exports = function(grunt) {
                     dest: 'fonts/'
                 }]
             },
-            installCkeditor: {
+            installCkeditor1: {
                 files: [{
                     // Copy all CKEditor files
                     expand: true,
@@ -147,8 +147,7 @@ module.exports = function(grunt) {
                         'lang/**',
                         'plugins/**',
                         'skins/**',
-                        'styles.js',
-                        'ckeditor.js'
+                        'styles.js'
                     ],
                     dest: 'js/ckeditor'
                 }, {
@@ -160,6 +159,16 @@ module.exports = function(grunt) {
                     src: 'lib/ckeditor/contents.css',
                     dest: 'css/ckeditor-contents.css'
                 }]
+            },
+            installCkeditor2: {
+                // process doesn't work on file level, so we need a new target
+                src: 'lib/ckeditor/ckeditor.js',
+                dest: 'js/ckeditor/ckeditor.js',
+                options: {
+                    process: function (cont) {
+                        return cont.replace(/(CKEDITOR\.getUrl\()"lang\/"(\+a\+"\.js"\))/, '$1"../locale/ckeditor/"$2');
+                    }
+                }
             }
         },
 
@@ -420,7 +429,8 @@ module.exports = function(grunt) {
             'concat:installLibJs',              // Concats minified library scripts   => view/js/lib.min.js
             'uglify:installLocaleDatepicker',   // Copies minified datepicker locale  => view/js/locale/datepicker/*
             'uglify:installLocaleMoment',       // Copies minified moment.js locale   => view/js/locale/moment/*
-            'copy:installCkeditor'              // Copies CKEditor files              => view/js/ckeditor/*
+            'copy:installCkeditor1',            // Copies CKEditor files              => view/js/ckeditor/*
+            'copy:installCkeditor2'             // Copies modified ckeditor.js        => view/js/ckeditor/ckeditor.js
         ]
     );
 };
