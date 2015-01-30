@@ -419,7 +419,7 @@ module.exports = function(grunt) {
             'cssmin:installLibCss',             // Concats and minifies library css   => view/css/lib.css
             'concat:installLibJs',              // Concats minified library scripts   => view/js/lib.min.js
             'uglify:installLocaleDatepicker',   // Copies minified datepicker locale  => view/js/locale/datepicker/*
-            'uglify:installLocaleMoment',       // Copies minified moment.js locale   => view/js/locale/datepicker/*
+            'uglify:installLocaleMoment',       // Copies minified moment.js locale   => view/js/locale/moment/*
             'copy:installCkeditor'              // Copies CKEditor files              => view/js/ckeditor/*
         ]
     );
