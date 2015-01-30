@@ -38,7 +38,8 @@ module.exports = function(grunt) {
                     'sass/**/*.scss'
                 ],
                 tasks: [
-                    'sass'
+                    'sass:boltCss',
+                    'eol:boltCss'
                 ]
             },
             boltJs: {
@@ -82,6 +83,21 @@ module.exports = function(grunt) {
                     'css/bolt.css': 'sass/app.scss'
                 }
             }
+        },
+
+        eol: {
+            boltCss: {
+                options: {
+                    eol: 'lf',
+                    replace: true
+                },
+                files: {
+                    src: [
+                        'css/bolt-old-ie.css',
+                        'css/bolt.css'
+                    ]
+                }
+            },
         },
 
         copy: {
@@ -297,6 +313,7 @@ module.exports = function(grunt) {
         'updateBolt',
         [
             'sass:boltCss',
+            'eol:boltCss',
             'jshint:boltJs',
             'uglify:boltJs'
         ]
