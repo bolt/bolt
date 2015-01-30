@@ -973,9 +973,10 @@ class Config
     }
 
     /**
-     * Utility function to determine which 'end' we're using right now. Can be either "frontend", "backend", "async" or "cli".
+     * Utility function to determine which 'end' we're using right now.
+     * Can be either "frontend", "backend", "async" or "cli".
      *
-     * NOTE: If the Request object has not been intialized by Silex yet,
+     * NOTE: If the Request object has not been initialized by Silex yet,
      * we create a local version based on the request globals.
      *
      * @param  string $mountpoint
@@ -996,9 +997,6 @@ class Config
             $request = Request::createFromGlobals();
         }
 
-        // Ensure the request path always includes a left slash
-        $reqPath = '/' . ltrim($request->getPathInfo(), '/');
-
         // Default mountpoint is branding path (defaults to 'bolt' unless changed in config)
         if (empty($mountpoint)) {
             $mountpoint = $this->get('general/branding/path');
@@ -1008,13 +1006,10 @@ class Config
         $mountpoint = '/' . ltrim($mountpoint, '/');
 
         if (strpos($request->getPathInfo(), '/async') === 0 || $request->isXmlHttpRequest()) {
-            // If path begins with '/async' or is AJAX request, is 'async'
             $end = 'async';
-        } elseif (strpos($reqPath, $mountpoint) === 0) {
-            // If request path starts with mountpoint, is backend
+        } elseif (strpos($request->getPathInfo(), $mountpoint) === 0) {
             $end = 'backend';
-        } else { 
-            // Else assume frontend
+        } else {
             $end = 'frontend';
         }
 
