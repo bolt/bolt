@@ -158,7 +158,7 @@ class Frontend
         $template = $app['templatechooser']->record($content);
 
         // Fallback: If file is not OK, show an error page
-        $filename = $app['paths']['themepath'] . "/" . $template;
+        $filename = $app['paths']['templatespath'] . "/" . $template;
         if (!file_exists($filename) || !is_readable($filename)) {
             $error = sprintf(
                 "No template for '%s' defined. Tried to use '%s/%s'.",
@@ -208,7 +208,7 @@ class Frontend
         $template = $app['templatechooser']->record($content);
 
         // Fallback: If file is not OK, show an error page
-        $filename = $app['paths']['themepath'] . "/" . $template;
+        $filename = $app['paths']['templatespath'] . "/" . $template;
         if (!file_exists($filename) || !is_readable($filename)) {
             $error = sprintf(
                 "No template for '%s' defined. Tried to use '%s/%s'.",
@@ -258,7 +258,7 @@ class Frontend
         $template = $app['templatechooser']->listing($contenttype);
 
         // Fallback: If file is not OK, show an error page
-        $filename = $app['paths']['themepath'] . "/" . $template;
+        $filename = $app['paths']['templatespath'] . "/" . $template;
         if (!file_exists($filename) || !is_readable($filename)) {
             $error = sprintf(
                 "No template for '%s'-listing defined. Tried to use '%s/%s'.",
@@ -316,7 +316,7 @@ class Frontend
         $template = $app['templatechooser']->taxonomy($taxonomyslug);
 
         // Fallback: If file is not OK, show an error page
-        $filename = $app['paths']['themepath'] . "/" . $template;
+        $filename = $app['paths']['templatespath'] . "/" . $template;
         if (!file_exists($filename) || !is_readable($filename)) {
             $error = sprintf(
                 "No template for '%s'-listing defined. Tried to use '%s/%s'.",

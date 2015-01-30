@@ -336,6 +336,14 @@ class ResourceManager
     public function postInitialize()
     {
         $this->setThemePath($this->app['config']->get("general"));
+
+        $theme = $this->app['config']->get('theme');
+        if (isset($theme['template_directory'])) {
+            $this->setPath('templatespath', $this->getPath('theme') . '/' . $this->app['config']->get('theme/template_directory'));
+        } else {
+            $this->setPath('templatespath', $this->getPath('theme'));
+        }
+
         $branding = ltrim($this->app['config']->get('general/branding/path') . '/', '/');
         $this->setUrl("bolt", $this->getUrl('root') . $branding);
         $this->app['config']->setCkPath();

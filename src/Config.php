@@ -688,7 +688,7 @@ class Config
 
     public function getTwigPath()
     {
-        $themepath = $this->app['resources']->getPath("theme");
+        $themepath = $this->app['resources']->getPath("templatespath");
         $end = $this->getWhichEnd($this->get('general/branding/path'));
 
         if ($end == 'frontend' && file_exists($themepath)) {
@@ -699,7 +699,13 @@ class Config
 
         // If the template path doesn't exist, flash error on the dashboard.
         if (!file_exists($themepath)) {
-            $error = "Template folder 'theme/" . basename($this->get('general/theme')) . "' does not exist, or is not writable.";
+            $relativethemepath = basename($this->get('general/theme'));
+            $theme = $this->app['config']->get('theme');
+            if (isset($theme['template_directory'])) {
+                $relativethemepath .= '/' . $this->app['config']->get('theme/template_directory');
+            }
+
+            $error = "Template folder 'theme/" . $relativethemepath . "' does not exist, or is not writable.";
             $this->app['session']->getFlashBag()->set('error', $error);
         }
 
