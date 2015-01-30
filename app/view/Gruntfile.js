@@ -145,7 +145,6 @@ module.exports = function(grunt) {
                         expand: true,
                         cwd: 'lib/ckeditor',
                         src: [
-                            'lang/**',
                             'plugins/**',
                             'skins/**',
                             'styles.js'
@@ -159,6 +158,12 @@ module.exports = function(grunt) {
                         // Copy style to css folder
                         src: 'lib/ckeditor/contents.css',
                         dest: 'css/ckeditor-contents.css'
+                    }, {
+                        // Copy CKEditor locale
+                        expand: true,
+                        flatten: true,
+                        src: 'lib/ckeditor/lang/*.js',
+                        dest: 'js/locale/ckeditor'
                     }
                 ]
             },
