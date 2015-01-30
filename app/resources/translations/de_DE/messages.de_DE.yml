@@ -1,4 +1,4 @@
-# app/resources/translations/de_DE/messages.de_DE.yml – generated on 2014-11-18 11:27:00 UTC
+# app/resources/translations/de_DE/messages.de_DE.yml – generated on 2015-01-30 22:07:00 GMT+1
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
 #          at the moment. This is an ongoing process. Translations currently in the
@@ -9,46 +9,46 @@
 #          in order to prevent merge conflicts.
 
 #  no unused messages
-#  30 untranslated messages
+#  0 untranslated messages
 #  no untranslated keyword based messages
-# 331 translations
+# 361 translations
 # 132 keyword based translations
 
-#--- 30 untranslated messages -------------------------------------------------
+#--- 0 untranslated messages -------------------------------------------------
 
-"Body": #
-"Date": #
-"Datetime": #
-"File": #
-"Filelist": # "File list"
-"Floatfield": # "Float field"
-"Geolocation": #
-"Hints:": #
-"Html": #
-"Id": #
-"Imagelist": # "Image list"
-"Integerfield": # "Integer field"
-"Markdown": #
-"Multiselect": # "Multi-select"
-"Selectentry": # "Select entry"
-"Selectfield": # "Select field"
-"Slug": #
-"Stable versions": #
-"Status": #
-"Teaser": #
-"Template": #
-"Textarea": #
-"Theme installation complete": #
-"Time in 24h/12h format": #
-"Unstable test versions": #
-"Video": #
-"[Extension error] Initialisation failed for %ext%: %error%": #
-"[Extension error] Snippet loading failed for %ext%: %error%": #
-"[Extension error] Twig function registration failed for %ext%: %error%": #
-"[Extension error] YAML config failed to load for %ext%: %error%": #
 
-#--- 331 translations ---------------------------------------------------------
-
+#--- 361 translations ---------------------------------------------------------
+"Chapters": "Kapitel"
+"Body": "Inhalt"
+"Date": "Datum"
+"Datetime": "Datum & Uhrzeit"
+"File": "Datei"
+"Filelist": "Dateiliste"
+"Floatfield": "Floatfeld"
+"Geolocation": "Geolokalisierung"
+"Hints:": "Hinweise"
+"Html": "HTML"
+"Id": "ID"
+"Imagelist": "Bilderliste"
+"Integerfield": "Ganzzahlfeld"
+"Markdown": "Markdown"
+"Multiselect": "Mehrfachauswahl"
+"Selectentry": "Eintrag auswählen"
+"Selectfield": "Feld auswählen"
+"Slug": "Slug"
+"Stable versions": "Stabile Version"
+"Status": "Status"
+"Teaser": "Einleitung"
+"Template": "Vorlage"
+"Textarea": "Textbereich"
+"Theme installation complete": "Themeinstallation vollständig"
+"Time in 24h/12h format": "Zeit im 24/12 Stunden Format"
+"Unstable test versions": "unstabile Testversion"
+"Video": "Video"
+"[Extension error] Initialisation failed for %ext%: %error%" : "[Erweiterungsfehler] Initialisierung für %ext% %error% ist fehlgeschlagen"
+"[Extension error] Snippet loading failed for %ext%: %error%" : "[Erweiterungsfehler] Laden von %ext% %error% ist fehlgeschlagen"
+"[Extension error] Twig function registration failed for %ext%: %error%": "[Erweiterungsfehler] Twig Funktionsregistrierung für %ext% %error% ist fehlgeschlagen"
+"[Extension error] YAML config failed to load for %ext%: %error%": "[Erweiterungsfehler] Das Laden der YAML Konfiguration für %ext% %error% ist fehlgeschlagen"
 "%name% № %id%": "%name% Nr. %id%"
 "%s files could not be deleted. You should delete them manually.": " %s Dateien konnten nicht gelöscht werden. Bitte manuell löschen."
 "(default template)": "(Standardvorlage)"
