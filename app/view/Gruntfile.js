@@ -3,35 +3,72 @@ module.exports = function(grunt) {
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
+
         config: grunt.file.readYAML('../config/config.yml'),
 
+        filesBoltJs: [
+            'lib/bolt/console.js',
+            'lib/bolt/fnc-helpers.js',
+            'lib/bolt/activity.js',
+            'lib/bolt/bind-fileupload.js',
+            'lib/bolt/make-uri-slug.js',
+            'lib/bolt/video-embed.js',
+            'lib/bolt/geolocation.js',
+            'lib/bolt/upload-files.js',
+            'lib/bolt/obj-sidebar.js',
+            'lib/bolt/obj-navpopups.js',
+            'lib/bolt/obj-moments.js',
+            'lib/bolt/obj-files.js',
+            'lib/bolt/obj-stack.js',
+            'lib/bolt/obj-folders.js',
+            'lib/bolt/obj-datetime.js',
+            'lib/bolt/extend.js',
+            'lib/bolt/init.js',
+            'lib/bolt/start.js'
+        ],
+
+        /*
+         * WATCH: Run predefined tasks whenever watched file patterns are added, changed or deleted
+         */
         watch: {
             options: {
                 spawn: false,
                 livereload: true
             },
-            scripts: {
+            sass: {
                 files: [
                     'sass/*.scss',
-                    'sass/nav/*.scss',
-                    'sass/modules/*.scss'
+                    'sass/**/*.scss'
                 ],
                 tasks: [
-                    'sass'
+                    'sass:boltCss',
+                    'eol:boltCss'
                 ]
             },
-            js: {
+            boltJs: {
                 files: [
-                    'lib/bolt/*.js'
+                    "<%= filesBoltJs %>"
                 ],
                 tasks: [
-                    'uglify:bolt'
+                    'jshint:boltJs',
+                    'uglify:boltJs'
                 ]
+            },
+            gruntfile: {
+                files: [
+                    'Gruntfile.js'
+                ],
+                options: {
+                    reload: true
+                }
             }
         },
 
+        /*
+         * SASS: Compile Sass to CSS
+         */
         sass: {
-            dist: {
+            boltCss: {
                 options: {
                     outputStyle: 'compressed',
                     includePaths: [
@@ -52,12 +89,31 @@ module.exports = function(grunt) {
                     'css/bolt.css': 'sass/app.scss'
                 }
             }
-
         },
 
+        /*
+         * EOL: Convert line endings
+         */
+        eol: {
+            boltCss: {
+                options: {
+                    eol: 'lf',
+                    replace: true
+                },
+                files: {
+                    src: [
+                        'css/bolt-old-ie.css',
+                        'css/bolt.css'
+                    ]
+                }
+            },
+        },
+
+        /*
+         * COPY: Copy files and folders
+         */
         copy: {
-            main: {
-                // Includes files within path
+            installFonts: {
                 files: [{
                     expand: true,
                     flatten: true,
@@ -70,8 +126,11 @@ module.exports = function(grunt) {
             }
         },
 
+        /*
+         * CONCAT: Concatenate files
+         */
         concat: {
-            lib: {
+            installLibJs: {
                 options: {
                     separator: '\n\n'
                 },
@@ -100,12 +159,15 @@ module.exports = function(grunt) {
             }
         },
 
+        /*
+         * CSSMIN: Compress CSS files
+         */
         cssmin: {
-            lib: {
+            installLibCss: {
                 options: {
                     compatibility: 'ie8',
-                    relativeTo: './css/',
-                    target: './css/'
+                    relativeTo: 'css/',
+                    target: 'css/'
                 },
                 files: {
                     'css/lib.css': [
@@ -118,8 +180,11 @@ module.exports = function(grunt) {
             }
         },
 
+        /*
+         * UGLIFY: Minify files with UglifyJS
+         */
         uglify: {
-            lib: {
+            prepareLibJs: {
                 options: {
                     preserveComments: 'some'
                 },
@@ -138,7 +203,7 @@ module.exports = function(grunt) {
                     ]
                 }]
             },
-            locale_datepicker: {
+            installLocaleDatepicker: {
                 options: {
                     preserveComments: 'some'
                 },
@@ -153,7 +218,7 @@ module.exports = function(grunt) {
                     }
                 }]
             },
-            locale_moment: {
+            installLocaleMoment: {
                 options: {
                     preserveComments: 'some'
                 },
@@ -170,7 +235,7 @@ module.exports = function(grunt) {
                     }
                 }]
             },
-            bootstrap: {
+            prepareBootstrapJs: {
                 files: {
                     'lib/bootstrap-sass.generated/bootstrap.min.js': [
                         'node_modules/bootstrap-sass/assets/javascripts/bootstrap/alert.js',
@@ -184,7 +249,7 @@ module.exports = function(grunt) {
                     ]
                 }
             },
-            bolt: {
+            boltJs: {
                 options: {
                     banner: "/**\n" +
                             " * These are Bolt's COMPILED JS files!\n" +
@@ -193,87 +258,104 @@ module.exports = function(grunt) {
                     sourceMap: true
                 },
                 files: {
-                    'js/bolt.min.js': [
-                        'lib/bolt/console.js',
-                        'lib/bolt/fnc-helpers.js',
-                        'lib/bolt/activity.js',
-                        'lib/bolt/bind-fileupload.js',
-                        'lib/bolt/make-uri-slug.js',
-                        'lib/bolt/video-embed.js',
-                        'lib/bolt/geolocation.js',
-                        'lib/bolt/upload-files.js',
-                        'lib/bolt/obj-sidebar.js',
-                        'lib/bolt/obj-navpopups.js',
-                        'lib/bolt/obj-moments.js',
-                        'lib/bolt/obj-files.js',
-                        'lib/bolt/obj-stack.js',
-                        'lib/bolt/obj-folders.js',
-                        'lib/bolt/obj-datetime.js',
-                        'lib/bolt/extend.js',
-                        'lib/bolt/init.js',
-                        'lib/bolt/start.js'
-                    ]
+                    'js/bolt.min.js': ["<%= filesBoltJs %>"]
                 }
             }
         },
 
+        /*
+         * JSHINT: Validates files with JSHint
+         */
         jshint: {
-            options: {
-                browser: true,          // Defines globals exposed by modern browsers
-                curly: true,            // Always put curly braces around blocks
-                devel: true,            // Defines globals that are usually used for logging/debugging
-                immed: true,            // Prohibits the use of immediate function invocations without parentheses
-                indent: 4,              // Tab width
-                latedef: true,          // Prohibits the use of a variable before it was defined
-                maxlen: 120,            // Maximum length of a line
-                noarg: true,            // Prohibits the use of arguments.caller and arguments.callee
-                nonbsp: true,           // Warns about "non-breaking whitespace" characters
-                singleGroups: true,     // Prohibits the use of the grouping operator for single-expression statements
-                undef: true,            // Prohibits the use of undeclared variables
-                globals: {
-                    // Bolt
-                    bolt: true,                 // src/console.js
-                    FilelistHolder: true,       // src/upload-files.js
-                    Files: true,                // src/obj-files.js
-                    Folders: true,              // src/obj-folders.js
-                    init: true,                 // src/init.js
-                    Moments: true,              // src/obj-moments.js
-                    Navpopups: true,            // src/obj-navpopups.js
-                    Sidebar: true,              // src/obj-sidebar.js
-                    Stack: true,                // src/obj-stack.js
-                    site: true,                 // src/extend.js/extend.twig
-                    baseurl: true,              // src/extend.js/extend.twig
-                    rootpath: true,             // src/extend.js/extend.twig
-                    // Bolt global functions
-                    bindFileUpload: true,       // src/bindfileuploads.js
-                    bindGeolocation: true,      // src/geolocation.js
-                    bindVideoEmbed: true,       // src/video-embed.js
-                    getSelectedItems: true,     // src/fnc-helpers.js
-                    makeUri: true,              // src/make-uri-slug.js
-                    makeUriAjax: true,          // src/make-uri-slug.js
-                    stopMakeUri: true,          // src/make-uri-slug.js
-                    updateLatestActivity: true, // src/activity.js
-                    validateContent: true,      // src/fnc-helpers.js
-                    // Vendor
-                    $: true,                    // jQuery
-                    _: true,                    // underscore.js
-                    Backbone: true,             // backbone.min.js
-                    bootbox: true,              // bootbox.min.js
-                    CKEDITOR: true,             // ckeditor.js
-                    CodeMirror: true,           // ckeditor.js
-                    google: true,               // Google
-                    jQuery: true,               // jQuery
-                    moment: true,               // moment.min.js
-                    UAParser: true              // ua-parser.min.js
-                }
-            },
-            src: ['lib/bolt/*.js']
+            boltJs: {
+                options: {
+                    browser: true,      // Defines globals exposed by modern browsers
+                    curly: true,        // Always put curly braces around blocks
+                    devel: true,        // Defines globals that are usually used for logging/debugging
+                    immed: true,        // Prohibits the use of immediate function invocations without parentheses
+                    indent: 4,          // Tab width
+                    latedef: true,      // Prohibits the use of a variable before it was defined
+                    maxlen: 120,        // Maximum length of a line
+                    noarg: true,        // Prohibits the use of arguments.caller and arguments.callee
+                    nonbsp: true,       // Warns about "non-breaking whitespace" characters
+                    singleGroups: true, // Prohibits the use of the grouping operator for single-expression statements
+                    undef: true,        // Prohibits the use of undeclared variables
+                    globals: {
+                        // Bolt
+                        bolt: true,                 // src/console.js
+                        FilelistHolder: true,       // src/upload-files.js
+                        Files: true,                // src/obj-files.js
+                        Folders: true,              // src/obj-folders.js
+                        init: true,                 // src/init.js
+                        Moments: true,              // src/obj-moments.js
+                        Navpopups: true,            // src/obj-navpopups.js
+                        Sidebar: true,              // src/obj-sidebar.js
+                        Stack: true,                // src/obj-stack.js
+                        site: true,                 // src/extend.js/extend.twig
+                        baseurl: true,              // src/extend.js/extend.twig
+                        rootpath: true,             // src/extend.js/extend.twig
+                        // Bolt global functions
+                        bindFileUpload: true,       // src/bindfileuploads.js
+                        bindGeolocation: true,      // src/geolocation.js
+                        bindVideoEmbed: true,       // src/video-embed.js
+                        getSelectedItems: true,     // src/fnc-helpers.js
+                        makeUri: true,              // src/make-uri-slug.js
+                        makeUriAjax: true,          // src/make-uri-slug.js
+                        stopMakeUri: true,          // src/make-uri-slug.js
+                        updateLatestActivity: true, // src/activity.js
+                        validateContent: true,      // src/fnc-helpers.js
+                        // Vendor
+                        $: true,                    // jQuery
+                        _: true,                    // underscore.js
+                        Backbone: true,             // backbone.min.js
+                        bootbox: true,              // bootbox.min.js
+                        CKEDITOR: true,             // ckeditor.js
+                        CodeMirror: true,           // ckeditor.js
+                        google: true,               // Google
+                        jQuery: true,               // jQuery
+                        moment: true,               // moment.min.js
+                        UAParser: true              // ua-parser.min.js
+                    }
+                },
+                src: ["<%= filesBoltJs %>"]
+            }
         }
-
     });
 
     require('load-grunt-tasks')(grunt);
 
-    grunt.registerTask('default', ['sass', 'jshint', 'uglify', 'cssmin', 'concat', 'watch']);
+    /*** DEFAULT TASK:  Watches for changes of Bolts own css and js files ***/
+    grunt.registerTask(
+        'default',
+        [
+            'watch'
+        ]
+    );
 
+    /*** UPDATE BOLT TASK:  Creates Bolts own css and js files ***/
+    grunt.registerTask(
+        'updateBolt',
+        [
+            'sass:boltCss',
+            'eol:boltCss',
+            'jshint:boltJs',
+            'uglify:boltJs'
+        ]
+    );
+
+    /*** UPDATE LIB TASK:  Builds library css/js. Run after one of the externals is updated ***/
+    grunt.registerTask(
+        'updateLib',
+        [
+            // Prepare
+            'uglify:prepareBootstrapJs',        // Concat bootstrap scripts into one minified file
+            'uglify:prepareLibJs',              // Create minified versions of library scripts that don't have them
+            // Install
+            'copy:installFonts',                // Copies fonts                       => view/fonts/*
+            'cssmin:installLibCss',             // Concats and minifies library css   => view/css/lib.css
+            'concat:installLibJs',              // Concats minified library scripts   => view/js/lib.min.js
+            'uglify:installLocaleDatepicker',   // Copies minified datepicker locale  => view/js/locale/datepicker/*
+            'uglify:installLocaleMoment'        // Copies minified moment.js locale   => view/js/locale/datepicker/*
+        ]
+    );
 };
