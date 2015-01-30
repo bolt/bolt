@@ -144,7 +144,7 @@ class Application extends Silex\Application
         $this->register(
             new Silex\Provider\DoctrineServiceProvider(),
             array(
-                'db.options' => $this['config']->getDBOptions()
+                'db.options' => $this['config']->get('general/database')
             )
         );
         $this->register(new Database\InitListener());

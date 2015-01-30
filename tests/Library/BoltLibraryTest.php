@@ -145,7 +145,7 @@ class BoltLibraryTest extends BoltUnitTest
         $app = $this->getApp();
         $this->expectOutputRegex("/Redirecting to/i");
         $redirect = Library::simpleredirect("/test", false);
-        $this->assertEquals( array( 'location: /test' ), xdebug_get_headers() );
+        $this->assertContains('location: /test', xdebug_get_headers());
     }
 
     /**
@@ -156,7 +156,7 @@ class BoltLibraryTest extends BoltUnitTest
         $app = $this->getApp();
         $this->expectOutputRegex("/Redirecting to/i");
         $redirect = Library::simpleredirect("", false);
-        $this->assertEquals( array( 'location: /' ), xdebug_get_headers() );
+        $this->assertContains('location: /', xdebug_get_headers());
     }
 
     /**

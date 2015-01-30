@@ -11,10 +11,10 @@ class Config
 {
 
     public $db1 = array(
-        'driver'=>'mysql',
-        'username'=>'test',
-        'password'=>'test' ,
-        'databasename'=> 'test'
+        'driver'   => 'pdo_mysql',
+        'user'     => 'test',
+        'password' => 'test',
+        'dbname'   => 'test'
     );
 
     public $value;
@@ -27,20 +27,20 @@ class Config
     public function mockRoot()
     {
         $this->value = $this->db1;
-        $this->value['username'] = 'root';
+        $this->value['user'] = 'root';
         $this->value['password'] = '';
     }
 
     public function mockEmptyDb()
     {
         $this->value = $this->db1;
-        $this->value['databasename'] = false;
+        $this->value['dbname'] = false;
     }
 
     public function mockEmptyUser()
     {
         $this->value = $this->db1;
-        $this->value['username'] = false;
+        $this->value['user'] = false;
     }
 
     public function mockMysql()
@@ -51,31 +51,26 @@ class Config
     public function mockPostgres()
     {
         $this->value = $this->db1;
-        $this->value['driver'] = "postgres";
+        $this->value['driver'] = "pdo_pgsql";
     }
 
     public function mockSqlite()
     {
         $this->value = $this->db1;
-        $this->value['driver'] = "sqlite";
+        $this->value['driver'] = "pdo_sqlite";
+        $this->value['path'] = "test/bolt.db";
     }
 
-    public function mockBadDb()
+    public function mockUnsupportedPlatform()
     {
         $this->value = $this->db1;
         $this->value['driver'] = "mongodb";
     }
 
-    public function mockNoDriver()
-    {
-        $this->value = $this->db1;
-        unset($this->value['driver']);
-    }
-
     public function mockSqliteMem()
     {
         $this->value = $this->db1;
-        $this->value['driver'] = "sqlite";
+        $this->value['driver'] = "pdo_sqlite";
         $this->value['memory'] = true;
     }
 

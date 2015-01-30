@@ -1,13 +1,10 @@
 <?php
 namespace Bolt\Configuration;
 
-use Bolt\Library as Lib;
-
 /**
  * A class to perform several 'low level' checks. Since we're doing it (by design)
  * _before_ the autoloader gets initialized, we can't use autoloading.
  */
-
 class LowlevelChecks
 {
     public $config;
@@ -37,11 +34,8 @@ class LowlevelChecks
     public $sqliteLoaded;
 
     /**
-     * The constructor requires a resource manager object to perform checks against.
-     * This should ideally be typehinted to Bolt\Configuration\ResourceManager
-     *
-     * @return void
-     **/
+     * @param ResourceManager $config
+     */
     public function __construct($config = null)
     {
         $this->config = $config;
@@ -169,72 +163,62 @@ class LowlevelChecks
     public function doDatabaseCheck()
     {
         $cfg = $this->config->app['config']->get('general/database');
-        if (!isset($cfg['driver'])) {
+        $driver = $cfg['driver'];
+
+        if ($driver == 'pdo_sqlite') {
+            $this->doDatabaseSqliteCheck($cfg);
             return;
         }
 
-        if ($cfg['driver'] == 'mysql' || $cfg['driver'] == 'postgres' || $cfg['driver'] == 'postgresql') {
-            if (empty($cfg['password']) && ($cfg['username'] == "root")) {
-                throw new LowlevelException(
-                    "There is no <code>password</code> set for the database connection, and you're using user 'root'." .
-                    "<br>That must surely be a mistake, right? Bolt will stubbornly refuse to run until you've set a password for 'root'."
-                );
-            }
-            if (empty($cfg['databasename'])) {
-                throw new LowlevelException("There is no <code>databasename</code> set for your database.");
-            }
-            if (empty($cfg['username'])) {
-                throw new LowlevelException("There is no <code>username</code> set for your database.");
-            }
+        if (!in_array($driver, array('pdo_mysql', 'pdo_pgsql'))) {
+            throw LowLevelDatabaseException::unsupportedDriver($driver);
         }
 
-        if ($cfg['driver'] == 'mysql') {
-            if (!$this->mysqlLoaded) {
-                throw new LowlevelException("MySQL was selected as the database type, but the driver does not exist or is not loaded. Please install the pdo_mysql driver.");
-            }
-
-            return;
-        } elseif ($cfg['driver'] == 'postgres' || $cfg['driver'] == 'postgresql') {
-            if (!$this->postgresLoaded) {
-                throw new LowlevelException("Postgres was selected as the database type, but the driver does not exist or is not loaded. Please install the pdo_pgsql driver.");
-            }
-
-            return;
-        } elseif ($cfg['driver'] == 'sqlite') {
-            if (!$this->sqliteLoaded) {
-                throw new LowlevelException("SQLite was selected as the database type, but the driver does not exist or is not loaded. Please install the pdo_sqlite driver.");
-            }
-        } else {
-            throw new LowlevelException('The selected database type is not supported.');
+        if ($driver == 'pdo_mysql' && !$this->mysqlLoaded) {
+            throw LowLevelDatabaseException::missingDriver('MySQL', 'pdo_mysql');
+        } elseif ($driver == 'pdo_pgsql' && !$this->postgresLoaded) {
+            throw LowLevelDatabaseException::missingDriver('PostgreSQL', 'pdo_pgsql');
         }
 
-        if (isset($cfg['memory']) && $cfg['memory'] === true) {
+        if (empty($cfg['dbname'])) {
+            throw LowLevelDatabaseException::missingParameter('databasename');
+        }
+        if (empty($cfg['user'])) {
+            throw LowLevelDatabaseException::missingParameter('username');
+        }
+        if (empty($cfg['password']) && ($cfg['user'] === 'root')) {
+            throw LowLevelDatabaseException::unsecure();
+        }
+    }
+
+    protected function doDatabaseSqliteCheck($config)
+    {
+        if (!$this->sqliteLoaded) {
+            throw LowLevelDatabaseException::missingDriver('SQLite', 'pdo_sqlite');
+        }
+
+        // If in-memory connection, skip path checks
+        if (isset($config['memory']) && $config['memory'] === true) {
             return;
         }
 
-        $filename = isset($cfg['databasename']) ? basename($cfg['databasename']) : 'bolt';
-        if (Lib::getExtension($filename) != 'db') {
-            $filename .= '.db';
+        // If the file is present, make sure it is writable
+        $file = $config['path'];
+        if (file_exists($file)) {
+            if (!is_writable($file)) {
+                throw LowLevelDatabaseException::unwritableFile($file);
+            }
+            return;
         }
-        
-        // Check if the app/database folder and .db file are present and writable
-        if (!is_writable($this->config->getPath('database'))) {
-            throw new LowlevelException(
-                'The folder <code>' .
-                $this->config->getPath('database') .
-                "</code> doesn't exist or it is not writable. Make sure it's " .
-                "present and writable to the user that the webserver is using."
-            );
+
+        // If the file isn't present, make sure the directory
+        // exists and is writable so the file can be created
+        $dir = dirname($file);
+        if (!file_exists($dir)) {
+            throw LowLevelDatabaseException::nonexistantFolder($dir);
         }
-        
-        // If the .db file is present, make sure it is writable
-        if (file_exists($this->config->getPath('database') . '/' . $filename) && !is_writable($this->config->getPath('database') . '/' . $filename)) {
-            throw new LowlevelException(
-                "The database file <code>app/database/" .
-                htmlspecialchars($filename, ENT_QUOTES) .
-                "</code> isn't writable. Make sure it's " .
-                "present and writable to the user that the webserver is using. If the file doesn't exist, make sure the folder is writable and Bolt will create the file."
-            );
+        if (!is_writable($dir)) {
+            throw LowLevelDatabaseException::unwritableFolder($dir);
         }
     }
 
