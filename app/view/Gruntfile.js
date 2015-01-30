@@ -155,6 +155,10 @@ module.exports = function(grunt) {
                     // Copy our empty config file
                     src: 'lib/bolt/ckeditor-config.js',
                     dest: 'js/ckeditor/config.js'
+                }, {
+                    // Copy style to css folder
+                    src: 'lib/ckeditor/contents.css',
+                    dest: 'css/ckeditor-contents.css'
                 }]
             }
         },
