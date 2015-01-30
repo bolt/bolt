@@ -20,44 +20,7 @@ class ChangeLogItem implements \ArrayAccess
     public function __construct(Silex\Application $app, $values = array())
     {
         $this->app = $app;
-        if (isset($values['id'])) {
-            $this->id = $values['id'];
-        }
-        if (isset($values['date'])) {
-            $this->date = $values['date'];
-        }
-        if (isset($values['title'])) {
-            $this->title = $values['title'];
-        }
-        if (isset($values['username'])) {
-            $this->username = $values['username'];
-        }
-        if (isset($values['ownerid'])) {
-            $this->ownerid = $values['ownerid'];
-            $user = $this->app['users']->getUser($values['ownerid']);
-            if (isset($user['displayname'])) {
-                $this->username = $user['displayname'];
-            } elseif (isset($user['username'])) {
-                $this->username = $user['username'];
-            } else {
-                $this->username = "(deleted user #" . $values['ownerid'] . ")";
-            }
-        }
-        if (isset($values['contenttype'])) {
-            $this->contenttype = $values['contenttype'];
-        }
-        if (isset($values['contentid'])) {
-            $this->contentid = $values['contentid'];
-        }
-        if (isset($values['mutation_type'])) {
-            $this->mutation_type = $values['mutation_type'];
-        }
-        if (isset($values['diff'])) {
-            $this->diff = $values['diff'];
-        }
-        if (isset($values['comment'])) {
-            $this->comment = $values['comment'];
-        }
+        $this->setParameters($values);
     }
 
     public function getParsedDiff()
@@ -143,5 +106,52 @@ class ChangeLogItem implements \ArrayAccess
     public function offsetUnset($offset)
     {
         unset($this->$offset);
+    }
+
+    /**
+     * Set class parameters
+     *
+     * @param array $values
+     */
+    private function setParameters(array $values)
+    {
+        if (isset($values['id'])) {
+            $this->id = $values['id'];
+        }
+        if (isset($values['date'])) {
+            $this->date = $values['date'];
+        }
+        if (isset($values['title'])) {
+            $this->title = $values['title'];
+        }
+        if (isset($values['username'])) {
+            $this->username = $values['username'];
+        }
+        if (isset($values['ownerid'])) {
+            $this->ownerid = $values['ownerid'];
+            $user = $this->app['users']->getUser($values['ownerid']);
+            if (isset($user['displayname'])) {
+                $this->username = $user['displayname'];
+            } elseif (isset($user['username'])) {
+                $this->username = $user['username'];
+            } else {
+                $this->username = "(deleted user #" . $values['ownerid'] . ")";
+            }
+        }
+        if (isset($values['contenttype'])) {
+            $this->contenttype = $values['contenttype'];
+        }
+        if (isset($values['contentid'])) {
+            $this->contentid = $values['contentid'];
+        }
+        if (isset($values['mutation_type'])) {
+            $this->mutation_type = $values['mutation_type'];
+        }
+        if (isset($values['diff'])) {
+            $this->diff = $values['diff'];
+        }
+        if (isset($values['comment'])) {
+            $this->comment = $values['comment'];
+        }
     }
 }
