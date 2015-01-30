@@ -345,16 +345,16 @@ class Storage
 
                 // Set the slug, while we're at it..
                 case 'slug':
-                    if (!empty($values['uses']) && empty($fieldvalues['slug'])) {
+                    if (!empty($values['uses']) && empty($fieldvalues[$key])) {
                         $uses = '';
                         foreach ($values['uses'] as $usesField) {
                             $uses .= $fieldvalues[$usesField] . ' ';
                         }
-                        $fieldvalues['slug'] = String::slug($uses);
-                    } elseif (!empty($fieldvalues['slug'])) {
-                        $fieldvalues['slug'] = String::slug($fieldvalues['slug']);
-                    } elseif (empty($fieldvalues['slug']) && $fieldvalues['id']) {
-                        $fieldvalues['slug'] = $fieldvalues['id'];
+                        $fieldvalues[$key] = String::slug($uses);
+                    } elseif (!empty($fieldvalues[$key])) {
+                        $fieldvalues[$key] = String::slug($fieldvalues[$key]);
+                    } elseif (empty($fieldvalues[$key]) && $fieldvalues['id']) {
+                        $fieldvalues[$key] = $fieldvalues['id'];
                     }
                     break;
 
