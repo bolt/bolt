@@ -23,11 +23,6 @@
     {{ crosslinks.contentlink_by_id(contenttype, title, content.id) }}
 {% endmacro %}
 
-{% macro changelogmutation(raw) %}
-    {% set mapping = {'UPDATE': 'changed', 'INSERT': 'created', 'DELETE': 'deleted', 'HOLD': 'put on hold', 'PUBLISH': 'published', 'DRAFT': 'depublished'} %}
-    {% if mapping[raw] is defined %}{{ mapping[raw] }}{% else %}{{ raw }}{% endif %}
-{% endmacro %}
-
 {# output a 'relative' datetime #}
 {% macro datetime(d) %}<time class="moment" datetime="{{ d|date("c") }}" title="{{ d }}">{{ d }}</time>{% endmacro %}
 

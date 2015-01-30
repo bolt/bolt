@@ -26,8 +26,7 @@
 
     <h3>
         "{{ entry.title }}"
-        {{ macro.changelogmutation(entry.effectiveMutationType) }}
-        {# {{ macro.datetime(entry.date) }} #}
+        {{ _self.changelogmutation(entry.mutation_type) }}
         {{ __('component.changelog-detail.by') }} <strong>{{ entry.username }}</strong>
     </h3>
 
@@ -39,7 +38,7 @@
         <div class="body">
             <div class="time">
                 <p>
-                    <span>{{ macro.changelogmutation(entry.effectiveMutationType) }} {{ macro.datetime(entry.date) }}</span>
+                    <span>{{ _self.changelogmutation(entry.mutation_type) }} {{ macro.datetime(entry.date) }}</span>
                     {{ __('component.changelog-detail.by') }} <strong>{{ entry.username }}</strong>
                 </p>
                 {% if ischangelogenabled() %}
@@ -69,4 +68,10 @@
             </table>
         </div>
     </div>
+{% endmacro %}
+
+
+{% macro changelogmutation(raw) %}
+    {% set mapping = {'UPDATE': 'changed', 'INSERT': 'created', 'DELETE': 'deleted', 'HOLD': 'put on hold', 'PUBLISH': 'published', 'DRAFT': 'depublished'} %}
+    {% if mapping[raw] is defined %}{{ mapping[raw] }}{% else %}{{ raw }}{% endif %}
 {% endmacro %}
