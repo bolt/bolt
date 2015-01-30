@@ -27,6 +27,9 @@ module.exports = function(grunt) {
             'lib/bolt/start.js'
         ],
 
+        /*
+         * WATCH: Run predefined tasks whenever watched file patterns are added, changed or deleted
+         */
         watch: {
             options: {
                 spawn: false,
@@ -61,6 +64,9 @@ module.exports = function(grunt) {
             }
         },
 
+        /*
+         * SASS: Compile Sass to CSS
+         */
         sass: {
             boltCss: {
                 options: {
@@ -85,6 +91,9 @@ module.exports = function(grunt) {
             }
         },
 
+        /*
+         * EOL: Convert line endings
+         */
         eol: {
             boltCss: {
                 options: {
@@ -100,6 +109,9 @@ module.exports = function(grunt) {
             },
         },
 
+        /*
+         * COPY: Copy files and folders
+         */
         copy: {
             installFonts: {
                 files: [{
@@ -114,6 +126,9 @@ module.exports = function(grunt) {
             }
         },
 
+        /*
+         * CONCAT: Concatenate files
+         */
         concat: {
             installLibJs: {
                 options: {
@@ -144,6 +159,9 @@ module.exports = function(grunt) {
             }
         },
 
+        /*
+         * CSSMIN: Compress CSS files
+         */
         cssmin: {
             installLibCss: {
                 options: {
@@ -162,6 +180,9 @@ module.exports = function(grunt) {
             }
         },
 
+        /*
+         * UGLIFY: Minify files with UglifyJS
+         */
         uglify: {
             prepareLibJs: {
                 options: {
@@ -242,6 +263,9 @@ module.exports = function(grunt) {
             }
         },
 
+        /*
+         * JSHINT: Validates files with JSHint
+         */
         jshint: {
             boltJs: {
                 options: {
