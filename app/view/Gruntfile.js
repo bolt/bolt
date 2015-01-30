@@ -331,6 +331,18 @@ module.exports = function(grunt) {
                     'lib/ckeditor-4.4.7/samples'
                 ]
             }
+        },
+
+        /*
+         * BOM: Byte Order Mark (BOM) removal
+         */
+        bom: {
+            prepareCkeditor: {
+                src: [
+                    'lib/ckeditor-*/*.js',
+                    'lib/ckeditor-*/**/*.js'
+                ]
+            }
         }
     });
 
@@ -363,6 +375,7 @@ module.exports = function(grunt) {
             'uglify:prepareBootstrapJs',        // Concat bootstrap scripts into one minified file
             'uglify:prepareLibJs',              // Create minified versions of library scripts that don't have them
             'remove:prepareCkeditor',           // Remove unneeded direcories from downloaded ckeditor
+            'bom:prepareCkeditor',              // Remove unneeded bom from downloaded ckeditor
             // Install
             'copy:installFonts',                // Copies fonts                       => view/fonts/*
             'cssmin:installLibCss',             // Concats and minifies library css   => view/css/lib.css
