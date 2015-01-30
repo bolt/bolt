@@ -409,7 +409,7 @@ class Backend implements ControllerProviderInterface
             'pagecount' => $pagecount
         );
 
-        return $app['render']->render('changeloglist/changeloglist.twig', array('context' => $context));
+        return $app['render']->render('changelog/changeloglist.twig', array('context' => $context));
     }
 
     /**
@@ -440,7 +440,7 @@ class Backend implements ControllerProviderInterface
             //'content' => $content,
         );
 
-        return $app['render']->render('changelogdetails/changelogdetails.twig', array('context' => $context));
+        return $app['render']->render('changelog/changelogdetails.twig', array('context' => $context));
     }
 
     /**

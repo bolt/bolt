@@ -1,10 +1,10 @@
 {# Page: NavSecondary > Content ... > Recent modifications > view #}
 
-{% from 'changeloglist/_macros.twig' import changelog_details %}
+{% from 'changelog/_macros.twig' import changelog_details %}
 
 {% if context.prev_entry %}
     {% set left_link = path(
-            'changelogdetails',
+            'changelog',
             {'contenttype': context.contenttype.slug, 'contentid': context.entry.contentid, 'id': context.prev_entry.id}
        )
     %}
@@ -13,14 +13,14 @@
 {% endif %}
 
 {% set centerLink = path(
-        'changeloglist',
+        'changelog',
         {'contenttype': context.contenttype.slug, 'contentid': context.entry.contentid}
    )
 %}
 
 {% if context.next_entry %}
     {% set right_link = path(
-        'changelogdetails',
+        'changelog',
         {'contenttype': context.contenttype.slug, 'contentid': context.entry.contentid, 'id': context.next_entry.id}
        )
     %}
