@@ -107,6 +107,20 @@ module.exports = function(grunt) {
                     ]
                 }
             },
+            prepareCkeditor: {
+                options: {
+                    eol: 'lf',
+                    replace: true
+                },
+                files: {
+                    src: [
+                        'lib/ckeditor-*/*.js',  'lib/ckeditor-*/**/*.js',
+                        'lib/ckeditor-*/*.css', 'lib/ckeditor-*/**/*.css',
+                        'lib/ckeditor-*/*.md',  'lib/ckeditor-*/**/*.md',
+                        'lib/ckeditor-*/*.txt', 'lib/ckeditor-*/**/*.txt'
+                    ]
+                }
+            }
         },
 
         /*
@@ -376,6 +390,7 @@ module.exports = function(grunt) {
             'uglify:prepareLibJs',              // Create minified versions of library scripts that don't have them
             'remove:prepareCkeditor',           // Remove unneeded direcories from downloaded ckeditor
             'bom:prepareCkeditor',              // Remove unneeded bom from downloaded ckeditor
+            'eol:prepareCkeditor',              // Convert CRLF to LF from downloaded ckeditor
             // Install
             'copy:installFonts',                // Copies fonts                       => view/fonts/*
             'cssmin:installLibCss',             // Concats and minifies library css   => view/css/lib.css
