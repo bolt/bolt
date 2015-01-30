@@ -139,26 +139,28 @@ module.exports = function(grunt) {
                 }]
             },
             installCkeditor1: {
-                files: [{
-                    // Copy all CKEditor files
-                    expand: true,
-                    cwd: 'lib/ckeditor',
-                    src: [
-                        'lang/**',
-                        'plugins/**',
-                        'skins/**',
-                        'styles.js'
-                    ],
-                    dest: 'js/ckeditor'
-                }, {
-                    // Copy our empty config file
-                    src: 'lib/bolt/ckeditor-config.js',
-                    dest: 'js/ckeditor/config.js'
-                }, {
-                    // Copy style to css folder
-                    src: 'lib/ckeditor/contents.css',
-                    dest: 'css/ckeditor-contents.css'
-                }]
+                files: [
+                    {
+                        // Copy all CKEditor files
+                        expand: true,
+                        cwd: 'lib/ckeditor',
+                        src: [
+                            'lang/**',
+                            'plugins/**',
+                            'skins/**',
+                            'styles.js'
+                        ],
+                        dest: 'js/ckeditor'
+                    }, {
+                        // Copy our empty config file
+                        src: 'lib/bolt/ckeditor-config.js',
+                        dest: 'js/ckeditor/config.js'
+                    }, {
+                        // Copy style to css folder
+                        src: 'lib/ckeditor/contents.css',
+                        dest: 'css/ckeditor-contents.css'
+                    }
+                ]
             },
             installCkeditor2: {
                 // process doesn't work on file level, so we need a new target
