@@ -1,4 +1,4 @@
-<div class="btn-group">
+<div class="btn-group" {% if ismobileclient() %}style="margin-top:-12px;margin-bottom:8px;"{% endif %}>
     <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#">
         {{ __('page.dashboard.button.add') }}
         <span class="caret"></span>

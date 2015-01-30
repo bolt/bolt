@@ -1,11 +1,25 @@
-<h3>
+{% if ismobileclient() %}
+    <div style=" width: auto;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;font-weight:bold;">
+{% endif %}
+
+{% if not ismobileclient() %}
+    <h3>
+{% endif %}    
+
     <span class="pull-right">
         <a href="{{ path('overview', {'contenttypeslug': contenttype}) }}" class="morelink">
             {{ __('contenttypes.generic.show-more', {'%contenttypes%': contenttype}) }} »
         </a>
     </span>
     {{ __('contenttypes.generic.recently-edited', {'%contenttypes%': contenttype}) }}
-</h3>
+{% if ismobileclient() %}
+    </div>
+{% endif %}
+        
+{% if not ismobileclient() %}
+    </h3>
+{% endif %}  
+  
 
 <table class="table table-striped dashboardlisting">
     {% for content in multiplecontent %}
