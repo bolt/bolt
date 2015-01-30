@@ -576,7 +576,7 @@ class Users
                 "%s%sresetpassword?token=%s",
                 $this->app['paths']['hosturl'],
                 $this->app['paths']['bolt'],
-                $shadowtoken
+                urlencode($shadowtoken)
             );
 
             // Set the shadow password and related stuff in the database..
