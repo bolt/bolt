@@ -114,10 +114,10 @@ module.exports = function(grunt) {
                 },
                 files: {
                     src: [
-                        'lib/ckeditor-*/*.js',  'lib/ckeditor-*/**/*.js',
-                        'lib/ckeditor-*/*.css', 'lib/ckeditor-*/**/*.css',
-                        'lib/ckeditor-*/*.md',  'lib/ckeditor-*/**/*.md',
-                        'lib/ckeditor-*/*.txt', 'lib/ckeditor-*/**/*.txt'
+                        'lib/ckeditor/*.js',  'lib/ckeditor/**/*.js',
+                        'lib/ckeditor/*.css', 'lib/ckeditor/**/*.css',
+                        'lib/ckeditor/*.md',  'lib/ckeditor/**/*.md',
+                        'lib/ckeditor/*.txt', 'lib/ckeditor/**/*.txt'
                     ]
                 }
             }
@@ -341,8 +341,8 @@ module.exports = function(grunt) {
         remove: {
             prepareCkeditor: {
                 dirList: [
-                    'lib/ckeditor-4.4.7/adapters',
-                    'lib/ckeditor-4.4.7/samples'
+                    'lib/ckeditor/adapters',
+                    'lib/ckeditor/samples'
                 ]
             }
         },
@@ -353,8 +353,8 @@ module.exports = function(grunt) {
         bom: {
             prepareCkeditor: {
                 src: [
-                    'lib/ckeditor-*/*.js',
-                    'lib/ckeditor-*/**/*.js'
+                    'lib/ckeditor/*.js',
+                    'lib/ckeditor/**/*.js'
                 ]
             }
         }
