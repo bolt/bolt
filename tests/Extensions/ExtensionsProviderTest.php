@@ -507,9 +507,9 @@ EOM;
     public function testTwigExtensions()
     {
         $app = $this->getApp();
-        $app['log'] = new Mock\Logger();
+        $app['logger.system'] = new Mock\Logger();
         $app['extensions']->register(new Mock\ExtensionWithTwig($app));
-        $log = $app['log']->lastLog();
+        $log = $app['logger.system']->lastLog();
         // Temporarily Disabled, need to investigate why this now fails.
         //$this->assertContains('[EXT] Twig function registration failed', $log);
         //$this->assertContains('instance of Bolt\Tests\Extensions\Mock\BadTwigExtension given', $log);
