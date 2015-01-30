@@ -35,7 +35,9 @@ class ChangeLogItem implements \ArrayAccess
         if (isset($values['ownerid'])) {
             $this->ownerid = $values['ownerid'];
             $user = $this->app['users']->getUser($values['ownerid']);
-            if (isset($user['username'])) {
+            if (isset($user['displayname'])) {
+                $this->username = $user['displayname'];
+            } elseif (isset($user['username'])) {
                 $this->username = $user['username'];
             } else {
                 $this->username = "(deleted user #" . $values['ownerid'] . ")";
