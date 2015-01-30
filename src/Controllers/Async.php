@@ -86,6 +86,11 @@ class Async implements ControllerProviderInterface
         $ctr->post("/folder/create", array($this, 'createfolder'))
             ->bind('createfolder');
 
+        $ctr->get('/changelog/{contenttype}/{contentid}', array($this, 'changelogRecord'))
+            ->value('contenttype', '')
+            ->value('contentid', '0')
+            ->bind('changelogrecord');
+
         return $ctr;
     }
 
@@ -656,6 +661,32 @@ class Async implements ControllerProviderInterface
         }
 
         return false;
+    }
+
+    /**
+     * Generate the change log box for a single record in edit
+     *
+     * @param  string            $contenttype
+     * @param  integer           $contentid
+     * @param  Silex\Application $app
+     * @param  Request           $request
+     * @return string
+     */
+    public function changelogRecord($contenttype, $contentid, Silex\Application $app, Request $request)
+    {
+        $options = array(
+            'contentid' => $contentid,
+            'limit'     => 4,
+            'order'     => 'date',
+            'direction' => 'DESC'
+        );
+
+        $context = array(
+            'contenttype' => $contenttype,
+            'entries'     => $app['logger.manager.change']->getChangelogByContentType($contenttype, $options)
+        );
+
+        return $app['render']->render('components/panel-change-record.twig', array('context' => $context));
     }
 
     /**

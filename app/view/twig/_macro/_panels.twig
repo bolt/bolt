@@ -23,7 +23,19 @@
     {% if content_id|default(false) or stackitems() is not empty %}
         {{ render(path('lastmodified', {'contenttypeslug': contenttype_slug})) }}
     {% else %}
-        {{ render(path("lastmodified", {"contenttypeslug": contenttype_slug, "contentid": content_id})) }}
+        {{ render(path('lastmodified', {'contenttypeslug': contenttype_slug, 'contentid': content_id})) }}
     {% endif %}
 {% endmacro %}
 
+
+{##
+ # Renders a record changes panel
+ #
+ # @param string contenttype_slug
+ # @param mixed  content_id (default: false)
+ #}
+{% macro changes(contenttype_slug, content_id) %}
+    {% if app.config.get('general/changelog/enabled', true) %}
+        {{ render(path('changelogrecord', {'contenttype': contenttype_slug, 'contentid': content_id})) }}
+    {% endif %}
+{% endmacro %}

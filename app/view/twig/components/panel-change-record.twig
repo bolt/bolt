@@ -1,0 +1,27 @@
+{##
+ # Sidebar-Panel: Displays the specific record's recent change log entries
+ # (Usage Example: Edit content)
+ #}
+{% extends '_base/_panel.twig' %}
+
+{% block panel_class 'panel-change-record' %}
+
+{% block panel_icon 'fa-clock-o' %}
+
+{% block panel_head __('contenttypes.generic.recent-changes-one',{'%contenttype%': context.contenttype}) %}
+
+{% block panel_body %}
+    <div id="changeholder">
+        <div class="row">
+            <div class="col-xs-12">
+            {% for item in context.entries %}
+                <p>- <a href="{{ path('changelogrecordsingle', {'contenttype': item.contenttype, 'contentid': item.contentid, 'id': item.id}) }}">
+                          <time class="moment" datetime="{{ item.date }}" title="{{ item.date }}"></time></a> changed by {{ item.username }}</p>
+            {% else %}
+                <div class="nochangeitems">{{ __('There are no saved changes, yet.') }}</div>
+            {% endfor %}
+            </div>
+        </div>
+    </div>
+
+{% endblock panel_body %}
