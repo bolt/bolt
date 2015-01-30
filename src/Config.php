@@ -901,9 +901,6 @@ class Config
             $request = Request::createFromGlobals();
         }
 
-        // Ensure the request path always includes a left slash
-        $reqPath = '/' . ltrim($request->getPathInfo(), '/');
-
         // Default mountpoint is branding path (defaults to 'bolt' unless changed in config)
         if (empty($mountpoint)) {
             $mountpoint = $this->get('general/branding/path');
@@ -915,7 +912,7 @@ class Config
         if (strpos($request->getPathInfo(), '/async') === 0 || $request->isXmlHttpRequest()) {
             // If path begins with '/async' or is AJAX request, is 'async'
             $end = 'async';
-        } elseif (strpos($reqPath, $mountpoint) === 0) {
+        } elseif (strpos($request->getPathInfo(), $mountpoint) === 0) {
             // If request path starts with mountpoint, is backend
             $end = 'backend';
         } else { 
