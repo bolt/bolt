@@ -319,6 +319,18 @@ module.exports = function(grunt) {
                 },
                 src: ["<%= filesBoltJs %>"]
             }
+        },
+
+        /*
+         * REMOVE: Remove directory and files
+         */
+        remove: {
+            prepareCkeditor: {
+                dirList: [
+                    'lib/ckeditor-4.4.7/adapters',
+                    'lib/ckeditor-4.4.7/samples'
+                ]
+            }
         }
     });
 
@@ -350,6 +362,7 @@ module.exports = function(grunt) {
             // Prepare
             'uglify:prepareBootstrapJs',        // Concat bootstrap scripts into one minified file
             'uglify:prepareLibJs',              // Create minified versions of library scripts that don't have them
+            'remove:prepareCkeditor',           // Remove unneeded direcories from downloaded ckeditor
             // Install
             'copy:installFonts',                // Copies fonts                       => view/fonts/*
             'cssmin:installLibCss',             // Concats and minifies library css   => view/css/lib.css
