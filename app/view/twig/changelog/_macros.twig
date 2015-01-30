@@ -57,7 +57,7 @@
                 </thead>
 
                 <tbody>
-                {% for key, fieldDiff in entry.parsedDiff %}
+                {% for key, fieldDiff in entry.diff %}
                     <tr>
                         <td>{{ key }}</td>
                         <td class="source-code">{{ fieldDiff[0] }}</td>
