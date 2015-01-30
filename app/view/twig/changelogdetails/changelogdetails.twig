@@ -1,6 +1,6 @@
 {# Page: NavSecondary > Content ... > Recent modifications > view #}
 
-{% from '_macro/_changelog_details.twig' import changelog_details %}
+{% from 'changeloglist/_macros.twig' import changelog_details %}
 
 {% if context.prev_entry %}
     {% set left_link = path(
