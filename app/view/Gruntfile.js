@@ -24,7 +24,7 @@ module.exports = function(grunt) {
             'lib/bolt/obj-datetime.js',
             'lib/bolt/extend.js',
             'lib/bolt/init.js',
-            'lib/bolt/start.js'
+            'lib/boleditort/start.js'
         ],
 
         /*
@@ -136,6 +136,21 @@ module.exports = function(grunt) {
                     ],
                     filter: 'isFile',
                     dest: 'fonts/'
+                }]
+            },
+            installCkeditor: {
+                files: [{
+                    // Copy all CKEditor files
+                    expand: true,
+                    cwd: 'lib/ckeditor',
+                    src: [
+                        'lang/**',
+                        'plugins/**',
+                        'skins/**',
+                        'styles.js',
+                        'ckeditor.js'
+                    ],
+                    dest: 'js/ckeditor'
                 }]
             }
         },
@@ -396,7 +411,8 @@ module.exports = function(grunt) {
             'cssmin:installLibCss',             // Concats and minifies library css   => view/css/lib.css
             'concat:installLibJs',              // Concats minified library scripts   => view/js/lib.min.js
             'uglify:installLocaleDatepicker',   // Copies minified datepicker locale  => view/js/locale/datepicker/*
-            'uglify:installLocaleMoment'        // Copies minified moment.js locale   => view/js/locale/datepicker/*
+            'uglify:installLocaleMoment',       // Copies minified moment.js locale   => view/js/locale/datepicker/*
+            'copy:installCkeditor'              // Copies CKEditor files              => view/js/ckeditor/*
         ]
     );
 };
