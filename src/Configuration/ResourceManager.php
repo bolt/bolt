@@ -13,7 +13,6 @@ use Symfony\Component\Filesystem\Filesystem;
  *
  * Intended to simplify the ability to override resource location
  *
- *
  * @author Ross Riley, riley.ross@gmail.com
  *
  * @property \Composer\Autoload\ClassLoader $classloader
@@ -263,7 +262,6 @@ class ResourceManager
      * Takes a Request object and uses it to initialize settings that depend on the request
      *
      * @return void
-     *
      */
     public function initializeRequest(Request $request = null)
     {
@@ -305,7 +303,6 @@ class ResourceManager
      * Takes a Bolt Application and uses it to initialize settings that depend on the application config
      *
      * @return void
-     *
      */
     public function initializeApp(Application $app)
     {
@@ -317,7 +314,6 @@ class ResourceManager
      * Takes a loaded config array and uses it to initialize settings that depend on it
      *
      * @return void
-     *
      */
     public function initializeConfig($config)
     {
@@ -375,7 +371,6 @@ class ResourceManager
      * allow the Application constructor to pre-provide a theme path.
      *
      * @return void
-     *
      */
     public function setThemePath($generalConfig)
     {
@@ -398,7 +393,6 @@ class ResourceManager
      *
      * @return void
      * @author
-     *
      */
     public function verify()
     {
@@ -440,14 +434,13 @@ class ResourceManager
     }
 
     /**
-    *
-    * Find the relative file system path between two file system paths
-    *
-    * @param string $frompath Path to start from
-    * @param string $topath Path we want to end up in
-    *
-    * @return string Path leading from $frompath to $topath
-    */
+     * Find the relative file system path between two file system paths
+     *
+     * @param string $frompath Path to start from
+     * @param string $topath Path we want to end up in
+     *
+     * @return string Path leading from $frompath to $topath
+     */
     public function findRelativePath($frompath, $topath)
     {
         $filesystem = new Filesystem();
