@@ -107,6 +107,20 @@ module.exports = function(grunt) {
                     ]
                 }
             },
+            prepareCkeditor: {
+                options: {
+                    eol: 'lf',
+                    replace: true
+                },
+                files: {
+                    src: [
+                        'lib/ckeditor/*.js',  'lib/ckeditor/**/*.js',
+                        'lib/ckeditor/*.css', 'lib/ckeditor/**/*.css',
+                        'lib/ckeditor/*.md',  'lib/ckeditor/**/*.md',
+                        'lib/ckeditor/*.txt', 'lib/ckeditor/**/*.txt'
+                    ]
+                }
+            }
         },
 
         /*
@@ -123,6 +137,45 @@ module.exports = function(grunt) {
                     filter: 'isFile',
                     dest: 'fonts/'
                 }]
+            },
+            installCkeditor1: {
+                files: [
+                    {
+                        // Copy all CKEditor files
+                        expand: true,
+                        cwd: 'lib/ckeditor',
+                        src: [
+                            'plugins/**',
+                            'skins/**',
+                            'styles.js'
+                        ],
+                        dest: 'js/ckeditor'
+                    }, {
+                        // Copy our empty config file
+                        src: 'lib/bolt/ckeditor-config.js',
+                        dest: 'js/ckeditor/config.js'
+                    }, {
+                        // Copy style to css folder
+                        src: 'lib/ckeditor/contents.css',
+                        dest: 'css/ckeditor-contents.css'
+                    }, {
+                        // Copy CKEditor locale
+                        expand: true,
+                        flatten: true,
+                        src: 'lib/ckeditor/lang/*.js',
+                        dest: 'js/locale/ckeditor'
+                    }
+                ]
+            },
+            installCkeditor2: {
+                // process doesn't work on file level, so we need a new target
+                src: 'lib/ckeditor/ckeditor.js',
+                dest: 'js/ckeditor/ckeditor.js',
+                options: {
+                    process: function (cont) {
+                        return cont.replace(/(CKEDITOR\.getUrl\()"lang\/"(\+a\+"\.js"\))/, '$1"../locale/ckeditor/"$2');
+                    }
+                }
             }
         },
 
@@ -318,6 +371,30 @@ module.exports = function(grunt) {
                 },
                 src: ["<%= filesBoltJs %>"]
             }
+        },
+
+        /*
+         * REMOVE: Remove directory and files
+         */
+        remove: {
+            prepareCkeditor: {
+                dirList: [
+                    'lib/ckeditor/adapters',
+                    'lib/ckeditor/samples'
+                ]
+            }
+        },
+
+        /*
+         * BOM: Byte Order Mark (BOM) removal
+         */
+        bom: {
+            prepareCkeditor: {
+                src: [
+                    'lib/ckeditor/*.js',
+                    'lib/ckeditor/**/*.js'
+                ]
+            }
         }
     });
 
@@ -349,12 +426,17 @@ module.exports = function(grunt) {
             // Prepare
             'uglify:prepareBootstrapJs',        // Concat bootstrap scripts into one minified file
             'uglify:prepareLibJs',              // Create minified versions of library scripts that don't have them
+            'remove:prepareCkeditor',           // Remove unneeded direcories from downloaded ckeditor
+            'bom:prepareCkeditor',              // Remove unneeded bom from downloaded ckeditor
+            'eol:prepareCkeditor',              // Convert CRLF to LF from downloaded ckeditor
             // Install
             'copy:installFonts',                // Copies fonts                       => view/fonts/*
             'cssmin:installLibCss',             // Concats and minifies library css   => view/css/lib.css
             'concat:installLibJs',              // Concats minified library scripts   => view/js/lib.min.js
             'uglify:installLocaleDatepicker',   // Copies minified datepicker locale  => view/js/locale/datepicker/*
-            'uglify:installLocaleMoment'        // Copies minified moment.js locale   => view/js/locale/datepicker/*
+            'uglify:installLocaleMoment',       // Copies minified moment.js locale   => view/js/locale/moment/*
+            'copy:installCkeditor1',            // Copies CKEditor files              => view/js/ckeditor/*
+            'copy:installCkeditor2'             // Copies modified ckeditor.js        => view/js/ckeditor/ckeditor.js
         ]
     );
 };
