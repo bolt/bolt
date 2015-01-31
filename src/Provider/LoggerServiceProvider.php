@@ -22,47 +22,54 @@ class LoggerServiceProvider implements ServiceProviderInterface
     public function register(Application $app)
     {
         // System log
-        $app['logger.system'] = $app->share(function ($app) {
-            $log = new Logger('logger.system');
+        $app['logger.system'] = $app->share(
+            function ($app) {
+                $log = new Logger('logger.system');
+                $log->pushHandler(new SystemHandler($app));
 
-            $log->pushHandler(new SystemHandler($app));
-
-            return $log;
-        });
+                return $log;
+            }
+        );
 
         // Changelog
-        $app['logger.change'] = $app->share(function ($app) {
-            $log = new Logger('logger.change');
+        $app['logger.change'] = $app->share(
+            function ($app) {
+                $log = new Logger('logger.change');
+                $log->pushHandler(new RecordChangeHandler($app));
 
-            $log->pushHandler(new RecordChangeHandler($app));
-
-            return $log;
-        });
+                return $log;
+            }
+        );
 
         // Firebug
-        $app['logger.firebug'] = $app->share(function ($app) {
-            $log = new Logger('logger.firebug');
-            $handler = new FirePHPHandler();
-            $handler->setFormatter(new WildfireFormatter());
+        $app['logger.firebug'] = $app->share(
+            function ($app) {
+                $log = new Logger('logger.firebug');
+                $handler = new FirePHPHandler();
+                $handler->setFormatter(new WildfireFormatter());
+                $log->pushHandler($handler);
 
-            $log->pushHandler($handler);
-
-            return $log;
-        });
+                return $log;
+            }
+        );
 
         // Manager
-        $app['logger.manager'] = $app->share(function ($app) {
-            $mgr = new Manager($app);
+        $app['logger.manager'] = $app->share(
+            function ($app) {
+                $mgr = new Manager($app);
 
-            return $mgr;
-        });
+                return $mgr;
+            }
+        );
 
         // Change Log Manager
-        $app['logger.manager.change'] = $app->share(function ($app) {
-            $mgr = new ChangeLog($app);
+        $app['logger.manager.change'] = $app->share(
+            function ($app) {
+                $mgr = new ChangeLog($app);
 
-            return $mgr;
-        });
+                return $mgr;
+            }
+        );
     }
 
     public function boot(Application $app)

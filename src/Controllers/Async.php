@@ -161,16 +161,21 @@ class Async implements ControllerProviderInterface
     {
         $activity = $app['logger.manager']->getActivity('change', 8);
 
-        $body = $app['render']->render('components/panel-change.twig', array(
-            'activity' => $activity
-        ));
+        $body = $app['render']->render(
+            'components/panel-change.twig',
+            array(
+                'activity' => $activity
+            )
+        );
 
         $activity = $app['logger.manager']->getActivity('system', 8, null, 'authentication');
 
-        $body .= $app['render']->render('components/panel-system.twig', array(
-            'activity' => $activity
-        ));
-
+        $body .= $app['render']->render(
+            'components/panel-system.twig',
+            array(
+                'activity' => $activity
+            )
+        );
 
         return new Response($body, 200, array('Cache-Control' => 's-maxage=3600, public'));
     }

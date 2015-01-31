@@ -83,10 +83,12 @@ final class RequirePackage
 
         $repos = $this->composer->getRepositoryManager()->getRepositories();
 
-        $this->repos = new CompositeRepository(array_merge(
-            array(new PlatformRepository()),
-            $repos
-        ));
+        $this->repos = new CompositeRepository(
+            array_merge(
+                array(new PlatformRepository()),
+                $repos
+            )
+        );
 
         $requireKey = $this->options['dev'] ? 'require-dev' : 'require';
         $removeKey = $this->options['dev'] ? 'require' : 'require-dev';

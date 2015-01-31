@@ -195,10 +195,12 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
         $version = $request->get('version');
         $app['extensions.stats']->recordInstall($package, $version);
 
-        $response = $app['extend.manager']->requirePackage(array(
-            'name' => $package,
-            'version' => $version
-            ));
+        $response = $app['extend.manager']->requirePackage(
+            array(
+                'name' => $package,
+                'version' => $version
+            )
+        );
 
         if ($response === 0) {
             return new Response($app['extend.manager']->getOutput());
