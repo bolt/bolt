@@ -29,12 +29,6 @@
         <div id="navpage-content" class="container-fluid">
             <div class="row">
                 <div class="col-xs-12">
-                    {% if app.bolt_released == false %}
-                        <div class="alert alert-warning">
-                            <button class="close" data-dismiss="alert">×</button>
-                            <strong>[WARNING] This is a development version of Bolt and is not suitable for production use!</strong>
-                        </div>
-                    {% endif %}
                     <h1 class="page-header">
                         {% if block('page_subtitle') is empty %}
                             <strong>{{ block('page_title') }}</strong>
