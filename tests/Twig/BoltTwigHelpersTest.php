@@ -54,9 +54,11 @@ class BoltTwigHelpersTest extends BoltUnitTest
         // Now test with debug enabled
         // We need to override Symfony's default handler to get the output
         $output = '';
-        VarDumper::setHandler(function ($var) use ($output) {
-            $output.=$var;
-        });
+        VarDumper::setHandler(
+            function ($var) use ($output) {
+                $output.=$var;
+            }
+        );
 
         $app = $this->getApp();
         $twig = new TwigExtension($app);
@@ -283,19 +285,23 @@ class BoltTwigHelpersTest extends BoltUnitTest
 
         // Get the content object and create a routed request
         $request = Request::create('/showcase/new-showcase');
-        $app->before(function ($request, $app) use ($phpunit, $twig, $storage) {
-            $fetched = $storage->getContent('showcases/1');
-            $phpunit->assertTrue($twig->current($fetched));
-        });
+        $app->before(
+            function ($request, $app) use ($phpunit, $twig, $storage) {
+                $fetched = $storage->getContent('showcases/1');
+                $phpunit->assertTrue($twig->current($fetched));
+            }
+        );
         $app->handle($request);
 
         // Test works on custom homepage
         $app['config']->set('general/homepage', 'showcase/new-showcase');
         $request = Request::create('/');
-        $app->before(function ($request, $app) use ($phpunit, $twig, $storage) {
-            $fetched = $storage->getContent('showcases/1');
-            $phpunit->assertTrue($twig->current($fetched));
-        });
+        $app->before(
+            function ($request, $app) use ($phpunit, $twig, $storage) {
+                $fetched = $storage->getContent('showcases/1');
+                $phpunit->assertTrue($twig->current($fetched));
+            }
+        );
         $app->handle($request);
 
         // Delete the content so we're back to a clean database
@@ -354,12 +360,14 @@ class BoltTwigHelpersTest extends BoltUnitTest
         $storage->saveContent($content);
 
         $request = Request::create('/');
-        $app->before(function ($request, $app) use ($phpunit, $twig, $storage) {
-            $fetched = $storage->getContent('showcases/1');
-            $content = $twig->listContent('entries', array('order'=>'title'), $fetched);
-            $phpunit->assertEquals(2, count($content));
-            $phpunit->assertFalse($content[2]['selected']);
-        });
+        $app->before(
+            function ($request, $app) use ($phpunit, $twig, $storage) {
+                $fetched = $storage->getContent('showcases/1');
+                $content = $twig->listContent('entries', array('order'=>'title'), $fetched);
+                $phpunit->assertEquals(2, count($content));
+                $phpunit->assertFalse($content[2]['selected']);
+            }
+        );
         $app->handle($request);
 
         // Clean up test database
@@ -381,7 +389,12 @@ class BoltTwigHelpersTest extends BoltUnitTest
     {
         $words = array('this', 'is', 'a', 'test', 'long', 'string', 'of', 'words', 'and', 'means', 'almost', 'nothing');
         $longwords = range(1, $length);
-        array_walk($longwords, function (&$w) use ($words) {$w=$words[array_rand($words)];});
+        array_walk(
+            $longwords,
+            function (&$w) use ($words) {
+                $w = $words[array_rand($words)];
+            }
+        );
 
         return implode(' ', $longwords);
     }

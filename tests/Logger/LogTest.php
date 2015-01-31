@@ -84,31 +84,36 @@ class LogTest extends BoltUnitTest
         $queries = array();
         $db->expects($this->any())
             ->method('executeQuery')
-            ->will($this->returnCallback(function ($query, $params) use (&$queries, $mocker) {
-                $queries[] = array($query, $params);
+            ->will(
+                $this->returnCallback(
+                    function ($query, $params) use (&$queries, $mocker) {
+                        $queries[] = array($query, $params);
 
-                return $mocker->getStatementMock();
-            }));
+                        return $mocker->getStatementMock();
+                    }
+                )
+            );
 
         $app['db'] = $db;
         // Create a routed request which is needed to test logging
         $log = new Log($app);
         $request = Request::create('/');
-        $app->before(function ($request, $app) use ($phpunit, $log, &$queries) {
+        $app->before(
+            function ($request, $app) use ($phpunit, $log, &$queries) {
+                $log->getActivity();
 
-            $log->getActivity();
-
-            // We should have 3 queries stored, ignore the first as this is a generic user fetch
-            array_shift($queries);
-            $phpunit->assertEquals(
-                "SELECT * FROM bolt_log WHERE code IN (?) OR (level >= ?) ORDER BY date DESC LIMIT 10 OFFSET 0",
-                $queries[0][0]
-            );
-            $phpunit->assertEquals(
-                "SELECT count(*) as count FROM bolt_log WHERE code IN (?) OR (level >= ?)",
-                $queries[1][0]
-            );
-        });
+                // We should have 3 queries stored, ignore the first as this is a generic user fetch
+                array_shift($queries);
+                $phpunit->assertEquals(
+                    "SELECT * FROM bolt_log WHERE code IN (?) OR (level >= ?) ORDER BY date DESC LIMIT 10 OFFSET 0",
+                    $queries[0][0]
+                );
+                $phpunit->assertEquals(
+                    "SELECT count(*) as count FROM bolt_log WHERE code IN (?) OR (level >= ?)",
+                    $queries[1][0]
+                );
+            }
+        );
         $app->handle($request);
 
     }
@@ -132,11 +137,15 @@ class LogTest extends BoltUnitTest
         $queries = array();
         $db->expects($this->any())
             ->method('executeQuery')
-            ->will($this->returnCallback(function ($query, $params) use (&$queries, $mocker) {
-                $queries[] = array($query, $params);
+            ->will(
+                $this->returnCallback(
+                    function ($query, $params) use (&$queries, $mocker) {
+                        $queries[] = array($query, $params);
 
-                return $mocker->getStatementMock();
-            }));
+                        return $mocker->getStatementMock();
+                    }
+                )
+            );
 
         $app['db'] = $db;
         $log = new Log($app);

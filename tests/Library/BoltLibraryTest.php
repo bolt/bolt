@@ -97,8 +97,11 @@ class BoltLibraryTest extends BoltUnitTest
 
         $this->assertEquals(
             '/pages/content',
-            Library::path('contentlink', array('contenttypeslug'=>'pages', 'slug'=>'content')
-        ));
+            Library::path(
+                'contentlink',
+                array('contenttypeslug'=>'pages', 'slug'=>'content')
+            )
+        );
 
         $query = "testing=yes";
         $this->assertEquals("/search?testing=yes", Library::path("search", array(), $query));
