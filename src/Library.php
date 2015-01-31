@@ -292,7 +292,6 @@ class Library
      */
     public static function saveSerialize($filename, &$data)
     {
-        $app = ResourceManager::getApp();
         $filename = self::fixPath($filename);
 
         $serString = '<?php /* bolt */ die(); ?>json:' . json_encode($data);
