@@ -101,7 +101,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
      */
     public function testNonExistingDirCantBeCreated()
     {
-        if (strtoupper(substr(PHP_OS, 0, 3)=='WIN')) {
+        if (strtoupper(substr(PHP_OS, 0, 3) == 'WIN')) {
             throw new \InvalidArgumentException('Win can');
         } else {
             $newCache = new Cache("/foo/bar/baz");
@@ -113,7 +113,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
      */
     public function testUnwriteableCacheDir()
     {
-        if (strtoupper(substr(PHP_OS, 0, 3)=='WIN')) {
+        if (strtoupper(substr(PHP_OS, 0, 3) == 'WIN')) {
             throw new \InvalidArgumentException('Win can');
         } else {
             $this->clean($this->workspace);
@@ -121,5 +121,4 @@ class CacheTest extends \PHPUnit_Framework_TestCase
             $this->cache = new Cache($this->workspace);
         }
     }
-
 }

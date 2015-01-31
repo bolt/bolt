@@ -17,5 +17,4 @@ class PackageManagerTest extends BoltUnitTest
     {
 
     }
-
 }

@@ -43,20 +43,22 @@ class BoltTwigHelpersTest extends BoltUnitTest
         // First safe test
         $app = $this->getApp();
         $twig = new TwigExtension($app, true);
-        $this->assertEquals('?', $twig->printDump(range(1,10)));
+        $this->assertEquals('?', $twig->printDump(range(1, 10)));
 
         // Now test with debug off
         $app = $this->getApp();
         $twig = new TwigExtension($app);
         $app['config']->set('general/debug', false);
-        $this->assertEquals('', $twig->printDump(range(1,10)));
+        $this->assertEquals('', $twig->printDump(range(1, 10)));
 
         // Now test with debug enabled
         // We need to override Symfony's default handler to get the output
         $output = '';
-        VarDumper::setHandler(function ($var) use ($output) {
-            $output.=$var;
-        });
+        VarDumper::setHandler(
+            function ($var) use ($output) {
+                $output .= $var;
+            }
+        );
 
         $app = $this->getApp();
         $twig = new TwigExtension($app);
@@ -65,7 +67,6 @@ class BoltTwigHelpersTest extends BoltUnitTest
 
     public function testPrintBacktrace()
     {
-
         // First test with debug off
         $app = $this->getApp();
         $twig = new TwigExtension($app);
@@ -96,7 +97,6 @@ class BoltTwigHelpersTest extends BoltUnitTest
         $app['config']->set('general/locale', 'de_DE');
         $twig = new TwigExtension($app);
         $this->assertEquals('de-DE', $twig->htmlLang());
-
     }
 
     // public function testLocaleDateTime()
@@ -137,13 +137,13 @@ class BoltTwigHelpersTest extends BoltUnitTest
         $this->assertEquals('called', $excerpt2);
 
         // If the object doesn't implement method, it should return false
-        $obj = new \ArrayObject(array('info'=>'A test title', 'body'=>$this->getDummyText()) );
+        $obj = new \ArrayObject(array('info' => 'A test title', 'body' => $this->getDummyText()));
         $this->assertFalse($twig->excerpt($obj));
 
         // Check that array works.
-        $sample = array('info'=>'A test title', 'body'=>$this->getDummyText());
+        $sample = array('info' => 'A test title', 'body' => $this->getDummyText());
         $excerpt4 = $twig->excerpt($sample);
-        $this->assertRegExp('/'.$sample['info'].'/', $excerpt4);
+        $this->assertRegExp('/' . $sample['info'] . '/', $excerpt4);
 
         // Check that non text returns empty
         $excerpt5 = $twig->excerpt(1);
@@ -191,7 +191,6 @@ class BoltTwigHelpersTest extends BoltUnitTest
         $app = $this->getApp();
         $twig = new TwigExtension($app);
         $this->assertFalse($twig->imageInfo('nothing'));
-
     }
 
     public function testSlug()
@@ -213,7 +212,7 @@ class BoltTwigHelpersTest extends BoltUnitTest
         $app = $this->getApp();
         $twig = new TwigExtension($app);
         $snippet = 'Hello {{item}}';
-        $this->assertEquals('Hello World', $twig->twig($snippet, array('item'=>'World')));
+        $this->assertEquals('Hello World', $twig->twig($snippet, array('item' => 'World')));
     }
 
     public function testDecorateTT()
@@ -235,10 +234,10 @@ class BoltTwigHelpersTest extends BoltUnitTest
         $app = $this->getApp();
         $twig = new TwigExtension($app);
         $input = array(
-            array('title'=>'Gamma', 'id'=>10, 'date'=>'2014-01-19'),
-            array('title'=>'Alpha', 'id'=>10, 'date'=>'2014-02-20'),
-            array('title'=>'Beta', 'id'=>8, 'date'=>'2014-01-10'),
-            array('title'=>'Delta', 'id'=>6, 'date'=>'2014-01-19')
+            array('title' => 'Gamma', 'id' => 10, 'date' => '2014-01-19'),
+            array('title' => 'Alpha', 'id' => 10, 'date' => '2014-02-20'),
+            array('title' => 'Beta', 'id' => 8, 'date' => '2014-01-10'),
+            array('title' => 'Delta', 'id' => 6, 'date' => '2014-01-19')
         );
         $result = array_values($twig->order($input, 'id'));
         $this->assertEquals('Delta', $result[0]['title']);
@@ -248,7 +247,6 @@ class BoltTwigHelpersTest extends BoltUnitTest
         // Test sort on secondary keys
         $result = array_values($twig->order($input, 'id', 'date'));
         $this->assertEquals('Gamma', $result[2]['title']);
-
     }
 
     public function testFirst()
@@ -274,7 +272,7 @@ class BoltTwigHelpersTest extends BoltUnitTest
         $this->addDefaultUser($app);
         $storage = new Storage($app);
         $content = $storage->getEmptyContent('showcases');
-        $content->setValues(array('title'=>'New Showcase','slug'=>'new-showcase','status'=>'published'));
+        $content->setValues(array('title' => 'New Showcase', 'slug' => 'new-showcase', 'status' => 'published'));
         $storage->saveContent($content);
 
         $phpunit = $this;
@@ -283,24 +281,27 @@ class BoltTwigHelpersTest extends BoltUnitTest
 
         // Get the content object and create a routed request
         $request = Request::create('/showcase/new-showcase');
-        $app->before(function ($request, $app) use ($phpunit, $twig, $storage) {
-            $fetched = $storage->getContent('showcases/1');
-            $phpunit->assertTrue($twig->current($fetched));
-        });
+        $app->before(
+            function ($request, $app) use ($phpunit, $twig, $storage) {
+                $fetched = $storage->getContent('showcases/1');
+                $phpunit->assertTrue($twig->current($fetched));
+            }
+        );
         $app->handle($request);
 
         // Test works on custom homepage
         $app['config']->set('general/homepage', 'showcase/new-showcase');
         $request = Request::create('/');
-        $app->before(function ($request, $app) use ($phpunit, $twig, $storage) {
-            $fetched = $storage->getContent('showcases/1');
-            $phpunit->assertTrue($twig->current($fetched));
-        });
+        $app->before(
+            function ($request, $app) use ($phpunit, $twig, $storage) {
+                $fetched = $storage->getContent('showcases/1');
+                $phpunit->assertTrue($twig->current($fetched));
+            }
+        );
         $app->handle($request);
 
         // Delete the content so we're back to a clean database
-        $storage->deleteContent('showcases',1);
-
+        $storage->deleteContent('showcases', 1);
     }
 
     public function testToken()
@@ -336,37 +337,39 @@ class BoltTwigHelpersTest extends BoltUnitTest
 
         // First up we seed the database with a showcase and some related entries.
         $content = $storage->getEmptyContent('entries');
-        $content->setValues(array('title'=>'New Entry 1','slug'=>'new-entry-1','status'=>'published'));
+        $content->setValues(array('title' => 'New Entry 1', 'slug' => 'new-entry-1', 'status' => 'published'));
         $storage->saveContent($content);
 
         $content = $storage->getEmptyContent('entries');
-        $content->setValues(array('title'=>'New Entry 2','slug'=>'new-entry-2','status'=>'published'));
+        $content->setValues(array('title' => 'New Entry 2', 'slug' => 'new-entry-2', 'status' => 'published'));
         $storage->saveContent($content);
 
         $content = $storage->getEmptyContent('entries');
-        $content->setValues(array('title'=>'New Entry 3','slug'=>'new-entry-3','status'=>'published'));
+        $content->setValues(array('title' => 'New Entry 3', 'slug' => 'new-entry-3', 'status' => 'published'));
         $storage->saveContent($content);
 
         $content = $storage->getEmptyContent('showcases');
-        $content->setValues(array('title'=>'New Showcase','slug'=>'new-showcase','status'=>'published'));
-        $content->setRelation('entries',1);
-        $content->setRelation('entries',2);
+        $content->setValues(array('title' => 'New Showcase', 'slug' => 'new-showcase', 'status' => 'published'));
+        $content->setRelation('entries', 1);
+        $content->setRelation('entries', 2);
         $storage->saveContent($content);
 
         $request = Request::create('/');
-        $app->before(function ($request, $app) use ($phpunit, $twig, $storage) {
-            $fetched = $storage->getContent('showcases/1');
-            $content = $twig->listContent('entries', array('order'=>'title'), $fetched);
-            $phpunit->assertEquals(2, count($content));
-            $phpunit->assertFalse($content[2]['selected']);
-        });
+        $app->before(
+            function ($request, $app) use ($phpunit, $twig, $storage) {
+                $fetched = $storage->getContent('showcases/1');
+                $content = $twig->listContent('entries', array('order' => 'title'), $fetched);
+                $phpunit->assertEquals(2, count($content));
+                $phpunit->assertFalse($content[2]['selected']);
+            }
+        );
         $app->handle($request);
 
         // Clean up test database
-        $storage->deleteContent('entries',1);
-        $storage->deleteContent('entries',2);
-        $storage->deleteContent('entries',3);
-        $storage->deleteContent('showcases',1);
+        $storage->deleteContent('entries', 1);
+        $storage->deleteContent('entries', 2);
+        $storage->deleteContent('entries', 3);
+        $storage->deleteContent('showcases', 1);
     }
 
     public function testPager()
@@ -380,10 +383,14 @@ class BoltTwigHelpersTest extends BoltUnitTest
     protected function getDummyText($length = 1000)
     {
         $words = array('this', 'is', 'a', 'test', 'long', 'string', 'of', 'words', 'and', 'means', 'almost', 'nothing');
-        $longwords = range(1,$length);
-        array_walk($longwords, function (&$w) use ($words) {$w=$words[array_rand($words)];});
+        $longwords = range(1, $length);
+        array_walk(
+            $longwords,
+            function (&$w) use ($words) {
+                $w = $words[array_rand($words)];
+            }
+        );
 
         return implode(' ', $longwords);
     }
-
 }

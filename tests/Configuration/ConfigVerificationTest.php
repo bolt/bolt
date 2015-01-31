@@ -21,5 +21,4 @@ class ConfigVerificationTest extends \PHPUnit_Framework_TestCase
         $config->verify();
 
     }
-
 }

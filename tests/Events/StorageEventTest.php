@@ -32,5 +32,4 @@ class StorageEventTest extends BoltUnitTest
         $this->assertEquals(5, $event->getId());
         $this->assertEquals('test', $event->getContentType());
     }
-
 }

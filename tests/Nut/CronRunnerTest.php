@@ -21,9 +21,14 @@ class CronRunnerTest extends BoltUnitTest
         $tester = new CommandTester($command);
 
         $events = array();
-        $app['dispatcher']->addListener('cron.Hourly', function () use (&$events) { $events[] = 'cron.Hourly'; });
+        $app['dispatcher']->addListener(
+            'cron.Hourly',
+            function () use (&$events) {
+                $events[] = 'cron.Hourly';
+            }
+        );
 
-        $tester->execute(array('--run'=>'cron.Hourly'));
+        $tester->execute(array('--run' => 'cron.Hourly'));
         $result = $tester->getDisplay();
         $this->assertContains('cron.Hourly', $events);
 
@@ -32,5 +37,4 @@ class CronRunnerTest extends BoltUnitTest
         $this->assertEquals(1, count($events));
 
     }
-
 }

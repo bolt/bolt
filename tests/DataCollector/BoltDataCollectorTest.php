@@ -48,7 +48,7 @@ class BoltDataCollectorTest extends BoltUnitTest
         $app = $this->getApp();
         $app['config']->set("general/branding/provided_by/0", 'testperson');
         $app['config']->set("general/branding/provided_by/1", 'testemail');
-        $request = Request::create('/','GET');
+        $request = Request::create('/', 'GET');
         $response = $app->handle($request);
 
         $data = new BoltDataCollector($app);
@@ -62,7 +62,7 @@ class BoltDataCollectorTest extends BoltUnitTest
         $app = $this->getApp();
         $app['editlink'] = "editlink";
         $app['edittitle'] = "edittitle";
-        $request = Request::create('/','GET');
+        $request = Request::create('/', 'GET');
         $response = $app->handle($request);
         $data = new BoltDataCollector($app);
         $data->collect($request, $response);
@@ -70,5 +70,4 @@ class BoltDataCollectorTest extends BoltUnitTest
         $this->assertEquals("edittitle", $data->getEdittitle());
 
     }
-
 }

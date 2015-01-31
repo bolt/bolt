@@ -21,11 +21,11 @@ class ConfigSetTest extends BoltUnitTest
         $tester = new CommandTester($command);
 
         // Test successful update
-        $tester->execute(array('key'=>'sitename', 'value'=>"my test", '--file'=>__DIR__.'/resources/config.yml'));
+        $tester->execute(array('key' => 'sitename', 'value' => 'my test', '--file' => __DIR__ . '/resources/config.yml'));
         $this->assertRegexp("/New value for sitename: my test was successful/", $tester->getDisplay());
 
         // Test non-existent fails
-        $tester->execute(array('key'=>'nonexistent', 'value'=>"test", '--file'=>__DIR__.'/resources/config.yml'));
+        $tester->execute(array('key' => 'nonexistent', 'value' => 'test', '--file' => __DIR__ . '/resources/config.yml'));
         $this->assertEquals("nonexistent not found, or file not writable.\n", $tester->getDisplay());
 
     }
@@ -35,23 +35,22 @@ class ConfigSetTest extends BoltUnitTest
         $app = $this->getApp();
         $command = new ConfigSet($app);
         $tester = new CommandTester($command);
-        $app['resources']->setPath('config', __DIR__.'/resources');
-        $tester->execute(array('key'=>'nonexistent', 'value'=>"test"));
+        $app['resources']->setPath('config', __DIR__ . '/resources');
+        $tester->execute(array('key' => 'nonexistent', 'value' => 'test'));
         $this->assertEquals("nonexistent not found, or file not writable.\n", $tester->getDisplay());
     }
 
     public static function setUpBeforeClass()
     {
-        @mkdir(__DIR__.'/resources/', 0777, true);
-        @mkdir(__DIR__.'/../../app/cache/', 0777, true);
+        @mkdir(__DIR__ . '/resources/', 0777, true);
+        @mkdir(__DIR__ . '/../../app/cache/', 0777, true);
         $distname = realpath(__DIR__ . '/../../app/config/config.yml.dist');
-        @copy($distname, __DIR__.'/resources/config.yml');
+        @copy($distname, __DIR__ . '/resources/config.yml');
     }
 
     public static function tearDownAfterClass()
     {
-        @unlink(__DIR__.'/resources/config.yml');
-        @unlink(__DIR__.'/../../app/cache/');
+        @unlink(__DIR__ . '/resources/config.yml');
+        @unlink(__DIR__ . '/../../app/cache/');
     }
-
 }

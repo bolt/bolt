@@ -17,19 +17,17 @@ class ExtendControllerTest extends BoltUnitTest
 {
     public function testDefaultRegistries()
     {
-
         $app = $this->getApp();
         $this->assertNotEmpty($app['extend.site']);
         $this->assertNotEmpty($app['extend.repo']);
         $runner = $app['extend.manager'];
         $this->assertInstanceOf('Bolt\Composer\PackageManager', $runner);
-
     }
 
     public function testMethodsReturnTemplates()
     {
         $app = $this->getApp();
-        $app['twig.loader.filesystem']->prependPath(TEST_ROOT."/app/view/twig");
+        $app['twig.loader.filesystem']->prependPath(TEST_ROOT . '/app/view/twig');
         $this->expectOutputRegex('#Redirecting to /bolt/#');
         $app->run();
         $extend = new Extend();
@@ -41,7 +39,7 @@ class ExtendControllerTest extends BoltUnitTest
         $response = $extend->installPackage($app, $request);
         $this->assertNotEmpty($response);
 
-        $request = Request::create("/", "GET", array('package'=>'bolt/theme-2014'));
+        $request = Request::create('/', 'GET', array('package' => 'bolt/theme-2014'));
         $extend = $this->getMock('Bolt\Controllers\Extend', array('installInfo', 'packageInfo', 'check'));
         $extend->expects($this->any())
             ->method('installInfo')
@@ -50,7 +48,7 @@ class ExtendControllerTest extends BoltUnitTest
         $response = $extend->installInfo($app, $request);
         $this->assertNotEmpty($response);
 
-        $request = Request::create("/", "GET", array('package'=>'bolt/theme-2014','version'=>'dev-master'));
+        $request = Request::create('/', 'GET', array('package' => 'bolt/theme-2014','version' => 'dev-master'));
         $extend->expects($this->any())
             ->method('packageInfo')
             ->will($this->returnValue(new Response('{"name":"bolt\/theme-2014","version":"unknown","type":"unknown","descrip":""}')));
@@ -96,7 +94,7 @@ class ExtendControllerTest extends BoltUnitTest
         $mockInfo = $this->getMock('Bolt\Extensions\ExtensionsInfoService', array('info'), array(), 'MockInfoService', false);
         $mockInfo->expects($this->once())
             ->method('info')
-            ->will($this->returnValue($this->packageInfoProvider()) );
+            ->will($this->returnValue($this->packageInfoProvider()));
 
         $app['extend.info'] = $mockInfo;
 
@@ -118,7 +116,7 @@ class ExtendControllerTest extends BoltUnitTest
                     'title' => 'Test',
                     'source' => 'https://github.com/',
                     'name' => 'test',
-                    'keywords' =>  array(),
+                    'keywords' => array(),
                     'type' => 'bolt-extension',
                     'description' => 'Test',
                     'approved' => true,
@@ -171,7 +169,5 @@ class ExtendControllerTest extends BoltUnitTest
             );
         // This just ensures that the data matches the internal format of json decoded responses
         return json_decode(json_encode($info));
-
     }
-
 }

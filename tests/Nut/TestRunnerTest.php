@@ -25,7 +25,6 @@ class TestRunnerTest extends BoltUnitTest
         $this->assertRegexp("/phpunit/", $result);
 
     }
-
 }
 
 namespace Bolt\Nut;

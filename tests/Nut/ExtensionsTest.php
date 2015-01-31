@@ -21,14 +21,14 @@ class ExtensionsTest extends BoltUnitTest
     {
         $app = $this->getApp();
 
-        $testPackage = new CompletePackage('test','1.0.1','1.0');
+        $testPackage = new CompletePackage('test', '1.0.1', '1.0');
         $testPackage->setDescription('An extension');
         $testPackage->setType('bolt-extension');
 
         $runner = $this->getMock("Bolt\Composer\PackageManager", array('showPackage'), array($app));
         $runner->expects($this->any())
             ->method('showPackage')
-            ->will($this->returnValue(array( 'test'=>array('package'=>$testPackage) )));
+            ->will($this->returnValue(array( 'test' => array('package' => $testPackage) )));
 
         $app['extend.manager'] = $runner;
 
@@ -42,5 +42,4 @@ class ExtensionsTest extends BoltUnitTest
         $this->assertRegexp('/test.*1.0/', $result);
 
     }
-
 }

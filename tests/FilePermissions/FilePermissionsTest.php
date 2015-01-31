@@ -17,7 +17,7 @@ class FilePermissionsTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $fp = new FilePermissions($app);
-        $test = $app['resources']->getPath('config').'test.yml';
+        $test = $app['resources']->getPath('config') . 'test.yml';
         $this->assertTrue($fp->authorized($test));
         $this->assertFalse($fp->authorized("/path/to/.htaccess"));
     }
@@ -35,5 +35,4 @@ class FilePermissionsTest extends BoltUnitTest
         $okFile = "mycoolimage.jpg";
         $this->assertTrue($fp->allowedUpload($okFile));
     }
-
 }

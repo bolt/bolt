@@ -37,7 +37,7 @@ class BrowsePluginTest extends BoltUnitTest
     public function testImageCalculation()
     {
         $app = $this->getApp();
-        $adapter = new Local(TEST_ROOT."/tests/resources");
+        $adapter = new Local(TEST_ROOT . '/tests/resources');
         $fs = new Filesystem($adapter);
 
         $plugin = new BrowsePlugin();
@@ -45,10 +45,9 @@ class BrowsePluginTest extends BoltUnitTest
         $result = $plugin->handle("", $app);
         $files = $result[0];
         foreach ($files as $file) {
-            if ($file['type']=='png') {
+            if ($file['type'] == 'png') {
                 $this->assertNotEmpty($file['imagesize']);
             }
         }
     }
-
 }

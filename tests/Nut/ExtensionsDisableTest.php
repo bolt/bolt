@@ -28,10 +28,9 @@ class ExtensionsDisableTest extends BoltUnitTest
         $command = new ExtensionsDisable($app);
         $tester = new CommandTester($command);
 
-        $tester->execute(array('name'=>'test'));
+        $tester->execute(array('name' => 'test'));
         $result = $tester->getDisplay();
         $this->assertEquals(0, trim($result));
 
     }
-
 }

@@ -24,7 +24,6 @@ class LowlevelChecksTest extends BoltUnitTest
 
     public function setUp()
     {
-
         $this->php = \PHPUnit_Extension_FunctionMocker::start($this, 'Bolt\Configuration')
             ->mockFunction('is_readable')
             ->mockFunction('is_writable')
@@ -35,32 +34,31 @@ class LowlevelChecksTest extends BoltUnitTest
             ->getMock();
 
         $this->errorResponses = array(
-            'core'=> array(
-                "type"=> E_ERROR,
-                "file"=> TEST_ROOT.'/src',
-                "line"=> 16,
-                "message"=> 'src error'
+            'core' => array(
+                'type' => E_ERROR,
+                'file' => TEST_ROOT . '/src',
+                'line' => 16,
+                'message' => 'src error'
             ),
-            'extensions'=> array(
-                "type"=> E_ERROR,
-                "file"=> TEST_ROOT.'/extensions',
-                "line"=> 1,
-                "message"=>'extension error'
+            'extensions' => array(
+                'type' => E_ERROR,
+                'file' => TEST_ROOT . '/extensions',
+                'line' => 1,
+                'message' => 'extension error'
             ),
-            'vendor'=> array(
-                "type"=> E_ERROR,
-                "file"=> TEST_ROOT.'/vendor',
-                "line"=> 1,
-                "message"=> 'vendor error'
+            'vendor' => array(
+                'type' => E_ERROR,
+                'file' => TEST_ROOT . '/vendor',
+                'line' => 1,
+                'message' => 'vendor error'
             ),
-            'unknown'=> array(
-                "type"=> E_ERROR,
-                "file"=> TEST_ROOT,
-                "line"=> 1,
-                "message"=> 'unknown error'
+            'unknown' => array(
+                'type' => E_ERROR,
+                'file' => TEST_ROOT,
+                'line' => 1,
+                'message' => 'unknown error'
             )
         );
-
     }
 
     public function tearDown()
@@ -297,7 +295,7 @@ class LowlevelChecksTest extends BoltUnitTest
 
     public function testCoreFatalErrorCatch()
     {
-        $app = array('resources'=>new Standard(TEST_ROOT));
+        $app = array('resources' => new Standard(TEST_ROOT));
         ResourceManager::$theApp = $app;
 
         $this->php
@@ -311,7 +309,7 @@ class LowlevelChecksTest extends BoltUnitTest
 
     public function testVendorFatalErrorCatch()
     {
-        $app = array('resources'=>new Standard(TEST_ROOT));
+        $app = array('resources' => new Standard(TEST_ROOT));
         ResourceManager::$theApp = $app;
 
         $this->php
@@ -325,7 +323,7 @@ class LowlevelChecksTest extends BoltUnitTest
 
     public function testExtFatalErrorCatch()
     {
-        $app = array('resources'=>new Standard(TEST_ROOT));
+        $app = array('resources' => new Standard(TEST_ROOT));
         ResourceManager::$theApp = $app;
 
         $this->php
@@ -339,7 +337,7 @@ class LowlevelChecksTest extends BoltUnitTest
 
     public function testGeneralFatalErrorCatch()
     {
-        $app = array('resources'=>new Standard(TEST_ROOT));
+        $app = array('resources' => new Standard(TEST_ROOT));
         ResourceManager::$theApp = $app;
 
         $this->php
@@ -413,7 +411,7 @@ class LowlevelChecksTest extends BoltUnitTest
         $check = $this->getCleanChecker();
         $mock = new Mock\Config();
         $mock->$mockMethod();
-        $configObject = new \ArrayObject(array('config'=>$mock));
+        $configObject = new \ArrayObject(array('config' => $mock));
         $check->config->app = $configObject;
 
         return $check;
@@ -428,5 +426,4 @@ class LowlevelChecksTest extends BoltUnitTest
 
         return $check;
     }
-
 }

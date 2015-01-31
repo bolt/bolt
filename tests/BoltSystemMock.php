@@ -22,5 +22,4 @@ class BoltSystemMock
             return self::$values[$function];
         }
     }
-
 }

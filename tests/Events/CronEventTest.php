@@ -44,5 +44,4 @@ class CronEventTest extends BoltUnitTest
         $this->assertRegExp('/Clearing cache/', $out);
         $this->assertRegExp('/Trimming logs/', $out);
     }
-
 }

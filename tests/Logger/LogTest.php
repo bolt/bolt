@@ -42,7 +42,7 @@ class LogTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $log = new Log($app);
-        $log->errorhandler('fail','fail.php',10);
+        $log->errorhandler('fail', 'fail.php', 10);
         $logs = $log->getMemoryLog();
         $this->assertEquals(1, count($logs));
     }
@@ -51,16 +51,16 @@ class LogTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $log = new Log($app);
-        $log->add('Important',1);
+        $log->add('Important', 1);
         $logs = $log->getMemoryLog();
-        $this->assertEquals('Important',$logs[0]['message']);
-        $this->assertEquals(1,$logs[0]['level']);
+        $this->assertEquals('Important', $logs[0]['message']);
+        $this->assertEquals(1, $logs[0]['level']);
 
         // Test debug off mode
         $app = $this->getApp();
         $app['debug'] = false;
         $log = new Log($app);
-        $log->add('Test',1);
+        $log->add('Test 1');
         $this->assertEquals(0, count($log->getMemoryLog()));
 
         // Test that content objects get handled
@@ -68,10 +68,10 @@ class LogTest extends BoltUnitTest
         $log = new Log($app);
         $storage = new Storage($app);
         $content = $storage->getEmptyContent('showcases');
-        $log->add('Content',1,$content);
+        $log->add('Content', 1, $content);
         $logs = $log->getMemoryLog();
-        $this->assertEquals('Content',$logs[0]['message']);
-        $this->assertEquals('showcases',$logs[0]['contenttype']);
+        $this->assertEquals('Content', $logs[0]['message']);
+        $this->assertEquals('showcases', $logs[0]['contenttype']);
 
     }
 
@@ -84,31 +84,36 @@ class LogTest extends BoltUnitTest
         $queries = array();
         $db->expects($this->any())
             ->method('executeQuery')
-            ->will($this->returnCallback(function ($query, $params) use (&$queries, $mocker) {
-                $queries[] = array($query, $params);
+            ->will(
+                $this->returnCallback(
+                    function ($query, $params) use (&$queries, $mocker) {
+                        $queries[] = array($query, $params);
 
-                return $mocker->getStatementMock();
-            }));
+                        return $mocker->getStatementMock();
+                    }
+                )
+            );
 
         $app['db'] = $db;
         // Create a routed request which is needed to test logging
         $log = new Log($app);
         $request = Request::create('/');
-        $app->before(function ($request, $app) use ($phpunit, $log, &$queries) {
+        $app->before(
+            function ($request, $app) use ($phpunit, $log, &$queries) {
+                $log->getActivity();
 
-            $log->getActivity();
-
-            // We should have 3 queries stored, ignore the first as this is a generic user fetch
-            array_shift($queries);
-            $phpunit->assertEquals(
-                "SELECT * FROM bolt_log WHERE code IN (?) OR (level >= ?) ORDER BY date DESC LIMIT 10 OFFSET 0",
-                $queries[0][0]
-            );
-            $phpunit->assertEquals(
-                "SELECT count(*) as count FROM bolt_log WHERE code IN (?) OR (level >= ?)",
-                $queries[1][0]
-            );
-        });
+                // We should have 3 queries stored, ignore the first as this is a generic user fetch
+                array_shift($queries);
+                $phpunit->assertEquals(
+                    "SELECT * FROM bolt_log WHERE code IN (?) OR (level >= ?) ORDER BY date DESC LIMIT 10 OFFSET 0",
+                    $queries[0][0]
+                );
+                $phpunit->assertEquals(
+                    "SELECT count(*) as count FROM bolt_log WHERE code IN (?) OR (level >= ?)",
+                    $queries[1][0]
+                );
+            }
+        );
         $app->handle($request);
 
     }
@@ -117,10 +122,10 @@ class LogTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $log = new Log($app);
-        $log->setValue('test','testing');
+        $log->setValue('test', 'testing');
         $this->assertEquals('testing', $log->getValue('test'));
         $this->assertFalse($log->getValue('notset'));
-        $this->assertEquals(1, count($log->getValues()) );
+        $this->assertEquals(1, count($log->getValues()));
     }
 
     public function testTrim()
@@ -132,11 +137,15 @@ class LogTest extends BoltUnitTest
         $queries = array();
         $db->expects($this->any())
             ->method('executeQuery')
-            ->will($this->returnCallback(function ($query, $params) use (&$queries, $mocker) {
-                $queries[] = array($query, $params);
+            ->will(
+                $this->returnCallback(
+                    function ($query, $params) use (&$queries, $mocker) {
+                        $queries[] = array($query, $params);
 
-                return $mocker->getStatementMock();
-            }));
+                        return $mocker->getStatementMock();
+                    }
+                )
+            );
 
         $app['db'] = $db;
         $log = new Log($app);
@@ -160,5 +169,4 @@ class LogTest extends BoltUnitTest
             $queries[4][0]
         );
     }
-
 }

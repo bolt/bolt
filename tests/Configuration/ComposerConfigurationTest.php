@@ -106,5 +106,4 @@ class ComposerConfigurationTest extends \PHPUnit_Framework_TestCase
         $verifier->checkDir($fakeLocation);
 
     }
-
 }

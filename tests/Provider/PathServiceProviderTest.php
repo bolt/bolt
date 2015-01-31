@@ -21,5 +21,4 @@ class PathServiceProviderTest extends BoltUnitTest
         $this->assertInstanceOf('Eloquent\Pathogen\FileSystem\Factory\PlatformFileSystemPathFactory', $app['pathmanager']);
         $app->boot();
     }
-
 }

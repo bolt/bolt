@@ -16,17 +16,17 @@ class BootstrapGeneratorTest extends BoltUnitTest
 
     public function setup()
     {
-        $this->workspace = TEST_ROOT.'/tests/resources';
+        $this->workspace = TEST_ROOT . '/tests/resources';
         chdir($this->workspace);
     }
 
     public function tearDown()
     {
-        if (is_dir($this->workspace.'/public3')) {
-            $this->rmdir($this->workspace.'/public3');
-            rmdir($this->workspace.'/public3');
+        if (is_dir($this->workspace . '/public3')) {
+            $this->rmdir($this->workspace . '/public3');
+            rmdir($this->workspace . '/public3');
         }
-        @unlink($this->workspace.'/index.php');
+        @unlink($this->workspace . '/index.php');
     }
 
     public function testConstruct()
@@ -47,12 +47,10 @@ class BootstrapGeneratorTest extends BoltUnitTest
 
     public function testWrite()
     {
-
         $boot = new BootstrapGenerator(true, 'public3');
         $code = $boot->generate();
         $location = $boot->create();
         $this->assertEquals($code, file_get_contents($location));
-
     }
 
     public function testWriteToNonWebroot()
@@ -62,5 +60,4 @@ class BootstrapGeneratorTest extends BoltUnitTest
         $location = $boot->create();
         $this->assertEquals($code, file_get_contents($location));
     }
-
 }

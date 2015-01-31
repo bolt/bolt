@@ -19,13 +19,12 @@ class TwigDataCollectorTest extends BoltUnitTest
 
     public function testBasicData()
     {
-
         $app = $this->getApp();
         $app['twig']->addExtension(new TwigExtension($app));
 
         $data = new TwigDataCollector($app);
 
-        $request = Request::create('/','GET');
+        $request = Request::create('/', 'GET');
         $response = $app->handle($request);
 
         $data->collect($request, $response);
@@ -47,7 +46,7 @@ class TwigDataCollectorTest extends BoltUnitTest
         $app = $this->getApp();
         $data = new TwigDataCollector($app);
 
-        $request = Request::create('/','GET');
+        $request = Request::create('/', 'GET');
         $response = $app->handle($request);
 
         $ext = $this->getMock('\Twig_Extension');
@@ -59,20 +58,19 @@ class TwigDataCollectorTest extends BoltUnitTest
 
         $ext->expects($this->any())
             ->method('getFilters')
-            ->will($this->returnValue(array('testfilter'=>$filter)));
+            ->will($this->returnValue(array('testfilter' => $filter)));
 
         $test = $this->getMock("\Twig_TestInterface");
         $ext->expects($this->any())
             ->method('getTests')
-            ->will($this->returnValue(array('test'=>$test)));
+            ->will($this->returnValue(array('test' => $test)));
 
         $func = $this->getMock("\Twig_FunctionInterface");
         $ext->expects($this->any())
             ->method('getFunctions')
-            ->will($this->returnValue(array('func'=>$func)));
+            ->will($this->returnValue(array('func' => $func)));
 
         $app['twig']->addExtension($ext);
         $data->collect($request, $response);
     }
-
 }

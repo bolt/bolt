@@ -49,5 +49,4 @@ class ManagerTest extends BoltUnitTest
         $this->assertGreaterThan(5, $manager->fields());
 
     }
-
 }

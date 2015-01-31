@@ -21,5 +21,4 @@ class IntegrityCheckerProviderTest extends BoltUnitTest
         $this->assertInstanceOf('Bolt\Database\IntegrityChecker', $app['integritychecker']);
         $app->boot();
     }
-
 }

@@ -27,5 +27,4 @@ class BoltProfilerServiceProviderTest extends BoltUnitTest
 
         $app->boot();
     }
-
 }

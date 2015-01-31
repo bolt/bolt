@@ -24,15 +24,15 @@ class StorageTest extends BoltUnitTest
 
         $fields = $app['config']->get('contenttypes/pages/fields');
 
-        $mock = $this->getMock('Bolt\Content',null,array($app), 'Pages');
-        $content = $storage->getContentObject(array('class'=>'Pages','fields'=>$fields));
+        $mock = $this->getMock('Bolt\Content', null, array($app), 'Pages');
+        $content = $storage->getContentObject(array('class' => 'Pages', 'fields' => $fields));
         $this->assertInstanceOf('Pages', $content);
         $this->assertInstanceOf('Bolt\Content', $content);
 
         // Test that a class not instanceof Bolt\Content fails
-        $mock = $this->getMock('stdClass',null,array(), 'Failing');
+        $mock = $this->getMock('stdClass', null, array(), 'Failing');
         $this->setExpectedException('Exception', 'Failing does not extend \Bolt\Content.');
-        $content = $storage->getContentObject(array('class'=>'Failing','fields'=>$fields));
+        $content = $storage->getContentObject(array('class' => 'Failing', 'fields' => $fields));
     }
 
     public function testPreFill()
@@ -98,7 +98,7 @@ class StorageTest extends BoltUnitTest
         $app['dispatcher']->addListener(StorageEvents::PRE_DELETE, $listener);
         $app['dispatcher']->addListener(StorageEvents::POST_DELETE, $listener);
 
-        $storage->deleteContent(array('slug'=>'showcases'),1);
+        $storage->deleteContent(array('slug' => 'showcases'), 1);
 
         $this->assertFalse($storage->getContent('showcases/1'));
         $this->assertEquals(2, $delete);
@@ -111,13 +111,13 @@ class StorageTest extends BoltUnitTest
         $storage = new Storage($app);
         $fetch1 = $storage->getContent('showcases/2');
         $this->assertEquals(false, $fetch1->get('ownerid'));
-        $result = $storage->updateSingleValue('showcases', 2 ,'ownerid', '10');
+        $result = $storage->updateSingleValue('showcases', 2, 'ownerid', '10');
         $this->assertEquals(2, $result);
         $fetch2 = $storage->getContent('showcases/2');
         $this->assertEquals('10', $fetch2->get('ownerid'));
 
         // Test invalid column fails
-        $shouldError = $storage->updateSingleValue('showcases', 2 ,'nonexistent', '10');
+        $shouldError = $storage->updateSingleValue('showcases', 2, 'nonexistent', '10');
         $this->assertFalse($shouldError);
     }
 
@@ -144,7 +144,7 @@ class StorageTest extends BoltUnitTest
         $this->assertFalse($result);
 
         // Test filters
-        $result = $storage->searchContent('lorem', array('showcases'), array('showcases'=>array('title'=>"nonexistent")));
+        $result = $storage->searchContent('lorem', array('showcases'), array('showcases' => array('title' => 'nonexistent')));
         $this->assertTrue($result['query']['valid']);
         $this->assertEquals(0, $result['no_of_results']);
 
@@ -155,7 +155,7 @@ class StorageTest extends BoltUnitTest
         $app = $this->getApp();
         $app['request'] = Request::create('/');
         $storage = new Storage($app);
-        $results = $storage->searchAllContentTypes(array('title'=>'lorem'));
+        $results = $storage->searchAllContentTypes(array('title' => 'lorem'));
     }
 
     public function testSearchContentType()

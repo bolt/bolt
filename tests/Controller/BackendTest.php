@@ -73,13 +73,13 @@ class BackendTest extends BoltUnitTest
         $app['integritychecker'] = $check;
         ResourceManager::$theApp = $app;
 
-        $request = Request::create('/bolt/dbupdate', "POST", array('return'=>'edit'));
+        $request = Request::create('/bolt/dbupdate', 'POST', array('return' => 'edit'));
         $response = $app->handle($request);
         $this->assertEquals(302, $response->getStatusCode());
         $this->assertEquals('/bolt/file/edit/files/app/config/contenttypes.yml', $response->getTargetUrl());
         $this->assertNotEmpty($app['session']->getFlashBag()->get('success'));
 
-        $request = Request::create('/bolt/dbupdate', "POST", array('return'=>'edit'));
+        $request = Request::create('/bolt/dbupdate', 'POST', array('return' => 'edit'));
         $response = $app->handle($request);
         $this->assertEquals(302, $response->getStatusCode());
         $this->assertEquals('/bolt/file/edit/files/app/config/contenttypes.yml', $response->getTargetUrl());
@@ -110,11 +110,11 @@ class BackendTest extends BoltUnitTest
         $cache = $this->getMock('Bolt\Cache', array('clearCache'));
         $cache->expects($this->at(0))
             ->method('clearCache')
-            ->will($this->returnValue(array('successfiles'=>'1.txt', 'failedfiles'=>'2.txt')));
+            ->will($this->returnValue(array('successfiles' => '1.txt', 'failedfiles' => '2.txt')));
 
         $cache->expects($this->at(1))
             ->method('clearCache')
-            ->will($this->returnValue(array('successfiles'=>'1.txt')));
+            ->will($this->returnValue(array('successfiles' => '1.txt')));
 
         $app['cache'] = $cache;
         $request = Request::create('/bolt/clearcache');
@@ -145,11 +145,11 @@ class BackendTest extends BoltUnitTest
 
         ResourceManager::$theApp = $app;
 
-        $request = Request::create('/bolt/changelog', "GET", array('action'=>'trim'));
+        $request = Request::create('/bolt/changelog', 'GET', array('action' => 'trim'));
         $response = $app->handle($request);
         $this->assertNotEmpty($app['session']->getFlashBag()->get('success'));
 
-        $request = Request::create('/bolt/changelog', "GET", array('action'=>'clear'));
+        $request = Request::create('/bolt/changelog', 'GET', array('action' => 'clear'));
         $response = $app->handle($request);
         $this->assertNotEmpty($app['session']->getFlashBag()->get('success'));
 
@@ -178,11 +178,11 @@ class BackendTest extends BoltUnitTest
 
         ResourceManager::$theApp = $app;
 
-        $request = Request::create('/bolt/systemlog', "GET", array('action'=>'trim'));
+        $request = Request::create('/bolt/systemlog', 'GET', array('action' => 'trim'));
         $response = $app->handle($request);
         $this->assertNotEmpty($app['session']->getFlashBag()->get('success'));
 
-        $request = Request::create('/bolt/systemlog', "GET", array('action'=>'clear'));
+        $request = Request::create('/bolt/systemlog', 'GET', array('action' => 'clear'));
         $response = $app->handle($request);
         $this->assertNotEmpty($app['session']->getFlashBag()->get('success'));
 
@@ -199,7 +199,7 @@ class BackendTest extends BoltUnitTest
         $app = $this->getApp();
         $this->allowLogin($app);
 
-        $request = Request::create('/bolt/omnisearch', "GET", array('q'=>'test'));
+        $request = Request::create('/bolt/omnisearch', 'GET', array('q' => 'test'));
         $this->checkTwigForTemplate($app, 'omnisearch/omnisearch.twig');
 
         $app->run($request);
@@ -215,5 +215,4 @@ class BackendTest extends BoltUnitTest
 
         $app->run($request);
     }
-
 }

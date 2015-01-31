@@ -58,12 +58,11 @@ class StackTest extends BoltUnitTest
         $stack->add('files/test.jpg');
         $stack->add('files/test2.jpg');
 
-        $items = $stack->listItems(100,'image');
+        $items = $stack->listItems(100, 'image');
         $this->assertEquals(2, count($items));
 
-        $items = $stack->listItems(100,'document');
+        $items = $stack->listItems(100, 'document');
         $this->assertEquals(2, count($items));
 
     }
-
 }

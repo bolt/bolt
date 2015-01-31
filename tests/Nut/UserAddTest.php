@@ -21,13 +21,15 @@ class UserAddTest extends BoltUnitTest
         $command = new UserAdd($app);
         $tester = new CommandTester($command);
 
-        $tester->execute(array(
-            'username'=>'test',
-            'displayname'=>'Test',
-            'email'=>'test@example.com',
-            'password'=>'test',
-            'role'=>'admin'
-        ));
+        $tester->execute(
+            array(
+                'username' => 'test',
+                'displayname' => 'Test',
+                'email' => 'test@example.com',
+                'password' => 'test',
+                'role' => 'admin'
+            )
+        );
         $result = $tester->getDisplay();
         $this->assertEquals('Successfully created user: test', trim($result));
 
@@ -40,13 +42,15 @@ class UserAddTest extends BoltUnitTest
         $command = new UserAdd($app);
         $tester = new CommandTester($command);
 
-        $tester->execute(array(
-            'username'=>'test',
-            'displayname'=>'Test',
-            'email'=>'test@example.com',
-            'password'=>'test',
-            'role'=>'admin'
-        ));
+        $tester->execute(
+            array(
+                'username' => 'test',
+                'displayname' => 'Test',
+                'email' => 'test@example.com',
+                'password' => 'test',
+                'role' => 'admin'
+            )
+        );
         $result = $tester->getDisplay();
         $this->assertRegexp("/username test already exists/", trim($result));
         $this->assertRegexp("/email test@example\.com exists/", trim($result));
@@ -60,13 +64,15 @@ class UserAddTest extends BoltUnitTest
         $command = new UserAdd($app);
         $tester = new CommandTester($command);
 
-        $tester->execute(array(
-            'username'=>'test',
-            'displayname'=>'Test',
-            'email'=>'test@example.com',
-            'password'=>'test',
-            'role'=>'admin'
-        ));
+        $tester->execute(
+            array(
+                'username' => 'test',
+                'displayname' => 'Test',
+                'email' => 'test@example.com',
+                'password' => 'test',
+                'role' => 'admin'
+            )
+        );
         $result = $tester->getDisplay();
         $this->assertEquals("Error creating user: test", trim($result));
     }
@@ -88,5 +94,4 @@ class UserAddTest extends BoltUnitTest
 
         return $users;
     }
-
 }

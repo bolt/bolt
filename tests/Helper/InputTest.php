@@ -28,21 +28,21 @@ class InputTest extends BoltUnitTest
            'first' => "test\r\n",
            'second' => "test\t"
         );
-        $this->assertEquals(array('first'=>'test  ', 'second'=>'test    '), Input::cleanPostedData($vals, false, true));
+        $this->assertEquals(array('first' => 'test  ', 'second' => 'test    '), Input::cleanPostedData($vals, false, true));
 
         // Test Slashed
         $vals = array(
            'first' => "\\\"test\\\"",
            'second' => "a \\\"test\\\" val"
         );
-        $this->assertEquals(array('first'=>'"test"', 'second'=>'a "test" val'), Input::cleanPostedData($vals, true, true));
+        $this->assertEquals(array('first' => '"test"', 'second' => 'a "test" val'), Input::cleanPostedData($vals, true, true));
 
     }
-
 }
 
 // Allows us to test magic quotes stuff
 namespace Bolt\Helpers;
+
 function get_magic_quotes_gpc()
 {
     return true;

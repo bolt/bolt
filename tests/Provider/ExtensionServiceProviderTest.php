@@ -22,5 +22,4 @@ class ExtensionServiceProviderTest extends BoltUnitTest
         $this->assertInstanceOf('Bolt\Extensions\StatService', $app['extensions.stats']);
         $app->boot();
     }
-
 }

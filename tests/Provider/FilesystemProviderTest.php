@@ -21,5 +21,4 @@ class FilesystemProviderTest extends BoltUnitTest
         $this->assertInstanceOf('Bolt\Filesystem\Manager', $app['filesystem']);
         $app->boot();
     }
-
 }

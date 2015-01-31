@@ -103,7 +103,7 @@ class UploadControllerTest extends BoltUnitTest
         $request = Request::create(
             '/upload/files',
             'POST',
-            array('handler'=>'files://'),
+            array('handler' => 'files://'),
             array(),
             array(
                 'files' => array(
@@ -128,7 +128,7 @@ class UploadControllerTest extends BoltUnitTest
         $request = Request::create(
             '/upload/files',
             'POST',
-            array('handler'=>array('files://', 'ftp://')),
+            array('handler' => array('files://', 'ftp://')),
             array(),
             array(
                 'files' => array(
@@ -163,10 +163,10 @@ class UploadControllerTest extends BoltUnitTest
         $this->assertEquals(200, $response->getStatusCode());
     }
 
-    protected function getFileRequest($namespace='files')
+    protected function getFileRequest($namespace = 'files')
     {
         $request = Request::create(
-            '/upload/'.$namespace,
+            '/upload/' . $namespace,
             'POST',
             array(),
             array(),
@@ -206,5 +206,4 @@ class UploadControllerTest extends BoltUnitTest
 
         return $bolt;
     }
-
 }

@@ -25,5 +25,4 @@ class InfoTest extends BoltUnitTest
         $this->assertRegExp("/PHP Version/", $result);
 
     }
-
 }

@@ -21,5 +21,4 @@ class ConfigServiceProviderTest extends BoltUnitTest
         $this->assertInstanceOf('Bolt\Config', $app['config']);
         $app->boot();
     }
-
 }

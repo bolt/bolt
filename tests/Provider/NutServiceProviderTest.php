@@ -23,8 +23,7 @@ class NutServiceProviderTest extends BoltUnitTest
         $this->assertTrue(is_array($app['nut.commands']));
         $app->boot();
     }
-    
-    
+
     public function testAddCommand()
     {
         $app = $this->makeApp();
@@ -35,5 +34,4 @@ class NutServiceProviderTest extends BoltUnitTest
         NutServiceProvider::addCommand($app, $command);
         $this->assertTrue(in_array($command, $app['nut.commands']));
     }
-
 }
