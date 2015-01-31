@@ -404,9 +404,9 @@ users.your-password: "Your password"
 component:
     changelog-detail:
         by: "by"
-        field: "field"
-        value-new: "new value"
-        value-old: "old value"
+        field: "Field"
+        value-new: "New value"
+        value-old: "Old value"
     changelog-pager:
         page: "Page"
 

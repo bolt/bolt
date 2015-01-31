@@ -5,8 +5,7 @@ namespace Bolt\Logger;
 use Silex\Application;
 
 /**
- *
- *
+ * Class that represents a single change log entry
  */
 class ChangeLogItem implements \ArrayAccess
 {
@@ -21,7 +20,7 @@ class ChangeLogItem implements \ArrayAccess
     private $username;
     private $contenttype;
     private $contentid;
-    private $mutation_type_raw;
+    private $mutation;
     private $diff;
     private $comment;
     private $changedfields;
@@ -32,6 +31,12 @@ class ChangeLogItem implements \ArrayAccess
         $this->setParameters($values);
     }
 
+    /**
+     * Magic parameter test
+     *
+     * @param  string $key
+     * @return boolean
+     */
     public function __isset($key)
     {
         if (in_array($key, array('mutation_type', 'changedfields'))) {
@@ -50,7 +55,7 @@ class ChangeLogItem implements \ArrayAccess
     public function __get($key)
     {
         if ($key == 'mutation_type') {
-//             return $this->getEffectiveMutationType();
+             return $this->getEffectiveMutationType();
         } elseif ($key == 'changedfields') {
             $this->changedfields = $this->getChangedFields();
             return $this->changedfields;
@@ -97,11 +102,11 @@ class ChangeLogItem implements \ArrayAccess
      */
     private function getEffectiveMutationType()
     {
-        switch ($this->mutation_type_raw) {
+        switch ($this->mutation) {
             case 'INSERT':
             case 'DELETE':
             default:
-                return $this->mutation_type_raw;
+                return $this->mutation;
 
             case 'UPDATE':
                 $diff = $this->getParsedDiff();
@@ -189,10 +194,10 @@ class ChangeLogItem implements \ArrayAccess
             $this->contentid = $values['contentid'];
         }
         if (isset($values['mutation_type'])) {
-            $this->mutation_type_raw = $values['mutation_type'];
+            $this->mutation_type = $values['mutation_type'];
         }
         if (isset($values['diff'])) {
-            $this->diff = $values['diff'];
+            $this->diff = json_decode($values['diff'], true);
         }
         if (isset($values['comment'])) {
             $this->comment = $values['comment'];
@@ -206,9 +211,8 @@ class ChangeLogItem implements \ArrayAccess
     private function getChangedFields()
     {
         $changedfields = array();
-        $changes = json_decode($this->diff, true);
 
-        if (empty($changes)) {
+        if (empty($this->diff)) {
             return $changedfields;
         }
 
@@ -217,7 +221,7 @@ class ChangeLogItem implements \ArrayAccess
         $fields = $contenttype['fields'];
 
         //
-        foreach ($changes as $key => $value) {
+        foreach ($this->diff as $key => $value) {
             $changedfields[$key] = array(
                 'type'   => 'normal',
                 'label'  => empty($fields[$key]['label']) ? $key : $fields[$key]['label'],
