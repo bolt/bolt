@@ -259,6 +259,7 @@ class LowlevelChecks
                     htmlspecialchars($this->config->getPath('config'), ENT_QUOTES),
                     htmlspecialchars($name . ".yml.dist", ENT_QUOTES)
                 );
+
                 throw new LowlevelException($message);
             }
 
