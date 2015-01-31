@@ -10,7 +10,7 @@ class SafeTwigServiceProvider implements ServiceProviderInterface
 {
     public function register(Application $app)
     {
-        $app['safe_twig.bolt_extension'] = function($app) {
+        $app['safe_twig.bolt_extension'] = function ($app) {
             return new TwigExtension($app, true);
         };
 

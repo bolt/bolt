@@ -12,7 +12,7 @@ class NutServiceProvider implements ServiceProviderInterface
     public function register(Application $app)
     {
         $app['nut'] = $app->share(
-            function($app) {
+            function ($app) {
                 $console = new ConsoleApplication();
 
                 $console->setName('Bolt console tool - Nut');
@@ -27,7 +27,7 @@ class NutServiceProvider implements ServiceProviderInterface
         );
 
         $app['nut.commands'] = $app->share(
-            function($app) {
+            function ($app) {
                 return array(
                     new Nut\CronRunner($app),
                     new Nut\CacheClear($app),
@@ -51,7 +51,7 @@ class NutServiceProvider implements ServiceProviderInterface
 
         // Maintain backwards compatibility
         $app['console'] = $app->share(
-            function($app) {
+            function ($app) {
                 return $app['nut'];
             }
         );
@@ -66,7 +66,7 @@ class NutServiceProvider implements ServiceProviderInterface
         $app['nut.commands'] = $app->share(
             $app->extend(
                 'nut.commands',
-                function($commands) use ($command) {
+                function ($commands) use ($command) {
                     $commands[] = $command;
                     return $commands;
                 }

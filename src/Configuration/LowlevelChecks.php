@@ -142,7 +142,7 @@ class LowlevelChecks
         if ($this->disableApacheChecks) {
             return;
         }
-        if ( $this->isApache && !is_readable($this->config->getPath('web') . '/.htaccess')) {
+        if ($this->isApache && !is_readable($this->config->getPath('web') . '/.htaccess')) {
             throw new LowlevelException(
                 'The file <code>' . htmlspecialchars($this->config->getPath('web'), ENT_QUOTES) . '/.htaccess' .
                 "</code> doesn't exist. Make sure it's present and readable to the user that the " .

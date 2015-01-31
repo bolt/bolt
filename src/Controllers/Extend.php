@@ -45,7 +45,7 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
         );
 
         $app['extend.info'] = $app->share(
-            function($app) use ($me) {
+            function ($app) use ($me) {
                 return new ExtensionsInfoService($app['extend.site'], $app['extend.urls']);
             }
         );
@@ -151,7 +151,7 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
                 $versions[$version->stability][] = $version;
             }
         } else {
-            $versions = array('error'=>true, 'dev'=>array(),'stable'=>array());
+            $versions = array('error' => true, 'dev' => array(), 'stable' => array());
         }
 
         return new JsonResponse($versions);

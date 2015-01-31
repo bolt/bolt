@@ -83,8 +83,7 @@ final class RemovePackage
             ->setUpdate(true)
             ->setUpdateWhitelist($packages)
             ->setWhitelistDependencies($this->options['updatewithdependencies'])
-            ->setIgnorePlatformRequirements($this->options['ignoreplatformreqs'])
-        ;
+            ->setIgnorePlatformRequirements($this->options['ignoreplatformreqs']);
 
         $status = $install->run();
 

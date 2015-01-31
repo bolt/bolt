@@ -1435,10 +1435,10 @@ class TwigExtension extends \Twig_Extension
                         $row[] = null;
                     }
                 }
-                $retval[ $c->values[ $keyname ] ] = $row;
+                $retval[$c->values[$keyname]] = $row;
             } else {
                 if (isset($c->values[$fieldname])) {
-                    $retval[ $c->values[ $keyname ] ] = $c->values[$fieldname];
+                    $retval[$c->values[$keyname]] = $c->values[$fieldname];
                 }
             }
         }

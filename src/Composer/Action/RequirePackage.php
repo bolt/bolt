@@ -132,8 +132,7 @@ final class RequirePackage
             ->setUpdate($this->options['update'])
             ->setUpdateWhitelist(array_keys($packages))
             ->setWhitelistDependencies($this->options['updatewithdependencies'])
-            ->setIgnorePlatformRequirements($this->options['ignoreplatformreqs'])
-        ;
+            ->setIgnorePlatformRequirements($this->options['ignoreplatformreqs']);
 
         $status = $install->run();
         if ($status !== 0) {
