@@ -258,14 +258,17 @@ class Storage
      */
     private function logInsert($contenttype, $contentid, $content, $comment = null)
     {
-        $this->app['logger.change']->addInfo('Insert record', array(
-            'action' => 'INSERT',
-            'contenttype' => $contenttype,
-            'id' => $contentid,
-            'new' => $content,
-            'old' => null,
-            'comment' => $comment
-        ));
+        $this->app['logger.change']->addInfo(
+            'Insert record',
+            array(
+                'action' => 'INSERT',
+                'contenttype' => $contenttype,
+                'id' => $contentid,
+                'new' => $content,
+                'old' => null,
+                'comment' => $comment
+            )
+        );
     }
 
     /**
@@ -275,14 +278,17 @@ class Storage
      */
     private function logUpdate($contenttype, $contentid, $newContent, $oldContent = null, $comment = null)
     {
-        $this->app['logger.change']->addInfo('Update record', array(
-            'action' => 'UPDATE',
-            'contenttype' => $contenttype,
-            'id' => $contentid,
-            'new' => $newContent,
-            'old' => $oldContent,
-            'comment' => $comment
-        ));
+        $this->app['logger.change']->addInfo(
+            'Update record',
+            array(
+                'action' => 'UPDATE',
+                'contenttype' => $contenttype,
+                'id' => $contentid,
+                'new' => $newContent,
+                'old' => $oldContent,
+                'comment' => $comment
+            )
+        );
     }
 
     /**
@@ -291,14 +297,17 @@ class Storage
      */
     private function logDelete($contenttype, $contentid, $content, $comment = null)
     {
-        $this->app['logger.change']->addInfo('Delete record', array(
-            'action' => 'DELETE',
-            'contenttype' => $contenttype,
-            'id' => $contentid,
-            'new' => null,
-            'old' => $content,
-            'comment' => $comment
-        ));
+        $this->app['logger.change']->addInfo(
+            'Delete record',
+            array(
+                'action' => 'DELETE',
+                'contenttype' => $contenttype,
+                'id' => $contentid,
+                'new' => null,
+                'old' => $content,
+                'comment' => $comment
+            )
+        );
     }
 
     public function saveContent(\Bolt\Content $content, $comment = null)

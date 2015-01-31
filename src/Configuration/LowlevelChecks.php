@@ -16,7 +16,7 @@ class LowlevelChecks
         'cache',
         'apache'
     );
-    
+
     public $configChecks = array(
         'config',
         'menu',
@@ -25,7 +25,7 @@ class LowlevelChecks
         'routing',
         'permissions'
     );
-    
+
     public $magicQuotes;
     public $safeMode;
     public $isApache;
@@ -142,7 +142,7 @@ class LowlevelChecks
         if ($this->disableApacheChecks) {
             return;
         }
-        if ( $this->isApache && !is_readable($this->config->getPath('web') . '/.htaccess')) {
+        if ($this->isApache && !is_readable($this->config->getPath('web') . '/.htaccess')) {
             throw new LowlevelException(
                 'The file <code>' . htmlspecialchars($this->config->getPath('web'), ENT_QUOTES) . '/.htaccess' .
                 "</code> doesn't exist. Make sure it's present and readable to the user that the " .
@@ -167,6 +167,7 @@ class LowlevelChecks
 
         if ($driver == 'pdo_sqlite') {
             $this->doDatabaseSqliteCheck($cfg);
+
             return;
         }
 
@@ -208,6 +209,7 @@ class LowlevelChecks
             if (!is_writable($file)) {
                 throw LowLevelDatabaseException::unwritableFile($file);
             }
+
             return;
         }
 
@@ -246,7 +248,6 @@ class LowlevelChecks
             );
             throw new LowlevelException($error);
         } elseif (!file_exists($ymlname)) {
-            
             // Try and copy from the .dist config file
             try {
                 copy($distname, $ymlname);
@@ -258,10 +259,9 @@ class LowlevelChecks
                     htmlspecialchars($this->config->getPath('config'), ENT_QUOTES),
                     htmlspecialchars($name . ".yml.dist", ENT_QUOTES)
                 );
-                throw new LowlevelException($message);      
+                throw new LowlevelException($message);
             }
-            
+
         }
-        return;
     }
 }

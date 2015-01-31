@@ -51,6 +51,7 @@ class InitListener implements ServiceProviderInterface, EventSubscriber
                         $manager = $managers[$name];
                         $manager->addEventSubscriber($self);
                     }
+
                     return $managers;
                 }
             )

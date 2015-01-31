@@ -80,8 +80,7 @@ final class InstallPackage
             ->setRunScripts(!$this->options['no-scripts'])
             ->setOptimizeAutoloader($optimize)
             ->setIgnorePlatformRequirements($this->options['ignore-platform-reqs'])
-            ->setUpdate(true)
-        ;
+            ->setUpdate(true);
 
         return $install->run();
     }

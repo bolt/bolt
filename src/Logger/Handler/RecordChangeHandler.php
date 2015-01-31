@@ -139,16 +139,19 @@ class RecordChangeHandler extends AbstractProcessingHandler
         $user = $this->app['users']->getCurrentUser();
 
         try {
-            $this->app['db']->insert($this->tablename, array(
-                'date'          => $record['datetime']->format('Y-m-d H:i:s'),
-                'ownerid'       => $user['id'],
-                'title'         => $title,
-                'contenttype'   => $record['context']['contenttype'],
-                'contentid'     => $record['context']['id'],
-                'mutation_type' => $record['context']['action'],
-                'diff'          => $str,
-                'comment'       => $record['context']['comment']
-            ));
+            $this->app['db']->insert(
+                $this->tablename,
+                array(
+                    'date'          => $record['datetime']->format('Y-m-d H:i:s'),
+                    'ownerid'       => $user['id'],
+                    'title'         => $title,
+                    'contenttype'   => $record['context']['contenttype'],
+                    'contentid'     => $record['context']['id'],
+                    'mutation_type' => $record['context']['action'],
+                    'diff'          => $str,
+                    'comment'       => $record['context']['comment']
+                )
+            );
         } catch (\Exception $e) {
             // Nothing..
         }

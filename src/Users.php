@@ -458,7 +458,7 @@ class Users
         } else {
 
             $this->session->getFlashBag()->set('error', Trans::__('Username or password not correct. Please check your input.'));
-            $this->app['logger.system']->addInfo("Failed login attempt for '" . $user['displayname'] . "'.",  array('event' => 'authentication'));
+            $this->app['logger.system']->addInfo("Failed login attempt for '" . $user['displayname'] . "'.", array('event' => 'authentication'));
 
             // Update the failed login attempts, and perhaps throttle the logins.
             $update = array(

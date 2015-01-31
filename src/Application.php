@@ -128,11 +128,14 @@ class Application extends Silex\Application
 
         // Debug log
         if ($this['config']->get('general/debuglog/enabled')) {
-            $this->register(new Silex\Provider\MonologServiceProvider(), array(
-                'monolog.name'    => 'bolt',
-                'monolog.level'   => constant('Monolog\Logger::'. strtoupper($this['config']->get('general/debuglog/level'))),
-                'monolog.logfile' => $this['resources']->getPath('cache') . '/' . $this['config']->get('general/debuglog/filename')
-            ));
+            $this->register(
+                new Silex\Provider\MonologServiceProvider(),
+                array(
+                    'monolog.name'    => 'bolt',
+                    'monolog.level'   => constant('Monolog\Logger::' . strtoupper($this['config']->get('general/debuglog/level'))),
+                    'monolog.logfile' => $this['resources']->getPath('cache') . '/' . $this['config']->get('general/debuglog/filename')
+                )
+            );
         }
     }
 
@@ -270,8 +273,7 @@ class Application extends Silex\Application
             ->register(new Controllers\Extend())
             ->register(new Provider\FilesystemProvider())
             ->register(new Thumbs\ThumbnailProvider())
-            ->register(new Provider\NutServiceProvider())
-        ;
+            ->register(new Provider\NutServiceProvider());
 
         $this['paths'] = $this['resources']->getPaths();
 

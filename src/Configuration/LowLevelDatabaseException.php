@@ -11,8 +11,8 @@ class LowLevelDatabaseException extends LowlevelException
     public static function missingDriver($name, $driver)
     {
         return new static(
-            sprintf("%s was selected as the database type, " .
-                "but the driver does not exist or is not loaded. " .
+            sprintf(
+                "%s was selected as the database type, but the driver does not exist or is not loaded. " .
                 "Please install the %s driver.",
                 $name,
                 $driver

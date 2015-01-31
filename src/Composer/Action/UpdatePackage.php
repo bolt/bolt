@@ -89,7 +89,6 @@ final class UpdatePackage
             ->setPreferStable($options['preferstable'])
             ->setPreferLowest($options['preferlowest'])
             ->disablePlugins();
-        ;
 
         return $install->run();
     }

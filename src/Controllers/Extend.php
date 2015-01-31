@@ -45,7 +45,7 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
         );
 
         $app['extend.info'] = $app->share(
-            function($app) use ($me) {
+            function ($app) use ($me) {
                 return new ExtensionsInfoService($app['extend.site'], $app['extend.urls']);
             }
         );
@@ -151,7 +151,7 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
                 $versions[$version->stability][] = $version;
             }
         } else {
-            $versions = array('error'=>true, 'dev'=>array(),'stable'=>array());
+            $versions = array('error' => true, 'dev' => array(), 'stable' => array());
         }
 
         return new JsonResponse($versions);
@@ -195,10 +195,12 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
         $version = $request->get('version');
         $app['extensions.stats']->recordInstall($package, $version);
 
-        $response = $app['extend.manager']->requirePackage(array(
-            'name' => $package,
-            'version' => $version
-            ));
+        $response = $app['extend.manager']->requirePackage(
+            array(
+                'name' => $package,
+                'version' => $version
+            )
+        );
 
         if ($response === 0) {
             return new Response($app['extend.manager']->getOutput());

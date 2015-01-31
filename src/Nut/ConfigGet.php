@@ -22,7 +22,7 @@ class ConfigGet extends BaseCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $key = $input->getArgument('key');
-        
+
         if ($input->getOption('file')) {
             $file = $input->getOption('file');
         } else {

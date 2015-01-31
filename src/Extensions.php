@@ -257,8 +257,9 @@ class Extensions
                 $this->app['twig'] = $this->app->share(
                     $this->app->extend(
                         'twig',
-                        function(\Twig_Environment $twig) use ($namespace, $extension) {
+                        function (\Twig_Environment $twig) use ($namespace, $extension) {
                             $twig->addGlobal($namespace, $extension);
+
                             return $twig;
                         }
                     )
@@ -294,8 +295,9 @@ class Extensions
             $this->app['twig'] = $this->app->share(
                 $this->app->extend(
                     'twig',
-                    function(\Twig_Environment $twig) use ($addTwigExFunc, $twigExtension, $name) {
+                    function (\Twig_Environment $twig) use ($addTwigExFunc, $twigExtension, $name) {
                         call_user_func($addTwigExFunc, $twig, $twigExtension, $name);
+
                         return $twig;
                     }
                 )
@@ -307,8 +309,9 @@ class Extensions
             $this->app['safe_twig'] = $this->app->share(
                 $this->app->extend(
                     'safe_twig',
-                    function(\Twig_Environment $twig) use ($addTwigExFunc, $twigExtension, $name) {
+                    function (\Twig_Environment $twig) use ($addTwigExFunc, $twigExtension, $name) {
                         call_user_func($addTwigExFunc, $twig, $twigExtension, $name);
+
                         return $twig;
                     }
                 )
