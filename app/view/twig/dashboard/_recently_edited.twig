@@ -1,11 +1,11 @@
-<h3>
+<div style="contenttype-title">
     <span class="pull-right">
-        <a href="{{ path('overview', {'contenttypeslug': contenttype}) }}" class="morelink">
-            {{ __('contenttypes.generic.show-more', {'%contenttypes%': contenttype}) }} »
-        </a>
-    </span>
-    {{ __('contenttypes.generic.recently-edited', {'%contenttypes%': contenttype}) }}
-</h3>
+            <a href="{{ path('overview', {'contenttypeslug': contenttype}) }}" class="morelink">
+                {{ __('contenttypes.generic.show-more', {'%contenttypes%': contenttype}) }} »
+            </a>
+        </span>
+        <h3>{{ __('contenttypes.generic.recently-edited', {'%contenttypes%': contenttype}) }}</h3>
+</div>        
 
 <table class="table table-striped dashboardlisting">
     {% for content in multiplecontent %}
