@@ -42,7 +42,7 @@ class LogTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $log = new Log($app);
-        $log->errorhandler('fail','fail.php',10);
+        $log->errorhandler('fail', 'fail.php', 10);
         $logs = $log->getMemoryLog();
         $this->assertEquals(1, count($logs));
     }
@@ -51,16 +51,16 @@ class LogTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $log = new Log($app);
-        $log->add('Important',1);
+        $log->add('Important', 1);
         $logs = $log->getMemoryLog();
-        $this->assertEquals('Important',$logs[0]['message']);
-        $this->assertEquals(1,$logs[0]['level']);
+        $this->assertEquals('Important', $logs[0]['message']);
+        $this->assertEquals(1, $logs[0]['level']);
 
         // Test debug off mode
         $app = $this->getApp();
         $app['debug'] = false;
         $log = new Log($app);
-        $log->add('Test',1);
+        $log->add('Test 1);
         $this->assertEquals(0, count($log->getMemoryLog()));
 
         // Test that content objects get handled

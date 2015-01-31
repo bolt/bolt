@@ -25,7 +25,7 @@ class TwigDataCollectorTest extends BoltUnitTest
 
         $data = new TwigDataCollector($app);
 
-        $request = Request::create('/','GET');
+        $request = Request::create('/', 'GET');
         $response = $app->handle($request);
 
         $data->collect($request, $response);
@@ -47,7 +47,7 @@ class TwigDataCollectorTest extends BoltUnitTest
         $app = $this->getApp();
         $data = new TwigDataCollector($app);
 
-        $request = Request::create('/','GET');
+        $request = Request::create('/', 'GET');
         $response = $app->handle($request);
 
         $ext = $this->getMock('\Twig_Extension');

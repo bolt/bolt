@@ -74,7 +74,7 @@ class ChangeLogTest extends BoltUnitTest
         $app['config']->set('general/changelog/enabled', true);
         //$all = $app['logger.manager.change']->getChangeLogByContentType('pages', array());
 
-        $log = $app['logger.manager.change']->getChangeLogEntry('pages',1,1);
+        $log = $app['logger.manager.change']->getChangeLogEntry('pages', 1, 1);
         $this->assertInstanceOf('Bolt\Logger\ChangeLogItem', $log);
         $this->assertAttributeEquals(1, 'contentid', $log);
     }

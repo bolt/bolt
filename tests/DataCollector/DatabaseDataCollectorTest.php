@@ -26,7 +26,7 @@ class DatabaseDataCollectorTest extends BoltUnitTest
         $debug->stopQuery();
 
         $app = $this->getApp();
-        $request = Request::create('/','GET');
+        $request = Request::create('/', 'GET');
         $response = $app->handle($request);
 
         $data->collect($request, $response);
@@ -44,7 +44,7 @@ class DatabaseDataCollectorTest extends BoltUnitTest
         $debug->stopQuery();
 
         $app = $this->getApp();
-        $request = Request::create('/','GET');
+        $request = Request::create('/', 'GET');
         $response = $app->handle($request);
 
         $data->collect($request, $response);

@@ -43,13 +43,13 @@ class BoltTwigHelpersTest extends BoltUnitTest
         // First safe test
         $app = $this->getApp();
         $twig = new TwigExtension($app, true);
-        $this->assertEquals('?', $twig->printDump(range(1,10)));
+        $this->assertEquals('?', $twig->printDump(range(1, 10)));
 
         // Now test with debug off
         $app = $this->getApp();
         $twig = new TwigExtension($app);
         $app['config']->set('general/debug', false);
-        $this->assertEquals('', $twig->printDump(range(1,10)));
+        $this->assertEquals('', $twig->printDump(range(1, 10)));
 
         // Now test with debug enabled
         // We need to override Symfony's default handler to get the output
@@ -299,7 +299,7 @@ class BoltTwigHelpersTest extends BoltUnitTest
         $app->handle($request);
 
         // Delete the content so we're back to a clean database
-        $storage->deleteContent('showcases',1);
+        $storage->deleteContent('showcases', 1);
 
     }
 
@@ -349,8 +349,8 @@ class BoltTwigHelpersTest extends BoltUnitTest
 
         $content = $storage->getEmptyContent('showcases');
         $content->setValues(array('title'=>'New Showcase','slug'=>'new-showcase','status'=>'published'));
-        $content->setRelation('entries',1);
-        $content->setRelation('entries',2);
+        $content->setRelation('entries', 1);
+        $content->setRelation('entries', 2);
         $storage->saveContent($content);
 
         $request = Request::create('/');
@@ -363,10 +363,10 @@ class BoltTwigHelpersTest extends BoltUnitTest
         $app->handle($request);
 
         // Clean up test database
-        $storage->deleteContent('entries',1);
-        $storage->deleteContent('entries',2);
-        $storage->deleteContent('entries',3);
-        $storage->deleteContent('showcases',1);
+        $storage->deleteContent('entries', 1);
+        $storage->deleteContent('entries', 2);
+        $storage->deleteContent('entries', 3);
+        $storage->deleteContent('showcases', 1);
     }
 
     public function testPager()
@@ -380,7 +380,7 @@ class BoltTwigHelpersTest extends BoltUnitTest
     protected function getDummyText($length = 1000)
     {
         $words = array('this', 'is', 'a', 'test', 'long', 'string', 'of', 'words', 'and', 'means', 'almost', 'nothing');
-        $longwords = range(1,$length);
+        $longwords = range(1, $length);
         array_walk($longwords, function (&$w) use ($words) {$w=$words[array_rand($words)];});
 
         return implode(' ', $longwords);

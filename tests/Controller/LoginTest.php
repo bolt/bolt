@@ -15,7 +15,7 @@ class LoginTest extends BoltUnitTest
     {
         $app = $this->getApp();
 
-        $request = Request::create('/bolt/login','POST', array('action'=>'login','username'=>'test','password'=>'pass'));
+        $request = Request::create('/bolt/login', 'POST', array('action'=>'login','username'=>'test','password'=>'pass'));
 
         $users = $this->getMock('Bolt\Users', array('login'), array($app));
         $users->expects($this->once())
@@ -34,7 +34,7 @@ class LoginTest extends BoltUnitTest
     {
         $app = $this->getApp();
 
-        $request = Request::create('/bolt/login','POST', array('action'=>'login','username'=>'test','password'=>'pass'));
+        $request = Request::create('/bolt/login', 'POST', array('action'=>'login','username'=>'test','password'=>'pass'));
 
         $users = $this->getMock('Bolt\Users', array('login'), array($app));
         $users->expects($this->once())
@@ -48,12 +48,12 @@ class LoginTest extends BoltUnitTest
 
         // Test missing data fails
         $app = $this->getApp();
-        $request = Request::create('/bolt/login','POST', array('action'=>'fake'));
+        $request = Request::create('/bolt/login', 'POST', array('action'=>'fake'));
         $this->checkTwigForTemplate($app, 'error.twig');
         $app->run($request);
 
         $app = $this->getApp();
-        $request = Request::create('/bolt/login','POST', array());
+        $request = Request::create('/bolt/login', 'POST', array());
         $this->checkTwigForTemplate($app, 'error.twig');
         $app->run($request);
 
@@ -67,7 +67,7 @@ class LoginTest extends BoltUnitTest
             ->method('login')
             ->will($this->returnValue(true));
         $app['users'] = $users;
-        $request = Request::create('/bolt/login','POST', array('action'=>'login'));
+        $request = Request::create('/bolt/login', 'POST', array('action'=>'login'));
         $this->expectOutputRegex("/Redirecting to \/bolt\//");
         $app->run($request);
     }
@@ -89,12 +89,12 @@ class LoginTest extends BoltUnitTest
         $app['users'] = $users;
 
         // Test missing username fails
-        $request = Request::create('/bolt/login','POST', array('action'=>'reset'));
+        $request = Request::create('/bolt/login', 'POST', array('action'=>'reset'));
         $response = $app->handle($request);
-        $this->assertRegExp('/Please provide a username/i',$response->getContent());
+        $this->assertRegExp('/Please provide a username/i', $response->getContent());
 
         // Test normal operation
-        $request = Request::create('/bolt/login','POST', array('action'=>'reset', 'username'=>'admin'));
+        $request = Request::create('/bolt/login', 'POST', array('action'=>'reset', 'username'=>'admin'));
         $this->expectOutputRegex("/Redirecting to \/bolt\/login/");
         $app->run($request);
     }
@@ -109,7 +109,7 @@ class LoginTest extends BoltUnitTest
 
         $app['users'] = $users;
 
-        $request = Request::create('/bolt/logout','POST', array());
+        $request = Request::create('/bolt/logout', 'POST', array());
         $this->expectOutputRegex("/Redirecting to \/bolt\/login/");
         $app->run($request);
 

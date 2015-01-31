@@ -21,7 +21,7 @@ class ExtensionsTest extends BoltUnitTest
     {
         $app = $this->getApp();
 
-        $testPackage = new CompletePackage('test','1.0.1','1.0');
+        $testPackage = new CompletePackage('test', '1.0.1', '1.0');
         $testPackage->setDescription('An extension');
         $testPackage->setType('bolt-extension');
 

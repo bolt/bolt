@@ -171,14 +171,14 @@ class BoltLibraryTest extends BoltUnitTest
 
     public function testSaveSerialize()
     {
-        $data = range(0,100);
+        $data = range(0, 100);
         $file = TEST_ROOT."/tests/resources/data.php";
         $this->assertTrue(Library::saveSerialize($file, $data));
     }
 
     public function testSaveSerializeFailsOnLock()
     {
-        $data = range(0,100);
+        $data = range(0, 100);
         $file = TEST_ROOT."/tests/resources/data.php";
         $fp = fopen($file, 'a');
         flock($fp, LOCK_EX);
@@ -189,7 +189,7 @@ class BoltLibraryTest extends BoltUnitTest
 
     public function testSaveSerializeErrors()
     {
-        $data = range(0,100);
+        $data = range(0, 100);
         $file = TEST_ROOT."/non/existent/path/data.php";
         $this->setExpectedException('PHPUnit_Framework_Error_Warning');
         $response = Library::saveSerialize($file, $data);
@@ -200,7 +200,7 @@ class BoltLibraryTest extends BoltUnitTest
     {
         $file = TEST_ROOT."/tests/resources/data.php";
         $data = Library::loadSerialize($file);
-        $this->assertEquals(range(0,100), $data);
+        $this->assertEquals(range(0, 100), $data);
         unlink($file);
     }
 
@@ -220,19 +220,19 @@ class BoltLibraryTest extends BoltUnitTest
 
     public function testSmartUnserialize()
     {
-        $json = json_encode(range(1,100));
-        $this->assertEquals(Library::smartUnserialize($json), range(1,100));
+        $json = json_encode(range(1, 100));
+        $this->assertEquals(Library::smartUnserialize($json), range(1, 100));
 
-        $php = serialize(range(1,100));
-        $this->assertEquals(Library::smartUnserialize($php), range(1,100));
+        $php = serialize(range(1, 100));
+        $this->assertEquals(Library::smartUnserialize($php), range(1, 100));
     }
 
     public function testLegacyLoadSerialize()
     {
         $file = TEST_ROOT."/tests/resources/data.php";
-        file_put_contents($file, serialize(range(1,100)));
+        file_put_contents($file, serialize(range(1, 100)));
         $data = Library::loadSerialize($file);
-        $this->assertEquals(range(1,100), $data);
+        $this->assertEquals(range(1, 100), $data);
         unlink($file);
     }
 

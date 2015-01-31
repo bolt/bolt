@@ -46,7 +46,7 @@ class ManagerTest extends BoltUnitTest
         $manager = new Manager($app);
 
         $adapter = new NullAdapter();
-        $fs = $this->getMock('League\Flysystem\Filesystem', array('handle'),array($adapter));
+        $fs = $this->getMock('League\Flysystem\Filesystem', array('handle'), array($adapter));
 
         $manager->setManager('default', $fs);
 
