@@ -15,7 +15,6 @@ class HtmlTest extends BoltUnitTest
 
     public function testTrimText()
     {
-
         // Simple text
         $input = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.';
         $this->assertEquals("Lorem ipsum", Html::trimText($input, 11, false));

@@ -17,13 +17,11 @@ class ExtendControllerTest extends BoltUnitTest
 {
     public function testDefaultRegistries()
     {
-
         $app = $this->getApp();
         $this->assertNotEmpty($app['extend.site']);
         $this->assertNotEmpty($app['extend.repo']);
         $runner = $app['extend.manager'];
         $this->assertInstanceOf('Bolt\Composer\PackageManager', $runner);
-
     }
 
     public function testMethodsReturnTemplates()
@@ -171,6 +169,5 @@ class ExtendControllerTest extends BoltUnitTest
             );
         // This just ensures that the data matches the internal format of json decoded responses
         return json_decode(json_encode($info));
-
     }
 }

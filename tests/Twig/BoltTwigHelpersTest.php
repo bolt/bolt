@@ -67,7 +67,6 @@ class BoltTwigHelpersTest extends BoltUnitTest
 
     public function testPrintBacktrace()
     {
-
         // First test with debug off
         $app = $this->getApp();
         $twig = new TwigExtension($app);
@@ -98,7 +97,6 @@ class BoltTwigHelpersTest extends BoltUnitTest
         $app['config']->set('general/locale', 'de_DE');
         $twig = new TwigExtension($app);
         $this->assertEquals('de-DE', $twig->htmlLang());
-
     }
 
     // public function testLocaleDateTime()
@@ -193,7 +191,6 @@ class BoltTwigHelpersTest extends BoltUnitTest
         $app = $this->getApp();
         $twig = new TwigExtension($app);
         $this->assertFalse($twig->imageInfo('nothing'));
-
     }
 
     public function testSlug()
@@ -250,7 +247,6 @@ class BoltTwigHelpersTest extends BoltUnitTest
         // Test sort on secondary keys
         $result = array_values($twig->order($input, 'id', 'date'));
         $this->assertEquals('Gamma', $result[2]['title']);
-
     }
 
     public function testFirst()
@@ -306,7 +302,6 @@ class BoltTwigHelpersTest extends BoltUnitTest
 
         // Delete the content so we're back to a clean database
         $storage->deleteContent('showcases', 1);
-
     }
 
     public function testToken()

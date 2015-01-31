@@ -24,7 +24,6 @@ class LowlevelChecksTest extends BoltUnitTest
 
     public function setUp()
     {
-
         $this->php = \PHPUnit_Extension_FunctionMocker::start($this, 'Bolt\Configuration')
             ->mockFunction('is_readable')
             ->mockFunction('is_writable')
@@ -60,7 +59,6 @@ class LowlevelChecksTest extends BoltUnitTest
                 'message' => 'unknown error'
             )
         );
-
     }
 
     public function tearDown()

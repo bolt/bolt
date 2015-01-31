@@ -15,7 +15,6 @@ class StringTest extends BoltUnitTest
 
     public function testMakeSafe()
     {
-
         // basic
         $input = "this is a ƃuıɹʇs ʇsǝʇ";
         $this->assertEquals("this is a uis s", String::makeSafe($input));

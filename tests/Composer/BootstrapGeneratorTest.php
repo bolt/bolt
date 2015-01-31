@@ -47,12 +47,10 @@ class BootstrapGeneratorTest extends BoltUnitTest
 
     public function testWrite()
     {
-
         $boot = new BootstrapGenerator(true, 'public3');
         $code = $boot->generate();
         $location = $boot->create();
         $this->assertEquals($code, file_get_contents($location));
-
     }
 
     public function testWriteToNonWebroot()
