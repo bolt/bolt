@@ -24,11 +24,6 @@ class ChangeLog
     private $table_change;
 
     /**
-     * @var string
-     */
-    private $table_system;
-
-    /**
      * @param Application $app
      */
     public function __construct(Application $app)
@@ -37,7 +32,6 @@ class ChangeLog
 
         $prefix = $app['config']->get('general/database/prefix', "bolt_");
         $this->table_change = sprintf("%s%s", $prefix, 'log_change');
-        $this->table_system = sprintf("%s%s", $prefix, 'log_system');
     }
 
     /**
