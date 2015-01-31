@@ -1,6 +1,8 @@
 <?php
 namespace Bolt\Configuration;
 
+use Bolt\Exception\LowLevelDatabaseException;
+
 /**
  * A class to perform several 'low level' checks. Since we're doing it (by design)
  * _before_ the autoloader gets initialized, we can't use autoloading.
