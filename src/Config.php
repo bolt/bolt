@@ -9,7 +9,6 @@ use Bolt\Helpers\String;
 use Bolt\Translation\Translator as Trans;
 use Eloquent\Pathogen\PathInterface;
 use Eloquent\Pathogen\RelativePathInterface;
-use Monolog\Logger;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Yaml;
 use Symfony\Component\Yaml\Parser;

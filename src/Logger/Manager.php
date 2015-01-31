@@ -2,10 +2,9 @@
 
 namespace Bolt\Logger;
 
-use Bolt\Application;
-use Bolt\Helpers\String;
 use Bolt\Pager;
 use Monolog\Logger;
+use Silex\Application;
 
 /**
  *

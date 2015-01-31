@@ -5,7 +5,6 @@ namespace Bolt;
 use Bolt\Configuration\LowlevelException;
 use Bolt\Library as Lib;
 use Doctrine\DBAL\Exception\ConnectionException as DBALConnectionException;
-use Monolog\Logger;
 use RandomLib;
 use SecurityLib;
 use Silex;
