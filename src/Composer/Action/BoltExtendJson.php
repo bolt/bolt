@@ -2,6 +2,7 @@
 
 namespace Bolt\Composer\Action;
 
+use Bolt\Translation\Translator as Trans;
 use Composer\Json\JsonFile;
 use Silex\Application;
 
