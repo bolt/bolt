@@ -128,6 +128,25 @@ abstract class BaseExtension implements ExtensionInterface
 
         return $this->composerJson;
     }
+    
+    /**
+     * This allows write access to the composer config, allowing simulation of this feature
+     * even if the extension doesn't have a physical composer.json file.
+     * 
+     * @param array $configuration
+     */
+    public function setComposerConfiguration(array $configuration)
+    {
+        if( !is_array($configuration)) {
+            throw new \InvalidArgumentException("Configuration must be an array", 1);   
+        }
+        
+        $this->composerJsonLoaded = true;
+        $this->composerJson = null;
+        $this->composerJson = $configuration;
+
+        return $this->composerJson;
+    }
 
     /**
      * Builds an array suitable for conversion to JSON, which in turn will end

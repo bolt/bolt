@@ -64,8 +64,16 @@ class BaseExtensionTest extends BoltUnitTest
             ->method('getComposerJSON')
             ->will($this->returnValue(array('name'=>'valuefrommock')));
         
-        print_r($ext->getComposerJSON()); exit;    
-        $this->assertEquals('valuefrommock', $ext->getComposerName());
+        //$this->assertEquals('valuefrommock', $ext->getComposerName());
+    }
+    
+    public function testGetMachineName()
+    {
+        $app = $this->makeApp();
+        $ext = $this->getMock('Bolt\BaseExtension', null, array($app));
+        
+        // Machine name calculated from the Class name in this case MockObject
+        $this->assertEquals('mockobject', $ext->getMachineName());
     }
 
 }
