@@ -37,19 +37,19 @@ class LowlevelChecksTest extends BoltUnitTest
         $this->errorResponses = array(
             'core'=> array(
                 "type"=> E_ERROR,
-                "file"=> TEST_ROOT.'/src',
+                "file"=> TEST_ROOT . '/src',
                 "line"=> 16,
                 "message"=> 'src error'
             ),
             'extensions'=> array(
                 "type"=> E_ERROR,
-                "file"=> TEST_ROOT.'/extensions',
+                "file"=> TEST_ROOT . '/extensions',
                 "line"=> 1,
                 "message"=>'extension error'
             ),
             'vendor'=> array(
                 "type"=> E_ERROR,
-                "file"=> TEST_ROOT.'/vendor',
+                "file"=> TEST_ROOT . '/vendor',
                 "line"=> 1,
                 "message"=> 'vendor error'
             ),

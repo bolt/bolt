@@ -172,14 +172,14 @@ class BoltLibraryTest extends BoltUnitTest
     public function testSaveSerialize()
     {
         $data = range(0, 100);
-        $file = TEST_ROOT."/tests/resources/data.php";
+        $file = TEST_ROOT . '/tests/resources/data.php';
         $this->assertTrue(Library::saveSerialize($file, $data));
     }
 
     public function testSaveSerializeFailsOnLock()
     {
         $data = range(0, 100);
-        $file = TEST_ROOT."/tests/resources/data.php";
+        $file = TEST_ROOT . '/tests/resources/data.php';
         $fp = fopen($file, 'a');
         flock($fp, LOCK_EX);
         $this->setExpectedException('Bolt\Configuration\LowlevelException');
@@ -190,7 +190,7 @@ class BoltLibraryTest extends BoltUnitTest
     public function testSaveSerializeErrors()
     {
         $data = range(0, 100);
-        $file = TEST_ROOT."/non/existent/path/data.php";
+        $file = TEST_ROOT . '/non/existent/path/data.php';
         $this->setExpectedException('PHPUnit_Framework_Error_Warning');
         $response = Library::saveSerialize($file, $data);
         $this->assertTrue($response);
@@ -198,7 +198,7 @@ class BoltLibraryTest extends BoltUnitTest
 
     public function testLoadSerialize()
     {
-        $file = TEST_ROOT."/tests/resources/data.php";
+        $file = TEST_ROOT . '/tests/resources/data.php';
         $data = Library::loadSerialize($file);
         $this->assertEquals(range(0, 100), $data);
         unlink($file);
@@ -206,7 +206,7 @@ class BoltLibraryTest extends BoltUnitTest
 
     public function testLoadSerializeErrors()
     {
-        $file = TEST_ROOT."/non/existent/path/data.php";
+        $file = TEST_ROOT . '/non/existent/path/data.php';
         $this->setExpectedException('Bolt\Configuration\LowlevelException');
         $this->expectOutputRegex("/File is not readable/i");
         $this->assertTrue(Library::loadSerialize($file));
@@ -214,7 +214,7 @@ class BoltLibraryTest extends BoltUnitTest
 
     public function testLoadSerializeErrorsSilently()
     {
-        $file = TEST_ROOT."/non/existent/path/data.php";
+        $file = TEST_ROOT . '/non/existent/path/data.php';
         $this->assertFalse(Library::loadSerialize($file, true));
     }
 
@@ -229,7 +229,7 @@ class BoltLibraryTest extends BoltUnitTest
 
     public function testLegacyLoadSerialize()
     {
-        $file = TEST_ROOT."/tests/resources/data.php";
+        $file = TEST_ROOT . '/tests/resources/data.php';
         file_put_contents($file, serialize(range(1, 100)));
         $data = Library::loadSerialize($file);
         $this->assertEquals(range(1, 100), $data);
@@ -238,8 +238,8 @@ class BoltLibraryTest extends BoltUnitTest
 
     public function testLegacyLoadSerializeWithWindowsNewlines()
     {
-        $file = TEST_ROOT."/tests/resources/data.php";
-        $data = "\r\n".serialize("string");
+        $file = TEST_ROOT . '/tests/resources/data.php';
+        $data = "\r\n" . serialize('string');
         file_put_contents($file, $data);
         $data = Library::loadSerialize($file);
         $this->assertEquals("string", $data);
@@ -248,8 +248,8 @@ class BoltLibraryTest extends BoltUnitTest
 
     public function testLegacyLoadSerializeMixedNewlines()
     {
-        $file = TEST_ROOT."/tests/resources/data.php";
-        $data = "\n\n".serialize("string");
+        $file = TEST_ROOT . '/tests/resources/data.php';
+        $data = "\n\n" . serialize('string');
         file_put_contents($file, $data);
         $data = Library::loadSerialize($file);
         $this->assertEquals("string", $data);
@@ -258,8 +258,8 @@ class BoltLibraryTest extends BoltUnitTest
 
     public function testBadLoadSerializeFails()
     {
-        $file = TEST_ROOT."/tests/resources/data.php";
-        $data = "\n\n"."string";
+        $file = TEST_ROOT . '/tests/resources/data.php';
+        $data = "\n\n" . 'string';
         file_put_contents($file, $data);
         $data = Library::loadSerialize($file);
         $this->assertFalse($data);

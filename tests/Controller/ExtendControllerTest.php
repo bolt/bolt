@@ -29,7 +29,7 @@ class ExtendControllerTest extends BoltUnitTest
     public function testMethodsReturnTemplates()
     {
         $app = $this->getApp();
-        $app['twig.loader.filesystem']->prependPath(TEST_ROOT."/app/view/twig");
+        $app['twig.loader.filesystem']->prependPath(TEST_ROOT . '/app/view/twig');
         $this->expectOutputRegex('#Redirecting to /bolt/#');
         $app->run();
         $extend = new Extend();

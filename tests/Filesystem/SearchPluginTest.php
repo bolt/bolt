@@ -19,7 +19,7 @@ class SearchPluginTest extends BoltUnitTest
     {
         $app = $this->getApp();
 
-        $adapter = new Local(TEST_ROOT."/tests/resources");
+        $adapter = new Local(TEST_ROOT . '/tests/resources');
         $fs = new Filesystem($adapter);
 
         $plugin = new SearchPlugin();

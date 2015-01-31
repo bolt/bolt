@@ -143,7 +143,7 @@ class BoltTwigHelpersTest extends BoltUnitTest
         // Check that array works.
         $sample = array('info'=>'A test title', 'body'=>$this->getDummyText());
         $excerpt4 = $twig->excerpt($sample);
-        $this->assertRegExp('/'.$sample['info'].'/', $excerpt4);
+        $this->assertRegExp('/' . $sample['info'] . '/', $excerpt4);
 
         // Check that non text returns empty
         $excerpt5 = $twig->excerpt(1);

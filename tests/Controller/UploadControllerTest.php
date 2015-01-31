@@ -166,7 +166,7 @@ class UploadControllerTest extends BoltUnitTest
     protected function getFileRequest($namespace='files')
     {
         $request = Request::create(
-            '/upload/'.$namespace,
+            '/upload/' . $namespace,
             'POST',
             array(),
             array(),

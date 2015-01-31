@@ -15,7 +15,7 @@ class StandardConfigurationTest extends \PHPUnit_Framework_TestCase
 
     public function testInitWithClassloader()
     {
-        $loader = require __DIR__."/../../vendor/autoload.php";
+        $loader = require __DIR__ . '/../../vendor/autoload.php';
         $config = new Standard($loader);
         $app = new Application(array('resources' => $config));
         $this->assertEquals('/app/', $config->getUrl('app'));

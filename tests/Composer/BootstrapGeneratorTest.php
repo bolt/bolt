@@ -16,17 +16,17 @@ class BootstrapGeneratorTest extends BoltUnitTest
 
     public function setup()
     {
-        $this->workspace = TEST_ROOT.'/tests/resources';
+        $this->workspace = TEST_ROOT . '/tests/resources';
         chdir($this->workspace);
     }
 
     public function tearDown()
     {
-        if (is_dir($this->workspace.'/public3')) {
-            $this->rmdir($this->workspace.'/public3');
-            rmdir($this->workspace.'/public3');
+        if (is_dir($this->workspace . '/public3')) {
+            $this->rmdir($this->workspace . '/public3');
+            rmdir($this->workspace . '/public3');
         }
-        @unlink($this->workspace.'/index.php');
+        @unlink($this->workspace . '/index.php');
     }
 
     public function testConstruct()
