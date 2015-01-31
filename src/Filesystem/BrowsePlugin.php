@@ -50,7 +50,6 @@ class BrowsePlugin implements PluginInterface
                     $url = $entry['path'];
                 }
 
-
                 // Ugh, for some reason the foldername for the theme is included twice. Why?
                 // For now we 'fix' this with an ugly hack, replacing it. :-/
                 // TODO: dig into Filesystem and figure out why this happens.
