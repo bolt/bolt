@@ -24,12 +24,16 @@ class LowlevelChecksTest extends BoltUnitTest
 
     public function setUp()
     {
-        $this->php = \PHPUnit_Extension_FunctionMocker::start($this, 'Bolt\Exception')
+        $this->php = \PHPUnit_Extension_FunctionMocker::start($this, 'Bolt\Configuration')
             ->mockFunction('is_readable')
             ->mockFunction('is_writable')
             ->mockFunction('file_exists')
             ->mockFunction('is_dir')
             ->mockFunction('copy')
+            ->mockFunction('error_get_last')
+            ->getMock();
+            
+        $this->php2 = \PHPUnit_Extension_FunctionMocker::start($this, 'Bolt\Exception')
             ->mockFunction('error_get_last')
             ->getMock();
 
@@ -298,7 +302,7 @@ class LowlevelChecksTest extends BoltUnitTest
         $app = array('resources' => new Standard(TEST_ROOT));
         ResourceManager::$theApp = $app;
 
-        $this->php
+        $this->php2
             ->expects($this->once())
             ->method('error_get_last')
             ->will($this->returnValue($this->errorResponses['core']));
@@ -312,7 +316,7 @@ class LowlevelChecksTest extends BoltUnitTest
         $app = array('resources' => new Standard(TEST_ROOT));
         ResourceManager::$theApp = $app;
 
-        $this->php
+        $this->php2
             ->expects($this->once())
             ->method('error_get_last')
             ->will($this->returnValue($this->errorResponses['vendor']));
@@ -326,7 +330,7 @@ class LowlevelChecksTest extends BoltUnitTest
         $app = array('resources' => new Standard(TEST_ROOT));
         ResourceManager::$theApp = $app;
 
-        $this->php
+        $this->php2
             ->expects($this->once())
             ->method('error_get_last')
             ->will($this->returnValue($this->errorResponses['extensions']));
@@ -340,7 +344,7 @@ class LowlevelChecksTest extends BoltUnitTest
         $app = array('resources' => new Standard(TEST_ROOT));
         ResourceManager::$theApp = $app;
 
-        $this->php
+        $this->php2
             ->expects($this->once())
             ->method('error_get_last')
             ->will($this->returnValue($this->errorResponses['unknown']));
