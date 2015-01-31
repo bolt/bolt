@@ -24,7 +24,20 @@ class Cache extends FilesystemCache
     /**
      * Default cache file extension
      */
-    const DEFAULT_EXTENSION = '.boltcache.data';
+    private $extension = '.data';
+
+    /**
+     * @var string[] regular expressions for replacing disallowed characters in file name
+     */
+    private $disallowedCharacterPatterns = array(
+        '/\-/', // replaced to disambiguate original `-` and `-` derived from replacements
+        '/[^a-zA-Z0-9\-_\[\]]/' // also excludes non-ascii chars (not supported, depending on FS)
+    );
+
+    /**
+     * @var string[] replacements for disallowed file characters
+     */
+    private $replacementCharacters = array('__', '-');
 
     /**
      * Set up the object. Initialize the proper folder for storing the
@@ -41,10 +54,36 @@ class Cache extends FilesystemCache
         }
 
         try {
-            parent::__construct($cacheDir, self::DEFAULT_EXTENSION);
+            parent::__construct($cacheDir, $this->extension);
         } catch (\InvalidArgumentException $e) {
             throw $e;
         }
+    }
+
+    /**
+     * Generate a filename for the cached items in our filebased cache.
+     *
+     * The original Doctrine/cache function stored files in folders that
+     * were nested 32 layers deep. In practice this led to cache folders
+     * containing up to 600,000 folders, while containing only about 15,000
+     * cached items. This is a huge overkill. Here, we use only two levels,
+     * which still means each folder will in practice contain only a very
+     * limited amount of files. i.e.: for 15,000 files, there are 256*256
+     * folders, which statstically means one or two files per folder.
+     *
+     * @param string $id
+     * @return string
+     */
+    protected function getFilename($id)
+    {
+        $foldername = implode(str_split(substr(hash('sha256', $id), 0, 4), 2), DIRECTORY_SEPARATOR);
+
+        return $this->directory
+            . DIRECTORY_SEPARATOR
+            . $foldername
+            . DIRECTORY_SEPARATOR
+            . preg_replace($this->disallowedCharacterPatterns, $this->replacementCharacters, $id)
+            . $this->extension;
     }
 
     /**
