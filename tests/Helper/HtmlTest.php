@@ -31,5 +31,4 @@ class HtmlTest extends BoltUnitTest
         $input = 'Lorem `ipsum` dolor.';
         $this->assertEquals("Lorem <tt>ipsum</tt> dolor.", Html::decorateTT($input));
     }
-
 }

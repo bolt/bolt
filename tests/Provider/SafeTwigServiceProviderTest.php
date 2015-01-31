@@ -21,5 +21,4 @@ class SafeTwigServiceProviderTest extends BoltUnitTest
         $this->assertInstanceOf('Twig_Environment', $app['safe_twig']);
         $app->boot();
     }
-
 }

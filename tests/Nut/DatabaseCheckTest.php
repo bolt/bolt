@@ -32,5 +32,4 @@ class DatabaseCheckTest extends BoltUnitTest
         $this->assertRegExp("/Table `bolt_newcontent` is not present/", $result);
 
     }
-
 }

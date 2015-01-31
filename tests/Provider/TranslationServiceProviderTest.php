@@ -31,5 +31,4 @@ class TranslationServiceProviderTest extends BoltUnitTest
         $app->boot();
         $this->assertEquals('de_XX', $app['translator']->getLocale());
     }
-
 }

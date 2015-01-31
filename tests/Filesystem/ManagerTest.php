@@ -75,5 +75,4 @@ class ManagerTest extends BoltUnitTest
         $manager = new Manager($app);
         $this->assertEquals('/files/findfile', $manager->url('findfile'));
     }
-
 }

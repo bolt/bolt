@@ -65,5 +65,4 @@ class UserRoleAddTest extends BoltUnitTest
 
         return $users;
     }
-
 }

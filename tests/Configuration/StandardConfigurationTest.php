@@ -20,5 +20,4 @@ class StandardConfigurationTest extends \PHPUnit_Framework_TestCase
         $app = new Application(array('resources' => $config));
         $this->assertEquals('/app/', $config->getUrl('app'));
     }
-
 }

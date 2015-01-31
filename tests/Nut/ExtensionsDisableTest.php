@@ -33,5 +33,4 @@ class ExtensionsDisableTest extends BoltUnitTest
         $this->assertEquals(0, trim($result));
 
     }
-
 }

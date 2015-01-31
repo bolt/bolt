@@ -121,5 +121,4 @@ class CacheTest extends \PHPUnit_Framework_TestCase
             $this->cache = new Cache($this->workspace);
         }
     }
-
 }

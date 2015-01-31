@@ -21,5 +21,4 @@ class StackServiceProviderTest extends BoltUnitTest
         $this->assertInstanceOf('Bolt\Stack', $app['stack']);
         $app->boot();
     }
-
 }

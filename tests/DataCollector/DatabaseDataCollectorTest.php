@@ -51,5 +51,4 @@ class DatabaseDataCollectorTest extends BoltUnitTest
         $this->assertEquals(0, $data->getQueryCount());
 
     }
-
 }

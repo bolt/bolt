@@ -64,5 +64,4 @@ class UserRoleRemoveTest extends BoltUnitTest
 
         return $users;
     }
-
 }

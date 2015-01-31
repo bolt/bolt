@@ -23,5 +23,4 @@ class BaseFieldTest extends BoltUnitTest
         $this->assertEquals('text', $field->getStorageType());
         $this->assertEquals(array(), $field->getStorageOptions());
     }
-
 }

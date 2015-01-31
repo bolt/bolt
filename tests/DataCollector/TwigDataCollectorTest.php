@@ -74,5 +74,4 @@ class TwigDataCollectorTest extends BoltUnitTest
         $app['twig']->addExtension($ext);
         $data->collect($request, $response);
     }
-
 }

@@ -33,5 +33,4 @@ class ExtensionsEnableTest extends BoltUnitTest
         $this->assertRegexp('/[Done]/', trim($result));
 
     }
-
 }

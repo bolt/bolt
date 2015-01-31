@@ -32,5 +32,4 @@ class CronRunnerTest extends BoltUnitTest
         $this->assertEquals(1, count($events));
 
     }
-
 }

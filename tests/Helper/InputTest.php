@@ -38,7 +38,6 @@ class InputTest extends BoltUnitTest
         $this->assertEquals(array('first'=>'"test"', 'second'=>'a "test" val'), Input::cleanPostedData($vals, true, true));
 
     }
-
 }
 
 // Allows us to test magic quotes stuff

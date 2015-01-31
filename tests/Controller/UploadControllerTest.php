@@ -206,5 +206,4 @@ class UploadControllerTest extends BoltUnitTest
 
         return $bolt;
     }
-
 }

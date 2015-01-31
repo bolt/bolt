@@ -35,5 +35,4 @@ class FilePermissionsTest extends BoltUnitTest
         $okFile = "mycoolimage.jpg";
         $this->assertTrue($fp->allowedUpload($okFile));
     }
-
 }

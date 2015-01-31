@@ -26,5 +26,4 @@ class LoggerServiceProviderTest extends BoltUnitTest
 
         $app->boot();
     }
-
 }

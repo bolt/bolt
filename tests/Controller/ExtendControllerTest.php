@@ -173,5 +173,4 @@ class ExtendControllerTest extends BoltUnitTest
         return json_decode(json_encode($info));
 
     }
-
 }

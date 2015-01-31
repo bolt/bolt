@@ -65,5 +65,4 @@ class StackTest extends BoltUnitTest
         $this->assertEquals(2, count($items));
 
     }
-
 }

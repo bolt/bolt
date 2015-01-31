@@ -52,5 +52,4 @@ class CacheClearTest extends BoltUnitTest
 
         return $cache;
     }
-
 }

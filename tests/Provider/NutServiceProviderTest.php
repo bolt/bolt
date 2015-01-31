@@ -34,5 +34,4 @@ class NutServiceProviderTest extends BoltUnitTest
         NutServiceProvider::addCommand($app, $command);
         $this->assertTrue(in_array($command, $app['nut.commands']));
     }
-
 }

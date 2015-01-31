@@ -70,5 +70,4 @@ class BoltDataCollectorTest extends BoltUnitTest
         $this->assertEquals("edittitle", $data->getEdittitle());
 
     }
-
 }

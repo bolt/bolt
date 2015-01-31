@@ -21,5 +21,4 @@ class FilePermissionsServiceProviderTest extends BoltUnitTest
         $this->assertInstanceOf('Bolt\FilePermissions', $app['filepermissions']);
         $app->boot();
     }
-
 }

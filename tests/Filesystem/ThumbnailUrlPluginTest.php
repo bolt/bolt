@@ -37,5 +37,4 @@ class ThumbnailUrlPluginTest extends BoltUnitTest
         $plugin = new ThumbnailUrlPlugin($app);
         $this->assertEquals('thumb', $plugin->getMethod());
     }
-
 }

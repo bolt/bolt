@@ -32,5 +32,4 @@ class FilesystemContainerTest extends BoltUnitTest
         $this->assertEquals('destination', $container->moveUploadedFile(__FILE__, 'destination'));
         $this->assertFalse($container->moveUploadedFile('/dev/null', 'destination'));
     }
-
 }

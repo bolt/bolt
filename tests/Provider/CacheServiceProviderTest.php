@@ -21,5 +21,4 @@ class CacheServiceProviderTest extends BoltUnitTest
         $this->assertInstanceOf('Bolt\Cache', $app['cache']);
         $app->boot();
     }
-
 }

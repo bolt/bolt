@@ -265,5 +265,4 @@ class BoltLibraryTest extends BoltUnitTest
         $this->assertFalse($data);
         unlink($file);
     }
-
 }

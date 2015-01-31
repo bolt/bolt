@@ -62,5 +62,4 @@ class BootstrapGeneratorTest extends BoltUnitTest
         $location = $boot->create();
         $this->assertEquals($code, file_get_contents($location));
     }
-
 }

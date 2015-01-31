@@ -53,5 +53,4 @@ class ConfigSetTest extends BoltUnitTest
         @unlink(__DIR__ . '/resources/config.yml');
         @unlink(__DIR__ . '/../../app/cache/');
     }
-
 }

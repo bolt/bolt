@@ -30,5 +30,4 @@ class RenderServiceProviderTest extends BoltUnitTest
         $this->assertInstanceOf('Bolt\Render', $app['safe_render']);
         $app->boot();
     }
-
 }

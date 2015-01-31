@@ -21,5 +21,4 @@ class StorageServiceProviderTest extends BoltUnitTest
         $this->assertInstanceOf('Bolt\Storage', $app['storage']);
         $app->boot();
     }
-
 }

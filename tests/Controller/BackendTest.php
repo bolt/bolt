@@ -215,5 +215,4 @@ class BackendTest extends BoltUnitTest
 
         $app->run($request);
     }
-
 }

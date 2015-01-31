@@ -108,5 +108,4 @@ class ChangeLogTest extends BoltUnitTest
         $this->assertInstanceOf('Bolt\Logger\ChangeLogItem', $log);
         $this->assertAttributeEquals(1, 'contentid', $log);
     }
-
 }

@@ -33,5 +33,4 @@ class SearchPluginTest extends BoltUnitTest
         $plugin = new SearchPlugin();
         $this->assertEquals('search', $plugin->getMethod());
     }
-
 }

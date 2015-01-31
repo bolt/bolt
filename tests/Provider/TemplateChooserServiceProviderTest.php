@@ -21,5 +21,4 @@ class TemplateChooserServiceProviderTest extends BoltUnitTest
         $this->assertInstanceOf('Bolt\TemplateChooser', $app['templatechooser']);
         $app->boot();
     }
-
 }

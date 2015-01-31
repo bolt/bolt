@@ -25,5 +25,4 @@ class LogTrimTest extends BoltUnitTest
         $this->assertRegexp('/Activity logs trimmed/', $result);
 
     }
-
 }

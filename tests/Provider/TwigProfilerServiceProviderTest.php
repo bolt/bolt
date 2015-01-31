@@ -27,5 +27,4 @@ class TwigProfilerServiceProviderTest extends BoltUnitTest
 
         $app->boot();
     }
-
 }

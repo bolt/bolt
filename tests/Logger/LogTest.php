@@ -160,5 +160,4 @@ class LogTest extends BoltUnitTest
             $queries[4][0]
         );
     }
-
 }

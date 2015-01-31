@@ -398,5 +398,4 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
         $app = ResourceManager::getApp();
 
     }
-
 }

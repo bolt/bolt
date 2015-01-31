@@ -88,5 +88,4 @@ class UserAddTest extends BoltUnitTest
 
         return $users;
     }
-
 }

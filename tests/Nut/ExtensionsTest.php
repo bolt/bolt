@@ -42,5 +42,4 @@ class ExtensionsTest extends BoltUnitTest
         $this->assertRegexp('/test.*1.0/', $result);
 
     }
-
 }

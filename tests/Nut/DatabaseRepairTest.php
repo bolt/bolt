@@ -32,5 +32,4 @@ class DatabaseRepairTest extends BoltUnitTest
         $this->assertRegExp("/Created table `bolt_newcontent`/", $result);
 
     }
-
 }

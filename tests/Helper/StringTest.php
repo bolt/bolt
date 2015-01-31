@@ -44,5 +44,4 @@ class StringTest extends BoltUnitTest
         $input = "this is a test string this is a test string";
         $this->assertEquals("one is a test string this is a test string", String::replaceFirst('this', 'one', $input));
     }
-
 }

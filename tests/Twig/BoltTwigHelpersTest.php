@@ -385,5 +385,4 @@ class BoltTwigHelpersTest extends BoltUnitTest
 
         return implode(' ', $longwords);
     }
-
 }

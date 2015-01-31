@@ -21,5 +21,4 @@ class OmnisearchServiceProviderTest extends BoltUnitTest
         $this->assertInstanceOf('Bolt\Omnisearch', $app['omnisearch']);
         $app->boot();
     }
-
 }

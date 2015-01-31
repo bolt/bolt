@@ -73,5 +73,4 @@ class Config
         $this->value['driver'] = "pdo_sqlite";
         $this->value['memory'] = true;
     }
-
 }

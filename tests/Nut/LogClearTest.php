@@ -54,5 +54,4 @@ class LogClearTest extends BoltUnitTest
 
         return $stream;
     }
-
 }

@@ -428,5 +428,4 @@ class LowlevelChecksTest extends BoltUnitTest
 
         return $check;
     }
-
 }

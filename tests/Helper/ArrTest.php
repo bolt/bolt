@@ -40,5 +40,4 @@ class ArrTest extends BoltUnitTest
         $arr2 = array('key' => array('test'=>'nested new value'));
         $this->assertEquals(array('key'=>array('test'=>'nested new value')), Arr::mergeRecursiveDistinct($arr1, $arr2));
     }
-
 }

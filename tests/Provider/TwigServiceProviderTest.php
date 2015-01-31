@@ -26,5 +26,4 @@ class TwigServiceProviderTest extends BoltUnitTest
         $this->assertFalse($app['twig.options']['cache']);
         $app->boot();
     }
-
 }

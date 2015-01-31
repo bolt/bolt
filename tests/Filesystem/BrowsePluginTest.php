@@ -50,5 +50,4 @@ class BrowsePluginTest extends BoltUnitTest
             }
         }
     }
-
 }
