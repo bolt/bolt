@@ -2,7 +2,7 @@
 
 namespace Bolt;
 
-use Bolt\PermissionLexerException;
+use Bolt\Exception\PermissionLexerException;
 use Bolt\PermissionParserException;
 
 /**
