@@ -60,7 +60,7 @@ class LogTest extends BoltUnitTest
         $app = $this->getApp();
         $app['debug'] = false;
         $log = new Log($app);
-        $log->add('Test 1);
+        $log->add('Test 1');
         $this->assertEquals(0, count($log->getMemoryLog()));
 
         // Test that content objects get handled
