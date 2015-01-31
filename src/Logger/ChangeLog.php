@@ -2,9 +2,7 @@
 
 namespace Bolt\Logger;
 
-use Bolt\Application;
-use Bolt\Helpers\String;
-use Monolog\Logger;
+use Silex\Application;
 
 /**
  *
@@ -24,11 +22,6 @@ class ChangeLog
     private $table_change;
 
     /**
-     * @var string
-     */
-    private $table_system;
-
-    /**
      * @param Application $app
      */
     public function __construct(Application $app)
@@ -37,11 +30,11 @@ class ChangeLog
 
         $prefix = $app['config']->get('general/database/prefix', "bolt_");
         $this->table_change = sprintf("%s%s", $prefix, 'log_change');
-        $this->table_system = sprintf("%s%s", $prefix, 'log_system');
     }
 
     /**
      * Get content changelog entries for all content types
+     *
      * @param  array $options An array with additional options. Currently, the
      *                        following options are supported:
      *                        - 'limit' (int)
@@ -53,8 +46,8 @@ class ChangeLog
     public function getChangelog(array $options)
     {
         $query = $this->app['db']->createQueryBuilder()
-                      ->select('*')
-                      ->from($this->table_change);
+                        ->select('*')
+                        ->from($this->table_change);
 
         $query = $this->setLimitOrder($query, $options);
         $rows = $query->execute()->fetchAll();
@@ -75,14 +68,15 @@ class ChangeLog
     public function countChangelog()
     {
         $query = $this->app['db']->createQueryBuilder()
-                      ->select('COUNT(id) as count')
-                      ->from($this->table_change);
+                        ->select('COUNT(id) as count')
+                        ->from($this->table_change);
 
         return $query->execute()->fetchColumn();
     }
 
     /**
      * Get content changelog entries by content type.
+     *
      * @param  mixed $contenttype Should be a string content type slug, or an
      *                            associative array containing a key named
      *                            'slug'
@@ -104,9 +98,9 @@ class ChangeLog
         // Build base query
         $contentTablename = $this->app['config']->get('general/database/prefix', 'bolt_') . $contenttype;
         $query = $this->app['db']->createQueryBuilder()
-                      ->select('log.*, log.title')
-                      ->from($this->table_change, 'log')
-                      ->leftJoin('log', $contentTablename, 'content', 'content.id = log.contentid');
+                        ->select('log.*, log.title')
+                        ->from($this->table_change, 'log')
+                        ->leftJoin('log', $contentTablename, 'content', 'content.id = log.contentid');
 
         // Set required WHERE
         $query = $this->setWhere($query, $contenttype, $options);
@@ -140,8 +134,8 @@ class ChangeLog
 
         // Build base query
         $query = $this->app['db']->createQueryBuilder()
-                      ->select('COUNT(id) as count')
-                      ->from($this->table_change, 'log');
+                        ->select('COUNT(id) as count')
+                        ->from($this->table_change, 'log');
 
         // Set any required WHERE
         $query = $this->setWhere($query, $contenttype, $options);
@@ -151,10 +145,11 @@ class ChangeLog
 
     /**
      * Get a content changelog entry by ID
+     *
      * @param  mixed                    $contenttype Should be a string content type slug, or an
      *                                               associative array containing a key named
      *                                               'slug'
-     * @param $contentid
+     * @param  $contentid
      * @param  int                      $id          The content-changelog ID
      * @return \Bolt\ChangeLogItem|null
      */
@@ -165,10 +160,11 @@ class ChangeLog
 
     /**
      * Get the content changelog entry that follows the given ID.
+     *
      * @param  mixed                    $contenttype Should be a string content type slug, or an
      *                                               associative array containing a key named
      *                                               'slug'
-     * @param $contentid
+     * @param  $contentid
      * @param  int                      $id          The content-changelog ID
      * @return \Bolt\ChangeLogItem|null
      */
@@ -179,6 +175,7 @@ class ChangeLog
 
     /**
      * Get the content changelog entry that precedes the given ID.
+     *
      * @param  mixed                    $contenttype Should be a string content type slug, or an
      *                                               associative array containing a key named
      *                                               'slug'
@@ -194,12 +191,12 @@ class ChangeLog
     /**
      * Set any required WHERE clause on a QueryBuilder
      *
-     * @param  Doctrine\DBAL\Query\QueryBuilder $query
-     * @param  string                           $contenttype
-     * @param  array                            $options
-     * @return Doctrine\DBAL\Query\QueryBuilder
+     * @param  \Doctrine\DBAL\Query\QueryBuilder $query
+     * @param  string                            $contenttype
+     * @param  array                             $options
+     * @return \Doctrine\DBAL\Query\QueryBuilder
      */
-    private function setWhere($query, $contenttype, array $options)
+    private function setWhere(\Doctrine\DBAL\Query\QueryBuilder $query, $contenttype, array $options)
     {
         $where = $query->expr()->andX()
                         ->add($query->expr()->eq('contenttype', ':contenttype'));
@@ -229,15 +226,15 @@ class ChangeLog
     /**
      * Conditionally add LIMIT and ORDERBY to a QueryBuilder query
      *
-     * @param  Doctrine\DBAL\Query\QueryBuilder $query
-     * @param  array                            $options The following options are supported:
-     *                                                   - 'limit' (int)
-     *                                                   - 'offset' (int)
-     *                                                   - 'order' (string)
-     *                                                   - 'direction' (string)
-     * @return Doctrine\DBAL\Query\QueryBuilder
+     * @param  \Doctrine\DBAL\Query\QueryBuilder $query
+     * @param  array                             $options The following options are supported:
+     *                                                    - 'limit' (int)
+     *                                                    - 'offset' (int)
+     *                                                    - 'order' (string)
+     *                                                    - 'direction' (string)
+     * @return \Doctrine\DBAL\Query\QueryBuilder
      */
-    private function setLimitOrder($query, array $options)
+    private function setLimitOrder(\Doctrine\DBAL\Query\QueryBuilder $query, array $options)
     {
         if (isset($options['order'])) {
             $query->orderBy($options['order'], $options['direction']);

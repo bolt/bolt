@@ -2,6 +2,7 @@
 
 namespace Bolt\Composer\Action;
 
+use Bolt\Translation\Translator as Trans;
 use Composer\Json\JsonFile;
 use Silex\Application;
 
@@ -103,7 +104,7 @@ final class BoltExtendJson
             try {
                 umask(0000);
                 $jsonFile->write($json);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->messages[] = Trans::__(
                     'The Bolt extensions Repo at %repository% is currently unavailable. Check your connection and try again shortly.',
                     array('%repository%' => $app['extend.site'])

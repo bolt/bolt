@@ -36,8 +36,8 @@ class Login implements Silex\ControllerProviderInterface
     /**
      * Handle a login attempt.
      *
-     * @param Silex\Application $app The application/container
-     * @param Request           $request The Symfony Request
+     * @param  Silex\Application $app     The application/container
+     * @param  Request           $request The Symfony Request
      * @return string
      */
     public function postLogin(Silex\Application $app, Request $request)
@@ -79,7 +79,7 @@ class Login implements Silex\ControllerProviderInterface
     /**
      * Login page and "Forgotten password" page.
      *
-     * @param Silex\Application $app     The application/container
+     * @param  Silex\Application $app The application/container
      * @return string
      */
     public function getLogin(Silex\Application $app)
@@ -98,7 +98,7 @@ class Login implements Silex\ControllerProviderInterface
     /**
      * Logout page.
      *
-     * @param Silex\Application $app The application/container
+     * @param  Silex\Application $app The application/container
      * @return string
      */
     public function logout(Silex\Application $app)
@@ -115,8 +115,8 @@ class Login implements Silex\ControllerProviderInterface
      * Reset the password. This controller is normally only reached when the user
      * clicks a "password reset" link in the email.
      *
-     * @param Silex\Application $app     The application/container
-     * @param Request           $request The Symfony Request
+     * @param  Silex\Application $app     The application/container
+     * @param  Request           $request The Symfony Request
      * @return string
      */
     public function resetPassword(Silex\Application $app, Request $request)

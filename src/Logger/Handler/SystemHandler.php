@@ -2,11 +2,9 @@
 
 namespace Bolt\Logger\Handler;
 
-use Bolt\Application;
-use Bolt\Helpers\String;
-use Bolt\Logger\Formatter\System;
 use Monolog\Logger;
 use Monolog\Handler\AbstractProcessingHandler;
+use Silex\Application;
 
 /**
  * Monolog Database handler for system logging

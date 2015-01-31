@@ -134,7 +134,7 @@ class Backend implements ControllerProviderInterface
     /**
      * Dashboard or "root".
      *
-     * @param Application $app The application/container
+     * @param  Application $app The application/container
      * @return mixed
      */
     public function dashboard(Application $app)
@@ -164,7 +164,7 @@ class Backend implements ControllerProviderInterface
     /**
      * Check the database for missing tables and columns. Does not do actual repairs.
      *
-     * @param Application $app The application/container
+     * @param  Application $app The application/container
      * @return mixed
      */
     public function dbCheck(Application $app)
@@ -183,7 +183,7 @@ class Backend implements ControllerProviderInterface
     /**
      * Check the database, create tables, add missing/new columns to tables.
      *
-     * @param Application $app The application/container
+     * @param  Application $app The application/container
      * @return string
      */
     public function dbUpdate(Application $app)
@@ -210,8 +210,8 @@ class Backend implements ControllerProviderInterface
     /**
      * Show the result of database updates.
      *
-     * @param Application $app The application/container
-     * @param Request     $request The Symfony Request
+     * @param  Application $app     The application/container
+     * @param  Request     $request The Symfony Request
      * @return mixed
      */
     public function dbUpdateResult(Application $app, Request $request)
@@ -227,7 +227,7 @@ class Backend implements ControllerProviderInterface
     /**
      * Clear the cache.
      *
-     * @param Application $app The application/container
+     * @param  Application $app The application/container
      * @return mixed
      */
     public function clearCache(Application $app)
@@ -279,7 +279,7 @@ class Backend implements ControllerProviderInterface
     /**
      * Show the change log.
      *
-     * @param Application $app The application/container
+     * @param  Application $app The application/container
      * @return string
      */
     public function changeLog(Application $app)
@@ -306,10 +306,10 @@ class Backend implements ControllerProviderInterface
     /**
      * Show changelog entries.
      *
-     * @param string            $contenttype The content type slug
-     * @param integer           $contentid   The content ID
-     * @param Silex\Application $app         The application/container
-     * @param Request           $request     The Symfony Request
+     * @param  string            $contenttype The content type slug
+     * @param  integer           $contentid   The content ID
+     * @param  Silex\Application $app         The application/container
+     * @param  Request           $request     The Symfony Request
      * @return mixed
      */
     public function changelogRecordAll($contenttype, $contentid, Application $app, Request $request)
@@ -415,11 +415,11 @@ class Backend implements ControllerProviderInterface
     /**
      * Show changelog details.
      *
-     * @param string            $contenttype The content type slug
-     * @param integer           $contentid   The content ID
-     * @param integer           $id          The changelog entry ID
-     * @param Silex\Application $app         The application/container
-     * @param Request           $request     The Symfony Request
+     * @param  string            $contenttype The content type slug
+     * @param  integer           $contentid   The content ID
+     * @param  integer           $id          The changelog entry ID
+     * @param  Silex\Application $app         The application/container
+     * @param  Request           $request     The Symfony Request
      * @return mixed
      */
     public function changelogRecordSingle($contenttype, $contentid, $id, Application $app, Request $request)
@@ -446,7 +446,7 @@ class Backend implements ControllerProviderInterface
     /**
      * Show the Omnisearch results.
      *
-     * @param Application $app The application/container
+     * @param  Application $app The application/container
      * @return mixed
      */
     public function omnisearch(Application $app)
@@ -469,8 +469,8 @@ class Backend implements ControllerProviderInterface
     /**
      * Generate some lipsum in the DB.
      *
-     * @param Application $app The application/container
-     * @param Request     $request The Symfony Request
+     * @param  Application $app     The application/container
+     * @param  Request     $request The Symfony Request
      * @return string
      */
     public function prefill(Application $app, Request $request)
@@ -510,8 +510,8 @@ class Backend implements ControllerProviderInterface
     /**
      * Content type overview page.
      *
-     * @param Application $app The application/container
-     * @param string      $contenttypeslug The content type slug
+     * @param  Application $app             The application/container
+     * @param  string      $contenttypeslug The content type slug
      * @return mixed
      */
     public function overview(Application $app, $contenttypeslug)
@@ -558,10 +558,10 @@ class Backend implements ControllerProviderInterface
     /**
      * Get related records @todo
      *
-     * @param string      $contenttypeslug The content type slug
-     * @param integer     $id The ID
-     * @param Application $app The application/container
-     * @param Request     $request The Symfony Request
+     * @param  string      $contenttypeslug The content type slug
+     * @param  integer     $id              The ID
+     * @param  Application $app             The application/container
+     * @param  Request     $request         The Symfony Request
      * @return mixed
      */
     public function relatedTo($contenttypeslug, $id, Application $app, Request $request)
@@ -632,10 +632,10 @@ class Backend implements ControllerProviderInterface
     /**
      * Edit a unit of content, or create a new one.
      *
-     * @param string      $contenttypeslug The content type slug
-     * @param integer     $id The content ID
-     * @param Application $app The application/container
-     * @param Request     $request The Symfony Request
+     * @param  string      $contenttypeslug The content type slug
+     * @param  integer     $id              The content ID
+     * @param  Application $app             The application/container
+     * @param  Request     $request         The Symfony Request
      * @return mixed
      */
     public function editContent($contenttypeslug, $id, Application $app, Request $request)
@@ -892,9 +892,9 @@ class Backend implements ControllerProviderInterface
     /**
      * Deletes a content item.
      *
-     * @param Application $app The application/container
-     * @param string      $contenttypeslug The content type slug
-     * @param integer     $id The content ID
+     * @param  Application $app             The application/container
+     * @param  string      $contenttypeslug The content type slug
+     * @param  integer     $id              The content ID
      * @return string
      */
     public function deleteContent(Application $app, $contenttypeslug, $id)
@@ -918,10 +918,10 @@ class Backend implements ControllerProviderInterface
     /**
      * Perform actions on content.
      *
-     * @param Application $app The application/container
-     * @param string      $action The action
-     * @param string      $contenttypeslug The content type slug
-     * @param integer     $id The content ID
+     * @param  Application $app             The application/container
+     * @param  string      $action          The action
+     * @param  string      $contenttypeslug The content type slug
+     * @param  integer     $id              The content ID
      * @return string
      */
     public function contentAction(Application $app, $action, $contenttypeslug, $id)
@@ -963,11 +963,10 @@ class Backend implements ControllerProviderInterface
         return Lib::redirect('overview', array('contenttypeslug' => $contenttype['slug']));
     }
 
-
     /**
      * Show a list of all available users.
      *
-     * @param Application $app The application/container
+     * @param  Application $app The application/container
      * @return mixed
      */
     public function users(Application $app)
@@ -986,7 +985,7 @@ class Backend implements ControllerProviderInterface
     /**
      * Show the roles page.
      *
-     * @param Application $app The application/container
+     * @param  Application $app The application/container
      * @return mixed
      */
     public function roles(Application $app)
@@ -1013,9 +1012,9 @@ class Backend implements ControllerProviderInterface
     /**
      * Edit a user.
      *
-     * @param integer     $id The user ID
-     * @param Application $app The application/container
-     * @param Request     $request The Symfony Request
+     * @param  integer     $id      The user ID
+     * @param  Application $app     The application/container
+     * @param  Request     $request The Symfony Request
      * @return mixed
      */
     public function userEdit($id, Application $app, Request $request)
@@ -1240,8 +1239,8 @@ class Backend implements ControllerProviderInterface
     /**
      * User profile page.
      *
-     * @param Application $app The application/container
-     * @param Request     $request The Symfony Request
+     * @param  Application $app     The application/container
+     * @param  Request     $request The Symfony Request
      * @return string
      */
     public function profile(Application $app, Request $request)
@@ -1342,9 +1341,9 @@ class Backend implements ControllerProviderInterface
     /**
      * Perform actions on users.
      *
-     * @param Application $app The application/container
-     * @param string      $action The action
-     * @param integer     $id The user ID
+     * @param  Application $app    The application/container
+     * @param  string      $action The action
+     * @param  integer     $id     The user ID
      * @return string
      */
     public function userAction(Application $app, $action, $id)
@@ -1404,7 +1403,7 @@ class Backend implements ControllerProviderInterface
     /**
      * Show the 'about' page.
      *
-     * @param Application $app The application/container
+     * @param  Application $app The application/container
      * @return mixed
      */
     public function about(Application $app)
@@ -1415,10 +1414,10 @@ class Backend implements ControllerProviderInterface
     /**
      * The file browser.
      *
-     * @param string      $namespace The filesystem namespace
-     * @param string      $path The path prefix
-     * @param Application $app The application/container
-     * @param Request     $request The Symfony Request
+     * @param  string      $namespace The filesystem namespace
+     * @param  string      $path      The path prefix
+     * @param  Application $app       The application/container
+     * @param  Request     $request   The Symfony Request
      * @return mixed
      */
     public function files($namespace, $path, Application $app, Request $request)
@@ -1559,10 +1558,10 @@ class Backend implements ControllerProviderInterface
     /**
      * File editor.
      *
-     * @param string      $namespace The filesystem namespace
-     * @param string      $file The file path
-     * @param Application $app The application/container
-     * @param Request     $request The Symfony Request
+     * @param  string      $namespace The filesystem namespace
+     * @param  string      $file      The file path
+     * @param  Application $app       The application/container
+     * @param  Request     $request   The Symfony Request
      * @return mixed
      */
     public function fileEdit($namespace, $file, Application $app, Request $request)
@@ -1706,10 +1705,10 @@ class Backend implements ControllerProviderInterface
     /**
      * Prepare/edit/save a translation
      *
-     * @param string      $domain The domain
-     * @param string      $tr_locale The translation locale
-     * @param Application $app The application/container
-     * @param Request     $request The Symfony Request
+     * @param  string      $domain    The domain
+     * @param  string      $tr_locale The translation locale
+     * @param  Application $app       The application/container
+     * @param  Request     $request   The Symfony Request
      * @return mixed
      */
     public function translation($domain, $tr_locale, Application $app, Request $request)
@@ -1783,8 +1782,8 @@ class Backend implements ControllerProviderInterface
     /**
      * Middleware function to check whether a user is logged on.
      *
-     * @param Request     $request The Symfony Request
-     * @param Application $app The application/container
+     * @param  Request     $request The Symfony Request
+     * @param  Application $app     The application/container
      * @return mixed
      */
     public static function before(Request $request, Application $app)

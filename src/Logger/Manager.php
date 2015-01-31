@@ -2,10 +2,9 @@
 
 namespace Bolt\Logger;
 
-use Bolt\Application;
-use Bolt\Helpers\String;
 use Bolt\Pager;
 use Monolog\Logger;
+use Silex\Application;
 
 /**
  *
@@ -150,12 +149,12 @@ class Manager
     /**
      * Set any required WHERE clause on a QueryBuilder
      *
-     * @param  Doctrine\DBAL\Query\QueryBuilder $query
-     * @param  integer                          $level
-     * @param  string                           $context
-     * @return Doctrine\DBAL\Query\QueryBuilder
+     * @param  \Doctrine\DBAL\Query\QueryBuilder $query
+     * @param  integer                           $level
+     * @param  string                            $context
+     * @return \Doctrine\DBAL\Query\QueryBuilder
      */
-    private function setWhere($query, $level = null, $context = null)
+    private function setWhere(\Doctrine\DBAL\Query\QueryBuilder $query, $level = null, $context = null)
     {
         if ($level || $context) {
             $where = $query->expr()->andX();

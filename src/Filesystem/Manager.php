@@ -55,7 +55,6 @@ class Manager extends MountManager
         $this->initManager($namespace, $manager);
     }
 
-
     /**
      * Mainly passes through to parent class, but before it does this method
      * checks that the passed in directory exists.

@@ -2,17 +2,10 @@
 
 namespace Bolt\Composer;
 
-use Bolt\Library as Lib;
-use Bolt\Translation\Translator as Trans;
 use Composer\Composer;
 use Composer\DependencyResolver\Pool;
 use Composer\IO\BufferIO;
-use Composer\IO\IOInterface;
-use Composer\Json\JsonFile;
 use Composer\Package\Version\VersionSelector;
-use Guzzle\Http\Client as GuzzleClient;
-use Guzzle\Http\Exception\RequestException;
-use Guzzle\Http\Exception\CurlException;
 use Silex\Application;
 
 final class Factory extends PackageManager
@@ -48,8 +41,8 @@ final class Factory extends PackageManager
     public $messages = array();
 
     /**
-     * @param Silx\Application        $app
-     * @param array                   $options
+     * @param Silx\Application $app
+     * @param array            $options
      */
     public function __construct(Application $app, array $options)
     {

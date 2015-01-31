@@ -50,8 +50,8 @@ class Frontend
      *
      * Refer to the routing.yml config file for overridding.
      *
-     * @param Request           $request The Symfony Request
-     * @param \Bolt\Application $app     The appliction/container
+     * @param  Request           $request The Symfony Request
+     * @param  \Bolt\Application $app     The appliction/container
      * @return mixed
      */
     public static function before(Request $request, \Bolt\Application $app)
@@ -89,7 +89,7 @@ class Frontend
     /**
      * Controller for the "Homepage" route. Usually the front page of the website.
      *
-     * @param Silex\Application $app The application/container
+     * @param  Silex\Application $app The application/container
      * @return mixed
      */
     public static function homepage(Silex\Application $app)
@@ -118,9 +118,9 @@ class Frontend
     /**
      * Controller for a single record page, like '/page/about/' or '/entry/lorum'.
      *
-     * @param Silex\Application $app             The application/container
-     * @param string            $contenttypeslug The content type slug
-     * @param string            $slug            The content slug
+     * @param  Silex\Application $app             The application/container
+     * @param  string            $contenttypeslug The content type slug
+     * @param  string            $slug            The content slug
      * @return mixed
      */
     public static function record(Silex\Application $app, $contenttypeslug, $slug)
@@ -189,9 +189,9 @@ class Frontend
     /**
      * The controller for previewing a content from posted data.
      *
-     * @param Request           $request         The Symfony Request
-     * @param Silex\Application $app             The application/container
-     * @param string            $contenttypeslug The content type slug
+     * @param  Request           $request         The Symfony Request
+     * @param  Silex\Application $app             The application/container
+     * @param  string            $contenttypeslug The content type slug
      * @return mixed
      */
     public static function preview(Request $request, Silex\Application $app, $contenttypeslug)
@@ -232,8 +232,8 @@ class Frontend
     /**
      * The listing page controller.
      *
-     * @param Silex\Application $app             The application/container
-     * @param string            $contenttypeslug The content type slug
+     * @param  Silex\Application $app             The application/container
+     * @param  string            $contenttypeslug The content type slug
      * @return mixed
      */
     public static function listing(Silex\Application $app, $contenttypeslug)
@@ -283,9 +283,9 @@ class Frontend
     /**
      * The taxonomy listing page controller.
      *
-     * @param Silex\Application $app          The application/container
-     * @param string            $taxonomytype The taxonomy type slug
-     * @param string            $slug         The taxonomy slug
+     * @param  Silex\Application $app          The application/container
+     * @param  string            $taxonomytype The taxonomy type slug
+     * @param  string            $slug         The taxonomy slug
      * @return mixed
      */
     public static function taxonomy(Silex\Application $app, $taxonomytype, $slug)
@@ -354,8 +354,8 @@ class Frontend
     /**
      * The search result page controller.
      *
-     * @param Request           $request The Symfony Request
-     * @param Silex\Application $app     The application/container
+     * @param  Request           $request The Symfony Request
+     * @param  Silex\Application $app     The application/container
      * @return mixed
      */
     public static function search(Request $request, Silex\Application $app)
@@ -429,8 +429,8 @@ class Frontend
      * Renders the specified template from the current theme in response to a request without
      * loading any content.
      *
-     * @param Silex\Application $app      The application/container
-     * @param string            $template The template name
+     * @param  Silex\Application $app      The application/container
+     * @param  string            $template The template name
      * @return mixed
      * @throws \Exception
      */
@@ -449,9 +449,9 @@ class Frontend
      * in case the template is not found by Twig.
      *
      * @param  Silex\Application $app
-     * @param  string            $template   Ex: 'listing.twig'
-     * @param  string            $title      '%s' in "No template for '%s' defined."
-     * @return mixed                         Rendered template
+     * @param  string            $template Ex: 'listing.twig'
+     * @param  string            $title    '%s' in "No template for '%s' defined."
+     * @return mixed             Rendered template
      */
     private static function render(Silex\Application $app, $template, $title)
     {

@@ -5,7 +5,6 @@ namespace Bolt\Composer\Action;
 use Composer\DependencyResolver\Pool;
 use Composer\DependencyResolver\DefaultPolicy;
 use Composer\Factory;
-use Composer\Package\CompletePackageInterface;
 use Composer\Package\Version\VersionParser;
 use Composer\Repository\ArrayRepository;
 use Composer\Repository\CompositeRepository;

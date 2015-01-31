@@ -9,7 +9,6 @@ use Bolt\Helpers\String;
 use Bolt\Translation\Translator as Trans;
 use Eloquent\Pathogen\PathInterface;
 use Eloquent\Pathogen\RelativePathInterface;
-use Monolog\Logger;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Yaml;
 use Symfony\Component\Yaml\Parser;
@@ -191,7 +190,6 @@ class Config
         $config['theme'] = $this->parseConfigYaml('config.yml', $this->app['resources']->getPath('theme'));
 
         // @todo: If no config files can be found, get them from bolt.cm/files/default/
-
         return $config;
     }
 
@@ -544,8 +542,8 @@ class Config
      * Bolt keys are converted to Doctrine keys.
      * Invalid keys are filtered out.
      *
-     * @param array|string $params
-     * @param array $defaults
+     * @param  array|string $params
+     * @param  array        $defaults
      * @return array
      */
     protected function parseConnectionParams($params, $defaults = array())
@@ -964,7 +962,6 @@ class Config
             @unlink($paths['cache'] . '/config_cache.php');
         }
     }
-
 
     /**
      * @deprecated Use get('general/database') instead

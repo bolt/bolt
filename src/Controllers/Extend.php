@@ -107,7 +107,6 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
             ->before(array($this, 'before'))
             ->bind('clearLog');
 
-
         return $ctr;
     }
 
@@ -178,7 +177,7 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
 
         try {
             $response = $app['extend.manager']->updatePackage(array($package));
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new \Exception($e->getMessage(), $e->getCode(), $e->getPrevious());
         }
 
@@ -288,7 +287,6 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
 
         return new Response('');
     }
-
 
     /**
      * Middleware function to check whether a user is logged on.

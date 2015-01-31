@@ -2,7 +2,6 @@
 
 namespace Bolt;
 
-
 /**
  * A class for choosing whichever template should be used.
  *
@@ -157,7 +156,6 @@ class TemplateChooser
 
         return $template;
     }
-
 
     /**
      * Select a search template.

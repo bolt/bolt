@@ -91,7 +91,7 @@ class String
      * Add 'soft hyphens' &shy; to a string, so that it won't break layout in HTML when
      * using strings without spaces or dashes.
      *
-     * @param string $str
+     * @param  string $str
      * @return string
      */
     public static function shyphenate($str)

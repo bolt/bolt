@@ -274,7 +274,6 @@ class TwigDataCollector extends DataCollector
         return 'twig';
     }
 
-
     /**
      * Setting a value for later use..
      *

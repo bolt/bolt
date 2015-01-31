@@ -5,7 +5,6 @@ namespace Bolt\Logger\Handler;
 use Bolt\Application;
 use Bolt\Content;
 use Bolt\DeepDiff;
-use Bolt\Helpers\String;
 use Monolog\Logger;
 use Monolog\Handler\AbstractProcessingHandler;
 

@@ -323,8 +323,8 @@ class Extensions
      * @internal DO NOT USE!
      *
      * @param \Twig_Environment $twig
-     * @param \Twig_Extension $extension
-     * @param string $name
+     * @param \Twig_Extension   $extension
+     * @param string            $name
      */
     public function addTwigExtension(\Twig_Environment $twig, $extension, $name)
     {
