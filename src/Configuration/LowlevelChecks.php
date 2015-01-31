@@ -248,7 +248,6 @@ class LowlevelChecks
             );
             throw new LowlevelException($error);
         } elseif (!file_exists($ymlname)) {
-
             // Try and copy from the .dist config file
             try {
                 copy($distname, $ymlname);
@@ -264,7 +263,5 @@ class LowlevelChecks
             }
 
         }
-
-        return;
     }
 }
