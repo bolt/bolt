@@ -42,5 +42,4 @@ class TwigServiceProvider extends \Silex\Provider\TwigServiceProvider
             );
         };
     }
-
 }

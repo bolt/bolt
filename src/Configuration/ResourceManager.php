@@ -455,5 +455,4 @@ class ResourceManager
 
         return $relative;
     }
-
 }
