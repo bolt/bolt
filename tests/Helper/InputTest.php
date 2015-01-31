@@ -43,6 +43,7 @@ class InputTest extends BoltUnitTest
 
 // Allows us to test magic quotes stuff
 namespace Bolt\Helpers;
+
 function get_magic_quotes_gpc()
 {
     return true;
