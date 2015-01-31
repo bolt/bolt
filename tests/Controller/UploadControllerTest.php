@@ -163,7 +163,7 @@ class UploadControllerTest extends BoltUnitTest
         $this->assertEquals(200, $response->getStatusCode());
     }
 
-    protected function getFileRequest($namespace='files')
+    protected function getFileRequest($namespace = 'files')
     {
         $request = Request::create(
             '/upload/' . $namespace,
