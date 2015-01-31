@@ -29,6 +29,7 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
     {
         $bolt = $this->makeApp();
         $bolt->initialize();
+
         return $bolt;
     }
 
