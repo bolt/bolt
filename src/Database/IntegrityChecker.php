@@ -164,7 +164,7 @@ class IntegrityChecker
      * Check if all required tables and columns are present in the DB
      *
      * @return boolean $hinting return hints if true
-     * @return array Messages with errors, if any or array(messages, hints)
+     * @return array   Messages with errors, if any or array(messages, hints)
      */
     public function checkTablesIntegrity($hinting = false)
     {
