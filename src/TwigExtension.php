@@ -1551,7 +1551,7 @@ class TwigExtension extends \Twig_Extension
 
         try {
             return ucfirst(strtolower(\Monolog\Logger::getLevelName($level)));
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return $level;
         }
     }

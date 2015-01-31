@@ -178,7 +178,7 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
 
         try {
             $response = $app['extend.manager']->updatePackage(array($package));
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new \Exception($e->getMessage(), $e->getCode(), $e->getPrevious());
         }
 
