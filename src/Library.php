@@ -119,7 +119,7 @@ class Library
     {
         return self::parseTwigTemplates($obj);
     }
-    
+
     /**
      * parse the used .twig templates from the Twig Loader object, using regular expressions.
      *

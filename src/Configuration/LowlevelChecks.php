@@ -16,7 +16,7 @@ class LowlevelChecks
         'cache',
         'apache'
     );
-    
+
     public $configChecks = array(
         'config',
         'menu',
@@ -25,7 +25,7 @@ class LowlevelChecks
         'routing',
         'permissions'
     );
-    
+
     public $magicQuotes;
     public $safeMode;
     public $isApache;
@@ -246,7 +246,7 @@ class LowlevelChecks
             );
             throw new LowlevelException($error);
         } elseif (!file_exists($ymlname)) {
-            
+
             // Try and copy from the .dist config file
             try {
                 copy($distname, $ymlname);
@@ -258,9 +258,9 @@ class LowlevelChecks
                     htmlspecialchars($this->config->getPath('config'), ENT_QUOTES),
                     htmlspecialchars($name . ".yml.dist", ENT_QUOTES)
                 );
-                throw new LowlevelException($message);      
+                throw new LowlevelException($message);
             }
-            
+
         }
         return;
     }

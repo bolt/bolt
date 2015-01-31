@@ -136,7 +136,7 @@ class ResourceManager
 
         return $path;
     }
-    
+
     /**
      * Gets a path as a string.
      *
@@ -418,7 +418,7 @@ class ResourceManager
 
         return $this->verifier;
     }
-    
+
     public function setVerifier($verifier)
     {
         $this->verifier = $verifier;
@@ -455,5 +455,5 @@ class ResourceManager
 
         return $relative;
     }
-    
+
 }

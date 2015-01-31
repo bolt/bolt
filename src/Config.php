@@ -412,13 +412,13 @@ class Config
             // For example: [ 'yes', 'no' ] => { 'yes': 'yes', 'no': 'no' }
             // The reason that we do this, is because if you set values to ['blue', 'green'], that is
             // what you'd expect to see in the database. Not '0' and '1', which is what would happen,
-            // if we didn't "correct" it here. 
+            // if we didn't "correct" it here.
             // @see used hack: http://stackoverflow.com/questions/173400/how-to-check-if-php-array-is-associative-or-sequential
-            if ($field['type'] == 'select' && is_array($field['values']) && 
+            if ($field['type'] == 'select' && is_array($field['values']) &&
                 array_values($field['values']) === $field['values'] ) {
                 $field['values'] = array_combine($field['values'], $field['values']);
             }
-            
+
             // If the field has a 'group', make sure it's added to the 'groups' array, so we can turn
             // them into tabs while rendering. This also makes sure that once you started with a group,
             // all others have a group too.
