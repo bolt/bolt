@@ -107,7 +107,6 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
             ->before(array($this, 'before'))
             ->bind('clearLog');
 
-
         return $ctr;
     }
 
@@ -288,7 +287,6 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
 
         return new Response('');
     }
-
 
     /**
      * Middleware function to check whether a user is logged on.
