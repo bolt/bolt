@@ -46,7 +46,7 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(Path::fromString(TEST_ROOT . '/.'), $config->getPath('web'));
         $this->assertEquals(Path::fromString(TEST_ROOT . '/app/cache'), $config->getPath('cache'));
         $this->assertEquals(Path::fromString(TEST_ROOT . '/app/config'), $config->getPath('config'));
-     }
+    }
 
     /**
      * @dataProvider exceptionGetPathProvider
