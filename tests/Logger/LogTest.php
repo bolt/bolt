@@ -68,10 +68,10 @@ class LogTest extends BoltUnitTest
         $log = new Log($app);
         $storage = new Storage($app);
         $content = $storage->getEmptyContent('showcases');
-        $log->add('Content',1,$content);
+        $log->add('Content', 1, $content);
         $logs = $log->getMemoryLog();
-        $this->assertEquals('Content',$logs[0]['message']);
-        $this->assertEquals('showcases',$logs[0]['contenttype']);
+        $this->assertEquals('Content', $logs[0]['message']);
+        $this->assertEquals('showcases', $logs[0]['contenttype']);
 
     }
 
@@ -117,7 +117,7 @@ class LogTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $log = new Log($app);
-        $log->setValue('test','testing');
+        $log->setValue('test', 'testing');
         $this->assertEquals('testing', $log->getValue('test'));
         $this->assertFalse($log->getValue('notset'));
         $this->assertEquals(1, count($log->getValues()) );
