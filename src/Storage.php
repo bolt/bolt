@@ -55,8 +55,8 @@ class Storage
      * Get an object for the content of a specific contenttype. This will be
      * \Bolt\Content, unless the contenttype defined another class to be used.
      *
-     * @param  array|string $contenttype
-     * @param  array $values
+     * @param  array|string  $contenttype
+     * @param  array         $values
      * @throws \Exception
      * @return \Bolt\Content
      */
@@ -93,7 +93,7 @@ class Storage
      * If the parameters is empty, only fill empty tables
      *
      * @see preFillSingle
-     * @param array $contenttypes
+     * @param  array  $contenttypes
      * @return string
      */
     public function preFill($contenttypes = array())
@@ -529,9 +529,9 @@ class Storage
     }
 
     /**
-     * @param array  $content     The content new values.
-     * @param string $contenttype The content type
-     * @param string $comment     Add a comment to save with change.
+     * @param  array  $content     The content new values.
+     * @param  string $contenttype The content type
+     * @param  string $comment     Add a comment to save with change.
      * @return bool
      */
     private function updateContent($content, $contenttype, $comment = null)
@@ -568,7 +568,6 @@ class Storage
 
         }
 
-
     }
 
     /**
@@ -576,11 +575,11 @@ class Storage
      *
      * It is called in list of contents.
      *
-     * @param string $contenttype Content Type to be edited.
-     * @param int    $id          Id of content to be updated.
-     * @param string $field       Field name of content to be changed.
-     * @param mixed  $value       New value to be defined on field.
-     * @return bool Returns true when update is done or false if not.
+     * @param  string $contenttype Content Type to be edited.
+     * @param  int    $id          Id of content to be updated.
+     * @param  string $field       Field name of content to be changed.
+     * @param  mixed  $value       New value to be defined on field.
+     * @return bool   Returns true when update is done or false if not.
      */
     public function updateSingleValue($contenttype, $id, $field, $value)
     {
@@ -766,15 +765,16 @@ class Storage
      * Unless the query is invalid it will always return a 'result array'. It may
      * complain in the log but it won't abort.
      *
-     * @param string $q            search string
-     * @param array<string> $contenttypes contenttype names to search for
-     *                                      null means every searchable contenttype
-     * @param array<string,array> $filters additional filters for contenttypes
-     *                                      <key is contenttype and array is filter>
-     * @param  integer $limit  limit the number of results
-     * @param  integer $offset skip this number of results
-     * @return mixed   false if query is invalid,
-     *                                      an array with results if query was executed
+     * @param  string  $q            Search string
+     * @param  array   $contenttypes Contenttype names to search for:
+     *                               - string: Specific contenttype
+     *                               - null:   Every searchable contenttype
+     * @param  array   $filters      Additional filters for contenttypes
+     *                               - key is contenttype
+     *                               - value is filter
+     * @param  integer $limit        limit the number of results
+     * @param  integer $offset       skip this number of results
+     * @return mixed   false if query is invalid, an array with results if query was executed
      */
     public function searchContent($q, array $contenttypes = null, array $filters = null, $limit = 9999, $offset = 0)
     {
@@ -824,7 +824,6 @@ class Storage
 
             $results = array_merge($results, $subResults);
         }
-
 
         // Sort the results
         usort($results, array($this, 'compareSearchWeights'));
@@ -985,8 +984,8 @@ class Storage
 
         $slug = String::slug($name);
 
-        $limit = $parameters['limit'] ? : 9999;
-        $page = $parameters['page'] ? : 1;
+        $limit = $parameters['limit'] ?: 9999;
+        $page = $parameters['page'] ?: 1;
 
         $taxonomytype = $this->getTaxonomyType($taxonomyslug);
 
@@ -1193,8 +1192,8 @@ class Storage
      * @see $this->decodeContentQuery()
      *
      * @param $textquery
-     * @param array $decoded a pre-set decoded array to fill
-     * @param array $metaParameters meta parameters
+     * @param array $decoded         a pre-set decoded array to fill
+     * @param array $metaParameters  meta parameters
      * @param array $ctypeParameters contenttype parameters
      */
     private function parseTextQuery($textquery, array &$decoded, array &$metaParameters, array &$ctypeParameters)
@@ -1319,7 +1318,7 @@ class Storage
      * Get the parameter for the 'order by' part of a query.
      * (tightly coupled to $this->getContent())
      *
-     * @param  array $contenttype
+     * @param  array  $contenttype
      * @param  string $orderValue
      * @return string
      */
@@ -1348,23 +1347,23 @@ class Storage
      * Decode a content textquery
      * (tightly coupled to $this->getContent())
      *
-     * @param $textquery
-     * @param null $inParameters
+     * @param    string $textquery
+     * @param    array  $inParameters
      * @internal param string $query the query (eg. page/about, entries/latest/5)
-     * @internal param array $parameters parameters to the query
-     * @return array  decoded query, keys:
-     *    contenttypes           - array, contenttypeslugs that will be returned
-     *    return_single          - boolean, true if only 1 result should be returned
-     *    self_paginated         - boolean, true if already be paginated
-     *    order_callback         - callback, sort results post-hydration after everything is merged
-     *    queries                - array of SQL query parts
-     *       tablename             - tablename
-     *       contenttype           - contenttype array
-     *       from                  - from part
-     *       where                 - where part
-     *       order                 - order part
-     *       params                - bind-parameters
-     *    parameters             - parameters to use after the queries
+     * @internal param array  $parameters parameters to the query
+     * @return   array decoded query, keys:
+     *           contenttypes   - array, contenttypeslugs that will be returned
+     *           return_single  - boolean, true if only 1 result should be returned
+     *           self_paginated - boolean, true if already be paginated
+     *           order_callback - callback, sort results post-hydration after everything is merged
+     *           queries        - array of SQL query parts:
+     *             * tablename   - tablename
+     *             * contenttype - contenttype array
+     *             * from        - from part
+     *             * where       - where part
+     *             * order       - order part
+     *             * params      - bind-parameters
+     *           parameters     - parameters to use after the queries
      */
     private function decodeContentQuery($textquery, $inParameters = null)
     {
@@ -1532,8 +1531,8 @@ class Storage
     /**
      * Decodes contextual page number from current request url if found
      *
-     * @param string $context Pager id/name in url which value we find
-     * @return mixed Page number in context
+     * @param  string $context Pager id/name in url which value we find
+     * @return mixed  Page number in context
      */
     protected function decodePageParameter($context = '')
     {
@@ -1550,7 +1549,7 @@ class Storage
      *
      * @param array<string> contenttypeslugs to check
      * @return mixed false, if any table doesn't exist
-     *                      true, if all is fine
+     *               true, if all is fine
      */
     private function runContenttypeChecks(array $contenttypes)
     {
@@ -1701,10 +1700,10 @@ class Storage
      * This code has been split into multiple methods in the spirit of separation of concerns,
      * but the situation is still far from ideal.
      * Where applicable each 'concern' notes the coupling in the local documentation.
-     * @param string $textquery
-     * @param string $parameters
-     * @param array  $pager
-     * @param array  $whereparameters
+     * @param  string  $textquery
+     * @param  string  $parameters
+     * @param  array   $pager
+     * @param  array   $whereparameters
      * @return Content
      */
     public function getContent($textquery, $parameters = '', &$pager = array(), $whereparameters = array())
@@ -1793,8 +1792,6 @@ class Storage
             $this->app['twig']->addGlobal('pager', $this->getPager());
         }
 
-
-
         $this->app['stopwatch']->stop('bolt.getcontent');
 
         return $results;
@@ -1804,8 +1801,8 @@ class Storage
      * Check if a given name is a valid column, and if it can be used in queries.
      *
      * @param  string $name
-     * @param  array $contenttype
-     * @param  bool $allowVariants
+     * @param  array  $contenttype
+     * @param  bool   $allowVariants
      * @return bool
      */
     private function isValidColumn($name, $contenttype, $allowVariants = false)
@@ -1847,7 +1844,7 @@ class Storage
      * for example, -id returns `r`.`id` DESC
      *
      * @param  string $name
-     * @param string $prefix
+     * @param  string $prefix
      * @return string
      */
     private function getEscapedSortorder($name, $prefix = 'r')
@@ -1952,7 +1949,7 @@ class Storage
      *
      * @param  string $key
      * @param  string $value
-     * @param  mixed $fieldtype
+     * @param  mixed  $fieldtype
      * @return string
      */
     private function parseWhereParameter($key, $value, $fieldtype = false)
@@ -2014,7 +2011,7 @@ class Storage
     /**
      * Get the contenttype as an array, based on the given $contenttypeslug
      *
-     * @param  string $contenttypeslug
+     * @param  string     $contenttypeslug
      * @return bool|array
      */
     public function getContentType($contenttypeslug)
@@ -2052,7 +2049,7 @@ class Storage
     /**
      * Get the taxonomy as an array, based on the given $taxonomyslug
      *
-     * @param  string $taxonomyslug
+     * @param  string     $taxonomyslug
      * @return bool|array
      */
     public function getTaxonomyType($taxonomyslug)
@@ -2096,7 +2093,7 @@ class Storage
     /**
      * Get a value to use in 'assert() with the available contenttypes
      *
-     * @param bool $includesingular
+     * @param  bool   $includesingular
      * @return string $contenttypes
      */
     public function getContentTypeAssert($includesingular = false)
@@ -2115,7 +2112,7 @@ class Storage
     /**
      * Get a value to use in 'assert() with the available taxonomytypes
      *
-     * @param bool $includesingular
+     * @param  bool   $includesingular
      * @return string $taxonomytypes
      */
     public function getTaxonomyTypeAssert($includesingular = false)
@@ -2272,9 +2269,9 @@ class Storage
     /**
      * Update / insert taxonomy for a given content-unit.
      *
-     * @param string $contenttype
+     * @param string  $contenttype
      * @param integer $contentId
-     * @param array $taxonomy
+     * @param array   $taxonomy
      */
     protected function updateTaxonomy($contenttype, $contentId, $taxonomy)
     {
@@ -2474,9 +2471,9 @@ class Storage
      * ]
      *
      *
-     * @param string $contenttype
+     * @param string  $contenttype
      * @param integer $contentId
-     * @param array $relation
+     * @param array   $relation
      */
     protected function updateRelation($contenttype, $contentId, $relation)
     {
@@ -2518,7 +2515,6 @@ class Storage
                 $this->app['db']->delete($tablename, array('id' => $currentvalue['id']));
             }
         }
-
 
         // Make an easier array out of $currentvalues.
         $tempvalues = $currentvalues;
@@ -2690,8 +2686,8 @@ class Storage
 
     /**
      * Find record from Content Type and Content Id
-     * @param string $tablename Table name
-     * @param int    $contentId Content Id
+     * @param  string $tablename Table name
+     * @param  int    $contentId Content Id
      * @return array
      */
     protected function findContent($tablename, $contentId)
@@ -2703,7 +2699,7 @@ class Storage
 
     /**
      * Setter for pager storage element
-     * @param string $name
+     * @param string      $name
      * @param array|Pager $pager
      */
     public function setPager($name, $pager)
@@ -2715,7 +2711,7 @@ class Storage
 
     /**
      * Getter of a pager element. Pager can hold a paging snapshot map.
-     * @param string $name Optional name of a pager element. Whole pager map returns if no name given.
+     * @param  string $name Optional name of a pager element. Whole pager map returns if no name given.
      * @return array
      */
     public function &getPager($name = null)

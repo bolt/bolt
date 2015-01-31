@@ -947,7 +947,6 @@ class Content implements \ArrayAccess
         return $records;
     }
 
-
     /**
      * Get field information for the given field.
      * @param $key

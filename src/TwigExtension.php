@@ -518,10 +518,10 @@ class TwigExtension extends \Twig_Extension
     /**
      * Perform a regular expression search and replace on the given string.
      *
-     * @param string $str
-     * @param string $pattern
-     * @param string $replacement
-     * @param int $limit
+     * @param  string $str
+     * @param  string $pattern
+     * @param  string $replacement
+     * @param  int    $limit
      * @return string Same string where first character is in upper case
      */
     public function pregReplace($str, $pattern, $replacement = '', $limit = -1)
@@ -1466,7 +1466,7 @@ class TwigExtension extends \Twig_Extension
      * Add 'soft hyphens' &shy; to a string, so that it won't break layout in HTML when
      * using strings without spaces or dashes.
      *
-     * @param string $str
+     * @param  string $str
      * @return string
      */
     public function shy($str)

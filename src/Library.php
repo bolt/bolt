@@ -211,7 +211,7 @@ class Library
         }
         header("location: $path");
         echo "<p>Redirecting to <a href='$path'>$path</a>.</p>";
-        echo "<script>window.setTimeout(function(){ window.location='$path'; }, 500);</script>";
+        echo "<script>window.setTimeout(function () { window.location='$path'; }, 500);</script>";
         if ($abort) {
             return $app->abort(303, "Redirecting to '$path'.");
         }

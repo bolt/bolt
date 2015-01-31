@@ -25,7 +25,6 @@ abstract class BaseExtension implements ExtensionInterface
     private $composerJson;
     private $configLoaded;
 
-
     public function __construct(Application $app)
     {
         $this->app = $app;
@@ -306,8 +305,6 @@ abstract class BaseExtension implements ExtensionInterface
     public function initialize()
     {
     }
-
-
 
     /**
      * Add a Twig Function

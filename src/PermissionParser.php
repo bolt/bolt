@@ -254,7 +254,7 @@ class PermissionParser
      * @param  array $tokens An array or iterable of lexer tokens. The output of
      *                       `lex()` is suitable here.
      * @return array A nested associative array representing the resulting
-     *               parse tree.
+     *                      parse tree.
      */
     public static function parse($tokens)
     {
