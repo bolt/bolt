@@ -1,6 +1,8 @@
 <?php
 namespace Bolt\Configuration;
 
+use Bolt\Exception\LowlevelException;
+
 /**
  * Inherits from default and adds some specific checks for composer installs.
  *

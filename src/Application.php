@@ -2,7 +2,7 @@
 
 namespace Bolt;
 
-use Bolt\Configuration\LowlevelException;
+use Bolt\Exception\LowlevelException;
 use Bolt\Library as Lib;
 use Doctrine\DBAL\Exception\ConnectionException as DBALConnectionException;
 use RandomLib;
@@ -173,7 +173,7 @@ class Application extends Silex\Application
             $this['db']->connect();
         } catch (DBALConnectionException $e) {
             // Trap double exceptions caused by throwing a new LowlevelException
-            set_exception_handler(array('\Bolt\Configuration\LowlevelException', 'nullHandler'));
+            set_exception_handler(array('\Bolt\Exception\LowlevelException', 'nullHandler'));
 
             $platform = $this['db']->getDatabasePlatform()->getName();
             $error = "Bolt could not connect to the configured database.\n\n" .

@@ -3,8 +3,8 @@ namespace Bolt\Tests\Configuration;
 
 use Bolt\Configuration\Composer;
 use Bolt\Configuration\ComposerChecks;
-use Bolt\Configuration\LowlevelException;
 use Bolt\Configuration\ResourceManager;
+use Bolt\Exception\LowlevelException;
 
 /**
  * Class to test correct operation and locations of composer configuration.
@@ -60,7 +60,7 @@ class ComposerConfigurationTest extends \PHPUnit_Framework_TestCase
     {
         $config = new Composer(TEST_ROOT);
         $verifier = new ComposerChecks($config);
-        $this->setExpectedException('Bolt\Configuration\LowlevelException');
+        $this->setExpectedException('Bolt\Exception\LowlevelException');
         $this->expectOutputRegex("/Bolt - Fatal Error/");
         $verifier->checkDir('/non/existent/path');
     }
@@ -70,7 +70,7 @@ class ComposerConfigurationTest extends \PHPUnit_Framework_TestCase
         $config = new Composer(TEST_ROOT);
         $config->setPath('database', '/path/to/nowhere');
         $verifier = new ComposerChecks($config);
-        $this->setExpectedException('Bolt\Configuration\LowlevelException');
+        $this->setExpectedException('Bolt\Exception\LowlevelException');
         $this->expectOutputRegex("/Bolt - Fatal Error/");
         $verifier->checkDir('/path/to/nowhere');
 
@@ -101,7 +101,7 @@ class ComposerConfigurationTest extends \PHPUnit_Framework_TestCase
             ->method('is_writable')
             ->will($this->returnValue(false));
 
-        $this->setExpectedException('Bolt\Configuration\LowlevelException');
+        $this->setExpectedException('Bolt\Exception\LowlevelException');
         $this->expectOutputRegex("/Bolt - Fatal Error/");
         $verifier->checkDir($fakeLocation);
 

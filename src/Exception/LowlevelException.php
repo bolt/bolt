@@ -1,5 +1,5 @@
 <?php
-namespace Bolt\Configuration;
+namespace Bolt\Exception;
 
 class LowlevelException extends \Exception
 {

@@ -2,6 +2,7 @@
 namespace Bolt\Configuration;
 
 use Bolt\Exception\LowLevelDatabaseException;
+use Bolt\Exception\LowlevelException;
 
 /**
  * A class to perform several 'low level' checks. Since we're doing it (by design)

@@ -3,8 +3,8 @@
 namespace Bolt;
 
 use Bolt\Configuration\ResourceManager;
+use Bolt\Exception\LowlevelException;
 use Bolt\Translation\Translator;
-use Bolt\Configuration\LowlevelException;
 
 /**
  * Class for Bolt's generic library functions

@@ -2,7 +2,7 @@
 
 namespace Bolt;
 
-use Bolt\Configuration\LowlevelException;
+use Bolt\Exception\LowlevelException;
 use Bolt\Library as Lib;
 use Bolt\Helpers\Arr;
 use Bolt\Helpers\String;
