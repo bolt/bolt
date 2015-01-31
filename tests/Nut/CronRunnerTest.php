@@ -28,7 +28,7 @@ class CronRunnerTest extends BoltUnitTest
             }
         );
 
-        $tester->execute(array('--run'=>'cron.Hourly'));
+        $tester->execute(array('--run' => 'cron.Hourly'));
         $result = $tester->getDisplay();
         $this->assertContains('cron.Hourly', $events);
 

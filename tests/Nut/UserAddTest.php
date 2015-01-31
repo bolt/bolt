@@ -23,11 +23,11 @@ class UserAddTest extends BoltUnitTest
 
         $tester->execute(
             array(
-                'username'=>'test',
-                'displayname'=>'Test',
-                'email'=>'test@example.com',
-                'password'=>'test',
-                'role'=>'admin'
+                'username' => 'test',
+                'displayname' => 'Test',
+                'email' => 'test@example.com',
+                'password' => 'test',
+                'role' => 'admin'
             )
         );
         $result = $tester->getDisplay();
@@ -44,11 +44,11 @@ class UserAddTest extends BoltUnitTest
 
         $tester->execute(
             array(
-                'username'=>'test',
-                'displayname'=>'Test',
-                'email'=>'test@example.com',
-                'password'=>'test',
-                'role'=>'admin'
+                'username' => 'test',
+                'displayname' => 'Test',
+                'email' => 'test@example.com',
+                'password' => 'test',
+                'role' => 'admin'
             )
         );
         $result = $tester->getDisplay();
@@ -66,11 +66,11 @@ class UserAddTest extends BoltUnitTest
 
         $tester->execute(
             array(
-                'username'=>'test',
-                'displayname'=>'Test',
-                'email'=>'test@example.com',
-                'password'=>'test',
-                'role'=>'admin'
+                'username' => 'test',
+                'displayname' => 'Test',
+                'email' => 'test@example.com',
+                'password' => 'test',
+                'role' => 'admin'
             )
         );
         $result = $tester->getDisplay();

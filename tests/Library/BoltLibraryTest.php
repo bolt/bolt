@@ -99,7 +99,7 @@ class BoltLibraryTest extends BoltUnitTest
             '/pages/content',
             Library::path(
                 'contentlink',
-                array('contenttypeslug'=>'pages', 'slug'=>'content')
+                array('contenttypeslug' => 'pages', 'slug' => 'content')
             )
         );
 
@@ -122,7 +122,7 @@ class BoltLibraryTest extends BoltUnitTest
         $app = $this->getApp();
         $request = Request::createFromGlobals();
         $app->handle($request);
-        $response = Library::redirect('contentlink', array('contenttypeslug'=>'pages', 'slug'=>'content'));
+        $response = Library::redirect('contentlink', array('contenttypeslug' => 'pages', 'slug' => 'content'));
         $this->assertEquals('/pages/content', $response->headers->get('Location'));
     }
 

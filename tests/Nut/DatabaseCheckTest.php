@@ -25,7 +25,7 @@ class DatabaseCheckTest extends BoltUnitTest
         $this->assertEquals("The database is OK.", trim($result));
 
         // Now introduce some changes
-        $app['config']->set('contenttypes/newcontent', array('fields'=>array('title'=>array('type'=>'text'))));
+        $app['config']->set('contenttypes/newcontent', array('fields' => array('title' => array('type' => 'text'))));
 
         $tester->execute(array());
         $result = $tester->getDisplay();

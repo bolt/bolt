@@ -28,7 +28,7 @@ class ExtensionsTest extends BoltUnitTest
         $runner = $this->getMock("Bolt\Composer\PackageManager", array('showPackage'), array($app));
         $runner->expects($this->any())
             ->method('showPackage')
-            ->will($this->returnValue(array( 'test'=>array('package'=>$testPackage) )));
+            ->will($this->returnValue(array( 'test' => array('package' => $testPackage) )));
 
         $app['extend.manager'] = $runner;
 

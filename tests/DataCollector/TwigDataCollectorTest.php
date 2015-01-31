@@ -59,17 +59,17 @@ class TwigDataCollectorTest extends BoltUnitTest
 
         $ext->expects($this->any())
             ->method('getFilters')
-            ->will($this->returnValue(array('testfilter'=>$filter)));
+            ->will($this->returnValue(array('testfilter' => $filter)));
 
         $test = $this->getMock("\Twig_TestInterface");
         $ext->expects($this->any())
             ->method('getTests')
-            ->will($this->returnValue(array('test'=>$test)));
+            ->will($this->returnValue(array('test' => $test)));
 
         $func = $this->getMock("\Twig_FunctionInterface");
         $ext->expects($this->any())
             ->method('getFunctions')
-            ->will($this->returnValue(array('func'=>$func)));
+            ->will($this->returnValue(array('func' => $func)));
 
         $app['twig']->addExtension($ext);
         $data->collect($request, $response);

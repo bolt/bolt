@@ -28,7 +28,7 @@ class ExtensionsEnableTest extends BoltUnitTest
         $command = new ExtensionsEnable($app);
         $tester = new CommandTester($command);
 
-        $tester->execute(array('name'=>'test','version'=>'1.0'));
+        $tester->execute(array('name' => 'test', 'version' => '1.0'));
         $result = $tester->getDisplay();
         $this->assertRegexp('/[Done]/', trim($result));
 

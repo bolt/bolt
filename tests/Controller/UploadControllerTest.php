@@ -103,7 +103,7 @@ class UploadControllerTest extends BoltUnitTest
         $request = Request::create(
             '/upload/files',
             'POST',
-            array('handler'=>'files://'),
+            array('handler' => 'files://'),
             array(),
             array(
                 'files' => array(
@@ -128,7 +128,7 @@ class UploadControllerTest extends BoltUnitTest
         $request = Request::create(
             '/upload/files',
             'POST',
-            array('handler'=>array('files://', 'ftp://')),
+            array('handler' => array('files://', 'ftp://')),
             array(),
             array(
                 'files' => array(

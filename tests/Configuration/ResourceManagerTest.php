@@ -372,10 +372,10 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
     public function testSetThemePath()
     {
         $config = new Standard(TEST_ROOT);
-        $theme = array('theme'=>'test');
+        $theme = array('theme' => 'test');
         $config->setThemePath($theme);
         $this->assertEquals(Path::fromString(TEST_ROOT . '/theme/test'), $config->getPath('theme'));
-        $theme = array('theme'=>'test', 'theme_path'=>'/testpath');
+        $theme = array('theme' => 'test', 'theme_path' => '/testpath');
         $config->setThemePath($theme);
         $this->assertEquals(Path::fromString(TEST_ROOT . '/testpath/test'), $config->getPath('theme'));
     }

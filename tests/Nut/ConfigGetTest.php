@@ -19,12 +19,12 @@ class ConfigGetTest extends BoltUnitTest
         $app = $this->getApp();
         $command = new ConfigGet($app);
         $tester = new CommandTester($command);
-        $tester->execute(array('key'=>'sitename', '--file'=>__DIR__ . '/resources/config.yml'));
+        $tester->execute(array('key' => 'sitename', '--file' => __DIR__ . '/resources/config.yml'));
         $this->assertEquals("sitename: A sample site\n", $tester->getDisplay());
 
         // test invalid
         $tester = new CommandTester($command);
-        $tester->execute(array('key'=>'nonexistent','--file'=>__DIR__ . '/resources/config.yml'));
+        $tester->execute(array('key' => 'nonexistent','--file' => __DIR__ . '/resources/config.yml'));
         $this->assertEquals("nonexistent not found.\n", $tester->getDisplay());
 
     }
@@ -35,7 +35,7 @@ class ConfigGetTest extends BoltUnitTest
         $command = new ConfigGet($app);
         $tester = new CommandTester($command);
         $app['resources']->setPath('config', __DIR__ . '/resources');
-        $tester->execute(array('key'=>'sitename'));
+        $tester->execute(array('key' => 'sitename'));
         $this->assertEquals("sitename: A sample site\n", $tester->getDisplay());
     }
 

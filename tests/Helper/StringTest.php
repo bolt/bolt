@@ -35,7 +35,7 @@ class StringTest extends BoltUnitTest
         $this->assertEquals("this-is-a-title", String::slug($slug));
 
         // Test on array input
-        $slug = array('title'=>'This is a title', 'id'=>35);
+        $slug = array('title' => 'This is a title', 'id' => 35);
         $this->assertEquals("this-is-a-title-35", String::slug($slug));
     }
 
