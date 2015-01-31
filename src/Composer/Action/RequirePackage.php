@@ -190,7 +190,7 @@ final class RequirePackage
      * @param  boolean                 $sortPackages
      * @return boolean
      */
-    private function updateFileCleanly($json, array $base, array $new, $requireKey, $removeKey, $sortPackages)
+    private function updateFileCleanly(\Composer\Json\JsonFile $json, array $base, array $new, $requireKey, $removeKey, $sortPackages)
     {
         $contents = file_get_contents($json->getPath());
 
