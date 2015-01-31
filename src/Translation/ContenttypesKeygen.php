@@ -24,7 +24,6 @@ class ContenttypesKeygen
      */
     private $hints;
 
-
     /**
      * Hints for translations
      *
@@ -50,8 +49,8 @@ class ContenttypesKeygen
      * Constructor
      *
      * @param Silex\Application $app
-     * @param array $translatables
-     * @param array $saved
+     * @param array             $translatables
+     * @param array             $saved
      */
     public function __construct(Silex\Application $app, array $translatables, array $savedTranslations)
     {
@@ -195,7 +194,7 @@ class ContenttypesKeygen
     /**
      * Only allow "a-z_" in key parts
      *
-     * @param string $key
+     * @param  string $key
      * @return string
      */
     private function slugifyKey($key)
@@ -206,7 +205,7 @@ class ContenttypesKeygen
     /**
      * Test if a translation already exists for a key
      *
-     * @param string $key
+     * @param  string $key
      * @return bool
      */
     private function isSaved($key)
@@ -217,7 +216,7 @@ class ContenttypesKeygen
     /**
      * Returns a fallback translation for a key or false if none can be found
      *
-     * @param string $key
+     * @param  string $key
      * @return mixed
      */
     private function fallback($key)
