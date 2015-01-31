@@ -63,7 +63,8 @@ class BaseExtensionTest extends BoltUnitTest
         $ext->expects($this->any())
             ->method('getComposerJSON')
             ->will($this->returnValue(array('name'=>'valuefrommock')));
-            
+        
+        print_r($ext->getComposerJSON()); exit;    
         $this->assertEquals('valuefrommock', $ext->getComposerName());
     }
 
