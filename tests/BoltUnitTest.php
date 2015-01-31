@@ -82,7 +82,7 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
     protected function addDefaultUser(Application $app)
     {
         $user = $app['users']->getEmptyUser();
-        $user['roles']=array('admin');
+        $user['roles'] = array('admin');
         $user['username'] = 'admin';
         $user['password'] = 'password';
         $user['email'] = 'test@example.com';

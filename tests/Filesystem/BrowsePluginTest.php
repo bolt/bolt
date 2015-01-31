@@ -45,7 +45,7 @@ class BrowsePluginTest extends BoltUnitTest
         $result = $plugin->handle("", $app);
         $files = $result[0];
         foreach ($files as $file) {
-            if ($file['type']=='png') {
+            if ($file['type'] == 'png') {
                 $this->assertNotEmpty($file['imagesize']);
             }
         }

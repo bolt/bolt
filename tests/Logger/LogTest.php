@@ -125,7 +125,7 @@ class LogTest extends BoltUnitTest
         $log->setValue('test', 'testing');
         $this->assertEquals('testing', $log->getValue('test'));
         $this->assertFalse($log->getValue('notset'));
-        $this->assertEquals(1, count($log->getValues()) );
+        $this->assertEquals(1, count($log->getValues()));
     }
 
     public function testTrim()

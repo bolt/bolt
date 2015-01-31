@@ -56,7 +56,7 @@ class BoltTwigHelpersTest extends BoltUnitTest
         $output = '';
         VarDumper::setHandler(
             function ($var) use ($output) {
-                $output.=$var;
+                $output .= $var;
             }
         );
 
@@ -137,7 +137,7 @@ class BoltTwigHelpersTest extends BoltUnitTest
         $this->assertEquals('called', $excerpt2);
 
         // If the object doesn't implement method, it should return false
-        $obj = new \ArrayObject(array('info' => 'A test title', 'body' => $this->getDummyText()) );
+        $obj = new \ArrayObject(array('info' => 'A test title', 'body' => $this->getDummyText()));
         $this->assertFalse($twig->excerpt($obj));
 
         // Check that array works.

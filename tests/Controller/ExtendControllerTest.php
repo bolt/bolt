@@ -94,7 +94,7 @@ class ExtendControllerTest extends BoltUnitTest
         $mockInfo = $this->getMock('Bolt\Extensions\ExtensionsInfoService', array('info'), array(), 'MockInfoService', false);
         $mockInfo->expects($this->once())
             ->method('info')
-            ->will($this->returnValue($this->packageInfoProvider()) );
+            ->will($this->returnValue($this->packageInfoProvider()));
 
         $app['extend.info'] = $mockInfo;
 
