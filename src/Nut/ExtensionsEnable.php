@@ -5,7 +5,6 @@ namespace Bolt\Nut;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Bolt\Translation\Translator as Trans;
 
 class ExtensionsEnable extends BaseCommand
 {
