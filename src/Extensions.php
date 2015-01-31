@@ -259,6 +259,7 @@ class Extensions
                         'twig',
                         function (\Twig_Environment $twig) use ($namespace, $extension) {
                             $twig->addGlobal($namespace, $extension);
+
                             return $twig;
                         }
                     )
@@ -296,6 +297,7 @@ class Extensions
                     'twig',
                     function (\Twig_Environment $twig) use ($addTwigExFunc, $twigExtension, $name) {
                         call_user_func($addTwigExFunc, $twig, $twigExtension, $name);
+
                         return $twig;
                     }
                 )
@@ -309,6 +311,7 @@ class Extensions
                     'safe_twig',
                     function (\Twig_Environment $twig) use ($addTwigExFunc, $twigExtension, $name) {
                         call_user_func($addTwigExFunc, $twig, $twigExtension, $name);
+
                         return $twig;
                     }
                 )

@@ -167,6 +167,7 @@ class LowlevelChecks
 
         if ($driver == 'pdo_sqlite') {
             $this->doDatabaseSqliteCheck($cfg);
+
             return;
         }
 
@@ -208,6 +209,7 @@ class LowlevelChecks
             if (!is_writable($file)) {
                 throw LowLevelDatabaseException::unwritableFile($file);
             }
+
             return;
         }
 
@@ -262,6 +264,7 @@ class LowlevelChecks
             }
 
         }
+
         return;
     }
 }

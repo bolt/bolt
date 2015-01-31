@@ -307,6 +307,7 @@ class Config
             $contentType = $this->parseContentType($key, $contentType, $acceptableFileTypes);
             $contentTypes[$contentType['slug']] = $contentType;
         }
+
         return $contentTypes;
     }
 
@@ -440,6 +441,7 @@ class Config
         }
 
         $groups = array_unique($groups);
+
         return array($fields, $groups);
     }
 
@@ -497,6 +499,7 @@ class Config
         if (isset($config['memory']) && $config['memory']) {
             // If in-memory, no need to parse paths
             unset($config['path']);
+
             return $config;
         } else {
             // Prevent SQLite driver from trying to use in-memory connection
@@ -517,6 +520,7 @@ class Config
         // If path has filename with extension, use that
         if ($path->hasExtension()) {
             $config['path'] = $path->string();
+
             return $config;
         }
 
@@ -991,6 +995,7 @@ class Config
             // Return CLI if request not already exist and we're on the CLI
             if (php_sapi_name() == 'cli') {
                 $this->app['end'] = 'cli';
+
                 return 'cli';
             }
 
@@ -1014,6 +1019,7 @@ class Config
         }
 
         $this->app['end'] = $end;
+
         return $end;
     }
 

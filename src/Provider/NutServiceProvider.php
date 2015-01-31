@@ -68,6 +68,7 @@ class NutServiceProvider implements ServiceProviderInterface
                 'nut.commands',
                 function ($commands) use ($command) {
                     $commands[] = $command;
+
                     return $commands;
                 }
             )

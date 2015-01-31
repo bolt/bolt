@@ -158,6 +158,7 @@ class TwigExtension extends \Twig_Extension
         if (!$this->safe) {
             $parsers[] = new SetcontentTokenParser();
         }
+
         return $parsers;
     }
 

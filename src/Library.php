@@ -215,6 +215,7 @@ class Library
         if ($abort) {
             return $app->abort(303, "Redirecting to '$path'.");
         }
+
         return $path;
     }
 
@@ -364,6 +365,7 @@ class Library
             }
         } else {
             $data = unserialize($str);
+
             return $data;
         }
     }
