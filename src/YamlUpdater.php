@@ -89,20 +89,16 @@ class YamlUpdater
      */
     private function find($keypart, $indent = 0)
     {
-        // Pointer is past end of file..
-        if ($this->pointer > $this->lines) {
-            return false;
-        }
-
-        $needle = substr('                                      ', 0, 2 * $indent) . $keypart . ':';
-
-        if (isset($this->file[$this->pointer]) && strpos($this->file[$this->pointer], $needle) === 0) {
-            return $this->pointer;
-        } else {
+        while ($this->pointer <= $this->lines) {
+            $needle = substr('                                      ', 0, 2 * $indent) . $keypart . ':';
+            if (isset($this->file[$this->pointer]) && strpos($this->file[$this->pointer], $needle) === 0) {
+                return $this->pointer;
+            } 
             $this->pointer++;
-
-            return $this->find($keypart, $indent);
         }
+
+        // Pointer is past end of file..
+        return false; 
     }
 
     /**
