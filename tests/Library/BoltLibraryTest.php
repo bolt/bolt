@@ -1,8 +1,8 @@
 <?php
 namespace Bolt\Tests\Library;
 
-use Bolt\Tests\BoltUnitTest;
 use Bolt\Library;
+use Bolt\Tests\BoltUnitTest;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -185,7 +185,7 @@ class BoltLibraryTest extends BoltUnitTest
         $file = TEST_ROOT . '/tests/resources/data.php';
         $fp = fopen($file, 'a');
         flock($fp, LOCK_EX);
-        $this->setExpectedException('Bolt\Configuration\LowlevelException');
+        $this->setExpectedException('Bolt\Exception\LowlevelException');
         $this->expectOutputRegex("/Could not lock/i");
         $response = Library::saveSerialize($file, $data);
     }
@@ -210,7 +210,7 @@ class BoltLibraryTest extends BoltUnitTest
     public function testLoadSerializeErrors()
     {
         $file = TEST_ROOT . '/non/existent/path/data.php';
-        $this->setExpectedException('Bolt\Configuration\LowlevelException');
+        $this->setExpectedException('Bolt\Exception\LowlevelException');
         $this->expectOutputRegex("/File is not readable/i");
         $this->assertTrue(Library::loadSerialize($file));
     }
