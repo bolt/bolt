@@ -42,7 +42,9 @@ jQuery(function ($) {
     // Initialisation
     bolt.datetimes.init();
     //
-    init.ckeditor();
+    if (typeof CKEDITOR !== 'undefined') {
+        init.ckeditor();
+    }
     init.confirmationDialogs();
     init.magnificPopup();
     init.dataActions();
