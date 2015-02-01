@@ -283,7 +283,7 @@ EOM;
         } else {
             $doc->loadHTML($string, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
         }
-        $doc->preserveWhitespace = false;
+        $doc->preserveWhiteSpace = false;
         $html = $doc->saveHTML();
         $html = str_replace("\t", "", $html);
         $html = str_replace("\n", "", $html);
