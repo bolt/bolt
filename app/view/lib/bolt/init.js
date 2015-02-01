@@ -579,16 +579,15 @@ var init = {
                 rec;
 
             if (aItems.length < 1) {
-                bootbox.alert("Nothing chosen to delete");
+                bootbox.alert(bolt.data.recordlist.noselection);
             } else {
-                rec = aItems.length === 1 ? "this record" : "these records";
-                notice = "Are you sure you wish to <strong>delete " + rec + "</strong>? There is no undo.";
+                notice = aItems.length === 1 ? bolt.data.recordlisting.delete_one : bolt.data.recordlisting.delete_mult;
                 bootbox.confirm(notice, function (confirmed) {
                     $(".alert").alert();
                     if (confirmed === true) {
                         $.each(aItems, function (index, id) {
                             // Delete request
-                            $.ajax({
+                            /*$.ajax({
                                 url: bolt.paths.bolt + 'content/deletecontent/' +
                                     $('#item_' + id).closest('table').data('contenttype') + '/' + id + '?token=' +
                                     $('#item_' + id).closest('table').data('token'),
@@ -597,7 +596,7 @@ var init = {
                                     $('#item_' + id).hide();
                                     $('a.deletechosen').hide();
                                 }
-                            });
+                            });*/
                         });
                     }
                 });
