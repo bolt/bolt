@@ -310,6 +310,12 @@ class Storage
         );
     }
 
+    /**
+     * Save a record
+     *
+     * @param Bolt\Content $content
+     * @param string        $comment
+     */
     public function saveContent(\Bolt\Content $content, $comment = null)
     {
         $contenttype = $content->contenttype;
@@ -459,6 +465,12 @@ class Storage
         return $id;
     }
 
+    /**
+     * Delete a record
+     *
+     * @param string  $contenttype
+     * @param integer $id
+     */
     public function deleteContent($contenttype, $id)
     {
         if (empty($contenttype)) {
