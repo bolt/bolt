@@ -245,12 +245,13 @@ class ChangeLogItem implements \ArrayAccess
                     break;
 
                 case 'html':
-                    $changedfields[$key]['type'] = 'html';
+                    $changedfields[$key]['type'] = $fields[$key]['type'];
 
                     break;
 
                 case 'filelist':
-                    $changedfields[$key]['type'] = 'filelist';
+                case 'imagelist':
+                    $changedfields[$key]['type'] = $fields[$key]['type'];
                     $before = json_decode($value[0], true);
                     $after  = json_decode($value[1], true);
 
@@ -261,7 +262,7 @@ class ChangeLogItem implements \ArrayAccess
                     break;
 
                 case 'geolocation':
-                    $changedfields[$key]['type'] = 'geolocation';
+                    $changedfields[$key]['type'] = $fields[$key]['type'];
                     $before = json_decode($value[0], true);
                     $after  = json_decode($value[1], true);
 
@@ -282,7 +283,7 @@ class ChangeLogItem implements \ArrayAccess
                     break;
 
                 case 'image':
-                    $changedfields[$key]['type'] = 'image';
+                    $changedfields[$key]['type'] = $fields[$key]['type'];
 
                     $before = json_decode($value[0], true);
                     $after  = json_decode($value[1], true);
@@ -298,18 +299,8 @@ class ChangeLogItem implements \ArrayAccess
 
                     break;
 
-                case 'imagelist':
-                    $changedfields[$key]['type'] = 'imagelist';
-                    $before = json_decode($value[0], true);
-                    $after  = json_decode($value[1], true);
-
-                    $changedfields[$key]['before']['render'] = $before;
-                    $changedfields[$key]['after']['render'] = $after;
-
-                    break;
-
                 case 'select':
-                    $changedfields[$key]['type'] = 'select';
+                    $changedfields[$key]['type'] = $fields[$key]['type'];
 
                     if (isset($fields[$key]['multiple']) && $fields[$key]['multiple']) {
                         $before = json_decode($value[0], true);
@@ -325,7 +316,7 @@ class ChangeLogItem implements \ArrayAccess
                     break;
 
                 case 'video':
-                    $changedfields[$key]['type'] = 'video';
+                    $changedfields[$key]['type'] = $fields[$key]['type'];
                     $before = json_decode($value[0], true);
                     $after  = json_decode($value[1], true);
 
