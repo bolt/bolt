@@ -332,7 +332,7 @@ class Storage
             // Block dispatcher loops
             $this->inDispatcher = true;
 
-            $event = new StorageEvent($content, $create);
+            $event = new StorageEvent($content, array('contenttype' => $contenttype, 'create' => $create));
             $this->app['dispatcher']->dispatch(StorageEvents::PRE_SAVE, $event);
 
             // Re-enable the dispather
@@ -449,7 +449,7 @@ class Storage
             // Block loops
             $this->inDispatcher = true;
 
-            $event = new StorageEvent($content, $create);
+            $event = new StorageEvent($content, array('contenttype' => $contenttype, 'create' => $create));
             $this->app['dispatcher']->dispatch(StorageEvents::POST_SAVE, $event);
 
             // Re-enable the dispather
@@ -467,19 +467,20 @@ class Storage
             return false;
         }
 
-        if ($this->app['dispatcher']->hasListeners(StorageEvents::PRE_DELETE)) {
-            $event = new StorageEvent(array($contenttype, $id));
-            $this->app['dispatcher']->dispatch(StorageEvents::PRE_DELETE, $event);
-        }
-
         // Make sure $contenttype is a 'slug'
         if (is_array($contenttype)) {
             $contenttype = $contenttype['slug'];
         }
 
+        // Get the old content recrod
         $tablename = $this->getTablename($contenttype);
-
         $oldContent = $this->findContent($tablename, $id);
+
+        // Dispatch pre-delete event
+        if ($this->app['dispatcher']->hasListeners(StorageEvents::PRE_DELETE)) {
+            $event = new StorageEvent($oldContent, array('contenttype' => $contenttype));
+            $this->app['dispatcher']->dispatch(StorageEvents::PRE_DELETE, $event);
+        }
 
         $this->logDelete($contenttype, $id, $oldContent);
 
@@ -492,8 +493,9 @@ class Storage
             $this->app['db']->delete($this->prefix . "taxonomy", array('contenttype' => $contenttype, 'content_id' => $id));
         }
 
+        // Dispatch post-delete event
         if ($this->app['dispatcher']->hasListeners(StorageEvents::POST_DELETE)) {
-            $event = new StorageEvent(array($contenttype, $id));
+            $event = new StorageEvent($oldContent, array('contenttype' => $contenttype));
             $this->app['dispatcher']->dispatch(StorageEvents::POST_DELETE, $event);
         }
 
