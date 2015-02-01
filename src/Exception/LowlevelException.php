@@ -125,12 +125,11 @@ EOM;
                 $html = str_replace('%info%', '', $html);
                 $message = $errorblock;
             } elseif ($isExtensionError === 0) {
-                $vendor = $app['resources']->getPath('extensions') . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR;
-                $base = str_replace($vendor, '', $error['file']);
-                $parts = explode(DIRECTORY_SEPARATOR, $base);
+                $base = str_replace($app['resources']->getPath('extensions'), '', $error['file']);
+                $parts = explode(DIRECTORY_SEPARATOR, ltrim($base, '/'));
+                $package = $parts[1] . '/' . $parts[2];
 
-                $package = $parts[0] . '/' . $parts[1];
-                $delete = 'extensions' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . $parts[0] . DIRECTORY_SEPARATOR . $parts[1];
+                $delete = 'extensions' . DIRECTORY_SEPARATOR . $parts[0] . DIRECTORY_SEPARATOR . $parts[1] . DIRECTORY_SEPARATOR . $parts[2];
 
                 $html = str_replace('%error_title%', 'PHP Fatal Error: Bolt Extensions', $html);
                 $html = str_replace(
