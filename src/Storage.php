@@ -350,18 +350,18 @@ class Storage
             $create = false;
         }
 
-        // Dispatch pre-save event
-        if (! $this->inDispatcher && $this->app['dispatcher']->hasListeners(StorageEvents::PRE_SAVE)) {
-            $event = new StorageEvent($content, array('contenttype' => $contenttype, 'create' => $create));
-            $this->app['dispatcher']->dispatch(StorageEvents::PRE_SAVE, $event);
-        }
-
         // We need to verify if the slug is unique. If not, we update it.
         $getId = $create ? null : $fieldvalues['id'];
         $fieldvalues['slug'] = $this->getUri($fieldvalues['slug'], $getId, $contenttype['slug'], false, false);
 
         // Update the content object
         $content->setValues($fieldvalues);
+
+        // Dispatch pre-save event
+        if (! $this->inDispatcher && $this->app['dispatcher']->hasListeners(StorageEvents::PRE_SAVE)) {
+            $event = new StorageEvent($content, array('contenttype' => $contenttype, 'create' => $create));
+            $this->app['dispatcher']->dispatch(StorageEvents::PRE_SAVE, $event);
+        }
 
         // Decide whether to insert a new record, or update an existing one.
         if ($create) {
