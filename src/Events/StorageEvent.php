@@ -76,7 +76,7 @@ class StorageEvent extends GenericEvent
      */
     public function getContent()
     {
-        return $this->content;
+        return $this->getSubject();
     }
 
     /**
@@ -91,29 +91,5 @@ class StorageEvent extends GenericEvent
         if ($this->hasArgument('create')) {
             return $this->getArgument('create');
         }
-    }
-
-    /**
-     * Set the content type and id
-     *
-     * @param string  $contentType
-     * @param integer $id
-     */
-    private function setContentTypeAndId($contentType, $id)
-    {
-        $this->contentType = $contentType;
-        $this->id = $id;
-    }
-
-    /**
-     * Set the content
-     *
-     * @param Content $content
-     */
-    private function setContent(Content $content)
-    {
-        $this->content = $content;
-
-        $this->setContentTypeAndId($content->contenttype['slug'], $content->id);
     }
 }
