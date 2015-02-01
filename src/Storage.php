@@ -334,15 +334,10 @@ class Storage
             $create = false;
         }
 
+        // Dispatch pre-save event
         if (! $this->inDispatcher && $this->app['dispatcher']->hasListeners(StorageEvents::PRE_SAVE)) {
-            // Block dispatcher loops
-            $this->inDispatcher = true;
-
             $event = new StorageEvent($content, array('contenttype' => $contenttype, 'create' => $create));
             $this->app['dispatcher']->dispatch(StorageEvents::PRE_SAVE, $event);
-
-            // Re-enable the dispather
-            $this->inDispatcher = false;
         }
 
         if (!isset($fieldvalues['slug'])) {
@@ -451,6 +446,7 @@ class Storage
         $this->updateTaxonomy($contenttype, $id, $content->taxonomy);
         $this->updateRelation($contenttype, $id, $content->relation);
 
+        // Dispatch post-save event
         if (!$this->inDispatcher && $this->app['dispatcher']->hasListeners(StorageEvents::POST_SAVE)) {
             // Block loops
             $this->inDispatcher = true;
