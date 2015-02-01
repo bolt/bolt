@@ -18,24 +18,14 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 class StorageEvent extends GenericEvent
 {
     /**
-     * The id
+     * @var Bolt\Content
      */
-    private $id = null;
+    private $subject;
 
     /**
-     * The content type
+     * @var array
      */
-    private $contentType = null;
-
-    /**
-     * The content to act upon
-     */
-    private $content = null;
-
-    /**
-     * Record create/update flag
-     */
-    private $create = null;
+    private $arguments;
 
     /**
      * Instantiate generic Storage Event
@@ -50,27 +40,27 @@ class StorageEvent extends GenericEvent
     }
 
     /**
-     * Return the id
+     * Return the record id
      *
      * @return integer
      */
     public function getId()
     {
-        return $this->id;
+        return $this->getSubject()->id;
     }
 
     /**
-     * Return the content type
+     * Return the record contenttype
      *
      * @return string
      */
     public function getContentType()
     {
-        return $this->contentType;
+        return $this->getSubject()->contenttype['slug'];
     }
 
     /**
-     * Return the content (if any)
+     * Return the content object
      *
      * @return Bolt\Content
      */
