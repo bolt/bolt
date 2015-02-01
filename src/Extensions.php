@@ -130,6 +130,7 @@ class Extensions
                 $map = require $mapfile;
                 $loader->addClassMap($map);
             }
+
             $loader->register();
         }
 
@@ -142,6 +143,7 @@ class Extensions
                         require $file;
                     }
                 } catch (\Exception $e) {
+                    $this->logInitFailure('Error importing extension class', $file, $e, Logger::ERROR);
                 }
             }
         }
@@ -175,6 +177,7 @@ class Extensions
                     // Include the init file
                     require_once $file->getRealpath();
                 } catch (\Exception $e) {
+                    $this->logInitFailure('Error importing local extension class', $file->getBasename(), $e, Logger::ERROR);
                 }
             }
         }
