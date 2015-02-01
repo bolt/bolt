@@ -256,6 +256,11 @@ class Storage
 
     /**
      * Writes a content-changelog entry for a newly-created entry.
+     *
+     * @param string  $contenttype Slug of the record contenttype
+     * @param integer $contentid   ID of the record
+     * @param array   $content     Record values
+     * @param string  $comment     Editor's comment
      */
     private function logInsert($contenttype, $contentid, $content, $comment = null)
     {
@@ -276,6 +281,12 @@ class Storage
      * Writes a content-changelog entry for an updated entry.
      * This function must be called *before* the actual update, because it
      * fetches the old content from the database.
+     *
+     * @param string  $contenttype Slug of the record contenttype
+     * @param integer $contentid   ID of the record
+     * @param array   $newContent  New record values
+     * @param array   $oldContent  Old record values
+     * @param string  $comment     Editor's comment
      */
     private function logUpdate($contenttype, $contentid, $newContent, $oldContent = null, $comment = null)
     {
@@ -295,6 +306,11 @@ class Storage
     /**
      * Writes a content-changelog entry for a deleted entry.
      * This function must be called *before* the actual update, because it
+     *
+     * @param string  $contenttype Slug of the record contenttype
+     * @param integer $contentid   ID of the record
+     * @param array   $content     Record values
+     * @param string  $comment     Editor's comment
      */
     private function logDelete($contenttype, $contentid, $content, $comment = null)
     {
@@ -423,7 +439,7 @@ class Storage
                     $fieldvalues[$key] = trim($fieldvalues[$key]);
                 }
             } else {
-                // unset columns we don't need to store..
+                // unset columns we don't need to store.
                 unset($fieldvalues[$key]);
             }
 
@@ -433,18 +449,19 @@ class Storage
         $getId = $create ? null : $fieldvalues['id'];
         $fieldvalues['slug'] = $this->getUri($fieldvalues['slug'], $getId, $contenttype['slug'], false, false);
 
+        // Update the content object
+        $content->setValues($fieldvalues);
+
         // Decide whether to insert a new record, or update an existing one.
         if ($create) {
-            $id = $this->insertContent($fieldvalues, $contenttype, $comment);
-            $fieldvalues['id'] = $id;
+            $id = $this->insertContent($content, $comment);
             $content->setValue('id', $id);
         } else {
-            $id = $fieldvalues['id'];
-            $this->updateContent($fieldvalues, $contenttype, $comment);
+            $this->updateContent($content, $comment);
         }
 
-        $this->updateTaxonomy($contenttype, $id, $content->taxonomy);
-        $this->updateRelation($contenttype, $id, $content->relation);
+        $this->updateTaxonomy($contenttype, $content->values['id'], $content->taxonomy);
+        $this->updateRelation($contenttype, $content->values['id'], $content->relation);
 
         // Dispatch post-save event
         if (!$this->inDispatcher && $this->app['dispatcher']->hasListeners(StorageEvents::POST_SAVE)) {
@@ -458,7 +475,7 @@ class Storage
             $this->inDispatcher = false;
         }
 
-        return $id;
+        return $content->values['id'];
     }
 
     /**
@@ -509,74 +526,70 @@ class Storage
         return $res;
     }
 
-    protected function insertContent($content, $contenttype, $comment = null)
+    /**
+     * Insert a new contenttype record in the database
+     *
+     * @param  Bolt\Content $content
+     * @param  string       $comment
+     * @return boolean
+     */
+    protected function insertContent(Bolt\Content $content, $comment = null)
     {
-        // Make sure $contenttype is a 'slug'
-        if (is_array($contenttype)) {
-            $contenttype = $contenttype['slug'];
-        }
-
+        $contenttype = $content->contenttype['slug'];
         $tablename = $this->getTablename($contenttype);
 
+        // Set creation and update dates
         $content['datecreated'] = date('Y-m-d H:i:s');
         $content['datechanged'] = date('Y-m-d H:i:s');
 
         // id is set to autoincrement, so let the DB handle it
-        unset($content['id']);
+        unset($content->values['id']);
 
-        $this->app['db']->insert($tablename, $content);
+        $this->app['db']->insert($tablename, $content->values);
 
         $seq = null;
         if ($this->app['db']->getDatabasePlatform() instanceof PostgreSqlPlatform) {
             $seq = $tablename . '_id_seq';
         }
+
         $id = $this->app['db']->lastInsertId($seq);
 
-        $this->logInsert($contenttype, $id, $content, $comment);
+        if ($id > 0) {
+            $content->setValue('id', $id);
+            $this->logInsert($contenttype, $id, $content->values, $comment);
 
-        return $id;
+            return true;
+        }
     }
 
     /**
-     * @param  array  $content     The content new values.
-     * @param  string $contenttype The content type
-     * @param  string $comment     Add a comment to save with change.
-     * @return bool
+     * Update a Bolt contenttype record
+     *
+     * @param  Bolt\Content  $content The content object to be updated
+     * @param  string        $comment Add a comment to save with change.
+     * @return boolean
      */
-    private function updateContent($content, $contenttype, $comment = null)
+    private function updateContent(Bolt\Content $content, $comment = null)
     {
-        // Make sure $contenttype is a 'slug'
-        if (is_array($contenttype)) {
-            $contenttype = $contenttype['slug'];
-        }
-
+        $contenttype = $content->contenttype['slug'];
         $tablename = $this->getTablename($contenttype);
 
+        // Set the date the record was changed
+        $content->setValue('datechanged', date('Y-m-d H:i:s'));
+
+        // Test that the record exists in the database
         $oldContent = $this->findContent($tablename, $content['id']);
-
-        $content['datechanged'] = date('Y-m-d H:i:s');
-
-        if (!empty($oldContent)) {
-
-            // Do the actual update, and log it.
-            $res = $this->app['db']->update($tablename, $content, array('id' => $content['id']));
-            if ($res > 0) {
-                $this->logUpdate($contenttype, $content['id'], $content, $oldContent, $comment);
-            }
-
-        } else {
-
-            // Content didn't exist, so do an insert after all. Log it as an insert.
-            $res = $this->app['db']->insert($tablename, $content);
-            $seq = null;
-            if ($this->app['db']->getDatabasePlatform() instanceof PostgreSqlPlatform) {
-                $seq = $tablename . '_id_seq';
-            }
-            $id = $this->app['db']->lastInsertId($seq);
-            $this->logInsert($contenttype, $id, $content, $comment);
-
+        if (empty($oldContent)) {
+            throw new StorageException('Attempted to update a non-existent record');
         }
 
+        // Do the actual update, and log it.
+        $res = $this->app['db']->update($tablename, $content->values, array('id' => $content['id']));
+        if ($res > 0) {
+            $this->logUpdate($contenttype, $content['id'], $content->values, $oldContent, $comment);
+
+            return true;
+        }
     }
 
     /**
