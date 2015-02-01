@@ -824,6 +824,7 @@ class Storage
 
     public function searchContentType($contenttypename, array $parameters = array(), &$pager = array())
     {
+        $where = array();
         $tablename = $this->getTablename($contenttypename);
 
         $contenttype = $this->app['config']->get('contenttypes/' . $contenttypename);
