@@ -41,12 +41,12 @@ class StorageEvent extends GenericEvent
     /**
      * @var Bolt\Content
      */
-    private $subject;
+    protected $subject;
 
     /**
      * @var array
      */
-    private $arguments;
+    protected $arguments;
 
     /**
      * Instantiate generic Storage Event
