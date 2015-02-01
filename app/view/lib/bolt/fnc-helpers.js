@@ -8,7 +8,6 @@ function getSelectedItems() {
             aItems.push($(this).parents('tr').attr('id').substr(5));
         }
     });
-    console.log('getSelectedItems: ' + aItems);
     return aItems;
 }
 
