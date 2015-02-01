@@ -88,7 +88,9 @@ class StorageEvent extends GenericEvent
      */
     public function isCreate()
     {
-        return $this->create;
+        if ($this->hasArgument('create')) {
+            return $this->getArgument('create');
+        }
     }
 
     /**
