@@ -22,6 +22,9 @@ class NutApplication extends ConsoleApplication
         // Get the Symfony defaults
         $commands = parent::getDefaultCommands();
 
+        // Add command completion
+        $commands[] = new CompletionCommand();
+
         return $commands;
     }
 }
