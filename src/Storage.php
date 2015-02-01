@@ -2,16 +2,17 @@
 
 namespace Bolt;
 
-use Doctrine\DBAL\DBALException;
-use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
 use Bolt;
 use Bolt\Events\StorageEvent;
 use Bolt\Events\StorageEvents;
+use Bolt\Exception\StorageException;
 use Bolt\Helpers\Arr;
 use Bolt\Helpers\String;
 use Bolt\Helpers\Html;
 use Bolt\Translation\Translator as Trans;
 use Doctrine\DBAL\Connection as DoctrineConn;
+use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
 use Symfony\Component\HttpFoundation\Request;
 
 class Storage
@@ -322,9 +323,8 @@ class Storage
         $fieldvalues = $content->values;
 
         if (empty($contenttype)) {
-            echo 'Contenttype is required.';
-
-            return false;
+            $this->app['logger.system']->addError('Contenttype is required for' . __FUNCTION__, array('event' => 'exception'));
+            throw new StorageException('Contenttype is required for ' . __FUNCTION__);
         }
 
         // Test to see if this is a new record, or an update
@@ -474,9 +474,8 @@ class Storage
     public function deleteContent($contenttype, $id)
     {
         if (empty($contenttype)) {
-            echo "Contenttype is required.";
-
-            return false;
+            $this->app['logger.system']->addError('Contenttype is required for' . __FUNCTION__, array('event' => 'exception'));
+            throw new StorageException('Contenttype is required for ' . __FUNCTION__);
         }
 
         // Make sure $contenttype is a 'slug'
@@ -500,9 +499,9 @@ class Storage
 
         // Make sure relations and taxonomies are deleted as well.
         if ($res) {
-            $this->app['db']->delete($this->prefix . "relations", array('from_contenttype' => $contenttype, 'from_id' => $id));
-            $this->app['db']->delete($this->prefix . "relations", array('to_contenttype' => $contenttype, 'to_id' => $id));
-            $this->app['db']->delete($this->prefix . "taxonomy", array('contenttype' => $contenttype, 'content_id' => $id));
+            $this->app['db']->delete($this->prefix . 'relations', array('from_contenttype' => $contenttype, 'from_id' => $id));
+            $this->app['db']->delete($this->prefix . 'relations', array('to_contenttype' => $contenttype, 'to_id' => $id));
+            $this->app['db']->delete($this->prefix . 'taxonomy', array('contenttype' => $contenttype, 'content_id' => $id));
         }
 
         // Dispatch post-delete event
