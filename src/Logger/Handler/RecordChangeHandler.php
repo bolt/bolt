@@ -124,7 +124,7 @@ class RecordChangeHandler extends AbstractProcessingHandler
 
         $title = $content->getTitle();
         if (empty($title)) {
-            $content = $this->getContent($record['context']['contenttype'] . '/' . $record['context']['id']);
+            $content = $this->app['storage']->getContent($record['context']['contenttype'] . '/' . $record['context']['id']);
             $title = $content->getTitle();
         }
 
