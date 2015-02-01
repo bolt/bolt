@@ -128,6 +128,21 @@ abstract class BaseExtension implements ExtensionInterface
 
         return $this->composerJson;
     }
+    
+    /**
+     * This allows write access to the composer config, allowing simulation of this feature
+     * even if the extension doesn't have a physical composer.json file.
+     * 
+     * @param array $configuration
+     */
+    public function setComposerConfiguration(array $configuration)
+    {   
+        $this->composerJsonLoaded = true;
+        $this->composerJson = null;
+        $this->composerJson = $configuration;
+
+        return $this->composerJson;
+    }
 
     /**
      * Builds an array suitable for conversion to JSON, which in turn will end
@@ -574,6 +589,9 @@ abstract class BaseExtension implements ExtensionInterface
      */
     public function addConsoleCommand(Command $command)
     {
-        NutServiceProvider::addCommand($this->app, $command);
+        $this->app['nut.commands'] = array_merge(
+            $this->app['nut.commands'],
+            array($command)
+        );
     }
 }

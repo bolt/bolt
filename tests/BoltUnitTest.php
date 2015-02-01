@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Session\Storage\MockFileSessionStorage;
 use Bolt\Configuration as Config;
 use Eloquent\Pathogen\FileSystem\Factory\PlatformFileSystemPathFactory;
 use Bolt\Configuration\ResourceManager;
+use Bolt\Configuration\Standard;
 
 /**
  * Abstract Class that other unit tests can extend, provides generic methods for Bolt tests.
@@ -40,14 +41,8 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
         ->setConstructorArgs(array(new MockFileSessionStorage()))
         ->getMock();
 
-        $config = new ResourceManager(
-            new \Pimple(
-                array(
-                    'rootpath' => TEST_ROOT,
-                    'pathmanager' => new PlatformFileSystemPathFactory()
-                )
-            )
-        );
+        $config = new Standard(TEST_ROOT);
+        $config->verify();
 
         $bolt = new Application(array('resources' => $config));
         $bolt['config']->set(
