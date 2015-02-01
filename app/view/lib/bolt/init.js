@@ -589,7 +589,7 @@ var init = {
                         $.each(aItems, function (index, id) {
                             // Delete request
                             $.ajax({
-                                url: $('#baseurl').attr('value') + 'content/deletecontent/' +
+                                url: bolt.paths.bolt + 'content/deletecontent/' +
                                     $('#item_' + id).closest('table').data('contenttype') + '/' + id + '?token=' +
                                     $('#item_' + id).closest('table').data('token'),
                                 type: 'get',
