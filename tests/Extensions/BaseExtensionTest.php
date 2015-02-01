@@ -34,6 +34,8 @@ class BaseExtensionTest extends BoltUnitTest
     public function tearDown()
     {
         \PHPUnit_Extension_FunctionMocker::tearDown();
+        @unlink(TEST_ROOT . '/app/cache/config_cache.php');
+
     }
 
     public function testSetup()
