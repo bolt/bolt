@@ -6,14 +6,35 @@ use Bolt\Content;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
- * Our specific Event instance for Storage Events
+ * Event instance for Storage events
  *
- * For preSave and postSave you may assume you can directly access the
- * content using $this->getContent(). The id will be available in a
- * postSave but is not guarenteerd for a preSave (since it could be
- * new).
- * For preDelete and postDelete the content won't be available, but the
- * $this->getId() and $this->getContentType() will be set.
+ * PRE_SAVE (preSave)
+ * - Available:
+ *   - Content obejct
+ * - Notes:
+ *   - Do not call saveContent()
+ *
+ * POST_SAVE (postSave)
+ * - Available:
+ *   - Content obejct
+ *   - ID
+ * - Notes:
+ *   - Safe to call saveContent()
+ *
+ * PRE_DELETE (preDelete)
+ * - Available:
+ *   - Content obejct
+ *   - ID
+ * - Notes:
+ *   - Do not call saveContent()
+ *
+ * POST_DELETE (postDelete)
+ * - Available:
+ *   - Content obejct
+ *   - ID
+ * - Notes:
+ *   - Do not call saveContent()
+ *   - Database record will no longer exist
  */
 class StorageEvent extends GenericEvent
 {
