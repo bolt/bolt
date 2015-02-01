@@ -365,12 +365,12 @@ class Storage
 
         // Decide whether to insert a new record, or update an existing one.
         if ($create) {
-            $id = $this->insertContent($content, $comment);
-            $content->setValue('id', $id);
+            $this->insertContent($content, $comment);
         } else {
             $this->updateContent($content, $comment);
         }
 
+        // Update taxonomy and record relationships
         $this->updateTaxonomy($contenttype, $content->values['id'], $content->taxonomy);
         $this->updateRelation($contenttype, $content->values['id'], $content->relation);
 
@@ -446,8 +446,7 @@ class Storage
      */
     protected function insertContent(Bolt\Content $content, $comment = null)
     {
-        $contenttype = $content->contenttype['slug'];
-        $tablename = $this->getTablename($contenttype);
+        $tablename = $this->getTablename($content->contenttype['slug']);
 
         // Set creation and update dates
         $content->setValue('datecreated', date('Y-m-d H:i:s'));
@@ -457,7 +456,7 @@ class Storage
         unset($content->values['id']);
 
         // Get the JSON database prepared values and make sure it's valid
-        $fieldvalues = $this->getValidSaveData($content->getValues(true));
+        $fieldvalues = $this->getValidSaveData($content->getValues(true), $content->contenttype);
 
         $this->app['db']->insert($tablename, $fieldvalues);
 
@@ -470,7 +469,7 @@ class Storage
 
         if ($id > 0) {
             $content->setValue('id', $id);
-            $this->logInsert($contenttype, $id, $fieldvalues, $comment);
+            $this->logInsert($content->contenttype['slug'], $id, $fieldvalues, $comment);
 
             return true;
         }
@@ -485,8 +484,7 @@ class Storage
      */
     private function updateContent(Bolt\Content $content, $comment = null)
     {
-        $contenttype = $content->contenttype['slug'];
-        $tablename = $this->getTablename($contenttype);
+        $tablename = $this->getTablename($content->contenttype['slug']);
 
         // Set the date the record was changed
         $content->setValue('datechanged', date('Y-m-d H:i:s'));
@@ -498,12 +496,12 @@ class Storage
         }
 
         // Get the JSON database prepared values and make sure it's valid
-        $fieldvalues = $this->getValidSaveData($content->getValues(true));
+        $fieldvalues = $this->getValidSaveData($content->getValues(true), $content->contenttype);
 
         // Do the actual update, and log it.
         $res = $this->app['db']->update($tablename, $fieldvalues, array('id' => $content['id']));
         if ($res > 0) {
-            $this->logUpdate($contenttype, $content['id'], $fieldvalues, $oldContent, $comment);
+            $this->logUpdate($content->contenttype['slug'], $content['id'], $fieldvalues, $oldContent, $comment);
 
             return true;
         }
@@ -512,9 +510,11 @@ class Storage
     /**
      * Get a valid array to commit
      *
-     * @param array $fieldvalues
+     * @param  array $fieldvalues
+     * @param  array $contenttype
+     * @return array
      */
-    private function getValidSaveData(array $fieldvalues)
+    private function getValidSaveData(array $fieldvalues, array $contenttype)
     {
         // Clean up fields, check unneeded columns.
         foreach ($fieldvalues as $key => $value) {
