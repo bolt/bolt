@@ -238,13 +238,13 @@ class ChangeLogItem implements \ArrayAccess
             switch ($fields[$key]['type']) {
                 case 'text':
                 case 'slug':
-                case 'textarea':
-                case 'markdown':
                 case 'text':
                 default:
                     break;
 
                 case 'html':
+                case 'markdown':
+                case 'textarea':
                     $changedfields[$key]['type'] = $fields[$key]['type'];
 
                     break;
