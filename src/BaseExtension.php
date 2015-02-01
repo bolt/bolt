@@ -136,11 +136,7 @@ abstract class BaseExtension implements ExtensionInterface
      * @param array $configuration
      */
     public function setComposerConfiguration(array $configuration)
-    {
-        if( !is_array($configuration)) {
-            throw new \InvalidArgumentException("Configuration must be an array", 1);   
-        }
-        
+    {   
         $this->composerJsonLoaded = true;
         $this->composerJson = null;
         $this->composerJson = $configuration;
@@ -593,6 +589,9 @@ abstract class BaseExtension implements ExtensionInterface
      */
     public function addConsoleCommand(Command $command)
     {
-        NutServiceProvider::addCommand($this->app, $command);
+        $this->app['nut.commands'] = array_merge(
+            $this->app['nut.commands'],
+            array($command)
+        );
     }
 }
