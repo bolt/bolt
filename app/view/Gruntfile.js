@@ -176,6 +176,10 @@ module.exports = function(grunt) {
                         return cont.replace(/(CKEDITOR\.getUrl\()"lang\/"(\+a\+"\.js"\))/, '$1"../locale/ckeditor/"$2');
                     }
                 }
+            },
+            installJqueryGomap: {
+                src: 'lib/jquery-gomap-1.3.3/jquery-gomap.min.js',
+                dest: 'js/jquery-gomap.min.js'
             }
         },
 
@@ -436,7 +440,8 @@ module.exports = function(grunt) {
             'uglify:installLocaleDatepicker',   // Copies minified datepicker locale  => view/js/locale/datepicker/*
             'uglify:installLocaleMoment',       // Copies minified moment.js locale   => view/js/locale/moment/*
             'copy:installCkeditor1',            // Copies CKEditor files              => view/js/ckeditor/*
-            'copy:installCkeditor2'             // Copies modified ckeditor.js        => view/js/ckeditor/ckeditor.js
+            'copy:installCkeditor2',            // Copies modified ckeditor.js        => view/js/ckeditor/ckeditor.js
+            'copy:installJqueryGomap'           // Copies jquery-gomap.min.js         => view/js/jquery-gomap.min.js
         ]
     );
 };
