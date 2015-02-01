@@ -260,6 +260,28 @@ module.exports = function(grunt) {
                     ]
                 }]
             },
+            installCodeMirror: {
+                options: {
+                    preserveComments: 'some'
+                },
+                files: [{
+                    expand: true,
+                    ext: '.min.js',
+                    cwd: 'lib/codemirror',
+                    src: [
+                        'clike.js',
+                        'css.js',
+                        'htmlmixed.js',
+                        'javascript.js',
+                        'markdown.js',
+                        'matchbrackets.js',
+                        'php.js',
+                        'xml.js',
+                        'yaml.js'
+                    ],
+                    dest: 'js/codemirror',
+                }]
+            },
             installLocaleDatepicker: {
                 options: {
                     preserveComments: 'some'
@@ -441,7 +463,8 @@ module.exports = function(grunt) {
             'uglify:installLocaleMoment',       // Copies minified moment.js locale   => view/js/locale/moment/*
             'copy:installCkeditor1',            // Copies CKEditor files              => view/js/ckeditor/*
             'copy:installCkeditor2',            // Copies modified ckeditor.js        => view/js/ckeditor/ckeditor.js
-            'copy:installJqueryGomap'           // Copies jquery-gomap.min.js         => view/js/jquery-gomap.min.js
+            'copy:installJqueryGomap',          // Copies jquery-gomap.min.js         => view/js/jquery-gomap.min.js
+            'uglify:installCodeMirror'          // Copies CodeMirror language files   => view/js/codemirror/*
         ]
     );
 };
