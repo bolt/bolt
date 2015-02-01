@@ -80,6 +80,7 @@
 
         {# use the files includes in ckeditor/codemirror plugin, instead of duplicating files. #}
         <link rel="stylesheet" href="{{ paths.app }}view/js/ckeditor/plugins/codemirror/css/codemirror.min.css">
+        <script src="{{ paths.app }}view/js/ckeditor/ckeditor.js"></script>
         <script src="{{ paths.app }}view/js/ckeditor/plugins/codemirror/js/codemirror.min.js"></script>
         {% for file in codemirror %}
             <script src="{{ paths.app }}view/js/codemirror/{{ file }}.min.js"></script>
