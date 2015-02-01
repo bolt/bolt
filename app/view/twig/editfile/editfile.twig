@@ -83,7 +83,7 @@
         <script src="{{ paths.app }}view/js/ckeditor/ckeditor.js"></script>
         <script src="{{ paths.app }}view/js/ckeditor/plugins/codemirror/js/codemirror.min.js"></script>
         {% for file in codemirror %}
-            <script src="{{ paths.app }}view/js/codemirror/{{ file }}.min.js"></script>
+            <script src="{{ paths.app }}view/js/ckeditor/plugins/codemirror/plugins/{{ file }}.min.js"></script>
         {% endfor %}
     {% endif %}
 
