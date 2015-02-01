@@ -40,17 +40,13 @@ class StorageEvent extends GenericEvent
     /**
      * Instantiate generic Storage Event
      *
-     * @param mixed $in The content or (contenttype,id) combination
+     * @param Bolt\Content $subject   A Content object that is being saved or deleted
+     * @param array        $arguments Arguments to store in the event.
      */
-    public function __construct($in = null, $create = null)
+    public function __construct(Content $subject = null, array $arguments = array())
     {
-        if ($in instanceof \Bolt\Content) {
-            $this->setContent($in);
-        } elseif (is_array($in)) {
-            $this->setContentTypeAndId($in[0], $in[1]);
-        }
-
-        $this->create = $create;
+        $this->subject = $subject;
+        $this->arguments = $arguments;
     }
 
     /**
