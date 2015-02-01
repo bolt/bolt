@@ -30,6 +30,11 @@ class BaseExtensionTest extends BoltUnitTest
             ->getMock();
 
     }
+    
+    public function tearDown()
+    {
+        \PHPUnit_Extension_FunctionMocker::tearDown();
+    }
 
     public function testSetup()
     {
