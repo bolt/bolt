@@ -548,7 +548,7 @@ var init = {
         // Check all checkboxes
         $(".dashboardlisting tr th:first-child input:checkbox").click(function () {
             var checkedStatus = this.checked;
-            $(".dashboardlisting tr td:first-child input:checkbox").each(function () {
+            $(this).closest('tbody').find('td input:checkbox').each(function () {
                 this.checked = checkedStatus;
                 if (checkedStatus === this.checked) {
                     $(this).closest('table tbody tr').removeClass('row-checked');
