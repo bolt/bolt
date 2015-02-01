@@ -32,7 +32,7 @@ class LowlevelChecksTest extends BoltUnitTest
             ->mockFunction('copy')
             ->mockFunction('error_get_last')
             ->getMock();
-            
+
         $this->php2 = \PHPUnit_Extension_FunctionMocker::start($this, 'Bolt\Exception')
             ->mockFunction('error_get_last')
             ->getMock();
@@ -47,6 +47,12 @@ class LowlevelChecksTest extends BoltUnitTest
             'extensions' => array(
                 'type' => E_ERROR,
                 'file' => TEST_ROOT . '/extensions',
+                'line' => 1,
+                'message' => 'extension error'
+            ),
+            'extension' => array(
+                'type' => E_ERROR,
+                'file' => TEST_ROOT . '/extensions/vendor/gawain/clippy',
                 'line' => 1,
                 'message' => 'extension error'
             ),
@@ -333,7 +339,7 @@ class LowlevelChecksTest extends BoltUnitTest
         $this->php2
             ->expects($this->once())
             ->method('error_get_last')
-            ->will($this->returnValue($this->errorResponses['extensions']));
+            ->will($this->returnValue($this->errorResponses['extension']));
 
         $this->expectOutputRegex("/PHP Fatal Error: Bolt Extensions/");
         LowlevelException::catchFatalErrors();
