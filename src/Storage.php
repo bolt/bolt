@@ -356,21 +356,6 @@ class Storage
             $this->app['dispatcher']->dispatch(StorageEvents::PRE_SAVE, $event);
         }
 
-        // Clean up fields, check unneeded columns.
-        foreach ($fieldvalues as $key => $value) {
-
-            if ($this->isValidColumn($key, $contenttype)) {
-                // Trim strings..
-                if (is_string($fieldvalues[$key])) {
-                    $fieldvalues[$key] = trim($fieldvalues[$key]);
-                }
-            } else {
-                // unset columns we don't need to store.
-                unset($fieldvalues[$key]);
-            }
-
-        }
-
         // We need to verify if the slug is unique. If not, we update it.
         $getId = $create ? null : $fieldvalues['id'];
         $fieldvalues['slug'] = $this->getUri($fieldvalues['slug'], $getId, $contenttype['slug'], false, false);
@@ -471,8 +456,8 @@ class Storage
         // id is set to autoincrement, so let the DB handle it
         unset($content->values['id']);
 
-        // Get the JSON database prepared values
-        $fieldvalues = $content->getValues(true);
+        // Get the JSON database prepared values and make sure it's valid
+        $fieldvalues = $this->getValidSaveData($content->getValues(true));
 
         $this->app['db']->insert($tablename, $fieldvalues);
 
@@ -512,8 +497,8 @@ class Storage
             throw new StorageException('Attempted to update a non-existent record');
         }
 
-        // Get the JSON database prepared values
-        $fieldvalues = $content->getValues(true);
+        // Get the JSON database prepared values and make sure it's valid
+        $fieldvalues = $this->getValidSaveData($content->getValues(true));
 
         // Do the actual update, and log it.
         $res = $this->app['db']->update($tablename, $fieldvalues, array('id' => $content['id']));
@@ -522,6 +507,29 @@ class Storage
 
             return true;
         }
+    }
+
+    /**
+     * Get a valid array to commit
+     *
+     * @param array $fieldvalues
+     */
+    private function getValidSaveData(array $fieldvalues)
+    {
+        // Clean up fields, check unneeded columns.
+        foreach ($fieldvalues as $key => $value) {
+            if ($this->isValidColumn($key, $contenttype)) {
+                if (is_string($fieldvalues[$key])) {
+                    // Trim strings
+                    $fieldvalues[$key] = trim($fieldvalues[$key]);
+                }
+            } else {
+                // unset columns we don't need to store.
+                unset($fieldvalues[$key]);
+            }
+        }
+
+        return $fieldvalues;
     }
 
     /**
