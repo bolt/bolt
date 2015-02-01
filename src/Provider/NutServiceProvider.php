@@ -2,6 +2,7 @@
 namespace Bolt\Provider;
 
 use Bolt\Nut;
+use Bolt\Nut\NutApplication;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 use Symfony\Component\Console\Application as ConsoleApplication;
@@ -13,7 +14,7 @@ class NutServiceProvider implements ServiceProviderInterface
     {
         $app['nut'] = $app->share(
             function ($app) {
-                $console = new ConsoleApplication();
+                $console = new NutApplication();
 
                 $console->setName('Bolt console tool - Nut');
                 if ($app instanceof \Bolt\Application) {
