@@ -464,7 +464,10 @@ class Frontend
                 basename($app['config']->get('general/theme')),
                 $template
             );
-            $app['log']->setValue('templateerror', $error);
+
+            $app['logger.system']->addError($error, array('event' => 'twig'));
+
+            // Abort ship
             $app->abort(404, $error);
         }
     }
