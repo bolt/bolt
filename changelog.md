@@ -11,6 +11,7 @@ Bolt 2.0 DEV-head
 - Update: Bolt's custom logging provider has been replaced with Monolog (#2546, thanks @GawainLynch)
 - Added: Extension repo as service: extracts the queries of the Extensions repo to a separate service provider.
  (#2550 thanks @rossriley)
+- Added: BASH/ZSH command completion for Nut (see #2657)
 - Updated: Magnific popup is now at 1.0.0. (#2560, thanks @cdowdy)
 - Updated: FlySystem from version 0.5 to 1.1, with php5.3 patch. (#2587)
 - Fixed: arrays in type:select fields. (#2609)
