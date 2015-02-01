@@ -3,7 +3,7 @@ namespace Bolt\Events;
 
 use Bolt;
 use Bolt\Content;
-use Symfony\Component\EventDispatcher\Event;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * Our specific Event instance for Storage Events
@@ -15,7 +15,7 @@ use Symfony\Component\EventDispatcher\Event;
  * For preDelete and postDelete the content won't be available, but the
  * $this->getId() and $this->getContentType() will be set.
  */
-class StorageEvent extends Event
+class StorageEvent extends GenericEvent
 {
     /**
      * The id
