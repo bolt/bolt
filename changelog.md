@@ -20,6 +20,7 @@ Bolt 2.0 DEV-head
 - Fixed: Have Cache::clearCache() use $app['resources']->getPath('root') for the 'thumbs' directory (See #2512)
 - Fixed: Corner case bug in password reset (See #2616)
 - Added: Editing content now shows recent changes that have been logged (if enabled) that link to the change comparison (See #2620)
+- Fixed: Minor HTML fix and broken link in base-2015 theme (#2650, thanks @apatkinson)
 
 Bolt 2.0.5
 ----------
