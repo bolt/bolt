@@ -279,7 +279,7 @@ module.exports = function(grunt) {
                         'xml.js',
                         'yaml.js'
                     ],
-                    dest: 'js/codemirror',
+                    dest: 'js/ckeditor/plugins/codemirror/plugins',
                 }]
             },
             installLocaleDatepicker: {
