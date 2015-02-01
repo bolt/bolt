@@ -356,80 +356,6 @@ class Storage
             $this->app['dispatcher']->dispatch(StorageEvents::PRE_SAVE, $event);
         }
 
-        if (!isset($fieldvalues['slug'])) {
-            $fieldvalues['slug'] = ''; // Prevent 'slug may not be NULL'
-        }
-
-        // add the fields for this contenttype,
-        foreach ($contenttype['fields'] as $key => $values) {
-            switch ($values['type']) {
-
-                // Set the slug, while we're at it..
-                case 'slug':
-                    if (!empty($values['uses']) && empty($fieldvalues[$key])) {
-                        $uses = '';
-                        foreach ($values['uses'] as $usesField) {
-                            $uses .= $fieldvalues[$usesField] . ' ';
-                        }
-                        $fieldvalues[$key] = String::slug($uses);
-                    } elseif (!empty($fieldvalues[$key])) {
-                        $fieldvalues[$key] = String::slug($fieldvalues[$key]);
-                    } elseif (empty($fieldvalues[$key]) && $fieldvalues['id']) {
-                        $fieldvalues[$key] = $fieldvalues['id'];
-                    }
-                    break;
-
-                case 'video':
-                    foreach (array('html', 'responsive') as $subkey) {
-                        if (!empty($fieldvalues[$key][$subkey])) {
-                            $fieldvalues[$key][$subkey] = (string) $fieldvalues[$key][$subkey];
-                        }
-                    }
-                    if (!empty($fieldvalues[$key]['url'])) {
-                        $fieldvalues[$key] = json_encode($fieldvalues[$key]);
-                    } else {
-                        $fieldvalues[$key] = '';
-                    }
-                    break;
-
-                case 'geolocation':
-                    if (!empty($fieldvalues[$key]['latitude']) && !empty($fieldvalues[$key]['longitude'])) {
-                        $fieldvalues[$key] = json_encode($fieldvalues[$key]);
-                    } else {
-                        $fieldvalues[$key] = '';
-                    }
-                    break;
-
-                case 'image':
-                    if (!empty($fieldvalues[$key]['file'])) {
-                        $fieldvalues[$key] = json_encode($fieldvalues[$key]);
-                    } else {
-                        $fieldvalues[$key] = '';
-                    }
-                    break;
-
-                case 'imagelist':
-                case 'filelist':
-                    if (is_array($fieldvalues[$key])) {
-                        $fieldvalues[$key] = json_encode($fieldvalues[$key]);
-                    } elseif (!empty($fieldvalues[$key]) && strlen($fieldvalues[$key]) < 3) {
-                        // Don't store '[]'
-                        $fieldvalues[$key] = '';
-                    }
-                    break;
-
-                case 'integer':
-                    $fieldvalues[$key] = round($fieldvalues[$key]);
-                    break;
-
-                case 'select':
-                    if (is_array($fieldvalues[$key])) {
-                        $fieldvalues[$key] = json_encode($fieldvalues[$key]);
-                    }
-                    break;
-            }
-        }
-
         // Clean up fields, check unneeded columns.
         foreach ($fieldvalues as $key => $value) {
 
@@ -529,8 +455,8 @@ class Storage
     /**
      * Insert a new contenttype record in the database
      *
-     * @param  Bolt\Content $content
-     * @param  string       $comment
+     * @param  Bolt\Content $content Record content to insert
+     * @param  string       $comment Editor's comment
      * @return boolean
      */
     protected function insertContent(Bolt\Content $content, $comment = null)
@@ -539,13 +465,16 @@ class Storage
         $tablename = $this->getTablename($contenttype);
 
         // Set creation and update dates
-        $content['datecreated'] = date('Y-m-d H:i:s');
-        $content['datechanged'] = date('Y-m-d H:i:s');
+        $content->setValue('datecreated', date('Y-m-d H:i:s'));
+        $content->setValue('datechanged', date('Y-m-d H:i:s'));
 
         // id is set to autoincrement, so let the DB handle it
         unset($content->values['id']);
 
-        $this->app['db']->insert($tablename, $content->values);
+        // Get the JSON database prepared values
+        $fieldvalues = $content->getValues(true);
+
+        $this->app['db']->insert($tablename, $fieldvalues);
 
         $seq = null;
         if ($this->app['db']->getDatabasePlatform() instanceof PostgreSqlPlatform) {
@@ -556,7 +485,7 @@ class Storage
 
         if ($id > 0) {
             $content->setValue('id', $id);
-            $this->logInsert($contenttype, $id, $content->values, $comment);
+            $this->logInsert($contenttype, $id, $fieldvalues, $comment);
 
             return true;
         }
@@ -565,8 +494,8 @@ class Storage
     /**
      * Update a Bolt contenttype record
      *
-     * @param  Bolt\Content  $content The content object to be updated
-     * @param  string        $comment Add a comment to save with change.
+     * @param  Bolt\Content $content The content object to be updated
+     * @param  string       $comment Add a comment to save with change.
      * @return boolean
      */
     private function updateContent(Bolt\Content $content, $comment = null)
@@ -583,10 +512,13 @@ class Storage
             throw new StorageException('Attempted to update a non-existent record');
         }
 
+        // Get the JSON database prepared values
+        $fieldvalues = $content->getValues(true);
+
         // Do the actual update, and log it.
-        $res = $this->app['db']->update($tablename, $content->values, array('id' => $content['id']));
+        $res = $this->app['db']->update($tablename, $fieldvalues, array('id' => $content['id']));
         if ($res > 0) {
-            $this->logUpdate($contenttype, $content['id'], $content->values, $oldContent, $comment);
+            $this->logUpdate($contenttype, $content['id'], $fieldvalues, $oldContent, $comment);
 
             return true;
         }
