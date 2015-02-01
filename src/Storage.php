@@ -339,7 +339,7 @@ class Storage
         $fieldvalues = $content->values;
 
         if (empty($contenttype)) {
-            $this->app['logger.system']->addError('Contenttype is required for' . __FUNCTION__, array('event' => 'exception'));
+            $this->app['logger.system']->addError('Contenttype is required for ' . __FUNCTION__, array('event' => 'exception'));
             throw new StorageException('Contenttype is required for ' . __FUNCTION__);
         }
 
