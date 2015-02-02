@@ -23,32 +23,11 @@ final class RequirePackage
     private $app;
 
     /**
-     * @var array
+     * @param $app Silex\Application
      */
-    private $options;
-
-    /**
-     * @var Composer\IO\IOInterface
-     */
-    private $io;
-
-    /**
-     * @var Composer\Composer
-     */
-    private $composer;
-
-    /**
-     * @param $app      Silex\Application
-     * @param $io       Composer\IO\IOInterface
-     * @param $composer Composer\Composer
-     * @param $options  array
-     */
-    public function __construct(Application $app, \Composer\IO\IOInterface $io, \Composer\Composer $composer, array $options)
+    public function __construct(Application $app)
     {
         $this->app = $app;
-        $this->options = $options;
-        $this->io = $io;
-        $this->composer = $composer;
     }
 
     /**
@@ -60,7 +39,11 @@ final class RequirePackage
      */
     public function execute(array $packages)
     {
-        $file = $this->options['composerjson'];
+        $composer = $this->app['extend.manager']->getComposer();
+        $io = $this->app['extend.manager']->getIO();
+        $options = $this->app['extend.manager']->getOptions();
+
+        $file = $options['composerjson'];
 
         $newlyCreated = !file_exists($file);
 
@@ -77,11 +60,11 @@ final class RequirePackage
             return 1;
         }
 
-        $json = new JsonFile($this->options['composerjson']);
+        $json = new JsonFile($options['composerjson']);
         $composerDefinition = $json->read();
         $composerBackup = file_get_contents($json->getPath());
 
-        $repos = $this->composer->getRepositoryManager()->getRepositories();
+        $repos = $composer->getRepositoryManager()->getRepositories();
 
         $this->repos = new CompositeRepository(
             array_merge(
@@ -90,12 +73,12 @@ final class RequirePackage
             )
         );
 
-        $requireKey = $this->options['dev'] ? 'require-dev' : 'require';
-        $removeKey = $this->options['dev'] ? 'require' : 'require-dev';
+        $requireKey = $options['dev'] ? 'require-dev' : 'require';
+        $removeKey = $options['dev'] ? 'require' : 'require-dev';
 
         $baseRequirements = array_key_exists($requireKey, $composerDefinition) ? $composerDefinition[$requireKey] : array();
         $packages = $this->formatRequirements($packages);
-        $sortPackages = $this->options['sortpackages'];
+        $sortPackages = $options['sortpackages'];
 
         // Validate requirements format
         $versionParser = new VersionParser();
@@ -117,24 +100,24 @@ final class RequirePackage
         }
 
         // JSON file has been created/updated, if we're not installing, exit
-        if ($this->options['noupdate']) {
+        if ($options['noupdate']) {
             return 0;
         }
 
         // Reload Composer config
-        $this->composer = $this->app['extend.manager']->getComposer();
+        $composer = $this->app['extend.manager']->getComposer();
 
-        $install = Installer::create($this->io, $this->composer);
+        $install = Installer::create($io, $composer);
 
         $install
-            ->setVerbose($this->options['verbose'])
-            ->setPreferSource($this->options['prefersource'])
-            ->setPreferDist($this->options['preferdist'])
-            ->setDevMode(!$this->options['updatenodev'])
-            ->setUpdate($this->options['update'])
+            ->setVerbose($options['verbose'])
+            ->setPreferSource($options['prefersource'])
+            ->setPreferDist($options['preferdist'])
+            ->setDevMode(!$options['updatenodev'])
+            ->setUpdate($options['update'])
             ->setUpdateWhitelist(array_keys($packages))
-            ->setWhitelistDependencies($this->options['updatewithdependencies'])
-            ->setIgnorePlatformRequirements($this->options['ignoreplatformreqs']);
+            ->setWhitelistDependencies($options['updatewithdependencies'])
+            ->setIgnorePlatformRequirements($options['ignoreplatformreqs']);
 
         $status = $install->run();
         if ($status !== 0) {

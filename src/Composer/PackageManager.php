@@ -264,7 +264,7 @@ class PackageManager
     public function requirePackage(array $packages)
     {
         if (!$this->require) {
-            $this->require = new RequirePackage($this->app, $this->getIO(), $this->getComposer(), $this->options);
+            $this->require = new RequirePackage($this->app);
         }
 
         // 0 on success or a positive error code on failure
