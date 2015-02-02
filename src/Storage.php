@@ -407,7 +407,7 @@ class Storage
             $contenttype = $contenttype['slug'];
         }
 
-        // Get the old content recrod
+        // Get the old content record
         $tablename = $this->getTablename($contenttype);
         $oldContent = $this->findContent($tablename, $id);
 

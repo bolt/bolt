@@ -100,7 +100,7 @@ class Content implements \ArrayAccess
     }
 
     /**
-     * Return a content obejcts values
+     * Return a content objects values
      *
      * @param  boolean $json Set to TRUE to return JSON encoded values for arrays
      * @return array
