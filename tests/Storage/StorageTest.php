@@ -5,6 +5,7 @@ use Bolt\Tests\BoltUnitTest;
 use Bolt\Storage;
 use Bolt\Content;
 use Bolt\Events\StorageEvents;
+use Bolt\Exception\StorageException;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -56,7 +57,7 @@ class StorageTest extends BoltUnitTest
 
         // Test missing contenttype handled
         $content = new Content($app);
-        $this->expectOutputString('Contenttype is required.');
+        $this->setExpectedException('Bolt\Exception\StorageException', 'Contenttype is required for saveContent');
         $this->assertFalse($storage->saveContent($content));
 
         // Test dispatcher is called pre-save and post-save
@@ -85,7 +86,7 @@ class StorageTest extends BoltUnitTest
         $storage = new Storage($app);
 
         // Test delete fails on missing params
-        $this->expectOutputString('Contenttype is required.');
+        $this->setExpectedException('Bolt\Exception\StorageException', 'Contenttype is required for deleteContent');
         $this->assertFalse($storage->deleteContent('', 999));
 
         $content = $storage->getContent('showcases/1');

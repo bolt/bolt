@@ -99,6 +99,100 @@ class Content implements \ArrayAccess
         );
     }
 
+    /**
+     * Return a content obejcts values
+     *
+     * @param  boolean $json Set to TRUE to return JSON encoded values for arrays
+     * @return array
+     */
+    public function getValues($json = false)
+    {
+        // Prevent 'slug may not be NULL'
+        if (!isset($this->values['slug'])) {
+            $this->values['slug'] = '';
+        }
+
+        // Return raw values
+        if ($json === false) {
+            return $this->values;
+        }
+
+        $contenttype = $this->contenttype;
+        $newvalue = $this->values;
+
+        // add the fields for this contenttype,
+        foreach ($contenttype['fields'] as $field => $property) {
+            switch ($property['type']) {
+
+                // Set the slug, while we're at it
+                case 'slug':
+                    if (!empty($property['uses']) && empty($this->values[$field])) {
+                        $uses = '';
+                        foreach ($property['uses'] as $usesField) {
+                            $uses .= $this->values[$usesField] . ' ';
+                        }
+                        $newvalue[$field] = String::slug($uses);
+                    } elseif (!empty($this->values[$field])) {
+                        $newvalue[$field] = String::slug($this->values[$field]);
+                    } elseif (empty($this->values[$field]) && $this->values['id']) {
+                        $newvalue[$field] = $this->values['id'];
+                    }
+                    break;
+
+                case 'video':
+                    foreach (array('html', 'responsive') as $subkey) {
+                        if (!empty($this->values[$field][$subkey])) {
+                            $this->values[$field][$subkey] = (string) $this->values[$field][$subkey];
+                        }
+                    }
+                    if (!empty($this->values[$field]['url'])) {
+                        $newvalue[$field] = json_encode($this->values[$field]);
+                    } else {
+                        $newvalue[$field] = '';
+                    }
+                    break;
+
+                case 'geolocation':
+                    if (!empty($this->values[$field]['latitude']) && !empty($this->values[$field]['longitude'])) {
+                        $newvalue[$field] = json_encode($this->values[$field]);
+                    } else {
+                        $newvalue[$field] = '';
+                    }
+                    break;
+
+                case 'image':
+                    if (!empty($this->values[$field]['file'])) {
+                        $newvalue[$field] = json_encode($this->values[$field]);
+                    } else {
+                        $newvalue[$field] = '';
+                    }
+                    break;
+
+                case 'imagelist':
+                case 'filelist':
+                    if (is_array($this->values[$field])) {
+                        $newvalue[$field] = json_encode($this->values[$field]);
+                    } elseif (!empty($this->values[$field]) && strlen($this->values[$field]) < 3) {
+                        // Don't store '[]'
+                        $newvalue[$field] = '';
+                    }
+                    break;
+
+                case 'integer':
+                    $newvalue[$field] = round($this->values[$field]);
+                    break;
+
+                case 'select':
+                    if (is_array($this->values[$field])) {
+                        $newvalue[$field] = json_encode($this->values[$field]);
+                    }
+                    break;
+            }
+        }
+
+        return $newvalue;
+    }
+
     public function setValues(array $values)
     {
         // Since Bolt 1.4, we use 'ownerid' instead of 'username' in the DB tables. If we get an array that has an

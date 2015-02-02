@@ -9,7 +9,6 @@ use Bolt\Events\StorageEvent;
  * Class to test src/Events/StorageEvent.
  *
  * @author Ross Riley <riley.ross@gmail.com>
- *
  */
 class StorageEventTest extends BoltUnitTest
 {
@@ -18,6 +17,7 @@ class StorageEventTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $content = new Content($app);
+
         $event = new StorageEvent($content);
         $this->assertEquals(null, $event->isCreate());
         $this->assertEquals($content, $event->getContent());
@@ -28,8 +28,10 @@ class StorageEventTest extends BoltUnitTest
     public function testSetupWithRecord()
     {
         $app = $this->getApp();
-        $event = new StorageEvent(array('test', 5));
+        $content = new Content($app, 'pages');
+        $content->setValue('id', 5);
+        $event = new StorageEvent($content);
         $this->assertEquals(5, $event->getId());
-        $this->assertEquals('test', $event->getContentType());
+        $this->assertEquals('pages', $event->getContentType());
     }
 }

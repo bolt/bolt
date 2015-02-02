@@ -2,16 +2,17 @@
 
 namespace Bolt;
 
-use Doctrine\DBAL\DBALException;
-use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
 use Bolt;
 use Bolt\Events\StorageEvent;
 use Bolt\Events\StorageEvents;
+use Bolt\Exception\StorageException;
 use Bolt\Helpers\Arr;
 use Bolt\Helpers\String;
 use Bolt\Helpers\Html;
 use Bolt\Translation\Translator as Trans;
 use Doctrine\DBAL\Connection as DoctrineConn;
+use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
 use Symfony\Component\HttpFoundation\Request;
 
 class Storage
@@ -255,6 +256,11 @@ class Storage
 
     /**
      * Writes a content-changelog entry for a newly-created entry.
+     *
+     * @param string  $contenttype Slug of the record contenttype
+     * @param integer $contentid   ID of the record
+     * @param array   $content     Record values
+     * @param string  $comment     Editor's comment
      */
     private function logInsert($contenttype, $contentid, $content, $comment = null)
     {
@@ -275,6 +281,12 @@ class Storage
      * Writes a content-changelog entry for an updated entry.
      * This function must be called *before* the actual update, because it
      * fetches the old content from the database.
+     *
+     * @param string  $contenttype Slug of the record contenttype
+     * @param integer $contentid   ID of the record
+     * @param array   $newContent  New record values
+     * @param array   $oldContent  Old record values
+     * @param string  $comment     Editor's comment
      */
     private function logUpdate($contenttype, $contentid, $newContent, $oldContent = null, $comment = null)
     {
@@ -294,6 +306,11 @@ class Storage
     /**
      * Writes a content-changelog entry for a deleted entry.
      * This function must be called *before* the actual update, because it
+     *
+     * @param string  $contenttype Slug of the record contenttype
+     * @param integer $contentid   ID of the record
+     * @param array   $content     Record values
+     * @param string  $comment     Editor's comment
      */
     private function logDelete($contenttype, $contentid, $content, $comment = null)
     {
@@ -310,15 +327,20 @@ class Storage
         );
     }
 
+    /**
+     * Save a record
+     *
+     * @param Bolt\Content $content
+     * @param string        $comment
+     */
     public function saveContent(\Bolt\Content $content, $comment = null)
     {
         $contenttype = $content->contenttype;
         $fieldvalues = $content->values;
 
         if (empty($contenttype)) {
-            echo 'Contenttype is required.';
-
-            return false;
+            $this->app['logger.system']->addError('Contenttype is required for ' . __FUNCTION__, array('event' => 'exception'));
+            throw new StorageException('Contenttype is required for ' . __FUNCTION__);
         }
 
         // Test to see if this is a new record, or an update
@@ -328,148 +350,56 @@ class Storage
             $create = false;
         }
 
-        if (! $this->inDispatcher && $this->app['dispatcher']->hasListeners(StorageEvents::PRE_SAVE)) {
-            // Block dispatcher loops
-            $this->inDispatcher = true;
-
-            $event = new StorageEvent($content, $create);
-            $this->app['dispatcher']->dispatch(StorageEvents::PRE_SAVE, $event);
-
-            // Re-enable the dispather
-            $this->inDispatcher = false;
-        }
-
-        if (!isset($fieldvalues['slug'])) {
-            $fieldvalues['slug'] = ''; // Prevent 'slug may not be NULL'
-        }
-
-        // add the fields for this contenttype,
-        foreach ($contenttype['fields'] as $key => $values) {
-            switch ($values['type']) {
-
-                // Set the slug, while we're at it..
-                case 'slug':
-                    if (!empty($values['uses']) && empty($fieldvalues[$key])) {
-                        $uses = '';
-                        foreach ($values['uses'] as $usesField) {
-                            $uses .= $fieldvalues[$usesField] . ' ';
-                        }
-                        $fieldvalues[$key] = String::slug($uses);
-                    } elseif (!empty($fieldvalues[$key])) {
-                        $fieldvalues[$key] = String::slug($fieldvalues[$key]);
-                    } elseif (empty($fieldvalues[$key]) && $fieldvalues['id']) {
-                        $fieldvalues[$key] = $fieldvalues['id'];
-                    }
-                    break;
-
-                case 'video':
-                    foreach (array('html', 'responsive') as $subkey) {
-                        if (!empty($fieldvalues[$key][$subkey])) {
-                            $fieldvalues[$key][$subkey] = (string) $fieldvalues[$key][$subkey];
-                        }
-                    }
-                    if (!empty($fieldvalues[$key]['url'])) {
-                        $fieldvalues[$key] = json_encode($fieldvalues[$key]);
-                    } else {
-                        $fieldvalues[$key] = '';
-                    }
-                    break;
-
-                case 'geolocation':
-                    if (!empty($fieldvalues[$key]['latitude']) && !empty($fieldvalues[$key]['longitude'])) {
-                        $fieldvalues[$key] = json_encode($fieldvalues[$key]);
-                    } else {
-                        $fieldvalues[$key] = '';
-                    }
-                    break;
-
-                case 'image':
-                    if (!empty($fieldvalues[$key]['file'])) {
-                        $fieldvalues[$key] = json_encode($fieldvalues[$key]);
-                    } else {
-                        $fieldvalues[$key] = '';
-                    }
-                    break;
-
-                case 'imagelist':
-                case 'filelist':
-                    if (is_array($fieldvalues[$key])) {
-                        $fieldvalues[$key] = json_encode($fieldvalues[$key]);
-                    } elseif (!empty($fieldvalues[$key]) && strlen($fieldvalues[$key]) < 3) {
-                        // Don't store '[]'
-                        $fieldvalues[$key] = '';
-                    }
-                    break;
-
-                case 'integer':
-                    $fieldvalues[$key] = round($fieldvalues[$key]);
-                    break;
-
-                case 'select':
-                    if (is_array($fieldvalues[$key])) {
-                        $fieldvalues[$key] = json_encode($fieldvalues[$key]);
-                    }
-                    break;
-            }
-        }
-
-        // Clean up fields, check unneeded columns.
-        foreach ($fieldvalues as $key => $value) {
-
-            if ($this->isValidColumn($key, $contenttype)) {
-                // Trim strings..
-                if (is_string($fieldvalues[$key])) {
-                    $fieldvalues[$key] = trim($fieldvalues[$key]);
-                }
-            } else {
-                // unset columns we don't need to store..
-                unset($fieldvalues[$key]);
-            }
-
-        }
-
         // We need to verify if the slug is unique. If not, we update it.
         $getId = $create ? null : $fieldvalues['id'];
         $fieldvalues['slug'] = $this->getUri($fieldvalues['slug'], $getId, $contenttype['slug'], false, false);
 
-        // Decide whether to insert a new record, or update an existing one.
-        if ($create) {
-            $id = $this->insertContent($fieldvalues, $contenttype, $comment);
-            $fieldvalues['id'] = $id;
-            $content->setValue('id', $id);
-        } else {
-            $id = $fieldvalues['id'];
-            $this->updateContent($fieldvalues, $contenttype, $comment);
+        // Update the content object
+        $content->setValues($fieldvalues);
+
+        // Dispatch pre-save event
+        if (! $this->inDispatcher && $this->app['dispatcher']->hasListeners(StorageEvents::PRE_SAVE)) {
+            $event = new StorageEvent($content, array('contenttype' => $contenttype, 'create' => $create));
+            $this->app['dispatcher']->dispatch(StorageEvents::PRE_SAVE, $event);
         }
 
-        $this->updateTaxonomy($contenttype, $id, $content->taxonomy);
-        $this->updateRelation($contenttype, $id, $content->relation);
+        // Decide whether to insert a new record, or update an existing one.
+        if ($create) {
+            $this->insertContent($content, $comment);
+        } else {
+            $this->updateContent($content, $comment);
+        }
 
+        // Update taxonomy and record relationships
+        $this->updateTaxonomy($contenttype, $content->values['id'], $content->taxonomy);
+        $this->updateRelation($contenttype, $content->values['id'], $content->relation);
+
+        // Dispatch post-save event
         if (!$this->inDispatcher && $this->app['dispatcher']->hasListeners(StorageEvents::POST_SAVE)) {
             // Block loops
             $this->inDispatcher = true;
 
-            $event = new StorageEvent($content, $create);
+            $event = new StorageEvent($content, array('contenttype' => $contenttype, 'create' => $create));
             $this->app['dispatcher']->dispatch(StorageEvents::POST_SAVE, $event);
 
             // Re-enable the dispather
             $this->inDispatcher = false;
         }
 
-        return $id;
+        return $content->values['id'];
     }
 
+    /**
+     * Delete a record
+     *
+     * @param string  $contenttype
+     * @param integer $id
+     */
     public function deleteContent($contenttype, $id)
     {
         if (empty($contenttype)) {
-            echo "Contenttype is required.";
-
-            return false;
-        }
-
-        if ($this->app['dispatcher']->hasListeners(StorageEvents::PRE_DELETE)) {
-            $event = new StorageEvent(array($contenttype, $id));
-            $this->app['dispatcher']->dispatch(StorageEvents::PRE_DELETE, $event);
+            $this->app['logger.system']->addError('Contenttype is required for' . __FUNCTION__, array('event' => 'exception'));
+            throw new StorageException('Contenttype is required for ' . __FUNCTION__);
         }
 
         // Make sure $contenttype is a 'slug'
@@ -477,9 +407,15 @@ class Storage
             $contenttype = $contenttype['slug'];
         }
 
+        // Get the old content recrod
         $tablename = $this->getTablename($contenttype);
-
         $oldContent = $this->findContent($tablename, $id);
+
+        // Dispatch pre-delete event
+        if ($this->app['dispatcher']->hasListeners(StorageEvents::PRE_DELETE)) {
+            $event = new StorageEvent($oldContent, array('contenttype' => $contenttype));
+            $this->app['dispatcher']->dispatch(StorageEvents::PRE_DELETE, $event);
+        }
 
         $this->logDelete($contenttype, $id, $oldContent);
 
@@ -487,87 +423,113 @@ class Storage
 
         // Make sure relations and taxonomies are deleted as well.
         if ($res) {
-            $this->app['db']->delete($this->prefix . "relations", array('from_contenttype' => $contenttype, 'from_id' => $id));
-            $this->app['db']->delete($this->prefix . "relations", array('to_contenttype' => $contenttype, 'to_id' => $id));
-            $this->app['db']->delete($this->prefix . "taxonomy", array('contenttype' => $contenttype, 'content_id' => $id));
+            $this->app['db']->delete($this->prefix . 'relations', array('from_contenttype' => $contenttype, 'from_id' => $id));
+            $this->app['db']->delete($this->prefix . 'relations', array('to_contenttype' => $contenttype, 'to_id' => $id));
+            $this->app['db']->delete($this->prefix . 'taxonomy', array('contenttype' => $contenttype, 'content_id' => $id));
         }
 
+        // Dispatch post-delete event
         if ($this->app['dispatcher']->hasListeners(StorageEvents::POST_DELETE)) {
-            $event = new StorageEvent(array($contenttype, $id));
+            $event = new StorageEvent($oldContent, array('contenttype' => $contenttype));
             $this->app['dispatcher']->dispatch(StorageEvents::POST_DELETE, $event);
         }
 
         return $res;
     }
 
-    protected function insertContent($content, $contenttype, $comment = null)
+    /**
+     * Insert a new contenttype record in the database
+     *
+     * @param  Bolt\Content $content Record content to insert
+     * @param  string       $comment Editor's comment
+     * @return boolean
+     */
+    protected function insertContent(Bolt\Content $content, $comment = null)
     {
-        // Make sure $contenttype is a 'slug'
-        if (is_array($contenttype)) {
-            $contenttype = $contenttype['slug'];
-        }
+        $tablename = $this->getTablename($content->contenttype['slug']);
 
-        $tablename = $this->getTablename($contenttype);
-
-        $content['datecreated'] = date('Y-m-d H:i:s');
-        $content['datechanged'] = date('Y-m-d H:i:s');
+        // Set creation and update dates
+        $content->setValue('datecreated', date('Y-m-d H:i:s'));
+        $content->setValue('datechanged', date('Y-m-d H:i:s'));
 
         // id is set to autoincrement, so let the DB handle it
-        unset($content['id']);
+        unset($content->values['id']);
 
-        $this->app['db']->insert($tablename, $content);
+        // Get the JSON database prepared values and make sure it's valid
+        $fieldvalues = $this->getValidSaveData($content->getValues(true), $content->contenttype);
+
+        $this->app['db']->insert($tablename, $fieldvalues);
 
         $seq = null;
         if ($this->app['db']->getDatabasePlatform() instanceof PostgreSqlPlatform) {
             $seq = $tablename . '_id_seq';
         }
+
         $id = $this->app['db']->lastInsertId($seq);
 
-        $this->logInsert($contenttype, $id, $content, $comment);
+        if ($id > 0) {
+            $content->setValue('id', $id);
+            $this->logInsert($content->contenttype['slug'], $id, $fieldvalues, $comment);
 
-        return $id;
+            return true;
+        }
     }
 
     /**
-     * @param  array  $content     The content new values.
-     * @param  string $contenttype The content type
-     * @param  string $comment     Add a comment to save with change.
-     * @return bool
+     * Update a Bolt contenttype record
+     *
+     * @param  Bolt\Content $content The content object to be updated
+     * @param  string       $comment Add a comment to save with change.
+     * @return boolean
      */
-    private function updateContent($content, $contenttype, $comment = null)
+    private function updateContent(Bolt\Content $content, $comment = null)
     {
-        // Make sure $contenttype is a 'slug'
-        if (is_array($contenttype)) {
-            $contenttype = $contenttype['slug'];
-        }
+        $tablename = $this->getTablename($content->contenttype['slug']);
 
-        $tablename = $this->getTablename($contenttype);
+        // Set the date the record was changed
+        $content->setValue('datechanged', date('Y-m-d H:i:s'));
 
+        // Test that the record exists in the database
         $oldContent = $this->findContent($tablename, $content['id']);
-
-        $content['datechanged'] = date('Y-m-d H:i:s');
-
-        if (!empty($oldContent)) {
-
-            // Do the actual update, and log it.
-            $res = $this->app['db']->update($tablename, $content, array('id' => $content['id']));
-            if ($res > 0) {
-                $this->logUpdate($contenttype, $content['id'], $content, $oldContent, $comment);
-            }
-
-        } else {
-
-            // Content didn't exist, so do an insert after all. Log it as an insert.
-            $res = $this->app['db']->insert($tablename, $content);
-            $seq = null;
-            if ($this->app['db']->getDatabasePlatform() instanceof PostgreSqlPlatform) {
-                $seq = $tablename . '_id_seq';
-            }
-            $id = $this->app['db']->lastInsertId($seq);
-            $this->logInsert($contenttype, $id, $content, $comment);
-
+        if (empty($oldContent)) {
+            throw new StorageException('Attempted to update a non-existent record');
         }
 
+        // Get the JSON database prepared values and make sure it's valid
+        $fieldvalues = $this->getValidSaveData($content->getValues(true), $content->contenttype);
+
+        // Do the actual update, and log it.
+        $res = $this->app['db']->update($tablename, $fieldvalues, array('id' => $content['id']));
+        if ($res > 0) {
+            $this->logUpdate($content->contenttype['slug'], $content['id'], $fieldvalues, $oldContent, $comment);
+
+            return true;
+        }
+    }
+
+    /**
+     * Get a valid array to commit
+     *
+     * @param  array $fieldvalues
+     * @param  array $contenttype
+     * @return array
+     */
+    private function getValidSaveData(array $fieldvalues, array $contenttype)
+    {
+        // Clean up fields, check unneeded columns.
+        foreach ($fieldvalues as $key => $value) {
+            if ($this->isValidColumn($key, $contenttype)) {
+                if (is_string($fieldvalues[$key])) {
+                    // Trim strings
+                    $fieldvalues[$key] = trim($fieldvalues[$key]);
+                }
+            } else {
+                // unset columns we don't need to store.
+                unset($fieldvalues[$key]);
+            }
+        }
+
+        return $fieldvalues;
     }
 
     /**
@@ -862,6 +824,7 @@ class Storage
 
     public function searchContentType($contenttypename, array $parameters = array(), &$pager = array())
     {
+        $where = array();
         $tablename = $this->getTablename($contenttypename);
 
         $contenttype = $this->app['config']->get('contenttypes/' . $contenttypename);
