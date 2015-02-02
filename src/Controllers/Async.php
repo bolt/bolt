@@ -51,7 +51,7 @@ class Async implements ControllerProviderInterface
         $ctr->get("/filebrowser/{contenttype}", array($this, 'filebrowser'))
             ->before(array($this, 'before'))
             ->assert('contenttype', '.*')
-            ->bind('contenttype');
+            ->bind('filebrowser');
 
         $ctr->get("/browse/{namespace}/{path}", array($this, 'browse'))
             ->before(array($this, 'before'))
