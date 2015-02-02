@@ -158,6 +158,16 @@ class PackageManager
     }
 
     /**
+     * Get a single option
+     *
+     * @return mixed
+     */
+    public function getOption($key)
+    {
+        return $this->options[$key];
+    }
+
+    /**
      * Get a new Composer object
      *
      * @return Composer\Composer
