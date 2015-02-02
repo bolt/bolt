@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Filesystem\Filesystem;
 
 use Bolt\Composer\PackageManager;
-use Bolt\Exception\BoltComposerException;
+use Bolt\Exception\PackageManagerException;
 use Bolt\Library as Lib;
 use Bolt\Translation\Translator as Trans;
 use Bolt\Extensions\ExtensionsInfoService;
@@ -184,7 +184,7 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
         if ($response === 0) {
             return new JsonResponse($app['extend.manager']->getOutput());
         } else {
-            throw new BoltComposerException($app['extend.manager']->getOutput(), $response);
+            throw new PackageManagerException($app['extend.manager']->getOutput(), $response);
         }
     }
 
@@ -204,7 +204,7 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
         if ($response === 0) {
             return new Response($app['extend.manager']->getOutput());
         } else {
-            throw new BoltComposerException($app['extend.manager']->getOutput(), $response);
+            throw new PackageManagerException($app['extend.manager']->getOutput(), $response);
         }
     }
 
@@ -217,7 +217,7 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
         if ($response === 0) {
             return new Response($app['extend.manager']->getOutput());
         } else {
-            throw new BoltComposerException($app['extend.manager']->getOutput(), $response);
+            throw new PackageManagerException($app['extend.manager']->getOutput(), $response);
         }
     }
 
@@ -235,7 +235,7 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
         if ($response === 0) {
             return new Response($app['extend.manager']->getOutput());
         } else {
-            throw new BoltComposerException($app['extend.manager']->getOutput(), $response);
+            throw new PackageManagerException($app['extend.manager']->getOutput(), $response);
         }
     }
 
