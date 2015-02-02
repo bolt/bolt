@@ -21,6 +21,7 @@ Bolt 2.0 DEV-head
 - Fixed: Corner case bug in password reset (See #2616)
 - Added: Editing content now shows recent changes that have been logged (if enabled) that link to the change comparison (See #2620)
 - Fixed: Minor HTML fix and broken link in base-2015 theme (#2650, thanks @apatkinson)
+- Fixed: Nest folders in cache 2 deep. Fixes #2644
 
 Bolt 2.0.5
 ----------
