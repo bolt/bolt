@@ -6,6 +6,7 @@ Bolt 2.0 DEV-head
 - Change: Remove unused jquery-catchpaste
 - Change: Many changes (for the better) to logging: Monolog, improved UI, separation of concerns.
 - Refactor: Many changes and improvements to the Config object.
+- Refactor: Major cleanup in Bolt\Storage, Bolt\Events\StorageEvents and Bolt\Content (#2664)
 - Updated: PHPUnit now covers complete code base (#2542, thanks @rossriley)
 - Updated: Extensions interface had major overhaul and now uses the Composer API more extensively and provides better error handling for AJAX calls on the Extend page (#2543 thanks @GawainLynch)
 - Update: Bolt's custom logging provider has been replaced with Monolog (#2546, thanks @GawainLynch)
@@ -22,6 +23,7 @@ Bolt 2.0 DEV-head
 - Added: Editing content now shows recent changes that have been logged (if enabled) that link to the change comparison (See #2620)
 - Fixed: Minor HTML fix and broken link in base-2015 theme (#2650, thanks @apatkinson)
 - Fixed: Nest folders in cache 2 deep. (see #2644)
+- Fixed: bug fixed in "Select in all items" in overview. (See #2669)
 
 Bolt 2.0.5
 ----------
