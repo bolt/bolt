@@ -217,7 +217,7 @@ class PackageManager
     public function dumpautoload()
     {
         if (!$this->dumpautoload) {
-            $this->dumpautoload = new DumpAutoload($this->getIO(), $this->getComposer(), $this->options);
+            $this->dumpautoload = new DumpAutoload($this->app);
         }
 
         $this->dumpautoload->execute();
