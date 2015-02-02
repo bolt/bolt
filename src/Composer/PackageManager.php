@@ -280,7 +280,7 @@ class PackageManager
     public function searchPackage(array $packages)
     {
         if (!$this->search) {
-            $this->search = new SearchPackage($this->getIO(), $this->getComposer(), $this->options);
+            $this->search = new SearchPackage($this->app);
         }
 
         return $this->search->execute($packages);
