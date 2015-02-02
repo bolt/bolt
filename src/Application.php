@@ -3,6 +3,7 @@
 namespace Bolt;
 
 use Bolt\Exception\LowlevelException;
+use Bolt\Helpers\String;
 use Bolt\Library as Lib;
 use Doctrine\DBAL\Exception\ConnectionException as DBALConnectionException;
 use RandomLib;
@@ -175,7 +176,13 @@ class Application extends Silex\Application
             // Trap double exceptions caused by throwing a new LowlevelException
             set_exception_handler(array('\Bolt\Exception\LowlevelException', 'nullHandler'));
 
-            $platform = $this['db']->getDatabasePlatform()->getName();
+            /*
+             * Using Driver here since Platform may try to connect
+             * to the database, which has failed since we are here.
+             */
+            $platform = $this['db']->getDriver()->getName();
+            $platform = String::replaceFirst('pdo_', '', $platform);
+
             $error = "Bolt could not connect to the configured database.\n\n" .
                      "Things to check:\n" .
                      "&nbsp;&nbsp;* Ensure the $platform database is running\n" .
