@@ -420,7 +420,13 @@ class Content implements \ArrayAccess
         }
 
         // Make the 'key' of the array an absolute link to the taxonomy.
-        $link = sprintf("%s%s/%s", $this->app['paths']['root'], $taxonomytype, $slug);
+        $link = $this->app['url_generator']->generate(
+            'taxonomylink',
+            array(
+                'taxonomytype' => $taxonomytype,
+                'slug' => $slug,
+            )
+        );
 
         // Set the 'name', for displaying the pretty name, if there is any.
         if ($this->app['config']->get('taxonomy/' . $taxonomytype . '/options/' . $slug)) {
