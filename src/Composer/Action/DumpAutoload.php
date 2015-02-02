@@ -2,6 +2,9 @@
 
 namespace Bolt\Composer\Action;
 
+use Bolt\Exception\PackageManagerException;
+use Silex\Application;
+
 /**
  * Composer autoloader creation class
  *
@@ -10,30 +13,16 @@ namespace Bolt\Composer\Action;
 final class DumpAutoload
 {
     /**
-     * @var array
+     * @var Silex\Application
      */
-    private $options;
+    private $app;
 
     /**
-     * @var Composer\IO\IOInterface
+     * @param $app Silex\Application
      */
-    private $io;
-
-    /**
-     * @var Composer\Composer
-     */
-    private $composer;
-
-    /**
-     * @param $io       Composer\IO\IOInterface
-     * @param $composer Composer\Composer
-     * @param $options  array
-     */
-    public function __construct(\Composer\IO\IOInterface $io, \Composer\Composer $composer, array $options)
+    public function __construct(Application $app)
     {
-        $this->options = $options;
-        $this->io = $io;
-        $this->composer = $composer;
+        $this->app = $app;
     }
 
     /**
@@ -41,19 +30,26 @@ final class DumpAutoload
      */
     public function execute()
     {
-        $installationManager = $this->composer->getInstallationManager();
-        $localRepo = $this->composer->getRepositoryManager()->getLocalRepository();
-        $package = $this->composer->getPackage();
-        $config = $this->composer->getConfig();
+        $composer = $this->app['extend.manager']->getComposer();
+        $installationManager = $composer->getInstallationManager();
+        $localRepo = $composer->getRepositoryManager()->getLocalRepository();
+        $package = $composer->getPackage();
+        $config = $composer->getConfig();
 
-        if ($this->options['optimizeautoloader']) {
+        if ($this->app['extend.manager']->getOption('optimizeautoloader')) {
             // Generating optimized autoload files
         } else {
             // Generating autoload files
         }
 
-        $generator = $this->composer->getAutoloadGenerator();
-        $generator->setDevMode(!$this->options['nodev']);
-        $generator->dump($config, $localRepo, $package, $installationManager, 'composer', $this->options['optimizeautoloader']);
+        try {
+            $generator = $composer->getAutoloadGenerator();
+            $generator->setDevMode(!$this->app['extend.manager']->getOption('nodev'));
+            $generator->dump($config, $localRepo, $package, $installationManager, 'composer', $this->app['extend.manager']->getOption('optimizeautoloader'));
+        } catch (\Exception $e) {
+            $msg = __CLASS__ . '::' . __FUNCTION__ . ' recieved an error from Composer: ' . $e->getMessage() . ' in ' . $e->getFile() . '::' . $e->getLine();
+            $this->app['logger.system']->addCritical($msg, array('event' => 'exception'));
+            throw new PackageManagerException($e->getMessage(), $e->getCode(), $e);
+        }
     }
 }

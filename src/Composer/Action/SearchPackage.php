@@ -2,10 +2,12 @@
 
 namespace Bolt\Composer\Action;
 
+use Bolt\Exception\PackageManagerException;
 use Composer\Factory;
 use Composer\Repository\CompositeRepository;
 use Composer\Repository\PlatformRepository;
 use Composer\Repository\RepositoryInterface;
+use Silex\Application;
 
 /**
  * Composer search package class
@@ -15,30 +17,16 @@ use Composer\Repository\RepositoryInterface;
 final class SearchPackage
 {
     /**
-     * @var array
+     * @var Silex\Application
      */
-    private $options;
+    private $app;
 
     /**
-     * @var Composer\IO\IOInterface
+     * @param $app Silex\Application
      */
-    private $io;
-
-    /**
-     * @var Composer\Composer
-     */
-    private $composer;
-
-    /**
-     * @param $io       Composer\IO\IOInterface
-     * @param $composer Composer\Composer
-     * @param $options  array
-     */
-    public function __construct(\Composer\IO\IOInterface $io, \Composer\Composer $composer, array $options)
+    public function __construct(Application $app)
     {
-        $this->options = $options;
-        $this->io = $io;
-        $this->composer = $composer;
+        $this->app = $app;
     }
 
     /**
@@ -49,14 +37,17 @@ final class SearchPackage
      */
     public function execute($packages)
     {
+        $composer = $this->app['extend.manager']->getComposer();
+        $io = $this->app['extend.manager']->getIO();
+
         $platformRepo = new PlatformRepository();
 
-        if ($this->composer) {
-            $localRepo = $this->composer->getRepositoryManager()->getLocalRepository();
+        if ($composer) {
+            $localRepo = $composer->getRepositoryManager()->getLocalRepository();
             $installedRepo = new CompositeRepository(array($localRepo, $platformRepo));
-            $repos = new CompositeRepository(array_merge(array($installedRepo), $this->composer->getRepositoryManager()->getRepositories()));
+            $repos = new CompositeRepository(array_merge(array($installedRepo), $composer->getRepositoryManager()->getRepositories()));
         } else {
-            $defaultRepos = Factory::createDefaultRepositories($this->io);
+            $defaultRepos = Factory::createDefaultRepositories($io);
 
             //No composer.json found in the current directory, showing packages from local repo
             $installedRepo = $platformRepo;
@@ -65,6 +56,12 @@ final class SearchPackage
 
         $flags = $this->onlyname ? RepositoryInterface::SEARCH_NAME : RepositoryInterface::SEARCH_FULLTEXT;
 
-        return $repos->search(implode(' ', $packages), $flags);
+        try {
+            return $repos->search(implode(' ', $packages), $flags);
+        } catch (\Exception $e) {
+            $msg = __CLASS__ . '::' . __FUNCTION__ . ' recieved an error from Composer: ' . $e->getMessage() . ' in ' . $e->getFile() . '::' . $e->getLine();
+            $this->app['logger.system']->addCritical($msg, array('event' => 'exception'));
+            throw new PackageManagerException($e->getMessage(), $e->getCode(), $e);
+        }
     }
 }

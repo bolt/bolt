@@ -18,32 +18,15 @@ final class CheckPackage
     private $app;
 
     /**
-     * @var array
+     * @param $app Silex\Application
      */
-    private $options;
-
-    /**
-     * @var Composer\IO\IOInterface
-     */
-    private $io;
-
-    /**
-     * @var Composer\Composer
-     */
-    private $composer;
-
-    /**
-     * @param $options  array
-     */
-    public function __construct(Application $app, \Composer\IO\IOInterface $io, \Composer\Composer $composer, array $options)
+    public function __construct(Application $app)
     {
-        $this->app      = $app;
-        $this->options  = $options;
-        $this->io       = $io;
-        $this->composer = $composer;
+        $this->app = $app;
     }
 
     /**
+     * Run a check for package(s)
      *
      * @return array
      */
@@ -55,7 +38,7 @@ final class CheckPackage
         $rootpack = $this->app['extend.manager']->showPackage('installed');
 
         // Get the packages that a set as "required" in the JSON file
-        $file = new JsonFile($this->options['composerjson']);
+        $file = new JsonFile($this->app['extend.manager']->getOption('composerjson'));
         $json = $file->read();
         $jsonpack = $json['require'];
 

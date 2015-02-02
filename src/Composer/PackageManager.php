@@ -97,8 +97,8 @@ class PackageManager
         // Set composer environment variables
         putenv('COMPOSER_HOME=' . $this->app['resources']->getPath('cache') . '/composer');
 
-        // Get default options
-        $this->getOptions();
+        // Set default options
+        $this->setOptions();
 
         // Set up
         $this->setup();
@@ -148,6 +148,26 @@ class PackageManager
     }
 
     /**
+     * Get the options
+     *
+     * @return array
+     */
+    public function getOptions()
+    {
+        return $this->options;
+    }
+
+    /**
+     * Get a single option
+     *
+     * @return mixed
+     */
+    public function getOption($key)
+    {
+        return $this->options[$key];
+    }
+
+    /**
      * Get a new Composer object
      *
      * @return Composer\Composer
@@ -185,7 +205,7 @@ class PackageManager
     public function checkPackage()
     {
         if (!$this->check) {
-            $this->check = new CheckPackage($this->app, $this->getIO(), $this->getComposer(), $this->options);
+            $this->check = new CheckPackage($this->app);
         }
 
         return $this->check->execute();
@@ -197,7 +217,7 @@ class PackageManager
     public function dumpautoload()
     {
         if (!$this->dumpautoload) {
-            $this->dumpautoload = new DumpAutoload($this->getIO(), $this->getComposer(), $this->options);
+            $this->dumpautoload = new DumpAutoload($this->app);
         }
 
         $this->dumpautoload->execute();
@@ -211,7 +231,7 @@ class PackageManager
     public function installPackages()
     {
         if (!$this->install) {
-            $this->install = new InstallPackage($this->getIO(), $this->getComposer(), $this->options);
+            $this->install = new InstallPackage($this->app);
         }
 
         // 0 on success or a positive error code on failure
@@ -227,7 +247,7 @@ class PackageManager
     public function removePackage(array $packages)
     {
         if (!$this->remove) {
-            $this->remove = new RemovePackage($this->app, $this->getIO(), $this->getComposer(), $this->options);
+            $this->remove = new RemovePackage($this->app);
         }
 
         // 0 on success or a positive error code on failure
@@ -244,7 +264,7 @@ class PackageManager
     public function requirePackage(array $packages)
     {
         if (!$this->require) {
-            $this->require = new RequirePackage($this->app, $this->getIO(), $this->getComposer(), $this->options);
+            $this->require = new RequirePackage($this->app);
         }
 
         // 0 on success or a positive error code on failure
@@ -260,7 +280,7 @@ class PackageManager
     public function searchPackage(array $packages)
     {
         if (!$this->search) {
-            $this->search = new SearchPackage($this->getIO(), $this->getComposer(), $this->options);
+            $this->search = new SearchPackage($this->app);
         }
 
         return $this->search->execute($packages);
@@ -275,7 +295,7 @@ class PackageManager
     public function showPackage($target, $package = '', $version = '')
     {
         if (!$this->show) {
-            $this->show = new ShowPackage($this->getIO(), $this->getComposer(), $this->options);
+            $this->show = new ShowPackage($this->app);
         }
 
         return $this->show->execute($target, $package, $version);
@@ -290,7 +310,7 @@ class PackageManager
     public function updatePackage(array $packages)
     {
         if (!$this->update) {
-            $this->update = new UpdatePackage($this->getIO(), $this->getComposer(), $this->options);
+            $this->update = new UpdatePackage($this->app);
         }
 
         // 0 on success or a positive error code on failure
@@ -497,7 +517,7 @@ class PackageManager
     /**
      * Set the default options
      */
-    private function getOptions()
+    private function setOptions()
     {
         $this->options = array(
             'basedir'                => $this->app['resources']->getPath('extensions'),

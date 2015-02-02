@@ -2,6 +2,7 @@
 
 namespace Bolt\Composer\Action;
 
+use Bolt\Exception\PackageManagerException;
 use Composer\Config\JsonConfigSource;
 use Composer\Installer;
 use Composer\Json\JsonFile;
@@ -20,32 +21,11 @@ final class RemovePackage
     private $app;
 
     /**
-     * @var array
+     * @param $app Silex\Application
      */
-    private $options;
-
-    /**
-     * @var Composer\IO\IOInterface
-     */
-    private $io;
-
-    /**
-     * @var Composer\Composer
-     */
-    private $composer;
-
-    /**
-     * @param $app      Silex\Application
-     * @param $io       Composer\IO\IOInterface
-     * @param $composer Composer\Composer
-     * @param $options  array
-     */
-    public function __construct(Application $app, \Composer\IO\IOInterface $io, \Composer\Composer $composer, array $options)
+    public function __construct(Application $app)
     {
         $this->app = $app;
-        $this->options = $options;
-        $this->io = $io;
-        $this->composer = $composer;
     }
 
     /**
@@ -56,14 +36,21 @@ final class RemovePackage
      */
     public function execute(array $packages)
     {
-        $jsonFile = new JsonFile($this->options['composerjson']);
+        if (empty($packages)) {
+            throw new PackageManagerException('No package specified for removal');
+        }
+
+        $composer = $this->app['extend.manager']->getComposer();
+        $io = $this->app['extend.manager']->getIO();
+        $options = $this->app['extend.manager']->getOptions();
+
+        $jsonFile = new JsonFile($options['composerjson']);
         $composerDefinition = $jsonFile->read();
         $composerBackup = file_get_contents($jsonFile->getPath());
 
         $json = new JsonConfigSource($jsonFile);
 
-        $type = $this->options['dev'] ? 'require-dev' : 'require';
-        $altType = !$this->options['dev'] ? 'require-dev' : 'require';
+        $type = $options['dev'] ? 'require-dev' : 'require';
 
         // Remove packages from JSON
         foreach ($packages as $package) {
@@ -73,23 +60,29 @@ final class RemovePackage
         }
 
         // Reload Composer config
-        $this->composer = $this->app['extend.manager']->getComposer();
+        $composer = $this->app['extend.manager']->getFactory()->resetComposer();
 
-        $install = Installer::create($this->io, $this->composer);
+        $install = Installer::create($io, $composer);
 
-        $install
-            ->setVerbose($this->options['verbose'])
-            ->setDevMode(!$this->options['updatenodev'])
-            ->setUpdate(true)
-            ->setUpdateWhitelist($packages)
-            ->setWhitelistDependencies($this->options['updatewithdependencies'])
-            ->setIgnorePlatformRequirements($this->options['ignoreplatformreqs']);
+        try {
+            $install
+                ->setVerbose($options['verbose'])
+                ->setDevMode(!$options['updatenodev'])
+                ->setUpdate(true)
+                ->setUpdateWhitelist($packages)
+                ->setWhitelistDependencies($options['updatewithdependencies'])
+                ->setIgnorePlatformRequirements($options['ignoreplatformreqs']);
 
-        $status = $install->run();
+            $status = $install->run();
 
-        if ($status !== 0) {
-            // Write out original JSON file
-            file_put_contents($jsonFile->getPath(), $composerBackup);
+            if ($status !== 0) {
+                // Write out old JSON file
+                file_put_contents($jsonFile->getPath(), $composerBackup);
+            }
+        } catch (\Exception $e) {
+            $msg = __CLASS__ . '::' . __FUNCTION__ . ' recieved an error from Composer: ' . $e->getMessage() . ' in ' . $e->getFile() . '::' . $e->getLine();
+            $this->app['logger.system']->addCritical($msg, array('event' => 'exception'));
+            throw new PackageManagerException($e->getMessage(), $e->getCode(), $e);
         }
 
         return $status;
