@@ -231,7 +231,7 @@ class PackageManager
     public function installPackages()
     {
         if (!$this->install) {
-            $this->install = new InstallPackage($this->getIO(), $this->getComposer(), $this->options);
+            $this->install = new InstallPackage($this->app);
         }
 
         // 0 on success or a positive error code on failure
