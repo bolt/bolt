@@ -6,13 +6,8 @@ Bolt 2.0.6
 - Fixed: Corner case bug in password reset (See #2617)
 - Fixed: Small logic fix for 'groupingSort'. (See #2520)
 - Fixed: Nest folders in cache 2 deep. (See #2644)
-
-TODO, need to be backported:
-
-Bob:
-
-- #2609 - Fixed: arrays in type:select fields. (#2609)
-- #2597 - Added: Allow for 'keys: slug' in 'type: select' fields, to customize the used field that's actually stored in the DB. (#2597)
+- Fixed: Arrays in type:select fields. (#2609)
+- Added: Allow for 'keys: slug' in 'type: select' fields, to customize the used field that's actually stored in the DB. (#2597)
 
 Bolt 2.0.5
 ----------
