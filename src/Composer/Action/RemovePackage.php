@@ -36,6 +36,10 @@ final class RemovePackage
      */
     public function execute(array $packages)
     {
+        if (empty($packages)) {
+            throw new PackageManagerException('No package specified for removal');
+        }
+
         $composer = $this->app['extend.manager']->getComposer();
         $io = $this->app['extend.manager']->getIO();
         $options = $this->app['extend.manager']->getOptions();
@@ -47,7 +51,6 @@ final class RemovePackage
         $json = new JsonConfigSource($jsonFile);
 
         $type = $options['dev'] ? 'require-dev' : 'require';
-        $altType = !$options['dev'] ? 'require-dev' : 'require';
 
         // Remove packages from JSON
         foreach ($packages as $package) {
@@ -57,7 +60,7 @@ final class RemovePackage
         }
 
         // Reload Composer config
-        $composer = $this->app['extend.manager']->getComposer();
+        $composer = $this->app['extend.manager']->getFactory()->resetComposer();
 
         $install = Installer::create($io, $composer);
 
@@ -73,7 +76,7 @@ final class RemovePackage
             $status = $install->run();
 
             if ($status !== 0) {
-                // Write out new JSON file
+                // Write out old JSON file
                 file_put_contents($jsonFile->getPath(), $composerBackup);
             }
         } catch (\Exception $e) {

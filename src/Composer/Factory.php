@@ -91,7 +91,7 @@ final class Factory extends PackageManager
      *
      * @return Bolt\Composer\Factory
      */
-    protected function resetComposer()
+    public function resetComposer()
     {
         $this->composer = null;
 
