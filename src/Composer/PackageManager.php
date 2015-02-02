@@ -97,8 +97,8 @@ class PackageManager
         // Set composer environment variables
         putenv('COMPOSER_HOME=' . $this->app['resources']->getPath('cache') . '/composer');
 
-        // Get default options
-        $this->getOptions();
+        // Set default options
+        $this->setOptions();
 
         // Set up
         $this->setup();
@@ -497,7 +497,7 @@ class PackageManager
     /**
      * Set the default options
      */
-    private function getOptions()
+    private function setOptions()
     {
         $this->options = array(
             'basedir'                => $this->app['resources']->getPath('extensions'),
