@@ -17,6 +17,15 @@ class ContentTest extends BoltUnitTest
     public function testgetValues()
     {
         $app = $this->getApp();
+        $content = new Content($app, 'pages');
+
+        $content->setValue('title', 'Test Page');
+        $content->setValue('image', array('file' => 'image1.jpg', 'title' => 'Test image'));
+
+        $values = $content->getValues(true);
+
+        $this->assertEquals('Test Page', $values['title']);
+        $this->assertEquals('{"file":"image1.jpg","title":"Test image"}', $values['image']);
     }
 
     public function testsetValues()
