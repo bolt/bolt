@@ -29,9 +29,9 @@
     {% set link = "?" ~ filter ~ "order=" %}
     <tr>
         {% block listing_header %}
-        {% if not compact and editable %}<th class="check hidden-xs">
-            <input type="checkbox" name="checkRow" title="{{ __('Select all') }}" />
-            <input type="hidden" id="baseurl" value="{{ paths['hosturl'] }}{{ paths['bolt'] }}"></th>{% endif %}
+        {% if not compact and editable %}
+            <th class="check hidden-xs"><input type="checkbox" name="checkRow" title="{{ __('Select all') }}" /></th>
+        {% endif %}
 
         <th class="hidden-xs"><a href="{{ link }}{% if request('order') == 'id' %}-{% endif %}id">
             {{ __('Id') }}
