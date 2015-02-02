@@ -2,6 +2,7 @@
 
 namespace Bolt\Composer\Action;
 
+use Bolt\Exception\PackageManagerException;
 use Composer\Installer;
 use Composer\Json\JsonFile;
 use Composer\Json\JsonManipulator;
@@ -109,28 +110,37 @@ final class RequirePackage
 
         $install = Installer::create($io, $composer);
 
-        $install
-            ->setVerbose($options['verbose'])
-            ->setPreferSource($options['prefersource'])
-            ->setPreferDist($options['preferdist'])
-            ->setDevMode(!$options['updatenodev'])
-            ->setUpdate($options['update'])
-            ->setUpdateWhitelist(array_keys($packages))
-            ->setWhitelistDependencies($options['updatewithdependencies'])
-            ->setIgnorePlatformRequirements($options['ignoreplatformreqs']);
+        try {
+            $install
+                ->setVerbose($options['verbose'])
+                ->setPreferSource($options['prefersource'])
+                ->setPreferDist($options['preferdist'])
+                ->setDevMode(!$options['updatenodev'])
+                ->setUpdate($options['update'])
+                ->setUpdateWhitelist(array_keys($packages))
+                ->setWhitelistDependencies($options['updatewithdependencies'])
+                ->setIgnorePlatformRequirements($options['ignoreplatformreqs']);
 
-        $status = $install->run();
-        if ($status !== 0) {
-            if ($newlyCreated) {
-                // Installation failed, deleting JSON
-                unlink($json->getPath());
-            } else {
-                // Installation failed, reverting JSON to its original content
-                file_put_contents($json->getPath(), $composerBackup);
+            $status = $install->run();
+            if ($status !== 0) {
+                if ($newlyCreated) {
+                    // Installation failed, deleting JSON
+                    unlink($json->getPath());
+                } else {
+                    // Installation failed, reverting JSON to its original content
+                    file_put_contents($json->getPath(), $composerBackup);
+                }
             }
-        }
 
-        return $status;
+            return $status;
+        } catch (\Exception $e) {
+            // Installation failed, reverting JSON to its original content
+            file_put_contents($json->getPath(), $composerBackup);
+
+            $msg = __CLASS__ . '::' . __FUNCTION__ . ' recieved an error from Composer: ' . $e->getMessage() . ' in ' . $e->getFile() . '::' . $e->getLine();
+            $this->app['logger.system']->addCritical($msg, array('event' => 'exception'));
+            throw new PackageManagerException($e->getMessage(), $e->getCode(), $e);
+        }
     }
 
     /**

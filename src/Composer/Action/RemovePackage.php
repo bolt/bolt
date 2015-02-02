@@ -2,6 +2,7 @@
 
 namespace Bolt\Composer\Action;
 
+use Bolt\Exception\PackageManagerException;
 use Composer\Config\JsonConfigSource;
 use Composer\Installer;
 use Composer\Json\JsonFile;
@@ -60,19 +61,25 @@ final class RemovePackage
 
         $install = Installer::create($io, $composer);
 
-        $install
-            ->setVerbose($options['verbose'])
-            ->setDevMode(!$options['updatenodev'])
-            ->setUpdate(true)
-            ->setUpdateWhitelist($packages)
-            ->setWhitelistDependencies($options['updatewithdependencies'])
-            ->setIgnorePlatformRequirements($options['ignoreplatformreqs']);
+        try {
+            $install
+                ->setVerbose($options['verbose'])
+                ->setDevMode(!$options['updatenodev'])
+                ->setUpdate(true)
+                ->setUpdateWhitelist($packages)
+                ->setWhitelistDependencies($options['updatewithdependencies'])
+                ->setIgnorePlatformRequirements($options['ignoreplatformreqs']);
 
-        $status = $install->run();
+            $status = $install->run();
 
-        if ($status !== 0) {
-            // Write out original JSON file
-            file_put_contents($jsonFile->getPath(), $composerBackup);
+            if ($status !== 0) {
+                // Write out new JSON file
+                file_put_contents($jsonFile->getPath(), $composerBackup);
+            }
+        } catch (\Exception $e) {
+            $msg = __CLASS__ . '::' . __FUNCTION__ . ' recieved an error from Composer: ' . $e->getMessage() . ' in ' . $e->getFile() . '::' . $e->getLine();
+            $this->app['logger.system']->addCritical($msg, array('event' => 'exception'));
+            throw new PackageManagerException($e->getMessage(), $e->getCode(), $e);
         }
 
         return $status;

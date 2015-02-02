@@ -2,6 +2,7 @@
 
 namespace Bolt\Composer\Action;
 
+use Bolt\Exception\PackageManagerException;
 use Bolt\Helpers\Arr;
 use Composer\Installer;
 use Silex\Application;
@@ -64,23 +65,29 @@ final class UpdatePackage
                 break;
         }
 
-        $install
-            ->setDryRun($options['dryrun'])
-            ->setVerbose($options['verbose'])
-            ->setPreferSource($preferSource)
-            ->setPreferDist($preferDist)
-            ->setDevMode(!$options['nodev'])
-            ->setDumpAutoloader(!$options['noautoloader'])
-            ->setRunScripts(!$options['noscripts'])
-            ->setOptimizeAutoloader($optimize)
-            ->setUpdate(true)
-            ->setUpdateWhitelist($packages)
-            ->setWhitelistDependencies($options['withdependencies'])
-            ->setIgnorePlatformRequirements($options['ignoreplatformreqs'])
-            ->setPreferStable($options['preferstable'])
-            ->setPreferLowest($options['preferlowest'])
-            ->disablePlugins();
+        try {
+            $install
+                ->setDryRun($options['dryrun'])
+                ->setVerbose($options['verbose'])
+                ->setPreferSource($preferSource)
+                ->setPreferDist($preferDist)
+                ->setDevMode(!$options['nodev'])
+                ->setDumpAutoloader(!$options['noautoloader'])
+                ->setRunScripts(!$options['noscripts'])
+                ->setOptimizeAutoloader($optimize)
+                ->setUpdate(true)
+                ->setUpdateWhitelist($packages)
+                ->setWhitelistDependencies($options['withdependencies'])
+                ->setIgnorePlatformRequirements($options['ignoreplatformreqs'])
+                ->setPreferStable($options['preferstable'])
+                ->setPreferLowest($options['preferlowest'])
+                ->disablePlugins();
 
-        return $install->run();
+            return $install->run();
+        } catch (\Exception $e) {
+            $msg = __CLASS__ . '::' . __FUNCTION__ . ' recieved an error from Composer: ' . $e->getMessage() . ' in ' . $e->getFile() . '::' . $e->getLine();
+            $this->app['logger.system']->addCritical($msg, array('event' => 'exception'));
+            throw new PackageManagerException($e->getMessage(), $e->getCode(), $e);
+        }
     }
 }

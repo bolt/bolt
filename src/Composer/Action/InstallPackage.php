@@ -2,6 +2,7 @@
 
 namespace Bolt\Composer\Action;
 
+use Bolt\Exception\PackageManagerException;
 use Composer\Installer;
 use Silex\Application;
 
@@ -60,18 +61,24 @@ final class InstallPackage
             $preferDist = $config->get('prefer-dist');
         }
 
-        $install
-            ->setDryRun($this->options['dry-run'])
-            ->setVerbose($this->options['verbose'])
-            ->setPreferSource($preferSource)
-            ->setPreferDist($preferDist)
-            ->setDevMode(!$this->options['no-dev'])
-            ->setDumpAutoloader(!$this->options['no-autoloader'])
-            ->setRunScripts(!$this->options['no-scripts'])
-            ->setOptimizeAutoloader($optimize)
-            ->setIgnorePlatformRequirements($this->options['ignore-platform-reqs'])
-            ->setUpdate(true);
+        try {
+            $install
+                ->setDryRun($this->options['dry-run'])
+                ->setVerbose($this->options['verbose'])
+                ->setPreferSource($preferSource)
+                ->setPreferDist($preferDist)
+                ->setDevMode(!$this->options['no-dev'])
+                ->setDumpAutoloader(!$this->options['no-autoloader'])
+                ->setRunScripts(!$this->options['no-scripts'])
+                ->setOptimizeAutoloader($optimize)
+                ->setIgnorePlatformRequirements($this->options['ignore-platform-reqs'])
+                ->setUpdate(true);
 
-        return $install->run();
+            return $install->run();
+        } catch (\Exception $e) {
+            $msg = __CLASS__ . '::' . __FUNCTION__ . ' recieved an error from Composer: ' . $e->getMessage() . ' in ' . $e->getFile() . '::' . $e->getLine();
+            $this->app['logger.system']->addCritical($msg, array('event' => 'exception'));
+            throw new PackageManagerException($e->getMessage(), $e->getCode(), $e);
+        }
     }
 }

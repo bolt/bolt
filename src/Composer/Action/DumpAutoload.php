@@ -2,6 +2,7 @@
 
 namespace Bolt\Composer\Action;
 
+use Bolt\Exception\PackageManagerException;
 use Silex\Application;
 
 /**
@@ -41,8 +42,14 @@ final class DumpAutoload
             // Generating autoload files
         }
 
-        $generator = $composer->getAutoloadGenerator();
-        $generator->setDevMode(!$this->app['extend.manager']->getOption('nodev'));
-        $generator->dump($config, $localRepo, $package, $installationManager, 'composer', $this->app['extend.manager']->getOption('optimizeautoloader'));
+        try {
+            $generator = $composer->getAutoloadGenerator();
+            $generator->setDevMode(!$this->app['extend.manager']->getOption('nodev'));
+            $generator->dump($config, $localRepo, $package, $installationManager, 'composer', $this->app['extend.manager']->getOption('optimizeautoloader'));
+        } catch (\Exception $e) {
+            $msg = __CLASS__ . '::' . __FUNCTION__ . ' recieved an error from Composer: ' . $e->getMessage() . ' in ' . $e->getFile() . '::' . $e->getLine();
+            $this->app['logger.system']->addCritical($msg, array('event' => 'exception'));
+            throw new PackageManagerException($e->getMessage(), $e->getCode(), $e);
+        }
     }
 }
