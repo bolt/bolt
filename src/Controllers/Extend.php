@@ -372,9 +372,9 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
      */
     public function update(Silex\Application $app, Request $request)
     {
-        $package = $request->get('package') ?: array();
+        $package = $request->get('package') ? array($request->get('package')) : array();
 
-        $response = $app['extend.manager']->updatePackage(array($package));
+        $response = $app['extend.manager']->updatePackage($package);
 
         if ($response === 0) {
             return new JsonResponse($app['extend.manager']->getOutput());
