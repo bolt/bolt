@@ -25,6 +25,14 @@ final class BoltExtendJson
     {
         $this->options = $options;
     }
+    
+    /**
+     * @return $options  array
+     */
+    public function getOptions()
+    {
+        return $this->options;
+    }
 
     /**
      * Convenience function to generalise the library
@@ -80,7 +88,9 @@ final class BoltExtendJson
         $pathToWeb = $app['resources']->findRelativePath($app['resources']->getPath('extensions'), $app['resources']->getPath('web'));
 
         // Enforce standard settings
-        $json['repositories']['packagist'] = false;
+        if( isset($json['repositories']['packagist'])) {
+            unset($json['repositories']['packagist']);
+        }
         $json['repositories']['bolt'] = array(
             'type' => 'composer',
             'url' => $app['extend.site'] . 'satis/'
@@ -91,7 +101,10 @@ final class BoltExtendJson
             'discard-changes' => true,
             'preferred-install' => 'dist'
         );
-        $json['provide']['bolt/bolt'] = $app['bolt_version'];
+        $json['provide']['bolt/bolt'] = $app['bolt_version'];             
+        foreach($this->options['rootdependencies'] as $corePackage) {
+            $json['provide'][$corePackage] = "*";
+        }
         $json['scripts'] = array(
             'post-package-install' => "Bolt\\Composer\\ExtensionInstaller::handle",
             'post-package-update' => "Bolt\\Composer\\ExtensionInstaller::handle"
