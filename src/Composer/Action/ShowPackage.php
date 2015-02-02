@@ -11,6 +11,7 @@ use Composer\Repository\CompositeRepository;
 use Composer\Repository\ComposerRepository;
 use Composer\Repository\PlatformRepository;
 use Composer\Repository\RepositoryInterface;
+use Silex\Application;
 
 /**
  * Composer show package class
@@ -20,30 +21,16 @@ use Composer\Repository\RepositoryInterface;
 final class ShowPackage
 {
     /**
-     * @var array
+     * @var Silex\Application
      */
-    private $options;
+    private $app;
 
     /**
-     * @var Composer\IO\IOInterface
+     * @param $app Silex\Application
      */
-    private $io;
-
-    /**
-     * @var Composer\Composer
-     */
-    private $composer;
-
-    /**
-     * @param $io       Composer\IO\IOInterface
-     * @param $composer Composer\Composer
-     * @param $options  array
-     */
-    public function __construct(\Composer\IO\IOInterface $io, \Composer\Composer $composer, array $options)
+    public function __construct(Application $app)
     {
-        $this->options = $options;
-        $this->io = $io;
-        $this->composer = $composer;
+        $this->app = $app;
     }
 
     /**
@@ -54,34 +41,37 @@ final class ShowPackage
      */
     public function execute($type, $package = '', $version = '')
     {
+        $composer = $this->app['extend.manager']->getComposer();
+        $io = $this->app['extend.manager']->getIO();
+
         $this->versionParser = new VersionParser();
 
         // init repos
         $platformRepo = new PlatformRepository();
 
         if ($type === 'self') {
-            $package = $this->composer->getPackage();
+            $package = $composer->getPackage();
             $repos = $installedRepo = new ArrayRepository(array($package));
         } elseif ($type === 'platform') {
             $repos = $installedRepo = $platformRepo;
         } elseif ($type === 'installed') {
-            $repos = $installedRepo = $this->composer->getRepositoryManager()->getLocalRepository();
+            $repos = $installedRepo = $composer->getRepositoryManager()->getLocalRepository();
         } elseif ($type === 'available') {
             $installedRepo = $platformRepo;
-            if ($this->composer) {
-                $repos = new CompositeRepository($this->composer->getRepositoryManager()->getRepositories());
+            if ($composer) {
+                $repos = new CompositeRepository($composer->getRepositoryManager()->getRepositories());
             } else {
                 //No composer.json found in the current directory, showing available packages from default repos
-                $defaultRepos = Factory::createDefaultRepositories($this->io);
+                $defaultRepos = Factory::createDefaultRepositories($io);
                 $repos = new CompositeRepository($defaultRepos);
             }
-        } elseif ($this->composer) {
-            $localRepo = $this->composer->getRepositoryManager()->getLocalRepository();
+        } elseif ($composer) {
+            $localRepo = $composer->getRepositoryManager()->getLocalRepository();
             $installedRepo = new CompositeRepository(array($localRepo, $platformRepo));
-            $repos = new CompositeRepository(array_merge(array($installedRepo), $this->composer->getRepositoryManager()->getRepositories()));
+            $repos = new CompositeRepository(array_merge(array($installedRepo), $composer->getRepositoryManager()->getRepositories()));
         } else {
             //No composer.json found in the current directory, showing available packages from default repos
-            $defaultRepos = Factory::createDefaultRepositories($this->io);
+            $defaultRepos = Factory::createDefaultRepositories($io);
             $installedRepo = $platformRepo;
             $repos = new CompositeRepository(array_merge(array($installedRepo), $defaultRepos));
         }

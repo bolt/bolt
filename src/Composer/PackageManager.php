@@ -295,7 +295,7 @@ class PackageManager
     public function showPackage($target, $package = '', $version = '')
     {
         if (!$this->show) {
-            $this->show = new ShowPackage($this->getIO(), $this->getComposer(), $this->options);
+            $this->show = new ShowPackage($this->app);
         }
 
         return $this->show->execute($target, $package, $version);
