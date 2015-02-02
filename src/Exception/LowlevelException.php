@@ -4,7 +4,7 @@ namespace Bolt\Exception;
 class LowlevelException extends \Exception
 {
 
-    public static $html = <<< EOM
+    public static $html = <<<HTML
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -45,15 +45,15 @@ class LowlevelException extends \Exception
 
 </body>
 </html>
-EOM;
+HTML;
 
-    public static $info = <<< EOM
+    public static $info = <<<HTML
     <p>This is a fatal error. Please fix the error, and refresh the page.
     Bolt can not run, until this error has been corrected. <br>
     Make sure you've read the instructions in the documentation for help. If you
     can't get it to work, post a message on our forum, and we'll try to help you
     out. Be sure to include the exact error message you're getting!</p>
-EOM;
+HTML;
 
     /**
      * Print a 'low level' error page, and quit. The user has to fix something.
