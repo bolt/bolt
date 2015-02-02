@@ -9,11 +9,6 @@ Bolt 2.0.6
 
 TODO, need to be backported:
 
-Gawain:
-
-- #2538 - Fixed: Don't leak Database credentials on connection error during set up. (See #2538)
-- #2650 - Fixed: Minor HTML fix and broken link in base-2015 theme (#2650, thanks @apatkinson)
-
 Bob:
 
 - #2609 - Fixed: arrays in type:select fields. (#2609)
