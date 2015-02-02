@@ -919,13 +919,17 @@ class TwigExtension extends \Twig_Extension
             $filename = isset($filename['filename']) ? $filename['filename'] : $filename['file'];
         }
 
-        $path = sprintf(
-            '%sthumbs/%sx%s%s/%s',
-            $this->app['paths']['root'],
-            round($width),
-            round($height),
-            $scale,
-            Lib::safeFilename($filename)
+        $path = $this->app['url_generator']->generate(
+            'thumb',
+            array(
+                'thumb' => sprintf(
+                    '%sx%s%s/%s',
+                    round($width),
+                    round($height),
+                    $scale,
+                    Lib::safeFilename($filename)
+                ),
+            )
         );
 
         return $path;
