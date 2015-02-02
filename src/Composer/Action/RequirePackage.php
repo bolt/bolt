@@ -106,7 +106,7 @@ final class RequirePackage
         }
 
         // Reload Composer config
-        $composer = $this->app['extend.manager']->getComposer();
+        $composer = $this->app['extend.manager']->getFactory()->resetComposer();
 
         $install = Installer::create($io, $composer);
 
