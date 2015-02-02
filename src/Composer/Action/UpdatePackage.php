@@ -30,7 +30,7 @@ final class UpdatePackage
     /**
      * Update packages
      *
-     * @param  $packages array Indexed array of package names to remove
+     * @param  $packages array Indexed array of package names to update
      * @param  $options  array [Optional] changed option set
      * @return integer 0 on success or a positive error code on failure
      */
