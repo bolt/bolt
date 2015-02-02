@@ -175,11 +175,7 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
     {
         $package = $request->get('package') ?: array();
 
-        try {
-            $response = $app['extend.manager']->updatePackage(array($package));
-        } catch (\Exception $e) {
-            throw new \Exception($e->getMessage(), $e->getCode(), $e->getPrevious());
-        }
+        $response = $app['extend.manager']->updatePackage(array($package));
 
         if ($response === 0) {
             return new JsonResponse($app['extend.manager']->getOutput());
