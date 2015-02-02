@@ -34,15 +34,22 @@ final class ShowPackage
     }
 
     /**
-     * @param  string $target  Repository target, either: 'self', 'platform', 'installed' or 'available'
-     * @param  string $package Package name to show
-     * @param  string $version Package version to show
+     * @param  string  $target  Repository target, either: 'self', 'platform', 'installed' or 'available'
+     * @param  string  $package Package name to show
+     * @param  string  $version Package version to show
+     * @param  boolean $root    Query the Bolt parent composer install
      * @return array  Array of Composer packages
      */
-    public function execute($type, $package = '', $version = '')
+    public function execute($type, $package = '', $version = '', $root = false)
     {
-        $composer = $this->app['extend.manager']->getComposer();
         $io = $this->app['extend.manager']->getIO();
+
+        if ($root) {
+            $composerjson = $this->app['resources']->getPath('root/composer.json');
+            $composer = \Composer\Factory::create($io, $composerjson, true);
+        } else {
+            $composer = $this->app['extend.manager']->getComposer();
+        }
 
         $this->versionParser = new VersionParser();
 
