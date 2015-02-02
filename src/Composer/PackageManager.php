@@ -247,7 +247,7 @@ class PackageManager
     public function removePackage(array $packages)
     {
         if (!$this->remove) {
-            $this->remove = new RemovePackage($this->app, $this->getIO(), $this->getComposer(), $this->options);
+            $this->remove = new RemovePackage($this->app);
         }
 
         // 0 on success or a positive error code on failure
