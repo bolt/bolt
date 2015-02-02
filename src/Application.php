@@ -134,7 +134,7 @@ class Application extends Silex\Application
         $this->checkDatabaseConnection();
 
         if ($this['db']->isConnected()) {
-            $this->setDatabaseParmeters();
+            $this->setDatabaseParameters();
 
             $this->register(
                 new Silex\Provider\HttpCacheServiceProvider(),
@@ -189,7 +189,7 @@ class Application extends Silex\Application
     /**
      * Set database engine specific parameters
      */
-    protected function setDatabaseParmeters()
+    protected function setDatabaseParameters()
     {
         $dboptions = $this['db.options'];
 
