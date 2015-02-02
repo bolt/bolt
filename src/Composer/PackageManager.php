@@ -310,7 +310,7 @@ class PackageManager
     public function updatePackage(array $packages)
     {
         if (!$this->update) {
-            $this->update = new UpdatePackage($this->getIO(), $this->getComposer(), $this->options);
+            $this->update = new UpdatePackage($this->app);
         }
 
         // 0 on success or a positive error code on failure

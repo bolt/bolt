@@ -4,6 +4,7 @@ namespace Bolt\Composer\Action;
 
 use Bolt\Helpers\Arr;
 use Composer\Installer;
+use Silex\Application;
 
 /**
  * Composer update package class
@@ -13,30 +14,16 @@ use Composer\Installer;
 final class UpdatePackage
 {
     /**
-     * @var array
+     * @var Silex\Application
      */
-    private $options;
+    private $app;
 
     /**
-     * @var Composer\IO\IOInterface
+     * @param $app Silex\Application
      */
-    private $io;
-
-    /**
-     * @var Composer\Composer
-     */
-    private $composer;
-
-    /**
-     * @param $io       Composer\IO\IOInterface
-     * @param $composer Composer\Composer
-     * @param $options  array
-     */
-    public function __construct(\Composer\IO\IOInterface $io, \Composer\Composer $composer, array $options)
+    public function __construct(Application $app)
     {
-        $this->options = $options;
-        $this->io = $io;
-        $this->composer = $composer;
+        $this->app = $app;
     }
 
     /**
@@ -48,13 +35,17 @@ final class UpdatePackage
      */
     public function execute(array $packages = array(), array $options = null)
     {
+        $composer = $this->app['extend.manager']->getComposer();
+        $io = $this->app['extend.manager']->getIO();
+        $options = $this->app['extend.manager']->getOptions();
+
         // Handle passed in options
         if (!is_null($options)) {
-            $options = Arr::mergeRecursiveDistinct($this->options, $options);
+            $options = Arr::mergeRecursiveDistinct($options, $options);
         }
 
-        $install = Installer::create($this->io, $this->composer);
-        $config = $this->composer->getConfig();
+        $install = Installer::create($io, $composer);
+        $config = $composer->getConfig();
         $optimize = $config->get('optimize-autoloader');
 
         // Set preferred install method
