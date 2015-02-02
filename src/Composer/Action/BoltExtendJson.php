@@ -103,7 +103,7 @@ final class BoltExtendJson
         );
         $json['provide']['bolt/bolt'] = $app['bolt_version'];             
         foreach($this->options['rootdependencies'] as $corePackage) {
-            $json['provide'][$corePackage] = "*";
+            $json['replace'][$corePackage] = "*";
         }
         $json['scripts'] = array(
             'post-package-install' => "Bolt\\Composer\\ExtensionInstaller::handle",
