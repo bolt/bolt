@@ -1,9 +1,23 @@
-Bolt 2.0 DEV-head
+Bolt 2.0.6
 -----------------
 
 - Fixed: Long conttenttype names are truncated properly in the sidebar now. (See #2513)
 - Fixed: Don't leak Database credentials on connection error during set up. (See #2538)
 
+TODO, need to be backported:
+
+Gawain:
+
+- #2538 - Fixed: Don't leak Database credentials on connection error during set up. (See #2538)
+- #2616 - Fixed: Corner case bug in password reset (See #2616)
+- #2650 - Fixed: Minor HTML fix and broken link in base-2015 theme (#2650, thanks @apatkinson)
+
+Bob:
+
+- #2609 - Fixed: arrays in type:select fields. (#2609)
+- #2597 - Added: Allow for 'keys: slug' in 'type: select' fields, to customize the used field that's actually stored in the DB. (#2597)
+- #2520 - Fixed: Small logic fix for 'groupingSort'. (See #2520)
+- #2644 - Fixed: Nest folders in cache 2 deep. (See #2644)
 
 Bolt 2.0.5
 ----------
