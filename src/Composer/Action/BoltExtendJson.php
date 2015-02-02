@@ -88,9 +88,7 @@ final class BoltExtendJson
         $pathToWeb = $app['resources']->findRelativePath($app['resources']->getPath('extensions'), $app['resources']->getPath('web'));
 
         // Enforce standard settings
-        if( isset($json['repositories']['packagist'])) {
-            unset($json['repositories']['packagist']);
-        }
+        $json['repositories']['packagist'] = false;
         $json['repositories']['bolt'] = array(
             'type' => 'composer',
             'url' => $app['extend.site'] . 'satis/'
