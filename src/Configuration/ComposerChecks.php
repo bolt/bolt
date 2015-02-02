@@ -12,7 +12,7 @@ use Bolt\Exception\LowlevelException;
 class ComposerChecks extends LowlevelChecks
 {
 
-    public $composerSuffix = <<< EOM
+    public $composerSuffix = <<<HTML
     </strong></p><p>When using Bolt as a Composer package it will need to have access to the following folders:</p>
     <ol>
         <li class="status-%s">A writable config directory at: <code>%s</code></li>
@@ -23,7 +23,7 @@ class ComposerChecks extends LowlevelChecks
     </ol>
     <p>If any of the above are failing, create the folder and make it writable to the web server.</p>
     <strong>
-EOM;
+HTML;
 
     /**
      * The constructor requires a resource manager object to perform checks against.
