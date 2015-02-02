@@ -148,6 +148,16 @@ class PackageManager
     }
 
     /**
+     * Get the options
+     *
+     * @return array
+     */
+    public function getOptions()
+    {
+        return $this->options;
+    }
+
+    /**
      * Get a new Composer object
      *
      * @return Composer\Composer
