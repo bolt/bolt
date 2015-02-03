@@ -44,10 +44,8 @@ class TranslationServiceProvider implements ServiceProviderInterface
      */
     public static function addResources(Application $app, $locale)
     {
-        $paths = $app['resources']->getPaths();
-
         // Directory to look for translation file(s)
-        $transDir = $paths['apppath'] . '/resources/translations/' . $locale;
+        $transDir = $app['resources']->getPath('app/resources/translations/' . $locale);
 
         if (is_dir($transDir)) {
             $iterator = new \DirectoryIterator($transDir);
