@@ -5,7 +5,6 @@ use Bolt\Nut;
 use Bolt\Nut\NutApplication;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
-use Symfony\Component\Console\Application as ConsoleApplication;
 use Symfony\Component\Console\Command\Command;
 
 class NutServiceProvider implements ServiceProviderInterface
