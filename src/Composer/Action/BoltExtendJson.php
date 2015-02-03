@@ -25,6 +25,14 @@ final class BoltExtendJson
     {
         $this->options = $options;
     }
+    
+    /**
+     * @return $options  array
+     */
+    public function getOptions()
+    {
+        return $this->options;
+    }
 
     /**
      * Convenience function to generalise the library
@@ -91,7 +99,10 @@ final class BoltExtendJson
             'discard-changes' => true,
             'preferred-install' => 'dist'
         );
-        $json['provide']['bolt/bolt'] = $app['bolt_version'];
+        $json['provide']['bolt/bolt'] = $app['bolt_version'];             
+        foreach($this->options['rootdependencies'] as $corePackage) {
+            $json['replace'][$corePackage] = "*";
+        }
         $json['scripts'] = array(
             'post-package-install' => "Bolt\\Composer\\ExtensionInstaller::handle",
             'post-package-update' => "Bolt\\Composer\\ExtensionInstaller::handle"

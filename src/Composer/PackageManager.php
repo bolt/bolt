@@ -84,6 +84,11 @@ class PackageManager
      * @var array
      */
     public $messages = array();
+    
+    /**
+     * @var array
+     */
+    public $rootDependencies;
 
     /**
      *
@@ -523,6 +528,7 @@ class PackageManager
             'basedir'                => $this->app['resources']->getPath('extensions'),
             'composerjson'           => $this->app['resources']->getPath('extensions') . '/composer.json',
             'logfile'                => $this->app['resources']->getPath('cachepath') . '/composer_log',
+            'rootdependencies'       => $this->getRootDependencies(), 
 
             'dryrun'                 => null,    // dry-run              - Outputs the operations but will not execute anything (implicitly enables --verbose)
             'verbose'                => true,    // verbose              - Shows more details including new commits pulled in when updating packages
@@ -553,4 +559,30 @@ class PackageManager
 
         return $this->options;
     }
+    
+    /**
+     * Returns a list of the main dependencies for Bolt. We use these to prevent extension
+     * developers from requiring them again and thus risk destabilising the main app.
+     *
+     * @param $app Bolt\Application
+     * 
+     * @return array 
+     **/
+    public function getRootDependencies()
+    {
+        if ($this->rootDependencies !== null) {
+            return $this->rootDependencies;
+        }
+        $options['basedir'] = $this->app['resources']->getPath('root');
+        $options['composerjson'] = $this->app['resources']->getPath('root/composer.json');
+        
+        $factory = new Factory($this->app, $options);
+        $show = new ShowPackage($factory->getIO(), $factory->getComposer(), $options);
+        $packages = $show->execute('installed');
+        $normalised = array_keys($packages);
+        $this->rootDependencies = $normalised;
+        
+        return $this->rootDependencies;
+    }
+    
 }
