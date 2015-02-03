@@ -522,7 +522,6 @@ class PackageManager
         $this->options = array(
             'basedir'                => $this->app['resources']->getPath('extensions'),
             'composerjson'           => $this->app['resources']->getPath('extensions') . '/composer.json',
-            'logfile'                => $this->app['resources']->getPath('cachepath') . '/composer_log',
 
             'dryrun'                 => null,    // dry-run              - Outputs the operations but will not execute anything (implicitly enables --verbose)
             'verbose'                => true,    // verbose              - Shows more details including new commits pulled in when updating packages

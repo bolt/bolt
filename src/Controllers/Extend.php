@@ -110,14 +110,6 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
             ->before(array($this, 'before'))
             ->bind('generateTheme');
 
-//         $ctr->get('/getLog', array($this, 'getLog'))
-//             ->before(array($this, 'before'))
-//             ->bind('getLog');
-//
-//         $ctr->get('/clearLog', array($this, 'clearLog'))
-//             ->before(array($this, 'before'))
-//             ->bind('clearLog');
-
         return $ctr;
     }
 
@@ -165,31 +157,6 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
         return new JsonResponse($app['extend.manager']->checkPackage());
 
     }
-
-//     /**
-//      * Clear the log and return it.
-//      *
-//      * @param Silex\Application $app
-//      * @param Symfony\Component\HttpFoundation\Request $request
-//      * @return Symfony\Component\HttpFoundation\Response
-//      */
-//     public function clearLog(Silex\Application $app, Request $request)
-//     {
-//         $app['extend.manager']->clearLog();
-//
-//         return new Response('');
-//     }
-//
-//     /**
-//      * Fetch the log and return it.
-//      */
-//     public function getLog(Silex\Application $app, Request $request)
-//     {
-//         $log = $app['extend.manager']->getLog();
-//         $log = nl2br($log);
-//
-//         return new Response($log);
-//     }
 
     /**
      * Generate a copy of a theme package
