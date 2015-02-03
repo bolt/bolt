@@ -5,7 +5,6 @@ namespace Bolt\Provider;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 use Symfony\Component\Translation\Loader as TranslationLoader;
-use Bolt\Library as Lib;
 
 class TranslationServiceProvider implements ServiceProviderInterface
 {
@@ -53,11 +52,11 @@ class TranslationServiceProvider implements ServiceProviderInterface
              * @var \SplFileInfo $fileInfo
              */
             foreach ($iterator as $fileInfo) {
-                if ($fileInfo->isFile() && (Lib::getExtension($fileInfo->getFilename()) == 'yml')) {
-                    $fnameParts = explode('.', $fileInfo->getFilename());
-                    $domain = $fnameParts[0];
-                    $app['translator']->addResource('yml', $fileInfo->getRealPath(), $locale, $domain);
+                if (!$fileInfo->isFile()) {
+                    return;
                 }
+                list($domain) = explode('.', $fileInfo->getFilename());
+                $app['translator']->addResource($fileInfo->getExtension(), $fileInfo->getRealPath(), $locale, $domain);
             }
         } elseif (strlen($locale) == 5) {
             static::addResources($app, substr($locale, 0, 2));
