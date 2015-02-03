@@ -6,6 +6,7 @@ use Silex\Application;
 use Silex\ControllerProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -1054,45 +1055,8 @@ class Backend implements ControllerProviderInterface
             $firstuser = false;
         }
 
-        // Start building the form..
-        $form = $app['form.factory']->createBuilder('form', $user)
-            ->add('id', 'hidden')
-            ->add('username', 'text', array(
-                'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min' => 2, 'max' => 32))),
-                'label' => Trans::__('page.edit-users.label.username'),
-                'attr' => array(
-                    'placeholder' => Trans::__('page.edit-users.placeholder.username')
-                )
-            ))
-            ->add('password', 'password', array(
-                'required' => false,
-                'label' => Trans::__('page.edit-users.label.password'),
-                'attr' => array(
-                    'placeholder' => Trans::__('page.edit-users.placeholder.password')
-                )
-
-            ))
-            ->add('password_confirmation', 'password', array(
-                'required' => false,
-                'label' => Trans::__('page.edit-users.label.password-confirm'),
-                'attr' => array(
-                    'placeholder' => Trans::__('page.edit-users.placeholder.password-confirm')
-                )
-            ))
-            ->add('email', 'text', array(
-                'constraints' => new Assert\Email(),
-                'label' => Trans::__('page.edit-users.label.email'),
-                'attr' => array(
-                    'placeholder' => Trans::__('page.edit-users.placeholder.email')
-                )
-            ))
-            ->add('displayname', 'text', array(
-                'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min' => 2, 'max' => 32))),
-                'label' => Trans::__('page.edit-users.label.display-name'),
-                'attr' => array(
-                    'placeholder' => Trans::__('page.edit-users.placeholder.displayname')
-                )
-            ));
+        // Get the form
+        $form = $this->getUserForm($app, $user, true);
 
         // If we're adding the first user, add them as 'developer' by default, so don't
         // show them here..
@@ -1137,47 +1101,10 @@ class Backend implements ControllerProviderInterface
             );
         }
 
-        // Make sure the passwords are identical and some other check, with a custom validator..
-        $form->addEventListener(
-            FormEvents::POST_SUBMIT,
-            function (FormEvent $event) use ($app) {
-                $form = $event->getForm();
-                $id = $form['id']->getData();
-                $pass1 = $form['password']->getData();
-                $pass2 = $form['password_confirmation']->getData();
+        // Set the validation
+        $form = $this->setUserFormValidation($app, $form, true);
 
-                // If adding a new user (empty $id) or if the password is not empty (indicating we want to change it),
-                // then make sure it's at least 6 characters long.
-                if ((empty($id) || !empty($pass1)) && strlen($pass1) < 6) {
-                    $error = new FormError(Trans::__('page.edit-users.error.password-short'));
-                    $form['password']->addError($error);
-                }
-
-                // Passwords must be identical..
-                if ($pass1 != $pass2) {
-                    $form['password_confirmation']->addError(new FormError(Trans::__('page.edit-users.error.password-mismatch')));
-                }
-
-                // Usernames must be unique..
-                if (!$app['users']->checkAvailability('username', $form['username']->getData(), $id)) {
-                    $form['username']->addError(new FormError(Trans::__('page.edit-users.error.username-used')));
-                }
-
-                // Email addresses must be unique..
-                if (!$app['users']->checkAvailability('email', $form['email']->getData(), $id)) {
-                    $form['email']->addError(new FormError(Trans::__('page.edit-users.error.email-used')));
-                }
-
-                // Displaynames must be unique..
-                if (!$app['users']->checkAvailability('displayname', $form['displayname']->getData(), $id)) {
-                    $form['displayname']->addError(new FormError(Trans::__('page.edit-users.error.displayname-used')));
-                }
-            }
-        );
-
-        /**
-         * @var \Symfony\Component\Form\Form $form
-         */
+        /** @var \Symfony\Component\Form\Form */
         $form = $form->getForm();
 
         // Check if the form was POST-ed, and valid. If so, store the user.
@@ -1247,65 +1174,13 @@ class Backend implements ControllerProviderInterface
     {
         $user = $app['users']->getCurrentUser();
 
-        // Start building the form..
-        $form = $app['form.factory']->createBuilder('form', $user)
-            ->add('id', 'hidden')
-            ->add('password', 'password', array(
-                'required' => false,
-                'label' => Trans::__('page.edit-users.label.password')
-            ))
-            ->add('password_confirmation', 'password', array(
-                'required' => false,
-                'label' => Trans::__('page.edit-users.label.password-confirm')
-            ))
-            ->add('email', 'text', array(
-                'constraints' => new Assert\Email(),
-                'label' => Trans::__('page.edit-users.label.email')
-            ))
-            ->add('displayname', 'text', array(
-                'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min' => 2, 'max' => 32))),
-                'label' => Trans::__('page.edit-users.label.display-name')
-            ));
+        // Get the form
+        $form = $this->getUserForm($app, $user);
 
-        // Make sure the passwords are identical and some other check, with a custom validator.
-        $form->addEventListener(
-            FormEvents::POST_SUBMIT,
-            function (FormEvent $event) use ($app) {
-                $form = $event->getForm();
-                $id = $form['id']->getData();
-                $pass1 = $form['password']->getData();
-                $pass2 = $form['password_confirmation']->getData();
+        // Set the validation
+        $form = $this->setUserFormValidation($app, $form);
 
-                // If adding a new user (empty $id) or if the password is not empty (indicating we want to change it),
-                // then make sure it's at least 6 characters long.
-                if ((empty($id) || !empty($pass1)) && strlen($pass1) < 6) {
-                    // screw it. Let's just not translate this message for now. Damn you, stupid non-cooperative
-                    // translation thingy. $error = new FormError("This value is too short. It should have {{ limit }}
-                    // characters or more.", array('{{ limit }}' => 6), 2);
-                    $error = new FormError(Trans::__('page.edit-users.error.password-short'));
-                    $form['password']->addError($error);
-                }
-
-                // Passwords must be identical.
-                if ($pass1 != $pass2) {
-                    $form['password_confirmation']->addError(new FormError(Trans::__('page.edit-users.error.password-mismatch')));
-                }
-
-                // Email addresses must be unique..
-                if (!$app['users']->checkAvailability('email', $form['email']->getData(), $id)) {
-                    $form['email']->addError(new FormError(Trans::__('page.edit-users.error.email-used')));
-                }
-
-                // Displaynames must be unique..
-                if (!$app['users']->checkAvailability('displayname', $form['displayname']->getData(), $id)) {
-                    $form['displayname']->addError(new FormError(Trans::__('page.edit-users.error.displayname-used')));
-                }
-            }
-        );
-
-        /**
-         * @var \Symfony\Component\Form\Form $form
-         */
+        /** @var \Symfony\Component\Form\Form */
         $form = $form->getForm();
 
         // Check if the form was POST-ed, and valid. If so, store the user.
@@ -1825,5 +1700,121 @@ class Backend implements ControllerProviderInterface
         }
         // Stop the 'stopwatch' for the profiler.
         $app['stopwatch']->stop('bolt.backend.before');
+    }
+
+    /**
+     * Create a user form with the form builder
+     *
+     * @param  Application                        $app
+     * @param  array                              $user
+     * @param  boolean                            $addusername
+     * @return Symfony\Component\Form\FormBuilder
+     */
+    private function getUserForm(Application $app, array $user, $addusername = false)
+    {
+        // Start building the form..
+        $form = $app['form.factory']->createBuilder('form', $user)
+                ->add('id', 'hidden')
+                ->add('password', 'password', array(
+                    'required' => false,
+                    'label' => Trans::__('page.edit-users.label.password'),
+                    'attr' => array(
+                        'placeholder' => Trans::__('page.edit-users.placeholder.password')
+                    )
+
+                ))
+                ->add('password_confirmation', 'password', array(
+                    'required' => false,
+                    'label' => Trans::__('page.edit-users.label.password-confirm'),
+                    'attr' => array(
+                        'placeholder' => Trans::__('page.edit-users.placeholder.password-confirm')
+                    )
+                ))
+                ->add('email', 'text', array(
+                    'constraints' => new Assert\Email(),
+                    'label' => Trans::__('page.edit-users.label.email'),
+                    'attr' => array(
+                        'placeholder' => Trans::__('page.edit-users.placeholder.email')
+                    )
+                ))
+                ->add('displayname', 'text', array(
+                    'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min' => 2, 'max' => 32))),
+                    'label' => Trans::__('page.edit-users.label.display-name'),
+                    'attr' => array(
+                        'placeholder' => Trans::__('page.edit-users.placeholder.displayname')))
+        );
+
+        if ($addusername) {
+            $form->add('username', 'text', array(
+                    'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min' => 2, 'max' => 32))),
+                    'label' => Trans::__('page.edit-users.label.username'),
+                    'attr' => array(
+                        'placeholder' => Trans::__('page.edit-users.placeholder.username')
+                    )
+            ));
+        }
+
+        return $form;
+    }
+
+    /**
+     * Validate the user form
+     *
+     * Use a custom validator to check:
+     *   * Passwords are identical
+     *   * Username is unique
+     *   * Email is unique
+     *   * Displaynames are unique
+     *
+     * @param  Application                        $app
+     * @param  Symfony\Component\Form\FormBuilder $form
+     * @param  boolean                            $addusername
+     * @return Symfony\Component\Form\FormBuilder
+     */
+    private function setUserFormValidation(Application $app, FormBuilder $form, $addusername = false)
+    {
+        $form->addEventListener(
+            FormEvents::POST_SUBMIT,
+            function (FormEvent $event) use ($app, $addusername) {
+                $form = $event->getForm();
+                $id = $form['id']->getData();
+                $pass1 = $form['password']->getData();
+                $pass2 = $form['password_confirmation']->getData();
+
+                // If adding a new user (empty $id) or if the password is not empty (indicating we want to change it),
+                // then make sure it's at least 6 characters long.
+                if ((empty($id) || !empty($pass1)) && strlen($pass1) < 6) {
+                    // screw it. Let's just not translate this message for now. Damn you, stupid non-cooperative
+                    // translation thingy. $error = new FormError("This value is too short. It should have {{ limit }}
+                    // characters or more.", array('{{ limit }}' => 6), 2);
+                    $error = new FormError(Trans::__('page.edit-users.error.password-short'));
+                    $form['password']->addError($error);
+                }
+
+                // Passwords must be identical.
+                if ($pass1 != $pass2) {
+                    $form['password_confirmation']->addError(new FormError(Trans::__('page.edit-users.error.password-mismatch')));
+                }
+
+                if ($addusername) {
+                    // Usernames must be unique.
+                    if (!$app['users']->checkAvailability('username', $form['username']->getData(), $id)) {
+                        $form['username']->addError(new FormError(Trans::__('page.edit-users.error.username-used')));
+                    }
+                }
+
+                // Email addresses must be unique.
+                if (!$app['users']->checkAvailability('email', $form['email']->getData(), $id)) {
+                    $form['email']->addError(new FormError(Trans::__('page.edit-users.error.email-used')));
+                }
+
+                // Displaynames must be unique.
+                if (!$app['users']->checkAvailability('displayname', $form['displayname']->getData(), $id)) {
+                    $form['displayname']->addError(new FormError(Trans::__('page.edit-users.error.displayname-used')));
+                }
+            }
+        );
+
+        return $form;
     }
 }
