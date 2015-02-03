@@ -591,22 +591,10 @@ var BoltExtender = Object.extend(Object, {
         this.find('.auto-search').hide();
     },
 
-    updateLog: function () {
-        jQuery.get(baseurl + 'getLog', function (data) {
-            $('#extension-log').html(data);
-            $('#extension-log').animate({ scrollTop: $('#extension-log')[0].scrollHeight }, 'fast');
-        });
-    },
-
-    clearLog: function () {
-        $('#extension-log').html('');
-        jQuery.get(baseurl + 'clearLog', function (data) {});
-    },
-
     formatErrorLog: function(data) {
         var errObj = $.parseJSON(data.responseText),
         html = '';
-        if (errObj.error.type === 'Bolt\\Exception\\BoltComposerException') {
+        if (errObj.error.type === 'Bolt\\Exception\\PackageManagerException') {
             // Clean up Composer messages
             var msg = errObj.error.message.replace(/(<http)/g, '<a href="http').replace(/(\w+>)/g, '">this link<\/a>');
 
@@ -650,7 +638,6 @@ var BoltExtender = Object.extend(Object, {
                 case "package-config"    : controller.packageConfig(e.originalEvent); break;
                 case "package-copy"      : controller.copyTheme(e.originalEvent); break;
                 case "package-readme"    : controller.packageReadme(e.originalEvent); break;
-                case "clear-log"         : controller.clearLog(e.originalEvent); break;
             }
         }
 
