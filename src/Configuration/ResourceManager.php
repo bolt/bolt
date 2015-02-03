@@ -276,7 +276,7 @@ class ResourceManager
             ($request->server->get('HTTP_X_FORWARDED_PROTO') == 'https') ||
             ($request->server->get('HTTP_X_FORWARDED_SSL') == 'on')) {
             $protocol = "https";
-        } elseif ($request->server->get("SERVER_PROTOCOL") == null) {
+        } elseif ($request->server->get("SERVER_PROTOCOL") === null) {
             $protocol = "cli";
         }
 
