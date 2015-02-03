@@ -67,8 +67,6 @@ class Config
             $this->checkValidCache();
 
         }
-
-        $this->setCKPath();
     }
 
     /**
@@ -890,28 +888,6 @@ class Config
         return $twigpath;
     }
 
-    /**
-     * Will be made protected in Bolt 3.0
-     */
-    public function setCKPath()
-    {
-        $app = $this->app['resources']->getUrl('app');
-
-        // Make sure the paths for CKeditor config are always set correctly..
-        $this->set(
-            'general/wysiwyg/ck/contentsCss',
-            array(
-                $app . 'view/css/ckeditor-contents.css',
-                $app . 'view/css/ckeditor.css'
-            )
-        );
-        $this->set('general/wysiwyg/filebrowser/browseUrl', $this->app['resources']->getUrl('async') . 'filebrowser/');
-        $this->set(
-            'general/wysiwyg/filebrowser/imageBrowseUrl',
-            $this->app['resources']->getUrl('bolt') . 'files/files/'
-        );
-    }
-
     protected function loadCache()
     {
         $dir = $this->app['resources']->getPath('config');
@@ -1090,5 +1066,12 @@ class Config
         }
 
         return $merged;
+    }
+
+    /**
+     * @deprecated Will be removed in Bolt 3.0
+     */
+    public function setCKPath()
+    {
     }
 }
