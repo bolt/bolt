@@ -13,7 +13,6 @@ use Bolt\Composer\Action\ShowPackage;
 use Bolt\Composer\Action\UpdatePackage;
 use Bolt\Library as Lib;
 use Bolt\Translation\Translator as Trans;
-use Guzzle\Http\Client as GuzzleClient;
 use Guzzle\Http\Exception\RequestException;
 use Guzzle\Http\Exception\CurlException;
 use Silex\Application;
@@ -122,7 +121,7 @@ class PackageManager
             $this->updateJson();
 
             // Ping the extensions server to confirm connection
-            $response = $this->ping($this->app['extend.site'], 'ping', true);
+            $response = $this->ping(true);
             $httpOk = array(200, 301, 302);
             if (in_array($response, $httpOk)) {
                 $this->app['extend.online'] = true;
@@ -454,14 +453,14 @@ class PackageManager
     /**
      * Ping site to see if we have a valid connection and it is responding correctly
      *
-     * @param  string        $site
-     * @param  string        $uri
      * @param  boolean|array $addquery
      * @return boolean
      */
-    private function ping($site, $uri = '', $addquery = false)
+    private function ping($addquery = false)
     {
+        $uri = $this->app['extend.site'] . 'ping';
         $www = isset($_SERVER['SERVER_SOFTWARE']) ? $_SERVER['SERVER_SOFTWARE'] : 'unknown';
+
         if ($addquery) {
             $query = array(
                 'bolt_ver'  => $this->app['bolt_version'],
@@ -473,10 +472,8 @@ class PackageManager
             $query = array();
         }
 
-        $this->guzzleclient = new GuzzleClient($site);
-
         try {
-            $response = $this->guzzleclient->head($uri, null, array('query' => $query))->send();
+            $response = $this->app['guzzle.client']->head($uri, null, array('query' => $query))->send();
 
             return $response->getStatusCode();
         } catch (CurlException $e) {

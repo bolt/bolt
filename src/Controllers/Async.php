@@ -127,10 +127,10 @@ class Async implements ControllerProviderInterface
                 $curlOptions['CURLOPT_PROXYTYPE'] = 'CURLPROXY_HTTP';
                 $curlOptions['CURLOPT_PROXYUSERPWD'] = $app['config']->get('general/httpProxy/user') . ':' . $app['config']->get('general/httpProxy/password');
             }
-            $guzzleclient = new \Guzzle\Http\Client($url, array('curl.options' => $curlOptions));
 
             try {
-                $newsData = $guzzleclient->get("/")->send()->getBody(true);
+                $newsData = $app['guzzle.client']->get($url, null, $curlOptions)->send()->getBody(true);
+
                 $news = json_decode($newsData);
                 if ($news) {
                     // For now, just use the most current item.

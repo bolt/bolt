@@ -99,8 +99,6 @@ class Storage
      */
     public function preFill($contenttypes = array())
     {
-        $this->guzzleclient = new \Guzzle\Service\Client('http://loripsum.net/api/');
-
         $output = "";
 
         // get a list of images..
@@ -161,7 +159,7 @@ class Storage
 
             switch ($values['type']) {
                 case 'text':
-                    $content[$field] = trim(strip_tags($this->guzzleclient->get('1/veryshort')->send()->getBody(true)));
+                    $content[$field] = trim(strip_tags($this->app['guzzle.client']->get('http://loripsum.net/api/1/veryshort')->send()->getBody(true)));
                     if (empty($title)) {
                         $title = $content[$field];
                     }
@@ -176,11 +174,11 @@ class Storage
                 case 'textarea':
                 case 'markdown':
                     if (in_array($field, array('teaser', 'introduction', 'excerpt', 'intro'))) {
-                        $params = 'medium/decorate/link/1';
+                        $params = 'http://loripsum.net/api/medium/decorate/link/1';
                     } else {
-                        $params = 'medium/decorate/link/ol/ul/3';
+                        $params = 'http://loripsum.net/api/medium/decorate/link/ol/ul/3';
                     }
-                    $content[$field] = trim($this->guzzleclient->get($params)->send()->getBody(true));
+                    $content[$field] = trim($this->app['guzzle.client']->get($params)->send()->getBody(true));
 
                     if ($values['type'] == "markdown") {
                         $content[$field] = strip_tags($content[$field]);

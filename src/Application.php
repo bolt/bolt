@@ -279,7 +279,8 @@ class Application extends Silex\Application
             ->register(new Controllers\Extend())
             ->register(new Provider\FilesystemProvider())
             ->register(new Thumbs\ThumbnailProvider())
-            ->register(new Provider\NutServiceProvider());
+            ->register(new Provider\NutServiceProvider())
+            ->register(new Provider\GuzzleServiceProvider());
 
         $this['paths'] = $this['resources']->getPaths();
 
