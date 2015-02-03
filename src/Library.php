@@ -264,23 +264,25 @@ class Library
         // old-style serialized data; to be phased out, but leaving intact for
         // backwards-compatibility. Up until Bolt 1.5, we used to serialize certain
         // fields, so reading in those old records will still use the code below.
-        @$data = unserialize($serializedData);
-        if (is_array($data)) {
-            return $data;
-        } else {
-            $tempSerializedData = preg_replace("/\r\n/", "\n", $serializedData);
-            if (@$data = unserialize($tempSerializedData)) {
+        try {
+            $data = unserialize($serializedData);
+            if (is_array($data)) {
                 return $data;
             } else {
-                $tempSerializedData = preg_replace("/\n/", "\r\n", $serializedData);
-                if (@$data = unserialize($tempSerializedData)) {
+                $tempSerializedData = preg_replace("/\r\n/", "\n", $serializedData);
+                if ($data = unserialize($tempSerializedData)) {
                     return $data;
                 } else {
-                    return false;
+                    $tempSerializedData = preg_replace("/\n/", "\r\n", $serializedData);
+                    if ($data = unserialize($tempSerializedData)) {
+                        return $data;
+                    } else {
+                        return false;
+                    }
                 }
             }
+        } catch (\Exception $e) {
         }
-
     }
 
     /**

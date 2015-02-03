@@ -227,7 +227,12 @@ class Content implements \ArrayAccess
         foreach ($this->values as $key => $value) {
             if (in_array($this->fieldtype($key), $serializedFieldTypes)) {
                 if (!empty($value) && is_string($value) && (substr($value, 0, 2) == "a:" || $value[0] === '[' || $value[0] === '{')) {
-                    $unserdata = @Lib::smartUnserialize($value);
+                    try {
+                        $unserdata = Lib::smartUnserialize($value);
+                    } catch (\Exception $e) {
+                        $unserdata = false;
+                    }
+
                     if ($unserdata !== false) {
                         $this->values[$key] = $unserdata;
                     }
@@ -277,7 +282,12 @@ class Content implements \ArrayAccess
     {
         // Check if the value need to be unserialized..
         if (is_string($value) && substr($value, 0, 2) == "a:") {
-            $unserdata = @Lib::smartUnserialize($value);
+            try {
+                $unserdata = Lib::smartUnserialize($value);
+            } catch (\Exception $e) {
+                $unserdata = false;
+            }
+
             if ($unserdata !== false) {
                 $value = $unserdata;
             }
