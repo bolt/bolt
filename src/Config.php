@@ -1067,11 +1067,4 @@ class Config
 
         return $merged;
     }
-
-    /**
-     * @deprecated Will be removed in Bolt 3.0
-     */
-    public function setCKPath()
-    {
-    }
 }
