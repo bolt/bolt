@@ -5,7 +5,6 @@ use Bolt\Extensions\ExtensionInterface;
 use Bolt\Extensions\TwigProxy;
 use Bolt\Library as Lib;
 use Bolt\Helpers\Arr;
-use Bolt\Provider\NutServiceProvider;
 use Symfony\Component\Console\Command\Command;
 use Composer\Json\JsonFile;
 use utilphp\util;
@@ -128,15 +127,15 @@ abstract class BaseExtension implements ExtensionInterface
 
         return $this->composerJson;
     }
-    
+
     /**
      * This allows write access to the composer config, allowing simulation of this feature
      * even if the extension doesn't have a physical composer.json file.
-     * 
+     *
      * @param array $configuration
      */
     public function setComposerConfiguration(array $configuration)
-    {   
+    {
         $this->composerJsonLoaded = true;
         $this->composerJson = null;
         $this->composerJson = $configuration;
