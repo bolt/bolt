@@ -562,7 +562,7 @@ class IntegrityChecker
                         $field,
                         $this->app['db']->getDatabasePlatform()->getName()
                     );
-                    $this->app['session']->getFlashBag()->set('error', $error);
+                    $this->app['session']->getFlashBag()->add('error', $error);
                     continue;
                 }
 

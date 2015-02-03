@@ -1028,7 +1028,7 @@ class Extensions
 
         $this->app['logger.system']->addRecord($level, sprintf("%s for %s: %s", $msg, $extensionName, $e->getMessage()), $context);
 
-        $this->app['session']->getFlashBag()->set(
+        $this->app['session']->getFlashBag()->add(
             'error',
             Trans::__("[Extension error] $msg for %ext%: %error%", array('%ext%' => $extensionName, '%error%' => $e->getMessage()))
         );

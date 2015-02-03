@@ -212,7 +212,7 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
         }
 
         if (!$app['users']->isAllowed("files:uploads")) {
-            $app['session']->getFlashBag()->set('error', Trans::__('You do not have the right privileges to upload.'));
+            $app['session']->getFlashBag()->add('error', Trans::__('You do not have the right privileges to upload.'));
 
             return Lib::redirect('dashboard');
         }

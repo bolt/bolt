@@ -236,7 +236,7 @@ abstract class BaseExtension implements ExtensionInterface
                 $message = "Couldn't read $configfile. Please correct file " .
                            "permissions and ensure the $configdir directory readable.";
                 $this->app['logger.system']->addCritical($message, array('event' => 'extensions'));
-                $this->app['session']->getFlashBag()->set('error', $message);
+                $this->app['session']->getFlashBag()->add('error', $message);
 
                 return false;
             }
@@ -263,7 +263,7 @@ abstract class BaseExtension implements ExtensionInterface
                                "File is not writable. Create the file manually, " .
                                "or make the $configdir directory writable.";
                     $this->app['logger.system']->addCritical($message, array('event' => 'extensions'));
-                    $this->app['session']->getFlashBag()->set('error', $message);
+                    $this->app['session']->getFlashBag()->add('error', $message);
 
                     return false;
                 }

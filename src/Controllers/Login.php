@@ -61,7 +61,7 @@ class Login implements Silex\ControllerProviderInterface
                 // Send a password request mail, if username exists.
                 $username = trim($request->get('username'));
                 if (empty($username)) {
-                    $app['users']->session->getFlashBag()->set('error', Trans::__('Please provide a username', array()));
+                    $app['users']->session->getFlashBag()->add('error', Trans::__('Please provide a username', array()));
                 } else {
                     $app['users']->resetPasswordRequest($request->get('username'));
 

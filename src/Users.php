@@ -338,7 +338,7 @@ class Users
         if ($token === $this->getAntiCSRFToken()) {
             return true;
         } else {
-            $this->app['session']->getFlashBag()->set('error', "The security token was incorrect. Please try again.");
+            $this->app['session']->getFlashBag()->add('error', "The security token was incorrect. Please try again.");
 
             return false;
         }
@@ -384,7 +384,7 @@ class Users
         $user = $this->getUser($id);
 
         if (empty($user['id'])) {
-            $this->session->getFlashBag()->set('error', Trans::__('That user does not exist.'));
+            $this->session->getFlashBag()->add('error', Trans::__('That user does not exist.'));
 
             return false;
         } else {
@@ -409,7 +409,7 @@ class Users
         $user = $this->db->executeQuery($query, array($userslug), array(\PDO::PARAM_STR))->fetch();
 
         if (empty($user)) {
-            $this->session->getFlashBag()->set('error', Trans::__('Username or password not correct. Please check your input.'));
+            $this->session->getFlashBag()->add('error', Trans::__('Username or password not correct. Please check your input.'));
 
             return false;
         }
@@ -419,7 +419,7 @@ class Users
         if ($hasher->CheckPassword($password, $user['password'])) {
 
             if (!$user['enabled']) {
-                $this->session->getFlashBag()->set('error', Trans::__('Your account is disabled. Sorry about that.'));
+                $this->session->getFlashBag()->add('error', Trans::__('Your account is disabled. Sorry about that.'));
 
                 return false;
             }
@@ -452,7 +452,7 @@ class Users
             }
 
             $this->session->set('user', $user);
-            $this->session->getFlashBag()->set('success', Trans::__("You've been logged on successfully."));
+            $this->session->getFlashBag()->add('success', Trans::__("You've been logged on successfully."));
 
             $this->currentuser = $user;
 
@@ -462,7 +462,7 @@ class Users
 
         } else {
 
-            $this->session->getFlashBag()->set('error', Trans::__('Username or password not correct. Please check your input.'));
+            $this->session->getFlashBag()->add('error', Trans::__('Username or password not correct. Please check your input.'));
             $this->app['logger.system']->addInfo("Failed login attempt for '" . $user['displayname'] . "'.", array('event' => 'authentication'));
 
             // Update the failed login attempts, and perhaps throttle the logins.
@@ -537,7 +537,7 @@ class Users
             $user['sessionkey'] = $this->getAuthToken($user['username']);
 
             $this->session->set('user', $user);
-            $this->session->getFlashBag()->set('success', Trans::__('Session resumed.'));
+            $this->session->getFlashBag()->add('success', Trans::__('Session resumed.'));
 
             $this->currentuser = $user;
 
@@ -567,7 +567,7 @@ class Users
         $user = $this->getUser($username);
 
         // For safety, this is the message we display, regardless of whether $user exists.
-        $this->session->getFlashBag()->set('info', Trans::__("A password reset link has been sent to '%user%'.", array('%user%' => $username)));
+        $this->session->getFlashBag()->add('info', Trans::__("A password reset link has been sent to '%user%'.", array('%user%' => $username)));
 
         if (!empty($user)) {
 
@@ -640,7 +640,7 @@ class Users
         if (!empty($user)) {
 
             // allright, we can reset this user..
-            $this->app['session']->getFlashBag()->set('success', Trans::__("Password reset successful! You can now log on with the password that was sent to you via email."));
+            $this->app['session']->getFlashBag()->add('success', Trans::__("Password reset successful! You can now log on with the password that was sent to you via email."));
 
             $update = array(
                 'password' => $user['shadowpassword'],
@@ -654,7 +654,7 @@ class Users
 
             // That was not a valid token, or too late, or not from the correct IP.
             $this->app['logger.system']->addError('Somebody tried to reset a password with an invalid token.', array('event' => 'authentication'));
-            $this->app['session']->getFlashBag()->set('error', Trans::__('Password reset not successful! Either the token was incorrect, or you were too late, or you tried to reset the password from a different IP-address.'));
+            $this->app['session']->getFlashBag()->add('error', Trans::__('Password reset not successful! Either the token was incorrect, or you were too late, or you tried to reset the password from a different IP-address.'));
 
         }
     }
@@ -686,7 +686,7 @@ class Users
      */
     public function logout()
     {
-        $this->session->getFlashBag()->set('info', Trans::__('You have been logged out.'));
+        $this->session->getFlashBag()->add('info', Trans::__('You have been logged out.'));
         $this->session->remove('user');
 
         // @see: https://bugs.php.net/bug.php?id=63379
@@ -933,7 +933,7 @@ class Users
         $this->addRole($this->getCurrentUsername(), 'root');
 
         // Show a helpful message to the user.
-        $this->app['session']->getFlashBag()->set('info', Trans::__("There should always be at least one 'root' user. You have just been promoted. Congratulations!"));
+        $this->app['session']->getFlashBag()->add('info', Trans::__("There should always be at least one 'root' user. You have just been promoted. Congratulations!"));
     }
 
     /**
