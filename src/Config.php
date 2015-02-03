@@ -168,13 +168,30 @@ class Config
             $part = & $part[$key];
         }
 
-        if ($value instanceof Type\ResolvableInterface) {
-            return $value->resolve($this->app);
-        } elseif ($value !== null) {
-            return $value;
+        if ($value === null) {
+            return $default;
+        }
+        return $this->resolveValue($value);
+    }
+
+    /**
+     * Ensure all values are resolved, by walking the data recursively.
+     *
+     * @param mixed $data
+     * @return mixed
+     */
+    protected function resolveValue($data)
+    {
+        if ($data instanceof Type\ResolvableInterface) {
+            return $data->resolve($this->app);
+        } elseif (!is_array($data)) {
+            return $data;
+        }
+        foreach ($data as $key => $value) {
+            $data[$key] = $this->resolveValue($value);
         }
 
-        return $default;
+        return $data;
     }
 
     /**
