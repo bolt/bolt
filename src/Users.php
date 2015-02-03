@@ -442,10 +442,15 @@ class Users
 
             $user['sessionkey'] = $this->getAuthToken($user['username']);
 
-            // We wish to create a new session-id for extended security, but due to a bug in PHP < 5.4.11, this
-            // will throw warnings. Suppress them here. #shakemyhead
+            // We wish to create a new session-id for extended security, but due
+            // to a bug in PHP < 5.4.11, this will throw warnings.
+            // Suppress them here. #shakemyhead
             // @see: https://bugs.php.net/bug.php?id=63379
-            @$this->session->migrate(true);
+            try {
+                $this->session->migrate(true);
+            } catch (\Exception $e) {
+            }
+
             $this->session->set('user', $user);
             $this->session->getFlashBag()->set('success', Trans::__("You've been logged on successfully."));
 
@@ -683,7 +688,12 @@ class Users
     {
         $this->session->getFlashBag()->set('info', Trans::__('You have been logged out.'));
         $this->session->remove('user');
-        @$this->session->migrate(true);
+
+        // @see: https://bugs.php.net/bug.php?id=63379
+        try {
+            $this->session->migrate(true);
+        } catch (\Exception $e) {
+        }
 
         // Remove all auth tokens when logging off a user (so we sign out _all_ this user's sessions on all locations)
         try {

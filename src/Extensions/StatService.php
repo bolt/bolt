@@ -20,6 +20,10 @@ class StatService
     {
         $url = sprintf($this->app['extend.site'].$this->urls['install'], $package, $version);
 
-        return @file_get_contents($url);
+        try {
+            return file_get_contents($url);
+        } catch (\Exception $e) {
+            $this->app['logger.system']->addCritical($e->getMessage(), array('event' => 'exception', 'exception' => $e));
+        }
     }
 }
