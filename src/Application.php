@@ -294,8 +294,6 @@ class Application extends Silex\Application
                 return new Stopwatch\Stopwatch();
             }
         );
-
-        // @todo: make a provider for the Random generator..
     }
 
     public function initExtensions()
