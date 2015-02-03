@@ -26,16 +26,6 @@ class PackageManager
     private $options;
 
     /**
-     * @var Composer\IO\BufferIO
-     */
-    private $io;
-
-    /**
-     * @var Composer\Composer
-     */
-    private $composer;
-
-    /**
      * @var Bolt\Composer\Action\CheckPackage
      */
     private $check;
