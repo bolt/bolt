@@ -2,6 +2,7 @@
 
 namespace Bolt;
 
+use Bolt\Configuration\Type;
 use Bolt\Exception\LowlevelException;
 use Bolt\Library as Lib;
 use Bolt\Helpers\Arr;
@@ -127,7 +128,11 @@ class Config
             $part = & $part[$key];
         }
 
-        $part = $value;
+        if ($part instanceof Type\ResolvableInterface) {
+            $part->update($value);
+        } else {
+            $part = $value;
+        }
 
         return true;
     }
@@ -163,7 +168,9 @@ class Config
             $part = & $part[$key];
         }
 
-        if ($value !== null) {
+        if ($value instanceof Type\ResolvableInterface) {
+            return $value->resolve($this->app);
+        } elseif ($value !== null) {
             return $value;
         }
 
@@ -195,11 +202,10 @@ class Config
 
     protected function parseGeneral()
     {
-        // Read the config and merge it. (note: We use temp variables to prevent
-        // "Only variables should be passed by reference")
-        $tempconfig = $this->parseConfigYaml('config.yml');
-        $tempconfiglocal = $this->parseConfigYaml('config_local.yml');
-        $general = Arr::mergeRecursiveDistinct($tempconfig, $tempconfiglocal);
+        $general = $this->replaceRecursive(
+            $this->parseConfigYaml('config.yml'),
+            $this->parseConfigYaml('config_local.yml')
+        );
 
         // Make sure old settings for 'contentsCss' are still picked up correctly
         if (isset($general['wysiwyg']['ck']['contentsCss'])) {
@@ -215,7 +221,7 @@ class Config
         }
 
         // Merge the array with the defaults. Setting the required values that aren't already set.
-        $general = Arr::mergeRecursiveDistinct($this->defaultConfig, $general);
+        $general = $this->replaceRecursive($this->defaultConfig, $general);
 
         // Make sure the cookie_domain for the sessions is set properly.
         if (empty($general['cookies_domain'])) {
@@ -800,15 +806,15 @@ class Config
                     'allowedContent'          => true,
                     'autoParagraph'           => true,
                     'contentsCss'             => array(
-                        $this->app['resources']->getUrl('app') . 'view/css/ckeditor-contents.css',
-                        $this->app['resources']->getUrl('app') . 'view/css/ckeditor.css',
+                        new Type\Url('app', 'view/css/ckeditor-contents.css'),
+                        new Type\Url('app', 'view/css/ckeditor.css'),
                     ),
                     'filebrowserWindowWidth'  => 640,
                     'filebrowserWindowHeight' => 480
                 ),
                 'filebrowser' => array(
-                    'browseUrl'      => $this->app['resources']->getUrl('async') . 'filebrowser/',
-                    'imageBrowseUrl' => $this->app['resources']->getUrl('bolt') . 'files/files'
+                    'browseUrl'      => new Type\Url('async', 'filebrowser/'),
+                    'imageBrowseUrl' => new Type\Url('bolt', 'files/files/'),
                 ),
             ),
             'canonical'                   => !empty($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '',
@@ -1044,5 +1050,28 @@ class Config
         $now = date_format(new \DateTime($timezone), 'Y-m-d H:i:s');
 
         return $now;
+    }
+
+    protected function replaceRecursive($array1, $array2)
+    {
+        $merged = $array1;
+
+        foreach ($array2 as $key => &$value) {
+            // if $key = 'accept_file_types, don't merge..
+            if ($key == 'accept_file_types') {
+                $merged[$key] = $array2[$key];
+                continue;
+            }
+
+            if (isset($merged[$key]) && $merged[$key] instanceof Type\ResolvableInterface) {
+                $merged[$key]->update($value);
+            } else if (is_array($value) && isset($merged[$key]) && is_array($merged[$key])) {
+                $merged[$key] = $this->replaceRecursive($merged[$key], $value);
+            } else {
+                $merged[$key] = $value;
+            }
+        }
+
+        return $merged;
     }
 }
