@@ -144,6 +144,15 @@ thumbnails:
   exif_orientation: true
 #  browser_cache_time: 2592000
 
+# Uploaded file handling
+# 
+# You can change the pattern match and replacement on uploaded files and if the 
+# resulting filename should be transformed to lower case.
+#upload:
+#  pattern: '[^A-Za-z0-9\.]+'
+#  replacement: '-'
+#  lowercase: true
+
 # File types that are acceptable for upload in either 'file' fields or through the 'files' screen.
 
 # The following is the default list of file-types that can be uploaded through the 'files' screen.
