@@ -16,8 +16,8 @@ class ConfigSet extends BaseCommand
             ->setDescription('Set a value in config.yml.')
             ->addArgument('key', InputArgument::REQUIRED, 'The key you wish to get.')
             ->addArgument('value', InputArgument::REQUIRED, 'The value you wish to set it to.')
-            ->addOption('file', 'f', InputOption::VALUE_OPTIONAL, "Specify config file to use");
-
+            ->addOption('file', 'f', InputOption::VALUE_OPTIONAL, 'Specify config file to use')
+            ->addOption('backup', 'b', InputOption::VALUE_NONE, 'Make a backup of the config file');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -25,14 +25,20 @@ class ConfigSet extends BaseCommand
         $key = $input->getArgument('key');
         $value = $input->getArgument('value');
 
+        if ($input->getOption('backup')) {
+            $backup = true;
+        } else {
+            $backup = false;
+        }
+
         if ($input->getOption('file')) {
             $file = $input->getOption('file');
         } else {
-            $file = $this->app['resources']->getPath('config') . "/config.yml";
+            $file = $this->app['resources']->getPath('config') . '/config.yml';
         }
 
         $yaml = new \Bolt\YamlUpdater($file);
-        $result = $yaml->change($key, $value);
+        $result = $yaml->change($key, $value, $backup);
 
         if ($result) {
             $result = sprintf("New value for <info>%s: %s</info> was successful. File updated.", $key, $value);

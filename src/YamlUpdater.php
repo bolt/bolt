@@ -186,7 +186,7 @@ class YamlUpdater
     {
         $this->filesystem = new FileSystem();
 
-        if (!$this->valid()) {
+        if (!$this->verify()) {
             return false;
         }
 
@@ -198,7 +198,7 @@ class YamlUpdater
         // Attempt to write out a temporary copy of the new YAML file
         $tmpfile = $this->filename . '.tmp';
         try {
-            $this->filesystem->dump($tmpfile, $this->yaml);
+            $this->filesystem->dumpFile($tmpfile, $this->yaml);
         } catch (IOExceptionInterface $e) {
             return false;
         }
@@ -210,6 +210,8 @@ class YamlUpdater
         } catch (IOExceptionInterface $e) {
             return false;
         }
+
+        return true;
     }
 
     /**
