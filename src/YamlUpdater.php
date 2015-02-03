@@ -2,6 +2,11 @@
 
 namespace Bolt;
 
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
+use Symfony\Component\Yaml\Exception\ParseException;
+use Symfony\Component\Yaml\Parser;
+
 /**
  * Allows (simple) modifications of Bolt .yml files.
  *
@@ -24,6 +29,12 @@ class YamlUpdater
     private $lines = 0;
 
     /**
+     * The YAML string of the updated file
+     * @var string
+     */
+    private $yml = '';
+
+    /**
      * Contains a line of the file per index.
      * @var array
      */
@@ -37,9 +48,9 @@ class YamlUpdater
     /**
      * Creates an updater for the given file.
      *
-     * @param string $filename The file to modify
+     * @param string  $filename   The file to modify
      */
-    public function __construct($filename = "")
+    public function __construct($filename = '')
     {
         if (!is_readable($filename)) {
             echo "Can't read $filename\n";
@@ -93,12 +104,12 @@ class YamlUpdater
             $needle = substr('                                      ', 0, 2 * $indent) . $keypart . ':';
             if (isset($this->file[$this->pointer]) && strpos($this->file[$this->pointer], $needle) === 0) {
                 return $this->pointer;
-            } 
+            }
             $this->pointer++;
         }
 
         // Pointer is past end of file..
-        return false; 
+        return false;
     }
 
     /**
@@ -121,12 +132,14 @@ class YamlUpdater
     /**
      * Change a key into a new value. Save .yml afterwards.
      *
-     * @param $key
-     * @param $value
+     * @param  string  $key        YAML key to modify
+     * @param  mixed   $value      New value
+     * @param  boolean $makebackup Back up the file before commiting changes to it
      * @return bool
      */
-    public function change($key, $value)
+    public function change($key, $value, $makebackup = true)
     {
+        $this->makebackup = $makebackup;
         $match = $this->get($key);
 
         // Not found.
@@ -138,7 +151,7 @@ class YamlUpdater
 
         $this->file[$match['line']] = sprintf("%s%s: %s\n", $match['indentation'], $match['key'], $value);
 
-        return $this->save();
+        return $this->save($makebackup);
     }
 
     /**
@@ -164,34 +177,86 @@ class YamlUpdater
     }
 
     /**
-     * Verify if the modified yaml is still a valid .yml file, and if we
-     * are actually allowed to write and update the current file.
+     * Save our modified .yml file.
+     *
+     * @param  boolean $makebackup Back up the file before commiting changes to it
+     * @return bool true if save was successful
      */
-    public function verify()
+    protected function save($makebackup)
     {
-        // @todo IMPLEMENT ME :'(
+        $this->filesystem = new FileSystem();
+
+        if (!$this->valid()) {
+            return false;
+        }
+
+        // If we're backing up do it, if we can
+        if ($makebackup && !$this->backup()) {
+            return false;
+        }
+
+        // Attempt to write out a temporary copy of the new YAML file
+        $tmpfile = $this->filename . '.tmp';
+        try {
+            $this->filesystem->dump($tmpfile, $this->yaml);
+        } catch (IOExceptionInterface $e) {
+            return false;
+        }
+
+        // We know the temporary file is readable, we touched the file in verify(),
+        // so attempt a final rename
+        try {
+            $this->filesystem->rename($tmpfile, $this->filename, true);
+        } catch (IOExceptionInterface $e) {
+            return false;
+        }
     }
 
     /**
-     * Save our modified .yml file.
-     * @param  bool $makebackup
-     * @return bool true if save was successful
+     * Verify if the modified YAML is still a valid .yml file, and if we
+     * are actually allowed to write and update the current file.
+     *
+     * @return boolean
      */
-    public function save($makebackup = true)
+    protected function verify()
     {
-        if ($makebackup) {
-            // TODO: make a backup..
+        if (empty($this->yaml)) {
+            $this->yaml = implode('', $this->file);
         }
 
-        $tmpfile = $this->filename . '.tmp';
-        file_put_contents($tmpfile, implode('', $this->file));
-
-        if (is_readable($tmpfile) && is_writable($this->filename)) {
-            rename($tmpfile, $this->filename);
-
-            return true;
-        } else {
+        // Attempt to change the modification time on the file to test if it is
+        // writeable
+        try {
+            $this->filesystem->touch($this->filename);
+        } catch (IOExceptionInterface $e) {
             return false;
         }
+
+        // Test that we can parse the YAML
+        // This will throw a ParseException If the YAML is not valid
+        try {
+            $parser = new Parser();
+            $parser->parse($this->yaml, true, true);
+
+        } catch (ParseException $e) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     *
+     * @return boolean
+     */
+    protected function backup()
+    {
+        try {
+            $this->filesystem->copy($this->filename, $this->filename . '.' . date('Ymd-His'), true);
+        } catch (IOExceptionInterface $e) {
+            return false;
+        }
+
+        return true;
     }
 }
