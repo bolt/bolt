@@ -54,11 +54,25 @@ class ChangeLogItem implements \ArrayAccess
      */
     public function __get($key)
     {
-        if ($key == 'mutation_type') {
+        if ($key == 'id') {
+            return $this->id;
+        } elseif ($key == 'date') {
+            return $this->date;
+        } elseif ($key == 'title') {
+            return $this->title;
+        } elseif ($key == 'username') {
+            return $this->username;
+        } elseif ($key == 'contentid') {
+            return $this->contentid;
+        } elseif ($key == 'comment') {
+            return $this->comment;
+        } elseif ($key == 'mutation_type') {
              return $this->getEffectiveMutationType();
         } elseif ($key == 'changedfields') {
             $this->changedfields = $this->getChangedFields();
             return $this->changedfields;
+        } else {
+            throw new \InvalidArgumentException("$key is not a valid parameter.");
         }
     }
 
@@ -171,9 +185,6 @@ class ChangeLogItem implements \ArrayAccess
         }
         if (isset($values['title'])) {
             $this->title = $values['title'];
-        }
-        if (isset($values['username'])) {
-            $this->username = $values['username'];
         }
         if (isset($values['ownerid'])) {
             $this->ownerid = $values['ownerid'];
