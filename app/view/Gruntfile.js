@@ -193,23 +193,17 @@ module.exports = function(grunt) {
                 },
                 nonull: true,
                 src: [
-                    'lib/jquery-1.11.2/jquery.min.js',                              //  96 kb
+                    'lib/tmp/bower-assets.js',
                     'lib/jquery-ui-1.10.3/jquery-ui.custom.min.js',                 //  96 kb
                     'lib/bootstrap-file-input/bootstrap-file-input.min.js',         //   1 kb
-                    'lib/jquery-tagcloud/jquery-tagcloud.min.js',                   //   1 kb
                     'lib/jquery-hotkeys/jquery-hotkeys.min.js',                     //   2 kb
                     'lib/jquery-watchchanges/jquery-watchchanges.min.js',           //   1 kb
-                    'lib/jquery-cookie-1.4.0/jquery-cookie.min.js',                 //   1 kb
-                    'lib/jquery-formatdatetime-1.1.4/jquery-formatdatetime.min.js', //   3 kb
                     'lib/jquery-fileupload-5.26/jquery-iframe-transport.min.js',    //   2 kb
                     'lib/jquery-fileupload-5.26/jquery-fileupload.min.js',          //  15 kb
-                    'lib/underscore-1.7.0/underscore-min.js',                       //  16 kb
                     'lib/backbone/backbone-min.js',                                 //  20 kb
-                    'lib/bootstrap-sass.generated/bootstrap.min.js',                //   2 kb
-                    'lib/magnific-popup-1.0.0/magnific-popup.min.js',               //  21 kb
+                    'lib/bootstrap-sass.generated/bootstrap.min.js',                //   2 kb4
                     'lib/select2-3.5.1/select2.min.js',                             //  66 kb
                     'node_modules/moment/min/moment.min.js',                        //  35 kb
-                    'lib/bootbox-4.3.0/bootbox.min.js',                             //   9 kb
                     'lib/modernizr-2.8.3/modernizr.custom.min.js'                   //   5 kb
                 ],
                 dest: 'js/lib.min.js'
@@ -228,10 +222,10 @@ module.exports = function(grunt) {
                 },
                 files: {
                     'css/lib.css': [
-                        'lib/jquery-ui-1.10.3/jquery-ui.custom.min.css',      // 20 kb
-                        'lib/magnific-popup-1.0.0/magnific-popup.css',        //  9 kb
-                        'lib/select2-3.5.1/select2.css',                      // 19 kb
-                        'lib/jquery-fileupload-5.26/jquery-fileupload-ui.css' //  2 kb
+                        'lib/jquery-ui-1.10.3/jquery-ui.custom.min.css',            // 20 kb
+                        'bower_components/magnific-popup/dist/magnific-popup.css',  //  9 kb
+                        'lib/select2-3.5.1/select2.css',                            // 19 kb
+                        'lib/jquery-fileupload-5.26/jquery-fileupload-ui.css'       //  2 kb
                     ]
                 }
             }
@@ -250,12 +244,12 @@ module.exports = function(grunt) {
                     ext: '.min.js',
                     src: [
                         'lib/bootstrap-file-input/bootstrap-file-input.js',
-                        'lib/jquery-cookie-1.4.0/jquery-cookie.js',
+                        //'lib/jquery-cookie-1.4.0/jquery-cookie.js',
                         'lib/jquery-fileupload-5.26/jquery-fileupload.js',
                         'lib/jquery-fileupload-5.26/jquery-iframe-transport.js',
-                        'lib/jquery-formatdatetime-1.1.4/jquery-formatdatetime.js',
+                        //'lib/jquery-formatdatetime-1.1.4/jquery-formatdatetime.js',
                         'lib/jquery-hotkeys/jquery-hotkeys.js',
-                        'lib/jquery-tagcloud/jquery-tagcloud.js',
+                        //'lib/jquery-tagcloud/jquery-tagcloud.js',
                         'lib/jquery-watchchanges/jquery-watchchanges.js'
                     ]
                 }]
@@ -325,6 +319,19 @@ module.exports = function(grunt) {
                         'node_modules/bootstrap-sass/assets/javascripts/bootstrap/modal.js',
                         'node_modules/bootstrap-sass/assets/javascripts/bootstrap/tooltip.js',
                         'node_modules/bootstrap-sass/assets/javascripts/bootstrap/popover.js'
+                    ]
+                }
+            },
+            prepareBowerAssets: {
+                files: {
+                    'lib/tmp/bower-assets.js': [
+                        'bower_components/bootbox.js/bootbox.js',
+                        'bower_components/jquery/dist/jquery.js',
+                        'bower_components/jquery.cookie/jquery.cookie.js',
+                        'bower_components/jquery.formatDateTime/jquery.formatDateTime.js',
+                        'bower_components/jquery.tagcloud.js/jquery.tagcloud.js',
+                        'bower_components/magnific-popup/dist/jquery.magnific-popup.js',
+                        'bower_components/underscore/underscore.js'
                     ]
                 }
             },
@@ -452,6 +459,7 @@ module.exports = function(grunt) {
             // Prepare
             'uglify:prepareBootstrapJs',        // Concat bootstrap scripts into one minified file
             'uglify:prepareLibJs',              // Create minified versions of library scripts that don't have them
+            'uglify:prepareBowerAssets',        // Create minified versions of bower scripts that don't have them
             'remove:prepareCkeditor',           // Remove unneeded direcories from downloaded ckeditor
             'bom:prepareCkeditor',              // Remove unneeded bom from downloaded ckeditor
             'eol:prepareCkeditor',              // Convert CRLF to LF from downloaded ckeditor
