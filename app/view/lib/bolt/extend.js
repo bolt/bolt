@@ -606,7 +606,7 @@ var BoltExtender = Object.extend(Object, {
     formatErrorLog: function(data) {
         var errObj = $.parseJSON(data.responseText),
         html = '';
-        if (errObj.error.type === 'Bolt\\Exception\\BoltComposerException') {
+        if (errObj.error.type === 'Bolt\\Exception\\PackageManagerException') {
             // Clean up Composer messages
             var msg = errObj.error.message.replace(/(<http)/g, '<a href="http').replace(/(\w+>)/g, '">this link<\/a>');
 
