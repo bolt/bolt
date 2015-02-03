@@ -292,13 +292,13 @@ class PackageManager
      * @param $packages
      * @return
      */
-    public function showPackage($target, $package = '', $version = '')
+    public function showPackage($target, $package = '', $version = '', $root = false)
     {
         if (!$this->show) {
             $this->show = new ShowPackage($this->app);
         }
 
-        return $this->show->execute($target, $package, $version);
+        return $this->show->execute($target, $package, $version, $root);
     }
 
     /**
