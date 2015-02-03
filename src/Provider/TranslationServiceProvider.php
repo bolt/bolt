@@ -27,11 +27,11 @@ class TranslationServiceProvider implements ServiceProviderInterface
         if (isset($app['translator'])) {
             $app['translator']->addLoader('yml', new TranslationLoader\YamlFileLoader());
 
-            $this->addResources($app, $app['locale']);
+            static::addResources($app, $app['locale']);
 
             // Load english fallbacks
             if ($app['locale'] != \Bolt\Application::DEFAULT_LOCALE) {
-                $this->addResources($app, \Bolt\Application::DEFAULT_LOCALE);
+                static::addResources($app, \Bolt\Application::DEFAULT_LOCALE);
             }
         }
     }
@@ -41,9 +41,8 @@ class TranslationServiceProvider implements ServiceProviderInterface
      *
      * @param Application $app
      * @param string      $locale
-     * @param string      $territory
      */
-    private function addResources(Application $app, $locale)
+    public static function addResources(Application $app, $locale)
     {
         $paths = $app['resources']->getPaths();
 
@@ -63,7 +62,7 @@ class TranslationServiceProvider implements ServiceProviderInterface
                 }
             }
         } elseif (strlen($locale) == 5) {
-            $this->addResources($app, substr($locale, 0, 2));
+            static::addResources($app, substr($locale, 0, 2));
         }
     }
 }
