@@ -41,10 +41,7 @@ class Library
         foreach ($patharray as $item) {
             if ($item == '..') {
                 // remove the previous element
-                try {
-                    array_pop($newPath);
-                } catch (\Exception $e) {
-                }
+                @array_pop($newPath);
             } elseif ($item == 'http:') {
                 // Don't break for URLs with http:// scheme
                 $newPath[] = 'http:/';
