@@ -3,7 +3,6 @@
 namespace Bolt\Logger;
 
 use Bolt\Pager;
-use Monolog\Logger;
 use Silex\Application;
 
 /**
