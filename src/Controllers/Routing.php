@@ -78,13 +78,17 @@ class Routing implements ControllerProviderInterface
         if (substr($before, 0, 2) === '::' && is_array($to)) {
             $before = array($to[0], substr($before, 2));
         }
-        $route->before($before);
+        if (is_callable($before)) {
+            $route->before($before);
+        }
 
         $after = $defaults->remove('_after') ?: '::after';
         if (substr($after, 0, 2) === '::' && is_array($to)) {
             $after = array($to[0], substr($after, 2));
         }
-        $route->after($after);
+        if (is_callable($after)) {
+            $route->after($after);
+        }
 
         foreach ($defaults as $key => $value) {
             $route->value($key, $value);
