@@ -132,7 +132,7 @@ class Routing implements ControllerProviderInterface
      */
     public function getAnyContentTypeRequirement()
     {
-        return $this->app['storage']->getContentTypeAssert(true);
+        return $this->getContentTypeAssert(true);
     }
 
     /**
@@ -140,7 +140,26 @@ class Routing implements ControllerProviderInterface
      */
     public function getPluralContentTypeRequirement()
     {
-        return $this->app['storage']->getContentTypeAssert(false);
+        return $this->getContentTypeAssert();
+    }
+
+    /**
+     * Get a value to use in 'assert() with the available contenttypes
+     *
+     * @param  bool   $includesingular
+     * @return string $contenttypes
+     */
+    protected function getContentTypeAssert($includesingular = false)
+    {
+        $slugs = array();
+        foreach ($this->app['config']->get('contenttypes') as $type) {
+            $slugs[] = $type['slug'];
+            if ($includesingular) {
+                $slugs[] = $type['singular_slug'];
+            }
+        }
+
+        return implode("|", $slugs);
     }
 
     /**
@@ -148,7 +167,7 @@ class Routing implements ControllerProviderInterface
      */
     public function getAnyTaxonomyTypeRequirement()
     {
-        return $this->app['storage']->getTaxonomyTypeAssert(true);
+        return $this->getTaxonomyTypeAssert(true);
     }
 
     /**
@@ -156,7 +175,34 @@ class Routing implements ControllerProviderInterface
      */
     public function getPluralTaxonomyTypeRequirement()
     {
-        return $this->app['storage']->getTaxonomyTypeAssert(false);
+        return $this->getTaxonomyTypeAssert();
+    }
+
+    /**
+     * Get a value to use in 'assert() with the available taxonomytypes
+     *
+     * @param  bool   $includesingular
+     * @return string $taxonomytypes
+     */
+    protected function getTaxonomyTypeAssert($includesingular = false)
+    {
+        $taxonomytypes = $this->app['config']->get('taxonomy');
+
+        // No taxonomies, nothing to assert. The route _DOES_ expect a string, so
+        // we return a regex that never matches.
+        if (empty($taxonomytypes)) {
+            return "$.";
+        }
+
+        $slugs = array();
+        foreach ($taxonomytypes as $type) {
+            $slugs[] = $type['slug'];
+            if ($includesingular) {
+                $slugs[] = $type['singular_slug'];
+            }
+        }
+
+        return implode("|", $slugs);
     }
 
     /**

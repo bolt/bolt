@@ -2052,52 +2052,6 @@ class Storage
     }
 
     /**
-     * Get a value to use in 'assert() with the available contenttypes
-     *
-     * @param  bool   $includesingular
-     * @return string $contenttypes
-     */
-    public function getContentTypeAssert($includesingular = false)
-    {
-        $slugs = array();
-        foreach ($this->app['config']->get('contenttypes') as $type) {
-            $slugs[] = $type['slug'];
-            if ($includesingular) {
-                $slugs[] = $type['singular_slug'];
-            }
-        }
-
-        return implode("|", $slugs);
-    }
-
-    /**
-     * Get a value to use in 'assert() with the available taxonomytypes
-     *
-     * @param  bool   $includesingular
-     * @return string $taxonomytypes
-     */
-    public function getTaxonomyTypeAssert($includesingular = false)
-    {
-        $taxonomytypes = $this->app['config']->get('taxonomy');
-
-        // No taxonomies, nothing to assert. The route _DOES_ expect a string, so
-        // we return a regex that never matches.
-        if (empty($taxonomytypes)) {
-            return "$.";
-        }
-
-        $slugs = array();
-        foreach ($taxonomytypes as $type) {
-            $slugs[] = $type['slug'];
-            if ($includesingular) {
-                $slugs[] = $type['singular_slug'];
-            }
-        }
-
-        return implode("|", $slugs);
-    }
-
-    /**
      * Get an array of the available fields for a given contenttype
      *
      * @param  string $contenttypeslug
