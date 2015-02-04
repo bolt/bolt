@@ -13,31 +13,6 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class BoltLibraryTest extends BoltUnitTest
 {
-
-    public function testFixPath()
-    {
-        $windowsPath = "A:\My\File";
-        $fix = Library::fixPath($windowsPath);
-        $this->assertEquals("A:/My/File", $fix);
-
-        $protocolPath = "//path/to\image.jpg";
-        $fix = Library::fixPath($protocolPath, false);
-        $this->assertEquals("//path/to/image.jpg", $fix);
-
-        $relative = "/path/to/nested/nested/../../image.jpg";
-        $fix = Library::fixPath($relative);
-        $this->assertEquals("/path/to/image.jpg", $fix);
-
-        $relativeUrl = "http://path/to/nested/nested/../../image.jpg";
-        $fix = Library::fixPath($relativeUrl, false);
-        $this->assertEquals("http://path/to/image.jpg", $fix);
-
-        $relativeSecureUrl = "https://path/to/nested/nested/../../image.jpg";
-        $fix = Library::fixPath($relativeSecureUrl, false);
-        $this->assertEquals("https://path/to/image.jpg", $fix);
-
-    }
-
     public function testFormatFilesize()
     {
         $b = 300;
