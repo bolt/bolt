@@ -14,49 +14,6 @@ use Bolt\Translation\Translator;
 class Library
 {
     /**
-     * Cleans up/fixes a relative paths.
-     *
-     * As an example '/site/pivotx/../index.php' becomes '/site/index.php'.
-     * In addition (non-leading) double slashes are removed.
-     *
-     * @param  string $path
-     * @param  bool   $nodoubleleadingslashes
-     * @return string
-     */
-    public static function fixPath($path, $nodoubleleadingslashes = true)
-    {
-        $path = str_replace("\\", "/", rtrim($path, '/'));
-
-        // Handle double leading slash (that shouldn't be removed).
-        if (!$nodoubleleadingslashes && (strpos($path, '//') === 0)) {
-            $lead = '//';
-            $path = substr($path, 2);
-        } else {
-            $lead = '';
-        }
-
-        $patharray = explode('/', preg_replace('#/+#', '/', $path));
-        $newPath = array();
-
-        foreach ($patharray as $item) {
-            if ($item == '..') {
-                // remove the previous element
-                @array_pop($newPath);
-            } elseif ($item == 'http:') {
-                // Don't break for URLs with http:// scheme
-                $newPath[] = 'http:/';
-            } elseif ($item == 'https:') {
-                // Don't break for URLs with https:// scheme
-                $newPath[] = 'https:/';
-            } elseif (($item != '.')) {
-                $newPath[] = $item;
-            }
-        }
-
-        return $lead . implode('/', $newPath);
-    }
-
-    /**
      * Format a filesize like '10.3 kb' or '2.5 mb'
      *
      * @param  integer $size
