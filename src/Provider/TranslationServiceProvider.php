@@ -5,6 +5,7 @@ namespace Bolt\Provider;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 use Symfony\Component\Translation\Loader as TranslationLoader;
+use Bolt\Library as Lib;
 
 class TranslationServiceProvider implements ServiceProviderInterface
 {
@@ -26,11 +27,11 @@ class TranslationServiceProvider implements ServiceProviderInterface
         if (isset($app['translator'])) {
             $app['translator']->addLoader('yml', new TranslationLoader\YamlFileLoader());
 
-            static::addResources($app, $app['locale']);
+            $this->addResources($app, $app['locale']);
 
             // Load english fallbacks
             if ($app['locale'] != \Bolt\Application::DEFAULT_LOCALE) {
-                static::addResources($app, \Bolt\Application::DEFAULT_LOCALE);
+                $this->addResources($app, \Bolt\Application::DEFAULT_LOCALE);
             }
         }
     }
@@ -40,11 +41,14 @@ class TranslationServiceProvider implements ServiceProviderInterface
      *
      * @param Application $app
      * @param string      $locale
+     * @param string      $territory
      */
-    public static function addResources(Application $app, $locale)
+    private function addResources(Application $app, $locale)
     {
+        $paths = $app['resources']->getPaths();
+
         // Directory to look for translation file(s)
-        $transDir = $app['resources']->getPaths('app/resources/translations/' . $locale);
+        $transDir = $paths['apppath'] . '/resources/translations/' . $locale;
 
         if (is_dir($transDir)) {
             $iterator = new \DirectoryIterator($transDir);
@@ -52,14 +56,14 @@ class TranslationServiceProvider implements ServiceProviderInterface
              * @var \SplFileInfo $fileInfo
              */
             foreach ($iterator as $fileInfo) {
-                if (!$fileInfo->isFile()) {
-                    return;
+                if ($fileInfo->isFile() && (Lib::getExtension($fileInfo->getFilename()) == 'yml')) {
+                    $fnameParts = explode('.', $fileInfo->getFilename());
+                    $domain = $fnameParts[0];
+                    $app['translator']->addResource('yml', $fileInfo->getRealPath(), $locale, $domain);
                 }
-                list($domain) = explode('.', $fileInfo->getFilename());
-                $app['translator']->addResource($fileInfo->getExtension(), $fileInfo->getRealPath(), $locale, $domain);
             }
         } elseif (strlen($locale) == 5) {
-            static::addResources($app, substr($locale, 0, 2));
+            $this->addResources($app, substr($locale, 0, 2));
         }
     }
 }
