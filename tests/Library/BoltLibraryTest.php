@@ -42,15 +42,15 @@ class BoltLibraryTest extends BoltUnitTest
     {
         $b = 300;
         $fix = Library::formatFilesize($b);
-        $this->assertEquals('300 b', $fix);
+        $this->assertEquals('300 B', $fix);
 
         $k = 1027;
         $fix = Library::formatFilesize($k);
-        $this->assertEquals('1.00 kb', $fix);
+        $this->assertEquals('1.00 KiB', $fix);
 
         $m = 1048577;
         $fix = Library::formatFilesize($m);
-        $this->assertEquals('1.00 mb', $fix);
+        $this->assertEquals('1.00 MiB', $fix);
     }
 
     public function testGetExtension()
