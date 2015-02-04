@@ -142,6 +142,7 @@ class Storage
     {
         $content = array();
         $title = '';
+        $uri = 'http://loripsum.net/api';
 
         $content['contenttype'] = $key;
         $content['datecreated'] = date('Y-m-d H:i:s', time() - rand(0, 365 * 24 * 60 * 60));
@@ -159,7 +160,7 @@ class Storage
 
             switch ($values['type']) {
                 case 'text':
-                    $content[$field] = trim(strip_tags($this->app['guzzle.client']->get('http://loripsum.net/api/1/veryshort')->send()->getBody(true)));
+                    $content[$field] = trim(strip_tags($this->app['guzzle.client']->get($uri . '/1/veryshort')->send()->getBody(true)));
                     if (empty($title)) {
                         $title = $content[$field];
                     }
@@ -174,11 +175,11 @@ class Storage
                 case 'textarea':
                 case 'markdown':
                     if (in_array($field, array('teaser', 'introduction', 'excerpt', 'intro'))) {
-                        $params = 'http://loripsum.net/api/medium/decorate/link/1';
+                        $params = '/medium/decorate/link/1';
                     } else {
-                        $params = 'http://loripsum.net/api/medium/decorate/link/ol/ul/3';
+                        $params = '/medium/decorate/link/ol/ul/3';
                     }
-                    $content[$field] = trim($this->app['guzzle.client']->get($params)->send()->getBody(true));
+                    $content[$field] = trim($this->app['guzzle.client']->get($uri . $params)->send()->getBody(true));
 
                     if ($values['type'] == "markdown") {
                         $content[$field] = strip_tags($content[$field]);
