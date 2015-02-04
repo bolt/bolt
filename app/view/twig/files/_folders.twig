@@ -11,7 +11,7 @@
             <tr>
                 <td>
                     <i class="fa fa-fw fa-folder-open-o"></i>
-                    <a href="{{ url('files', {'path': folder.newpath, 'namespace': context.namespace}) }}">
+                    <a href="{{ path('files', {'path': folder.newpath, 'namespace': context.namespace}) }}">
                         <b>{{ folder.foldername|excerpt(60)|shy }}/</b>
                     </a>
                 </td>
