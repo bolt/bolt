@@ -1,6 +1,7 @@
 <?php
 namespace Bolt\Controllers;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Silex;
 use Silex\ControllerProviderInterface;
 
@@ -17,6 +18,10 @@ class Routing implements ControllerProviderInterface
 
     /**
      * Connect this controller to the application
+     *
+     * @param Silex\Application $app
+     *
+     * @return Silex\ControllerCollection
      */
     public function connect(Silex\Application $app)
     {
@@ -24,119 +29,82 @@ class Routing implements ControllerProviderInterface
             self::$app = $app;
         }
 
-        $ctr = false;
-
         $routes = $app['config']->get('routing');
-        if (is_array($routes)) {
-            $ctr = $this->addRoutes($app, $routes);
-        }
+        $routes = is_array($routes) ? $routes : array();
 
-        if ($ctr === false) {
-            $ctr = $app['controllers_factory'];
-        }
+        $ctr = $this->addRoutes($app, $routes);
 
         return $ctr;
     }
 
     /**
      * Add routes based on the parsed array
+     *
+     * @param Silex\Application $app
+     * @param array             $routes
+     *
+     * @return Silex\ControllerCollection
      */
     private function addRoutes(Silex\Application $app, array $routes)
     {
         /** @var $ctr Silex\ControllerCollection */
         $ctr = $app['controllers_factory'];
 
-        foreach ($routes as $binding => $routeconfig) {
-            $path = false;
-            $to = false;
-            $route = false;
-            $host = false;
-            $_before = false;
-            $_after = false;
-            $defaults = array();
-            $requirements = array();
+        foreach ($routes as $name => $config) {
+            $config = new ArrayCollection($config);
 
-            // set some defaults in the YAML
-            if ((!isset($routeconfig['defaults'])) || (!isset($routeconfig['defaults']['_before']))) {
-                $routeconfig['defaults']['_before'] = '::before';
+            if (!$path = $config['path']) {
+                continue;
             }
-            if ((!isset($routeconfig['defaults'])) || (!isset($routeconfig['defaults']['_after']))) {
-                $routeconfig['defaults']['_after'] = '::after';
+            if (!$defaults = $config['defaults']) {
+                continue;
             }
+            $defaults = new ArrayCollection($defaults);
 
-            // parse YAML structure
+            if (!$to = $defaults->remove('_controller')) {
+                continue;
+            }
+            if (strpos($to, '::') > 0) {
+                $to = explode('::', $to);
+            }
+            $route = $ctr->match($path, $to);
 
-            if (isset($routeconfig['path'])) {
-                $path = $routeconfig['path'];
+            $before = $defaults->remove('_before') ?: '::before';
+            if (substr($before, 0, 2) === '::' && is_array($to)) {
+                $before = array($to[0], substr($before, 2));
             }
-            if (isset($routeconfig['defaults'])) {
-                $defaults = $routeconfig['defaults'];
-                if (isset($defaults['_controller'])) {
-                    $to = $defaults['_controller'];
-                    if (strpos($to, '::') > 0) {
-                        $to = explode('::', $defaults['_controller']);
-                    }
-                    unset($defaults['_controller']);
-                }
-                if (isset($defaults['_before'])) {
-                    if ((substr($defaults['_before'], 0, 2) == '::') && (is_array($to))) {
-                        $_before = array($to[0], substr($defaults['_before'], 2));
-                    } else {
-                        $_before = $defaults['_before'];
-                    }
-                    unset($defaults['_before']);
-                }
-                if (isset($defaults['_after'])) {
-                    if ((substr($defaults['_after'], 0, 2) == '::') && (is_array($to))) {
-                        $_after = array($to[0], substr($defaults['_after'], 2));
-                    } else {
-                        $_after = $defaults['_after'];
-                    }
-                    unset($defaults['_after']);
-                }
+            $route->before($before);
+
+            $after = $defaults->remove('_after') ?: '::after';
+            if (substr($after, 0, 2) === '::' && is_array($to)) {
+                $after = array($to[0], substr($after, 2));
             }
-            if (isset($routeconfig['requirements']) && (is_array($routeconfig['requirements']))) {
-                $requirements = $routeconfig['requirements'];
-            }
-            if (isset($routeconfig['host'])) {
-                $host = $routeconfig['host'];
+            $route->after($after);
+
+            foreach ($defaults as $key => $value) {
+                $route->value($key, $value);
             }
 
-            // build an actual route
-
-            if (($path !== false) && ($to !== false)) {
-                $route = $ctr->match($path, $to);
+            foreach ($config['requirements'] ?: array() as $variable => $regexp) {
+                $properRegexp = $this->getProperRegexp($regexp);
+                $route->assert($variable, $properRegexp);
             }
-            if ($route !== false) {
-                if (($_before !== false) && (is_callable($_before))) {
-                    $route->before($_before);
-                }
-                if (($_after !== false) && (is_callable($_after))) {
-                    $route->after($_after);
-                }
 
-                foreach ($requirements as $variable => $regexp) {
-                    $properRegexp = $this->getProperRegexp($regexp);
-                    $route->assert($variable, $properRegexp);
-                }
-                foreach ($defaults as $variable => $default) {
-                    $route->value($variable, $default);
-                }
-                if ($host !== false) {
-                    $route->setHost($host);
-                }
-
-                $route->bind($binding);
+            if ($host = $config['host']) {
+                $route->setHost($host);
             }
+
+            $route->bind($name);
         }
 
         return $ctr;
     }
 
     /**
-     * Return a proper regexp
+     * Return a regex from a function
      *
-     * Bolt allows
+     * @param string|array $regexp
+     * @return string
      */
     private function getProperRegexp($regexp)
     {
@@ -185,6 +153,11 @@ class Routing implements ControllerProviderInterface
 
     /**
      * Return slugs of existing taxonomy values.
+     *
+     * @param string      $taxonomyName
+     * @param string|null $emptyValue
+     *
+     * @return string
      */
     public static function getTaxonomyRequirement($taxonomyName, $emptyValue = null)
     {
