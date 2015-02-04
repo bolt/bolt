@@ -25,6 +25,7 @@ class TranslationServiceProvider implements ServiceProviderInterface
     {
         if (isset($app['translator'])) {
             $app['translator']->addLoader('yml', new TranslationLoader\YamlFileLoader());
+            $app['translator']->addLoader('xlf', new TranslationLoader\XliffFileLoader());
 
             static::addResources($app, $app['locale']);
 
