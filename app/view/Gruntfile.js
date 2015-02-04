@@ -244,12 +244,9 @@ module.exports = function(grunt) {
                     ext: '.min.js',
                     src: [
                         'lib/bootstrap-file-input/bootstrap-file-input.js',
-                        //'lib/jquery-cookie-1.4.0/jquery-cookie.js',
                         'lib/jquery-fileupload-5.26/jquery-fileupload.js',
                         'lib/jquery-fileupload-5.26/jquery-iframe-transport.js',
-                        //'lib/jquery-formatdatetime-1.1.4/jquery-formatdatetime.js',
                         'lib/jquery-hotkeys/jquery-hotkeys.js',
-                        //'lib/jquery-tagcloud/jquery-tagcloud.js',
                         'lib/jquery-watchchanges/jquery-watchchanges.js'
                     ]
                 }]
@@ -273,7 +270,7 @@ module.exports = function(grunt) {
                         'xml.js',
                         'yaml.js'
                     ],
-                    dest: 'js/ckeditor/plugins/codemirror/plugins',
+                    dest: 'js/ckeditor/plugins/codemirror/plugins'
                 }]
             },
             installLocaleDatepicker: {
