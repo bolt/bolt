@@ -231,8 +231,6 @@ class Library
      */
     public static function loadSerialize($filename, $silent = false)
     {
-        $filename = self::fixPath($filename);
-
         if (! is_readable($filename)) {
 
             if ($silent) {
