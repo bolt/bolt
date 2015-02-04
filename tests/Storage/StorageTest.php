@@ -204,16 +204,6 @@ class StorageTest extends BoltUnitTest
 
     }
 
-    public function testGetContentTypeAssert()
-    {
-
-    }
-
-    public function testGetTaxonomyTypeAssert()
-    {
-
-    }
-
     public function testGetContentTypeFields()
     {
 
