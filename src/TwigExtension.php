@@ -2,13 +2,14 @@
 
 namespace Bolt;
 
-use Silex;
-use Symfony\Component\Finder\Finder;
-use Symfony\Component\Finder\Glob;
 use Bolt\Library as Lib;
 use Bolt\Helpers\String;
 use Bolt\Helpers\Html;
 use Bolt\Translation\Translator as Trans;
+use Silex;
+use Symfony\Component\Finder\Finder;
+use Symfony\Component\Finder\Glob;
+use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 /**
  * The class for Bolt' Twig tags, functions and filters.
@@ -1210,31 +1211,50 @@ class TwigExtension extends \Twig_Extension
             $add = empty($item['add']) ? '' : $item['add'];
 
             $item['link'] = Lib::path($item['route'], $param, $add);
-        } elseif (isset($item['path'])) {
-            // if the item is like 'content/1', get that content.
-            if (preg_match('#^([a-z0-9_-]+)/([a-z0-9_-]+)$#i', $item['path'])) {
-                $content = $this->app['storage']->getContent($item['path']);
-            }
-
-            if (!empty($content) && is_object($content) && get_class($content) == 'Bolt\Content') {
-                // We have content.
-                if (empty($item['label'])) {
-                    $item['label'] = !empty($content->values['title']) ? $content->values['title'] : "";
-                }
-                if (empty($item['title'])) {
-                    $item['title'] = !empty($content->values['subtitle']) ? $content->values['subtitle'] : "";
-                }
-                if (is_object($content)) {
-                    $item['link'] = $content->link();
-                }
-
-                $item['record'] = $content;
-
+        } elseif (isset($item['path']) && !isset($item['link'])) {
+            if (preg_match('#^(https?://|//)#i', $item['path'])) {
+                // We have a mistakenly placed URL, allow it but log it.
+                $item['link'] = $item['path'];
+                $this->app['logger.system']->addError(Trans::__('Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!', array('%PATH%' => $item['path'])), array('event' => 'config'));
             } else {
-                // we assume the user links to this on purpose.
-                $item['link'] = Lib::fixPath($this->app['paths']['root'] . $item['path']);
-            }
+                // Get a copy of the path minus trainling/leading slash
+                $path = ltrim(rtrim($item['path'], '/'), '/');
 
+                // Pre-set our link in case the match() throws an exception
+                $item['link'] = '/' . $path;
+
+                try {
+                    // See if we have a 'content/id' or 'content/slug' path
+                    if (preg_match('#^([a-z0-9_-]+)/([a-z0-9_-]+)$#i', $path)) {
+
+                        // Determine if the provided path first matches any routes
+                        // that we have, this will catch any valid configured
+                        // contenttype slug and record combination, or throw a
+                        // ResourceNotFoundException exception otherwise
+                        $this->app['url_matcher']->match('/' . $path);
+
+                        // If we found a valid routing match then we're still here,
+                        // attempt to retrive the actual record.
+                        $content = $this->app['storage']->getContent($path);
+                        if ($content instanceof \Bolt\Content) {
+
+                            if (empty($item['label'])) {
+                                $item['label'] = !empty($content->values['title']) ? $content->values['title'] : "";
+                            }
+
+                            if (empty($item['title'])) {
+                                $item['title'] = !empty($content->values['subtitle']) ? $content->values['subtitle'] : "";
+                            }
+
+                            $item['link'] = $content->link();
+                        }
+                    } else {
+                        $item['link'] = '/' . $path;
+                    }
+                } catch (ResourceNotFoundException $e) {
+                    $this->app['logger.system']->addError(Trans::__('Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.', array('%PATH%' => $item['path'])), array('event' => 'config'));
+                }
+            }
         }
 
         return $item;
