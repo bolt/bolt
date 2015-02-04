@@ -132,7 +132,7 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
 
         // Most of the 'check if user is allowed' happens here: match the current route to the 'allowed' settings.
         if (!$app['users']->isAllowed('extensions')) {
-            $app['session']->getFlashBag()->set('error', Trans::__('You do not have the right privileges to view that page.'));
+            $app['session']->getFlashBag()->add('error', Trans::__('You do not have the right privileges to view that page.'));
 
             return Lib::redirect('dashboard');
         }

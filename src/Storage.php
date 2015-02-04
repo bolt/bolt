@@ -548,7 +548,7 @@ class Storage
 
         if (!$this->isValidColumn($field, $contenttype)) {
             $error = Trans::__('contenttypes.generic.invalid-field', array('%field%' => $field, '%contenttype%' => $contenttype));
-            $this->app['session']->getFlashBag()->set('error', $error);
+            $this->app['session']->getFlashBag()->add('error', $error);
 
             return false;
         }
