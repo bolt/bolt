@@ -47,53 +47,58 @@ class Routing implements ControllerProviderInterface
         $ctr = $this->app['controllers_factory'];
 
         foreach ($routes as $name => $config) {
-            $config = new ArrayCollection($config);
-
-            if (!$path = $config['path']) {
-                continue;
-            }
-            if (!$defaults = $config['defaults']) {
-                continue;
-            }
-            $defaults = new ArrayCollection($defaults);
-
-            if (!$to = $defaults->remove('_controller')) {
-                continue;
-            }
-            if (strpos($to, '::') > 0) {
-                $to = explode('::', $to);
-            }
-            $route = $ctr->match($path, $to);
-
-            $before = $defaults->remove('_before') ?: '::before';
-            if (substr($before, 0, 2) === '::' && is_array($to)) {
-                $before = array($to[0], substr($before, 2));
-            }
-            $route->before($before);
-
-            $after = $defaults->remove('_after') ?: '::after';
-            if (substr($after, 0, 2) === '::' && is_array($to)) {
-                $after = array($to[0], substr($after, 2));
-            }
-            $route->after($after);
-
-            foreach ($defaults as $key => $value) {
-                $route->value($key, $value);
-            }
-
-            foreach ($config['requirements'] ?: array() as $variable => $regexp) {
-                $properRegexp = $this->getProperRegexp($regexp);
-                $route->assert($variable, $properRegexp);
-            }
-
-            if ($host = $config['host']) {
-                $route->setHost($host);
-            }
-
-            $route->bind($name);
+            $this->addRoute($ctr, $name, $config);
         }
 
         return $ctr;
+    }
+
+    protected function addRoute(Silex\ControllerCollection $ctr, $name, array $config)
+    {
+        $config = new ArrayCollection($config);
+
+        if (!$path = $config['path']) {
+            return;
+        }
+        if (!$defaults = $config['defaults']) {
+            return;
+        }
+        $defaults = new ArrayCollection($defaults);
+
+        if (!$to = $defaults->remove('_controller')) {
+            return;
+        }
+        if (strpos($to, '::') > 0) {
+            $to = explode('::', $to);
+        }
+        $route = $ctr->match($path, $to);
+
+        $before = $defaults->remove('_before') ?: '::before';
+        if (substr($before, 0, 2) === '::' && is_array($to)) {
+            $before = array($to[0], substr($before, 2));
+        }
+        $route->before($before);
+
+        $after = $defaults->remove('_after') ?: '::after';
+        if (substr($after, 0, 2) === '::' && is_array($to)) {
+            $after = array($to[0], substr($after, 2));
+        }
+        $route->after($after);
+
+        foreach ($defaults as $key => $value) {
+            $route->value($key, $value);
+        }
+
+        foreach ($config['requirements'] ?: array() as $variable => $regexp) {
+            $properRegexp = $this->getProperRegexp($regexp);
+            $route->assert($variable, $properRegexp);
+        }
+
+        if ($host = $config['host']) {
+            $route->setHost($host);
+        }
+
+        $route->bind($name);
     }
 
     /**
