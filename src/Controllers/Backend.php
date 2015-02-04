@@ -354,7 +354,6 @@ class Backend implements ControllerProviderInterface
             // This is easy:
             $title = Trans::__('All content types');
             $logEntries = $app['logger.manager.change']->getChangelog($options);
-            // @todo: Unused in template. Leave it in for now
             $itemcount = $app['logger.manager.change']->countChangelog($options);
         } else {
             // We have a content type, and possibly a contentid.
@@ -365,7 +364,6 @@ class Backend implements ControllerProviderInterface
             }
             // Getting a slice of data and the total count
             $logEntries = $app['logger.manager.change']->getChangelogByContentType($contenttype, $options);
-            // @todo: Unused in template. Leave it in for now
             $itemcount = $app['logger.manager.change']->countChangelogByContentType($contenttype, $options);
 
             // The page title we're sending to the template depends on a few

@@ -703,13 +703,6 @@ class Async implements ControllerProviderInterface
         // Start the 'stopwatch' for the profiler.
         $app['stopwatch']->start('bolt.async.before');
 
-        // Only set which endpoint it is, if it's not already set. Which it is, in cases like
-        // when it's embedded on a page using {{ render() }}
-        // @todo Is this still needed?
-        if (empty($app['end'])) {
-            $app['end'] = "asynchronous";
-        }
-
         // If there's no active session, don't do anything..
         if (!$app['users']->isValidSession()) {
             $app->abort(404, "You must be logged in to use this.");
