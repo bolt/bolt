@@ -1,6 +1,5 @@
-{% import _self as self %}
-
 {% macro flashbag() %}
+    {% import _self as self %}
     {{ self.messages('error', 'danger') }}
     {{ self.messages('warning') }}
     {{ self.messages('success') }}
@@ -16,6 +15,7 @@
     {% endfor %}
 {% endmacro %}
 
+{% import _self as self %}
 {% if wrapper is defined and wrapper and app.session.flashBag.keys() is not empty %}
     <div class="row">
         <div class="col-md-8">
