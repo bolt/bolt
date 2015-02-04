@@ -1231,8 +1231,8 @@ class TwigExtension extends \Twig_Extension
                 $item['record'] = $content;
 
             } else {
-                // we assume the user links to this on purpose.
-                $item['link'] = Lib::fixPath($this->app['paths']['root'] . $item['path']);
+                // The user has probably put a 'link' in the 'path' key, set it for them
+                $item['link'] = $item['path'];
             }
 
         }
