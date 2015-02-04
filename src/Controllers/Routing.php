@@ -2,7 +2,8 @@
 namespace Bolt\Controllers;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Silex;
+use Silex\Application;
+use Silex\ControllerCollection;
 use Silex\ControllerProviderInterface;
 
 /**
@@ -12,17 +13,17 @@ use Silex\ControllerProviderInterface;
  */
 class Routing implements ControllerProviderInterface
 {
-    /** @var Silex\Application */
+    /** @var Application */
     protected $app;
 
     /**
      * Connect this controller to the application
      *
-     * @param Silex\Application $app
+     * @param Application $app
      *
-     * @return Silex\ControllerCollection
+     * @return ControllerCollection
      */
-    public function connect(Silex\Application $app)
+    public function connect(Application $app)
     {
         $this->app = $app;
 
@@ -39,11 +40,11 @@ class Routing implements ControllerProviderInterface
      *
      * @param array $routes
      *
-     * @return Silex\ControllerCollection
+     * @return ControllerCollection
      */
     protected function addRoutes(array $routes)
     {
-        /** @var $ctr Silex\ControllerCollection */
+        /** @var $ctr ControllerCollection */
         $ctr = $this->app['controllers_factory'];
 
         foreach ($routes as $name => $config) {
@@ -53,7 +54,7 @@ class Routing implements ControllerProviderInterface
         return $ctr;
     }
 
-    protected function addRoute(Silex\ControllerCollection $ctr, $name, array $config)
+    protected function addRoute(ControllerCollection $ctr, $name, array $config)
     {
         $config = new ArrayCollection($config);
 
