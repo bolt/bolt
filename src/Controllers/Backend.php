@@ -1668,6 +1668,10 @@ class Backend implements ControllerProviderInterface
 
         $app['debugbar'] = true;
 
+        // Sanity checks for doubles in in contenttypes.
+        // unfortunately this has to be done here, because the 'translator' classes need to be initialised.
+        $app['config']->checkConfig();
+
         // If the users table is present, but there are no users, and we're on /bolt/useredit,
         // we let the user stay, because they need to set up the first user.
         if ($app['integritychecker']->checkUserTableIntegrity() && !$app['users']->getUsers() && $route == 'useredit') {
