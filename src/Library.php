@@ -292,8 +292,6 @@ class Library
      */
     public static function saveSerialize($filename, &$data)
     {
-        $filename = self::fixPath($filename);
-
         $serString = '<?php /* bolt */ die(); ?>json:' . json_encode($data);
 
         // disallow user to interrupt
