@@ -53,7 +53,7 @@ class TranslationServiceProvider implements ServiceProviderInterface
              */
             foreach ($iterator as $fileInfo) {
                 if (!$fileInfo->isFile()) {
-                    return;
+                    continue;
                 }
                 list($domain) = explode('.', $fileInfo->getFilename());
                 $app['translator']->addResource($fileInfo->getExtension(), $fileInfo->getRealPath(), $locale, $domain);
