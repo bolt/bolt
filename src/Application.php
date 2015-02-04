@@ -358,10 +358,6 @@ class Application extends Silex\Application
             return $response;
         }
 
-        // Sanity checks for doubles in in contenttypes.
-        // unfortunately this has to be done here, because the 'translator' classes need to be initialised.
-        $this['config']->checkConfig();
-
         // Stop the 'stopwatch' for the profiler.
         $this['stopwatch']->stop('bolt.app.before');
     }
