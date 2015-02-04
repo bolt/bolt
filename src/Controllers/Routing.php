@@ -12,9 +12,8 @@ use Silex\ControllerProviderInterface;
  */
 class Routing implements ControllerProviderInterface
 {
-    // Dirty trick to allow for easy route-requirements
-    // @todo fix this (create service, abstract away, figure something else..)
-    private static $app = false;
+    /** @var Silex\Application */
+    protected $app;
 
     /**
      * Connect this controller to the application
@@ -25,14 +24,12 @@ class Routing implements ControllerProviderInterface
      */
     public function connect(Silex\Application $app)
     {
-        if (self::$app === false) {
-            self::$app = $app;
-        }
+        $this->app = $app;
 
         $routes = $app['config']->get('routing');
         $routes = is_array($routes) ? $routes : array();
 
-        $ctr = $this->addRoutes($app, $routes);
+        $ctr = $this->addRoutes($routes);
 
         return $ctr;
     }
@@ -40,15 +37,14 @@ class Routing implements ControllerProviderInterface
     /**
      * Add routes based on the parsed array
      *
-     * @param Silex\Application $app
-     * @param array             $routes
+     * @param array $routes
      *
      * @return Silex\ControllerCollection
      */
-    private function addRoutes(Silex\Application $app, array $routes)
+    protected function addRoutes(array $routes)
     {
         /** @var $ctr Silex\ControllerCollection */
-        $ctr = $app['controllers_factory'];
+        $ctr = $this->app['controllers_factory'];
 
         foreach ($routes as $name => $config) {
             $config = new ArrayCollection($config);
@@ -106,49 +102,55 @@ class Routing implements ControllerProviderInterface
      * @param string|array $regexp
      * @return string
      */
-    private function getProperRegexp($regexp)
+    protected function getProperRegexp($regexp)
     {
         if (is_array($regexp)) {
-            return call_user_func_array($regexp[0], $regexp[1]);
+            list($method, $args) = $regexp;
+        } elseif (strpos($regexp, '::') <= 0) {
+            return $regexp;
+        } else {
+            $method = $regexp;
+            $args = array();
         }
 
-        if (strpos($regexp, '::') > 0) {
-            return call_user_func($regexp);
+        $method = explode('::', $method);
+        if ($method[0] === __CLASS__) {
+            $method[0] = $this;
         }
 
-        return $regexp;
+        return call_user_func_array($method, $args);
     }
 
     /**
      * Return plural and singular contenttypeslugs
      */
-    public static function getAnyContentTypeRequirement()
+    public function getAnyContentTypeRequirement()
     {
-        return self::$app['storage']->getContentTypeAssert(true);
+        return $this->app['storage']->getContentTypeAssert(true);
     }
 
     /**
      * Return only plural contenttypeslugs
      */
-    public static function getPluralContentTypeRequirement()
+    public function getPluralContentTypeRequirement()
     {
-        return self::$app['storage']->getContentTypeAssert(false);
+        return $this->app['storage']->getContentTypeAssert(false);
     }
 
     /**
      * Return plural and singular taxonomytypeslugs
      */
-    public static function getAnyTaxonomyTypeRequirement()
+    public function getAnyTaxonomyTypeRequirement()
     {
-        return self::$app['storage']->getTaxonomyTypeAssert(true);
+        return $this->app['storage']->getTaxonomyTypeAssert(true);
     }
 
     /**
      * Return only plural taxonomytypeslugs
      */
-    public static function getPluralTaxonomyTypeRequirement()
+    public function getPluralTaxonomyTypeRequirement()
     {
-        return self::$app['storage']->getTaxonomyTypeAssert(false);
+        return $this->app['storage']->getTaxonomyTypeAssert(false);
     }
 
     /**
@@ -159,9 +161,9 @@ class Routing implements ControllerProviderInterface
      *
      * @return string
      */
-    public static function getTaxonomyRequirement($taxonomyName, $emptyValue = null)
+    public function getTaxonomyRequirement($taxonomyName, $emptyValue = null)
     {
-        $taxonomyValues = self::$app['config']->get('taxonomy/' . $taxonomyName . '/options');
+        $taxonomyValues = $this->app['config']->get('taxonomy/' . $taxonomyName . '/options');
 
         // If by accident, someone uses a "tags" taxonomy.
         if (empty($taxonomyValues)) {
