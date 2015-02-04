@@ -428,6 +428,17 @@ class Config
                 $field['group'] = $currentGroup;
             }
 
+            // Make sure we have these keys
+            $field = array_replace($field, array(
+                'label' => '',
+                'variant' => '',
+                'default' => '',
+                'pattern' => '',
+            ));
+
+            // Prefix class with "form-control"
+            $field['class'] = 'form-control' . (isset($field['class']) ? ' ' . $field['class'] : '');
+
             $fields[$key] = $field;
         }
 
@@ -632,25 +643,6 @@ class Config
                             return;
                         }
                     }
-                }
-
-                // Make sure we have a 'label', 'class', 'variant' and 'default'.
-                if (!isset($field['label'])) {
-                    $this->set("contenttypes/{$key}/fields/{$fieldname}/label", '');
-                }
-                if (!isset($field['class'])) {
-                    $this->set("contenttypes/{$key}/fields/{$fieldname}/class", 'form-control');
-                } else {
-                    $this->set("contenttypes/{$key}/fields/{$fieldname}/class", 'form-control ' . $field['class']);
-                }
-                if (!isset($field['variant'])) {
-                    $this->set("contenttypes/{$key}/fields/{$fieldname}/variant", '');
-                }
-                if (!isset($field['default'])) {
-                    $this->set("contenttypes/{$key}/fields/{$fieldname}/default", '');
-                }
-                if (!isset($field['pattern'])) {
-                    $this->set("contenttypes/{$key}/fields/{$fieldname}/pattern", '');
                 }
 
                 // Make sure the 'type' is in the list of allowed types
