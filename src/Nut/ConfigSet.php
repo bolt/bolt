@@ -37,7 +37,7 @@ class ConfigSet extends BaseCommand
             $file = $this->app['resources']->getPath('config') . '/config.yml';
         }
 
-        $yaml = new \Bolt\YamlUpdater($file);
+        $yaml = new \Bolt\YamlUpdater($this->app, $file);
         $result = $yaml->change($key, $value, $backup);
 
         if ($result) {

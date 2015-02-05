@@ -2,6 +2,7 @@
 
 namespace Bolt;
 
+use Bolt\Application;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Symfony\Component\Yaml\Exception\ParseException;
@@ -15,6 +16,10 @@ use Symfony\Component\Yaml\Parser;
  **/
 class YamlUpdater
 {
+    /**
+     * @var $app Silex\Application
+     */
+    private $app;
 
     /**
      * "File pointer". Basically used as offset for searching.
@@ -42,9 +47,10 @@ class YamlUpdater
     /**
      * Creates an updater for the given file.
      *
-     * @param string  $filename   The file to modify
+     * @param Silex\Application $app
+     * @param string            $filename   The file to modify
      */
-    public function __construct($filename = '')
+    public function __construct(Application $app, $filename = '')
     {
         if (!is_readable($filename)) {
             echo "Can't read $filename\n";
@@ -52,6 +58,7 @@ class YamlUpdater
             return false;
         }
 
+        $this->app = $app;
         $this->filename = $filename;
         $this->file = file($filename);
         $this->lines = count($this->file);

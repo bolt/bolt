@@ -29,7 +29,7 @@ class ConfigGet extends BaseCommand
             $file = $this->app['resources']->getPath('config') . "/config.yml";
         }
 
-        $yaml = new \Bolt\YamlUpdater($file);
+        $yaml = new \Bolt\YamlUpdater($this->app, $file);
         $match = $yaml->get($key);
 
         if (!empty($match)) {
