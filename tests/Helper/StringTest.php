@@ -26,6 +26,19 @@ class StringTest extends BoltUnitTest
         // extra chars
         $input = ";this is a ƃuıɹʇs ʇsǝʇ";
         $this->assertEquals(";this-is-a-uis-s", String::makeSafe($input, true, ';'));
+        
+        // German
+        $input = "Ich lässt öfter mit Vätern in einer kleinen Straße";
+        $this->assertEquals("ich-lasst-ofter-mit-vatern-in-einer-kleinen-strasse", String::makeSafe($input, true, ';'));
+
+        // French
+        $input = "Et le proxénète s'est avancé à la barre";
+        $this->assertEquals("et-le-proxenete-sest-avance-a-la-barre", String::makeSafe($input, true, ';'));
+
+        // Swedish
+        $input = "Skämt åsido satan vilket uruselt tillvägagångsätt";
+        $this->assertEquals("skamt-asido-satan-vilket-uruselt-tillvagagangsatt", String::makeSafe($input, true, ';'));
+
     }
 
     public function testReplaceFirst()
