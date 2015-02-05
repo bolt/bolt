@@ -37,7 +37,6 @@ module.exports = function(grunt) {
             },
             sass: {
                 files: [
-                    'sass/*.scss',
                     'sass/**/*.scss'
                 ],
                 tasks: [
@@ -114,10 +113,10 @@ module.exports = function(grunt) {
                 },
                 files: {
                     src: [
-                        'lib/ckeditor/*.js',  'lib/ckeditor/**/*.js',
-                        'lib/ckeditor/*.css', 'lib/ckeditor/**/*.css',
-                        'lib/ckeditor/*.md',  'lib/ckeditor/**/*.md',
-                        'lib/ckeditor/*.txt', 'lib/ckeditor/**/*.txt'
+                        'lib/ckeditor/**/*.js',
+                        'lib/ckeditor/**/*.css',
+                        'lib/ckeditor/**/*.md',
+                        'lib/ckeditor/**/*.txt'
                     ]
                 }
             }
@@ -178,7 +177,7 @@ module.exports = function(grunt) {
                 }
             },
             installJqueryGomap: {
-                src: 'lib/jquery-gomap-1.3.3/jquery-gomap.min.js',
+                src: 'lib/jquery-gomap/jquery-gomap.min.js',
                 dest: 'js/jquery-gomap.min.js'
             }
         },
@@ -194,17 +193,16 @@ module.exports = function(grunt) {
                 nonull: true,
                 src: [
                     'lib/tmp/bower-assets.js',
-                    'lib/jquery-ui-1.10.3/jquery-ui.custom.min.js',                 //  96 kb
-                    'lib/bootstrap-file-input/bootstrap-file-input.min.js',         //   1 kb
-                    'lib/jquery-hotkeys/jquery-hotkeys.min.js',                     //   2 kb
-                    'lib/jquery-watchchanges/jquery-watchchanges.min.js',           //   1 kb
-                    'lib/jquery-fileupload-5.26/jquery-iframe-transport.min.js',    //   2 kb
-                    'lib/jquery-fileupload-5.26/jquery-fileupload.min.js',          //  15 kb
-                    'lib/backbone/backbone-min.js',                                 //  20 kb
-                    'lib/bootstrap-sass.generated/bootstrap.min.js',                //   2 kb4
-                    'lib/select2-3.5.1/select2.min.js',                             //  66 kb
-                    'node_modules/moment/min/moment.min.js',                        //  35 kb
-                    'lib/modernizr-2.8.3/modernizr.custom.min.js'                   //   5 kb
+                    'lib/jquery-ui-1.10.3/jquery-ui.custom.min.js',     //  96 kb
+                    'lib/tmp/bootstrap-file-input.min.js',              //   1 kb
+                    'lib/tmp/jquery-hotkeys.min.js',                    //   2 kb
+                    'lib/tmp/jquery-watchchanges.min.js',               //   1 kb
+                    'lib/tmp/jquery-iframe-transport.min.js',           //   2 kb
+                    'lib/tmp/jquery-fileupload.min.js',                 //  15 kb
+                    'lib/tmp/bootstrap.min.js',                         //   2 kb
+                    'lib/select2/select2.min.js',                       //  66 kb
+                    'bower_components/moment/min/moment.min.js',        //  35 kb
+                    'lib/tmp/modernizr-custom.min.js'                   //   5 kb
                 ],
                 dest: 'js/lib.min.js'
             }
@@ -224,8 +222,8 @@ module.exports = function(grunt) {
                     'css/lib.css': [
                         'lib/jquery-ui-1.10.3/jquery-ui.custom.min.css',            // 20 kb
                         'bower_components/magnific-popup/dist/magnific-popup.css',  //  9 kb
-                        'lib/select2-3.5.1/select2.css',                            // 19 kb
-                        'lib/jquery-fileupload-5.26/jquery-fileupload-ui.css'       //  2 kb
+                        'lib/select2/select2.css',                                  // 19 kb
+                        'lib/jquery-fileupload/jquery-fileupload-ui.css'            //  2 kb
                     ]
                 }
             }
@@ -241,14 +239,16 @@ module.exports = function(grunt) {
                 },
                 files: [{
                     expand: true,
+                    flatten: true,
                     ext: '.min.js',
                     src: [
                         'lib/bootstrap-file-input/bootstrap-file-input.js',
-                        'lib/jquery-fileupload-5.26/jquery-fileupload.js',
-                        'lib/jquery-fileupload-5.26/jquery-iframe-transport.js',
+                        'lib/jquery-fileupload/jquery-fileupload.js',
+                        'lib/jquery-fileupload/jquery-iframe-transport.js',
                         'lib/jquery-hotkeys/jquery-hotkeys.js',
                         'lib/jquery-watchchanges/jquery-watchchanges.js'
-                    ]
+                    ],
+                    dest: 'lib/tmp'
                 }]
             },
             installCodeMirror: {
@@ -295,7 +295,7 @@ module.exports = function(grunt) {
                 files: [{
                     expand: true,
                     ext: '.min.js',
-                    cwd: 'node_modules/moment/locale',
+                    cwd: 'bower_components/moment/locale',
                     src: '*.js',
                     dest: 'js/locale/moment',
                     rename: function (destBase, destPath) {
@@ -307,7 +307,7 @@ module.exports = function(grunt) {
             },
             prepareBootstrapJs: {
                 files: {
-                    'lib/bootstrap-sass.generated/bootstrap.min.js': [
+                    'lib/tmp/bootstrap.min.js': [
                         'node_modules/bootstrap-sass/assets/javascripts/bootstrap/alert.js',
                         'node_modules/bootstrap-sass/assets/javascripts/bootstrap/button.js',
                         'node_modules/bootstrap-sass/assets/javascripts/bootstrap/dropdown.js',
@@ -328,7 +328,8 @@ module.exports = function(grunt) {
                         'bower_components/jquery.formatDateTime/jquery.formatDateTime.js',
                         'bower_components/jquery.tagcloud.js/jquery.tagcloud.js',
                         'bower_components/magnific-popup/dist/jquery.magnific-popup.js',
-                        'bower_components/underscore/underscore.js'
+                        'bower_components/underscore/underscore.js',
+                        'bower_components/backbone/backbone.js'
                     ]
                 }
             },
@@ -404,6 +405,32 @@ module.exports = function(grunt) {
         },
 
         /*
+         * MODERNIZR: Modernizr builder
+         */
+        modernizr: {
+            prepare: {
+                devFile: "remote",
+                outputFile: "lib/tmp/modernizr-custom.min.js",
+                extra: {
+                    touch: true,
+                    shiv: true,
+                    cssclasses: true,
+                    load: false
+                },
+                extensibility: {
+                    teststyles: true,
+                    prefixes: true
+                },
+                tests: [
+                    'cookies'
+                ],
+                uglify: true,
+                matchCommunityTests: true,
+                parseFiles: false
+            }
+        },
+
+        /*
          * REMOVE: Remove directory and files
          */
         remove: {
@@ -411,6 +438,11 @@ module.exports = function(grunt) {
                 dirList: [
                     'lib/ckeditor/adapters',
                     'lib/ckeditor/samples'
+                ]
+            },
+            cleanupTmp: {
+                dirList: [
+                    'lib/tmp'
                 ]
             }
         },
@@ -421,7 +453,6 @@ module.exports = function(grunt) {
         bom: {
             prepareCkeditor: {
                 src: [
-                    'lib/ckeditor/*.js',
                     'lib/ckeditor/**/*.js'
                 ]
             }
@@ -460,6 +491,7 @@ module.exports = function(grunt) {
             'remove:prepareCkeditor',           // Remove unneeded direcories from downloaded ckeditor
             'bom:prepareCkeditor',              // Remove unneeded bom from downloaded ckeditor
             'eol:prepareCkeditor',              // Convert CRLF to LF from downloaded ckeditor
+            'modernizr:prepare',                // Build Modernizr
             // Install
             'copy:installFonts',                // Copies fonts                       => view/fonts/*
             'cssmin:installLibCss',             // Concats and minifies library css   => view/css/lib.css
@@ -469,7 +501,9 @@ module.exports = function(grunt) {
             'copy:installCkeditor1',            // Copies CKEditor files              => view/js/ckeditor/*
             'copy:installCkeditor2',            // Copies modified ckeditor.js        => view/js/ckeditor/ckeditor.js
             'copy:installJqueryGomap',          // Copies jquery-gomap.min.js         => view/js/jquery-gomap.min.js
-            'uglify:installCodeMirror'          // Copies CodeMirror language files   => view/js/codemirror/*
+            'uglify:installCodeMirror',         // Copies CodeMirror language files   => view/js/codemirror/*
+            // Cleanup
+            'remove:cleanupTmp'                 // Clean up the tmp folder lib/tmp/
         ]
     );
 };
