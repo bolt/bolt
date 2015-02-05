@@ -21,7 +21,8 @@
     "grunt-eol": "^0.2.0",
     "grunt-bom-removal": "^0.2.0",
     "grunt-remove": "^0.1.0",
-    "node-sass": "~1.2"
+    "node-sass": "~1.2",
+    "grunt-modernizr": "^0.6.0"
   },
   "dependencies": {
     "moment": "^2.9.0"
