@@ -11,5 +11,4 @@ Only plugins used
 
 ## Datepicker locale – datepicker v?
 
-## [jQuery-File-Upload](https://github.com/blueimp/jQuery-File-Upload) – jquery-fileupload v5.26
-Mixed version numbers
+## [jQuery goMap](http://www.pittss.lv/jquery/gomap/) – jquery-gomap v1.3.3
