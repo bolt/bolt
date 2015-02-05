@@ -22,11 +22,11 @@ class Library
     public static function formatFilesize($size)
     {
         if ($size > 1024 * 1024) {
-            return sprintf("%0.2f mb", ($size / 1024 / 1024));
+            return sprintf("%0.2f MiB", ($size / 1024 / 1024));
         } elseif ($size > 1024) {
-            return sprintf("%0.2f kb", ($size / 1024));
+            return sprintf("%0.2f KiB", ($size / 1024));
         } else {
-            return $size . ' b';
+            return $size . ' B';
         }
     }
 
