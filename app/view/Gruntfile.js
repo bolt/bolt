@@ -240,6 +240,7 @@ module.exports = function(grunt) {
                 },
                 files: [{
                     expand: true,
+                    flatten: true,
                     ext: '.min.js',
                     src: [
                         'lib/bootstrap-file-input/bootstrap-file-input.js',
@@ -247,7 +248,8 @@ module.exports = function(grunt) {
                         'lib/jquery-fileupload-5.26/jquery-iframe-transport.js',
                         'lib/jquery-hotkeys/jquery-hotkeys.js',
                         'lib/jquery-watchchanges/jquery-watchchanges.js'
-                    ]
+                    ],
+                    dest: 'lib/tmp'
                 }]
             },
             installCodeMirror: {
