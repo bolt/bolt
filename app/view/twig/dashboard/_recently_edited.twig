@@ -1,16 +1,23 @@
-<div style="contenttype-title">
-    <span class="pull-right">
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="contenttype-title">
+            <span class="pull-right">
             <a href="{{ path('overview', {'contenttypeslug': contenttype}) }}" class="morelink">
                 {{ __('contenttypes.generic.show-more', {'%contenttypes%': contenttype}) }} »
             </a>
-        </span>
-        <h3>{{ __('contenttypes.generic.recently-edited', {'%contenttypes%': contenttype}) }}</h3>
-</div>        
+            </span>
+            <h3>{{ __('contenttypes.generic.recently-edited', {'%contenttypes%': contenttype}) }}
+            </h3>
+        </div>   
+    </div>
+    <div class="panel-body">     
+        <table class="table table-striped dashboardlisting">
+            {% for content in multiplecontent %}
+            {% set editable = isallowed('edit', content) %}
+            {% include ['custom/listing/' ~ content.contenttype.slug ~ '.twig', '_sub/_listing.twig']
+            with {'excerptlength': 280, 'thumbsize': 80, 'compact': true} %}
+            {% endfor %}
+        </table>
+    </div>
 
-<table class="table table-striped dashboardlisting">
-    {% for content in multiplecontent %}
-        {% set editable = isallowed('edit', content) %}
-        {% include ['custom/listing/' ~ content.contenttype.slug ~ '.twig', '_sub/_listing.twig']
-            with {'excerptlength': 280, 'thumbsize': 54, 'compact': true} %}
-    {% endfor %}
-</table>
+</div>

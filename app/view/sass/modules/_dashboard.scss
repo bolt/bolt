@@ -2,8 +2,12 @@
  * Dashboard specific stuff
  */
 
+h3 {
+    font-size:20px;
+    }
+
 .morelink {
-    font-size: 12px;
+    font-size: 14px;
     font-weight: normal;
     color: rgba(25, 71, 112, 0.8);
     text-shadow: none;
@@ -143,34 +147,64 @@
 .dashboardlisting td.excerpt.large span {
     max-height: 54px;
 }
-.contenttype-title {
 
+.quicklinks {
+    margin-bottom: 12px;
+}
+
+.dashboardlisting td.listthumb img {
+  display: block;
+  padding: 2px;
+  margin-bottom: 4px;
+  line-height: 1.42857143;
+  background-color: #fff;
+  border: 1px solid #D1D1D1;
+  border-radius: 4px;
+  -webkit-transition: border .2s ease-in-out;
+       -o-transition: border .2s ease-in-out;
+          transition: border .2s ease-in-out;
+}
+
+.dashboardlisting td.listthumb img:hover,
+.dashboardlisting td.listthumb img:focus,
+.dashboardlisting td.listthumb img.active {
+  border-color: #337ab7;
 }
 
 @media (max-width: 767px) {
+    
+    h3{
+        font-size: 16px;
+    }
+    
     .visible-xs {
         display: inline !important;
     }
+    
     .btn-group {
         margin-top:-8px;
         margin-bottom:8px;
     }
+    
     .contenttype-title {
         width: auto;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
     }
+    
     .dashboardlisting td.listthumb img {
     margin-left: -32px;
     }
 }
 
-@media (max-width: 640px) {    
+@media (max-width: 640px) {  
+    
     .dashboardlisting td.listthumb img {
         margin-top:42px;
         margin-bottom:4px;
     }
+    
     .dashboardlisting td.actions .btn-group {
         margin-top: 2px;
     }
