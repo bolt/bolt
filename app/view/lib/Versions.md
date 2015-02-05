@@ -8,3 +8,6 @@
 
 ## [CodeMirror](http://codemirror.net/) – codemirror (Patched)
 Only plugins used
+
+## Datepicker locale – datepicker v?
+
