@@ -201,7 +201,7 @@ module.exports = function(grunt) {
                     'lib/tmp/jquery-fileupload.min.js',                 //  15 kb
                     'lib/tmp/bootstrap.min.js',                         //   2 kb
                     'lib/select2/select2.min.js',                       //  66 kb
-                    'node_modules/moment/min/moment.min.js',            //  35 kb
+                    'bower_components/moment/min/moment.min.js',        //  35 kb
                     'lib/tmp/modernizr-custom.min.js'                   //   5 kb
                 ],
                 dest: 'js/lib.min.js'
@@ -295,7 +295,7 @@ module.exports = function(grunt) {
                 files: [{
                     expand: true,
                     ext: '.min.js',
-                    cwd: 'node_modules/moment/locale',
+                    cwd: 'bower_components/moment/locale',
                     src: '*.js',
                     dest: 'js/locale/moment',
                     rename: function (destBase, destPath) {
