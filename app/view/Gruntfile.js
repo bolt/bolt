@@ -200,7 +200,7 @@ module.exports = function(grunt) {
                     'lib/tmp/jquery-iframe-transport.min.js',                       //   2 kb
                     'lib/tmp/jquery-fileupload.min.js',                             //  15 kb
                     'lib/backbone/backbone-min.js',                                 //  20 kb
-                    'lib/bootstrap-sass.generated/bootstrap.min.js',                //   2 kb4
+                    'lib/bootstrap-sass.generated/bootstrap.min.js',                //   2 kb
                     'lib/select2-3.5.1/select2.min.js',                             //  66 kb
                     'node_modules/moment/min/moment.min.js',                        //  35 kb
                     'lib/modernizr-2.8.3/modernizr.custom.min.js'                   //   5 kb
