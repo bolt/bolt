@@ -199,7 +199,6 @@ module.exports = function(grunt) {
                     'lib/tmp/jquery-watchchanges.min.js',               //   1 kb
                     'lib/tmp/jquery-iframe-transport.min.js',           //   2 kb
                     'lib/tmp/jquery-fileupload.min.js',                 //  15 kb
-                    'lib/backbone/backbone-min.js',                     //  20 kb
                     'lib/tmp/bootstrap.min.js',                         //   2 kb
                     'lib/select2/select2.min.js',                       //  66 kb
                     'node_modules/moment/min/moment.min.js',            //  35 kb
@@ -329,7 +328,8 @@ module.exports = function(grunt) {
                         'bower_components/jquery.formatDateTime/jquery.formatDateTime.js',
                         'bower_components/jquery.tagcloud.js/jquery.tagcloud.js',
                         'bower_components/magnific-popup/dist/jquery.magnific-popup.js',
-                        'bower_components/underscore/underscore.js'
+                        'bower_components/underscore/underscore.js',
+                        'bower_components/backbone/backbone.js'
                     ]
                 }
             },
