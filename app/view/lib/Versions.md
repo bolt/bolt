@@ -11,3 +11,5 @@ Only plugins used
 
 ## Datepicker locale – datepicker v?
 
+## [jQuery-File-Upload](https://github.com/blueimp/jQuery-File-Upload) – jquery-fileupload v5.26
+Mixed version numbers
