@@ -388,7 +388,13 @@ class Users
 
             return false;
         } else {
-            return $this->db->delete($this->usertable, array('id' => $user['id']));
+            $res = $this->db->delete($this->usertable, array('id' => $user['id']));
+
+            if ($res) {
+                $this->db->delete($this->authtokentable, array('username' => $user['username']));
+            }
+
+            return $res;
         }
     }
 
