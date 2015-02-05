@@ -2483,10 +2483,7 @@ class Storage
     {
         $contenttype = $this->getContentType($contenttypeslug);
         $tablename = $this->getTablename($contenttype['slug']);
-
         $id = intval($id);
-        $fulluri = \utilphp\util::str_to_bool($fulluri);
-
         $slug = $this->app['slugify']->slugify($title);
 
         // don't allow strictly numeric slugs.
