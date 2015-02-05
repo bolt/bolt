@@ -726,8 +726,6 @@ class TwigExtension extends \Twig_Extension
             $name = '/^[a-zA-Z0-9]\V+\.twig$/';
         }
 
-        //$dir = $this->app['paths']['templatespath'] . ($in ? '/' . $in : '');
-
         $finder = new Finder();
         $finder->files()
                ->in($this->app['paths']['templatespath'])
