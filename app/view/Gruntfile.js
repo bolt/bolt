@@ -194,11 +194,11 @@ module.exports = function(grunt) {
                 src: [
                     'lib/tmp/bower-assets.js',
                     'lib/jquery-ui-1.10.3/jquery-ui.custom.min.js',                 //  96 kb
-                    'lib/bootstrap-file-input/bootstrap-file-input.min.js',         //   1 kb
-                    'lib/jquery-hotkeys/jquery-hotkeys.min.js',                     //   2 kb
-                    'lib/jquery-watchchanges/jquery-watchchanges.min.js',           //   1 kb
-                    'lib/jquery-fileupload-5.26/jquery-iframe-transport.min.js',    //   2 kb
-                    'lib/jquery-fileupload-5.26/jquery-fileupload.min.js',          //  15 kb
+                    'lib/tmp/bootstrap-file-input.min.js',                          //   1 kb
+                    'lib/tmp/jquery-hotkeys.min.js',                                //   2 kb
+                    'lib/tmp/jquery-watchchanges.min.js',                           //   1 kb
+                    'lib/tmp/jquery-iframe-transport.min.js',                       //   2 kb
+                    'lib/tmp/jquery-fileupload.min.js',                             //  15 kb
                     'lib/backbone/backbone-min.js',                                 //  20 kb
                     'lib/bootstrap-sass.generated/bootstrap.min.js',                //   2 kb4
                     'lib/select2-3.5.1/select2.min.js',                             //  66 kb
