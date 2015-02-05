@@ -14,3 +14,5 @@ Only plugins used
 ## [jQuery goMap](http://www.pittss.lv/jquery/gomap/) – jquery-gomap v1.3.3
 
 ## [jQuery Hotkeys Plugin](https://github.com/jeresig/jquery.hotkeys) – jquery-hotkeys v1.10.3
+
+## jQuery Watchchanges – jquery-watchchanges v?
