@@ -131,9 +131,9 @@ class Content implements \ArrayAccess
                         foreach ($property['uses'] as $usesField) {
                             $uses .= $this->values[$usesField] . ' ';
                         }
-                        $newvalue[$field] = String::slug($uses);
+                        $newvalue[$field] = $this->app['slugify']->slugify($uses);
                     } elseif (!empty($this->values[$field])) {
-                        $newvalue[$field] = String::slug($this->values[$field]);
+                        $newvalue[$field] = $this->app['slugify']->slugify($this->values[$field]);
                     } elseif (empty($this->values[$field]) && $this->values['id']) {
                         $newvalue[$field] = $this->values['id'];
                     }

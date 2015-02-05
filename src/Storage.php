@@ -944,7 +944,7 @@ class Storage
     {
         $tablename = $this->getTablename('taxonomy');
 
-        $slug = String::slug($name);
+        $slug = $this->app['slugify']->slugify($name);
 
         $limit = $parameters['limit'] ?: 9999;
         $page = $parameters['page'] ?: 1;
@@ -1978,7 +1978,7 @@ class Storage
      */
     public function getContentType($contenttypeslug)
     {
-        $contenttypeslug = String::slug($contenttypeslug);
+        $contenttypeslug = $this->app['slugify']->slugify($contenttypeslug);
 
         // Return false if empty, can't find it..
         if (empty($contenttypeslug)) {
@@ -1994,7 +1994,7 @@ class Storage
                     $contenttype = $this->app['config']->get('contenttypes/' . $key);
                     break;
                 }
-                if ($contenttypeslug == String::slug($ct['singular_name']) || $contenttypeslug == String::slug($ct['name'])) {
+                if ($contenttypeslug == $this->app['slugify']->slugify($ct['singular_name']) || $contenttypeslug == $this->app['slugify']->slugify($ct['name'])) {
                     $contenttype = $this->app['config']->get('contenttypes/' . $key);
                     break;
                 }
@@ -2016,7 +2016,7 @@ class Storage
      */
     public function getTaxonomyType($taxonomyslug)
     {
-        $taxonomyslug = String::slug($taxonomyslug);
+        $taxonomyslug = $this->app['slugify']->slugify($taxonomyslug);
 
         // Return false if empty, can't find it..
         if (empty($taxonomyslug)) {
@@ -2269,9 +2269,8 @@ class Storage
                         $slug = array_search($slug, $configTaxonomies[$taxonomytype]['options']);
                     } else {
                         // make sure it's at least a slug-like value.
-                        $slug = String::slug($slug);
+                        $slug = $this->app['slugify']->slugify($slug);
                     }
-
                 }
 
                 if ((!in_array($slug, $currentvalues) || ($currentsortorder != $sortorder)) && (!empty($slug))) {
@@ -2488,7 +2487,7 @@ class Storage
         $id = intval($id);
         $fulluri = \utilphp\util::str_to_bool($fulluri);
 
-        $slug = String::slug($title);
+        $slug = $this->app['slugify']->slugify($title);
 
         // don't allow strictly numeric slugs.
         if (is_numeric($slug)) {
@@ -2587,7 +2586,7 @@ class Storage
      */
     protected function getTablename($name)
     {
-        $name = str_replace("-", "_", String::slug($name));
+        $name = str_replace("-", "_", $this->app['slugify']->slugify($name));
         $tablename = sprintf("%s%s", $this->prefix, $name);
 
         return $tablename;

@@ -111,7 +111,7 @@ class Users
         }
 
         // make sure the username is slug-like
-        $user['username'] = String::slug($user['username']);
+        $user['username'] = $this->app['slugify']->slugify($user['username']);
 
         if (empty($user['lastseen'])) {
             $user['lastseen'] = null;
@@ -401,7 +401,7 @@ class Users
      */
     public function login($user, $password)
     {
-        $userslug = String::slug($user);
+        $userslug = $this->app['slugify']->slugify($user);
 
         // for once we don't use getUser(), because we need the password.
         $query = sprintf('SELECT * FROM %s WHERE username=?', $this->usertable);
