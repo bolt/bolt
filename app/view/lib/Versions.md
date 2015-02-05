@@ -1,20 +1,28 @@
 # Used versions in view/lib/
 
-## [Backbone.js](http://backbonejs.org/) – backbone v1.1.2
++ ``backbone`` ⇒
+  **[Backbone.js](http://backbonejs.org/) v1.1.2**
 
-## [Twitter Bootstrap File Input](http://gregpike.net/demos/bootstrap-file-input/demo.html) – bootstrap-file-input (Patched)
++ ``bootstrap-file-input`` ⇒
+  **[Twitter Bootstrap File Input](http://gregpike.net/demos/bootstrap-file-input/demo.html) (Patched)**
 
-## [CKEditor](http://ckeditor.com/) – ckeditor v4.4.7
++ ``ckeditor`` ⇒
+  **[CKEditor](http://ckeditor.com/) v4.4.7**
 
-## [CodeMirror](http://codemirror.net/) – codemirror (Patched)
-Only plugins used
++ ``codemirror`` ⇒
+  **[CodeMirror](http://codemirror.net/) (Patched)** – only plugins used
 
-## Datepicker locale – datepicker v?
++ ``datepicker`` ⇒
+  **Datepicker locale v?**
 
-## [jQuery goMap](http://www.pittss.lv/jquery/gomap/) – jquery-gomap v1.3.3
++ ``jquery-gomap`` ⇒
+  **[jQuery goMap](http://www.pittss.lv/jquery/gomap/) 1.3.3**
 
-## [jQuery Hotkeys Plugin](https://github.com/jeresig/jquery.hotkeys) – jquery-hotkeys v1.10.3
++ ``jquery-hotkeys`` ⇒
+  **[jQuery Hotkeys Plugin](https://github.com/jeresig/jquery.hotkeys) 1.10.3**
 
-## jQuery Watchchanges – jquery-watchchanges v?
++ ``jquery-watchchanges`` ⇒
+  **jQuery Watchchanges v?**
 
-## [Select2](https://select2.github.io/) – select2 v3.5.1
++ ``select2`` ⇒
+  **[Select2](https://select2.github.io/) v3.5.1**
