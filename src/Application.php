@@ -100,6 +100,9 @@ class Application extends Silex\Application
         // Initialize Twig and our rendering Provider.
         $this->initRendering();
 
+        // Initialize Web Profiler Providers if enabled
+        $this->initProfiler();
+
         // Initialize the Database Providers.
         $this->initDatabase();
 
@@ -115,8 +118,8 @@ class Application extends Silex\Application
         // Initialise the global 'before' handler.
         $this->before(array($this, 'beforeHandler'));
 
-        // Initialise the global 'after' handlers.
-        $this->initAfterHandler();
+        // Initialise the global 'after' handler.
+        $this->after(array($this, 'afterHandler'));
 
         // Initialise the 'error' handler.
         $this->error(array($this, 'errorHandler'));
@@ -206,6 +209,73 @@ class Application extends Silex\Application
 
         $this->register(new Provider\RenderServiceProvider());
         $this->register(new Provider\RenderServiceProvider(true));
+    }
+
+    public function initProfiler()
+    {
+        // On 'after' attach the debug-bar, if debug is enabled..
+        if (!$this['debug'] || ($this['session']->has('user') && $this['config']->get('general/debug_show_loggedoff'))) {
+            error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_USER_DEPRECATED);
+            return;
+        }
+
+        // Set the error_reporting to the level specified in config.yml
+        error_reporting($this['config']->get('general/debug_error_level'));
+
+        // Register Whoops, to handle errors for logged in users only.
+        if ($this['config']->get('general/debug_enable_whoops')) {
+            $this->register(new WhoopsServiceProvider());
+
+            // Add a special handler to deal with AJAX requests
+            if ($this['config']->getWhichEnd() == 'async') {
+                $this['whoops']->pushHandler(new JsonResponseHandler());
+            }
+        }
+
+        $this->register(new Silex\Provider\ServiceControllerServiceProvider());
+
+        // Register the Silex/Symfony web debug toolbar.
+        $this->register(
+            new Silex\Provider\WebProfilerServiceProvider(),
+            array(
+                'profiler.cache_dir'    => $this['resources']->getPath('cache') . '/profiler',
+                'profiler.mount_prefix' => '/_profiler', // this is the default
+            )
+        );
+
+        // Register the toolbar item for our Database query log.
+        $this->register(new Provider\DatabaseProfilerServiceProvider());
+
+        // Register the toolbar item for our bolt nipple.
+        $this->register(new Provider\BoltProfilerServiceProvider());
+
+        // Register the toolbar item for the Twig toolbar item.
+        $this->register(new Provider\TwigProfilerServiceProvider());
+
+        $this['twig.loader.filesystem'] = $this->share(
+            $this->extend(
+                'twig.loader.filesystem',
+                function (\Twig_Loader_Filesystem $filesystem, $app) {
+                    $filesystem->addPath(
+                        $app['resources']->getPath('root') . '/vendor/symfony/web-profiler-bundle/Symfony/Bundle/WebProfilerBundle/Resources/views',
+                        'WebProfiler'
+                    );
+                    $filesystem->addPath($app['resources']->getPath('app') . '/view', 'BoltProfiler');
+
+                    return $filesystem;
+                }
+            )
+        );
+
+        // PHP 5.3 does not allow 'use ($this)' in closures.
+        $app = $this;
+        $this->after(
+            function () use ($app) {
+                foreach (Lib::hackislyParseRegexTemplates($app['twig.loader.filesystem']) as $template) {
+                    $app['twig.logger']->collectTemplateData($template);
+                }
+            }
+        );
     }
 
     public function initLocale()
@@ -360,76 +430,6 @@ class Application extends Silex\Application
 
         // Stop the 'stopwatch' for the profiler.
         $this['stopwatch']->stop('bolt.app.before');
-    }
-
-    public function initAfterHandler()
-    {
-        // On 'after' attach the debug-bar, if debug is enabled..
-        if ($this['debug'] && ($this['session']->has('user') || $this['config']->get('general/debug_show_loggedoff'))) {
-
-            // Set the error_reporting to the level specified in config.yml
-            error_reporting($this['config']->get('general/debug_error_level'));
-
-            // Register Whoops, to handle errors for logged in users only.
-            if ($this['config']->get('general/debug_enable_whoops')) {
-                $this->register(new WhoopsServiceProvider());
-
-                // Add a special handler to deal with AJAX requests
-                if ($this['config']->getWhichEnd() == 'async') {
-                    $this['whoops']->pushHandler(new JsonResponseHandler());
-                }
-            }
-
-            $this->register(new Silex\Provider\ServiceControllerServiceProvider());
-
-            // Register the Silex/Symfony web debug toolbar.
-            $this->register(
-                new Silex\Provider\WebProfilerServiceProvider(),
-                array(
-                    'profiler.cache_dir'    => $this['resources']->getPath('cache') . '/profiler',
-                    'profiler.mount_prefix' => '/_profiler', // this is the default
-                )
-            );
-
-            // Register the toolbar item for our Database query log.
-            $this->register(new Provider\DatabaseProfilerServiceProvider());
-
-            // Register the toolbar item for our bolt nipple.
-            $this->register(new Provider\BoltProfilerServiceProvider());
-
-            // Register the toolbar item for the Twig toolbar item.
-            $this->register(new Provider\TwigProfilerServiceProvider());
-
-            $this['twig.loader.filesystem'] = $this->share(
-                $this->extend(
-                    'twig.loader.filesystem',
-                    function (\Twig_Loader_Filesystem $filesystem, $app) {
-                        $filesystem->addPath(
-                            $app['resources']->getPath('root') . '/vendor/symfony/web-profiler-bundle/Symfony/Bundle/WebProfilerBundle/Resources/views',
-                            'WebProfiler'
-                        );
-                        $filesystem->addPath($app['resources']->getPath('app') . '/view', 'BoltProfiler');
-
-                        return $filesystem;
-                    }
-                )
-            );
-
-            // PHP 5.3 does not allow 'use ($this)' in closures.
-            $app = $this;
-
-            $this->after(
-                function () use ($app) {
-                    foreach (Lib::hackislyParseRegexTemplates($app['twig.loader.filesystem']) as $template) {
-                        $app['twig.logger']->collectTemplateData($template);
-                    }
-                }
-            );
-        } else {
-            error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_USER_DEPRECATED);
-        }
-
-        $this->after(array($this, 'afterHandler'));
     }
 
     /**
