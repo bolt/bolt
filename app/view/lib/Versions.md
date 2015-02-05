@@ -16,3 +16,5 @@ Only plugins used
 ## [jQuery Hotkeys Plugin](https://github.com/jeresig/jquery.hotkeys) – jquery-hotkeys v1.10.3
 
 ## jQuery Watchchanges – jquery-watchchanges v?
+
+## [Select2](https://select2.github.io/) – select2 v3.5.1
