@@ -42,15 +42,14 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
         $app['extend.enabled'] = $app['config']->get('general/extensions/enabled', true);
 
         // This exposes the main upload object as a service
-        $me = $this;
         $app['extend.manager'] = $app->share(
-            function ($app) use ($me) {
+            function ($app) {
                 return new PackageManager($app);
             }
         );
 
         $app['extend.info'] = $app->share(
-            function ($app) use ($me) {
+            function ($app) {
                 return new ExtensionsInfoService($app['extend.site'], $app['extend.urls']);
             }
         );

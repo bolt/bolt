@@ -29,12 +29,6 @@ class YamlUpdater
     private $lines = 0;
 
     /**
-     * The YAML string of the updated file
-     * @var string
-     */
-    private $yml = '';
-
-    /**
      * Contains a line of the file per index.
      * @var array
      */
