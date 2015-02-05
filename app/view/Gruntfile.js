@@ -177,7 +177,7 @@ module.exports = function(grunt) {
                 }
             },
             installJqueryGomap: {
-                src: 'lib/jquery-gomap-1.3.3/jquery-gomap.min.js',
+                src: 'lib/jquery-gomap/jquery-gomap.min.js',
                 dest: 'js/jquery-gomap.min.js'
             }
         },
