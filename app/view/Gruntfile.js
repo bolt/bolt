@@ -203,7 +203,7 @@ module.exports = function(grunt) {
                     'lib/tmp/bootstrap.min.js',                         //   2 kb
                     'lib/select2/select2.min.js',                       //  66 kb
                     'node_modules/moment/min/moment.min.js',            //  35 kb
-                    'lib/modernizr-2.8.3/modernizr.custom.min.js'       //   5 kb
+                    'lib/tmp/modernizr-custom.min.js'                   //   5 kb
                 ],
                 dest: 'js/lib.min.js'
             }
