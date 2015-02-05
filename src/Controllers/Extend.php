@@ -2,20 +2,18 @@
 
 namespace Bolt\Controllers;
 
+use Bolt\Composer\PackageManager;
+use Bolt\Exception\PackageManagerException;
+use Bolt\Extensions\ExtensionsInfoService;
+use Bolt\Library as Lib;
+use Bolt\Translation\Translator as Trans;
 use Silex;
 use Silex\ControllerProviderInterface;
 use Silex\ServiceProviderInterface;
-
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Filesystem\Filesystem;
 
-use Bolt\Composer\PackageManager;
-use Bolt\Exception\PackageManagerException;
-use Bolt\Library as Lib;
-use Bolt\Translation\Translator as Trans;
-use Bolt\Extensions\ExtensionsInfoService;
 
 class Extend implements ControllerProviderInterface, ServiceProviderInterface
 {
@@ -177,12 +175,11 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
         $destination = $app['resources']->getPath('themebase') . '/' . $newName;
         if (is_dir($source)) {
             try {
-                $filesystem = new Filesystem();
-                $filesystem->mkdir($destination);
-                $filesystem->mirror($source, $destination);
+                $this->app['symfony.filesystem']->mkdir($destination);
+                $this->app['symfony.filesystem']->mirror($source, $destination);
 
                 if (file_exists($destination . "/config.yml.dist")) {
-                    $filesystem->copy($destination . "/config.yml.dist", $destination . "/config.yml");
+                    $this->app['symfony.filesystem']->copy($destination . "/config.yml.dist", $destination . "/config.yml");
                 }
 
                 return new Response(Trans::__('Theme successfully generated. You can now edit it directly from your theme folder.'));
