@@ -8,7 +8,6 @@ use Bolt\Extensions\ExtensionInterface;
 use Bolt\Helpers\String;
 use Bolt\Translation\Translator as Trans;
 use Monolog\Logger;
-use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 
 class Extensions
@@ -156,8 +155,7 @@ class Extensions
      */
     public function localload($app)
     {
-        $fs = new Filesystem();
-        $flag = $fs->exists($this->basefolder . '/local');
+        $flag = $this->app['symfony.filesystem']->exists($this->basefolder . '/local');
 
         // Check that local exists
         if ($flag) {
