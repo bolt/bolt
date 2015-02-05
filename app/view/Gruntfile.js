@@ -224,7 +224,7 @@ module.exports = function(grunt) {
                         'lib/jquery-ui-1.10.3/jquery-ui.custom.min.css',            // 20 kb
                         'bower_components/magnific-popup/dist/magnific-popup.css',  //  9 kb
                         'lib/select2-3.5.1/select2.css',                            // 19 kb
-                        'lib/jquery-fileupload-5.26/jquery-fileupload-ui.css'       //  2 kb
+                        'lib/jquery-fileupload/jquery-fileupload-ui.css'       //  2 kb
                     ]
                 }
             }
@@ -244,8 +244,8 @@ module.exports = function(grunt) {
                     ext: '.min.js',
                     src: [
                         'lib/bootstrap-file-input/bootstrap-file-input.js',
-                        'lib/jquery-fileupload-5.26/jquery-fileupload.js',
-                        'lib/jquery-fileupload-5.26/jquery-iframe-transport.js',
+                        'lib/jquery-fileupload/jquery-fileupload.js',
+                        'lib/jquery-fileupload/jquery-iframe-transport.js',
                         'lib/jquery-hotkeys/jquery-hotkeys.js',
                         'lib/jquery-watchchanges/jquery-watchchanges.js'
                     ],
