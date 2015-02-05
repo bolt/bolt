@@ -413,6 +413,11 @@ module.exports = function(grunt) {
                     'lib/ckeditor/adapters',
                     'lib/ckeditor/samples'
                 ]
+            },
+            cleanupTmp: {
+                dirList: [
+                    'lib/tmp'
+                ]
             }
         },
 
@@ -469,7 +474,9 @@ module.exports = function(grunt) {
             'copy:installCkeditor1',            // Copies CKEditor files              => view/js/ckeditor/*
             'copy:installCkeditor2',            // Copies modified ckeditor.js        => view/js/ckeditor/ckeditor.js
             'copy:installJqueryGomap',          // Copies jquery-gomap.min.js         => view/js/jquery-gomap.min.js
-            'uglify:installCodeMirror'          // Copies CodeMirror language files   => view/js/codemirror/*
+            'uglify:installCodeMirror',         // Copies CodeMirror language files   => view/js/codemirror/*
+            // Cleanup
+            'remove:cleanupTmp'                 // Clean up the tmp folder lib/tmp/
         ]
     );
 };
