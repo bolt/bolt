@@ -28,16 +28,6 @@ class StringTest extends BoltUnitTest
         $this->assertEquals(";this-is-a-uis-s", String::makeSafe($input, true, ';'));
     }
 
-    public function testSlug()
-    {
-        $slug = "This is a title";
-        $this->assertEquals("this-is-a-title", String::slug($slug));
-
-        // Test on array input
-        $slug = array('title' => 'This is a title', 'id' => 35);
-        $this->assertEquals("this-is-a-title-35", String::slug($slug));
-    }
-
     public function testReplaceFirst()
     {
         $input = "this is a test string this is a test string";

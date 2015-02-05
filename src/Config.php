@@ -7,6 +7,7 @@ use Bolt\Library as Lib;
 use Bolt\Helpers\Arr;
 use Bolt\Helpers\String;
 use Bolt\Translation\Translator as Trans;
+use Cocur\Slugify\Slugify;
 use Eloquent\Pathogen\PathInterface;
 use Eloquent\Pathogen\RelativePathInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -279,7 +280,7 @@ class Config
                 $options = array();
                 foreach ($taxonomy['options'] as $optionkey => $optionvalue) {
                     if (is_numeric($optionkey)) {
-                        $optionkey = String::slug($optionvalue);
+                        $optionkey = Slugify::create()->slugify($optionvalue);
                     }
                     $options[$optionkey] = $optionvalue;
                 }
@@ -313,7 +314,7 @@ class Config
     {
         // If the slug isn't set, and the 'key' isn't numeric, use that as the slug.
         if (!isset($contentType['slug']) && !is_numeric($key)) {
-            $contentType['slug'] = String::slug($key);
+            $contentType['slug'] = Slugify::create()->slugify($key);
         }
 
         // If neither 'name' nor 'slug' is set, we need to warn the user. Same goes for when
@@ -328,10 +329,10 @@ class Config
         }
 
         if (!isset($contentType['slug'])) {
-            $contentType['slug'] = String::slug($contentType['name']);
+            $contentType['slug'] = Slugify::create()->slugify($contentType['name']);
         }
         if (!isset($contentType['singular_slug'])) {
-            $contentType['singular_slug'] = String::slug($contentType['singular_name']);
+            $contentType['singular_slug'] = Slugify::create()->slugify($contentType['singular_name']);
         }
         if (!isset($contentType['show_on_dashboard'])) {
             $contentType['show_on_dashboard'] = true;
@@ -360,8 +361,8 @@ class Config
         // when adding relations, make sure they're added by their slug. Not their 'name' or 'singular name'.
         if (!empty($contentType['relations']) && is_array($contentType['relations'])) {
             foreach ($contentType['relations'] as $relkey => $relation) {
-                if ($relkey != String::slug($relkey)) {
-                    $contentType['relations'][String::slug($relkey)] = $contentType['relations'][$relkey];
+                if ($relkey != Slugify::create()->slugify($relkey)) {
+                    $contentType['relations'][Slugify::create()->slugify($relkey)] = $contentType['relations'][$relkey];
                     unset($contentType['relations'][$relkey]);
                 }
             }

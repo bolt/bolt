@@ -451,9 +451,11 @@ class TwigExtension extends \Twig_Extension
      */
     public function slug($str)
     {
-        $slug = String::slug($str);
+        if (is_array($str)) {
+            $str = implode(" ", $str);
+        }
 
-        return $slug;
+        return $this->app['slugify']->slugify($str);
     }
 
     /**

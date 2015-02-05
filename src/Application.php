@@ -5,6 +5,9 @@ namespace Bolt;
 use Bolt\Exception\LowlevelException;
 use Bolt\Helpers\String;
 use Bolt\Library as Lib;
+use Bolt\Provider\PathServiceProvider;
+use Bolt\Provider\LoggerServiceProvider;
+use Cocur\Slugify\Bridge\Silex\SlugifyServiceProvider;
 use Doctrine\DBAL\Exception\ConnectionException as DBALConnectionException;
 use RandomLib;
 use SecurityLib;
@@ -15,8 +18,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Stopwatch;
 use Whoops\Handler\JsonResponseHandler;
 use Whoops\Provider\Silex\WhoopsServiceProvider;
-use Bolt\Provider\PathServiceProvider;
-use Bolt\Provider\LoggerServiceProvider;
 
 class Application extends Silex\Application
 {
@@ -280,7 +281,8 @@ class Application extends Silex\Application
             ->register(new Provider\FilesystemProvider())
             ->register(new Thumbs\ThumbnailProvider())
             ->register(new Provider\NutServiceProvider())
-            ->register(new Provider\GuzzleServiceProvider());
+            ->register(new Provider\GuzzleServiceProvider())
+            ->register(new SlugifyServiceProvider());
 
         $this['paths'] = $this['resources']->getPaths();
 

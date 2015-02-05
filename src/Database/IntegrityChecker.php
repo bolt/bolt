@@ -644,7 +644,7 @@ class IntegrityChecker
      */
     protected function getTablename($name)
     {
-        $name = str_replace('-', '_', String::slug($name));
+        $name = str_replace('-', '_', $this->app['slugify']->slugify($name));
         $tablename = sprintf("%s%s", $this->prefix, $name);
 
         return $tablename;

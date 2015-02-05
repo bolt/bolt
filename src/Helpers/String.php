@@ -35,38 +35,6 @@ class String
     }
 
     /**
-     * Modify a string, so that we can use it for slugs. Like
-     * safeString, but using hyphens instead of underscores.
-     *
-     * @param  string $str
-     * @param  int    $length
-     * @return string
-     */
-    public static function slug($str, $length = 64)
-    {
-        if (is_array($str)) {
-            $str = implode(" ", $str);
-        }
-
-        // Strip out timestamps like "00:00:00". We don't want timestamps in slugs.
-        $str = preg_replace("/[0-2][0-9]:[0-5][0-9]:[0-5][0-9]/", "", $str);
-
-        $str = static::makeSafe(strip_tags($str));
-
-        $str = str_replace(" ", "-", $str);
-        $str = strtolower(preg_replace("/[^a-zA-Z0-9_-]/i", "", $str));
-        $str = preg_replace("/[-]+/i", "-", $str);
-
-        if ($length > 0) {
-            $str = substr($str, 0, $length);
-        }
-
-        $str = trim($str, " -");
-
-        return $str;
-    }
-
-    /**
      * Replace the first occurence of a string only. Behaves like str_replace, but
      * replaces _only_ the _first_ occurence.
      *
