@@ -405,6 +405,32 @@ module.exports = function(grunt) {
         },
 
         /*
+         * MODERNIZR: Modernizr builder
+         */
+        modernizr: {
+            prepare: {
+                devFile: "remote",
+                outputFile: "lib/tmp/modernizr-custom.min.js",
+                extra: {
+                    touch: true,
+                    shiv: true,
+                    cssclasses: true,
+                    load: false
+                },
+                extensibility: {
+                    teststyles: true,
+                    prefixes: true
+                },
+                tests: [
+                    'cookies'
+                ],
+                uglify: true,
+                matchCommunityTests: true,
+                parseFiles: false
+            }
+        },
+
+        /*
          * REMOVE: Remove directory and files
          */
         remove: {
@@ -465,6 +491,7 @@ module.exports = function(grunt) {
             'remove:prepareCkeditor',           // Remove unneeded direcories from downloaded ckeditor
             'bom:prepareCkeditor',              // Remove unneeded bom from downloaded ckeditor
             'eol:prepareCkeditor',              // Convert CRLF to LF from downloaded ckeditor
+            'modernizr:prepare',                // Build Modernizr
             // Install
             'copy:installFonts',                // Copies fonts                       => view/fonts/*
             'cssmin:installLibCss',             // Concats and minifies library css   => view/css/lib.css
