@@ -193,17 +193,17 @@ module.exports = function(grunt) {
                 nonull: true,
                 src: [
                     'lib/tmp/bower-assets.js',
-                    'lib/jquery-ui-1.10.3/jquery-ui.custom.min.js',                 //  96 kb
-                    'lib/tmp/bootstrap-file-input.min.js',                          //   1 kb
-                    'lib/tmp/jquery-hotkeys.min.js',                                //   2 kb
-                    'lib/tmp/jquery-watchchanges.min.js',                           //   1 kb
-                    'lib/tmp/jquery-iframe-transport.min.js',                       //   2 kb
-                    'lib/tmp/jquery-fileupload.min.js',                             //  15 kb
-                    'lib/backbone/backbone-min.js',                                 //  20 kb
-                    'lib/bootstrap-sass.generated/bootstrap.min.js',                //   2 kb
-                    'lib/select2-3.5.1/select2.min.js',                             //  66 kb
-                    'node_modules/moment/min/moment.min.js',                        //  35 kb
-                    'lib/modernizr-2.8.3/modernizr.custom.min.js'                   //   5 kb
+                    'lib/jquery-ui-1.10.3/jquery-ui.custom.min.js',     //  96 kb
+                    'lib/tmp/bootstrap-file-input.min.js',              //   1 kb
+                    'lib/tmp/jquery-hotkeys.min.js',                    //   2 kb
+                    'lib/tmp/jquery-watchchanges.min.js',               //   1 kb
+                    'lib/tmp/jquery-iframe-transport.min.js',           //   2 kb
+                    'lib/tmp/jquery-fileupload.min.js',                 //  15 kb
+                    'lib/backbone/backbone-min.js',                     //  20 kb
+                    'lib/bootstrap-sass.generated/bootstrap.min.js',    //   2 kb
+                    'lib/select2-3.5.1/select2.min.js',                 //  66 kb
+                    'node_modules/moment/min/moment.min.js',            //  35 kb
+                    'lib/modernizr-2.8.3/modernizr.custom.min.js'       //   5 kb
                 ],
                 dest: 'js/lib.min.js'
             }
