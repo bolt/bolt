@@ -214,7 +214,7 @@ class Application extends Silex\Application
     public function initProfiler()
     {
         // On 'after' attach the debug-bar, if debug is enabled..
-        if (!$this['debug'] || ($this['session']->has('user') && $this['config']->get('general/debug_show_loggedoff'))) {
+        if (!($this['debug'] && ($this['session']->has('user') || $this['config']->get('general/debug_show_loggedoff')))) {
             error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_USER_DEPRECATED);
             return;
         }
