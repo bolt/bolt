@@ -7,7 +7,6 @@ use Bolt\Library as Lib;
 use Bolt\Helpers\Arr;
 use Symfony\Component\Console\Command\Command;
 use Composer\Json\JsonFile;
-use utilphp\util;
 
 abstract class BaseExtension implements ExtensionInterface
 {
@@ -104,7 +103,7 @@ abstract class BaseExtension implements ExtensionInterface
     {
         $composerName = $this->getComposerName();
         if (empty($composerName)) {
-            return util::slugify($this->getName());
+            return $this->app['slugify']->slugify($this->getName());
         } else {
             return $composerName;
         }
