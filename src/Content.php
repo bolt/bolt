@@ -2,12 +2,11 @@
 
 namespace Bolt;
 
-use Silex;
-use Symfony\Component\Filesystem\Filesystem;
 use Bolt\Library as Lib;
 use Bolt\Helpers\String;
 use Bolt\Helpers\Input;
 use Bolt\Helpers\Html;
+use Silex;
 
 class Content implements \ArrayAccess
 {
@@ -418,10 +417,9 @@ class Content implements \ArrayAccess
                 }
 
                 $fieldname  = substr($key, 11);
-                $fileSystem = new Filesystem();
 
                 // Make sure the folder exists.
-                $fileSystem->mkdir(dirname($filename));
+                $this->app['symfony.filesystem']->mkdir(dirname($filename));
 
                 // Check if we don't have doubles.
                 if (is_file($filename)) {
