@@ -15,7 +15,6 @@ use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\TableDiff;
 
-use Bolt\Helpers\String;
 use Bolt\Application;
 
 class IntegrityChecker

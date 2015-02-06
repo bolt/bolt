@@ -6,7 +6,6 @@ use Silex;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Bolt\Library as Lib;
-use Bolt\Helpers\String;
 use Bolt\Helpers\Input;
 use Bolt\Translation\Translator as Trans;
 use Bolt\Pager;
