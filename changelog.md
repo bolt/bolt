@@ -26,6 +26,7 @@ Bolt 2.0 DEV-head
 - Fixed: bug fixed in "Select in all items" in overview. (See #2669)
 - Fixed: Fix filebrowser route binding name to be 'filebrowser' (See #2680)
 - Fixed: Allow setting of regex pattern, replacement and case of uploaded file names (See #2691)
+- Fixed: Regression that would break the ability to set global Twig variables in an extension (See #2717)
 
 Bolt 2.0.5
 ----------
