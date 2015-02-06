@@ -1,5 +1,7 @@
 Bolt 2.0.6
------------------
+----------
+
+Released 2015-02-06. Notable changes:
 
 - Fixed: Long conttenttype names are truncated properly in the sidebar now. (See #2513)
 - Fixed: Don't leak Database credentials on connection error during set up. (See #2538)
@@ -9,7 +11,7 @@ Bolt 2.0.6
 - Fixed: Arrays in type:select fields. (#2609)
 - Added: Allow for 'keys: slug' in 'type: select' fields, to customize the used field that's actually stored in the DB. (#2597)
 - Fixed: Fix filebrowser route binding name to be 'filebrowser' (See #2680)
-
+- Fixed: Regression that would break the ability to set global Twig variables in an extension (See #2717)
 
 Bolt 2.0.5
 ----------
