@@ -17,15 +17,17 @@ class ConfigGetTest extends BoltUnitTest
     public function testGet()
     {
         $app = $this->getApp();
+        $app['filesystem']->getManager('config')->getAdapter()->setPathPrefix(__DIR__ . '/resources/');
+
         $command = new ConfigGet($app);
         $tester = new CommandTester($command);
-        $tester->execute(array('key' => 'sitename', '--file' => __DIR__ . '/resources/config.yml'));
+        $tester->execute(array('key' => 'sitename', '--file' => 'config.yml'));
         $this->assertEquals("sitename: A sample site\n", $tester->getDisplay());
 
         // test invalid
         $tester = new CommandTester($command);
-        $tester->execute(array('key' => 'nonexistent','--file' => __DIR__ . '/resources/config.yml'));
-        $this->assertEquals("nonexistent not found.\n", $tester->getDisplay());
+        $tester->execute(array('key' => 'nonexistent','--file' => 'config.yml'));
+        $this->assertEquals("The key 'nonexistent' was not found in config.yml.\n", $tester->getDisplay());
 
     }
 

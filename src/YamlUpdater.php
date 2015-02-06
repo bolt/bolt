@@ -3,9 +3,7 @@
 namespace Bolt;
 
 use Bolt\Application;
-use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
-use Symfony\Component\Yaml\Exception\ParseException;
+use Bolt\Exception\FilesystemException;
 use Symfony\Component\Yaml\Parser;
 
 /**
@@ -20,6 +18,11 @@ class YamlUpdater
      * @var $app Silex\Application
      */
     private $app;
+
+    /**
+     * @var Symfony\Component\Yaml\Parser
+     */
+    private $parser;
 
     /**
      * "File pointer". Basically used as offset for searching.
@@ -52,20 +55,21 @@ class YamlUpdater
      */
     public function __construct(Application $app, $filename = '')
     {
-        if ($app['filesystem']->getManager('config')->getVisibility($filename) === 'private') {
-            echo "Can't read $filename\n";
-
-            return false;
-        }
-
         $this->app = $app;
-        $this->filename = $filename;
-        $this->file = file($filename);
-        $this->lines = count($this->file);
-
         $this->changed = false;
+        $this->filename = $filename;
+        $this->parser = new Parser();
 
-        return true;
+        $this->file = $app['filesystem']->getManager('config')->read($filename);
+
+        // Check that the read-in YAML is valid
+        $this->parser->parse($this->file, true, true);
+
+        // Create a searchable array
+        $this->file = explode("\n", $this->file);
+
+        // Track the number of lines we have
+        $this->lines = count($this->file);
     }
 
     /**
@@ -185,31 +189,34 @@ class YamlUpdater
      */
     protected function save($makebackup)
     {
-        $this->filesystem = new FileSystem();
-
         if (!$this->verify()) {
             return false;
         }
 
         // If we're backing up do it, if we can
-        if ($makebackup && !$this->backup()) {
-            return false;
+        if ($makebackup) {
+            $this->backup();
         }
 
         // Attempt to write out a temporary copy of the new YAML file
         $tmpfile = $this->filename . '.tmp';
-        try {
-            $this->filesystem->dumpFile($tmpfile, $this->yaml);
-        } catch (IOExceptionInterface $e) {
-            return false;
+        if (! $this->app['filesystem']->getManager('config')->put($tmpfile, $this->yaml)) {
+            throw new FilesystemException("Unable to write to temporary file: $tmpfile", FilesystemException::FILE_NOT_WRITEABLE);
         }
 
-        // We know the temporary file is readable, we touched the file in verify(),
-        // so attempt a final rename
-        try {
-            $this->filesystem->rename($tmpfile, $this->filename, true);
-        } catch (IOExceptionInterface $e) {
-            return false;
+        // Delete original file
+        if (! $this->app['filesystem']->getManager('config')->delete($this->filename)) {
+            throw new FilesystemException("Unable to remove to YAML file: $this->filename", FilesystemException::FILE_NOT_REMOVEABLE);
+        }
+
+        // Copy temporary file over original
+        if (! $this->app['filesystem']->getManager('config')->copy($tmpfile, $this->filename)) {
+            throw new FilesystemException("Unable to write to file: $this->filename", FilesystemException::FILE_NOT_WRITEABLE);
+        }
+
+        // Delete temproary file
+        if (! $this->app['filesystem']->getManager('config')->delete($tmpfile)) {
+            throw new FilesystemException("Unable to remove to temporary file: $tmpfile", FilesystemException::FILE_NOT_REMOVEABLE);
         }
 
         return true;
@@ -224,42 +231,22 @@ class YamlUpdater
     protected function verify()
     {
         if (empty($this->yaml)) {
-            $this->yaml = implode('', $this->file);
+            $this->yaml = implode("\n", $this->file);
         }
 
-        // Attempt to change the modification time on the file to test if it is
-        // writeable
-        try {
-            $this->filesystem->touch($this->filename);
-        } catch (IOExceptionInterface $e) {
-            return false;
-        }
-
-        // Test that we can parse the YAML
         // This will throw a ParseException If the YAML is not valid
-        try {
-            $parser = new Parser();
-            $parser->parse($this->yaml, true, true);
-
-        } catch (ParseException $e) {
-            return false;
-        }
+        $this->parser->parse($this->yaml, true, true);
 
         return true;
     }
 
     /**
+     * Backup the YAML file
      *
      * @return boolean
      */
     protected function backup()
     {
-        try {
-            $this->filesystem->copy($this->filename, $this->filename . '.' . date('Ymd-His'), true);
-        } catch (IOExceptionInterface $e) {
-            return false;
-        }
-
-        return true;
+        $this->app['filesystem']->getManager('config')->copy($this->filename, $this->filename . '.' . date('Ymd-His'));
     }
 }

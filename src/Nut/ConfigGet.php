@@ -2,10 +2,14 @@
 
 namespace Bolt\Nut;
 
+use Bolt\Exception\FilesystemException;
+use League\Flysystem\FileExistsException;
+use League\Flysystem\FileNotFoundException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Yaml\Exception\ParseException;
 
 class ConfigGet extends BaseCommand
 {
@@ -29,14 +33,23 @@ class ConfigGet extends BaseCommand
             $file = 'config.yml';
         }
 
-        $yaml = new \Bolt\YamlUpdater($this->app, $file);
-        $match = $yaml->get($key);
+        try {
+            $yaml = new \Bolt\YamlUpdater($this->app, $file);
+            $match = $yaml->get($key);
 
-        if (!empty($match)) {
-            $result = sprintf("%s: %s", $key, $match['value']);
-        } else {
-            $result = sprintf("%s not found.", $key);
+            if (!empty($match)) {
+                $result = sprintf("%s: %s", $key, $match['value']);
+            } else {
+                $result = sprintf("<error>The key '%s' was not found in %s.</error>", $key, $file);
+            }
+        } catch (FileNotFoundException $e) {
+            $result = sprintf("<error>Can't read file: %s.</error>", $file);
+        } catch (ParseException $e) {
+            $result = sprintf("<error>Invalid YAML in file: %s.</error>", $file);
+        } catch (FilesystemException $e) {
+            $result = sprintf('<error>' . $e->getMessage() .'</error>');
         }
+
 
         $output->writeln($result);
     }
