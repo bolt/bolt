@@ -8,8 +8,10 @@
     $.fn.watchChanges = function () {
 
         // First, make sure the underlying textareas are updated with the content in the CKEditor fields.
-        for (var instanceName in CKEDITOR.instances) {
-            CKEDITOR.instances[instanceName].updateElement();
+        if (typeof CKEDITOR !== 'undefined') {
+            for (var instanceName in CKEDITOR.instances) {
+                CKEDITOR.instances[instanceName].updateElement();
+            }
         }
 
         return this.each(function () {
@@ -21,8 +23,10 @@
         var hasChanged = false;
 
         // First, make sure the underlying textareas are updated with the content in the CKEditor fields.
-        for(var instanceName in CKEDITOR.instances) {
-            CKEDITOR.instances[instanceName].updateElement();
+        if (typeof CKEDITOR !== 'undefined') {
+            for (var instanceName in CKEDITOR.instances) {
+                CKEDITOR.instances[instanceName].updateElement();
+            }
         }
 
         this.each(function () {
