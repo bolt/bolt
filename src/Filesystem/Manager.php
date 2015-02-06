@@ -17,10 +17,11 @@ class Manager extends MountManager
     public function __construct(Application $app)
     {
         $this->app = $app;
-        $this->mount('default', $app['resources']->getPath('files'));
-        $this->mount('files', $app['resources']->getPath('files'));
-        $this->mount('config', $app['resources']->getPath('config'));
-        $this->mount('theme', $app['resources']->getPath('themebase'));
+        $this->mount('root',       $app['resources']->getPath('root'));
+        $this->mount('default',    $app['resources']->getPath('files'));
+        $this->mount('files',      $app['resources']->getPath('files'));
+        $this->mount('config',     $app['resources']->getPath('config'));
+        $this->mount('theme',      $app['resources']->getPath('themebase'));
         $this->mount('extensions', $app['resources']->getPath('extensionspath') . '/vendor');
         $this->initManagers();
     }
