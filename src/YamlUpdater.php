@@ -4,6 +4,7 @@ namespace Bolt;
 
 use Bolt\Application;
 use Bolt\Exception\FilesystemException;
+use League\Flysystem\File;
 use Symfony\Component\Yaml\Parser;
 
 /**
@@ -40,7 +41,12 @@ class YamlUpdater
      * Contains a line of the file per index.
      * @var array
      */
-    private $file = array();
+    private $yaml = array();
+
+    /**
+     * @var League\Flysystem\File
+     */
+    private $file;
 
     /**
      * @var string
@@ -58,18 +64,20 @@ class YamlUpdater
         $this->app = $app;
         $this->changed = false;
         $this->filename = $filename;
+        $this->file = new File($app['filesystem']->getManager('config'), $filename);
         $this->parser = new Parser();
 
-        $this->file = $app['filesystem']->getManager('config')->read($filename);
+        // Get the contents of the file
+        $this->yaml = $this->file->read();
 
         // Check that the read-in YAML is valid
-        $this->parser->parse($this->file, true, true);
+        $this->parser->parse($this->yaml, true, true);
 
         // Create a searchable array
-        $this->file = explode("\n", $this->file);
+        $this->yaml = explode("\n", $this->yaml);
 
         // Track the number of lines we have
-        $this->lines = count($this->file);
+        $this->lines = count($this->yaml);
     }
 
     /**
@@ -107,7 +115,7 @@ class YamlUpdater
     {
         while ($this->pointer <= $this->lines) {
             $needle = substr('                                      ', 0, 2 * $indent) . $keypart . ':';
-            if (isset($this->file[$this->pointer]) && strpos($this->file[$this->pointer], $needle) === 0) {
+            if (isset($this->yaml[$this->pointer]) && strpos($this->yaml[$this->pointer], $needle) === 0) {
                 return $this->pointer;
             }
             $this->pointer++;
@@ -124,7 +132,7 @@ class YamlUpdater
      */
     private function parseline($line)
     {
-        preg_match_all('/(\s*)([a-z0-9_-]+):(\s)?(.*)/', $this->file[$line], $match);
+        preg_match_all('/(\s*)([a-z0-9_-]+):(\s)?(.*)/', $this->yaml[$line], $match);
 
         return array(
             'line' => $line,
@@ -154,7 +162,7 @@ class YamlUpdater
 
         $value = $this->prepareValue($value);
 
-        $this->file[$match['line']] = sprintf("%s%s: %s\n", $match['indentation'], $match['key'], $value);
+        $this->yaml[$match['line']] = sprintf("%s%s: %s\n", $match['indentation'], $match['key'], $value);
 
         return $this->save($makebackup);
     }
@@ -198,25 +206,9 @@ class YamlUpdater
             $this->backup();
         }
 
-        // Attempt to write out a temporary copy of the new YAML file
-        $tmpfile = $this->filename . '.tmp';
-        if (! $this->app['filesystem']->getManager('config')->put($tmpfile, $this->yaml)) {
-            throw new FilesystemException("Unable to write to temporary file: $tmpfile", FilesystemException::FILE_NOT_WRITEABLE);
-        }
-
-        // Delete original file
-        if (! $this->app['filesystem']->getManager('config')->delete($this->filename)) {
-            throw new FilesystemException("Unable to remove to YAML file: $this->filename", FilesystemException::FILE_NOT_REMOVEABLE);
-        }
-
-        // Copy temporary file over original
-        if (! $this->app['filesystem']->getManager('config')->copy($tmpfile, $this->filename)) {
+        // Update the YAML file if we can, or throw an error
+        if (! $this->file->update($this->yaml)) {
             throw new FilesystemException("Unable to write to file: $this->filename", FilesystemException::FILE_NOT_WRITEABLE);
-        }
-
-        // Delete temproary file
-        if (! $this->app['filesystem']->getManager('config')->delete($tmpfile)) {
-            throw new FilesystemException("Unable to remove to temporary file: $tmpfile", FilesystemException::FILE_NOT_REMOVEABLE);
         }
 
         return true;
@@ -230,8 +222,8 @@ class YamlUpdater
      */
     protected function verify()
     {
-        if (empty($this->yaml)) {
-            $this->yaml = implode("\n", $this->file);
+        if (is_array($this->yaml)) {
+            $this->yaml = implode("\n", $this->yaml);
         }
 
         // This will throw a ParseException If the YAML is not valid
@@ -247,6 +239,6 @@ class YamlUpdater
      */
     protected function backup()
     {
-        $this->app['filesystem']->getManager('config')->copy($this->filename, $this->filename . '.' . date('Ymd-His'));
+        $this->file->copy($this->filename, $this->filename . '.' . date('Ymd-His'));
     }
 }
