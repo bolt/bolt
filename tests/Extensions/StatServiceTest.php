@@ -17,12 +17,11 @@ class StatServiceTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $stat = $this->getMock('Bolt\Extensions\StatService', array('recordInstall'), array($app));
-
-        $stat = $this->getMock('Bolt\Extensions\StatService', array('recordInstall'), array($app));
         $stat->expects($this->once())
             ->method('recordInstall')
             ->with('mytest', '1.0.0');
-        $stat->recordInstall("mytest",'1.0.0');
+
+        $response = $stat->recordInstall("mytest",'1.0.0');
     }
 
 }

@@ -53,7 +53,6 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
                 'path' => TEST_ROOT . '/bolt.db'
             )
         );
-        $bolt['config']->set('extensions/enabled', false);
         $bolt['session'] = $sessionMock;
         $bolt['resources']->setPath('files', TEST_ROOT . '/tests/resources/files');
 
