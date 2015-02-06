@@ -278,7 +278,7 @@ class Users
             time() + $this->app['config']->get('general/cookies_lifetime'),
             '/',
             $this->app['config']->get('general/cookies_domain'),
-            $this->app['config']->get('general/cookies_https_only'),
+            $this->app['config']->get('general/enforce_ssl'),
             true
         );
 
@@ -559,7 +559,7 @@ class Users
                 time() - 1,
                 '/',
                 $this->app['config']->get('general/cookies_domain'),
-                $this->app['config']->get('general/cookies_https_only'),
+                $this->app['config']->get('general/enforce_ssl'),
                 true
             );
 
@@ -715,7 +715,7 @@ class Users
             time() - 1,
             '/',
             $this->app['config']->get('general/cookies_domain'),
-            $this->app['config']->get('general/cookies_https_only'),
+            $this->app['config']->get('general/enforce_ssl'),
             true
         );
     }
