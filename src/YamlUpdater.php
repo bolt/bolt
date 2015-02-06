@@ -52,7 +52,7 @@ class YamlUpdater
      */
     public function __construct(Application $app, $filename = '')
     {
-        if (!is_readable($filename)) {
+        if ($app['filesystem']->getManager('config')->getVisibility($filename) === 'private') {
             echo "Can't read $filename\n";
 
             return false;

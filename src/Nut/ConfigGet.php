@@ -26,7 +26,7 @@ class ConfigGet extends BaseCommand
         if ($input->getOption('file')) {
             $file = $input->getOption('file');
         } else {
-            $file = $this->app['resources']->getPath('config') . "/config.yml";
+            $file = 'config.yml';
         }
 
         $yaml = new \Bolt\YamlUpdater($this->app, $file);
