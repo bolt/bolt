@@ -2,7 +2,7 @@
  * Dashboard specific stuff
  */
 
-h3 {
+.contenttype-title h3 {
     font-size:20px;
     }
 
@@ -173,29 +173,30 @@ h3 {
 
 @media (max-width: 767px) {
     
-    h3{
+.contenttype-title h3{
         font-size: 16px;
-    }
+}
     
-    .visible-xs {
+.visible-xs {
         display: inline !important;
-    }
+ }
     
-    .btn-group {
-        margin-top:-8px;
-        margin-bottom:8px;
-    }
+ .btn-group {
+     margin-top:-8px;
+     margin-bottom:8px;
+}
     
-    .contenttype-title {
-        width: auto;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
+.contenttype-title {
+    width: auto;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
     
-    .dashboardlisting td.listthumb img {
+.dashboardlisting td.listthumb img {
     margin-left: -32px;
-    }
+}
+    
 }
 
 @media (max-width: 640px) {  
