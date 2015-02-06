@@ -16,7 +16,7 @@
 
     <ul class="activity">
         {% for log in activity %}
-            {% set user = getuser(log.ownerid) %}
+            {% set user = getuser( log.ownerid|default('') ) %}
             {% if user is not empty %}
                 {% set userlink = macro.userlink(user) %}
             {% else %}
