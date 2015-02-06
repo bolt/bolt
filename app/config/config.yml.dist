@@ -250,15 +250,6 @@ cookies_use_remoteaddr: true
 cookies_use_browseragent: false
 cookies_use_httphost: true
 
-# Set the SECURE flag on session and authentication cookies. This will keep
-# most browsers from transmitting sessions cookies over an unencrypted
-# connection (e.g. when editing the site over HTTPS and at the same time
-# viewing it over HTTP).
-# NOTE: This setting only makes sense when you have actually set up HTTPS for
-# your Bolt site; if you do, you probably want to combine this flag with the
-# enforce_ssl option to avoid non-SSL requests to the backend altogether.
-cookies_https_only: false
-
 # The length of time a user stays 'logged in'. Change to 0 to end the session when the browser
 # is closed. The default is 1209600: two weeks in seconds.
 cookies_lifetime: 1209600
@@ -294,9 +285,6 @@ extensions:
 # Enforce SSL: if set, all but the front-end pages will enforce an SSL
 # connection (and redirect to HTTPS if you attempt to visit the backend over
 # plain HTTP).
-# NOTE: if you set this, you probably also want to set the cookies_https_only
-# option; without it, users can still be tricked into sending session cookies
-# over plain HTTP, which could allow a MITM attacker to hijack their sessions.
 # enforce_ssl: true
 
 # If configured, Bolt will trust X-Forwarded-XXX headers from the listed IP
