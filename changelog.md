@@ -27,6 +27,10 @@ Bolt 2.0 DEV-head
 - Fixed: Fix filebrowser route binding name to be 'filebrowser' (See #2680)
 - Fixed: Allow setting of regex pattern, replacement and case of uploaded file names (See #2691)
 - Fixed: Regression that would break the ability to set global Twig variables in an extension (See #2717)
+- Changed: Enforce SSL Config Change. Now we use only `enforce_ssl`, `cookies_https_only` is deprecated. (See #2726, thanks @dwolf555)
+- Fixed: Flipped array replace arguments in `parseFieldsAndGroups()`. (See #2738)
+
+
 
 Bolt 2.0.5
 ----------
