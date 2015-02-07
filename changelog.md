@@ -29,7 +29,7 @@ Bolt 2.0 DEV-head
 - Fixed: Regression that would break the ability to set global Twig variables in an extension (See #2717)
 - Changed: Enforce SSL Config Change. Now we use only `enforce_ssl`, `cookies_https_only` is deprecated. (See #2726, thanks @dwolf555)
 - Fixed: Flipped array replace arguments in `parseFieldsAndGroups()`. (See #2738)
-
+- Fixed: No more nbsp in CKeditor. Fixes #2660
 
 
 Bolt 2.0.5
