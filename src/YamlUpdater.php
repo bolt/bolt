@@ -2,7 +2,7 @@
 
 namespace Bolt;
 
-use Symfony\Component\Filesystem\Filesystem;
+use Bolt\Application;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Parser;
@@ -15,6 +15,10 @@ use Symfony\Component\Yaml\Parser;
  **/
 class YamlUpdater
 {
+    /**
+     * @var $app Silex\Application
+     */
+    private $app;
 
     /**
      * "File pointer". Basically used as offset for searching.
@@ -42,9 +46,10 @@ class YamlUpdater
     /**
      * Creates an updater for the given file.
      *
-     * @param string  $filename   The file to modify
+     * @param Silex\Application $app
+     * @param string            $filename   The file to modify
      */
-    public function __construct($filename = '')
+    public function __construct(Application $app, $filename = '')
     {
         if (!is_readable($filename)) {
             echo "Can't read $filename\n";
@@ -52,6 +57,7 @@ class YamlUpdater
             return false;
         }
 
+        $this->app = $app;
         $this->filename = $filename;
         $this->file = file($filename);
         $this->lines = count($this->file);
@@ -178,8 +184,6 @@ class YamlUpdater
      */
     protected function save($makebackup)
     {
-        $this->filesystem = new FileSystem();
-
         if (!$this->verify()) {
             return false;
         }
@@ -192,7 +196,7 @@ class YamlUpdater
         // Attempt to write out a temporary copy of the new YAML file
         $tmpfile = $this->filename . '.tmp';
         try {
-            $this->filesystem->dumpFile($tmpfile, $this->yaml);
+            $this->app['symfony.filesystem']->dumpFile($tmpfile, $this->yaml);
         } catch (IOExceptionInterface $e) {
             return false;
         }
@@ -200,7 +204,7 @@ class YamlUpdater
         // We know the temporary file is readable, we touched the file in verify(),
         // so attempt a final rename
         try {
-            $this->filesystem->rename($tmpfile, $this->filename, true);
+            $this->app['symfony.filesystem']->rename($tmpfile, $this->filename, true);
         } catch (IOExceptionInterface $e) {
             return false;
         }
@@ -223,7 +227,7 @@ class YamlUpdater
         // Attempt to change the modification time on the file to test if it is
         // writeable
         try {
-            $this->filesystem->touch($this->filename);
+            $this->app['symfony.filesystem']->touch($this->filename);
         } catch (IOExceptionInterface $e) {
             return false;
         }
@@ -248,7 +252,7 @@ class YamlUpdater
     protected function backup()
     {
         try {
-            $this->filesystem->copy($this->filename, $this->filename . '.' . date('Ymd-His'), true);
+            $this->app['symfony.filesystem']->copy($this->filename, $this->filename . '.' . date('Ymd-His'), true);
         } catch (IOExceptionInterface $e) {
             return false;
         }

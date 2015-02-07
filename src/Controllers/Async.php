@@ -7,11 +7,9 @@ use Bolt\Translation\Translator as Trans;
 use Guzzle\Http\Exception\RequestException;
 use Silex;
 use Silex\ControllerProviderInterface;
+use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-
-use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Filesystem\Exception\IOException;
 
 class Async implements ControllerProviderInterface
 {
@@ -507,14 +505,10 @@ class Async implements ControllerProviderInterface
                       . DIRECTORY_SEPARATOR
                       . $newName;
 
-        $fileSystemHelper = new Filesystem();
-
         try {
-            $fileSystemHelper->rename($oldPath, $newPath, false /* Don't rename if target exists already! */);
+            $this->app['symfony.filesystem']->rename($oldPath, $newPath, false /* Don't rename if target exists already! */);
         } catch (IOException $exception) {
-
             /* Thrown if target already exists or renaming failed. */
-
             return false;
         }
 
@@ -598,18 +592,14 @@ class Async implements ControllerProviderInterface
                       . $parentPath
                       . $newName;
 
-        $fileSystemHelper = new Filesystem();
-
         try {
-            $fileSystemHelper->rename(
+            $this->app['symfony.filesystem']->rename(
                 $oldPath,
                 $newPath,
                 false /* Don't rename if target exists already! */
             );
         } catch (IOException $exception) {
-
             /* Thrown if target already exists or renaming failed. */
-
             return false;
         }
 
