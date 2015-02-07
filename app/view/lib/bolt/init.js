@@ -409,6 +409,7 @@ var init = {
             config.uiColor = '#DDDDDD';
             config.resize_enabled = true;
             config.entities = false;
+            config.fillEmptyBlocks = false;
             config.extraPlugins = 'codemirror';
             config.toolbar = [
                 { name: 'styles', items: ['Format'] },
@@ -526,6 +527,16 @@ var init = {
                 }
             }
         };
+
+        // When 'pasting' from Word (or perhaps other editors too), you'll often
+        // get extra `&nbsp;&nbsp;` or `<p>&nbsp;</p>`. Strip these out on paste:
+        CKEDITOR.on('instanceReady', function(ev) {
+            ev.editor.on('paste', function(evt) {
+                evt.data.dataValue = evt.data.dataValue.replace(/&nbsp;/g,'');
+                evt.data.dataValue = evt.data.dataValue.replace(/<p><\/p>/g,'');
+                console.log(evt.data.dataValue);
+            }, null, null, 9);
+        });
     },
 
     /**

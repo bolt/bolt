@@ -187,6 +187,10 @@ class Content implements \ArrayAccess
                         $newvalue[$field] = json_encode($this->values[$field]);
                     }
                     break;
+
+                case 'html':
+                    $newvalue[$field] = str_replace('&nbsp;', ' ', $this->values[$field]);
+                    break;
             }
         }
 
