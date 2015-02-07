@@ -1714,47 +1714,50 @@ class Backend implements ControllerProviderInterface
      */
     private function getUserForm(Application $app, array $user, $addusername = false)
     {
-        // Start building the form..
-        $form = $app['form.factory']->createBuilder('form', $user)
-                ->add('id', 'hidden')
-                ->add('password', 'password', array(
-                    'required' => false,
-                    'label' => Trans::__('page.edit-users.label.password'),
-                    'attr' => array(
-                        'placeholder' => Trans::__('page.edit-users.placeholder.password')
-                    )
-
-                ))
-                ->add('password_confirmation', 'password', array(
-                    'required' => false,
-                    'label' => Trans::__('page.edit-users.label.password-confirm'),
-                    'attr' => array(
-                        'placeholder' => Trans::__('page.edit-users.placeholder.password-confirm')
-                    )
-                ))
-                ->add('email', 'text', array(
-                    'constraints' => new Assert\Email(),
-                    'label' => Trans::__('page.edit-users.label.email'),
-                    'attr' => array(
-                        'placeholder' => Trans::__('page.edit-users.placeholder.email')
-                    )
-                ))
-                ->add('displayname', 'text', array(
-                    'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min' => 2, 'max' => 32))),
-                    'label' => Trans::__('page.edit-users.label.display-name'),
-                    'attr' => array(
-                        'placeholder' => Trans::__('page.edit-users.placeholder.displayname')))
-        );
-
+        // Start building the form
+        $form = $app['form.factory']->createBuilder('form', $user);
+        
+        // Username goes first
         if ($addusername) {
             $form->add('username', 'text', array(
-                    'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min' => 2, 'max' => 32))),
-                    'label' => Trans::__('page.edit-users.label.username'),
-                    'attr' => array(
-                        'placeholder' => Trans::__('page.edit-users.placeholder.username')
-                    )
+                'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min' => 2, 'max' => 32))),
+                'label' => Trans::__('page.edit-users.label.username'),
+                'attr' => array(
+                    'placeholder' => Trans::__('page.edit-users.placeholder.username')
+                )
             ));
         }
+
+        // Add the other fields
+        $form->add('id', 'hidden')
+            ->add('password', 'password', array(
+                'required' => false,
+                'label' => Trans::__('page.edit-users.label.password'),
+                'attr' => array(
+                    'placeholder' => Trans::__('page.edit-users.placeholder.password')
+                )
+
+            ))
+            ->add('password_confirmation', 'password', array(
+                'required' => false,
+                'label' => Trans::__('page.edit-users.label.password-confirm'),
+                'attr' => array(
+                    'placeholder' => Trans::__('page.edit-users.placeholder.password-confirm')
+                )
+            ))
+            ->add('email', 'text', array(
+                'constraints' => new Assert\Email(),
+                'label' => Trans::__('page.edit-users.label.email'),
+                'attr' => array(
+                    'placeholder' => Trans::__('page.edit-users.placeholder.email')
+                )
+            ))
+            ->add('displayname', 'text', array(
+                'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min' => 2, 'max' => 32))),
+                'label' => Trans::__('page.edit-users.label.display-name'),
+                'attr' => array(
+                    'placeholder' => Trans::__('page.edit-users.placeholder.displayname')))
+        );
 
         return $form;
     }
