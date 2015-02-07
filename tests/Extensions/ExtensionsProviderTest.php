@@ -292,7 +292,7 @@ EOM;
     }
 
     /**
-    * runInSeparateProcess
+    * @runInSeparateProcess
     */
     public function testLocalload()
     {
