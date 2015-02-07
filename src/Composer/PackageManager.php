@@ -438,7 +438,7 @@ class PackageManager
     {
         $class = new \ReflectionClass("Bolt\\Composer\\ExtensionInstaller");
         $filename = $class->getFileName();
-        copy($filename, $this->options['basedir'] . '/installer.php');
+        copy($filename, $this->options['basedir'] . '/ExtensionInstaller.php');
     }
 
     /**
