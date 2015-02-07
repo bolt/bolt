@@ -76,7 +76,7 @@ class Application extends Silex\Application
             array(
                 'session.storage.options' => array(
                     'name'            => 'bolt_session',
-                    'cookie_secure'   => $this['config']->get('general/cookies_https_only'),
+                    'cookie_secure'   => $this['config']->get('general/enforce_ssl'),
                     'cookie_httponly' => true
                 )
             )

@@ -92,6 +92,10 @@ class Login implements Silex\ControllerProviderInterface
             'randomquote' => true,
         );
 
+        if ($app['config']->get('general/enforce_ssl') && !$app['request']->isSecure()) {
+            return $app->redirect(preg_replace("/^http:/i", "https:", $app['request']->getUri()));
+        }
+
         return $app['render']->render('login/login.twig', array('context' => $context));
     }
 
