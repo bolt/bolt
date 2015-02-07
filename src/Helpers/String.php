@@ -15,7 +15,9 @@ class String
      */
     public static function makeSafe($str, $strict = false, $extrachars = "")
     {
-        $str = \URLify::downcode($str);
+        // Regex to mimic the old behaviour. We do not want regressions here.
+        $slugify = new \Cocur\Slugify\Slugify('/([^_\-.\-a-zA-Z0-9 ]|-)/'); 
+        $str = $slugify->slugify($str);
         $str = str_replace("&amp;", "", $str);
 
         $delim = '/';
