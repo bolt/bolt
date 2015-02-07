@@ -131,7 +131,7 @@ class Frontend
             $app->abort(404, "Page $contenttypeslug/$slug not found.");
         }
 
-        $slug = $app['slugify']->slugify($slug, -1);
+        $slug = $app['slugify']->slugify($slug);
 
         // First, try to get it by slug.
         $content = $app['storage']->getContent($contenttype['slug'], array('slug' => $slug, 'returnsingle' => true));
