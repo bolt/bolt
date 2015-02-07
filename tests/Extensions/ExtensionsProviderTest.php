@@ -291,9 +291,7 @@ EOM;
         return $html;
     }
 
-    /**
-    * @runInSeparateProcess
-    */
+
     public function testLocalload()
     {
         $app = $this->makeApp();
