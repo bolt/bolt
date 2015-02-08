@@ -16,11 +16,6 @@ use Symfony\Component\Yaml\Parser;
 class YamlUpdater
 {
     /**
-     * @var $app Silex\Application
-     */
-    private $app;
-
-    /**
      * @var Symfony\Component\Yaml\Parser
      */
     private $parser;
@@ -61,7 +56,6 @@ class YamlUpdater
      */
     public function __construct(Application $app, $filename = '')
     {
-        $this->app = $app;
         $this->changed = false;
         $this->filename = $filename;
         $this->file = new File($app['filesystem']->getManager('config'), $filename);

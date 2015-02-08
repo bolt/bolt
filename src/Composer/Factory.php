@@ -62,7 +62,11 @@ final class Factory extends PackageManager
             chdir($this->options['basedir']);
 
             // Use the factory to get a new Composer object
-            $this->composer = \Composer\Factory::create($this->getIO(), $this->options['composerjson'], true);
+            try {
+                $this->composer = \Composer\Factory::create($this->getIO(), $this->options['composerjson'], true);
+            } catch (\Exception $e) {
+                $this->app['logger.system']->addCritical($e->getMessage(), array('event' => 'exception', 'exception' => $e));
+            }
 
             if ($this->downgradeSsl) {
                 $this->allowSslDowngrade(true);

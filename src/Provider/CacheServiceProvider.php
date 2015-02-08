@@ -5,7 +5,6 @@ namespace Bolt\Provider;
 use Bolt\Cache;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
-use Bolt\Exception\Bolt\Exception;
 
 class CacheServiceProvider implements ServiceProviderInterface
 {

@@ -3,7 +3,6 @@
 namespace Bolt\Nut;
 
 use Bolt\Exception\FilesystemException;
-use League\Flysystem\FileExistsException;
 use League\Flysystem\FileNotFoundException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
