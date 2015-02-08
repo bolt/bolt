@@ -72,6 +72,11 @@ abstract class BaseExtension implements ExtensionInterface
         return $this->basepath;
     }
 
+    /**
+     * Get the extensions base URL
+     *
+     * @return string
+     */
     public function getBaseUrl()
     {
         $relative = str_replace($this->app['resources']->getPath('extensions'), "", $this->basepath);
@@ -314,6 +319,9 @@ abstract class BaseExtension implements ExtensionInterface
         }
     }
 
+    /**
+     * @see \Bolt\Extensions\ExtensionInterface::getName()
+     */
     public function getName()
     {
         return $this->namespace;
