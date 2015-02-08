@@ -225,6 +225,18 @@ class Frontend
         $app['twig']->addGlobal('record', $content);
         $app['twig']->addGlobal($contenttype['singular_slug'], $content);
 
+        // Chrome (unlike Firefox and Internet Explorer) has a feature that helps prevent
+        // XSS attacks for uncareful people. It blocks embeds, links and src's that have
+        // a URL that's also in the request. In Bolt we wish to enable this type of embeds,
+        // because otherwise Youtube, Vimeo and Google Maps embeds will simply not show,
+        // causing confusion for the editor, because they don't know what's happening.
+        // Is this a security concern, you may ask? I believe it cannot be exploited:
+        //   - Disabled, the behaviour on Chrome matches Firefox and IE.
+        //   - The user must be logged in to see the 'preview' page at all.
+        //   - Our CSRF-token ensures that the user will only see their own posted preview.
+        // @see: http://security.stackexchange.com/questions/53474/is-chrome-completely-secure-against-reflected-xss
+        header("X-XSS-Protection: 0");
+
         return self::render($app, $template, $content->getTitle());
     }
 
