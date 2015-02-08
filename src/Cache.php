@@ -40,22 +40,18 @@ class Cache extends FilesystemCache
     private $replacementCharacters = array('__', '-');
 
     /**
-     * Set up the object. Initialize the proper folder for storing the
-     * files.
+     * Set up the object. Initialize the proper folder for storing the files.
      *
-     * @param  string                               $cacheDir
-     * @throws \Exception|\InvalidArgumentException
+     * @param  string            $cacheDir
+     * @param  Silex\Application $app
+     * @throws \Exception
      */
-    public function __construct($cacheDir = null)
+    public function __construct($cacheDir, $app)
     {
-        $filesystem = new Filesystem();
-        if (!$filesystem->isAbsolutePath($cacheDir)) {
-            $cacheDir = realpath(__DIR__ . "/" . $cacheDir);
-        }
-
         try {
             parent::__construct($cacheDir, $this->extension);
-        } catch (\InvalidArgumentException $e) {
+        } catch (\Exception $e) {
+            $app['logger.system']->addCritical($e->getMessage(), array('event' => 'exception', 'exception' => $e));
             throw $e;
         }
     }

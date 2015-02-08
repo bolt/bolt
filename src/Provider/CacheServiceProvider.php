@@ -5,6 +5,7 @@ namespace Bolt\Provider;
 use Bolt\Cache;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
+use Bolt\Exception\Bolt\Exception;
 
 class CacheServiceProvider implements ServiceProviderInterface
 {
@@ -12,7 +13,7 @@ class CacheServiceProvider implements ServiceProviderInterface
     {
         $app['cache'] = $app->share(
             function () use ($app) {
-                $cache = new Cache($app['resources']->getPath('cache'));
+                $cache = new Cache($app['resources']->getPath('cache'), $app);
 
                 return $cache;
             }

@@ -3,10 +3,11 @@
 namespace Bolt\Tests\Cache;
 
 use Bolt\Cache;
+use Bolt\Tests\BoltUnitTest;
 use Symfony\Component\Filesystem\Filesystem;
 use Eloquent\Pathogen\FileSystem\Factory\PlatformFileSystemPathFactory;
 
-class CacheTest extends \PHPUnit_Framework_TestCase
+class CacheTest extends BoltUnitTest
 {
 
     /**
@@ -25,7 +26,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
         $this->workspace = $path->createTemporaryPath();
         mkdir($this->workspace, 0777, true);
         $this->workspace = realpath($this->workspace);
-        $this->cache = new Cache($this->workspace);
+        $this->cache = new Cache($this->workspace, $this->getApp());
     }
 
     public function tearDown()
@@ -82,18 +83,6 @@ class CacheTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $this->cache->fetch($key));
     }
 
-    /**
-     * Checks if giving a relative path results in the same path under water.
-     */
-    public function testCacheDirLocation()
-    {
-        $cacheDirLocation = $this->cache->getDirectory();
-        $filesystem = new Filesystem();
-        $relative = $filesystem->makePathRelative($cacheDirLocation, realpath(__DIR__ . '/../'));
-        $newCache = new Cache($relative);
-        $this->assertEquals($cacheDirLocation, $newCache->getDirectory());
-    }
-
     // Windows can achieve both of these tests therefore it is meaningless there
 
     /**
@@ -104,7 +93,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
         if (strtoupper(substr(PHP_OS, 0, 3) == 'WIN')) {
             throw new \InvalidArgumentException('Win can');
         } else {
-            $newCache = new Cache("/foo/bar/baz");
+            $newCache = new Cache("/foo/bar/baz", $this->getApp());
         }
     }
 
@@ -118,7 +107,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
         } else {
             $this->clean($this->workspace);
             mkdir($this->workspace, 0400);
-            $this->cache = new Cache($this->workspace);
+            $this->cache = new Cache($this->workspace, $this->getApp());
         }
     }
 }

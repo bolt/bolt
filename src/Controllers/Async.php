@@ -10,9 +10,6 @@ use Silex\ControllerProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Filesystem\Exception\IOException;
-
 class Async implements ControllerProviderInterface
 {
     public function connect(Silex\Application $app)
@@ -507,18 +504,14 @@ class Async implements ControllerProviderInterface
                       . DIRECTORY_SEPARATOR
                       . $newName;
 
-        $fileSystemHelper = new Filesystem();
-
-        try {
-            $fileSystemHelper->rename($oldPath, $newPath, false /* Don't rename if target exists already! */);
-        } catch (IOException $exception) {
-
-            /* Thrown if target already exists or renaming failed. */
-
+        // Rename only if target doesn't exist already!
+        if ($this->app['filesystem']->getManager('config')->has($newPath)) {
             return false;
+        } elseif ($this->app['filesystem']->getManager('config')->rename($oldPath, $newPath)) {
+            return true;
         }
 
-        return true;
+        return false;
     }
 
     /**
@@ -598,22 +591,14 @@ class Async implements ControllerProviderInterface
                       . $parentPath
                       . $newName;
 
-        $fileSystemHelper = new Filesystem();
-
-        try {
-            $fileSystemHelper->rename(
-                $oldPath,
-                $newPath,
-                false /* Don't rename if target exists already! */
-            );
-        } catch (IOException $exception) {
-
-            /* Thrown if target already exists or renaming failed. */
-
+        // Rename only if target doesn't exist already!
+        if ($this->app['filesystem']->getManager('config')->has($newPath)) {
             return false;
+        } elseif ($this->app['filesystem']->getManager('config')->rename($oldPath, $newPath)) {
+            return true;
         }
 
-        return true;
+        return false;
     }
 
     /**

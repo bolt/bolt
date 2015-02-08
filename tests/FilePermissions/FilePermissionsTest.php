@@ -2,7 +2,7 @@
 namespace Bolt\Tests\FilePermissions;
 
 use Bolt\Tests\BoltUnitTest;
-use Bolt\FilePermissions;
+use Bolt\Filesystem\FilePermissions;
 
 /**
  * Class to test src/FilePermissions.

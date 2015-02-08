@@ -1,8 +1,9 @@
 <?php
 
-namespace Bolt;
+namespace Bolt\Filesystem;
 
 use Bolt\Library as Lib;
+use Silex\Application;
 
 /**
  * Use to check if an access to a file is allowed.

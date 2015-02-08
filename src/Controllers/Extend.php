@@ -2,20 +2,18 @@
 
 namespace Bolt\Controllers;
 
-use Silex;
-use Silex\ControllerProviderInterface;
-use Silex\ServiceProviderInterface;
-
+use Bolt\Composer\PackageManager;
+use Bolt\Exception\PackageManagerException;
+use Bolt\Extensions\ExtensionsInfoService;
+use Bolt\Library as Lib;
+use Bolt\Translation\Translator as Trans;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Filesystem\Filesystem;
-
-use Bolt\Composer\PackageManager;
-use Bolt\Exception\PackageManagerException;
-use Bolt\Library as Lib;
-use Bolt\Translation\Translator as Trans;
-use Bolt\Extensions\ExtensionsInfoService;
+use Silex;
+use Silex\ControllerProviderInterface;
+use Silex\ServiceProviderInterface;
 
 class Extend implements ControllerProviderInterface, ServiceProviderInterface
 {

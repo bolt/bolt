@@ -156,8 +156,7 @@ class Extensions
      */
     public function localload($app)
     {
-        $fs = new Filesystem();
-        $flag = $fs->exists($this->basefolder . '/local');
+        $flag = $this->app['filesystem']->getManager('extensions')->has('local');
 
         // Check that local exists
         if ($flag) {
