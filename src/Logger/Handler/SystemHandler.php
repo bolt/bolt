@@ -66,7 +66,22 @@ class SystemHandler extends AbstractProcessingHandler
             $this->initialize();
         }
 
-        if ($this->app['config']->get('general/debug')) {
+        if (isset($record['context']['event'])
+            && $record['context']['event'] === ''
+            && isset($record['context']['exception'])
+            && $record['context']['exception'] instanceof \Exception) {
+
+                $e = $record['context']['exception'] ;
+                $trace = $e->getTrace();
+                $source = json_encode(
+                    array(
+                        'file'     => $e->getFile(),
+                        'line'     => $e->getLine(),
+                        'class'    => $trace['class'],
+                        'function' => $trace['function']
+                    )
+                );
+        } elseif ($this->app['config']->get('general/debug')) {
             $backtrace = debug_backtrace();
             $backtrace = $backtrace[3];
 
