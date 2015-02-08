@@ -2,6 +2,8 @@
 
 namespace Bolt\Helpers;
 
+use Cocur\Slugify\Slugify;
+
 class String
 {
     /**
@@ -15,7 +17,8 @@ class String
      */
     public static function makeSafe($str, $strict = false, $extrachars = "")
     {
-        $str = \URLify::downcode($str);
+        $slugify = Slugify::create('/([^a-zA-Z0-9] |-)+/u');
+        $str = $slugify->slugify($str);
         $str = str_replace("&amp;", "", $str);
 
         $delim = '/';

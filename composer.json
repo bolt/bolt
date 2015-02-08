@@ -18,7 +18,6 @@
         "guzzle/guzzle": "~3.9",
         "hautelook/phpass": "~0.3",
         "ircmaxell/random-lib": "~1.1",
-        "jbroadway/urlify": "~1.0",
         "monolog/monolog": "~1.12",
         "php": ">=5.3.3",
         "rossriley/flysystem53": "~1.1",
