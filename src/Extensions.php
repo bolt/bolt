@@ -175,6 +175,10 @@ class Extensions
 
                     // Include the init file
                     require_once $file->getRealpath();
+
+                    // Mark is as a local extension
+                    $extension = end($this->enabled);
+                    $extension->setInstallType('local');
                 } catch (\Exception $e) {
                     $this->logInitFailure('Error importing local extension class', $file->getBasename(), $e, Logger::ERROR);
                 }

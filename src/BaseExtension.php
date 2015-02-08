@@ -18,7 +18,7 @@ abstract class BaseExtension implements ExtensionInterface
     protected $filterlist;
     protected $snippetlist;
     protected $twigExtension;
-    protected $type = 'composer';
+    protected $installtype = 'composer';
 
     private $extensionConfig;
     private $composerJsonLoaded;
@@ -80,14 +80,14 @@ abstract class BaseExtension implements ExtensionInterface
     }
 
     /**
-     * Set the extension type
+     * Set the extension install type
      *
      * @param string $type
      */
-    public function setType($type)
+    public function setInstallType($type)
     {
         if ($type === 'composer' || $type === 'local') {
-            $this->type = $type;
+            $this->installtype = $type;
         }
     }
 
@@ -96,13 +96,14 @@ abstract class BaseExtension implements ExtensionInterface
      *
      * @return string
      */
-    public function getType()
+    public function getInstallType()
     {
-        return $this->type;
+        return $this->installtype;
     }
 
     /**
      * Gets the Composer name, e.g. 'bolt/foobar-extension'.
+     *
      * @return string The Composer name for this extension, or NULL if the
      *                extension is not composerized.
      */
