@@ -218,6 +218,16 @@ class Extensions
     }
 
     /**
+     * Get the enabled extensions
+     *
+     * @return array
+     */
+    public function getEnabled()
+    {
+        return $this->enabled;
+    }
+
+    /**
      * Initialize the enabled extensions.
      *
      */
