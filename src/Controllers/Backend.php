@@ -1035,7 +1035,10 @@ class Backend implements ControllerProviderInterface
         $roles = array();
 
         foreach ($allRoles as $roleName => $role) {
-            $roles[$roleName] = $role['label'];
+            // Checking what roles the current user can manipulate
+            if ($app['permissions']->checkPermission($app['users']->currentuser['roles'], "users:roles-hierarchy:{$roleName}")) {
+                $roles[$roleName] = $role['label'];
+            }
         }
 
         // Get the form
@@ -1279,6 +1282,13 @@ class Backend implements ControllerProviderInterface
 
         if (!$user) {
             $app['session']->getFlashBag()->add('error', 'No such user.');
+
+            return Lib::redirect('users');
+        }
+
+        // Prevent the current user from enabling, disabling or deleting themselves
+        if ($app['users']->currentuser['id'] == $user['id']) {
+            $app['session']->getFlashBag()->set('error', 'You cannot ' . $action . ' yourself.');
 
             return Lib::redirect('users');
         }
@@ -1746,6 +1756,7 @@ class Backend implements ControllerProviderInterface
         $app['users']->checkForRoot();
 
         // Most of the 'check if user is allowed' happens here: match the current route to the 'allowed' settings.
+        $id = $request->attributes->get('id');
         if (!$app['users']->isValidSession() && !$app['users']->isAllowed($route)) {
             $app['session']->getFlashBag()->add('info', Trans::__('Please log on.'));
 
@@ -1754,7 +1765,22 @@ class Backend implements ControllerProviderInterface
             $app['session']->getFlashBag()->add('error', Trans::__('You do not have the right privileges to view that page.'));
 
             return Lib::redirect('dashboard');
-        }
+        } elseif (preg_match("/(user)\w?/i", $route) && $app['users']->getUser($id)) {
+            $user = $app['users']->getUser($id);
+
+            $roleAccessCheck = false;
+            foreach ($user['roles'] as $roleName) {
+                if ($app['permissions']->checkPermission($app['users']->currentuser['roles'], "users:roles-hierarchy:{$roleName}")) {
+                    $roleAccessCheck = true;
+                }
+            }
+
+            if (!$roleAccessCheck) {
+                $app['session']->getFlashBag()->set('error', Trans::__('You do not have the right privileges to view that page.'));
+
+                return Lib::redirect('dashboard');
+            }
+         }
 
         // Stop the 'stopwatch' for the profiler.
         $app['stopwatch']->stop('bolt.backend.before');
