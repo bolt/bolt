@@ -347,9 +347,7 @@ abstract class BaseExtension implements ExtensionInterface
      *
      * An empty default implementation is given for convenience.
      */
-    public function initialize()
-    {
-    }
+    abstract public function initialize();
 
     /**
      * Add a Twig Function
