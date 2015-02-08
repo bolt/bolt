@@ -18,6 +18,7 @@ abstract class BaseExtension implements ExtensionInterface
     protected $filterlist;
     protected $snippetlist;
     protected $twigExtension;
+    protected $type = 'composer';
 
     private $extensionConfig;
     private $composerJsonLoaded;
@@ -76,6 +77,28 @@ abstract class BaseExtension implements ExtensionInterface
         $relative = str_replace($this->app['resources']->getPath('extensions'), "", $this->basepath);
 
         return $this->app['resources']->getUrl('extensions') . ltrim($relative, "/") . "/";
+    }
+
+    /**
+     * Set the extension type
+     *
+     * @param string $type
+     */
+    public function setType($type)
+    {
+        if ($type === 'composer' || $type === 'local') {
+            $this->type = $type;
+        }
+    }
+
+    /**
+     * Get the extension type
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
     }
 
     /**
