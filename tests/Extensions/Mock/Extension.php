@@ -21,12 +21,10 @@ class Extension implements ExtensionInterface
 
     public function initialize()
     {
-
     }
 
     public function getConfig()
     {
-
     }
 
     public function getSnippets()

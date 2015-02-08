@@ -15,8 +15,9 @@ class ExtendedExtension extends \Bolt\BaseExtension
     {
         return "mockExtended";
     }
-    
-    
-    
+
+    public function initialize()
+    {
+    }
 
 }

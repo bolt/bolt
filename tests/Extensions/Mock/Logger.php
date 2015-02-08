@@ -1,5 +1,5 @@
 <?php
-namespace Bolt\tests\Extensions\Mock;
+namespace Bolt\Tests\Extensions\Mock;
 
 /**
  * Class to test correct operation and locations of composer configuration.

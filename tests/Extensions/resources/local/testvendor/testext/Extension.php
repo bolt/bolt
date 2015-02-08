@@ -16,4 +16,7 @@ class MockLocalExtension extends BaseExtension implements ExtensionInterface
         return "testlocal";
     }
 
+    public function initialize()
+    {
+    }
 }
