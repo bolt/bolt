@@ -26,6 +26,7 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
             copy(TEST_ROOT . '/tests/resources/db/bolt.db', TEST_ROOT . '/bolt.db');
         }
     }
+
     protected function getApp()
     {
         $bolt = $this->makeApp();
@@ -55,6 +56,7 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
         );
         $bolt['session'] = $sessionMock;
         $bolt['resources']->setPath('files', TEST_ROOT . '/tests/resources/files');
+        $bolt['slugify'] = \Cocur\Slugify\Slugify::create();
 
         return $bolt;
     }
