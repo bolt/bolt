@@ -109,8 +109,8 @@ abstract class BaseExtension implements ExtensionInterface
     /**
      * Gets the Composer name, e.g. 'bolt/foobar-extension'.
      *
-     * @return string The Composer name for this extension, or NULL if the
-     *                extension is not composerized.
+     * @return string|null The Composer name for this extension, or NULL if the
+     *                     extension is not composerized.
      */
     public function getComposerName()
     {
@@ -143,9 +143,9 @@ abstract class BaseExtension implements ExtensionInterface
      * Get the contents of the extension's composer.json file, lazy-loading
      * as needed.
      */
-    private function getComposerJSON()
+    public function getComposerJSON()
     {
-        if (!$this->composerJsonLoaded) {
+        if (!$this->composerJsonLoaded && !$this->composerJson) {
             $this->composerJsonLoaded = true;
             $this->composerJson = null;
             $jsonFile = new JsonFile($this->getBasepath() . '/composer.json');
