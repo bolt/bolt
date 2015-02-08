@@ -18,6 +18,7 @@ abstract class BaseExtension implements ExtensionInterface
     protected $filterlist;
     protected $snippetlist;
     protected $twigExtension;
+    protected $installtype = 'composer';
 
     private $extensionConfig;
     private $composerJsonLoaded;
@@ -71,6 +72,11 @@ abstract class BaseExtension implements ExtensionInterface
         return $this->basepath;
     }
 
+    /**
+     * Get the extensions base URL
+     *
+     * @return string
+     */
     public function getBaseUrl()
     {
         $relative = str_replace($this->app['resources']->getPath('extensions'), "", $this->basepath);
@@ -79,9 +85,32 @@ abstract class BaseExtension implements ExtensionInterface
     }
 
     /**
+     * Set the extension install type
+     *
+     * @param string $type
+     */
+    public function setInstallType($type)
+    {
+        if ($type === 'composer' || $type === 'local') {
+            $this->installtype = $type;
+        }
+    }
+
+    /**
+     * Get the extension type
+     *
+     * @return string
+     */
+    public function getInstallType()
+    {
+        return $this->installtype;
+    }
+
+    /**
      * Gets the Composer name, e.g. 'bolt/foobar-extension'.
-     * @return string The Composer name for this extension, or NULL if the
-     *                extension is not composerized.
+     *
+     * @return string|null The Composer name for this extension, or NULL if the
+     *                     extension is not composerized.
      */
     public function getComposerName()
     {
@@ -114,9 +143,9 @@ abstract class BaseExtension implements ExtensionInterface
      * Get the contents of the extension's composer.json file, lazy-loading
      * as needed.
      */
-    private function getComposerJSON()
+    public function getComposerJSON()
     {
-        if (!$this->composerJsonLoaded) {
+        if (!$this->composerJsonLoaded && !$this->composerJson) {
             $this->composerJsonLoaded = true;
             $this->composerJson = null;
             $jsonFile = new JsonFile($this->getBasepath() . '/composer.json');
@@ -290,6 +319,9 @@ abstract class BaseExtension implements ExtensionInterface
         }
     }
 
+    /**
+     * @see \Bolt\Extensions\ExtensionInterface::getName()
+     */
     public function getName()
     {
         return $this->namespace;

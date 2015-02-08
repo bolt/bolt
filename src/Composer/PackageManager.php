@@ -354,7 +354,29 @@ class PackageManager
             }
         }
 
-        // Local packages @todo
+        // Local packages
+        foreach ($this->app['extensions']->getEnabled() as $ext) {
+            if ($ext->getInstallType() !== 'local') {
+                continue;
+            }
+            // Get the Composer configuration
+            $json = $ext->getComposerJSON();
+            if ($json) {
+                $packages['local'][] = array(
+                    'name'     => $json['name'],
+                    'title'    => $ext->getName(),
+                    'type'     => $json['type'],
+                    'descrip'  => $json['description'],
+                    'authors'  => $json['authors'],
+                    'keywords' => $json['keywords'],
+                );
+            } else {
+                $packages['local'][] = array(
+                    'title'    => $ext->getName(),
+                );
+            }
+        }
+
         return $packages;
     }
 
