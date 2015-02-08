@@ -80,7 +80,7 @@ HTML;
         // that may access the self-configuration functionality, and only
         // expose the information to hosts on the whitelist.
 
-        // Determine if we're on the Command line. If so, don't output HTML.
+        // Determine if we're on the command line. If so, don't output HTML.
         if (php_sapi_name() == 'cli') {
             $output = self::cleanHTML($output);
         }
@@ -151,6 +151,12 @@ HTML;
 
             $message = nl2br($message);
             $html = str_replace('%error%', $message, $html);
+
+            // Determine if we're on the command line. If so, don't output HTML.
+            if (php_sapi_name() == 'cli') {
+                $html = self::cleanHTML($html);
+            }
+
             echo str_replace($app['resources']->getPath('rootpath'), '', $html);
         }
     }
@@ -164,7 +170,7 @@ HTML;
     {
     }
 
-    private function cleanHTML($output)
+    private static function cleanHTML($output)
     {
         $output = preg_replace('/<title>.*<\/title>/smi', "", $output);
         $output = preg_replace('/<style>.*<\/style>/smi', "", $output);
