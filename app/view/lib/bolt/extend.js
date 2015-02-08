@@ -119,7 +119,6 @@ var BoltExtender = Object.extend(Object, {
             } else {
                 active_console.html(controller.messages.updated);
             }
-            controller.updateLog();
         })
         .fail(function(data) {
             active_console.html(controller.formatErrorLog(data));
@@ -134,7 +133,6 @@ var BoltExtender = Object.extend(Object, {
         var target = controller.find('.update-output');
         active_console = target;
         active_console.html(controller.messages.runningUpdate);
-        controller.updateLog();
 
         jQuery.get(baseurl + 'update', function(data) {
             target.html(data);
@@ -142,7 +140,6 @@ var BoltExtender = Object.extend(Object, {
                 controller.find('.update-container').hide();
             }, 7000);
             
-            controller.updateLog();
             controller.checkInstalled();
         })
         .fail(function(data) {
@@ -168,7 +165,6 @@ var BoltExtender = Object.extend(Object, {
                 controller.find('.update-container').hide();
             }
             controller.checkInstalled();
-            controller.updateLog();
         })
         .fail(function(data) {
             active_console.html(controller.formatErrorLog(data));
@@ -192,7 +188,6 @@ var BoltExtender = Object.extend(Object, {
                 controller.find('.update-container').hide();
             }, 7000);
 
-            controller.updateLog();
             controller.checkInstalled();
         })
         .fail(function(data) {
@@ -229,7 +224,6 @@ var BoltExtender = Object.extend(Object, {
 
                 target.find('.installed-list-items').append(html);
 
-                controller.updateLog();
             })
             .fail(function(data) {
                 active_console.html(controller.formatErrorLog(data));
@@ -327,8 +321,6 @@ var BoltExtender = Object.extend(Object, {
 
             controller.find('.install-version-container').show();
             controller.find('#installModal .loader').hide();
-
-            controller.updateLog();
         })
         .fail(function(data) {
             active_console.html(controller.formatErrorLog(data));
@@ -376,7 +368,6 @@ var BoltExtender = Object.extend(Object, {
             controller.find('.check-package').show();
             controller.find('input[name="check-package"]').val('');
             controller.checkInstalled();
-            controller.updateLog();
         })
         .fail(function(data) {
             active_console.html(controller.formatErrorLog(data));
@@ -398,7 +389,6 @@ var BoltExtender = Object.extend(Object, {
             if (data[0].type === 'bolt-theme') {
                 controller.themePostInstall(data);
             }
-            controller.updateLog();
         })
         .fail(function(data) {
             active_console.html(controller.formatErrorLog(data));
@@ -444,7 +434,6 @@ var BoltExtender = Object.extend(Object, {
         .done(function(data) {
             controller.find('.theme-generate-response').html('<p>' + data + '</p>').show();
             controller.find('.theme-generation-container').hide();
-            controller.updateLog();
         })
         .fail(function(data) {
             active_console.html(controller.formatErrorLog(data));
@@ -470,7 +459,6 @@ var BoltExtender = Object.extend(Object, {
                 {'theme': theme, 'name': themename}
             ).done(function (data) {
                 active_console.html(data);
-                controller.updateLog();
                 delay(function () {
                     t.hide();
                 }, 5000);
@@ -491,7 +479,6 @@ var BoltExtender = Object.extend(Object, {
             bootbox.dialog({
                 message: data ? data : 'Readme is empty.'
             });
-            controller.updateLog();
         })
         .fail(function(data) {
             active_console.html(controller.formatErrorLog(data));
@@ -539,7 +526,6 @@ var BoltExtender = Object.extend(Object, {
             delay(function(){
                 active_console.hide();
             }, 2000);
-            controller.updateLog();
         })
         .fail(function(data) {
             active_console.html(controller.formatErrorLog(data));
