@@ -4,7 +4,6 @@ namespace Bolt;
 
 use Bolt\Configuration\ResourceManager;
 use Doctrine\Common\Cache\FilesystemCache;
-use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * Simple, file based cache for volatile data.. Useful for storing non-vital
