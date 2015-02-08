@@ -1020,6 +1020,7 @@ class Backend implements ControllerProviderInterface
     {
         // Get the user we want to edit (if any)
         $user = empty($id) ? $app['users']->getEmptyUser() : $app['users']->getUser($id);
+        $currentuser = $app['users']->getCurrentUser();
         $note = '';
 
         $enabledoptions = array(
@@ -1056,9 +1057,9 @@ class Backend implements ControllerProviderInterface
         // Get the form
         $form = $this->getUserForm($app, $user, true);
 
-        // If we're adding the first user, add them as 'developer' by default, so don't
-        // show them here..
-        if (!$firstuser) {
+
+        // New users and the current users don't need to disable themselves
+        if (!$firstuser && $currentuser['id'] != $id) {
             $form->add(
                 'enabled',
                 'choice',
@@ -1068,7 +1069,13 @@ class Backend implements ControllerProviderInterface
                     'constraints' => new Assert\Choice(array_keys($enabledoptions)),
                     'label' => Trans::__('page.edit-users.label.user-enabled'),
                 )
-            )->add(
+            );
+        }
+
+        // If we're adding the first user, we add them as 'developer' by default,
+        // so don't show roles
+        if (!$firstuser) {
+            $form->add(
                 'roles',
                 'choice',
                 array(
@@ -1716,7 +1723,7 @@ class Backend implements ControllerProviderInterface
     {
         // Start building the form
         $form = $app['form.factory']->createBuilder('form', $user);
-        
+
         // Username goes first
         if ($addusername) {
             $form->add('username', 'text', array(
