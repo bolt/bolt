@@ -6,6 +6,8 @@ use Bolt\TwigExtension;
 
 class ThumbnailUrlPlugin extends AdapterPlugin
 {
+    /** @var TwigExtension */
+    protected $twigHelper;
 
     public function getMethod()
     {
@@ -14,8 +16,14 @@ class ThumbnailUrlPlugin extends AdapterPlugin
 
     public function getLocalThumb($path, $width, $height, $type)
     {
-        $twigHelper = new TwigExtension($this->app);
+        $this->loadTwigExtension();
+        return $this->twigHelper->thumbnail($path, $width, $height, $type);
+    }
 
-        return $twigHelper->thumbnail($path, $width, $height, $type);
+    protected function loadTwigExtension()
+    {
+        if (!$this->twigHelper) {
+            $this->twigHelper = new TwigExtension($this->app);
+        }
     }
 }

@@ -7,8 +7,8 @@ use League\Flysystem\FilesystemInterface;
 
 class SearchPlugin implements PluginInterface
 {
-
-    public $filesystem;
+    /** @var FilesystemInterface */
+    protected $filesystem;
 
     public function getMethod()
     {

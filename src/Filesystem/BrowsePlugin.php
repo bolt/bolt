@@ -10,7 +10,8 @@ use Bolt\Library as Lib;
 class BrowsePlugin implements PluginInterface
 {
 
-    public $filesystem;
+    /** @var FilesystemInterface */
+    protected $filesystem;
 
     public function getMethod()
     {

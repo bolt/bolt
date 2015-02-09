@@ -2,34 +2,31 @@
 
 namespace Bolt\Filesystem;
 
+use League\Flysystem\Filesystem;
 use League\Flysystem\PluginInterface;
 use League\Flysystem\FilesystemInterface;
 use Bolt\Application;
 
 abstract class AdapterPlugin implements PluginInterface
 {
-
-    public $filesystem;
-    public $namespace;
-    public $handlers = array();
+    /** @var FilesystemInterface */
+    protected $filesystem;
+    protected $namespace;
 
     public function __construct(Application $app, $namespace = 'files')
     {
         $this->app = $app;
-        if ($namespace == 'default') {
-            $this->namespace = 'files';
-        } else {
-            $this->namespace = $namespace;
-        }
-    }
-
-    public function getMethod()
-    {
+        $this->namespace = $namespace === 'default' ? 'files' : $namespace;
     }
 
     public function setFilesystem(FilesystemInterface $filesystem)
     {
         $this->filesystem = $filesystem;
+    }
+
+    public function getDefault()
+    {
+        return false;
     }
 
     public function handle()
@@ -41,17 +38,15 @@ abstract class AdapterPlugin implements PluginInterface
             return call_user_func_array(array($this, $method), $args);
         }
 
-        if (property_exists($this, 'default')) {
-            return $this->default;
-        }
-
-        return false;
+        return $this->getDefault();
     }
 
     protected function adapterType()
     {
-        $reflect = new \ReflectionClass($this->filesystem->getAdapter());
-
-        return $reflect->getShortName();
+        if ($this->filesystem instanceof Filesystem) {
+            $reflect = new \ReflectionClass($this->filesystem->getAdapter());
+            return $reflect->getShortName();
+        }
+        return 'Unknown';
     }
 }
