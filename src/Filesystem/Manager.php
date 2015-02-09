@@ -2,7 +2,6 @@
 namespace Bolt\Filesystem;
 
 use Bolt\Application;
-use League\Flysystem\Adapter\Local as FilesystemAdapter;
 use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemInterface;
 use League\Flysystem\MountManager;
@@ -68,7 +67,7 @@ class Manager extends MountManager
         if (!is_dir($location)) {
             return false;
         }
-        return parent::mountFilesystem($prefix, new Filesystem(new FilesystemAdapter($location)));
+        return parent::mountFilesystem($prefix, new Filesystem(new Local($location)));
     }
 
     /**
