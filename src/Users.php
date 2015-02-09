@@ -829,6 +829,27 @@ class Users
     }
 
     /**
+     * Check a user's enable status
+     *
+     * @param  int  $id User ID, or false for current user
+     * @return bool
+     */
+    public function isEnabled($id = false)
+    {
+        if (!$id) {
+            $id = $this->currentuser['id'];
+        }
+
+        $query = $this->app['db']->createQueryBuilder()
+                        ->select('enabled')
+                        ->from($this->usertable)
+                        ->where('id = :id')
+                        ->setParameters(array(':id' => $id));
+
+        return (boolean) $query->execute()->fetchColumn();
+    }
+
+    /**
      * Enable or disable a user, specified by id.
      *
      * @param  int  $id
