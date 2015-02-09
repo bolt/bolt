@@ -7,7 +7,7 @@ use League\Flysystem\FilesystemInterface;
 use Bolt\Application;
 use Bolt\Library as Lib;
 
-class BrowsePlugin implements PluginInterface
+class Browse implements PluginInterface
 {
 
     /** @var FilesystemInterface */

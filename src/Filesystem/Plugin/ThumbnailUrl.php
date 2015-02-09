@@ -4,7 +4,7 @@ namespace Bolt\Filesystem\Plugin;
 
 use Bolt\TwigExtension;
 
-class ThumbnailUrlPlugin extends AdapterPlugin
+class ThumbnailUrl extends AdapterPlugin
 {
     /** @var TwigExtension */
     protected $twigHelper;

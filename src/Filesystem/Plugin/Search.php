@@ -5,7 +5,7 @@ namespace Bolt\Filesystem\Plugin;
 use League\Flysystem\PluginInterface;
 use League\Flysystem\FilesystemInterface;
 
-class SearchPlugin implements PluginInterface
+class Search implements PluginInterface
 {
     /** @var FilesystemInterface */
     protected $filesystem;

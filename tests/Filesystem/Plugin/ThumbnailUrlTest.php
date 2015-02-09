@@ -2,18 +2,12 @@
 namespace Bolt\Tests\Filesystem\Plugin;
 
 use Bolt\Tests\BoltUnitTest;
-use Bolt\Filesystem\Plugin\ThumbnailUrlPlugin;
+use Bolt\Filesystem\Plugin;
 use Bolt\Filesystem\Manager;
 use League\Flysystem\Filesystem;
 use League\Flysystem\Adapter\Local;
 
-/**
- * Class to test src/Filesystem/SearchPlugin.
- *
- * @author Ross Riley <riley.ross@gmail.com>
- *
- */
-class ThumbnailUrlPluginTest extends BoltUnitTest
+class ThumbnailUrlTest extends BoltUnitTest
 {
 
     public function testSetup()
@@ -25,7 +19,7 @@ class ThumbnailUrlPluginTest extends BoltUnitTest
 
         $manager = new Manager($app);
         $manager->setManager('files', $fs);
-        $manager->addPlugin(new ThumbnailUrlPlugin($app));
+        $manager->addPlugin(new Plugin\ThumbnailUrl($app));
 
         $result = $fs->thumb('generic-logo.png', 200, 200, 'crop');
         $this->assertEquals('/thumbs/200x200c/generic-logo.png', $result);
@@ -34,7 +28,7 @@ class ThumbnailUrlPluginTest extends BoltUnitTest
     public function testName()
     {
         $app = $this->getApp();
-        $plugin = new ThumbnailUrlPlugin($app);
+        $plugin = new Plugin\ThumbnailUrl($app);
         $this->assertEquals('thumb', $plugin->getMethod());
     }
 }

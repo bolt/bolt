@@ -47,10 +47,10 @@ class Manager extends MountManager
     {
         parent::mountFilesystem($prefix, $filesystem);
 
-        $filesystem->addPlugin(new Plugin\SearchPlugin());
-        $filesystem->addPlugin(new Plugin\BrowsePlugin());
-        $filesystem->addPlugin(new Plugin\PublicUrlPlugin($this->app, $prefix));
-        $filesystem->addPlugin(new Plugin\ThumbnailUrlPlugin($this->app, $prefix));
+        $filesystem->addPlugin(new Plugin\Search());
+        $filesystem->addPlugin(new Plugin\Browse());
+        $filesystem->addPlugin(new Plugin\PublicUrl($this->app, $prefix));
+        $filesystem->addPlugin(new Plugin\ThumbnailUrl($this->app, $prefix));
 
         return $this;
     }
