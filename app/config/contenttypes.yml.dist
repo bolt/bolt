@@ -169,7 +169,7 @@ showcases:
             label: "Choose an entry"
             order: -id
             format: "{{ item.title|escape }} <span>(№ {{ item.id }})</span>"
-            postfix: "By selecting an Entry, you're creating a di-directional relationshop to that Entry."
+            postfix: "By selecting an Entry, you're creating a bi-directional relationship to that Entry."
         pages:
             multiple: true
             order: title
