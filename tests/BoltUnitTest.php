@@ -112,7 +112,7 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
     protected function allowLogin($app)
     {
         $this->addDefaultUser($app);
-        $users = $this->getMock('Bolt\Users', array('isValidSession','isAllowed'), array($app));
+        $users = $this->getMock('Bolt\Users', array('isValidSession','isAllowed', 'isEnabled'), array($app));
         $users->expects($this->any())
             ->method('isValidSession')
             ->will($this->returnValue(true));
@@ -120,6 +120,11 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
         $users->expects($this->any())
             ->method('isAllowed')
             ->will($this->returnValue(true));
+
+        $users->expects($this->any())
+            ->method('isEnabled')
+            ->will($this->returnValue(true));
+
         $app['users'] = $users;
     }
 }
