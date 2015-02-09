@@ -227,13 +227,13 @@ var BoltExtender = Object.extend(Object, {
                 }
                 
                 // Render pacakges pending install
-                if (data.installed.length > 0) {
+                if (data.pending.length > 0) {
                 	html += controller.renderPackage(data.pending, true);
                 	nadda = false;
                 }
                 
                 // Render locally installed packages
-                if (data.installed.length > 0) {
+                if (data.local.length > 0) {
                 	html += controller.renderPackage(data.local, false);
                 	nadda = false;
                 }
