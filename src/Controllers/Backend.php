@@ -1721,15 +1721,24 @@ class Backend implements ControllerProviderInterface
         // unfortunately this has to be done here, because the 'translator' classes need to be initialised.
         $app['config']->checkConfig();
 
-        // If the users table is present, but there are no users, and we're on /bolt/useredit,
+        // Check the database users table exists
+        $tableExists = $app['integritychecker']->checkUserTableIntegrity();
+
+        // Test if we have a valid users in our table
+        $hasUsers = false;
+        if ($tableExists) {
+            $hasUsers = $app['users']->hasUsers();
+        }
+
+        // If the users table is present, but there are no users, and we're on /bolt/userfirst,
         // we let the user stay, because they need to set up the first user.
-        if ($app['integritychecker']->checkUserTableIntegrity() && !$app['users']->getUsers() && $route == 'useredit') {
+        if ($tableExists && !$hasUsers && $route == 'userfirst') {
             return;
         }
 
         // If there are no users in the users table, or the table doesn't exist. Repair
         // the DB, and let's add a new user.
-        if (!$app['integritychecker']->checkUserTableIntegrity() || !$app['users']->getUsers()) {
+        if (!$tableExists || !$hasUsers) {
             $app['integritychecker']->repairTables();
             $app['session']->getFlashBag()->add('info', Trans::__('There are no users in the database. Please create the first user.'));
 
