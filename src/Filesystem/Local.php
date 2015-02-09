@@ -80,6 +80,9 @@ class Local extends LocalBase
     {
         $location = $this->applyPathPrefix($dirname);
 
+        // mkdir recursively creates directories.
+        // It's easier to ignore errors and check result
+        // than try to recursively check for file permissions
         if (!is_dir($location) && !@mkdir($location, 0777, true)) {
             return false;
         }
@@ -96,6 +99,4 @@ class Local extends LocalBase
 
         return parent::deleteDir($dirname);
     }
-
-
 }
