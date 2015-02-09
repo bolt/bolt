@@ -1745,6 +1745,13 @@ class Backend implements ControllerProviderInterface
             return Lib::redirect('userfirst');
         }
 
+        // Confirm the user is enabled or bounce them
+        if (!$app['users']->isEnabled() && $route !== 'userfirst' && $route !== 'login' && $route !== 'postLogin' && $route !== 'logout') {
+            $app['session']->getFlashBag()->add('error', Trans::__('Your account is disabled. Sorry about that.'));
+
+            return Lib::redirect('logout');
+        }
+
         // Check if there's at least one 'root' user, and otherwise promote the current user.
         $app['users']->checkForRoot();
 
