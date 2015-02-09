@@ -782,6 +782,21 @@ class Users
     }
 
     /**
+     * Test to see if there are users in the user table
+     *
+     * @return boolean
+     */
+    public function hasUsers()
+    {
+        $query = $this->app['db']->createQueryBuilder()
+                        ->select('COUNT(id) as count')
+                        ->from($this->usertable);
+        $count = $query->execute()->fetch();
+
+        return (integer) $count['count'];
+    }
+
+    /**
      * Get a user, specified by id. Return 'false' if no user found.
      *
      * @param  int   $id
