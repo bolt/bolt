@@ -1,81 +1,84 @@
 <?php
-
 namespace Bolt\Filesystem;
 
 use Bolt\Application;
 use League\Flysystem\Adapter\Local as FilesystemAdapter;
 use League\Flysystem\Filesystem;
+use League\Flysystem\FilesystemInterface;
 use League\Flysystem\MountManager;
 
-/**
-*
-*/
 class Manager extends MountManager
 {
-    public $app;
+    protected $app;
 
     public function __construct(Application $app)
     {
         $this->app = $app;
-        $this->mount('root',       $app['resources']->getPath('root'));
-        $this->mount('default',    $app['resources']->getPath('files'));
-        $this->mount('files',      $app['resources']->getPath('files'));
-        $this->mount('config',     $app['resources']->getPath('config'));
-        $this->mount('theme',      $app['resources']->getPath('themebase'));
-        $this->mount('extensions', $app['resources']->getPath('extensionspath'));
-        $this->initManagers();
-    }
-
-    public function initManagers()
-    {
-        foreach ($this->filesystems as $namespace => $manager) {
-            $this->initManager($namespace, $manager);
-        }
-    }
-
-    public function initManager($namespace, $manager)
-    {
-        $manager->addPlugin(new SearchPlugin());
-        $manager->addPlugin(new BrowsePlugin());
-        $manager->addPlugin(new PublicUrlPlugin($this->app, $namespace));
-        $manager->addPlugin(new ThumbnailUrlPlugin($this->app, $namespace));
+        parent::__construct(array(
+            'root'       => $app['resources']->getPath('root'),
+            'default'    => $app['resources']->getPath('files'),
+            'files'      => $app['resources']->getPath('files'),
+            'config'     => $app['resources']->getPath('config'),
+            'theme'      => $app['resources']->getPath('themebase'),
+            'extensions' => $app['resources']->getPath('extensionspath'),
+        ));
     }
 
     public function getManager($namespace = null)
     {
-        if (isset($this->filesystems[$namespace])) {
-            return $this->getFilesystem($namespace);
+        return $this->getFilesystem($namespace);
+    }
+
+    public function getFilesystem($prefix = null)
+    {
+        if (isset($this->filesystems[$prefix])) {
+            return parent::getFilesystem($prefix);
         } else {
-            return $this->getFilesystem('files');
+            return parent::getFilesystem('files');
         }
     }
 
-    public function setManager($namespace, $manager)
+    public function setManager($namespace, FilesystemInterface $filesystem)
     {
-        $this->mountFilesystem($namespace, $manager);
-        $this->initManager($namespace, $manager);
+        $this->mountFilesystem($namespace, $filesystem);
+    }
+
+    public function mountFilesystem($prefix, FilesystemInterface $filesystem)
+    {
+        parent::mountFilesystem($prefix, $filesystem);
+
+        $filesystem->addPlugin(new SearchPlugin());
+        $filesystem->addPlugin(new BrowsePlugin());
+        $filesystem->addPlugin(new PublicUrlPlugin($this->app, $prefix));
+        $filesystem->addPlugin(new ThumbnailUrlPlugin($this->app, $prefix));
+
+        return $this;
     }
 
     /**
-     * Mainly passes through to parent class, but before it does this method
-     * checks that the passed in directory exists.
+     * Mounts a local filesystem if the directory exists.
      *
-     * @return void
-     **/
+     * @param string $prefix
+     * @param string $location
+     *
+     * @return $this|false
+     */
     public function mount($prefix, $location)
     {
-        if (is_dir($location)) {
-            return parent::mountFilesystem($prefix, new Filesystem(new FilesystemAdapter($location)));
-        } else {
+        if (!is_dir($location)) {
             return false;
         }
+        return parent::mountFilesystem($prefix, new Filesystem(new FilesystemAdapter($location)));
     }
 
     /**
      * By default we forward anything called on this class to the default manager
      *
-     * @return void
-     **/
+     * @param string $method
+     * @param array  $arguments
+     *
+     * @return mixed
+     */
     public function __call($method, $arguments)
     {
         $callback = array($this->getManager(), $method);
