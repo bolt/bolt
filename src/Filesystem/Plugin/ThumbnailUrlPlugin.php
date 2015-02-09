@@ -1,6 +1,6 @@
 <?php
 
-namespace Bolt\Filesystem;
+namespace Bolt\Filesystem\Plugin;
 
 use Bolt\TwigExtension;
 

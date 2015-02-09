@@ -1,8 +1,8 @@
 <?php
-namespace Bolt\Tests\Filesystem;
+namespace Bolt\Tests\Filesystem\Plugin;
 
 use Bolt\Tests\BoltUnitTest;
-use Bolt\Filesystem\SearchPlugin;
+use Bolt\Filesystem\Plugin\SearchPlugin;
 use League\Flysystem\Filesystem;
 use League\Flysystem\Adapter\Local;
 

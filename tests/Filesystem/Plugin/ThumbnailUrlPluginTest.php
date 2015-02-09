@@ -1,8 +1,8 @@
 <?php
-namespace Bolt\Tests\Filesystem;
+namespace Bolt\Tests\Filesystem\Plugin;
 
 use Bolt\Tests\BoltUnitTest;
-use Bolt\Filesystem\ThumbnailUrlPlugin;
+use Bolt\Filesystem\Plugin\ThumbnailUrlPlugin;
 use Bolt\Filesystem\Manager;
 use League\Flysystem\Filesystem;
 use League\Flysystem\Adapter\Local;

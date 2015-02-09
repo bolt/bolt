@@ -2,6 +2,7 @@
 namespace Bolt\Filesystem;
 
 use Bolt\Application;
+use Bolt\Filesystem\Plugin;
 use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemInterface;
 use League\Flysystem\MountManager;
@@ -46,10 +47,10 @@ class Manager extends MountManager
     {
         parent::mountFilesystem($prefix, $filesystem);
 
-        $filesystem->addPlugin(new SearchPlugin());
-        $filesystem->addPlugin(new BrowsePlugin());
-        $filesystem->addPlugin(new PublicUrlPlugin($this->app, $prefix));
-        $filesystem->addPlugin(new ThumbnailUrlPlugin($this->app, $prefix));
+        $filesystem->addPlugin(new Plugin\SearchPlugin());
+        $filesystem->addPlugin(new Plugin\BrowsePlugin());
+        $filesystem->addPlugin(new Plugin\PublicUrlPlugin($this->app, $prefix));
+        $filesystem->addPlugin(new Plugin\ThumbnailUrlPlugin($this->app, $prefix));
 
         return $this;
     }

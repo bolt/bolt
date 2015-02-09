@@ -1,6 +1,6 @@
 <?php
 
-namespace Bolt\Filesystem;
+namespace Bolt\Filesystem\Plugin;
 
 use League\Flysystem\Filesystem;
 use League\Flysystem\PluginInterface;
