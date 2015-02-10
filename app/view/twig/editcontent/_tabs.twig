@@ -4,10 +4,13 @@
 
 {% from _self import tab %}
 
+{% set firstfield = context.contenttype.fields|first %}
+{% set has_relations = context.contenttype.relations is defined %}
+{% set has_taxonomy = context.contenttype.taxonomy is defined %}
+
 <ul class="nav nav-tabs" id="filtertabs">
 
     {# Add an extra tab, if there are "ungrouped" fields #}
-    {% set firstfield = context.contenttype.fields|first %}
     {% if firstfield.group is empty %}
         {{ tab('ungrouped', __('contenttypes.generic.group.ungrouped')) }}
     {% endif %}
@@ -20,13 +23,13 @@
     {% endfor %}
 
     {# Relationships and/or Taxonomy #}
-    {% if context.contenttype.relations is defined and context.contenttype.taxonomy is defined %}
+    {% if has_relations and has_taxonomy %}
         {{ tab('taxonomy', __('contenttypes.generic.group.relations') ~ '/' ~ __('contenttypes.generic.group.taxonomy')) }}
     {% endif %}
-    {% if context.contenttype.relations is defined and context.contenttype.taxonomy is not defined %}
+    {% if has_relations and not has_taxonomy %}
         {{ tab('taxonomy', __('contenttypes.generic.group.relations')) }}
     {% endif %}
-    {% if context.contenttype.relations is not defined and context.contenttype.taxonomy is defined %}
+    {% if not has_relations and has_taxonomy %}
         {{ tab('taxonomy', __('contenttypes.generic.group.taxonomy')) }}
     {% endif %}
 
