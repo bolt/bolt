@@ -44,11 +44,6 @@ class YamlUpdater
     private $file;
 
     /**
-     * @var string
-     */
-    private $filename;
-
-    /**
      * Creates an updater for the given file.
      *
      * @param Silex\Application $app
@@ -57,7 +52,6 @@ class YamlUpdater
     public function __construct(Silex\Application $app, $filename = '')
     {
         $this->changed = false;
-        $this->filename = $filename;
         $this->file = $app['filesystem']->get('config://' . $filename, new File());
         $this->parser = new Parser();
 
@@ -146,7 +140,6 @@ class YamlUpdater
      */
     public function change($key, $value, $makebackup = true)
     {
-        $this->makebackup = $makebackup;
         $match = $this->get($key);
 
         // Not found.
@@ -202,7 +195,7 @@ class YamlUpdater
 
         // Update the YAML file if we can, or throw an error
         if (! $this->file->update($this->yaml)) {
-            throw new FilesystemException("Unable to write to file: $this->filename", FilesystemException::FILE_NOT_WRITEABLE);
+            throw new FilesystemException('Unable to write to file: ' . $this->file->getPath(), FilesystemException::FILE_NOT_WRITEABLE);
         }
 
         return true;
@@ -233,6 +226,6 @@ class YamlUpdater
      */
     protected function backup()
     {
-        $this->file->copy($this->filename, $this->filename . '.' . date('Ymd-His'));
+        $this->file->copy($this->file->getPath() . '.' . date('Ymd-His'));
     }
 }
