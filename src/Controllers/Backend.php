@@ -121,6 +121,7 @@ class Backend implements ControllerProviderInterface
         $ctl->match('/users/edit/{id}', array($this, 'userEdit'))
             ->before(array($this, 'before'))
             ->assert('id', '\d*')
+            ->value('checkUserRoleHierarchy', 'true')
             ->method('GET|POST')
             ->bind('useredit');
 
@@ -140,6 +141,7 @@ class Backend implements ControllerProviderInterface
 
         $ctl->get('/user/{action}/{id}', array($this, 'userAction'))
             ->before(array($this, 'before'))
+            ->value('checkUserRoleHierarchy', 'true')
             ->method('POST')
             ->bind('useraction');
 
@@ -1949,7 +1951,7 @@ class Backend implements ControllerProviderInterface
             $app['session']->getFlashBag()->set('error', Trans::__('You do not have the right privileges to view that page.'));
 
             return Lib::redirect('dashboard');
-        } elseif (preg_match("/(user)\w?/i", $route) && $app['users']->getUser($id)) {
+        } elseif (!is_null($request->attributes->get('checkUserRoleHierarchy')) && $app['users']->getUser($id)) {
             $user = $app['users']->getUser($id);
             
             $roleAccessCheck = false;
