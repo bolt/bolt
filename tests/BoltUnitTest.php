@@ -5,8 +5,6 @@ use Bolt\Application;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Storage\MockFileSessionStorage;
 use Bolt\Configuration as Config;
-use Eloquent\Pathogen\FileSystem\Factory\PlatformFileSystemPathFactory;
-use Bolt\Configuration\ResourceManager;
 use Bolt\Configuration\Standard;
 
 /**

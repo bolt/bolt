@@ -1,9 +1,8 @@
 <?php
-namespace Bolt\tests\Content;
+namespace Bolt\Tests\Content;
 
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Content;
-use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class to test src/Storage.
