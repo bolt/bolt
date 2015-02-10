@@ -3,9 +3,9 @@
 namespace Bolt;
 
 use Bolt\Exception\LowlevelException;
-use Bolt\Library as Lib;
 use Bolt\Helpers\Arr;
 use Bolt\Helpers\String;
+use Bolt\Library as Lib;
 use Bolt\Translation\Translator as Trans;
 use Cocur\Slugify\Slugify;
 use Eloquent\Pathogen\PathInterface;
@@ -841,7 +841,7 @@ class Config
         }
 
         // If the template path doesn't exist, flash error on the dashboard.
-        if (!file_exists($themepath)) {
+        if ($end === 'backend' && !file_exists($themepath)) {
             $relativethemepath = basename($this->get('general/theme'));
             $theme = $this->app['config']->get('theme');
             if (isset($theme['template_directory'])) {
