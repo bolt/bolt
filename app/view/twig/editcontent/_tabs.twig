@@ -25,11 +25,9 @@
     {# Relationships and/or Taxonomy #}
     {% if has_relations and has_taxonomy %}
         {{ tab('taxonomy', __('contenttypes.generic.group.relations') ~ '/' ~ __('contenttypes.generic.group.taxonomy')) }}
-    {% endif %}
-    {% if has_relations and not has_taxonomy %}
+    {% elseif has_relations %}
         {{ tab('taxonomy', __('contenttypes.generic.group.relations')) }}
-    {% endif %}
-    {% if not has_relations and has_taxonomy %}
+    {% elseif has_taxonomy %}
         {{ tab('taxonomy', __('contenttypes.generic.group.taxonomy')) }}
     {% endif %}
 
