@@ -60,44 +60,15 @@
 
             {# only if we have grouping tabs. #}
             {% if context.contenttype.groups|default is not empty %}
-                <ul class="nav nav-tabs" id="filtertabs">
-
-                    {# Add an extra tab, if there are "ungrouped" fields #}
-                    {% set firstfield = context.contenttype.fields|first %}
-                    {% if firstfield.group is empty %}
-                        <li><a class="filter" data-filter="ungrouped">{{ __('contenttypes.generic.group.ungrouped') }}</a></li>
-                    {% endif %}
-
-                    {# Defined groups #}
-                    {% for group in context.contenttype.groups %}
-                        <li>
-                            <a class="filter" data-filter="{{ group }}">
-                                {{ __(['contenttypes', context.contenttype.slug, 'group', group], {DEFAULT: group|capitalize}) }}
-                            </a>
-                        </li>
-                    {% endfor %}
-
-                    {# Relationships and/or Taxonomy #}
-                    {% if context.contenttype.relations is defined and context.contenttype.taxonomy is defined %}
-                        <li><a class="filter" data-filter="taxonomy">{{ __('contenttypes.generic.group.relations') }} / {{ __('contenttypes.generic.group.taxonomy') }}</a></li>
-                    {% endif %}
-                    {% if context.contenttype.relations is defined and context.contenttype.taxonomy is not defined %}
-                        <li><a class="filter" data-filter="taxonomy">{{ __('contenttypes.generic.group.relations') }}</a></li>
-                    {% endif %}
-                    {% if context.contenttype.relations is not defined and context.contenttype.taxonomy is defined %}
-                        <li><a class="filter" data-filter="taxonomy">{{ __('contenttypes.generic.group.taxonomy') }}</a></li>
-                    {% endif %}
-
-                    {# Finally, a tab for Meta #}
-                    <li><a class="filter" data-filter="meta">{{ __('contenttypes.generic.group.meta') }}</a></li>
-
-                </ul>
+                {% include 'editcontent/_tabs.twig' %}
             {% endif %}
 
             <form{{ macro.attr(attr_form) }}>
                 {% include '_sub/_csrf_token.twig' %}
 
-                {% include 'editcontent/_fields.twig' %}
+                {% if context.contenttype.groups|default is empty %}
+                    {% include 'editcontent/_fields.twig' %}
+                {% endif %}
 
                 {% include 'editcontent/_relations.twig' %}
 
@@ -105,65 +76,11 @@
 
                 {% include 'editcontent/_meta.twig' %}
 
-                <div class="form-group" style="margin-top: 40px;">
-                    <div class="col-sm-12">
+                {% if context.contenttype.groups|default is not empty %}
+                    {% include 'editcontent/_fields.twig' %}
+                {% endif %}
 
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-primary" id="savecontinuebutton">
-                                <i class="fa fa-flag"></i> {{ __('contenttypes.generic.save',{'%contenttype%': context.contenttype.slug}) }}
-                            </button>
-                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                                <span class="caret"></span>
-                                <span class="sr-only">Toggle Dropdown</span>
-                            </button>
-                            <ul class="dropdown-menu" role="menu">
-                                <li>
-                                    <button type="submit" class="btn btn-link" id="savebutton">
-                                        <i class="fa fa-flag"></i> {{ __('Save & return to overview') }}
-                                    </button>
-                                </li>
-                                <li>
-                                    <button type="submit" class="btn btn-link" id="savenewbutton">
-                                        <i class="fa fa-flag"></i> {{ __('Save & create new record') }}
-                                    </button>
-                                </li>
-                            </ul>
-                        </div>
-
-                        {% if not context.contenttype.viewless|default(false) %}{# don't show for viewless contenttypes. #}
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-default" id="previewbutton">
-                                <i class="fa fa-external-link-square"></i> {{ __('Preview') }}
-                            </button>
-                            {% if context.content.status == "published" and context.content.link is defined %}
-                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                                    <span class="caret"></span>
-                                    <span class="sr-only">Toggle Dropdown</span>
-                                </button>
-                                <ul class="dropdown-menu" role="menu">
-                                    <li>
-                                        <a href="{{ context.content.link }}" target="_blank">
-                                            <i class="fa fa-external-link-square"></i> {{ __('View (saved version) on site') }}</a></li>
-                                    </a>
-                                    </li>
-                                </ul>
-                            {% endif %}
-                        </div>
-                        {% endif %}
-
-
-                        <p class="lastsaved" style="margin-top: 12px;">
-                            {% if context.content.id != 0 %}
-                                {{ __('Saved on:') }} <strong>{{ context.content.datechanged|localdate("%b %e, %H:%M") }}</strong> <small>({{ macro.datetime(context.content.datechanged) }})</small></p>
-                            {% else %}
-                                {{ __('contenttypes.generic.not-saved-yet', {'%contenttype%': context.contenttype.slug}) }}
-                            {% endif %}
-                        </p>
-
-                    </div>
-
-                </div>
-
+                {% include 'editcontent/_buttons.twig' %}
             </form>
 
         </div>
