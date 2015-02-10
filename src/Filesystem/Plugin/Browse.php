@@ -23,7 +23,7 @@ class Browse implements PluginInterface
         $this->filesystem = $filesystem;
     }
 
-    public function handle($path, Application $app)
+    public function handle($path)
     {
         $files = array();
         $folders = array();

@@ -11,7 +11,8 @@ class Authorized extends AdapterPlugin {
 
     public function handle()
     {
-        $filepath = reset(func_get_args());
+        $args = func_get_args();
+        $filepath = reset($args);
         return $this->app['filepermissions']->authorized($this->namespace, $filepath);
     }
 }

@@ -16,9 +16,10 @@ class BrowseTest extends BoltUnitTest
         $adapter = new Local(TEST_ROOT);
         $fs = new Filesystem($adapter);
 
-        $plugin = new Plugin\Browse();
-        $plugin->setFilesystem($fs);
-        $result = $plugin->handle("/", $app);
+        $fs->addPlugin(new Plugin\Authorized($app));
+        $fs->addPlugin(new Plugin\Browse());
+
+        $result = $fs->browse('/');
         $this->assertGreaterThan(0, count($result));
     }
 
@@ -34,9 +35,10 @@ class BrowseTest extends BoltUnitTest
         $adapter = new Local(TEST_ROOT . '/tests/resources');
         $fs = new Filesystem($adapter);
 
-        $plugin = new Plugin\Browse();
-        $plugin->setFilesystem($fs);
-        $result = $plugin->handle("", $app);
+        $fs->addPlugin(new Plugin\Authorized($app));
+        $fs->addPlugin(new Plugin\Browse());
+
+        $result = $fs->browse('');
         $files = $result[0];
         foreach ($files as $file) {
             if ($file['type'] == 'png') {
