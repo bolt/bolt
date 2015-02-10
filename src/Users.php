@@ -782,6 +782,21 @@ class Users
     }
 
     /**
+     * Test to see if there are users in the user table
+     *
+     * @return boolean
+     */
+    public function hasUsers()
+    {
+        $query = $this->app['db']->createQueryBuilder()
+                        ->select('COUNT(id) as count')
+                        ->from($this->usertable);
+        $count = $query->execute()->fetch();
+
+        return (integer) $count['count'];
+    }
+
+    /**
      * Get a user, specified by id. Return 'false' if no user found.
      *
      * @param  int   $id
@@ -826,6 +841,27 @@ class Users
     public function getCurrentUsername()
     {
         return $this->currentuser['username'];
+    }
+
+    /**
+     * Check a user's enable status
+     *
+     * @param  int  $id User ID, or false for current user
+     * @return bool
+     */
+    public function isEnabled($id = false)
+    {
+        if (!$id) {
+            $id = $this->currentuser['id'];
+        }
+
+        $query = $this->app['db']->createQueryBuilder()
+                        ->select('enabled')
+                        ->from($this->usertable)
+                        ->where('id = :id')
+                        ->setParameters(array(':id' => $id));
+
+        return (boolean) $query->execute()->fetchColumn();
     }
 
     /**

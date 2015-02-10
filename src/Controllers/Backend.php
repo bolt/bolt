@@ -6,6 +6,7 @@ use Silex\Application;
 use Silex\ControllerProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormEvent;
@@ -94,6 +95,9 @@ class Backend implements ControllerProviderInterface
         $ctl->match('/users/edit/{id}', array($this, 'userEdit'))
             ->assert('id', '\d*')
             ->bind('useredit');
+
+        $ctl->get('/userfirst', array($this, 'userFirst'))
+            ->bind('userfirst');
 
         $ctl->match('/profile', array($this, 'profile'))
             ->bind('profile');
@@ -1020,7 +1024,7 @@ class Backend implements ControllerProviderInterface
     {
         // Get the user we want to edit (if any)
         $user = empty($id) ? $app['users']->getEmptyUser() : $app['users']->getUser($id);
-        $note = '';
+        $currentuser = $app['users']->getCurrentUser();
 
         $enabledoptions = array(
             1 => Trans::__('page.edit-users.activated.yes'),
@@ -1034,31 +1038,11 @@ class Backend implements ControllerProviderInterface
             $roles[$roleName] = $role['label'];
         }
 
-        // If we're creating the first user, we should make sure that we can only create
-        // a user that's allowed to log on.
-        if (!$app['users']->getUsers()) {
-            $firstuser = true;
-
-            // Add a note, if we're setting up the first user using SQLite..
-            $dbdriver = $app['config']->get('general/database/driver');
-            if ($dbdriver == 'sqlite' || $dbdriver == 'pdo_sqlite') {
-                $note = Trans::__('page.edit-users.note-sqlite');
-            }
-
-            // If we get here, chances are we don't have the tables set up, yet.
-            $app['integritychecker']->repairTables();
-            // Grant 'root' to first user by default
-            $user['roles'] = array(Permissions::ROLE_ROOT);
-        } else {
-            $firstuser = false;
-        }
-
         // Get the form
         $form = $this->getUserForm($app, $user, true);
 
-        // If we're adding the first user, add them as 'developer' by default, so don't
-        // show them here..
-        if (!$firstuser) {
+        // New users and the current users don't need to disable themselves
+        if ($currentuser['id'] != $id) {
             $form->add(
                 'enabled',
                 'choice',
@@ -1068,36 +1052,34 @@ class Backend implements ControllerProviderInterface
                     'constraints' => new Assert\Choice(array_keys($enabledoptions)),
                     'label' => Trans::__('page.edit-users.label.user-enabled'),
                 )
-            )->add(
+            );
+        }
+
+        $form
+            ->add(
                 'roles',
                 'choice',
                 array(
                     'choices' => $roles,
                     'expanded' => true,
                     'multiple' => true,
-                    'label' => Trans::__('page.edit-users.label.assigned-roles'),
-                )
-            );
-        }
-
-        // If we're adding a new user, these fields will be hidden.
-        if (!empty($id)) {
-            $form->add(
+                    'label' => Trans::__('page.edit-users.label.assigned-roles')
+            ))
+            ->add(
                 'lastseen',
                 'text',
                 array(
                     'disabled' => true,
                     'label' => Trans::__('page.edit-users.label.last-seen')
-                )
-            )->add(
+            ))
+            ->add(
                 'lastip',
                 'text',
                 array(
                     'disabled' => true,
                     'label' => Trans::__('page.edit-users.label.last-ip')
-                )
-            );
-        }
+            ))
+        ;
 
         // Set the validation
         $form = $this->setUserFormValidation($app, $form, true);
@@ -1107,58 +1089,125 @@ class Backend implements ControllerProviderInterface
 
         // Check if the form was POST-ed, and valid. If so, store the user.
         if ($request->getMethod() == 'POST') {
-            $form->submit($app['request']->get($form->getName()));
+            $user = $this->validateUserForm($app, $form);
 
-            if ($form->isValid()) {
+            $currentuser = $app['users']->getCurrentUser();
 
-                $user = $form->getData();
+            if ($user['id'] == $currentuser['id'] && $user['username'] != $currentuser['username']) {
+                // If the current user changed their own login name, the session is effectively
+                // invalidated. If so, we must redirect to the login page with a flash message.
+                $app['session']->getFlashBag()->add('error', Trans::__('page.edit-users.message.change-self'));
 
-                if ($firstuser) {
-                    $user['roles'] = array(Permissions::ROLE_ROOT);
-                }
-                $res = $app['users']->saveUser($user);
-
-                if ($user['id']) {
-                    $app['logger.system']->addInfo(Trans::__('page.edit-users.log.user-updated', array('%user%' => $user['displayname'])), array('event' => 'security'));
-                } else {
-                    $app['logger.system']->addInfo(Trans::__('page.edit-users.log.user-added', array('%user%' => $user['displayname'])), array('event' => 'security'));
-                }
-
-                if ($res) {
-                    $app['session']->getFlashBag()->add('success', Trans::__('page.edit-users.message.user-saved', array('%user%' => $user['displayname'])));
-                } else {
-                    $app['session']->getFlashBag()->add('error', Trans::__('page.edit-users.message.saving-user', array('%user%' => $user['displayname'])));
-                }
-
-                $currentuser = $app['users']->getCurrentUser();
-
-                if ($firstuser) {
-                    // To the dashboard, where 'login' will be triggered..
-                    return Lib::redirect('dashboard');
-                } elseif (($user['id'] == $currentuser['id']) && ($user['username'] != $currentuser['username'])) {
-                    // If the current user changed their own login name, the session is effectively
-                    // invalidated. If so, we must redirect to the login page with a flash message.
-                    $app['session']->getFlashBag()->add('error', Trans::__('page.edit-users.message.change-self'));
-
-                    return Lib::redirect('login');
-                } else {
-                    // Return to the 'Edit users' screen.
-                    return Lib::redirect('users');
-                }
-
+                return Lib::redirect('login');
+            } else {
+                // Return to the 'Edit users' screen.
+                return Lib::redirect('users');
             }
-
         }
 
-        $template = $firstuser ? 'firstuser/firstuser.twig' : 'edituser/edituser.twig';
         $context = array(
-            'kind' => empty($id) ? 'create' : 'edit',
+            'kind' => 'edit',
             'form' => $form->createView(),
-            'note' => $note,
+            'note' => '',
             'displayname' => $user['displayname'],
         );
 
-        return $app['render']->render($template, array('context' => $context));
+        return $app['render']->render('edituser/edituser.twig', array('context' => $context));
+    }
+
+    /**
+     * Create the first user
+     *
+     * @param Application $app
+     * @param Request     $request
+     */
+    public function userFirst(Application $app, Request $request)
+    {
+        // We should only be here for creating the first user
+        if ($app['integritychecker']->checkUserTableIntegrity() && $app['users']->hasUsers()) {
+            return Lib::redirect('dashboard');
+        }
+
+        // Get and empty user array
+        $user = $app['users']->getEmptyUser();
+
+        // Add a note, if we're setting up the first user using SQLite.
+        $dbdriver = $app['config']->get('general/database/driver');
+        if ($dbdriver == 'sqlite' || $dbdriver == 'pdo_sqlite') {
+            $note = Trans::__('page.edit-users.note-sqlite');
+        }
+
+        // If we get here, chances are we don't have the tables set up, yet.
+        $app['integritychecker']->repairTables();
+
+        // Grant 'root' to first user by default
+        $user['roles'] = array(Permissions::ROLE_ROOT);
+
+        // Get the form
+        $form = $this->getUserForm($app, $user, true);
+
+        // Set the validation
+        $form = $this->setUserFormValidation($app, $form, true);
+
+        /** @var \Symfony\Component\Form\Form */
+        $form = $form->getForm();
+
+        // Check if the form was POST-ed, and valid. If so, store the user.
+        if ($request->getMethod() == 'POST') {
+            if ($this->validateUserForm($app, $form, true)) {
+                // To the dashboard, where 'login' will be triggered
+                return Lib::redirect('dashboard');
+            }
+        }
+
+        $context = array(
+            'kind' => 'create',
+            'form' => $form->createView(),
+            'note' => $note ? $note : '',
+            'displayname' => $user['displayname'],
+        );
+
+        return $app['render']->render('firstuser/firstuser.twig', array('context' => $context));
+    }
+
+    /**
+     * Handle a POST from user edit or first user creation
+     *
+     * @param  Silex\Application           $app
+     * @param  Symfony\Component\Form\Form $form      A Symfony form
+     * @param  boolean                     $firstuser If this is a first user set up
+     * @return array|boolean               An array of user elements, otherwise false
+     */
+    private function validateUserForm(Application $app, Form $form, $firstuser = false)
+    {
+        $form->submit($app['request']->get($form->getName()));
+
+        if ($form->isValid()) {
+
+            $user = $form->getData();
+
+            if ($firstuser) {
+                $user['roles'] = array(Permissions::ROLE_ROOT);
+            }
+
+            $res = $app['users']->saveUser($user);
+
+            if ($user['id']) {
+                $app['logger.system']->addInfo(Trans::__('page.edit-users.log.user-updated', array('%user%' => $user['displayname'])), array('event' => 'security'));
+            } else {
+                $app['logger.system']->addInfo(Trans::__('page.edit-users.log.user-added', array('%user%' => $user['displayname'])), array('event' => 'security'));
+            }
+
+            if ($res) {
+                $app['session']->getFlashBag()->add('success', Trans::__('page.edit-users.message.user-saved', array('%user%' => $user['displayname'])));
+            } else {
+                $app['session']->getFlashBag()->add('error', Trans::__('page.edit-users.message.saving-user', array('%user%' => $user['displayname'])));
+            }
+
+            return $user;
+        }
+
+        return false;
     }
 
     /**
@@ -1672,19 +1721,35 @@ class Backend implements ControllerProviderInterface
         // unfortunately this has to be done here, because the 'translator' classes need to be initialised.
         $app['config']->checkConfig();
 
-        // If the users table is present, but there are no users, and we're on /bolt/useredit,
+        // Check the database users table exists
+        $tableExists = $app['integritychecker']->checkUserTableIntegrity();
+
+        // Test if we have a valid users in our table
+        $hasUsers = false;
+        if ($tableExists) {
+            $hasUsers = $app['users']->hasUsers();
+        }
+
+        // If the users table is present, but there are no users, and we're on /bolt/userfirst,
         // we let the user stay, because they need to set up the first user.
-        if ($app['integritychecker']->checkUserTableIntegrity() && !$app['users']->getUsers() && $route == 'useredit') {
+        if ($tableExists && !$hasUsers && $route == 'userfirst') {
             return;
         }
 
         // If there are no users in the users table, or the table doesn't exist. Repair
         // the DB, and let's add a new user.
-        if (!$app['integritychecker']->checkUserTableIntegrity() || !$app['users']->getUsers()) {
+        if (!$tableExists || !$hasUsers) {
             $app['integritychecker']->repairTables();
             $app['session']->getFlashBag()->add('info', Trans::__('There are no users in the database. Please create the first user.'));
 
-            return Lib::redirect('useredit', array('id' => ""));
+            return Lib::redirect('userfirst');
+        }
+
+        // Confirm the user is enabled or bounce them
+        if (!$app['users']->isEnabled() && $route !== 'userfirst' && $route !== 'login' && $route !== 'postLogin' && $route !== 'logout') {
+            $app['session']->getFlashBag()->add('error', Trans::__('Your account is disabled. Sorry about that.'));
+
+            return Lib::redirect('logout');
         }
 
         // Check if there's at least one 'root' user, and otherwise promote the current user.
@@ -1700,6 +1765,7 @@ class Backend implements ControllerProviderInterface
 
             return Lib::redirect('dashboard');
         }
+
         // Stop the 'stopwatch' for the profiler.
         $app['stopwatch']->stop('bolt.backend.before');
     }
@@ -1716,7 +1782,7 @@ class Backend implements ControllerProviderInterface
     {
         // Start building the form
         $form = $app['form.factory']->createBuilder('form', $user);
-        
+
         // Username goes first
         if ($addusername) {
             $form->add('username', 'text', array(
