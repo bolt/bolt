@@ -23,7 +23,7 @@ class Browse implements PluginInterface
         $this->filesystem = $filesystem;
     }
 
-    public function handle($path, Application $app)
+    public function handle($path)
     {
         $files = array();
         $folders = array();
@@ -37,9 +37,7 @@ class Browse implements PluginInterface
                 continue;
             }
 
-            $fullfilename = $this->filesystem->getAdapter()->applyPathPrefix($entry['path']);
-
-            if (! $app['filepermissions']->authorized(realpath($fullfilename))) {
+            if (!$this->filesystem->authorized($entry['path'])) {
                 continue;
             }
 
@@ -79,6 +77,8 @@ class Browse implements PluginInterface
                 } catch (\Exception $e) {
 
                 }
+
+                $fullfilename = $this->filesystem->getAdapter()->applyPathPrefix($entry['path']);
                 if (is_readable($fullfilename)) {
                     $files[$entry['path']]['readable'] = true;
 

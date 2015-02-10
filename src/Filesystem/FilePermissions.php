@@ -15,33 +15,41 @@ class FilePermissions
     /**
      * @var \Bolt\Application
      */
-    private $app;
+    protected $app;
+
+    /**
+     * List of Filesystem prefixes that are editable.
+     *
+     * @var string[]
+     */
+    protected $allowedPrefixes = array();
 
     /**
      * Regex list represented editable resources.
      *
      * @var array
      */
-    private $allowed;
+    protected $allowed = array();
 
     /**
      * Regex list represented resources forbidden for edition.
      *
      * @var array
      */
-    private $blocked;
+    protected $blocked = array();
 
     /**
      * Constructor, initialize filters rules.
+     * @param Application $app
      */
     public function __construct(Application $app)
     {
         $this->app = $app;
 
-        $this->allowed = array(
-            '#^' . preg_quote(realpath($app['resources']->getPath('config'))) . '#',
-            '#^' . preg_quote(realpath($app['resources']->getPath('files'))) . '#',
-            '#^' . preg_quote(realpath($app['resources']->getPath('themebase'))) . '#'
+        $this->allowedPrefixes = array(
+            'config',
+            'files',
+            'theme',
         );
 
         $this->blocked = array(
@@ -54,33 +62,35 @@ class FilePermissions
     /**
      * Check if you can do something with the given file or directory.
      *
-     * @param $filename
-     * @return boolean
+     * @param string $prefix
+     * @param string $path
+     *
+     * @return bool
      */
-    public function authorized($filename)
+    public function authorized($prefix, $path)
     {
-        $authorized = true;
-
         // Check blocked resources
         foreach ($this->blocked as $rule) {
-            if (preg_match($rule, $filename)) {
-                $authorized = false;
-                break;
+            if (preg_match($rule, $path)) {
+                return false;
+            }
+        }
+
+        // Check allowed filesystems
+        foreach ($this->allowedPrefixes as $allowedPrefix) {
+            if ($allowedPrefix === $prefix) {
+                return true;
             }
         }
 
         // Check allowed resources
-        if ($authorized) {
-            $authorized = false;
-            foreach ($this->allowed as $rule) {
-                if (preg_match($rule, $filename)) {
-                    $authorized = true;
-                    break;
-                }
+        foreach ($this->allowed as $rule) {
+            if (preg_match($rule, $path)) {
+                return true;
             }
         }
 
-        return $authorized;
+        return false;
     }
 
     /**

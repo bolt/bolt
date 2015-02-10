@@ -19,6 +19,7 @@ class Manager extends MountManager
         $this->app = $app;
         parent::__construct(array(
             'root'       => $app['resources']->getPath('root'),
+            'app'        => $app['resources']->getPath('app'),
             'default'    => $app['resources']->getPath('files'),
             'files'      => $app['resources']->getPath('files'),
             'config'     => $app['resources']->getPath('config'),
@@ -53,6 +54,7 @@ class Manager extends MountManager
         $filesystem->addPlugin(new Plugin\Browse());
         $filesystem->addPlugin(new Plugin\PublicUrl($this->app, $prefix));
         $filesystem->addPlugin(new Plugin\ThumbnailUrl($this->app, $prefix));
+        $filesystem->addPlugin(new Plugin\Authorized($this->app, $prefix));
 
         return $this;
     }
