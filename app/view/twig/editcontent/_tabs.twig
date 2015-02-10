@@ -14,7 +14,9 @@
 
     {# Defined groups #}
     {% for group in context.contenttype.groups %}
-        {{ tab(group, __(['contenttypes', context.contenttype.slug, 'group', group], {DEFAULT: group|capitalize})) }}
+        {% if group not in ['ungrouped', 'taxonomy', 'meta'] %}
+            {{ tab(group, __(['contenttypes', context.contenttype.slug, 'group', group], {DEFAULT: group|capitalize})) }}
+        {% endif %}
     {% endfor %}
 
     {# Relationships and/or Taxonomy #}
