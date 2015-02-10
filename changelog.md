@@ -1,3 +1,8 @@
+Bolt 2.0 branch HEAD
+--------------------
+
+- Fixed: Logged in user can no longer disable themselves
+
 Bolt 2.0.6
 ----------
 
