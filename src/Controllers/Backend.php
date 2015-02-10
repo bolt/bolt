@@ -1348,9 +1348,8 @@ class Backend implements ControllerProviderInterface
         $path = rtrim($path, '/');
 
         $filesystem = $app['filesystem']->getFilesystem($namespace);
-        $fullPath = $filesystem->getAdapter()->applyPathPrefix($path);
 
-        if (!$app['filepermissions']->authorized($fullPath)) {
+        if (!$filesystem->authorized($path)) {
             $error = Trans::__("You don't have the correct permissions to display the file or directory '%s'.", array('%s' => $path));
             $app->abort(403, $error);
         }
@@ -1491,33 +1490,23 @@ class Backend implements ControllerProviderInterface
         if ($namespace == 'app' && dirname($file) == "config") {
             // Special case: If requesting one of the major config files, like contenttypes.yml, set the path to the
             // correct dir, which might be 'app/config', but it might be something else.
-            $filename = realpath($app['resources']->getPath('config') . "/" . basename($file));
-        } else {
-            // otherwise look up the namespace and use that as the base.
-            try {
-                // Catch-22: If namespace is 'theme', we actually want to have 'themebase'.
-                if ($namespace == "theme") {
-                    $path = $app['resources']->getPath("themebase");
-                } else {
-                    $path = $app['resources']->getPath($namespace);
-                }
-
-                $filename = realpath($path . "/" . $file);
-            } catch (\Exception $e) {
-                $path = $app['resources']->getPath('files');
-                $filename = realpath($path . "/" . $file);
-            }
+            $namespace = 'config';
         }
 
-        if (! $app['filepermissions']->authorized($filename)) {
+        /** @var \League\Flysystem\FilesystemInterface $filesystem */
+        $filesystem = $app['filesystem']->getFilesystem($namespace);
+
+        if (!$filesystem->authorized($file)) {
             $error = Trans::__("You don't have correct permissions to edit the file '%s'.", array('%s' => $file));
             $app->abort(403, $error);
         }
 
-        $type = Lib::getExtension($filename);
+        $file = $filesystem->get($file);
+
+        $type = Lib::getExtension($file->getPath());
 
         // Get the pathsegments, so we can show the path..
-        $path = dirname($file);
+        $path = dirname($file->getPath());
         $pathsegments = array();
         $cumulative = "";
         if (!empty($path)) {
@@ -1527,12 +1516,13 @@ class Backend implements ControllerProviderInterface
             }
         }
 
-        if (!file_exists($filename) || !is_readable($filename)) {
-            $error = Trans::__("The file '%s' doesn't exist, or is not readable.", array('%s' => $file));
+        $contents = null;
+        if (!$file->exists() || !($contents = $file->read())) {
+            $error = Trans::__("The file '%s' doesn't exist, or is not readable.", array('%s' => $file->getPath()));
             $app->abort(404, $error);
         }
 
-        if (!is_writable($filename)) {
+        if (!$file->update($contents)) {
             $app['session']->getFlashBag()->add(
                 'info',
                 Trans::__(
@@ -1547,16 +1537,16 @@ class Backend implements ControllerProviderInterface
 
         // Gather the 'similar' files, if present.. i.e., if we're editing config.yml, we also want to check for
         // config.yml.dist and config_local.yml
-        $basename = str_replace('.yml', '', str_replace('_local', '', $filename));
+        $basename = str_replace('.yml', '', str_replace('_local', '', $file->getPath()));
         $filegroup = array();
-        if (is_readable($basename . '.yml')) {
+        if ($filesystem->has($basename . '.yml')) {
             $filegroup[] = basename($basename . '.yml');
         }
-        if (is_readable($basename . '_local.yml')) {
+        if ($filesystem->has($basename . '_local.yml')) {
             $filegroup[] = basename($basename . '_local.yml');
         }
 
-        $data['contents'] = file_get_contents($filename);
+        $data['contents'] = $contents;
 
         $form = $app['form.factory']
             ->createBuilder('form', $data)
@@ -1581,15 +1571,15 @@ class Backend implements ControllerProviderInterface
                         $ok = $yamlparser->parse($contents);
                     } catch (\Symfony\Component\Yaml\Exception\ParseException $e) {
                         $ok = false;
-                        $app['session']->getFlashBag()->add('error', Trans::__("File '%s' could not be saved:", array('%s' => $file)) . $e->getMessage());
+                        $app['session']->getFlashBag()->add('error', Trans::__("File '%s' could not be saved:", array('%s' => $file->getPath())) . $e->getMessage());
                     }
                 }
 
                 if ($ok) {
-                    if (file_put_contents($filename, $contents)) {
+                    if ($file->update($contents)) {
                         $app['session']->getFlashBag()->add('info', Trans::__("File '%s' has been saved.", array('%s' => $file)));
                         // If we've saved a translation, back to it
-                        if (preg_match('#resources/translations/(..)/(.*)\.yml$#', $filename, $m)) {
+                        if (preg_match('#resources/translations/(..)/(.*)\.yml$#', $file->getPath(), $m)) {
                             return Lib::redirect('translation', array('domain' => $m[2], 'tr_locale' => $m[1]));
                         }
                         Lib::redirect('fileedit', array('file' => $file), '');
@@ -1603,8 +1593,8 @@ class Backend implements ControllerProviderInterface
         }
 
         // For 'related' files we might need to keep track of the current dirname on top of the namespace.
-        if (dirname($file) != '') {
-            $additionalpath = dirname($file) . '/';
+        if (dirname($file->getPath()) != '') {
+            $additionalpath = dirname($file->getPath()) . '/';
         } else {
             $additionalpath = '';
         }
