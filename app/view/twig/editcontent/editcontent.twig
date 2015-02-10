@@ -66,13 +66,19 @@
             <form{{ macro.attr(attr_form) }}>
                 {% include '_sub/_csrf_token.twig' %}
 
-                {% include 'editcontent/_fields.twig' %}
+                {% if context.contenttype.groups|default is empty %}
+                    {% include 'editcontent/_fields.twig' %}
+                {% endif %}
 
                 {% include 'editcontent/_relations.twig' %}
 
                 {% include 'editcontent/_taxonomies.twig' %}
 
                 {% include 'editcontent/_meta.twig' %}
+
+                {% if context.contenttype.groups|default is not empty %}
+                    {% include 'editcontent/_fields.twig' %}
+                {% endif %}
 
                 {% include 'editcontent/_buttons.twig' %}
             </form>
