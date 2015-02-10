@@ -1,9 +1,10 @@
 <?php
 namespace Bolt\Tests\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Bolt\Tests\BoltUnitTest;
+use Silex\Application;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class to test correct operation of Upload Controller.
@@ -191,7 +192,7 @@ class UploadControllerTest extends BoltUnitTest
         return $this->authApp($bolt);
     }
 
-    protected function authApp($bolt)
+    protected function authApp(Application $bolt)
     {
         $users = $this->getMock('Bolt\Users', array('isValidSession', 'isAllowed'), array($bolt));
         $users->expects($this->any())

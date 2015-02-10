@@ -2,18 +2,18 @@
 
 namespace Bolt\Controllers;
 
+use Bolt\Filesystem\FlysystemContainer;
+use Bolt\Library as Lib;
+use Bolt\Translation\Translator as Trans;
 use Silex;
 use Silex\ControllerProviderInterface;
 use Silex\ServiceProviderInterface;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Sirius\Upload\Handler as UploadHandler;
-use Sirius\Upload\Result\File;
 use Sirius\Upload\Result\Collection;
-use Bolt\Filesystem\FlysystemContainer;
+use Sirius\Upload\Result\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Bolt\Translation\Translator as Trans;
-use Bolt\Library as Lib;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 
 class Upload implements ControllerProviderInterface, ServiceProviderInterface
 {
@@ -162,6 +162,7 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
             }
         }
 
+        /** @var Collection|File $result */
         $result = $app['upload']->process($filesToProcess);
 
         if ($result->isValid()) {
