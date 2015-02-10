@@ -1,4 +1,4 @@
-Bolt 2.0 DEV-head
+Bolt 2.1 DEV-head
 -----------------
 
 - Fixed: Long conttenttype names are truncated properly in the sidebar now. (See #2513)
