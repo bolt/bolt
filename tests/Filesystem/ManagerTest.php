@@ -4,8 +4,6 @@ namespace Bolt\Tests\Extensions;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Filesystem\Manager;
 use League\Flysystem\Adapter\NullAdapter;
-use League\Flysystem\Filesystem;
-use League\Flysystem\PluginInterface;
 
 /**
  * Class to test src/Filesystem/Manager.
@@ -18,10 +16,7 @@ class ManagerTest extends BoltUnitTest
 
     public function testSetup()
     {
-        $app = $this->getApp();
-        $app['resources']->setPath('files', __DIR__);
-
-        $manager = new Manager($app);
+        $manager = $this->getManager();
 
         $this->assertNotEmpty($manager->getManager('config'));
         $this->assertNotEmpty($manager->getManager());
@@ -31,19 +26,18 @@ class ManagerTest extends BoltUnitTest
 
     }
 
-    public function testBadMountFails()
+    public function testBadMountUsesNullAdapter()
     {
-        $app = $this->getApp();
-        $manager = new Manager($app);
-        $mount = $manager->mount('fails', "/baddir");
-        $this->assertFalse($mount);
+        $manager = $this->getManager();
+
+        $manager->mount('fails', '/baddir');
+        $adapter = $manager->getAdapter('fails://');
+        $this->assertInstanceOf('League\Flysystem\Adapter\NullAdapter', $adapter);
     }
 
     public function testManagerForwardsToDefault()
     {
-        $app = $this->getApp();
-        $app['resources']->setPath('files', __DIR__);
-        $manager = new Manager($app);
+        $manager = $this->getManager();
 
         $adapter = new NullAdapter();
         $fs = $this->getMock('League\Flysystem\Filesystem', array('handle'), array($adapter));
@@ -70,9 +64,14 @@ class ManagerTest extends BoltUnitTest
 
     public function testPlugins()
     {
+        $manager = $this->getManager();
+        $this->assertEquals('/files/findfile', $manager->url('findfile'));
+    }
+
+    protected function getManager()
+    {
         $app = $this->getApp();
         $app['resources']->setPath('files', __DIR__);
-        $manager = new Manager($app);
-        $this->assertEquals('/files/findfile', $manager->url('findfile'));
+        return new Manager($app);
     }
 }

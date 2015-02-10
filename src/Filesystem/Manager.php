@@ -3,12 +3,15 @@ namespace Bolt\Filesystem;
 
 use Bolt\Application;
 use Bolt\Filesystem\Plugin;
+use League\Flysystem\Adapter\NullAdapter;
 use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemInterface;
 use League\Flysystem\MountManager;
 
 class Manager extends MountManager
 {
+    const DEFAULT_PREFIX = 'files';
+
     protected $app;
 
     public function __construct(Application $app)
@@ -31,16 +34,25 @@ class Manager extends MountManager
 
     public function getFilesystem($prefix = null)
     {
-        if (isset($this->filesystems[$prefix])) {
-            return parent::getFilesystem($prefix);
-        } else {
-            return parent::getFilesystem('files');
-        }
+        $prefix = isset($this->filesystems[$prefix]) ? $prefix : static::DEFAULT_PREFIX;
+        return parent::getFilesystem($prefix);
     }
 
     public function setManager($namespace, FilesystemInterface $filesystem)
     {
         $this->mountFilesystem($namespace, $filesystem);
+    }
+
+    public function mountFilesystems(array $filesystems)
+    {
+        foreach ($filesystems as $prefix => $filesystem) {
+            if (!$filesystem instanceof FilesystemInterface) {
+                $filesystem = $this->createFilesystem($filesystem);
+            }
+            $this->mountFilesystem($prefix, $filesystem);
+        }
+
+        return $this;
     }
 
     public function mountFilesystem($prefix, FilesystemInterface $filesystem)
@@ -61,28 +73,24 @@ class Manager extends MountManager
      * @param string $prefix
      * @param string $location
      *
-     * @return $this|false
+     * @return $this
      */
     public function mount($prefix, $location)
     {
-        if (!is_dir($location)) {
-            return false;
-        }
-        return parent::mountFilesystem($prefix, new Filesystem(new Local($location)));
+        return parent::mountFilesystem($prefix, $this->createFilesystem($location));
     }
 
-    /**
-     * By default we forward anything called on this class to the default manager
-     *
-     * @param string $method
-     * @param array  $arguments
-     *
-     * @return mixed
-     */
-    public function __call($method, $arguments)
+    protected function createFilesystem($location)
     {
-        $callback = array($this->getManager(), $method);
+        return new Filesystem(is_dir($location) ? new Local($location) : new NullAdapter());
+    }
 
-        return call_user_func_array($callback, $arguments);
+    public function filterPrefix(array $arguments)
+    {
+        try {
+            return parent::filterPrefix($arguments);
+        } catch (\InvalidArgumentException $e) {
+            return array(static::DEFAULT_PREFIX, $arguments);
+        }
     }
 }
