@@ -5,6 +5,7 @@ namespace Bolt\Controllers;
 use Bolt\Translation\Translator as Trans;
 
 use Guzzle\Http\Exception\RequestException;
+use League\Flysystem\FileNotFoundException;
 use Silex;
 use Silex\ControllerProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -180,10 +181,9 @@ class Async implements ControllerProviderInterface
     public function filesautocomplete(Silex\Application $app, Request $request)
     {
         $term = $request->get('term');
-        $filesystem = $app['filesystem']->getManager('files');
 
         $extensions = $request->query->get('ext');
-        $files = $filesystem->search($term, $extensions);
+        $files = $app['filesystem']->search($term, $extensions);
 
         $app['debug'] = false;
 
@@ -402,7 +402,7 @@ class Async implements ControllerProviderInterface
         // No trailing slashes in the path.
         $path = rtrim($path, '/');
 
-        $filesystem = $app['filesystem']->getManager($namespace);
+        $filesystem = $app['filesystem']->getFilesystem($namespace);
 
         // $key is linked to the fieldname of the original field, so we can
         // Set the selected value in the proper field
@@ -487,31 +487,16 @@ class Async implements ControllerProviderInterface
      */
     public function renamefile(Silex\Application $app, Request $request)
     {
-        $namespace  = $request->request->get('namespace', 'files');
+        $namespace  = $request->request->get('namespace');
         $parentPath = $request->request->get('parent');
         $oldName    = $request->request->get('oldname');
         $newName    = $request->request->get('newname');
 
-        $oldPath    = $app['resources']->getPath($namespace)
-                      . DIRECTORY_SEPARATOR
-                      . $parentPath
-                      . DIRECTORY_SEPARATOR
-                      . $oldName;
-
-        $newPath    = $app['resources']->getPath($namespace)
-                      . DIRECTORY_SEPARATOR
-                      . $parentPath
-                      . DIRECTORY_SEPARATOR
-                      . $newName;
-
-        // Rename only if target doesn't exist already!
-        if ($this->app['filesystem']->getManager('config')->has($newPath)) {
+        try {
+            return $app['filesystem']->rename("$namespace://$parentPath/$oldName", "$parentPath/$newName");
+        } catch (\Exception $e) {
             return false;
-        } elseif ($this->app['filesystem']->getManager('config')->rename($oldPath, $newPath)) {
-            return true;
         }
-
-        return false;
     }
 
     /**
@@ -523,16 +508,14 @@ class Async implements ControllerProviderInterface
      */
     public function deletefile(Silex\Application $app, Request $request)
     {
-        $namespace = $request->request->get('namespace', 'files');
+        $namespace = $request->request->get('namespace');
         $filename = $request->request->get('filename');
 
-        $filesystem = $app['filesystem']->getManager($namespace);
-
-        if ($filesystem->delete($filename)) {
-            return true;
+        try {
+            return $app['filesystem']->delete("$namespace://$filename");
+        } catch (FileNotFoundException $e) {
+            return false;
         }
-
-        return false;
     }
 
     /**
@@ -544,10 +527,10 @@ class Async implements ControllerProviderInterface
      */
     public function duplicatefile(Silex\Application $app, Request $request)
     {
-        $namespace = $request->request->get('namespace', 'files');
+        $namespace = $request->request->get('namespace');
         $filename = $request->request->get('filename');
 
-        $filesystem = $app['filesystem']->getManager($namespace);
+        $filesystem = $app['filesystem']->getFilesystem($namespace);
 
         $extensionPos = strrpos($filename, '.');
         $destination = substr($filename, 0, $extensionPos) . "_copy" . substr($filename, $extensionPos);
@@ -575,30 +558,16 @@ class Async implements ControllerProviderInterface
      */
     public function renamefolder(Silex\Application $app, Request $request)
     {
-        $namespace = $request->request->get('namespace', 'files');
-
+        $namespace  = $request->request->get('namespace');
         $parentPath = $request->request->get('parent');
         $oldName    = $request->request->get('oldname');
         $newName    = $request->request->get('newname');
 
-        $oldPath    = $app['resources']->getPath($namespace)
-                      . DIRECTORY_SEPARATOR
-                      . $parentPath
-                      . $oldName;
-
-        $newPath    = $app['resources']->getPath($namespace)
-                      . DIRECTORY_SEPARATOR
-                      . $parentPath
-                      . $newName;
-
-        // Rename only if target doesn't exist already!
-        if ($this->app['filesystem']->getManager('config')->has($newPath)) {
+        try {
+            return $app['filesystem']->rename("$namespace://$parentPath$oldName", "$parentPath$newName");
+        } catch (\Exception $e) {
             return false;
-        } elseif ($this->app['filesystem']->getManager('config')->rename($oldPath, $newPath)) {
-            return true;
         }
-
-        return false;
     }
 
     /**
@@ -611,20 +580,15 @@ class Async implements ControllerProviderInterface
      */
     public function removefolder(Silex\Application $app, Request $request)
     {
-        $namespace = $request->request->get('namespace', 'files');
-
+        $namespace = $request->request->get('namespace');
         $parentPath = $request->request->get('parent');
         $folderName = $request->request->get('foldername');
 
-        $completePath = $parentPath . $folderName;
-
-        $filesystem = $app['filesystem']->getManager($namespace);
-
-        if ($filesystem->deleteDir($completePath)) {
-            return true;
+        try {
+            return $app['filesystem']->deleteDir("$namespace://$parentPath$folderName");
+        } catch (\Exception $e) {
+            return false;
         }
-
-        return false;
     }
 
     /**
@@ -637,20 +601,15 @@ class Async implements ControllerProviderInterface
      */
     public function createfolder(Silex\Application $app, Request $request)
     {
-        $namespace = $request->request->get('namespace', 'files');
-
+        $namespace = $request->request->get('namespace');
         $parentPath = $request->request->get('parent');
         $folderName = $request->request->get('foldername');
 
-        $newpath = $parentPath . $folderName;
-
-        $filesystem = $app['filesystem']->getManager($namespace);
-
-        if ($filesystem->createDir($newpath)) {
-            return true;
+        try {
+            return $app['filesystem']->createDir("$namespace://$parentPath$folderName");
+        } catch (\Exception $e) {
+            return false;
         }
-
-        return false;
     }
 
     /**

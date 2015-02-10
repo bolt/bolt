@@ -1,16 +1,17 @@
 <?php
 
-namespace Bolt\Filesystem;
+namespace Bolt\Filesystem\Plugin;
 
 use League\Flysystem\PluginInterface;
 use League\Flysystem\FilesystemInterface;
 use Bolt\Application;
 use Bolt\Library as Lib;
 
-class BrowsePlugin implements PluginInterface
+class Browse implements PluginInterface
 {
 
-    public $filesystem;
+    /** @var FilesystemInterface */
+    protected $filesystem;
 
     public function getMethod()
     {

@@ -1347,7 +1347,7 @@ class Backend implements ControllerProviderInterface
         // No trailing slashes in the path.
         $path = rtrim($path, '/');
 
-        $filesystem = $app['filesystem']->getManager($namespace);
+        $filesystem = $app['filesystem']->getFilesystem($namespace);
         $fullPath = $filesystem->getAdapter()->applyPathPrefix($path);
 
         if (!$app['filepermissions']->authorized($fullPath)) {

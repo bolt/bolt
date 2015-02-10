@@ -17,7 +17,7 @@ class ConfigGetTest extends BoltUnitTest
     public function testGet()
     {
         $app = $this->getApp();
-        $app['filesystem']->getManager('config')->getAdapter()->setPathPrefix(__DIR__ . '/resources/');
+        $app['filesystem']->mount('config', __DIR__ . '/resources/');
 
         $command = new ConfigGet($app);
         $tester = new CommandTester($command);

@@ -1,8 +1,8 @@
 <?php
 
-namespace Bolt\Filesystem;
+namespace Bolt\Filesystem\Plugin;
 
-class PublicUrlPlugin extends AdapterPlugin
+class PublicUrl extends AdapterPlugin
 {
 
     public function getMethod()

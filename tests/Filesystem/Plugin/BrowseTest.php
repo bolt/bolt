@@ -1,18 +1,12 @@
 <?php
-namespace Bolt\Tests\Filesystem;
+namespace Bolt\Tests\Filesystem\Plugin;
 
 use Bolt\Tests\BoltUnitTest;
-use Bolt\Filesystem\BrowsePlugin;
+use Bolt\Filesystem\Plugin;
 use League\Flysystem\Filesystem;
 use League\Flysystem\Adapter\Local;
 
-/**
- * Class to test src/Filesystem/BrowsePlugin.
- *
- * @author Ross Riley <riley.ross@gmail.com>
- *
- */
-class BrowsePluginTest extends BoltUnitTest
+class BrowseTest extends BoltUnitTest
 {
 
     public function testSetup()
@@ -22,7 +16,7 @@ class BrowsePluginTest extends BoltUnitTest
         $adapter = new Local(TEST_ROOT);
         $fs = new Filesystem($adapter);
 
-        $plugin = new BrowsePlugin();
+        $plugin = new Plugin\Browse();
         $plugin->setFilesystem($fs);
         $result = $plugin->handle("/", $app);
         $this->assertGreaterThan(0, count($result));
@@ -30,7 +24,7 @@ class BrowsePluginTest extends BoltUnitTest
 
     public function testName()
     {
-        $plugin = new BrowsePlugin();
+        $plugin = new Plugin\Browse();
         $this->assertEquals('browse', $plugin->getMethod());
     }
 
@@ -40,7 +34,7 @@ class BrowsePluginTest extends BoltUnitTest
         $adapter = new Local(TEST_ROOT . '/tests/resources');
         $fs = new Filesystem($adapter);
 
-        $plugin = new BrowsePlugin();
+        $plugin = new Plugin\Browse();
         $plugin->setFilesystem($fs);
         $result = $plugin->handle("", $app);
         $files = $result[0];

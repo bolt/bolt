@@ -1,85 +1,86 @@
 <?php
-
 namespace Bolt\Filesystem;
 
 use Bolt\Application;
-use League\Flysystem\Adapter\Local as FilesystemAdapter;
+use Bolt\Filesystem\Plugin;
+use League\Flysystem\Adapter\NullAdapter;
 use League\Flysystem\Filesystem;
+use League\Flysystem\FilesystemInterface;
 use League\Flysystem\MountManager;
 
-/**
-*
-*/
 class Manager extends MountManager
 {
-    public $app;
+    const DEFAULT_PREFIX = 'files';
+
+    protected $app;
 
     public function __construct(Application $app)
     {
         $this->app = $app;
-        $this->mount('root',       $app['resources']->getPath('root'));
-        $this->mount('default',    $app['resources']->getPath('files'));
-        $this->mount('files',      $app['resources']->getPath('files'));
-        $this->mount('config',     $app['resources']->getPath('config'));
-        $this->mount('theme',      $app['resources']->getPath('themebase'));
-        $this->mount('extensions', $app['resources']->getPath('extensionspath'));
-        $this->initManagers();
+        parent::__construct(array(
+            'root'       => $app['resources']->getPath('root'),
+            'default'    => $app['resources']->getPath('files'),
+            'files'      => $app['resources']->getPath('files'),
+            'config'     => $app['resources']->getPath('config'),
+            'theme'      => $app['resources']->getPath('themebase'),
+            'extensions' => $app['resources']->getPath('extensionspath'),
+        ));
     }
 
-    public function initManagers()
+    public function getFilesystem($prefix = null)
     {
-        foreach ($this->filesystems as $namespace => $manager) {
-            $this->initManager($namespace, $manager);
+        $prefix = isset($this->filesystems[$prefix]) ? $prefix : static::DEFAULT_PREFIX;
+        return parent::getFilesystem($prefix);
+    }
+
+    public function mountFilesystems(array $filesystems)
+    {
+        foreach ($filesystems as $prefix => $filesystem) {
+            if (!$filesystem instanceof FilesystemInterface) {
+                $filesystem = $this->createFilesystem($filesystem);
+            }
+            $this->mountFilesystem($prefix, $filesystem);
         }
+
+        return $this;
     }
 
-    public function initManager($namespace, $manager)
+    public function mountFilesystem($prefix, FilesystemInterface $filesystem)
     {
-        $manager->addPlugin(new SearchPlugin());
-        $manager->addPlugin(new BrowsePlugin());
-        $manager->addPlugin(new PublicUrlPlugin($this->app, $namespace));
-        $manager->addPlugin(new ThumbnailUrlPlugin($this->app, $namespace));
-    }
+        parent::mountFilesystem($prefix, $filesystem);
 
-    public function getManager($namespace = null)
-    {
-        if (isset($this->filesystems[$namespace])) {
-            return $this->getFilesystem($namespace);
-        } else {
-            return $this->getFilesystem('files');
-        }
-    }
+        $filesystem->addPlugin(new Plugin\Search());
+        $filesystem->addPlugin(new Plugin\Browse());
+        $filesystem->addPlugin(new Plugin\PublicUrl($this->app, $prefix));
+        $filesystem->addPlugin(new Plugin\ThumbnailUrl($this->app, $prefix));
 
-    public function setManager($namespace, $manager)
-    {
-        $this->mountFilesystem($namespace, $manager);
-        $this->initManager($namespace, $manager);
+        return $this;
     }
 
     /**
-     * Mainly passes through to parent class, but before it does this method
-     * checks that the passed in directory exists.
+     * Mounts a local filesystem if the directory exists.
      *
-     * @return void
-     **/
+     * @param string $prefix
+     * @param string $location
+     *
+     * @return $this
+     */
     public function mount($prefix, $location)
     {
-        if (is_dir($location)) {
-            return parent::mountFilesystem($prefix, new Filesystem(new FilesystemAdapter($location)));
-        } else {
-            return false;
-        }
+        return parent::mountFilesystem($prefix, $this->createFilesystem($location));
     }
 
-    /**
-     * By default we forward anything called on this class to the default manager
-     *
-     * @return void
-     **/
-    public function __call($method, $arguments)
+    protected function createFilesystem($location)
     {
-        $callback = array($this->getManager(), $method);
+        return new Filesystem(is_dir($location) ? new Local($location) : new NullAdapter());
+    }
 
-        return call_user_func_array($callback, $arguments);
+    public function filterPrefix(array $arguments)
+    {
+        try {
+            return parent::filterPrefix($arguments);
+        } catch (\InvalidArgumentException $e) {
+            return array(static::DEFAULT_PREFIX, $arguments);
+        }
     }
 }

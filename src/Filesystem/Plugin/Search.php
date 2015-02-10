@@ -1,14 +1,14 @@
 <?php
 
-namespace Bolt\Filesystem;
+namespace Bolt\Filesystem\Plugin;
 
 use League\Flysystem\PluginInterface;
 use League\Flysystem\FilesystemInterface;
 
-class SearchPlugin implements PluginInterface
+class Search implements PluginInterface
 {
-
-    public $filesystem;
+    /** @var FilesystemInterface */
+    protected $filesystem;
 
     public function getMethod()
     {
