@@ -27,20 +27,10 @@ class Manager extends MountManager
         ));
     }
 
-    public function getManager($namespace = null)
-    {
-        return $this->getFilesystem($namespace);
-    }
-
     public function getFilesystem($prefix = null)
     {
         $prefix = isset($this->filesystems[$prefix]) ? $prefix : static::DEFAULT_PREFIX;
         return parent::getFilesystem($prefix);
-    }
-
-    public function setManager($namespace, FilesystemInterface $filesystem)
-    {
-        $this->mountFilesystem($namespace, $filesystem);
     }
 
     public function mountFilesystems(array $filesystems)

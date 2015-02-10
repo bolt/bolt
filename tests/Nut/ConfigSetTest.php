@@ -17,7 +17,7 @@ class ConfigSetTest extends BoltUnitTest
     public function testSet()
     {
         $app = $this->getApp();
-        $app['filesystem']->getManager('config')->getAdapter()->setPathPrefix(__DIR__ . '/resources/');
+        $app['filesystem']->mount('config', __DIR__ . '/resources/');
 
         $command = new ConfigSet($app);
         $tester = new CommandTester($command);

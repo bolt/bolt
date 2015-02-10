@@ -18,12 +18,11 @@ class ManagerTest extends BoltUnitTest
     {
         $manager = $this->getManager();
 
-        $this->assertNotEmpty($manager->getManager('config'));
-        $this->assertNotEmpty($manager->getManager());
+        $this->assertNotEmpty($manager->getFilesystem('config'));
+        $this->assertNotEmpty($manager->getFilesystem());
 
-        $manager->setManager('mytest', $manager->getManager());
-        $this->assertNotEmpty($manager->getManager('mytest'));
-
+        $manager->mountFilesystem('mytest', $manager->getFilesystem());
+        $this->assertNotEmpty($manager->getFilesystem('mytest'));
     }
 
     public function testBadMountUsesNullAdapter()
@@ -42,7 +41,7 @@ class ManagerTest extends BoltUnitTest
         $adapter = new NullAdapter();
         $fs = $this->getMock('League\Flysystem\Filesystem', array('handle'), array($adapter));
 
-        $manager->setManager('default', $fs);
+        $manager->mountFilesystem('default', $fs);
 
         $plugin = $this->getMock('League\Flysystem\PluginInterface', array('handle','getMethod','setFilesystem'));
 
@@ -54,7 +53,7 @@ class ManagerTest extends BoltUnitTest
             ->method('getMethod')
             ->will($this->returnValue('testing'));
 
-        $manager->getManager()->addPlugin($plugin);
+        $manager->addPlugin($plugin);
 
         $response = $manager->testing('arg');
 

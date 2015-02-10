@@ -18,7 +18,7 @@ class ThumbnailUrlTest extends BoltUnitTest
         $fs = new Filesystem($adapter);
 
         $manager = new Manager($app);
-        $manager->setManager('files', $fs);
+        $manager->mountFilesystem('files', $fs);
         $manager->addPlugin(new Plugin\ThumbnailUrl($app));
 
         $result = $fs->thumb('generic-logo.png', 200, 200, 'crop');
