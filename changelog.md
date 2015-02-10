@@ -30,6 +30,8 @@ Bolt 2.0 DEV-head
 - Changed: Enforce SSL Config Change. Now we use only `enforce_ssl`, `cookies_https_only` is deprecated. (See #2726, thanks @dwolf555)
 - Fixed: Flipped array replace arguments in `parseFieldsAndGroups()`. (See #2738)
 - Fixed: No more nbsp in CKeditor. Fixes #2660
+- Fixed: Logged in user can no longer disable themselves
+- Fixed: Disabling a logged in user with force a logout
 
 
 Bolt 2.0.5
