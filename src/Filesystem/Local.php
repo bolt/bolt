@@ -15,7 +15,7 @@ class Local extends LocalBase
 
     protected function ensureDirectory($root)
     {
-        if (!is_dir($root) || !@mkdir($root, 0755, true)) {
+        if (!is_dir($root) && !@mkdir($root, 0755, true)) {
             return false;
         }
 
