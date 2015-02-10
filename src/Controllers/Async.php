@@ -3,7 +3,6 @@
 namespace Bolt\Controllers;
 
 use Bolt\Translation\Translator as Trans;
-
 use Guzzle\Http\Exception\RequestException;
 use League\Flysystem\FileNotFoundException;
 use Silex;
@@ -229,7 +228,7 @@ class Async implements ControllerProviderInterface
             $request->query->get('title'),
             $request->query->get('id'),
             $request->query->get('contenttypeslug'),
-            $request->query->get('fulluri')
+            $request->query->getBoolean('fulluri')
         );
 
         return $uri;
