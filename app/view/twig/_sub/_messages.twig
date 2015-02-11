@@ -7,11 +7,15 @@
 {% endmacro %}
 
 {% macro messages(key, class) %}
+    {% set shown = [] %}
     {% for msg in app.session.flashBag.get(key) %}
-        <div class="alert alert-{{ class|default(key) }}">
-            <button class="close" data-dismiss="alert">×</button>
-            {{ msg|ymllink }}
-        </div>
+        {% if msg not in shown %}
+            <div class="alert alert-{{ class|default(key) }}">
+                <button class="close" data-dismiss="alert">×</button>
+                {{ msg|ymllink }}
+            </div>
+            {% set shown = shown|merge([msg]) %}
+        {% endif %}
     {% endfor %}
 {% endmacro %}
 
