@@ -4,14 +4,14 @@
 
     <div class="tabgrouping form-group" data-tab="{{ field.group|default('ungrouped') }}">
 
-        {# --------------- prefix --------------- #}
+        {# Prefix #}
         {% if field.prefix is defined and field.prefix is not empty %}
             <div class="prefix">
                 {{ field.prefix|markdown }}
             </div>
         {% endif %}
 
-        {# --------------- fields --------------- #}
+        {# Fields #}
         {% set labelkey = field.label ?: key|ucfirst %}
 
         {% for fieldtype in context.fields %}
@@ -20,14 +20,14 @@
             {% endif %}
         {% endfor %}
 
-        {# ---------------postfix & divider --------------- #}
-
+        {# Postfix #}
         {% if field.postfix is defined and field.postfix is not empty %}
             <div class="postfix">
                 {{ field.postfix|markdown }}
             </div>
         {% endif %}
 
+        {# Divider #}
         {% if field.separator is defined and field.separator == true %}
             <hr>
         {% endif %}
