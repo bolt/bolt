@@ -58,8 +58,8 @@
 
             {% include '_sub/_messages.twig' %}
 
-            {# only if we have grouping tabs. #}
-            {% if context.contenttype.groups|default is not empty %}
+            {# Only if we have grouping tabs. #}
+            {% if context.contenttype.groups %}
                 <ul class="nav nav-tabs" id="filtertabs">
 
                     {# Add an extra tab, if there are "ungrouped" fields #}
