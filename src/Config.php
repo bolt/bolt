@@ -349,9 +349,7 @@ class Config
 
         list($fields, $groups) = $this->parseFieldsAndGroups($contentType['fields'], $acceptableFileTypes);
         $contentType['fields'] = $fields;
-        if (!empty($groups)) {
-            $contentType['groups'] = $groups;
-        }
+        $contentType['groups'] = $groups;
 
         // Make sure taxonomy is an array.
         if (isset($contentType['taxonomy']) && !is_array($contentType['taxonomy'])) {
@@ -375,6 +373,7 @@ class Config
     {
         $currentGroup = 'ungrouped';
         $groups = array();
+        $hasGroups = false;
 
         foreach ($fields as $key => $field) {
             unset($fields[$key]);
@@ -419,6 +418,11 @@ class Config
                 $field['values'] = array_combine($field['values'], $field['values']);
             }
 
+
+            if (!empty($field['group'])) {
+                $hasGroups = true;
+            }
+
             // Make sure we have these keys and every field has a group set
             $field = array_replace(
                 array(
@@ -449,7 +453,7 @@ class Config
             $fields['slug']['uses'] = array($fields['slug']['uses']);
         }
 
-        return array($fields, array_keys($groups));
+        return array($fields, $hasGroups ? array_keys($groups) : false);
     }
 
     protected function parseDatabase($options)
