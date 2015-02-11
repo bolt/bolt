@@ -13,30 +13,27 @@
                 data-content="{{ app.translator.trans('info.relationships', {}, 'infos') }}">{{ __('Info') }}</span>
         </h3>
 
-{% endif %}
-
-{% if context.contenttype.relations is defined %}
-    {% include 'editcontent/_relationships.twig' %}
-{% endif %}
-
-{# Output 'incoming' relations #}
-{% if context.content.relation is not empty or context.contenttype.relations is defined %}
-
-    {% for reltype, ids in context.content.relation %}
-        {% if context.contenttype.relations[reltype] is not defined %}
-            <p>{{ __('This record is related to:') }}</p>
-            <table class="table table-striped dashboardlisting">
-                {% for id in ids %}
-                    {% setcontent record = reltype ~ '/' ~ id %}
-                    {% if record %}
-                        {% set editable = isallowed('edit', record) %}
-                        {% include ['_sub/_listing.twig'] with {'excerptlength': 280, 'thumbsize': 54, 'compact': true, 'content': record} %}
-                    {% endif %}
-                {% endfor %}
-            </table>
+        {% if context.contenttype.relations is defined %}
+            {% include 'editcontent/_relationships.twig' %}
         {% endif %}
-    {% endfor %}
+
+        {# Output 'incoming' relations #}
+        {% for reltype, ids in context.content.relation %}
+            {% if context.contenttype.relations[reltype] is not defined %}
+                <p>{{ __('This record is related to:') }}</p>
+                <table class="table table-striped dashboardlisting">
+                    {% for id in ids %}
+                        {% setcontent record = reltype ~ '/' ~ id %}
+                        {% if record %}
+                            {% set editable = isallowed('edit', record) %}
+                            {% include ['_sub/_listing.twig'] with {'excerptlength': 280, 'thumbsize': 54, 'compact': true, 'content': record} %}
+                        {% endif %}
+                    {% endfor %}
+                </table>
+            {% endif %}
+        {% endfor %}
 
         <hr>
     </div>
+
 {% endif %}
