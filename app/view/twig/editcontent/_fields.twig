@@ -1,7 +1,5 @@
 {% import '_macro/_macro.twig' as macro %}
 
-{% set used_fieldtypes = [] %}
-
 {% for key, field in context.contenttype.fields %}
 
     <div class="tabgrouping form-group" data-tab="{{ field.group|default('ungrouped') }}">
@@ -19,10 +17,6 @@
         {% for fieldtype in context.fields %}
             {% if field.type == fieldtype.name %}
                 {% include fieldtype.template %}
-
-                {% if fieldtype.name not in used_fieldtypes %}
-                    {% set used_fieldtypes = used_fieldtypes|merge([fieldtype.name]) %}
-                {% endif %}
             {% endif %}
         {% endfor %}
 
@@ -41,14 +35,3 @@
     </div><!-- end of 'formgroup' -->
 
 {% endfor %}
-
-{# Output includes #}
-
-{% if 'html' in used_fieldtypes %}
-    <script src="{{ paths.app }}view/js/ckeditor/ckeditor.js"></script>
-{% endif %}
-
-{% if 'geolocation' in used_fieldtypes %}
-    <script src="https://maps.google.com/maps/api/js?sensor=false"></script>
-    <script src="{{ paths.app }}view/js/jquery-gomap.min.js"></script>
-{% endif %}
