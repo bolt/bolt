@@ -373,7 +373,7 @@ class Config
 
     protected function parseFieldsAndGroups($fields, $acceptableFileTypes)
     {
-        $currentGroup = false;
+        $currentGroup = 'ungrouped';
         $groups = array();
 
         foreach ($fields as $key => $field) {
