@@ -430,12 +430,15 @@ class Config
             }
 
             // Make sure we have these keys
-            $field = array_replace(array(
-                'label' => '',
-                'variant' => '',
-                'default' => '',
-                'pattern' => '',
-            ), $field);
+            $field = array_replace(
+                array(
+                    'label' => '',
+                    'variant' => '',
+                    'default' => '',
+                    'pattern' => '',
+                ),
+                $field
+            );
 
             // Prefix class with "form-control"
             $field['class'] = 'form-control' . (isset($field['class']) ? ' ' . $field['class'] : '');
