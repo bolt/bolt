@@ -1,29 +1,31 @@
+{% macro tab(filter, name) %}
+    <li><a class="filter" data-filter="{{ filter }}">{{ name }}</a></li>
+{% endmacro %}
+
+{% from _self import tab %}
+
 <ul class="nav nav-tabs" id="filtertabs">
 
     {% for group in context.contenttype.groups %}
-        <li>
-            <a class="filter" data-filter="{{ group }}">
-                {% if group == 'ungrouped' %}
-                    {{ __('contenttypes.generic.group.ungrouped') }}
-                {% else %}
-                    {{ __(['contenttypes', context.contenttype.slug, 'group', group], {DEFAULT: group|capitalize}) }}
-                {% endif %}
-            </a>
-        </li>
+        {% if group == 'ungrouped' %}
+            {{ tab(group, __('contenttypes.generic.group.ungrouped')) }}
+        {% else %}
+            {{ tab(group, __(['contenttypes', context.contenttype.slug, 'group', group], {DEFAULT: group|capitalize})) }}
+        {% endif %}
     {% endfor %}
 
     {# Relationships and/or Taxonomy #}
     {% if context.contenttype.relations is defined and context.contenttype.taxonomy is defined %}
-        <li><a class="filter" data-filter="taxonomy">{{ __('contenttypes.generic.group.relations') }} / {{ __('contenttypes.generic.group.taxonomy') }}</a></li>
+        {{ tab('taxonomy', __('contenttypes.generic.group.relations') ~ '/' ~ __('contenttypes.generic.group.taxonomy')) }}
     {% endif %}
     {% if context.contenttype.relations is defined and context.contenttype.taxonomy is not defined %}
-        <li><a class="filter" data-filter="taxonomy">{{ __('contenttypes.generic.group.relations') }}</a></li>
+        {{ tab('taxonomy', __('contenttypes.generic.group.relations')) }}
     {% endif %}
     {% if context.contenttype.relations is not defined and context.contenttype.taxonomy is defined %}
-        <li><a class="filter" data-filter="taxonomy">{{ __('contenttypes.generic.group.taxonomy') }}</a></li>
+        {{ tab('taxonomy', __('contenttypes.generic.group.taxonomy')) }}
     {% endif %}
 
     {# Finally, a tab for Meta #}
-    <li><a class="filter" data-filter="meta">{{ __('contenttypes.generic.group.meta') }}</a></li>
+    {{ tab('meta', __('contenttypes.generic.group.meta')) }}
 
 </ul>
