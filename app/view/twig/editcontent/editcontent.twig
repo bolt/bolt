@@ -60,35 +60,7 @@
 
             {# Only if we have grouping tabs. #}
             {% if context.contenttype.groups %}
-                <ul class="nav nav-tabs" id="filtertabs">
-
-                    {% for group in context.contenttype.groups %}
-                        <li>
-                            <a class="filter" data-filter="{{ group }}">
-                                {% if group == 'ungrouped' %}
-                                    {{ __('contenttypes.generic.group.ungrouped') }}
-                                {% else %}
-                                    {{ __(['contenttypes', context.contenttype.slug, 'group', group], {DEFAULT: group|capitalize}) }}
-                                {% endif %}
-                            </a>
-                        </li>
-                    {% endfor %}
-
-                    {# Relationships and/or Taxonomy #}
-                    {% if context.contenttype.relations is defined and context.contenttype.taxonomy is defined %}
-                        <li><a class="filter" data-filter="taxonomy">{{ __('contenttypes.generic.group.relations') }} / {{ __('contenttypes.generic.group.taxonomy') }}</a></li>
-                    {% endif %}
-                    {% if context.contenttype.relations is defined and context.contenttype.taxonomy is not defined %}
-                        <li><a class="filter" data-filter="taxonomy">{{ __('contenttypes.generic.group.relations') }}</a></li>
-                    {% endif %}
-                    {% if context.contenttype.relations is not defined and context.contenttype.taxonomy is defined %}
-                        <li><a class="filter" data-filter="taxonomy">{{ __('contenttypes.generic.group.taxonomy') }}</a></li>
-                    {% endif %}
-
-                    {# Finally, a tab for Meta #}
-                    <li><a class="filter" data-filter="meta">{{ __('contenttypes.generic.group.meta') }}</a></li>
-
-                </ul>
+                {% include 'editcontent/_tabs.twig' %}
             {% endif %}
 
             <form{{ macro.attr(attr_form) }}>
