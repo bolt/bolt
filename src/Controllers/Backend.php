@@ -96,7 +96,7 @@ class Backend implements ControllerProviderInterface
             ->assert('id', '\d*')
             ->bind('useredit');
 
-        $ctl->get('/userfirst', array($this, 'userFirst'))
+        $ctl->match('/userfirst', array($this, 'userFirst'))
             ->bind('userfirst');
 
         $ctl->match('/profile', array($this, 'profile'))
