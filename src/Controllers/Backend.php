@@ -1480,6 +1480,13 @@ class Backend implements ControllerProviderInterface
 
             return Lib::redirect('users');
         }
+        
+        $currentuser = $app['users']->getCurrentUser();
+        
+        if ($currentuser['id'] == $user['id']) {
+            $app['session']->getFlashBag()->set('error', 'You cannot ' . $action . ' yourself.');
+            return Lib::redirect('users');
+        }
 
         switch ($action) {
 
