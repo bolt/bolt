@@ -3,7 +3,7 @@
 
         <div class="btn-group">
             <button type="button" class="btn btn-primary" id="savecontinuebutton">
-                <i class="fa fa-flag"></i> {{ __('contenttypes.generic.save',{'%contenttype%': context.contenttype.slug}) }}
+                <i class="fa fa-flag"></i> {{ __('contenttypes.generic.save', {'%contenttype%': context.contenttype.slug}) }}
             </button>
             <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                 <span class="caret"></span>
@@ -24,24 +24,24 @@
         </div>
 
         {% if not context.contenttype.viewless|default(false) %}{# don't show for viewless contenttypes. #}
-        <div class="btn-group">
-            <button type="button" class="btn btn-default" id="previewbutton">
-                <i class="fa fa-external-link-square"></i> {{ __('Preview') }}
-            </button>
-            {% if context.content.status == "published" and context.content.link is defined %}
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                    <span class="caret"></span>
-                    <span class="sr-only">Toggle Dropdown</span>
+            <div class="btn-group">
+                <button type="button" class="btn btn-default" id="previewbutton">
+                    <i class="fa fa-external-link-square"></i> {{ __('Preview') }}
                 </button>
-                <ul class="dropdown-menu" role="menu">
-                    <li>
-                        <a href="{{ context.content.link }}" target="_blank">
-                            <i class="fa fa-external-link-square"></i> {{ __('View (saved version) on site') }}</a></li>
-                    </a>
-                    </li>
-                </ul>
-            {% endif %}
-        </div>
+                {% if context.content.status == "published" and context.content.link is defined %}
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                        <span class="caret"></span>
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li>
+                            <a href="{{ context.content.link }}" target="_blank">
+                                <i class="fa fa-external-link-square"></i> {{ __('View (saved version) on site') }}</a></li>
+                        </a>
+                        </li>
+                    </ul>
+                {% endif %}
+            </div>
         {% endif %}
 
 
