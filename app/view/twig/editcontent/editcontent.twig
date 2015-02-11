@@ -70,7 +70,9 @@
 
                 {% include 'editcontent/_relations.twig' %}
 
-                {% include 'editcontent/_taxonomies.twig' %}
+                {% if context.contenttype.taxonomy is defined %}
+                    {% include 'editcontent/_taxonomies.twig' %}
+                {% endif %}
 
                 {% include 'editcontent/_meta.twig' %}
 
