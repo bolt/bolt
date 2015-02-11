@@ -17,11 +17,9 @@
     {# Relationships and/or Taxonomy #}
     {% if context.contenttype.relations is defined and context.contenttype.taxonomy is defined %}
         {{ tab('taxonomy', __('contenttypes.generic.group.relations') ~ '/' ~ __('contenttypes.generic.group.taxonomy')) }}
-    {% endif %}
-    {% if context.contenttype.relations is defined and context.contenttype.taxonomy is not defined %}
+    {% elseif context.contenttype.relations is defined %}
         {{ tab('taxonomy', __('contenttypes.generic.group.relations')) }}
-    {% endif %}
-    {% if context.contenttype.relations is not defined and context.contenttype.taxonomy is defined %}
+    {% elseif context.contenttype.taxonomy is defined %}
         {{ tab('taxonomy', __('contenttypes.generic.group.taxonomy')) }}
     {% endif %}
 
