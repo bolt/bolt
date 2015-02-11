@@ -1736,7 +1736,7 @@ class Backend implements ControllerProviderInterface
         }
 
         // Confirm the user is enabled or bounce them
-        if (!$app['users']->isEnabled() && $route !== 'userfirst' && $route !== 'login' && $route !== 'postLogin' && $route !== 'logout') {
+        if ($app['users']->getCurrentUser() && !$app['users']->isEnabled() && $route !== 'userfirst' && $route !== 'login' && $route !== 'postLogin' && $route !== 'logout') {
             $app['session']->getFlashBag()->add('error', Trans::__('Your account is disabled. Sorry about that.'));
 
             return Lib::redirect('logout');
