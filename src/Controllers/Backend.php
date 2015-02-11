@@ -1084,10 +1084,12 @@ class Backend implements ControllerProviderInterface
      */
     public function users(Silex\Application $app)
     {
+        $currentuser = $app['users']->getCurrentUser();
         $users = $app['users']->getUsers();
         $sessions = $app['users']->getActiveSessions();
 
         $context = array(
+            'currentuser' => $currentuser,
             'users' => $users,
             'sessions' => $sessions
         );
