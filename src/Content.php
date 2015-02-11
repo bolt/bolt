@@ -652,83 +652,14 @@ class Content implements \ArrayAccess
 
         if (isset($this->values[$name])) {
             $fieldtype = $this->fieldtype($name);
-            $fieldinfo = $this->fieldinfo($name);
-            $allowtwig = !empty($fieldinfo['allowtwig']);
-
-            switch ($fieldtype) {
-                case 'markdown':
-
-                    $value = $this->preParse($this->values[$name], $allowtwig);
-
-                    // Parse the field as Markdown, return HTML
-                    $value = \ParsedownExtra::instance()->text($value);
-
-                    // Sanitize/clean the HTML.
-                    $maid = new \Maid\Maid(
-                        array(
-                            'output-format' => 'html',
-                            'allowed-tags' => array('html', 'head', 'body', 'section', 'div', 'p', 'br', 'hr', 's', 'u', 'strong', 'em', 'i', 'b', 'li', 'ul', 'ol', 'menu', 'blockquote', 'pre', 'code', 'tt', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'dd', 'dl', 'dh', 'table', 'tbody', 'thead', 'tfoot', 'th', 'td', 'tr', 'a', 'img'),
-                            'allowed-attribs' => array('id', 'class', 'name', 'value', 'href', 'src')
-                        )
-                    );
-                    $value = $maid->clean($value);
-                    $value = new \Twig_Markup($value, 'UTF-8');
-                    break;
-
-                case 'html':
-                case 'text':
-                case 'textarea':
-
-                    $value = $this->preParse($this->values[$name], $allowtwig);
-                    $value = new \Twig_Markup($value, 'UTF-8');
-
-                    break;
-
-                case 'imagelist':
-                case 'filelist':
-                    if (is_string($this->values[$name])) {
-                        // Parse the field as JSON, return the array
-                        $value = json_decode($this->values[$name]);
-                    } else {
-                        // Already an array, do nothing.
-                        $value = $this->values[$name];
-                    }
-                    break;
-
-                case 'image':
-                    if (is_array($this->values[$name]) && isset($this->values[$name]['file'])) {
-                        $value = $this->values[$name]['file'];
-                    } else {
-                        $value = $this->values[$name];
-                    }
-                    break;
-
-                default:
-                    $value = $this->values[$name];
-                    break;
+            if ($this->app['config']->getFields()->has($fieldtype)) {
+                $value = $this->app['config']->getFields()->getField($fieldtype)->getDecodedValue($this->values[$name], $this->fieldinfo($name));
+            } else {
+                $value = $this->values[$name];
             }
         }
 
         return $value;
-    }
-
-    /**
-     * If passed snippet contains Twig tags, parse the string as Twig, and return the results
-     *
-     * @param  string $snippet
-     * @param $allowtwig
-     * @return string
-     */
-    public function preParse($snippet, $allowtwig)
-    {
-        // Quickly verify that we actually need to parse the snippet!
-        if ($allowtwig && preg_match('/[{][{%#]/', $snippet)) {
-            $snippet = html_entity_decode($snippet, ENT_QUOTES, 'UTF-8');
-
-            return $this->app['safe_render']->render($snippet, $this->getTemplateContext());
-        }
-
-        return $snippet;
     }
 
     public function getTemplateContext()
