@@ -186,6 +186,21 @@ var init = {
             $('#editcontent').attr('action', newaction).attr('target', '_blank').submit();
             $('#editcontent').attr('action', '').attr('target', "_self");
         });
+
+        // Persistent tabgroups
+        var hash = window.location.hash;
+        if (hash) {
+            $('#filtertabs a[href="#tab-' + hash.replace(/^#/, '') + '"]').tab('show');
+        }
+
+        $('#filtertabs a').click(function () {
+            var top;
+
+            $(this).tab('show');
+            top = $('body').scrollTop();
+            window.location.hash = this.hash.replace(/^#tab-/, '');
+            $('html,body').scrollTop(top);
+        });
     },
 
     /*
