@@ -227,7 +227,7 @@ class Omnisearch
                     'label' => Trans::__('Extensions') . ' » ' . $extension['label'],
                     'description' => '',
                     'priority' => self::OMNISEARCH_EXTENSION - $index,
-                    'path' => $this->backend . $extension['path'],
+                    'path' => $extension['path'],
                 )
             );
 

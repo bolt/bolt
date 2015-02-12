@@ -992,7 +992,7 @@ class Extensions
     {
         // Fix the path, if we have not given a full path..
         if (strpos($path, '/') === false) {
-            $path = $this->app['paths']['bolt'] . $path;
+            $path = $this->app['resources']->getUrl('bolt') . $path;
         }
 
         if (empty($requiredPermission) || $this->app['users']->isAllowed($requiredPermission)) {
