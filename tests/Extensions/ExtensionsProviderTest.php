@@ -465,7 +465,6 @@ HTML;
 
         // Double call to ensure second one hits cache
         $html = $app['extensions']->renderWidget('5e4c97cb');
-        $html = $app['extensions']->renderWidget('5e4c97cb');
         $this->assertEquals($html, $app['cache']->fetch('widget_5e4c97cb'));
     }
 
