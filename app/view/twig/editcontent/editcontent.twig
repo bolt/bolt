@@ -93,6 +93,11 @@
                 {% include '_sub/_csrf_token.twig' %}
 
                 {% for group, name in tabgroups %}
+
+                    {% if has.tabs %}
+                        <div class="tabgrouping" data-tab="{{ group }}">
+                    {% endif %}
+
                     {% if group == 'taxonomy' %}
                         {% if has.incoming_relations or has.relations %}
                             {% include 'editcontent/_relations.twig' %}
@@ -107,6 +112,11 @@
                     {% else %}
                         {% include 'editcontent/_fields.twig' %}
                     {% endif %}
+
+                    {% if has.tabs %}
+                        </div>
+                    {% endif %}
+
                 {% endfor %}
 
                 {% include 'editcontent/_buttons.twig' %}
