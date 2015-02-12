@@ -10,7 +10,7 @@
             data-content="{{ app.translator.trans('info.relationships', {}, 'infos') }}">{{ __('Info') }}</span>
     </h3>
 
-    {% if context.contenttype.relations is defined %}
+    {% if has.relations %}
         {% include 'editcontent/_relationships.twig' %}
     {% endif %}
 

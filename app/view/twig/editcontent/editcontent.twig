@@ -46,6 +46,7 @@
     } %}
 
     {% set has = {
+        relations:      context.contenttype.relations is defined,
         tabs:           context.contenttype.groups != false,
         taxonomy:       context.contenttype.taxonomy is defined,
     } %}
@@ -65,7 +66,7 @@
 
                 {% include 'editcontent/_fields.twig' %}
 
-                {% if context.content.relation is not empty or context.contenttype.relations is defined %}
+                {% if context.content.relation is not empty or has.relations %}
                     {% include 'editcontent/_relations.twig' %}
                 {% endif %}
 
