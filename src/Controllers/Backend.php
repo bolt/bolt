@@ -66,6 +66,7 @@ class Backend implements ControllerProviderInterface
 
         $ctl->match('/editcontent/{contenttypeslug}/{id}', array($this, 'editContent'))
             ->assert('id', '\d*')
+            ->value('id', '')
             ->bind('editcontent');
 
         $ctl->get('/content/deletecontent/{contenttypeslug}/{id}', array($this, 'deleteContent'))
