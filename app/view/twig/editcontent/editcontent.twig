@@ -37,15 +37,7 @@
     } %}
 
     {% set attr_form = {
-        _bind:   ['editcontent', {
-                    savedon:        __('Saved on:') ~ ' <strong></strong> <small>(' ~ dateChanged ~ ')</small></p>',
-                    newRecord:      context.content.id != 0 ? false : true,
-                    msgNotSaved:    __('contenttypes.generic.saving-impossible', {'%contenttype%': context.contenttype.slug}),
-                    pathsRoot:      paths.root,
-                    msgSaving:      __('Saving …'),
-                    hasGroups:      context.contenttype.groups|default is not empty,
-                    singularSlug:   context.contenttype.singular_slug,
-                }],
+        _bind:   ['editcontent', bind_data],
         class:   "form-horizontal",
         enctype: "multipart/form-data",
         id:      "editcontent",
