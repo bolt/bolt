@@ -50,7 +50,7 @@ class Extensions
      *
      * @var array
      */
-    private $menuoptions;
+    private $menuoptions = array();
 
     /**
      * Whether or not to add jQuery.

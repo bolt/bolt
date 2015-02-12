@@ -219,21 +219,19 @@ class Omnisearch
         }
 
         $extensionsmenu = $this->app['extensions']->getMenuoptions();
-        if ($extensionsmenu) {
-            $index = 0;
-            foreach ($extensionsmenu as $extension) {
-                $this->register(
-                    array(
-                        'keywords' => array($extension['label'], 'Extensions'),
-                        'label' => Trans::__('Extensions') . ' » ' . $extension['label'],
-                        'description' => '',
-                        'priority' => self::OMNISEARCH_EXTENSION - $index,
-                        'path' => $this->backend . $extension['path'],
-                    )
-                );
+        $index = 0;
+        foreach ($extensionsmenu as $extension) {
+            $this->register(
+                array(
+                    'keywords' => array($extension['label'], 'Extensions'),
+                    'label' => Trans::__('Extensions') . ' » ' . $extension['label'],
+                    'description' => '',
+                    'priority' => self::OMNISEARCH_EXTENSION - $index,
+                    'path' => $this->backend . $extension['path'],
+                )
+            );
 
-                $index--;
-            }
+            $index--;
         }
     }
 
