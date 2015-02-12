@@ -45,13 +45,17 @@
         role:    "form",
     } %}
 
+    {% set has = {
+        tabs:       context.contenttype.groups != false,
+    } %}
+
     <div class="row">
         <div class="col-md-8">
 
             {% include '_sub/_messages.twig' %}
 
             {# Only if we have grouping tabs. #}
-            {% if context.contenttype.groups %}
+            {% if has.tabs %}
                 {% include 'editcontent/_tabs.twig' %}
             {% endif %}
 

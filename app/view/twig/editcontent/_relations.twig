@@ -1,5 +1,4 @@
-{# Only if we have NO grouping tabs. #}
-{% if context.contenttype.groups|default is empty %}
+{% if not has.tabs %}
     <hr>
 {% endif %}
 
