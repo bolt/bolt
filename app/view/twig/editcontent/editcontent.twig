@@ -45,7 +45,7 @@
 
     {% set attr_form = {
         _bind:   ['editcontent', bind_data],
-        class:   "form-horizontal",
+        class:   "form-horizontal" ~ (has.tabs ? ' tab-content' : ''),
         enctype: "multipart/form-data",
         id:      "editcontent",
         method:  "post",
@@ -77,6 +77,8 @@
 
     {% set tabgroups = tabgroups|merge({'meta': __('contenttypes.generic.group.meta')}) %}
 
+    {% set active_group = tabgroups|keys|first %}
+
     <div class="row">
         <div class="col-md-8">
 
@@ -86,7 +88,9 @@
             {% if has.tabs %}
                 <ul class="nav nav-tabs" id="filtertabs">
                     {% for group, name in tabgroups %}
-                        <li><a class="filter" data-filter="{{ group }}">{{ name }}</a></li>
+                        <li{{ group == active_group ? ' class="active"' : '' }}>
+                            <a href="#tab-{{ group }}" data-toggle="tab">{{ name }}</a>
+                        </li>
                     {% endfor %}
                 </ul>
             {% endif %}
@@ -97,7 +101,7 @@
                 {% for group, name in tabgroups %}
 
                     {% if has.tabs %}
-                        <div class="tabgrouping" data-tab="{{ group }}">
+                        <div class="tab-pane{{ group == active_group ? ' active' : '' }}" id="tab-{{ group }}">
                     {% endif %}
 
                     {% if group == 'taxonomy' %}
