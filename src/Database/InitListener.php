@@ -33,7 +33,6 @@ class InitListener implements ServiceProviderInterface, EventSubscriber
             // set utf8 on names and connection as all tables has this charset
             $db->executeQuery('SET NAMES utf8');
             $db->executeQuery('SET CHARACTER_SET_CONNECTION = utf8');
-            $db->executeQuery('SET CHARACTER SET utf8');
         }
     }
 
