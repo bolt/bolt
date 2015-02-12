@@ -52,6 +52,29 @@
         taxonomy:           context.contenttype.taxonomy is defined,
     } %}
 
+    {# Build tab groups list #}
+
+    {% set tabgroups = {} %}
+    {% for group in context.contenttype.groups %}
+        {% if group == 'ungrouped' %}
+            {% set tabgroups = tabgroups|merge({(group): __('contenttypes.generic.group.ungrouped')}) %}
+        {% elseif group != 'meta' and group != 'taxonomy' %}
+            {% set label = __(['contenttypes', context.contenttype.slug, 'group', group], {DEFAULT: group|capitalize}) %}
+            {% set tabgroups = tabgroups|merge({(group): label}) %}
+        {% endif %}
+    {% endfor %}
+
+    {% if has.relations and has.taxonomy %}
+        {% set label = __('contenttypes.generic.group.relations') ~ '/' ~ __('contenttypes.generic.group.taxonomy') %}
+        {% set tabgroups = tabgroups|merge({'taxonomy': label}) %}
+    {% elseif has.relations %}
+        {% set tabgroups = tabgroups|merge({'taxonomy': __('contenttypes.generic.group.relations')}) %}
+    {% elseif has.taxonomy or 'taxonomy' in context.contenttype.groups %}
+        {% set tabgroups = tabgroups|merge({'taxonomy': __('contenttypes.generic.group.taxonomy')}) %}
+    {% endif %}
+
+    {% set tabgroups = tabgroups|merge({'meta': __('contenttypes.generic.group.meta')}) %}
+
     <div class="row">
         <div class="col-md-8">
 
