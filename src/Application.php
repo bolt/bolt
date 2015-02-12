@@ -5,16 +5,16 @@ namespace Bolt;
 use Bolt\Exception\LowlevelException;
 use Bolt\Helpers\String;
 use Bolt\Library as Lib;
-use Bolt\Provider\PathServiceProvider;
 use Bolt\Provider\LoggerServiceProvider;
+use Bolt\Provider\PathServiceProvider;
 use Cocur\Slugify\Bridge\Silex\SlugifyServiceProvider;
 use Doctrine\DBAL\Exception\ConnectionException as DBALConnectionException;
 use RandomLib;
 use SecurityLib;
 use Silex;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\Stopwatch;
 use Whoops\Handler\JsonResponseHandler;
 use Whoops\Provider\Silex\WhoopsServiceProvider;
@@ -565,5 +565,21 @@ class Application extends Silex\Application
         }
 
         return $this['bolt_version'];
+    }
+
+    /**
+     * Generates a path from the given parameters.
+     *
+     * Note: This can be pulled in from Silex\Application\UrlGeneratorTrait
+     * once we support Traits.
+     *
+     * @param string $route      The name of the route
+     * @param array  $parameters An array of parameters
+     *
+     * @return string The generated path
+     */
+    public function path($route, $parameters = array())
+    {
+        return $this['url_generator']->generate($route, $parameters);
     }
 }
