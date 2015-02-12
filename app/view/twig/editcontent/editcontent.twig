@@ -39,7 +39,7 @@
         msgNotSaved:    __('contenttypes.generic.saving-impossible', {'%contenttype%': context.contenttype.slug}),
         pathsRoot:      paths.root,
         msgSaving:      __('Saving …'),
-        hasGroups:      context.contenttype.groups|default is not empty,
+        hasGroups:      has.tabs,
         singularSlug:   context.contenttype.singular_slug,
     } %}
 
