@@ -257,8 +257,8 @@ class Omnisearch
     {
         $options = array();
 
-        $this->find($query, '/theme', '*.twig', $query, -10); // find in file contents
-        $this->find($query, '/theme', '*' . $query . '*.twig', false, 10); // find in filenames, '/'.preg_quote($query).'.*\.twig$/i';
+        $this->find($query, 'theme', '*.twig', $query, -10); // find in file contents
+        $this->find($query, 'theme', '*' . $query . '*.twig', false, 10); // find in filenames
         $this->search($query, $withRecord);
 
         foreach ($this->data as $item) {
@@ -299,13 +299,13 @@ class Omnisearch
     /**
      * Find in files
      *
-     * @param type        $query
-     * @param string      $folder
+     * @param string      $query
+     * @param string      $path
      * @param string      $name
      * @param bool|string $contains
      * @param int         $priority
      */
-    private function find($query, $folder = '/theme', $name = '*.twig', $contains = false, $priority = 0)
+    private function find($query, $path = 'theme', $name = '*.twig', $contains = false, $priority = 0)
     {
         if (!$this->showFiles) {
             return;
@@ -315,7 +315,7 @@ class Omnisearch
         $finder->files()
                   ->ignoreVCS(true)
                   ->notName('*~')
-                  ->in($this->app['resources']->getPath('root') . $folder);
+                  ->in($this->app['resources']->getPath($path));
 
         if ($name) {
             $finder->name($name);
@@ -325,6 +325,7 @@ class Omnisearch
             $finder->contains($contains);
         }
 
+        /** @var \Symfony\Component\Finder\SplFileInfo $file */
         foreach ($finder as $file) {
             $relativePathname = $file->getRelativePathname();
             $filename         = $file->getFilename();
