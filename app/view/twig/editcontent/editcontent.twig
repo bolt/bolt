@@ -22,6 +22,13 @@
 
 {% block page_main %}
 
+    {% set has = {
+        incoming_relations: context.content.relation is not empty,
+        relations:          context.contenttype.relations is defined,
+        tabs:               context.contenttype.groups != false,
+        taxonomy:           context.contenttype.taxonomy is defined,
+    } %}
+
     {% set status_names = {"published": __("Published"), "held": __("Not published"), "timed": __("Timed publish"), "draft": __("Draft")} %}
 
     {% set dateChanged %}{{ macro.datetime(context.content.datechanged) }}{% endset %}
@@ -43,13 +50,6 @@
         id:      "editcontent",
         method:  "post",
         role:    "form",
-    } %}
-
-    {% set has = {
-        incoming_relations: context.content.relation is not empty,
-        relations:          context.contenttype.relations is defined,
-        tabs:               context.contenttype.groups != false,
-        taxonomy:           context.contenttype.taxonomy is defined,
     } %}
 
     {# Build tab groups list #}
