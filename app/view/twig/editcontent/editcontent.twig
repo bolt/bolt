@@ -82,7 +82,11 @@
 
             {# Only if we have grouping tabs. #}
             {% if has.tabs %}
-                {% include 'editcontent/_tabs.twig' %}
+                <ul class="nav nav-tabs" id="filtertabs">
+                    {% for group, name in tabgroups %}
+                        <li><a class="filter" data-filter="{{ group }}">{{ name }}</a></li>
+                    {% endfor %}
+                </ul>
             {% endif %}
 
             <form{{ macro.attr(attr_form) }}>
