@@ -46,7 +46,8 @@
     } %}
 
     {% set has = {
-        tabs:       context.contenttype.groups != false,
+        tabs:           context.contenttype.groups != false,
+        taxonomy:       context.contenttype.taxonomy is defined,
     } %}
 
     <div class="row">
@@ -68,7 +69,7 @@
                     {% include 'editcontent/_relations.twig' %}
                 {% endif %}
 
-                {% if context.contenttype.taxonomy is defined %}
+                {% if has.taxonomy %}
                     {% include 'editcontent/_taxonomies.twig' %}
                 {% endif %}
 

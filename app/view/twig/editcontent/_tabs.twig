@@ -15,11 +15,11 @@
     {% endfor %}
 
     {# Relationships and/or Taxonomy #}
-    {% if context.contenttype.relations is defined and context.contenttype.taxonomy is defined %}
+    {% if context.contenttype.relations is defined and has.taxonomy %}
         {{ tab('taxonomy', __('contenttypes.generic.group.relations') ~ '/' ~ __('contenttypes.generic.group.taxonomy')) }}
     {% elseif context.contenttype.relations is defined %}
         {{ tab('taxonomy', __('contenttypes.generic.group.relations')) }}
-    {% elseif context.contenttype.taxonomy is defined %}
+    {% elseif has.taxonomy %}
         {{ tab('taxonomy', __('contenttypes.generic.group.taxonomy')) }}
     {% endif %}
 
