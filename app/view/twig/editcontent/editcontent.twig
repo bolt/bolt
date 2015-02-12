@@ -92,20 +92,24 @@
             <form{{ macro.attr(attr_form) }}>
                 {% include '_sub/_csrf_token.twig' %}
 
-                {% include 'editcontent/_fields.twig' %}
+                {% for group, name in tabgroups %}
+                    {% if group == 'taxonomy' %}
+                        {% if has.incoming_relations or has.relations %}
+                            {% include 'editcontent/_relations.twig' %}
+                        {% endif %}
+                        {% if has.taxonomy %}
+                            {% include 'editcontent/_taxonomies.twig' %}
+                        {% endif %}
 
-                {% if has.incoming_relations or has.relations %}
-                    {% include 'editcontent/_relations.twig' %}
-                {% endif %}
+                    {% elseif group == 'meta' %}
+                        {% include 'editcontent/_meta.twig' %}
 
-                {% if has.taxonomy %}
-                    {% include 'editcontent/_taxonomies.twig' %}
-                {% endif %}
-
-                {% include 'editcontent/_meta.twig' %}
+                    {% else %}
+                        {% include 'editcontent/_fields.twig' %}
+                    {% endif %}
+                {% endfor %}
 
                 {% include 'editcontent/_buttons.twig' %}
-
             </form>
 
             {% include 'editcontent/_includes.twig' %}

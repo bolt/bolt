@@ -1,37 +1,37 @@
 {% import '_macro/_macro.twig' as macro %}
 
 {% for key, field in context.contenttype.fields %}
+    {% if group == field.group %}
+        <div class="tabgrouping form-group" data-tab="{{ field.group }}">
 
-    <div class="tabgrouping form-group" data-tab="{{ field.group }}">
-
-        {# Prefix #}
-        {% if field.prefix is defined and field.prefix is not empty %}
-            <div class="prefix">
-                {{ field.prefix|markdown }}
-            </div>
-        {% endif %}
-
-        {# Fields #}
-        {% set labelkey = field.label ?: key|ucfirst %}
-
-        {% for fieldtype in context.fields %}
-            {% if field.type == fieldtype.name %}
-                {% include fieldtype.template %}
+            {# Prefix #}
+            {% if field.prefix is defined and field.prefix is not empty %}
+                <div class="prefix">
+                    {{ field.prefix|markdown }}
+                </div>
             {% endif %}
-        {% endfor %}
 
-        {# Postfix #}
-        {% if field.postfix is defined and field.postfix is not empty %}
-            <div class="postfix">
-                {{ field.postfix|markdown }}
-            </div>
-        {% endif %}
+            {# Fields #}
+            {% set labelkey = field.label ?: key|ucfirst %}
 
-        {# Divider #}
-        {% if field.separator is defined and field.separator == true %}
-            <hr>
-        {% endif %}
+            {% for fieldtype in context.fields %}
+                {% if field.type == fieldtype.name %}
+                    {% include fieldtype.template %}
+                {% endif %}
+            {% endfor %}
 
-    </div>
+            {# Postfix #}
+            {% if field.postfix is defined and field.postfix is not empty %}
+                <div class="postfix">
+                    {{ field.postfix|markdown }}
+                </div>
+            {% endif %}
 
+            {# Divider #}
+            {% if field.separator is defined and field.separator == true %}
+                <hr>
+            {% endif %}
+
+        </div>
+    {% endif %}
 {% endfor %}
