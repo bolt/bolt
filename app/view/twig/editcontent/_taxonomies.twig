@@ -161,8 +161,10 @@
     </div>
 {% endfor %}
 
-{% if has.tabs and 'taxonomy' in context.contenttype.groups%}
+{% if has.tabs and 'taxonomy' in context.contenttype.groups %}
     {% include 'editcontent/_fields.twig' %}
 {% endif %}
 
+{% if not has.tabs %}
 <hr>
+{% endif %}
