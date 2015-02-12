@@ -60,7 +60,9 @@
 
                 {% include 'editcontent/_fields.twig' %}
 
-                {% include 'editcontent/_relations.twig' %}
+                {% if context.content.relation is not empty or context.contenttype.relations is defined %}
+                    {% include 'editcontent/_relations.twig' %}
+                {% endif %}
 
                 {% if context.contenttype.taxonomy is defined %}
                     {% include 'editcontent/_taxonomies.twig' %}
