@@ -94,18 +94,6 @@ module.exports = function(grunt) {
          * EOL: Convert line endings
          */
         eol: {
-            boltCss: {
-                options: {
-                    eol: 'lf',
-                    replace: true
-                },
-                files: {
-                    src: [
-                        'css/bolt-old-ie.css',
-                        'css/bolt.css'
-                    ]
-                }
-            },
             prepareCkeditor: {
                 options: {
                     eol: 'lf',
@@ -500,7 +488,6 @@ module.exports = function(grunt) {
         'updateBolt',
         [
             'sass:'      + 'boltCss',
-            'eol:'       + 'boltCss',
             'jshint:'    + 'boltJs',
             'uglify:'    + 'boltJs'
         ]
