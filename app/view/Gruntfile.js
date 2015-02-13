@@ -473,10 +473,10 @@ module.exports = function(grunt) {
     grunt.registerTask(
         'updateBolt',
         [
-            'sass:boltCss',
-            'eol:boltCss',
-            'jshint:boltJs',
-            'uglify:boltJs'
+            'sass:'      + 'boltCss',
+            'eol:'       + 'boltCss',
+            'jshint:'    + 'boltJs',
+            'uglify:'    + 'boltJs'
         ]
     );
 
@@ -485,25 +485,25 @@ module.exports = function(grunt) {
         'updateLib',
         [
             // Prepare
-            'uglify:prepareBootstrapJs',        // Concat bootstrap scripts into one minified file
-            'uglify:prepareLibJs',              // Create minified versions of library scripts that don't have them
-            'uglify:prepareBowerAssets',        // Create minified versions of bower scripts that don't have them
-            'remove:prepareCkeditor',           // Remove unneeded direcories from downloaded ckeditor
-            'bom:prepareCkeditor',              // Remove unneeded bom from downloaded ckeditor
-            'eol:prepareCkeditor',              // Convert CRLF to LF from downloaded ckeditor
-            'modernizr:prepare',                // Build Modernizr
+            'uglify:'    + 'prepareBootstrapJs',        // Concat bootstrap scripts into one minified file
+            'uglify:'    + 'prepareLibJs',              // Create min. versions of library scripts that don't have them
+            'uglify:'    + 'prepareBowerAssets',        // Create min. versions of bower scripts that don't have them
+            'remove:'    + 'prepareCkeditor',           // Remove unneeded direcories from downloaded ckeditor
+            'bom:'       + 'prepareCkeditor',           // Remove unneeded bom from downloaded ckeditor
+            'eol:'       + 'prepareCkeditor',           // Convert CRLF to LF from downloaded ckeditor
+            'modernizr:' + 'prepare',                   // Build Modernizr
             // Install
-            'copy:installFonts',                // Copies fonts                       => view/fonts/*
-            'cssmin:installLibCss',             // Concats and minifies library css   => view/css/lib.css
-            'concat:installLibJs',              // Concats minified library scripts   => view/js/lib.min.js
-            'uglify:installLocaleDatepicker',   // Copies minified datepicker locale  => view/js/locale/datepicker/*
-            'uglify:installLocaleMoment',       // Copies minified moment.js locale   => view/js/locale/moment/*
-            'copy:installCkeditor1',            // Copies CKEditor files              => view/js/ckeditor/*
-            'copy:installCkeditor2',            // Copies modified ckeditor.js        => view/js/ckeditor/ckeditor.js
-            'copy:installJqueryGomap',          // Copies jquery-gomap.min.js         => view/js/jquery-gomap.min.js
-            'uglify:installCodeMirror',         // Copies CodeMirror language files   => view/js/codemirror/*
+            'copy:'      + 'installFonts',              // Copies fonts                   => view/fonts/*
+            'cssmin:'    + 'installLibCss',             // Concats and min. library css   => view/css/lib.css
+            'concat:'    + 'installLibJs',              // Concats min. library scripts   => view/js/lib.min.js
+            'uglify:'    + 'installLocaleDatepicker',   // Copies min. datepicker locale  => view/js/locale/datepicker/*
+            'uglify:'    + 'installLocaleMoment',       // Copies min. moment.js locale   => view/js/locale/moment/*
+            'copy:'      + 'installCkeditor1',          // Copies CKEditor files          => view/js/ckeditor/*
+            'copy:'      + 'installCkeditor2',          // Copies modified ckeditor.js    => view/js/ckeditor/ckeditor.js
+            'copy:'      + 'installJqueryGomap',        // Copies jquery-gomap.min.js     => view/js/jquery-gomap.min.js
+            'uglify:'    + 'installCodeMirror',         // Copies CodeMirror locale       => view/js/codemirror/*
             // Cleanup
-            'remove:cleanupTmp'                 // Clean up the tmp folder lib/tmp/
+            'remove:'    + 'cleanupTmp'                 // Clean up the tmp folder lib/tmp/
         ]
     );
 };
