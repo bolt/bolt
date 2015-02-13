@@ -192,7 +192,14 @@ module.exports = function(grunt) {
                 },
                 nonull: true,
                 src: [
-                    'lib/tmp/bower-assets.js',
+                    'lib/tmp/jquery.min.js',                            //  95 kb
+                    'lib/tmp/jquery.cookie.min.js',                     //   2 kb
+                    'lib/tmp/jquery.formatDateTime.min.js',             //   3 kb
+                    'lib/tmp/jquery.tagcloud.min.js',                   //   2 kb
+                    'lib/tmp/underscore.min.js',                        //  16 kb
+                    'lib/tmp/backbone.min.js',                          //  19 kb
+                    'lib/tmp/bootbox.min.js',                           //   9 kb
+                    'lib/tmp/jquery.magnific-popup.min.js',             //  21 kb
                     'lib/jquery-ui-1.10.3/jquery-ui.custom.min.js',     //  96 kb
                     'lib/tmp/bootstrap-file-input.min.js',              //   1 kb
                     'lib/tmp/jquery-hotkeys.min.js',                    //   2 kb
@@ -324,6 +331,7 @@ module.exports = function(grunt) {
                     expand: true,
                     flatten: true,
                     ext: '.min.js',
+                    extDot: 'last',
                     cwd: 'bower_components/',
                     src: [
                         'jquery/dist/jquery.js',
