@@ -256,7 +256,8 @@ module.exports = function(grunt) {
                         'lib/jquery-fileupload/jquery-fileupload.js',
                         'lib/jquery-fileupload/jquery-iframe-transport.js',
                         'lib/jquery-hotkeys/jquery-hotkeys.js',
-                        'lib/jquery-watchchanges/jquery-watchchanges.js'
+                        'lib/jquery-watchchanges/jquery-watchchanges.js',
+                        'lib/tmp/modernizr-custom.js'
                     ],
                     dest: 'lib/tmp'
                 }]
@@ -435,7 +436,7 @@ module.exports = function(grunt) {
         modernizr: {
             prepare: {
                 devFile: "remote",
-                outputFile: "lib/tmp/modernizr-custom.min.js",
+                outputFile: "lib/tmp/modernizr-custom.js",
                 extra: {
                     touch: true,
                     shiv: true,
@@ -449,7 +450,7 @@ module.exports = function(grunt) {
                 tests: [
                     'cookies'
                 ],
-                uglify: true,
+                uglify: false,
                 matchCommunityTests: true,
                 parseFiles: false
             }
@@ -511,12 +512,12 @@ module.exports = function(grunt) {
         [
             // Prepare
             'uglify:'    + 'prepareBootstrapJs',        // Concat bootstrap scripts into one minified file
+            'modernizr:' + 'prepare',                   // Build Modernizr
             'uglify:'    + 'prepareLibJs',              // Create min. versions of library scripts that don't have them
             'uglify:'    + 'prepareBowerAssets',        // Create min. versions of bower scripts that don't have them
             'remove:'    + 'prepareCkeditor',           // Remove unneeded direcories from downloaded ckeditor
             'bom:'       + 'prepareCkeditor',           // Remove unneeded bom from downloaded ckeditor
             'eol:'       + 'prepareCkeditor',           // Convert CRLF to LF from downloaded ckeditor
-            'modernizr:' + 'prepare',                   // Build Modernizr
             // Install
             'copy:'      + 'installFonts',              // Copies fonts                   => view/fonts/*
             'cssmin:'    + 'installLibCss',             // Concats and min. library css   => view/css/lib.css
