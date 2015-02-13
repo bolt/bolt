@@ -349,9 +349,7 @@ class Config
 
         list($fields, $groups) = $this->parseFieldsAndGroups($contentType['fields'], $acceptableFileTypes);
         $contentType['fields'] = $fields;
-        if (!empty($groups)) {
-            $contentType['groups'] = $groups;
-        }
+        $contentType['groups'] = $groups;
 
         // Make sure taxonomy is an array.
         if (isset($contentType['taxonomy']) && !is_array($contentType['taxonomy'])) {
@@ -373,8 +371,9 @@ class Config
 
     protected function parseFieldsAndGroups($fields, $acceptableFileTypes)
     {
-        $currentGroup = false;
+        $currentGroup = 'ungrouped';
         $groups = array();
+        $hasGroups = false;
 
         foreach ($fields as $key => $field) {
             unset($fields[$key]);
@@ -419,23 +418,27 @@ class Config
                 $field['values'] = array_combine($field['values'], $field['values']);
             }
 
-            // If the field has a 'group', make sure it's added to the 'groups' array, so we can turn
-            // them into tabs while rendering. This also makes sure that once you started with a group,
-            // all others have a group too.
+
             if (!empty($field['group'])) {
-                $currentGroup = $field['group'];
-                $groups[] = $currentGroup;
-            } else {
-                $field['group'] = $currentGroup;
+                $hasGroups = true;
             }
 
-            // Make sure we have these keys
-            $field = array_replace(array(
-                'label' => '',
-                'variant' => '',
-                'default' => '',
-                'pattern' => '',
-            ), $field);
+            // Make sure we have these keys and every field has a group set
+            $field = array_replace(
+                array(
+                    'label' => '',
+                    'variant' => '',
+                    'default' => '',
+                    'pattern' => '',
+                    'group' => $currentGroup,
+                ),
+                $field
+            );
+
+            // Collect group data for rendering.
+            // Make sure that once you started with group all following have that group, too.
+            $currentGroup = $field['group'];
+            $groups[$currentGroup] = 1;
 
             // Prefix class with "form-control"
             $field['class'] = 'form-control' . (isset($field['class']) ? ' ' . $field['class'] : '');
@@ -450,9 +453,7 @@ class Config
             $fields['slug']['uses'] = array($fields['slug']['uses']);
         }
 
-        $groups = array_unique($groups);
-
-        return array($fields, $groups);
+        return array($fields, $hasGroups ? array_keys($groups) : false);
     }
 
     protected function parseDatabase($options)

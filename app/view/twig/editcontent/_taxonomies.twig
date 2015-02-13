@@ -1,171 +1,170 @@
-
 {# taxonomies for the contenttype that this record is part of. #}
-{% if context.contenttype.taxonomy is defined %}
 
-<div class="tabgrouping" data-tab="taxonomy">
-
-    <h3>
-        {{ __('Taxonomy') }}
-        <span class="label info-pop" data-html="true" data-title="{{ __('Taxonomy') }}"
-                  data-content="{{ app.translator.trans('info.taxonomy',{},'infos') }}">{{ __('Info') }}</span>
-    </h3>
+<h3>
+    {{ __('Taxonomy') }}
+    <span class="label info-pop" data-html="true" data-title="{{ __('Taxonomy') }}"
+              data-content="{{ app.translator.trans('info.taxonomy',{},'infos') }}">{{ __('Info') }}</span>
+</h3>
 
 {% for taxonomyslug in context.contenttype.taxonomy %}
-<div class="form-group">
-    <fieldset>
+    <div class="form-group">
+        <fieldset>
 
-    {% if config.get('taxonomy')[taxonomyslug] is defined %}
+        {% if config.get('taxonomy')[taxonomyslug] is defined %}
 
-        {% set taxonomy = config.get('taxonomy')[taxonomyslug] %}
+            {% set taxonomy = config.get('taxonomy')[taxonomyslug] %}
 
-        {# --------------- prefix --------------- #}
-        {% if taxonomy.prefix is defined and taxonomy.prefix is not empty %}
-            <div class="prefix">
-                {{ taxonomy.prefix|markdown }}
-            </div>
-        {% endif %}
-
-        {{ macro.label(taxonomy.name, '', 'col-sm-3 control-label', 'taxonomy-' ~ taxonomy.slug) }}
-        <div class="col-sm-9">
-
-        {# ---------- tags ---------- #}
-
-        {% if taxonomy.behaves_like == "tags" %}
-
-            {% if context.content.taxonomy[taxonomy.slug] is defined %}
-                {% set tags = context.content.taxonomy[taxonomy.slug]|join(",") %}
-            {% else %}
-                {% set tags = "" %}
+            {# --------------- prefix --------------- #}
+            {% if taxonomy.prefix is defined and taxonomy.prefix is not empty %}
+                <div class="prefix">
+                    {{ taxonomy.prefix|markdown }}
+                </div>
             {% endif %}
 
-            <input type="text" name="taxonomy[{{ taxonomy.slug }}]" id="taxonomy-{{ taxonomy.slug }}" value="{{ tags }}" style="width: 100%;" />
+            {{ macro.label(taxonomy.name, '', 'col-sm-3 control-label', 'taxonomy-' ~ taxonomy.slug) }}
+            <div class="col-sm-9">
 
-            <div class="tagcloud" id="tagcloud-{{ taxonomy.slug }}"></div>
-            <script>
-            $(function() {
+            {# ---------- tags ---------- #}
 
-                // load all tags
-                $.ajax({
-                    url: "{{ paths.root }}async/tags/{{ taxonomy.slug }}",
-                    dataType: "json",
-                    success: function(data) {
-                        var results = [];
-                        $.each(data, function(index, item){
-                            results.push( item.slug );
-                        });
-                        $('#taxonomy-{{ taxonomy.slug }}').select2({tags: results, minimumInputLength: 1, tokenSeparators: [",", " "]});
-                    },
-                    error: function() {
-                        $('#taxonomy-{{ taxonomy.slug }}').select2({tags: [], minimumInputLength: 1, tokenSeparators: [",", " "]});
-                    }
-                });
+            {% if taxonomy.behaves_like == "tags" %}
 
-                {% if taxonomy.tagcloud %}
-                // popular tags
-                $.ajax({
-                    url: "{{ paths.root }}async/populartags/{{ taxonomy.slug }}",
-                    dataType: "json",
-                    data : {limit: 40},
-                    success: function(data) {
-                        if (data.length > 0) {
-                            $.each(data, function(index, item){
-                                $("#tagcloud-{{ taxonomy.slug }}").append('<a href="#" rel="' + item.count + '">' + item.slug + '</a>');
-                            });
-                            $("#tagcloud-{{ taxonomy.slug }} a").on('click', function (e) {
-                                e.preventDefault();
-                                var data = $("#taxonomy-{{ taxonomy.slug }}").select2("data")
-                                data.push({id:$(this).text(), text:$(this).text()});
-                                $("#taxonomy-{{ taxonomy.slug }}").select2("data", data);
-                            });
-
-                            $.fn.tagcloud.defaults = {
-                                size: {start: 12, end: 22, unit: 'px'},
-                                color: {start: '#888', end: '#194770'}
-                            };
-                            $('#tagcloud-{{ taxonomy.slug }} a').tagcloud();
-                        }
-                    }
-                });
-                {% endif %}
-
-            });
-            </script>
-
-        {% endif %}
-
-        {# ---------- categories ---------- #}
-
-        {% if taxonomy.behaves_like == "categories" %}
-
-            {% if taxonomy.multiple is defined and taxonomy.multiple == 1 %}
-            <select name="taxonomy[{{ taxonomy.slug }}][]" id="taxonomy-{{ taxonomy.slug }}" class="form-control" multiple>
-            {% else %}
-            <select name="taxonomy[{{ taxonomy.slug }}][]" id="taxonomy-{{ taxonomy.slug }}" class="form-control">
-                <option value="">{{ __('(no category)') }}</option>
-                <option value="" disabled>-----------</option>
-            {% endif %}
-
-            {% for slug, cat in taxonomy.options %}
-                <option value="{{ slug }}" {% if context.content.taxonomy[taxonomy.slug] is defined and cat in context.content.taxonomy[taxonomy.slug] %}selected{% endif %}>{{ cat }}</option>
-            {% endfor %}
-
-            </select>
-
-            {% if taxonomy.multiple is defined and taxonomy.multiple == 1 %}
-            <label><span class="left" style="line-height: 1px;">&nbsp;</span></label>
-            <div style="margin-top: -14px;">{# TODO:onclick-events to JS #}
-                <a href="#" class="btn btn-default btn-xs" onclick="jQuery('#taxonomy-{{ taxonomy.slug }} option').prop('selected', true); return false;">
-                    <i class="fa fa-fw fa-check-square-o"></i>{{ __("Select all") }}
-                </a>
-                <a href="#" class="btn btn-default btn-xs" onclick="jQuery('#taxonomy-{{ taxonomy.slug }} option').prop('selected', false); return false;">
-                    <i class="fa fa-fw fa-square-o"></i>{{ __("Select none") }}
-                </a>
-            </div>
-            {% endif %}
-
-        {% endif %}
-
-        {# ---------- grouping ---------- #}
-
-        {% if taxonomy.behaves_like == "grouping" %}
-
-            <select name="taxonomy[{{ taxonomy.slug }}][]" id="taxonomy-{{ taxonomy.slug }}" class="narrow form-control pull-left">
-                <option value="">{{ __('(no group)') }}</option>
-                <option value="" disabled>-----------</option>
-            {% for slug, group in taxonomy.options %}
-                <option value="{{ slug }}" {% if context.content.taxonomy[taxonomy.slug] is defined and group in context.content.taxonomy[taxonomy.slug] or context.content.taxonomy[taxonomy.slug] is not defined and taxonomy.default is defined and taxonomy.default == slug %}selected{% endif %}>{{ group }}</option>
-            {% endfor %}
-            </select>
-
-            {% if taxonomy.has_sortorder is defined and taxonomy.has_sortorder == true %}
-                <label for="taxonomy-order-{{ taxonomy.slug }}" class=" pull-left" style="margin: 6px 8px 0;">- Order:</label>
-                {% if context.content.sortorder %}
-                    {% set sortorder = context.content.sortorder %}
+                {% if context.content.taxonomy[taxonomy.slug] is defined %}
+                    {% set tags = context.content.taxonomy[taxonomy.slug]|join(",") %}
                 {% else %}
-                    {% set sortorder = 0 %}
+                    {% set tags = "" %}
                 {% endif %}
-                <input type="number" name="taxonomy-order[{{ taxonomy.slug }}]" id="taxonomy-order-{{ taxonomy.slug }}" step="1"
-                       value="{{ sortorder }}" class="verynarrow form-control pull-left">
+
+                <input type="text" name="taxonomy[{{ taxonomy.slug }}]" id="taxonomy-{{ taxonomy.slug }}" value="{{ tags }}" style="width: 100%;" />
+
+                <div class="tagcloud" id="tagcloud-{{ taxonomy.slug }}"></div>
+                <script>
+                $(function() {
+
+                    // load all tags
+                    $.ajax({
+                        url: "{{ paths.root }}async/tags/{{ taxonomy.slug }}",
+                        dataType: "json",
+                        success: function(data) {
+                            var results = [];
+                            $.each(data, function(index, item){
+                                results.push( item.slug );
+                            });
+                            $('#taxonomy-{{ taxonomy.slug }}').select2({tags: results, minimumInputLength: 1, tokenSeparators: [",", " "]});
+                        },
+                        error: function() {
+                            $('#taxonomy-{{ taxonomy.slug }}').select2({tags: [], minimumInputLength: 1, tokenSeparators: [",", " "]});
+                        }
+                    });
+
+                    {% if taxonomy.tagcloud %}
+                    // popular tags
+                    $.ajax({
+                        url: "{{ paths.root }}async/populartags/{{ taxonomy.slug }}",
+                        dataType: "json",
+                        data : {limit: 40},
+                        success: function(data) {
+                            if (data.length > 0) {
+                                $.each(data, function(index, item){
+                                    $("#tagcloud-{{ taxonomy.slug }}").append('<a href="#" rel="' + item.count + '">' + item.slug + '</a>');
+                                });
+                                $("#tagcloud-{{ taxonomy.slug }} a").on('click', function (e) {
+                                    e.preventDefault();
+                                    var data = $("#taxonomy-{{ taxonomy.slug }}").select2("data")
+                                    data.push({id:$(this).text(), text:$(this).text()});
+                                    $("#taxonomy-{{ taxonomy.slug }}").select2("data", data);
+                                });
+
+                                $.fn.tagcloud.defaults = {
+                                    size: {start: 12, end: 22, unit: 'px'},
+                                    color: {start: '#888', end: '#194770'}
+                                };
+                                $('#tagcloud-{{ taxonomy.slug }} a').tagcloud();
+                            }
+                        }
+                    });
+                    {% endif %}
+
+                });
+                </script>
+
+            {% endif %}
+
+            {# ---------- categories ---------- #}
+
+            {% if taxonomy.behaves_like == "categories" %}
+
+                {% if taxonomy.multiple is defined and taxonomy.multiple == 1 %}
+                <select name="taxonomy[{{ taxonomy.slug }}][]" id="taxonomy-{{ taxonomy.slug }}" class="form-control" multiple>
+                {% else %}
+                <select name="taxonomy[{{ taxonomy.slug }}][]" id="taxonomy-{{ taxonomy.slug }}" class="form-control">
+                    <option value="">{{ __('(no category)') }}</option>
+                    <option value="" disabled>-----------</option>
+                {% endif %}
+
+                {% for slug, cat in taxonomy.options %}
+                    <option value="{{ slug }}" {% if context.content.taxonomy[taxonomy.slug] is defined and cat in context.content.taxonomy[taxonomy.slug] %}selected{% endif %}>{{ cat }}</option>
+                {% endfor %}
+
+                </select>
+
+                {% if taxonomy.multiple is defined and taxonomy.multiple == 1 %}
+                <label><span class="left" style="line-height: 1px;">&nbsp;</span></label>
+                <div style="margin-top: -14px;">{# TODO:onclick-events to JS #}
+                    <a href="#" class="btn btn-default btn-xs" onclick="jQuery('#taxonomy-{{ taxonomy.slug }} option').prop('selected', true); return false;">
+                        <i class="fa fa-fw fa-check-square-o"></i>{{ __("Select all") }}
+                    </a>
+                    <a href="#" class="btn btn-default btn-xs" onclick="jQuery('#taxonomy-{{ taxonomy.slug }} option').prop('selected', false); return false;">
+                        <i class="fa fa-fw fa-square-o"></i>{{ __("Select none") }}
+                    </a>
+                </div>
+                {% endif %}
+
+            {% endif %}
+
+            {# ---------- grouping ---------- #}
+
+            {% if taxonomy.behaves_like == "grouping" %}
+
+                <select name="taxonomy[{{ taxonomy.slug }}][]" id="taxonomy-{{ taxonomy.slug }}" class="narrow form-control pull-left">
+                    <option value="">{{ __('(no group)') }}</option>
+                    <option value="" disabled>-----------</option>
+                {% for slug, group in taxonomy.options %}
+                    <option value="{{ slug }}" {% if context.content.taxonomy[taxonomy.slug] is defined and group in context.content.taxonomy[taxonomy.slug] or context.content.taxonomy[taxonomy.slug] is not defined and taxonomy.default is defined and taxonomy.default == slug %}selected{% endif %}>{{ group }}</option>
+                {% endfor %}
+                </select>
+
+                {% if taxonomy.has_sortorder is defined and taxonomy.has_sortorder == true %}
+                    <label for="taxonomy-order-{{ taxonomy.slug }}" class=" pull-left" style="margin: 6px 8px 0;">- Order:</label>
+                    {% if context.content.sortorder %}
+                        {% set sortorder = context.content.sortorder %}
+                    {% else %}
+                        {% set sortorder = 0 %}
+                    {% endif %}
+                    <input type="number" name="taxonomy-order[{{ taxonomy.slug }}]" id="taxonomy-order-{{ taxonomy.slug }}" step="1"
+                           value="{{ sortorder }}" class="verynarrow form-control pull-left">
+                {% endif %}
+
+            {% endif %}
+
+            </div>
+
+            {# --------------- postfix --------------- #}
+            {% if taxonomy.postfix is defined and taxonomy.postfix is not empty %}
+                <div class="postfix">
+                    {{ taxonomy.postfix|markdown }}
+                </div>
             {% endif %}
 
         {% endif %}
 
-        </div>
-
-        {# --------------- postfix --------------- #}
-        {% if taxonomy.postfix is defined and taxonomy.postfix is not empty %}
-            <div class="postfix">
-                {{ taxonomy.postfix|markdown }}
-            </div>
-        {% endif %}
-
-    {% endif %}
-
-    </fieldset>
-</div>
+        </fieldset>
+    </div>
 {% endfor %}
+
+{% if has.tabs and 'taxonomy' in context.contenttype.groups %}
+    {% include 'editcontent/_fields.twig' %}
+{% endif %}
+
+{% if not has.tabs %}
 <hr>
-
-</div>
-
 {% endif %}

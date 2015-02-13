@@ -1,0 +1,58 @@
+<div class="form-group" style="margin-top: 40px;">
+    <div class="col-sm-12">
+
+        <div class="btn-group">
+            <button type="button" class="btn btn-primary" id="savecontinuebutton">
+                <i class="fa fa-flag"></i> {{ __('contenttypes.generic.save', {'%contenttype%': context.contenttype.slug}) }}
+            </button>
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                <span class="caret"></span>
+                <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+                <li>
+                    <button type="submit" class="btn btn-link" id="savebutton">
+                        <i class="fa fa-flag"></i> {{ __('Save & return to overview') }}
+                    </button>
+                </li>
+                <li>
+                    <button type="submit" class="btn btn-link" id="savenewbutton">
+                        <i class="fa fa-flag"></i> {{ __('Save & create new record') }}
+                    </button>
+                </li>
+            </ul>
+        </div>
+
+        {% if not context.contenttype.viewless|default(false) %}{# don't show for viewless contenttypes. #}
+            <div class="btn-group">
+                <button type="button" class="btn btn-default" id="previewbutton">
+                    <i class="fa fa-external-link-square"></i> {{ __('Preview') }}
+                </button>
+                {% if context.content.status == "published" and context.content.link is defined %}
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                        <span class="caret"></span>
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li>
+                            <a href="{{ context.content.link }}" target="_blank">
+                                <i class="fa fa-external-link-square"></i> {{ __('View (saved version) on site') }}</a></li>
+                        </a>
+                        </li>
+                    </ul>
+                {% endif %}
+            </div>
+        {% endif %}
+
+
+        <p class="lastsaved" style="margin-top: 12px;">
+            {% if context.content.id != 0 %}
+                {{ __('Saved on:') }} <strong>{{ context.content.datechanged|localdate("%b %e, %H:%M") }}</strong> <small>({{ macro.datetime(context.content.datechanged) }})</small></p>
+            {% else %}
+                {{ __('contenttypes.generic.not-saved-yet', {'%contenttype%': context.contenttype.slug}) }}
+            {% endif %}
+        </p>
+
+    </div>
+
+</div>

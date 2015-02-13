@@ -187,32 +187,20 @@ var init = {
             $('#editcontent').attr('action', '').attr('target', "_self");
         });
 
-        // Only if we have grouping tabs. We add a tiny delay, so that fields not
-        // currently in view, still have time to initialize. (Like "Geolocation" fields)
-        if (data.hasGroups) {
-            window.setTimeout(function() {
-                // Filter for tabs
-                var allf = $('.tabgrouping');
-                allf.hide();
-                // Click function
-                $(".filter").click(function() {
-                    var customType = $(this).data('filter');
-                    allf
-                        .hide()
-                        .filter(function () {
-                            return $(this).data('tab') === customType;
-                        })
-                        .show();
-                    $('#filtertabs li').removeClass('active');
-                    $(this).parent().attr('class', 'active');
-                });
-
-                $(document).ready(function () {
-                    $('#filtertabs li a:first').trigger('click');
-                });
-            }, 200);
+        // Persistent tabgroups
+        var hash = window.location.hash;
+        if (hash) {
+            $('#filtertabs a[href="#tab-' + hash.replace(/^#/, '') + '"]').tab('show');
         }
 
+        $('#filtertabs a').click(function () {
+            var top;
+
+            $(this).tab('show');
+            top = $('body').scrollTop();
+            window.location.hash = this.hash.replace(/^#tab-/, '');
+            $('html,body').scrollTop(top);
+        });
     },
 
     /*
