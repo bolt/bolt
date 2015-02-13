@@ -320,18 +320,23 @@ module.exports = function(grunt) {
                 }
             },
             prepareBowerAssets: {
-                files: {
-                    'lib/tmp/bower-assets.js': [
-                        'bower_components/bootbox.js/bootbox.js',
-                        'bower_components/jquery/dist/jquery.js',
-                        'bower_components/jquery.cookie/jquery.cookie.js',
-                        'bower_components/jquery.formatDateTime/jquery.formatDateTime.js',
-                        'bower_components/jquery.tagcloud.js/jquery.tagcloud.js',
-                        'bower_components/magnific-popup/dist/jquery.magnific-popup.js',
-                        'bower_components/underscore/underscore.js',
-                        'bower_components/backbone/backbone.js'
-                    ]
-                }
+                files: [{
+                    expand: true,
+                    flatten: true,
+                    ext: '.min.js',
+                    cwd: 'bower_components/',
+                    src: [
+                        'jquery/dist/jquery.js',
+                        'jquery.cookie/jquery.cookie.js',
+                        'jquery.formatDateTime/jquery.formatDateTime.js',
+                        'jquery.tagcloud.js/jquery.tagcloud.js',
+                        'bootbox.js/bootbox.js',
+                        'magnific-popup/dist/jquery.magnific-popup.js',
+                        'underscore/underscore.js',
+                        'backbone/backbone.js'
+                    ],
+                    dest: 'lib/tmp'
+                }]
             },
             boltJs: {
                 options: {
