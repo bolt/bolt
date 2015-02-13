@@ -93,6 +93,7 @@ Released 2015-01-16. Notable changes:
 - Change: Add a data() Twig function to allow storing of data to be passed en masse to JavaScript (#2458)
 - Removed: Removed the `base-2013` theme
 - Removed: Ancient browser-specific tags
+- Change: System activity and change log permissions have changed and users now require systemlog and/or changelog permissions in permissions.yml (See #2805)
 
 Bolt 2.0.2
 ----------
