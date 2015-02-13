@@ -350,6 +350,17 @@ abstract class BaseExtension implements ExtensionInterface
     abstract public function initialize();
 
     /**
+     * Allow use of the extension's Twig function in content records when the
+     * content type has the setting 'allowtwig: true' is set
+     *
+     * @return boolean
+     */
+    public function isSafe()
+    {
+        return false;
+    }
+
+    /**
      * Add a Twig Function
      *
      * @param string $name
