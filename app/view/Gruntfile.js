@@ -123,6 +123,19 @@ module.exports = function(grunt) {
         },
 
         /*
+         * ENDLINE: Adds a newline at end of a file
+         */
+        endline: {
+            prepareCkeditor: {
+                files: {
+                    src: [
+                        'lib/ckeditor/**/*.js'
+                    ]
+                }
+            }
+        },
+
+        /*
          * COPY: Copy files and folders
          */
         copy: {
@@ -504,6 +517,7 @@ module.exports = function(grunt) {
             'remove:'    + 'prepareCkeditor',           // Remove unneeded direcories from downloaded ckeditor
             'bom:'       + 'prepareCkeditor',           // Remove unneeded bom from downloaded ckeditor
             'eol:'       + 'prepareCkeditor',           // Convert CRLF to LF from downloaded ckeditor
+            'endline:'   + 'prepareCkeditor',           // Add newlines to *.js of downloaded ckeditor
             // Install
             'copy:'      + 'installFonts',              // Copies fonts                   => view/fonts/*
             'cssmin:'    + 'installLibCss',             // Concats and min. library css   => view/css/lib.css
