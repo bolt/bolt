@@ -251,13 +251,23 @@ module.exports = function(grunt) {
                     expand: true,
                     flatten: true,
                     ext: '.min.js',
+                    extDot: 'last',
                     src: [
                         'lib/bootstrap-file-input/bootstrap-file-input.js',
                         'lib/jquery-fileupload/jquery-fileupload.js',
                         'lib/jquery-fileupload/jquery-iframe-transport.js',
                         'lib/jquery-hotkeys/jquery-hotkeys.js',
                         'lib/jquery-watchchanges/jquery-watchchanges.js',
-                        'lib/tmp/modernizr-custom.js'
+                        'lib/tmp/modernizr-custom.js',
+                        'bower_components/jquery/dist/jquery.js',
+                        'bower_components/jquery.cookie/jquery.cookie.js',
+                        'bower_components/jquery.formatDateTime/jquery.formatDateTime.js',
+                        'bower_components/jquery.tagcloud.js/jquery.tagcloud.js',
+                        'bower_components/bootbox.js/bootbox.js',
+                        'bower_components/magnific-popup/dist/jquery.magnific-popup.js',
+                        'bower_components/underscore/underscore.js',
+                        'bower_components/backbone/backbone.js',
+                        'bower_components/moment/moment.js'
                     ],
                     dest: 'lib/tmp'
                 }]
@@ -333,31 +343,6 @@ module.exports = function(grunt) {
                         'node_modules/bootstrap-sass/assets/javascripts/bootstrap/popover.js'
                     ]
                 }
-            },
-            prepareBowerAssets: {
-                options: {
-                    sourceMap: true,
-                    sourceMapIncludeSources: true
-                },
-                files: [{
-                    expand: true,
-                    flatten: true,
-                    ext: '.min.js',
-                    extDot: 'last',
-                    cwd: 'bower_components/',
-                    src: [
-                        'jquery/dist/jquery.js',
-                        'jquery.cookie/jquery.cookie.js',
-                        'jquery.formatDateTime/jquery.formatDateTime.js',
-                        'jquery.tagcloud.js/jquery.tagcloud.js',
-                        'bootbox.js/bootbox.js',
-                        'magnific-popup/dist/jquery.magnific-popup.js',
-                        'underscore/underscore.js',
-                        'backbone/backbone.js',
-                        'moment/moment.js'
-                    ],
-                    dest: 'lib/tmp'
-                }]
             },
             boltJs: {
                 options: {
@@ -514,7 +499,6 @@ module.exports = function(grunt) {
             'uglify:'    + 'prepareBootstrapJs',        // Concat bootstrap scripts into one minified file
             'modernizr:' + 'prepare',                   // Build Modernizr
             'uglify:'    + 'prepareLibJs',              // Create min. versions of library scripts that don't have them
-            'uglify:'    + 'prepareBowerAssets',        // Create min. versions of bower scripts that don't have them
             'remove:'    + 'prepareCkeditor',           // Remove unneeded direcories from downloaded ckeditor
             'bom:'       + 'prepareCkeditor',           // Remove unneeded bom from downloaded ckeditor
             'eol:'       + 'prepareCkeditor',           // Convert CRLF to LF from downloaded ckeditor
