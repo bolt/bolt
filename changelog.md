@@ -32,6 +32,7 @@ Bolt 2.1 DEV-head
 - Fixed: No more nbsp in CKeditor. Fixes #2660
 - Fixed: Logged in user can no longer disable themselves
 - Fixed: Disabling a logged in user with force a logout
+- Fixed: Fixed a bug with some utf8 characters becoming question marks after saving. (See #2804)
 
 
 Bolt 2.0.5
