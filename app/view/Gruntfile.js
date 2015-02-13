@@ -94,18 +94,6 @@ module.exports = function(grunt) {
          * EOL: Convert line endings
          */
         eol: {
-            boltCss: {
-                options: {
-                    eol: 'lf',
-                    replace: true
-                },
-                files: {
-                    src: [
-                        'css/bolt-old-ie.css',
-                        'css/bolt.css'
-                    ]
-                }
-            },
             prepareCkeditor: {
                 options: {
                     eol: 'lf',
@@ -117,6 +105,19 @@ module.exports = function(grunt) {
                         'lib/ckeditor/**/*.css',
                         'lib/ckeditor/**/*.md',
                         'lib/ckeditor/**/*.txt'
+                    ]
+                }
+            }
+        },
+
+        /*
+         * ENDLINE: Adds a newline at end of a file
+         */
+        endline: {
+            prepareCkeditor: {
+                files: {
+                    src: [
+                        'lib/ckeditor/**/*.js'
                     ]
                 }
             }
@@ -188,11 +189,20 @@ module.exports = function(grunt) {
         concat: {
             installLibJs: {
                 options: {
-                    separator: '\n\n'
+                    separator: '\n\n',
+                    sourceMap: true,
+                    sourceMapName: 'js/maps/lib.min.js.map'
                 },
                 nonull: true,
                 src: [
-                    'lib/tmp/bower-assets.js',
+                    'lib/tmp/jquery.min.js',                            //  95 kb
+                    'lib/tmp/jquery.cookie.min.js',                     //   2 kb
+                    'lib/tmp/jquery.formatDateTime.min.js',             //   3 kb
+                    'lib/tmp/jquery.tagcloud.min.js',                   //   2 kb
+                    'lib/tmp/underscore.min.js',                        //  16 kb
+                    'lib/tmp/backbone.min.js',                          //  19 kb
+                    'lib/tmp/bootbox.min.js',                           //   9 kb
+                    'lib/tmp/jquery.magnific-popup.min.js',             //  21 kb
                     'lib/jquery-ui-1.10.3/jquery-ui.custom.min.js',     //  96 kb
                     'lib/tmp/bootstrap-file-input.min.js',              //   1 kb
                     'lib/tmp/jquery-hotkeys.min.js',                    //   2 kb
@@ -201,7 +211,7 @@ module.exports = function(grunt) {
                     'lib/tmp/jquery-fileupload.min.js',                 //  15 kb
                     'lib/tmp/bootstrap.min.js',                         //   2 kb
                     'lib/select2/select2.min.js',                       //  66 kb
-                    'bower_components/moment/min/moment.min.js',        //  35 kb
+                    'lib/tmp/moment.min.js',                            //  35 kb
                     'lib/tmp/modernizr-custom.min.js'                   //   5 kb
                 ],
                 dest: 'js/lib.min.js'
@@ -235,18 +245,31 @@ module.exports = function(grunt) {
         uglify: {
             prepareLibJs: {
                 options: {
-                    preserveComments: 'some'
+                    preserveComments: 'some',
+                    sourceMap: true,
+                    sourceMapIncludeSources: true
                 },
                 files: [{
                     expand: true,
                     flatten: true,
                     ext: '.min.js',
+                    extDot: 'last',
                     src: [
                         'lib/bootstrap-file-input/bootstrap-file-input.js',
                         'lib/jquery-fileupload/jquery-fileupload.js',
                         'lib/jquery-fileupload/jquery-iframe-transport.js',
                         'lib/jquery-hotkeys/jquery-hotkeys.js',
-                        'lib/jquery-watchchanges/jquery-watchchanges.js'
+                        'lib/jquery-watchchanges/jquery-watchchanges.js',
+                        'lib/tmp/modernizr-custom.js',
+                        'bower_components/jquery/dist/jquery.js',
+                        'bower_components/jquery.cookie/jquery.cookie.js',
+                        'bower_components/jquery.formatDateTime/jquery.formatDateTime.js',
+                        'bower_components/jquery.tagcloud.js/jquery.tagcloud.js',
+                        'bower_components/bootbox.js/bootbox.js',
+                        'bower_components/magnific-popup/dist/jquery.magnific-popup.js',
+                        'bower_components/underscore/underscore.js',
+                        'bower_components/backbone/backbone.js',
+                        'bower_components/moment/moment.js'
                     ],
                     dest: 'lib/tmp'
                 }]
@@ -306,6 +329,10 @@ module.exports = function(grunt) {
                 }]
             },
             prepareBootstrapJs: {
+                options: {
+                    sourceMap: true,
+                    sourceMapIncludeSources: true
+                },
                 files: {
                     'lib/tmp/bootstrap.min.js': [
                         'node_modules/bootstrap-sass/assets/javascripts/bootstrap/alert.js',
@@ -319,27 +346,14 @@ module.exports = function(grunt) {
                     ]
                 }
             },
-            prepareBowerAssets: {
-                files: {
-                    'lib/tmp/bower-assets.js': [
-                        'bower_components/bootbox.js/bootbox.js',
-                        'bower_components/jquery/dist/jquery.js',
-                        'bower_components/jquery.cookie/jquery.cookie.js',
-                        'bower_components/jquery.formatDateTime/jquery.formatDateTime.js',
-                        'bower_components/jquery.tagcloud.js/jquery.tagcloud.js',
-                        'bower_components/magnific-popup/dist/jquery.magnific-popup.js',
-                        'bower_components/underscore/underscore.js',
-                        'bower_components/backbone/backbone.js'
-                    ]
-                }
-            },
             boltJs: {
                 options: {
                     banner: "/**\n" +
                             " * These are Bolt's COMPILED JS files!\n" +
                             " * You can edit files in <js/src/*.js> and run 'grunt' to generate this file.\n" +
                             " */",
-                    sourceMap: true
+                    sourceMap: true,
+                    sourceMapName: 'js/maps/bolt.min.js.map'
                 },
                 files: {
                     'js/bolt.min.js': ["<%= filesBoltJs %>"]
@@ -410,7 +424,7 @@ module.exports = function(grunt) {
         modernizr: {
             prepare: {
                 devFile: "remote",
-                outputFile: "lib/tmp/modernizr-custom.min.js",
+                outputFile: "lib/tmp/modernizr-custom.js",
                 extra: {
                     touch: true,
                     shiv: true,
@@ -424,7 +438,7 @@ module.exports = function(grunt) {
                 tests: [
                     'cookies'
                 ],
-                uglify: true,
+                uglify: false,
                 matchCommunityTests: true,
                 parseFiles: false
             }
@@ -473,10 +487,9 @@ module.exports = function(grunt) {
     grunt.registerTask(
         'updateBolt',
         [
-            'sass:boltCss',
-            'eol:boltCss',
-            'jshint:boltJs',
-            'uglify:boltJs'
+            'sass:'      + 'boltCss',
+            'jshint:'    + 'boltJs',
+            'uglify:'    + 'boltJs'
         ]
     );
 
@@ -485,25 +498,25 @@ module.exports = function(grunt) {
         'updateLib',
         [
             // Prepare
-            'uglify:prepareBootstrapJs',        // Concat bootstrap scripts into one minified file
-            'uglify:prepareLibJs',              // Create minified versions of library scripts that don't have them
-            'uglify:prepareBowerAssets',        // Create minified versions of bower scripts that don't have them
-            'remove:prepareCkeditor',           // Remove unneeded direcories from downloaded ckeditor
-            'bom:prepareCkeditor',              // Remove unneeded bom from downloaded ckeditor
-            'eol:prepareCkeditor',              // Convert CRLF to LF from downloaded ckeditor
-            'modernizr:prepare',                // Build Modernizr
+            'uglify:'    + 'prepareBootstrapJs',        // Concat bootstrap scripts into one minified file
+            'modernizr:' + 'prepare',                   // Build Modernizr
+            'uglify:'    + 'prepareLibJs',              // Create min. versions of library scripts that don't have them
+            'remove:'    + 'prepareCkeditor',           // Remove unneeded direcories from downloaded ckeditor
+            'bom:'       + 'prepareCkeditor',           // Remove unneeded bom from downloaded ckeditor
+            'eol:'       + 'prepareCkeditor',           // Convert CRLF to LF from downloaded ckeditor
+            'endline:'   + 'prepareCkeditor',           // Add newlines to *.js of downloaded ckeditor
             // Install
-            'copy:installFonts',                // Copies fonts                       => view/fonts/*
-            'cssmin:installLibCss',             // Concats and minifies library css   => view/css/lib.css
-            'concat:installLibJs',              // Concats minified library scripts   => view/js/lib.min.js
-            'uglify:installLocaleDatepicker',   // Copies minified datepicker locale  => view/js/locale/datepicker/*
-            'uglify:installLocaleMoment',       // Copies minified moment.js locale   => view/js/locale/moment/*
-            'copy:installCkeditor1',            // Copies CKEditor files              => view/js/ckeditor/*
-            'copy:installCkeditor2',            // Copies modified ckeditor.js        => view/js/ckeditor/ckeditor.js
-            'copy:installJqueryGomap',          // Copies jquery-gomap.min.js         => view/js/jquery-gomap.min.js
-            'uglify:installCodeMirror',         // Copies CodeMirror language files   => view/js/codemirror/*
+            'copy:'      + 'installFonts',              // Copies fonts                   => view/fonts/*
+            'cssmin:'    + 'installLibCss',             // Concats and min. library css   => view/css/lib.css
+            'concat:'    + 'installLibJs',              // Concats min. library scripts   => view/js/lib.min.js
+            'uglify:'    + 'installLocaleDatepicker',   // Copies min. datepicker locale  => view/js/locale/datepicker/*
+            'uglify:'    + 'installLocaleMoment',       // Copies min. moment.js locale   => view/js/locale/moment/*
+            'copy:'      + 'installCkeditor1',          // Copies CKEditor files          => view/js/ckeditor/*
+            'copy:'      + 'installCkeditor2',          // Copies modified ckeditor.js    => view/js/ckeditor/ckeditor.js
+            'copy:'      + 'installJqueryGomap',        // Copies jquery-gomap.min.js     => view/js/jquery-gomap.min.js
+            'uglify:'    + 'installCodeMirror',         // Copies CodeMirror locale       => view/js/codemirror/*
             // Cleanup
-            'remove:cleanupTmp'                 // Clean up the tmp folder lib/tmp/
+            'remove:'    + 'cleanupTmp'                 // Clean up the tmp folder lib/tmp/
         ]
     );
 };
