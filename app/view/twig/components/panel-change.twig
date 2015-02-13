@@ -2,7 +2,7 @@
  # Sidebar-Panel: Displays the latest activity
  # (Usage Example: Dashboards sidebar)
  #}
-{% extends (isallowed('activitylog')) ? '_base/_panel.twig' : '_base/_nothing.twig' %}
+{% extends (isallowed('changelog')) ? '_base/_panel.twig' : '_base/_nothing.twig' %}
 
 {% block panel_class 'panel-activity' %}
 
