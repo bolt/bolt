@@ -208,7 +208,7 @@ module.exports = function(grunt) {
                     'lib/tmp/jquery-fileupload.min.js',                 //  15 kb
                     'lib/tmp/bootstrap.min.js',                         //   2 kb
                     'lib/select2/select2.min.js',                       //  66 kb
-                    'bower_components/moment/min/moment.min.js',        //  35 kb
+                    'lib/tmp/moment.min.js',                            //  35 kb
                     'lib/tmp/modernizr-custom.min.js'                   //   5 kb
                 ],
                 dest: 'js/lib.min.js'
@@ -341,7 +341,8 @@ module.exports = function(grunt) {
                         'bootbox.js/bootbox.js',
                         'magnific-popup/dist/jquery.magnific-popup.js',
                         'underscore/underscore.js',
-                        'backbone/backbone.js'
+                        'backbone/backbone.js',
+                        'moment/moment.js'
                     ],
                     dest: 'lib/tmp'
                 }]
