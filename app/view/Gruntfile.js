@@ -188,7 +188,8 @@ module.exports = function(grunt) {
         concat: {
             installLibJs: {
                 options: {
-                    separator: '\n\n'
+                    separator: '\n\n',
+                    sourceMap: true
                 },
                 nonull: true,
                 src: [
@@ -242,7 +243,9 @@ module.exports = function(grunt) {
         uglify: {
             prepareLibJs: {
                 options: {
-                    preserveComments: 'some'
+                    preserveComments: 'some',
+                    sourceMap: true,
+                    sourceMapIncludeSources: true
                 },
                 files: [{
                     expand: true,
@@ -313,6 +316,10 @@ module.exports = function(grunt) {
                 }]
             },
             prepareBootstrapJs: {
+                options: {
+                    sourceMap: true,
+                    sourceMapIncludeSources: true
+                },
                 files: {
                     'lib/tmp/bootstrap.min.js': [
                         'node_modules/bootstrap-sass/assets/javascripts/bootstrap/alert.js',
@@ -327,6 +334,10 @@ module.exports = function(grunt) {
                 }
             },
             prepareBowerAssets: {
+                options: {
+                    sourceMap: true,
+                    sourceMapIncludeSources: true
+                },
                 files: [{
                     expand: true,
                     flatten: true,
