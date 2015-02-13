@@ -1106,7 +1106,7 @@ class Backend implements ControllerProviderInterface
         }
 
         $context = array(
-            'kind' => 'edit',
+            'kind' => empty($id) ? 'create' : 'edit',
             'form' => $form->createView(),
             'note' => '',
             'displayname' => $user['displayname'],
