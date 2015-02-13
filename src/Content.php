@@ -1026,8 +1026,11 @@ class Content implements \ArrayAccess
     /**
      * Gets one or more related records.
      *
+     * @param  string         $filtercontenttype
+     * @param  integer        $filterid
+     * @return Bolt\Content[]
      */
-    public function related($filtercontenttype = '', $filterid = '')
+    public function related($filtercontenttype = null, $filterid = null)
     {
         if (empty($this->relation)) {
             return false; // nothing to do here.
@@ -1040,8 +1043,13 @@ class Content implements \ArrayAccess
                 continue; // Skip other contenttypes, if we requested a specific type.
             }
 
+            if($contenttype === $filtercontenttype && !empty($filterid)) {
+                // Request was for a single record ID
+                $ids = array($filterid);
+            }
+
             $params = array('hydrate' => true);
-            $where = array('id' => implode(" || ", $ids));
+            $where = array('id' => implode(' || ', $ids));
             $dummy = false;
 
             $tempResult = $this->app['storage']->getContent($contenttype, $params, $dummy, $where);
