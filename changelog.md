@@ -33,7 +33,7 @@ Bolt 2.1 DEV-head
 - Fixed: Logged in user can no longer disable themselves
 - Fixed: Disabling a logged in user with force a logout
 - Fixed: Fixed a bug with some utf8 characters becoming question marks after saving to database. (Thanks @dwr, See #2804)
-
+- Fixed: Fix #2424 and other tab group improvements #2801 (TODO: Specify!)
 
 Bolt 2.0.5
 ----------
