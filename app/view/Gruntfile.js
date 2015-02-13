@@ -189,7 +189,8 @@ module.exports = function(grunt) {
             installLibJs: {
                 options: {
                     separator: '\n\n',
-                    sourceMap: true
+                    sourceMap: true,
+                    sourceMapName: 'js/maps/lib.min.js.map'
                 },
                 nonull: true,
                 src: [
@@ -350,7 +351,8 @@ module.exports = function(grunt) {
                             " * These are Bolt's COMPILED JS files!\n" +
                             " * You can edit files in <js/src/*.js> and run 'grunt' to generate this file.\n" +
                             " */",
-                    sourceMap: true
+                    sourceMap: true,
+                    sourceMapName: 'js/maps/bolt.min.js.map'
                 },
                 files: {
                     'js/bolt.min.js': ["<%= filesBoltJs %>"]
