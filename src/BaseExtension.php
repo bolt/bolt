@@ -5,10 +5,8 @@ use Bolt\Extensions\ExtensionInterface;
 use Bolt\Extensions\TwigProxy;
 use Bolt\Library as Lib;
 use Bolt\Helpers\Arr;
-use Bolt\Provider\NutServiceProvider;
 use Symfony\Component\Console\Command\Command;
 use Composer\Json\JsonFile;
-use utilphp\util;
 
 abstract class BaseExtension implements ExtensionInterface
 {
@@ -19,12 +17,12 @@ abstract class BaseExtension implements ExtensionInterface
     protected $filterlist;
     protected $snippetlist;
     protected $twigExtension;
+    protected $installtype = 'composer';
 
     private $extensionConfig;
     private $composerJsonLoaded;
     private $composerJson;
     private $configLoaded;
-
 
     public function __construct(Application $app)
     {
@@ -73,6 +71,11 @@ abstract class BaseExtension implements ExtensionInterface
         return $this->basepath;
     }
 
+    /**
+     * Get the extensions base URL
+     *
+     * @return string
+     */
     public function getBaseUrl()
     {
         $relative = str_replace($this->app['resources']->getPath('extensions'), "", $this->basepath);
@@ -81,9 +84,32 @@ abstract class BaseExtension implements ExtensionInterface
     }
 
     /**
+     * Set the extension install type
+     *
+     * @param string $type
+     */
+    public function setInstallType($type)
+    {
+        if ($type === 'composer' || $type === 'local') {
+            $this->installtype = $type;
+        }
+    }
+
+    /**
+     * Get the extension type
+     *
+     * @return string
+     */
+    public function getInstallType()
+    {
+        return $this->installtype;
+    }
+
+    /**
      * Gets the Composer name, e.g. 'bolt/foobar-extension'.
-     * @return string The Composer name for this extension, or NULL if the
-     *                extension is not composerized.
+     *
+     * @return string|null The Composer name for this extension, or NULL if the
+     *                     extension is not composerized.
      */
     public function getComposerName()
     {
@@ -106,7 +132,7 @@ abstract class BaseExtension implements ExtensionInterface
     {
         $composerName = $this->getComposerName();
         if (empty($composerName)) {
-            return util::slugify($this->getName());
+            return $this->app['slugify']->slugify($this->getName());
         } else {
             return $composerName;
         }
@@ -116,9 +142,9 @@ abstract class BaseExtension implements ExtensionInterface
      * Get the contents of the extension's composer.json file, lazy-loading
      * as needed.
      */
-    private function getComposerJSON()
+    public function getComposerJSON()
     {
-        if (!$this->composerJsonLoaded) {
+        if (!$this->composerJsonLoaded && !$this->composerJson) {
             $this->composerJsonLoaded = true;
             $this->composerJson = null;
             $jsonFile = new JsonFile($this->getBasepath() . '/composer.json');
@@ -126,6 +152,21 @@ abstract class BaseExtension implements ExtensionInterface
                 $this->composerJson = $jsonFile->read();
             }
         }
+
+        return $this->composerJson;
+    }
+
+    /**
+     * This allows write access to the composer config, allowing simulation of this feature
+     * even if the extension doesn't have a physical composer.json file.
+     *
+     * @param array $configuration
+     */
+    public function setComposerConfiguration(array $configuration)
+    {
+        $this->composerJsonLoaded = true;
+        $this->composerJson = null;
+        $this->composerJson = $configuration;
 
         return $this->composerJson;
     }
@@ -223,7 +264,7 @@ abstract class BaseExtension implements ExtensionInterface
                 $message = "Couldn't read $configfile. Please correct file " .
                            "permissions and ensure the $configdir directory readable.";
                 $this->app['logger.system']->addCritical($message, array('event' => 'extensions'));
-                $this->app['session']->getFlashBag()->set('error', $message);
+                $this->app['session']->getFlashBag()->add('error', $message);
 
                 return false;
             }
@@ -250,7 +291,7 @@ abstract class BaseExtension implements ExtensionInterface
                                "File is not writable. Create the file manually, " .
                                "or make the $configdir directory writable.";
                     $this->app['logger.system']->addCritical($message, array('event' => 'extensions'));
-                    $this->app['session']->getFlashBag()->set('error', $message);
+                    $this->app['session']->getFlashBag()->add('error', $message);
 
                     return false;
                 }
@@ -277,6 +318,9 @@ abstract class BaseExtension implements ExtensionInterface
         }
     }
 
+    /**
+     * @see \Bolt\Extensions\ExtensionInterface::getName()
+     */
     public function getName()
     {
         return $this->namespace;
@@ -303,11 +347,18 @@ abstract class BaseExtension implements ExtensionInterface
      *
      * An empty default implementation is given for convenience.
      */
-    public function initialize()
+    abstract public function initialize();
+
+    /**
+     * Allow use of the extension's Twig function in content records when the
+     * content type has the setting 'allowtwig: true' is set
+     *
+     * @return boolean
+     */
+    public function isSafe()
     {
+        return false;
     }
-
-
 
     /**
      * Add a Twig Function
@@ -577,6 +628,9 @@ abstract class BaseExtension implements ExtensionInterface
      */
     public function addConsoleCommand(Command $command)
     {
-        NutServiceProvider::addCommand($this->app, $command);
+        $this->app['nut.commands'] = array_merge(
+            $this->app['nut.commands'],
+            array($command)
+        );
     }
 }

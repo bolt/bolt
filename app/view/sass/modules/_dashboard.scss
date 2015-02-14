@@ -148,4 +148,28 @@
     .visible-xs {
         display: inline !important;
     }
+    .btn-group {
+        margin-top:-8px;
+        margin-bottom:8px;
+    }
+    .contenttype-title {
+        width: auto;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .dashboardlisting td.listthumb img {
+    margin-left: -32px;
+    }
+}
+
+@media (max-width: 640px) {    
+    .dashboardlisting td.listthumb img {
+        margin-top:42px;
+        margin-bottom:4px;
+    }
+    .dashboardlisting td.actions .btn-group {
+        margin-top: 2px;
+    }
+
 }

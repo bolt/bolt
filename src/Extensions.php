@@ -7,7 +7,7 @@ use Bolt\Extensions\Snippets\Location as SnippetLocation;
 use Bolt\Extensions\ExtensionInterface;
 use Bolt\Helpers\String;
 use Bolt\Translation\Translator as Trans;
-use Symfony\Component\Filesystem\Filesystem;
+use Monolog\Logger;
 use Symfony\Component\Finder\Finder;
 
 class Extensions
@@ -129,6 +129,7 @@ class Extensions
                 $map = require $mapfile;
                 $loader->addClassMap($map);
             }
+
             $loader->register();
         }
 
@@ -141,6 +142,7 @@ class Extensions
                         require $file;
                     }
                 } catch (\Exception $e) {
+                    $this->logInitFailure('Error importing extension class', $file, $e, Logger::ERROR);
                 }
             }
         }
@@ -153,8 +155,7 @@ class Extensions
      */
     public function localload($app)
     {
-        $fs = new Filesystem();
-        $flag = $fs->exists($this->basefolder . '/local');
+        $flag = $this->app['filesystem']->has('extensions://local');
 
         // Check that local exists
         if ($flag) {
@@ -173,7 +174,12 @@ class Extensions
 
                     // Include the init file
                     require_once $file->getRealpath();
+
+                    // Mark is as a local extension
+                    $extension = end($this->enabled);
+                    $extension->setInstallType('local');
                 } catch (\Exception $e) {
+                    $this->logInitFailure('Error importing local extension class', $file->getBasename(), $e, Logger::ERROR);
                 }
             }
         }
@@ -215,11 +221,26 @@ class Extensions
     }
 
     /**
+     * Get the enabled extensions
+     *
+     * @return array
+     */
+    public function getEnabled()
+    {
+        return $this->enabled;
+    }
+
+    /**
      * Initialize the enabled extensions.
      *
      */
     public function initialize()
     {
+        // Don't initialise if extension loading globally disabled
+        if (!$this->app['extend.enabled']) {
+            return;
+        }
+
         $this->autoload($this->app);
         $this->localload($this->app);
         $this->isInitialized = true;
@@ -236,7 +257,7 @@ class Extensions
         try {
             $extension->getConfig();
         } catch (\Exception $e) {
-            $this->app['logger.system']->addCritical("YAML config failed to load for $name: " . $e->getMessage(), array('event' => 'extensions'));
+            $this->logInitFailure('Failed to load YAML config', $name, $e, Logger::ERROR);
 
             return;
         }
@@ -251,8 +272,9 @@ class Extensions
                 $this->app['twig'] = $this->app->share(
                     $this->app->extend(
                         'twig',
-                        function(\Twig_Environment $twig) use ($namespace, $extension) {
+                        function (\Twig_Environment $twig) use ($namespace, $extension) {
                             $twig->addGlobal($namespace, $extension);
+
                             return $twig;
                         }
                     )
@@ -260,7 +282,7 @@ class Extensions
             }
 
         } catch (\Exception $e) {
-            $this->app['logger.system']->addCritical("Initialisation failed for $name: " . $e->getMessage(), array('event' => 'extensions'));
+            $this->logInitFailure('Initialisation failed', $name, $e, Logger::ERROR);
 
             return;
         }
@@ -272,45 +294,43 @@ class Extensions
         try {
             $this->getSnippets($name);
         } catch (\Exception $e) {
-            $this->app['logger.system']->addError("Snippet loading failed for $name: " . $e->getMessage(), array('event' => 'extensions'));
+            $this->logInitFailure('Snippet loading failed', $name, $e, Logger::ERROR);
 
             return;
         }
 
         // Add Twig extensions
-        if (is_callable(array($extension, 'getTwigExtensions'))) {
-            try {
-                /** @var \Twig_Extension[] $extensions */
-                $twigExtensions = $extension->getTwigExtensions();
-                $addTwigExFunc = array($this, 'addTwigExtension');
-                foreach ($twigExtensions as $twigExtension) {
-                    $this->app['twig'] = $this->app->share(
-                        $this->app->extend(
-                            'twig',
-                            function(\Twig_Environment $twig) use ($addTwigExFunc, $twigExtension, $name) {
-                                call_user_func($addTwigExFunc, $twig, $twigExtension, $name);
-                                return $twig;
-                            }
-                    )
-                    );
+        if (!is_callable(array($extension, 'getTwigExtensions'))) {
+            return;
+        }
+        /** @var \Twig_Extension[] $extensions */
+        $twigExtensions = $extension->getTwigExtensions();
+        $addTwigExFunc = array($this, 'addTwigExtension');
+        foreach ($twigExtensions as $twigExtension) {
+            $this->app['twig'] = $this->app->share(
+                $this->app->extend(
+                    'twig',
+                    function (\Twig_Environment $twig) use ($addTwigExFunc, $twigExtension, $name) {
+                        call_user_func($addTwigExFunc, $twig, $twigExtension, $name);
 
-                    if (is_callable(array($extension, 'isSafe')) && $extension->isSafe() === true) {
-                        $this->app['safe_twig'] = $this->app->share(
-                            $this->app->extend(
-                                'safe_twig',
-                                function(\Twig_Environment $twig) use ($addTwigExFunc, $twigExtension, $name) {
-                                    call_user_func($addTwigExFunc, $twig, $twigExtension, $name);
-                                    return $twig;
-                                }
-                        )
-                        );
+                        return $twig;
                     }
-                }
-            } catch (\Exception $e) {
-                $this->app['logger.system']->addError("Failed to regsiter Twig extension for $name: " . $e->getMessage(), array('event' => 'extensions'));
+                )
+            );
 
-                return;
+            if (!is_callable(array($extension, 'isSafe')) || !$extension->isSafe()) {
+                continue;
             }
+            $this->app['safe_twig'] = $this->app->share(
+                $this->app->extend(
+                    'safe_twig',
+                    function (\Twig_Environment $twig) use ($addTwigExFunc, $twigExtension, $name) {
+                        call_user_func($addTwigExFunc, $twig, $twigExtension, $name);
+
+                        return $twig;
+                    }
+                )
+            );
         }
     }
 
@@ -318,32 +338,15 @@ class Extensions
      * @internal DO NOT USE!
      *
      * @param \Twig_Environment $twig
-     * @param \Twig_Extension $extension
-     * @param string $name
+     * @param \Twig_Extension   $extension
+     * @param string            $name
      */
     public function addTwigExtension(\Twig_Environment $twig, $extension, $name)
     {
         try {
             $twig->addExtension($extension);
         } catch (\Exception $e) {
-            $this->logInitFailure('Twig function registration', $name, $e);
-        }
-    }
-
-    /**
-     * @param string $msg
-     * @param string $name
-     * @param \Exception $e
-     */
-    protected function logInitFailure($msg, $name, \Exception $e)
-    {
-        $this->app['log']->add("[EXT] $msg {$name}: " . $e->getMessage(), 2);
-
-        if ($this->app['config']->getWhichEnd() == 'backend') {
-            $this->app['session']->getFlashBag()->set(
-                'error',
-                Trans::__("[Extension error] $msg failed for %ext%: %error%", array('%ext%' => $name, '%error%' => $e->getMessage()))
-            );
+            $this->logInitFailure('Twig function registration failed', $name, $e, Logger::ERROR);
         }
     }
 
@@ -580,6 +583,9 @@ class Extensions
             // then insert it into the HTML, somewhere.
             switch ($item['location']) {
                 case SnippetLocation::END_OF_HEAD:
+                case SnippetLocation::AFTER_HEAD_JS: // same as end of head because we cheat a little
+                case SnippetLocation::AFTER_HEAD_CSS: // same as end of head because we cheat a little
+                case SnippetLocation::AFTER_HEAD_META: // same as end of head because meta tags are unordered
                     $html = $this->insertEndOfHead($snippet, $html);
                     break;
                 case SnippetLocation::AFTER_META:
@@ -598,17 +604,25 @@ class Extensions
                     $html = $this->insertAfterJs($snippet, $html);
                     break;
                 case SnippetLocation::START_OF_HEAD:
+                case SnippetLocation::BEFORE_HEAD_JS: // same as start of head because we cheat a little
+                case SnippetLocation::BEFORE_HEAD_CSS: // same as start of head because we cheat a little
+                case SnippetLocation::BEFORE_HEAD_META: // same as start of head because meta tags are unordered
                     $html = $this->insertStartOfHead($snippet, $html);
                     break;
                 case SnippetLocation::START_OF_BODY:
+                case SnippetLocation::BEFORE_BODY_JS: // same as start of body because we cheat a little
+                case SnippetLocation::BEFORE_BODY_CSS: // same as start of body because we cheat a little
                     $html = $this->insertStartOfBody($snippet, $html);
                     break;
                 case SnippetLocation::END_OF_BODY:
+                case SnippetLocation::AFTER_BODY_JS: // same as end of body because we cheat a little
+                case SnippetLocation::AFTER_BODY_CSS: // same as end of body because we cheat a little
                     $html = $this->insertEndOfBody($snippet, $html);
                     break;
                 case SnippetLocation::END_OF_HTML:
                     $html = $this->insertEndOfHtml($snippet, $html);
                     break;
+
                 default:
                     $html .= $snippet . "\n";
                     break;
@@ -1019,6 +1033,28 @@ class Extensions
     public function getMenuOptions()
     {
         return $this->menuoptions;
+    }
+
+    /**
+     * @param string     $msg
+     * @param string     $extensionName
+     * @param \Exception $e
+     * @param array      $context
+     * @param int        $level
+     */
+    protected function logInitFailure($msg, $extensionName, \Exception $e, $level = Logger::CRITICAL)
+    {
+        $context = array(
+            'event'     => 'extensions',
+            'exception' => $e
+        );
+
+        $this->app['logger.system']->addRecord($level, sprintf("%s for %s: %s", $msg, $extensionName, $e->getMessage()), $context);
+
+        $this->app['session']->getFlashBag()->add(
+            'error',
+            Trans::__("[Extension error] $msg for %ext%: %error%", array('%ext%' => $extensionName, '%error%' => $e->getMessage()))
+        );
     }
 
     /**

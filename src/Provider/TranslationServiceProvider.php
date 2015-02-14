@@ -40,8 +40,8 @@ class TranslationServiceProvider implements ServiceProviderInterface
      * Adds all resources that belong to a locale
      *
      * @param Application $app
-     * @param string $locale
-     * @param string $territory
+     * @param string      $locale
+     * @param string      $territory
      */
     private function addResources(Application $app, $locale)
     {

@@ -2,9 +2,9 @@
 namespace Bolt\Provider;
 
 use Bolt\Nut;
+use Bolt\Nut\NutApplication;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
-use Symfony\Component\Console\Application as ConsoleApplication;
 use Symfony\Component\Console\Command\Command;
 
 class NutServiceProvider implements ServiceProviderInterface
@@ -12,8 +12,8 @@ class NutServiceProvider implements ServiceProviderInterface
     public function register(Application $app)
     {
         $app['nut'] = $app->share(
-            function($app) {
-                $console = new ConsoleApplication();
+            function ($app) {
+                $console = new NutApplication();
 
                 $console->setName('Bolt console tool - Nut');
                 if ($app instanceof \Bolt\Application) {
@@ -27,7 +27,7 @@ class NutServiceProvider implements ServiceProviderInterface
         );
 
         $app['nut.commands'] = $app->share(
-            function($app) {
+            function ($app) {
                 return array(
                     new Nut\CronRunner($app),
                     new Nut\CacheClear($app),
@@ -51,7 +51,7 @@ class NutServiceProvider implements ServiceProviderInterface
 
         // Maintain backwards compatibility
         $app['console'] = $app->share(
-            function($app) {
+            function ($app) {
                 return $app['nut'];
             }
         );
@@ -66,8 +66,9 @@ class NutServiceProvider implements ServiceProviderInterface
         $app['nut.commands'] = $app->share(
             $app->extend(
                 'nut.commands',
-                function($commands) use ($command) {
+                function ($commands) use ($command) {
                     $commands[] = $command;
+
                     return $commands;
                 }
             )

@@ -15,7 +15,6 @@ use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\TableDiff;
 
-use Bolt\Helpers\String;
 use Bolt\Application;
 
 class IntegrityChecker
@@ -164,7 +163,7 @@ class IntegrityChecker
      * Check if all required tables and columns are present in the DB
      *
      * @return boolean $hinting return hints if true
-     * @return array Messages with errors, if any or array(messages, hints)
+     * @return array   Messages with errors, if any or array(messages, hints)
      */
     public function checkTablesIntegrity($hinting = false)
     {
@@ -469,13 +468,14 @@ class IntegrityChecker
         $logSystemTable->addColumn('date', 'datetime');
         $logSystemTable->addIndex(array('date'));
         $logSystemTable->addColumn('message', 'string', array('length' => 1024));
-        $logSystemTable->addColumn('username', 'string', array('length' => 64, 'default' => ''));
-        $logSystemTable->addIndex(array('username'));
+        $logSystemTable->addColumn('ownerid', 'integer', array('notnull' => false));
+        $logSystemTable->addIndex(array('ownerid'));
         $logSystemTable->addColumn('requesturi', 'string', array('length' => 128));
         $logSystemTable->addColumn('route', 'string', array('length' => 128));
         $logSystemTable->addColumn('ip', 'string', array('length' => 32, 'default' => ''));
         $logSystemTable->addColumn('context', 'string', array('length' => 32));
         $logSystemTable->addIndex(array( 'context'));
+        $logSystemTable->addColumn('source', 'text', array());
         $tables[] = $logSystemTable;
 
         $logChangeTable = $schema->createTable($this->prefix . 'log_change');
@@ -561,7 +561,7 @@ class IntegrityChecker
                         $field,
                         $this->app['db']->getDatabasePlatform()->getName()
                     );
-                    $this->app['session']->getFlashBag()->set('error', $error);
+                    $this->app['session']->getFlashBag()->add('error', $error);
                     continue;
                 }
 
@@ -643,7 +643,7 @@ class IntegrityChecker
      */
     protected function getTablename($name)
     {
-        $name = str_replace('-', '_', String::slug($name));
+        $name = str_replace('-', '_', $this->app['slugify']->slugify($name));
         $tablename = sprintf("%s%s", $this->prefix, $name);
 
         return $tablename;

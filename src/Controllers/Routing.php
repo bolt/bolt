@@ -1,7 +1,9 @@
 <?php
 namespace Bolt\Controllers;
 
-use Silex;
+use Doctrine\Common\Collections\ArrayCollection;
+use Silex\Application;
+use Silex\ControllerCollection;
 use Silex\ControllerProviderInterface;
 
 /**
@@ -11,184 +13,213 @@ use Silex\ControllerProviderInterface;
  */
 class Routing implements ControllerProviderInterface
 {
-    // Dirty trick to allow for easy route-requirements
-    // @todo fix this (create service, abstract away, figure something else..)
-    private static $app = false;
+    /** @var Application */
+    protected $app;
 
     /**
      * Connect this controller to the application
+     *
+     * @param Application $app
+     *
+     * @return ControllerCollection
      */
-    public function connect(Silex\Application $app)
+    public function connect(Application $app)
     {
-        if (self::$app === false) {
-            self::$app = $app;
-        }
-
-        $ctr = false;
+        $this->app = $app;
 
         $routes = $app['config']->get('routing');
-        if (is_array($routes)) {
-            $ctr = $this->addRoutes($app, $routes);
-        }
+        $routes = is_array($routes) ? $routes : array();
 
-        if ($ctr === false) {
-            $ctr = $app['controllers_factory'];
-        }
+        $ctr = $this->addRoutes($routes);
 
         return $ctr;
     }
 
     /**
      * Add routes based on the parsed array
+     *
+     * @param array $routes
+     *
+     * @return ControllerCollection
      */
-    private function addRoutes(Silex\Application $app, array $routes)
+    protected function addRoutes(array $routes)
     {
-        /** @var $ctr Silex\ControllerCollection */
-        $ctr = $app['controllers_factory'];
+        /** @var $ctr ControllerCollection */
+        $ctr = $this->app['controllers_factory'];
 
-        foreach ($routes as $binding => $routeconfig) {
-            $path = false;
-            $to = false;
-            $route = false;
-            $host = false;
-            $_before = false;
-            $_after = false;
-            $defaults = array();
-            $requirements = array();
-
-            // set some defaults in the YAML
-            if ((!isset($routeconfig['defaults'])) || (!isset($routeconfig['defaults']['_before']))) {
-                $routeconfig['defaults']['_before'] = '::before';
-            }
-            if ((!isset($routeconfig['defaults'])) || (!isset($routeconfig['defaults']['_after']))) {
-                $routeconfig['defaults']['_after'] = '::after';
-            }
-
-            // parse YAML structure
-
-            if (isset($routeconfig['path'])) {
-                $path = $routeconfig['path'];
-            }
-            if (isset($routeconfig['defaults'])) {
-                $defaults = $routeconfig['defaults'];
-                if (isset($defaults['_controller'])) {
-                    $to = $defaults['_controller'];
-                    if (strpos($to, '::') > 0) {
-                        $to = explode('::', $defaults['_controller']);
-                    }
-                    unset($defaults['_controller']);
-                }
-                if (isset($defaults['_before'])) {
-                    if ((substr($defaults['_before'], 0, 2) == '::') && (is_array($to))) {
-                        $_before = array($to[0], substr($defaults['_before'], 2));
-                    } else {
-                        $_before = $defaults['_before'];
-                    }
-                    unset($defaults['_before']);
-                }
-                if (isset($defaults['_after'])) {
-                    if ((substr($defaults['_after'], 0, 2) == '::') && (is_array($to))) {
-                        $_after = array($to[0], substr($defaults['_after'], 2));
-                    } else {
-                        $_after = $defaults['_after'];
-                    }
-                    unset($defaults['_after']);
-                }
-            }
-            if (isset($routeconfig['requirements']) && (is_array($routeconfig['requirements']))) {
-                $requirements = $routeconfig['requirements'];
-            }
-            if (isset($routeconfig['host'])) {
-                $host = $routeconfig['host'];
-            }
-
-            // build an actual route
-
-            if (($path !== false) && ($to !== false)) {
-                $route = $ctr->match($path, $to);
-            }
-            if ($route !== false) {
-                if (($_before !== false) && (is_callable($_before))) {
-                    $route->before($_before);
-                }
-                if (($_after !== false) && (is_callable($_after))) {
-                    $route->after($_after);
-                }
-
-                foreach ($requirements as $variable => $regexp) {
-                    $properRegexp = $this->getProperRegexp($regexp);
-                    $route->assert($variable, $properRegexp);
-                }
-                foreach ($defaults as $variable => $default) {
-                    $route->value($variable, $default);
-                }
-                if ($host !== false) {
-                    $route->setHost($host);
-                }
-
-                $route->bind($binding);
-            }
+        foreach ($routes as $name => $config) {
+            $this->addRoute($ctr, $name, $config);
         }
 
         return $ctr;
     }
 
+    protected function addRoute(ControllerCollection $ctr, $name, array $config)
+    {
+        $config = new ArrayCollection($config);
+
+        if (!$path = $config['path']) {
+            return;
+        }
+        if (!$defaults = $config['defaults']) {
+            return;
+        }
+        $defaults = new ArrayCollection($defaults);
+
+        if (!$to = $defaults->remove('_controller')) {
+            return;
+        }
+        if (strpos($to, '::') > 0) {
+            $to = explode('::', $to);
+        }
+        $route = $ctr->match($path, $to);
+
+        $before = $defaults->remove('_before') ?: '::before';
+        if (substr($before, 0, 2) === '::' && is_array($to)) {
+            $before = array($to[0], substr($before, 2));
+        }
+        if (is_callable($before)) {
+            $route->before($before);
+        }
+
+        $after = $defaults->remove('_after') ?: '::after';
+        if (substr($after, 0, 2) === '::' && is_array($to)) {
+            $after = array($to[0], substr($after, 2));
+        }
+        if (is_callable($after)) {
+            $route->after($after);
+        }
+
+        foreach ($defaults as $key => $value) {
+            $route->value($key, $value);
+        }
+
+        foreach ($config['requirements'] ?: array() as $variable => $regexp) {
+            $properRegexp = $this->getProperRegexp($regexp);
+            $route->assert($variable, $properRegexp);
+        }
+
+        if ($host = $config['host']) {
+            $route->setHost($host);
+        }
+
+        $route->bind($name);
+    }
+
     /**
-     * Return a proper regexp
+     * Return a regex from a function
      *
-     * Bolt allows
+     * @param string|array $regexp
+     * @return string
      */
-    private function getProperRegexp($regexp)
+    protected function getProperRegexp($regexp)
     {
         if (is_array($regexp)) {
-            return call_user_func_array($regexp[0], $regexp[1]);
+            list($method, $args) = $regexp;
+        } elseif (strpos($regexp, '::') <= 0) {
+            return $regexp;
+        } else {
+            $method = $regexp;
+            $args = array();
         }
 
-        if (strpos($regexp, '::') > 0) {
-            return call_user_func($regexp);
+        $method = explode('::', $method);
+        if ($method[0] === __CLASS__) {
+            $method[0] = $this;
         }
 
-        return $regexp;
+        return call_user_func_array($method, $args);
     }
 
     /**
      * Return plural and singular contenttypeslugs
      */
-    public static function getAnyContentTypeRequirement()
+    public function getAnyContentTypeRequirement()
     {
-        return self::$app['storage']->getContentTypeAssert(true);
+        return $this->getContentTypeAssert(true);
     }
 
     /**
      * Return only plural contenttypeslugs
      */
-    public static function getPluralContentTypeRequirement()
+    public function getPluralContentTypeRequirement()
     {
-        return self::$app['storage']->getContentTypeAssert(false);
+        return $this->getContentTypeAssert();
+    }
+
+    /**
+     * Get a value to use in 'assert() with the available contenttypes
+     *
+     * @param  bool   $includesingular
+     * @return string $contenttypes
+     */
+    protected function getContentTypeAssert($includesingular = false)
+    {
+        $slugs = array();
+        foreach ($this->app['config']->get('contenttypes') as $type) {
+            $slugs[] = $type['slug'];
+            if ($includesingular) {
+                $slugs[] = $type['singular_slug'];
+            }
+        }
+
+        return implode("|", $slugs);
     }
 
     /**
      * Return plural and singular taxonomytypeslugs
      */
-    public static function getAnyTaxonomyTypeRequirement()
+    public function getAnyTaxonomyTypeRequirement()
     {
-        return self::$app['storage']->getTaxonomyTypeAssert(true);
+        return $this->getTaxonomyTypeAssert(true);
     }
 
     /**
      * Return only plural taxonomytypeslugs
      */
-    public static function getPluralTaxonomyTypeRequirement()
+    public function getPluralTaxonomyTypeRequirement()
     {
-        return self::$app['storage']->getTaxonomyTypeAssert(false);
+        return $this->getTaxonomyTypeAssert();
+    }
+
+    /**
+     * Get a value to use in 'assert() with the available taxonomytypes
+     *
+     * @param  bool   $includesingular
+     * @return string $taxonomytypes
+     */
+    protected function getTaxonomyTypeAssert($includesingular = false)
+    {
+        $taxonomytypes = $this->app['config']->get('taxonomy');
+
+        // No taxonomies, nothing to assert. The route _DOES_ expect a string, so
+        // we return a regex that never matches.
+        if (empty($taxonomytypes)) {
+            return "$.";
+        }
+
+        $slugs = array();
+        foreach ($taxonomytypes as $type) {
+            $slugs[] = $type['slug'];
+            if ($includesingular) {
+                $slugs[] = $type['singular_slug'];
+            }
+        }
+
+        return implode("|", $slugs);
     }
 
     /**
      * Return slugs of existing taxonomy values.
+     *
+     * @param string      $taxonomyName
+     * @param string|null $emptyValue
+     *
+     * @return string
      */
-    public static function getTaxonomyRequirement($taxonomyName, $emptyValue = null)
+    public function getTaxonomyRequirement($taxonomyName, $emptyValue = null)
     {
-        $taxonomyValues = self::$app['config']->get('taxonomy/' . $taxonomyName . '/options');
+        $taxonomyValues = $this->app['config']->get('taxonomy/' . $taxonomyName . '/options');
 
         // If by accident, someone uses a "tags" taxonomy.
         if (empty($taxonomyValues)) {

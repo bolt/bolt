@@ -1,7 +1,6 @@
 <?php
 namespace Bolt\Tests\Provider;
 
-use Bolt\Application;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Provider\StackServiceProvider;
 
@@ -14,15 +13,12 @@ use Bolt\Provider\StackServiceProvider;
 class StackServiceProviderTest extends BoltUnitTest
 {
 
-
     public function testProvider()
     {
-        $app = $this->getApp(); 
-        $provider = new StackServiceProvider($app);    
+        $app = $this->getApp();
+        $provider = new StackServiceProvider($app);
         $app->register($provider);
         $this->assertInstanceOf('Bolt\Stack', $app['stack']);
         $app->boot();
     }
- 
-   
 }

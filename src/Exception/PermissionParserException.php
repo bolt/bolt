@@ -1,0 +1,12 @@
+<?php
+
+namespace Bolt\Exception;
+
+use \Exception;
+
+/**
+ * Signals an error in the parser.
+ */
+class PermissionParserException extends Exception
+{
+}

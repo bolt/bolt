@@ -1,0 +1,234 @@
+{% macro changelog_pager(currentpage, pagecount) %}
+        <ul class="pagination pagination-centered">
+            {% if currentpage > 1 %}
+                <li><a href="?page=1"><i style="font-weight: bold" class="fa fa-angle-double-left"></i></a></li>
+                <li><a href="?page={{ currentpage - 1 }}"><i style="font-weight: bold" class="fa fa-angle-left"></i></a></li>
+            {% else %}
+                <li class="disabled"><span><i style="font-weight: bold" class="fa fa-angle-double-left"></i></span></li>
+                <li class="disabled"><span><i style="font-weight: bold" class="fa fa-angle-left"></i></span></li>
+            {% endif %}
+
+            <li><span>{{ __('component.changelog-pager.page') }} {{ currentpage }} / {{ pagecount }}</span></li>
+
+            {% if currentpage < pagecount %}
+                <li><a href="?page={{ currentpage + 1 }}"><i style="font-weight: bold" class="fa fa-angle-right"></i></a></li>
+                <li><a href="?page={{ pagecount }}"><i style="font-weight: bold" class="fa fa-angle-double-right"></i></a></li>
+            {% else %}
+                <li class="disabled"><span><i style="font-weight: bold" class="fa fa-angle-right"></i></span></li>
+                <li class="disabled"><span><i style="font-weight: bold" class="fa fa-angle-double-right"></i></span></li>
+            {% endif %}
+        </ul>
+
+{% endmacro %}
+
+{% macro changelog_details(entry) %}
+    {% import '_macro/_macro.twig' as macro %}
+
+    {% set preview_w = 200 %}
+    {% set preview_h = 150 %}
+
+    <h3>
+        "{{ entry.title }}"
+        {{ _self.changelog_mutation(entry.mutation_type) }}
+        {{ __('component.changelog-detail.by') }} <strong>{{ entry.username }}</strong>
+    </h3>
+
+    <div class="changelog-details">
+        <div class="user">
+           <i class="icon icon-user"></i>
+        </div>
+
+        <div class="body">
+            <div class="time">
+                <p>
+                    <span>{{ _self.changelog_mutation(entry.mutation_type) }} {{ macro.datetime(entry.date) }}</span>
+                    {{ __('component.changelog-detail.by') }} <strong>{{ entry.username }}</strong>
+                </p>
+                {% if ischangelogenabled() %}
+                    {% if entry.comment %}<h4><strong>Comment</strong>: {{ entry.comment }}</h4>{% endif %}
+                {% endif %}
+            </div>
+
+
+            <table class="table table-bordered table-condensed table-changelog-details">
+                <thead>
+                    <tr>
+                        <th>{{ __('component.changelog-detail.field') }}</th>
+                        <th>{{ __('component.changelog-detail.value-old') }}</th>
+                        <th>{{ __('component.changelog-detail.value-new') }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for key, field in entry.changedfields %}
+                    <tr>
+                        <td><strong>{{ field.label }}</strong></td>
+
+                        {% if field.type == 'normal' %}
+                            <td class="change-log-item">
+                                {{ field.before.render }}
+                            </td>
+                            <td class="change-log-item">
+                                {{ field.after.render }}
+                            </td>
+                        {% elseif field.type == 'html' %}
+                            <td class="change-log-item">
+                                {{ field.before.render|raw }}
+                            </td>
+                            <td class="change-log-item">
+                                {{ field.after.render|raw }}
+                            </td>
+                        {% elseif field.type == 'filelist' %}
+                            <td class="change-log-item">
+                                {% for file in field.before.render %}
+                                    <strong>File:</strong> {{ file.filename }}<br>
+                                    <strong>Title:</strong> {{ file.title }}
+
+                                    {% if not loop.last %}
+                                    <br><br>
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                            <td class="change-log-item">
+                                {% for file in field.after.render %}
+                                    <strong>File:</strong> {{ file.filename }}<br>
+                                    <strong>Title:</strong> {{ file.title }}
+
+                                    {% if not loop.last %}
+                                    <br><br>
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                        {% elseif field.type == 'geolocation' %}
+                            <td class="change-log-item">
+                                <strong>Address:</strong> {{ field.before.render.address }}<br>
+                                <strong>Latitude:</strong> {{ field.before.render.latitude }}<br>
+                                <strong>Longitude:</strong> {{ field.before.render.longitude }}<br>
+                                <strong>Matched address:</strong> {{ field.before.render.formatted_address }}
+                            </td>
+                            <td class="change-log-item">
+                                <strong>Address:</strong> {{ field.after.render.address }}<br>
+                                <strong>Latitude:</strong> {{ field.after.render.latitude }}<br>
+                                <strong>Longitude:</strong> {{ field.after.render.longitude }}<br>
+                                <strong>Matched address:</strong> {{ field.after.render.formatted_address }}
+                            </td>
+                        {% elseif field.type == 'image' %}
+                            <td class="change-log-item">
+                                <strong>File:</strong> {{ field.before.render.file }}<br>
+                                <strong>Title:</strong> {{ field.before.render.title }}<br>
+                                <div class="content-preview imageholder" id="thumbnail-{{ key }}">
+                                {% if field.before.render.file != '' %}
+                                    {% set preview_path = field.before.render.file|thumbnail(preview_w, preview_h, 'c') %}
+                                    <img src="{{ preview_path }}" alt="Preview" width="{{ preview_w }}" height="{{ preview_h }}">
+                                {% endif %}
+                                </div>
+                            </td>
+                            <td class="change-log-item">
+                                <strong>File:</strong> {{ field.after.render.file }}<br>
+                                <strong>Title:</strong> {{ field.after.render.title }}<br>
+                                <div class="content-preview imageholder" id="thumbnail-{{ key }}">
+                                {% if field.after.render.file != '' %}
+                                    {% set preview_path = field.after.render.file|thumbnail(preview_w, preview_h, 'c') %}
+                                    <img src="{{ preview_path }}" alt="Preview" width="{{ preview_w }}" height="{{ preview_h }}">
+                                {% endif %}
+                                </div>
+                            </td>
+                        {% elseif field.type == 'imagelist' %}
+                            <td class="change-log-item">
+                                {% for image in field.before.render %}
+                                    <strong>File:</strong> {{ image.filename }}<br>
+                                    <strong>Title:</strong> {{ image.title }}<br>
+                                    <div class="content-preview imageholder" id="thumbnail-{{ key }}">
+                                    {% if image.filename != '' %}
+                                        {% set preview_path = image.filename|thumbnail(preview_w, preview_h, 'c') %}
+                                        <img src="{{ preview_path }}" alt="Preview" width="{{ preview_w }}" height="{{ preview_h }}">
+                                    {% endif %}
+                                    </div>
+
+                                    {% if not loop.last %}
+                                    <br>
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                            <td class="change-log-item">
+                                {% for image in field.after.render %}
+                                    <strong>File:</strong> {{ image.filename }}<br>
+                                    <strong>Title:</strong> {{ image.title }}<br>
+                                    <div class="content-preview imageholder" id="thumbnail-{{ key }}">
+                                    {% if image.filename != '' %}
+                                        {% set preview_path = image.filename|thumbnail(preview_w, preview_h, 'c') %}
+                                        <img src="{{ preview_path }}" alt="Preview" width="{{ preview_w }}" height="{{ preview_h }}">
+                                    {% endif %}
+                                    </div>
+
+                                    {% if not loop.last %}
+                                    <br>
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                        {% elseif field.type == 'markdown' or field.type == 'textarea' %}
+                            <td class="change-log-item">
+                                <pre style="white-space: pre-wrap; background-color: inherit; border: 0;">{{ field.before.render }}</pre>
+                            </td>
+                            <td class="change-log-item">
+                                <pre style="white-space: pre-wrap; background-color: inherit; border: 0;">{{ field.after.render }}</pre>
+                            </td>
+                        {% elseif field.type == 'select' %}
+                            <td class="change-log-item">
+                                {% if field.before.render is iterable %}
+                                    <ul>
+                                    {% for select in field.before.render %}
+                                        <li>{{ select }}</li>
+                                    {% endfor %}
+                                    </ul>
+                                {% else %}
+                                    {{ field.before.render }}
+                                {% endif %}
+                            </td>
+                            <td class="change-log-item">
+                                {% if field.after.render is iterable %}
+                                    <ul>
+                                    {% for select in field.after.render %}
+                                        <li>{{ select }}</li>
+                                    {% endfor %}
+                                    </ul>
+                                {% else %}
+                                    {{ field.after.render }}
+                                {% endif %}
+                            </td>
+                        {% elseif field.type == 'video' %}
+                            <td class="change-log-item">
+                                <strong>Title:</strong> {{ field.before.render.title }}<br>
+                                <strong>URL:</strong> {{ field.before.render.url }}<br>
+                                <strong>Size:</strong> {{ field.before.render.width }} x {{ field.before.render.height }}<br>
+                                <div class="imageholder" id="thumbnail-{{ key }}">
+                                    {% if field.before.render.thumbnail|default('') %}
+                                        <img src="{{ field.before.render.thumbnail }}" width="200" height="150">
+                                    {% endif %}
+                                </div>
+                                <div class="hidden video" id="{{ key }}">{{ field.after.render.html|raw }}</div>
+                            </td>
+                            <td class="change-log-item">
+                                <strong>Title:</strong> {{ field.after.render.title }}<br>
+                                <strong>URL:</strong> {{ field.after.render.url }}<br>
+                                <strong>Size:</strong> {{ field.after.render.width }} x {{ field.after.render.height }}<br>
+                                <div class="imageholder" id="thumbnail-{{ key }}">
+                                    {% if field.after.render.thumbnail|default('') %}
+                                        <img src="{{ field.after.render.thumbnail }}" width="{{ preview_w }}" height="{{ preview_h }}">
+                                    {% endif %}
+                                </div>
+                                <div class="hidden video" id="{{ key }}">{{ field.after.render.html|raw }}</div>
+                            </td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endmacro %}
+
+
+{% macro changelog_mutation(raw) %}
+    {% set mapping = {'UPDATE': 'changed', 'INSERT': 'created', 'DELETE': 'deleted', 'HOLD': 'put on hold', 'PUBLISH': 'published', 'DRAFT': 'depublished'} %}
+    {% if mapping[raw] is defined %}{{ mapping[raw] }}{% else %}{{ raw }}{% endif %}
+{% endmacro %}

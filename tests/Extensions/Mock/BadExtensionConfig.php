@@ -1,9 +1,6 @@
 <?php
 namespace Bolt\Tests\Extensions\Mock;
 
-use Bolt\Extensions\ExtensionInterface;
-use Bolt\Application;
-
 /**
  * Class to test correct operation and locations of composer configuration.
  *
@@ -17,11 +14,10 @@ class BadExtensionConfig extends Extension
     {
         throw new \Exception("BadExtensionConfig", 1);
     }
-    
+
     public function getName()
     {
         return "badextensionconfig";
     }
 
-   
 }

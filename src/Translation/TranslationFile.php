@@ -53,8 +53,8 @@ class TranslationFile
      * Constructor
      *
      * @param Silex\Application $app
-     * @param string $domain Requested resource
-     * @param string $locale Requested locale
+     * @param string            $domain Requested resource
+     * @param string            $locale Requested locale
      */
     public function __construct(Silex\Application $app, $domain, $locale)
     {
@@ -69,9 +69,9 @@ class TranslationFile
     /**
      * Get the path to a tranlsation resource
      *
-     * @param string $domain Requested resource
-     * @param string $locale Requested locale
-     * @return array returnsarray(absolute path, relative path)
+     * @param  string $domain Requested resource
+     * @param  string $locale Requested locale
+     * @return array  returnsarray(absolute path, relative path)
      */
     private function buildPath($domain, $locale)
     {
@@ -297,9 +297,9 @@ class TranslationFile
     /**
      * Builds the translations file data with added translations
      *
-     * @param array $newTranslations New translation data to write
-     * @param array $savedTranslations Translation data read from file
-     * @param array $hinting Translation data that can be used as hinting
+     * @param  array  $newTranslations   New translation data to write
+     * @param  array  $savedTranslations Translation data read from file
+     * @param  array  $hinting           Translation data that can be used as hinting
      * @return string
      */
     private function buildNewContent($newTranslations, $savedTranslations, $hinting = array())

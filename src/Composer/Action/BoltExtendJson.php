@@ -2,6 +2,7 @@
 
 namespace Bolt\Composer\Action;
 
+use Bolt\Translation\Translator as Trans;
 use Composer\Json\JsonFile;
 use Silex\Application;
 
@@ -91,19 +92,21 @@ final class BoltExtendJson
             'preferred-install' => 'dist'
         );
         $json['provide']['bolt/bolt'] = $app['bolt_version'];
+        $json['extra'] = array('bolt-web-path' => $pathToWeb);
+        $json['autoload'] = array(
+            'psr-4' => array('Bolt\\Composer\\'=>"")
+        );
         $json['scripts'] = array(
             'post-package-install' => "Bolt\\Composer\\ExtensionInstaller::handle",
             'post-package-update' => "Bolt\\Composer\\ExtensionInstaller::handle"
         );
-        $json['extra'] = array('bolt-web-path' => $pathToWeb);
-        $json['autoload'] = array('files' => array('installer.php'));
 
         // Write out the file, but only if it's actually changed, and if it's writable.
         if ($json != $jsonorig) {
             try {
                 umask(0000);
                 $jsonFile->write($json);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->messages[] = Trans::__(
                     'The Bolt extensions Repo at %repository% is currently unavailable. Check your connection and try again shortly.',
                     array('%repository%' => $app['extend.site'])

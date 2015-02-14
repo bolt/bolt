@@ -1,0 +1,38 @@
+{# Page: NavSecondary > Content > … > View … > Recent modifications > Full list #}
+
+{% from 'changelog/_macros.twig' import changelog_details %}
+{% from 'changelog/_macros.twig' import changelog_pager %}
+
+{% extends '_base/_page-nav.twig' %}
+
+{% block page_nav 'Content/*' %}
+
+{% block page_title __('Change Log') %}
+
+{% block page_subtitle context.title %}
+
+{% block page_main %}
+
+    <div class="row">
+        <div class="col-xs-12">
+            {{ changelog_pager(context.currentpage, context.pagecount) }}
+
+            <div class="changelog-list">
+                {% for entry in context.entries %}
+                    {{ changelog_details(entry) }}
+                {% endfor %}
+            </div>
+
+            {{ changelog_pager(context.currentpage, context.pagecount) }}
+
+            {% if context.contenttype.slug %}
+                <div>
+                    <a class="btn btn-default" href="{{ path('editcontent', {'contenttypeslug': context.contenttype.slug, 'id': context.content.id}) }}">
+                        &laquo; {{ __('back to editing') }}
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+{% endblock page_main %}

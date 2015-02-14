@@ -2,6 +2,7 @@
 namespace Bolt\Configuration;
 
 use Bolt\Application;
+use Eloquent\Pathogen\AbsolutePathInterface;
 use Eloquent\Pathogen\RelativePathInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Composer\Autoload\ClassLoader;
@@ -11,7 +12,6 @@ use Symfony\Component\Filesystem\Filesystem;
  * A Base Class to handle resource management of paths and urls within a Bolt App.
  *
  * Intended to simplify the ability to override resource location
- *
  *
  * @author Ross Riley, riley.ross@gmail.com
  *
@@ -36,6 +36,7 @@ class ResourceManager
 
     protected $requestObject;
 
+    /** @var AbsolutePathInterface[] */
     protected $paths = array();
 
     protected $urls = array();
@@ -51,10 +52,9 @@ class ResourceManager
     /**
      * Constructor initialises on the app root path.
      *
-     * @param \ArrayAccess $container
-     * ArrayAccess compatible DI container that must contain one of:
-     * 'classloader' of instance a ClassLoader will use introspection to find root path or
-     * 'rootpath' will be treated as an existing directory as string.
+     * @param \ArrayAccess $container ArrayAccess compatible DI container that must contain one of:
+     *                                'classloader' of instance a ClassLoader will use introspection to find root path or
+     *                                'rootpath' will be treated as an existing directory as string.
      *
      * Optional ones:
      * 'request' - Symfony\Component\HttpFoundation\Request
@@ -135,17 +135,76 @@ class ResourceManager
         return $path;
     }
 
+    /**
+     * Gets a path as a string.
+     *
+     * Subdirectories are automatically parsed to correct filesystem.
+     *
+     * For example:
+     *
+     *     $bar = getPath('root/foo/bar');
+     *
+     * @param string $name Name of path
+     *
+     * @return string
+     *
+     * @throws \InvalidArgumentException If path isn't available
+     */
     public function getPath($name)
     {
-        if (array_key_exists($name . "path", $this->paths)) {
-            return $this->paths[$name . "path"]->string();
-        }
+        return $this->getPathObject($name)->string();
+    }
 
-        if (! array_key_exists($name, $this->paths)) {
+    /**
+     * Gets a path as a PathInterface.
+     *
+     * Subdirectories are automatically parsed to correct filesystem.
+     *
+     * For example:
+     *
+     *     $bar = getPath('root/foo/bar');
+     *
+     * @param string $name Name of path
+     *
+     * @return AbsolutePathInterface
+     *
+     * @throws \InvalidArgumentException If path isn't available
+     */
+    public function getPathObject($name)
+    {
+        if (array_key_exists($name . "path", $this->paths)) {
+            $path = $this->paths[$name . "path"];
+        } elseif (array_key_exists($name, $this->paths)) {
+            $path = $this->paths[$name];
+        } elseif (strpos($name, '/') !== false) {
+            $path = $this->constructRelativePath($name);
+        } else {
             throw new \InvalidArgumentException("Requested path $name is not available", 1);
         }
 
-        return $this->paths[$name];
+        return $path;
+    }
+
+    /**
+     * Takes a known path with relative additional atoms and returns a new path
+     * for instance constructRelativePath('public/images/example')
+     *
+     * @param string $name
+     *
+     * @return AbsolutePathInterface
+     */
+    protected function constructRelativePath($name)
+    {
+        list($firstAtom) = explode('/', $name);
+
+        if (!array_key_exists($firstAtom, $this->paths)) {
+            throw new \InvalidArgumentException("Requested path $name is not available", 1);
+        }
+
+        $parts = explode('/', $name);
+        array_shift($parts);
+
+        return $this->paths[$firstAtom]->joinAtomSequence($parts);
     }
 
     public function setUrl($name, $value)
@@ -202,7 +261,6 @@ class ResourceManager
      * Takes a Request object and uses it to initialize settings that depend on the request
      *
      * @return void
-     *
      */
     public function initializeRequest(Request $request = null)
     {
@@ -218,7 +276,7 @@ class ResourceManager
             ($request->server->get('HTTP_X_FORWARDED_PROTO') == 'https') ||
             ($request->server->get('HTTP_X_FORWARDED_SSL') == 'on')) {
             $protocol = "https";
-        } elseif ($request->server->get("SERVER_PROTOCOL") == null) {
+        } elseif ($request->server->get("SERVER_PROTOCOL") === null) {
             $protocol = "cli";
         }
 
@@ -244,7 +302,6 @@ class ResourceManager
      * Takes a Bolt Application and uses it to initialize settings that depend on the application config
      *
      * @return void
-     *
      */
     public function initializeApp(Application $app)
     {
@@ -256,7 +313,6 @@ class ResourceManager
      * Takes a loaded config array and uses it to initialize settings that depend on it
      *
      * @return void
-     *
      */
     public function initializeConfig($config)
     {
@@ -275,6 +331,14 @@ class ResourceManager
     public function postInitialize()
     {
         $this->setThemePath($this->app['config']->get("general"));
+
+        $theme = $this->app['config']->get('theme');
+        if (isset($theme['template_directory'])) {
+            $this->setPath('templatespath', $this->getPath('theme') . '/' . $this->app['config']->get('theme/template_directory'));
+        } else {
+            $this->setPath('templatespath', $this->getPath('theme'));
+        }
+
         $branding = ltrim($this->app['config']->get('general/branding/path') . '/', '/');
         $this->setUrl("bolt", $this->getUrl('root') . $branding);
         $this->app['config']->setCkPath();
@@ -306,7 +370,6 @@ class ResourceManager
      * allow the Application constructor to pre-provide a theme path.
      *
      * @return void
-     *
      */
     public function setThemePath($generalConfig)
     {
@@ -329,7 +392,6 @@ class ResourceManager
      *
      * @return void
      * @author
-     *
      */
     public function verify()
     {
@@ -349,7 +411,7 @@ class ResourceManager
 
         return $this->verifier;
     }
-    
+
     public function setVerifier($verifier)
     {
         $this->verifier = $verifier;
@@ -363,7 +425,9 @@ class ResourceManager
     public static function getApp()
     {
         if (! static::$theApp) {
-            $message = sprintf("The Bolt 'Application' object isn't initialized yet so the container can't be accessed here: <code>%s</code>", htmlspecialchars(debug_print_backtrace(), ENT_QUOTES));
+            $trace = debug_backtrace(false);
+            $trace = $trace[0]['file'] . '::' . $trace[0]['line'];
+            $message = sprintf("The Bolt 'Application' object isn't initialized yet so the container can't be accessed here: <code>%s</code>", $trace);
             throw new \RuntimeException($message);
         }
 
@@ -371,14 +435,13 @@ class ResourceManager
     }
 
     /**
-    *
-    * Find the relative file system path between two file system paths
-    *
-    * @param string $frompath Path to start from
-    * @param string $topath Path we want to end up in
-    *
-    * @return string Path leading from $frompath to $topath
-    */
+     * Find the relative file system path between two file system paths
+     *
+     * @param string $frompath Path to start from
+     * @param string $topath Path we want to end up in
+     *
+     * @return string Path leading from $frompath to $topath
+     */
     public function findRelativePath($frompath, $topath)
     {
         $filesystem = new Filesystem();
@@ -386,5 +449,5 @@ class ResourceManager
 
         return $relative;
     }
-    
+
 }

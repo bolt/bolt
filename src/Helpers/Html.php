@@ -32,7 +32,6 @@ class Html
 
     }
 
-
     /**
      * Transforms plain text to HTML. Plot twist: text between backticks (`) is
      * wrapped in a <tt> element.

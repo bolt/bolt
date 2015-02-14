@@ -2,18 +2,18 @@
 
 namespace Bolt\Controllers;
 
+use Bolt\Filesystem\FlysystemContainer;
+use Bolt\Library as Lib;
+use Bolt\Translation\Translator as Trans;
 use Silex;
 use Silex\ControllerProviderInterface;
 use Silex\ServiceProviderInterface;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Sirius\Upload\Handler as UploadHandler;
-use Sirius\Upload\Result\File;
 use Sirius\Upload\Result\Collection;
-use Bolt\Filesystem\FlysystemContainer;
+use Sirius\Upload\Result\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Bolt\Translation\Translator as Trans;
-use Bolt\Library as Lib;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 
 class Upload implements ControllerProviderInterface, ServiceProviderInterface
 {
@@ -31,6 +31,19 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
                 $uploadHandler->setOverwrite($app['upload.overwrite']);
                 $uploadHandler->addRule('extension', array('allowed' => $allowedExensions));
 
+                $pattern = $app['config']->get('general/upload/pattern', '[^A-Za-z0-9\.]+');
+                $replacement = $app['config']->get('general/upload/replacement', '-');
+                $lowercase = $app['config']->get('general/upload/lowercase', true);
+
+                $uploadHandler->setSanitizerCallback(function($filename) use ($pattern, $replacement, $lowercase) {
+                    if ($lowercase) {
+                        return preg_replace("/$pattern/", $replacement, strtolower($filename));
+                    }
+
+                    return preg_replace("/$pattern/", $replacement, $filename);
+                });
+
+
                 return $uploadHandler;
         };
 
@@ -42,7 +55,7 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
             if (!is_writable($base)) {
                 throw new \RuntimeException("Unable to write to upload destination. Check permissions on $base", 1);
             }
-            $container = new FlysystemContainer($app['filesystem']->getManager($app['upload.namespace']));
+            $container = new FlysystemContainer($app['filesystem']->getFilesystem($app['upload.namespace']));
 
             return $container;
         };
@@ -149,6 +162,7 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
             }
         }
 
+        /** @var Collection|File $result */
         $result = $app['upload']->process($filesToProcess);
 
         if ($result->isValid()) {
@@ -199,7 +213,7 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
         }
 
         if (!$app['users']->isAllowed("files:uploads")) {
-            $app['session']->getFlashBag()->set('error', Trans::__('You do not have the right privileges to upload.'));
+            $app['session']->getFlashBag()->add('error', Trans::__('You do not have the right privileges to upload.'));
 
             return Lib::redirect('dashboard');
         }

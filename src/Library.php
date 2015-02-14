@@ -3,8 +3,8 @@
 namespace Bolt;
 
 use Bolt\Configuration\ResourceManager;
+use Bolt\Exception\LowlevelException;
 use Bolt\Translation\Translator;
-use Bolt\Configuration\LowlevelException;
 
 /**
  * Class for Bolt's generic library functions
@@ -14,49 +14,6 @@ use Bolt\Configuration\LowlevelException;
 class Library
 {
     /**
-     * Cleans up/fixes a relative paths.
-     *
-     * As an example '/site/pivotx/../index.php' becomes '/site/index.php'.
-     * In addition (non-leading) double slashes are removed.
-     *
-     * @param  string $path
-     * @param  bool   $nodoubleleadingslashes
-     * @return string
-     */
-    public static function fixPath($path, $nodoubleleadingslashes = true)
-    {
-        $path = str_replace("\\", "/", rtrim($path, '/'));
-
-        // Handle double leading slash (that shouldn't be removed).
-        if (!$nodoubleleadingslashes && (strpos($path, '//') === 0)) {
-            $lead = '//';
-            $path = substr($path, 2);
-        } else {
-            $lead = '';
-        }
-
-        $patharray = explode('/', preg_replace('#/+#', '/', $path));
-        $newPath = array();
-
-        foreach ($patharray as $item) {
-            if ($item == '..') {
-                // remove the previous element
-                @array_pop($newPath);
-            } elseif ($item == 'http:') {
-                // Don't break for URLs with http:// scheme
-                $newPath[] = 'http:/';
-            } elseif ($item == 'https:') {
-                // Don't break for URLs with https:// scheme
-                $newPath[] = 'https:/';
-            } elseif (($item != '.')) {
-                $newPath[] = $item;
-            }
-        }
-
-        return $lead . implode('/', $newPath);
-    }
-
-    /**
      * Format a filesize like '10.3 kb' or '2.5 mb'
      *
      * @param  integer $size
@@ -65,11 +22,11 @@ class Library
     public static function formatFilesize($size)
     {
         if ($size > 1024 * 1024) {
-            return sprintf("%0.2f mb", ($size / 1024 / 1024));
+            return sprintf("%0.2f MiB", ($size / 1024 / 1024));
         } elseif ($size > 1024) {
-            return sprintf("%0.2f kb", ($size / 1024));
+            return sprintf("%0.2f KiB", ($size / 1024));
         } else {
-            return $size . ' b';
+            return $size . ' B';
         }
     }
 
@@ -119,7 +76,7 @@ class Library
     {
         return self::parseTwigTemplates($obj);
     }
-    
+
     /**
      * parse the used .twig templates from the Twig Loader object, using regular expressions.
      *
@@ -211,10 +168,11 @@ class Library
         }
         header("location: $path");
         echo "<p>Redirecting to <a href='$path'>$path</a>.</p>";
-        echo "<script>window.setTimeout(function(){ window.location='$path'; }, 500);</script>";
+        echo "<script>window.setTimeout(function () { window.location='$path'; }, 500);</script>";
         if ($abort) {
             return $app->abort(303, "Redirecting to '$path'.");
         }
+
         return $path;
     }
 
@@ -230,8 +188,6 @@ class Library
      */
     public static function loadSerialize($filename, $silent = false)
     {
-        $filename = self::fixPath($filename);
-
         if (! is_readable($filename)) {
 
             if ($silent) {
@@ -263,23 +219,25 @@ class Library
         // old-style serialized data; to be phased out, but leaving intact for
         // backwards-compatibility. Up until Bolt 1.5, we used to serialize certain
         // fields, so reading in those old records will still use the code below.
-        @$data = unserialize($serializedData);
-        if (is_array($data)) {
-            return $data;
-        } else {
-            $tempSerializedData = preg_replace("/\r\n/", "\n", $serializedData);
-            if (@$data = unserialize($tempSerializedData)) {
+        try {
+            $data = unserialize($serializedData);
+            if (is_array($data)) {
                 return $data;
             } else {
-                $tempSerializedData = preg_replace("/\n/", "\r\n", $serializedData);
-                if (@$data = unserialize($tempSerializedData)) {
+                $tempSerializedData = preg_replace("/\r\n/", "\n", $serializedData);
+                if ($data = unserialize($tempSerializedData)) {
                     return $data;
                 } else {
-                    return false;
+                    $tempSerializedData = preg_replace("/\n/", "\r\n", $serializedData);
+                    if ($data = unserialize($tempSerializedData)) {
+                        return $data;
+                    } else {
+                        return false;
+                    }
                 }
             }
+        } catch (\Exception $e) {
         }
-
     }
 
     /**
@@ -291,9 +249,6 @@ class Library
      */
     public static function saveSerialize($filename, &$data)
     {
-        $app = ResourceManager::getApp();
-        $filename = self::fixPath($filename);
-
         $serString = '<?php /* bolt */ die(); ?>json:' . json_encode($data);
 
         // disallow user to interrupt
@@ -364,6 +319,7 @@ class Library
             }
         } else {
             $data = unserialize($str);
+
             return $data;
         }
     }

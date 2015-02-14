@@ -1,0 +1,74 @@
+{# Relationships for this record #}
+
+<div class="form-group">
+
+    {% for relcontenttype, relation in context.contenttype.relations %}
+
+        {# Prefix #}
+        {% if relation.prefix is defined and relation.prefix is not empty %}
+            <div class="prefix">
+                {{ relation.prefix|markdown }}
+            </div>
+        {% endif %}
+
+        {# Relationship #}
+        <fieldset>
+            {# We set the 'format' for the rendering of each <option>. With fallback to a sensible default. #}
+            {% set format = relation.format|default("{{ item.title|escape }} <span>(№ {{ item.id }})</span>") %}
+
+            {{ macro.label(relation.label, relcontenttype|ucfirst, 'col-sm-4 control-label', 'relation-' ~ relcontenttype) }}
+            <div class="col-sm-8">
+
+                {% if relation.multiple is defined and relation.multiple == 1 %}
+                    <select name="relation[{{ relcontenttype }}][]" id="relation-{{ relcontenttype }}" class="wide" multiple style="width: 100%;" data-placeholder="{{ __('(none)') }}">
+                {% else %}
+                    <select name="relation[{{ relcontenttype }}][]" id="relation-{{ relcontenttype }}" class="wide" style="width: 100%;" data-placeholder="{{ __('(none)') }}">
+                        <option value="0">{{ __('(none)') }}</option>
+                {% endif %}
+
+                    {% set groupby = relation.groupby|default(false) %}
+                    {% set optgroup = '' %}
+                    {% for item in listcontent(relcontenttype, relation, context.content) %}
+                        {% if relcontenttype == app.request.get('relation') and item.id == app.request.get('relationid') %}
+                            {% set selectedbyrelation = true %}
+                        {% else %}
+                            {% set selectedbyrelation = false %}
+                        {% endif %}
+                        {% if groupby and optgroup != item[groupby] %}
+                            {% if optgroup != '' %}</optgroup>{% endif %}
+                            {% set optgroup = item[groupby] %}
+                            <optgroup label="{{ optgroup }}">
+                        {% endif %}
+                        <option value="{{ item.id }}"{% if item.selected or selectedbyrelation %} selected{% endif %}>
+                            {{ format|twig({'item': item}) }}
+                        </option>
+                    {% endfor %}
+                    {% if optgroup != '' %}</optgroup>{% endif %}
+
+                </select>
+
+                <script>
+                    $(function() {
+                        $('#relation-{{ relcontenttype }}').select2({
+                            placeholder: "{{ __('(none)') }}",
+                            allowClear: true
+                            {% if groupby %}, formatSelection: function (item) {
+                                return $(item.element).parent().attr('label') + ': ' + item.text;
+                            }{% endif %}
+                        });
+                    });
+                </script>
+
+            </div>
+        </fieldset>
+
+        {# Postfix #}
+        {% if relation.postfix is defined and relation.postfix is not empty %}
+            <div class="postfix">
+                {{ relation.postfix|markdown }}
+            </div>
+        {% endif %}
+
+    {% endfor %}
+
+</div>

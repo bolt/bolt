@@ -1,5 +1,6 @@
 <?php
 namespace Bolt\Tests\Mocks;
+
 use Doctrine\DBAL\Driver\Statement;
 
 /**
@@ -11,4 +12,4 @@ use Doctrine\DBAL\Driver\Statement;
 */
 interface DoctrineDbalStatementInterface extends \Iterator, Statement
 {
-} 
+}

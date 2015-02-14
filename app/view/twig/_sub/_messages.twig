@@ -1,50 +1,31 @@
+{% macro flashbag() %}
+    {% import _self as self %}
+    {{ self.messages('error', 'danger') }}
+    {{ self.messages('warning') }}
+    {{ self.messages('success') }}
+    {{ self.messages('info') }}
+{% endmacro %}
 
-{% if app.session.flashBag.keys()|length() %}
+{% macro messages(key, class) %}
+    {% set shown = [] %}
+    {% for msg in app.session.flashBag.get(key) %}
+        {% if msg not in shown %}
+            <div class="alert alert-{{ class|default(key) }}">
+                <button class="close" data-dismiss="alert">×</button>
+                {{ msg|ymllink }}
+            </div>
+            {% set shown = shown|merge([msg]) %}
+        {% endif %}
+    {% endfor %}
+{% endmacro %}
 
-    {% if wrapper is defined and wrapper %}
+{% import _self as self %}
+{% if wrapper is defined and wrapper and app.session.flashBag.keys() is not empty %}
     <div class="row">
         <div class="col-md-8">
-    {% endif %}
-
-    {% if app.session.flashBag.has('info') %}
-        {% for msg in app.session.flashBag.get('info') %}
-            <div class="alert alert-info">
-                <button class="close" data-dismiss="alert">×</button>
-                    {{ msg|ymllink }}
-            </div>
-        {% endfor %}
-    {% endif %}
-
-    {% if app.session.flashBag.has('error') %}
-        {% for msg in app.session.flashBag.get('error') %}
-            <div class="alert alert-danger">
-                <button class="close" data-dismiss="alert">×</button>
-                    {{ msg|ymllink }}
-            </div>
-        {% endfor %}
-    {% endif %}
-
-    {% if app.session.flashBag.has('warning') %}
-        {% for msg in app.session.flashBag.get('warning') %}
-            <div class="alert alert-warning">
-                <button class="close" data-dismiss="alert">×</button>
-                    {{ msg|ymllink }}
-            </div>
-        {% endfor %}
-    {% endif %}
-
-    {% if app.session.flashBag.has('success') %}
-        {% for msg in app.session.flashBag.get('success') %}
-            <div class="alert alert-success">
-                <button class="close" data-dismiss="alert">×</button>
-                    {{ msg|ymllink }}
-            </div>
-        {% endfor %}
-    {% endif %}
-
-    {% if wrapper is defined and wrapper %}
+            {{ self.flashbag }}
         </div>
     </div>
-    {% endif %}
-
+{% else %}
+    {{ self.flashbag }}
 {% endif %}

@@ -1,7 +1,6 @@
 <?php
 namespace Bolt\Tests\Configuration;
 
-use Bolt\Application;
 use Bolt\Configuration\Standard;
 use Bolt\Configuration\LowlevelChecks;
 
@@ -14,15 +13,12 @@ use Bolt\Configuration\LowlevelChecks;
 class ConfigVerificationTest extends \PHPUnit_Framework_TestCase
 {
 
-    
     public function testInitWithVerifier()
     {
         $config = new Standard(getcwd());
         $verifier = new LowlevelChecks($config);
         $config->setVerifier($verifier);
-        $config->verify();        
-        
-    }
+        $config->verify();
 
-   
+    }
 }

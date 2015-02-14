@@ -19,7 +19,7 @@
                 {{ list(__('Modifications made to the database:'), context.modifications_made) }}
                 {{ list(__('Hints:'), hints) }}
 
-                <p>{{ __('Your database is now up to date.') }}</p>
+                <p class="alert alert-success" role="alert">{{ __('Your database is now up to date.') }}</p>
 
                 <form action="{{ path('dbcheck') }}" method="get">
                     <p><button type="submit" class="btn btn-default btn-primary">{{ __('Check again') }}</button></p>
@@ -36,7 +36,7 @@
 
             {% else %}
 
-                <p>{{ __("Your database is already up to date.") }}</p>
+                <p class="alert alert-success" role="alert">{{ __("Your database is already up to date.") }}</p>
 
                 {{ list(__('Hints:'), hints) }}
 
@@ -44,7 +44,7 @@
                 <br>
                 <hr>
 
-                <p>
+                <p class="alert alert-warning" role="alert">
                     <b>{{ __('Tip:') }}</b>
                     {{ __('Add some sample <a href=\'%url%\' class=\'btn btn-default\'>Records with Loripsum text</a>', {'%url%': path('prefill')}) }}
                 </p>

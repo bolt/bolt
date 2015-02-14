@@ -2,17 +2,10 @@
 
 namespace Bolt\Composer;
 
-use Bolt\Library as Lib;
-use Bolt\Translation\Translator as Trans;
 use Composer\Composer;
 use Composer\DependencyResolver\Pool;
 use Composer\IO\BufferIO;
-use Composer\IO\IOInterface;
-use Composer\Json\JsonFile;
 use Composer\Package\Version\VersionSelector;
-use Guzzle\Http\Client as GuzzleClient;
-use Guzzle\Http\Exception\RequestException;
-use Guzzle\Http\Exception\CurlException;
 use Silex\Application;
 
 final class Factory extends PackageManager
@@ -33,6 +26,16 @@ final class Factory extends PackageManager
     private $composer;
 
     /**
+     * @var Composer\DependencyResolver\Pool
+     */
+    private $pool;
+
+    /**
+     * @var Composer\Repository\CompositeRepository
+     */
+    private $repos;
+
+    /**
      * @var Silex\Application
      */
     private $app;
@@ -48,8 +51,8 @@ final class Factory extends PackageManager
     public $messages = array();
 
     /**
-     * @param Silx\Application        $app
-     * @param array                   $options
+     * @param Silx\Application $app
+     * @param array            $options
      */
     public function __construct(Application $app, array $options)
     {
@@ -69,7 +72,11 @@ final class Factory extends PackageManager
             chdir($this->options['basedir']);
 
             // Use the factory to get a new Composer object
-            $this->composer = \Composer\Factory::create($this->getIO(), $this->options['composerjson'], true);
+            try {
+                $this->composer = \Composer\Factory::create($this->getIO(), $this->options['composerjson'], true);
+            } catch (\Exception $e) {
+                $this->app['logger.system']->addCritical($e->getMessage(), array('event' => 'exception', 'exception' => $e));
+            }
 
             if ($this->downgradeSsl) {
                 $this->allowSslDowngrade(true);
@@ -98,7 +105,7 @@ final class Factory extends PackageManager
      *
      * @return Bolt\Composer\Factory
      */
-    protected function resetComposer()
+    public function resetComposer()
     {
         $this->composer = null;
 
@@ -122,7 +129,7 @@ final class Factory extends PackageManager
      */
     private function allowSslDowngrade($choice)
     {
-        $repos = $this->composer->getRepositoryManager()->getRepositories();
+        $repos = $this->getComposer()->getRepositoryManager()->getRepositories();
 
         foreach ($repos as $repo) {
             $reflection = new \ReflectionClass($repo);
@@ -163,9 +170,9 @@ final class Factory extends PackageManager
     /**
      * Return a resolver pool that contains repositories, that provide packages
      *
-     * @return \Composer\DependencyResolver\Pool
+     * @return Composer\DependencyResolver\Pool
      */
-    protected function getPool()
+    public function getPool()
     {
         if (!$this->pool) {
             $this->pool = new Pool($this->getMinimumStability());
@@ -185,9 +192,9 @@ final class Factory extends PackageManager
      *
      * @return string
      */
-    protected function getMinimumStability()
+    public function getMinimumStability()
     {
-        $stability = $this->composer->getPackage()->getMinimumStability();
+        $stability = $this->getComposer()->getPackage()->getMinimumStability();
         if (!empty($stability)) {
             return $stability;
         }
@@ -198,12 +205,12 @@ final class Factory extends PackageManager
     /**
      * Get all our repos
      *
-     * @return \Composer\Repository\CompositeRepository
+     * @return Composer\Repository\CompositeRepository
      */
     protected function getRepos()
     {
         if (!$this->repos) {
-            $this->repos = $this->composer->getRepositoryManager()->getRepositories();
+            $this->repos = $this->getComposer()->getRepositoryManager()->getRepositories();
         }
 
         return $this->repos;

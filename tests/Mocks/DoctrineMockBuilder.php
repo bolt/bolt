@@ -16,8 +16,7 @@ class DoctrineMockBuilder extends \PHPUnit_Framework_TestCase
         $mock = $this->getAbstractMock(
             'Doctrine\DBAL\Platforms\AbstractPlatform',
             array(
-                'getName',
-                'getTruncateTableSQL',
+                'getName'
             )
         );
 
@@ -25,10 +24,6 @@ class DoctrineMockBuilder extends \PHPUnit_Framework_TestCase
             ->method('getName')
             ->will($this->returnValue('mysql'));
 
-        $mock->expects($this->any())
-            ->method('getTruncateTableSQL')
-            ->with($this->anything())
-            ->will($this->returnValue('#TRUNCATE {table}'));
 
         return $mock;
     }
@@ -50,7 +45,9 @@ class DoctrineMockBuilder extends \PHPUnit_Framework_TestCase
                     'executeQuery',
                     'executeUpdate',
                     'getDatabasePlatform',
+                    'createQueryBuilder',
                     'connect',
+                    'insert'
                 )
             )
             ->getMock();
@@ -62,6 +59,10 @@ class DoctrineMockBuilder extends \PHPUnit_Framework_TestCase
         $mock->expects($this->any())
             ->method('query')
             ->will($this->returnValue($this->getStatementMock()));
+            
+        $mock->expects($this->any())
+            ->method('createQueryBuilder')
+            ->will($this->returnValue($this->getQueryBuilderMock($mock)));
 
         $mock->expects($this->any())
             ->method('getDatabasePlatform')
@@ -69,6 +70,20 @@ class DoctrineMockBuilder extends \PHPUnit_Framework_TestCase
 
         return $mock;
     }
+    
+    /**
+     * @return Doctrine\DBAL\Query\QueryBuilder
+     */
+    public function getQueryBuilderMock($connection)
+    {
+        $exprmock = $this->getMock('Doctrine\DBAL\Query\Expression\ExpressionBuilder', null, array($connection));
+        $mock = $this->getMock("Doctrine\DBAL\Query\QueryBuilder", array('expr'), array($connection));
+        $mock->expects($this->any())
+            ->method('expr')
+            ->will($this->returnValue($exprmock));
+        return $mock;
+    }
+       
 
     /**
      * @return \Doctrine\DBAL\Driver\Statement|\PHPUnit_Framework_MockObject_MockObject

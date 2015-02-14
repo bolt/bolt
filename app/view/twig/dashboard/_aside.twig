@@ -8,6 +8,19 @@
     </section>
 </noscript>
 
+{# If we're running a development version, show annoying message. #}
+{% if app.bolt_released == false %}
+<div class="panel panel-default panel-news">
+    <div class="progress-bar progress-bar-warning progress-bar-striped active" style="width: 100%; text-align: left; color: #333; padding: 10px 14px; margin-bottom: 15px;">
+        <b><i class="fa fa-fw fa-bullhorn"></i> Warning: Development version </b>
+    </div>
+    <div class="panel-body">
+            <p>This is a development version of Bolt, so it might contain bugs and unfinished features. Use at your own risk! For 'production' websites, we advise you to stick with the official stable releases. </p>
+    </p>
+    </div>
+</div>
+{% endif %}
+
 {# News #}
 {% if not app.config.get('general/backend/news/disable', false) %}
     {{ render(path('dashboardnews')) }}
@@ -21,7 +34,7 @@
 
 {# Latest Activity #}
 <div id="latestactivity">
-    {{ render(path("latestactivity")) }}
+    {{ render(path('latestactivity')) }}
 </div>
 
 {# ? #}

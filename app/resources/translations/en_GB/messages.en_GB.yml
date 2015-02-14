@@ -404,9 +404,9 @@ users.your-password: "Your password"
 component:
     changelog-detail:
         by: "by"
-        field: "field"
-        value-new: "new value"
-        value-old: "old value"
+        field: "Field"
+        value-new: "New value"
+        value-old: "Old value"
     changelog-pager:
         page: "Page"
 
@@ -438,6 +438,7 @@ contenttypes:
         publish: "Publish %contenttype%"
         recent: "Recent %contenttypes%"
         recently-edited: "Recently edited %contenttypes%"
+        recent-changes-one: "Recent changes to this %contenttype%"
         reserved-name: "In the contenttype for '%contenttype%', the field '%field%' is defined, which is a reserved name. Please edit contenttypes.yml, and correct this."
         save: "Save %contenttype%"
         saved-changes: "The changes to this %contenttype% have been saved."
@@ -535,11 +536,11 @@ page:
             last-seen: "Last seen"
             password: "Password"
             password-confirm: "Password (confirmation)"
-            user-enabled: "User is enabled"
+            user-enabled: "User account is enabled"
             username: "Username"
         log:
-            user-added: "Added user '%user%'."
-            user-updated: "Updated user '%user%'."
+            user-added: "Added user account '%user%'."
+            user-updated: "Updated user account '%user%'."
         message:
             saving-user: "User %user% could not be saved, or nothing was changed."
             user-saved: "User %user% has been saved."
@@ -552,11 +553,11 @@ page:
             password-confirm: "Confirm your password"
             username: "Pick a username, lowercase only"
         title:
-            create: "Create a new user"
-            edit: "Edit user"
+            create: "Create a new user account"
+            edit: "Edit user account"
             profile: "Profile"
-        user-create: "Create a new user, using the form below. The password field is required."
-        user-edit: "Edit an existing user, using the form below. Leave the password fields empty, unless you wish to change the password."
+        user-create: "Create a new user account, using the form below. The password field is required."
+        user-edit: "Edit an existing user account, using the form below. Leave the password fields empty, unless you wish to change the password."
     login:
         button:
             back: "Back to login"
@@ -579,10 +580,13 @@ panel:
             more: "more activity"
         by: "by"
         fixme: "Fixme:"
-        headline: "Latest activity"
+        change: "Latest changes"
         logged-in: "logged in"
         logged-out: "logged out"
+        created: "Created"
         saved: "Saved"
+        system: "Latest system activity"
+        deleted: "Deleted"
         unknown: "unknown"
     user-actions:
         button:

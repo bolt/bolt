@@ -9,7 +9,7 @@
  */
 String.prototype.subst = function(replacements) {
     return this.replace(/%[A-Z][A-Z0-9_]+%/g, function (placeholder) {
-        return replacements[placeholder] ? replacements[placeholder] : placeholder;
+        return placeholder in replacements ? replacements[placeholder] : placeholder;
     });
 };
 
@@ -42,7 +42,9 @@ jQuery(function ($) {
     // Initialisation
     bolt.datetimes.init();
     //
-    init.ckeditor();
+    if (typeof CKEDITOR !== 'undefined') {
+        init.ckeditor();
+    }
     init.confirmationDialogs();
     init.magnificPopup();
     init.dataActions();

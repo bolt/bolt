@@ -14,36 +14,32 @@ use Bolt\Extensions\Snippets\Location as SnippetLocation;
 class Extension implements ExtensionInterface
 {
 
-
-    public function __construct(Application $app) 
+    public function __construct(Application $app)
     {
         $this->app = $app;
     }
-    
-    public function initialize() 
+
+    public function initialize()
     {
-        
     }
-    
+
     public function getConfig()
     {
-        
     }
-    
+
     public function getSnippets()
     {
         return array(array(SnippetLocation::END_OF_HEAD, '<meta name="test-snippet" />'));
     }
-    
+
     public function getExtensionConfig()
     {
         return array();
     }
-    
+
     public function getName()
     {
         return "testext";
     }
 
-   
 }

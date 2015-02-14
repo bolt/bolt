@@ -2,16 +2,17 @@
 
 namespace Bolt;
 
-use Doctrine\DBAL\DBALException;
-use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
 use Bolt;
 use Bolt\Events\StorageEvent;
 use Bolt\Events\StorageEvents;
+use Bolt\Exception\StorageException;
 use Bolt\Helpers\Arr;
 use Bolt\Helpers\String;
 use Bolt\Helpers\Html;
 use Bolt\Translation\Translator as Trans;
 use Doctrine\DBAL\Connection as DoctrineConn;
+use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
 use Symfony\Component\HttpFoundation\Request;
 
 class Storage
@@ -48,11 +49,6 @@ class Storage
 
         $this->prefix = $app['config']->get('general/database/prefix', "bolt_");
 
-        // Make sure prefix ends in '_'. Prefixes without '_' are lame..
-        if ($this->prefix[strlen($this->prefix) - 1] != "_") {
-            $this->prefix .= "_";
-        }
-
         $this->tables = array();
     }
 
@@ -60,8 +56,8 @@ class Storage
      * Get an object for the content of a specific contenttype. This will be
      * \Bolt\Content, unless the contenttype defined another class to be used.
      *
-     * @param  array|string $contenttype
-     * @param  array $values
+     * @param  array|string  $contenttype
+     * @param  array         $values
      * @throws \Exception
      * @return \Bolt\Content
      */
@@ -98,13 +94,11 @@ class Storage
      * If the parameters is empty, only fill empty tables
      *
      * @see preFillSingle
-     * @param array $contenttypes
+     * @param  array  $contenttypes
      * @return string
      */
     public function preFill($contenttypes = array())
     {
-        $this->guzzleclient = new \Guzzle\Service\Client('http://loripsum.net/api/');
-
         $output = "";
 
         // get a list of images..
@@ -148,6 +142,7 @@ class Storage
     {
         $content = array();
         $title = '';
+        $uri = 'http://loripsum.net/api';
 
         $content['contenttype'] = $key;
         $content['datecreated'] = date('Y-m-d H:i:s', time() - rand(0, 365 * 24 * 60 * 60));
@@ -165,7 +160,7 @@ class Storage
 
             switch ($values['type']) {
                 case 'text':
-                    $content[$field] = trim(strip_tags($this->guzzleclient->get('1/veryshort')->send()->getBody(true)));
+                    $content[$field] = trim(strip_tags($this->app['guzzle.client']->get($uri . '/1/veryshort')->send()->getBody(true)));
                     if (empty($title)) {
                         $title = $content[$field];
                     }
@@ -180,11 +175,11 @@ class Storage
                 case 'textarea':
                 case 'markdown':
                     if (in_array($field, array('teaser', 'introduction', 'excerpt', 'intro'))) {
-                        $params = 'medium/decorate/link/1';
+                        $params = '/medium/decorate/link/1';
                     } else {
-                        $params = 'medium/decorate/link/ol/ul/3';
+                        $params = '/medium/decorate/link/ol/ul/3';
                     }
-                    $content[$field] = trim($this->guzzleclient->get($params)->send()->getBody(true));
+                    $content[$field] = trim($this->app['guzzle.client']->get($uri . $params)->send()->getBody(true));
 
                     if ($values['type'] == "markdown") {
                         $content[$field] = strip_tags($content[$field]);
@@ -207,6 +202,8 @@ class Storage
             }
 
         }
+
+        $content['slug'] = $this->app['slugify']->slugify($content['title']);
 
         $contentobject = $this->getContentObject($contenttype);
         $contentobject->setValues($content);
@@ -260,272 +257,91 @@ class Storage
 
     /**
      * Writes a content-changelog entry for a newly-created entry.
+     *
+     * @param string  $contenttype Slug of the record contenttype
+     * @param integer $contentid   ID of the record
+     * @param array   $content     Record values
+     * @param string  $comment     Editor's comment
      */
     private function logInsert($contenttype, $contentid, $content, $comment = null)
     {
-        $this->app['logger.change']->addInfo('Insert record', array(
-            'action' => 'INSERT',
-            'contenttype' => $contenttype,
-            'id' => $contentid,
-            'new' => $content,
-            'old' => null,
-            'comment' => $comment
-        ));
+        $this->app['logger.change']->addInfo(
+            'Insert record',
+            array(
+                'action' => 'INSERT',
+                'contenttype' => $contenttype,
+                'id' => $contentid,
+                'new' => $content,
+                'old' => null,
+                'comment' => $comment
+            )
+        );
     }
 
     /**
      * Writes a content-changelog entry for an updated entry.
      * This function must be called *before* the actual update, because it
      * fetches the old content from the database.
+     *
+     * @param string  $contenttype Slug of the record contenttype
+     * @param integer $contentid   ID of the record
+     * @param array   $newContent  New record values
+     * @param array   $oldContent  Old record values
+     * @param string  $comment     Editor's comment
      */
     private function logUpdate($contenttype, $contentid, $newContent, $oldContent = null, $comment = null)
     {
-        $this->app['logger.change']->addInfo('Update record', array(
-            'action' => 'UPDATE',
-            'contenttype' => $contenttype,
-            'id' => $contentid,
-            'new' => $newContent,
-            'old' => $oldContent,
-            'comment' => $comment
-        ));
+        $this->app['logger.change']->addInfo(
+            'Update record',
+            array(
+                'action' => 'UPDATE',
+                'contenttype' => $contenttype,
+                'id' => $contentid,
+                'new' => $newContent,
+                'old' => $oldContent,
+                'comment' => $comment
+            )
+        );
     }
 
     /**
      * Writes a content-changelog entry for a deleted entry.
      * This function must be called *before* the actual update, because it
+     *
+     * @param string  $contenttype Slug of the record contenttype
+     * @param integer $contentid   ID of the record
+     * @param array   $content     Record values
+     * @param string  $comment     Editor's comment
      */
     private function logDelete($contenttype, $contentid, $content, $comment = null)
     {
-        $this->app['logger.change']->addInfo('Delete record', array(
-            'action' => 'DELETE',
-            'contenttype' => $contenttype,
-            'id' => $contentid,
-            'new' => null,
-            'old' => $content,
-            'comment' => $comment
-        ));
-    }
-
-    private function makeOrderLimitSql($options)
-    {
-        $sql = '';
-        if (isset($options['order'])) {
-            $sql .= sprintf(" ORDER BY %s", $options['order']);
-        }
-        if (isset($options['limit'])) {
-            if (isset($options['offset'])) {
-                $sql .= sprintf(" LIMIT %s, %s ", intval($options['offset']), intval($options['limit']));
-            } else {
-                $sql .= sprintf(" LIMIT %d", intval($options['limit']));
-            }
-        }
-
-        return $sql;
+        $this->app['logger.change']->addInfo(
+            'Delete record',
+            array(
+                'action' => 'DELETE',
+                'contenttype' => $contenttype,
+                'id' => $contentid,
+                'new' => null,
+                'old' => $content,
+                'comment' => $comment
+            )
+        );
     }
 
     /**
-     * Get content changelog entries for all content types
-     * @param array $options An array with additional options. Currently, the
-     *                       following options are supported:
-     *                       - 'limit' (int)
-     *                       - 'offset' (int)
-     *                       - 'order' (string)
-     * @return array
-     */
-    public function getChangelog($options)
-    {
-        $tablename = $this->getTablename('log_change');
-        $sql = "SELECT log.*, log.title " .
-               "    FROM $tablename as log ";
-        $sql .= $this->makeOrderLimitSql($options);
-
-        $rows = $this->app['db']->fetchAll($sql, array());
-        $objs = array();
-        foreach ($rows as $row) {
-            $objs[] = new ChangelogItem($this->app, $row);
-        }
-
-        return $objs;
-    }
-
-    public function countChangelog()
-    {
-        $tablename = $this->getTablename('log_change');
-        $sql = "SELECT COUNT(1) " .
-               "    FROM $tablename as log ";
-
-        return $this->app['db']->fetchColumn($sql, array());
-    }
-
-    /**
-     * Get content changelog entries by content type.
-     * @param mixed $contenttype Should be a string content type slug, or an
-     *                           associative array containing a key named
-     *                           'slug'
-     * @param array $options An array with additional options. Currently, the
-     *                       following options are supported:
-     *                       - 'limit' (int)
-     *                       - 'order' (string)
-     *                       - 'contentid' (int), to filter further by content ID
-     *                       - 'id' (int), to filter by a specific changelog entry ID
-     * @return array
-     */
-    public function getChangelogByContentType($contenttype, $options)
-    {
-        if (is_array($contenttype)) {
-            $contenttype = $contenttype['slug'];
-        }
-        $tablename = $this->getTablename('log_change');
-        $contentTablename = $this->getTablename($contenttype);
-        $sql = "SELECT log.*, log.title " .
-               "    FROM $tablename as log " .
-               "    LEFT JOIN " . $contentTablename . " as content " .
-               "    ON content.id = log.contentid " .
-               "    WHERE contenttype = ? ";
-        $params = array($contenttype);
-        if (isset($options['contentid'])) {
-            $sql .= "    AND contentid = ? ";
-            $params[] = intval($options['contentid']);
-        }
-        if (isset($options['id'])) {
-            $sql .= " AND log.id = ? ";
-            $params[] = intval($options['id']);
-        }
-        $sql .= $this->makeOrderLimitSql($options);
-
-        $rows = $this->app['db']->fetchAll($sql, $params);
-        $objs = array();
-        foreach ($rows as $row) {
-            $objs[] = new ChangelogItem($this->app, $row);
-        }
-
-        return $objs;
-    }
-
-    public function countChangelogByContentType($contenttype, $options)
-    {
-        if (is_array($contenttype)) {
-            $contenttype = $contenttype['slug'];
-        }
-        $tablename = $this->getTablename('log_change');
-        $sql = "SELECT COUNT(1) " .
-               "    FROM $tablename as log " .
-               "    WHERE contenttype = ? ";
-        $params = array($contenttype);
-        if (isset($options['contentid'])) {
-            $sql .= "    AND contentid = ? ";
-            $params[] = intval($options['contentid']);
-        }
-        if (isset($options['id'])) {
-            $sql .= "    AND log.id = ? ";
-            $params[] = intval($options['id']);
-        }
-
-        return $this->app['db']->fetchColumn($sql, $params);
-    }
-
-    /**
-     * Get a content changelog entry by ID
-     * @param mixed $contenttype Should be a string content type slug, or an
-     *                           associative array containing a key named
-     *                           'slug'
-     * @param $contentid
-     * @param int $id The content-changelog ID
-     * @return \Bolt\ChangelogItem|null
-     */
-    public function getChangelogEntry($contenttype, $contentid, $id)
-    {
-        return $this->getOrderedChangelogEntry($contenttype, $contentid, $id, '=');
-    }
-
-    /**
-     * Get the content changelog entry that follows the given ID.
-     * @param mixed $contenttype Should be a string content type slug, or an
-     *                           associative array containing a key named
-     *                           'slug'
-     * @param $contentid
-     * @param int $id The content-changelog ID
-     * @return \Bolt\ChangelogItem|null
-     */
-    public function getNextChangelogEntry($contenttype, $contentid, $id)
-    {
-        return $this->getOrderedChangelogEntry($contenttype, $contentid, $id, '>');
-    }
-
-    /**
-     * Get the content changelog entry that precedes the given ID.
-     * @param mixed $contenttype Should be a string content type slug, or an
-     *                           associative array containing a key named
-     *                           'slug'
-     * @param $contentid
-     * @param int $id The content-changelog ID
-     * @return \Bolt\ChangelogItem|null
-     */
-    public function getPrevChangelogEntry($contenttype, $contentid, $id)
-    {
-        return $this->getOrderedChangelogEntry($contenttype, $contentid, $id, '<');
-    }
-
-    /**
-     * Get one changelog entry from the database.
+     * Save a record
      *
-     * @param mixed $contenttype Should be a string content type slug, or an
-     *                           associative array containing a key named
-     *                           'slug'
-     * @param $contentid
-     * @param int $id The content-changelog ID
-     * @param string $cmpOp One of '=', '<', '>'; this parameter is used
-     *                       to select either the ID itself, or the subsequent
-     *                       or preceding entry.
-     * @throws \Exception
-     * @return \Bolt\ChangelogItem|null
+     * @param Bolt\Content $content
+     * @param string        $comment
      */
-    private function getOrderedChangelogEntry($contenttype, $contentid, $id, $cmpOp)
-    {
-        if (is_array($contenttype)) {
-            $contenttype = $contenttype['slug'];
-        }
-        switch ($cmpOp) {
-            case '=':
-                $ordering = ''; // no need to order
-                break;
-            case '<':
-                $ordering = " ORDER BY date DESC";
-                break;
-            case '>':
-                $ordering = " ORDER BY date ";
-                break;
-        }
-        $tablename = $this->getTablename('log_change');
-        $contentTablename = $this->getTablename($contenttype);
-        $sql = "SELECT log.* " .
-               "    FROM $tablename as log " .
-               "    LEFT JOIN " . $contentTablename . " as content " .
-               "    ON content.id = log.contentid " .
-               "    WHERE log.id $cmpOp ? " .
-               "    AND log.contentid = ? " .
-               "    AND contenttype = ? " .
-               $ordering .
-               "    LIMIT 1";
-        $params = array($id, $contentid, $contenttype);
-
-        $row = $this->app['db']->fetchAssoc($sql, $params);
-        if (is_array($row)) {
-            return new ChangelogItem($this->app, $row);
-        } else {
-            return null;
-        }
-    }
-
     public function saveContent(\Bolt\Content $content, $comment = null)
     {
         $contenttype = $content->contenttype;
         $fieldvalues = $content->values;
 
         if (empty($contenttype)) {
-            echo 'Contenttype is required.';
-
-            return false;
+            $this->app['logger.system']->addError('Contenttype is required for ' . __FUNCTION__, array('event' => 'exception'));
+            throw new StorageException('Contenttype is required for ' . __FUNCTION__);
         }
 
         // Test to see if this is a new record, or an update
@@ -535,148 +351,56 @@ class Storage
             $create = false;
         }
 
-        if (! $this->inDispatcher && $this->app['dispatcher']->hasListeners(StorageEvents::PRE_SAVE)) {
-            // Block dispatcher loops
-            $this->inDispatcher = true;
-
-            $event = new StorageEvent($content, $create);
-            $this->app['dispatcher']->dispatch(StorageEvents::PRE_SAVE, $event);
-
-            // Re-enable the dispather
-            $this->inDispatcher = false;
-        }
-
-        if (!isset($fieldvalues['slug'])) {
-            $fieldvalues['slug'] = ''; // Prevent 'slug may not be NULL'
-        }
-
-        // add the fields for this contenttype,
-        foreach ($contenttype['fields'] as $key => $values) {
-            switch ($values['type']) {
-
-                // Set the slug, while we're at it..
-                case 'slug':
-                    if (!empty($values['uses']) && empty($fieldvalues['slug'])) {
-                        $uses = '';
-                        foreach ($values['uses'] as $usesField) {
-                            $uses .= $fieldvalues[$usesField] . ' ';
-                        }
-                        $fieldvalues['slug'] = String::slug($uses);
-                    } elseif (!empty($fieldvalues['slug'])) {
-                        $fieldvalues['slug'] = String::slug($fieldvalues['slug']);
-                    } elseif (empty($fieldvalues['slug']) && $fieldvalues['id']) {
-                        $fieldvalues['slug'] = $fieldvalues['id'];
-                    }
-                    break;
-
-                case 'video':
-                    foreach (array('html', 'responsive') as $subkey) {
-                        if (!empty($fieldvalues[$key][$subkey])) {
-                            $fieldvalues[$key][$subkey] = (string) $fieldvalues[$key][$subkey];
-                        }
-                    }
-                    if (!empty($fieldvalues[$key]['url'])) {
-                        $fieldvalues[$key] = json_encode($fieldvalues[$key]);
-                    } else {
-                        $fieldvalues[$key] = '';
-                    }
-                    break;
-
-                case 'geolocation':
-                    if (!empty($fieldvalues[$key]['latitude']) && !empty($fieldvalues[$key]['longitude'])) {
-                        $fieldvalues[$key] = json_encode($fieldvalues[$key]);
-                    } else {
-                        $fieldvalues[$key] = '';
-                    }
-                    break;
-
-                case 'image':
-                    if (!empty($fieldvalues[$key]['file'])) {
-                        $fieldvalues[$key] = json_encode($fieldvalues[$key]);
-                    } else {
-                        $fieldvalues[$key] = '';
-                    }
-                    break;
-
-                case 'imagelist':
-                case 'filelist':
-                    if (is_array($fieldvalues[$key])) {
-                        $fieldvalues[$key] = json_encode($fieldvalues[$key]);
-                    } elseif (!empty($fieldvalues[$key]) && strlen($fieldvalues[$key]) < 3) {
-                        // Don't store '[]'
-                        $fieldvalues[$key] = '';
-                    }
-                    break;
-
-                case 'integer':
-                    $fieldvalues[$key] = round($fieldvalues[$key]);
-                    break;
-
-                case 'select':
-                    if (is_array($fieldvalues[$key])) {
-                        $fieldvalues[$key] = json_encode($fieldvalues[$key]);
-                    }
-                    break;
-            }
-        }
-
-        // Clean up fields, check unneeded columns.
-        foreach ($fieldvalues as $key => $value) {
-
-            if ($this->isValidColumn($key, $contenttype)) {
-                // Trim strings..
-                if (is_string($fieldvalues[$key])) {
-                    $fieldvalues[$key] = trim($fieldvalues[$key]);
-                }
-            } else {
-                // unset columns we don't need to store..
-                unset($fieldvalues[$key]);
-            }
-
-        }
-
         // We need to verify if the slug is unique. If not, we update it.
         $getId = $create ? null : $fieldvalues['id'];
         $fieldvalues['slug'] = $this->getUri($fieldvalues['slug'], $getId, $contenttype['slug'], false, false);
 
-        // Decide whether to insert a new record, or update an existing one.
-        if ($create) {
-            $id = $this->insertContent($fieldvalues, $contenttype, $comment);
-            $fieldvalues['id'] = $id;
-            $content->setValue('id', $id);
-        } else {
-            $id = $fieldvalues['id'];
-            $this->updateContent($fieldvalues, $contenttype, $comment);
+        // Update the content object
+        $content->setValues($fieldvalues);
+
+        // Dispatch pre-save event
+        if (! $this->inDispatcher && $this->app['dispatcher']->hasListeners(StorageEvents::PRE_SAVE)) {
+            $event = new StorageEvent($content, array('contenttype' => $contenttype, 'create' => $create));
+            $this->app['dispatcher']->dispatch(StorageEvents::PRE_SAVE, $event);
         }
 
-        $this->updateTaxonomy($contenttype, $id, $content->taxonomy);
-        $this->updateRelation($contenttype, $id, $content->relation);
+        // Decide whether to insert a new record, or update an existing one.
+        if ($create) {
+            $this->insertContent($content, $comment);
+        } else {
+            $this->updateContent($content, $comment);
+        }
 
+        // Update taxonomy and record relationships
+        $this->updateTaxonomy($contenttype, $content->values['id'], $content->taxonomy);
+        $this->updateRelation($contenttype, $content->values['id'], $content->relation);
+
+        // Dispatch post-save event
         if (!$this->inDispatcher && $this->app['dispatcher']->hasListeners(StorageEvents::POST_SAVE)) {
             // Block loops
             $this->inDispatcher = true;
 
-            $event = new StorageEvent($content, $create);
+            $event = new StorageEvent($content, array('contenttype' => $contenttype, 'create' => $create));
             $this->app['dispatcher']->dispatch(StorageEvents::POST_SAVE, $event);
 
             // Re-enable the dispather
             $this->inDispatcher = false;
         }
 
-        return $id;
+        return $content->values['id'];
     }
 
+    /**
+     * Delete a record
+     *
+     * @param string  $contenttype
+     * @param integer $id
+     */
     public function deleteContent($contenttype, $id)
     {
         if (empty($contenttype)) {
-            echo "Contenttype is required.";
-
-            return false;
-        }
-
-        if ($this->app['dispatcher']->hasListeners(StorageEvents::PRE_DELETE)) {
-            $event = new StorageEvent(array($contenttype, $id));
-            $this->app['dispatcher']->dispatch(StorageEvents::PRE_DELETE, $event);
+            $this->app['logger.system']->addError('Contenttype is required for' . __FUNCTION__, array('event' => 'exception'));
+            throw new StorageException('Contenttype is required for ' . __FUNCTION__);
         }
 
         // Make sure $contenttype is a 'slug'
@@ -684,9 +408,15 @@ class Storage
             $contenttype = $contenttype['slug'];
         }
 
+        // Get the old content record
         $tablename = $this->getTablename($contenttype);
-
         $oldContent = $this->findContent($tablename, $id);
+
+        // Dispatch pre-delete event
+        if ($this->app['dispatcher']->hasListeners(StorageEvents::PRE_DELETE)) {
+            $event = new StorageEvent($oldContent, array('contenttype' => $contenttype));
+            $this->app['dispatcher']->dispatch(StorageEvents::PRE_DELETE, $event);
+        }
 
         $this->logDelete($contenttype, $id, $oldContent);
 
@@ -694,88 +424,113 @@ class Storage
 
         // Make sure relations and taxonomies are deleted as well.
         if ($res) {
-            $this->app['db']->delete($this->prefix . "relations", array('from_contenttype' => $contenttype, 'from_id' => $id));
-            $this->app['db']->delete($this->prefix . "relations", array('to_contenttype' => $contenttype, 'to_id' => $id));
-            $this->app['db']->delete($this->prefix . "taxonomy", array('contenttype' => $contenttype, 'content_id' => $id));
+            $this->app['db']->delete($this->prefix . 'relations', array('from_contenttype' => $contenttype, 'from_id' => $id));
+            $this->app['db']->delete($this->prefix . 'relations', array('to_contenttype' => $contenttype, 'to_id' => $id));
+            $this->app['db']->delete($this->prefix . 'taxonomy', array('contenttype' => $contenttype, 'content_id' => $id));
         }
 
+        // Dispatch post-delete event
         if ($this->app['dispatcher']->hasListeners(StorageEvents::POST_DELETE)) {
-            $event = new StorageEvent(array($contenttype, $id));
+            $event = new StorageEvent($oldContent, array('contenttype' => $contenttype));
             $this->app['dispatcher']->dispatch(StorageEvents::POST_DELETE, $event);
         }
 
         return $res;
     }
 
-    protected function insertContent($content, $contenttype, $comment = null)
+    /**
+     * Insert a new contenttype record in the database
+     *
+     * @param  Bolt\Content $content Record content to insert
+     * @param  string       $comment Editor's comment
+     * @return boolean
+     */
+    protected function insertContent(Bolt\Content $content, $comment = null)
     {
-        // Make sure $contenttype is a 'slug'
-        if (is_array($contenttype)) {
-            $contenttype = $contenttype['slug'];
-        }
+        $tablename = $this->getTablename($content->contenttype['slug']);
 
-        $tablename = $this->getTablename($contenttype);
-
-        $content['datecreated'] = date('Y-m-d H:i:s');
-        $content['datechanged'] = date('Y-m-d H:i:s');
+        // Set creation and update dates
+        $content->setValue('datecreated', date('Y-m-d H:i:s'));
+        $content->setValue('datechanged', date('Y-m-d H:i:s'));
 
         // id is set to autoincrement, so let the DB handle it
-        unset($content['id']);
+        unset($content->values['id']);
 
-        $this->app['db']->insert($tablename, $content);
+        // Get the JSON database prepared values and make sure it's valid
+        $fieldvalues = $this->getValidSaveData($content->getValues(true), $content->contenttype);
+
+        $this->app['db']->insert($tablename, $fieldvalues);
 
         $seq = null;
         if ($this->app['db']->getDatabasePlatform() instanceof PostgreSqlPlatform) {
             $seq = $tablename . '_id_seq';
         }
+
         $id = $this->app['db']->lastInsertId($seq);
 
-        $this->logInsert($contenttype, $id, $content, $comment);
+        if ($id > 0) {
+            $content->setValue('id', $id);
+            $this->logInsert($content->contenttype['slug'], $id, $fieldvalues, $comment);
 
-        return $id;
+            return true;
+        }
     }
 
     /**
-     * @param array  $content     The content new values.
-     * @param string $contenttype The content type
-     * @param string $comment     Add a comment to save with change.
-     * @return bool
+     * Update a Bolt contenttype record
+     *
+     * @param  Bolt\Content $content The content object to be updated
+     * @param  string       $comment Add a comment to save with change.
+     * @return boolean
      */
-    private function updateContent($content, $contenttype, $comment = null)
+    private function updateContent(Bolt\Content $content, $comment = null)
     {
-        // Make sure $contenttype is a 'slug'
-        if (is_array($contenttype)) {
-            $contenttype = $contenttype['slug'];
-        }
+        $tablename = $this->getTablename($content->contenttype['slug']);
 
-        $tablename = $this->getTablename($contenttype);
+        // Set the date the record was changed
+        $content->setValue('datechanged', date('Y-m-d H:i:s'));
 
+        // Test that the record exists in the database
         $oldContent = $this->findContent($tablename, $content['id']);
-
-        $content['datechanged'] = date('Y-m-d H:i:s');
-
-        if (!empty($oldContent)) {
-
-            // Do the actual update, and log it.
-            $res = $this->app['db']->update($tablename, $content, array('id' => $content['id']));
-            if ($res > 0) {
-                $this->logUpdate($contenttype, $content['id'], $content, $oldContent, $comment);
-            }
-
-        } else {
-
-            // Content didn't exist, so do an insert after all. Log it as an insert.
-            $res = $this->app['db']->insert($tablename, $content);
-            $seq = null;
-            if ($this->app['db']->getDatabasePlatform() instanceof PostgreSqlPlatform) {
-                $seq = $tablename . '_id_seq';
-            }
-            $id = $this->app['db']->lastInsertId($seq);
-            $this->logInsert($contenttype, $id, $content, $comment);
-
+        if (empty($oldContent)) {
+            throw new StorageException('Attempted to update a non-existent record');
         }
 
+        // Get the JSON database prepared values and make sure it's valid
+        $fieldvalues = $this->getValidSaveData($content->getValues(true), $content->contenttype);
 
+        // Do the actual update, and log it.
+        $res = $this->app['db']->update($tablename, $fieldvalues, array('id' => $content['id']));
+        if ($res > 0) {
+            $this->logUpdate($content->contenttype['slug'], $content['id'], $fieldvalues, $oldContent, $comment);
+
+            return true;
+        }
+    }
+
+    /**
+     * Get a valid array to commit
+     *
+     * @param  array $fieldvalues
+     * @param  array $contenttype
+     * @return array
+     */
+    private function getValidSaveData(array $fieldvalues, array $contenttype)
+    {
+        // Clean up fields, check unneeded columns.
+        foreach ($fieldvalues as $key => $value) {
+            if ($this->isValidColumn($key, $contenttype)) {
+                if (is_string($fieldvalues[$key])) {
+                    // Trim strings
+                    $fieldvalues[$key] = trim($fieldvalues[$key]);
+                }
+            } else {
+                // unset columns we don't need to store.
+                unset($fieldvalues[$key]);
+            }
+        }
+
+        return $fieldvalues;
     }
 
     /**
@@ -783,11 +538,11 @@ class Storage
      *
      * It is called in list of contents.
      *
-     * @param string $contenttype Content Type to be edited.
-     * @param int    $id          Id of content to be updated.
-     * @param string $field       Field name of content to be changed.
-     * @param mixed  $value       New value to be defined on field.
-     * @return bool Returns true when update is done or false if not.
+     * @param  string $contenttype Content Type to be edited.
+     * @param  int    $id          Id of content to be updated.
+     * @param  string $field       Field name of content to be changed.
+     * @param  mixed  $value       New value to be defined on field.
+     * @return bool   Returns true when update is done or false if not.
      */
     public function updateSingleValue($contenttype, $id, $field, $value)
     {
@@ -795,7 +550,7 @@ class Storage
 
         if (!$this->isValidColumn($field, $contenttype)) {
             $error = Trans::__('contenttypes.generic.invalid-field', array('%field%' => $field, '%contenttype%' => $contenttype));
-            $this->app['session']->getFlashBag()->set('error', $error);
+            $this->app['session']->getFlashBag()->add('error', $error);
 
             return false;
         }
@@ -973,15 +728,16 @@ class Storage
      * Unless the query is invalid it will always return a 'result array'. It may
      * complain in the log but it won't abort.
      *
-     * @param string $q            search string
-     * @param array<string> $contenttypes contenttype names to search for
-     *                                      null means every searchable contenttype
-     * @param array<string,array> $filters additional filters for contenttypes
-     *                                      <key is contenttype and array is filter>
-     * @param  integer $limit  limit the number of results
-     * @param  integer $offset skip this number of results
-     * @return mixed   false if query is invalid,
-     *                                      an array with results if query was executed
+     * @param  string  $q            Search string
+     * @param  array   $contenttypes Contenttype names to search for:
+     *                               - string: Specific contenttype
+     *                               - null:   Every searchable contenttype
+     * @param  array   $filters      Additional filters for contenttypes
+     *                               - key is contenttype
+     *                               - value is filter
+     * @param  integer $limit        limit the number of results
+     * @param  integer $offset       skip this number of results
+     * @return mixed   false if query is invalid, an array with results if query was executed
      */
     public function searchContent($q, array $contenttypes = null, array $filters = null, $limit = 9999, $offset = 0)
     {
@@ -1032,7 +788,6 @@ class Storage
             $results = array_merge($results, $subResults);
         }
 
-
         // Sort the results
         usort($results, array($this, 'compareSearchWeights'));
 
@@ -1070,6 +825,7 @@ class Storage
 
     public function searchContentType($contenttypename, array $parameters = array(), &$pager = array())
     {
+        $where = array();
         $tablename = $this->getTablename($contenttypename);
 
         $contenttype = $this->app['config']->get('contenttypes/' . $contenttypename);
@@ -1190,10 +946,10 @@ class Storage
     {
         $tablename = $this->getTablename('taxonomy');
 
-        $slug = String::slug($name);
+        $slug = $this->app['slugify']->slugify($name);
 
-        $limit = $parameters['limit'] ? : 9999;
-        $page = $parameters['page'] ? : 1;
+        $limit = $parameters['limit'] ?: 9999;
+        $page = $parameters['page'] ?: 1;
 
         $taxonomytype = $this->getTaxonomyType($taxonomyslug);
 
@@ -1400,8 +1156,8 @@ class Storage
      * @see $this->decodeContentQuery()
      *
      * @param $textquery
-     * @param array $decoded a pre-set decoded array to fill
-     * @param array $metaParameters meta parameters
+     * @param array $decoded         a pre-set decoded array to fill
+     * @param array $metaParameters  meta parameters
      * @param array $ctypeParameters contenttype parameters
      */
     private function parseTextQuery($textquery, array &$decoded, array &$metaParameters, array &$ctypeParameters)
@@ -1526,7 +1282,7 @@ class Storage
      * Get the parameter for the 'order by' part of a query.
      * (tightly coupled to $this->getContent())
      *
-     * @param  array $contenttype
+     * @param  array  $contenttype
      * @param  string $orderValue
      * @return string
      */
@@ -1555,23 +1311,23 @@ class Storage
      * Decode a content textquery
      * (tightly coupled to $this->getContent())
      *
-     * @param $textquery
-     * @param null $inParameters
+     * @param    string $textquery
+     * @param    array  $inParameters
      * @internal param string $query the query (eg. page/about, entries/latest/5)
-     * @internal param array $parameters parameters to the query
-     * @return array  decoded query, keys:
-     *    contenttypes           - array, contenttypeslugs that will be returned
-     *    return_single          - boolean, true if only 1 result should be returned
-     *    self_paginated         - boolean, true if already be paginated
-     *    order_callback         - callback, sort results post-hydration after everything is merged
-     *    queries                - array of SQL query parts
-     *       tablename             - tablename
-     *       contenttype           - contenttype array
-     *       from                  - from part
-     *       where                 - where part
-     *       order                 - order part
-     *       params                - bind-parameters
-     *    parameters             - parameters to use after the queries
+     * @internal param array  $parameters parameters to the query
+     * @return   array decoded query, keys:
+     *           contenttypes   - array, contenttypeslugs that will be returned
+     *           return_single  - boolean, true if only 1 result should be returned
+     *           self_paginated - boolean, true if already be paginated
+     *           order_callback - callback, sort results post-hydration after everything is merged
+     *           queries        - array of SQL query parts:
+     *             * tablename   - tablename
+     *             * contenttype - contenttype array
+     *             * from        - from part
+     *             * where       - where part
+     *             * order       - order part
+     *             * params      - bind-parameters
+     *           parameters     - parameters to use after the queries
      */
     private function decodeContentQuery($textquery, $inParameters = null)
     {
@@ -1739,8 +1495,8 @@ class Storage
     /**
      * Decodes contextual page number from current request url if found
      *
-     * @param string $context Pager id/name in url which value we find
-     * @return mixed Page number in context
+     * @param  string $context Pager id/name in url which value we find
+     * @return mixed  Page number in context
      */
     protected function decodePageParameter($context = '')
     {
@@ -1757,7 +1513,7 @@ class Storage
      *
      * @param array<string> contenttypeslugs to check
      * @return mixed false, if any table doesn't exist
-     *                      true, if all is fine
+     *               true, if all is fine
      */
     private function runContenttypeChecks(array $contenttypes)
     {
@@ -1860,7 +1616,7 @@ class Storage
                     $totalResults = $countRow['count'];
                 }
 
-                if (isset($decoded['parameters']['paging']) && $decoded['parameters']['paging'] == true) {
+                if (isset($decoded['parameters']['paging']) && $decoded['parameters']['paging'] === true) {
                     $offset = ($decoded['parameters']['page'] - 1) * $decoded['parameters']['limit'];
                 } else {
                     $offset = null;
@@ -1908,10 +1664,10 @@ class Storage
      * This code has been split into multiple methods in the spirit of separation of concerns,
      * but the situation is still far from ideal.
      * Where applicable each 'concern' notes the coupling in the local documentation.
-     * @param string $textquery
-     * @param string $parameters
-     * @param array  $pager
-     * @param array  $whereparameters
+     * @param  string  $textquery
+     * @param  string  $parameters
+     * @param  array   $pager
+     * @param  array   $whereparameters
      * @return Content
      */
     public function getContent($textquery, $parameters = '', &$pager = array(), $whereparameters = array())
@@ -2000,8 +1756,6 @@ class Storage
             $this->app['twig']->addGlobal('pager', $this->getPager());
         }
 
-
-
         $this->app['stopwatch']->stop('bolt.getcontent');
 
         return $results;
@@ -2011,8 +1765,8 @@ class Storage
      * Check if a given name is a valid column, and if it can be used in queries.
      *
      * @param  string $name
-     * @param  array $contenttype
-     * @param  bool $allowVariants
+     * @param  array  $contenttype
+     * @param  bool   $allowVariants
      * @return bool
      */
     private function isValidColumn($name, $contenttype, $allowVariants = false)
@@ -2054,7 +1808,7 @@ class Storage
      * for example, -id returns `r`.`id` DESC
      *
      * @param  string $name
-     * @param string $prefix
+     * @param  string $prefix
      * @return string
      */
     private function getEscapedSortorder($name, $prefix = 'r')
@@ -2159,7 +1913,7 @@ class Storage
      *
      * @param  string $key
      * @param  string $value
-     * @param  mixed $fieldtype
+     * @param  mixed  $fieldtype
      * @return string
      */
     private function parseWhereParameter($key, $value, $fieldtype = false)
@@ -2221,12 +1975,12 @@ class Storage
     /**
      * Get the contenttype as an array, based on the given $contenttypeslug
      *
-     * @param  string $contenttypeslug
+     * @param  string     $contenttypeslug
      * @return bool|array
      */
     public function getContentType($contenttypeslug)
     {
-        $contenttypeslug = String::slug($contenttypeslug);
+        $contenttypeslug = $this->app['slugify']->slugify($contenttypeslug);
 
         // Return false if empty, can't find it..
         if (empty($contenttypeslug)) {
@@ -2242,7 +1996,7 @@ class Storage
                     $contenttype = $this->app['config']->get('contenttypes/' . $key);
                     break;
                 }
-                if ($contenttypeslug == String::slug($ct['singular_name']) || $contenttypeslug == String::slug($ct['name'])) {
+                if ($contenttypeslug == $this->app['slugify']->slugify($ct['singular_name']) || $contenttypeslug == $this->app['slugify']->slugify($ct['name'])) {
                     $contenttype = $this->app['config']->get('contenttypes/' . $key);
                     break;
                 }
@@ -2259,12 +2013,12 @@ class Storage
     /**
      * Get the taxonomy as an array, based on the given $taxonomyslug
      *
-     * @param  string $taxonomyslug
+     * @param  string     $taxonomyslug
      * @return bool|array
      */
     public function getTaxonomyType($taxonomyslug)
     {
-        $taxonomyslug = String::slug($taxonomyslug);
+        $taxonomyslug = $this->app['slugify']->slugify($taxonomyslug);
 
         // Return false if empty, can't find it..
         if (empty($taxonomyslug)) {
@@ -2298,52 +2052,6 @@ class Storage
     public function getContentTypes()
     {
         return array_keys($this->app['config']->get('contenttypes'));
-    }
-
-    /**
-     * Get a value to use in 'assert() with the available contenttypes
-     *
-     * @param bool $includesingular
-     * @return string $contenttypes
-     */
-    public function getContentTypeAssert($includesingular = false)
-    {
-        $slugs = array();
-        foreach ($this->app['config']->get('contenttypes') as $type) {
-            $slugs[] = $type['slug'];
-            if ($includesingular) {
-                $slugs[] = $type['singular_slug'];
-            }
-        }
-
-        return implode("|", $slugs);
-    }
-
-    /**
-     * Get a value to use in 'assert() with the available taxonomytypes
-     *
-     * @param bool $includesingular
-     * @return string $taxonomytypes
-     */
-    public function getTaxonomyTypeAssert($includesingular = false)
-    {
-        $taxonomytypes = $this->app['config']->get('taxonomy');
-
-        // No taxonomies, nothing to assert. The route _DOES_ expect a string, so
-        // we return a regex that never matches.
-        if (empty($taxonomytypes)) {
-            return "$.";
-        }
-
-        $slugs = array();
-        foreach ($taxonomytypes as $type) {
-            $slugs[] = $type['slug'];
-            if ($includesingular) {
-                $slugs[] = $type['singular_slug'];
-            }
-        }
-
-        return implode("|", $slugs);
     }
 
     /**
@@ -2479,9 +2187,9 @@ class Storage
     /**
      * Update / insert taxonomy for a given content-unit.
      *
-     * @param string $contenttype
+     * @param string  $contenttype
      * @param integer $contentId
-     * @param array $taxonomy
+     * @param array   $taxonomy
      */
     protected function updateTaxonomy($contenttype, $contentId, $taxonomy)
     {
@@ -2563,9 +2271,8 @@ class Storage
                         $slug = array_search($slug, $configTaxonomies[$taxonomytype]['options']);
                     } else {
                         // make sure it's at least a slug-like value.
-                        $slug = String::slug($slug);
+                        $slug = $this->app['slugify']->slugify($slug);
                     }
-
                 }
 
                 if ((!in_array($slug, $currentvalues) || ($currentsortorder != $sortorder)) && (!empty($slug))) {
@@ -2681,9 +2388,9 @@ class Storage
      * ]
      *
      *
-     * @param string $contenttype
+     * @param string  $contenttype
      * @param integer $contentId
-     * @param array $relation
+     * @param array   $relation
      */
     protected function updateRelation($contenttype, $contentId, $relation)
     {
@@ -2725,7 +2432,6 @@ class Storage
                 $this->app['db']->delete($tablename, array('id' => $currentvalue['id']));
             }
         }
-
 
         // Make an easier array out of $currentvalues.
         $tempvalues = $currentvalues;
@@ -2779,11 +2485,8 @@ class Storage
     {
         $contenttype = $this->getContentType($contenttypeslug);
         $tablename = $this->getTablename($contenttype['slug']);
-
         $id = intval($id);
-        $fulluri = \utilphp\util::str_to_bool($fulluri);
-
-        $slug = String::slug($title);
+        $slug = $this->app['slugify']->slugify($title);
 
         // don't allow strictly numeric slugs.
         if (is_numeric($slug)) {
@@ -2882,7 +2585,7 @@ class Storage
      */
     protected function getTablename($name)
     {
-        $name = str_replace("-", "_", String::slug($name));
+        $name = str_replace("-", "_", $this->app['slugify']->slugify($name));
         $tablename = sprintf("%s%s", $this->prefix, $name);
 
         return $tablename;
@@ -2897,8 +2600,8 @@ class Storage
 
     /**
      * Find record from Content Type and Content Id
-     * @param string $tablename Table name
-     * @param int    $contentId Content Id
+     * @param  string $tablename Table name
+     * @param  int    $contentId Content Id
      * @return array
      */
     protected function findContent($tablename, $contentId)
@@ -2910,7 +2613,7 @@ class Storage
 
     /**
      * Setter for pager storage element
-     * @param string $name
+     * @param string      $name
      * @param array|Pager $pager
      */
     public function setPager($name, $pager)
@@ -2922,7 +2625,7 @@ class Storage
 
     /**
      * Getter of a pager element. Pager can hold a paging snapshot map.
-     * @param string $name Optional name of a pager element. Whole pager map returns if no name given.
+     * @param  string $name Optional name of a pager element. Whole pager map returns if no name given.
      * @return array
      */
     public function &getPager($name = null)

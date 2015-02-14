@@ -2,8 +2,8 @@
 
 namespace Bolt;
 
-use Bolt\PermissionLexerException;
-use Bolt\PermissionParserException;
+use Bolt\Exception\PermissionLexerException;
+use Bolt\Exception\PermissionParserException;
 
 /**
  * Lexer and parser for permission query syntax.
@@ -254,7 +254,7 @@ class PermissionParser
      * @param  array $tokens An array or iterable of lexer tokens. The output of
      *                       `lex()` is suitable here.
      * @return array A nested associative array representing the resulting
-     *               parse tree.
+     *                      parse tree.
      */
     public static function parse($tokens)
     {

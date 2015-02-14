@@ -2,11 +2,9 @@
 
 namespace Bolt\Logger\Handler;
 
-use Bolt\Application;
-use Bolt\Helpers\String;
-use Bolt\Logger\Formatter\System;
 use Monolog\Logger;
 use Monolog\Handler\AbstractProcessingHandler;
+use Silex\Application;
 
 /**
  * Monolog Database handler for system logging
@@ -68,47 +66,57 @@ class SystemHandler extends AbstractProcessingHandler
             $this->initialize();
         }
 
-        if ($this->app['config']->get('general/debug')) {
+        if (isset($record['context']['event'])
+            && $record['context']['event'] === ''
+            && isset($record['context']['exception'])
+            && $record['context']['exception'] instanceof \Exception) {
+
+                $e = $record['context']['exception'] ;
+                $trace = $e->getTrace();
+                $source = json_encode(
+                    array(
+                        'file'     => $e->getFile(),
+                        'line'     => $e->getLine(),
+                        'class'    => $trace['class'],
+                        'function' => $trace['function']
+                    )
+                );
+        } elseif ($this->app['config']->get('general/debug')) {
             $backtrace = debug_backtrace();
-            $filename = str_replace($this->app['resources']->getPath('root'), "", $backtrace[3]['file']);
-            $record['message'] .= "\nFile: " . $filename;
-            $record['message'] .= "\nLine: " . $backtrace[3]['line'];
+            $backtrace = $backtrace[3];
+
+            $source = json_encode(
+                array(
+                    'file'     => str_replace($this->app['resources']->getPath('root'), "", $backtrace['file']),
+                    'line'     => $backtrace['line'],
+                    'class'    => isset($backtrace['class']) ? $backtrace['class'] : '',
+                    'function' => isset($backtrace['function']) ? $backtrace['function'] : ''
+                )
+            );
+        } else {
+            $source = '';
         }
 
-        $this->user = $this->app['session']->get('user');
-        $username = isset($this->user['username']) ? $this->user['username'] : '';
+        $user = $this->app['session']->get('user');
 
         try {
-            $this->app['db']->insert($this->tablename, array(
-                'level'       => $record['level'],
-                'date'        => $record['datetime']->format('Y-m-d H:i:s'),
-                'message'     => $record['message'],
-                'username'    => $username,
-                'requesturi'  => $this->app['request']->getRequestUri(),
-                'route'       => $this->app['request']->get('_route'),
-                'ip'          => $this->app['request']->getClientIp(),
-                'context'     => isset($record['context']['event']) ? $record['context']['event'] : ''
-            ));
+            $this->app['db']->insert(
+                $this->tablename,
+                array(
+                    'level'      => $record['level'],
+                    'date'       => $record['datetime']->format('Y-m-d H:i:s'),
+                    'message'    => $record['message'],
+                    'ownerid'    => isset($user['id']) ? $user['id'] : '',
+                    'requesturi' => $this->app['request']->getRequestUri(),
+                    'route'      => $this->app['request']->get('_route'),
+                    'ip'         => $this->app['request']->getClientIp(),
+                    'context'    => isset($record['context']['event']) ? $record['context']['event'] : '',
+                    'source'     => $source
+                )
+            );
         } catch (\Exception $e) {
             // Nothing..
         }
-    }
-
-    /**
-     * Processes a record.
-     *
-     * @param  array $record
-     * @return array
-     */
-    protected function processRecord(array $record)
-    {
-        if ($this->processors) {
-            foreach ($this->processors as $processor) {
-                $record = call_user_func($processor, $record);
-            }
-        }
-
-        return $record;
     }
 
     /**

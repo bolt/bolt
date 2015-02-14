@@ -1,7 +1,6 @@
 <?php
 namespace Bolt\Tests\Nut;
 
-use Bolt\Application;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Nut\Info;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -15,22 +14,15 @@ use Symfony\Component\Console\Tester\CommandTester;
 class InfoTest extends BoltUnitTest
 {
 
-
     public function testRun()
     {
-        $app = $this->getApp();        
+        $app = $this->getApp();
         $command = new Info($app);
         $tester = new CommandTester($command);
-        
-        
-        
+
         $tester->execute(array());
         $result = $tester->getDisplay();
         $this->assertRegExp("/PHP Version/", $result);
-        
 
     }
-    
- 
-   
 }

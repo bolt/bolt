@@ -1,7 +1,6 @@
 <?php
 namespace Bolt\Tests\Provider;
 
-use Bolt\Application;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Provider\ConfigServiceProvider;
 
@@ -14,15 +13,12 @@ use Bolt\Provider\ConfigServiceProvider;
 class ConfigServiceProviderTest extends BoltUnitTest
 {
 
-
     public function testProvider()
     {
-        $app = $this->getApp(); 
-        $provider = new ConfigServiceProvider($app);    
+        $app = $this->getApp();
+        $provider = new ConfigServiceProvider($app);
         $app->register($provider);
         $this->assertInstanceOf('Bolt\Config', $app['config']);
         $app->boot();
     }
- 
-   
 }

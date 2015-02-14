@@ -16,10 +16,12 @@ class TestRunner extends BaseCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        // check for composer installed
         $executable = null;
-
-        if (is_file(dirname(dirname(dirname(dirname(__DIR__)))) . '/vendor/bin/phpunit')) {
+        if (is_file(dirname(dirname(__DIR__)) . '/vendor/bin/phpunit')) {
+            // development install
+            $executable = realpath(dirname(dirname(__DIR__)) . '/vendor/bin/phpunit');
+        } elseif (is_file(dirname(dirname(dirname(dirname(__DIR__)))) . '/vendor/bin/phpunit')) {
+            // composer install
             $executable = realpath(dirname(dirname(dirname(dirname(__DIR__)))) . '/vendor/bin/phpunit');
         } elseif (is_file(dirname(dirname(dirname(dirname(__DIR__)))) . '/vendor/phpunit/phpunit/phpunit.php')) {
             // perhaps no shortcut was made?

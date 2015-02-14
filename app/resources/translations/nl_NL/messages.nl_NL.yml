@@ -572,7 +572,6 @@ panel:
             more: "meer activiteit"
         by: "door"
         fixme: "Fixmij:"
-        headline: "Laatste activiteit"
         logged-in: "ingelogd"
         logged-out: "uitgelogd"
         saved: "Opgeslagen"

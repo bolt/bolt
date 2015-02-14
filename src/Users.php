@@ -3,7 +3,6 @@
 namespace Bolt;
 
 use Silex;
-use Bolt\Helpers\String;
 use Bolt\Translation\Translator as Trans;
 
 /**
@@ -111,7 +110,7 @@ class Users
         }
 
         // make sure the username is slug-like
-        $user['username'] = String::slug($user['username']);
+        $user['username'] = $this->app['slugify']->slugify($user['username']);
 
         if (empty($user['lastseen'])) {
             $user['lastseen'] = null;
@@ -278,7 +277,7 @@ class Users
             time() + $this->app['config']->get('general/cookies_lifetime'),
             '/',
             $this->app['config']->get('general/cookies_domain'),
-            $this->app['config']->get('general/cookies_https_only'),
+            $this->app['config']->get('general/enforce_ssl'),
             true
         );
 
@@ -338,7 +337,7 @@ class Users
         if ($token === $this->getAntiCSRFToken()) {
             return true;
         } else {
-            $this->app['session']->getFlashBag()->set('error', "The security token was incorrect. Please try again.");
+            $this->app['session']->getFlashBag()->add('error', "The security token was incorrect. Please try again.");
 
             return false;
         }
@@ -384,11 +383,17 @@ class Users
         $user = $this->getUser($id);
 
         if (empty($user['id'])) {
-            $this->session->getFlashBag()->set('error', Trans::__('That user does not exist.'));
+            $this->session->getFlashBag()->add('error', Trans::__('That user does not exist.'));
 
             return false;
         } else {
-            return $this->db->delete($this->usertable, array('id' => $user['id']));
+            $res = $this->db->delete($this->usertable, array('id' => $user['id']));
+
+            if ($res) {
+                $this->db->delete($this->authtokentable, array('username' => $user['username']));
+            }
+
+            return $res;
         }
     }
 
@@ -401,7 +406,7 @@ class Users
      */
     public function login($user, $password)
     {
-        $userslug = String::slug($user);
+        $userslug = $this->app['slugify']->slugify($user);
 
         // for once we don't use getUser(), because we need the password.
         $query = sprintf('SELECT * FROM %s WHERE username=?', $this->usertable);
@@ -409,7 +414,7 @@ class Users
         $user = $this->db->executeQuery($query, array($userslug), array(\PDO::PARAM_STR))->fetch();
 
         if (empty($user)) {
-            $this->session->getFlashBag()->set('error', Trans::__('Username or password not correct. Please check your input.'));
+            $this->session->getFlashBag()->add('error', Trans::__('Username or password not correct. Please check your input.'));
 
             return false;
         }
@@ -419,7 +424,7 @@ class Users
         if ($hasher->CheckPassword($password, $user['password'])) {
 
             if (!$user['enabled']) {
-                $this->session->getFlashBag()->set('error', Trans::__('Your account is disabled. Sorry about that.'));
+                $this->session->getFlashBag()->add('error', Trans::__('Your account is disabled. Sorry about that.'));
 
                 return false;
             }
@@ -442,12 +447,17 @@ class Users
 
             $user['sessionkey'] = $this->getAuthToken($user['username']);
 
-            // We wish to create a new session-id for extended security, but due to a bug in PHP < 5.4.11, this
-            // will throw warnings. Suppress them here. #shakemyhead
+            // We wish to create a new session-id for extended security, but due
+            // to a bug in PHP < 5.4.11, this will throw warnings.
+            // Suppress them here. #shakemyhead
             // @see: https://bugs.php.net/bug.php?id=63379
-            @$this->session->migrate(true);
+            try {
+                $this->session->migrate(true);
+            } catch (\Exception $e) {
+            }
+
             $this->session->set('user', $user);
-            $this->session->getFlashBag()->set('success', Trans::__("You've been logged on successfully."));
+            $this->session->getFlashBag()->add('success', Trans::__("You've been logged on successfully."));
 
             $this->currentuser = $user;
 
@@ -457,8 +467,8 @@ class Users
 
         } else {
 
-            $this->session->getFlashBag()->set('error', Trans::__('Username or password not correct. Please check your input.'));
-            $this->app['logger.system']->addInfo("Failed login attempt for '" . $user['displayname'] . "'.",  array('event' => 'authentication'));
+            $this->session->getFlashBag()->add('error', Trans::__('Username or password not correct. Please check your input.'));
+            $this->app['logger.system']->addInfo("Failed login attempt for '" . $user['displayname'] . "'.", array('event' => 'authentication'));
 
             // Update the failed login attempts, and perhaps throttle the logins.
             $update = array(
@@ -532,7 +542,7 @@ class Users
             $user['sessionkey'] = $this->getAuthToken($user['username']);
 
             $this->session->set('user', $user);
-            $this->session->getFlashBag()->set('success', Trans::__('Session resumed.'));
+            $this->session->getFlashBag()->add('success', Trans::__('Session resumed.'));
 
             $this->currentuser = $user;
 
@@ -548,7 +558,7 @@ class Users
                 time() - 1,
                 '/',
                 $this->app['config']->get('general/cookies_domain'),
-                $this->app['config']->get('general/cookies_https_only'),
+                $this->app['config']->get('general/enforce_ssl'),
                 true
             );
 
@@ -562,7 +572,7 @@ class Users
         $user = $this->getUser($username);
 
         // For safety, this is the message we display, regardless of whether $user exists.
-        $this->session->getFlashBag()->set('info', Trans::__("A password reset link has been sent to '%user%'.", array('%user%' => $username)));
+        $this->session->getFlashBag()->add('info', Trans::__("A password reset link has been sent to '%user%'.", array('%user%' => $username)));
 
         if (!empty($user)) {
 
@@ -576,7 +586,7 @@ class Users
                 "%s%sresetpassword?token=%s",
                 $this->app['paths']['hosturl'],
                 $this->app['paths']['bolt'],
-                $shadowtoken
+                urlencode($shadowtoken)
             );
 
             // Set the shadow password and related stuff in the database..
@@ -635,7 +645,7 @@ class Users
         if (!empty($user)) {
 
             // allright, we can reset this user..
-            $this->app['session']->getFlashBag()->set('success', Trans::__("Password reset successful! You can now log on with the password that was sent to you via email."));
+            $this->app['session']->getFlashBag()->add('success', Trans::__("Password reset successful! You can now log on with the password that was sent to you via email."));
 
             $update = array(
                 'password' => $user['shadowpassword'],
@@ -649,7 +659,7 @@ class Users
 
             // That was not a valid token, or too late, or not from the correct IP.
             $this->app['logger.system']->addError('Somebody tried to reset a password with an invalid token.', array('event' => 'authentication'));
-            $this->app['session']->getFlashBag()->set('error', Trans::__('Password reset not successful! Either the token was incorrect, or you were too late, or you tried to reset the password from a different IP-address.'));
+            $this->app['session']->getFlashBag()->add('error', Trans::__('Password reset not successful! Either the token was incorrect, or you were too late, or you tried to reset the password from a different IP-address.'));
 
         }
     }
@@ -681,9 +691,14 @@ class Users
      */
     public function logout()
     {
-        $this->session->getFlashBag()->set('info', Trans::__('You have been logged out.'));
+        $this->session->getFlashBag()->add('info', Trans::__('You have been logged out.'));
         $this->session->remove('user');
-        @$this->session->migrate(true);
+
+        // @see: https://bugs.php.net/bug.php?id=63379
+        try {
+            $this->session->migrate(true);
+        } catch (\Exception $e) {
+        }
 
         // Remove all auth tokens when logging off a user (so we sign out _all_ this user's sessions on all locations)
         try {
@@ -699,7 +714,7 @@ class Users
             time() - 1,
             '/',
             $this->app['config']->get('general/cookies_domain'),
-            $this->app['config']->get('general/cookies_https_only'),
+            $this->app['config']->get('general/enforce_ssl'),
             true
         );
     }
@@ -767,6 +782,21 @@ class Users
     }
 
     /**
+     * Test to see if there are users in the user table
+     *
+     * @return boolean
+     */
+    public function hasUsers()
+    {
+        $query = $this->app['db']->createQueryBuilder()
+                        ->select('COUNT(id) as count')
+                        ->from($this->usertable);
+        $count = $query->execute()->fetch();
+
+        return (integer) $count['count'];
+    }
+
+    /**
      * Get a user, specified by id. Return 'false' if no user found.
      *
      * @param  int   $id
@@ -811,6 +841,27 @@ class Users
     public function getCurrentUsername()
     {
         return $this->currentuser['username'];
+    }
+
+    /**
+     * Check a user's enable status
+     *
+     * @param  int  $id User ID, or false for current user
+     * @return bool
+     */
+    public function isEnabled($id = false)
+    {
+        if (!$id) {
+            $id = $this->currentuser['id'];
+        }
+
+        $query = $this->app['db']->createQueryBuilder()
+                        ->select('enabled')
+                        ->from($this->usertable)
+                        ->where('id = :id')
+                        ->setParameters(array(':id' => $id));
+
+        return (boolean) $query->execute()->fetchColumn();
     }
 
     /**
@@ -923,7 +974,7 @@ class Users
         $this->addRole($this->getCurrentUsername(), 'root');
 
         // Show a helpful message to the user.
-        $this->app['session']->getFlashBag()->set('info', Trans::__("There should always be at least one 'root' user. You have just been promoted. Congratulations!"));
+        $this->app['session']->getFlashBag()->add('info', Trans::__("There should always be at least one 'root' user. You have just been promoted. Congratulations!"));
     }
 
     /**

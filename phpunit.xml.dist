@@ -21,12 +21,11 @@
     </testsuites>
     <filter>
         <whitelist>
-            <directory>./tests</directory>
             <directory>./src</directory>
-            <exclude>
-                <directory>./test</directory>
-                <directory>./vendor</directory>
-            </exclude>
         </whitelist>
     </filter>
+    <logging>
+        <log type="coverage-text" target="php://stdout" showUncoveredFiles="true" showOnlySummary="true" />
+        <log type="coverage-clover" target="coverage.xml" showUncoveredFiles="true"/>
+    </logging>
 </phpunit>

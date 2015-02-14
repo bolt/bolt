@@ -2,8 +2,8 @@
 namespace Bolt\Extensions;
 
 /**
- * Class to provide querying of the Bolt Extensions repo as a 
- * service. 
+ * Class to provide querying of the Bolt Extensions repo as a
+ * service.
  *
  * @author Ross Riley <riley.ross@gmail.com>
  **/
@@ -24,28 +24,27 @@ class ExtensionsInfoService
         $this->site = $site;
         $this->urls = $urls;
     }
-    
-    
+
     public function all()
     {
         $url = $this->urls['list'];
+
         return $this->execute($url);
     }
-    
+
     public function info($package, $bolt)
     {
         $url = $this->urls['info'];
         $params = array('package'=> $package, 'bolt'=> $bolt);
+
         return $this->execute($url, $params);
     }
-    
+
     public function setFormat($format)
     {
         $this->format = $format;
     }
 
-    
-    
     public function execute($url, $params = array())
     {
         $endpoint = rtrim($this->site, '/') . '/' . ltrim($url, '/') . '?' . http_build_query($params);
@@ -58,6 +57,7 @@ class ExtensionsInfoService
         if ($this->format === 'json') {
             return json_decode($result);
         }
+
         return $result;
     }
 }

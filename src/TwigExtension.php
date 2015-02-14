@@ -2,12 +2,14 @@
 
 namespace Bolt;
 
-use Silex;
-use Symfony\Component\Finder\Finder;
 use Bolt\Library as Lib;
 use Bolt\Helpers\String;
 use Bolt\Helpers\Html;
 use Bolt\Translation\Translator as Trans;
+use Silex;
+use Symfony\Component\Finder\Finder;
+use Symfony\Component\Finder\Glob;
+use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 /**
  * The class for Bolt' Twig tags, functions and filters.
@@ -157,6 +159,7 @@ class TwigExtension extends \Twig_Extension
         if (!$this->safe) {
             $parsers[] = new SetcontentTokenParser();
         }
+
         return $parsers;
     }
 
@@ -368,7 +371,7 @@ class TwigExtension extends \Twig_Extension
         }
 
         if (preg_match("/ ([a-z0-9_-]+\.yml)/i", $str, $matches)) {
-            $path = Lib::path('fileedit', array('file' => "app/config/" . $matches[1]));
+            $path = Lib::path('fileedit', array('namespace' => 'app', 'file' => 'config/' . $matches[1]));
             $link = sprintf(" <a href='%s'>%s</a>", $path, $matches[1]);
             $str = preg_replace("/ ([a-z0-9_-]+\.yml)/i", $link, $str);
         }
@@ -448,9 +451,11 @@ class TwigExtension extends \Twig_Extension
      */
     public function slug($str)
     {
-        $slug = String::slug($str);
+        if (is_array($str)) {
+            $str = implode(" ", $str);
+        }
 
-        return $slug;
+        return $this->app['slugify']->slugify($str);
     }
 
     /**
@@ -516,10 +521,10 @@ class TwigExtension extends \Twig_Extension
     /**
      * Perform a regular expression search and replace on the given string.
      *
-     * @param string $str
-     * @param string $pattern
-     * @param string $replacement
-     * @param int $limit
+     * @param  string $str
+     * @param  string $pattern
+     * @param  string $replacement
+     * @param  int    $limit
      * @return string Same string where first character is in upper case
      */
     public function pregReplace($str, $pattern, $replacement = '', $limit = -1)
@@ -717,21 +722,22 @@ class TwigExtension extends \Twig_Extension
             return null;
         }
 
-        $name = '/^[a-zA-Z0-9]\V+\.twig$/';
         if ($filter) {
-            $name = $filter;
+            $name = Glob::toRegex($filter, false, false);
+        } else {
+            $name = '/^[a-zA-Z0-9]\V+\.twig$/';
         }
 
         $finder = new Finder();
         $finder->files()
-               ->in($this->app['paths']['themepath'])
-               ->depth('== 0')
-               ->name($name)
+               ->in($this->app['paths']['templatespath'])
+               ->notname('/^_/')
+               ->path($name)
                ->sortByName();
 
         $files = array();
         foreach ($finder as $file) {
-            $name = $file->getFilename();
+            $name = $file->getRelativePathname();
             $files[$name] = $name;
         }
 
@@ -914,13 +920,11 @@ class TwigExtension extends \Twig_Extension
             $filename = isset($filename['filename']) ? $filename['filename'] : $filename['file'];
         }
 
-        $path = sprintf(
-            '%sthumbs/%sx%s%s/%s',
-            $this->app['paths']['root'],
-            round($width),
-            round($height),
-            $scale,
-            Lib::safeFilename($filename)
+        $path = $this->app['url_generator']->generate(
+            'thumb',
+            array(
+                'thumb' => round($width) . 'x' . round($height) . $scale . '/'. $filename,
+            )
         );
 
         return $path;
@@ -1207,31 +1211,50 @@ class TwigExtension extends \Twig_Extension
             $add = empty($item['add']) ? '' : $item['add'];
 
             $item['link'] = Lib::path($item['route'], $param, $add);
-        } elseif (isset($item['path'])) {
-            // if the item is like 'content/1', get that content.
-            if (preg_match('#^([a-z0-9_-]+)/([a-z0-9_-]+)$#i', $item['path'])) {
-                $content = $this->app['storage']->getContent($item['path']);
-            }
-
-            if (!empty($content) && is_object($content) && get_class($content) == 'Bolt\Content') {
-                // We have content.
-                if (empty($item['label'])) {
-                    $item['label'] = !empty($content->values['title']) ? $content->values['title'] : "";
-                }
-                if (empty($item['title'])) {
-                    $item['title'] = !empty($content->values['subtitle']) ? $content->values['subtitle'] : "";
-                }
-                if (is_object($content)) {
-                    $item['link'] = $content->link();
-                }
-
-                $item['record'] = $content;
-
+        } elseif (isset($item['path']) && !isset($item['link'])) {
+            if (preg_match('#^(https?://|//)#i', $item['path'])) {
+                // We have a mistakenly placed URL, allow it but log it.
+                $item['link'] = $item['path'];
+                $this->app['logger.system']->addError(Trans::__('Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!', array('%PATH%' => $item['path'])), array('event' => 'config'));
             } else {
-                // we assume the user links to this on purpose.
-                $item['link'] = Lib::fixPath($this->app['paths']['root'] . $item['path']);
-            }
+                // Get a copy of the path minus trainling/leading slash
+                $path = ltrim(rtrim($item['path'], '/'), '/');
 
+                // Pre-set our link in case the match() throws an exception
+                $item['link'] = '/' . $path;
+
+                try {
+                    // See if we have a 'content/id' or 'content/slug' path
+                    if (preg_match('#^([a-z0-9_-]+)/([a-z0-9_-]+)$#i', $path)) {
+
+                        // Determine if the provided path first matches any routes
+                        // that we have, this will catch any valid configured
+                        // contenttype slug and record combination, or throw a
+                        // ResourceNotFoundException exception otherwise
+                        $this->app['url_matcher']->match('/' . $path);
+
+                        // If we found a valid routing match then we're still here,
+                        // attempt to retrive the actual record.
+                        $content = $this->app['storage']->getContent($path);
+                        if ($content instanceof \Bolt\Content) {
+
+                            if (empty($item['label'])) {
+                                $item['label'] = !empty($content->values['title']) ? $content->values['title'] : "";
+                            }
+
+                            if (empty($item['title'])) {
+                                $item['title'] = !empty($content->values['subtitle']) ? $content->values['subtitle'] : "";
+                            }
+
+                            $item['link'] = $content->link();
+                        }
+                    } else {
+                        $item['link'] = '/' . $path;
+                    }
+                } catch (ResourceNotFoundException $e) {
+                    $this->app['logger.system']->addError(Trans::__('Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.', array('%PATH%' => $item['path'])), array('event' => 'config'));
+                }
+            }
         }
 
         return $item;
@@ -1431,10 +1454,10 @@ class TwigExtension extends \Twig_Extension
                         $row[] = null;
                     }
                 }
-                $retval[ $c->values[ $keyname ] ] = $row;
+                $retval[$c->values[$keyname]] = $row;
             } else {
                 if (isset($c->values[$fieldname])) {
-                    $retval[ $c->values[ $keyname ] ] = $c->values[$fieldname];
+                    $retval[$c->values[$keyname]] = $c->values[$fieldname];
                 }
             }
         }
@@ -1461,7 +1484,7 @@ class TwigExtension extends \Twig_Extension
      * Add 'soft hyphens' &shy; to a string, so that it won't break layout in HTML when
      * using strings without spaces or dashes.
      *
-     * @param string $str
+     * @param  string $str
      * @return string
      */
     public function shy($str)
@@ -1546,7 +1569,7 @@ class TwigExtension extends \Twig_Extension
 
         try {
             return ucfirst(strtolower(\Monolog\Logger::getLevelName($level)));
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return $level;
         }
     }

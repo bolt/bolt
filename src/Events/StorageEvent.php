@@ -3,84 +3,91 @@ namespace Bolt\Events;
 
 use Bolt;
 use Bolt\Content;
-use Symfony\Component\EventDispatcher\Event;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
- * Our specific Event instance for Storage Events
+ * Event instance for Storage events
  *
- * For preSave and postSave you may assume you can directly access the
- * content using $this->getContent(). The id will be available in a
- * postSave but is not guarenteerd for a preSave (since it could be
- * new).
- * For preDelete and postDelete the content won't be available, but the
- * $this->getId() and $this->getContentType() will be set.
+ * PRE_SAVE (preSave)
+ * - Available:
+ *   - Content obejct
+ * - Notes:
+ *   - Do not call saveContent()
+ *
+ * POST_SAVE (postSave)
+ * - Available:
+ *   - Content obejct
+ *   - ID
+ * - Notes:
+ *   - Safe to call saveContent()
+ *
+ * PRE_DELETE (preDelete)
+ * - Available:
+ *   - Content obejct
+ *   - ID
+ * - Notes:
+ *   - Do not call saveContent()
+ *
+ * POST_DELETE (postDelete)
+ * - Available:
+ *   - Content obejct
+ *   - ID
+ * - Notes:
+ *   - Do not call saveContent()
+ *   - Database record will no longer exist
  */
-class StorageEvent extends Event
+class StorageEvent extends GenericEvent
 {
     /**
-     * The id
+     * @var Bolt\Content
      */
-    private $id = null;
+    protected $subject;
 
     /**
-     * The content type
+     * @var array
      */
-    private $contentType = null;
-
-    /**
-     * The content to act upon
-     */
-    private $content = null;
-
-    /**
-     * Record create/update flag
-     */
-    private $create = null;
+    protected $arguments;
 
     /**
      * Instantiate generic Storage Event
      *
-     * @param mixed $in The content or (contenttype,id) combination
+     * @param Bolt\Content $subject   A Content object that is being saved or deleted
+     * @param array        $arguments Arguments to store in the event.
      */
-    public function __construct($in = null, $create = null)
+    public function __construct(Content $subject = null, array $arguments = array())
     {
-        if ($in instanceof \Bolt\Content) {
-            $this->setContent($in);
-        } elseif (is_array($in)) {
-            $this->setContentTypeAndId($in[0], $in[1]);
-        }
-
-        $this->create = $create;
+        $this->subject = $subject;
+        $this->arguments = $arguments;
     }
 
     /**
-     * Return the id
+     * Return the record id
      *
      * @return integer
      */
     public function getId()
     {
-        return $this->id;
+        return $this->getSubject()->id;
     }
 
     /**
-     * Return the content type
+     * Return the record contenttype
      *
      * @return string
      */
     public function getContentType()
     {
-        return $this->contentType;
+        return $this->getSubject()->contenttype['slug'];
     }
 
     /**
-     * Return the content (if any)
+     * Return the content object
      *
      * @return Bolt\Content
      */
     public function getContent()
     {
-        return $this->content;
+        return $this->getSubject();
     }
 
     /**
@@ -92,30 +99,8 @@ class StorageEvent extends Event
      */
     public function isCreate()
     {
-        return $this->create;
-    }
-
-    /**
-     * Set the content type and id
-     *
-     * @param string  $contentType
-     * @param integer $id
-     */
-    private function setContentTypeAndId($contentType, $id)
-    {
-        $this->contentType = $contentType;
-        $this->id = $id;
-    }
-
-    /**
-     * Set the content
-     *
-     * @param Content $content
-     */
-    private function setContent(Content $content)
-    {
-        $this->content = $content;
-
-        $this->setContentTypeAndId($content->contenttype['slug'], $content->id);
+        if ($this->hasArgument('create')) {
+            return $this->getArgument('create');
+        }
     }
 }

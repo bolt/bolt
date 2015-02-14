@@ -557,7 +557,6 @@ panel:
             more: "további aktivitások"
         by: "általa:"
         fixme: "Fixme"
-        headline: "Legutóbbi aktivitások"
         logged-in: "bejelentkezve"
         logged-out: "kijelentkezve"
         saved: "Mentve"

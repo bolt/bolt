@@ -5,7 +5,6 @@ namespace Bolt\Logger\Handler;
 use Bolt\Application;
 use Bolt\Content;
 use Bolt\DeepDiff;
-use Bolt\Helpers\String;
 use Monolog\Logger;
 use Monolog\Handler\AbstractProcessingHandler;
 
@@ -125,45 +124,38 @@ class RecordChangeHandler extends AbstractProcessingHandler
 
         $title = $content->getTitle();
         if (empty($title)) {
-            $content = $this->getContent($record['context']['contenttype'] . '/' . $record['context']['id']);
+            $content = $this->app['storage']->getContent($record['context']['contenttype'] . '/' . $record['context']['id']);
             $title = $content->getTitle();
+        }
+
+        // Don't store datechanged, or records that are only datechanged
+        unset($data['datechanged']);
+        if (empty($data)) {
+            return;
         }
 
         $str = json_encode($data);
         $user = $this->app['users']->getCurrentUser();
 
         try {
-            $this->app['db']->insert($this->tablename, array(
-                'date'          => $record['datetime']->format('Y-m-d H:i:s'),
-                'ownerid'       => $user['id'],
-                'title'         => $title,
-                'contenttype'   => $record['context']['contenttype'],
-                'contentid'     => $record['context']['id'],
-                'mutation_type' => $record['context']['action'],
-                'diff'          => $str,
-                'comment'       => $record['context']['comment']
-            ));
+            $this->app['db']->insert(
+                $this->tablename,
+                array(
+                    'date'          => $record['datetime']->format('Y-m-d H:i:s'),
+                    'ownerid'       => $user['id'],
+                    'title'         => $title,
+                    'contenttype'   => $record['context']['contenttype'],
+                    'contentid'     => $record['context']['id'],
+                    'mutation_type' => $record['context']['action'],
+                    'diff'          => $str,
+                    'comment'       => $record['context']['comment']
+                )
+            );
         } catch (\Exception $e) {
             // Nothing..
         }
     }
 
-    /**
-     * Processes a record.
-     *
-     * @param  array $record
-     * @return array
-     */
-    protected function processRecord(array $record)
-    {
-        if ($this->processors) {
-            foreach ($this->processors as $processor) {
-                $record = call_user_func($processor, $record);
-            }
-        }
-
-        return $record;
-    }
 
     /**
      * Initialize

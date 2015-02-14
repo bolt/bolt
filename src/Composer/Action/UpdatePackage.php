@@ -2,8 +2,10 @@
 
 namespace Bolt\Composer\Action;
 
+use Bolt\Exception\PackageManagerException;
 use Bolt\Helpers\Arr;
 use Composer\Installer;
+use Silex\Application;
 
 /**
  * Composer update package class
@@ -13,48 +15,38 @@ use Composer\Installer;
 final class UpdatePackage
 {
     /**
-     * @var array
+     * @var Silex\Application
      */
-    private $options;
+    private $app;
 
     /**
-     * @var Composer\IO\IOInterface
+     * @param $app Silex\Application
      */
-    private $io;
-
-    /**
-     * @var Composer\Composer
-     */
-    private $composer;
-
-    /**
-     * @param $io       Composer\IO\IOInterface
-     * @param $composer Composer\Composer
-     * @param $options  array
-     */
-    public function __construct(\Composer\IO\IOInterface $io, \Composer\Composer $composer, array $options)
+    public function __construct(Application $app)
     {
-        $this->options = $options;
-        $this->io = $io;
-        $this->composer = $composer;
+        $this->app = $app;
     }
 
     /**
      * Update packages
      *
-     * @param  $packages array Indexed array of package names to remove
+     * @param  $packages array Indexed array of package names to update
      * @param  $options  array [Optional] changed option set
      * @return integer 0 on success or a positive error code on failure
      */
     public function execute(array $packages = array(), array $options = null)
     {
+        $composer = $this->app['extend.manager']->getComposer();
+        $io = $this->app['extend.manager']->getIO();
+        $options = $this->app['extend.manager']->getOptions();
+
         // Handle passed in options
         if (!is_null($options)) {
-            $options = Arr::mergeRecursiveDistinct($this->options, $options);
+            $options = Arr::mergeRecursiveDistinct($options, $options);
         }
 
-        $install = Installer::create($this->io, $this->composer);
-        $config = $this->composer->getConfig();
+        $install = Installer::create($io, $composer);
+        $config = $composer->getConfig();
         $optimize = $config->get('optimize-autoloader');
 
         // Set preferred install method
@@ -73,28 +65,30 @@ final class UpdatePackage
                 break;
         }
 
-        /*
-         * @todo: Enable setDumpAutoloader(), setPreferStable() and setPreferLowest()
-         * for changes in Composer 1.0.0-alpha10
-         */
-        $install
-            ->setDryRun($options['dryrun'])
-            ->setVerbose($options['verbose'])
-            ->setPreferSource($preferSource)
-            ->setPreferDist($preferDist)
-            ->setDevMode(!$options['nodev'])
-//            ->setDumpAutoloader(!$options['noautoloader'])
-            ->setRunScripts(!$options['noscripts'])
-            ->setOptimizeAutoloader($optimize)
-            ->setUpdate(true)
-            ->setUpdateWhitelist($packages)
-            ->setWhitelistDependencies($options['withdependencies'])
-            ->setIgnorePlatformRequirements($options['ignoreplatformreqs'])
-//            ->setPreferStable($options['preferstable'])
-//            ->setPreferLowest($options['preferlowest'])
-            ->disablePlugins();
-        ;
+        try {
+            $install
+                ->setDryRun($options['dryrun'])
+                ->setVerbose($options['verbose'])
+                ->setPreferSource($preferSource)
+                ->setPreferDist($preferDist)
+                ->setDevMode(!$options['nodev'])
+                ->setDumpAutoloader(!$options['noautoloader'])
+                ->setRunScripts(!$options['noscripts'])
+                ->setOptimizeAutoloader($optimize)
+                ->setUpdate(true)
+                ->setUpdateWhitelist($packages)
+                ->setWhitelistDependencies($options['withdependencies'])
+                ->setIgnorePlatformRequirements($options['ignoreplatformreqs'])
+                ->setPreferStable($options['preferstable'])
+                ->setPreferLowest($options['preferlowest'])
+                ->disablePlugins();
 
-        return $install->run();
+            return $install->run();
+        } catch (\Exception $e) {
+            $msg = __CLASS__ . '::' . __FUNCTION__ . ' recieved an error from Composer: ' . $e->getMessage() . ' in ' . $e->getFile() . '::' . $e->getLine();
+            $this->app['logger.system']->addCritical($msg, array('event' => 'exception', 'exception' => $e));
+
+            throw new PackageManagerException($e->getMessage(), $e->getCode(), $e);
+        }
     }
 }

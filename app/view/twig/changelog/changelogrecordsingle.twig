@@ -1,0 +1,68 @@
+{# Page: NavSecondary > Content ... > Recent modifications > view #}
+
+{% from 'changelog/_macros.twig' import changelog_details %}
+
+{% if context.prev_entry %}
+    {% set left_link = path(
+            'changelog',
+            {'contenttype': context.contenttype.slug, 'contentid': context.entry.contentid, 'id': context.prev_entry.id}
+       )
+    %}
+{% else %}
+    {% set left_link = false %}
+{% endif %}
+
+{% set centerLink = path(
+        'changelog',
+        {'contenttype': context.contenttype.slug, 'contentid': context.entry.contentid}
+   )
+%}
+
+{% if context.next_entry %}
+    {% set right_link = path(
+        'changelog',
+        {'contenttype': context.contenttype.slug, 'contentid': context.entry.contentid, 'id': context.next_entry.id}
+       )
+    %}
+{% else %}
+    {% set right_link = false %}
+{% endif %}
+
+{% extends '_base/_page-nav.twig' %}
+
+{% block page_nav 'Content/*' %}
+
+{% block page_title __('Change Log') %}
+
+{% block page_subtitle context.entry.title %}
+
+{% block page_main %}
+
+    <div class="row">
+        <div class="col-xs-12">
+            <ul class="pagination pagination-centered">
+                {% if left_link %}
+                    <li><a href="{{ left_link }}"><i style="font-weight: bold" class="fa fa-angle-left"></i></a></li>
+                {% else %}
+                    <li class="disabled"><span><i style="font-weight: bold" class="fa fa-angle-left"></i></span></li>
+                {% endif %}
+
+                <li>
+                    {% if centerLink %}
+                        <a href="{{ centerLink }}">{{ __('show all') }}</a>
+                    {% else %}
+                        <span>{{ __('show all') }}</span>
+                    {% endif %}
+                </li>
+
+                {% if right_link %}
+                    <li><a href="{{ right_link }}"><i style="font-weight: bold" class="fa fa-angle-right"></i></a></li>
+                {% else %}
+                    <li class="disabled"><span><i style="font-weight: bold" class="fa fa-angle-right"></i></span></li>
+                {% endif %}
+            </ul>
+            {{ changelog_details(context.entry) }}
+        </div>
+    </div>
+
+{% endblock page_main %}

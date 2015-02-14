@@ -14,12 +14,14 @@ if (is_dir(__DIR__ . '/../../../../vendor/')) {
 
 require_once 'bootstraps/upload-bootstrap.php';
 
-if(!defined('TEST_ROOT')) {
+if (!defined('TEST_ROOT')) {
     define('TEST_ROOT', realpath(__DIR__ . '/../'));
 }
 
 // Make sure we wipe the db file to start with a clean one
-if(is_readable(TEST_ROOT.'/bolt.db')) {
-    unlink(TEST_ROOT.'/bolt.db');
+if (is_readable(TEST_ROOT . '/bolt.db')) {
+    unlink(TEST_ROOT . '/bolt.db');
 }
-@mkdir(__DIR__.'/../app/cache/', 0777, true);
+copy(TEST_ROOT . '/tests/resources/db/bolt.db', TEST_ROOT . '/bolt.db');
+
+@mkdir(__DIR__ . '/../app/cache/', 0777, true);

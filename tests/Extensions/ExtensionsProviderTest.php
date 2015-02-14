@@ -1,12 +1,9 @@
 <?php
 namespace Bolt\Tests\Extensions;
 
-use Bolt\Application;
-use Bolt\Configuration\Standard;
 use Bolt\Extensions;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Extensions\Snippets\Location as SnippetLocation;
-
 
 /**
  * Class to test correct operation and locations of extensions.
@@ -172,12 +169,10 @@ EOM;
 </html>
 EOM;
 
-
     public function tearDown()
     {
 
     }
-
 
     public function testExtensionRegister()
     {
@@ -191,7 +186,7 @@ EOM;
     public function testBadExtension()
     {
         $app = $this->getApp();
-        $app['logger.system'] = new Mock\Logger;
+        $app['logger.system'] = new Mock\Logger();
         $bad = new Mock\BadExtension($app);
         $app['extensions']->register($bad);
         $this->assertEquals('Initialisation failed for badextension: BadExtension', $app['logger.system']->lastLog());
@@ -201,10 +196,10 @@ EOM;
     public function testBadExtensionConfig()
     {
         $app = $this->getApp();
-        $app['logger.system'] = new Mock\Logger;
+        $app['logger.system'] = new Mock\Logger();
         $app['extensions']->register(new Mock\BadExtensionConfig($app));
         $this->assertEquals(
-            'YAML config failed to load for badextensionconfig: BadExtensionConfig',
+            'Failed to load YAML config for badextensionconfig: BadExtensionConfig',
             $app['logger.system']->lastLog()
         );
     }
@@ -212,7 +207,7 @@ EOM;
     public function testBadExtensionSnippets()
     {
         $app = $this->getApp();
-        $app['logger.system'] = new Mock\Logger;
+        $app['logger.system'] = new Mock\Logger();
         $app['extensions']->register(new Mock\BadExtensionSnippets($app));
         $this->assertEquals(
             'Snippet loading failed for badextensionsnippets: BadExtensionSnippets',
@@ -277,21 +272,22 @@ EOM;
         $this->assertEquals($this->html($this->expectedLateCss), $this->html($html));
     }
 
-
     // This method normalises the html so that differeing whitespace doesn't effect the strings.
-    protected function html($string) {
+    protected function html($string)
+    {
         $doc = new \DOMDocument();
 
         // Here for PHP 5.3 compatibility where the constants aren't available
-        if(!defined('LIBXML_HTML_NOIMPLIED')) {
+        if (!defined('LIBXML_HTML_NOIMPLIED')) {
             $doc->loadHTML($string);
         } else {
             $doc->loadHTML($string, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
         }
-        $doc->preserveWhitespace = false;
+        $doc->preserveWhiteSpace = false;
         $html = $doc->saveHTML();
         $html = str_replace("\t", "", $html);
         $html = str_replace("\n", "", $html);
+
         return $html;
     }
 
@@ -306,7 +302,6 @@ EOM;
         $this->assertTrue($app['extensions']->isEnabled('testlocal'));
     }
 
-
     public function testSnippet()
     {
         $app = $this->getApp();
@@ -317,13 +312,11 @@ EOM;
         $html = $app['extensions']->processSnippetQueue($this->template);
         $this->assertEquals($this->html($this->expectedStartOfHead), $this->html($html));
 
-
         // Test snippet inserts at end of <head>
         $app['extensions']->clearSnippetQueue();
         $app['extensions']->insertSnippet(SnippetLocation::END_OF_HEAD, '<meta name="test-snippet" />');
         $html = $app['extensions']->processSnippetQueue($this->template);
         $this->assertEquals($this->html($this->expectedEndOfHead), $this->html($html));
-
 
         // Test snippet inserts at end of body
         $app['extensions']->clearSnippetQueue();
@@ -337,20 +330,17 @@ EOM;
         $html = $app['extensions']->processSnippetQueue($this->template);
         $this->assertEquals($this->html($this->expectedEndOfHtml), $this->html($html));
 
-
         // Test snippet inserts before existing css
         $app['extensions']->clearSnippetQueue();
         $app['extensions']->insertSnippet(SnippetLocation::BEFORE_CSS, '<meta name="test-snippet" />');
         $html = $app['extensions']->processSnippetQueue($this->template);
         $this->assertEquals($this->html($this->expectedBeforeCss), $this->html($html));
 
-
         // Test snippet inserts after existing css
         $app['extensions']->clearSnippetQueue();
         $app['extensions']->insertSnippet(SnippetLocation::AFTER_CSS, '<meta name="test-snippet" />');
         $html = $app['extensions']->processSnippetQueue($this->template);
         $this->assertEquals($this->html($this->expectedAfterCss), $this->html($html));
-
 
         // Test snippet inserts after existing meta tags
         $app['extensions']->clearSnippetQueue();
@@ -384,7 +374,6 @@ EOM;
         $html = $app['extensions']->processSnippetQueue("<html></html>");
         $this->assertEquals("<html></html><br />".PHP_EOL.PHP_EOL, $html);
     }
-
 
     public function testExtensionSnippets()
     {
@@ -447,9 +436,7 @@ EOM;
             $this->assertEquals($template.$snip.PHP_EOL, $html);
         }
 
-
     }
-
 
     public function testAddMenuOption()
     {
@@ -500,7 +487,6 @@ EOM;
         $this->assertEquals('<meta name="test-snippet" />', $html);
     }
 
-
     public function testWidgetWithGlobalCallback()
     {
         $app = $this->getApp();
@@ -521,9 +507,9 @@ EOM;
     public function testTwigExtensions()
     {
         $app = $this->getApp();
-        $app['log'] = new Mock\Logger;
+        $app['logger.system'] = new Mock\Logger();
         $app['extensions']->register(new Mock\ExtensionWithTwig($app));
-        $log = $app['log']->lastLog();
+        $log = $app['logger.system']->lastLog();
         // Temporarily Disabled, need to investigate why this now fails.
         //$this->assertContains('[EXT] Twig function registration failed', $log);
         //$this->assertContains('instance of Bolt\Tests\Extensions\Mock\BadTwigExtension given', $log);
@@ -539,9 +525,7 @@ EOM;
         $this->assertEquals($template.$snip.PHP_EOL, $html);
     }
 
-
 }
-
 
 function globalSnippet($app, $string)
 {
@@ -552,4 +536,3 @@ function globalWidget()
 {
     return '<meta name="test-widget" />';
 }
-

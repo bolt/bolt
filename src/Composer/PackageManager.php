@@ -13,9 +13,6 @@ use Bolt\Composer\Action\ShowPackage;
 use Bolt\Composer\Action\UpdatePackage;
 use Bolt\Library as Lib;
 use Bolt\Translation\Translator as Trans;
-use Composer\IO\BufferIO;
-use Composer\Json\JsonFile;
-use Guzzle\Http\Client as GuzzleClient;
 use Guzzle\Http\Exception\RequestException;
 use Guzzle\Http\Exception\CurlException;
 use Silex\Application;
@@ -26,16 +23,6 @@ class PackageManager
      * @var array
      */
     private $options;
-
-    /**
-     * @var Composer\IO\BufferIO
-     */
-    private $io;
-
-    /**
-     * @var Composer\Composer
-     */
-    private $composer;
 
     /**
      * @var Bolt\Composer\Action\CheckPackage
@@ -99,8 +86,8 @@ class PackageManager
         // Set composer environment variables
         putenv('COMPOSER_HOME=' . $this->app['resources']->getPath('cache') . '/composer');
 
-        // Get default options
-        $this->getOptions();
+        // Set default options
+        $this->setOptions();
 
         // Set up
         $this->setup();
@@ -134,7 +121,7 @@ class PackageManager
             $this->updateJson();
 
             // Ping the extensions server to confirm connection
-            $response = $this->ping($this->app['extend.site'], 'ping', true);
+            $response = $this->ping(true);
             $httpOk = array(200, 301, 302);
             if (in_array($response, $httpOk)) {
                 $this->app['extend.online'] = true;
@@ -150,6 +137,26 @@ class PackageManager
     }
 
     /**
+     * Get the options
+     *
+     * @return array
+     */
+    public function getOptions()
+    {
+        return $this->options;
+    }
+
+    /**
+     * Get a single option
+     *
+     * @return mixed
+     */
+    public function getOption($key)
+    {
+        return $this->options[$key];
+    }
+
+    /**
      * Get a new Composer object
      *
      * @return Composer\Composer
@@ -160,13 +167,33 @@ class PackageManager
     }
 
     /**
+     * Get configured minimum stability
+     *
+     * @return string
+     */
+    public function getMinimumStability()
+    {
+        return $this->factory->getMinimumStability();
+    }
+
+    /**
      * Get a new IO object
      *
-     * @return Composer\Composer
+     * @return Composer\IO\IOInterface
      */
     public function getIO()
     {
         return $this->factory->getIO();
+    }
+
+    /**
+     * Get a new dependency resolver pool object
+     *
+     * @return Composer\DependencyResolver\Pool
+     */
+    public function getPool()
+    {
+        return $this->factory->getPool();
     }
 
     /**
@@ -187,7 +214,7 @@ class PackageManager
     public function checkPackage()
     {
         if (!$this->check) {
-            $this->check = new CheckPackage($this->app, $this->getIO(), $this->getComposer(), $this->options);
+            $this->check = new CheckPackage($this->app);
         }
 
         return $this->check->execute();
@@ -199,7 +226,7 @@ class PackageManager
     public function dumpautoload()
     {
         if (!$this->dumpautoload) {
-            $this->dumpautoload = new DumpAutoload($this->getIO(), $this->getComposer(), $this->options);
+            $this->dumpautoload = new DumpAutoload($this->app);
         }
 
         $this->dumpautoload->execute();
@@ -213,7 +240,7 @@ class PackageManager
     public function installPackages()
     {
         if (!$this->install) {
-            $this->install = new InstallPackage($this->getIO(), $this->getComposer(), $this->options);
+            $this->install = new InstallPackage($this->app);
         }
 
         // 0 on success or a positive error code on failure
@@ -229,7 +256,7 @@ class PackageManager
     public function removePackage(array $packages)
     {
         if (!$this->remove) {
-            $this->remove = new RemovePackage($this->app, $this->getIO(), $this->getComposer(), $this->options);
+            $this->remove = new RemovePackage($this->app);
         }
 
         // 0 on success or a positive error code on failure
@@ -246,7 +273,7 @@ class PackageManager
     public function requirePackage(array $packages)
     {
         if (!$this->require) {
-            $this->require = new RequirePackage($this->app, $this->getIO(), $this->getComposer(), $this->options);
+            $this->require = new RequirePackage($this->app);
         }
 
         // 0 on success or a positive error code on failure
@@ -262,7 +289,7 @@ class PackageManager
     public function searchPackage(array $packages)
     {
         if (!$this->search) {
-            $this->search = new SearchPackage($this->getIO(), $this->getComposer(), $this->options);
+            $this->search = new SearchPackage($this->app);
         }
 
         return $this->search->execute($packages);
@@ -274,13 +301,13 @@ class PackageManager
      * @param $packages
      * @return
      */
-    public function showPackage($target, $package = '', $version = '')
+    public function showPackage($target, $package = '', $version = '', $root = false)
     {
         if (!$this->show) {
-            $this->show = new ShowPackage($this->getIO(), $this->getComposer(), $this->options);
+            $this->show = new ShowPackage($this->app);
         }
 
-        return $this->show->execute($target, $package, $version);
+        return $this->show->execute($target, $package, $version, $root);
     }
 
     /**
@@ -292,7 +319,7 @@ class PackageManager
     public function updatePackage(array $packages)
     {
         if (!$this->update) {
-            $this->update = new UpdatePackage($this->getIO(), $this->getComposer(), $this->options);
+            $this->update = new UpdatePackage($this->app);
         }
 
         // 0 on success or a positive error code on failure
@@ -347,7 +374,29 @@ class PackageManager
             }
         }
 
-        // Local packages @todo
+        // Local packages
+        foreach ($this->app['extensions']->getEnabled() as $ext) {
+            if ($ext->getInstallType() !== 'local') {
+                continue;
+            }
+            // Get the Composer configuration
+            $json = $ext->getComposerJSON();
+            if ($json) {
+                $packages['local'][] = array(
+                    'name'     => $json['name'],
+                    'title'    => $ext->getName(),
+                    'type'     => $json['type'],
+                    'descrip'  => $json['description'],
+                    'authors'  => $json['authors'],
+                    'keywords' => $json['keywords'],
+                );
+            } else {
+                $packages['local'][] = array(
+                    'title'    => $ext->getName(),
+                );
+            }
+        }
+
         return $packages;
     }
 
@@ -431,7 +480,7 @@ class PackageManager
     {
         $class = new \ReflectionClass("Bolt\\Composer\\ExtensionInstaller");
         $filename = $class->getFileName();
-        copy($filename, $this->options['basedir'] . '/installer.php');
+        copy($filename, $this->options['basedir'] . '/ExtensionInstaller.php');
     }
 
     /**
@@ -446,14 +495,14 @@ class PackageManager
     /**
      * Ping site to see if we have a valid connection and it is responding correctly
      *
-     * @param  string        $site
-     * @param  string        $uri
      * @param  boolean|array $addquery
      * @return boolean
      */
-    private function ping($site, $uri = '', $addquery = false)
+    private function ping($addquery = false)
     {
+        $uri = $this->app['extend.site'] . 'ping';
         $www = isset($_SERVER['SERVER_SOFTWARE']) ? $_SERVER['SERVER_SOFTWARE'] : 'unknown';
+
         if ($addquery) {
             $query = array(
                 'bolt_ver'  => $this->app['bolt_version'],
@@ -465,10 +514,8 @@ class PackageManager
             $query = array();
         }
 
-        $this->guzzleclient = new GuzzleClient($site);
-
         try {
-            $response = $this->guzzleclient->head($uri, null, array('query' => $query))->send();
+            $response = $this->app['guzzle.client']->head($uri, null, array('query' => $query))->send();
 
             return $response->getStatusCode();
         } catch (CurlException $e) {
@@ -499,12 +546,11 @@ class PackageManager
     /**
      * Set the default options
      */
-    private function getOptions()
+    private function setOptions()
     {
         $this->options = array(
             'basedir'                => $this->app['resources']->getPath('extensions'),
             'composerjson'           => $this->app['resources']->getPath('extensions') . '/composer.json',
-            'logfile'                => $this->app['resources']->getPath('cachepath') . '/composer_log',
 
             'dryrun'                 => null,    // dry-run              - Outputs the operations but will not execute anything (implicitly enables --verbose)
             'verbose'                => true,    // verbose              - Shows more details including new commits pulled in when updating packages

@@ -3,15 +3,12 @@
 namespace Bolt\Controllers;
 
 use Bolt\Translation\Translator as Trans;
-
 use Guzzle\Http\Exception\RequestException;
+use League\Flysystem\FileNotFoundException;
 use Silex;
 use Silex\ControllerProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-
-use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Filesystem\Exception\IOException;
 
 class Async implements ControllerProviderInterface
 {
@@ -45,7 +42,7 @@ class Async implements ControllerProviderInterface
 
         $ctr->get("/filebrowser/{contenttype}", array($this, 'filebrowser'))
             ->assert('contenttype', '.*')
-            ->bind('contenttype');
+            ->bind('filebrowser');
 
         $ctr->get("/browse/{namespace}/{path}", array($this, 'browse'))
             ->assert('path', '.*')
@@ -86,6 +83,11 @@ class Async implements ControllerProviderInterface
         $ctr->post("/folder/create", array($this, 'createfolder'))
             ->bind('createfolder');
 
+        $ctr->get('/changelog/{contenttype}/{contentid}', array($this, 'changelogRecord'))
+            ->value('contenttype', '')
+            ->value('contentid', '0')
+            ->bind('changelogrecord');
+
         return $ctr;
     }
 
@@ -104,7 +106,7 @@ class Async implements ControllerProviderInterface
 
             $app['logger.system']->addInfo("Fetching from remote server: $source", array('event' => 'news'));
 
-            $driver = $app['config']->get('general/database/driver', 'sqlite');
+            $driver = $app['db']->getDatabasePlatform()->getName();
 
             $url = sprintf(
                 '%s?v=%s&p=%s&db=%s&name=%s',
@@ -122,10 +124,10 @@ class Async implements ControllerProviderInterface
                 $curlOptions['CURLOPT_PROXYTYPE'] = 'CURLPROXY_HTTP';
                 $curlOptions['CURLOPT_PROXYUSERPWD'] = $app['config']->get('general/httpProxy/user') . ':' . $app['config']->get('general/httpProxy/password');
             }
-            $guzzleclient = new \Guzzle\Http\Client($url, array('curl.options' => $curlOptions));
 
             try {
-                $newsData = $guzzleclient->get("/")->send()->getBody(true);
+                $newsData = $app['guzzle.client']->get($url, null, $curlOptions)->send()->getBody(true);
+
                 $news = json_decode($newsData);
                 if ($news) {
                     // For now, just use the most current item.
@@ -156,7 +158,21 @@ class Async implements ControllerProviderInterface
     {
         $activity = $app['logger.manager']->getActivity('change', 8);
 
-        $body = $app['render']->render('components/panel-activity.twig', array('activity' => $activity));
+        $body = $app['render']->render(
+            'components/panel-change.twig',
+            array(
+                'activity' => $activity
+            )
+        );
+
+        $activity = $app['logger.manager']->getActivity('system', 8, null, 'authentication');
+
+        $body .= $app['render']->render(
+            'components/panel-system.twig',
+            array(
+                'activity' => $activity
+            )
+        );
 
         return new Response($body, 200, array('Cache-Control' => 's-maxage=3600, public'));
     }
@@ -164,10 +180,9 @@ class Async implements ControllerProviderInterface
     public function filesautocomplete(Silex\Application $app, Request $request)
     {
         $term = $request->get('term');
-        $filesystem = $app['filesystem']->getManager('files');
 
         $extensions = $request->query->get('ext');
-        $files = $filesystem->search($term, $extensions);
+        $files = $app['filesystem']->search($term, $extensions);
 
         $app['debug'] = false;
 
@@ -213,7 +228,7 @@ class Async implements ControllerProviderInterface
             $request->query->get('title'),
             $request->query->get('id'),
             $request->query->get('contenttypeslug'),
-            $request->query->get('fulluri')
+            $request->query->getBoolean('fulluri')
         );
 
         return $uri;
@@ -319,14 +334,16 @@ class Async implements ControllerProviderInterface
         $contenttype = $app['storage']->getContentType($contenttypeslug);
 
         // get the changelog for the requested contenttype.
-        $options = array('limit' => 5, 'order' => 'date DESC');
+        $options = array('limit' => 5, 'order' => 'date', 'direction' => 'DESC');
+
         if (intval($contentid) == 0) {
             $isFiltered = false;
         } else {
             $isFiltered = true;
             $options['contentid'] = intval($contentid);
         }
-        $changelog = $app['storage']->getChangelogByContentType($contenttype['slug'], $options);
+
+        $changelog = $app['logger.manager.change']->getChangelogByContentType($contenttype['slug'], $options);
 
         $context = array(
             'changelog' => $changelog,
@@ -384,7 +401,7 @@ class Async implements ControllerProviderInterface
         // No trailing slashes in the path.
         $path = rtrim($path, '/');
 
-        $filesystem = $app['filesystem']->getManager($namespace);
+        $filesystem = $app['filesystem']->getFilesystem($namespace);
 
         // $key is linked to the fieldname of the original field, so we can
         // Set the selected value in the proper field
@@ -403,7 +420,7 @@ class Async implements ControllerProviderInterface
         try {
             $filesystem->listContents($path);
         } catch (\Exception $e) {
-            $app['session']->getFlashBag()->set('error', Trans::__("Folder '%s' could not be found, or is not readable.", array('%s' => $path)));
+            $app['session']->getFlashBag()->add('error', Trans::__("Folder '%s' could not be found, or is not readable.", array('%s' => $path)));
         }
 
         $app['twig']->addGlobal('title', Trans::__('Files in %s', array('%s' => $path)));
@@ -469,35 +486,16 @@ class Async implements ControllerProviderInterface
      */
     public function renamefile(Silex\Application $app, Request $request)
     {
-        $namespace  = $request->request->get('namespace', 'files');
+        $namespace  = $request->request->get('namespace');
         $parentPath = $request->request->get('parent');
         $oldName    = $request->request->get('oldname');
         $newName    = $request->request->get('newname');
 
-        $oldPath    = $app['resources']->getPath($namespace)
-                      . DIRECTORY_SEPARATOR
-                      . $parentPath
-                      . DIRECTORY_SEPARATOR
-                      . $oldName;
-
-        $newPath    = $app['resources']->getPath($namespace)
-                      . DIRECTORY_SEPARATOR
-                      . $parentPath
-                      . DIRECTORY_SEPARATOR
-                      . $newName;
-
-        $fileSystemHelper = new Filesystem();
-
         try {
-            $fileSystemHelper->rename($oldPath, $newPath, false /* Don't rename if target exists already! */);
-        } catch (IOException $exception) {
-
-            /* Thrown if target already exists or renaming failed. */
-
+            return $app['filesystem']->rename("$namespace://$parentPath/$oldName", "$parentPath/$newName");
+        } catch (\Exception $e) {
             return false;
         }
-
-        return true;
     }
 
     /**
@@ -509,16 +507,14 @@ class Async implements ControllerProviderInterface
      */
     public function deletefile(Silex\Application $app, Request $request)
     {
-        $namespace = $request->request->get('namespace', 'files');
+        $namespace = $request->request->get('namespace');
         $filename = $request->request->get('filename');
 
-        $filesystem = $app['filesystem']->getManager($namespace);
-
-        if ($filesystem->delete($filename)) {
-            return true;
+        try {
+            return $app['filesystem']->delete("$namespace://$filename");
+        } catch (FileNotFoundException $e) {
+            return false;
         }
-
-        return false;
     }
 
     /**
@@ -530,10 +526,10 @@ class Async implements ControllerProviderInterface
      */
     public function duplicatefile(Silex\Application $app, Request $request)
     {
-        $namespace = $request->request->get('namespace', 'files');
+        $namespace = $request->request->get('namespace');
         $filename = $request->request->get('filename');
 
-        $filesystem = $app['filesystem']->getManager($namespace);
+        $filesystem = $app['filesystem']->getFilesystem($namespace);
 
         $extensionPos = strrpos($filename, '.');
         $destination = substr($filename, 0, $extensionPos) . "_copy" . substr($filename, $extensionPos);
@@ -561,38 +557,16 @@ class Async implements ControllerProviderInterface
      */
     public function renamefolder(Silex\Application $app, Request $request)
     {
-        $namespace = $request->request->get('namespace', 'files');
-
+        $namespace  = $request->request->get('namespace');
         $parentPath = $request->request->get('parent');
         $oldName    = $request->request->get('oldname');
         $newName    = $request->request->get('newname');
 
-        $oldPath    = $app['resources']->getPath($namespace)
-                      . DIRECTORY_SEPARATOR
-                      . $parentPath
-                      . $oldName;
-
-        $newPath    = $app['resources']->getPath($namespace)
-                      . DIRECTORY_SEPARATOR
-                      . $parentPath
-                      . $newName;
-
-        $fileSystemHelper = new Filesystem();
-
         try {
-            $fileSystemHelper->rename(
-                $oldPath,
-                $newPath,
-                false /* Don't rename if target exists already! */
-            );
-        } catch (IOException $exception) {
-
-            /* Thrown if target already exists or renaming failed. */
-
+            return $app['filesystem']->rename("$namespace://$parentPath$oldName", "$parentPath$newName");
+        } catch (\Exception $e) {
             return false;
         }
-
-        return true;
     }
 
     /**
@@ -605,20 +579,15 @@ class Async implements ControllerProviderInterface
      */
     public function removefolder(Silex\Application $app, Request $request)
     {
-        $namespace = $request->request->get('namespace', 'files');
-
+        $namespace = $request->request->get('namespace');
         $parentPath = $request->request->get('parent');
         $folderName = $request->request->get('foldername');
 
-        $completePath = $parentPath . $folderName;
-
-        $filesystem = $app['filesystem']->getManager($namespace);
-
-        if ($filesystem->deleteDir($completePath)) {
-            return true;
+        try {
+            return $app['filesystem']->deleteDir("$namespace://$parentPath$folderName");
+        } catch (\Exception $e) {
+            return false;
         }
-
-        return false;
     }
 
     /**
@@ -631,20 +600,41 @@ class Async implements ControllerProviderInterface
      */
     public function createfolder(Silex\Application $app, Request $request)
     {
-        $namespace = $request->request->get('namespace', 'files');
-
+        $namespace = $request->request->get('namespace');
         $parentPath = $request->request->get('parent');
         $folderName = $request->request->get('foldername');
 
-        $newpath = $parentPath . $folderName;
-
-        $filesystem = $app['filesystem']->getManager($namespace);
-
-        if ($filesystem->createDir($newpath)) {
-            return true;
+        try {
+            return $app['filesystem']->createDir("$namespace://$parentPath$folderName");
+        } catch (\Exception $e) {
+            return false;
         }
+    }
 
-        return false;
+    /**
+     * Generate the change log box for a single record in edit
+     *
+     * @param  string            $contenttype
+     * @param  integer           $contentid
+     * @param  Silex\Application $app
+     * @param  Request           $request
+     * @return string
+     */
+    public function changelogRecord($contenttype, $contentid, Silex\Application $app, Request $request)
+    {
+        $options = array(
+            'contentid' => $contentid,
+            'limit'     => 4,
+            'order'     => 'date',
+            'direction' => 'DESC'
+        );
+
+        $context = array(
+            'contenttype' => $contenttype,
+            'entries'     => $app['logger.manager.change']->getChangelogByContentType($contenttype, $options)
+        );
+
+        return $app['render']->render('components/panel-change-record.twig', array('context' => $context));
     }
 
     /**
@@ -655,13 +645,6 @@ class Async implements ControllerProviderInterface
     {
         // Start the 'stopwatch' for the profiler.
         $app['stopwatch']->start('bolt.async.before');
-
-        // Only set which endpoint it is, if it's not already set. Which it is, in cases like
-        // when it's embedded on a page using {{ render() }}
-        // @todo Is this still needed?
-        if (empty($app['end'])) {
-            $app['end'] = "asynchronous";
-        }
 
         // If there's no active session, don't do anything..
         if (!$app['users']->isValidSession()) {

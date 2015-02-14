@@ -2,6 +2,8 @@
 
 namespace Bolt\Helpers;
 
+use Cocur\Slugify\Slugify;
+
 class String
 {
     /**
@@ -15,7 +17,8 @@ class String
      */
     public static function makeSafe($str, $strict = false, $extrachars = "")
     {
-        $str = \URLify::downcode($str);
+        $slugify = Slugify::create('/([^a-zA-Z0-9] |-)+/u');
+        $str = $slugify->slugify($str);
         $str = str_replace("&amp;", "", $str);
 
         $delim = '/';
@@ -30,38 +33,6 @@ class String
         }
 
         $str = preg_replace($delim . $regex . $delim, '', $str);
-
-        return $str;
-    }
-
-    /**
-     * Modify a string, so that we can use it for slugs. Like
-     * safeString, but using hyphens instead of underscores.
-     *
-     * @param  string $str
-     * @param  int    $length
-     * @return string
-     */
-    public static function slug($str, $length = 64)
-    {
-        if (is_array($str)) {
-            $str = implode(" ", $str);
-        }
-
-        // Strip out timestamps like "00:00:00". We don't want timestamps in slugs.
-        $str = preg_replace("/[0-2][0-9]:[0-5][0-9]:[0-5][0-9]/", "", $str);
-
-        $str = static::makeSafe(strip_tags($str));
-
-        $str = str_replace(" ", "-", $str);
-        $str = strtolower(preg_replace("/[^a-zA-Z0-9_-]/i", "", $str));
-        $str = preg_replace("/[-]+/i", "-", $str);
-
-        if ($length > 0) {
-            $str = substr($str, 0, $length);
-        }
-
-        $str = trim($str, " -");
 
         return $str;
     }
@@ -91,7 +62,7 @@ class String
      * Add 'soft hyphens' &shy; to a string, so that it won't break layout in HTML when
      * using strings without spaces or dashes.
      *
-     * @param string $str
+     * @param  string $str
      * @return string
      */
     public static function shyphenate($str)

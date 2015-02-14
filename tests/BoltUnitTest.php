@@ -2,13 +2,10 @@
 namespace Bolt\Tests;
 
 use Bolt\Application;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Storage\MockFileSessionStorage;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Bolt\Configuration as Config;
-use Eloquent\Pathogen\FileSystem\Factory\PlatformFileSystemPathFactory;
-use Bolt\Configuration\ResourceManager;
+use Bolt\Configuration\Standard;
 
 /**
  * Abstract Class that other unit tests can extend, provides generic methods for Bolt tests.
@@ -16,25 +13,26 @@ use Bolt\Configuration\ResourceManager;
  * @author Ross Riley <riley.ross@gmail.com>
  **/
 
-
 abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
 {
 
     protected function resetDb()
     {
         // Make sure we wipe the db file to start with a clean one
-        if(is_readable(TEST_ROOT.'/bolt.db')) {
-            unlink(TEST_ROOT.'/bolt.db');
-        }   
+        if (is_readable(TEST_ROOT . '/bolt.db')) {
+            unlink(TEST_ROOT . '/bolt.db');
+            copy(TEST_ROOT . '/tests/resources/db/bolt.db', TEST_ROOT . '/bolt.db');
+        }
     }
+
     protected function getApp()
     {
         $bolt = $this->makeApp();
         $bolt->initialize();
-        $bolt['integritychecker']->repairTables();
+
         return $bolt;
     }
-    
+
     protected function makeApp()
     {
         $sessionMock = $this->getMockBuilder('Symfony\Component\HttpFoundation\Session\Session')
@@ -42,27 +40,22 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
         ->setConstructorArgs(array(new MockFileSessionStorage()))
         ->getMock();
 
-        $config = new ResourceManager(
-            new \Pimple(
-                array(
-                    'rootpath' => TEST_ROOT,
-                    'pathmanager' => new PlatformFileSystemPathFactory()
-                )
-            )
-        );
+        $config = new Standard(TEST_ROOT);
+        $config->verify();
 
         $bolt = new Application(array('resources' => $config));
         $bolt['config']->set(
             'general/database',
             array(
-                'driver' => 'sqlite',
-                'username' => 'test',
-                'memory' => true,
-                'path' => false
+                'driver' => 'pdo_sqlite',
+                'user' => 'test',
+                'path' => TEST_ROOT . '/bolt.db'
             )
         );
         $bolt['session'] = $sessionMock;
         $bolt['resources']->setPath('files', TEST_ROOT . '/tests/resources/files');
+        $bolt['slugify'] = \Cocur\Slugify\Slugify::create();
+
         return $bolt;
     }
 
@@ -80,51 +73,56 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
             }
         }
     }
-    
-    protected function addDefaultUser()
+
+    protected function addDefaultUser(Application $app)
     {
-        $app = $this->getApp();
         $user = $app['users']->getEmptyUser();
-        $user['roles']=array('admin');
+        $user['roles'] = array('admin');
         $user['username'] = 'admin';
         $user['password'] = 'password';
         $user['email'] = 'test@example.com';
         $user['displayname'] = 'Admin';
         $app['users']->saveUser($user);
     }
-    
+
     protected function getMockTwig()
     {
         $twig = $this->getMock('Twig_Environment', array('render', 'fetchCachedRequest'));
         $twig->expects($this->any())
             ->method('fetchCachedRequest')
             ->will($this->returnValue(false));
+
         return $twig;
     }
-    
+
     protected function checkTwigForTemplate($app, $testTemplate)
     {
-        $twig = $this->getMockTwig();        
-        
+        $twig = $this->getMockTwig();
+
         $twig->expects($this->any())
             ->method('render')
             ->with($this->equalTo($testTemplate))
-            ->will($this->returnValue(new Response));
-            
-        $app['render'] = $twig; 
+            ->will($this->returnValue(new Response()));
+
+        $app['render'] = $twig;
     }
-    
+
     protected function allowLogin($app)
     {
-        $this->addDefaultUser();
-        $users = $this->getMock('Bolt\Users', array('isValidSession','isAllowed'), array($app));
+        $this->addDefaultUser($app);
+        $users = $this->getMock('Bolt\Users', array('isValidSession','isAllowed', 'isEnabled'), array($app));
         $users->expects($this->any())
             ->method('isValidSession')
             ->will($this->returnValue(true));
-            
+
         $users->expects($this->any())
             ->method('isAllowed')
             ->will($this->returnValue(true));
+
+        $users->expects($this->any())
+            ->method('isEnabled')
+            ->will($this->returnValue(true));
+
         $app['users'] = $users;
     }
 }

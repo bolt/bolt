@@ -1,0 +1,52 @@
+{##
+ # Sidebar-Panel: Displays the latest activity
+ # (Usage Example: Dashboards sidebar)
+ #}
+{% extends (isallowed('changelog')) ? '_base/_panel.twig' : '_base/_nothing.twig' %}
+
+{% block panel_class 'panel-activity' %}
+
+{% block panel_icon 'fa-clock-o' %}
+
+{% block panel_head __('panel.latest-activity.change') %}
+
+{% block panel_body %}
+
+    {% import '_macro/_macro.twig' as macro %}
+
+    <ul class="activity">
+        {% for log in activity %}
+            {% set user = getuser(log.ownerid) %}
+            {% if user is not empty %}
+                {% set userlink = macro.userlink(user) %}
+            {% else %}
+                {% set userlink = __('panel.latest-activity.unknown') %}
+            {% endif %}
+            <li>
+                {% if app.config.get('contenttypes')[log.contenttype] is defined %}
+                    {% set contenttype = app.config.get('contenttypes')[log.contenttype] %}
+                    {% set contenttype_display_name = contenttype.singular_name %}
+                    {% set content_display_name = macro.contentlink_by_id(contenttype, log.title, log.contentid) %}
+                {% else %}
+                    {% set contenttype_display_name = log.contenttype %}
+                    {% set content_display_name = log.title %}
+                {% endif %}
+
+                {% if log.mutation_type == 'INSERT' %}
+                    {{ __('panel.latest-activity.created') }} {{ contenttype_display_name }}
+                {% elseif log.mutation_type == 'UPDATE' %}
+                    {{ __('panel.latest-activity.saved') }} {{ contenttype_display_name }}
+                {% elseif log.mutation_type == 'DELETE' %}
+                    {{ __('panel.latest-activity.deleted') }} {{ contenttype_display_name }}
+                {% endif %}
+                    "<strong>{{ content_display_name }}</strong>" {{ __('panel.latest-activity.by') }} <em>{{ userlink }}</em>
+                <small>
+                    (<time class="moment" datetime="{{ log.date|date("c") }}" title="{{ log.date }}">{{ log.date }}</time>)
+                </small>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <p><a href="{{ path('changelog') }}" class="btn btn-default btn-block">{{ __('panel.latest-activity.button.more') }} »</a></p>
+
+{% endblock panel_body %}

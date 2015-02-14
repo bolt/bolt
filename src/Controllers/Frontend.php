@@ -6,7 +6,6 @@ use Silex;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Bolt\Library as Lib;
-use Bolt\Helpers\String;
 use Bolt\Helpers\Input;
 use Bolt\Translation\Translator as Trans;
 use Bolt\Pager;
@@ -50,8 +49,8 @@ class Frontend
      *
      * Refer to the routing.yml config file for overridding.
      *
-     * @param Request           $request The Symfony Request
-     * @param \Bolt\Application $app     The appliction/container
+     * @param  Request           $request The Symfony Request
+     * @param  \Bolt\Application $app     The appliction/container
      * @return mixed
      */
     public static function before(Request $request, \Bolt\Application $app)
@@ -63,7 +62,7 @@ class Frontend
         // the DB, and let's add a new user.
         if (!$app['users']->getUsers()) {
             //!$app['storage']->getIntegrityChecker()->checkUserTableIntegrity() ||
-            $app['session']->getFlashBag()->set('info', Trans::__('There are no users in the database. Please create the first user.'));
+            $app['session']->getFlashBag()->add('info', Trans::__('There are no users in the database. Please create the first user.'));
 
             return Lib::redirect('useredit', array('id' => ''));
         }
@@ -89,7 +88,7 @@ class Frontend
     /**
      * Controller for the "Homepage" route. Usually the front page of the website.
      *
-     * @param Silex\Application $app The application/container
+     * @param  Silex\Application $app The application/container
      * @return mixed
      */
     public static function homepage(Silex\Application $app)
@@ -118,9 +117,9 @@ class Frontend
     /**
      * Controller for a single record page, like '/page/about/' or '/entry/lorum'.
      *
-     * @param Silex\Application $app             The application/container
-     * @param string            $contenttypeslug The content type slug
-     * @param string            $slug            The content slug
+     * @param  Silex\Application $app             The application/container
+     * @param  string            $contenttypeslug The content type slug
+     * @param  string            $slug            The content slug
      * @return mixed
      */
     public static function record(Silex\Application $app, $contenttypeslug, $slug)
@@ -132,7 +131,7 @@ class Frontend
             $app->abort(404, "Page $contenttypeslug/$slug not found.");
         }
 
-        $slug = String::slug($slug, -1);
+        $slug = $app['slugify']->slugify($slug);
 
         // First, try to get it by slug.
         $content = $app['storage']->getContent($contenttype['slug'], array('slug' => $slug, 'returnsingle' => true));
@@ -158,7 +157,7 @@ class Frontend
         $template = $app['templatechooser']->record($content);
 
         // Fallback: If file is not OK, show an error page
-        $filename = $app['paths']['themepath'] . "/" . $template;
+        $filename = $app['paths']['templatespath'] . "/" . $template;
         if (!file_exists($filename) || !is_readable($filename)) {
             $error = sprintf(
                 "No template for '%s' defined. Tried to use '%s/%s'.",
@@ -189,9 +188,9 @@ class Frontend
     /**
      * The controller for previewing a content from posted data.
      *
-     * @param Request           $request         The Symfony Request
-     * @param Silex\Application $app             The application/container
-     * @param string            $contenttypeslug The content type slug
+     * @param  Request           $request         The Symfony Request
+     * @param  Silex\Application $app             The application/container
+     * @param  string            $contenttypeslug The content type slug
      * @return mixed
      */
     public static function preview(Request $request, Silex\Application $app, $contenttypeslug)
@@ -208,7 +207,7 @@ class Frontend
         $template = $app['templatechooser']->record($content);
 
         // Fallback: If file is not OK, show an error page
-        $filename = $app['paths']['themepath'] . "/" . $template;
+        $filename = $app['paths']['templatespath'] . "/" . $template;
         if (!file_exists($filename) || !is_readable($filename)) {
             $error = sprintf(
                 "No template for '%s' defined. Tried to use '%s/%s'.",
@@ -226,14 +225,26 @@ class Frontend
         $app['twig']->addGlobal('record', $content);
         $app['twig']->addGlobal($contenttype['singular_slug'], $content);
 
+        // Chrome (unlike Firefox and Internet Explorer) has a feature that helps prevent
+        // XSS attacks for uncareful people. It blocks embeds, links and src's that have
+        // a URL that's also in the request. In Bolt we wish to enable this type of embeds,
+        // because otherwise Youtube, Vimeo and Google Maps embeds will simply not show,
+        // causing confusion for the editor, because they don't know what's happening.
+        // Is this a security concern, you may ask? I believe it cannot be exploited:
+        //   - Disabled, the behaviour on Chrome matches Firefox and IE.
+        //   - The user must be logged in to see the 'preview' page at all.
+        //   - Our CSRF-token ensures that the user will only see their own posted preview.
+        // @see: http://security.stackexchange.com/questions/53474/is-chrome-completely-secure-against-reflected-xss
+        header("X-XSS-Protection: 0");
+
         return self::render($app, $template, $content->getTitle());
     }
 
     /**
      * The listing page controller.
      *
-     * @param Silex\Application $app             The application/container
-     * @param string            $contenttypeslug The content type slug
+     * @param  Silex\Application $app             The application/container
+     * @param  string            $contenttypeslug The content type slug
      * @return mixed
      */
     public static function listing(Silex\Application $app, $contenttypeslug)
@@ -258,7 +269,7 @@ class Frontend
         $template = $app['templatechooser']->listing($contenttype);
 
         // Fallback: If file is not OK, show an error page
-        $filename = $app['paths']['themepath'] . "/" . $template;
+        $filename = $app['paths']['templatespath'] . "/" . $template;
         if (!file_exists($filename) || !is_readable($filename)) {
             $error = sprintf(
                 "No template for '%s'-listing defined. Tried to use '%s/%s'.",
@@ -283,9 +294,9 @@ class Frontend
     /**
      * The taxonomy listing page controller.
      *
-     * @param Silex\Application $app          The application/container
-     * @param string            $taxonomytype The taxonomy type slug
-     * @param string            $slug         The taxonomy slug
+     * @param  Silex\Application $app          The application/container
+     * @param  string            $taxonomytype The taxonomy type slug
+     * @param  string            $slug         The taxonomy slug
      * @return mixed
      */
     public static function taxonomy(Silex\Application $app, $taxonomytype, $slug)
@@ -316,7 +327,7 @@ class Frontend
         $template = $app['templatechooser']->taxonomy($taxonomyslug);
 
         // Fallback: If file is not OK, show an error page
-        $filename = $app['paths']['themepath'] . "/" . $template;
+        $filename = $app['paths']['templatespath'] . "/" . $template;
         if (!file_exists($filename) || !is_readable($filename)) {
             $error = sprintf(
                 "No template for '%s'-listing defined. Tried to use '%s/%s'.",
@@ -354,8 +365,8 @@ class Frontend
     /**
      * The search result page controller.
      *
-     * @param Request           $request The Symfony Request
-     * @param Silex\Application $app     The application/container
+     * @param  Request           $request The Symfony Request
+     * @param  Silex\Application $app     The application/container
      * @return mixed
      */
     public static function search(Request $request, Silex\Application $app)
@@ -429,8 +440,8 @@ class Frontend
      * Renders the specified template from the current theme in response to a request without
      * loading any content.
      *
-     * @param Silex\Application $app      The application/container
-     * @param string            $template The template name
+     * @param  Silex\Application $app      The application/container
+     * @param  string            $template The template name
      * @return mixed
      * @throws \Exception
      */
@@ -449,9 +460,9 @@ class Frontend
      * in case the template is not found by Twig.
      *
      * @param  Silex\Application $app
-     * @param  string            $template   Ex: 'listing.twig'
-     * @param  string            $title      '%s' in "No template for '%s' defined."
-     * @return mixed                         Rendered template
+     * @param  string            $template Ex: 'listing.twig'
+     * @param  string            $title    '%s' in "No template for '%s' defined."
+     * @return mixed             Rendered template
      */
     private static function render(Silex\Application $app, $template, $title)
     {
@@ -464,7 +475,10 @@ class Frontend
                 basename($app['config']->get('general/theme')),
                 $template
             );
-            $app['log']->setValue('templateerror', $error);
+
+            $app['logger.system']->addError($error, array('event' => 'twig'));
+
+            // Abort ship
             $app->abort(404, $error);
         }
     }

@@ -79,10 +79,11 @@
         {% endif %}
 
         {# use the files includes in ckeditor/codemirror plugin, instead of duplicating files. #}
-        <link rel="stylesheet" href="{{ paths.app }}view/lib/ckeditor/plugins/codemirror/css/codemirror.min.css">
-        <script src="{{ paths.app }}view/lib/ckeditor/plugins/codemirror/js/codemirror.min.js"></script>
+        <link rel="stylesheet" href="{{ paths.app }}view/js/ckeditor/plugins/codemirror/css/codemirror.min.css">
+        <script src="{{ paths.app }}view/js/ckeditor/ckeditor.js"></script>
+        <script src="{{ paths.app }}view/js/ckeditor/plugins/codemirror/js/codemirror.min.js"></script>
         {% for file in codemirror %}
-            <script src="{{ paths.app }}view/lib/codemirror/{{ file }}.js"></script>
+            <script src="{{ paths.app }}view/js/ckeditor/plugins/codemirror/plugins/{{ file }}.min.js"></script>
         {% endfor %}
     {% endif %}
 

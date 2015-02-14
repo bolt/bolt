@@ -1,0 +1,27 @@
+{
+  "name": "bolt_bower_dependencies",
+  "version": "0.0.1",
+  "homepage": "https://github.com/bolt/bolt",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "1.11.2"
+  },
+  "devDependencies": {
+    "magnific-popup": "~1.0.0",
+    "bootbox.js": "https://github.com/makeusabrew/bootbox.git#4.3.0",
+    "jquery.cookie": "https://github.com/carhartl/jquery-cookie.git#1.4.1",
+    "jquery.formatDateTime": "https://github.com/agschwender/jquery.formatDateTime.git#1.1.4",
+    "jquery.tagcloud.js": "https://github.com/addywaddy/jquery.tagcloud.js.git",
+    "underscore": "~1.7.0",
+    "backbone": "~1.1.2",
+    "moment": "^2.9.0"
+  }
+}

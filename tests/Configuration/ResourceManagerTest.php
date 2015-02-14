@@ -3,12 +3,10 @@ namespace Bolt\Tests\Configuration;
 
 use Bolt\Application;
 use Bolt\Configuration\ResourceManager;
-use Bolt\Configuration\Composer;
 use Bolt\Configuration\Standard;
 use Symfony\Component\HttpFoundation\Request;
 use Eloquent\Pathogen\FileSystem\PlatformFileSystemPath as Path;
 use Eloquent\Pathogen\FileSystem\Factory\PlatformFileSystemPathFactory;
-use Bolt\Configuration\LowlevelException;
 
 /**
  * Class to test correct operation and locations of resource manager class and extensions.
@@ -18,7 +16,6 @@ use Bolt\Configuration\LowlevelException;
  */
 class ResourceManagerTest extends \PHPUnit_Framework_TestCase
 {
-
 
     public function testConstruction()
     {
@@ -49,11 +46,11 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(Path::fromString(TEST_ROOT . '/.'), $config->getPath('web'));
         $this->assertEquals(Path::fromString(TEST_ROOT . '/app/cache'), $config->getPath('cache'));
         $this->assertEquals(Path::fromString(TEST_ROOT . '/app/config'), $config->getPath('config'));
-     }
+    }
 
     /**
      * @dataProvider exceptionGetPathProvider
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testExceptionGetPath($path)
     {
@@ -76,6 +73,9 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
             ),
             array(
                 'FAKE_PATH'
+            ),
+            array(
+                'FAKE_PATH/test'
             )
         );
     }
@@ -91,8 +91,24 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
             )
         );
         $this->assertEquals(Path::fromString(TEST_ROOT), $config->getPath('root'));
+        $this->assertEquals(Path::fromString(TEST_ROOT), $config->getPath('rootpath'));
         $this->assertEquals(Path::fromString(TEST_ROOT . '/app'), $config->getPath('app'));
         $this->assertEquals(Path::fromString(TEST_ROOT . '/files'), $config->getPath('files'));
+        $this->assertInstanceOf('Eloquent\Pathogen\PathInterface', $config->getPathObject('root'));
+    }
+
+    public function testRelativePathCreation()
+    {
+        $config = new ResourceManager(
+            new \Pimple(
+                array(
+                    'rootpath' => TEST_ROOT,
+                    'pathmanager' => new PlatformFileSystemPathFactory()
+                )
+            )
+        );
+
+        $this->assertEquals(Path::fromString(TEST_ROOT . '/app/cache/test'), $config->getPath('cache/test'));
     }
 
     public function testDefaultUrls()
@@ -115,7 +131,7 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider exceptionGetUrlProvider
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testExceptionGetUrl($url)
     {
@@ -183,7 +199,7 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider exceptionGetRequest
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testExceptionGetRequest($request)
     {
@@ -238,7 +254,6 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('test.dev', $config->getRequest('hostname'));
         $this->assertEquals('https://bolt.dev/bolt/test/location', $config->getUrl('canonical'));
     }
-
 
     public function testNonRootDirectory()
     {
@@ -339,7 +354,8 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testFindRelativePath() {
+    public function testFindRelativePath()
+    {
         $config = new ResourceManager(
             new \Pimple(
                 array(
@@ -352,18 +368,18 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
         $rel = $config->findRelativePath(TEST_ROOT, TEST_ROOT . '/A/B');
         $this->assertEquals('A/B/', $rel);
     }
-    
+
     public function testSetThemePath()
     {
         $config = new Standard(TEST_ROOT);
-        $theme = array('theme'=>'test');
+        $theme = array('theme' => 'test');
         $config->setThemePath($theme);
         $this->assertEquals(Path::fromString(TEST_ROOT . '/theme/test'), $config->getPath('theme'));
-        $theme = array('theme'=>'test', 'theme_path'=>'/testpath');
+        $theme = array('theme' => 'test', 'theme_path' => '/testpath');
         $config->setThemePath($theme);
         $this->assertEquals(Path::fromString(TEST_ROOT . '/testpath/test'), $config->getPath('theme'));
     }
-    
+
     public function testStaticApp()
     {
         $config = new Standard(TEST_ROOT);
@@ -371,16 +387,13 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
         $app2 = ResourceManager::getApp();
         $this->assertEquals($app, $app2);
     }
-    
+
     /**
     * @runInSeparateProcess
     */
     public function testEarlyStaticFails()
     {
         $this->setExpectedException('RuntimeException');
-        $this->expectOutputRegex("/Bolt - Fatal Error/");
         $app = ResourceManager::getApp();
-
     }
-    
 }

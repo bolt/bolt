@@ -18,7 +18,7 @@ class Composer extends Standard
         $this->setPath('app', realpath(dirname(__DIR__) . '/../app/'));
         $this->setUrl('app', '/bolt-public/');
     }
-    
+
     public function getVerifier()
     {
         if (! $this->verifier) {

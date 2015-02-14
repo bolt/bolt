@@ -1,15 +1,12 @@
 <?php
 namespace Bolt\Tests\DataCollector;
 
-use Bolt\Application;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\DataCollector\TwigDataCollector;
 use Bolt\TwigExtension;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-
-use Doctrine\DBAL\Logging\DebugStack;
 
 /**
  * Class to test src/DataCollector/TwigDataCollector.
@@ -20,19 +17,16 @@ use Doctrine\DBAL\Logging\DebugStack;
 class TwigDataCollectorTest extends BoltUnitTest
 {
 
-    
     public function testBasicData()
     {
-        
-        
         $app = $this->getApp();
         $app['twig']->addExtension(new TwigExtension($app));
-                
+
         $data = new TwigDataCollector($app);
-        
-        $request = Request::create('/','GET');
-        $response = $app->handle($request);        
-        
+
+        $request = Request::create('/', 'GET');
+        $response = $app->handle($request);
+
         $data->collect($request, $response);
         $this->assertEquals('twig', $data->getName());
         $this->assertTrue($data->getDisplayInWdt());
@@ -42,45 +36,41 @@ class TwigDataCollectorTest extends BoltUnitTest
         $this->assertGreaterThan(0, $data->getCountFunctions());
         $this->assertGreaterThan(0, $data->getCountTests());
         $this->assertGreaterThan(0, $data->getCountExtensions());
-        
+
         //$this->assertEquals('error', $data->getTemplateError());
         //$this->assertEquals('test', $data->getChosenTemplate());
     }
-    
+
     public function testCollectWithMocks()
     {
         $app = $this->getApp();
         $data = new TwigDataCollector($app);
-        
-        $request = Request::create('/','GET');
+
+        $request = Request::create('/', 'GET');
         $response = $app->handle($request);
-        
+
         $ext = $this->getMock('\Twig_Extension');
-        
-        
+
         $filter = $this->getMock('\Twig_FilterInterface');
         $filter->expects($this->any())
             ->method('compile')
             ->will($this->returnValue(array(new \ArrayObject(array()), 'count')));
-            
+
         $ext->expects($this->any())
             ->method('getFilters')
-            ->will($this->returnValue(array('testfilter'=>$filter)));
-        
-        $test = $this->getMock("\Twig_TestInterface"); 
+            ->will($this->returnValue(array('testfilter' => $filter)));
+
+        $test = $this->getMock("\Twig_TestInterface");
         $ext->expects($this->any())
             ->method('getTests')
-            ->will($this->returnValue(array('test'=>$test)));
-            
-        $func = $this->getMock("\Twig_FunctionInterface"); 
+            ->will($this->returnValue(array('test' => $test)));
+
+        $func = $this->getMock("\Twig_FunctionInterface");
         $ext->expects($this->any())
             ->method('getFunctions')
-            ->will($this->returnValue(array('func'=>$func)));
-        
+            ->will($this->returnValue(array('func' => $func)));
+
         $app['twig']->addExtension($ext);
         $data->collect($request, $response);
     }
-    
-    
-   
 }

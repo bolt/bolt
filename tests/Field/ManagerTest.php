@@ -1,7 +1,6 @@
 <?php
 namespace Bolt\Tests\Field;
 
-use Bolt\Application;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Field\Manager;
 use Bolt\Field\Base;
@@ -15,10 +14,9 @@ use Bolt\Field\Base;
 class ManagerTest extends BoltUnitTest
 {
 
-
     public function testManagerDefaultsSetup()
     {
-        $manager = new Manager();        
+        $manager = new Manager();
         $this->assertTrue($manager->has('text'));
         $this->assertTrue($manager->has('integer'));
         $this->assertTrue($manager->has('float'));
@@ -38,7 +36,7 @@ class ManagerTest extends BoltUnitTest
         $this->assertTrue($manager->has('checkbox'));
         $this->assertTrue($manager->has('slug'));
     }
-    
+
     public function testAddingFetchingfields()
     {
         $field = $this->getMock('Bolt\Field\Base', null, array('test','test.twig'));
@@ -46,15 +44,9 @@ class ManagerTest extends BoltUnitTest
         $manager->addField($field);
         $this->assertTrue($manager->has('test'));
         $this->assertEquals($field, $manager->getField('test'));
-        
+
         $this->assertFalse($manager->getField('nonexistent'));
         $this->assertGreaterThan(5, $manager->fields());
 
     }
-    
-
-    
-    
- 
-   
 }

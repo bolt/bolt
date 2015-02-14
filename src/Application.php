@@ -2,10 +2,13 @@
 
 namespace Bolt;
 
-use Bolt\Configuration\LowlevelException;
+use Bolt\Exception\LowlevelException;
+use Bolt\Helpers\String;
 use Bolt\Library as Lib;
+use Bolt\Provider\PathServiceProvider;
+use Bolt\Provider\LoggerServiceProvider;
+use Cocur\Slugify\Bridge\Silex\SlugifyServiceProvider;
 use Doctrine\DBAL\Exception\ConnectionException as DBALConnectionException;
-use Monolog\Logger;
 use RandomLib;
 use SecurityLib;
 use Silex;
@@ -15,8 +18,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Stopwatch;
 use Whoops\Handler\JsonResponseHandler;
 use Whoops\Provider\Silex\WhoopsServiceProvider;
-use Bolt\Provider\PathServiceProvider;
-use Bolt\Provider\LoggerServiceProvider;
 
 class Application extends Silex\Application
 {
@@ -28,7 +29,7 @@ class Application extends Silex\Application
     public function __construct(array $values = array())
     {
         $values['bolt_version'] = '2.1.0';
-        $values['bolt_name'] = 'alpha1';
+        $values['bolt_name'] = 'beta1';
         $values['bolt_released'] = false; // True for stable releases
 
         parent::__construct($values);
@@ -75,7 +76,7 @@ class Application extends Silex\Application
             array(
                 'session.storage.options' => array(
                     'name'            => 'bolt_session',
-                    'cookie_secure'   => $this['config']->get('general/cookies_https_only'),
+                    'cookie_secure'   => $this['config']->get('general/enforce_ssl'),
                     'cookie_httponly' => true
                 )
             )
@@ -100,6 +101,9 @@ class Application extends Silex\Application
         // Initialize Twig and our rendering Provider.
         $this->initRendering();
 
+        // Initialize Web Profiler Providers if enabled
+        $this->initProfiler();
+
         // Initialize the Database Providers.
         $this->initDatabase();
 
@@ -115,8 +119,8 @@ class Application extends Silex\Application
         // Initialise the global 'before' handler.
         $this->before(array($this, 'beforeHandler'));
 
-        // Initialise the global 'after' handlers.
-        $this->initAfterHandler();
+        // Initialise the global 'after' handler.
+        $this->after(array($this, 'afterHandler'));
 
         // Initialise the 'error' handler.
         $this->error(array($this, 'errorHandler'));
@@ -128,11 +132,14 @@ class Application extends Silex\Application
 
         // Debug log
         if ($this['config']->get('general/debuglog/enabled')) {
-            $this->register(new Silex\Provider\MonologServiceProvider(), array(
-                'monolog.name'    => 'bolt',
-                'monolog.level'   => constant('Monolog\Logger::'. strtoupper($this['config']->get('general/debuglog/level'))),
-                'monolog.logfile' => $this['resources']->getPath('cache') . '/' . $this['config']->get('general/debuglog/filename')
-            ));
+            $this->register(
+                new Silex\Provider\MonologServiceProvider(),
+                array(
+                    'monolog.name'    => 'bolt',
+                    'monolog.level'   => constant('Monolog\Logger::' . strtoupper($this['config']->get('general/debuglog/level'))),
+                    'monolog.logfile' => $this['resources']->getPath('cache') . '/' . $this['config']->get('general/debuglog/filename')
+                )
+            );
         }
     }
 
@@ -144,7 +151,7 @@ class Application extends Silex\Application
         $this->register(
             new Silex\Provider\DoctrineServiceProvider(),
             array(
-                'db.options' => $this['config']->getDBOptions()
+                'db.options' => $this['config']->get('general/database')
             )
         );
         $this->register(new Database\InitListener());
@@ -171,9 +178,15 @@ class Application extends Silex\Application
             $this['db']->connect();
         } catch (DBALConnectionException $e) {
             // Trap double exceptions caused by throwing a new LowlevelException
-            set_exception_handler(array('\Bolt\Configuration\LowlevelException', 'nullHandler'));
+            set_exception_handler(array('\Bolt\Exception\LowlevelException', 'nullHandler'));
 
-            $platform = $this['db']->getDatabasePlatform()->getName();
+            /*
+             * Using Driver here since Platform may try to connect
+             * to the database, which has failed since we are here.
+             */
+            $platform = $this['db']->getDriver()->getName();
+            $platform = String::replaceFirst('pdo_', '', $platform);
+
             $error = "Bolt could not connect to the configured database.\n\n" .
                      "Things to check:\n" .
                      "&nbsp;&nbsp;* Ensure the $platform database is running\n" .
@@ -197,6 +210,73 @@ class Application extends Silex\Application
 
         $this->register(new Provider\RenderServiceProvider());
         $this->register(new Provider\RenderServiceProvider(true));
+    }
+
+    public function initProfiler()
+    {
+        // On 'after' attach the debug-bar, if debug is enabled..
+        if (!($this['debug'] && ($this['session']->has('user') || $this['config']->get('general/debug_show_loggedoff')))) {
+            error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_USER_DEPRECATED);
+            return;
+        }
+
+        // Set the error_reporting to the level specified in config.yml
+        error_reporting($this['config']->get('general/debug_error_level'));
+
+        // Register Whoops, to handle errors for logged in users only.
+        if ($this['config']->get('general/debug_enable_whoops')) {
+            $this->register(new WhoopsServiceProvider());
+
+            // Add a special handler to deal with AJAX requests
+            if ($this['config']->getWhichEnd() == 'async') {
+                $this['whoops']->pushHandler(new JsonResponseHandler());
+            }
+        }
+
+        $this->register(new Silex\Provider\ServiceControllerServiceProvider());
+
+        // Register the Silex/Symfony web debug toolbar.
+        $this->register(
+            new Silex\Provider\WebProfilerServiceProvider(),
+            array(
+                'profiler.cache_dir'    => $this['resources']->getPath('cache') . '/profiler',
+                'profiler.mount_prefix' => '/_profiler', // this is the default
+            )
+        );
+
+        // Register the toolbar item for our Database query log.
+        $this->register(new Provider\DatabaseProfilerServiceProvider());
+
+        // Register the toolbar item for our bolt nipple.
+        $this->register(new Provider\BoltProfilerServiceProvider());
+
+        // Register the toolbar item for the Twig toolbar item.
+        $this->register(new Provider\TwigProfilerServiceProvider());
+
+        $this['twig.loader.filesystem'] = $this->share(
+            $this->extend(
+                'twig.loader.filesystem',
+                function (\Twig_Loader_Filesystem $filesystem, $app) {
+                    $filesystem->addPath(
+                        $app['resources']->getPath('root') . '/vendor/symfony/web-profiler-bundle/Symfony/Bundle/WebProfilerBundle/Resources/views',
+                        'WebProfiler'
+                    );
+                    $filesystem->addPath($app['resources']->getPath('app') . '/view', 'BoltProfiler');
+
+                    return $filesystem;
+                }
+            )
+        );
+
+        // PHP 5.3 does not allow 'use ($this)' in closures.
+        $app = $this;
+        $this->after(
+            function () use ($app) {
+                foreach (Lib::hackislyParseRegexTemplates($app['twig.loader.filesystem']) as $template) {
+                    $app['twig.logger']->collectTemplateData($template);
+                }
+            }
+        );
     }
 
     public function initLocale()
@@ -271,7 +351,8 @@ class Application extends Silex\Application
             ->register(new Provider\FilesystemProvider())
             ->register(new Thumbs\ThumbnailProvider())
             ->register(new Provider\NutServiceProvider())
-        ;
+            ->register(new Provider\GuzzleServiceProvider())
+            ->register(new SlugifyServiceProvider());
 
         $this['paths'] = $this['resources']->getPaths();
 
@@ -285,8 +366,6 @@ class Application extends Silex\Application
                 return new Stopwatch\Stopwatch();
             }
         );
-
-        // @todo: make a provider for the Random generator..
     }
 
     public function initExtensions()
@@ -309,7 +388,9 @@ class Application extends Silex\Application
         }
 
         // Mount the 'backend' on the branding:path setting. Defaults to '/bolt'.
-        $this->mount($this['config']->get('general/branding/path'), new Controllers\Backend());
+        $backendPrefix = $this['config']->get('general/branding/path');
+        $this->mount($backendPrefix, new Controllers\Login());
+        $this->mount($backendPrefix, new Controllers\Backend());
 
         // Mount the 'async' controllers on /async. Not configurable.
         $this->mount('/async', new Controllers\Async());
@@ -349,82 +430,8 @@ class Application extends Silex\Application
             return $response;
         }
 
-        // Sanity checks for doubles in in contenttypes.
-        // unfortunately this has to be done here, because the 'translator' classes need to be initialised.
-        $this['config']->checkConfig();
-
         // Stop the 'stopwatch' for the profiler.
         $this['stopwatch']->stop('bolt.app.before');
-    }
-
-    public function initAfterHandler()
-    {
-        // On 'after' attach the debug-bar, if debug is enabled..
-        if ($this['debug'] && ($this['session']->has('user') || $this['config']->get('general/debug_show_loggedoff'))) {
-
-            // Set the error_reporting to the level specified in config.yml
-            error_reporting($this['config']->get('general/debug_error_level'));
-
-            // Register Whoops, to handle errors for logged in users only.
-            if ($this['config']->get('general/debug_enable_whoops')) {
-                $this->register(new WhoopsServiceProvider());
-
-                // Add a special handler to deal with AJAX requests
-                if ($this['config']->getWhichEnd() == 'async') {
-                    $this['whoops']->pushHandler(new JsonResponseHandler());
-                }
-            }
-
-            $this->register(new Silex\Provider\ServiceControllerServiceProvider());
-
-            // Register the Silex/Symfony web debug toolbar.
-            $this->register(
-                new Silex\Provider\WebProfilerServiceProvider(),
-                array(
-                    'profiler.cache_dir'    => $this['resources']->getPath('cache') . '/profiler',
-                    'profiler.mount_prefix' => '/_profiler', // this is the default
-                )
-            );
-
-            // Register the toolbar item for our Database query log.
-            $this->register(new Provider\DatabaseProfilerServiceProvider());
-
-            // Register the toolbar item for our bolt nipple.
-            $this->register(new Provider\BoltProfilerServiceProvider());
-
-            // Register the toolbar item for the Twig toolbar item.
-            $this->register(new Provider\TwigProfilerServiceProvider());
-
-            $this['twig.loader.filesystem'] = $this->share(
-                $this->extend(
-                    'twig.loader.filesystem',
-                    function (\Twig_Loader_Filesystem $filesystem, $app) {
-                        $filesystem->addPath(
-                            $app['resources']->getPath('root') . '/vendor/symfony/web-profiler-bundle/Symfony/Bundle/WebProfilerBundle/Resources/views',
-                            'WebProfiler'
-                        );
-                        $filesystem->addPath($app['resources']->getPath('app') . '/view', 'BoltProfiler');
-
-                        return $filesystem;
-                    }
-                )
-            );
-
-            // PHP 5.3 does not allow 'use ($this)' in closures.
-            $app = $this;
-
-            $this->after(
-                function () use ($app) {
-                    foreach (Lib::hackislyParseRegexTemplates($app['twig.loader.filesystem']) as $template) {
-                        $app['twig.logger']->collectTemplateData($template);
-                    }
-                }
-            );
-        } else {
-            error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_USER_DEPRECATED);
-        }
-
-        $this->after(array($this, 'afterHandler'));
     }
 
     /**
@@ -502,7 +509,7 @@ class Application extends Silex\Application
 
         // Log the error message
         $message = $exception->getMessage();
-        $this['logger.system']->addCritical($message, array('event' => 'exception'));
+        $this['logger.system']->addCritical($message, array('event' => 'exception', 'exception' => $exception));
 
         $trace = $exception->getTrace();
         foreach ($trace as $key => $value) {

@@ -9,11 +9,10 @@
         {% include 'editcontent/_aside-save.twig' %}
         {% include 'editcontent/_aside-preview.twig' %}
         {% include 'editcontent/_aside-status.twig' %}
-
-
-
     </div>
 </div>
+
+{{ panels.changes(context.contenttype.slug, context.content.id) }}
 
 {{ panels.lastmodified(context.contenttype.slug, context.content.id) }}
 

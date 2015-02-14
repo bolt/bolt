@@ -277,7 +277,7 @@ class Cron extends Event
     /**
      * Get the next run time for a given interim
      *
-     * @param  string  $interim       The interim; CRON_HOURLY, CRON_DAILY, CRON_WEEKLY, CRON_MONTHLY or CRON_YEARLY
+     * @param  string  $interim     The interim; CRON_HOURLY, CRON_DAILY, CRON_WEEKLY, CRON_MONTHLY or CRON_YEARLY
      * @param  string  $lastRunTime The last execution time of the interim
      * @return integer The UNIX timestamp for the interims next valid execution time
      */

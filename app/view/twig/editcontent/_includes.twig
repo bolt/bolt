@@ -1,0 +1,20 @@
+{# Check which field types are used #}
+
+{% set used_fieldtypes = [] %}
+
+{% for key, field in context.contenttype.fields %}
+    {% if field.type not in used_fieldtypes %}
+        {% set used_fieldtypes = used_fieldtypes|merge([field.type]) %}
+    {% endif %}
+{% endfor %}
+
+{# Output includes #}
+
+{% if 'html' in used_fieldtypes %}
+    <script src="{{ paths.app }}view/js/ckeditor/ckeditor.js"></script>
+{% endif %}
+
+{% if 'geolocation' in used_fieldtypes %}
+    <script src="https://maps.google.com/maps/api/js?sensor=false"></script>
+    <script src="{{ paths.app }}view/js/jquery-gomap.min.js"></script>
+{% endif %}
