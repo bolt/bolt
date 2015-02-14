@@ -923,7 +923,7 @@ class TwigExtension extends \Twig_Extension
         $path = $this->app['url_generator']->generate(
             'thumb',
             array(
-                'thumb' => round($width) . 'x' . round($height) . $scale . '/'. Lib::safeFilename($filename),
+                'thumb' => round($width) . 'x' . round($height) . $scale . '/'. $filename,
             )
         );
 
