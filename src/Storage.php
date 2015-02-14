@@ -203,6 +203,8 @@ class Storage
 
         }
 
+        $content['slug'] = $this->app['slugify']->slugify($content['title']);
+
         $contentobject = $this->getContentObject($contenttype);
         $contentobject->setValues($content);
 
