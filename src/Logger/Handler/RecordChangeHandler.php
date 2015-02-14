@@ -156,22 +156,6 @@ class RecordChangeHandler extends AbstractProcessingHandler
         }
     }
 
-    /**
-     * Processes a record.
-     *
-     * @param  array $record
-     * @return array
-     */
-    protected function processRecord(array $record)
-    {
-        if ($this->processors) {
-            foreach ($this->processors as $processor) {
-                $record = call_user_func($processor, $record);
-            }
-        }
-
-        return $record;
-    }
 
     /**
      * Initialize
