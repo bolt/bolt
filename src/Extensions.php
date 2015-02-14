@@ -583,6 +583,9 @@ class Extensions
             // then insert it into the HTML, somewhere.
             switch ($item['location']) {
                 case SnippetLocation::END_OF_HEAD:
+                case SnippetLocation::AFTER_HEAD_JS: // same as end of head because we cheat a little
+                case SnippetLocation::AFTER_HEAD_CSS: // same as end of head because we cheat a little
+                case SnippetLocation::AFTER_HEAD_META: // same as end of head because meta tags are unordered
                     $html = $this->insertEndOfHead($snippet, $html);
                     break;
                 case SnippetLocation::AFTER_META:
@@ -601,17 +604,25 @@ class Extensions
                     $html = $this->insertAfterJs($snippet, $html);
                     break;
                 case SnippetLocation::START_OF_HEAD:
+                case SnippetLocation::BEFORE_HEAD_JS: // same as start of head because we cheat a little
+                case SnippetLocation::BEFORE_HEAD_CSS: // same as start of head because we cheat a little
+                case SnippetLocation::BEFORE_HEAD_META: // same as start of head because meta tags are unordered
                     $html = $this->insertStartOfHead($snippet, $html);
                     break;
                 case SnippetLocation::START_OF_BODY:
+                case SnippetLocation::BEFORE_BODY_JS: // same as start of body because we cheat a little
+                case SnippetLocation::BEFORE_BODY_CSS: // same as start of body because we cheat a little
                     $html = $this->insertStartOfBody($snippet, $html);
                     break;
                 case SnippetLocation::END_OF_BODY:
+                case SnippetLocation::AFTER_BODY_JS: // same as end of body because we cheat a little
+                case SnippetLocation::AFTER_BODY_CSS: // same as end of body because we cheat a little
                     $html = $this->insertEndOfBody($snippet, $html);
                     break;
                 case SnippetLocation::END_OF_HTML:
                     $html = $this->insertEndOfHtml($snippet, $html);
                     break;
+
                 default:
                     $html .= $snippet . "\n";
                     break;
