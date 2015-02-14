@@ -157,7 +157,8 @@ button::-moz-focus-inner {
   right: 0;
   color: #cccccc;
   font-size: 12px;
-  line-height: 18px; }
+  line-height: 18px;
+  white-space: nowrap; }
 
 .mfp-arrow {
   position: absolute;
@@ -366,43 +367,3 @@ img.mfp-img {
   top: 0;
   right: 0;
   padding-top: 0; }
-
-
-/**
- * Specific for Magnific popup, will be merged into the Magnific popup .scss file for Bolt 2
- */
-.mfp-with-zoom .mfp-container,
-.mfp-with-zoom.mfp-bg {
-    opacity: 0;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* weird quirk on Chrome 34 / OSX: background didn't show consistently. This line fixes it.
-    -webkit-backface-visibility: hidden;
-    /* ideally, transition speed should match zoom duration */
-    -webkit-transition: all 0.3s ease-out;
-    -moz-transition: all 0.3s ease-out;
-    -o-transition: all 0.3s ease-out;
-    transition: all 0.3s ease-out;
-}
-
-.mfp-with-zoom.mfp-ready .mfp-container {
-    opacity: 1;
-}
-.mfp-with-zoom.mfp-ready.mfp-bg {
-    opacity: 0.5;
-}
-
-.mfp-with-zoom.mfp-removing .mfp-container,
-.mfp-with-zoom.mfp-removing.mfp-bg {
-    opacity: 0;
-}
-
-.mfp-bottom-bar {
-    margin-top: -66px;
-}
-
-img.mfp-img {
-    padding-bottom: 72px;
-}
-
-.mfp-figure:after {
-    bottom: 72px;
-}
