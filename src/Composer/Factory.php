@@ -31,6 +31,11 @@ final class Factory extends PackageManager
     private $pool;
 
     /**
+     * @var Composer\Repository\CompositeRepository
+     */
+    private $repos;
+
+    /**
      * @var Silex\Application
      */
     private $app;
@@ -200,7 +205,7 @@ final class Factory extends PackageManager
     /**
      * Get all our repos
      *
-     * @return \Composer\Repository\CompositeRepository
+     * @return Composer\Repository\CompositeRepository
      */
     protected function getRepos()
     {
