@@ -124,7 +124,7 @@ final class Factory extends PackageManager
      */
     private function allowSslDowngrade($choice)
     {
-        $repos = $this->composer->getRepositoryManager()->getRepositories();
+        $repos = $this->getComposer()->getRepositoryManager()->getRepositories();
 
         foreach ($repos as $repo) {
             $reflection = new \ReflectionClass($repo);
@@ -189,7 +189,7 @@ final class Factory extends PackageManager
      */
     public function getMinimumStability()
     {
-        $stability = $this->composer->getPackage()->getMinimumStability();
+        $stability = $this->getComposer()->getPackage()->getMinimumStability();
         if (!empty($stability)) {
             return $stability;
         }
@@ -205,7 +205,7 @@ final class Factory extends PackageManager
     protected function getRepos()
     {
         if (!$this->repos) {
-            $this->repos = $this->composer->getRepositoryManager()->getRepositories();
+            $this->repos = $this->getComposer()->getRepositoryManager()->getRepositories();
         }
 
         return $this->repos;
