@@ -26,6 +26,16 @@ final class Factory extends PackageManager
     private $composer;
 
     /**
+     * @var Composer\DependencyResolver\Pool
+     */
+    private $pool;
+
+    /**
+     * @var Composer\Repository\CompositeRepository
+     */
+    private $repos;
+
+    /**
      * @var Silex\Application
      */
     private $app;
@@ -119,7 +129,7 @@ final class Factory extends PackageManager
      */
     private function allowSslDowngrade($choice)
     {
-        $repos = $this->composer->getRepositoryManager()->getRepositories();
+        $repos = $this->getComposer()->getRepositoryManager()->getRepositories();
 
         foreach ($repos as $repo) {
             $reflection = new \ReflectionClass($repo);
@@ -160,9 +170,9 @@ final class Factory extends PackageManager
     /**
      * Return a resolver pool that contains repositories, that provide packages
      *
-     * @return \Composer\DependencyResolver\Pool
+     * @return Composer\DependencyResolver\Pool
      */
-    protected function getPool()
+    public function getPool()
     {
         if (!$this->pool) {
             $this->pool = new Pool($this->getMinimumStability());
@@ -182,9 +192,9 @@ final class Factory extends PackageManager
      *
      * @return string
      */
-    protected function getMinimumStability()
+    public function getMinimumStability()
     {
-        $stability = $this->composer->getPackage()->getMinimumStability();
+        $stability = $this->getComposer()->getPackage()->getMinimumStability();
         if (!empty($stability)) {
             return $stability;
         }
@@ -195,12 +205,12 @@ final class Factory extends PackageManager
     /**
      * Get all our repos
      *
-     * @return \Composer\Repository\CompositeRepository
+     * @return Composer\Repository\CompositeRepository
      */
     protected function getRepos()
     {
         if (!$this->repos) {
-            $this->repos = $this->composer->getRepositoryManager()->getRepositories();
+            $this->repos = $this->getComposer()->getRepositoryManager()->getRepositories();
         }
 
         return $this->repos;
