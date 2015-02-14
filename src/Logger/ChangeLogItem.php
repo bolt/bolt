@@ -71,7 +71,9 @@ class ChangeLogItem implements \ArrayAccess
         } elseif ($key == 'changedfields') {
             $this->changedfields = $this->getChangedFields();
             return $this->changedfields;
-        } else {
+        } elseif ($key == 'diff_raw') {
+             return $this->diff_raw;
+        }  else {
             throw new \InvalidArgumentException("$key is not a valid parameter.");
         }
     }
@@ -152,18 +154,13 @@ class ChangeLogItem implements \ArrayAccess
     private function getParsedDiff()
     {
         $pdiff = json_decode($this->diff_raw, true);
+        
+        $contenttype = $this->app['storage']->getContentType($this->contenttype);
+        $fields = $contenttype['fields'];
 
         foreach ($pdiff as $key => $value) {
-            if (!isset($this->fields[$key])) {
+            if (!isset($fields[$key])) {
                 continue;
-            }
-
-            if ($this->fields[$key]['type'] == 'text' ||
-                $this->fields[$key]['type'] == 'text' ||
-                $this->fields[$key]['type'] == 'text' ||
-                $this->fields[$key]['type'] == 'text' ||
-                $this->fields[$key]['type'] == 'text') {
-                    //
             }
         }
 
@@ -207,7 +204,11 @@ class ChangeLogItem implements \ArrayAccess
         if (isset($values['mutation_type'])) {
             $this->mutation_type = $values['mutation_type'];
         }
+        if (isset($values['mutation'])) {
+            $this->mutation = $values['mutation'];
+        }
         if (isset($values['diff'])) {
+            $this->diff_raw = $values['diff'];
             $this->diff = json_decode($values['diff'], true);
         }
         if (isset($values['comment'])) {
