@@ -49,6 +49,30 @@ class SystemHandlerTest extends BoltUnitTest
         
         $log->addRecord(Logger::DEBUG, 'test', array('id'=>5,'title'=>'test'));
     }
+    
+    public function testHandleWithException()
+    {
+        $app = $this->getApp();
+        $app['request'] = Request::createFromGlobals("/");
+        $log = new Logger('logger.system');
+        $log->pushHandler(new SystemHandler($app));
+        
+        $mocker = new DoctrineMockBuilder();
+        $db = $mocker->getConnectionMock();
+        $db->expects($this->any())
+            ->method('insert')
+            ->with($this->equalTo("bolt_log_system"));
+        $app['db'] = $db;
+        
+        $log->addRecord(Logger::DEBUG, 'test', array('event'=>'','exception'=> new \Exception()));
+    }
+    
+    public function testNotHandling()
+    {
+        $app = $this->getApp();
+        $handler = new SystemHandler($app, Logger::WARNING);
+        $this->assertFalse($handler->handle(array('level'=>100)));
+    }
 
     
 }
