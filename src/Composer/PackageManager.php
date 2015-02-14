@@ -169,11 +169,21 @@ class PackageManager
     /**
      * Get a new IO object
      *
-     * @return Composer\Composer
+     * @return Composer\IO\IOInterface
      */
     public function getIO()
     {
         return $this->factory->getIO();
+    }
+
+    /**
+     * Get a new dependency resolver pool object
+     *
+     * @return Composer\DependencyResolver\Pool
+     */
+    public function getPool()
+    {
+        return $this->factory->getPool();
     }
 
     /**

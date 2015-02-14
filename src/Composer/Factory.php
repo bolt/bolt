@@ -162,7 +162,7 @@ final class Factory extends PackageManager
      *
      * @return \Composer\DependencyResolver\Pool
      */
-    protected function getPool()
+    public function getPool()
     {
         if (!$this->pool) {
             $this->pool = new Pool($this->getMinimumStability());
