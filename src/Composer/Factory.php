@@ -26,6 +26,11 @@ final class Factory extends PackageManager
     private $composer;
 
     /**
+     * @var Composer\DependencyResolver\Pool
+     */
+    private $pool;
+
+    /**
      * @var Silex\Application
      */
     private $app;
@@ -160,7 +165,7 @@ final class Factory extends PackageManager
     /**
      * Return a resolver pool that contains repositories, that provide packages
      *
-     * @return \Composer\DependencyResolver\Pool
+     * @return Composer\DependencyResolver\Pool
      */
     public function getPool()
     {
@@ -182,7 +187,7 @@ final class Factory extends PackageManager
      *
      * @return string
      */
-    protected function getMinimumStability()
+    public function getMinimumStability()
     {
         $stability = $this->composer->getPackage()->getMinimumStability();
         if (!empty($stability)) {

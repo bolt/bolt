@@ -167,6 +167,16 @@ class PackageManager
     }
 
     /**
+     * Get configured minimum stability
+     *
+     * @return string
+     */
+    public function getMinimumStability()
+    {
+        return $this->factory->getMinimumStability();
+    }
+
+    /**
      * Get a new IO object
      *
      * @return Composer\IO\IOInterface
