@@ -445,8 +445,11 @@ class Application extends Silex\Application
         // Start the 'stopwatch' for the profiler.
         $this['stopwatch']->start('bolt.app.after');
 
-        $response->headers->set('X-Frame-Options', 'SAMEORIGIN');
-        $response->headers->set('Frame-Options', 'SAMEORIGIN');
+        // Set the 'X-Frame-Options' headers to prevent click-jacking, unless specifically disabled. Backend only!
+        if ($this['config']->getWhichEnd() == 'backend' && $this['config']->get('general/x_frame_options_headers')) {
+            $response->headers->set('X-Frame-Options', 'SAMEORIGIN');
+            $response->headers->set('Frame-Options', 'SAMEORIGIN');
+        }
 
         // true if we need to consider adding html snippets
         if (isset($this['htmlsnippets']) && ($this['htmlsnippets'] === true)) {
