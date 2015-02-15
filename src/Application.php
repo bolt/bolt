@@ -567,7 +567,7 @@ class Application extends Silex\Application
     public function getVersion($long = true)
     {
         if ($long) {
-            return $this['bolt_version'] . ' ' . $this['bolt_name'];
+            return trim($this['bolt_version'] . ' ' . $this['bolt_name']);
         }
 
         return $this['bolt_version'];
