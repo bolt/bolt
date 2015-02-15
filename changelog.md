@@ -35,6 +35,7 @@ Bolt 2.1 DEV-head
 - Fixed: Fixed a bug with some utf8 characters becoming question marks after saving to database. (Thanks @dwr, See #2804)
 - Fixed: Fix #2424 and other tab group improvements #2801 (TODO: Specify!)
 - Added: Installed extensions now defaults to adding version constraints to allow for easier updating
+- Change: The 'X-Frame-Options' header is now only sent for backend pages, and can be disabled in `config.yml` (See #2825)
 
 Bolt 2.0.5
 ----------
