@@ -811,6 +811,7 @@ class Config
             'cookies_use_browseragent'    => false,
             'cookies_use_httphost'        => true,
             'cookies_lifetime'            => 14 * 24 * 3600,
+            'enforce_ssl'                 => false,
             'thumbnails'                  => array(
                 'default_thumbnail' => array(160, 120),
                 'default_image'     => array(1000, 750),
