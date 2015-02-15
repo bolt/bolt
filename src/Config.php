@@ -827,7 +827,9 @@ class Config
                 'provided_by' => array()
             ),
             'maintenance_mode'            => false,
-            'x_frame_options_headers'     => true
+            'headers'                     => array(
+                'x_frame_options'     => true
+            )
         );
     }
 

@@ -446,7 +446,7 @@ class Application extends Silex\Application
         $this['stopwatch']->start('bolt.app.after');
 
         // Set the 'X-Frame-Options' headers to prevent click-jacking, unless specifically disabled. Backend only!
-        if ($this['config']->getWhichEnd() == 'backend' && $this['config']->get('general/x_frame_options_headers')) {
+        if ($this['config']->getWhichEnd() == 'backend' && $this['config']->get('general/headers/x_frame_options')) {
             $response->headers->set('X-Frame-Options', 'SAMEORIGIN');
             $response->headers->set('Frame-Options', 'SAMEORIGIN');
         }
