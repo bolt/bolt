@@ -16,6 +16,8 @@ class TemplateChooser
 
     /**
      * Choose a template for the homepage.
+     *
+     * @return string
      */
     public function homepage()
     {
@@ -40,14 +42,16 @@ class TemplateChooser
         }
 
         return $template;
-
     }
 
     /**
      * Choose a template for a single record page, like '/page/about' or
      * '/entry/lorum-ipsum'
+     *
+     * @param  Bolt\Content $record
+     * @return string
      */
-    public function record(\Bolt\Content $record)
+    public function record(Content $record)
     {
         // First candidate: global config.yml
         $template = $this->app['config']->get('general/record_template');
@@ -63,7 +67,7 @@ class TemplateChooser
         // the contenttype.
         $templatefile = $this->app['paths']['templatespath'] . '/' . $record->contenttype['singular_slug'] . '.twig';
         if (is_readable($templatefile)) {
-            $template = $record->contenttype['singular_slug'] . ".twig";
+            $template = $record->contenttype['singular_slug'] . '.twig';
             $chosen = 'singular_slug';
         }
 
@@ -94,6 +98,9 @@ class TemplateChooser
 
     /**
      * Select a template for listing pages.
+     *
+     * @param  string $contenttype
+     * @return string
      */
     public function listing($contenttype)
     {
@@ -131,6 +138,9 @@ class TemplateChooser
 
     /**
      * Select a template for taxonomy.
+     *
+     * @param  string $taxonomyslug
+     * @return string
      */
     public function taxonomy($taxonomyslug)
     {
@@ -159,12 +169,14 @@ class TemplateChooser
 
     /**
      * Select a search template.
+     *
+     * @return string
      */
     public function search()
     {
         // First candidate: listing config setting.
         $template = $this->app['config']->get('general/listing_template');
-        $chosen = "listing config";
+        $chosen = 'listing config';
 
         // Second candidate: specific search setting in global config.
         if ($this->app['config']->get('general/search_results_template')) {
@@ -188,6 +200,8 @@ class TemplateChooser
 
     /**
      * Select a template to use for the "maintenance" page.
+     *
+     * @return string
      */
     public function maintenance()
     {
