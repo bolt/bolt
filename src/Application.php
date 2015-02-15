@@ -212,6 +212,9 @@ class Application extends Silex\Application
         $this->register(new Provider\RenderServiceProvider(true));
     }
 
+    /**
+     * Set up the profilers for the toolbar
+     */
     public function initProfiler()
     {
         // On 'after' attach the debug-bar, if debug is enabled..

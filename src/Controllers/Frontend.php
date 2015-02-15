@@ -170,7 +170,9 @@ class Frontend
                 basename($app['config']->get('general/theme')),
                 $template
             );
-            $app['twig.logger']->setTrackedValue('templateerror', $error);
+
+            // Set/log errors and abort
+            self::setTemplateError($app, $error);
             $app['logger.system']->addError($error, array('event' => 'template'));
             $app->abort(404, $error);
         }
@@ -220,7 +222,9 @@ class Frontend
                 basename($app['config']->get('general/theme')),
                 $template
             );
-            $app['twig.logger']->setTrackedValue('templateerror', $error);
+
+            // Set/log errors and abort
+            self::setTemplateError($app, $error);
             $app['logger.system']->addError($error, array('event' => 'template'));
             $app->abort(404, $error);
         }
@@ -282,7 +286,9 @@ class Frontend
                 basename($app['config']->get('general/theme')),
                 $template
             );
-            $app['twig.logger']->setTrackedValue('templateerror', $error);
+
+            // Set/log errors and abort
+            self::setTemplateError($app, $error);
             $app['logger.system']->addError($error, array('event' => 'template'));
             $app->abort(404, $error);
         }
@@ -332,7 +338,8 @@ class Frontend
         $template = $app['templatechooser']->taxonomy($taxonomyslug);
 
         // Fallback: If file is not OK, show an error page
-        $filename = $app['paths']['templatespath'] . "/" . $template;
+        $filename = $app['resources']->getPath('templatespath') . '/' . $template;
+
         if (!file_exists($filename) || !is_readable($filename)) {
             $error = sprintf(
                 "No template for '%s'-listing defined. Tried to use '%s/%s'.",
@@ -340,7 +347,9 @@ class Frontend
                 basename($app['config']->get('general/theme')),
                 $template
             );
-            $app['twig.logger']->setTrackedValue('templateerror', $error);
+
+            // Set/log errors and abort
+            self::setTemplateError($app, $error);
             $app['logger.system']->addError($error, array('event' => 'template'));
             $app->abort(404, $error);
         }
@@ -485,6 +494,19 @@ class Frontend
 
             // Abort ship
             $app->abort(404, $error);
+        }
+    }
+
+    /**
+     * Set the TwigDataCollector templatechosen parameter if enabled
+     *
+     * @param Silex\Application $app
+     * @param string            $error
+     */
+    private static function setTemplateError(Silex\Application $app, $error)
+    {
+        if (isset($app['twig.logger'])) {
+            $app['twig.logger']->setTrackedValue('templateerror', $error);
         }
     }
 }

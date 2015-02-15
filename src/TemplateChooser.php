@@ -16,6 +16,8 @@ class TemplateChooser
 
     /**
      * Choose a template for the homepage.
+     *
+     * @return string
      */
     public function homepage()
     {
@@ -35,19 +37,19 @@ class TemplateChooser
             $chosen = 'homepage fallback';
         }
 
-        if ($this->app['users']->isValidSession()) {
-            $this->app['twig.logger']->setTrackedValue('templatechosen', $this->app['config']->get('general/theme') . "/$template ($chosen)");
-        }
+        $this->setTemplateChosen($template, $chosen);
 
         return $template;
-
     }
 
     /**
      * Choose a template for a single record page, like '/page/about' or
      * '/entry/lorum-ipsum'
+     *
+     * @param  Bolt\Content $record
+     * @return string
      */
-    public function record(\Bolt\Content $record)
+    public function record(Content $record)
     {
         // First candidate: global config.yml
         $template = $this->app['config']->get('general/record_template');
@@ -63,7 +65,7 @@ class TemplateChooser
         // the contenttype.
         $templatefile = $this->app['paths']['templatespath'] . '/' . $record->contenttype['singular_slug'] . '.twig';
         if (is_readable($templatefile)) {
-            $template = $record->contenttype['singular_slug'] . ".twig";
+            $template = $record->contenttype['singular_slug'] . '.twig';
             $chosen = 'singular_slug';
         }
 
@@ -84,9 +86,7 @@ class TemplateChooser
             }
         }
 
-        if ($this->app['users']->isValidSession()) {
-            $this->app['twig.logger']->setTrackedValue('templatechosen', $this->app['config']->get('general/theme') . "/$template ($chosen)");
-        }
+        $this->setTemplateChosen($template, $chosen);
 
         return $template;
 
@@ -94,6 +94,9 @@ class TemplateChooser
 
     /**
      * Select a template for listing pages.
+     *
+     * @param  string $contenttype
+     * @return string
      */
     public function listing($contenttype)
     {
@@ -121,9 +124,7 @@ class TemplateChooser
             $chosen = 'contenttype';
         }
 
-        if ($this->app['users']->isValidSession()) {
-            $this->app['twig.logger']->setTrackedValue('templatechosen', $this->app['config']->get('general/theme') . "/$template ($chosen)");
-        }
+        $this->setTemplateChosen($template, $chosen);
 
         return $template;
 
@@ -131,6 +132,9 @@ class TemplateChooser
 
     /**
      * Select a template for taxonomy.
+     *
+     * @param  string $taxonomyslug
+     * @return string
      */
     public function taxonomy($taxonomyslug)
     {
@@ -150,21 +154,21 @@ class TemplateChooser
             $chosen = 'taxonomy';
         }
 
-        if ($this->app['users']->isValidSession()) {
-            $this->app['twig.logger']->setTrackedValue('templatechosen', $this->app['config']->get('general/theme') . "/$template ($chosen)");
-        }
+        $this->setTemplateChosen($template, $chosen);
 
         return $template;
     }
 
     /**
      * Select a search template.
+     *
+     * @return string
      */
     public function search()
     {
         // First candidate: listing config setting.
         $template = $this->app['config']->get('general/listing_template');
-        $chosen = "listing config";
+        $chosen = 'listing config';
 
         // Second candidate: specific search setting in global config.
         if ($this->app['config']->get('general/search_results_template')) {
@@ -178,9 +182,7 @@ class TemplateChooser
             $chosen = 'search config in theme';
         }
 
-        if ($this->app['users']->isValidSession()) {
-            $this->app['twig.logger']->setTrackedValue('templatechosen', $this->app['config']->get('general/theme') . "/$template ($chosen)");
-        }
+        $this->setTemplateChosen($template, $chosen);
 
         return $template;
 
@@ -188,6 +190,8 @@ class TemplateChooser
 
     /**
      * Select a template to use for the "maintenance" page.
+     *
+     * @return string
      */
     public function maintenance()
     {
@@ -200,10 +204,21 @@ class TemplateChooser
             $chosen = 'search config';
         }
 
-        if ($this->app['users']->isValidSession()) {
-            $this->app['twig.logger']->setTrackedValue('templatechosen', $this->app['config']->get('general/theme') . "/$template ($chosen)");
-        }
+        $this->setTemplateChosen($template, $chosen);
 
         return $template;
+    }
+
+    /**
+     * Set the TwigDataCollector templatechosen parameter if enabled
+     *
+     * @param string $template
+     * @param string $chosen
+     */
+    private function setTemplateChosen($template, $chosen)
+    {
+        if (isset($this->app['twig.logger'])) {
+            $this->app['twig.logger']->setTrackedValue('templatechosen', $this->app['config']->get('general/theme') . "/$template ($chosen)");
+        }
     }
 }
