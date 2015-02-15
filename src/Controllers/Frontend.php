@@ -122,13 +122,18 @@ class Frontend
      * @param  string            $slug            The content slug
      * @return mixed
      */
-    public static function record(Silex\Application $app, $contenttypeslug, $slug)
+    public static function record(Silex\Application $app, $contenttypeslug, $slug = '')
     {
         $contenttype = $app['storage']->getContentType($contenttypeslug);
 
         // If the contenttype is 'viewless', don't show the record page.
         if (isset($contenttype['viewless']) && $contenttype['viewless'] === true) {
             $app->abort(404, "Page $contenttypeslug/$slug not found.");
+        }
+
+        // Perhaps we don't have a slug. Let's see if we can pick up the 'id', instead.
+        if (empty($slug)) {
+            $slug = $app['request']->get('id');
         }
 
         $slug = $app['slugify']->slugify($slug);
