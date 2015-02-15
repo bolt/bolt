@@ -38,6 +38,7 @@ Bolt 2.1 DEV-head
 - Change: The 'X-Frame-Options' header is now only sent for backend pages, and can be disabled in `config.yml` (See #2825)
 - Change: Bolt now distinguishes between 'regular news' and 'alerts' on the Dashboard screen. This way, we can better notify people in case of an urgent security issue. (See #2830)
 - Fixed: The built-in anti-CSRF token was renamed to 'bolt_csrf_token' to prevent clashes when a user has a field named 'token'. (See #2831)
+- Change: You can now use `{id}` in routes for records instead of `{slug}`, if you wish to have links to records using the id. (See #2832)
 
 Bolt 2.0.5
 ----------
