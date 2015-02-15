@@ -827,7 +827,10 @@ class Config
                 'path'        => '/bolt',
                 'provided_by' => array()
             ),
-            'maintenance_mode'            => false
+            'maintenance_mode'            => false,
+            'headers'                     => array(
+                'x_frame_options'     => true
+            )
         );
     }
 

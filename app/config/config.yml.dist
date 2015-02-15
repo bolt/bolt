@@ -270,6 +270,12 @@ session_use_storage_handler: true
 # '12' is better.
 hash_strength: 10
 
+# Bolt sets the `X-Frame-Options` and `Frame-Options` to `SAMEORIGIN` by default, to prevent
+# clickjacking. When you uncomment the following line and set it to 'false', you will prevent
+# the setting of these headers.
+#headers:
+#  x_frame_options: true
+
 # Bolt uses extensions.bolt.cm to fetch it's extensions by default. You can change that URL here.
 # Do not change this, unless you know what you're doing, and understand the associated risks. If
 # you use 'http://extensions.bolt.cm', Bolt will not use SSL, increasing the risk for a MITM
