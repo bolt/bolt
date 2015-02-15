@@ -22,9 +22,7 @@
 {% endif %}
 
 {# News #}
-{% if not app.config.get('general/backend/news/disable', false) %}
-    {{ render(path('dashboardnews')) }}
-{% endif %}
+{{ render(path('dashboardnews')) }}
 
 {# Stack #}
 {{ panels.stack(7, true) }}

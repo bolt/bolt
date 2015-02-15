@@ -6,6 +6,14 @@
 
 {% block panel_class 'panel-news' %}
 
+{% block panel_alert %}
+    {% if news.type == 'alert' %}
+        class="progress-bar progress-bar-danger progress-bar-striped active" style="width: 100%; text-align: left; color: #333; padding: 10px 14px; margin-bottom: 15px; font-weight: bold; color: #000;"
+    {% else %}
+        class="panel-heading"
+    {% endif %}
+{% endblock panel_alert %}
+
 {% block panel_icon 'fa-bullhorn' %}
 
 {% block panel_head news.title %}
