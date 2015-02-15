@@ -160,7 +160,7 @@ class Storage
 
             switch ($values['type']) {
                 case 'text':
-                    $content[$field] = trim(strip_tags($this->app['guzzle.client']->get($uri . '/1/veryshort')->send()->getBody(true)));
+                    $content[$field] = trim(strip_tags($this->app['guzzle.client']->get($uri . '/1/veryshort', array('timeout' => 10))->send()->getBody(true)));
                     if (empty($title)) {
                         $title = $content[$field];
                     }
@@ -179,8 +179,8 @@ class Storage
                     } else {
                         $params = '/medium/decorate/link/ol/ul/3';
                     }
-                    $content[$field] = trim($this->app['guzzle.client']->get($uri . $params)->send()->getBody(true));
 
+                    $content[$field] = trim($this->app['guzzle.client']->get($uri . $params, array('timeout' => 10))->send()->getBody(true));
                     if ($values['type'] == "markdown") {
                         $content[$field] = strip_tags($content[$field]);
                     }

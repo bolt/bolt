@@ -2,6 +2,12 @@
 
 namespace Bolt\Controllers;
 
+use Bolt\Helpers\Input;
+use Bolt\Library as Lib;
+use Bolt\Permissions;
+use Bolt\Translation\TranslationFile;
+use Bolt\Translation\Translator as Trans;
+use GuzzleHttp\Exception\RequestException;
 use Silex\Application;
 use Silex\ControllerProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,11 +19,6 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Yaml\Yaml;
-use Bolt\Library as Lib;
-use Bolt\Helpers\Input;
-use Bolt\Translation\Translator as Trans;
-use Bolt\Permissions;
-use Bolt\Translation\TranslationFile;
 
 /**
  * Backend controller grouping.
@@ -498,8 +499,15 @@ class Backend implements ControllerProviderInterface
         if (($request->getMethod() == 'POST') || ($request->get('force') == 1)) {
             $form->bind($request);
             $ctypes = $form->get('contenttypes')->getData();
-            $content = $app['storage']->preFill($ctypes);
-            $app['session']->getFlashBag()->add('success', $content);
+
+            try {
+                $content = $app['storage']->preFill($ctypes);
+                $app['session']->getFlashBag()->add('success', $content);
+            } catch (RequestException $e) {
+                $msg = "Timeout attempting to the 'Lorem Ipsum' generator. Unable to add dummy content.";
+                $app['session']->getFlashBag()->add('error', $msg);
+                $app['logger.system']->addError($msg, array('event' => 'storage'));
+            }
 
             return Lib::redirect('prefill');
         }
