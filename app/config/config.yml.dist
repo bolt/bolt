@@ -270,7 +270,7 @@ session_use_storage_handler: true
 # '12' is better.
 hash_strength: 10
 
-# Bolt sets the `X-Frame-Options` and `-Frame-Options` to `SAMEORIGIN` by default, to prevent 
+# Bolt sets the `X-Frame-Options` and `Frame-Options` to `SAMEORIGIN` by default, to prevent
 # clickjacking. When you uncomment the following line and setting it to 'false', you will prevent
 # the setting of these headers.
 # x_frame_options_headers: true
