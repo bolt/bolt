@@ -332,7 +332,8 @@ class Frontend
         $template = $app['templatechooser']->taxonomy($taxonomyslug);
 
         // Fallback: If file is not OK, show an error page
-        $filename = $app['paths']['templatespath'] . "/" . $template;
+        $filename = $app['resources']->getPath('templatespath') . '/' . $template;
+
         if (!file_exists($filename) || !is_readable($filename)) {
             $error = sprintf(
                 "No template for '%s'-listing defined. Tried to use '%s/%s'.",
