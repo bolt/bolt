@@ -37,9 +37,7 @@ class TemplateChooser
             $chosen = 'homepage fallback';
         }
 
-        if ($this->app['users']->isValidSession()) {
-            $this->app['twig.logger']->setTrackedValue('templatechosen', $this->app['config']->get('general/theme') . "/$template ($chosen)");
-        }
+        $this->setTemplateChosen($template, $chosen);
 
         return $template;
     }
@@ -88,9 +86,7 @@ class TemplateChooser
             }
         }
 
-        if ($this->app['users']->isValidSession()) {
-            $this->app['twig.logger']->setTrackedValue('templatechosen', $this->app['config']->get('general/theme') . "/$template ($chosen)");
-        }
+        $this->setTemplateChosen($template, $chosen);
 
         return $template;
 
@@ -128,9 +124,7 @@ class TemplateChooser
             $chosen = 'contenttype';
         }
 
-        if ($this->app['users']->isValidSession()) {
-            $this->app['twig.logger']->setTrackedValue('templatechosen', $this->app['config']->get('general/theme') . "/$template ($chosen)");
-        }
+        $this->setTemplateChosen($template, $chosen);
 
         return $template;
 
@@ -160,9 +154,7 @@ class TemplateChooser
             $chosen = 'taxonomy';
         }
 
-        if ($this->app['users']->isValidSession()) {
-            $this->app['twig.logger']->setTrackedValue('templatechosen', $this->app['config']->get('general/theme') . "/$template ($chosen)");
-        }
+        $this->setTemplateChosen($template, $chosen);
 
         return $template;
     }
@@ -190,9 +182,7 @@ class TemplateChooser
             $chosen = 'search config in theme';
         }
 
-        if ($this->app['users']->isValidSession()) {
-            $this->app['twig.logger']->setTrackedValue('templatechosen', $this->app['config']->get('general/theme') . "/$template ($chosen)");
-        }
+        $this->setTemplateChosen($template, $chosen);
 
         return $template;
 
@@ -214,10 +204,21 @@ class TemplateChooser
             $chosen = 'search config';
         }
 
-        if ($this->app['users']->isValidSession()) {
-            $this->app['twig.logger']->setTrackedValue('templatechosen', $this->app['config']->get('general/theme') . "/$template ($chosen)");
-        }
+        $this->setTemplateChosen($template, $chosen);
 
         return $template;
+    }
+
+    /**
+     * Set the TwigDataCollector templatechosen parameter if enabled
+     *
+     * @param string $template
+     * @param string $chosen
+     */
+    private function setTemplateChosen($template, $chosen)
+    {
+        if (isset($this->app['twig.logger'])) {
+            $this->app['twig.logger']->setTrackedValue('templatechosen', $this->app['config']->get('general/theme') . "/$template ($chosen)");
+        }
     }
 }
