@@ -126,12 +126,30 @@ class Async implements ControllerProviderInterface
             }
 
             try {
-                $newsData = $app['guzzle.client']->get($url, null, $curlOptions)->send()->getBody(true);
+                $fetchedNewsData = $app['guzzle.client']->get($url, null, $curlOptions)->send()->getBody(true);
+                $fetchedNewsItems = json_decode($fetchedNewsData);
+                if ($fetchedNewsItems) {
+                    $news = array();
 
-                $news = json_decode($newsData);
-                if ($news) {
-                    // For now, just use the most current item.
-                    $news = current($news);
+                    // Iterate over the items, pick the first news-item that applies
+                    foreach($fetchedNewsItems as $item) {
+                        if ($item->type != "alert") {
+                            if (empty($item->target_version) || version_compare($item->target_version, $app->getVersion(), '>')) { 
+                                $news['information'] = $item;
+                                break;
+                            }
+                        }
+                    }
+
+                    // Iterate over the items again, See if there's an alert we need to show.
+                    foreach($fetchedNewsItems as $item) {
+                        if ($item->type == "alert") {
+                            if (empty($item->target_version) || version_compare($item->target_version, $app->getVersion(), '>')) { 
+                                $news['alert'] = $item;
+                                break;
+                            }
+                        }
+                    }
 
                     $app['cache']->save('dashboardnews', $news, 7200);
                 } else {
@@ -146,7 +164,14 @@ class Async implements ControllerProviderInterface
             $app['logger.system']->addInfo('Using cached data', array('event' => 'news'));
         }
 
-        $body = $app['render']->render('components/panel-news.twig', array('news' => $news));
+        // Combine the body. One 'alert' and one 'info' max. Regular info-items can be disabled, but Alerts can't.
+        $body = "";
+        if (!empty($news['alert'])) {
+            $body .= $app['render']->render('components/panel-news.twig', array('news' => $news['alert']));
+        }
+        if (!empty($news['information']) && !$app['config']->get('general/backend/news/disable')) {
+            $body .= $app['render']->render('components/panel-news.twig', array('news' => $news['information']));
+        }
 
         return new Response($body, 200, array('Cache-Control' => 's-maxage=3600, public'));
     }

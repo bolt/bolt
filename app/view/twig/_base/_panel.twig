@@ -7,7 +7,7 @@
  #         panel_body:   The Body
  #}
 <div class="panel panel-default {% block panel_class %}{% endblock panel_class %}">
-    <div class="panel-heading">
+    <div {% block panel_alert %}class="panel-heading"{% endblock panel_alert %}>
         <i class="fa fa-fw {% block panel_icon %}fa-circle-o{% endblock panel_icon %}"></i>
         {% block panel_head %}[PANEL_HEAD]{% endblock panel_head %}
     </div>

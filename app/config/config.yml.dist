@@ -327,6 +327,6 @@ extensions:
 # Options for backend user interface
 #backend:
 #  news:
-#    disable: true   # Disable news panel. Defaults to false
+#    disable: true   # Disable news panel. Defaults to false. "Alerts" will still be shown.
 #  stack:
-#    disable: true   # Disable stack usage. Defaults to false
+#    disable: true   # Disable stack usage. Defaults to false.
