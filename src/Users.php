@@ -331,7 +331,7 @@ class Users
     public function checkAntiCSRFToken($token = '')
     {
         if (empty($token)) {
-            $token = $this->app['request']->get('token');
+            $token = $this->app['request']->get('bolt_csrf_token');
         }
 
         if ($token === $this->getAntiCSRFToken()) {
