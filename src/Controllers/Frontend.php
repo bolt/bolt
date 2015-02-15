@@ -170,7 +170,9 @@ class Frontend
                 basename($app['config']->get('general/theme')),
                 $template
             );
-            $app['twig.logger']->setTrackedValue('templateerror', $error);
+
+            // Set/log errors and abort
+            self::setTemplateError($app, $error);
             $app['logger.system']->addError($error, array('event' => 'template'));
             $app->abort(404, $error);
         }
@@ -220,7 +222,9 @@ class Frontend
                 basename($app['config']->get('general/theme')),
                 $template
             );
-            $app['twig.logger']->setTrackedValue('templateerror', $error);
+
+            // Set/log errors and abort
+            self::setTemplateError($app, $error);
             $app['logger.system']->addError($error, array('event' => 'template'));
             $app->abort(404, $error);
         }
@@ -282,7 +286,9 @@ class Frontend
                 basename($app['config']->get('general/theme')),
                 $template
             );
-            $app['twig.logger']->setTrackedValue('templateerror', $error);
+
+            // Set/log errors and abort
+            self::setTemplateError($app, $error);
             $app['logger.system']->addError($error, array('event' => 'template'));
             $app->abort(404, $error);
         }
@@ -341,7 +347,9 @@ class Frontend
                 basename($app['config']->get('general/theme')),
                 $template
             );
-            $app['twig.logger']->setTrackedValue('templateerror', $error);
+
+            // Set/log errors and abort
+            self::setTemplateError($app, $error);
             $app['logger.system']->addError($error, array('event' => 'template'));
             $app->abort(404, $error);
         }
@@ -486,6 +494,19 @@ class Frontend
 
             // Abort ship
             $app->abort(404, $error);
+        }
+    }
+
+    /**
+     * Set the TwigDataCollector templatechosen parameter if enabled
+     *
+     * @param Silex\Application $app
+     * @param string            $error
+     */
+    private static function setTemplateError(Silex\Application $app, $error)
+    {
+        if (isset($app['twig.logger'])) {
+            $app['twig.logger']->setTrackedValue('templateerror', $error);
         }
     }
 }
