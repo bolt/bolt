@@ -66,7 +66,7 @@ global:
     useraction: [ admin, developer ] # enable/disable/delete
     useredit: [ admin, developer ] # user settings
     users: [ admin, developer ] # view user overview
-    roles: [ admin, developer ] # view the roles overview    
+    roles: [ admin, developer ] # view the roles overview
     maintenance-mode: [ everyone ] # view the frontend when in maintenance mode
     omnisearch: [ everyone ]
     # Access to the various logs
@@ -81,7 +81,7 @@ global:
     # Likewise, 'logout' needs to be granted to 'everyone', otherwise people
     # cannot log out anymore.
     logout: [ everyone ]
-    
+
     # User roled-based hierarchy settings. This will restrict users from being
     # able to add, edit, enable, disable and delete users with a higher role
     # than their own.
