@@ -12,7 +12,7 @@
     'delete_mult':  __('Are you sure you wish to delete these records? There is no undo.')
 })}}
 
-<table class="{{ extra_classes }} dashboardlisting" data-contenttype="{{ contenttype.slug }}" data-token="{{ token() }}">
+<table class="{{ extra_classes }} dashboardlisting" data-contenttype="{{ contenttype.slug }}" data-bolt_csrf_token="{{ token() }}">
     {% for content in multiplecontent %}
         {% set editable = isallowed('edit', content) %}
         {% if editable %}

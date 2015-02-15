@@ -586,8 +586,8 @@ var init = {
                             // Delete request
                             $.ajax({
                                 url: bolt.paths.bolt + 'content/deletecontent/' +
-                                    $('#item_' + id).closest('table').data('contenttype') + '/' + id + '?token=' +
-                                    $('#item_' + id).closest('table').data('token'),
+                                    $('#item_' + id).closest('table').data('contenttype') + '/' + id + 
+                                    '?bolt_csrf_token=' + $('#item_' + id).closest('table').data('bolt_csrf_token'),
                                 type: 'get',
                                 success: function (feedback) {
                                     $('#item_' + id).hide();
