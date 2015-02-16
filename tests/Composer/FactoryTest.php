@@ -4,6 +4,7 @@ namespace Bolt\Tests\Composer;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Composer\Factory;
 use Bolt\Composer\PackageManager;
+use Bolt\Composer\Action\RemovePackage;
 
 /**
  * Class to test src/Composer/Factory.

@@ -19,7 +19,7 @@ class CheckPackageTest extends BoltUnitTest
 {
     
     
-    public function setup()
+    public function tearDown()
     {
         $app = $this->getApp();
         $action = new RemovePackage($app);
