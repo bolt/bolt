@@ -42,6 +42,22 @@ class Local extends LocalBase
         return parent::writeStream($path, $resource, $config);
     }
 
+    public function update($path, $contents, Config $config)
+    {
+        $location = $this->applyPathPrefix($path);
+        $mimetype = Util::guessMimeType($path, $contents);
+
+        if (!is_writable($location)) {
+            return false;
+        }
+
+        if (($size = file_put_contents($location, $contents, LOCK_EX)) === false) {
+            return false;
+        }
+
+        return compact('path', 'size', 'contents', 'mimetype');
+    }
+
     public function rename($path, $newpath)
     {
         $location = $this->applyPathPrefix($path);
