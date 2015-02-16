@@ -110,6 +110,10 @@ class Local extends LocalBase
     protected function getFilePath(SplFileInfo $file)
     {
         $path = parent::getFilePath();
-        return str_replace(DIRECTORY_SEPARATOR, '/', $path);
+        if($this->pathSeparator == '\\') {
+            return str_replace($this->pathSeparator, '/', $path);
+        } else {
+            return $path;
+        }
     }
 }
