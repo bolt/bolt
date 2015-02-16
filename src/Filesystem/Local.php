@@ -99,4 +99,21 @@ class Local extends LocalBase
 
         return parent::deleteDir($dirname);
     }
+    
+    /**
+     * Get the normalized path from a SplFileInfo object.
+     *
+     * @param SplFileInfo $file
+     *
+     * @return string
+     */
+    protected function getFilePath(\SplFileInfo $file)
+    {
+        $path = parent::getFilePath($file);
+        if($this->pathSeparator === '\\') {
+            return str_replace($this->pathSeparator, '/', $path);
+        } else {
+            return $path;
+        }
+    }
 }
