@@ -80,4 +80,12 @@ class FactoryTest extends BoltUnitTest
     }
     
     
+    public function tearDown()
+    {
+        $app = $this->getApp();
+        $action = new RemovePackage($app);
+        $action->execute(array('gawain/clippy'));
+    }
+    
+    
 }
