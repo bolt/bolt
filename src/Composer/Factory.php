@@ -43,7 +43,7 @@ final class Factory extends PackageManager
     /**
      * @var boolean
      */
-    protected $downgradeSsl = false;
+    public $downgradeSsl = false;
 
     /**
      * @var array
