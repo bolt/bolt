@@ -1530,6 +1530,7 @@ class Backend implements ControllerProviderInterface
             $app->abort(403, $error);
         }
 
+        /** @var \League\Flysystem\File $file */
         $file = $filesystem->get($file);
 
         $type = Lib::getExtension($file->getPath());
@@ -1556,7 +1557,7 @@ class Backend implements ControllerProviderInterface
                 'info',
                 Trans::__(
                     "The file '%s' is not writable. You will have to use your own editor to make modifications to this file.",
-                    array('%s' => $file)
+                    array('%s' => $file->getPath())
                 )
             );
             $writeallowed = false;
@@ -1577,6 +1578,7 @@ class Backend implements ControllerProviderInterface
 
         $data['contents'] = $contents;
 
+        /** @var Form $form */
         $form = $app['form.factory']
             ->createBuilder('form', $data)
             ->add('contents', 'textarea')
@@ -1606,14 +1608,14 @@ class Backend implements ControllerProviderInterface
 
                 if ($ok) {
                     if ($file->update($contents)) {
-                        $app['session']->getFlashBag()->add('info', Trans::__("File '%s' has been saved.", array('%s' => $file)));
+                        $app['session']->getFlashBag()->add('info', Trans::__("File '%s' has been saved.", array('%s' => $file->getPath())));
                         // If we've saved a translation, back to it
                         if (preg_match('#resources/translations/(..)/(.*)\.yml$#', $file->getPath(), $m)) {
                             return Lib::redirect('translation', array('domain' => $m[2], 'tr_locale' => $m[1]));
                         }
-                        Lib::redirect('fileedit', array('file' => $file), '');
+                        Lib::redirect('fileedit', array('file' => $file->getPath()), '');
                     } else {
-                        $app['session']->getFlashBag()->add('error', Trans::__("File '%s' could not be saved, for some reason.", array('%s' => $file)));
+                        $app['session']->getFlashBag()->add('error', Trans::__("File '%s' could not be saved, for some reason.", array('%s' => $file->getPath())));
                     }
                 }
                 // If we reach this point, the form will be shown again, with the error
@@ -1631,8 +1633,8 @@ class Backend implements ControllerProviderInterface
         $context = array(
             'form' => $form->createView(),
             'filetype' => $type,
-            'file' => $file,
-            'basename' => basename($file),
+            'file' => $file->getPath(),
+            'basename' => basename($file->getPath()),
             'pathsegments' => $pathsegments,
             'additionalpath' => $additionalpath,
             'namespace' => $namespace,
