@@ -2,8 +2,8 @@
 namespace Bolt\Tests\Extensions;
 
 use Bolt\Extensions;
-use Bolt\Tests\BoltUnitTest;
 use Bolt\Extensions\Snippets\Location as SnippetLocation;
+use Bolt\Tests\BoltUnitTest;
 
 /**
  * Class to test correct operation and locations of extensions.
@@ -14,7 +14,7 @@ use Bolt\Extensions\Snippets\Location as SnippetLocation;
 class ExtensionsProviderTest extends BoltUnitTest
 {
 
-    public $template = <<< EOM
+    public $template = <<<HTML
 <html>
 <head>
 <meta charset="utf-8" />
@@ -24,9 +24,9 @@ class ExtensionsProviderTest extends BoltUnitTest
 <script src="existing.js"></script>
 </body>
 </html>
-EOM;
+HTML;
 
-    public $expectedCss = <<< EOM
+    public $expectedCss = <<<HTML
 <html>
 <head>
 <meta charset="utf-8" />
@@ -37,9 +37,9 @@ EOM;
 <script src="existing.js"></script>
 </body>
 </html>
-EOM;
+HTML;
 
-    public $expectedLateCss = <<< EOM
+    public $expectedLateCss = <<<HTML
 <html>
 <head>
 <meta charset="utf-8" />
@@ -50,9 +50,9 @@ EOM;
 <link rel="stylesheet" href="testfile.css" media="screen">
 </body>
 </html>
-EOM;
+HTML;
 
-    public $expectedJs = <<< EOM
+    public $expectedJs = <<<HTML
 <html>
 <head>
 <meta charset="utf-8" />
@@ -63,9 +63,9 @@ EOM;
 <script src="testfile.js"></script>
 </body>
 </html>
-EOM;
+HTML;
 
-    public $expectedLateJs = <<< EOM
+    public $expectedLateJs = <<<HTML
 <html>
 <head>
 <meta charset="utf-8" />
@@ -76,9 +76,9 @@ EOM;
 <script src="testfile.js"></script>
 </body>
 </html>
-EOM;
+HTML;
 
-    public $expectedStartOfHead = <<< EOM
+    public $expectedStartOfHead = <<<HTML
 <html>
 <head>
 <meta name="test-snippet" />
@@ -89,9 +89,9 @@ EOM;
 <script src="existing.js"></script>
 </body>
 </html>
-EOM;
+HTML;
 
-    public $expectedEndOfHead = <<< EOM
+    public $expectedEndOfHead = <<<HTML
 <html>
 <head>
 <meta charset="utf-8" />
@@ -102,9 +102,9 @@ EOM;
 <script src="existing.js"></script>
 </body>
 </html>
-EOM;
+HTML;
 
-    public $expectedStartOfBody = <<< EOM
+    public $expectedStartOfBody = <<<HTML
 <html>
 <head>
 <meta charset="utf-8" />
@@ -115,9 +115,9 @@ EOM;
 <script src="existing.js"></script>
 </body>
 </html>
-EOM;
+HTML;
 
-    public $expectedEndOfHtml = <<< EOM
+    public $expectedEndOfHtml = <<<HTML
 <html>
 <head>
 <meta charset="utf-8" />
@@ -128,9 +128,9 @@ EOM;
 </body>
 <p class="test-snippet"></p>
 </html>
-EOM;
+HTML;
 
-    public $expectedBeforeCss = <<< EOM
+    public $expectedBeforeCss = <<<HTML
 <html>
 <head>
 <meta charset="utf-8" />
@@ -141,9 +141,9 @@ EOM;
 <script src="existing.js"></script>
 </body>
 </html>
-EOM;
+HTML;
 
-    public $expectedAfterCss = <<< EOM
+    public $expectedAfterCss = <<<HTML
 <html>
 <head>
 <meta charset="utf-8" />
@@ -154,9 +154,9 @@ EOM;
 <script src="existing.js"></script>
 </body>
 </html>
-EOM;
+HTML;
 
-    public $expectedAfterMeta = <<< EOM
+    public $expectedAfterMeta = <<<HTML
 <html>
 <head>
 <meta charset="utf-8" />
@@ -167,7 +167,7 @@ EOM;
 <script src="existing.js"></script>
 </body>
 </html>
-EOM;
+HTML;
 
     public function tearDown()
     {
@@ -464,7 +464,6 @@ EOM;
         $app['extensions']->insertWidget('test', SnippetLocation::AFTER_JS, "snippetCallBack", "snippetcallback", "", false);
 
         // Double call to ensure second one hits cache
-        $html = $app['extensions']->renderWidget('5e4c97cb');
         $html = $app['extensions']->renderWidget('5e4c97cb');
         $this->assertEquals($html, $app['cache']->fetch('widget_5e4c97cb'));
     }

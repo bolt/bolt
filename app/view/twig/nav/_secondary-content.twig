@@ -10,7 +10,7 @@
         {% set sub_new = {
             icon: 'fa:plus',
             label: __('contenttypes.generic.new', {'%contenttype%': slug}),
-            link: path('editcontent', {'contenttypeslug': slug, 'id': ''}),
+            link: path('editcontent', {'contenttypeslug': slug}),
             isallowed: 'contenttype:' ~ slug ~ ':create'
         } %}
         {% set sub = [sub_view, sub_new, '-'] %}
