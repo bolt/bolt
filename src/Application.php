@@ -355,6 +355,7 @@ class Application extends Silex\Application
             ->register(new Thumbs\ThumbnailProvider())
             ->register(new Provider\NutServiceProvider())
             ->register(new Provider\GuzzleServiceProvider())
+            ->register(new Provider\PrefillServiceProvider())
             ->register(new SlugifyServiceProvider());
 
         $this['paths'] = $this['resources']->getPaths();
