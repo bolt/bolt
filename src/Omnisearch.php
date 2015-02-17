@@ -84,7 +84,7 @@ class Omnisearch
                         'label' => $viewContenttype,
                         'description' => '',
                         'priority' => self::OMNISEARCH_CONTENTTYPE,
-                        'path' => $this->app->path('overview', array('contenttypeslug' => $slug)),
+                        'path' => $this->app->generatePath('overview', array('contenttypeslug' => $slug)),
                     )
                 );
             }
@@ -100,7 +100,7 @@ class Omnisearch
                         'label' => $newContenttype,
                         'description' => '',
                         'priority' => self::OMNISEARCH_CONTENTTYPE,
-                        'path' => $this->app->path('editcontent', array('contenttypeslug' => $slug)),
+                        'path' => $this->app->generatePath('editcontent', array('contenttypeslug' => $slug)),
                     )
                 );
             }
@@ -117,7 +117,7 @@ class Omnisearch
                     'label' => Trans::__('Configuration'),
                     'description' => '',
                     'priority' => self::OMNISEARCH_MENUITEM,
-                    'path' => $this->app->path('fileedit', array('namespace' => 'config', 'file' => 'config.yml')),
+                    'path' => $this->app->generatePath('fileedit', array('namespace' => 'config', 'file' => 'config.yml')),
                 )
             );
             $this->register(
@@ -126,7 +126,7 @@ class Omnisearch
                     'label' => Trans::__('Configuration') . ' » ' . Trans::__('Users'),
                     'description' => '',
                     'priority' => self::OMNISEARCH_MENUITEM - 1,
-                    'path' => $this->app->path('users'),
+                    'path' => $this->app->generatePath('users'),
                 )
             );
             $this->register(
@@ -135,7 +135,7 @@ class Omnisearch
                     'label' => Trans::__('Configuration') . ' » ' . Trans::__('Contenttypes'),
                     'description' => '',
                     'priority' => self::OMNISEARCH_MENUITEM - 2,
-                    'path' => $this->app->path('fileedit', array('namespace' => 'config', 'file' => 'contenttypes.yml')),
+                    'path' => $this->app->generatePath('fileedit', array('namespace' => 'config', 'file' => 'contenttypes.yml')),
                 )
             );
             $this->register(
@@ -144,7 +144,7 @@ class Omnisearch
                     'label' => Trans::__('Configuration') . ' » ' . Trans::__('Taxonomy'),
                     'description' => '',
                     'priority' => self::OMNISEARCH_MENUITEM - 3,
-                    'path' => $this->app->path('fileedit', array('namespace' => 'config', 'file' => 'taxonomy.yml')),
+                    'path' => $this->app->generatePath('fileedit', array('namespace' => 'config', 'file' => 'taxonomy.yml')),
                 )
             );
             $this->register(
@@ -153,7 +153,7 @@ class Omnisearch
                     'label' => Trans::__('Configuration') . ' » ' . Trans::__('Menu setup'),
                     'description' => '',
                     'priority' => self::OMNISEARCH_MENUITEM - 4,
-                    'path' => $this->app->path('fileedit', array('namespace' => 'config', 'file' => 'menu.yml')),
+                    'path' => $this->app->generatePath('fileedit', array('namespace' => 'config', 'file' => 'menu.yml')),
                 )
             );
             $this->register(
@@ -162,7 +162,7 @@ class Omnisearch
                     'label' => Trans::__('Configuration') . ' » ' . Trans::__('menu.configuration.routing'),
                     'description' => '',
                     'priority' => self::OMNISEARCH_MENUITEM - 5,
-                    'path' => $this->app->path('fileedit', array('namespace' => 'config', 'file' => 'routing.yml')),
+                    'path' => $this->app->generatePath('fileedit', array('namespace' => 'config', 'file' => 'routing.yml')),
                 )
             );
         }
@@ -175,7 +175,7 @@ class Omnisearch
                     'label' => Trans::__('Maintenance') . ' » ' . Trans::__('Extensions'),
                     'description' => '',
                     'priority' => self::OMNISEARCH_MENUITEM - 6,
-                    'path' => $this->app->path('extend'),
+                    'path' => $this->app->generatePath('extend'),
                 )
             );
             $this->register(
@@ -184,7 +184,7 @@ class Omnisearch
                     'label' => Trans::__('Maintenance') . ' » ' . Trans::__('Check database'),
                     'description' => '',
                     'priority' => self::OMNISEARCH_MENUITEM - 7,
-                    'path' => $this->app->path('dbcheck'),
+                    'path' => $this->app->generatePath('dbcheck'),
                 )
             );
             $this->register(
@@ -193,7 +193,7 @@ class Omnisearch
                     'label' => Trans::__('Maintenance') . ' » ' . Trans::__('Clear the cache'),
                     'description' => '',
                     'priority' => self::OMNISEARCH_MENUITEM - 8,
-                    'path' => $this->app->path('clearcache'),
+                    'path' => $this->app->generatePath('clearcache'),
                 )
             );
             $this->register(
@@ -202,7 +202,7 @@ class Omnisearch
                     'label' => Trans::__('Maintenance') . ' » ' . Trans::__('logs.change-log'),
                     'description' => '',
                     'priority' => self::OMNISEARCH_MENUITEM - 9,
-                    'path' => $this->app->path('changelog'),
+                    'path' => $this->app->generatePath('changelog'),
                 )
             );
             $this->register(
@@ -211,7 +211,7 @@ class Omnisearch
                     'label' => Trans::__('Maintenance') . ' » ' . Trans::__('logs.system-log'),
                     'description' => '',
                     'priority' => self::OMNISEARCH_MENUITEM - 10,
-                    'path' => $this->app->path('systemlog'),
+                    'path' => $this->app->generatePath('systemlog'),
                 )
             );
         }
@@ -289,7 +289,7 @@ class Omnisearch
                 'label' => sprintf("%s", Trans::__('Omnisearch')),
                 'description' => '',
                 'priority' => self::OMNISEARCH_LANDINGPAGE,
-                'path' => $this->app->path('omnisearch', array('q' => $query)),
+                'path' => $this->app->generatePath('omnisearch', array('q' => $query)),
             );
         }
 
@@ -335,7 +335,7 @@ class Omnisearch
             $this->register(
                 array(
                     'label' => sprintf("%s » <span>%s</span>", Trans::__('Edit file'), $filename),
-                    'path' => $this->app->path('fileedit', array('namespace' => 'theme', 'file' => $relativePathname)),
+                    'path' => $this->app->generatePath('fileedit', array('namespace' => 'theme', 'file' => $relativePathname)),
                     'description' => '',
                     'priority' => self::OMNISEARCH_FILE + $priority,
                     'keywords' => array('Edit file', $filename, $query)
@@ -369,7 +369,7 @@ class Omnisearch
 
             $item = array(
                 'label' => sprintf('%s %s № %s » <span>%s</span>', Trans::__('Edit'), $contenttypesingular, $contentid, $contenttitle),
-                'path' => $this->app->path('editcontent', array('contenttypeslug' => $contenttypeslug, 'id' => $contentid)),
+                'path' => $this->app->generatePath('editcontent', array('contenttypeslug' => $contenttypeslug, 'id' => $contentid)),
                 'description' => '',
                 'keywords' => array($query),
                 'priority' => self::OMNISEARCH_CONTENT - $index,

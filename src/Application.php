@@ -578,7 +578,7 @@ class Application extends Silex\Application
      *
      * @return string The generated path
      */
-    public function path($route, $parameters = array())
+    public function generatePath($route, $parameters = array())
     {
         return $this['url_generator']->generate($route, $parameters);
     }
