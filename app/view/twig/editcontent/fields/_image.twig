@@ -100,7 +100,7 @@
 <fieldset class="image">
     <div class="dropzone clearfix" id="dropzone-{{ key }}">
     <label class="col-xs-12 control-label">{{ macro.infopop(labelkey, option.info) }}</label>
-    <div class="col-sm-8">
+    <div class="col-xs-8">
         <div class="form-group">
             <div class="col-sm-12">
                 {{ block.imagepath(labelkey, option, image, attr_inp) }}
@@ -112,7 +112,7 @@
         {{ block.serverselect(key, __('Cancel')) }}
     </div>
 
-    <div class="col-sm-4">
+    <div class="col-xs-4">
         <div class="right-on-large">{# to make the preview align right on wide screens #}
             <label>{{ __('Preview') }}</label>
             <div class="content-preview imageholder" id="thumbnail-{{ key }}">
