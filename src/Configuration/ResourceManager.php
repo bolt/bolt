@@ -172,39 +172,25 @@ class ResourceManager
      */
     public function getPathObject($name)
     {
+        $parts = array();
+        if (strpos($name, '/') !== false) {
+            $parts = explode('/', $name);
+            $name = array_shift($parts);
+        }
+
         if (array_key_exists($name . "path", $this->paths)) {
             $path = $this->paths[$name . "path"];
         } elseif (array_key_exists($name, $this->paths)) {
             $path = $this->paths[$name];
-        } elseif (strpos($name, '/') !== false) {
-            $path = $this->constructRelativePath($name);
         } else {
             throw new \InvalidArgumentException("Requested path $name is not available", 1);
         }
 
-        return $path;
-    }
-
-    /**
-     * Takes a known path with relative additional atoms and returns a new path
-     * for instance constructRelativePath('public/images/example')
-     *
-     * @param string $name
-     *
-     * @return AbsolutePathInterface
-     */
-    protected function constructRelativePath($name)
-    {
-        list($firstAtom) = explode('/', $name);
-
-        if (!array_key_exists($firstAtom, $this->paths)) {
-            throw new \InvalidArgumentException("Requested path $name is not available", 1);
+        if (!empty($parts)) {
+            $path = $path->joinAtomSequence($parts);
         }
 
-        $parts = explode('/', $name);
-        array_shift($parts);
-
-        return $this->paths[$firstAtom]->joinAtomSequence($parts);
+        return $path;
     }
 
     public function setUrl($name, $value)
