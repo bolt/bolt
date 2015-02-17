@@ -1,5 +1,5 @@
 <?php
-$I = new WebGuy($scenario);
+$I = new WebTester($scenario);
 $I->wantTo('be denied permission to edit Entries as the pagewriter user');
 $I->loginAs($users['pagewriter']);
 $I->amOnPage('bolt/editcontent/entries/');

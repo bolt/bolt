@@ -1,5 +1,5 @@
 <?php
-$I = new WebGuy($scenario);
+$I = new WebTester($scenario);
 $I->wantTo('create and edit Pages as pagewriter user');
 $I->loginAs($users['pagewriter']);
 $I->see('New Page');

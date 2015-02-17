@@ -1,5 +1,5 @@
 <?php
-$I = new WebGuy($scenario);
+$I = new WebTester($scenario);
 $I->wantTo('log out of the backend as Admin');
 $I->loginAs($users['admin']);
 $I->see('Dashboard');
