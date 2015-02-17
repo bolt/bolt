@@ -1,5 +1,5 @@
 /**
- * Functions for working with the automagic URI/Slug generation.
+ * Functions for working with the automagic URI/Slug generation with multipleslug support.
  */
 
 var makeuritimeout;

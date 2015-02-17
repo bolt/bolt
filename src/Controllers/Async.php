@@ -255,7 +255,7 @@ class Async implements ControllerProviderInterface
             $request->query->get('contenttypeslug'),
             $request->query->getBoolean('fulluri'),
             true,
-            $request->query->get('slugfield')
+            $request->query->get('slugfield') //for multipleslug support
         );
 
         return $uri;

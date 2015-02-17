@@ -2501,7 +2501,7 @@ class Storage
         }
 
         $fields = $this->getContentTypeFields($contenttypeslug);
-        //check if fieldname exists, otherwise use 'slug' as fallback
+        //check if the fieldname exists, otherwise use 'slug' as fallback
         if (!in_array($slugfield, $fields)) {
             $slugfield = 'slug';
         }
