@@ -2481,7 +2481,7 @@ class Storage
         }
     }
 
-    public function getUri($title, $id = 0, $contenttypeslug = "", $fulluri = true, $allowempty = true)
+    public function getUri($title, $id = 0, $contenttypeslug = "", $fulluri = true, $allowempty = true, $slugfield = 'slug')
     {
         $contenttype = $this->getContentType($contenttypeslug);
         $tablename = $this->getTablename($contenttype['slug']);
@@ -2500,10 +2500,18 @@ class Storage
             $prefix = "";
         }
 
+        $fields = $this->getContentTypeFields($contenttypeslug);
+        //check if fieldname exists, otherwise use 'slug' as fallback
+        if (!in_array($slugfield, $fields)) {
+            $slugfield = 'slug';
+        }
+
         $query = sprintf(
-            "SELECT id from %s WHERE slug=? and id!=?",
-            $tablename
+            "SELECT id from %s WHERE %s=? and id!=?",
+            $tablename,
+            $slugfield
         );
+
         $res = $this->app['db']->executeQuery(
             $query,
             array($slug, $id),

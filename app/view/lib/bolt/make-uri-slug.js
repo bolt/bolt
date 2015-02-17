@@ -12,6 +12,7 @@ function makeUriAjax(text, contenttypeslug, id, slugfield, fulluri) {
             title: text,
             contenttypeslug: contenttypeslug,
             id: id,
+            slugfield: slugfield,
             fulluri: fulluri
         },
         success: function (uri) {
