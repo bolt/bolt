@@ -2,9 +2,9 @@
 
 namespace Bolt;
 
+use Bolt\Translation\Translator as Trans;
 use Silex;
 use Symfony\Component\Finder\Finder;
-use Bolt\Translation\Translator as Trans;
 
 /**
  * Simple search implementation for the Bolt backend.
@@ -362,17 +362,18 @@ class Omnisearch
 
         $index = 0;
         foreach ($searchresults as $result) {
-            $contentid           = $result->id;
-            $contenttypeslug     = $result->contenttype['slug'];
-            $contenttitle        = $result->getTitle();
-            $contenttypesingular = $result->contenttype['singular_name'];
-
             $item = array(
-                'label' => sprintf('%s %s № %s » <span>%s</span>', Trans::__('Edit'), $contenttypesingular, $contentid, $contenttitle),
-                'path' => $this->app->generatePath('editcontent', array('contenttypeslug' => $contenttypeslug, 'id' => $contentid)),
+                'label' => sprintf(
+                    '%s %s № %s » <span>%s</span>',
+                    Trans::__('Edit'),
+                    $result->contenttype['singular_name'],
+                    $result->id,
+                    $result->getTitle()
+                ),
+                'path' => $result->editlink(),
                 'description' => '',
                 'keywords' => array($query),
-                'priority' => self::OMNISEARCH_CONTENT - $index,
+                'priority' => self::OMNISEARCH_CONTENT - $index++,
             );
 
             if ($withRecord) {
@@ -380,8 +381,6 @@ class Omnisearch
             }
 
             $this->register($item);
-
-            $index++;
         }
     }
 
