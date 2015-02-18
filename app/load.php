@@ -26,7 +26,7 @@ if (version_compare(PHP_VERSION, '5.3.3', '<')) {
  * See: http://silex.sensiolabs.org/doc/web_servers.html#php-5-4
  */
 if (php_sapi_name() == 'cli-server') {
-    $filename = __DIR__ . preg_replace('#(\?.*)$#', '', $_SERVER['REQUEST_URI']);
+    $filename = dirname(__DIR__) . preg_replace('#(\?.*)$#', '', $_SERVER['REQUEST_URI']);
 
     if (is_file($filename)) {
         return false;
