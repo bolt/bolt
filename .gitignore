@@ -31,7 +31,7 @@ Vagrantfile
 *.lock
 .gitignore
 test/_log
-test/*/*Guy.php
+test/*/*Tester.php
 .buildpath
 .project
 npm-debug.log
