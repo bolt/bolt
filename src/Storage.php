@@ -669,13 +669,14 @@ class Storage
 
         // Build SQL query
         $select = sprintf(
-            'SELECT %s.id FROM %s LEFT JOIN %s ON %s.id = %s.content_id WHERE %s',
+            'SELECT %s.id FROM %s LEFT JOIN %s ON %s.id = %s.content_id WHERE %s GROUP BY %s.id',
             $table,
             $table,
             $taxonomytable,
             $table,
             $taxonomytable,
-            implode(' AND ', $where)
+            implode(' AND ', $where),
+            $table
         );
 
         // Run Query
