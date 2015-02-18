@@ -1,12 +1,12 @@
 <?php
 namespace Codeception\Module;
 
-// here you can define custom functions for WebGuy
+// here you can define custom functions for WebTester
 
 class WebHelper extends \Codeception\Module
 {
     /**
-     * Makes sure that WebGuy is logged in.
+     * Makes sure that WebTester is logged in.
      * @param array $user An associative array containing keys 'username'
      * and 'password'.
      */

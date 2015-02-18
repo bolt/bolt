@@ -49,7 +49,7 @@ if (!class_exists('TestUser')) {
             return $hashedPassword;
         }
 
-        public function create(WebGuy $I, $id)
+        public function create(WebTester $I, $id)
         {
             $I->haveInDatabase(
                 'bolt_users',
@@ -82,7 +82,7 @@ $users = array(
     'pagewriter' => new TestUser('pagewriter', 'pagewriter1', array('page-editor')),
     );
 
-$I = new WebGuy($scenario);
+$I = new WebTester($scenario);
 
 // we'll start with ID = 2, because the database dump already has user #1.
 $i = 2;

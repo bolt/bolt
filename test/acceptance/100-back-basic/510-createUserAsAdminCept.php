@@ -4,7 +4,7 @@ $foobar = array(
     'password' => 'foobar123',
     );
 
-$I = new WebGuy($scenario);
+$I = new WebTester($scenario);
 $I->wantTo('Create a user');
 $I->loginAs($users['admin']);
 $I->click('Users');
