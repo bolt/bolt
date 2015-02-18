@@ -100,7 +100,7 @@
 <fieldset class="image">
     <div class="dropzone clearfix" id="dropzone-{{ key }}">
     <label class="col-xs-12 control-label">{{ macro.infopop(labelkey, option.info) }}</label>
-    <div class="col-sm-8">
+    <div class="col-xs-8">
         <div class="form-group">
             <div class="col-sm-12">
                 {{ block.imagepath(labelkey, option, image, attr_inp) }}
@@ -112,17 +112,17 @@
         {{ block.serverselect(key, __('Cancel')) }}
     </div>
 
-    <div class="col-sm-4">
+    <div class="col-xs-4">
         <div class="right-on-large">{# to make the preview align right on wide screens #}
             <label>{{ __('Preview') }}</label>
-            <div class="content-preview imageholder" id="thumbnail-{{ key }}">
+            <div class="content-preview imageholder" id="thumbnail-{{ key }}" style="max-width:{{ preview_w }}px;max-height:{{ preview_h }}px">
                 {% if context.content.get(key) != '' %}
                     {% set preview_path = image.file|thumbnail(preview_w, preview_h, 'c') %}
                 {% else %}
                     {% set preview_path = app.paths.app ~ 'view/img/default_empty_4x3.png' %}
                 {% endif %}
                 {# <img src="{{ preview_path }}" width="{{ preview_w }}" height="{{ preview_h }}" alt="Preview"> #}
-                <img src="{{ preview_path }}" alt="Preview" width="{{ preview_w }}" height="{{ preview_h }}">
+                <img src="{{ preview_path }}" alt="Preview">
             </div>
         </div>
     </div>
