@@ -329,6 +329,11 @@ class Application extends Silex\Application
         $this->register(new Silex\Provider\SwiftmailerServiceProvider());
         if ($this['config']->get('general/mailoptions')) {
             $this['swiftmailer.options'] = $this['config']->get('general/mailoptions');
+        } else {
+            $this['swiftmailer.use_spool'] = false;
+            $this['swiftmailer.transport'] = function($this) {
+                return new \Swift_MailTransport();
+            };
         }
 
         // Set up our secure random generator.
