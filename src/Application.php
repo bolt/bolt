@@ -331,7 +331,7 @@ class Application extends Silex\Application
             $this['swiftmailer.options'] = $this['config']->get('general/mailoptions');
         } else {
             $this['swiftmailer.use_spool'] = false;
-            $this['swiftmailer.transport'] = function($this) {
+            $this['swiftmailer.transport'] = function() {
                 return new \Swift_MailTransport();
             };
         }
