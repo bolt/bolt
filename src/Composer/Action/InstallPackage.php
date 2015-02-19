@@ -63,15 +63,15 @@ final class InstallPackage
 
         try {
             $install
-                ->setDryRun($this->options['dry-run'])
-                ->setVerbose($this->options['verbose'])
+                ->setDryRun($this->app['extend.manager']->getOption('dryrun'))
+                ->setVerbose($this->app['extend.manager']->getOption('verbose'))
                 ->setPreferSource($preferSource)
                 ->setPreferDist($preferDist)
-                ->setDevMode(!$this->options['no-dev'])
-                ->setDumpAutoloader(!$this->options['no-autoloader'])
-                ->setRunScripts(!$this->options['no-scripts'])
+                ->setDevMode(!$this->app['extend.manager']->getOption('nodev'))
+                ->setDumpAutoloader(!$this->app['extend.manager']->getOption('noautoloader'))
+                ->setRunScripts(!$this->app['extend.manager']->getOption('noscripts'))
                 ->setOptimizeAutoloader($optimize)
-                ->setIgnorePlatformRequirements($this->options['ignore-platform-reqs'])
+                ->setIgnorePlatformRequirements($this->app['extend.manager']->getOption('ignoreplatformreqs'))
                 ->setUpdate(true);
 
             return $install->run();
