@@ -565,8 +565,6 @@ class IntegrityChecker
                     continue;
                 }
 
-                $handler = $this->app['config']->getFields()->getField($values['type']);
-
                 switch ($values['type']) {
                     case 'text':
                     case 'templateselect':
@@ -620,7 +618,9 @@ class IntegrityChecker
                         // These are the default columns. Don't try to add these.
                         break;
                     default:
-                        $myTable->addColumn($field, $handler->getStorageType(), $handler->getStorageOptions());
+                        if ($handler = $this->app['config']->getFields()->getField($values['type'])) {
+                            $myTable->addColumn($field, $handler->getStorageType(), $handler->getStorageOptions());
+                        }
                 }
 
                 if (isset($values['index']) && $values['index'] == 'true') {
