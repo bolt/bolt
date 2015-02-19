@@ -36,6 +36,7 @@ final class InstallPackage
         $composer = $this->app['extend.manager']->getComposer();
         $io = $this->app['extend.manager']->getIO();
 
+        $options = $this->app['extend.manager']->getOptions();
         $install = Installer::create($io, $composer);
         $config = $composer->getConfig();
         $optimize = $config->get('optimize-autoloader');
@@ -63,15 +64,15 @@ final class InstallPackage
 
         try {
             $install
-                ->setDryRun($this->app['extend.manager']->getOption('dryrun'))
-                ->setVerbose($this->app['extend.manager']->getOption('verbose'))
+                ->setDryRun($options['dryrun'])
+                ->setVerbose($options['verbose'])
                 ->setPreferSource($preferSource)
                 ->setPreferDist($preferDist)
-                ->setDevMode(!$this->app['extend.manager']->getOption('nodev'))
-                ->setDumpAutoloader(!$this->app['extend.manager']->getOption('noautoloader'))
-                ->setRunScripts(!$this->app['extend.manager']->getOption('noscripts'))
+                ->setDevMode(!$options['nodev'])
+                ->setDumpAutoloader(!$options['noautoloader'])
+                ->setRunScripts(!$options['noscripts'])
                 ->setOptimizeAutoloader($optimize)
-                ->setIgnorePlatformRequirements($this->app['extend.manager']->getOption('ignoreplatformreqs'))
+                ->setIgnorePlatformRequirements($options['ignoreplatformreqs'])
                 ->setUpdate(true);
 
             return $install->run();
