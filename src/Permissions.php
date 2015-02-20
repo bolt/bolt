@@ -52,14 +52,9 @@ class Permissions
      */
     private function audit($msg)
     {
-        // For now, just log the message.
-        switch ($this->app['config']->get('general/debug_permission_audit_mode')) {
-            case 'error-log':
-                error_log($msg);
-                break;
-            default:
-                // ignore; no audit logging
-                break;
+        // Log the message if enabled
+        if ($this->app['config']->get('general/debug_permission_audit_mode', false)) {
+            $this->app['logger.system']->addInfo($msg, array('event' => 'authentication'));
         }
     }
 
@@ -217,7 +212,7 @@ class Permissions
     {
         $roles = $this->getRolesByGlobalPermission($permissionName);
         if (!is_array($roles)) {
-            error_log("Configuration error: $permissionName is not granted to any roles.");
+            $this->app['logger.system']->addInfo("Configuration error: $permissionName is not granted to any roles.", array('event' => 'authentication'));
 
             return false;
         }
