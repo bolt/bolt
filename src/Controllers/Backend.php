@@ -10,13 +10,13 @@ use Bolt\Translation\Translator as Trans;
 use GuzzleHttp\Exception\RequestException;
 use Silex\Application;
 use Silex\ControllerProviderInterface;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Yaml\Yaml;
 
@@ -1779,7 +1779,7 @@ class Backend implements ControllerProviderInterface
 
         // Most of the 'check if user is allowed' happens here: match the current route to the 'allowed' settings.
         $id = $request->attributes->get('id');
-        if (!$app['users']->isValidSession() && !$app['users']->isAllowed($route)) {
+        if (!$app['users']->isValidSession() && !$app['users']->isAllowed($route) && $route !== 'login') {
             $app['session']->getFlashBag()->add('info', Trans::__('Please log on.'));
 
             return Lib::redirect('login');
