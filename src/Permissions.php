@@ -145,12 +145,13 @@ class Permissions
         }
         $userRoleNames[] = self::ROLE_OWNER;
 
+        $self = $this;
         return
             array_combine(
                 $userRoleNames,
                 array_map(
-                    function ($roleName) {
-                        return $this->getRole($roleName);
+                    function ($roleName) use ($self) {
+                        return $self->getRole($roleName);
                     },
                     $userRoleNames
                 )
