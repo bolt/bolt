@@ -1,5 +1,5 @@
 /**
- * Functions for working with the automagic URI/Slug generation.
+ * Functions for working with the automagic URI/Slug generation with multipleslug support.
  */
 
 var makeuritimeout;
@@ -12,6 +12,7 @@ function makeUriAjax(text, contenttypeslug, id, slugfield, fulluri) {
             title: text,
             contenttypeslug: contenttypeslug,
             id: id,
+            slugfield: slugfield,
             fulluri: fulluri
         },
         success: function (uri) {
