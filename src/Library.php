@@ -135,23 +135,7 @@ class Library
      */
     public static function redirect($path, $param = array(), $add = '')
     {
-        $app = ResourceManager::getApp();
-
-        // Only set the 'retreat' when redirecting to 'login' but not FROM logout.
-        if (($path == 'login') && ($app['request']->get('_route') !== 'logout')) {
-
-            $app['session']->set(
-                'retreat',
-                array(
-                    'route' => $app['request']->get('_route'),
-                    'params' => $app['request']->get('_route_params')
-                )
-            );
-        } else {
-            $app['session']->set('retreat', '');
-        }
-
-        return $app->redirect(self::path($path, $param, $add));
+        return ResourceManager::getApp()->redirect(self::path($path, $param, $add));
     }
 
     /**
