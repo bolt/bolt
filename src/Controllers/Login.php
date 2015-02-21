@@ -69,11 +69,9 @@ class Login implements Silex\ControllerProviderInterface
                 }
 
                 return $this->getLogin($app, $request);
-
-            default:
-                // Let's not disclose any internal information.
-                return $app->abort(400, 'Invalid request');
         }
+        // Let's not disclose any internal information.
+        $app->abort(400, 'Invalid request');
     }
 
     /**

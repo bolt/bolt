@@ -250,7 +250,6 @@ class ChangeLogItem implements \ArrayAccess
             switch ($fields[$key]['type']) {
                 case 'text':
                 case 'slug':
-                case 'text':
                 default:
                     break;
 
