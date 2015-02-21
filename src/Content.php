@@ -411,13 +411,13 @@ class Content implements \ArrayAccess
 
                 if ($file['error'][0] != UPLOAD_ERR_OK) {
                     $message = 'Error occured during upload: ' . $file['error'][0] . " - $filename";
-                    $this->app['logger.system']->addError($message, array('event' => 'upload'));
+                    $this->app['logger.system']->error($message, array('event' => 'upload'));
                     continue;
                 }
 
                 if (substr($key, 0, 11) != 'fileupload-') {
                     $message = "Skipped an upload that wasn't for content: $filename";
-                    $this->app['logger.system']->addError($message, array('event' => 'upload'));
+                    $this->app['logger.system']->error($message, array('event' => 'upload'));
                     continue;
                 }
 
@@ -439,9 +439,9 @@ class Content implements \ArrayAccess
                     // Yes, we can create the file!
                     move_uploaded_file($file['tmp_name'][0], $filename);
                     $values[$fieldname] = $basename;
-                    $this->app['logger.system']->addInfo("Upload: uploaded file '$basename'.", array('event' => 'upload'));
+                    $this->app['logger.system']->info("Upload: uploaded file '$basename'.", array('event' => 'upload'));
                 } else {
-                    $this->app['logger.system']->addError("Upload: couldn't write upload '$basename'.", array('event' => 'upload'));
+                    $this->app['logger.system']->error("Upload: couldn't write upload '$basename'.", array('event' => 'upload'));
                 }
 
             }

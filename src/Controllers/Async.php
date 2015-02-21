@@ -104,7 +104,7 @@ class Async implements ControllerProviderInterface
         // If not cached, get fresh news..
         if ($news === false) {
 
-            $app['logger.system']->addInfo("Fetching from remote server: $source", array('event' => 'news'));
+            $app['logger.system']->info("Fetching from remote server: $source", array('event' => 'news'));
 
             $driver = $app['db']->getDatabasePlatform()->getName();
 
@@ -153,15 +153,15 @@ class Async implements ControllerProviderInterface
 
                     $app['cache']->save('dashboardnews', $news, 7200);
                 } else {
-                    $app['logger.system']->addError('Invalid JSON feed returned', array('event' => 'news'));
+                    $app['logger.system']->error('Invalid JSON feed returned', array('event' => 'news'));
                 }
 
             } catch (RequestException $e) {
-                $app['logger.system']->addError('Error occurred during fetch: ' . $e->getMessage(), array('event' => 'news'));
+                $app['logger.system']->error('Error occurred during fetch: ' . $e->getMessage(), array('event' => 'news'));
             }
 
         } else {
-            $app['logger.system']->addInfo('Using cached data', array('event' => 'news'));
+            $app['logger.system']->info('Using cached data', array('event' => 'news'));
         }
 
         // Combine the body. One 'alert' and one 'info' max. Regular info-items can be disabled, but Alerts can't.

@@ -48,7 +48,7 @@ class Login implements Silex\ControllerProviderInterface
                 $result = $app['users']->login($request->get('username'), $request->get('password'));
 
                 if ($result) {
-                    $app['logger.system']->addInfo('Logged in: ' . $request->get('username'), array('event' => 'authentication'));
+                    $app['logger.system']->info('Logged in: ' . $request->get('username'), array('event' => 'authentication'));
                     $retreat = $app['session']->get('retreat');
                     $redirect = !empty($retreat) && is_array($retreat) ? $retreat : array('route' => 'dashboard', 'params' => array());
 
@@ -108,7 +108,7 @@ class Login implements Silex\ControllerProviderInterface
     public function logout(Silex\Application $app)
     {
         $user = $app['session']->get('user');
-        $app['logger.system']->addInfo('Logged out: ' . $user['displayname'], array('event' => 'authentication'));
+        $app['logger.system']->info('Logged out: ' . $user['displayname'], array('event' => 'authentication'));
 
         $app['users']->logout();
 

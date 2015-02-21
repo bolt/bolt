@@ -507,7 +507,7 @@ class Backend implements ControllerProviderInterface
             } catch (RequestException $e) {
                 $msg = "Timeout attempting to the 'Lorem Ipsum' generator. Unable to add dummy content.";
                 $app['session']->getFlashBag()->add('error', $msg);
-                $app['logger.system']->addError($msg, array('event' => 'storage'));
+                $app['logger.system']->error($msg, array('event' => 'storage'));
             }
 
             return Lib::redirect('prefill');
@@ -755,7 +755,7 @@ class Backend implements ControllerProviderInterface
                 $id = $app['storage']->saveContent($content, $comment);
 
                 // Log the change
-                $app['logger.system']->addInfo('Saved: ' . $content->getTitle(), array('event' => 'content'));
+                $app['logger.system']->info('Saved: ' . $content->getTitle(), array('event' => 'content'));
 
                 if ($new) {
                     $app['session']->getFlashBag()->add('success', Trans::__('contenttypes.generic.saved-new', array('%contenttype%' => $contenttypeslug)));
@@ -829,7 +829,7 @@ class Backend implements ControllerProviderInterface
 
             } else {
                 $app['session']->getFlashBag()->add('error', Trans::__('contenttypes.generic.error-saving', array('%contenttype%' => $contenttype['slug'])));
-                $app['logger.system']->addError('Save error: ' . $content->getTitle(), array('event' => 'content'));
+                $app['logger.system']->error('Save error: ' . $content->getTitle(), array('event' => 'content'));
             }
         }
 
@@ -847,7 +847,7 @@ class Backend implements ControllerProviderInterface
 
                 return Lib::redirect('dashboard');
             }
-            $app['logger.system']->addInfo('Edited: ' . $content->getTitle(), array('event' => 'content'));
+            $app['logger.system']->info('Edited: ' . $content->getTitle(), array('event' => 'content'));
         } else {
             // Check if we're allowed to create content..
             if (!$app['users']->isAllowed("contenttype:{$contenttype['slug']}:create")) {
@@ -857,7 +857,7 @@ class Backend implements ControllerProviderInterface
             }
 
             $content = $app['storage']->getEmptyContent($contenttype['slug']);
-            $app['logger.system']->addInfo('Created: ' . $content->getTitle(), array('event' => 'content'));
+            $app['logger.system']->info('Created: ' . $content->getTitle(), array('event' => 'content'));
         }
 
         $oldStatus = $content['status'];
@@ -1210,9 +1210,9 @@ class Backend implements ControllerProviderInterface
             $res = $app['users']->saveUser($user);
 
             if ($user['id']) {
-                $app['logger.system']->addInfo(Trans::__('page.edit-users.log.user-updated', array('%user%' => $user['displayname'])), array('event' => 'security'));
+                $app['logger.system']->info(Trans::__('page.edit-users.log.user-updated', array('%user%' => $user['displayname'])), array('event' => 'security'));
             } else {
-                $app['logger.system']->addInfo(Trans::__('page.edit-users.log.user-added', array('%user%' => $user['displayname'])), array('event' => 'security'));
+                $app['logger.system']->info(Trans::__('page.edit-users.log.user-added', array('%user%' => $user['displayname'])), array('event' => 'security'));
             }
 
             if ($res) {
@@ -1256,7 +1256,7 @@ class Backend implements ControllerProviderInterface
                 $user = $form->getData();
 
                 $res = $app['users']->saveUser($user);
-                $app['logger.system']->addInfo(Trans::__('page.edit-users.log.user-updated', array('%user%' => $user['displayname'])), array('event' => 'security'));
+                $app['logger.system']->info(Trans::__('page.edit-users.log.user-updated', array('%user%' => $user['displayname'])), array('event' => 'security'));
                 if ($res) {
                     $app['session']->getFlashBag()->add('success', Trans::__('page.edit-users.message.user-saved', array('%user%' => $user['displayname'])));
                 } else {
@@ -1318,7 +1318,7 @@ class Backend implements ControllerProviderInterface
 
             case "disable":
                 if ($app['users']->setEnabled($id, 0)) {
-                    $app['logger.system']->addInfo("Disabled user '{$user['displayname']}'.", array('event' => 'security'));
+                    $app['logger.system']->info("Disabled user '{$user['displayname']}'.", array('event' => 'security'));
 
                     $app['session']->getFlashBag()->add('info', Trans::__("User '%s' is disabled.", array('%s' => $user['displayname'])));
                 } else {
@@ -1328,7 +1328,7 @@ class Backend implements ControllerProviderInterface
 
             case "enable":
                 if ($app['users']->setEnabled($id, 1)) {
-                    $app['logger.system']->addInfo("Enabled user '{$user['displayname']}'.", array('event' => 'security'));
+                    $app['logger.system']->info("Enabled user '{$user['displayname']}'.", array('event' => 'security'));
                     $app['session']->getFlashBag()->add('info', Trans::__("User '%s' is enabled.", array('%s' => $user['displayname'])));
                 } else {
                     $app['session']->getFlashBag()->add('info', Trans::__("User '%s' could not be enabled.", array('%s' => $user['displayname'])));
@@ -1338,7 +1338,7 @@ class Backend implements ControllerProviderInterface
             case "delete":
 
                 if ($app['users']->checkAntiCSRFToken() && $app['users']->deleteUser($id)) {
-                    $app['logger.system']->addInfo("Deleted user '{$user['displayname']}'.", array('event' => 'security'));
+                    $app['logger.system']->info("Deleted user '{$user['displayname']}'.", array('event' => 'security'));
                     $app['session']->getFlashBag()->add('info', Trans::__("User '%s' is deleted.", array('%s' => $user['displayname'])));
                 } else {
                     $app['session']->getFlashBag()->add('info', Trans::__("User '%s' could not be deleted.", array('%s' => $user['displayname'])));
@@ -1662,7 +1662,7 @@ class Backend implements ControllerProviderInterface
 
         list($path, $shortPath) = $translation->path();
 
-        $app['logger.system']->addInfo('Editing translation: ' . $shortPath, array('event' => 'translation'));
+        $app['logger.system']->info('Editing translation: ' . $shortPath, array('event' => 'translation'));
 
         $data = array('contents' => $translation->content());
 

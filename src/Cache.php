@@ -50,7 +50,7 @@ class Cache extends FilesystemCache
         try {
             parent::__construct($cacheDir, $this->extension);
         } catch (\Exception $e) {
-            $app['logger.system']->addCritical($e->getMessage(), array('event' => 'exception', 'exception' => $e));
+            $app['logger.system']->critical($e->getMessage(), array('event' => 'exception', 'exception' => $e));
             throw $e;
         }
     }

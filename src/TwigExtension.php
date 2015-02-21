@@ -280,7 +280,7 @@ class TwigExtension extends \Twig_Extension
             // Various things we could do. We could fail miserably, but a more
             // graceful approach is to use the datetime to display a default
             // format
-            $this->app['logger.system']->addError('No valid locale detected. Fallback on DateTime active.', array('event' => 'system'));
+            $this->app['logger.system']->error('No valid locale detected. Fallback on DateTime active.', array('event' => 'system'));
 
             return $dateTime->format('Y-m-d H:i:s');
         } else {
@@ -1215,7 +1215,7 @@ class TwigExtension extends \Twig_Extension
             if (preg_match('#^(https?://|//)#i', $item['path'])) {
                 // We have a mistakenly placed URL, allow it but log it.
                 $item['link'] = $item['path'];
-                $this->app['logger.system']->addError(Trans::__('Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!', array('%PATH%' => $item['path'])), array('event' => 'config'));
+                $this->app['logger.system']->error(Trans::__('Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!', array('%PATH%' => $item['path'])), array('event' => 'config'));
             } else {
                 // Get a copy of the path minus trainling/leading slash
                 $path = ltrim(rtrim($item['path'], '/'), '/');
@@ -1252,7 +1252,7 @@ class TwigExtension extends \Twig_Extension
                         $item['link'] = '/' . $path;
                     }
                 } catch (ResourceNotFoundException $e) {
-                    $this->app['logger.system']->addError(Trans::__('Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.', array('%PATH%' => $item['path'])), array('event' => 'config'));
+                    $this->app['logger.system']->error(Trans::__('Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.', array('%PATH%' => $item['path'])), array('event' => 'config'));
                 }
             }
         }
