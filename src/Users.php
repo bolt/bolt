@@ -609,9 +609,10 @@ class Users
 
             $subject = sprintf("[ Bolt / %s ] Password reset.", $this->app['config']->get('general/sitename'));
 
-            $message = \Swift_Message::newInstance()
+            $message = $this->app['mailer']
+                ->createMessage('message')
                 ->setSubject($subject)
-                ->setFrom(array($user['email'] => "Bolt"))
+                ->setFrom(array($user['email'] => 'Bolt'))
                 ->setTo(array($user['email'] => $user['displayname']))
                 ->setBody(strip_tags($mailhtml))
                 ->addPart($mailhtml, 'text/html');
