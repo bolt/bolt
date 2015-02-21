@@ -264,7 +264,7 @@ class Storage
      */
     private function logInsert($contenttype, $contentid, $content, $comment = null)
     {
-        $this->app['logger.change']->addInfo(
+        $this->app['logger.change']->info(
             'Insert record',
             array(
                 'action' => 'INSERT',
@@ -290,7 +290,7 @@ class Storage
      */
     private function logUpdate($contenttype, $contentid, $newContent, $oldContent = null, $comment = null)
     {
-        $this->app['logger.change']->addInfo(
+        $this->app['logger.change']->info(
             'Update record',
             array(
                 'action' => 'UPDATE',
@@ -314,7 +314,7 @@ class Storage
      */
     private function logDelete($contenttype, $contentid, $content, $comment = null)
     {
-        $this->app['logger.change']->addInfo(
+        $this->app['logger.change']->info(
             'Delete record',
             array(
                 'action' => 'DELETE',
