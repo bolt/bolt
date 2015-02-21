@@ -93,7 +93,16 @@
                             {{ entry.requesturi }}
                         </td>
                         <td>
-                            <span class="systemlog-source" data-source="{{ entry.source|default('') }}"><b>{{ entry.message }}</b></span>
+                            {% spaceless %}
+                            <b>{{ entry.message }}</b>
+                            {% if entry.source %}
+                            <span class="info-pop pull-right" style="background-color: inherit !important;"
+                                  data-content="{{ _self.trace_info_html(entry.source) }}"
+                                  data-html="true" >
+                                  <i class="fa fa-bug"></i>
+                            </span>
+                            {% endif %}
+                            {% endspaceless %}
                         </td>
                         <td>
                             {% set user = getuser(entry.ownerid) %}
@@ -121,3 +130,12 @@
     </div>
 
 {% endblock page_main %}
+
+{% macro trace_info_html(source) %}
+    {% if source %}
+        {% set source = source|json_decode %}
+        {% for key,value in source %}
+            {{ key }}: {{ value }}<br>
+        {% endfor %}
+    {% endif %}
+{% endmacro %}
