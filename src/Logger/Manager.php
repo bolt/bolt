@@ -3,6 +3,8 @@
 namespace Bolt\Logger;
 
 use Bolt\Pager;
+use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Query\QueryBuilder;
 use Silex\Application;
 
 /**
@@ -133,7 +135,7 @@ class Manager
             );
 
             $this->app['storage']->setPager('activity', $pager);
-        } catch (\Doctrine\DBAL\DBALException $e) {
+        } catch (DBALException $e) {
             // Oops. User will get a warning on the dashboard about tables that need to be repaired.
             $rows = array();
         }
@@ -147,12 +149,12 @@ class Manager
     /**
      * Set any required WHERE clause on a QueryBuilder
      *
-     * @param  \Doctrine\DBAL\Query\QueryBuilder $query
-     * @param  integer                           $level
-     * @param  string                            $context
-     * @return \Doctrine\DBAL\Query\QueryBuilder
+     * @param  QueryBuilder $query
+     * @param  integer      $level
+     * @param  string       $context
+     * @return QueryBuilder
      */
-    private function setWhere(\Doctrine\DBAL\Query\QueryBuilder $query, $level = null, $context = null)
+    private function setWhere(QueryBuilder $query, $level = null, $context = null)
     {
         if ($level || $context) {
             $where = $query->expr()->andX();

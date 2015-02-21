@@ -2,12 +2,14 @@
 
 namespace Bolt\Translation;
 
+use Bolt\Application;
+use Bolt\Translation\Translator as Trans;
 use Silex;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\Translation\Exception\InvalidResourceException;
 use Symfony\Component\Yaml\Escaper;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
-use Bolt\Translation\Translator as Trans;
 
 /**
  * Handles translation file dependent tasks
@@ -441,7 +443,7 @@ class TranslationFile
         // if the file doesn't exist yet, point to the fallback one
         if (!file_exists($path) || filesize($path) < 10) {
             // fallback
-            list($path) = $this->buildPath('infos', \Bolt\Application::DEFAULT_LOCALE);
+            list($path) = $this->buildPath('infos', Application::DEFAULT_LOCALE);
 
             if (!file_exists($path)) {
                 $this->app['session']->getFlashBag()->add('error', 'Locale infos yml file not found. Fallback also not found.');
@@ -475,7 +477,7 @@ class TranslationFile
 
         try {
             return $this->buildNewContent($newTranslations, $savedTranslations);
-        } catch (\Symfony\Component\Translation\Exception\InvalidResourceException $e) {
+        } catch (InvalidResourceException $e) {
             // last resort fallback, edit the file
             return file_get_contents($this->absPath);
         }

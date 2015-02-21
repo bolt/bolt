@@ -175,16 +175,16 @@ final class RequirePackage
     /**
      * Cleanly update a Composer JSON file
      *
-     * @param  \Composer\Json\JsonFile $json
-     * @param  array                   $base
-     * @param  array                   $new
-     * @param  string                  $requireKey
-     * @param  string                  $removeKey
-     * @param  boolean                 $sortPackages
-     * @param  boolean                 $postreset
+     * @param  JsonFile $json
+     * @param  array    $base
+     * @param  array    $new
+     * @param  string   $requireKey
+     * @param  string   $removeKey
+     * @param  boolean  $sortPackages
+     * @param  boolean  $postreset
      * @return boolean
      */
-    private function updateFileCleanly(\Composer\Json\JsonFile $json, array $base, array $new, $requireKey, $removeKey, $sortPackages, $postreset)
+    private function updateFileCleanly(JsonFile $json, array $base, array $new, $requireKey, $removeKey, $sortPackages, $postreset)
     {
         $contents = file_get_contents($json->getPath());
 

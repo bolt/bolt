@@ -46,7 +46,7 @@ final class ShowPackage
 
         if ($root) {
             $composerjson = $this->app['resources']->getPath('root/composer.json');
-            $composer = \Composer\Factory::create($io, $composerjson, true);
+            $composer = Factory::create($io, $composerjson, true);
         } else {
             $composer = $this->app['extend.manager']->getComposer();
         }

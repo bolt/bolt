@@ -2,6 +2,7 @@
 
 namespace Bolt\Logger;
 
+use Doctrine\DBAL\Query\QueryBuilder;
 use Silex\Application;
 
 /**
@@ -191,12 +192,12 @@ class ChangeLog
     /**
      * Set any required WHERE clause on a QueryBuilder
      *
-     * @param  \Doctrine\DBAL\Query\QueryBuilder $query
-     * @param  string                            $contenttype
-     * @param  array                             $options
-     * @return \Doctrine\DBAL\Query\QueryBuilder
+     * @param  QueryBuilder $query
+     * @param  string       $contenttype
+     * @param  array        $options
+     * @return QueryBuilder
      */
-    private function setWhere(\Doctrine\DBAL\Query\QueryBuilder $query, $contenttype, array $options)
+    private function setWhere(QueryBuilder $query, $contenttype, array $options)
     {
         $where = $query->expr()->andX()
                         ->add($query->expr()->eq('contenttype', ':contenttype'));
@@ -226,15 +227,15 @@ class ChangeLog
     /**
      * Conditionally add LIMIT and ORDERBY to a QueryBuilder query
      *
-     * @param  \Doctrine\DBAL\Query\QueryBuilder $query
-     * @param  array                             $options The following options are supported:
-     *                                                    - 'limit' (int)
-     *                                                    - 'offset' (int)
-     *                                                    - 'order' (string)
-     *                                                    - 'direction' (string)
-     * @return \Doctrine\DBAL\Query\QueryBuilder
+     * @param  QueryBuilder $query
+     * @param  array        $options The following options are supported:
+     *                               - 'limit' (int)
+     *                               - 'offset' (int)
+     *                               - 'order' (string)
+     *                               - 'direction' (string)
+     * @return QueryBuilder
      */
-    private function setLimitOrder(\Doctrine\DBAL\Query\QueryBuilder $query, array $options)
+    private function setLimitOrder(QueryBuilder $query, array $options)
     {
         if (isset($options['order'])) {
             $query->orderBy($options['order'], $options['direction']);

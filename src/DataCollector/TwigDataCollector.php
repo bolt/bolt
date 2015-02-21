@@ -2,10 +2,11 @@
 
 namespace Bolt\DataCollector;
 
-use Symfony\Component\HttpKernel\DataCollector\DataCollector;
+use Bolt\Application;
+use Bolt\Library as Lib;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Bolt\Library as Lib;
+use Symfony\Component\HttpKernel\DataCollector\DataCollector;
 
 /**
  * TwigDataCollector
@@ -23,9 +24,9 @@ class TwigDataCollector extends DataCollector
     /**
      * The Constructor for the Twig Datacollector
      *
-     * @param \Bolt\Application $app The Silex app
+     * @param Application $app The Silex app
      */
-    public function __construct(\Bolt\Application $app)
+    public function __construct(Application $app)
     {
         $this->app = $app;
     }

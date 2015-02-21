@@ -52,10 +52,10 @@ final class BoltExtendJson
     /**
      * Set up Composer JSON file
      *
-     * @param  \Silex\Application $app
+     * @param  Application $app
      * @return string
      */
-    public function updateJson(\Silex\Application $app)
+    public function updateJson(Application $app)
     {
         if (!is_file($this->options['composerjson'])) {
             $this->initJson($this->options['composerjson']);

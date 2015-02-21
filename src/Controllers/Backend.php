@@ -20,7 +20,8 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Yaml\Yaml;
+use Symfony\Component\Yaml;
+use Symfony\Component\Yaml\Exception\ParseException;
 
 /**
  * Backend controller grouping.
@@ -1616,10 +1617,10 @@ class Backend implements ControllerProviderInterface
 
                 // Before trying to save a yaml file, check if it's valid.
                 if ($type == "yml") {
-                    $yamlparser = new \Symfony\Component\Yaml\Parser();
+                    $yamlparser = new Yaml\Parser();
                     try {
                         $ok = $yamlparser->parse($contents);
-                    } catch (\Symfony\Component\Yaml\Exception\ParseException $e) {
+                    } catch (ParseException $e) {
                         $ok = false;
                         $app['session']->getFlashBag()->add('error', Trans::__("File '%s' could not be saved:", array('%s' => $file->getPath())) . $e->getMessage());
                     }
@@ -1704,8 +1705,8 @@ class Backend implements ControllerProviderInterface
 
                 // Before trying to save a yaml file, check if it's valid.
                 try {
-                    $ok = Yaml::parse($contents);
-                } catch (\Symfony\Component\Yaml\Exception\ParseException $e) {
+                    $ok = Yaml\Yaml::parse($contents);
+                } catch (ParseException $e) {
                     $ok = false;
                     $msg = Trans::__("File '%s' could not be saved:", array('%s' => $shortPath));
                     $app['session']->getFlashBag()->add('error', $msg . $e->getMessage());

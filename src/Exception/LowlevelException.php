@@ -1,6 +1,8 @@
 <?php
 namespace Bolt\Exception;
 
+use Bolt\Configuration\ResourceManager;
+
 class LowlevelException extends \Exception
 {
 
@@ -103,7 +105,7 @@ HTML;
 
             // Get the application object
             if ($app === null) {
-                $app = \Bolt\Configuration\ResourceManager::getApp();
+                $app = ResourceManager::getApp();
             }
 
             // Detect if we're being called from a core, an extension or vendor

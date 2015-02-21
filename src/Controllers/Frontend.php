@@ -2,6 +2,8 @@
 
 namespace Bolt\Controllers;
 
+use Bolt\Application;
+use Bolt\Content;
 use Bolt\Helpers\Input;
 use Bolt\Library as Lib;
 use Bolt\Pager;
@@ -9,6 +11,7 @@ use Bolt\Translation\Translator as Trans;
 use Silex;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use utilphp\util;
 
 /**
  * Standard Frontend actions
@@ -25,13 +28,13 @@ class Frontend
      * Perform contenttype-based permission check, aborting with a 403
      * Forbidden as appropriate.
      *
-     * @param Silex\Application    $app     The application/container
-     * @param \Bolt\Content|string $content The content to check
+     * @param Silex\Application $app     The application/container
+     * @param Content|string    $content The content to check
      */
     protected function checkFrontendPermission(Silex\Application $app, $content)
     {
         if ($app['config']->get('general/frontend_permission_checks')) {
-            if ($content instanceof \Bolt\Content) {
+            if ($content instanceof Content) {
                 $contenttypeslug = $content->contenttype['slug'];
                 $contentid = $content['id'];
             } else {
@@ -49,11 +52,11 @@ class Frontend
      *
      * Refer to the routing.yml config file for overridding.
      *
-     * @param  Request           $request The Symfony Request
-     * @param  \Bolt\Application $app     The appliction/container
+     * @param  Request     $request The Symfony Request
+     * @param  Application $app     The application/container
      * @return mixed
      */
-    public function before(Request $request, \Bolt\Application $app)
+    public function before(Request $request, Application $app)
     {
         // Start the 'stopwatch' for the profiler.
         $app['stopwatch']->start('bolt.frontend.before');
@@ -358,7 +361,7 @@ class Frontend
         $name = $slug;
         // Look in taxonomies in 'content', to get a display value for '$slug', perhaps.
         foreach ($content as $record) {
-            $flat = \utilphp\util::array_flatten($record->taxonomy);
+            $flat = util::array_flatten($record->taxonomy);
             $key = $app['paths']['root'] . $taxonomy['slug'] . '/' . $slug;
             if (isset($flat[$key])) {
                 $name = $flat[$key];

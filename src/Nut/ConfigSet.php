@@ -3,10 +3,11 @@
 namespace Bolt\Nut;
 
 use Bolt\Exception\FilesystemException;
+use Bolt\YamlUpdater;
 use League\Flysystem\FileNotFoundException;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Exception\ParseException;
 
@@ -41,7 +42,7 @@ class ConfigSet extends BaseCommand
         }
 
         try {
-            $yaml = new \Bolt\YamlUpdater($this->app, $file);
+            $yaml = new YamlUpdater($this->app, $file);
 
             if ($yaml->change($key, $value, $backup)) {
                 $result = sprintf("New value for <info>%s: %s</info> was successful. File updated.", $key, $value);

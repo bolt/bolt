@@ -3,10 +3,11 @@
 namespace Bolt\Nut;
 
 use Bolt\Exception\FilesystemException;
+use Bolt\YamlUpdater;
 use League\Flysystem\FileNotFoundException;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Exception\ParseException;
 
@@ -33,7 +34,7 @@ class ConfigGet extends BaseCommand
         }
 
         try {
-            $yaml = new \Bolt\YamlUpdater($this->app, $file);
+            $yaml = new YamlUpdater($this->app, $file);
             $match = $yaml->get($key);
 
             if (!empty($match)) {
