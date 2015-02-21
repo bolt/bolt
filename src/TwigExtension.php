@@ -187,12 +187,12 @@ class TwigExtension extends \Twig_Extension
     public function printDump($var)
     {
         if ($this->safe) {
-            return '';
+            return null;
         }
         if ($this->app['debug']) {
             dump($var);
         } else {
-            return '';
+            return null;
         }
     }
 
@@ -206,7 +206,7 @@ class TwigExtension extends \Twig_Extension
     public function printFirebug($var, $msg = '')
     {
         if ($this->safe) {
-            return '';
+            return null;
         }
         if ($this->app['debug']) {
             if (is_array($var)) {
@@ -217,7 +217,7 @@ class TwigExtension extends \Twig_Extension
                 $this->app['logger.firebug']->info($msg, (array) $var);
             }
         } else {
-            return '';
+            return null;
         }
     }
 
@@ -236,7 +236,7 @@ class TwigExtension extends \Twig_Extension
         if ($this->app['debug']) {
             return dump(debug_backtrace());
         } else {
-            return '';
+            return null;
         }
     }
 
