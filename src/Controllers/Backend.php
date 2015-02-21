@@ -8,15 +8,17 @@ use Bolt\Permissions;
 use Bolt\Translation\TranslationFile;
 use Bolt\Translation\Translator as Trans;
 use GuzzleHttp\Exception\RequestException;
+use Silex;
 use Silex\Application;
 use Silex\ControllerProviderInterface;
+use Symfony;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Yaml\Yaml;
 
@@ -96,7 +98,6 @@ class Backend implements ControllerProviderInterface
 
         $ctl->match('/users/edit/{id}', array($this, 'userEdit'))
             ->assert('id', '\d*')
-            ->value('checkUserRoleHierarchy', 'true')
             ->bind('useredit');
 
         $ctl->match('/userfirst', array($this, 'userFirst'))
@@ -112,7 +113,6 @@ class Backend implements ControllerProviderInterface
             ->bind('about');
 
         $ctl->post('/user/{action}/{id}', array($this, 'userAction'))
-            ->value('checkUserRoleHierarchy', 'true')
             ->bind('useraction');
 
         $ctl->match('/files/{namespace}/{path}', array($this, 'files'))
@@ -1035,26 +1035,28 @@ class Backend implements ControllerProviderInterface
      */
     public function userEdit($id, Application $app, Request $request)
     {
-        // Get the user we want to edit (if any)
-        $user = empty($id) ? $app['users']->getEmptyUser() : $app['users']->getUser($id);
         $currentuser = $app['users']->getCurrentUser();
+
+        // Get the user we want to edit (if any)
+        if (!empty($id)) {
+            $user = $app['users']->getUser($id);
+
+            // Verify the current user has access to edit this user
+            if (!$app['permissions']->isAllowedToManipulate($user, $currentuser)) {
+                $app['session']->getFlashBag()->add('error', Trans::__('You do not have the right privileges to edit that user.'));
+                return Lib::redirect('users');
+            }
+        } else {
+            $user = $app['users']->getEmptyUser();
+        }
 
         $enabledoptions = array(
             1 => Trans::__('page.edit-users.activated.yes'),
             0 => Trans::__('page.edit-users.activated.no')
         );
 
-        $allRoles = $app['permissions']->getDefinedRoles($app);
-        $roles = array();
+        $roles = $app['permissions']->getManipulatableRoles($currentuser);
 
-        foreach ($allRoles as $roleName => $role) {
-            // Checking what roles the current user can manipulate
-            if ($app['permissions']->checkPermission($app['users']->currentuser['roles'], "users:roles-hierarchy:{$roleName}")) {
-                $roles[$roleName] = $role['label'];
-            }
-        }
-
-        // Get the form
         $form = $this->getUserForm($app, $user, true);
 
         // New users and the current users don't need to disable themselves
@@ -1100,7 +1102,6 @@ class Backend implements ControllerProviderInterface
         // Set the validation
         $form = $this->setUserFormValidation($app, $form, true);
 
-        /** @var \Symfony\Component\Form\Form */
         $form = $form->getForm();
 
         // Check if the form was POST-ed, and valid. If so, store the user.
@@ -1300,16 +1301,16 @@ class Backend implements ControllerProviderInterface
         }
 
         // Prevent the current user from enabling, disabling or deleting themselves
-        if ($app['users']->currentuser['id'] == $user['id']) {
-            $app['session']->getFlashBag()->set('error', Trans::__("You cannot '%s' yourself.", array('%s', $action)));
+        $currentuser = $app['users']->getCurrentUser();
+        if ($currentuser['id'] == $user['id']) {
+            $app['session']->getFlashBag()->add('error', Trans::__("You cannot '%s' yourself.", array('%s', $action)));
 
             return Lib::redirect('users');
         }
 
-        $currentuser = $app['users']->getCurrentUser();
-
-        if ($currentuser['id'] == $user['id']) {
-            $app['session']->getFlashBag()->set('error', 'You cannot ' . $action . ' yourself.');
+        // Verify the current user has access to edit this user
+        if (!$app['permissions']->isAllowedToManipulate($user, $currentuser)) {
+            $app['session']->getFlashBag()->add('error', Trans::__('You do not have the right privileges to edit that user.'));
             return Lib::redirect('users');
         }
 
@@ -1779,7 +1780,7 @@ class Backend implements ControllerProviderInterface
 
         // Most of the 'check if user is allowed' happens here: match the current route to the 'allowed' settings.
         $id = $request->attributes->get('id');
-        if (!$app['users']->isValidSession() && !$app['users']->isAllowed($route) && $route !== 'login') {
+        if (!$app['users']->isValidSession() && !$app['users']->isAllowed($route)) {
             $app['session']->getFlashBag()->add('info', Trans::__('Please log on.'));
 
             return Lib::redirect('login');
@@ -1787,18 +1788,9 @@ class Backend implements ControllerProviderInterface
             $app['session']->getFlashBag()->add('error', Trans::__('You do not have the right privileges to view that page.'));
 
             return Lib::redirect('dashboard');
-        } elseif (!is_null($request->attributes->get('checkUserRoleHierarchy')) && $app['users']->getUser($id)) {
-            $user = $app['users']->getUser($id);
-
-            $roleAccessCheck = false;
-            foreach ($user['roles'] as $roleName) {
-                if ($app['permissions']->checkPermission($app['users']->currentuser['roles'], "users:roles-hierarchy:{$roleName}")) {
-                    $roleAccessCheck = true;
-                }
-            }
-
-            if (!$roleAccessCheck) {
-                $app['session']->getFlashBag()->set('error', Trans::__('You do not have the right privileges to view that page.'));
+        } elseif (!$request->attributes->get('checkUserRoleHierarchy') && $user = $app['users']->getUser($id)) {
+            if (!$app['permissions']->isAllowedToManipulate($user, $app['users']->getCurrentUser())) {
+                $app['session']->getFlashBag()->add('error', Trans::__('You do not have the right privileges to view that page.'));
 
                 return Lib::redirect('dashboard');
             }

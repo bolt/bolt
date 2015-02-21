@@ -140,16 +140,55 @@ class Permissions
         }
         $userRoleNames[] = self::ROLE_OWNER;
 
+        $self = $this;
         return
             array_combine(
                 $userRoleNames,
                 array_map(
-                    function ($roleName) {
-                        return $this->getRole($roleName);
+                    function ($roleName) use ($self) {
+                        return $self->getRole($roleName);
                     },
                     $userRoleNames
                 )
             );
+    }
+
+    /**
+     * Gets the roles the current user can manipulate
+     *
+     * @param array $currentUser
+     *
+     * @return string[]
+     */
+    public function getManipulatableRoles(array $currentUser)
+    {
+        $roles = array();
+
+        foreach ($this->getDefinedRoles() as $roleName => $role) {
+            if ($this->checkPermission($currentUser['roles'], 'users:roles-hierarchy:' . $roleName)) {
+                $roles[$roleName] = $role['label'];
+            }
+        }
+
+        return $roles;
+    }
+
+    /**
+     * Checks if the current user is able to manipulate the given user
+     *
+     * @param array $user
+     * @param array $currentUser
+     *
+     * @return bool
+     */
+    public function isAllowedToManipulate(array $user, array $currentUser)
+    {
+        foreach ($user['roles'] as $roleName) {
+            if ($this->checkPermission($currentUser, 'users:roles-hierarchy:' . $roleName)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
