@@ -122,7 +122,7 @@ fieldset.checkbox {
         background-color: desaturate(lighten($boltblue, 60%), 30);
         border: 1px solid #BBB;
         cursor: pointer;
-        padding: 5px 15px;
+        padding: 5px 12px;
 
         &:hover {
             color: #444;
@@ -141,7 +141,7 @@ fieldset.checkbox {
             a {
                 background-color: #F8F8F8;
                 color: #333;
-                padding: 7px 15px 8px 15px;
+                padding: 7px 12px 8px 12px;
             }
         }
     }
