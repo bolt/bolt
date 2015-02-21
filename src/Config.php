@@ -2,6 +2,7 @@
 
 namespace Bolt;
 
+use Bolt\Configuration\Type;
 use Bolt\Exception\LowlevelException;
 use Bolt\Helpers\Arr;
 use Bolt\Helpers\String;
@@ -67,8 +68,6 @@ class Config
             $this->checkValidCache();
 
         }
-
-        $this->setCKPath();
     }
 
     /**
@@ -128,7 +127,11 @@ class Config
             $part = & $part[$key];
         }
 
-        $part = $value;
+        if ($part instanceof Type\ResolvableInterface) {
+            $part->update($value);
+        } else {
+            $part = $value;
+        }
 
         return true;
     }
@@ -164,11 +167,30 @@ class Config
             $part = & $part[$key];
         }
 
-        if ($value !== null) {
-            return $value;
+        if ($value === null) {
+            return $default;
+        }
+        return $this->resolveValue($value);
+    }
+
+    /**
+     * Ensure all values are resolved, by walking the data recursively.
+     *
+     * @param mixed $data
+     * @return mixed
+     */
+    protected function resolveValue($data)
+    {
+        if ($data instanceof Type\ResolvableInterface) {
+            return $data->resolve($this->app);
+        } elseif (!is_array($data)) {
+            return $data;
+        }
+        foreach ($data as $key => $value) {
+            $data[$key] = $this->resolveValue($value);
         }
 
-        return $default;
+        return $data;
     }
 
     /**
@@ -196,11 +218,10 @@ class Config
 
     protected function parseGeneral()
     {
-        // Read the config and merge it. (note: We use temp variables to prevent
-        // "Only variables should be passed by reference")
-        $tempconfig = $this->parseConfigYaml('config.yml');
-        $tempconfiglocal = $this->parseConfigYaml('config_local.yml');
-        $general = Arr::mergeRecursiveDistinct($tempconfig, $tempconfiglocal);
+        $general = $this->replaceRecursive(
+            $this->parseConfigYaml('config.yml'),
+            $this->parseConfigYaml('config_local.yml')
+        );
 
         // Make sure old settings for 'contentsCss' are still picked up correctly
         if (isset($general['wysiwyg']['ck']['contentsCss'])) {
@@ -216,7 +237,7 @@ class Config
         }
 
         // Merge the array with the defaults. Setting the required values that aren't already set.
-        $general = Arr::mergeRecursiveDistinct($this->defaultConfig, $general);
+        $general = $this->replaceRecursive($this->defaultConfig, $general);
 
         // Make sure the cookie_domain for the sessions is set properly.
         if (empty($general['cookies_domain'])) {
@@ -794,15 +815,15 @@ class Config
                     'allowedContent'          => true,
                     'autoParagraph'           => true,
                     'contentsCss'             => array(
-                        $this->app['resources']->getUrl('app') . 'view/css/ckeditor-contents.css',
-                        $this->app['resources']->getUrl('app') . 'view/css/ckeditor.css',
+                        new Type\Url('app', 'view/css/ckeditor-contents.css'),
+                        new Type\Url('app', 'view/css/ckeditor.css'),
                     ),
                     'filebrowserWindowWidth'  => 640,
                     'filebrowserWindowHeight' => 480
                 ),
                 'filebrowser' => array(
-                    'browseUrl'      => $this->app['resources']->getUrl('async') . 'filebrowser/',
-                    'imageBrowseUrl' => $this->app['resources']->getUrl('bolt') . 'files/files'
+                    'browseUrl'      => new Type\Url('async', 'filebrowser/'),
+                    'imageBrowseUrl' => new Type\Url('bolt', 'files/files/'),
                 ),
             ),
             'canonical'                   => !empty($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '',
@@ -862,28 +883,6 @@ class Config
         $twigpath[] = realpath($this->app['resources']->getPath('app') . '/theme_defaults');
 
         return $twigpath;
-    }
-
-    /**
-     * Will be made protected in Bolt 3.0
-     */
-    public function setCKPath()
-    {
-        $app = $this->app['resources']->getUrl('app');
-
-        // Make sure the paths for CKeditor config are always set correctly..
-        $this->set(
-            'general/wysiwyg/ck/contentsCss',
-            array(
-                $app . 'view/css/ckeditor-contents.css',
-                $app . 'view/css/ckeditor.css'
-            )
-        );
-        $this->set('general/wysiwyg/filebrowser/browseUrl', $this->app['resources']->getUrl('async') . 'filebrowser/');
-        $this->set(
-            'general/wysiwyg/filebrowser/imageBrowseUrl',
-            $this->app['resources']->getUrl('bolt') . 'files/files/'
-        );
     }
 
     protected function loadCache()
@@ -1041,5 +1040,28 @@ class Config
         $now = date_format(new \DateTime($timezone), 'Y-m-d H:i:s');
 
         return $now;
+    }
+
+    protected function replaceRecursive($array1, $array2)
+    {
+        $merged = $array1;
+
+        foreach ($array2 as $key => &$value) {
+            // if $key = 'accept_file_types, don't merge..
+            if ($key == 'accept_file_types') {
+                $merged[$key] = $array2[$key];
+                continue;
+            }
+
+            if (isset($merged[$key]) && $merged[$key] instanceof Type\ResolvableInterface) {
+                $merged[$key]->update($value);
+            } else if (is_array($value) && isset($merged[$key]) && is_array($merged[$key])) {
+                $merged[$key] = $this->replaceRecursive($merged[$key], $value);
+            } else {
+                $merged[$key] = $value;
+            }
+        }
+
+        return $merged;
     }
 }
