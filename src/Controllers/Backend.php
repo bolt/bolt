@@ -755,12 +755,12 @@ class Backend implements ControllerProviderInterface
                 $id = $app['storage']->saveContent($content, $comment);
 
                 // Log the change
-                $app['logger.system']->info('Saved: ' . $content->getTitle(), array('event' => 'content'));
-
                 if ($new) {
                     $app['session']->getFlashBag()->add('success', Trans::__('contenttypes.generic.saved-new', array('%contenttype%' => $contenttypeslug)));
+                    $app['logger.system']->info('Created: ' . $content->getTitle(), array('event' => 'content'));
                 } else {
                     $app['session']->getFlashBag()->add('success', Trans::__('contenttypes.generic.saved-changes', array('%contenttype%' => $contenttype['slug'])));
+                    $app['logger.system']->info('Saved: ' . $content->getTitle(), array('event' => 'content'));
                 }
 
                 /*
@@ -847,7 +847,6 @@ class Backend implements ControllerProviderInterface
 
                 return Lib::redirect('dashboard');
             }
-            $app['logger.system']->info('Edited: ' . $content->getTitle(), array('event' => 'content'));
         } else {
             // Check if we're allowed to create content..
             if (!$app['users']->isAllowed("contenttype:{$contenttype['slug']}:create")) {
@@ -857,7 +856,6 @@ class Backend implements ControllerProviderInterface
             }
 
             $content = $app['storage']->getEmptyContent($contenttype['slug']);
-            $app['logger.system']->info('Created: ' . $content->getTitle(), array('event' => 'content'));
         }
 
         $oldStatus = $content['status'];
