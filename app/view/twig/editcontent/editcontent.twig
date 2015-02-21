@@ -58,7 +58,7 @@
     {% for group in context.contenttype.groups %}
         {% if group == 'ungrouped' %}
             {% set tabgroups = tabgroups|merge({(group): __('contenttypes.generic.group.ungrouped')}) %}
-        {% elseif group != 'meta' and group != 'taxonomy' %}
+        {% elseif group != 'meta' and group != 'relations' and group != 'taxonomy' %}
             {% set label = __(['contenttypes', context.contenttype.slug, 'group', group], {DEFAULT: group|capitalize}) %}
             {% set tabgroups = tabgroups|merge({(group): label}) %}
         {% endif %}
