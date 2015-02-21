@@ -3,7 +3,7 @@ Bolt 2.1 DEV-head
 
 - Fixed: Long conttenttype names are truncated properly in the sidebar now. (See #2513)
 - Fixed: Don't leak Database credentials on connection error during set up. (See #2538)
-- Change: Remove unused jquery-catchpaste
+- Change: Remove unused jquery-catchpaste.
 - Change: Many changes (for the better) to logging: Monolog, improved UI, separation of concerns.
 - Refactor: Many changes and improvements to the Config object.
 - Refactor: Major cleanup in Bolt\Storage, Bolt\Events\StorageEvents and Bolt\Content (#2664)
