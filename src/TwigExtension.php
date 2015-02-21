@@ -210,11 +210,11 @@ class TwigExtension extends \Twig_Extension
         }
         if ($this->app['config']->get('general/debug')) {
             if (is_array($var)) {
-                $this->app['logger.firebug']->addInfo($msg, $var);
+                $this->app['logger.firebug']->info($msg, $var);
             } elseif (is_string($var)) {
-                $this->app['logger.firebug']->addInfo($var);
+                $this->app['logger.firebug']->info($var);
             } else {
-                $this->app['logger.firebug']->addInfo($msg, (array) $var);
+                $this->app['logger.firebug']->info($msg, (array) $var);
             }
         } else {
             return '';
