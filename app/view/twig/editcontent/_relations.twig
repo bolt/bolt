@@ -28,6 +28,10 @@
     {% endif %}
 {% endfor %}
 
+{% if has.tabs and 'relations' in context.contenttype.groups %}
+    {% include 'editcontent/_fields.twig' %}
+{% endif %}
+
 {% if not has.tabs %}
     <hr>
 {% endif %}
