@@ -70,7 +70,8 @@ class Routing implements ControllerProviderInterface
             return;
         }
         if (strpos($to, '::') > 0) {
-            $to = explode('::', $to);
+            list($cls, $method) = explode('::', $to);
+            $to = array(new $cls, $method);
         }
         $route = $ctr->match($path, $to);
 
