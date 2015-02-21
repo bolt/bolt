@@ -48,7 +48,7 @@
                     </select>
                 </div>
 
-                <button type="submit" class="btn btn-default pull-left"> <!-- href="{{ path('systemlog', {'action': 'trim'}) }}"> -->
+                <button type="submit" class="btn btn-secondary"> <!-- href="{{ path('systemlog', {'action': 'trim'}) }}"> -->
                     <i class="fa fa-filter"></i> {{ __('Filter') }}
                 </button>
 
@@ -64,7 +64,7 @@
 
             <table class="table table-striped dashboardlisting">
                 <thead>
-                    <th></th>
+                    <th>№</th>
                     <th>Type</th>
                     <th>Context</th>
                     <th>Route</th>
@@ -78,7 +78,7 @@
                 {% for entry in entries %}
                     <tr>
                         <td>
-                            № {{ entry.id }}
+                            {{ entry.id }}
                         </td>
                         <td>
                             {{ entry.level|loglevel }}
