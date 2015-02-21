@@ -8,8 +8,10 @@ use Bolt\Permissions;
 use Bolt\Translation\TranslationFile;
 use Bolt\Translation\Translator as Trans;
 use GuzzleHttp\Exception\RequestException;
+use Silex;
 use Silex\Application;
 use Silex\ControllerProviderInterface;
+use Symfony;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Form\Form;
@@ -96,7 +98,7 @@ class Backend implements ControllerProviderInterface
 
         $ctl->match('/users/edit/{id}', array($this, 'userEdit'))
             ->assert('id', '\d*')
-            ->value('checkUserRoleHierarchy', 'true')
+            ->value('checkUserRoleHierarchy', true)
             ->bind('useredit');
 
         $ctl->match('/userfirst', array($this, 'userFirst'))
@@ -112,7 +114,7 @@ class Backend implements ControllerProviderInterface
             ->bind('about');
 
         $ctl->post('/user/{action}/{id}', array($this, 'userAction'))
-            ->value('checkUserRoleHierarchy', 'true')
+            ->value('checkUserRoleHierarchy', true)
             ->bind('useraction');
 
         $ctl->match('/files/{namespace}/{path}', array($this, 'files'))
@@ -1787,8 +1789,6 @@ class Backend implements ControllerProviderInterface
             $app['session']->getFlashBag()->add('error', Trans::__('You do not have the right privileges to view that page.'));
 
             return Lib::redirect('dashboard');
-        } elseif (!is_null($request->attributes->get('checkUserRoleHierarchy')) && $app['users']->getUser($id)) {
-            $user = $app['users']->getUser($id);
 
             $roleAccessCheck = false;
             foreach ($user['roles'] as $roleName) {
@@ -1799,6 +1799,7 @@ class Backend implements ControllerProviderInterface
 
             if (!$roleAccessCheck) {
                 $app['session']->getFlashBag()->set('error', Trans::__('You do not have the right privileges to view that page.'));
+        } elseif (!$request->attributes->get('checkUserRoleHierarchy') && $user = $app['users']->getUser($id)) {
 
                 return Lib::redirect('dashboard');
             }
