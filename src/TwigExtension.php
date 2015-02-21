@@ -30,6 +30,10 @@ class TwigExtension extends \Twig_Extension
      */
     private $safe;
 
+    /**
+     * @param Silex\Application $app
+     * @param boolean           $safe
+     */
     public function __construct(Silex\Application $app, $safe = false)
     {
         $this->app = $app;
@@ -224,8 +228,9 @@ class TwigExtension extends \Twig_Extension
     /**
      * Output pretty-printed backtrace.
      *
+     * @internal
      * @param  int    $depth
-     * @internal param mixed $var
+     * @param  mixed  $var
      * @return string
      */
     public function printBacktrace($depth = 15)
@@ -254,6 +259,7 @@ class TwigExtension extends \Twig_Extension
     /**
      * Returns the date time in a particular format. Takes the locale into
      * account.
+     *
      * @param  string|\DateTime $dateTime
      * @param  string           $format
      * @return string           Formatted date and time
@@ -446,8 +452,8 @@ class TwigExtension extends \Twig_Extension
     /**
      * Return the 'sluggified' version of a string.
      *
-     * @param $str string input value
-     * @return string slug
+     * @param  string $str input value
+     * @return string Slug safe version of the string
      */
     public function slug($str)
     {
@@ -510,6 +516,7 @@ class TwigExtension extends \Twig_Extension
 
     /**
      * UCfirsts the given string.
+     *
      * @param  string $str;
      * @return string Same string where first character is in upper case
      */
@@ -1347,9 +1354,9 @@ class TwigExtension extends \Twig_Extension
     /**
      * Translate using our __()
      *
-     * @internal param string $content
-     *
-     * @return string translated content
+     * @internal
+     * @param  string $content
+     * @return string Translated content
      */
     public function trans()
     {
@@ -1376,9 +1383,9 @@ class TwigExtension extends \Twig_Extension
      *
      * @see function Bolt\Library::safeString()
      *
-     * @param $str
-     * @param  bool   $strict
-     * @param  string $extrachars
+     * @param  string  $str
+     * @param  boolean $strict
+     * @param  string  $extrachars
      * @return string
      */
     public function safeString($str, $strict = false, $extrachars = "")
@@ -1418,7 +1425,7 @@ class TwigExtension extends \Twig_Extension
     /**
      * Return whether or not an item is on the stack, and is stackable in the first place.
      *
-     * @param $filename string filename
+     * @param  string $filename File name
      * @return bool
      */
     public function stacked($filename)
