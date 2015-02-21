@@ -151,10 +151,10 @@ class BaseExtensionTest extends BoltUnitTest
         $app = $this->makeApp();
         $ext = new Mock\ExtendedExtension($app);
 
-        $logger = $this->getMock('Monolog\Logger', array('addCritical'), array($app));
+        $logger = $this->getMock('Monolog\Logger', array('critical'), array($app));
 
         $logger->expects($this->any())
-            ->method('addCritical')
+            ->method('critical')
             ->with($this->matchesRegularExpression('/Couldn\'t read/'));
 
         $app['logger.system'] = $logger;
@@ -177,10 +177,10 @@ class BaseExtensionTest extends BoltUnitTest
         $app = $this->makeApp();
         $ext = new Mock\ExtendedExtension($app);
 
-        $logger = $this->getMock('Monolog\Logger', array('addInfo'), array($app));
+        $logger = $this->getMock('Monolog\Logger', array('info'), array($app));
 
         $logger->expects($this->any())
-            ->method('addInfo')
+            ->method('info')
             ->with($this->matchesRegularExpression('/Copied/'));
 
         $app['logger.system'] = $logger;
@@ -214,10 +214,10 @@ class BaseExtensionTest extends BoltUnitTest
         $app = $this->makeApp();
         $ext = new Mock\ExtendedExtension($app);
 
-        $logger = $this->getMock('Monolog\Logger', array('addCritical'), array($app));
+        $logger = $this->getMock('Monolog\Logger', array('critical'), array($app));
 
         $logger->expects($this->any())
-            ->method('addCritical')
+            ->method('critical')
             ->with($this->matchesRegularExpression('/File is not writable/'));
 
         $app['logger.system'] = $logger;
@@ -333,10 +333,10 @@ class BaseExtensionTest extends BoltUnitTest
         $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', array($app));
         $handler = $this->getMock('Bolt\Extensions', array('addJavascript'), array($app));
 
-        $logger = $this->getMock('Bolt\Logger\Manager', array('addError'), array($app));
+        $logger = $this->getMock('Bolt\Logger\Manager', array('error'), array($app));
 
         $logger->expects($this->once())
-            ->method('addError');
+            ->method('error');
 
         $app['extensions'] = $handler;
         $app['logger.system'] = $logger;
@@ -397,10 +397,10 @@ class BaseExtensionTest extends BoltUnitTest
         $app = $this->makeApp();
         $app->initialize();
         $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', array($app));
-        $logger = $this->getMock('Bolt\Logger\Manager', array('addError'), array($app));
+        $logger = $this->getMock('Bolt\Logger\Manager', array('error'), array($app));
 
         $logger->expects($this->once())
-            ->method('addError');
+            ->method('error');
 
         $app['logger.system'] = $logger;
 
