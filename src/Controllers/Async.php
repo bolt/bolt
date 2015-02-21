@@ -88,6 +88,10 @@ class Async implements ControllerProviderInterface
             ->value('contentid', '0')
             ->bind('changelogrecord');
 
+        $ctr->get('/email/{type}/{recipient}', array($this, 'emailNotification'))
+            ->assert('type', '.*')
+            ->bind('emailNotification');
+
         return $ctr;
     }
 
@@ -134,7 +138,7 @@ class Async implements ControllerProviderInterface
                     // Iterate over the items, pick the first news-item that applies
                     foreach($fetchedNewsItems as $item) {
                         if ($item->type != "alert") {
-                            if (empty($item->target_version) || version_compare($item->target_version, $app->getVersion(), '>')) { 
+                            if (empty($item->target_version) || version_compare($item->target_version, $app->getVersion(), '>')) {
                                 $news['information'] = $item;
                                 break;
                             }
@@ -144,7 +148,7 @@ class Async implements ControllerProviderInterface
                     // Iterate over the items again, See if there's an alert we need to show.
                     foreach($fetchedNewsItems as $item) {
                         if ($item->type == "alert") {
-                            if (empty($item->target_version) || version_compare($item->target_version, $app->getVersion(), '>')) { 
+                            if (empty($item->target_version) || version_compare($item->target_version, $app->getVersion(), '>')) {
                                 $news['alert'] = $item;
                                 break;
                             }
@@ -417,8 +421,8 @@ class Async implements ControllerProviderInterface
     /**
      * List browse on the server, so we can insert them in the file input.
      *
-     * @param $namespace
-     * @param $path
+     * @param  string            $namespace
+     * @param  string            $path
      * @param  Silex\Application $app
      * @param  Request           $request
      * @return mixed
@@ -662,6 +666,36 @@ class Async implements ControllerProviderInterface
         );
 
         return $app['render']->render('components/panel-change-record.twig', array('context' => $context));
+    }
+
+    /**
+     *
+     * @param string      $type
+     * @param Application $app
+     * @param Request     $request
+     */
+    public function emailNotification($type, Silex\Application $app, Request $request)
+    {
+        $user = $app['users']->getCurrentUser();
+
+        // Create an email
+        $mailhtml = $app['render']->render('email/firstuser.twig', array(
+            'sitename' => $app['config']->get('general/sitename'),
+            'user'     => $user['displayname'],
+            'ip'       => $request->getClientIp()
+        ));
+
+        $message = $app['mailer']
+            ->createMessage('message')
+            ->setSubject('Test email from ' . $app['config']->get('general/sitename'))
+            ->setFrom(array($user['email'] => 'Bolt'))
+            ->setTo(array($user['email'] => $user['displayname']))
+            ->setBody(strip_tags($mailhtml))
+            ->addPart($mailhtml, 'text/html');
+
+        $app['mailer']->send($message);
+
+        return new Response('Done', Response::HTTP_OK);
     }
 
     /**

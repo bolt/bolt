@@ -570,9 +570,7 @@ class Users
     public function resetPasswordRequest($username)
     {
         $user = $this->getUser($username);
-
-        // For safety, this is the message we display, regardless of whether $user exists.
-        $this->session->getFlashBag()->add('info', Trans::__("A password reset link has been sent to '%user%'.", array('%user%' => $username)));
+        $recipients = false;
 
         if (!empty($user)) {
 
@@ -611,21 +609,28 @@ class Users
 
             $subject = sprintf("[ Bolt / %s ] Password reset.", $this->app['config']->get('general/sitename'));
 
-            $message = \Swift_Message::newInstance()
+            $message = $this->app['mailer']
+                ->createMessage('message')
                 ->setSubject($subject)
-                ->setFrom(array($user['email'] => "Bolt"))
+                ->setFrom(array($user['email'] => 'Bolt'))
                 ->setTo(array($user['email'] => $user['displayname']))
                 ->setBody(strip_tags($mailhtml))
                 ->addPart($mailhtml, 'text/html');
 
-            $res = $this->app['mailer']->send($message);
+            $recipients = $this->app['mailer']->send($message);
 
-            if ($res) {
+            if ($recipients) {
                 $this->app['logger.system']->info("Password request sent to '" . $user['displayname'] . "'.", array('event' => 'authentication'));
             } else {
                 $this->app['logger.system']->error("Failed to send password request sent to '" . $user['displayname'] . "'.", array('event' => 'authentication'));
+                $this->session->getFlashBag()->add('error', Trans::__("Failed to send password request. Please check the email settings."));
             }
 
+        }
+
+        // For safety, this is the message we display, regardless of whether $user exists.
+        if ($recipients === false || $recipients > 0) {
+            $this->session->getFlashBag()->add('info', Trans::__("A password reset link has been sent to '%user%'.", array('%user%' => $username)));
         }
 
         return true;
@@ -633,7 +638,7 @@ class Users
 
     public function resetPasswordConfirm($token)
     {
-        $token .= "-" . str_replace(".", "-", $this->remoteIP);
+        $token .= '-' . str_replace('.', '-', $this->remoteIP);
 
         $now = date("Y-m-d H:i:s");
 
@@ -645,7 +650,7 @@ class Users
         if (!empty($user)) {
 
             // allright, we can reset this user..
-            $this->app['session']->getFlashBag()->add('success', Trans::__("Password reset successful! You can now log on with the password that was sent to you via email."));
+            $this->app['session']->getFlashBag()->add('success', Trans::__('Password reset successful! You can now log on with the password that was sent to you via email.'));
 
             $update = array(
                 'password' => $user['shadowpassword'],
