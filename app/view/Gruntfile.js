@@ -40,8 +40,7 @@ module.exports = function(grunt) {
                     'sass/**/*.scss'
                 ],
                 tasks: [
-                    'sass:boltCss',
-                    'eol:boltCss'
+                    'sass:boltCss'
                 ]
             },
             boltJs: {
