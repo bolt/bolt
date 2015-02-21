@@ -1773,17 +1773,9 @@ class Backend implements ControllerProviderInterface
             $app['session']->getFlashBag()->add('error', Trans::__('You do not have the right privileges to view that page.'));
 
             return Lib::redirect('dashboard');
-
-            $roleAccessCheck = false;
-            foreach ($user['roles'] as $roleName) {
-                if ($app['permissions']->checkPermission($app['users']->currentuser['roles'], "users:roles-hierarchy:{$roleName}")) {
-                    $roleAccessCheck = true;
-                }
-            }
-
-            if (!$roleAccessCheck) {
-                $app['session']->getFlashBag()->set('error', Trans::__('You do not have the right privileges to view that page.'));
         } elseif (!$request->attributes->get('checkUserRoleHierarchy') && $user = $app['users']->getUser($id)) {
+            if (!$app['permissions']->isAllowedToManipulate($user, $app['users']->getCurrentUser())) {
+                $app['session']->getFlashBag()->add('error', Trans::__('You do not have the right privileges to view that page.'));
 
                 return Lib::redirect('dashboard');
             }

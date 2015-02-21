@@ -179,6 +179,24 @@ class Permissions
     }
 
     /**
+     * Checks if the current user is able to manipulate the given user
+     *
+     * @param array $user
+     * @param array $currentUser
+     *
+     * @return bool
+     */
+    public function isAllowedToManipulate(array $user, array $currentUser)
+    {
+        foreach ($user['roles'] as $roleName) {
+            if ($this->checkPermission($currentUser, 'users:roles-hierarchy:' . $roleName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Low-level permission check. Given a set of available roles, a
      * permission, and an optional content type, this method checks whether
      * the permission may be granted.
