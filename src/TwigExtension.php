@@ -187,7 +187,7 @@ class TwigExtension extends \Twig_Extension
     public function printDump($var)
     {
         if ($this->safe) {
-            return '?';
+            return '';
         }
         if ($this->app['debug']) {
             dump($var);
@@ -206,7 +206,7 @@ class TwigExtension extends \Twig_Extension
     public function printFirebug($var, $msg = '')
     {
         if ($this->safe) {
-            return '?';
+            return '';
         }
         if ($this->app['config']->get('general/debug')) {
             if (is_array($var)) {
