@@ -1,6 +1,7 @@
 <?php
 namespace Bolt\Controllers;
 
+use Bolt\Application;
 use Silex;
 use Symfony\Component\HttpFoundation\Request;
 use Bolt\Library as Lib;
@@ -36,11 +37,11 @@ class Login implements Silex\ControllerProviderInterface
     /**
      * Handle a login attempt.
      *
-     * @param  Silex\Application $app     The application/container
-     * @param  Request           $request The Symfony Request
+     * @param  Application $app     The application/container
+     * @param  Request     $request The Symfony Request
      * @return string
      */
-    public function postLogin(Silex\Application $app, Request $request)
+    public function postLogin(Application $app, Request $request)
     {
         switch ($request->get('action')) {
             case 'login':
@@ -49,10 +50,9 @@ class Login implements Silex\ControllerProviderInterface
 
                 if ($result) {
                     $app['logger.system']->addInfo('Logged in: ' . $request->get('username'), array('event' => 'authentication'));
-                    $retreat = $app['session']->get('retreat');
-                    $redirect = !empty($retreat) && is_array($retreat) ? $retreat : array('route' => 'dashboard', 'params' => array());
+                    $redirect = $app['session']->get('retreat', array('route' => 'dashboard', 'params' => array()));
 
-                    return Lib::redirect($redirect['route'], $redirect['params']);
+                    return $app->redirect($app->generatePath($redirect['route'], $redirect['params']));
                 }
 
                 return $this->getLogin($app, $request);

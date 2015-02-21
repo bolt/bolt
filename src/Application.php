@@ -12,6 +12,7 @@ use Doctrine\DBAL\Exception\ConnectionException as DBALConnectionException;
 use RandomLib;
 use SecurityLib;
 use Silex;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -487,6 +488,10 @@ class Application extends Silex\Application
             }
         }
 
+        if ($response->isRedirect() && $response instanceof RedirectResponse) {
+            $this->handleLoginRetreatRedirects($request, $response);
+        }
+
         // Stop the 'stopwatch' for the profiler.
         $this['stopwatch']->stop('bolt.app.after');
     }
@@ -588,5 +593,27 @@ class Application extends Silex\Application
     public function generatePath($route, $parameters = array())
     {
         return $this['url_generator']->generate($route, $parameters);
+    }
+
+    /**
+     * When redirecting to login page set the 'retreat' variable in the session.
+     * This allows a redirect back to the current page after successful login.
+     *
+     * @param Request          $request
+     * @param RedirectResponse $response
+     */
+    protected function handleLoginRetreatRedirects(Request $request, RedirectResponse $response)
+    {
+        $route = $request->attributes->get('_route');
+
+        // Only set the 'retreat' when redirecting to 'login' but not FROM logout.
+        if ($response->getTargetUrl() === $this->generatePath('login') && $route !== 'logout') {
+            $this['session']->set('retreat', array(
+                'route'  => $route,
+                'params' => $request->attributes->get('_route_params'),
+            ));
+        } else {
+            $this['session']->remove('retreat');
+        }
     }
 }
