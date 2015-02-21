@@ -74,7 +74,7 @@ final class BoltExtendJson
             $app['extend.writeable'] = false;
             $app['extend.online'] = false;
 
-            return;
+            return null;
         }
 
         $pathToWeb = $app['resources']->findRelativePath($app['resources']->getPath('extensions'), $app['resources']->getPath('web'));

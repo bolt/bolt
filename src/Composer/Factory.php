@@ -2,7 +2,6 @@
 
 namespace Bolt\Composer;
 
-use Composer\Composer;
 use Composer\DependencyResolver\Pool;
 use Composer\IO\BufferIO;
 use Composer\Package\Version\VersionSelector;
@@ -155,7 +154,7 @@ final class Factory extends PackageManager
         $package = $versionSelector->findBestCandidate($name);
 
         if (!$package) {
-            return;
+            return null;
         }
 
         return array(

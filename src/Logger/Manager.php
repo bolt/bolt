@@ -138,11 +138,10 @@ class Manager
             $rows = array();
         }
 
-        if ($log == 'system') {
-            return $rows;
-        } elseif ($log == 'change') {
+        if ($log == 'change') {
             return $this->decodeChangeLog($rows);
         }
+        return $rows;
     }
 
     /**

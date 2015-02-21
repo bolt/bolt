@@ -2,11 +2,11 @@
 
 namespace Bolt\Controllers;
 
+use Bolt\Events\CronEvent;
+use Bolt\Events\CronEvents;
 use Silex;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\EventDispatcher\Event;
-use Bolt\Events\CronEvent;
-use Bolt\Events\CronEvents;
 
 /**
  * Simple cron dispatch class for Bolt
@@ -302,6 +302,7 @@ class Cron extends Event
                 return strtotime('+1 year', $lastCronHour);
             }
         }
+        return 0;
     }
 
     /**

@@ -13,8 +13,8 @@ use Bolt\Composer\Action\ShowPackage;
 use Bolt\Composer\Action\UpdatePackage;
 use Bolt\Library as Lib;
 use Bolt\Translation\Translator as Trans;
-use Guzzle\Http\Exception\RequestException;
 use Guzzle\Http\Exception\CurlException;
+use Guzzle\Http\Exception\RequestException;
 use Silex\Application;
 
 class PackageManager
@@ -449,6 +449,7 @@ class PackageManager
         if ($readme) {
             return $paths['async'] . 'readme/' . $readme;
         }
+        return null;
     }
 
     /**
@@ -471,6 +472,7 @@ class PackageManager
 
             return Lib::path('fileedit', array('namespace' => 'config', 'file' => $configfilename));
         }
+        return null;
     }
 
     /**

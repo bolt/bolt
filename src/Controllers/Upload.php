@@ -220,6 +220,7 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
 
         // Stop the 'stopwatch' for the profiler.
         $app['stopwatch']->stop('bolt.backend.before');
+        return null;
     }
 
     public function boot(Silex\Application $app)

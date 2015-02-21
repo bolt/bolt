@@ -7,13 +7,13 @@ use Bolt\Exception\PackageManagerException;
 use Bolt\Extensions\ExtensionsInfoService;
 use Bolt\Library as Lib;
 use Bolt\Translation\Translator as Trans;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Filesystem\Filesystem;
 use Silex;
 use Silex\ControllerProviderInterface;
 use Silex\ServiceProviderInterface;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class Extend implements ControllerProviderInterface, ServiceProviderInterface
 {
@@ -136,6 +136,7 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
 
         // Stop the 'stopwatch' for the profiler.
         $app['stopwatch']->stop('bolt.backend.before');
+        return null;
     }
 
     public function boot(Silex\Application $app)

@@ -12,13 +12,13 @@ use Silex;
 use Silex\Application;
 use Silex\ControllerProviderInterface;
 use Symfony;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Yaml\Yaml;
 
@@ -1773,7 +1773,7 @@ class Backend implements ControllerProviderInterface
         // If the users table is present, but there are no users, and we're on /bolt/userfirst,
         // we let the user stay, because they need to set up the first user.
         if ($tableExists && !$hasUsers && $route == 'userfirst') {
-            return;
+            return null;
         }
 
         // If there are no users in the users table, or the table doesn't exist. Repair
@@ -1815,6 +1815,7 @@ class Backend implements ControllerProviderInterface
 
         // Stop the 'stopwatch' for the profiler.
         $app['stopwatch']->stop('bolt.backend.before');
+        return null;
     }
 
     /**

@@ -2,13 +2,13 @@
 
 namespace Bolt\Composer\Action;
 
-use Composer\DependencyResolver\Pool;
 use Composer\DependencyResolver\DefaultPolicy;
+use Composer\DependencyResolver\Pool;
 use Composer\Factory;
 use Composer\Package\Version\VersionParser;
 use Composer\Repository\ArrayRepository;
-use Composer\Repository\CompositeRepository;
 use Composer\Repository\ComposerRepository;
+use Composer\Repository\CompositeRepository;
 use Composer\Repository\PlatformRepository;
 use Composer\Repository\RepositoryInterface;
 use Silex\Application;
@@ -182,5 +182,6 @@ final class ShowPackage
                 'versions' => $versions
             ));
         }
+        return null;
     }
 }
