@@ -66,12 +66,10 @@
         {% set tabgroups = {'ungrouped': ''} %}
     {% endfor %}
 
-    {% if (has.relations or has.incoming_relations) and has.taxonomy %}
-        {% set label = __('contenttypes.generic.group.relations') ~ '/' ~ __('contenttypes.generic.group.taxonomy') %}
-        {% set tabgroups = tabgroups|merge({'taxonomy': label}) %}
-    {% elseif has.relations or has.incoming_relations %}
-        {% set tabgroups = tabgroups|merge({'taxonomy': __('contenttypes.generic.group.relations')}) %}
-    {% elseif has.taxonomy or 'taxonomy' in context.contenttype.groups %}
+    {% if has.relations or has.incoming_relations %}
+        {% set tabgroups = tabgroups|merge({'relations': __('contenttypes.generic.group.relations')}) %}
+    {% endif %}
+    {% if has.taxonomy or 'taxonomy' in context.contenttype.groups %}
         {% set tabgroups = tabgroups|merge({'taxonomy': __('contenttypes.generic.group.taxonomy')}) %}
     {% endif %}
 
@@ -104,13 +102,11 @@
                         <div class="tab-pane{{ group == active_group ? ' active' : '' }}" id="tab-{{ group }}">
                     {% endif %}
 
-                    {% if group == 'taxonomy' %}
-                        {% if has.incoming_relations or has.relations %}
-                            {% include 'editcontent/_relations.twig' %}
-                        {% endif %}
-                        {% if has.taxonomy %}
-                            {% include 'editcontent/_taxonomies.twig' %}
-                        {% endif %}
+                    {% if group == 'relations' %}
+                        {% include 'editcontent/_relations.twig' %}
+
+                    {% elseif group == 'taxonomy' %}
+                        {% include 'editcontent/_taxonomies.twig' %}
 
                     {% elseif group == 'meta' %}
                         {% include 'editcontent/_meta.twig' %}
