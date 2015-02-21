@@ -159,6 +159,26 @@ class Permissions
     }
 
     /**
+     * Gets the roles the current user can manipulate
+     *
+     * @param array $currentUser
+     *
+     * @return string[]
+     */
+    public function getManipulatableRoles(array $currentUser)
+    {
+        $roles = array();
+
+        foreach ($this->getDefinedRoles() as $roleName => $role) {
+            if ($this->checkPermission($currentUser['roles'], 'users:roles-hierarchy:' . $roleName)) {
+                $roles[$roleName] = $role['label'];
+            }
+        }
+
+        return $roles;
+    }
+
+    /**
      * Low-level permission check. Given a set of available roles, a
      * permission, and an optional content type, this method checks whether
      * the permission may be granted.

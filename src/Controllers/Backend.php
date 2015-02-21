@@ -1046,17 +1046,8 @@ class Backend implements ControllerProviderInterface
             0 => Trans::__('page.edit-users.activated.no')
         );
 
-        $allRoles = $app['permissions']->getDefinedRoles($app);
-        $roles = array();
+        $roles = $app['permissions']->getManipulatableRoles($currentuser);
 
-        foreach ($allRoles as $roleName => $role) {
-            // Checking what roles the current user can manipulate
-            if ($app['permissions']->checkPermission($app['users']->currentuser['roles'], "users:roles-hierarchy:{$roleName}")) {
-                $roles[$roleName] = $role['label'];
-            }
-        }
-
-        // Get the form
         $form = $this->getUserForm($app, $user, true);
 
         // New users and the current users don't need to disable themselves
@@ -1102,7 +1093,6 @@ class Backend implements ControllerProviderInterface
         // Set the validation
         $form = $this->setUserFormValidation($app, $form, true);
 
-        /** @var \Symfony\Component\Form\Form */
         $form = $form->getForm();
 
         // Check if the form was POST-ed, and valid. If so, store the user.
