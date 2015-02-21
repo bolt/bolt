@@ -66,10 +66,10 @@
         {% set tabgroups = {'ungrouped': ''} %}
     {% endfor %}
 
-    {% if has.relations and has.taxonomy %}
+    {% if (has.relations or has.incoming_relations) and has.taxonomy %}
         {% set label = __('contenttypes.generic.group.relations') ~ '/' ~ __('contenttypes.generic.group.taxonomy') %}
         {% set tabgroups = tabgroups|merge({'taxonomy': label}) %}
-    {% elseif has.relations %}
+    {% elseif has.relations or has.incoming_relations %}
         {% set tabgroups = tabgroups|merge({'taxonomy': __('contenttypes.generic.group.relations')}) %}
     {% elseif has.taxonomy or 'taxonomy' in context.contenttype.groups %}
         {% set tabgroups = tabgroups|merge({'taxonomy': __('contenttypes.generic.group.taxonomy')}) %}
