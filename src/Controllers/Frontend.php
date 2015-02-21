@@ -2,13 +2,13 @@
 
 namespace Bolt\Controllers;
 
+use Bolt\Helpers\Input;
+use Bolt\Library as Lib;
+use Bolt\Pager;
+use Bolt\Translation\Translator as Trans;
 use Silex;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Bolt\Library as Lib;
-use Bolt\Helpers\Input;
-use Bolt\Translation\Translator as Trans;
-use Bolt\Pager;
 
 /**
  * Standard Frontend actions
@@ -28,7 +28,7 @@ class Frontend
      * @param Silex\Application    $app     The application/container
      * @param \Bolt\Content|string $content The content to check
      */
-    protected static function checkFrontendPermission(Silex\Application $app, $content)
+    protected function checkFrontendPermission(Silex\Application $app, $content)
     {
         if ($app['config']->get('general/frontend_permission_checks')) {
             if ($content instanceof \Bolt\Content) {
@@ -53,7 +53,7 @@ class Frontend
      * @param  \Bolt\Application $app     The appliction/container
      * @return mixed
      */
-    public static function before(Request $request, \Bolt\Application $app)
+    public function before(Request $request, \Bolt\Application $app)
     {
         // Start the 'stopwatch' for the profiler.
         $app['stopwatch']->start('bolt.frontend.before');
@@ -91,7 +91,7 @@ class Frontend
      * @param  Silex\Application $app The application/container
      * @return mixed
      */
-    public static function homepage(Silex\Application $app)
+    public function homepage(Silex\Application $app)
     {
         $content = $app['storage']->getContent($app['config']->get('general/homepage'));
 
@@ -108,10 +108,10 @@ class Frontend
         }
 
         if (!empty($record)) {
-            self::checkFrontendPermission($app, $record);
+            $this->checkFrontendPermission($app, $record);
         }
 
-        return self::render($app, $template, 'homepage');
+        return $this->render($app, $template, 'homepage');
     }
 
     /**
@@ -122,7 +122,7 @@ class Frontend
      * @param  string            $slug            The content slug
      * @return mixed
      */
-    public static function record(Silex\Application $app, $contenttypeslug, $slug = '')
+    public function record(Silex\Application $app, $contenttypeslug, $slug = '')
     {
         $contenttype = $app['storage']->getContentType($contenttypeslug);
 
@@ -146,7 +146,7 @@ class Frontend
             $content = $app['storage']->getContent($contenttype['slug'], array('id' => $slug, 'returnsingle' => true));
         }
 
-        self::checkFrontendPermission($app, $content);
+        $this->checkFrontendPermission($app, $content);
 
         // No content, no page!
         if (!$content) {
@@ -172,7 +172,7 @@ class Frontend
             );
 
             // Set/log errors and abort
-            self::setTemplateError($app, $error);
+            $this->setTemplateError($app, $error);
             $app['logger.system']->addError($error, array('event' => 'template'));
             $app->abort(404, $error);
         }
@@ -189,7 +189,7 @@ class Frontend
         $app['twig']->addGlobal($contenttype['singular_slug'], $content);
 
         // Render the template and return.
-        return self::render($app, $template, $content->getTitle());
+        return $this->render($app, $template, $content->getTitle());
     }
 
     /**
@@ -200,7 +200,7 @@ class Frontend
      * @param  string            $contenttypeslug The content type slug
      * @return mixed
      */
-    public static function preview(Request $request, Silex\Application $app, $contenttypeslug)
+    public function preview(Request $request, Silex\Application $app, $contenttypeslug)
     {
         $contenttype = $app['storage']->getContentType($contenttypeslug);
 
@@ -208,7 +208,7 @@ class Frontend
         $content = $app['storage']->getContentObject($contenttypeslug);
         $content->setFromPost($request->request->all(), $contenttype);
 
-        self::checkFrontendPermission($app, $content);
+        $this->checkFrontendPermission($app, $content);
 
         // Then, select which template to use, based on our 'cascading templates rules'
         $template = $app['templatechooser']->record($content);
@@ -224,7 +224,7 @@ class Frontend
             );
 
             // Set/log errors and abort
-            self::setTemplateError($app, $error);
+            $this->setTemplateError($app, $error);
             $app['logger.system']->addError($error, array('event' => 'template'));
             $app->abort(404, $error);
         }
@@ -246,7 +246,7 @@ class Frontend
         // @see: http://security.stackexchange.com/questions/53474/is-chrome-completely-secure-against-reflected-xss
         header("X-XSS-Protection: 0");
 
-        return self::render($app, $template, $content->getTitle());
+        return $this->render($app, $template, $content->getTitle());
     }
 
     /**
@@ -256,7 +256,7 @@ class Frontend
      * @param  string            $contenttypeslug The content type slug
      * @return mixed
      */
-    public static function listing(Silex\Application $app, $contenttypeslug)
+    public function listing(Silex\Application $app, $contenttypeslug)
     {
         $contenttype = $app['storage']->getContentType($contenttypeslug);
 
@@ -273,7 +273,7 @@ class Frontend
         $amount = (!empty($contenttype['listing_records']) ? $contenttype['listing_records'] : $app['config']->get('general/listing_records'));
         $order = (!empty($contenttype['sort']) ? $contenttype['sort'] : $app['config']->get('general/listing_sort'));
         $content = $app['storage']->getContent($contenttype['slug'], array('limit' => $amount, 'order' => $order, 'page' => $page, 'paging' => true));
-        self::checkFrontendPermission($app, $contenttype['slug']);
+        $this->checkFrontendPermission($app, $contenttype['slug']);
 
         $template = $app['templatechooser']->listing($contenttype);
 
@@ -288,7 +288,7 @@ class Frontend
             );
 
             // Set/log errors and abort
-            self::setTemplateError($app, $error);
+            $this->setTemplateError($app, $error);
             $app['logger.system']->addError($error, array('event' => 'template'));
             $app->abort(404, $error);
         }
@@ -299,7 +299,7 @@ class Frontend
         $app['twig']->addGlobal($contenttype['slug'], $content);
         $app['twig']->addGlobal('contenttype', $contenttype['name']);
 
-        return self::render($app, $template, $contenttypeslug);
+        return $this->render($app, $template, $contenttypeslug);
     }
 
     /**
@@ -310,7 +310,7 @@ class Frontend
      * @param  string            $slug         The taxonomy slug
      * @return mixed
      */
-    public static function taxonomy(Silex\Application $app, $taxonomytype, $slug)
+    public function taxonomy(Silex\Application $app, $taxonomytype, $slug)
     {
         $taxonomy = $app['storage']->getTaxonomyType($taxonomytype);
         // No taxonomytype, no possible content..
@@ -349,7 +349,7 @@ class Frontend
             );
 
             // Set/log errors and abort
-            self::setTemplateError($app, $error);
+            $this->setTemplateError($app, $error);
             $app['logger.system']->addError($error, array('event' => 'template'));
             $app->abort(404, $error);
         }
@@ -373,7 +373,7 @@ class Frontend
         $app['twig']->addGlobal('taxonomy', $app['config']->get('taxonomy/' . $taxonomyslug));
         $app['twig']->addGlobal('taxonomytype', $taxonomyslug);
 
-        return self::render($app, $template, $taxonomyslug);
+        return $this->render($app, $template, $taxonomyslug);
     }
 
     /**
@@ -383,7 +383,7 @@ class Frontend
      * @param  Silex\Application $app     The application/container
      * @return mixed
      */
-    public static function search(Request $request, Silex\Application $app)
+    public function search(Request $request, Silex\Application $app)
     {
         $q = '';
         $context = __FUNCTION__;
@@ -447,7 +447,7 @@ class Frontend
 
         $template = $app['templatechooser']->search();
 
-        return self::render($app, $template, 'search');
+        return $this->render($app, $template, 'search');
     }
 
     /**
@@ -459,14 +459,14 @@ class Frontend
      * @return mixed
      * @throws \Exception
      */
-    public static function template(Silex\Application $app, $template)
+    public function template(Silex\Application $app, $template)
     {
         // Add the template extension if it is missing
         if (!preg_match('/\\.twig$/i', $template)) {
             $template .= '.twig';
         }
 
-        return self::render($app, $template, $template);
+        return $this->render($app, $template, $template);
     }
 
     /**
@@ -478,7 +478,7 @@ class Frontend
      * @param  string            $title    '%s' in "No template for '%s' defined."
      * @return mixed             Rendered template
      */
-    private static function render(Silex\Application $app, $template, $title)
+    private function render(Silex\Application $app, $template, $title)
     {
         try {
             return $app['twig']->render($template);
@@ -503,7 +503,7 @@ class Frontend
      * @param Silex\Application $app
      * @param string            $error
      */
-    private static function setTemplateError(Silex\Application $app, $error)
+    private function setTemplateError(Silex\Application $app, $error)
     {
         if (isset($app['twig.logger'])) {
             $app['twig.logger']->setTrackedValue('templateerror', $error);
