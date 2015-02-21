@@ -263,7 +263,7 @@ abstract class BaseExtension implements ExtensionInterface
                 $configdir = dirname($configfile);
                 $message = "Couldn't read $configfile. Please correct file " .
                            "permissions and ensure the $configdir directory readable.";
-                $this->app['logger.system']->addCritical($message, array('event' => 'extensions'));
+                $this->app['logger.system']->critical($message, array('event' => 'extensions'));
                 $this->app['session']->getFlashBag()->add('error', $message);
 
                 return false;
@@ -281,7 +281,7 @@ abstract class BaseExtension implements ExtensionInterface
             if (is_readable($configdistfile) && is_dir(dirname($configfile))) {
                 if (copy($configdistfile, $configfile)) {
                     // Success!
-                    $this->app['logger.system']->addInfo("Copied $configdistfile to $configfile", array('event' => 'extensions'));
+                    $this->app['logger.system']->info("Copied $configdistfile to $configfile", array('event' => 'extensions'));
 
                     return true;
                 } else {
@@ -290,7 +290,7 @@ abstract class BaseExtension implements ExtensionInterface
                     $message = "Couldn't copy $configdistfile to $configfile: " .
                                "File is not writable. Create the file manually, " .
                                "or make the $configdir directory writable.";
-                    $this->app['logger.system']->addCritical($message, array('event' => 'extensions'));
+                    $this->app['logger.system']->critical($message, array('event' => 'extensions'));
                     $this->app['session']->getFlashBag()->add('error', $message);
 
                     return false;
@@ -472,7 +472,7 @@ abstract class BaseExtension implements ExtensionInterface
         } else {
             // Nope, can't add the CSS.
             $message = "Couldn't add Javascript '$filename': File does not exist in '" . $this->getBaseUrl() . "'.";
-            $this->app['logger.system']->addError($message, array('event' => 'extensions'));
+            $this->app['logger.system']->error($message, array('event' => 'extensions'));
         }
     }
 
@@ -495,7 +495,7 @@ abstract class BaseExtension implements ExtensionInterface
         } else {
             // Nope, can't add the CSS.
             $message = "Couldn't add CSS '$filename': File does not exist in '" . $this->getBaseUrl() . "'.";
-            $this->app['logger.system']->addError($message, array('event' => 'extensions'));
+            $this->app['logger.system']->error($message, array('event' => 'extensions'));
         }
     }
 

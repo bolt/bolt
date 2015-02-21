@@ -173,7 +173,7 @@ class Frontend
 
             // Set/log errors and abort
             $this->setTemplateError($app, $error);
-            $app['logger.system']->addError($error, array('event' => 'template'));
+            $app['logger.system']->error($error, array('event' => 'template'));
             $app->abort(404, $error);
         }
 
@@ -225,7 +225,7 @@ class Frontend
 
             // Set/log errors and abort
             $this->setTemplateError($app, $error);
-            $app['logger.system']->addError($error, array('event' => 'template'));
+            $app['logger.system']->error($error, array('event' => 'template'));
             $app->abort(404, $error);
         }
 
@@ -289,7 +289,7 @@ class Frontend
 
             // Set/log errors and abort
             $this->setTemplateError($app, $error);
-            $app['logger.system']->addError($error, array('event' => 'template'));
+            $app['logger.system']->error($error, array('event' => 'template'));
             $app->abort(404, $error);
         }
 
@@ -350,7 +350,7 @@ class Frontend
 
             // Set/log errors and abort
             $this->setTemplateError($app, $error);
-            $app['logger.system']->addError($error, array('event' => 'template'));
+            $app['logger.system']->error($error, array('event' => 'template'));
             $app->abort(404, $error);
         }
 
@@ -490,7 +490,7 @@ class Frontend
                 $template
             );
 
-            $app['logger.system']->addError($error, array('event' => 'twig'));
+            $app['logger.system']->error($error, array('event' => 'twig'));
 
             // Abort ship
             $app->abort(404, $error);

@@ -43,13 +43,13 @@ class BoltTwigHelpersTest extends BoltUnitTest
         // First safe test
         $app = $this->getApp();
         $twig = new TwigExtension($app, true);
-        $this->assertEquals('?', $twig->printDump(range(1, 10)));
+        $this->assertEmpty($twig->printDump(range(1, 10)));
 
         // Now test with debug off
         $app = $this->getApp();
         $twig = new TwigExtension($app);
-        $app['config']->set('general/debug', false);
-        $this->assertEquals('', $twig->printDump(range(1, 10)));
+        $app['debug'] = false;
+        $this->assertEmpty($twig->printDump(range(1, 10)));
 
         // Now test with debug enabled
         // We need to override Symfony's default handler to get the output
@@ -70,7 +70,7 @@ class BoltTwigHelpersTest extends BoltUnitTest
         // First test with debug off
         $app = $this->getApp();
         $twig = new TwigExtension($app);
-        $app['config']->set('general/debug', false);
+        $app['debug'] = false;
         $this->assertEmpty($twig->printBacktrace());
 
         // Safe mode test

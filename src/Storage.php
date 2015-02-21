@@ -264,7 +264,7 @@ class Storage
      */
     private function logInsert($contenttype, $contentid, $content, $comment = null)
     {
-        $this->app['logger.change']->addInfo(
+        $this->app['logger.change']->info(
             'Insert record',
             array(
                 'action' => 'INSERT',
@@ -290,7 +290,7 @@ class Storage
      */
     private function logUpdate($contenttype, $contentid, $newContent, $oldContent = null, $comment = null)
     {
-        $this->app['logger.change']->addInfo(
+        $this->app['logger.change']->info(
             'Update record',
             array(
                 'action' => 'UPDATE',
@@ -314,7 +314,7 @@ class Storage
      */
     private function logDelete($contenttype, $contentid, $content, $comment = null)
     {
-        $this->app['logger.change']->addInfo(
+        $this->app['logger.change']->info(
             'Delete record',
             array(
                 'action' => 'DELETE',
@@ -339,7 +339,7 @@ class Storage
         $fieldvalues = $content->values;
 
         if (empty($contenttype)) {
-            $this->app['logger.system']->addError('Contenttype is required for ' . __FUNCTION__, array('event' => 'exception'));
+            $this->app['logger.system']->error('Contenttype is required for ' . __FUNCTION__, array('event' => 'exception'));
             throw new StorageException('Contenttype is required for ' . __FUNCTION__);
         }
 
@@ -398,7 +398,7 @@ class Storage
     public function deleteContent($contenttype, $id)
     {
         if (empty($contenttype)) {
-            $this->app['logger.system']->addError('Contenttype is required for' . __FUNCTION__, array('event' => 'exception'));
+            $this->app['logger.system']->error('Contenttype is required for' . __FUNCTION__, array('event' => 'exception'));
             throw new StorageException('Contenttype is required for ' . __FUNCTION__);
         }
 
@@ -1375,7 +1375,7 @@ class Storage
             );
 
             if ($contenttype === false) {
-                $this->app['logger.system']->addError("Not a valid contenttype: '$contenttypeslug'", array('event' => 'storage'));
+                $this->app['logger.system']->error("Not a valid contenttype: '$contenttypeslug'", array('event' => 'storage'));
                 continue;
             }
 
@@ -1683,7 +1683,7 @@ class Storage
         // Decode this textquery
         $decoded = $this->decodeContentQuery($textquery, $parameters);
         if ($decoded === false) {
-            $this->app['logger.system']->addError("Not a valid query: '$textquery'", array('event' => 'storage'));
+            $this->app['logger.system']->error("Not a valid query: '$textquery'", array('event' => 'storage'));
             $this->app['stopwatch']->stop('bolt.getcontent');
 
             return false;
@@ -1735,7 +1735,7 @@ class Storage
                 "Requested specific query '%s', not found.",
                 $textquery
             );
-            $this->app['logger.system']->addError($msg, array('event' => 'storage'));
+            $this->app['logger.system']->error($msg, array('event' => 'storage'));
             $this->app['stopwatch']->stop('bolt.getcontent');
 
             return false;

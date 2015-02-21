@@ -30,6 +30,10 @@ class TwigExtension extends \Twig_Extension
      */
     private $safe;
 
+    /**
+     * @param Silex\Application $app
+     * @param boolean           $safe
+     */
     public function __construct(Silex\Application $app, $safe = false)
     {
         $this->app = $app;
@@ -187,12 +191,12 @@ class TwigExtension extends \Twig_Extension
     public function printDump($var)
     {
         if ($this->safe) {
-            return '?';
+            return null;
         }
         if ($this->app['debug']) {
             dump($var);
         } else {
-            return '';
+            return null;
         }
     }
 
@@ -206,26 +210,27 @@ class TwigExtension extends \Twig_Extension
     public function printFirebug($var, $msg = '')
     {
         if ($this->safe) {
-            return '?';
+            return null;
         }
-        if ($this->app['config']->get('general/debug')) {
+        if ($this->app['debug']) {
             if (is_array($var)) {
-                $this->app['logger.firebug']->addInfo($msg, $var);
+                $this->app['logger.firebug']->info($msg, $var);
             } elseif (is_string($var)) {
-                $this->app['logger.firebug']->addInfo($var);
+                $this->app['logger.firebug']->info($var);
             } else {
-                $this->app['logger.firebug']->addInfo($msg, (array) $var);
+                $this->app['logger.firebug']->info($msg, (array) $var);
             }
         } else {
-            return '';
+            return null;
         }
     }
 
     /**
      * Output pretty-printed backtrace.
      *
+     * @internal
      * @param  int    $depth
-     * @internal param mixed $var
+     * @param  mixed  $var
      * @return string
      */
     public function printBacktrace($depth = 15)
@@ -236,7 +241,7 @@ class TwigExtension extends \Twig_Extension
         if ($this->app['debug']) {
             return dump(debug_backtrace());
         } else {
-            return '';
+            return null;
         }
     }
 
@@ -254,6 +259,7 @@ class TwigExtension extends \Twig_Extension
     /**
      * Returns the date time in a particular format. Takes the locale into
      * account.
+     *
      * @param  string|\DateTime $dateTime
      * @param  string           $format
      * @return string           Formatted date and time
@@ -280,7 +286,7 @@ class TwigExtension extends \Twig_Extension
             // Various things we could do. We could fail miserably, but a more
             // graceful approach is to use the datetime to display a default
             // format
-            $this->app['logger.system']->addError('No valid locale detected. Fallback on DateTime active.', array('event' => 'system'));
+            $this->app['logger.system']->error('No valid locale detected. Fallback on DateTime active.', array('event' => 'system'));
 
             return $dateTime->format('Y-m-d H:i:s');
         } else {
@@ -446,8 +452,8 @@ class TwigExtension extends \Twig_Extension
     /**
      * Return the 'sluggified' version of a string.
      *
-     * @param $str string input value
-     * @return string slug
+     * @param  string $str input value
+     * @return string Slug safe version of the string
      */
     public function slug($str)
     {
@@ -510,6 +516,7 @@ class TwigExtension extends \Twig_Extension
 
     /**
      * UCfirsts the given string.
+     *
      * @param  string $str;
      * @return string Same string where first character is in upper case
      */
@@ -1215,7 +1222,7 @@ class TwigExtension extends \Twig_Extension
             if (preg_match('#^(https?://|//)#i', $item['path'])) {
                 // We have a mistakenly placed URL, allow it but log it.
                 $item['link'] = $item['path'];
-                $this->app['logger.system']->addError(Trans::__('Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!', array('%PATH%' => $item['path'])), array('event' => 'config'));
+                $this->app['logger.system']->error(Trans::__('Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!', array('%PATH%' => $item['path'])), array('event' => 'config'));
             } else {
                 // Get a copy of the path minus trainling/leading slash
                 $path = ltrim(rtrim($item['path'], '/'), '/');
@@ -1252,7 +1259,7 @@ class TwigExtension extends \Twig_Extension
                         $item['link'] = '/' . $path;
                     }
                 } catch (ResourceNotFoundException $e) {
-                    $this->app['logger.system']->addError(Trans::__('Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.', array('%PATH%' => $item['path'])), array('event' => 'config'));
+                    $this->app['logger.system']->error(Trans::__('Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.', array('%PATH%' => $item['path'])), array('event' => 'config'));
                 }
             }
         }
@@ -1347,9 +1354,9 @@ class TwigExtension extends \Twig_Extension
     /**
      * Translate using our __()
      *
-     * @internal param string $content
-     *
-     * @return string translated content
+     * @internal
+     * @param  string $content
+     * @return string Translated content
      */
     public function trans()
     {
@@ -1376,9 +1383,9 @@ class TwigExtension extends \Twig_Extension
      *
      * @see function Bolt\Library::safeString()
      *
-     * @param $str
-     * @param  bool   $strict
-     * @param  string $extrachars
+     * @param  string  $str
+     * @param  boolean $strict
+     * @param  string  $extrachars
      * @return string
      */
     public function safeString($str, $strict = false, $extrachars = "")
@@ -1418,7 +1425,7 @@ class TwigExtension extends \Twig_Extension
     /**
      * Return whether or not an item is on the stack, and is stackable in the first place.
      *
-     * @param $filename string filename
+     * @param  string $filename File name
      * @return bool
      */
     public function stacked($filename)
@@ -1509,7 +1516,7 @@ class TwigExtension extends \Twig_Extension
      */
     public function testJson($string)
     {
-        json_decode($string);
+        json_decode($string, true);
 
         return (json_last_error() == JSON_ERROR_NONE);
     }
@@ -1523,7 +1530,7 @@ class TwigExtension extends \Twig_Extension
      */
     public function jsonDecode($string)
     {
-        return json_decode($string);
+        return json_decode($string, true);
     }
 
     /**

@@ -220,7 +220,7 @@ class Cron extends Event
             $this->output->writeln("<info>{$msg}</info>");
         }
 
-        $this->app['logger.system']->addInfo("$msg", array('event' => 'cron'));
+        $this->app['logger.system']->info("$msg", array('event' => 'cron'));
     }
 
     /**
@@ -338,6 +338,6 @@ class Cron extends Event
         $this->output->writeln('<error>' . $e->getTraceAsString() . '</error>');
 
         // Application log
-        $this->app['logger.system']->addError("$interim job failed: " . substr($e->getTraceAsString(), 0, 1024), array('event' => 'cron'));
+        $this->app['logger.system']->error("$interim job failed: " . substr($e->getTraceAsString(), 0, 1024), array('event' => 'cron'));
     }
 }
