@@ -98,7 +98,6 @@ class Backend implements ControllerProviderInterface
 
         $ctl->match('/users/edit/{id}', array($this, 'userEdit'))
             ->assert('id', '\d*')
-            ->value('checkUserRoleHierarchy', true)
             ->bind('useredit');
 
         $ctl->match('/userfirst', array($this, 'userFirst'))
@@ -114,7 +113,6 @@ class Backend implements ControllerProviderInterface
             ->bind('about');
 
         $ctl->post('/user/{action}/{id}', array($this, 'userAction'))
-            ->value('checkUserRoleHierarchy', true)
             ->bind('useraction');
 
         $ctl->match('/files/{namespace}/{path}', array($this, 'files'))
@@ -1037,9 +1035,20 @@ class Backend implements ControllerProviderInterface
      */
     public function userEdit($id, Application $app, Request $request)
     {
-        // Get the user we want to edit (if any)
-        $user = empty($id) ? $app['users']->getEmptyUser() : $app['users']->getUser($id);
         $currentuser = $app['users']->getCurrentUser();
+
+        // Get the user we want to edit (if any)
+        if (!empty($id)) {
+            $user = $app['users']->getUser($id);
+
+            // Verify the current user has access to edit this user
+            if (!$app['permissions']->isAllowedToManipulate($user, $currentuser)) {
+                $app['session']->getFlashBag()->add('error', Trans::__('You do not have the right privileges to edit that user.'));
+                return Lib::redirect('users');
+            }
+        } else {
+            $user = $app['users']->getEmptyUser();
+        }
 
         $enabledoptions = array(
             1 => Trans::__('page.edit-users.activated.yes'),
@@ -1296,6 +1305,12 @@ class Backend implements ControllerProviderInterface
         if ($currentuser['id'] == $user['id']) {
             $app['session']->getFlashBag()->add('error', Trans::__("You cannot '%s' yourself.", array('%s', $action)));
 
+            return Lib::redirect('users');
+        }
+
+        // Verify the current user has access to edit this user
+        if (!$app['permissions']->isAllowedToManipulate($user, $currentuser)) {
+            $app['session']->getFlashBag()->add('error', Trans::__('You do not have the right privileges to edit that user.'));
             return Lib::redirect('users');
         }
 
