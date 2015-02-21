@@ -2,6 +2,7 @@
 namespace Bolt\Tests;
 
 use Bolt\Application;
+use Cocur\Slugify\Slugify;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Storage\MockFileSessionStorage;
 use Bolt\Configuration as Config;
@@ -54,7 +55,7 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
         );
         $bolt['session'] = $sessionMock;
         $bolt['resources']->setPath('files', TEST_ROOT . '/tests/resources/files');
-        $bolt['slugify'] = \Cocur\Slugify\Slugify::create();
+        $bolt['slugify'] = Slugify::create();
 
         return $bolt;
     }
