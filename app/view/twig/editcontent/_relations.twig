@@ -1,12 +1,12 @@
 {% if not has.tabs %}
     <hr>
-{% endif %}
 
-<h3>
-    {{ __('Relationships') }}
-    <span class="label info-pop" data-html="true" data-title="{{ __('Relationships') }}"
-        data-content="{{ app.translator.trans('info.relationships', {}, 'infos') }}">{{ __('Info') }}</span>
-</h3>
+    <h3>
+        {{ __('Relationships') }}
+        <span class="label info-pop" data-html="true" data-title="{{ __('Relationships') }}"
+            data-content="{{ app.translator.trans('info.relationships', {}, 'infos') }}">{{ __('Info') }}</span>
+    </h3>
+{% endif %}
 
 {% if has.relations %}
     {% include 'editcontent/_relationships.twig' %}
@@ -28,4 +28,10 @@
     {% endif %}
 {% endfor %}
 
-<hr>
+{% if has.tabs and 'relations' in context.contenttype.groups %}
+    {% include 'editcontent/_fields.twig' %}
+{% endif %}
+
+{% if not has.tabs %}
+    <hr>
+{% endif %}
