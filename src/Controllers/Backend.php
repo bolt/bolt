@@ -1211,6 +1211,25 @@ class Backend implements ControllerProviderInterface
                 $app['logger.system']->info(Trans::__('page.edit-users.log.user-updated', array('%user%' => $user['displayname'])), array('event' => 'security'));
             } else {
                 $app['logger.system']->info(Trans::__('page.edit-users.log.user-added', array('%user%' => $user['displayname'])), array('event' => 'security'));
+
+                // Create a welcome email
+                $mailhtml = $app['render']->render('email/firstuser.twig', array(
+                    'sitename' => $app['config']->get('general/sitename')
+                ));
+
+                try {
+                    // Send a welcome email
+                    $message = $app['mailer']
+                        ->createMessage('message')
+                        ->setSubject(Trans::__('New Bolt site has been set up'))
+                        ->setFrom(array($user['email'] => 'Bolt'))
+                        ->setTo(array($user['email'] => $user['displayname']))
+                        ->setBody(strip_tags($mailhtml))
+                        ->addPart($mailhtml, 'text/html');
+
+                    $app['mailer']->send($message);
+                } catch (Exception $e) {
+                }
             }
 
             if ($res) {
