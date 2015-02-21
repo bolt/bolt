@@ -1302,16 +1302,10 @@ class Backend implements ControllerProviderInterface
         }
 
         // Prevent the current user from enabling, disabling or deleting themselves
-        if ($app['users']->currentuser['id'] == $user['id']) {
-            $app['session']->getFlashBag()->set('error', Trans::__("You cannot '%s' yourself.", array('%s', $action)));
-
-            return Lib::redirect('users');
-        }
-
         $currentuser = $app['users']->getCurrentUser();
-
         if ($currentuser['id'] == $user['id']) {
-            $app['session']->getFlashBag()->set('error', 'You cannot ' . $action . ' yourself.');
+            $app['session']->getFlashBag()->add('error', Trans::__("You cannot '%s' yourself.", array('%s', $action)));
+
             return Lib::redirect('users');
         }
 
