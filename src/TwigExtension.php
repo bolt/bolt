@@ -1516,7 +1516,7 @@ class TwigExtension extends \Twig_Extension
      */
     public function testJson($string)
     {
-        json_decode($string);
+        json_decode($string, true);
 
         return (json_last_error() == JSON_ERROR_NONE);
     }
@@ -1530,7 +1530,7 @@ class TwigExtension extends \Twig_Extension
      */
     public function jsonDecode($string)
     {
-        return json_decode($string);
+        return json_decode($string, true);
     }
 
     /**
