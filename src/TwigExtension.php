@@ -208,7 +208,7 @@ class TwigExtension extends \Twig_Extension
         if ($this->safe) {
             return '';
         }
-        if ($this->app['config']->get('general/debug')) {
+        if ($this->app['debug']) {
             if (is_array($var)) {
                 $this->app['logger.firebug']->info($msg, $var);
             } elseif (is_string($var)) {
