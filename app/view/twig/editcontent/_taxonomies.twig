@@ -8,7 +8,7 @@
     </h3>
 {% endif %}
 
-{% for taxonomyslug in context.contenttype.taxonomy %}
+{% for taxonomyslug in context.contenttype.taxonomy|default([]) %}
     <div class="form-group">
         <fieldset>
 
