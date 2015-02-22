@@ -32,7 +32,7 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
                 $uploadHandler->addRule('extension', array('allowed' => $allowedExensions));
 
                 $uploadHandler->setSanitizerCallback(function ($name) {
-                    return strtolower($name);
+                    return pathinfo($name, PATHINFO_FILENAME) . '.' . strtolower(pathinfo($name, PATHINFO_EXTENSION));
                 });
 
                 $pattern = $app['config']->get('general/upload/pattern', '[^A-Za-z0-9\.]+');
