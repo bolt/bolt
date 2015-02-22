@@ -7,9 +7,9 @@ Bolt 2.1 DEV-head
 - Change: Many changes (for the better) to logging: Monolog, improved UI, separation of concerns.
 - Refactor: Many changes and improvements to the Config object.
 - Refactor: Major cleanup in Bolt\Storage, Bolt\Events\StorageEvents and Bolt\Content (#2664)
-- Updated: PHPUnit now covers complete code base (#2542, thanks @rossriley)
+- **Updated: PHPUnit now covers complete code base** (#2542, thanks @rossriley)
 - Updated: Extensions interface had major overhaul and now uses the Composer API more extensively and provides better error handling for AJAX calls on the Extend page (#2543 thanks @GawainLynch)
-- Update: Bolt's custom logging provider has been replaced with Monolog (#2546, thanks @GawainLynch)
+- **Update: Bolt's custom logging provider has been replaced with Monolog** (#2546, thanks @GawainLynch)
 - Added: Extension repo as service: extracts the queries of the Extensions repo to a separate service provider.
  (#2550 thanks @rossriley)
 - Added: BASH/ZSH command completion for Nut (see #2657)
@@ -29,7 +29,7 @@ Bolt 2.1 DEV-head
 - Fixed: Regression that would break the ability to set global Twig variables in an extension (See #2717)
 - Changed: Enforce SSL Config Change. Now we use only `enforce_ssl`, `cookies_https_only` is deprecated. (See #2726, thanks @dwolf555)
 - Fixed: Flipped array replace arguments in `parseFieldsAndGroups()`. (See #2738)
-- Fixed: No more nbsp in CKeditor. Fixes #2660
+- **Fixed: No more unwanted `&nbsp;`'s in CKeditor.** Fixes #2660
 - Fixed: Logged in user can no longer disable themselves
 - Fixed: Disabling a logged in user with force a logout
 - Fixed: Fixed a bug with some utf8 characters becoming question marks after saving to database. (Thanks @dwr, See #2804)
