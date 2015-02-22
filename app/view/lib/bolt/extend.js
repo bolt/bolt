@@ -301,7 +301,7 @@ var BoltExtender = Object.extend(Object, {
 				'%THEME%':       ext.type == 'bolt-theme' ? conf.theme_button : '',
 				'%BASEURL%':     baseurl,
 				'%UNINSTALL%':   uninstall,
-				'%DESCRIPTION%': ext.descrip,
+				'%DESCRIPTION%': ext.descrip ? ext.descrip : '&lt;No description provided&gt;',
 				'%KEYWORDS%':    keywords});
         }
         
