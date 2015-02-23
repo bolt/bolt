@@ -281,7 +281,7 @@ class ChangeLog
         $contentTablename = $this->app['config']->get('general/database/prefix') . $contenttype;
         /** @var \Doctrine\DBAL\Query\QueryBuilder $query */
         $query = $this->app['db']->createQueryBuilder()
-            ->select('log.*p')
+            ->select('log.*')
             ->from($this->table_change, 'log')
             ->leftJoin('log', $contentTablename, 'content', 'content.id = log.contentid')
             ->where("log.id $cmpOp :logid")
