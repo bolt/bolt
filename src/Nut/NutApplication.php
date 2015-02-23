@@ -4,6 +4,7 @@ namespace Bolt\Nut;
 
 use Stecman\Component\Symfony\Console\BashCompletion\CompletionCommand;
 use Symfony\Component\Console\Application as ConsoleApplication;
+use Symfony\Component\Console\Command\Command;
 
 /**
  * Nut application

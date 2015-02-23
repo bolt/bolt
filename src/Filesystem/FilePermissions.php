@@ -95,6 +95,10 @@ class FilePermissions
 
     /**
      * Checks if a given file is acceptable for upload.
+     *
+     * @param string $originalFilename
+     *
+     * @return bool
      */
     public function allowedUpload($originalFilename)
     {

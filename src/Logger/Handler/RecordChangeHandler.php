@@ -38,7 +38,6 @@ class RecordChangeHandler extends AbstractProcessingHandler
     /**
      *
      * @param Application $app
-     * @param string      $logger
      * @param integer     $level
      * @param boolean     $bubble
      */
@@ -124,6 +123,7 @@ class RecordChangeHandler extends AbstractProcessingHandler
 
         $title = $content->getTitle();
         if (empty($title)) {
+            /** @var \Bolt\Content $content */
             $content = $this->app['storage']->getContent($record['context']['contenttype'] . '/' . $record['context']['id']);
             $title = $content->getTitle();
         }

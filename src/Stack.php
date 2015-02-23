@@ -5,6 +5,7 @@ namespace Bolt;
 use Silex;
 use Bolt\Library as Lib;
 use Bolt\Translation\Translator as Trans;
+use utilphp\util;
 
 /**
  * Simple stack implementation for remembering "10 last items".
@@ -173,7 +174,7 @@ class Stack
                 'readable' => is_readable($fullpath),
                 'filesize' => Lib::formatFilesize(filesize($fullpath)),
                 'modified' => date("Y/m/d H:i:s", filemtime($fullpath)),
-                'permissions' => \utilphp\util::full_permissions($fullpath)
+                'permissions' => util::full_permissions($fullpath)
             );
 
             $thisitem['info'] = sprintf(

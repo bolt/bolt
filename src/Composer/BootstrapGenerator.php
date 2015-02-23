@@ -92,8 +92,10 @@ EOD;
     /**
      * Writes the generated template to the correct location.
      *
-     * @return string $location
-     **/
+     * @param string $template
+     *
+     * @return string location
+     */
     public function write($template)
     {
         $filesystem = new Filesystem();

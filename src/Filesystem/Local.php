@@ -119,7 +119,7 @@ class Local extends LocalBase
     /**
      * Get the normalized path from a SplFileInfo object.
      *
-     * @param SplFileInfo $file
+     * @param \SplFileInfo $file
      *
      * @return string
      */

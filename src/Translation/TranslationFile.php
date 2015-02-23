@@ -19,28 +19,28 @@ class TranslationFile
     /**
      * Injected Application object
      *
-     * @var type
+     * @var \Bolt\Application
      */
     private $app;
 
     /**
      * Requested Domain
      *
-     * @var type
+     * @var string
      */
     private $domain;
 
     /**
      * Path to the translation file
      *
-     * @var type
+     * @var string
      */
     private $absPath;
 
     /**
      * Project relative path to the translation file
      *
-     * @var type
+     * @var string
      */
     private $relPath;
 
@@ -137,6 +137,7 @@ class TranslationFile
         );
 
         foreach ($finder as $file) {
+            /** @var \Symfony\Component\Finder\SplFileInfo $file */
             foreach ($twigRegex as $regex => $stripslashes) {
                 if (preg_match_all($regex, $file->getContents(), $matches)) {
                     foreach ($matches[1] as $foundString) {
@@ -166,6 +167,7 @@ class TranslationFile
             ->in(__DIR__ . DIRECTORY_SEPARATOR . '..');
 
         foreach ($finder as $file) {
+            /** @var \Symfony\Component\Finder\SplFileInfo $file */
             $tokens = token_get_all($file->getContents());
             $numTokens = count($tokens);
 

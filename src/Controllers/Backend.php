@@ -1136,6 +1136,8 @@ class Backend implements ControllerProviderInterface
      *
      * @param Application $app
      * @param Request     $request
+     *
+     * @return string
      */
     public function userFirst(Application $app, Request $request)
     {

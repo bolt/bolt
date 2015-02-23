@@ -31,7 +31,6 @@ class SystemHandler extends AbstractProcessingHandler
     /**
      *
      * @param Application $app
-     * @param string      $logger
      * @param integer     $level
      * @param boolean     $bubble
      */
@@ -69,9 +68,9 @@ class SystemHandler extends AbstractProcessingHandler
         if (isset($record['context']['event'])
             && $record['context']['event'] === ''
             && isset($record['context']['exception'])
-            && $record['context']['exception'] instanceof \Exception) {
-
-                $e = $record['context']['exception'] ;
+            && ($e = $record['context']['exception'])
+            && $e instanceof \Exception
+        ) {
                 $trace = $e->getTrace();
                 $source = json_encode(
                     array(
@@ -122,7 +121,7 @@ class SystemHandler extends AbstractProcessingHandler
      */
     private function initialize()
     {
-        $this->tablename = sprintf("%s%s", $this->app['config']->get('general/database/prefix', "bolt_"), 'log_system');
+        $this->tablename = sprintf("%s%s", $this->app['config']->get('general/database/prefix'), 'log_system');
         $this->initialized = true;
     }
 }

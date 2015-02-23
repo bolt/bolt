@@ -56,8 +56,9 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
     /**
      * Returns routes to connect to the application
      *
-     * @param Application $app An Application instance     *
-     * @return ControllerCollection A ControllerCollection instance
+     * @param Silex\Application $app An Application instance
+     *
+     * @return Silex\ControllerCollection A ControllerCollection instance
      */
     public function connect(Silex\Application $app)
     {
@@ -113,8 +114,8 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
     /**
      * Middleware function to check whether a user is logged on
      *
-     * @param  Symfony\Component\HttpFoundation\Request $request
-     * @param  Silex\Application                        $app
+     * @param  \Symfony\Component\HttpFoundation\Request $request
+     * @param  \Silex\Application                        $app
      * @return string
      */
     public function before(Request $request, Silex\Application $app)
@@ -146,9 +147,9 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
     /**
      * Check a package
      *
-     * @param  Silex\Application                             $app
-     * @param  Symfony\Component\HttpFoundation\Request      $request
-     * @return Symfony\Component\HttpFoundation\JsonResponse
+     * @param  \Silex\Application                             $app
+     * @param  \Symfony\Component\HttpFoundation\Request      $request
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function check(Silex\Application $app, Request $request)
     {
@@ -159,9 +160,9 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
     /**
      * Generate a copy of a theme package
      *
-     * @param  Silex\Application                         $app
-     * @param  Symfony\Component\HttpFoundation\Request  $request
-     * @return Symfony\Component\HttpFoundation\Response
+     * @param  \Silex\Application                         $app
+     * @param  \Symfony\Component\HttpFoundation\Request  $request
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function generateTheme(Silex\Application $app, Request $request)
     {
@@ -196,9 +197,9 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
      *
      * Equivalent to `composer require author/package`
      *
-     * @param  Silex\Application                         $app
-     * @param  Symfony\Component\HttpFoundation\Request  $request
-     * @return Symfony\Component\HttpFoundation\Response
+     * @param  \Silex\Application                         $app
+     * @param  \Symfony\Component\HttpFoundation\Request  $request
+     * @return \Symfony\Component\HttpFoundation\Response
      * @throws PackageManagerException
      */
     public function install(Silex\Application $app, Request $request)
@@ -226,9 +227,9 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
      *
      * Equivalent to `composer install`
      *
-     * @param  Silex\Application                         $app
-     * @param  Symfony\Component\HttpFoundation\Request  $request
-     * @return Symfony\Component\HttpFoundation\Response
+     * @param  \Silex\Application                         $app
+     * @param  \Symfony\Component\HttpFoundation\Request  $request
+     * @return \Symfony\Component\HttpFoundation\Response
      * @throws PackageManagerException
      */
     public function installAll(Silex\Application $app, Request $request)
@@ -247,9 +248,9 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
      *
      * Partially equivalent to `composer show -i`
      *
-     * @param  Silex\Application                             $app
-     * @param  Symfony\Component\HttpFoundation\Request      $request
-     * @return Symfony\Component\HttpFoundation\JsonResponse
+     * @param  \Silex\Application                             $app
+     * @param  \Symfony\Component\HttpFoundation\Request      $request
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function installed(Silex\Application $app, Request $request)
     {
@@ -261,9 +262,9 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
     /**
      *
      *
-     * @param  Silex\Application                             $app
-     * @param  Symfony\Component\HttpFoundation\Request      $request
-     * @return Symfony\Component\HttpFoundation\JsonResponse
+     * @param  \Silex\Application                             $app
+     * @param  \Symfony\Component\HttpFoundation\Request      $request
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function installInfo(Silex\Application $app, Request $request)
     {
@@ -314,9 +315,9 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
     /**
      * Show installed packages
      *
-     * @param  Silex\Application                             $app
-     * @param  Symfony\Component\HttpFoundation\Request      $request
-     * @return Symfony\Component\HttpFoundation\JsonResponse
+     * @param  \Silex\Application                             $app
+     * @param  \Symfony\Component\HttpFoundation\Request      $request
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function packageInfo(Silex\Application $app, Request $request)
     {
@@ -330,9 +331,9 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
     /**
      * Update a package(s)
      *
-     * @param  Silex\Application                             $app
-     * @param  Symfony\Component\HttpFoundation\Request      $request
-     * @return Symfony\Component\HttpFoundation\JsonResponse
+     * @param  \Silex\Application                             $app
+     * @param  \Symfony\Component\HttpFoundation\Request      $request
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
      * @throws PackageManagerException
      */
     public function update(Silex\Application $app, Request $request)
@@ -351,9 +352,9 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
     /**
      * Uninstall a package
      *
-     * @param  Silex\Application                             $app
-     * @param  Symfony\Component\HttpFoundation\Request      $request
-     * @return Symfony\Component\HttpFoundation\JsonResponse
+     * @param  \Silex\Application                             $app
+     * @param  \Symfony\Component\HttpFoundation\Request      $request
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
      * @throws PackageManagerException
      */
     public function uninstall(Silex\Application $app, Request $request)

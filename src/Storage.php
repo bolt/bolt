@@ -14,6 +14,7 @@ use Doctrine\DBAL\Connection as DoctrineConn;
 use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
 use Symfony\Component\HttpFoundation\Request;
+use utilphp\util;
 
 class Storage
 {
@@ -75,13 +76,13 @@ class Storage
             $content = new $contenttype['class']($this->app, $contenttype, $values);
 
             // Check if the class actually extends \Bolt\Content..
-            if (!($content instanceof \Bolt\Content)) {
+            if (!($content instanceof Content)) {
                 throw new \Exception($contenttype['class'] . ' does not extend \\Bolt\\Content.');
             }
 
         } else {
 
-            $content = new \Bolt\Content($this->app, $contenttype, $values);
+            $content = new Content($this->app, $contenttype, $values);
 
         }
 
@@ -331,10 +332,13 @@ class Storage
     /**
      * Save a record
      *
-     * @param Bolt\Content $content
-     * @param string        $comment
+     * @param Content $content
+     * @param string  $comment
+     *
+     * @return int
+     * @throws \Bolt\Exception\StorageException
      */
-    public function saveContent(\Bolt\Content $content, $comment = null)
+    public function saveContent(Content $content, $comment = null)
     {
         $contenttype = $content->contenttype;
         $fieldvalues = $content->values;
@@ -395,6 +399,9 @@ class Storage
      *
      * @param string  $contenttype
      * @param integer $id
+     *
+     * @return integer The number of affected rows.
+     * @throws \Bolt\Exception\StorageException
      */
     public function deleteContent($contenttype, $id)
     {
@@ -441,11 +448,11 @@ class Storage
     /**
      * Insert a new contenttype record in the database
      *
-     * @param  Bolt\Content $content Record content to insert
-     * @param  string       $comment Editor's comment
+     * @param  \Bolt\Content $content Record content to insert
+     * @param  string        $comment Editor's comment
      * @return boolean
      */
-    protected function insertContent(Bolt\Content $content, $comment = null)
+    protected function insertContent(Content $content, $comment = null)
     {
         $tablename = $this->getTablename($content->contenttype['slug']);
 
@@ -479,9 +486,11 @@ class Storage
     /**
      * Update a Bolt contenttype record
      *
-     * @param  Bolt\Content $content The content object to be updated
-     * @param  string       $comment Add a comment to save with change.
-     * @return boolean
+     * @param  \Bolt\Content $content The content object to be updated
+     * @param  string        $comment Add a comment to save with change.
+     *
+     * @return bool
+     * @throws \Bolt\Exception\StorageException
      */
     private function updateContent(Bolt\Content $content, $comment = null)
     {
@@ -614,6 +623,13 @@ class Storage
      * Search through a single contenttype
      *
      * Search, weigh and return the results.
+     *
+     * @param       $query
+     * @param       $contenttype
+     * @param       $fields
+     * @param array $filter
+     *
+     * @return \Bolt\Content
      */
     private function searchSingleContentType($query, $contenttype, $fields, array $filter = null)
     {
@@ -685,7 +701,7 @@ class Storage
 
         if (!empty($results)) {
 
-            $ids = implode(' || ', \utilphp\util::array_pluck($results, 'id'));
+            $ids = implode(' || ', util::array_pluck($results, 'id'));
 
             $results = $this->getContent($contenttype, array('id' => $ids, 'returnsingle' => false));
 
@@ -702,8 +718,13 @@ class Storage
      * Compare by search weights
      *
      * Or fallback to dates or title
+     *
+     * @param \Bolt\Content $a
+     * @param \Bolt\Content $b
+     *
+     * @return int
      */
-    private function compareSearchWeights($a, $b)
+    private function compareSearchWeights(Content $a, Content $b)
     {
         if ($a->getSearchResultWeight() > $b->getSearchResultWeight()) {
             return -1;
@@ -942,6 +963,11 @@ class Storage
      * Instead, we do not sort here. If you need ordering, use the '|order()' in
      * your templates.
      *
+     * @param string $taxonomyslug
+     * @param string $name
+     * @param string $parameters
+     *
+     * @return array
      */
     public function getContentByTaxonomy($taxonomyslug, $name, $parameters = "")
     {
@@ -993,7 +1019,7 @@ class Storage
         if (is_array($taxorows)) {
             foreach ($taxorows as $row) {
                 $record = $this->getContent($row['contenttype'] . "/" . $row['content_id']);
-                if ($record instanceof \Bolt\Content && !empty($record->id)) {
+                if ($record instanceof Content && !empty($record->id)) {
                     $content[] = $record;
                 }
             }
@@ -1228,6 +1254,10 @@ class Storage
      * (tightly coupled to $this->getContent())
      *
      * @see $this->decodeContentQuery()
+     *
+     * @param $decoded
+     * @param $metaParameters
+     * @param $ctypeParameters
      */
     private function prepareDecodedQueryForUse(&$decoded, &$metaParameters, &$ctypeParameters)
     {
@@ -1546,6 +1576,13 @@ class Storage
 
     /**
      * Hydrate database rows into objects
+     *
+     * @param      $contenttype
+     * @param      $rows
+     * @param bool $getTaxoAndRel
+     *
+     * @return array
+     * @throws \Exception
      */
     private function hydrateRows($contenttype, $rows, $getTaxoAndRel = true)
     {
@@ -1569,6 +1606,11 @@ class Storage
      * (tightly coupled to $this->getContent())
      *
      * @see $this->getContent()
+     *
+     * @param $decoded
+     * @param $parameters
+     *
+     * @return array
      */
     private function executeGetContentSearch($decoded, $parameters)
     {
@@ -1590,6 +1632,10 @@ class Storage
      * (tightly coupled to $this->getContent())
      *
      * @see $this->getContent()
+     *
+     * @param $decoded
+     *
+     * @return array
      */
     private function executeGetContentQueries($decoded)
     {
@@ -1726,10 +1772,10 @@ class Storage
 
         // Return content
         if ($decoded['return_single']) {
-            if (\utilphp\util::array_first_key($results)) {
+            if (util::array_first_key($results)) {
                 $this->app['stopwatch']->stop('bolt.getcontent');
 
-                return \utilphp\util::array_first($results);
+                return util::array_first($results);
             }
 
             $msg = sprintf(
@@ -1867,11 +1913,11 @@ class Storage
     /**
      * Helper function for sorting Records of content that have a Grouping.
      *
-     * @param  \Bolt\Content $a
-     * @param  \Bolt\Content $b
+     * @param  Content $a
+     * @param  Content $b
      * @return int
      */
-    private function groupingSort(\Bolt\Content $a, \Bolt\Content $b)
+    private function groupingSort(Content $a, Content $b)
     {
         // Same group, sort within group..
         if ($a->group['slug'] == $b->group['slug']) {
@@ -2142,7 +2188,7 @@ class Storage
     /**
      * Get the taxonomy for one or more units of content, return the array with the taxonomy attached.
      *
-     * @param array $content
+     * @param \Bolt\Content[] $content
      *
      * @return array $content
      */
@@ -2150,14 +2196,14 @@ class Storage
     {
         $tablename = $this->getTablename("taxonomy");
 
-        $ids = \utilphp\util::array_pluck($content, 'id');
+        $ids = util::array_pluck($content, 'id');
 
         if (empty($ids)) {
             return;
         }
 
         // Get the contenttype from first $content
-        $contenttype = $content[\utilphp\util::array_first_key($content)]->contenttype['slug'];
+        $contenttype = $content[util::array_first_key($content)]->contenttype['slug'];
 
         $taxonomytypes = $this->app['config']->get('taxonomy');
 
@@ -2318,14 +2364,14 @@ class Storage
     {
         $tablename = $this->getTablename("relations");
 
-        $ids = \utilphp\util::array_pluck($content, 'id');
+        $ids = util::array_pluck($content, 'id');
 
         if (empty($ids)) {
             return;
         }
 
         // Get the contenttype from first $content
-        $contenttype = $content[\utilphp\util::array_first_key($content)]->contenttype['slug'];
+        $contenttype = $content[util::array_first_key($content)]->contenttype['slug'];
 
         $query = sprintf(
             "SELECT * FROM %s WHERE from_contenttype=? AND from_id IN (?) ORDER BY id",

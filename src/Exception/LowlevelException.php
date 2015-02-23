@@ -64,9 +64,12 @@ HTML;
      * make sure that it contains valid HTML with proper encoding applied.
      *
      * @param string $message
+     * @param null   $code
+     * @param null   $previous
      */
     public function __construct($message, $code = null, $previous = null)
     {
+        //TODO Call parent constructor?
         $html = self::$html;
         $info = self::$info;
 

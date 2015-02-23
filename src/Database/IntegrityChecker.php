@@ -128,6 +128,7 @@ class IntegrityChecker
             return $this->tables;
         }
 
+        /** @var $sm \Doctrine\DBAL\Schema\AbstractSchemaManager */
         $sm = $this->app['db']->getSchemaManager();
 
         $this->tables = array();
@@ -161,7 +162,8 @@ class IntegrityChecker
     /**
      * Check if all required tables and columns are present in the DB
      *
-     * @return boolean $hinting return hints if true
+     * @param boolean $hinting return hints if true
+     *
      * @return array   Messages with errors, if any or array(messages, hints)
      */
     public function checkTablesIntegrity($hinting = false)
@@ -618,6 +620,7 @@ class IntegrityChecker
                         break;
                     default:
                         if ($handler = $this->app['config']->getFields()->getField($values['type'])) {
+                            /** @var $handler \Bolt\Field\FieldInterface */
                             $myTable->addColumn($field, $handler->getStorageType(), $handler->getStorageOptions());
                         }
                 }

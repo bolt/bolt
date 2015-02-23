@@ -7,6 +7,7 @@ use Bolt\Extensions\Snippets\Location as SnippetLocation;
 use Bolt\Extensions\ExtensionInterface;
 use Bolt\Helpers\String;
 use Bolt\Translation\Translator as Trans;
+use Composer\Autoload\ClassLoader;
 use Monolog\Logger;
 use Symfony\Component\Finder\Finder;
 
@@ -27,7 +28,7 @@ class Extensions
     /**
      * List of enabled extensions.
      *
-     * @var array
+     * @var ExtensionInterface[]
      */
     private $enabled = array();
 
@@ -80,6 +81,7 @@ class Extensions
      * @var array
      */
     public $composer = array();
+
     /**
      * Contains a list of all css and js assets added through addCss and
      * addJavascript functions.
@@ -115,7 +117,7 @@ class Extensions
      **/
     public function autoload($app)
     {
-        $loader = new \Composer\Autoload\ClassLoader();
+        $loader = new ClassLoader();
 
         $mapfile = $this->basefolder . '/vendor/composer/autoload_psr4.php';
         if (is_readable($mapfile)) {
@@ -168,6 +170,7 @@ class Extensions
                    ->depth('== 2');
 
             foreach ($finder as $file) {
+                /** @var \Symfony\Component\Finder\SplFileInfo $file */
                 try {
                     // Include the extensions core file
                     require_once dirname($file->getRealpath()) . '/Extension.php';
@@ -223,7 +226,7 @@ class Extensions
     /**
      * Get the enabled extensions
      *
-     * @return array
+     * @return ExtensionInterface[]
      */
     public function getEnabled()
     {
@@ -437,6 +440,15 @@ class Extensions
     /**
      * Insert a widget. And by 'insert' we actually mean 'add it to the queue,
      * to be processed later'.
+     *
+     * @param        $type
+     * @param        $location
+     * @param        $callback
+     * @param        $extensionname
+     * @param string $additionalhtml
+     * @param bool   $defer
+     * @param int    $cacheduration
+     * @param string $extraparameters
      */
     public function insertWidget($type, $location, $callback, $extensionname, $additionalhtml = '', $defer = true, $cacheduration = 180, $extraparameters = "")
     {
@@ -545,12 +557,15 @@ class Extensions
 
     /**
      * Insert a snippet. And by 'insert' we actually mean 'add it to the queue, to be processed later'.
+     *
+     * @param        $location
+     * @param        $callback
+     * @param string $extensionname
+     * @param string $extraparameters
      */
     public function insertSnippet($location, $callback, $extensionname = 'core', $extraparameters = '')
     {
         $key = md5($extensionname . $callback . $location);
-
-        // http://php.net/manual/en/function.func-get-args.php
 
         $this->snippetqueue[$key] = array(
             'location' => $location,
@@ -1051,7 +1066,6 @@ class Extensions
      * @param string     $msg
      * @param string     $extensionName
      * @param \Exception $e
-     * @param array      $context
      * @param int        $level
      */
     protected function logInitFailure($msg, $extensionName, \Exception $e, $level = Logger::CRITICAL)

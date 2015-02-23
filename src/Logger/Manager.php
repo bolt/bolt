@@ -51,6 +51,7 @@ class Manager
             throw new \Exception("Invalid log type requested: $log");
         }
 
+        /** @var \Doctrine\DBAL\Query\QueryBuilder $query */
         $query = $this->app['db']->createQueryBuilder()
                                  ->delete($table)
                                  ->where('date < :date')
@@ -78,9 +79,13 @@ class Manager
     /**
      * Get a specific activity log
      *
-     * @param  string            $log    The log to query.  Either 'change' or 'system'
-     * @param  integer           $amount Number of results to return
-     * @throws LowlevelException
+     * @param string  $log    The log to query.  Either 'change' or 'system'
+     * @param integer $amount Number of results to return
+     * @param integer $level
+     * @param string  $context
+     *
+     * @return array
+     * @throws \Exception
      */
     public function getActivity($log, $amount = 10, $level = null, $context = null)
     {
@@ -93,7 +98,7 @@ class Manager
         }
 
         try {
-            /** @var $query \Symfony\Component\HttpFoundation\ParameterBag */
+            /** @var $reqquery \Symfony\Component\HttpFoundation\ParameterBag */
             $reqquery = $this->app['request']->query;
 
             // Test/get page number

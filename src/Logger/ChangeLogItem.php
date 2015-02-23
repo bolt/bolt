@@ -10,7 +10,7 @@ use Silex\Application;
 class ChangeLogItem implements \ArrayAccess
 {
     /**
-     * @var Silex\Application
+     * @var \Silex\Application
      */
     private $app;
 
@@ -83,6 +83,10 @@ class ChangeLogItem implements \ArrayAccess
 
     /**
      * ArrayAccess support
+     *
+     * @param mixed $offset
+     *
+     * @return bool
      */
     public function offsetExists($offset)
     {
@@ -91,6 +95,10 @@ class ChangeLogItem implements \ArrayAccess
 
     /**
      * ArrayAccess support
+     *
+     * @param mixed $offset
+     *
+     * @return mixed
      */
     public function offsetGet($offset)
     {
@@ -99,6 +107,9 @@ class ChangeLogItem implements \ArrayAccess
 
     /**
      * ArrayAccess support
+     *
+     * @param mixed $offset
+     * @param mixed $value
      */
     public function offsetSet($offset, $value)
     {
@@ -107,6 +118,8 @@ class ChangeLogItem implements \ArrayAccess
 
     /**
      * ArrayAccess support
+     *
+     * @param mixed $offset
      */
     public function offsetUnset($offset)
     {
@@ -116,7 +129,6 @@ class ChangeLogItem implements \ArrayAccess
     /**
      * Return a human valid mutation type
      *
-     * @param  string       $mutation_type
      * @return array|string
      */
     private function getEffectiveMutationType()

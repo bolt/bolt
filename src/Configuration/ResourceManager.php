@@ -24,7 +24,8 @@ class ResourceManager
     public $urlPrefix = "";
 
     /**
-     * Don't use! Will probably refactored out soon
+     * @var \Bolt\Application
+     * @deprecated Don't use! Will probably refactored out soon
      */
     public static $theApp;
 

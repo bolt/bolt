@@ -180,7 +180,9 @@ class YamlUpdater
      * Save our modified .yml file.
      *
      * @param  boolean $makebackup Back up the file before commiting changes to it
+     *
      * @return bool true if save was successful
+     * @throws \Bolt\Exception\FilesystemException
      */
     protected function save($makebackup)
     {

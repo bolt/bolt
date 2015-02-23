@@ -29,7 +29,7 @@ class ChangeLog
     {
         $this->app = $app;
 
-        $prefix = $app['config']->get('general/database/prefix', "bolt_");
+        $prefix = $app['config']->get('general/database/prefix');
         $this->table_change = sprintf("%s%s", $prefix, 'log_change');
     }
 
@@ -46,6 +46,7 @@ class ChangeLog
      */
     public function getChangelog(array $options)
     {
+        /** @var \Doctrine\DBAL\Query\QueryBuilder $query */
         $query = $this->app['db']->createQueryBuilder()
                         ->select('*')
                         ->from($this->table_change);
@@ -68,6 +69,7 @@ class ChangeLog
      */
     public function countChangelog()
     {
+        /** @var \Doctrine\DBAL\Query\QueryBuilder $query */
         $query = $this->app['db']->createQueryBuilder()
                         ->select('COUNT(id) as count')
                         ->from($this->table_change);
@@ -97,7 +99,7 @@ class ChangeLog
         }
 
         // Build base query
-        $contentTablename = $this->app['config']->get('general/database/prefix', 'bolt_') . $contenttype;
+        $contentTablename = $this->app['config']->get('general/database/prefix') . $contenttype;
         $query = $this->app['db']->createQueryBuilder()
                         ->select('log.*, log.title')
                         ->from($this->table_change, 'log')
@@ -152,7 +154,7 @@ class ChangeLog
      *                                               'slug'
      * @param  $contentid
      * @param  int                      $id          The content-changelog ID
-     * @return \Bolt\ChangeLogItem|null
+     * @return \Bolt\Logger\ChangeLogItem|null
      */
     public function getChangelogEntry($contenttype, $contentid, $id)
     {
@@ -167,7 +169,7 @@ class ChangeLog
      *                                               'slug'
      * @param  $contentid
      * @param  int                      $id          The content-changelog ID
-     * @return \Bolt\ChangeLogItem|null
+     * @return \Bolt\Logger\ChangeLogItem|null
      */
     public function getNextChangelogEntry($contenttype, $contentid, $id)
     {
@@ -182,7 +184,7 @@ class ChangeLog
      *                                               'slug'
      * @param $contentid
      * @param  int                      $id          The content-changelog ID
-     * @return \Bolt\ChangeLogItem|null
+     * @return \Bolt\Logger\ChangeLogItem|null
      */
     public function getPrevChangelogEntry($contenttype, $contentid, $id)
     {
@@ -215,11 +217,11 @@ class ChangeLog
         }
 
         $query->where($where)
-                ->setParameters(array(
-                    ':contenttype' => $contenttype,
-                    ':contentid'   => $options['contentid'],
-                    ':logid'       => $options['id']
-                ));
+            ->setParameters(array(
+                ':contenttype' => $contenttype,
+                ':contentid'   => $options['contentid'],
+                ':logid'       => $options['id']
+            ));
 
         return $query;
     }
@@ -263,7 +265,7 @@ class ChangeLog
      *                                         to select either the ID itself, or the subsequent
      *                                         or preceding entry.
      * @throws \Exception
-     * @return ChangeLogItem|null
+     * @return \Bolt\Logger\ChangeLogItem|null
      */
     private function getOrderedChangelogEntry($contenttype, $contentid, $id, $cmpOp)
     {
@@ -276,19 +278,20 @@ class ChangeLog
         }
 
         // Build base query
-        $contentTablename = $this->app['config']->get('general/database/prefix', 'bolt_') . $contenttype;
+        $contentTablename = $this->app['config']->get('general/database/prefix') . $contenttype;
+        /** @var \Doctrine\DBAL\Query\QueryBuilder $query */
         $query = $this->app['db']->createQueryBuilder()
-                                    ->select('log.*')
-                                    ->from($this->table_change, 'log')
-                                    ->leftJoin('log', $contentTablename, 'content', 'content.id = log.contentid')
-                                    ->where("log.id $cmpOp :logid")
-                                    ->andWhere('log.contentid = :contentid')
-                                    ->andWhere('contenttype = :contenttype')
-                                    ->setParameters(array(
-                                        ':logid'       => $id,
-                                        ':contentid'   => $contentid,
-                                        ':contenttype' => $contenttype))
-                                    ->setMaxResults(1);
+            ->select('log.*p')
+            ->from($this->table_change, 'log')
+            ->leftJoin('log', $contentTablename, 'content', 'content.id = log.contentid')
+            ->where("log.id $cmpOp :logid")
+            ->andWhere('log.contentid = :contentid')
+            ->andWhere('contenttype = :contenttype')
+            ->setParameters(array(
+                ':logid'       => $id,
+                ':contentid'   => $contentid,
+                ':contenttype' => $contenttype))
+            ->setMaxResults(1);
 
         // Set ORDER BY
         if ($cmpOp == '<') {
