@@ -7,7 +7,7 @@ use Bolt\Library as Lib;
 use Bolt\Permissions;
 use Bolt\Translation\TranslationFile;
 use Bolt\Translation\Translator as Trans;
-use GuzzleHttp\Exception\RequestException;
+use Guzzle\Http\Exception\RequestException;
 use Silex;
 use Silex\Application;
 use Silex\ControllerProviderInterface;
@@ -1231,7 +1231,7 @@ class Backend implements ControllerProviderInterface
                         ->addPart($mailhtml, 'text/html');
 
                     $app['mailer']->send($message);
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                 }
             }
 
