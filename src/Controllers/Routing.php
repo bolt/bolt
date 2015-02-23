@@ -69,23 +69,26 @@ class Routing implements ControllerProviderInterface
         if (!$to = $defaults->remove('_controller')) {
             return;
         }
+
+        $cls = null;
         if (strpos($to, '::') > 0) {
-            list($cls, $method) = explode('::', $to);
-            $to = array(new $cls, $method);
+            $parts = explode('::', $to);
+            $cls = reset($parts);
         }
+
         $route = $ctr->match($path, $to);
 
         $before = $defaults->remove('_before') ?: '::before';
-        if (substr($before, 0, 2) === '::' && is_array($to)) {
-            $before = array($to[0], substr($before, 2));
+        if (substr($before, 0, 2) === '::' && $cls) {
+            $before = array($cls, substr($before, 2));
         }
         if (is_callable($before)) {
             $route->before($before);
         }
 
         $after = $defaults->remove('_after') ?: '::after';
-        if (substr($after, 0, 2) === '::' && is_array($to)) {
-            $after = array($to[0], substr($after, 2));
+        if (substr($after, 0, 2) === '::' && $cls) {
+            $after = array($cls, substr($after, 2));
         }
         if (is_callable($after)) {
             $route->after($after);
