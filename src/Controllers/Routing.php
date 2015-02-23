@@ -5,6 +5,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Silex\Application;
 use Silex\ControllerCollection;
 use Silex\ControllerProviderInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Configurable routes controller
@@ -82,17 +84,43 @@ class Routing implements ControllerProviderInterface
         if (substr($before, 0, 2) === '::' && $cls) {
             $before = array($cls, substr($before, 2));
         }
-        if (is_callable($before)) {
-            $route->before($before);
-        }
+
+        $route->before(
+            function (Request $request, Application $app) use ($before) {
+                if (!is_callable($before)) {
+                    return null;
+                }
+                if (is_array($before)) {
+                    list($class, $method) = $before;
+                    if (!class_exists($class)) {
+                        throw new \InvalidArgumentException(sprintf('Class "%s" does not exist.', $class));
+                    }
+                    $before = array(new $class, $method);
+                }
+                return call_user_func($before, $request, $app);
+            }
+        );
 
         $after = $defaults->remove('_after') ?: '::after';
         if (substr($after, 0, 2) === '::' && $cls) {
             $after = array($cls, substr($after, 2));
         }
-        if (is_callable($after)) {
-            $route->after($after);
-        }
+
+        $route->after(
+            function (Request $request, Response $response, Application $app) use ($after) {
+                if (!is_callable($after)) {
+                    return null;
+                }
+                if (is_array($after)) {
+                    list($class, $method) = $after;
+                    if (!class_exists($class)) {
+                        throw new \InvalidArgumentException(sprintf('Class "%s" does not exist.', $class));
+                    }
+                    $after = array(new $class, $method);
+                }
+                return call_user_func($after, $request, $response, $app);
+            }
+        );
 
         foreach ($defaults as $key => $value) {
             $route->value($key, $value);
