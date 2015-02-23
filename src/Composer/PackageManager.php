@@ -452,9 +452,9 @@ class PackageManager
      */
     private function linkReadMe($name)
     {
-        $paths = $this->app['resources']->getPaths();
-        $base = $paths['extensionspath'] . '/vendor/' . $name;
+        $base = $this->app['resources']->getPath('extensionspath/vendor/' . $name);
 
+        $readme = null;
         if (is_readable($base . '/README.md')) {
             $readme = $name . '/README.md';
         } elseif (is_readable($base . '/readme.md')) {
@@ -462,7 +462,7 @@ class PackageManager
         }
 
         if ($readme) {
-            return $paths['async'] . 'readme/' . $readme;
+            return $this->app['resources']->getUrl('async') . 'readme/' . $readme;
         }
         return null;
     }
@@ -475,17 +475,13 @@ class PackageManager
      */
     private function linkConfig($name)
     {
-        $paths = $this->app['resources']->getPaths();
-
         // Generate the configfilename from the extension $name
         $configfilename = join(".", array_reverse(explode("/", $name))) . '.yml';
 
         // Check if we have a config file, and if it's readable. (yet)
-        $configfilepath = $paths['extensionsconfig'] . '/' . $configfilename;
+        $configfilepath = $this->app['resources']->getPath('extensionsconfig/' . $configfilename);
         if (is_readable($configfilepath)) {
-            $configfilename = 'extensions/' . $configfilename;
-
-            return Lib::path('fileedit', array('namespace' => 'config', 'file' => $configfilename));
+            return Lib::path('fileedit', array('namespace' => 'config', 'file' => 'extensions/' . $configfilename));
         }
         return null;
     }
