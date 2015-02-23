@@ -38,9 +38,9 @@ class BoltDataCollector extends DataCollector
     public function collect(Request $request, Response $response, \Exception $exception = null)
     {
         $this->data = array(
-            'version' => $this->app['bolt_version'],
+            'version' => $this->app->getVersion(),
             'name' => $this->app['bolt_name'],
-            'fullversion' => sprintf('%s %s %s', 'Version:', $this->app['bolt_version'], $this->app['bolt_name']),
+            'fullversion' => 'Version: ' . $this->app->getVersion(true),
             'payoff' => 'Sophisticated, lightweight & simple CMS',
             'aboutlink' => sprintf("<a href=\"%s\">%s</a>", Lib::path('about'), 'About'),
             'branding' => null,
