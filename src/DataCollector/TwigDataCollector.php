@@ -46,6 +46,7 @@ class TwigDataCollector extends DataCollector
         $functions = array();
 
         foreach ($this->getTwig()->getExtensions() as $extensionName => $extension) {
+            /** @var $extension \Twig_ExtensionInterface */
             $extensions[] = array(
                 'name' => $extensionName,
                 'class' => get_class($extension)
@@ -56,8 +57,10 @@ class TwigDataCollector extends DataCollector
                     if (is_array($call) && is_callable($call)) {
                         $call = 'Method ' . $call[1] . ' of an object ' . get_class($call[0]);
                     }
-                } else {
+                } elseif ($filter instanceof \Twig_SimpleFilter) {
                     $call = $filter->getName();
+                } else {
+                    continue;
                 }
 
                 $filters[] = array(
@@ -70,8 +73,10 @@ class TwigDataCollector extends DataCollector
             foreach ($extension->getTests() as $testName => $test) {
                 if ($test instanceof \Twig_TestInterface) {
                     $call = $test->compile();
-                } else {
+                } elseif ($test instanceof \Twig_SimpleTest) {
                     $call = $test->getName();
+                } else {
+                    continue;
                 }
 
                 $tests[] = array(
@@ -84,8 +89,10 @@ class TwigDataCollector extends DataCollector
             foreach ($extension->getFunctions() as $functionName => $function) {
                 if ($function instanceof \Twig_FunctionInterface) {
                     $call = $function->compile();
-                } else {
+                } elseif ($function instanceof \Twig_SimpleFunction) {
                     $call = $function->getName();
+                } else {
+                    continue;
                 }
 
                 $functions[] = array(
