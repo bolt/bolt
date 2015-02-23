@@ -101,6 +101,8 @@ class Browse implements PluginInterface
                     'writable' => true
                 );
 
+                $fullfilename = $this->filesystem->getAdapter()->applyPathPrefix($entry['path']);
+
                 /***** Extra checks for files that can be resolved via PHP urlopen functions *****/
                 if (is_readable($fullfilename)) {
                     if (!is_writable($fullfilename)) {
