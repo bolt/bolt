@@ -19,6 +19,11 @@ final class BoltExtendJson
     private $options;
 
     /**
+     * @var string[]
+     */
+    private $messages;
+
+    /**
      * @param $options  array
      */
     public function __construct(array $options)

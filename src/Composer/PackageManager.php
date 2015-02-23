@@ -40,6 +40,11 @@ class PackageManager
     private $initJson;
 
     /**
+     * @var \Bolt\Composer\Action\InstallPackage
+     */
+    private $install;
+
+    /**
      * @var Bolt\Composer\Action\RemovePackage
      */
     private $remove;
@@ -65,9 +70,19 @@ class PackageManager
     private $update;
 
     /**
+     * @var \Bolt\Composer\Factory
+     */
+    private $factory;
+
+    /**
      * @var Silex\Application
      */
     private $app;
+
+    /**
+     * @var string
+     */
+    private $json;
 
     /**
      * @var array

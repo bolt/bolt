@@ -47,7 +47,7 @@ final class CheckPackage
         if (!empty($jsonpack)) {
             foreach ($jsonpack as $package => $packageInfo) {
                 if (!array_key_exists($package, $rootpack)) {
-                    $remote = $this->app['extend.manager']->factory->findBestVersionForPackage($package);
+                    $remote = $this->app['extend.manager']->getFactory()->findBestVersionForPackage($package);
 
                     // If a 'best' version is found, and there is a version mismatch then
                     // propose as an update. Making the assumption that Composer isn't
@@ -61,7 +61,7 @@ final class CheckPackage
 
         // For installed packages, see if there is a valid update
         foreach ($rootpack as $package => $data) {
-            $remote = $this->app['extend.manager']->factory->findBestVersionForPackage($package);
+            $remote = $this->app['extend.manager']->getFactory()->findBestVersionForPackage($package);
 
             // If a 'best' version is found, and there is a version mismatch then
             // propose as an update. Making the assumption that Composer isn't

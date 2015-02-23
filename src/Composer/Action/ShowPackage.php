@@ -26,6 +26,11 @@ final class ShowPackage
     private $app;
 
     /**
+     * @var \Composer\Package\Version\VersionParser
+     */
+    private $versionParser;
+
+    /**
      * @param $app Silex\Application
      */
     public function __construct(Application $app)

@@ -30,6 +30,11 @@ final class RequirePackage
     private $versionSelector;
 
     /**
+     * @var \Composer\Repository\RepositoryInterface
+     */
+    private $repos;
+
+    /**
      * @param $app Silex\Application
      */
     public function __construct(Application $app)
