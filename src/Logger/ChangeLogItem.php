@@ -17,10 +17,13 @@ class ChangeLogItem implements \ArrayAccess
     private $id;
     private $date;
     private $title;
+    private $ownerid;
     private $username;
     private $contenttype;
     private $contentid;
+    private $mutation_type;
     private $mutation;
+    private $diff_raw;
     private $diff;
     private $comment;
     private $changedfields;

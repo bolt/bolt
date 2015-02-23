@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class Storage
 {
+    public $images;
     /**
      * @var Application
      */

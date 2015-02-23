@@ -20,6 +20,10 @@ class Content implements \ArrayAccess
 
     // The last time we weight a searchresult
     private $lastWeight = 0;
+    public $user;
+    public $sortorder;
+    public $config;
+    public $group;
 
     public function __construct(Silex\Application $app, $contenttype = '', $values = '')
     {
