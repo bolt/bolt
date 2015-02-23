@@ -5,6 +5,7 @@ namespace Bolt;
 use Bolt\Configuration\ResourceManager;
 use Bolt\Exception\LowlevelException;
 use Bolt\Translation\Translator;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class for Bolt's generic library functions
@@ -176,7 +177,7 @@ class Library
             return $path;
         }
 
-        $app->abort(303, "Redirecting to '$path'.");
+        $app->abort(Response::HTTP_SEE_OTHER, "Redirecting to '$path'.");
     }
 
     /**
