@@ -3,6 +3,7 @@
 namespace Bolt\Composer\Action;
 
 use Bolt\Exception\PackageManagerException;
+use Bolt\Helpers\Arr;
 use Composer\Installer;
 use Silex\Application;
 
@@ -44,7 +45,7 @@ final class UpdatePackage
 
         // Handle passed in options
         if (!$options) {
-            $options = array_replace_recursive($packageManagerOptions, $options);
+            $options = Arr::mergeRecursiveDistinct($packageManagerOptions, $options);
         } else {
             $options = $packageManagerOptions;
         }
