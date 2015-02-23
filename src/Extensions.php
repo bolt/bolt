@@ -231,6 +231,18 @@ class Extensions
     }
 
     /**
+     * Gets the composer config for an extension
+     *
+     * @param string $extensionName
+     *
+     * @return array
+     */
+    public function getComposerConfig($extensionName)
+    {
+        return $this->composer[$extensionName];
+    }
+
+    /**
      * Initialize the enabled extensions.
      *
      */

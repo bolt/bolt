@@ -426,16 +426,18 @@ class PackageManager
         $pack = array();
 
         foreach ($packages as $package) {
-            $name = $package['package']->getPrettyName();
-            $conf = $this->app['extensions']->composer[$name];
+            /** @var \Composer\Package\CompletePackageInterface $package */
+            $package = $package['package'];
+            $name = $package->getPrettyName();
+            $conf = $this->app['extensions']->getComposerConfig($name);
             $pack[] = array(
                 'name'     => $name,
                 'title'    => $conf['name'],
-                'version'  => $package['package']->getPrettyVersion(),
-                'authors'  => $package['package']->getAuthors(),
-                'type'     => $package['package']->getType(),
-                'descrip'  => $package['package']->getDescription(),
-                'keywords' => $package['package']->getKeywords(),
+                'version'  => $package->getPrettyVersion(),
+                'authors'  => $package->getAuthors(),
+                'type'     => $package->getType(),
+                'descrip'  => $package->getDescription(),
+                'keywords' => $package->getKeywords(),
                 'readme'   => $this->linkReadMe($name),
                 'config'   => $this->linkConfig($name)
             );
