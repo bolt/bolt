@@ -81,7 +81,7 @@ class SystemHandler extends AbstractProcessingHandler
                         'function' => $trace['function']
                     )
                 );
-        } elseif ($this->app['config']->get('general/debug')) {
+        } elseif ($this->app['debug']) {
             $backtrace = debug_backtrace();
             $backtrace = $backtrace[3];
 
