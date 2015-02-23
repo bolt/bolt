@@ -74,6 +74,7 @@ final class RequirePackage
         }
 
         // Get the Composer repos
+        // TODO What is repos used for?
         $repos = $composer->getRepositoryManager()->getRepositories();
 
         $this->repos = new CompositeRepository(
@@ -124,6 +125,7 @@ final class RequirePackage
             if ($status !== 0) {
                 if ($newlyCreated) {
                     // Installation failed, deleting JSON
+                    // TODO json isn't defined
                     unlink($json->getPath());
                 } else {
                     // Installation failed, reverting JSON to its original content

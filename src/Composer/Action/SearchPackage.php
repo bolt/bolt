@@ -54,6 +54,7 @@ final class SearchPackage
             $repos = new CompositeRepository(array_merge(array($installedRepo), $defaultRepos));
         }
 
+        // TODO onlyname doesn't exist
         $flags = $this->onlyname ? RepositoryInterface::SEARCH_NAME : RepositoryInterface::SEARCH_FULLTEXT;
 
         try {
