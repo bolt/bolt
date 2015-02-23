@@ -557,12 +557,13 @@ class Application extends Silex\Application
     }
 
     /**
-     * @param $name
+     * TODO Can this be removed?
+     * @param string $name
      * @return bool
      */
     public function __isset($name)
     {
-        return (array_key_exists($name, $this));
+        return isset($this[$name]);
     }
 
     public function getVersion($long = true)
