@@ -2,13 +2,13 @@
 
 namespace Bolt;
 
+use Bolt\Helpers\Html;
+use Bolt\Helpers\Input;
+use Bolt\Helpers\String;
+use Bolt\Library as Lib;
 use Maid\Maid;
 use Silex;
 use Symfony\Component\Filesystem\Filesystem;
-use Bolt\Library as Lib;
-use Bolt\Helpers\String;
-use Bolt\Helpers\Input;
-use Bolt\Helpers\Html;
 
 class Content implements \ArrayAccess
 {
