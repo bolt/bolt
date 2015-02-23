@@ -334,7 +334,8 @@ class Application extends Silex\Application
             // Use the preferred SMTP options.
             $this['swiftmailer.options'] = $this['config']->get('general/mailoptions');
         } else {
-            // TODO (for 2.2): No Mail transport has been set. Gently nudge the user to set the mail configuration.
+            // No Mail transport has been set. We should gently nudge the user to set the mail 
+            // configuration. See the issue at https://github.com/bolt/bolt/issues/2908
         }
 
         // Set up our secure random generator.
