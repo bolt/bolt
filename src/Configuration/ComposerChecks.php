@@ -29,8 +29,8 @@ HTML;
      * The constructor requires a resource manager object to perform checks against.
      * This should ideally be typehinted to Bolt\Configuration\ResourceManager
      *
-     * @return void
-     **/
+     * @param ResourceManager $config
+     */
     public function __construct($config = null)
     {
         parent::__construct($config);
