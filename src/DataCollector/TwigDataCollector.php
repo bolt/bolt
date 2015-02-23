@@ -101,7 +101,7 @@ class TwigDataCollector extends DataCollector
             'tests' => $tests,
             'filters' => $filters,
             'functions' => $functions,
-            'templates' => Lib::hackislyParseRegexTemplates($this->app['twig.loader']),
+            'templates' => Lib::parseTwigTemplates($this->app['twig.loader']),
             'templatechosen' => $this->getTrackedValue('templatechosen'),
             'templateerror' => $this->getTrackedValue('templateerror')
         );

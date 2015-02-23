@@ -275,7 +275,7 @@ class Application extends Silex\Application
         $app = $this;
         $this->after(
             function () use ($app) {
-                foreach (Lib::hackislyParseRegexTemplates($app['twig.loader.filesystem']) as $template) {
+                foreach (Lib::parseTwigTemplates($app['twig.loader.filesystem']) as $template) {
                     $app['twig.logger']->collectTemplateData($template);
                 }
             }
