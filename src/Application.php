@@ -325,10 +325,16 @@ class Application extends Silex\Application
         // Make sure we keep our current locale..
         $currentlocale = $this['locale'];
 
-        // Setup Swiftmailer, with optional SMTP settings. If no settings are provided in config.yml, mail() is used.
+        // Setup Swiftmailer, with the selected Mail Transport options: smtp or `mail()`.
         $this->register(new Silex\Provider\SwiftmailerServiceProvider());
-        if ($this['config']->get('general/mailoptions')) {
+        if ($this['config']->get('general/mailoptions/transport') == 'mail') {
+            // Use the 'mail' transport.
+            $this['swiftmailer.transport'] = \Swift_MailTransport::newInstance();
+        } else if ($this['config']->get('general/mailoptions')) {
+            // Use the preferred SMTP options.
             $this['swiftmailer.options'] = $this['config']->get('general/mailoptions');
+        } else {
+            // TODO (for 2.2): No Mail transport has been set. Gently nudge the user to set the mail configuration.
         }
 
         // Set up our secure random generator.
