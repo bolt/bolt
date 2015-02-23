@@ -246,7 +246,7 @@ class PermissionParser
                 $expectedStr = self::tokenName($expected[0]);
             } else {
                 $last = array_pop($expected);
-                $expectedStr = 'one of ' . implode(', ', array_map(array(self, 'tokenName'), $expected)) . ' or ' . self::tokenName($last);
+                $expectedStr = 'one of ' . implode(', ', array_map(array('self', 'tokenName'), $expected)) . ' or ' . self::tokenName($last);
             }
             $actualStr = self::tokenName($token['type']);
             if ($token['match']) {
