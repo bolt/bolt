@@ -3,7 +3,6 @@
 namespace Bolt\Composer\Action;
 
 use Bolt\Exception\PackageManagerException;
-use Bolt\Helpers\Arr;
 use Composer\Installer;
 use Silex\Application;
 
@@ -34,15 +33,18 @@ final class UpdatePackage
      * @param  $options  array [Optional] changed option set
      * @return integer 0 on success or a positive error code on failure
      */
-    public function execute(array $packages = array(), array $options = null)
+    public function execute(array $packages = array(), array $options = array())
     {
+        /** @var $composer \Composer\Composer */
         $composer = $this->app['extend.manager']->getComposer();
         $io = $this->app['extend.manager']->getIO();
-        $options = $this->app['extend.manager']->getOptions();
+        $packageManagerOptions = $this->app['extend.manager']->getOptions();
 
         // Handle passed in options
-        if (!is_null($options)) {
-            $options = Arr::mergeRecursiveDistinct($options, $options);
+        if (!$options) {
+            $options = array_replace_recursive($packageManagerOptions, $options);
+        } else {
+            $options = $packageManagerOptions;
         }
 
         $install = Installer::create($io, $composer);
