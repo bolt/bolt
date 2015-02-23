@@ -1,9 +1,11 @@
 <?php
 namespace Bolt\Composer;
 
+use Composer\Script\Event;
+
 class ExtensionInstaller
 {
-    public static function handle($event)
+    public static function handle(Event $event)
     {
         try {
             $installedPackage = $event->getComposer()->getPackage();
@@ -37,11 +39,13 @@ class ExtensionInstaller
             return;
         }
 
+        /** @var $iterator \RecursiveIteratorIterator|\RecursiveDirectoryIterator */
         $iterator = new \RecursiveIteratorIterator(
             new \RecursiveDirectoryIterator($source, \RecursiveDirectoryIterator::SKIP_DOTS),
             \RecursiveIteratorIterator::SELF_FIRST
         );
         foreach ($iterator as $item) {
+            /** @var $item \SplFileInfo */
             if ($item->isDir()) {
                 $new = $dest . DIRECTORY_SEPARATOR . $iterator->getSubPathName();
                 if (!is_dir($new)) {

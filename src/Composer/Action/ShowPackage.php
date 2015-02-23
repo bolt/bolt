@@ -21,7 +21,7 @@ use Silex\Application;
 final class ShowPackage
 {
     /**
-     * @var Silex\Application
+     * @var \Silex\Application
      */
     private $app;
 
@@ -31,7 +31,7 @@ final class ShowPackage
     private $versionParser;
 
     /**
-     * @param $app Silex\Application
+     * @param $app \Silex\Application
      */
     public function __construct(Application $app)
     {
@@ -39,7 +39,7 @@ final class ShowPackage
     }
 
     /**
-     * @param  string  $target  Repository target, either: 'self', 'platform', 'installed' or 'available'
+     * @param  string  $type    Repository type, either: 'self', 'platform', 'installed' or 'available'
      * @param  string  $package Package name to show
      * @param  string  $version Package version to show
      * @param  boolean $root    Query the Bolt parent composer install
@@ -118,6 +118,7 @@ final class ShowPackage
                 }
             } else {
                 foreach ($repo->getPackages() as $package) {
+                    /** @var $package \Composer\Package\PackageInterface */
                     if (!isset($packages[$type][$package->getName()])
                         || !is_object($packages[$type][$package->getName()])
                         || version_compare($packages[$type][$package->getName()]->getVersion(), $package->getVersion(), '<')

@@ -14,12 +14,12 @@ use Silex\Application;
 final class UpdatePackage
 {
     /**
-     * @var Silex\Application
+     * @var \Silex\Application
      */
     private $app;
 
     /**
-     * @param $app Silex\Application
+     * @param $app \Silex\Application
      */
     public function __construct(Application $app)
     {
@@ -31,7 +31,9 @@ final class UpdatePackage
      *
      * @param  $packages array Indexed array of package names to update
      * @param  $options  array [Optional] changed option set
-     * @return integer 0 on success or a positive error code on failure
+     *
+     * @return int 0 on success or a positive error code on failure
+     * @throws \Bolt\Exception\PackageManagerException
      */
     public function execute(array $packages = array(), array $options = array())
     {

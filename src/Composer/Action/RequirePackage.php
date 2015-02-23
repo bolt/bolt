@@ -20,12 +20,12 @@ use Silex\Application;
 final class RequirePackage
 {
     /**
-     * @var Silex\Application
+     * @var \Silex\Application
      */
     private $app;
 
     /**
-     * @var Composer\Package\Version\VersionSelector
+     * @var \Composer\Package\Version\VersionSelector
      */
     private $versionSelector;
 
@@ -35,7 +35,7 @@ final class RequirePackage
     private $repos;
 
     /**
-     * @param $app Silex\Application
+     * @param $app \Silex\Application
      */
     public function __construct(Application $app)
     {
@@ -46,12 +46,15 @@ final class RequirePackage
     /**
      * Require (install) a package
      *
-     * @param  $package array Package names and version to require
+     * @param  $package       array Package names and version to require
      *                        - Format: array('name' => '', 'version' => '')
-     * @return integer 0 on success or a positive error code on failure
+     *
+     * @return int 0 on success or a positive error code on failure
+     * @throws \Bolt\Exception\PackageManagerException
      */
     public function execute(array $package)
     {
+        /** @var $composer \Composer\Composer */
         $composer = $this->app['extend.manager']->getComposer();
         $io = $this->app['extend.manager']->getIO();
         $options = $this->app['extend.manager']->getOptions();
@@ -107,7 +110,7 @@ final class RequirePackage
             return 0;
         }
 
-        /** @var $install Composer\Installer */
+        /** @var $install \Composer\Installer */
         $install = Installer::create($io, $composer);
 
         try {

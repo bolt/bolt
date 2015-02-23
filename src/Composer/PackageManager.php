@@ -20,22 +20,22 @@ use Silex\Application;
 class PackageManager
 {
     /**
-     * @var array
+     * @var string[]
      */
     private $options;
 
     /**
-     * @var Bolt\Composer\Action\CheckPackage
+     * @var \Bolt\Composer\Action\CheckPackage
      */
     private $check;
 
     /**
-     * @var Bolt\Composer\Action\DumpAutoload
+     * @var \Bolt\Composer\Action\DumpAutoload
      */
     private $dumpautoload;
 
     /**
-     * @var Bolt\Composer\Action\BoltExtendJson
+     * @var \Bolt\Composer\Action\BoltExtendJson
      */
     private $initJson;
 
@@ -45,27 +45,27 @@ class PackageManager
     private $install;
 
     /**
-     * @var Bolt\Composer\Action\RemovePackage
+     * @var \Bolt\Composer\Action\RemovePackage
      */
     private $remove;
 
     /**
-     * @var Bolt\Composer\Action\RequirePackage
+     * @var \Bolt\Composer\Action\RequirePackage
      */
     private $require;
 
     /**
-     * @var Bolt\Composer\Action\SearchPackage
+     * @var \Bolt\Composer\Action\SearchPackage
      */
     private $search;
 
     /**
-     * @var Bolt\Composer\Action\ShowPackage
+     * @var \Bolt\Composer\Action\ShowPackage
      */
     private $show;
 
     /**
-     * @var Bolt\Composer\Action\UpdatePackage
+     * @var \Bolt\Composer\Action\UpdatePackage
      */
     private $update;
 
@@ -75,7 +75,7 @@ class PackageManager
     private $factory;
 
     /**
-     * @var Silex\Application
+     * @var \Silex\Application
      */
     private $app;
 
@@ -85,15 +85,10 @@ class PackageManager
     private $json;
 
     /**
-     * @var array
+     * @var string[]
      */
     public $messages = array();
 
-    /**
-     *
-     * @param Application $app
-     * @param boolean     $readWriteMode
-     */
     public function __construct(Application $app)
     {
         $this->app = $app;
@@ -164,6 +159,8 @@ class PackageManager
     /**
      * Get a single option
      *
+     * @param string $key
+     *
      * @return mixed
      */
     public function getOption($key)
@@ -174,7 +171,7 @@ class PackageManager
     /**
      * Get a new Composer object
      *
-     * @return Composer\Composer
+     * @return \Composer\Composer
      */
     public function getComposer()
     {
@@ -194,7 +191,7 @@ class PackageManager
     /**
      * Get a new IO object
      *
-     * @return Composer\IO\IOInterface
+     * @return \Composer\IO\IOInterface
      */
     public function getIO()
     {
@@ -204,7 +201,7 @@ class PackageManager
     /**
      * Get a new dependency resolver pool object
      *
-     * @return Composer\DependencyResolver\Pool
+     * @return \Composer\DependencyResolver\Pool
      */
     public function getPool()
     {
@@ -313,8 +310,12 @@ class PackageManager
     /**
      * Show packages
      *
-     * @param $packages
-     * @return
+     * @param        $target
+     * @param string $package
+     * @param string $version
+     * @param bool   $root
+     *
+     * @return array
      */
     public function showPackage($target, $package = '', $version = '', $root = false)
     {
@@ -391,6 +392,7 @@ class PackageManager
 
         // Local packages
         foreach ($this->app['extensions']->getEnabled() as $ext) {
+            /** @var $ext \Bolt\BaseExtension */
             if ($ext->getInstallType() !== 'local') {
                 continue;
             }
@@ -530,6 +532,7 @@ class PackageManager
         }
 
         try {
+            /** @var $response \Guzzle\Http\Message\Response  */
             $response = $this->app['guzzle.client']->head($uri, null, array('query' => $query))->send();
 
             return $response->getStatusCode();

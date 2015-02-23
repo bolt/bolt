@@ -13,12 +13,12 @@ use Silex\Application;
 final class CheckPackage
 {
     /**
-     * @var Silex\Application
+     * @var \Silex\Application
      */
     private $app;
 
     /**
-     * @param $app Silex\Application
+     * @param $app \Silex\Application
      */
     public function __construct(Application $app)
     {
