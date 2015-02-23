@@ -22,7 +22,7 @@ class Html
             $newLength = $desiredLength;
         }
 
-        $str = strip_tags($str);
+        $str = trim(strip_tags($str));
 
         if (mb_strlen($str) > $desiredLength) {
             $str = mb_substr($str, 0, $newLength) . $ellipseStr;
