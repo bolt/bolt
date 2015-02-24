@@ -219,8 +219,8 @@ class ChangeLog
         $query->where($where)
             ->setParameters(array(
                 ':contenttype' => $contenttype,
-                ':contentid'   => $options['contentid'],
-                ':logid'       => $options['id']
+                ':contentid'   => isset($options['contentid']) ? $options['contentid'] : null,
+                ':logid'       => isset($options['id']) ? $options['id'] : null
             ));
 
         return $query;
