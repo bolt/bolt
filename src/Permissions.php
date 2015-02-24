@@ -184,7 +184,7 @@ class Permissions
     public function isAllowedToManipulate(array $user, array $currentUser)
     {
         foreach ($user['roles'] as $roleName) {
-            if ($this->checkPermission($currentUser, 'users:roles-hierarchy:' . $roleName)) {
+            if ($this->checkPermission($currentUser['roles'], 'users:roles-hierarchy:' . $roleName)) {
                 return true;
             }
         }
