@@ -1,11 +1,12 @@
 <?php
 namespace Bolt\Composer;
 
-use Composer\Script\PackageEvent;
-
 class ExtensionInstaller
 {
-    public static function handle(PackageEvent $event)
+    /**
+     * @param \Composer\Script\Event $event
+     */
+    public static function handle($event)
     {
         try {
             $installedPackage = $event->getComposer()->getPackage();
