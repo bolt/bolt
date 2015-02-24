@@ -56,6 +56,7 @@
 
     {% set group_labels = {} %}
     {% set group_ids = {} %}
+    {% set group_active = false %}
 
     {# Build list and labels #}
 
@@ -84,8 +85,6 @@
 
     {% set group_labels = group_labels|merge({'meta': __('contenttypes.generic.group.meta')}) %}
 
-    {% set active_group = group_labels|keys|first %}
-
     {# Build tab group ids #}
 
     {% for group, name in group_labels %}
@@ -97,6 +96,11 @@
         {% set group_ids = group_ids|merge({(group): groups_id}) %}
     {% endfor %}
 
+    {# Set active group (Always the first as we don't get the anchor hash on request) #}
+
+    {% set group_active = group_labels|keys|first %}
+
+
     <div class="row">
         <div class="col-md-8">
 
@@ -106,7 +110,7 @@
             {% if has.tabs %}
                 <ul class="nav nav-tabs" id="filtertabs">
                     {% for group, name in group_labels %}
-                        <li{{ group == active_group ? ' class="active"' : '' }}>
+                        <li{{ group == group_active ? ' class="active"' : '' }}>
                             <a href="#{{ group_ids[group] }}" data-toggle="tab">{{ name }}</a>
                         </li>
                     {% endfor %}
@@ -119,7 +123,7 @@
                 {% for group, name in group_labels %}
 
                     {% if has.tabs %}
-                        <div class="tab-pane{{ group == active_group ? ' active' : '' }}" id="{{ group_ids[group] }}">
+                        <div class="tab-pane{{ group == group_active ? ' active' : '' }}" id="{{ group_ids[group] }}">
                     {% endif %}
 
                     {% if group == 'relations' %}
