@@ -25,7 +25,7 @@ abstract class BaseExtension implements ExtensionInterface
     private $composerJsonLoaded;
     private $composerJson;
     private $configLoaded;
-    private $config;
+    public $config;
 
     public function __construct(Application $app)
     {
