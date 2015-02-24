@@ -988,6 +988,12 @@ class Backend implements ControllerProviderInterface
         $users = $app['users']->getUsers();
         $sessions = $app['users']->getActiveSessions();
 
+        foreach ($users as $name => $user) {
+            if (($key = array_search(Permissions::ROLE_EVERYONE, $user['roles'], true)) !== false) {
+                unset($users[$name]['roles'][$key]);
+            }
+        }
+
         $context = array(
             'currentuser' => $currentuser,
             'users' => $users,
