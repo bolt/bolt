@@ -52,43 +52,49 @@
         role:    "form",
     } %}
 
-    {# Build tab groups list #}
+    {### Tab groups ###}
 
-    {% set groups_label = {} %}
+    {% set group_labels = {} %}
+    {% set group_ids = {} %}
+
+    {# Build list and labels #}
 
     {% for group in context.contenttype.groups %}
         {% if group == 'ungrouped' %}
-            {% set groups_label = (groups_label)|merge({(group): __('contenttypes.generic.group.ungrouped')}) %}
-        {% elseif group != 'meta' and group != 'relations' and group != 'taxonomy' %}
+            {% set label = __('contenttypes.generic.group.ungrouped') %}
+        {% elseif group not in ['meta', 'relations', 'taxonomy'] %}
             {% set label = __(['contenttypes', context.contenttype.slug, 'group', group], {DEFAULT: group|capitalize}) %}
-            {% set groups_label = groups_label|merge({(group): label}) %}
+        {% else %}
+            {% set label = false %}
+        {% endif %}
+        {% if label %}
+            {% set group_labels = group_labels|merge({(group): label}) %}
         {% endif %}
     {% else %}
-        {% set groups_label = {'ungrouped': ''} %}
+        {% set group_labels = {'ungrouped': ''} %}
     {% endfor %}
 
     {% if has.relations or has.incoming_relations %}
-        {% set groups_label = groups_label|merge({'relations': __('contenttypes.generic.group.relations')}) %}
+        {% set group_labels = group_labels|merge({'relations': __('contenttypes.generic.group.relations')}) %}
     {% endif %}
+
     {% if has.taxonomy or 'taxonomy' in context.contenttype.groups %}
-        {% set groups_label = groups_label|merge({'taxonomy': __('contenttypes.generic.group.taxonomy')}) %}
+        {% set group_labels = group_labels|merge({'taxonomy': __('contenttypes.generic.group.taxonomy')}) %}
     {% endif %}
 
-    {% set groups_label = groups_label|merge({'meta': __('contenttypes.generic.group.meta')}) %}
+    {% set group_labels = group_labels|merge({'meta': __('contenttypes.generic.group.meta')}) %}
 
-    {% set active_group = groups_label|keys|first %}
+    {% set active_group = group_labels|keys|first %}
 
-    {# Build tab group slugs #}
+    {# Build tab group ids #}
 
-    {% set groups_ids = {} %}
-    {% set groups_num = 0 %}
-    {% for group, name in groups_label %}
-        {% set groups_num = groups_num + 1 %}
-        {% set groups_id = 'tab-' ~ group|slug()|default(groups_num) %}
-        {% if groups_id in groups_ids %}
-            {% set groups_id = groups_id ~ '-' ~ groups_num %}
+    {% for group, name in group_labels %}
+        {% set number = number|default(0) + 1 %}
+        {% set groups_id = 'tab-' ~ group|slug()|default(number) %}
+        {% if groups_id in group_ids %}
+            {% set groups_id = groups_id ~ '-' ~ number %}
         {% endif %}
-        {% set groups_ids = groups_ids|merge({(group): groups_id}) %}
+        {% set group_ids = group_ids|merge({(group): groups_id}) %}
     {% endfor %}
 
     <div class="row">
@@ -99,9 +105,9 @@
             {# Only if we have grouping tabs. #}
             {% if has.tabs %}
                 <ul class="nav nav-tabs" id="filtertabs">
-                    {% for group, name in groups_label %}
+                    {% for group, name in group_labels %}
                         <li{{ group == active_group ? ' class="active"' : '' }}>
-                            <a href="#{{ groups_ids[group] }}" data-toggle="tab">{{ name }}</a>
+                            <a href="#{{ group_ids[group] }}" data-toggle="tab">{{ name }}</a>
                         </li>
                     {% endfor %}
                 </ul>
@@ -110,10 +116,10 @@
             <form{{ macro.attr(attr_form) }}>
                 {% include '_sub/_csrf_token.twig' %}
 
-                {% for group, name in groups_label %}
+                {% for group, name in group_labels %}
 
                     {% if has.tabs %}
-                        <div class="tab-pane{{ group == active_group ? ' active' : '' }}" id="{{ groups_ids[group] }}">
+                        <div class="tab-pane{{ group == active_group ? ' active' : '' }}" id="{{ group_ids[group] }}">
                     {% endif %}
 
                     {% if group == 'relations' %}
