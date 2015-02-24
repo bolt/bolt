@@ -342,7 +342,12 @@ class Async implements ControllerProviderInterface
     }
 
     /**
-     * Latest {contenttype} to show a small listing in the sidebars..
+     * Latest {contenttype} to show a small listing in the sidebars.
+     *
+     * @param  Silex\Application $app
+     * @param  string            $contenttypeslug
+     * @param  integer|null      $contentid
+     * @return Response
      */
     public function lastmodified(Silex\Application $app, $contenttypeslug, $contentid = null)
     {
@@ -356,12 +361,19 @@ class Async implements ControllerProviderInterface
         }
     }
 
+    /**
+     * Only get latest {contenttype} record edits based on date changed
+     *
+     * @param  \Silex\Application $app
+     * @param  string             $contenttypeslug
+     * @return Response
+     */
     private function lastmodifiedSimple(Silex\Application $app, $contenttypeslug)
     {
-        // Get the proper contenttype..
+        // Get the proper contenttype.
         $contenttype = $app['storage']->getContentType($contenttypeslug);
 
-        // get the 'latest' from the requested contenttype.
+        // Get the 'latest' from the requested contenttype.
         $latest = $app['storage']->getContent($contenttype['slug'], array('limit' => 5, 'order' => 'datechanged DESC', 'hydrate' => false));
 
         $context = array(
@@ -374,6 +386,14 @@ class Async implements ControllerProviderInterface
         return new Response($body, 200, array('Cache-Control' => 's-maxage=60, public'));
     }
 
+    /**
+     * Get last modified records from the content log
+     *
+     * @param  \Silex\Application $app
+     * @param  string             $contenttypeslug
+     * @param  integer            $contentid
+     * @return Response
+     */
     private function lastmodifiedByContentLog(Silex\Application $app, $contenttypeslug, $contentid)
     {
         // Get the proper contenttype..
@@ -406,9 +426,9 @@ class Async implements ControllerProviderInterface
     /**
      * List pages in given contenttype, to easily insert links through the Wysywig editor.
      *
-     * @param  string            $contenttype
-     * @param  Silex\Application $app
-     * @param  Request           $request
+     * @param  string             $contenttype
+     * @param  \Silex\Application $app
+     * @param  Request            $request
      * @return mixed
      */
     public function filebrowser($contenttype, Silex\Application $app, Request $request)
