@@ -95,14 +95,17 @@ final class RequirePackage
             $versionParser->parseConstraints($constraint);
         }
 
+        // Get the JSON object
+        $json = new JsonFile($options['composerjson']);
+
         // Update our JSON file with the selected version until we reset Composer
-        $composerBackup = $this->updateComposerJson($options, $package, false);
+        $composerBackup = $this->updateComposerJson($json, $options, $package, false);
 
         // Reload Composer config
         $composer = $this->app['extend.manager']->getFactory()->resetComposer();
 
         // Update our JSON file now with a contraint
-        $this->updateComposerJson($options, $package, true);
+        $this->updateComposerJson($json, $options, $package, true);
 
         // JSON file has been created/updated, if we're not installing, exit
         if ($options['noupdate']) {
@@ -146,16 +149,16 @@ final class RequirePackage
     }
 
     /**
+     * Update the JSON file
      *
-     * @param  array   $options
-     * @param  array   $package
-     * @param  boolean $postreset
-     * @return string  A back up of the current JSON file
+     * @param  JsonFile $json
+     * @param  array    $options
+     * @param  array    $package
+     * @param  boolean  $postreset
+     * @return string   A back up of the current JSON file
      */
-    private function updateComposerJson(array $options, array $package, $postreset)
+    private function updateComposerJson(JsonFile $json, array $options, array $package, $postreset)
     {
-
-        $json = new JsonFile($options['composerjson']);
         $composerDefinition = $json->read();
         $composerBackup = file_get_contents($json->getPath());
 
