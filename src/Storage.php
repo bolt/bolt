@@ -1375,7 +1375,15 @@ class Storage
             );
 
             if ($contenttype === false) {
-                $this->app['logger.system']->error("Not a valid contenttype: '$contenttypeslug'", array('event' => 'storage'));
+                /*
+                 * We were logging here, but a couple of places like
+                 * TwigExtension::menuHelper() would trigger lots of hits,
+                 * filling logs and impacting performance as a result.
+                 * @see #1799 https://github.com/bolt/bolt/issues/1799
+                 *
+                 * When we refactor we need to address the callers, as this is a
+                 * valid error state.
+                 */
                 continue;
             }
 
