@@ -1805,13 +1805,7 @@ class Backend implements ControllerProviderInterface
             $app['session']->getFlashBag()->add('error', Trans::__('You do not have the right privileges to view that page.'));
 
             return Lib::redirect('dashboard');
-        } elseif (!$request->attributes->get('checkUserRoleHierarchy') && $user = $app['users']->getUser($id)) {
-            if (!$app['permissions']->isAllowedToManipulate($user, $app['users']->getCurrentUser())) {
-                $app['session']->getFlashBag()->add('error', Trans::__('You do not have the right privileges to view that page.'));
-
-                return Lib::redirect('dashboard');
-            }
-         }
+        }
 
         // Stop the 'stopwatch' for the profiler.
         $app['stopwatch']->stop('bolt.backend.before');
