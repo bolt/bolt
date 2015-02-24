@@ -40,7 +40,7 @@ class ResourceManager
 
     protected $urls = array();
 
-    /** @var array TODO do we really need this? */
+    /** @var string[] */
     protected $request = array();
 
     /** @var LowLevelChecks|null */
