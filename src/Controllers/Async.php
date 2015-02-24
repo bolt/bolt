@@ -181,7 +181,7 @@ class Async implements ControllerProviderInterface
             $body .= $app['render']->render('components/panel-news.twig', array('news' => $news['information']));
         }
 
-        return new Response($body, 200, array('Cache-Control' => 's-maxage=3600, public'));
+        return new Response($body, Response::HTTP_OK, array('Cache-Control' => 's-maxage=3600, public'));
     }
 
     /**
@@ -218,7 +218,7 @@ class Async implements ControllerProviderInterface
         }
 
 
-        return new Response($body, 200, array('Cache-Control' => 's-maxage=3600, public'));
+        return new Response($body, Response::HTTP_OK, array('Cache-Control' => 's-maxage=3600, public'));
     }
 
     public function filesautocomplete(Silex\Application $app, Request $request)
@@ -241,7 +241,7 @@ class Async implements ControllerProviderInterface
     {
         $html = $app['extensions']->renderWidget($key);
 
-        return new Response($html, 200, array('Cache-Control' => 's-maxage=180, public'));
+        return new Response($html, Response::HTTP_OK, array('Cache-Control' => 's-maxage=180, public'));
     }
 
     public function readme($filename, Silex\Application $app, Request $request)
@@ -263,7 +263,7 @@ class Async implements ControllerProviderInterface
         // Parse the field as Markdown, return HTML
         $html = \ParsedownExtra::instance()->text($readme);
 
-        return new Response($html, 200, array('Cache-Control' => 's-maxage=180, public'));
+        return new Response($html, Response::HTTP_OK, array('Cache-Control' => 's-maxage=180, public'));
     }
 
     public function makeuri(Silex\Application $app, Request $request)
@@ -383,7 +383,7 @@ class Async implements ControllerProviderInterface
 
         $body = $app['render']->render('components/panel-lastmodified.twig', array('context' => $context));
 
-        return new Response($body, 200, array('Cache-Control' => 's-maxage=60, public'));
+        return new Response($body, Response::HTTP_OK, array('Cache-Control' => 's-maxage=60, public'));
     }
 
     /**
@@ -420,7 +420,7 @@ class Async implements ControllerProviderInterface
 
         $body = $app['render']->render('components/panel-lastmodified.twig', array('context' => $context));
 
-        return new Response($body, 200, array('Cache-Control' => 's-maxage=60, public'));
+        return new Response($body, Response::HTTP_OK, array('Cache-Control' => 's-maxage=60, public'));
     }
 
     /**
