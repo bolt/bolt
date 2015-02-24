@@ -97,6 +97,10 @@ class Async implements ControllerProviderInterface
 
     /**
      * News.
+     *
+     * @param \Silex\Application $app
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function dashboardnews(Silex\Application $app)
     {
@@ -182,6 +186,10 @@ class Async implements ControllerProviderInterface
 
     /**
      * Get the 'latest activity' for the dashboard..
+     *
+     * @param \Silex\Application $app
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function latestactivity(Silex\Application $app)
     {
@@ -677,9 +685,11 @@ class Async implements ControllerProviderInterface
 
     /**
      *
-     * @param string      $type
-     * @param Application $app
-     * @param Request     $request
+     * @param string            $type
+     * @param Silex\Application $app
+     * @param Request           $request
+     *
+     * @return Response
      */
     public function emailNotification($type, Silex\Application $app, Request $request)
     {

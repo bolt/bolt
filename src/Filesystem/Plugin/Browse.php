@@ -2,10 +2,10 @@
 
 namespace Bolt\Filesystem\Plugin;
 
-use League\Flysystem\PluginInterface;
-use League\Flysystem\FilesystemInterface;
-use Bolt\Application;
 use Bolt\Library as Lib;
+use League\Flysystem\FilesystemInterface;
+use League\Flysystem\PluginInterface;
+use utilphp\util;
 
 class Browse implements PluginInterface
 {
@@ -87,7 +87,7 @@ class Browse implements PluginInterface
                         $files[$entry['path']]['imagesize'] = sprintf("%s × %s", $size[0], $size[1]);
                     }
 
-                    $files[$entry['path']]['permissions'] = \utilphp\util::full_permissions($fullfilename);
+                    $files[$entry['path']]['permissions'] = util::full_permissions($fullfilename);
                 }
 
             }

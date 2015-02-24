@@ -50,7 +50,7 @@ return call_user_func(
 
         foreach ($autodetectionMappings as $autoloadPath => $configType) {
             if (file_exists($autoloadPath)) {
-                $loader = require_once $autoloadPath;
+                $loader = require $autoloadPath;
                 $configClass = '\\Bolt\\Configuration\\' . $configType;
                 $config = new $configClass($loader);
                 break;

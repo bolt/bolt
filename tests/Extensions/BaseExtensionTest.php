@@ -1,8 +1,8 @@
 <?php
 namespace Bolt\Tests\Extensions;
 
+use Bolt\Provider\NutServiceProvider;
 use Bolt\Tests\BoltUnitTest;
-use Bolt\BaseExtension;
 
 /**
  * Class to test src/BaseExtension.
@@ -591,7 +591,7 @@ class BaseExtensionTest extends BoltUnitTest
         $app = $this->makeApp();
         $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', array($app));
         $command = $this->getMock('Symfony\Component\Console\Command\Command', null, array('mockCommand'));
-        $provider = new \Bolt\Provider\NutServiceProvider($app);
+        $provider = new NutServiceProvider($app);
         $app->register($provider);
         $app->boot();
         $ext->addConsoleCommand($command);

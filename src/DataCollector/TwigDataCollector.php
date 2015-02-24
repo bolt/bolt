@@ -2,10 +2,11 @@
 
 namespace Bolt\DataCollector;
 
-use Symfony\Component\HttpKernel\DataCollector\DataCollector;
+use Bolt\Application;
+use Bolt\Library as Lib;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Bolt\Library as Lib;
+use Symfony\Component\HttpKernel\DataCollector\DataCollector;
 
 /**
  * TwigDataCollector
@@ -23,9 +24,9 @@ class TwigDataCollector extends DataCollector
     /**
      * The Constructor for the Twig Datacollector
      *
-     * @param \Bolt\Application $app The Silex app
+     * @param Application $app The Silex app
      */
-    public function __construct(\Bolt\Application $app)
+    public function __construct(Application $app)
     {
         $this->app = $app;
     }
@@ -45,6 +46,7 @@ class TwigDataCollector extends DataCollector
         $functions = array();
 
         foreach ($this->getTwig()->getExtensions() as $extensionName => $extension) {
+            /** @var $extension \Twig_ExtensionInterface */
             $extensions[] = array(
                 'name' => $extensionName,
                 'class' => get_class($extension)
@@ -55,8 +57,10 @@ class TwigDataCollector extends DataCollector
                     if (is_array($call) && is_callable($call)) {
                         $call = 'Method ' . $call[1] . ' of an object ' . get_class($call[0]);
                     }
-                } else {
+                } elseif ($filter instanceof \Twig_SimpleFilter) {
                     $call = $filter->getName();
+                } else {
+                    continue;
                 }
 
                 $filters[] = array(
@@ -69,8 +73,10 @@ class TwigDataCollector extends DataCollector
             foreach ($extension->getTests() as $testName => $test) {
                 if ($test instanceof \Twig_TestInterface) {
                     $call = $test->compile();
-                } else {
+                } elseif ($test instanceof \Twig_SimpleTest) {
                     $call = $test->getName();
+                } else {
+                    continue;
                 }
 
                 $tests[] = array(
@@ -83,8 +89,10 @@ class TwigDataCollector extends DataCollector
             foreach ($extension->getFunctions() as $functionName => $function) {
                 if ($function instanceof \Twig_FunctionInterface) {
                     $call = $function->compile();
-                } else {
+                } elseif ($function instanceof \Twig_SimpleFunction) {
                     $call = $function->getName();
+                } else {
+                    continue;
                 }
 
                 $functions[] = array(
@@ -100,7 +108,7 @@ class TwigDataCollector extends DataCollector
             'tests' => $tests,
             'filters' => $filters,
             'functions' => $functions,
-            'templates' => Lib::hackislyParseRegexTemplates($this->app['twig.loader']),
+            'templates' => Lib::parseTwigTemplates($this->app['twig.loader']),
             'templatechosen' => $this->getTrackedValue('templatechosen'),
             'templateerror' => $this->getTrackedValue('templateerror')
         );

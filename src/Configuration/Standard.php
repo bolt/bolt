@@ -12,6 +12,10 @@ use Symfony\Component\HttpFoundation\Request;
 class Standard extends ResourceManager
 {
 
+    /**
+     * @param ClassLoader|string $loader ClassLoader or root path
+     * @param Request $request
+     */
     public function __construct($loader, Request $request = null)
     {
         $container = new \Pimple();

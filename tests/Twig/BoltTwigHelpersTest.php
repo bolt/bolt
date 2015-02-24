@@ -1,11 +1,11 @@
 <?php
 namespace Bolt\Tests\Twig;
 
+use Bolt\Storage;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\TwigExtension;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\VarDumper\VarDumper;
-use Bolt\Storage;
 
 /**
  * Class to test src/Library.
@@ -15,6 +15,11 @@ use Bolt\Storage;
  */
 class BoltTwigHelpersTest extends BoltUnitTest
 {
+    protected function tearDown()
+    {
+        parent::tearDown();
+        VarDumper::setHandler(null);
+    }
 
     public function testTwigInterface()
     {
@@ -40,49 +45,45 @@ class BoltTwigHelpersTest extends BoltUnitTest
 
     public function testPrintDump()
     {
+        $this->stubVarDumper();
+        $list = range(1, 10);
+
         // First safe test
         $app = $this->getApp();
         $twig = new TwigExtension($app, true);
-        $this->assertEmpty($twig->printDump(range(1, 10)));
+        $this->assertNull($twig->printDump($list));
 
         // Now test with debug off
         $app = $this->getApp();
         $twig = new TwigExtension($app);
         $app['debug'] = false;
-        $this->assertEmpty($twig->printDump(range(1, 10)));
+        $this->assertNull($twig->printDump($list));
 
         // Now test with debug enabled
-        // We need to override Symfony's default handler to get the output
-        $output = '';
-        VarDumper::setHandler(
-            function ($var) use ($output) {
-                $output .= $var;
-            }
-        );
-
         $app = $this->getApp();
         $twig = new TwigExtension($app);
-        //$this->assertRegExp('/dumper-root/', $twig->printDump(range(1,10)));
+        $this->assertEquals($list, $twig->printDump($list));
     }
 
     public function testPrintBacktrace()
     {
+        $this->stubVarDumper();
+
         // First test with debug off
         $app = $this->getApp();
         $twig = new TwigExtension($app);
         $app['debug'] = false;
-        $this->assertEmpty($twig->printBacktrace());
+        $this->assertNull($twig->printBacktrace());
 
         // Safe mode test
         $app = $this->getApp();
         $twig = new TwigExtension($app, true);
-        $this->assertEmpty($twig->printBacktrace());
+        $this->assertNull($twig->printBacktrace());
 
         // Debug mode
         $app = $this->getApp();
         $twig = new TwigExtension($app);
-        // This needs rewriting to capture output rather than being piped to stdout
-        //$this->assertNotEmpty($twig->printBacktrace(2));
+        $this->assertNotEmpty($twig->printBacktrace());
     }
 
     public function testHtmlLang()
@@ -392,5 +393,17 @@ class BoltTwigHelpersTest extends BoltUnitTest
         );
 
         return implode(' ', $longwords);
+    }
+
+    /**
+     * Override Symfony's default handler to get the output
+     */
+    protected function stubVarDumper()
+    {
+        VarDumper::setHandler(
+            function ($var) {
+                return $var;
+            }
+        );
     }
 }

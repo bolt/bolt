@@ -14,7 +14,7 @@ use Silex\Application;
 class DeprecatedLog
 {
     /**
-     * @var Silex\Application
+     * @var \Silex\Application
      */
     private $app;
 

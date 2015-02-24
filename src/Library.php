@@ -5,6 +5,7 @@ namespace Bolt;
 use Bolt\Configuration\ResourceManager;
 use Bolt\Exception\LowlevelException;
 use Bolt\Translation\Translator;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class for Bolt's generic library functions
@@ -82,7 +83,7 @@ class Library
      *
      * We use this for showing them in the debug toolbar.
      *
-     * @param  Twig Loader $obj
+     * @param  \Twig_LoaderInterface $obj
      * @return array
      */
     public static function parseTwigTemplates($obj)
@@ -158,6 +159,9 @@ class Library
      * Create a simple redirect to a page / path.
      *
      * @param string $path
+     * @param bool   $abort
+     *
+     * @return string
      */
     public static function simpleredirect($path, $abort = false)
     {
@@ -169,11 +173,11 @@ class Library
         header("location: $path");
         echo "<p>Redirecting to <a href='$path'>$path</a>.</p>";
         echo "<script>window.setTimeout(function () { window.location='$path'; }, 500);</script>";
-        if ($abort) {
-            return $app->abort(303, "Redirecting to '$path'.");
+        if (!$abort) {
+            return $path;
         }
 
-        return $path;
+        $app->abort(Response::HTTP_SEE_OTHER, "Redirecting to '$path'.");
     }
 
     /**
@@ -185,6 +189,7 @@ class Library
      * @param  string  $filename
      * @param  boolean $silent   Set to true if you want an visible error.
      * @return mixed
+     * @throws \Bolt\Exception\LowlevelException
      */
     public static function loadSerialize($filename, $silent = false)
     {
@@ -243,9 +248,11 @@ class Library
     /**
      * Serializes some data and then saves it.
      *
-     * @param  string  $filename
-     * @param  mixed   $data
-     * @return boolean
+     * @param  string $filename
+     * @param  mixed  $data
+     *
+     * @return bool
+     * @throws \Bolt\Exception\LowlevelException
      */
     public static function saveSerialize($filename, &$data)
     {
@@ -309,6 +316,11 @@ class Library
     /**
      * Leniently decode a serialized compound data structure, detecting whether
      * it's dealing with JSON-encoded data or a PHP-serialized string.
+     *
+     * @param string $str
+     * @param bool   $assoc
+     *
+     * @return mixed
      */
     public static function smartUnserialize($str, $assoc = true)
     {

@@ -20,6 +20,8 @@ class TranslationServiceProvider implements ServiceProviderInterface
      * This method is called after all services are registers
      * and should be used for "dynamic" configuration (whenever
      * a service must be requested).
+     *
+     * @param \Silex\Application $app
      */
     public function boot(Application $app)
     {

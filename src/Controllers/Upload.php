@@ -2,6 +2,7 @@
 
 namespace Bolt\Controllers;
 
+use Bolt\Application;
 use Bolt\Filesystem\FlysystemContainer;
 use Bolt\Library as Lib;
 use Bolt\Translation\Translator as Trans;
@@ -202,7 +203,7 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
     /**
      * Middleware function to check whether a user is logged on.
      */
-    public function before(Request $request, \Bolt\Application $app)
+    public function before(Request $request, Application $app)
     {
         // Start the 'stopwatch' for the profiler.
         $app['stopwatch']->start('bolt.backend.before');
@@ -220,6 +221,7 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
 
         // Stop the 'stopwatch' for the profiler.
         $app['stopwatch']->stop('bolt.backend.before');
+        return null;
     }
 
     public function boot(Silex\Application $app)

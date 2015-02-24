@@ -93,14 +93,15 @@ class StorageEvent extends GenericEvent
     /**
      * Is the record being created, updated or deleted
      *
-     * @return bool True  - Create
-     *              False - Update
-     *              Null  - Delete
+     * @return bool|null True  - Create
+     *                   False - Update
+     *                   Null  - Delete
      */
     public function isCreate()
     {
         if ($this->hasArgument('create')) {
             return $this->getArgument('create');
         }
+        return null;
     }
 }

@@ -7,20 +7,21 @@ use Bolt\Library as Lib;
 use Bolt\Permissions;
 use Bolt\Translation\TranslationFile;
 use Bolt\Translation\Translator as Trans;
-use GuzzleHttp\Exception\RequestException;
+use Guzzle\Http\Exception\RequestException;
 use Silex;
 use Silex\Application;
 use Silex\ControllerProviderInterface;
 use Symfony;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Yaml\Yaml;
+use Symfony\Component\Yaml;
+use Symfony\Component\Yaml\Exception\ParseException;
 
 /**
  * Backend controller grouping.
@@ -1135,6 +1136,8 @@ class Backend implements ControllerProviderInterface
      *
      * @param Application $app
      * @param Request     $request
+     *
+     * @return string
      */
     public function userFirst(Application $app, Request $request)
     {
@@ -1228,7 +1231,7 @@ class Backend implements ControllerProviderInterface
                         ->addPart($mailhtml, 'text/html');
 
                     $app['mailer']->send($message);
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                 }
             }
 
@@ -1616,10 +1619,10 @@ class Backend implements ControllerProviderInterface
 
                 // Before trying to save a yaml file, check if it's valid.
                 if ($type == "yml") {
-                    $yamlparser = new \Symfony\Component\Yaml\Parser();
+                    $yamlparser = new Yaml\Parser();
                     try {
                         $ok = $yamlparser->parse($contents);
-                    } catch (\Symfony\Component\Yaml\Exception\ParseException $e) {
+                    } catch (ParseException $e) {
                         $ok = false;
                         $app['session']->getFlashBag()->add('error', Trans::__("File '%s' could not be saved:", array('%s' => $file->getPath())) . $e->getMessage());
                     }
@@ -1704,8 +1707,8 @@ class Backend implements ControllerProviderInterface
 
                 // Before trying to save a yaml file, check if it's valid.
                 try {
-                    $ok = Yaml::parse($contents);
-                } catch (\Symfony\Component\Yaml\Exception\ParseException $e) {
+                    $ok = Yaml\Yaml::parse($contents);
+                } catch (ParseException $e) {
                     $ok = false;
                     $msg = Trans::__("File '%s' could not be saved:", array('%s' => $shortPath));
                     $app['session']->getFlashBag()->add('error', $msg . $e->getMessage());
@@ -1773,7 +1776,7 @@ class Backend implements ControllerProviderInterface
         // If the users table is present, but there are no users, and we're on /bolt/userfirst,
         // we let the user stay, because they need to set up the first user.
         if ($tableExists && !$hasUsers && $route == 'userfirst') {
-            return;
+            return null;
         }
 
         // If there are no users in the users table, or the table doesn't exist. Repair
@@ -1809,6 +1812,7 @@ class Backend implements ControllerProviderInterface
 
         // Stop the 'stopwatch' for the profiler.
         $app['stopwatch']->stop('bolt.backend.before');
+        return null;
     }
 
     /**

@@ -19,6 +19,11 @@ final class BoltExtendJson
     private $options;
 
     /**
+     * @var string[]
+     */
+    private $messages;
+
+    /**
      * @param $options  array
      */
     public function __construct(array $options)
@@ -52,10 +57,10 @@ final class BoltExtendJson
     /**
      * Set up Composer JSON file
      *
-     * @param  \Silex\Application $app
+     * @param  Application $app
      * @return string
      */
-    public function updateJson(\Silex\Application $app)
+    public function updateJson(Application $app)
     {
         if (!is_file($this->options['composerjson'])) {
             $this->initJson($this->options['composerjson']);
@@ -74,7 +79,7 @@ final class BoltExtendJson
             $app['extend.writeable'] = false;
             $app['extend.online'] = false;
 
-            return;
+            return null;
         }
 
         $pathToWeb = $app['resources']->findRelativePath($app['resources']->getPath('extensions'), $app['resources']->getPath('web'));

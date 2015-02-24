@@ -16,12 +16,12 @@ use Silex\Application;
 final class RemovePackage
 {
     /**
-     * @var Silex\Application
+     * @var \Silex\Application
      */
     private $app;
 
     /**
-     * @param $app Silex\Application
+     * @param $app \Silex\Application
      */
     public function __construct(Application $app)
     {
@@ -32,7 +32,9 @@ final class RemovePackage
      * Remove packages from the root install
      *
      * @param  $packages array Indexed array of package names to remove
-     * @return integer 0 on success or a positive error code on failure
+     *
+     * @return int 0 on success or a positive error code on failure
+     * @throws \Bolt\Exception\PackageManagerException
      */
     public function execute(array $packages)
     {
@@ -40,7 +42,6 @@ final class RemovePackage
             throw new PackageManagerException('No package specified for removal');
         }
 
-        $composer = $this->app['extend.manager']->getComposer();
         $io = $this->app['extend.manager']->getIO();
         $options = $this->app['extend.manager']->getOptions();
 

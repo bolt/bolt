@@ -17,12 +17,12 @@ use Silex\Application;
 final class SearchPackage
 {
     /**
-     * @var Silex\Application
+     * @var \Silex\Application
      */
     private $app;
 
     /**
-     * @param $app Silex\Application
+     * @param $app \Silex\Application
      */
     public function __construct(Application $app)
     {
@@ -33,10 +33,13 @@ final class SearchPackage
      * Search for packages
      *
      * @param  $packages array Indexed array of package names to search for
+     *
      * @return array List of matching packages
+     * @throws \Bolt\Exception\PackageManagerException
      */
     public function execute($packages)
     {
+        /** @var $composer \Composer\Composer */
         $composer = $this->app['extend.manager']->getComposer();
         $io = $this->app['extend.manager']->getIO();
 

@@ -1,7 +1,7 @@
 <?php
 namespace Bolt\Events;
 
-use Bolt\Application;
+use Silex\Application;
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -12,18 +12,15 @@ use Symfony\Component\Console\Output\OutputInterface;
 class CronEvent extends Event
 {
     /**
-     * @var Application
+     * @var \Silex\Application
      */
     private $app;
 
     /**
-     * @var Symfony\Component\Console\Output\OutputInterface
+     * @var \Symfony\Component\Console\Output\OutputInterface
      */
     public $output;
 
-    /**
-     *
-     */
     public function __construct(Application $app, OutputInterface $output = null)
     {
         $this->app = $app;
@@ -108,6 +105,8 @@ class CronEvent extends Event
     /**
      * If we're passed an OutputInterface, we're called from Nut and can notify
      * the end user
+     *
+     * @param string $msg
      */
     private function notify($msg)
     {

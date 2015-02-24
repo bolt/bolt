@@ -2,10 +2,11 @@
 namespace Bolt\Tests;
 
 use Bolt\Application;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Storage\MockFileSessionStorage;
 use Bolt\Configuration as Config;
 use Bolt\Configuration\Standard;
+use Cocur\Slugify\Slugify;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Storage\MockFileSessionStorage;
 
 /**
  * Abstract Class that other unit tests can extend, provides generic methods for Bolt tests.
@@ -48,13 +49,14 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
             'general/database',
             array(
                 'driver' => 'pdo_sqlite',
+                'prefix' => 'bolt_',
                 'user' => 'test',
                 'path' => TEST_ROOT . '/bolt.db'
             )
         );
         $bolt['session'] = $sessionMock;
         $bolt['resources']->setPath('files', TEST_ROOT . '/tests/resources/files');
-        $bolt['slugify'] = \Cocur\Slugify\Slugify::create();
+        $bolt['slugify'] = Slugify::create();
 
         return $bolt;
     }

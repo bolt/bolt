@@ -76,6 +76,10 @@ class PermissionParser
 
     /**
      * Get the symbolic name of a lexer token type.
+     *
+     * @param int $tokenType
+     *
+     * @return string
      */
     public static function tokenName($tokenType)
     {
@@ -145,6 +149,11 @@ class PermissionParser
 
     /**
      * Lexes the given $query into lexer tokens.
+     *
+     * @param $query
+     *
+     * @return array
+     * @throws \Bolt\Exception\PermissionLexerException
      */
     public static function lex($query)
     {
@@ -237,7 +246,7 @@ class PermissionParser
                 $expectedStr = self::tokenName($expected[0]);
             } else {
                 $last = array_pop($expected);
-                $expectedStr = 'one of ' . implode(', ', array_map(array(self, 'tokenName'), $expected)) . ' or ' . self::tokenName($last);
+                $expectedStr = 'one of ' . implode(', ', array_map(array('self', 'tokenName'), $expected)) . ' or ' . self::tokenName($last);
             }
             $actualStr = self::tokenName($token['type']);
             if ($token['match']) {

@@ -1,6 +1,8 @@
 <?php
 namespace Bolt\Exception;
 
+use Bolt\Configuration\ResourceManager;
+
 class LowlevelException extends \Exception
 {
 
@@ -11,14 +13,14 @@ class LowlevelException extends \Exception
     <meta charset="utf-8" />
     <title>%error_title%</title>
     <style>
-        body{font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;color:#333;font-size:14px;line-height:20px;margin:0px;}
-        h1 {font-size: 38.5px;line-height: 40px;margin: 10px 0px;}
-        p{margin: 0px 0px 10px;}
+        body{font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;color:#333;font-size:14px;line-height:20px;margin:0;}
+        h1 {font-size: 38.5px;line-height: 40px;margin: 10px 0;}
+        p{margin: 0 0 10px;}
         strong{font-weight:bold;}
-        code, pre {padding: 0px 3px 2px;font-family: Monaco,Menlo,Consolas,"Courier New",monospace;font-size: 12px;color: #333;border-radius: 3px;}
+        code, pre {padding: 0 3px 2px;font-family: Monaco,Menlo,Consolas,"Courier New",monospace;font-size: 12px;color: #333;border-radius: 3px;}
         code {padding: 2px 4px;color: #D14;background-color: #F7F7F9;border: 1px solid #E1E1E8;white-space: nowrap;}
         a {color: #08C;text-decoration: none;}
-        ul, ol {padding: 0px;margin: 0px 0px 10px 25px;}
+        ul, ol {padding: 0;margin: 0 0 10px 25px;}
         hr{margin:20px 0;border:0;border-top:1px solid #eeeeee;border-bottom:1px solid #ffffff;}
         .hide{display:none;}
         .status-ok {color: #468847;background-color: #DFF0D8;border-color: #D6E9C6;margin:5px;padding:5px;}
@@ -62,6 +64,8 @@ HTML;
      * make sure that it contains valid HTML with proper encoding applied.
      *
      * @param string $message
+     * @param null   $code
+     * @param null   $previous
      */
     public function __construct($message, $code = null, $previous = null)
     {
@@ -103,7 +107,7 @@ HTML;
 
             // Get the application object
             if ($app === null) {
-                $app = \Bolt\Configuration\ResourceManager::getApp();
+                $app = ResourceManager::getApp();
             }
 
             // Detect if we're being called from a core, an extension or vendor

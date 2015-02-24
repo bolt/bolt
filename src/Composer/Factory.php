@@ -2,7 +2,6 @@
 
 namespace Bolt\Composer;
 
-use Composer\Composer;
 use Composer\DependencyResolver\Pool;
 use Composer\IO\BufferIO;
 use Composer\Package\Version\VersionSelector;
@@ -16,27 +15,27 @@ final class Factory extends PackageManager
     private $options;
 
     /**
-     * @var Composer\IO\BufferIO
+     * @var \Composer\IO\BufferIO
      */
     private $io;
 
     /**
-     * @var Composer\Composer
+     * @var \Composer\Composer
      */
     private $composer;
 
     /**
-     * @var Composer\DependencyResolver\Pool
+     * @var \Composer\DependencyResolver\Pool
      */
     private $pool;
 
     /**
-     * @var Composer\Repository\CompositeRepository
+     * @var \Composer\Repository\CompositeRepository
      */
     private $repos;
 
     /**
-     * @var Silex\Application
+     * @var \Silex\Application
      */
     private $app;
 
@@ -51,7 +50,7 @@ final class Factory extends PackageManager
     public $messages = array();
 
     /**
-     * @param Silx\Application $app
+     * @param \Silex\Application $app
      * @param array            $options
      */
     public function __construct(Application $app, array $options)
@@ -63,7 +62,7 @@ final class Factory extends PackageManager
     /**
      * Get a Composer object
      *
-     * @return Composer\Composer
+     * @return \Composer\Composer
      */
     public function getComposer()
     {
@@ -87,9 +86,9 @@ final class Factory extends PackageManager
     }
 
     /**
-     * Get the IOInterface object
+     * Get the IO object
      *
-     * @return Composer\IO\IOInterface
+     * @return \Composer\IO\BufferIO
      */
     public function getIO()
     {
@@ -103,7 +102,7 @@ final class Factory extends PackageManager
     /**
      * Get a new Composer object
      *
-     * @return Bolt\Composer\Factory
+     * @return \Bolt\Composer\Factory
      */
     public function resetComposer()
     {
@@ -155,7 +154,7 @@ final class Factory extends PackageManager
         $package = $versionSelector->findBestCandidate($name);
 
         if (!$package) {
-            return;
+            return null;
         }
 
         return array(
@@ -170,7 +169,7 @@ final class Factory extends PackageManager
     /**
      * Return a resolver pool that contains repositories, that provide packages
      *
-     * @return Composer\DependencyResolver\Pool
+     * @return \Composer\DependencyResolver\Pool
      */
     public function getPool()
     {
@@ -205,7 +204,7 @@ final class Factory extends PackageManager
     /**
      * Get all our repos
      *
-     * @return Composer\Repository\CompositeRepository
+     * @return \Composer\Repository\CompositeRepository
      */
     protected function getRepos()
     {

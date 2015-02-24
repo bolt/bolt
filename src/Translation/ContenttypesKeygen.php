@@ -45,12 +45,12 @@ class ContenttypesKeygen
      */
     private $translatables;
 
-/**
+    /**
      * Constructor
      *
      * @param Silex\Application $app
      * @param array             $translatables
-     * @param array             $saved
+     * @param array             $savedTranslations
      */
     public function __construct(Silex\Application $app, array $translatables, array $savedTranslations)
     {

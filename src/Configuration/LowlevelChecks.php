@@ -4,10 +4,6 @@ namespace Bolt\Configuration;
 use Bolt\Exception\LowLevelDatabaseException;
 use Bolt\Exception\LowlevelException;
 
-/**
- * A class to perform several 'low level' checks. Since we're doing it (by design)
- * _before_ the autoloader gets initialized, we can't use autoloading.
- */
 class LowlevelChecks
 {
     public $config;
@@ -71,7 +67,6 @@ class LowlevelChecks
     /**
      * Perform the checks.
      */
-
     public function doChecks()
     {
         foreach ($this->checks as $check) {
@@ -237,6 +232,8 @@ class LowlevelChecks
      * from the filename.dist.
      *
      * @param string $name Filename stem; .yml extension will be added automatically.
+     *
+     * @throws \Bolt\Exception\LowlevelException
      */
     protected function lowlevelConfigFix($name)
     {
