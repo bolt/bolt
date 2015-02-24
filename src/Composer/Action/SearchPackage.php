@@ -32,12 +32,13 @@ final class SearchPackage
     /**
      * Search for packages
      *
-     * @param  $packages array Indexed array of package names to search for
+     * @param  array                   $packages Indexed array of package names to search for
+     * @param  boolean                 $onlyname True for name only search, false for full text
      *
-     * @return array List of matching packages
-     * @throws \Bolt\Exception\PackageManagerException
+     * @return array                   List of matching packages
+     * @throws PackageManagerException
      */
-    public function execute($packages)
+    public function execute($packages, $onlyname = true)
     {
         /** @var $composer \Composer\Composer */
         $composer = $this->app['extend.manager']->getComposer();
@@ -57,7 +58,7 @@ final class SearchPackage
             $repos = new CompositeRepository(array_merge(array($installedRepo), $defaultRepos));
         }
 
-        $flags = $this->onlyname ? RepositoryInterface::SEARCH_NAME : RepositoryInterface::SEARCH_FULLTEXT;
+        $flags = $onlyname ? RepositoryInterface::SEARCH_NAME : RepositoryInterface::SEARCH_FULLTEXT;
 
         try {
             return $repos->search(implode(' ', $packages), $flags);
