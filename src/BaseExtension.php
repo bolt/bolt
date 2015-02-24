@@ -3,14 +3,16 @@ namespace Bolt;
 
 use Bolt\Extensions\ExtensionInterface;
 use Bolt\Extensions\TwigProxy;
-use Bolt\Library as Lib;
 use Bolt\Helpers\Arr;
-use Symfony\Component\Console\Command\Command;
+use Bolt\Library as Lib;
 use Composer\Json\JsonFile;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Yaml;
 
 abstract class BaseExtension implements ExtensionInterface
 {
+    public $config;
+
     protected $app;
     protected $basepath;
     protected $namespace;
@@ -25,7 +27,6 @@ abstract class BaseExtension implements ExtensionInterface
     private $composerJsonLoaded;
     private $composerJson;
     private $configLoaded;
-    private $config;
 
     public function __construct(Application $app)
     {
