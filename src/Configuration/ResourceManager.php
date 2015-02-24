@@ -104,11 +104,10 @@ class ResourceManager
     public function useLoader(ClassLoader $loader)
     {
         $this->classLoader = $loader;
-        $ldpath = dirname($loader->findFile('Composer\\Autoload\\ClassLoader'));
-        $expath = explode('vendor', $ldpath);
-        array_pop($expath);
-
-        return $this->setPath('root', join('vendor', $expath)); //TODO Pretty sure this join is wrong
+        $loaderPath = dirname($loader->findFile('Composer\\Autoload\\ClassLoader'));
+        // Remove last vendor/* off loaderPath to get our root path
+        list($rootPath) = explode('vendor', $loaderPath, -1);
+        return $this->setPath('root', $rootPath);
     }
 
     public function setApp(Application $app)
