@@ -77,6 +77,19 @@
 
     {% set active_group = tabgroups|keys|first %}
 
+    {# Build tab group slugs #}
+
+    {% set groups_ids = {} %}
+    {% set groups_num = 0 %}
+    {% for group, name in tabgroups %}
+        {% set groups_num = groups_num + 1 %}
+        {% set groups_id = 'tab-' ~ group|slug()|default(groups_num) %}
+        {% if groups_id in groups_ids %}
+            {% set groups_id = groups_id ~ '-' ~ groups_num %}
+        {% endif %}
+        {% set groups_ids = groups_ids|merge({(group): groups_id}) %}
+    {% endfor %}
+
     <div class="row">
         <div class="col-md-8">
 
@@ -87,7 +100,7 @@
                 <ul class="nav nav-tabs" id="filtertabs">
                     {% for group, name in tabgroups %}
                         <li{{ group == active_group ? ' class="active"' : '' }}>
-                            <a href="#tab-{{ group }}" data-toggle="tab">{{ name }}</a>
+                            <a href="#{{ groups_ids[group] }}" data-toggle="tab">{{ name }}</a>
                         </li>
                     {% endfor %}
                 </ul>
@@ -99,7 +112,7 @@
                 {% for group, name in tabgroups %}
 
                     {% if has.tabs %}
-                        <div class="tab-pane{{ group == active_group ? ' active' : '' }}" id="tab-{{ group }}">
+                        <div class="tab-pane{{ group == active_group ? ' active' : '' }}" id="{{ groups_ids[group] }}">
                     {% endif %}
 
                     {% if group == 'relations' %}
