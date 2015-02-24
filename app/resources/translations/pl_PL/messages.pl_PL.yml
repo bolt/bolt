@@ -1,0 +1,561 @@
+# app/resources/translations/pl_PL/messages.pl_PL.yml – generated on 2015-02-24 13:37:34 Europe/Warsaw
+
+# Warning: Translations are in the process of being moved to a new keyword-based translation
+#          at the moment. This is an ongoing process. Translations currently in the 
+#          repository are automatically mapped to the new scheme. Be aware that there 
+#          can be a race condition between that process and your PR so that it's 
+#          eventually necessary to remap your translations. If you're planning on 
+#          updating your translations, it's best to ask on IRC to time your contribution
+#          in order to prevent merge conflicts.
+
+#  no unused messages
+# 403 untranslated messages
+# 137 untranslated keyword based messages
+#  no translations
+#  no keyword based translations
+
+#--- 403 untranslated messages ------------------------------------------------
+
+"%name% № %id%": #
+"%s files could not be deleted. You should delete them manually.": #
+"(default template)": #
+"(no category)": #
+"(no group)": #
+"(none)": #
+"A password reset link has been sent to '%user%'.": #
+"Actions": #
+"Add a brief, optional comment to describe what's changed.": #
+"Add a comment:": #
+"Add a new extension using the form below.": #
+"Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": #
+"Added to <tt>%key%</tt> '%title%'": #
+"Alas, no about!": #
+"All content types": #
+"All users": #
+"Alt": #
+"An error occurred.": #
+"Anonymous": #
+"Are you sure you want to delete %username%?": #
+"Are you sure you want to remove these images?": #
+"Are you sure you want to remove this file?": #
+"Are you sure you want to remove this image?": #
+"Are you sure you wish to delete these records? There is no undo.": #
+"Are you sure you wish to delete this record? There is no undo.": #
+"Author:": #
+"Before you can start using the theme on your site we need to make a copy to your theme folder.": #
+"Below are the third party libraries that are used by Bolt.": #
+"Body": #
+"Bolt - Fatal error.": #
+"Bolt Extension could not be found. Please check at %site% to ensure correct name.": #
+"Browse Versions": #
+"Browser / platform": #
+"Built-in role, automatically granted at all times, even if no user is logged in": #
+"Built-in role, automatically granted to every registered user": #
+"Built-in role, only valid in the context of a resource, and automatically assigned to the owner of that resource.": #
+"Built-in superuser role, automatically grants all permissions": #
+"Cancel": #
+"Cannot check for updates in read-only mode": #
+"Cannot check installed packages in read-only mode": #
+"Categories": #
+"Category": #
+"Change Log": #
+"Change status to 'draft'": #
+"Change status to 'held'": #
+"Chapter": #
+"Chapters": #
+"Check again": #
+"Check database": #
+"Check for updates": #
+"Checking for available updates (this may take up to 60 seconds)": #
+"Checking installed packages": #
+"Choose an entry": #
+"Class:": #
+"Clear Change Log": #
+"Clear System Log": #
+"Clear cache again": #
+"Clear filter": #
+"Clear sort/filter": #
+"Clear the cache": #
+"Click to change current status.": #
+"Code:": #
+"Collapse sidebar": #
+"Config": #
+"Configuration": #
+"Configure Extensions": #
+"Content": #
+"Content '%title%' could not be deleted.": #
+"Content '%title%' could not be modified.": #
+"Content '%title%' has been changed to '%newStatus%'": #
+"Content '%title%' has been deleted.": #
+"Content Type Permissions": #
+"Content for home not found!": #
+"Contenttypes": #
+"Copy to theme folder": #
+"Copying theme assets …": #
+"Create folder": #
+"Create the first user": #
+"Created on:": #
+"Current (saved) status:": #
+"Current sessions": #
+"Current status:": #
+"Dashboard": #
+"Database check / update": #
+"Date": #
+"Datetime": #
+"Default status": #
+"Delete %filename%": #
+"Delete %foldername%": #
+"Delete %username%": #
+"Delete selected": #
+"Deleted %s files from cache.": #
+"Depublication date:": #
+"Depublish date is in the past. Change the status if you want to depublish now": #
+"Depublish selected": #
+"Deselect all": #
+"Detail template": #
+"Details": #
+"Disable %username%": #
+"Do you really want to delete %foldername%?": #
+"Done!": #
+"Draft": #
+"Duplicate %filename%": #
+"Edit": #
+"Edit Roles and Permissions": #
+"Edit file": #
+"Enable %username%": #
+"Everybody": #
+"Everything is up to date!": #
+"Excerpt": #
+"Expand sidebar": #
+"Extend %boltname%": #
+"Extension": #
+"Extensions": #
+"Extensions loading has been disabled by an administrator in the %config% file. ": #
+"Extras": #
+"Failed to send password request. Please check the email settings.": #
+"File": #
+"File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": #
+"File '%file%' could not be uploaded.": #
+"File '%file%' was uploaded successfully.": #
+"File '%s' could not be saved, for some reason.": #
+"File '%s' could not be saved:": #
+"File '%s' has been saved.": #
+"File Management": #
+"File is not readable!": #
+"Filelist": # "File list"
+"Files": #
+"Files in %s": #
+"Files on the stack": #
+"Filesize": # "File size"
+"Fill the database with Dummy Content": #
+"Filter": #
+"Filtering": #
+"Filtering …": #
+"Find": #
+"Floatfield": # "Float field"
+"Folder '%s' could not be found, or is not readable.": #
+"Folder permissions insufficient": #
+"Folders": #
+"Full list …": #
+"Geolocation": #
+"Global Permissions": #
+"Hints:": #
+"Html": #
+"IP address": #
+"Id": #
+"If there was a Page with 'about' for a slug, it would've been shown here. But there isn't one, so that's why you're seeing this placeholder.": #
+"If you would like to give the theme an alternative name you can add one here.": #
+"Image": #
+"Imagelist": # "Image list"
+"Info": #
+"Install Package": #
+"Install This Version": #
+"Install a new Extension": #
+"Install all Packages": #
+"Install all updates": #
+"Installation complete": #
+"Installing package": #
+"Installing selected package version (this may take up to 60 seconds).": #
+"Integerfield": # "Integer field"
+"Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": #
+"Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": #
+"Last edited on:": #
+"Last known IP": #
+"Last seen": #
+"Latest entries": #
+"Listing template": #
+"Login": #
+"Logout": #
+"Long messages": #
+"Main configuration": #
+"Maintenance": #
+"Malformed JSON response. Ensure no debugging or other code is being added to the response": #
+"Markdown": #
+"Menu setup": # "Menu set up"
+"Message:": #
+"Messages": #
+"Meta": #
+"Meta information": #
+"Modifications made to the database:": #
+"Modifications needed:": #
+"Modified": #
+"More info/help": #
+"Multiselect": # "Multi-select"
+"New Bolt site has been set up": #
+"No Bolt Extensions installed.": #
+"No Stable Versions Available": #
+"No Test Versions Available": #
+"No files in the list, yet.": #
+"No images in the list, yet.": #
+"No relations found!": #
+"No results found for '%search%'. Please try another search.": #
+"No such action for content.": #
+"No such action for user '%s'.": #
+"None": #
+"Not published": #
+"Not yet installed.": #
+"Note:": #
+"Omnisearch": #
+"Options": #
+"Order: %sort%": #
+"Other contenttypes": #
+"Overview": #
+"Overview for": #
+"Owner": #
+"Owner:": #
+"Password reset not successful! Either the token was incorrect, or you were too late, or you tried to reset the password from a different IP-address.": #
+"Password reset successful! You can now log on with the password that was sent to you via email.": #
+"Path": #
+"Path to image file": #
+"Path:": #
+"Permalink": #
+"Permission denied": #
+"Permissions": #
+"Place on stack": #
+"Please choose the record you want to link to:": #
+"Please confirm that you want to remove this extension?": #
+"Please enter a new file name": #
+"Please enter a new folder name": #
+"Please log on.": #
+"Please provide a username": #
+"Prefill database": # "Pre-fill database"
+"Preparing to install package …": #
+"Preparing to remove package …": #
+"Preview": #
+"Profile": #
+"Provided by:": #
+"Publication date:": #
+"Publish selected": #
+"Published": #
+"Published on:": #
+"Read more": #
+"Readme": #
+"Related content": #
+"Related content:": #
+"Relationships": #
+"Remove selected": #
+"Rename %foldername%": #
+"Roles": #
+"Roles and Permissions": #
+"Run all Updates": #
+"Run update check": #
+"Running install of all packages …": #
+"Running update …": #
+"Save & create new record": #
+"Save & return to overview": #
+"Saved on:": #
+"Saving …": #
+"Search": #
+"Search for …": #
+"Search results for <b> %search% </b>.": #
+"Search …": #
+"Searching for available updates …": #
+"Select": #
+"Select a page": #
+"Select all": #
+"Select file …": #
+"Select none": #
+"Select zero or more pages": #
+"Selectentry": # "Select entry"
+"Selectfield": # "Select field"
+"Session expires": #
+"Session resumed.": #
+"Settings": #
+"Showing": #
+"Showing %pager_for% %from% - %to% of %count%": #
+"Size": #
+"Skipped <tt>%key%</tt> (already has records)": #
+"Skipped <tt>%key%</tt> (not checked)": #
+"Slug": #
+"Slug:": #
+"Something went wrong": #
+"Sophisticated, lightweight & simple CMS": #
+"Stable versions": #
+"Stack": #
+"Status": #
+"Status:": #
+"Tag": #
+"Tags": #
+"Taxonomy": #
+"Teaser": #
+"Template": #
+"Testing connection to extension server failed: %errormessage%": #
+"Textarea": #
+"That user does not exist.": #
+"The Bolt extensions Repo at %repository% is currently unavailable. Check your connection and try again shortly.": #
+"The Bolt extensions file '%composerjson%' isn't readable.": #
+"The change log has been cleared.": #
+"The change log has been trimmed.": #
+"The database needs to be updated/repaired. Go to 'Settings' > '<a href=\"%link%\">Check Database</a>' to do this now.": #
+"The extensions directory (<code>%dir%</code>) does not exist, or it is not writable. ": #
+"The field %field% has been changed to \"%newValue%\"": #
+"The file '%s' doesn't exist, or is not readable.": #
+"The file '%s' is not writable. You will have to use your own editor to make modifications to this file.": #
+"The folder '%s' could not be found, or is not readable.": #
+"The following file could not be read:": #
+"The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": #
+"The requested changelog entry doesn't exist.": #
+"The settings for roles and permissions are stored in <code>%permissions%</code>.": #
+"The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": #
+"The system log has been cleared.": #
+"The system log has been trimmed.": #
+"The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": #
+"The translations file '%s' is not readable.": #
+"The versions listed below are compatible with the version of Bolt you are using. Since they are unstable versions, we recommend you <strong>do not</strong> use these on production systems.": #
+"The versions listed below are marked as stable releases by the developer and are compatible with the version of Bolt you are currently using.": #
+"Theme installation complete": #
+"Theme successfully generated. You can now edit it directly from your theme folder.": #
+"There are no items on the Stack, yet.": #
+"There are no saved changes, yet.": #
+"There are no users in the database. Please create the first user.": #
+"There are no users present in the system. Please create the first user, which will be granted root privileges.": #
+"There should always be at least one 'root' user. You have just been promoted. Congratulations!": #
+"There was an error uploading the file.\\nMake sure that the file type is of:\\n%typelist%": #
+"This is a checkbox": #
+"This record is related to:": #
+"This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": #
+"This will install all available updates.": #
+"This will make sure all packages listed are installed. Use this if you've recently moved to a new server or if you have manually added an extension.": #
+"This will overwrite any existing files! Are you sure?": #
+"This won't install anything, just show you available updates": #
+"Time in 24h/12h format": #
+"Timed publish": #
+"Tip:": #
+"Title": #
+"Translations": #
+"Trim Change Log": #
+"Trim System Log": #
+"Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": #
+"Types": #
+"Uninstall": #
+"Unstable test versions": #
+"Update Package": #
+"Update the database": #
+"Updates": #
+"Upload": #
+"Upload a file to this folder": #
+"Upload file": #
+"Upload image": #
+"Upload not allowed": #
+"Uploaded files": #
+"Uploading to this folder is not allowed.": #
+"Used Libraries / Components": #
+"User '%s' could not be deleted.": #
+"User '%s' could not be disabled.": #
+"User '%s' could not be enabled.": #
+"User '%s' is deleted.": #
+"User '%s' is disabled.": #
+"User '%s' is enabled.": #
+"Username": #
+"Username or password not correct. Please check your input.": #
+"Users": #
+"Users & Permissions": #
+"Version": #
+"Versions": #
+"Video": #
+"View (saved version) on site": #
+"View Roles": #
+"View on site": #
+"View related content": #
+"View site": #
+"View/edit Templates": #
+"View/install Extensions": #
+"We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling.": # "reinstalling.\""
+"Written by <em>%name%</em> on %date%": #
+"You can discover new extensions by visiting": #
+"You can now start using the installed extension, documentation and implementation instructions can be found using the link below.": #
+"You cannot '%s' yourself.": #
+"You do not have the right privileges to create a new record.": #
+"You do not have the right privileges to edit that record.": #
+"You do not have the right privileges to edit that user.": #
+"You do not have the right privileges to upload.": #
+"You do not have the right privileges to view that page.": #
+"You don't have correct permissions to edit the file '%s'.": #
+"You don't have the correct permissions to display the file or directory '%s'.": #
+"You have been logged out.": #
+"You should set 'homepage:' in your 'app/config/config.yml' to an existing record. Make sure that the content is published, otherwise it will not be shown.": #
+"You've been logged on successfully.": #
+"Your Currently Installed Extensions": #
+"Your account is disabled. Sorry about that.": #
+"Your database is already up to date.": #
+"Your database is now up to date.": #
+"and edited": #
+"back to editing": #
+"by": #
+"cURL experienced an error: %errormessage%": #
+"cURL library doesn't support TLS. Downgrading to HTTP.": #
+"general.about": # "About"
+"general.about-bolt": # "About Bolt"
+"general.bolt-documentation-on-github": # "Bolt documentation on GitHub"
+"general.bolt-on-github": # "Bolt on GitHub"
+"general.thanks": # "Thanks"
+"line": #
+"logs.change-log": # "Change Log"
+"logs.system-log": # "System Log"
+"no content …": #
+"no title …": #
+"none": #
+"of": #
+"show all": #
+"users.actions-for-users": # "Actions for Users"
+"users.your-password": # "Your password"
+
+#--- 137 untranslated keyword based messages ----------------------------------
+
+"component.changelog-detail.by": # "by"
+"component.changelog-detail.field": # "Field"
+"component.changelog-detail.value-new": # "New value"
+"component.changelog-detail.value-old": # "Old value"
+"component.changelog-pager.page": # "Page"
+"contenttypes.generic.actions-all": # "Actions for %contenttypes%"
+"contenttypes.generic.actions-one": # "Actions for this %contenttype%"
+"contenttypes.generic.created": # "This %contenttype% was created"
+"contenttypes.generic.delete": # "Delete %contenttype%"
+"contenttypes.generic.duplicate": # "Duplicate %contenttype%"
+"contenttypes.generic.duplicated-finalize": # "Content was duplicated. Click 'Save %contenttype%' to finalize."
+"contenttypes.generic.edit": # "Edit %contenttype%"
+"contenttypes.generic.error-saving": # "There was an error saving this %contenttype%."
+"contenttypes.generic.group.meta": # "Meta"
+"contenttypes.generic.group.relations": # "Relationships"
+"contenttypes.generic.group.taxonomy": # "Taxonomy"
+"contenttypes.generic.group.ungrouped": # "Ungrouped"
+"contenttypes.generic.invalid-field": # "Can't set %field% in %contenttype%: Not a valid field."
+"contenttypes.generic.last-modified": # "Last modified %contenttypes%"
+"contenttypes.generic.new": # "New %contenttype%"
+"contenttypes.generic.no-latest": # "No latest %contenttype%"
+"contenttypes.generic.no-proper-type": # "In the contenttype for '%contenttype%', the field '%field%' has 'type: %type%', which is not a proper field type. Please edit contenttypes.yml, and correct this."
+"contenttypes.generic.no-recent": # "No recent %contenttype%."
+"contenttypes.generic.none-available": # "No %contenttypes% available."
+"contenttypes.generic.not-existing": # "The %contenttype% you were looking for does not exist. It was probably deleted, or it never existed."
+"contenttypes.generic.not-saved-yet": # "This %contenttype% has not been saved yet."
+"contenttypes.generic.overview": # "%contenttypes% overview"
+"contenttypes.generic.publish": # "Publish %contenttype%"
+"contenttypes.generic.recent": # "Recent %contenttypes%"
+"contenttypes.generic.recent-changes-one": # "Recent changes to this %contenttype%"
+"contenttypes.generic.recently-edited": # "Recently edited %contenttypes%"
+"contenttypes.generic.reserved-name": # "In the contenttype for '%contenttype%', the field '%field%' is defined, which is a reserved name. Please edit contenttypes.yml, and correct this."
+"contenttypes.generic.save": # "Save %contenttype%"
+"contenttypes.generic.saved-changes": # "The changes to this %contenttype% have been saved."
+"contenttypes.generic.saved-new": # "The new %contenttype% has been saved."
+"contenttypes.generic.saving-impossible": # "Could not save %contenttype%."
+"contenttypes.generic.show-more": # "More %contenttypes%"
+"contenttypes.generic.view": # "View %contenttypes%"
+"contenttypes.generic.wrong-use-field": # "In the contenttype for '%contenttype%', the field '%field%' has 'uses: %uses%', but the field '%uses%' does not exist. Please edit contenttypes.yml, and correct this."
+"field.general.allowed-filetypes": # "Allowed file types are:"
+"field.general.select-from-server": # "Select from server"
+"field.general.select-from-stack": # "Select from stack"
+"field.geolocation.label.address-lookup": # "Address lookup"
+"field.geolocation.label.latitude": # "Latitude"
+"field.geolocation.label.longitude": # "Longitude"
+"field.geolocation.label.marker-placement": # "Marker placement"
+"field.geolocation.matched-address": # "Matched address"
+"field.geolocation.placeholder.address": # "Street, ZIP code, city or other location"
+"field.slug.message.set": # "Set the slug to:"
+"field.slug.message.unlock": # "Are you sure you wish to unlock the slug? This might break existing links to this record."
+"field.slug.permalink": # "Permalink"
+"field.video.button.preview": # "Preview"
+"field.video.label.preview": # "Preview image"
+"field.video.label.size": # "Size"
+"field.video.label.url": # "URL of video to embed"
+"field.video.matched-video": # "Matched video"
+"field.video.pixel": # "pixel"
+"field.video.placeholder.url": # "URL of video on Youtube, Vimeo or other video website"
+"field.video.preview.button.close": # "Close"
+"field.video.preview.no-url": # "No video url is set, no video to show."
+"generic.noscript.headline": # "JavaScript disabled"
+"generic.noscript.message": # "JavaScript is currently disabled in your browser. Most functionality in Bolt will work without it, but for greater ease of use we recommend you enable JavaScript in your browser."
+"menu.configuration.routing": # "Routing set up"
+"page.ckeditor-browse-server.files": # "Files"
+"page.ckeditor-browse-server.folders": # "Folders"
+"page.ckeditor-browse-server.modified": # "Modified"
+"page.ckeditor-browse-server.pixel": # "px."
+"page.ckeditor-browse-server.size": # "Filesize"
+"page.ckeditor-browse-server.title": # "Files"
+"page.dashboard.button.add": # "Add …"
+"page.dashboard.empty-database": # "It seems there's no content in the database."
+"page.dashboard.quickstart": # "To get started quickly, <a href='%url%'>add some Lorem Ipsum dummy content</a>."
+"page.dashboard.title": # "Dashboard"
+"page.edit-file.button.revert": # "Revert changes"
+"page.edit-file.button.save": # "Save"
+"page.edit-file.confirm-revert": # "Are you sure you wish to revert? Your changes will be lost if you don't save them."
+"page.edit-file.note-related": # "Note, this file has related files:"
+"page.edit-file.title.edit": # "Edit file"
+"page.edit-file.title.view": # "View file"
+"page.edit-locale.button.save": # "Save"
+"page.edit-locale.title.edit": # "Edit file"
+"page.edit-locale.title.view": # "View file"
+"page.edit-users.activated.no": # "no"
+"page.edit-users.activated.yes": # "yes"
+"page.edit-users.button.save": # "Save user"
+"page.edit-users.error.displayname-used": # "This displayname is already in use. Choose another displayname."
+"page.edit-users.error.email-used": # "This email address is already in use. Choose another email address."
+"page.edit-users.error.password-mismatch": # "Passwords must match."
+"page.edit-users.error.password-short": # "This value is too short. It should have 6 characters or more."
+"page.edit-users.error.username-used": # "This username is already in use. Choose another username."
+"page.edit-users.label.assigned-roles": # "Assigned roles"
+"page.edit-users.label.display-name": # "Display name"
+"page.edit-users.label.email": # "Email"
+"page.edit-users.label.last-ip": # "Last IP"
+"page.edit-users.label.last-seen": # "Last seen"
+"page.edit-users.label.password": # "Password"
+"page.edit-users.label.password-confirm": # "Password (confirmation)"
+"page.edit-users.label.user-enabled": # "User account is enabled"
+"page.edit-users.label.username": # "Username"
+"page.edit-users.log.user-added": # "Added user account '%user%'."
+"page.edit-users.log.user-updated": # "Updated user account '%user%'."
+"page.edit-users.message.change-self": # "You've been logged off, because you changed your own username. Please log on again."
+"page.edit-users.message.saving-user": # "User %user% could not be saved, or nothing was changed."
+"page.edit-users.message.user-saved": # "User %user% has been saved."
+"page.edit-users.note-sqlite": # "You are currently using SQLite to set up the first user. If you wish to use MySQL or PostgreSQL instead, edit the configuration file at <tt>'app/config/config.yml'</tt> and Bolt will set up the database tables for you. Be sure to reload this page before continuing."
+"page.edit-users.placeholder.displayname": # "Pick a display name / alias"
+"page.edit-users.placeholder.email": # "Enter a valid email address"
+"page.edit-users.placeholder.password": # "Enter a password, longer than 6 chars"
+"page.edit-users.placeholder.password-confirm": # "Confirm your password"
+"page.edit-users.placeholder.username": # "Pick a username, lowercase only"
+"page.edit-users.title.create": # "Create a new user account"
+"page.edit-users.title.edit": # "Edit user account"
+"page.edit-users.title.profile": # "Profile"
+"page.edit-users.user-create": # "Create a new user account, using the form below. The password field is required."
+"page.edit-users.user-edit": # "Edit an existing user account, using the form below. Leave the password fields empty, unless you wish to change the password."
+"page.login.button.back": # "Back to login"
+"page.login.button.forgot-password": # "I forgot my password …"
+"page.login.button.log-on": # "Log on"
+"page.login.button.reset-password": # "Reset my password"
+"page.login.cookies-required": # "Note: Cookies are required to log on to Bolt. Please allow cookies."
+"page.login.label.password": # "Password"
+"page.login.label.username": # "Username"
+"page.login.password-hide": # "Hide"
+"page.login.password-show": # "Show"
+"page.login.placeholder.password": # "Your username"
+"page.login.title": # "Sign in to Bolt"
+"panel.latest-activity.button.more": # "more activity"
+"panel.latest-activity.by": # "by"
+"panel.latest-activity.change": # "Latest changes"
+"panel.latest-activity.created": # "Created"
+"panel.latest-activity.deleted": # "Deleted"
+"panel.latest-activity.logged-in": # "logged in"
+"panel.latest-activity.logged-out": # "logged out"
+"panel.latest-activity.saved": # "Saved"
+"panel.latest-activity.system": # "Latest system activity"
+"panel.latest-activity.unknown": # "unknown"
+"panel.user-actions.button.add": # "Add a new user"
