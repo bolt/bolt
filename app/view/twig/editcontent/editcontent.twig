@@ -54,34 +54,35 @@
 
     {# Build tab groups list #}
 
-    {% set tabgroups = {} %}
+    {% set groups_label = {} %}
+
     {% for group in context.contenttype.groups %}
         {% if group == 'ungrouped' %}
-            {% set tabgroups = tabgroups|merge({(group): __('contenttypes.generic.group.ungrouped')}) %}
+            {% set groups_label = (groups_label)|merge({(group): __('contenttypes.generic.group.ungrouped')}) %}
         {% elseif group != 'meta' and group != 'relations' and group != 'taxonomy' %}
             {% set label = __(['contenttypes', context.contenttype.slug, 'group', group], {DEFAULT: group|capitalize}) %}
-            {% set tabgroups = tabgroups|merge({(group): label}) %}
+            {% set groups_label = groups_label|merge({(group): label}) %}
         {% endif %}
     {% else %}
-        {% set tabgroups = {'ungrouped': ''} %}
+        {% set groups_label = {'ungrouped': ''} %}
     {% endfor %}
 
     {% if has.relations or has.incoming_relations %}
-        {% set tabgroups = tabgroups|merge({'relations': __('contenttypes.generic.group.relations')}) %}
+        {% set groups_label = groups_label|merge({'relations': __('contenttypes.generic.group.relations')}) %}
     {% endif %}
     {% if has.taxonomy or 'taxonomy' in context.contenttype.groups %}
-        {% set tabgroups = tabgroups|merge({'taxonomy': __('contenttypes.generic.group.taxonomy')}) %}
+        {% set groups_label = groups_label|merge({'taxonomy': __('contenttypes.generic.group.taxonomy')}) %}
     {% endif %}
 
-    {% set tabgroups = tabgroups|merge({'meta': __('contenttypes.generic.group.meta')}) %}
+    {% set groups_label = groups_label|merge({'meta': __('contenttypes.generic.group.meta')}) %}
 
-    {% set active_group = tabgroups|keys|first %}
+    {% set active_group = groups_label|keys|first %}
 
     {# Build tab group slugs #}
 
     {% set groups_ids = {} %}
     {% set groups_num = 0 %}
-    {% for group, name in tabgroups %}
+    {% for group, name in groups_label %}
         {% set groups_num = groups_num + 1 %}
         {% set groups_id = 'tab-' ~ group|slug()|default(groups_num) %}
         {% if groups_id in groups_ids %}
@@ -98,7 +99,7 @@
             {# Only if we have grouping tabs. #}
             {% if has.tabs %}
                 <ul class="nav nav-tabs" id="filtertabs">
-                    {% for group, name in tabgroups %}
+                    {% for group, name in groups_label %}
                         <li{{ group == active_group ? ' class="active"' : '' }}>
                             <a href="#{{ groups_ids[group] }}" data-toggle="tab">{{ name }}</a>
                         </li>
@@ -109,7 +110,7 @@
             <form{{ macro.attr(attr_form) }}>
                 {% include '_sub/_csrf_token.twig' %}
 
-                {% for group, name in tabgroups %}
+                {% for group, name in groups_label %}
 
                     {% if has.tabs %}
                         <div class="tab-pane{{ group == active_group ? ' active' : '' }}" id="{{ groups_ids[group] }}">
