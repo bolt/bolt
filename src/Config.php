@@ -836,10 +836,10 @@ class Config
 
     public function getTwigPath()
     {
-        $themepath = $this->app['resources']->getPath("templatespath");
+        $themepath = $this->app['resources']->getPath('templatespath');
         $end = $this->getWhichEnd($this->get('general/branding/path'));
 
-        if ($end == 'frontend' && file_exists($themepath)) {
+        if (($end == 'frontend' || $end == 'async') && file_exists($themepath)) {
             $twigpath = array($themepath);
         } else {
             $twigpath = array(realpath($this->app['resources']->getPath('app') . '/view/twig'));
