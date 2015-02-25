@@ -164,15 +164,15 @@ class Permissions
      */
     public function getManipulatableRoles(array $currentUser)
     {
-        $roles = array();
+        $manipulatableRoles = array();
 
         foreach ($this->getDefinedRoles() as $roleName => $role) {
-            if ($this->checkPermission($currentUser['roles'], 'users:roles-hierarchy:' . $roleName)) {
-                $roles[] = $roleName;
+            if ($this->checkPermission($currentUser['roles'],  'manipulate', 'roles-hierarchy', $roleName)) {
+                $manipulatableRoles[] = $roleName;
             }
         }
 
-        return $roles;
+        return $manipulatableRoles;
     }
 
     /**
@@ -185,12 +185,7 @@ class Permissions
      */
     public function isAllowedToManipulate(array $user, array $currentUser)
     {
-        foreach ($user['roles'] as $roleName) {
-            if ($this->checkPermission($currentUser['roles'], 'users:roles-hierarchy:' . $roleName)) {
-                return true;
-            }
-        }
-        return false;
+        return $this->checkPermission($currentUser['roles'], 'manipulate', 'roles-hierarchy', $user);
     }
 
     /**
@@ -214,7 +209,13 @@ class Permissions
             $type = 'contenttype';
         }
 
-        $itemStr = $item ? " for $item" : '';
+        if (is_array($item) && isset($item['username'])) {
+            $itemStr = sprintf(' for user "%s"', $item['username']);
+        } elseif ($item) {
+            $itemStr = " for $item";
+        } else {
+            $itemStr = '';
+        }
 
         $roleNames = array_unique($roleNames);
         if (in_array(Permissions::ROLE_ROOT, $roleNames)) {
@@ -263,6 +264,8 @@ class Permissions
     {
         if ($type === 'global') {
             return $this->checkRoleGlobalPermission($roleName, $permissionName);
+        } elseif ($type === 'roles-hierarchy') {
+            return $this->checkRoleHierarchyPermission($roleName, $permissionName, $item);
         } elseif ($type === 'contenttype') {
             return $this->checkRoleContentTypePermission($roleName, $permissionName, $item);
         }
@@ -280,6 +283,26 @@ class Permissions
         }
 
         return in_array($roleName, $roles);
+    }
+
+    private function checkRoleHierarchyPermission($roleName, $permissionName, $role)
+    {
+        // Can current user manipulate role?
+        if (is_string($role)) {
+            $permissions = $this->app['config']->get("permissions/roles-hierarchy/$permissionName/$role", array());
+            return in_array($roleName, $permissions);
+        }
+
+        // Can current user manipulate user?
+        $user = $role;
+        foreach ($user['roles'] as $role) {
+            $permissions = $this->app['config']->get("permissions/roles-hierarchy/$permissionName/$role", array());
+            if (in_array($roleName, $permissions)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private function checkRoleContentTypePermission($roleName, $permissionName, $contenttype)
