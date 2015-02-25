@@ -415,7 +415,7 @@ class Application extends Silex\Application
             }
         }
 
-        // Mount the 'frontend' controllers, ar defined in our Routing.yml
+        // Mount the 'frontend' controllers, as defined in our Routing.yml
         $this->mount('', new Controllers\Routing());
     }
 
