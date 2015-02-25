@@ -725,7 +725,7 @@ class Async implements ControllerProviderInterface
         $message = $app['mailer']
             ->createMessage('message')
             ->setSubject('Test email from ' . $app['config']->get('general/sitename'))
-            ->setFrom(array($user['email'] => 'Bolt'))
+            ->setFrom(array('bolt@'.$request->getHost() => $app['config']->get('general/sitename')))
             ->setTo(array($user['email'] => $user['displayname']))
             ->setBody(strip_tags($mailhtml))
             ->addPart($mailhtml, 'text/html');
