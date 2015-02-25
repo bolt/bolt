@@ -1430,10 +1430,10 @@ class Backend implements ControllerProviderInterface
         if (!$app['users']->isAllowed("files:uploads")) {
             $uploadview = false;
         }
-
-        try {
+        
+        if($filesystem->getVisibility($path) === 'public' ) {
             $validFolder = true;
-        } catch (\Exception $e) {
+        } else {
             $app['session']->getFlashBag()->add('error', Trans::__("The folder '%s' could not be found, or is not readable.", array('%s' => $path)));
             $formview = false;
             $validFolder = false;
@@ -1513,9 +1513,11 @@ class Backend implements ControllerProviderInterface
             } else {
                 $formview = $form->createView();
             }
+        
+            list($files, $folders) = $filesystem->browse($path, $app);
         }
 
-        list($files, $folders) = $filesystem->browse($path, $app);
+        
 
         // Get the pathsegments, so we can show the path as breadcrumb navigation..
         $pathsegments = array();
