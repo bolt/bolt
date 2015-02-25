@@ -330,6 +330,7 @@ class Application extends Silex\Application
         if ($this['config']->get('general/mailoptions/transport') == 'mail') {
             // Use the 'mail' transport.
             $this['swiftmailer.transport'] = \Swift_MailTransport::newInstance();
+            $this['swiftmailer.use_spool'] = false;
         } else if ($this['config']->get('general/mailoptions')) {
             // Use the preferred SMTP options.
             $this['swiftmailer.options'] = $this['config']->get('general/mailoptions');
