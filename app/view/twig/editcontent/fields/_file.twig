@@ -5,6 +5,7 @@
     label:       field.label|default(''),
     extensions:  field.extensions|default([]),
     upload:      field.upload|default(''),
+    canUpload:   field.canUpload,
     info:        field.info|default('info.upload.file')
 } %}
 
@@ -54,8 +55,8 @@
 
     <div class="col-sm-12 dropzone clearfix" id="dropzone-{{ key }}">
         <input{{ macro.attr(attr_filepath) }}>
-
-        {{ macro.upload_buttons('file', key, attr_upload, option.upload, context.canUpload) }}
+        {% set canUpload = context.canUpload and option.canUpload %}
+        {{ macro.upload_buttons('file', key, attr_upload, option.upload, canUpload) }}
         {{ block.progress(key) }}
         {{ block.serverselect(key, __('Cancel')) }}
 

@@ -4,6 +4,7 @@
     extensions:  field.extensions|default([]),
     label:       field.label|default(''),
     upload:      field.upload|default(''),
+    canUpload:   field.canUpload,
     info:        field.info|default('info.upload.filelist')
 } %}
 
@@ -69,7 +70,8 @@
 
         <div class="list" data-list="{{ listdata|json_encode }}"></div>
 
-        {{ macro.upload_buttons('file', key, attr_fileupload, option.upload, context.canUpload) }}
+        {% set canUpload = context.canUpload and option.canUpload %}
+        {{ macro.upload_buttons('file', key, attr_fileupload, option.upload, canUpload) }}
 
         <span type="button" class="btn btn-default remove-selected-button">
             <i class="fa fa-trash"></i>
