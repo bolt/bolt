@@ -1,4 +1,4 @@
-# app/resources/translations/pl_PL/messages.pl_PL.yml – generated on 2015-02-25 01:06:15 Europe/Warsaw
+# app/resources/translations/pl_PL/messages.pl_PL.yml – generated on 2015-02-25 01:54:07 Europe/Warsaw
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
 #          at the moment. This is an ongoing process. Translations currently in the 
@@ -9,58 +9,27 @@
 #          in order to prevent merge conflicts.
 
 #  no unused messages
-# 303 untranslated messages
+# 204 untranslated messages
 # 137 untranslated keyword based messages
-# 100 translations
+# 199 translations
 #  no keyword based translations
 
-#--- 303 untranslated messages ------------------------------------------------
+#--- 204 untranslated messages ------------------------------------------------
 
 "Alt": #
 "Body": #
-"Checking for available updates (this may take up to 60 seconds)": #
-"Checking installed packages": #
 "Choose an entry": #
-"Clear Change Log": #
-"Clear System Log": #
-"Clear cache again": #
-"Clear filter": #
-"Clear sort/filter": #
-"Clear the cache": #
-"Click to change current status.": #
-"Collapse sidebar": #
 "Config": #
-"Content '%title%' could not be deleted.": #
-"Content '%title%' could not be modified.": #
-"Content '%title%' has been changed to '%newStatus%'": #
-"Content '%title%' has been deleted.": #
 "Content Type Permissions": #
 "Content for home not found!": #
 "Contenttypes": #
-"Copy to theme folder": #
 "Copying theme assets …": #
 "Created on:": #
 "Current (saved) status:": #
-"Current sessions": #
-"Current status:": #
-"Database check / update": #
-"Deleted %s files from cache.": #
 "Depublication date:": #
 "Depublish date is in the past. Change the status if you want to depublish now": #
 "Depublish selected": #
-"Deselect all": #
-"Detail template": #
-"Disable %username%": #
-"Do you really want to delete %foldername%?": #
-"Done!": #
-"Draft": #
-"Duplicate %filename%": #
-"Everything is up to date!": #
-"Excerpt": #
-"Expand sidebar": #
-"Extend %boltname%": #
 "Extensions loading has been disabled by an administrator in the %config% file. ": #
-"Extras": #
 "Failed to send password request. Please check the email settings.": #
 "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": #
 "File '%file%' could not be uploaded.": #
@@ -75,7 +44,6 @@
 "Folder '%s' could not be found, or is not readable.": #
 "Folder permissions insufficient": #
 "Full list …": #
-"Global Permissions": #
 "If there was a Page with 'about' for a slug, it would've been shown here. But there isn't one, so that's why you're seeing this placeholder.": #
 "If you would like to give the theme an alternative name you can add one here.": #
 "Installing selected package version (this may take up to 60 seconds).": #
@@ -83,26 +51,16 @@
 "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": #
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": #
 "Last edited on:": #
-"Last known IP": #
-"Last seen": #
 "Latest entries": #
 "Listing template": #
-"Login": #
-"Logout": #
 "Long messages": #
-"Main configuration": #
 "Maintenance": #
 "Malformed JSON response. Ensure no debugging or other code is being added to the response": #
 "Markdown": #
-"Menu setup": # "Menu set up"
-"Message:": #
-"Messages": #
 "Meta": #
 "Meta information": #
 "Modifications made to the database:": #
 "Modifications needed:": #
-"Modified": #
-"More info/help": #
 "Multiselect": # "Multi-select"
 "New Bolt site has been set up": #
 "No Bolt Extensions installed.": #
@@ -114,52 +72,26 @@
 "No results found for '%search%'. Please try another search.": #
 "No such action for content.": #
 "No such action for user '%s'.": #
-"None": #
-"Not published": #
-"Not yet installed.": #
-"Note:": #
 "Omnisearch": #
-"Options": #
 "Order: %sort%": #
 "Other contenttypes": #
-"Overview": #
 "Overview for": #
-"Owner": #
-"Owner:": #
 "Password reset not successful! Either the token was incorrect, or you were too late, or you tried to reset the password from a different IP-address.": #
 "Password reset successful! You can now log on with the password that was sent to you via email.": #
-"Path": #
-"Path to image file": #
-"Path:": #
 "Permalink": #
-"Permission denied": #
-"Permissions": #
 "Place on stack": #
 "Please choose the record you want to link to:": #
 "Please confirm that you want to remove this extension?": #
 "Please enter a new file name": #
 "Please enter a new folder name": #
-"Please log on.": #
-"Please provide a username": #
 "Prefill database": # "Pre-fill database"
 "Preparing to install package …": #
 "Preparing to remove package …": #
-"Preview": #
-"Profile": #
 "Provided by:": #
-"Publication date:": #
-"Publish selected": #
-"Published": #
 "Published on:": #
-"Read more": #
 "Readme": #
-"Related content": #
-"Related content:": #
-"Relationships": #
 "Remove selected": #
 "Rename %foldername%": #
-"Roles": #
-"Roles and Permissions": #
 "Run all Updates": #
 "Run update check": #
 "Running install of all packages …": #
@@ -168,24 +100,15 @@
 "Save & return to overview": #
 "Saved on:": #
 "Saving …": #
-"Search": #
 "Search for …": #
 "Search results for <b> %search% </b>.": #
-"Search …": #
 "Searching for available updates …": #
-"Select": #
-"Select a page": #
-"Select all": #
-"Select file …": #
 "Select none": #
 "Select zero or more pages": #
 "Selectentry": # "Select entry"
 "Selectfield": # "Select field"
-"Session expires": #
-"Session resumed.": #
 "Showing": #
 "Showing %pager_for% %from% - %to% of %count%": #
-"Size": #
 "Skipped <tt>%key%</tt> (already has records)": #
 "Skipped <tt>%key%</tt> (not checked)": #
 "Slug": #
@@ -193,16 +116,10 @@
 "Something went wrong": #
 "Sophisticated, lightweight & simple CMS": #
 "Stable versions": #
-"Stack": #
-"Status": #
-"Status:": #
-"Tag": #
-"Tags": #
+"Stack": Stos
 "Taxonomy": #
 "Teaser": #
-"Template": #
 "Testing connection to extension server failed: %errormessage%": #
-"Textarea": #
 "That user does not exist.": #
 "The Bolt extensions Repo at %repository% is currently unavailable. Check your connection and try again shortly.": #
 "The Bolt extensions file '%composerjson%' isn't readable.": #
@@ -242,24 +159,14 @@
 "This won't install anything, just show you available updates": #
 "Time in 24h/12h format": #
 "Timed publish": #
-"Tip:": #
-"Title": #
 "Trim Change Log": #
 "Trim System Log": #
 "Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": #
 "Types": #
-"Uninstall": #
 "Unstable test versions": #
 "Update Package": #
 "Update the database": #
-"Updates": #
-"Upload": #
 "Upload a file to this folder": #
-"Upload file": #
-"Upload image": #
-"Upload not allowed": #
-"Uploaded files": #
-"Uploading to this folder is not allowed.": #
 "Used Libraries / Components": #
 "User '%s' could not be deleted.": #
 "User '%s' could not be disabled.": #
@@ -267,17 +174,11 @@
 "User '%s' is deleted.": #
 "User '%s' is disabled.": #
 "User '%s' is enabled.": #
-"Username": #
 "Username or password not correct. Please check your input.": #
-"Users": #
-"Users & Permissions": #
-"Version": #
-"Versions": #
 "View (saved version) on site": #
 "View Roles": #
 "View on site": #
 "View related content": #
-"View site": #
 "View/edit Templates": #
 "View/install Extensions": #
 "We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling.": # "reinstalling.\""
@@ -460,7 +361,7 @@
 "panel.latest-activity.unknown": # "unknown"
 "panel.user-actions.button.add": # "Add a new user"
 
-#--- 100 translations ---------------------------------------------------------
+#--- 199 translations ---------------------------------------------------------
 
 "%name% № %id%": "%name% nr %id%"
 "%s files could not be deleted. You should delete them manually.": "%s pliki nie mogą zostać usunięte. Należy usunąć je ręcznie."
@@ -510,14 +411,32 @@
 "Check again": "Sprawdź ponownie"
 "Check database": "Sparwdź bazę danych"
 "Check for updates": "Sprawdź aktualizacje"
+"Checking for available updates (this may take up to 60 seconds)": "Sprawdzanie dostępności aktualizacji (może to potrwać do 60 sekund)"
+"Checking installed packages": "Sprawdzanie zainstalowanych pakietów"
 "Class:": "Klasa:"
+"Clear Change Log": "Wyczyść log zmian"
+"Clear System Log": "Wyczyść log systemowy"
+"Clear cache again": "Ponownie wyczyść pamięć podręczną"
+"Clear filter": "Wyczyść filtr"
+"Clear sort/filter": "Wyczyść sortowanie/filtr"
+"Clear the cache": "Wyczyść pamięć podręczną"
+"Click to change current status.": "Kliknij aby zmienić aktualny status."
 "Code:": "Kod:"
+"Collapse sidebar": "Zwiń pasek boczny"
 "Configuration": "Konfiguracja"
 "Configure Extensions": "Konfiguruj rozszerzenia"
 "Content": "Zawartość"
+"Content '%title%' could not be deleted.": "Zawartość '%title%' nie może zostać usunięta."
+"Content '%title%' could not be modified.": "Zawartość '%title%' nie może zostać zmodyfikowana."
+"Content '%title%' has been changed to '%newStatus%'": "Zawartość '%title%' została zmieniona na '%newStatus%'"
+"Content '%title%' has been deleted.": "Zawartość '%title%' została usunięta."
+"Copy to theme folder": "Skopiuj do katalogu skórek"
 "Create folder": "Utwórz katalog"
 "Create the first user": "Utwórz pierwszego użytkownika"
+"Current sessions": "Aktualne sesje"
+"Current status:": "Aktualny status:"
 "Dashboard": "Pulpit"
+"Database check / update": "Sprawdzanie / aktualizacja bazy danych"
 "Date": "Data"
 "Datetime": "Data i czas"
 "Default status": "Domyślny status"
@@ -525,14 +444,27 @@
 "Delete %foldername%": "Usuń %foldername%"
 "Delete %username%": "Usuń %username%"
 "Delete selected": "Usuń zaznaczone"
+"Deleted %s files from cache.": "Usunięto %s plików z pamięci podręcznej."
+"Deselect all": "Odznacz wszystko"
+"Detail template": "Szczegóły szablonu"
 "Details": "Szczegóły"
+"Disable %username%": "Deaktywuj %username%"
+"Do you really want to delete %foldername%?": "Czy na pewno chcesz usunąć %foldername%?"
+"Done!": "Gotowe!"
+"Draft": "Szkic"
+"Duplicate %filename%": "Zduplikuj %filename%"
 "Edit": "Edytuj"
 "Edit Roles and Permissions": "Edytuj role i uprawnienia"
 "Edit file": "Edytuj plik"
 "Enable %username%": "Aktywuj %username%"
 "Everybody": "Wszyscy"
+"Everything is up to date!": "Wszystko jest aktualne!"
+"Excerpt": "Fragment"
+"Expand sidebar": "Rozwiń pasek boczny"
+"Extend %boltname%": "Rozszerz %boltname%"
 "Extension": "Rozszerzenie"
 "Extensions": "Rozszerzenia"
+"Extras": "Dodatki"
 "File": "Plik"
 "File Management": "Zarządzanie plikami"
 "Filelist": "Lista plików"
@@ -545,6 +477,7 @@
 "Find": "Znajdź"
 "Folders": "Katalogi"
 "Geolocation": "Geolokalizacja"
+"Global Permissions": "Globalne uprawnienia"
 "Hints:": "Wskazówki"
 "Html": "HTML"
 "IP address": "Adres IP"
@@ -559,6 +492,73 @@
 "Install all updates": "Zainstaluj wszystkie aktualizacje"
 "Installation complete": "Instalacja zakończona"
 "Installing package": "Instalowanie pakietu"
+"Last known IP": "Ostatnie znane IP"
+"Last seen": "Ostatnio widziany"
+"Login": "Zaloguj"
+"Logout": "Wyloguj"
+"Main configuration": "Główna konfiguracja"
+"Menu setup": "Ustawienia menu"
+"Message:": "Wiadomość:"
+"Messages": "Wiadomości"
+"Modified": "Zmodyfikowany"
+"More info/help": "Więcej informacji/pomoc"
+"None": "Żaden"
+"Not published": "Nie opublikowane"
+"Not yet installed.": "Nie został jeszcze zainstalowany."
+"Note:": "Notatka:"
+"Options": "Opcje"
+"Overview": "Przegląd"
+"Owner": "Właściciel"
+"Owner:": "Właściciel:"
+"Path": "Ścieżka"
+"Path to image file": "Ścieżka do pliku obrazu"
+"Path:": "Ścieżka:"
+"Permission denied": "Brak dostępu"
+"Permissions": "Uprawnienia"
+"Please log on.": "Proszę się zalogować"
+"Please provide a username": "Prosze podać nazwę użytkownika"
+"Preview": "Podgląd"
+"Profile": "Profil"
+"Publication date:": "Data publikacji:"
+"Publish selected": "Opublikuj wybrane"
+"Published": "Opublikowany"
+"Read more": "Czytaj dalej"
+"Related content": "Powiązana zawartość"
+"Related content:": "Powiązana zawartość:"
+"Relationships": "Relacje"
+"Roles": "Role"
+"Roles and Permissions": "Role i uprawnienia"
+"Search": "Szukaj"
+"Search …": "Szukaj …"
+"Select": "Wybierz"
+"Select a page": "Wybierz stronę"
+"Select all": "Wybierz wszystko"
+"Select file …": "Wybierz plik …"
+"Session expires": "Sesja wygasła"
+"Session resumed.": "Sesja wznowiona."
 "Settings": "Ustawienia"
+"Size": "Rozmiar"
+"Status": "Status"
+"Status:": "Status:"
+"Tag": "Tag"
+"Tags": "Tagi"
+"Template": "Szablon"
+"Textarea": "Pole tekstowe"
+"Tip:": "Wskazówka:"
+"Title": "Tytuł"
 "Translations": "Tłumaczenia"
+"Uninstall": "Odinstaluj"
+"Updates": "Aktualizacje"
+"Upload": "Prześlij"
+"Upload file": "Prześlij plik"
+"Upload image": "Prześlij obraz"
+"Upload not allowed": "Przesyłanie plików jest niedozwolone"
+"Uploaded files": "Przesłane pliki"
+"Uploading to this folder is not allowed.": "Przesyłanie plików do tego katalogu jest niedozwolone."
+"Username": "Nazwa użytkownika"
+"Users": "Użytkownicy"
+"Users & Permissions": "Użytkownicy & uprawnienia"
+"Version": "Wersja"
+"Versions": "Wersje"
 "Video": "Wideo"
+"View site": "Zobacz stronę"
