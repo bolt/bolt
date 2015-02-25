@@ -11,7 +11,6 @@ use Symfony\Component\HttpFoundation\Response;
  * Class to test correct operation of src/Controller/Frontend.
  * 
  * 
- * 
  * @author Ross Riley <riley.ross@gmail.com>
  **/
 
@@ -20,10 +19,7 @@ class FrontendTest extends BoltUnitTest
     
     public function setUp()
     {
-        $this->php = \PHPUnit_Extension_FunctionMocker::start($this, 'Bolt')
-            ->mockFunction('file_exists')
-            ->mockFunction('is_readable')
-            ->getMock();
+        
     }
 
     public function testDefaultHomepage()
@@ -102,19 +98,27 @@ class FrontendTest extends BoltUnitTest
     public function testRecord()
     {
         $app = $this->getApp();
+
+        $contenttype = $app['storage']->getContentType('pages');
         $app['request'] = Request::create('/pages/test');
-        $storage = $this->getMock('Bolt\Storage', array('getContent'), array($app));
         $content1 = new Content($app, $contenttype);
+        
+        $storage = $this->getMock('Bolt\Storage', array('getContent', 'getContentType'), array($app));
         
         $storage->expects($this->once())
             ->method('getContent')
             ->with('pages')
             ->will($this->returnValue($content1) );
+            
+        $storage->expects($this->once())
+            ->method('getContentType')
+            ->with('pages')
+            ->will($this->returnValue($contenttype) );
         $app['storage'] = $storage;
             
             
         $twig = $this->getMockTwig();
-        $twig->expects($this->once())
+        $twig->expects($this->any())
             ->method('render')
             ->with('record.twig');
         $app['twig'] = $twig;
@@ -128,14 +132,15 @@ class FrontendTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $app['request'] = Request::create('/pages/', 'GET', array('id'=>5));
+        $contenttype = $app['storage']->getContentType('pages');
+        $content1 = new Content($app, $contenttype);
+
         $storage = $this->getMock('Bolt\Storage', array('getContent'), array($app));
         
         $storage->expects($this->at(0))
             ->method('getContent')
             ->will($this->returnValue(false) );
             
-        $contenttype = $storage->getContentType('pages');
-        $content1 = new Content($app, $contenttype);
             
         $storage->expects($this->at(1))
             ->method('getContent')
@@ -145,7 +150,7 @@ class FrontendTest extends BoltUnitTest
             
               
 
-        $response = Frontend::record($app, 'pages');
+        $response = Frontend::record($app, 'pages', 5);
 
     }
     
@@ -167,17 +172,9 @@ class FrontendTest extends BoltUnitTest
 
     }
     
+    
     public function testRecordNoTemplate()
     {
-        $this->php
-            ->expects($this->any())
-            ->method('file_exists')
-            ->will($this->returnValue(false));
-            
-        $this->php
-            ->expects($this->any())
-            ->method('is_readable')
-            ->will($this->returnValue(false));
             
         $app = $this->getApp();
         $app['request'] = Request::create('/pages/', 'GET', array('id'=>5));
@@ -189,19 +186,67 @@ class FrontendTest extends BoltUnitTest
             
         $app['storage'] = $storage;
         
-        $response = Frontend::record($app, 'pages');
-
+        $this->setExpectedException('Symfony\Component\HttpKernel\Exception\HttpException', 'not found');           
+        Frontend::record($app, 'pages');
     }
     
+    public function testViewlessRecord()
+    {
+            
+        $app = $this->getApp();
+        $contenttype = $app['storage']->getContentType('pages');
+        $contenttype['viewless'] = true;
 
+        $app['request'] = Request::create('/pages/test');
+        $storage = $this->getMock('Bolt\Storage', array('getContentType'), array($app));
+        
+        $storage->expects($this->once())
+            ->method('getContentType')
+            ->will($this->returnValue($contenttype) );
+            
+        $app['storage'] = $storage;
+        
+        $this->setExpectedException('Symfony\Component\HttpKernel\Exception\HttpException', 'not found');           
+        Frontend::record($app, 'pages', 'test');
+    }
+    
+    /**
+     * @runInSeparateProcess
+     *
+     **/
     public function testPreview()
     {
         $app = $this->getApp();
         $request = Request::create('/pages/test');
+        $app['request'] = $request;
+        $templates = $this->getMock('Bolt\TemplateChooser', array('record'), array($app));
+        $templates->expects($this->once())
+            ->method('record')
+            ->will($this->returnValue('record.twig'));
+        $app['templatechooser'] = $templates;
         
-        //$response = Frontend::preview($request, $app, 'pages');
+        $twig = $this->getMockTwig();
+        $twig->expects($this->once())
+            ->method('render')
+            ->with('record.twig');
+        $app['twig'] = $twig;
         
-
+        $response = Frontend::preview($request, $app, 'pages');     
+    }
+    
+    public function testListing()
+    {
+        $app = $this->getApp();
+        $request = Request::create('/pages');
+        $app['request'] = $request;
+        
+        $twig = $this->getMockTwig();
+        $twig->expects($this->once())
+            ->method('render')
+            ->with('listing.twig');
+        $app['twig'] = $twig;
+        
+        $response = Frontend::listing($app, 'pages');     
     }
     
 }
