@@ -1431,8 +1431,11 @@ class Backend implements ControllerProviderInterface
             $uploadview = false;
         }
         
-        if($filesystem->getVisibility($path) === 'public' ) {
+        if ($filesystem->getVisibility($path) === 'public' ) {
             $validFolder = true;
+        } elseif ($filesystem->getVisibility($path) === 'readonly' ) {
+            $validFolder = true;
+            $uploadview = false;
         } else {
             $app['session']->getFlashBag()->add('error', Trans::__("The folder '%s' could not be found, or is not readable.", array('%s' => $path)));
             $formview = false;
