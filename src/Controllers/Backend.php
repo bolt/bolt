@@ -1060,7 +1060,9 @@ class Backend implements ControllerProviderInterface
             0 => Trans::__('page.edit-users.activated.no')
         );
 
-        $roles = $app['permissions']->getManipulatableRoles($currentuser);
+        $roles = array_map(function ($role) {
+            return $role['label'];
+        }, $app['permissions']->getDefinedRoles());
 
         $form = $this->getUserForm($app, $user, true);
 
@@ -1127,9 +1129,19 @@ class Backend implements ControllerProviderInterface
             }
         }
 
+        /** @var \Symfony\Component\Form\FormView|\Symfony\Component\Form\FormView[] $formView */
+        $formView = $form->createView();
+
+        $manipulatableRoles = $app['permissions']->getManipulatableRoles($currentuser);
+        foreach ($formView['roles'] as $role) {
+            if (!in_array($role->vars['value'], $manipulatableRoles)) {
+                $role->vars['attr']['disabled'] = 'disabled';
+            }
+        }
+
         $context = array(
             'kind' => empty($id) ? 'create' : 'edit',
-            'form' => $form->createView(),
+            'form' => $formView,
             'note' => '',
             'displayname' => $user['displayname'],
         );

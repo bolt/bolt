@@ -158,7 +158,7 @@ class Permissions
      *
      * @param array $currentUser
      *
-     * @return string[]
+     * @return string[] list of role names
      */
     public function getManipulatableRoles(array $currentUser)
     {
@@ -166,7 +166,7 @@ class Permissions
 
         foreach ($this->getDefinedRoles() as $roleName => $role) {
             if ($this->checkPermission($currentUser['roles'], 'users:roles-hierarchy:' . $roleName)) {
-                $roles[$roleName] = $role['label'];
+                $roles[] = $roleName;
             }
         }
 
