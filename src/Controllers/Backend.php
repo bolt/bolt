@@ -1224,10 +1224,10 @@ class Backend implements ControllerProviderInterface
 
             if ($firstuser) {
                 $user['roles'] = array(Permissions::ROLE_ROOT);
+            } else {
+                $id = isset($user['id']) ? $user['id'] : null;
+                $user['roles'] = $app['users']->filterManipulatableRoles($id, $user['roles']);
             }
-
-            $id = isset($user['id']) ? $user['id'] : null;
-            $user['roles'] = $app['users']->filterManipulatableRoles($id, $user['roles']);
 
             $res = $app['users']->saveUser($user);
 
