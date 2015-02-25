@@ -2,10 +2,10 @@
 
 namespace Bolt;
 
+use Bolt\Translation\Translator as Trans;
 use Doctrine\DBAL\DBALException;
 use Hautelook\Phpass\PasswordHash;
 use Silex;
-use Bolt\Translation\Translator as Trans;
 use UAParser;
 
 /**
@@ -972,7 +972,7 @@ class Users
         $manipulatableRoles = $this->app['permissions']->getManipulatableRoles($this->currentuser);
 
         $roles = array();
-        // Remove roles if the current use can manipulate that role
+        // Remove roles if the current user can manipulate that role
         foreach ($oldRoles as $role) {
             if ($role === Permissions::ROLE_EVERYONE) {
                 continue;
