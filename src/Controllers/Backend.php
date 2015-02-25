@@ -1226,6 +1226,9 @@ class Backend implements ControllerProviderInterface
                 $user['roles'] = array(Permissions::ROLE_ROOT);
             }
 
+            $id = isset($user['id']) ? $user['id'] : null;
+            $user['roles'] = $app['users']->filterManipulatableRoles($id, $user['roles']);
+
             $res = $app['users']->saveUser($user);
 
             if ($user['id']) {
@@ -1817,7 +1820,6 @@ class Backend implements ControllerProviderInterface
         $app['users']->checkForRoot();
 
         // Most of the 'check if user is allowed' happens here: match the current route to the 'allowed' settings.
-        $id = $request->attributes->get('id');
         if (!$app['users']->isValidSession() && !$app['users']->isAllowed($route)) {
             $app['session']->getFlashBag()->add('info', Trans::__('Please log on.'));
 

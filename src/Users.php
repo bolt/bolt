@@ -954,6 +954,44 @@ class Users
     }
 
     /**
+     * Ensure changes to the user's roles match what the
+     * current user has permissions to manipulate.
+     *
+     * @param int|string $id       User ID
+     * @param array      $newRoles Roles from form submission
+     *
+     * @return string[] The user's roles with the allowed changes
+     */
+    public function filterManipulatableRoles($id, array $newRoles)
+    {
+        $oldRoles = array();
+        if ($id && $user = $this->getUser($id)) {
+            $oldRoles = $user['roles'];
+        }
+
+        $manipulatableRoles = $this->app['permissions']->getManipulatableRoles($this->currentuser);
+
+        $roles = array();
+        // Remove roles if the current use can manipulate that role
+        foreach ($oldRoles as $role) {
+            if ($role === Permissions::ROLE_EVERYONE) {
+                continue;
+            }
+            if (in_array($role, $newRoles) || !in_array($role, $manipulatableRoles)) {
+                $roles[] = $role;
+            }
+        }
+        // Add roles if the current user can manipulate that role
+        foreach ($newRoles as $role) {
+            if (in_array($role, $manipulatableRoles)) {
+                $roles[] = $role;
+            }
+        }
+
+        return array_unique($roles);
+    }
+
+    /**
      * Check for a user with the 'root' role. There should always be at least one
      * If there isn't we promote the current user.
      *
