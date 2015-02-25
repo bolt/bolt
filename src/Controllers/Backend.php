@@ -888,7 +888,22 @@ class Backend implements ControllerProviderInterface
         } else {
             // For existing items, we'll just keep the current owner.
             $contentowner = $app['users']->getUser($content['ownerid']);
+        } 
+        
+        // Test write access for uploadable fields
+        foreach ($contenttype['fields'] as $key=>&$values) {
+            if (isset($values['upload'])) {
+                $canUpload = $app['filesystem']->getFilesystem()->getVisibility($values['upload']);
+                if ($canUpload === 'public') {
+                    $values['canUpload'] = true;
+                } else {
+                    $values['canUpload'] = false;
+                }
+            } else {
+                $values['canUpload'] = true;
+            }
         }
+        
 
         $context = array(
             'contenttype' => $contenttype,
