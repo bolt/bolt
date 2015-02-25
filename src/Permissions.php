@@ -49,6 +49,8 @@ class Permissions
 
     /**
      * Write an entry to the permission audit log
+     *
+     * @param string $msg
      */
     private function audit($msg)
     {
@@ -268,6 +270,10 @@ class Permissions
 
     /**
      * Lists the roles that would grant the specified global permission.
+     *
+     * @param string $permissionName
+     *
+     * @return string[]
      */
     public function getRolesByGlobalPermission($permissionName)
     {
@@ -275,7 +281,9 @@ class Permissions
     }
 
     /**
-     * Gets the configured global roles.
+     * Gets the configured global permissions.
+     *
+     * @return array
      */
     public function getGlobalRoles()
     {
