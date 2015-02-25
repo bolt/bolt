@@ -32,6 +32,10 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
                 $uploadHandler->setOverwrite($app['upload.overwrite']);
                 $uploadHandler->addRule('extension', array('allowed' => $allowedExensions));
 
+                $uploadHandler->setSanitizerCallback(function ($name) {
+                    return pathinfo($name, PATHINFO_FILENAME) . '.' . strtolower(pathinfo($name, PATHINFO_EXTENSION));
+                });
+
                 $pattern = $app['config']->get('general/upload/pattern', '[^A-Za-z0-9\.]+');
                 $replacement = $app['config']->get('general/upload/replacement', '-');
                 $lowercase = $app['config']->get('general/upload/lowercase', true);
