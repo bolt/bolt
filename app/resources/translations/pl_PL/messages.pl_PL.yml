@@ -1,4 +1,4 @@
-# app/resources/translations/pl_PL/messages.pl_PL.yml – generated on 2015-02-24 13:37:34 Europe/Warsaw
+# app/resources/translations/pl_PL/messages.pl_PL.yml – generated on 2015-02-25 01:06:15 Europe/Warsaw
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
 #          at the moment. This is an ongoing process. Translations currently in the 
@@ -9,67 +9,18 @@
 #          in order to prevent merge conflicts.
 
 #  no unused messages
-# 403 untranslated messages
+# 303 untranslated messages
 # 137 untranslated keyword based messages
-#  no translations
+# 100 translations
 #  no keyword based translations
 
-#--- 403 untranslated messages ------------------------------------------------
+#--- 303 untranslated messages ------------------------------------------------
 
-"%name% № %id%": #
-"%s files could not be deleted. You should delete them manually.": #
-"(default template)": #
-"(no category)": #
-"(no group)": #
-"(none)": #
-"A password reset link has been sent to '%user%'.": #
-"Actions": #
-"Add a brief, optional comment to describe what's changed.": #
-"Add a comment:": #
-"Add a new extension using the form below.": #
-"Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": #
-"Added to <tt>%key%</tt> '%title%'": #
-"Alas, no about!": #
-"All content types": #
-"All users": #
 "Alt": #
-"An error occurred.": #
-"Anonymous": #
-"Are you sure you want to delete %username%?": #
-"Are you sure you want to remove these images?": #
-"Are you sure you want to remove this file?": #
-"Are you sure you want to remove this image?": #
-"Are you sure you wish to delete these records? There is no undo.": #
-"Are you sure you wish to delete this record? There is no undo.": #
-"Author:": #
-"Before you can start using the theme on your site we need to make a copy to your theme folder.": #
-"Below are the third party libraries that are used by Bolt.": #
 "Body": #
-"Bolt - Fatal error.": #
-"Bolt Extension could not be found. Please check at %site% to ensure correct name.": #
-"Browse Versions": #
-"Browser / platform": #
-"Built-in role, automatically granted at all times, even if no user is logged in": #
-"Built-in role, automatically granted to every registered user": #
-"Built-in role, only valid in the context of a resource, and automatically assigned to the owner of that resource.": #
-"Built-in superuser role, automatically grants all permissions": #
-"Cancel": #
-"Cannot check for updates in read-only mode": #
-"Cannot check installed packages in read-only mode": #
-"Categories": #
-"Category": #
-"Change Log": #
-"Change status to 'draft'": #
-"Change status to 'held'": #
-"Chapter": #
-"Chapters": #
-"Check again": #
-"Check database": #
-"Check for updates": #
 "Checking for available updates (this may take up to 60 seconds)": #
 "Checking installed packages": #
 "Choose an entry": #
-"Class:": #
 "Clear Change Log": #
 "Clear System Log": #
 "Clear cache again": #
@@ -77,12 +28,8 @@
 "Clear sort/filter": #
 "Clear the cache": #
 "Click to change current status.": #
-"Code:": #
 "Collapse sidebar": #
 "Config": #
-"Configuration": #
-"Configure Extensions": #
-"Content": #
 "Content '%title%' could not be deleted.": #
 "Content '%title%' could not be modified.": #
 "Content '%title%' has been changed to '%newStatus%'": #
@@ -92,89 +39,45 @@
 "Contenttypes": #
 "Copy to theme folder": #
 "Copying theme assets …": #
-"Create folder": #
-"Create the first user": #
 "Created on:": #
 "Current (saved) status:": #
 "Current sessions": #
 "Current status:": #
-"Dashboard": #
 "Database check / update": #
-"Date": #
-"Datetime": #
-"Default status": #
-"Delete %filename%": #
-"Delete %foldername%": #
-"Delete %username%": #
-"Delete selected": #
 "Deleted %s files from cache.": #
 "Depublication date:": #
 "Depublish date is in the past. Change the status if you want to depublish now": #
 "Depublish selected": #
 "Deselect all": #
 "Detail template": #
-"Details": #
 "Disable %username%": #
 "Do you really want to delete %foldername%?": #
 "Done!": #
 "Draft": #
 "Duplicate %filename%": #
-"Edit": #
-"Edit Roles and Permissions": #
-"Edit file": #
-"Enable %username%": #
-"Everybody": #
 "Everything is up to date!": #
 "Excerpt": #
 "Expand sidebar": #
 "Extend %boltname%": #
-"Extension": #
-"Extensions": #
 "Extensions loading has been disabled by an administrator in the %config% file. ": #
 "Extras": #
 "Failed to send password request. Please check the email settings.": #
-"File": #
 "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": #
 "File '%file%' could not be uploaded.": #
 "File '%file%' was uploaded successfully.": #
 "File '%s' could not be saved, for some reason.": #
 "File '%s' could not be saved:": #
 "File '%s' has been saved.": #
-"File Management": #
 "File is not readable!": #
-"Filelist": # "File list"
-"Files": #
-"Files in %s": #
 "Files on the stack": #
-"Filesize": # "File size"
 "Fill the database with Dummy Content": #
-"Filter": #
-"Filtering": #
-"Filtering …": #
-"Find": #
 "Floatfield": # "Float field"
 "Folder '%s' could not be found, or is not readable.": #
 "Folder permissions insufficient": #
-"Folders": #
 "Full list …": #
-"Geolocation": #
 "Global Permissions": #
-"Hints:": #
-"Html": #
-"IP address": #
-"Id": #
 "If there was a Page with 'about' for a slug, it would've been shown here. But there isn't one, so that's why you're seeing this placeholder.": #
 "If you would like to give the theme an alternative name you can add one here.": #
-"Image": #
-"Imagelist": # "Image list"
-"Info": #
-"Install Package": #
-"Install This Version": #
-"Install a new Extension": #
-"Install all Packages": #
-"Install all updates": #
-"Installation complete": #
-"Installing package": #
 "Installing selected package version (this may take up to 60 seconds).": #
 "Integerfield": # "Integer field"
 "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": #
@@ -280,7 +183,6 @@
 "Selectfield": # "Select field"
 "Session expires": #
 "Session resumed.": #
-"Settings": #
 "Showing": #
 "Showing %pager_for% %from% - %to% of %count%": #
 "Size": #
@@ -342,7 +244,6 @@
 "Timed publish": #
 "Tip:": #
 "Title": #
-"Translations": #
 "Trim Change Log": #
 "Trim System Log": #
 "Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": #
@@ -372,7 +273,6 @@
 "Users & Permissions": #
 "Version": #
 "Versions": #
-"Video": #
 "View (saved version) on site": #
 "View Roles": #
 "View on site": #
@@ -559,3 +459,106 @@
 "panel.latest-activity.system": # "Latest system activity"
 "panel.latest-activity.unknown": # "unknown"
 "panel.user-actions.button.add": # "Add a new user"
+
+#--- 100 translations ---------------------------------------------------------
+
+"%name% № %id%": "%name% nr %id%"
+"%s files could not be deleted. You should delete them manually.": "%s pliki nie mogą zostać usunięte. Należy usunąć je ręcznie."
+"(default template)": "(domyślny szablon)"
+"(no category)": "(bez kategorii)"
+"(no group)": "(bez grupy)"
+"(none)": "(żaden)"
+"A password reset link has been sent to '%user%'.": "Link resetowania hasła został wysłany do '%user%'."
+"Actions": "Akcje"
+"Add a brief, optional comment to describe what's changed.": "Dodaj krótki, opcjonalny komentarz do opisania tego, co się zmieniło."
+"Add a comment:": "Dodaj komentarz:"
+"Add a new extension using the form below.": "Dodaj nowe rozszerzenie za pomocą poniższego formularza."
+"Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Dodaj trochę przykładowych <a href='%url%' class='btn btn-default'>wpisów z tekstem Loripsum</a>"
+"Added to <tt>%key%</tt> '%title%'": "Dodano do <tt>%key%</tt> '%title%'"
+"Alas, no about!": "Niestety, nie na temat!"
+"All content types": "Wszystkie typy zawartości"
+"All users": "Wszyscy użytkownicy"
+"An error occurred.": "Wystąpił błąd."
+"Anonymous": "Anonimowy"
+"Are you sure you want to delete %username%?": "Czy na pewno chcesz usunąć %username%?"
+"Are you sure you want to remove these images?": "Czy na pewno chcesz usunąć te obrazy?"
+"Are you sure you want to remove this file?": "Czy na pewno chcesz usunąć ten plik?"
+"Are you sure you want to remove this image?": "Czy na pewno chcesz usunąć ten obraz?"
+"Are you sure you wish to delete these records? There is no undo.": "Czy na pewno chcesz usunąć te rekordy? Operacja jest nieodwracalna."
+"Are you sure you wish to delete this record? There is no undo.": "Czy na pewno chcesz usunąć ten rekord? Operacja jest nieodwracalna."
+"Author:": "Autor:"
+"Before you can start using the theme on your site we need to make a copy to your theme folder.": "Zanim będziesz mógł zacząć korzystać ze skórki, wpierw musimy zrobić jej kopię do katalogu skórek."
+"Below are the third party libraries that are used by Bolt.": "Poniżej znajdują się biblioteki osób trzecich wykorzystywane przez Bolt."
+"Bolt - Fatal error.": "Bolt - Błąd krytyczny."
+"Bolt Extension could not be found. Please check at %site% to ensure correct name.": "Nie znaleziono rozszerzenia Bolt. Proszę sprawdzić na %site% czy nazwa jest prawidłowa."
+"Browse Versions": "Przegladaj Wersje"
+"Browser / platform": "Przeglądarka / platforma"
+"Built-in role, automatically granted at all times, even if no user is logged in": "Wbudowana rola, automatycznie przyznawana przez cały czas, nawet gdy użytkownik nie jest zalogowany"
+"Built-in role, automatically granted to every registered user": "Wbudowana rola, automatycznie przyznawana każdemu zarejestrowanemu użytkownikowi"
+"Built-in role, only valid in the context of a resource, and automatically assigned to the owner of that resource.": "Wbudowana rola, obowiązująca tylko w kontekście zasobów, i automatycznie przypisana do właściciela tego zasobu."
+"Built-in superuser role, automatically grants all permissions": "Wbudowana rola super użytkownika, automatycznie przyznająca wszystkie uprawnienia"
+"Cancel": "Anuluj"
+"Cannot check for updates in read-only mode": "Nie można sprawdzić dostępności aktualizacji w trybie tylko do odczytu"
+"Cannot check installed packages in read-only mode": "Nie można sprawdzić zainstalowanych pakietów w trybie tylko do odczytu"
+"Categories": "Kategorie"
+"Category": "Kategoria"
+"Change Log": "Lista zmian"
+"Change status to 'draft'": "Zmiana statusu na 'szkic'"
+"Change status to 'held'": "Zmiana statusu na 'wstrzymany'"
+"Chapter": "Rozdział"
+"Chapters": "Rozdziały"
+"Check again": "Sprawdź ponownie"
+"Check database": "Sparwdź bazę danych"
+"Check for updates": "Sprawdź aktualizacje"
+"Class:": "Klasa:"
+"Code:": "Kod:"
+"Configuration": "Konfiguracja"
+"Configure Extensions": "Konfiguruj rozszerzenia"
+"Content": "Zawartość"
+"Create folder": "Utwórz katalog"
+"Create the first user": "Utwórz pierwszego użytkownika"
+"Dashboard": "Pulpit"
+"Date": "Data"
+"Datetime": "Data i czas"
+"Default status": "Domyślny status"
+"Delete %filename%": "Usuń %filename%"
+"Delete %foldername%": "Usuń %foldername%"
+"Delete %username%": "Usuń %username%"
+"Delete selected": "Usuń zaznaczone"
+"Details": "Szczegóły"
+"Edit": "Edytuj"
+"Edit Roles and Permissions": "Edytuj role i uprawnienia"
+"Edit file": "Edytuj plik"
+"Enable %username%": "Aktywuj %username%"
+"Everybody": "Wszyscy"
+"Extension": "Rozszerzenie"
+"Extensions": "Rozszerzenia"
+"File": "Plik"
+"File Management": "Zarządzanie plikami"
+"Filelist": "Lista plików"
+"Files": "Pliki"
+"Files in %s": "Pliki w %s"
+"Filesize": "Rozmiar pliku"
+"Filter": "Filtr"
+"Filtering": "Filtrowanie"
+"Filtering …": "Filtrowanie …"
+"Find": "Znajdź"
+"Folders": "Katalogi"
+"Geolocation": "Geolokalizacja"
+"Hints:": "Wskazówki"
+"Html": "HTML"
+"IP address": "Adres IP"
+"Id": "ID"
+"Image": "Obraz"
+"Imagelist": "Lista obrazów"
+"Info": "Info"
+"Install Package": "Zainstaluj pakiet"
+"Install This Version": "Zainstaluj tą wersję"
+"Install a new Extension": "Zainstaluj nowe rozszerzenie"
+"Install all Packages": "Zainstaluj wszystkie pakiety"
+"Install all updates": "Zainstaluj wszystkie aktualizacje"
+"Installation complete": "Instalacja zakończona"
+"Installing package": "Instalowanie pakietu"
+"Settings": "Ustawienia"
+"Translations": "Tłumaczenia"
+"Video": "Wideo"
