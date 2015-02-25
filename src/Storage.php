@@ -2543,16 +2543,16 @@ class Storage
         $id = intval($id);
         $slug = $this->app['slugify']->slugify($title);
 
-        // don't allow strictly numeric slugs.
+        // Don't allow strictly numeric slugs.
         if (is_numeric($slug)) {
             $slug = $contenttype['singular_slug'] . "-" . $slug;
         }
 
-        // Only add 'entry/' if $full is requested.
+        // Only add '{contenttype}/' if $full is requested.
         if ($fulluri) {
-            $prefix = "/" . $contenttype['singular_slug'] . "/";
+            $prefix = '/' . $contenttype['singular_slug'] . '/';
         } else {
-            $prefix = "";
+            $prefix = '';
         }
 
         $fields = $this->getContentTypeFields($contenttypeslug);
@@ -2577,7 +2577,7 @@ class Storage
             $uri = $prefix . $slug;
         } else {
             for ($i = 1; $i <= 10; $i++) {
-                $newslug = $slug . '-' . $i;
+                $newslug = Html::trimText($slug, 127 - strlen($i), false) . '-' . $i;
                 $res = $this->app['db']->executeQuery(
                     $query,
                     array($newslug, $id),
@@ -2591,7 +2591,8 @@ class Storage
 
             // otherwise, just get a random slug.
             if (empty($uri)) {
-                $slug = Html::trimText($slug, 32, false) . "-" . $this->app['randomgenerator']->generateString(6, 'abcdefghijklmnopqrstuvwxyz01234567890');
+                $suffix = '-' . $this->app['randomgenerator']->generateString(6, 'abcdefghijklmnopqrstuvwxyz01234567890');
+                $slug = Html::trimText($slug, 128 - strlen($suffix), false) . $suffix;
                 $uri = $prefix . $slug;
             }
         }
