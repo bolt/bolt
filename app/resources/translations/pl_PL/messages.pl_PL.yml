@@ -1,4 +1,4 @@
-# app/resources/translations/pl_PL/messages.pl_PL.yml – generated on 2015-02-25 01:55:25 Europe/Warsaw
+# app/resources/translations/pl_PL/messages.pl_PL.yml – generated on 2015-02-25 02:09:04 Europe/Warsaw
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
 #          at the moment. This is an ongoing process. Translations currently in the 
@@ -116,7 +116,7 @@
 "Something went wrong": #
 "Sophisticated, lightweight & simple CMS": #
 "Stable versions": #
-"Taxonomy": #
+"Taxonomy": Taksonomia
 "Teaser": #
 "Testing connection to extension server failed: %errormessage%": #
 "That user does not exist.": #
