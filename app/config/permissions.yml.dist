@@ -33,6 +33,21 @@ roles:
         description: This user can log on, but is not allowed to edit any content.
         label: Guest Editor
 
+# Role hierarchy settings
+roles-hierarchy:
+    # This will restrict users from being able to add, edit, enable, disable
+    # and delete users with the same or higher role than their own.
+    # For example:
+    # Users with a role of developer can only be added, edited, enabled, disabled
+    # and deleted by [ root, admin ] roles.
+    manipulate:
+        admin: [ ]
+        developer: [ admin ]
+        chief-editor: [ admin, developer ]
+        editor: [ admin, developer, chief-editor ]
+        guest: [ admin, developer, chief-editor ]
+
+
 # Now we'll define some permissions. Each permission comes with a list of roles
 # that grant access.
 
@@ -81,19 +96,6 @@ global:
     # Likewise, 'logout' needs to be granted to 'everyone', otherwise people
     # cannot log out anymore.
     logout: [ everyone ]
-
-    # User roled-based hierarchy settings. This will restrict users from being
-    # able to add, edit, enable, disable and delete users with a higher role
-    # than their own.
-    # For example:
-    # Users with a role of admin can only be added, edited, enabled, disabled and
-    # deleted by [ root, admin ] roles.
-    users:roles-hierarchy:root: [ root ]
-    users:roles-hierarchy:admin: [ root, admin ]
-    users:roles-hierarchy:developer: [ root, admin, developer ]
-    users:roles-hierarchy:chief-editor: [ root, admin, developer, chief-editor ]
-    users:roles-hierarchy:editor: [ root, admin, developer, chief-editor ]
-    users:roles-hierarchy:guest: [ root, admin, developer, chief-editor ]
 
 # For content type related actions, permissions can be set individually for
 # each content type. For this, we define three groups of permission sets.

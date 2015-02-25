@@ -988,6 +988,12 @@ class Backend implements ControllerProviderInterface
         $users = $app['users']->getUsers();
         $sessions = $app['users']->getActiveSessions();
 
+        foreach ($users as $name => $user) {
+            if (($key = array_search(Permissions::ROLE_EVERYONE, $user['roles'], true)) !== false) {
+                unset($users[$name]['roles'][$key]);
+            }
+        }
+
         $context = array(
             'currentuser' => $currentuser,
             'users' => $users,
@@ -1054,7 +1060,9 @@ class Backend implements ControllerProviderInterface
             0 => Trans::__('page.edit-users.activated.no')
         );
 
-        $roles = $app['permissions']->getManipulatableRoles($currentuser);
+        $roles = array_map(function ($role) {
+            return $role['label'];
+        }, $app['permissions']->getDefinedRoles());
 
         $form = $this->getUserForm($app, $user, true);
 
@@ -1121,9 +1129,19 @@ class Backend implements ControllerProviderInterface
             }
         }
 
+        /** @var \Symfony\Component\Form\FormView|\Symfony\Component\Form\FormView[] $formView */
+        $formView = $form->createView();
+
+        $manipulatableRoles = $app['permissions']->getManipulatableRoles($currentuser);
+        foreach ($formView['roles'] as $role) {
+            if (!in_array($role->vars['value'], $manipulatableRoles)) {
+                $role->vars['attr']['disabled'] = 'disabled';
+            }
+        }
+
         $context = array(
             'kind' => empty($id) ? 'create' : 'edit',
-            'form' => $form->createView(),
+            'form' => $formView,
             'note' => '',
             'displayname' => $user['displayname'],
         );
@@ -1207,6 +1225,9 @@ class Backend implements ControllerProviderInterface
             if ($firstuser) {
                 $user['roles'] = array(Permissions::ROLE_ROOT);
             }
+
+            $id = isset($user['id']) ? $user['id'] : null;
+            $user['roles'] = $app['users']->filterManipulatableRoles($id, $user['roles']);
 
             $res = $app['users']->saveUser($user);
 
@@ -1799,7 +1820,6 @@ class Backend implements ControllerProviderInterface
         $app['users']->checkForRoot();
 
         // Most of the 'check if user is allowed' happens here: match the current route to the 'allowed' settings.
-        $id = $request->attributes->get('id');
         if (!$app['users']->isValidSession() && !$app['users']->isAllowed($route)) {
             $app['session']->getFlashBag()->add('info', Trans::__('Please log on.'));
 
