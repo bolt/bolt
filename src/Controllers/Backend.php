@@ -7,6 +7,7 @@ use Bolt\Library as Lib;
 use Bolt\Permissions;
 use Bolt\Translation\TranslationFile;
 use Bolt\Translation\Translator as Trans;
+use Cocur\Slugify\Slugify;
 use Guzzle\Http\Exception\RequestException;
 use Silex;
 use Silex\Application;
@@ -905,13 +906,65 @@ class Backend implements ControllerProviderInterface
         }
         
 
+        // Info
+
+        $hasIncomingRelations = is_array($content->relation);
+        $hasRelations = isset($contenttype['relations']);
+        $hasTabs = $contenttype['groups'] !== false;
+        $hasTaxonomy = isset($contenttype['taxonomy']);
+
+        // Generate tab groups
+
+        $groups = array();
+        $groupIds = array();
+
+        $addGroup = function ($group, $label) use (&$groups, &$groupIds) {
+            $nr = count($groups) + 1;
+            $id = rtrim('tab-' . Slugify::create()->slugify($group), '-');
+            if (isset($groupIds[$id]) || $id == 'tab') {
+                $id .= '-' . $nr;
+            }
+            $groups[$group] = array(
+                'label' => $label,
+                'id' => $id,
+                'isActive' => $nr === 1,
+            );
+            $groupIds[$id] = 1;
+        };
+
+        foreach ($contenttype['groups'] ? $contenttype['groups'] : array('ungrouped') as $group) {
+            if ($group === 'ungrouped') {
+                $addGroup($group, Trans::__('contenttypes.generic.group.ungrouped'));
+            } elseif ($group !== 'meta' && $group !== 'relations' && $group !== 'taxonomy') {
+                $default = array('DEFAULT' => ucfirst($group));
+                $key = array('contenttypes', $contenttype['slug'], 'group', $group);
+                $addGroup($group, Trans::__($key, $default));
+            }
+        }
+        if ($hasRelations || $hasIncomingRelations) {
+            $addGroup('relations', Trans::__('contenttypes.generic.group.relations'));
+        }
+        if ($hasTaxonomy || in_array('taxonomy', $contenttype['groups'])) {
+            $addGroup('taxonomy', Trans::__('contenttypes.generic.group.taxonomy'));
+        }
+        $addGroup('meta', Trans::__('contenttypes.generic.group.meta'));
+
+        // Render
+
         $context = array(
             'contenttype' => $contenttype,
             'content' => $content,
             'allowed_status' => $allowedStatuses,
             'contentowner' => $contentowner,
             'fields' => $app['config']->fields->fields(),
-            'canUpload' => $app['users']->isAllowed('files:uploads')
+            'canUpload' => $app['users']->isAllowed('files:uploads'),
+            'groups' => $groups,
+            'has' => array(
+                'incoming_relations' => $hasIncomingRelations,
+                'relations' => $hasRelations,
+                'tabs' => $hasTabs,
+                'taxonomy' => $hasTaxonomy,
+            ),
         );
 
         return $app['render']->render('editcontent/editcontent.twig', array('context' => $context));
