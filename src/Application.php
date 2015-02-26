@@ -336,7 +336,7 @@ class Application extends Silex\Application
             // @see: the issue at https://github.com/bolt/bolt/issues/2908
         }
 
-        if (is_bool($this['config']->get('general/mailoptions/spool')) {
+        if (is_bool($this['config']->get('general/mailoptions/spool'))) {
             // enable or disable the mail spooler.
             $this['swiftmailer.use_spool'] = $this['config']->get('general/mailoptions/spool');
         }
