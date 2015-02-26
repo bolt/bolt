@@ -117,7 +117,7 @@ function validateContent(form) {
             }
         }
 
-        var noticeID = field.id + '-notice';
+        var noticeID = 'notice--' + field.id;
 
         // First, remove any existing old notices
         $('#' + noticeID).remove();
