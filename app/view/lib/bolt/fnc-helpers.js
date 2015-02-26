@@ -142,8 +142,11 @@ function validateContent(form) {
                 msg = bolt.data.editcontent.error.msg.subst({'%FIELDNAME%': field.name});
             }
 
-            $('<div id="' + noticeID + '" class="alert alert-danger">' +
-              '<button class="close" data-dismiss="alert">×</button>' + msg + '</div>')
+            var alertbox = bolt.data.editcontent.error.alertbox.subst({
+                '%NOTICE_ID%': noticeID,
+                '%MESSAGE%': msg
+            });
+            $(alertbox)
                 .hide()
                 .insertAfter('.page-header')
                 .slideDown('fast');

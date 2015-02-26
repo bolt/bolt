@@ -44,8 +44,16 @@
         role:    "form",
     } %}
 
+    {% set alertbox %}
+        <div id="%NOTICE_ID%" class="alert alert-danger">
+            <button class="close" data-dismiss="alert">×</button>%MESSAGE%
+        </div>
+    {% endset %}
+
+
     {{ data('editcontent.error', {
-        'msg':            __('The field “%FIELDNAME%” is required or needs to match a pattern!'),
+        'msg':          __('The field “%FIELDNAME%” is required or needs to match a pattern!'),
+        'alertbox':     alertbox|trim,
     }) }}
 
 
