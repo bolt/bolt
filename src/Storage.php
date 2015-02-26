@@ -901,7 +901,7 @@ class Storage
 
         $words = array_map(
             function ($word) {
-                return mb_strtolower($word, "UTF-8");
+                return mb_strtolower($word);
             },
             $words
         );
