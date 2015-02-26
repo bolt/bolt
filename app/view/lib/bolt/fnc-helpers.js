@@ -61,7 +61,9 @@ function LegacyValidation(field) {
 function validateContent(form) {
 
     var formLength = form.elements.length,
-        f, field, formvalid = true;
+        f, field, formvalid = true,
+        hasNativeValidation,
+        isCkeditor;
 
     // loop all fields
     for (f = 0; f < formLength; f++) {
@@ -71,13 +73,14 @@ function validateContent(form) {
             continue;
         }
 
-		if (field.nodeName === "INPUT"){
+        if (field.nodeName === "INPUT"){
 			// trim input values
 			field.value = field.value.trim();
 		}
 
         // is native browser validation available?
-        if (typeof field.willValidate !== "undefined") {
+        hasNativeValidation = typeof field.willValidate !== 'undefined';
+        if (hasNativeValidation) {
             // native validation available
             if (field.nodeName === "INPUT" && field.type !== field.getAttribute("type")) {
                 // input type not supported! Use legacy JavaScript validation
@@ -96,6 +99,22 @@ function validateContent(form) {
 
         }
 
+        // Special validation for CKEdito fields
+        isCkeditor = field.nodeName === 'TEXTAREA' && $(field).hasClass('ckeditor');
+        if (isCkeditor) {
+            var editor = CKEDITOR.instances[field.id],
+                error;
+
+            if (editor) {
+                error = editor._.required === true && editor.getData().trim() === '';
+                if (hasNativeValidation) {
+                    field.setCustomValidity(error ? 'Required' : '');
+                } else {
+                    field.validity.valid = error;
+                }
+            }
+        }
+
         var noticeID = field.id + '-notice';
 
         // first, remove any existing old notices
@@ -105,12 +124,21 @@ function validateContent(form) {
 
             // remove error styles and messages
             $(field).removeClass('error');
+
+            if (isCkeditor) {
+                $('#cke_' + field.id).removeClass('cke_error');
+            }
         }
         else {
             // style field, show error, etc.
             $(field).addClass('error');
 
+            if (isCkeditor) {
+                $('#cke_' + field.id).addClass('cke_error');
+            }
+
             var msg = $(field).data('errortext') || 'The '+field.name+' field is required or needs to match a pattern';
+            console.log(noticeID+': '+msg);
 
             $('<div id="' + noticeID + '" class="alert alert-danger">' +
               '<button class="close" data-dismiss="alert">×</button>' + msg + '</div>')
