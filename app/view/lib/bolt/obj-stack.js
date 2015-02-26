@@ -17,7 +17,6 @@ var Stack = Backbone.Model.extend({
         // In the modal dialog, to navigate folders..
         $('#selectImageModal-stack').on('click', '.folder', function (e) {
             e.preventDefault();
-            alert('hoi');
             $('#selectImageModal-stack .modal-content').load($(this).attr('href'));
         });
 
