@@ -54,7 +54,7 @@
             {% if context.has.tabs %}
                 <ul class="nav nav-tabs" id="filtertabs">
                     {% for group in context.groups %}
-                        <li{{ group.isActive ? ' class="active"' : '' }}>
+                        <li{{ group.is_active ? ' class="active"' : '' }}>
                             <a href="#{{ group.id }}" data-toggle="tab">{{ group.label }}</a>
                         </li>
                     {% endfor %}
@@ -67,7 +67,7 @@
                 {% for group_name, group in context.groups %}
 
                     {% if context.has.tabs %}
-                        <div class="tab-pane{{ group.isActive ? ' active' : '' }}" id="{{ group.id }}">
+                        <div class="tab-pane{{ group.is_active ? ' active' : '' }}" id="{{ group.id }}">
                     {% endif %}
 
                     {% if group_name == 'relations' %}

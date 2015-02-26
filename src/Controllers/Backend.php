@@ -927,7 +927,7 @@ class Backend implements ControllerProviderInterface
             $groups[$group] = array(
                 'label' => $label,
                 'id' => $id,
-                'isActive' => $nr === 1,
+                'is_active' => $nr === 1,
             );
             $groupIds[$id] = 1;
         };
@@ -957,7 +957,7 @@ class Backend implements ControllerProviderInterface
             'allowed_status' => $allowedStatuses,
             'contentowner' => $contentowner,
             'fields' => $app['config']->fields->fields(),
-            'canUpload' => $app['users']->isAllowed('files:uploads'),
+            'can_upload' => $app['users']->isAllowed('files:uploads'),
             'groups' => $groups,
             'has' => array(
                 'incoming_relations' => $hasIncomingRelations,
