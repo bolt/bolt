@@ -15,10 +15,14 @@
         font-size: $font-size-base + 1px;
     }
 
-    .error{
+    .error {
         border-color: #888;
         color: $state-danger-text;
         background: $alert-danger-bg;
+    }
+
+    .cke_error {
+        border-color: $state-danger-text;
     }
 
     /*** Input widths ***/
