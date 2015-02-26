@@ -229,16 +229,28 @@ wysiwyg:
     disableNativeSpellChecker: true # If set to 'true' it will stop browsers from underlining spelling mistakes
     # viewSourceRoles: [ 'admin', 'developer' ] # the roles which are allowed to use the [Source]-button.
 
-# by default, mail is sent using PHP's built-in mail function. In general, it's advised to use SMTP for sending mail
-# instead. Uncomment the following lines to use an SMTP server with authentication.
-# Please check http://silex.sensiolabs.org/doc/providers/swiftmailer.html for a full range of options
+# Use the 'mailoptions' setting to configure how Bolt sends email: using 'smtp'
+# or PHP's built-in `mail()`-function. Note that the latter might _seem_ easier,
+# but it's been disabled by a lot of webhosts, in order to prevent spam from
+# wrongly configured scripts. If you use it, your mail might disappear into a
+# black hole, without producing any errors. Generally speaking, using 'smtp' is
+# the better option, so use that if possible. Protip: If your webhost does not
+# support SMTP, sign up for a (free) Mandrill account at https://mandrill.com/
+# for sending emails reliably.
+
 #mailoptions:
+#  transport: smtp
+#  spool: true
 #  host: localhost
-#  port: 25
 #  username: username
 #  password: password
+#  port: 25
 #  encryption: null
 #  auth_mode: null
+
+#mailoptions:
+#  transport: mail
+#  spool: false
 
 # Bolt allows some modifications to how 'strict' login sessions are. For every option
 # that is set to true, it becomes harder for a bad-willing person to spoof your login

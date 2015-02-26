@@ -325,10 +325,25 @@ class Application extends Silex\Application
         // Make sure we keep our current locale..
         $currentlocale = $this['locale'];
 
-        // Setup Swiftmailer, with optional SMTP settings. If no settings are provided in config.yml, mail() is used.
+        // Setup Swiftmailer, with the selected Mail Transport options: smtp or `mail()`.
         $this->register(new Silex\Provider\SwiftmailerServiceProvider());
+        
         if ($this['config']->get('general/mailoptions')) {
+            // Use the preferred options. Assume it's SMTP, unless set differently.
             $this['swiftmailer.options'] = $this['config']->get('general/mailoptions');
+        } else {
+            // No Mail transport has been set. We should gently nudge the user to set the mail configuration. 
+            // @see: the issue at https://github.com/bolt/bolt/issues/2908
+        }
+
+        if (is_bool($this['config']->get('general/mailoptions/spool'))) {
+            // enable or disable the mail spooler.
+            $this['swiftmailer.use_spool'] = $this['config']->get('general/mailoptions/spool');
+        }
+
+        if ($this['config']->get('general/mailoptions/transport') == 'mail') {
+            // Use the 'mail' transport. Discouraged, but some people want it. ¯\_(ツ)_/¯
+            $this['swiftmailer.transport'] = \Swift_MailTransport::newInstance();
         }
 
         // Set up our secure random generator.
