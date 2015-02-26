@@ -44,6 +44,10 @@
         role:    "form",
     } %}
 
+    {{ data('editcontent.error', {
+        'msg':            __('The field “%FIELDNAME%” is required or needs to match a pattern!'),
+    }) }}
+
 
     <div class="row">
         <div class="col-md-8">

@@ -137,8 +137,10 @@ function validateContent(form) {
                 $('#cke_' + field.id).addClass('cke_error');
             }
 
-            var msg = $(field).data('errortext') || 'The ' +
-                field.name + ' field is required or needs to match a pattern';
+            var msg = $(field).data('errortext');
+            if (!msg) {
+                msg = bolt.data.editcontent.error.msg.subst({'%FIELDNAME%': field.name});
+            }
 
             $('<div id="' + noticeID + '" class="alert alert-danger">' +
               '<button class="close" data-dismiss="alert">×</button>' + msg + '</div>')
