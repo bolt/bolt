@@ -1378,7 +1378,7 @@ class Storage
 
         // $decoded['contettypes'] gotten here
         // get page nr. from url if has
-        $metaParameters['page'] = $this->decodePageParameter($decoded['contenttypes'][0]);
+        $metaParameters['page'] = $this->decodePageParameter(implode('_', $decoded['contenttypes']));
 
         $this->prepareDecodedQueryForUse($decoded, $metaParameters, $ctypeParameters);
 
@@ -1798,7 +1798,7 @@ class Storage
 
         // Set up the $pager array with relevant values, but only if we requested paging.
         if (isset($decoded['parameters']['paging'])) {
-            $pagerName = $decoded['contenttypes'][0];
+            $pagerName = implode('_', $decoded['contenttypes']);
             $pager = array(
                 'for' => $pagerName,
                 'count' => $totalResults,
