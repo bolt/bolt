@@ -1324,7 +1324,11 @@ class Content implements \ArrayAccess
 
         // Go over all field, and calculate the overall weight.
         foreach ($contenttypeFields[$ct] as $key => $fieldWeight) {
-            $weight += $this->weighQueryText($this->values[$key], $query['use_q'], $query['words'], $fieldWeight);
+            $value = $this->values[$key];
+            if (is_array($value)) {
+                $value = implode(' ', $value);
+            }
+            $weight += $this->weighQueryText($value, $query['use_q'], $query['words'], $fieldWeight);
         }
 
         // Go over all taxonomies, and calculate the overall weight.
