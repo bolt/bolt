@@ -7,6 +7,16 @@ use League\Flysystem\Util;
 
 class Local extends LocalBase
 {
+    
+    const VISIBILITY_READONLY = 'readonly';
+
+    
+    protected static $permissions = array(
+        'public'    => 0755,
+        'readonly'  => 0744,
+        'private'   => 0700
+    );
+    
     public function __construct($root)
     {
         $realRoot = $this->ensureDirectory($root);
@@ -132,4 +142,84 @@ class Local extends LocalBase
             return $path;
         }
     }
+    
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function getVisibility($path)
+    {
+        $location = $this->applyPathPrefix($path);
+        clearstatcache(false, $location);
+        if ($this->userCanWrite($location) || $this->groupCanWrite($location)) {
+            $visibility = self::VISIBILITY_PUBLIC;
+        } elseif ($this->userCanRead($location) || $this->groupCanRead($location)) {
+            $visibility = self::VISIBILITY_READONLY;
+        } else {
+            $visibility = self::VISIBILITY_PRIVATE;
+        }
+
+        return compact('visibility');
+    }
+    
+    protected function userCanWrite($location)
+    {
+        $worldPermissions = substr(sprintf('%o', fileperms($location)), -1, 1);
+        if ($worldPermissions >=6 ) {
+            return true;
+        }
+        
+        $permissions = substr(sprintf('%o', fileperms($location)), -3, 1);
+        $fileOwnerId = fileowner($location);
+        $procOwnerId = posix_getuid();
+        if ($fileOwnerId === $procOwnerId && (int)$permissions >=6 ) {
+            return true;
+        }
+        
+        return false;
+    }
+    
+    protected function groupCanWrite($location)
+    {
+        $permissions = substr(sprintf('%o', fileperms($location)), -2, 1);
+        $fileOwnerGroup = filegroup($location);
+        $procOwnerGroup = posix_getgid();
+        if ($fileOwnerGroup === $procOwnerGroup && (int)$permissions >=6 ) {
+            return true;
+        } 
+        
+        return false;
+    }
+    
+    protected function userCanRead($location)
+    {
+        $worldPermissions = substr(sprintf('%o', fileperms($location)), -1);
+        if ($worldPermissions >=5 ) {
+            return true;
+        }
+        
+        $permissions = substr(sprintf('%o', fileperms($location)), -3, 1);
+        $fileOwnerId = fileowner($location);
+        $procOwnerId = posix_getuid();
+        if ($fileOwnerId === $procOwnerId && (int)$permissions >=5 ) {
+            return true;
+        } 
+        
+        return false;
+    }
+    
+    protected function groupCanRead($location)
+    {
+        $permissions = substr(sprintf('%o', fileperms($location)), -2, 1);
+        $fileOwnerGroup = filegroup($location);
+        $procOwnerGroup = posix_getgid();
+        if ($fileOwnerGroup === $procOwnerGroup && (int)$permissions >=5 ) {
+            return true;
+        } 
+        
+        return false;
+    }
+    
+    
+    
 }
