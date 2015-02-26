@@ -1,4 +1,4 @@
-# app/resources/translations/pl_PL/contenttypes.pl_PL.yml – generated on 2015-02-24 13:38:01 Europe/Warsaw
+# app/resources/translations/pl_PL/contenttypes.pl_PL.yml – generated on 2015-02-26 17:52:46 Europe/Warsaw
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
 #          at the moment. This is an ongoing process. Translations currently in the 
@@ -10,11 +10,11 @@
 
 #  no unused messages
 #  no untranslated messages
-# 106 untranslated keyword based messages
+#  92 untranslated keyword based messages
 #  no translations
-#  no keyword based translations
+#  14 keyword based translations
 
-#--- 106 untranslated keyword based messages ----------------------------------
+#--- 92 untranslated keyword based messages -----------------------------------
 
 "contenttypes.entries.description": # "The **Entries** contenttype can be used for things like _'news'_ or _'blogpostings'_. They have a teaser, which can be used for a short blurb on listing-pages, allowing visitors to click-through to the rest of the entry. It also has fields for an image and an optional video. To change the fields that are in this contenttype, edit the file `contenttypes.yml` in the folder `app/config/`, using the editor of your choice, or by going to 'Configuration' » 'Contenttypes' in the menu on the left."
 "contenttypes.entries.group.content": # "Content"
@@ -51,34 +51,20 @@
 "contenttypes.entries.text.show-more": # "More Entries"
 "contenttypes.entries.text.view": # "View Entries"
 "contenttypes.entries.text.wrong-use-field": # "In the contenttype for 'Entry', the field '%field%' has 'uses: %uses%', but the field '%uses%' does not exist. Please edit contenttypes.yml, and correct this."
-"contenttypes.pages.description": # "The **Pages** contenttype can be used for the more 'static' pages on your site. Things like _'about us'_, _'contact'_ or a _'disclaimer'_. To change the fields that are in this contenttype, edit the file `contenttypes.yml` in the folder `app/config/`, using the editor of your choice, or by going to 'Configuration' » 'Contenttypes' in the menu on the left."
 "contenttypes.pages.group.content": # "Content"
-"contenttypes.pages.name.plural": # "Pages"
-"contenttypes.pages.name.singular": # "Page"
-"contenttypes.pages.text.actions-all": # "Actions for Pages"
-"contenttypes.pages.text.actions-one": # "Actions for this Page"
-"contenttypes.pages.text.created": # "This Page was created"
-"contenttypes.pages.text.delete": # "Delete Page"
-"contenttypes.pages.text.duplicate": # "Duplicate Page"
-"contenttypes.pages.text.duplicated-finalize": # "Content was duplicated. Click 'Save Page' to finalize."
-"contenttypes.pages.text.edit": # "Edit Page"
-"contenttypes.pages.text.error-saving": # "There was an error saving this Page."
 "contenttypes.pages.text.invalid-field": # "Can't set %field% in Page: Not a valid field."
-"contenttypes.pages.text.last-modified": # "Last modified Pages"
-"contenttypes.pages.text.new": # "New Page"
-"contenttypes.pages.text.no-latest": # "No latest Page"
+"contenttypes.pages.text.no-latest": Brak nowych Stron
 "contenttypes.pages.text.no-proper-type": # "In the contenttype for 'Page', the field '%field%' has 'type: %type%', which is not a proper field type. Please edit contenttypes.yml, and correct this."
-"contenttypes.pages.text.no-recent": # "No recent Page."
-"contenttypes.pages.text.none-available": # "No Pages available."
-"contenttypes.pages.text.not-existing": # "The Page you were looking for does not exist. It was probably deleted, or it never existed."
-"contenttypes.pages.text.not-saved-yet": # "This Page has not been saved yet."
-"contenttypes.pages.text.overview": # "Pages overview"
-"contenttypes.pages.text.publish": # "Publish Page"
-"contenttypes.pages.text.recent": # "Recent Pages"
-"contenttypes.pages.text.recent-changes-one": # "Recent changes to this Page"
+"contenttypes.pages.text.no-recent": Brak ostatnich Stron
+"contenttypes.pages.text.none-available": Brak dostępnych Stron.
+"contenttypes.pages.text.not-existing": Strona, której szukasz, nie istnieje. Prawdopodobnie została usunięta albo nigdy nie istniała.
+"contenttypes.pages.text.not-saved-yet": Ta strona nie została jeszcze zapisana.
+"contenttypes.pages.text.overview": Przegląd Stron
+"contenttypes.pages.text.publish": Opublikuj Stronę
+"contenttypes.pages.text.recent": Ostatnie strony
+"contenttypes.pages.text.recent-changes-one": # "Recent changes to this Strona"
 "contenttypes.pages.text.recently-edited": # "Recently edited Pages"
 "contenttypes.pages.text.reserved-name": # "In the contenttype for 'Page', the field '%field%' is defined, which is a reserved name. Please edit contenttypes.yml, and correct this."
-"contenttypes.pages.text.save": # "Save Page"
 "contenttypes.pages.text.saved-changes": # "The changes to this Page have been saved."
 "contenttypes.pages.text.saved-new": # "The new Page has been saved."
 "contenttypes.pages.text.saving-impossible": # "Could not save Page."
@@ -122,3 +108,24 @@
 "contenttypes.showcases.text.show-more": # "More Showcases"
 "contenttypes.showcases.text.view": # "View Showcases"
 "contenttypes.showcases.text.wrong-use-field": # "In the contenttype for 'Showcase', the field '%field%' has 'uses: %uses%', but the field '%uses%' does not exist. Please edit contenttypes.yml, and correct this."
+
+#--- 14 keyword based translations --------------------------------------------
+
+contenttypes:
+    pages:
+        description: "Typ zawrtości **Strony** można wykorzystać do bardziej 'statycznych' stron w witrynie. Rzeczy takie jak _'o nas'_, _'kontakt'_ lub _'regulamin'_. Aby zmienić pola, które są w tym typie, zmodyfikuj plik `contenttypes.yml` w folderze `app/config/`, za pomocą swojego edytora, lub przechodząc do 'Konfiguracja' » 'Typy zawartości' w menu po lewej."
+        name:
+            plural: "Strony"
+            singular: "Strona"
+        text:
+            actions-all: "Akcje dla stron"
+            actions-one: "Akcje dla tej strony"
+            created: "Ta Strona została utworzona"
+            delete: "Usuń Stronę"
+            duplicate: "Powiel Stronę"
+            duplicated-finalize: "Zawartość została powielona. Kliknij 'Zapisz Stronę' aby zakończyć."
+            edit: "Edytuj Stronę"
+            error-saving: "Wystąpił błąd podczas zapisywania tej Strony."
+            last-modified: "Ostatnio zmodyfikowane Strony"
+            new: "Nowa Strona"
+            save: "Zapisz Stronę"
