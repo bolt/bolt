@@ -7,6 +7,8 @@
 {% block page_main %}
 
     {% from '_macro/_files_path.twig' import files_path %}
+    {% import '_macro/_macro.twig' as macro %}
+
 
     {# Only show the stack on the topmost level. #}
     {% if context.path == "" %}
@@ -14,7 +16,7 @@
         {{ render(path("showstack", {'items': 7, 'options': 'minimal'})) }}
     {% endif %}
 
-    <h1>{{ block('page_title') }}</h1>
+    <h1{{ macro.attr({_bind: ['ckfileselect']}) }}>{{ block('page_title') }}</h1>
 
     {% set pathoptions = {
         'path': '',
