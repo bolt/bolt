@@ -259,7 +259,7 @@ class Application extends Silex\Application
         $this['twig.loader.filesystem'] = $this->share(
             $this->extend(
                 'twig.loader.filesystem',
-                function (\Twig_Loader_Filesystem $filesystem, Application $app) {
+                function (\Twig_Loader_Filesystem $filesystem, $app) {
                     $filesystem->addPath(
                         $app['resources']->getPath('root') . '/vendor/symfony/web-profiler-bundle/Symfony/Bundle/WebProfilerBundle/Resources/views',
                         'WebProfiler'
@@ -275,7 +275,7 @@ class Application extends Silex\Application
         $app = $this;
         $this->after(
             function () use ($app) {
-                foreach (Lib::parseTwigTemplates($app['twig.loader.filesystem']) as $template) {
+                foreach (Lib::hackislyParseRegexTemplates($app['twig.loader.filesystem']) as $template) {
                     $app['twig.logger']->collectTemplateData($template);
                 }
             }
@@ -313,8 +313,8 @@ class Application extends Silex\Application
 
         // Loading stub functions for when intl / IntlDateFormatter isn't available.
         if (!function_exists('intl_get_error_code')) {
-            require_once $this['resources']->getPath('root/vendor/symfony/locale/Symfony/Component/Locale/Resources/stubs/functions.php');
-            require_once $this['resources']->getPath('root/vendor/symfony/locale/Symfony/Component/Locale/Resources/stubs/IntlDateFormatter.php');
+            require_once $this['resources']->getPath('root') . '/vendor/symfony/locale/Symfony/Component/Locale/Resources/stubs/functions.php';
+            require_once $this['resources']->getPath('root') . '/vendor/symfony/locale/Symfony/Component/Locale/Resources/stubs/IntlDateFormatter.php';            
         }
 
         $this->register(new Provider\TranslationServiceProvider());
@@ -340,7 +340,7 @@ class Application extends Silex\Application
             // enable or disable the mail spooler.
             $this['swiftmailer.use_spool'] = $this['config']->get('general/mailoptions/spool');
         }
-        
+
         if ($this['config']->get('general/mailoptions/transport') == 'mail') {
             // Use the 'mail' transport. Discouraged, but some people want it. ¯\_(ツ)_/¯
             $this['swiftmailer.transport'] = \Swift_MailTransport::newInstance();
@@ -415,7 +415,7 @@ class Application extends Silex\Application
         $this->mount('/async', new Controllers\Async());
 
         // Mount the 'thumbnail' provider on /thumbs.
-        $this->mount('/thumbs', new Thumbs\ThumbnailProvider());
+        $this->mount('/thumbs', new \Bolt\Thumbs\ThumbnailProvider());
 
         // Mount the 'upload' controller on /upload.
         $this->mount('/upload', new Controllers\Upload());
@@ -424,8 +424,7 @@ class Application extends Silex\Application
         $this->mount($backendPrefix . '/extend', $this['extend']);
 
         if ($this['config']->get('general/enforce_ssl')) {
-            foreach ($this['routes'] as $route) {
-                /** @var \Silex\Route $route */
+            foreach ($this['routes']->getIterator() as $route) {
                 $route->requireHttps();
             }
         }
@@ -552,7 +551,7 @@ class Application extends Silex\Application
             }
 
             // Then, select which template to use, based on our 'cascading templates rules'
-            if ($content instanceof Content && !empty($content->id)) {
+            if ($content instanceof \Bolt\Content && !empty($content->id)) {
                 $template = $this['templatechooser']->record($content);
 
                 return $this['render']->render($template, $content->getTemplateContext());
@@ -573,13 +572,12 @@ class Application extends Silex\Application
     }
 
     /**
-     * TODO Can this be removed?
-     * @param string $name
+     * @param  $name
      * @return bool
      */
     public function __isset($name)
     {
-        return isset($this[$name]);
+        return (array_key_exists($name, $this));
     }
 
     public function getVersion($long = true)
