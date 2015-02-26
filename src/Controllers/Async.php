@@ -195,10 +195,10 @@ class Async implements ControllerProviderInterface
     {
         $activity = $app['logger.manager']->getActivity('change', 8);
 
-        $body .= "";
+        $body = "";
 
         if (!empty($activity)) {
-            $body = $app['render']->render(
+            $body .= $app['render']->render(
                 'components/panel-change.twig',
                 array(
                     'activity' => $activity
