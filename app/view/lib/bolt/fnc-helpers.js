@@ -139,7 +139,6 @@ function validateContent(form) {
 
             var msg = $(field).data('errortext') || 'The ' +
                 field.name + ' field is required or needs to match a pattern';
-            console.log(noticeID+': '+msg);
 
             $('<div id="' + noticeID + '" class="alert alert-danger">' +
               '<button class="close" data-dismiss="alert">×</button>' + msg + '</div>')
