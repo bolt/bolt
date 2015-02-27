@@ -56,7 +56,6 @@ bolt.validation = (function () {
      *
      * @param {Object} field - Field element
      * @param {boolean} isCkeditor - Is a isCkeditor field
-     * @returns {boolean}
      */
     function addErrorClass(field, isCkeditor) {
         $(field).addClass('error');
@@ -71,7 +70,6 @@ bolt.validation = (function () {
      *
      * @param {Object} field - Field element
      * @param {boolean} isCkeditor - Is a isCkeditor field
-     * @returns {boolean}
      */
     function removeErrorClass(field, isCkeditor) {
         $(field).removeClass('error');
