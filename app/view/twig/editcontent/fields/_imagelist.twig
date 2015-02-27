@@ -4,7 +4,7 @@
     extensions:  field.extensions|default([]),
     label:       field.label|default(''),
     upload:      field.upload|default(''),
-    canUpload:   field.canUpload,
+    can_upload:  field.canUpload,
     info:        field.info|default('info.upload.filelist')
 } %}
 
@@ -71,8 +71,8 @@
 
         <div class="list" data-list="{{ listdata|json_encode }}"></div>
 
-        {% set canUpload = context.canUpload and option.canUpload %}
-        {{ macro.upload_buttons('image', key, attr_fileupload, option.upload, canUpload) }}
+        {% set can_upload = context.can_upload and option.can_upload %}
+        {{ macro.upload_buttons('image', key, attr_fileupload, option.upload, can_upload) }}
 
         <textarea name="{{ key }}" id="{{ key }}" class="hide">{{ list_json }}</textarea>
 

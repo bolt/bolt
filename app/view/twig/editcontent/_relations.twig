@@ -1,4 +1,4 @@
-{% if not has.tabs %}
+{% if not context.has.tabs %}
     <hr>
 
     <h3>
@@ -8,7 +8,7 @@
     </h3>
 {% endif %}
 
-{% if has.relations %}
+{% if context.has.relations %}
     {% include 'editcontent/_relationships.twig' %}
 {% endif %}
 
@@ -28,10 +28,10 @@
     {% endif %}
 {% endfor %}
 
-{% if has.tabs and 'relations' in context.contenttype.groups %}
+{% if context.has.tabs and 'relations' in context.contenttype.groups %}
     {% include 'editcontent/_fields.twig' %}
 {% endif %}
 
-{% if not has.tabs %}
+{% if not context.has.tabs %}
     <hr>
 {% endif %}

@@ -1,6 +1,6 @@
 {# taxonomies for the contenttype that this record is part of. #}
 
-{% if not has.tabs %}
+{% if not context.has.tabs %}
     <h3>
         {{ __('Taxonomy') }}
         <span class="label info-pop" data-html="true" data-title="{{ __('Taxonomy') }}"
@@ -163,10 +163,10 @@
     </div>
 {% endfor %}
 
-{% if has.tabs and 'taxonomy' in context.contenttype.groups %}
+{% if context.has.tabs and 'taxonomy' in context.contenttype.groups %}
     {% include 'editcontent/_fields.twig' %}
 {% endif %}
 
-{% if not has.tabs %}
+{% if not context.has.tabs %}
     <hr>
 {% endif %}
