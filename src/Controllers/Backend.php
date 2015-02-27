@@ -889,8 +889,8 @@ class Backend implements ControllerProviderInterface
         } else {
             // For existing items, we'll just keep the current owner.
             $contentowner = $app['users']->getUser($content['ownerid']);
-        } 
-        
+        }
+
         // Test write access for uploadable fields
         foreach ($contenttype['fields'] as $key=>&$values) {
             if (isset($values['upload'])) {
@@ -904,7 +904,7 @@ class Backend implements ControllerProviderInterface
                 $values['canUpload'] = true;
             }
         }
-        
+
 
         // Info
 
@@ -1237,7 +1237,7 @@ class Backend implements ControllerProviderInterface
 
         // Add a note, if we're setting up the first user using SQLite.
         $dbdriver = $app['config']->get('general/database/driver');
-        if ($dbdriver == 'sqlite' || $dbdriver == 'pdo_sqlite') {
+        if ($dbdriver === 'sqlite' || $dbdriver === 'pdo_sqlite') {
             $note = Trans::__('page.edit-users.note-sqlite');
         }
 
@@ -1257,10 +1257,10 @@ class Backend implements ControllerProviderInterface
         $form = $form->getForm();
 
         // Check if the form was POST-ed, and valid. If so, store the user.
-        if ($request->getMethod() == 'POST') {
+        if ($request->getMethod() === 'POST') {
             if ($this->validateUserForm($app, $form, true)) {
                 // To the dashboard, where 'login' will be triggered
-                return Lib::redirect('dashboard');
+                return $app->redirect(Lib::path('dashboard'));
             }
         }
 
@@ -1498,7 +1498,7 @@ class Backend implements ControllerProviderInterface
         if (!$app['users']->isAllowed("files:uploads")) {
             $uploadview = false;
         }
-        
+
         if ($filesystem->getVisibility($path) === 'public' ) {
             $validFolder = true;
         } elseif ($filesystem->getVisibility($path) === 'readonly' ) {
@@ -1584,11 +1584,11 @@ class Backend implements ControllerProviderInterface
             } else {
                 $formview = $form->createView();
             }
-        
+
             list($files, $folders) = $filesystem->browse($path, $app);
         }
 
-        
+
 
         // Get the pathsegments, so we can show the path as breadcrumb navigation..
         $pathsegments = array();

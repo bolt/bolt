@@ -145,7 +145,7 @@ class Library
         }
 
         // Only set the 'retreat' when redirecting to 'login' but not FROM logout.
-        if (($path == 'login') && ($app['request']->get('_route') !== 'logout')) {
+        if (($path === 'login') && ($app['request']->get('_route') !== 'logout')) {
 
             $app['session']->set(
                 'retreat',
