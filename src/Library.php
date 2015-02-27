@@ -138,6 +138,12 @@ class Library
     {
         $app = ResourceManager::getApp();
 
+        // If the user doesn't have access to the backend, redirect them to the frontend
+        if ($path === 'dashboard' && !$app['users']->isAllowed('dashboard')) {
+            $app['session']->getFlashBag()->clear();
+            $path = 'homepage';
+        }
+
         // Only set the 'retreat' when redirecting to 'login' but not FROM logout.
         if (($path == 'login') && ($app['request']->get('_route') !== 'logout')) {
 
