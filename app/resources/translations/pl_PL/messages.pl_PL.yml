@@ -1,4 +1,4 @@
-# app/resources/translations/pl_PL/messages.pl_PL.yml – generated on 2015-02-27 13:48:11 Europe/Warsaw
+# app/resources/translations/pl_PL/messages.pl_PL.yml – generated on 2015-02-27 14:00:10 Europe/Warsaw
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
 #          at the moment. This is an ongoing process. Translations currently in the 
@@ -452,7 +452,7 @@ contenttypes:
         error-saving: "Wystąpił błąd podczas zapisywania tego %contenttype%."
         group:
             relations: "Relacje"
-            taxonomy: "Systematyka"
+            taxonomy: "Taksonomia"
             ungrouped: "Nie pogrupowane"
         invalid-field: "Nie można ustawić %field% w %contenttype%: Niepoprawne pole.\""
         last-modified: "Ostatnio zmodyfikowane %contenttypes%"
