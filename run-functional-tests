@@ -7,8 +7,12 @@ if [ "$PHP_NEW_ENOUGH" ]
         SERVER_PID=$!
         ./$CODECEPT build
         ./$CODECEPT run
+        RC=$?
         kill "$SERVER_PID"
     else
         PHP_VERSION=$(php -r 'echo PHP_VERSION;')
         echo "Cannot run codeception integration tests, because the installed PHP version ($PHP_VERSION) does not support the built-in web server."
+        RC=0
 fi
+
+exit $RC
