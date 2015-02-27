@@ -109,7 +109,8 @@ bolt.validation = (function () {
             task,
             param,
             value = field.value,
-            error;
+            error,
+            label;
 
         var validates = $(field).data('validate');
         if (validates) {
@@ -146,7 +147,9 @@ bolt.validation = (function () {
                 }
                 // Stop on first error
                 if (error) {
-                    error = error.subst({'%FIELDNAME%': field.name});
+                    // Insert label
+                    label = $('label[for="' + field.id + '"]').contents().first().text().trim();
+                    error = error.subst({'%FIELDNAME%': label ? label : field.name});
 
                     if (hasNativeValidation) {
                         field.setCustomValidity(error);
