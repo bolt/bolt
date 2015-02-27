@@ -131,4 +131,26 @@ class LoginTest extends BoltUnitTest
 
         $app->run($request);
     }
+
+    public function testDashboardWithoutPermissionRedirectsToHomepage()
+    {
+        $app = $this->getApp();
+
+        $users = $this->getMock('Bolt\Users', array('hasUsers', 'isValidSession'), array($app));
+        $users->expects($this->any())
+            ->method('hasUsers')
+            ->will($this->returnValue(5));
+        $users->expects($this->any())
+            ->method('isValidSession')
+            ->will($this->returnValue(true));
+
+        $app['users']->currentuser = array('username' => 'test', 'roles' => array());
+        $app['users'] = $users;
+
+        $app['config']->set('permissions/global/dashboard', array());
+
+        $request = Request::create('/bolt/');
+        $response = $app->handle($request);
+        $this->assertTrue($response->isRedirect('/'), 'Failed to redirect to homepage');
+    }
 }
