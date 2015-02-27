@@ -52,6 +52,21 @@ bolt.validation = (function () {
     }
 
     /**
+     * Removes error classes from field
+     *
+     * @param {Object} field - Field element
+     * @param {boolean} isCkeditor - Is a isCkeditor field
+     * @returns {boolean}
+     */
+    function removeErrorClass(field, isCkeditor) {
+        $(field).removeClass('error');
+
+        if (isCkeditor) {
+            $('#cke_' + field.id).removeClass('cke_error');
+        }
+    }
+
+    /**
      * Validates a field
      *
      * @param {Object} field - Field element
@@ -102,12 +117,7 @@ bolt.validation = (function () {
         $('#' + noticeID).remove();
 
         if (field.validity.valid) {
-            // Remove error styles and messages
-            $(field).removeClass('error');
-
-            if (isCkeditor) {
-                $('#cke_' + field.id).removeClass('cke_error');
-            }
+            removeErrorClass(field, isCkeditor);
 
             // Field is valid
             return true;
