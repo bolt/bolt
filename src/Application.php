@@ -395,9 +395,8 @@ class Application extends Silex\Application
 
     public function initMountpoints()
     {
-        $request = Request::createFromGlobals();
         if ($proxies = $this['config']->get('general/trustProxies')) {
-            $request->setTrustedProxies($proxies);
+            Request::setTrustedProxies($proxies);
         }
 
         // Mount the 'backend' on the branding:path setting. Defaults to '/bolt'.
