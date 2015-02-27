@@ -3,32 +3,34 @@
  */
 function getSelectedItems() {
     var aItems = [];
+
     $('.dashboardlisting input:checked').each(function () {
         if ($(this).parents('tr').attr('id')) {
             aItems.push($(this).parents('tr').attr('id').substr(5));
         }
     });
+
     return aItems;
 }
 
+/**
+ * Basic form validation before submit, adapted from
+ * http://www.sitepoint.com/html5-forms-javascript-constraint-validation-api/
+*/
 
-// basic form validation before submit, adapted from
-// http://www.sitepoint.com/html5-forms-javascript-constraint-validation-api/
-// =========================================================
-
-// basic legacy validation checking
+// Basic legacy validation checking
 function LegacyValidation(field) {
     var
         valid = true,
         val = field.value,
-        type = field.getAttribute("type"),
-        chkbox = type === "checkbox" || type === "radio",
-        required = field.getAttribute("required"),
-        minlength = field.getAttribute("minlength"),
-        maxlength = field.getAttribute("maxlength"),
-        pattern = field.getAttribute("pattern");
+        type = field.getAttribute('type'),
+        chkbox = type === 'checkbox' || type === 'radio',
+        required = field.getAttribute('required'),
+        minlength = field.getAttribute('minlength'),
+        maxlength = field.getAttribute('maxlength'),
+        pattern = field.getAttribute('pattern');
 
-    // disabled fields should not be validated
+    // Disabled fields should not be validated
     if (field.disabled) {
         return valid;
     }
@@ -49,9 +51,9 @@ function LegacyValidation(field) {
 
     /* jshint +W126 */
 
-    // test pattern
+    // Test pattern
     if (valid && pattern) {
-        pattern = new RegExp('^(?:'+pattern+')$');
+        pattern = new RegExp('^(?:' + pattern + ')$');
         valid = pattern.test(val);
     }
 
@@ -61,59 +63,90 @@ function LegacyValidation(field) {
 function validateContent(form) {
 
     var formLength = form.elements.length,
-        f, field, formvalid = true;
+        f,
+        field,
+        formvalid = true,
+        hasNativeValidation,
+        isCkeditor;
 
-    // loop all fields
+    // Loop all fields
     for (f = 0; f < formLength; f++) {
         field = form.elements[f];
 
-        if (field.nodeName !== "INPUT" && field.nodeName !== "TEXTAREA" && field.nodeName !== "SELECT") {
+        if (field.nodeName !== 'INPUT' && field.nodeName !== 'TEXTAREA' && field.nodeName !== 'SELECT') {
             continue;
         }
 
-		if (field.nodeName === "INPUT"){
-			// trim input values
+        if (field.nodeName === 'INPUT') {
+			// Trim input values
 			field.value = field.value.trim();
 		}
 
-        // is native browser validation available?
-        if (typeof field.willValidate !== "undefined") {
-            // native validation available
-            if (field.nodeName === "INPUT" && field.type !== field.getAttribute("type")) {
-                // input type not supported! Use legacy JavaScript validation
-                field.setCustomValidity(LegacyValidation(field) ? "" : "error");
+        // Is native browser validation available?
+        hasNativeValidation = typeof field.willValidate !== 'undefined';
+        if (hasNativeValidation) {
+            // Native validation available
+            if (field.nodeName === 'INPUT' && field.type !== field.getAttribute('type')) {
+                // Input type not supported! Use legacy JavaScript validation
+                field.setCustomValidity(LegacyValidation(field) ? '' : 'error');
             }
-            // native browser check
+            // Native browser check
             field.checkValidity();
-        }
-        else {
-            // native validation not available
+        } else {
+            // Native validation not available
             field.validity = field.validity || {};
-            // set to result of validation function
+            // Set to result of validation function
             field.validity.valid = LegacyValidation(field);
 
-            // if "invalid" events are required, trigger it here
-
+            // If "invalid" events are required, trigger it here
         }
 
-        var noticeID = field.id + '-notice';
+        // Special validation for CKEdito fields
+        isCkeditor = field.nodeName === 'TEXTAREA' && $(field).hasClass('ckeditor');
+        if (isCkeditor) {
+            var editor = CKEDITOR.instances[field.id],
+                error;
 
-        // first, remove any existing old notices
-        $('#'+noticeID).remove();
+            if (editor) {
+                error = editor._.required === true && editor.getData().trim() === '';
+                if (hasNativeValidation) {
+                    field.setCustomValidity(error ? 'Required' : '');
+                } else {
+                    field.validity.valid = error;
+                }
+            }
+        }
+
+        var noticeID = 'notice--' + field.id;
+
+        // First, remove any existing old notices
+        $('#' + noticeID).remove();
 
         if (field.validity.valid) {
-
-            // remove error styles and messages
+            // Remove error styles and messages
             $(field).removeClass('error');
-        }
-        else {
-            // style field, show error, etc.
+
+            if (isCkeditor) {
+                $('#cke_' + field.id).removeClass('cke_error');
+            }
+        } else {
+            // Style field, show error, etc.
             $(field).addClass('error');
 
-            var msg = $(field).data('errortext') || 'The '+field.name+' field is required or needs to match a pattern';
+            if (isCkeditor) {
+                $('#cke_' + field.id).addClass('cke_error');
+            }
 
-            $('<div id="' + noticeID + '" class="alert alert-danger">' +
-              '<button class="close" data-dismiss="alert">×</button>' + msg + '</div>')
+            var msg = $(field).data('errortext');
+            if (!msg) {
+                msg = bolt.data.editcontent.error.msg.subst({'%FIELDNAME%': field.name});
+            }
+
+            var alertbox = bolt.data.editcontent.error.alertbox.subst({
+                '%NOTICE_ID%': noticeID,
+                '%MESSAGE%': msg
+            });
+            $(alertbox)
                 .hide()
                 .insertAfter('.page-header')
                 .slideDown('fast');
@@ -125,5 +158,3 @@ function validateContent(form) {
 
     return formvalid;
 }
-
-// =========================================================
