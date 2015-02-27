@@ -126,7 +126,7 @@ bolt.validation = (function () {
             // If "invalid" events are required, trigger it here
         }
 
-        // Special validation for CKEdito fields
+        // Special validation for CKEditor fields
         isCkeditor = field.nodeName === 'TEXTAREA' && $(field).hasClass('ckeditor');
         if (isCkeditor) {
             var editor = CKEDITOR.instances[field.id],
@@ -150,7 +150,6 @@ bolt.validation = (function () {
         if (field.validity.valid) {
             removeErrorClass(field, isCkeditor);
 
-            // Field is valid
             return true;
         } else {
             addErrorClass(field, isCkeditor);
@@ -161,7 +160,6 @@ bolt.validation = (function () {
             }
             showAlertbox(noticeID, msg);
 
-            // Field is invalid
             return false;
         }
     }
