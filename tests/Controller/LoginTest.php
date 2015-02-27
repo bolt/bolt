@@ -1,8 +1,8 @@
 <?php
 namespace Bolt\Tests\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
 use Bolt\Tests\BoltUnitTest;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class to test correct operation of src/Controller/Backend.
@@ -22,6 +22,7 @@ class LoginTest extends BoltUnitTest
             ->method('login')
             ->with($this->equalTo('test'), $this->equalTo('pass'))
             ->will($this->returnValue(true));
+        $users->currentuser = array('username' => 'test', 'roles' => array());
         $app['users'] = $users;
         $this->addDefaultUser($app);
 
@@ -66,6 +67,7 @@ class LoginTest extends BoltUnitTest
         $users->expects($this->any())
             ->method('login')
             ->will($this->returnValue(true));
+        $users->currentuser = array('username' => 'test', 'roles' => array());
         $app['users'] = $users;
         $request = Request::create('/bolt/login', 'POST', array('action' => 'login'));
         $this->expectOutputRegex("/Redirecting to \/bolt\//");
