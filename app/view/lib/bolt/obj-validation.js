@@ -124,6 +124,9 @@ bolt.validation = (function () {
                         break;
 
                     case 'required':
+                        if (param === true && value === '') {
+                            error = bolt.data.validation.required;
+                        }
                         break;
 
                     case 'min':
