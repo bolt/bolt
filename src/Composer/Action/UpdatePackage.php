@@ -15,12 +15,12 @@ use Silex\Application;
 final class UpdatePackage
 {
     /**
-     * @var Silex\Application
+     * @var \Silex\Application
      */
     private $app;
 
     /**
-     * @param $app Silex\Application
+     * @param $app \Silex\Application
      */
     public function __construct(Application $app)
     {
@@ -32,17 +32,22 @@ final class UpdatePackage
      *
      * @param  $packages array Indexed array of package names to update
      * @param  $options  array [Optional] changed option set
-     * @return integer 0 on success or a positive error code on failure
+     *
+     * @return int 0 on success or a positive error code on failure
+     * @throws \Bolt\Exception\PackageManagerException
      */
-    public function execute(array $packages = array(), array $options = null)
+    public function execute(array $packages = array(), array $options = array())
     {
+        /** @var $composer \Composer\Composer */
         $composer = $this->app['extend.manager']->getComposer();
         $io = $this->app['extend.manager']->getIO();
-        $options = $this->app['extend.manager']->getOptions();
+        $packageManagerOptions = $this->app['extend.manager']->getOptions();
 
         // Handle passed in options
-        if (!is_null($options)) {
-            $options = Arr::mergeRecursiveDistinct($options, $options);
+        if (!$options) {
+            $options = Arr::mergeRecursiveDistinct($packageManagerOptions, $options);
+        } else {
+            $options = $packageManagerOptions;
         }
 
         $install = Installer::create($io, $composer);

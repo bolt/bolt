@@ -21,14 +21,6 @@
 {% block messages "" %}
 
 {% block page_main %}
-
-    {% set has = {
-        incoming_relations: context.content.relation is not empty,
-        relations:          context.contenttype.relations is defined,
-        tabs:               context.contenttype.groups != false,
-        taxonomy:           context.contenttype.taxonomy is defined,
-    } %}
-
     {% set status_names = {"published": __("Published"), "held": __("Not published"), "timed": __("Timed publish"), "draft": __("Draft")} %}
 
     {% set dateChanged %}{{ macro.datetime(context.content.datechanged) }}{% endset %}
@@ -39,43 +31,31 @@
         msgNotSaved:    __('contenttypes.generic.saving-impossible', {'%contenttype%': context.contenttype.slug}),
         pathsRoot:      paths.root,
         msgSaving:      __('Saving …'),
-        hasGroups:      has.tabs,
+        hasGroups:      context.has.tabs,
         singularSlug:   context.contenttype.singular_slug,
     } %}
 
     {% set attr_form = {
         _bind:   ['editcontent', bind_data],
-        class:   "form-horizontal" ~ (has.tabs ? ' tab-content' : ''),
+        class:   "form-horizontal" ~ (context.has.tabs ? ' tab-content' : ''),
         enctype: "multipart/form-data",
         id:      "editcontent",
         method:  "post",
         role:    "form",
     } %}
 
-    {# Build tab groups list #}
+    {% set alertbox %}
+        <div id="%NOTICE_ID%" class="alert alert-danger">
+            <button class="close" data-dismiss="alert">×</button>%MESSAGE%
+        </div>
+    {% endset %}
 
-    {% set tabgroups = {} %}
-    {% for group in context.contenttype.groups %}
-        {% if group == 'ungrouped' %}
-            {% set tabgroups = tabgroups|merge({(group): __('contenttypes.generic.group.ungrouped')}) %}
-        {% elseif group != 'meta' and group != 'relations' and group != 'taxonomy' %}
-            {% set label = __(['contenttypes', context.contenttype.slug, 'group', group], {DEFAULT: group|capitalize}) %}
-            {% set tabgroups = tabgroups|merge({(group): label}) %}
-        {% endif %}
-    {% else %}
-        {% set tabgroups = {'ungrouped': ''} %}
-    {% endfor %}
 
-    {% if has.relations or has.incoming_relations %}
-        {% set tabgroups = tabgroups|merge({'relations': __('contenttypes.generic.group.relations')}) %}
-    {% endif %}
-    {% if has.taxonomy or 'taxonomy' in context.contenttype.groups %}
-        {% set tabgroups = tabgroups|merge({'taxonomy': __('contenttypes.generic.group.taxonomy')}) %}
-    {% endif %}
+    {{ data('editcontent.error', {
+        'msg':          __('The field “%FIELDNAME%” is required or needs to match a pattern!'),
+        'alertbox':     alertbox|trim,
+    }) }}
 
-    {% set tabgroups = tabgroups|merge({'meta': __('contenttypes.generic.group.meta')}) %}
-
-    {% set active_group = tabgroups|keys|first %}
 
     <div class="row">
         <div class="col-md-8">
@@ -83,11 +63,11 @@
             {% include '_sub/_messages.twig' %}
 
             {# Only if we have grouping tabs. #}
-            {% if has.tabs %}
+            {% if context.has.tabs %}
                 <ul class="nav nav-tabs" id="filtertabs">
-                    {% for group, name in tabgroups %}
-                        <li{{ group == active_group ? ' class="active"' : '' }}>
-                            <a href="#tab-{{ group }}" data-toggle="tab">{{ name }}</a>
+                    {% for group in context.groups %}
+                        <li{{ group.is_active ? ' class="active"' : '' }}>
+                            <a href="#{{ group.id }}" data-toggle="tab">{{ group.label }}</a>
                         </li>
                     {% endfor %}
                 </ul>
@@ -96,26 +76,26 @@
             <form{{ macro.attr(attr_form) }}>
                 {% include '_sub/_csrf_token.twig' %}
 
-                {% for group, name in tabgroups %}
+                {% for group_name, group in context.groups %}
 
-                    {% if has.tabs %}
-                        <div class="tab-pane{{ group == active_group ? ' active' : '' }}" id="tab-{{ group }}">
+                    {% if context.has.tabs %}
+                        <div class="tab-pane{{ group.is_active ? ' active' : '' }}" id="{{ group.id }}">
                     {% endif %}
 
-                    {% if group == 'relations' %}
+                    {% if group_name == 'relations' %}
                         {% include 'editcontent/_relations.twig' %}
 
-                    {% elseif group == 'taxonomy' %}
+                    {% elseif group_name == 'taxonomy' %}
                         {% include 'editcontent/_taxonomies.twig' %}
 
-                    {% elseif group == 'meta' %}
+                    {% elseif group_name == 'meta' %}
                         {% include 'editcontent/_meta.twig' %}
 
                     {% else %}
                         {% include 'editcontent/_fields.twig' %}
                     {% endif %}
 
-                    {% if has.tabs %}
+                    {% if context.has.tabs %}
                         </div>
                     {% endif %}
 

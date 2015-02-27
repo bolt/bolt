@@ -12,8 +12,8 @@ use Composer\Script\CommandEvent;
 class ScriptHandler
 {
     /**
-     *
      * @param CommandEvent $event
+     * @param array|bool   $options
      */
     public static function installAssets(CommandEvent $event, $options = false)
     {
@@ -72,13 +72,7 @@ class ScriptHandler
 
     public static function bootstrap(CommandEvent $event)
     {
-        $webroot = $event->getIO()->ask('<info>Do you want your web directory to be a separate folder to root? [y/n] </info>', false);
-        if ($webroot === 'y') {
-            $webroot = true;
-        } else {
-            $webroot = false;
-            $assetDir = '.';
-        }
+        $webroot = $event->getIO()->askConfirmation('<info>Do you want your web directory to be a separate folder to root? [y/n] </info>', false);
 
         if ($webroot) {
             $webname = $event->getIO()->ask('<info>What do you want your public directory to be named? [default: public] </info>', 'public');
@@ -86,6 +80,7 @@ class ScriptHandler
             $assetDir = './' . $webname;
         } else {
             $webname = null;
+            $assetDir = '.';
         }
 
         $generator = new BootstrapGenerator($webroot, $webname);
@@ -96,7 +91,6 @@ class ScriptHandler
     }
 
     /**
-     *
      * @param  CommandEvent $event
      * @return array
      */

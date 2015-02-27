@@ -41,11 +41,11 @@ class Cache extends FilesystemCache
     /**
      * Set up the object. Initialize the proper folder for storing the files.
      *
-     * @param  string            $cacheDir
-     * @param  Silex\Application $app
+     * @param  string      $cacheDir
+     * @param  Application $app
      * @throws \Exception
      */
-    public function __construct($cacheDir, $app)
+    public function __construct($cacheDir, Application $app)
     {
         try {
             parent::__construct($cacheDir, $this->extension);

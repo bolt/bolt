@@ -2,8 +2,11 @@
 
 namespace Bolt;
 
-use Silex;
 use Bolt\Translation\Translator as Trans;
+use Doctrine\DBAL\DBALException;
+use Hautelook\Phpass\PasswordHash;
+use Silex;
+use UAParser;
 
 /**
  * Class to handle things dealing with users..
@@ -103,7 +106,7 @@ class Users
         }
 
         if (!empty($user['password']) && $user['password'] != "**dontchange**") {
-            $hasher = new \Hautelook\Phpass\PasswordHash($this->hashStrength, true);
+            $hasher = new PasswordHash($this->hashStrength, true);
             $user['password'] = $hasher->HashPassword($user['password']);
         } else {
             unset($user['password']);
@@ -293,7 +296,7 @@ class Users
             } else {
                 $this->db->update($this->authtokentable, $token, array('id' => $row['id']));
             }
-        } catch (\Doctrine\DBAL\DBALException $e) {
+        } catch (DBALException $e) {
             // Oops. User will get a warning on the dashboard about tables that need to be repaired.
         }
     }
@@ -351,7 +354,7 @@ class Users
         $sessions = $this->db->fetchAll($query);
 
         // Parse the user-agents to get a user-friendly Browser, version and platform.
-        $parser = \UAParser\Parser::create();
+        $parser = UAParser\Parser::create();
 
         foreach ($sessions as $key => $session) {
             $ua = $parser->parse($session['useragent']);
@@ -367,7 +370,7 @@ class Users
             $stmt = $this->db->prepare(sprintf('DELETE FROM %s WHERE validity < :now"', $this->authtokentable));
             $stmt->bindValue("now", date("Y-m-d H:i:s"));
             $stmt->execute();
-        } catch (\Doctrine\DBAL\DBALException $e) {
+        } catch (DBALException $e) {
             // Oops. User will get a warning on the dashboard about tables that need to be repaired.
         }
     }
@@ -419,7 +422,7 @@ class Users
             return false;
         }
 
-        $hasher = new \Hautelook\Phpass\PasswordHash($this->hashStrength, true);
+        $hasher = new PasswordHash($this->hashStrength, true);
 
         if ($hasher->CheckPassword($password, $user['password'])) {
 
@@ -439,7 +442,7 @@ class Users
             // Attempt to update the last login, but don't break on failure.
             try {
                 $this->db->update($this->usertable, $update, array('id' => $user['id']));
-            } catch (\Doctrine\DBAL\DBALException $e) {
+            } catch (DBALException $e) {
                 // Oops. User will get a warning on the dashboard about tables that need to be repaired.
             }
 
@@ -479,7 +482,7 @@ class Users
             // Attempt to update the last login, but don't break on failure.
             try {
                 $this->db->update($this->usertable, $update, array('id' => $user['id']));
-            } catch (\Doctrine\DBAL\DBALException $e) {
+            } catch (DBALException $e) {
                 // Oops. User will get a warning on the dashboard about tables that need to be repaired.
             }
 
@@ -510,7 +513,7 @@ class Users
             $query = sprintf('SELECT * FROM %s WHERE token=? AND ip=? AND useragent=?', $this->authtokentable);
             $query = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($query, 1);
             $row = $this->db->executeQuery($query, array($authtoken, $remoteip, $browser), array(\PDO::PARAM_STR))->fetch();
-        } catch (\Doctrine\DBAL\DBALException $e) {
+        } catch (DBALException $e) {
             // Oops. User will get a warning on the dashboard about tables that need to be repaired.
         }
 
@@ -535,7 +538,7 @@ class Users
             // Attempt to update the last login, but don't break on failure.
             try {
                 $this->db->update($this->usertable, $update, array('id' => $user['id']));
-            } catch (\Doctrine\DBAL\DBALException $e) {
+            } catch (DBALException $e) {
                 // Oops. User will get a warning on the dashboard about tables that need to be repaired.
             }
 
@@ -577,7 +580,7 @@ class Users
             $shadowpassword = $this->app['randomgenerator']->generateString(12);
             $shadowtoken = $this->app['randomgenerator']->generateString(32);
 
-            $hasher = new \Hautelook\Phpass\PasswordHash($this->hashStrength, true);
+            $hasher = new PasswordHash($this->hashStrength, true);
             $shadowhashed = $hasher->HashPassword($shadowpassword);
 
             $shadowlink = sprintf(
@@ -793,6 +796,7 @@ class Users
      */
     public function hasUsers()
     {
+        /** @var \Doctrine\DBAL\Query\QueryBuilder $query */
         $query = $this->app['db']->createQueryBuilder()
                         ->select('COUNT(id) as count')
                         ->from($this->usertable);
@@ -851,7 +855,7 @@ class Users
     /**
      * Check a user's enable status
      *
-     * @param  int  $id User ID, or false for current user
+     * @param  int|bool $id User ID, or false for current user
      * @return bool
      */
     public function isEnabled($id = false)
@@ -950,6 +954,44 @@ class Users
     }
 
     /**
+     * Ensure changes to the user's roles match what the
+     * current user has permissions to manipulate.
+     *
+     * @param int|string $id       User ID
+     * @param array      $newRoles Roles from form submission
+     *
+     * @return string[] The user's roles with the allowed changes
+     */
+    public function filterManipulatableRoles($id, array $newRoles)
+    {
+        $oldRoles = array();
+        if ($id && $user = $this->getUser($id)) {
+            $oldRoles = $user['roles'];
+        }
+
+        $manipulatableRoles = $this->app['permissions']->getManipulatableRoles($this->currentuser);
+
+        $roles = array();
+        // Remove roles if the current user can manipulate that role
+        foreach ($oldRoles as $role) {
+            if ($role === Permissions::ROLE_EVERYONE) {
+                continue;
+            }
+            if (in_array($role, $newRoles) || !in_array($role, $manipulatableRoles)) {
+                $roles[] = $role;
+            }
+        }
+        // Add roles if the current user can manipulate that role
+        foreach ($newRoles as $role) {
+            if (in_array($role, $manipulatableRoles)) {
+                $roles[] = $role;
+            }
+        }
+
+        return array_unique($roles);
+    }
+
+    /**
      * Check for a user with the 'root' role. There should always be at least one
      * If there isn't we promote the current user.
      *
@@ -1007,7 +1049,10 @@ class Users
      *                                of the specified content type or item.
      *
      * @param  string $what The desired permission, as elaborated upon above.
-     * @return bool   TRUE if the permission is granted, FALSE if denied.
+     * @param  string $contenttype
+     * @param  int    $contentid
+     *
+     * @return bool TRUE if the permission is granted, FALSE if denied.
      */
     public function isAllowed($what, $contenttype = null, $contentid = null)
     {

@@ -147,12 +147,12 @@ class Render
         }
 
         // Only cache pages in the frontend.
-        if ($this->app['config']->getWhichEnd() != "frontend") {
+        if ($this->app['config']->getWhichEnd() !== 'frontend') {
             return false;
         }
 
         // Only cache for 'get' requests.
-        if ($this->app['request']->getMethod() != "GET") {
+        if ($this->app['request']->getMethod() !== 'GET') {
             return false;
         }
 
@@ -163,7 +163,7 @@ class Render
 
         // Don't use the cache, if we're currently logged in. (unless explicitly enabled in config.yml
         if (!$this->app['config']->get('general/caching/authenticated') &&
-            $this->app['users']->getCurrentUsername() != "") {
+            $this->app['users']->getCurrentUsername() !== '') {
             return false;
         }
 

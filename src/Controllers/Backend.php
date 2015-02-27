@@ -7,20 +7,22 @@ use Bolt\Library as Lib;
 use Bolt\Permissions;
 use Bolt\Translation\TranslationFile;
 use Bolt\Translation\Translator as Trans;
-use GuzzleHttp\Exception\RequestException;
+use Cocur\Slugify\Slugify;
+use Guzzle\Http\Exception\RequestException;
 use Silex;
 use Silex\Application;
 use Silex\ControllerProviderInterface;
 use Symfony;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Yaml\Yaml;
+use Symfony\Component\Yaml;
+use Symfony\Component\Yaml\Exception\ParseException;
 
 /**
  * Backend controller grouping.
@@ -889,13 +891,80 @@ class Backend implements ControllerProviderInterface
             $contentowner = $app['users']->getUser($content['ownerid']);
         }
 
+        // Test write access for uploadable fields
+        foreach ($contenttype['fields'] as $key=>&$values) {
+            if (isset($values['upload'])) {
+                $canUpload = $app['filesystem']->getFilesystem()->getVisibility($values['upload']);
+                if ($canUpload === 'public') {
+                    $values['canUpload'] = true;
+                } else {
+                    $values['canUpload'] = false;
+                }
+            } else {
+                $values['canUpload'] = true;
+            }
+        }
+
+
+        // Info
+
+        $hasIncomingRelations = is_array($content->relation);
+        $hasRelations = isset($contenttype['relations']);
+        $hasTabs = $contenttype['groups'] !== false;
+        $hasTaxonomy = isset($contenttype['taxonomy']);
+
+        // Generate tab groups
+
+        $groups = array();
+        $groupIds = array();
+
+        $addGroup = function ($group, $label) use (&$groups, &$groupIds) {
+            $nr = count($groups) + 1;
+            $id = rtrim('tab-' . Slugify::create()->slugify($group), '-');
+            if (isset($groupIds[$id]) || $id == 'tab') {
+                $id .= '-' . $nr;
+            }
+            $groups[$group] = array(
+                'label' => $label,
+                'id' => $id,
+                'is_active' => $nr === 1,
+            );
+            $groupIds[$id] = 1;
+        };
+
+        foreach ($contenttype['groups'] ? $contenttype['groups'] : array('ungrouped') as $group) {
+            if ($group === 'ungrouped') {
+                $addGroup($group, Trans::__('contenttypes.generic.group.ungrouped'));
+            } elseif ($group !== 'meta' && $group !== 'relations' && $group !== 'taxonomy') {
+                $default = array('DEFAULT' => ucfirst($group));
+                $key = array('contenttypes', $contenttype['slug'], 'group', $group);
+                $addGroup($group, Trans::__($key, $default));
+            }
+        }
+        if ($hasRelations || $hasIncomingRelations) {
+            $addGroup('relations', Trans::__('contenttypes.generic.group.relations'));
+        }
+        if ($hasTaxonomy || in_array('taxonomy', $contenttype['groups'])) {
+            $addGroup('taxonomy', Trans::__('contenttypes.generic.group.taxonomy'));
+        }
+        $addGroup('meta', Trans::__('contenttypes.generic.group.meta'));
+
+        // Render
+
         $context = array(
             'contenttype' => $contenttype,
             'content' => $content,
             'allowed_status' => $allowedStatuses,
             'contentowner' => $contentowner,
             'fields' => $app['config']->fields->fields(),
-            'canUpload' => $app['users']->isAllowed('files:uploads')
+            'can_upload' => $app['users']->isAllowed('files:uploads'),
+            'groups' => $groups,
+            'has' => array(
+                'incoming_relations' => $hasIncomingRelations,
+                'relations' => $hasRelations,
+                'tabs' => $hasTabs,
+                'taxonomy' => $hasTaxonomy,
+            ),
         );
 
         return $app['render']->render('editcontent/editcontent.twig', array('context' => $context));
@@ -987,6 +1056,12 @@ class Backend implements ControllerProviderInterface
         $users = $app['users']->getUsers();
         $sessions = $app['users']->getActiveSessions();
 
+        foreach ($users as $name => $user) {
+            if (($key = array_search(Permissions::ROLE_EVERYONE, $user['roles'], true)) !== false) {
+                unset($users[$name]['roles'][$key]);
+            }
+        }
+
         $context = array(
             'currentuser' => $currentuser,
             'users' => $users,
@@ -1053,7 +1128,9 @@ class Backend implements ControllerProviderInterface
             0 => Trans::__('page.edit-users.activated.no')
         );
 
-        $roles = $app['permissions']->getManipulatableRoles($currentuser);
+        $roles = array_map(function ($role) {
+            return $role['label'];
+        }, $app['permissions']->getDefinedRoles());
 
         $form = $this->getUserForm($app, $user, true);
 
@@ -1120,9 +1197,19 @@ class Backend implements ControllerProviderInterface
             }
         }
 
+        /** @var \Symfony\Component\Form\FormView|\Symfony\Component\Form\FormView[] $formView */
+        $formView = $form->createView();
+
+        $manipulatableRoles = $app['permissions']->getManipulatableRoles($currentuser);
+        foreach ($formView['roles'] as $role) {
+            if (!in_array($role->vars['value'], $manipulatableRoles)) {
+                $role->vars['attr']['disabled'] = 'disabled';
+            }
+        }
+
         $context = array(
             'kind' => empty($id) ? 'create' : 'edit',
-            'form' => $form->createView(),
+            'form' => $formView,
             'note' => '',
             'displayname' => $user['displayname'],
         );
@@ -1135,6 +1222,8 @@ class Backend implements ControllerProviderInterface
      *
      * @param Application $app
      * @param Request     $request
+     *
+     * @return string
      */
     public function userFirst(Application $app, Request $request)
     {
@@ -1148,7 +1237,7 @@ class Backend implements ControllerProviderInterface
 
         // Add a note, if we're setting up the first user using SQLite.
         $dbdriver = $app['config']->get('general/database/driver');
-        if ($dbdriver == 'sqlite' || $dbdriver == 'pdo_sqlite') {
+        if ($dbdriver === 'sqlite' || $dbdriver === 'pdo_sqlite') {
             $note = Trans::__('page.edit-users.note-sqlite');
         }
 
@@ -1168,10 +1257,10 @@ class Backend implements ControllerProviderInterface
         $form = $form->getForm();
 
         // Check if the form was POST-ed, and valid. If so, store the user.
-        if ($request->getMethod() == 'POST') {
+        if ($request->getMethod() === 'POST') {
             if ($this->validateUserForm($app, $form, true)) {
                 // To the dashboard, where 'login' will be triggered
-                return Lib::redirect('dashboard');
+                return $app->redirect(Lib::path('dashboard'));
             }
         }
 
@@ -1203,6 +1292,9 @@ class Backend implements ControllerProviderInterface
 
             if ($firstuser) {
                 $user['roles'] = array(Permissions::ROLE_ROOT);
+            } else {
+                $id = isset($user['id']) ? $user['id'] : null;
+                $user['roles'] = $app['users']->filterManipulatableRoles($id, $user['roles']);
             }
 
             $res = $app['users']->saveUser($user);
@@ -1228,7 +1320,7 @@ class Backend implements ControllerProviderInterface
                         ->addPart($mailhtml, 'text/html');
 
                     $app['mailer']->send($message);
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                 }
             }
 
@@ -1407,9 +1499,12 @@ class Backend implements ControllerProviderInterface
             $uploadview = false;
         }
 
-        try {
+        if ($filesystem->getVisibility($path) === 'public' ) {
             $validFolder = true;
-        } catch (\Exception $e) {
+        } elseif ($filesystem->getVisibility($path) === 'readonly' ) {
+            $validFolder = true;
+            $uploadview = false;
+        } else {
             $app['session']->getFlashBag()->add('error', Trans::__("The folder '%s' could not be found, or is not readable.", array('%s' => $path)));
             $formview = false;
             $validFolder = false;
@@ -1489,9 +1584,11 @@ class Backend implements ControllerProviderInterface
             } else {
                 $formview = $form->createView();
             }
+
+            list($files, $folders) = $filesystem->browse($path, $app);
         }
 
-        list($files, $folders) = $filesystem->browse($path, $app);
+
 
         // Get the pathsegments, so we can show the path as breadcrumb navigation..
         $pathsegments = array();
@@ -1616,10 +1713,10 @@ class Backend implements ControllerProviderInterface
 
                 // Before trying to save a yaml file, check if it's valid.
                 if ($type == "yml") {
-                    $yamlparser = new \Symfony\Component\Yaml\Parser();
+                    $yamlparser = new Yaml\Parser();
                     try {
                         $ok = $yamlparser->parse($contents);
-                    } catch (\Symfony\Component\Yaml\Exception\ParseException $e) {
+                    } catch (ParseException $e) {
                         $ok = false;
                         $app['session']->getFlashBag()->add('error', Trans::__("File '%s' could not be saved:", array('%s' => $file->getPath())) . $e->getMessage());
                     }
@@ -1704,8 +1801,8 @@ class Backend implements ControllerProviderInterface
 
                 // Before trying to save a yaml file, check if it's valid.
                 try {
-                    $ok = Yaml::parse($contents);
-                } catch (\Symfony\Component\Yaml\Exception\ParseException $e) {
+                    $ok = Yaml\Yaml::parse($contents);
+                } catch (ParseException $e) {
                     $ok = false;
                     $msg = Trans::__("File '%s' could not be saved:", array('%s' => $shortPath));
                     $app['session']->getFlashBag()->add('error', $msg . $e->getMessage());
@@ -1773,7 +1870,7 @@ class Backend implements ControllerProviderInterface
         // If the users table is present, but there are no users, and we're on /bolt/userfirst,
         // we let the user stay, because they need to set up the first user.
         if ($tableExists && !$hasUsers && $route == 'userfirst') {
-            return;
+            return null;
         }
 
         // If there are no users in the users table, or the table doesn't exist. Repair
@@ -1796,7 +1893,6 @@ class Backend implements ControllerProviderInterface
         $app['users']->checkForRoot();
 
         // Most of the 'check if user is allowed' happens here: match the current route to the 'allowed' settings.
-        $id = $request->attributes->get('id');
         if (!$app['users']->isValidSession() && !$app['users']->isAllowed($route)) {
             $app['session']->getFlashBag()->add('info', Trans::__('Please log on.'));
 
@@ -1809,6 +1905,7 @@ class Backend implements ControllerProviderInterface
 
         // Stop the 'stopwatch' for the profiler.
         $app['stopwatch']->stop('bolt.backend.before');
+        return null;
     }
 
     /**

@@ -2,11 +2,11 @@
 
 namespace Bolt\Controllers;
 
-use Silex;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\EventDispatcher\Event;
 use Bolt\Events\CronEvent;
 use Bolt\Events\CronEvents;
+use Silex\Application;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\EventDispatcher\Event;
 
 /**
  * Simple cron dispatch class for Bolt
@@ -24,17 +24,16 @@ use Bolt\Events\CronEvents;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  *
- * @property \Bolt\Application $app
  **/
 class Cron extends Event
 {
     /**
-     * @var Silex\Application
+     * @var \Silex\Application
      */
     private $app;
 
     /**
-     * @var Symfony\Component\Console\Output\OutputInterface
+     * @var \Symfony\Component\Console\Output\OutputInterface
      */
     private $output;
 
@@ -81,7 +80,7 @@ class Cron extends Event
      */
     public $lastruns = array();
 
-    public function __construct(Silex\Application $app, OutputInterface $output = null, $param = false)
+    public function __construct(Application $app, OutputInterface $output = null, $param = array())
     {
         $this->app = $app;
         $this->output = $output;
@@ -302,6 +301,7 @@ class Cron extends Event
                 return strtotime('+1 year', $lastCronHour);
             }
         }
+        return 0;
     }
 
     /**

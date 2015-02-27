@@ -14,12 +14,12 @@ use Silex\Application;
 final class InstallPackage
 {
     /**
-     * @var Silex\Application
+     * @var \Silex\Application
      */
     private $app;
 
     /**
-     * @param $app Silex\Application
+     * @param $app \Silex\Application
      */
     public function __construct(Application $app)
     {
@@ -29,10 +29,12 @@ final class InstallPackage
     /**
      * Install packages
      *
-     * @return integer 0 on success or a positive error code on failure
+     * @return int 0 on success or a positive error code on failure
+     * @throws \Bolt\Exception\PackageManagerException
      */
     public function execute()
     {
+        /** @var $composer \Composer\Composer */
         $composer = $this->app['extend.manager']->getComposer();
         $io = $this->app['extend.manager']->getIO();
 

@@ -1,19 +1,10 @@
 <?php
-/**
- * Bolt Snippet Locations
- *
- * PHP Version 5.3
- *
- * @license   http://www.opensource.org/licenses/mit-license.php MIT
- * @link      http://bolt.cm
- */
+
 namespace Bolt\Extensions\Snippets;
 
 /**
+ * Bolt Snippet Locations
  * This class categorizes all possible snippet locations in constants.
- *
- * @license http://www.opensource.org/licenses/mit-license.php MIT
- * @link    http://bolt.cm
  */
 class Location
 {

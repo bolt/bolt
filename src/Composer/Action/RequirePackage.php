@@ -20,17 +20,22 @@ use Silex\Application;
 final class RequirePackage
 {
     /**
-     * @var Silex\Application
+     * @var \Silex\Application
      */
     private $app;
 
     /**
-     * @var Composer\Package\Version\VersionSelector
+     * @var \Composer\Package\Version\VersionSelector
      */
     private $versionSelector;
 
     /**
-     * @param $app Silex\Application
+     * @var \Composer\Repository\RepositoryInterface
+     */
+    private $repos;
+
+    /**
+     * @param $app \Silex\Application
      */
     public function __construct(Application $app)
     {
@@ -41,12 +46,15 @@ final class RequirePackage
     /**
      * Require (install) a package
      *
-     * @param  $package array Package names and version to require
+     * @param  $package       array Package names and version to require
      *                        - Format: array('name' => '', 'version' => '')
-     * @return integer 0 on success or a positive error code on failure
+     *
+     * @return int 0 on success or a positive error code on failure
+     * @throws \Bolt\Exception\PackageManagerException
      */
     public function execute(array $package)
     {
+        /** @var $composer \Composer\Composer */
         $composer = $this->app['extend.manager']->getComposer();
         $io = $this->app['extend.manager']->getIO();
         $options = $this->app['extend.manager']->getOptions();
@@ -87,21 +95,24 @@ final class RequirePackage
             $versionParser->parseConstraints($constraint);
         }
 
+        // Get the JSON object
+        $json = new JsonFile($options['composerjson']);
+
         // Update our JSON file with the selected version until we reset Composer
-        $composerBackup = $this->updateComposerJson($options, $package, false);
+        $composerBackup = $this->updateComposerJson($json, $options, $package, false);
 
         // Reload Composer config
         $composer = $this->app['extend.manager']->getFactory()->resetComposer();
 
         // Update our JSON file now with a contraint
-        $this->updateComposerJson($options, $package, true);
+        $this->updateComposerJson($json, $options, $package, true);
 
         // JSON file has been created/updated, if we're not installing, exit
         if ($options['noupdate']) {
             return 0;
         }
 
-        /** @var $install Composer\Installer */
+        /** @var $install \Composer\Installer */
         $install = Installer::create($io, $composer);
 
         try {
@@ -138,16 +149,16 @@ final class RequirePackage
     }
 
     /**
+     * Update the JSON file
      *
-     * @param  array   $options
-     * @param  array   $package
-     * @param  boolean $postreset
-     * @return string  A back up of the current JSON file
+     * @param  JsonFile $json
+     * @param  array    $options
+     * @param  array    $package
+     * @param  boolean  $postreset
+     * @return string   A back up of the current JSON file
      */
-    private function updateComposerJson(array $options, array $package, $postreset)
+    private function updateComposerJson(JsonFile $json, array $options, array $package, $postreset)
     {
-
-        $json = new JsonFile($options['composerjson']);
         $composerDefinition = $json->read();
         $composerBackup = file_get_contents($json->getPath());
 
@@ -175,16 +186,16 @@ final class RequirePackage
     /**
      * Cleanly update a Composer JSON file
      *
-     * @param  \Composer\Json\JsonFile $json
-     * @param  array                   $base
-     * @param  array                   $new
-     * @param  string                  $requireKey
-     * @param  string                  $removeKey
-     * @param  boolean                 $sortPackages
-     * @param  boolean                 $postreset
+     * @param  JsonFile $json
+     * @param  array    $base
+     * @param  array    $new
+     * @param  string   $requireKey
+     * @param  string   $removeKey
+     * @param  boolean  $sortPackages
+     * @param  boolean  $postreset
      * @return boolean
      */
-    private function updateFileCleanly(\Composer\Json\JsonFile $json, array $base, array $new, $requireKey, $removeKey, $sortPackages, $postreset)
+    private function updateFileCleanly(JsonFile $json, array $base, array $new, $requireKey, $removeKey, $sortPackages, $postreset)
     {
         $contents = file_get_contents($json->getPath());
 

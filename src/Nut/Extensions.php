@@ -20,7 +20,9 @@ class Extensions extends BaseCommand
         $rows = array();
 
         foreach ($installed as $ext) {
-            $rows[] = array($ext['package']->getPrettyName(), $ext['package']->getPrettyVersion(), $ext['package']->getType(), $ext['package']->getDescription());
+            /** @var \Composer\Package\CompletePackageInterface $package */
+            $package = $ext['package'];
+            $rows[] = array($package->getPrettyName(), $package->getPrettyVersion(), $package->getType(), $package->getDescription());
         }
 
         $table = $this->getHelper('table');

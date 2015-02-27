@@ -42,14 +42,13 @@ class BoltExtendJsonTest extends BoltUnitTest
         @unlink($app['resources']->getPath('extensions') . '/composer.json');
         $manager = new PackageManager($app);
         $action = new BoltExtendJson($manager->getOptions());
-        $write = $action->updateJson($app);
+        $action->updateJson($app);
     }
     
     public function testExecute()
     {
-        $app = $this->getApp();   
         $action = new BoltExtendJson($this->options);
-        $write = $action->execute($this->options['composerjson'], array('extra'=>array('bolt-test'=>true)));
+        $action->execute($this->options['composerjson'], array('extra' => array('bolt-test' => true)));
     }
     
     

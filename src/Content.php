@@ -2,12 +2,13 @@
 
 namespace Bolt;
 
+use Bolt\Helpers\Html;
+use Bolt\Helpers\Input;
+use Bolt\Helpers\String;
+use Bolt\Library as Lib;
+use Maid\Maid;
 use Silex;
 use Symfony\Component\Filesystem\Filesystem;
-use Bolt\Library as Lib;
-use Bolt\Helpers\String;
-use Bolt\Helpers\Input;
-use Bolt\Helpers\Html;
 
 class Content implements \ArrayAccess
 {
@@ -20,6 +21,10 @@ class Content implements \ArrayAccess
 
     // The last time we weight a searchresult
     private $lastWeight = 0;
+    public $user;
+    public $sortorder;
+    public $config;
+    public $group;
 
     public function __construct(Silex\Application $app, $contenttype = '', $values = '')
     {
@@ -664,7 +669,7 @@ class Content implements \ArrayAccess
                     $value = \ParsedownExtra::instance()->text($value);
 
                     // Sanitize/clean the HTML.
-                    $maid = new \Maid\Maid(
+                    $maid = new Maid(
                         array(
                             'output-format' => 'html',
                             'allowed-tags' => array('html', 'head', 'body', 'section', 'div', 'p', 'br', 'hr', 's', 'u', 'strong', 'em', 'i', 'b', 'li', 'ul', 'ol', 'menu', 'blockquote', 'pre', 'code', 'tt', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'dd', 'dl', 'dh', 'table', 'tbody', 'thead', 'tfoot', 'th', 'td', 'tr', 'a', 'img'),
@@ -761,6 +766,10 @@ class Content implements \ArrayAccess
     /**
      * pseudo-magic function, used for when templates use {{ content.get(title) }},
      * so we can map it to $this->values['title']
+     *
+     * @param string $name
+     *
+     * @return mixed
      */
     public function get($name)
     {
@@ -977,6 +986,11 @@ class Content implements \ArrayAccess
      * Get the previous record. In this case 'previous' is defined as 'latest one published before
      * this one' by default. You can pass a parameter like 'id' or '-title' to use that as
      * the column to sort on.
+     *
+     * @param string $field
+     * @param array  $where
+     *
+     * @return \Bolt\Content
      */
     public function previous($field = 'datepublish', $where = array())
     {
@@ -993,7 +1007,8 @@ class Content implements \ArrayAccess
             'hydrate' => false
         );
 
-        $previous = $this->app['storage']->getContent($this->contenttype['singular_slug'], $params, $dummy, $where);
+        $pager = array();
+        $previous = $this->app['storage']->getContent($this->contenttype['singular_slug'], $params, $pager, $where);
 
         return $previous;
     }
@@ -1002,6 +1017,11 @@ class Content implements \ArrayAccess
      * Get the next record. In this case 'next' is defined as 'first one published after
      * this one' by default. You can pass a parameter like 'id' or '-title' to use that as
      * the column to sort on.
+     *
+     * @param string $field
+     * @param array  $where
+     *
+     * @return \Bolt\Content
      */
     public function next($field = 'datepublish', $where = array())
     {
@@ -1018,7 +1038,8 @@ class Content implements \ArrayAccess
             'hydrate' => false
         );
 
-        $next = $this->app['storage']->getContent($this->contenttype['singular_slug'], $params, $dummy, $where);
+        $pager = array();
+        $next = $this->app['storage']->getContent($this->contenttype['singular_slug'], $params, $pager, $where);
 
         return $next;
     }
@@ -1028,7 +1049,7 @@ class Content implements \ArrayAccess
      *
      * @param  string         $filtercontenttype
      * @param  integer        $filterid
-     * @return Bolt\Content[]
+     * @return \Bolt\Content[]
      */
     public function related($filtercontenttype = null, $filterid = null)
     {
@@ -1170,7 +1191,7 @@ class Content implements \ArrayAccess
             if (array_key_exists($field, $this->values)) {
 
                 // Completely remove style and script blocks
-                $maid = new \Maid\Maid(
+                $maid = new Maid(
                     array(
                         'output-format' => 'html',
                         'allowed-tags' => array('a', 'b', 'br', 'hr', 'h1', 'h2', 'h3', 'h4', 'p', 'strong', 'em', 'i', 'u', 'strike', 'ul', 'ol', 'li', 'img'),
@@ -1303,7 +1324,11 @@ class Content implements \ArrayAccess
 
         // Go over all field, and calculate the overall weight.
         foreach ($contenttypeFields[$ct] as $key => $fieldWeight) {
-            $weight += $this->weighQueryText($this->values[$key], $query['use_q'], $query['words'], $fieldWeight);
+            $value = $this->values[$key];
+            if (is_array($value)) {
+                $value = implode(' ', $value);
+            }
+            $weight += $this->weighQueryText($value, $query['use_q'], $query['words'], $fieldWeight);
         }
 
         // Go over all taxonomies, and calculate the overall weight.
@@ -1328,6 +1353,10 @@ class Content implements \ArrayAccess
 
     /**
      * ArrayAccess support
+     *
+     * @param mixed $offset
+     *
+     * @return bool
      */
     public function offsetExists($offset)
     {
@@ -1336,6 +1365,10 @@ class Content implements \ArrayAccess
 
     /**
      * ArrayAccess support
+     *
+     * @param mixed $offset
+     *
+     * @return mixed
      */
     public function offsetGet($offset)
     {
@@ -1346,6 +1379,9 @@ class Content implements \ArrayAccess
      * ArrayAccess support
      *
      * @todo we could implement an setDecodedValue() function to do the encoding here
+     *
+     * @param mixed $offset
+     * @param mixed $value
      */
     public function offsetSet($offset, $value)
     {
@@ -1354,6 +1390,8 @@ class Content implements \ArrayAccess
 
     /**
      * ArrayAccess support
+     *
+     * @param mixed $offset
      */
     public function offsetUnset($offset)
     {

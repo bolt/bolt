@@ -97,6 +97,10 @@ class Async implements ControllerProviderInterface
 
     /**
      * News.
+     *
+     * @param \Silex\Application $app
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function dashboardnews(Silex\Application $app)
     {
@@ -177,20 +181,24 @@ class Async implements ControllerProviderInterface
             $body .= $app['render']->render('components/panel-news.twig', array('news' => $news['information']));
         }
 
-        return new Response($body, 200, array('Cache-Control' => 's-maxage=3600, public'));
+        return new Response($body, Response::HTTP_OK, array('Cache-Control' => 's-maxage=3600, public'));
     }
 
     /**
      * Get the 'latest activity' for the dashboard..
+     *
+     * @param \Silex\Application $app
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function latestactivity(Silex\Application $app)
     {
         $activity = $app['logger.manager']->getActivity('change', 8);
 
-        $body .= "";
+        $body = "";
 
         if (!empty($activity)) {
-            $body = $app['render']->render(
+            $body .= $app['render']->render(
                 'components/panel-change.twig',
                 array(
                     'activity' => $activity
@@ -210,7 +218,7 @@ class Async implements ControllerProviderInterface
         }
 
 
-        return new Response($body, 200, array('Cache-Control' => 's-maxage=3600, public'));
+        return new Response($body, Response::HTTP_OK, array('Cache-Control' => 's-maxage=3600, public'));
     }
 
     public function filesautocomplete(Silex\Application $app, Request $request)
@@ -233,7 +241,7 @@ class Async implements ControllerProviderInterface
     {
         $html = $app['extensions']->renderWidget($key);
 
-        return new Response($html, 200, array('Cache-Control' => 's-maxage=180, public'));
+        return new Response($html, Response::HTTP_OK, array('Cache-Control' => 's-maxage=180, public'));
     }
 
     public function readme($filename, Silex\Application $app, Request $request)
@@ -255,7 +263,7 @@ class Async implements ControllerProviderInterface
         // Parse the field as Markdown, return HTML
         $html = \ParsedownExtra::instance()->text($readme);
 
-        return new Response($html, 200, array('Cache-Control' => 's-maxage=180, public'));
+        return new Response($html, Response::HTTP_OK, array('Cache-Control' => 's-maxage=180, public'));
     }
 
     public function makeuri(Silex\Application $app, Request $request)
@@ -334,7 +342,12 @@ class Async implements ControllerProviderInterface
     }
 
     /**
-     * Latest {contenttype} to show a small listing in the sidebars..
+     * Latest {contenttype} to show a small listing in the sidebars.
+     *
+     * @param  Silex\Application $app
+     * @param  string            $contenttypeslug
+     * @param  integer|null      $contentid
+     * @return Response
      */
     public function lastmodified(Silex\Application $app, $contenttypeslug, $contentid = null)
     {
@@ -348,12 +361,19 @@ class Async implements ControllerProviderInterface
         }
     }
 
+    /**
+     * Only get latest {contenttype} record edits based on date changed
+     *
+     * @param  \Silex\Application $app
+     * @param  string             $contenttypeslug
+     * @return Response
+     */
     private function lastmodifiedSimple(Silex\Application $app, $contenttypeslug)
     {
-        // Get the proper contenttype..
+        // Get the proper contenttype.
         $contenttype = $app['storage']->getContentType($contenttypeslug);
 
-        // get the 'latest' from the requested contenttype.
+        // Get the 'latest' from the requested contenttype.
         $latest = $app['storage']->getContent($contenttype['slug'], array('limit' => 5, 'order' => 'datechanged DESC', 'hydrate' => false));
 
         $context = array(
@@ -363,9 +383,17 @@ class Async implements ControllerProviderInterface
 
         $body = $app['render']->render('components/panel-lastmodified.twig', array('context' => $context));
 
-        return new Response($body, 200, array('Cache-Control' => 's-maxage=60, public'));
+        return new Response($body, Response::HTTP_OK, array('Cache-Control' => 's-maxage=60, public'));
     }
 
+    /**
+     * Get last modified records from the content log
+     *
+     * @param  \Silex\Application $app
+     * @param  string             $contenttypeslug
+     * @param  integer            $contentid
+     * @return Response
+     */
     private function lastmodifiedByContentLog(Silex\Application $app, $contenttypeslug, $contentid)
     {
         // Get the proper contenttype..
@@ -392,15 +420,15 @@ class Async implements ControllerProviderInterface
 
         $body = $app['render']->render('components/panel-lastmodified.twig', array('context' => $context));
 
-        return new Response($body, 200, array('Cache-Control' => 's-maxage=60, public'));
+        return new Response($body, Response::HTTP_OK, array('Cache-Control' => 's-maxage=60, public'));
     }
 
     /**
      * List pages in given contenttype, to easily insert links through the Wysywig editor.
      *
-     * @param  string            $contenttype
-     * @param  Silex\Application $app
-     * @param  Request           $request
+     * @param  string             $contenttype
+     * @param  \Silex\Application $app
+     * @param  Request            $request
      * @return mixed
      */
     public function filebrowser($contenttype, Silex\Application $app, Request $request)
@@ -677,16 +705,18 @@ class Async implements ControllerProviderInterface
 
     /**
      *
-     * @param string      $type
-     * @param Application $app
-     * @param Request     $request
+     * @param string            $type
+     * @param Silex\Application $app
+     * @param Request           $request
+     *
+     * @return Response
      */
     public function emailNotification($type, Silex\Application $app, Request $request)
     {
         $user = $app['users']->getCurrentUser();
 
         // Create an email
-        $mailhtml = $app['render']->render('email/firstuser.twig', array(
+        $mailhtml = $app['render']->render('email/pingtest.twig', array(
             'sitename' => $app['config']->get('general/sitename'),
             'user'     => $user['displayname'],
             'ip'       => $request->getClientIp()
@@ -695,7 +725,7 @@ class Async implements ControllerProviderInterface
         $message = $app['mailer']
             ->createMessage('message')
             ->setSubject('Test email from ' . $app['config']->get('general/sitename'))
-            ->setFrom(array($user['email'] => 'Bolt'))
+            ->setFrom(array('bolt@'.$request->getHost() => $app['config']->get('general/sitename')))
             ->setTo(array($user['email'] => $user['displayname']))
             ->setBody(strip_tags($mailhtml))
             ->addPart($mailhtml, 'text/html');

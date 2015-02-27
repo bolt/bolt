@@ -2,14 +2,15 @@
 
 namespace Bolt;
 
-use Bolt\Library as Lib;
-use Bolt\Helpers\String;
 use Bolt\Helpers\Html;
+use Bolt\Helpers\String;
+use Bolt\Library as Lib;
 use Bolt\Translation\Translator as Trans;
 use Silex;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\Glob;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
+use Symfony\Component\VarDumper\VarDumper;
 
 /**
  * The class for Bolt' Twig tags, functions and filters.
@@ -190,14 +191,10 @@ class TwigExtension extends \Twig_Extension
      */
     public function printDump($var)
     {
-        if ($this->safe) {
+        if ($this->safe || !$this->app['debug']) {
             return null;
         }
-        if ($this->app['debug']) {
-            dump($var);
-        } else {
-            return null;
-        }
+        return VarDumper::dump($var);
     }
 
     /**
@@ -228,21 +225,16 @@ class TwigExtension extends \Twig_Extension
     /**
      * Output pretty-printed backtrace.
      *
-     * @internal
-     * @param  int    $depth
-     * @param  mixed  $var
-     * @return string
+     * @param int $depth
+     *
+     * @return string|null
      */
     public function printBacktrace($depth = 15)
     {
-        if ($this->safe) {
+        if ($this->safe || !$this->app['debug']) {
             return null;
         }
-        if ($this->app['debug']) {
-            return dump(debug_backtrace());
-        } else {
-            return null;
-        }
+        return VarDumper::dump(debug_backtrace());
     }
 
     /**
@@ -310,7 +302,7 @@ class TwigExtension extends \Twig_Extension
             if (method_exists($content, 'excerpt')) {
                 return $content->excerpt($length);
             } else {
-                return false;
+                $output = $content;
             }
 
         } elseif (is_array($content)) {
@@ -501,7 +493,6 @@ class TwigExtension extends \Twig_Extension
      *
      * @param $snippet
      * @param  array  $extravars
-     * @internal param string $content
      * @return string Twig output
      */
     public function twig($snippet, $extravars = array())

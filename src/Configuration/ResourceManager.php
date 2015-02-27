@@ -14,26 +14,25 @@ use Symfony\Component\Filesystem\Filesystem;
  * Intended to simplify the ability to override resource location
  *
  * @author Ross Riley, riley.ross@gmail.com
- *
- * @property \Composer\Autoload\ClassLoader $classloader
- * @property \Bolt\Application $app
- * @property \Symfony\Component\HttpFoundation\Request $requestObject
- * @property \Eloquent\Pathogen\FileSystem\Factory\FileSystemPathFactory $pathManager
  */
 class ResourceManager
 {
 
+    /** @var \Bolt\Application */
     public $app;
 
     public $urlPrefix = "";
 
     /**
-     * Don't use! Will probably refactored out soon
+     * @var \Bolt\Application
+     * @deprecated Don't use! Will probably refactored out soon
      */
     public static $theApp;
 
+    /** @var \Eloquent\Pathogen\AbsolutePathInterface */
     protected $root;
 
+    /** @var Request */
     protected $requestObject;
 
     /** @var AbsolutePathInterface[] */
@@ -41,12 +40,16 @@ class ResourceManager
 
     protected $urls = array();
 
+    /** @var string[] */
     protected $request = array();
 
-    protected $verifier = false;
+    /** @var LowLevelChecks|null */
+    protected $verifier;
 
+    /** @var \Composer\Autoload\ClassLoader|null */
     protected $classLoader;
 
+    /** @var \Eloquent\Pathogen\FileSystem\Factory\FileSystemPathFactory */
     protected $pathManager;
 
     /**
@@ -58,7 +61,6 @@ class ResourceManager
      *
      * Optional ones:
      * 'request' - Symfony\Component\HttpFoundation\Request
-     * 'verifier' - LowLevelChecks verifier
      */
     public function __construct(\ArrayAccess $container)
     {
@@ -102,16 +104,11 @@ class ResourceManager
     public function useLoader(ClassLoader $loader)
     {
         $this->classLoader = $loader;
-        $ldpath = dirname($loader->findFile('Composer\\Autoload\\ClassLoader'));
-        $expath = explode('vendor', $ldpath);
-        array_pop($expath);
-
-        return $this->setPath('root', join('vendor', $expath));
+        $loaderPath = dirname($loader->findFile('Composer\\Autoload\\ClassLoader'));
+        // Remove last vendor/* off loaderPath to get our root path
+        list($rootPath) = explode('vendor', $loaderPath, -1);
+        return $this->setPath('root', $rootPath);
     }
-
-    /*
-     * Setters
-     */
 
     public function setApp(Application $app)
     {
@@ -218,7 +215,7 @@ class ResourceManager
     public function getRequest($name)
     {
         if (! array_key_exists($name, $this->request)) {
-            throw new \InvalidArgumentException("Request componenet $name is not available", 1);
+            throw new \InvalidArgumentException("Request component $name is not available", 1);
         }
 
         return $this->request[$name];
@@ -246,7 +243,7 @@ class ResourceManager
     /**
      * Takes a Request object and uses it to initialize settings that depend on the request
      *
-     * @return void
+     * @param Request $request
      */
     public function initializeRequest(Request $request = null)
     {
@@ -266,28 +263,32 @@ class ResourceManager
             $protocol = "cli";
         }
 
-        if ($request->getBasePath() !== "") {
-            $this->setUrl('root', $request->getBasePath() . "/");
-            $this->setUrl("app", $this->getUrl('root') . "app/");
-            $this->setUrl("extensions", $this->getUrl('root') . "extensions/");
-            $this->setUrl("files", $this->getUrl('root') . "files/");
-            $this->setUrl("async", $this->getUrl('root') . "async/");
-            $this->setUrl("upload", $this->getUrl('root') . "upload/");
+        $rootUrl = $this->getUrl('root');
+        if ($request->getBasePath() !== '') {
+            $rootUrl = $request->getBasePath() . '/';
+            $this->setUrl('root', $rootUrl);
+            $this->setUrl('app', $rootUrl . 'app/');
+            $this->setUrl('extensions', $rootUrl . 'extensions/');
+            $this->setUrl('files', $rootUrl . 'files/');
+            $this->setUrl('async', $rootUrl . 'async/');
+            $this->setUrl('upload', $rootUrl . 'upload/');
         }
 
         $this->setRequest("protocol", $protocol);
-        $this->setRequest("hostname", $request->server->get('HTTP_HOST'));
-        $this->setUrl("current", $request->getPathInfo());
-        $this->setUrl("canonicalurl", sprintf('%s://%s%s', $this->getRequest("protocol"), $this->getRequest('canonical'), $this->getUrl('current')));
-        $this->setUrl("currenturl", sprintf('%s://%s%s', $this->getRequest("protocol"), $this->getRequest('hostname'), $this->getUrl('current')));
-        $this->setUrl("hosturl", sprintf('%s://%s', $this->getRequest("protocol"), $this->getRequest('hostname')));
-        $this->setUrl("rooturl", sprintf('%s://%s%s', $this->getRequest("protocol"), $this->getRequest('canonical'), $this->getUrl("root")));
+        $hostname = $request->server->get('HTTP_HOST');
+        $this->setRequest('hostname', $hostname);
+        $current = $request->getPathInfo();
+        $this->setUrl('current', $current);
+        $this->setUrl('canonicalurl', sprintf('%s://%s%s', $protocol, $this->getRequest('canonical'), $current));
+        $this->setUrl('currenturl', sprintf('%s://%s%s', $protocol, $hostname, $current));
+        $this->setUrl('hosturl', sprintf('%s://%s', $protocol, $hostname));
+        $this->setUrl('rooturl', sprintf('%s://%s%s', $protocol, $this->getRequest('canonical'), $rootUrl));
     }
 
     /**
      * Takes a Bolt Application and uses it to initialize settings that depend on the application config
      *
-     * @return void
+     * @param \Bolt\Application $app
      */
     public function initializeApp(Application $app)
     {
@@ -298,7 +299,7 @@ class ResourceManager
     /**
      * Takes a loaded config array and uses it to initialize settings that depend on it
      *
-     * @return void
+     * @param array $config
      */
     public function initializeConfig($config)
     {
@@ -355,7 +356,7 @@ class ResourceManager
      * The theme path is needed before the app has constructed, so this is a shortcut to
      * allow the Application constructor to pre-provide a theme path.
      *
-     * @return void
+     * @param array $generalConfig
      */
     public function setThemePath($generalConfig)
     {

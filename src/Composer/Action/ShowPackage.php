@@ -2,13 +2,13 @@
 
 namespace Bolt\Composer\Action;
 
-use Composer\DependencyResolver\Pool;
 use Composer\DependencyResolver\DefaultPolicy;
+use Composer\DependencyResolver\Pool;
 use Composer\Factory;
 use Composer\Package\Version\VersionParser;
 use Composer\Repository\ArrayRepository;
-use Composer\Repository\CompositeRepository;
 use Composer\Repository\ComposerRepository;
+use Composer\Repository\CompositeRepository;
 use Composer\Repository\PlatformRepository;
 use Composer\Repository\RepositoryInterface;
 use Silex\Application;
@@ -21,12 +21,17 @@ use Silex\Application;
 final class ShowPackage
 {
     /**
-     * @var Silex\Application
+     * @var \Silex\Application
      */
     private $app;
 
     /**
-     * @param $app Silex\Application
+     * @var \Composer\Package\Version\VersionParser
+     */
+    private $versionParser;
+
+    /**
+     * @param $app \Silex\Application
      */
     public function __construct(Application $app)
     {
@@ -34,7 +39,7 @@ final class ShowPackage
     }
 
     /**
-     * @param  string  $target  Repository target, either: 'self', 'platform', 'installed' or 'available'
+     * @param  string  $type    Repository type, either: 'self', 'platform', 'installed' or 'available'
      * @param  string  $package Package name to show
      * @param  string  $version Package version to show
      * @param  boolean $root    Query the Bolt parent composer install
@@ -46,7 +51,7 @@ final class ShowPackage
 
         if ($root) {
             $composerjson = $this->app['resources']->getPath('root/composer.json');
-            $composer = \Composer\Factory::create($io, $composerjson, true);
+            $composer = Factory::create($io, $composerjson, true);
         } else {
             $composer = $this->app['extend.manager']->getComposer();
         }
@@ -113,6 +118,7 @@ final class ShowPackage
                 }
             } else {
                 foreach ($repo->getPackages() as $package) {
+                    /** @var $package \Composer\Package\PackageInterface */
                     if (!isset($packages[$type][$package->getName()])
                         || !is_object($packages[$type][$package->getName()])
                         || version_compare($packages[$type][$package->getName()]->getVersion(), $package->getVersion(), '<')
@@ -182,5 +188,6 @@ final class ShowPackage
                 'versions' => $versions
             ));
         }
+        return null;
     }
 }

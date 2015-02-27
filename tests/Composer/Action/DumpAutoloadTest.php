@@ -22,7 +22,7 @@ class DumpAutoloadTest extends BoltUnitTest
         $autoload = $app['resources']->getPath('extensionspath/vendor/autoload.php');
         @unlink($autoload);
         $action = new DumpAutoload($app);
-        $result = $action->execute();
+        $action->execute();
         $this->assertTrue(is_readable($app['resources']->getPath('extensionspath/vendor/autoload.php')));
     }
 

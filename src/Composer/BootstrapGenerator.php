@@ -33,30 +33,19 @@ EOD;
      *
      * @var bool
      **/
-    public $webroot = false;
+    public $webroot;
 
     /**
      * Configures name of folder above.
      *
      * @var string
      **/
-    public $webName = 'public';
+    public $webname;
 
-    /**
-     * Constructor, takes options and sets up class.
-     *
-     * @return void
-     * @author
-     **/
-    public function __construct($webroot = false, $webname = null)
+    public function __construct($webroot = false, $webname = 'public')
     {
-        if ($webroot) {
-            $this->webroot = $webroot;
-        }
-
-        if ($webname) {
-            $this->webname = $webname;
-        }
+        $this->webroot = $webroot;
+        $this->webname = $webname;
     }
 
     /**
@@ -74,7 +63,7 @@ EOD;
     /**
      * Generate method builds the bootstrap file as a string
      *
-     * @return void
+     * @return string
      **/
     public function generate()
     {
@@ -103,8 +92,10 @@ EOD;
     /**
      * Writes the generated template to the correct location.
      *
-     * @return string $location
-     **/
+     * @param string $template
+     *
+     * @return string location
+     */
     public function write($template)
     {
         $filesystem = new Filesystem();
@@ -121,10 +112,13 @@ EOD;
     }
 
     /**
-     * generates a line of code to set paths.
+     * Generates a line of code to set paths.
+     *
+     * @param string $name
+     * @param string $value
      *
      * @return string
-     **/
+     */
     protected function getPathCode($name, $value)
     {
         $template = '$configuration->setPath("%s", "%s");' . PHP_EOL;

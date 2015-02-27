@@ -2,12 +2,14 @@
 
 namespace Bolt\Translation;
 
+use Bolt\Application;
+use Bolt\Translation\Translator as Trans;
 use Silex;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\Translation\Exception\InvalidResourceException;
 use Symfony\Component\Yaml\Escaper;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
-use Bolt\Translation\Translator as Trans;
 
 /**
  * Handles translation file dependent tasks
@@ -17,28 +19,28 @@ class TranslationFile
     /**
      * Injected Application object
      *
-     * @var type
+     * @var \Bolt\Application
      */
     private $app;
 
     /**
      * Requested Domain
      *
-     * @var type
+     * @var string
      */
     private $domain;
 
     /**
      * Path to the translation file
      *
-     * @var type
+     * @var string
      */
     private $absPath;
 
     /**
      * Project relative path to the translation file
      *
-     * @var type
+     * @var string
      */
     private $relPath;
 
@@ -135,6 +137,7 @@ class TranslationFile
         );
 
         foreach ($finder as $file) {
+            /** @var \Symfony\Component\Finder\SplFileInfo $file */
             foreach ($twigRegex as $regex => $stripslashes) {
                 if (preg_match_all($regex, $file->getContents(), $matches)) {
                     foreach ($matches[1] as $foundString) {
@@ -164,6 +167,7 @@ class TranslationFile
             ->in(__DIR__ . DIRECTORY_SEPARATOR . '..');
 
         foreach ($finder as $file) {
+            /** @var \Symfony\Component\Finder\SplFileInfo $file */
             $tokens = token_get_all($file->getContents());
             $numTokens = count($tokens);
 
@@ -441,7 +445,7 @@ class TranslationFile
         // if the file doesn't exist yet, point to the fallback one
         if (!file_exists($path) || filesize($path) < 10) {
             // fallback
-            list($path) = $this->buildPath('infos', \Bolt\Application::DEFAULT_LOCALE);
+            list($path) = $this->buildPath('infos', Application::DEFAULT_LOCALE);
 
             if (!file_exists($path)) {
                 $this->app['session']->getFlashBag()->add('error', 'Locale infos yml file not found. Fallback also not found.');
@@ -475,7 +479,7 @@ class TranslationFile
 
         try {
             return $this->buildNewContent($newTranslations, $savedTranslations);
-        } catch (\Symfony\Component\Translation\Exception\InvalidResourceException $e) {
+        } catch (InvalidResourceException $e) {
             // last resort fallback, edit the file
             return file_get_contents($this->absPath);
         }

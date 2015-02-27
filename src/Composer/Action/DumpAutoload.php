@@ -13,12 +13,12 @@ use Silex\Application;
 final class DumpAutoload
 {
     /**
-     * @var Silex\Application
+     * @var \Silex\Application
      */
     private $app;
 
     /**
-     * @param $app Silex\Application
+     * @param $app \Silex\Application
      */
     public function __construct(Application $app)
     {
@@ -30,6 +30,7 @@ final class DumpAutoload
      */
     public function execute()
     {
+        /** @var $composer \Composer\Composer */
         $composer = $this->app['extend.manager']->getComposer();
         $installationManager = $composer->getInstallationManager();
         $localRepo = $composer->getRepositoryManager()->getLocalRepository();

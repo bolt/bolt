@@ -2,20 +2,19 @@
 
 namespace Bolt\Database;
 
+use Bolt\Application;
+use Bolt\Configuration\ResourceManager;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Platforms\SqlitePlatform;
 use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
+use Doctrine\DBAL\Platforms\SqlitePlatform;
 use Doctrine\DBAL\Schema\AbstractSchemaManager;
 use Doctrine\DBAL\Schema\Column;
 use Doctrine\DBAL\Schema\ColumnDiff;
 use Doctrine\DBAL\Schema\Comparator;
-
 use Doctrine\DBAL\Schema\Index;
-use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Schema\Schema;
+use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Schema\TableDiff;
-
-use Bolt\Application;
 
 class IntegrityChecker
 {
@@ -78,7 +77,7 @@ class IntegrityChecker
         // If 'invalidate()' was called statically, we don't have the
         // $integrityCachePath yet, so we set it here.
         if (empty(self::$integrityCachePath)) {
-            $app = \Bolt\Configuration\ResourceManager::getApp();
+            $app = ResourceManager::getApp();
             self::$integrityCachePath = $app['resources']->getPath('cache');
         }
 
@@ -129,6 +128,7 @@ class IntegrityChecker
             return $this->tables;
         }
 
+        /** @var $sm \Doctrine\DBAL\Schema\AbstractSchemaManager */
         $sm = $this->app['db']->getSchemaManager();
 
         $this->tables = array();
@@ -162,7 +162,8 @@ class IntegrityChecker
     /**
      * Check if all required tables and columns are present in the DB
      *
-     * @return boolean $hinting return hints if true
+     * @param boolean $hinting return hints if true
+     *
      * @return array   Messages with errors, if any or array(messages, hints)
      */
     public function checkTablesIntegrity($hinting = false)
@@ -619,6 +620,7 @@ class IntegrityChecker
                         break;
                     default:
                         if ($handler = $this->app['config']->getFields()->getField($values['type'])) {
+                            /** @var $handler \Bolt\Field\FieldInterface */
                             $myTable->addColumn($field, $handler->getStorageType(), $handler->getStorageOptions());
                         }
                 }

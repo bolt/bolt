@@ -22,11 +22,11 @@ class TwigServiceProvider extends \Silex\Provider\TwigServiceProvider
             )
         );
 
-        $app['twig.path'] = function ($app) {
+        $app['twig.path'] = function (Application $app) {
             return $app['config']->getTwigPath();
         };
 
-        $app['twig.options'] = function ($app) {
+        $app['twig.options'] = function (Application $app) {
             // Should we cache or not?
             if ($app['config']->get('general/caching/templates')) {
                 $cache = $app['resources']->getPath('cache');

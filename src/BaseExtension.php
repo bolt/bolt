@@ -3,19 +3,23 @@ namespace Bolt;
 
 use Bolt\Extensions\ExtensionInterface;
 use Bolt\Extensions\TwigProxy;
-use Bolt\Library as Lib;
 use Bolt\Helpers\Arr;
-use Symfony\Component\Console\Command\Command;
+use Bolt\Library as Lib;
 use Composer\Json\JsonFile;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Yaml;
 
 abstract class BaseExtension implements ExtensionInterface
 {
+    public $config;
+
     protected $app;
     protected $basepath;
     protected $namespace;
     protected $functionlist;
     protected $filterlist;
     protected $snippetlist;
+    /** @var TwigProxy */
     protected $twigExtension;
     protected $installtype = 'composer';
 
@@ -161,6 +165,8 @@ abstract class BaseExtension implements ExtensionInterface
      * even if the extension doesn't have a physical composer.json file.
      *
      * @param array $configuration
+     *
+     * @return array
      */
     public function setComposerConfiguration(array $configuration)
     {
@@ -178,7 +184,6 @@ abstract class BaseExtension implements ExtensionInterface
      */
     public function getExtensionConfig()
     {
-        $composerjson = $this->getComposerJSON();
         if (!is_array($this->extensionConfig)) {
             $composerjson = $this->getComposerJSON();
             if (is_array($composerjson)) {
@@ -308,7 +313,7 @@ abstract class BaseExtension implements ExtensionInterface
      */
     private function loadConfigFile($configfile)
     {
-        $yamlparser = new \Symfony\Component\Yaml\Parser();
+        $yamlparser = new Yaml\Parser();
 
         $newConfig = $yamlparser->parse(file_get_contents($configfile) . "\n");
 

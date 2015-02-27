@@ -1,8 +1,8 @@
 <?php
 namespace Bolt\Tests\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
 use Bolt\Tests\BoltUnitTest;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class to test correct operation of src/Controller/Backend.
@@ -22,6 +22,7 @@ class LoginTest extends BoltUnitTest
             ->method('login')
             ->with($this->equalTo('test'), $this->equalTo('pass'))
             ->will($this->returnValue(true));
+        $users->currentuser = array('username' => 'test', 'roles' => array());
         $app['users'] = $users;
         $this->addDefaultUser($app);
 
@@ -66,6 +67,7 @@ class LoginTest extends BoltUnitTest
         $users->expects($this->any())
             ->method('login')
             ->will($this->returnValue(true));
+        $users->currentuser = array('username' => 'test', 'roles' => array());
         $app['users'] = $users;
         $request = Request::create('/bolt/login', 'POST', array('action' => 'login'));
         $this->expectOutputRegex("/Redirecting to \/bolt\//");
@@ -128,5 +130,27 @@ class LoginTest extends BoltUnitTest
         $this->expectOutputRegex("/Redirecting to \/bolt\/login/");
 
         $app->run($request);
+    }
+
+    public function testDashboardWithoutPermissionRedirectsToHomepage()
+    {
+        $app = $this->getApp();
+
+        $users = $this->getMock('Bolt\Users', array('hasUsers', 'isValidSession'), array($app));
+        $users->expects($this->any())
+            ->method('hasUsers')
+            ->will($this->returnValue(5));
+        $users->expects($this->any())
+            ->method('isValidSession')
+            ->will($this->returnValue(true));
+
+        $app['users']->currentuser = array('username' => 'test', 'roles' => array());
+        $app['users'] = $users;
+
+        $app['config']->set('permissions/global/dashboard', array());
+
+        $request = Request::create('/bolt/');
+        $response = $app->handle($request);
+        $this->assertTrue($response->isRedirect('/'), 'Failed to redirect to homepage');
     }
 }

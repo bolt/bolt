@@ -49,6 +49,8 @@ class Permissions
 
     /**
      * Write an entry to the permission audit log
+     *
+     * @param string $msg
      */
     private function audit($msg)
     {
@@ -158,19 +160,19 @@ class Permissions
      *
      * @param array $currentUser
      *
-     * @return string[]
+     * @return string[] list of role names
      */
     public function getManipulatableRoles(array $currentUser)
     {
-        $roles = array();
+        $manipulatableRoles = array();
 
         foreach ($this->getDefinedRoles() as $roleName => $role) {
-            if ($this->checkPermission($currentUser['roles'], 'users:roles-hierarchy:' . $roleName)) {
-                $roles[$roleName] = $role['label'];
+            if ($this->checkPermission($currentUser['roles'],  'manipulate', 'roles-hierarchy', $roleName)) {
+                $manipulatableRoles[] = $roleName;
             }
         }
 
-        return $roles;
+        return $manipulatableRoles;
     }
 
     /**
@@ -183,12 +185,7 @@ class Permissions
      */
     public function isAllowedToManipulate(array $user, array $currentUser)
     {
-        foreach ($user['roles'] as $roleName) {
-            if ($this->checkPermission($currentUser, 'users:roles-hierarchy:' . $roleName)) {
-                return true;
-            }
-        }
-        return false;
+        return $this->checkPermission($currentUser['roles'], 'manipulate', 'roles-hierarchy', $user);
     }
 
     /**
@@ -199,37 +196,55 @@ class Permissions
      *                                include any of the appropriate automatic
      *                                roles, as these are not added at this point.
      * @param  string $permissionName Which permission to check
-     * @param  string $contenttype
+     * @param  string $type
+     * @param  string $item
+     *
      * @return bool   TRUE if granted, FALSE if not.
      */
-    public function checkPermission($roleNames, $permissionName, $contenttype = null)
+    public function checkPermission($roleNames, $permissionName, $type = null, $item = null)
     {
+        // Handle BC
+        if ($type !== null && $item === null) {
+            $item = $type;
+            $type = 'contenttype';
+        }
+
+        if (is_array($item) && isset($item['username'])) {
+            $itemStr = sprintf(' for user "%s"', $item['username']);
+        } elseif ($item) {
+            $itemStr = " for $item";
+        } else {
+            $itemStr = '';
+        }
+
         $roleNames = array_unique($roleNames);
         if (in_array(Permissions::ROLE_ROOT, $roleNames)) {
-                $this->audit(
-                    "Granting '$permissionName' " .
-                    ($contenttype ? "for $contenttype " : "") .
-                    "to root user"
-                );
+            $this->audit(sprintf(
+                'Granting "%s"%s to root user',
+                $permissionName,
+                $itemStr
+            ));
 
-                return true;
+            return true;
         }
         foreach ($roleNames as $roleName) {
-            if ($this->checkRolePermission($roleName, $permissionName, $contenttype)) {
-                $this->audit(
-                    "Granting '$permissionName' " .
-                    ($contenttype ? "for $contenttype " : "") .
-                    "based on role $roleName"
-                );
+            if ($this->checkRolePermission($roleName, $permissionName, $type ?: 'global', $item)) {
+                $this->audit(sprintf(
+                    'Granting "%s"%s based on role %s',
+                    $permissionName,
+                    $itemStr,
+                    $roleName
+                ));
 
                 return true;
             }
         }
-        $this->audit(
-            "Denying '$permissionName' " .
-            ($contenttype ? "for $contenttype" : "") .
-            "; available roles: " . implode(', ', $roleNames)
-        );
+        $this->audit(sprintf(
+            'Denying "%s"%s; available roles: %s',
+            $permissionName,
+            $itemStr,
+            implode(', ', $roleNames)
+        ));
 
         return false;
     }
@@ -237,14 +252,25 @@ class Permissions
     /**
      * Checks whether the specified $roleName grants permission $permissionName
      * for the $contenttype in question (NULL for global permissions).
+     *
+     * @param string $roleName
+     * @param string $permissionName
+     * @param string $type
+     * @param mixed  $item
+     *
+     * @return bool
      */
-    private function checkRolePermission($roleName, $permissionName, $contenttype = null)
+    private function checkRolePermission($roleName, $permissionName, $type = 'global', $item = null)
     {
-        if ($contenttype === null) {
+        if ($type === 'global') {
             return $this->checkRoleGlobalPermission($roleName, $permissionName);
-        } else {
-            return $this->checkRoleContentTypePermission($roleName, $permissionName, $contenttype);
+        } elseif ($type === 'roles-hierarchy') {
+            return $this->checkRoleHierarchyPermission($roleName, $permissionName, $item);
+        } elseif ($type === 'contenttype') {
+            return $this->checkRoleContentTypePermission($roleName, $permissionName, $item);
         }
+
+        throw new \InvalidArgumentException('Unknown permission type to check');
     }
 
     private function checkRoleGlobalPermission($roleName, $permissionName)
@@ -259,6 +285,26 @@ class Permissions
         return in_array($roleName, $roles);
     }
 
+    private function checkRoleHierarchyPermission($roleName, $permissionName, $role)
+    {
+        // Can current user manipulate role?
+        if (is_string($role)) {
+            $permissions = $this->app['config']->get("permissions/roles-hierarchy/$permissionName/$role", array());
+            return in_array($roleName, $permissions);
+        }
+
+        // Can current user manipulate user?
+        $user = $role;
+        foreach ($user['roles'] as $role) {
+            $permissions = $this->app['config']->get("permissions/roles-hierarchy/$permissionName/$role", array());
+            if (in_array($roleName, $permissions)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     private function checkRoleContentTypePermission($roleName, $permissionName, $contenttype)
     {
         $roles = $this->getRolesByContentTypePermission($permissionName, $contenttype);
@@ -268,6 +314,10 @@ class Permissions
 
     /**
      * Lists the roles that would grant the specified global permission.
+     *
+     * @param string $permissionName
+     *
+     * @return string[]
      */
     public function getRolesByGlobalPermission($permissionName)
     {
@@ -275,7 +325,9 @@ class Permissions
     }
 
     /**
-     * Gets the configured global roles.
+     * Gets the configured global permissions.
+     *
+     * @return array
      */
     public function getGlobalRoles()
     {

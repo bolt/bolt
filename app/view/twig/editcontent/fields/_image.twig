@@ -6,6 +6,7 @@
     extensions:  field.extensions|default([]),
     attrib:      (field.attrib is defined) ? (field.attrib is iterable ?: {0: field.attrib}) : false,
     upload:      field.upload|default(''),
+    can_upload:  field.canUpload,
     info:        field.info|default('info.upload.image')
 } %}
 {# attrib[title] #}
@@ -107,7 +108,8 @@
             </div>
         </div>
         {{ block.attributes(key, option, image) }}
-        {{ macro.upload_buttons('image', key, attr_upload, option.upload, context.canUpload) }}
+        {% set can_upload = context.can_upload and option.can_upload %}
+        {{ macro.upload_buttons('image', key, attr_upload, option.upload, can_upload) }}
         {{ block.progress(key) }}
         {{ block.serverselect(key, __('Cancel')) }}
     </div>

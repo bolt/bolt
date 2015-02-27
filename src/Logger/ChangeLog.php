@@ -2,6 +2,7 @@
 
 namespace Bolt\Logger;
 
+use Doctrine\DBAL\Query\QueryBuilder;
 use Silex\Application;
 
 /**
@@ -28,7 +29,7 @@ class ChangeLog
     {
         $this->app = $app;
 
-        $prefix = $app['config']->get('general/database/prefix', "bolt_");
+        $prefix = $app['config']->get('general/database/prefix');
         $this->table_change = sprintf("%s%s", $prefix, 'log_change');
     }
 
@@ -45,6 +46,7 @@ class ChangeLog
      */
     public function getChangelog(array $options)
     {
+        /** @var \Doctrine\DBAL\Query\QueryBuilder $query */
         $query = $this->app['db']->createQueryBuilder()
                         ->select('*')
                         ->from($this->table_change);
@@ -67,6 +69,7 @@ class ChangeLog
      */
     public function countChangelog()
     {
+        /** @var \Doctrine\DBAL\Query\QueryBuilder $query */
         $query = $this->app['db']->createQueryBuilder()
                         ->select('COUNT(id) as count')
                         ->from($this->table_change);
@@ -96,7 +99,7 @@ class ChangeLog
         }
 
         // Build base query
-        $contentTablename = $this->app['config']->get('general/database/prefix', 'bolt_') . $contenttype;
+        $contentTablename = $this->app['config']->get('general/database/prefix') . $contenttype;
         $query = $this->app['db']->createQueryBuilder()
                         ->select('log.*, log.title')
                         ->from($this->table_change, 'log')
@@ -151,7 +154,7 @@ class ChangeLog
      *                                               'slug'
      * @param  $contentid
      * @param  int                      $id          The content-changelog ID
-     * @return \Bolt\ChangeLogItem|null
+     * @return \Bolt\Logger\ChangeLogItem|null
      */
     public function getChangelogEntry($contenttype, $contentid, $id)
     {
@@ -166,7 +169,7 @@ class ChangeLog
      *                                               'slug'
      * @param  $contentid
      * @param  int                      $id          The content-changelog ID
-     * @return \Bolt\ChangeLogItem|null
+     * @return \Bolt\Logger\ChangeLogItem|null
      */
     public function getNextChangelogEntry($contenttype, $contentid, $id)
     {
@@ -181,7 +184,7 @@ class ChangeLog
      *                                               'slug'
      * @param $contentid
      * @param  int                      $id          The content-changelog ID
-     * @return \Bolt\ChangeLogItem|null
+     * @return \Bolt\Logger\ChangeLogItem|null
      */
     public function getPrevChangelogEntry($contenttype, $contentid, $id)
     {
@@ -191,12 +194,12 @@ class ChangeLog
     /**
      * Set any required WHERE clause on a QueryBuilder
      *
-     * @param  \Doctrine\DBAL\Query\QueryBuilder $query
-     * @param  string                            $contenttype
-     * @param  array                             $options
-     * @return \Doctrine\DBAL\Query\QueryBuilder
+     * @param  QueryBuilder $query
+     * @param  string       $contenttype
+     * @param  array        $options
+     * @return QueryBuilder
      */
-    private function setWhere(\Doctrine\DBAL\Query\QueryBuilder $query, $contenttype, array $options)
+    private function setWhere(QueryBuilder $query, $contenttype, array $options)
     {
         $where = $query->expr()->andX()
                         ->add($query->expr()->eq('contenttype', ':contenttype'));
@@ -214,11 +217,11 @@ class ChangeLog
         }
 
         $query->where($where)
-                ->setParameters(array(
-                    ':contenttype' => $contenttype,
-                    ':contentid'   => $options['contentid'],
-                    ':logid'       => $options['id']
-                ));
+            ->setParameters(array(
+                ':contenttype' => $contenttype,
+                ':contentid'   => isset($options['contentid']) ? $options['contentid'] : null,
+                ':logid'       => isset($options['id']) ? $options['id'] : null
+            ));
 
         return $query;
     }
@@ -226,15 +229,15 @@ class ChangeLog
     /**
      * Conditionally add LIMIT and ORDERBY to a QueryBuilder query
      *
-     * @param  \Doctrine\DBAL\Query\QueryBuilder $query
-     * @param  array                             $options The following options are supported:
-     *                                                    - 'limit' (int)
-     *                                                    - 'offset' (int)
-     *                                                    - 'order' (string)
-     *                                                    - 'direction' (string)
-     * @return \Doctrine\DBAL\Query\QueryBuilder
+     * @param  QueryBuilder $query
+     * @param  array        $options The following options are supported:
+     *                               - 'limit' (int)
+     *                               - 'offset' (int)
+     *                               - 'order' (string)
+     *                               - 'direction' (string)
+     * @return QueryBuilder
      */
-    private function setLimitOrder(\Doctrine\DBAL\Query\QueryBuilder $query, array $options)
+    private function setLimitOrder(QueryBuilder $query, array $options)
     {
         if (isset($options['order'])) {
             $query->orderBy($options['order'], $options['direction']);
@@ -262,7 +265,7 @@ class ChangeLog
      *                                         to select either the ID itself, or the subsequent
      *                                         or preceding entry.
      * @throws \Exception
-     * @return ChangeLogItem|null
+     * @return \Bolt\Logger\ChangeLogItem|null
      */
     private function getOrderedChangelogEntry($contenttype, $contentid, $id, $cmpOp)
     {
@@ -275,19 +278,20 @@ class ChangeLog
         }
 
         // Build base query
-        $contentTablename = $this->app['config']->get('general/database/prefix', 'bolt_') . $contenttype;
+        $contentTablename = $this->app['config']->get('general/database/prefix') . $contenttype;
+        /** @var \Doctrine\DBAL\Query\QueryBuilder $query */
         $query = $this->app['db']->createQueryBuilder()
-                                    ->select('log.*')
-                                    ->from($this->table_change, 'log')
-                                    ->leftJoin('log', $contentTablename, 'content', 'content.id = log.contentid')
-                                    ->where("log.id $cmpOp :logid")
-                                    ->andWhere('log.contentid = :contentid')
-                                    ->andWhere('contenttype = :contenttype')
-                                    ->setParameters(array(
-                                        ':logid'       => $id,
-                                        ':contentid'   => $contentid,
-                                        ':contenttype' => $contenttype))
-                                    ->setMaxResults(1);
+            ->select('log.*')
+            ->from($this->table_change, 'log')
+            ->leftJoin('log', $contentTablename, 'content', 'content.id = log.contentid')
+            ->where("log.id $cmpOp :logid")
+            ->andWhere('log.contentid = :contentid')
+            ->andWhere('contenttype = :contenttype')
+            ->setParameters(array(
+                ':logid'       => $id,
+                ':contentid'   => $contentid,
+                ':contenttype' => $contenttype))
+            ->setMaxResults(1);
 
         // Set ORDER BY
         if ($cmpOp == '<') {

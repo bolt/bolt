@@ -46,7 +46,7 @@ class TemplateChooser
      * Choose a template for a single record page, like '/page/about' or
      * '/entry/lorum-ipsum'
      *
-     * @param  Bolt\Content $record
+     * @param  \Bolt\Content $record
      * @return string
      */
     public function record(Content $record)
@@ -197,6 +197,7 @@ class TemplateChooser
     {
         // First candidate: global config.
         $template = $this->app['config']->get('general/maintenance_template');
+        $chosen = '';
 
         // Second candidate: specific search setting in global config.
         if ($this->app['config']->get('theme/maintenance_template')) {
