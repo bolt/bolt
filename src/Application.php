@@ -236,8 +236,6 @@ class Application extends Silex\Application
             }
         }
 
-        $this->register(new Silex\Provider\ServiceControllerServiceProvider());
-
         // Register the Silex/Symfony web debug toolbar.
         $this->register(
             new Silex\Provider\WebProfilerServiceProvider(),
@@ -354,6 +352,7 @@ class Application extends Silex\Application
             ->register(new Silex\Provider\FormServiceProvider())
             ->register(new Silex\Provider\ValidatorServiceProvider())
             ->register(new Provider\RoutingServiceProvider())
+            ->register(new Silex\Provider\ServiceControllerServiceProvider()) // must be after Routing
             ->register(new Provider\PermissionsServiceProvider())
             ->register(new Provider\StorageServiceProvider())
             ->register(new Provider\UsersServiceProvider())
