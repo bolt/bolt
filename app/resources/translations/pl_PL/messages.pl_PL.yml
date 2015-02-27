@@ -1,4 +1,4 @@
-# app/resources/translations/pl_PL/messages.pl_PL.yml – generated on 2015-02-27 14:00:10 Europe/Warsaw
+# app/resources/translations/pl_PL/messages.pl_PL.yml – generated on 2015-02-27 15:32:14 Europe/Warsaw
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
 #          at the moment. This is an ongoing process. Translations currently in the 
@@ -164,7 +164,7 @@
 "Files in %s": "Pliki w %s"
 "Files on the stack": "Pliki na stosie"
 "Filesize": "Rozmiar pliku"
-"Fill the database with Dummy Content": "Wypełnij bazę danych domonstracyjnymi danymi"
+"Fill the database with Dummy Content": "Wypełnij bazę danych losowymi danymi"
 "Filter": "Filtr"
 "Filtering": "Filtrowanie"
 "Filtering …": "Filtrowanie …"
@@ -211,7 +211,7 @@
 "Message:": "Komunikat:"
 "Messages": "Komunikaty"
 "Meta": "Meta"
-"Meta information": "Meta Informacja"
+"Meta information": "Meta informacje"
 "Modifications made to the database:": "Zmiany zapisane do bazy danych:"
 "Modifications needed:": "Potrzebne zmiany:"
 "Modified": "Zmodyfikowany"
@@ -454,10 +454,10 @@ contenttypes:
             relations: "Relacje"
             taxonomy: "Taksonomia"
             ungrouped: "Nie pogrupowane"
-        invalid-field: "Nie można ustawić %field% w %contenttype%: Niepoprawne pole.\""
+        invalid-field: "Nie można ustawić %field% w %contenttype%: Niepoprawne pole."
         last-modified: "Ostatnio zmodyfikowane %contenttypes%"
         new: "Nowy %contenttype%"
-        no-latest: "Brak ostatnich %contenttype%\""
+        no-latest: "Brak ostatnich %contenttype%"
         no-proper-type: "W typie zawartości '%contenttype%', pole '%field%' jest typu: '%type%', co nie jest poprawnym typem pola. Proszę edytować contenttypes.yml, i poprawić to."
         no-recent: "Brak ostatnich %contenttype%"
         none-available: "Brak dostępnych %contenttypes%."
@@ -475,7 +475,7 @@ contenttypes:
         saving-impossible: "Nie można zapisać %contenttype%."
         show-more: "Więcej %contenttypes%"
         view: "Przeglądaj %contenttypes%"
-        wrong-use-field: "W typie zawartości '%contenttype%', pole '%field%' używa: '%uses%', ale pole '%uses%' nie istnieje. Proszę edytuj contenttypes.yml, i popraw to.\""
+        wrong-use-field: "W typie zawartości '%contenttype%', pole '%field%' używa: '%uses%', ale pole '%uses%' nie istnieje. Proszę edytuj contenttypes.yml, i popraw to."
 
 field:
     general:
