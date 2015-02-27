@@ -136,6 +136,9 @@ bolt.validation = (function () {
                         break;
 
                     case 'max':
+                        if (value > param) {
+                            error = bolt.data.validation.max.subst({'%MAXVAL%': param});
+                        }
                         break;
 
                     default:
