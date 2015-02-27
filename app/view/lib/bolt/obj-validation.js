@@ -105,39 +105,65 @@ bolt.validation = (function () {
      */
     function validate(field) {
         var hasNativeValidation,
-            isCkeditor;
+            isCkeditor,
+            task,
+            value;
 
-        // Is native browser validation available?
-        hasNativeValidation = typeof field.willValidate !== 'undefined';
-        if (hasNativeValidation) {
-            // Native validation available
-            if (field.nodeName === 'INPUT' && field.type !== field.getAttribute('type')) {
-                // Input type not supported! Use legacy JavaScript validation
-                field.setCustomValidity(legacyValidation(field) ? '' : 'error');
+        var validates = $(field).data('validate');
+        if (validates) {
+            for (task in validates) {
+                value = validates[task];
+
+                switch (task) {
+                    case 'float':
+                        break;
+
+                    case 'required':
+                        break;
+
+                    case 'min':
+                        break;
+
+                    case 'max':
+                        break;
+
+                    default:
+                        console.log('UNKNOWN VALIDATION' + task + " -> " + value);
+                }
             }
-            // Native browser check
-            field.checkValidity();
         } else {
-            // Native validation not available
-            field.validity = field.validity || {};
-            // Set to result of validation function
-            field.validity.valid = legacyValidation(field);
+            // Is native browser validation available?
+            hasNativeValidation = typeof field.willValidate !== 'undefined';
+            if (hasNativeValidation) {
+                // Native validation available
+                if (field.nodeName === 'INPUT' && field.type !== field.getAttribute('type')) {
+                    // Input type not supported! Use legacy JavaScript validation
+                    field.setCustomValidity(legacyValidation(field) ? '' : 'error');
+                }
+                // Native browser check
+                field.checkValidity();
+            } else {
+                // Native validation not available
+                field.validity = field.validity || {};
+                // Set to result of validation function
+                field.validity.valid = legacyValidation(field);
 
-            // If "invalid" events are required, trigger it here
-        }
+                // If "invalid" events are required, trigger it here
+            }
 
-        // Special validation for CKEditor fields
-        isCkeditor = field.nodeName === 'TEXTAREA' && $(field).hasClass('ckeditor');
-        if (isCkeditor) {
-            var editor = CKEDITOR.instances[field.id],
-                error;
+            // Special validation for CKEditor fields
+            isCkeditor = field.nodeName === 'TEXTAREA' && $(field).hasClass('ckeditor');
+            if (isCkeditor) {
+                var editor = CKEDITOR.instances[field.id],
+                    error;
 
-            if (editor) {
-                error = editor._.required === true && editor.getData().trim() === '';
-                if (hasNativeValidation) {
-                    field.setCustomValidity(error ? 'Required' : '');
-                } else {
-                    field.validity.valid = error;
+                if (editor) {
+                    error = editor._.required === true && editor.getData().trim() === '';
+                    if (hasNativeValidation) {
+                        field.setCustomValidity(error ? 'Required' : '');
+                    } else {
+                        field.validity.valid = error;
+                    }
                 }
             }
         }
