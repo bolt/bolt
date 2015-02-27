@@ -95,6 +95,10 @@ class LowlevelChecks
 
     public function checkSafeMode()
     {
+        if (is_string($this->safeMode)) {
+            $this->safeMode = $this->safeMode == '1' || strtolower($this->safeMode) === 'on' ? 1 : 0;
+        }
+
         if ($this->safeMode) {
             throw new LowlevelException(
                 "Bolt requires 'Safe mode' to be <b>off</b>. Please send your hoster to " .
