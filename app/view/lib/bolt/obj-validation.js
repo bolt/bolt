@@ -131,13 +131,13 @@ bolt.validation = (function () {
                         break;
 
                     case 'min':
-                        if (value < param) {
+                        if (value !== '' && Number(value.replace(',', '.')) < param) {
                             error = bolt.data.validation.min.subst({'%MINVAL%': param});
                         }
                         break;
 
                     case 'max':
-                        if (value > param) {
+                        if (value !== '' && Number(value.replace(',', '.')) > param) {
                             error = bolt.data.validation.max.subst({'%MAXVAL%': param});
                         }
                         break;
