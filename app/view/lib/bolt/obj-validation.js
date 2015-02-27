@@ -104,18 +104,23 @@ bolt.validation = (function () {
      * @returns {boolean}
      */
     function validate(field) {
-        var hasNativeValidation,
+        var hasNativeValidation = typeof field.willValidate !== 'undefined',
             isCkeditor,
             task,
-            value;
+            param,
+            value = field.value,
+            error;
 
         var validates = $(field).data('validate');
         if (validates) {
             for (task in validates) {
-                value = validates[task];
+                param = validates[task];
 
                 switch (task) {
                     case 'float':
+                        if (value !== '' && !value.match(/^[-+]?[0-9]*[,.]?[0-9]+([eE][-+]?[0-9]+)?$/)) {
+                            error = bolt.data.validation.float;
+                        }
                         break;
 
                     case 'required':
@@ -128,12 +133,22 @@ bolt.validation = (function () {
                         break;
 
                     default:
-                        console.log('UNKNOWN VALIDATION' + task + " -> " + value);
+                        console.log('UNKNOWN VALIDATION' + task + " -> " + param);
+                }
+                // Stop on first error
+                if (error) {
+                    error = error.subst({'%FIELDNAME%': field.name});
+
+                    if (hasNativeValidation) {
+                        field.setCustomValidity(error);
+                    } else {
+                        field.validity.valid = false;
+                    }
+                    break;
                 }
             }
         } else {
             // Is native browser validation available?
-            hasNativeValidation = typeof field.willValidate !== 'undefined';
             if (hasNativeValidation) {
                 // Native validation available
                 if (field.nodeName === 'INPUT' && field.type !== field.getAttribute('type')) {
@@ -155,14 +170,14 @@ bolt.validation = (function () {
             isCkeditor = field.nodeName === 'TEXTAREA' && $(field).hasClass('ckeditor');
             if (isCkeditor) {
                 var editor = CKEDITOR.instances[field.id],
-                    error;
+                    invalid;
 
                 if (editor) {
-                    error = editor._.required === true && editor.getData().trim() === '';
+                    invalid = editor._.required === true && editor.getData().trim() === '';
                     if (hasNativeValidation) {
-                        field.setCustomValidity(error ? 'Required' : '');
+                        field.setCustomValidity(invalid ? 'Required' : '');
                     } else {
-                        field.validity.valid = error;
+                        field.validity.valid = !invalid;
                     }
                 }
             }
@@ -180,7 +195,7 @@ bolt.validation = (function () {
         } else {
             addErrorClass(field, isCkeditor);
 
-            var msg = $(field).data('errortext');
+            var msg = error || $(field).data('errortext');
             if (!msg) {
                 msg = bolt.data.editcontent.error.msg.subst({'%FIELDNAME%': field.name});
             }
