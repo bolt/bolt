@@ -16,7 +16,7 @@
 
 {#=== INIT ===========================================================================================================#}
 
-{% set validation = {type: 'float'} %}
+{% set validation = {float: null} %}
 {{ data('validation.float', __('The field “%FIELDNAME%” has to be a floating point number!')) }}
 
 {% if option.required %}
