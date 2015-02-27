@@ -82,6 +82,24 @@ bolt.validation = (function () {
     }
 
     /**
+     * Show alertbox
+     *
+     * @param {string} id - Id of the alertbox
+     * @param {string} msg - Message text
+     */
+    function showAlertbox(id, msg) {
+        var alertbox = bolt.data.editcontent.error.alertbox.subst({
+            '%NOTICE_ID%': id,
+            '%MESSAGE%': msg
+        });
+
+        $(alertbox)
+            .hide()
+            .insertAfter('.page-header')
+            .slideDown('fast');
+    }
+
+    /**
      * Validates a field
      *
      * @param {Object} field - Field element
@@ -143,15 +161,7 @@ bolt.validation = (function () {
             if (!msg) {
                 msg = bolt.data.editcontent.error.msg.subst({'%FIELDNAME%': field.name});
             }
-
-            var alertbox = bolt.data.editcontent.error.alertbox.subst({
-                '%NOTICE_ID%': noticeID,
-                '%MESSAGE%': msg
-            });
-            $(alertbox)
-                .hide()
-                .insertAfter('.page-header')
-                .slideDown('fast');
+            showAlertbox(noticeID, msg);
 
             // Field is invalid
             return false;
