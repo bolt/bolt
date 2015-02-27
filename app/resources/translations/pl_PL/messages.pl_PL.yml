@@ -1,4 +1,4 @@
-# app/resources/translations/pl_PL/messages.pl_PL.yml – generated on 2015-02-27 02:10:46 Europe/Warsaw
+# app/resources/translations/pl_PL/messages.pl_PL.yml – generated on 2015-02-27 02:14:47 Europe/Warsaw
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
 #          at the moment. This is an ongoing process. Translations currently in the 
@@ -215,7 +215,7 @@
 "Chapter": "Rozdział"
 "Chapters": "Rozdziały"
 "Check again": "Sprawdź ponownie"
-"Check database": "Sparwdź bazę danych"
+"Check database": "Sprawdź bazę danych"
 "Check for updates": "Sprawdź aktualizacje"
 "Checking for available updates (this may take up to 60 seconds)": "Sprawdzanie dostępności aktualizacji (może to potrwać do 60 sekund)"
 "Checking installed packages": "Sprawdzanie zainstalowanych pakietów"
