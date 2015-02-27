@@ -26,12 +26,12 @@
 
 {% if option.min %}
     {% set validation = validation|merge({min: option.min}) %}
-    {{ data('validation.min', __('The field “%FIELDNAME%” has to be at least %MINVAL%!')) }}
+    {{ data('validation.min', __('The value of field “%FIELDNAME%” has to be at least “%MINVAL%”!')) }}
 {% endif %}
 
 {% if option.max %}
     {% set validation = validation|merge({max: option.max}) %}
-    {{ data('validation.max', __('The value of “%FIELDNAME%” must not be greater than %MAXVAL%!')) }}
+    {{ data('validation.max', __('The value of “%FIELDNAME%” must not be greater than “%MAXVAL%”!')) }}
 {% endif %}
 
 {% set attr_number = {
