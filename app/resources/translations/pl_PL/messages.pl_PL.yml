@@ -1,4 +1,4 @@
-# app/resources/translations/pl_PL/messages.pl_PL.yml – generated on 2015-02-27 15:32:14 Europe/Warsaw
+# app/resources/translations/pl_PL/messages.pl_PL.yml – generated on 2015-02-27 19:06:54 Europe/Warsaw
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
 #          at the moment. This is an ongoing process. Translations currently in the 
@@ -11,7 +11,7 @@
 #  no unused messages
 #   9 untranslated messages
 #   4 untranslated keyword based messages
-# 394 translations
+# 397 translations
 # 133 keyword based translations
 
 #--- 9 untranslated messages --------------------------------------------------
@@ -33,7 +33,7 @@
 "page.ckeditor-browse-server.pixel": # "px."
 "panel.latest-activity.by": # "by"
 
-#--- 394 translations ---------------------------------------------------------
+#--- 397 translations ---------------------------------------------------------
 
 "%name% № %id%": "%name% nr %id%"
 "%s files could not be deleted. You should delete them manually.": "%s pliki nie mogą zostać usunięte. Należy usunąć je ręcznie."
@@ -221,6 +221,7 @@
 "No Bolt Extensions installed.": "Nie zainstalowano żadnych rozszerzeń Bolt."
 "No Stable Versions Available": "Brak dostępnych stabilnych wersji."
 "No Test Versions Available": "Brak dostepnych testowych wersji."
+"No content found.": "Nie znaleziono treści."
 "No files in the list, yet.": "Jeszcze nie ma żadnych plików."
 "No images in the list, yet.": "Jeszcze nie ma żadnych obrazów."
 "No relations found!": "Nie znaleziono relacji!"
@@ -321,6 +322,7 @@
 "The database needs to be updated/repaired. Go to 'Settings' > '<a href=\"%link%\">Check Database</a>' to do this now.": "Baza danych wymaga aktualizacji/naprawy. Przejdź do 'Ustawienia' > 'Konfiguracja' > '<a href=\\\"%link%\\\">Sprawdź bazę danych</a>' aby zrobić to teraz."
 "The extensions directory (<code>%dir%</code>) does not exist, or it is not writable. ": "Katalog rozszerzeń (<code>%dir%</code>) nie istnieje, lub nie ma praw do zapisu."
 "The field %field% has been changed to \"%newValue%\"": "Pole %field% zostało zmienione na \"%newValue%\""
+"The field “%FIELDNAME%” is required or needs to match a pattern!": "Pole \"%FIELDNAME%\" jest wymagane lub musi pasować do wzorca!"
 "The file '%s' doesn't exist, or is not readable.": "Plik '%s' nie istnieje lub nie posiada praw do odczytu."
 "The file '%s' is not writable. You will have to use your own editor to make modifications to this file.": "Plik '%s' nie posiada praw do zapisu. Będziesz musiał użyć własnego edytora aby wprowadzać zmiany do tego pliku."
 "The folder '%s' could not be found, or is not readable.": "Nie można znaleźć katalogu '%s', albo nie posiada praw do odczytu."
@@ -359,6 +361,7 @@
 "Trim System Log": "Skróć dziennik systemowy"
 "Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": "Spróbuj zalogować się za pomocą swojego klienta ftp i nadać prawa odczytu pliku. W przeciwnym wypadku spróbuj przejść <a>z powrotem</a> do ostatniej strony."
 "Types": "Typy"
+"Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": "Niestety, nie można znaleźć zawartości. Spróbuj inną stronę, lub udaj się na <a href=\"%paths_root%\">stronę\_główną</a>."
 "Uninstall": "Odinstaluj"
 "Unstable test versions": "Niestabilne testowe wersje"
 "Update Package": "Zaktualizuj Pakiet"
