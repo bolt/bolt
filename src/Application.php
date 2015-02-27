@@ -353,6 +353,7 @@ class Application extends Silex\Application
         $this->register(new Silex\Provider\UrlGeneratorServiceProvider())
             ->register(new Silex\Provider\FormServiceProvider())
             ->register(new Silex\Provider\ValidatorServiceProvider())
+            ->register(new Provider\RoutingServiceProvider())
             ->register(new Provider\PermissionsServiceProvider())
             ->register(new Provider\StorageServiceProvider())
             ->register(new Provider\UsersServiceProvider())
@@ -394,13 +395,6 @@ class Application extends Silex\Application
 
     public function initMountpoints()
     {
-        // Wire up our custom url matcher to replace the default Silex\RedirectableUrlMatcher
-        $this['url_matcher'] = $this->share(
-            function ($app) {
-                return new BoltUrlMatcher($app['routes'], $app['request_context']);
-            }
-        );
-
         $request = Request::createFromGlobals();
         if ($proxies = $this['config']->get('general/trustProxies')) {
             $request->setTrustedProxies($proxies);
