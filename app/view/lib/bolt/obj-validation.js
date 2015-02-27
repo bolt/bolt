@@ -130,6 +130,9 @@ bolt.validation = (function () {
                         break;
 
                     case 'min':
+                        if (value < param) {
+                            error = bolt.data.validation.min.subst({'%MINVAL%': param});
+                        }
                         break;
 
                     case 'max':
