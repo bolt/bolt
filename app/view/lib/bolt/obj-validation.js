@@ -51,6 +51,93 @@ bolt.validation = (function () {
         return valid;
     }
 
+    /**
+     * Validates a field
+     *
+     * @param {Object} field - Field element
+     * @returns {boolean}
+     */
+    function validate(field) {
+        var hasNativeValidation,
+            isCkeditor;
+
+        // Is native browser validation available?
+        hasNativeValidation = typeof field.willValidate !== 'undefined';
+        if (hasNativeValidation) {
+            // Native validation available
+            if (field.nodeName === 'INPUT' && field.type !== field.getAttribute('type')) {
+                // Input type not supported! Use legacy JavaScript validation
+                field.setCustomValidity(legacyValidation(field) ? '' : 'error');
+            }
+            // Native browser check
+            field.checkValidity();
+        } else {
+            // Native validation not available
+            field.validity = field.validity || {};
+            // Set to result of validation function
+            field.validity.valid = legacyValidation(field);
+
+            // If "invalid" events are required, trigger it here
+        }
+
+        // Special validation for CKEdito fields
+        isCkeditor = field.nodeName === 'TEXTAREA' && $(field).hasClass('ckeditor');
+        if (isCkeditor) {
+            var editor = CKEDITOR.instances[field.id],
+                error;
+
+            if (editor) {
+                error = editor._.required === true && editor.getData().trim() === '';
+                if (hasNativeValidation) {
+                    field.setCustomValidity(error ? 'Required' : '');
+                } else {
+                    field.validity.valid = error;
+                }
+            }
+        }
+
+        var noticeID = 'notice--' + field.id;
+
+        // First, remove any existing old notices
+        $('#' + noticeID).remove();
+
+        if (field.validity.valid) {
+            // Remove error styles and messages
+            $(field).removeClass('error');
+
+            if (isCkeditor) {
+                $('#cke_' + field.id).removeClass('cke_error');
+            }
+
+            // Field is valid
+            return true;
+        } else {
+            // Style field, show error, etc.
+            $(field).addClass('error');
+
+            if (isCkeditor) {
+                $('#cke_' + field.id).addClass('cke_error');
+            }
+
+            var msg = $(field).data('errortext');
+            if (!msg) {
+                msg = bolt.data.editcontent.error.msg.subst({'%FIELDNAME%': field.name});
+            }
+
+            var alertbox = bolt.data.editcontent.error.alertbox.subst({
+                '%NOTICE_ID%': noticeID,
+                '%MESSAGE%': msg
+            });
+            $(alertbox)
+                .hide()
+                .insertAfter('.page-header')
+                .slideDown('fast');
+
+            // Field is invalid
+            return false;
+        }
+    }
+
     return {
         /**
          * Validates all inputs of a form
@@ -62,9 +149,7 @@ bolt.validation = (function () {
             var formLength = form.elements.length,
                 f,
                 field,
-                formvalid = true,
-                hasNativeValidation,
-                isCkeditor;
+                formvalid = true;
 
             // Loop all fields
             for (f = 0; f < formLength; f++) {
@@ -79,76 +164,7 @@ bolt.validation = (function () {
                     field.value = field.value.trim();
                 }
 
-                // Is native browser validation available?
-                hasNativeValidation = typeof field.willValidate !== 'undefined';
-                if (hasNativeValidation) {
-                    // Native validation available
-                    if (field.nodeName === 'INPUT' && field.type !== field.getAttribute('type')) {
-                        // Input type not supported! Use legacy JavaScript validation
-                        field.setCustomValidity(legacyValidation(field) ? '' : 'error');
-                    }
-                    // Native browser check
-                    field.checkValidity();
-                } else {
-                    // Native validation not available
-                    field.validity = field.validity || {};
-                    // Set to result of validation function
-                    field.validity.valid = legacyValidation(field);
-
-                    // If "invalid" events are required, trigger it here
-                }
-
-                // Special validation for CKEdito fields
-                isCkeditor = field.nodeName === 'TEXTAREA' && $(field).hasClass('ckeditor');
-                if (isCkeditor) {
-                    var editor = CKEDITOR.instances[field.id],
-                        error;
-
-                    if (editor) {
-                        error = editor._.required === true && editor.getData().trim() === '';
-                        if (hasNativeValidation) {
-                            field.setCustomValidity(error ? 'Required' : '');
-                        } else {
-                            field.validity.valid = error;
-                        }
-                    }
-                }
-
-                var noticeID = 'notice--' + field.id;
-
-                // First, remove any existing old notices
-                $('#' + noticeID).remove();
-
-                if (field.validity.valid) {
-                    // Remove error styles and messages
-                    $(field).removeClass('error');
-
-                    if (isCkeditor) {
-                        $('#cke_' + field.id).removeClass('cke_error');
-                    }
-                } else {
-                    // Style field, show error, etc.
-                    $(field).addClass('error');
-
-                    if (isCkeditor) {
-                        $('#cke_' + field.id).addClass('cke_error');
-                    }
-
-                    var msg = $(field).data('errortext');
-                    if (!msg) {
-                        msg = bolt.data.editcontent.error.msg.subst({'%FIELDNAME%': field.name});
-                    }
-
-                    var alertbox = bolt.data.editcontent.error.alertbox.subst({
-                        '%NOTICE_ID%': noticeID,
-                        '%MESSAGE%': msg
-                    });
-                    $(alertbox)
-                        .hide()
-                        .insertAfter('.page-header')
-                        .slideDown('fast');
-
-                    // form is invalid
+                if (validate(field) === false) {
                     formvalid = false;
                 }
             }
