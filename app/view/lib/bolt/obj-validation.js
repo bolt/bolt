@@ -52,6 +52,21 @@ bolt.validation = (function () {
     }
 
     /**
+     * Adds error classes to field
+     *
+     * @param {Object} field - Field element
+     * @param {boolean} isCkeditor - Is a isCkeditor field
+     * @returns {boolean}
+     */
+    function addErrorClass(field, isCkeditor) {
+        $(field).addClass('error');
+
+        if (isCkeditor) {
+            $('#cke_' + field.id).addClass('cke_error');
+        }
+    }
+
+    /**
      * Removes error classes from field
      *
      * @param {Object} field - Field element
@@ -122,12 +137,7 @@ bolt.validation = (function () {
             // Field is valid
             return true;
         } else {
-            // Style field, show error, etc.
-            $(field).addClass('error');
-
-            if (isCkeditor) {
-                $('#cke_' + field.id).addClass('cke_error');
-            }
+            addErrorClass(field, isCkeditor);
 
             var msg = $(field).data('errortext');
             if (!msg) {
