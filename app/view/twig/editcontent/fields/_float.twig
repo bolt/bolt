@@ -16,6 +16,20 @@
 
 {#=== INIT ===========================================================================================================#}
 
+{% set validation = {type: 'float'} %}
+
+{% if option.required %}
+    {% set validation = validation|merge({required: true}) %}
+{% endif %}
+
+{% if option.min %}
+    {% set validation = validation|merge({min: option.min}) %}
+{% endif %}
+
+{% if option.max %}
+    {% set validation = validation|merge({max: option.max}) %}
+{% endif %}
+
 {% set attr_number = {
     class:          option.class ~ ' narrow',
     name_id:        key,
@@ -29,6 +43,7 @@
     type:           'text',
     value:          0 + context.content.get(key),
     data_errortext: option.errortext,
+    data_validate:  validation|json_encode,
 } %}
 
 {#=== FIELDSET =======================================================================================================#}
