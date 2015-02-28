@@ -1,6 +1,6 @@
 Bolt 2.1 DEV-head
 -----------------
-
+- Added: Allow extensions to be used as controllers (non static) (see #2971)
 - Fixed: Long conttenttype names are truncated properly in the sidebar now. (See #2513)
 - Fixed: Don't leak Database credentials on connection error during set up. (See #2538)
 - Change: Remove unused jquery-catchpaste.
