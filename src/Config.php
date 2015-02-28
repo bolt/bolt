@@ -845,9 +845,10 @@ class Config
         $themepath = $this->app['resources']->getPath('templatespath');
         $end = $this->getWhichEnd($this->get('general/branding/path'));
 
-        if (($end == 'frontend' || $end == 'async') && file_exists($themepath)) {
+        if ($end == 'frontend' && file_exists($themepath)) {
             $twigpath = array($themepath);
-        } else {
+        }
+        if ($end == 'backend' || $end == 'async') {
             $twigpath = array(realpath($this->app['resources']->getPath('app') . '/view/twig'));
         }
 
