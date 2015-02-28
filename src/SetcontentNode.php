@@ -8,7 +8,7 @@ class SetcontentNode extends \Twig_Node
     {
         parent::__construct(
             array('wherearguments' => $wherearguments),
-            array('name' => $name, 'contenttype' => $contenttype, 'arguments' => $arguments),
+            array('name'           => $name, 'contenttype' => $contenttype, 'arguments' => $arguments),
             $lineno,
             $tag
         );

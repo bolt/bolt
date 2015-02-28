@@ -12,7 +12,7 @@ class Permissions
 
     /**
      * Anonymous user: this role is automatically assigned to everyone,
-     * including "non-users" (not logged in)
+     * including "non-users" (not logged in).
      */
     const ROLE_ANONYMOUS = 'anonymous';
 
@@ -48,7 +48,7 @@ class Permissions
     }
 
     /**
-     * Write an entry to the permission audit log
+     * Write an entry to the permission audit log.
      *
      * @param string $msg
      */
@@ -70,9 +70,9 @@ class Permissions
     {
         $roles = $this->app['config']->get('permissions/roles');
         $roles[self::ROLE_ROOT] = array(
-            'label' => 'Root',
+            'label'       => 'Root',
             'description' => Trans::__('Built-in superuser role, automatically grants all permissions'),
-            'builtin' => true
+            'builtin'     => true
         );
 
         return $roles;
@@ -80,36 +80,38 @@ class Permissions
 
     /**
      * Gets meta-information on the specified role.
+     *
      * @param string $roleName
+     *
      * @return array An associative array describing the role. Keys are:
-     * - 'label': A human-readable role name, suitable as a label in the
-     *            backend
-     * - 'description': A description of what this role is supposed to do.
-     * - 'builtin': Optional; if present and true-ish, this is a built-in
-     *              role and cannot be overridden in permissions.yml.
+     *               - 'label': A human-readable role name, suitable as a label in the
+     *               backend
+     *               - 'description': A description of what this role is supposed to do.
+     *               - 'builtin': Optional; if present and true-ish, this is a built-in
+     *               role and cannot be overridden in permissions.yml.
      */
     public function getRole($roleName)
     {
         switch ($roleName) {
             case self::ROLE_ANONYMOUS:
                 return array(
-                    'label' => Trans::__('Anonymous'),
+                    'label'       => Trans::__('Anonymous'),
                     'description' => Trans::__('Built-in role, automatically granted at all times, even if no user is logged in'),
-                    'builtin' => true,
+                    'builtin'     => true,
                 );
 
             case self::ROLE_EVERYONE:
                 return array(
-                    'label' => Trans::__('Everybody'),
+                    'label'       => Trans::__('Everybody'),
                     'description' => Trans::__('Built-in role, automatically granted to every registered user'),
-                    'builtin' => true,
+                    'builtin'     => true,
                 );
 
             case self::ROLE_OWNER:
                 return array(
-                    'label' => Trans::__('Owner'),
+                    'label'       => Trans::__('Owner'),
                     'description' => Trans::__('Built-in role, only valid in the context of a resource, and automatically assigned to the owner of that resource.'),
-                    'builtin' => true,
+                    'builtin'     => true,
                 );
 
             default:
@@ -125,10 +127,13 @@ class Permissions
     /**
      * Gets the roles for a given user. If a content type is specified, the
      * "owner" role is added if appropriate.
-     * @param  array      $user    An array as returned by Users::getUser()
-     * @param  Content    $content An optional Content object to check ownership
+     *
+     * @param array   $user    An array as returned by Users::getUser()
+     * @param Content $content An optional Content object to check ownership
+     *
      * @throws \Exception
-     * @return array      An associative array of roles for the given user
+     *
+     * @return array An associative array of roles for the given user
      */
     public function getUserRoles($user, Content $content = null)
     {
@@ -156,7 +161,7 @@ class Permissions
     }
 
     /**
-     * Gets the roles the current user can manipulate
+     * Gets the roles the current user can manipulate.
      *
      * @param array $currentUser
      *
@@ -176,7 +181,7 @@ class Permissions
     }
 
     /**
-     * Checks if the current user is able to manipulate the given user
+     * Checks if the current user is able to manipulate the given user.
      *
      * @param array $user
      * @param array $currentUser
@@ -192,14 +197,15 @@ class Permissions
      * Low-level permission check. Given a set of available roles, a
      * permission, and an optional content type, this method checks whether
      * the permission may be granted.
-     * @param  array  $roleNames      An array of effective role names. This must
-     *                                include any of the appropriate automatic
-     *                                roles, as these are not added at this point.
-     * @param  string $permissionName Which permission to check
-     * @param  string $type
-     * @param  string $item
      *
-     * @return bool   TRUE if granted, FALSE if not.
+     * @param array  $roleNames      An array of effective role names. This must
+     *                               include any of the appropriate automatic
+     *                               roles, as these are not added at this point.
+     * @param string $permissionName Which permission to check
+     * @param string $type
+     * @param string $item
+     *
+     * @return bool TRUE if granted, FALSE if not.
      */
     public function checkPermission($roleNames, $permissionName, $type = null, $item = null)
     {
@@ -366,9 +372,11 @@ class Permissions
      * Gets the effective roles for a given user.
      * The effective roles include the roles that were explicitly assigned,
      * as well as the built-in automatic roles.
-     * @param  mixed $user An array or array-access object that contains a
-     *                     'roles' key; if no user is given, "guest" access is
-     *                     assumed.
+     *
+     * @param mixed $user An array or array-access object that contains a
+     *                    'roles' key; if no user is given, "guest" access is
+     *                    assumed.
+     *
      * @return array A list of effective role names for this user.
      */
     public function getEffectiveRolesForUser($user)
@@ -389,7 +397,7 @@ class Permissions
      * the ':' character acts as a separator for dynamic parts and
      * sub-permissions.
      * Apart from the route-based rules defined in permissions.yml, the
-     * following special cases are available:
+     * following special cases are available:.
      *
      * "overview:$contenttype" - view the overview for the content type. Alias
      *                           for "contenttype:$contenttype:view".
@@ -414,14 +422,15 @@ class Permissions
      *
      * "contenttype:$contenttype:edit or contenttype:$contenttype:view"
      *
-     * @param  string $what        The desired permission, as elaborated upon above.
-     * @param  mixed  $user        The user to check permissions against.
-     * @param  string $contenttype Optional: Content type slug. If specified,
-     *                             $what is taken to be a relative permission (e.g. 'edit')
-     *                             rather than an absolute one (e.g. 'contenttype:pages:edit').
-     * @param  int    $contentid   Only used if $contenttype is given, to further
-     *                             specifiy the content item.
-     * @return bool   TRUE if the permission is granted, FALSE if denied.
+     * @param string $what        The desired permission, as elaborated upon above.
+     * @param mixed  $user        The user to check permissions against.
+     * @param string $contenttype Optional: Content type slug. If specified,
+     *                            $what is taken to be a relative permission (e.g. 'edit')
+     *                            rather than an absolute one (e.g. 'contenttype:pages:edit').
+     * @param int    $contentid   Only used if $contenttype is given, to further
+     *                            specifiy the content item.
+     *
+     * @return bool TRUE if the permission is granted, FALSE if denied.
      */
     public function isAllowed($what, $user, $contenttype = null, $contentid = null)
     {
@@ -587,11 +596,14 @@ class Permissions
      * Gets the required permission for transitioning any content item from
      * one status to another. An empty status value indicates a non-existant
      * item (create/delete).
+     *
      * @param $fromStatus
      * @param $toStatus
+     *
      * @throws \Exception
-     * @return mixed      The name of the required permission suffix (e.g.
-     *                    'publish'), or NULL if no permission is required.
+     *
+     * @return mixed The name of the required permission suffix (e.g.
+     *               'publish'), or NULL if no permission is required.
      */
     public function getContentStatusTransitionPermission($fromStatus, $toStatus)
     {

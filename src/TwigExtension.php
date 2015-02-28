@@ -32,8 +32,8 @@ class TwigExtension extends \Twig_Extension
     private $safe;
 
     /**
-     * @param Silex\Application $app
-     * @param boolean           $safe
+     * @param \Silex\Application $app
+     * @param boolean            $safe
      */
     public function __construct(Silex\Application $app, $safe = false)
     {
@@ -171,7 +171,8 @@ class TwigExtension extends \Twig_Extension
     /**
      * Check if a file exists.
      *
-     * @param  string $fn
+     * @param string $fn
+     *
      * @return bool
      */
     public function fileExists($fn)
@@ -186,7 +187,8 @@ class TwigExtension extends \Twig_Extension
     /**
      * Output pretty-printed arrays / objects.
      *
-     * @param  mixed  $var
+     * @param mixed $var
+     *
      * @return string
      */
     public function printDump($var)
@@ -198,10 +200,11 @@ class TwigExtension extends \Twig_Extension
     }
 
     /**
-     * Send debug data to the developers FirePHP instance in-browser
+     * Send debug data to the developers FirePHP instance in-browser.
      *
-     * @param  mixed  $var The data to be dumped into FirePHP
-     * @param  mixed  $msg The message to associate with the data
+     * @param mixed $var The data to be dumped into FirePHP
+     * @param mixed $msg The message to associate with the data
+     *
      * @return string FirePHP formatted string
      */
     public function printFirebug($var, $msg = '')
@@ -239,7 +242,8 @@ class TwigExtension extends \Twig_Extension
 
     /**
      * Returns the language value for in tags where the language attribute is
-     * required. The _ in the locale will be replaced for -
+     * required. The underscore '_' in the locale will be replaced with a
+     * hyphen '-'.
      *
      * @return string
      */
@@ -252,9 +256,10 @@ class TwigExtension extends \Twig_Extension
      * Returns the date time in a particular format. Takes the locale into
      * account.
      *
-     * @param  string|\DateTime $dateTime
-     * @param  string           $format
-     * @return string           Formatted date and time
+     * @param string|\DateTime $dateTime
+     * @param string           $format
+     *
+     * @return string Formatted date and time
      */
     public function localeDateTime($dateTime, $format = "%B %e, %Y %H:%M")
     {
@@ -289,10 +294,11 @@ class TwigExtension extends \Twig_Extension
     }
 
     /**
-     * Create an excerpt for the given content
+     * Create an excerpt for the given content.
      *
-     * @param  string $content
-     * @param  int    $length  Defaults to 200 characters
+     * @param string $content
+     * @param int    $length  Defaults to 200 characters
+     *
      * @return string Resulting excerpt
      */
     public function excerpt($content, $length = 200)
@@ -304,7 +310,6 @@ class TwigExtension extends \Twig_Extension
             } else {
                 $output = $content;
             }
-
         } elseif (is_array($content)) {
             // Assume it's an array, strip some common fields that we don't need, implode the rest..
             $stripKeys = array(
@@ -323,11 +328,9 @@ class TwigExtension extends \Twig_Extension
                 unset($content[$key]);
             }
             $output = implode(" ", $content);
-
         } elseif (is_string($content)) {
             // otherwise we just use the string..
             $output = $content;
-
         } else {
             // Nope, got nothing..
             $output = "";
@@ -343,10 +346,10 @@ class TwigExtension extends \Twig_Extension
      * Trims the given string to a particular length. Deprecated, use excerpt
      * instead.
      *
-     * @param  string $content
-     * @param  int    $length  Defaults to 200
-     * @return string Trimmed output
+     * @param string $content
+     * @param int    $length  Defaults to 200
      *
+     * @return string Trimmed output
      */
     public function trim($content, $length = 200)
     {
@@ -357,7 +360,8 @@ class TwigExtension extends \Twig_Extension
      * Create a link to edit a .yml file, if a filename is detected in the string. Mostly
      * for use in Flashbag messages, to allow easy editing.
      *
-     * @param  string $str
+     * @param string $str
+     *
      * @return string Resulting string
      */
     public function ymllink($str)
@@ -381,8 +385,9 @@ class TwigExtension extends \Twig_Extension
      * Get an array with the dimensions of an image, together with its
      * aspectratio and some other info.
      *
-     * @param  string $filename
-     * @return array  Specifics
+     * @param string $filename
+     *
+     * @return array Specifics
      */
     public function imageInfo($filename)
     {
@@ -419,14 +424,14 @@ class TwigExtension extends \Twig_Extension
         }
 
         $info = array(
-            'width' => $imagesize[0],
-            'height' => $imagesize[1],
-            'type' => $types[$imagesize[2]],
-            'mime' => $imagesize['mime'],
+            'width'       => $imagesize[0],
+            'height'      => $imagesize[1],
+            'type'        => $types[$imagesize[2]],
+            'mime'        => $imagesize['mime'],
             'aspectratio' => $ar,
-            'filename' => $filename,
-            'fullpath' => realpath($fullpath),
-            'url' => str_replace("//", "/", $this->app['paths']['files'] . $filename)
+            'filename'    => $filename,
+            'fullpath'    => realpath($fullpath),
+            'url'         => str_replace("//", "/", $this->app['paths']['files'] . $filename)
         );
 
         // Landscape if aspectratio > 5:4
@@ -444,7 +449,8 @@ class TwigExtension extends \Twig_Extension
     /**
      * Return the 'sluggified' version of a string.
      *
-     * @param  string $str input value
+     * @param string $str input value
+     *
      * @return string Slug safe version of the string
      */
     public function slug($str)
@@ -457,9 +463,10 @@ class TwigExtension extends \Twig_Extension
     }
 
     /**
-     * Formats the given string as Markdown in HTML
+     * Formats the given string as Markdown in HTML.
      *
-     * @param  string $content
+     * @param string $content
+     *
      * @return string Markdown output
      */
     public function markdown($content)
@@ -470,8 +477,8 @@ class TwigExtension extends \Twig_Extension
         // Sanitize/clean the HTML.
         $maid = new \Maid\Maid(
             array(
-                'output-format' => 'html',
-                'allowed-tags' => array('html', 'head', 'body', 'section', 'div', 'p', 'br', 'hr', 's', 'u', 'strong', 'em', 'i', 'b', 'li', 'ul', 'ol', 'menu', 'blockquote', 'pre', 'code', 'tt', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'dd', 'dl', 'dh', 'table', 'tbody', 'thead', 'tfoot', 'th', 'td', 'tr', 'a', 'img'),
+                'output-format'   => 'html',
+                'allowed-tags'    => array('html', 'head', 'body', 'section', 'div', 'p', 'br', 'hr', 's', 'u', 'strong', 'em', 'i', 'b', 'li', 'ul', 'ol', 'menu', 'blockquote', 'pre', 'code', 'tt', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'dd', 'dl', 'dh', 'table', 'tbody', 'thead', 'tfoot', 'th', 'td', 'tr', 'a', 'img'),
                 'allowed-attribs' => array('id', 'class', 'name', 'value', 'href', 'src')
             )
         );
@@ -481,7 +488,7 @@ class TwigExtension extends \Twig_Extension
     }
 
     /**
-     * Formats the given string as Twig in HTML
+     * Formats the given string as Twig in HTML.
      *
      * Note: this is partially duplicating the template_from_string functionality:
      * http://twig.sensiolabs.org/doc/functions/template_from_string.html
@@ -492,7 +499,8 @@ class TwigExtension extends \Twig_Extension
      * _really_ messes up the 'cascading rendering' of our theme templates.
      *
      * @param $snippet
-     * @param  array  $extravars
+     * @param array $extravars
+     *
      * @return string Twig output
      */
     public function twig($snippet, $extravars = array())
@@ -508,7 +516,8 @@ class TwigExtension extends \Twig_Extension
     /**
      * UCfirsts the given string.
      *
-     * @param  string $str;
+     * @param string $str;
+     *
      * @return string Same string where first character is in upper case
      */
     public function ucfirst($str)
@@ -519,10 +528,11 @@ class TwigExtension extends \Twig_Extension
     /**
      * Perform a regular expression search and replace on the given string.
      *
-     * @param  string $str
-     * @param  string $pattern
-     * @param  string $replacement
-     * @param  int    $limit
+     * @param string $str
+     * @param string $pattern
+     * @param string $replacement
+     * @param int    $limit
+     *
      * @return string Same string where first character is in upper case
      */
     public function pregReplace($str, $pattern, $replacement = '', $limit = -1)
@@ -531,11 +541,12 @@ class TwigExtension extends \Twig_Extension
     }
 
     /**
-     * Sorts / orders items of an array
+     * Sorts / orders items of an array.
      *
-     * @param  array  $array
-     * @param  string $on
-     * @param  string $onSecondary
+     * @param array  $array
+     * @param string $on
+     * @param string $onSecondary
+     *
      * @return array
      */
     public function order($array, $on, $onSecondary = '')
@@ -557,10 +568,11 @@ class TwigExtension extends \Twig_Extension
     }
 
     /**
-     * Helper function for sorting an array of \Bolt\Content
+     * Helper function for sorting an array of \Bolt\Content.
      *
-     * @param  \Bolt\Content|array $a
-     * @param  \Bolt\Content|array $b
+     * @param \Bolt\Content|array $a
+     * @param \Bolt\Content|array $b
+     *
      * @return bool
      */
     private function orderHelper($a, $b)
@@ -590,14 +602,14 @@ class TwigExtension extends \Twig_Extension
                 // both criteria are the same. Whatever!
                 return 0;
             }
-
         }
     }
 
     /**
-     * Returns the first item of an array
+     * Returns the first item of an array.
      *
-     * @param  array $array
+     * @param array $array
+     *
      * @return mixed
      */
     public function first($array)
@@ -610,9 +622,10 @@ class TwigExtension extends \Twig_Extension
     }
 
     /**
-     * Returns the last item of an array
+     * Returns the last item of an array.
      *
-     * @param  array $array
+     * @param array $array
+     *
      * @return mixed
      */
     public function last($array)
@@ -630,8 +643,9 @@ class TwigExtension extends \Twig_Extension
      * If we're on page/foo, and content is that page, you can use
      * {% is page|current %}class='active'{% endif %}
      *
-     * @param  \Bolt\Content|array $content
-     * @return bool                True if the given content is on the curent page.
+     * @param \Bolt\Content|array $content
+     *
+     * @return bool True if the given content is on the curent page.
      */
     public function current($content)
     {
@@ -649,10 +663,8 @@ class TwigExtension extends \Twig_Extension
         $linkToCheck  = false;
 
         if (is_array($content) && isset($content['link'])) {
-
             $linkToCheck = $content['link'];
         } elseif ($content instanceof \Bolt\Content) {
-
             $linkToCheck = $content->link();
         }
 
@@ -700,6 +712,7 @@ class TwigExtension extends \Twig_Extension
      * Get a simple Anti-CSRF-like token.
      *
      * @see \Bolt\Users::getAntiCSRFToken()
+     *
      * @return string
      */
     public function token()
@@ -710,8 +723,9 @@ class TwigExtension extends \Twig_Extension
     /**
      * lists templates, optionally filtered by $filter.
      *
-     * @param  string $filter
-     * @return array  Sorted and possibly filtered templates
+     * @param string $filter
+     *
+     * @return array Sorted and possibly filtered templates
      */
     public function listTemplates($filter = "")
     {
@@ -746,9 +760,10 @@ class TwigExtension extends \Twig_Extension
      * Lists content of a specific contenttype, specifically for editing
      * relations in the backend.
      *
-     * @param  string        $contenttype
-     * @param  array         $relationoptions
-     * @param  \Bolt\Content $content
+     * @param string        $contenttype
+     * @param array         $relationoptions
+     * @param \Bolt\Content $content
+     *
      * @return string
      */
     public function listContent($contenttype, $relationoptions, $content)
@@ -784,12 +799,13 @@ class TwigExtension extends \Twig_Extension
     /**
      * Output a simple pager, for paginated listing pages.
      *
-     * @param  \Twig_Environment $env
-     * @param  string            $pagerName
-     * @param  int               $surr
-     * @param  string            $template  The template to apply
-     * @param  string            $class
-     * @return string            The rendered pager HTML
+     * @param \Twig_Environment $env
+     * @param string            $pagerName
+     * @param int               $surr
+     * @param string            $template  The template to apply
+     * @param string            $class
+     *
+     * @return string The rendered pager HTML
      */
     public function pager(\Twig_Environment $env, $pagerName = '', $surr = 4, $template = '_sub_pager.twig', $class = '')
     {
@@ -804,7 +820,7 @@ class TwigExtension extends \Twig_Extension
 
         $context = array(
             'pager' => $thisPager,
-            'surr' => $surr, // TODO: rename to amountsurroundin, surroundamount, ...?
+            'surr'  => $surr,
             'class' => $class,
         );
 
@@ -820,9 +836,10 @@ class TwigExtension extends \Twig_Extension
     /**
      * Return the requested parameter from $_REQUEST, $_GET or $_POST..
      *
-     * @param  string $parameter    The parameter to get
-     * @param  string $from         "GET", "POST", all the other falls back to REQUEST.
-     * @param  bool   $stripslashes Apply stripslashes. Defaults to false.
+     * @param string $parameter    The parameter to get
+     * @param string $from         "GET", "POST", all the other falls back to REQUEST.
+     * @param bool   $stripslashes Apply stripslashes. Defaults to false.
+     *
      * @return mixed
      */
     public function request($parameter, $from = "", $stripslashes = false)
@@ -868,13 +885,14 @@ class TwigExtension extends \Twig_Extension
     /**
      * Helper function to make a path to an image thumbnail.
      *
-     * @param  string     $filename Target filename
-     * @param  string|int $width    Target width
-     * @param  string|int $height   Target height
-     * @param  string     $zoomcrop Zooming and cropping: Set to 'f(it)', 'b(orders)', 'r(esize)' or 'c(rop)'
-     *                              Set width or height parameter to '0' for proportional scaling
-     *                              Setting them to '' uses default values.
-     * @return string     Thumbnail path
+     * @param string     $filename Target filename
+     * @param string|int $width    Target width
+     * @param string|int $height   Target height
+     * @param string     $zoomcrop Zooming and cropping: Set to 'f(it)', 'b(orders)', 'r(esize)' or 'c(rop)'
+     *                             Set width or height parameter to '0' for proportional scaling
+     *                             Setting them to '' uses default values.
+     *
+     * @return string Thumbnail path
      */
     public function thumbnail($filename, $width = '', $height = '', $zoomcrop = 'crop')
     {
@@ -937,10 +955,11 @@ class TwigExtension extends \Twig_Extension
      * Example: {{ content.image|showimage(320, 240) }}
      * Example: {{ showimage(content.image, 320, 240) }}
      *
-     * @param  string $filename Image filename
-     * @param  int    $width    Image width
-     * @param  int    $height   Image height
-     * @param  string $crop     Crop image string identifier
+     * @param string $filename Image filename
+     * @param int    $width    Image width
+     * @param int    $height   Image height
+     * @param string $crop     Crop image string identifier
+     *
      * @return string HTML output
      */
     public function showImage($filename = '', $width = 0, $height = 0, $crop = '')
@@ -971,7 +990,7 @@ class TwigExtension extends \Twig_Extension
     }
 
     /**
-     * Helper function to wrap an image in a Magnific popup HTML tag, with thumbnail
+     * Helper function to wrap an image in a Magnific popup HTML tag, with thumbnail.
      *
      * example: {{ content.image|popup(320, 240) }}
      * example: {{ popup(content.image, 320, 240) }}
@@ -980,17 +999,17 @@ class TwigExtension extends \Twig_Extension
      * Note: This function used to be called 'fancybox', but Fancybox was deprecated in favor
      * of the Magnific Popup library.
      *
-     * @param  string $filename Image filename
-     * @param  int    $width    Image width
-     * @param  int    $height   Image height
-     * @param  string $crop     Crop image string identifier
-     * @param  string $title    Display title for image
+     * @param string $filename Image filename
+     * @param int    $width    Image width
+     * @param int    $height   Image height
+     * @param string $crop     Crop image string identifier
+     * @param string $title    Display title for image
+     *
      * @return string HTML output
      */
     public function popup($filename = "", $width = 100, $height = 100, $crop = "", $title = "")
     {
         if (!empty($filename)) {
-
             $thumbconf = $this->app['config']->get('general/thumbnails');
 
             $fullwidth = !empty($thumbconf['default_image'][0]) ? $thumbconf['default_image'][0] : 1000;
@@ -1011,7 +1030,6 @@ class TwigExtension extends \Twig_Extension
                 $width,
                 $height
             );
-
         } else {
             $output = "&nbsp;";
         }
@@ -1022,11 +1040,12 @@ class TwigExtension extends \Twig_Extension
     /**
      * Helper function to make a path to an image.
      *
-     * @param  string     $filename Target filename
-     * @param  string|int $width    Target width
-     * @param  string|int $height   Target height
-     * @param  string     $crop     String identifier for cropped images
-     * @return string     Image path
+     * @param string     $filename Target filename
+     * @param string|int $width    Target width
+     * @param string|int $height   Target height
+     * @param string     $crop     String identifier for cropped images
+     *
+     * @return string Image path
      */
     public function image($filename, $width = "", $height = "", $crop = "")
     {
@@ -1053,20 +1072,21 @@ class TwigExtension extends \Twig_Extension
      * Get an array of data for a user, based on the given name or id. Returns
      * an array on success, and false otherwise.
      *
-     * @param  mixed $who
+     * @param mixed $who
+     *
      * @return mixed
      */
     public function getUser($who)
     {
         return $this->app['users']->getUser($who);
-
     }
 
     /**
      * Get an id number for a user, based on the given name. Returns
      * an integer id on success, and false otherwise.
      *
-     * @param  string $who
+     * @param string $who
+     *
      * @return mixed
      */
     public function getUserId($who)
@@ -1081,11 +1101,12 @@ class TwigExtension extends \Twig_Extension
     }
 
     /**
-     * Makes a piece of HTML editable
+     * Makes a piece of HTML editable.
      *
-     * @param  string $html  The HTML to be editable
+     * @param string $html  The HTML to be editable
      * @param \Bolt\Content The actual content
-     * @param  string $field
+     * @param string $field
+     *
      * @return string
      */
     public function editable($html, $content, $field)
@@ -1128,10 +1149,11 @@ class TwigExtension extends \Twig_Extension
     /**
      * Output a menu.
      *
-     * @param  \Twig_Environment $env
-     * @param  string            $identifier Identifier for a particular menu
-     * @param  string            $template   The template to use.
-     * @param  array             $params     Extra parameters to pass on to the menu template.
+     * @param \Twig_Environment $env
+     * @param string            $identifier Identifier for a particular menu
+     * @param string            $template   The template to use.
+     * @param array             $params     Extra parameters to pass on to the menu template.
+     *
      * @return null
      */
     public function menu(\Twig_Environment $env, $identifier = '', $template = '_sub_menu.twig', $params = array())
@@ -1174,7 +1196,8 @@ class TwigExtension extends \Twig_Extension
     /**
      * Recursively scans the passed array to ensure everything gets the menuHelper() treatment.
      *
-     * @param  array $menu
+     * @param array $menu
+     *
      * @return array
      */
     private function menuBuilder($menu)
@@ -1182,9 +1205,8 @@ class TwigExtension extends \Twig_Extension
         foreach ($menu as $key => $item) {
             $menu[$key] = $this->menuHelper($item);
             if (isset($item['submenu'])) {
-                    $menu[$key]['submenu'] = $this->menuBuilder($item['submenu']);
+                $menu[$key]['submenu'] = $this->menuBuilder($item['submenu']);
             }
-
         }
 
         return $menu;
@@ -1193,7 +1215,8 @@ class TwigExtension extends \Twig_Extension
     /**
      * Updates a menu item to have at least a 'link' key.
      *
-     * @param  array $item
+     * @param array $item
+     *
      * @return array Keys 'link' and possibly 'label', 'title' and 'path'
      */
     private function menuHelper($item)
@@ -1235,7 +1258,6 @@ class TwigExtension extends \Twig_Extension
                         // attempt to retrive the actual record.
                         $content = $this->app['storage']->getContent($path);
                         if ($content instanceof \Bolt\Content) {
-
                             if (empty($item['label'])) {
                                 $item['label'] = !empty($content->values['title']) ? $content->values['title'] : "";
                             }
@@ -1305,8 +1327,9 @@ class TwigExtension extends \Twig_Extension
      * Renders a particular widget type on the given location.
      *
      *
-     * @param  string $type     Widget type (e.g. 'dashboard')
-     * @param  string $location CSS location (e.g. 'right_first')
+     * @param string $type     Widget type (e.g. 'dashboard')
+     * @param string $location CSS location (e.g. 'right_first')
+     *
      * @return null
      */
     public function widget($type = '', $location = '')
@@ -1320,9 +1343,10 @@ class TwigExtension extends \Twig_Extension
      * Check if a certain action is allowed for the current user (and possibly
      * content item).
      *
-     * @param  string $what    Operation
-     * @param  mixed  $content If specified, a Content item.
-     * @return bool   True if allowed
+     * @param string $what    Operation
+     * @param mixed  $content If specified, a Content item.
+     *
+     * @return bool True if allowed
      */
     public function isAllowed($what, $content = null)
     {
@@ -1343,10 +1367,12 @@ class TwigExtension extends \Twig_Extension
     }
 
     /**
-     * Translate using our __()
+     * Translate using our __().
      *
      * @internal
-     * @param  string $content
+     *
+     * @param string $content
+     *
      * @return string Translated content
      */
     public function trans()
@@ -1374,9 +1400,10 @@ class TwigExtension extends \Twig_Extension
      *
      * @see function Bolt\Library::safeString()
      *
-     * @param  string  $str
-     * @param  boolean $strict
-     * @param  string  $extrachars
+     * @param string  $str
+     * @param boolean $strict
+     * @param string  $extrachars
+     *
      * @return string
      */
     public function safeString($str, $strict = false, $extrachars = "")
@@ -1400,11 +1427,12 @@ class TwigExtension extends \Twig_Extension
     }
 
     /**
-     * Return an array with the items on the stack
+     * Return an array with the items on the stack.
      *
-     * @param  int    $amount
-     * @param  string $type   type
-     * @return array  An array of items
+     * @param int    $amount
+     * @param string $type   type
+     *
+     * @return array An array of items
      */
     public function stackItems($amount = 20, $type = "")
     {
@@ -1416,23 +1444,25 @@ class TwigExtension extends \Twig_Extension
     /**
      * Return whether or not an item is on the stack, and is stackable in the first place.
      *
-     * @param  string $filename File name
+     * @param string $filename File name
+     *
      * @return bool
      */
     public function stacked($filename)
     {
-        $stacked = ( $this->app['stack']->isOnStack($filename) || !$this->app['stack']->isStackable($filename) );
+        $stacked = ($this->app['stack']->isOnStack($filename) || !$this->app['stack']->isStackable($filename));
 
         return $stacked;
     }
 
     /**
-     * Return a selected field from a contentset
+     * Return a selected field from a contentset.
      *
-     * @param  array  $content    A Bolt record array
-     * @param  mixed  $fieldname  Name of field (string), or array of names of fields, to return from each record
-     * @param  bool   $startempty Whether or not the array should start with an empty element
-     * @param  string $keyname    Name of the key in the arrat
+     * @param array  $content    A Bolt record array
+     * @param mixed  $fieldname  Name of field (string), or array of names of fields, to return from each record
+     * @param bool   $startempty Whether or not the array should start with an empty element
+     * @param string $keyname    Name of the key in the arrat
+     *
      * @return array
      */
     public function selectField($content, $fieldname, $startempty = false, $keyname = 'id')
@@ -1464,9 +1494,10 @@ class TwigExtension extends \Twig_Extension
     }
 
     /**
-     * Randomly shuffle the contents of a passed array
+     * Randomly shuffle the contents of a passed array.
      *
-     * @param  array $array
+     * @param array $array
+     *
      * @return array
      */
     public function shuffle($array)
@@ -1482,7 +1513,8 @@ class TwigExtension extends \Twig_Extension
      * Add 'soft hyphens' &shy; to a string, so that it won't break layout in HTML when
      * using strings without spaces or dashes.
      *
-     * @param  string $str
+     * @param string $str
+     *
      * @return string
      */
     public function shy($str)
@@ -1502,8 +1534,9 @@ class TwigExtension extends \Twig_Extension
     /**
      * Test whether a passed string contains valid JSON.
      *
-     * @param  string $string The string to test.
-     * @return array  The JSON decoded array
+     * @param string $string The string to test.
+     *
+     * @return array The JSON decoded array
      */
     public function testJson($string)
     {
@@ -1516,8 +1549,9 @@ class TwigExtension extends \Twig_Extension
      * JSON decodes a variable. Twig has a built-in json_encode filter, but no built-in
      * function to JSON decode a string. This functionality remedies that.
      *
-     * @param  string $string The string to decode.
-     * @return array  The JSON decoded array
+     * @param string $string The string to decode.
+     *
+     * @return array The JSON decoded array
      */
     public function jsonDecode($string)
     {
@@ -1525,7 +1559,7 @@ class TwigExtension extends \Twig_Extension
     }
 
     /**
-     * Add JavaScript data to app['jsdata']
+     * Add JavaScript data to app['jsdata'].
      *
      * @param string $key
      * @param mixed  $value
@@ -1554,9 +1588,10 @@ class TwigExtension extends \Twig_Extension
     }
 
     /**
-     * Convert a Monolog log level to textual equivalent
+     * Convert a Monolog log level to textual equivalent.
      *
-     * @param  integer $level
+     * @param integer $level
+     *
      * @return string
      */
     public function logLevel($level)

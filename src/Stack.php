@@ -2,9 +2,9 @@
 
 namespace Bolt;
 
-use Silex;
 use Bolt\Library as Lib;
 use Bolt\Translation\Translator as Trans;
+use Silex;
 use utilphp\util;
 
 /**
@@ -12,7 +12,6 @@ use utilphp\util;
  * Each user (by design) has their own stack. No sharesies!
  *
  * @author Bob den Otter, bob@twokings.nl
- *
  */
 class Stack
 {
@@ -51,7 +50,8 @@ class Stack
     /**
      * Add a certain item to the stack.
      *
-     * @param  string $filename
+     * @param string $filename
+     *
      * @return bool
      */
     public function add($filename)
@@ -85,7 +85,8 @@ class Stack
     /**
      * Check if a given filename is present on the stack.
      *
-     * @param  string $filename
+     * @param string $filename
+     *
      * @return bool
      */
     public function isOnStack($filename)
@@ -105,7 +106,8 @@ class Stack
     /**
      * Check if a given filename is stackable.
      *
-     * @param  string $filename
+     * @param string $filename
+     *
      * @return bool
      */
     public function isStackable($filename)
@@ -119,8 +121,9 @@ class Stack
      * Return a list with the current stacked items. Add some relevant info to each item,
      * and also check if the item is present and readable.
      *
-     * @param  int    $count
-     * @param  string $typefilter
+     * @param int    $count
+     * @param string $typefilter
+     *
      * @return array
      */
     public function listitems($count = 100, $typefilter = "")
@@ -166,14 +169,14 @@ class Stack
             }
 
             $thisitem = array(
-                'basename' => basename($item),
-                'extension' => $extension,
-                'filepath' => str_replace("files/", "", $item),
-                'type' => $type,
-                'writable' => is_writable($fullpath),
-                'readable' => is_readable($fullpath),
-                'filesize' => Lib::formatFilesize(filesize($fullpath)),
-                'modified' => date("Y/m/d H:i:s", filemtime($fullpath)),
+                'basename'    => basename($item),
+                'extension'   => $extension,
+                'filepath'    => str_replace("files/", "", $item),
+                'type'        => $type,
+                'writable'    => is_writable($fullpath),
+                'readable'    => is_readable($fullpath),
+                'filesize'    => Lib::formatFilesize(filesize($fullpath)),
+                'modified'    => date("Y/m/d H:i:s", filemtime($fullpath)),
                 'permissions' => util::full_permissions($fullpath)
             );
 
@@ -206,7 +209,6 @@ class Stack
 
     /**
      * Persist the contents of the current stack to the session, as well as the database.
-     *
      */
     public function persist()
     {

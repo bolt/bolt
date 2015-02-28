@@ -4,7 +4,6 @@ namespace Bolt;
 
 /**
  * A class for choosing whichever template should be used.
- *
  */
 class TemplateChooser
 {
@@ -43,10 +42,12 @@ class TemplateChooser
     }
 
     /**
-     * Choose a template for a single record page, like '/page/about' or
-     * '/entry/lorum-ipsum'
+     * Choose a template for a single record page, e.g.:
+     * - '/page/about'
+     * - '/entry/lorum-ipsum'
      *
-     * @param  \Bolt\Content $record
+     * @param \Bolt\Content $record
+     *
      * @return string
      */
     public function record(Content $record)
@@ -89,13 +90,13 @@ class TemplateChooser
         $this->setTemplateChosen($template, $chosen);
 
         return $template;
-
     }
 
     /**
      * Select a template for listing pages.
      *
-     * @param  string $contenttype
+     * @param string $contenttype
+     *
      * @return string
      */
     public function listing($contenttype)
@@ -114,8 +115,8 @@ class TemplateChooser
         // the contenttype.
         $filename = $this->app['paths']['templatespath'] . '/' . $contenttype['slug'] . '.twig';
         if (file_exists($filename) && is_readable($filename)) {
-                $template = $contenttype['slug'] . '.twig';
-                $chosen = 'slug';
+            $template = $contenttype['slug'] . '.twig';
+            $chosen = 'slug';
         }
 
         // Fourth candidate: defined specificaly in the contenttype.
@@ -127,13 +128,13 @@ class TemplateChooser
         $this->setTemplateChosen($template, $chosen);
 
         return $template;
-
     }
 
     /**
      * Select a template for taxonomy.
      *
-     * @param  string $taxonomyslug
+     * @param string $taxonomyslug
+     *
      * @return string
      */
     public function taxonomy($taxonomyslug)
@@ -185,7 +186,6 @@ class TemplateChooser
         $this->setTemplateChosen($template, $chosen);
 
         return $template;
-
     }
 
     /**
@@ -211,7 +211,7 @@ class TemplateChooser
     }
 
     /**
-     * Set the TwigDataCollector templatechosen parameter if enabled
+     * Set the TwigDataCollector templatechosen parameter if enabled.
      *
      * @param string $template
      * @param string $chosen
