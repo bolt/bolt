@@ -75,7 +75,7 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFunction('menu', array($this, 'menu'), array('needs_environment' => true, 'is_safe' => array('html'))),
             new \Twig_SimpleFunction('pager', array($this, 'pager'), array('needs_environment' => true)),
             new \Twig_SimpleFunction('popup', array($this, 'popup'), array('is_safe' => array('html'))),
-            new \Twig_SimpleFunction('print', array($this, 'printDump'), array('is_safe' => array('html'))), // Deprecated..
+            new \Twig_SimpleFunction('print', array($this, 'printDump'), array('is_safe' => array('html'))), // Deprecated.
             new \Twig_SimpleFunction('randomquote', array($this, 'randomQuote'), array('is_safe' => array('html'))),
             new \Twig_SimpleFunction('redirect', array($this, 'redirect'), array('is_safe' => array('html'))),
             new \Twig_SimpleFunction('request', array($this, 'request')),
@@ -84,7 +84,7 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFunction('stackitems', array($this, 'stackItems')),
             new \Twig_SimpleFunction('thumbnail', array($this, 'thumbnail')),
             new \Twig_SimpleFunction('token', array($this, 'token')),
-            new \Twig_SimpleFunction('trimtext', array($this, 'trim'), array('is_safe' => array('html'))), // Deprecated..
+            new \Twig_SimpleFunction('trimtext', array($this, 'trim'), array('is_safe' => array('html'))), // Deprecated.
             new \Twig_SimpleFunction('widget', array($this, 'widget'))
         );
     }
@@ -116,7 +116,7 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFilter('shy', array($this, 'shy'), array('is_safe' => array('html'))),
             new \Twig_SimpleFilter('slug', array($this, 'slug')),
             new \Twig_SimpleFilter('thumbnail', array($this, 'thumbnail')),
-            new \Twig_SimpleFilter('trimtext', array($this, 'trim'), array('is_safe' => array('html'))), // Deprecated..
+            new \Twig_SimpleFilter('trimtext', array($this, 'trim'), array('is_safe' => array('html'))), // Deprecated.
             new \Twig_SimpleFilter('tt', array($this, 'decorateTT'), array('is_safe' => array('html'))),
             new \Twig_SimpleFilter('twig', array($this, 'twig'), array('is_safe' => array('html'))),
             new \Twig_SimpleFilter('ucfirst', array($this, 'ucfirst')),
@@ -311,7 +311,7 @@ class TwigExtension extends \Twig_Extension
                 $output = $content;
             }
         } elseif (is_array($content)) {
-            // Assume it's an array, strip some common fields that we don't need, implode the rest..
+            // Assume it's an array, strip some common fields that we don't need, implode the rest.
             $stripKeys = array(
                     'id',
                     'slug',
@@ -329,10 +329,10 @@ class TwigExtension extends \Twig_Extension
             }
             $output = implode(" ", $content);
         } elseif (is_string($content)) {
-            // otherwise we just use the string..
+            // otherwise we just use the string.
             $output = $content;
         } else {
-            // Nope, got nothing..
+            // Nope, got nothing.
             $output = "";
         }
 
@@ -554,7 +554,7 @@ class TwigExtension extends \Twig_Extension
         // Set the 'order_on' and 'order_ascending', taking into account things like '-datepublish'.
         list($this->order_on, $this->order_ascending) = $this->app['storage']->getSortOrder($on);
 
-        // Set the secondary order, if any..
+        // Set the secondary order, if any.
         if (!empty($onSecondary)) {
             list($this->order_on_secondary, $this->order_ascending_secondary) = $this->app['storage']->getSortOrder($onSecondary);
         } else {
@@ -580,7 +580,7 @@ class TwigExtension extends \Twig_Extension
         $aVal = $a[$this->order_on];
         $bVal = $b[$this->order_on];
 
-        // Check the primary sorting criterium..
+        // Check the primary sorting criterium.
         if ($aVal < $bVal) {
             return !$this->order_ascending;
         } elseif ($aVal > $bVal) {
@@ -651,7 +651,7 @@ class TwigExtension extends \Twig_Extension
     {
         $routeParams = $this->app['request']->get('_route_params');
 
-        // If passed a string, and it is in the route..
+        // If passed a string, and it is in the route.
         if (is_string($content) && in_array($content, $routeParams)) {
             return true;
         }
@@ -693,13 +693,13 @@ class TwigExtension extends \Twig_Extension
             return true;
         }
 
-        // if the current requested page is for the same slug or singularslug..
+        // if the current requested page is for the same slug or singularslug.
         if (isset($content['contenttype']) &&
             ($routeParams['contenttypeslug'] == $content['contenttype']['slug'] ||
                 $routeParams['contenttypeslug'] == $content['contenttype']['singular_slug'])
         ) {
 
-            // .. and the slugs should match..
+            // .. and the slugs should match.
             if ($routeParams['slug'] == $content['slug']) {
                 return true;
             }
@@ -810,7 +810,7 @@ class TwigExtension extends \Twig_Extension
     public function pager(\Twig_Environment $env, $pagerName = '', $surr = 4, $template = '_sub_pager.twig', $class = '')
     {
         if ($this->app['storage']->isEmptyPager()) {
-            // nothing to page..
+            // nothing to page.
             return '';
         }
 
@@ -834,7 +834,7 @@ class TwigExtension extends \Twig_Extension
     }
 
     /**
-     * Return the requested parameter from $_REQUEST, $_GET or $_POST..
+     * Return the requested parameter from $_REQUEST, $_GET or $_POST.
      *
      * @param string $parameter    The parameter to get
      * @param string $from         "GET", "POST", all the other falls back to REQUEST.
@@ -1111,7 +1111,7 @@ class TwigExtension extends \Twig_Extension
      */
     public function editable($html, $content, $field)
     {
-        // Editing content from within content? NOPE NOPE NOPE...
+        // Editing content from within content? NOPE NOPE NOPE.
         if ($this->safe) {
             return null;
         }

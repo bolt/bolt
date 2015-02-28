@@ -250,7 +250,7 @@ class ResourceManager
             $request = Request::createFromGlobals();
         }
 
-        // Set the current protocol. Default to http, unless otherwise..
+        // Set the current protocol. Default to http, unless otherwise.
         $protocol = "http";
 
         if (($request->server->get('HTTPS') == 'on') ||

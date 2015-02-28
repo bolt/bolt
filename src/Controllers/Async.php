@@ -109,7 +109,7 @@ class Async implements ControllerProviderInterface
 
         $name = !empty($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : $_SERVER['HTTP_HOST'];
 
-        // If not cached, get fresh news..
+        // If not cached, get fresh news.
         if ($news === false) {
             $app['logger.system']->info("Fetching from remote server: $source", array('event' => 'news'));
 
@@ -125,7 +125,7 @@ class Async implements ControllerProviderInterface
             );
 
             $curlOptions = array('CURLOPT_CONNECTTIMEOUT' => 5);
-            // If there's a proxy ...
+            // Set cURL proxy options if there's a proxy
             if ($app['config']->get('general/httpProxy')) {
                 $curlOptions['CURLOPT_PROXY'] = $app['config']->get('general/httpProxy/host');
                 $curlOptions['CURLOPT_PROXYTYPE'] = 'CURLPROXY_HTTP';
@@ -148,7 +148,7 @@ class Async implements ControllerProviderInterface
                         }
                     }
 
-                    // Iterate over the items again, See if there's an alert we need to show.
+                    // Iterate over the items again, See if there's an alert we need to show
                     foreach ($fetchedNewsItems as $item) {
                         if ($item->type == "alert") {
                             if (empty($item->target_version) || version_compare($item->target_version, $app->getVersion(), '>')) {
@@ -182,7 +182,7 @@ class Async implements ControllerProviderInterface
     }
 
     /**
-     * Get the 'latest activity' for the dashboard..
+     * Get the 'latest activity' for the dashboard.
      *
      * @param \Silex\Application $app
      *
@@ -394,7 +394,7 @@ class Async implements ControllerProviderInterface
      */
     private function lastmodifiedByContentLog(Silex\Application $app, $contenttypeslug, $contentid)
     {
-        // Get the proper contenttype..
+        // Get the proper contenttype.
         $contenttype = $app['storage']->getContentType($contenttypeslug);
 
         // get the changelog for the requested contenttype.
@@ -472,7 +472,7 @@ class Async implements ControllerProviderInterface
         // Set the selected value in the proper field
         $key = $request->query->get('key');
 
-        // Get the pathsegments, so we can show the path..
+        // Get the pathsegments, so we can show the path.
         $pathsegments = array();
         $cumulative = "";
         if (!empty($path)) {
@@ -746,7 +746,7 @@ class Async implements ControllerProviderInterface
         // Start the 'stopwatch' for the profiler.
         $app['stopwatch']->start('bolt.async.before');
 
-        // If there's no active session, don't do anything..
+        // If there's no active session, don't do anything.
         if (!$app['users']->isValidSession()) {
             $app->abort(404, "You must be logged in to use this.");
         }

@@ -323,7 +323,7 @@ class Frontend
     public function taxonomy(Silex\Application $app, $taxonomytype, $slug)
     {
         $taxonomy = $app['storage']->getTaxonomyType($taxonomytype);
-        // No taxonomytype, no possible content..
+        // No taxonomytype, no possible content.
         if (empty($taxonomy)) {
             return false;
         } else {

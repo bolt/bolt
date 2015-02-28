@@ -111,7 +111,7 @@ class Render
     {
         if ($this->checkCacheConditions('request')) {
             // This is where the magic happens.. We also store it with an empty 'template' name,
-            // So we can later fetch it by its request..
+            // So we can later fetch it by its request.
             $key = md5($this->app['request']->getPathInfo() . $this->app['request']->getQueryString());
             $this->app['cache']->save($key, $html, $this->cacheDuration());
         }
@@ -124,7 +124,7 @@ class Render
      */
     public function cacheDuration()
     {
-        // in minutes..
+        // in minutes.
         $duration = $this->app['config']->get('general/caching/duration', 10);
 
         // in seconds.

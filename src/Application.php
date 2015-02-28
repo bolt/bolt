@@ -56,7 +56,7 @@ class Application extends Silex\Application
         $this['debug'] = $this['config']->get('general/debug', false);
         $this['debugbar'] = false;
 
-        // Initialize the 'editlink' and 'edittitle'..
+        // Initialize the 'editlink' and 'edittitle'.
         $this['editlink'] = '';
         $this['edittitle'] = '';
 
@@ -217,7 +217,7 @@ class Application extends Silex\Application
      */
     public function initProfiler()
     {
-        // On 'after' attach the debug-bar, if debug is enabled..
+        // On 'after' attach the debug-bar, if debug is enabled.
         if (!($this['debug'] && ($this['session']->has('user') || $this['config']->get('general/debug_show_loggedoff')))) {
             error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_USER_DEPRECATED);
             return;
@@ -320,7 +320,7 @@ class Application extends Silex\Application
 
     public function initProviders()
     {
-        // Make sure we keep our current locale..
+        // Make sure we keep our current locale.
         $currentlocale = $this['locale'];
 
         // Setup Swiftmailer, with the selected Mail Transport options: smtp or `mail()`.
@@ -464,10 +464,10 @@ class Application extends Silex\Application
         if (isset($this['htmlsnippets']) && ($this['htmlsnippets'] === true)) {
             // only add when content-type is text/html
             if (strpos($response->headers->get('Content-Type'), 'text/html') !== false) {
-                // Add our meta generator tag..
+                // Add our meta generator tag.
                 $this['extensions']->insertSnippet(Extensions\Snippets\Location::AFTER_META, '<meta name="generator" content="Bolt">');
 
-                // Perhaps add a canonical link..
+                // Perhaps add a canonical link.
 
                 if ($this['config']->get('general/canonical')) {
                     $snippet = sprintf(
@@ -477,7 +477,7 @@ class Application extends Silex\Application
                     $this['extensions']->insertSnippet(Extensions\Snippets\Location::AFTER_META, $snippet);
                 }
 
-                // Perhaps add a favicon..
+                // Perhaps add a favicon.
                 if ($this['config']->get('general/favicon')) {
                     $snippet = sprintf(
                         '<link rel="shortcut icon" href="//%s%s%s">',
@@ -488,7 +488,7 @@ class Application extends Silex\Application
                     $this['extensions']->insertSnippet(Extensions\Snippets\Location::AFTER_META, $snippet);
                 }
 
-                // Do some post-processing.. Hooks, snippets..
+                // Do some post-processing.. Hooks, snippets.
                 $html = $this['render']->postProcess($response);
 
                 $response->setContent($html);
@@ -530,7 +530,7 @@ class Application extends Silex\Application
                 unset($trace[$key]['args']);
             }
 
-            // Don't display the full path..
+            // Don't display the full path.
             if (isset($trace[$key]['file'])) {
                 $trace[$key]['file'] = str_replace($this['resources']->getPath('root'), '[root]', $trace[$key]['file']);
             }

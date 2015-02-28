@@ -77,7 +77,7 @@ class Storage
         if (!empty($contenttype['class']) && class_exists($contenttype['class'])) {
             $content = new $contenttype['class']($this->app, $contenttype, $values);
 
-            // Check if the class actually extends \Bolt\Content..
+            // Check if the class actually extends \Bolt\Content.
             if (!($content instanceof Content)) {
                 throw new \Exception($contenttype['class'] . ' does not extend \\Bolt\\Content.');
             }
@@ -89,7 +89,7 @@ class Storage
     }
 
     /**
-     * Add some records with dummy content..
+     * Add some records with dummy content.
      *
      * Only fill the contenttypes passed as parameters
      * If the parameters is empty, only fill empty tables
@@ -104,7 +104,7 @@ class Storage
     {
         $output = "";
 
-        // get a list of images..
+        // get a list of images.
         $this->images = $this->app['filesystem']->search('*', 'jpg,jpeg,png');
 
         $emptyOnly = empty($contenttypes);
@@ -132,7 +132,7 @@ class Storage
     }
 
     /**
-     * Add a record with dummy content..
+     * Add a record with dummy content.
      *
      * @see preFill
      *
@@ -864,7 +864,7 @@ class Storage
         // for all the non-reserved parameters that are fields, we assume people want to do a 'where'
         foreach ($parameters as $key => $value) {
             if (in_array($key, array('order', 'where', 'limit', 'offset'))) {
-                continue; // Skip this one..
+                continue; // Skip this one.
             }
             if (!$this->isValidColumn($key, $contenttype)) {
                 continue; // Also skip if 'key' isn't a field in the contenttype.
@@ -926,7 +926,7 @@ class Storage
         // Add the limit
         $queryparams = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($queryparams, $limit, ($page - 1) * $limit);
 
-        // Make the query to get the results..
+        // Make the query to get the results.
         $query = "SELECT * FROM $tablename" . $queryparams;
 
         $rows = $this->app['db']->fetchAll($query);
@@ -943,7 +943,7 @@ class Storage
         $this->getTaxonomy($content);
         $this->getRelation($content);
 
-        // Set up the $pager array with relevant values..
+        // Set up the $pager array with relevant values.
         $rowcount = $this->app['db']->executeQuery($pagerquery)->fetch();
         $pager = array(
             'for'          => 'search',
@@ -983,7 +983,7 @@ class Storage
 
         $taxonomytype = $this->getTaxonomyType($taxonomyslug);
 
-        // No taxonomytype, no possible content..
+        // No taxonomytype, no possible content.
         if (empty($taxonomytype)) {
             return false;
         }
@@ -995,7 +995,7 @@ class Storage
             $this->app['db']->quote($name)
         );
 
-        // Make the query for the pager..
+        // Make the query for the pager.
         $pagerquery = sprintf('SELECT COUNT(*) AS count FROM %s %s', $tablename, $where);
 
         // Sort on either 'ascending' or 'descending'
@@ -1028,7 +1028,7 @@ class Storage
             }
         }
 
-        // Set up the $pager array with relevant values..
+        // Set up the $pager array with relevant values.
         $rowcount = $this->app['db']->executeQuery($pagerquery)->fetch();
         $pager = array(
             'for'          => $taxonomytype['singular_slug'] . '_' . $slug,
@@ -1098,13 +1098,13 @@ class Storage
 
         try {
 
-            // Check if there are any records that need depublishing..
+            // Check if there are any records that need depublishing.
             $stmt = $this->app['db']->executeQuery(
                 "SELECT id FROM $tablename WHERE status = 'published' and datedepublish <= :now and datedepublish > '1900-01-01 00:00:01' and datechanged < datedepublish",
                 array('now' => $now)
             );
 
-            // If there's a result, we need to set these to 'held'..
+            // If there's a result, we need to set these to 'held'.
             if ($stmt->fetch() !== false) {
                 $this->app['db']->query(
                     "UPDATE $tablename SET status = 'held', datechanged = :now WHERE status = 'published' and datedepublish <= :now and datedepublish > '1900-01-01 00:00:01' and datechanged < datedepublish",
@@ -1494,7 +1494,7 @@ class Storage
                             $notin = "";
                         }
 
-                        // Set the extra '$where', with subselect for taxonomies..
+                        // Set the extra '$where', with subselect for taxonomies.
                         $where[] = sprintf(
                             '%s %s IN (SELECT content_id AS id FROM %s where %s AND ( %s OR %s ) AND %s)',
                             $this->app['db']->quoteIdentifier('id'),
@@ -1571,7 +1571,7 @@ class Storage
             $contenttype = $this->getContentType($contenttypeslug);
             $tablename = $this->getTablename($contenttype['slug']);
 
-            // If the table doesn't exist (yet), return false..
+            // If the table doesn't exist (yet), return false.
             if (!$this->tableExists($tablename)) {
                 return false;
             }
@@ -1840,7 +1840,7 @@ class Storage
      */
     private function isValidColumn($name, $contenttype, $allowVariants = false)
     {
-        // Strip the minus in '-title' if allowed..
+        // Strip the minus in '-title' if allowed.
         if ($allowVariants) {
             if ((strlen($name) > 0) && ($name[0] == "-")) {
                 $name = substr($name, 1);
@@ -1945,7 +1945,7 @@ class Storage
      */
     private function groupingSort(Content $a, Content $b)
     {
-        // Same group, sort within group..
+        // Same group, sort within group.
         if ($a->group['slug'] == $b->group['slug']) {
             if (!empty($a->sortorder) || !empty($b->sortorder)) {
                 if (!isset($a->sortorder)) {
@@ -1993,7 +1993,7 @@ class Storage
     {
         $value = trim($value);
 
-        // check if we need to split..
+        // check if we need to split.
         if (strpos($value, " || ") !== false) {
             $values = explode(" || ", $value);
             foreach ($values as $index => $value) {
@@ -2055,7 +2055,7 @@ class Storage
     {
         $contenttypeslug = $this->app['slugify']->slugify($contenttypeslug);
 
-        // Return false if empty, can't find it..
+        // Return false if empty, can't find it.
         if (empty($contenttypeslug)) {
             return false;
         }
@@ -2094,7 +2094,7 @@ class Storage
     {
         $taxonomyslug = $this->app['slugify']->slugify($taxonomyslug);
 
-        // Return false if empty, can't find it..
+        // Return false if empty, can't find it.
         if (empty($taxonomyslug)) {
             return false;
         }
@@ -2295,7 +2295,7 @@ class Storage
                 $newslugs = array();
             }
 
-            // Get the current values from the DB..
+            // Get the current values from the DB.
             $query = sprintf(
                 "SELECT id, slug, sortorder FROM %s WHERE content_id=? AND contenttype=? AND taxonomytype=?",
                 $tablename
@@ -2314,10 +2314,10 @@ class Storage
                 $currentvalues = array();
             }
 
-            // Add the ones not yet present..
+            // Add the ones not yet present.
             foreach ($newslugs as $slug) {
 
-                // If it's like 'desktop#10', split it into value and sortorder..
+                // If it's like 'desktop#10', split it into value and sortorder.
                 list($slug, $sortorder) = explode('#', $slug . "#");
 
                 // @todo clean up and/or refactor
@@ -2471,7 +2471,7 @@ class Storage
     {
         $tablename = $this->getTablename("relations");
 
-        // Get the current values from the DB..
+        // Get the current values from the DB.
         $query = sprintf(
             "SELECT id, to_contenttype, to_id FROM %s WHERE from_id=? AND from_contenttype=?",
             $tablename
@@ -2482,7 +2482,7 @@ class Storage
             array(\PDO::PARAM_INT, \PDO::PARAM_STR)
         )->fetchAll();
 
-        // And the other way around..
+        // And the other way around.
         $query = sprintf(
             "SELECT id, from_contenttype AS to_contenttype, from_id AS to_id FROM %s WHERE to_id=? AND to_contenttype=?",
             $tablename
@@ -2514,7 +2514,7 @@ class Storage
             $currentvalues[] = $tempvalue['to_contenttype'] . "/" . $tempvalue['to_id'];
         }
 
-        // Add the ones not yet present..
+        // Add the ones not yet present.
         if (!empty($relation)) {
             foreach ($relation as $toContenttype => $newvalues) {
                 foreach ($newvalues as $value) {
@@ -2537,7 +2537,7 @@ class Storage
     {
         $tablename = $this->getTablename($contenttypeslug);
 
-        // Get the current values from the DB..
+        // Get the current values from the DB.
         $query = sprintf(
             "SELECT id FROM %s ORDER BY datecreated DESC LIMIT 1;",
             $tablename

@@ -240,7 +240,7 @@ class Config
                 } else {
                     $general['cookies_domain'] = '.' . $hostname;
                 }
-                // Make sure we don't have consecutive '.'-s in the cookies_domain..
+                // Make sure we don't have consecutive '.'-s in the cookies_domain.
                 $general['cookies_domain'] = str_replace('..', '.', $general['cookies_domain']);
             } else {
                 $general['cookies_domain'] = '';
@@ -664,7 +664,7 @@ class Config
                 }
             }
 
-            // Keep a running score of used slugs..
+            // Keep a running score of used slugs.
             if (!isset($slugs[$ct['slug']])) {
                 $slugs[$ct['slug']] = 0;
             }
@@ -704,7 +704,7 @@ class Config
             }
         }
 
-        // if there aren't any other errors, check for duplicates across contenttypes..
+        // if there aren't any other errors, check for duplicates across contenttypes.
         if (!$this->app['session']->getFlashBag()->has('error')) {
             foreach ($slugs as $slug => $count) {
                 if ($count > 1) {
@@ -882,7 +882,7 @@ class Config
     {
         $app = $this->app['resources']->getUrl('app');
 
-        // Make sure the paths for CKeditor config are always set correctly..
+        // Make sure the paths for CKeditor config are always set correctly.
         $this->set(
             'general/wysiwyg/ck/contentsCss',
             array(

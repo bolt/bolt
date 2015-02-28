@@ -197,7 +197,7 @@ class Stack
                 $thisitem['info'] .= sprintf("<br>%s: %s × %s px", Trans::__('Size'), $size[0], $size[1]);
             }
 
-            //add it to our list..
+            //add it to our list.
             $list[] = $thisitem;
         }
 

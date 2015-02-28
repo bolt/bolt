@@ -96,7 +96,7 @@ class SetcontentTokenParser extends \Twig_TokenParser
                 );
             }
 
-            // Make sure we don't get stuck in a loop, if a token can't be parsed..
+            // Make sure we don't get stuck in a loop, if a token can't be parsed.
             $counter++;
         } while (!$this->parser->getStream()->test(\Twig_Token::BLOCK_END_TYPE) && ($counter < 10));
 
