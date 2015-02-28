@@ -3,7 +3,7 @@
         <tr>
             <th>{{ __('page.ckeditor-browse-server.files') }}</th>
             <th style="min-width: 102px;">{{ __('page.ckeditor-browse-server.size') }}</th>
-            <th>&nbsp;</th>
+            <th style="min-width: 60px;">&nbsp;</th>
         </tr>
     </thead>
 
@@ -24,9 +24,11 @@
                             <b>{{ file.filename|excerpt(60)|shy }} </b><i class="fa fa-lock"></i>
                         {% endif %}
                     </td>
-                    <td>{{ file.filesize }}.</td>
-                    <td>{% if file.imagesize is defined %}{{ file.imagesize }} {{ __('page.ckeditor-browse-server.pixel') }}{% endif %}</td>
-                    <td class="listthumb">
+                    <td>
+                        {{ file.filesize }}.<br>
+                        {% if file.imagesize is defined %}{{ file.imagesize }} {{ __('page.ckeditor-browse-server.pixel') }}{% endif %}
+                    </td>
+                    <td>
                         {{ file.newpath|showimage(54, 40, 'c') }}
                     </td>
                     {# <td>
