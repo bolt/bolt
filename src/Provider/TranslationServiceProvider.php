@@ -39,7 +39,7 @@ class TranslationServiceProvider implements ServiceProviderInterface
     }
 
     /**
-     * Adds all resources that belong to a locale
+     * Adds all resources that belong to a locale.
      *
      * @param Application $app
      * @param string      $locale

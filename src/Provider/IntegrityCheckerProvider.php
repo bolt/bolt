@@ -2,9 +2,9 @@
 
 namespace Bolt\Provider;
 
+use Bolt\Database\IntegrityChecker;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
-use Bolt\Database\IntegrityChecker;
 
 class IntegrityCheckerProvider implements ServiceProviderInterface
 {
