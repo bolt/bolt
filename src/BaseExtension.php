@@ -582,7 +582,6 @@ abstract class BaseExtension implements ExtensionInterface
 
     /**
      * @deprecated
-     *
      * @see: requireUserRole()
      *
      * @param string $permission

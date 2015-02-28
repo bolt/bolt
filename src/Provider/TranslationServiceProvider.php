@@ -8,7 +8,6 @@ use Symfony\Component\Translation\Loader as TranslationLoader;
 
 class TranslationServiceProvider implements ServiceProviderInterface
 {
-
     public function register(Application $app)
     {
         return null;

@@ -17,7 +17,6 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class ResourceManager
 {
-
     /** @var \Bolt\Application */
     public $app;
 

@@ -284,7 +284,6 @@ class ChangeLogItem implements \ArrayAccess
                     $before = json_decode($value[0], true);
                     $after  = json_decode($value[1], true);
 
-
                     $changedfields[$key]['before']['render'] = $before;
                     $changedfields[$key]['after']['render'] = $after;
 

@@ -214,7 +214,6 @@ class Async implements ControllerProviderInterface
             );
         }
 
-
         return new Response($body, Response::HTTP_OK, array('Cache-Control' => 's-maxage=3600, public'));
     }
 

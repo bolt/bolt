@@ -916,16 +916,13 @@ class Backend implements ControllerProviderInterface
             }
         }
 
-
         // Info
-
         $hasIncomingRelations = is_array($content->relation);
         $hasRelations = isset($contenttype['relations']);
         $hasTabs = $contenttype['groups'] !== false;
         $hasTaxonomy = isset($contenttype['taxonomy']);
 
         // Generate tab groups
-
         $groups = array();
         $groupIds = array();
 

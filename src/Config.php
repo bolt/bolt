@@ -423,7 +423,6 @@ class Config
                 $field['values'] = array_combine($field['values'], $field['values']);
             }
 
-
             if (!empty($field['group'])) {
                 $hasGroups = true;
             }

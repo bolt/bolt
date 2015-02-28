@@ -9,7 +9,6 @@ use Guzzle\Service\Client;
  */
 class Prefill
 {
-
     protected $client;
 
     /**

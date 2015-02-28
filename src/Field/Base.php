@@ -4,7 +4,6 @@ namespace Bolt\Field;
 
 class Base implements FieldInterface
 {
-
     public $name;
     public $template;
 

@@ -9,7 +9,6 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class BootstrapGenerator
 {
-
     public $templateStart = <<<'EOD'
 <?php
 require_once "%s";

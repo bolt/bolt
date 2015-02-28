@@ -9,7 +9,6 @@ use utilphp\util;
 
 class Browse implements PluginInterface
 {
-
     /** @var FilesystemInterface */
     protected $filesystem;
 

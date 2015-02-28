@@ -10,7 +10,6 @@ namespace Bolt\Field;
 
 class Manager
 {
-
     protected $fields = array();
 
     protected $defaults = array(

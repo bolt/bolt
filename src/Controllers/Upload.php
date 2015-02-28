@@ -18,7 +18,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 class Upload implements ControllerProviderInterface, ServiceProviderInterface
 {
-
     public $app;
     public $uploaddir;
 
@@ -43,7 +42,6 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
 
                     return preg_replace("/$pattern/", $replacement, $filename);
                 });
-
 
                 return $uploadHandler;
         };

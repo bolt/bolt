@@ -15,7 +15,6 @@ use utilphp\util;
  */
 class Stack
 {
-
     const MAX_ITEMS = 10;
 
     private $items;

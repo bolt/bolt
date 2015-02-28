@@ -148,7 +148,6 @@ class RecordChangeHandler extends AbstractProcessingHandler
         }
     }
 
-
     /**
      * Initialize class parameters.
      */

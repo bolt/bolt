@@ -1326,7 +1326,6 @@ class TwigExtension extends \Twig_Extension
     /**
      * Renders a particular widget type on the given location.
      *
-     *
      * @param string $type     Widget type (e.g. 'dashboard')
      * @param string $location CSS location (e.g. 'right_first')
      *

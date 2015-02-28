@@ -9,7 +9,6 @@ namespace Bolt\Field;
  */
 interface FieldInterface
 {
-
     /**
      * Returns the name of the field.
      *

@@ -16,7 +16,6 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class Render
 {
-
     public $app;
     public $safe;
 

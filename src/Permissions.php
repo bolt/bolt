@@ -9,7 +9,6 @@ use Bolt\Translation\Translator as Trans;
  */
 class Permissions
 {
-
     /**
      * Anonymous user: this role is automatically assigned to everyone,
      * including "non-users" (not logged in).
