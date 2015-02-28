@@ -16,7 +16,6 @@ use Symfony\Component\Finder\Finder;
  */
 class Omnisearch
 {
-
     const OMNISEARCH_LANDINGPAGE = 99999;
     const OMNISEARCH_CONTENTTYPE = 9999;
     const OMNISEARCH_MENUITEM    = 5000;

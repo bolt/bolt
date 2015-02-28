@@ -1,18 +1,16 @@
 <?php
 namespace Bolt\Tests\Provider;
 
-use Bolt\Tests\BoltUnitTest;
 use Bolt\Provider\NutServiceProvider;
+use Bolt\Tests\BoltUnitTest;
 
 /**
  * Class to test src/Provider/NutServiceProvider.
  *
  * @author Ross Riley <riley.ross@gmail.com>
- *
  */
 class NutServiceProviderTest extends BoltUnitTest
 {
-
     public function testProvider()
     {
         $app = $this->getApp();

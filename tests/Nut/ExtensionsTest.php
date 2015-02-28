@@ -1,22 +1,20 @@
 <?php
 namespace Bolt\Tests\Nut;
 
-use Bolt\Tests\BoltUnitTest;
 use Bolt\Nut\Extensions;
+use Bolt\Tests\BoltUnitTest;
 use Composer\Package\CompletePackage;
-use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Helper\TableHelper;
+use Symfony\Component\Console\Tester\CommandTester;
 
 /**
  * Class to test src/Nut/Extensions.
  *
  * @author Ross Riley <riley.ross@gmail.com>
- *
  */
 class ExtensionsTest extends BoltUnitTest
 {
-
     public function testRun()
     {
         $app = $this->getApp();
@@ -40,6 +38,5 @@ class ExtensionsTest extends BoltUnitTest
         $result = $tester->getDisplay();
         $this->assertRegexp('/Name.*Version/', $result);
         $this->assertRegexp('/test.*1.0/', $result);
-
     }
 }

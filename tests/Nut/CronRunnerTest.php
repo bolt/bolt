@@ -1,19 +1,17 @@
 <?php
 namespace Bolt\Tests\Nut;
 
-use Bolt\Tests\BoltUnitTest;
 use Bolt\Nut\CronRunner;
+use Bolt\Tests\BoltUnitTest;
 use Symfony\Component\Console\Tester\CommandTester;
 
 /**
  * Class to test src/Nut/CronRunner.
  *
  * @author Ross Riley <riley.ross@gmail.com>
- *
  */
 class CronRunnerTest extends BoltUnitTest
 {
-
     public function testRun()
     {
         $app = $this->getApp();
@@ -35,6 +33,5 @@ class CronRunnerTest extends BoltUnitTest
         // Test no event doesn't run
         $tester->execute(array());
         $this->assertEquals(1, count($events));
-
     }
 }

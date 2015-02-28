@@ -1,8 +1,8 @@
 <?php
 namespace Bolt\Tests\Logger;
 
-use Bolt\Tests\BoltUnitTest;
 use Bolt\Logger\Handler\SystemHandler;
+use Bolt\Tests\BoltUnitTest;
 use Bolt\Tests\Mocks\DoctrineMockBuilder;
 use Monolog\Logger;
 use Symfony\Component\HttpFoundation\Request;
@@ -11,11 +11,9 @@ use Symfony\Component\HttpFoundation\Request;
  * Class to test src/Logger/Handler/SystemHandler.
  *
  * @author Ross Riley <riley.ross@gmail.com>
- *
  */
 class SystemHandlerTest extends BoltUnitTest
 {
-
     public function testSetupInitialize()
     {
         $app = $this->getApp();
@@ -28,9 +26,8 @@ class SystemHandlerTest extends BoltUnitTest
         $app['db'] = $db;
         
         $log->pushHandler($handler);
-        $log->addRecord(Logger::DEBUG, 'test', array('id'=>5,'title'=>'test'));
+        $log->addRecord(Logger::DEBUG, 'test', array('id' => 5, 'title' => 'test'));
         $this->assertEquals('bolt_log_system', \PHPUnit_Framework_Assert::readAttribute($handler, 'tablename'));
-
     }
     
     public function testHandle()
@@ -47,7 +44,7 @@ class SystemHandlerTest extends BoltUnitTest
             ->with($this->equalTo("bolt_log_system"));
         $app['db'] = $db;
         
-        $log->addRecord(Logger::DEBUG, 'test', array('id'=>5,'title'=>'test'));
+        $log->addRecord(Logger::DEBUG, 'test', array('id' => 5, 'title' => 'test'));
     }
     
     public function testHandleWithException()
@@ -64,16 +61,13 @@ class SystemHandlerTest extends BoltUnitTest
             ->with($this->equalTo("bolt_log_system"));
         $app['db'] = $db;
         
-        $log->addRecord(Logger::DEBUG, 'test', array('event'=>'','exception'=> new \Exception()));
+        $log->addRecord(Logger::DEBUG, 'test', array('event' => '', 'exception' => new \Exception()));
     }
     
     public function testNotHandling()
     {
         $app = $this->getApp();
         $handler = new SystemHandler($app, Logger::WARNING);
-        $this->assertFalse($handler->handle(array('level'=>100)));
+        $this->assertFalse($handler->handle(array('level' => 100)));
     }
-
-    
 }
-

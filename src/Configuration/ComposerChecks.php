@@ -11,7 +11,6 @@ use Bolt\Exception\LowlevelException;
 
 class ComposerChecks extends LowlevelChecks
 {
-
     public $composerSuffix = <<<HTML
     </strong></p><p>When using Bolt as a Composer package it will need to have access to the following folders:</p>
     <ol>

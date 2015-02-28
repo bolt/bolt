@@ -283,7 +283,7 @@ class TwigDataCollector extends DataCollector
     }
 
     /**
-     * Setting a value for later use..
+     * Setting a value for later use.
      *
      * @param string $key
      * @param string $value

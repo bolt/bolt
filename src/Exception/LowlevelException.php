@@ -5,7 +5,6 @@ use Bolt\Configuration\ResourceManager;
 
 class LowlevelException extends \Exception
 {
-
     public static $html = <<<HTML
 <!DOCTYPE html>
 <html lang="en">

@@ -1,19 +1,17 @@
 <?php
 namespace Bolt\Tests\Nut;
 
-use Bolt\Tests\BoltUnitTest;
 use Bolt\Nut\DatabaseCheck;
+use Bolt\Tests\BoltUnitTest;
 use Symfony\Component\Console\Tester\CommandTester;
 
 /**
  * Class to test src/Nut/DatabaseCheck.
  *
  * @author Ross Riley <riley.ross@gmail.com>
- *
  */
 class DatabaseCheckTest extends BoltUnitTest
 {
-
     public function testRun()
     {
         $app = $this->getApp();
@@ -30,6 +28,5 @@ class DatabaseCheckTest extends BoltUnitTest
         $tester->execute(array());
         $result = $tester->getDisplay();
         $this->assertRegExp("/Table `bolt_newcontent` is not present/", $result);
-
     }
 }

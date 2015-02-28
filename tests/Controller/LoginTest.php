@@ -57,7 +57,6 @@ class LoginTest extends BoltUnitTest
         $request = Request::create('/bolt/login', 'POST', array());
         $this->checkTwigForTemplate($app, 'error.twig');
         $app->run($request);
-
     }
 
     public function testLoginSuccess()
@@ -114,7 +113,6 @@ class LoginTest extends BoltUnitTest
         $request = Request::create('/bolt/logout', 'POST', array());
         $this->expectOutputRegex("/Redirecting to \/bolt\/login/");
         $app->run($request);
-
     }
 
     public function testResetPassword()

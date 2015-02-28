@@ -9,11 +9,9 @@ use Guzzle\Http\Message\Response;
  * Class to test src/Storage/Prefill.
  *
  * @author Ross Riley <riley.ross@gmail.com>
- *
  */
 class PrefillTest extends BoltUnitTest
 {
-
     public function testUrl()
     {
         $app = $this->getApp();

@@ -14,7 +14,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 class UploadControllerTest extends BoltUnitTest
 {
-
     public function setup()
     {
         @mkdir(TEST_ROOT . '/tests/resources/files', 0777, true);
@@ -70,7 +69,7 @@ class UploadControllerTest extends BoltUnitTest
                 'files' => array(
                     array(
                         'tmp_name' => TEST_ROOT . '/tests/resources/generic-logo-evil.exe',
-                        'name' => 'logo.exe'
+                        'name'     => 'logo.exe'
                     )
                 )
             ),
@@ -110,7 +109,7 @@ class UploadControllerTest extends BoltUnitTest
                 'files' => array(
                     array(
                         'tmp_name' => __DIR__ . '/resources/generic-logo.png',
-                        'name' => 'logo.png'
+                        'name'     => 'logo.png'
                     )
                 )
             ),
@@ -119,7 +118,6 @@ class UploadControllerTest extends BoltUnitTest
 
         $response = $app->handle($request);
         $this->assertEquals(200, $response->getStatusCode());
-
     }
 
     public function testMultipleHandlerParsing()
@@ -135,7 +133,7 @@ class UploadControllerTest extends BoltUnitTest
                 'files' => array(
                     array(
                         'tmp_name' => __DIR__ . '/resources/generic-logo.png',
-                        'name' => 'logo.png'
+                        'name'     => 'logo.png'
                     )
                 )
             ),
@@ -175,7 +173,7 @@ class UploadControllerTest extends BoltUnitTest
                 'files' => array(
                     array(
                         'tmp_name' => TEST_ROOT . '/tests/resources/generic-logo.png',
-                        'name' => 'logo.png'
+                        'name'     => 'logo.png'
                     )
                 )
             ),

@@ -1,18 +1,16 @@
 <?php
 namespace Bolt\Tests\Provider;
 
-use Bolt\Tests\BoltUnitTest;
 use Bolt\Provider\TwigProfilerServiceProvider;
+use Bolt\Tests\BoltUnitTest;
 
 /**
  * Class to test src/Provider/TwigProfilerServiceProvider.
  *
  * @author Ross Riley <riley.ross@gmail.com>
- *
  */
 class TwigProfilerServiceProviderTest extends BoltUnitTest
 {
-
     public function testProvider()
     {
         $app = $this->getApp();

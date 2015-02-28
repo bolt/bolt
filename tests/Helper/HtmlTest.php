@@ -1,18 +1,16 @@
 <?php
 namespace Bolt\Tests\Helper;
 
-use Bolt\Tests\BoltUnitTest;
 use Bolt\Helpers\Html;
+use Bolt\Tests\BoltUnitTest;
 
 /**
  * Class to test src/Helper/Html.
  *
  * @author Ross Riley <riley.ross@gmail.com>
- *
  */
 class HtmlTest extends BoltUnitTest
 {
-
     public function testTrimText()
     {
         // Simple text

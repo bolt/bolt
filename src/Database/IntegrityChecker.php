@@ -56,7 +56,7 @@ class IntegrityChecker
 
         $this->prefix = $this->app['config']->get('general/database/prefix', 'bolt_');
 
-        // Make sure prefix ends in '_'. Prefixes without '_' are lame..
+        // Make sure prefix ends in '_'. Prefixes without '_' are lame.
         if ($this->prefix[strlen($this->prefix) - 1] != '_') {
             $this->prefix .= '_';
         }
@@ -153,7 +153,7 @@ class IntegrityChecker
     {
         $tables = $this->getTableObjects();
 
-        // Check the users table..
+        // Check the users table.
         if (!isset($tables[$this->prefix . 'users'])) {
             return false;
         }
@@ -181,7 +181,7 @@ class IntegrityChecker
 
         /** @var $table Table */
         foreach ($tables as $table) {
-            // Create the users table..
+            // Create the users table.
             if (!isset($currentTables[$table->getName()])) {
                 $messages[] = 'Table `' . $table->getName() . '` is not present.';
             } else {
@@ -230,7 +230,7 @@ class IntegrityChecker
             }
         }
 
-        // If there were no messages, update the timer, so we don't check it again..
+        // If there were no messages, update the timer, so we don't check it again.
         // If there _are_ messages, keep checking until it's fixed.
         if (empty($messages)) {
             self::markValid();
@@ -274,7 +274,7 @@ class IntegrityChecker
 
         /** @var $table Table */
         foreach ($tables as $table) {
-            // Create the users table..
+            // Create the users table.
             if (!isset($currentTables[$table->getName()])) {
 
                 /** @var $platform AbstractPlatform */
@@ -531,7 +531,7 @@ class IntegrityChecker
         // Now, iterate over the contenttypes, and create the tables if they don't exist.
         foreach ($this->app['config']->get('contenttypes') as $key => $contenttype) {
 
-            // create the table if necessary..
+            // create the table if necessary.
             $tablename = $this->getTablename($key);
 
             $myTable = $schema->createTable($tablename);
@@ -552,7 +552,7 @@ class IntegrityChecker
             $myTable->addColumn('status', 'string', array('length' => 32));
             $myTable->addIndex(array('status'));
 
-            // Check if all the fields are present in the DB..
+            // Check if all the fields are present in the DB.
             foreach ($contenttype['fields'] as $field => $values) {
 
                 /** @var \Doctrine\DBAL\Platforms\Keywords\KeywordList $reservedList */
@@ -576,7 +576,7 @@ class IntegrityChecker
                     case 'float':
                         $myTable->addColumn($field, 'float', array('default' => 0));
                         break;
-                    case 'number': // deprecated..
+                    case 'number': // deprecated.
                         $myTable->addColumn($field, 'decimal', array('precision' => '18', 'scale' => '9', 'default' => 0));
                         break;
                     case 'integer':

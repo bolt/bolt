@@ -16,7 +16,6 @@ use Symfony\Component\HttpFoundation\Session\Storage\MockFileSessionStorage;
 
 abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
 {
-
     protected function resetDb()
     {
         // Make sure we wipe the db file to start with a clean one
@@ -50,8 +49,8 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
             array(
                 'driver' => 'pdo_sqlite',
                 'prefix' => 'bolt_',
-                'user' => 'test',
-                'path' => TEST_ROOT . '/bolt.db'
+                'user'   => 'test',
+                'path'   => TEST_ROOT . '/bolt.db'
             )
         );
         $bolt['session'] = $sessionMock;
@@ -112,7 +111,7 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
     protected function allowLogin($app)
     {
         $this->addDefaultUser($app);
-        $users = $this->getMock('Bolt\Users', array('isValidSession','isAllowed', 'isEnabled'), array($app));
+        $users = $this->getMock('Bolt\Users', array('isValidSession', 'isAllowed', 'isEnabled'), array($app));
         $users->expects($this->any())
             ->method('isValidSession')
             ->will($this->returnValue(true));

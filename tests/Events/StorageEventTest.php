@@ -1,9 +1,9 @@
 <?php
 namespace Bolt\Tests\Events;
 
-use Bolt\Tests\BoltUnitTest;
 use Bolt\Content;
 use Bolt\Events\StorageEvent;
+use Bolt\Tests\BoltUnitTest;
 
 /**
  * Class to test src/Events/StorageEvent.
@@ -12,7 +12,6 @@ use Bolt\Events\StorageEvent;
  */
 class StorageEventTest extends BoltUnitTest
 {
-
     public function testSetup()
     {
         $app = $this->getApp();

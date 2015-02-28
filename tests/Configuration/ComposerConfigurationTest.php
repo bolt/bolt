@@ -12,11 +12,9 @@ use Bolt\Exception\LowlevelException;
  * @author Ross Riley <riley.ross@gmail.com>
  *
  * @runTestsInSeparateProcesses
- *
  */
 class ComposerConfigurationTest extends \PHPUnit_Framework_TestCase
 {
-
     public function setup()
     {
         $this->php = \PHPUnit_Extension_FunctionMocker::start($this, 'Bolt\Configuration')
@@ -73,7 +71,6 @@ class ComposerConfigurationTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('Bolt\Exception\LowlevelException');
         $this->expectOutputRegex("/Bolt - Fatal Error/");
         $verifier->checkDir('/path/to/nowhere');
-
     }
 
     public function testCheckDir()
@@ -104,6 +101,5 @@ class ComposerConfigurationTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('Bolt\Exception\LowlevelException');
         $this->expectOutputRegex("/Bolt - Fatal Error/");
         $verifier->checkDir($fakeLocation);
-
     }
 }

@@ -8,7 +8,6 @@ namespace Bolt\Tests;
  */
 class BoltSystemMock
 {
-
     public static $values = array();
 
     public static function set($function, $values)

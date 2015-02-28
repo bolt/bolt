@@ -3,7 +3,6 @@ namespace Bolt;
 
 class Pager extends \ArrayObject
 {
-
     public $for;
 
     public $count;

@@ -1,11 +1,11 @@
 <?php
 namespace Bolt\Tests\Controller;
 
+use Bolt\Composer\PackageManager;
+use Bolt\Controllers\Extend;
+use Bolt\Tests\BoltUnitTest;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Bolt\Tests\BoltUnitTest;
-use Bolt\Controllers\Extend;
-use Bolt\Composer\PackageManager;
 
 /**
  * Class to test correct operation of src/Controllers/Extend.
@@ -48,7 +48,7 @@ class ExtendControllerTest extends BoltUnitTest
         $response = $extend->installInfo($app, $request);
         $this->assertNotEmpty($response);
 
-        $request = Request::create('/', 'GET', array('package' => 'bolt/theme-2014','version' => 'dev-master'));
+        $request = Request::create('/', 'GET', array('package' => 'bolt/theme-2014', 'version' => 'dev-master'));
         $extend->expects($this->any())
             ->method('packageInfo')
             ->will($this->returnValue(new Response('{"name":"bolt\/theme-2014","version":"unknown","type":"unknown","descrip":""}')));
@@ -112,14 +112,14 @@ class ExtendControllerTest extends BoltUnitTest
         $info = array(
             'package' =>
                 array(
-                    'id' => '99999',
-                    'title' => 'Test',
-                    'source' => 'https://github.com/',
-                    'name' => 'test',
-                    'keywords' => array(),
-                    'type' => 'bolt-extension',
-                    'description' => 'Test',
-                    'approved' => true,
+                    'id'           => '99999',
+                    'title'        => 'Test',
+                    'source'       => 'https://github.com/',
+                    'name'         => 'test',
+                    'keywords'     => array(),
+                    'type'         => 'bolt-extension',
+                    'description'  => 'Test',
+                    'approved'     => true,
                     'requirements' =>
                     array(
                       'bolt/bolt' => '>=2.0.0,<3.0.0',
@@ -133,36 +133,36 @@ class ExtendControllerTest extends BoltUnitTest
             'version' =>
                 array(
                     array(
-                          'name' => 'test',
-                          'version' => '1.0.0',
+                          'name'               => 'test',
+                          'version'            => '1.0.0',
                           'version_normalized' => '1.0.0.0',
-                          'source' =>
-                          array (
-                            'type' => 'git',
-                            'url' => 'https://github.com/',
+                          'source'             =>
+                          array(
+                            'type'      => 'git',
+                            'url'       => 'https://github.com/',
                             'reference' => 'xxx',
                           ),
                           'require' =>
-                          array (
+                          array(
                             'bolt/bolt' => '>=2.0.0,<3.0.0',
                           ),
-                          'type' => 'bolt-extension',
-                          'stability' => 'stable',
+                          'type'        => 'bolt-extension',
+                          'stability'   => 'stable',
                           'buildStatus' => 'untested',
                     ),
                     array(
-                        'name' => 'test',
-                        'version' => 'dev-master',
+                        'name'               => 'test',
+                        'version'            => 'dev-master',
                         'version_normalized' => '9999999-dev',
-                        'source' =>
+                        'source'             =>
                             array(
-                                'type' => 'git',
-                                'url' => 'https://github.com/',
+                                'type'      => 'git',
+                                'url'       => 'https://github.com/',
                                 'reference' => 'XXX',
                             ),
-                        'require' => array('bolt/bolt' => '>=2.0.0,<3.0.0'),
-                        'type' => 'bolt-extension',
-                        'stability' => 'dev',
+                        'require'     => array('bolt/bolt' => '>=2.0.0,<3.0.0'),
+                        'type'        => 'bolt-extension',
+                        'stability'   => 'dev',
                         'buildStatus' => 'untested',
                     )
                 )

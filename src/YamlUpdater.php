@@ -113,7 +113,7 @@ class YamlUpdater
             $this->pointer++;
         }
 
-        // Pointer is past end of file..
+        // Pointer is past end of file.
         return false;
     }
 
@@ -162,7 +162,7 @@ class YamlUpdater
     }
 
     /**
-     * Make sure the value is escaped as a yaml value..
+     * Make sure the value is escaped as a yaml value.
      *
      * array('one', 'two', 'three') => [ one, two, three ]
      * "usin' quotes" => 'usin'' quotes

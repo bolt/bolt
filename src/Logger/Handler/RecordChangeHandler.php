@@ -144,10 +144,9 @@ class RecordChangeHandler extends AbstractProcessingHandler
                 )
             );
         } catch (\Exception $e) {
-            // Nothing..
+            // Nothing.
         }
     }
-
 
     /**
      * Initialize class parameters.

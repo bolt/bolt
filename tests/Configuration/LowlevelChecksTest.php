@@ -1,9 +1,9 @@
 <?php
 namespace Bolt\Tests\Configuration;
 
-use Bolt\Configuration\Standard;
 use Bolt\Configuration\LowlevelChecks;
 use Bolt\Configuration\ResourceManager;
+use Bolt\Configuration\Standard;
 use Bolt\Exception\LowlevelException;
 use Bolt\Tests\BoltUnitTest;
 
@@ -13,7 +13,6 @@ use Bolt\Tests\BoltUnitTest;
  * @author Ross Riley <riley.ross@gmail.com>
  *
  * @runTestsInSeparateProcesses
- *
  */
 class LowlevelChecksTest extends BoltUnitTest
 {
@@ -39,33 +38,33 @@ class LowlevelChecksTest extends BoltUnitTest
 
         $this->errorResponses = array(
             'core' => array(
-                'type' => E_ERROR,
-                'file' => TEST_ROOT . '/src',
-                'line' => 16,
+                'type'    => E_ERROR,
+                'file'    => TEST_ROOT . '/src',
+                'line'    => 16,
                 'message' => 'src error'
             ),
             'extensions' => array(
-                'type' => E_ERROR,
-                'file' => TEST_ROOT . '/extensions',
-                'line' => 1,
+                'type'    => E_ERROR,
+                'file'    => TEST_ROOT . '/extensions',
+                'line'    => 1,
                 'message' => 'extension error'
             ),
             'extension' => array(
-                'type' => E_ERROR,
-                'file' => TEST_ROOT . '/extensions/vendor/gawain/clippy',
-                'line' => 1,
+                'type'    => E_ERROR,
+                'file'    => TEST_ROOT . '/extensions/vendor/gawain/clippy',
+                'line'    => 1,
                 'message' => 'extension error'
             ),
             'vendor' => array(
-                'type' => E_ERROR,
-                'file' => TEST_ROOT . '/vendor',
-                'line' => 1,
+                'type'    => E_ERROR,
+                'file'    => TEST_ROOT . '/vendor',
+                'line'    => 1,
                 'message' => 'vendor error'
             ),
             'unknown' => array(
-                'type' => E_ERROR,
-                'file' => TEST_ROOT,
-                'line' => 1,
+                'type'    => E_ERROR,
+                'file'    => TEST_ROOT,
+                'line'    => 1,
                 'message' => 'unknown error'
             )
         );
@@ -392,7 +391,6 @@ class LowlevelChecksTest extends BoltUnitTest
             ->will($this->returnValue(true));
 
         $check->doChecks();
-
     }
 
     public function testConfigFileCreationErrors()

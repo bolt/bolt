@@ -1,14 +1,13 @@
 <?php
 namespace Bolt\Tests\Filesystem\Plugin;
 
-use Bolt\Tests\BoltUnitTest;
 use Bolt\Filesystem\Plugin;
-use League\Flysystem\Filesystem;
+use Bolt\Tests\BoltUnitTest;
 use League\Flysystem\Adapter\Local;
+use League\Flysystem\Filesystem;
 
 class BrowseTest extends BoltUnitTest
 {
-
     public function testSetup()
     {
         $app = $this->getApp();

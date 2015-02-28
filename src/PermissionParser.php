@@ -110,7 +110,7 @@ class PermissionParser
     // Parse tree node types
 
     /**
-     * A single permission check of the form a:b:c:...
+     * A single permission check of the form a:b:c:.
      */
     const P_SIMPLE = 0;
 
