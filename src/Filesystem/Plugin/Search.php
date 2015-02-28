@@ -2,8 +2,8 @@
 
 namespace Bolt\Filesystem\Plugin;
 
-use League\Flysystem\PluginInterface;
 use League\Flysystem\FilesystemInterface;
+use League\Flysystem\PluginInterface;
 
 class Search implements PluginInterface
 {

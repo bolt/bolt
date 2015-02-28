@@ -40,6 +40,7 @@ class FilePermissions
 
     /**
      * Constructor, initialize filters rules.
+     *
      * @param Application $app
      */
     public function __construct(Application $app)
