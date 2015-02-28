@@ -40,7 +40,7 @@ class Location
     const AFTER_BODY_JS = "afterbodyjs";
 
     /**
-     * Returns all possible locations (which are constants)
+     * Returns all possible locations (which are constants).
      *
      * @return array
      */

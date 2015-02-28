@@ -28,7 +28,7 @@ class TwigProxy extends \Twig_Extension
     }
 
     /**
-     * Add a Twig Function
+     * Add a Twig Function.
      *
      * @param \Twig_SimpleFunction $twigFunction
      */
@@ -38,7 +38,7 @@ class TwigProxy extends \Twig_Extension
     }
 
     /**
-     * Add a Twig Filter
+     * Add a Twig Filter.
      *
      * @param \Twig_SimpleFilter $twigFilter
      */
@@ -46,5 +46,4 @@ class TwigProxy extends \Twig_Extension
     {
         $this->filters[] = $twigFilter;
     }
-
 }
