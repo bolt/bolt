@@ -1,0 +1,77 @@
+info:
+    upload:
+        image: |
+            Użyj tego pola, aby przesłać zdjęcie lub obraz. Kliknij przycisk, aby przesłać plik z Twojgo
+            komputera, lub jeśli używasz najnowszej wersji Chrome lub Firefox, możesz po prostu przeciągnąć plik
+            z pulpitu lub z innego okna przeglądarki. <br/>
+            Alternatywnie, można użyć wcześniej przesłane zdjęcie. Aby wybrać wcześniej przesłanego pliku, po prostu
+            wpisz (część) z nazwą pliku w polu wprowadzania, a będzie automatycznie uzupełnione.
+        file: |
+            Użyj tego pola aby przesłać plik do pobrania lub by używać go wewnątrz strony. Kliknij przycisk, aby przesłać plik z Twojgo
+            komputera, lub jeśli używasz najnowszej wersji Chrome lub Firefox, możesz po prostu przeciągnąć plik
+            z pulpitu lub z innego okna przeglądarki. <br/>
+            Alternatywnie, można użyć wcześniej przesłanego pliku. Aby wybrać wcześniej przesłanego pliku, po prostu
+            wpisz (część) z nazwą pliku w polu wprowadzania, a będzie automatycznie uzupełnione.
+        filelist: |
+            Pole to służy do przesyłania wielu plików. Podobnie jak w przypadku pojedynczego pola "plik", ostatnie
+            wersje przeglądarek są w stanie zrozumieć przeciąganie pliku do pola wprowadzania. Może chcesz spróbować?
+        filesmall: |
+            Użyj przycisku, aby przesłać plik. Aby wybrać wcześniej przesłany plik, możesz
+            wpisać (część) nazwy pliku w polu wprowadzania, a będzie automatycznie uzupełnione.
+        imagelist: |
+            Pole to służy do przesyłania wielu zdjęć lub obrazów. Podobnie jak w przypadku pojedynczego pola "obraz", ostatnie
+            wersje przeglądarek są w stanie zrozumieć przeciąganie pliku do pola wprowadzania. Może chcesz spróbować?
+        video: |
+            W tym polu należy umieścić film do osadzenia na stronie internetowej. Po prostu skopiuj / wklej
+            adres URL strony wideo z YouTube, Vimeo lub prawie każdej innej stronie internetowej udostępniania wideo. <br>
+            Bolt automatycznie pobierze kod osadzania, z prawidłowymi wartościami szerokości, wysokości oraz tytułem
+            oryginału. W przypadku zmiany wysokości lub szerokości, druga wartość zmieni się odpowiednio, w celu utrzymania
+            proporcji.
+    geolocation: |
+        Użyj tego pola, aby uzyskać geolokalizację dowolnego adresu, lub umieścić znacznik
+        ręcznie, przeciągając pinezkę. Po pierwsze, należy wprowadzić (przybliżony) adres w polu adresu,
+        a odpowiednia szerokość i długość geograficzna zostaną pobrane za pomocą Google Maps API,
+        wraz z najbliższym pasującym, według Google, adresem. <br>
+        Jeśli chcesz, aby przesunąć znacznik do innej lokalizacji, po prostu przesuń pinezkę na
+        mini-mapie. Długość i szerokość geograficzna zostaną automatycznie zaktualizowane.
+    markdown: |
+        Markdown to narzędzie do kowersji tekstu na HTML.
+        <p>Markdown pozwala na pisanie łatwym w odczycie i zapisie formacie tekstowym,
+        który jest przekształcany na poprawny strukturalnie kod HTML.</p>
+        <p><strong>Szybkie podsumowanie:</strong><br>
+        # To jest tag &lt;h1&gt;<br>
+        ## To jest tag &lt;h2&gt;<br>
+        ###### To jest tag &lt;h6&gt;</p>
+        <p>To _<em>jest kursywa</em>_, to __<strong>jest pogrubienie</strong>__, a to
+        ___<em><strong>jest jedno i drugie</strong></em>___. Można również użyć gwiazdki: To *<em>jest kursywa</em>*,
+        to **<strong>jest pogrubienie</strong>**.
+        <p>Twórz <a href='#'>linki</a> w ten sposób:<br>
+        Pewna [ekscytująca strona](http://example.org/ &quot;Tytuł linka&quot;)</p>
+        <p>&nbsp; * To jest lista nieuporządkowana<br>
+        &nbsp; * Element 2</p>
+        <p>&nbsp; 1 To jest lista uporządkowana<br>
+        &nbsp; 2 Element 2</p>
+    relationships: |
+        Wybierając inne wpisy w 'relacji', w rzeczywistości
+        tworzysz powiązanie między tymi rekordami. Na
+        witrynie, to może być wykorzystywane do "artykułów związanych", "zobacz także" lub podobnych.
+    taxonomy: |
+        Wybierając jedną lub więcej taksonomii do tego rekordu,
+        klasyfikujesz ten rekord do posiadania tych właściwości. Na
+        witrynie to może zostać użyte do grupowania pewnych rekordów razem, lub
+        automatycznego tworzenia linków do rekordów, które dzielą
+        klasyfikację.
+about:
+    bolt: |
+        <p> Bolt jest CMS-em (Systemem Zarządzania Treścią), który dąży do tego by być prosty, szybki, bezpośredni i przyjemny w użyciu. Zarówno dla
+            deweloperów jak i redaktorów treści. Bolt jest projektem Open Source (o otwartym źródle), i jako taki korzysta z innych komponentów Open Source.
+            Jeśli jesteś programistą, będzie bardzo mile widziana pomoc w dalszym rozwoju Bolt.
+        </p>
+    licence: |
+        <p> Ze wszystkich części Bolt można wykorzystać za darmo zgodnie z licencją open-source MIT. Pełny tekst licencji można znaleźć
+            tutaj, w załączonym pliku <a href="%paths_app%LICENSE.txt">LICENSE.txt</a>.
+        </p>
+prefill:
+    short_help: |
+        <p> Sprawdź typy zawartości, dla których chcesz automatycznie wygenerować pewne zapisy, które są wypełnione treścią lorem ipsum. <p>
+        <p> Jeśli wszystkie pola są odznaczone, Bolt wypełni tylko typy zawartości, które nie mają jeszcze żadnej treści.</p>
