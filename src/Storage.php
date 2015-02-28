@@ -1061,14 +1061,13 @@ class Storage
         $now = date('Y-m-d H:i:s', time());
 
         try {
-
-            // Check if there are any records that need publishing..
+            // Check if there are any records that need publishing.
             $stmt = $this->app['db']->executeQuery(
                 "SELECT id FROM $tablename WHERE status = 'timed' and datepublish < :now",
                 array('now' => $now)
             );
 
-            // If there's a result, we need to set these to 'publish'..
+            // If there's a result, we need to set these to 'publish'.
             if ($stmt->fetch() !== false) {
                 $this->app['db']->query(
                     "UPDATE $tablename SET status = 'published', datechanged = :now WHERE status = 'timed' and datepublish < :now",
@@ -1076,8 +1075,8 @@ class Storage
                 );
             }
         } catch (DBALException $e) {
-
-            // Oops. Couldn't execute the queries.
+            $message = "Timed publication of records for $contenttype failed: " . $e->getMessage();
+            $this->app['logger.system']->addCritical($message, array('event' => 'exception', 'exception' => $e));
         }
     }
 
@@ -1113,8 +1112,8 @@ class Storage
                 );
             }
         } catch (DBALException $e) {
-
-            // Oops. Couldn't execute the queries.
+            $message = "Timed de-publication of records for $contenttype failed: " . $e->getMessage();
+            $this->app['logger.system']->addCritical($message, array('event' => 'exception', 'exception' => $e));
         }
     }
 
