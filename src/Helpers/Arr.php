@@ -8,9 +8,10 @@ class Arr
      * Make a simple array consisting of key=>value pairs, that can be used
      * in select-boxes in forms.
      *
-     * @param  array  $array
-     * @param  string $key
-     * @param  string $value
+     * @param array  $array
+     * @param string $key
+     * @param string $value
+     *
      * @return array
      */
     public static function makeValuePairs($array, $key, $value)
@@ -24,7 +25,6 @@ class Arr
                 } else {
                     $tempArray[$item[$key]] = $item[$value];
                 }
-
             }
         }
 
@@ -50,12 +50,14 @@ class Arr
      * Parameters are passed by reference, though only for performance reasons. They're not
      * altered by this function.
      *
-     * @param  array $array1
-     * @param  array $array2
+     * @param array $array1
+     * @param array $array2
+     *
      * @return array
+     *
      * @author Daniel <daniel (at) danielsmedegaardbuus (dot) dk>
      * @author Gabriel Sobrinho <gabriel (dot) sobrinho (at) gmail (dot) com>
-     * @author Bob for bolt-specific excludes
+     * @author Bob den Otter for Bolt-specific excludes
      */
     public static function mergeRecursiveDistinct(array &$array1, array &$array2)
     {

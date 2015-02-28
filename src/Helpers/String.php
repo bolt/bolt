@@ -10,9 +10,10 @@ class String
      * Returns a "safe" version of the given string - basically only US-ASCII and
      * numbers. Needed because filenames and titles and such, can't use all characters.
      *
-     * @param  string  $str
-     * @param  boolean $strict
-     * @param  string  $extrachars
+     * @param string  $str
+     * @param boolean $strict
+     * @param string  $extrachars
+     *
      * @return string
      */
     public static function makeSafe($str, $strict = false, $extrachars = "")
@@ -43,9 +44,10 @@ class String
      *
      * @see http://stackoverflow.com/a/2606638
      *
-     * @param  string $search
-     * @param  string $replace
-     * @param  string $subject
+     * @param string $search
+     * @param string $replace
+     * @param string $subject
+     *
      * @return string
      */
     public static function replaceFirst($search, $replace, $subject)
@@ -62,7 +64,8 @@ class String
      * Add 'soft hyphens' &shy; to a string, so that it won't break layout in HTML when
      * using strings without spaces or dashes.
      *
-     * @param  string $str
+     * @param string $str
+     *
      * @return string
      */
     public static function shyphenate($str)
