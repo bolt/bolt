@@ -20,7 +20,6 @@ class FactoryTest extends BoltUnitTest
         $this->assertArrayHasKey('basedir', \PHPUnit_Framework_Assert::readAttribute($factory, 'options'));
     }
     
-    
     public function testGetComposer()
     {
         $app = $this->getApp();
@@ -76,7 +75,6 @@ class FactoryTest extends BoltUnitTest
         $composer = $factory->getComposer();
         $repos = $composer->getRepositoryManager()->getRepositories();
     }
-    
     
     public function tearDown()
     {

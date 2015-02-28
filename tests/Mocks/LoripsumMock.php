@@ -24,12 +24,10 @@ class LoripsumMock extends \PHPUnit_Framework_TestCase
     <li>Qui autem esse poteris, nisi te amor ipse ceperit?</li>
 </ol>
 
-
 <ul>
     <li>Hanc quoque iucunditatem, si vis, transfer in animum;</li>
     <li>Naturales divitias dixit parabiles esse, quod parvo esset natura contenta.</li>
 </ul>
-
 
 <p>Videmus igitur ut conquiescere ne infantes quidem possint. Quis non odit sordidos, vanos, leves, futtiles? Tum Quintus: Est plane, Piso, ut dicis, inquit. <i>Nihil sane.</i> Theophrasti igitur, inquit, tibi liber ille placet de beata vita? Iubet igitur nos Pythius Apollo noscere nosmet ipsos. </p>
 

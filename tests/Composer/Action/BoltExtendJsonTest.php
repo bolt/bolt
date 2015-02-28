@@ -14,7 +14,6 @@ class BoltExtendJsonTest extends BoltUnitTest
 {
     public $options;
     
-    
     public function setup()
     {
         $app = $this->getApp();
