@@ -11,7 +11,6 @@ use Symfony\Component\HttpKernel\DataCollector\DataCollector;
 
 /**
  * BoltDataCollector.
- *
  */
 class BoltDataCollector extends DataCollector
 {
@@ -38,14 +37,14 @@ class BoltDataCollector extends DataCollector
     public function collect(Request $request, Response $response, \Exception $exception = null)
     {
         $this->data = array(
-            'version' => $this->app->getVersion(),
-            'name' => $this->app['bolt_name'],
+            'version'     => $this->app->getVersion(),
+            'name'        => $this->app['bolt_name'],
             'fullversion' => 'Version: ' . $this->app->getVersion(true),
-            'payoff' => 'Sophisticated, lightweight & simple CMS',
-            'aboutlink' => sprintf("<a href=\"%s\">%s</a>", Lib::path('about'), 'About'),
-            'branding' => null,
-            'editlink' => null,
-            'edittitle' => null
+            'payoff'      => 'Sophisticated, lightweight & simple CMS',
+            'aboutlink'   => sprintf("<a href=\"%s\">%s</a>", Lib::path('about'), 'About'),
+            'branding'    => null,
+            'editlink'    => null,
+            'edittitle'   => null
         );
 
         if ($this->app['config']->get('general/branding/provided_by/0')) {
@@ -64,7 +63,7 @@ class BoltDataCollector extends DataCollector
     }
 
     /**
-     * Getter for version
+     * Getter for version.
      *
      * @return string
      */
@@ -74,7 +73,7 @@ class BoltDataCollector extends DataCollector
     }
 
     /**
-     * Getter for fullversion
+     * Getter for fullversion.
      *
      * @return string
      */
@@ -84,7 +83,7 @@ class BoltDataCollector extends DataCollector
     }
 
     /**
-     * Getter for name
+     * Getter for name.
      *
      * @return string
      */
@@ -94,7 +93,7 @@ class BoltDataCollector extends DataCollector
     }
 
     /**
-     * Getter for branding
+     * Getter for branding.
      *
      * @return string
      */
@@ -104,7 +103,7 @@ class BoltDataCollector extends DataCollector
     }
 
     /**
-     * Getter for payoff
+     * Getter for payoff.
      *
      * @return string
      */
@@ -114,7 +113,7 @@ class BoltDataCollector extends DataCollector
     }
 
     /**
-     * Getter for aboutlink
+     * Getter for aboutlink.
      *
      * @return string
      */
@@ -124,7 +123,7 @@ class BoltDataCollector extends DataCollector
     }
 
     /**
-     * Getter for editlink
+     * Getter for editlink.
      *
      * @return string
      */
@@ -134,7 +133,7 @@ class BoltDataCollector extends DataCollector
     }
 
     /**
-     * Getter for aboutlink
+     * Getter for aboutlink.
      *
      * @return string
      */
