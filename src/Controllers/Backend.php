@@ -833,6 +833,18 @@ class Backend implements ControllerProviderInterface
                             $val['datechanged'] = date_format(new \DateTime($val['datechanged']), 'c');
                         }
 
+                        $lc = localeconv();
+                        foreach ($contenttype['fields'] as $key => $values) {
+                            switch ($values['type']) {
+                                case 'float':
+                                    // Adjust decimal point dependent on locale
+                                    if ($lc['decimal_point'] === ',') {
+                                        $val[$key] = str_replace('.', ',', $val[$key]);
+                                    }
+                                    break;
+                            }
+                        }
+
                         // unset flashbag for ajax
                         $app['session']->getFlashBag()->clear('success');
 
