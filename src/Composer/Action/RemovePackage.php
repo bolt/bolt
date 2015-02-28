@@ -9,7 +9,7 @@ use Composer\Json\JsonFile;
 use Silex\Application;
 
 /**
- * Composer remove package class
+ * Composer remove package class.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
@@ -29,12 +29,13 @@ final class RemovePackage
     }
 
     /**
-     * Remove packages from the root install
+     * Remove packages from the root install.
      *
      * @param  $packages array Indexed array of package names to remove
      *
-     * @return int 0 on success or a positive error code on failure
      * @throws \Bolt\Exception\PackageManagerException
+     *
+     * @return int 0 on success or a positive error code on failure
      */
     public function execute(array $packages)
     {

@@ -6,7 +6,7 @@ use Bolt\Exception\PackageManagerException;
 use Silex\Application;
 
 /**
- * Composer autoloader creation class
+ * Composer autoloader creation class.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
@@ -26,7 +26,7 @@ final class DumpAutoload
     }
 
     /**
-     * Dump autoloaders
+     * Dump autoloaders.
      */
     public function execute()
     {

@@ -6,7 +6,7 @@ use Composer\Json\JsonFile;
 use Silex\Application;
 
 /**
- * Checks for installable, or upgradeable packages
+ * Checks for installable, or upgradeable packages.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
@@ -26,7 +26,7 @@ final class CheckPackage
     }
 
     /**
-     * Run a check for package(s)
+     * Run a check for package(s).
      *
      * @return array
      */

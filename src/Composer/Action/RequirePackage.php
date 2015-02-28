@@ -13,7 +13,7 @@ use Composer\Repository\PlatformRepository;
 use Silex\Application;
 
 /**
- * Composer require package class
+ * Composer require package class.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
@@ -44,13 +44,14 @@ final class RequirePackage
     }
 
     /**
-     * Require (install) a package
+     * Require (install) a package.
      *
      * @param  $package       array Package names and version to require
      *                        - Format: array('name' => '', 'version' => '')
      *
-     * @return int 0 on success or a positive error code on failure
      * @throws \Bolt\Exception\PackageManagerException
+     *
+     * @return int 0 on success or a positive error code on failure
      */
     public function execute(array $package)
     {
@@ -149,13 +150,14 @@ final class RequirePackage
     }
 
     /**
-     * Update the JSON file
+     * Update the JSON file.
      *
-     * @param  JsonFile $json
-     * @param  array    $options
-     * @param  array    $package
-     * @param  boolean  $postreset
-     * @return string   A back up of the current JSON file
+     * @param JsonFile $json
+     * @param array    $options
+     * @param array    $package
+     * @param boolean  $postreset
+     *
+     * @return string A back up of the current JSON file
      */
     private function updateComposerJson(JsonFile $json, array $options, array $package, $postreset)
     {
@@ -184,15 +186,16 @@ final class RequirePackage
     }
 
     /**
-     * Cleanly update a Composer JSON file
+     * Cleanly update a Composer JSON file.
      *
-     * @param  JsonFile $json
-     * @param  array    $base
-     * @param  array    $new
-     * @param  string   $requireKey
-     * @param  string   $removeKey
-     * @param  boolean  $sortPackages
-     * @param  boolean  $postreset
+     * @param JsonFile $json
+     * @param array    $base
+     * @param array    $new
+     * @param string   $requireKey
+     * @param string   $removeKey
+     * @param boolean  $sortPackages
+     * @param boolean  $postreset
+     *
      * @return boolean
      */
     private function updateFileCleanly(JsonFile $json, array $base, array $new, $requireKey, $removeKey, $sortPackages, $postreset)
@@ -220,8 +223,8 @@ final class RequirePackage
     }
 
     /**
+     * @param array $packages
      *
-     * @param  array $packages
      * @return array
      */
     protected function formatRequirements(array $packages)
@@ -236,10 +239,11 @@ final class RequirePackage
     }
 
     /**
-     * Parses a name/version pairs and returns an array of pairs
+     * Parses a name/version pairs and returns an array of pairs.
      *
-     * @param  array   $packages a set of package/version pairs separated by ":", "=" or " "
-     * @return array[] array of arrays containing a name and (if provided) a version
+     * @param array $packages a set of package/version pairs separated by ":", "=" or " "
+     *
+     * @return array[] An array of arrays containing a name and (if provided) a version
      */
     protected function normalizeRequirements(array $packages)
     {
@@ -253,9 +257,11 @@ final class RequirePackage
      *
      * This returns a version with the ~ operator prefixed when possible.
      *
-     * @param  string                    $name
-     * @return string
+     * @param string $name
+     *
      * @throws \InvalidArgumentException
+     *
+     * @return string
      */
     private function findBestVersionForPackage($name)
     {

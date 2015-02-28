@@ -104,7 +104,7 @@ class PackageManager
     }
 
     /**
-     * Return/create our Factory object
+     * Return/create our Factory object.
      *
      * @return Factory
      */
@@ -147,7 +147,7 @@ class PackageManager
     }
 
     /**
-     * Get the options
+     * Get the options.
      *
      * @return array
      */
@@ -157,7 +157,7 @@ class PackageManager
     }
 
     /**
-     * Get a single option
+     * Get a single option.
      *
      * @param string $key
      *
@@ -169,7 +169,7 @@ class PackageManager
     }
 
     /**
-     * Get a new Composer object
+     * Get a new Composer object.
      *
      * @return \Composer\Composer
      */
@@ -179,7 +179,7 @@ class PackageManager
     }
 
     /**
-     * Get configured minimum stability
+     * Get configured minimum stability.
      *
      * @return string
      */
@@ -189,7 +189,7 @@ class PackageManager
     }
 
     /**
-     * Get a new IO object
+     * Get a new IO object.
      *
      * @return \Composer\IO\IOInterface
      */
@@ -199,7 +199,7 @@ class PackageManager
     }
 
     /**
-     * Get a new dependency resolver pool object
+     * Get a new dependency resolver pool object.
      *
      * @return \Composer\DependencyResolver\Pool
      */
@@ -209,7 +209,7 @@ class PackageManager
     }
 
     /**
-     * Return the output from the last IO
+     * Return the output from the last IO.
      *
      * @return array
      */
@@ -219,7 +219,7 @@ class PackageManager
     }
 
     /**
-     * Check for packages that need to be installed or updated
+     * Check for packages that need to be installed or updated.
      *
      * @return array
      */
@@ -233,7 +233,7 @@ class PackageManager
     }
 
     /**
-     * Dump fresh autoloader
+     * Dump fresh autoloader.
      */
     public function dumpautoload()
     {
@@ -245,7 +245,7 @@ class PackageManager
     }
 
     /**
-     * Install configured packages
+     * Install configured packages.
      *
      * @return integer 0 on success or a positive error code on failure
      */
@@ -260,9 +260,10 @@ class PackageManager
     }
 
     /**
-     * Remove packages from the root install
+     * Remove packages from the root install.
      *
      * @param $packages array Indexed array of package names to remove
+     *
      * @return integer 0 on success or a positive error code on failure
      */
     public function removePackage(array $packages)
@@ -276,10 +277,11 @@ class PackageManager
     }
 
     /**
-     * Require (install) packages
+     * Require (install) packages.
      *
      * @param $packages array Associative array of package names/versions to remove
      *                        Format: array('name' => '', 'version' => '')
+     *
      * @return integer 0 on success or a positive error code on failure
      */
     public function requirePackage(array $packages)
@@ -293,9 +295,10 @@ class PackageManager
     }
 
     /**
-     * Search for packages
+     * Search for packages.
      *
      * @param $packages array Indexed array of package names to search
+     *
      * @return array List of matching packages
      */
     public function searchPackage(array $packages)
@@ -308,7 +311,7 @@ class PackageManager
     }
 
     /**
-     * Show packages
+     * Show packages.
      *
      * @param        $target
      * @param string $package
@@ -327,9 +330,10 @@ class PackageManager
     }
 
     /**
-     * Update packages in the root install
+     * Update packages in the root install.
      *
      * @param  $packages array Indexed array of package names to update
+     *
      * @return integer 0 on success or a positive error code on failure
      */
     public function updatePackage(array $packages)
@@ -343,7 +347,7 @@ class PackageManager
     }
 
     /**
-     * Initialise a new JSON file
+     * Initialise a new JSON file.
      *
      * @param string $file File to initialise
      * @param array  $data Data to be added as JSON paramter/value pairs
@@ -358,7 +362,8 @@ class PackageManager
     }
 
     /**
-     * Get packages that a properly installed, pending installed and locally installed
+     * Get packages that a properly installed, pending installed and locally installed.
+     *
      * @return array
      */
     public function getAllPackages()
@@ -418,9 +423,10 @@ class PackageManager
     }
 
     /**
-     * Format a Composer API package array suitable for AJAX response
+     * Format a Composer API package array suitable for AJAX response.
      *
-     * @param  array $packages
+     * @param array $packages
+     *
      * @return array
      */
     public function formatPackageResponse(array $packages)
@@ -449,9 +455,10 @@ class PackageManager
     }
 
     /**
-     * Return the URI for a package's readme
+     * Return the URI for a package's readme.
      *
-     * @param  string $name
+     * @param string $name
+     *
      * @return string
      */
     private function linkReadMe($name)
@@ -472,9 +479,10 @@ class PackageManager
     }
 
     /**
-     * Return the URI for a package's config file edit window
+     * Return the URI for a package's config file edit window.
      *
-     * @param  string $name
+     * @param string $name
+     *
      * @return string
      */
     private function linkConfig($name)
@@ -491,7 +499,7 @@ class PackageManager
     }
 
     /**
-     * Install/update extension installer helper
+     * Install/update extension installer helper.
      */
     private function copyInstaller()
     {
@@ -501,7 +509,7 @@ class PackageManager
     }
 
     /**
-     * Set up Composer JSON file
+     * Set up Composer JSON file.
      */
     private function updateJson()
     {
@@ -510,9 +518,10 @@ class PackageManager
     }
 
     /**
-     * Ping site to see if we have a valid connection and it is responding correctly
+     * Ping site to see if we have a valid connection and it is responding correctly.
      *
-     * @param  boolean|array $addquery
+     * @param boolean|array $addquery
+     *
      * @return boolean
      */
     private function ping($addquery = false)
@@ -562,7 +571,7 @@ class PackageManager
     }
 
     /**
-     * Set the default options
+     * Set the default options.
      */
     private function setOptions()
     {

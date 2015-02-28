@@ -1,13 +1,14 @@
 <?php
 /**
- * Based on Sensio\Bundle\DistributionBundle\Composer\ScriptHandler
+ * Based on Sensio\Bundle\DistributionBundle\Composer\ScriptHandler.
+ *
  * @see https://github.com/sensio/SensioDistributionBundle/blob/master/Composer/ScriptHandler.php
  */
 
 namespace Bolt\Composer;
 
-use Symfony\Component\Filesystem\Filesystem;
 use Composer\Script\CommandEvent;
+use Symfony\Component\Filesystem\Filesystem;
 
 class ScriptHandler
 {
@@ -67,7 +68,6 @@ class ScriptHandler
         if (!$filesystem->exists($appDir)) {
             $filesystem->mkdir($appDir, $dirMode);
         }
-
     }
 
     public static function bootstrap(CommandEvent $event)
@@ -91,15 +91,16 @@ class ScriptHandler
     }
 
     /**
-     * @param  CommandEvent $event
+     * @param CommandEvent $event
+     *
      * @return array
      */
     protected static function getOptions(CommandEvent $event)
     {
         $options = array_merge(
             array(
-                'bolt-web-dir' => 'web',
-                'bolt-app-dir' => 'app',
+                'bolt-web-dir'  => 'web',
+                'bolt-app-dir'  => 'app',
                 'bolt-dir-mode' => 0777
             ),
             $event->getComposer()->getPackage()->getExtra()

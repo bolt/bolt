@@ -8,7 +8,7 @@ use Composer\Installer;
 use Silex\Application;
 
 /**
- * Composer update package class
+ * Composer update package class.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
@@ -28,13 +28,14 @@ final class UpdatePackage
     }
 
     /**
-     * Update packages
+     * Update packages.
      *
      * @param  $packages array Indexed array of package names to update
      * @param  $options  array [Optional] changed option set
      *
-     * @return int 0 on success or a positive error code on failure
      * @throws \Bolt\Exception\PackageManagerException
+     *
+     * @return int 0 on success or a positive error code on failure
      */
     public function execute(array $packages = array(), array $options = array())
     {
