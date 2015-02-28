@@ -12,51 +12,51 @@ use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
 
 /**
- * Handles translation file dependent tasks
+ * Handles translation file dependent tasks.
  */
 class TranslationFile
 {
     /**
-     * Injected Application object
+     * Injected Application object.
      *
      * @var \Bolt\Application
      */
     private $app;
 
     /**
-     * Requested Domain
+     * Requested Domain.
      *
      * @var string
      */
     private $domain;
 
     /**
-     * Path to the translation file
+     * Path to the translation file.
      *
      * @var string
      */
     private $absPath;
 
     /**
-     * Project relative path to the translation file
+     * Project relative path to the translation file.
      *
      * @var string
      */
     private $relPath;
 
     /**
-     * List of all translatable Strings found
+     * List of all translatable Strings found.
      *
      * @var array
      */
     private $translatables = array();
 
     /**
-     * Constructor
+     * Constructor.
      *
-     * @param Silex\Application $app
-     * @param string            $domain Requested resource
-     * @param string            $locale Requested locale
+     * @param \Silex\Application $app
+     * @param string             $domain Requested resource
+     * @param string             $locale Requested locale
      */
     public function __construct(Silex\Application $app, $domain, $locale)
     {
@@ -69,11 +69,12 @@ class TranslationFile
     }
 
     /**
-     * Get the path to a tranlsation resource
+     * Get the path to a tranlsation resource.
      *
-     * @param  string $domain Requested resource
-     * @param  string $locale Requested locale
-     * @return array  returnsarray(absolute path, relative path)
+     * @param string $domain Requested resource
+     * @param string $locale Requested locale
+     *
+     * @return array returnsarray(absolute path, relative path)
      */
     private function buildPath($domain, $locale)
     {
@@ -95,7 +96,7 @@ class TranslationFile
     }
 
     /**
-     * Get the path to a tranlsation resource
+     * Get the path to a tranlsation resource.
      *
      * @return array returns array(absolute path, relative path)
      */
@@ -105,7 +106,7 @@ class TranslationFile
     }
 
     /**
-     * Adds a string to the internal list of translatable strings
+     * Adds a string to the internal list of translatable strings.
      *
      * @param string $text
      */
@@ -117,7 +118,7 @@ class TranslationFile
     }
 
     /**
-     * Scan twig templates for  __('...' and __("..." and add the strings found to the list of translatable strings
+     * Scan twig templates for  __('...' and __("..." and add the strings found to the list of translatable strings.
      */
     private function scanTwigFiles()
     {
@@ -133,7 +134,7 @@ class TranslationFile
         // Regex from: stackoverflow.com/questions/5695240/php-regex-to-ignore-escaped-quotes-within-quotes
         $twigRegex = array(
             "/\b__\(\s*'([^'\\\\]*(?:\\\\.[^'\\\\]*)*)'(?U).*\)/s" => array('\\\'' => '\''), // __('single_quoted_string'…
-            '/\b__\(\s*"([^"\\\\]*(?:\\\\.[^"\\\\]*)*)"(?U).*\)/s' => array('\"' => '"'), // __("double_quoted_string"…
+            '/\b__\(\s*"([^"\\\\]*(?:\\\\.[^"\\\\]*)*)"(?U).*\)/s' => array('\"'   => '"'), // __("double_quoted_string"…
         );
 
         foreach ($finder as $file) {
@@ -149,7 +150,7 @@ class TranslationFile
     }
 
     /**
-     * Scan php files for  __('...' and __("..." and add the strings found to the list of translatable strings
+     * Scan php files for  __('...' and __("..." and add the strings found to the list of translatable strings.
      *
      * All translatables strings have to be called with:
      * __("text", $params=array(), $domain='messages', locale=null) // $app['translator']->trans()
@@ -235,7 +236,7 @@ class TranslationFile
     }
 
     /**
-     *  Add fields names and labels for contenttype (forms) to the list of translatable strings
+     *  Add fields names and labels for contenttype (forms) to the list of translatable strings.
      */
     private function scanContenttypeFields()
     {
@@ -251,7 +252,7 @@ class TranslationFile
     }
 
     /**
-     *  Add relation names and labels to the list of translatable strings
+     *  Add relation names and labels to the list of translatable strings.
      */
     private function scanContenttypeRelations()
     {
@@ -269,7 +270,7 @@ class TranslationFile
     }
 
     /**
-     * Add name ans singular names for taxonomies to the list of translatable strings
+     * Add name ans singular names for taxonomies to the list of translatable strings.
      */
     private function scanTaxonomies()
     {
@@ -281,7 +282,7 @@ class TranslationFile
     }
 
     /**
-     * Find all twig templates and bolt php code, extract translatables strings, merge with existing translations
+     * Find all twig templates and bolt php code, extract translatables strings, merge with existing translations.
      *
      * @return array
      */
@@ -299,11 +300,12 @@ class TranslationFile
     }
 
     /**
-     * Builds the translations file data with added translations
+     * Builds the translations file data with added translations.
      *
-     * @param  array  $newTranslations   New translation data to write
-     * @param  array  $savedTranslations Translation data read from file
-     * @param  array  $hinting           Translation data that can be used as hinting
+     * @param array $newTranslations   New translation data to write
+     * @param array $savedTranslations Translation data read from file
+     * @param array $hinting           Translation data that can be used as hinting
+     *
      * @return string
      */
     private function buildNewContent($newTranslations, $savedTranslations, $hinting = array())
@@ -311,11 +313,11 @@ class TranslationFile
         // Presort
         $unusedTranslations = $savedTranslations;
         $transByType = array(
-            'Unused' => array(' unused messages', array()),
+            'Unused'   => array(' unused messages', array()),
             'TodoReal' => array(' untranslated messages', array()),
-            'TodoKey' => array(' untranslated keyword based messages', array()),
+            'TodoKey'  => array(' untranslated keyword based messages', array()),
             'DoneReal' => array(' translations', array()),
-            'DoneKey' => array(' keyword based translations', array()),
+            'DoneKey'  => array(' keyword based translations', array()),
         );
         foreach ($newTranslations as $key => $translation) {
             $set = array('trans' => $translation);
@@ -394,7 +396,7 @@ class TranslationFile
     }
 
     /**
-     * Parses translations file ans returns translations
+     * Parses translations file ans returns translations.
      *
      * @return array Translations found
      */
@@ -434,7 +436,7 @@ class TranslationFile
     }
 
     /**
-     * Get the content of the info translation file or the fallback file
+     * Get the content of the info translation file or the fallback file.
      *
      * @return string
      */
@@ -461,7 +463,7 @@ class TranslationFile
     }
 
     /**
-     * Gets all translatable strings and returns a translationsfile for messages or contenttypes
+     * Gets all translatable strings and returns a translationsfile for messages or contenttypes.
      *
      * @return string
      */
@@ -486,7 +488,7 @@ class TranslationFile
     }
 
     /**
-     * Gets all translatable strings and returns a translationsfile for messages or contenttypes
+     * Gets all translatable strings and returns a translationsfile for messages or contenttypes.
      *
      * @return string
      */
@@ -506,7 +508,7 @@ class TranslationFile
     }
 
     /**
-     * Gets all translatable strings and returns a translationsfile for messages or contenttypes
+     * Gets all translatable strings and returns a translationsfile for messages or contenttypes.
      *
      * @return string
      */
@@ -523,7 +525,7 @@ class TranslationFile
     }
 
     /**
-     * Checks if translations file is allowed to write to
+     * Checks if translations file is allowed to write to.
      *
      * @return bool
      */

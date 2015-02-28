@@ -2,9 +2,9 @@
 
 namespace Bolt\Provider;
 
+use Bolt\DataCollector\BoltDataCollector;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
-use Bolt\DataCollector\BoltDataCollector;
 
 class BoltProfilerServiceProvider implements ServiceProviderInterface
 {

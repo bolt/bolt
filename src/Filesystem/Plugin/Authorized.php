@@ -2,7 +2,8 @@
 
 namespace Bolt\Filesystem\Plugin;
 
-class Authorized extends AdapterPlugin {
+class Authorized extends AdapterPlugin
+{
 
     public function getMethod()
     {

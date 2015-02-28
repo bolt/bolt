@@ -27,6 +27,5 @@ class ExtensionsEnable extends BaseCommand
 
         $output->writeln("<info>[Done]</info> ");
         $output->writeln($result, OutputInterface::OUTPUT_PLAIN);
-
     }
 }

@@ -33,7 +33,7 @@ class Pager extends \ArrayObject
     }
 
     /**
-     * Used for calling from template to build up right paginated URL link
+     * Used for calling from template to build up right paginated URL link.
      *
      * @return string
      */

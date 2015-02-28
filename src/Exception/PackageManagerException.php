@@ -2,14 +2,12 @@
 
 namespace Bolt\Exception;
 
-use \Exception;
-
-class PackageManagerException extends Exception
+class PackageManagerException extends \Exception
 {
     protected $file;
     protected $line;
 
-    public function __construct($message = null, $code = 0, Exception $previous = null)
+    public function __construct($message = null, $code = 0, \Exception $previous = null)
     {
         parent::__construct($message, $code, $previous);
 

@@ -11,7 +11,6 @@ use Symfony\Component\Yaml\Parser;
  * Allows (simple) modifications of Bolt .yml files.
  *
  * @author Bob den Otter <bob@twokings.nl>
- *
  **/
 class YamlUpdater
 {
@@ -22,18 +21,21 @@ class YamlUpdater
 
     /**
      * "File pointer". Basically used as offset for searching.
+     *
      * @var int
      */
     private $pointer = 0;
 
     /**
      * Number of lines in the file.
+     *
      * @var int
      */
     private $lines = 0;
 
     /**
      * Contains a line of the file per index.
+     *
      * @var array
      */
     private $yaml = array();
@@ -46,8 +48,8 @@ class YamlUpdater
     /**
      * Creates an updater for the given file.
      *
-     * @param Silex\Application $app
-     * @param string      $filename The file to modify
+     * @param \Silex\Application $app
+     * @param string             $filename The file to modify
      */
     public function __construct(Silex\Application $app, $filename = '')
     {
@@ -69,9 +71,10 @@ class YamlUpdater
     }
 
     /**
-     * Get a value from the yml. return an array with info
+     * Get a value from the yml. return an array with info.
      *
-     * @param  string     $key
+     * @param string $key
+     *
      * @return bool|array
      */
     public function get($key)
@@ -93,10 +96,11 @@ class YamlUpdater
     }
 
     /**
-     * Find a specific part of the key, starting from $this->pointer
+     * Find a specific part of the key, starting from $this->pointer.
      *
-     * @param  string   $keypart
-     * @param  int      $indent
+     * @param string $keypart
+     * @param int    $indent
+     *
      * @return bool|int
      */
     private function find($keypart, $indent = 0)
@@ -115,7 +119,9 @@ class YamlUpdater
 
     /**
      * Parse a specific line-number into its key, value parts, with the used indentation.
+     *
      * @param $line
+     *
      * @return array
      */
     private function parseline($line)
@@ -123,19 +129,20 @@ class YamlUpdater
         preg_match_all('/(\s*)([a-z0-9_-]+):(\s)?(.*)/', $this->yaml[$line], $match);
 
         return array(
-            'line' => $line,
+            'line'        => $line,
             'indentation' => $match[1][0],
-            'key' => $match[2][0],
-            'value' => $match[4][0]
+            'key'         => $match[2][0],
+            'value'       => $match[4][0]
         );
     }
 
     /**
      * Change a key into a new value. Save .yml afterwards.
      *
-     * @param  string  $key        YAML key to modify
-     * @param  mixed   $value      New value
-     * @param  boolean $makebackup Back up the file before commiting changes to it
+     * @param string  $key        YAML key to modify
+     * @param mixed   $value      New value
+     * @param boolean $makebackup Back up the file before commiting changes to it
+     *
      * @return bool
      */
     public function change($key, $value, $makebackup = true)
@@ -160,7 +167,8 @@ class YamlUpdater
      * array('one', 'two', 'three') => [ one, two, three ]
      * "usin' quotes" => 'usin'' quotes
      *
-     * @param  string $value
+     * @param string $value
+     *
      * @return string
      */
     public function prepareValue($value)
@@ -179,10 +187,11 @@ class YamlUpdater
     /**
      * Save our modified .yml file.
      *
-     * @param  boolean $makebackup Back up the file before commiting changes to it
+     * @param boolean $makebackup Back up the file before commiting changes to it
+     *
+     * @throws \Bolt\Exception\FilesystemException
      *
      * @return bool true if save was successful
-     * @throws \Bolt\Exception\FilesystemException
      */
     protected function save($makebackup)
     {
@@ -222,7 +231,7 @@ class YamlUpdater
     }
 
     /**
-     * Backup the YAML file
+     * Backup the YAML file.
      *
      * @return boolean
      */

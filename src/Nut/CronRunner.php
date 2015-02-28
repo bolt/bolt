@@ -2,10 +2,10 @@
 
 namespace Bolt\Nut;
 
+use Bolt\Controllers\Cron;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Bolt\Controllers\Cron;
 
 class CronRunner extends BaseCommand
 {
@@ -22,12 +22,12 @@ class CronRunner extends BaseCommand
     {
         if ($input->getOption('run')) {
             $param = array(
-                'run' => true,
+                'run'   => true,
                 'event' => $input->getOption('run')
             );
         } else {
             $param = array(
-                'run' => false,
+                'run'   => false,
                 'event' => ''
             );
         }

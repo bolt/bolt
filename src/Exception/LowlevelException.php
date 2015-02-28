@@ -145,7 +145,6 @@ HTML;
                 $message  = '<h4>There is a fatal error in the \'' . $package . '\' extension ' .
                     'loaded on your Bolt Installation.<h4>';
                 $message .= $errorblock;
-
             } else {
                 // Unknown
                 $html = str_replace('%error_title%', 'PHP Fatal Error: Bolt Generic', $html);
@@ -166,7 +165,7 @@ HTML;
     }
 
     /**
-     * Ignore exception handler pointed at by set_exception_handler()
+     * Ignore exception handler pointed at by set_exception_handler().
      *
      * @param \Exception $e
      */

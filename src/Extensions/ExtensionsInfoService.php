@@ -15,7 +15,6 @@ class ExtensionsInfoService
     public $format = 'json';
 
     /**
-     *
      * @param $site string
      * @param $urls array
      **/
@@ -35,7 +34,7 @@ class ExtensionsInfoService
     public function info($package, $bolt)
     {
         $url = $this->urls['info'];
-        $params = array('package'=> $package, 'bolt'=> $bolt);
+        $params = array('package' => $package, 'bolt' => $bolt);
 
         return $this->execute($url, $params);
     }

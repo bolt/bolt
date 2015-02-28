@@ -7,8 +7,8 @@ use Bolt\Events\StorageEvent;
 use Bolt\Events\StorageEvents;
 use Bolt\Exception\StorageException;
 use Bolt\Helpers\Arr;
-use Bolt\Helpers\String;
 use Bolt\Helpers\Html;
+use Bolt\Helpers\String;
 use Bolt\Translation\Translator as Trans;
 use Doctrine\DBAL\Connection as DoctrineConn;
 use Doctrine\DBAL\DBALException;
@@ -37,7 +37,7 @@ class Storage
     private $checkedfortimed = array();
 
     /**
-     * Test to indicate if we're inside a dispatcher
+     * Test to indicate if we're inside a dispatcher.
      *
      * @var bool
      */
@@ -58,9 +58,11 @@ class Storage
      * Get an object for the content of a specific contenttype. This will be
      * \Bolt\Content, unless the contenttype defined another class to be used.
      *
-     * @param  array|string  $contenttype
-     * @param  array         $values
+     * @param array|string $contenttype
+     * @param array        $values
+     *
      * @throws \Exception
+     *
      * @return \Bolt\Content
      */
     public function getContentObject($contenttype, $values = array())
@@ -79,11 +81,8 @@ class Storage
             if (!($content instanceof Content)) {
                 throw new \Exception($contenttype['class'] . ' does not extend \\Bolt\\Content.');
             }
-
         } else {
-
             $content = new Content($this->app, $contenttype, $values);
-
         }
 
         return $content;
@@ -96,7 +95,9 @@ class Storage
      * If the parameters is empty, only fill empty tables
      *
      * @see preFillSingle
-     * @param  array  $contenttypes
+     *
+     * @param array $contenttypes
+     *
      * @return string
      */
     public function preFill($contenttypes = array())
@@ -109,7 +110,6 @@ class Storage
         $emptyOnly = empty($contenttypes);
 
         foreach ($this->app['config']->get('contenttypes') as $key => $contenttype) {
-
             $tablename = $this->getTablename($key);
             if ($emptyOnly && $this->hasRecords($tablename)) {
                 $output .= Trans::__("Skipped <tt>%key%</tt> (already has records)", array('%key%' => $key)) . "<br>\n";
@@ -124,7 +124,6 @@ class Storage
             for ($i = 1; $i <= $amount; $i++) {
                 $output .= $this->preFillSingle($key, $contenttype);
             }
-
         }
 
         $output .= "<br>\n\n" . Trans::__('Done!');
@@ -136,8 +135,10 @@ class Storage
      * Add a record with dummy content..
      *
      * @see preFill
+     *
      * @param $key
      * @param $contenttype
+     *
      * @return string
      */
     private function preFillSingle($key, $contenttype)
@@ -158,7 +159,6 @@ class Storage
         $content['status'] = 'published';
 
         foreach ($contenttype['fields'] as $field => $values) {
-
             switch ($values['type']) {
                 case 'text':
                     $content[$field] = trim(strip_tags($this->app['prefill']->get('/1/veryshort')));
@@ -201,7 +201,6 @@ class Storage
                     $content[$field] = rand(-1000, 1000) + (rand(0, 1000) / 1000);
                     break;
             }
-
         }
 
         $content['slug'] = $this->app['slugify']->slugify($content['title']);
@@ -269,12 +268,12 @@ class Storage
         $this->app['logger.change']->info(
             'Insert record',
             array(
-                'action' => 'INSERT',
+                'action'      => 'INSERT',
                 'contenttype' => $contenttype,
-                'id' => $contentid,
-                'new' => $content,
-                'old' => null,
-                'comment' => $comment
+                'id'          => $contentid,
+                'new'         => $content,
+                'old'         => null,
+                'comment'     => $comment
             )
         );
     }
@@ -295,19 +294,19 @@ class Storage
         $this->app['logger.change']->info(
             'Update record',
             array(
-                'action' => 'UPDATE',
+                'action'      => 'UPDATE',
                 'contenttype' => $contenttype,
-                'id' => $contentid,
-                'new' => $newContent,
-                'old' => $oldContent,
-                'comment' => $comment
+                'id'          => $contentid,
+                'new'         => $newContent,
+                'old'         => $oldContent,
+                'comment'     => $comment
             )
         );
     }
 
     /**
      * Writes a content-changelog entry for a deleted entry.
-     * This function must be called *before* the actual update, because it
+     * This function must be called *before* the actual update, because it.
      *
      * @param string  $contenttype Slug of the record contenttype
      * @param integer $contentid   ID of the record
@@ -319,24 +318,25 @@ class Storage
         $this->app['logger.change']->info(
             'Delete record',
             array(
-                'action' => 'DELETE',
+                'action'      => 'DELETE',
                 'contenttype' => $contenttype,
-                'id' => $contentid,
-                'new' => null,
-                'old' => $content,
-                'comment' => $comment
+                'id'          => $contentid,
+                'new'         => null,
+                'old'         => $content,
+                'comment'     => $comment
             )
         );
     }
 
     /**
-     * Save a record
+     * Save a record.
      *
      * @param Content $content
      * @param string  $comment
      *
-     * @return int
      * @throws \Bolt\Exception\StorageException
+     *
+     * @return int
      */
     public function saveContent(Content $content, $comment = null)
     {
@@ -395,13 +395,14 @@ class Storage
     }
 
     /**
-     * Delete a record
+     * Delete a record.
      *
      * @param string  $contenttype
      * @param integer $id
      *
-     * @return integer The number of affected rows.
      * @throws \Bolt\Exception\StorageException
+     *
+     * @return integer The number of affected rows.
      */
     public function deleteContent($contenttype, $id)
     {
@@ -446,10 +447,11 @@ class Storage
     }
 
     /**
-     * Insert a new contenttype record in the database
+     * Insert a new contenttype record in the database.
      *
-     * @param  \Bolt\Content $content Record content to insert
-     * @param  string        $comment Editor's comment
+     * @param \Bolt\Content $content Record content to insert
+     * @param string        $comment Editor's comment
+     *
      * @return boolean
      */
     protected function insertContent(Content $content, $comment = null)
@@ -484,13 +486,14 @@ class Storage
     }
 
     /**
-     * Update a Bolt contenttype record
+     * Update a Bolt contenttype record.
      *
-     * @param  \Bolt\Content $content The content object to be updated
-     * @param  string        $comment Add a comment to save with change.
+     * @param \Bolt\Content $content The content object to be updated
+     * @param string        $comment Add a comment to save with change.
+     *
+     * @throws \Bolt\Exception\StorageException
      *
      * @return bool
-     * @throws \Bolt\Exception\StorageException
      */
     private function updateContent(Bolt\Content $content, $comment = null)
     {
@@ -518,10 +521,11 @@ class Storage
     }
 
     /**
-     * Get a valid array to commit
+     * Get a valid array to commit.
      *
-     * @param  array $fieldvalues
-     * @param  array $contenttype
+     * @param array $fieldvalues
+     * @param array $contenttype
+     *
      * @return array
      */
     private function getValidSaveData(array $fieldvalues, array $contenttype)
@@ -547,11 +551,12 @@ class Storage
      *
      * It is called in list of contents.
      *
-     * @param  string $contenttype Content Type to be edited.
-     * @param  int    $id          Id of content to be updated.
-     * @param  string $field       Field name of content to be changed.
-     * @param  mixed  $value       New value to be defined on field.
-     * @return bool   Returns true when update is done or false if not.
+     * @param string $contenttype Content Type to be edited.
+     * @param int    $id          Id of content to be updated.
+     * @param string $field       Field name of content to be changed.
+     * @param mixed  $value       New value to be defined on field.
+     *
+     * @return bool Returns true when update is done or false if not.
      */
     public function updateSingleValue($contenttype, $id, $field, $value)
     {
@@ -592,7 +597,7 @@ class Storage
     }
 
     /**
-     * Decode search query into searchable parts
+     * Decode search query into searchable parts.
      */
     private function decodeSearchQuery($q)
     {
@@ -613,14 +618,14 @@ class Storage
 
         return array(
             'valid' => count($words) > 0,
-            'in_q' => $q,
+            'in_q'  => $q,
             'use_q' => implode(' ', $words),
             'words' => $words
         );
     }
 
     /**
-     * Search through a single contenttype
+     * Search through a single contenttype.
      *
      * Search, weigh and return the results.
      *
@@ -700,7 +705,6 @@ class Storage
         $results = $this->app['db']->fetchAll($select);
 
         if (!empty($results)) {
-
             $ids = implode(' || ', util::array_pluck($results, 'id'));
 
             $results = $this->getContent($contenttype, array('id' => $ids, 'returnsingle' => false));
@@ -715,7 +719,7 @@ class Storage
     }
 
     /**
-     * Compare by search weights
+     * Compare by search weights.
      *
      * Or fallback to dates or title
      *
@@ -745,21 +749,22 @@ class Storage
     }
 
     /**
-     * Search through actual content
+     * Search through actual content.
      *
      * Unless the query is invalid it will always return a 'result array'. It may
      * complain in the log but it won't abort.
      *
-     * @param  string  $q            Search string
-     * @param  array   $contenttypes Contenttype names to search for:
-     *                               - string: Specific contenttype
-     *                               - null:   Every searchable contenttype
-     * @param  array   $filters      Additional filters for contenttypes
-     *                               - key is contenttype
-     *                               - value is filter
-     * @param  integer $limit        limit the number of results
-     * @param  integer $offset       skip this number of results
-     * @return mixed   false if query is invalid, an array with results if query was executed
+     * @param string  $q            Search string
+     * @param array   $contenttypes Contenttype names to search for:
+     *                              - string: Specific contenttype
+     *                              - null:   Every searchable contenttype
+     * @param array   $filters      Additional filters for contenttypes
+     *                              - key is contenttype
+     *                              - value is filter
+     * @param integer $limit        limit the number of results
+     * @param integer $offset       skip this number of results
+     *
+     * @return mixed false if query is invalid, an array with results if query was executed
      */
     public function searchContent($q, array $contenttypes = null, array $filters = null, $limit = 9999, $offset = 0)
     {
@@ -821,9 +826,9 @@ class Storage
         }
 
         return array(
-            'query' => $query,
+            'query'         => $query,
             'no_of_results' => $noOfResults,
-            'results' => $pageResults
+            'results'       => $pageResults
         );
     }
 
@@ -835,7 +840,6 @@ class Storage
         $result = array();
 
         foreach ($this->getContentTypes() as $contenttype) {
-
             $contentTypeSearchResults = $this->searchContentType($contenttype, $parameters, $pager);
             foreach ($contentTypeSearchResults as $searchresult) {
                 $result[] = $searchresult;
@@ -873,7 +877,6 @@ class Storage
         // If we need to filter, add the WHERE for that.
         // Meh, InnoDB doesn't support full text search.
         if (!empty($parameters['filter'])) {
-
             $filter = $this->app['db']->quote($parameters['filter']);
 
             $filterWhere = array();
@@ -943,12 +946,12 @@ class Storage
         // Set up the $pager array with relevant values..
         $rowcount = $this->app['db']->executeQuery($pagerquery)->fetch();
         $pager = array(
-            'for' => 'search',
-            'count' => $rowcount['count'],
-            'totalpages' => ceil($rowcount['count'] / $limit),
-            'current' => $page,
+            'for'          => 'search',
+            'count'        => $rowcount['count'],
+            'totalpages'   => ceil($rowcount['count'] / $limit),
+            'current'      => $page,
             'showing_from' => ($page - 1) * $limit + 1,
-            'showing_to' => ($page - 1) * $limit + count($content)
+            'showing_to'   => ($page - 1) * $limit + count($content)
         );
 
         return $content;
@@ -1018,7 +1021,7 @@ class Storage
 
         if (is_array($taxorows)) {
             foreach ($taxorows as $row) {
-                $record = $this->getContent($row['contenttype'] . "/" . $row['content_id']);
+                $record = $this->getContent($row['contenttype'] . '/' . $row['content_id']);
                 if ($record instanceof Content && !empty($record->id)) {
                     $content[] = $record;
                 }
@@ -1028,15 +1031,15 @@ class Storage
         // Set up the $pager array with relevant values..
         $rowcount = $this->app['db']->executeQuery($pagerquery)->fetch();
         $pager = array(
-            'for' => $taxonomytype['singular_slug'] . "_" . $slug,
-            'count' => $rowcount['count'],
-            'totalpages' => ceil($rowcount['count'] / $limit),
-            'current' => $page,
+            'for'          => $taxonomytype['singular_slug'] . '_' . $slug,
+            'count'        => $rowcount['count'],
+            'totalpages'   => ceil($rowcount['count'] / $limit),
+            'current'      => $page,
             'showing_from' => ($page - 1) * $limit + 1,
-            'showing_to' => ($page - 1) * $limit + count($taxorows)
+            'showing_to'   => ($page - 1) * $limit + count($taxorows)
         );
 
-        $this->app['storage']->setPager($taxonomytype['singular_slug'] . "_" . $slug, $pager);
+        $this->app['storage']->setPager($taxonomytype['singular_slug'] . '_' . $slug, $pager);
 
         return $content;
     }
@@ -1049,7 +1052,7 @@ class Storage
     public function publishTimedRecords($contenttype)
     {
         // We need to do this only once per contenttype, max.
-        if (isset($this->checkedfortimed["publish-" . $contenttype['slug']])) {
+        if (isset($this->checkedfortimed['publish-' . $contenttype['slug']])) {
             return;
         }
 
@@ -1072,11 +1075,9 @@ class Storage
                     array('now' => $now)
                 );
             }
-
         } catch (DBALException $e) {
 
             // Oops. Couldn't execute the queries.
-
         }
     }
 
@@ -1111,17 +1112,16 @@ class Storage
                     array('now' => $now)
                 );
             }
-
         } catch (DBALException $e) {
 
             // Oops. Couldn't execute the queries.
-
         }
     }
 
     /**
-     * Split into meta-parameters and contenttype parameters
-     * (tightly coupled to $this->getContent())
+     * Split into meta-parameters and contenttype parameters.
+     *
+     * This is tightly coupled to $this->getContent()
      *
      * @see $this->decodeContentQuery()
      */
@@ -1143,13 +1143,14 @@ class Storage
     }
 
     /**
-     * Decode a contenttypes argument from text
+     * Decode a contenttypes argument from text.
      *
      * (entry,page) -> array('entry', 'page')
      * event -> array('event')
      *
-     * @param  string $text text with contenttypes
-     * @return array  array with contenttype(slug)s
+     * @param string $text text with contenttypes
+     *
+     * @return array array with contenttype(slug)s
      */
     private function decodeContentTypesFromText($text)
     {
@@ -1177,8 +1178,9 @@ class Storage
     }
 
     /**
-     * Parse textquery into useable arguments
-     * (tightly coupled to $this->getContent())
+     * Parse textquery into useable arguments.
+     *
+     * This is tightly coupled to $this->getContent()
      *
      * @see $this->decodeContentQuery()
      *
@@ -1250,8 +1252,9 @@ class Storage
     }
 
     /**
-     * Prepare decoded for actual use
-     * (tightly coupled to $this->getContent())
+     * Prepare decoded for actual use.
+     *
+     * This is tightly coupled to $this->getContent()
      *
      * @see $this->decodeContentQuery()
      *
@@ -1311,10 +1314,12 @@ class Storage
 
     /**
      * Get the parameter for the 'order by' part of a query.
-     * (tightly coupled to $this->getContent())
      *
-     * @param  array  $contenttype
-     * @param  string $orderValue
+     * This is tightly coupled to $this->getContent()
+     *
+     * @param array  $contenttype
+     * @param string $orderValue
+     *
      * @return string
      */
     private function decodeQueryOrder($contenttype, $orderValue)
@@ -1340,36 +1345,39 @@ class Storage
 
     /**
      * Decode a content textquery
-     * (tightly coupled to $this->getContent())
      *
-     * @param    string $textquery
-     * @param    array  $inParameters
+     * This is tightly coupled to $this->getContent()
+     *
+     * @param string $textquery
+     * @param array  $inParameters
+     *
      * @internal param string $query the query (eg. page/about, entries/latest/5)
      * @internal param array  $parameters parameters to the query
-     * @return   array decoded query, keys:
-     *           contenttypes   - array, contenttypeslugs that will be returned
-     *           return_single  - boolean, true if only 1 result should be returned
-     *           self_paginated - boolean, true if already be paginated
-     *           order_callback - callback, sort results post-hydration after everything is merged
-     *           queries        - array of SQL query parts:
-     *             * tablename   - tablename
-     *             * contenttype - contenttype array
-     *             * from        - from part
-     *             * where       - where part
-     *             * order       - order part
-     *             * params      - bind-parameters
-     *           parameters     - parameters to use after the queries
+     *
+     * @return array decoded query, keys:
+     *               contenttypes   - array, contenttypeslugs that will be returned
+     *               return_single  - boolean, true if only 1 result should be returned
+     *               self_paginated - boolean, true if already be paginated
+     *               order_callback - callback, sort results post-hydration after everything is merged
+     *               queries        - array of SQL query parts:
+     *               * tablename   - tablename
+     *               * contenttype - contenttype array
+     *               * from        - from part
+     *               * where       - where part
+     *               * order       - order part
+     *               * params      - bind-parameters
+     *               parameters     - parameters to use after the queries
      */
     private function decodeContentQuery($textquery, $inParameters = null)
     {
         $decoded = array(
-            'contenttypes' => array(),
-            'return_single' => false,
+            'contenttypes'   => array(),
+            'return_single'  => false,
             'self_paginated' => true,
             'order_callback' => false,
-            'queries' => array(),
-            'parameters' => array(),
-            'hydrate' => true,
+            'queries'        => array(),
+            'parameters'     => array(),
+            'hydrate'        => true,
         );
 
         list($metaParameters, $ctypeParameters) = $this->organizeQueryParameters($inParameters);
@@ -1397,12 +1405,12 @@ class Storage
             }
 
             $query = array(
-                'tablename' => $tablename,
+                'tablename'   => $tablename,
                 'contenttype' => $contenttype,
-                'from' => sprintf('FROM %s', $tablename),
-                'where' => '',
-                'order' => '',
-                'params' => array()
+                'from'        => sprintf('FROM %s', $tablename),
+                'where'       => '',
+                'order'       => '',
+                'params'      => array()
             );
 
             if ($contenttype === false) {
@@ -1421,7 +1429,6 @@ class Storage
             if (is_array($actualParameters)) {
                 // Set the 'FROM' part of the query, without the LEFT JOIN (i.e. no taxonomies..)
                 foreach ($actualParameters as $key => $value) {
-
                     if ($key == 'order') {
                         $orderValue = $this->decodeQueryOrder($contenttype, $value);
                         if ($orderValue !== false) {
@@ -1431,7 +1438,6 @@ class Storage
                     }
 
                     if ($key == 'filter' && !empty($value)) {
-
                         $filterWhere = array();
                         foreach ($contenttype['fields'] as $name => $fieldconfig) {
                             if (in_array($fieldconfig['type'], array('text', 'textarea', 'html', 'markdown'))) {
@@ -1457,7 +1463,7 @@ class Storage
                         $countParts = count($keyParts);
                         for ($i = 0; $i < $countParts; $i++) {
                             if (in_array($keyParts[$i], $this->getContentTypeFields($contenttype['slug'])) ||
-                                in_array($keyParts[$i], Content::getBaseColumns()) ) {
+                                in_array($keyParts[$i], Content::getBaseColumns())) {
                                 $rkey = $tablename . '.' . $keyParts[$i];
                                 $fieldtype = $this->getContentTypeFieldType($contenttype['slug'], $keyParts[$i]);
                                 $orPart .= ' (' . $this->parseWhereParameter($rkey, $valParts[$i], $keyParts[$i], $fieldtype) . ') OR ';
@@ -1501,7 +1507,6 @@ class Storage
                             $this->parseWhereParameter($this->getTablename('taxonomy') . '.contenttype', $contenttype['slug'])
                         );
                     }
-
                 }
             }
 
@@ -1525,17 +1530,17 @@ class Storage
             if (isset($inParameters['hydrate'])) {
                 $decoded['hydrate'] = $inParameters['hydrate'];
             }
-
         }
 
         return $decoded;
     }
 
     /**
-     * Decodes contextual page number from current request url if found
+     * Decodes contextual page number from current request url if found.
      *
-     * @param  string $context Pager id/name in url which value we find
-     * @return mixed  Page number in context
+     * @param string $context Pager id/name in url which value we find
+     *
+     * @return mixed Page number in context
      */
     protected function decodePageParameter($context = '')
     {
@@ -1548,9 +1553,10 @@ class Storage
     }
 
     /**
-     * Run existence and perform publish/depublishes
+     * Run existence and perform publish/depublishes.
      *
      * @param array<string> contenttypeslugs to check
+     *
      * @return mixed false, if any table doesn't exist
      *               true, if all is fine
      */
@@ -1583,14 +1589,15 @@ class Storage
     }
 
     /**
-     * Hydrate database rows into objects
+     * Hydrate database rows into objects.
      *
-     * @param      $contenttype
-     * @param      $rows
-     * @param bool $getTaxoAndRel
+     * @param array|string $contenttype
+     * @param array        $rows
+     * @param boolean      $getTaxoAndRel
+     *
+     * @throws \Exception
      *
      * @return array
-     * @throws \Exception
      */
     private function hydrateRows($contenttype, $rows, $getTaxoAndRel = true)
     {
@@ -1610,13 +1617,14 @@ class Storage
     }
 
     /**
-     * Execute the content queries
-     * (tightly coupled to $this->getContent())
+     * Execute the content queries.
+     *
+     * This is tightly coupled to $this->getContent()
      *
      * @see $this->getContent()
      *
-     * @param $decoded
-     * @param $parameters
+     * @param array $decoded
+     * @param array $parameters
      *
      * @return array
      */
@@ -1636,12 +1644,13 @@ class Storage
     }
 
     /**
-     * Execute the content queries
-     * (tightly coupled to $this->getContent())
+     * Execute the content queries.
+     *
+     * This is tightly coupled to $this->getContent()
      *
      * @see $this->getContent()
      *
-     * @param $decoded
+     * @param array $decoded
      *
      * @return array
      */
@@ -1713,16 +1722,21 @@ class Storage
     }
 
     /**
-     * getContent based on a 'human readable query'
+     * getContent based on a 'human readable query'.
      *
      * Used directly by {% setcontent %} but also in other parts.
-     * This code has been split into multiple methods in the spirit of separation of concerns,
-     * but the situation is still far from ideal.
-     * Where applicable each 'concern' notes the coupling in the local documentation.
-     * @param  string  $textquery
-     * @param  string  $parameters
-     * @param  array   $pager
-     * @param  array   $whereparameters
+     *
+     * This code has been split into multiple methods in the spirit of
+     * separation of concerns, but the situation is still far from ideal.
+     *
+     * Where applicable each 'concern' notes the coupling in the local
+     * documentation.
+     *
+     * @param string $textquery
+     * @param string $parameters
+     * @param array  $pager
+     * @param array  $whereparameters
+     *
      * @return Content
      */
     public function getContent($textquery, $parameters = '', &$pager = array(), $whereparameters = array())
@@ -1800,12 +1814,12 @@ class Storage
         if (isset($decoded['parameters']['paging'])) {
             $pagerName = implode('_', $decoded['contenttypes']);
             $pager = array(
-                'for' => $pagerName,
-                'count' => $totalResults,
-                'totalpages' => ceil($totalResults / $decoded['parameters']['limit']),
-                'current' => $decoded['parameters']['page'],
+                'for'          => $pagerName,
+                'count'        => $totalResults,
+                'totalpages'   => ceil($totalResults / $decoded['parameters']['limit']),
+                'current'      => $decoded['parameters']['page'],
                 'showing_from' => ($decoded['parameters']['page'] - 1) * $decoded['parameters']['limit'] + 1,
-                'showing_to' => ($decoded['parameters']['page'] - 1) * $decoded['parameters']['limit'] + count($results)
+                'showing_to'   => ($decoded['parameters']['page'] - 1) * $decoded['parameters']['limit'] + count($results)
             );
             $this->setPager($pagerName, $pager);
             $this->app['twig']->addGlobal('pager', $this->getPager());
@@ -1819,10 +1833,11 @@ class Storage
     /**
      * Check if a given name is a valid column, and if it can be used in queries.
      *
-     * @param  string $name
-     * @param  array  $contenttype
-     * @param  bool   $allowVariants
-     * @return bool
+     * @param string  $name
+     * @param array   $contenttype
+     * @param boolean $allowVariants
+     *
+     * @return boolean
      */
     private function isValidColumn($name, $contenttype, $allowVariants = false)
     {
@@ -1849,7 +1864,8 @@ class Storage
     /**
      * Get field name, stripping possible " DESC" " ASC" etc.
      *
-     * @param  string $name
+     * @param string $name
+     *
      * @return string
      */
     private function getFieldName($name)
@@ -1862,13 +1878,14 @@ class Storage
      *
      * for example, -id returns `r`.`id` DESC
      *
-     * @param  string $name
-     * @param  string $prefix
+     * @param string $name
+     * @param string $prefix
+     *
      * @return string
      */
     private function getEscapedSortorder($name, $prefix = 'r')
     {
-        list ($name, $asc) = $this->getSortOrder($name);
+        list($name, $asc) = $this->getSortOrder($name);
 
         // If we don't have a name, we can't determine a sortorder.
         if (empty($name)) {
@@ -1891,9 +1908,10 @@ class Storage
 
     /**
      * Get sorting order of name, stripping possible " DESC" " ASC" etc., and
-     * also return the sorting order
+     * also return the sorting order.
      *
-     * @param  string $name
+     * @param string $name
+     *
      * @return string
      */
     public function getSortOrder($name = '-datepublish')
@@ -1921,15 +1939,15 @@ class Storage
     /**
      * Helper function for sorting Records of content that have a Grouping.
      *
-     * @param  Content $a
-     * @param  Content $b
+     * @param Content $a
+     * @param Content $b
+     *
      * @return int
      */
     private function groupingSort(Content $a, Content $b)
     {
         // Same group, sort within group..
         if ($a->group['slug'] == $b->group['slug']) {
-
             if (!empty($a->sortorder) || !empty($b->sortorder)) {
                 if (!isset($a->sortorder)) {
                     return 1;
@@ -1964,11 +1982,12 @@ class Storage
 
     /**
      * Helper function to set the proper 'where' parameter,
-     * when getting values like '<2012' or '!bob'
+     * when getting values like '<2012' or '!bob'.
      *
-     * @param  string $key
-     * @param  string $value
-     * @param  mixed  $fieldtype
+     * @param string $key
+     * @param string $value
+     * @param mixed  $fieldtype
+     *
      * @return string
      */
     private function parseWhereParameter($key, $value, $fieldtype = false)
@@ -1983,7 +2002,6 @@ class Storage
             }
 
             return "( " . implode(" OR ", $values) . " )";
-
         } elseif (strpos($value, " && ") !== false) {
             $values = explode(" && ", $value);
             foreach ($values as $index => $value) {
@@ -2028,9 +2046,10 @@ class Storage
     }
 
     /**
-     * Get the contenttype as an array, based on the given $contenttypeslug
+     * Get the contenttype as an array, based on the given $contenttypeslug.
      *
-     * @param  string     $contenttypeslug
+     * @param string $contenttypeslug
+     *
      * @return bool|array
      */
     public function getContentType($contenttypeslug)
@@ -2066,10 +2085,11 @@ class Storage
     }
 
     /**
-     * Get the taxonomy as an array, based on the given $taxonomyslug
+     * Get the taxonomy as an array, based on the given $taxonomyslug.
      *
-     * @param  string     $taxonomyslug
-     * @return bool|array
+     * @param string $taxonomyslug
+     *
+     * @return boolean|array
      */
     public function getTaxonomyType($taxonomyslug)
     {
@@ -2100,7 +2120,7 @@ class Storage
     }
 
     /**
-     * Get an array of the available contenttypes
+     * Get an array of the available contenttypes.
      *
      * @return array $contenttypes
      */
@@ -2110,10 +2130,11 @@ class Storage
     }
 
     /**
-     * Get an array of the available fields for a given contenttype
+     * Get an array of the available fields for a given contenttype.
      *
-     * @param  string $contenttypeslug
-     * @return array  $fields
+     * @param string $contenttypeslug
+     *
+     * @return array $fields
      */
     public function getContentTypeFields($contenttypeslug)
     {
@@ -2127,11 +2148,12 @@ class Storage
     }
 
     /**
-     * Get the fieldtype for a given contenttype and fieldname
+     * Get the fieldtype for a given contenttype and fieldname.
      *
-     * @param  string $contenttypeslug
-     * @param  string $fieldname
-     * @return array  $fields
+     * @param string $contenttypeslug
+     * @param string $fieldname
+     *
+     * @return array $fields
      */
     public function getContentTypeFieldType($contenttypeslug, $fieldname)
     {
@@ -2149,8 +2171,9 @@ class Storage
     /**
      * Check if a given contenttype has a grouping, and if it does, return it.
      *
-     * @param  string $contenttypeslug
-     * @return mixed  $grouping
+     * @param string $contenttypeslug
+     *
+     * @return mixed $grouping
      */
     public function getContentTypeGrouping($contenttypeslug)
     {
@@ -2167,10 +2190,11 @@ class Storage
     }
 
     /**
-     * Get an array of the available taxonomytypes for a given contenttype
+     * Get an array of the available taxonomytypes for a given contenttype.
      *
-     * @param  string $contenttypeslug
-     * @return array  $taxonomy
+     * @param string $contenttypeslug
+     *
+     * @return array $taxonomy
      */
     public function getContentTypeTaxonomy($contenttypeslug)
     {
@@ -2322,7 +2346,7 @@ class Storage
                     // Assume we passed a value, instead of a slug. Turn it back into a proper slug
                     if (isset($configTaxonomies[$taxonomytype]['options']) &&
                         is_array($configTaxonomies[$taxonomytype]['options']) &&
-                        array_search($slug, $configTaxonomies[$taxonomytype]['options']) ) {
+                        array_search($slug, $configTaxonomies[$taxonomytype]['options'])) {
                         $slug = array_search($slug, $configTaxonomies[$taxonomytype]['options']);
                     } else {
                         // make sure it's at least a slug-like value.
@@ -2333,17 +2357,16 @@ class Storage
                 if ((!in_array($slug, $currentvalues) || ($currentsortorder != $sortorder)) && (!empty($slug))) {
                     // Insert it!
                     $row = array(
-                        'content_id' => $contentId,
-                        'contenttype' => $contenttypeslug,
+                        'content_id'   => $contentId,
+                        'contenttype'  => $contenttypeslug,
                         'taxonomytype' => $taxonomytype,
-                        'slug' => $slug,
-                        'name' => $name,
-                        'sortorder' => (int) $sortorder
+                        'slug'         => $slug,
+                        'name'         => $name,
+                        'sortorder'    => (int) $sortorder
                     );
 
                     $this->app['db']->insert($tablename, $row);
                 }
-
             }
 
             // Delete the ones that have been removed.
@@ -2357,7 +2380,6 @@ class Storage
                     $this->app['db']->delete($tablename, array('id' => $id));
                 }
             }
-
         }
     }
 
@@ -2479,7 +2501,6 @@ class Storage
         // Delete the ones that have been removed, but only if the contenttype defines the relations. For if we have
         // example, if we have a relation from 'pages' to 'entries', do not delete them when editing an 'entry'.
         foreach ($currentvalues as $currentvalue) {
-
             if ((!isset($relation[$currentvalue['to_contenttype']]) ||
                     !in_array($currentvalue['to_id'], $relation[$currentvalue['to_contenttype']])) &&
                 isset($contenttype['relations'][$currentvalue['to_contenttype']])
@@ -2498,22 +2519,18 @@ class Storage
         // Add the ones not yet present..
         if (!empty($relation)) {
             foreach ($relation as $toContenttype => $newvalues) {
-
                 foreach ($newvalues as $value) {
-
                     if (!in_array($toContenttype . "/" . $value, $currentvalues) && (!empty($value))) {
                         // Insert it!
                         $row = array(
                             'from_contenttype' => $contenttype['slug'],
-                            'from_id' => $contentId,
-                            'to_contenttype' => $toContenttype,
-                            'to_id' => $value
+                            'from_id'          => $contentId,
+                            'to_contenttype'   => $toContenttype,
+                            'to_id'            => $value
                         );
                         $this->app['db']->insert($tablename, $row);
                     }
-
                 }
-
             }
         }
     }
@@ -2536,6 +2553,18 @@ class Storage
         }
     }
 
+    /**
+     * Get a unique URL for a record
+     *
+     * @param string  $title
+     * @param integer $id
+     * @param string  $contenttypeslug
+     * @param boolean $fulluri
+     * @param boolean $allowempty
+     * @param boolean $slugfield
+     *
+     * @return string
+     */
     public function getUri($title, $id = 0, $contenttypeslug = "", $fulluri = true, $allowempty = true, $slugfield = 'slug')
     {
         $contenttype = $this->getContentType($contenttypeslug);
@@ -2607,9 +2636,10 @@ class Storage
 
     /**
      * Check if the table $name exists. We use our own queries here, because it's _much_
-     * faster than Doctrine's getSchemaManager()
+     * faster than Doctrine's getSchemaManager().
      *
      * @param $name
+     *
      * @return bool
      */
     protected function tableExists($name)
@@ -2642,9 +2672,10 @@ class Storage
     }
 
     /**
-     * Get the tablename with prefix from a given $name
+     * Get the tablename with prefix from a given $name.
      *
      * @param $name
+     *
      * @return mixed
      */
     protected function getTablename($name)
@@ -2663,9 +2694,11 @@ class Storage
     }
 
     /**
-     * Find record from Content Type and Content Id
-     * @param  string $tablename Table name
-     * @param  int    $contentId Content Id
+     * Find record from Content Type and Content Id.
+     *
+     * @param string $tablename Table name
+     * @param int    $contentId Content Id
+     *
      * @return array
      */
     protected function findContent($tablename, $contentId)
@@ -2676,7 +2709,8 @@ class Storage
     }
 
     /**
-     * Setter for pager storage element
+     * Setter for pager storage element.
+     *
      * @param string      $name
      * @param array|Pager $pager
      */
@@ -2689,7 +2723,9 @@ class Storage
 
     /**
      * Getter of a pager element. Pager can hold a paging snapshot map.
-     * @param  string $name Optional name of a pager element. Whole pager map returns if no name given.
+     *
+     * @param string $name Optional name of a pager element. Whole pager map returns if no name given.
+     *
      * @return array
      */
     public function &getPager($name = null)

@@ -4,9 +4,9 @@ namespace Bolt\Provider;
 
 use Bolt\Logger\ChangeLog;
 use Bolt\Logger\DeprecatedLog;
-use Bolt\Logger\Manager;
-use Bolt\Logger\Handler\SystemHandler;
 use Bolt\Logger\Handler\RecordChangeHandler;
+use Bolt\Logger\Handler\SystemHandler;
+use Bolt\Logger\Manager;
 use Monolog\Formatter\WildfireFormatter;
 use Monolog\Handler\FirePHPHandler;
 use Monolog\Logger;
@@ -14,7 +14,7 @@ use Silex\Application;
 use Silex\ServiceProviderInterface;
 
 /**
- * Monolog provider for Bolt system logging entries
+ * Monolog provider for Bolt system logging entries.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
@@ -23,7 +23,7 @@ class LoggerServiceProvider implements ServiceProviderInterface
     public function register(Application $app)
     {
         /**
-         * Wrapper for old log service, used by extensions
+         * Wrapper for old log service, used by extensions.
          *
          * @deprecated To be removed for Bolt 3.0
          */

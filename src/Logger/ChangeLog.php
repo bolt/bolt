@@ -6,20 +6,16 @@ use Doctrine\DBAL\Query\QueryBuilder;
 use Silex\Application;
 
 /**
- *
+ * Bolt change log interface class
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
 class ChangeLog
 {
-    /**
-     * @var Application
-     */
+    /** @var Application */
     private $app;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $table_change;
 
     /**
@@ -34,14 +30,15 @@ class ChangeLog
     }
 
     /**
-     * Get content changelog entries for all content types
+     * Get content changelog entries for all content types.
      *
-     * @param  array $options An array with additional options. Currently, the
-     *                        following options are supported:
-     *                        - 'limit' (int)
-     *                        - 'offset' (int)
-     *                        - 'order' (string)
-     *                        - 'direction' (string)
+     * @param array $options An array with additional options. Currently, the
+     *                       following options are supported:
+     *                       - 'limit' (int)
+     *                       - 'offset' (int)
+     *                       - 'order' (string)
+     *                       - 'direction' (string)
+     *
      * @return array
      */
     public function getChangelog(array $options)
@@ -63,7 +60,7 @@ class ChangeLog
     }
 
     /**
-     * Get a count of change log entries
+     * Get a count of change log entries.
      *
      * @return integer
      */
@@ -80,16 +77,17 @@ class ChangeLog
     /**
      * Get content changelog entries by content type.
      *
-     * @param  mixed $contenttype Should be a string content type slug, or an
-     *                            associative array containing a key named
-     *                            'slug'
-     * @param  array $options     An array with additional options. Currently, the
-     *                            following options are supported:
-     *                            - 'limit' (int)
-     *                            - 'order' (string)
-     *                            - 'direction' (string)
-     *                            - 'contentid' (int), to filter further by content ID
-     *                            - 'id' (int), to filter by a specific changelog entry ID
+     * @param mixed $contenttype Should be a string content type slug, or an
+     *                           associative array containing a key named
+     *                           'slug'
+     * @param array $options     An array with additional options. Currently, the
+     *                           following options are supported:
+     *                           - 'limit' (int)
+     *                           - 'order' (string)
+     *                           - 'direction' (string)
+     *                           - 'contentid' (int), to filter further by content ID
+     *                           - 'id' (int), to filter by a specific changelog entry ID
+     *
      * @return array
      */
     public function getChangelogByContentType($contenttype, array $options)
@@ -123,10 +121,11 @@ class ChangeLog
     }
 
     /**
-     * Get a count of change log entries by contenttype
+     * Get a count of change log entries by contenttype.
      *
-     * @param  mixed   $contenttype
-     * @param  array   $options
+     * @param mixed $contenttype
+     * @param array $options
+     *
      * @return integer
      */
     public function countChangelogByContentType($contenttype, array $options)
@@ -147,13 +146,14 @@ class ChangeLog
     }
 
     /**
-     * Get a content changelog entry by ID
+     * Get a content changelog entry by ID.
      *
-     * @param  mixed                    $contenttype Should be a string content type slug, or an
-     *                                               associative array containing a key named
-     *                                               'slug'
+     * @param mixed $contenttype Should be a string content type slug, or an
+     *                           associative array containing a key named
+     *                           'slug'
      * @param  $contentid
-     * @param  int                      $id          The content-changelog ID
+     * @param int   $id          The content-changelog ID
+     *
      * @return \Bolt\Logger\ChangeLogItem|null
      */
     public function getChangelogEntry($contenttype, $contentid, $id)
@@ -164,11 +164,12 @@ class ChangeLog
     /**
      * Get the content changelog entry that follows the given ID.
      *
-     * @param  mixed                    $contenttype Should be a string content type slug, or an
-     *                                               associative array containing a key named
-     *                                               'slug'
+     * @param mixed $contenttype Should be a string content type slug, or an
+     *                           associative array containing a key named
+     *                           'slug'
      * @param  $contentid
-     * @param  int                      $id          The content-changelog ID
+     * @param int   $id          The content-changelog ID
+     *
      * @return \Bolt\Logger\ChangeLogItem|null
      */
     public function getNextChangelogEntry($contenttype, $contentid, $id)
@@ -179,11 +180,12 @@ class ChangeLog
     /**
      * Get the content changelog entry that precedes the given ID.
      *
-     * @param  mixed                    $contenttype Should be a string content type slug, or an
-     *                                               associative array containing a key named
-     *                                               'slug'
+     * @param mixed $contenttype Should be a string content type slug, or an
+     *                           associative array containing a key named
+     *                           'slug'
      * @param $contentid
-     * @param  int                      $id          The content-changelog ID
+     * @param int   $id          The content-changelog ID
+     *
      * @return \Bolt\Logger\ChangeLogItem|null
      */
     public function getPrevChangelogEntry($contenttype, $contentid, $id)
@@ -192,11 +194,12 @@ class ChangeLog
     }
 
     /**
-     * Set any required WHERE clause on a QueryBuilder
+     * Set any required WHERE clause on a QueryBuilder.
      *
-     * @param  QueryBuilder $query
-     * @param  string       $contenttype
-     * @param  array        $options
+     * @param QueryBuilder $query
+     * @param string       $contenttype
+     * @param array        $options
+     *
      * @return QueryBuilder
      */
     private function setWhere(QueryBuilder $query, $contenttype, array $options)
@@ -206,7 +209,6 @@ class ChangeLog
 
         // Set any required WHERE
         if (isset($options['contentid']) || isset($options['id'])) {
-
             if (isset($options['contentid'])) {
                 $where->add($query->expr()->eq('contentid', ':contentid'));
             }
@@ -227,14 +229,15 @@ class ChangeLog
     }
 
     /**
-     * Conditionally add LIMIT and ORDERBY to a QueryBuilder query
+     * Conditionally add LIMIT and ORDERBY to a QueryBuilder query.
      *
-     * @param  QueryBuilder $query
-     * @param  array        $options The following options are supported:
-     *                               - 'limit' (int)
-     *                               - 'offset' (int)
-     *                               - 'order' (string)
-     *                               - 'direction' (string)
+     * @param QueryBuilder $query
+     * @param array        $options The following options are supported:
+     *                              - 'limit' (int)
+     *                              - 'offset' (int)
+     *                              - 'order' (string)
+     *                              - 'direction' (string)
+     *
      * @return QueryBuilder
      */
     private function setLimitOrder(QueryBuilder $query, array $options)
@@ -256,15 +259,17 @@ class ChangeLog
     /**
      * Get one changelog entry from the database.
      *
-     * @param  mixed              $contenttype Should be a string content type slug, or an
-     *                                         associative array containing a key named
-     *                                         'slug'
-     * @param  integer            $contentid
-     * @param  integer            $id          The content-changelog ID
-     * @param  string             $cmpOp       One of '=', '<', '>'; this parameter is used
-     *                                         to select either the ID itself, or the subsequent
-     *                                         or preceding entry.
+     * @param mixed   $contenttype Should be a string content type slug, or an
+     *                             associative array containing a key named
+     *                             'slug'
+     * @param integer $contentid
+     * @param integer $id          The content-changelog ID
+     * @param string  $cmpOp       One of '=', '<', '>'; this parameter is used
+     *                             to select either the ID itself, or the subsequent
+     *                             or preceding entry.
+     *
      * @throws \Exception
+     *
      * @return \Bolt\Logger\ChangeLogItem|null
      */
     private function getOrderedChangelogEntry($contenttype, $contentid, $id, $cmpOp)

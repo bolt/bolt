@@ -10,18 +10,17 @@ use Doctrine\Common\Cache\FilesystemCache;
  * information like feeds, and other stuff that can be recovered easily.
  *
  * @author Bob den Otter, bob@twokings.nl
- *
  */
 class Cache extends FilesystemCache
 {
 
     /**
-     * Max cache age. Default 10 minutes
+     * Max cache age. Default 10 minutes.
      */
     const DEFAULT_MAX_AGE = 600;
 
     /**
-     * Default cache file extension
+     * Default cache file extension.
      */
     private $extension = '.data';
 
@@ -41,8 +40,9 @@ class Cache extends FilesystemCache
     /**
      * Set up the object. Initialize the proper folder for storing the files.
      *
-     * @param  string      $cacheDir
-     * @param  Application $app
+     * @param string      $cacheDir
+     * @param Application $app
+     *
      * @throws \Exception
      */
     public function __construct($cacheDir, Application $app)
@@ -67,6 +67,7 @@ class Cache extends FilesystemCache
      * folders, which statstically means one or two files per folder.
      *
      * @param string $id
+     *
      * @return string
      */
     protected function getFilename($id)
@@ -85,17 +86,16 @@ class Cache extends FilesystemCache
      * Clear the cache. Both the doctrine FilesystemCache, as well as twig and thumbnail temp files.
      *
      * @see clearCacheHelper
-     *
      */
     public function clearCache()
     {
         $result = array(
-            'successfiles' => 0,
-            'failedfiles' => 0,
-            'failed' => array(),
+            'successfiles'   => 0,
+            'failedfiles'    => 0,
+            'failed'         => array(),
             'successfolders' => 0,
-            'failedfolders' => 0,
-            'log' => ''
+            'failedfolders'  => 0,
+            'log'            => ''
         );
 
         // Clear Doctrine's folder.
@@ -112,7 +112,7 @@ class Cache extends FilesystemCache
     }
 
     /**
-     * Helper function for clearCache()
+     * Helper function for clearCache().
      *
      * @param string $startFolder
      * @param string $additional
@@ -131,7 +131,6 @@ class Cache extends FilesystemCache
         $dir = dir($currentfolder);
 
         while (($entry = $dir->read()) !== false) {
-
             $exclude = array('.', '..', 'index.html', '.gitignore');
 
             if (in_array($entry, $exclude)) {
@@ -148,7 +147,6 @@ class Cache extends FilesystemCache
             }
 
             if (is_dir($currentfolder . '/' . $entry)) {
-
                 $this->clearCacheHelper($startFolder, $additional . '/' . $entry, $result);
 
                 if (@rmdir($currentfolder . '/' . $entry)) {
@@ -156,9 +154,7 @@ class Cache extends FilesystemCache
                 } else {
                     $result['failedfolders']++;
                 }
-
             }
-
         }
 
         $dir->close();

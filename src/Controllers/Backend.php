@@ -145,7 +145,8 @@ class Backend implements ControllerProviderInterface
     /**
      * Dashboard or "root".
      *
-     * @param  Application $app The application/container
+     * @param Application $app The application/container
+     *
      * @return mixed
      */
     public function dashboard(Application $app)
@@ -165,7 +166,7 @@ class Backend implements ControllerProviderInterface
         }
 
         $context = array(
-            'latest' => $latest,
+            'latest'          => $latest,
             'suggestloripsum' => ($total == 0), // Nothing in the DB, then suggest to create some dummy content.
         );
 
@@ -175,7 +176,8 @@ class Backend implements ControllerProviderInterface
     /**
      * Check the database for missing tables and columns. Does not do actual repairs.
      *
-     * @param  Application $app The application/container
+     * @param Application $app The application/container
+     *
      * @return mixed
      */
     public function dbCheck(Application $app)
@@ -183,9 +185,9 @@ class Backend implements ControllerProviderInterface
         list($messages, $hints) = $app['integritychecker']->checkTablesIntegrity(true);
 
         $context = array(
-            'modifications_made' => null,
+            'modifications_made'     => null,
             'modifications_required' => $messages,
-            'modifications_hints' => $hints,
+            'modifications_hints'    => $hints,
         );
 
         return $app['render']->render('dbcheck/dbcheck.twig', array('context' => $context));
@@ -194,7 +196,8 @@ class Backend implements ControllerProviderInterface
     /**
      * Check the database, create tables, add missing/new columns to tables.
      *
-     * @param  Application $app The application/container
+     * @param Application $app The application/container
+     *
      * @return string
      */
     public function dbUpdate(Application $app)
@@ -221,14 +224,15 @@ class Backend implements ControllerProviderInterface
     /**
      * Show the result of database updates.
      *
-     * @param  Application $app     The application/container
-     * @param  Request     $request The Symfony Request
+     * @param Application $app     The application/container
+     * @param Request     $request The Symfony Request
+     *
      * @return mixed
      */
     public function dbUpdateResult(Application $app, Request $request)
     {
         $context = array(
-            'modifications_made' => json_decode($request->get('messages')),
+            'modifications_made'     => json_decode($request->get('messages')),
             'modifications_required' => null,
         );
 
@@ -238,7 +242,8 @@ class Backend implements ControllerProviderInterface
     /**
      * Clear the cache.
      *
-     * @param  Application $app The application/container
+     * @param Application $app The application/container
+     *
      * @return mixed
      */
     public function clearCache(Application $app)
@@ -260,7 +265,8 @@ class Backend implements ControllerProviderInterface
     /**
      * Show the system log.
      *
-     * @param  Silex\Application $app The application/container
+     * @param \Silex\Application $app The application/container
+     *
      * @return string
      */
     public function systemLog(Application $app)
@@ -290,7 +296,8 @@ class Backend implements ControllerProviderInterface
     /**
      * Show the change log.
      *
-     * @param  Application $app The application/container
+     * @param Application $app The application/container
+     *
      * @return string
      */
     public function changeLog(Application $app)
@@ -317,10 +324,11 @@ class Backend implements ControllerProviderInterface
     /**
      * Show changelog entries.
      *
-     * @param  string            $contenttype The content type slug
-     * @param  integer           $contentid   The content ID
-     * @param  Silex\Application $app         The application/container
-     * @param  Request           $request     The Symfony Request
+     * @param string             $contenttype The content type slug
+     * @param integer            $contentid   The content ID
+     * @param \Silex\Application $app         The application/container
+     * @param Request            $request     The Symfony Request
+     *
      * @return mixed
      */
     public function changelogRecordAll($contenttype, $contentid, Application $app, Request $request)
@@ -411,11 +419,11 @@ class Backend implements ControllerProviderInterface
 
         $context = array(
             'contenttype' => array('slug' => $contenttype),
-            'entries' => $logEntries,
-            'content' => $content,
-            'title' => $title,
+            'entries'     => $logEntries,
+            'content'     => $content,
+            'title'       => $title,
             'currentpage' => $page,
-            'pagecount' => $pagecount
+            'pagecount'   => $pagecount
         );
 
         return $app['render']->render('changelog/changelogrecordall.twig', array('context' => $context));
@@ -424,11 +432,12 @@ class Backend implements ControllerProviderInterface
     /**
      * Show changelog details.
      *
-     * @param  string            $contenttype The content type slug
-     * @param  integer           $contentid   The content ID
-     * @param  integer           $id          The changelog entry ID
-     * @param  Silex\Application $app         The application/container
-     * @param  Request           $request     The Symfony Request
+     * @param string             $contenttype The content type slug
+     * @param integer            $contentid   The content ID
+     * @param integer            $id          The changelog entry ID
+     * @param \Silex\Application $app         The application/container
+     * @param Request            $request     The Symfony Request
+     *
      * @return mixed
      */
     public function changelogRecordSingle($contenttype, $contentid, $id, Application $app, Request $request)
@@ -443,10 +452,9 @@ class Backend implements ControllerProviderInterface
 
         $context = array(
             'contenttype' => array('slug' => $contenttype),
-            'entry' => $entry,
-            'next_entry' => $next,
-            'prev_entry' => $prev,
-            //'content' => $content,
+            'entry'       => $entry,
+            'next_entry'  => $next,
+            'prev_entry'  => $prev
         );
 
         return $app['render']->render('changelog/changelogrecordsingle.twig', array('context' => $context));
@@ -455,7 +463,8 @@ class Backend implements ControllerProviderInterface
     /**
      * Show the Omnisearch results.
      *
-     * @param  Application $app The application/container
+     * @param Application $app The application/container
+     *
      * @return mixed
      */
     public function omnisearch(Application $app)
@@ -468,7 +477,7 @@ class Backend implements ControllerProviderInterface
         }
 
         $context = array(
-            'query' => $query,
+            'query'   => $query,
             'results' => $results
         );
 
@@ -478,8 +487,9 @@ class Backend implements ControllerProviderInterface
     /**
      * Generate some lipsum in the DB.
      *
-     * @param  Application $app     The application/container
-     * @param  Request     $request The Symfony Request
+     * @param Application $app     The application/container
+     * @param Request     $request The Symfony Request
+     *
      * @return string
      */
     public function prefill(Application $app, Request $request)
@@ -493,7 +503,7 @@ class Backend implements ControllerProviderInterface
         $form = $app['form.factory']
             ->createBuilder('form')
             ->add('contenttypes', 'choice', array(
-                'choices' => $choices,
+                'choices'  => $choices,
                 'multiple' => true,
                 'expanded' => true,
             ))
@@ -517,7 +527,7 @@ class Backend implements ControllerProviderInterface
 
         $context = array(
             'contenttypes' => $choices,
-            'form' => $form->createView(),
+            'form'         => $form->createView(),
         );
 
         return $app['render']->render('prefill/prefill.twig', array('context' => $context));
@@ -526,8 +536,9 @@ class Backend implements ControllerProviderInterface
     /**
      * Content type overview page.
      *
-     * @param  Application $app             The application/container
-     * @param  string      $contenttypeslug The content type slug
+     * @param Application $app             The application/container
+     * @param string      $contenttypeslug The content type slug
+     *
      * @return mixed
      */
     public function overview(Application $app, $contenttypeslug)
@@ -564,7 +575,7 @@ class Backend implements ControllerProviderInterface
         );
 
         $context = array(
-            'contenttype' => $contenttype,
+            'contenttype'     => $contenttype,
             'multiplecontent' => $multiplecontent,
         );
 
@@ -572,12 +583,13 @@ class Backend implements ControllerProviderInterface
     }
 
     /**
-     * Get related records @todo
+     * Get related records @todo.
      *
-     * @param  string      $contenttypeslug The content type slug
-     * @param  integer     $id              The ID
-     * @param  Application $app             The application/container
-     * @param  Request     $request         The Symfony Request
+     * @param string      $contenttypeslug The content type slug
+     * @param integer     $id              The ID
+     * @param Application $app             The application/container
+     * @param Request     $request         The Symfony Request
+     *
      * @return mixed
      */
     public function relatedTo($contenttypeslug, $id, Application $app, Request $request)
@@ -612,7 +624,7 @@ class Backend implements ControllerProviderInterface
                     $showContenttype = $relatedtype;
                 }
                 $relations[$relatedslug] = array(
-                    'name' => Trans::__($relatedtype['name']),
+                    'name'   => Trans::__($relatedtype['name']),
                     'active' => ($relatedtype['slug'] == $showSlug),
                 );
             }
@@ -626,20 +638,20 @@ class Backend implements ControllerProviderInterface
          *     $limit = $app['config']->get('general/recordsperpage');
          * } else {
          *    $limit = $contenttype['recordsperpage'];
-         * }
+         * }.
          */
 
         $content = $app['storage']->getContent($contenttypeslug, array('id' => $id));
         $relatedContent = $content->related($showContenttype['slug']);
 
         $context = array(
-            'id' => $id,
-            'name' => Trans::__($contenttype['singular_name']),
-            'title' => $content['title'],
-            'contenttype' => $contenttype,
-            'relations' => $relations,
+            'id'               => $id,
+            'name'             => Trans::__($contenttype['singular_name']),
+            'title'            => $content['title'],
+            'contenttype'      => $contenttype,
+            'relations'        => $relations,
             'show_contenttype' => $showContenttype,
-            'related_content' => $relatedContent,
+            'related_content'  => $relatedContent,
         );
 
         return $app['twig']->render('relatedto/relatedto.twig', array('context' => $context));
@@ -648,10 +660,11 @@ class Backend implements ControllerProviderInterface
     /**
      * Edit a unit of content, or create a new one.
      *
-     * @param  string      $contenttypeslug The content type slug
-     * @param  integer     $id              The content ID
-     * @param  Application $app             The application/container
-     * @param  Request     $request         The Symfony Request
+     * @param string      $contenttypeslug The content type slug
+     * @param integer     $id              The content ID
+     * @param Application $app             The application/container
+     * @param Request     $request         The Symfony Request
+     *
      * @return mixed
      */
     public function editContent($contenttypeslug, $id, Application $app, Request $request)
@@ -770,7 +783,6 @@ class Backend implements ControllerProviderInterface
                  * record and staying on the same page, i.e. "Save {contenttype}"
                  */
                 if ($app['request']->get('returnto')) {
-
                     $returnto = $app['request']->get('returnto');
 
                     if ($returnto == "new") {
@@ -828,7 +840,6 @@ class Backend implements ControllerProviderInterface
                 } else {
                     return Lib::redirect('overview', array('contenttypeslug' => $contenttype['slug']));
                 }
-
             } else {
                 $app['session']->getFlashBag()->add('error', Trans::__('contenttypes.generic.error-saving', array('%contenttype%' => $contenttype['slug'])));
                 $app['logger.system']->error('Save error: ' . $content->getTitle(), array('event' => 'content'));
@@ -892,7 +903,7 @@ class Backend implements ControllerProviderInterface
         }
 
         // Test write access for uploadable fields
-        foreach ($contenttype['fields'] as $key=>&$values) {
+        foreach ($contenttype['fields'] as $key => &$values) {
             if (isset($values['upload'])) {
                 $canUpload = $app['filesystem']->getFilesystem()->getVisibility($values['upload']);
                 if ($canUpload === 'public') {
@@ -925,8 +936,8 @@ class Backend implements ControllerProviderInterface
                 $id .= '-' . $nr;
             }
             $groups[$group] = array(
-                'label' => $label,
-                'id' => $id,
+                'label'     => $label,
+                'id'        => $id,
                 'is_active' => $nr === 1,
             );
             $groupIds[$id] = 1;
@@ -952,18 +963,18 @@ class Backend implements ControllerProviderInterface
         // Render
 
         $context = array(
-            'contenttype' => $contenttype,
-            'content' => $content,
+            'contenttype'    => $contenttype,
+            'content'        => $content,
             'allowed_status' => $allowedStatuses,
-            'contentowner' => $contentowner,
-            'fields' => $app['config']->fields->fields(),
-            'can_upload' => $app['users']->isAllowed('files:uploads'),
-            'groups' => $groups,
-            'has' => array(
+            'contentowner'   => $contentowner,
+            'fields'         => $app['config']->fields->fields(),
+            'can_upload'     => $app['users']->isAllowed('files:uploads'),
+            'groups'         => $groups,
+            'has'            => array(
                 'incoming_relations' => $hasIncomingRelations,
-                'relations' => $hasRelations,
-                'tabs' => $hasTabs,
-                'taxonomy' => $hasTaxonomy,
+                'relations'          => $hasRelations,
+                'tabs'               => $hasTabs,
+                'taxonomy'           => $hasTaxonomy,
             ),
         );
 
@@ -973,9 +984,10 @@ class Backend implements ControllerProviderInterface
     /**
      * Deletes a content item.
      *
-     * @param  Application $app             The application/container
-     * @param  string      $contenttypeslug The content type slug
-     * @param  integer     $id              The content ID
+     * @param Application $app             The application/container
+     * @param string      $contenttypeslug The content type slug
+     * @param integer     $id              The content ID
+     *
      * @return string
      */
     public function deleteContent(Application $app, $contenttypeslug, $id)
@@ -999,10 +1011,11 @@ class Backend implements ControllerProviderInterface
     /**
      * Perform actions on content.
      *
-     * @param  Application $app             The application/container
-     * @param  string      $action          The action
-     * @param  string      $contenttypeslug The content type slug
-     * @param  integer     $id              The content ID
+     * @param Application $app             The application/container
+     * @param string      $action          The action
+     * @param string      $contenttypeslug The content type slug
+     * @param integer     $id              The content ID
+     *
      * @return string
      */
     public function contentAction(Application $app, $action, $contenttypeslug, $id)
@@ -1017,9 +1030,9 @@ class Backend implements ControllerProviderInterface
 
         // map actions to new statuses
         $actionStatuses = array(
-            'held' => 'held',
+            'held'    => 'held',
             'publish' => 'published',
-            'draft' => 'draft',
+            'draft'   => 'draft',
         );
         if (!isset($actionStatuses[$action])) {
             $app['session']->getFlashBag()->add('error', Trans::__('No such action for content.'));
@@ -1047,7 +1060,8 @@ class Backend implements ControllerProviderInterface
     /**
      * Show a list of all available users.
      *
-     * @param  Application $app The application/container
+     * @param Application $app The application/container
+     *
      * @return mixed
      */
     public function users(Application $app)
@@ -1064,8 +1078,8 @@ class Backend implements ControllerProviderInterface
 
         $context = array(
             'currentuser' => $currentuser,
-            'users' => $users,
-            'sessions' => $sessions
+            'users'       => $users,
+            'sessions'    => $sessions
         );
 
         return $app['render']->render('users/users.twig', array('context' => $context));
@@ -1074,7 +1088,8 @@ class Backend implements ControllerProviderInterface
     /**
      * Show the roles page.
      *
-     * @param  Application $app The application/container
+     * @param Application $app The application/container
+     *
      * @return mixed
      */
     public function roles(Application $app)
@@ -1092,7 +1107,7 @@ class Backend implements ControllerProviderInterface
 
         $context = array(
             'effective_permissions' => $effectivePermissions,
-            'global_permissions' => $globalPermissions,
+            'global_permissions'    => $globalPermissions,
         );
 
         return $app['twig']->render('roles/roles.twig', array('context' => $context));
@@ -1101,9 +1116,10 @@ class Backend implements ControllerProviderInterface
     /**
      * Edit a user.
      *
-     * @param  integer     $id      The user ID
-     * @param  Application $app     The application/container
-     * @param  Request     $request The Symfony Request
+     * @param integer     $id      The user ID
+     * @param Application $app     The application/container
+     * @param Request     $request The Symfony Request
+     *
      * @return mixed
      */
     public function userEdit($id, Application $app, Request $request)
@@ -1140,10 +1156,10 @@ class Backend implements ControllerProviderInterface
                 'enabled',
                 'choice',
                 array(
-                    'choices' => $enabledoptions,
-                    'expanded' => false,
+                    'choices'     => $enabledoptions,
+                    'expanded'    => false,
                     'constraints' => new Assert\Choice(array_keys($enabledoptions)),
-                    'label' => Trans::__('page.edit-users.label.user-enabled'),
+                    'label'       => Trans::__('page.edit-users.label.user-enabled'),
                 )
             );
         }
@@ -1153,24 +1169,24 @@ class Backend implements ControllerProviderInterface
                 'roles',
                 'choice',
                 array(
-                    'choices' => $roles,
+                    'choices'  => $roles,
                     'expanded' => true,
                     'multiple' => true,
-                    'label' => Trans::__('page.edit-users.label.assigned-roles')
+                    'label'    => Trans::__('page.edit-users.label.assigned-roles')
             ))
             ->add(
                 'lastseen',
                 'text',
                 array(
                     'disabled' => true,
-                    'label' => Trans::__('page.edit-users.label.last-seen')
+                    'label'    => Trans::__('page.edit-users.label.last-seen')
             ))
             ->add(
                 'lastip',
                 'text',
                 array(
                     'disabled' => true,
-                    'label' => Trans::__('page.edit-users.label.last-ip')
+                    'label'    => Trans::__('page.edit-users.label.last-ip')
             ))
         ;
 
@@ -1208,9 +1224,9 @@ class Backend implements ControllerProviderInterface
         }
 
         $context = array(
-            'kind' => empty($id) ? 'create' : 'edit',
-            'form' => $formView,
-            'note' => '',
+            'kind'        => empty($id) ? 'create' : 'edit',
+            'form'        => $formView,
+            'note'        => '',
             'displayname' => $user['displayname'],
         );
 
@@ -1218,7 +1234,7 @@ class Backend implements ControllerProviderInterface
     }
 
     /**
-     * Create the first user
+     * Create the first user.
      *
      * @param Application $app
      * @param Request     $request
@@ -1265,9 +1281,9 @@ class Backend implements ControllerProviderInterface
         }
 
         $context = array(
-            'kind' => 'create',
-            'form' => $form->createView(),
-            'note' => $note ? $note : '',
+            'kind'        => 'create',
+            'form'        => $form->createView(),
+            'note'        => $note ? $note : '',
             'displayname' => $user['displayname'],
         );
 
@@ -1275,19 +1291,19 @@ class Backend implements ControllerProviderInterface
     }
 
     /**
-     * Handle a POST from user edit or first user creation
+     * Handle a POST from user edit or first user creation.
      *
-     * @param  Silex\Application           $app
-     * @param  Symfony\Component\Form\Form $form      A Symfony form
-     * @param  boolean                     $firstuser If this is a first user set up
-     * @return array|boolean               An array of user elements, otherwise false
+     * @param \Silex\Application          $app
+     * @param Symfony\Component\Form\Form $form      A Symfony form
+     * @param boolean                     $firstuser If this is a first user set up
+     *
+     * @return array|boolean An array of user elements, otherwise false
      */
     private function validateUserForm(Application $app, Form $form, $firstuser = false)
     {
         $form->submit($app['request']->get($form->getName()));
 
         if ($form->isValid()) {
-
             $user = $form->getData();
 
             if ($firstuser) {
@@ -1315,7 +1331,7 @@ class Backend implements ControllerProviderInterface
                         ->createMessage('message')
                         ->setSubject(Trans::__('New Bolt site has been set up'))
                         ->setFrom(array($user['email'] => 'Bolt'))
-                        ->setTo(array($user['email'] => $user['displayname']))
+                        ->setTo(array($user['email']   => $user['displayname']))
                         ->setBody(strip_tags($mailhtml))
                         ->addPart($mailhtml, 'text/html');
 
@@ -1339,8 +1355,9 @@ class Backend implements ControllerProviderInterface
     /**
      * User profile page.
      *
-     * @param  Application $app     The application/container
-     * @param  Request     $request The Symfony Request
+     * @param Application $app     The application/container
+     * @param Request     $request The Symfony Request
+     *
      * @return string
      */
     public function profile(Application $app, Request $request)
@@ -1361,7 +1378,6 @@ class Backend implements ControllerProviderInterface
             $form->submit($app['request']->get($form->getName()));
 
             if ($form->isValid()) {
-
                 $user = $form->getData();
 
                 $res = $app['users']->saveUser($user);
@@ -1377,9 +1393,9 @@ class Backend implements ControllerProviderInterface
         }
 
         $context = array(
-            'kind' => 'profile',
-            'form' => $form->createView(),
-            'note' => '',
+            'kind'        => 'profile',
+            'form'        => $form->createView(),
+            'note'        => '',
             'displayname' => $user['displayname'],
         );
 
@@ -1389,9 +1405,10 @@ class Backend implements ControllerProviderInterface
     /**
      * Perform actions on users.
      *
-     * @param  Application $app    The application/container
-     * @param  string      $action The action
-     * @param  integer     $id     The user ID
+     * @param Application $app    The application/container
+     * @param string      $action The action
+     * @param integer     $id     The user ID
+     *
      * @return string
      */
     public function userAction(Application $app, $action, $id)
@@ -1465,7 +1482,8 @@ class Backend implements ControllerProviderInterface
     /**
      * Show the 'about' page.
      *
-     * @param  Application $app The application/container
+     * @param Application $app The application/container
+     *
      * @return mixed
      */
     public function about(Application $app)
@@ -1476,10 +1494,11 @@ class Backend implements ControllerProviderInterface
     /**
      * The file browser.
      *
-     * @param  string      $namespace The filesystem namespace
-     * @param  string      $path      The path prefix
-     * @param  Application $app       The application/container
-     * @param  Request     $request   The Symfony Request
+     * @param string      $namespace The filesystem namespace
+     * @param string      $path      The path prefix
+     * @param Application $app       The application/container
+     * @param Request     $request   The Symfony Request
+     *
      * @return mixed
      */
     public function files($namespace, $path, Application $app, Request $request)
@@ -1499,9 +1518,9 @@ class Backend implements ControllerProviderInterface
             $uploadview = false;
         }
 
-        if ($filesystem->getVisibility($path) === 'public' ) {
+        if ($filesystem->getVisibility($path) === 'public') {
             $validFolder = true;
-        } elseif ($filesystem->getVisibility($path) === 'readonly' ) {
+        } elseif ($filesystem->getVisibility($path) === 'readonly') {
             $validFolder = true;
             $uploadview = false;
         } else {
@@ -1516,9 +1535,10 @@ class Backend implements ControllerProviderInterface
                 ->createBuilder('form')
                 ->add('FileUpload', 'file', array(
                     'label' => Trans::__('Upload a file to this folder'),
-                    'attr' => array(
-                    'data-filename-placement' => 'inside',
-                    'title' => Trans::__('Select file …'))))
+                    'attr'  => array(
+                        'data-filename-placement' => 'inside',
+                        'title'                   => Trans::__('Select file …')))
+                    )
                 ->getForm();
 
             // Handle the upload.
@@ -1528,9 +1548,8 @@ class Backend implements ControllerProviderInterface
                     $files = $request->files->get($form->getName());
 
                     foreach ($files as $fileToProcess) {
-
                         $fileToProcess = array(
-                            'name' => $fileToProcess->getClientOriginalName(),
+                            'name'     => $fileToProcess->getClientOriginalName(),
                             'tmp_name' => $fileToProcess->getPathName()
                         );
 
@@ -1544,7 +1563,6 @@ class Backend implements ControllerProviderInterface
                             $result = $handler->process($fileToProcess);
 
                             if ($result->isValid()) {
-
                                 $app['session']->getFlashBag()->add(
                                     'info',
                                     Trans::__("File '%file%' was uploaded successfully.", array('%file%' => $filename))
@@ -1554,7 +1572,6 @@ class Backend implements ControllerProviderInterface
                                 $app['stack']->add($path . "/" . $filename);
                                 $result->confirm();
                             }
-
                         } else {
                             $extensionList = array();
                             foreach ($app['filepermissions']->getAllowedUploadExtensions() as $extension) {
@@ -1567,7 +1584,6 @@ class Backend implements ControllerProviderInterface
                                 . $extensionList
                             );
                         }
-
                     }
                 } else {
                     $app['session']->getFlashBag()->add(
@@ -1587,8 +1603,6 @@ class Backend implements ControllerProviderInterface
 
             list($files, $folders) = $filesystem->browse($path, $app);
         }
-
-
 
         // Get the pathsegments, so we can show the path as breadcrumb navigation..
         $pathsegments = array();
@@ -1610,12 +1624,12 @@ class Backend implements ControllerProviderInterface
         }
 
         $context = array(
-            'path' => $path,
-            'files' => $files,
-            'folders' => $folders,
+            'path'         => $path,
+            'files'        => $files,
+            'folders'      => $folders,
             'pathsegments' => $pathsegments,
-            'form' => $formview,
-            'namespace' => $namespace,
+            'form'         => $formview,
+            'namespace'    => $namespace,
         );
 
         return $app['render']->render($twig, array('context' => $context));
@@ -1624,10 +1638,11 @@ class Backend implements ControllerProviderInterface
     /**
      * File editor.
      *
-     * @param  string      $namespace The filesystem namespace
-     * @param  string      $file      The file path
-     * @param  Application $app       The application/container
-     * @param  Request     $request   The Symfony Request
+     * @param string      $namespace The filesystem namespace
+     * @param string      $file      The file path
+     * @param Application $app       The application/container
+     * @param Request     $request   The Symfony Request
+     *
      * @return mixed
      */
     public function fileEdit($namespace, $file, Application $app, Request $request)
@@ -1705,7 +1720,6 @@ class Backend implements ControllerProviderInterface
             $form->bind($app['request']->get($form->getName()));
 
             if ($form->isValid()) {
-
                 $data = $form->getData();
                 $contents = Input::cleanPostedData($data['contents']) . "\n";
 
@@ -1747,27 +1761,28 @@ class Backend implements ControllerProviderInterface
         }
 
         $context = array(
-            'form' => $form->createView(),
-            'filetype' => $type,
-            'file' => $file->getPath(),
-            'basename' => basename($file->getPath()),
-            'pathsegments' => $pathsegments,
+            'form'           => $form->createView(),
+            'filetype'       => $type,
+            'file'           => $file->getPath(),
+            'basename'       => basename($file->getPath()),
+            'pathsegments'   => $pathsegments,
             'additionalpath' => $additionalpath,
-            'namespace' => $namespace,
-            'write_allowed' => $writeallowed,
-            'filegroup' => $filegroup
+            'namespace'      => $namespace,
+            'write_allowed'  => $writeallowed,
+            'filegroup'      => $filegroup
         );
 
         return $app['render']->render('editfile/editfile.twig', array('context' => $context));
     }
 
     /**
-     * Prepare/edit/save a translation
+     * Prepare/edit/save a translation.
      *
-     * @param  string      $domain    The domain
-     * @param  string      $tr_locale The translation locale
-     * @param  Application $app       The application/container
-     * @param  Request     $request   The Symfony Request
+     * @param string      $domain    The domain
+     * @param string      $tr_locale The translation locale
+     * @param Application $app       The application/container
+     * @param Request     $request   The Symfony Request
+     *
      * @return mixed
      */
     public function translation($domain, $tr_locale, Application $app, Request $request)
@@ -1795,7 +1810,6 @@ class Backend implements ControllerProviderInterface
             $form->bind($app['request']->get($form->getName()));
 
             if ($form->isValid()) {
-
                 $data = $form->getData();
                 $contents = Input::cleanPostedData($data['contents']) . "\n";
 
@@ -1829,9 +1843,9 @@ class Backend implements ControllerProviderInterface
         }
 
         $context = array(
-            'form' => $form->createView(),
-            'basename' => basename($shortPath),
-            'filetype' => 'yml',
+            'form'          => $form->createView(),
+            'basename'      => basename($shortPath),
+            'filetype'      => 'yml',
             'write_allowed' => $writeallowed,
         );
 
@@ -1841,8 +1855,9 @@ class Backend implements ControllerProviderInterface
     /**
      * Middleware function to check whether a user is logged on.
      *
-     * @param  Request     $request The Symfony Request
-     * @param  Application $app     The application/container
+     * @param Request     $request The Symfony Request
+     * @param Application $app     The application/container
+     *
      * @return mixed
      */
     public static function before(Request $request, Application $app)
@@ -1909,11 +1924,12 @@ class Backend implements ControllerProviderInterface
     }
 
     /**
-     * Create a user form with the form builder
+     * Create a user form with the form builder.
      *
-     * @param  Application                        $app
-     * @param  array                              $user
-     * @param  boolean                            $addusername
+     * @param Application $app
+     * @param array       $user
+     * @param boolean     $addusername
+     *
      * @return Symfony\Component\Form\FormBuilder
      */
     private function getUserForm(Application $app, array $user, $addusername = false)
@@ -1925,8 +1941,8 @@ class Backend implements ControllerProviderInterface
         if ($addusername) {
             $form->add('username', 'text', array(
                 'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min' => 2, 'max' => 32))),
-                'label' => Trans::__('page.edit-users.label.username'),
-                'attr' => array(
+                'label'       => Trans::__('page.edit-users.label.username'),
+                'attr'        => array(
                     'placeholder' => Trans::__('page.edit-users.placeholder.username')
                 )
             ));
@@ -1936,30 +1952,30 @@ class Backend implements ControllerProviderInterface
         $form->add('id', 'hidden')
             ->add('password', 'password', array(
                 'required' => false,
-                'label' => Trans::__('page.edit-users.label.password'),
-                'attr' => array(
+                'label'    => Trans::__('page.edit-users.label.password'),
+                'attr'     => array(
                     'placeholder' => Trans::__('page.edit-users.placeholder.password')
                 )
 
             ))
             ->add('password_confirmation', 'password', array(
                 'required' => false,
-                'label' => Trans::__('page.edit-users.label.password-confirm'),
-                'attr' => array(
+                'label'    => Trans::__('page.edit-users.label.password-confirm'),
+                'attr'     => array(
                     'placeholder' => Trans::__('page.edit-users.placeholder.password-confirm')
                 )
             ))
             ->add('email', 'text', array(
                 'constraints' => new Assert\Email(),
-                'label' => Trans::__('page.edit-users.label.email'),
-                'attr' => array(
+                'label'       => Trans::__('page.edit-users.label.email'),
+                'attr'        => array(
                     'placeholder' => Trans::__('page.edit-users.placeholder.email')
                 )
             ))
             ->add('displayname', 'text', array(
                 'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min' => 2, 'max' => 32))),
-                'label' => Trans::__('page.edit-users.label.display-name'),
-                'attr' => array(
+                'label'       => Trans::__('page.edit-users.label.display-name'),
+                'attr'        => array(
                     'placeholder' => Trans::__('page.edit-users.placeholder.displayname')))
         );
 
@@ -1967,7 +1983,7 @@ class Backend implements ControllerProviderInterface
     }
 
     /**
-     * Validate the user form
+     * Validate the user form.
      *
      * Use a custom validator to check:
      *   * Passwords are identical
@@ -1975,9 +1991,10 @@ class Backend implements ControllerProviderInterface
      *   * Email is unique
      *   * Displaynames are unique
      *
-     * @param  Application                        $app
-     * @param  Symfony\Component\Form\FormBuilder $form
-     * @param  boolean                            $addusername
+     * @param Application                        $app
+     * @param Symfony\Component\Form\FormBuilder $form
+     * @param boolean                            $addusername
+     *
      * @return Symfony\Component\Form\FormBuilder
      */
     private function setUserFormValidation(Application $app, FormBuilder $form, $addusername = false)

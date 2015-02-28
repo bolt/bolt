@@ -48,38 +48,39 @@ class Users
         $this->validsession = $this->checkValidSession();
 
         $this->allowed = array(
-            'dashboard' => self::EDITOR,
-            'settings' => self::ADMIN,
-            'login' => self::ANONYMOUS,
-            'logout' => self::EDITOR,
-            'dbcheck' => self::ADMIN,
-            'dbupdate' => self::ADMIN,
-            'clearcache' => self::ADMIN,
-            'prefill' => self::DEVELOPER,
-            'users' => self::ADMIN,
-            'useredit' => self::ADMIN,
-            'useraction' => self::ADMIN,
-            'overview' => self::EDITOR,
-            'editcontent' => self::EDITOR,
+            'dashboard'       => self::EDITOR,
+            'settings'        => self::ADMIN,
+            'login'           => self::ANONYMOUS,
+            'logout'          => self::EDITOR,
+            'dbcheck'         => self::ADMIN,
+            'dbupdate'        => self::ADMIN,
+            'clearcache'      => self::ADMIN,
+            'prefill'         => self::DEVELOPER,
+            'users'           => self::ADMIN,
+            'useredit'        => self::ADMIN,
+            'useraction'      => self::ADMIN,
+            'overview'        => self::EDITOR,
+            'editcontent'     => self::EDITOR,
             'editcontent:own' => self::EDITOR,
             'editcontent:all' => self::ADMIN,
-            'contentaction' => self::EDITOR,
-            'about' => self::EDITOR,
-            'extensions' => self::DEVELOPER,
-            'files' => self::EDITOR,
-            'files:config' => self::DEVELOPER,
-            'files:theme' => self::DEVELOPER,
-            'files:uploads' => self::ADMIN,
-            'translation' => self::DEVELOPER,
-            'activitylog' => self::ADMIN,
-            'fileedit' => self::ADMIN
+            'contentaction'   => self::EDITOR,
+            'about'           => self::EDITOR,
+            'extensions'      => self::DEVELOPER,
+            'files'           => self::EDITOR,
+            'files:config'    => self::DEVELOPER,
+            'files:theme'     => self::DEVELOPER,
+            'files:uploads'   => self::ADMIN,
+            'translation'     => self::DEVELOPER,
+            'activitylog'     => self::ADMIN,
+            'fileedit'        => self::ADMIN
         );
     }
 
     /**
      * Save changes to a user to the database. (re)hashing the password, if needed.
      *
-     * @param  array $user
+     * @param array $user
+     *
      * @return mixed
      */
     public function saveUser($user)
@@ -230,8 +231,9 @@ class Users
     /**
      * Get a key to identify the session with.
      *
-     * @param  string $name
-     * @param  string $salt
+     * @param string $name
+     * @param string $salt
+     *
      * @return string
      */
     private function getAuthToken($name = "", $salt = "")
@@ -264,12 +266,12 @@ class Users
     {
         $salt = $this->app['randomgenerator']->generateString(12);
         $token = array(
-            'username' => $this->currentuser['username'],
-            'token' => $this->getAuthToken($this->currentuser['username'], $salt),
-            'salt' => $salt,
-            'validity' => date('Y-m-d H:i:s', time() + $this->app['config']->get('general/cookies_lifetime')),
-            'ip' => $_SERVER['REMOTE_ADDR'],
-            'lastseen' => date('Y-m-d H:i:s'),
+            'username'  => $this->currentuser['username'],
+            'token'     => $this->getAuthToken($this->currentuser['username'], $salt),
+            'salt'      => $salt,
+            'validity'  => date('Y-m-d H:i:s', time() + $this->app['config']->get('general/cookies_lifetime')),
+            'ip'        => $_SERVER['REMOTE_ADDR'],
+            'lastseen'  => date('Y-m-d H:i:s'),
             'useragent' => $_SERVER['HTTP_USER_AGENT']
         );
 
@@ -326,9 +328,10 @@ class Users
     }
 
     /**
-     * Check if a given token matches the current (correct) Anit-CSRF-like token
+     * Check if a given token matches the current (correct) Anit-CSRF-like token.
      *
-     * @param  string $token
+     * @param string $token
+     *
      * @return bool
      */
     public function checkAntiCSRFToken($token = '')
@@ -378,7 +381,8 @@ class Users
     /**
      * Remove a user from the database.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return bool
      */
     public function deleteUser($id)
@@ -401,10 +405,11 @@ class Users
     }
 
     /**
-     * Attempt to login a user with the given password
+     * Attempt to login a user with the given password.
      *
-     * @param  string $user
-     * @param  string $password
+     * @param string $user
+     * @param string $password
+     *
      * @return bool
      */
     public function login($user, $password)
@@ -425,7 +430,6 @@ class Users
         $hasher = new PasswordHash($this->hashStrength, true);
 
         if ($hasher->CheckPassword($password, $user['password'])) {
-
             if (!$user['enabled']) {
                 $this->session->getFlashBag()->add('error', Trans::__('Your account is disabled. Sorry about that.'));
 
@@ -433,9 +437,9 @@ class Users
             }
 
             $update = array(
-                'lastseen' => date('Y-m-d H:i:s'),
-                'lastip' => $this->remoteIP,
-                'failedlogins' => 0,
+                'lastseen'       => date('Y-m-d H:i:s'),
+                'lastip'         => $this->remoteIP,
+                'failedlogins'   => 0,
                 'throttleduntil' => $this->throttleUntil(0)
             );
 
@@ -467,15 +471,13 @@ class Users
             $this->setAuthToken();
 
             return true;
-
         } else {
-
             $this->session->getFlashBag()->add('error', Trans::__('Username or password not correct. Please check your input.'));
             $this->app['logger.system']->info("Failed login attempt for '" . $user['displayname'] . "'.", array('event' => 'authentication'));
 
             // Update the failed login attempts, and perhaps throttle the logins.
             $update = array(
-                'failedlogins' => $user['failedlogins'] + 1,
+                'failedlogins'   => $user['failedlogins'] + 1,
                 'throttleduntil' => $this->throttleUntil($user['failedlogins'] + 1)
             );
 
@@ -491,7 +493,7 @@ class Users
     }
 
     /**
-     * Attempt to login a user via the bolt_authtoken cookie
+     * Attempt to login a user via the bolt_authtoken cookie.
      *
      * @return bool
      */
@@ -525,13 +527,12 @@ class Users
         $checksalt = $this->getAuthToken($row['username'], $row['salt']);
 
         if ($checksalt === $row['token']) {
-
             $user = $this->getUser($row['username']);
 
             $update = array(
-                'lastseen' => date('Y-m-d H:i:s'),
-                'lastip' => $this->remoteIP,
-                'failedlogins' => 0,
+                'lastseen'       => date('Y-m-d H:i:s'),
+                'lastip'         => $this->remoteIP,
+                'failedlogins'   => 0,
                 'throttleduntil' => $this->throttleUntil(0)
             );
 
@@ -552,7 +553,6 @@ class Users
             $this->setAuthToken();
 
             return true;
-
         } else {
             // Delete the authtoken cookie..
             setcookie(
@@ -566,7 +566,6 @@ class Users
             );
 
             return false;
-
         }
     }
 
@@ -576,7 +575,6 @@ class Users
         $recipients = false;
 
         if (!empty($user)) {
-
             $shadowpassword = $this->app['randomgenerator']->generateString(12);
             $shadowtoken = $this->app['randomgenerator']->generateString(32);
 
@@ -593,7 +591,7 @@ class Users
             // Set the shadow password and related stuff in the database..
             $update = array(
                 'shadowpassword' => $shadowhashed,
-                'shadowtoken' => $shadowtoken . "-" . str_replace(".", "-", $this->remoteIP),
+                'shadowtoken'    => $shadowtoken . '-' . str_replace('.', '-', $this->remoteIP),
                 'shadowvalidity' => date("Y-m-d H:i:s", strtotime("+2 hours"))
             );
             $this->db->update($this->usertable, $update, array('id' => $user['id']));
@@ -602,11 +600,11 @@ class Users
             $mailhtml = $this->app['render']->render(
                 'mail/passwordreset.twig',
                 array(
-                    'user' => $user,
+                    'user'           => $user,
                     'shadowpassword' => $shadowpassword,
-                    'shadowtoken' => $shadowtoken,
+                    'shadowtoken'    => $shadowtoken,
                     'shadowvalidity' => date("Y-m-d H:i:s", strtotime("+2 hours")),
-                    'shadowlink' => $shadowlink
+                    'shadowlink'     => $shadowlink
                 )
             );
 
@@ -616,7 +614,7 @@ class Users
                 ->createMessage('message')
                 ->setSubject($subject)
                 ->setFrom(array($user['email'] => 'Bolt'))
-                ->setTo(array($user['email'] => $user['displayname']))
+                ->setTo(array($user['email']   => $user['displayname']))
                 ->setBody(strip_tags($mailhtml))
                 ->addPart($mailhtml, 'text/html');
 
@@ -628,7 +626,6 @@ class Users
                 $this->app['logger.system']->error("Failed to send password request sent to '" . $user['displayname'] . "'.", array('event' => 'authentication'));
                 $this->session->getFlashBag()->add('error', Trans::__("Failed to send password request. Please check the email settings."));
             }
-
         }
 
         // For safety, this is the message we display, regardless of whether $user exists.
@@ -656,19 +653,17 @@ class Users
             $this->app['session']->getFlashBag()->add('success', Trans::__('Password reset successful! You can now log on with the password that was sent to you via email.'));
 
             $update = array(
-                'password' => $user['shadowpassword'],
+                'password'       => $user['shadowpassword'],
                 'shadowpassword' => '',
-                'shadowtoken' => '',
+                'shadowtoken'    => '',
                 'shadowvalidity' => null
             );
             $this->db->update($this->usertable, $update, array('id' => $user['id']));
-
         } else {
 
             // That was not a valid token, or too late, or not from the correct IP.
             $this->app['logger.system']->error('Somebody tried to reset a password with an invalid token.', array('event' => 'authentication'));
             $this->app['session']->getFlashBag()->add('error', Trans::__('Password reset not successful! Either the token was incorrect, or you were too late, or you tried to reset the password from a different IP-address.'));
-
         }
     }
 
@@ -680,6 +675,7 @@ class Users
      * remote_addr, not username. So, this isn't used, yet.
      *
      * @param $attempts
+     *
      * @return string
      */
     private function throttleUntil($attempts)
@@ -695,7 +691,6 @@ class Users
 
     /**
      * Log out the currently logged in user.
-     *
      */
     public function logout()
     {
@@ -735,18 +730,18 @@ class Users
     public function getEmptyUser()
     {
         $user = array(
-            'id' => '',
-            'username' => '',
-            'password' => '',
-            'email' => '',
-            'lastseen' => '',
-            'lastip' => '',
-            'displayname' => '',
-            'enabled' => '1',
+            'id'             => '',
+            'username'       => '',
+            'password'       => '',
+            'email'          => '',
+            'lastseen'       => '',
+            'lastip'         => '',
+            'displayname'    => '',
+            'enabled'        => '1',
             'shadowpassword' => '',
-            'shadowtoken' => '',
+            'shadowtoken'    => '',
             'shadowvalidity' => '',
-            'failedlogins' => 0,
+            'failedlogins'   => 0,
             'throttleduntil' => ''
         );
 
@@ -761,7 +756,6 @@ class Users
     public function getUsers()
     {
         if (empty($this->users) || !is_array($this->users)) {
-
             $query = sprintf('SELECT * FROM %s', $this->usertable);
             $this->users = array();
 
@@ -790,7 +784,7 @@ class Users
     }
 
     /**
-     * Test to see if there are users in the user table
+     * Test to see if there are users in the user table.
      *
      * @return boolean
      */
@@ -808,7 +802,8 @@ class Users
     /**
      * Get a user, specified by id. Return 'false' if no user found.
      *
-     * @param  int   $id
+     * @param int $id
+     *
      * @return array
      */
     public function getUser($id)
@@ -833,7 +828,7 @@ class Users
     }
 
     /**
-     * Get the current user as an array
+     * Get the current user as an array.
      *
      * @return array
      */
@@ -853,9 +848,10 @@ class Users
     }
 
     /**
-     * Check a user's enable status
+     * Check a user's enable status.
      *
-     * @param  int|bool $id User ID, or false for current user
+     * @param int|bool $id User ID, or false for current user
+     *
      * @return bool
      */
     public function isEnabled($id = false)
@@ -876,8 +872,9 @@ class Users
     /**
      * Enable or disable a user, specified by id.
      *
-     * @param  int  $id
-     * @param  int  $enabled
+     * @param int $id
+     * @param int $enabled
+     *
      * @return bool
      */
     public function setEnabled($id, $enabled = 1)
@@ -894,10 +891,11 @@ class Users
     }
 
     /**
-     * Check if a certain user has a specific role
+     * Check if a certain user has a specific role.
      *
-     * @param  mixed  $id
-     * @param  string $role
+     * @param mixed  $id
+     * @param string $role
+     *
      * @return bool
      */
     public function hasRole($id, $role)
@@ -914,8 +912,9 @@ class Users
     /**
      * Add a certain role from a specific user.
      *
-     * @param  mixed  $id
-     * @param  string $role
+     * @param mixed  $id
+     * @param string $role
+     *
      * @return bool
      */
     public function addRole($id, $role)
@@ -935,8 +934,9 @@ class Users
     /**
      * Remove a certain role from a specific user.
      *
-     * @param  mixed  $id
-     * @param  string $role
+     * @param mixed  $id
+     * @param string $role
+     *
      * @return bool
      */
     public function removeRole($id, $role)
@@ -1028,6 +1028,7 @@ class Users
      * Runs a permission check. Permissions are encoded as strings, where
      * the ':' character acts as a separator for dynamic parts and
      * sub-permissions.
+     *
      * Apart from the route-based rules defined in permissions.yml, the
      * following special cases are available:
      *
@@ -1048,9 +1049,9 @@ class Users
      * "contenttype:$contenttype:change-ownership:$id" - Change the ownership
      *                                of the specified content type or item.
      *
-     * @param  string $what The desired permission, as elaborated upon above.
-     * @param  string $contenttype
-     * @param  int    $contentid
+     * @param string $what        The desired permission, as elaborated upon above.
+     * @param string $contenttype
+     * @param int    $contentid
      *
      * @return bool TRUE if the permission is granted, FALSE if denied.
      */
@@ -1088,9 +1089,10 @@ class Users
      * values are applied, because what constitutes 'equal' for the purpose
      * of this filtering depends on the field type.
      *
-     * @param  string $fieldname
-     * @param  string $value
-     * @param  int    $currentid
+     * @param string $fieldname
+     * @param string $value
+     * @param int    $currentid
+     *
      * @return bool
      */
     public function checkAvailability($fieldname, $value, $currentid = 0)

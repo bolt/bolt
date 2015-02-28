@@ -10,7 +10,7 @@ use Composer\Repository\RepositoryInterface;
 use Silex\Application;
 
 /**
- * Composer search package class
+ * Composer search package class.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
@@ -30,13 +30,14 @@ final class SearchPackage
     }
 
     /**
-     * Search for packages
+     * Search for packages.
      *
-     * @param  array                   $packages Indexed array of package names to search for
-     * @param  boolean                 $onlyname True for name only search, false for full text
+     * @param array   $packages Indexed array of package names to search for
+     * @param boolean $onlyname True for name only search, false for full text
      *
-     * @return array                   List of matching packages
      * @throws PackageManagerException
+     *
+     * @return array List of matching packages
      */
     public function execute($packages, $onlyname = true)
     {

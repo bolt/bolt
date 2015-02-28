@@ -51,7 +51,7 @@ final class Factory extends PackageManager
 
     /**
      * @param \Silex\Application $app
-     * @param array            $options
+     * @param array              $options
      */
     public function __construct(Application $app, array $options)
     {
@@ -60,7 +60,7 @@ final class Factory extends PackageManager
     }
 
     /**
-     * Get a Composer object
+     * Get a Composer object.
      *
      * @return \Composer\Composer
      */
@@ -86,7 +86,7 @@ final class Factory extends PackageManager
     }
 
     /**
-     * Get the IO object
+     * Get the IO object.
      *
      * @return \Composer\IO\BufferIO
      */
@@ -100,7 +100,7 @@ final class Factory extends PackageManager
     }
 
     /**
-     * Get a new Composer object
+     * Get a new Composer object.
      *
      * @return \Bolt\Composer\Factory
      */
@@ -112,7 +112,7 @@ final class Factory extends PackageManager
     }
 
     /**
-     * Return the output from the last IO
+     * Return the output from the last IO.
      *
      * @return array
      */
@@ -122,7 +122,7 @@ final class Factory extends PackageManager
     }
 
     /**
-     * Set repos to allow HTTP instead of HTTPS
+     * Set repos to allow HTTP instead of HTTPS.
      *
      * @param boolean $choice
      */
@@ -143,9 +143,11 @@ final class Factory extends PackageManager
      *
      * This returns a version with the ~ operator prefixed when possible.
      *
-     * @param  string                    $name
-     * @return array
+     * @param string $name
+     *
      * @throws \InvalidArgumentException
+     *
+     * @return array
      */
     public function findBestVersionForPackage($name)
     {
@@ -167,7 +169,7 @@ final class Factory extends PackageManager
     }
 
     /**
-     * Return a resolver pool that contains repositories, that provide packages
+     * Return a resolver pool that contains repositories, that provide packages.
      *
      * @return \Composer\DependencyResolver\Pool
      */
@@ -187,7 +189,7 @@ final class Factory extends PackageManager
     }
 
     /**
-     * Determine the minimum requried stability
+     * Determine the minimum requried stability.
      *
      * @return string
      */
@@ -202,7 +204,7 @@ final class Factory extends PackageManager
     }
 
     /**
-     * Get all our repos
+     * Get all our repos.
      *
      * @return \Composer\Repository\CompositeRepository
      */

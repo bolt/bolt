@@ -8,16 +8,17 @@ use Bolt\Translation\Translator;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Class for Bolt's generic library functions
+ * Class for Bolt's generic library functions.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
 class Library
 {
     /**
-     * Format a filesize like '10.3 kb' or '2.5 mb'
+     * Format a filesize like '10.3 KiB' or '2.5 MiB'.
      *
-     * @param  integer $size
+     * @param integer $size
+     *
      * @return string
      */
     public static function formatFilesize($size)
@@ -34,7 +35,8 @@ class Library
     /**
      * Gets the extension (if any) of a filename.
      *
-     * @param  string $filename
+     * @param string $filename
+     *
      * @return string
      */
     public static function getExtension($filename)
@@ -52,7 +54,8 @@ class Library
     /**
      * Encodes a filename, for use in thumbnails, magnific popup, etc.
      *
-     * @param  string $filename
+     * @param string $filename
+     *
      * @return string
      */
     public static function safeFilename($filename)
@@ -68,9 +71,10 @@ class Library
     }
 
     /**
+     * @param object $obj
      *
-     * @param  object $obj
      * @return array
+     *
      * @deprecated
      */
     public static function hackislyParseRegexTemplates($obj)
@@ -83,7 +87,8 @@ class Library
      *
      * We use this for showing them in the debug toolbar.
      *
-     * @param  \Twig_LoaderInterface $obj
+     * @param \Twig_LoaderInterface $obj
+     *
      * @return array
      */
     public static function parseTwigTemplates($obj)
@@ -104,11 +109,12 @@ class Library
     }
 
     /**
-     * Simple wrapper for $app['url_generator']->generate()
+     * Simple wrapper for $app['url_generator']->generate().
      *
-     * @param  string $path
-     * @param  array  $param
-     * @param  string $add
+     * @param string $path
+     * @param array  $param
+     * @param string $add
+     *
      * @return string
      */
     public static function path($path, $param = array(), $add = '')
@@ -127,11 +133,12 @@ class Library
     }
 
     /**
-     * Simple wrapper for $app->redirect($app['url_generator']->generate());
+     * Simple wrapper for $app->redirect($app['url_generator']->generate());.
      *
-     * @param  string $path
-     * @param  array  $param
-     * @param  string $add
+     * @param string $path
+     * @param array  $param
+     * @param string $add
+     *
      * @return string
      */
     public static function redirect($path, $param = array(), $add = '')
@@ -146,11 +153,10 @@ class Library
 
         // Only set the 'retreat' when redirecting to 'login' but not FROM logout.
         if (($path === 'login') && ($app['request']->get('_route') !== 'logout')) {
-
             $app['session']->set(
                 'retreat',
                 array(
-                    'route' => $app['request']->get('_route'),
+                    'route'  => $app['request']->get('_route'),
                     'params' => $app['request']->get('_route_params')
                 )
             );
@@ -192,15 +198,16 @@ class Library
      * If the file isn't readable (or doesn't exist) or reading it fails,
      * false is returned.
      *
-     * @param  string  $filename
-     * @param  boolean $silent   Set to true if you want an visible error.
-     * @return mixed
+     * @param string  $filename
+     * @param boolean $silent   Set to true if you want an visible error.
+     *
      * @throws \Bolt\Exception\LowlevelException
+     *
+     * @return mixed
      */
     public static function loadSerialize($filename, $silent = false)
     {
         if (! is_readable($filename)) {
-
             if ($silent) {
                 return false;
             }
@@ -254,11 +261,12 @@ class Library
     /**
      * Serializes some data and then saves it.
      *
-     * @param  string $filename
-     * @param  mixed  $data
+     * @param string $filename
+     * @param mixed  $data
+     *
+     * @throws \Bolt\Exception\LowlevelException
      *
      * @return bool
-     * @throws \Bolt\Exception\LowlevelException
      */
     public static function saveSerialize($filename, &$data)
     {
@@ -271,7 +279,6 @@ class Library
 
         // open the file and lock it.
         if ($fp = fopen($filename, 'a')) {
-
             if (flock($fp, LOCK_EX | LOCK_NB)) {
 
                 // Truncate the file (since we opened it for 'appending')
@@ -303,7 +310,6 @@ class Library
                 throw new LowlevelException($message);
             }
         } else {
-
             $message = 'Error opening file<br/><br/>' .
                 'The file <b>' . $filename . '</b> could not be opened for writing! <br /><br />' .
                 'Try logging in with your ftp-client and check to see if it is chmodded to be readable by the ' .

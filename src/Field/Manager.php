@@ -3,7 +3,7 @@
 namespace Bolt\Field;
 
 /**
- * Class to manage instances of fields and instantiate the defaults
+ * Class to manage instances of fields and instantiate the defaults.
  *
  * @author Ross Riley <riley.ross@gmail.com>
  **/

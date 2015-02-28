@@ -2,12 +2,12 @@
 namespace Bolt\Events;
 
 use Silex\Application;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Event class for system compulsory cron jobs
+ * Event class for system compulsory cron jobs.
  */
 class CronEvent extends Event
 {
@@ -56,14 +56,14 @@ class CronEvent extends Event
     }
 
     /**
-     * Hourly jobs
+     * Hourly jobs.
      */
     private function cronHourly()
     {
     }
 
     /**
-     * Daily jobs
+     * Daily jobs.
      */
     private function cronDaily()
     {
@@ -71,7 +71,7 @@ class CronEvent extends Event
     }
 
     /**
-     * Weekly jobs
+     * Weekly jobs.
      */
     private function cronWeekly()
     {
@@ -89,14 +89,14 @@ class CronEvent extends Event
     }
 
     /**
-     * Monthly jobs
+     * Monthly jobs.
      */
     private function cronMonthly()
     {
     }
 
     /**
-     * Yearly jobs
+     * Yearly jobs.
      */
     private function cronYearly()
     {
@@ -104,7 +104,7 @@ class CronEvent extends Event
 
     /**
      * If we're passed an OutputInterface, we're called from Nut and can notify
-     * the end user
+     * the end user.
      *
      * @param string $msg
      */

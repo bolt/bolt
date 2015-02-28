@@ -36,7 +36,7 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
                 $replacement = $app['config']->get('general/upload/replacement', '-');
                 $lowercase = $app['config']->get('general/upload/lowercase', true);
 
-                $uploadHandler->setSanitizerCallback(function($filename) use ($pattern, $replacement, $lowercase) {
+                $uploadHandler->setSanitizerCallback(function ($filename) use ($pattern, $replacement, $lowercase) {
                     if ($lowercase) {
                         return preg_replace("/$pattern/", $replacement, strtolower($filename));
                     }
@@ -78,7 +78,6 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
         $controller = $this;
         $func = function (Silex\Application $app, Request $request) use ($controller) {
             if ($handler = $request->get('handler')) {
-
                 $parser = function ($setting) use ($app) {
                     $parts = explode('://', $setting);
                     if (count($parts) == 2) {
@@ -155,7 +154,7 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
         foreach ($files as $file) {
             if ($file instanceof UploadedFile) {
                 $filesToProcess[] = array(
-                    'name' => $file->getClientOriginalName(),
+                    'name'     => $file->getClientOriginalName(),
                     'tmp_name' => $file->getPathName()
                 );
             } else {
@@ -173,7 +172,7 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
             } elseif ($result instanceof Collection) {
                 foreach ($result as $resultFile) {
                     $successfulFiles[] = array(
-                        'url' => $namespace . '/' . $resultFile->name,
+                        'url'  => $namespace . '/' . $resultFile->name,
                         'name' => $resultFile->name
                     );
                 }
@@ -184,14 +183,13 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
             try {
                 $result->clear();
             } catch (\Exception $e) {
-
             }
             $errorFiles = array();
             foreach ($result as $resultFile) {
                 $errors = $resultFile->getMessages();
                 $errorFiles[] = array(
-                    'url' => $namespace . '/' . $resultFile->original_name,
-                    'name' => $resultFile->original_name,
+                    'url'   => $namespace . '/' . $resultFile->original_name,
+                    'name'  => $resultFile->original_name,
                     'error' => $errors[0]->__toString()
                 );
             }

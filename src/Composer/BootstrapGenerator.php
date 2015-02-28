@@ -1,6 +1,5 @@
 <?php
 /**
- *
  * @see https://github.com/bolt/composer-install
  */
 
@@ -61,7 +60,7 @@ EOD;
     }
 
     /**
-     * Generate method builds the bootstrap file as a string
+     * Generate method builds the bootstrap file as a string.
      *
      * @return string
      **/

@@ -27,7 +27,7 @@ HTML;
 
     /**
      * The constructor requires a resource manager object to perform checks against.
-     * This should ideally be typehinted to Bolt\Configuration\ResourceManager
+     * This should ideally be typehinted to Bolt\Configuration\ResourceManager.
      *
      * @param ResourceManager $config
      */

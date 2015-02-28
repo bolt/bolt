@@ -20,7 +20,6 @@ class ConfigGet extends BaseCommand
             ->setDescription('Get a value from config.yml.')
             ->addArgument('key', InputArgument::REQUIRED, 'The key you wish to get.')
             ->addOption('file', 'f', InputOption::VALUE_OPTIONAL, "Specify config file to use");
-
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

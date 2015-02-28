@@ -7,17 +7,18 @@ use Bolt\Configuration\ResourceManager;
 use Symfony\Component\Translation\Exception\InvalidResourceException;
 
 /**
- * Handles translation
+ * Handles translation.
  */
 class Translator
 {
-   /**
-    * Encode array values as html special chars
-    *
-    * @param array $params Parameter to encode
-    * @param string $removeKey If not empty the key is removed from result
-    * @return array
-    */
+    /**
+     * Encode array values as html special chars.
+     *
+     * @param array  $params    Parameter to encode
+     * @param string $removeKey If not empty the key is removed from result
+     *
+     * @return array
+     */
     private static function htmlencodeParams(array $params, $removeKey = '')
     {
         if ($removeKey) {
@@ -33,13 +34,14 @@ class Translator
     }
 
     /**
-     * Low level translation
+     * Low level translation.
      *
-     * @param  string $key
-     * @param  array  $params
-     * @param  string $domain
-     * @param  mixed  $locale
-     * @param  mixed  $default
+     * @param string $key
+     * @param array  $params
+     * @param string $domain
+     * @param mixed  $locale
+     * @param mixed  $default
+     *
      * @return string
      */
     private static function trans($key, array $params = array(), $domain = 'messages', $locale = null, $default = null)
@@ -85,11 +87,12 @@ class Translator
     }
 
     /**
-     * Returns translated contenttype name with fallback to name/slug from 'contenttypes.yml'
+     * Returns translated contenttype name with fallback to name/slug from 'contenttypes.yml'.
      *
-     * @param  string $contenttype The contentype
-     * @param  bool   $singular    Singular or plural requested?
-     * @param  string $locale      Translate to this locale
+     * @param string $contenttype The contentype
+     * @param bool   $singular    Singular or plural requested?
+     * @param string $locale      Translate to this locale
+     *
      * @return string
      */
     private static function transContenttypeName($contenttype, $singular, $locale)
@@ -117,13 +120,14 @@ class Translator
     }
 
     /**
-     * Translates contentype specific messages and falls back to building generic message or fallback locale
+     * Translates contentype specific messages and falls back to building generic message or fallback locale.
      *
-     * @param  string  $genericKey
-     * @param  array   $params
-     * @param  string  $id
-     * @param  boolean $singular
-     * @param  mixed   $locale
+     * @param string  $genericKey
+     * @param array   $params
+     * @param string  $id
+     * @param boolean $singular
+     * @param mixed   $locale
+     *
      * @return boolean
      */
     private static function transContenttype($genericKey, array $params, $id, $singular, $locale)
@@ -163,7 +167,7 @@ class Translator
     }
 
     /**
-     * i18n made right, third attempt…
+     * i18n made right, third attempt….
      *
      * Instead of calling directly $app['translator']->trans(), we check for the presence of a placeholder named
      * '%contenttype%'.
@@ -175,10 +179,11 @@ class Translator
      * 'DEFAULT': the value is returns instead of the key of no translation is found
      * 'NUMBER': transCjoice is triggered with the value as countvalue
      *
-     * @param  mixed  $key    The messsage id. If an array is passed, an sanitized key is build
-     * @param  array  $params Parameter for string replacement and commands ('DEFAULT', 'NUMBER')
-     * @param  string $domain
-     * @param  mixed  $locale
+     * @param mixed  $key    The messsage id. If an array is passed, an sanitized key is build
+     * @param array  $params Parameter for string replacement and commands ('DEFAULT', 'NUMBER')
+     * @param string $domain
+     * @param mixed  $locale
+     *
      * @return string
      */
     public static function /*@codingStandardsIgnoreStart*/__/*@codingStandardsIgnoreEnd*/($key, array $params = array(), $domain = 'messages', $locale = null)

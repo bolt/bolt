@@ -6,7 +6,7 @@ use Bolt\Content;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
- * Event instance for Storage events
+ * Event instance for Storage events.
  *
  * PRE_SAVE (preSave)
  * - Available:
@@ -49,7 +49,7 @@ class StorageEvent extends GenericEvent
     protected $arguments;
 
     /**
-     * Instantiate generic Storage Event
+     * Instantiate generic Storage Event.
      *
      * @param Bolt\Content $subject   A Content object that is being saved or deleted
      * @param array        $arguments Arguments to store in the event.
@@ -61,7 +61,7 @@ class StorageEvent extends GenericEvent
     }
 
     /**
-     * Return the record id
+     * Return the record id.
      *
      * @return integer
      */
@@ -71,7 +71,7 @@ class StorageEvent extends GenericEvent
     }
 
     /**
-     * Return the record contenttype
+     * Return the record contenttype.
      *
      * @return string
      */
@@ -81,7 +81,7 @@ class StorageEvent extends GenericEvent
     }
 
     /**
-     * Return the content object
+     * Return the content object.
      *
      * @return Bolt\Content
      */
@@ -91,7 +91,7 @@ class StorageEvent extends GenericEvent
     }
 
     /**
-     * Is the record being created, updated or deleted
+     * Is the record being created, updated or deleted.
      *
      * @return bool|null True  - Create
      *                   False - Update

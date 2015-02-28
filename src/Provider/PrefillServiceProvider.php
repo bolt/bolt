@@ -2,9 +2,9 @@
 
 namespace Bolt\Provider;
 
+use Bolt\Storage\Prefill;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
-use Bolt\Storage\Prefill;
 
 class PrefillServiceProvider implements ServiceProviderInterface
 {
@@ -16,7 +16,6 @@ class PrefillServiceProvider implements ServiceProviderInterface
                 return $prefill;
             }
         );
-
     }
 
     public function boot(Application $app)

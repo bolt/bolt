@@ -9,7 +9,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\EventDispatcher\Event;
 
 /**
- * Simple cron dispatch class for Bolt
+ * Simple cron dispatch class for Bolt.
  *
  * To create a listener you need to something similar in your class:
  *      use Bolt\Events\CronEvents;
@@ -23,7 +23,6 @@ use Symfony\Component\EventDispatcher\Event;
  *      * CRON_YEARLY
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
- *
  **/
 class Cron extends Event
 {
@@ -38,21 +37,21 @@ class Cron extends Event
     private $output;
 
     /**
-     * Passed in console paramters
+     * Passed in console paramters.
      *
      * @var array
      */
     private $param;
 
     /**
-     * The next elegible run time for each interim
+     * The next elegible run time for each interim.
      *
      * @var array
      */
     private $nextRunTime;
 
     /**
-     * True for a required database insert
+     * True for a required database insert.
      *
      * @var boolean
      */
@@ -64,7 +63,7 @@ class Cron extends Event
     private $tablename;
 
     /**
-     * The start of the execution time for this cron instance
+     * The start of the execution time for this cron instance.
      *
      * @var string
      */
@@ -172,9 +171,10 @@ class Cron extends Event
     }
 
     /**
-     * Test whether or not to call dispatcher
+     * Test whether or not to call dispatcher.
      *
-     * @param  string  $name The cron event name
+     * @param string $name The cron event name
+     *
      * @return boolean Dispatch event or not
      */
     private function isExecutable($name)
@@ -194,7 +194,7 @@ class Cron extends Event
     }
 
     /**
-     * Get our configured hour and convert it to UNIX time
+     * Get our configured hour and convert it to UNIX time.
      */
     private function getScheduleThreshold()
     {
@@ -211,7 +211,7 @@ class Cron extends Event
 
     /**
      * If we're passed an OutputInterface, we're called from Nut and can notify
-     * the end user
+     * the end user.
      */
     private function notify($msg)
     {
@@ -223,7 +223,7 @@ class Cron extends Event
     }
 
     /**
-     * Set the formatted name of our table
+     * Set the formatted name of our table.
      */
     private function setTableName()
     {
@@ -237,7 +237,7 @@ class Cron extends Event
     }
 
     /**
-     * Query table for next run time of each interim
+     * Query table for next run time of each interim.
      */
     private function getNextRunTimes()
     {
@@ -274,10 +274,11 @@ class Cron extends Event
     }
 
     /**
-     * Get the next run time for a given interim
+     * Get the next run time for a given interim.
      *
-     * @param  string  $interim     The interim; CRON_HOURLY, CRON_DAILY, CRON_WEEKLY, CRON_MONTHLY or CRON_YEARLY
-     * @param  string  $lastRunTime The last execution time of the interim
+     * @param string $interim     The interim; CRON_HOURLY, CRON_DAILY, CRON_WEEKLY, CRON_MONTHLY or CRON_YEARLY
+     * @param string $lastRunTime The last execution time of the interim
+     *
      * @return integer The UNIX timestamp for the interims next valid execution time
      */
     private function getNextIterimRunTime($interim, $lastRunTime)
@@ -305,13 +306,13 @@ class Cron extends Event
     }
 
     /**
-     * Update table for last run time of each interim
+     * Update table for last run time of each interim.
      */
     private function setLastRun($interim)
     {
         // Define the mapping
         $map = array(
-            'interim'  => $interim,
+            'interim'   => $interim,
             'lastrun'   => date('Y-m-d H:i:s', $this->runtime),
         );
 
@@ -324,7 +325,7 @@ class Cron extends Event
     }
 
     /**
-     * Provide feedback on exceptions in cron jobs
+     * Provide feedback on exceptions in cron jobs.
      *
      * @param \Exception $e       The passed exception
      * @param string     $interim The cron handler name

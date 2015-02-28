@@ -8,9 +8,10 @@ class Input
      * Clean posted data. Convert tabs to spaces (primarily for yaml) and
      * stripslashes when magic quotes are turned on.
      *
-     * @param  mixed  $var
-     * @param  bool   $stripslashes
-     * @param  bool   $stripControlChars
+     * @param mixed $var
+     * @param bool  $stripslashes
+     * @param bool  $stripControlChars
+     *
      * @return string
      */
     public static function cleanPostedData($var, $stripslashes = true, $stripControlChars = false)

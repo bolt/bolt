@@ -5,13 +5,13 @@ namespace Bolt\Routing;
 use Silex;
 
 /**
- * Resolves extensions being used as a controller
+ * Resolves extensions being used as a controller.
  */
 class ControllerResolver extends Silex\ControllerResolver
 {
     /**
      * If class name passed in is an extension then return
-     * the extension instance instead of creating a new class
+     * the extension instance instead of creating a new class.
      *
      * @param string $class
      *

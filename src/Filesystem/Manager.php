@@ -2,7 +2,6 @@
 namespace Bolt\Filesystem;
 
 use Bolt\Application;
-use Bolt\Filesystem\Plugin;
 use League\Flysystem\Adapter\NullAdapter;
 use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemInterface;

@@ -14,7 +14,7 @@ use Composer\Repository\RepositoryInterface;
 use Silex\Application;
 
 /**
- * Composer show package class
+ * Composer show package class.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
@@ -39,11 +39,12 @@ final class ShowPackage
     }
 
     /**
-     * @param  string  $type    Repository type, either: 'self', 'platform', 'installed' or 'available'
-     * @param  string  $package Package name to show
-     * @param  string  $version Package version to show
-     * @param  boolean $root    Query the Bolt parent composer install
-     * @return array  Array of Composer packages
+     * @param string  $type    Repository type, either: 'self', 'platform', 'installed' or 'available'
+     * @param string  $package Package name to show
+     * @param string  $version Package version to show
+     * @param boolean $root    Query the Bolt parent composer install
+     *
+     * @return array Array of Composer packages
      */
     public function execute($type, $package = '', $version = '', $root = false)
     {
@@ -111,7 +112,6 @@ final class ShowPackage
         }
 
         foreach ($repos as $repo) {
-
             if ($repo instanceof ComposerRepository && $repo->hasProviders()) {
                 foreach ($repo->getProviderNames() as $name) {
                     $packages[$name] = $name;
@@ -136,14 +136,16 @@ final class ShowPackage
     }
 
     /**
-     * finds a package by name and version if provided
+     * finds a package by name and version if provided.
      *
-     * @param  RepositoryInterface       $installedRepo
-     * @param  RepositoryInterface       $repos
-     * @param  string                    $name
-     * @param  string                    $version
-     * @return array                     array(CompletePackageInterface, array of versions)
+     * @param RepositoryInterface $installedRepo
+     * @param RepositoryInterface $repos
+     * @param string              $name
+     * @param string              $version
+     *
      * @throws \InvalidArgumentException
+     *
+     * @return array [CompletePackageInterface, array of versions]
      */
     protected function getPackage(RepositoryInterface $installedRepo, RepositoryInterface $repos, $name, $version = null)
     {

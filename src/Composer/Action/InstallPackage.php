@@ -7,7 +7,7 @@ use Composer\Installer;
 use Silex\Application;
 
 /**
- * Composer package install class
+ * Composer package install class.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
@@ -27,10 +27,11 @@ final class InstallPackage
     }
 
     /**
-     * Install packages
+     * Install packages.
+     *
+     * @throws \Bolt\Exception\PackageManagerException
      *
      * @return int 0 on success or a positive error code on failure
-     * @throws \Bolt\Exception\PackageManagerException
      */
     public function execute()
     {

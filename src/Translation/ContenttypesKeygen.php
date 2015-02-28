@@ -2,55 +2,55 @@
 
 namespace Bolt\Translation;
 
-use Silex;
 use Bolt\Translation\Translator as Trans;
+use Silex;
 
 /**
- * Generates translations keys for contenttypes
+ * Generates translations keys for contenttypes.
  */
 class ContenttypesKeygen
 {
     /**
-     * Injected Application object
+     * Injected Application object.
      *
      * @var Silex\Application
      */
     private $app;
 
     /**
-     * Hints for translations
+     * Hints for translations.
      *
      * @var array
      */
     private $hints;
 
     /**
-     * Hints for translations
+     * Hints for translations.
      *
      * @var array
      */
     private $translation;
 
     /**
-     * Translations read from file
+     * Translations read from file.
      *
      * @var array
      */
     private $saved;
 
     /**
-     * Translatable strings
+     * Translatable strings.
      *
      * @var array
      */
     private $translatables;
 
     /**
-     * Constructor
+     * Constructor.
      *
-     * @param Silex\Application $app
-     * @param array             $translatables
-     * @param array             $savedTranslations
+     * @param \Silex\Application $app
+     * @param array              $translatables
+     * @param array              $savedTranslations
      */
     public function __construct(Silex\Application $app, array $translatables, array $savedTranslations)
     {
@@ -63,7 +63,7 @@ class ContenttypesKeygen
     }
 
     /**
-     * Returns translations
+     * Returns translations.
      *
      * @return array
      */
@@ -73,7 +73,7 @@ class ContenttypesKeygen
     }
 
     /**
-     * Returns hints
+     * Returns hints.
      *
      * @return array
      */
@@ -83,7 +83,7 @@ class ContenttypesKeygen
     }
 
     /**
-     * Generates translations keys for contenttypes
+     * Generates translations keys for contenttypes.
      */
     public function generate()
     {
@@ -93,7 +93,7 @@ class ContenttypesKeygen
     }
 
     /**
-     * Generates keys for contenttypes names and description and save found names for later usage
+     * Generates keys for contenttypes names and description and save found names for later usage.
      */
     private function generateNamesDescription()
     {
@@ -102,9 +102,9 @@ class ContenttypesKeygen
 
             // Names & description
             $setkeys = array(
-                'name.plural' => 'name',
+                'name.plural'   => 'name',
                 'name.singular' => 'singular_name',
-                'description' => 'description',
+                'description'   => 'description',
             );
             foreach ($setkeys as $setkey => $getkey) {
                 $key = $keyprefix . $setkey;
@@ -133,7 +133,7 @@ class ContenttypesKeygen
     }
 
     /**
-     * Generates keys for tab group names
+     * Generates keys for tab group names.
      */
     private function generateGroups()
     {
@@ -157,7 +157,7 @@ class ContenttypesKeygen
     }
 
     /**
-     * Generates strings for contenttypes from generic translations
+     * Generates strings for contenttypes from generic translations.
      */
     private function generateFromGeneric()
     {
@@ -192,9 +192,10 @@ class ContenttypesKeygen
     }
 
     /**
-     * Only allow "a-z_" in key parts
+     * Only allow "a-z_" in key parts.
      *
-     * @param  string $key
+     * @param string $key
+     *
      * @return string
      */
     private function slugifyKey($key)
@@ -203,9 +204,10 @@ class ContenttypesKeygen
     }
 
     /**
-     * Test if a translation already exists for a key
+     * Test if a translation already exists for a key.
      *
-     * @param  string $key
+     * @param string $key
+     *
      * @return bool
      */
     private function isSaved($key)
@@ -214,9 +216,10 @@ class ContenttypesKeygen
     }
 
     /**
-     * Returns a fallback translation for a key or false if none can be found
+     * Returns a fallback translation for a key or false if none can be found.
      *
-     * @param  string $key
+     * @param string $key
+     *
      * @return mixed
      */
     private function fallback($key)

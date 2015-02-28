@@ -2,11 +2,11 @@
 namespace Bolt\Configuration;
 
 use Bolt\Application;
+use Composer\Autoload\ClassLoader;
 use Eloquent\Pathogen\AbsolutePathInterface;
 use Eloquent\Pathogen\RelativePathInterface;
-use Symfony\Component\HttpFoundation\Request;
-use Composer\Autoload\ClassLoader;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * A Base Class to handle resource management of paths and urls within a Bolt App.
@@ -25,6 +25,7 @@ class ResourceManager
 
     /**
      * @var \Bolt\Application
+     *
      * @deprecated Don't use! Will probably refactored out soon
      */
     public static $theApp;
@@ -98,7 +99,6 @@ class ResourceManager
         $this->setPath('config', 'app/config');
         $this->setPath('database', 'app/database');
         $this->setPath('themebase', 'theme');
-
     }
 
     public function useLoader(ClassLoader $loader)
@@ -143,9 +143,9 @@ class ResourceManager
      *
      * @param string $name Name of path
      *
-     * @return string
-     *
      * @throws \InvalidArgumentException If path isn't available
+     *
+     * @return string
      */
     public function getPath($name)
     {
@@ -163,9 +163,9 @@ class ResourceManager
      *
      * @param string $name Name of path
      *
-     * @return AbsolutePathInterface
-     *
      * @throws \InvalidArgumentException If path isn't available
+     *
+     * @return AbsolutePathInterface
      */
     public function getPathObject($name)
     {
@@ -241,7 +241,7 @@ class ResourceManager
     }
 
     /**
-     * Takes a Request object and uses it to initialize settings that depend on the request
+     * Takes a Request object and uses it to initialize settings that depend on the request.
      *
      * @param Request $request
      */
@@ -286,7 +286,7 @@ class ResourceManager
     }
 
     /**
-     * Takes a Bolt Application and uses it to initialize settings that depend on the application config
+     * Takes a Bolt Application and uses it to initialize settings that depend on the application config.
      *
      * @param \Bolt\Application $app
      */
@@ -297,7 +297,7 @@ class ResourceManager
     }
 
     /**
-     * Takes a loaded config array and uses it to initialize settings that depend on it
+     * Takes a loaded config array and uses it to initialize settings that depend on it.
      *
      * @param array $config
      */
@@ -334,7 +334,7 @@ class ResourceManager
 
     public function compat()
     {
-        if (! defined("BOLT_COMPOSER_INSTALLED")) {
+        if (! defined('BOLT_COMPOSER_INSTALLED')) {
             define('BOLT_COMPOSER_INSTALLED', false);
         }
         if (! defined("BOLT_PROJECT_ROOT_DIR")) {
@@ -376,20 +376,25 @@ class ResourceManager
 
     /**
      * Verifies the configuration to ensure that paths exist and are writable.
-     *
-     * @return void
-     * @author
      */
     public function verify()
     {
         $this->getVerifier()->doChecks();
     }
 
+    /**
+     * Verify the database folder.
+     */
     public function verifyDb()
     {
         $this->getVerifier()->doDatabaseCheck();
     }
 
+    /**
+     * Get the LowlevelChecks object.
+     *
+     * @return LowlevelChecks
+     */
     public function getVerifier()
     {
         if (! $this->verifier) {
@@ -399,16 +404,33 @@ class ResourceManager
         return $this->verifier;
     }
 
+    /**
+     * Set the LowlevelChecks object.
+     *
+     * @param $verifier LowlevelChecks
+     */
     public function setVerifier($verifier)
     {
         $this->verifier = $verifier;
     }
 
+    /**
+     * Get the Composer autoload ClassLoader.
+     *
+     * @return ClassLoader
+     */
     public function getClassLoader()
     {
         return $this->classLoader;
     }
 
+    /**
+     * Get the Bolt\Application object.
+     *
+     * @throws \RuntimeException
+     *
+     * @return \Bolt\Application
+     */
     public static function getApp()
     {
         if (! static::$theApp) {
@@ -422,10 +444,10 @@ class ResourceManager
     }
 
     /**
-     * Find the relative file system path between two file system paths
+     * Find the relative file system path between two file system paths.
      *
      * @param string $frompath Path to start from
-     * @param string $topath Path we want to end up in
+     * @param string $topath   Path we want to end up in
      *
      * @return string Path leading from $frompath to $topath
      */
@@ -436,5 +458,4 @@ class ResourceManager
 
         return $relative;
     }
-
 }

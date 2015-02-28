@@ -33,6 +33,7 @@ class Config
     /**
      * Use {@see Config::getFields} instead.
      * Will be made protected in Bolt 3.0.
+     *
      * @var Field\Manager
      */
     public $fields;
@@ -65,15 +66,15 @@ class Config
             // folder is defined in the config file itself, we still need to check
             // retrospectively if we need to invalidate it.
             $this->checkValidCache();
-
         }
 
         $this->setCKPath();
     }
 
     /**
-     * @param  string $filename The name of the YAML file to read
-     * @param  string $path     The (optional) path to the YAML file
+     * @param string $filename The name of the YAML file to read
+     * @param string $path     The (optional) path to the YAML file
+     *
      * @return array
      */
     protected function parseConfigYaml($filename, $path = null)
@@ -98,12 +99,14 @@ class Config
     }
 
     /**
-     * Set a config value, using a path. For example:
+     * Set a config value, using a path.
      *
+     * For example:
      * $app['config']->set('general/branding/name', 'Bolt');
      *
-     * @param  string $path
-     * @param  mixed  $value
+     * @param string $path
+     * @param mixed  $value
+     *
      * @return bool
      */
     public function set($path, $value)
@@ -134,12 +137,14 @@ class Config
     }
 
     /**
-     * Get a config value, using a path. For example:
+     * Get a config value, using a path.
      *
+     * For example:
      * $var = $config->get('general/wysiwyg/ck/contentsCss');
      *
-     * @param  string $path
-     * @param  string $default
+     * @param string $path
+     * @param string $default
+     *
      * @return mixed
      */
     public function get($path, $default = null)
@@ -414,7 +419,7 @@ class Config
             // if we didn't "correct" it here.
             // @see used hack: http://stackoverflow.com/questions/173400/how-to-check-if-php-array-is-associative-or-sequential
             if ($field['type'] == 'select' && isset($field['values']) && is_array($field['values']) &&
-                array_values($field['values']) === $field['values'] ) {
+                array_values($field['values']) === $field['values']) {
                 $field['values'] = array_combine($field['values'], $field['values']);
             }
 
@@ -426,11 +431,11 @@ class Config
             // Make sure we have these keys and every field has a group set
             $field = array_replace(
                 array(
-                    'label' => '',
+                    'label'   => '',
                     'variant' => '',
                     'default' => '',
                     'pattern' => '',
-                    'group' => $currentGroup,
+                    'group'   => $currentGroup,
                 ),
                 $field
             );
@@ -549,14 +554,14 @@ class Config
     }
 
     /**
-     * Parses params to valid connection parameters.
+     * Parses params to valid connection parameters:
+     * - Defaults are merged into the params
+     * - Bolt keys are converted to Doctrine keys
+     * - Invalid keys are filtered out
      *
-     * Defaults are merged into the params.
-     * Bolt keys are converted to Doctrine keys.
-     * Invalid keys are filtered out.
+     * @param array|string $params
+     * @param array        $defaults
      *
-     * @param  array|string $params
-     * @param  array        $defaults
      * @return array
      */
     protected function parseConnectionParams($params, $defaults = array())
@@ -569,7 +574,7 @@ class Config
         // Convert keys from Bolt
         $replacements = array(
             'databasename' => 'dbname',
-            'username' => 'user',
+            'username'     => 'user',
         );
         foreach ($replacements as $old => $new) {
             if (isset($params[$old])) {
@@ -583,12 +588,12 @@ class Config
 
         // Filter out invalid keys
         $validKeys = array(
-            'user', 'password', 'host', 'port', 'dbname', 'charset', // common
-            'path', 'memory', // sqlite
-            'unix_socket', 'driverOptions', // mysql
-            'sslmode', // postgres
-            'servicename', 'service', 'pooled', 'instancename', 'server', // oracle
-            'persistent', // sqlanywhere
+            'user', 'password', 'host', 'port', 'dbname', 'charset',      // common
+            'path', 'memory',                                             // Qqlite
+            'unix_socket', 'driverOptions',                               // MySql
+            'sslmode',                                                    // PostgreSQL
+            'servicename', 'service', 'pooled', 'instancename', 'server', // Oracle
+            'persistent',                                                 // SQL Anywhere
         );
         $params = array_intersect_key($params, array_flip($validKeys));
 
@@ -607,6 +612,7 @@ class Config
         foreach ($this->data['contenttypes'] as $key => $ct) {
             /**
              * Make sure any field that has a 'uses' parameter actually points to a field that exists.
+             *
              * For example, this will show a notice:
              * entries:
              *   name: Entries
@@ -716,7 +722,7 @@ class Config
     }
 
     /**
-     * A getter to access the fields manager
+     * A getter to access the fields manager.
      *
      * @return Field\Manager
      **/
@@ -865,7 +871,7 @@ class Config
     }
 
     /**
-     * Will be made protected in Bolt 3.0
+     * Will be made protected in Bolt 3.0.
      */
     public function setCKPath()
     {
@@ -926,7 +932,6 @@ class Config
 
             // Yup, all seems to be right.
             return true;
-
         }
 
         return false;
@@ -977,7 +982,8 @@ class Config
      * NOTE: If the Request object has not been initialized by Silex yet,
      * we create a local version based on the request globals.
      *
-     * @param  string $mountpoint
+     * @param string $mountpoint
+     *
      * @return string
      */
     public function getWhichEnd($mountpoint = '')

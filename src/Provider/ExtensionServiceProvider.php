@@ -3,9 +3,9 @@
 namespace Bolt\Provider;
 
 use Bolt\Extensions;
+use Bolt\Extensions\StatService;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
-use Bolt\Extensions\StatService;
 
 class ExtensionServiceProvider implements ServiceProviderInterface
 {
@@ -26,7 +26,6 @@ class ExtensionServiceProvider implements ServiceProviderInterface
                 return $stats;
             }
         );
-
     }
 
     public function boot(Application $app)

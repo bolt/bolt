@@ -7,7 +7,7 @@ use Symfony\Component\Console\Application as ConsoleApplication;
 use Symfony\Component\Console\Command\Command;
 
 /**
- * Nut application
+ * Nut application.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */

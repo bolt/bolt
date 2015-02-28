@@ -30,6 +30,5 @@ class Extensions extends BaseCommand
             ->setHeaders(array('Name', 'Version', 'Type',  'Description'))
             ->setRows($rows);
         $table->render($output);
-
     }
 }

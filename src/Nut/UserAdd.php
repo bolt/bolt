@@ -58,6 +58,5 @@ class UserAdd extends BaseCommand
                 $output->writeln("<error>Error creating user: {$user['username']}</error>");
             }
         }
-
     }
 }

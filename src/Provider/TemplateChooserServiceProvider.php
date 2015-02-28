@@ -17,7 +17,6 @@ class TemplateChooserServiceProvider implements ServiceProviderInterface
                 return $chooser;
             }
         );
-
     }
 
     public function boot(Application $app)

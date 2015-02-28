@@ -136,7 +136,7 @@ class Local extends LocalBase
     protected function getFilePath(\SplFileInfo $file)
     {
         $path = parent::getFilePath($file);
-        if($this->pathSeparator === '\\') {
+        if ($this->pathSeparator === '\\') {
             return str_replace($this->pathSeparator, '/', $path);
         } else {
             return $path;
@@ -165,14 +165,14 @@ class Local extends LocalBase
     protected function userCanWrite($location)
     {
         $worldPermissions = substr(sprintf('%o', fileperms($location)), -1, 1);
-        if ($worldPermissions >=6 ) {
+        if ($worldPermissions >= 6) {
             return true;
         }
         
         $permissions = substr(sprintf('%o', fileperms($location)), -3, 1);
         $fileOwnerId = fileowner($location);
         $procOwnerId = posix_getuid();
-        if ($fileOwnerId === $procOwnerId && (int)$permissions >=6 ) {
+        if ($fileOwnerId === $procOwnerId && (int)$permissions >= 6) {
             return true;
         }
         
@@ -184,9 +184,9 @@ class Local extends LocalBase
         $permissions = substr(sprintf('%o', fileperms($location)), -2, 1);
         $fileOwnerGroup = filegroup($location);
         $procOwnerGroup = posix_getgid();
-        if ($fileOwnerGroup === $procOwnerGroup && (int)$permissions >=6 ) {
+        if ($fileOwnerGroup === $procOwnerGroup && (int)$permissions >= 6) {
             return true;
-        } 
+        }
         
         return false;
     }
@@ -194,16 +194,16 @@ class Local extends LocalBase
     protected function userCanRead($location)
     {
         $worldPermissions = substr(sprintf('%o', fileperms($location)), -1);
-        if ($worldPermissions >=5 ) {
+        if ($worldPermissions >= 5) {
             return true;
         }
         
         $permissions = substr(sprintf('%o', fileperms($location)), -3, 1);
         $fileOwnerId = fileowner($location);
         $procOwnerId = posix_getuid();
-        if ($fileOwnerId === $procOwnerId && (int)$permissions >=5 ) {
+        if ($fileOwnerId === $procOwnerId && (int)$permissions >= 5) {
             return true;
-        } 
+        }
         
         return false;
     }
@@ -213,13 +213,10 @@ class Local extends LocalBase
         $permissions = substr(sprintf('%o', fileperms($location)), -2, 1);
         $fileOwnerGroup = filegroup($location);
         $procOwnerGroup = posix_getgid();
-        if ($fileOwnerGroup === $procOwnerGroup && (int)$permissions >=5 ) {
+        if ($fileOwnerGroup === $procOwnerGroup && (int)$permissions >= 5) {
             return true;
-        } 
+        }
         
         return false;
     }
-    
-    
-    
 }

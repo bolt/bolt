@@ -53,7 +53,6 @@ abstract class BaseExtension implements ExtensionInterface
      * derived, extension class.
      *
      * @see http://stackoverflow.com/questions/11117637/getting-current-working-directory-of-an-extended-class-in-php
-     *
      */
     private function setBasepath()
     {
@@ -76,7 +75,7 @@ abstract class BaseExtension implements ExtensionInterface
     }
 
     /**
-     * Get the extensions base URL
+     * Get the extensions base URL.
      *
      * @return string
      */
@@ -88,7 +87,7 @@ abstract class BaseExtension implements ExtensionInterface
     }
 
     /**
-     * Set the extension install type
+     * Set the extension install type.
      *
      * @param string $type
      */
@@ -100,7 +99,7 @@ abstract class BaseExtension implements ExtensionInterface
     }
 
     /**
-     * Get the extension type
+     * Get the extension type.
      *
      * @return string
      */
@@ -207,6 +206,7 @@ abstract class BaseExtension implements ExtensionInterface
     /**
      * Override this to provide a default configuration, which will be used
      * in the absence of a config.yml file.
+     *
      * @return array
      */
     protected function getDefaultConfig()
@@ -253,9 +253,10 @@ abstract class BaseExtension implements ExtensionInterface
      * Test if a given config file is valid (exists and is readable) and create
      * if required.
      *
-     * @param  string  $configfile Fully qualified file path
-     * @param  boolean $create     True - create file is non-existant
-     *                             False - Only test for file existance
+     * @param string  $configfile Fully qualified file path
+     * @param boolean $create     True - create file is non-existant
+     *                            False - Only test for file existance
+     *
      * @return boolean
      */
     private function isConfigValid($configfile, $create)
@@ -307,7 +308,7 @@ abstract class BaseExtension implements ExtensionInterface
     }
 
     /**
-     * Load and process a give config file
+     * Load and process a give config file.
      *
      * @param string $configfile Fully qualified file path
      */
@@ -356,7 +357,7 @@ abstract class BaseExtension implements ExtensionInterface
 
     /**
      * Allow use of the extension's Twig function in content records when the
-     * content type has the setting 'allowtwig: true' is set
+     * content type has the setting 'allowtwig: true' is set.
      *
      * @return boolean
      */
@@ -366,7 +367,7 @@ abstract class BaseExtension implements ExtensionInterface
     }
 
     /**
-     * Add a Twig Function
+     * Add a Twig Function.
      *
      * @param string $name
      * @param string $callback
@@ -379,7 +380,7 @@ abstract class BaseExtension implements ExtensionInterface
     }
 
     /**
-     * Add a Twig Filter
+     * Add a Twig Filter.
      *
      * @param string $name
      * @param string $callback
@@ -408,7 +409,7 @@ abstract class BaseExtension implements ExtensionInterface
     }
 
     /**
-     * Return the available Snippets, used in \Bolt\Extensions
+     * Return the available Snippets, used in \Bolt\Extensions.
      *
      * @return array
      */
@@ -541,12 +542,13 @@ abstract class BaseExtension implements ExtensionInterface
     }
 
     /**
-     * Parse a snippet, an pass on the generated HTML to the caller (Extensions)
+     * Parse a snippet, an pass on the generated HTML to the caller (Extensions).
      *
-     * @param  string      $callback
-     * @param  string      $var1
-     * @param  string      $var2
-     * @param  string      $var3
+     * @param string $callback
+     * @param string $var1
+     * @param string $var2
+     * @param string $var3
+     *
      * @return bool|string
      */
     public function parseSnippet($callback, $var1 = "", $var2 = "", $var3 = "")
@@ -559,7 +561,7 @@ abstract class BaseExtension implements ExtensionInterface
     }
 
     /**
-     * Add/Insert a Widget (for instance, on the dashboard)
+     * Add/Insert a Widget (for instance, on the dashboard).
      *
      * @param string $type
      * @param string $location
@@ -570,6 +572,7 @@ abstract class BaseExtension implements ExtensionInterface
      * @param string $var1
      * @param string $var2
      * @param string $var3
+     *
      * @internal param string $name
      */
     public function addWidget($type, $location, $callback, $additionalhtml = "", $defer = true, $cacheduration = 180, $var1 = "", $var2 = "", $var3 = "")
@@ -578,11 +581,12 @@ abstract class BaseExtension implements ExtensionInterface
     }
 
     /**
-     * Deprecated
+     * @deprecated
      *
      * @see: requireUserRole()
      *
-     * @param  string $permission
+     * @param string $permission
+     *
      * @return bool
      */
     public function requireUserLevel($permission = 'dashboard')
@@ -594,8 +598,9 @@ abstract class BaseExtension implements ExtensionInterface
      * Check if a user is logged in, and has the proper required permission. If
      * not, we redirect the user to the dashboard.
      *
-     * @param  string $permission
-     * @return bool   True if permission allowed
+     * @param string $permission
+     *
+     * @return bool True if permission allowed
      */
     public function requireUserPermission($permission = 'dashboard')
     {
@@ -609,12 +614,13 @@ abstract class BaseExtension implements ExtensionInterface
     }
 
     /**
-     * Parse a widget, an pass on the generated HTML to the caller (Extensions)
+     * Parse a widget, an pass on the generated HTML to the caller (Extensions).
      *
-     * @param  string      $callback
-     * @param  string      $var1
-     * @param  string      $var2
-     * @param  string      $var3
+     * @param string $callback
+     * @param string $var1
+     * @param string $var2
+     * @param string $var3
+     *
      * @return bool|string
      */
     public function parseWidget($callback, $var1 = '', $var2 = '', $var3 = '')
@@ -627,7 +633,7 @@ abstract class BaseExtension implements ExtensionInterface
     }
 
     /**
-     * Add a console command
+     * Add a console command.
      *
      * @param Command $command
      */

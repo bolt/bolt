@@ -22,7 +22,7 @@ use Whoops\Provider\Silex\WhoopsServiceProvider;
 class Application extends Silex\Application
 {
     /**
-     * The default locale, used as fallback
+     * The default locale, used as fallback.
      */
     const DEFAULT_LOCALE = 'en_GB';
 
@@ -213,7 +213,7 @@ class Application extends Silex\Application
     }
 
     /**
-     * Set up the profilers for the toolbar
+     * Set up the profilers for the toolbar.
      */
     public function initProfiler()
     {
@@ -330,7 +330,7 @@ class Application extends Silex\Application
             // Use the preferred options. Assume it's SMTP, unless set differently.
             $this['swiftmailer.options'] = $this['config']->get('general/mailoptions');
         } else {
-            // No Mail transport has been set. We should gently nudge the user to set the mail configuration. 
+            // No Mail transport has been set. We should gently nudge the user to set the mail configuration.
             // @see: the issue at https://github.com/bolt/bolt/issues/2908
         }
 
@@ -500,9 +500,10 @@ class Application extends Silex\Application
     }
 
     /**
-     * Handle errors thrown in the application. Set up whoops, if set in conf
+     * Handle errors thrown in the application. Set up whoops, if set in conf.
      *
-     * @param  \Exception $exception
+     * @param \Exception $exception
+     *
      * @return Response
      */
     public function errorHandler(\Exception $exception)
@@ -530,7 +531,7 @@ class Application extends Silex\Application
             }
 
             // Don't display the full path..
-            if (isset( $trace[$key]['file'])) {
+            if (isset($trace[$key]['file'])) {
                 $trace[$key]['file'] = str_replace($this['resources']->getPath('root'), '[root]', $trace[$key]['file']);
             }
         }
@@ -554,10 +555,10 @@ class Application extends Silex\Application
         }
 
         $context = array(
-            'class' => get_class($exception),
+            'class'   => get_class($exception),
             'message' => $message,
-            'code' => $exception->getCode(),
-            'trace' => $trace,
+            'code'    => $exception->getCode(),
+            'trace'   => $trace,
         );
 
         // Note: This uses the template from app/theme_defaults. Not app/view/twig.
@@ -566,7 +567,9 @@ class Application extends Silex\Application
 
     /**
      * TODO Can this be removed?
+     *
      * @param string $name
+     *
      * @return bool
      */
     public function __isset($name)

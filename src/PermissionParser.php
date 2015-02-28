@@ -35,27 +35,27 @@ class PermissionParser
     const T_UNDEFINED = 0;
 
     /**
-     * Opening parens: '('
+     * Opening parens: '('.
      */
     const T_OPEN_PARENS = 1;
 
     /**
-     * Closing parens: ')'
+     * Closing parens: ')'.
      */
     const T_CLOSE_PARENS = 2;
 
     /**
-     * 'OR' keyword or operator
+     * 'OR' keyword or operator.
      */
     const T_OR = 3;
 
     /**
-     * 'AND' keyword or operator
+     * 'AND' keyword or operator.
      */
     const T_AND = 4;
 
     /**
-     * A single query (a:b:c:...)
+     * A single query (a:b:c:...).
      */
     const T_QUERY = 5;
 
@@ -65,12 +65,12 @@ class PermissionParser
     const T_SPACE = 6;
 
     /**
-     * 'TRUE' keyword
+     * 'TRUE' keyword.
      */
     const T_TRUE = 7;
 
     /**
-     * 'FALSE' keyword
+     * 'FALSE' keyword.
      */
     const T_FALSE = 8;
 
@@ -116,13 +116,13 @@ class PermissionParser
 
     /**
      * A list of child queries, combined with short-circuiting "OR" (i.e.,
-     * first sub-check to pass short-circuits)
+     * first sub-check to pass short-circuits).
      */
     const P_OR = 1;
 
     /**
      * A list of child queries, combined with short-circuiting "AND" (i.e.,
-     * first sub-check to fail short-circuits)
+     * first sub-check to fail short-circuits).
      */
     const P_AND = 2;
 
@@ -138,7 +138,9 @@ class PermissionParser
 
     /**
      * Lexes and parses the specified query string $what.
+     *
      * @param $what
+     *
      * @return array A parse tree.
      * @throw Exception Parser or lexer errors are thrown as
      */
@@ -152,8 +154,9 @@ class PermissionParser
      *
      * @param $query
      *
-     * @return array
      * @throws \Bolt\Exception\PermissionLexerException
+     *
+     * @return array
      */
     public static function lex($query)
     {
@@ -184,9 +187,9 @@ class PermissionParser
             // Keywords: case-insensitive OR, AND, TRUE, FALSE.
             // Word-boundary assertions are required to avoid being overly
             // greedy.
-            '/^(?:\bor\b)/i' => self::T_OR,
-            '/^(?:\band\b)/i' => self::T_AND,
-            '/^(?:\btrue\b)/i' => self::T_TRUE,
+            '/^(?:\bor\b)/i'    => self::T_OR,
+            '/^(?:\band\b)/i'   => self::T_AND,
+            '/^(?:\btrue\b)/i'  => self::T_TRUE,
             '/^(?:\bfalse\b)/i' => self::T_FALSE,
 
             // A single permission query. We're using an explicit character
@@ -235,8 +238,9 @@ class PermissionParser
      * Assert that the given $token's 'type' key is in the list of $expected
      * token types.
      *
-     * @param  array                     $expected List of token types (T_XXXX constants).
-     * @param  array                     $token    A lexer token, associative array.
+     * @param array $expected List of token types (T_XXXX constants).
+     * @param array $token    A lexer token, associative array.
+     *
      * @throws PermissionParserException
      */
     private static function expect($expected, $token)
@@ -260,10 +264,11 @@ class PermissionParser
     /**
      * Parse a stream of lexer tokens ('lexemes') into a permission query AST.
      *
-     * @param  array $tokens An array or iterable of lexer tokens. The output of
-     *                       `lex()` is suitable here.
+     * @param array $tokens An array or iterable of lexer tokens. The output of
+     *                      `lex()` is suitable here.
+     *
      * @return array A nested associative array representing the resulting
-     *                      parse tree.
+     *               parse tree.
      */
     public static function parse($tokens)
     {

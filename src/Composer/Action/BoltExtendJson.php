@@ -7,7 +7,7 @@ use Composer\Json\JsonFile;
 use Silex\Application;
 
 /**
- * Initialise Composer JSON file class
+ * Initialise Composer JSON file class.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
@@ -32,7 +32,7 @@ final class BoltExtendJson
     }
 
     /**
-     * Convenience function to generalise the library
+     * Convenience function to generalise the library.
      *
      * @param string $file
      * @param array  $data
@@ -43,7 +43,7 @@ final class BoltExtendJson
     }
 
     /**
-     * Initialise a JSON file at given location with optional data input
+     * Initialise a JSON file at given location with optional data input.
      *
      * @param string $file
      * @param array  $data
@@ -55,9 +55,10 @@ final class BoltExtendJson
     }
 
     /**
-     * Set up Composer JSON file
+     * Set up Composer JSON file.
      *
-     * @param  Application $app
+     * @param Application $app
+     *
      * @return string
      */
     public function updateJson(Application $app)
@@ -88,22 +89,22 @@ final class BoltExtendJson
         $json['repositories']['packagist'] = false;
         $json['repositories']['bolt'] = array(
             'type' => 'composer',
-            'url' => $app['extend.site'] . 'satis/'
+            'url'  => $app['extend.site'] . 'satis/'
         );
         $json['minimum-stability'] = $app['config']->get('general/extensions/stability', 'stable');
         $json['prefer-stable'] = true;
         $json['config'] = array(
-            'discard-changes' => true,
+            'discard-changes'   => true,
             'preferred-install' => 'dist'
         );
         $json['provide']['bolt/bolt'] = $app['bolt_version'];
         $json['extra'] = array('bolt-web-path' => $pathToWeb);
         $json['autoload'] = array(
-            'psr-4' => array('Bolt\\Composer\\'=>"")
+            'psr-4' => array('Bolt\\Composer\\' => '')
         );
         $json['scripts'] = array(
-            'post-package-install' => "Bolt\\Composer\\ExtensionInstaller::handle",
-            'post-package-update' => "Bolt\\Composer\\ExtensionInstaller::handle"
+            'post-package-install' => 'Bolt\\Composer\\ExtensionInstaller::handle',
+            'post-package-update'  => 'Bolt\\Composer\\ExtensionInstaller::handle'
         );
 
         // Write out the file, but only if it's actually changed, and if it's writable.

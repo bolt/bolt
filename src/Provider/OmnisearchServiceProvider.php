@@ -17,7 +17,6 @@ class OmnisearchServiceProvider implements ServiceProviderInterface
                 return $omnisearch;
             }
         );
-
     }
 
     public function boot(Application $app)

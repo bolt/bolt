@@ -26,6 +26,5 @@ class StatService
         } catch (\Exception $e) {
             $this->app['logger.system']->critical($e->getMessage(), array('event' => 'exception', 'exception' => $e));
         }
-
     }
 }
