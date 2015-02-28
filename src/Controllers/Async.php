@@ -111,7 +111,6 @@ class Async implements ControllerProviderInterface
 
         // If not cached, get fresh news..
         if ($news === false) {
-
             $app['logger.system']->info("Fetching from remote server: $source", array('event' => 'news'));
 
             $driver = $app['db']->getDatabasePlatform()->getName();
@@ -140,7 +139,7 @@ class Async implements ControllerProviderInterface
                     $news = array();
 
                     // Iterate over the items, pick the first news-item that applies
-                    foreach($fetchedNewsItems as $item) {
+                    foreach ($fetchedNewsItems as $item) {
                         if ($item->type != "alert") {
                             if (empty($item->target_version) || version_compare($item->target_version, $app->getVersion(), '>')) {
                                 $news['information'] = $item;
@@ -150,7 +149,7 @@ class Async implements ControllerProviderInterface
                     }
 
                     // Iterate over the items again, See if there's an alert we need to show.
-                    foreach($fetchedNewsItems as $item) {
+                    foreach ($fetchedNewsItems as $item) {
                         if ($item->type == "alert") {
                             if (empty($item->target_version) || version_compare($item->target_version, $app->getVersion(), '>')) {
                                 $news['alert'] = $item;
@@ -163,11 +162,9 @@ class Async implements ControllerProviderInterface
                 } else {
                     $app['logger.system']->error('Invalid JSON feed returned', array('event' => 'news'));
                 }
-
             } catch (RequestException $e) {
                 $app['logger.system']->error('Error occurred during fetch: ' . $e->getMessage(), array('event' => 'news'));
             }
-
         } else {
             $app['logger.system']->info('Using cached data', array('event' => 'news'));
         }
@@ -235,7 +232,6 @@ class Async implements ControllerProviderInterface
 
     /**
      * Render a widget, and return the HTML, so it can be inserted in the page.
-     *
      */
     public function widget($key, Silex\Application $app, Request $request)
     {
@@ -344,9 +340,10 @@ class Async implements ControllerProviderInterface
     /**
      * Latest {contenttype} to show a small listing in the sidebars.
      *
-     * @param  Silex\Application $app
-     * @param  string            $contenttypeslug
-     * @param  integer|null      $contentid
+     * @param \Silex\Application $app
+     * @param string             $contenttypeslug
+     * @param integer|null       $contentid
+     *
      * @return Response
      */
     public function lastmodified(Silex\Application $app, $contenttypeslug, $contentid = null)
@@ -362,10 +359,11 @@ class Async implements ControllerProviderInterface
     }
 
     /**
-     * Only get latest {contenttype} record edits based on date changed
+     * Only get latest {contenttype} record edits based on date changed.
      *
-     * @param  \Silex\Application $app
-     * @param  string             $contenttypeslug
+     * @param \Silex\Application $app
+     * @param string             $contenttypeslug
+     *
      * @return Response
      */
     private function lastmodifiedSimple(Silex\Application $app, $contenttypeslug)
@@ -377,7 +375,7 @@ class Async implements ControllerProviderInterface
         $latest = $app['storage']->getContent($contenttype['slug'], array('limit' => 5, 'order' => 'datechanged DESC', 'hydrate' => false));
 
         $context = array(
-            'latest' => $latest,
+            'latest'      => $latest,
             'contenttype' => $contenttype
         );
 
@@ -387,11 +385,12 @@ class Async implements ControllerProviderInterface
     }
 
     /**
-     * Get last modified records from the content log
+     * Get last modified records from the content log.
      *
-     * @param  \Silex\Application $app
-     * @param  string             $contenttypeslug
-     * @param  integer            $contentid
+     * @param \Silex\Application $app
+     * @param string             $contenttypeslug
+     * @param integer            $contentid
+     *
      * @return Response
      */
     private function lastmodifiedByContentLog(Silex\Application $app, $contenttypeslug, $contentid)
@@ -412,10 +411,10 @@ class Async implements ControllerProviderInterface
         $changelog = $app['logger.manager.change']->getChangelogByContentType($contenttype['slug'], $options);
 
         $context = array(
-            'changelog' => $changelog,
+            'changelog'   => $changelog,
             'contenttype' => $contenttype,
-            'contentid' => $contentid,
-            'filtered' => $isFiltered,
+            'contentid'   => $contentid,
+            'filtered'    => $isFiltered,
         );
 
         $body = $app['render']->render('components/panel-lastmodified.twig', array('context' => $context));
@@ -426,22 +425,22 @@ class Async implements ControllerProviderInterface
     /**
      * List pages in given contenttype, to easily insert links through the Wysywig editor.
      *
-     * @param  string             $contenttype
-     * @param  \Silex\Application $app
-     * @param  Request            $request
+     * @param string             $contenttype
+     * @param \Silex\Application $app
+     * @param Request            $request
+     *
      * @return mixed
      */
     public function filebrowser($contenttype, Silex\Application $app, Request $request)
     {
         foreach ($app['storage']->getContentTypes() as $contenttype) {
-
             $records = $app['storage']->getContent($contenttype, array('published' => true, 'hydrate' => false));
 
             foreach ($records as $key => $record) {
                 $results[$contenttype][] = array(
                     'title' => $record->gettitle(),
-                    'id' => $record->id,
-                    'link' => $record->link(),
+                    'id'    => $record->id,
+                    'link'  => $record->link()
                 );
             }
         }
@@ -456,10 +455,11 @@ class Async implements ControllerProviderInterface
     /**
      * List browse on the server, so we can insert them in the file input.
      *
-     * @param  string            $namespace
-     * @param  string            $path
-     * @param  Silex\Application $app
-     * @param  Request           $request
+     * @param string             $namespace
+     * @param string             $path
+     * @param \Silex\Application $app
+     * @param Request            $request
+     *
      * @return mixed
      */
     public function browse($namespace, $path, Silex\Application $app, Request $request)
@@ -494,12 +494,11 @@ class Async implements ControllerProviderInterface
         list($files, $folders) = $filesystem->browse($path, $app);
 
         $context = array(
-            'namespace' => $namespace,
-            //'path' => $path, Unused?!
-            'files' => $files,
-            'folders' => $folders,
+            'namespace'    => $namespace,
+            'files'        => $files,
+            'folders'      => $folders,
             'pathsegments' => $pathsegments,
-            'key' => $key
+            'key'          => $key
         );
 
         return $app['render']->render('files_async/files_async.twig', array('context' => $context));
@@ -518,7 +517,7 @@ class Async implements ControllerProviderInterface
         $options = $request->query->get('options', false);
 
         $context = array(
-            'stack' => $app['stack']->listitems($count),
+            'stack'     => $app['stack']->listitems($count),
             'filetypes' => $app['stack']->getFileTypes(),
             'namespace' => $app['upload.namespace'],
             'canUpload' => $app['users']->isAllowed('files:uploads')
@@ -545,8 +544,8 @@ class Async implements ControllerProviderInterface
     /**
      * Rename a file within the files directory tree.
      *
-     * @param Silex\Application $app     The Silex Application Container
-     * @param Request           $request The HTTP Request Object containing the GET Params
+     * @param \Silex\Application $app     The Silex Application Container
+     * @param Request            $request The HTTP Request Object containing the GET Params
      *
      * @return Boolean Whether the renaming action was successful
      */
@@ -567,8 +566,9 @@ class Async implements ControllerProviderInterface
     /**
      * Delete a file on the server.
      *
-     * @param  Silex\Application $app
-     * @param  Request           $request
+     * @param \Silex\Application $app
+     * @param Request            $request
+     *
      * @return bool
      */
     public function deletefile(Silex\Application $app, Request $request)
@@ -586,8 +586,9 @@ class Async implements ControllerProviderInterface
     /**
      * Duplicate a file on the server.
      *
-     * @param  Silex\Application $app
-     * @param  Request           $request
+     * @param \Silex\Application $app
+     * @param Request            $request
+     *
      * @return bool
      */
     public function duplicatefile(Silex\Application $app, Request $request)
@@ -616,8 +617,8 @@ class Async implements ControllerProviderInterface
     /**
      * Rename a folder within the files directory tree.
      *
-     * @param Silex\Application $app     The Silex Application Container
-     * @param Request           $request The HTTP Request Object containing the GET Params
+     * @param \Silex\Application $app     The Silex Application Container
+     * @param Request            $request The HTTP Request Object containing the GET Params
      *
      * @return Boolean Whether the renaming action was successful
      */
@@ -638,8 +639,8 @@ class Async implements ControllerProviderInterface
     /**
      * Delete a folder recursively if writeable.
      *
-     * @param Silex\Application $app     The Silex Application Container
-     * @param Request           $request The HTTP Request Object containing the GET Params
+     * @param \Silex\Application $app     The Silex Application Container
+     * @param Request            $request The HTTP Request Object containing the GET Params
      *
      * @return Boolean Whether the renaming action was successful
      */
@@ -659,8 +660,8 @@ class Async implements ControllerProviderInterface
     /**
      * Create a new folder.
      *
-     * @param Silex\Application $app     The Silex Application Container
-     * @param Request           $request he HTTP Request Object containing the GET Params
+     * @param \Silex\Application $app     The Silex Application Container
+     * @param Request            $request he HTTP Request Object containing the GET Params
      *
      * @return Boolean Whether the creation was successful
      */
@@ -678,12 +679,13 @@ class Async implements ControllerProviderInterface
     }
 
     /**
-     * Generate the change log box for a single record in edit
+     * Generate the change log box for a single record in edit.
      *
-     * @param  string            $contenttype
-     * @param  integer           $contentid
-     * @param  Silex\Application $app
-     * @param  Request           $request
+     * @param string             $contenttype
+     * @param integer            $contentid
+     * @param \Silex\Application $app
+     * @param Request            $request
+     *
      * @return string
      */
     public function changelogRecord($contenttype, $contentid, Silex\Application $app, Request $request)
@@ -704,10 +706,11 @@ class Async implements ControllerProviderInterface
     }
 
     /**
+     * Send an e-mail ping test.
      *
-     * @param string            $type
-     * @param Silex\Application $app
-     * @param Request           $request
+     * @param string             $type
+     * @param \Silex\Application $app
+     * @param Request            $request
      *
      * @return Response
      */
@@ -726,7 +729,7 @@ class Async implements ControllerProviderInterface
             ->createMessage('message')
             ->setSubject('Test email from ' . $app['config']->get('general/sitename'))
             ->setFrom(array('bolt@'.$request->getHost() => $app['config']->get('general/sitename')))
-            ->setTo(array($user['email'] => $user['displayname']))
+            ->setTo(array($user['email']                => $user['displayname']))
             ->setBody(strip_tags($mailhtml))
             ->addPart($mailhtml, 'text/html');
 

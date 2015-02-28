@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Configurable routes controller
+ * Configurable routes controller.
  *
  * Add routes from a configuration file.
  */
@@ -19,7 +19,7 @@ class Routing implements ControllerProviderInterface
     protected $app;
 
     /**
-     * Connect this controller to the application
+     * Connect this controller to the application.
      *
      * @param Application $app
      *
@@ -38,7 +38,7 @@ class Routing implements ControllerProviderInterface
     }
 
     /**
-     * Add routes based on the parsed array
+     * Add routes based on the parsed array.
      *
      * @param array $routes
      *
@@ -139,9 +139,10 @@ class Routing implements ControllerProviderInterface
     }
 
     /**
-     * Return a regex from a function
+     * Return a regex from a function.
      *
      * @param string|array $regexp
+     *
      * @return string
      */
     protected function getProperRegexp($regexp)
@@ -164,7 +165,7 @@ class Routing implements ControllerProviderInterface
     }
 
     /**
-     * Return plural and singular contenttypeslugs
+     * Return plural and singular contenttypeslugs.
      */
     public function getAnyContentTypeRequirement()
     {
@@ -172,7 +173,7 @@ class Routing implements ControllerProviderInterface
     }
 
     /**
-     * Return only plural contenttypeslugs
+     * Return only plural contenttypeslugs.
      */
     public function getPluralContentTypeRequirement()
     {
@@ -180,9 +181,10 @@ class Routing implements ControllerProviderInterface
     }
 
     /**
-     * Get a value to use in 'assert() with the available contenttypes
+     * Get a value to use in 'assert() with the available contenttypes.
      *
-     * @param  bool   $includesingular
+     * @param bool $includesingular
+     *
      * @return string $contenttypes
      */
     protected function getContentTypeAssert($includesingular = false)
@@ -199,7 +201,7 @@ class Routing implements ControllerProviderInterface
     }
 
     /**
-     * Return plural and singular taxonomytypeslugs
+     * Return plural and singular taxonomytypeslugs.
      */
     public function getAnyTaxonomyTypeRequirement()
     {
@@ -207,7 +209,7 @@ class Routing implements ControllerProviderInterface
     }
 
     /**
-     * Return only plural taxonomytypeslugs
+     * Return only plural taxonomytypeslugs.
      */
     public function getPluralTaxonomyTypeRequirement()
     {
@@ -215,9 +217,10 @@ class Routing implements ControllerProviderInterface
     }
 
     /**
-     * Get a value to use in 'assert() with the available taxonomytypes
+     * Get a value to use in 'assert() with the available taxonomytypes.
      *
-     * @param  bool   $includesingular
+     * @param bool $includesingular
+     *
      * @return string $taxonomytypes
      */
     protected function getTaxonomyTypeAssert($includesingular = false)

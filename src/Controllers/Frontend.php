@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 use utilphp\util;
 
 /**
- * Standard Frontend actions
+ * Standard Frontend actions.
  *
  * This file acts as a grouping for the default front-end controllers.
  *
@@ -28,8 +28,8 @@ class Frontend
      * Perform contenttype-based permission check, aborting with a 403
      * Forbidden as appropriate.
      *
-     * @param Silex\Application $app     The application/container
-     * @param Content|string    $content The content to check
+     * @param \Silex\Application $app     The application/container
+     * @param Content|string     $content The content to check
      */
     protected function checkFrontendPermission(Silex\Application $app, $content)
     {
@@ -52,8 +52,9 @@ class Frontend
      *
      * Refer to the routing.yml config file for overridding.
      *
-     * @param  Request     $request The Symfony Request
-     * @param  Application $app     The application/container
+     * @param Request     $request The Symfony Request
+     * @param Application $app     The application/container
+     *
      * @return mixed
      */
     public function before(Request $request, Application $app)
@@ -92,7 +93,8 @@ class Frontend
     /**
      * Controller for the "Homepage" route. Usually the front page of the website.
      *
-     * @param  Silex\Application $app The application/container
+     * @param \Silex\Application $app The application/container
+     *
      * @return mixed
      */
     public function homepage(Silex\Application $app)
@@ -121,9 +123,10 @@ class Frontend
     /**
      * Controller for a single record page, like '/page/about/' or '/entry/lorum'.
      *
-     * @param  Silex\Application $app             The application/container
-     * @param  string            $contenttypeslug The content type slug
-     * @param  string            $slug            The content slug
+     * @param \Silex\Application $app             The application/container
+     * @param string             $contenttypeslug The content type slug
+     * @param string             $slug            The content slug
+     *
      * @return mixed
      */
     public function record(Silex\Application $app, $contenttypeslug, $slug = '')
@@ -199,9 +202,10 @@ class Frontend
     /**
      * The controller for previewing a content from posted data.
      *
-     * @param  Request           $request         The Symfony Request
-     * @param  Silex\Application $app             The application/container
-     * @param  string            $contenttypeslug The content type slug
+     * @param Request            $request         The Symfony Request
+     * @param \Silex\Application $app             The application/container
+     * @param string             $contenttypeslug The content type slug
+     *
      * @return mixed
      */
     public function preview(Request $request, Silex\Application $app, $contenttypeslug)
@@ -256,8 +260,9 @@ class Frontend
     /**
      * The listing page controller.
      *
-     * @param  Silex\Application $app             The application/container
-     * @param  string            $contenttypeslug The content type slug
+     * @param \Silex\Application $app             The application/container
+     * @param string             $contenttypeslug The content type slug
+     *
      * @return mixed
      */
     public function listing(Silex\Application $app, $contenttypeslug)
@@ -309,9 +314,10 @@ class Frontend
     /**
      * The taxonomy listing page controller.
      *
-     * @param  Silex\Application $app          The application/container
-     * @param  string            $taxonomytype The taxonomy type slug
-     * @param  string            $slug         The taxonomy slug
+     * @param \Silex\Application $app          The application/container
+     * @param string             $taxonomytype The taxonomy type slug
+     * @param string             $slug         The taxonomy slug
+     *
      * @return mixed
      */
     public function taxonomy(Silex\Application $app, $taxonomytype, $slug)
@@ -335,7 +341,7 @@ class Frontend
 
         // See https://github.com/bolt/bolt/pull/2310
         if (($taxonomy['behaves_like'] === 'tags' && !$content)
-            || ( in_array($taxonomy['behaves_like'], array('categories', 'grouping')) && !in_array($slug, isset($taxonomy['options']) ? array_keys($taxonomy['options']) : array()))) {
+            || (in_array($taxonomy['behaves_like'], array('categories', 'grouping')) && !in_array($slug, isset($taxonomy['options']) ? array_keys($taxonomy['options']) : array()))) {
             $app->abort(404, "No slug '$slug' in taxonomy '$taxonomyslug'");
         }
 
@@ -383,8 +389,9 @@ class Frontend
     /**
      * The search result page controller.
      *
-     * @param  Request           $request The Symfony Request
-     * @param  Silex\Application $app     The application/container
+     * @param Request            $request The Symfony Request
+     * @param \Silex\Application $app     The application/container
+     *
      * @return mixed
      */
     public function search(Request $request, Silex\Application $app)
@@ -414,7 +421,7 @@ class Frontend
         $filters = array();
         foreach ($request->query->all() as $key => $value) {
             if (strpos($key, '_') > 0) {
-                list ($contenttypeslug, $field) = explode('_', $key, 2);
+                list($contenttypeslug, $field) = explode('_', $key, 2);
                 if (isset($filters[$contenttypeslug])) {
                     $filters[$contenttypeslug][$field] = $value;
                 } else {
@@ -434,13 +441,13 @@ class Frontend
         $result = $app['storage']->searchContent($q, null, $filters, $limit, $offset);
 
         $pager = array(
-            'for' => $context,
-            'count' => $result['no_of_results'],
-            'totalpages' => ceil($result['no_of_results'] / $pageSize),
-            'current' => $page,
+            'for'          => $context,
+            'count'        => $result['no_of_results'],
+            'totalpages'   => ceil($result['no_of_results'] / $pageSize),
+            'current'      => $page,
             'showing_from' => $offset + 1,
-            'showing_to' => $offset + count($result['results']),
-            'link' => '/search?q=' . rawurlencode($q) . '&page_search='
+            'showing_to'   => $offset + count($result['results']),
+            'link'         => '/search?q=' . rawurlencode($q) . '&page_search='
         );
 
         $app['storage']->setPager($context, $pager);
@@ -458,10 +465,12 @@ class Frontend
      * Renders the specified template from the current theme in response to a request without
      * loading any content.
      *
-     * @param  Silex\Application $app      The application/container
-     * @param  string            $template The template name
-     * @return mixed
+     * @param \Silex\Application $app      The application/container
+     * @param string             $template The template name
+     *
      * @throws \Exception
+     *
+     * @return mixed
      */
     public function template(Silex\Application $app, $template)
     {
@@ -477,10 +486,11 @@ class Frontend
      * Render a template while wrapping Twig_Error_Loader in 404
      * in case the template is not found by Twig.
      *
-     * @param  Silex\Application $app
-     * @param  string            $template Ex: 'listing.twig'
-     * @param  string            $title    '%s' in "No template for '%s' defined."
-     * @return mixed             Rendered template
+     * @param \Silex\Application $app
+     * @param string             $template Ex: 'listing.twig'
+     * @param string             $title    '%s' in "No template for '%s' defined."
+     *
+     * @return mixed Rendered template
      */
     private function render(Silex\Application $app, $template, $title)
     {
@@ -502,10 +512,10 @@ class Frontend
     }
 
     /**
-     * Set the TwigDataCollector templatechosen parameter if enabled
+     * Set the TwigDataCollector templatechosen parameter if enabled.
      *
-     * @param Silex\Application $app
-     * @param string            $error
+     * @param \Silex\Application $app
+     * @param string             $error
      */
     private function setTemplateError(Silex\Application $app, $error)
     {
