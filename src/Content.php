@@ -450,16 +450,6 @@ class Content implements \ArrayAccess
             }
         }
 
-        // Sanitize some inputs
-        foreach ($values as $k => $v) {
-            switch ($this->fieldtype($k)) {
-                case 'float':
-                    // We allow ',' and '.' as decimal point and need '.' internally
-                    $values[$k] = str_replace(',', '.', $values[$k]);
-                    break;
-            }
-        }
-
         $this->setValues($values);
     }
 

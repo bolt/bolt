@@ -730,10 +730,18 @@ class Backend implements ControllerProviderInterface
 
             // Add non successfull control values to request values
             // http://www.w3.org/TR/html401/interact/forms.html#h-17.13.2
+            // Also do some corrections
             $requestAll = $request->request->all();
 
             foreach ($contenttype['fields'] as $key => $values) {
-                if (!isset($requestAll[$key])) {
+                if (isset($requestAll[$key])) {
+                    switch ($values['type']) {
+                        case 'float':
+                            // We allow ',' and '.' as decimal point and need '.' internally
+                            $requestAll[$key] = str_replace(',', '.', $requestAll[$key]);
+                            break;
+                    }
+                } else {
                     switch ($values['type']) {
                         case 'select':
                             if (isset($values['multiple']) && $values['multiple'] === true) {
