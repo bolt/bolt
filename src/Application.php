@@ -236,8 +236,6 @@ class Application extends Silex\Application
             }
         }
 
-        $this->register(new Silex\Provider\ServiceControllerServiceProvider());
-
         // Register the Silex/Symfony web debug toolbar.
         $this->register(
             new Silex\Provider\WebProfilerServiceProvider(),
@@ -353,6 +351,8 @@ class Application extends Silex\Application
         $this->register(new Silex\Provider\UrlGeneratorServiceProvider())
             ->register(new Silex\Provider\FormServiceProvider())
             ->register(new Silex\Provider\ValidatorServiceProvider())
+            ->register(new Provider\RoutingServiceProvider())
+            ->register(new Silex\Provider\ServiceControllerServiceProvider()) // must be after Routing
             ->register(new Provider\PermissionsServiceProvider())
             ->register(new Provider\StorageServiceProvider())
             ->register(new Provider\UsersServiceProvider())
@@ -394,16 +394,8 @@ class Application extends Silex\Application
 
     public function initMountpoints()
     {
-        // Wire up our custom url matcher to replace the default Silex\RedirectableUrlMatcher
-        $this['url_matcher'] = $this->share(
-            function ($app) {
-                return new BoltUrlMatcher($app['routes'], $app['request_context']);
-            }
-        );
-
-        $request = Request::createFromGlobals();
         if ($proxies = $this['config']->get('general/trustProxies')) {
-            $request->setTrustedProxies($proxies);
+            Request::setTrustedProxies($proxies);
         }
 
         // Mount the 'backend' on the branding:path setting. Defaults to '/bolt'.
