@@ -8,7 +8,7 @@ use Doctrine\DBAL\Query\QueryBuilder;
 use Silex\Application;
 
 /**
- *
+ * Bolt's logger service class.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
@@ -41,6 +41,13 @@ class Manager
         $this->table_system = sprintf("%s%s", $prefix, 'log_system');
     }
 
+    /**
+     * Trim the log.
+     *
+     * @param string $log
+     *
+     * @throws \Exception
+     */
     public function trim($log)
     {
         if ($log == 'system') {
@@ -60,6 +67,13 @@ class Manager
         $query->execute();
     }
 
+    /**
+     * Clear a log.
+     *
+     * @param string $log
+     *
+     * @throws \Exception
+     */
     public function clear($log)
     {
         if ($log == 'system') {
@@ -77,15 +91,16 @@ class Manager
     }
 
     /**
-     * Get a specific activity log
+     * Get a specific activity log.
      *
-     * @param string  $log    The log to query.  Either 'change' or 'system'
-     * @param integer $amount Number of results to return
+     * @param string  $log     The log to query.  Either 'change' or 'system'
+     * @param integer $amount  Number of results to return
      * @param integer $level
      * @param string  $context
      *
-     * @return array
      * @throws \Exception
+     *
+     * @return array
      */
     public function getActivity($log, $amount = 10, $level = null, $context = null)
     {
@@ -131,12 +146,12 @@ class Manager
 
             // Set up the pager
             $pager = array(
-                    'for' => 'activity',
-                    'count' => $rowcount['count'],
-                    'totalpages' => ceil($rowcount['count'] / $amount),
-                    'current' => $page,
+                    'for'          => 'activity',
+                    'count'        => $rowcount['count'],
+                    'totalpages'   => ceil($rowcount['count'] / $amount),
+                    'current'      => $page,
                     'showing_from' => ($page - 1) * $amount + 1,
-                    'showing_to' => ($page - 1) * $amount + count($rows)
+                    'showing_to'   => ($page - 1) * $amount + count($rows)
             );
 
             $this->app['storage']->setPager('activity', $pager);
@@ -152,11 +167,12 @@ class Manager
     }
 
     /**
-     * Set any required WHERE clause on a QueryBuilder
+     * Set any required WHERE clause on a QueryBuilder.
      *
-     * @param  QueryBuilder $query
-     * @param  integer      $level
-     * @param  string       $context
+     * @param QueryBuilder $query
+     * @param integer      $level
+     * @param string       $context
+     *
      * @return QueryBuilder
      */
     private function setWhere(QueryBuilder $query, $level = null, $context = null)
@@ -182,9 +198,10 @@ class Manager
     }
 
     /**
-     * Decode JSON in change log fields
+     * Decode JSON in change log fields.
      *
-     * @param  array $rows
+     * @param array $rows
+     *
      * @return array
      */
     private function decodeChangeLog($rows)

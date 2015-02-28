@@ -2,34 +2,27 @@
 
 namespace Bolt\Logger\Handler;
 
-use Monolog\Logger;
 use Monolog\Handler\AbstractProcessingHandler;
+use Monolog\Logger;
 use Silex\Application;
 
 /**
- * Monolog Database handler for system logging
+ * Monolog Database handler for system logging.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
 class SystemHandler extends AbstractProcessingHandler
 {
-    /**
-     * @var Application
-     */
+    /** @var Application */
     private $app;
 
-    /**
-     * @var boolean
-     */
+    /** @var boolean */
     private $initialized = false;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $tablename;
 
     /**
-     *
      * @param Application $app
      * @param integer     $level
      * @param boolean     $bubble
@@ -41,9 +34,10 @@ class SystemHandler extends AbstractProcessingHandler
     }
 
     /**
-     * Handle
+     * Handle.
      *
-     * @param  array   $record
+     * @param array $record
+     *
      * @return boolean
      */
     public function handle(array $record)
@@ -71,8 +65,8 @@ class SystemHandler extends AbstractProcessingHandler
             && ($e = $record['context']['exception'])
             && $e instanceof \Exception
         ) {
-                $trace = $e->getTrace();
-                $source = json_encode(
+            $trace = $e->getTrace();
+            $source = json_encode(
                     array(
                         'file'     => $e->getFile(),
                         'line'     => $e->getLine(),
@@ -117,7 +111,7 @@ class SystemHandler extends AbstractProcessingHandler
     }
 
     /**
-     * Initialize
+     * Initialize calss parameters.
      */
     private function initialize()
     {

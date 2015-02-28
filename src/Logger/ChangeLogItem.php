@@ -5,7 +5,7 @@ namespace Bolt\Logger;
 use Silex\Application;
 
 /**
- * Class that represents a single change log entry
+ * Class that represents a single change log entry.
  */
 class ChangeLogItem implements \ArrayAccess
 {
@@ -35,9 +35,10 @@ class ChangeLogItem implements \ArrayAccess
     }
 
     /**
-     * Magic parameter test
+     * Magic parameter test.
      *
-     * @param  string $key
+     * @param string $key
+     *
      * @return boolean
      */
     public function __isset($key)
@@ -50,9 +51,10 @@ class ChangeLogItem implements \ArrayAccess
     }
 
     /**
-     * Magic getter
+     * Magic getter.
      *
-     * @param  string $key
+     * @param string $key
+     *
      * @return mixed
      */
     public function __get($key)
@@ -70,19 +72,19 @@ class ChangeLogItem implements \ArrayAccess
         } elseif ($key == 'comment') {
             return $this->comment;
         } elseif ($key == 'mutation_type') {
-             return $this->getEffectiveMutationType();
+            return $this->getEffectiveMutationType();
         } elseif ($key == 'changedfields') {
             $this->changedfields = $this->getChangedFields();
             return $this->changedfields;
         } elseif ($key == 'diff_raw') {
-             return $this->diff_raw;
-        }  else {
+            return $this->diff_raw;
+        } else {
             throw new \InvalidArgumentException("$key is not a valid parameter.");
         }
     }
 
     /**
-     * ArrayAccess support
+     * ArrayAccess support.
      *
      * @param mixed $offset
      *
@@ -94,7 +96,7 @@ class ChangeLogItem implements \ArrayAccess
     }
 
     /**
-     * ArrayAccess support
+     * ArrayAccess support.
      *
      * @param mixed $offset
      *
@@ -106,7 +108,7 @@ class ChangeLogItem implements \ArrayAccess
     }
 
     /**
-     * ArrayAccess support
+     * ArrayAccess support.
      *
      * @param mixed $offset
      * @param mixed $value
@@ -117,7 +119,7 @@ class ChangeLogItem implements \ArrayAccess
     }
 
     /**
-     * ArrayAccess support
+     * ArrayAccess support.
      *
      * @param mixed $offset
      */
@@ -127,7 +129,7 @@ class ChangeLogItem implements \ArrayAccess
     }
 
     /**
-     * Return a human valid mutation type
+     * Return a human valid mutation type.
      *
      * @return array|string
      */
@@ -162,14 +164,14 @@ class ChangeLogItem implements \ArrayAccess
     }
 
     /**
-     * Decode JSON and return an array
+     * Decode JSON and return an array.
      *
      * @return array
      */
     private function getParsedDiff()
     {
         $pdiff = json_decode($this->diff_raw, true);
-        
+
         $contenttype = $this->app['storage']->getContentType($this->contenttype);
         $fields = $contenttype['fields'];
 
@@ -183,7 +185,7 @@ class ChangeLogItem implements \ArrayAccess
     }
 
     /**
-     * Set class parameters
+     * Set class parameters.
      *
      * @param array $values
      */
@@ -232,6 +234,7 @@ class ChangeLogItem implements \ArrayAccess
     }
 
     /**
+     * Get changed fields.
      *
      * @return array
      */

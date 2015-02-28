@@ -5,38 +5,29 @@ namespace Bolt\Logger\Handler;
 use Bolt\Application;
 use Bolt\Content;
 use Bolt\DeepDiff;
-use Monolog\Logger;
 use Monolog\Handler\AbstractProcessingHandler;
+use Monolog\Logger;
 
 /**
- * Monolog Database handler for record changes (changelog)
+ * Monolog Database handler for record changes (changelog).
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
 class RecordChangeHandler extends AbstractProcessingHandler
 {
-    /**
-     * @var Application
-     */
+    /** @var Application */
     private $app;
 
-    /**
-     * @var boolean
-     */
+    /** @var boolean */
     private $initialized = false;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $tablename;
 
-    /**
-     * @var array
-     */
+    /** @var array */
     private $allowed;
 
     /**
-     *
      * @param Application $app
      * @param integer     $level
      * @param boolean     $bubble
@@ -48,9 +39,10 @@ class RecordChangeHandler extends AbstractProcessingHandler
     }
 
     /**
-     * Handle
+     * Handle.
      *
-     * @param  array   $record
+     * @param array $record
+     *
      * @return boolean
      */
     public function handle(array $record)
@@ -158,7 +150,7 @@ class RecordChangeHandler extends AbstractProcessingHandler
 
 
     /**
-     * Initialize
+     * Initialize class parameters.
      */
     private function initialize()
     {
