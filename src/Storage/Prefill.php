@@ -5,7 +5,7 @@ namespace Bolt\Storage;
 use Guzzle\Service\Client;
 
 /**
- * Handles Fetching Prefill Content from an API service
+ * Handles Fetching Prefill Content from an API service.
  */
 class Prefill
 {
@@ -13,7 +13,7 @@ class Prefill
     protected $client;
 
     /**
-     * Constructor function
+     * Constructor function.
      *
      * @param \Guzzle\Service\Client $client
      */
@@ -23,7 +23,7 @@ class Prefill
     }
 
     /**
-     * Fetches the content from the service
+     * Fetches the content from the service.
      *
      * @param string $request Parameters to add to the base uri - eg /medium/decorate/ol
      * @param string $base
