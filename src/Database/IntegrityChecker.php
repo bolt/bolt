@@ -27,7 +27,8 @@ class IntegrityChecker
      */
     private $prefix;
     /**
-     * Default value for TEXT fields, differs per platform
+     * Default value for TEXT fields, differs per platform.
+     *
      * @var string|null
      */
     private $textDefault = null;
@@ -38,7 +39,8 @@ class IntegrityChecker
     private $tables;
 
     /**
-     * Array of callables that produce table definitions
+     * Array of callables that produce table definitions.
+     *
      * @var array
      */
     protected $extension_table_generators = array();
@@ -118,7 +120,7 @@ class IntegrityChecker
     }
 
     /**
-     * Get an associative array with the bolt_tables tables as Doctrine\DBAL\Schema\Table objects
+     * Get an associative array with the bolt_tables tables as Doctrine\DBAL\Schema\Table objects.
      *
      * @return array
      */
@@ -160,11 +162,11 @@ class IntegrityChecker
     }
 
     /**
-     * Check if all required tables and columns are present in the DB
+     * Check if all required tables and columns are present in the DB.
      *
-     * @param boolean $hinting return hints if true
+     * @param boolean $hinting Return hints if true
      *
-     * @return array   Messages with errors, if any or array(messages, hints)
+     * @return array Messages with errors, if any or array(messages, hints)
      */
     public function checkTablesIntegrity($hinting = false)
     {
@@ -181,11 +183,8 @@ class IntegrityChecker
         foreach ($tables as $table) {
             // Create the users table..
             if (!isset($currentTables[$table->getName()])) {
-
                 $messages[] = 'Table `' . $table->getName() . '` is not present.';
-
             } else {
-
                 $diff = $comparator->diffTable($currentTables[$table->getName()], $table);
                 if ($diff) {
                     if ($hinting && count($diff->removedColumns) > 0) {
@@ -252,7 +251,7 @@ class IntegrityChecker
     }
 
     /**
-     * Check and repair tables
+     * Check and repair tables.
      *
      * @return array
      */
@@ -286,9 +285,7 @@ class IntegrityChecker
                 }
 
                 $output[] = 'Created table `' . $table->getName() . '`.';
-
             } else {
-
                 $diff = $comparator->diffTable($currentTables[$table->getName()], $table);
                 if ($diff) {
                     $diff = $this->cleanupTableDiff($diff);
@@ -306,9 +303,10 @@ class IntegrityChecker
     }
 
     /**
-     * Cleanup a table diff, remove changes we want to keep or fix platform specific issues
+     * Cleanup a table diff, remove changes we want to keep or fix platform specific issues.
      *
-     * @param  TableDiff $diff
+     * @param TableDiff $diff
+     *
      * @return TableDiff
      */
     protected function cleanupTableDiff(TableDiff $diff)
@@ -349,6 +347,7 @@ class IntegrityChecker
 
     /**
      * This method allows extensions to register their own tables.
+     *
      * @param Callable $generator A generator function that takes the Schema
      *                            instance and returns a table or an array of tables.
      */
@@ -391,7 +390,8 @@ class IntegrityChecker
     }
 
     /**
-     * @param  Schema $schema
+     * @param Schema $schema
+     *
      * @return array
      */
     protected function getBoltTablesSchema(Schema $schema)
@@ -520,7 +520,8 @@ class IntegrityChecker
     }
 
     /**
-     * @param  Schema $schema
+     * @param Schema $schema
+     *
      * @return array
      */
     protected function getContentTypeTablesSchema(Schema $schema)
@@ -628,19 +629,18 @@ class IntegrityChecker
                 if (isset($values['index']) && $values['index'] == 'true') {
                     $myTable->addIndex(array($field));
                 }
-
             }
             $tables[] = $myTable;
-
         }
 
         return $tables;
     }
 
     /**
-     * Get the tablename with prefix from a given $name
+     * Get the tablename with prefix from a given $name.
      *
      * @param $name
+     *
      * @return mixed
      */
     protected function getTablename($name)
