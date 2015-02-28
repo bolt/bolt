@@ -845,11 +845,16 @@ class Config
         $themepath = $this->app['resources']->getPath('templatespath');
         $end = $this->getWhichEnd($this->get('general/branding/path'));
 
-        if ($end == 'frontend' && file_exists($themepath)) {
-            $twigpath = array($themepath);
-        }
+        $twigpath = array();
+
+        // Backend and Async need access to `app/view/twig`
         if ($end == 'backend' || $end == 'async') {
-            $twigpath = array(realpath($this->app['resources']->getPath('app') . '/view/twig'));
+            $twigpath[] = realpath($this->app['resources']->getPath('app') . '/view/twig');
+        }
+
+        // The frontend as well as 'ajaxy' requests from the frontend need access to the theme's path.
+        if (($end == 'frontend' || $end == 'async') && file_exists($themepath)) {
+            $twigpath[] = $themepath;
         }
 
         // If the template path doesn't exist, flash error on the dashboard.
