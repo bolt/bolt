@@ -9,7 +9,6 @@ use Symfony\Component\HttpFoundation\Request;
  * Class to test src/Library.
  *
  * @author Ross Riley <riley.ross@gmail.com>
- *
  */
 class BoltLibraryTest extends BoltUnitTest
 {
@@ -45,7 +44,6 @@ class BoltLibraryTest extends BoltUnitTest
         // Test urlparams get encoded
         $urlparams = "%2F..%2F..%2Fsecretfile.txt";
         $this->assertEquals('%252F..%252F..%252Fsecretfile.txt', Library::safeFilename($urlparams));
-
     }
 
     public function testTemplateParser()
@@ -80,7 +78,6 @@ class BoltLibraryTest extends BoltUnitTest
 
         $query = "testing=yes";
         $this->assertEquals("/search?testing=yes", Library::path("search", array(), $query));
-
     }
 
     public function testRedirect()
@@ -112,7 +109,6 @@ class BoltLibraryTest extends BoltUnitTest
         $this->assertNotEmpty($app['session']->get('retreat'));
         $retreat = $app['session']->get('retreat');
         $this->assertEquals('homepage', $retreat['route']);
-
     }
 
     /**

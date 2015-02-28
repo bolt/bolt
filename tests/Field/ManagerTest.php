@@ -1,19 +1,17 @@
 <?php
 namespace Bolt\Tests\Field;
 
-use Bolt\Tests\BoltUnitTest;
-use Bolt\Field\Manager;
 use Bolt\Field\Base;
+use Bolt\Field\Manager;
+use Bolt\Tests\BoltUnitTest;
 
 /**
  * Class to test src/Field/Manager.
  *
  * @author Ross Riley <riley.ross@gmail.com>
- *
  */
 class ManagerTest extends BoltUnitTest
 {
-
     public function testManagerDefaultsSetup()
     {
         $manager = new Manager();
@@ -39,7 +37,7 @@ class ManagerTest extends BoltUnitTest
 
     public function testAddingFetchingfields()
     {
-        $field = $this->getMock('Bolt\Field\Base', null, array('test','test.twig'));
+        $field = $this->getMock('Bolt\Field\Base', null, array('test', 'test.twig'));
         $manager = new Manager();
         $manager->addField($field);
         $this->assertTrue($manager->has('test'));
@@ -47,6 +45,5 @@ class ManagerTest extends BoltUnitTest
 
         $this->assertFalse($manager->getField('nonexistent'));
         $this->assertGreaterThan(5, $manager->fields());
-
     }
 }

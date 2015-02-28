@@ -1,9 +1,8 @@
 <?php
 namespace Bolt\Tests\DataCollector;
 
-use Bolt\Tests\BoltUnitTest;
 use Bolt\DataCollector\BoltDataCollector;
-
+use Bolt\Tests\BoltUnitTest;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -11,11 +10,9 @@ use Symfony\Component\HttpFoundation\Response;
  * Class to test correct operation and locations of src/DataCollector/BoltDataCollector.
  *
  * @author Ross Riley <riley.ross@gmail.com>
- *
  */
 class BoltDataCollectorTest extends BoltUnitTest
 {
-
     public function testBasicData()
     {
         $app = $this->getApp();
@@ -68,6 +65,5 @@ class BoltDataCollectorTest extends BoltUnitTest
         $data->collect($request, $response);
         $this->assertEquals("editlink", $data->getEditlink());
         $this->assertEquals("edittitle", $data->getEdittitle());
-
     }
 }

@@ -1,23 +1,21 @@
 <?php
 namespace Bolt\Tests\Stack;
 
-use Bolt\Tests\BoltUnitTest;
 use Bolt\Stack;
+use Bolt\Tests\BoltUnitTest;
 use Bolt\Users;
 
 /**
  * Class to test src/Stack.
  *
  * @author Ross Riley <riley.ross@gmail.com>
- *
  */
 class StackTest extends BoltUnitTest
 {
-
     public function testSetup()
     {
         $app = $this->getApp();
-        $users = $this->getMock('Bolt\Users', array('getCurrentUser','saveUser'), array($app));
+        $users = $this->getMock('Bolt\Users', array('getCurrentUser', 'saveUser'), array($app));
         $app['users'] = $users;
         $stack = new Stack($app);
         $stack->add('mytestfile');
@@ -29,13 +27,12 @@ class StackTest extends BoltUnitTest
 
         $this->assertFalse($stack->isStackable('mytestfile'));
         $this->assertTrue($stack->isStackable('mytestfile.png'));
-
     }
 
     public function testDuplicates()
     {
         $app = $this->getApp();
-        $users = $this->getMock('Bolt\Users', array('getCurrentUser','saveUser'), array($app));
+        $users = $this->getMock('Bolt\Users', array('getCurrentUser', 'saveUser'), array($app));
         $app['users'] = $users;
         $stack = new Stack($app);
         $stack->add('mytestfile');
@@ -49,7 +46,7 @@ class StackTest extends BoltUnitTest
         $app['resources']->setPath('files', TEST_ROOT . '/tests/resources/stack');
         $app->initialize();
 
-        $users = $this->getMock('Bolt\Users', array('getCurrentUser','saveUser'), array($app));
+        $users = $this->getMock('Bolt\Users', array('getCurrentUser', 'saveUser'), array($app));
         $app['users'] = $users;
         $stack = new Stack($app);
 
@@ -63,6 +60,5 @@ class StackTest extends BoltUnitTest
 
         $items = $stack->listItems(100, 'document');
         $this->assertEquals(2, count($items));
-
     }
 }

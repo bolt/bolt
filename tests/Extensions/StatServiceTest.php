@@ -1,18 +1,16 @@
 <?php
 namespace Bolt\Tests\Extensions;
 
-use Bolt\Tests\BoltUnitTest;
 use Bolt\Extensions\StatService;
+use Bolt\Tests\BoltUnitTest;
 
 /**
  * Class to test src/Extensions/StatService.
  *
  * @author Ross Riley <riley.ross@gmail.com>
- *
  */
 class StatServiceTest extends BoltUnitTest
 {
-
     public function testSetup()
     {
         $app = $this->getApp();
@@ -21,9 +19,8 @@ class StatServiceTest extends BoltUnitTest
             ->method('recordInstall')
             ->with('mytest', '1.0.0');
 
-        $response = $stat->recordInstall("mytest",'1.0.0');
+        $response = $stat->recordInstall("mytest", '1.0.0');
     }
-
 }
 
 namespace Bolt\Extensions;

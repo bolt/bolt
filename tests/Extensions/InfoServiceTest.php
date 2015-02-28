@@ -1,25 +1,23 @@
 <?php
 namespace Bolt\Tests\Extensions;
 
-use Bolt\Tests\BoltUnitTest;
 use Bolt\Extensions\ExtensionsInfoService;
+use Bolt\Tests\BoltUnitTest;
 
 /**
  * Class to test src/Extensions/ExtensionsInfoService.
  *
  * @author Ross Riley <riley.ross@gmail.com>
- *
  */
 class InfoServiceTest extends BoltUnitTest
 {
-
     public function testPackageInfo()
     {
         $app = $this->getApp();
         $service = new ExtensionsInfoService($app['extend.site'], $app['extend.urls']);
         $service->setFormat('raw');
 
-        $response = $service->info("mytest",'2.0.0');
+        $response = $service->info("mytest", '2.0.0');
         $this->assertEquals($app['extend.site'].'info.json?package=mytest&bolt=2.0.0', $response);
     }
 
@@ -32,7 +30,6 @@ class InfoServiceTest extends BoltUnitTest
         $response = $service->all();
         $this->assertEquals($app['extend.site'].'list.json', $response);
     }
-
 }
 
 namespace Bolt\Extensions;

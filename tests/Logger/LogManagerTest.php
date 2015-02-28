@@ -1,8 +1,8 @@
 <?php
 namespace Bolt\Tests\Logger;
 
-use Bolt\Tests\BoltUnitTest;
 use Bolt\Logger\Manager;
+use Bolt\Tests\BoltUnitTest;
 use Bolt\Tests\Mocks\DoctrineMockBuilder;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -10,14 +10,11 @@ use Symfony\Component\HttpFoundation\Request;
  * Class to test src/Logger/Manager.
  *
  * @author Ross Riley <riley.ross@gmail.com>
- *
  */
 class LogManagerTest extends BoltUnitTest
 {
-
     public function setUp()
     {
-
     }
 
     public function testSetup()
@@ -26,11 +23,7 @@ class LogManagerTest extends BoltUnitTest
         $log = new Manager($app);
         $this->assertEquals('bolt_log_change', \PHPUnit_Framework_Assert::readAttribute($log, 'table_change'));
         $this->assertEquals('bolt_log_system', \PHPUnit_Framework_Assert::readAttribute($log, 'table_system'));
-
     }
-
-
-
 
     public function testTrim()
     {
@@ -100,7 +93,7 @@ class LogManagerTest extends BoltUnitTest
         $db->expects($this->any())
             ->method('executeQuery')
             ->will($this->returnCallback(
-                function($query, $params) use (&$queries, $mocker) {
+                function ($query, $params) use (&$queries, $mocker) {
                     $queries[] = $query;
                     return $mocker->getStatementMock();
                 }
@@ -126,7 +119,7 @@ class LogManagerTest extends BoltUnitTest
         $db->expects($this->any())
             ->method('executeQuery')
             ->will($this->returnCallback(
-                function($query, $params) use (&$queries, $mocker) {
+                function ($query, $params) use (&$queries, $mocker) {
                     $queries[] = $query;
                     return $mocker->getStatementMock();
                 }
@@ -152,7 +145,6 @@ class LogManagerTest extends BoltUnitTest
     
     public function testGetActivityLevel()
     {
-        
         $app = $this->getApp();
         
         $mocker = new DoctrineMockBuilder();
@@ -161,7 +153,7 @@ class LogManagerTest extends BoltUnitTest
         $db->expects($this->any())
             ->method('executeQuery')
             ->will($this->returnCallback(
-                function($query, $params) use (&$queries, $mocker) {
+                function ($query, $params) use (&$queries, $mocker) {
                     $queries[] = $query;
                     return $mocker->getStatementMock();
                 }

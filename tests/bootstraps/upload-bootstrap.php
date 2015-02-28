@@ -9,8 +9,6 @@ namespace Sirius\Upload\Container;
  * via a POST request, we don't have the ability to spoof this in unit tests.
  *
  * So these will perform the same function without failing if the files are simple arrays
- *
- *
  **/
 
 function is_uploaded_file($file)

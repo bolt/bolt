@@ -1,21 +1,19 @@
 <?php
 namespace Bolt\Tests\Nut;
 
-use Bolt\Tests\BoltUnitTest;
 use Bolt\Nut\LogClear;
-use Symfony\Component\Console\Tester\CommandTester;
-use Symfony\Component\Console\Helper\HelperSet;
+use Bolt\Tests\BoltUnitTest;
 use Symfony\Component\Console\Helper\DialogHelper;
+use Symfony\Component\Console\Helper\HelperSet;
+use Symfony\Component\Console\Tester\CommandTester;
 
 /**
  * Class to test src/Nut/LogClear.
  *
  * @author Ross Riley <riley.ross@gmail.com>
- *
  */
 class LogClearTest extends BoltUnitTest
 {
-
     public function testRun()
     {
         $app = $this->getApp();
@@ -28,7 +26,6 @@ class LogClearTest extends BoltUnitTest
         $tester->execute(array());
         $result = $tester->getDisplay();
         $this->assertRegexp('/Activity logs cleared/', $result);
-
     }
 
     // public function testCancel()

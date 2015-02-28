@@ -1,20 +1,18 @@
 <?php
 namespace Bolt\Tests\Filesystem;
 
-use Bolt\Tests\BoltUnitTest;
 use Bolt\Filesystem\FlysystemContainer;
-use League\Flysystem\Filesystem;
+use Bolt\Tests\BoltUnitTest;
 use League\Flysystem\Adapter\NullAdapter;
+use League\Flysystem\Filesystem;
 
 /**
  * Class to test src/Filesystem/FilesystemContainer.
  *
  * @author Ross Riley <riley.ross@gmail.com>
- *
  */
 class FilesystemContainerTest extends BoltUnitTest
 {
-
     public function testSetup()
     {
         $app = $this->getApp();

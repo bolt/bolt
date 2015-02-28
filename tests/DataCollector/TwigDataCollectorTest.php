@@ -1,10 +1,9 @@
 <?php
 namespace Bolt\Tests\DataCollector;
 
-use Bolt\Tests\BoltUnitTest;
 use Bolt\DataCollector\TwigDataCollector;
+use Bolt\Tests\BoltUnitTest;
 use Bolt\TwigExtension;
-
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -12,11 +11,9 @@ use Symfony\Component\HttpFoundation\Response;
  * Class to test src/DataCollector/TwigDataCollector.
  *
  * @author Ross Riley <riley.ross@gmail.com>
- *
  */
 class TwigDataCollectorTest extends BoltUnitTest
 {
-
     public function testBasicData()
     {
         $app = $this->getApp();

@@ -7,7 +7,6 @@ namespace Bolt\Tests\Mocks;
  */
 class LoripsumMock extends \PHPUnit_Framework_TestCase
 {
-    
     public function get($request)
     {
         switch ($request) {
@@ -52,6 +51,4 @@ class LoripsumMock extends \PHPUnit_Framework_TestCase
                 break;
         }
     }
-    
-    
 }

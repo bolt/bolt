@@ -4,18 +4,17 @@ namespace Bolt\Tests\Cache;
 
 use Bolt\Cache;
 use Bolt\Tests\BoltUnitTest;
-use Symfony\Component\Filesystem\Filesystem;
 use Eloquent\Pathogen\FileSystem\Factory\PlatformFileSystemPathFactory;
 
 class CacheTest extends BoltUnitTest
 {
-
     /**
      * @var \Bolt\Cache
      */
     protected $cache;
     /**
      * Real path to cache workspace directory
+     *
      * @var string
      */
     protected $workspace;

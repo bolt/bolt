@@ -1,18 +1,16 @@
 <?php
 namespace Bolt\Tests\Helper;
 
-use Bolt\Tests\BoltUnitTest;
 use Bolt\Helpers\String;
+use Bolt\Tests\BoltUnitTest;
 
 /**
  * Class to test src/Helper/String.
  *
  * @author Ross Riley <riley.ross@gmail.com>
- *
  */
 class StringTest extends BoltUnitTest
 {
-
     public function testMakeSafe()
     {
         // basic
@@ -38,7 +36,6 @@ class StringTest extends BoltUnitTest
         // Swedish
         $input = "Skämt åsido satan vilket uruselt tillvägagångsätt";
         $this->assertEquals("skaemt-asido-satan-vilket-uruselt-tillvaegagangsaett", String::makeSafe($input, true, ';'));
-
     }
 
     public function testReplaceFirst()

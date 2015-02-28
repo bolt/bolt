@@ -7,7 +7,6 @@ namespace Bolt\Tests\Mocks;
  */
 class DoctrineMockBuilder extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @return \Doctrine\DBAL\Platforms\AbstractPlatform|\PHPUnit_Framework_MockObject_MockObject
      */
@@ -23,7 +22,6 @@ class DoctrineMockBuilder extends \PHPUnit_Framework_TestCase
         $mock->expects($this->any())
             ->method('getName')
             ->will($this->returnValue('mysql'));
-
 
         return $mock;
     }

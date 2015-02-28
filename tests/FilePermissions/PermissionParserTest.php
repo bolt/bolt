@@ -16,7 +16,7 @@ class PermissionParserTest extends \PHPUnit_Framework_TestCase
         $actual = array();
         foreach ($actual_ as $a) {
             $actual[] = array(
-                'type' => $a['type'],
+                'type'    => $a['type'],
                 'capture' => $a['capture']
             );
         }

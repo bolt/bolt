@@ -1,19 +1,17 @@
 <?php
 namespace Bolt\Tests\Nut;
 
-use Bolt\Tests\BoltUnitTest;
 use Bolt\Nut\ExtensionsEnable;
+use Bolt\Tests\BoltUnitTest;
 use Symfony\Component\Console\Tester\CommandTester;
 
 /**
  * Class to test src/Nut/ExtensionsEnable.
  *
  * @author Ross Riley <riley.ross@gmail.com>
- *
  */
 class ExtensionsEnableTest extends BoltUnitTest
 {
-
     public function testRun()
     {
         $app = $this->getApp();
@@ -31,6 +29,5 @@ class ExtensionsEnableTest extends BoltUnitTest
         $tester->execute(array('name' => 'test', 'version' => '1.0'));
         $result = $tester->getDisplay();
         $this->assertRegexp('/[Done]/', trim($result));
-
     }
 }

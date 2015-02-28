@@ -1,18 +1,16 @@
 <?php
 namespace Bolt\Tests\Helper;
 
-use Bolt\Tests\BoltUnitTest;
 use Bolt\Helpers\Input;
+use Bolt\Tests\BoltUnitTest;
 
 /**
  * Class to test src/Helper/Input.
  *
  * @author Ross Riley <riley.ross@gmail.com>
- *
  */
 class InputTest extends BoltUnitTest
 {
-
     public function testCleanPostedData()
     {
         // Test flat value
@@ -25,18 +23,17 @@ class InputTest extends BoltUnitTest
 
         // Test on array
         $vals = array(
-           'first' => "test\r\n",
+           'first'  => "test\r\n",
            'second' => "test\t"
         );
         $this->assertEquals(array('first' => 'test  ', 'second' => 'test    '), Input::cleanPostedData($vals, false, true));
 
         // Test Slashed
         $vals = array(
-           'first' => "\\\"test\\\"",
+           'first'  => "\\\"test\\\"",
            'second' => "a \\\"test\\\" val"
         );
         $this->assertEquals(array('first' => '"test"', 'second' => 'a "test" val'), Input::cleanPostedData($vals, true, true));
-
     }
 }
 

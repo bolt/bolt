@@ -8,7 +8,6 @@ use Eloquent\Pathogen\FileSystem\Factory\PlatformFileSystemPathFactory;
  * Class to test correct operation of Filesystem Service Provider.
  *
  * @author Ross Riley <riley.ross@gmail.com>
- *
  */
 class FilesystemProviderTest extends BoltUnitTest
 {
@@ -17,7 +16,7 @@ class FilesystemProviderTest extends BoltUnitTest
         $config = new Config\ResourceManager(
             new \Pimple(
                 array(
-                    'rootpath' => TEST_ROOT,
+                    'rootpath'    => TEST_ROOT,
                     'pathmanager' => new PlatformFileSystemPathFactory()
                 )
             )
@@ -34,7 +33,7 @@ class FilesystemProviderTest extends BoltUnitTest
         $config = new Config\ResourceManager(
             new \Pimple(
                 array(
-                    'rootpath' => TEST_ROOT,
+                    'rootpath'    => TEST_ROOT,
                     'pathmanager' => new PlatformFileSystemPathFactory()
                 )
             )

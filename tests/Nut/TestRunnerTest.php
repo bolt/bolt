@@ -1,19 +1,17 @@
 <?php
 namespace Bolt\Tests\Nut;
 
-use Bolt\Tests\BoltUnitTest;
 use Bolt\Nut\TestRunner;
+use Bolt\Tests\BoltUnitTest;
 use Symfony\Component\Console\Tester\CommandTester;
 
 /**
  * Class to test src/Nut/TestRunner.
  *
  * @author Ross Riley <riley.ross@gmail.com>
- *
  */
 class TestRunnerTest extends BoltUnitTest
 {
-
     public function testRun()
     {
         $app = $this->getApp();
@@ -23,7 +21,6 @@ class TestRunnerTest extends BoltUnitTest
         $tester->execute(array());
         $result = $tester->getDisplay();
         $this->assertRegexp("/phpunit/", $result);
-
     }
 }
 

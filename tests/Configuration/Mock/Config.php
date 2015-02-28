@@ -5,11 +5,9 @@ namespace Bolt\Tests\Configuration\Mock;
  * Class to mock functionality of config class and provide different data.
  *
  * @author Ross Riley <riley.ross@gmail.com>
- *
  */
 class Config
 {
-
     public $db1 = array(
         'driver'   => 'pdo_mysql',
         'user'     => 'test',

@@ -11,7 +11,6 @@ use Cocur\Slugify\Bridge\Silex\SlugifyServiceProvider;
  */
 class SlugifyProviderTest extends BoltUnitTest
 {
-
     public function testProvider()
     {
         $app = $this->getApp();

@@ -1,8 +1,8 @@
 <?php
 namespace Bolt\Tests\Controller;
 
-use Bolt\Tests\BoltUnitTest;
 use Bolt\Configuration\ResourceManager;
+use Bolt\Tests\BoltUnitTest;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -14,7 +14,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class BackendTest extends BoltUnitTest
 {
-
     public function testDashboard()
     {
         $this->resetDb();
@@ -89,7 +88,6 @@ class BackendTest extends BoltUnitTest
         $response = $app->handle($request);
         $this->assertEquals(302, $response->getStatusCode());
         $this->assertEquals('/bolt/dbupdate_result?messages=null', $response->getTargetUrl());
-
     }
 
     public function testDbUpdateResult()
@@ -105,7 +103,7 @@ class BackendTest extends BoltUnitTest
 
     public function testClearCache()
     {
-/*
+        /*
         $cache = $this->getMock('Bolt\Cache', array('clearCache'));
         $cache->expects($this->at(0))
             ->method('clearCache')
@@ -158,7 +156,6 @@ class BackendTest extends BoltUnitTest
         $request = Request::create('/bolt/changelog');
         $this->checkTwigForTemplate($app, 'activity/changelog.twig');
         $app->run($request);
-
     }
 
     public function testSystemLog()
@@ -191,7 +188,6 @@ class BackendTest extends BoltUnitTest
         $request = Request::create('/bolt/systemlog');
         $this->checkTwigForTemplate($app, 'activity/systemlog.twig');
         $app->run($request);
-
     }
 
     public function testOmnisearch()
