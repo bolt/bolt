@@ -125,7 +125,7 @@ class LowlevelChecks
     }
 
     /**
-     * Check if the cache dir is present and writable
+     * Check if the cache dir is present and writable.
      */
     public function checkCache()
     {
@@ -266,7 +266,6 @@ class LowlevelChecks
 
                 throw new LowlevelException($message);
             }
-
         }
     }
 }

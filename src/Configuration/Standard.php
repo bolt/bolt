@@ -1,8 +1,8 @@
 <?php
 namespace Bolt\Configuration;
 
-use Eloquent\Pathogen\FileSystem\Factory\PlatformFileSystemPathFactory;
 use Composer\Autoload\ClassLoader;
+use Eloquent\Pathogen\FileSystem\Factory\PlatformFileSystemPathFactory;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -13,8 +13,8 @@ class Standard extends ResourceManager
 {
 
     /**
-     * @param ClassLoader|string $loader ClassLoader or root path
-     * @param Request $request
+     * @param ClassLoader|string $loader  ClassLoader or root path
+     * @param Request            $request
      */
     public function __construct($loader, Request $request = null)
     {
