@@ -319,7 +319,7 @@
 "The Bolt extensions file '%composerjson%' isn't readable.": "Plik rozszerzeń Bolt '%composerjson%' nie posiada praw do odczytu."
 "The change log has been cleared.": "Dziennik zmian został wyczyszczony."
 "The change log has been trimmed.": "Dziennik zmian został skrócony."
-"The database needs to be updated/repaired. Go to 'Settings' > '<a href=\"%link%\">Check Database</a>' to do this now.": "Baza danych wymaga aktualizacji/naprawy. Przejdź do 'Ustawienia' > 'Konfiguracja' > '<a href=\\\"%link%\\\">Sprawdź bazę danych</a>' aby zrobić to teraz."
+"The database needs to be updated/repaired. Go to 'Configuration' > '<a href=\"%link%\">Check Database</a>' to do this now.": "Baza danych wymaga aktualizacji/naprawy. Przejdź do 'Konfiguracja' > '<a href=\"%link%\">Sprawdź bazę danych</a>' aby zrobić to teraz."
 "The extensions directory (<code>%dir%</code>) does not exist, or it is not writable. ": "Katalog rozszerzeń (<code>%dir%</code>) nie istnieje, lub nie ma praw do zapisu."
 "The field %field% has been changed to \"%newValue%\"": "Pole %field% zostało zmienione na \"%newValue%\""
 "The field “%FIELDNAME%” is required or needs to match a pattern!": "Pole \"%FIELDNAME%\" jest wymagane lub musi pasować do wzorca!"
