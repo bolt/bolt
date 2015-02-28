@@ -2,12 +2,9 @@
 
 namespace Bolt\Exception;
 
-use \Exception;
-
 /**
- * Exceptions in Bolt\Storage 
+ * Exceptions in Bolt\Storage.
  */
-class StorageException extends Exception
+class StorageException extends \Exception
 {
 }
-
