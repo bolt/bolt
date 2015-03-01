@@ -64,7 +64,7 @@ class Arr
         $merged = $array1;
 
         foreach ($array2 as $key => &$value) {
-            // if $key = 'accept_file_types, don't merge..
+            // if $key = 'accept_file_types, don't merge.
             if ($key == 'accept_file_types') {
                 $merged[$key] = $array2[$key];
                 continue;

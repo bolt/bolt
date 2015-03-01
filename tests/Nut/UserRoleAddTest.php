@@ -1,19 +1,17 @@
 <?php
 namespace Bolt\Tests\Nut;
 
-use Bolt\Tests\BoltUnitTest;
 use Bolt\Nut\UserRoleAdd;
+use Bolt\Tests\BoltUnitTest;
 use Symfony\Component\Console\Tester\CommandTester;
 
 /**
  * Class to test src/Nut/UserRoleAdd.
  *
  * @author Ross Riley <riley.ross@gmail.com>
- *
  */
 class UserRoleAddTest extends BoltUnitTest
 {
-
     public function testAdd()
     {
         $app = $this->getApp();
@@ -36,7 +34,6 @@ class UserRoleAddTest extends BoltUnitTest
         $tester->execute(array('username' => 'test', 'role' => 'admin'));
         $result = $tester->getDisplay();
         $this->assertRegexp("/already has role/", trim($result));
-
     }
 
     public function testRoleFails()
@@ -49,7 +46,6 @@ class UserRoleAddTest extends BoltUnitTest
         $tester->execute(array('username' => 'test', 'role' => 'admin'));
         $result = $tester->getDisplay();
         $this->assertRegexp("/Could not add role/", trim($result));
-
     }
 
     protected function getUserMock($app, $hasRole = false, $addRole = true)

@@ -512,7 +512,7 @@ class Extensions
                 $cachekey = 'widget_' . $widget['key'];
 
                 if ($this->app['cache']->contains($cachekey)) {
-                    // Present in the cache ..
+                    // Present in the cache .
                     $html = $this->app['cache']->fetch($cachekey);
                 } elseif (is_string($widget['callback']) && method_exists($this->initialized[$widget['extension']], $widget['callback'])) {
                     // Widget is defined in the extension itself.
@@ -588,11 +588,11 @@ class Extensions
         // $this->matchedcomments array
         $html = preg_replace_callback('/<!--(.*)-->/Uis', array($this, 'pregcallback'), $html);
 
-        // Replace the snippets in the queue..
+        // Replace the snippets in the queue.
         foreach ($this->snippetqueue as $item) {
 
             // Get the snippet, either by using a callback function, or else use the
-            // passed string as-is..
+            // passed string as-is.
 
             if (($item['extension'] != "core") && method_exists($this->initialized[$item['extension']], $item['callback'])) {
                 // Snippet is defined in the extension itself.
@@ -601,7 +601,7 @@ class Extensions
                 // Snippet is a callback in the 'global scope'
                 $snippet = call_user_func($item['callback'], $this->app, $item['extraparameters']);
             } else {
-                // Insert the 'callback' as a string..
+                // Insert the 'callback' as a string.
                 $snippet = $item['callback'];
             }
 
@@ -722,7 +722,7 @@ class Extensions
      */
     public function insertStartOfHead($tag, $html)
     {
-        // first, attempt to insert it after the <head> tag, matching indentation..
+        // first, attempt to insert it after the <head> tag, matching indentation.
 
         if (preg_match("~^([ \t]*)<head(.*)~mi", $html, $matches)) {
 
@@ -749,7 +749,7 @@ class Extensions
      */
     public function insertStartOfBody($tag, $html)
     {
-        // first, attempt to insert it after the <body> tag, matching indentation..
+        // first, attempt to insert it after the <body> tag, matching indentation.
         if (preg_match("~^([ \t]*)<body(.*)~mi", $html, $matches)) {
 
             // Try to insert it after <body>
@@ -775,7 +775,7 @@ class Extensions
      */
     public function insertEndOfHead($tag, $html)
     {
-        // first, attempt to insert it before the </head> tag, matching indentation..
+        // first, attempt to insert it before the </head> tag, matching indentation.
         if (preg_match("~^([ \t]*)</head~mi", $html, $matches)) {
 
             // Try to insert it just before </head>
@@ -801,7 +801,7 @@ class Extensions
      */
     public function insertEndOfBody($tag, $html)
     {
-        // first, attempt to insert it before the </body> tag, matching indentation..
+        // first, attempt to insert it before the </body> tag, matching indentation.
         if (preg_match("~^([ \t]*)</body~mi", $html, $matches)) {
 
             // Try to insert it just before </head>
@@ -827,7 +827,7 @@ class Extensions
      */
     public function insertEndOfHtml($tag, $html)
     {
-        // first, attempt to insert it before the </body> tag, matching indentation..
+        // first, attempt to insert it before the </body> tag, matching indentation.
         if (preg_match("~^([ \t]*)</html~mi", $html, $matches)) {
 
             // Try to insert it just before </head>
@@ -852,7 +852,7 @@ class Extensions
      */
     public function insertAfterMeta($tag, $html)
     {
-        // first, attempt to insert it after the last meta tag, matching indentation..
+        // first, attempt to insert it after the last meta tag, matching indentation.
         if (preg_match_all("~^([ \t]*)<meta (.*)~mi", $html, $matches)) {
 
             // matches[0] has some elements, the last index is -1, because zero indexed.
@@ -876,7 +876,7 @@ class Extensions
      */
     public function insertAfterCss($tag, $html)
     {
-        // first, attempt to insert it after the last <link> tag, matching indentation..
+        // first, attempt to insert it after the last <link> tag, matching indentation.
         if (preg_match_all("~^([ \t]*)<link (.*)~mi", $html, $matches)) {
 
             // matches[0] has some elements, the last index is -1, because zero indexed.
@@ -900,7 +900,7 @@ class Extensions
      */
     public function insertBeforeCss($tag, $html)
     {
-        // first, attempt to insert it after the <body> tag, matching indentation..
+        // first, attempt to insert it after the <body> tag, matching indentation.
         if (preg_match("~^([ \t]*)<link(.*)~mi", $html, $matches)) {
 
             // Try to insert it before the match
@@ -925,7 +925,7 @@ class Extensions
      */
     public function insertBeforeJS($tag, $html)
     {
-        // first, attempt to insert it after the <body> tag, matching indentation..
+        // first, attempt to insert it after the <body> tag, matching indentation.
         if (preg_match("~^([ \t]*)<script(.*)~mi", $html, $matches)) {
 
             // Try to insert it before the match
@@ -961,7 +961,7 @@ class Extensions
             $context = $html;
         }
 
-        // then, attempt to insert it after the last <script> tag within context, matching indentation..
+        // then, attempt to insert it after the last <script> tag within context, matching indentation.
         if (preg_match_all("~^([ \t]*)(.*)</script>~mi", $context, $matches)) {
             // matches[0] has some elements, the last index is -1, because zero indexed.
             $last = count($matches[0]) - 1;
@@ -1015,7 +1015,7 @@ class Extensions
      */
     public function addMenuOption($label, $path, $icon = false, $requiredPermission = null)
     {
-        // Fix the path, if we have not given a full path..
+        // Fix the path, if we have not given a full path.
         if (strpos($path, '/') === false) {
             $path = $this->app['resources']->getUrl('bolt') . $path;
         }
@@ -1082,7 +1082,7 @@ class Extensions
     private function pregcallback($c)
     {
         $key = "###bolt-comment-" . count($this->matchedcomments) . "###";
-        // Add it to the array of matched comments..
+        // Add it to the array of matched comments.
         $this->matchedcomments["/" . $key . "/"] = $c[0];
 
         return $key;

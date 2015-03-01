@@ -1,19 +1,17 @@
 <?php
 namespace Bolt\Tests\Nut;
 
-use Bolt\Tests\BoltUnitTest;
 use Bolt\Nut\ConfigSet;
+use Bolt\Tests\BoltUnitTest;
 use Symfony\Component\Console\Tester\CommandTester;
 
 /**
  * Class to test src/Nut/ConfigSet.
  *
  * @author Ross Riley <riley.ross@gmail.com>
- *
  */
 class ConfigSetTest extends BoltUnitTest
 {
-
     public function testSet()
     {
         $app = $this->getApp();
@@ -29,7 +27,6 @@ class ConfigSetTest extends BoltUnitTest
         // Test non-existent fails
         $tester->execute(array('key' => 'nonexistent', 'value' => 'test', '--file' => 'config.yml'));
         $this->assertEquals("The key 'nonexistent' was not found in config.yml.\n", $tester->getDisplay());
-
     }
 
     public function testDefaultFile()

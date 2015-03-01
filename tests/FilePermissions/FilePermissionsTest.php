@@ -1,18 +1,16 @@
 <?php
 namespace Bolt\Tests\FilePermissions;
 
-use Bolt\Tests\BoltUnitTest;
 use Bolt\Filesystem\FilePermissions;
+use Bolt\Tests\BoltUnitTest;
 
 /**
  * Class to test src/FilePermissions.
  *
  * @author Ross Riley <riley.ross@gmail.com>
- *
  */
 class FilePermissionsTest extends BoltUnitTest
 {
-
     public function testBasicAuth()
     {
         $app = $this->getApp();

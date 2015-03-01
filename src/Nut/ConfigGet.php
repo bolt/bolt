@@ -49,7 +49,6 @@ class ConfigGet extends BaseCommand
             $result = sprintf('<error>' . $e->getMessage() .'</error>');
         }
 
-
         $output->writeln($result);
     }
 }

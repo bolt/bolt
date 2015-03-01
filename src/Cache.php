@@ -13,7 +13,6 @@ use Doctrine\Common\Cache\FilesystemCache;
  */
 class Cache extends FilesystemCache
 {
-
     /**
      * Max cache age. Default 10 minutes.
      */

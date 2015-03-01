@@ -4,24 +4,22 @@ namespace Bolt\Tests\Configuration;
 use Bolt\Application;
 use Bolt\Configuration\ResourceManager;
 use Bolt\Configuration\Standard;
-use Symfony\Component\HttpFoundation\Request;
-use Eloquent\Pathogen\FileSystem\PlatformFileSystemPath as Path;
 use Eloquent\Pathogen\FileSystem\Factory\PlatformFileSystemPathFactory;
+use Eloquent\Pathogen\FileSystem\PlatformFileSystemPath as Path;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class to test correct operation and locations of resource manager class and extensions.
  *
  * @author Ross Riley <riley.ross@gmail.com>
- *
  */
 class ResourceManagerTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testConstruction()
     {
         $container = new \Pimple(
             array(
-                'rootpath' => TEST_ROOT,
+                'rootpath'    => TEST_ROOT,
                 'pathmanager' => new PlatformFileSystemPathFactory()
             )
         );
@@ -34,7 +32,7 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
         $config = new ResourceManager(
             new \Pimple(
                 array(
-                    'rootpath' => TEST_ROOT,
+                    'rootpath'    => TEST_ROOT,
                     'pathmanager' => new PlatformFileSystemPathFactory()
                 )
             )
@@ -57,7 +55,7 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
         $config = new ResourceManager(
             new \Pimple(
                 array(
-                    'rootpath' => TEST_ROOT,
+                    'rootpath'    => TEST_ROOT,
                     'pathmanager' => new PlatformFileSystemPathFactory()
                 )
             )
@@ -85,7 +83,7 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
         $config = new ResourceManager(
             new \Pimple(
                 array(
-                    'rootpath' => TEST_ROOT,
+                    'rootpath'    => TEST_ROOT,
                     'pathmanager' => new PlatformFileSystemPathFactory()
                 )
             )
@@ -102,7 +100,7 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
         $config = new ResourceManager(
             new \Pimple(
                 array(
-                    'rootpath' => TEST_ROOT,
+                    'rootpath'    => TEST_ROOT,
                     'pathmanager' => new PlatformFileSystemPathFactory()
                 )
             )
@@ -116,7 +114,7 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
         $config = new ResourceManager(
             new \Pimple(
                 array(
-                    'rootpath' => TEST_ROOT,
+                    'rootpath'    => TEST_ROOT,
                     'pathmanager' => new PlatformFileSystemPathFactory()
                 )
             )
@@ -138,7 +136,7 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
         $config = new ResourceManager(
             new \Pimple(
                 array(
-                    'rootpath' => TEST_ROOT,
+                    'rootpath'    => TEST_ROOT,
                     'pathmanager' => new PlatformFileSystemPathFactory()
                 )
             )
@@ -163,7 +161,7 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
         $config = new ResourceManager(
             new \Pimple(
                 array(
-                    'rootpath' => TEST_ROOT,
+                    'rootpath'    => TEST_ROOT,
                     'pathmanager' => new PlatformFileSystemPathFactory()
                 )
             )
@@ -183,7 +181,7 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
         $config = new ResourceManager(
             new \Pimple(
                 array(
-                    'rootpath' => TEST_ROOT,
+                    'rootpath'    => TEST_ROOT,
                     'pathmanager' => new PlatformFileSystemPathFactory()
                 )
             )
@@ -206,7 +204,7 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
         $config = new ResourceManager(
             new \Pimple(
                 array(
-                    'rootpath' => TEST_ROOT,
+                    'rootpath'    => TEST_ROOT,
                     'pathmanager' => new PlatformFileSystemPathFactory()
                 )
             )
@@ -235,15 +233,15 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
             array(),
             array(),
             array(
-                'HTTP_HOST' => 'test.dev',
+                'HTTP_HOST'       => 'test.dev',
                 'SERVER_PROTOCOL' => 'https'
             )
         );
         $config = new ResourceManager(
             new \Pimple(
                 array(
-                    'rootpath' => TEST_ROOT,
-                    'request' => $request,
+                    'rootpath'    => TEST_ROOT,
+                    'request'     => $request,
                     'pathmanager' => new PlatformFileSystemPathFactory()
                 )
             )
@@ -264,8 +262,8 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
             array(),
             array(),
             array(
-                'SCRIPT_NAME' => '/sub/directory/index.php',
-                'PHP_SELF' => '/sub/directory/index.php',
+                'SCRIPT_NAME'     => '/sub/directory/index.php',
+                'PHP_SELF'        => '/sub/directory/index.php',
                 'SCRIPT_FILENAME' => '/path/to/sub/directory/index.php'
             )
         );
@@ -273,8 +271,8 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
         $config = new ResourceManager(
             new \Pimple(
                 array(
-                    'rootpath' => TEST_ROOT,
-                    'request' => $request,
+                    'rootpath'    => TEST_ROOT,
+                    'request'     => $request,
                     'pathmanager' => new PlatformFileSystemPathFactory()
                 )
             )
@@ -293,7 +291,7 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
         $config = new ResourceManager(
             new \Pimple(
                 array(
-                    'rootpath' => TEST_ROOT,
+                    'rootpath'    => TEST_ROOT,
                     'pathmanager' => new PlatformFileSystemPathFactory()
                 )
             )
@@ -308,7 +306,7 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
         $config = new ResourceManager(
             new \Pimple(
                 array(
-                    'rootpath' => TEST_ROOT,
+                    'rootpath'    => TEST_ROOT,
                     'pathmanager' => new PlatformFileSystemPathFactory()
                 )
             )
@@ -329,8 +327,8 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
             array(),
             array(),
             array(
-                'SCRIPT_NAME' => '/sub/directory/index.php',
-                'PHP_SELF' => '/sub/directory/index.php',
+                'SCRIPT_NAME'     => '/sub/directory/index.php',
+                'PHP_SELF'        => '/sub/directory/index.php',
                 'SCRIPT_FILENAME' => '/path/to/sub/directory/index.php'
             )
         );
@@ -338,8 +336,8 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
         $config = new ResourceManager(
             new \Pimple(
                 array(
-                    'rootpath' => TEST_ROOT,
-                    'request' => $request,
+                    'rootpath'    => TEST_ROOT,
+                    'request'     => $request,
                     'pathmanager' => new PlatformFileSystemPathFactory()
                 )
             )
@@ -359,7 +357,7 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
         $config = new ResourceManager(
             new \Pimple(
                 array(
-                    'rootpath' => TEST_ROOT,
+                    'rootpath'    => TEST_ROOT,
                     'pathmanager' => new PlatformFileSystemPathFactory()
                 )
             )
@@ -389,8 +387,8 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-    * @runInSeparateProcess
-    */
+     * @runInSeparateProcess
+     */
     public function testEarlyStaticFails()
     {
         $this->setExpectedException('RuntimeException');

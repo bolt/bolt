@@ -5,7 +5,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 class Composer extends Standard
 {
-
     /**
      * Constructor initialises on the app root path.
      *

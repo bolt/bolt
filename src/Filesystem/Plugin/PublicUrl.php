@@ -4,7 +4,6 @@ namespace Bolt\Filesystem\Plugin;
 
 class PublicUrl extends AdapterPlugin
 {
-
     public function getMethod()
     {
         return 'url';

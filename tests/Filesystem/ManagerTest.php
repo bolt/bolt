@@ -1,19 +1,17 @@
 <?php
 namespace Bolt\Tests\Extensions;
 
-use Bolt\Tests\BoltUnitTest;
 use Bolt\Filesystem\Manager;
+use Bolt\Tests\BoltUnitTest;
 use League\Flysystem\Adapter\NullAdapter;
 
 /**
  * Class to test src/Filesystem/Manager.
  *
  * @author Ross Riley <riley.ross@gmail.com>
- *
  */
 class ManagerTest extends BoltUnitTest
 {
-
     public function testSetup()
     {
         $manager = $this->getManager();
@@ -43,7 +41,7 @@ class ManagerTest extends BoltUnitTest
 
         $manager->mountFilesystem('default', $fs);
 
-        $plugin = $this->getMock('League\Flysystem\PluginInterface', array('handle','getMethod','setFilesystem'));
+        $plugin = $this->getMock('League\Flysystem\PluginInterface', array('handle', 'getMethod', 'setFilesystem'));
 
         $plugin->expects($this->once())
             ->method('handle')
@@ -58,7 +56,6 @@ class ManagerTest extends BoltUnitTest
         $response = $manager->testing('arg');
 
         $this->assertEquals('success', $response);
-
     }
 
     public function testPlugins()

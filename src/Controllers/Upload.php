@@ -18,7 +18,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 class Upload implements ControllerProviderInterface, ServiceProviderInterface
 {
-
     public $app;
     public $uploaddir;
 
@@ -43,7 +42,6 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
 
                     return preg_replace("/$pattern/", $replacement, $filename);
                 });
-
 
                 return $uploadHandler;
         };
@@ -206,7 +204,7 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
         // Start the 'stopwatch' for the profiler.
         $app['stopwatch']->start('bolt.backend.before');
 
-        // If there's no active session, don't do anything..
+        // If there's no active session, don't do anything.
         if (!$app['users']->isValidSession()) {
             $app->abort(404, "You must be logged in to use this.");
         }

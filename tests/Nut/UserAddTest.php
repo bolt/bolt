@@ -1,19 +1,17 @@
 <?php
 namespace Bolt\Tests\Nut;
 
-use Bolt\Tests\BoltUnitTest;
 use Bolt\Nut\UserAdd;
+use Bolt\Tests\BoltUnitTest;
 use Symfony\Component\Console\Tester\CommandTester;
 
 /**
  * Class to test src/Nut/UserAdd.
  *
  * @author Ross Riley <riley.ross@gmail.com>
- *
  */
 class UserAddTest extends BoltUnitTest
 {
-
     public function testRun()
     {
         $app = $this->getApp();
@@ -23,16 +21,15 @@ class UserAddTest extends BoltUnitTest
 
         $tester->execute(
             array(
-                'username' => 'test',
+                'username'    => 'test',
                 'displayname' => 'Test',
-                'email' => 'test@example.com',
-                'password' => 'test',
-                'role' => 'admin'
+                'email'       => 'test@example.com',
+                'password'    => 'test',
+                'role'        => 'admin'
             )
         );
         $result = $tester->getDisplay();
         $this->assertEquals('Successfully created user: test', trim($result));
-
     }
 
     public function testAvailability()
@@ -44,11 +41,11 @@ class UserAddTest extends BoltUnitTest
 
         $tester->execute(
             array(
-                'username' => 'test',
+                'username'    => 'test',
                 'displayname' => 'Test',
-                'email' => 'test@example.com',
-                'password' => 'test',
-                'role' => 'admin'
+                'email'       => 'test@example.com',
+                'password'    => 'test',
+                'role'        => 'admin'
             )
         );
         $result = $tester->getDisplay();
@@ -66,11 +63,11 @@ class UserAddTest extends BoltUnitTest
 
         $tester->execute(
             array(
-                'username' => 'test',
+                'username'    => 'test',
                 'displayname' => 'Test',
-                'email' => 'test@example.com',
-                'password' => 'test',
-                'role' => 'admin'
+                'email'       => 'test@example.com',
+                'password'    => 'test',
+                'role'        => 'admin'
             )
         );
         $result = $tester->getDisplay();

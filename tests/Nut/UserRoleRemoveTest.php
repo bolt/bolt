@@ -1,19 +1,17 @@
 <?php
 namespace Bolt\Tests\Nut;
 
-use Bolt\Tests\BoltUnitTest;
 use Bolt\Nut\UserRoleRemove;
+use Bolt\Tests\BoltUnitTest;
 use Symfony\Component\Console\Tester\CommandTester;
 
 /**
  * Class to test src/Nut/UserRoleRemove.
  *
  * @author Ross Riley <riley.ross@gmail.com>
- *
  */
 class UserRoleRemoveTest extends BoltUnitTest
 {
-
     public function testRemove()
     {
         $app = $this->getApp();

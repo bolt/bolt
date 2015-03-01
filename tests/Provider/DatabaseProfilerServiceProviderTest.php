@@ -1,18 +1,16 @@
 <?php
 namespace Bolt\Tests\Provider;
 
-use Bolt\Tests\BoltUnitTest;
 use Bolt\Provider\DatabaseProfilerServiceProvider;
+use Bolt\Tests\BoltUnitTest;
 
 /**
  * Class to test src/Provider/DatabaseProfilerServiceProvider.
  *
  * @author Ross Riley <riley.ross@gmail.com>
- *
  */
 class DatabaseProfilerServiceProviderTest extends BoltUnitTest
 {
-
     public function testProvider()
     {
         $app = $this->getApp();

@@ -1,15 +1,14 @@
 <?php
 namespace Bolt\Tests\Nut;
 
-use Bolt\Tests\BoltUnitTest;
 use Bolt\Nut\CacheClear;
+use Bolt\Tests\BoltUnitTest;
 use Symfony\Component\Console\Tester\CommandTester;
 
 /**
  * Class to test src/Nut/CacheClear.
  *
  * @author Ross Riley <riley.ross@gmail.com>
- *
  */
 class CacheClearTest extends BoltUnitTest
 {

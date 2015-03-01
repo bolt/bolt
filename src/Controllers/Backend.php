@@ -703,14 +703,14 @@ class Backend implements ControllerProviderInterface
                 $app->abort(400, Trans::__('Something went wrong'));
             }
             if (!empty($id)) {
-                // Check if we're allowed to edit this content..
+                // Check if we're allowed to edit this content.
                 if (!$app['users']->isAllowed("contenttype:{$contenttype['slug']}:edit:$id")) {
                     $app['session']->getFlashBag()->add('error', Trans::__('You do not have the right privileges to edit that record.'));
 
                     return Lib::redirect('dashboard');
                 }
             } else {
-                // Check if we're allowed to create content..
+                // Check if we're allowed to create content.
                 if (!$app['users']->isAllowed("contenttype:{$contenttype['slug']}:create")) {
                     $app['session']->getFlashBag()->add('error', Trans::__('You do not have the right privileges to create a new record.'));
 
@@ -753,7 +753,7 @@ class Backend implements ControllerProviderInterface
             $content->setFromPost($requestAll, $contenttype);
             $newStatus = $content['status'];
 
-            // Don't try to spoof the $id..
+            // Don't try to spoof the $id.
             if (!empty($content['id']) && $id != $content['id']) {
                 $app['session']->getFlashBag()->add('error', "Don't try to spoof the id!");
 
@@ -854,14 +854,14 @@ class Backend implements ControllerProviderInterface
                 $app->abort(404, Trans::__('contenttypes.generic.not-existing', array('%contenttype%' => $contenttype['slug'])));
             }
 
-            // Check if we're allowed to edit this content..
+            // Check if we're allowed to edit this content.
             if (!$app['users']->isAllowed("contenttype:{$contenttype['slug']}:edit:{$content['id']}")) {
                 $app['session']->getFlashBag()->add('error', Trans::__('You do not have the right privileges to edit that record.'));
 
                 return Lib::redirect('dashboard');
             }
         } else {
-            // Check if we're allowed to create content..
+            // Check if we're allowed to create content.
             if (!$app['users']->isAllowed("contenttype:{$contenttype['slug']}:create")) {
                 $app['session']->getFlashBag()->add('error', Trans::__('You do not have the right privileges to create a new record.'));
 
@@ -916,16 +916,13 @@ class Backend implements ControllerProviderInterface
             }
         }
 
-
         // Info
-
         $hasIncomingRelations = is_array($content->relation);
         $hasRelations = isset($contenttype['relations']);
         $hasTabs = $contenttype['groups'] !== false;
         $hasTaxonomy = isset($contenttype['taxonomy']);
 
         // Generate tab groups
-
         $groups = array();
         $groupIds = array();
 
@@ -1568,7 +1565,7 @@ class Backend implements ControllerProviderInterface
                                     Trans::__("File '%file%' was uploaded successfully.", array('%file%' => $filename))
                                 );
 
-                                // Add the file to our stack..
+                                // Add the file to our stack.
                                 $app['stack']->add($path . "/" . $filename);
                                 $result->confirm();
                             }
@@ -1604,7 +1601,7 @@ class Backend implements ControllerProviderInterface
             list($files, $folders) = $filesystem->browse($path, $app);
         }
 
-        // Get the pathsegments, so we can show the path as breadcrumb navigation..
+        // Get the pathsegments, so we can show the path as breadcrumb navigation.
         $pathsegments = array();
         $cumulative = "";
         if (!empty($path)) {
@@ -1615,7 +1612,7 @@ class Backend implements ControllerProviderInterface
         }
 
         // Select the correct template to render this. If we've got 'CKEditor' in the title, it's a dialog
-        // from CKeditor to insert a file..
+        // from CKeditor to insert a file.
         if (!$request->query->has('CKEditor')) {
             $twig = 'files/files.twig';
         } else {
@@ -1666,7 +1663,7 @@ class Backend implements ControllerProviderInterface
 
         $type = Lib::getExtension($file->getPath());
 
-        // Get the pathsegments, so we can show the path..
+        // Get the pathsegments, so we can show the path.
         $path = dirname($file->getPath());
         $pathsegments = array();
         $cumulative = "";

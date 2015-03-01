@@ -1,23 +1,19 @@
 <?php
 namespace Bolt\Tests\DataCollector;
 
-use Bolt\Tests\BoltUnitTest;
 use Bolt\DataCollector\DatabaseDataCollector;
-
+use Bolt\Tests\BoltUnitTest;
+use Doctrine\DBAL\Logging\DebugStack;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-
-use Doctrine\DBAL\Logging\DebugStack;
 
 /**
  * Class to test src/DataCollector/DatabaseDataCollector.
  *
  * @author Ross Riley <riley.ross@gmail.com>
- *
  */
 class DatabaseDataCollectorTest extends BoltUnitTest
 {
-
     public function testBasicData()
     {
         $debug = new DebugStack();
@@ -49,6 +45,5 @@ class DatabaseDataCollectorTest extends BoltUnitTest
 
         $data->collect($request, $response);
         $this->assertEquals(0, $data->getQueryCount());
-
     }
 }

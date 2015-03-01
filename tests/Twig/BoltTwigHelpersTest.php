@@ -11,7 +11,6 @@ use Symfony\Component\VarDumper\VarDumper;
  * Class to test src/Library.
  *
  * @author Ross Riley <riley.ross@gmail.com>
- *
  */
 class BoltTwigHelpersTest extends BoltUnitTest
 {
@@ -257,7 +256,7 @@ class BoltTwigHelpersTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $twig = new TwigExtension($app);
-        $this->assertEquals(1, $twig->first(array(1,2,3,4)));
+        $this->assertEquals(1, $twig->first(array(1, 2, 3, 4)));
         $this->assertFalse($twig->first(1));
     }
 
@@ -265,7 +264,7 @@ class BoltTwigHelpersTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $twig = new TwigExtension($app);
-        $this->assertEquals(4, $twig->last(array(1,2,3,4)));
+        $this->assertEquals(4, $twig->last(array(1, 2, 3, 4)));
         $this->assertFalse($twig->last(1));
     }
 

@@ -10,11 +10,9 @@ use Bolt\Tests\BoltUnitTest;
  * @author Ross Riley <riley.ross@gmail.com>
  *
  * @runTestsInSeparateProcesses
- *
  */
 class BaseExtensionTest extends BoltUnitTest
 {
-
     public function setup()
     {
         $this->php = \PHPUnit_Extension_FunctionMocker::start($this, 'Bolt')
@@ -28,14 +26,12 @@ class BaseExtensionTest extends BoltUnitTest
         $this->php2 = \PHPUnit_Extension_FunctionMocker::start($this, 'Bolt\Tests\Extensions\Mock')
             ->mockFunction('file_get_contents')
             ->getMock();
-
     }
 
     public function tearDown()
     {
         \PHPUnit_Extension_FunctionMocker::tearDown();
         @unlink(TEST_ROOT . '/app/cache/config_cache.php');
-
     }
 
     public function testSetup()
@@ -68,7 +64,7 @@ class BaseExtensionTest extends BoltUnitTest
     {
         $app = $this->makeApp();
         $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', array($app));
-        $this->assertEquals(0, strpos($ext->getBaseUrl(), '/extensions') );
+        $this->assertEquals(0, strpos($ext->getBaseUrl(), '/extensions'));
     }
 
     public function testGetComposerNameDefault()
@@ -83,7 +79,7 @@ class BaseExtensionTest extends BoltUnitTest
         $app = $this->makeApp();
         $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', array($app));
         $this->assertNull($ext->getComposerName());
-        $ext->setComposerConfiguration(array('name'=>'valuefrommock'));
+        $ext->setComposerConfiguration(array('name' => 'valuefrommock'));
 
         $this->assertEquals('valuefrommock', $ext->getComposerName());
     }
@@ -95,7 +91,7 @@ class BaseExtensionTest extends BoltUnitTest
 
         // Machine name calculated from the Class name in this case MockObject
         $this->assertEquals('mockobject', $ext->getMachineName());
-        $ext->setComposerConfiguration(array('name'=>'valuefrommock'));
+        $ext->setComposerConfiguration(array('name' => 'valuefrommock'));
         $this->assertEquals('valuefrommock', $ext->getMachineName());
     }
 
@@ -109,7 +105,7 @@ class BaseExtensionTest extends BoltUnitTest
 
     public function testGetExtensionConfig()
     {
-        $config = array('name'=>'mock', 'description'=>'mocking');
+        $config = array('name' => 'mock', 'description' => 'mocking');
         $app = $this->makeApp();
         $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', array($app));
         $ext->setComposerConfiguration($config);
@@ -278,7 +274,6 @@ class BaseExtensionTest extends BoltUnitTest
         $app['extensions'] = $handler;
 
         $ext->addSnippet('test', array($this, 'testAddSnippet'));
-
     }
 
     public function testAddJquery()
@@ -293,7 +288,6 @@ class BaseExtensionTest extends BoltUnitTest
         $app['extensions'] = $handler;
 
         $ext->addJquery();
-
     }
 
     public function testDisableJquery()
@@ -308,7 +302,6 @@ class BaseExtensionTest extends BoltUnitTest
         $app['extensions'] = $handler;
 
         $ext->disableJquery();
-
     }
 
     public function testGetAssets()
@@ -323,7 +316,6 @@ class BaseExtensionTest extends BoltUnitTest
         $app['extensions'] = $handler;
 
         $ext->getAssets();
-
     }
 
     public function testAddJavascriptFailure()
@@ -342,7 +334,6 @@ class BaseExtensionTest extends BoltUnitTest
         $app['logger.system'] = $logger;
 
         $ext->addJavascript('path1');
-
     }
 
     public function testAddJavascriptBase()
@@ -405,7 +396,6 @@ class BaseExtensionTest extends BoltUnitTest
         $app['logger.system'] = $logger;
 
         $ext->addCss('path1');
-
     }
 
     public function testAddCssBase()
@@ -427,7 +417,6 @@ class BaseExtensionTest extends BoltUnitTest
             ->will($this->returnValue(true));
 
         $ext->addCss('path1');
-
     }
 
     public function testAddCssTheme()

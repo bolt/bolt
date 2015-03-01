@@ -11,14 +11,12 @@ use Symfony\Component\Console\Output\BufferedOutput;
  * Class to test src/Events/CronEvent.
  *
  * @author Ross Riley <riley.ross@gmail.com>
- *
  */
 class CronEventTest extends BoltUnitTest
 {
-
     public function testCronCalls()
     {
-/*
+        /*
         $app = $this->getApp();
 
         $app['cache'] = $this->getMock('Bolt\Cache');

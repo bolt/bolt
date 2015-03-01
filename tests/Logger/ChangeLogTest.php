@@ -1,10 +1,10 @@
 <?php
 namespace Bolt\Tests\Logger;
 
-use Bolt\Tests\BoltUnitTest;
 use Bolt\Logger\ChangeLog;
 use Bolt\Logger\ChangeLogItem;
 use Bolt\Storage;
+use Bolt\Tests\BoltUnitTest;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -14,7 +14,6 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class ChangeLogTest extends BoltUnitTest
 {
-
     public function testSetup()
     {
         $app = $this->getApp();

@@ -5,11 +5,9 @@ namespace Bolt\Tests\Extensions\Mock;
  * Class to mock functionality of cache.
  *
  * @author Ross Riley <riley.ross@gmail.com>
- *
  */
 class Cache
 {
-
     public $lastkey;
     public $lastvalue;
 
@@ -41,5 +39,4 @@ class Cache
 
         return false;
     }
-
 }

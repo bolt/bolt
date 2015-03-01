@@ -9,11 +9,9 @@ use Bolt\Tests\BoltUnitTest;
  * Class to test correct operation and locations of extensions.
  *
  * @author Ross Riley <riley.ross@gmail.com>
- *
  */
 class ExtensionsProviderTest extends BoltUnitTest
 {
-
     public $template = <<<HTML
 <html>
 <head>
@@ -171,7 +169,6 @@ HTML;
 
     public function tearDown()
     {
-
     }
 
     public function testExtensionRegister()
@@ -190,7 +187,6 @@ HTML;
         $bad = new Mock\BadExtension($app);
         $app['extensions']->register($bad);
         $this->assertEquals('Initialisation failed for badextension: BadExtension', $app['logger.system']->lastLog());
-
     }
 
     public function testBadExtensionConfig()
@@ -251,8 +247,7 @@ HTML;
         $app = $this->getApp();
         $app['extensions']->addJavascript('testfile.js', true);
         $html = $app['extensions']->processAssets($this->template);
-        $this->assertEquals($this->html($this->expectedLateJs),  $this->html($html)  );
-
+        $this->assertEquals($this->html($this->expectedLateJs),  $this->html($html));
     }
 
     public function testCssProcessAssets()
@@ -261,7 +256,6 @@ HTML;
         $app['extensions']->addCss('testfile.css');
         $html = $app['extensions']->processAssets($this->template);
         $this->assertEquals($this->html($this->expectedCss), $this->html($html));
-
     }
 
     public function testLateCss()
@@ -292,8 +286,8 @@ HTML;
     }
 
     /**
-    * @runInSeparateProcess
-    */
+     * @runInSeparateProcess
+     */
     public function testLocalload()
     {
         $app = $this->makeApp();
@@ -347,7 +341,6 @@ HTML;
         $app['extensions']->insertSnippet(SnippetLocation::AFTER_META, '<meta name="test-snippet" />');
         $html = $app['extensions']->processSnippetQueue($this->template);
         $this->assertEquals($this->html($this->expectedAfterMeta), $this->html($html));
-
     }
 
     public function testSnippetsWithCallback()
@@ -409,7 +402,6 @@ HTML;
         $app['extensions']->addJquery();
         $html = $app['extensions']->processSnippetQueue($this->template);
         $html = $app['extensions']->processSnippetQueue($html);
-
     }
 
     public function testSnippetsWorkWithBadHtml()
@@ -435,7 +427,6 @@ HTML;
             $html = $app['extensions']->processSnippetQueue($template);
             $this->assertEquals($template.$snip.PHP_EOL, $html);
         }
-
     }
 
     public function testAddMenuOption()
@@ -452,7 +443,6 @@ HTML;
         $app['extensions']->insertWidget('test', SnippetLocation::START_OF_BODY, "", "testext", "", false);
         $this->expectOutputString("<section><div class='widget' id='widget-dacf7046' data-key='dacf7046'></div></section>");
         $app['extensions']->renderWidgetHolder('test', SnippetLocation::START_OF_BODY);
-
     }
 
     public function testWidgetCaches()
@@ -523,7 +513,6 @@ HTML;
         $html = $app['extensions']->processSnippetQueue($template);
         $this->assertEquals($template.$snip.PHP_EOL, $html);
     }
-
 }
 
 function globalSnippet($app, $string)

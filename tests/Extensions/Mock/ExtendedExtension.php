@@ -8,11 +8,9 @@ use Bolt\BaseExtension;
  * a class in a namespace other than the global one
  *
  * @author Ross Riley <riley.ross@gmail.com>
- *
  */
 class ExtendedExtension extends BaseExtension
 {
-
     public function getName()
     {
         return "mockExtended";
@@ -21,5 +19,4 @@ class ExtendedExtension extends BaseExtension
     public function initialize()
     {
     }
-
 }

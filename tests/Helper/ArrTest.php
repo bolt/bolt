@@ -1,18 +1,16 @@
 <?php
 namespace Bolt\Tests\Helper;
 
-use Bolt\Tests\BoltUnitTest;
 use Bolt\Helpers\Arr;
+use Bolt\Tests\BoltUnitTest;
 
 /**
  * Class to test src/Helper/Arr.
  *
  * @author Ross Riley <riley.ross@gmail.com>
- *
  */
 class ArrTest extends BoltUnitTest
 {
-
     public function testMakeValuePairs()
     {
         $test = array(

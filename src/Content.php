@@ -77,7 +77,7 @@ class Content implements \ArrayAccess
             } else {
                 $contenttypename = "unknown";
             }
-            // Specify an '(undefined contenttype)'..
+            // Specify an '(undefined contenttype)'.
             $values['name'] = "(undefined $contenttypename)";
             $values['title'] = "(undefined $contenttypename)";
 
@@ -216,7 +216,7 @@ class Content implements \ArrayAccess
             $this->setValue($key, $value);
         }
 
-        // If default status is set in contentttype..
+        // If default status is set in contentttype.
         if (empty($this->values['status']) && isset($this->contenttype['default_status'])) {
             $this->values['status'] = $this->contenttype['default_status'];
         }
@@ -259,7 +259,7 @@ class Content implements \ArrayAccess
 
                 $responsiveclass = "responsive-video";
 
-                // See if it's widescreen or not..
+                // See if it's widescreen or not.
                 if (!empty($video['height']) && (($video['width'] / $video['height']) > 1.76)) {
                     $responsiveclass .= " widescreen";
                 }
@@ -270,7 +270,7 @@ class Content implements \ArrayAccess
 
                 $video['responsive'] = sprintf('<div class="%s">%s</div>', $responsiveclass, $video['html']);
 
-                // Mark them up as Twig_Markup..
+                // Mark them up as Twig_Markup.
                 $video['html'] = new \Twig_Markup($video['html'], 'UTF-8');
                 $video['responsive'] = new \Twig_Markup($video['responsive'], 'UTF-8');
 
@@ -287,7 +287,7 @@ class Content implements \ArrayAccess
 
     public function setValue($key, $value)
     {
-        // Check if the value need to be unserialized..
+        // Check if the value need to be unserialized.
         if (is_string($value) && substr($value, 0, 2) == "a:") {
             try {
                 $unserdata = Lib::smartUnserialize($value);
@@ -357,7 +357,7 @@ class Content implements \ArrayAccess
             }
         }
 
-        // Make sure we have a proper status..
+        // Make sure we have a proper status.
         if (!in_array($values['status'], array('published', 'timed', 'held', 'draft'))) {
             if ($this['status']) {
                 $values['status'] = $this['status'];
@@ -393,13 +393,13 @@ class Content implements \ArrayAccess
             $this->relation = array();
         }
 
-        // @todo check for allowed file types..
+        // @todo check for allowed file types.
 
         // Handle file-uploads.
         if (!empty($_FILES)) {
             foreach ($_FILES as $key => $file) {
                 if (empty($file['name'][0])) {
-                    continue; // Skip 'empty' uploads..
+                    continue; // Skip 'empty' uploads.
                 }
 
                 $filename = sprintf(
@@ -452,7 +452,7 @@ class Content implements \ArrayAccess
 
     /**
      * "upcount" a filename: Add (1), (2), etc. for filenames that already exist.
-     * Taken from jQuery file upload..
+     * Taken from jQuery file upload.
      *
      * @param string $name
      *
@@ -470,7 +470,7 @@ class Content implements \ArrayAccess
 
     /**
      * "upcount" callback helper function
-     * Taken from jQuery file upload..
+     * Taken from jQuery file upload.
      *
      * @see upcountName()
      *
@@ -570,7 +570,7 @@ class Content implements \ArrayAccess
 
         foreach ($this->taxonomy as $type => $values) {
             $taxonomytype = $this->app['config']->get('taxonomy/' . $type);
-            // Don't order tags..
+            // Don't order tags.
             if ($taxonomytype['behaves_like'] == "tags") {
                 continue;
             }
@@ -792,7 +792,7 @@ class Content implements \ArrayAccess
     }
 
     /**
-     * Get the title, name, caption or subject..
+     * Get the title, name, caption or subject.
      */
     public function getTitle()
     {
@@ -800,12 +800,12 @@ class Content implements \ArrayAccess
             return $this->values[$column];
         }
 
-        // nope, no title was found..
+        // nope, no title was found.
         return "(untitled)";
     }
 
     /**
-     * Get the columnname of the title, name, caption or subject..
+     * Get the columnname of the title, name, caption or subject.
      */
     public function getTitleColumnName()
     {
@@ -832,12 +832,12 @@ class Content implements \ArrayAccess
             }
         }
 
-        // nope, no title was found..
+        // nope, no title was found.
         return false;
     }
 
     /**
-     * Get the first image in the content ..
+     * Get the first image in the content.
      */
     public function getImage()
     {
@@ -1145,7 +1145,7 @@ class Content implements \ArrayAccess
 
             if (!empty($this->contenttype['fields'])) {
                 foreach ($this->contenttype['fields'] as $key => $field) {
-                    // Skip empty fields, and fields called 'title' or 'name'..
+                    // Skip empty fields, and fields called 'title' or 'name'.
                     if (!isset($this->values[$key]) || in_array($key, array('title', 'name'))) {
                         continue;
                     }

@@ -13,7 +13,6 @@ use Symfony\Component\Routing\Exception\ResourceNotFoundException;
  */
 class UrlMatcher extends Silex\RedirectableUrlMatcher
 {
-
     public function match($pathinfo)
     {
         try {

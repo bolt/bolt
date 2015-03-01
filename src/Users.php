@@ -9,7 +9,7 @@ use Silex;
 use UAParser;
 
 /**
- * Class to handle things dealing with users..
+ * Class to handle things dealing with users.
  */
 class Users
 {
@@ -99,7 +99,7 @@ class Users
                 'roles',
             );
 
-        // unset columns we don't need to store..
+        // unset columns we don't need to store.
         foreach ($user as $key => $value) {
             if (!in_array($key, $allowedcolumns)) {
                 unset($user[$key]);
@@ -213,7 +213,7 @@ class Users
             return false;
         }
 
-        // Check if user is _still_ allowed to log on..
+        // Check if user is _still_ allowed to log on.
         if (!$this->isAllowed('login') || !$this->currentuser['enabled']) {
             $this->logout();
 
@@ -275,7 +275,7 @@ class Users
             'useragent' => $_SERVER['HTTP_USER_AGENT']
         );
 
-        // Update or set the authtoken cookie..
+        // Update or set the authtoken cookie.
         setcookie(
             'bolt_authtoken',
             $token['token'],
@@ -292,7 +292,7 @@ class Users
             $query = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($query, 1);
             $row = $this->db->executeQuery($query, array($token['username'], $token['ip'], $token['useragent']), array(\PDO::PARAM_STR))->fetch();
 
-            // Update or insert the row..
+            // Update or insert the row.
             if (empty($row)) {
                 $this->db->insert($this->authtokentable, $token);
             } else {
@@ -554,7 +554,7 @@ class Users
 
             return true;
         } else {
-            // Delete the authtoken cookie..
+            // Delete the authtoken cookie.
             setcookie(
                 'bolt_authtoken',
                 '',
@@ -588,7 +588,7 @@ class Users
                 urlencode($shadowtoken)
             );
 
-            // Set the shadow password and related stuff in the database..
+            // Set the shadow password and related stuff in the database.
             $update = array(
                 'shadowpassword' => $shadowhashed,
                 'shadowtoken'    => $shadowtoken . '-' . str_replace('.', '-', $this->remoteIP),
@@ -596,7 +596,7 @@ class Users
             );
             $this->db->update($this->usertable, $update, array('id' => $user['id']));
 
-            // Compile the email with the shadow password and reset link..
+            // Compile the email with the shadow password and reset link.
             $mailhtml = $this->app['render']->render(
                 'mail/passwordreset.twig',
                 array(
@@ -642,14 +642,14 @@ class Users
 
         $now = date("Y-m-d H:i:s");
 
-        // Let's see if the token is valid, and it's been requested within two hours...
+        // Let's see if the token is valid, and it's been requested within two hours.
         $query = sprintf('SELECT * FROM %s WHERE shadowtoken = ? AND shadowvalidity > ?', $this->usertable);
         $query = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($query, 1);
         $user = $this->db->executeQuery($query, array($token, $now), array(\PDO::PARAM_STR))->fetch();
 
         if (!empty($user)) {
 
-            // allright, we can reset this user..
+            // allright, we can reset this user.
             $this->app['session']->getFlashBag()->add('success', Trans::__('Password reset successful! You can now log on with the password that was sent to you via email.'));
 
             $update = array(
@@ -710,7 +710,7 @@ class Users
             // Nope. No auth tokens to be deleted. .
         }
 
-        // Remove the cookie..
+        // Remove the cookie.
         setcookie(
             'bolt_authtoken',
             '',
@@ -808,7 +808,7 @@ class Users
      */
     public function getUser($id)
     {
-        // Make sure we've fetched the users..
+        // Make sure we've fetched the users.
         $this->getUsers();
 
         if (is_numeric($id)) {
@@ -823,7 +823,7 @@ class Users
             }
         }
 
-        // otherwise..
+        // otherwise.
         return false;
     }
 

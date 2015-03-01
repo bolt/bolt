@@ -1,8 +1,8 @@
 <?php
 namespace Bolt\Tests\Content;
 
-use Bolt\Tests\BoltUnitTest;
 use Bolt\Content;
+use Bolt\Tests\BoltUnitTest;
 
 /**
  * Class to test src/Storage.
@@ -12,7 +12,6 @@ use Bolt\Content;
  */
 class ContentTest extends BoltUnitTest
 {
-
     public function testgetValues()
     {
         $app = $this->getApp();

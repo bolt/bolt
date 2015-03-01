@@ -8,11 +8,9 @@ use Bolt\Configuration\Standard;
  * Class to test correct operation and locations of composer configuration.
  *
  * @author Ross Riley <riley.ross@gmail.com>
- *
  */
 class StandardConfigurationTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testInitWithClassloader()
     {
         $loader = require __DIR__ . '/../../vendor/autoload.php';

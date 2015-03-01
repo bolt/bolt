@@ -1,19 +1,18 @@
 <?php
 namespace Bolt\Tests\Storage;
 
-use Bolt\Tests\BoltUnitTest;
-use Bolt\Tests\Mocks\LoripsumMock;
-use Bolt\Storage;
 use Bolt\Content;
 use Bolt\Events\StorageEvents;
 use Bolt\Exception\StorageException;
+use Bolt\Storage;
+use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\Mocks\LoripsumMock;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class to test src/Storage.
  *
  * @author Ross Riley <riley.ross@gmail.com>
- *
  */
 class StorageTest extends BoltUnitTest
 {
@@ -80,7 +79,6 @@ class StorageTest extends BoltUnitTest
         $storage->saveContent($content);
         $this->assertEquals(1, $presave);
         $this->assertEquals(1, $postsave);
-
     }
 
     public function testDeleteContent()
@@ -152,7 +150,6 @@ class StorageTest extends BoltUnitTest
         $result = $storage->searchContent('lorem', array('showcases'), array('showcases' => array('title' => 'nonexistent')));
         $this->assertTrue($result['query']['valid']);
         $this->assertEquals(0, $result['no_of_results']);
-
     }
 
     public function testSearchAllContentTypes()
@@ -165,86 +162,69 @@ class StorageTest extends BoltUnitTest
 
     public function testSearchContentType()
     {
-
     }
 
     public function testGetContentByTaxonomy()
     {
-
     }
 
     public function testPublishTimedRecords()
     {
-
     }
 
     public function testDepublishExpiredRecords()
     {
-
     }
 
     public function testGetContent()
     {
-
     }
 
     public function testGetSortOrder()
     {
-
     }
 
     public function testGetContentType()
     {
-
     }
 
     public function testGetTaxonomyType()
     {
-
     }
 
     public function testGetContentTypes()
     {
-
     }
 
     public function testGetContentTypeFields()
     {
-
     }
 
     public function testGetContentTypeFieldType()
     {
-
     }
 
     public function testGetContentTypeGrouping()
     {
-
     }
 
     public function testGetContentTypeTaxonomy()
     {
-
     }
 
     public function testGetLatestId()
     {
-
     }
 
     public function testGetUri()
     {
-
     }
 
     public function testSetPager()
     {
-
     }
 
     public function testGetPager()
     {
-
     }
 }

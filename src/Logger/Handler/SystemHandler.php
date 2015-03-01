@@ -106,7 +106,7 @@ class SystemHandler extends AbstractProcessingHandler
                 )
             );
         } catch (\Exception $e) {
-            // Nothing..
+            // Nothing.
         }
     }
 
