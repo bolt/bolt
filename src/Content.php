@@ -366,6 +366,9 @@ class Content implements \ArrayAccess
             }
         }
 
+        // Make sure we only get the current taxonomies, not those that were fetched from the DB.
+        $this->taxonomy = array();
+
         if (!empty($values['taxonomy'])) {
             foreach ($values['taxonomy'] as $taxonomytype => $value) {
                 if (!is_array($value)) {
