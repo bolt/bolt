@@ -12,7 +12,7 @@ module.exports = function(grunt) {
         },
         files: {
           'css/foundation.css': 'scss/foundation.scss'
-        }        
+        }
       }
     },
 
