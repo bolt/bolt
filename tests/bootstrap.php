@@ -6,22 +6,25 @@
  */
 global $CLASSLOADER;
 
-if (is_dir(__DIR__ . '/../../../../vendor/')) {
-    $CLASSLOADER = require_once __DIR__ . '/../../../autoload.php';
+if (!defined('TEST_ROOT')) {
+    define('TEST_ROOT', realpath(__DIR__ . '/../../'));
+}
+
+if (is_dir(TEST_ROOT . '/../../../vendor/')) {
+    // Composer install
+    $CLASSLOADER = require_once TEST_ROOT . '/../../autoload.php';
 } else {
-    $CLASSLOADER = require_once __DIR__ . '/../vendor/autoload.php';
+    // Git/tarball install
+    $CLASSLOADER = require_once TEST_ROOT . '/vendor/autoload.php';
 }
 
 require_once 'bootstraps/upload-bootstrap.php';
-
-if (!defined('TEST_ROOT')) {
-    define('TEST_ROOT', realpath(__DIR__ . '/../'));
-}
 
 // Make sure we wipe the db file to start with a clean one
 if (is_readable(TEST_ROOT . '/bolt.db')) {
     unlink(TEST_ROOT . '/bolt.db');
 }
-copy(TEST_ROOT . '/tests/resources/db/bolt.db', TEST_ROOT . '/bolt.db');
+copy(TEST_ROOT . '/tests/phpunit/resources/db/bolt.db', TEST_ROOT . '/bolt.db');
 
-@mkdir(__DIR__ . '/../app/cache/', 0777, true);
+@mkdir(TEST_ROOT . '/app/cache/', 0777, true);
+
