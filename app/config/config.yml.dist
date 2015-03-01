@@ -27,8 +27,8 @@ locale: en_GB
 # this option using your own theme. Note: If you've changed the filename, and
 # your changes do not show up on the website, be sure to check for a config.yml
 # file in your theme's folder. If a template is set there, it will override the
-# setting here.
-maintenance_mode: false
+# setting here. 
+maintenance_mode: false 
 maintenance_template: maintenance_default.twig
 
 # The hour of the day for the internal cron task scheduler to run daily, weekly,
@@ -145,8 +145,8 @@ thumbnails:
 #  browser_cache_time: 2592000
 
 # Uploaded file handling
-#
-# You can change the pattern match and replacement on uploaded files and if the
+# 
+# You can change the pattern match and replacement on uploaded files and if the 
 # resulting filename should be transformed to lower case.
 #upload:
 #  pattern: '[^A-Za-z0-9\.]+'
@@ -187,7 +187,7 @@ debug_error_level: 6135 # equivalent to E_ALL &~ E_NOTICE &~ E_DEPRECATED &~ E_U
 debug_enable_whoops: true # change this to false to use PHP's built-in error handling instead of Whoops
 
 # System debug logging
-# This will enable intensive logging of Silex functions and will be very hard on
+# This will enable intensive logging of Silex functions and will be very hard on 
 # performance and log file size.  The log file will be created in your cache directory
 # Enable this for short time periods only when diagnosing system issues.
 # The level can be either: DEBUG, INFO, NOTICE, WARNING, ERROR, CRITICAL, ALERT, EMERGENCY
