@@ -98,7 +98,7 @@ var BoltExtender = Object.extend(Object, {
                 var e, ext;
                 for (e in data.installs) {
                     ext = data.installs[e];
-                    
+
                     // Add an install button
                     target.append(bolt.data.extend.packages.install_new.subst({
                         '%PACKAGE%': ext.name,
@@ -107,7 +107,7 @@ var BoltExtender = Object.extend(Object, {
                 }
                 for (e in data.updates) {
                     ext = data.updates[e];
-                    
+
                     // Add an update button
                     target.append(bolt.data.extend.packages.install_update.subst({
                         '%PACKAGE%': ext.name,
@@ -139,7 +139,7 @@ var BoltExtender = Object.extend(Object, {
             setTimeout(function(){
                 controller.find('.update-container').hide();
             }, 7000);
-            
+
             controller.checkInstalled();
         })
         .fail(function(data) {
@@ -219,25 +219,25 @@ var BoltExtender = Object.extend(Object, {
                 controller.find('.installed-container .console').hide();
 
                 var nadda = true;
-                
+
                 // Render installed packages
                 if (data.installed.length > 0) {
                 	html += controller.renderPackage(data.installed, true);
                 	nadda = false;
                 }
-                
+
                 // Render pacakges pending install
                 if (data.pending.length > 0) {
                 	html += controller.renderPackage(data.pending, true);
                 	nadda = false;
                 }
-                
+
                 // Render locally installed packages
                 if (data.local.length > 0) {
                 	html += controller.renderPackage(data.local, false);
                 	nadda = false;
                 }
-                
+
                 // Nothing is installed
                 if (nadda) {
                 	 html = bolt.data.extend.packages.empty;
@@ -253,17 +253,17 @@ var BoltExtender = Object.extend(Object, {
             });
         });
     },
-    
+
     renderPackage: function (data, composer) {
         var html = '';
-        
+
         for (var e in data) {
         	var ext = data[e],
         	conf = bolt.data.extend.packages,
         	authors = '',
         	keywords = '',
         	i = 0;
-        	
+
         	// Authors array
         	if (ext.authors && ext.authors.length > 0) {
         		var authorsArray = ext.authors;
@@ -271,7 +271,7 @@ var BoltExtender = Object.extend(Object, {
         			authors += conf.author.subst({'%AUTHOR%': authorsArray[i].name});
         		}
         	}
-        	
+
         	// Keyword array
         	if (ext.keywords && ext.keywords.length > 0) {
         		var keywordsArray = ext.keywords;
@@ -279,7 +279,7 @@ var BoltExtender = Object.extend(Object, {
         			keywords += conf.keyword.subst({'%KEYWORD%': keywordsArray[i]});
         		}
         	}
-        	
+
         	// Available versions & uninstall buttons
         	var available = '';
         	var uninstall = '';
@@ -287,7 +287,7 @@ var BoltExtender = Object.extend(Object, {
         		available = conf.avail_button.subst({'%NAME%': ext.name});
         		uninstall = conf.uninstall_button.subst({'%BASEURL%': baseurl, '%NAME%': ext.name});
         	}
-        	
+
         	// Generate the HTML for a package item
         	html += conf.item.subst({
         		'%TITLE%':       ext.title ? ext.title : ext.name,
@@ -304,7 +304,7 @@ var BoltExtender = Object.extend(Object, {
 				'%DESCRIPTION%': ext.descrip ? ext.descrip : '&lt;No description provided&gt;',
 				'%KEYWORDS%':    keywords});
         }
-        
+
         return html;
     },
 
@@ -318,12 +318,12 @@ var BoltExtender = Object.extend(Object, {
         if (packagename) {
             ext = packagename;
         }
-        
+
         controller.installInfo(ext);
 
         e.preventDefault();
     },
-    
+
     installInfo: function (ext) {
         var controller = this;
 
@@ -513,7 +513,7 @@ var BoltExtender = Object.extend(Object, {
 
         e.preventDefault();
     },
-    
+
     packageAvailable: function (e) {
         var controller = this;
 
@@ -617,7 +617,7 @@ var BoltExtender = Object.extend(Object, {
         } else {
             // Sanitize PHP error file paths
             var file = errObj.error.file.replace(new RegExp(rootpath, 'g'), '');
-            
+
             html = bolt.data.extend.packages.error.subst({
                 '%ERROR_TYPE%': 'PHP Error',
                 '%ERROR_MESSAGE%': errObj.error.message,
