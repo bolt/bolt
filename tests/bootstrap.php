@@ -10,14 +10,20 @@ if (!defined('TEST_ROOT')) {
     define('TEST_ROOT', realpath(__DIR__ . '/../../'));
 }
 
-if (is_dir(TEST_ROOT . '/../../../vendor/')) {
-    // Composer install
-    $CLASSLOADER = require_once TEST_ROOT . '/../../autoload.php';
-} else {
-    // Git/tarball install
-    $CLASSLOADER = require_once TEST_ROOT . '/vendor/autoload.php';
+if (!defined('BOLT_AUTOLOAD')) {
+    if (is_dir(TEST_ROOT . '/../../../vendor/')) {
+        // Composer install
+        define('BOLT_AUTOLOAD', TEST_ROOT . '/../../autoload.php');
+    } else {
+        // Git/tarball install
+        define('BOLT_AUTOLOAD', TEST_ROOT . '/vendor/autoload.php');
+    }
+
+    // Load the autoloader
+    $CLASSLOADER = require_once BOLT_AUTOLOAD;
 }
 
+// Load the upload bootstrap
 require_once 'bootstraps/upload-bootstrap.php';
 
 // Make sure we wipe the db file to start with a clean one
