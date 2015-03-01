@@ -140,11 +140,11 @@ showcases:
         datetime:
             type: datetime
             default: "2000-01-01"
-            variant: inline
+            variant: inline            
         date:
             type: date
             default: "first day of last month"
-            variant: inline
+            variant: inline            
         integerfield:
             type: integer
             index: true
