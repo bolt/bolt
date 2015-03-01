@@ -5,8 +5,8 @@
 
 foo: bar
 
-# setting the header image. The default images in this theme all came from Pexels: http://pexels.com 
-headerimage: 
+# setting the header image. The default images in this theme all came from Pexels: http://pexels.com
+headerimage:
   - agriculture-field-grain-1585.jpg
   - beach-dune-field-1710.jpg
   - boat-lake-landing-stage-2535.jpg
