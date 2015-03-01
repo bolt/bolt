@@ -13,7 +13,7 @@ class ThumbnailUrlTest extends BoltUnitTest
     {
         $app = $this->getApp();
 
-        $adapter = new Local(TEST_ROOT . '/tests/resources');
+        $adapter = new Local(PHPUNIT_ROOT . '/resources');
         $fs = new Filesystem($adapter);
 
         $manager = new Manager($app);

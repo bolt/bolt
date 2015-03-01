@@ -31,7 +31,7 @@ class BrowseTest extends BoltUnitTest
     public function testImageCalculation()
     {
         $app = $this->getApp();
-        $adapter = new Local(TEST_ROOT . '/tests/resources');
+        $adapter = new Local(PHPUNIT_ROOT . '/resources');
         $fs = new Filesystem($adapter);
 
         $fs->addPlugin(new Plugin\Authorized($app));
