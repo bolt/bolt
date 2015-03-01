@@ -66,7 +66,7 @@ extension:
     enable: |
         <p>要启用扩展，你需要编辑位于<code>config.yml</code>的<code>enabled_extensions</code>数组。
                 你需要准确输入扩展的名称，就像
-                shown in the first label on the bottom row of its tile. 
+                shown in the first label on the bottom row of its tile.
                 请注意为了避免文件系统间的差异问题，名称是<em>区分大小写</em>的。</p>
             <p>示例：</p>
             <pre><code>enabled_extensions: [ HelloWorld, GoogleAnalytics ]</code></pre>
