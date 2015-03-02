@@ -98,6 +98,20 @@ bolt.validation = (function () {
     }
 
     /**
+     * Checks if value is a float
+     *
+     * @param {string} value - Value of field
+     * @returns {string}
+     */
+    function checkFloat(value) {
+        if (value !== '' && !value.match(/^[-+]?[0-9]*[,.]?[0-9]+([eE][-+]?[0-9]+)?$/)) {
+            return bolt.data.validation.float;
+        } else {
+            return '';
+        }
+    }
+
+    /**
      * Validates a field
      *
      * @param {Object} field - Field element
@@ -119,9 +133,7 @@ bolt.validation = (function () {
 
                 switch (task) {
                     case 'float':
-                        if (value !== '' && !value.match(/^[-+]?[0-9]*[,.]?[0-9]+([eE][-+]?[0-9]+)?$/)) {
-                            error = bolt.data.validation.float;
-                        }
+                        error = checkFloat(value);
                         break;
 
                     case 'required':
