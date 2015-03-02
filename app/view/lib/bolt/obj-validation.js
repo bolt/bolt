@@ -161,6 +161,21 @@ bolt.validation = (function () {
     }
 
     /**
+     * Set validity of a field
+     *
+     * @param {Object} field - Field element
+     * @param {string} field - Error message or empty string if valid
+     * @returns {boolean}
+     */
+    function setValidity(field, error) {
+        if (typeof field.willValidate !== 'undefined') {
+            field.setCustomValidity(error);
+        } else {
+            field.validity.valid = error === '';
+        }
+    }
+
+    /**
      * Validates a field
      *
      * @param {Object} field - Field element
@@ -172,7 +187,7 @@ bolt.validation = (function () {
             task,
             param,
             value = field.value,
-            error,
+            error = '',
             label;
 
         var validates = $(field).data('validate');
@@ -205,20 +220,8 @@ bolt.validation = (function () {
                     // Insert label
                     label = $('label[for="' + field.id + '"]').contents().first().text().trim();
                     error = error.subst({'%FIELDNAME%': label ? label : field.name});
-
-                    if (hasNativeValidation) {
-                        field.setCustomValidity(error);
-                    } else {
-                        field.validity.valid = false;
-                    }
-                    break;
-                } else {
-                    if (hasNativeValidation) {
-                        field.setCustomValidity('');
-                    } else {
-                        field.validity.valid = true;
-                    }
                 }
+                setValidity(field, error);
             }
         } else {
             // Is native browser validation available?
@@ -247,11 +250,7 @@ bolt.validation = (function () {
 
                 if (editor) {
                     invalid = editor._.required === true && editor.getData().trim() === '';
-                    if (hasNativeValidation) {
-                        field.setCustomValidity(invalid ? 'Required' : '');
-                    } else {
-                        field.validity.valid = !invalid;
-                    }
+                    setValidity(field, invalid ? 'Required' : '');
                 }
             }
         }
