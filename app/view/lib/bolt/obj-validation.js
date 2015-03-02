@@ -84,13 +84,17 @@ bolt.validation = (function () {
      * Show alertbox
      *
      * @param {string} id - Id of the alertbox
+     * @param {Object} field - Field element
      * @param {string} msg - Message text
      */
-    function showAlertbox(id, msg) {
-        var alertbox = bolt.data.validation.alertbox.subst({
-            '%NOTICE_ID%': id,
-            '%MESSAGE%': msg
-        });
+    function showAlertbox(id, field, msg) {
+        var name = $('label[for="' + field.id + '"]').contents().first().text().trim() || field.name,
+            alertbox = bolt.data.validation.alertbox.subst({
+                '%NOTICE_ID%': id,
+                '%FIELD_NAME%': bolt.data.validation.field_prefix.subst({'%FIELD_NAME%': label}),
+                '%MESSAGE%':  msg || $(field).data('errortext') || bolt.data.validation.generic_msg
+            });
+
 
         $(alertbox)
             .hide()
@@ -265,11 +269,8 @@ bolt.validation = (function () {
 
             return true;
         } else {
-            var label = $('label[for="' + field.id + '"]').contents().first().text().trim() || field.name,
-                msg = error || $(field).data('errortext') || bolt.data.validation.generic_msg;
-
             addErrorClass(field, isCkeditor);
-            showAlertbox(noticeID, bolt.data.validation.field_prefix.subst({'%FIELDNAME%': label}) + ' ' + msg);
+            showAlertbox(noticeID, field, error);
 
             return false;
         }
