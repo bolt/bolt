@@ -157,6 +157,12 @@ bolt.validation = (function () {
                         field.validity.valid = false;
                     }
                     break;
+                } else {
+                    if (hasNativeValidation) {
+                        field.setCustomValidity('');
+                    } else {
+                        field.validity.valid = true;
+                    }
                 }
             }
         } else {
