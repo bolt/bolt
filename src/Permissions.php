@@ -147,16 +147,16 @@ class Permissions
         $userRoleNames[] = self::ROLE_OWNER;
 
         $self = $this;
-        return
-            array_combine(
-                $userRoleNames,
-                array_map(
-                    function ($roleName) use ($self) {
-                        return $self->getRole($roleName);
-                    },
-                    $userRoleNames
-                )
-            );
+
+        return array_combine(
+            $userRoleNames,
+            array_map(
+                function ($roleName) use ($self) {
+                    return $self->getRole($roleName);
+                },
+                $userRoleNames
+            )
+        );
     }
 
     /**
@@ -171,7 +171,7 @@ class Permissions
         $manipulatableRoles = array();
 
         foreach ($this->getDefinedRoles() as $roleName => $role) {
-            if ($this->checkPermission($currentUser['roles'],  'manipulate', 'roles-hierarchy', $roleName)) {
+            if ($this->checkPermission($currentUser['roles'], 'manipulate', 'roles-hierarchy', $roleName)) {
                 $manipulatableRoles[] = $roleName;
             }
         }
@@ -295,6 +295,7 @@ class Permissions
         // Can current user manipulate role?
         if (is_string($role)) {
             $permissions = $this->app['config']->get("permissions/roles-hierarchy/$permissionName/$role", array());
+
             return in_array($roleName, $permissions);
         }
 

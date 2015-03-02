@@ -1185,8 +1185,7 @@ class Backend implements ControllerProviderInterface
                 array(
                     'disabled' => true,
                     'label'    => Trans::__('page.edit-users.label.last-ip')
-            ))
-        ;
+            ));
 
         // Set the validation
         $form = $this->setUserFormValidation($app, $form, true);

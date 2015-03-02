@@ -54,7 +54,7 @@ class ConfigSet extends BaseCommand
         } catch (ParseException $e) {
             $result = sprintf("<error>Invalid YAML in file: %s.</error>", $file);
         } catch (FilesystemException $e) {
-            $result = sprintf('<error>' . $e->getMessage() .'</error>');
+            $result = sprintf('<error>' . $e->getMessage() . '</error>');
         }
 
         $output->writeln($result);
