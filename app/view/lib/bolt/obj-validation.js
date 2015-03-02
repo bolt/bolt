@@ -137,6 +137,21 @@ bolt.validation = (function () {
     }
 
     /**
+     * Checks for maximum value
+     *
+     * @param {string} value - Value of field
+     * @param {string} param - Maximum value
+     * @returns {string}
+     */
+    function checkMaximum(value, param) {
+        if (value !== '' && Number(value.replace(',', '.')) > param) {
+            return bolt.data.validation.max.subst({'%MAXVAL%': param});
+        } else {
+            return '';
+        }
+    }
+
+    /**
      * Validates a field
      *
      * @param {Object} field - Field element
@@ -170,9 +185,7 @@ bolt.validation = (function () {
                         break;
 
                     case 'max':
-                        if (value !== '' && Number(value.replace(',', '.')) > param) {
-                            error = bolt.data.validation.max.subst({'%MAXVAL%': param});
-                        }
+                        error = checkMaximum(value, param);
                         break;
 
                     default:
