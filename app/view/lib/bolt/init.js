@@ -158,7 +158,13 @@ var init = {
                                         $(":input[name='" + index + "[" + subindex + "]']").val(subitem);
                                     });
                                 } else {
-                                    $(":input[name='" + index + "']").val(item);
+                                    // Either an input or a textarea, so get by ID
+                                    $("#" + index).val(item);
+
+                                    // If there is a CKEditor attached to our element, update it
+                                    if (CKEDITOR.instances[index]) {
+                                        CKEDITOR.instances[index].setData(item);
+                                    }
                                 }
                             });
                         }
