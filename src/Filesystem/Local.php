@@ -169,7 +169,7 @@ class Local extends LocalBase
         $permissions = substr(sprintf('%o', fileperms($location)), -3, 1);
         $fileOwnerId = fileowner($location);
         $procOwnerId = posix_getuid();
-        if ($fileOwnerId === $procOwnerId && (int)$permissions >= 6) {
+        if ($fileOwnerId === $procOwnerId && (int) $permissions >= 6) {
             return true;
         }
 
@@ -181,7 +181,7 @@ class Local extends LocalBase
         $permissions = substr(sprintf('%o', fileperms($location)), -2, 1);
         $fileOwnerGroup = filegroup($location);
         $procOwnerGroup = posix_getgid();
-        if ($fileOwnerGroup === $procOwnerGroup && (int)$permissions >= 6) {
+        if ($fileOwnerGroup === $procOwnerGroup && (int) $permissions >= 6) {
             return true;
         }
 
@@ -198,7 +198,7 @@ class Local extends LocalBase
         $permissions = substr(sprintf('%o', fileperms($location)), -3, 1);
         $fileOwnerId = fileowner($location);
         $procOwnerId = posix_getuid();
-        if ($fileOwnerId === $procOwnerId && (int)$permissions >= 5) {
+        if ($fileOwnerId === $procOwnerId && (int) $permissions >= 5) {
             return true;
         }
 
@@ -210,7 +210,7 @@ class Local extends LocalBase
         $permissions = substr(sprintf('%o', fileperms($location)), -2, 1);
         $fileOwnerGroup = filegroup($location);
         $procOwnerGroup = posix_getgid();
-        if ($fileOwnerGroup === $procOwnerGroup && (int)$permissions >= 5) {
+        if ($fileOwnerGroup === $procOwnerGroup && (int) $permissions >= 5) {
             return true;
         }
 
