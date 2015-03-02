@@ -86,7 +86,7 @@ bolt.validation = (function () {
      * @param {string} msg - Message text
      */
     function showAlertbox(id, msg) {
-        var alertbox = bolt.data.editcontent.error.alertbox.subst({
+        var alertbox = bolt.data.validation.alertbox.subst({
             '%NOTICE_ID%': id,
             '%MESSAGE%': msg
         });
@@ -187,8 +187,7 @@ bolt.validation = (function () {
             task,
             param,
             value = field.value,
-            error = '',
-            label;
+            error = '';
 
         var validates = $(field).data('validate');
         if (validates) {
@@ -217,12 +216,10 @@ bolt.validation = (function () {
                 }
                 // Stop on first error
                 if (error) {
-                    // Insert label
-                    label = $('label[for="' + field.id + '"]').contents().first().text().trim();
-                    error = error.subst({'%FIELDNAME%': label ? label : field.name});
+                    break;
                 }
-                setValidity(field, error);
             }
+            setValidity(field, error);
         } else {
             // Is native browser validation available?
             if (hasNativeValidation) {
@@ -265,13 +262,11 @@ bolt.validation = (function () {
 
             return true;
         } else {
-            addErrorClass(field, isCkeditor);
+            var label = $('label[for="' + field.id + '"]').contents().first().text().trim() || field.name,
+                msg = error || $(field).data('errortext') || bolt.data.validation.generic_msg;
 
-            var msg = error || $(field).data('errortext');
-            if (!msg) {
-                msg = bolt.data.editcontent.error.msg.subst({'%FIELDNAME%': field.name});
-            }
-            showAlertbox(noticeID, msg);
+            addErrorClass(field, isCkeditor);
+            showAlertbox(noticeID, bolt.data.validation.field_prefix.subst({'%FIELDNAME%': label}) + ' ' + msg);
 
             return false;
         }

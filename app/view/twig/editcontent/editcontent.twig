@@ -50,10 +50,10 @@
         </div>
     {% endset %}
 
-
-    {{ data('editcontent.error', {
-        'msg':          __('The field “%FIELDNAME%” is required or needs to match a pattern!'),
+    {{ data('validation', {
         'alertbox':     alertbox|trim,
+        'field_prefix': __('Field “%FIELDNAME%”:'),
+        'generic_msg':  __('Is required or needs to match a pattern!'),
     }) }}
 
 
