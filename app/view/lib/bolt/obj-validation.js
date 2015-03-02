@@ -101,7 +101,8 @@ bolt.validation = (function () {
      * Checks if value is a float
      *
      * @param {string} value - Value of field
-     * @returns {string}
+     *
+     * @returns {string} Error string on error or empty string
      */
     function checkFloat(value) {
         if (value !== '' && !value.match(/^[-+]?[0-9]*[,.]?[0-9]+([eE][-+]?[0-9]+)?$/)) {
@@ -112,13 +113,19 @@ bolt.validation = (function () {
     }
 
     /**
-     * Checks if a value is set
+     * Checks if a required value is set
      *
      * @param {string} value - Value of field
-     * @returns {string}
+     * @param {boolean} required - Value is required
+     *
+     * @returns {string} Error string on error or empty string
      */
-    function checkRequired(value) {
-        return value === '' ? bolt.data.validation.required : '';
+    function checkRequired(value, required) {
+        if (required === true && value === '') {
+            return bolt.data.validation.required;
+        } else {
+            return '';
+        }
     }
 
     /**
@@ -126,11 +133,12 @@ bolt.validation = (function () {
      *
      * @param {string} value - Value of field
      * @param {string} param - Minimum value
-     * @returns {string}
+     *
+     * @returns {string} Error string on error or empty string
      */
-    function checkMinimum(value, param) {
-        if (value !== '' && Number(value.replace(',', '.')) < param) {
-            return bolt.data.validation.min.subst({'%MINVAL%': param});
+    function checkMin(value, minimum) {
+        if (value !== '' && Number(value.replace(',', '.')) < minimum) {
+            return bolt.data.validation.min.subst({'%MINVAL%': minimum});
         } else {
             return '';
         }
@@ -140,12 +148,13 @@ bolt.validation = (function () {
      * Checks for maximum value
      *
      * @param {string} value - Value of field
-     * @param {string} param - Maximum value
-     * @returns {string}
+     * @param {string} maximum - Maximum value
+     *
+     * @returns {string} Error string on error or empty string
      */
-    function checkMaximum(value, param) {
-        if (value !== '' && Number(value.replace(',', '.')) > param) {
-            return bolt.data.validation.max.subst({'%MAXVAL%': param});
+    function checkMax(value, maximum) {
+        if (value !== '' && Number(value.replace(',', '.')) > maximum) {
+            return bolt.data.validation.max.subst({'%MAXVAL%': maximum});
         } else {
             return '';
         }
@@ -177,15 +186,15 @@ bolt.validation = (function () {
                         break;
 
                     case 'required':
-                        error = param === true ? checkRequired(value) : '';
+                        error =  checkRequired(value, param);
                         break;
 
                     case 'min':
-                        error = checkMinimum(value, param);
+                        error = checkMin(value, param);
                         break;
 
                     case 'max':
-                        error = checkMaximum(value, param);
+                        error = checkMax(value, param);
                         break;
 
                     default:
