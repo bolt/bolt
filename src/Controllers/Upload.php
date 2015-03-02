@@ -35,13 +35,15 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
                 $replacement = $app['config']->get('general/upload/replacement', '-');
                 $lowercase = $app['config']->get('general/upload/lowercase', true);
 
-                $uploadHandler->setSanitizerCallback(function ($filename) use ($pattern, $replacement, $lowercase) {
-                    if ($lowercase) {
-                        return preg_replace("/$pattern/", $replacement, strtolower($filename));
-                    }
+                $uploadHandler->setSanitizerCallback(
+                    function ($filename) use ($pattern, $replacement, $lowercase) {
+                        if ($lowercase) {
+                            return preg_replace("/$pattern/", $replacement, strtolower($filename));
+                        }
 
-                    return preg_replace("/$pattern/", $replacement, $filename);
-                });
+                        return preg_replace("/$pattern/", $replacement, $filename);
+                    }
+                );
 
                 return $uploadHandler;
         };

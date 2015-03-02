@@ -718,11 +718,14 @@ class Async implements ControllerProviderInterface
         $user = $app['users']->getCurrentUser();
 
         // Create an email
-        $mailhtml = $app['render']->render('email/pingtest.twig', array(
-            'sitename' => $app['config']->get('general/sitename'),
-            'user'     => $user['displayname'],
-            'ip'       => $request->getClientIp()
-        ));
+        $mailhtml = $app['render']->render(
+            'email/pingtest.twig',
+            array(
+                'sitename' => $app['config']->get('general/sitename'),
+                'user'     => $user['displayname'],
+                'ip'       => $request->getClientIp()
+            )
+        );
 
         $message = $app['mailer']
             ->createMessage('message')

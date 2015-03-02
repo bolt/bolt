@@ -224,32 +224,38 @@ class Permissions
 
         $roleNames = array_unique($roleNames);
         if (in_array(Permissions::ROLE_ROOT, $roleNames)) {
-            $this->audit(sprintf(
-                'Granting "%s"%s to root user',
-                $permissionName,
-                $itemStr
-            ));
+            $this->audit(
+                sprintf(
+                    'Granting "%s"%s to root user',
+                    $permissionName,
+                    $itemStr
+                )
+            );
 
             return true;
         }
         foreach ($roleNames as $roleName) {
             if ($this->checkRolePermission($roleName, $permissionName, $type ?: 'global', $item)) {
-                $this->audit(sprintf(
-                    'Granting "%s"%s based on role %s',
-                    $permissionName,
-                    $itemStr,
-                    $roleName
-                ));
+                $this->audit(
+                    sprintf(
+                        'Granting "%s"%s based on role %s',
+                        $permissionName,
+                        $itemStr,
+                        $roleName
+                    )
+                );
 
                 return true;
             }
         }
-        $this->audit(sprintf(
-            'Denying "%s"%s; available roles: %s',
-            $permissionName,
-            $itemStr,
-            implode(', ', $roleNames)
-        ));
+        $this->audit(
+            sprintf(
+                'Denying "%s"%s; available roles: %s',
+                $permissionName,
+                $itemStr,
+                implode(', ', $roleNames)
+            )
+        );
 
         return false;
     }

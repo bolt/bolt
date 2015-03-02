@@ -268,11 +268,13 @@ final class RequirePackage
         $package = $this->versionSelector->findBestCandidate($name);
 
         if (!$package) {
-            throw new \InvalidArgumentException(sprintf(
-                'Could not find package %s at any version for your minimum-stability (%s). Check the package spelling or your minimum-stability',
-                $name,
-                $this->app['extend.manager']->getMinimumStability()
-            ));
+            throw new \InvalidArgumentException(
+                sprintf(
+                    'Could not find package %s at any version for your minimum-stability (%s). Check the package spelling or your minimum-stability',
+                    $name,
+                    $this->app['extend.manager']->getMinimumStability()
+                )
+            );
         }
 
         return $this->versionSelector->findRecommendedRequireVersion($package);

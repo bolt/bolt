@@ -18,25 +18,29 @@ class GuzzleServiceProvider implements ServiceProviderInterface
         }
 
         // Register a Guzzle ServiceBuilder
-        $app['guzzle'] = $app->share(function () use ($app) {
-            if (!isset($app['guzzle.services'])) {
-                $builder = new ServiceBuilder(array());
-            } else {
-                $builder = ServiceBuilder::factory($app['guzzle.services']);
-            }
+        $app['guzzle'] = $app->share(
+            function () use ($app) {
+                if (!isset($app['guzzle.services'])) {
+                    $builder = new ServiceBuilder(array());
+                } else {
+                    $builder = ServiceBuilder::factory($app['guzzle.services']);
+                }
 
-            return $builder;
-        });
+                return $builder;
+            }
+        );
 
         // Register a simple Guzzle Client object (requires absolute URLs when guzzle.base_url is unset)
-        $app['guzzle.client'] = $app->share(function () use ($app) {
-            $client = new Client($app['guzzle.base_url']);
-            foreach ($app['guzzle.plugins'] as $plugin) {
-                $client->addSubscriber($plugin);
-            }
+        $app['guzzle.client'] = $app->share(
+            function () use ($app) {
+                $client = new Client($app['guzzle.base_url']);
+                foreach ($app['guzzle.plugins'] as $plugin) {
+                    $client->addSubscriber($plugin);
+                }
 
-            return $client;
-        });
+                return $client;
+            }
+        );
     }
 
     public function boot(Application $app)
