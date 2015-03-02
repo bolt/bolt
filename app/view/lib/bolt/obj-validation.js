@@ -122,6 +122,21 @@ bolt.validation = (function () {
     }
 
     /**
+     * Checks for minimum value
+     *
+     * @param {string} value - Value of field
+     * @param {string} param - Minimum value
+     * @returns {string}
+     */
+    function checkMinimum(value, param) {
+        if (value !== '' && Number(value.replace(',', '.')) < param) {
+            return bolt.data.validation.min.subst({'%MINVAL%': param});
+        } else {
+            return '';
+        }
+    }
+
+    /**
      * Validates a field
      *
      * @param {Object} field - Field element
@@ -151,9 +166,7 @@ bolt.validation = (function () {
                         break;
 
                     case 'min':
-                        if (value !== '' && Number(value.replace(',', '.')) < param) {
-                            error = bolt.data.validation.min.subst({'%MINVAL%': param});
-                        }
+                        error = checkMinimum(value, param);
                         break;
 
                     case 'max':
