@@ -45,8 +45,10 @@ abstract class AdapterPlugin implements PluginInterface
     {
         if ($this->filesystem instanceof Filesystem) {
             $reflect = new \ReflectionClass($this->filesystem->getAdapter());
+
             return $reflect->getShortName();
         }
+
         return 'Unknown';
     }
 }

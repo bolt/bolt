@@ -30,6 +30,7 @@ class Manager extends MountManager
     public function getFilesystem($prefix = null)
     {
         $prefix = isset($this->filesystems[$prefix]) ? $prefix : static::DEFAULT_PREFIX;
+
         return parent::getFilesystem($prefix);
     }
 

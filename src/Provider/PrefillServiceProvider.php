@@ -13,6 +13,7 @@ class PrefillServiceProvider implements ServiceProviderInterface
         $app['prefill'] = $app->share(
             function ($app) {
                 $prefill = new Prefill($app['guzzle.client']);
+
                 return $prefill;
             }
         );

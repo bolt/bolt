@@ -196,6 +196,7 @@ class TwigExtension extends \Twig_Extension
         if ($this->safe || !$this->app['debug']) {
             return null;
         }
+
         return VarDumper::dump($var);
     }
 
@@ -237,6 +238,7 @@ class TwigExtension extends \Twig_Extension
         if ($this->safe || !$this->app['debug']) {
             return null;
         }
+
         return VarDumper::dump(debug_backtrace());
     }
 

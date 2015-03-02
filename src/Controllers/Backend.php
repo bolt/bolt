@@ -1130,6 +1130,7 @@ class Backend implements ControllerProviderInterface
             // Verify the current user has access to edit this user
             if (!$app['permissions']->isAllowedToManipulate($user, $currentuser)) {
                 $app['session']->getFlashBag()->add('error', Trans::__('You do not have the right privileges to edit that user.'));
+
                 return Lib::redirect('users');
             }
         } else {
@@ -1434,6 +1435,7 @@ class Backend implements ControllerProviderInterface
         // Verify the current user has access to edit this user
         if (!$app['permissions']->isAllowedToManipulate($user, $currentuser)) {
             $app['session']->getFlashBag()->add('error', Trans::__('You do not have the right privileges to edit that user.'));
+
             return Lib::redirect('users');
         }
 
@@ -1917,6 +1919,7 @@ class Backend implements ControllerProviderInterface
 
         // Stop the 'stopwatch' for the profiler.
         $app['stopwatch']->stop('bolt.backend.before');
+
         return null;
     }
 

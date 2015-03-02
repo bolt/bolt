@@ -75,6 +75,7 @@ class ChangeLogItem implements \ArrayAccess
             return $this->getEffectiveMutationType();
         } elseif ($key == 'changedfields') {
             $this->changedfields = $this->getChangedFields();
+
             return $this->changedfields;
         } elseif ($key == 'diff_raw') {
             return $this->diff_raw;

@@ -97,6 +97,7 @@ class Routing implements ControllerProviderInterface
                     }
                     $before = array(new $class, $method);
                 }
+
                 return call_user_func($before, $request, $app);
             }
         );
@@ -118,6 +119,7 @@ class Routing implements ControllerProviderInterface
                     }
                     $after = array(new $class, $method);
                 }
+
                 return call_user_func($after, $request, $response, $app);
             }
         );

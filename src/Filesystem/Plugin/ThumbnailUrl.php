@@ -17,6 +17,7 @@ class ThumbnailUrl extends AdapterPlugin
     public function getLocalThumb($path, $width, $height, $type)
     {
         $this->loadTwigExtension();
+
         return $this->twigHelper->thumbnail($path, $width, $height, $type);
     }
 

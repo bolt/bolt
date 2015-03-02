@@ -138,6 +138,7 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
 
         // Stop the 'stopwatch' for the profiler.
         $app['stopwatch']->stop('bolt.backend.before');
+
         return null;
     }
 
