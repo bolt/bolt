@@ -325,7 +325,7 @@ class Application extends Silex\Application
 
         // Setup Swiftmailer, with the selected Mail Transport options: smtp or `mail()`.
         $this->register(new Silex\Provider\SwiftmailerServiceProvider());
-        
+
         if ($this['config']->get('general/mailoptions')) {
             // Use the preferred options. Assume it's SMTP, unless set differently.
             $this['swiftmailer.options'] = $this['config']->get('general/mailoptions');
