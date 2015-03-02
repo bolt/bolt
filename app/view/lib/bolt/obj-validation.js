@@ -112,6 +112,16 @@ bolt.validation = (function () {
     }
 
     /**
+     * Checks if a value is set
+     *
+     * @param {string} value - Value of field
+     * @returns {string}
+     */
+    function checkRequired(value) {
+        return value === '' ? bolt.data.validation.required : '';
+    }
+
+    /**
      * Validates a field
      *
      * @param {Object} field - Field element
@@ -137,9 +147,7 @@ bolt.validation = (function () {
                         break;
 
                     case 'required':
-                        if (param === true && value === '') {
-                            error = bolt.data.validation.required;
-                        }
+                        error = param === true ? checkRequired(value) : '';
                         break;
 
                     case 'min':
