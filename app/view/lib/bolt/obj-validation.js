@@ -88,11 +88,10 @@ bolt.validation = (function () {
      * @param {string} msg - Message text
      */
     function showAlertbox(id, field, msg) {
-        var name = $('label[for="' + field.id + '"]').contents().first().text().trim() || field.name,
-            alertbox = bolt.data.validation.alertbox.subst({
+        var alertbox = bolt.data.validation.alertbox.subst({
                 '%NOTICE_ID%': id,
                 '%FIELD_ID%': field.id,
-                '%FIELD_NAME%': bolt.data.validation.field_prefix.subst({'%FIELD_NAME%': name}),
+                '%FIELD_NAME%': $('label[for="' + field.id + '"]').contents().first().text().trim() || field.name,
                 '%MESSAGE%':  msg || $(field).data('errortext') || bolt.data.validation.generic_msg
             });
 
