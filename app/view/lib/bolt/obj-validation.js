@@ -8,6 +8,7 @@ bolt.validation = (function () {
      * Adapted from  http://www.sitepoint.com/html5-forms-javascript-constraint-validation-api/
      *
      * @param {Object} field - Field element
+     *
      * @returns {boolean}
      */
     function legacyValidation(field) {
@@ -132,7 +133,7 @@ bolt.validation = (function () {
      * Checks for minimum value
      *
      * @param {string} value - Value of field
-     * @param {string} param - Minimum value
+     * @param {string} minimum - Minimum value
      *
      * @returns {string} Error string on error or empty string
      */
@@ -164,7 +165,8 @@ bolt.validation = (function () {
      * Set validity of a field
      *
      * @param {Object} field - Field element
-     * @param {string} field - Error message or empty string if valid
+     * @param {string} error - Error message or empty string if valid
+     *
      * @returns {boolean}
      */
     function setValidity(field, error) {
@@ -179,6 +181,7 @@ bolt.validation = (function () {
      * Validates a field
      *
      * @param {Object} field - Field element
+     *
      * @returns {boolean}
      */
     function validate(field) {
@@ -277,6 +280,7 @@ bolt.validation = (function () {
          * Validates all inputs of a form
          *
          * @param {Object} form - Form element
+         *
          * @returns {boolean}
          */
         run: function (form) {
