@@ -91,10 +91,10 @@ bolt.validation = (function () {
         var name = $('label[for="' + field.id + '"]').contents().first().text().trim() || field.name,
             alertbox = bolt.data.validation.alertbox.subst({
                 '%NOTICE_ID%': id,
-                '%FIELD_NAME%': bolt.data.validation.field_prefix.subst({'%FIELD_NAME%': label}),
+                '%FIELD_ID%': field.id,
+                '%FIELD_NAME%': bolt.data.validation.field_prefix.subst({'%FIELD_NAME%': name}),
                 '%MESSAGE%':  msg || $(field).data('errortext') || bolt.data.validation.generic_msg
             });
-
 
         $(alertbox)
             .hide()

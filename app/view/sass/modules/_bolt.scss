@@ -208,7 +208,7 @@ table.dataTable thead .sorting:after {
 
   input.select2-input:focus {
     color: #333;
-  }  
+  }
 
 }
 
@@ -251,4 +251,12 @@ form#filescreenuploader {
 
 .relatedfiles {
   float: right;
+}
+
+.alert {
+    label {
+        display: inline;
+        cursor: pointer;
+        padding-right: 4px;
+    }
 }
