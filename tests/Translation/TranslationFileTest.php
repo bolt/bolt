@@ -25,7 +25,7 @@ class TranslationFileTest extends BoltUnitTest
         $app = $this->getApp();
         $tr = new TranslationFile($app, 'translations', 'en_GB');
         $path = $tr->path();
-        $this->assertEquals(TEST_ROOT.'/app/resources/translations/en_GB/translations.en_GB.yml', $path[0]);
+        $this->assertEquals(TEST_ROOT . '/app/resources/translations/en_GB/translations.en_GB.yml', $path[0]);
     }
 
     public function testContentInfos()
