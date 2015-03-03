@@ -3,6 +3,9 @@ Bolt 2.1 DEV-head
 
 Beta released on 2015-03-02. Notable changes:
 
+- Added: A logging record for extension update and uninstall (see #2993)
+- Added: Client-side validation (first for floats only). (see #2997)
+- Change: Float field now not html5 number field anymore, and both `,` and `.` are allowed as decimal seperator.
 - Change: The distribution now includes `composer.json.dist` and  `composer.lock.dist` files, if you need them.
 - Added: Allow extensions to be used as controllers (non static) (see #2971)
 - Fixed: Long conttenttype names are truncated properly in the sidebar now. (See #2513)
