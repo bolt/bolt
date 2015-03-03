@@ -46,14 +46,15 @@
 
     {% set alertbox %}
         <div id="%NOTICE_ID%" class="alert alert-danger">
-            <button class="close" data-dismiss="alert">×</button>%MESSAGE%
+            <button class="close" data-dismiss="alert">×</button>
+            <label for="%FIELD_ID%">{{ __('Field “%FIELD_NAME%”:') }}</label>
+            %MESSAGE%
         </div>
     {% endset %}
 
-
-    {{ data('editcontent.error', {
-        'msg':          __('The field “%FIELDNAME%” is required or needs to match a pattern!'),
+    {{ data('validation', {
         'alertbox':     alertbox|trim,
+        'generic_msg':  __('Is required or needs to match a pattern!'),
     }) }}
 
 

@@ -16,26 +16,41 @@
 
 {#=== INIT ===========================================================================================================#}
 
+{% set validation = {float: null} %}
+{{ data('validation.float', __('Has to be a floating point number!')) }}
+
+{% if option.required %}
+    {% set validation = validation|merge({required: true}) %}
+    {{ data('validation.required', __('Is required!')) }}
+{% endif %}
+
+{% if option.min %}
+    {% set validation = validation|merge({min: option.min}) %}
+    {{ data('validation.min', __('The value has to be at least “%MINVAL%”!')) }}
+{% endif %}
+
+{% if option.max %}
+    {% set validation = validation|merge({max: option.max}) %}
+    {{ data('validation.max', __('The value must not be greater than “%MAXVAL%”!')) }}
+{% endif %}
+
 {% set attr_number = {
     class:          option.class ~ ' narrow',
     name_id:        key,
     placeholder:    option.placeholder,
-    required:       option.required,
     readonly:       option.readonly,
-    step:           option.step,
-    min:            option.min,
-    max:            option.max,
     title:          option.title,
-    type:           'number',
+    type:           'text',
     value:          0 + context.content.get(key),
     data_errortext: option.errortext,
+    data_validate:  validation|json_encode,
 } %}
 
 {#=== FIELDSET =======================================================================================================#}
 
 <fieldset class="float">
 
-    <label class="col-sm-3 control-label">{{ (option.info) ? macro.infopop(labelkey, option.info) : labelkey }}</label>
+    <label for="{{ key }}" class="col-sm-3 control-label">{{ (option.info) ? macro.infopop(labelkey, option.info) : labelkey }}</label>
     <div class="col-sm-9">
         <input{{ macro.attr(attr_number) }}>
     </div>

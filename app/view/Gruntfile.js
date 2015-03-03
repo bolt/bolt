@@ -22,6 +22,7 @@ module.exports = function(grunt) {
             'lib/bolt/obj-stack.js',
             'lib/bolt/obj-folders.js',
             'lib/bolt/obj-datetime.js',
+            'lib/bolt/obj-validation.js',
             'lib/bolt/extend.js',
             'lib/bolt/init.js',
             'lib/bolt/start.js'

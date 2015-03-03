@@ -62,7 +62,7 @@ var init = {
         $('#editcontent')
           .attr('novalidate', 'novalidate')
           .on('submit', function(event){
-              var valid = validateContent(this);
+              var valid = bolt.validation.run(this);
               $(this).data('valid', valid);
               if ( ! valid){
                   event.preventDefault();
@@ -74,7 +74,7 @@ var init = {
 
         // basic custom validation handler
         $('#editcontent').on('boltvalidate', function(){
-            var valid = validateContent(this);
+            var valid = bolt.validation.run(this);
             $(this).data('valid', valid);
             return valid;
         });
