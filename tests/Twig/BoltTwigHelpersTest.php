@@ -142,7 +142,7 @@ class BoltTwigHelpersTest extends BoltUnitTest
         // that behaviour, the test below should be uncommented again.
         // // $obj = new \ArrayObject(array('info' => 'A test title', 'body' => $this->getDummyText()));
         // $this->assertFalse($twig->excerpt($obj));
-        
+
         // Check that array works.
         $sample = array('info' => 'A test title', 'body' => $this->getDummyText());
         $excerpt4 = $twig->excerpt($sample);

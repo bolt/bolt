@@ -57,7 +57,7 @@ class DoctrineMockBuilder extends \PHPUnit_Framework_TestCase
         $mock->expects($this->any())
             ->method('query')
             ->will($this->returnValue($this->getStatementMock()));
-            
+
         $mock->expects($this->any())
             ->method('createQueryBuilder')
             ->will($this->returnValue($this->getQueryBuilderMock($mock)));
@@ -68,7 +68,7 @@ class DoctrineMockBuilder extends \PHPUnit_Framework_TestCase
 
         return $mock;
     }
-    
+
     /**
      * @return Doctrine\DBAL\Query\QueryBuilder
      */
@@ -81,7 +81,7 @@ class DoctrineMockBuilder extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($exprmock));
         return $mock;
     }
-       
+
 
     /**
      * @return \Doctrine\DBAL\Driver\Statement|\PHPUnit_Framework_MockObject_MockObject

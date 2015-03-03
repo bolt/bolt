@@ -35,7 +35,7 @@ class LoripsumMock extends \PHPUnit_Framework_TestCase
 
 ";
                 break;
-            
+
             default:
                 return "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quo plebiscito decreta a senatu est consuli quaestio Cn. Illud non continuo, ut aeque incontentae. Duo Reges: constructio interrete. Sed haec in pueris; Sed quid sentiat, non videtis. Cum autem in quo sapienter dicimus, id a primo rectissime dicitur. </p>
 

@@ -21,7 +21,6 @@ class CheckPackageTest extends BoltUnitTest
         $action->execute(array('gawain/clippy'));
     }
 
-    
     public function testConstruct()
     {
         $app = $this->getApp();
@@ -30,7 +29,7 @@ class CheckPackageTest extends BoltUnitTest
         $this->assertTrue(is_array($result['updates']));
         $this->assertTrue(is_array($result['installs']));
     }
-    
+
     public function testNewlyAdded()
     {
         $app = $this->getApp();
@@ -39,18 +38,18 @@ class CheckPackageTest extends BoltUnitTest
         $json = $boltJson->updateJson($app);
         $json['require']['gawain/clippy'] = '~2.0';
         $boltJson->execute($options['composerjson'], $json);
-        
+
         $action = new CheckPackage($app);
         $result = $action->execute();
         $this->assertEquals('gawain/clippy', $result['installs'][0]['name']);
     }
-    
+
     public function testUpdateCheck()
     {
         $app = $this->getApp();
         $action = new RequirePackage($app);
         $action->execute(array('name' => 'gawain/clippy', 'version' => '~2.0'));
-        
+
         $action = new CheckPackage($app);
         $result = $action->execute();
         $this->assertTrue(is_array($result['updates']));

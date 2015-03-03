@@ -14,7 +14,7 @@ class SearchPackageTest extends BoltUnitTest
     public function testRun()
     {
         $app = $this->getApp();
-        
+
         $action = new SearchPackage($app);
         $result = $action->execute(array('gawain/clippy'));
         $this->assertTrue(is_array($result));

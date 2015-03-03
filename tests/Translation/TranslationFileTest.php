@@ -19,7 +19,7 @@ class TranslationFileTest extends BoltUnitTest
         $this->assertEquals('translations', \PHPUnit_Framework_Assert::readAttribute($tr, 'domain'));
         $this->assertEquals('en_GB', \PHPUnit_Framework_Assert::readAttribute($tr, 'locale'));
     }
-    
+
     public function testPath()
     {
         $app = $this->getApp();
@@ -27,7 +27,7 @@ class TranslationFileTest extends BoltUnitTest
         $path = $tr->path();
         $this->assertEquals(TEST_ROOT.'/app/resources/translations/en_GB/translations.en_GB.yml', $path[0]);
     }
-    
+
     public function testContentInfos()
     {
         $app = $this->getApp();
@@ -36,7 +36,7 @@ class TranslationFileTest extends BoltUnitTest
         $parsed = Yaml::parse($content);
         $this->assertArrayHasKey('info', $parsed);
     }
-    
+
     public function testContentMessages()
     {
         $app = $this->getApp();
@@ -45,7 +45,7 @@ class TranslationFileTest extends BoltUnitTest
         $parsed = Yaml::parse($content);
         $this->assertTrue(is_array($parsed));
     }
-    
+
     public function testContent()
     {
         $app = $this->getApp();
@@ -54,14 +54,14 @@ class TranslationFileTest extends BoltUnitTest
         $parsed = Yaml::parse($content);
         $this->assertTrue(is_array($parsed));
     }
-    
+
     public function testIsWriteAllowed()
     {
         $app = $this->getApp();
         $tr = new TranslationFile($app, 'translations', 'en_GB');
         $this->assertTrue($tr->isWriteAllowed());
     }
-    
+
     public function testFallbackLocale()
     {
         $app = $this->getApp();

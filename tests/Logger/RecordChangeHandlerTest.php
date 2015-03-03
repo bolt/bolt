@@ -17,14 +17,14 @@ class RecordChangeHandlerTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $app['config']->set('general/changelog/enabled', true);
-        
+
         $log = new Logger('logger.system');
         $handler = new RecordChangeHandler($app);
-        
+
         $mocker = new DoctrineMockBuilder();
         $db = $mocker->getConnectionMock();
         $app['db'] = $db;
-        
+
         $log->pushHandler($handler);
         $log->addRecord(Logger::DEBUG, 'test', array(
             'action' => 'UPDATE',
@@ -33,15 +33,15 @@ class RecordChangeHandlerTest extends BoltUnitTest
         ));
         $this->assertEquals('bolt_log_change', \PHPUnit_Framework_Assert::readAttribute($handler, 'tablename'));
     }
-    
+
     public function testHandle()
     {
         $app = $this->getApp();
         $app['config']->set('general/changelog/enabled', true);
-        
+
         $log = new Logger('logger.system');
         $handler = new RecordChangeHandler($app);
-        
+
         $mocker = new DoctrineMockBuilder();
         $db = $mocker->getConnectionMock();
         $db->expects($this->once())
@@ -52,9 +52,9 @@ class RecordChangeHandlerTest extends BoltUnitTest
                     return isset($arg['diff']) && $arg['diff'] === '{"title":["test","test2"]}';
                 })
         );
-        
+
         $app['db'] = $db;
-        
+
         $log->pushHandler($handler);
         $log->addRecord(Logger::DEBUG, 'test', array(
             'action'  => 'UPDATE',

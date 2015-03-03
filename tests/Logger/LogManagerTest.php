@@ -38,7 +38,7 @@ class LogManagerTest extends BoltUnitTest
         $log = new Manager($app);
         $log->trim('system');
     }
-    
+
     public function testChange()
     {
         $app = $this->getApp();
@@ -52,7 +52,7 @@ class LogManagerTest extends BoltUnitTest
         $log = new Manager($app);
         $log->trim('change');
     }
-    
+
     public function testInvalid()
     {
         $app = $this->getApp();
@@ -60,7 +60,7 @@ class LogManagerTest extends BoltUnitTest
         $this->setExpectedException('Exception', 'Invalid log type requested: invalid');
         $log->trim('invalid');
     }
-    
+
     public function testClear()
     {
         $app = $this->getApp();
@@ -69,7 +69,7 @@ class LogManagerTest extends BoltUnitTest
         $db->expects($this->at(1))
             ->method('executeQuery')
             ->with($this->equalTo("TRUNCATE bolt_log_system"));
-            
+
         $db->expects($this->at(2))
             ->method('executeQuery')
             ->with($this->equalTo("TRUNCATE bolt_log_change"));
@@ -78,15 +78,15 @@ class LogManagerTest extends BoltUnitTest
         $log = new Manager($app);
         $log->clear('system');
         $log->clear('change');
-        
+
         $this->setExpectedException('Exception', 'Invalid log type requested: invalid');
         $log->clear('invalid');
     }
-    
+
     public function testGetActivity()
     {
         $app = $this->getApp();
-        
+
         $mocker = new DoctrineMockBuilder();
         $db = $mocker->getConnectionMock();
         $queries = array();
@@ -98,21 +98,21 @@ class LogManagerTest extends BoltUnitTest
                     return $mocker->getStatementMock();
                 }
             ));
-        
+
 
         $app['db'] = $db;
         $app['request'] = Request::createFromGlobals();
-        
+
         $log = new Manager($app);
         $log->getActivity('system', 10);
         $this->assertEquals('SELECT * FROM bolt_log_system ORDER BY id DESC LIMIT 10 OFFSET 0', $queries[0]);
         $this->assertEquals('SELECT COUNT(id) as count FROM bolt_log_system ORDER BY id DESC LIMIT 10 OFFSET 0', $queries[1]);
     }
-    
+
     public function testGetActivityChange()
     {
         $app = $this->getApp();
-        
+
         $mocker = new DoctrineMockBuilder();
         $db = $mocker->getConnectionMock();
         $queries = array();
@@ -124,17 +124,17 @@ class LogManagerTest extends BoltUnitTest
                     return $mocker->getStatementMock();
                 }
             ));
-        
+
 
         $app['db'] = $db;
         $app['request'] = Request::createFromGlobals();
-        
+
         $log = new Manager($app);
         $log->getActivity('change', 10);
         $this->assertEquals('SELECT * FROM bolt_log_change ORDER BY id DESC LIMIT 10 OFFSET 0', $queries[0]);
         $this->assertEquals('SELECT COUNT(id) as count FROM bolt_log_change ORDER BY id DESC LIMIT 10 OFFSET 0', $queries[1]);
     }
-    
+
     public function testGetActivityInvalid()
     {
         $app = $this->getApp();
@@ -142,11 +142,11 @@ class LogManagerTest extends BoltUnitTest
         $this->setExpectedException('Exception', 'Invalid log type requested: invalid');
         $log->getActivity('invalid', 10);
     }
-    
+
     public function testGetActivityLevel()
     {
         $app = $this->getApp();
-        
+
         $mocker = new DoctrineMockBuilder();
         $db = $mocker->getConnectionMock();
         $queries = array();
@@ -158,11 +158,11 @@ class LogManagerTest extends BoltUnitTest
                     return $mocker->getStatementMock();
                 }
             ));
-        
+
 
         $app['db'] = $db;
         $app['request'] = Request::createFromGlobals();
-        
+
         $log = new Manager($app);
         $log->getActivity('change', 10, 3, 'test');
     }

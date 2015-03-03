@@ -17,21 +17,21 @@ class TranslatorTest extends BoltUnitTest
         $app->boot();
         $this->assertEquals('testing', Translator::__('testing'));
     }
-    
+
     public function testArrayTranslate()
     {
         $app = $this->getApp();
         $app->boot();
         $this->assertEquals('testkey.testanother', Translator::__(array('testkey', 'testanother')));
     }
-    
+
     public function testMessageTranslate()
     {
         $app = $this->getApp();
         $app->boot();
         $this->assertEquals('JavaScript disabled', Translator::__('generic.noscript.headline'));
     }
-    
+
     public function testContenttypes()
     {
         $app = $this->getApp();
@@ -39,14 +39,14 @@ class TranslatorTest extends BoltUnitTest
         $this->assertEquals('Delete Page', Translator::__('contenttypes.generic.delete', array('%contenttype%' => 'pages')));
         $this->assertEquals('Delete Showcase', Translator::__('contenttypes.generic.delete', array('%contenttype%' => 'showcase')));
     }
-    
+
     public function testTransDefault()
     {
         $app = $this->getApp();
         $app->boot();
         $this->assertEquals('Here', Translator::__('nonexistentkey', array('DEFAULT' => 'Here')));
     }
-    
+
     // No translations currently use this, so here as a placeholder
     public function testTransNumber()
     {
