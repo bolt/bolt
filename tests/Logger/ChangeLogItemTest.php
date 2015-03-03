@@ -34,17 +34,20 @@ class ChangeLogItemTest extends BoltUnitTest
 
         $app['users'] = $users;
 
-        $cl = new ChangeLogItem($app, array(
-            'id'          => 5,
-            'date'        => date('Y-m'),
-            'title'       => 'test',
-            'mutation'    => 'UPDATE',
-            'ownerid'     => 1,
-            'diff'        => '{"title":["test","test2"]}',
-            'contenttype' => 'showcases',
-            'contentid'   => 1,
-            'comment'     => 'a test'
-        ));
+        $cl = new ChangeLogItem(
+            $app,
+            array(
+                'id'          => 5,
+                'date'        => date('Y-m'),
+                'title'       => 'test',
+                'mutation'    => 'UPDATE',
+                'ownerid'     => 1,
+                'diff'        => '{"title":["test","test2"]}',
+                'contenttype' => 'showcases',
+                'contentid'   => 1,
+                'comment'     => 'a test'
+            )
+        );
         $this->assertEquals('test', $cl->title);
         $this->assertEquals(1, $cl->contentid);
         $this->assertEquals('showcases', $cl->contenttype);
@@ -61,16 +64,19 @@ class ChangeLogItemTest extends BoltUnitTest
 
         $app['users'] = $users;
 
-        $cl = new ChangeLogItem($app, array(
-            'id'          => 5,
-            'date'        => date('Y-m'),
-            'title'       => 'test',
-            'mutation'    => 'UPDATE',
-            'ownerid'     => 1,
-            'diff'        => '{"title":["test","test2"]}',
-            'contenttype' => 'showcases',
-            'contentid'   => 1,
-        ));
+        $cl = new ChangeLogItem(
+            $app,
+            array(
+                'id'          => 5,
+                'date'        => date('Y-m'),
+                'title'       => 'test',
+                'mutation'    => 'UPDATE',
+                'ownerid'     => 1,
+                'diff'        => '{"title":["test","test2"]}',
+                'contenttype' => 'showcases',
+                'contentid'   => 1,
+            )
+        );
 
         $this->assertEquals('UPDATE', $cl->mutation_type);
         $this->assertEquals(date('Y-m'), $cl->date);
@@ -86,17 +92,20 @@ class ChangeLogItemTest extends BoltUnitTest
 
         $app['users'] = $users;
 
-        $cl = new ChangeLogItem($app, array(
-            'id'            => 5,
-            'date'          => date('Y-m-d'),
-            'title'         => 'test',
-            'mutation_type' => 'UPDATE',
-            'ownerid'       => 1,
-            'contenttype'   => 'showcases',
-            'contentid'     => 1,
-            'diff'          => '{"title":["test","test2"]}',
-            'comment'       => 'test update'
-        ));
+        $cl = new ChangeLogItem(
+            $app,
+            array(
+                'id'            => 5,
+                'date'          => date('Y-m-d'),
+                'title'         => 'test',
+                'mutation_type' => 'UPDATE',
+                'ownerid'       => 1,
+                'contenttype'   => 'showcases',
+                'contentid'     => 1,
+                'diff'          => '{"title":["test","test2"]}',
+                'comment'       => 'test update'
+            )
+        );
 
         $changes = $cl->changedfields;
         $this->assertEquals('test', $changes['title']['before']['raw']);
@@ -107,16 +116,19 @@ class ChangeLogItemTest extends BoltUnitTest
     {
         $app = $this->getApp();
 
-        $cl = new ChangeLogItem($app, array(
-            'id'            => 5,
-            'date'          => date('Y-m-d'),
-            'title'         => 'test',
-            'mutation_type' => 'UPDATE',
-            'contenttype'   => 'showcases',
-            'contentid'     => 1,
-            'diff'          => '{"body":["<p>test</p>","<p>test2</p>"]}',
-            'comment'       => 'test update'
-        ));
+        $cl = new ChangeLogItem(
+            $app,
+            array(
+                'id'            => 5,
+                'date'          => date('Y-m-d'),
+                'title'         => 'test',
+                'mutation_type' => 'UPDATE',
+                'contenttype'   => 'showcases',
+                'contentid'     => 1,
+                'diff'          => '{"body":["<p>test</p>","<p>test2</p>"]}',
+                'comment'       => 'test update'
+            )
+        );
 
         $changes = $cl->changedfields;
         $this->assertEquals('<p>test</p>', $changes['body']['before']['raw']);
@@ -127,16 +139,19 @@ class ChangeLogItemTest extends BoltUnitTest
     {
         $app = $this->getApp();
 
-        $cl = new ChangeLogItem($app, array(
-            'id'            => 5,
-            'date'          => date('Y-m-d'),
-            'title'         => 'test',
-            'mutation_type' => 'UPDATE',
-            'contenttype'   => 'showcases',
-            'contentid'     => 1,
-            'diff'          => '{"video":["{\"url\":\"http://example.com\"}","{\"url\":\"http://example.com/2\"}"]}',
-            'comment'       => 'test update'
-        ));
+        $cl = new ChangeLogItem(
+            $app,
+            array(
+                'id'            => 5,
+                'date'          => date('Y-m-d'),
+                'title'         => 'test',
+                'mutation_type' => 'UPDATE',
+                'contenttype'   => 'showcases',
+                'contentid'     => 1,
+                'diff'          => '{"video":["{\"url\":\"http://example.com\"}","{\"url\":\"http://example.com/2\"}"]}',
+                'comment'       => 'test update'
+            )
+        );
 
         $changes = $cl->changedfields;
         $this->assertEquals('http://example.com', $changes['video']['before']['render']['url']);
@@ -147,16 +162,19 @@ class ChangeLogItemTest extends BoltUnitTest
     {
         $app = $this->getApp();
 
-        $cl = new ChangeLogItem($app, array(
-            'id'            => 5,
-            'date'          => date('Y-m-d'),
-            'title'         => 'test',
-            'mutation_type' => 'UPDATE',
-            'contenttype'   => 'showcases',
-            'contentid'     => 1,
-            'diff'          => '{"geolocation":["{\"address\":\"1 My Street\"}","{\"address\":\"2 My Street\"}"]}',
-            'comment'       => 'test geo'
-        ));
+        $cl = new ChangeLogItem(
+            $app,
+            array(
+                'id'            => 5,
+                'date'          => date('Y-m-d'),
+                'title'         => 'test',
+                'mutation_type' => 'UPDATE',
+                'contenttype'   => 'showcases',
+                'contentid'     => 1,
+                'diff'          => '{"geolocation":["{\"address\":\"1 My Street\"}","{\"address\":\"2 My Street\"}"]}',
+                'comment'       => 'test geo'
+            )
+        );
 
         $changes = $cl->changedfields;
         $this->assertEquals('1 My Street', $changes['geolocation']['before']['render']['address']);
@@ -167,16 +185,19 @@ class ChangeLogItemTest extends BoltUnitTest
     {
         $app = $this->getApp();
 
-        $cl = new ChangeLogItem($app, array(
-            'id'            => 5,
-            'date'          => date('Y-m-d'),
-            'title'         => 'test',
-            'mutation_type' => 'UPDATE',
-            'contenttype'   => 'showcases',
-            'contentid'     => 1,
-            'diff'          => '{"imagelist":["{\"filename\":\"test.jpg\"}","{\"filename\":\"test2.jpg\"}"]}',
-            'comment'       => 'test imagelist'
-        ));
+        $cl = new ChangeLogItem(
+            $app,
+            array(
+                'id'            => 5,
+                'date'          => date('Y-m-d'),
+                'title'         => 'test',
+                'mutation_type' => 'UPDATE',
+                'contenttype'   => 'showcases',
+                'contentid'     => 1,
+                'diff'          => '{"imagelist":["{\"filename\":\"test.jpg\"}","{\"filename\":\"test2.jpg\"}"]}',
+                'comment'       => 'test imagelist'
+            )
+        );
 
         $changes = $cl->changedfields;
         $this->assertEquals('test.jpg', $changes['imagelist']['before']['render']['filename']);
@@ -187,16 +208,19 @@ class ChangeLogItemTest extends BoltUnitTest
     {
         $app = $this->getApp();
 
-        $cl = new ChangeLogItem($app, array(
-            'id'            => 5,
-            'date'          => date('Y-m-d'),
-            'title'         => 'test',
-            'mutation_type' => 'UPDATE',
-            'contenttype'   => 'showcases',
-            'contentid'     => 1,
-            'diff'          => '{"image":["{\"file\":\"test.jpg\"}","{\"file\":\"test2.jpg\"}"]}',
-            'comment'       => 'test imagelist'
-        ));
+        $cl = new ChangeLogItem(
+            $app,
+            array(
+                'id'            => 5,
+                'date'          => date('Y-m-d'),
+                'title'         => 'test',
+                'mutation_type' => 'UPDATE',
+                'contenttype'   => 'showcases',
+                'contentid'     => 1,
+                'diff'          => '{"image":["{\"file\":\"test.jpg\"}","{\"file\":\"test2.jpg\"}"]}',
+                'comment'       => 'test imagelist'
+            )
+        );
 
         $changes = $cl->changedfields;
         $this->assertEquals('test.jpg', $changes['image']['before']['render']['file']);
@@ -207,16 +231,19 @@ class ChangeLogItemTest extends BoltUnitTest
     {
         $app = $this->getApp();
 
-        $cl = new ChangeLogItem($app, array(
-            'id'            => 5,
-            'date'          => date('Y-m-d'),
-            'title'         => 'test',
-            'mutation_type' => 'UPDATE',
-            'contenttype'   => 'showcases',
-            'contentid'     => 1,
-            'diff'          => '{"multiselect":["[\"val1\",\"val2\"]","[\"val3\",\"val4\"]"]}',
-            'comment'       => 'test multiselect'
-        ));
+        $cl = new ChangeLogItem(
+            $app,
+            array(
+                'id'            => 5,
+                'date'          => date('Y-m-d'),
+                'title'         => 'test',
+                'mutation_type' => 'UPDATE',
+                'contenttype'   => 'showcases',
+                'contentid'     => 1,
+                'diff'          => '{"multiselect":["[\"val1\",\"val2\"]","[\"val3\",\"val4\"]"]}',
+                'comment'       => 'test multiselect'
+            )
+        );
 
         $changes = $cl->changedfields;
         $this->assertEquals('val1', $changes['multiselect']['before']['render'][0]);
