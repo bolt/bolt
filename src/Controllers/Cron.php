@@ -302,6 +302,7 @@ class Cron extends Event
                 return strtotime('+1 year', $lastCronHour);
             }
         }
+
         return 0;
     }
 

@@ -67,13 +67,13 @@ class SystemHandler extends AbstractProcessingHandler
         ) {
             $trace = $e->getTrace();
             $source = json_encode(
-                    array(
-                        'file'     => $e->getFile(),
-                        'line'     => $e->getLine(),
-                        'class'    => $trace['class'],
-                        'function' => $trace['function']
-                    )
-                );
+                array(
+                    'file'     => $e->getFile(),
+                    'line'     => $e->getLine(),
+                    'class'    => $trace['class'],
+                    'function' => $trace['function']
+                )
+            );
         } elseif ($this->app['debug']) {
             $backtrace = debug_backtrace();
             $backtrace = $backtrace[3];

@@ -163,6 +163,7 @@ class Manager
         if ($log == 'change') {
             return $this->decodeChangeLog($rows);
         }
+
         return $rows;
     }
 

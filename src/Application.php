@@ -220,6 +220,7 @@ class Application extends Silex\Application
         // On 'after' attach the debug-bar, if debug is enabled.
         if (!($this['debug'] && ($this['session']->has('user') || $this['config']->get('general/debug_show_loggedoff')))) {
             error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_USER_DEPRECATED);
+
             return;
         }
 
@@ -325,7 +326,7 @@ class Application extends Silex\Application
 
         // Setup Swiftmailer, with the selected Mail Transport options: smtp or `mail()`.
         $this->register(new Silex\Provider\SwiftmailerServiceProvider());
-        
+
         if ($this['config']->get('general/mailoptions')) {
             // Use the preferred options. Assume it's SMTP, unless set differently.
             $this['swiftmailer.options'] = $this['config']->get('general/mailoptions');

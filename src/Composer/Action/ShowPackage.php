@@ -190,6 +190,7 @@ final class ShowPackage
                 'versions' => $versions
             ));
         }
+
         return null;
     }
 }

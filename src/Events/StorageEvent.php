@@ -102,6 +102,7 @@ class StorageEvent extends GenericEvent
         if ($this->hasArgument('create')) {
             return $this->getArgument('create');
         }
+
         return null;
     }
 }

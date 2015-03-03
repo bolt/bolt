@@ -196,6 +196,7 @@ class TwigExtension extends \Twig_Extension
         if ($this->safe || !$this->app['debug']) {
             return null;
         }
+
         return VarDumper::dump($var);
     }
 
@@ -237,6 +238,7 @@ class TwigExtension extends \Twig_Extension
         if ($this->safe || !$this->app['debug']) {
             return null;
         }
+
         return VarDumper::dump(debug_backtrace());
     }
 
@@ -939,7 +941,7 @@ class TwigExtension extends \Twig_Extension
         $path = $this->app['url_generator']->generate(
             'thumb',
             array(
-                'thumb' => round($width) . 'x' . round($height) . $scale . '/'. $filename,
+                'thumb' => round($width) . 'x' . round($height) . $scale . '/' . $filename,
             )
         );
 

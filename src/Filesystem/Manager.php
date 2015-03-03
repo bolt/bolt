@@ -16,20 +16,23 @@ class Manager extends MountManager
     public function __construct(Application $app)
     {
         $this->app = $app;
-        parent::__construct(array(
-            'root'       => $app['resources']->getPath('root'),
-            'app'        => $app['resources']->getPath('app'),
-            'default'    => $app['resources']->getPath('files'),
-            'files'      => $app['resources']->getPath('files'),
-            'config'     => $app['resources']->getPath('config'),
-            'theme'      => $app['resources']->getPath('themebase'),
-            'extensions' => $app['resources']->getPath('extensionspath'),
-        ));
+        parent::__construct(
+            array(
+                'root'       => $app['resources']->getPath('root'),
+                'app'        => $app['resources']->getPath('app'),
+                'default'    => $app['resources']->getPath('files'),
+                'files'      => $app['resources']->getPath('files'),
+                'config'     => $app['resources']->getPath('config'),
+                'theme'      => $app['resources']->getPath('themebase'),
+                'extensions' => $app['resources']->getPath('extensionspath'),
+            )
+        );
     }
 
     public function getFilesystem($prefix = null)
     {
         $prefix = isset($this->filesystems[$prefix]) ? $prefix : static::DEFAULT_PREFIX;
+
         return parent::getFilesystem($prefix);
     }
 

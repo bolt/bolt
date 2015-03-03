@@ -106,6 +106,7 @@ class ResourceManager
         $loaderPath = dirname($loader->findFile('Composer\\Autoload\\ClassLoader'));
         // Remove last vendor/* off loaderPath to get our root path
         list($rootPath) = explode('vendor', $loaderPath, -1);
+
         return $this->setPath('root', $rootPath);
     }
 

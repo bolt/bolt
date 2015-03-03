@@ -1150,6 +1150,7 @@ class Backend implements ControllerProviderInterface
             // Verify the current user has access to edit this user
             if (!$app['permissions']->isAllowedToManipulate($user, $currentuser)) {
                 $app['session']->getFlashBag()->add('error', Trans::__('You do not have the right privileges to edit that user.'));
+
                 return Lib::redirect('users');
             }
         } else {
@@ -1161,9 +1162,12 @@ class Backend implements ControllerProviderInterface
             0 => Trans::__('page.edit-users.activated.no')
         );
 
-        $roles = array_map(function ($role) {
-            return $role['label'];
-        }, $app['permissions']->getDefinedRoles());
+        $roles = array_map(
+            function ($role) {
+                return $role['label'];
+            },
+            $app['permissions']->getDefinedRoles()
+        );
 
         $form = $this->getUserForm($app, $user, true);
 
@@ -1190,22 +1194,24 @@ class Backend implements ControllerProviderInterface
                     'expanded' => true,
                     'multiple' => true,
                     'label'    => Trans::__('page.edit-users.label.assigned-roles')
-            ))
+                )
+            )
             ->add(
                 'lastseen',
                 'text',
                 array(
                     'disabled' => true,
                     'label'    => Trans::__('page.edit-users.label.last-seen')
-            ))
+                )
+            )
             ->add(
                 'lastip',
                 'text',
                 array(
                     'disabled' => true,
                     'label'    => Trans::__('page.edit-users.label.last-ip')
-            ))
-        ;
+                )
+            );
 
         // Set the validation
         $form = $this->setUserFormValidation($app, $form, true);
@@ -1338,9 +1344,12 @@ class Backend implements ControllerProviderInterface
                 $app['logger.system']->info(Trans::__('page.edit-users.log.user-added', array('%user%' => $user['displayname'])), array('event' => 'security'));
 
                 // Create a welcome email
-                $mailhtml = $app['render']->render('email/firstuser.twig', array(
-                    'sitename' => $app['config']->get('general/sitename')
-                ));
+                $mailhtml = $app['render']->render(
+                    'email/firstuser.twig',
+                    array(
+                        'sitename' => $app['config']->get('general/sitename')
+                    )
+                );
 
                 try {
                     // Send a welcome email
@@ -1454,6 +1463,7 @@ class Backend implements ControllerProviderInterface
         // Verify the current user has access to edit this user
         if (!$app['permissions']->isAllowedToManipulate($user, $currentuser)) {
             $app['session']->getFlashBag()->add('error', Trans::__('You do not have the right privileges to edit that user.'));
+
             return Lib::redirect('users');
         }
 
@@ -1550,12 +1560,16 @@ class Backend implements ControllerProviderInterface
             // Define the "Upload here" form.
             $form = $app['form.factory']
                 ->createBuilder('form')
-                ->add('FileUpload', 'file', array(
-                    'label' => Trans::__('Upload a file to this folder'),
-                    'attr'  => array(
+                ->add(
+                    'FileUpload',
+                    'file',
+                    array(
+                        'label' => Trans::__('Upload a file to this folder'),
+                        'attr'  => array(
                         'data-filename-placement' => 'inside',
-                        'title'                   => Trans::__('Select file …')))
+                        'title'                   => Trans::__('Select file …'))
                     )
+                )
                 ->getForm();
 
             // Handle the upload.
@@ -1937,6 +1951,7 @@ class Backend implements ControllerProviderInterface
 
         // Stop the 'stopwatch' for the profiler.
         $app['stopwatch']->stop('bolt.backend.before');
+
         return null;
     }
 
@@ -1956,45 +1971,66 @@ class Backend implements ControllerProviderInterface
 
         // Username goes first
         if ($addusername) {
-            $form->add('username', 'text', array(
-                'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min' => 2, 'max' => 32))),
-                'label'       => Trans::__('page.edit-users.label.username'),
-                'attr'        => array(
-                    'placeholder' => Trans::__('page.edit-users.placeholder.username')
+            $form->add(
+                'username',
+                'text',
+                array(
+                    'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min' => 2, 'max' => 32))),
+                    'label'       => Trans::__('page.edit-users.label.username'),
+                    'attr'        => array(
+                        'placeholder' => Trans::__('page.edit-users.placeholder.username')
+                    )
                 )
-            ));
+            );
         }
 
         // Add the other fields
-        $form->add('id', 'hidden')
-            ->add('password', 'password', array(
-                'required' => false,
-                'label'    => Trans::__('page.edit-users.label.password'),
-                'attr'     => array(
-                    'placeholder' => Trans::__('page.edit-users.placeholder.password')
+        $form
+            ->add('id', 'hidden')
+            ->add(
+                'password',
+                'password',
+                array(
+                    'required' => false,
+                    'label'    => Trans::__('page.edit-users.label.password'),
+                    'attr'     => array(
+                        'placeholder' => Trans::__('page.edit-users.placeholder.password')
+                    )
                 )
-
-            ))
-            ->add('password_confirmation', 'password', array(
-                'required' => false,
-                'label'    => Trans::__('page.edit-users.label.password-confirm'),
-                'attr'     => array(
-                    'placeholder' => Trans::__('page.edit-users.placeholder.password-confirm')
+            )
+            ->add(
+                'password_confirmation',
+                'password',
+                array(
+                    'required' => false,
+                    'label'    => Trans::__('page.edit-users.label.password-confirm'),
+                    'attr'     => array(
+                        'placeholder' => Trans::__('page.edit-users.placeholder.password-confirm')
+                    )
                 )
-            ))
-            ->add('email', 'text', array(
-                'constraints' => new Assert\Email(),
-                'label'       => Trans::__('page.edit-users.label.email'),
-                'attr'        => array(
-                    'placeholder' => Trans::__('page.edit-users.placeholder.email')
+            )
+            ->add(
+                'email',
+                'text',
+                array(
+                    'constraints' => new Assert\Email(),
+                    'label'       => Trans::__('page.edit-users.label.email'),
+                    'attr'        => array(
+                        'placeholder' => Trans::__('page.edit-users.placeholder.email')
+                    )
                 )
-            ))
-            ->add('displayname', 'text', array(
-                'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min' => 2, 'max' => 32))),
-                'label'       => Trans::__('page.edit-users.label.display-name'),
-                'attr'        => array(
-                    'placeholder' => Trans::__('page.edit-users.placeholder.displayname')))
-        );
+            )
+            ->add(
+                'displayname',
+                'text',
+                array(
+                    'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min' => 2, 'max' => 32))),
+                    'label'       => Trans::__('page.edit-users.label.display-name'),
+                    'attr'        => array(
+                        'placeholder' => Trans::__('page.edit-users.placeholder.displayname')
+                    )
+                )
+            );
 
         return $form;
     }

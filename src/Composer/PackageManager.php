@@ -475,6 +475,7 @@ class PackageManager
         if ($readme) {
             return $this->app['resources']->getUrl('async') . 'readme/' . $readme;
         }
+
         return null;
     }
 
@@ -495,6 +496,7 @@ class PackageManager
         if (is_readable($configfilepath)) {
             return Lib::path('fileedit', array('namespace' => 'config', 'file' => 'extensions/' . $configfilename));
         }
+
         return null;
     }
 

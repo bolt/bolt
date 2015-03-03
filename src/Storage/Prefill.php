@@ -32,6 +32,7 @@ class Prefill
     public function get($request, $base = 'http://loripsum.net/api/')
     {
         $uri = $base . ltrim($request, '/');
+
         return $this->client->get($uri, array('timeout' => 10))->send()->getBody(true);
     }
 }

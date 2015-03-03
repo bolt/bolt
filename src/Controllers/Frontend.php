@@ -87,6 +87,7 @@ class Frontend
 
         // Stop the 'stopwatch' for the profiler.
         $app['stopwatch']->stop('bolt.frontend.before');
+
         return null;
     }
 

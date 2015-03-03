@@ -147,16 +147,16 @@ class Permissions
         $userRoleNames[] = self::ROLE_OWNER;
 
         $self = $this;
-        return
-            array_combine(
-                $userRoleNames,
-                array_map(
-                    function ($roleName) use ($self) {
-                        return $self->getRole($roleName);
-                    },
-                    $userRoleNames
-                )
-            );
+
+        return array_combine(
+            $userRoleNames,
+            array_map(
+                function ($roleName) use ($self) {
+                    return $self->getRole($roleName);
+                },
+                $userRoleNames
+            )
+        );
     }
 
     /**
@@ -171,7 +171,7 @@ class Permissions
         $manipulatableRoles = array();
 
         foreach ($this->getDefinedRoles() as $roleName => $role) {
-            if ($this->checkPermission($currentUser['roles'],  'manipulate', 'roles-hierarchy', $roleName)) {
+            if ($this->checkPermission($currentUser['roles'], 'manipulate', 'roles-hierarchy', $roleName)) {
                 $manipulatableRoles[] = $roleName;
             }
         }
@@ -224,32 +224,38 @@ class Permissions
 
         $roleNames = array_unique($roleNames);
         if (in_array(Permissions::ROLE_ROOT, $roleNames)) {
-            $this->audit(sprintf(
-                'Granting "%s"%s to root user',
-                $permissionName,
-                $itemStr
-            ));
+            $this->audit(
+                sprintf(
+                    'Granting "%s"%s to root user',
+                    $permissionName,
+                    $itemStr
+                )
+            );
 
             return true;
         }
         foreach ($roleNames as $roleName) {
             if ($this->checkRolePermission($roleName, $permissionName, $type ?: 'global', $item)) {
-                $this->audit(sprintf(
-                    'Granting "%s"%s based on role %s',
-                    $permissionName,
-                    $itemStr,
-                    $roleName
-                ));
+                $this->audit(
+                    sprintf(
+                        'Granting "%s"%s based on role %s',
+                        $permissionName,
+                        $itemStr,
+                        $roleName
+                    )
+                );
 
                 return true;
             }
         }
-        $this->audit(sprintf(
-            'Denying "%s"%s; available roles: %s',
-            $permissionName,
-            $itemStr,
-            implode(', ', $roleNames)
-        ));
+        $this->audit(
+            sprintf(
+                'Denying "%s"%s; available roles: %s',
+                $permissionName,
+                $itemStr,
+                implode(', ', $roleNames)
+            )
+        );
 
         return false;
     }
@@ -295,6 +301,7 @@ class Permissions
         // Can current user manipulate role?
         if (is_string($role)) {
             $permissions = $this->app['config']->get("permissions/roles-hierarchy/$permissionName/$role", array());
+
             return in_array($roleName, $permissions);
         }
 
