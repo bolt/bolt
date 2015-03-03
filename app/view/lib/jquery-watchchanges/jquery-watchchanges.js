@@ -32,7 +32,7 @@
         this.each(function () {
             var formHash = $.data(this, 'formHash');
 
-            if (formHash != null && formHash !== $(this).serialize()) {
+            if (formHash !== null && formHash !== $(this).serialize()) {
                 hasChanged = true;
                 return false;
             }
