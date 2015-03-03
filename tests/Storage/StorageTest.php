@@ -41,7 +41,7 @@ class StorageTest extends BoltUnitTest
         $app = $this->getApp();
         $prefillMock = new LoripsumMock();
         $app['prefill'] = $prefillMock;
-        
+
         $app['config']->set('general/changelog/enabled', true);
         $storage = new Storage($app);
         $output = $storage->prefill(array('showcases'));

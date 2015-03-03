@@ -14,7 +14,7 @@ class UpdatePackageTest extends BoltUnitTest
     public function testRun()
     {
         $app = $this->getApp();
-        
+
         $action = new UpdatePackage($app);
         $result = $action->execute();
         $this->assertEquals(0, $result);

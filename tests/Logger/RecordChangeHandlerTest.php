@@ -17,51 +17,61 @@ class RecordChangeHandlerTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $app['config']->set('general/changelog/enabled', true);
-        
+
         $log = new Logger('logger.system');
         $handler = new RecordChangeHandler($app);
-        
+
         $mocker = new DoctrineMockBuilder();
         $db = $mocker->getConnectionMock();
         $app['db'] = $db;
-        
+
         $log->pushHandler($handler);
-        $log->addRecord(Logger::DEBUG, 'test', array(
-            'action' => 'UPDATE',
-            'old'    => array('title' => 'test'),
-            'new'    => array('title' => 'test2')
-        ));
+        $log->addRecord(
+            Logger::DEBUG,
+            'test',
+            array(
+                'action' => 'UPDATE',
+                'old'    => array('title' => 'test'),
+                'new'    => array('title' => 'test2')
+            )
+        );
         $this->assertEquals('bolt_log_change', \PHPUnit_Framework_Assert::readAttribute($handler, 'tablename'));
     }
-    
+
     public function testHandle()
     {
         $app = $this->getApp();
         $app['config']->set('general/changelog/enabled', true);
-        
+
         $log = new Logger('logger.system');
         $handler = new RecordChangeHandler($app);
-        
+
         $mocker = new DoctrineMockBuilder();
         $db = $mocker->getConnectionMock();
         $db->expects($this->once())
             ->method('insert')
             ->with(
                 $this->equalTo('bolt_log_change'),
-                $this->callback(function ($arg) {
-                    return isset($arg['diff']) && $arg['diff'] === '{"title":["test","test2"]}';
-                })
-        );
-        
+                $this->callback(
+                    function ($arg) {
+                        return isset($arg['diff']) && $arg['diff'] === '{"title":["test","test2"]}';
+                    }
+                )
+            );
+
         $app['db'] = $db;
-        
+
         $log->pushHandler($handler);
-        $log->addRecord(Logger::DEBUG, 'test', array(
-            'action'  => 'UPDATE',
-            'comment' => 'An Update',
-            'old'     => array('title' => 'test'),
-            'new'     => array('title' => 'test2')
-        ));
+        $log->addRecord(
+            Logger::DEBUG,
+            'test',
+            array(
+                'action'  => 'UPDATE',
+                'comment' => 'An Update',
+                'old'     => array('title' => 'test'),
+                'new'     => array('title' => 'test2')
+            )
+        );
     }
 
     public function testNotHandling()

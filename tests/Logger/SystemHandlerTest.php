@@ -20,50 +20,50 @@ class SystemHandlerTest extends BoltUnitTest
         $app['request'] = Request::createFromGlobals("/");
         $log = new Logger('logger.system');
         $handler = new SystemHandler($app);
-        
+
         $mocker = new DoctrineMockBuilder();
         $db = $mocker->getConnectionMock();
         $app['db'] = $db;
-        
+
         $log->pushHandler($handler);
         $log->addRecord(Logger::DEBUG, 'test', array('id' => 5, 'title' => 'test'));
         $this->assertEquals('bolt_log_system', \PHPUnit_Framework_Assert::readAttribute($handler, 'tablename'));
     }
-    
+
     public function testHandle()
     {
         $app = $this->getApp();
         $app['request'] = Request::createFromGlobals("/");
         $log = new Logger('logger.system');
         $log->pushHandler(new SystemHandler($app));
-        
+
         $mocker = new DoctrineMockBuilder();
         $db = $mocker->getConnectionMock();
         $db->expects($this->any())
             ->method('insert')
             ->with($this->equalTo("bolt_log_system"));
         $app['db'] = $db;
-        
+
         $log->addRecord(Logger::DEBUG, 'test', array('id' => 5, 'title' => 'test'));
     }
-    
+
     public function testHandleWithException()
     {
         $app = $this->getApp();
         $app['request'] = Request::createFromGlobals("/");
         $log = new Logger('logger.system');
         $log->pushHandler(new SystemHandler($app));
-        
+
         $mocker = new DoctrineMockBuilder();
         $db = $mocker->getConnectionMock();
         $db->expects($this->any())
             ->method('insert')
             ->with($this->equalTo("bolt_log_system"));
         $app['db'] = $db;
-        
+
         $log->addRecord(Logger::DEBUG, 'test', array('event' => '', 'exception' => new \Exception()));
     }
-    
+
     public function testNotHandling()
     {
         $app = $this->getApp();

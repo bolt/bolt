@@ -14,16 +14,16 @@ class ShowPackageTest extends BoltUnitTest
     public function testAvailable()
     {
         $app = $this->getApp();
-        
+
         $action = new ShowPackage($app);
         $result = $action->execute('available', 'gawain/clippy', '~2.0');
         $this->assertArrayHasKey('gawain/clippy', $result);
     }
-    
+
     public function testRootEnquiry()
     {
         $app = $this->getApp();
-        
+
         $action = new ShowPackage($app);
         $result = $action->execute('available', 'bolt/bolt', '~2.0', true);
         $this->assertArrayHasKey('bolt/bolt', $result);
