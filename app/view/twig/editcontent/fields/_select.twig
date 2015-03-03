@@ -18,7 +18,9 @@
     {% if ',' in lookupfield %}
         {% set lookupfield = lookupfield|split(',') %}
     {% endif %}
-    {% setcontent lookups = lookuptype order lookupfield nohydrate %}
+    {% set sortingorder = field.sort|default(lookupfield|first) %}
+    {% set querylimit = field.limit|default(500) %}
+    {% setcontent lookups = lookuptype order sortingorder nohydrate limit querylimit %}
     {% set values = lookups|selectfield(lookupfield, option.multiple, field.keys|default('id')) %}
 {% endif %}
 
@@ -34,6 +36,12 @@
     multiple:  option.multiple,
     name:      (option.multiple) ? key ~ '[]' : key,
 } %}
+
+{# If the field has autocomplete, we need to set our own style, and remove the class attribute. #}
+{% if field.autocomplete|default(false) %}
+    {% set attr_select = attr_select|merge({'class': ''}) %}
+    {% set attr_select = attr_select|merge({'style': 'width: 100%;'}) %}
+{% endif %}
 
 {#=== FIELDSET =======================================================================================================#}
 
@@ -65,5 +73,16 @@
         </div>
         {% endif %}
     </div>
+
+    {% if field.autocomplete|default(false) %}
+    <script>
+        $(function() {
+            $('#{{ key }}').select2({
+                placeholder: "{{ __('(none)') }}",
+                allowClear: true
+            });
+        });
+    </script>
+    {% endif %}
 
 </fieldset>
