@@ -210,7 +210,6 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
     {
         $package = $request->get('package');
         $version = $request->get('version');
-        $app['extensions.stats']->recordInstall($package, $version);
 
         $response = $app['extend.manager']->requirePackage(
             array(
@@ -220,6 +219,9 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
         );
 
         if ($response === 0) {
+            $app['extensions.stats']->recordInstall($package, $version);
+            $app['logger.system']->info("Installed $package $version", array('event' => 'extensions'));
+
             return new Response($app['extend.manager']->getOutput());
         } else {
             throw new PackageManagerException($app['extend.manager']->getOutput(), $response);
@@ -349,11 +351,14 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
      */
     public function update(Silex\Application $app, Request $request)
     {
-        $package = $request->get('package') ? array($request->get('package')) : array();
+        $package = $request->get('package') ? $request->get('package') : null;
+        $update = $package ? array($package) : array();
 
-        $response = $app['extend.manager']->updatePackage($package);
+        $response = $app['extend.manager']->updatePackage($update);
 
         if ($response === 0) {
+            $app['logger.system']->info("Updated $package", array('event' => 'extensions'));
+
             return new JsonResponse($app['extend.manager']->getOutput());
         } else {
             throw new PackageManagerException($app['extend.manager']->getOutput(), $response);
@@ -377,6 +382,8 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
         $response = $app['extend.manager']->removePackage(array($package));
 
         if ($response === 0) {
+            $app['logger.system']->info("Uninstalled $package", array('event' => 'extensions'));
+
             return new Response($app['extend.manager']->getOutput());
         } else {
             throw new PackageManagerException($app['extend.manager']->getOutput(), $response);
