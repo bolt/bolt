@@ -170,10 +170,36 @@ class Config
         }
 
         if ($value !== null) {
-            return $value;
+            return $this->doReplacements($value);
         }
 
         return $default;
+    }
+
+    /**
+     * replaces placeholders in config values %foo% will be resolved to $app['foo'] from the container
+     *
+     * @param mixed $value
+     * @return mixed
+     */
+    private function doReplacements($value)
+    {
+        if (!is_array($value) && ('%' !== substr($value,0,1) && '%' !== substr($value, -1, 1))) {
+            return $value;
+        }
+
+        if (is_array($value)) {
+            foreach ($value as $k => $v) {
+                $value[$k] = $this->doReplacements($v);
+            }
+            return $value;
+        }
+
+        if (is_string($value)) {
+            return $this->app[substr($value, 1,strlen($value)-2)];
+        }
+
+        return $value;
     }
 
     /**
