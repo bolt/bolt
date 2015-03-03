@@ -277,37 +277,40 @@ class Async implements ControllerProviderInterface
 
     public function tags(Silex\Application $app, $taxonomytype)
     {
-        $table = $app['config']->get('general/database/prefix', "bolt_");
+        $table = $app['config']->get('general/database/prefix', 'bolt_');
         $table .= 'taxonomy';
 
-        $results = $app['db']->fetchAll(
-            "SELECT DISTINCT $table.slug
-            FROM $table
-            WHERE taxonomytype = ?
-            ORDER BY slug ASC",
-            array($taxonomytype)
-        );
+        $query = $app['db']->createQueryBuilder()
+            ->select("DISTINCT $table.slug")
+            ->from($table)
+            ->where('taxonomytype = :taxonomytype')
+            ->orderBy('slug', 'ASC')
+            ->setParameters(array(
+                ':taxonomytype' => $taxonomytype
+            ));
+
+        $results = $query->execute()->fetchAll();
 
         return $app->json($results);
     }
 
     public function populartags(Silex\Application $app, Request $request, $taxonomytype)
     {
-        $table = $app['config']->get('general/database/prefix', "bolt_");
+        $table = $app['config']->get('general/database/prefix', 'bolt_');
         $table .= 'taxonomy';
 
-        $results = $app['db']->fetchAll(
-            "SELECT slug, COUNT(slug) AS count
-            FROM $table
-            WHERE taxonomytype = ?
-            GROUP BY slug
-            ORDER BY count DESC
-            LIMIT ?",
-            array(
-                $taxonomytype,
-                $request->query->getInt('limit', 20),
-            )
-        );
+        $query = $app['db']->createQueryBuilder()
+            ->select('slug, COUNT(slug) AS count')
+            ->from($table)
+            ->where('taxonomytype = :taxonomytype')
+            ->groupBy('slug')
+            ->orderBy('count', 'DESC')
+            ->setMaxResults($request->query->getInt('limit', 20))
+            ->setParameters(array(
+                ':taxonomytype' => $taxonomytype
+            ));
+
+        $results = $query->execute()->fetchAll();
 
         usort(
             $results,
