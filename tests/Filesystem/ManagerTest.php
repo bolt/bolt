@@ -68,6 +68,7 @@ class ManagerTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $app['resources']->setPath('files', __DIR__);
+
         return new Manager($app);
     }
 }

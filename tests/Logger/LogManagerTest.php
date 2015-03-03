@@ -95,6 +95,7 @@ class LogManagerTest extends BoltUnitTest
             ->will($this->returnCallback(
                 function ($query, $params) use (&$queries, $mocker) {
                     $queries[] = $query;
+
                     return $mocker->getStatementMock();
                 }
             ));
@@ -121,6 +122,7 @@ class LogManagerTest extends BoltUnitTest
             ->will($this->returnCallback(
                 function ($query, $params) use (&$queries, $mocker) {
                     $queries[] = $query;
+
                     return $mocker->getStatementMock();
                 }
             ));
@@ -155,6 +157,7 @@ class LogManagerTest extends BoltUnitTest
             ->will($this->returnCallback(
                 function ($query, $params) use (&$queries, $mocker) {
                     $queries[] = $query;
+
                     return $mocker->getStatementMock();
                 }
             ));

@@ -79,6 +79,7 @@ class DoctrineMockBuilder extends \PHPUnit_Framework_TestCase
         $mock->expects($this->any())
             ->method('expr')
             ->will($this->returnValue($exprmock));
+
         return $mock;
     }
 
