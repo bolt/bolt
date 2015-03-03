@@ -182,7 +182,7 @@ class Config
      * @param mixed $value
      * @return mixed
      */
-    private function doReplacements($value)
+    protected function doReplacements($value)
     {
         if (!is_array($value) && ('%' !== substr($value,0,1) && '%' !== substr($value, -1, 1))) {
             return $value;
