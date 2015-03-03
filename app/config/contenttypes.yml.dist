@@ -162,7 +162,8 @@ showcases:
             type: select
             values: entries/id,title
             postfix: "Select an entry"
-            class: wide
+            autocomplete: true
+            sort: title
     relations:
         entries:
             multiple: false
