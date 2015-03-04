@@ -476,6 +476,7 @@ module.exports = function(grunt) {
     require('load-grunt-tasks')(grunt);
 
     grunt.registerTask('libcssimg', 'Copy lib images & rebase urls', function() {
+        grunt.file.mkdir('img/lib');
     });
 
     /*** DEFAULT TASK:  Watches for changes of Bolts own css and js files ***/
