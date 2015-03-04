@@ -475,6 +475,9 @@ module.exports = function(grunt) {
 
     require('load-grunt-tasks')(grunt);
 
+    grunt.registerTask('libcssimg', 'Copy lib images & rebase urls', function() {
+    });
+
     /*** DEFAULT TASK:  Watches for changes of Bolts own css and js files ***/
     grunt.registerTask(
         'default',
@@ -508,6 +511,7 @@ module.exports = function(grunt) {
             // Install
             'copy:'      + 'installFonts',              // Copies fonts                   => view/fonts/*
             'cssmin:'    + 'installLibCss',             // Concats and min. library css   => view/css/lib.css
+            'libcssimg:' + '',                          // Copy lib images & rebase urls  => view/img/lib/*
             'concat:'    + 'installLibJs',              // Concats min. library scripts   => view/js/lib.min.js
             'uglify:'    + 'installLocaleDatepicker',   // Copies min. datepicker locale  => view/js/locale/datepicker/*
             'uglify:'    + 'installLocaleMoment',       // Copies min. moment.js locale   => view/js/locale/moment/*
