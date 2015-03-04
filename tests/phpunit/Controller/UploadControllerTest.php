@@ -16,8 +16,8 @@ class UploadControllerTest extends BoltUnitTest
 {
     public function setup()
     {
-        @mkdir(TEST_ROOT . '/tests/resources/files', 0777, true);
-        chmod(TEST_ROOT . '/tests/resources/files', 0777);
+        @mkdir(PHPUNIT_ROOT . '/resources/files', 0777, true);
+        chmod(PHPUNIT_ROOT . '/resources/files', 0777);
     }
 
     public function tearDown()
@@ -68,7 +68,7 @@ class UploadControllerTest extends BoltUnitTest
             array(
                 'files' => array(
                     array(
-                        'tmp_name' => TEST_ROOT . '/tests/resources/generic-logo-evil.exe',
+                        'tmp_name' => PHPUNIT_ROOT . '/resources/generic-logo-evil.exe',
                         'name'     => 'logo.exe'
                     )
                 )
@@ -108,7 +108,7 @@ class UploadControllerTest extends BoltUnitTest
             array(
                 'files' => array(
                     array(
-                        'tmp_name' => __DIR__ . '/resources/generic-logo.png',
+                        'tmp_name' => PHPUNIT_ROOT . '/resources/generic-logo.png',
                         'name'     => 'logo.png'
                     )
                 )
@@ -154,7 +154,7 @@ class UploadControllerTest extends BoltUnitTest
             array(),
             array(),
             array(
-                'files' => array(new UploadedFile(TEST_ROOT . '/tests/resources/generic-logo.png', 'logo.png'))
+                'files' => array(new UploadedFile(PHPUNIT_ROOT . '/resources/generic-logo.png', 'logo.png'))
             ),
             array()
         );
@@ -172,7 +172,7 @@ class UploadControllerTest extends BoltUnitTest
             array(
                 'files' => array(
                     array(
-                        'tmp_name' => TEST_ROOT . '/tests/resources/generic-logo.png',
+                        'tmp_name' => PHPUNIT_ROOT . '/resources/generic-logo.png',
                         'name'     => 'logo.png'
                     )
                 )

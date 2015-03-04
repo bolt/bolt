@@ -15,7 +15,7 @@ class BootstrapGeneratorTest extends BoltUnitTest
 
     public function setup()
     {
-        $this->workspace = TEST_ROOT . '/tests/resources';
+        $this->workspace = PHPUNIT_ROOT . '/resources';
         chdir($this->workspace);
     }
 

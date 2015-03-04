@@ -1,8 +1,8 @@
 paths:
-    tests: test
-    log: test/_log
-    data: test/_data
-    helpers: test/_helpers
+    tests: tests/codeception/
+    log: tests/codeception/_log
+    data: tests/codeception/_data
+    helpers: tests/codeception/_helpers
 settings:
     bootstrap: _bootstrap.php
     suite_class: \PHPUnit_Framework_TestSuite
@@ -18,4 +18,4 @@ modules:
             dsn: 'sqlite:app/database/bolt.db'
             user: ''
             password: ''
-            dump: 'test/_data/bolt.db.dump'
+            dump: 'tests/codeception/_data/bolt.db.dump'

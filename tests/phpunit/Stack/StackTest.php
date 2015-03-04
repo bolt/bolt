@@ -43,7 +43,7 @@ class StackTest extends BoltUnitTest
     public function testListFilter()
     {
         $app = $this->makeApp();
-        $app['resources']->setPath('files', TEST_ROOT . '/tests/resources/stack');
+        $app['resources']->setPath('files', PHPUNIT_ROOT . '/resources/stack');
         $app->initialize();
 
         $users = $this->getMock('Bolt\Users', array('getCurrentUser', 'saveUser'), array($app));

@@ -21,7 +21,7 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
         // Make sure we wipe the db file to start with a clean one
         if (is_readable(TEST_ROOT . '/bolt.db')) {
             unlink(TEST_ROOT . '/bolt.db');
-            copy(TEST_ROOT . '/tests/resources/db/bolt.db', TEST_ROOT . '/bolt.db');
+            copy(PHPUNIT_ROOT . '/resources/db/bolt.db', TEST_ROOT . '/bolt.db');
         }
     }
 
@@ -54,7 +54,7 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
             )
         );
         $bolt['session'] = $sessionMock;
-        $bolt['resources']->setPath('files', TEST_ROOT . '/tests/resources/files');
+        $bolt['resources']->setPath('files', PHPUNIT_ROOT . '/resources/files');
         $bolt['slugify'] = Slugify::create();
 
         return $bolt;

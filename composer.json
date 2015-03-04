@@ -63,7 +63,7 @@
     "autoload": {
         "psr-4": {
             "Bolt\\": "src",
-            "Bolt\\Tests\\": "tests"
+            "Bolt\\Tests\\": "tests/phpunit"
         }
     },
     "bin": ["app/nut"]
