@@ -37,7 +37,7 @@ class BoltDataCollector extends DataCollector
     public function collect(Request $request, Response $response, \Exception $exception = null)
     {
         $this->data = array(
-            'version'     => $this->app->getVersion(),
+            'version'     => $this->app->getVersion(false),
             'name'        => $this->app['bolt_name'],
             'fullversion' => 'Version: ' . $this->app->getVersion(true),
             'payoff'      => 'Sophisticated, lightweight & simple CMS',
