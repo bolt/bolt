@@ -277,7 +277,7 @@ class ResourceManager
         $this->setRequest("protocol", $protocol);
         $hostname = $request->server->get('HTTP_HOST');
         $this->setRequest('hostname', $hostname);
-        $current = $request->getPathInfo();
+        $current = $request->getBasePath() . $request->getPathInfo();
         $this->setUrl('current', $current);
         $this->setUrl('canonicalurl', sprintf('%s://%s%s', $protocol, $this->getRequest('canonical'), $current));
         $this->setUrl('currenturl', sprintf('%s://%s%s', $protocol, $hostname, $current));
