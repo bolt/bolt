@@ -495,6 +495,7 @@ module.exports = function(grunt) {
                 dest = url[1].replace(repl[to], 'img/lib/' + to + '-');
                 if (dest !== url[1]) {
                     if (!done[dest]) {
+                        grunt.file.copy(url[1].replace(/^\.\.\/lib\//, 'lib/'), dest);
                         done[dest] = 1;
                     }
                     break;
