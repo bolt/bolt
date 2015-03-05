@@ -1,6 +1,8 @@
 <?php
 namespace Bolt\Extensions;
 
+use Bolt\Exception\PackageManagerException;
+
 /**
  * Class to provide querying of the Bolt Extensions repo as a
  * service.
@@ -46,6 +48,9 @@ class ExtensionsInfoService
 
     public function execute($url, $params = array())
     {
+        if (!ini_get('allow_url_fopen')) {
+            throw new PackageManagerException('Please enable "allow_url_fopen" in your php.ini file to use extensions');
+        }
         $endpoint = rtrim($this->site, '/') . '/' . ltrim($url, '/') . '?' . http_build_query($params);
         $endpoint = rtrim($endpoint, '?');
         try {
