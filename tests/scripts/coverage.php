@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Functionality to handle PHPUnit coverage comparision
+ *
+ * @author Gawain Lynch <gawain.lynch@gmail.com>
+ */
+
 namespace Bolt\Tests;
 
 use Guzzle\Http\Client as GuzzleClient;
@@ -29,6 +35,8 @@ class CoverageComparator
      *
      * @param string $output Target PHP file to output serialized resultst to
      * @param string $test   Test directory or file to run
+     *
+     * @return integer
      */
     public function runPhpUnitCoverage($output, $test = null)
     {
@@ -271,6 +279,8 @@ class Git
      * Get a GitHub PR's JSON
      *
      * @param integer $pr
+     *
+     * @return stdClass
      */
     public function getPr($pr)
     {
@@ -284,6 +294,8 @@ class Git
      *
      * @param string $name
      * @param string $url
+     *
+     * @return integer
      */
     public function addRemote($name, $url)
     {
@@ -308,6 +320,8 @@ class Git
      * Delete a git remote from the current git repo
      *
      * @param string $name
+     *
+     * @return integer
      */
     public function delRemote($name)
     {
@@ -333,6 +347,8 @@ class Git
      *
      * @param string $branch Branch
      * @param string $name   Remote name
+     *
+     * @return integer
      */
     public function checkoutBranch($branch, $name = null)
     {
@@ -364,6 +380,8 @@ class Git
      *
      * @param string $repo   Repository name
      * @param string $branch Branch name
+     *
+     * @return integer
      */
     public function pullBranch($remote = null, $branch = null)
     {
@@ -396,6 +414,8 @@ class Git
      * Checkout a remote's branch
      *
      * @param string $branch Branch
+     *
+     * @return integer
      */
     public function removeBranch($branch)
     {
@@ -420,6 +440,8 @@ class Git
 
     /**
      * Fetch all remote branches
+     *
+     * @return integer
      */
     public function fetchAll()
     {
