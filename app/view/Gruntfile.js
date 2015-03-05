@@ -115,11 +115,13 @@ module.exports = function(grunt) {
          */
         endline: {
             prepareCkeditor: {
-                files: {
-                    src: [
-                        'lib/ckeditor/**/*.js'
-                    ]
-                }
+                options: {
+                    replaced: true
+                },
+                src: [
+                    'lib/ckeditor/**/*.js'
+                ],
+                dest: false
             }
         },
 
