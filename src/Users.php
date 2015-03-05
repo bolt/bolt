@@ -42,7 +42,16 @@ class Users
         $this->authtokentable = $prefix . "authtoken";
         $this->users = array();
         $this->session = $app['session'];
-        $this->remoteIP = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : "";
+
+        // ip could be hidden by proxy
+        if (isset($_SERVER['HTTP_X_FORWARDED_FOR']) &&
+            isset($_SERVER['REMOTE_ADDR']) &&
+            in_array($_SERVER['REMOTE_ADDR'], $this->app['config']->get('general/trustProxies'))
+        ) {
+            $this->remoteIP = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        } else {
+            $this->remoteIP = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : "";
+        }
 
         // Set 'validsession', to see if the current session is valid.
         $this->validsession = $this->checkValidSession();
@@ -270,7 +279,7 @@ class Users
             'token'     => $this->getAuthToken($this->currentuser['username'], $salt),
             'salt'      => $salt,
             'validity'  => date('Y-m-d H:i:s', time() + $this->app['config']->get('general/cookies_lifetime')),
-            'ip'        => $_SERVER['REMOTE_ADDR'],
+            'ip'        => $this->remoteIP,
             'lastseen'  => date('Y-m-d H:i:s'),
             'useragent' => $_SERVER['HTTP_USER_AGENT']
         );
