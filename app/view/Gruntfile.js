@@ -352,7 +352,7 @@ module.exports = function(grunt) {
                 options: {
                     banner: "/**\n" +
                             " * These are Bolt's COMPILED JS files!\n" +
-                            " * You can edit files in <js/src/*.js> and run 'grunt' to generate this file.\n" +
+                            " * You can edit files in <lib/bolt/*.js> and run 'grunt' to generate this file.\n" +
                             " */",
                     sourceMap: true,
                     sourceMapName: 'js/maps/bolt.min.js.map'
@@ -382,28 +382,28 @@ module.exports = function(grunt) {
                     undef: true,        // Prohibits the use of undeclared variables
                     globals: {
                         // Bolt
-                        bolt: true,                 // src/console.js
-                        FilelistHolder: true,       // src/upload-files.js
-                        Files: true,                // src/obj-files.js
-                        Folders: true,              // src/obj-folders.js
-                        init: true,                 // src/init.js
-                        Moments: true,              // src/obj-moments.js
-                        Navpopups: true,            // src/obj-navpopups.js
-                        Sidebar: true,              // src/obj-sidebar.js
-                        Stack: true,                // src/obj-stack.js
-                        site: true,                 // src/extend.js/extend.twig
-                        baseurl: true,              // src/extend.js/extend.twig
-                        rootpath: true,             // src/extend.js/extend.twig
+                        bolt: true,                 // bolt/console.js
+                        FilelistHolder: true,       // bolt/upload-files.js
+                        Files: true,                // bolt/obj-files.js
+                        Folders: true,              // bolt/obj-folders.js
+                        init: true,                 // bolt/init.js
+                        Moments: true,              // bolt/obj-moments.js
+                        Navpopups: true,            // bolt/obj-navpopups.js
+                        Sidebar: true,              // bolt/obj-sidebar.js
+                        Stack: true,                // bolt/obj-stack.js
+                        site: true,                 // bolt/extend.js/extend.twig
+                        baseurl: true,              // bolt/extend.js/extend.twig
+                        rootpath: true,             // bolt/extend.js/extend.twig
                         // Bolt global functions
-                        bindFileUpload: true,       // src/bindfileuploads.js
-                        bindGeolocation: true,      // src/geolocation.js
-                        bindVideoEmbed: true,       // src/video-embed.js
-                        getSelectedItems: true,     // src/fnc-helpers.js
-                        makeUri: true,              // src/make-uri-slug.js
-                        makeUriAjax: true,          // src/make-uri-slug.js
-                        stopMakeUri: true,          // src/make-uri-slug.js
-                        updateLatestActivity: true, // src/activity.js
-                        validateContent: true,      // src/fnc-helpers.js
+                        bindFileUpload: true,       // bolt/bindfileuploads.js
+                        bindGeolocation: true,      // bolt/geolocation.js
+                        bindVideoEmbed: true,       // bolt/video-embed.js
+                        getSelectedItems: true,     // bolt/fnc-helpers.js
+                        makeUri: true,              // bolt/make-uri-slug.js
+                        makeUriAjax: true,          // bolt/make-uri-slug.js
+                        stopMakeUri: true,          // bolt/make-uri-slug.js
+                        updateLatestActivity: true, // bolt/activity.js
+                        validateContent: true,      // bolt/fnc-helpers.js
                         // Vendor
                         $: true,                    // jQuery
                         _: true,                    // underscore.js
