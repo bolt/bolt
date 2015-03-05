@@ -479,6 +479,7 @@ module.exports = function(grunt) {
         grunt.file.mkdir('img/lib');
 
         var css = grunt.file.read('css/lib.css'),
+            out = css,
             urls = /url\((.+?)\)/g,
             url,
             dest,
@@ -496,6 +497,10 @@ module.exports = function(grunt) {
                 if (dest !== url[1]) {
                     if (!done[dest]) {
                         grunt.file.copy(url[1].replace(/^\.\.\/lib\//, 'lib/'), dest);
+                        out = out.replace(
+                            new RegExp(('url(' + url[1] + ')').replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), 'g'),
+                            'url(../' + dest + ')'
+                        );
                         done[dest] = 1;
                     }
                     break;
@@ -507,6 +512,7 @@ module.exports = function(grunt) {
                 grunt.fail.warn('URL not handled: ' + url[1]);
             }
         }
+        grunt.file.write('css/lib.css', out);
     });
 
     /*** DEFAULT TASK:  Watches for changes of Bolts own css and js files ***/
