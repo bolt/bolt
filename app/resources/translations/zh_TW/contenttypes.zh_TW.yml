@@ -1,0 +1,136 @@
+# app/resources/translations/zh_CN/contenttypes.zh_CN.yml – generated on 2014-11-13 23:00:56 UTC
+
+# Warning: Translations are in the process of being moved to a new keyword-based translation
+#          at the moment. This is an ongoing process. Translations currently in the
+#          repository are automatically mapped to the new scheme. Be aware that there
+#          can be a race condition between that process and your PR so that it's
+#          eventually necessary to remap your translations. If you're planning on
+#          updating your translations, it's best to ask on IRC to time your contribution
+#          in order to prevent merge conflicts.
+
+#  no unused messages
+#  no untranslated messages
+#   1 untranslated keyword based messages
+#  no translations
+# 102 keyword based translations
+
+#--- 1 untranslated keyword based messages ------------------------------------
+
+"contenttypes.pages.group.content":  "內容"
+
+#--- 102 keyword based translations -------------------------------------------
+
+contenttypes:
+    entries:
+        description: "內容格式**條目**可用在類似於_'新聞'_或者_'博客文章'_這樣的模型。這些模型都含有可用於列表頁顯示的梗概，允許訪客點擊，跳轉到各個條目頁面。同時，它還有圖片和可選的視頻欄位。要更改這項內容格式的內部欄位，請用自己喜歡的編輯器編輯 `app/config/` 文件夾下的 `contenttypes.yml` 文件，或者打開左側的 '配置' » '內容格式' 菜單。"
+        group:
+            content: "內容"
+            media: "媒體"
+        name:
+            plural: "條目"
+            singular: "條目"
+        text:
+            actions-all: "對條目的操作"
+            actions-one: "對該條目的操作"
+            created: "創建此條目於"
+            delete: "刪除條目"
+            duplicate: "復制條目"
+            duplicated-finalize: "內容已復制。點擊 '保存條目' 以確認。"
+            edit: "編輯條目"
+            error-saving: "保存次條目時發生錯誤"
+            invalid-field: "未能設置條目的%field%欄位：欄位無效。"
+            last-modified: "最近修改的條目"
+            new: "新建條目"
+            no-latest: "無最新條目"
+            no-proper-type: "“條目(Entry)”的內容格式配置信息中，設置為'type: %type%'的欄位'%field%'不是合適的欄位類型(fieldtype)。請編輯contenttypes.yml文件，修復此問題。"
+            no-recent: "無歷史條目。"
+            none-available: "無可用條目。"
+            not-existing: "未找到你所尋找的條目，它可能已經被刪除，或者根本不存在。"
+            not-saved-yet: "本條目尚未保存。"
+            overview: "條目一覽"
+            publish: "發布條目"
+            recent: "最近條目"
+            recently-edited: "曾經編輯的條目"
+            reserved-name: "“條目(Entry)”的內容格式配置信息中，所設置的'%field%'欄位是保留字。請編輯contenttypes.yml文件，修復此問題。"
+            save: "保存條目"
+            saved-changes: "對此條目所做出的變更已經保存。"
+            saved-new: "已保存新條目。"
+            saving-impossible: "無法保存條目。"
+            show-more: "更多條目"
+            view: "查看條目"
+            wrong-use-field: "“條目(Entry)”的內容格式配置信息中，欄位'%field%'所設置的'uses: %uses%'中'%uses%'欄位並不存在。請編輯contenttypes.yml文件，修復此問題。"
+    pages:
+        description: "內容格式**頁面**可用在站點的 '靜態' 內容上，例如 _'關於我們'_, _'聯系信息'_ 或者 _'免責聲明'_。要更改這項內容格式的內部欄位，請用自己喜歡的編輯器編輯 `app/config/` 文件夾下的 `contenttypes.yml` 文件，或者打開左側的 '配置' » '內容格式' 菜單。"
+        name:
+            plural: "頁面"
+            singular: "頁面"
+        text:
+            actions-all: "對頁面的操作"
+            actions-one: "對該頁面的操作"
+            created: "創建此頁面於"
+            delete: "刪除頁面"
+            duplicate: "復制頁面"
+            duplicated-finalize: "內容已復制。點擊 '保存頁面' 以確認。"
+            edit: "編輯頁面"
+            error-saving: "保存次頁面時發生錯誤"
+            invalid-field: "未能設置頁面的%field%欄位：欄位無效。"
+            last-modified: "最近修改的頁面"
+            new: "新建頁面"
+            no-latest: "無最新頁面"
+            no-proper-type: "“頁面(Page)”的內容格式配置信息中，設置為'type: %type%'的欄位'%field%'不是合適的欄位類型(fieldtype)。請編輯contenttypes.yml文件，修復此問題。"
+            no-recent: "無歷史頁面。"
+            none-available: "無可用頁面。"
+            not-existing: "未找到你所尋找的頁面，它可能已經被刪除，或者根本不存在。"
+            not-saved-yet: "本頁面尚未保存。"
+            overview: "頁面一覽"
+            publish: "發布頁面"
+            recent: "最近頁面"
+            recently-edited: "曾經編輯的頁面"
+            reserved-name: "“頁面(Page)”的內容格式配置信息中，所設置的'%field%'欄位是保留字。請編輯contenttypes.yml文件，修復此問題。"
+            save: "保存頁面"
+            saved-changes: "對此頁面所做出的變更已經保存。"
+            saved-new: "已保存新頁面。"
+            saving-impossible: "無法保存頁面。"
+            show-more: "更多頁面"
+            view: "查看頁面"
+            wrong-use-field: "“頁面(Page)”的內容格式配置信息中，欄位'%field%'所設置的'uses: %uses%'中'%uses%'欄位並不存在。請編輯contenttypes.yml文件，修復此問題。"
+    showcases:
+        description: "內容格式**展區**用來展示系統中所有可用的欄位類型。在實際使用中，它的用途很小，但是可以用於找到可用的合適欄位。要更改(或者刪除)這項內容格式的內部欄位，請用自己喜歡的編輯器編輯 `app/config/` 文件夾下的 `contenttypes.yml` 文件，或者打開左側的 '配置' » '內容格式' 菜單。"
+        group:
+            files: "文件"
+            media: "媒體"
+            other: "其他"
+            text: "文本"
+        name:
+            plural: "展區"
+            singular: "展區"
+        text:
+            actions-all: "對展區的操作"
+            actions-one: "對該展區的操作"
+            created: "創建此展區於"
+            delete: "刪除展區"
+            duplicate: "復制展區"
+            duplicated-finalize: "內容已復制。點擊 '保存展區' 以確認。"
+            edit: "編輯展區"
+            error-saving: "保存次展區時發生錯誤"
+            invalid-field: "未能設置展區的%field%欄位：欄位無效。"
+            last-modified: "最近修改的展區"
+            new: "新建展區"
+            no-latest: "無最新展區"
+            no-proper-type: "“展區(Showcase)”的內容格式配置信息中，設置為'type: %type%'的欄位'%field%'不是合適的欄位類型(fieldtype)。請編輯contenttypes.yml文件，修復此問題。"
+            no-recent: "無歷史展區。"
+            none-available: "無可用展區。"
+            not-existing: "未找到你所尋找的展區，它可能已經被刪除，或者根本不存在。"
+            not-saved-yet: "本展區尚未保存。"
+            overview: "展區一覽"
+            publish: "發布展區"
+            recent: "最近展區"
+            recently-edited: "曾經編輯的展區"
+            reserved-name: "“展區(Showcase)”的內容格式配置信息中，所設置的'%field%'欄位是保留字。請編輯contenttypes.yml文件，修復此問題。"
+            save: "保存展區"
+            saved-changes: "對此展區所做出的變更已經保存。"
+            saved-new: "已保存新展區。"
+            saving-impossible: "無法保存展區。"
+            show-more: "更多展區"
+            view: "查看展區"
+            wrong-use-field: "“展區(Showcase)”的內容格式配置信息中，欄位'%field%'所設置的'uses: %uses%'中'%uses%'欄位並不存在。請編輯contenttypes.yml文件，修復此問題。"
