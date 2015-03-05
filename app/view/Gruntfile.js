@@ -477,6 +477,35 @@ module.exports = function(grunt) {
 
     grunt.registerTask('libcssimg', 'Copy lib images & rebase urls', function() {
         grunt.file.mkdir('img/lib');
+
+        var css = grunt.file.read('css/lib.css'),
+            urls = /url\((.+?)\)/g,
+            url,
+            dest,
+            to,
+            done = {},
+            repl = {
+                'jquery-ui':    /^\.\.\/lib\/jquery-ui-.+?\/images\/ui-/,
+                'select2':      /^\.\.\/lib\/select2\//,
+                'jquery-upl':   /^\.\.\/lib\/jquery-fileupload\/img\//,
+            };
+
+        while ((url = urls.exec(css)) !== null) {
+            for (to in repl) {
+                dest = url[1].replace(repl[to], 'img/lib/' + to + '-');
+                if (dest !== url[1]) {
+                    if (!done[dest]) {
+                        done[dest] = 1;
+                    }
+                    break;
+                } else {
+                    dest = false;
+                }
+            }
+            if (!dest && !url[1].match(/^data:/)) {
+                grunt.fail.warn('URL not handled: ' + url[1]);
+            }
+        }
     });
 
     /*** DEFAULT TASK:  Watches for changes of Bolts own css and js files ***/
