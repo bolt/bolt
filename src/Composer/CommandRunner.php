@@ -1,15 +1,15 @@
 <?php
 namespace Bolt\Composer;
 
+use Bolt\Library as Lib;
+use Bolt\Translation\Translator as Trans;
+use Composer\Console\Application as ComposerApp;
+use Guzzle\Http\Client as GuzzleClient;
+use Guzzle\Http\Exception\RequestException;
 use Silex;
 use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Composer\Console\Application as ComposerApp;
-use Guzzle\Http\Client as GuzzleClient;
-use Guzzle\Http\Exception\RequestException;
-use Bolt\Library as Lib;
-use Bolt\Translation\Translator as Trans;
 
 class CommandRunner
 {
@@ -413,10 +413,14 @@ class CommandRunner
             $json = json_decode((file_get_contents($this->packageRepo)));
             $this->available = $json->packages;
         } catch (\Exception $e) {
-            $this->messages[] = Trans::__(
-                'The Bolt extensions Repo at %repository% is currently unavailable. Check your connection and try again shortly.',
-                array('%repository%' => $this->packageRepo)
-            );
+            if (!ini_get('allow_url_fopen')) {
+                $this->messages[] = Trans::__('Please enable "allow_url_fopen" in your php.ini file to use extensions');
+            } else {
+                $this->messages[] = Trans::__(
+                    'The Bolt extensions Repo at %repository% is currently unavailable. Check your connection and try again shortly.',
+                    array('%repository%' => $this->packageRepo)
+                );
+            }
             $this->available = array();
         }
     }
