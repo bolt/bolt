@@ -148,7 +148,7 @@
     }
 
     &:hover > a,
-    :focus { 
+    a:focus {
         color: $sidebarlinkhover;
         background: $sidebarbackgroundhover;
     }
