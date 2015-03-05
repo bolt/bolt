@@ -475,6 +475,46 @@ module.exports = function(grunt) {
 
     require('load-grunt-tasks')(grunt);
 
+    grunt.registerTask('libcssimg', 'Copy lib images & rebase urls', function() {
+        var css = grunt.file.read('css/lib.css'),
+            out = css,
+            urls = /url\((.+?)\)/g,
+            repl = {
+                'jquery-ui':    /^\.\.\/lib\/jquery-ui-.+?\/images\/ui-/,
+                'select2':      /^\.\.\/lib\/select2\//,
+                'jquery-upl':   /^\.\.\/lib\/jquery-fileupload\/img\//
+            },
+            done = {},
+            url,
+            dest,
+            to;
+
+        grunt.file.mkdir('img/lib');
+
+        while ((url = urls.exec(css)) !== null) {
+            for (to in repl) {
+                dest = url[1].replace(repl[to], 'img/lib/' + to + '-');
+                if (dest !== url[1]) {
+                    if (!done[dest]) {
+                        grunt.file.copy(url[1].replace(/^\.\.\/lib\//, 'lib/'), dest);
+                        out = out.replace(
+                            new RegExp(('url(' + url[1] + ')').replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), 'g'),
+                            'url(../' + dest + ')'
+                        );
+                        done[dest] = 1;
+                    }
+                    break;
+                } else {
+                    dest = false;
+                }
+            }
+            if (!dest && !url[1].match(/^data:/)) {
+                grunt.fail.warn('URL not handled: ' + url[1]);
+            }
+        }
+        grunt.file.write('css/lib.css', out);
+    });
+
     /*** DEFAULT TASK:  Watches for changes of Bolts own css and js files ***/
     grunt.registerTask(
         'default',
@@ -508,6 +548,7 @@ module.exports = function(grunt) {
             // Install
             'copy:'      + 'installFonts',              // Copies fonts                   => view/fonts/*
             'cssmin:'    + 'installLibCss',             // Concats and min. library css   => view/css/lib.css
+            'libcssimg:' + '',                          // Copy lib images & rebase urls  => view/img/lib/*
             'concat:'    + 'installLibJs',              // Concats min. library scripts   => view/js/lib.min.js
             'uglify:'    + 'installLocaleDatepicker',   // Copies min. datepicker locale  => view/js/locale/datepicker/*
             'uglify:'    + 'installLocaleMoment',       // Copies min. moment.js locale   => view/js/locale/moment/*

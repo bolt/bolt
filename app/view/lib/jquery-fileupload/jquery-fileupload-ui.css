@@ -41,7 +41,7 @@
 }
 .files .ui-progressbar-value,
 .fileupload-buttonbar .ui-progressbar-value {
-  background: url(../img/progressbar.gif);
+  background: url(img/progressbar.gif);
 }
 .fileupload-buttonbar .fade,
 .files .fade {
@@ -52,7 +52,7 @@
   left: 50%;
   width: 128px;
   height: 128px;
-  background: url(../img/loading.gif) center no-repeat;
+  background: url(img/loading.gif) center no-repeat;
   display: none;
 }
 .fileupload-processing .fileupload-loading {
