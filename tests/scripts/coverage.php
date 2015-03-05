@@ -466,7 +466,7 @@ class Git
 if (!isset($_SERVER['argv'][1]) || !is_numeric($_SERVER['argv'][1])) {
     die("Minimum of a GitHub PR number is required as first argument\n");
 }
-$pr = $_SERVER['argv'][1];
+$prNum = $_SERVER['argv'][1];
 
 // Get the test, if any to run
 $test = null;
@@ -476,16 +476,16 @@ if (isset($_SERVER['argv'][2])) {
 
 // PHPUnit coverage files
 $beforeFile = sys_get_temp_dir() . '/coverage-before.php';
-$afterFile = sys_get_temp_dir() . '/coverage-after.php';
+$afterFile  = sys_get_temp_dir() . '/coverage-after.php';
 
 // Classes
-$gh = new Git();
-$cc = new CoverageComparator();
+$git = new Git();
+$comparator = new CoverageComparator();
 
 /*
  * Pull request data
  */
-$prDetails = $gh->getPr($pr);
+$prDetails    = $git->getPr($prNum);
 $remoteName   = 'bolt-fork-' . $prDetails->head->repo->id;
 $remoteUrl    = $prDetails->head->repo->clone_url;
 $remoteBranch = $prDetails->head->ref;
@@ -494,11 +494,11 @@ $remoteBranch = $prDetails->head->ref;
  * Master test
  */
 // Checkout and update master
-$gh->checkoutBranch('master');
-$gh->pullBranch('upstream', 'master');
+$git->checkoutBranch('master');
+$git->pullBranch('upstream', 'master');
 
 // Run test
-if ($cc->runPhpUnitCoverage($beforeFile, $test)) {
+if ($comparator->runPhpUnitCoverage($beforeFile, $test)) {
     die("Failed to run PHPUnit test against master");
 }
 
@@ -507,28 +507,28 @@ if ($cc->runPhpUnitCoverage($beforeFile, $test)) {
  */
 
 // Get PRs git remote and fetch all branches
-if ($gh->addRemote($remoteName, $remoteUrl)) {
-    $gh->fetchAll();
+if ($git->addRemote($remoteName, $remoteUrl)) {
+    $git->fetchAll();
 }
 
 // Checkout the PRs branch
-if ($gh->checkoutBranch($remoteBranch, $remoteName)) {
-    if ($cc->runPhpUnitCoverage($afterFile, $test)) {
-        $gh->checkoutBranch('master');
-        $gh->removeBranch($remoteBranch);
-        $gh->delRemote($remoteName);
+if ($git->checkoutBranch($remoteBranch, $remoteName)) {
+    if ($comparator->runPhpUnitCoverage($afterFile, $test)) {
+        $git->checkoutBranch('master');
+        $git->removeBranch($remoteBranch);
+        $git->delRemote($remoteName);
 
         die("Failed to run PHPUnit test against PR branch");
     }
 }
 
 // Clean up
-$gh->checkoutBranch('master');
-$gh->removeBranch($remoteBranch);
-$gh->delRemote($remoteName);
+$git->checkoutBranch('master');
+$git->removeBranch($remoteBranch);
+$git->delRemote($remoteName);
 
 // Get the comparison of runs
-$compare = $cc->compareCoverageStats($beforeFile, $afterFile);
+$compare = $comparator->compareCoverageStats($beforeFile, $afterFile);
 
 // Output results to STDOUT
-echo $cc->formatCoverageStats($compare), "\n";
+echo $comparator->formatCoverageStats($compare), "\n";
