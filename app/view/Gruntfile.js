@@ -476,20 +476,20 @@ module.exports = function(grunt) {
     require('load-grunt-tasks')(grunt);
 
     grunt.registerTask('libcssimg', 'Copy lib images & rebase urls', function() {
-        grunt.file.mkdir('img/lib');
-
         var css = grunt.file.read('css/lib.css'),
             out = css,
             urls = /url\((.+?)\)/g,
-            url,
-            dest,
-            to,
-            done = {},
             repl = {
                 'jquery-ui':    /^\.\.\/lib\/jquery-ui-.+?\/images\/ui-/,
                 'select2':      /^\.\.\/lib\/select2\//,
-                'jquery-upl':   /^\.\.\/lib\/jquery-fileupload\/img\//,
-            };
+                'jquery-upl':   /^\.\.\/lib\/jquery-fileupload\/img\//
+            },
+            done = {},
+            url,
+            dest,
+            to;
+
+        grunt.file.mkdir('img/lib');
 
         while ((url = urls.exec(css)) !== null) {
             for (to in repl) {
