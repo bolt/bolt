@@ -16,8 +16,6 @@
         "erusev/parsedown-extra": "~0.2",
         "ext-mbstring": "*",
         "ext-pdo": "*",
-        "ext-gd": "*",
-        "lib-curl": "*",
         "filp/whoops": "~1.1",
         "guzzle/guzzle": "~3.9",
         "hautelook/phpass": "~0.3",
