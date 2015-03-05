@@ -15,6 +15,7 @@
         "doctrine/dbal": "2.5.1",
         "erusev/parsedown-extra": "~0.2",
         "ext-mbstring": "*",
+        "ext-pdo": "*",
         "filp/whoops": "~1.1",
         "guzzle/guzzle": "~3.9",
         "hautelook/phpass": "~0.3",
