@@ -462,6 +462,17 @@ class Git
     }
 }
 
+if (isset($_SERVER['argv'][1]) &&
+    (isset($_SERVER['argv'][1]) === 'help' ||
+     isset($_SERVER['argv'][1]) === '--help' ||
+     isset($_SERVER['argv'][1]) === '-h')
+    ) {
+        echo "php tests/scripts/coverage.php [PR number] [test]\n\n";
+        echo "Where:\n";
+        echo "\t[PR number]\t- GitHub PR number (required)\n";
+        echo "\t[test]\t\t- Directory or file to limit tests to (optional)\n";
+}
+
 // Get the PR number to test
 if (!isset($_SERVER['argv'][1]) || !is_numeric($_SERVER['argv'][1])) {
     die("Minimum of a GitHub PR number is required as first argument\n");
@@ -499,7 +510,7 @@ $git->pullBranch('upstream', 'master');
 
 // Run test
 if ($comparator->runPhpUnitCoverage($beforeFile, $test)) {
-    die("Failed to run PHPUnit test against master");
+    die("Failed to run PHPUnit test against master\n");
 }
 
 /*
