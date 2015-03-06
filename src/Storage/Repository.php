@@ -25,6 +25,21 @@ abstract class Repository implements ObjectRepository
         $this->entityName  = $class;
         $this->prefix = $prefix;
     }
+    
+    /**
+     * Creates a new QueryBuilder instance that is prepopulated for this entity name.
+     *
+     * @param string $alias
+     * @param string $indexBy The index for the from.
+     *
+     * @return QueryBuilder
+     */
+    public function createQueryBuilder($alias, $indexBy = null)
+    {
+        return $this->em->createQueryBuilder()
+            ->select($alias)
+            ->from($this->getTableName(), $alias, $indexBy);
+    }
 
     /**
      * Finds an object by its primary key / identifier.
