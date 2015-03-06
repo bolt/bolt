@@ -450,7 +450,7 @@ class Git
      */
     public function removeBranch($branch)
     {
-        $this->output->write("<info>Removing $branch as a remote</info>", true);
+        $this->output->write("<info>Removing $branch</info>", true);
 
         $this->builder->setArguments(array('branch', '-D', $branch));
 
@@ -556,10 +556,14 @@ class CoverageCommand
     public function run()
     {
         // Sync and test master
-        $this->runTestsMaster();
+        if (!$this->runTestsMaster()) {
+            exit(1);
+        }
 
         // Checkout and test PR banch
-        $this->runTestsFork();
+        if (!$this->runTestsFork()) {
+            exit(1);
+        }
 
         // Get the comparison of runs
         $compare = $this->comparator->compareCoverageStats($this->beforeFile, $this->afterFile);
@@ -614,6 +618,8 @@ class CoverageCommand
 
     /**
      * Master test run
+     *
+     * @return boolean
      */
     private function runTestsMaster()
     {
@@ -622,14 +628,19 @@ class CoverageCommand
         $this->git->pullBranch('upstream', 'master');
 
         // Run test
-        if ($this->comparator->runPhpUnitCoverage($this->beforeFile, $this->test)) {
+        if ($this->comparator->runPhpUnitCoverage($this->beforeFile, $this->test) !== 0) {
             $this->output->write('<error>Failed to run PHPUnit test against master</error>', true);
-            exit(1);
+
+            return false;
         }
+
+        return true;
     }
 
     /**
      * Remote fork/branch tests
+     *
+     * @return boolean
      */
     private function runTestsFork()
     {
@@ -642,8 +653,10 @@ class CoverageCommand
         if ($this->git->addRemote($remoteName, $remoteUrl) === 0) {
             $this->git->fetchAll();
         } else {
+            $this->output->write('<error>Failed to add the remote</error>', true);
             $this->git->delRemote($remoteName);
-            exit(1);
+
+            return false;
         }
 
         // Checkout the PRs branch
@@ -651,12 +664,19 @@ class CoverageCommand
             if ($this->comparator->runPhpUnitCoverage($this->afterFile, $this->test) !== 0) {
                 $this->output->write('<error>Failed to run PHPUnit test against PR branch</error>', true);
             }
+
+            $result = true;
+        } else {
+            $result = false;
+            $this->output->write('<error>Failed to checkout remote branch</error>', true);
         }
 
         // Clean up
         $this->git->checkoutBranch('master');
         $this->git->removeBranch($remoteBranch);
         $this->git->delRemote($remoteName);
+
+        return $result;
     }
 }
 
