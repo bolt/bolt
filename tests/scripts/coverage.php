@@ -12,6 +12,7 @@ use Guzzle\Http\Client as GuzzleClient;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\ProcessBuilder;
+use Sirius\Validation\Rule\Integer;
 
 include realpath(__DIR__ . '/../../vendor/autoload.php');
 
@@ -472,84 +473,122 @@ class Git
     }
 }
 
-if (isset($_SERVER['argv'][1]) &&
-    (isset($_SERVER['argv'][1]) === 'help' ||
-     isset($_SERVER['argv'][1]) === '--help' ||
-     isset($_SERVER['argv'][1]) === '-h')
-    ) {
-        echo "php tests/scripts/coverage.php [PR number] [test]\n\n";
-        echo "Where:\n";
-        echo "\t[PR number]\t- GitHub PR number (required)\n";
-        echo "\t[test]\t\t- Directory or file to limit tests to (optional)\n";
-}
-
-// Get the PR number to test
-if (!isset($_SERVER['argv'][1]) || !is_numeric($_SERVER['argv'][1])) {
-    die("Minimum of a GitHub PR number is required as first argument\n");
-}
-$prNum = $_SERVER['argv'][1];
-
-// Get the test, if any to run
-$test = null;
-if (isset($_SERVER['argv'][2])) {
-    $test = 'tests/phpunit/' . str_replace('tests/phpunit/', '', $_SERVER['argv'][2]);
-}
-
-// PHPUnit coverage files
-$beforeFile = sys_get_temp_dir() . '/coverage-before.php';
-$afterFile  = sys_get_temp_dir() . '/coverage-after.php';
-
-// Classes
-$git = new Git();
-$comparator = new CoverageComparator();
-
-/*
- * Pull request data
+/**
+ * The command
+ *
+ * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-$prDetails    = $git->getPr($prNum);
-$remoteName   = 'bolt-fork-' . $prDetails->head->repo->id;
-$remoteUrl    = $prDetails->head->repo->clone_url;
-$remoteBranch = $prDetails->head->ref;
+class CoverageCommand
+{
+    /** @var integer */
+    private $prNum;
 
-/*
- * Master test
- */
-// Checkout and update master
-$git->checkoutBranch('master');
-$git->pullBranch('upstream', 'master');
+    /** @var string */
+    private $test = null;
 
-// Run test
-if ($comparator->runPhpUnitCoverage($beforeFile, $test)) {
-    die("Failed to run PHPUnit test against master\n");
-}
+    /** @var array */
+    private $args;
 
-/*
- * Remote tests
- */
+    /**
+     *
+     */
+    public function __construct()
+    {
+        $this->args = $_SERVER['argv'];
 
-// Get PRs git remote and fetch all branches
-if ($git->addRemote($remoteName, $remoteUrl)) {
-    $git->fetchAll();
-}
+        if (isset($this->args[1]) &&
+            (isset($this->args[1]) === 'help' ||
+                isset($this->args[1]) === '--help' ||
+                isset($this->args[1]) === '-h')
+        ) {
+            $this->help();
+        }
 
-// Checkout the PRs branch
-if ($git->checkoutBranch($remoteBranch, $remoteName)) {
-    if ($comparator->runPhpUnitCoverage($afterFile, $test)) {
+        // Get the PR number to test
+        if (!isset($this->args[1]) || !is_numeric($this->args[1])) {
+            die("Minimum of a GitHub PR number is required as first argument\n");
+        }
+        $this->prNum = $this->args[1];
+
+        // Get the test, if any to run
+        $this->test = null;
+        if (isset($this->args[2])) {
+            $this->test = 'tests/phpunit/' . str_replace('tests/phpunit/', '', $this->args[2]);
+        }
+    }
+
+    public function run()
+    {
+        // PHPUnit coverage files
+        $beforeFile = sys_get_temp_dir() . '/coverage-before.php';
+        $afterFile  = sys_get_temp_dir() . '/coverage-after.php';
+
+        // Classes
+        $git = new Git();
+        $comparator = new CoverageComparator();
+
+        /*
+         * Pull request data
+        */
+        $prDetails    = $git->getPr($prNum);
+        $remoteName   = 'bolt-fork-' . $prDetails->head->repo->id;
+        $remoteUrl    = $prDetails->head->repo->clone_url;
+        $remoteBranch = $prDetails->head->ref;
+
+        /*
+         * Master test
+         */
+        // Checkout and update master
+        $git->checkoutBranch('master');
+        $git->pullBranch('upstream', 'master');
+
+        // Run test
+        if ($comparator->runPhpUnitCoverage($beforeFile, $test)) {
+            die("Failed to run PHPUnit test against master\n");
+        }
+
+        /*
+         * Remote tests
+         */
+
+        // Get PRs git remote and fetch all branches
+        if ($git->addRemote($remoteName, $remoteUrl)) {
+            $git->fetchAll();
+        }
+
+        // Checkout the PRs branch
+        if ($git->checkoutBranch($remoteBranch, $remoteName)) {
+            if ($comparator->runPhpUnitCoverage($afterFile, $test)) {
+                $git->checkoutBranch('master');
+                $git->removeBranch($remoteBranch);
+                $git->delRemote($remoteName);
+
+                die("Failed to run PHPUnit test against PR branch");
+            }
+        }
+
+        // Clean up
         $git->checkoutBranch('master');
         $git->removeBranch($remoteBranch);
         $git->delRemote($remoteName);
 
-        die("Failed to run PHPUnit test against PR branch");
+        // Get the comparison of runs
+        $compare = $comparator->compareCoverageStats($beforeFile, $afterFile);
+
+        // Output results to STDOUT
+        echo $comparator->formatCoverageStats($compare), "\n";
+    }
+
+    private function help()
+    {
+        echo "php tests/scripts/coverage.php [PR number] [test]\n\n";
+        echo "Where:\n";
+        echo "\t[PR number]\t- GitHub PR number (required)\n";
+        echo "\t[test]\t\t- Directory or file to limit tests to (optional)\n";
+        exit;
     }
 }
 
-// Clean up
-$git->checkoutBranch('master');
-$git->removeBranch($remoteBranch);
-$git->delRemote($remoteName);
+$command = new CoverageCommand();
+$command->run();
 
-// Get the comparison of runs
-$compare = $comparator->compareCoverageStats($beforeFile, $afterFile);
-
-// Output results to STDOUT
-echo $comparator->formatCoverageStats($compare), "\n";
