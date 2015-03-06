@@ -432,6 +432,8 @@ class Application extends Silex\Application
         // Start the 'stopwatch' for the profiler.
         $this['stopwatch']->start('bolt.app.before');
 
+        $this['request.client_ip'] = $request->getClientIp();
+
         if ($response = $this['render']->fetchCachedRequest()) {
             // Stop the 'stopwatch' for the profiler.
             $this['stopwatch']->stop('bolt.app.before');

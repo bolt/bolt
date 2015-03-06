@@ -42,7 +42,7 @@ class Users
         $this->authtokentable = $prefix . "authtoken";
         $this->users = array();
         $this->session = $app['session'];
-        $this->remoteIP = $app['request']->getClientIp();
+        $this->remoteIP = isset($app['request.client_ip']) ? $app['request.client_ip'] : '127.0.0.1';
 
         // Set 'validsession', to see if the current session is valid.
         $this->validsession = $this->checkValidSession();
