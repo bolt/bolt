@@ -321,6 +321,8 @@ class Git
      */
     public function addRemote($name, $url)
     {
+        $this->output->write("<info>Adding $name as a remote</info>", true);
+
         // Build the process
         $process = $this->builder->setArguments(array('remote', 'add', $name, $url))
             ->getProcess()
@@ -347,6 +349,8 @@ class Git
      */
     public function delRemote($name)
     {
+        $this->output->write("<info>Deleting $name as a remote</info>", true);
+
         // Build the process
         $process = $this->builder->setArguments(array('remote', 'remove', $name))
             ->getProcess()
@@ -375,8 +379,10 @@ class Git
     public function checkoutBranch($branch, $name = null)
     {
         if ($name) {
+            $this->output->write("<info>Checking out $branch $name/$branch</info>", true);
             $this->builder->setArguments(array('checkout', '-b', $branch, "$name/$branch"));
         } else {
+            $this->output->write("<info>Checking out $branch</info>", true);
             $this->builder->setArguments(array('checkout', $branch));
         }
 
@@ -408,11 +414,14 @@ class Git
     public function pullBranch($remote = null, $branch = null)
     {
         if ($remote && $branch) {
+            $this->output->write("<info>Pulling $remote $branch</info>", true);
             $this->builder->setArguments(array('pull', $remote, $branch));
-        } elseif ($branch) {
+        } elseif ($remote) {
+            $this->output->write("<info>Pulling $remote</info>", true);
             $this->builder->setArguments(array('pull', $remote));
         } else {
-            $this->builder->setArguments(array('pull', $remote));
+            $this->output->write("<info>Pulling branches remote</info>", true);
+            $this->builder->setArguments(array('pull'));
         }
 
         // Build the process
@@ -441,6 +450,8 @@ class Git
      */
     public function removeBranch($branch)
     {
+        $this->output->write("<info>Removing $branch as a remote</info>", true);
+
         $this->builder->setArguments(array('branch', '-D', $branch));
 
         // Build the process
@@ -467,6 +478,8 @@ class Git
      */
     public function fetchAll()
     {
+        $this->output->write("<info>Fetching all</info>", true);
+
         $process = $this->builder->setArguments(array('fetch', '--all'))
             ->getProcess()
             ->enableOutput();
