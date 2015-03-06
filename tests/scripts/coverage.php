@@ -13,7 +13,7 @@ use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\ProcessBuilder;
-use Sirius\Validation\Rule\Integer;
+use Symfony\Component\Yaml\Parser;
 
 include realpath(__DIR__ . '/../../vendor/autoload.php');
 
@@ -279,11 +279,17 @@ class Git
     /** @var \Symfony\Component\Process\ProcessBuilder */
     private $builder;
 
+    /** @var array */
+    private $config;
+
     /**
      *
      */
     public function __construct()
     {
+        // Config
+        $this->getConfig();
+
         // Output
         $this->output = new ConsoleOutput();
 
@@ -295,6 +301,15 @@ class Git
 
         // Assume that `git` is in the path
         $this->builder->setPrefix('git');
+    }
+
+    public function getConfig()
+    {
+        $filename = __DIR__ . '/config.yml';
+        if (is_readable($filename)) {
+            $parser = new Parser();
+            $this->config = $parser->parse(file_get_contents($filename) . "\n");
+        }
     }
 
     /**
