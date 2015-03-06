@@ -7,6 +7,15 @@ namespace Bolt\Storage;
  */
 class NamingStrategy
 {
+    
+    public $prefix = ''; 
+    
+    public function __construct($prefix = 'bolt_')
+    {
+        if ($prefix) {
+            $this->prefix = $prefix;
+        }
+    }
 
     /**
      * Takes either a global or absolute class name and returns an underscored table name
@@ -19,7 +28,7 @@ class NamingStrategy
         
         $className = ltrim(strtolower(preg_replace('/[A-Z]/', '_$0', $input)), '_');
 
-        return $className;
+        return $this->prefix.$className;
     }
     
 }

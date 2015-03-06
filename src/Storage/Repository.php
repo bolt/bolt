@@ -11,7 +11,7 @@ abstract class Repository implements ObjectRepository
     
     public $em;
     public $entityName;
-    public $prefix;
+    public $namingStrategy;
     
     /**
      * Initializes a new <tt>Repository</tt>.
@@ -19,11 +19,13 @@ abstract class Repository implements ObjectRepository
      * @param EntityManager         $em    The EntityManager to use.
      * @param Mapping\ClassMetadata $class The class descriptor.
      */
-    public function __construct($em, $class, $prefix = 'bolt_')
+    public function __construct($em, $class, $namingStrategy = null)
     {
         $this->em         = $em;
         $this->entityName  = $class;
-        $this->prefix = $prefix;
+        if (null === $namingStrategy) {
+            $this->setNamingStrategy(new NamingStrategy());
+        }
     }
     
     /**
@@ -114,6 +116,8 @@ abstract class Repository implements ObjectRepository
     }
     
     /**
+     * 
+     * 
      * @return string
      */
     public function getTableName()
@@ -128,6 +132,17 @@ abstract class Repository implements ObjectRepository
     {
         return $this->em;
     }
+    
+    
+    /**
+     * @return EntityManager
+     */
+    protected function setNamingStrategy($handler)
+    {
+        return $this->namingStrategy = $handler;
+    }
+    
+    
     
 
 }
