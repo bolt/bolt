@@ -207,25 +207,6 @@ class ResourceManager
         return $this->urlPrefix . $this->urls[$name];
     }
 
-    /**
-     * Get the 'canonical URL' for the current page. You can pass in an optional string
-     * or a \Bolt\Content object.
-     *
-     * @param  string $path
-     *
-     * @return string
-     */
-    public function getCanonicalUrl($path = false) {
-
-        $base = parse_url($this->getUrl('canonical'));
-
-
-
-        dump($base);
-
-    }
-
-
     public function setRequest($name, $value)
     {
         $this->request[$name] = $value;
