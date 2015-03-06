@@ -499,28 +499,7 @@ class CoverageCommand
     public function __construct()
     {
         $this->output = new ConsoleOutput();
-        $this->args = $_SERVER['argv'];
-
-        if (isset($this->args[1]) &&
-            ($this->args[1] === 'help' ||
-             $this->args[1] === '--help' ||
-             $this->args[1] === '-h')
-        ) {
-            $this->help();
-        }
-
-        // Get the PR number to test
-        if (!isset($this->args[1]) || !is_numeric($this->args[1])) {
-            $this->output->write('<error>Minimum of a GitHub PR number is required as first argument</error>', true);
-            exit(1);
-        }
-        $this->prNum = $this->args[1];
-
-        // Get the test, if any to run
-        $this->test = null;
-        if (isset($this->args[2])) {
-            $this->test = 'tests/phpunit/' . str_replace('tests/phpunit/', '', $this->args[2]);
-        }
+        $this->getOpts();
     }
 
     public function run()
@@ -536,7 +515,7 @@ class CoverageCommand
         /*
          * Pull request data
         */
-        $prDetails    = $git->getPr($prNum);
+        $prDetails    = $git->getPr($this->prNum);
         $remoteName   = 'bolt-fork-' . $prDetails->head->repo->id;
         $remoteUrl    = $prDetails->head->repo->clone_url;
         $remoteBranch = $prDetails->head->ref;
@@ -549,7 +528,7 @@ class CoverageCommand
         $git->pullBranch('upstream', 'master');
 
         // Run test
-        if ($comparator->runPhpUnitCoverage($beforeFile, $test)) {
+        if ($comparator->runPhpUnitCoverage($beforeFile, $this->test)) {
             $this->output->write('<error>Failed to run PHPUnit test against master</error>', true);
             exit(1);
         }
@@ -565,7 +544,7 @@ class CoverageCommand
 
         // Checkout the PRs branch
         if ($git->checkoutBranch($remoteBranch, $remoteName)) {
-            if ($comparator->runPhpUnitCoverage($afterFile, $test)) {
+            if ($comparator->runPhpUnitCoverage($afterFile, $this->test)) {
                 $git->checkoutBranch('master');
                 $git->removeBranch($remoteBranch);
                 $git->delRemote($remoteName);
@@ -599,6 +578,32 @@ class CoverageCommand
             "<info>\t[test]\t\t- Directory or file to limit tests to (optional)</info>"
         ), true);
         exit;
+    }
+
+    private function getOpts()
+    {
+        $this->args = $_SERVER['argv'];
+
+        if (isset($this->args[1]) &&
+            ($this->args[1] === 'help' ||
+                $this->args[1] === '--help' ||
+                $this->args[1] === '-h')
+        ) {
+            $this->help();
+        }
+
+        // Get the PR number to test
+        if (!isset($this->args[1]) || !is_numeric($this->args[1])) {
+            $this->output->write('<error>Minimum of a GitHub PR number is required as first argument</error>', true);
+            exit(1);
+        }
+        $this->prNum = $this->args[1];
+
+        // Get the test, if any to run
+        $this->test = null;
+        if (isset($this->args[2])) {
+            $this->test = 'tests/phpunit/' . str_replace('tests/phpunit/', '', $this->args[2]);
+        }
     }
 }
 
