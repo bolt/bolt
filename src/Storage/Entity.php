@@ -78,6 +78,12 @@ abstract class Entity
     {
         return $this->serialize();
     }
+    
+    
+    public function getName()
+    {
+        return get_class($this);
+    }
 
 
 
