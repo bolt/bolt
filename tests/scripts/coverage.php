@@ -626,19 +626,17 @@ class CoverageCommand
         $remoteBranch = $prDetails->head->ref;
 
         // Get PRs git remote and fetch all branches
-        if ($this->git->addRemote($remoteName, $remoteUrl)) {
+        if ($this->git->addRemote($remoteName, $remoteUrl) === 0) {
             $this->git->fetchAll();
+        } else {
+            $this->git->delRemote($remoteName);
+            exit(1);
         }
 
         // Checkout the PRs branch
-        if ($this->git->checkoutBranch($remoteBranch, $remoteName)) {
-            if ($this->comparator->runPhpUnitCoverage($this->afterFile, $this->test)) {
-                $this->git->checkoutBranch('master');
-                $this->git->removeBranch($remoteBranch);
-                $this->git->delRemote($remoteName);
-
+        if ($this->git->checkoutBranch($remoteBranch, $remoteName) === 0) {
+            if ($this->comparator->runPhpUnitCoverage($this->afterFile, $this->test) !== 0) {
                 $this->output->write('<error>Failed to run PHPUnit test against PR branch</error>', true);
-                exit(1);
             }
         }
 
