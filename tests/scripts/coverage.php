@@ -24,9 +24,10 @@ include realpath(__DIR__ . '/../../vendor/autoload.php');
  */
 class CoverageComparator
 {
-    /**
-     * @var string Bolt's PHPUnit XML configuration file
-     */
+    /** @var \Symfony\Component\Console\Output\ConsoleOutput */
+    private $output;
+
+    /** @var string Bolt's PHPUnit XML configuration file */
     private $xmlfile;
 
     /**
@@ -34,6 +35,9 @@ class CoverageComparator
      */
     public function __construct()
     {
+        // Output
+        $this->output = new ConsoleOutput();
+
         $this->xmlfile = realpath(__DIR__ . '/../../phpunit.xml.dist');
     }
 
@@ -77,7 +81,7 @@ class CoverageComparator
         }
 
         if (!$process->isSuccessful()) {
-            die($process->getErrorOutput());
+            $this->output->write('<error>' . $process->getErrorOutput() . '</error>', true);
         }
 
         return $retval;
@@ -266,6 +270,9 @@ EOF;
  */
 class Git
 {
+    /** @var \Symfony\Component\Console\Output\ConsoleOutput */
+    private $output;
+
     /** @var \Guzzle\Http\Client */
     private $client;
 
@@ -277,6 +284,9 @@ class Git
      */
     public function __construct()
     {
+        // Output
+        $this->output = new ConsoleOutput();
+
         // Guzzle client
         $this->client = new GuzzleClient('https://api.github.com/repos/bolt/bolt/pulls/');
 
@@ -320,7 +330,7 @@ class Git
         $retval = $process->run();
 
         if (!$process->isSuccessful()) {
-            die($process->getErrorOutput());
+            $this->output->write('<error>' . $process->getErrorOutput() . '</error>', true);
         }
 
         echo $process->getOutput(), "\n";
@@ -346,7 +356,7 @@ class Git
         $retval = $process->run();
 
         if (!$process->isSuccessful()) {
-            die($process->getErrorOutput());
+            $this->output->write('<error>' . $process->getErrorOutput() . '</error>', true);
         }
 
         echo $process->getOutput(), "\n";
@@ -379,7 +389,7 @@ class Git
         $retval = $process->run();
 
         if (!$process->isSuccessful()) {
-            die($process->getErrorOutput());
+            $this->output->write('<error>' . $process->getErrorOutput() . '</error>', true);
         }
 
         echo $process->getOutput(), "\n";
@@ -414,7 +424,7 @@ class Git
         $retval = $process->run();
 
         if (!$process->isSuccessful()) {
-            die($process->getErrorOutput());
+            $this->output->write('<error>' . $process->getErrorOutput() . '</error>', true);
         }
 
         echo $process->getOutput(), "\n";
@@ -442,7 +452,7 @@ class Git
         $retval = $process->run();
 
         if (!$process->isSuccessful()) {
-            die($process->getErrorOutput());
+            $this->output->write('<error>' . $process->getErrorOutput() . '</error>', true);
         }
 
         echo $process->getOutput(), "\n";
@@ -465,7 +475,7 @@ class Git
         $retval = $process->run();
 
         if (!$process->isSuccessful()) {
-            die($process->getErrorOutput());
+            $this->output->write('<error>' . $process->getErrorOutput() . '</error>', true);
         }
 
         echo $process->getOutput(), "\n";
