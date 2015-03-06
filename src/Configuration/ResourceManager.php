@@ -207,6 +207,25 @@ class ResourceManager
         return $this->urlPrefix . $this->urls[$name];
     }
 
+    /**
+     * Get the 'canonical URL' for the current page. You can pass in an optional string
+     * or a \Bolt\Content object.
+     *
+     * @param  string $path
+     *
+     * @return string
+     */
+    public function getCanonicalUrl($path = false) {
+
+        $base = parse_url($this->getUrl('canonical'));
+
+
+
+        dump($base);
+
+    }
+
+
     public function setRequest($name, $value)
     {
         $this->request[$name] = $value;
@@ -279,21 +298,34 @@ class ResourceManager
         $this->setRequest('hostname', $hostname);
         $current = $request->getBasePath() . $request->getPathInfo();
         $this->setUrl('current', $current);
-        $this->setUrl('canonicalurl', sprintf('%s://%s%s', $protocol, $this->getRequest('canonical'), $current));
+        $this->setUrl('canonicalurl', sprintf('%s%s', $this->getRequest('canonical'), $current));
         $this->setUrl('currenturl', sprintf('%s://%s%s', $protocol, $hostname, $current));
         $this->setUrl('hosturl', sprintf('%s://%s', $protocol, $hostname));
-        $this->setUrl('rooturl', sprintf('%s://%s%s', $protocol, $this->getRequest('canonical'), $rootUrl));
+        $this->setUrl('rooturl', sprintf('%s%s', $this->getRequest('canonical'), $rootUrl));
     }
 
     /**
-     * Takes a Bolt Application and uses it to initialize settings that depend on the application config.
+     * Takes a Bolt Application and uses it to initialize settings that depend on the application
+     * config. Note: The protocol (scheme) defaults to 'http', and the path is discarded, as it
+     * makes no sense in this context: Bolt always determine the path for a page / record.
      *
      * @param \Bolt\Application $app
      */
-    public function initializeApp(Application $app)
+    public function initializeApp(Application $app, Request $request = null)
     {
-        $canonical = $app['config']->get('general/canonical', "");
-        $this->setRequest("canonical", $canonical);
+        $canonical = parse_url($app['config']->get('general/canonical', ""));
+
+        if (empty($canonical['scheme'])) {
+            $canonical['scheme'] = 'http';
+        }
+        if (empty($canonical['host'])) {
+            if ($request === null) {
+                $request = Request::createFromGlobals();
+            }
+            $canonical['host'] = $request->server->get('HTTP_HOST');
+        }
+
+        $this->setRequest("canonical", sprintf("%s://%s", $canonical['scheme'], $canonical['host']));
     }
 
     /**
@@ -310,7 +342,7 @@ class ResourceManager
 
     public function initialize()
     {
-        $this->initializeApp($this->app);
+        $this->initializeApp($this->app, $this->requestObject);
         $this->initializeRequest($this->requestObject);
         $this->postInitialize();
     }
