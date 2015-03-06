@@ -294,7 +294,7 @@ class Git
         $this->output = new ConsoleOutput();
 
         // Guzzle client
-        $this->client = new GuzzleClient('https://api.github.com/repos/bolt/bolt/pulls/');
+        $this->client = new GuzzleClient('https://api.github.com/repos/bolt/bolt/pulls/', $this->guzzleDefaults);
 
         // Symfony process
         $this->builder = new ProcessBuilder();
@@ -310,6 +310,11 @@ class Git
             $parser = new Parser();
             $this->config = $parser->parse(file_get_contents($filename) . "\n");
         }
+
+        $this->guzzledefaults = array();
+        if (isset($this->config['github']['token'])) {
+            $this->guzzleDefaults = array('query' => array('access_token' => $this->config['github']['token']));
+        }
     }
 
     /**
@@ -321,7 +326,7 @@ class Git
      */
     public function getPr($pr)
     {
-        $response = $this->client->get($pr)->send()->getBody();
+        $response = $this->client->get($pr, null, $this->guzzleDefaults)->send()->getBody();
 
         return json_decode($response);
     }
