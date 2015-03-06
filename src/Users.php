@@ -42,6 +42,8 @@ class Users
         $this->authtokentable = $prefix . "authtoken";
         $this->users = array();
         $this->session = $app['session'];
+
+        // Get the IP stored earlier in the request cycle. If it's missing we're on CLI so use localhost
         $this->remoteIP = isset($app['request.client_ip']) ? $app['request.client_ip'] : '127.0.0.1';
 
         // Set 'validsession', to see if the current session is valid.

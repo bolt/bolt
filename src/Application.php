@@ -432,8 +432,6 @@ class Application extends Silex\Application
         // Start the 'stopwatch' for the profiler.
         $this['stopwatch']->start('bolt.app.before');
 
-        $this['request.client_ip'] = $request->getClientIp();
-
         if ($response = $this['render']->fetchCachedRequest()) {
             // Stop the 'stopwatch' for the profiler.
             $this['stopwatch']->stop('bolt.app.before');
@@ -441,6 +439,9 @@ class Application extends Silex\Application
             // Short-circuit the request, return the HTML/response. YOLO.
             return $response;
         }
+
+        // Fetch and store the client IP so we can use it without breaking scope for unit tests.
+        $this['request.client_ip'] = $request->getClientIp();
 
         // Stop the 'stopwatch' for the profiler.
         $this['stopwatch']->stop('bolt.app.before');
