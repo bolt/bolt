@@ -15,6 +15,11 @@ use Symfony\Component\Process\ProcessBuilder;
 
 include realpath(__DIR__ . '/../../vendor/autoload.php');
 
+/**
+ * Class for doing comparisons of PHPUnit code coverage reports
+ *
+ * @author Gawain Lynch <gawain.lynch@gmail.com>
+ */
 class CoverageComparator
 {
     /**
@@ -252,6 +257,11 @@ EOF;
     }
 }
 
+/**
+ * Class for interacting with GIT
+ *
+ * @author Gawain Lynch <gawain.lynch@gmail.com>
+ */
 class Git
 {
     /** @var \Guzzle\Http\Client */
