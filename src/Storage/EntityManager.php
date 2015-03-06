@@ -3,12 +3,17 @@ namespace Bolt\Storage;
 
 use Doctrine\Common\EventManager;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Query\QueryBuilder;
 
 /**
  * Manages all loaded entities across application, provides access to Repository Classes.
  */
 class EntityManager
 {
+    
+    protected $conn;
+    
+    protected $eventManager;
     
     /**
      * Creates a new EntityManager that operates on the given database connection
@@ -17,12 +22,21 @@ class EntityManager
      * @param \Doctrine\DBAL\Connection     $conn
      * @param \Doctrine\Common\EventManager $eventManager
      */
-    protected function __construct(Connection $conn, EventManager $eventManager)
+    public function __construct(Connection $conn, EventManager $eventManager)
     {
         $this->conn              = $conn;
         $this->eventManager      = $eventManager;
 
     }
+    
+    /**
+     * 
+     */
+    public function createQueryBuilder()
+    {
+        return new QueryBuilder($this->conn);
+    }
+
 
     /**
      * Finds an object by its identifier.
