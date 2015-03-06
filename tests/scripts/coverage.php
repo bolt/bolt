@@ -9,6 +9,7 @@
 namespace Bolt\Tests;
 
 use Guzzle\Http\Client as GuzzleClient;
+use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\ProcessBuilder;
@@ -489,24 +490,29 @@ class CoverageCommand
     /** @var array */
     private $args;
 
+    /** @var \Symfony\Component\Console\Output\ConsoleOutput */
+    private $output;
+
     /**
      *
      */
     public function __construct()
     {
+        $this->output = new ConsoleOutput();
         $this->args = $_SERVER['argv'];
 
         if (isset($this->args[1]) &&
-            (isset($this->args[1]) === 'help' ||
-                isset($this->args[1]) === '--help' ||
-                isset($this->args[1]) === '-h')
+            ($this->args[1] === 'help' ||
+             $this->args[1] === '--help' ||
+             $this->args[1] === '-h')
         ) {
             $this->help();
         }
 
         // Get the PR number to test
         if (!isset($this->args[1]) || !is_numeric($this->args[1])) {
-            die("Minimum of a GitHub PR number is required as first argument\n");
+            $this->output->write('<error>Minimum of a GitHub PR number is required as first argument</error>', true);
+            exit(1);
         }
         $this->prNum = $this->args[1];
 
@@ -544,7 +550,8 @@ class CoverageCommand
 
         // Run test
         if ($comparator->runPhpUnitCoverage($beforeFile, $test)) {
-            die("Failed to run PHPUnit test against master\n");
+            $this->output->write('<error>Failed to run PHPUnit test against master</error>', true);
+            exit(1);
         }
 
         /*
@@ -563,7 +570,8 @@ class CoverageCommand
                 $git->removeBranch($remoteBranch);
                 $git->delRemote($remoteName);
 
-                die("Failed to run PHPUnit test against PR branch");
+                $this->output->write('<error>Failed to run PHPUnit test against PR branch</error>', true);
+                exit(1);
             }
         }
 
@@ -579,12 +587,17 @@ class CoverageCommand
         echo $comparator->formatCoverageStats($compare), "\n";
     }
 
+    /**
+     * Output help text
+     */
     private function help()
     {
-        echo "php tests/scripts/coverage.php [PR number] [test]\n\n";
-        echo "Where:\n";
-        echo "\t[PR number]\t- GitHub PR number (required)\n";
-        echo "\t[test]\t\t- Directory or file to limit tests to (optional)\n";
+        $this->output->write(array(
+            '<info>php tests/scripts/coverage.php [PR number] [test]</info>',
+            '<info>Where:</info>',
+            "<info>\t[PR number]\t- GitHub PR number (required)</info>",
+            "<info>\t[test]\t\t- Directory or file to limit tests to (optional)</info>"
+        ), true);
         exit;
     }
 }
