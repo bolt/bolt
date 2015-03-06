@@ -245,11 +245,23 @@ class ResourceManager
      *
      * @param Request $request
      */
-    public function initializeRequest(Request $request = null)
+    public function initializeRequest(Application $app, Request $request = null)
     {
         if ($request === null) {
             $request = Request::createFromGlobals();
         }
+
+        // This is where we set the canonical. Note: The protocol (scheme) defaults to 'http',
+        // and the path is discarded, as it makes no sense in this context: Bolt always
+        // determines the path for a page / record. This is not the canonical's job.
+        $canonical = parse_url($app['config']->get('general/canonical', ""));
+        if (empty($canonical['scheme'])) {
+            $canonical['scheme'] = 'http';
+        }
+        if (empty($canonical['host'])) {
+            $canonical['host'] = $request->server->get('HTTP_HOST');
+        }
+        $this->setRequest("canonical", sprintf("%s://%s", $canonical['scheme'], $canonical['host']));
 
         // Set the current protocol. Default to http, unless otherwise.
         $protocol = "http";
@@ -286,30 +298,6 @@ class ResourceManager
     }
 
     /**
-     * Takes a Bolt Application and uses it to initialize settings that depend on the application
-     * config. Note: The protocol (scheme) defaults to 'http', and the path is discarded, as it
-     * makes no sense in this context: Bolt always determine the path for a page / record.
-     *
-     * @param \Bolt\Application $app
-     */
-    public function initializeApp(Application $app, Request $request = null)
-    {
-        $canonical = parse_url($app['config']->get('general/canonical', ""));
-
-        if (empty($canonical['scheme'])) {
-            $canonical['scheme'] = 'http';
-        }
-        if (empty($canonical['host'])) {
-            if ($request === null) {
-                $request = Request::createFromGlobals();
-            }
-            $canonical['host'] = $request->server->get('HTTP_HOST');
-        }
-
-        $this->setRequest("canonical", sprintf("%s://%s", $canonical['scheme'], $canonical['host']));
-    }
-
-    /**
      * Takes a loaded config array and uses it to initialize settings that depend on it.
      *
      * @param array $config
@@ -323,8 +311,7 @@ class ResourceManager
 
     public function initialize()
     {
-        $this->initializeApp($this->app, $this->requestObject);
-        $this->initializeRequest($this->requestObject);
+        $this->initializeRequest($this->app, $this->requestObject);
         $this->postInitialize();
     }
 
