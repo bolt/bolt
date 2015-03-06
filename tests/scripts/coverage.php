@@ -493,77 +493,56 @@ class CoverageCommand
     /** @var \Symfony\Component\Console\Output\ConsoleOutput */
     private $output;
 
+    /** @var Git */
+    private $git;
+
+    /** @var CoverageComparator */
+    private $comparator;
+
+    /** @var string */
+    private $beforeFile;
+
+    /** @var string */
+    private $afterFile;
+
     /**
      *
      */
     public function __construct()
     {
-        $this->output = new ConsoleOutput();
+        // Options
         $this->getOpts();
+
+        // Output
+        $this->output = new ConsoleOutput();
+
+        // Git
+        $this->git = new Git();
+
+        // CoverageComparator
+        $this->comparator = new CoverageComparator();
+
+        // PHPUnit coverage files
+        $this->beforeFile = sys_get_temp_dir() . '/coverage-before.php';
+        $this->afterFile  = sys_get_temp_dir() . '/coverage-after.php';
     }
 
+    /**
+     * Run Forrest, RUN!
+     */
     public function run()
     {
-        // PHPUnit coverage files
-        $beforeFile = sys_get_temp_dir() . '/coverage-before.php';
-        $afterFile  = sys_get_temp_dir() . '/coverage-after.php';
+        // Sync and test master
+        $this->runTestsMaster();
 
-        // Classes
-        $git = new Git();
-        $comparator = new CoverageComparator();
-
-        /*
-         * Pull request data
-        */
-        $prDetails    = $git->getPr($this->prNum);
-        $remoteName   = 'bolt-fork-' . $prDetails->head->repo->id;
-        $remoteUrl    = $prDetails->head->repo->clone_url;
-        $remoteBranch = $prDetails->head->ref;
-
-        /*
-         * Master test
-         */
-        // Checkout and update master
-        $git->checkoutBranch('master');
-        $git->pullBranch('upstream', 'master');
-
-        // Run test
-        if ($comparator->runPhpUnitCoverage($beforeFile, $this->test)) {
-            $this->output->write('<error>Failed to run PHPUnit test against master</error>', true);
-            exit(1);
-        }
-
-        /*
-         * Remote tests
-         */
-
-        // Get PRs git remote and fetch all branches
-        if ($git->addRemote($remoteName, $remoteUrl)) {
-            $git->fetchAll();
-        }
-
-        // Checkout the PRs branch
-        if ($git->checkoutBranch($remoteBranch, $remoteName)) {
-            if ($comparator->runPhpUnitCoverage($afterFile, $this->test)) {
-                $git->checkoutBranch('master');
-                $git->removeBranch($remoteBranch);
-                $git->delRemote($remoteName);
-
-                $this->output->write('<error>Failed to run PHPUnit test against PR branch</error>', true);
-                exit(1);
-            }
-        }
-
-        // Clean up
-        $git->checkoutBranch('master');
-        $git->removeBranch($remoteBranch);
-        $git->delRemote($remoteName);
+        // Checkout and test PR banch
+        $this->runTestsFork();
 
         // Get the comparison of runs
-        $compare = $comparator->compareCoverageStats($beforeFile, $afterFile);
+        $compare = $this->comparator->compareCoverageStats($this->beforeFile, $this->afterFile);
 
         // Output results to STDOUT
-        echo $comparator->formatCoverageStats($compare), "\n";
+        echo $this->comparator->formatCoverageStats($compare), "\n";
     }
 
     /**
@@ -574,16 +553,20 @@ class CoverageCommand
         $this->output->write(array(
             '<info>php tests/scripts/coverage.php [PR number] [test]</info>',
             '<info>Where:</info>',
-            "<info>\t[PR number]\t- GitHub PR number (required)</info>",
-            "<info>\t[test]\t\t- Directory or file to limit tests to (optional)</info>"
+            '<info>    [PR number] - GitHub PR number (required)</info>',
+            '<info>    [test]      - Directory or file to limit tests to (optional)</info>'
         ), true);
         exit;
     }
 
+    /**
+     * Set our opts from argv
+     */
     private function getOpts()
     {
         $this->args = $_SERVER['argv'];
 
+        // Display simple help if requested
         if (isset($this->args[1]) &&
             ($this->args[1] === 'help' ||
                 $this->args[1] === '--help' ||
@@ -605,8 +588,56 @@ class CoverageCommand
             $this->test = 'tests/phpunit/' . str_replace('tests/phpunit/', '', $this->args[2]);
         }
     }
+
+    /**
+     * Master test run
+     */
+    private function runTestsMaster()
+    {
+        // Checkout and update master
+        $this->git->checkoutBranch('master');
+        $this->git->pullBranch('upstream', 'master');
+
+        // Run test
+        if ($this->comparator->runPhpUnitCoverage($this->beforeFile, $this->test)) {
+            $this->output->write('<error>Failed to run PHPUnit test against master</error>', true);
+            exit(1);
+        }
+    }
+
+    /**
+     * Remote fork/branch tests
+     */
+    private function runTestsFork()
+    {
+        $prDetails    = $this->git->getPr($this->prNum);
+        $remoteName   = 'bolt-fork-' . $prDetails->head->repo->id;
+        $remoteUrl    = $prDetails->head->repo->clone_url;
+        $remoteBranch = $prDetails->head->ref;
+
+        // Get PRs git remote and fetch all branches
+        if ($this->git->addRemote($remoteName, $remoteUrl)) {
+            $this->git->fetchAll();
+        }
+
+        // Checkout the PRs branch
+        if ($this->git->checkoutBranch($remoteBranch, $remoteName)) {
+            if ($this->comparator->runPhpUnitCoverage($this->afterFile, $this->test)) {
+                $this->git->checkoutBranch('master');
+                $this->git->removeBranch($remoteBranch);
+                $this->git->delRemote($remoteName);
+
+                $this->output->write('<error>Failed to run PHPUnit test against PR branch</error>', true);
+                exit(1);
+            }
+        }
+
+        // Clean up
+        $this->git->checkoutBranch('master');
+        $this->git->removeBranch($remoteBranch);
+        $this->git->delRemote($remoteName);
+    }
 }
 
 $command = new CoverageCommand();
 $command->run();
-
