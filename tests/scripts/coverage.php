@@ -326,9 +326,12 @@ class Git
      */
     public function getPr($pr)
     {
-        $response = $this->client->get($pr, null, $this->guzzleDefaults)->send()->getBody();
+        $response = $this->client->get($pr, null, $this->guzzleDefaults)->send();
+        $remaining = (string) $response->getHeader('X-RateLimit-Remaining');
+        $reset = date('Y-m-d H:i:s', (string) $response->getHeader('X-RateLimit-Reset'));
+        $this->output->write("<question>GitHub hourly requests remaining: {$remaining}. Reset at {$reset}</question>", true);
 
-        return json_decode($response);
+        return json_decode($response->getBody());
     }
 
     /**
