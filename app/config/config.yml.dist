@@ -37,8 +37,8 @@ cron_hour: 3
 
 # If your site is reachable under different urls (say, both blog.example.org/
 # as well as example.org/), it's a good idea to set one of these as the canonical,
-# so it's clear which is the primary address of the site. Don't include the
-# http:// protocol prefix. Enable the following line to define a canonical url.
+# so it's clear which is the primary address of the site. If you include `https://`,
+# it will be included in the canonical urls.
 #canonical: example.org
 
 # Bolt can insert a <link rel="shortcut icon"> for all pages on the site. Note
