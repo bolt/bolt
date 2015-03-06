@@ -191,8 +191,7 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('bolt.dev', $config->getRequest('hostname'));
         $this->assertEquals('http://bolt.dev/bolt', $config->getUrl('canonical'));
         $this->assertEquals('cli://bolt.dev', $config->getUrl('host'));
-        $this->assertEquals('cli://bolt.dev/', $config->getUrl('rooturl'));
-        $this->assertEquals('cli://bolt.dev/', $config->getUrl('rooturl'));
+        $this->assertEquals('http://bolt.dev/', $config->getUrl('rooturl'));
     }
 
     /**
@@ -250,7 +249,7 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
         $app = new Application(array('resources' => $config));
         $this->assertEquals('https', $config->getRequest('protocol'));
         $this->assertEquals('test.dev', $config->getRequest('hostname'));
-        $this->assertEquals('http://bolt.dev/bolt/test/location', $config->getUrl('canonical'));
+        $this->assertEquals('http://test.dev/bolt/test/location', $config->getUrl('canonical'));
     }
 
     public function testNonRootDirectory()
