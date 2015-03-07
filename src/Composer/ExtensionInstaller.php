@@ -1,19 +1,24 @@
 <?php
 namespace Bolt\Composer;
 
+use Composer\EventDispatcher\Event;
+use Composer\Installer\PackageEvent;
+use Composer\Script\Event as ScriptEvent;
+
 class ExtensionInstaller
 {
     /**
-     * @param \Composer\Script\Event $event
+     * Event handler for composer package events
+     *
+     * @param \Composer\EventDispatcher\Event $event
      */
-    public static function handle($event)
+    public static function handle(Event $event)
     {
-        try {
-            $installedPackage = $event->getComposer()->getPackage();
-        } catch (\Exception $e) {
+        if (!($event instanceof ScriptEvent || $event instanceof PackageEvent)) {
             return;
         }
 
+        $installedPackage = $event->getComposer()->getPackage();
         $rootExtra = $event->getComposer()->getPackage()->getExtra();
         $extra = $installedPackage->getExtra();
         if (isset($extra['bolt-assets'])) {
