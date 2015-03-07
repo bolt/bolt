@@ -3,6 +3,7 @@ Bolt 2.1 DEV-head
 
 Beta released on 2015-03-02. Notable changes:
 
+- Added: Allow for `https://` protocol in `canonical` setting in config.yml. (see #3044)
 - Added: Taiwanese (zh_TW) localisation. (#3022, thanks @Leon0824)
 - Fixed: Update CKEditor field objects if they exist on AJAX content saves. (See #2998)
 - Added: A logging record for extension update and uninstall (see #2993)
