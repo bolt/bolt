@@ -4,6 +4,7 @@ namespace Bolt\Tests\Storage;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Storage\EntityManager;
 use Bolt\Storage\Repository;
+use Bolt\Storage\Hydrator;
 use Bolt\Storage\Entity\AuthToken;
 
 /**
@@ -54,7 +55,25 @@ class RepositoryTest extends BoltUnitTest
         $repo = new Repository($em, $entityName);
         
         $result = $repo->find(1);
-        print_r($result); exit;
+
+        $this->assertInstanceOf($entityName, $result);
+    }
+    
+    public function testFindAll()
+    {
+        $app = $this->getApp();
+        $this->addDefaultUser($app);
+        $entityName = 'Bolt\Storage\Entity\Users';
+        
+        
+        $em = new EntityManager($app['db'], $app['db.event_manager']);
+        $repo = new Repository($em, $entityName);
+        $result = $repo->findAll();
+        
+        $this->assertTrue(is_array($result));
+        foreach ($result as $obj) {
+            $this->assertInstanceOf($entityName, $obj); 
+        }
     }
     
 

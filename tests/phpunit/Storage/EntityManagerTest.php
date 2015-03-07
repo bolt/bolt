@@ -3,6 +3,7 @@ namespace Bolt\Tests\Storage;
 
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Storage\EntityManager;
+use Bolt\Storage\Repository;
 
 /**
  * Class to test src/Storage/EntityManager.
@@ -16,9 +17,7 @@ class EntityManagerTest extends BoltUnitTest
         $app = $this->getApp();
         $em = new EntityManager($app['db'], $app['db.event_manager']);
         $this->assertSame($app['db'], \PHPUnit_Framework_Assert::readAttribute($em, 'conn'));
-        $this->assertSame($app['db.event_manager'], \PHPUnit_Framework_Assert::readAttribute($em, 'eventManager'));
-
-        
+        $this->assertSame($app['db.event_manager'], \PHPUnit_Framework_Assert::readAttribute($em, 'eventManager'));        
         
     }
     
@@ -29,6 +28,16 @@ class EntityManagerTest extends BoltUnitTest
         
         $qb = $em->createQueryBuilder();
         $this->assertInstanceOf('Doctrine\DBAL\Query\QueryBuilder', $qb);
+    }
+    
+    public function testGetRepository()
+    {
+        $app = $this->getApp();
+        $em = new EntityManager($app['db'], $app['db.event_manager']);
+        
+        $repo = $em->getRepository('Bolt\Storage\Entity\Users');
+        
+        $this->assertInstanceOf('Bolt\Storage\Repository', $repo);
     }
     
 }
