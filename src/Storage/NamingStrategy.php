@@ -31,4 +31,12 @@ class NamingStrategy
         return $this->prefix.$className;
     }
     
+    /**
+     * Auto generates a single char alias fo the query builder
+     */
+    public function classToAlias($className)
+    {
+        return substr($this->classToTableName($className), 0, 1);
+    }
+    
 }
