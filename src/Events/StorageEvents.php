@@ -18,4 +18,7 @@ final class StorageEvents
 
     const PRE_DELETE    = 'preDelete';
     const POST_DELETE   = 'postDelete';
+    
+    const PRE_HYDRATE    = 'preHydrate';
+    const POST_HYDRATE   = 'postHydrate';
 }
