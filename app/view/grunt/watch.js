@@ -8,7 +8,7 @@ module.exports = function(grunt, options) {
             livereload: true
         },
 
-        sass: {
+        boltCss: {
             files: [
                 'sass/**/*.scss'
             ],
