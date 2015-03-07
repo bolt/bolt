@@ -29,23 +29,6 @@ module.exports = function(grunt) {
         ],
 
         /*
-         * REMOVE: Remove directory and files
-         */
-        remove: {
-            prepareCkeditor: {
-                dirList: [
-                    'lib/ckeditor/adapters',
-                    'lib/ckeditor/samples'
-                ]
-            },
-            cleanupTmp: {
-                dirList: [
-                    'lib/tmp'
-                ]
-            }
-        },
-
-        /*
          * BOM: Byte Order Mark (BOM) removal
          */
         bom: {
