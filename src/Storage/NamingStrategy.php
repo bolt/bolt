@@ -22,21 +22,33 @@ class NamingStrategy
      */
     public function classToTableName($className)
     {
-        if (strpos($className, '\\') !== false) {
-            $className = substr($className, strrpos($className, '\\') + 1);
-        }
-        
-        $className = ltrim(strtolower(preg_replace('/[A-Z]/', '_$0', $input)), '_');
+        $className = $this->getRelativeClass($className);
+        $className = ltrim(strtolower(preg_replace('/[A-Z]/', '_$0', $className)), '_');
 
         return $this->prefix.$className;
     }
     
     /**
-     * Auto generates a single char alias fo the query builder
+     * Creates an automatic alias from a class name
      */
     public function classToAlias($className)
     {
-        return substr($this->classToTableName($className), 0, 1);
+        $className = $this->getRelativeClass($className);
+        return strtolower(preg_replace('/[^A-Z]/', '', $className));
     }
+    
+    
+    /**
+     * Returns a class name with namespaces removed.
+     */
+    public function getRelativeClass($className)
+    {
+        if (strpos($className, '\\') !== false) {
+            $className = substr($className, strrpos($className, '\\') + 1);
+        }
+        
+        return $className;   
+    }
+
     
 }

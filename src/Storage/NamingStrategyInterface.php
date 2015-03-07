@@ -16,10 +16,12 @@ interface NamingStrategyInterface
     public function classToTableName($className);
     
     /**
-     * Returns an alias for entity
+     * Returns a short alias for the entity
      * 
      * @return string
      */
     public function classToAlias($className);
+    
+
     
 }
