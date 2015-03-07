@@ -3,8 +3,8 @@
  */
 module.exports = {
     prepare: {
-        devFile: "remote",
-        outputFile: "lib/tmp/modernizr-custom.js",
+        devFile: 'remote',
+        outputFile: 'lib/tmp/modernizr-custom.js',
         extra: {
             touch: true,
             shiv: true,
