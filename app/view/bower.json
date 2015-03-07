@@ -22,6 +22,6 @@
         "jquery.tagcloud.js": "https://github.com/addywaddy/jquery.tagcloud.js.git",
         "underscore": "~1.7.0",
         "backbone": "~1.1.2",
-        "moment": "^2.9.0"
+        "moment": "~2.9.0"
     }
 }
