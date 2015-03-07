@@ -64,21 +64,6 @@ module.exports = function(grunt) {
         },
 
         /*
-         * ENDLINE: Adds a newline at end of a file
-         */
-        endline: {
-            prepareCkeditor: {
-                options: {
-                    replaced: true
-                },
-                src: [
-                    'lib/ckeditor/**/*.js'
-                ],
-                dest: false
-            }
-        },
-
-        /*
          * COPY: Copy files and folders
          */
         copy: {
