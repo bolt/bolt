@@ -6,7 +6,7 @@ use Bolt\Storage\Entity;
 /**
  * Entity for Auth Tokens.
  */
-class AuthToken extends Entity
+class Authtoken extends Entity
 {
     
     protected $id;
