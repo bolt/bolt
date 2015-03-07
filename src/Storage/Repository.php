@@ -6,7 +6,7 @@ use Doctrine\Common\Persistence\ObjectRepository;
 /**
  * An abstract class that other repositories can inherit.
  */
-abstract class Repository implements ObjectRepository
+class Repository implements ObjectRepository
 {
     
     public $em;
@@ -42,8 +42,8 @@ abstract class Repository implements ObjectRepository
             $alias = $this->getAlias();
         }
         return $this->em->createQueryBuilder()
-            ->select($alias)
-            ->from($this->getTableName(), $alias, $indexBy);
+            ->select($alias.".*")
+            ->from($this->getTableName(), $alias);
     }
 
     /**
@@ -55,7 +55,9 @@ abstract class Repository implements ObjectRepository
      */
     public function find($id)
     {
-        return $this->em->find($this->entityName, $id);
+        $qb = $this->createQueryBuilder();
+        
+        return $qb->execute()->fetch();
     }
 
     /**
@@ -86,20 +88,9 @@ abstract class Repository implements ObjectRepository
      */
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
-        $qb = $this->createQueryBuilder();
-        foreach ($criteria as $col=>$val) {
-            $qb->andWhere($this->getAlias().".$col = :$col");
-            $qb->setParameter(":$col", $val);
-        }
-        if ($orderBy) {
-            $qb->orderBy($orderBy[0], $orderBy[1]);
-        }
-        if ($limit) {
-            $qb->setMaxResults($limit);
-        }
-        if ($offset) {
-            $qb->setFirstResult($offset);
-        }
+        $qb = $this->findWithCriteria($criteria, $orderBy, $limit, $offset);
+        
+        return $qb->execute()->fetchAll();
     }
 
     /**
@@ -111,14 +102,40 @@ abstract class Repository implements ObjectRepository
      */
     public function findOneBy(array $criteria, array $orderBy = null)
     {
-        return $this->findBy($criteria, $orderBy, 1);
+        $qb = $this->findWithCriteria($criteria, $orderBy);
+        
+        return $qb->execute()->fetch();
+    }
+    
+    /**
+     * Internal method to build a basic select, returns QB object.
+     * 
+     * @return QueryBuilder.
+     */
+    protected function findWithCriteria(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    {
+        $qb = $this->createQueryBuilder();
+        foreach ($criteria as $col=>$val) {
+            $qb->andWhere($this->getTableName().".$col = :$col");
+            $qb->setParameter(":$col", $val);
+        }
+        if ($orderBy) {
+            $qb->orderBy($orderBy[0], $orderBy[1]);
+        }
+        if ($limit) {
+            $qb->setMaxResults($limit);
+        }
+        if ($offset) {
+            $qb->setFirstResult($offset);
+        }
+        return $qb;
     }
 
     
     /**
      * @return string
      */
-    protected function getEntityName()
+    public function getEntityName()
     {
         return $this->entityName;
     }
@@ -149,10 +166,11 @@ abstract class Repository implements ObjectRepository
         return $this->namingStrategy->classToAlias($this->getEntityName());
     }
 
+
     /**
      * @return EntityManager
      */
-    protected function getEntityManager()
+    public function getEntityManager()
     {
         return $this->em;
     }
@@ -161,7 +179,7 @@ abstract class Repository implements ObjectRepository
     /**
      * @return void
      */
-    protected function setNamingStrategy($handler)
+    public function setNamingStrategy($handler)
     {
         $this->namingStrategy = $handler;
     }
