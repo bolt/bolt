@@ -26,18 +26,8 @@ module.exports = function(grunt) {
             'lib/bolt/extend.js',
             'lib/bolt/init.js',
             'lib/bolt/start.js'
-        ],
+        ]
 
-        /*
-         * BOM: Byte Order Mark (BOM) removal
-         */
-        bom: {
-            prepareCkeditor: {
-                src: [
-                    'lib/ckeditor/**/*.js'
-                ]
-            }
-        }
     });
 
     require('load-grunt-config')(grunt);
