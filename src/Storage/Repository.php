@@ -36,8 +36,11 @@ abstract class Repository implements ObjectRepository
      *
      * @return QueryBuilder
      */
-    public function createQueryBuilder($alias, $indexBy = null)
+    public function createQueryBuilder($alias = null, $indexBy = null)
     {
+        if (null === $alias) {
+            $alias = $this->getAlias();
+        }
         return $this->em->createQueryBuilder()
             ->select($alias)
             ->from($this->getTableName(), $alias, $indexBy);
@@ -83,7 +86,20 @@ abstract class Repository implements ObjectRepository
      */
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
-        
+        $qb = $this->createQueryBuilder();
+        foreach ($criteria as $col=>$val) {
+            $qb->andWhere($this->getAlias().".$col = :$col");
+            $qb->setParameter(":$col", $val);
+        }
+        if ($orderBy) {
+            $qb->orderBy($orderBy[0], $orderBy[1]);
+        }
+        if ($limit) {
+            $qb->setMaxResults($limit);
+        }
+        if ($offset) {
+            $qb->setFirstResult($offset);
+        }
     }
 
     /**
@@ -93,9 +109,9 @@ abstract class Repository implements ObjectRepository
      *
      * @return object The object.
      */
-    public function findOneBy(array $criteria)
+    public function findOneBy(array $criteria, array $orderBy = null)
     {
-        
+        return $this->findBy($criteria, $orderBy, 1);
     }
 
     
@@ -117,12 +133,20 @@ abstract class Repository implements ObjectRepository
     
     /**
      * 
-     * 
      * @return string
      */
     public function getTableName()
     {
-        return $this->getEntityName();
+        return $this->namingStrategy->classToTableName($this->getEntityName());
+    }
+    
+    /**
+     * 
+     * @return string
+     */
+    public function getAlias()
+    {
+        return $this->namingStrategy->classToAlias($this->getEntityName());
     }
 
     /**
@@ -135,11 +159,11 @@ abstract class Repository implements ObjectRepository
     
     
     /**
-     * @return EntityManager
+     * @return void
      */
     protected function setNamingStrategy($handler)
     {
-        return $this->namingStrategy = $handler;
+        $this->namingStrategy = $handler;
     }
     
     
