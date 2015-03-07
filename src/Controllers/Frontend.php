@@ -187,7 +187,7 @@ class Frontend
 
         // Setting the canonical path and the editlink.
         $paths = $app['resources']->getPaths();
-        $app['resources']->setUrl('canonicalurl', sprintf('%s://%s%s', $paths['protocol'], $paths['canonical'], $content->link()));
+        $app['resources']->setUrl('canonicalurl', sprintf('%s%s', $paths['canonical'], $content->link()));
         $app['editlink'] = Lib::path('editcontent', array('contenttypeslug' => $contenttype['slug'], 'id' => $content->id));
         $app['edittitle'] = $content->getTitle();
 
