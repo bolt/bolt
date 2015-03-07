@@ -136,6 +136,86 @@ class Repository implements ObjectRepository
         return $qb;
     }
     
+    /**
+     * Deletes a single object.
+     *
+     * @param object $$object The entity to delete.
+     *
+     * @return bool.
+     */
+    public function delete($entity)
+    {
+        $qb = $this->em->createQueryBuilder()
+            ->delete($this->getTableName())
+            ->where("id = :id")
+            ->setParameter('id', $entity->getId());
+        
+        
+        return $qb->execute();
+    }
+    
+    /**
+     * Saves a single object.
+     *
+     * @param object $$object The entity to delete.
+     *
+     * @return bool.
+     */
+    public function save($entity)
+    {
+        $qb = $this->em->createQueryBuilder();
+        
+        try {
+            $existing = $entity->getId();
+        } catch (Exception $e) {
+            $existing = false;
+        }
+        
+        if ($existing) {
+            return $this->update($entity);
+        } else {
+            return $this->insert($entity);
+        }
+                
+    }
+    
+    /**
+     * Saves a new object into the database.
+     *
+     * @param object $$object The entity to insert.
+     *
+     * @return bool.
+     */
+    public function insert($entity)
+    {
+        $qb = $this->em->createQueryBuilder();
+        $qb->insert($this->getTableName());
+        foreach ($entity as $key=>$value) {
+            $qb->setValue($key, ":".$key);
+            $qb->setParameter($key, $value);
+        }
+        
+        return $qb->execute();
+    }
+    
+    /**
+     * Updates an object into the database.
+     *
+     * @param object $$object The entity to update.
+     *
+     * @return bool.
+     */
+    public function update($entity)
+    {
+        $qb = $this->em->createQueryBuilder();
+        $qb->update($this->getTableName());        
+        foreach ($entity as $key=>$value) {
+            $qb->set($key, ":".$key);
+            $qb->setParameter($key, $value);
+        }
+        
+        return $qb->execute();
+    }
     
     
     

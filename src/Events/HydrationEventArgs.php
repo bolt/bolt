@@ -1,6 +1,6 @@
 <?php
 
-namespace Bolt\Storage;
+namespace Bolt\Events;
 
 use Doctrine\Common\EventArgs;
 
