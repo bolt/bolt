@@ -15,6 +15,7 @@ use Sirius\Upload\Result\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class Upload implements ControllerProviderInterface, ServiceProviderInterface
 {
@@ -208,7 +209,7 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
 
         // If there's no active session, don't do anything.
         if (!$app['users']->isValidSession()) {
-            $app->abort(404, "You must be logged in to use this.");
+            $app->abort(Response::HTTP_NOT_FOUND, 'You must be logged in to use this.');
         }
 
         if (!$app['users']->isAllowed("files:uploads")) {
