@@ -118,7 +118,7 @@ module.exports = function(grunt, options) {
                 sourceMapName: 'js/maps/bolt.min.js.map'
             },
             files: {
-                'js/bolt.min.js': options.filesBoltJs
+                'js/bolt.min.js': options.files.boltJs
             }
         }
     };

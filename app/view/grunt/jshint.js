@@ -52,7 +52,7 @@ module.exports = function(grunt, options) {
                     moment: true                // moment.min.js
                 }
             },
-            src: options.filesBoltJs
+            src: options.files.boltJs
         }
     };
 };

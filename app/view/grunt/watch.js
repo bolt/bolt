@@ -18,7 +18,7 @@ module.exports = function(grunt, options) {
         },
 
         boltJs: {
-            files: options.filesBoltJs,
+            files: options.files.boltJs,
             tasks: [
                 'jshint:boltJs',
                 'uglify:boltJs'
