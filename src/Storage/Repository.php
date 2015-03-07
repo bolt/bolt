@@ -1,6 +1,8 @@
 <?php
 namespace Bolt\Storage;
+
 use Doctrine\Common\Persistence\ObjectRepository;
+use Bolt\Events\StorageEvents;
 
 
 /**
@@ -19,12 +21,15 @@ class Repository implements ObjectRepository
      * @param EntityManager         $em    The EntityManager to use.
      * @param Mapping\ClassMetadata $class The class descriptor.
      */
-    public function __construct($em, $class, $namingStrategy = null)
+    public function __construct($em, $class, $namingStrategy = null, $hydrator = null)
     {
         $this->em         = $em;
         $this->entityName  = $class;
         if (null === $namingStrategy) {
             $this->setNamingStrategy(new NamingStrategy());
+        }
+        if (null === $hydrator) {
+            $this->setHydrator(new Hydrator());
         }
     }
     
@@ -57,7 +62,7 @@ class Repository implements ObjectRepository
     {
         $qb = $this->createQueryBuilder();
         
-        return $qb->execute()->fetch();
+        return $this->hydrate($qb->execute()->fetch());
     }
 
     /**
@@ -90,7 +95,7 @@ class Repository implements ObjectRepository
     {
         $qb = $this->findWithCriteria($criteria, $orderBy, $limit, $offset);
         
-        return $qb->execute()->fetchAll();
+        return $this->hydrateAll($qb->execute()->fetchAll());
     }
 
     /**
@@ -104,7 +109,7 @@ class Repository implements ObjectRepository
     {
         $qb = $this->findWithCriteria($criteria, $orderBy);
         
-        return $qb->execute()->fetch();
+        return $this->hydrate($qb->execute()->fetch());
     }
     
     /**
@@ -130,6 +135,47 @@ class Repository implements ObjectRepository
         }
         return $qb;
     }
+    
+    
+    /**
+     * Internal method to hydrate an Entity Object from fetched data.
+     * 
+     * @return mixed.
+     */
+    protected function hydrate(array $data)
+    {
+        $args = new HydrationEventArgs($data, $this->getEntityName(), $this);
+        $this->getEntityManager()->getEventManager()->dispatchEvent(StorageEvents::PRE_HYDRATE, $args);
+        $entity = $this->hydrator->hydrate($data, $this->getEntityName());
+        $args = new HydrationEventArgs($data, $entity, $this);
+        $this->getEntityManager()->getEventManager()->dispatchEvent(StorageEvents::POST_HYDRATE, $args);
+        
+        return $entity;
+    }
+    
+    /**
+     * Internal method to hydrate an array of Entity Objects from fetched data.
+     * 
+     * @return mixed.
+     */
+    protected function hydrateAll(array $data)
+    {
+        $rows = array();
+        foreach ($data as $row) {
+           $rows[] = $this->hydrate($row); 
+        }
+        
+        return $rows;
+    }
+    
+    /**
+     * @return void
+     */
+    public function setHydrator($hydrator)
+    {
+        $this->hydrator = $hydrator;
+    }
+
 
     
     /**
