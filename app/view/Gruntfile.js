@@ -26,7 +26,23 @@ module.exports = function(grunt) {
             'lib/bolt/extend.js',
             'lib/bolt/init.js',
             'lib/bolt/start.js'
-        ]
+        ],
+
+        banner: {
+            boltJs: [
+                '/**',
+                ' * These are Bolt’s COMPILED JS files!',
+                ' * You can edit *.js files in <../lib/bolt/> and then run “grunt updateBolt” to generate this file.',
+                ' */'
+            ].join('\n'),
+            boltCss: [
+                '/**',
+                ' * These are Bolt’s COMPILED CSS files!',
+                ' * Do not edit these files, because all changes will be lost.',
+                ' * You can edit *.scss files in <../scss/> and then run “grunt updateBolt” to generate this file.',
+                ' */'
+            ].join('\n')
+        }
     };
 
     require('load-grunt-config')(grunt, {data: options});

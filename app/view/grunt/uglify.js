@@ -113,10 +113,7 @@ module.exports = function(grunt, options) {
 
         boltJs: {
             options: {
-                banner: "/**\n" +
-                        " * These are Bolt's COMPILED JS files!\n" +
-                        " * You can edit files in <lib/bolt/*.js> and run 'grunt' to generate this file.\n" +
-                        " */",
+                banner: options.banner.boltJs,
                 sourceMap: true,
                 sourceMapName: 'js/maps/bolt.min.js.map'
             },
