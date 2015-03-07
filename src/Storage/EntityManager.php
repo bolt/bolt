@@ -12,8 +12,8 @@ class EntityManager
 {
     
     protected $conn;
-    
     protected $eventManager;
+    protected $repositories;
     
     /**
      * Creates a new EntityManager that operates on the given database connection
@@ -50,7 +50,9 @@ class EntityManager
      */
     public function find($className, $id)
     {
+        $repo = $this->getRepository($className);
         
+        return $repo->find($id);
     }
 
     /**
@@ -106,7 +108,22 @@ class EntityManager
      */
     public function getRepository($className)
     {
+        if (array_key_exists($className, $this->repositories)) {
+            $repoClass = $this->repositories[$className];
+            return new $repoClass($this, $className);
+        } 
         
+        return new Repository($this, $className);
+    }
+    
+    /**
+     * Gets the Event Manager.
+     *
+     * @return \Doctrine\Common\EventManager
+     */
+    public function getEventManager()
+    {
+        return $this->eventManager;
     }
     
     
