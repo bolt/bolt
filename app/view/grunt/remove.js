@@ -1,19 +1,17 @@
 /*
  * REMOVE: Remove directory and files
  */
-module.exports = function(grunt, options) {
-    return {
-        prepareCkeditor: {
-            dirList: [
-                'lib/ckeditor/adapters',
-                'lib/ckeditor/samples'
-            ]
-        },
+module.exports = {
+    prepareCkeditor: {
+        dirList: [
+            'lib/ckeditor/adapters',
+            'lib/ckeditor/samples'
+        ]
+    },
 
-        cleanupTmp: {
-            dirList: [
-                'lib/tmp'
-            ]
-        }
-    };
+    cleanupTmp: {
+        dirList: [
+            'lib/tmp'
+        ]
+    }
 };
