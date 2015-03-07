@@ -66,7 +66,10 @@ class EntityManager
      */
     public function save($object)
     {
+        $entityName = get_class($object);
+        $repo = $this->getRepository($entityName);
         
+        return $repo->save($object);
     }
 
     /**
@@ -80,7 +83,10 @@ class EntityManager
      */
     public function delete($object)
     {
+        $entityName = get_class($object);
+        $repo = $this->getRepository($entityName);
         
+        return $repo->delete($object);
     }
 
 
