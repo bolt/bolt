@@ -2,10 +2,6 @@ module.exports = function(grunt) {
     grunt.util.linefeed = '\n';
 
     var options = {
-        pkg: grunt.file.readJSON('package.json'),
-
-        config: grunt.file.readYAML('../config/config.yml'),
-
         filesBoltJs: [
             'lib/bolt/console.js',
             'lib/bolt/fnc-helpers.js',
