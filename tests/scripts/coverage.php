@@ -556,11 +556,11 @@ class CoverageCommand
      */
     public function __construct()
     {
-        // Options
-        $this->getOpts();
-
         // Output
         $this->output = new ConsoleOutput();
+
+        // Options
+        $this->getOpts();
 
         // Git
         $this->git = new Git();
