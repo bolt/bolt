@@ -287,11 +287,11 @@ class Git
      */
     public function __construct()
     {
-        // Config
-        $this->getConfig();
-
         // Output
         $this->output = new ConsoleOutput();
+
+        // Config
+        $this->getConfig();
 
         // Guzzle client
         $this->client = new GuzzleClient('https://api.github.com/repos/bolt/bolt/pulls/', $this->guzzleDefaults);
@@ -556,11 +556,11 @@ class CoverageCommand
      */
     public function __construct()
     {
-        // Options
-        $this->getOpts();
-
         // Output
         $this->output = new ConsoleOutput();
+
+        // Options
+        $this->getOpts();
 
         // Git
         $this->git = new Git();
