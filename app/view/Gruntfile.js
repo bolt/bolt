@@ -64,26 +64,6 @@ module.exports = function(grunt) {
         },
 
         /*
-         * EOL: Convert line endings
-         */
-        eol: {
-            prepareCkeditor: {
-                options: {
-                    eol: 'lf',
-                    replace: true
-                },
-                files: {
-                    src: [
-                        'lib/ckeditor/**/*.js',
-                        'lib/ckeditor/**/*.css',
-                        'lib/ckeditor/**/*.md',
-                        'lib/ckeditor/**/*.txt'
-                    ]
-                }
-            }
-        },
-
-        /*
          * ENDLINE: Adds a newline at end of a file
          */
         endline: {
