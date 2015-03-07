@@ -287,11 +287,11 @@ class Git
      */
     public function __construct()
     {
-        // Config
-        $this->getConfig();
-
         // Output
         $this->output = new ConsoleOutput();
+
+        // Config
+        $this->getConfig();
 
         // Guzzle client
         $this->client = new GuzzleClient('https://api.github.com/repos/bolt/bolt/pulls/', $this->guzzleDefaults);
