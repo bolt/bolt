@@ -499,16 +499,16 @@ class Frontend
             return $app['twig']->render($template);
         } catch (\Twig_Error_Loader $e) {
             $error = sprintf(
-                "No template for '%s' defined. Tried to use '%s/%s'.",
+                'Rendering %s failed: %s',
                 $title,
-                basename($app['config']->get('general/theme')),
-                $template
+                $e->getMessage()
             );
 
+            // Log it
             $app['logger.system']->error($error, array('event' => 'twig'));
 
             // Abort ship
-            $app->abort(404, $error);
+            $app->abort(Response::HTTP_INTERNAL_SERVER_ERROR, $error);
         }
     }
 
