@@ -35,7 +35,7 @@ class EntityManagerTest extends BoltUnitTest
         $app = $this->getApp();
         $em = new EntityManager($app['db'], $app['db.event_manager']);
         
-        $repo = $em->getRepository('Bolt\Storage\Entity\Users');
+        $repo = $em->getRepository('Bolt\Entity\Users');
         
         $this->assertInstanceOf('Bolt\Storage\Repository', $repo);
     }

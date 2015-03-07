@@ -13,7 +13,7 @@ class EntityManager
     
     protected $conn;
     protected $eventManager;
-    protected $repositories;
+    protected $repositories = array();
     
     /**
      * Creates a new EntityManager that operates on the given database connection

@@ -1,7 +1,7 @@
 <?php
-namespace Bolt\Storage\Entity;
+namespace Bolt\Entity;
 
-use Bolt\Storage\Entity;
+use Bolt\Entity\Entity;
 
 /**
  * Entity for User.

@@ -18,7 +18,7 @@ class RepositoryTest extends BoltUnitTest
     public function testConstruct()
     {
         $app = $this->getApp();
-        $entityName = 'Bolt\Storage\Entity\Authtoken';
+        $entityName = 'Bolt\Entity\Authtoken';
         $em = new EntityManager($app['db'], $app['db.event_manager']);
         $repo = new Repository($em, $entityName);
         
@@ -28,7 +28,7 @@ class RepositoryTest extends BoltUnitTest
     public function testGetTableName()
     {
         $app = $this->getApp();
-        $entityName = 'Bolt\Storage\Entity\Authtoken';
+        $entityName = 'Bolt\Entity\Authtoken';
         $em = new EntityManager($app['db'], $app['db.event_manager']);
         $repo = new Repository($em, $entityName);
 
@@ -39,7 +39,7 @@ class RepositoryTest extends BoltUnitTest
     public function testGetEntityName()
     {
         $app = $this->getApp();
-        $entityName = 'Bolt\Storage\Entity\Authtoken';
+        $entityName = 'Bolt\Entity\Authtoken';
         $em = new EntityManager($app['db'], $app['db.event_manager']);
         $repo = new Repository($em, $entityName);
         
@@ -50,7 +50,7 @@ class RepositoryTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $this->addDefaultUser($app);
-        $entityName = 'Bolt\Storage\Entity\Users';
+        $entityName = 'Bolt\Entity\Users';
         $em = new EntityManager($app['db'], $app['db.event_manager']);
         $repo = new Repository($em, $entityName);
         
@@ -63,7 +63,7 @@ class RepositoryTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $this->addDefaultUser($app);
-        $entityName = 'Bolt\Storage\Entity\Users';
+        $entityName = 'Bolt\Entity\Users';
         
         
         $em = new EntityManager($app['db'], $app['db.event_manager']);
