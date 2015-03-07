@@ -475,53 +475,6 @@ module.exports = function(grunt) {
         }
     });
 
-    require('load-grunt-tasks')(grunt);
+    require('load-grunt-config')(grunt);
 
-    grunt.loadTasks('grunt');
-
-    /*** DEFAULT TASK:  Watches for changes of Bolts own css and js files ***/
-    grunt.registerTask(
-        'default',
-        [
-            'watch'
-        ]
-    );
-
-    /*** UPDATE BOLT TASK:  Creates Bolts own css and js files ***/
-    grunt.registerTask(
-        'updateBolt',
-        [
-            'sass:'      + 'boltCss',
-            'jshint:'    + 'boltJs',
-            'uglify:'    + 'boltJs'
-        ]
-    );
-
-    /*** UPDATE LIB TASK:  Builds library css/js. Run after one of the externals is updated ***/
-    grunt.registerTask(
-        'updateLib',
-        [
-            // Prepare
-            'uglify:'    + 'prepareBootstrapJs',        // Concat bootstrap scripts into one minified file
-            'modernizr:' + 'prepare',                   // Build Modernizr
-            'uglify:'    + 'prepareLibJs',              // Create min. versions of library scripts that don't have them
-            'remove:'    + 'prepareCkeditor',           // Remove unneeded direcories from downloaded ckeditor
-            'bom:'       + 'prepareCkeditor',           // Remove unneeded bom from downloaded ckeditor
-            'eol:'       + 'prepareCkeditor',           // Convert CRLF to LF from downloaded ckeditor
-            'endline:'   + 'prepareCkeditor',           // Add newlines to *.js of downloaded ckeditor
-            // Install
-            'copy:'      + 'installFonts',              // Copies fonts                   => view/fonts/*
-            'cssmin:'    + 'installLibCss',             // Concats and min. library css   => view/css/lib.css
-            'libcssimg:' + '',                          // Copy lib images & rebase urls  => view/img/lib/*
-            'concat:'    + 'installLibJs',              // Concats min. library scripts   => view/js/lib.min.js
-            'uglify:'    + 'installLocaleDatepicker',   // Copies min. datepicker locale  => view/js/locale/datepicker/*
-            'uglify:'    + 'installLocaleMoment',       // Copies min. moment.js locale   => view/js/locale/moment/*
-            'copy:'      + 'installCkeditor1',          // Copies CKEditor files          => view/js/ckeditor/*
-            'copy:'      + 'installCkeditor2',          // Copies modified ckeditor.js    => view/js/ckeditor/ckeditor.js
-            'copy:'      + 'installJqueryGomap',        // Copies jquery-gomap.min.js     => view/js/jquery-gomap.min.js
-            'uglify:'    + 'installCodeMirror',         // Copies CodeMirror locale       => view/js/codemirror/*
-            // Cleanup
-            'remove:'    + 'cleanupTmp'                 // Clean up the tmp folder lib/tmp/
-        ]
-    );
 };
