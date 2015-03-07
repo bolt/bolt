@@ -9,17 +9,25 @@
 namespace Bolt\Tests;
 
 use Guzzle\Http\Client as GuzzleClient;
+use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\ProcessBuilder;
+use Symfony\Component\Yaml\Parser;
 
 include realpath(__DIR__ . '/../../vendor/autoload.php');
 
+/**
+ * Class for doing comparisons of PHPUnit code coverage reports
+ *
+ * @author Gawain Lynch <gawain.lynch@gmail.com>
+ */
 class CoverageComparator
 {
-    /**
-     * @var string Bolt's PHPUnit XML configuration file
-     */
+    /** @var \Symfony\Component\Console\Output\ConsoleOutput */
+    private $output;
+
+    /** @var string Bolt's PHPUnit XML configuration file */
     private $xmlfile;
 
     /**
@@ -27,6 +35,9 @@ class CoverageComparator
      */
     public function __construct()
     {
+        // Output
+        $this->output = new ConsoleOutput();
+
         $this->xmlfile = realpath(__DIR__ . '/../../phpunit.xml.dist');
     }
 
@@ -70,7 +81,7 @@ class CoverageComparator
         }
 
         if (!$process->isSuccessful()) {
-            die($process->getErrorOutput());
+            $this->output->write('<error>' . $process->getErrorOutput() . '</error>', true);
         }
 
         return $retval;
@@ -252,27 +263,58 @@ EOF;
     }
 }
 
+/**
+ * Class for interacting with GIT
+ *
+ * @author Gawain Lynch <gawain.lynch@gmail.com>
+ */
 class Git
 {
+    /** @var \Symfony\Component\Console\Output\ConsoleOutput */
+    private $output;
+
     /** @var \Guzzle\Http\Client */
     private $client;
 
     /** @var \Symfony\Component\Process\ProcessBuilder */
     private $builder;
 
+    /** @var array */
+    private $config;
+
     /**
      *
      */
     public function __construct()
     {
+        // Config
+        $this->getConfig();
+
+        // Output
+        $this->output = new ConsoleOutput();
+
         // Guzzle client
-        $this->client = new GuzzleClient('https://api.github.com/repos/bolt/bolt/pulls/');
+        $this->client = new GuzzleClient('https://api.github.com/repos/bolt/bolt/pulls/', $this->guzzleDefaults);
 
         // Symfony process
         $this->builder = new ProcessBuilder();
 
         // Assume that `git` is in the path
         $this->builder->setPrefix('git');
+    }
+
+    public function getConfig()
+    {
+        $filename = __DIR__ . '/config.yml';
+        if (is_readable($filename)) {
+            $parser = new Parser();
+            $this->config = $parser->parse(file_get_contents($filename) . "\n");
+        }
+
+        $this->guzzledefaults = array();
+        if (isset($this->config['github']['token'])) {
+            $this->guzzleDefaults = array('query' => array('access_token' => $this->config['github']['token']));
+        }
     }
 
     /**
@@ -284,9 +326,12 @@ class Git
      */
     public function getPr($pr)
     {
-        $response = $this->client->get($pr)->send()->getBody();
+        $response = $this->client->get($pr, null, $this->guzzleDefaults)->send();
+        $remaining = (string) $response->getHeader('X-RateLimit-Remaining');
+        $reset = date('Y-m-d H:i:s', (string) $response->getHeader('X-RateLimit-Reset'));
+        $this->output->write("<question>GitHub hourly requests remaining: {$remaining}. Reset at {$reset}</question>", true);
 
-        return json_decode($response);
+        return json_decode($response->getBody());
     }
 
     /**
@@ -299,6 +344,8 @@ class Git
      */
     public function addRemote($name, $url)
     {
+        $this->output->write("<info>Adding $name as a remote</info>", true);
+
         // Build the process
         $process = $this->builder->setArguments(array('remote', 'add', $name, $url))
             ->getProcess()
@@ -308,7 +355,7 @@ class Git
         $retval = $process->run();
 
         if (!$process->isSuccessful()) {
-            die($process->getErrorOutput());
+            $this->output->write('<error>' . $process->getErrorOutput() . '</error>', true);
         }
 
         echo $process->getOutput(), "\n";
@@ -325,6 +372,8 @@ class Git
      */
     public function delRemote($name)
     {
+        $this->output->write("<info>Deleting $name as a remote</info>", true);
+
         // Build the process
         $process = $this->builder->setArguments(array('remote', 'remove', $name))
             ->getProcess()
@@ -334,7 +383,7 @@ class Git
         $retval = $process->run();
 
         if (!$process->isSuccessful()) {
-            die($process->getErrorOutput());
+            $this->output->write('<error>' . $process->getErrorOutput() . '</error>', true);
         }
 
         echo $process->getOutput(), "\n";
@@ -353,8 +402,10 @@ class Git
     public function checkoutBranch($branch, $name = null)
     {
         if ($name) {
+            $this->output->write("<info>Checking out $branch $name/$branch</info>", true);
             $this->builder->setArguments(array('checkout', '-b', $branch, "$name/$branch"));
         } else {
+            $this->output->write("<info>Checking out $branch</info>", true);
             $this->builder->setArguments(array('checkout', $branch));
         }
 
@@ -367,7 +418,7 @@ class Git
         $retval = $process->run();
 
         if (!$process->isSuccessful()) {
-            die($process->getErrorOutput());
+            $this->output->write('<error>' . $process->getErrorOutput() . '</error>', true);
         }
 
         echo $process->getOutput(), "\n";
@@ -386,11 +437,14 @@ class Git
     public function pullBranch($remote = null, $branch = null)
     {
         if ($remote && $branch) {
+            $this->output->write("<info>Pulling $remote $branch</info>", true);
             $this->builder->setArguments(array('pull', $remote, $branch));
-        } elseif ($branch) {
+        } elseif ($remote) {
+            $this->output->write("<info>Pulling $remote</info>", true);
             $this->builder->setArguments(array('pull', $remote));
         } else {
-            $this->builder->setArguments(array('pull', $remote));
+            $this->output->write("<info>Pulling branches remote</info>", true);
+            $this->builder->setArguments(array('pull'));
         }
 
         // Build the process
@@ -402,7 +456,7 @@ class Git
         $retval = $process->run();
 
         if (!$process->isSuccessful()) {
-            die($process->getErrorOutput());
+            $this->output->write('<error>' . $process->getErrorOutput() . '</error>', true);
         }
 
         echo $process->getOutput(), "\n";
@@ -419,6 +473,8 @@ class Git
      */
     public function removeBranch($branch)
     {
+        $this->output->write("<info>Removing $branch</info>", true);
+
         $this->builder->setArguments(array('branch', '-D', $branch));
 
         // Build the process
@@ -430,7 +486,7 @@ class Git
         $retval = $process->run();
 
         if (!$process->isSuccessful()) {
-            die($process->getErrorOutput());
+            $this->output->write('<error>' . $process->getErrorOutput() . '</error>', true);
         }
 
         echo $process->getOutput(), "\n";
@@ -445,6 +501,8 @@ class Git
      */
     public function fetchAll()
     {
+        $this->output->write("<info>Fetching all</info>", true);
+
         $process = $this->builder->setArguments(array('fetch', '--all'))
             ->getProcess()
             ->enableOutput();
@@ -453,7 +511,7 @@ class Git
         $retval = $process->run();
 
         if (!$process->isSuccessful()) {
-            die($process->getErrorOutput());
+            $this->output->write('<error>' . $process->getErrorOutput() . '</error>', true);
         }
 
         echo $process->getOutput(), "\n";
@@ -462,84 +520,188 @@ class Git
     }
 }
 
-if (isset($_SERVER['argv'][1]) &&
-    (isset($_SERVER['argv'][1]) === 'help' ||
-     isset($_SERVER['argv'][1]) === '--help' ||
-     isset($_SERVER['argv'][1]) === '-h')
-    ) {
-        echo "php tests/scripts/coverage.php [PR number] [test]\n\n";
-        echo "Where:\n";
-        echo "\t[PR number]\t- GitHub PR number (required)\n";
-        echo "\t[test]\t\t- Directory or file to limit tests to (optional)\n";
-}
-
-// Get the PR number to test
-if (!isset($_SERVER['argv'][1]) || !is_numeric($_SERVER['argv'][1])) {
-    die("Minimum of a GitHub PR number is required as first argument\n");
-}
-$prNum = $_SERVER['argv'][1];
-
-// Get the test, if any to run
-$test = null;
-if (isset($_SERVER['argv'][2])) {
-    $test = 'tests/phpunit/' . str_replace('tests/phpunit/', '', $_SERVER['argv'][2]);
-}
-
-// PHPUnit coverage files
-$beforeFile = sys_get_temp_dir() . '/coverage-before.php';
-$afterFile  = sys_get_temp_dir() . '/coverage-after.php';
-
-// Classes
-$git = new Git();
-$comparator = new CoverageComparator();
-
-/*
- * Pull request data
+/**
+ * The command
+ *
+ * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-$prDetails    = $git->getPr($prNum);
-$remoteName   = 'bolt-fork-' . $prDetails->head->repo->id;
-$remoteUrl    = $prDetails->head->repo->clone_url;
-$remoteBranch = $prDetails->head->ref;
+class CoverageCommand
+{
+    /** @var integer */
+    private $prNum;
 
-/*
- * Master test
- */
-// Checkout and update master
-$git->checkoutBranch('master');
-$git->pullBranch('upstream', 'master');
+    /** @var string */
+    private $test = null;
 
-// Run test
-if ($comparator->runPhpUnitCoverage($beforeFile, $test)) {
-    die("Failed to run PHPUnit test against master\n");
-}
+    /** @var array */
+    private $args;
 
-/*
- * Remote tests
- */
+    /** @var \Symfony\Component\Console\Output\ConsoleOutput */
+    private $output;
 
-// Get PRs git remote and fetch all branches
-if ($git->addRemote($remoteName, $remoteUrl)) {
-    $git->fetchAll();
-}
+    /** @var Git */
+    private $git;
 
-// Checkout the PRs branch
-if ($git->checkoutBranch($remoteBranch, $remoteName)) {
-    if ($comparator->runPhpUnitCoverage($afterFile, $test)) {
-        $git->checkoutBranch('master');
-        $git->removeBranch($remoteBranch);
-        $git->delRemote($remoteName);
+    /** @var CoverageComparator */
+    private $comparator;
 
-        die("Failed to run PHPUnit test against PR branch");
+    /** @var string */
+    private $beforeFile;
+
+    /** @var string */
+    private $afterFile;
+
+    /**
+     *
+     */
+    public function __construct()
+    {
+        // Options
+        $this->getOpts();
+
+        // Output
+        $this->output = new ConsoleOutput();
+
+        // Git
+        $this->git = new Git();
+
+        // CoverageComparator
+        $this->comparator = new CoverageComparator();
+
+        // PHPUnit coverage files
+        $this->beforeFile = sys_get_temp_dir() . '/coverage-before.php';
+        $this->afterFile  = sys_get_temp_dir() . '/coverage-after.php';
+    }
+
+    /**
+     * Run Forrest, RUN!
+     */
+    public function run()
+    {
+        // Sync and test master
+        if (!$this->runTestsMaster()) {
+            exit(1);
+        }
+
+        // Checkout and test PR banch
+        if (!$this->runTestsFork()) {
+            exit(1);
+        }
+
+        // Get the comparison of runs
+        $compare = $this->comparator->compareCoverageStats($this->beforeFile, $this->afterFile);
+
+        // Output results to STDOUT
+        echo $this->comparator->formatCoverageStats($compare), "\n";
+    }
+
+    /**
+     * Output help text
+     */
+    private function help()
+    {
+        $this->output->write(array(
+            '<info>php tests/scripts/coverage.php [PR number] [test]</info>',
+            '<info>Where:</info>',
+            '<info>    [PR number] - GitHub PR number (required)</info>',
+            '<info>    [test]      - Directory or file to limit tests to (optional)</info>'
+        ), true);
+        exit;
+    }
+
+    /**
+     * Set our opts from argv
+     */
+    private function getOpts()
+    {
+        $this->args = $_SERVER['argv'];
+
+        // Display simple help if requested
+        if (isset($this->args[1]) &&
+            ($this->args[1] === 'help' ||
+                $this->args[1] === '--help' ||
+                $this->args[1] === '-h')
+        ) {
+            $this->help();
+        }
+
+        // Get the PR number to test
+        if (!isset($this->args[1]) || !is_numeric($this->args[1])) {
+            $this->output->write('<error>Minimum of a GitHub PR number is required as first argument</error>', true);
+            exit(1);
+        }
+        $this->prNum = $this->args[1];
+
+        // Get the test, if any to run
+        $this->test = null;
+        if (isset($this->args[2])) {
+            $this->test = 'tests/phpunit/' . str_replace('tests/phpunit/', '', $this->args[2]);
+        }
+    }
+
+    /**
+     * Master test run
+     *
+     * @return boolean
+     */
+    private function runTestsMaster()
+    {
+        // Checkout and update master
+        $this->git->checkoutBranch('master');
+        $this->git->pullBranch('upstream', 'master');
+
+        // Run test
+        if ($this->comparator->runPhpUnitCoverage($this->beforeFile, $this->test) !== 0) {
+            $this->output->write('<error>Failed to run PHPUnit test against master</error>', true);
+
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Remote fork/branch tests
+     *
+     * @return boolean
+     */
+    private function runTestsFork()
+    {
+        $prDetails    = $this->git->getPr($this->prNum);
+        $remoteName   = 'bolt-fork-' . $prDetails->head->repo->id;
+        $remoteUrl    = $prDetails->head->repo->clone_url;
+        $remoteBranch = $prDetails->head->ref;
+
+        // Get PRs git remote and fetch all branches
+        if ($this->git->addRemote($remoteName, $remoteUrl) === 0) {
+            $this->git->fetchAll();
+        } else {
+            $this->output->write('<error>Failed to add the remote</error>', true);
+            $this->git->delRemote($remoteName);
+
+            return false;
+        }
+
+        // Checkout the PRs branch
+        if ($this->git->checkoutBranch($remoteBranch, $remoteName) === 0) {
+            if ($this->comparator->runPhpUnitCoverage($this->afterFile, $this->test) !== 0) {
+                $this->output->write('<error>Failed to run PHPUnit test against PR branch</error>', true);
+            }
+
+            $result = true;
+        } else {
+            $result = false;
+            $this->output->write('<error>Failed to checkout remote branch</error>', true);
+        }
+
+        // Clean up
+        $this->git->checkoutBranch('master');
+        $this->git->removeBranch($remoteBranch);
+        $this->git->delRemote($remoteName);
+
+        return $result;
     }
 }
 
-// Clean up
-$git->checkoutBranch('master');
-$git->removeBranch($remoteBranch);
-$git->delRemote($remoteName);
-
-// Get the comparison of runs
-$compare = $comparator->compareCoverageStats($beforeFile, $afterFile);
-
-// Output results to STDOUT
-echo $comparator->formatCoverageStats($compare), "\n";
+$command = new CoverageCommand();
+$command->run();
