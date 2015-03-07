@@ -1,7 +1,7 @@
 module.exports = function(grunt) {
     grunt.util.linefeed = '\n';
 
-    grunt.initConfig({
+    var options = {
         pkg: grunt.file.readJSON('package.json'),
 
         config: grunt.file.readYAML('../config/config.yml'),
@@ -27,9 +27,8 @@ module.exports = function(grunt) {
             'lib/bolt/init.js',
             'lib/bolt/start.js'
         ]
+    };
 
-    });
-
-    require('load-grunt-config')(grunt);
+    require('load-grunt-config')(grunt, {data: options});
 
 };
