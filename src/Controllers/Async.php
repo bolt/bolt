@@ -754,7 +754,7 @@ class Async implements ControllerProviderInterface
 
         // If there's no active session, don't do anything.
         if (!$app['users']->isValidSession()) {
-            $app->abort(Response::HTTP_NOT_FOUND, 'You must be logged in to use this.');
+            $app->abort(Response::HTTP_UNAUTHORIZED, 'You must be logged in to use this.');
         }
 
         // Stop the 'stopwatch' for the profiler.
