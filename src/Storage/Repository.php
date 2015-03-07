@@ -121,7 +121,7 @@ class Repository implements ObjectRepository
     {
         $qb = $this->createQueryBuilder();
         foreach ($criteria as $col=>$val) {
-            $qb->andWhere($this->getTableName().".$col = :$col");
+            $qb->andWhere($this->getAlias().".$col = :$col");
             $qb->setParameter(":$col", $val);
         }
         if ($orderBy) {

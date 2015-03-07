@@ -76,6 +76,35 @@ class RepositoryTest extends BoltUnitTest
         }
     }
     
+    public function testFindBy()
+    {
+        $app = $this->getApp();
+        $this->addDefaultUser($app);
+        $entityName = 'Bolt\Entity\Users';
+        
+        $em = new EntityManager($app['db'], $app['db.event_manager']);
+        $repo = new Repository($em, $entityName);
+        $result = $repo->findBy(array('id'=>1));
+        
+        $this->assertTrue(is_array($result));
+        $this->assertInstanceOf($entityName, $result[0]); 
+
+    }
+    
+    public function testFindOneBy()
+    {
+        $app = $this->getApp();
+        $this->addDefaultUser($app);
+        $entityName = 'Bolt\Entity\Users';
+        
+        $em = new EntityManager($app['db'], $app['db.event_manager']);
+        $repo = new Repository($em, $entityName);
+        $result = $repo->findOneBy(array('id'=>1));
+                
+        $this->assertInstanceOf($entityName, $result); 
+
+    }
+    
 
     
 }
