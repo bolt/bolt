@@ -22,6 +22,7 @@
         "grunt-modernizr": "~0.6.0",
         "grunt-remove": "~0.1.0",
         "grunt-sass": "~0.17.0",
+        "load-grunt-config": "~0.16.0",
         "load-grunt-tasks": "~0.6.0",
         "node-sass": "~1.2.3"
     }
