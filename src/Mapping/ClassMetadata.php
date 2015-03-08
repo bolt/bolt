@@ -10,7 +10,7 @@ use Bolt\Storage\NamingStrategy;
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class ClassMetadata implements ClassMetadataInterface
+class ClassMetadata
 {
     
     /**
@@ -90,41 +90,6 @@ class ClassMetadata implements ClassMetadataInterface
         
     }
 
-    /**
-     * Checks if the given field is a mapped association for this class.
-     *
-     * @param string $fieldName
-     *
-     * @return boolean
-     */
-    public function hasAssociation($fieldName)
-    {
-        
-    }
-
-    /**
-     * Checks if the given field is a mapped single valued association for this class.
-     *
-     * @param string $fieldName
-     *
-     * @return boolean
-     */
-    public function isSingleValuedAssociation($fieldName)
-    {
-        
-    }
-
-    /**
-     * Checks if the given field is a mapped collection valued association for this class.
-     *
-     * @param string $fieldName
-     *
-     * @return boolean
-     */
-    public function isCollectionValuedAssociation($fieldName)
-    {
-        
-    }
 
     /**
      * A numerically indexed list of field names of this persistent class.
@@ -134,28 +99,6 @@ class ClassMetadata implements ClassMetadataInterface
      * @return array
      */
     public function getFieldNames()
-    {
-        
-    }
-
-    /**
-     * Returns an array of identifier field names numerically indexed.
-     *
-     * @return array
-     */
-    public function getIdentifierFieldNames()
-    {
-        
-    }
-
-    /**
-     * Returns a numerically indexed list of association names of this persistent class.
-     *
-     * This array includes identifier associations if present on this class.
-     *
-     * @return array
-     */
-    public function getAssociationNames()
     {
         
     }
@@ -175,54 +118,6 @@ class ClassMetadata implements ClassMetadataInterface
         
     }
 
-    /**
-     * Returns the target class name of the given association.
-     *
-     * @param string $assocName
-     *
-     * @return string
-     */
-    public function getAssociationTargetClass($assocName)
-    {
-        
-    }
 
-    /**
-     * Checks if the association is the inverse side of a bidirectional association.
-     *
-     * @param string $assocName
-     *
-     * @return boolean
-     */
-    public function isAssociationInverseSide($assocName)
-    {
-        
-    }
-
-    /**
-     * Returns the target field of the owning side of the association.
-     *
-     * @param string $assocName
-     *
-     * @return string
-     */
-    public function getAssociationMappedByTargetField($assocName)
-    {
-        
-    }
-
-    /**
-     * Returns the identifier of this object as an array with field name as key.
-     *
-     * Has to return an empty array if no identifier isset.
-     *
-     * @param object $object
-     *
-     * @return array
-     */
-    public function getIdentifierValues($object)
-    {
-        
-    }
     
 }
