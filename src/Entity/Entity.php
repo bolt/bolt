@@ -79,6 +79,11 @@ abstract class Entity
         return $this->serialize();
     }
     
+    public function toArray()
+    {
+        return $this->serialize();
+    }
+    
     
     public function getName()
     {
