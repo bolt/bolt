@@ -101,6 +101,10 @@ merge your Pull Request, please make sure you follow these points:
  5. For any change that you make, **please try to also add a test case(s)** in
     the `tests` directory.
 
+Make sure you read our guide on [Contributing to
+Bolt](https://docs.bolt.cm/internals/contributing), the page on [Code
+Quality](https://docs.bolt.cm/internals/code-quality) and the page describing
+our [Release process](https://docs.bolt.cm/internals/release-process).
 
 Further reading:
  - [Creating a pull request](https://help.github.com/articles/creating-a-pull-request/)
