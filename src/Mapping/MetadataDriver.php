@@ -26,6 +26,11 @@ class MetadataDriver implements MappingDriver
      * array of ClassMetadata objects
      */
     protected $metadata;
+    
+    /**
+     * @var boolean
+     */
+    protected $initialized = false;
 
     /**
      * @param IntegrityChecker $integrityChecker
@@ -45,6 +50,7 @@ class MetadataDriver implements MappingDriver
         foreach ($this->integrityChecker->getTablesSchema() as $table) {
             $this->loadMetadataForTable($table);
         }
+        $this->initialized = true;
     }
     
     protected function loadMetadataForTable(Table $table)
@@ -86,6 +92,21 @@ class MetadataDriver implements MappingDriver
     public function getAllClassNames()
     {
         
+    }
+    
+    /**
+     * Returns the metadata for a given class name.
+     * @param string $className
+     *
+     * @return The class metadata.
+     */
+    public function getClassMetadata($className)
+    {
+        if (array_key_exists($className, $this->metadata)) {
+            return $this->metadata[$className];
+        }
+        
+        return false;
     }
 
     /**
