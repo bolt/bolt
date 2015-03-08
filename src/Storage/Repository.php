@@ -2,6 +2,7 @@
 namespace Bolt\Storage;
 
 use Doctrine\Common\Persistence\ObjectRepository;
+use Bolt\Events\HydrationEventArgs;
 use Bolt\Events\StorageEvents;
 
 
@@ -190,7 +191,7 @@ class Repository implements ObjectRepository
     {
         $qb = $this->em->createQueryBuilder();
         $qb->insert($this->getTableName());
-        foreach ($entity as $key=>$value) {
+        foreach ($entity->toArray() as $key=>$value) {
             $qb->setValue($key, ":".$key);
             $qb->setParameter($key, $value);
         }
@@ -209,7 +210,7 @@ class Repository implements ObjectRepository
     {
         $qb = $this->em->createQueryBuilder();
         $qb->update($this->getTableName());        
-        foreach ($entity as $key=>$value) {
+        foreach ($entity->toArray() as $key=>$value) {
             $qb->set($key, ":".$key);
             $qb->setParameter($key, $value);
         }

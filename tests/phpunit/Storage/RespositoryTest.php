@@ -105,6 +105,32 @@ class RepositoryTest extends BoltUnitTest
 
     }
     
+    public function testInsert()
+    {
+        $app = $this->getApp();
+        $this->addDefaultUser($app);
+        $entityName = 'Bolt\Entity\Users';
+        
+        $em = new EntityManager($app['db'], $app['db.event_manager']);
+        $repo = new Repository($em, $entityName);
+        
+        $newUser = array(
+            'username' => 'test',
+            'password' => 'fake',
+            'email' => 'test@example.com',
+            'displayname' => 'Test User',
+            'lastip' => '127.0.0.1'
+        );
+
+        $entity = new $entityName($newUser);
+        $this->assertEquals(1, $repo->save($entity));
+        
+        $result = $repo->findOneBy(array('displayname'=>'Test User'));
+        $this->assertInstanceOf($entityName, $result);
+        $this->assertEquals('test', $result->getUsername());
+                        
+    }
+    
 
     
 }

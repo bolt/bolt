@@ -2,6 +2,7 @@
 
 namespace Bolt\Events;
 
+use Bolt\Storage\Repository;
 use Doctrine\Common\EventArgs;
 
 /**
