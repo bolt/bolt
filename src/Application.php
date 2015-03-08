@@ -29,7 +29,7 @@ class Application extends Silex\Application
     public function __construct(array $values = array())
     {
         $values['bolt_version'] = '2.1.0';
-        $values['bolt_name'] = 'RC1';
+        $values['bolt_name'] = 'RC2';
         $values['bolt_released'] = false; // True for stable releases
 
         parent::__construct($values);
