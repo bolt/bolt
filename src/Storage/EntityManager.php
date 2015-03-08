@@ -2,6 +2,7 @@
 namespace Bolt\Storage;
 
 use Doctrine\Common\EventManager;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\QueryBuilder;
 
@@ -22,7 +23,7 @@ class EntityManager
      * @param \Doctrine\DBAL\Connection     $conn
      * @param \Doctrine\Common\EventManager $eventManager
      */
-    public function __construct(Connection $conn, EventManager $eventManager)
+    public function __construct(Connection $conn, EventDispatcherInterface $eventManager)
     {
         $this->conn              = $conn;
         $this->eventManager      = $eventManager;
