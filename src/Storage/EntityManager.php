@@ -1,7 +1,6 @@
 <?php
 namespace Bolt\Storage;
 
-use Doctrine\Common\EventManager;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\QueryBuilder;
@@ -15,13 +14,14 @@ class EntityManager
     protected $conn;
     protected $eventManager;
     protected $repositories = array();
+    protected $aliases = array();
     
     /**
      * Creates a new EntityManager that operates on the given database connection
      * and uses the given EventManager.
      *
      * @param \Doctrine\DBAL\Connection     $conn
-     * @param \Doctrine\Common\EventManager $eventManager
+     * @param EventDispatcherInterface      $eventManager
      */
     public function __construct(Connection $conn, EventDispatcherInterface $eventManager)
     {
@@ -103,10 +103,34 @@ class EntityManager
         if (array_key_exists($className, $this->repositories)) {
             $repoClass = $this->repositories[$className];
             return new $repoClass($this, $className);
-        } 
+        }
+        
+        foreach ($this->aliases as $alias=>$namespace) {
+            $full = str_replace($alias, $namespace, $className);
+            
+            if (array_key_exists($full, $this->repositories)) {
+                $repoClass = $this->repositories[$full];
+                return new $repoClass($this, $full);
+            }
+            
+        }
         
         return new Repository($this, $className);
     }
+    
+    /**
+     * Sets a custom repository class for an entity.
+     *
+     * @param string $entityName
+     * @param string $repositoryClass
+     * 
+     */
+    public function setRepository($entityName, $repositoryClass)
+    {
+        $this->repositories[$entityName] = $repositoryClass;
+    }
+    
+    
     
     /**
      * Gets the Event Manager.
@@ -117,6 +141,25 @@ class EntityManager
     {
         return $this->eventManager;
     }
+    
+    
+    /**
+     * Registers shorter alias access for Entities.
+     * 
+     * For example ->addEntityAlias('user', 'Project\Bundle\Module\Entity\User')
+     * would allow ->getRepository('user')
+     *
+     * @param string $alias
+     * @param string $namespace 
+     * 
+     * @return void
+     */
+    public function addEntityAlias($alias, $namespace)
+    {
+        $this->aliases[$alias] = $namespace;
+    }
+    
+    
     
     
     
