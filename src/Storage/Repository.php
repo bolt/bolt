@@ -2,7 +2,8 @@
 namespace Bolt\Storage;
 
 use Doctrine\Common\Persistence\ObjectRepository;
-use Bolt\Events\HydrationEventArgs;
+use Bolt\Events\HydrationEvent;
+use Bolt\Events\StorageEvent;
 use Bolt\Events\StorageEvents;
 
 
@@ -146,13 +147,18 @@ class Repository implements ObjectRepository
      */
     public function delete($entity)
     {
+        $event = new StorageEvent($entity);
+        $this->event()->dispatch(StorageEvents::PRE_DELETE, $event);
         $qb = $this->em->createQueryBuilder()
             ->delete($this->getTableName())
             ->where("id = :id")
             ->setParameter('id', $entity->getId());
         
+        $response = $qb->execute();
+        $event = new StorageEvent($entity);
+        $this->event()->dispatch(StorageEvents::POST_DELETE, $event);
         
-        return $qb->execute();
+        return $response;
     }
     
     /**
@@ -172,11 +178,18 @@ class Repository implements ObjectRepository
             $existing = false;
         }
         
+        $event = new StorageEvent($entity, array('create' => $existing));
+        $this->app['dispatcher']->dispatch(StorageEvents::PRE_SAVE, $event);
+        
         if ($existing) {
-            return $this->update($entity);
+            $response = $this->update($entity);
         } else {
-            return $this->insert($entity);
+            $response = $this->insert($entity);
         }
+        
+        $this->app['dispatcher']->dispatch(StorageEvents::POST_SAVE, $event);
+        
+        return $response;
                 
     }
     
@@ -214,6 +227,8 @@ class Repository implements ObjectRepository
             $qb->set($key, ":".$key);
             $qb->setParameter($key, $value);
         }
+        $qb->where('id = :id')
+            ->setParameter('id', $entity->getId());
         
         return $qb->execute();
     }
@@ -227,11 +242,19 @@ class Repository implements ObjectRepository
      */
     protected function hydrate(array $data)
     {
-        $args = new HydrationEventArgs($data, $this->getEntityName(), $this);
-        $this->getEntityManager()->getEventManager()->dispatchEvent(StorageEvents::PRE_HYDRATE, $args);
+        $preArgs = new HydrationEvent(
+            $data, 
+            array('entity'=>$this->getEntityName(), 'repository' => $this)
+        );
+        $this->event()->dispatch(StorageEvents::PRE_HYDRATE, $preArgs);
+        
         $entity = $this->hydrator->hydrate($data, $this->getEntityName());
-        $args = new HydrationEventArgs($data, $entity, $this);
-        $this->getEntityManager()->getEventManager()->dispatchEvent(StorageEvents::POST_HYDRATE, $args);
+        
+        $postArgs = new HydrationEvent(
+            $entity, 
+            array('data'=>$data, 'repository'=>$this)
+        );
+        $this->event()->dispatch(StorageEvents::POST_HYDRATE, $postArgs);
         
         return $entity;
     }
@@ -311,6 +334,16 @@ class Repository implements ObjectRepository
     public function setNamingStrategy($handler)
     {
         $this->namingStrategy = $handler;
+    }
+    
+    /**
+     * Shortcut method to fetch the Event Manager
+     * 
+     * @return EventManager
+     */
+    public function event()
+    {
+        return $this->getEntityManager()->getEventManager();
     }
     
     
