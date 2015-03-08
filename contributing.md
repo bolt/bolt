@@ -2,7 +2,7 @@ Contributing to Bolt
 ====================
 
 If you are reading this, you must be considering opening an issue for help with
-a bug, some trouble you're having, or to suggest a new feature. Great!
+a bug, to suggest a new feature or help out with a Pull Request. Great!
 
 To streamline this process, we've made this small document, to help you report
 your issue or feature more efficiently. We did out best to keep it brief, so
@@ -10,9 +10,9 @@ please read it carefully.
 
 Jump to the relevant section below:
 
- - 1. I'm reporting a bug
- - 2. I'd like to request/propose a feature
- - 3. I'm making a pull request
+ - [1. I'm reporting a bug](#1-im-reporting-a-bug)
+ - [2. I'd like to request/propose a feature](#2-id-like-to-requestpropose-a-feature)
+ - [3. I'm making a pull request](#3-im-making-a-pull-request)
 
 **Note:** Please don't use the our main GitHub repository for reporting bugs
 with _extensions_. If you have found a bug in an extension, the best place to
@@ -112,7 +112,8 @@ Further reading:
 
 Thank you for your contributions!
 
-And finally, **one last tip**: Mention that you do not like blue M&M's. If you
-do, we'll know you've read this page. ;-)
+And finally, **one last tip**: Mention that you do not like
+[brown M&M's](http://www.snopes.com/music/artists/vanhalen.asp). If you do,
+we'll know you've read this page. ;-)
 
 
