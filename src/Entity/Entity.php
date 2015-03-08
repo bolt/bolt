@@ -8,12 +8,17 @@ namespace Bolt\Entity;
  */
 abstract class Entity
 {
+    
+    protected $_fields = array();
+
         
     public function __construct($data = [])
     {
         foreach ($data as $key => $value) {
             $method = "set".$key;
-            if(property_exists($this, $key)) $this->$method($value);
+            if ($this->has($key)) {
+                $this->$method($value);
+            }
         }
         
     }
@@ -21,33 +26,49 @@ abstract class Entity
     public function __get($key)
     {
         $method = "get".ucfirst($key);
-        if(property_exists($this, $key)) {return $this->$method();}
+        if (in_array($key, $this->getFields())) {
+            return $this->$method();
+        }
     }
 
     public function __set($key, $value)
     {
         $method = "set".ucfirst($key);
-        if(property_exists($this, $key)) $this->$method($value);
+        if (in_array($key, $this->getFields())) {
+            $this->$method($value);
+        }
     }
 
     public function __isset($key)
     {
-        if(property_exists($this, $key)) return true;
+        if ($this->has($key)) {
+            return true;
+        }
         return false;
     }
 
     public function __unset($key)
     {
-        if(property_exists($this, $key)) unset($this->$key);
+        if ($this->has($key) && property_exists($this, $key)) {
+            unset($this->$key);
+        } elseif ($this->has($key)) {
+            unset($this->_fields[$key]);
+        }
+        
         return false;
     }
 
     public function __call($method, $arguments)
     {
         $var = lcfirst(substr($method, 3));
-
+        
         if (strncasecmp($method, "get", 3) ==0) {
-            return $this->$var;
+            if ($this->has($var) && property_exists($this, $var)) {
+                return $this->$var;
+            } elseif ($this->has($var)) {
+                return $this->_fields[$var];
+            }
+            
         }
         
         if (strncasecmp($method, "serialize", 9) ==0) {
@@ -56,7 +77,12 @@ abstract class Entity
         }
 
         if (strncasecmp($method, "set", 3)==0) {
-            $this->$var = $arguments[0];
+            
+            if ($this->has($var) && property_exists($this, $var)) {
+                $this->$var = $arguments[0];
+            } elseif ($this->has($var)) {
+                $this->_fields[$var] = $arguments[0];
+            }
         }
     }
 
@@ -67,10 +93,19 @@ abstract class Entity
 
     public function serialize() {
         $data = [];
-        foreach($this as $k=>$v) {
+        foreach ($this as $k=>$v) {
+            if (strpos($k, '_') === 0) {
+                continue;
+            }
             $method = "serialize".$k;
             $data[$k] = $this->$method();
         }
+        
+        foreach ($this->_fields as $k=>$v) {
+            $method = "serialize".$k;
+            $data[$k] = $this->$method();
+        }
+        
         return $data;
     }
     
@@ -88,6 +123,41 @@ abstract class Entity
     public function getName()
     {
         return get_class($this);
+    }
+    
+    /**
+     *  An internal method that builds a list of available fields depending on context
+     *  
+     *  @return array
+     * 
+     **/
+    protected function getFields()
+    {
+        $fields = array();
+        
+        foreach ($this as $k=>$v) {
+            if (strpos($k, '_') !== 0) {
+                $fields[] = $k;
+            }   
+        }
+        
+        foreach ($this->_fields as $k=>$v) {
+            $fields[] = $k;
+        }
+        
+        return $fields;
+        
+    }
+    
+    /**
+     *  Boolean check on whether entity has field
+     *  
+     *  @return array
+     * 
+     **/
+    protected function has($field)
+    {
+        return in_array($field, $this->getFields());        
     }
 
 
