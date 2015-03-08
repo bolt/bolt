@@ -3,6 +3,7 @@
 namespace Bolt\Provider;
 
 use Bolt\Storage;
+use Bolt\Mapping\MetadataDriver;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 
@@ -15,6 +16,14 @@ class StorageServiceProvider implements ServiceProviderInterface
                 $storage = new Storage($app);
 
                 return $storage;
+            }
+        );
+        
+        $app['storage.metadata'] = $app->share(
+            function ($app) {
+                $meta = new MetadataDriver($app['integritychecker']);
+
+                return $meta;
             }
         );
     }
