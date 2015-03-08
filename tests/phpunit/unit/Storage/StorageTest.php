@@ -121,7 +121,6 @@ class StorageTest extends BoltUnitTest
 
         $fetch1 = $storage->getContent('showcases/2');
         $this->assertEquals(1, $fetch1->get('ownerid'));
-
         $result = $storage->updateSingleValue('showcases', 2, 'ownerid', '10');
         $this->assertEquals(2, $result);
 
