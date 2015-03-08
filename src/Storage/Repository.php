@@ -96,8 +96,14 @@ class Repository implements ObjectRepository
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->findWithCriteria($criteria, $orderBy, $limit, $offset);
+        $result = $qb->execute()->fetchAll();
         
-        return $this->hydrateAll($qb->execute()->fetchAll());
+        if ($result) {
+            return $this->hydrateAll($result);
+        }
+        
+        return false;
+        
     }
 
     /**
@@ -110,8 +116,13 @@ class Repository implements ObjectRepository
     public function findOneBy(array $criteria, array $orderBy = null)
     {
         $qb = $this->findWithCriteria($criteria, $orderBy);
+        $result = $qb->execute()->fetch();
         
-        return $this->hydrate($qb->execute()->fetch());
+        if ($result) {
+            return $this->hydrate($result);
+        }
+        
+        return false;
     }
     
     /**
@@ -179,7 +190,7 @@ class Repository implements ObjectRepository
         }
         
         $event = new StorageEvent($entity, array('create' => $existing));
-        $this->app['dispatcher']->dispatch(StorageEvents::PRE_SAVE, $event);
+        $this->event()->dispatch(StorageEvents::PRE_SAVE, $event);
         
         if ($existing) {
             $response = $this->update($entity);
@@ -187,7 +198,7 @@ class Repository implements ObjectRepository
             $response = $this->insert($entity);
         }
         
-        $this->app['dispatcher']->dispatch(StorageEvents::POST_SAVE, $event);
+        $this->event()->dispatch(StorageEvents::POST_SAVE, $event);
         
         return $response;
                 
