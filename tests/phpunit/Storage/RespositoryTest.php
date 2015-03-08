@@ -19,7 +19,7 @@ class RepositoryTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $entityName = 'Bolt\Entity\Authtoken';
-        $em = new EntityManager($app['db'], $app['db.event_manager']);
+        $em = new EntityManager($app['db'], $app['dispatcher']);
         $repo = new Repository($em, $entityName);
         
         $this->assertSame($em, \PHPUnit_Framework_Assert::readAttribute($repo, 'em'));        
@@ -29,7 +29,7 @@ class RepositoryTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $entityName = 'Bolt\Entity\Authtoken';
-        $em = new EntityManager($app['db'], $app['db.event_manager']);
+        $em = new EntityManager($app['db'], $app['dispatcher']);
         $repo = new Repository($em, $entityName);
 
         $this->assertEquals('bolt_authtoken', $repo->getTableName());
@@ -40,7 +40,7 @@ class RepositoryTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $entityName = 'Bolt\Entity\Authtoken';
-        $em = new EntityManager($app['db'], $app['db.event_manager']);
+        $em = new EntityManager($app['db'], $app['dispatcher']);
         $repo = new Repository($em, $entityName);
         
         $this->assertEquals($entityName, $repo->getEntityName());
@@ -51,7 +51,7 @@ class RepositoryTest extends BoltUnitTest
         $app = $this->getApp();
         $this->addDefaultUser($app);
         $entityName = 'Bolt\Entity\Users';
-        $em = new EntityManager($app['db'], $app['db.event_manager']);
+        $em = new EntityManager($app['db'], $app['dispatcher']);
         $repo = new Repository($em, $entityName);
         
         $result = $repo->find(1);
@@ -62,11 +62,10 @@ class RepositoryTest extends BoltUnitTest
     public function testFindAll()
     {
         $app = $this->getApp();
-        $this->addDefaultUser($app);
         $entityName = 'Bolt\Entity\Users';
         
         
-        $em = new EntityManager($app['db'], $app['db.event_manager']);
+        $em = new EntityManager($app['db'], $app['dispatcher']);
         $repo = new Repository($em, $entityName);
         $result = $repo->findAll();
         
@@ -79,10 +78,9 @@ class RepositoryTest extends BoltUnitTest
     public function testFindBy()
     {
         $app = $this->getApp();
-        $this->addDefaultUser($app);
         $entityName = 'Bolt\Entity\Users';
         
-        $em = new EntityManager($app['db'], $app['db.event_manager']);
+        $em = new EntityManager($app['db'], $app['dispatcher']);
         $repo = new Repository($em, $entityName);
         $result = $repo->findBy(array('id'=>1));
         
@@ -94,10 +92,9 @@ class RepositoryTest extends BoltUnitTest
     public function testFindOneBy()
     {
         $app = $this->getApp();
-        $this->addDefaultUser($app);
         $entityName = 'Bolt\Entity\Users';
         
-        $em = new EntityManager($app['db'], $app['db.event_manager']);
+        $em = new EntityManager($app['db'], $app['dispatcher']);
         $repo = new Repository($em, $entityName);
         $result = $repo->findOneBy(array('id'=>1));
                 
@@ -108,10 +105,9 @@ class RepositoryTest extends BoltUnitTest
     public function testInsert()
     {
         $app = $this->getApp();
-        $this->addDefaultUser($app);
         $entityName = 'Bolt\Entity\Users';
         
-        $em = new EntityManager($app['db'], $app['db.event_manager']);
+        $em = new EntityManager($app['db'], $app['dispatcher']);
         $repo = new Repository($em, $entityName);
         
         $newUser = array(
@@ -129,6 +125,21 @@ class RepositoryTest extends BoltUnitTest
         $this->assertInstanceOf($entityName, $result);
         $this->assertEquals('test', $result->getUsername());
                         
+    }
+    
+    public function testUpdate()
+    {
+        $app = $this->getApp();
+        $entityName = 'Bolt\Entity\Users';
+        
+        $em = new EntityManager($app['db'], $app['dispatcher']);
+        $repo = new Repository($em, $entityName);
+        $existing = $repo->findOneBy(array('displayname'=>'Test User'));
+        $existing->setUsername('testupdated');
+        $em->save($existing);
+        
+        $existing2 = $repo->findOneBy(array('displayname'=>'Test User'));
+        $this->assertEquals('testupdated', $existing2->getUsername());
     }
     
 
