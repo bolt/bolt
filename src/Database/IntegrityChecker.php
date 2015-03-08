@@ -331,7 +331,7 @@ class IntegrityChecker
      *
      * @return \Doctrine\DBAL\Schema\Table[]
      */
-    protected function getTablesSchema()
+    public function getTablesSchema()
     {
         $schema = new Schema();
 
