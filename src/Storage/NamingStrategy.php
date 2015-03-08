@@ -34,7 +34,7 @@ class NamingStrategy
     public function classToAlias($className)
     {
         $className = $this->getRelativeClass($className);
-        return strtolower(preg_replace('/[^A-Z]/', '', $className));
+        return ltrim(strtolower(preg_replace('/[A-Z]/', '_$0', $className)), '_');
     }
     
     
