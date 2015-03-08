@@ -16,13 +16,13 @@ class Users extends Entity
     protected $lastseen;
     protected $lastip;
     protected $displayname;
-    protected $stack;
-    protected $enabled;
-    protected $shadowpassword;
-    protected $shadowtoken;
+    protected $stack = array();
+    protected $enabled = 1;
+    protected $shadowpassword = '';
+    protected $shadowtoken = '';
     protected $shadowvalidity;
-    protected $failedlogins;
+    protected $failedlogins = 0;
     protected $throttleduntil;
-    protected $roles;
+    protected $roles = array();
     
 }
