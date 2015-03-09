@@ -10,7 +10,7 @@ module.exports = function(grunt, options) {
 
         boltCss: {
             files: [
-                'sass/**/*.scss'
+                '<%= path.src.sass %>/**/*.scss'
             ],
             tasks: [
                 'sass:boltCss'
