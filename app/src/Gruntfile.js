@@ -2,6 +2,22 @@ module.exports = function(grunt) {
     grunt.util.linefeed = '\n';
 
     var options = {
+        path: {
+            src: [
+                js: 'js',
+                lib: 'lib',
+                sass: 'sass',
+                node: 'components/node_modules',
+                bower: 'components/bower_components'
+            ]
+            dest: [
+                js: '../view/js',
+                fonts: '../view/fonts',
+                img: '../view/img',
+                css: '../view/css'
+            ]
+        },
+
         files: {
             boltJs: [
                 'lib/bolt/console.js',
