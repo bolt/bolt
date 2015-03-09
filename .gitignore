@@ -23,6 +23,14 @@ tests/phpunit/resources/*
 app/config/permissions.yml.codeception-backup
 /bolt.db
 
+# Grunt stuff
+node_modules
+bower_components
+npm-debug.log
+.sass-cache
+*.map
+app/src/tmp/
+
 # File-system cruft and temporary files
 scrutinizer.phar
 php-cs-fixer.phar
@@ -41,11 +49,6 @@ Vagrantfile
 .gitignore
 .buildpath
 .project
-npm-debug.log
-.sass-cache
-node_modules
-bower_components
 /bolt.log
 coverage.xml
-*.map
 
