@@ -9,10 +9,10 @@ module.exports = {
         },
         files: {
             src: [
-                'lib/ckeditor/**/*.js',
-                'lib/ckeditor/**/*.css',
-                'lib/ckeditor/**/*.md',
-                'lib/ckeditor/**/*.txt'
+                '<%= path.src.lib %>/ckeditor/**/*.js',
+                '<%= path.src.lib %>/ckeditor/**/*.css',
+                '<%= path.src.lib %>/ckeditor/**/*.md',
+                '<%= path.src.lib %>/ckeditor/**/*.txt'
             ]
         }
     }
