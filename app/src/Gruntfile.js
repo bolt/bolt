@@ -3,6 +3,7 @@ module.exports = function(grunt) {
 
     var options = {
         path: {
+            tmp: 'tmp',
             src: [
                 js: 'js',
                 lib: 'lib',
@@ -14,7 +15,8 @@ module.exports = function(grunt) {
                 js: '../view/js',
                 fonts: '../view/fonts',
                 img: '../view/img',
-                css: '../view/css'
+                css: '../view/css',
+                maps: '../view/maps'
             ]
         },
 
