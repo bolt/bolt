@@ -5,6 +5,7 @@ namespace Bolt\Mapping;
 use Bolt\Database\IntegrityChecker;
 use Doctrine\Common\Persistence\Mapping\Driver\MappingDriver;
 use Doctrine\Common\Persistence\Mapping\ClassMetadata;
+use Bolt\Mapping\ClassMetadata as BoltClassMetadata;
 use Doctrine\DBAL\Schema\Table;
 
 /**
@@ -31,7 +32,7 @@ class MetadataDriver implements MappingDriver
      * @var array
      */
     protected $defaultAliases = array(
-        'bolt_authtoken' => 'Bolt\Entity\AuthToken',
+        'bolt_authtoken' => 'Bolt\Entity\Authtoken',
         'bolt_cron' => 'Bolt\Entity\Cron',
         'bolt_log' => 'Bolt\Entity\Log',
         'bolt_log_change' => 'Bolt\Entity\LogChange',
@@ -70,7 +71,6 @@ class MetadataDriver implements MappingDriver
             $this->loadMetadataForTable($table);
         }
         $this->initialized = true;
-        print_r($this->metadata); exit;
     }
     
     protected function loadMetadataForTable(Table $table)
@@ -107,15 +107,23 @@ class MetadataDriver implements MappingDriver
      * @param string $className Fully Qualified name
      * @param ClassMetadata $metadata instance of metadata class to load with data
      */
-    public function loadMetadataForClass($className, ClassMetadata $metadata)
+    public function loadMetadataForClass($className, ClassMetadata $metadata = null)
     {
+        if (null === $metadata) {
+            $metadata = new BoltClassMetadata($className);
+        }
         if (!$this->initialized) {
             $this->initialize();
         }
         if (array_key_exists($className, $this->metadata)) {
             $data = $this->metadata[$className];
+            $metadata->setTableName($data['table']);
+            $metadata->setIdentifier($data['identifier']);
+            $metadata->setFieldMappings($data['fields']);
+            return $metadata;
+            
         } else {
-            throw new \Exception("Attempted to load mapping data for unmapped class $classname");
+            throw new \Exception("Attempted to load mapping data for unmapped class $className");
         }
         
     }
@@ -127,7 +135,7 @@ class MetadataDriver implements MappingDriver
      */
     public function getAllClassNames()
     {
-        
+        return array_keys($this->metadata);
     }
     
     /**
