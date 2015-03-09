@@ -4,14 +4,14 @@
 module.exports = {
     prepareCkeditor: {
         dirList: [
-            'lib/ckeditor/adapters',
-            'lib/ckeditor/samples'
+            '<%= path.src.lib %>/ckeditor/adapters',
+            '<%= path.src.lib %>/ckeditor/samples'
         ]
     },
 
     cleanupTmp: {
         dirList: [
-            'lib/tmp'
+            '<%= path.tmp %>'
         ]
     }
 };
