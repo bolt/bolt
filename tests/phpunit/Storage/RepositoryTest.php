@@ -22,7 +22,7 @@ class RepositoryTest extends BoltUnitTest
         $app = $this->getApp();
         $entityName = 'Bolt\Entity\Authtoken';
         $em = new EntityManager($app['db'], $app['dispatcher'], $app['storage.metadata']);
-        $repo = new Repository($em, $entityName);
+        $repo = $em->getRepository($entityName);
         
         $this->assertSame($em, \PHPUnit_Framework_Assert::readAttribute($repo, 'em'));        
     }
@@ -32,7 +32,7 @@ class RepositoryTest extends BoltUnitTest
         $app = $this->getApp();
         $entityName = 'Bolt\Entity\Authtoken';
         $em = new EntityManager($app['db'], $app['dispatcher'], $app['storage.metadata']);
-        $repo = new Repository($em, $entityName);
+        $repo = $em->getRepository($entityName);
 
         $this->assertEquals('bolt_authtoken', $repo->getTableName());
     }
@@ -43,7 +43,7 @@ class RepositoryTest extends BoltUnitTest
         $app = $this->getApp();
         $entityName = 'Bolt\Entity\Authtoken';
         $em = new EntityManager($app['db'], $app['dispatcher'], $app['storage.metadata']);
-        $repo = new Repository($em, $entityName);
+        $repo = $em->getRepository($entityName);
         
         $this->assertEquals($entityName, $repo->getEntityName());
     }
@@ -54,7 +54,7 @@ class RepositoryTest extends BoltUnitTest
         $this->addDefaultUser($app);
         $entityName = 'Bolt\Entity\Users';
         $em = new EntityManager($app['db'], $app['dispatcher'], $app['storage.metadata']);
-        $repo = new Repository($em, $entityName);
+        $repo = $em->getRepository($entityName);
         
         $result = $repo->find(1);
 
@@ -68,7 +68,7 @@ class RepositoryTest extends BoltUnitTest
         
         
         $em = new EntityManager($app['db'], $app['dispatcher'], $app['storage.metadata']);
-        $repo = new Repository($em, $entityName);
+        $repo = $em->getRepository($entityName);
         $result = $repo->findAll();
                 
         $this->assertTrue(is_array($result));
@@ -83,7 +83,7 @@ class RepositoryTest extends BoltUnitTest
         $entityName = 'Bolt\Entity\Users';
         
         $em = new EntityManager($app['db'], $app['dispatcher'], $app['storage.metadata']);
-        $repo = new Repository($em, $entityName);
+        $repo = $em->getRepository($entityName);
         $result = $repo->findBy(array('id'=>1));
                 
         $this->assertTrue(is_array($result));
@@ -98,7 +98,7 @@ class RepositoryTest extends BoltUnitTest
         $this->runListenCount($app, 'preHydrate');
         
         $em = new EntityManager($app['db'], $app['dispatcher'], $app['storage.metadata']);
-        $repo = new Repository($em, $entityName);
+        $repo = $em->getRepository($entityName);
         $result = $repo->findOneBy(array('id'=>1));
 
         $this->assertInstanceOf($entityName, $result); 
@@ -113,7 +113,7 @@ class RepositoryTest extends BoltUnitTest
         $this->runListenCount($app, 'postSave');
         
         $em = new EntityManager($app['db'], $app['dispatcher'], $app['storage.metadata']);
-        $repo = new Repository($em, $entityName);
+        $repo = $em->getRepository($entityName);
         
         $newUser = array(
             'username' => 'test',
@@ -143,7 +143,7 @@ class RepositoryTest extends BoltUnitTest
         $this->runListenCount($app, 'postSave');
         
         $em = new EntityManager($app['db'], $app['dispatcher'], $app['storage.metadata']);
-        $repo = new Repository($em, $entityName);
+        $repo = $em->getRepository($entityName);
         $existing = $repo->findOneBy(array('displayname'=>'Test User'));
 
         $existing->setUsername('testupdated');
@@ -163,7 +163,7 @@ class RepositoryTest extends BoltUnitTest
         $this->runListenCount($app, 'postDelete');
         
         $em = new EntityManager($app['db'], $app['dispatcher'], $app['storage.metadata']);
-        $repo = new Repository($em, $entityName);
+        $repo = $em->getRepository($entityName);
         $existing = $repo->findOneBy(array('displayname'=>'Test User'));
         
         $result = $repo->delete($existing);
