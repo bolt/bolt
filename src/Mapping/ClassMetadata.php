@@ -19,6 +19,11 @@ class ClassMetadata implements ClassMetadataInterface
     protected $name;
     
     /**
+     * @var string
+     */
+    protected $tableName;
+    
+    /**
      * @var NamingStrategyInterface
      */
     protected $namingStrategy;
@@ -29,11 +34,11 @@ class ClassMetadata implements ClassMetadataInterface
     protected $fieldMappings;
     
     /**
-     * Constructor, takes Fully-Qualified Class Name, applies 
+     * Constructor, takes Fully-Qualified Class Name and a Naming Strategy Class 
      *
      * @return void
      **/
-    public function __construct($className, NamingStrategyInterface $namingStrategy)
+    public function __construct($className, NamingStrategyInterface $namingStrategy = null)
     {
         $this->name = $className;
         $this->namingStrategy = $namingStrategy ?: new NamingStrategy();
@@ -47,6 +52,39 @@ class ClassMetadata implements ClassMetadataInterface
     public function getName() 
     {
         return $this->name;
+    }
+    
+    /**
+     * Gets the fully-qualified class name of this persistent class.
+     *
+     * @return string
+     */
+    public function getTableName() 
+    {
+        if ($this->tableName) {
+            return $this->tableName;
+        }
+        return $this->namingStrategy->classToTableName($this->name);
+    }
+    
+    /**
+     * Gets the fully-qualified class name of this persistent class.
+     *
+     * @return string
+     */
+    public function setTableName($tableName) 
+    {
+        return $this->tableName = $tableName;
+    }
+    
+    /**
+     * Gets the internal alias using the naming strategy.
+     *
+     * @return string
+     */
+    public function getAliasName() 
+    {
+        return $this->namingStrategy->classToAlias($this->name);
     }
     
     
@@ -71,7 +109,19 @@ class ClassMetadata implements ClassMetadataInterface
      */
     public function getIdentifier()
     {
-        
+        return $this->identifier;
+    }
+    
+    /**
+     * Sets the mapped identifier field name.
+     *
+     * The returned structure is an array of the identifier field names.
+     *
+     * @return array
+     */
+    public function setIdentifier($identifier)
+    {
+        $this->identifier = $identifier;
     }
 
     /**
