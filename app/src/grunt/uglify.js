@@ -15,23 +15,23 @@ module.exports = function(grunt, options) {
                 ext: '.min.js',
                 extDot: 'last',
                 src: [
-                    'lib/bootstrap-file-input/bootstrap-file-input.js',
-                    'lib/jquery-fileupload/jquery-fileupload.js',
-                    'lib/jquery-fileupload/jquery-iframe-transport.js',
-                    'lib/jquery-hotkeys/jquery-hotkeys.js',
-                    'lib/jquery-watchchanges/jquery-watchchanges.js',
-                    'lib/tmp/modernizr-custom.js',
-                    'bower_components/jquery/dist/jquery.js',
-                    'bower_components/jquery.cookie/jquery.cookie.js',
-                    'bower_components/jquery.formatDateTime/jquery.formatDateTime.js',
-                    'bower_components/jquery.tagcloud.js/jquery.tagcloud.js',
-                    'bower_components/bootbox.js/bootbox.js',
-                    'bower_components/magnific-popup/dist/jquery.magnific-popup.js',
-                    'bower_components/underscore/underscore.js',
-                    'bower_components/backbone/backbone.js',
-                    'bower_components/moment/moment.js'
+                    '<%= path.src.lib %>/bootstrap-file-input/bootstrap-file-input.js',
+                    '<%= path.src.lib %>/jquery-fileupload/jquery-fileupload.js',
+                    '<%= path.src.lib %>/jquery-fileupload/jquery-iframe-transport.js',
+                    '<%= path.src.lib %>/jquery-hotkeys/jquery-hotkeys.js',
+                    '<%= path.src.lib %>/jquery-watchchanges/jquery-watchchanges.js',
+                    '<%= path.src.lib %>/tmp/modernizr-custom.js',
+                    '<%= path.src.bower %>/jquery/dist/jquery.js',
+                    '<%= path.src.bower %>/jquery.cookie/jquery.cookie.js',
+                    '<%= path.src.bower %>/jquery.formatDateTime/jquery.formatDateTime.js',
+                    '<%= path.src.bower %>/jquery.tagcloud.js/jquery.tagcloud.js',
+                    '<%= path.src.bower %>/bootbox.js/bootbox.js',
+                    '<%= path.src.bower %>/magnific-popup/dist/jquery.magnific-popup.js',
+                    '<%= path.src.bower %>/underscore/underscore.js',
+                    '<%= path.src.bower %>/backbone/backbone.js',
+                    '<%= path.src.bower %>/moment/moment.js'
                 ],
-                dest: 'lib/tmp'
+                dest: '<%= path.tmp %>'
             }]
         },
 
@@ -42,7 +42,7 @@ module.exports = function(grunt, options) {
             files: [{
                 expand: true,
                 ext: '.min.js',
-                cwd: 'lib/codemirror',
+                cwd: '<%= path.src.lib %>/codemirror',
                 src: [
                     'clike.js',
                     'css.js',
@@ -54,7 +54,7 @@ module.exports = function(grunt, options) {
                     'xml.js',
                     'yaml.js'
                 ],
-                dest: 'js/ckeditor/plugins/codemirror/plugins'
+                dest: '<%= path.dest.js %>/ckeditor/plugins/codemirror/plugins'
             }]
         },
 
@@ -65,9 +65,9 @@ module.exports = function(grunt, options) {
             files: [{
                 expand: true,
                 ext: '.min.js',
-                cwd: 'lib/datepicker',
+                cwd: '<%= path.src.lib %>/datepicker',
                 src: '*.js',
-                dest: 'js/locale/datepicker',
+                dest: '<%= path.dest.js %>/locale/datepicker',
                 rename: function (destBase, destPath) {
                     return destBase + '/' + destPath.replace('datepicker-', '').replace('-', '_');
                 }
@@ -81,9 +81,9 @@ module.exports = function(grunt, options) {
             files: [{
                 expand: true,
                 ext: '.min.js',
-                cwd: 'bower_components/moment/locale',
+                cwd: '<%= path.src.bower %>/moment/locale',
                 src: '*.js',
-                dest: 'js/locale/moment',
+                dest: '<%= path.dest.js %>/locale/moment',
                 rename: function (destBase, destPath) {
                     return destBase + '/' + destPath.replace(/([a-z]+)-([a-z]+)/, function (_, a, b) {
                         return a + '_' + b.toUpperCase();
@@ -98,15 +98,15 @@ module.exports = function(grunt, options) {
                 sourceMapIncludeSources: true
             },
             files: {
-                'lib/tmp/bootstrap.min.js': [
-                    'node_modules/bootstrap-sass/assets/javascripts/bootstrap/alert.js',
-                    'node_modules/bootstrap-sass/assets/javascripts/bootstrap/button.js',
-                    'node_modules/bootstrap-sass/assets/javascripts/bootstrap/dropdown.js',
-                    'node_modules/bootstrap-sass/assets/javascripts/bootstrap/tab.js',
-                    'node_modules/bootstrap-sass/assets/javascripts/bootstrap/transition.js',
-                    'node_modules/bootstrap-sass/assets/javascripts/bootstrap/modal.js',
-                    'node_modules/bootstrap-sass/assets/javascripts/bootstrap/tooltip.js',
-                    'node_modules/bootstrap-sass/assets/javascripts/bootstrap/popover.js'
+                '<%= path.tmp %>/bootstrap.min.js': [
+                    '<%= path.src.node %>/bootstrap-sass/assets/javascripts/bootstrap/alert.js',
+                    '<%= path.src.node %>/bootstrap-sass/assets/javascripts/bootstrap/button.js',
+                    '<%= path.src.node %>/bootstrap-sass/assets/javascripts/bootstrap/dropdown.js',
+                    '<%= path.src.node %>/bootstrap-sass/assets/javascripts/bootstrap/tab.js',
+                    '<%= path.src.node %>/bootstrap-sass/assets/javascripts/bootstrap/transition.js',
+                    '<%= path.src.node %>/bootstrap-sass/assets/javascripts/bootstrap/modal.js',
+                    '<%= path.src.node %>/bootstrap-sass/assets/javascripts/bootstrap/tooltip.js',
+                    '<%= path.src.node %>/bootstrap-sass/assets/javascripts/bootstrap/popover.js'
                 ]
             }
         },
@@ -115,10 +115,10 @@ module.exports = function(grunt, options) {
             options: {
                 banner: options.banner.boltJs,
                 sourceMap: true,
-                sourceMapName: 'js/maps/bolt.min.js.map'
+                sourceMapName: '<%= path.dest.maps %>/bolt.min.js.map'
             },
             files: {
-                'js/bolt.min.js': options.files.boltJs
+                '<%= path.dest.js %>/bolt.min.js': options.files.boltJs
             }
         }
     };
