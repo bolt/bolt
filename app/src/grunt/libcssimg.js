@@ -1,9 +1,9 @@
 /*
  * Copy lib images & rebase urls
  */
-module.exports = function (grunt) {
+module.exports = function (grunt, option) {
     grunt.registerTask('libcssimg', 'Copy lib images & rebase urls', function () {
-        var css = grunt.file.read('css/lib.css'),
+        var css = grunt.file.read(option.path.dest.css + '/lib.css'),
             out = css,
             urls = /url\((['"]?)(.+?)\1\)/g,
             repl = {
@@ -16,11 +16,11 @@ module.exports = function (grunt) {
             dest,
             to;
 
-        grunt.file.mkdir('img/lib');
+        grunt.file.mkdir(option.path.dest.img + '/lib');
 
         while ((url = urls.exec(css)) !== null) {
             for (to in repl) {
-                dest = url[2].replace(repl[to], 'img/lib/' + to + '-');
+                dest = url[2].replace(repl[to], option.path.dest.img + '/lib/' + to + '-');
                 if (dest !== url[2]) {
                     if (!done[dest]) {
                         grunt.file.copy(url[2].replace(/^\.\.\/lib\//, 'lib/'), dest);
@@ -39,6 +39,6 @@ module.exports = function (grunt) {
                 grunt.fail.warn('URL not handled: ' + url[2]);
             }
         }
-        grunt.file.write('css/lib.css', out);
+        grunt.file.write(option.path.dest.css + '/lib.css', out);
     });
 };
