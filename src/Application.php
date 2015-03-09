@@ -523,7 +523,7 @@ class Application extends Silex\Application
 
         // Log the error message
         $message = $exception->getMessage();
-        $this['logger.system']->addCritical($message, array('event' => 'exception', 'exception' => $exception));
+        $this['logger.system']->critical($message, array('event' => 'exception', 'exception' => $exception));
 
         $trace = $exception->getTrace();
         foreach ($trace as $key => $value) {
