@@ -6,7 +6,7 @@ use Bolt\Entity\Entity;
 /**
  * Entity for Auth Tokens.
  */
-class Relation extends Entity
+class Relations extends Entity
 {
     
     protected $id;
