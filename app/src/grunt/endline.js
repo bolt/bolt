@@ -7,7 +7,7 @@ module.exports = {
             replaced: true
         },
         src: [
-            'lib/ckeditor/**/*.js'
+            '<%= path.src.lib %>/ckeditor/**/*.js'
         ],
         dest: false
     }
