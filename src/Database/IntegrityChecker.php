@@ -15,6 +15,7 @@ use Doctrine\DBAL\Schema\Index;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Schema\TableDiff;
+use Symfony\Component\HttpFoundation\Response;
 
 class IntegrityChecker
 {
@@ -96,7 +97,7 @@ class IntegrityChecker
                 "The file '%s' exists, but couldn't be removed. Please remove this file manually, and try again.",
                 self::getValidityTimestampFilename()
             );
-            $app->abort(401, $message);
+            $app->abort(Response::HTTP_UNAUTHORIZED, $message);
         }
     }
 

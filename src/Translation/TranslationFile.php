@@ -6,6 +6,7 @@ use Bolt\Application;
 use Bolt\Translation\Translator as Trans;
 use Silex;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Translation\Exception\InvalidResourceException;
 use Symfony\Component\Yaml\Escaper;
 use Symfony\Component\Yaml\Exception\ParseException;
@@ -552,7 +553,7 @@ class TranslationFile
         // File is not readable: abort
         } elseif (file_exists($this->absPath) && !is_readable($this->absPath)) {
             $msg = Trans::__("The translations file '%s' is not readable.", $msgRepl);
-            $this->app->abort(404, $msg);
+            $this->app->abort(Response::HTTP_NOT_FOUND, $msg);
 
         // File is writeable
         } else {

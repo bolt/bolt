@@ -247,10 +247,10 @@ class Async implements ControllerProviderInterface
 
         // don't allow viewing of anything but "readme.md" files.
         if (strtolower(basename($filename)) != 'readme.md') {
-            $app->abort(401, 'Not allowed');
+            $app->abort(Response::HTTP_UNAUTHORIZED, 'Not allowed');
         }
         if (!is_readable($filename)) {
-            $app->abort(401, 'Not readable');
+            $app->abort(Response::HTTP_UNAUTHORIZED, 'Not readable');
         }
 
         $readme = file_get_contents($filename);
@@ -734,7 +734,7 @@ class Async implements ControllerProviderInterface
             ->createMessage('message')
             ->setSubject('Test email from ' . $app['config']->get('general/sitename'))
             ->setFrom(array('bolt@' . $request->getHost() => $app['config']->get('general/sitename')))
-            ->setTo(array($user['email']                => $user['displayname']))
+            ->setTo(array($user['email']                  => $user['displayname']))
             ->setBody(strip_tags($mailhtml))
             ->addPart($mailhtml, 'text/html');
 
@@ -754,7 +754,7 @@ class Async implements ControllerProviderInterface
 
         // If there's no active session, don't do anything.
         if (!$app['users']->isValidSession()) {
-            $app->abort(404, "You must be logged in to use this.");
+            $app->abort(Response::HTTP_UNAUTHORIZED, 'You must be logged in to use this.');
         }
 
         // Stop the 'stopwatch' for the profiler.

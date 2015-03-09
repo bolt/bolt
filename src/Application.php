@@ -517,7 +517,7 @@ class Application extends Silex\Application
                 $template = $this['config']->get('general/maintenance_template');
                 $body = $this['render']->render($template);
 
-                return new Response($body, 503);
+                return new Response($body, Response::HTTP_SERVICE_UNAVAILABLE);
             }
         }
 
@@ -539,7 +539,7 @@ class Application extends Silex\Application
 
         $end = $this['config']->getWhichEnd();
         if (($exception instanceof HttpException) && ($end == 'frontend')) {
-            if ($exception->getStatusCode() == 403) {
+            if ($exception->getStatusCode() == Response::HTTP_FORBIDDEN) {
                 $content = $this['storage']->getContent($this['config']->get('general/access_denied'), array('returnsingle' => true));
             } else {
                 $content = $this['storage']->getContent($this['config']->get('general/notfound'), array('returnsingle' => true));
