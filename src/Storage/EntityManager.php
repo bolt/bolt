@@ -160,8 +160,16 @@ class EntityManager
     {
         $this->aliases[$alias] = $namespace;
     }
-    
-    
+
+    /**
+     * undocumented 
+     *
+     * @return LagacyRepository
+     */
+    public function legacy()
+    {
+        return new Repository\LegacyRepository($this, 'Legacy');
+    }
     
     
     
@@ -169,129 +177,119 @@ class EntityManager
     
     public function getContentObject($contenttype, $values = array())
     {
-        
+        return $this->legacy()->getContentObject($contenttype, $values)
     }
     
     public function preFill($contenttypes = array())
     {
-        
+        return $this->legacy()->prefill($contenttypes);
     }
     
     public function saveContent(Content $content, $comment = null)
     {
-        
+        return $this->legacy()->saveContent($content, $comment);
     }
     
     public function deleteContent($contenttype, $id)
     {
-        
+        return $this->legacy()->deleteContent($contenttype, £id);        
     }
     
     public function updateSingleValue($contenttype, $id, $field, $value)
     {
-        
+        return $this->legacy()->updateSingleValue($contenttype, $id, $field, $value);                
     }
     
     public function getEmptyContent($contenttypeslug)
     {
-        
+        return $this->legacy()->getEmptyContent($contenttypeslug);
     }
 
     public function searchContent($q, array $contenttypes = null, array $filters = null, $limit = 9999, $offset = 0)
     {
-        
+        return $this->legacy()->searchContent($q, $contenttypes, $filters, $limit, $offset);        
     }
     
     public function searchAllContentTypes(array $parameters = array(), &$pager = array())
     {
-        
+        return $this->legacy()->searchAllContentTypes($parameters, &$pager);
     }
 
     public function searchContentType($contenttypename, array $parameters = array(), &$pager = array())
     {
-        
+        return $this->legacy()->searchContentType($contenttypename, $parameters, &$pager);        
     }
     
     public function getContentByTaxonomy($taxonomyslug, $name, $parameters = "")
     {
-        
+        return $this->legacy()->getContentByTaxonomy($taxonomyslug, $name, $parameters);                
     }
 
     public function publishTimedRecords($contenttype)
     {
-        
+        return $this->legacy()->publishTimedRecords($contenttype);
     }
     
     public function depublishExpiredRecords($contenttype)
     {
-        
+        return $this->legacy()->depublishExpiredRecords($contenttype);        
     }
 
     public function getContent($textquery, $parameters = '', &$pager = array(), $whereparameters = array())
     {
-        
+        return $this->legacy()->getContent($textquery, $parameters, &$pager, $whereparameters);                
     }
     
     public function getSortOrder($name = '-datepublish')
     {
-        
+        return $this->legacy()->getSortOrder($name);
     }
     
     public function getContentType($contenttypeslug)
     {
-        
+        return $this->legacy()->getContentType($contenttypeslug);        
     }
     
     public function getTaxonomyType($taxonomyslug)
     {
-        
+        return $this->legacy()->getTaxonomyType($taxonomyslug);                
     }
     
     public function getContentTypes()
     {
-        
+        return $this->legacy()->getContentTypes();                        
     }
     
     public function getContentTypeFields($contenttypeslug)
     {
-        
+        return $this->legacy()->getContentTypeFields($contenttypeslug);                                
     }
     
     public function getContentTypeFieldType($contenttypeslug, $fieldname)
     {
-        
+        return $this->legacy()->getContentTypeFieldType($contenttypeslug, $fieldname);                                        
     }
     
     public function getContentTypeGrouping($contenttypeslug)
     {
-        
+        return $this->legacy()->getContentTypeGrouping($contenttypeslug);                                                
     }
     
     public function getContentTypeTaxonomy($contenttypeslug)
     {
-        
+        return $this->legacy()->getContentTypeTaxonomy($contenttypeslug);                                                        
     }
     
     public function getLatestId($contenttypeslug)
     {
-        
+        return $this->legacy()->getLatestId($contenttypeslug);                                                                
     }
     
     
     public function getUri($title, $id = 0, $contenttypeslug = "", $fulluri = true, $allowempty = true, $slugfield = 'slug')
     {
-        
+        return $this->legacy()->getUri($title, $id, $contenttypeslug, $fulluri, $allowempty, $slugfield);                                                                        
     }
-
-
-
-
-
-
-
-
-
-
 
 
 }
