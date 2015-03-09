@@ -9,6 +9,7 @@ use Bolt\Library as Lib;
 use Maid\Maid;
 use Silex;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Routing\Exception\RouteNotFoundException;
 
 class Content implements \ArrayAccess
 {
@@ -536,13 +537,18 @@ class Content implements \ArrayAccess
         }
 
         // Make the 'key' of the array an absolute link to the taxonomy.
-        $link = $this->app['url_generator']->generate(
-            'taxonomylink',
-            array(
-                'taxonomytype' => $taxonomytype,
-                'slug'         => $slug,
-            )
-        );
+        try {
+            $link = $this->app['url_generator']->generate(
+                'taxonomylink',
+                array(
+                    'taxonomytype' => $taxonomytype,
+                    'slug'         => $slug,
+                )
+            );
+        } catch (RouteNotFoundException $e) {
+            // Fallback to unique key (yes, also a broken link)
+            $link = $taxonomytype . '/' . $slug;
+        }
 
         // Set the 'name', for displaying the pretty name, if there is any.
         if ($this->app['config']->get('taxonomy/' . $taxonomytype . '/options/' . $slug)) {
