@@ -7,8 +7,8 @@ module.exports = function(grunt, options) {
             options: {
                 outputStyle: 'compressed',
                 includePaths: [
-                    'node_modules/bootstrap-sass/assets/stylesheets/',
-                    'node_modules/font-awesome/scss/'
+                    '<%= path.src.node %>/bootstrap-sass/assets/stylesheets/',
+                    '<%= path.src.node %>/font-awesome/scss/'
                 ],
                 lineNumbers: false,
                 unixNewlines: true,
@@ -16,8 +16,8 @@ module.exports = function(grunt, options) {
                 precision: 5
             },
             files: {
-                'css/bolt-old-ie.css': 'sass/app-old-ie.scss',
-                'css/bolt.css': 'sass/app.scss'
+                '<%= path.dest.css %>/bolt-old-ie.css': '<%= path.src.sass %>/app-old-ie.scss',
+                '<%= path.dest.css %>/bolt.css': '<%= path.src.sass %>/app.scss'
             }
         }
     };
