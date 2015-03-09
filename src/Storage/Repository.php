@@ -2,6 +2,7 @@
 namespace Bolt\Storage;
 
 use Doctrine\Common\Persistence\ObjectRepository;
+use Bolt\Mapping\ClassMetadata;
 use Bolt\Events\HydrationEvent;
 use Bolt\Events\StorageEvent;
 use Bolt\Events\StorageEvents;
@@ -14,6 +15,7 @@ class Repository implements ObjectRepository
 {
     
     public $em;
+    public $_class;
     public $entityName;
     public $namingStrategy;
     
@@ -23,13 +25,13 @@ class Repository implements ObjectRepository
      * @param EntityManager         $em    The EntityManager to use.
      * @param Mapping\ClassMetadata $class The class descriptor.
      */
-    public function __construct($em, $class, $namingStrategy = null, $hydrator = null)
+    public function __construct($em, ClassMetadata $classMetadata, $hydrator = null)
     {
         $this->em         = $em;
-        $this->entityName  = $class;
-        if (null === $namingStrategy) {
-            $this->setNamingStrategy(new NamingStrategy());
-        }
+        $this->_class     = $classMetadata;
+        $this->entityName  = $classMetadata->getName();
+        
+        
         if (null === $hydrator) {
             $this->setHydrator(new Hydrator());
         }
@@ -317,7 +319,7 @@ class Repository implements ObjectRepository
      */
     public function getTableName()
     {
-        return $this->namingStrategy->classToTableName($this->getEntityName());
+        return $this->getClassMetadata()->getTableName();
     }
     
     /**
@@ -326,7 +328,7 @@ class Repository implements ObjectRepository
      */
     public function getAlias()
     {
-        return $this->namingStrategy->classToAlias($this->getEntityName());
+        return $this->getClassMetadata()->getAliasName();
     }
 
 
@@ -338,13 +340,14 @@ class Repository implements ObjectRepository
         return $this->em;
     }
     
-    
     /**
-     * @return void
+     * Getter for class metadata 
+     *
+     * @return ClassMetadata
      */
-    public function setNamingStrategy($handler)
+    public function getClassMetadata()
     {
-        $this->namingStrategy = $handler;
+        return $this->_class;
     }
     
     /**
