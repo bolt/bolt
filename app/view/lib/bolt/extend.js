@@ -298,7 +298,7 @@ var BoltExtender = Object.extend(Object, {
 				'%AVAILABLE%':   available,
 				'%README%':      ext.readme ? conf.readme_button.subst({'%README%': ext.readme}) : '',
 				'%CONFIG%':      ext.config ? conf.config_button.subst({'%CONFIG%': ext.config}) : '',
-				'%THEME%':       ext.type == 'bolt-theme' ? conf.theme_button : '',
+				'%THEME%':       ext.type == 'bolt-theme' ? conf.theme_button.subst({'%NAME%': ext.name}) : '',
 				'%BASEURL%':     baseurl,
 				'%UNINSTALL%':   uninstall,
 				'%DESCRIPTION%': ext.descrip ? ext.descrip : '&lt;No description provided&gt;',
