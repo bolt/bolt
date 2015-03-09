@@ -746,6 +746,10 @@ class TwigExtension extends \Twig_Extension
         $finder->files()
                ->in($this->app['paths']['templatespath'])
                ->notname('/^_/')
+               ->notPath('node_modules')
+               ->notPath('bower_components')
+               ->notPath('.sass-cache')
+               ->depth('<2')
                ->path($name)
                ->sortByName();
 
