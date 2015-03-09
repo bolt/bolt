@@ -4,20 +4,20 @@ module.exports = function(grunt) {
     var options = {
         path: {
             tmp: 'tmp',
-            src: [
+            src: {
                 js: 'js',
                 lib: 'lib',
                 sass: 'sass',
                 node: 'components/node_modules',
                 bower: 'components/bower_components'
-            ]
-            dest: [
+            },
+            dest: {
                 js: '../view/js',
                 fonts: '../view/fonts',
                 img: '../view/img',
                 css: '../view/css',
                 maps: '../view/maps'
-            ]
+            }
         },
 
         files: {
