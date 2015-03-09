@@ -102,22 +102,29 @@ class EntityManager
      */
     public function getRepository($className)
     {
+        if (array_key_exists($className, $this->aliases)) {
+            $classMetadata = $this->getMapper()->loadMetadataForClass($this->aliases[$className]);
+        } else {
+            $classMetadata = $this->getMapper()->loadMetadataForClass($className);
+        }
+        
         if (array_key_exists($className, $this->repositories)) {
             $repoClass = $this->repositories[$className];
-            return new $repoClass($this, $className);
+            return new $repoClass($this, $classMetadata);
         }
         
         foreach ($this->aliases as $alias=>$namespace) {
             $full = str_replace($alias, $namespace, $className);
             
             if (array_key_exists($full, $this->repositories)) {
+                $classMetadata = $this->getMapper()->loadMetadataForClass($full);
                 $repoClass = $this->repositories[$full];
-                return new $repoClass($this, $full);
+                return new $repoClass($this, $classMetadata);
             }
             
         }
         
-        return new Repository($this, $className);
+        return new Repository($this, $classMetadata);
     }
     
     /**
@@ -142,6 +149,16 @@ class EntityManager
     public function getEventManager()
     {
         return $this->eventManager;
+    }
+    
+    /**
+     * Gets the Class Metadata Driver.
+     *
+     * @return ClassMetadata
+     */
+    public function getMapper()
+    {
+        return $this->mapping;
     }
     
     
@@ -177,7 +194,7 @@ class EntityManager
     
     public function getContentObject($contenttype, $values = array())
     {
-        return $this->legacy()->getContentObject($contenttype, $values)
+        return $this->legacy()->getContentObject($contenttype, $values);
     }
     
     public function preFill($contenttypes = array())
@@ -192,7 +209,7 @@ class EntityManager
     
     public function deleteContent($contenttype, $id)
     {
-        return $this->legacy()->deleteContent($contenttype, £id);        
+        return $this->legacy()->deleteContent($contenttype, $id);        
     }
     
     public function updateSingleValue($contenttype, $id, $field, $value)
@@ -212,12 +229,12 @@ class EntityManager
     
     public function searchAllContentTypes(array $parameters = array(), &$pager = array())
     {
-        return $this->legacy()->searchAllContentTypes($parameters, &$pager);
+        return $this->legacy()->searchAllContentTypes($parameters, $pager);
     }
 
     public function searchContentType($contenttypename, array $parameters = array(), &$pager = array())
     {
-        return $this->legacy()->searchContentType($contenttypename, $parameters, &$pager);        
+        return $this->legacy()->searchContentType($contenttypename, $parameters, $pager);        
     }
     
     public function getContentByTaxonomy($taxonomyslug, $name, $parameters = "")
@@ -237,7 +254,7 @@ class EntityManager
 
     public function getContent($textquery, $parameters = '', &$pager = array(), $whereparameters = array())
     {
-        return $this->legacy()->getContent($textquery, $parameters, &$pager, $whereparameters);                
+        return $this->legacy()->getContent($textquery, $parameters, $pager, $whereparameters);                
     }
     
     public function getSortOrder($name = '-datepublish')
