@@ -162,7 +162,7 @@ var init = {
                                     $("#" + index).val(item);
 
                                     // If there is a CKEditor attached to our element, update it
-                                    if (CKEDITOR.instances[index]) {
+                                    if (typeof CKEDITOR !== 'undefined' && CKEDITOR.instances[index]) {
                                         CKEDITOR.instances[index].setData(item);
                                     }
                                 }
