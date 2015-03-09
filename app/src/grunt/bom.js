@@ -4,7 +4,7 @@
 module.exports = {
     prepareCkeditor: {
         src: [
-            'lib/ckeditor/**/*.js'
+            '<%= path.src.lib %>/ckeditor/**/*.js'
         ]
     }
 };
