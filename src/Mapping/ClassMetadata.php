@@ -10,7 +10,7 @@ use Bolt\Storage\NamingStrategy;
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class ClassMetadata
+class ClassMetadata implements ClassMetadataInterface
 {
     
     /**
@@ -22,6 +22,11 @@ class ClassMetadata
      * @var NamingStrategyInterface
      */
     protected $namingStrategy;
+    
+    /**
+     * @var array
+     */
+    protected $fieldMappings;
     
     /**
      * Constructor, takes Fully-Qualified Class Name, applies 
@@ -42,6 +47,19 @@ class ClassMetadata
     public function getName() 
     {
         return $this->name;
+    }
+    
+    
+    /**
+     * Sets the fieldMappings array with metadata.
+     * 
+     * @param array $fieldMappings
+     *
+     * @return void
+     */
+    public function setFieldMappings($fieldMappings) 
+    {
+        $this->fieldMappings = $fieldMappings;
     }
 
     /**
@@ -117,7 +135,40 @@ class ClassMetadata
     {
         
     }
+    
+    /**
+     * Returns an array of identifier field names numerically indexed.
+     *
+     * @return array
+     */
+    public function getIdentifierFieldNames()
+    {
+        
+    }
+    
+    
+    /**** Following methods for interface compatibility, not yet used within Bolt ******/
+    
+    public function hasAssociation($fieldName) {}
+    
+    public function isSingleValuedAssociation($fieldName) {}
+        
+    public function isCollectionValuedAssociation($fieldName) {}
+    
+    public function getAssociationNames() {}
+    
+    public function getAssociationTargetClass($assocName) {}
 
+    public function isAssociationInverseSide($assocName) {}
+        
+    public function getAssociationMappedByTargetField($assocName) {}
+        
+    public function getIdentifierValues($object) {}
+
+
+
+    
+    
 
     
 }
