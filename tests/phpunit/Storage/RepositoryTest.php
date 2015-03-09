@@ -21,7 +21,7 @@ class RepositoryTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $entityName = 'Bolt\Entity\Authtoken';
-        $em = new EntityManager($app['db'], $app['dispatcher']);
+        $em = new EntityManager($app['db'], $app['dispatcher'], $app['storage.metadata']);
         $repo = new Repository($em, $entityName);
         
         $this->assertSame($em, \PHPUnit_Framework_Assert::readAttribute($repo, 'em'));        
@@ -31,7 +31,7 @@ class RepositoryTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $entityName = 'Bolt\Entity\Authtoken';
-        $em = new EntityManager($app['db'], $app['dispatcher']);
+        $em = new EntityManager($app['db'], $app['dispatcher'], $app['storage.metadata']);
         $repo = new Repository($em, $entityName);
 
         $this->assertEquals('bolt_authtoken', $repo->getTableName());
@@ -42,7 +42,7 @@ class RepositoryTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $entityName = 'Bolt\Entity\Authtoken';
-        $em = new EntityManager($app['db'], $app['dispatcher']);
+        $em = new EntityManager($app['db'], $app['dispatcher'], $app['storage.metadata']);
         $repo = new Repository($em, $entityName);
         
         $this->assertEquals($entityName, $repo->getEntityName());
@@ -53,7 +53,7 @@ class RepositoryTest extends BoltUnitTest
         $app = $this->getApp();
         $this->addDefaultUser($app);
         $entityName = 'Bolt\Entity\Users';
-        $em = new EntityManager($app['db'], $app['dispatcher']);
+        $em = new EntityManager($app['db'], $app['dispatcher'], $app['storage.metadata']);
         $repo = new Repository($em, $entityName);
         
         $result = $repo->find(1);
@@ -67,7 +67,7 @@ class RepositoryTest extends BoltUnitTest
         $entityName = 'Bolt\Entity\Users';
         
         
-        $em = new EntityManager($app['db'], $app['dispatcher']);
+        $em = new EntityManager($app['db'], $app['dispatcher'], $app['storage.metadata']);
         $repo = new Repository($em, $entityName);
         $result = $repo->findAll();
                 
@@ -82,7 +82,7 @@ class RepositoryTest extends BoltUnitTest
         $app = $this->getApp();
         $entityName = 'Bolt\Entity\Users';
         
-        $em = new EntityManager($app['db'], $app['dispatcher']);
+        $em = new EntityManager($app['db'], $app['dispatcher'], $app['storage.metadata']);
         $repo = new Repository($em, $entityName);
         $result = $repo->findBy(array('id'=>1));
                 
@@ -97,7 +97,7 @@ class RepositoryTest extends BoltUnitTest
         $entityName = 'Bolt\Entity\Users';
         $this->runListenCount($app, 'preHydrate');
         
-        $em = new EntityManager($app['db'], $app['dispatcher']);
+        $em = new EntityManager($app['db'], $app['dispatcher'], $app['storage.metadata']);
         $repo = new Repository($em, $entityName);
         $result = $repo->findOneBy(array('id'=>1));
 
@@ -112,7 +112,7 @@ class RepositoryTest extends BoltUnitTest
         $this->runListenCount($app, 'preSave');
         $this->runListenCount($app, 'postSave');
         
-        $em = new EntityManager($app['db'], $app['dispatcher']);
+        $em = new EntityManager($app['db'], $app['dispatcher'], $app['storage.metadata']);
         $repo = new Repository($em, $entityName);
         
         $newUser = array(
@@ -142,7 +142,7 @@ class RepositoryTest extends BoltUnitTest
         $this->runListenCount($app, 'preSave');
         $this->runListenCount($app, 'postSave');
         
-        $em = new EntityManager($app['db'], $app['dispatcher']);
+        $em = new EntityManager($app['db'], $app['dispatcher'], $app['storage.metadata']);
         $repo = new Repository($em, $entityName);
         $existing = $repo->findOneBy(array('displayname'=>'Test User'));
 
@@ -162,7 +162,7 @@ class RepositoryTest extends BoltUnitTest
         $this->runListenCount($app, 'preDelete');
         $this->runListenCount($app, 'postDelete');
         
-        $em = new EntityManager($app['db'], $app['dispatcher']);
+        $em = new EntityManager($app['db'], $app['dispatcher'], $app['storage.metadata']);
         $repo = new Repository($em, $entityName);
         $existing = $repo->findOneBy(array('displayname'=>'Test User'));
         
