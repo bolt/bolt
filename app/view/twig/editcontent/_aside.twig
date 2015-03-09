@@ -12,7 +12,7 @@
     </div>
 </div>
 
-{{ panels.changes(context.contenttype.slug, context.content.id) }}
+{{ panels.changes(context.contenttype.slug, context.content.id|default(null)) }}
 
 {{ panels.lastmodified(context.contenttype.slug, context.content.id) }}
 
