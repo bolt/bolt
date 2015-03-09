@@ -8,8 +8,8 @@ module.exports = function(grunt) {
                 js: 'js',
                 lib: 'lib',
                 sass: 'sass',
-                node: 'components/node_modules',
-                bower: 'components/bower_components'
+                node: 'node_modules',
+                bower: 'bower_components'
             },
             dest: {
                 js: '../view/js',
