@@ -4,6 +4,7 @@ namespace Bolt\Storage;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\QueryBuilder;
+use Doctrine\Common\Persistence\Mapping\Driver\MappingDriver;
 
 /**
  * Manages all loaded entities across application, provides access to Repository Classes.
@@ -13,6 +14,7 @@ class EntityManager
     
     protected $conn;
     protected $eventManager;
+    protected $mapping;
     protected $repositories = array();
     protected $aliases = array();
     
@@ -23,11 +25,11 @@ class EntityManager
      * @param \Doctrine\DBAL\Connection     $conn
      * @param EventDispatcherInterface      $eventManager
      */
-    public function __construct(Connection $conn, EventDispatcherInterface $eventManager)
+    public function __construct(Connection $conn, EventDispatcherInterface $eventManager, MappingDriver $mapping)
     {
-        $this->conn              = $conn;
-        $this->eventManager      = $eventManager;
-
+        $this->conn         = $conn;
+        $this->eventManager = $eventManager;
+        $this->mapping      = $mapping;
     }
     
     /**
