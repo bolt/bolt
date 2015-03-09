@@ -46,8 +46,8 @@ class EntityManagerTest extends BoltUnitTest
         $em = new EntityManager($app['db'], $app['dispatcher'], $app['storage.metadata']);
         
         $customRepoClass = 'Bolt\Tests\Storage\Mock\TestRepository';
-        $em->setRepository('Bolt\Entity\Test', $customRepoClass);
-        $em->addEntityAlias('test', 'Bolt\Entity\Test');
+        $em->setRepository('Bolt\Entity\Users', $customRepoClass);
+        $em->addEntityAlias('test', 'Bolt\Entity\Users');
         
         $repo = $em->getRepository('test');
                 
