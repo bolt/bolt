@@ -12,13 +12,14 @@ class ExtensionInstaller
      *
      * @param \Composer\EventDispatcher\Event $event
      */
-    public static function handle(Event $event)
+    public static function handle($event)
     {
-        if (!($event instanceof ScriptEvent || $event instanceof PackageEvent)) {
+        try {
+            $installedPackage = $installedPackage = $event->getOperation()->getPackage();
+        } catch (\Exception $e) {
             return;
         }
 
-        $installedPackage = $event->getComposer()->getPackage();
         $rootExtra = $event->getComposer()->getPackage()->getExtra();
         $extra = $installedPackage->getExtra();
         if (isset($extra['bolt-assets'])) {
