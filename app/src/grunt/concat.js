@@ -9,7 +9,7 @@ module.exports = {
         options: {
             separator: '\n\n',
             sourceMap: true,
-            sourceMapName: '<%= path.dest.maps %>/lib.min.js.map'
+            sourceMapName: '<%= path.dest.js %>/maps/lib.min.js.map'
         },
         nonull: true,
         src: [

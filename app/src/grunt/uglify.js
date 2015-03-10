@@ -132,7 +132,7 @@ module.exports = {
         options: {
             banner: '<%= banner.boltJs %>',
             sourceMap: true,
-            sourceMapName: '<%= path.dest.maps %>/bolt.min.js.map'
+            sourceMapName: '<%= path.dest.js %>/maps/bolt.min.js.map'
         },
         files: {
             '<%= path.dest.js %>/bolt.min.js': '<%= files.boltJs %>'

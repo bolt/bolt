@@ -16,8 +16,7 @@ module.exports = function(grunt) {
                 js: '../view/js',
                 fonts: '../view/fonts',
                 img: '../view/img',
-                css: '../view/css',
-                maps: '../view/maps'
+                css: '../view/css'
             }
         },
 
