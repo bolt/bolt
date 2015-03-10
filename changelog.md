@@ -3,6 +3,9 @@ Bolt 2.2 DEV-head
 
 Not yet released. 
 
+ - Added: Stop Finder from recursing common build folders and place a limit on the maximum depth it will recurse otherwise. (Thanks @Cooperaj, see #3069)
+
+ 
 Bolt 2.1.0
 ----------
 
