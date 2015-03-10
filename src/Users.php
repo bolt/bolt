@@ -42,7 +42,9 @@ class Users
         $this->authtokentable = $prefix . "authtoken";
         $this->users = array();
         $this->session = $app['session'];
-        $this->remoteIP = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : "";
+
+        // Get the IP stored earlier in the request cycle. If it's missing we're on CLI so use localhost
+        $this->remoteIP = isset($app['request.client_ip']) ? $app['request.client_ip'] : '127.0.0.1';
 
         // Set 'validsession', to see if the current session is valid.
         $this->validsession = $this->checkValidSession();
@@ -270,7 +272,7 @@ class Users
             'token'     => $this->getAuthToken($this->currentuser['username'], $salt),
             'salt'      => $salt,
             'validity'  => date('Y-m-d H:i:s', time() + $this->app['config']->get('general/cookies_lifetime')),
-            'ip'        => $_SERVER['REMOTE_ADDR'],
+            'ip'        => $this->remoteIP,
             'lastseen'  => date('Y-m-d H:i:s'),
             'useragent' => $_SERVER['HTTP_USER_AGENT']
         );
