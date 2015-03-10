@@ -15,7 +15,9 @@ module.exports = {
             lineNumbers: false,
             unixNewlines: true,
             banner: '<%= banner.boltCss %>',
-            precision: 5
+            precision: 5,
+            sourceMap: true,
+            sourceMapContents: true
         },
         files: {
             '<%= path.dest.css %>/bolt-old-ie.css': '<%= path.src.sass %>/app-old-ie.scss',
