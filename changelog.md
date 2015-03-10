@@ -4,6 +4,8 @@ Bolt 2.2 DEV-head
 Not yet released. 
 
  - Added: Stop Finder from recursing common build folders and place a limit on the maximum depth it will recurse otherwise. (Thanks @Cooperaj, see #3069)
+ - Fixed: Removing default taxonomylink route leads to exception (See #3070)
+ - Fixed: Don't reset urls when adding base path. (See #3074)
 
  
 Bolt 2.1.0
