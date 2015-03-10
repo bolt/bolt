@@ -462,19 +462,20 @@ abstract class BaseExtension implements ExtensionInterface
     /**
      * Add a javascript file to the rendered HTML.
      *
-     * @param string $filename
-     * @param bool   $late
-     * @param int    $priority
+     * @param string  $filename File name to add to src=""
+     * @param boolean $late     True to add to the end of the HTML <body>
+     * @param integer $priority Loading priority
+     * @param string  $attrib   Either 'defer', or 'async'
      */
-    public function addJavascript($filename, $late = false, $priority = 0)
+    public function addJavascript($filename, $late = false, $priority = 0, $attrib = false)
     {
         // check if the file exists.
-        if (file_exists($this->basepath . "/" . $filename)) {
+        if (file_exists($this->basepath . '/' . $filename)) {
             // file is located relative to the current extension.
-            $this->app['extensions']->addJavascript($this->getBaseUrl() . $filename, $late, $priority);
-        } elseif (file_exists($this->app['paths']['themepath'] . "/" . $filename)) {
+            $this->app['extensions']->addJavascript($this->getBaseUrl() . $filename, $late, $priority, $attrib);
+        } elseif (file_exists($this->app['paths']['themepath'] . '/' . $filename)) {
             // file is located relative to the theme path.
-            $this->app['extensions']->addJavascript($this->app['paths']['theme'] . $filename, $late, $priority);
+            $this->app['extensions']->addJavascript($this->app['paths']['theme'] . $filename, $late, $priority, $attrib);
         } else {
             // Nope, can't add the CSS.
             $message = "Couldn't add Javascript '$filename': File does not exist in '" . $this->getBaseUrl() . "'.";
@@ -485,17 +486,17 @@ abstract class BaseExtension implements ExtensionInterface
     /**
      * Add a CSS file to the rendered HTML.
      *
-     * @param string $filename
-     * @param bool   $late
-     * @param int    $priority
+     * @param string  $filename File name to add to href=""
+     * @param boolean $late     True to add to the end of the HTML <body>
+     * @param integer $priority Loading priority
      */
     public function addCSS($filename, $late = false, $priority = 0)
     {
         // check if the file exists.
-        if (file_exists($this->basepath . "/" . $filename)) {
+        if (file_exists($this->basepath . '/' . $filename)) {
             // file is located relative to the current extension.
             $this->app['extensions']->addCss($this->getBaseUrl() . $filename, $late, $priority);
-        } elseif (file_exists($this->app['paths']['themepath'] . "/" . $filename)) {
+        } elseif (file_exists($this->app['paths']['themepath'] . '/' . $filename)) {
             // file is located relative to the theme path.
             $this->app['extensions']->addCss($this->app['paths']['theme'] . $filename, $late, $priority);
         } else {

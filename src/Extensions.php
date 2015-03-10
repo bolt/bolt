@@ -407,9 +407,9 @@ class Extensions
      * Add a particular CSS file to the output. This will be inserted before the
      * other css files.
      *
-     * @param string $filename
-     * @param bool   $late
-     * @param int    $priority
+     * @param string  $filename File name to add to href=""
+     * @param boolean $late     True to add to the end of the HTML <body>
+     * @param integer $priority Loading priority
      */
     public function addCss($filename, $late = false, $priority = 0)
     {
@@ -424,16 +424,18 @@ class Extensions
      * Add a particular javascript file to the output. This will be inserted after
      * the other javascript files.
      *
-     * @param string $filename
-     * @param bool   $late
-     * @param int    $priority
+     * @param string  $filename File name to add to src=""
+     * @param boolean $late     True to add to the end of the HTML <body>
+     * @param integer $priority Loading priority
+     * @param string  $attrib   Either 'defer', or 'async'
      */
-    public function addJavascript($filename, $late = false, $priority = 0)
+    public function addJavascript($filename, $late = false, $priority = 0, $attrib = false)
     {
         $this->assets['js'][md5($filename)] = array(
-            'filename'  => $filename,
-            'late'      => $late,
-            'priority'  => $priority
+            'filename' => $filename,
+            'late'     => $late,
+            'priority' => $priority,
+            'attrib'   => $attrib == 'defer' || $attrib == 'async' ? $attrib : false
         );
     }
 
@@ -687,11 +689,12 @@ class Extensions
             array_walk($files, create_function('&$v, $k', '$v = $v[2];'));
 
             foreach ($files as $file) {
-                $late = $file['late'];
+                $late     = $file['late'];
                 $filename = $file['filename'];
+                $attrib   = $file['attrib'] ? ' ' . $file['attrib'] : '';
 
-                if ($type == 'js') {
-                    $htmlJs = sprintf('<script src="%s"></script>', $filename);
+                if ($type === 'js') {
+                    $htmlJs = sprintf('<script src="%s"%s></script>', $filename, $attrib);
                     if ($late) {
                         $html = $this->insertEndOfBody($htmlJs, $html);
                     } else {
