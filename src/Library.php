@@ -146,7 +146,7 @@ class Library
         $app = ResourceManager::getApp();
 
         // If the user doesn't have access to the backend, redirect them to the frontend
-        if ($path === 'dashboard' && !$app['users']->isAllowed('dashboard')) {
+        if ($path === 'dashboard' && $app['users']->isValidSession() && !$app['users']->isAllowed('dashboard')) {
             $app['session']->getFlashBag()->clear();
             $path = 'homepage';
         }
