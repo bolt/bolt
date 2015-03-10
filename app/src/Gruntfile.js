@@ -12,6 +12,7 @@ module.exports = function(grunt) {
                 bower: 'bower_components'
             },
             dest: {
+                base: '../view',
                 js: '../view/js',
                 fonts: '../view/fonts',
                 img: '../view/img',
