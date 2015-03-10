@@ -35,7 +35,9 @@ module.exports = {
      */
     gruntfile: {
         files: [
-            'Gruntfile.js'
+            'Gruntfile.js',
+            'grunt/*.js',
+            'grunt/*.yml'
         ],
         options: {
             reload: true
