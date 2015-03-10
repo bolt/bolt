@@ -20,6 +20,7 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Yaml;
 use Symfony\Component\Yaml\Exception\ParseException;
@@ -445,7 +446,7 @@ class Backend implements ControllerProviderInterface
         $entry = $app['logger.manager.change']->getChangelogEntry($contenttype, $contentid, $id);
         if (empty($entry)) {
             $error = Trans::__("The requested changelog entry doesn't exist.");
-            $app->abort(404, $error);
+            $app->abort(Response::HTTP_NOT_FOUND, $error);
         }
         $prev = $app['logger.manager.change']->getPrevChangelogEntry($contenttype, $contentid, $id);
         $next = $app['logger.manager.change']->getNextChangelogEntry($contenttype, $contentid, $id);
@@ -700,7 +701,7 @@ class Backend implements ControllerProviderInterface
 
         if ($request->getMethod() == "POST") {
             if (!$app['users']->checkAntiCSRFToken()) {
-                $app->abort(400, Trans::__('Something went wrong'));
+                $app->abort(Response::HTTP_BAD_REQUEST, Trans::__('Something went wrong'));
             }
             if (!empty($id)) {
                 // Check if we're allowed to edit this content.
@@ -871,7 +872,7 @@ class Backend implements ControllerProviderInterface
             $content = $app['storage']->getContent($contenttype['slug'], array('id' => $id));
 
             if (empty($content)) {
-                $app->abort(404, Trans::__('contenttypes.generic.not-existing', array('%contenttype%' => $contenttype['slug'])));
+                $app->abort(Response::HTTP_NOT_FOUND, Trans::__('contenttypes.generic.not-existing', array('%contenttype%' => $contenttype['slug'])));
             }
 
             // Check if we're allowed to edit this content.
@@ -1224,13 +1225,13 @@ class Backend implements ControllerProviderInterface
 
             $currentuser = $app['users']->getCurrentUser();
 
-            if ($user['id'] == $currentuser['id'] && $user['username'] != $currentuser['username']) {
+            if ($user !== false && $user['id'] === $currentuser['id'] && $user['username'] !== $currentuser['username']) {
                 // If the current user changed their own login name, the session is effectively
                 // invalidated. If so, we must redirect to the login page with a flash message.
                 $app['session']->getFlashBag()->add('error', Trans::__('page.edit-users.message.change-self'));
 
                 return Lib::redirect('login');
-            } else {
+            } elseif ($user !== false) {
                 // Return to the 'Edit users' screen.
                 return Lib::redirect('users');
             }
@@ -1537,7 +1538,7 @@ class Backend implements ControllerProviderInterface
 
         if (!$filesystem->authorized($path)) {
             $error = Trans::__("You don't have the correct permissions to display the file or directory '%s'.", array('%s' => $path));
-            $app->abort(403, $error);
+            $app->abort(Response::HTTP_FORBIDDEN, $error);
         }
 
         $uploadview = true;
@@ -1689,7 +1690,7 @@ class Backend implements ControllerProviderInterface
 
         if (!$filesystem->authorized($file)) {
             $error = Trans::__("You don't have correct permissions to edit the file '%s'.", array('%s' => $file));
-            $app->abort(403, $error);
+            $app->abort(Response::HTTP_FORBIDDEN, $error);
         }
 
         /** @var \League\Flysystem\File $file */
@@ -1711,7 +1712,7 @@ class Backend implements ControllerProviderInterface
         $contents = null;
         if (!$file->exists() || !($contents = $file->read())) {
             $error = Trans::__("The file '%s' doesn't exist, or is not readable.", array('%s' => $file->getPath()));
-            $app->abort(404, $error);
+            $app->abort(Response::HTTP_NOT_FOUND, $error);
         }
 
         if (!$file->update($contents)) {

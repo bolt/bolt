@@ -1076,7 +1076,7 @@ class Storage
             }
         } catch (DBALException $e) {
             $message = "Timed publication of records for $contenttype failed: " . $e->getMessage();
-            $this->app['logger.system']->addCritical($message, array('event' => 'exception', 'exception' => $e));
+            $this->app['logger.system']->critical($message, array('event' => 'exception', 'exception' => $e));
         }
     }
 
@@ -1113,7 +1113,7 @@ class Storage
             }
         } catch (DBALException $e) {
             $message = "Timed de-publication of records for $contenttype failed: " . $e->getMessage();
-            $this->app['logger.system']->addCritical($message, array('event' => 'exception', 'exception' => $e));
+            $this->app['logger.system']->critical($message, array('event' => 'exception', 'exception' => $e));
         }
     }
 

@@ -1,0 +1,36 @@
+# DEFAULT TASK:  Watches for changes of Bolts own css and js files
+default:
+    - watch
+
+# UPDATE BOLT TASK:  Creates Bolts own css and js files
+updateBolt:
+    - sass:boltCss
+    - jshint:boltJs
+    - uglify:boltJs
+
+# UPDATE LIB TASK:  Builds library css/js. Run after one of the externals is updated
+updateLib:
+    # Prepare
+    - uglify:prepareBootstrapJs             # Concat bootstrap scripts into one minified file
+    - modernizr:prepare                     # Build custom Modernizr
+    - uglify:prepareLibJs                   # Create min. versions of library scripts that don't have them
+    # Install
+    - copy:installFonts                     # Copies fonts                   => view/fonts/*
+    - cssmin:installLibCss                  # Concats and min. library css   => view/css/lib.css
+    - libcssimg                             # Copy lib images & rebase urls  => view/img/lib/*
+    - concat:installLibJs                   # Concats min. library scripts   => view/js/lib.min.js
+    - uglify:installLocaleDatepicker        # Copies min. datepicker locale  => view/js/locale/datepicker/*
+    - uglify:installLocaleMoment            # Copies min. moment.js locale   => view/js/locale/moment/*
+    - copy:installCkeditor1                 # Copies CKEditor files          => view/js/ckeditor/*
+    - copy:installCkeditor2                 # Copies modified ckeditor.js    => view/js/ckeditor/ckeditor.js
+    - copy:installJqueryGomap               # Copies jquery-gomap.min.js     => view/js/jquery-gomap.min.js
+    - uglify:installCodeMirror              # Copies CodeMirror locale       => view/js/codemirror/*
+    # Cleanup
+    - remove:cleanupTmp                     # Empties the tmp folder and removes it
+
+# PREPARE CKEDITOR DOWNLOAD TASK:  Various cleanups of downloaded CKEditor files
+prepareCkeditor:
+    - remove:prepareCkeditor                # Remove unneeded direcories
+    - bom:prepareCkeditor                   # Remove unneeded bom
+    - eol:prepareCkeditor                   # Convert CRLF to LF
+    - endline:prepareCkeditor               # Add newlines to *.js

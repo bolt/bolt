@@ -10,11 +10,28 @@ thumbs/
 vendor/
 phpunit.xml
 
-# unless you want to store vendor's "state" in your Git repo.
+# Unless you want to store vendor's "state" in your Git repo.
 composer.phar
 composer.lock
 
-# Files related to testing, file-system cruft and temporary files.
+# Files related to testing
+tests/codeception/_log
+tests/codeception/*/*Tester.php
+tests/phpunit/report
+tests/phpunit/resources/*
+!tests/phpunit/resources/db/
+app/config/permissions.yml.codeception-backup
+/bolt.db
+
+# Grunt stuff
+node_modules
+bower_components
+npm-debug.log
+.sass-cache
+*.map
+app/src/tmp/
+
+# File-system cruft and temporary files
 scrutinizer.phar
 php-cs-fixer.phar
 .DS_Store
@@ -30,19 +47,8 @@ Vagrantfile
 .swp
 *.lock
 .gitignore
-test/_log
-test/*/*Tester.php
 .buildpath
 .project
-npm-debug.log
-.sass-cache
-node_modules
-bower_components
 /bolt.log
-tests/report
-tests/resources/*
-/bolt.db
-!tests/resources/db/
 coverage.xml
 
-*.map

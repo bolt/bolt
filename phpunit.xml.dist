@@ -25,7 +25,5 @@
         </whitelist>
     </filter>
     <logging>
-        <log type="coverage-text" target="php://stdout" showUncoveredFiles="true" showOnlySummary="true" />
-        <log type="coverage-clover" target="coverage.xml" showUncoveredFiles="true"/>
     </logging>
 </phpunit>

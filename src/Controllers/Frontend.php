@@ -42,7 +42,7 @@ class Frontend
                 $contentid = null;
             }
             if (!$app['users']->isAllowed('frontend', $contenttypeslug, $contentid)) {
-                $app->abort(403, 'Not allowed.');
+                $app->abort(Response::HTTP_FORBIDDEN, 'Not allowed.');
             }
         }
     }
@@ -81,7 +81,7 @@ class Frontend
                 $template = $app['templatechooser']->maintenance();
                 $body = $app['render']->render($template);
 
-                return new Response($body, 503);
+                return new Response($body, Response::HTTP_SERVICE_UNAVAILABLE);
             }
         }
 
@@ -136,7 +136,7 @@ class Frontend
 
         // If the contenttype is 'viewless', don't show the record page.
         if (isset($contenttype['viewless']) && $contenttype['viewless'] === true) {
-            $app->abort(404, "Page $contenttypeslug/$slug not found.");
+            $app->abort(Response::HTTP_NOT_FOUND, "Page $contenttypeslug/$slug not found.");
         }
 
         // Perhaps we don't have a slug. Let's see if we can pick up the 'id', instead.
@@ -163,31 +163,15 @@ class Frontend
             if ($slug == trim($app['config']->get('general/branding/path'), '/')) {
                 Lib::simpleredirect($app['config']->get('general/branding/path') . '/');
             }
-            $app->abort(404, "Page $contenttypeslug/$slug not found.");
+            $app->abort(Response::HTTP_NOT_FOUND, "Page $contenttypeslug/$slug not found.");
         }
 
         // Then, select which template to use, based on our 'cascading templates rules'
         $template = $app['templatechooser']->record($content);
 
-        // Fallback: If file is not OK, show an error page
-        $filename = $app['paths']['templatespath'] . "/" . $template;
-        if (!file_exists($filename) || !is_readable($filename)) {
-            $error = sprintf(
-                "No template for '%s' defined. Tried to use '%s/%s'.",
-                $content->getTitle(),
-                basename($app['config']->get('general/theme')),
-                $template
-            );
-
-            // Set/log errors and abort
-            $this->setTemplateError($app, $error);
-            $app['logger.system']->error($error, array('event' => 'template'));
-            $app->abort(404, $error);
-        }
-
         // Setting the canonical path and the editlink.
-        $app['canonicalpath'] = $content->link();
-        $app['paths'] = $app['resources']->getPaths();
+        $paths = $app['resources']->getPaths();
+        $app['resources']->setUrl('canonicalurl', sprintf('%s%s', $paths['canonical'], $content->link()));
         $app['editlink'] = Lib::path('editcontent', array('contenttypeslug' => $contenttype['slug'], 'id' => $content->id));
         $app['edittitle'] = $content->getTitle();
 
@@ -221,22 +205,6 @@ class Frontend
 
         // Then, select which template to use, based on our 'cascading templates rules'
         $template = $app['templatechooser']->record($content);
-
-        // Fallback: If file is not OK, show an error page
-        $filename = $app['paths']['templatespath'] . "/" . $template;
-        if (!file_exists($filename) || !is_readable($filename)) {
-            $error = sprintf(
-                "No template for '%s' defined. Tried to use '%s/%s'.",
-                $content->getTitle(),
-                basename($app['config']->get('general/theme')),
-                $template
-            );
-
-            // Set/log errors and abort
-            $this->setTemplateError($app, $error);
-            $app['logger.system']->error($error, array('event' => 'template'));
-            $app->abort(404, $error);
-        }
 
         // Make sure we can also access it as {{ page.title }} for pages, etc. We set these in the global scope,
         // So that they're also available in menu's and templates rendered by extensions.
@@ -272,7 +240,7 @@ class Frontend
 
         // If the contenttype is 'viewless', don't show the record page.
         if (isset($contenttype['viewless']) && $contenttype['viewless'] === true) {
-            $app->abort(404, "Page $contenttypeslug not found.");
+            $app->abort(Response::HTTP_NOT_FOUND, "Page $contenttypeslug not found.");
         }
 
         $pagerid = Pager::makeParameterId($contenttypeslug);
@@ -286,22 +254,6 @@ class Frontend
         $this->checkFrontendPermission($app, $contenttype['slug']);
 
         $template = $app['templatechooser']->listing($contenttype);
-
-        // Fallback: If file is not OK, show an error page
-        $filename = $app['paths']['templatespath'] . "/" . $template;
-        if (!file_exists($filename) || !is_readable($filename)) {
-            $error = sprintf(
-                "No template for '%s'-listing defined. Tried to use '%s/%s'.",
-                $contenttypeslug,
-                basename($app['config']->get('general/theme')),
-                $template
-            );
-
-            // Set/log errors and abort
-            $this->setTemplateError($app, $error);
-            $app['logger.system']->error($error, array('event' => 'template'));
-            $app->abort(404, $error);
-        }
 
         // Make sure we can also access it as {{ pages }} for pages, etc. We set these in the global scope,
         // So that they're also available in menu's and templates rendered by extensions.
@@ -343,27 +295,10 @@ class Frontend
         // See https://github.com/bolt/bolt/pull/2310
         if (($taxonomy['behaves_like'] === 'tags' && !$content)
             || (in_array($taxonomy['behaves_like'], array('categories', 'grouping')) && !in_array($slug, isset($taxonomy['options']) ? array_keys($taxonomy['options']) : array()))) {
-            $app->abort(404, "No slug '$slug' in taxonomy '$taxonomyslug'");
+            $app->abort(Response::HTTP_NOT_FOUND, "No slug '$slug' in taxonomy '$taxonomyslug'");
         }
 
         $template = $app['templatechooser']->taxonomy($taxonomyslug);
-
-        // Fallback: If file is not OK, show an error page
-        $filename = $app['resources']->getPath('templatespath') . '/' . $template;
-
-        if (!file_exists($filename) || !is_readable($filename)) {
-            $error = sprintf(
-                "No template for '%s'-listing defined. Tried to use '%s/%s'.",
-                $taxonomyslug,
-                basename($app['config']->get('general/theme')),
-                $template
-            );
-
-            // Set/log errors and abort
-            $this->setTemplateError($app, $error);
-            $app['logger.system']->error($error, array('event' => 'template'));
-            $app->abort(404, $error);
-        }
 
         $name = $slug;
         // Look in taxonomies in 'content', to get a display value for '$slug', perhaps.
@@ -499,16 +434,19 @@ class Frontend
             return $app['twig']->render($template);
         } catch (\Twig_Error_Loader $e) {
             $error = sprintf(
-                "No template for '%s' defined. Tried to use '%s/%s'.",
+                'Rendering %s failed: %s',
                 $title,
-                basename($app['config']->get('general/theme')),
-                $template
+                $e->getMessage()
             );
 
+            // Log it
             $app['logger.system']->error($error, array('event' => 'twig'));
 
+            // Set the template error
+            $this->setTemplateError($app, $error);
+
             // Abort ship
-            $app->abort(404, $error);
+            $app->abort(Response::HTTP_INTERNAL_SERVER_ERROR, $error);
         }
     }
 

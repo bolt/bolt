@@ -37,8 +37,8 @@ cron_hour: 3
 
 # If your site is reachable under different urls (say, both blog.example.org/
 # as well as example.org/), it's a good idea to set one of these as the canonical,
-# so it's clear which is the primary address of the site. Don't include the
-# http:// protocol prefix. Enable the following line to define a canonical url.
+# so it's clear which is the primary address of the site. If you include `https://`,
+# it will be included in the canonical urls.
 #canonical: example.org
 
 # Bolt can insert a <link rel="shortcut icon"> for all pages on the site. Note
@@ -124,8 +124,8 @@ caching:
 changelog:
   enabled: false
 
-# Default settings for thumbnails. Quality should be between 0 (horrible) and
-# 100 (best, huge image). Cropping is one of either crop, fit, borders, resize.
+# Default settings for thumbnails. Quality should be between 0 (horrible, small file) and
+# 100 (best, huge file). Cropping is one of either crop, fit, borders, resize.
 # default_thumbnail is the default size of images, when using {{ record.image|thumbnail() }}
 # default_image is the default size of images, when using {{ record.image|image() }}
 # allow_upscale determines whether small images will be enlarged to fit the requested dimensions.
