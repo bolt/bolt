@@ -12,7 +12,7 @@ updateBolt:
 updateLib:
     # Prepare
     - uglify:prepareBootstrapJs             # Concat bootstrap scripts into one minified file
-    - modernizr:prepare                     # Build Modernizr
+    - modernizr:prepare                     # Build custom Modernizr
     - uglify:prepareLibJs                   # Create min. versions of library scripts that don't have them
     # Install
     - copy:installFonts                     # Copies fonts                   => view/fonts/*
@@ -26,7 +26,7 @@ updateLib:
     - copy:installJqueryGomap               # Copies jquery-gomap.min.js     => view/js/jquery-gomap.min.js
     - uglify:installCodeMirror              # Copies CodeMirror locale       => view/js/codemirror/*
     # Cleanup
-    - remove:cleanupTmp                     # Clean up the tmp folder
+    - remove:cleanupTmp                     # Empties the tmp folder and removes it
 
 # PREPARE CKEDITOR DOWNLOAD TASK:  Various cleanups of downloaded CKEditor files
 prepareCkeditor:

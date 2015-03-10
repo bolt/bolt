@@ -2,6 +2,9 @@
  * UGLIFY: Minify files with UglifyJS
  */
 module.exports = {
+    /*
+     * TARGET:  Create minified versions of library scripts that don't have them
+     */
     prepareLibJs: {
         options: {
             preserveComments: 'some',
@@ -34,6 +37,9 @@ module.exports = {
         }]
     },
 
+    /*
+     * TARGET:  Copies CodeMirror locale
+     */
     installCodeMirror: {
         options: {
             preserveComments: 'some'
@@ -57,6 +63,9 @@ module.exports = {
         }]
     },
 
+    /*
+     * TARGET:  Copies min. datepicker locale
+     */
     installLocaleDatepicker: {
         options: {
             preserveComments: 'some'
@@ -73,6 +82,9 @@ module.exports = {
         }]
     },
 
+    /*
+     * TARGET:  Copies min. moment.js locale
+     */
     installLocaleMoment: {
         options: {
             preserveComments: 'some'
@@ -91,6 +103,9 @@ module.exports = {
         }]
     },
 
+    /*
+     * TARGET:  Concat bootstrap scripts into one minified file
+     */
     prepareBootstrapJs: {
         options: {
             sourceMap: true,
@@ -110,6 +125,9 @@ module.exports = {
         }
     },
 
+    /*
+     * TARGET:  Build Bolts js file
+     */
     boltJs: {
         options: {
             banner: '<%= banner.boltJs %>',

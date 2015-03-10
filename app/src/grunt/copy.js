@@ -2,6 +2,9 @@
  * COPY: Copy files and folders
  */
 module.exports = {
+    /*
+     * TARGET:  Copies fonts
+     */
     installFonts: {
         files: [{
             expand: true,
@@ -14,6 +17,9 @@ module.exports = {
         }]
     },
 
+    /*
+     * TARGET:  Copies CKEditor files
+     */
     installCkeditor1: {
         files: [
             {
@@ -44,6 +50,9 @@ module.exports = {
         ]
     },
 
+    /*
+     * TARGET:  Copies modified ckeditor.js
+     */
     installCkeditor2: {
         // process doesn't work on file level, so we need a new target
         src: '<%= path.src.lib %>/ckeditor/ckeditor.js',
@@ -55,6 +64,9 @@ module.exports = {
         }
     },
 
+    /*
+     * TARGET:  Copies jquery-gomap.min.js
+     */
     installJqueryGomap: {
         src: '<%= path.src.lib %>/jquery-gomap/jquery-gomap.min.js',
         dest: '<%= path.dest.js %>/jquery-gomap.min.js'

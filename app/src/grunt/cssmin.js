@@ -2,6 +2,9 @@
  * CSSMIN: Compress CSS files
  */
 module.exports = {
+    /*
+     * TARGET:  Concats and minified library css
+     */
     installLibCss: {
         options: {
             compatibility: 'ie8',

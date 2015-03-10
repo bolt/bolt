@@ -7,6 +7,9 @@ module.exports = {
         livereload: true
     },
 
+    /*
+     * TARGET:  Build Bolts css file changes
+     */
     boltCss: {
         files: [
             '<%= path.src.sass %>/**/*.scss'
@@ -16,6 +19,9 @@ module.exports = {
         ]
     },
 
+    /*
+     * TARGET:  Build Bolts js file changes
+     */
     boltJs: {
         files: '<%= files.boltJs %>',
         tasks: [
@@ -24,6 +30,9 @@ module.exports = {
         ]
     },
 
+    /*
+     * TARGET:  Watch Gruntfile changes and then reload
+     */
     gruntfile: {
         files: [
             'Gruntfile.js'

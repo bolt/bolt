@@ -2,6 +2,9 @@
  * MODERNIZR: Modernizr builder
  */
 module.exports = {
+    /*
+     * TARGET:  Build custom Modernizr
+     */
     prepare: {
         devFile: 'remote',
         outputFile: '<%= path.tmp %>/modernizr-custom.js',

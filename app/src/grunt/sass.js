@@ -2,6 +2,9 @@
  * SASS: Compile Sass to CSS
  */
 module.exports = {
+    /*
+     * TARGET:  Build Bolts css file
+     */
     boltCss: {
         options: {
             outputStyle: 'compressed',

@@ -12,6 +12,9 @@ module.exports = {
         ]
     },
 
+    /*
+     * TARGET:  Empties the tmp folder and removes it
+     */
     cleanupTmp: {
         dirList: [
             '<%= path.tmp %>'

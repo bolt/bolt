@@ -2,6 +2,9 @@
  * CONCAT: Concatenate files
  */
 module.exports = {
+    /*
+     * TARGET:  Concats minified library scripts
+     */
     installLibJs: {
         options: {
             separator: '\n\n',

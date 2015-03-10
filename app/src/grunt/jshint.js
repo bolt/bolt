@@ -2,6 +2,9 @@
  * JSHINT: Validates files with JSHint
  */
 module.exports = {
+    /*
+     * TARGET:  Checks Bolts js files
+     */
     boltJs: {
         options: {
             browser: true,      // Defines globals exposed by modern browsers
