@@ -1271,7 +1271,7 @@ class TwigExtension extends \Twig_Extension
                             $item['link'] = $content->link();
                         }
                     } else {
-                        $item['link'] = $this->app['request']->getBasePath() . $path;
+                        $item['link'] = $this->app['request']->getBasePath() . '/' . $path;
                     }
                 } catch (ResourceNotFoundException $e) {
                     $this->app['logger.system']->error(Trans::__('Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.', array('%PATH%' => $item['path'])), array('event' => 'config'));
