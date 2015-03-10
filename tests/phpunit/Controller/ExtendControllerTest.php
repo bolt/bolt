@@ -1,7 +1,6 @@
 <?php
 namespace Bolt\Tests\Controller;
 
-use Bolt\Composer\PackageManager;
 use Bolt\Controllers\Extend;
 use Bolt\Tests\BoltUnitTest;
 use Symfony\Component\HttpFoundation\Request;
@@ -72,7 +71,7 @@ class ExtendControllerTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $this->allowLogin($app);
-        $request = Request::create('/bolt/extend/');
+        $request = Request::create('/bolt/extend');
         $this->checkTwigForTemplate($app, 'extend/extend.twig');
         $response = $app->handle($request);
         $this->assertEquals(200, $response->getStatusCode());
