@@ -275,15 +275,15 @@ class ResourceManager
             $protocol = "cli";
         }
 
-        $rootUrl = $this->getUrl('root');
+        $rootUrl = rtrim($this->getUrl('root'), '/');
         if ($request->getBasePath() !== '') {
-            $rootUrl = $request->getBasePath() . '/';
-            $this->setUrl('root', $rootUrl);
-            $this->setUrl('app', $rootUrl . 'app/');
-            $this->setUrl('extensions', $rootUrl . 'extensions/');
-            $this->setUrl('files', $rootUrl . 'files/');
-            $this->setUrl('async', $rootUrl . 'async/');
-            $this->setUrl('upload', $rootUrl . 'upload/');
+            $rootUrl = $request->getBasePath();
+            $this->setUrl('root', $rootUrl . $this->getUrl('root'));
+            $this->setUrl('app', $rootUrl . $this->getUrl('app'));
+            $this->setUrl('extensions', $rootUrl . $this->getUrl('extensions'));
+            $this->setUrl('files', $rootUrl . $this->getUrl('files'));
+            $this->setUrl('async', $rootUrl . $this->getUrl('async'));
+            $this->setUrl('upload', $rootUrl . $this->getUrl('upload'));
         }
 
         $this->setRequest("protocol", $protocol);
@@ -294,7 +294,7 @@ class ResourceManager
         $this->setUrl('canonicalurl', sprintf('%s%s', $this->getRequest('canonical'), $current));
         $this->setUrl('currenturl', sprintf('%s://%s%s', $protocol, $hostname, $current));
         $this->setUrl('hosturl', sprintf('%s://%s', $protocol, $hostname));
-        $this->setUrl('rooturl', sprintf('%s%s', $this->getRequest('canonical'), $rootUrl));
+        $this->setUrl('rooturl', sprintf('%s%s/', $this->getRequest('canonical'), $rootUrl));
     }
 
     /**
