@@ -14,10 +14,6 @@ updateLib:
     - uglify:prepareBootstrapJs             # Concat bootstrap scripts into one minified file
     - modernizr:prepare                     # Build Modernizr
     - uglify:prepareLibJs                   # Create min. versions of library scripts that don't have them
-    - remove:prepareCkeditor                # Remove unneeded direcories from downloaded ckeditor
-    - bom:prepareCkeditor                   # Remove unneeded bom from downloaded ckeditor
-    - eol:prepareCkeditor                   # Convert CRLF to LF from downloaded ckeditor
-    - endline:prepareCkeditor               # Add newlines to *.js of downloaded ckeditor
     # Install
     - copy:installFonts                     # Copies fonts                   => view/fonts/*
     - cssmin:installLibCss                  # Concats and min. library css   => view/css/lib.css
@@ -30,4 +26,11 @@ updateLib:
     - copy:installJqueryGomap               # Copies jquery-gomap.min.js     => view/js/jquery-gomap.min.js
     - uglify:installCodeMirror              # Copies CodeMirror locale       => view/js/codemirror/*
     # Cleanup
-    - remove:cleanupTmp                     # Clean up the tmp folder lib/tmp/
+    - remove:cleanupTmp                     # Clean up the tmp folder
+
+# PREPARE CKEDITOR DOWNLOAD TASK:  Various cleanups of downloaded CKEditor files
+prepareCkeditor:
+    - remove:prepareCkeditor                # Remove unneeded direcories
+    - bom:prepareCkeditor                   # Remove unneeded bom
+    - eol:prepareCkeditor                   # Convert CRLF to LF
+    - endline:prepareCkeditor               # Add newlines to *.js

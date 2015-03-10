@@ -2,6 +2,9 @@
  * EOL: Convert line endings
  */
 module.exports = {
+    /*
+     * TARGET:  Convert CRLF to LF in downloaded CKEditor
+     */
     prepareCkeditor: {
         options: {
             eol: 'lf',
