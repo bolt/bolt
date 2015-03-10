@@ -5,6 +5,7 @@ module.exports = function (grunt, option) {
     grunt.registerTask('libcssimg', 'Copy lib images & rebase urls', function () {
         var pathLibCss = option.path.dest.css + '/lib.css',
             pathDestImg = option.path.dest.img + '/lib',
+            pathRel = '../img/lib',
             urls = /url\((['"]?)(.+?)\1\)/g,
             repl = {
                 'jquery-ui':    /^lib\/jquery-ui-.+?\/images\/ui-/,
@@ -37,7 +38,7 @@ module.exports = function (grunt, option) {
                         );
                         grunt.file.copy(url[2].replace(/^\.\.\/lib\//, 'lib/'), dest);
 
-                        newurl = 'url(' + url[1] + dest.slice(option.path.dest.base.length + 1) + url[1] + ')';
+                        newurl = 'url(' + url[1] + pathRel + dest.slice(pathDestImg.length) + url[1] + ')';
                         grunt.verbose.writeln(
                             '  Repl: ' + url[0] + '\n' +
                             '  With: ' + newurl

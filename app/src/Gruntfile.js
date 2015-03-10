@@ -12,7 +12,6 @@ module.exports = function(grunt) {
                 bower: 'bower_components'
             },
             dest: {
-                base: '../view',
                 js: '../view/js',
                 fonts: '../view/fonts',
                 img: '../view/img',
@@ -48,14 +47,14 @@ module.exports = function(grunt) {
             boltJs: [
                 '/**',
                 ' * These are Bolt’s COMPILED JS files!',
-                ' * You can edit *.js files in <../lib/bolt/> and then run “grunt updateBolt” to generate this file.',
+                ' * You can edit *.js files in /app/src/js/ and then run "grunt updateBolt" to generate this file.',
                 ' */'
             ].join('\n'),
             boltCss: [
                 '/**',
                 ' * These are Bolt’s COMPILED CSS files!',
                 ' * Do not edit these files, because all changes will be lost.',
-                ' * You can edit *.scss files in <../scss/> and then run “grunt updateBolt” to generate this file.',
+                ' * You can edit *.scss files in /app/src/scss/ and then run "grunt updateBolt" to generate this file.',
                 ' */'
             ].join('\n')
         }
