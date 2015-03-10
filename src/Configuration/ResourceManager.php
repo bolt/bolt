@@ -276,7 +276,7 @@ class ResourceManager
         }
 
         $rootUrl = rtrim($this->getUrl('root'), '/');
-        if ($request->getBasePath() !== '') {
+        if ($rootUrl !== $request->getBasePath()) {
             $rootUrl = $request->getBasePath();
             $this->setUrl('root', $rootUrl . $this->getUrl('root'));
             $this->setUrl('app', $rootUrl . $this->getUrl('app'));
