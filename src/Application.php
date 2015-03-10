@@ -440,9 +440,6 @@ class Application extends Silex\Application
             return $response;
         }
 
-        // Fetch and store the client IP so we can use it without breaking scope for unit tests.
-        $this['request.client_ip'] = $request->getClientIp();
-
         // Stop the 'stopwatch' for the profiler.
         $this['stopwatch']->stop('bolt.app.before');
     }
