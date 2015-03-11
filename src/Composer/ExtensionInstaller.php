@@ -15,7 +15,12 @@ class ExtensionInstaller
     public static function handle($event)
     {
         try {
-            $installedPackage = $installedPackage = $event->getOperation()->getPackage();
+            $operation = $event->getOperation();
+            if (method_exists($operation, 'getPackage')) {
+                $installedPackage = $operation->getPackage();
+            } elseif (method_exists($operation, 'getTargetPackage')) {
+                $installedPackage = $operation->getTargetPackage();
+            }
         } catch (\Exception $e) {
             return;
         }
