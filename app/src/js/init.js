@@ -35,7 +35,7 @@ var init = {
                 return;
             }
 
-            if (status === 'published' && moment(depublish + bolt.timezone.offset) < moment()) {
+            if (status === 'published' && moment(depublish + Bolt.conf.timezone.offset) < moment()) {
                 $('<div class="' + noticeID + ' alert alert-warning">' +
                     '<button class="close" data-dismiss="alert">×</button>' + msg + '</div>')
                     .hide()
@@ -376,7 +376,7 @@ var init = {
         CKEDITOR.editorConfig = function (config) {
             var key,
                 custom,
-                set = bolt.ckeditor;
+                set = Bolt.conf.ckeditor;
 
             var basicStyles = ['Bold', 'Italic'];
             var linkItems = ['Link', 'Unlink'];
@@ -399,7 +399,7 @@ var init = {
                 paragraphItems = paragraphItems.concat('-', 'Blockquote');
             }
 
-            config.language = bolt.locale.short;
+            config.language = Bolt.conf.locale.short;
             config.uiColor = '#DDDDDD';
             config.resize_enabled = true;
             config.entities = false;
@@ -591,7 +591,7 @@ var init = {
                         $.each(aItems, function (index, id) {
                             // Delete request
                             $.ajax({
-                                url: bolt.paths.bolt + 'content/deletecontent/' +
+                                url: Bolt.conf.paths.bolt + 'content/deletecontent/' +
                                     $('#item_' + id).closest('table').data('contenttype') + '/' + id +
                                     '?bolt_csrf_token=' + $('#item_' + id).closest('table').data('bolt_csrf_token'),
                                 type: 'get',
@@ -645,7 +645,7 @@ var init = {
             var key = $(this).data('key');
 
             $.ajax({
-                url: bolt.paths.async + 'widget/' + key,
+                url: Bolt.conf.paths.async + 'widget/' + key,
                 type: 'GET',
                 success: function (result) {
                     $('#widget-' + key).html(result);
@@ -821,7 +821,7 @@ var init = {
             minimumInputLength: 3,
             multiple: true, // this is for better styling …
             ajax: {
-                url: bolt.paths.async + 'omnisearch',
+                url: Bolt.conf.paths.async + 'omnisearch',
                 dataType: 'json',
                 data: function (term, page) {
                     return {
@@ -917,7 +917,7 @@ var init = {
                     bindFileUpload(data.key);
 
                     autocomplete_conf = {
-                        source: bolt.paths.async + 'filesautocomplete?ext=' + encodeURIComponent(accept),
+                        source: Bolt.conf.paths.async + 'filesautocomplete?ext=' + encodeURIComponent(accept),
                         minLength: 2
                     };
                     if (data.type === 'Image') {
@@ -926,10 +926,10 @@ var init = {
                                 url;
 
                             if (path) {
-                                url = bolt.paths.root +'thumbs/' + data.width + 'x' + data.height + 'c/' +
+                                url = Bolt.conf.paths.root +'thumbs/' + data.width + 'x' + data.height + 'c/' +
                                       encodeURI(path);
                             } else {
-                                url = bolt.paths.app + 'view/img/default_empty_4x3.png';
+                                url = Bolt.conf.paths.app + 'view/img/default_empty_4x3.png';
                             }
                             $('#thumbnail-' + data.key).html(
                                 '<img src="'+ url + '" width="' + data.width + '" height="' + data.height + '">'

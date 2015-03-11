@@ -66,28 +66,10 @@ var BoltApp = (function (bolt, $) {
     }
 
     /*
-     * Initialize configuration data
-     *
-     * @returns {undefined}
-     */
-    function initConfig() {
-        // Get configuration
-        var config = $('script[data-config]').first().data('config');
-        for (var key in config) {
-            bolt[key] = config[key];
-        }
-    }
-
-    /*
-     * Bolt module configuration data
-     */
-    bolt.config = {};
-
-    /*
      * Initialize the Bolt module
      */
     bolt.initApp = function () {
-        initConfig();
+        bolt.initConf();
         legacy();
     };
 
