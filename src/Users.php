@@ -6,6 +6,7 @@ use Bolt\Translation\Translator as Trans;
 use Doctrine\DBAL\DBALException;
 use Hautelook\Phpass\PasswordHash;
 use Silex;
+use Symfony\Component\HttpFoundation\Request;
 use UAParser;
 
 /**
@@ -43,8 +44,14 @@ class Users
         $this->users = array();
         $this->session = $app['session'];
 
-        // Get the IP stored earlier in the request cycle. If it's missing we're on CLI so use localhost
-        $this->remoteIP = isset($app['request.client_ip']) ? $app['request.client_ip'] : '127.0.0.1';
+        /*
+         * Get the IP stored earlier in the request cycle. If it's missing we're on CLI so use localhost
+         *
+         * @see discussion in https://github.com/bolt/bolt/pull/3031
+         */
+        $request = Request::createFromGlobals();
+        $remoteIP = $request->getClientIp();
+        $this->remoteIP = $remoteIP ? $remoteIP : '127.0.0.1';
 
         // Set 'validsession', to see if the current session is valid.
         $this->validsession = $this->checkValidSession();
