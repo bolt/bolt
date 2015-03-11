@@ -67,5 +67,10 @@
             "Bolt\\Tests\\": "tests/phpunit"
         }
     },
-    "bin": ["app/nut"]
+    "bin": ["app/nut"],
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.2.x-dev"
+        }
+    }
 }
