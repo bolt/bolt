@@ -169,7 +169,7 @@ showcases:
             multiple: false
             label: "Choose an entry"
             order: -id
-            format: "{{ item.title|escape }} <span>(№ {{ item.id }})</span>"
+            format: "{{ item.title|escape }} <span>({{ __('№') }} {{ item.id }})</span>"
             postfix: "By selecting an Entry, you're creating a bi-directional relationship to that Entry."
         pages:
             multiple: true
