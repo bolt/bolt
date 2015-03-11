@@ -141,8 +141,9 @@ class PermissionParser
      *
      * @param $what
      *
+     * @throws Exception Parser or lexer errors are thrown as
+     *
      * @return array A parse tree.
-     * @throw Exception Parser or lexer errors are thrown as
      */
     public static function run($what)
     {
