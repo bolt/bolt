@@ -463,19 +463,29 @@ abstract class BaseExtension implements ExtensionInterface
      * Add a javascript file to the rendered HTML.
      *
      * @param string  $filename File name to add to src=""
-     * @param boolean $late     True to add to the end of the HTML <body>
-     * @param integer $priority Loading priority
-     * @param string  $attrib   Either 'defer', or 'async'
+     * @param array   $options  'late'     - True to add to the end of the HTML <body>
+     *                          'priority' - Loading priority
+     *                          'attrib'   - Either 'defer', or 'async'
      */
-    public function addJavascript($filename, $late = false, $priority = 0, $attrib = false)
+    public function addJavascript($filename, $options = array())
     {
+        // Handle pre-2.2 function parameters, namely $late and $priority
+        if (!is_array($options)) {
+            $args = func_get_args();
+
+            $options = array(
+                'late'     => isset($args[1]) ? isset($args[1]) : false,
+                'priority' => isset($args[2]) ? isset($args[2]) : 0,
+            );
+        }
+
         // check if the file exists.
         if (file_exists($this->basepath . '/' . $filename)) {
             // file is located relative to the current extension.
-            $this->app['extensions']->addJavascript($this->getBaseUrl() . $filename, $late, $priority, $attrib);
+            $this->app['extensions']->addJavascript($this->getBaseUrl() . $filename, $options);
         } elseif (file_exists($this->app['paths']['themepath'] . '/' . $filename)) {
             // file is located relative to the theme path.
-            $this->app['extensions']->addJavascript($this->app['paths']['theme'] . $filename, $late, $priority, $attrib);
+            $this->app['extensions']->addJavascript($this->app['paths']['theme'] . $filename, $options);
         } else {
             // Nope, can't add the CSS.
             $message = "Couldn't add Javascript '$filename': File does not exist in '" . $this->getBaseUrl() . "'.";

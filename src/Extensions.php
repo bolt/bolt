@@ -425,17 +425,27 @@ class Extensions
      * the other javascript files.
      *
      * @param string  $filename File name to add to src=""
-     * @param boolean $late     True to add to the end of the HTML <body>
-     * @param integer $priority Loading priority
-     * @param string  $attrib   Either 'defer', or 'async'
+     * @param array   $options  'late'     - True to add to the end of the HTML <body>
+     *                          'priority' - Loading priority
+     *                          'attrib'   - Either 'defer', or 'async'
      */
-    public function addJavascript($filename, $late = false, $priority = 0, $attrib = false)
+    public function addJavascript($filename, $options = array())
     {
+        // Handle pre-2.2 function parameters, namely $late and $priority
+        if (!is_array($options)) {
+            $args = func_get_args();
+
+            $options = array(
+                'late'     => isset($args[1]) ? isset($args[1]) : false,
+                'priority' => isset($args[2]) ? isset($args[2]) : 0,
+            );
+        }
+
         $this->assets['js'][md5($filename)] = array(
             'filename' => $filename,
-            'late'     => $late,
-            'priority' => $priority,
-            'attrib'   => $attrib == 'defer' || $attrib == 'async' ? $attrib : false
+            'late'     => isset($options['late'])     ? $options['late']     : false,
+            'priority' => isset($options['priority']) ? $options['priority'] : 0,
+            'attrib'   => isset($options['attrib'])   ? $options['attrib']   : false
         );
     }
 
