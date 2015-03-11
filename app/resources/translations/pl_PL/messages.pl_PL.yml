@@ -1,39 +1,20 @@
-# app/resources/translations/pl_PL/messages.pl_PL.yml – generated on 2015-02-27 19:06:54 Europe/Warsaw
+# app/resources/translations/pl_PL/messages.pl_PL.yml – generated on 2015-03-11 20:05:06 CET
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the
-#          repository are automatically mapped to the new scheme. Be aware that there
-#          can be a race condition between that process and your PR so that it's
-#          eventually necessary to remap your translations. If you're planning on
+#          at the moment. This is an ongoing process. Translations currently in the 
+#          repository are automatically mapped to the new scheme. Be aware that there 
+#          can be a race condition between that process and your PR so that it's 
+#          eventually necessary to remap your translations. If you're planning on 
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
 #  no unused messages
-#   9 untranslated messages
-#   4 untranslated keyword based messages
-# 397 translations
-# 133 keyword based translations
+#  no untranslated messages
+#  no untranslated keyword based messages
+# 411 translations
+# 137 keyword based translations
 
-#--- 9 untranslated messages --------------------------------------------------
-
-"Alt": #
-"Config": #
-"Markdown": #
-"Provided by:": #
-"Readme": #
-"Slug": #
-"Slug:": #
-"none": #
-"of": #
-
-#--- 4 untranslated keyword based messages ------------------------------------
-
-"component.changelog-detail.by": # "by"
-"contenttypes.generic.group.meta": # "Meta"
-"page.ckeditor-browse-server.pixel": # "px."
-"panel.latest-activity.by": # "by"
-
-#--- 397 translations ---------------------------------------------------------
+#--- 411 translations ---------------------------------------------------------
 
 "%name% № %id%": "%name% nr %id%"
 "%s files could not be deleted. You should delete them manually.": "%s pliki nie mogą zostać usunięte. Należy usunąć je ręcznie."
@@ -51,6 +32,7 @@
 "Alas, no about!": "Niestety, nie na temat!"
 "All content types": "Wszystkie typy zawartości"
 "All users": "Wszyscy użytkownicy"
+"Alt": "Alt"
 "An error occurred.": "Wystąpił błąd."
 "Anonymous": "Anonimowy"
 "Are you sure you want to delete %username%?": "Czy na pewno chcesz usunąć %username%?"
@@ -97,6 +79,7 @@
 "Click to change current status.": "Kliknij aby zmienić aktualny status."
 "Code:": "Kod:"
 "Collapse sidebar": "Zwiń pasek boczny"
+"Config": "Konfiguracja"
 "Configuration": "Konfiguracja"
 "Configure Extensions": "Konfiguruj rozszerzenia"
 "Content": "Zawartość"
@@ -150,6 +133,7 @@
 "Extensions loading has been disabled by an administrator in the %config% file. ": "Ładowanie rozszerzeń zostało wyłączone przez administratora w pliku konfiguracyjnym: %config%."
 "Extras": "Dodatki"
 "Failed to send password request. Please check the email settings.": "Nie udało się wysłać żądania o hasło. Proszę sprawdzić ustawienia e-mail."
+"Field “%FIELD_NAME%”:": "Pole “%FIELD_NAME%”:"
 "File": "Plik"
 "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": "Plik '%file%' nie może zostać przesłany (niewłaściwy/niedozwolony typ pliku). Upewnij się, że rozszerzenie pliku jest jednym z następujących:"
 "File '%file%' could not be uploaded.": "Plik '%file%' nie może zostać przesłany."
@@ -176,6 +160,7 @@
 "Full list …": "Pełna lista …"
 "Geolocation": "Geolokalizacja"
 "Global Permissions": "Globalne uprawnienia"
+"Has to be a floating point number!": "Musi być liczbą zmiennoprzecinkową!"
 "Hints:": "Wskazówki"
 "Html": "HTML"
 "IP address": "Adres IP"
@@ -196,6 +181,8 @@
 "Integerfield": "Liczba całkowita"
 "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": "Nieprawidłowa ścieżka menu (%PATH%) ustawiona w menu.yml. Nie pasuje do żadnych skonfigurowanych typów zawartości ani trasy."
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": "Nieprawidłowa ścieżka menu (%PATH%) ustawiona w menu.yml. Prawdopodobnie powinien być link: zamiast tego!"
+"Is required or needs to match a pattern!": "Jest wymagane lub musi pasować do wzorca!"
+"Is required!": "Jest wymagane!"
 "Last edited on:": "Ostatnio edytowany:"
 "Last known IP": "Ostatnie znane IP"
 "Last seen": "Ostatnio widziany"
@@ -207,6 +194,7 @@
 "Main configuration": "Główna konfiguracja"
 "Maintenance": "Prace konserwacyjne"
 "Malformed JSON response. Ensure no debugging or other code is being added to the response": "Nieprawidłowa odpowiedź JSON. Upewnij się czy debugowanie nie jest włączone lub inny kod nie został dodany do odpowiedzi"
+"Markdown": "Markdown"
 "Menu setup": "Ustawienia menu"
 "Message:": "Komunikat:"
 "Messages": "Komunikaty"
@@ -260,11 +248,13 @@
 "Preparing to remove package …": "Przygotowania do usunięcia pakietu …"
 "Preview": "Podgląd"
 "Profile": "Profil"
+"Provided by:": "Dostarczone przez:"
 "Publication date:": "Data publikacji:"
 "Publish selected": "Opublikuj wybrane"
 "Published": "Opublikowany"
 "Published on:": "Opublikowany:"
 "Read more": "Czytaj dalej"
+"Readme": "Przeczytaj To"
 "Related content": "Powiązana zawartość"
 "Related content:": "Powiązana zawartość:"
 "Relationships": "Relacje"
@@ -301,6 +291,8 @@
 "Size": "Rozmiar"
 "Skipped <tt>%key%</tt> (already has records)": "Pominięty <tt>%key%</tt> (posiada rekordy)"
 "Skipped <tt>%key%</tt> (not checked)": "Pominięty <tt>%key%</tt> (nie zaznaczony)"
+"Slug": "Slug"
+"Slug:": "Slug:"
 "Something went wrong": "Coś poszło źle"
 "Sophisticated, lightweight & simple CMS": "Wyrafinowany, lekki i prosty CMS"
 "Stable versions": "Stabilne wersje"
@@ -322,7 +314,6 @@
 "The database needs to be updated/repaired. Go to 'Configuration' > '<a href=\"%link%\">Check Database</a>' to do this now.": "Baza danych wymaga aktualizacji/naprawy. Przejdź do 'Konfiguracja' > '<a href=\"%link%\">Sprawdź bazę danych</a>' aby zrobić to teraz."
 "The extensions directory (<code>%dir%</code>) does not exist, or it is not writable. ": "Katalog rozszerzeń (<code>%dir%</code>) nie istnieje, lub nie ma praw do zapisu."
 "The field %field% has been changed to \"%newValue%\"": "Pole %field% zostało zmienione na \"%newValue%\""
-"The field “%FIELDNAME%” is required or needs to match a pattern!": "Pole \"%FIELDNAME%\" jest wymagane lub musi pasować do wzorca!"
 "The file '%s' doesn't exist, or is not readable.": "Plik '%s' nie istnieje lub nie posiada praw do odczytu."
 "The file '%s' is not writable. You will have to use your own editor to make modifications to this file.": "Plik '%s' nie posiada praw do zapisu. Będziesz musiał użyć własnego edytora aby wprowadzać zmiany do tego pliku."
 "The folder '%s' could not be found, or is not readable.": "Nie można znaleźć katalogu '%s', albo nie posiada praw do odczytu."
@@ -335,6 +326,8 @@
 "The system log has been trimmed.": "Dziennik systemowy został skrócony."
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "Plik tłumaczeń '%s' nie może zostać utworzony. Będziesz musiał użyć własnego edytora aby wprowadzać zmiany do tego pliku."
 "The translations file '%s' is not readable.": "Plik tłumaczeń '%s' nie posiada praw do odczytu."
+"The value has to be at least “%MINVAL%”!": "Wartość ta musi być co najmniej “%MINVAL%”!"
+"The value must not be greater than “%MAXVAL%”!": "Wartość ta musi być większa niż “%MAXVAL%”!"
 "The versions listed below are compatible with the version of Bolt you are using. Since they are unstable versions, we recommend you <strong>do not</strong> use these on production systems.": "Wersje wymienione poniżej są kompatybilne z wersją Bolt, której używasz. Ponieważ są to wersje niestabilne, zalecane jest <strong>nie</ strong> korzystać z nich w systemach produkcyjnych."
 "The versions listed below are marked as stable releases by the developer and are compatible with the version of Bolt you are currently using.": "Wersje wymienione poniżej są oznaczone jako stabilne wydania przez dewelopera i są kompatybilne z wersją Bolt, której aktualnie używasz."
 "Theme installation complete": "Instalacja skórki zakończona"
@@ -429,14 +422,17 @@
 "logs.system-log": "Dziennik systemowy"
 "no content …": "brak treści …"
 "no title …": "brak tytułu …"
+"none": "nic"
+"of": "z"
 "show all": "pokaż wszystko"
 "users.actions-for-users": "Akcje dla Użytkowników"
 "users.your-password": "Twoje hasło"
 
-#--- 133 keyword based translations -------------------------------------------
+#--- 137 keyword based translations -------------------------------------------
 
 component:
     changelog-detail:
+        by: "przez"
         field: "Pole"
         value-new: "Nowa wartość"
         value-old: "Stara wartość"
@@ -454,6 +450,7 @@ contenttypes:
         edit: "Edytuj %contenttype%"
         error-saving: "Wystąpił błąd podczas zapisywania tego %contenttype%."
         group:
+            meta: "Meta"
             relations: "Relacje"
             taxonomy: "Taksonomia"
             ungrouped: "Nie pogrupowane"
@@ -528,6 +525,7 @@ page:
         files: "Pliki"
         folders: "Katalogi"
         modified: "Zmodyfikowany"
+        pixel: "px."
         size: "Rozmiar pliku"
         title: "Pliki"
     dashboard:
@@ -613,6 +611,7 @@ panel:
     latest-activity:
         button:
             more: "więcej aktywności"
+        by: "przez"
         change: "Ostatnie zmiany"
         created: "Utworzony"
         deleted: "Usunięty"
