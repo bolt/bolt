@@ -30,7 +30,6 @@ var BoltApp = (function (bolt, $) {
         }
         init.confirmationDialogs();
         init.magnificPopup();
-        init.dataActions();
         window.setTimeout(function () {
             init.keyboardShortcuts();
         }, 1000);
@@ -77,6 +76,9 @@ var BoltApp = (function (bolt, $) {
     bolt.app.init = function () {
         bolt.conf.init();
         bolt.data.init();
+
+        bolt.actions.bind();
+
         legacy();
     };
 

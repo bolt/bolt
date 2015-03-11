@@ -608,30 +608,6 @@ var init = {
         });
     },
 
-    /**
-     * Helper to make things like '<button data-action="eventView.load()">' work
-     *
-     * @returns {undefined}
-     */
-    dataActions: function () {
-        // Unbind the click events, with the 'action' namespace.
-        $('button, input[type=button], a').off('click.action');
-
-        // Bind the click events, with the 'action' namespace.
-        $('[data-action]').on('click.action', function (e) {
-            var action = $(this).attr('data-action');
-            if (typeof action !== 'undefined' && action !== '') {
-                e.preventDefault();
-                eval(action); // jshint ignore:line
-                e.stopPropagation();
-            }
-        })
-        // Prevent propagation to parent's click handler from anchor in popover.
-        .on('click.popover', '.popover', function (e) {
-            e.stopPropagation();
-        });
-    },
-
     /*
      * Render any deferred widgets, if any.
      *
