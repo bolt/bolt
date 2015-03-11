@@ -88,7 +88,7 @@
                 {% if content.user.displayname is defined %}
                     {{ content.user.displayname|trimtext(15) }}
                 {% else %}
-                    <s>user {{ content.values.ownerid }} </s>
+                    <s>{{ content.values.ownerid|trimtext(15) }}</s>
                 {% endif %}<br>
                 {% if content.status=="timed" %}
                     <i class="fa fa-clock-o status-timed fa-fw"></i> <time class="moment" datetime="{{ content.datepublish|date("c") }}" title="{{ content.datepublish }}">{{ content.datepublish }}</time><br>
