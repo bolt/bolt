@@ -14,7 +14,6 @@ var BoltApp = (function (bolt, $) {
         // Get passed in data from Twig function data()
 
         // Initialize objects
-        bolt.files = new Files();
         bolt.folders = new Folders();
         bolt.stack = new Stack();
         bolt.sidebar = new Sidebar();
@@ -66,6 +65,11 @@ var BoltApp = (function (bolt, $) {
             }
         });
     }
+
+    /*
+     * BoltApp mixin
+     */
+    bolt.app = {};
 
     /*
      * Initialize the Bolt module
