@@ -7,21 +7,24 @@
  * @mixin
  */
 var BoltFiles = (function (bolt, $) {
+    /*
+     * BoltFiles mixin
+     */
+    bolt.files = {};
+
     /**
      * Rename a file.
      *
-     * @param {string} prompt - Translated version of "Which file to rename?".
      * @param {string} namespace - The namespace.
      * @param {string} parentPath - Parent path of the folder to rename.
      * @param {string} oldName - Old name of the file to be renamed.
      * @param {Object} element - The object that calls this function, usually of type HTMLAnchorElement
      */
-    function renameFile(prompt, namespace, parentPath, oldName, element)
+    bolt.files.rename = function(namespace, parentPath, oldName, element)
     {
-        console.log('bolt.files.rename');
-        var newName = window.prompt(prompt, oldName);
+        var newName = window.prompt(bolt.data('files.rename_msg'), oldName);
 
-        if (newName.length) {
+        if (newName.length && newName !== oldName) {
             $.ajax({
                 url: bolt.conf('paths.async') + 'renamefile',
                 type: 'POST',
@@ -39,7 +42,7 @@ var BoltFiles = (function (bolt, $) {
                 }
             });
         }
-    }
+    };
 
     /**
      * Delete a file from the server.
@@ -48,9 +51,9 @@ var BoltFiles = (function (bolt, $) {
      * @param {string} - The filename.
      * @param {Object} - The object that calls this function, usually of type HTMLAnchorElement
      */
-    function deleteFile(namespace, filename, element)
+    bolt.files.delete = function(namespace, filename, element)
     {
-        if (confirm('Are you sure you want to delete ' + filename + '?')) {
+        if (confirm(bolt.data('files.delete_msg', {'%FILENAME%': filename}))) {
             $.ajax({
                 url: bolt.conf('paths.async') + 'deletefile',
                 type: 'POST',
@@ -70,15 +73,16 @@ var BoltFiles = (function (bolt, $) {
                 }
             });
         }
-    }
+    };
+
 
     /**
      * Delete a file from the server.
      *
-     * @param {string} namespace - The namespace.
-     * @param {string} filename - The filename.
+     * @param {string} - The namespace.
+     * @param {string} - The filename.
      */
-    function duplicateFile(namespace, filename) {
+    bolt.files.duplicate = function(namespace, filename) {
         $.ajax({
             url: bolt.conf('paths.async') + 'duplicatefile',
             type: 'POST',
@@ -93,15 +97,6 @@ var BoltFiles = (function (bolt, $) {
                 console.log('Something went wrong duplicating this file!');
             }
         });
-    }
-
-    /*
-     * Public interface
-     */
-    bolt.files = {
-        rename: renameFile,
-        delete: deleteFile,
-        duplicate: duplicateFile
     };
 
     return bolt;

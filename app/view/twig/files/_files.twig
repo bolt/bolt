@@ -1,3 +1,8 @@
+{{ data('files', {
+    'rename_msg':  __('Please enter a new file name!'),
+    'delete_msg':  __('Are you sure you want to delete %FILENAME%?'),
+}) }}
+
 <table class="dashboardlisting">
     <thead>
         <tr>
@@ -90,11 +95,7 @@
                             <ul class="dropdown-menu pull-right hidden-xs">
                                 <li>
                                     <a href="#"
-                                       data-action="Bolt.files.rename('{{ __("Please enter a new file name") }}',
-                                                                        '{{ context.namespace }}',
-                                                                        '{{ file.path }}',
-                                                                        '{{ file.filename }}',
-                                                                        this);">
+                                       data-action="Bolt.files.rename('{{ context.namespace }}', '{{ file.path }}', '{{ file.filename }}', this);">
 
                                         <i class="fa fa-keyboard-o"></i>
                                         {{ __('Rename %foldername%', {'%foldername%': file.filename}) }}
