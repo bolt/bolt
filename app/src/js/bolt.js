@@ -6,5 +6,6 @@
  * @mixes BoltApp
  * @mixes BoltConf
  * @mixes BoltData
+ * @mixes BoltFiles
  */
 var Bolt = {};

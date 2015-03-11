@@ -90,7 +90,7 @@
                             <ul class="dropdown-menu pull-right hidden-xs">
                                 <li>
                                     <a href="#"
-                                       data-action="bolt.files.renameFile('{{ __("Please enter a new file name") }}',
+                                       data-action="Bolt.files.rename('{{ __("Please enter a new file name") }}',
                                                                         '{{ context.namespace }}',
                                                                         '{{ file.path }}',
                                                                         '{{ file.filename }}',
@@ -101,13 +101,13 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#" data-action="bolt.files.deleteFile('{{ context.namespace }}', '{{ file.newpath }}', this);">
+                                    <a href="#" data-action="Bolt.files.delete('{{ context.namespace }}', '{{ file.newpath }}', this);">
                                         <i class="fa fa-ban"></i>
                                         {{ __('Delete %filename%', {'%filename%': file.filename}) }}
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#" data-action="bolt.files.duplicateFile('{{ context.namespace }}', '{{ file.newpath }}')">
+                                    <a href="#" data-action="Bolt.files.duplicate('{{ context.namespace }}', '{{ file.newpath }}')">
                                         <i class="fa fa-files-o"></i>
                                         {{ __('Duplicate %filename%', {'%filename%': file.filename }) }}
                                     </a>

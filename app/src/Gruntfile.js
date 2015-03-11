@@ -29,6 +29,7 @@ module.exports = function(grunt) {
                 '<%= path.src.js %>/modules/app.js',
                 '<%= path.src.js %>/modules/conf.js',
                 '<%= path.src.js %>/modules/data.js',
+                '<%= path.src.js %>/modules/files.js',
                 // Old stuff
                 '<%= path.src.js %>/fnc-helpers.js',
                 '<%= path.src.js %>/activity.js',
@@ -40,7 +41,6 @@ module.exports = function(grunt) {
                 '<%= path.src.js %>/obj-sidebar.js',
                 '<%= path.src.js %>/obj-navpopups.js',
                 '<%= path.src.js %>/obj-moments.js',
-                '<%= path.src.js %>/obj-files.js',
                 '<%= path.src.js %>/obj-stack.js',
                 '<%= path.src.js %>/obj-folders.js',
                 '<%= path.src.js %>/obj-datetime.js',
