@@ -20,6 +20,8 @@ class ExtensionInstaller
                 $installedPackage = $operation->getPackage();
             } elseif (method_exists($operation, 'getTargetPackage')) {
                 $installedPackage = $operation->getTargetPackage();
+            } else {
+                return;
             }
         } catch (\Exception $e) {
             return;
