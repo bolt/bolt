@@ -28,6 +28,7 @@ module.exports = function(grunt) {
                 '<%= path.src.js %>/bolt.js',
                 '<%= path.src.js %>/modules/app.js',
                 '<%= path.src.js %>/modules/conf.js',
+                '<%= path.src.js %>/modules/data.js',
                 // Old stuff
                 '<%= path.src.js %>/fnc-helpers.js',
                 '<%= path.src.js %>/activity.js',

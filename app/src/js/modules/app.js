@@ -9,7 +9,6 @@ var BoltApp = (function (bolt, $) {
      */
     function legacy() {
         // Get passed in data from Twig function data()
-        bolt.data = $('script[data-jsdata]').first().data('jsdata');
 
         // Initialize objects
         bolt.files = new Files();
@@ -70,6 +69,7 @@ var BoltApp = (function (bolt, $) {
      */
     bolt.initApp = function () {
         bolt.initConf();
+        bolt.data.init();
         legacy();
     };
 

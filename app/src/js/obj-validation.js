@@ -88,12 +88,17 @@ bolt.validation = (function () {
      * @param {string} msg - Message text
      */
     function showAlertbox(id, field, msg) {
-        var alertbox = bolt.data.validation.alertbox.subst({
+        var alertbox;
+
+        alertbox = Bolt.data(
+            'validation.alertbox',
+            {
                 '%NOTICE_ID%': id,
                 '%FIELD_ID%': field.id,
                 '%FIELD_NAME%': $('label[for="' + field.id + '"]').contents().first().text().trim() || field.name,
-                '%MESSAGE%':  msg || $(field).data('errortext') || bolt.data.validation.generic_msg
-            });
+                '%MESSAGE%':  msg || $(field).data('errortext') || Bolt.data('validation.generic_msg')
+            }
+        );
 
         $(alertbox)
             .hide()
@@ -110,7 +115,7 @@ bolt.validation = (function () {
      */
     function checkFloat(value) {
         if (value !== '' && !value.match(/^[-+]?[0-9]*[,.]?[0-9]+([eE][-+]?[0-9]+)?$/)) {
-            return bolt.data.validation.float;
+            return Bolt.data('validation.float');
         } else {
             return '';
         }
@@ -126,7 +131,7 @@ bolt.validation = (function () {
      */
     function checkRequired(value, required) {
         if (required === true && value === '') {
-            return bolt.data.validation.required;
+            return Bolt.data('validation.required');
         } else {
             return '';
         }
@@ -142,7 +147,7 @@ bolt.validation = (function () {
      */
     function checkMin(value, minimum) {
         if (value !== '' && Number(value.replace(',', '.')) < minimum) {
-            return bolt.data.validation.min.subst({'%MINVAL%': minimum});
+            return Bolt.data('validation.min', {'%MINVAL%': minimum});
         } else {
             return '';
         }
@@ -158,7 +163,7 @@ bolt.validation = (function () {
      */
     function checkMax(value, maximum) {
         if (value !== '' && Number(value.replace(',', '.')) > maximum) {
-            return bolt.data.validation.max.subst({'%MAXVAL%': maximum});
+            return Bolt.data('validation.max', {'%MAXVAL%': maximum});
         } else {
             return '';
         }

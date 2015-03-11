@@ -584,7 +584,7 @@ var init = {
                 rec;
 
             if (aItems.length > 0) {
-                notice = aItems.length === 1 ? bolt.data.recordlisting.delete_one : bolt.data.recordlisting.delete_mult;
+                notice = aItems.length === 1 ? Bolt.data('recordlisting.delete_one') : Bolt.data('recordlisting.delete_mult');
                 bootbox.confirm(notice, function (confirmed) {
                     $('.alert').alert();
                     if (confirmed === true) {
