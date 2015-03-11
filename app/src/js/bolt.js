@@ -8,5 +8,6 @@
  * @mixes BoltData
  * @mixes BoltFiles
  * @mixes BoltActions
+ * @mixes BoltCkeditor
  */
 var Bolt = {};

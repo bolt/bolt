@@ -25,9 +25,6 @@ var BoltApp = (function (bolt, $) {
         // Initialisation
         bolt.datetimes.init();
         //
-        if (typeof CKEDITOR !== 'undefined') {
-            init.ckeditor();
-        }
         init.confirmationDialogs();
         init.magnificPopup();
         window.setTimeout(function () {
@@ -76,6 +73,7 @@ var BoltApp = (function (bolt, $) {
     bolt.app.init = function () {
         bolt.conf.init();
         bolt.data.init();
+        bolt.ckeditor.init();
 
         bolt.actions.bind();
 
