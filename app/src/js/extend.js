@@ -410,10 +410,10 @@ var BoltExtender = Object.extend(Object, {
         )
         .done(function(data) {
             if (data[0].type === 'bolt-extension') {
-                controller.extensionPostInstall(data);
+                controller.extensionPostInstall(data[0]);
             }
             if (data[0].type === 'bolt-theme') {
-                controller.themePostInstall(data);
+                controller.themePostInstall(data[0]);
             }
         })
         .fail(function(data) {
