@@ -1,5 +1,8 @@
 /*
  * Bolt module: App
+ *
+ * @type {function}
+ * @mixin
  */
 var BoltApp = (function (bolt, $) {
     /*

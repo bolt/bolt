@@ -1,6 +1,8 @@
 /*
  * Bolt module: Data
  *
+ * Retrieve data segments (strings, templates) that are injected from the application
+ *
  * @type {function}
  * @mixin
  */
@@ -9,7 +11,7 @@ var BoltData = (function (bolt, $, undefined) {
      * Bolt module data
      *
      * @private
-     * @type {Object} - Data
+     * @type {Object}
      */
     var data = {};
 
@@ -19,7 +21,6 @@ var BoltData = (function (bolt, $, undefined) {
      *
      * @param {string} key - The key of the value to fetch, e.g. 'foo.bar'
      * @param {Object} [subst] - Substitution pairs, e.g.{'%FOO%': 'bar'}
-     *
      * @returns {string|number|Object|undefined}
      */
     bolt.data = function (key, subst) {

@@ -1,6 +1,8 @@
 /*
  * Bolt module: Conf
  *
+ * Retrieve configuration data that is injected from the application
+ *
  * @type {function}
  * @mixin
  */
