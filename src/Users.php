@@ -50,8 +50,7 @@ class Users
          * @see discussion in https://github.com/bolt/bolt/pull/3031
          */
         $request = Request::createFromGlobals();
-        $remoteIP = $request->getClientIp();
-        $this->remoteIP = $remoteIP ? $remoteIP : '127.0.0.1';
+        $this->remoteIP = $request->getClientIp() ?: '127.0.0.1';
 
         // Set 'validsession', to see if the current session is valid.
         $this->validsession = $this->checkValidSession();
