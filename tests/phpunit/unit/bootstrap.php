@@ -8,12 +8,12 @@ global $CLASSLOADER;
 
 // Install base location
 if (!defined('TEST_ROOT')) {
-    define('TEST_ROOT', realpath(__DIR__ . '/../../'));
+    define('TEST_ROOT', realpath(__DIR__ . '/../../../'));
 }
 
 // PHPUnit's base location
 if (!defined('PHPUNIT_ROOT')) {
-    define('PHPUNIT_ROOT', TEST_ROOT . '/tests/phpunit/');
+    define('PHPUNIT_ROOT', realpath(TEST_ROOT . '/tests/phpunit/unit'));
 }
 
 if (!defined('BOLT_AUTOLOAD')) {
@@ -36,6 +36,6 @@ require_once 'bootstraps/upload-bootstrap.php';
 if (is_readable(TEST_ROOT . '/bolt.db')) {
     unlink(TEST_ROOT . '/bolt.db');
 }
-copy(TEST_ROOT . '/tests/phpunit/resources/db/bolt.db', TEST_ROOT . '/bolt.db');
+copy(PHPUNIT_ROOT . '/resources/db/bolt.db', TEST_ROOT . '/bolt.db');
 
 @mkdir(TEST_ROOT . '/app/cache/', 0777, true);

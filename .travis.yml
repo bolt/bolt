@@ -23,8 +23,8 @@ before_script:
   - composer install --prefer-dist
   - mkdir -p tests/codeception/_log/
   - chmod 777 tests/codeception/_log/
-  - mkdir -p tests/phpunit/Nut/resources/
-  - chmod 777 tests/phpunit/Nut/resources/
+  - mkdir -p tests/phpunit/unit/Nut/resources/
+  - chmod 777 tests/phpunit/unit/Nut/resources/
   - mkdir -p app/cache
   - chmod 777 app/cache
 
