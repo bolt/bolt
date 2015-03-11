@@ -70,7 +70,7 @@ var BoltApp = (function (bolt, $) {
     /*
      * Initialize the Bolt module
      */
-    bolt.initApp = function () {
+    bolt.app.init = function () {
         bolt.conf.init();
         bolt.data.init();
         legacy();
@@ -79,7 +79,7 @@ var BoltApp = (function (bolt, $) {
     /*
      * Start when ready
      */
-    $(document).ready(bolt.initApp);
+    $(document).ready(bolt.app.init);
 
     return bolt;
 })(Bolt || {}, jQuery);
