@@ -7,22 +7,24 @@ Not yet released.
  - Fixed: Removing default taxonomylink route leads to exception (See #3070)
  - Fixed: Don't reset urls when adding base path. (See #3074)
  - Added: Use the X-Forwarded for IP address when an appropriate one exists and the trustedProxies config contains a valid IP. (See #3031)
- - Fixed: Regression that errored on PHP < 5.3.6: `Remove SplFileInfo::getExtension()`. (See #3095)
  - Fixed: Whoops error when duplicating a record. (See #3064)
  - Fixed: Fixes broken extension installer (See #3086)
  - Added: Add composer branch alias. (see #3089)
+ - Fixed: Redirect for backend trailing slash redirect (`/bolt` -> `/bolt/`) (See #3083) 
+ - Fixed: Regression that errored on PHP < 5.3.6: `Remove SplFileInfo::getExtension()`. (See #3095)
 
-Bolt 2.1.x DEV-head
--------------------
+Bolt 2.1.x
+----------
 
 Not yet released. 
 
  - Added: Stop Finder from recursing common build folders and place a limit on the maximum depth it will recurse otherwise. (Thanks @Cooperaj, see #3069)
  - Fixed: Removing default taxonomylink route leads to exception (See #3070)
  - Fixed: Don't reset urls when adding base path. (See #3074)
- - Fixed: Regression that errored on PHP < 5.3.6: `Remove SplFileInfo::getExtension()`. (See #3095) 
  - Fixed: Whoops error when duplicating a record. (See #3064)
  - Fixed: Fixes broken extension installer (See #3086)
+ - Fixed: Redirect for backend trailing slash redirect (`/bolt` -> `/bolt/`) (See #3083)
+ - Fixed: Regression that errored on PHP < 5.3.6: `Remove SplFileInfo::getExtension()`. (See #3095)
  
 Bolt 2.1.0
 ----------
