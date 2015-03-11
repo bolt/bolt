@@ -28,7 +28,7 @@ class LoginTest extends BoltUnitTest
 
         $response = $app->handle($request);
 
-        $this->assertTrue($response->isRedirect('/bolt/'));
+        $this->assertTrue($response->isRedirect('/bolt'));
     }
 
     public function testPostLoginFailures()
@@ -69,7 +69,7 @@ class LoginTest extends BoltUnitTest
         $users->currentuser = array('username' => 'test', 'roles' => array());
         $app['users'] = $users;
         $request = Request::create('/bolt/login', 'POST', array('action' => 'login'));
-        $this->expectOutputRegex("/Redirecting to \/bolt\//");
+        $this->expectOutputRegex("/Redirecting to \/bolt/");
         $app->run($request);
     }
 
@@ -147,7 +147,7 @@ class LoginTest extends BoltUnitTest
 
         $app['config']->set('permissions/global/dashboard', array());
 
-        $request = Request::create('/bolt/');
+        $request = Request::create('/bolt');
         $response = $app->handle($request);
         $this->assertTrue($response->isRedirect('/'), 'Failed to redirect to homepage');
     }
