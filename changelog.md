@@ -1,7 +1,20 @@
-Bolt 2.1 DEV-head
------------------
+Bolt 2.1.x
+----------
 
-Beta released on 2015-03-02. Notable changes:
+Not yet released. 
+
+ - Added: Stop Finder from recursing common build folders and place a limit on the maximum depth it will recurse otherwise. (Thanks @Cooperaj, see #3069)
+ - Fixed: Removing default taxonomylink route leads to exception (See #3070)
+ - Fixed: Don't reset urls when adding base path. (See #3074)
+ - Fixed: Whoops error when duplicating a record. (See #3064)
+ - Fixed: Fixes broken extension installer (See #3086)
+ - Fixed: Redirect for backend trailing slash redirect (`/bolt` -> `/bolt/`) (See #3083)
+ - Fixed: Regression that errored on PHP < 5.3.6: `Remove SplFileInfo::getExtension()`. (See #3095)
+ 
+Bolt 2.1.0
+----------
+
+Released 2015-03-09. Notable changes:
 
 - Added: Allow for `https://` protocol in `canonical` setting in config.yml. (see #3044)
 - Added: Taiwanese (zh_TW) localisation. (#3022, thanks @Leon0824)
