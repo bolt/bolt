@@ -72,7 +72,8 @@ var Stack = Backbone.Model.extend({
                 // Insert new item at the front.
                 if (type === "image") {
                     html = $('#protostack div.image').clone();
-                    $(html).find('img').attr('src', Bolt.conf('paths.bolt') + "../thumbs/100x100c/" + encodeURI(filename));
+                    $(html).find('img').attr('src', Bolt.conf('paths.bolt') + "../thumbs/100x100c/" +
+                        encodeURI(filename));
                 } else {
                     html = $('#protostack div.other').clone();
                     $(html).find('strong').html(ext.toUpperCase());
