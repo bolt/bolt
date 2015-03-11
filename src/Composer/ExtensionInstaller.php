@@ -9,7 +9,14 @@ class ExtensionInstaller
     public static function handle($event)
     {
         try {
-            $installedPackage = $event->getComposer()->getPackage();
+            $operation = $event->getOperation();
+            if (method_exists($operation, 'getPackage')) {
+                $installedPackage = $operation->getPackage();
+            } elseif (method_exists($operation, 'getTargetPackage')) {
+                $installedPackage = $operation->getTargetPackage();
+            } else {
+                return;
+            }
         } catch (\Exception $e) {
             return;
         }
