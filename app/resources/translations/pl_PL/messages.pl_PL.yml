@@ -1,4 +1,4 @@
-# app/resources/translations/pl_PL/messages.pl_PL.yml – generated on 2015-03-11 20:05:06 CET
+# app/resources/translations/pl_PL/messages.pl_PL.yml – generated on 2015-03-12 00:13:30 CET
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
 #          at the moment. This is an ongoing process. Translations currently in the 
@@ -9,10 +9,14 @@
 #          in order to prevent merge conflicts.
 
 #  no unused messages
-#  no untranslated messages
+#   1 untranslated messages
 #  no untranslated keyword based messages
 # 411 translations
 # 137 keyword based translations
+
+#--- 1 untranslated messages --------------------------------------------------
+
+"№": Nr
 
 #--- 411 translations ---------------------------------------------------------
 
