@@ -20,6 +20,7 @@ module.exports = {
             undef: true,        // Prohibits the use of undeclared variables
             globals: {
                 // Bolt
+                Bolt: true,                 // bolt.js
                 bolt: true,                 // bolt/console.js
                 FilelistHolder: true,       // bolt/upload-files.js
                 Files: true,                // bolt/obj-files.js

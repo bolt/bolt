@@ -21,8 +21,13 @@ module.exports = function(grunt) {
 
         files: {
             boltJs: [
+                // Prerequisites
                 '<%= path.src.js %>/console.js',
                 '<%= path.src.js %>/class-extends.js',
+                // Bolt module
+                '<%= path.src.js %>/bolt.js',
+                '<%= path.src.js %>/modules/app.js',
+                // Old stuff
                 '<%= path.src.js %>/fnc-helpers.js',
                 '<%= path.src.js %>/activity.js',
                 '<%= path.src.js %>/bind-fileupload.js',
