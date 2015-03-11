@@ -477,6 +477,9 @@ abstract class BaseExtension implements ExtensionInterface
                 'late'     => isset($args[1]) ? isset($args[1]) : false,
                 'priority' => isset($args[2]) ? isset($args[2]) : 0,
             );
+
+            $message = 'addJavascript() called with deprecated function parameters by ' . $this->getName();
+            $this->app['logger.system']->error($message, array('event' => 'deprecated'));
         }
 
         // check if the file exists.
