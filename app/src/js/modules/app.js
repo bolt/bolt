@@ -68,7 +68,7 @@ var BoltApp = (function (bolt, $) {
      * Initialize the Bolt module
      */
     bolt.initApp = function () {
-        bolt.initConf();
+        bolt.conf.init();
         bolt.data.init();
         legacy();
     };

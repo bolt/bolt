@@ -27,7 +27,7 @@ var Files = Backbone.Model.extend({
         }
 
         $.ajax({
-            url: Bolt.conf.paths.async + 'renamefile',
+            url: Bolt.conf('paths.async') + 'renamefile',
             type: 'POST',
             data: {
                 namespace: namespace,
@@ -58,7 +58,7 @@ var Files = Backbone.Model.extend({
         }
 
         $.ajax({
-            url: Bolt.conf.paths.async + 'deletefile',
+            url: Bolt.conf('paths.async') + 'deletefile',
             type: 'POST',
             data: {
                 namespace: namespace,
@@ -83,7 +83,7 @@ var Files = Backbone.Model.extend({
 
     duplicateFile: function (namespace, filename) {
         $.ajax({
-            url: Bolt.conf.paths.async + 'duplicatefile',
+            url: Bolt.conf('paths.async') + 'duplicatefile',
             type: 'POST',
             data: {
                 namespace: namespace,

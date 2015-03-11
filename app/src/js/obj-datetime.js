@@ -180,7 +180,7 @@ bolt.datetimes = (function () {
          */
         init: function () {
             // Set global datepicker locale
-            $.datepicker.setDefaults($.datepicker.regional[Bolt.conf.locale.long]);
+            $.datepicker.setDefaults($.datepicker.regional[Bolt.conf('locale.long')]);
 
             // Find out if locale uses 24h format
             is24h = moment.localeData()._longDateFormat.LT.replace(/\[.+?\]/gi, '').match(/A/) ? false : true;

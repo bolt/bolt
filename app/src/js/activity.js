@@ -2,7 +2,7 @@
  * Auto-update the 'latest activity' widget.
  */
 function updateLatestActivity() {
-    $.get(Bolt.conf.paths.async + 'latestactivity', function (data) {
+    $.get(Bolt.conf('paths.async') + 'latestactivity', function (data) {
         $('#latesttemp').html(data);
         bolt.moments.update();
         $('#latestactivity').html($('#latesttemp').html());

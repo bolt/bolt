@@ -74,7 +74,7 @@ var FilelistHolder = Backbone.View.extend({
             var element = $(data.item.
                     replace(/<ID>/g, file.get('id')).
                     replace(/<VAL>/g, _.escape(file.get('title'))).
-                    replace(/<PATH>/g, Bolt.conf.paths.bolt).
+                    replace(/<PATH>/g, Bolt.conf('paths.bolt')).
                     replace(/<FNAME>/g, file.get('filename'))
                 );
             if (listtype === 'ImageList') {
