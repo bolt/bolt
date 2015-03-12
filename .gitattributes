@@ -31,3 +31,7 @@
 # When merging just accept the remote compiled CSS file, built from Sass.
 # If you have local changes, just rebuild and commit. 
 app/view/bolt.css* merge=theirs -diff binary
+
+# This setting forces a union merge for the changelog.md file, 
+# lines will be taken from both sides of the file merge.
+changelog.md merge=union
