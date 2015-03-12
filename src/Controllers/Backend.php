@@ -915,8 +915,8 @@ class Backend implements ControllerProviderInterface
         }
 
         // Set the users and the current owner of this content.
-        if (empty($id)) {
-            // For brand-new items, the creator becomes the owner.
+        if (empty($id) || $duplicate) {
+            // For brand-new and duplicated items, the creator becomes the owner.
             $contentowner = $app['users']->getCurrentUser();
         } else {
             // For existing items, we'll just keep the current owner.
