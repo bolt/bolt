@@ -526,8 +526,8 @@ var init = {
         // get extra `&nbsp;&nbsp;` or `<p>&nbsp;</p>`. Strip these out on paste:
         CKEDITOR.on('instanceReady', function(ev) {
             ev.editor.on('paste', function(evt) {
-                evt.data.dataValue = evt.data.dataValue.replace(/&nbsp;/g,'');
-                evt.data.dataValue = evt.data.dataValue.replace(/<p><\/p>/g,'');
+                evt.data.dataValue = evt.data.dataValue.replace(/&nbsp;/g,' ');
+                evt.data.dataValue = evt.data.dataValue.replace(/<p> <\/p>/g,'');
                 console.log(evt.data.dataValue);
             }, null, null, 9);
         });
