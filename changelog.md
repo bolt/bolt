@@ -16,10 +16,10 @@ Not yet released.
  - Fixed: Extension theme installer working properly (see #3108, thanks @nikgo)
  - Fixed: Replacing `&nbsp;` with single space, instead of nothing. (See #3111) 
 
-Bolt 2.1.x
+Bolt 2.1.1
 ----------
 
-Not yet released. 
+Released 2015-03-12. Notable changes:
 
  - Added: Stop Finder from recursing common build folders and place a limit on the maximum depth it will recurse otherwise. (Thanks @Cooperaj, see #3069)
  - Fixed: Removing default taxonomylink route leads to exception (See #3070)
@@ -28,7 +28,9 @@ Not yet released.
  - Fixed: Fixes broken extension installer (See #3086)
  - Fixed: Redirect for backend trailing slash redirect (`/bolt` -> `/bolt/`) (See #3083)
  - Fixed: Regression that errored on PHP < 5.3.6: `Remove SplFileInfo::getExtension()`. (See #3095)
- 
+ - Fixed: Extension theme installer working properly (see #3108, thanks @nikgo)
+ - Fixed: Replacing `&nbsp;` with single space, instead of nothing. (See #3111)
+
 Bolt 2.1.0
 ----------
 
