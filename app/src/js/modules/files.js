@@ -1,27 +1,34 @@
-/*
- * Bolt module: Files
+/**
+ * Offers file actions (delete, duplicate, rename) functionality utilizing AJAX requests.
  *
- * Offers file actions functionality.
- *
- * @type {function}
  * @mixin
+ * @namespace Bolt.files
+ *
+ * @param {Object} bolt - The Bolt module
+ * @param {Object} $ - jQuery
  */
 (function (bolt, $) {
-    /*
-     * BoltFiles mixin
+    /**
+     * Bolt.files mixin container.
      *
      * @private
      * @type {Object}
      */
     var files = {};
 
+    bolt.files = files;
+
     /**
-     * Rename a file.
+     * Rename a file on the server utilizing an AJAX request.
+     *
+     * @static
+     * @function rename
+     * @memberof Bolt.files
      *
      * @param {string} namespace - The namespace.
      * @param {string} parentPath - Parent path of the folder to rename.
      * @param {string} oldName - Old name of the file to be renamed.
-     * @param {Object} element - The object that calls this function, usually of type HTMLAnchorElement
+     * @param {Object} element - The object that calls this function, usually of type HTMLAnchorElement.
      */
     files.rename = function (namespace, parentPath, oldName, element)
     {
@@ -48,11 +55,15 @@
     };
 
     /**
-     * Delete a file from the server.
+     * Delete a file on the server utilizing an AJAX request.
+     *
+     * @static
+     * @function delete
+     * @memberof Bolt.files
      *
      * @param {string} namespace - The namespace.
      * @param {string} filename - The filename.
-     * @param {Object} element - The object that calls this function, usually of type HTMLAnchorElement
+     * @param {Object} element - The object that calls this function, usually of type HTMLAnchorElement.
      */
     files.delete = function (namespace, filename, element)
     {
@@ -80,7 +91,11 @@
 
 
     /**
-     * Delete a file from the server.
+     * Duplicates a file on the server utilizing an AJAX request.
+     *
+     * @static
+     * @function duplicate
+     * @memberof Bolt.files
      *
      * @param {string} namespace - The namespace.
      * @param {string} filename - The filename.
@@ -101,8 +116,4 @@
             }
         });
     };
-
-    bolt.files = files;
-
-    return bolt;
 })(Bolt || {}, jQuery);

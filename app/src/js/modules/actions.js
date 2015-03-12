@@ -1,38 +1,48 @@
-/*
- * Bolt module: Actions
+/**
+ * Helper to add commands directly to html tags.
  *
- * Helper to make things like '<button data-action="eventView.load()">' work.
+ * @example
+ *      &lt;button data-action="eventView.load()"&gt;
  *
- * @type {function}
  * @mixin
+ * @namespace Bolt.actions
+ * @deprecated Uses ``eval()`` which makes it a candidate for a cleaner replacement.
+ *
+ * @param {Object} bolt - The Bolt module.
+ * @param {Object} $ - jQuery.
  */
-var BoltActions = (function (bolt, $) {
+(function (bolt, $) {
     /*
-     * BoltDataActions mixin
+     * Bolt.actions mixin container.
      */
-    bolt.actions = {};
+    var actions = {};
 
-    /*
-     * Read configuration data from DOM and save it in module
+    bolt.actions = actions;
+
+    /**
+     * Bind action executing to tags with ``data-actions`` attribute.
+     *
+     * @static
+     * @function bind
+     * @memberof Bolt.actions
      */
-    bolt.actions.bind = function () {
+    actions.bind = function () {
         // Unbind the click events, with the 'action' namespace.
         $('button, input[type=button], a').off('click.action');
 
-        // Bind the click events, with the 'action' namespace.
-        $('[data-action]').on('click.action', function (e) {
-            var action = $(this).attr('data-action');
-            if (typeof action !== 'undefined' && action !== '') {
-                e.preventDefault();
-                eval(action); // jshint ignore:line
+        $('[data-action]')
+            // Bind the click events, with the 'action' namespace.
+            .on('click.action', function (e) {
+                var action = $(this).attr('data-action');
+                if (typeof action !== 'undefined' && action !== '') {
+                    e.preventDefault();
+                    eval(action); // jshint ignore:line
+                    e.stopPropagation();
+                }
+            })
+            // Prevent propagation to parent's click handler from anchor in popover.
+            .on('click.popover', '.popover', function (e) {
                 e.stopPropagation();
-            }
-        })
-        // Prevent propagation to parent's click handler from anchor in popover.
-        .on('click.popover', '.popover', function (e) {
-            e.stopPropagation();
-        });
+            });
     };
-
-    return bolt;
 })(Bolt || {}, jQuery);

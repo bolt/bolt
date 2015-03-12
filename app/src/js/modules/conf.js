@@ -1,27 +1,40 @@
-/*
- * Bolt module: Conf
+/**
+ * Holds configuration data that is injected from the application
  *
- * Retrieve configuration data that is injected from the application
- *
- * @type {function}
  * @mixin
+ * @namespace Bolt.conf
+ *
+ * @param {Object} bolt - The Bolt module.
+ * @param {Object} $ - jQuery.
+ * @param {undefined} undefined - Define undefined.
  */
-var BoltConf = (function (bolt, $, undefined) {
-    /*
-     * Bolt module configuration data
+(function (bolt, $, undefined) {
+    /**
+     * Bolt.conf mixin container and configuration store.
      *
      * @private
      * @type {Object}
      */
     var conf = {};
 
-    /*
-     * Fetches the configuration value for the given key
+    bolt.conf = data;
+
+    /**
+     * Fetches the configuration value for the given key.
      *
-     * @param {string} key - The key of the value to fetch, e.g. 'foo.bar'
+     * **>>> Use the shortcut alias ``Bolt.conf(key)``! <<<**
+     *
+     * @example
+     *      value = Bolt.conf('foo.bar');
+     *
+     * @static
+     * @function get
+     * @memberof Bolt.conf
+     *
+     * @param {string} key - The key of the value to fetch.
      * @returns {string|number|Object|undefined}
      */
-    bolt.conf = function (key) {
+    conf = conf.get = function (key) {
         var keys = key.split('.'),
             result = conf,
             i;
@@ -37,12 +50,14 @@ var BoltConf = (function (bolt, $, undefined) {
         return result;
     };
 
-    /*
+    /**
      * Read configuration data from DOM and save it in module
+     *
+     * @static
+     * @function init
+     * @memberof Bolt.conf
      */
-    bolt.conf.init = function () {
+    conf.init = function () {
         conf = $('script[data-config]').first().data('config');
     };
-
-    return bolt;
 })(Bolt || {}, jQuery);

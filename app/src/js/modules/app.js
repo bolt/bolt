@@ -1,16 +1,56 @@
-/*
- * Bolt module: App
+/**
+ * Main mixin for the Bolt module.
  *
- * @type {function}
  * @mixin
+ * @namespace Bolt.app
+ *
+ * @param {Object} bolt - The Bolt module.
+ * @param {Object} $ - jQuery.
  */
-var BoltApp = (function (bolt, $) {
-    /*
-     * Legacy stuff from start.js
+(function (bolt, $) {
+    /**
+     * Bolt.app mixin container.
      *
-     * @returns {undefined}
+     * @private
+     * @type {Object}
      */
-    function legacy() {
+    var app = {};
+
+    bolt.app = app;
+
+    /**
+     * Initializes and then starts the Bolt module.
+     * Is automatically executed on jQueries ``$(document).ready()``.
+     *
+     * @function run
+     * @memberof Bolt.app
+     */
+    app.run = function () {
+        bolt.conf.init();
+        bolt.data.init();
+        bolt.ckeditor.init();
+
+        bolt.actions.bind();
+
+        legacy();
+    };
+
+    /*
+     * Start when ready.
+     */
+    $(document).ready(app.run);
+
+    /**
+     * Legacy stuff from start.js.
+     *
+     * @private
+     * @static
+     * @function legacyInit
+     * @memberof Bolt.app
+     * @todo Move functionality to Bolt mixins.
+     * @deprecated To be removed!
+     */
+    function legacyInit() {
         // Get passed in data from Twig function data()
 
         // Initialize objects
@@ -61,29 +101,4 @@ var BoltApp = (function (bolt, $) {
             }
         });
     }
-
-    /*
-     * BoltApp mixin
-     */
-    bolt.app = {};
-
-    /*
-     * Initialize the Bolt module
-     */
-    bolt.app.init = function () {
-        bolt.conf.init();
-        bolt.data.init();
-        bolt.ckeditor.init();
-
-        bolt.actions.bind();
-
-        legacy();
-    };
-
-    /*
-     * Start when ready
-     */
-    $(document).ready(bolt.app.init);
-
-    return bolt;
 })(Bolt || {}, jQuery);

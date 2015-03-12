@@ -1,29 +1,44 @@
-/*
- * Bolt module: Data
+/**
+ * Holds data segments (strings, templates) that are injected from the application.
  *
- * Retrieve data segments (strings, templates) that are injected from the application
- *
- * @type {function}
  * @mixin
+ * @namespace Bolt.data
+ *
+ * @param {Object} bolt - The Bolt module.
+ * @param {Object} $ - jQuery.
+ * @param {undefined} undefined - Define undefined.
  */
-var BoltData = (function (bolt, $, undefined) {
-    /*
-     * Bolt module data
+(function (bolt, $, undefined) {
+    /**
+     * Bolt.data mixin container and data store.
      *
      * @private
      * @type {Object}
      */
     var data = {};
 
-    /*
-     * Fetches the value for the given key
-     * Optinally substitute (string) result
+    bolt.data = data;
+
+    /**
+     * Fetches the value for the given key.
      *
-     * @param {string} key - The key of the value to fetch, e.g. 'foo.bar'
-     * @param {Object} [subst] - Substitution pairs, e.g.{'%FOO%': 'bar'}
+     * **>>> Use the shortcut alias ``Bolt.data(key, subst)``! <<<**
+     *
+     * Optionally substitutes the result with given sustitution values if the result is of type string.
+     *
+     * @example
+     *      value = Bolt.data('foo.bar');
+     *      value = Bolt.data('foo.bar', {'%FOO%': 'foo', '%BAR%': 'bar'});
+     *
+     * @static
+     * @function get
+     * @memberof Bolt.data
+     *
+     * @param {string} key - The key of the value to fetch.
+     * @param {Object} [subst] - Substitution pairs.
      * @returns {string|number|Object|undefined}
      */
-    bolt.data = function (key, subst) {
+    data = data.get = function (key, subst) {
         var keys = key.split('.'),
             result = data,
             i;
@@ -43,12 +58,14 @@ var BoltData = (function (bolt, $, undefined) {
         }
     };
 
-    /*
-     * Read data from DOM and save it in module
+    /**
+     * Initializes the mixin by reading data from DOM and saving it.
+     *
+     * @static
+     * @function init
+     * @memberof Bolt.data
      */
-    bolt.data.init = function () {
+    data.init = function () {
         data = $('script[data-jsdata]').first().data('jsdata') || {};
     };
-
-    return bolt;
 })(Bolt || {}, jQuery);

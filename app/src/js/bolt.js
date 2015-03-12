@@ -1,13 +1,13 @@
-/*
- * Initialize the Bolt module
+/**
+ * Instance of the Bolt module.
  *
- * @type {Object}
- * @module Bolt
- * @mixes BoltApp
- * @mixes BoltConf
- * @mixes BoltData
- * @mixes BoltFiles
- * @mixes BoltActions
- * @mixes BoltCkeditor
+ * @namespace Bolt
+ *
+ * @mixes Bolt.actions
+ * @mixes Bolt.app
+ * @mixes Bolt.ckeditor
+ * @mixes Bolt.conf
+ * @mixes Bolt.data
+ * @mixes Bolt.files
  */
 var Bolt = {};

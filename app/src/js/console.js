@@ -1,4 +1,4 @@
-/*
+/**
  * Don't break on browsers without console.log()
  */
 try {

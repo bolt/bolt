@@ -1,14 +1,16 @@
-/*
- * Bolt module: Ckeditor
+/**
+ * Initialise CKEditor instances if available.
  *
- * Initialise CKEditor instances.
- *
- * @type {function}
  * @mixin
+ * @namespace Bolt.ckeditor
+ *
+ * @param {Object} bolt - The Bolt module.
+ * @param {Object} $ - jQuery.
+ * @param {Object|undefined} cke - CKEDITOR global or undefined.
  */
 (function (bolt, $, cke) {
-    /*
-     * BoltCkeditor mixin.
+    /**
+     * Bolt.ckeditor mixin container.
      *
      * @private
      * @type {Object}
@@ -17,8 +19,12 @@
 
     bolt.ckeditor = ckeditor;
 
-    /*
-     * Initialise CKEditor instances.
+    /**
+     * Initialise all CKEditor instances, if available.
+     *
+     * @static
+     * @function init
+     * @memberof Bolt.ckeditor
      */
     ckeditor.init = function () {
         if (cke) {
@@ -26,10 +32,14 @@
         }
     };
 
-    /*
+    /**
      * Initialise CKEditor instances.
      *
      * @private
+     *
+     * @static
+     * @function init
+     * @memberof Bolt.ckeditor
      */
     function init() {
         cke.editorConfig = function (config) {
