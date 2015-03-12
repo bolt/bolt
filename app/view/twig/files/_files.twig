@@ -1,8 +1,3 @@
-{{ data('files', {
-    'rename_msg':  __('Please enter a new file name!'),
-    'delete_msg':  __('Are you sure you want to delete %FILENAME%?'),
-}) }}
-
 <table class="dashboardlisting">
     <thead>
         <tr>
@@ -95,20 +90,20 @@
                             <ul class="dropdown-menu pull-right hidden-xs">
                                 <li>
                                     <a href="#"
-                                       data-action="Bolt.files.rename('{{ context.namespace }}', '{{ file.path }}', '{{ file.filename }}', this);">
+                                       data-action="Bolt.files.renameFile('{{ context.namespace }}', '{{ file.path }}', '{{ file.filename }}', this);">
 
                                         <i class="fa fa-keyboard-o"></i>
                                         {{ __('Rename %foldername%', {'%foldername%': file.filename}) }}
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#" data-action="Bolt.files.delete('{{ context.namespace }}', '{{ file.newpath }}', this);">
+                                    <a href="#" data-action="Bolt.files.deleteFile('{{ context.namespace }}', '{{ file.newpath }}', this);">
                                         <i class="fa fa-ban"></i>
                                         {{ __('Delete %filename%', {'%filename%': file.filename}) }}
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#" data-action="Bolt.files.duplicate('{{ context.namespace }}', '{{ file.newpath }}')">
+                                    <a href="#" data-action="Bolt.files.duplicateFile('{{ context.namespace }}', '{{ file.newpath }}')">
                                         <i class="fa fa-files-o"></i>
                                         {{ __('Duplicate %filename%', {'%filename%': file.filename }) }}
                                     </a>

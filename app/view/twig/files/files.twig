@@ -12,6 +12,16 @@
 
 {% block page_main %}
 
+    {{ data('files.msg.create_folder', __('Please enter a new folder name')) }}
+    {% if context.folders|length > 0 %}
+        {{ data('files.msg.rename_folder', __('Please enter a new folder name!')) }}
+        {{ data('files.msg.delete_folder', __('Do you really want to delete %FOLDERNAME%?')) }}
+    {% endif %}
+    {% if context.files|length > 0 %}
+        {{ data('files.msg.rename_file', __('Please enter a new file name!')) }}
+        {{ data('files.msg.delete_file', __('Are you sure you want to delete %FILENAME%?')) }}
+    {% endif %}
+
     <div class="row">
         <div class="col-xs-12">
 
@@ -23,8 +33,7 @@
 
             <p>
                 <a href="#" class="btn btn-default"
-                   data-action="bolt.folders.create('{{ __("Please enter a new folder name") }}',
-                                                    '{{ context.namespace }}',
+                   data-action="Bolt.files.createFolder('{{ context.namespace }}',
                                                     '{{ context.pathsegments|keys|last }}',
                                                     this);">
                     <i class="fa fa-fw fa-plus"></i>
@@ -36,7 +45,7 @@
                 {% include 'files/_files.twig' %}
             {% endif %}
 
-            {# only show the "Upload here" form, if the folder is writable. #}
+            {# Only show the "Upload here" form, if the folder is writable. #}
             {% if context.form != false %}
                 {% include 'files/_upload.twig' %}
             {% else %}

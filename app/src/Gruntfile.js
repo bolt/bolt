@@ -45,7 +45,6 @@ module.exports = function(grunt) {
                 '<%= path.src.js %>/obj-navpopups.js',
                 '<%= path.src.js %>/obj-moments.js',
                 '<%= path.src.js %>/obj-stack.js',
-                '<%= path.src.js %>/obj-folders.js',
                 '<%= path.src.js %>/obj-datetime.js',
                 '<%= path.src.js %>/obj-validation.js',
                 '<%= path.src.js %>/extend.js',
