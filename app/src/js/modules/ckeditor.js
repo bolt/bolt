@@ -6,12 +6,33 @@
  * @type {function}
  * @mixin
  */
-var BoltCkeditor = (function (bolt, $, ckeditor) {
+(function (bolt, $, cke) {
+    /*
+     * BoltCkeditor mixin.
+     *
+     * @private
+     * @type {Object}
+     */
+    var ckeditor = {};
+
+    bolt.ckeditor = ckeditor;
+
     /*
      * Initialise CKEditor instances.
      */
+    ckeditor.init = function () {
+        if (cke) {
+            init();
+        }
+    };
+
+    /*
+     * Initialise CKEditor instances.
+     *
+     * @private
+     */
     function init() {
-        ckeditor.editorConfig = function (config) {
+        cke.editorConfig = function (config) {
             var key,
                 custom,
                 set = bolt.conf('ckeditor');
@@ -162,27 +183,11 @@ var BoltCkeditor = (function (bolt, $, ckeditor) {
 
         // When 'pasting' from Word (or perhaps other editors too), you'll often
         // get extra `&nbsp;&nbsp;` or `<p>&nbsp;</p>`. Strip these out on paste:
-        ckeditor.on('instanceReady', function (ev) {
+        cke.on('instanceReady', function (ev) {
             ev.editor.on('paste', function (evt) {
                 evt.data.dataValue = evt.data.dataValue.replace(/&nbsp;/g, ' ');
                 evt.data.dataValue = evt.data.dataValue.replace(/<p> <\/p>/g, '');
             }, null, null, 9);
         });
-    };
-
-    /*
-     * BoltCkeditor mixin.
-     */
-    bolt.ckeditor = {};
-
-    /*
-     * Initialise CKEditor instances.
-     */
-    bolt.ckeditor.init = function () {
-        if (typeof ckeditor !== 'undefined') {
-            init();
-        }
-    };
-
-    return bolt;
-})(Bolt || {}, jQuery, CKEDITOR);
+    }
+})(Bolt || {}, jQuery, typeof CKEDITOR !== 'undefined' ? CKEDITOR : undefined);
