@@ -171,7 +171,7 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
     {
         $theme = $request->get('theme');
         $newName = $request->get('name');
-        
+
         if (empty($theme)) {
             return new Response(Trans::__('No theme name found. Theme is not generated.'));
         }
@@ -197,6 +197,8 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
                 return new Response(Trans::__('We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling.'));
             }
         }
+
+        throw new PackageManagerException("Invalid theme source directory: $source");
     }
 
     /**
