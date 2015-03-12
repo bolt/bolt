@@ -30,6 +30,7 @@ npm-debug.log
 .sass-cache
 *.map
 app/src/tmp/
+app/src/docs/
 
 # File-system cruft and temporary files
 scrutinizer.phar

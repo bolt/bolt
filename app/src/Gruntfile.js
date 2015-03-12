@@ -4,7 +4,7 @@ module.exports = function(grunt) {
     var options = {
         path: {
             tmp: 'tmp',
-            doc: 'doc',
+            doc: 'docs',
             src: {
                 js: 'js',
                 lib: 'lib',
