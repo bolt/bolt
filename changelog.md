@@ -13,6 +13,7 @@ Not yet released.
  - Fixed: Redirect for backend trailing slash redirect (`/bolt` -> `/bolt/`) (See #3083) 
  - Fixed: Regression that errored on PHP < 5.3.6: `Remove SplFileInfo::getExtension()`. (See #3095)
  - Added: Use the X-Forwarded for IP address when an appropriate one exists and the trustedProxies config contains a valid IP. (Thanks @Cooperaj, see #3031, #3093)
+ - Fixed: Extension theme installer working properly (see #3108, thanks @nikgo)
 
 Bolt 2.1.x
 ----------
