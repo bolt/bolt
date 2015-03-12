@@ -23,7 +23,7 @@ function bindFileUpload(key) {
                         window.setTimeout(function () { $('#progress-' + key).fadeOut('slow'); }, 1500);
 
                         // Add the uploaded file to our stack.
-                        bolt.stack.addToStack(filename);
+                        Bolt.stack.addToStack(filename);
 
                     } else {
                         message = "Oops! There was an error uploading the file. Make sure the file is not " +

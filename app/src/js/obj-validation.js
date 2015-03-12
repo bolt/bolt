@@ -1,7 +1,7 @@
 /**
  * Form validation
  */
-bolt.validation = (function () {
+Bolt.validation = (function () {
 
     /**
      * Basic legacy validation checking

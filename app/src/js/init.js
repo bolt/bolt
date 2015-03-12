@@ -62,7 +62,7 @@ var init = {
         $('#editcontent')
           .attr('novalidate', 'novalidate')
           .on('submit', function(event){
-              var valid = bolt.validation.run(this);
+              var valid = Bolt.validation.run(this);
               $(this).data('valid', valid);
               if ( ! valid){
                   event.preventDefault();
@@ -74,7 +74,7 @@ var init = {
 
         // basic custom validation handler
         $('#editcontent').on('boltvalidate', function(){
-            var valid = bolt.validation.run(this);
+            var valid = Bolt.validation.run(this);
             $(this).data('valid', valid);
             return valid;
         });
@@ -141,7 +141,7 @@ var init = {
                         $('p.lastsaved').find('strong').text(moment(data.datechanged).format('MMM D, HH:mm'));
                         $('p.lastsaved').find('time').attr('datetime', moment(data.datechanged).format());
                         $('p.lastsaved').find('time').attr('title', moment(data.datechanged).format());
-                        bolt.moments.update();
+                        Bolt.moments.update();
 
                         $('a#lastsavedstatus strong').html(
                             '<i class="fa fa-circle status-' + $("#statusselect option:selected").val() + '"></i> ' +
@@ -169,7 +169,7 @@ var init = {
                             });
                         }
                         // Update dates and times from new values
-                        bolt.datetimes.update();
+                        Bolt.datetimes.update();
 
                         // Reset the changes to the form from any updates we got from POST_SAVE changes
                         $('form').watchChanges();
@@ -753,11 +753,11 @@ var init = {
                     break;
 
                 case 'ImageList':
-                    bolt.imagelist[data.key] = new FilelistHolder({id: data.key, type: data.type});
+                    Bolt.imagelist[data.key] = new FilelistHolder({id: data.key, type: data.type});
                     break;
 
                 case 'FileList':
-                    bolt.filelist[data.key] = new FilelistHolder({id: data.key, type: data.type});
+                    Bolt.filelist[data.key] = new FilelistHolder({id: data.key, type: data.type});
                     break;
             }
         });

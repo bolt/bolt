@@ -1,7 +1,7 @@
 /**
  * DateTime/Date input combo initalization and handling
  */
-bolt.datetimes = (function () {
+Bolt.datetimes = (function () {
     /**
      * @typedef InputElements
      * @type {Object} data - Element holding the data

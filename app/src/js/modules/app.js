@@ -52,7 +52,6 @@
         // Get passed in data from Twig function data()
 
         // Initialize objects
-        bolt.folders = new Folders();
         bolt.stack = new Stack();
         bolt.sidebar = new Sidebar();
         bolt.navpopups = new Navpopups();
