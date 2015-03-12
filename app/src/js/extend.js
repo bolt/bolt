@@ -298,7 +298,7 @@ var BoltExtender = Object.extend(Object, {
 				'%AVAILABLE%':   available,
 				'%README%':      ext.readme ? conf.readme_button.subst({'%README%': ext.readme}) : '',
 				'%CONFIG%':      ext.config ? conf.config_button.subst({'%CONFIG%': ext.config}) : '',
-				'%THEME%':       ext.type == 'bolt-theme' ? conf.theme_button : '',
+				'%THEME%':       ext.type == 'bolt-theme' ? conf.theme_button.subst({'%NAME%': ext.name}) : '',
 				'%BASEURL%':     baseurl,
 				'%UNINSTALL%':   uninstall,
 				'%DESCRIPTION%': ext.descrip ? ext.descrip : '&lt;No description provided&gt;',
@@ -410,10 +410,10 @@ var BoltExtender = Object.extend(Object, {
         )
         .done(function(data) {
             if (data[0].type === 'bolt-extension') {
-                controller.extensionPostInstall(data);
+                controller.extensionPostInstall(data[0]);
             }
             if (data[0].type === 'bolt-theme') {
-                controller.themePostInstall(data);
+                controller.themePostInstall(data[0]);
             }
         })
         .fail(function(data) {

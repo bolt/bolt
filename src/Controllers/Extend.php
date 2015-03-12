@@ -171,6 +171,10 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
     {
         $theme = $request->get('theme');
         $newName = $request->get('name');
+        
+        if (empty($theme)) {
+            return new Response(Trans::__('No theme name found. Theme is not generated.'));
+        }
 
         if (! $newName) {
             $newName = basename($theme);
