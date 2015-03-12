@@ -17,7 +17,7 @@
      */
     var conf = {};
 
-    bolt.conf = data;
+    bolt.conf = conf;
 
     /**
      * Fetches the configuration value for the given key.

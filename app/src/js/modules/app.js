@@ -32,7 +32,7 @@
 
         bolt.actions.bind();
 
-        legacy();
+        legacyInit();
     };
 
     /*
