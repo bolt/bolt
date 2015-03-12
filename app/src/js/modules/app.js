@@ -16,8 +16,6 @@
      */
     var app = {};
 
-    bolt.app = app;
-
     /**
      * Initializes and then starts the Bolt module.
      * Is automatically executed on jQueries ``$(document).ready()``.
@@ -101,4 +99,8 @@
             }
         });
     }
+
+    // Apply mixin container
+    bolt.app = app;
+
 })(Bolt || {}, jQuery);

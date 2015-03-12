@@ -10,14 +10,12 @@
  */
 (function (bolt, $, undefined) {
     /**
-     * Bolt.conf mixin container and configuration store.
+     * Configuration data store.
      *
      * @private
      * @type {Object}
      */
-    var conf = {};
-
-    bolt.conf = conf;
+    var configData = {};
 
     /**
      * Fetches the configuration value for the given key.
@@ -32,11 +30,11 @@
      * @memberof Bolt.conf
      *
      * @param {string} key - The key of the value to fetch.
-     * @returns {string|number|Object|undefined}
+     * @returns {string|number|Object|undefined}conf.get =
      */
-    conf = conf.get = function (key) {
+     var conf = function (key) {
         var keys = key.split('.'),
-            result = conf,
+            result = configData,
             i;
 
         for (i = 0; i < keys.length; i++) {
@@ -47,8 +45,10 @@
             }
         }
 
-        return result;
+         return result;
     };
+    // Set alias function
+    conf.get = conf;
 
     /**
      * Read configuration data from DOM and save it in module
@@ -58,6 +58,10 @@
      * @memberof Bolt.conf
      */
     conf.init = function () {
-        conf = $('script[data-config]').first().data('config');
+        configData = $('script[data-config]').first().data('config');
     };
+
+    // Apply mixin container
+    bolt.conf = conf;
+
 })(Bolt || {}, jQuery);

@@ -17,8 +17,6 @@
      */
     var actions = {};
 
-    bolt.actions = actions;
-
     /**
      * Bind action executing to tags with ``data-actions`` attribute.
      *
@@ -45,4 +43,8 @@
                 e.stopPropagation();
             });
     };
+
+    // Apply mixin container
+    bolt.actions = actions;
+
 })(Bolt || {}, jQuery);

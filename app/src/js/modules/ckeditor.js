@@ -17,8 +17,6 @@
      */
     var ckeditor = {};
 
-    bolt.ckeditor = ckeditor;
-
     /**
      * Initialise all CKEditor instances, if available.
      *
@@ -200,4 +198,8 @@
             }, null, null, 9);
         });
     }
+
+    // Apply mixin container
+    bolt.ckeditor = ckeditor;
+
 })(Bolt || {}, jQuery, typeof CKEDITOR !== 'undefined' ? CKEDITOR : undefined);

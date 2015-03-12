@@ -16,8 +16,6 @@
      */
     var files = {};
 
-    bolt.files = files;
-
     /**
      * Rename a file on the server utilizing an AJAX request.
      *
@@ -35,22 +33,16 @@
         var newName = window.prompt(bolt.data('files.msg.rename_file'), name);
 
         if (newName.length && newName !== name) {
-            $.ajax({
-                url: bolt.conf('paths.async') + 'renamefile',
-                type: 'POST',
-                data: {
+            exec(
+                'renamefile',
+                {
                     namespace: namespace,
                     parent: parentPath,
                     oldname: name,
                     newname: newName
                 },
-                success: function (result) {
-                    document.location.reload();
-                },
-                error: function () {
-                    console.log('Something went wrong renaming this file!');
-                }
-            });
+                'Something went wrong renaming this file!'
+            );
         }
     };
 
@@ -68,24 +60,21 @@
     files.deleteFile = function (namespace, filename, element)
     {
         if (confirm(bolt.data('files.msg.delete_file', {'%FILENAME%': filename}))) {
-            $.ajax({
-                url: bolt.conf('paths.async') + 'deletefile',
-                type: 'POST',
-                data: {
+            exec(
+                'deletefile',
+                {
                     namespace: namespace,
                     filename: filename
                 },
-                success: function (result) {
+                'Failed to delete the file from the server',
+                function (result) {
                     // If we are on the files table, remove image row from the table, as visual feedback
                     if (element !== null) {
                         $(element).closest('tr').slideUp();
                     }
-                    // TODO delete from Stack if applicable
-                },
-                error: function () {
-                    console.log('Failed to delete the file from the server');
+                    // TODO: Delete from Stack if applicable
                 }
-            });
+            );
         }
     };
 
@@ -101,20 +90,14 @@
      * @param {string} filename - The filename.
      */
     files.duplicateFile = function (namespace, filename) {
-        $.ajax({
-            url: bolt.conf('paths.async') + 'duplicatefile',
-            type: 'POST',
-            data: {
+        exec(
+            'duplicatefile',
+            {
                 namespace: namespace,
                 filename: filename
             },
-            success: function (result) {
-                document.location.reload();
-            },
-            error: function () {
-                console.log('Something went wrong duplicating this file!');
-            }
-        });
+            'Something went wrong duplicating this file!'
+        );
     };
 
     /**
@@ -133,21 +116,15 @@
         var newName = window.prompt(bolt.data('files.msg.create_folder'));
 
         if (newName.length) {
-            $.ajax({
-                url: bolt.conf('paths.async') + 'folder/create',
-                type: 'POST',
-                data: {
+            exec(
+                'folder/create',
+                {
                     parent: parentPath,
                     foldername: newName,
                     namespace: namespace
                 },
-                success: function (result) {
-                    document.location.reload();
-                },
-                error: function () {
-                    console.log('Something went wrong renaming this folder!');
-                }
-            });
+                'Something went wrong renaming this folder!'
+            );
         }
     };
 
@@ -168,22 +145,16 @@
         var newName = window.prompt(bolt.data('files.msg.rename_folder'), name);
 
         if (newName.length && newName !== name) {
-            $.ajax({
-                url: bolt.conf('paths.async') + 'folder/rename',
-                type: 'POST',
-                data: {
+            exec(
+                'folder/rename',
+                {
                     namespace: namespace,
                     parent: parentPath,
                     oldname: name,
                     newname: newName
                 },
-                success: function (result) {
-                    document.location.reload();
-                },
-                error: function () {
-                    console.log('Something went wrong renaming this folder!');
-                }
-            });
+                'Something went wrong renaming this folder!'
+            );
         }
     };
 
@@ -196,26 +167,60 @@
      *
      * @param {string} namespace - The namespace.
      * @param {string} parentPath - Parent path of the folder to remove.
-     * @param {string} folderName - Name of the folder to remove.
+     * @param {string} name - Name of the folder to remove.
      * @param {Object} element - The object that calls this function, usually of type HTMLAnchorElement.
      */
-    files.deleteFolder = function (namespace, parentPath, folderName, element) {
-        if (window.confirm(bolt.data('files.msg.delete_folder', {'%FOLDERNAME%': folderName}))) {
-            $.ajax({
-                url: bolt.conf('paths.async') + 'folder/remove',
-                type: 'POST',
-                data: {
+    files.deleteFolder = function (namespace, parentPath, name, element) {
+        if (window.confirm(bolt.data('files.msg.delete_folder', {'%FOLDERNAME%': name}))) {
+            exec(
+                'folder/remove',
+                {
                     namespace: namespace,
                     parent: parentPath,
-                    foldername: folderName
+                    foldername: name
                 },
+                'Something went wrong renaming this folder!'
+            );
+            $.ajax({
                 success: function (result) {
-                    document.location.reload();
+
                 },
-                error: function () {
-                    console.log('Something went wrong renaming this folder!');
-                }
             });
         }
     };
+
+    /**
+     * Deletes a folder on the server utilizing an AJAX request.
+     *
+     * @private
+     * @static
+     * @function exec
+     * @memberof Bolt.files
+     *
+     * @param {type} cmd - Command to send to the async controller.
+     * @param {type} data - Request data.
+     * @param {type} errMsg - Error message to print on the console when something goes wrong.
+     * @param {function} [success] - Callback on success. Defaults to a page relaod.
+     */
+    function exec(cmd, data, errMsg, success) {
+        var options = {
+            url: bolt.conf('paths.async') + cmd,
+            type: 'POST',
+            data: data,
+            success: function (result) {
+                document.location.reload();
+            },
+            error: function () {
+                console.log(errMsg);
+            }
+        };
+        if (success) {
+            options.success = success;
+        }
+        $.ajax(options);
+    }
+
+    // Apply mixin container
+    bolt.files = files;
+
 })(Bolt || {}, jQuery);

@@ -10,14 +10,12 @@
  */
 (function (bolt, $, undefined) {
     /**
-     * Bolt.data mixin container and data store.
+     * Application data store.
      *
      * @private
      * @type {Object}
      */
-    var data = {};
-
-    bolt.data = data;
+    var appData = {};
 
     /**
      * Fetches the value for the given key.
@@ -38,9 +36,9 @@
      * @param {Object} [subst] - Substitution pairs.
      * @returns {string|number|Object|undefined}
      */
-    data = data.get = function (key, subst) {
+    var data = function (key, subst) {
         var keys = key.split('.'),
-            result = data,
+            result = appData,
             i;
 
         for (i = 0; i < keys.length; i++) {
@@ -57,6 +55,8 @@
             return result;
         }
     };
+    // Set alias function
+    data.get = data;
 
     /**
      * Initializes the mixin by reading data from DOM and saving it.
@@ -66,6 +66,10 @@
      * @memberof Bolt.data
      */
     data.init = function () {
-        data = $('script[data-jsdata]').first().data('jsdata') || {};
+        appData = $('script[data-jsdata]').first().data('jsdata') || {};
     };
+
+    // Apply mixin container
+    bolt.data = data;
+
 })(Bolt || {}, jQuery);
