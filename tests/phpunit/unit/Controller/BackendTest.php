@@ -35,7 +35,7 @@ class BackendTest extends BoltUnitTest
             ->will($this->returnCallBack($testHandler));
         $this->allowLogin($app);
         $app['render'] = $twig;
-        $request = Request::create('/bolt/');
+        $request = Request::create('/bolt');
         $app->run($request);
     }
 
