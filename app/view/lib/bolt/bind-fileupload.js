@@ -36,7 +36,8 @@ function bindFileUpload(key) {
                     $('#progress-' + key + ' div.bar').css('width', "100%");
                     $('#progress-' + key).removeClass('progress-striped active');
                 });
-            }
+            },
+            add: bindFileUpload.checkFileSize
         })
         .bind('fileuploadprogress', function (e, data) {
             var progress = Math.round(100 * data._bitrateTimer.loaded / data.files[0].size);
@@ -44,3 +45,37 @@ function bindFileUpload(key) {
             $('#progress-' + key + ' div.bar').css('width', progress + "%");
         });
 }
+
+bindFileUpload.checkFileSize = function checkFileSize(e, data) {
+    var badFiles = [];
+    if (typeof data.originalFiles.bad == 'undefined') {
+        data.originalFiles.bad = [];
+    }
+
+    for(var i = 0; i < data.files.length; i ++) {
+        var file = data.files[i];
+        if ((file.size || 0) > bolt.uploadConfig.maxSize) {
+            badFiles.push(file.name);
+            data.originalFiles.bad.push(file.name);
+        }
+    }
+
+    if (data.originalFiles.bad.length > 0) {
+        var filename1 = data.files[data.files.length - 1].name;
+        var filename2 = data.originalFiles[data.originalFiles.length - 1].name;
+
+        if (filename1 == filename2) {
+            // We're at the end of this upload cycle
+            var message = "One or more of the files that you " +
+                "selected was larger than the max size of " +
+                bolt.uploadConfig.maxSizeNice + ":\n\n" +
+                data.originalFiles.bad.join("\n");
+
+            alert(message);
+        }
+    }
+
+    if (badFiles.length === 0) {
+        data.submit();
+    }
+};
