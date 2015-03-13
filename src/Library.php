@@ -33,6 +33,25 @@ class Library
     }
 
     /**
+     * Convert a size string, such as 5M to bytes.
+     *
+     * @param string $size
+     *
+     * @return integer
+     */
+    public static function filesizeToBytes($size)
+    {
+        $unit = preg_replace('/[^bkmgtpezy]/i', '', $size);
+        $size = preg_replace('/[^0-9\.]/', '', $size);
+
+        if ($unit) {
+            return round($size * pow(1024, stripos('bkmgtpezy', $unit[0])));
+        } else {
+            return round($size);
+        }
+    }
+
+    /**
      * Gets the extension (if any) of a filename.
      *
      * @param string $filename
