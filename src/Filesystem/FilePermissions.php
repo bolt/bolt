@@ -139,6 +139,11 @@ class FilePermissions
             $this->maxUploadSize = $size;
         }
 
-        return $size;
+        return $this->maxUploadSize;
+    }
+
+    public function getMaxUploadSizeNice()
+    {
+        return Lib::formatFilesize($this->getMaxUploadSize());
     }
 }
