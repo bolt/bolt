@@ -40,7 +40,6 @@ module.exports = {
                 makeUri: true,              // bolt/make-uri-slug.js
                 makeUriAjax: true,          // bolt/make-uri-slug.js
                 stopMakeUri: true,          // bolt/make-uri-slug.js
-                updateLatestActivity: true, // bolt/activity.js
                 validateContent: true,      // bolt/fnc-helpers.js
                 // Vendor
                 $: true,                    // jQuery

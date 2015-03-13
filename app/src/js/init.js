@@ -1,18 +1,4 @@
 var init = {
-
-    /*
-     * Auto-update the 'latest activity' widget.
-     *
-     * @returns {undefined}
-     */
-    activityWidget: function () {
-        if ($('#latestactivity').is('*')) {
-            setTimeout(function () {
-                updateLatestActivity();
-            }, 20 * 1000);
-        }
-    },
-
     /*
      * Notice when (auto)depublish date is in the past
      * TODO: add timer, to check depublish date has passed during editing.

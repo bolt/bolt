@@ -29,6 +29,7 @@
         bolt.stack.init();
         bolt.actions.init();
 
+        bolt.activity.init();
         bolt.ckeditor.init();
         bolt.datetime.init();
 
@@ -68,7 +69,6 @@
         }, 1000);
         init.dropZone();
         init.popOvers();
-        init.activityWidget();
         init.dropDowns();
         init.deferredWidgets();
         init.passwordInput();
