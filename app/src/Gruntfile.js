@@ -35,6 +35,7 @@ module.exports = function(grunt) {
                 '<%= path.src.js %>/modules/files.js',
                 '<%= path.src.js %>/modules/stack.js',
                 '<%= path.src.js %>/modules/video.js',
+                '<%= path.src.js %>/modules/datetime.js',
                 // Old stuff
                 '<%= path.src.js %>/fnc-helpers.js',
                 '<%= path.src.js %>/activity.js',

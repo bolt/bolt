@@ -11,5 +11,6 @@
  * @mixes Bolt.files
  * @mixes Bolt.stack
  * @mixes Bolt.video
+ * @mixes Bolt.datetime
  */
 var Bolt = {};

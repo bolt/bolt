@@ -51,7 +51,7 @@
      */
     function legacyInit() {
         // Get passed in data from Twig function data()
-/*
+
         // Initialize objects
         bolt.sidebar = new Sidebar();
         bolt.navpopups = new Navpopups();
@@ -80,10 +80,10 @@
         init.geolocation();
         init.focusStatusSelect();
         init.depublishTracking();
-*/
+
         $('[data-bind]').each(function () {
             var data = $(this).data('bind');
-            console.log('Binding: ' + data.bind);
+            //console.log('Binding: ' + data.bind);
 
             switch (data.bind) {
                 case 'editcontent': init.bindEditContent(data); break;
