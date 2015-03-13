@@ -86,15 +86,19 @@
     };
 
      /**
+     * Indicates if 24h or 12h time format should be used.
+     *
      * @private
-     * @property {boolean} is24h - Indicates if 24h or 12h time format should be used.
+     * @type {boolean}
      * @memberof Bolt.datetime
      */
     var is24h;
 
      /**
+     * Hold info on used DateTime/Date input combos.
+     *
      * @private
-     * @property {Array} fields - Hold info on used DateTime/Date input combos.
+     * @type {Array}
      * @memberof Bolt.datetime
      */
     var fields = [];
