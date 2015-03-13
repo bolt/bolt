@@ -93,7 +93,7 @@
                 {% if content.status=="timed" %}
                     <i class="fa fa-clock-o status-timed fa-fw"></i> <time class="moment" datetime="{{ content.datepublish|date("c") }}" title="{{ content.datepublish }}">{{ content.datepublish }}</time><br>
                 {% else %}
-                    <i class="fa fa-circle status-{{ content.status }} fa-fw"></i> {{ content.datepublish|date('d/m/Y') }}<br>
+                    <i class="fa fa-circle status-{{ content.status }} fa-fw"></i> {{ content.datepublish|localdate('%x') }}<br>
                 {% endif %}
 
                 {% if content.sortorder is defined and content.sortorder is not sameas(false) %}
