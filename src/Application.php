@@ -302,7 +302,7 @@ class Application extends Silex\Application
             substr(Application::DEFAULT_LOCALE, 0, 2)
         );
         
-        // Prepend additional locales
+        // Append additional locales
         $additional_locales = $this['config']->get('general/additional_locales', array());
         $locale = array_merge($locale, $additional_locales);
         
