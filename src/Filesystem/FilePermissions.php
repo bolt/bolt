@@ -39,6 +39,13 @@ class FilePermissions
     protected $blocked = array();
 
     /**
+     * Maximum upload size allowed by PHP, in bytes
+     *
+     * @var int
+     */
+    protected $maxUploadSize;
+
+    /**
      * Constructor, initialize filters rules.
      *
      * @param Application $app
@@ -117,5 +124,21 @@ class FilePermissions
     public function getAllowedUploadExtensions()
     {
         return $this->app['config']->get('general/accept_file_types');
+    }
+
+    public function getMaxUploadSize()
+    {
+        if (!isset($this->maxUploadSize)) {
+            $size = Lib::filesizeToBytes(ini_get('post_max_size'));
+
+            $uploadMax = Lib::filesizeToBytes(ini_get('upload_max_filesize'));
+            if (($uploadMax > 0) && ($uploadMax < $size)) {
+                $size = $uploadMax;
+            }
+
+            $this->maxUploadSize = $size;
+        }
+
+        return $size;
     }
 }
