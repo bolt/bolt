@@ -301,6 +301,11 @@ class Application extends Silex\Application
             Application::DEFAULT_LOCALE,
             substr(Application::DEFAULT_LOCALE, 0, 2)
         );
+        
+        // Prepend additional locales
+        $additional_locales = $this['config']->get('general/additional_locales', array());
+        $locale = array_merge($locale, $additional_locales);
+        
         setlocale(LC_ALL, $locale);
 
         $this->register(

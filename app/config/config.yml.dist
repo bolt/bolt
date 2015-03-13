@@ -20,6 +20,12 @@ theme: base-2014
 locale: en_GB
 #timezone: UTC
 
+# In some cases it may be needed to add additional locales to force correct handling
+# in all cases. Additional locales defined here will be appended to the locale array
+# that is used in the SetLocale call
+# additional_locales:
+#   - Dutch_Netherlands
+
 # Set maintenance mode true or false
 # While in maintenance mode, only users of level editor or higher can access the site.
 # All other visitors are presented with a notice that the site is currently offline.
