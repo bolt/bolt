@@ -176,7 +176,8 @@ var FilelistHolder = Backbone.View.extend({
                         var filename = decodeURI(file.url).replace("files/", "");
                         $this.add(filename, filename);
                     });
-                }
+                },
+                add: bindFileUpload.checkFileSize
             })
             .bind('fileuploadsubmit', function (e, data) {
                 var fileTypes = $('#fileupload-' + contentkey).attr('accept'),

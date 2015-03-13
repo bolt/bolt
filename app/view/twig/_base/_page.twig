@@ -97,8 +97,9 @@
         app:   paths.app,
         root:  paths.root,
     },
-    upload: {
-        maxSize: app['filepermissions'].getMaxUploadSize()
+    uploadConfig: {
+        maxSize: app['filepermissions'].getMaxUploadSize(),
+        maxSizeNice: app['filepermissions'].getMaxUploadSizeNice(),
     },
     ckeditor: {
         images:      0 + config.get('general/wysiwyg/images'),
