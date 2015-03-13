@@ -27,9 +27,10 @@
         bolt.conf.init();
         bolt.data.init();
         bolt.stack.init();
-        bolt.ckeditor.init();
+        bolt.actions.init();
 
-        bolt.actions.bind();
+        bolt.ckeditor.init();
+        bolt.datetime.init();
 
         legacyInit();
     };
@@ -60,8 +61,6 @@
         bolt.filelist = [];
 
         // Initialisation
-        bolt.datetimes.init();
-        //
         init.confirmationDialogs();
         init.magnificPopup();
         window.setTimeout(function () {

@@ -21,10 +21,10 @@
      * Bind action executing to tags with ``data-actions`` attribute.
      *
      * @static
-     * @function bind
+     * @function init
      * @memberof Bolt.actions
      */
-    actions.bind = function () {
+    actions.init = function () {
         // Unbind the click events, with the 'action' namespace.
         $('button, input[type=button], a').off('click.action');
 
