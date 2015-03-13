@@ -9,5 +9,6 @@
  * @mixes Bolt.conf
  * @mixes Bolt.data
  * @mixes Bolt.files
+ * @mixes Bolt.stack
  */
 var Bolt = {};

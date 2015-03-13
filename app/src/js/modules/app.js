@@ -26,6 +26,7 @@
     app.run = function () {
         bolt.conf.init();
         bolt.data.init();
+        bolt.stack.init();
         bolt.ckeditor.init();
 
         bolt.actions.bind();
@@ -52,7 +53,6 @@
         // Get passed in data from Twig function data()
 
         // Initialize objects
-        bolt.stack = new Stack();
         bolt.sidebar = new Sidebar();
         bolt.navpopups = new Navpopups();
         bolt.moments = new Moments();
