@@ -12,37 +12,19 @@ use Silex\Application;
  */
 class FilePermissions
 {
-    /**
-     * @var \Bolt\Application
-     */
+    /** @var \Bolt\Application */
     protected $app;
 
-    /**
-     * List of Filesystem prefixes that are editable.
-     *
-     * @var string[]
-     */
+    /** @var string[] List of Filesystem prefixes that are editable. */
     protected $allowedPrefixes = array();
 
-    /**
-     * Regex list represented editable resources.
-     *
-     * @var array
-     */
+    /** @var array Regex list represented editable resources. */
     protected $allowed = array();
 
-    /**
-     * Regex list represented resources forbidden for edition.
-     *
-     * @var array
-     */
+    /** @var array Regex list represented resources forbidden for edition. */
     protected $blocked = array();
 
-    /**
-     * Maximum upload size allowed by PHP, in bytes
-     *
-     * @var int
-     */
+    /** @var int Maximum upload size allowed by PHP, in bytes. */
     protected $maxUploadSize;
 
     /**
@@ -121,11 +103,21 @@ class FilePermissions
         return (in_array($extension, $allowedExtensions));
     }
 
+    /**
+     * Get the array of configured acceptable file extensions.
+     *
+     * @return array
+     */
     public function getAllowedUploadExtensions()
     {
         return $this->app['config']->get('general/accept_file_types');
     }
 
+    /**
+     * Get the maximum upload size the server is configured to accept.
+     *
+     * @return integer
+     */
     public function getMaxUploadSize()
     {
         if (!isset($this->maxUploadSize)) {
@@ -142,6 +134,11 @@ class FilePermissions
         return $this->maxUploadSize;
     }
 
+    /**
+     * Get the max upload value in a formatted string.
+     *
+     * @return string
+     */
     public function getMaxUploadSizeNice()
     {
         return Lib::formatFilesize($this->getMaxUploadSize());
