@@ -35,7 +35,7 @@ info:
             ## This is an &lt;h2&gt;-tag<br>
             ###### This is an &lt;h6&gt;-tag</p>
             <p>This _<em>is italic</em>_, this __<strong>is bold</strong>__, and this
-            ___<em><strong>is both</strong></em>___. You can also use asterixes: This *<em>is italic</em>*,
+            ___<em><strong>is both</strong></em>___. You can also use asterisks: This *<em>is italic</em>*,
             this **<strong>is bold</strong>**.
             <p>Create <a href='#'>links</a> like this:<br>
             An [exciting website](http://example.org/ &amp;quot;Title of link&amp;quot;)</p>
@@ -62,11 +62,3 @@ prefill:
     short_help: |
         <p>選中那些你想要自動生成Lorem Ipsum填充內容的內容格式。<p>
         <p>如果所有的覈取方塊都未選中，Bolt只會填充那些無默認內容的內容格式。</p>
-extension:
-    enable: |
-        <p>要啟用擴展，你需要編輯位於<code>config.yml</code>的<code>enabled_extensions</code>陣列。
-                你需要準確輸入擴展的名稱，就像
-                shown in the first label on the bottom row of its tile. 
-                請注意為了避免檔案系統間的差異問題，名稱是<em>區分大小寫</em>的。</p>
-            <p>示例：</p>
-            <pre><code>enabled_extensions: [ HelloWorld, GoogleAnalytics ]</code></pre>
