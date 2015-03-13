@@ -67,6 +67,7 @@ class CoverageComparator
                     $output,
                     $test))
             ->getProcess()
+            ->setTimeout(0)
             ->enableOutput();
 
         try {
@@ -311,7 +312,7 @@ class Git
             $this->config = $parser->parse(file_get_contents($filename) . "\n");
         }
 
-        $this->guzzledefaults = array();
+        $this->guzzleDefaults = array();
         if (isset($this->config['github']['token'])) {
             $this->guzzleDefaults = array('query' => array('access_token' => $this->config['github']['token']));
         }
@@ -556,6 +557,9 @@ class CoverageCommand
      */
     public function __construct()
     {
+        // Make sure we don't run out of time
+        set_time_limit(0);
+
         // Output
         $this->output = new ConsoleOutput();
 
