@@ -1566,6 +1566,7 @@ class Backend implements ControllerProviderInterface
                     'file',
                     array(
                         'label' => Trans::__('Upload a file to this folder'),
+                        'multiple' => TRUE,
                         'attr'  => array(
                         'data-filename-placement' => 'inside',
                         'title'                   => Trans::__('Select file …'))
@@ -1578,6 +1579,7 @@ class Backend implements ControllerProviderInterface
                 $form->bind($request);
                 if ($form->isValid()) {
                     $files = $request->files->get($form->getName());
+                    $files = $files['FileUpload'];
 
                     foreach ($files as $fileToProcess) {
                         $fileToProcess = array(

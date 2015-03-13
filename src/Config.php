@@ -387,10 +387,7 @@ class Config
             // If field is a "file" type, make sure the 'extensions' are set, and it's an array.
             if ($field['type'] == 'file' || $field['type'] == 'filelist') {
                 if (empty($field['extensions'])) {
-                    $field['extensions'] = array_intersect(
-                        array('doc', 'docx', 'txt', 'md', 'pdf', 'xls', 'xlsx', 'ppt', 'pptx', 'csv'),
-                        $acceptableFileTypes
-                    );
+                    $field['extensions'] = $acceptableFileTypes;
                 }
 
                 if (!is_array($field['extensions'])) {

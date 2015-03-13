@@ -8,7 +8,8 @@ var FileModel = Backbone.Model.extend({
         id: null,
         filename: null,
         title: "Untitled",
-        order: 1
+        order: 1,
+        file: null
     },
 
     initialize: function () {
@@ -39,6 +40,7 @@ var FilelistHolder = Backbone.View.extend({
 
     initialize: function (options) {
         this.list = new Filelist();
+        this.uploading = new Filelist();
         this.type = options.type;
         this.idPrefix = options.type == 'ImageList' ? '#imagelist-' : '#filelist-';
 
@@ -64,7 +66,8 @@ var FilelistHolder = Backbone.View.extend({
 
         var list = $(this.idPrefix + this.id + ' .list'),
             data = list.data('list'),
-            listtype = this.type;
+            listtype = this.type,
+            uploading = $(this.idPrefix + this.id + ' .uploading-list');
 
         list.html('');
         _.each(this.list.models, function (file) {
@@ -79,6 +82,13 @@ var FilelistHolder = Backbone.View.extend({
             }
             list.append(element);
         });
+
+        uploading.html('');
+        _.each(this.uploading.models, function (file) {
+            var element = $(data.itemUploading.replace(/<FNAME>/g, file.get('filename')));
+            uploading.append(element);
+        });
+
         if (this.list.models.length === 0) {
             list.append(data.empty);
         }
@@ -176,7 +186,8 @@ var FilelistHolder = Backbone.View.extend({
                         var filename = decodeURI(file.url).replace("files/", "");
                         $this.add(filename, filename);
                     });
-                }
+                },
+                add: bindFileUpload.checkFileSize
             })
             .bind('fileuploadsubmit', function (e, data) {
                 var fileTypes = $('#fileupload-' + contentkey).attr('accept'),
@@ -192,8 +203,23 @@ var FilelistHolder = Backbone.View.extend({
 
                             return false;
                         }
+
+                        var uploadingFile = new FileModel({
+                            filename: file.name
+                        });
+                        file.uploading = uploadingFile;
+
+                        $this.uploading.add(uploadingFile);
                     });
                 }
+
+                $this.render();
+            })
+            .bind('fileuploadalways', function (e, data) {
+                _.each(data.files, function (file, index) {
+                    $this.uploading.remove(file.uploading);
+                });
+                $this.render();
             });
 
         var lastClick = null;

@@ -97,6 +97,10 @@
         app:   paths.app,
         root:  paths.root,
     },
+    uploadConfig: {
+        maxSize: app['filepermissions'].getMaxUploadSize(),
+        maxSizeNice: app['filepermissions'].getMaxUploadSizeNice(),
+    },
     ckeditor: {
         images:      0 + config.get('general/wysiwyg/images'),
         tables:      0 + config.get('general/wysiwyg/tables'),

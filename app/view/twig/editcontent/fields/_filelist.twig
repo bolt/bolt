@@ -53,6 +53,10 @@
     </div>
 {% endset %}
 
+{% set list_item_uploading %}
+    <div>{{ __('Uploading') }} {{ '<FNAME>' }}</div>
+{% endset %}
+
 {% set listdata = {
     'message': {
         'remove':     __('Are you sure you want to remove this file?'),
@@ -61,6 +65,7 @@
     },
     'empty':          list_empty|trim,
     'item':           list_item|trim|preg_replace('/>\\s+</', '><'),
+    'itemUploading':     list_item_uploading|trim|preg_replace('/>\\s+</', '><'),
 } %}
 
 <fieldset class="filelist">
@@ -78,10 +83,11 @@
             <span>{{ __('Remove selected') }}</span>
         </span>
 
+        <p class="uploading-list"></p>
+
         <textarea name="{{ key }}" id="{{ key }}" class="hide">{{ list_json }}</textarea>
 
     </div>
 
     {{ block.serverselect(key) }}
-
 </fieldset>

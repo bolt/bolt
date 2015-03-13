@@ -54,6 +54,10 @@
     </div>
 {% endset %}
 
+{% set list_item_uploading %}
+    <div>{{ __('Uploading') }} {{ '<FNAME>' }}</div>
+{% endset %}
+
 {% set listdata = {
     'message': {
         'remove':       __('Are you sure you want to remove this image?'),
@@ -62,6 +66,7 @@
     },
     'empty':          list_empty|trim,
     'item':           list_item|trim|preg_replace('/>\\s+</', '><'),
+    'itemUploading':     list_item_uploading|trim|preg_replace('/>\\s+</', '><'),
 } %}
 
 <fieldset class="imagelist">
@@ -80,6 +85,8 @@
             <i class="fa fa-trash"></i>
             <span>{{ __('Remove selected') }}</span>
         </span>
+
+        <p class="uploading-list"></p>
 
         {{ block.serverselect(key) }}
 
