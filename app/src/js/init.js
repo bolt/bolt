@@ -359,16 +359,6 @@ var init = {
         }
     },
 
-    /*
-     * Bind video field
-     *
-     * @param {object} data
-     * @returns {undefined}
-     */
-    bindVideo: function (data) {
-        bindVideoEmbed(data.key);
-    },
-
     /**
      * Any link (or clickable <i>-icon) with a class='confirm' gets a confirmation dialog.
      *

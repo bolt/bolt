@@ -36,7 +36,6 @@ module.exports = {
                 // Bolt global functions
                 bindFileUpload: true,       // bolt/bindfileuploads.js
                 bindGeolocation: true,      // bolt/geolocation.js
-                bindVideoEmbed: true,       // bolt/video-embed.js
                 getSelectedItems: true,     // bolt/fnc-helpers.js
                 makeUri: true,              // bolt/make-uri-slug.js
                 makeUriAjax: true,          // bolt/make-uri-slug.js
