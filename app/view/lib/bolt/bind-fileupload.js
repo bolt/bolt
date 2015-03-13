@@ -46,7 +46,7 @@ function bindFileUpload(key) {
         });
 }
 
-bindFileUpload.checkFileSize = function checkFileSize(e, data) {
+bindFileUpload.checkFileSize = function checkFileSize (e, data) {
     // The jQuery upload doesn't expose an API to cover
     // an entire upload set. So we keep "bad" files in the
     // data.originalFiles, which is the same bewteen multiple files
@@ -56,13 +56,12 @@ bindFileUpload.checkFileSize = function checkFileSize(e, data) {
         data.originalFiles.bad = [];
     }
 
-    for(var i = 0; i < data.files.length; i ++) {
-        var file = data.files[i];
+    _.each(data.files, function (file, index) {
         if ((file.size || 0) > bolt.uploadConfig.maxSize) {
             badFiles.push(file.name);
             data.originalFiles.bad.push(file.name);
         }
-    }
+    });
 
     if (data.originalFiles.bad.length > 0) {
         var filename1 = data.files[data.files.length - 1].name;
