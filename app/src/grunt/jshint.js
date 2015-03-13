@@ -37,9 +37,6 @@ module.exports = {
                 bindFileUpload: true,       // bolt/bindfileuploads.js
                 bindGeolocation: true,      // bolt/geolocation.js
                 getSelectedItems: true,     // bolt/fnc-helpers.js
-                makeUri: true,              // bolt/make-uri-slug.js
-                makeUriAjax: true,          // bolt/make-uri-slug.js
-                stopMakeUri: true,          // bolt/make-uri-slug.js
                 validateContent: true,      // bolt/fnc-helpers.js
                 // Vendor
                 $: true,                    // jQuery

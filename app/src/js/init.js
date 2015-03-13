@@ -303,48 +303,6 @@ var init = {
         });
     },
 
-    /*
-     * Bind slug field
-     *
-     * @param {object} data
-     * @returns {undefined}
-     */
-    bindSlug: function (data) {
-
-        // Make sure events are bound only once.
-        if (this.slugsBound === true) {
-            return;
-        } else {
-            this.slugsBound = true;
-        }
-
-        $('.sluglocker').bind('click', function () {
-            if ($(this).find('i').hasClass('fa-lock')) {
-                // "unlock" if it's currently empty, _or_ we've confirmed that we want to do so.
-                if (data.isEmpty || confirm(data.messageUnlock)) {
-                    $(this).find('i').removeClass('fa-lock').addClass('fa-unlock');
-                    makeUri(data.slug, data.contentId, $(this).data('uses'), $(this).data('for'), false);
-                }
-            } else {
-                $(this).find('i').addClass('fa-lock').removeClass('fa-unlock');
-                stopMakeUri($(this).data('for'));
-            }
-        });
-
-        $('.slugedit').bind('click', function () {
-            var newslug = prompt(data.messageSet, $('#show-' + $(this).data('for')).text());
-            if (newslug) {
-                $('.sluglocker i').addClass('fa-lock').removeClass('fa-unlock');
-                stopMakeUri($(this).data('for'));
-                makeUriAjax(newslug, data.slug, data.contentId, $(this).data('for'), false);
-            }
-        });
-
-        if (data.isEmpty) {
-            $('.sluglocker').trigger('click');
-        }
-    },
-
     /**
      * Any link (or clickable <i>-icon) with a class='confirm' gets a confirmation dialog.
      *
