@@ -47,6 +47,10 @@ function bindFileUpload(key) {
 }
 
 bindFileUpload.checkFileSize = function checkFileSize(e, data) {
+    // The jQuery upload doesn't expose an API to cover
+    // an entire upload set. So we keep "bad" files in the
+    // data.originalFiles, which is the same bewteen multiple files
+    // in one upload set
     var badFiles = [];
     if (typeof data.originalFiles.bad == 'undefined') {
         data.originalFiles.bad = [];
