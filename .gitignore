@@ -17,9 +17,9 @@ composer.lock
 # Files related to testing
 tests/codeception/_log
 tests/codeception/*/*Tester.php
-tests/phpunit/report
-tests/phpunit/resources/*
-!tests/phpunit/resources/db/
+tests/phpunit/unit/report
+tests/phpunit/unit/resources/*
+!tests/phpunit/unit/resources/db/
 app/config/permissions.yml.codeception-backup
 /bolt.db
 
