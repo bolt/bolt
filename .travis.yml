@@ -13,10 +13,6 @@ matrix:
     - php: hhvm
     - php: 7.0
 
-script:
-  - phpunit
-  - ./run-functional-tests
-
 before_install:
   - sudo apt-get update && sudo apt-get --reinstall install -qq language-pack-en language-pack-fr && sudo locale-gen fr_FR
 
@@ -28,9 +24,14 @@ before_script:
   - chmod 777 tests/phpunit/unit/Nut/resources/
   - mkdir -p app/cache
   - chmod 777 app/cache
+  - if [ $TRAVIS_PHP_VERSION = '5.6' ]; then PHPUNIT_FLAGS="--coverage-clover coverage.clover"; fi
+
+script:
+  - phpunit $PHPUNIT_FLAGS
+  - ./run-functional-tests
 
 after_script:
-  - ./vendor/bin/ocular code-coverage:upload --format=php-clover coverage.xml
+  - if [ $TRAVIS_PHP_VERSION = '5.6' ]; then wget https://scrutinizer-ci.com/ocular.phar && php ocular.phar code-coverage:upload --format=php-clover coverage.clover; fi
 
 # cache vendor dirs
 cache:
