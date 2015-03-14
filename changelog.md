@@ -15,6 +15,12 @@ Not yet released.
  - Added: Use the X-Forwarded for IP address when an appropriate one exists and the trustedProxies config contains a valid IP. (Thanks @Cooperaj, see #3031, #3093)
  - Fixed: Extension theme installer working properly (see #3108, thanks @nikgo)
  - Fixed: Replacing `&nbsp;` with single space, instead of nothing. (See #3111) 
+ - Add an option to delete a record, when editing it. (See #3134)
+ - Remove "frontend permission checks". (#see 3133)
+ - Prevent extra spaces in excerpts. (See #3130)
+ - Show notice on update of Bolt. (See #3129)
+ - Make dashboard activity log autoupdate again (see #3126)
+ - Upload UX Improvements (Thanks, @Pinpickle, see #3123)
 
 Bolt 2.1.1
 ----------
