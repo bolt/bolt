@@ -62,10 +62,10 @@ This can now also be done by using app/nut:
 
     $ php app/nut tests:run
 
-Extensions
-----------
-Since Bolt 2.0, you can install extensions directly from Bolt's interface. To
-browse the available extensions, visit [extensions.bolt.cm](https://extensions.bolt.cm).
-
+Extensions and Themes
+---------------------
+Since Bolt 2.0, you can install extensions and themes directly from Bolt's
+interface. To browse the available extensions and themes, visit
+[extensions.bolt.cm](https://extensions.bolt.cm).
 
 -------
