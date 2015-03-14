@@ -16,7 +16,7 @@
                 <tr>
                     <td class="id">
                         {% if user.enabled == 0 %}<s>{% endif %}
-                        № {{ user.id }}
+                        {{ __('№') }} {{ user.id }}
                         {% if user.enabled == 0 %}</s>{% endif %}
                     </td>
 

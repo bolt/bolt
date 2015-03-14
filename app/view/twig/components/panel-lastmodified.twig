@@ -35,7 +35,7 @@
                         {% else %}
                             {% set title = __('%name% № %id%', {'%name%': context.contenttype.singular_name, '%id%': entry.contentid}) %}
                         {% endif %}
-                        № {{ entry.contentid }}.
+                        {{ __('№') }} {{ entry.contentid }}.
                     {% endif %}
                     {{ title }}
                     {{ changelog_mutation(entry.mutation_type) }}
@@ -49,7 +49,7 @@
         {% else %}
             {% for content in context.latest %}
                 <li>
-                    № {{ content.id }}.
+                    {{ __('№') }} {{ content.id }}.
                     {{ macro.contentlink(context.contenttype, content) }}
                     <small>({{ macro.datetime(content.datechanged) }})</small>
                 </li>
