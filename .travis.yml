@@ -14,7 +14,7 @@ matrix:
     - php: 7.0
 
 script:
-  - phpunit -c phpunit.xml.dist
+  - phpunit
   - ./run-functional-tests
 
 before_install:
