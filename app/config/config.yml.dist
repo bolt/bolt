@@ -59,10 +59,6 @@ homepage_template: index.twig
 # Note: If you are logged on, and debug is set to 'true', you will NOT see the 404 page!!
 notfound: page/not-found
 
-# The default content for the 403 'access denied' page.
-# Only valid when frontend_permission_checks is set to true
-#access_denied: page/not-logged-in
-
 # The default template and amount of records to use for listing-pages on the
 # site. Can be overridden for each contenttype and for each record, if it has a
 # 'templateselect' field. Note: If you've changed the filename, and your changes
@@ -195,11 +191,6 @@ debuglog:
   enabled: false
   filename: bolt-debug.log
   level: DEBUG
-
-# Uncomment to enable permission checks in the frontend.
-# This allows hiding certain content types from regular (unauthenticated
-# visitors) through the permission system; see permissions.yml for details.
-# frontend_permission_checks: true
 
 # Use strict variables. This will make Bolt complain if you use {{ foo }},
 # when foo doesn't exist.
