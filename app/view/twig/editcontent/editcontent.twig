@@ -29,7 +29,6 @@
         savedon:        __('Saved on:') ~ ' <strong></strong> <small>(' ~ dateChanged ~ ')</small></p>',
         newRecord:      context.content.id != 0 ? false : true,
         msgNotSaved:    __('contenttypes.generic.saving-impossible', {'%contenttype%': context.contenttype.slug}),
-        pathsRoot:      paths.root,
         msgSaving:      __('Saving …'),
         hasGroups:      context.has.tabs,
         singularSlug:   context.contenttype.singular_slug,

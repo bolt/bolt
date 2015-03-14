@@ -23,7 +23,6 @@
      * @property {string} messageNotSaved - Message when entry could not be saved.
      * @property {string} messageSet - Message while saving.
      * @property {boolean} newRecord - Is new Record?
-     * @property {string} pathsRoot - Root path.
      * @property {string} savedOn - "Saved on" template.
      * @property {string} singularSlug - Contenttype slug.
      */
@@ -153,7 +152,7 @@
             }
         });
 
-        initPreview(data.pathsRoot, data.singularSlug);
+        initPreview(data.singularSlug);
 
         // Delete item from the editcontent page.
         $('#deletebutton, #sidebardeletebutton').bind('click', function (e) {
@@ -245,14 +244,13 @@
      * @function initPreview
      * @memberof Bolt.editcontent
      *
-     * @param {string} pathsRoot - Root path.
      * @param {string} slug - Contenttype singular slug.
      */
-    function initPreview(pathsRoot, slug) {
+    function initPreview(slug) {
 
         // To preview the page, we set the target of the form to a new URL, and open it in a new window.
         $('#previewbutton, #sidebarpreviewbutton').bind('click', function (e) {
-            var newAction = pathsRoot + 'preview/' + slug;
+            var newAction = bolt.conf('paths.root') + 'preview/' + slug;
 
             e.preventDefault();
             $('#editcontent').attr('action', newAction).attr('target', '_blank').submit();
