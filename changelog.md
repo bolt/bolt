@@ -16,10 +16,10 @@ Not yet released.
  - Fixed: Extension theme installer working properly (see #3108, thanks @nikgo)
  - Fixed: Replacing `&nbsp;` with single space, instead of nothing. (See #3111) 
  - Added: Added an option to delete a record, when editing it. (See #3134)
- - Removed: removded "frontend permission checks". (#see 3133)
+ - Removed: removed "frontend permission checks". (See #3133)
  - Fixed: Prevent extra spaces in excerpts. (See #3130)
  - Fixed: Show notice on update of Bolt. (See #3129)
- - Fixed: Make dashboard activity log autoupdate again (see #3126)
+ - Fixed: Make dashboard activity log autoupdate again (See #3126)
  - Fixed: Upload UX Improvements (Thanks, @Pinpickle, see #3123)
 
 Bolt 2.1.1
