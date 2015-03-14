@@ -153,13 +153,7 @@
             }
         });
 
-        // To preview the page, we set the target of the form to a new URL, and open it in a new window.
-        $('#previewbutton, #sidebarpreviewbutton').bind('click', function (e) {
-            e.preventDefault();
-            var newaction = data.pathsRoot + 'preview/' + data.singularSlug;
-            $('#editcontent').attr('action', newaction).attr('target', '_blank').submit();
-            $('#editcontent').attr('action', '').attr('target', '_self');
-        });
+        initPreview(data.pathsRoot, data.singularSlug);
 
         // Delete item from the editcontent page.
         $('#deletebutton, #sidebardeletebutton').bind('click', function (e) {
@@ -241,6 +235,28 @@
             top = $('body').scrollTop();
             window.location.hash = this.hash.replace(/^#tab-/, '');
             $('html,body').scrollTop(top);
+        });
+    }
+
+    /**
+     * Initialize persistent tabgroups.
+     *
+     * @static
+     * @function initPreview
+     * @memberof Bolt.editcontent
+     *
+     * @param {string} pathsRoot - Root path.
+     * @param {string} slug - Contenttype singular slug.
+     */
+    function initPreview(pathsRoot, slug) {
+
+        // To preview the page, we set the target of the form to a new URL, and open it in a new window.
+        $('#previewbutton, #sidebarpreviewbutton').bind('click', function (e) {
+            var newAction = pathsRoot + 'preview/' + slug;
+
+            e.preventDefault();
+            $('#editcontent').attr('action', newAction).attr('target', '_blank').submit();
+            $('#editcontent').attr('action', '').attr('target', '_self');
         });
     }
 
