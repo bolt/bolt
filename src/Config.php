@@ -929,6 +929,8 @@ class Config
             // Check to make sure the version is still the same. If not, effectively invalidate the
             // cached config to force a reload.
             if (!isset($this->data['version']) || ($this->data['version'] != $this->app->getVersion())) {
+                // The logger and the flashbags aren't available yet, here, so we set a flag to notify the user later.
+                $this->notify_update = true;
                 return false;
             }
 
