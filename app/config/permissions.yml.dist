@@ -146,9 +146,6 @@ global:
 #                     permission can indirectly enable users more permissions
 #                     in ways that may not be immediately obvious.
 # - view: allows viewing records in the backend
-# - frontend: allows front-end access to records (note that this requires the
-#             'frontend_permission_checks' global configuration setting, for
-#             backwards-compatibility reasons as well as performance)
 contenttype-all:
     edit: [ developer, admin, chief-editor ]
     create: [ developer, admin, chief-editor ]
@@ -162,7 +159,6 @@ contenttype-default:
     create: [ editor ]
     change-ownership: [ owner ]
     view: [ anonymous ]
-    frontend: [ anonymous ]
 
 contenttypes:
 
@@ -186,4 +182,3 @@ contenttypes:
 #        view: [ developer, admin, chief-editor ]
 #        # Do not expose this content type on the front-end unless user is
 #        logged into the backend
-#        frontend: [ everyone ]
