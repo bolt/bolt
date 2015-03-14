@@ -34,7 +34,6 @@
      */
     var editcontent = {};
 
-
     /**
      * Initializes the mixin.
      *
@@ -60,7 +59,7 @@
             }
         );
 
-        // Basic custom validation handler
+        // Basic custom validation handler.
         $('#editcontent').on('boltvalidate', function () {
             var valid = bolt.validation.run(this);
             $(this).data('valid', valid);
@@ -120,7 +119,7 @@
                 // Reset the changes to the form.
                 $('form').watchChanges();
 
-                // Let the controller know we're calling AJAX and expecting to be returned JSON
+                // Let the controller know we're calling AJAX and expecting to be returned JSON.
                 var ajaxaction = '?returnto=ajax';
                 $.post(ajaxaction, $("#editcontent").serialize())
                     .done(function (data) {
@@ -158,7 +157,7 @@
                         // Update dates and times from new values
                         bolt.datetimes.update();
 
-                        // Reset the changes to the form frCKom any updates we got from POST_SAVE changes
+                        // Reset the changes to the form from any updates we got from POST_SAVE changes
                         $('form').watchChanges();
 
                     })
@@ -188,7 +187,7 @@
                 if (confirmed === true) {
                     var url = bolt.conf('paths.bolt') + 'content/deletecontent/' + $('#contenttype').val() + '/' +
                             $('#id').val() + '?bolt_csrf_token=' + $('#bolt_csrf_token').val();
-                    // Delete request
+                    // Delete request.
                     $.ajax({
                         url: url,
                         type: 'get',
@@ -200,7 +199,7 @@
             });
         });
 
-        // Persistent tabgroups
+        // Persistent tabgroups.
         var hash = window.location.hash;
         if (hash) {
             $('#filtertabs a[href="#tab-' + hash.replace(/^#/, '') + '"]').tab('show');
@@ -216,7 +215,7 @@
         });
     };
 
-    // Apply mixin container
+    // Apply mixin container.
     bolt.editcontent = editcontent;
 
 })(Bolt || {}, jQuery, moment, typeof CKEDITOR !== 'undefined' ? CKEDITOR : undefined);
