@@ -6,10 +6,12 @@
  *
  * @param {Object} bolt - The Bolt module.
  * @param {Object} $ - jQuery.
+ * @param {Object} window - Global window object.
  * @param {Object} moment - Global moment object.
+ * @param {Object} bootbox - Global bootbox object.
  * @param {Object|undefined} ckeditor - CKEDITOR global or undefined.
  */
-(function (bolt, $, moment, ckeditor) {
+(function (bolt, $, window, moment, bootbox, ckeditor) {
     /**
      * Bind data.
      *
@@ -218,4 +220,4 @@
     // Apply mixin container.
     bolt.editcontent = editcontent;
 
-})(Bolt || {}, jQuery, moment, typeof CKEDITOR !== 'undefined' ? CKEDITOR : undefined);
+})(Bolt || {}, jQuery, window, moment, bootbox, typeof CKEDITOR !== 'undefined' ? CKEDITOR : undefined);
