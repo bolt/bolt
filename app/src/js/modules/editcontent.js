@@ -181,20 +181,7 @@
             });
         });
 
-        // Persistent tabgroups.
-        var hash = window.location.hash;
-        if (hash) {
-            $('#filtertabs a[href="#tab-' + hash.replace(/^#/, '') + '"]').tab('show');
-        }
-
-        $('#filtertabs a').click(function () {
-            var top;
-
-            $(this).tab('show');
-            top = $('body').scrollTop();
-            window.location.hash = this.hash.replace(/^#tab-/, '');
-            $('html,body').scrollTop(top);
-        });
+        initTabGroups();
     };
 
     /**
@@ -225,6 +212,31 @@
             var valid = bolt.validation.run(this);
             $(this).data('valid', valid);
             return valid;
+        });
+    }
+
+    /**
+     * Initialize persistent tabgroups.
+     *
+     * @static
+     * @function initTabGroups
+     * @memberof Bolt.editcontent
+     */
+    function initTabGroups() {
+        // Show selected tab.
+        var hash = window.location.hash;
+        if (hash) {
+            $('#filtertabs a[href="#tab-' + hash.replace(/^#/, '') + '"]').tab('show');
+        }
+
+        // Set Tab change handler.
+        $('#filtertabs a').click(function () {
+            var top;
+
+            $(this).tab('show');
+            top = $('body').scrollTop();
+            window.location.hash = this.hash.replace(/^#tab-/, '');
+            $('html,body').scrollTop(top);
         });
     }
 
