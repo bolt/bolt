@@ -1,3 +1,14 @@
+Bolt 2.1.2
+
+Not yet released. Notable changes:
+
+ - Added: Added an option to delete a record, when editing it. (See #3134)
+ - Fixed: Upload UX Improvements (Thanks, @Pinpickle, see #3123)
+ - Removed: removed "frontend permission checks". (#see 3133)
+ - Fixed: Prevent extra spaces in excerpts. (See #3130)
+ - Fixed: Show notice on update of Bolt. (See #3129)
+ - Fixed: Make dashboard activity log autoupdate again (see #3126)
+
 Bolt 2.1.1
 ----------
 
