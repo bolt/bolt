@@ -21,6 +21,14 @@
     value:     context.content.id,
 } %}
 
+{% set attr_contenttype = {
+    id:        'contenttype',
+    name:      'contenttype',
+    readonly:  true,
+    type:      'hidden',
+    value:     context.contenttype.slug,
+} %}
+
 {% set attr_publish = {
     disabled: (not can_publish),
     id:       'datepublish',
@@ -67,6 +75,7 @@
     {{ macro.label('Id (№)', '', 'col-sm-4 control-label') }}
     <div class="col-sm-8">
         <input{{ macro.attr(attr_id) }}>
+        <input{{ macro.attr(attr_contenttype) }}>
     </div>
 </div>
 

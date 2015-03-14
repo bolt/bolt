@@ -193,6 +193,26 @@ var init = {
             $('#editcontent').attr('action', '').attr('target', "_self");
         });
 
+        // Delete item from the editcontent page.
+        $('#deletebutton, #sidebardeletebutton').bind('click', function (e) {
+            e.preventDefault();
+            bootbox.confirm(bolt.data.recordlisting.delete_one, function (confirmed) {
+                $('.alert').alert();
+                if (confirmed === true) {
+                    var url = bolt.paths.bolt + 'content/deletecontent/' + $('#contenttype').val() + '/' +
+                            $('#id').val() + '?bolt_csrf_token=' + $('#bolt_csrf_token').val();
+                    // Delete request
+                    $.ajax({
+                        url: url,
+                        type: 'get',
+                        success: function (feedback) {
+                            window.location.href = bolt.paths.bolt + 'overview/' + $('#contenttype').val();
+                        }
+                    });
+                }
+            });
+        });
+
         // Persistent tabgroups
         var hash = window.location.hash;
         if (hash) {
