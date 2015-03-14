@@ -46,27 +46,7 @@
      * @param {BindData} data
      */
     editcontent.init = function (data) {
-        // Set handler to validate form submit.
-        $('#editcontent')
-            .attr('novalidate', 'novalidate')
-            .on('submit', function (event) {
-                var valid = bolt.validation.run(this);
-                $(this).data('valid', valid);
-                if (!valid){
-                    event.preventDefault();
-                    return false;
-                }
-                // Submitting, disable warning.
-                window.onbeforeunload = null;
-            }
-        );
-
-        // Basic custom validation handler.
-        $('#editcontent').on('boltvalidate', function () {
-            var valid = bolt.validation.run(this);
-            $(this).data('valid', valid);
-            return valid;
-        });
+        initValidation();
 
         // Save the page.
         $('#sidebarsavebutton').bind('click', function () {
@@ -216,6 +196,37 @@
             $('html,body').scrollTop(top);
         });
     };
+
+    /**
+     * Set validation handlers.
+     *
+     * @static
+     * @function initValidation
+     * @memberof Bolt.editcontent
+     */
+    function initValidation() {
+        // Set handler to validate form submit.
+        $('#editcontent')
+            .attr('novalidate', 'novalidate')
+            .on('submit', function (event) {
+                var valid = bolt.validation.run(this);
+                $(this).data('valid', valid);
+                if (!valid){
+                    event.preventDefault();
+                    return false;
+                }
+                // Submitting, disable warning.
+                window.onbeforeunload = null;
+            }
+        );
+
+        // Basic custom validation handler.
+        $('#editcontent').on('boltvalidate', function () {
+            var valid = bolt.validation.run(this);
+            $(this).data('valid', valid);
+            return valid;
+        });
+    }
 
     // Apply mixin container.
     bolt.editcontent = editcontent;
