@@ -38,6 +38,8 @@ class Config
      */
     public $fields;
 
+    public $notify_update;
+
     protected $yamlParser = false;
 
     /**
