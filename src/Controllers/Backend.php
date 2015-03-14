@@ -1904,6 +1904,16 @@ class Backend implements ControllerProviderInterface
         // unfortunately this has to be done here, because the 'translator' classes need to be initialised.
         $app['config']->checkConfig();
 
+        // If we had to reload the config earlier on because we detected a version change, display a notice.
+        if ($app['config']->notify_update) {
+            $notice = sprintf(
+                    "Detected Bolt version change to <b>%s</b>. Please clear the cache and check the database, if you haven't done so already.",
+                    $app->getVersion()
+                );
+            $app['logger.system']->notice(strip_tags($notice), array('event' => 'config'));
+            $app['session']->getFlashBag()->add('info', $notice);
+        }
+
         // Check the database users table exists
         $tableExists = $app['integritychecker']->checkUserTableIntegrity();
 

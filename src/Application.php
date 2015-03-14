@@ -62,14 +62,6 @@ class Application extends Silex\Application
 
         // Initialise the JavaScipt data gateway
         $this['jsdata'] = array();
-
-        // If we reloaded the config earlier on, because we detected a verion change, display a notice.
-        if (isset($this['config']->notify_update) && $this['config']->notify_update) {
-            $notice = sprintf("Detected Bolt version change to <b>%s</b>. Please clear the cache and check the database, if you haven't done so already.", $this->getVersion());
-            $this['logger.system']->info($notice, array('event' => 'config'));
-            $this['session']->getFlashBag()->add('info', $line);
-        }
-
     }
 
     protected function initConfig()
