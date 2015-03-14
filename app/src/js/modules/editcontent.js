@@ -190,7 +190,7 @@
                     // Delete request.
                     $.ajax({
                         url: url,
-                        type: 'get',
+                        type: 'GET',
                         success: function (feedback) {
                             window.location.href = bolt.conf('paths.bolt') + 'overview/' + $('#contenttype').val();
                         }
