@@ -6,9 +6,9 @@
 /**
  * Colour scheme, copied from colors.scss
  */
- 
+
 // for easier layouting.. Will be deleted..
-$columnborders: false; 
+$columnborders: false;
 
 $boltblue: #204460;
 $boltbluedarker: darken($boltblue, 5);
@@ -51,6 +51,10 @@ $btn-danger-color: #FFF;
 $btn-danger-bg: #CC3333;
 $btn-danger-border: darken($btn-danger-bg, 5);
 
+$btn-silent-danger-color: #555;
+$btn-silent-danger-bg: #F8F8F8;
+$btn-silent-danger-border: darken($btn-danger-bg, 5);
+
 // Special BOLT button
 $btn-bolt-color: #FFF;
 $btn-bolt-bg: $boltblue;
@@ -62,7 +66,7 @@ $dropdown-link-hover-color: $boltbluedarker;
 $dropdown-link-hover-bg: #DDD;
 
 // Sidebar panel headings.
-$panel-default-heading-bg: #DDD; 
+$panel-default-heading-bg: #DDD;
 $panel-default-border: #E2E2E2;
 $panel-border-radius: 0;
 
@@ -88,8 +92,8 @@ $nav-tabs-bg: desaturate(lighten($boltblue, 50%), 30);
 
 /**
  * Colors in _base.scss
- */ 
-$sidebarbackground: #181818; 
+ */
+$sidebarbackground: #181818;
 $sidebartextcolour: #DDD;
 $sidebartextcolourcollapsed: #AAA;
 
@@ -104,7 +108,7 @@ $sidebarbackgroundhover: lighten(desaturate($boltblue, 20), 18);
  * Breakpoints
  */
 $mid-mobile: (400/16); //25em == 400px, between mobile portrait and landscape
-$medium-screens: (768/16); //48em == 768px, Ipad tabs and up 
+$medium-screens: (768/16); //48em == 768px, Ipad tabs and up
 $large-screens: (960/16); //60em == 960px, ye' olde classic 12col width
 $wide-screens: (1280/16); //80em == 1280px, anything up and wide
 
@@ -123,61 +127,61 @@ $nav-secondary-indent: ($nav-secondary-icon-size + $nav-secondary-icon-margin);
 $nav-secondary-collapsed-width: ($nav-secondary-h-padding + $nav-secondary-indent + 1);
 
 /**
- * a fixed media query size for app-old-ie.scss, defaults to false. 
+ * a fixed media query size for app-old-ie.scss, defaults to false.
  */
 $fixed-mq: false !default;
 /**
  * Media Query handling
- */ 
+ */
 @mixin respond-to($media) {
     @if $media == mid-mobile {
         @if $fixed-mq {
-            @if $fixed-mq >= $mid-mobile { 
+            @if $fixed-mq >= $mid-mobile {
                 @content
             }
         }
         @else {
-            @media only screen and (min-width: $mid-mobile + em) { 
+            @media only screen and (min-width: $mid-mobile + em) {
                @content;
             }
-        }      
+        }
     }
     @if $media == medium-screens {
         @if $fixed-mq {
-            @if $fixed-mq >= $medium-screens { 
+            @if $fixed-mq >= $medium-screens {
                 @content
             }
         }
         @else {
-            @media only screen and (min-width: $medium-screens + em) { 
+            @media only screen and (min-width: $medium-screens + em) {
                @content;
             }
-        }      
-    }  
+        }
+    }
     @if $media == large-screens {
         @if $fixed-mq {
-            @if $fixed-mq >= $large-screens { 
+            @if $fixed-mq >= $large-screens {
                 @content
             }
         }
         @else {
-            @media only screen and (min-width: $large-screens + em) { 
+            @media only screen and (min-width: $large-screens + em) {
                @content;
             }
-        }      
-    }  
+        }
+    }
     @if $media == wide-screens {
         @if $fixed-mq {
-            @if $fixed-mq >= $wide-screens { 
+            @if $fixed-mq >= $wide-screens {
                 @content
             }
         }
         @else {
-            @media only screen and (min-width: $wide-screens + em) { 
+            @media only screen and (min-width: $wide-screens + em) {
                @content;
             }
-        }      
-    }  
+        }
+    }
 }
 
 /*

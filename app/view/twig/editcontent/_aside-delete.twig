@@ -1,0 +1,10 @@
+{{ data('recordlisting', {
+    'delete_one':   __('Are you sure you wish to delete this record? There is no undo.')
+})}}
+
+<div class="btn-group">
+    <button type="button" class="btn btn-silent-danger" id="sidebardeletebutton">
+        <i class="fa fa-trash"></i> {{ __('contenttypes.generic.delete', {'%contenttype%': context.contenttype.slug}) }}
+    </button>
+
+</div>
