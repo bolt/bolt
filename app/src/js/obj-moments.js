@@ -10,7 +10,7 @@ var Moments = Backbone.Model.extend({
 
     initialize: function () {
         // Set locale
-        moment.locale(bolt.locale.long);
+        moment.locale(Bolt.conf('locale.long'));
 
         // Something to update?
         if ($('time.moment').length) {

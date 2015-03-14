@@ -18,12 +18,12 @@ function bindFileUpload(key) {
                     if (file.error === undefined) {
                         filename = decodeURI(file.url).replace("files/", "");
                         $('#field-' + key).val(filename);
-                        $('#thumbnail-' + key).html('<img src="' + bolt.paths.root + 'thumbs/200x150c/' +
+                        $('#thumbnail-' + key).html('<img src="' + Bolt.conf('paths.root') + 'thumbs/200x150c/' +
                             encodeURI(filename) + '" width="200" height="150">');
                         window.setTimeout(function () { $('#progress-' + key).fadeOut('slow'); }, 1500);
 
                         // Add the uploaded file to our stack.
-                        bolt.stack.addToStack(filename);
+                        Bolt.stack.addToStack(filename);
 
                     } else {
                         message = "Oops! There was an error uploading the file. Make sure the file is not " +

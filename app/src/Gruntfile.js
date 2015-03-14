@@ -4,6 +4,7 @@ module.exports = function(grunt) {
     var options = {
         path: {
             tmp: 'tmp',
+            doc: 'docs',
             src: {
                 js: 'js',
                 lib: 'lib',
@@ -21,7 +22,24 @@ module.exports = function(grunt) {
 
         files: {
             boltJs: [
+                // Prerequisites
                 '<%= path.src.js %>/console.js',
+                '<%= path.src.js %>/class-extends.js',
+                // Bolt module
+                '<%= path.src.js %>/bolt.js',
+                '<%= path.src.js %>/modules/app.js',
+                '<%= path.src.js %>/modules/conf.js',
+                '<%= path.src.js %>/modules/data.js',
+                '<%= path.src.js %>/modules/actions.js',
+                '<%= path.src.js %>/modules/ckeditor.js',
+                '<%= path.src.js %>/modules/files.js',
+                '<%= path.src.js %>/modules/stack.js',
+                '<%= path.src.js %>/modules/video.js',
+                '<%= path.src.js %>/modules/datetime.js',
+                '<%= path.src.js %>/modules/activity.js',
+                '<%= path.src.js %>/modules/slug.js',
+                '<%= path.src.js %>/modules/editcontent.js',
+                // Old stuff
                 '<%= path.src.js %>/fnc-helpers.js',
                 '<%= path.src.js %>/activity.js',
                 '<%= path.src.js %>/bind-fileupload.js',
@@ -32,14 +50,10 @@ module.exports = function(grunt) {
                 '<%= path.src.js %>/obj-sidebar.js',
                 '<%= path.src.js %>/obj-navpopups.js',
                 '<%= path.src.js %>/obj-moments.js',
-                '<%= path.src.js %>/obj-files.js',
-                '<%= path.src.js %>/obj-stack.js',
-                '<%= path.src.js %>/obj-folders.js',
                 '<%= path.src.js %>/obj-datetime.js',
                 '<%= path.src.js %>/obj-validation.js',
                 '<%= path.src.js %>/extend.js',
-                '<%= path.src.js %>/init.js',
-                '<%= path.src.js %>/start.js'
+                '<%= path.src.js %>/init.js'
             ]
         },
 

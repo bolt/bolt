@@ -1,37 +1,116 @@
 /**
- * DateTime/Date input combo initalization and handling
+ * DateTime/Date input combo initalization and handling.
+ *
+ * @mixin
+ * @namespace Bolt.datetime
+ *
+ * @param {Object} bolt - The Bolt module.
+ * @param {Object} $ - jQuery.
+ * @param {Object} moment - Global moment object.
+ *
  */
-bolt.datetimes = (function () {
+(function (bolt, $, moment) {
     /**
-     * @typedef InputElements
-     * @type {Object} data - Element holding the data
-     * @type {Object} date - Date input element
-     * @type {Object} time - Time input element
-     * @type {Object} show - Show datepicker button
-     * @type {Object} clear - Clear datepicker button
+     * Collection of input elements.
+     *
+     * @typedef {Object} InputElements
+     * @memberof Bolt.datetime
+     *
+     * @property {Object} data - Element holding the data.
+     * @property {Object} date - Date input element.
+     * @property {Object} time - Time input element.
+     * @property {Object} show - Show datepicker button.
+     * @property {Object} clear - Clear datepicker button.
      */
 
-     /**
-     * Indicates if 24h or 12h time format should be used
+    /**
+     * Bolt.datetime mixin container.
      *
-     * @type {boolean}
      * @private
+     * @type {Object}
+     */
+    var datetime = {};
+
+    /**
+     * Initialize the datetime and date input combos.
+     *
+     * @static
+     * @function init
+     * @memberof Bolt.datetime
+     */
+    datetime.init = function () {
+        // Set global datepicker locale
+        $.datepicker.setDefaults($.datepicker.regional[bolt.conf('locale.long')]);
+
+        // Find out if locale uses 24h format
+        is24h = moment.localeData()._longDateFormat.LT.replace(/\[.+?\]/gi, '').match(/A/) ? false : true;
+
+        // Initialize each available date/datetime field
+        $('input.datetime').each(function () {
+            var field = elements($(this));
+
+            // Remember field data
+            fields.push(field);
+
+            // Uncomment for debug purpose to make hidden datafields visible
+            // field.data.attr('type', 'text');
+
+            // Bind datepicker to date field and set options from field in contenttypes.yml
+            bindDatepicker(field);
+
+            display(field);
+
+            // Bind change action to date and time field
+            field.date.change(function () {
+                evaluate(field);
+                display(field);
+            });
+            field.time.change(function () {
+                evaluate(field);
+                display(field);
+            });
+        });
+    };
+
+    /**
+     * Updates display of datetime and date inputs from their data fields.
+     *
+     * @static
+     * @function update
+     * @memberof Bolt.datetime
+     */
+    datetime.update = function () {
+        for (var i in fields) {
+            display(fields[i]);
+        }
+    };
+
+     /**
+     * Indicates if 24h or 12h time format should be used.
+     *
+     * @private
+     * @type {boolean}
+     * @memberof Bolt.datetime
      */
     var is24h;
 
      /**
-     * Hold info on used DateTime/Date input combos
+     * Hold info on used DateTime/Date input combos.
      *
-     * @type {Array}
      * @private
+     * @type {Array}
+     * @memberof Bolt.datetime
      */
     var fields = [];
 
     /**
      * Evaluate the value(s) from the input field(s) and writes it to the data field
      *
-     * @param {InputElements} field
      * @private
+     * @function evaluate
+     * @memberof Bolt.datetime
+     *
+     * @param {InputElements} field
      */
     function evaluate(field) {
         var date = moment(field.date.datepicker('getDate')),
@@ -72,10 +151,13 @@ bolt.datetimes = (function () {
     }
 
     /**
-     * Displays the value read from the data field inside combos input field(s)
+     * Displays the value read from the data field inside combos input field(s).
+     *
+     * @private
+     * @function display
+     * @memberof Bolt.datetime
      *
      * @param {InputElements} field
-     * @private
      */
     function display(field) {
         var date = '',
@@ -124,10 +206,13 @@ bolt.datetimes = (function () {
     }
 
     /**
-     * Binds the datepicker to the date input and initializes it
+     * Binds the datepicker to the date input and initializes it.
+     *
+     * @private
+     * @function bindDatepicker
+     * @memberof Bolt.datetime
      *
      * @param {InputElements} field
-     * @private
      */
     function bindDatepicker(field) {
         var fieldOptions = field.date.data('field-options'),
@@ -154,9 +239,13 @@ bolt.datetimes = (function () {
     }
 
     /**
-     * Collects all inputs belonging to a DateTime/Date input combo
+     * Collects all inputs belonging to a DateTime/Date input combo.
      *
-     * @param {Object} item - Data element
+     * @private
+     * @function elements
+     * @memberof Bolt.datetime
+     *
+     * @param {Object} item - Data element.
      * @returns {InputElements}
      */
     function elements(item) {
@@ -174,51 +263,7 @@ bolt.datetimes = (function () {
         return field;
     }
 
-    return {
-        /**
-         * Initialize the datetime and date input combos
-         */
-        init: function () {
-            // Set global datepicker locale
-            $.datepicker.setDefaults($.datepicker.regional[bolt.locale.long]);
+    // Apply mixin container
+    bolt.datetime = datetime;
 
-            // Find out if locale uses 24h format
-            is24h = moment.localeData()._longDateFormat.LT.replace(/\[.+?\]/gi, '').match(/A/) ? false : true;
-
-            // Initialize each available date/datetime field
-            $('input.datetime').each(function () {
-                var field = elements($(this));
-
-                // Remember field data
-                fields.push(field);
-
-                // Uncomment for debug purpose to make hidden datafields visible
-                // field.data.attr('type', 'text');
-
-                // Bind datepicker to date field and set options from field in contenttypes.yml
-                bindDatepicker(field);
-
-                display(field);
-
-                // Bind change action to date and time field
-                field.date.change(function () {
-                    evaluate(field);
-                    display(field);
-                });
-                field.time.change(function () {
-                    evaluate(field);
-                    display(field);
-                });
-            });
-        },
-
-        /**
-         * Updates display of datetime and date inputs from their data fields
-         */
-        update: function () {
-            for (var i in fields) {
-                display(fields[i]);
-            }
-        }
-    };
-} ());
+})(Bolt || {}, jQuery, moment);

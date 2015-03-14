@@ -34,8 +34,7 @@
                         <ul class="dropdown-menu pull-right">
                             <li>
                                 <a href="#"
-                                   data-action="bolt.folders.rename('{{ __("Please enter a new folder name") }}',
-                                                                    '{{ context.namespace }}',
+                                   data-action="bolt.files.renameFolder('{{ context.namespace }}',
                                                                     '{{ context.pathsegments|keys|last }}',
                                                                     '{{ folder.foldername }}',
                                                                     this);">
@@ -45,9 +44,7 @@
                                 </a>
                                 <a href="#"
                                    class="confirm"
-                                   data-confirm="{{ __("Do you really want to delete %foldername%?",
-                                                        {'%foldername%': folder.foldername }) }}"
-                                   data-action="bolt.folders.remove('{{ context.namespace }}',
+                                   data-action="bolt.files.deleteFolder('{{ context.namespace }}',
                                                                     '{{ context.pathsegments|keys|last }}',
                                                                     '{{ folder.foldername }}',
                                                                     this);">
