@@ -1169,7 +1169,7 @@ class Content implements \ArrayAccess
                 }
             }
 
-            $excerpt = str_replace('>', '> ', implode(' ', $excerptParts));
+            $excerpt = implode(' ', $excerptParts);
             $excerpt = Html::trimText(strip_tags($excerpt), $length);
         } else {
             $excerpt = '';
