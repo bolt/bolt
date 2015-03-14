@@ -65,7 +65,7 @@ This can now also be done by using app/nut:
 Extensions
 ----------
 Since Bolt 2.0, you can install extensions directly from Bolt's interface. To
-browse the available extensions, visit: [wxtensions.bolt.cm](https://extensions.bolt.cm).
+browse the available extensions, visit [extensions.bolt.cm](https://extensions.bolt.cm).
 
 
 -------
