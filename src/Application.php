@@ -28,8 +28,8 @@ class Application extends Silex\Application
 
     public function __construct(array $values = array())
     {
-        $values['bolt_version'] = '2.1.1';
-        $values['bolt_name'] = 'pl1';
+        $values['bolt_version'] = '2.1.2';
+        $values['bolt_name'] = 'beta';
         $values['bolt_released'] = true; // `true` for stable releases, `false` for alpha, beta and RC.
 
         parent::__construct($values);
@@ -537,15 +537,7 @@ class Application extends Silex\Application
 
         $end = $this['config']->getWhichEnd();
         if (($exception instanceof HttpException) && ($end == 'frontend')) {
-<<<<<<< HEAD
-            if ($exception->getStatusCode() == 403) {
-                $content = $this['storage']->getContent($this['config']->get('general/access_denied'), array('returnsingle' => true));
-            } else {
-                $content = $this['storage']->getContent($this['config']->get('general/notfound'), array('returnsingle' => true));
-            }
-=======
             $content = $this['storage']->getContent($this['config']->get('general/notfound'), array('returnsingle' => true));
->>>>>>> cf94b30... Remove "frontend permission checks". Fixes #3087
 
             // Then, select which template to use, based on our 'cascading templates rules'
             if ($content instanceof Content && !empty($content->id)) {
