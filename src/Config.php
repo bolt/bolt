@@ -770,7 +770,6 @@ class Config
             // equivalent to E_ALL &~ E_NOTICE &~ E_DEPRECATED &~ E_USER_DEPRECATED
             'debug_enable_whoops'         => true,
             'debug_permission_audit_mode' => false,
-            'frontend_permission_checks'  => false,
             'strict_variables'            => false,
             'theme'                       => 'default',
             'debug_compressjs'            => true,

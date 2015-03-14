@@ -537,11 +537,15 @@ class Application extends Silex\Application
 
         $end = $this['config']->getWhichEnd();
         if (($exception instanceof HttpException) && ($end == 'frontend')) {
+<<<<<<< HEAD
             if ($exception->getStatusCode() == 403) {
                 $content = $this['storage']->getContent($this['config']->get('general/access_denied'), array('returnsingle' => true));
             } else {
                 $content = $this['storage']->getContent($this['config']->get('general/notfound'), array('returnsingle' => true));
             }
+=======
+            $content = $this['storage']->getContent($this['config']->get('general/notfound'), array('returnsingle' => true));
+>>>>>>> cf94b30... Remove "frontend permission checks". Fixes #3087
 
             // Then, select which template to use, based on our 'cascading templates rules'
             if ($content instanceof Content && !empty($content->id)) {
