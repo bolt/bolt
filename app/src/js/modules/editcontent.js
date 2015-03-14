@@ -197,9 +197,11 @@
             .attr('novalidate', 'novalidate')
             .on('submit', function (event) {
                 var valid = bolt.validation.run(this);
+
                 $(this).data('valid', valid);
                 if (!valid){
                     event.preventDefault();
+
                     return false;
                 }
                 // Submitting, disable warning.
@@ -210,7 +212,9 @@
         // Basic custom validation handler.
         $('#editcontent').on('boltvalidate', function () {
             var valid = bolt.validation.run(this);
+
             $(this).data('valid', valid);
+
             return valid;
         });
     }
