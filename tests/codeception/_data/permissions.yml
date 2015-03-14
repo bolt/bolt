@@ -80,7 +80,7 @@ global:
     # Likewise, 'logout' needs to be granted to 'everyone', otherwise people
     # cannot log out anymore.
     logout: [ everyone ]
-    
+
     # User roled-based hierarchy settings. This will restrict users from being
     # able to add, edit, enable, disable and delete users with a higher role
     # than their own.
@@ -143,9 +143,6 @@ global:
 #                     permission can indirectly enable users more permissions
 #                     in ways that may not be immediately obvious.
 # - view: allows viewing records in the backend
-# - frontend: allows front-end access to records (note that this requires the
-#             'frontend_permission_checks' global configuration setting, for
-#             backwards-compatibility reasons as well as performance)
 contenttype-all:
     edit: [ developer, admin, chief-editor ]
     create: [ developer, admin, chief-editor ]
