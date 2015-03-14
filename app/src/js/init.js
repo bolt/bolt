@@ -1,18 +1,4 @@
 var init = {
-
-    /*
-     * Auto-update the 'latest activity' widget.
-     *
-     * @returns {undefined}
-     */
-    activityWidget: function () {
-        if ($('#latestactivity').is('*')) {
-            setTimeout(function () {
-                updateLatestActivity();
-            }, 20 * 1000);
-        }
-    },
-
     /*
      * Notice when (auto)depublish date is in the past
      * TODO: add timer, to check depublish date has passed during editing.
@@ -35,7 +21,7 @@ var init = {
                 return;
             }
 
-            if (status === 'published' && moment(depublish + bolt.timezone.offset) < moment()) {
+            if (status === 'published' && moment(depublish + Bolt.conf('timezone.offset')) < moment()) {
                 $('<div class="' + noticeID + ' alert alert-warning">' +
                     '<button class="close" data-dismiss="alert">×</button>' + msg + '</div>')
                     .hide()
@@ -51,6 +37,7 @@ var init = {
     },
 
     /*
+<<<<<<< HEAD
      * Bind editcontent
      *
      * @param {type} data
@@ -231,6 +218,8 @@ var init = {
     },
 
     /*
+=======
+>>>>>>> master
      * Bind editfile field
      *
      * @param {object} data
@@ -338,222 +327,6 @@ var init = {
         });
     },
 
-    /*
-     * Bind slug field
-     *
-     * @param {object} data
-     * @returns {undefined}
-     */
-    bindSlug: function (data) {
-
-        // Make sure events are bound only once.
-        if (this.slugsBound === true) {
-            return;
-        } else {
-            this.slugsBound = true;
-        }
-
-        $('.sluglocker').bind('click', function () {
-            if ($(this).find('i').hasClass('fa-lock')) {
-                // "unlock" if it's currently empty, _or_ we've confirmed that we want to do so.
-                if (data.isEmpty || confirm(data.messageUnlock)) {
-                    $(this).find('i').removeClass('fa-lock').addClass('fa-unlock');
-                    makeUri(data.slug, data.contentId, $(this).data('uses'), $(this).data('for'), false);
-                }
-            } else {
-                $(this).find('i').addClass('fa-lock').removeClass('fa-unlock');
-                stopMakeUri($(this).data('for'));
-            }
-        });
-
-        $('.slugedit').bind('click', function () {
-            var newslug = prompt(data.messageSet, $('#show-' + $(this).data('for')).text());
-            if (newslug) {
-                $('.sluglocker i').addClass('fa-lock').removeClass('fa-unlock');
-                stopMakeUri($(this).data('for'));
-                makeUriAjax(newslug, data.slug, data.contentId, $(this).data('for'), false);
-            }
-        });
-
-        if (data.isEmpty) {
-            $('.sluglocker').trigger('click');
-        }
-    },
-
-    /*
-     * Bind video field
-     *
-     * @param {object} data
-     * @returns {undefined}
-     */
-    bindVideo: function (data) {
-        bindVideoEmbed(data.key);
-    },
-
-    /*
-     * Initialise CKeditor instances.
-     */
-    ckeditor: function () {
-        CKEDITOR.editorConfig = function (config) {
-            var key,
-                custom,
-                set = bolt.ckeditor;
-
-            var basicStyles = ['Bold', 'Italic'];
-            var linkItems = ['Link', 'Unlink'];
-            var toolItems = [ 'RemoveFormat', 'Maximize', '-', 'Source'];
-            var paragraphItems = ['NumberedList', 'BulletedList', 'Indent', 'Outdent'];
-
-            if (set.underline) {
-                basicStyles = basicStyles.concat('Underline');
-            }
-            if (set.strike) {
-                basicStyles = basicStyles.concat('Strike');
-            }
-            if (set.anchor) {
-                linkItems = linkItems.concat('-', 'Anchor');
-            }
-            if (set.specialchar) {
-                toolItems = ['SpecialChar', '-'].concat(toolItems);
-            }
-            if (set.blockquote) {
-                paragraphItems = paragraphItems.concat('-', 'Blockquote');
-            }
-
-            config.language = bolt.locale.short;
-            config.uiColor = '#DDDDDD';
-            config.resize_enabled = true;
-            config.entities = false;
-            config.fillEmptyBlocks = false;
-            config.extraPlugins = 'codemirror';
-            config.toolbar = [
-                { name: 'styles', items: ['Format'] },
-                { name: 'basicstyles', items: basicStyles }, // ['Bold', 'Italic', 'Underline', 'Strike']
-                { name: 'paragraph', items: paragraphItems },
-                { name: 'links', items: linkItems }
-            ];
-
-
-            if (set.subsuper) {
-                config.toolbar = config.toolbar.concat({
-                    name: 'subsuper', items: ['Subscript', 'Superscript']
-                });
-            }
-            if (set.images) {
-                config.toolbar = config.toolbar.concat({
-                    name: 'image', items: ['Image']
-                });
-            }
-            if (set.embed) {
-                config.extraPlugins += ',oembed,widget';
-                config.oembed_maxWidth = '853';
-                config.oembed_maxHeight = '480';
-                config.toolbar = config.toolbar.concat({
-                    name: 'embed', items: ['oembed']
-                });
-            }
-
-            if (set.tables) {
-                config.toolbar = config.toolbar.concat({
-                    name: 'table', items: ['Table']
-                });
-            }
-            if (set.align) {
-                config.toolbar = config.toolbar.concat({
-                    name: 'align', items: ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock']
-                });
-            }
-            if (set.fontcolor) {
-                config.toolbar = config.toolbar.concat({
-                    name: 'colors', items: ['TextColor', 'BGColor']
-                });
-            }
-
-            if (set.codesnippet) {
-                config.toolbar = config.toolbar.concat({
-                    name: 'code', items: ['-', 'CodeSnippet']
-                });
-            }
-
-            config.toolbar = config.toolbar.concat({
-                name: 'tools', items: toolItems
-            });
-
-            config.height = 250;
-            config.autoGrow_onStartup = true;
-            config.autoGrow_minHeight = 150;
-            config.autoGrow_maxHeight = 400;
-            config.autoGrow_bottomSpace = 24;
-            config.removePlugins = 'elementspath';
-            config.resize_dir = 'vertical';
-
-            if (set.filebrowser) {
-                if (set.filebrowser.browseUrl) {
-                    config.filebrowserBrowseUrl = set.filebrowser.browseUrl;
-                }
-                if (set.filebrowser.imageBrowseUrl) {
-                    config.filebrowserImageBrowseUrl = set.filebrowser.imageBrowseUrl;
-                }
-                if (set.filebrowser.uploadUrl) {
-                    config.filebrowserUploadUrl = set.filebrowser.uploadUrl;
-                }
-                if (set.filebrowser.imageUploadUrl) {
-                    config.filebrowserImageUploadUrl = set.filebrowser.imageUploadUrl;
-                }
-            } else {
-                config.filebrowserBrowseUrl = '';
-                config.filebrowserImageBrowseUrl = '';
-                config.filebrowserUploadUrl = '';
-                config.filebrowserImageUploadUrl = '';
-            }
-
-            config.codemirror = {
-                theme: 'default',
-                lineNumbers: true,
-                lineWrapping: true,
-                matchBrackets: true,
-                autoCloseTags: true,
-                autoCloseBrackets: true,
-                enableSearchTools: true,
-                enableCodeFolding: true,
-                enableCodeFormatting: false,
-                autoFormatOnStart: false,
-                autoFormatOnUncomment: false,
-                autoFormatOnModeChange: false,
-                highlightActiveLine: true,
-                highlightMatches: true,
-                showFormatButton: false,
-                showCommentButton: false,
-                showUncommentButton: false
-            };
-
-            // Parse override settings from config.yml
-            for (key in set.ck) {
-                if (set.ck.hasOwnProperty(key)) {
-                     config[key] = set.ck[key];
-                }
-            }
-
-            // Parse override settings from field in contenttypes.yml
-            custom = $('textarea[name=' + this.name + ']').data('field-options');
-            for (key in custom) {
-                if (custom.hasOwnProperty(key)) {
-                    config[key] = custom[key];
-                }
-            }
-        };
-
-        // When 'pasting' from Word (or perhaps other editors too), you'll often
-        // get extra `&nbsp;&nbsp;` or `<p>&nbsp;</p>`. Strip these out on paste:
-        CKEDITOR.on('instanceReady', function(ev) {
-            ev.editor.on('paste', function(evt) {
-                evt.data.dataValue = evt.data.dataValue.replace(/&nbsp;/g,' ');
-                evt.data.dataValue = evt.data.dataValue.replace(/<p> <\/p>/g,'');
-                console.log(evt.data.dataValue);
-            }, null, null, 9);
-        });
-    },
-
     /**
      * Any link (or clickable <i>-icon) with a class='confirm' gets a confirmation dialog.
      *
@@ -605,14 +378,15 @@ var init = {
                 rec;
 
             if (aItems.length > 0) {
-                notice = aItems.length === 1 ? bolt.data.recordlisting.delete_one : bolt.data.recordlisting.delete_mult;
+                notice = aItems.length === 1 ?
+                    Bolt.data('recordlisting.delete_one') : Bolt.data('recordlisting.delete_mult');
                 bootbox.confirm(notice, function (confirmed) {
                     $('.alert').alert();
                     if (confirmed === true) {
                         $.each(aItems, function (index, id) {
                             // Delete request
                             $.ajax({
-                                url: bolt.paths.bolt + 'content/deletecontent/' +
+                                url: Bolt.conf('paths.bolt') + 'content/deletecontent/' +
                                     $('#item_' + id).closest('table').data('contenttype') + '/' + id +
                                     '?bolt_csrf_token=' + $('#item_' + id).closest('table').data('bolt_csrf_token'),
                                 type: 'get',
@@ -625,30 +399,6 @@ var init = {
                     }
                 });
             }
-        });
-    },
-
-    /**
-     * Helper to make things like '<button data-action="eventView.load()">' work
-     *
-     * @returns {undefined}
-     */
-    dataActions: function () {
-        // Unbind the click events, with the 'action' namespace.
-        $('button, input[type=button], a').off('click.action');
-
-        // Bind the click events, with the 'action' namespace.
-        $('[data-action]').on('click.action', function (e) {
-            var action = $(this).attr('data-action');
-            if (typeof action !== 'undefined' && action !== '') {
-                e.preventDefault();
-                eval(action); // jshint ignore:line
-                e.stopPropagation();
-            }
-        })
-        // Prevent propagation to parent's click handler from anchor in popover.
-        .on('click.popover', '.popover', function (e) {
-            e.stopPropagation();
         });
     },
 
@@ -666,7 +416,7 @@ var init = {
             var key = $(this).data('key');
 
             $.ajax({
-                url: bolt.paths.async + 'widget/' + key,
+                url: Bolt.conf('paths.async') + 'widget/' + key,
                 type: 'GET',
                 success: function (result) {
                     $('#widget-' + key).html(result);
@@ -842,7 +592,7 @@ var init = {
             minimumInputLength: 3,
             multiple: true, // this is for better styling …
             ajax: {
-                url: bolt.paths.async + 'omnisearch',
+                url: Bolt.conf('paths.async') + 'omnisearch',
                 dataType: 'json',
                 data: function (term, page) {
                     return {
@@ -938,7 +688,7 @@ var init = {
                     bindFileUpload(data.key);
 
                     autocomplete_conf = {
-                        source: bolt.paths.async + 'filesautocomplete?ext=' + encodeURIComponent(accept),
+                        source: Bolt.conf('paths.async') + 'filesautocomplete?ext=' + encodeURIComponent(accept),
                         minLength: 2
                     };
                     if (data.type === 'Image') {
@@ -947,10 +697,10 @@ var init = {
                                 url;
 
                             if (path) {
-                                url = bolt.paths.root +'thumbs/' + data.width + 'x' + data.height + 'c/' +
+                                url = Bolt.conf('paths.root') +'thumbs/' + data.width + 'x' + data.height + 'c/' +
                                       encodeURI(path);
                             } else {
-                                url = bolt.paths.app + 'view/img/default_empty_4x3.png';
+                                url = Bolt.conf('paths.app') + 'view/img/default_empty_4x3.png';
                             }
                             $('#thumbnail-' + data.key).html(
                                 '<img src="'+ url + '" width="' + data.width + '" height="' + data.height + '">'
@@ -961,11 +711,11 @@ var init = {
                     break;
 
                 case 'ImageList':
-                    bolt.imagelist[data.key] = new FilelistHolder({id: data.key, type: data.type});
+                    Bolt.imagelist[data.key] = new FilelistHolder({id: data.key, type: data.type});
                     break;
 
                 case 'FileList':
-                    bolt.filelist[data.key] = new FilelistHolder({id: data.key, type: data.type});
+                    Bolt.filelist[data.key] = new FilelistHolder({id: data.key, type: data.type});
                     break;
             }
         });

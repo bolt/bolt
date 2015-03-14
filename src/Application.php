@@ -537,11 +537,7 @@ class Application extends Silex\Application
 
         $end = $this['config']->getWhichEnd();
         if (($exception instanceof HttpException) && ($end == 'frontend')) {
-            if ($exception->getStatusCode() == Response::HTTP_FORBIDDEN) {
-                $content = $this['storage']->getContent($this['config']->get('general/access_denied'), array('returnsingle' => true));
-            } else {
-                $content = $this['storage']->getContent($this['config']->get('general/notfound'), array('returnsingle' => true));
-            }
+            $content = $this['storage']->getContent($this['config']->get('general/notfound'), array('returnsingle' => true));
 
             // Then, select which template to use, based on our 'cascading templates rules'
             if ($content instanceof Content && !empty($content->id)) {

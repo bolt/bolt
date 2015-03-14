@@ -10,7 +10,7 @@ var Sidebar = Backbone.Model.extend({
     initialize: function () {
 
         // set up 'fixlength'
-        window.setTimeout(function () { bolt.sidebar.fixlength(); }, 500);
+        window.setTimeout(function () { Bolt.sidebar.fixlength(); }, 500);
 
     },
 
@@ -21,9 +21,9 @@ var Sidebar = Backbone.Model.extend({
         var documentheight = $('#navpage-content').height() + 34;
         if (documentheight > $('#navpage-secondary').height()) {
             $('#navpage-secondary').height(documentheight + "px");
-            window.setTimeout(function () { bolt.sidebar.fixlength(); }, 300);
+            window.setTimeout(function () { Bolt.sidebar.fixlength(); }, 300);
         } else {
-            window.setTimeout(function () { bolt.sidebar.fixlength(); }, 3000);
+            window.setTimeout(function () { Bolt.sidebar.fixlength(); }, 3000);
         }
     },
 

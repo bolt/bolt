@@ -20,6 +20,7 @@ module.exports = {
             undef: true,        // Prohibits the use of undeclared variables
             globals: {
                 // Bolt
+                Bolt: true,                 // bolt.js
                 bolt: true,                 // bolt/console.js
                 FilelistHolder: true,       // bolt/upload-files.js
                 Files: true,                // bolt/obj-files.js
@@ -35,12 +36,7 @@ module.exports = {
                 // Bolt global functions
                 bindFileUpload: true,       // bolt/bindfileuploads.js
                 bindGeolocation: true,      // bolt/geolocation.js
-                bindVideoEmbed: true,       // bolt/video-embed.js
                 getSelectedItems: true,     // bolt/fnc-helpers.js
-                makeUri: true,              // bolt/make-uri-slug.js
-                makeUriAjax: true,          // bolt/make-uri-slug.js
-                stopMakeUri: true,          // bolt/make-uri-slug.js
-                updateLatestActivity: true, // bolt/activity.js
                 validateContent: true,      // bolt/fnc-helpers.js
                 // Vendor
                 $: true,                    // jQuery

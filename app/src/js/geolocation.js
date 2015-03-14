@@ -71,7 +71,7 @@ function bindGeolocation(key, latitude, longitude) {
         maptype: 'ROADMAP',
         disableDoubleClickZoom: true,
         addMarker: false,
-        icon: bolt.paths.app + 'view/img/pin_red.png',
+        icon: Bolt.conf('paths.app') + 'view/img/pin_red.png',
         markers: [{
             latitude: latitude,
             longitude: longitude,
