@@ -85,7 +85,7 @@
             //console.log('Binding: ' + data.bind);
 
             switch (data.bind) {
-                case 'editcontent': init.bindEditContent(data); break;
+                case 'editcontent': bolt.editcontent.init(data); break;
                 case 'editfile': init.bindEditFile(data); break;
                 case 'editlocale': init.bindEditLocale(data); break;
                 case 'filebrowser': init.bindFileBrowser(); break;
