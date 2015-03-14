@@ -2,13 +2,32 @@
 namespace Bolt\Storage\Repository;
 
 use Bolt\Storage\Repository;
-
+use Bolt\Storage;
 
 /**
  * .
  */
 class LegacyRepository extends Repository
 {
+    
+    protected $storageService;
+    
+    
+    /**
+     * Setter to provide an instantiated version of
+     * Bolt\Storage
+     *
+     * @param Bolt\Storage $storage
+     */
+    public function setLegacyStorage(Storage $service)
+    {
+        $this->$storageService = $service;
+    }
+    
+    public function getStorage()
+    {
+        return $this->storageService;
+    }
     
     /**
      * Proxy to fetch a generic QueryBuilder from the entitymanager
@@ -28,7 +47,7 @@ class LegacyRepository extends Repository
     
     public function preFill($contenttypes = array())
     {
-        
+        return $this->getStorage()->prefill($contenttypes)
     }
     
     public function saveContent(Content $content, $comment = null)
