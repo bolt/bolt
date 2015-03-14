@@ -31,7 +31,9 @@
 {{ widget('dashboard', 'right_first') }}
 
 {# Latest Activity #}
-{{ render(path('latestactivity')) }}
+<div id="latestactivity">
+    {{ render(path('latestactivity')) }}
+</div>
 
 {# ? #}
 <div id="latesttemp" style="display:none; visibility: hidden;">
