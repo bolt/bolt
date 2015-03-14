@@ -238,7 +238,7 @@
     }
 
     /**
-     * Initialize persistent tabgroups.
+     * Initialize page preview button.
      *
      * @static
      * @function initPreview
@@ -247,7 +247,6 @@
      * @param {string} slug - Contenttype singular slug.
      */
     function initPreview(slug) {
-
         // To preview the page, we set the target of the form to a new URL, and open it in a new window.
         $('#previewbutton, #sidebarpreviewbutton').bind('click', function (e) {
             var newAction = bolt.conf('paths.root') + 'preview/' + slug;
