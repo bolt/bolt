@@ -58,10 +58,20 @@
     @include button-variant($btn-bolt-color, $btn-bolt-bg, $btn-bolt-border);
 }
 
-// Danger, danger! 
+// Danger, danger!
 .btn-danger {
     @include button-variant($btn-danger-color, $btn-danger-bg, $btn-danger-border);
     color: $btn-danger-color !important;
+}
+
+.btn-silent-danger {
+    @include button-variant($btn-default-color, $btn-default-bg, $btn-default-border);
+    &:hover {
+        color: $btn-danger-color !important;
+        background-color: $btn-danger-bg;
+        border-color: $btn-danger-border;
+    }
+    color: $btn-default-color !important;
 }
 
 // Buttons that behave as a link, and specifically in a dropdown-menu.
@@ -249,7 +259,7 @@
     color: #222;
 }
 
-.navbar-toggle:hover, 
+.navbar-toggle:hover,
 .navbar-toggle:focus {
     background-color: #FFF !important;
 }
@@ -269,7 +279,7 @@
 ul.dropdown-menu {
     margin: 0;
     border-radius: 0;
-    box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.15);    
+    box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.15);
 }
 
 ul.dropdown-menu li {
