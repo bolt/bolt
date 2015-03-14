@@ -21,7 +21,6 @@ before_install:
   - sudo apt-get update && sudo apt-get --reinstall install -qq language-pack-en language-pack-fr && sudo locale-gen fr_FR
 
 before_script:
-  - composer self-update || true
   - composer install --prefer-dist
   - mkdir -p tests/codeception/_log/
   - chmod 777 tests/codeception/_log/
