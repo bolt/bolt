@@ -21,8 +21,5 @@
 + ``jquery-hotkeys`` ⇒
   **[jQuery Hotkeys Plugin](https://github.com/jeresig/jquery.hotkeys) 1.10.3**
 
-+ ``jquery-watchchanges`` ⇒
-  **jQuery Watchchanges v?**
-
 + ``select2`` ⇒
   **[Select2](https://select2.github.io/) v3.5.1**

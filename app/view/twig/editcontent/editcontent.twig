@@ -29,19 +29,17 @@
         savedon:        __('Saved on:') ~ ' <strong></strong> <small>(' ~ dateChanged ~ ')</small></p>',
         newRecord:      context.content.id != 0 ? false : true,
         msgNotSaved:    __('contenttypes.generic.saving-impossible', {'%contenttype%': context.contenttype.slug}),
-        pathsRoot:      paths.root,
-        msgSaving:      __('Saving …'),
         hasGroups:      context.has.tabs,
         singularSlug:   context.contenttype.singular_slug,
     } %}
 
     {% set attr_form = {
         _bind:   ['editcontent', bind_data],
-        class:   "form-horizontal" ~ (context.has.tabs ? ' tab-content' : ''),
-        enctype: "multipart/form-data",
-        id:      "editcontent",
-        method:  "post",
-        role:    "form",
+        class:   'form-horizontal' ~ (context.has.tabs ? ' tab-content' : ''),
+        enctype: 'multipart/form-data',
+        id:      'editcontent',
+        method:  'post',
+        role:    'form',
     } %}
 
     {% set alertbox %}
@@ -55,6 +53,10 @@
     {{ data('validation', {
         'alertbox':     alertbox|trim,
         'generic_msg':  __('Is required or needs to match a pattern!'),
+    }) }}
+    {{ data('editcontent.msg', {
+        'change_quit': __('You have unfinished changes on this page. If you continue without saving, you will lose these changes.'),
+        'saving':      __('Saving …')
     }) }}
 
 

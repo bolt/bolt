@@ -6,10 +6,12 @@
  *
  * @param {Object} bolt - The Bolt module.
  * @param {Object} $ - jQuery.
+ * @param {Object} window - Global window object.
  * @param {Object} moment - Global moment object.
+ * @param {Object} bootbox - Global bootbox object.
  * @param {Object|undefined} ckeditor - CKEDITOR global or undefined.
  */
-(function (bolt, $, moment, ckeditor) {
+(function (bolt, $, window, moment, bootbox, ckeditor) {
     /**
      * Bind data.
      *
@@ -18,10 +20,8 @@
      *
      * @property {string} bind - Always 'editcontent'.
      * @property {boolean} hasGroups - Has groups.
-     * @property {string} messageNotSaved - Message when entry could not be saved.
-     * @property {string} messageSet - Message while saving.
+     * @property {string} msgNotSaved - Message when entry could not be saved.
      * @property {boolean} newRecord - Is new Record?
-     * @property {string} pathsRoot - Root path.
      * @property {string} savedOn - "Saved on" template.
      * @property {string} singularSlug - Contenttype slug.
      */
@@ -34,7 +34,6 @@
      */
     var editcontent = {};
 
-
     /**
      * Initializes the mixin.
      *
@@ -42,17 +41,39 @@
      * @function init
      * @memberof Bolt.editcontent
      *
-     * @param {BindData} data
+     * @param {BindData} data - Editcontent configuration data
      */
     editcontent.init = function (data) {
+        initValidation();
+        initSave();
+        initSaveNew();
+        initSaveContinue(data);
+        initPreview(data.singularSlug);
+        initDelete();
+        initTabGroups();
+        window.setTimeout(function () {
+            initKeyboardShortcuts();
+        }, 1000);
+    };
+
+    /**
+     * Set validation handlers.
+     *
+     * @static
+     * @function initValidation
+     * @memberof Bolt.editcontent
+     */
+    function initValidation() {
         // Set handler to validate form submit.
         $('#editcontent')
             .attr('novalidate', 'novalidate')
             .on('submit', function (event) {
                 var valid = bolt.validation.run(this);
+
                 $(this).data('valid', valid);
                 if (!valid){
                     event.preventDefault();
+
                     return false;
                 }
                 // Submitting, disable warning.
@@ -60,39 +81,148 @@
             }
         );
 
-        // Basic custom validation handler
+        // Basic custom validation handler.
         $('#editcontent').on('boltvalidate', function () {
             var valid = bolt.validation.run(this);
+
             $(this).data('valid', valid);
+
             return valid;
         });
+    }
 
+    /**
+     * Initialize persistent tabgroups.
+     *
+     * @static
+     * @function initTabGroups
+     * @memberof Bolt.editcontent
+     */
+    function initTabGroups() {
+        // Show selected tab.
+        var hash = window.location.hash;
+        if (hash) {
+            $('#filtertabs a[href="#tab-' + hash.replace(/^#/, '') + '"]').tab('show');
+        }
+
+        // Set Tab change handler.
+        $('#filtertabs a').click(function () {
+            var top;
+
+            $(this).tab('show');
+            top = $('body').scrollTop();
+            window.location.hash = this.hash.replace(/^#tab-/, '');
+            $('html,body').scrollTop(top);
+        });
+    }
+
+    /**
+     * Initialize page preview button.
+     *
+     * @static
+     * @function initPreview
+     * @memberof Bolt.editcontent
+     *
+     * @param {string} slug - Contenttype singular slug.
+     */
+    function initPreview(slug) {
+        // To preview the page, we set the target of the form to a new URL, and open it in a new window.
+        $('#previewbutton, #sidebarpreviewbutton').bind('click', function (e) {
+            var newAction = bolt.conf('paths.root') + 'preview/' + slug;
+
+            e.preventDefault();
+            $('#editcontent').attr('action', newAction).attr('target', '_blank').submit();
+            $('#editcontent').attr('action', '').attr('target', '_self');
+        });
+    }
+
+    /**
+     * Initialize delete button from the editcontent page.
+     *
+     * @static
+     * @function initDelete
+     * @memberof Bolt.editcontent
+     */
+    function initDelete() {
+        $('#deletebutton, #sidebardeletebutton').bind('click', function (e) {
+            e.preventDefault();
+            bootbox.confirm(
+                bolt.data('editcontent.delete'),
+                function (confirmed) {
+                    $('.alert').alert(); // Dismiss alert messages
+                    if (confirmed === true) {
+                        var pathBolt = bolt.conf('paths.bolt'),
+                            ctype = $('#contenttype').val(),
+                            id = $('#id').val(),
+                            token = $('#bolt_csrf_token').val(),
+                            url = pathBolt + 'content/deletecontent/' + ctype + '/' + id + '?bolt_csrf_token=' + token;
+
+                        // Fire delete request.
+                        $.ajax({
+                            url: url,
+                            type: 'GET',
+                            success: function (feedback) {
+                                window.location.href = pathBolt + 'overview/' + $('#contenttype').val();
+                            }
+                        });
+                    }
+                }
+            );
+        });
+    }
+
+    /**
+     * Initialize save button handlers.
+     *
+     * @static
+     * @function initSave
+     * @memberof Bolt.editcontent
+     */
+    function initSave() {
         // Save the page.
         $('#sidebarsavebutton').bind('click', function () {
             $('#savebutton').trigger('click');
         });
 
         $('#savebutton').bind('click', function () {
-            // Reset the changes to the form.
-            $('form').watchChanges();
+            watchChanges();
         });
+    }
 
-        // Handle "save and new".
+    /**
+     * Initialize "save and new " button handlers.
+     *
+     * @static
+     * @function initSaveNew
+     * @memberof Bolt.editcontent
+     */
+    function initSaveNew() {
         $('#sidebarsavenewbutton, #savenewbutton').bind('click', function () {
-            // Reset the changes to the form.
-            $('form').watchChanges();
+            watchChanges();
 
             // Do a regular post, and expect to be redirected back to the "new record" page.
             var newaction = '?returnto=saveandnew';
             $('#editcontent').attr('action', newaction).submit();
         });
+    }
 
-        // Clicking the 'save & continue' button either triggers an 'ajaxy' post, or a regular post which returns
-        // to this page. The latter happens if the record doesn't exist yet, so it doesn't have an id yet.
+    /**
+     * Initialize "save and continue" button handlers.
+     *
+     * Clicking the button either triggers an "ajaxy" post, or a regular post which returns to this page.
+     * The latter happens if the record doesn't exist yet, so it doesn't have an id yet.
+     *
+     * @static
+     * @function initSaveContinue
+     * @memberof Bolt.editcontent
+     *
+     * @param {BindData} data - Editcontent configuration data
+     */
+    function initSaveContinue(data) {
         $('#sidebarsavecontinuebutton, #savecontinuebutton').bind('click', function (e) {
             e.preventDefault();
 
-            // trigger form validation
+            // Trigger form validation
             $('#editcontent').trigger('boltvalidate');
             // check validation
             if (!$('#editcontent').data('valid')) {
@@ -105,24 +235,19 @@
 
             // Disable the buttons, to indicate stuff is being done.
             $('#sidebarsavecontinuebutton, #savecontinuebutton').addClass('disabled');
-            $('p.lastsaved').text(data.msgSaving);
+            $('p.lastsaved').text(bolt.data('editcontent.msg.saving'));
 
             if (newrecord) {
-                // Reset the changes to the form.
-                $('form').watchChanges();
+                watchChanges();
 
                 // New record. Do a regular post, and expect to be redirected back to this page.
-                var newaction = '?returnto=new';
-                $('#editcontent').attr('action', newaction).submit();
+                $('#editcontent').attr('action', '?returnto=new').submit();
             } else {
+                watchChanges();
+
                 // Existing record. Do an 'ajaxy' post to update the record.
-
-                // Reset the changes to the form.
-                $('form').watchChanges();
-
-                // Let the controller know we're calling AJAX and expecting to be returned JSON
-                var ajaxaction = '?returnto=ajax';
-                $.post(ajaxaction, $("#editcontent").serialize())
+                // Let the controller know we're calling AJAX and expecting to be returned JSON.
+                $.post('?returnto=ajax', $('#editcontent').serialize())
                     .done(function (data) {
                         $('p.lastsaved').html(savedon);
                         $('p.lastsaved').find('strong').text(moment(data.datechanged).format('MMM D, HH:mm'));
@@ -158,8 +283,7 @@
                         // Update dates and times from new values
                         bolt.datetimes.update();
 
-                        // Reset the changes to the form frCKom any updates we got from POST_SAVE changes
-                        $('form').watchChanges();
+                        watchChanges();
 
                     })
                     .fail(function(){
@@ -171,52 +295,89 @@
                     });
             }
         });
+    }
 
-        // To preview the page, we set the target of the form to a new URL, and open it in a new window.
-        $('#previewbutton, #sidebarpreviewbutton').bind('click', function (e) {
-            e.preventDefault();
-            var newaction = data.pathsRoot + 'preview/' + data.singularSlug;
-            $('#editcontent').attr('action', newaction).attr('target', '_blank').submit();
-            $('#editcontent').attr('action', '').attr('target', '_self');
-        });
+    /**
+     * Initialize keyboard shortcuts:
+     * - Click 'save' in Edit content screen.
+     * - Click 'save' in "edit file" screen.
+     *
+     * @static
+     * @function initKeyboardShortcuts
+     * @memberof Bolt.editcontent
+     */
+    function initKeyboardShortcuts () {
+        // We're on a regular 'edit content' page, if we have a sidebarsavecontinuebutton.
+        // If we're on an 'edit file' screen,  we have a #saveeditfile
+        if ($('#sidebarsavecontinuebutton').is('*') || $('#saveeditfile').is('*')) {
 
-        // Delete item from the editcontent page.
-        $('#deletebutton, #sidebardeletebutton').bind('click', function (e) {
-            e.preventDefault();
-            bootbox.confirm(bolt.data('recordlisting.delete_one'), function (confirmed) {
-                $('.alert').alert();
-                if (confirmed === true) {
-                    var url = bolt.conf('paths.bolt') + 'content/deletecontent/' + $('#contenttype').val() + '/' +
-                            $('#id').val() + '?bolt_csrf_token=' + $('#bolt_csrf_token').val();
-                    // Delete request
-                    $.ajax({
-                        url: url,
-                        type: 'get',
-                        success: function (feedback) {
-                            window.location.href = bolt.conf('paths.bolt') + 'overview/' + $('#contenttype').val();
-                        }
-                    });
-                }
+            // Bind ctrl-s and meta-s for saving..
+            $('body, input').bind('keydown.ctrl_s keydown.meta_s', function (event) {
+                event.preventDefault();
+                watchChanges();
+                $('#sidebarsavecontinuebutton, #saveeditfile').trigger('click');
             });
-        });
 
-        // Persistent tabgroups
-        var hash = window.location.hash;
-        if (hash) {
-            $('#filtertabs a[href="#tab-' + hash.replace(/^#/, '') + '"]').tab('show');
+            // Initialize watching for changes on "the form".
+            window.setTimeout(
+                function () {
+                    watchChanges();
+                },
+                1000
+            );
+
+            // Initialize handler for 'closing window'
+            window.onbeforeunload = function () {
+                if (hasChanged()) {
+                    return bolt.data('editcontent.msg.change_quit');
+                 }
+            };
         }
+    }
 
-        $('#filtertabs a').click(function () {
-            var top;
-
-            $(this).tab('show');
-            top = $('body').scrollTop();
-            window.location.hash = this.hash.replace(/^#tab-/, '');
-            $('html,body').scrollTop(top);
+    /**
+     * Remember current state of content for change detection.
+     *
+     * @static
+     * @function watchChanges
+     * @memberof Bolt.editcontent
+     */
+    function watchChanges() {
+        bolt.ckeditor.update();
+        $('form#editcontent').find('input, textarea, select').each(function () {
+            if (this.name) {
+                $(this).data('watch', this.type === 'select-multiple' ? JSON.stringify($(this).val()) : $(this).val());
+            }
         });
-    };
+    }
 
-    // Apply mixin container
+    /**
+     * Detect if changes were made to the content.
+     *
+     * @static
+     * @function hasChanged
+     * @memberof Bolt.editcontent
+     *
+     * @returns {boolean}
+     */
+    function hasChanged() {
+        var changes = 0,
+            val;
+
+        bolt.ckeditor.update();
+        $('form#editcontent').find('input, textarea, select').each(function () {
+            if (this.name) {
+                val = this.type === 'select-multiple' ? JSON.stringify($(this).val()) : $(this).val();
+                if ($(this).data('watch') !== val) {
+                    changes++;
+                }
+            }
+        });
+
+        return changes > 0;
+    }
+
+    // Apply mixin container.
     bolt.editcontent = editcontent;
 
-})(Bolt || {}, jQuery, moment, typeof CKEDITOR !== 'undefined' ? CKEDITOR : undefined);
+})(Bolt || {}, jQuery, window, moment, bootbox, typeof CKEDITOR !== 'undefined' ? CKEDITOR : undefined);

@@ -64,9 +64,6 @@
         // Initialisation
         init.confirmationDialogs();
         init.magnificPopup();
-        window.setTimeout(function () {
-            init.keyboardShortcuts();
-        }, 1000);
         init.dropZone();
         init.popOvers();
         init.dropDowns();
