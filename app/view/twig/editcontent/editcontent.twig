@@ -35,11 +35,11 @@
 
     {% set attr_form = {
         _bind:   ['editcontent', bind_data],
-        class:   "form-horizontal" ~ (context.has.tabs ? ' tab-content' : ''),
-        enctype: "multipart/form-data",
-        id:      "editcontent",
-        method:  "post",
-        role:    "form",
+        class:   'form-horizontal' ~ (context.has.tabs ? ' tab-content' : ''),
+        enctype: 'multipart/form-data',
+        id:      'editcontent',
+        method:  'post',
+        role:    'form',
     } %}
 
     {% set alertbox %}
