@@ -47,16 +47,7 @@
     editcontent.init = function (data) {
         initValidation();
         initSave()();
-
-        // Handle "save and new".
-        $('#sidebarsavenewbutton, #savenewbutton').bind('click', function () {
-            // Reset the changes to the form.
-            $('form').watchChanges();
-
-            // Do a regular post, and expect to be redirected back to the "new record" page.
-            var newaction = '?returnto=saveandnew';
-            $('#editcontent').attr('action', newaction).submit();
-        });
+        initSaveNew()();
 
         // Clicking the 'save & continue' button either triggers an 'ajaxy' post, or a regular post which returns
         // to this page. The latter happens if the record doesn't exist yet, so it doesn't have an id yet.
@@ -279,6 +270,24 @@
         $('#savebutton').bind('click', function () {
             // Reset the changes to the form.
             $('form').watchChanges();
+        });
+    }
+
+    /**
+     * Initialize "save and new " button handlers.
+     *
+     * @static
+     * @function initSaveNew
+     * @memberof Bolt.editcontent
+     */
+    function initSaveNew() {
+        $('#sidebarsavenewbutton, #savenewbutton').bind('click', function () {
+            // Reset the changes to the form.
+            $('form').watchChanges();
+
+            // Do a regular post, and expect to be redirected back to the "new record" page.
+            var newaction = '?returnto=saveandnew';
+            $('#editcontent').attr('action', newaction).submit();
         });
     }
 
