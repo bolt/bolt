@@ -70,13 +70,13 @@ class BackendEditorCest
     }
 
     /**
-     * Test that the
+     * Create a page record.
      *
      * @param \AcceptanceTester $I
      */
     public function createRecordsTest(\AcceptanceTester $I)
     {
-        $I->wantTo('create and edit Pages as pagewriter user');
+        $I->wantTo("Create and edit Pages as the 'editor' user");
         $I->loginAs($this->user['editor']);
         $I->see('New Page');
 
@@ -94,43 +94,44 @@ class BackendEditorCest
     }
 
     /**
-     *
+     * Check that the editor can't create Entries
      *
      * @param \AcceptanceTester $I
      */
     public function deniedEditEntriesTest(\AcceptanceTester $I)
     {
-        $I->wantTo('be denied permission to edit Entries as the editor user');
+        $I->wantTo("be denied permission to edit Entries as the 'editor' user");
         $I->loginAs($this->user['editor']);
         $I->amOnPage('bolt/editcontent/entries/');
         $I->see('You do not have the right privileges');
     }
 
     /**
-     *
+     * Check that the editor can't publish Entries
      *
      * @param \AcceptanceTester $I
      */
-    public function deniedEditPagesTest(\AcceptanceTester $I)
+    public function deniedPublishPagesTest(\AcceptanceTester $I)
     {
-        $I->wantTo('be denied "publish" permissions on Pages as pagewriter user');
+        $I->wantTo("be denied permission to publish Pages as the 'editor' user");
         $I->loginAs($this->user['editor']);
-        $I->see('New Page');
-        $I->click('New Page');
+
+        $I->amOnPage('/bolt/editcontent/pages/1');
+
         $I->see('Actions for this Page');
-        $I->fillField('title', 'A page I made');
-        $I->fillField('teaser', 'Woop woop woop! Crazy nice stuff inside!');
-        $I->fillField('body', 'Take it, take it! I have three more of these!');
 
-        // make sure the page cannot be published by setting its status in the
-        // edit form
-        $I->dontSeeInField('status', 'Published');
+        // Make sure the page cannot be published by setting its status
+        $I->seeInField('#statusselect', 'draft');
+        $I->dontSeeInField('#statusselect', 'published');
 
-        // let's save this page anyway, because we'll be needing it...
-        $I->click('Save Page');
+        // Save the page and return to the overview
+        $I->click('Save & return to overview');
+        $I->see('Actions for Pages');
 
-        // also check that the "publish page" context menu option isn't shown
-        $I->amOnPage('bolt');
+        // Check the 'Publish page' context menu option isn't shown
         $I->dontSee('Publish Page');
+
+        // Check the 'Duplicate page' context menu option is shown
+        $I->see('Duplicate Page');
     }
 }
