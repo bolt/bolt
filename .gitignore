@@ -15,12 +15,12 @@ composer.phar
 composer.lock
 
 # Files related to testing
-tests/codeception/_log
+tests/codeception/_output
 tests/codeception/*/*Tester.php
 tests/phpunit/unit/report
 tests/phpunit/unit/resources/*
 !tests/phpunit/unit/resources/db/
-app/config/permissions.yml.codeception-backup
+*.codeception-backup
 /bolt.db
 
 # Grunt stuff

@@ -1,14 +1,15 @@
 <?php
 namespace Codeception\Module;
 
-// here you can define custom functions for WebTester
+// here you can define custom actions
+// all public methods declared in helper class will be available in $I
 
-class WebHelper extends \Codeception\Module
+class AcceptanceHelper extends \Codeception\Module
 {
     /**
      * Makes sure that WebTester is logged in.
-     * @param array $user An associative array containing keys 'username'
-     * and 'password'.
+     *
+     * @param array $user An associative array containing keys 'username' and 'password'.
      */
     public function loginAs($user)
     {

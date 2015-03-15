@@ -33,6 +33,21 @@ roles:
         description: This user can log on, but is not allowed to edit any content.
         label: Guest Editor
 
+# Role hierarchy settings
+roles-hierarchy:
+    # This will restrict users from being able to add, edit, enable, disable
+    # and delete users with the same or higher role than their own.
+    # For example:
+    # Users with a role of developer can only be added, edited, enabled, disabled
+    # and deleted by [ root, admin ] roles.
+    manipulate:
+        admin: [ ]
+        developer: [ admin ]
+        chief-editor: [ admin, developer ]
+        editor: [ admin, developer, chief-editor ]
+        guest: [ admin, developer, chief-editor ]
+
+
 # Now we'll define some permissions. Each permission comes with a list of roles
 # that grant access.
 
@@ -45,7 +60,7 @@ roles:
 # Also note that the 'editcontent' and 'overview' routes are special-cased
 # inside the code, so they don't appear here.
 global:
-    about: [ editor, admin, developer ] # view the 'About Bolt' page
+    about: [ everyone ] # view the 'About Bolt' page
     clearcache: [ admin, developer ]
     contentaction: [ editor, admin, developer ]
     dashboard: [ everyone ]
@@ -57,7 +72,7 @@ global:
     fileedit: [ admin, developer ]
     files:config: [ developer ]
     files:theme: [ developer ]
-    files:uploads: [ admin, developer, chief-editor ]
+    files:uploads: [ admin, developer, chief-editor, editor ]
     files: [ editor, admin, developer ]
     prefill: [ developer ]
     profile: [ everyone ] # edit own profile
@@ -66,6 +81,7 @@ global:
     useraction: [ admin, developer ] # enable/disable/delete
     useredit: [ admin, developer ] # user settings
     users: [ admin, developer ] # view user overview
+    roles: [ admin, developer ] # view the roles overview
     maintenance-mode: [ everyone ] # view the frontend when in maintenance mode
     omnisearch: [ everyone ]
     # Access to the various logs
@@ -80,19 +96,6 @@ global:
     # Likewise, 'logout' needs to be granted to 'everyone', otherwise people
     # cannot log out anymore.
     logout: [ everyone ]
-
-    # User roled-based hierarchy settings. This will restrict users from being
-    # able to add, edit, enable, disable and delete users with a higher role
-    # than their own.
-    # For example:
-    # Users with a role of admin can only be added, edited, enabled, disabled and
-    # deleted by [ root, admin ] roles.
-    users:roles-hierarchy:root: [ root ]
-    users:roles-hierarchy:admin: [ root, admin ]
-    users:roles-hierarchy:developer: [ root, admin, developer ]
-    users:roles-hierarchy:chief-editor: [ root, admin, developer, chief-editor ]
-    users:roles-hierarchy:editor: [ root, admin, developer, chief-editor ]
-    users:roles-hierarchy:guest: [ root, admin, developer, chief-editor ]
 
 # For content type related actions, permissions can be set individually for
 # each content type. For this, we define three groups of permission sets.
@@ -143,6 +146,9 @@ global:
 #                     permission can indirectly enable users more permissions
 #                     in ways that may not be immediately obvious.
 # - view: allows viewing records in the backend
+# - frontend: allows front-end access to records (note that this requires the
+#             'frontend_permission_checks' global configuration setting, for
+#             backwards-compatibility reasons as well as performance)
 contenttype-all:
     edit: [ developer, admin, chief-editor ]
     create: [ developer, admin, chief-editor ]

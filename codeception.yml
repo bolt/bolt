@@ -1,21 +1,17 @@
+actor: Tester
 paths:
-    tests: tests/codeception/
-    log: tests/codeception/_log
+    tests: tests/codeception
+    log: tests/codeception/_output
     data: tests/codeception/_data
-    helpers: tests/codeception/_helpers
+    helpers: tests/codeception/_support
 settings:
     bootstrap: _bootstrap.php
-    suite_class: \PHPUnit_Framework_TestSuite
     colors: true
     memory_limit: 1024M
-    log: true
 modules:
     config:
-        PhpBrowser:
-            # url: 'http://bolt.localhost/'
-            url: 'http://localhost:8123/'
         Db:
             dsn: 'sqlite:app/database/bolt.db'
             user: ''
             password: ''
-            dump: 'tests/codeception/_data/bolt.db.dump'
+ #           dump: 'tests/codeception2/_data/bolt.db.dump'

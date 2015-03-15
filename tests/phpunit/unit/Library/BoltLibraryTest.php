@@ -140,6 +140,7 @@ class BoltLibraryTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $this->setExpectedException('Symfony\Component\HttpKernel\Exception\HttpException', "Redirecting to '/test2'.");
+        $this->expectOutputString("<p>Redirecting to <a href='/test2'>/test2</a>.</p><script>window.setTimeout(function () { window.location='/test2'; }, 500);</script>");
         $redirect = Library::simpleredirect("/test2", true);
     }
 

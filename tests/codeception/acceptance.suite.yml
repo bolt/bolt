@@ -1,20 +1,18 @@
 # Codeception Test Suite Configuration
 
 # suite for acceptance tests.
-# perform tests in browser using the Selenium-like tools.
-# powered by Mink (http://mink.behat.org).
-# (tip: that's what your customer will see).
-# (tip: test your ajax and javascript by one of Mink drivers).
+# perform tests in browser using the WebDriver or PhpBrowser.
+# If you need both WebDriver and PHPBrowser tests - create a separate suite.
 
-# RUN `build` COMMAND AFTER ADDING/REMOVING MODULES.
-
-class_name: WebTester
+class_name: AcceptanceTester
 modules:
     enabled:
         - PhpBrowser
-        - WebHelper
+        - AcceptanceHelper
         - Db
     config:
+        PhpBrowser:
+            url: 'http://localhost:8123/'
         Db:
             populate: true
             cleanup: true
