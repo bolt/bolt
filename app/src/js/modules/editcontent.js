@@ -185,8 +185,7 @@
         });
 
         $('#savebutton').bind('click', function () {
-            // Reset the changes to the form.
-            $('form').watchChanges();
+            watchChanges();
         });
     }
 
@@ -199,8 +198,7 @@
      */
     function initSaveNew() {
         $('#sidebarsavenewbutton, #savenewbutton').bind('click', function () {
-            // Reset the changes to the form.
-            $('form').watchChanges();
+            watchChanges();
 
             // Do a regular post, and expect to be redirected back to the "new record" page.
             var newaction = '?returnto=saveandnew';
@@ -240,14 +238,12 @@
             $('p.lastsaved').text(bolt.data('editcontent.msg.saving'));
 
             if (newrecord) {
-                // Reset the changes to the form.
-                $('form').watchChanges();
+                watchChanges();
 
                 // New record. Do a regular post, and expect to be redirected back to this page.
                 $('#editcontent').attr('action', '?returnto=new').submit();
             } else {
-                // Reset the changes to the form.
-                $('form').watchChanges();
+                watchChanges();
 
                 // Existing record. Do an 'ajaxy' post to update the record.
                 // Let the controller know we're calling AJAX and expecting to be returned JSON.
@@ -287,8 +283,7 @@
                         // Update dates and times from new values
                         bolt.datetimes.update();
 
-                        // Reset the changes to the form from any updates we got from POST_SAVE changes
-                        $('form').watchChanges();
+                        watchChanges();
 
                     })
                     .fail(function(){
@@ -319,14 +314,14 @@
             // Bind ctrl-s and meta-s for saving..
             $('body, input').bind('keydown.ctrl_s keydown.meta_s', function (event) {
                 event.preventDefault();
-                $('form').watchChanges();
+                watchChanges();
                 $('#sidebarsavecontinuebutton, #saveeditfile').trigger('click');
             });
 
             // Initialize watching for changes on "the form".
             window.setTimeout(
                 function () {
-                    $('form').watchChanges();
+                    watchChanges();
                 },
                 1000
             );
@@ -338,6 +333,17 @@
                  }
             };
         }
+    }
+
+    /**
+     * Remember current form content to check for changes later.
+     *
+     * @static
+     * @function watchChanges
+     * @memberof Bolt.editcontent
+     */
+    function watchChanges() {
+        $('form').watchChanges();
     }
 
     /**
