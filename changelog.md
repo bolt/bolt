@@ -22,6 +22,7 @@ Not yet released.
  - Fixed: Make dashboard activity log autoupdate again (See #3126)
  - Fixed: Upload UX Improvements (Thanks, @Pinpickle, see #3123)
  - Fixed: Warning for unsaved content comes up when nothing has been changed (see #3077)
+ - Added: Make the sanitisation of markdown fields configurable. (see #2992 #3142)
 
 Bolt 2.1.1
 ----------
