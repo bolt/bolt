@@ -31,6 +31,24 @@
     };
 
     /**
+     * Update the underlying textareas with the content in the CKEditor fields.
+     *
+     * @private
+     *
+     * @static
+     * @function update
+     * @memberof Bolt.ckeditor
+     */
+    ckeditor.update = function () {
+        // First, make sure
+        if (cke) {
+            for (var instance in cke.instances) {
+                cke.instances[instance].updateElement();
+            }
+        }
+    };
+
+    /**
      * Initialise CKEditor instances.
      *
      * @private
