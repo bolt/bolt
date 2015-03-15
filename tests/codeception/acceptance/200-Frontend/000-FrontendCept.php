@@ -44,5 +44,3 @@ class FrontendCept
         $I->see('Recent Showcases');
     }
 }
-
-

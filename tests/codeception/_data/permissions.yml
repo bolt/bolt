@@ -169,7 +169,7 @@ contenttypes:
         create: [ editor ]
         change-ownership: [ owner ]
     entries:
-        create: [ admin ]  
+        create: [ admin ]
         view: [ admin ]
     showcases:
         create: [ admin ]
