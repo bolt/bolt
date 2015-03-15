@@ -48,92 +48,7 @@
         initValidation();
         initSave()();
         initSaveNew()();
-
-        // Clicking the 'save & continue' button either triggers an 'ajaxy' post, or a regular post which returns
-        // to this page. The latter happens if the record doesn't exist yet, so it doesn't have an id yet.
-        $('#sidebarsavecontinuebutton, #savecontinuebutton').bind('click', function (e) {
-            e.preventDefault();
-
-            // trigger form validation
-            $('#editcontent').trigger('boltvalidate');
-            // check validation
-            if (!$('#editcontent').data('valid')) {
-                return false;
-            }
-
-            var newrecord = data.newRecord,
-                savedon = data.savedon,
-                msgNotSaved = data.msgNotSaved;
-
-            // Disable the buttons, to indicate stuff is being done.
-            $('#sidebarsavecontinuebutton, #savecontinuebutton').addClass('disabled');
-            $('p.lastsaved').text(data.msgSaving);
-
-            if (newrecord) {
-                // Reset the changes to the form.
-                $('form').watchChanges();
-
-                // New record. Do a regular post, and expect to be redirected back to this page.
-                var newaction = '?returnto=new';
-                $('#editcontent').attr('action', newaction).submit();
-            } else {
-                // Existing record. Do an 'ajaxy' post to update the record.
-
-                // Reset the changes to the form.
-                $('form').watchChanges();
-
-                // Let the controller know we're calling AJAX and expecting to be returned JSON.
-                var ajaxaction = '?returnto=ajax';
-                $.post(ajaxaction, $("#editcontent").serialize())
-                    .done(function (data) {
-                        $('p.lastsaved').html(savedon);
-                        $('p.lastsaved').find('strong').text(moment(data.datechanged).format('MMM D, HH:mm'));
-                        $('p.lastsaved').find('time').attr('datetime', moment(data.datechanged).format());
-                        $('p.lastsaved').find('time').attr('title', moment(data.datechanged).format());
-                        bolt.moments.update();
-
-                        $('a#lastsavedstatus strong').html(
-                            '<i class="fa fa-circle status-' + $('#statusselect option:selected').val() + '"></i> ' +
-                            $('#statusselect option:selected').text()
-                        );
-
-                        // Update anything changed by POST_SAVE handlers
-                        if ($.type(data) === 'object') {
-                            $.each(data, function (index, item) {
-
-                                // Things like images are stored in JSON arrays
-                                if ($.type(item) === 'object') {
-                                    $.each(item, function (subindex, subitem) {
-                                        $(':input[name="' + index + '[' + subindex + ']"]').val(subitem);
-                                    });
-                                } else {
-                                    // Either an input or a textarea, so get by ID
-                                    $('#' + index).val(item);
-
-                                    // If there is a CKEditor attached to our element, update it
-                                    if (ckeditor && ckeditor.instances[index]) {
-                                        ckeditor.instances[index].setData(item);
-                                    }
-                                }
-                            });
-                        }
-                        // Update dates and times from new values
-                        bolt.datetimes.update();
-
-                        // Reset the changes to the form from any updates we got from POST_SAVE changes
-                        $('form').watchChanges();
-
-                    })
-                    .fail(function(){
-                        $('p.lastsaved').text(msgNotSaved);
-                    })
-                    .always(function(){
-                        // Re-enable buttons
-                        $('#sidebarsavecontinuebutton, #savecontinuebutton').removeClass('disabled');
-                    });
-            }
-        });
-
+        initSaveContinue(data);
         initPreview(data.singularSlug);
         initDelete();
         initTabGroups();
@@ -288,6 +203,98 @@
             // Do a regular post, and expect to be redirected back to the "new record" page.
             var newaction = '?returnto=saveandnew';
             $('#editcontent').attr('action', newaction).submit();
+        });
+    }
+
+    /**
+     * Initialize "save and continue" button handlers.
+     *
+     * Clicking the button either triggers an "ajaxy" post, or a regular post which returns to this page.
+     * The latter happens if the record doesn't exist yet, so it doesn't have an id yet.
+     *
+     * @static
+     * @function initSaveContinue
+     * @memberof Bolt.editcontent
+     */
+    function initSaveContinue() {
+        $('#sidebarsavecontinuebutton, #savecontinuebutton').bind('click', function (e) {
+            e.preventDefault();
+
+            // Trigger form validation
+            $('#editcontent').trigger('boltvalidate');
+            // check validation
+            if (!$('#editcontent').data('valid')) {
+                return false;
+            }
+
+            var newrecord = data.newRecord,
+                savedon = data.savedon,
+                msgNotSaved = data.msgNotSaved;
+
+            // Disable the buttons, to indicate stuff is being done.
+            $('#sidebarsavecontinuebutton, #savecontinuebutton').addClass('disabled');
+            $('p.lastsaved').text(data.msgSaving);
+
+            if (newrecord) {
+                // Reset the changes to the form.
+                $('form').watchChanges();
+
+                // New record. Do a regular post, and expect to be redirected back to this page.
+                $('#editcontent').attr('action', '?returnto=new').submit();
+            } else {
+                // Reset the changes to the form.
+                $('form').watchChanges();
+
+                // Existing record. Do an 'ajaxy' post to update the record.
+                // Let the controller know we're calling AJAX and expecting to be returned JSON.
+                $.post('?returnto=ajax', $('#editcontent').serialize())
+                    .done(function (data) {
+                        $('p.lastsaved').html(savedon);
+                        $('p.lastsaved').find('strong').text(moment(data.datechanged).format('MMM D, HH:mm'));
+                        $('p.lastsaved').find('time').attr('datetime', moment(data.datechanged).format());
+                        $('p.lastsaved').find('time').attr('title', moment(data.datechanged).format());
+                        bolt.moments.update();
+
+                        $('a#lastsavedstatus strong').html(
+                            '<i class="fa fa-circle status-' + $('#statusselect option:selected').val() + '"></i> ' +
+                            $('#statusselect option:selected').text()
+                        );
+
+                        // Update anything changed by POST_SAVE handlers
+                        if ($.type(data) === 'object') {
+                            $.each(data, function (index, item) {
+
+                                // Things like images are stored in JSON arrays
+                                if ($.type(item) === 'object') {
+                                    $.each(item, function (subindex, subitem) {
+                                        $(':input[name="' + index + '[' + subindex + ']"]').val(subitem);
+                                    });
+                                } else {
+                                    // Either an input or a textarea, so get by ID
+                                    $('#' + index).val(item);
+
+                                    // If there is a CKEditor attached to our element, update it
+                                    if (ckeditor && ckeditor.instances[index]) {
+                                        ckeditor.instances[index].setData(item);
+                                    }
+                                }
+                            });
+                        }
+                        // Update dates and times from new values
+                        bolt.datetimes.update();
+
+                        // Reset the changes to the form from any updates we got from POST_SAVE changes
+                        $('form').watchChanges();
+
+                    })
+                    .fail(function(){
+                        $('p.lastsaved').text(msgNotSaved);
+                    })
+                    .always(function(){
+                        // Re-enable buttons
+                        $('#sidebarsavecontinuebutton, #savecontinuebutton').removeClass('disabled');
+                    });
+            }
         });
     }
 
