@@ -140,6 +140,14 @@ thumbnails:
   exif_orientation: true
 #  browser_cache_time: 2592000
 
+# Define the HTML tags and attributes that are allowed in 'cleaned' HTML. This
+# is used for sanitizing HTML, to make sure there are no undesirable elements
+# left in the content that is shown to users. For example, tags like `<script>`
+# or `onclick`-attributes.
+htmlcleaner:
+  allowed_tags: [ div, p, br, hr, s, u, strong, em, i, b, li, ul, ol, blockquote, pre, code, tt, h1, h2, h3, h4, h5, h6, dd, dl, dh, table, tbody, thead, tfoot, th, td, tr, a, img ]
+  allowed_attributes: [ id, class, style, name, value, href, src ]
+
 # Uploaded file handling
 #
 # You can change the pattern match and replacement on uploaded files and if the
