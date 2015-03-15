@@ -28,7 +28,7 @@ class BackendEditorCest
     }
 
     /**
-     * Login as the editor user
+     * Login as the editor user.
      *
      * @param \AcceptanceTester $I
      */
@@ -40,23 +40,37 @@ class BackendEditorCest
     }
 
     /**
-     *
+     * Check what the editor can and can't see.
      *
      * @param \AcceptanceTester $I
      */
-    public function viewContenttypesTest(\AcceptanceTester $I)
+    public function viewMenusTest(\AcceptanceTester $I)
     {
-        $I->wantTo('make sure the page editor user cannot see any content types except pages');
+        $I->wantTo('make sure the page editor user can only see certain menus');
         $I->loginAs($this->user['editor']);
-        $I->see('View Pages');
 
-        $I->dontSee('Edit Entries');
-        $I->dontSee('Edit Showcases');
+        $I->see('View Pages');
+        $I->see('New Page');
+
+        $I->dontSee('View Entries');
+        $I->dontSee('New Entry');
+
+        $I->see('View Showcases');
+        $I->dontSee('New Showcase');
+
+        $I->dontSee('Configuration');
+        $I->dontSee('Translations');
+        $I->dontSee('Extras');
+        $I->dontSee('Latest system activity');
         $I->dontSee('Edit Dummies');
+
+        $I->see('File Management');
+        $I->see('Uploaded files');
+        $I->dontSee('View/edit templates');
     }
 
     /**
-     *
+     * Test that the
      *
      * @param \AcceptanceTester $I
      */
