@@ -361,20 +361,19 @@
      * @returns {boolean}
      */
     function hasChanged() {
-        var hasChanged = false,
-            val;
+        var val;
 
         bolt.ckeditor.update();
         $('form#editcontent').find('input, textarea, select').each(function () {
             if (this.name) {
                 val = this.type === 'select-multiple' ? JSON.stringify($(this).val()) : $(this).val();
                 if ($(this).data('watch') !== val) {
-                    hasChanged = true;
+                    return true;
                 }
             }
         });
 
-        return hasChanged;
+        return false;
     }
 
     // Apply mixin container.
