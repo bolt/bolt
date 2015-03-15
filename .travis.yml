@@ -18,7 +18,8 @@ before_install:
   - sudo add-apt-repository -y ppa:nginx/stable
   - sudo apt-get update
   - sudo apt-get --reinstall install -qq language-pack-en language-pack-fr && sudo locale-gen fr_FR
-  - sudo apt-get install nginx
+  - sudo apt-get install nginx postfix
+  - sudo /etc/init.d/postfix restart
   - if [[ $TRAVIS_PHP_VERSION =~ ^hhvm ]]; then echo 'xdebug.enable = On' >> /etc/hhvm/php.ini ; fi
   - if [[ $TRAVIS_PHP_VERSION =~ ^hhvm ]]; then echo 'hhvm.jit = false' >> /etc/hhvm/php.ini ; fi
   - if [[ $TRAVIS_PHP_VERSION =~ ^hhvm ]]; then sudo /etc/init.d/hhvm restart ; sleep 1 ; fi
