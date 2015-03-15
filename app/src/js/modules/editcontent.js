@@ -46,16 +46,7 @@
      */
     editcontent.init = function (data) {
         initValidation();
-
-        // Save the page.
-        $('#sidebarsavebutton').bind('click', function () {
-            $('#savebutton').trigger('click');
-        });
-
-        $('#savebutton').bind('click', function () {
-            // Reset the changes to the form.
-            $('form').watchChanges();
-        });
+        initSave()();
 
         // Handle "save and new".
         $('#sidebarsavenewbutton, #savenewbutton').bind('click', function () {
@@ -269,6 +260,25 @@
                     }
                 }
             );
+        });
+    }
+
+    /**
+     * Initialize save button handlers.
+     *
+     * @static
+     * @function initSave
+     * @memberof Bolt.editcontent
+     */
+    function initSave() {
+        // Save the page.
+        $('#sidebarsavebutton').bind('click', function () {
+            $('#savebutton').trigger('click');
+        });
+
+        $('#savebutton').bind('click', function () {
+            // Reset the changes to the form.
+            $('form').watchChanges();
         });
     }
 
