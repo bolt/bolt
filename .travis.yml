@@ -10,12 +10,8 @@ php:
 
 matrix:
   allow_failures:
-    - php: hhvm
     - php: 7.0
-
-script:
-  - phpunit -c phpunit.xml.dist
-  - ./tests/scripts/run-codeception-tests
+    - php: hhvm
 
 before_install:
   - sudo apt-get update && sudo apt-get --reinstall install -qq language-pack-en language-pack-fr && sudo locale-gen fr_FR
@@ -29,6 +25,11 @@ before_script:
   - chmod 777 tests/phpunit/unit/Nut/resources/
   - mkdir -p app/cache
   - chmod 777 app/cache
+  - if [[ $TRAVIS_PHP_VERSION =~ ^hhvm ]]; then echo 'xdebug.enable = On' >> /etc/hhvm/php.ini; fi
+
+script:
+  - phpunit -c phpunit.xml.dist
+  - ./tests/scripts/run-codeception-tests
 
 after_script:
   - ./vendor/bin/ocular code-coverage:upload --format=php-clover coverage.xml
