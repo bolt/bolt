@@ -343,7 +343,7 @@
      * @memberof Bolt.editcontent
      */
     function watchChanges() {
-        $('form').watchChanges();
+        $('form#editcontent').watchChanges();
     }
 
     /**
@@ -356,7 +356,7 @@
      * @returns {boolean}
      */
     function hasChanged() {
-        return $('form').hasChanged();
+        return $('form#editcontent').hasChanged();
     }
 
     // Apply mixin container.
