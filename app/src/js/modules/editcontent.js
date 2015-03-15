@@ -215,8 +215,10 @@
      * @static
      * @function initSaveContinue
      * @memberof Bolt.editcontent
+     *
+     * @param {BindData} data
      */
-    function initSaveContinue() {
+    function initSaveContinue(data) {
         $('#sidebarsavecontinuebutton, #savecontinuebutton').bind('click', function (e) {
             e.preventDefault();
 
