@@ -47,7 +47,8 @@ module.exports = {
                 CodeMirror: true,           // ckeditor.js
                 google: true,               // Google
                 jQuery: true,               // jQuery
-                moment: true                // moment.min.js
+                moment: true,               // moment.min.js
+                Modernizr: true             // modernizr.min.js
             }
         },
         src: '<%= files.boltJs %>'
