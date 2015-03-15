@@ -248,7 +248,7 @@
         $('#deletebutton, #sidebardeletebutton').bind('click', function (e) {
             e.preventDefault();
             bootbox.confirm(
-                bolt.data('recordlisting.delete_one'),
+                bolt.data('editcontent.delete'),
                 function (confirmed) {
                     $('.alert').alert(); // Dismiss alert messages
                     if (confirmed === true) {
