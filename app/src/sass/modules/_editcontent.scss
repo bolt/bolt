@@ -311,3 +311,90 @@
         }
     }
 }
+
+/*** Live Editor Styles ***/
+#navpage-secondary .nav > li.close-live-editor {
+    display: none;
+    
+    a {
+        color: $btn-danger-bg;
+        i {
+            background: $btn-danger-bg;
+            color: $btn-danger-color;
+        }
+
+        &:hover {
+            background: $btn-danger-bg;
+            color: $btn-danger-color;
+
+            i {
+                background: $btn-danger-color;
+                color: $btn-danger-bg;
+            }
+        }
+    }
+}
+
+
+.live-editor {
+    position: absolute;
+    display: none;
+    padding: 0;
+    width: auto;
+    height: auto;
+    z-index: 10;
+    // Hardcoded sorry, but variables don't seem to work
+    top: 54px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    
+    iframe {
+        border: none;
+        display: block;
+        width: 100%;
+        height: 100%;
+    }
+    
+    @include respond-to(medium-screens) {   
+        .nav-secondary-collapsed & {
+            left: $nav-secondary-collapsed-width;
+        }
+    }
+}
+
+.live-editor-active {
+    #navpage-content {
+        display: none;
+    }
+    
+    #navpage-wrapper {
+        @extend #navpage-wrapper.nav-secondary-collapsed;
+        @extend #navpage-wrapper.nav-secondary-collapsed-hoverable;
+    }
+    
+    footer {
+        display: none;
+    }
+    
+    .navbar-form {
+        display: none;
+    }
+    
+    .live-editor {
+        display: block;
+    }
+    
+    #navpage-secondary {
+        top: 54px;
+        height: auto;
+        bottom: 0;
+        .nav > li {
+            display: none;
+
+            &.close-live-editor, &.nav-secondary-dashboard {
+                display: block;
+            }
+        }
+    }
+}
