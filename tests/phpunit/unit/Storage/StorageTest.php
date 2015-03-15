@@ -39,6 +39,7 @@ class StorageTest extends BoltUnitTest
     public function testPreFill()
     {
         $app = $this->getApp();
+        $app['users']->users = array(1 => $this->addDefaultUser($app));
         $prefillMock = new LoripsumMock();
         $app['prefill'] = $prefillMock;
 

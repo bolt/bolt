@@ -84,6 +84,8 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
         $user['email'] = 'test@example.com';
         $user['displayname'] = 'Admin';
         $app['users']->saveUser($user);
+
+        return $user;
     }
 
     protected function getMockTwig()
