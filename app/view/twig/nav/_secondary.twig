@@ -6,6 +6,11 @@
         {# Omnisearch: one here for "extra small", the other in the header-navbar #}
         {% include 'nav/_secondary-search.twig' %}
 
+        {# Live Editor #}
+        <li class="close-live-editor" >
+            <a>{{ nav.label('fa:pencil', __('Close Editor')) }}</a>
+        </li>
+        
         {# Dashboard #}
         {{ nav.link('fa:dashboard', __('Dashboard'), 'dashboard', (page_nav == 'Dashboard')) }}
 
