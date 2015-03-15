@@ -42,7 +42,7 @@
      * @function init
      * @memberof Bolt.editcontent
      *
-     * @param {BindData} data
+     * @param {BindData} data - Editcontent configuration data
      */
     editcontent.init = function (data) {
         initValidation();
@@ -52,6 +52,9 @@
         initPreview(data.singularSlug);
         initDelete();
         initTabGroups();
+        window.setTimeout(function () {
+            initKeyboardShortcuts();
+        }, 1000);
     };
 
     /**
@@ -216,7 +219,7 @@
      * @function initSaveContinue
      * @memberof Bolt.editcontent
      *
-     * @param {BindData} data
+     * @param {BindData} data - Editcontent configuration data
      */
     function initSaveContinue(data) {
         $('#sidebarsavecontinuebutton, #savecontinuebutton').bind('click', function (e) {
@@ -298,6 +301,44 @@
                     });
             }
         });
+    }
+
+    /**
+     * Initialize keyboard shortcuts:
+     * - Click 'save' in Edit content screen.
+     * - Click 'save' in "edit file" screen.
+     *
+     * @static
+     * @function initKeyboardShortcuts
+     * @memberof Bolt.editcontent
+     */
+    function initKeyboardShortcuts () {
+        // We're on a regular 'edit content' page, if we have a sidebarsavecontinuebutton.
+        // If we're on an 'edit file' screen,  we have a #saveeditfile
+        if ($('#sidebarsavecontinuebutton').is('*') || $('#saveeditfile').is('*')) {
+
+            // Bind ctrl-s and meta-s for saving..
+            $('body, input').bind('keydown.ctrl_s keydown.meta_s', function (event) {
+                event.preventDefault();
+                $('form').watchChanges();
+                $('#sidebarsavecontinuebutton, #saveeditfile').trigger('click');
+            });
+
+            // Initialize watching for changes on "the form".
+            window.setTimeout(
+                function () {
+                    $('form').watchChanges();
+                },
+                1000
+            );
+
+            // Initialize handler for 'closing window'
+            window.onbeforeunload = function () {
+                if ($('form').hasChanged()) {
+                    return bolt.data('editcontent.msg.change_quit');
+                }
+            };
+        }
     }
 
     // Apply mixin container.
