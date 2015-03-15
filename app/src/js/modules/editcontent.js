@@ -20,8 +20,7 @@
      *
      * @property {string} bind - Always 'editcontent'.
      * @property {boolean} hasGroups - Has groups.
-     * @property {string} messageNotSaved - Message when entry could not be saved.
-     * @property {string} messageSet - Message while saving.
+     * @property {string} msgNotSaved - Message when entry could not be saved.
      * @property {boolean} newRecord - Is new Record?
      * @property {string} savedOn - "Saved on" template.
      * @property {string} singularSlug - Contenttype slug.
@@ -238,7 +237,7 @@
 
             // Disable the buttons, to indicate stuff is being done.
             $('#sidebarsavecontinuebutton, #savecontinuebutton').addClass('disabled');
-            $('p.lastsaved').text(data.msgSaving);
+            $('p.lastsaved').text(bolt.data('editcontent.msg.saving'));
 
             if (newrecord) {
                 // Reset the changes to the form.
@@ -336,7 +335,7 @@
             window.onbeforeunload = function () {
                 if ($('form').hasChanged()) {
                     return bolt.data('editcontent.msg.change_quit');
-                }
+                 }
             };
         }
     }
