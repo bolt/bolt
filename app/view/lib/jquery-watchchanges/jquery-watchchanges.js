@@ -17,7 +17,6 @@
         $('form#editcontent').find('input, textarea, select').each(function () {
             if (this.name) {
                 $(this).data('watch', this.type === 'select-multiple' ? JSON.stringify($(this).val()) : $(this).val());
-                console.log("zet ", this.type);
             }
         });
 
