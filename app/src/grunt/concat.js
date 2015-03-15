@@ -24,7 +24,6 @@ module.exports = {
             '<%= path.src.lib %>/jquery-ui-1.10.3/jquery-ui.custom.min.js', //  96 kb
             '<%= path.tmp %>/bootstrap-file-input.min.js',                  //   1 kb
             '<%= path.tmp %>/jquery-hotkeys.min.js',                        //   2 kb
-            '<%= path.tmp %>/jquery-watchchanges.min.js',                   //   1 kb
             '<%= path.tmp %>/jquery-iframe-transport.min.js',               //   2 kb
             '<%= path.tmp %>/jquery-fileupload.min.js',                     //  15 kb
             '<%= path.tmp %>/bootstrap.min.js',                             //   2 kb
