@@ -46,8 +46,8 @@
      */
     editcontent.init = function (data) {
         initValidation();
-        initSave()();
-        initSaveNew()();
+        initSave();
+        initSaveNew();
         initSaveContinue(data);
         initPreview(data.singularSlug);
         initDelete();
