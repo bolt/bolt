@@ -153,27 +153,7 @@
         });
 
         initPreview(data.singularSlug);
-
-        // Delete item from the editcontent page.
-        $('#deletebutton, #sidebardeletebutton').bind('click', function (e) {
-            e.preventDefault();
-            bootbox.confirm(bolt.data('recordlisting.delete_one'), function (confirmed) {
-                $('.alert').alert();
-                if (confirmed === true) {
-                    var url = bolt.conf('paths.bolt') + 'content/deletecontent/' + $('#contenttype').val() + '/' +
-                            $('#id').val() + '?bolt_csrf_token=' + $('#bolt_csrf_token').val();
-                    // Delete request.
-                    $.ajax({
-                        url: url,
-                        type: 'GET',
-                        success: function (feedback) {
-                            window.location.href = bolt.conf('paths.bolt') + 'overview/' + $('#contenttype').val();
-                        }
-                    });
-                }
-            });
-        });
-
+        initDelete();
         initTabGroups();
     };
 
@@ -254,6 +234,41 @@
             e.preventDefault();
             $('#editcontent').attr('action', newAction).attr('target', '_blank').submit();
             $('#editcontent').attr('action', '').attr('target', '_self');
+        });
+    }
+
+    /**
+     * Initialize delete button from the editcontent page.
+     *
+     * @static
+     * @function initDelete
+     * @memberof Bolt.editcontent
+     */
+    function initDelete() {
+        $('#deletebutton, #sidebardeletebutton').bind('click', function (e) {
+            e.preventDefault();
+            bootbox.confirm(
+                bolt.data('recordlisting.delete_one'),
+                function (confirmed) {
+                    $('.alert').alert(); // Dismiss alert messages
+                    if (confirmed === true) {
+                        var pathBolt = bolt.conf('paths.bolt'),
+                            ctype = $('#contenttype').val(),
+                            id = $('#id').val(),
+                            token = $('#bolt_csrf_token').val(),
+                            url = pathBolt + 'content/deletecontent/' + ctype + '/' + id + '?bolt_csrf_token=' + token;
+
+                        // Fire delete request.
+                        $.ajax({
+                            url: url,
+                            type: 'GET',
+                            success: function (feedback) {
+                                window.location.href = pathBolt + 'overview/' + $('#contenttype').val();
+                            }
+                        });
+                    }
+                }
+            );
         });
     }
 
