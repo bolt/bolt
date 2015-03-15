@@ -21,6 +21,7 @@ Not yet released.
  - Fixed: Show notice on update of Bolt. (See #3129)
  - Fixed: Make dashboard activity log autoupdate again (See #3126)
  - Fixed: Upload UX Improvements (Thanks, @Pinpickle, see #3123)
+ - Fixed: Warning for unsaved content comes up when nothing has been changed (see #3077)
 
 Bolt 2.1.1
 ----------
