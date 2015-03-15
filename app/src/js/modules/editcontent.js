@@ -336,18 +336,39 @@
     }
 
     /**
-     * Remember current form content to check for changes later.
+     * Remember current state of content or detect if changes were made to the content.
      *
      * @static
      * @function watchChanges
      * @memberof Bolt.editcontent
+     *
+     * @param {boolean} checkForChanges - If 'true' changes are detected, else values remembered
+     *
+     * @returns {boolean}
      */
-    function watchChanges() {
-        $('form#editcontent').watchChanges();
+    function watchChanges(checkForChanges) {
+        var hasChanged = false,
+            val;
+
+        bolt.ckeditor.update();
+        $('form#editcontent').find('input, textarea, select').each(function () {
+            if (this.name) {
+                val = this.type === 'select-multiple' ? JSON.stringify($(this).val()) : $(this).val();
+                if (checkForChanges) {
+                    if ($(this).data('watch') !== val) {
+                        hasChanged = true;
+                    }
+                } else {
+                    $(this).data('watch', val);
+                }
+            }
+        });
+
+        return hasChanged;
     }
 
     /**
-     * Check if content was changed.
+     * Detect if changes were made to the content.
      *
      * @static
      * @function hasChanged
@@ -356,7 +377,7 @@
      * @returns {boolean}
      */
     function hasChanged() {
-        return $('form#editcontent').hasChanged();
+        return watchChanges(true);
     }
 
     // Apply mixin container.
