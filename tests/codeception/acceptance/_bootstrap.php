@@ -1,6 +1,7 @@
 <?php
 
 use Codeception\Util\Fixtures;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * Bootstrap for Codeception tests
@@ -48,6 +49,10 @@ if (file_exists('app/database/bolt.db') && !file_exists('app/database/bolt.db.co
 } elseif (file_exists('app/database/bolt.db')) {
     unlink('app/database/bolt.db');
 }
+
+// Install the local extension
+$fs = new Filesystem();
+$fs->mirror('tests/codeception/_data/extensions/local/', __DIR__ . '/../../../extensions/local/', null, array('override' => true, 'delete' => true));
 
 // Empty the cache
 system('php app/nut cache:clear');

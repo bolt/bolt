@@ -1,0 +1,30 @@
+{
+    "name" : "bolt/tester-events",
+    "description" : "A tester for Bolt event dispatchers",
+    "type" : "bolt-extension",
+    "keywords" : [
+        "events",
+        "listeners",
+        "dispatchers"
+    ],
+    "require" : {
+        "bolt/bolt" : ">=2.0.0,<3.0.0"
+    },
+    "license" : "MIT",
+    "authors" : [{
+            "name" : "Gawain Lynch",
+            "email" : "gawain.lynch@gmail.com"
+        }
+    ],
+    "autoload" : {
+        "files" : [
+            "init.php"
+        ],
+        "psr-4" : {
+            "Bolt\\Extension\\Bolt\\TesterEvents\\" : [
+                "",
+                "src/"
+            ]
+        }
+    }
+}
