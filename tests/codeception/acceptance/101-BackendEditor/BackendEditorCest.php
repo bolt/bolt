@@ -83,9 +83,9 @@ class BackendEditorCest
         $I->click('New Page');
         $I->see('Actions for this Page');
 
-        $I->fillField('title', 'A page I made');
-        $I->fillField('teaser', 'Woop woop woop! Crazy nice stuff inside!');
-        $I->fillField('body', 'Take it, take it! I have three more of these!');
+        $I->fillField('#title',  'A page I made');
+        $I->fillField('#teaser', 'Woop woop woop! Crazy nice stuff inside!');
+        $I->fillField('#body',   'Take it, take it! I have three more of these!');
 
         $I->click('Save Page');
 
@@ -94,16 +94,20 @@ class BackendEditorCest
     }
 
     /**
-     * Check that the editor can't create Entries
+     * Check that the PRE_SAVE and POST_SAVE storage event triggered on create.
      *
      * @param \AcceptanceTester $I
      */
-    public function deniedEditEntriesTest(\AcceptanceTester $I)
+    public function checkCreateRecordsEventTest(\AcceptanceTester $I)
     {
-        $I->wantTo("be denied permission to edit Entries as the 'editor' user");
+        $I->wantTo("Check the PRE_SAVE & POST_SAVE StorageEvent triggered correctly on create");
         $I->loginAs($this->user['editor']);
-        $I->amOnPage('bolt/editcontent/entries/');
-        $I->see('You do not have the right privileges');
+
+        $I->amOnPage('/bolt/editcontent/pages/1');
+
+        $I->seeInField('#title',  'A PAGE I MADE');
+        $I->see('Snuck in to teaser during PRE_SAVE on create');
+        $I->see('Snuck in to body during POST_SAVE on create');
     }
 
     /**
@@ -133,5 +137,35 @@ class BackendEditorCest
 
         // Check the 'Duplicate page' context menu option is shown
         $I->see('Duplicate Page');
+    }
+
+    /**
+     * Check that the PRE_SAVE and POST_SAVE storage event triggered on save.
+     *
+     * @param \AcceptanceTester $I
+     */
+    public function checkSaveRecordsEventTest(\AcceptanceTester $I)
+    {
+        $I->wantTo("Check the PRE_SAVE & POST_SAVE StorageEvent triggered correctly on save");
+        $I->loginAs($this->user['editor']);
+
+        $I->amOnPage('/bolt/editcontent/pages/1');
+
+        $I->seeInField('#title',  'A Page I Made');
+        $I->see('Added to teaser during PRE_SAVE on save');
+        $I->see('Added to body during POST_SAVE on save');
+    }
+
+    /**
+     * Check that the editor can't create Entries
+     *
+     * @param \AcceptanceTester $I
+     */
+    public function deniedEditEntriesTest(\AcceptanceTester $I)
+    {
+        $I->wantTo("be denied permission to edit Entries as the 'editor' user");
+        $I->loginAs($this->user['editor']);
+        $I->amOnPage('bolt/editcontent/entries/');
+        $I->see('You do not have the right privileges');
     }
 }
