@@ -333,11 +333,24 @@
 
             // Initialize handler for 'closing window'
             window.onbeforeunload = function () {
-                if ($('form').hasChanged()) {
+                if (hasChanged()) {
                     return bolt.data('editcontent.msg.change_quit');
                  }
             };
         }
+    }
+
+    /**
+     * Check if content was changed.
+     *
+     * @static
+     * @function hasChanged
+     * @memberof Bolt.editcontent
+     *
+     * @returns {boolean}
+     */
+    function hasChanged() {
+        return $('form').hasChanged();
     }
 
     // Apply mixin container.
