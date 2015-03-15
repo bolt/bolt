@@ -24,6 +24,11 @@ class MetadataDriver implements MappingDriver
     protected $integrityChecker;
     
     /**
+     * Array of contenttypes
+     */
+    protected $contenttypes;
+    
+    /**
      * array of metadata mappings
      */
     protected $metadata;
@@ -42,6 +47,8 @@ class MetadataDriver implements MappingDriver
         'bolt_users' => 'Bolt\Entity\Users'
     );
     
+    protected $typemap;
+    
     /**
      * @var string - a default entity for any table not matched
      */
@@ -55,9 +62,11 @@ class MetadataDriver implements MappingDriver
     /**
      * @param IntegrityChecker $integrityChecker
      */
-    public function __construct(IntegrityChecker $integrityChecker)
+    public function __construct(IntegrityChecker $integrityChecker, array $contenttypes, array $typemap)
     {
         $this->integrityChecker = $integrityChecker;
+        $this->contenttypes = $contenttypes;
+        $this->typemap = $typemap;
     }
     
     /**
@@ -90,6 +99,7 @@ class MetadataDriver implements MappingDriver
             
             $mapping['fieldname'] = $colName;
             $mapping['type'] = $column->getType();
+            $mapping['fieldtype'] = $this->getFieldTypeFor($table->getName(), $column);
             $mapping['length'] = $column->getLength();
             $mapping['nullable'] = $column->getNotnull();
             $mapping['platformOptions'] = $column->getPlatformOptions();
@@ -126,6 +136,29 @@ class MetadataDriver implements MappingDriver
             throw new \Exception("Attempted to load mapping data for unmapped class $className");
         }
         
+    }
+    
+    /**
+     * undocumented function
+     *
+     * @return void
+     */
+    protected function getFieldTypeFor($name, $column)
+    {
+        $contentKey = $this->integrityChecker->getKeyForTable($name);
+        if ($contentKey && isset($this->contenttypes[$contentKey][$column->getName()])) {
+            $type = $this->contenttypes[$contentKey]['fields'][$column->getName()]['type'];
+        } elseif ($column->getType()) {
+            $type = get_class($column->getType());
+        } 
+                
+        if (isset($this->typemap[$type])) {
+            $type = new $this->typemap[$type];
+        } else {
+            $type = new $this->typemap['text'];
+        }
+        
+        return $type;
     }
 
     /**

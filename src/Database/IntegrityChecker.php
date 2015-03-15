@@ -36,10 +36,9 @@ class IntegrityChecker
 
     const INTEGRITY_CHECK_INTERVAL    = 1800; // max. validity of a database integrity check, in seconds
     const INTEGRITY_CHECK_TS_FILENAME = 'dbcheck_ts'; // filename for the check timestamp file
+    
+    public $tableMap = array();
 
-    /**
-     * @param Application $app
-     */
     public function __construct(Application $app)
     {
         $this->app = $app;
@@ -540,6 +539,7 @@ class IntegrityChecker
 
             // create the table if necessary.
             $tablename = $this->getTablename($contenttype['tablename']);
+            $this->mapTableName($tablename, $contenttype['tablename']);
 
             $myTable = $schema->createTable($tablename);
             $myTable->addColumn('id', 'integer', array('autoincrement' => true));
@@ -707,5 +707,15 @@ class IntegrityChecker
         }
 
         return $this->integrityCachePath . '/' . self::INTEGRITY_CHECK_TS_FILENAME;
+    }
+    
+    protected function mapTableName($from, $to)
+    {
+        $this->tableMap[$from] = $to;
+    }
+    
+    public function getKeyForTable($table)
+    {
+        return $this->tableMap[$table];
     }
 }

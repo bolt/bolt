@@ -15,7 +15,7 @@ class MetadataDriverTest extends BoltUnitTest
     public function testConstruct()
     {
         $app = $this->getApp();
-        $map = new MetadataDriver($app['integritychecker']);
+        $map = new MetadataDriver($app['integritychecker'], $app['config']->get('contenttypes'), $app['storage.typemap']);
         $this->assertSame($app['integritychecker'], \PHPUnit_Framework_Assert::readAttribute($map, 'integrityChecker'));
         
     }
@@ -23,7 +23,7 @@ class MetadataDriverTest extends BoltUnitTest
     public function testInitialize()
     {
         $app = $this->getApp();
-        $map = new MetadataDriver($app['integritychecker']);
+        $map = new MetadataDriver($app['integritychecker'], $app['config']->get('contenttypes'), $app['storage.typemap']);
         $map->initialize();
     }
     
