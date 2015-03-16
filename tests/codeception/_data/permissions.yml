@@ -162,15 +162,18 @@ contenttype-default:
     create: [ editor ]
     change-ownership: [ owner ]
     view: [ anonymous ]
-    frontend: [ anonymous ]
 
 contenttypes:
     pages:
-        edit: [ editor, page-editor ]
-        create: [ editor, page-editor ]
+        edit: [ editor ]
+        create: [ editor ]
         change-ownership: [ owner ]
     entries:
+        create: [ admin ]
+        view: [ admin ]
     showcases:
+        create: [ admin ]
+        edit: [ admin, editor ]
         publish: [ admin ]
         change-ownership: [ ]
 

@@ -3,11 +3,11 @@
 use Codeception\Util\Fixtures;
 
 /**
- * Frontend navigation and render tests
+ * Backend 'manager' tests
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class FrontendCept
+class BackendManagerCest
 {
     /** @var array */
     protected $user;
@@ -28,21 +28,14 @@ class FrontendCept
     }
 
     /**
-     * Create the first site user
+     * Login as the manager user
      *
      * @param \AcceptanceTester $I
      */
-    public function createFirstUserTest(\AcceptanceTester $I)
+    public function loginManagerTest(\AcceptanceTester $I)
     {
-        $I->wantTo('see that the frontpage works');
-
-        $I->amOnPage('');
-
-        $I->see('A sample site');
-        $I->see('Recent Pages');
-        $I->see('Recent Entries');
-        $I->see('Recent Showcases');
+        $I->wantTo("Login as 'manager' user");
+        $I->loginAs($this->user['manager']);
+        $I->see('Dashboard');
     }
 }
-
-
