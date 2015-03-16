@@ -570,7 +570,7 @@ class TwigExtension extends \Twig_Extension
             $this->order_ascending_secondary = false;
         }
 
-        uasort($array, array($this, "orderHelper"));
+        uasort($array, array($this, 'orderHelper'));
 
         return $array;
     }

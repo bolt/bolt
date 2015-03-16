@@ -239,8 +239,8 @@ class BoltTwigHelpersTest extends BoltUnitTest
         $input = array(
             array('title' => 'Gamma', 'id' => 10, 'date' => '2014-01-19'),
             array('title' => 'Alpha', 'id' => 10, 'date' => '2014-02-20'),
-            array('title' => 'Beta', 'id' => 8, 'date' => '2014-01-10'),
-            array('title' => 'Delta', 'id' => 6, 'date' => '2014-01-19')
+            array('title' => 'Beta',  'id' => 8,  'date' => '2014-01-10'),
+            array('title' => 'Delta', 'id' => 6,  'date' => '2014-01-19')
         );
         $result = array_values($twig->order($input, 'id'));
         $this->assertEquals('Delta', $result[0]['title']);
