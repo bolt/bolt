@@ -26,11 +26,13 @@ before_install:
   - if [[ $TRAVIS_PHP_VERSION =~ ^hhvm ]]; then sudo sh -c 'echo RUN_AS_GROUP=\"travis\" >> /etc/default/hhvm' ; fi
   - if [[ $TRAVIS_PHP_VERSION =~ ^hhvm ]]; then sudo service hhvm restart ; sleep 1 ; fi
   # Set up PHP-FPM
-  - if [[ $TRAVIS_PHP_VERSION =~ ^5 ]]; then export PHP_BASE=~/.phpenv/versions/$(phpenv version-name) ; fi
-  - if [[ $TRAVIS_PHP_VERSION =~ ^5 ]]; then sudo cp $PHP_BASE/etc/php-fpm.conf.default $PHP_BASE/etc/php-fpm.conf ; fi
-  - if [[ $TRAVIS_PHP_VERSION =~ ^5 ]]; then echo "cgi.fix_pathinfo = 1" >> $PHP_BASE/etc/php.ini ; fi
+  - if [[ $TRAVIS_PHP_VERSION =~ ^[57] ]]; then export PHP_BASE=~/.phpenv/versions/$(phpenv version-name) ; fi
+  - if [[ $TRAVIS_PHP_VERSION =~ ^[57] ]]; then echo "cgi.fix_pathinfo = 1" >> $PHP_BASE/etc/php.ini ; fi
+  - if [[ $TRAVIS_PHP_VERSION =~ ^[57] ]]; then sudo cp $PHP_BASE/etc/php-fpm.conf.default $PHP_BASE/etc/php-fpm.conf ; fi
   - if [[ $TRAVIS_PHP_VERSION =~ ^5 ]]; then perl -p -i -e 's/nobody/travis/g' $PHP_BASE/etc/php-fpm.conf ; fi
-  - if [[ $TRAVIS_PHP_VERSION =~ ^5 ]]; then sudo $PHP_BASE/sbin/php-fpm ; fi
+  - if [[ $TRAVIS_PHP_VERSION =~ ^7 ]]; then sudo cp $PHP_BASE/etc/php-fpm.d/www.conf.default $PHP_BASE/etc/php-fpm.d/www.conf ; fi
+  - if [[ $TRAVIS_PHP_VERSION =~ ^7 ]]; then perl -p -i -e 's/nobody/travis/g' $PHP_BASE/etc/php-fpm.d/www.conf ; fi
+  - if [[ $TRAVIS_PHP_VERSION =~ ^[57] ]]; then sudo $PHP_BASE/sbin/php-fpm ; fi
   # Set up Nginx
   - PWD=$(pwd) ; perl -p -i -e 's/%ROOTDIR%/$ENV{PWD}/g' .travis.nginx.conf
   - sudo cp .travis.nginx.conf /etc/nginx/nginx.conf
