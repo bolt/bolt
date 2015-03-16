@@ -51,7 +51,7 @@ bindFileUpload.checkFileSize = function checkFileSize (e, data) {
     // The jQuery upload doesn't expose an API to cover an entire upload set. So we keep "bad" files
     // in the data.originalFiles, which is the same between multiple files in one upload set.
     var badFiles = [];
-    if (typeof data.originalFiles.bad == 'undefined') {
+    if (typeof data.originalFiles.bad === 'undefined') {
         data.originalFiles.bad = [];
     }
 
@@ -66,7 +66,7 @@ bindFileUpload.checkFileSize = function checkFileSize (e, data) {
         var filename1 = data.files[data.files.length - 1].name;
         var filename2 = data.originalFiles[data.originalFiles.length - 1].name;
 
-        if (filename1 == filename2) {
+        if (filename1 === filename2) {
             // We're at the end of this upload cycle
             var message = 'One or more of the files that you selected was larger than the max size of ' +
                 Bolt.conf('uploadConfig.maxSizeNice') + ":\n\n" +
