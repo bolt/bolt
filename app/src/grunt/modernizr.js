@@ -19,8 +19,7 @@ module.exports = {
             prefixes: true
         },
         tests: [
-            'cookies',
-            'iframe-sandbox'
+            'cookies'
         ],
         uglify: false,
         matchCommunityTests: true,
