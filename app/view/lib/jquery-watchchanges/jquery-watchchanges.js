@@ -6,6 +6,7 @@
 (function ($) {
 
     $.fn.watchChanges = function () {
+        var val;
 
         // First, make sure the underlying textareas are updated with the content in the CKEditor fields.
         if (typeof CKEDITOR !== 'undefined') {
@@ -14,13 +15,19 @@
             }
         }
 
-        return this.each(function () {
-            $.data(this, 'formHash', $(this).serialize());
+        $('form#editcontent').find('input, textarea, select').each(function () {
+            if (this.name) {
+                val = this.type === 'select-multiple' ? JSON.stringify($(this).val()) : $(this).val();
+                val = val.replace(/\s/g, '');
+                $(this).data('watch', val);
+            }
         });
+
     };
 
     $.fn.hasChanged = function () {
-        var hasChanged = false;
+        var changes = 0,
+            val;
 
         // First, make sure the underlying textareas are updated with the content in the CKEditor fields.
         if (typeof CKEDITOR !== 'undefined') {
@@ -29,16 +36,17 @@
             }
         }
 
-        this.each(function () {
-            var formHash = $.data(this, 'formHash');
-
-            if (formHash !== null && formHash !== $(this).serialize()) {
-                hasChanged = true;
-                return false;
+        $('form#editcontent').find('input, textarea, select').each(function () {
+            if (this.name) {
+                val = this.type === 'select-multiple' ? JSON.stringify($(this).val()) : $(this).val();
+                val = val.replace(/\s/g, '');
+                if ($(this).data('watch') !== val) {
+                    changes++;
+                }
             }
         });
 
-        return hasChanged;
+        return changes > 0;
     };
 
 }).call(this, jQuery);
