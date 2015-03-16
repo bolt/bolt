@@ -281,8 +281,13 @@ class Application extends Silex\Application
 
     public function initLocale()
     {
-        $this['locale'] = $this['config']->get('general/locale', Application::DEFAULT_LOCALE);
-
+        $configLocale = $this['config']->get('general/locale', Application::DEFAULT_LOCALE);
+        if (!is_array($configLocale)) {
+            $configLocale = array($configLocale);
+        }
+        // $app['locale'] should only be a single value.
+        $this['locale'] = reset($configLocale);
+        
         // Set The Timezone Based on the Config, fallback to UTC
         date_default_timezone_set(
             $this['config']->get('general/timezone') ?: 'UTC'
@@ -291,17 +296,21 @@ class Application extends Silex\Application
         // for javascript datetime calculations, timezone offset. e.g. "+02:00"
         $this['timezone_offset'] = date('P');
 
-        // Set default locale
-        $locale = array(
-            $this['locale'] . '.UTF-8',
-            $this['locale'] . '.utf8',
-            $this['locale'],
-            Application::DEFAULT_LOCALE . '.UTF-8',
-            Application::DEFAULT_LOCALE . '.utf8',
-            Application::DEFAULT_LOCALE,
-            substr(Application::DEFAULT_LOCALE, 0, 2)
-        );
-        setlocale(LC_ALL, $locale);
+        // Set default locale, for Bolt
+        $locale = array();
+        foreach ($configLocale as $key => $value) {
+            $locale = array_merge($locale, array(
+                $value . '.UTF-8',
+                $value . '.utf8',
+                $value,
+                Application::DEFAULT_LOCALE . '.UTF-8',
+                Application::DEFAULT_LOCALE . '.utf8',
+                Application::DEFAULT_LOCALE,
+                substr(Application::DEFAULT_LOCALE, 0, 2)
+            ));
+        }
+        
+        setlocale(LC_ALL, array_unique($locale));
 
         $this->register(
             new Silex\Provider\TranslationServiceProvider(),
