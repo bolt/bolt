@@ -34,13 +34,13 @@
         var editor = $('#live-editor-iframe');
         liveEditor.slug = data.singularSlug;
 
-        if (Modernizr.sandbox) {
+        if (Modernizr.contenteditable) {
             $('#sidebar-live-editor-button, #live-editor-button').bind('click', liveEditor.start);
 
             $('.close-live-editor').bind('click', liveEditor.stop);
         } else {
-            // If we can't do sandboxed iframes,
-            // this implementation is not secure
+            // If we don't have the features we need
+            // Don't let this get used
             $('.live-editor, #sidebar-live-editor-button, #live-editor-button').remove();
 
         }
