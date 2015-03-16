@@ -25,6 +25,11 @@ class MetadataDriverTest extends BoltUnitTest
         $app = $this->getApp();
         $map = new MetadataDriver($app['integritychecker'], $app['config']->get('contenttypes'), $app['storage.typemap']);
         $map->initialize();
+        $metadata = $map->loadMetadataForClass('Bolt\Entity\Users');
+        $this->assertNotNull($metadata);
+        $this->assertEquals('bolt_users', $metadata->getTableName());
+        $field = $metadata->getFieldMapping('id');
+        $this->assertEquals('id', $field['fieldname']);
     }
     
 }
