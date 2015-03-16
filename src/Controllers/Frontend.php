@@ -175,6 +175,14 @@ class Frontend
         $content = $app['storage']->getContentObject($contenttypeslug);
         $content->setFromPost($request->request->all(), $contenttype);
 
+        $liveEditor = $request->get('_live-editor-preview');
+        if (!empty($liveEditor)) {
+            $jsFile = $app['resources']->getUrl('app') . 'view/js/ckeditor/ckeditor.js';
+            $cssFile = $app['resources']->getUrl('app') . 'view/css/liveeditor.css';
+            $app['extensions']->addJavascript($jsFile, array('late' => false, 'priority' => 1));
+            $app['extensions']->addCss($cssFile, false, 5);
+        }
+
         // Then, select which template to use, based on our 'cascading templates rules'
         $template = $app['templatechooser']->record($content);
 

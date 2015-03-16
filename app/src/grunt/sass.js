@@ -21,7 +21,8 @@ module.exports = {
         },
         files: {
             '<%= path.dest.css %>/bolt-old-ie.css': '<%= path.src.sass %>/app-old-ie.scss',
-            '<%= path.dest.css %>/bolt.css': '<%= path.src.sass %>/app.scss'
+            '<%= path.dest.css %>/bolt.css': '<%= path.src.sass %>/app.scss',
+            '<%= path.dest.css %>/liveeditor.css': '<%= path.src.sass %>/liveeditor.scss'
         }
     }
 };

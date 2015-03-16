@@ -53,21 +53,10 @@
         initDelete();
         initTabGroups();
         initTemplateSelect();
+        bolt.liveEditor.init(data);
         window.setTimeout(function () {
             initKeyboardShortcuts();
         }, 1000);
-    };
-    
-    /**
-     * Functions and information pertaining to the live editor
-     * 
-     * @static
-     * @property liveEditor
-     * @type {Object}
-     *
-     */
-    editcontent.liveEditor = {
-        active: false
     };
 
     /**
@@ -160,29 +149,7 @@
      * @param {string} slug - Contenttype singular slug.
      */
     function initLiveEditor(slug) {
-        var editor = $('#live-editor-iframe');
-        if (Modernizr.sandbox) {
-            $('#sidebar-live-editor-button, #live-editor-button').bind('click', function (e) {
-                var newAction = bolt.conf('paths.root') + 'preview/' + slug;
-                $('#editcontent').attr('action', newAction).attr('target', 'live-editor-iframe').submit();
-                $('#editcontent').attr('action', '').attr('target', '_self');
 
-                editcontent.liveEditor.active = true;
-                clearTimeout(Bolt.sidebar.lengthTimer);
-                $('#navpage-secondary').css('height', '');
-                $('body').addClass('live-editor-active');
-            });
-
-            $('.close-live-editor').bind('click', function (e) {
-                editcontent.liveEditor.active = false;
-                $('body').removeClass('live-editor-active');
-                Bolt.sidebar.fixlength();
-            });
-        } else {
-            // If we can't do sandboxed iframes,
-            // this implementation is not secure
-            $('.live-editor, #sidebar-live-editor-button, #live-editor-button').remove();
-        }
     }
 
     /**

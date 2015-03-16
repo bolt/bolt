@@ -23,7 +23,7 @@ module.exports = {
      * TARGET:  Build Bolts js file changes
      */
     boltJs: {
-        files: '<%= files.boltJs %>',
+        files: '<%= path.src.js %>/**/*.js',
         tasks: [
             'jshint:boltJs',
             'uglify:boltJs'
