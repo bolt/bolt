@@ -356,10 +356,8 @@
         height: 100%;
     }
     
-    @include respond-to(medium-screens) {   
-        .nav-secondary-collapsed & {
-            left: $nav-secondary-collapsed-width;
-        }
+    @include respond-to(mid-mobile) {
+        left: $nav-secondary-collapsed-width;
     }
 }
 
