@@ -10,9 +10,26 @@
  * @param {Object|undefined} ckeditor - CKEDITOR global or undefined.
  */
 (function (bolt, $, window, ckeditor) {
-    var liveEditor = { };
+
+    /**
+     * Bolt.liveEditor mixin container.
+     *
+     * @private
+     * @type {Object}
+     */
+    var liveEditor = {};
+
     var editcontent = bolt.editcontent;
 
+    /**
+     * Initializes the mixin.
+     *
+     * @static
+     * @function init
+     * @memberof Bolt.liveEditor
+     *
+     * @param {BindData} data - Editcontent configuration data
+     */
     liveEditor.init = function(data) {
         var editor = $('#live-editor-iframe');
         liveEditor.slug = data.singularSlug;
@@ -29,6 +46,18 @@
         }
     };
 
+
+    /**
+     * Starts the live editor.
+     *
+     * @private
+     *
+     * @static
+     * @function start
+     * @memberof Bolt.liveEditor
+     *
+     * @param {Event} event - Triggering event
+     */
     liveEditor.start = function(e) {
         // Add Events
         var iframeReady = function() {
@@ -110,7 +139,17 @@
         $('#editcontent *[name=_live-editor-preview]').val('');
     };
 
-
+    /**
+     * Stops the live editor.
+     *
+     * @private
+     *
+     * @static
+     * @function stop
+     * @memberof Bolt.liveEditor
+     *
+     * @param {Event} event - Triggering event
+     */
     liveEditor.stop = function (e) {
         var iframe = $('#live-editor-iframe')[0];
         var win = iframe.contentWindow || iframe;
@@ -144,10 +183,28 @@
         liveEditor.removeEvents();
     };
 
+    /**
+     * Whether the editor is running or not
+     *
+     * @public
+     * @type {Boolean}
+     */
     liveEditor.active = false;
 
+    /**
+     * Contenttype slug for the editor
+     *
+     * @private
+     * @type {string}
+     */
     liveEditor.slug = null;
 
+    /**
+     * Removes events bound to live editor
+     *
+     * @private
+     * @function removeEvents
+     */
     liveEditor.removeEvents = null;
 
     bolt.liveEditor = liveEditor;
