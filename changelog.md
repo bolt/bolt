@@ -1,4 +1,5 @@
 Bolt 2.1.2
+----------
 
 Not yet released. Notable changes:
 
@@ -8,6 +9,11 @@ Not yet released. Notable changes:
  - Fixed: Prevent extra spaces in excerpts. (See #3130)
  - Fixed: Show notice on update of Bolt. (See #3129)
  - Fixed: Make dashboard activity log autoupdate again (see #3126)
+ - Added: Make the sanitisation of markdown fields configurable. (see #2992 #3142)
+ - Fixed: Fixed z-index of sidebar. (See #3100)
+ - Fixed: Disable "revert" button on 'edit file' screen, when file is not wrtiable. (See #3009)
+ - Added: Allow for multiple (fallback) locales in `config.yml`. (Thanks @sintemaa, see #3127)
+ 
 
 Bolt 2.1.1
 ----------
