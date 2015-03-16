@@ -57,7 +57,7 @@ bindFileUpload.checkFileSize = function checkFileSize (e, data) {
     }
 
     _.each(data.files, function (file, index) {
-        if ((file.size || 0) > bolt.uploadConfig.maxSize) {
+        if ((file.size || 0) > Bolt.conf('uploadConfig.maxSize')) {
             badFiles.push(file.name);
             data.originalFiles.bad.push(file.name);
         }
@@ -71,7 +71,7 @@ bindFileUpload.checkFileSize = function checkFileSize (e, data) {
             // We're at the end of this upload cycle
             var message = "One or more of the files that you " +
                 "selected was larger than the max size of " +
-                bolt.uploadConfig.maxSizeNice + ":\n\n" +
+                Bolt.conf('uploadConfig.maxSizeNice') + ":\n\n" +
                 data.originalFiles.bad.join("\n");
 
             alert(message);
