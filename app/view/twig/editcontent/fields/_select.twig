@@ -30,6 +30,13 @@
     {% set selection = [ selection ] %}
 {% endif %}
 
+{# If the current selection contains an existing id, we must use _only_ the id, and not accept a fallback. #}
+{% if selection|first in values|keys %}
+    {% set onlyids = true %}
+{% else %}
+    {% set onlyids = false %}
+{% endif %}
+
 {% set attr_select = {
     class:     option.class,
     id:        key,
@@ -55,7 +62,7 @@
                 {% set is_array = (value is iterable and (value | length) > 1) %}
                 {% set attr_opt = {
                     value:     id,
-                    selected:  id in selection or (is_array ? value[0] : value) in selection,
+                    selected:  id in selection or (not onlyids and (is_array ? value[0] : value) in selection),
                 } %}
 
                 <option{{ macro.attr(attr_opt) }}>{{ is_array ? value[0:]|join(' / ') : value }}</option>
