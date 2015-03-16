@@ -16,7 +16,7 @@ module.exports = {
             maxlen: 120,        // Maximum length of a line
             noarg: true,        // Prohibits the use of arguments.caller and arguments.callee
             nonbsp: true,       // Warns about "non-breaking whitespace" characters
-            singleGroups: true, // Prohibits the use of the grouping operator for single-expression statements
+            singleGroups: false, // Prohibits the use of the grouping operator for single-expression statements
             undef: true,        // Prohibits the use of undeclared variables
             globals: {
                 // Bolt

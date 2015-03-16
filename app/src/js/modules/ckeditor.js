@@ -26,7 +26,7 @@
      */
     ckeditor.init = function () {
         if (cke) {
-            init();
+            cke = ckeditor.initcke(cke);
         }
     };
 
@@ -49,15 +49,17 @@
     };
 
     /**
-     * Initialise CKEditor instances.
+     * Initialise CKEditor instances
      *
-     * @private
+     * @public
      *
      * @static
-     * @function init
+     * @function initcke
      * @memberof Bolt.ckeditor
+     *
+     * @param {Object} cke - Global CKEditor object
      */
-    function init() {
+    ckeditor.initcke = function(cke) {
         cke.editorConfig = function (config) {
             var key,
                 custom,
@@ -215,7 +217,9 @@
                 evt.data.dataValue = evt.data.dataValue.replace(/<p> <\/p>/g, '');
             }, null, null, 9);
         });
-    }
+
+        return cke;
+    };
 
     // Apply mixin container
     bolt.ckeditor = ckeditor;

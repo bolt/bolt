@@ -7,10 +7,10 @@
 
         <article>
 
-            <h2>{{ record.title }}</h2>
+            <h2 data-bolt-field="title">{{ record.title }}</h2>
 
             {% if record.subtitle %}
-                <h3>{{ record.subtitle }}</h3>
+                <h3 data-bolt-field="subtitle">{{ record.subtitle }}</h3>
             {% endif %}
 
             {% for key,value in record.values if key not in ['id', 'slug', 'datecreated', 'datechanged', 'datepublish', 'datedepublish', 'username', 'status', 'title', 'subtitle', 'ownerid'] %}
@@ -54,7 +54,7 @@
 
                 {% elseif record.fieldtype(key) in ['html', 'markdown', 'textarea'] %}
 
-                    {{ attribute(record, key) }}
+                    <div data-bolt-field="{{ key }}">{{ attribute(record, key) }}</div>
 
                 {% elseif record.fieldtype(key) == "select" %}
 
