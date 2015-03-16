@@ -23,6 +23,10 @@ Not yet released.
  - Fixed: Upload UX Improvements (Thanks, @Pinpickle, see #3123)
  - Fixed: Warning for unsaved content comes up when nothing has been changed (see #3077)
  - Added: Make the sanitisation of markdown fields configurable. (see #2992 #3142)
+ - Fixed: Fixed z-index of sidebar. (See #3100)
+ - Fixed: Disable "revert" button on 'edit file' screen, when file is not wrtiable. (See #3009)
+ - Added: Allow for multiple (fallback) locales in `config.yml`. (Thanks @sintemaa, see #3127)
+
 
 Bolt 2.1.1
 ----------
