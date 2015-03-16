@@ -1,7 +1,7 @@
 Bolt 2.1.2
 ----------
 
-Not yet released. Notable changes:
+Released 2015-03-17. Notable changes:
 
  - Added: Added an option to delete a record, when editing it. (See #3134)
  - Fixed: Upload UX Improvements (Thanks, @Pinpickle, see #3123)
@@ -14,6 +14,7 @@ Not yet released. Notable changes:
  - Fixed: Disable "revert" button on 'edit file' screen, when file is not wrtiable. (See #3009)
  - Added: Allow for multiple (fallback) locales in `config.yml`. (Thanks @sintemaa, see #3127)
  - Fixed: Warning for unsaved content comes up when nothing has been changed (see #3077)
+ - Fixed: Be a little more strict in picking 'selected' options: Only use the fallback, if there's no valid id set. 
 
 Bolt 2.1.1
 ----------
