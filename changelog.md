@@ -13,7 +13,7 @@ Not yet released. Notable changes:
  - Fixed: Fixed z-index of sidebar. (See #3100)
  - Fixed: Disable "revert" button on 'edit file' screen, when file is not wrtiable. (See #3009)
  - Added: Allow for multiple (fallback) locales in `config.yml`. (Thanks @sintemaa, see #3127)
- 
+ - Fixed: Warning for unsaved content comes up when nothing has been changed (see #3077)
 
 Bolt 2.1.1
 ----------
