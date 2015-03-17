@@ -60,7 +60,7 @@
     function init() {
         cke.editorConfig = function (config) {
             var key,
-                custom,
+                param = $(this.element.$).data('param') || {},
                 set = bolt.conf('ckeditor');
 
             var basicStyles = ['Bold', 'Italic'];
@@ -198,11 +198,18 @@
                 }
             }
 
+            // Set height
+            if (param.height) {
+                config.height = param.height;
+                // Adjust autogrow values if heigth is out of range
+                config.autoGrow_minHeight = Math.max(config.autoGrow_minHeight, config.height);
+                config.autoGrow_maxHeight = Math.max(config.autoGrow_maxHeight, config.height);
+            }
+
             // Parse override settings from field in contenttypes.yml
-            custom = $('textarea[name=' + this.name + ']').data('field-options');
-            for (key in custom) {
-                if (custom.hasOwnProperty(key)) {
-                    config[key] = custom[key];
+            for (key in param.ckeditor) {
+                if (param.ckeditor.hasOwnProperty(key)) {
+                    config[key] = param.ckeditor[key];
                 }
             }
         };
