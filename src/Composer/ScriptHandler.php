@@ -53,6 +53,7 @@ class ScriptHandler
 
         if (!$filesystem->exists($webDir . '/theme/')) {
             $filesystem->mkdir($webDir . '/theme/', $dirMode);
+            $filesystem->mirror(__DIR__ . '/../../theme', $webDir . '/theme');
         }
 
         // The first check handles the case where the bolt-web-dir is different to the root.
