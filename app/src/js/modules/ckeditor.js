@@ -60,7 +60,7 @@
     function init() {
         cke.editorConfig = function (config) {
             var key,
-                custom,
+                param = $(this.element.$).data('param') || {},
                 set = bolt.conf('ckeditor');
 
             var basicStyles = ['Bold', 'Italic'];
@@ -199,12 +199,12 @@
             }
 
             // Parse override settings from field in contenttypes.yml
-            custom = $(this.element.$).data('field-options');
-            for (key in custom) {
-                if (custom.hasOwnProperty(key)) {
-                    config[key] = custom[key];
+            for (key in param.ckeditor) {
+                if (param.ckeditor.hasOwnProperty(key)) {
+                    config[key] = param.ckeditor[key];
                 }
             }
+            console.log(this.element.$);
         };
 
         // When 'pasting' from Word (or perhaps other editors too), you'll often
