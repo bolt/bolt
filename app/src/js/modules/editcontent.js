@@ -281,7 +281,7 @@
                             });
                         }
                         // Update dates and times from new values
-                        bolt.datetimes.update();
+                        bolt.datetime.update();
 
                         watchChanges();
 
