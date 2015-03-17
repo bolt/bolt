@@ -70,6 +70,9 @@ class ScriptHandler
         $appDir = $options['bolt-app-dir'];
         if (!$filesystem->exists($appDir)) {
             $filesystem->mkdir($appDir, $dirMode);
+            $filesystem->mkdir($appDir . '/database/', $dirMode);
+            $filesystem->mkdir($appDir . '/cache/',    $dirMode);
+            $filesystem->mkdir($appDir . '/config/',   $dirMode);
         }
     }
 
