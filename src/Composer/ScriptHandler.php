@@ -13,6 +13,8 @@ use Symfony\Component\Filesystem\Filesystem;
 class ScriptHandler
 {
     /**
+     * Install basic assets and create needed directories.
+     *
      * @param CommandEvent $event
      * @param array|bool   $options
      */
@@ -75,11 +77,11 @@ class ScriptHandler
         $webroot = $event->getIO()->askConfirmation('<info>Do you want your web directory to be a separate folder to root? [y/n] </info>', false);
 
         if ($webroot) {
-            $webname = $event->getIO()->ask('<info>What do you want your public directory to be named? [default: public] </info>', 'public');
-            $webname = trim($webname, '/');
+            $webname  = $event->getIO()->ask('<info>What do you want your public directory to be named? [default: public] </info>', 'public');
+            $webname  = trim($webname, '/');
             $assetDir = './' . $webname;
         } else {
-            $webname = null;
+            $webname  = null;
             $assetDir = '.';
         }
 
@@ -87,10 +89,12 @@ class ScriptHandler
         $generator->create();
         $options = array_merge(self::getOptions($event), array('bolt-web-dir' => $assetDir));
         self::installAssets($event, $options);
-        $event->getIO()->write("<info>Your project has been setup</info>");
+        $event->getIO()->write('<info>Your project has been setup</info>');
     }
 
     /**
+     * Get a default set of options.
+     *
      * @param CommandEvent $event
      *
      * @return array
