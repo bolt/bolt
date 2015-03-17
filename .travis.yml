@@ -57,6 +57,10 @@ before_script:
   - mysql -e "CREATE USER 'bolt_travis'@'localhost' IDENTIFIED BY 'bolt_travis';" -u root
   - mysql -e "GRANT ALL PRIVILEGES ON bolt_travis.* TO 'bolt_travis'@'localhost';" -u root
   - mysql -e "FLUSH PRIVILEGES;" -u root
+  # Set up PostgreSQL
+  - psql -c "CREATE DATABASE bolt_travis;" -U postgres || true
+  - psql -c "CREATE USER bolt_travis WITH PASSWORD 'bolt_travis';" -U postgres
+  - psql -c "GRANT ALL PRIVILEGES ON DATABASE bolt_travis TO bolt_travis;" -U postgres
 
 script:
   # PHPUnit
@@ -67,6 +71,9 @@ script:
   - if [[ $TRAVIS_PHP_VERSION =~ (^5.[456]|^7|^hhvm) ]]; then ./vendor/codeception/codeception/codecept run ; fi
   # Codeception MySQL run (PHP >5.3)
   - ./tests/scripts/travis-db-config mysql
+  - if [[ $TRAVIS_PHP_VERSION =~ (^5.[456]|^7|^hhvm) ]]; then ./vendor/codeception/codeception/codecept run ; fi
+  # Codeception PostgreSQL run (PHP >5.3)
+  - ./tests/scripts/travis-db-config postgres
   - if [[ $TRAVIS_PHP_VERSION =~ (^5.[456]|^7|^hhvm) ]]; then ./vendor/codeception/codeception/codecept run ; fi
 
 after_script:
