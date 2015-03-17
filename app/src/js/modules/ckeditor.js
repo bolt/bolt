@@ -198,13 +198,20 @@
                 }
             }
 
+            // Set height
+            if (param.height) {
+                config.height = param.height;
+                // Adjust autogrow values if heigth is out of range
+                config.autoGrow_minHeight = Math.max(config.autoGrow_minHeight, config.height);
+                config.autoGrow_maxHeight = Math.max(config.autoGrow_maxHeight, config.height);
+            }
+
             // Parse override settings from field in contenttypes.yml
             for (key in param.ckeditor) {
                 if (param.ckeditor.hasOwnProperty(key)) {
                     config[key] = param.ckeditor[key];
                 }
             }
-            console.log(this.element.$);
         };
 
         // When 'pasting' from Word (or perhaps other editors too), you'll often
