@@ -70,7 +70,6 @@ script:
   - if [[ $TRAVIS_PHP_VERSION =~ (^5.[456]|^7|^hhvm) ]]; then ./vendor/codeception/codeception/codecept run ; fi
 
 after_script:
-  - ./vendor/bin/ocular code-coverage:upload --format=php-clover coverage.xml
 
 # cache vendor dirs
 cache:
