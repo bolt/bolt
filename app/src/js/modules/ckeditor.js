@@ -199,7 +199,7 @@
             }
 
             // Parse override settings from field in contenttypes.yml
-            custom = $('textarea[name=' + this.name + ']').data('field-options');
+            custom = $(this.element.$).data('field-options');
             for (key in custom) {
                 if (custom.hasOwnProperty(key)) {
                     config[key] = custom[key];
