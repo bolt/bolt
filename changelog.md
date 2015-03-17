@@ -1,7 +1,7 @@
-Bolt 2.1.2
+Bolt 2.1.3
 ----------
 
-Released 2015-03-17. Notable changes:
+Released 2015-03-18. Notable changes:
 
  - Added: Added an option to delete a record, when editing it. (See #3134)
  - Fixed: Upload UX Improvements (Thanks, @Pinpickle, see #3123)
@@ -15,6 +15,10 @@ Released 2015-03-17. Notable changes:
  - Added: Allow for multiple (fallback) locales in `config.yml`. (Thanks @sintemaa, see #3127)
  - Fixed: Warning for unsaved content comes up when nothing has been changed (see #3077)
  - Fixed: Be a little more strict in picking 'selected' options: Only use the fallback, if there's no valid id set. 
+ - Change: Lock composer.json to Symfony 2.6.4 as 2.6.5 fails PHPUnit
+ - Added: Re-added standalone jQuery lib, as some extensions might need it. 
+
+
 
 Bolt 2.1.1
 ----------
