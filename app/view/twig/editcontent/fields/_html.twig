@@ -12,9 +12,21 @@
 
 {#=== INIT ===========================================================================================================#}
 
+{% set param = {} %}
+
+{% if option.height %}
+    {% set param = param|merge({height: option.height}) %}
+{% endif %}
+
+{% if option.options %}
+    {% set param = param|merge({ckeditor: option.options}) %}
+{% endif %}
+
+
 {% set attr_html = {
     class:               option.class ~ ' ckeditor',
     data_field_options:  option.options ? option.options|json_encode : '',
+    data_param:          param ? param|json_encode : '',
     name_id:             key,
     required:            option.required,
     data_errortext:      option.errortext,
