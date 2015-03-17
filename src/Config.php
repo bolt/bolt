@@ -848,7 +848,11 @@ class Config
         if ($end == 'backend' || $end == 'async') {
             $twigpath[] = realpath($this->app['resources']->getPath('app') . '/view/twig');
             if ($this->app['resources']->hasPath('composerbackendviews')) {
-                $twigpath[] = realpath($this->app['resources']->getPath('comoserbackendviews') . '/view/twig');
+                $backendviewpath = $this->app['resources']->getPath('composerbackendviews');
+                if (file_exists($backendviewpath)) {
+
+                    $twigpath[] = realpath($backendviewpath);
+                }
             }
         }
 
