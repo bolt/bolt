@@ -28,9 +28,9 @@ class Application extends Silex\Application
 
     public function __construct(array $values = array())
     {
-        $values['bolt_version'] = '2.1.2';
-        $values['bolt_name'] = '';
-        $values['bolt_released'] = true; // `true` for stable releases, `false` for alpha, beta and RC.
+        $values['bolt_version'] = '2.1.3';
+        $values['bolt_name'] = 'rc';
+        $values['bolt_released'] = false; // `true` for stable releases, `false` for alpha, beta and RC.
 
         parent::__construct($values);
 
@@ -287,7 +287,7 @@ class Application extends Silex\Application
         }
         // $app['locale'] should only be a single value.
         $this['locale'] = reset($configLocale);
-        
+
         // Set The Timezone Based on the Config, fallback to UTC
         date_default_timezone_set(
             $this['config']->get('general/timezone') ?: 'UTC'
@@ -309,7 +309,7 @@ class Application extends Silex\Application
                 substr(Application::DEFAULT_LOCALE, 0, 2)
             ));
         }
-        
+
         setlocale(LC_ALL, array_unique($locale));
 
         $this->register(
