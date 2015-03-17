@@ -27,6 +27,9 @@ Not yet released.
  - Fixed: Disable "revert" button on 'edit file' screen, when file is not wrtiable. (See #3009)
  - Added: Allow for multiple (fallback) locales in `config.yml`. (Thanks @sintemaa, see #3127)
  - Fixed: Be a little more strict in picking 'selected' options: Only use the fallback, if there's no valid id set. 
+ - Change: Lock composer.json to Symfony 2.6.4 as 2.6.5 fails PHPUnit
+ - Added: Re-added standalone jQuery lib, as some extensions might need it. 
+ - Fixed: Create app/ subdirectories on Composer installs, and other `composer install` fixes.
 
 
 Bolt 2.1.1

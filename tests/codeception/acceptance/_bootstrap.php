@@ -38,21 +38,21 @@ Fixtures::add('users', array(
 ));
 
 // Set up a fixture for the permissions-yml
-if (file_exists('app/config/permissions.yml') && !file_exists('app/config/permissions.yml.codeception-backup')) {
-    rename('app/config/permissions.yml', 'app/config/permissions.yml.codeception-backup');
+if (file_exists(TEST_ROOT. '/app/config/permissions.yml') && !file_exists(TEST_ROOT. '/app/config/permissions.yml.codeception-backup')) {
+    rename(TEST_ROOT. '/app/config/permissions.yml', TEST_ROOT. '/app/config/permissions.yml.codeception-backup');
 }
-copy('tests/codeception/_data/permissions.yml', 'app/config/permissions.yml');
+copy(TEST_ROOT. '/tests/codeception/_data/permissions.yml', TEST_ROOT. '/app/config/permissions.yml');
 
 // Back up the Sqlite DB if it exists
-if (file_exists('app/database/bolt.db') && !file_exists('app/database/bolt.db.codeception-backup')) {
-    rename('app/database/bolt.db', 'app/database/bolt.db.codeception-backup');
-} elseif (file_exists('app/database/bolt.db')) {
-    unlink('app/database/bolt.db');
+if (file_exists(TEST_ROOT. '/app/database/bolt.db') && !file_exists(TEST_ROOT. '/app/database/bolt.db.codeception-backup')) {
+    rename(TEST_ROOT. '/app/database/bolt.db', TEST_ROOT. '/app/database/bolt.db.codeception-backup');
+} elseif (file_exists(TEST_ROOT. '/app/database/bolt.db')) {
+    unlink(TEST_ROOT. '/app/database/bolt.db');
 }
 
 // Install the local extension
 $fs = new Filesystem();
-$fs->mirror('tests/codeception/_data/extensions/local/', __DIR__ . '/../../../extensions/local/', null, array('override' => true, 'delete' => true));
+$fs->mirror(CODECEPTION_ROOT . '/_data/extensions/local/', TEST_ROOT . '/extensions/local/', null, array('override' => true, 'delete' => true));
 
 // Empty the cache
-system('php app/nut cache:clear');
+system('php ' . NUT_PATH . ' cache:clear');

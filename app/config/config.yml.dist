@@ -59,7 +59,9 @@ homepage_template: index.twig
 # The default content for the 404 page. Uses the 'record_template' template by default.
 # Make sure this is set to an existing record, otherwise visitors will get an error-page
 # when the request a non-existing page.
-# Note: If you are logged on, and debug is set to 'true', you will NOT see the 404 page!!
+#
+# Note 1: The record specified in this parameter must be set to 'published'
+# Note 2: If you are logged on, and debug is set to 'true', you will NOT see the 404 page!
 notfound: page/not-found
 
 # The default template and amount of records to use for listing-pages on the
