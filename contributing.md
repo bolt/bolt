@@ -5,7 +5,7 @@ If you are reading this, you must be considering opening an issue for help with
 a bug, to suggest a new feature or help out with a Pull Request. Great!
 
 To streamline this process, we've made this small document, to help you report
-your issue or feature more efficiently. We did out best to keep it brief, so
+your issue or feature more efficiently. We did our best to keep it brief, so
 please read it carefully.
 
 Jump to the relevant section below:
@@ -14,7 +14,7 @@ Jump to the relevant section below:
  - [2. I'd like to request/propose a feature](#2-id-like-to-requestpropose-a-feature)
  - [3. I'm making a pull request](#3-im-making-a-pull-request)
 
-**Note:** Please don't use the our main GitHub repository for reporting bugs
+**Note:** Please don't use our main GitHub repository for reporting bugs
 with _extensions_. If you have found a bug in an extension, the best place to
 report this would be in the extension's own repository, so that the original
 author can look into it.
@@ -26,11 +26,11 @@ If you think you've found a bug, try to make sure it's actually a bug, and not
 the result of something else going wrong. For example, make sure your webserver
 is functioning correctly, and try the issue in another browser, if possible. Be
 sure to **search for similar bugs**. Perhaps somebody has already reported the
-issue. If so, you should add any additional informtion to the existing bug. It
+issue. If so, you should add any additional information to the existing bug. It
 might make it easier for us to fix, and at the very least it'll get bumped
 higher onto the list.
 
-After you've done these things, and you are fairly certain you've found a news
+After you've done these things, and you are fairly certain you've found a new
 bug, please open an issue to report it. Create a [GitHub account](https://github.com),
 if you don't have one yet.
 
@@ -48,7 +48,7 @@ When posting your bug, please include the following:
     site? Describe the intended outcome after you did the steps mentioned
     before.
  5. **Actual result**: What is the actual result of the above steps? So,
-    describe the behavior of the bug. Please, please inlcude **Error messages**
+    describe the behavior of the bug. Please, please include **Error messages**
     and screenshots. They might mean nothing to you, but they are _very_ helpful
     to us.
 
@@ -67,7 +67,7 @@ security issues that you may have discovered.
 
 We get a lot of feature requests for Bolt, and we can't do them all, even if we
 wanted to. In fact, since Bolt is designed to be 'simple, sophisticated and
-straightforward', not all feature requests might be a goof fit for Bolt. Be sure
+straightforward', not all feature requests might be a good fit for Bolt. Be sure
 to read [our manifesto](https://docs.bolt.cm/manifesto) to get an idea of our
 goals and values.
 
