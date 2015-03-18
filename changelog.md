@@ -17,7 +17,7 @@ Released 2015-03-18. Notable changes:
  - Fixed: Be a little more strict in picking 'selected' options: Only use the fallback, if there's no valid id set. 
  - Change: Lock composer.json to Symfony 2.6.4 as 2.6.5 fails PHPUnit
  - Added: Re-added standalone jQuery lib, as some extensions might need it. 
-
+ - Fixed: Workaround, so we don't break on installations with `"require": []` in `extensions/composer.json` (see #3171)
 
 
 Bolt 2.1.1
