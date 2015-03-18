@@ -39,7 +39,8 @@ class BoltResponse extends Response
     /**
      * Factory method for chainability
      *
-     * @param callable|null $callback A valid PHP callback or null to set it later
+     * @param Renderer      $renderer An object that is able to render a template with context
+     * @param array         $context  An array of context variables
      * @param int           $status   The response status code
      * @param array         $headers  An array of response headers
      *
