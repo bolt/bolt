@@ -12,7 +12,7 @@ use Symfony\Component\Filesystem\Filesystem;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class CleanupExtension extends \Codeception\Platform\Extension
+class CodeceptionEventsExtension extends \Codeception\Platform\Extension
 {
     /** @var array list events to listen to */
     public static $events = array(
