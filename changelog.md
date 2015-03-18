@@ -30,7 +30,7 @@ Not yet released.
  - Change: Lock composer.json to Symfony 2.6.4 as 2.6.5 fails PHPUnit
  - Added: Re-added standalone jQuery lib, as some extensions might need it. 
  - Fixed: Create app/ subdirectories on Composer installs, and other `composer install` fixes.
-
+ - Fixed: Workaround, so we don't break on installations with `"require": []` in `extensions/composer.json` (see #3171)
 
 Bolt 2.1.1
 ----------
