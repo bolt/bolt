@@ -91,24 +91,22 @@ class CleanupExtension extends \Codeception\Platform\Extension
     {
         $fs = new Filesystem();
 
-        $root = __DIR__ . '/../../..';
-
         // Sqlite DB
-        if ($fs->exists($root . '/app/database/bolt.db.codeception-backup')) {
+        if ($fs->exists(PROJECT_ROOT . '/app/database/bolt.db.codeception-backup')) {
             $this->writeln('Restoring app/database/bolt.db');
-            $fs->rename($root . '/app/database/bolt.db.codeception-backup', $root . '/app/database/bolt.db', true);
+            $fs->rename(PROJECT_ROOT . '/app/database/bolt.db.codeception-backup', PROJECT_ROOT . '/app/database/bolt.db', true);
         }
 
         // Permissions file
-        if ($fs->exists($root . '/app/config/permissions.yml.codeception-backup')) {
+        if ($fs->exists(PROJECT_ROOT . '/app/config/permissions.yml.codeception-backup')) {
             $this->writeln('Restoring app/config/permissions.yml');
-            $fs->rename($root . '/app/config/permissions.yml.codeception-backup', $root . '/app/config/permissions.yml', true);
+            $fs->rename(PROJECT_ROOT . '/app/config/permissions.yml.codeception-backup', PROJECT_ROOT . '/app/config/permissions.yml', true);
         }
 
         // Events tester local extension
-        if ($fs->exists($root . '/extensions/local/bolt/tester-events/')) {
+        if ($fs->exists(PROJECT_ROOT . '/extensions/local/bolt/tester-events/')) {
             $this->writeln('Removing extensions/local/bolt/tester-events/');
-            $fs->remove($root . '/extensions/local/bolt/tester-events/');
+            $fs->remove(PROJECT_ROOT . '/extensions/local/bolt/tester-events/');
         }
     }
 
