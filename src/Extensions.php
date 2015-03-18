@@ -654,7 +654,7 @@ class Extensions
             }
         }
 
-        if ( ($this->addjquery === true) && ($this->app['config']->getWhichEnd() == 'frontend') ) {
+        if ($this->addjquery === true && $this->app['config']->getWhichEnd() === 'frontend') {
             $html = $this->insertJquery($html);
         }
 
