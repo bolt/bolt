@@ -847,6 +847,13 @@ class Config
         // Backend and Async need access to `app/view/twig`
         if ($end == 'backend' || $end == 'async') {
             $twigpath[] = realpath($this->app['resources']->getPath('app') . '/view/twig');
+            if ($this->app['resources']->hasPath('composerbackendviews')) {
+                $backendviewpath = $this->app['resources']->getPath('composerbackendviews');
+                if (file_exists($backendviewpath)) {
+
+                    $twigpath[] = realpath($backendviewpath);
+                }
+            }
         }
 
         // The frontend as well as 'ajaxy' requests from the frontend need access to the theme's path.
