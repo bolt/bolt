@@ -52,7 +52,7 @@ class BoltResponse extends Response
      */
     public static function create($renderer, $template, $context = array(), $status = 200, $headers = array())
     {
-        return new static($renderer, $context, $status, $headers);
+        return new static($renderer, $template, $context, $status, $headers);
     }
 
     /**
