@@ -17,7 +17,6 @@ use Symfony\Component\HttpFoundation\Response;
 class BoltResponse extends Response
 {
     protected $renderer;
-    protected $template;
     protected $context = array();
 
     /**
@@ -34,7 +33,6 @@ class BoltResponse extends Response
     {
         parent::__construct(null, $status, $headers);
         $this->renderer = $renderer;
-        $this->template = $template;
         $this->context = $context;
 
     }
@@ -52,7 +50,7 @@ class BoltResponse extends Response
      */
     public static function create($renderer, $template, $context = array(), $status = 200, $headers = array())
     {
-        return new static($renderer, $template, $context, $status, $headers);
+        return new static($renderer, $context, $status, $headers);
     }
 
     /**
@@ -87,15 +85,6 @@ class BoltResponse extends Response
     }
     
     /**
-     * Returns the template name.
-     *
-     */
-    public function getTemplate()
-    {
-        return $this->template;
-    }
-    
-    /**
      * Returns the context.
      *
      */
@@ -110,7 +99,7 @@ class BoltResponse extends Response
      */
     public function sendContent()
     {        
-        $output = $this->getRenderer()->render($this->getTemplate(), $this->getContext());
+        $output = $this->getRenderer()->render($this->getContext());
         $this->setContent($output);
         echo $this->content;
  
