@@ -204,7 +204,7 @@ class ResourceManager
             $name = array_shift($parts);
         }
 
-        if (array_key_exists($name . "path", $this->paths)) {
+        if (array_key_exists($name . 'path', $this->paths)) {
             return true;
         } elseif (array_key_exists($name, $this->paths)) {
             return true;
