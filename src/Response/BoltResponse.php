@@ -23,13 +23,12 @@ class BoltResponse extends Response
      * Constructor.
      *
      * @param Renderer      $renderer An object that is able to render a template with context
-     * @param string        $template template name to be passed to the renderer
      * @param array         $context  An array of context variables
      * @param int           $status   The response status code
      * @param array         $headers  An array of response headers
      *
      */
-    public function __construct($renderer, $template, $context = array(), $status = 200, $headers = array())
+    public function __construct($renderer, $context = array(), $status = 200, $headers = array())
     {
         parent::__construct(null, $status, $headers);
         $this->renderer = $renderer;
@@ -41,14 +40,13 @@ class BoltResponse extends Response
      * Factory method for chainability
      *
      * @param Renderer      $renderer An object that is able to render a template with context
-     * @param string        $template template name to be passed to the renderer
      * @param array         $context  An array of context variables
      * @param int           $status   The response status code
      * @param array         $headers  An array of response headers
      *
      * @return BoltResponse
      */
-    public static function create($renderer, $template, $context = array(), $status = 200, $headers = array())
+    public static function create($renderer, $context = array(), $status = 200, $headers = array())
     {
         return new static($renderer, $context, $status, $headers);
     }
