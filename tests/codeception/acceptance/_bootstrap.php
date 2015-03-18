@@ -37,22 +37,22 @@ Fixtures::add('users', array(
     )
 ));
 
-// Set up a fixture for the permissions-yml
-if (file_exists(TEST_ROOT. '/app/config/permissions.yml') && !file_exists(TEST_ROOT. '/app/config/permissions.yml.codeception-backup')) {
-    rename(TEST_ROOT. '/app/config/permissions.yml', TEST_ROOT. '/app/config/permissions.yml.codeception-backup');
+// Set up a test-specific permissions.yml
+if (file_exists(PROJECT_ROOT . '/app/config/permissions.yml') && !file_exists(PROJECT_ROOT . '/app/config/permissions.yml.codeception-backup')) {
+    rename(PROJECT_ROOT . '/app/config/permissions.yml', PROJECT_ROOT. '/app/config/permissions.yml.codeception-backup');
 }
-copy(TEST_ROOT. '/tests/codeception/_data/permissions.yml', TEST_ROOT. '/app/config/permissions.yml');
+copy(CODECEPTION_ROOT . '/_data/permissions.yml', PROJECT_ROOT . '/app/config/permissions.yml');
 
 // Back up the Sqlite DB if it exists
-if (file_exists(TEST_ROOT. '/app/database/bolt.db') && !file_exists(TEST_ROOT. '/app/database/bolt.db.codeception-backup')) {
-    rename(TEST_ROOT. '/app/database/bolt.db', TEST_ROOT. '/app/database/bolt.db.codeception-backup');
-} elseif (file_exists(TEST_ROOT. '/app/database/bolt.db')) {
-    unlink(TEST_ROOT. '/app/database/bolt.db');
+if (file_exists(PROJECT_ROOT . '/app/database/bolt.db') && !file_exists(PROJECT_ROOT . '/app/database/bolt.db.codeception-backup')) {
+    rename(PROJECT_ROOT . '/app/database/bolt.db', PROJECT_ROOT. '/app/database/bolt.db.codeception-backup');
+} elseif (file_exists(PROJECT_ROOT . '/app/database/bolt.db')) {
+    unlink(PROJECT_ROOT . '/app/database/bolt.db');
 }
 
 // Install the local extension
 $fs = new Filesystem();
-$fs->mirror(CODECEPTION_ROOT . '/_data/extensions/local/', TEST_ROOT . '/extensions/local/', null, array('override' => true, 'delete' => true));
+$fs->mirror(CODECEPTION_ROOT . '/_data/extensions/local/', PROJECT_ROOT . '/extensions/local/', null, array('override' => true, 'delete' => true));
 
 // Empty the cache
 system('php ' . NUT_PATH . ' cache:clear');

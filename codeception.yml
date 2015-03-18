@@ -14,6 +14,6 @@ modules:
             dsn: 'sqlite:app/database/bolt.db'
             user: ''
             password: ''
- #           dump: 'tests/codeception/_data/bolt.db.dump'
+#           dump: 'tests/codeception/_data/bolt.db.dump'
 extensions:
-    enabled: [ CleanupExtension ]
+    enabled: [ CodeceptionEventsExtension ]
