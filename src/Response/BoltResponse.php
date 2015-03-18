@@ -44,11 +44,11 @@ class BoltResponse extends Response
      * @param int           $status   The response status code
      * @param array         $headers  An array of response headers
      *
-     * @return StreamedResponse
+     * @return BoltResponse
      */
-    public static function create($renderer, $template, $context = array(), $status = 200, $headers = array())
+    public static function create($renderer, $context = array(), $status = 200, $headers = array())
     {
-        return new static($renderer, $template, $context, $status, $headers);
+        return new static($renderer, $context, $status, $headers);
     }
 
     /**
