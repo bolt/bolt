@@ -416,7 +416,8 @@ class Extensions
         $this->assets['css'][md5($filename)] = array(
             'filename' => $filename,
             'late'     => $late,
-            'priority' => $priority
+            'priority' => $priority,
+            'attrib'   => false
         );
     }
 
