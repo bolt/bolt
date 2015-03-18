@@ -190,6 +190,29 @@ class ResourceManager
         return $path;
     }
 
+    /**
+     * Checks if the given name has a path associated with it
+     *
+     * @param string $name of path
+     *
+     * @return Boolean
+     */
+    public function hasPath($name) {
+        $parts = array();
+        if (strpos($name, '/') !== false) {
+            $parts = explode('/', $name);
+            $name = array_shift($parts);
+        }
+
+        if (array_key_exists($name . 'path', $this->paths)) {
+            return true;
+        } elseif (array_key_exists($name, $this->paths)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public function setUrl($name, $value)
     {
         $this->urls[$name] = $value;
