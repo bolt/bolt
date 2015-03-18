@@ -33,7 +33,8 @@ class BoltResponse extends Response
         parent::__construct(null, $status, $headers);
         $this->renderer = $renderer;
         $this->context = $context;
-
+        $output = $this->getRenderer()->render($this->getContext());
+        $this->setContent($output);
     }
 
     /**
@@ -91,17 +92,5 @@ class BoltResponse extends Response
         return $this->context;
     }
 
-    /**
-     *
-     * This method creates an output passing the context to the renderer.
-     */
-    public function sendContent()
-    {        
-        $output = $this->getRenderer()->render($this->getContext());
-        $this->setContent($output);
-        echo $this->content;
- 
-        return $this;
-    }
 
 }
