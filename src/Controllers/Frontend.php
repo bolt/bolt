@@ -120,7 +120,7 @@ class Frontend
         $slug = $app['slugify']->slugify($slug);
 
         // First, try to get it by slug.
-        $content = $app['storage']->getContent($contenttype['slug'], array('slug' => $slug, 'returnsingle' => true));
+        $content = $app['storage']->getContent($contenttype['slug'], array('slug' => $slug, 'returnsingle' => true, 'log_not_found' => !is_numeric($slug)));
 
         if (!$content && is_numeric($slug)) {
             // And otherwise try getting it by ID
