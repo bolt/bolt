@@ -51,7 +51,8 @@ class Render
         $this->app['stopwatch']->start('bolt.render', 'template');
         
         $response = BoltResponse::create(
-            $this->app[$this->twigKey]->loadTemplate($template),
+            $this->app[$this->twigKey],
+            $template,
             $vars
         );        
 
