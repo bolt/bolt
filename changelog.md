@@ -1,3 +1,12 @@
+Bolt 2.1.4
+----------
+
+Not yet released. Notable changes:
+
+ - Never add extra jQueries on the backend. (See #3177)
+ - JS bugfixes (save button + goto publishing status) (See #3160)
+ - Flush the cache if the Bolt version has changed (See #3183)
+
 Bolt 2.1.3
 ----------
 
