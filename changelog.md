@@ -31,6 +31,9 @@ Not yet released.
  - Added: Re-added standalone jQuery lib, as some extensions might need it. 
  - Fixed: Create app/ subdirectories on Composer installs, and other `composer install` fixes.
  - Fixed: Workaround, so we don't break on installations with `"require": []` in `extensions/composer.json` (see #3171)
+ - Never add extra jQueries on the backend. (See #3177)
+ - JS bugfixes (save button + goto publishing status) (See #3160)
+ - Flush the cache if the Bolt version has changed (See #3183)
 
 Bolt 2.1.1
 ----------
