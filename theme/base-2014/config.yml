@@ -22,3 +22,11 @@ headerimage:
 # record_template: record.twig
 # listing_template: listing.twig
 # search_results_template: listing.twig
+
+template_fields:
+  - template: "manyfields.twig"
+    fields:
+        section_1:
+            type: text
+        section_2:
+            type: text

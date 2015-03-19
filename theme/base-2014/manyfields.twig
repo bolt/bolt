@@ -1,0 +1,34 @@
+{% include '_header.twig' %}
+
+<!-- Main Page Content and Sidebar -->
+
+    <!-- Main Blog Content -->
+    <div class="large-8 columns" role="content">
+
+        <article>
+
+            <h2>{{ record.title }}</h2>
+
+            {% if record.subtitle %}
+                <h3>{{ record.subtitle }}</h3>
+            {% endif %}
+
+            {{ record.body }}
+
+        </article>
+
+        <article>{{ record.template_field.section_1 }}</article>
+        <article>{{ record.template_field.section_2 }}</article>
+
+
+    </div>
+
+    <!-- End Main Content -->
+
+    {% include '_aside.twig' %}
+
+    <!-- End Main Content and Sidebar -->
+
+
+
+    {% include '_footer.twig' %}
