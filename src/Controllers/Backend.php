@@ -1908,10 +1908,8 @@ class Backend implements ControllerProviderInterface
 
         // If we had to reload the config earlier on because we detected a version change, display a notice.
         if ($app['config']->notify_update) {
-            $notice = sprintf(
-                    "Detected Bolt version change to <b>%s</b>. Please clear the cache and check the database, if you haven't done so already.",
-                    $app->getVersion()
-                );
+            $notice = Trans::__("Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.",
+                array('%VERSION%' => $app->getVersion(), '%URI%' => $app['resources']->getUrl('bolt') . 'dbcheck'));
             $app['logger.system']->notice(strip_tags($notice), array('event' => 'config'));
             $app['session']->getFlashBag()->add('info', $notice);
         }
