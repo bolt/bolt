@@ -15,7 +15,8 @@ class BoltResponseTest extends BoltUnitTest
 
         $this->assertInstanceOf('Bolt\Response\BoltResponse', $response);
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertEquals('bar', $response->getContext()['foo']);
+        $context = $response->getContext();
+        $this->assertEquals('bar', $context['foo']);
     }
 
     public function testToString()
