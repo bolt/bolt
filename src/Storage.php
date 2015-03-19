@@ -1628,7 +1628,7 @@ class Storage
      *
      * @return array
      */
-    private function executeGetContentSearch($decoded, $parameters)
+    protected function executeGetContentSearch($decoded, $parameters)
     {
         $results = $this->searchContent(
             $parameters['filter'],
@@ -1654,7 +1654,7 @@ class Storage
      *
      * @return array
      */
-    private function executeGetContentQueries($decoded)
+    protected function executeGetContentQueries($decoded)
     {
         // Perform actual queries and hydrate
         $totalResults = false;
