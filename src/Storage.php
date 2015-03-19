@@ -1306,7 +1306,9 @@ class Storage
             }
         }
 
-        if (!isset($metaParameters['limit'])) {
+        if ($decoded['return_single']) {
+            $metaParameters['limit'] = 1;
+        } elseif (!isset($metaParameters['limit'])) {
             $metaParameters['limit'] = 9999;
         }
     }
