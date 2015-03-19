@@ -1510,8 +1510,7 @@ class Storage
             }
 
             if (count($order) == 0) {
-                // we didn't add table, maybe this is an issue
-                $order[] = 'datepublish DESC';
+                $order[] = $this->decodeQueryOrder($contenttype, false) ?: 'datepublish DESC';
             }
 
             if (count($where) > 0) {
