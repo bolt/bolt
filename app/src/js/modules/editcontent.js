@@ -224,7 +224,7 @@
 
             // Trigger form validation
             $('#editcontent').trigger('boltvalidate');
-            // check validation
+            // Check validation
             if (!$('#editcontent').data('valid')) {
                 return false;
             }
@@ -281,10 +281,9 @@
                             });
                         }
                         // Update dates and times from new values
-                        bolt.datetimes.update();
+                        bolt.datetime.update();
 
                         watchChanges();
-
                     })
                     .fail(function(){
                         $('p.lastsaved').text(msgNotSaved);
