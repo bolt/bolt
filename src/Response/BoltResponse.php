@@ -93,6 +93,24 @@ class BoltResponse extends Response
     }
     
     /**
+     * Gets globals from the renderer.
+     *
+     */
+    public function getGlobalContext()
+    {
+        return $this->renderer->getEnvironment()->getGlobals();
+    }
+    
+    /**
+     * Gets the name of the main loaded template.
+     *
+     */
+    public function getTemplate()
+    {
+        return $this->renderer->getTemplateName();
+    }
+    
+    /**
      * Returns the Response as a string.
      *
      * @return string The Response as an HTTP string
