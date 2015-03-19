@@ -345,7 +345,9 @@
         bolt.ckeditor.update();
         $('form#editcontent').find('input, textarea, select').each(function () {
             if (this.name) {
-                $(this).data('watch', this.type === 'select-multiple' ? JSON.stringify($(this).val()) : $(this).val());
+                val = this.type === 'select-multiple' ? JSON.stringify($(this).val()) : $(this).val();
+                val = val.replace(/\s/g, '');
+                $(this).data('watch', val);
             }
         });
     }
@@ -367,6 +369,7 @@
         $('form#editcontent').find('input, textarea, select').each(function () {
             if (this.name) {
                 val = this.type === 'select-multiple' ? JSON.stringify($(this).val()) : $(this).val();
+                val = val.replace(/\s/g, '');
                 if ($(this).data('watch') !== val) {
                     changes++;
                 }
