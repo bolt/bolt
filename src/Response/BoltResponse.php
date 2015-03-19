@@ -91,6 +91,17 @@ class BoltResponse extends Response
     {
         return $this->context;
     }
+    
+    /**
+     * Returns the Response as a string.
+     *
+     * @return string The Response as an HTTP string
+     *
+     */
+    public function __toString()
+    {
+        return $this->getContent();
+    }
 
 
 }
