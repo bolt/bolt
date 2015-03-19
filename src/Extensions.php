@@ -668,7 +668,11 @@ class Extensions
             }
         }
 
-        if ($this->addjquery === true) {
+        // While this looks slightly illogical, our CLI tests want to see that
+        // jQuery can be inserted, but we don't want it inserted on either the
+        // backend or AJAX requests.
+        $end = $this->app['config']->getWhichEnd();
+        if ($this->addjquery === true && ($end === 'frontend' || $end === 'cli')) {
             $html = $this->insertJquery($html);
         }
 
