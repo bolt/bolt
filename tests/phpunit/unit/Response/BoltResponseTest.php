@@ -42,6 +42,25 @@ class BoltResponseTest extends BoltUnitTest
         $this->assertEquals(array('test'=>'tester'), $response->getContext());
 
     }
+    
+    public function testGetGlobalContext()
+    {
+        $app = $this->getApp();
+        $app['twig']->addGlobal('foo', 'test');
+
+        $response = BoltResponse::create($app['twig']->loadTemplate('error.twig'), array());
+        $globalContext = $response->getGlobalContext();
+        $this->assertEquals('test', $globalContext['foo']);
+
+    }
+    
+    public function testGetTemplate()
+    {
+        $app = $this->getApp();
+        $response = BoltResponse::create($app['twig']->loadTemplate('error.twig'), array());
+        $this->assertEquals('error.twig', $response->getTemplate());
+
+    }
 
     
 }
