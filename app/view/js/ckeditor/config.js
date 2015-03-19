@@ -1,1 +1,1 @@
-// CKeditor config is done in /app/view/js/bolt.min.js.
+// CKeditor config is done in /app/src/js/bolt.min.js.

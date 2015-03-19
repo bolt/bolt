@@ -107,7 +107,7 @@ var init = {
 
             // trigger form validation
             $('#editcontent').trigger('boltvalidate');
-            // check validation
+            // Check validation
             if ( ! $('#editcontent').data('valid')) {
                 return false;
             }
@@ -169,7 +169,7 @@ var init = {
                             });
                         }
                         // Update dates and times from new values
-                        bolt.datetimes.update();
+                        bolt.moments.update();
 
                         // Reset the changes to the form from any updates we got from POST_SAVE changes
                         $('form').watchChanges();
@@ -775,7 +775,7 @@ var init = {
         // If we're on an 'edit file' screen,  we have a #saveeditfile
         if ($('#sidebarsavecontinuebutton').is('*') || $('#saveeditfile').is('*')) {
 
-            // Bind ctrl-s and meta-s for saving..
+            // Bind ctrl-s and "meta"-s for saving..
             $('body, input').bind('keydown.ctrl_s keydown.meta_s', function (event) {
                 event.preventDefault();
                 $('form').watchChanges();
@@ -825,7 +825,7 @@ var init = {
     focusStatusSelect: function () {
         $('#lastsavedstatus').click(function (e) {
             e.preventDefault();
-            $('a[data-filter="meta"]').click();
+            $('a[href="#tab-meta"]').click();
             $('#statusselect').focus();
         });
      },
