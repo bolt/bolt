@@ -1168,7 +1168,7 @@ class TwigExtension extends \Twig_Extension
             return null;
         }
 
-        /** @var Menu $menu */
+        /** @var \Bolt\Helpers\Menu $menu */
         $menu = $this->app['menu']->menu($identifier);
 
         $twigvars = array(

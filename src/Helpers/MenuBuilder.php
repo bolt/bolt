@@ -1,14 +1,13 @@
 <?php
 
-namespace Bolt\Menu;
+namespace Bolt\Helpers;
 
 use Bolt\Application;
-use Bolt\Menu;
 use Bolt\Translation\Translator as Trans;
 use Bolt\Library as Lib;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
-class Builder
+class MenuBuilder
 {
     /**
      * @var Application

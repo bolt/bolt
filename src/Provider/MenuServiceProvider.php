@@ -4,7 +4,7 @@ namespace Bolt\Provider;
 
 use Silex\Application;
 use Silex\ServiceProviderInterface;
-use Bolt\Menu\Builder;
+use Bolt\Helpers\MenuBuilder;
 
 class MenuServiceProvider implements ServiceProviderInterface
 {
@@ -18,7 +18,7 @@ class MenuServiceProvider implements ServiceProviderInterface
     {
         $app['menu'] = $app->share(
             function ($app) {
-                $builder = new Builder($app);
+                $builder = new MenuBuilder($app);
 
                 return $builder;
             }
