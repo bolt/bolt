@@ -43,7 +43,7 @@ class BoltResponse extends Response
      *
      * @return BoltResponse
      */
-    public static function create(Template $template = null, array $context = array(), $status = 200, $headers = array())
+    public static function create($template = null, $context = array(), $status = 200, $headers = array())
     {
         return new static($template, $context, $status, $headers);
     }
