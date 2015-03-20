@@ -1605,6 +1605,13 @@ class Backend implements ControllerProviderInterface
                                 // Add the file to our stack.
                                 $app['stack']->add($path . "/" . $filename);
                                 $result->confirm();
+                            } else {
+                                foreach ($result->getMessages() as $message) {
+                                    $app['session']->getFlashBag()->add(
+                                        'error',
+                                        $message->__toString()
+                                    );
+                                }
                             }
                         } else {
                             $extensionList = array();
