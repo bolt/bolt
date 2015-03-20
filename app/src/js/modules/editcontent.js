@@ -275,7 +275,14 @@
 
                                     // If there is a CKEditor attached to our element, update it
                                     if (ckeditor && ckeditor.instances[index]) {
-                                        ckeditor.instances[index].setData(item);
+                                        ckeditor.instances[index].setData(
+                                            item,
+                                            {
+                                                callback: function() {
+                                                    this.resetDirty();
+                                                }
+                                            }
+                                        );
                                     }
                                 }
                             });
@@ -342,11 +349,12 @@
      * @memberof Bolt.editcontent
      */
     function watchChanges() {
-        bolt.ckeditor.update();
         $('form#editcontent').find('input, textarea, select').each(function () {
-            var val = getComparable(this);
-            if (val !== undefined) {
-                $(this).data('watch', val);
+            if (this.type !== 'textarea' || !$(this).hasClass('ckeditor')) {
+                var val = getComparable(this);
+                if (val !== undefined) {
+                    $(this).data('watch', val);
+                }
             }
         });
     }
@@ -363,11 +371,16 @@
     function hasChanged() {
         var changes = 0;
 
-        bolt.ckeditor.update();
         $('form#editcontent').find('input, textarea, select').each(function () {
-            var val = getComparable(this);
-            if (val !== undefined && $(this).data('watch') !== val) {
-                changes++;
+            if (this.type === 'textarea' && $(this).hasClass('ckeditor')) {
+                if (ckeditor.instances[this.id].checkDirty()) {
+                    changes++;
+                }
+            } else {
+                var val = getComparable(this);
+                if (val !== undefined && $(this).data('watch') !== val) {
+                    changes++;
+                }
             }
         });
 
@@ -393,7 +406,6 @@
             if (item.type === 'select-multiple') {
                 val = JSON.stringify(val);
             }
-            val = val.replace(/\s/g, '');
         }
 
         return val;
