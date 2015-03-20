@@ -190,7 +190,7 @@ class StorageTest extends BoltUnitTest
         $app['db'] = $db;
         $db->expects($this->any())
             ->method('fetchAll')
-            ->willReturn(array());
+            ->will($this->returnValue(array()));
         $storage = new StorageMock($app);
 
         // Test sorting is pulled from contenttype when not specified
@@ -209,7 +209,7 @@ class StorageTest extends BoltUnitTest
         $app['db'] = $db;
         $db->expects($this->any())
             ->method('fetchAll')
-            ->willReturn(array());
+            ->will($this->returnValue(array()));
         $storage = new StorageMock($app);
 
         // Test returnsingle will set limit to 1
