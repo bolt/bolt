@@ -23,14 +23,17 @@ class BoltResponse extends Response
      *
      * @param Template $template An object that is able to render a template with context
      * @param array    $context  An array of context variables
+     * @param array    $globals  An array of global context variables
      * @param int      $status   The response status code
      * @param array    $headers  An array of response headers
      */
-    public function __construct(Template $template, array $context = array(), $status = 200, $headers = array())
+    public function __construct(Template $template, array $context = array(), array $globals = array(), $status = 200, $headers = array())
     {
         parent::__construct(null, $status, $headers);
         $this->template = $template;
         $this->context = $context;
+
+        $this->addGlobals($globals);
     }
 
     /**
@@ -38,14 +41,15 @@ class BoltResponse extends Response
      *
      * @param Template $template An object that is able to render a template with context
      * @param array    $context  An array of context variables
+     * @param array    $globals  An array of global context variables
      * @param int      $status   The response status code
      * @param array    $headers  An array of response headers
      *
-     * @return BoltResponse
+     * @return \Bolt\Response\BoltResponse
      */
-    public static function create($template = null, $context = array(), $status = 200, $headers = array())
+    public static function create($template = null, $context = array(), $globals = array(), $status = 200, $headers = array())
     {
-        return new static($template, $context, $status, $headers);
+        return new static($template, $context, $globals, $status, $headers);
     }
 
     /**
@@ -103,7 +107,30 @@ class BoltResponse extends Response
     {
         return $this->template->getEnvironment()->getGlobals();
     }
-    
+
+    /**
+     * Adds globals to the template
+     *
+     * @param array $globals
+     */
+    public function addGlobals(array $globals)
+    {
+        foreach ($globals as $name => $value) {
+            $this->addGlobalContext($name, $value);
+        }
+    }
+
+    /**
+     * Adds a global to the template
+     *
+     * @param string $name
+     * @param mixed  $value
+     */
+    public function addGlobalContext($name, $value)
+    {
+        $this->template->getEnvironment()->addGlobal($name, $value);
+    }
+
     /**
      * Gets the name of the main loaded template.
      *
