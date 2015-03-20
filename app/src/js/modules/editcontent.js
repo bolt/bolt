@@ -342,13 +342,10 @@
      * @memberof Bolt.editcontent
      */
     function watchChanges() {
-        var val;
-
         bolt.ckeditor.update();
         $('form#editcontent').find('input, textarea, select').each(function () {
-            if (this.name) {
-                val = this.type === 'select-multiple' ? JSON.stringify($(this).val()) : $(this).val();
-                val = val.replace(/\s/g, '');
+            var val = getComparable(this);
+            if (val !== undefined) {
                 $(this).data('watch', val);
             }
         });
@@ -364,21 +361,42 @@
      * @returns {boolean}
      */
     function hasChanged() {
-        var changes = 0,
-            val;
+        var changes = 0;
 
         bolt.ckeditor.update();
         $('form#editcontent').find('input, textarea, select').each(function () {
-            if (this.name) {
-                val = this.type === 'select-multiple' ? JSON.stringify($(this).val()) : $(this).val();
-                val = val.replace(/\s/g, '');
-                if ($(this).data('watch') !== val) {
-                    changes++;
-                }
+            var val = getComparable(this);
+            if (val !== undefined && $(this).data('watch') !== val) {
+                changes++;
             }
         });
 
         return changes > 0;
+    }
+
+    /**
+     * Gets the current value of an input element processed to be comparable
+     *
+     * @static
+     * @function getComparable
+     * @memberof Bolt.editcontent
+     *
+     * @param {Object} item - Input element
+     *
+     * @returns {string|undefined}
+     */
+    function getComparable(item) {
+        var val;
+
+        if (item.name) {
+            val = $(item).val();
+            if (item.type === 'select-multiple') {
+                val = JSON.stringify(val);
+            }
+            val = val.replace(/\s/g, '');
+        }
+
+        return val;
     }
 
     // Apply mixin container.
