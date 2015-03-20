@@ -53,7 +53,7 @@ class Render
         $response = BoltResponse::create(
             $this->app[$this->twigKey]->loadTemplate($template),
             $vars
-        );        
+        );      
 
         // Stop the 'stopwatch' for the profiler.
         $this->app['stopwatch']->stop('bolt.render');

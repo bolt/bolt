@@ -18,6 +18,7 @@ class BoltResponse extends Response
 {
     protected $renderer;
     protected $context = array();
+    protected $compiled = false;
 
     /**
      * Constructor.
@@ -33,8 +34,6 @@ class BoltResponse extends Response
         parent::__construct(null, $status, $headers);
         $this->renderer = $renderer;
         $this->context = $context;
-        $output = $this->getRenderer()->render($this->getContext());
-        $this->setContent($output);
     }
 
     /**
@@ -119,6 +118,33 @@ class BoltResponse extends Response
     public function __toString()
     {
         return $this->getContent();
+    }
+    
+    /**
+     * Gets content for the current web response.
+     *
+     * @return Response
+     */
+    public function getContent()
+    {
+        if (!$this->compiled) {
+            $this->compile();
+        }
+
+        return parent::getContent();
+    }
+    
+    /**
+     * Compiles the template using the context.
+     *
+     * @return void
+     *
+     */
+    public function compile()
+    {
+        $output = $this->getRenderer()->render($this->getContext());
+        $this->setContent($output);
+        $this->compiled = true;
     }
 
 
