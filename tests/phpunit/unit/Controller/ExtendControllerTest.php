@@ -33,7 +33,7 @@ class ExtendControllerTest extends BoltUnitTest
         $request = Request::create("/");
         $app['request'] = $request;
         $response = $extend->overview($app, $request);
-        $this->assertEquals('extend/extend.twig', $response->getTemplate());
+        $this->assertEquals('extend/extend.twig', $response->getTemplateName());
 
         $response = $extend->installPackage($app, $request);
         $this->assertNotEmpty($response);
