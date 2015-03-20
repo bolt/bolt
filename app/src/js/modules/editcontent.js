@@ -342,6 +342,8 @@
      * @memberof Bolt.editcontent
      */
     function watchChanges() {
+        var val;
+
         bolt.ckeditor.update();
         $('form#editcontent').find('input, textarea, select').each(function () {
             if (this.name) {
