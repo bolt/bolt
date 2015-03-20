@@ -2,6 +2,7 @@
 
 namespace Bolt;
 
+use Bolt\Response\BoltResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -48,13 +49,16 @@ class Render
     {
         // Start the 'stopwatch' for the profiler.
         $this->app['stopwatch']->start('bolt.render', 'template');
-
-        $html = $this->app[$this->twigKey]->render($template, $vars);
+        
+        $response = BoltResponse::create(
+            $this->app[$this->twigKey]->loadTemplate($template),
+            $vars
+        );
 
         // Stop the 'stopwatch' for the profiler.
         $this->app['stopwatch']->stop('bolt.render');
 
-        return $html;
+        return $response;
     }
 
     /**
