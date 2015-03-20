@@ -60,7 +60,7 @@ class BoltResponse extends Response
      */
     public function setRenderer($renderer)
     {
-        $this->callback = $callback;
+        $this->renderer = $renderer;
     }
     
     /**
