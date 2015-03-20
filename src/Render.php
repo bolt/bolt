@@ -2,8 +2,8 @@
 
 namespace Bolt;
 
-use Symfony\Component\HttpFoundation\Response;
 use Bolt\Response\BoltResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Wrapper around Twig's render() function. Handles the following responsibilities:.
@@ -53,7 +53,7 @@ class Render
         $response = BoltResponse::create(
             $this->app[$this->twigKey]->loadTemplate($template),
             $vars
-        );      
+        );
 
         // Stop the 'stopwatch' for the profiler.
         $this->app['stopwatch']->stop('bolt.render');

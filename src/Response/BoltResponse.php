@@ -7,12 +7,11 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * BoltResponse represents a prepared Bolt HTTP response.
  *
- * A StreamedResponse uses a renderer and context variables 
+ * A StreamedResponse uses a renderer and context variables
  * to create the response content.
  *
  *
  * @author Ross Riley <riley.ross@gmail.com>
- *
  */
 class BoltResponse extends Response
 {
@@ -23,11 +22,10 @@ class BoltResponse extends Response
     /**
      * Constructor.
      *
-     * @param Renderer      $renderer An object that is able to render a template with context
-     * @param array         $context  An array of context variables
-     * @param int           $status   The response status code
-     * @param array         $headers  An array of response headers
-     *
+     * @param Renderer $renderer An object that is able to render a template with context
+     * @param array    $context  An array of context variables
+     * @param int      $status   The response status code
+     * @param array    $headers  An array of response headers
      */
     public function __construct($renderer, $context = array(), $status = 200, $headers = array())
     {
@@ -39,10 +37,10 @@ class BoltResponse extends Response
     /**
      * Factory method for chainability
      *
-     * @param Renderer      $renderer An object that is able to render a template with context
-     * @param array         $context  An array of context variables
-     * @param int           $status   The response status code
-     * @param array         $headers  An array of response headers
+     * @param Renderer $renderer An object that is able to render a template with context
+     * @param array    $context  An array of context variables
+     * @param int      $status   The response status code
+     * @param array    $headers  An array of response headers
      *
      * @return BoltResponse
      */
@@ -55,7 +53,6 @@ class BoltResponse extends Response
      * Sets the Renderer used to create this Response.
      *
      * @param Renderer $renderer A renderer object
-     *
      */
     public function setRenderer($renderer)
     {
@@ -66,7 +63,6 @@ class BoltResponse extends Response
      * Sets the context variables for this Response.
      *
      * @param array $context
-     *
      */
     public function setContext($context)
     {
@@ -75,7 +71,6 @@ class BoltResponse extends Response
     
     /**
      * Returns the renderer.
-     *
      */
     public function getRenderer()
     {
@@ -84,7 +79,6 @@ class BoltResponse extends Response
     
     /**
      * Returns the context.
-     *
      */
     public function getContext()
     {
@@ -93,7 +87,6 @@ class BoltResponse extends Response
     
     /**
      * Gets globals from the renderer.
-     *
      */
     public function getGlobalContext()
     {
@@ -102,7 +95,6 @@ class BoltResponse extends Response
     
     /**
      * Gets the name of the main loaded template.
-     *
      */
     public function getTemplate()
     {
@@ -113,7 +105,6 @@ class BoltResponse extends Response
      * Returns the Response as a string.
      *
      * @return string The Response as an HTTP string
-     *
      */
     public function __toString()
     {
@@ -138,7 +129,6 @@ class BoltResponse extends Response
      * Compiles the template using the context.
      *
      * @return void
-     *
      */
     public function compile()
     {
@@ -146,6 +136,4 @@ class BoltResponse extends Response
         $this->setContent($output);
         $this->compiled = true;
     }
-
-
 }

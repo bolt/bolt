@@ -5,7 +5,6 @@ namespace Bolt\Tests\Response;
 use Bolt\Response\BoltResponse;
 use Bolt\Tests\BoltUnitTest;
 
-
 class BoltResponseTest extends BoltUnitTest
 {
     public function testCreate()
@@ -39,9 +38,8 @@ class BoltResponseTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $response = BoltResponse::create($app['twig']->loadTemplate('error.twig'), array());
-        $response->setContext(array('test'=>'tester'));
-        $this->assertEquals(array('test'=>'tester'), $response->getContext());
-
+        $response->setContext(array('test' => 'tester'));
+        $this->assertEquals(array('test' => 'tester'), $response->getContext());
     }
     
     public function testGetGlobalContext()
@@ -52,7 +50,6 @@ class BoltResponseTest extends BoltUnitTest
         $response = BoltResponse::create($app['twig']->loadTemplate('error.twig'), array());
         $globalContext = $response->getGlobalContext();
         $this->assertEquals('test', $globalContext['foo']);
-
     }
     
     public function testGetTemplate()
@@ -60,9 +57,5 @@ class BoltResponseTest extends BoltUnitTest
         $app = $this->getApp();
         $response = BoltResponse::create($app['twig']->loadTemplate('error.twig'), array());
         $this->assertEquals('error.twig', $response->getTemplate());
-
     }
-
-    
 }
-
