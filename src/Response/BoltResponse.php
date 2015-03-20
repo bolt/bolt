@@ -6,11 +6,8 @@ use Symfony\Component\HttpFoundation\Response;
 use \Twig_Template as Template;
 
 /**
- * BoltResponse represents a prepared Bolt HTTP response.
- *
- * A StreamedResponse uses a renderer and context variables
+ * BoltResponse uses a renderer and context variables
  * to create the response content.
- *
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
@@ -29,7 +26,7 @@ class BoltResponse extends Response
      * @param int      $status   The response status code
      * @param array    $headers  An array of response headers
      */
-    public function __construct(Template $template, $context = array(), $status = 200, $headers = array())
+    public function __construct(Template $template, array $context = array(), $status = 200, $headers = array())
     {
         parent::__construct(null, $status, $headers);
         $this->template = $template;
@@ -46,7 +43,7 @@ class BoltResponse extends Response
      *
      * @return BoltResponse
      */
-    public static function create(Template $template = null, $context = array(), $status = 200, $headers = array())
+    public static function create(Template $template = null, array $context = array(), $status = 200, $headers = array())
     {
         return new static($template, $context, $status, $headers);
     }
@@ -66,13 +63,15 @@ class BoltResponse extends Response
      *
      * @param array $context
      */
-    public function setContext($context)
+    public function setContext(array $context)
     {
         $this->context = $context;
     }
     
     /**
      * Returns the template.
+     *
+     * @return Template
      */
     public function getTemplate()
     {
@@ -81,6 +80,8 @@ class BoltResponse extends Response
     
     /**
      * Returns the context.
+     *
+     * @return array
      */
     public function getContext()
     {
@@ -89,6 +90,8 @@ class BoltResponse extends Response
     
     /**
      * Gets globals from the template.
+     *
+     * @return array
      */
     public function getGlobalContext()
     {
@@ -97,6 +100,8 @@ class BoltResponse extends Response
     
     /**
      * Gets the name of the main loaded template.
+     *
+     * @return string
      */
     public function getTemplateName()
     {
@@ -106,7 +111,7 @@ class BoltResponse extends Response
     /**
      * Returns the Response as a string.
      *
-     * @return string The Response as an HTTP string
+     * @return string The Response as HTML
      */
     public function __toString()
     {
@@ -114,9 +119,9 @@ class BoltResponse extends Response
     }
     
     /**
-     * Gets content for the current web response.
+     * Gets HTML content for the response.
      *
-     * @return Response
+     * @return string
      */
     public function getContent()
     {
@@ -129,8 +134,6 @@ class BoltResponse extends Response
     
     /**
      * Compiles the template using the context.
-     *
-     * @return void
      */
     public function compile()
     {
