@@ -1748,6 +1748,12 @@ class Storage
             $parameters = array_merge((array) $parameters, (array) $whereparameters);
         }
 
+        $logNotFound = true;
+        if (isset($parameters['log_not_found'])) {
+            $logNotFound = $parameters['log_not_found'];
+            unset($parameters['log_not_found']);
+        }
+
         // Decode this textquery
         $decoded = $this->decodeContentQuery($textquery, $parameters);
         if ($decoded === false) {
@@ -1799,11 +1805,13 @@ class Storage
                 return util::array_first($results);
             }
 
-            $msg = sprintf(
-                "Requested specific query '%s', not found.",
-                $textquery
-            );
-            $this->app['logger.system']->error($msg, array('event' => 'storage'));
+            if ($logNotFound) {
+                $msg = sprintf(
+                    "Requested specific query '%s', not found.",
+                    $textquery
+                );
+                $this->app['logger.system']->error($msg, array('event' => 'storage'));
+            }
             $this->app['stopwatch']->stop('bolt.getcontent');
 
             return false;
