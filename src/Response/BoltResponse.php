@@ -55,6 +55,9 @@ class BoltResponse extends Response
      */
     public function setTemplate(Template $template)
     {
+        if ($this->compiled) {
+            throw new \LogicException('Template cannot be changed after the response is compiled');
+        }
         $this->template = $template;
     }
     
@@ -65,6 +68,9 @@ class BoltResponse extends Response
      */
     public function setContext(array $context)
     {
+        if ($this->compiled) {
+            throw new \LogicException('Context cannot be changed after the response is compiled');
+        }
         $this->context = $context;
     }
     
@@ -131,7 +137,17 @@ class BoltResponse extends Response
 
         return parent::getContent();
     }
-    
+
+    /**
+     * Returns whether the response has been compiled
+     *
+     * @return bool
+     */
+    public function isCompiled()
+    {
+        return $this->compiled;
+    }
+
     /**
      * Compiles the template using the context.
      */
