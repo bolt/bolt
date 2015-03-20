@@ -97,7 +97,7 @@ class ChangeLog
         }
 
         // Build base query
-        $contentTablename = $this->app['config']->get('general/database/prefix') . $contenttype;
+        $contentTablename = $this->app['storage']->getTablename($contenttype);
         $query = $this->app['db']->createQueryBuilder()
                         ->select('log.*, log.title')
                         ->from($this->table_change, 'log')
@@ -283,7 +283,7 @@ class ChangeLog
         }
 
         // Build base query
-        $contentTablename = $this->app['config']->get('general/database/prefix') . $contenttype;
+        $contentTablename = $this->app['storage']->getTablename($contenttype);
         /** @var \Doctrine\DBAL\Query\QueryBuilder $query */
         $query = $this->app['db']->createQueryBuilder()
             ->select('log.*')
