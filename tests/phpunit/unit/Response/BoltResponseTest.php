@@ -30,8 +30,8 @@ class BoltResponseTest extends BoltUnitTest
         $app = $this->getApp();
         $response = BoltResponse::create($app['twig']->loadTemplate('error.twig'), array('foo' => 'bar'));
         $newTwig = $app['twig']->loadTemplate('error.twig');
-        $response->setRenderer($newTwig);
-        $this->assertSame($newTwig, $response->getRenderer());
+        $response->setTemplate($newTwig);
+        $this->assertSame($newTwig, $response->getTemplateName());
     }
     
     public function testSetContext()
@@ -56,6 +56,6 @@ class BoltResponseTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $response = BoltResponse::create($app['twig']->loadTemplate('error.twig'), array());
-        $this->assertEquals('error.twig', $response->getTemplate());
+        $this->assertEquals('error.twig', $response->getTemplateName());
     }
 }

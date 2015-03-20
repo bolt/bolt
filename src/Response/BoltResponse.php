@@ -3,6 +3,7 @@
 namespace Bolt\Response;
 
 use Symfony\Component\HttpFoundation\Response;
+use \Twig_Template as Template;
 
 /**
  * BoltResponse represents a prepared Bolt HTTP response.
@@ -15,48 +16,49 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class BoltResponse extends Response
 {
-    protected $renderer;
+    /** @var Template */
+    protected $template;
     protected $context = array();
     protected $compiled = false;
 
     /**
      * Constructor.
      *
-     * @param Renderer $renderer An object that is able to render a template with context
+     * @param Template $template An object that is able to render a template with context
      * @param array    $context  An array of context variables
      * @param int      $status   The response status code
      * @param array    $headers  An array of response headers
      */
-    public function __construct($renderer, $context = array(), $status = 200, $headers = array())
+    public function __construct(Template $template, $context = array(), $status = 200, $headers = array())
     {
         parent::__construct(null, $status, $headers);
-        $this->renderer = $renderer;
+        $this->template = $template;
         $this->context = $context;
     }
 
     /**
      * Factory method for chainability
      *
-     * @param Renderer $renderer An object that is able to render a template with context
+     * @param Template $template An object that is able to render a template with context
      * @param array    $context  An array of context variables
      * @param int      $status   The response status code
      * @param array    $headers  An array of response headers
      *
      * @return BoltResponse
      */
-    public static function create($renderer = null, $context = array(), $status = 200, $headers = array())
+    public static function create(Template $template = null, $context = array(), $status = 200, $headers = array())
     {
-        return new static($renderer, $context, $status, $headers);
+        return new static($template, $context, $status, $headers);
     }
 
     /**
      * Sets the Renderer used to create this Response.
      *
-     * @param Renderer $renderer A renderer object
+     * @param Template $template A template object
      */
-    public function setRenderer($renderer)
+    public function setTemplate(Template $template)
     {
-        $this->renderer = $renderer;
+        $this->template = $template;
     }
     
     /**
@@ -70,11 +72,11 @@ class BoltResponse extends Response
     }
     
     /**
-     * Returns the renderer.
+     * Returns the template.
      */
-    public function getRenderer()
+    public function getTemplate()
     {
-        return $this->renderer;
+        return $this->template;
     }
     
     /**
@@ -86,19 +88,19 @@ class BoltResponse extends Response
     }
     
     /**
-     * Gets globals from the renderer.
+     * Gets globals from the template.
      */
     public function getGlobalContext()
     {
-        return $this->renderer->getEnvironment()->getGlobals();
+        return $this->template->getEnvironment()->getGlobals();
     }
     
     /**
      * Gets the name of the main loaded template.
      */
-    public function getTemplate()
+    public function getTemplateName()
     {
-        return $this->renderer->getTemplateName();
+        return $this->template->getTemplateName();
     }
     
     /**
@@ -132,7 +134,7 @@ class BoltResponse extends Response
      */
     public function compile()
     {
-        $output = $this->getRenderer()->render($this->getContext());
+        $output = $this->template->render($this->context);
         $this->setContent($output);
         $this->compiled = true;
     }
