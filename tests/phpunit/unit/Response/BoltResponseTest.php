@@ -25,13 +25,13 @@ class BoltResponseTest extends BoltUnitTest
         $this->assertRegexp("#Bolt - Fatal error.#", (string)$response);
     }
     
-    public function testSetRenderer()
+    public function testSetTemplate()
     {
         $app = $this->getApp();
         $response = BoltResponse::create($app['twig']->loadTemplate('error.twig'), array('foo' => 'bar'));
         $newTwig = $app['twig']->loadTemplate('error.twig');
         $response->setTemplate($newTwig);
-        $this->assertSame($newTwig, $response->getTemplateName());
+        $this->assertSame($newTwig, $response->getTemplate());
     }
     
     public function testSetContext()
@@ -52,7 +52,7 @@ class BoltResponseTest extends BoltUnitTest
         $this->assertEquals('test', $globalContext['foo']);
     }
     
-    public function testGetTemplate()
+    public function testGetTemplateName()
     {
         $app = $this->getApp();
         $response = BoltResponse::create($app['twig']->loadTemplate('error.twig'), array());
