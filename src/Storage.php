@@ -1306,7 +1306,9 @@ class Storage
             }
         }
 
-        if (!isset($metaParameters['limit'])) {
+        if ($decoded['return_single']) {
+            $metaParameters['limit'] = 1;
+        } elseif (!isset($metaParameters['limit'])) {
             $metaParameters['limit'] = 9999;
         }
     }
@@ -1510,8 +1512,7 @@ class Storage
             }
 
             if (count($order) == 0) {
-                // we didn't add table, maybe this is an issue
-                $order[] = 'datepublish DESC';
+                $order[] = $this->decodeQueryOrder($contenttype, false) ?: 'datepublish DESC';
             }
 
             if (count($where) > 0) {
@@ -1627,7 +1628,7 @@ class Storage
      *
      * @return array
      */
-    private function executeGetContentSearch($decoded, $parameters)
+    protected function executeGetContentSearch($decoded, $parameters)
     {
         $results = $this->searchContent(
             $parameters['filter'],
@@ -1653,7 +1654,7 @@ class Storage
      *
      * @return array
      */
-    private function executeGetContentQueries($decoded)
+    protected function executeGetContentQueries($decoded)
     {
         // Perform actual queries and hydrate
         $totalResults = false;
