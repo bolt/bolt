@@ -258,27 +258,6 @@ class BackendAdminCest
     }
 
     /**
-     * Edit site config and set 'canonical', 'notfound' and 'changelog'.
-     *
-     * @param \AcceptanceTester $I
-     */
-    public function editConfigTest(\AcceptanceTester $I)
-    {
-        $I->wantTo("edit config.yml and set 'canonical' and 'notfound'");
-        $I->loginAs($this->user['admin']);
-        $I->amOnPage('bolt/file/edit/config/config.yml');
-
-        $yaml = $I->getUpdatedConfig();
-        $I->fillField('#form_contents', $yaml);
-        $I->click('Save', '#saveeditfile');
-
-        $I->see("File 'config.yml' has been saved.");
-        $I->see('notfound: resources/not-found');
-        $I->see('canonical: example.org');
-        $I->see('changelog: true');
-    }
-
-    /**
      * Edit site permissions
      *
      * @param \AcceptanceTester $I
