@@ -245,12 +245,11 @@ class BackendAdminCest
     {
         $I->wantTo("edit config.yml and set 'canonical' and 'notfound'");
         $I->loginAs($this->user['admin']);
-
         $I->amOnPage('bolt/file/edit/config/config.yml');
+
         $yaml = $I->getUpdatedConfig();
         $I->fillField('#form_contents', $yaml);
-
-        $I->click('Save');
+        $I->click('Save', '#saveeditfile');
 
         $I->see("File 'config.yml' has been saved.");
         $I->see('notfound: resources/not-found');
@@ -266,11 +265,12 @@ class BackendAdminCest
     {
         $I->wantTo('edit permissions.yml and restrict access to certain Contenttypes');
         $I->loginAs($this->user['admin']);
-
         $I->amOnPage('bolt/file/edit/config/permissions.yml');
+
         $yaml = $I->getUpdatedPermissions();
         $I->fillField('#form_contents', $yaml);
-        $I->click('Save');
+        $I->click('Save', '#saveeditfile');
+
         $I->see("File 'permissions.yml' has been saved.");
         $I->see('change-ownership: [ ]');
     }
@@ -284,11 +284,12 @@ class BackendAdminCest
     {
         $I->wantTo('edit taxonomy.yml and reorder category options');
         $I->loginAs($this->user['admin']);
-
         $I->amOnPage('bolt/file/edit/config/taxonomy.yml');
+
         $yaml = $I->getUpdatedTaxonomy();
         $I->fillField('#form_contents', $yaml);
-        $I->click('Save');
+        $I->click('Save', '#saveeditfile');
+
         $I->see("File 'taxonomy.yml' has been saved.");
         $I->see('options: [books, events, fun, life, love, movies, music, news]');
     }
@@ -302,11 +303,12 @@ class BackendAdminCest
     {
         $I->wantTo('edit menu.yml and reorder category options');
         $I->loginAs($this->user['admin']);
-
         $I->amOnPage('bolt/file/edit/config/menu.yml');
+
         $yaml = $I->getUpdatedMenu();
         $I->fillField('#form_contents', $yaml);
-        $I->click('Save');
+        $I->click('Save', '#saveeditfile');
+
         $I->see("File 'menu.yml' has been saved.");
         $I->see('Showcases Listing');
         $I->see('path: showcases/');
@@ -321,11 +323,12 @@ class BackendAdminCest
     {
         $I->wantTo('edit routing.yml and add a pagebinding route');
         $I->loginAs($this->user['admin']);
-
         $I->amOnPage('bolt/file/edit/config/routing.yml');
+
         $yaml = $I->getUpdatedRouting();
         $I->fillField('#form_contents', $yaml);
-        $I->click('Save');
+        $I->click('Save', '#saveeditfile');
+
         $I->see("File 'routing.yml' has been saved.");
         $I->see('pagebinding:');
         $I->see("/{slug}");

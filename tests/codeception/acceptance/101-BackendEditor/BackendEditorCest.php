@@ -194,8 +194,9 @@ class BackendEditorCest
         $I->fillField('#teaser', $teaser);
         $I->fillField('#body',   $body);
 
-        $I->click('Save Page');
+        $I->click('Save Page', '#savecontinuebutton');
 
+        $I->see('The new Page has been saved.');
         $I->see("Easy for editors, and a developer's dream cms");
         $I->see('Quick to set up and easily extendible');
         $I->see('The new Page has been saved.');
