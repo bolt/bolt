@@ -68,6 +68,7 @@ class YamlHelper extends \Codeception\Module
      *             publish: [ admin ]
      *             change-ownership: [ ]
      * ```
+     *
      * @return string
      */
     public function getUpdatedPermissions()
@@ -111,6 +112,64 @@ class YamlHelper extends \Codeception\Module
         $dumper = new Dumper();
         $out = $dumper->dump($permissions, 3);
 
-        return str_replace('{  }', '[ ]' , $out);
+        return str_replace('{  }', '[ ]', $out);
+    }
+
+    /**
+     * Add a 'Typewriters' Contenttype
+     *
+     * ```
+     * typewriters:
+     *     name: Typewriters
+     *     singular_name: Typewriter
+     *     fields:
+     *         title:
+     *             type: text
+     *             class: large
+     *             group: content
+     *         slug:
+     *             type: slug
+     *             uses: title
+     *         body:
+     *             type: html
+     *             height: 300px
+     *     default_status: published
+     *     show_on_dashboard: false
+     *     searchable: false
+     *     viewless: true
+     * ```
+     * @return string
+     */
+    public function getUpdatedContenttypes()
+    {
+        $contenttypes = $this->readYaml('contenttypes.yml');
+
+        $contenttypes['typewriters'] = [
+            'name'          => 'Typewriters',
+            'singular_name' => 'Typewriter',
+            'fields'        => [
+                'title' => [
+                    'type'  => 'text',
+                    'class' => 'large',
+                ],
+                'slug' => [
+                    'type' => 'slug',
+                    'uses' => 'title',
+                ],
+                'body' => [
+                    'type'   => 'html',
+                    'height' => '300px'
+                ]
+            ],
+            'default_status'    => 'published',
+            'show_on_dashboard' => false,
+            'searchable'        => false,
+            'viewless'          => true
+        ];
+
+        $dumper = new Dumper();
+        $out = $dumper->dump($contenttypes, 4);
+
+        return str_replace('{  }', '[ ]', $out);
     }
 }

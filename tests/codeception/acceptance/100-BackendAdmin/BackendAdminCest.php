@@ -151,6 +151,26 @@ class BackendAdminCest
     }
 
     /**
+     * Edit contenttypes.yml and add a 'Typewriter' Contenttype
+     *
+     * @param \AcceptanceTester $I
+     */
+    public function addNewContentTypeTest(\AcceptanceTester $I)
+    {
+        $I->wantTo("edit contenttypes.yml and add a 'Typewriter' Contenttype");
+        $I->loginAs($this->user['admin']);
+
+        $I->amOnPage('bolt/file/edit/config/contenttypes.yml');
+        $contenttypes = $I->getUpdatedContenttypes();
+        $I->fillField('#form_contents', $contenttypes);
+        $I->click('Save');
+        $I->see("File 'contenttypes.yml' has been saved.");
+        $I->see('name: Typewriters');
+        $I->see('singular_name: Typewriter');
+        $I->see('viewless: true');
+    }
+
+    /**
      * Edit site permissions
      *
      * @param \AcceptanceTester $I
