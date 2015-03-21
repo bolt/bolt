@@ -38,10 +38,13 @@ Fixtures::add('users', array(
 ));
 
 // Set up a test-specific permissions.yml
-if (file_exists(PROJECT_ROOT . '/app/config/permissions.yml') && !file_exists(PROJECT_ROOT . '/app/config/permissions.yml.codeception-backup')) {
-    rename(PROJECT_ROOT . '/app/config/permissions.yml', PROJECT_ROOT. '/app/config/permissions.yml.codeception-backup');
+if (file_exists(PROJECT_ROOT . '/app/config/permissions.yml')) {
+    if (!file_exists(PROJECT_ROOT . '/app/config/permissions.yml.codeception-backup')) {
+        rename(PROJECT_ROOT . '/app/config/permissions.yml', PROJECT_ROOT. '/app/config/permissions.yml.codeception-backup');
+    } else {
+        unlink(PROJECT_ROOT . '/app/config/permissions.yml');
+    }
 }
-copy(CODECEPTION_ROOT . '/_data/permissions.yml', PROJECT_ROOT . '/app/config/permissions.yml');
 
 // Back up the Sqlite DB if it exists
 if (file_exists(PROJECT_ROOT . '/app/database/bolt.db') && !file_exists(PROJECT_ROOT . '/app/database/bolt.db.codeception-backup')) {
