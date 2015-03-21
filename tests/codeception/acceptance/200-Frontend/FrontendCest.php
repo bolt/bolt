@@ -7,7 +7,7 @@ use Codeception\Util\Fixtures;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class FrontendCept
+class FrontendCest
 {
     /** @var array */
     protected $user;
