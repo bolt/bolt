@@ -444,6 +444,26 @@ class FrontendTest extends BoltUnitTest
         $this->assertEquals(503, $response->getStatusCode());
     }
     
+    public function testBeforeHandlerForPrivilegedMaintenanceMode()
+    {
+        $app = $this->getApp();
+        $request = Request::create('/');
+        $app['request'] = $request;
+        $app['config']->set('general/maintenance_mode', true);
+        
+        $users = $this->getMock('Bolt\Users', array('isAllowed'), array($app));
+        
+        $users->expects($this->once())
+            ->method('isAllowed')
+            ->will($this->returnValue(true) );
+        
+        $app['users'] = $users;
+        
+        $controller = new Frontend();
+        $response = $controller->before($request, $app);
+        $this->assertNull($response);
+    }
+    
     public function testNormalBeforeHandler()
     {
         $app = $this->getApp();
