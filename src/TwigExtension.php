@@ -676,7 +676,8 @@ class TwigExtension extends \Twig_Extension
             $linkToCheck = (string) $content;
         }
 
-        $requestedUri    = reset(explode('?', $this->app['request']->getRequestUri()));
+        $uriFromRequest = $this->app['request']->getRequestUri();
+        $requestedUri    = explode('?', $uriFromRequest);
 
         $entrancePageUrl = $this->app['config']->get('general/homepage');
         $entrancePageUrl = (substr($entrancePageUrl, 0, 1) !== '/') ? '/' . $entrancePageUrl : $entrancePageUrl;

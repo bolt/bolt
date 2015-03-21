@@ -139,12 +139,10 @@ class FrontendTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $app['config']->set('general/homepage', 'showcase/1');
-        $requestedUri    = explode('?', $app['request']->getRequestUri());
+        $app['request'] = Request::create('/');
         $this->addDefaultUser($app);
         $this->addSomeContent();
         
-        $app['request'] = Request::create('/showcase/1');
-
         $templates = $this->getMock('Bolt\TemplateChooser', array('record'), array($app));
         $templates->expects($this->once())
             ->method('record')
