@@ -179,6 +179,32 @@ class BackendAdminCest
     }
 
     /**
+     * Update the database after creating the Resources Contenttype
+     *
+     * @param \AcceptanceTester $I
+     */
+    public function addNotFoundRecordTest(\AcceptanceTester $I)
+    {
+        $I->wantTo("create a 404 'not-found' record");
+        $I->loginAs($this->user['admin']);
+
+        $I->amOnPage('bolt/editcontent/resources');
+        $I->see('New Resource', 'h1');
+
+        $body = \file_get_contents(CODECEPTION_DATA . '/not-found.body.html');
+
+        $I->fillField('#title', '404');
+        $I->fillField('#slug',  'not-found');
+        $I->fillField('#body',  $body);
+
+        $I->click('Save Resource', '#savecontinuebutton');
+
+        $I->see('Well, this is kind of embarrassing!');
+        $I->see('You have what we call in the business, a 404.');
+        $I->see('The new Resource has been saved.');
+    }
+
+    /**
      * Check that admin user can view all content types
      *
      * @param \AcceptanceTester $I
