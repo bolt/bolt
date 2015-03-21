@@ -91,6 +91,7 @@ class BackendEditorCest
         $I->fillField('#body',   'Take it, take it! I have three more of these!');
 
         $I->click('Save Page');
+        $I->see('The new Page has been saved.');
 
         $I->see('A page I made');
         $I->see('Woop woop woop');
@@ -170,5 +171,33 @@ class BackendEditorCest
         $I->loginAs($this->user['editor']);
         $I->amOnPage('bolt/editcontent/entries/');
         $I->see('You do not have the right privileges');
+    }
+
+    /**
+     * Create an 'About' page record.
+     *
+     * @param \AcceptanceTester $I
+     */
+    public function createAboutPageTest(\AcceptanceTester $I)
+    {
+        $I->wantTo("Create an 'About' page as the 'editor' user");
+        $I->loginAs($this->user['editor']);
+        $I->see('New Page');
+
+        $I->click('New Page');
+
+        $teaser = file_get_contents(CODECEPTION_DATA . '/about.teaser.html');
+        $body   = file_get_contents(CODECEPTION_DATA . '/about.body.html');
+
+        $I->fillField('#title',  'About');
+        $I->fillField('#slug',   'about');
+        $I->fillField('#teaser', $teaser);
+        $I->fillField('#body',   $body);
+
+        $I->click('Save Page');
+
+        $I->see("Easy for editors, and a developer's dream cms");
+        $I->see('Quick to set up and easily extendible');
+        $I->see('The new Page has been saved.');
     }
 }
