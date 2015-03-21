@@ -26,8 +26,8 @@
     app.run = function () {
         bolt.conf.init();
         bolt.data.init();
-        bolt.stack.init();
         bolt.actions.init();
+        bolt.stack.init();
 
         bolt.activity.init();
         bolt.ckeditor.init();
@@ -76,7 +76,6 @@
         init.geolocation();
         init.focusStatusSelect();
         init.depublishTracking();
-        init.selectModal();
 
         $('[data-bind]').each(function () {
             var data = $(this).data('bind');

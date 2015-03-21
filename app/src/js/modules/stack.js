@@ -32,6 +32,14 @@
             e.preventDefault();
             $('#selectImageModal-stack .modal-content').load($(this).attr('href'));
         });
+
+        // Set data actions for async file modals.
+        $('#selectModal-image, #selectModal-imagelist, #selectModal-file, #selectModal-filelist').on(
+            'shown.bs.modal',
+            function (e) {
+                bolt.actions.init();
+            }
+        );
     };
 
     /**
@@ -161,7 +169,9 @@
      * @param {string} folderUrl - The URL command string to change the folder
      */
     stack.changeFolder = function (key, folderUrl) {
-        $('#selectModal-' + key + ' .modal-content').load(folderUrl);
+        $('#selectModal-' + key + ' .modal-content').load(folderUrl, function() {
+            bolt.actions.init();
+        });
     };
 
     // Apply mixin container
