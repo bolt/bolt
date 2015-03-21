@@ -525,19 +525,5 @@ var init = {
                 });
             }
         });
-    },
-
-    /*
-     * Set dataactions for async file modals
-     */
-    selectModal: function () {
-        $('#selectModal-image, #selectModal-imagelist, #selectModal-file, #selectModal-filelist').on(
-            'shown.bs.modal',
-            function (e) {
-                Bolt.actions.init();
-            }
-        );
-
     }
-
 };

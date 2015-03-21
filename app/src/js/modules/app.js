@@ -76,7 +76,6 @@
         init.geolocation();
         init.focusStatusSelect();
         init.depublishTracking();
-        init.selectModal();
 
         $('[data-bind]').each(function () {
             var data = $(this).data('bind');

@@ -32,6 +32,14 @@
             e.preventDefault();
             $('#selectImageModal-stack .modal-content').load($(this).attr('href'));
         });
+
+        // Set data actions for async file modals.
+        $('#selectModal-image, #selectModal-imagelist, #selectModal-file, #selectModal-filelist').on(
+            'shown.bs.modal',
+            function (e) {
+                bolt.actions.init();
+            }
+        );
     };
 
     /**
