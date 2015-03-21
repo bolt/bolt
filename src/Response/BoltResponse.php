@@ -3,60 +3,66 @@
 namespace Bolt\Response;
 
 use Symfony\Component\HttpFoundation\Response;
+use \Twig_Template as Template;
 
 /**
- * BoltResponse represents a prepared Bolt HTTP response.
- *
- * A StreamedResponse uses a renderer and context variables
+ * BoltResponse uses a renderer and context variables
  * to create the response content.
- *
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
 class BoltResponse extends Response
 {
-    protected $renderer;
+    /** @var Template */
+    protected $template;
     protected $context = array();
     protected $compiled = false;
 
     /**
      * Constructor.
      *
-     * @param Renderer $renderer An object that is able to render a template with context
+     * @param Template $template An object that is able to render a template with context
      * @param array    $context  An array of context variables
+     * @param array    $globals  An array of global context variables
      * @param int      $status   The response status code
      * @param array    $headers  An array of response headers
      */
-    public function __construct($renderer, $context = array(), $status = 200, $headers = array())
+    public function __construct(Template $template, array $context = array(), array $globals = array(), $status = 200, $headers = array())
     {
         parent::__construct(null, $status, $headers);
-        $this->renderer = $renderer;
+        $this->template = $template;
         $this->context = $context;
+
+        $this->addGlobals($globals);
     }
 
     /**
      * Factory method for chainability
      *
-     * @param Renderer $renderer An object that is able to render a template with context
+     * @param Template $template An object that is able to render a template with context
      * @param array    $context  An array of context variables
+     * @param array    $globals  An array of global context variables
      * @param int      $status   The response status code
      * @param array    $headers  An array of response headers
      *
-     * @return BoltResponse
+     * @return \Bolt\Response\BoltResponse
      */
-    public static function create($renderer = null, $context = array(), $status = 200, $headers = array())
+    public static function create($template = null, $context = array(), $globals = array(), $status = 200, $headers = array())
     {
-        return new static($renderer, $context, $status, $headers);
+        return new static($template, $context, $globals, $status, $headers);
     }
 
     /**
      * Sets the Renderer used to create this Response.
      *
-     * @param Renderer $renderer A renderer object
+     * @param Template $template A template object
      */
-    public function setRenderer($renderer)
+    public function setTemplate(Template $template)
     {
-        $this->renderer = $renderer;
+        if ($this->compiled) {
+            throw new \LogicException('Template cannot be changed after the response is compiled');
+        }
+        $this->template = $template;
     }
     
     /**
@@ -64,21 +70,28 @@ class BoltResponse extends Response
      *
      * @param array $context
      */
-    public function setContext($context)
+    public function setContext(array $context)
     {
+        if ($this->compiled) {
+            throw new \LogicException('Context cannot be changed after the response is compiled');
+        }
         $this->context = $context;
     }
     
     /**
-     * Returns the renderer.
+     * Returns the template.
+     *
+     * @return Template
      */
-    public function getRenderer()
+    public function getTemplate()
     {
-        return $this->renderer;
+        return $this->template;
     }
     
     /**
      * Returns the context.
+     *
+     * @return array
      */
     public function getContext()
     {
@@ -86,25 +99,52 @@ class BoltResponse extends Response
     }
     
     /**
-     * Gets globals from the renderer.
+     * Gets globals from the template.
+     *
+     * @return array
      */
     public function getGlobalContext()
     {
-        return $this->renderer->getEnvironment()->getGlobals();
+        return $this->template->getEnvironment()->getGlobals();
     }
-    
+
+    /**
+     * Adds globals to the template
+     *
+     * @param array $globals
+     */
+    public function addGlobals(array $globals)
+    {
+        foreach ($globals as $name => $value) {
+            $this->addGlobalContext($name, $value);
+        }
+    }
+
+    /**
+     * Adds a global to the template
+     *
+     * @param string $name
+     * @param mixed  $value
+     */
+    public function addGlobalContext($name, $value)
+    {
+        $this->template->getEnvironment()->addGlobal($name, $value);
+    }
+
     /**
      * Gets the name of the main loaded template.
+     *
+     * @return string
      */
-    public function getTemplate()
+    public function getTemplateName()
     {
-        return $this->renderer->getTemplateName();
+        return $this->template->getTemplateName();
     }
     
     /**
      * Returns the Response as a string.
      *
-     * @return string The Response as an HTTP string
+     * @return string The Response as HTML
      */
     public function __toString()
     {
@@ -112,9 +152,9 @@ class BoltResponse extends Response
     }
     
     /**
-     * Gets content for the current web response.
+     * Gets HTML content for the response.
      *
-     * @return Response
+     * @return string
      */
     public function getContent()
     {
@@ -124,15 +164,23 @@ class BoltResponse extends Response
 
         return parent::getContent();
     }
-    
+
+    /**
+     * Returns whether the response has been compiled
+     *
+     * @return bool
+     */
+    public function isCompiled()
+    {
+        return $this->compiled;
+    }
+
     /**
      * Compiles the template using the context.
-     *
-     * @return void
      */
     public function compile()
     {
-        $output = $this->getRenderer()->render($this->getContext());
+        $output = $this->template->render($this->context);
         $this->setContent($output);
         $this->compiled = true;
     }
