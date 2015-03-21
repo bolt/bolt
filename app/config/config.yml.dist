@@ -3,8 +3,8 @@
 # require username, password and perhaps a hostname.
 # If you're trying out Bolt, just keep it set to SQLite for now.
 database:
-        driver: sqlite
-        databasename: bolt
+    driver: sqlite
+    databasename: bolt
 
 # The name of the website
 sitename: A sample site
@@ -113,11 +113,11 @@ recordsperpage: 10
 # - authenticated: cache 'templates' and 'request' for logged-on users. In most cases you should *NOT* enable
 #     this, because it will cause side-effects if the website shows different content to authenticated users.
 caching:
-        config: true
-        templates: true
-        request: false
-        duration: 10
-        authenticated: false
+    config: true
+    templates: true
+    request: false
+    duration: 10
+    authenticated: false
 
 # Set 'enabled' to 'true' to log all content changes in the database.
 # Unless you need to rigorously monitor every change to your site's content, it
@@ -157,10 +157,10 @@ htmlcleaner:
 #
 # You can change the pattern match and replacement on uploaded files and if the
 # resulting filename should be transformed to lower case.
-#upload:
-#    pattern: '[^A-Za-z0-9\.]+'
-#    replacement: '-'
-#    lowercase: true
+# upload:
+#     pattern: '[^A-Za-z0-9\.]+'
+#     replacement: '-'
+#     lowercase: true
 
 # File types that are acceptable for upload in either 'file' fields or through the 'files' screen.
 
@@ -178,10 +178,10 @@ accept_file_types: [ twig, html, js, css, scss, gif, jpg, jpeg, png, ico, zip, t
 # convenience or to obscure it from prying eyes. The Bolt backend is accessible as /bolt/
 # by default, if you change it here, it will only be accessible through the value set in
 # 'path'. Keep the path simple: lowercase only, no extra slashes or other special characters.
-#branding:
-#    name: SuperCMS
-#    path: /admin
-#    provided_by: [ supercool@example.org, "Supercool Webdesign Co." ]
+# branding:
+#     name: SuperCMS
+#     path: /admin
+#     provided_by: [ supercool@example.org, "Supercool Webdesign Co." ]
 
 # Show the 'debug' nut in the lower right corner for logged-in user. By default,
 # the debugbar is only shown to logged-in users. Use the 'debug_show_loggedoff'
@@ -192,7 +192,7 @@ developer_notices: false
 debug_show_loggedoff: false
 debug_permission_audit_mode: false
 debug_error_level: 6135 # equivalent to E_ALL &~ E_NOTICE &~ E_DEPRECATED &~ E_USER_DEPRECATED
-#debug_error_level: 30719 # equivalent to E_ALL
+# debug_error_level: 30719 # equivalent to E_ALL
 debug_enable_whoops: true # change this to false to use PHP's built-in error handling instead of Whoops
 
 # System debug logging
