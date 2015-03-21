@@ -135,6 +135,26 @@ class FrontendTest extends BoltUnitTest
 
     }
     
+    public function testCanonicalUrl()
+    {
+        $app = $this->getApp();
+        $app['config']->set('general/homepage', 'showcase/1');
+        $app['request'] = Request::create('/');
+        $this->addDefaultUser($app);
+        $this->addSomeContent();
+        
+        $templates = $this->getMock('Bolt\TemplateChooser', array('record'), array($app));
+        $templates->expects($this->once())
+            ->method('record')
+            ->will($this->returnValue('index.twig'));
+        $app['templatechooser'] = $templates;
+    
+        $controller = new Frontend();
+        $response = $controller->record($app, 'showcase', '1');
+        $canonical = $app['resources']->getUrl('canonical');
+        $this->assertEquals('http://bolt.dev/', $canonical);
+    }
+    
     public function testNumericRecord()
     {
         $app = $this->getApp();
