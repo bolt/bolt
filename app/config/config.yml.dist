@@ -3,8 +3,8 @@
 # require username, password and perhaps a hostname.
 # If you're trying out Bolt, just keep it set to SQLite for now.
 database:
-  driver: sqlite
-  databasename: bolt
+        driver: sqlite
+        databasename: bolt
 
 # The name of the website
 sitename: A sample site
@@ -35,7 +35,7 @@ maintenance_mode: false
 maintenance_template: maintenance_default.twig
 
 # The hour of the day for the internal cron task scheduler to run daily, weekly,
-# monthly and yearly jobs.  Default: 3 (3 am)
+# monthly and yearly jobs.    Default: 3 (3 am)
 cron_hour: 3
 
 # If your site is reachable under different urls (say, both blog.example.org/
@@ -104,26 +104,26 @@ recordsperpage: 10
 
 # Settings for caching in parts of Bolt.
 # - config: Caches the parsed .yml files from /app/config. It's updated immediately when of the
-#   files changes on disk. There should be no good reason to turn this off.
+#     files changes on disk. There should be no good reason to turn this off.
 # - templates: Caches rendered templates.
 # - request: Caches entire rendered pages like '/page/about', but only on GET requests.
 # - duration: the duration (in minutes) for the 'templates' and 'request' options. default is 10 minutes.
-#   note that the duration is set on storing the cache. By lowering this value you will not invalidate
-#   currently cached items.
+#     note that the duration is set on storing the cache. By lowering this value you will not invalidate
+#     currently cached items.
 # - authenticated: cache 'templates' and 'request' for logged-on users. In most cases you should *NOT* enable
-#   this, because it will cause side-effects if the website shows different content to authenticated users.
+#     this, because it will cause side-effects if the website shows different content to authenticated users.
 caching:
-  config: true
-  templates: true
-  request: false
-  duration: 10
-  authenticated: false
+        config: true
+        templates: true
+        request: false
+        duration: 10
+        authenticated: false
 
 # Set 'enabled' to 'true' to log all content changes in the database.
 # Unless you need to rigorously monitor every change to your site's content, it
 # is recommended to keep this disabled.
 changelog:
-  enabled: false
+    enabled: false
 
 # Default settings for thumbnails. Quality should be between 0 (horrible, small file) and
 # 100 (best, huge file). Cropping is one of either crop, fit, borders, resize.
@@ -134,33 +134,33 @@ changelog:
 # Set it to activate browser caching
 # Note: if you change these values, you might need to clear the cache before they show up.
 thumbnails:
-  default_thumbnail: [ 160, 120 ]
-  default_image: [ 1000, 750 ]
-  quality: 80
-  cropping: crop
-  notfound_image: view/img/default_notfound.png
-  error_image: view/img/default_error.png
-  save_files: false
-  allow_upscale: false
-  exif_orientation: true
-#  browser_cache_time: 2592000
+    default_thumbnail: [ 160, 120 ]
+    default_image: [ 1000, 750 ]
+    quality: 80
+    cropping: crop
+    notfound_image: view/img/default_notfound.png
+    error_image: view/img/default_error.png
+    save_files: false
+    allow_upscale: false
+    exif_orientation: true
+#    browser_cache_time: 2592000
 
 # Define the HTML tags and attributes that are allowed in 'cleaned' HTML. This
 # is used for sanitizing HTML, to make sure there are no undesirable elements
 # left in the content that is shown to users. For example, tags like `<script>`
 # or `onclick`-attributes.
 htmlcleaner:
-  allowed_tags: [ div, p, br, hr, s, u, strong, em, i, b, li, ul, ol, blockquote, pre, code, tt, h1, h2, h3, h4, h5, h6, dd, dl, dh, table, tbody, thead, tfoot, th, td, tr, a, img ]
-  allowed_attributes: [ id, class, style, name, value, href, src ]
+    allowed_tags: [ div, p, br, hr, s, u, strong, em, i, b, li, ul, ol, blockquote, pre, code, tt, h1, h2, h3, h4, h5, h6, dd, dl, dh, table, tbody, thead, tfoot, th, td, tr, a, img ]
+    allowed_attributes: [ id, class, style, name, value, href, src ]
 
 # Uploaded file handling
 #
 # You can change the pattern match and replacement on uploaded files and if the
 # resulting filename should be transformed to lower case.
 #upload:
-#  pattern: '[^A-Za-z0-9\.]+'
-#  replacement: '-'
-#  lowercase: true
+#    pattern: '[^A-Za-z0-9\.]+'
+#    replacement: '-'
+#    lowercase: true
 
 # File types that are acceptable for upload in either 'file' fields or through the 'files' screen.
 
@@ -179,9 +179,9 @@ accept_file_types: [ twig, html, js, css, scss, gif, jpg, jpeg, png, ico, zip, t
 # by default, if you change it here, it will only be accessible through the value set in
 # 'path'. Keep the path simple: lowercase only, no extra slashes or other special characters.
 #branding:
-#  name: SuperCMS
-#  path: /admin
-#  provided_by: [ supercool@example.org, "Supercool Webdesign Co." ]
+#    name: SuperCMS
+#    path: /admin
+#    provided_by: [ supercool@example.org, "Supercool Webdesign Co." ]
 
 # Show the 'debug' nut in the lower right corner for logged-in user. By default,
 # the debugbar is only shown to logged-in users. Use the 'debug_show_loggedoff'
@@ -197,13 +197,13 @@ debug_enable_whoops: true # change this to false to use PHP's built-in error han
 
 # System debug logging
 # This will enable intensive logging of Silex functions and will be very hard on
-# performance and log file size.  The log file will be created in your cache directory
+# performance and log file size.    The log file will be created in your cache directory
 # Enable this for short time periods only when diagnosing system issues.
 # The level can be either: DEBUG, INFO, NOTICE, WARNING, ERROR, CRITICAL, ALERT, EMERGENCY
 debuglog:
-  enabled: false
-  filename: bolt-debug.log
-  level: DEBUG
+    enabled: false
+    filename: bolt-debug.log
+    level: DEBUG
 
 # Use strict variables. This will make Bolt complain if you use {{ foo }},
 # when foo doesn't exist.
@@ -215,23 +215,23 @@ strict_variables: false
 # options are set to 'false'. If you choose to enable them for your editors, please
 # instruct them thoroughly on their responsibility not to break the layout.
 wysiwyg:
-  images: false
-  anchor: false
-  tables: false
-  fontcolor: false
-  align: false        # Add 'align left', 'align right',etc.
-  subsuper: false     # Add buttons for subscript and superscript, using <sub> and <sup>
-  embed: false        # allows the user to insert embedded video's from Youtube, Vimeo, etc.
-  underline: false    # add a button to underline text, using the <u>-tag.
-  strike: false       # add a button to add stikethrough, using the <s>-tag.
-  blockquote: false
-  codesnippet: false
-  specialchar: false  # adds a button to insert special chars like '€' or '™'.
-  ck:
-    allowedContent: true # If set to 'true', any elements and attributes are allowed in Wysiwg Elements
-    autoParagraph: true # If set to 'true', any pasted content is wrapped in <p> tags for multiple line-breaks
-    disableNativeSpellChecker: true # If set to 'true' it will stop browsers from underlining spelling mistakes
-    # viewSourceRoles: [ 'admin', 'developer' ] # the roles which are allowed to use the [Source]-button.
+    images: false
+    anchor: false
+    tables: false
+    fontcolor: false         # Allow users to mess around with font coloring.
+    align: false             # Add 'align left', 'align right',etc.
+    subsuper: false          # Add buttons for subscript and superscript, using <sub> and <sup>
+    embed: false             # allows the user to insert embedded video's from Youtube, Vimeo, etc.
+    underline: false         # add a button to underline text, using the <u>-tag.
+    strike: false            # add a button to add stikethrough, using the <s>-tag.
+    blockquote: false
+    codesnippet: false
+    specialchar: false       # adds a button to insert special chars like '€' or '™'.
+    ck:
+        allowedContent: true # If set to 'true', any elements and attributes are allowed in Wysiwg Elements
+        autoParagraph: true  # If set to 'true', any pasted content is wrapped in <p> tags for multiple line-breaks
+        disableNativeSpellChecker: true # If set to 'true' it will stop browsers from underlining spelling mistakes
+        # viewSourceRoles: [ 'admin', 'developer' ] # the roles which are allowed to use the [Source]-button.
 
 # Use the 'mailoptions' setting to configure how Bolt sends email: using 'smtp'
 # or PHP's built-in `mail()`-function. Note that the latter might _seem_ easier,
@@ -242,19 +242,19 @@ wysiwyg:
 # support SMTP, sign up for a (free) Mandrill account at https://mandrill.com/
 # for sending emails reliably.
 
-#mailoptions:
-#  transport: smtp
-#  spool: true
-#  host: localhost
-#  username: username
-#  password: password
-#  port: 25
-#  encryption: null
-#  auth_mode: null
+# mailoptions:
+#     transport: smtp
+#     spool: true
+#     host: localhost
+#     username: username
+#     password: password
+#     port: 25
+#     encryption: null
+#     auth_mode: null
 
-#mailoptions:
-#  transport: mail
-#  spool: false
+mailoptions:
+    transport: mail
+    spool: false
 
 # Bolt allows some modifications to how 'strict' login sessions are. For every option
 # that is set to true, it becomes harder for a bad-willing person to spoof your login
@@ -289,8 +289,8 @@ hash_strength: 10
 # Bolt sets the `X-Frame-Options` and `Frame-Options` to `SAMEORIGIN` by default, to prevent
 # clickjacking. When you uncomment the following line and set it to 'false', you will prevent
 # the setting of these headers.
-#headers:
-#  x_frame_options: true
+# headers:
+#     x_frame_options: true
 
 # Bolt uses extensions.bolt.cm to fetch it's extensions by default. You can change that URL here.
 # Do not change this, unless you know what you're doing, and understand the associated risks. If
@@ -300,9 +300,9 @@ hash_strength: 10
 # For the stability option, you can choose either 'dev' or 'stable'. Setting this to 'dev' will allow you to
 # install dev-master versions of extensions.
 extensions:
-  site: 'https://extensions.bolt.cm/'
-  stability: stable
-  enabled: true
+    site: 'https://extensions.bolt.cm/'
+    stability: stable
+    enabled: true
 
 # Enforce SSL: if set, all but the front-end pages will enforce an SSL
 # connection (and redirect to HTTPS if you attempt to visit the backend over
@@ -329,20 +329,20 @@ extensions:
 # theme_path: theme
 
 # If you want Bolt installation get news through a proxy
-#httpProxy:
-#  host: my.proxy.server
-#  user: usr
-#  password: pwd
+# httpProxy:
+#     host: my.proxy.server
+#     user: usr
+#     password: pwd
 
 
 # Options for when you're working with Grunt.
-#grunt:
-#  livereload: false
-#  livereloadport: 35729
+# grunt:
+#    livereload: false
+#    livereloadport: 35729
 
 # Options for backend user interface
-#backend:
-#  news:
-#    disable: true   # Disable news panel. Defaults to false. "Alerts" will still be shown.
-#  stack:
-#    disable: true   # Disable stack usage. Defaults to false.
+# backend:
+#    news:
+#        disable: true     # Disable news panel. Defaults to false. "Alerts" will still be shown.
+#    stack:
+#        disable: true     # Disable stack usage. Defaults to false.
