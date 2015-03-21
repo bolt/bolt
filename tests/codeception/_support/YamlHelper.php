@@ -109,10 +109,7 @@ class YamlHelper extends \Codeception\Module
             ]
         ];
 
-        $dumper = new Dumper();
-        $out = $dumper->dump($permissions, 3);
-
-        return str_replace('{  }', '[ ]', $out);
+        return $this->getYamlString($permissions, 3);
     }
 
     /**
@@ -167,10 +164,7 @@ class YamlHelper extends \Codeception\Module
             'viewless'          => true
         ];
 
-        $dumper = new Dumper();
-        $out = $dumper->dump($contenttypes, 4);
-
-        return str_replace('{  }', '[ ]', $out);
+        return $this->getYamlString($contenttypes, 4);
     }
 
     /**
@@ -186,8 +180,21 @@ class YamlHelper extends \Codeception\Module
         sort($options);
         $taxonomy['categories']['options'] = $options;
 
+        return $this->getYamlString($taxonomy, 2);
+    }
+
+    /**
+     * Get the YAML in a string
+     *
+     * @param array   $input  The PHP value
+     * @param integer $inline The level where you switch to inline YAML
+     *
+     * @return string
+     */
+    private function getYamlString(array $yaml, $depth)
+    {
         $dumper = new Dumper();
-        $out = $dumper->dump($taxonomy, 2);
+        $out = $dumper->dump($yaml, $depth);
 
         return str_replace('{  }', '[ ]', $out);
     }
