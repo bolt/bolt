@@ -137,33 +137,6 @@ class BackendAdminCest
     }
 
     /**
-     * Check that admin user can view all content types
-     *
-     * @param \AcceptanceTester $I
-     */
-    public function viewAllContenttypesTest(\AcceptanceTester $I)
-    {
-        $I->wantTo('make sure the admin user can view all content types');
-        $I->loginAs($this->user['admin']);
-        $I->click('Dashboard');
-
-        // Pages
-        $I->see('Pages',          Locator::href('/bolt/overview/pages'));
-        $I->see('View Pages',     Locator::href('/bolt/overview/pages'));
-        $I->see('New Page',       Locator::href('/bolt/editcontent/pages'));
-
-        // Entries
-        $I->see('Entries',        Locator::href('/bolt/overview/entries'));
-        $I->see('View Entries',   Locator::href('/bolt/overview/entries'));
-        $I->see('New Entry',      Locator::href('/bolt/editcontent/entries'));
-
-        // Showcases
-        $I->see('Showcases',      Locator::href('/bolt/overview/showcases'));
-        $I->see('View Showcases', Locator::href('/bolt/overview/showcases'));
-        $I->see('New Showcase',   Locator::href('/bolt/editcontent/showcases'));
-    }
-
-    /**
      * Edit contenttypes.yml and add a 'Typewriter' Contenttype
      *
      * @param \AcceptanceTester $I
@@ -181,6 +154,38 @@ class BackendAdminCest
         $I->see('name: Typewriters');
         $I->see('singular_name: Typewriter');
         $I->see('viewless: true');
+    }
+
+    /**
+     * Check that admin user can view all content types
+     *
+     * @param \AcceptanceTester $I
+     */
+    public function viewAllContenttypesTest(\AcceptanceTester $I)
+    {
+        $I->wantTo('make sure the admin user can view all content types');
+        $I->loginAs($this->user['admin']);
+        $I->click('Dashboard');
+
+        // Pages
+        $I->see('Pages',      Locator::href('/bolt/overview/pages'));
+        $I->see('View Pages', Locator::href('/bolt/overview/pages'));
+        $I->see('New Page',   Locator::href('/bolt/editcontent/pages'));
+
+        // Entries
+        $I->see('Entries',      Locator::href('/bolt/overview/entries'));
+        $I->see('View Entries', Locator::href('/bolt/overview/entries'));
+        $I->see('New Entry',    Locator::href('/bolt/editcontent/entries'));
+
+        // Showcases
+        $I->see('Showcases',      Locator::href('/bolt/overview/showcases'));
+        $I->see('View Showcases', Locator::href('/bolt/overview/showcases'));
+        $I->see('New Showcase',   Locator::href('/bolt/editcontent/showcases'));
+
+        // Typewriter
+        $I->see('Typewriter',      Locator::href('/bolt/overview/typewriters'));
+        $I->see('View Typewriter', Locator::href('/bolt/overview/typewriters'));
+        $I->see('New Typewriter',  Locator::href('/bolt/editcontent/typewriters'));
     }
 
     /**
