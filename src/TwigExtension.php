@@ -668,26 +668,26 @@ class TwigExtension extends \Twig_Extension
             return true;
         }
 
-        $linkToCheck  = false;
-
         if (is_array($content) && isset($content['link'])) {
             $linkToCheck = $content['link'];
         } elseif ($content instanceof \Bolt\Content) {
             $linkToCheck = $content->link();
+        } else {
+            $linkToCheck = (string) $content;
         }
 
-        $requestedUri    = explode('?', $this->app['request']->getRequestUri());
+        $requestedUri    = reset(explode('?', $this->app['request']->getRequestUri()));
 
         $entrancePageUrl = $this->app['config']->get('general/homepage');
         $entrancePageUrl = (substr($entrancePageUrl, 0, 1) !== '/') ? '/' . $entrancePageUrl : $entrancePageUrl;
 
         // check against Request Uri
-        if ($requestedUri[0] == $linkToCheck) {
+        if ($requestedUri == $linkToCheck) {
             return true;
         }
 
         // check against entrance page url from general configuration
-        if ('/' == $requestedUri[0] && $linkToCheck == $entrancePageUrl) {
+        if ('/' == $requestedUri && $linkToCheck == $entrancePageUrl) {
             return true;
         }
 
