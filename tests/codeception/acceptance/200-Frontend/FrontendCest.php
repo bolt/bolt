@@ -33,7 +33,7 @@ class FrontendCest
      */
     public function checkFrontPageTest(\AcceptanceTester $I)
     {
-        $I->wantTo('see that the homepage works');
+        $I->wantTo('see that the homepage works.');
 
         $I->amOnPage('');
 
@@ -51,12 +51,27 @@ class FrontendCest
      */
     public function checkAboutPageTest(\AcceptanceTester $I)
     {
-        $I->wantTo('see that the about page and pagebind route works');
+        $I->wantTo('see that the about page and pagebind route works.');
 
         $I->amOnPage('about');
 
         $I->see("Easy for editors, and a developer's dream cms", 'h1');
         $I->see('Bolt is an open source Content Management Tool', 'h2');
         $I->see('The fully responsive dashboard works on desktop computers, laptops, tablets and mobile phones alike, so you can control anything from wherever you are.', 'p');
+    }
+
+    /**
+     * Check a non-existing URL and check for our 404
+     *
+     * @param \AcceptanceTester $I
+     */
+    public function checkNotFoundResourceTest(\AcceptanceTester $I)
+    {
+        $I->wantTo('see that a non-existing URL request returns a valid 404 page.');
+
+        $I->amOnPage('derp-a-derp');
+
+        $I->see('Well, this is kind of embarrassing!');
+        $I->see('You have what we call in the business, a 404.');
     }
 }
