@@ -74,4 +74,20 @@ class FrontendCest
         $I->see('Well, this is kind of embarrassing!');
         $I->see('You have what we call in the business, a 404.');
     }
+
+    /**
+     * Check that canonical links are the same on URIs by slug and ID
+     *
+     * @param \AcceptanceTester $I
+     */
+    public function checkCanonicalTest(\AcceptanceTester $I)
+    {
+        $I->wantTo('see that canonical links are the same on URIs by slug and ID.');
+
+        $I->amOnPage('page/about');
+        $I->seeElement('link', ['rel' => 'canonical', 'href' => 'http://example.org/about']);
+
+        $I->amOnPage('page/2');
+        $I->seeElement('link', ['rel' => 'canonical', 'href' => 'http://example.org/about']);
+    }
 }
