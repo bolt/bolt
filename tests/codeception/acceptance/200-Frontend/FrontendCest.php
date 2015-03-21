@@ -61,6 +61,21 @@ class FrontendCest
     }
 
     /**
+     * Check a viewless contenttype can't be routed to.
+     *
+     * @param \AcceptanceTester $I
+     */
+    public function checkNotFoundViewlessTest(\AcceptanceTester $I)
+    {
+        $I->wantTo("see that a a viewless contenttype can't be routed to.");
+
+        $I->amOnPage('resources');
+
+        $I->see('Well, this is kind of embarrassing!');
+        $I->see('You have what we call in the business, a 404.');
+    }
+
+    /**
      * Check a non-existing URL and check for our 404
      *
      * @param \AcceptanceTester $I
