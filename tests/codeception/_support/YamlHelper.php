@@ -198,6 +198,24 @@ class YamlHelper extends \Codeception\Module
     }
 
     /**
+     * Read the routing file and add a pagebinding route… Hackishly!
+     *
+     * @return string
+     */
+    public function getUpdatedRouting()
+    {
+        $filename = PROJECT_ROOT . '/app/config/routing.yml';
+
+        $routing = file_get_contents($filename) . "\n";
+        $routing .= "pagebinding:\n";
+        $routing .= "    path: /{slug}\n";
+        $routing .= "    defaults: { _controller: 'Bolt\Controllers\Frontend::record', 'contenttypeslug': 'page' }\n";
+        $routing .= "    contenttype: pages\n";
+
+        return $routing;
+    }
+
+    /**
      * Get the YAML in a string
      *
      * @param array   $input  The PHP value

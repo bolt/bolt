@@ -266,6 +266,26 @@ class BackendAdminCest
     }
 
     /**
+     * Edit the routing file
+     *
+     * @param \AcceptanceTester $I
+     */
+    public function editRoutingTest(\AcceptanceTester $I)
+    {
+        $I->wantTo('edit routing.yml and add a pagebinding route');
+        $I->loginAs($this->user['admin']);
+
+        $I->amOnPage('bolt/file/edit/config/routing.yml');
+        $yaml = $I->getUpdatedRouting();
+        $I->fillField('#form_contents', $yaml);
+        $I->click('Save');
+        $I->see("File 'routing.yml' has been saved.");
+        $I->see('pagebinding:');
+        $I->see("/{slug}");
+        $I->see("contenttype: pages");
+    }
+
+    /**
      * Logout the admin user
      *
      * @param \AcceptanceTester $I
