@@ -358,6 +358,22 @@ class BackendAdminCest
     }
 
     /**
+     * Clear the cache
+     *
+     * @param \AcceptanceTester $I
+     */
+    public function clearCacheTest(\AcceptanceTester $I)
+    {
+        $I->wantTo('flush the cache.');
+        $I->loginAs($this->user['admin']);
+        $I->amOnPage('bolt/clearcache');
+
+        $I->see('Deleted');
+        $I->see('files from cache.');
+        $I->see('Clear cache again', 'a');
+    }
+
+    /**
      * Logout the admin user
      *
      * @param \AcceptanceTester $I
