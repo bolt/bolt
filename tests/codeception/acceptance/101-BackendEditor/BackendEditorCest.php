@@ -1,6 +1,7 @@
 <?php
 
 use Codeception\Util\Fixtures;
+use Codeception\Util\Locator;
 
 /**
  * Backend 'editor' tests
@@ -58,15 +59,15 @@ class BackendEditorCest
         $I->see('View Showcases');
         $I->dontSee('New Showcase');
 
-        $I->dontSee('Configuration');
-        $I->dontSee('Translations');
-        $I->dontSee('Extras');
+        $I->dontSee('Configuration', Locator::href('/bolt/users'));
+        $I->dontSee('Translations', Locator::href('/bolt/tr'));
+        $I->dontSee('Extras', Locator::href('/bolt/extend'));
         $I->dontSee('Latest system activity');
         $I->dontSee('Edit Dummies');
 
-        $I->see('File Management');
-        $I->see('Uploaded files');
-        $I->dontSee('View/edit templates');
+        $I->see('File Management', Locator::href('/bolt/files'));
+        $I->see('Uploaded files', Locator::href('/bolt/files'));
+        $I->dontSee('View/edit templates', Locator::href('/bolt/theme'));
     }
 
     /**
@@ -81,7 +82,9 @@ class BackendEditorCest
         $I->see('New Page');
 
         $I->click('New Page');
-        $I->see('Actions for this Page');
+        $I->see('Pages',      Locator::href('/bolt/overview/pages'));
+        $I->see('View Pages', Locator::href('/bolt/overview/pages'));
+        $I->see('New Page',   Locator::href('/bolt/editcontent/pages'));
 
         $I->fillField('#title',  'A page I made');
         $I->fillField('#teaser', 'Woop woop woop! Crazy nice stuff inside!');

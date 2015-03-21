@@ -1,6 +1,7 @@
 <?php
 
 use Codeception\Util\Fixtures;
+use Codeception\Util\Locator;
 
 /**
  * Backend 'admin' tests
@@ -38,6 +39,7 @@ class BackendAdminCest
 
         $I->loginAs($this->user['admin']);
         $I->see('Dashboard');
+        $I->see('Configuration', Locator::href('/bolt/users'));
         $I->see("You've been logged on successfully.");
     }
 
@@ -52,8 +54,8 @@ class BackendAdminCest
 
         $I->loginAs($this->user['admin']);
         $I->click('Users');
-        $I->click('Add a new user');
-        $I->see('Create a new user');
+        $I->click('Add a new user', Locator::href('/bolt/users/edit/'));
+        $I->see('Create a new user account');
 
         // Fill in form
         $I->fillField('form[username]',              $this->user['editor']['username']);
@@ -83,8 +85,8 @@ class BackendAdminCest
 
         $I->loginAs($this->user['admin']);
         $I->click('Users');
-        $I->click('Add a new user');
-        $I->see('Create a new user');
+        $I->click('Add a new user', Locator::href('/bolt/users/edit/'));
+        $I->see('Create a new user account');
 
         // Fill in form
         $I->fillField('form[username]',              $this->user['manager']['username']);
@@ -114,8 +116,8 @@ class BackendAdminCest
 
         $I->loginAs($this->user['admin']);
         $I->click('Users');
-        $I->click('Add a new user');
-        $I->see('Create a new user');
+        $I->click('Add a new user', Locator::href('/bolt/users/edit/'));
+        $I->see('Create a new user account');
 
         // Fill in form
         $I->fillField('form[username]',              $this->user['developer']['username']);
@@ -145,9 +147,20 @@ class BackendAdminCest
         $I->loginAs($this->user['admin']);
         $I->click('Dashboard');
 
-        $I->see('Page');
-        $I->see('Entries');
-        $I->see('Showcases');
+        // Pages
+        $I->see('Pages',          Locator::href('/bolt/overview/pages'));
+        $I->see('View Pages',     Locator::href('/bolt/overview/pages'));
+        $I->see('New Page',       Locator::href('/bolt/editcontent/pages'));
+
+        // Entries
+        $I->see('Entries',        Locator::href('/bolt/overview/entries'));
+        $I->see('View Entries',   Locator::href('/bolt/overview/entries'));
+        $I->see('New Entry',      Locator::href('/bolt/editcontent/entries'));
+
+        // Showcases
+        $I->see('Showcases',      Locator::href('/bolt/overview/showcases'));
+        $I->see('View Showcases', Locator::href('/bolt/overview/showcases'));
+        $I->see('New Showcase',   Locator::href('/bolt/editcontent/showcases'));
     }
 
     /**
