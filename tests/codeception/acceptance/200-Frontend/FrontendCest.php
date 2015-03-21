@@ -41,7 +41,7 @@ class FrontendCest
         $I->see('Recent Pages');
         $I->see('Recent Entries');
         $I->see('Recent Showcases');
-        $I->dontSee('Recent Typewriters');
+        $I->dontSee('Recent Resources');
     }
 
     /**

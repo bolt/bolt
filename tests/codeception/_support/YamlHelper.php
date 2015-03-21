@@ -113,12 +113,12 @@ class YamlHelper extends \Codeception\Module
     }
 
     /**
-     * Add a 'Typewriters' Contenttype
+     * Add a 'Resources' Contenttype
      *
      * ```
-     * typewriters:
-     *     name: Typewriters
-     *     singular_name: Typewriter
+     * resources:
+     *     name: Resourcess
+     *     singular_name: Resource
      *     fields:
      *         title:
      *             type: text
@@ -141,9 +141,9 @@ class YamlHelper extends \Codeception\Module
     {
         $contenttypes = $this->readYaml('contenttypes.yml');
 
-        $contenttypes['typewriters'] = [
-            'name'          => 'Typewriters',
-            'singular_name' => 'Typewriter',
+        $contenttypes['resources'] = [
+            'name'          => 'Resources',
+            'singular_name' => 'Resource',
             'fields'        => [
                 'title' => [
                     'type'  => 'text',

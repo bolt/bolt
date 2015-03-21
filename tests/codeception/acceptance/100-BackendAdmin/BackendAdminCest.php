@@ -137,13 +137,13 @@ class BackendAdminCest
     }
 
     /**
-     * Edit contenttypes.yml and add a 'Typewriter' Contenttype
+     * Edit contenttypes.yml and add a 'Resources' Contenttype
      *
      * @param \AcceptanceTester $I
      */
     public function addNewContentTypeTest(\AcceptanceTester $I)
     {
-        $I->wantTo("edit contenttypes.yml and add a 'Typewriter' Contenttype");
+        $I->wantTo("edit contenttypes.yml and add a 'Resources' Contenttype");
         $I->loginAs($this->user['admin']);
 
         $I->amOnPage('bolt/file/edit/config/contenttypes.yml');
@@ -151,19 +151,19 @@ class BackendAdminCest
         $I->fillField('#form_contents', $yaml);
         $I->click('Save');
         $I->see("File 'contenttypes.yml' has been saved.");
-        $I->see('name: Typewriters');
-        $I->see('singular_name: Typewriter');
+        $I->see('name: Resources');
+        $I->see('singular_name: Resource');
         $I->see('viewless: true');
     }
 
     /**
-     * Update the database after creating the Typewriter Contenttype
+     * Update the database after creating the Resources Contenttype
      *
      * @param \AcceptanceTester $I
      */
     public function updateDatabaseTest(\AcceptanceTester $I)
     {
-        $I->wantTo("update the database and add the new 'Typewriter' Contenttype");
+        $I->wantTo("update the database and add the new 'Resources' Contenttype");
         $I->loginAs($this->user['admin']);
 
         $I->amOnPage('bolt/dbcheck');
@@ -204,10 +204,10 @@ class BackendAdminCest
         $I->see('View Showcases', Locator::href('/bolt/overview/showcases'));
         $I->see('New Showcase',   Locator::href('/bolt/editcontent/showcases'));
 
-        // Typewriter
-        $I->see('Typewriter',      Locator::href('/bolt/overview/typewriters'));
-        $I->see('View Typewriter', Locator::href('/bolt/overview/typewriters'));
-        $I->see('New Typewriter',  Locator::href('/bolt/editcontent/typewriters'));
+        // Resources
+        $I->see('Resources',      Locator::href('/bolt/overview/resources'));
+        $I->see('View Resources', Locator::href('/bolt/overview/resources'));
+        $I->see('New Resource',   Locator::href('/bolt/editcontent/resources'));
     }
 
     /**
