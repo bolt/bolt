@@ -58,7 +58,7 @@ if (file_exists(PROJECT_ROOT . '/app/database/bolt.db') && !file_exists(PROJECT_
 
 // Install the local extension
 $fs = new Filesystem();
-$fs->mirror(CODECEPTION_ROOT . '/_data/extensions/local/', PROJECT_ROOT . '/extensions/local/', null, array('override' => true, 'delete' => true));
+$fs->mirror(CODECEPTION_DATA . '/extensions/local/', PROJECT_ROOT . '/extensions/local/', null, array('override' => true, 'delete' => true));
 
 // Empty the cache
 system('php ' . NUT_PATH . ' cache:clear');
