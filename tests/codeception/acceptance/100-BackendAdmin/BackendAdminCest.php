@@ -337,6 +337,30 @@ class BackendAdminCest
     }
 
     /**
+     * Check the we can use the change log
+     *
+     * @param \AcceptanceTester $I
+     */
+    public function checkChangeLogTest(\AcceptanceTester $I)
+    {
+        $I->wantTo('use the change log interface.');
+        $I->loginAs($this->user['admin']);
+        $I->amOnPage('bolt/changelog');
+
+        // Layout
+        $I->see('Change Log', 'h1');
+        $I->see('Trim Change Log', 'a');
+        $I->see('Clear Change Log', 'a');
+
+        // An expect entry
+        $I->see('title, slug, body, status, ownerid, datepublish, datedepublish, datecreated', 'td');
+
+        // Trim
+        $I->click('Trim Change Log', 'a');
+        $I->see('The change log has been trimmed.');
+    }
+
+    /**
      * Clear the cache
      *
      * @param \AcceptanceTester $I
