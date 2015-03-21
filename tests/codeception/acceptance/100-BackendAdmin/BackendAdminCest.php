@@ -161,8 +161,8 @@ class BackendAdminCest
         $I->loginAs($this->user['admin']);
 
         $I->amOnPage('bolt/file/edit/config/contenttypes.yml');
-        $contenttypes = $I->getUpdatedContenttypes();
-        $I->fillField('#form_contents', $contenttypes);
+        $yaml = $I->getUpdatedContenttypes();
+        $I->fillField('#form_contents', $yaml);
         $I->click('Save');
         $I->see("File 'contenttypes.yml' has been saved.");
         $I->see('name: Typewriters');
@@ -181,11 +181,29 @@ class BackendAdminCest
         $I->loginAs($this->user['admin']);
 
         $I->amOnPage('bolt/file/edit/config/permissions.yml');
-        $perms = $I->getUpdatedPermissions();
-        $I->fillField('#form_contents', $perms);
+        $yaml = $I->getUpdatedPermissions();
+        $I->fillField('#form_contents', $yaml);
         $I->click('Save');
         $I->see("File 'permissions.yml' has been saved.");
         $I->see('change-ownership: [ ]');
+    }
+
+    /**
+     *
+     *
+     * @param \AcceptanceTester $I
+     */
+    public function editTaxonomyTest(\AcceptanceTester $I)
+    {
+        $I->wantTo('edit taxonomy.yml and reorder category options');
+        $I->loginAs($this->user['admin']);
+
+        $I->amOnPage('bolt/file/edit/config/taxonomy.yml');
+        $yaml = $I->getUpdatedTaxonomy();
+        $I->fillField('#form_contents', $yaml);
+        $I->click('Save');
+        $I->see("File 'taxonomy.yml' has been saved.");
+        $I->see(' options: [books, events, fun, life, love, movies, music, news]');
     }
 
     /**

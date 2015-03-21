@@ -172,4 +172,23 @@ class YamlHelper extends \Codeception\Module
 
         return str_replace('{  }', '[ ]', $out);
     }
+
+    /**
+     * Read our taxonomy and sort the category options.
+     *
+     * @return string
+     */
+    public function getUpdatedTaxonomy()
+    {
+        $taxonomy = $this->readYaml('taxonomy.yml');
+
+        $options = $taxonomy['categories']['options'];
+        sort($options);
+        $taxonomy['categories']['options'] = $options;
+
+        $dumper = new Dumper();
+        $out = $dumper->dump($taxonomy, 2);
+
+        return str_replace('{  }', '[ ]', $out);
+    }
 }
