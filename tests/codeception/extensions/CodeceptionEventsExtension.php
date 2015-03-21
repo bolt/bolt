@@ -97,10 +97,13 @@ class CodeceptionEventsExtension extends \Codeception\Platform\Extension
             $fs->rename(PROJECT_ROOT . '/app/database/bolt.db.codeception-backup', PROJECT_ROOT . '/app/database/bolt.db', true);
         }
 
-        // Permissions file
-        if ($fs->exists(PROJECT_ROOT . '/app/config/permissions.yml.codeception-backup')) {
-            $this->writeln('Restoring app/config/permissions.yml');
-            $fs->rename(PROJECT_ROOT . '/app/config/permissions.yml.codeception-backup', PROJECT_ROOT . '/app/config/permissions.yml', true);
+        // Config files
+        $configs = ['config.yml', 'contenttypes.yml', 'menu.yml', 'permissions.yml',  'routing.yml', 'taxonomy.yml'];
+        foreach ($configs as $config) {
+            if ($fs->exists(PROJECT_ROOT . "/app/config/$config.codeception-backup")) {
+                $this->writeln("Restoring app/config/$config");
+                $fs->rename(PROJECT_ROOT . "/app/config/$config.codeception-backup", PROJECT_ROOT . "/app/config/$config", true);
+            }
         }
 
         // Events tester local extension

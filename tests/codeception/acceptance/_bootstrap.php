@@ -37,12 +37,15 @@ Fixtures::add('users', array(
     )
 ));
 
-// Set up a test-specific permissions.yml
-if (file_exists(PROJECT_ROOT . '/app/config/permissions.yml')) {
-    if (!file_exists(PROJECT_ROOT . '/app/config/permissions.yml.codeception-backup')) {
-        rename(PROJECT_ROOT . '/app/config/permissions.yml', PROJECT_ROOT. '/app/config/permissions.yml.codeception-backup');
-    } else {
-        unlink(PROJECT_ROOT . '/app/config/permissions.yml');
+// Set up a test-specific app/config/
+$configs = ['config.yml', 'contenttypes.yml', 'menu.yml', 'permissions.yml',  'routing.yml', 'taxonomy.yml'];
+foreach ($configs as $config) {
+    if (file_exists(PROJECT_ROOT . "/app/config/$config")) {
+        if (!file_exists(PROJECT_ROOT . "/app/config/$config.codeception-backup")) {
+            rename(PROJECT_ROOT . "/app/config/$config", PROJECT_ROOT. "/app/config/$config.codeception-backup");
+        } else {
+            unlink(PROJECT_ROOT . "/app/config/$config");
+        }
     }
 }
 
