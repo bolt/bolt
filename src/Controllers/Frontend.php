@@ -109,7 +109,7 @@ class Frontend
 
         // If the contenttype is 'viewless', don't show the record page.
         if (isset($contenttype['viewless']) && $contenttype['viewless'] === true) {
-            $app->abort(Response::HTTP_NOT_FOUND, "Page $contenttypeslug/$slug not found.");
+            return $app->abort(Response::HTTP_NOT_FOUND, "Page $contenttypeslug/$slug not found.");
         }
 
         // Perhaps we don't have a slug. Let's see if we can pick up the 'id', instead.
@@ -129,7 +129,7 @@ class Frontend
 
         // No content, no page!
         if (!$content) {
-            $app->abort(Response::HTTP_NOT_FOUND, "Page $contenttypeslug/$slug not found.");
+            return $app->abort(Response::HTTP_NOT_FOUND, "Page $contenttypeslug/$slug not found.");
         }
 
         // Then, select which template to use, based on our 'cascading templates rules'
@@ -204,7 +204,7 @@ class Frontend
 
         // If the contenttype is 'viewless', don't show the record page.
         if (isset($contenttype['viewless']) && $contenttype['viewless'] === true) {
-            $app->abort(Response::HTTP_NOT_FOUND, "Page $contenttypeslug not found.");
+            return $app->abort(Response::HTTP_NOT_FOUND, "Page $contenttypeslug not found.");
         }
 
         $pagerid = Pager::makeParameterId($contenttypeslug);
@@ -256,9 +256,14 @@ class Frontend
         $content = $app['storage']->getContentByTaxonomy($taxonomytype, $slug, array('limit' => $amount, 'order' => $order, 'page' => $page));
 
         // See https://github.com/bolt/bolt/pull/2310
-        if (($taxonomy['behaves_like'] === 'tags' && !$content)
-            || (in_array($taxonomy['behaves_like'], array('categories', 'grouping')) && !in_array($slug, isset($taxonomy['options']) ? array_keys($taxonomy['options']) : array()))) {
-            $app->abort(Response::HTTP_NOT_FOUND, "No slug '$slug' in taxonomy '$taxonomyslug'");
+        if (
+                ($taxonomy['behaves_like'] === 'tags' && !$content) || 
+                (
+                    in_array($taxonomy['behaves_like'], array('categories', 'grouping')) && 
+                    !in_array($slug, isset($taxonomy['options']) ? array_keys($taxonomy['options']) : array())
+                )
+            ) {
+            return $app->abort(Response::HTTP_NOT_FOUND, "No slug '$slug' in taxonomy '$taxonomyslug'");
         }
 
         $template = $app['templatechooser']->taxonomy($taxonomyslug);
@@ -409,7 +414,7 @@ class Frontend
             $this->setTemplateError($app, $error);
 
             // Abort ship
-            $app->abort(Response::HTTP_INTERNAL_SERVER_ERROR, $error);
+            return $app->abort(Response::HTTP_INTERNAL_SERVER_ERROR, $error);
         }
     }
 
