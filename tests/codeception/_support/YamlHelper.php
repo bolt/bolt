@@ -35,6 +35,21 @@ class YamlHelper extends \Codeception\Module
     }
 
     /**
+     * Read the config file and set 'canonical' and 'notfound'
+     *
+     * @return string
+     */
+    public function getUpdatedConfig()
+    {
+        $config = $this->readYaml('config.yml');
+
+        $config['canonical'] = 'example.org';
+        $config['notfound']  = 'resources/not-found';
+
+        return $this->getYamlString($config, 5);
+    }
+
+    /**
      * Update the permissions.yml array that we'll use.
      *
      * The intended layout is presently:
