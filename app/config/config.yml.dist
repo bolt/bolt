@@ -252,9 +252,9 @@ wysiwyg:
 #     encryption: null
 #     auth_mode: null
 
-mailoptions:
-    transport: mail
-    spool: false
+# mailoptions:
+#     transport: mail
+#     spool: false
 
 # Bolt allows some modifications to how 'strict' login sessions are. For every option
 # that is set to true, it becomes harder for a bad-willing person to spoof your login
