@@ -337,6 +337,31 @@ class BackendAdminCest
     }
 
     /**
+     * Check the we can use the system log
+     *
+     * @param \AcceptanceTester $I
+     */
+    public function checkSystemLogTest(\AcceptanceTester $I)
+    {
+        $I->wantTo('use the system log interface.');
+        $I->loginAs($this->user['admin']);
+        $I->amOnPage('bolt/systemlog');
+
+        // Layout
+        $I->see('System Log', 'h1');
+        $I->see('Trim System Log', 'a');
+        $I->see('Clear System Log', 'a');
+
+        // An expect entry
+        $I->see('Logged in: admin', 'td');
+        $I->see('Using cached data', 'td');
+
+        // Trim
+        $I->click('Trim System Log', 'a');
+        $I->see('The system log has been trimmed.');
+    }
+
+    /**
      * Check the we can use the change log
      *
      * @param \AcceptanceTester $I
