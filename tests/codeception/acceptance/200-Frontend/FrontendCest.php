@@ -105,4 +105,21 @@ class FrontendCest
         $I->amOnPage('page/2');
         $I->seeElement('link', ['rel' => 'canonical', 'href' => 'http://example.org/about']);
     }
+
+    /**
+     * Check that menus have a 'Home' with class 'first' and and active URI with
+     * the class 'active'
+     *
+     * @param \AcceptanceTester $I
+     */
+    public function checkMenusTest(\AcceptanceTester $I)
+    {
+        $I->wantTo("see that menus have 'first' and a correct 'active'.");
+
+        $I->amOnPage('');
+        $I->seeElement('a', ['href' => '/', 'class' => 'first']);
+
+        $I->amOnPage('pages');
+        $I->seeElement('a', ['href' => '/pages', 'class' => 'active']);
+    }
 }
