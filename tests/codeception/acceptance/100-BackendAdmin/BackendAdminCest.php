@@ -157,6 +157,28 @@ class BackendAdminCest
     }
 
     /**
+     * Update the database after creating the Typewriter Contenttype
+     *
+     * @param \AcceptanceTester $I
+     */
+    public function updateDatabaseTest(\AcceptanceTester $I)
+    {
+        $I->wantTo("update the database and add the new 'Typewriter' Contenttype");
+        $I->loginAs($this->user['admin']);
+
+        $I->amOnPage('bolt/dbcheck');
+
+        $I->see('The database needs to be updated/repaired');
+        $I->see('is not present');
+        $I->see('Update the database', Locator::find('button', array('type' => 'submit')));
+
+        $I->click('Update the database', Locator::find('button', array('type' => 'submit')));
+        $I->see('Modifications made to the database');
+        $I->see('Created table');
+        $I->see('Your database is now up to date');
+    }
+
+    /**
      * Check that admin user can view all content types
      *
      * @param \AcceptanceTester $I
