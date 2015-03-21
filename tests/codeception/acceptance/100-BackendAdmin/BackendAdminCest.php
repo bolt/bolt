@@ -207,7 +207,7 @@ class BackendAdminCest
     }
 
     /**
-     *
+     * Edit the taxonomy
      *
      * @param \AcceptanceTester $I
      */
@@ -221,7 +221,26 @@ class BackendAdminCest
         $I->fillField('#form_contents', $yaml);
         $I->click('Save');
         $I->see("File 'taxonomy.yml' has been saved.");
-        $I->see(' options: [books, events, fun, life, love, movies, music, news]');
+        $I->see('options: [books, events, fun, life, love, movies, music, news]');
+    }
+
+    /**
+     * Edit the menu file
+     *
+     * @param \AcceptanceTester $I
+     */
+    public function editMenuTest(\AcceptanceTester $I)
+    {
+        $I->wantTo('edit menu.yml and reorder category options');
+        $I->loginAs($this->user['admin']);
+
+        $I->amOnPage('bolt/file/edit/config/menu.yml');
+        $yaml = $I->getUpdatedMenu();
+        $I->fillField('#form_contents', $yaml);
+        $I->click('Save');
+        $I->see("File 'menu.yml' has been saved.");
+        $I->see('Showcases Listing');
+        $I->see('path: showcases/');
     }
 
     /**

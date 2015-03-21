@@ -184,6 +184,20 @@ class YamlHelper extends \Codeception\Module
     }
 
     /**
+     * Read the menu file and add a menu for the Showcase listing
+     *
+     * @return string
+     */
+    public function getUpdatedMenu()
+    {
+        $menus = $this->readYaml('menu.yml');
+
+        $menus['main'][] = ['label' => 'Showcases Listing', 'path' => 'showcases/'];
+
+        return $this->getYamlString($menus, 5);
+    }
+
+    /**
      * Get the YAML in a string
      *
      * @param array   $input  The PHP value
