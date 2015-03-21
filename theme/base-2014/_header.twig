@@ -7,9 +7,9 @@
     {# make sure we always display a proper title: The record's title if there is one, appended with the
        sitename. If there is no title, we append the sitename with the payoff, if there is one. #}
     <title>
-      {% if record.title is defined %}{{ record.title|striptags }} | {% endif %}
-      {{ app.config.get('general/sitename') }}
-      {% if record.title is not defined and app.config.get('general/payoff') %} | {{ app.config.get('general/payoff') }}{% endif %}
+        {% if record.title is defined %}{{ record.title|striptags }} | {% endif %}
+            {{ app.config.get('general/sitename') }}
+        {% if record.title is not defined and app.config.get('general/payoff') %} | {{ app.config.get('general/payoff') }}{% endif %}
     </title>
 
     <link href='//fonts.googleapis.com/css?family=Open+Sans:400,600' rel='stylesheet' type='text/css'>

@@ -25,10 +25,10 @@ cat $BOLT/app/config/config.yml.dist > $CONFIGYML
 
 if [[ $1 = "mysql" ]] ; then
     echo "Configuring MySQL in $CONFIGYML"
-    perl -p -i -e "undef $/; s/driver: sqlite\n  databasename: bolt/driver: mysql\n  databasename: $DB_NAME\n  username: $DB_USER\n  password: $DB_PASS/g" $CONFIGYML
+    perl -p -i -e "undef $/; s/driver: sqlite\n    databasename: bolt/driver: mysql\n    databasename: $DB_NAME\n    username: $DB_USER\n    password: $DB_PASS/g" $CONFIGYML
 elif [[ "$1" = "postgres" ]] ; then
     echo "Configuring PostgreSQL in $CONFIGYML"
-    perl -p -i -e "undef $/; s/driver: sqlite\n  databasename: bolt/driver: postgres\n  databasename: $DB_NAME\n  username: $DB_USER\n  password: $DB_PASS/g" $CONFIGYML
+    perl -p -i -e "undef $/; s/driver: sqlite\n    databasename: bolt/driver: postgres\n    databasename: $DB_NAME\n    username: $DB_USER\n    password: $DB_PASS/g" $CONFIGYML
 else
     echo "Invalid parameter"
     exit 1

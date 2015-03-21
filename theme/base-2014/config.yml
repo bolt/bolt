@@ -7,12 +7,12 @@ foo: bar
 
 # setting the header image. The default images in this theme all came from Pexels: http://pexels.com
 headerimage:
-  - agriculture-field-grain-1585.jpg
-  - beach-dune-field-1710.jpg
-  - boat-lake-landing-stage-2535.jpg
-  - daisies-flowers-grass-623.jpg
-  - dark-clouds-grass-landscape-405.jpg
-  - forest-grass-lawn-1826.jpg
+    - agriculture-field-grain-1585.jpg
+    - beach-dune-field-1710.jpg
+    - boat-lake-landing-stage-2535.jpg
+    - daisies-flowers-grass-623.jpg
+    - dark-clouds-grass-landscape-405.jpg
+    - forest-grass-lawn-1826.jpg
 
 # Template filenames. If you 're creating a theme for distribution, you can specify
 # the filenames of the templates here. The templates you will set in this config
