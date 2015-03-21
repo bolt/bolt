@@ -480,7 +480,7 @@ class Application extends Silex\Application
                 if ($this['config']->get('general/canonical')) {
                     $snippet = sprintf(
                         '<link rel="canonical" href="%s">',
-                        htmlspecialchars($this['paths']['canonicalurl'], ENT_QUOTES)
+                        htmlspecialchars($this['resources']->getUrl('canonicalurl'), ENT_QUOTES)
                     );
                     $this['extensions']->insertSnippet(Extensions\Snippets\Location::AFTER_META, $snippet);
                 }
@@ -488,9 +488,9 @@ class Application extends Silex\Application
                 // Perhaps add a favicon.
                 if ($this['config']->get('general/favicon')) {
                     $snippet = sprintf(
-                        '<link rel="shortcut icon" href="//%s%s%s">',
-                        htmlspecialchars($this['paths']['canonical'], ENT_QUOTES),
-                        htmlspecialchars($this['paths']['theme'], ENT_QUOTES),
+                        '<link rel="shortcut icon" href="%s%s%s">',
+                        htmlspecialchars($this['resources']->getUrl('hosturl'), ENT_QUOTES),
+                        htmlspecialchars($this['resources']->getUrl('theme'), ENT_QUOTES),
                         htmlspecialchars($this['config']->get('general/favicon'), ENT_QUOTES)
                     );
                     $this['extensions']->insertSnippet(Extensions\Snippets\Location::AFTER_META, $snippet);

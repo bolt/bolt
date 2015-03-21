@@ -946,6 +946,17 @@ class Content implements \ArrayAccess
         return preg_replace('/^([^?]*).*$/', '\\1', $link);
     }
 
+    /**
+     * Checks if the current record is set as the homepage.
+     */
+    public function isHome()
+    {
+        $homepage = $this->app['config']->get('general/homepage');
+
+        return (($this->contenttype['singular_slug'].'/'.$this->get('id') == $homepage) ||
+           ($this->contenttype['singular_slug'].'/'.$this->get('id') == $homepage));
+    }
+
     protected function getRouteRequirementParams(array $route)
     {
         $params = array();

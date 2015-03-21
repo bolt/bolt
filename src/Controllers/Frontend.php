@@ -140,9 +140,17 @@ class Frontend
         // Then, select which template to use, based on our 'cascading templates rules'
         $template = $app['templatechooser']->record($content);
 
-        // Setting the canonical path and the editlink.
         $paths = $app['resources']->getPaths();
-        $app['resources']->setUrl('canonicalurl', sprintf('%s%s', $paths['canonical'], $content->link()));
+
+        // Setting the canonical URL.
+        if ($content->isHome() && ($template == $app['config']->get('general/homepage_template'))) {
+            $app['resources']->setUrl('canonicalurl', $paths['rooturl']);
+        } else {
+            $url = $paths['canonical'] . $content->link();
+            $app['resources']->setUrl('canonicalurl', $url);
+        }
+
+        // Setting the editlink
         $app['editlink'] = Lib::path('editcontent', array('contenttypeslug' => $contenttype['slug'], 'id' => $content->id));
         $app['edittitle'] = $content->getTitle();
 
