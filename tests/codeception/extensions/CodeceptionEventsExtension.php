@@ -83,17 +83,23 @@ class CodeceptionEventsExtension extends \Codeception\Platform\Extension
     }
 
     /**
-     * Clean up after acceptance test suite run
+     * Clean up after acceptance test suite run.
+     *
+     * We will copy the configs and database used to cache for inspection, really
+     * only useful on test development runs but little impact overall.
      *
      * @param \Codeception\Event\SuiteEvent $e
      */
     private function afterSuiteAcceptance(SuiteEvent $e)
     {
         $fs = new Filesystem();
+        $rundir = PROJECT_ROOT . '/app/cache/codeception-run-' . time();
+        $fs->mkdir($rundir);
 
         // Sqlite DB
         if ($fs->exists(PROJECT_ROOT . '/app/database/bolt.db.codeception-backup')) {
             $this->writeln('Restoring app/database/bolt.db');
+            $fs->copy(PROJECT_ROOT . '/app/database/bolt.db', $rundir . '/bolt.db');
             $fs->rename(PROJECT_ROOT . '/app/database/bolt.db.codeception-backup', PROJECT_ROOT . '/app/database/bolt.db', true);
         }
 
@@ -102,6 +108,7 @@ class CodeceptionEventsExtension extends \Codeception\Platform\Extension
         foreach ($configs as $config) {
             if ($fs->exists(PROJECT_ROOT . "/app/config/$config.codeception-backup")) {
                 $this->writeln("Restoring app/config/$config");
+                $fs->copy(PROJECT_ROOT . "/app/config/$config", $rundir. "/$config");
                 $fs->rename(PROJECT_ROOT . "/app/config/$config.codeception-backup", PROJECT_ROOT . "/app/config/$config", true);
             }
         }
