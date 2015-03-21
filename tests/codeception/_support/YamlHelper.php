@@ -45,6 +45,7 @@ class YamlHelper extends \Codeception\Module
 
         $config['canonical'] = 'example.org';
         $config['notfound']  = 'resources/not-found';
+        $config['changelog'] = ['enabled' => true];
 
         return $this->getYamlString($config, 5);
     }
