@@ -5,6 +5,7 @@ use Codeception\Event\PrintResultEvent;
 use Codeception\Event\StepEvent;
 use Codeception\Event\SuiteEvent;
 use Codeception\Event\TestEvent;
+use Codeception\Util\Fixtures;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
@@ -15,13 +16,37 @@ use Symfony\Component\Filesystem\Filesystem;
 class CodeceptionEventsExtension extends \Codeception\Platform\Extension
 {
     /** @var array list events to listen to */
-    public static $events = array(
+    public static $events = [
+        'suite.before'       => 'beforeSuite',
         'suite.after'        => 'afterSuite',
         'test.before'        => 'beforeTest',
         'step.before'        => 'beforeStep',
         'test.fail'          => 'testFailed',
         'result.print.after' => 'printResult',
-    );
+    ];
+
+    /**
+     * Before suite callback
+     *
+     * @param \Codeception\Event\SuiteEvent $e
+     */
+    public function beforeSuite(SuiteEvent $e)
+    {
+        /** @var $suite \PHPUnit_Framework_TestSuite */
+        $suite = $e->getSuite();
+
+        if ($suite->getName() === 'acceptance') {
+            $this->beforeSuiteAcceptance($e);
+        }
+
+        if ($suite->getName() === 'functional') {
+            $this->beforeSuiteFunctional($e);
+        }
+
+        if ($suite->getName() === 'unit') {
+            $this->beforeSuiteUnit($e);
+        }
+    }
 
     /**
      * After suite callback
@@ -83,6 +108,63 @@ class CodeceptionEventsExtension extends \Codeception\Platform\Extension
     }
 
     /**
+     * Set up before acceptance test suite run.
+     *
+     * @param \Codeception\Event\SuiteEvent $e
+     */
+    private function beforeSuiteAcceptance(SuiteEvent $e)
+    {
+        // Get the Filesystem object
+        $fs = new Filesystem();
+
+        // Back up files that we'll modify during tests
+        $backups = Fixtures::get('backups');
+        foreach ($backups as $file => $keep) {
+            if (file_exists(PROJECT_ROOT . $file) && !file_exists(PROJECT_ROOT . $file . '.codeception-backup')) {
+                if ($keep) {
+                    $this->writeln("Copying $file");
+                    $fs->copy(PROJECT_ROOT . $file, PROJECT_ROOT. $file . '.codeception-backup');
+                } else {
+                    $this->writeln("Renaming $file");
+                    $fs->rename(PROJECT_ROOT . $file, PROJECT_ROOT. $file . '.codeception-backup');
+                }
+            } elseif (file_exists(PROJECT_ROOT . $file)) {
+                if (!$keep) {
+                    $this->writeln("Removing $file");
+                    $fs->remove(PROJECT_ROOT . $file);
+                }
+            }
+        }
+
+        // Install the local extension
+        $this->writeln("Installing local extension");
+        $fs->mirror(CODECEPTION_DATA . '/extensions/local/', PROJECT_ROOT . '/extensions/local/', null, array('override' => true, 'delete' => true));
+
+        // Empty the cache
+        system('php ' . NUT_PATH . ' cache:clear');
+    }
+
+    /**
+     * Set up before functional test suite run
+     *
+     * @param \Codeception\Event\SuiteEvent $e
+     */
+    private function beforeSuiteFunctional(SuiteEvent $e)
+    {
+        //
+    }
+
+    /**
+     * Set up before unit test suite run
+     *
+     * @param \Codeception\Event\SuiteEvent $e
+     */
+    private function beforeSuiteUnit(SuiteEvent $e)
+    {
+        //
+    }
+
+    /**
      * Clean up after acceptance test suite run.
      *
      * We will copy the configs and database used to cache for inspection, really
@@ -93,44 +175,17 @@ class CodeceptionEventsExtension extends \Codeception\Platform\Extension
     private function afterSuiteAcceptance(SuiteEvent $e)
     {
         $fs = new Filesystem();
-        $rundir = PROJECT_ROOT . '/app/cache/codeception-run-' . time();
+        $rundir = PROJECT_ROOT . '/app/cache/codeception-run-' . time() . '/';
         $fs->mkdir($rundir);
 
-        // Sqlite DB
-        if ($fs->exists(PROJECT_ROOT . '/app/database/bolt.db.codeception-backup')) {
-            $this->writeln('Restoring app/database/bolt.db');
-            $fs->copy(PROJECT_ROOT . '/app/database/bolt.db', $rundir . '/bolt.db');
-            $fs->rename(PROJECT_ROOT . '/app/database/bolt.db.codeception-backup', PROJECT_ROOT . '/app/database/bolt.db', true);
-        }
-
-        // Config files
-        $configs = ['config.yml', 'contenttypes.yml', 'menu.yml', 'permissions.yml',  'routing.yml', 'taxonomy.yml'];
-        foreach ($configs as $config) {
-            if ($fs->exists(PROJECT_ROOT . "/app/config/$config.codeception-backup")) {
-                $this->writeln("Restoring app/config/$config");
-                $fs->copy(PROJECT_ROOT . "/app/config/$config", $rundir. "/$config");
-                $fs->rename(PROJECT_ROOT . "/app/config/$config.codeception-backup", PROJECT_ROOT . "/app/config/$config", true);
+        // Restore our backed up files, and make copies of them in app/cache/ for review
+        $backups = Fixtures::get('backups');
+        foreach ($backups as $file => $keep) {
+            if ($fs->exists(PROJECT_ROOT . $file . '.codeception-backup')) {
+                $this->writeln("Restoring $file");
+                $fs->copy(PROJECT_ROOT . $file, $rundir . basename($file));
+                $fs->rename(PROJECT_ROOT . $file . '.codeception-backup', PROJECT_ROOT . $file, true);
             }
-        }
-
-        // Events tester local extension
-        if ($fs->exists(PROJECT_ROOT . '/extensions/local/bolt/tester-events/')) {
-            $this->writeln('Removing extensions/local/bolt/tester-events/');
-            $fs->remove(PROJECT_ROOT . '/extensions/local/bolt/tester-events/');
-        }
-
-        // Restore theme/base-2014/_footer.twig
-        if ($fs->exists(PROJECT_ROOT . '/theme/base-2014/_footer.twig.codeception-backup')) {
-            $this->writeln('Restoring theme/base-2014/_footer.twig');
-            $fs->copy(PROJECT_ROOT . '/theme/base-2014/_footer.twig', $rundir . '/_footer.twig');
-            $fs->rename(PROJECT_ROOT . '/theme/base-2014/_footer.twig.codeception-backup', PROJECT_ROOT . '/theme/base-2014/_footer.twig', true);
-        }
-
-        // Restore app/resources/translations/en_GB/messages.en_GB.yml
-        if ($fs->exists(PROJECT_ROOT . '/app/resources/translations/en_GB/messages.en_GB.yml.codeception-backup')) {
-            $this->writeln('Restoring app/resources/translations/en_GB/messages.en_GB.yml');
-            $fs->copy(PROJECT_ROOT . '/app/resources/translations/en_GB/messages.en_GB.yml', $rundir . '/app/resources/translations/en_GB/messages.en_GB.yml');
-            $fs->rename(PROJECT_ROOT . '/app/resources/translations/en_GB/messages.en_GB.yml.codeception-backup', PROJECT_ROOT . '/app/resources/translations/en_GB/messages.en_GB.yml', true);
         }
     }
 
