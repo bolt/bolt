@@ -116,7 +116,7 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
                         }
                     }
 
-                    return new JsonResponse($result, 200, array('Content-Type' => 'text/plain'));
+                    return new JsonResponse($result, Response::HTTP_OK, array('Content-Type' => 'text/plain'));
                 } else {
                     list($namespace, $prefix) = $parser($handler);
                 }
@@ -128,7 +128,7 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
 
             return new JsonResponse(
                 $controller->uploadFile($app, $request, $namespace),
-                200,
+                Response::HTTP_OK,
                 array('Content-Type' => 'text/plain')
             );
         };
