@@ -562,7 +562,42 @@ class BackendTest extends BoltUnitTest
         $returned = json_decode($response->getContent());
         $this->assertEquals($original['title'], $returned->title);
     }
+    
+    public function testDeleteContent()
+    {
+        $app = $this->getApp();
+        $controller = new Backend();
+        
+        $app['request'] = $request = Request::create('/bolt/deletecontent/pages/4');
+        $response = $controller->deleteContent($app, 'pages', 4);
+        // This one should fail for permissions
+        $this->assertEquals('/bolt/overview/pages', $response->getTargetUrl());
+        $err = $app['session']->getFlashBag()->get('error');
+        $this->assertRegexp('/denied/', $err[0]);
+        
+        $users = $this->getMock('Bolt\Users', array('isAllowed', 'checkAntiCSRFToken'), array($app));
+        $users->expects($this->any())
+            ->method('isAllowed')
+            ->will($this->returnValue(true));        
+        $app['users'] = $users;
+        
+        // This one should get killed by the anti CSRF check
+        $response = $controller->deleteContent($app, 'pages', 4);
+        $this->assertEquals('/bolt/overview/pages', $response->getTargetUrl());
+        $err = $app['session']->getFlashBag()->get('info');
+        $this->assertRegexp('/could not be deleted/', $err[0]);
+        
+        $app['users']->expects($this->any())
+            ->method('checkAntiCSRFToken')
+            ->will($this->returnValue(true)); 
 
+        $response = $controller->deleteContent($app, 'pages', 4);
+        $this->assertEquals('/bolt/overview/pages', $response->getTargetUrl());
+        $err = $app['session']->getFlashBag()->get('info');
+        $this->assertRegexp('/has been deleted/', $err[0]);
+    }
+    
+    
     protected function addSomeContent()
     {
         $app = $this->getApp();
