@@ -19,9 +19,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class Upload implements ControllerProviderInterface, ServiceProviderInterface
 {
-    public $app;
-    public $uploaddir;
-
     public function register(Silex\Application $app)
     {
         // This exposes the main upload object as a service
