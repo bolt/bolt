@@ -140,4 +140,23 @@ class BackendDeveloperCest
         $I->click('#saveeditlocale');
         $I->see("File 'app/resources/translations/en_GB/messages.en_GB.yml' has been saved.");
     }
+
+    /**
+     * Test that the 'developer' user can edit translation long messages.
+     *
+     * @param \AcceptanceTester $I
+     */
+    public function editTranslationsLongMessages(\AcceptanceTester $I)
+    {
+        $I->wantTo("See that the 'developer' user can edit translation long messages.");
+        $I->loginAs($this->user['developer']);
+
+        // Go into edit mode
+        $I->amOnPage('bolt/tr/infos');
+        $I->see('Use this field to upload a photo or image', 'textarea');
+
+        // Save it
+        $I->click('#saveeditlocale');
+        $I->see("File 'app/resources/translations/en_GB/infos.en_GB.yml' has been saved.");
+    }
 }
