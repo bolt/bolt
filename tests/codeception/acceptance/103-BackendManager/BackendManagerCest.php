@@ -28,7 +28,7 @@ class BackendManagerCest
     }
 
     /**
-     * Login as the manager user
+     * Login as the manager user.
      *
      * @param \AcceptanceTester $I
      */
@@ -37,5 +37,27 @@ class BackendManagerCest
         $I->wantTo("Login as 'manager' user");
         $I->loginAs($this->user['manager']);
         $I->see('Dashboard');
+    }
+
+    /**
+     * Publish the 'About' page.
+     *
+     * @param \AcceptanceTester $I
+     */
+    public function publishAboutPageTest(\AcceptanceTester $I)
+    {
+        $I->wantTo("Publish the 'About' page as 'manager' user");
+        $I->loginAs($this->user['manager']);
+
+        $I->amOnPage('bolt/editcontent/pages/2');
+
+        $I->see("Easy for editors, and a developer's dream cms");
+        $I->see('Quick to set up and easily extendible');
+
+        $I->selectOption('#statusselect', 'published');
+
+        $I->click('Save', '#savecontinuebutton');
+
+        $I->see('The changes to this Page have been saved.');
     }
 }

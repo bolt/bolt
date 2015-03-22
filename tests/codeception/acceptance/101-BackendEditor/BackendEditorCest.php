@@ -1,6 +1,7 @@
 <?php
 
 use Codeception\Util\Fixtures;
+use Codeception\Util\Locator;
 
 /**
  * Backend 'editor' tests
@@ -58,15 +59,15 @@ class BackendEditorCest
         $I->see('View Showcases');
         $I->dontSee('New Showcase');
 
-        $I->dontSee('Configuration');
-        $I->dontSee('Translations');
-        $I->dontSee('Extras');
+        $I->dontSee('Configuration', Locator::href('/bolt/users'));
+        $I->dontSee('Translations', Locator::href('/bolt/tr'));
+        $I->dontSee('Extras', Locator::href('/bolt/extend'));
         $I->dontSee('Latest system activity');
         $I->dontSee('Edit Dummies');
 
-        $I->see('File Management');
-        $I->see('Uploaded files');
-        $I->dontSee('View/edit templates');
+        $I->see('File Management', Locator::href('/bolt/files'));
+        $I->see('Uploaded files', Locator::href('/bolt/files'));
+        $I->dontSee('View/edit templates', Locator::href('/bolt/theme'));
     }
 
     /**
@@ -81,13 +82,16 @@ class BackendEditorCest
         $I->see('New Page');
 
         $I->click('New Page');
-        $I->see('Actions for this Page');
+        $I->see('Pages',      Locator::href('/bolt/overview/pages'));
+        $I->see('View Pages', Locator::href('/bolt/overview/pages'));
+        $I->see('New Page',   Locator::href('/bolt/editcontent/pages'));
 
         $I->fillField('#title',  'A page I made');
         $I->fillField('#teaser', 'Woop woop woop! Crazy nice stuff inside!');
         $I->fillField('#body',   'Take it, take it! I have three more of these!');
 
         $I->click('Save Page');
+        $I->see('The new Page has been saved.');
 
         $I->see('A page I made');
         $I->see('Woop woop woop');
@@ -167,5 +171,34 @@ class BackendEditorCest
         $I->loginAs($this->user['editor']);
         $I->amOnPage('bolt/editcontent/entries/');
         $I->see('You do not have the right privileges');
+    }
+
+    /**
+     * Create an 'About' page record.
+     *
+     * @param \AcceptanceTester $I
+     */
+    public function createAboutPageTest(\AcceptanceTester $I)
+    {
+        $I->wantTo("Create an 'About' page as the 'editor' user");
+        $I->loginAs($this->user['editor']);
+        $I->see('New Page');
+
+        $I->click('New Page');
+
+        $teaser = file_get_contents(CODECEPTION_DATA . '/about.teaser.html');
+        $body   = file_get_contents(CODECEPTION_DATA . '/about.body.html');
+
+        $I->fillField('#title',  'About');
+        $I->fillField('#slug',   'about');
+        $I->fillField('#teaser', $teaser);
+        $I->fillField('#body',   $body);
+
+        $I->click('Save Page', '#savecontinuebutton');
+
+        $I->see('The new Page has been saved.');
+        $I->see("Easy for editors, and a developer's dream cms");
+        $I->see('Quick to set up and easily extendible');
+        $I->see('The new Page has been saved.');
     }
 }

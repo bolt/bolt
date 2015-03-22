@@ -53,6 +53,8 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
                 'path'   => TEST_ROOT . '/bolt.db'
             )
         );
+        $bolt['config']->set('general/canonical', 'bolt.dev');
+
         $bolt['session'] = $sessionMock;
         $bolt['resources']->setPath('files', PHPUNIT_ROOT . '/resources/files');
         $bolt['slugify'] = Slugify::create();

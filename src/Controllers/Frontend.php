@@ -265,9 +265,9 @@ class Frontend
 
         // See https://github.com/bolt/bolt/pull/2310
         if (
-                ($taxonomy['behaves_like'] === 'tags' && !$content) || 
+                ($taxonomy['behaves_like'] === 'tags' && !$content) ||
                 (
-                    in_array($taxonomy['behaves_like'], array('categories', 'grouping')) && 
+                    in_array($taxonomy['behaves_like'], array('categories', 'grouping')) &&
                     !in_array($slug, isset($taxonomy['options']) ? array_keys($taxonomy['options']) : array())
                 )
             ) {

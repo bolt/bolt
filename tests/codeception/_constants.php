@@ -16,6 +16,11 @@ if (!defined('CODECEPTION_ROOT')) {
     define('CODECEPTION_ROOT', realpath(__DIR__));
 }
 
+// Create a constant that defines the Codeception data directory location
+if (!defined('CODECEPTION_DATA')) {
+    define('CODECEPTION_DATA', realpath(codecept_data_dir()));
+}
+
 // Create a constant that defines the root location
 if (!defined('PROJECT_ROOT')) {
     if ($installType === 'composer') {

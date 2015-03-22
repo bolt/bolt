@@ -9,11 +9,12 @@ use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 class MenuBuilder
 {
-    /**
-     * @var Application
-     */
+    /** @var Application */
     private $app;
 
+    /**
+     * @param Application $app
+     */
     public function __construct(Application $app)
     {
         $this->app = $app;
@@ -41,13 +42,21 @@ class MenuBuilder
         return new Menu($name, $this->resolve($menu), true);
     }
 
+    /**
+     * Return a named menu
+     *
+     * @param array $menu
+     *
+     * @return array
+     */
     public function resolve(array $menu)
     {
         return $this->menuBuilder($menu);
     }
 
     /**
-     * Recursively scans the passed array to ensure everything gets the menuHelper() treatment.
+     * Recursively scans the passed array to ensure everything gets the
+     * menuHelper() treatment.
      *
      * @param array $menu
      *
@@ -93,7 +102,14 @@ class MenuBuilder
         return $item;
     }
 
-    private function resolvePathToContent($item)
+    /**
+     * Determine the type of path we have.
+     *
+     * @param array $item
+     *
+     * @return array
+     */
+    private function resolvePathToContent(array $item)
     {
         if ($item['path'] === 'homepage') {
             $item['link'] = $this->app['resources']->getUrl('root');
@@ -148,12 +164,20 @@ class MenuBuilder
         return $item;
     }
 
-    private function populateItemFromRecord($item, $path)
+    /**
+     * Populate a single menu item.
+     *
+     * @param array  $item
+     * @param string $path
+     *
+     * @return string
+     */
+    private function populateItemFromRecord(array $item, $path)
     {
         /** @var \Bolt\Content $content */
         $content = $this->app['storage']->getContent($path);
 
-        if ($content !== false) {
+        if ($content) {
             if (empty($item['label'])) {
                 $item['label'] = !empty($content->values['title']) ?: '';
             }
