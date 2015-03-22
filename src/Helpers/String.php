@@ -62,7 +62,7 @@ class String
 
     /**
      * Add 'soft hyphens' &shy; to a string, so that it won't break layout in HTML when
-     * using strings without spaces or dashes.
+     * using strings without spaces or dashes. Only breaks in long (> 19 chars) words.
      *
      * @param string $str
      *
@@ -70,7 +70,13 @@ class String
      */
     public static function shyphenate($str)
     {
-        $str = preg_replace("/[a-z0-9_-]/i", "$0&shy;", $str);
+        $res = preg_match_all('/([a-z0-9]{19,})/i', $str, $matches);
+
+        if ($res) {
+            foreach ($matches[1] as $key => $match) {
+                $str = str_replace($match, wordwrap($match, 10, '&shy;', true), $str);
+            }
+        }
 
         return $str;
     }
