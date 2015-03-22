@@ -2377,6 +2377,20 @@ class Storage
                 }
             }
 
+            // Convert new slugs to lowercase to compare in the delete process
+            $newSlugsNormalised = [];
+            foreach($newslugs as $slug) {
+                // If it's like 'desktop#10', split it into value and sortorder.
+                list($slug, $sortorder) = explode('#', $slug . "#");
+                $slug = $this->app['slugify']->slugify($slug);
+
+                if (!empty($sortorder)) {
+                    $slug = $slug . '#' . $sortorder;
+                }
+
+                $newSlugsNormalised[] = $slug;
+            }
+
             // Delete the ones that have been removed.
             foreach ($currentvalues as $id => $slug) {
 
