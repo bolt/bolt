@@ -14,6 +14,14 @@
         <server name="HTTP_HOST" value="bolt.dev" />
         <server name="REQUEST_URI" value="/bolt" />
     </php>
+    <listeners>
+        <listener file="tests/phpunit/BoltListener.php" class="Bolt\Tests\BoltListener">
+           <arguments>
+              <boolean>true</boolean>
+              <boolean>true</boolean>
+           </arguments>
+        </listener>
+    </listeners>
     <testsuites>
         <testsuite name="Bolt Test Suite">
             <directory suffix="Test.php">./tests/phpunit</directory>
