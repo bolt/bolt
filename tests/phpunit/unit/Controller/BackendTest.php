@@ -491,7 +491,6 @@ class BackendTest extends BoltUnitTest
     
     public function testEditContentPermissions()
     {
-        // We should get kicked here because we dont have permissions to edit this
         $app = $this->getApp();
         
         $users = $this->getMock('Bolt\Users', array('isAllowed', 'checkAntiCSRFToken'), array($app));
@@ -499,11 +498,13 @@ class BackendTest extends BoltUnitTest
             ->method('isAllowed')
             ->will($this->returnValue(true));
             
-        $users->expects($this->at(0))
+        $users->expects($this->any())
             ->method('checkAntiCSRFToken')
             ->will($this->returnValue(true));
             
         $app['users'] = $users;
+        
+        // We should get kicked here because we dont have permissions to edit this
         $controller = new Backend();
         $app['request'] = $request = Request::create('/bolt/editcontent/showcases/3', 'POST');
         $response = $controller->editContent('showcases', 3, $app, $request);  
