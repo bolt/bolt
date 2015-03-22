@@ -118,8 +118,9 @@ class FrontendCest
 
         $I->amOnPage('');
         $I->seeElement('a', ['href' => '/', 'class' => 'first']);
+        $I->seeElement('li', ['class' => 'index-1 first active']);
 
         $I->amOnPage('pages');
-        $I->seeElement('a', ['href' => '/pages', 'class' => 'active']);
+        $I->seeElement('li', ['class' => 'index-3 active']);
     }
 }
