@@ -2,7 +2,7 @@
 
 {% set option = {
     class:     field.class|default(''),
-    height:    field.height|default(''),
+    height:    field.height|default('300px'),
     label:     field.label|default(''),
     required:  field.required|default(false),
     errortext: field.error|default(''),
@@ -24,6 +24,6 @@
 <fieldset class="markdown">
     <div class="col-sm-12">
         <label class="control-label">{{ macro.infopop(labelkey, option.info) }}</label>
-        <textarea{{ macro.attr(attr_text) }}>{{ context.content.get(key)|default('') }}</textarea>
+        <textarea{{ macro.attr(attr_text) }} data-uk-htmleditor="{ markdown: true, height: '{{option.height}}'}">{{ context.content.get(key)|default('') }}</textarea>
     </div>
 </fieldset>
