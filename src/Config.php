@@ -353,11 +353,15 @@ class Config
         if (!isset($contentType['default_status'])) {
             $contentType['default_status'] = 'draft';
         }
+        if (!isset($contentType['viewless'])) {
+            $contentType['viewless'] = false;
+        }
 
         list($fields, $groups) = $this->parseFieldsAndGroups($contentType['fields'], $acceptableFileTypes);
         $contentType['fields'] = $fields;
         $contentType['groups'] = $groups;
 
+        // Add templatefields field
         if (!$contentType['viewless']) {
             $templateFieldGroup = reset($fields)['group'];
             $contentType['fields']['templatefields'] = array(
@@ -366,6 +370,7 @@ class Config
                 'default' => '',
                 'pattern' => '',
                 'group'   => $templateFieldGroup,
+                'type'    => 'templatefields'
             );
         }
 
@@ -636,7 +641,7 @@ class Config
              */
             foreach ($ct['fields'] as $fieldname => $field) {
                 // Verify that the contenttype doesn't try to add fields that are reserved.
-                if ($fieldname != 'slug' && in_array($fieldname, $this->reservedFieldNames)) {
+                if ($fieldname != 'slug' && $fieldname != 'templatefields' && in_array($fieldname, $this->reservedFieldNames)) {
                     $error = Trans::__(
                         'contenttypes.generic.reserved-name',
                         array('%contenttype%' => $key, '%field%' => $fieldname)
