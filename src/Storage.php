@@ -2377,6 +2377,20 @@ class Storage
                 }
             }
 
+            // Convert new slugs to lowercase to compare in the delete process
+            $newSlugsNormalised = array();
+            foreach($newslugs as $slug) {
+                // If it's like 'desktop#10', split it into value and sortorder.
+                list($slug, $sortorder) = explode('#', $slug . "#");
+                $slug = $this->app['slugify']->slugify($slug);
+
+                if (!empty($sortorder)) {
+                    $slug = $slug . '#' . $sortorder;
+                }
+
+                $newSlugsNormalised[] = $slug;
+            }
+
             // Delete the ones that have been removed.
             foreach ($currentvalues as $id => $slug) {
 
@@ -2384,7 +2398,7 @@ class Storage
                 $valuewithorder = $slug . "#" . $currentsortorder;
                 $slugkey = '/' . $configTaxonomies[$taxonomytype]['slug'] . '/' . $slug;
 
-                if (!in_array($slug, $newslugs) && !in_array($valuewithorder, $newslugs) && !array_key_exists($slugkey, $newslugs)) {
+                if (!in_array($slug, $newSlugsNormalised) && !in_array($valuewithorder, $newSlugsNormalised) && !array_key_exists($slugkey, $newSlugsNormalised)) {
                     $this->app['db']->delete($tablename, array('id' => $id));
                 }
             }
