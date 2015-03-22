@@ -203,7 +203,11 @@ class Content implements \ArrayAccess
                     break;
 
                 case 'templatefields':
-                    $newvalue[$field] = json_encode($this->values[$field]->getValues(true));
+                    if (empty($this->values[$field])) {
+                        $newvalue[$field] = '';
+                    } else {
+                        $newvalue[$field] = json_encode($this->values[$field]->getValues(true));
+                    }
                     break;
             }
         }
@@ -239,7 +243,8 @@ class Content implements \ArrayAccess
             'video',
             'select',
             'templateselect',
-            'checkbox'
+            'checkbox',
+            'templatefields'
         );
         // Check if the values need to be unserialized, and pre-processed.
         foreach ($this->values as $key => $value) {
@@ -293,7 +298,35 @@ class Content implements \ArrayAccess
             }
 
             if ($key == 'templatefields') {
-                $this->values[$key] = new Content($this->app, '', $this->values[$key]);
+                $oldValues = $this->values[$key];
+                if (empty($this->values[$key])) {
+
+                    // echo "1\n\n";
+                    // var_dump($this->values[$key]);
+                    $this->values[$key] = null;
+                } else if (is_string($this->values[$key])) {
+                    // echo "2\n\n";
+                    // var_dump($this->values[$key]);
+
+                    $templateContent = new Content($this->app, '', array());
+                    $this->values[$key] = $templateContent;
+                    $this->populateTemplateFieldsContenttype();
+                    $templateContent->setValues(json_decode($oldValues));
+
+                } else if (is_array($this->values[$key])) {
+                    // echo "3\n\n";
+                    // var_dump($this->values[$key]);
+                    $templateContent = new Content($this->app, '', array());
+                    $this->values[$key] = $templateContent;
+                    $this->populateTemplateFieldsContenttype();
+                    $templateContent->setValues($oldValues);
+
+                    // var_dump($templateContent->getValues(true));
+                    //var_dump($this->values[$key]->getValues());
+                } else {
+                    // echo "4\n\n";
+                    // var_dump($this->values[$key]->getValues());
+                }
             }
         }
     }
@@ -464,6 +497,32 @@ class Content implements \ArrayAccess
         }
 
         $this->setValues($values);
+    }
+
+    public function populateTemplateFieldsContenttype() {
+        if (is_array($this->contenttype)) {
+            if ((!$this->contenttype['viewless']) && (!empty($this['templatefields'])) && ($templateFieldsConfig = $this->app['config']->get('theme/template_fields'))) {
+                $template = $this->app['templatechooser']->record($this);
+                foreach ($templateFieldsConfig as $fieldConfig) {
+                    if ($fieldConfig['template'] == $template) {
+
+                        $fieldsContenttype = array(
+                            'fields' => $fieldConfig['fields'],
+                            'singular_name' => 'Template Fields',
+                            'singular_slug' => 'templatefields'
+                        );
+
+                        $this['templatefields']->contenttype = $this->app['config']->parseContentType(
+                            'templatefields',
+                            $fieldsContenttype,
+                            $this->app->config['general']['accept_file_types']);
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
     }
 
     /**

@@ -317,7 +317,7 @@ class Config
         return $contentTypes;
     }
 
-    protected function parseContentType($key, $contentType, $acceptableFileTypes)
+    public function parseContentType($key, $contentType, $acceptableFileTypes)
     {
         // If the slug isn't set, and the 'key' isn't numeric, use that as the slug.
         if (!isset($contentType['slug']) && !is_numeric($key)) {
