@@ -41,23 +41,20 @@ class BackendDeveloperCest
     }
 
     /**
-     * Test the file management interface
+     * Test the 'File management -> Uploaded Files' interface
      *
      * @param \AcceptanceTester $I
      */
     public function fileManagementUploadedFilesTest(\AcceptanceTester $I)
     {
-        $I->wantTo("Use the file management 'uploaded files' interface as the 'developer' user");
+        $I->wantTo("Use the 'File management -> Uploaded Files' interface as the 'developer' user");
         $I->loginAs($this->user['developer']);
 
         $I->amOnPage('bolt/files');
 
-        // $soft has the string with soft hyphens U+00AD
-        $soft = 'a­g­r­i­c­u­l­t­u­r­e­-­c­e­r­e­a­l­s­-­f­i­e­l­d­-­6­2­1­.j­p­g';
-        $file = 'agriculture-cereals-field-621.jpg';
-
+        $file = 'blur-flowers-home-1093.jpg';
         $I->see('Create folder', Locator::find('a', ['href' => '#']));
-        $I->see($soft, Locator::href("/thumbs/1000x1000r/$file"));
+        $I->see($file, Locator::href("/thumbs/1000x1000r/$file"));
 
         $I->see('66.23 KiB', 'td');
         $I->see('800 × 533 px', 'td ');
@@ -65,5 +62,38 @@ class BackendDeveloperCest
         $I->see("Rename $file",    Locator::find('a', ['href' => '#']));
         $I->see("Delete $file",    Locator::find('a', ['href' => '#']));
         $I->see("Duplicate $file", Locator::find('a', ['href' => '#']));
+    }
+
+    /**
+     * Test the 'File management -> View / edit templates' interface
+     *
+     * @param \AcceptanceTester $I
+     */
+    public function fileManagementViewEditTemplatesTest(\AcceptanceTester $I)
+    {
+        $I->wantTo("Use the 'File management -> View / edit templates' interface as the 'developer' user");
+        $I->loginAs($this->user['developer']);
+
+        $I->amOnPage('bolt/files/theme');
+
+        // Inspect the landing page
+        $dir  = 'base-2014';
+        $I->see('Create folder', Locator::find('a', ['href' => '#']));
+        $I->see($dir,            Locator::href("/bolt/files/theme/$dir"));
+        $I->see("Rename $dir",   Locator::find('a', ['href' => '#']));
+        $I->see("Delete $dir",   Locator::find('a', ['href' => '#']));
+
+        // Navigate into the theme and check the results
+        $I->click("$dir/",      Locator::href("/bolt/files/theme/$dir"));
+        $I->see('css/',         Locator::href("/bolt/files/theme/$dir/css"));
+        $I->see('images/',      Locator::href("/bolt/files/theme/$dir/images"));
+        $I->see('javascripts/', Locator::href("/bolt/files/theme/$dir/javascripts"));
+        $I->see('config.yml',   Locator::href("/bolt/file/edit/theme/$dir/config.yml"));
+        $I->see('entry.twig',   Locator::href("/bolt/file/edit/theme/$dir/entry.twig"));
+        $I->see('index.twig',   Locator::href("/bolt/file/edit/theme/$dir/index.twig"));
+
+        // Navigate into a subdirectory
+        $I->click('css/',  Locator::href("/bolt/files/theme/$dir/css"));
+        $I->see('app.css', Locator::href("/bolt/file/edit/theme/$dir/css/app.css"));
     }
 }
