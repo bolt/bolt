@@ -125,6 +125,13 @@ class CodeceptionEventsExtension extends \Codeception\Platform\Extension
             $fs->copy(PROJECT_ROOT . '/theme/base-2014/_footer.twig', $rundir . '/_footer.twig');
             $fs->rename(PROJECT_ROOT . '/theme/base-2014/_footer.twig.codeception-backup', PROJECT_ROOT . '/theme/base-2014/_footer.twig', true);
         }
+
+        // Restore app/resources/translations/en_GB/messages.en_GB.yml
+        if ($fs->exists(PROJECT_ROOT . '/app/resources/translations/en_GB/messages.en_GB.yml.codeception-backup')) {
+            $this->writeln('Restoring app/resources/translations/en_GB/messages.en_GB.yml');
+            $fs->copy(PROJECT_ROOT . '/app/resources/translations/en_GB/messages.en_GB.yml', $rundir . '/app/resources/translations/en_GB/messages.en_GB.yml');
+            $fs->rename(PROJECT_ROOT . '/app/resources/translations/en_GB/messages.en_GB.yml.codeception-backup', PROJECT_ROOT . '/app/resources/translations/en_GB/messages.en_GB.yml', true);
+        }
     }
 
     /**

@@ -65,5 +65,10 @@ if (file_exists(PROJECT_ROOT . '/theme/base-2014/_footer.twig') && !file_exists(
     $fs->copy(PROJECT_ROOT . '/theme/base-2014/_footer.twig', PROJECT_ROOT. '/theme/base-2014/_footer.twig.codeception-backup');
 }
 
+// Back up app/resources/translations/en_GB/messages.en_GB.yml
+if (file_exists(PROJECT_ROOT . '/app/resources/translations/en_GB/messages.en_GB.yml') && !file_exists(PROJECT_ROOT . '/app/resources/translations/en_GB/messages.en_GB.yml.codeception-backup')) {
+    $fs->copy(PROJECT_ROOT . '/app/resources/translations/en_GB/messages.en_GB.yml', PROJECT_ROOT. '/app/resources/translations/en_GB/messages.en_GB.yml.codeception-backup');
+}
+
 // Empty the cache
 system('php ' . NUT_PATH . ' cache:clear');
