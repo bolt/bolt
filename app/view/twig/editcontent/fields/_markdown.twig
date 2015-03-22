@@ -2,7 +2,7 @@
 
 {% set option = {
     class:     field.class|default(''),
-    height:    field.height|default(''),
+    height:    field.height|default('300px'),
     label:     field.label|default(''),
     required:  field.required|default(false),
     errortext: field.error|default(''),
@@ -21,7 +21,6 @@
 
 {#=== FIELDSET =======================================================================================================#}
 
-{# <link rel="stylesheet" href="{{ paths.app }}view/js/uikit/uikit.min.css" /> #}
 <script src="{{ paths.app }}view/js/uikit/uikit.min.js"></script>
 <script src="{{ paths.app }}view/js/uikit/marked.js"></script>
 <script src="http://getuikit.com/vendor/codemirror/codemirror.js"></script>
@@ -30,9 +29,20 @@
 <link rel="stylesheet" href="{{ paths.app }}view/js/uikit/htmleditor.min.css">
 
 <style>
-.CodeMirror {
+.uk-htmleditor-content .CodeMirror {
     font-size: 14px;
     font-family: Menlo, Consolas, Monaco, 'Courier New', monospace;
+    margin: 0;
+}
+
+.uk-htmleditor-preview {
+    padding: 6px 14px;
+    font-size: 14px;
+}
+
+.uk-htmleditor-fullscreen {
+  margin-top: 52px;
+  margin-bottom: 24px;
 }
 </style>
 
@@ -42,6 +52,6 @@
 <fieldset class="markdown">
     <div class="col-sm-12">
         <label class="control-label">{{ macro.infopop(labelkey, option.info) }}</label>
-        <textarea{{ macro.attr(attr_text) }} data-uk-htmleditor="{markdown:true}">{{ context.content.get(key)|default('') }}</textarea>
+        <textarea{{ macro.attr(attr_text) }} data-uk-htmleditor="{ markdown: true, height: '{{option.height}}'}">{{ context.content.get(key)|default('') }}</textarea>
     </div>
 </fieldset>

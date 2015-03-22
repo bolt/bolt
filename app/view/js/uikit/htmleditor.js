@@ -474,6 +474,7 @@
                     wrap.style.width  = '';
                     wrap.style.height = editor.content.height()+'px';
                     document.documentElement.style.overflow = 'hidden';
+                    window.scrollTo(0, 0);
 
                 } else {
 
