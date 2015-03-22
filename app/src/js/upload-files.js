@@ -9,7 +9,8 @@ var FileModel = Backbone.Model.extend({
         filename: null,
         title: "Untitled",
         order: 1,
-        file: null
+        progress: 0,
+        element: null
     },
 
     initialize: function () {
@@ -85,7 +86,11 @@ var FilelistHolder = Backbone.View.extend({
 
         uploading.html('');
         _.each(this.uploading.models, function (file) {
-            var element = $(data.itemUploading.replace(/<FNAME>/g, file.get('filename')));
+            var element = $(data.itemUploading
+                            .replace(/<FNAME>/g, file.get('filename'))
+                            .replace(/<PROGRESS>/g, Math.round(file.progress * 100) + '%')
+                           );
+            file.element = element;
             uploading.append(element);
         });
 
@@ -214,6 +219,15 @@ var FilelistHolder = Backbone.View.extend({
                 }
 
                 $this.render();
+            })
+            .bind('fileuploadprogress', function (e, data) {
+                var progress = data.loaded / data.total;
+
+                _.each(data.files, function (file, index) {
+                    file.uploading.progress = progress;
+                    var progressBar = file.uploading.element.find('.progress-bar');
+                    progressBar.css('width', Math.round(file.uploading.progress * 100) + '%');
+                });
             })
             .bind('fileuploadalways', function (e, data) {
                 _.each(data.files, function (file, index) {
