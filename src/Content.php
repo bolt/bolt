@@ -503,25 +503,12 @@ class Content implements \ArrayAccess
         if (is_array($this->contenttype)) {
             if ((!$this->contenttype['viewless']) && (!empty($this['templatefields'])) && ($templateFieldsConfig = $this->app['config']->get('theme/template_fields'))) {
                 $template = $this->app['templatechooser']->record($this);
-                foreach ($templateFieldsConfig as $fieldConfig) {
-                    if ($fieldConfig['template'] == $template) {
-
-                        $fieldsContenttype = array(
-                            'fields' => $fieldConfig['fields'],
-                            'singular_name' => 'Template Fields',
-                            'singular_slug' => 'templatefields'
-                        );
-
-                        $this['templatefields']->contenttype = $this->app['config']->parseContentType(
-                            'templatefields',
-                            $fieldsContenttype,
-                            $this->app->config['general']['accept_file_types']);
-                        return true;
-                    }
+                if (array_key_exists($template, $templateFieldsConfig)) {
+                    $this['templatefields']->contenttype = $templateFieldsConfig[$template];
+                    return true;
                 }
             }
         }
-
         return false;
     }
 

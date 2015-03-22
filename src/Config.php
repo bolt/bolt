@@ -195,7 +195,7 @@ class Config
 
         // fetch the theme config. requires special treatment due to the path being dynamic
         $this->app['resources']->initializeConfig($config);
-        $config['theme'] = $this->parseConfigYaml('config.yml', $this->app['resources']->getPath('theme'));
+        $config['theme'] = $this->parseTheme($this->app['resources']->getPath('theme'), $config['general']['accept_file_types']);
 
         // @todo: If no config files can be found, get them from bolt.cm/files/default/
         return $config;
@@ -317,7 +317,28 @@ class Config
         return $contentTypes;
     }
 
-    public function parseContentType($key, $contentType, $acceptableFileTypes)
+    protected function parseTheme($themePath, $acceptableFieldTypes) {
+        $themeConfig = $this->parseConfigYaml('config.yml', $themePath);
+
+        if ((isset($themeConfig['template_fields'])) && (is_array($themeConfig['template_fields']))) {
+            $templateContentTypes = array();
+
+            foreach($themeConfig['template_fields'] as $template => $templateFields) {
+                $fieldsContenttype = array(
+                    'fields' => $templateFields,
+                    'singular_name' => 'Template Fields ' . $template
+                );
+
+                $templateContentTypes[$template] = $this->parseContentType($template, $fieldsContenttype, $acceptableFieldTypes);
+            }
+
+            $themeConfig['template_fields'] = $templateContentTypes;
+        }
+
+        return $themeConfig;
+    }
+
+    protected function parseContentType($key, $contentType, $acceptableFileTypes)
     {
         // If the slug isn't set, and the 'key' isn't numeric, use that as the slug.
         if (!isset($contentType['slug']) && !is_numeric($key)) {

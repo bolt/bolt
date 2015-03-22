@@ -24,8 +24,7 @@ headerimage:
 # search_results_template: listing.twig
 
 template_fields:
-  - template: "manyfields.twig"
-    fields:
+    manyfields.twig:
         section_1:
             type: text
         section_2:
