@@ -7,6 +7,7 @@ use Codeception\Event\SuiteEvent;
 use Codeception\Event\TestEvent;
 use Codeception\Util\Fixtures;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Finder\Finder;
 
 /**
  * Post run clean up
@@ -192,6 +193,17 @@ class CodeceptionEventsExtension extends \Codeception\Platform\Extension
         if ($fs->exists(PROJECT_ROOT . '/extensions/local/bolt/tester-events/')) {
             $this->writeln('Removing extensions/local/bolt/tester-events/');
             $fs->remove(PROJECT_ROOT . '/extensions/local/bolt/tester-events/');
+
+            $finder = new Finder();
+            $finder->files()->in(PROJECT_ROOT . '/extensions/local/bolt/');
+            if ($finder->count() === 0) {
+                $fs->remove(PROJECT_ROOT . '/extensions/local/bolt/');
+            }
+            $finder = new Finder();
+            $finder->files()->in(PROJECT_ROOT . '/extensions/local/');
+            if ($finder->count() === 0) {
+                $fs->remove(PROJECT_ROOT . '/extensions/local/');
+            }
         }
     }
 
