@@ -96,4 +96,26 @@ class BackendDeveloperCest
         $I->click('css/',  Locator::href("/bolt/files/theme/$dir/css"));
         $I->see('app.css', Locator::href("/bolt/file/edit/theme/$dir/css/app.css"));
     }
+
+    /**
+     * Test edit a template file and save it
+     *
+     * @param \AcceptanceTester $I
+     */
+    public function editTemplateTest(\AcceptanceTester $I)
+    {
+        $I->wantTo("See that the 'developer' user can edit and save the _footer.twig template file.");
+        $I->loginAs($this->user['developer']);
+
+        // Put _footer.twig into edit mode
+        $I->amOnPage('bolt/file/edit/theme/base-2014/_footer.twig');
+        $I->see('<footer class="large-12 columns">', 'textarea');
+
+        // Edit the field
+        $twig = $I->grabTextFrom('#form_contents', 'textarea');
+        $twig = str_replace('Built with Bolt', 'Built with Bolt, tested with Codeception', $twig);
+        $I->fillField('#form_contents', $twig);
+        $I->click('#saveeditfile');
+        $I->see("File 'base-2014/_footer.twig' has been saved.");
+    }
 }
