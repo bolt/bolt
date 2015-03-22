@@ -597,6 +597,34 @@ class BackendTest extends BoltUnitTest
         $this->assertRegexp('/has been deleted/', $err[0]);
     }
     
+    public function testContentAction()
+    {
+        // Try status switches
+        $app = $this->getApp();
+        $controller = new Backend();
+        
+        $app['request'] = $request = Request::create('/bolt/content/held/pages/3');
+        
+        // This one should fail for lack of permission
+        $response = $controller->contentAction($app, 'held','pages', 3);        
+        $this->assertEquals('/bolt/overview/pages', $response->getTargetUrl());
+        $err = $app['session']->getFlashBag()->get('error');
+        $this->assertRegexp('/right privileges/', $err[0]);
+        
+        
+        $users = $this->getMock('Bolt\Users', array('isAllowed', 'checkAntiCSRFToken'), array($app));
+        $users->expects($this->any())
+            ->method('isAllowed')
+            ->will($this->returnValue(true));        
+        $app['users'] = $users;
+        
+        $response = $controller->contentAction($app, 'held','pages', 3);        
+        $this->assertEquals('/bolt/overview/pages', $response->getTargetUrl());
+        $err = $app['session']->getFlashBag()->get('error');
+        $this->assertRegexp('/right privileges/', $err[0]);
+
+    }
+    
     
     protected function addSomeContent()
     {
