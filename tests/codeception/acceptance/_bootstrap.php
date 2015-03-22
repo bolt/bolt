@@ -1,7 +1,6 @@
 <?php
 
 use Codeception\Util\Fixtures;
-use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * Bootstrap for Codeception tests
@@ -40,14 +39,15 @@ Fixtures::add('users', [
 // Files that we'll back and and if we keep the original in tact before starting
 // the suite run
 Fixtures::add('backups', [
-    '/app/config/config.yml'                               => false,
-    '/app/config/contenttypes.yml'                         => false,
-    '/app/config/menu.yml'                                 => false,
-    '/app/config/permissions.yml'                          => false,
-    '/app/config/routing.yml'                              => false,
-    '/app/config/taxonomy.yml'                             => false,
-    '/app/resources/translations/en_GB/messages.en_GB.yml' => true,
-    '/app/resources/translations/en_GB/infos.en_GB.yml'    => true,
-    '/app/database/bolt.db'                                => false,
-    '/theme/base-2014/_footer.twig'                        => true,
+    '/app/config/config.yml'                                   => false,
+    '/app/config/contenttypes.yml'                             => false,
+    '/app/config/menu.yml'                                     => false,
+    '/app/config/permissions.yml'                              => false,
+    '/app/config/routing.yml'                                  => false,
+    '/app/config/taxonomy.yml'                                 => false,
+    '/app/resources/translations/en_GB/messages.en_GB.yml'     => true,
+    '/app/resources/translations/en_GB/infos.en_GB.yml'        => true,
+    '/app/resources/translations/en_GB/contenttypes.en_GB.yml' => true,
+    '/app/database/bolt.db'                                    => false,
+    '/theme/base-2014/_footer.twig'                            => true,
 ]);

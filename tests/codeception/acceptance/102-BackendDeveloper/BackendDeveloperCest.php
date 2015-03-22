@@ -159,4 +159,23 @@ class BackendDeveloperCest
         $I->click('#saveeditlocale');
         $I->see("File 'app/resources/translations/en_GB/infos.en_GB.yml' has been saved.");
     }
+
+    /**
+     * Test that the 'developer' user can edit translation Contenttype messages.
+     *
+     * @param \AcceptanceTester $I
+     */
+    public function editTranslationsContenttypeMessages(\AcceptanceTester $I)
+    {
+        $I->wantTo("See that the 'developer' user can edit translation Contenttype messages.");
+        $I->loginAs($this->user['developer']);
+
+        // Go into edit mode
+        $I->amOnPage('bolt/tr/contenttypes');
+        $I->see('contenttypes.entries.text.recent-changes-one', 'textarea');
+
+        // Save it
+        $I->click('#saveeditlocale');
+        $I->see("File 'app/resources/translations/en_GB/contenttypes.en_GB.yml' has been saved.");
+    }
 }
