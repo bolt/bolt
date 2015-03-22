@@ -98,7 +98,7 @@ class BackendDeveloperCest
     }
 
     /**
-     * Test edit a template file and save it
+     * Test edit a template file and save it.
      *
      * @param \AcceptanceTester $I
      */
@@ -117,5 +117,27 @@ class BackendDeveloperCest
         $I->fillField('#form_contents', $twig);
         $I->click('#saveeditfile');
         $I->see("File 'base-2014/_footer.twig' has been saved.");
+    }
+
+    /**
+     * Test that the 'developer' user can edit and save a translation.
+     *
+     * @param \AcceptanceTester $I
+     */
+    public function editTranslationsMessages(\AcceptanceTester $I)
+    {
+        $I->wantTo("See that the 'developer' user can edit and save a translation.");
+        $I->loginAs($this->user['developer']);
+
+        // Go into edit mode
+        $I->amOnPage('bolt/tr');
+        $I->see('contenttypes.general.choose-an-entry', 'textarea');
+
+        // Edit the field
+        $twig = $I->grabTextFrom('#form_contents', 'textarea');
+        $twig = '"Built with Bolt, tested with Codeception" : "Built with Bolt, tested with Codeception"' . PHP_EOL . $twig;
+        $I->fillField('#form_contents', $twig);
+        $I->click('#saveeditlocale');
+        $I->see("File 'app/resources/translations/en_GB/messages.en_GB.yml' has been saved.");
     }
 }
