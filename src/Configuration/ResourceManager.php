@@ -277,7 +277,11 @@ class ResourceManager
         // This is where we set the canonical. Note: The protocol (scheme) defaults to 'http',
         // and the path is discarded, as it makes no sense in this context: Bolt always
         // determines the path for a page / record. This is not the canonical's job.
-        $canonical = parse_url($app['config']->get('general/canonical', ""));
+        $canonical = $app['config']->get('general/canonical', '');
+        if ($canonical !== '' && strpos($canonical, 'http') !== 0) {
+            $canonical = 'http://' . $canonical;
+        }
+        $canonical = parse_url($canonical);
         if (empty($canonical['scheme'])) {
             $canonical['scheme'] = 'http';
         }
