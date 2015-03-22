@@ -586,6 +586,7 @@ class IntegrityChecker
                     case 'checkbox':
                         $myTable->addColumn($field, 'boolean', array('default' => 0));
                         break;
+                    case 'templatefields':
                     case 'html':
                     case 'textarea':
                     case 'image':

@@ -913,6 +913,7 @@ class Backend implements ControllerProviderInterface
             $content->setValue('datechanged', '');
             $content->setValue('username', '');
             $content->setValue('ownerid', '');
+            $content->setValue('templatefields', array());
             $app['session']->getFlashBag()->add('info', Trans::__('contenttypes.generic.duplicated-finalize', array('%contenttype%' => $contenttype['slug'])));
         }
 

@@ -25,7 +25,7 @@ class Config
     protected $data;
     protected $defaultConfig = array();
     protected $reservedFieldNames = array(
-        'id', 'slug', 'datecreated', 'datechanged', 'datepublish', 'datedepublish', 'ownerid', 'username', 'status', 'link'
+        'id', 'slug', 'datecreated', 'datechanged', 'datepublish', 'datedepublish', 'ownerid', 'username', 'status', 'link', 'templatefields'
     );
 
     protected $cachetimestamp;
@@ -357,6 +357,17 @@ class Config
         list($fields, $groups) = $this->parseFieldsAndGroups($contentType['fields'], $acceptableFileTypes);
         $contentType['fields'] = $fields;
         $contentType['groups'] = $groups;
+
+        if (!$contentType['viewless']) {
+            $templateFieldGroup = reset($fields)['group'];
+            $contentType['fields']['templatefields'] = array(
+                'label'   => '',
+                'variant' => '',
+                'default' => '',
+                'pattern' => '',
+                'group'   => $templateFieldGroup,
+            );
+        }
 
         // Make sure taxonomy is an array.
         if (isset($contentType['taxonomy']) && !is_array($contentType['taxonomy'])) {

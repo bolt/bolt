@@ -103,7 +103,8 @@ class Content implements \ArrayAccess
             'datepublish',
             'datedepublish',
             'ownerid',
-            'status'
+            'status',
+            'templatefields'
         );
     }
 
@@ -200,6 +201,10 @@ class Content implements \ArrayAccess
                 case 'html':
                     $newvalue[$field] = str_replace('&nbsp;', ' ', $this->values[$field]);
                     break;
+
+                case 'templatefields':
+                    $newvalue[$field] = json_encode($this->values[$field]->getValues(true));
+                    break;
             }
         }
 
@@ -238,7 +243,7 @@ class Content implements \ArrayAccess
         );
         // Check if the values need to be unserialized, and pre-processed.
         foreach ($this->values as $key => $value) {
-            if (in_array($this->fieldtype($key), $serializedFieldTypes)) {
+            if ((in_array($this->fieldtype($key), $serializedFieldTypes)) || ($key == 'templatefields')) {
                 if (!empty($value) && is_string($value) && (substr($value, 0, 2) == "a:" || $value[0] === '[' || $value[0] === '{')) {
                     try {
                         $unserdata = Lib::smartUnserialize($value);
@@ -285,6 +290,10 @@ class Content implements \ArrayAccess
                 if ($this->values[$key] === "") {
                     $this->values[$key] = null;
                 }
+            }
+
+            if ($key == 'templatefields') {
+                $this->values[$key] = new Content($this->app, '', $this->values[$key]);
             }
         }
     }
