@@ -490,7 +490,7 @@ class TwigExtension extends \Twig_Extension
             )
         );
         $output = $maid->clean($output);
-        
+
         return $output;
     }
 
@@ -675,12 +675,8 @@ class TwigExtension extends \Twig_Extension
             $linkToCheck = (string) $content;
         }
 
-<<<<<<< HEAD
-        $requestedUri    = reset(explode('?', $this->app['request']->getRequestUri()));
-=======
         $uriFromRequest = explode('?', $this->app['request']->getRequestUri());
         $requestedUri    = reset($uriFromRequest);
->>>>>>> fca75c8... Replace the 'reset()' that got lost earlier.
 
         $entrancePageUrl = $this->app['config']->get('general/homepage');
         $entrancePageUrl = (substr($entrancePageUrl, 0, 1) !== '/') ? '/' . $entrancePageUrl : $entrancePageUrl;
