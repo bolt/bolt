@@ -11,6 +11,8 @@ Not yet released. Notable changes:
  - Change: Only log content not found errors if slug isn't numeric, since `next` and `previous` check by `id` (see #3186)
  - Fixed: Make sure we use `ParsedownExtra`, instead of just `Parsedown. (Thanks, @cooperaj, see #3194)
  - Fixed: Changelog content uses correct tablenames. (See 3198)
+ - Change: Improve `shyphenate()`: Only add breaks to long words, instead of everywhere. (see #3221) 
+ - Fixed: Fix 'current' in menu. (see #3209)
 
 
 Bolt 2.1.3
