@@ -14,6 +14,15 @@
     <script src="{{ paths.app }}view/js/ckeditor/ckeditor.js"></script>
 {% endif %}
 
+{% if 'html' in used_fieldtypes %}
+    <script src="{{ paths.app }}view/js/uikit/uikit.min.js"></script>
+    <script src="{{ paths.app }}view/js/uikit/marked.js"></script>
+    <script src="http://getuikit.com/vendor/codemirror/codemirror.js"></script>
+    <script src="{{ paths.app }}view/js/uikit/htmleditor.js"></script>
+    <link rel="stylesheet" href="{{ paths.app }}view/js/ckeditor/plugins/codemirror/css/codemirror.min.css">
+    <link rel="stylesheet" href="{{ paths.app }}view/js/uikit/htmleditor.min.css">
+{% endif %}
+
 {% if 'geolocation' in used_fieldtypes %}
     <script src="https://maps.google.com/maps/api/js?sensor=false"></script>
     <script src="{{ paths.app }}view/js/jquery-gomap.min.js"></script>

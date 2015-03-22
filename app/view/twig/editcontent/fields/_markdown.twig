@@ -21,34 +21,6 @@
 
 {#=== FIELDSET =======================================================================================================#}
 
-<script src="{{ paths.app }}view/js/uikit/uikit.min.js"></script>
-<script src="{{ paths.app }}view/js/uikit/marked.js"></script>
-<script src="http://getuikit.com/vendor/codemirror/codemirror.js"></script>
-<script src="{{ paths.app }}view/js/uikit/htmleditor.js"></script>
-<link rel="stylesheet" href="{{ paths.app }}view/js/ckeditor/plugins/codemirror/css/codemirror.min.css">
-<link rel="stylesheet" href="{{ paths.app }}view/js/uikit/htmleditor.min.css">
-
-<style>
-.uk-htmleditor-content .CodeMirror {
-    font-size: 14px;
-    font-family: Menlo, Consolas, Monaco, 'Courier New', monospace;
-    margin: 0;
-}
-
-.uk-htmleditor-preview {
-    padding: 6px 14px;
-    font-size: 14px;
-}
-
-.uk-htmleditor-fullscreen {
-  margin-top: 52px;
-  margin-bottom: 24px;
-}
-</style>
-
-
-
-
 <fieldset class="markdown">
     <div class="col-sm-12">
         <label class="control-label">{{ macro.infopop(labelkey, option.info) }}</label>
