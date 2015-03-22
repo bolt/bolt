@@ -19,7 +19,6 @@ Bolt 2.1.3
 Released 2015-03-18. Notable changes:
 
  - Added: Added an option to delete a record, when editing it. (See #3134)
- - Fixed: Upload UX Improvements (Thanks, @Pinpickle, see #3123)
  - Removed: removed "frontend permission checks". (#see 3133)
  - Fixed: Prevent extra spaces in excerpts. (See #3130)
  - Fixed: Show notice on update of Bolt. (See #3129)
