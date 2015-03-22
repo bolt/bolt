@@ -373,6 +373,7 @@ class Application extends Silex\Application
             ->register(new Provider\TemplateChooserServiceProvider())
             ->register(new Provider\CronServiceProvider())
             ->register(new Provider\FilePermissionsServiceProvider())
+            ->register(new Provider\MenuServiceProvider())
             ->register(new Controllers\Upload())
             ->register(new Controllers\Extend())
             ->register(new Provider\FilesystemProvider())
