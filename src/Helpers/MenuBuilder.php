@@ -153,7 +153,7 @@ class MenuBuilder
         /** @var \Bolt\Content $content */
         $content = $this->app['storage']->getContent($path);
 
-        if ($content !== false) {
+        if ($content) {
             if (empty($item['label'])) {
                 $item['label'] = !empty($content->values['title']) ?: '';
             }
