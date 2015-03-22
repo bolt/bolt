@@ -196,4 +196,35 @@ class BackendDeveloperCest
         $I->see('Run all Updates',                'a');
         $I->see('Install all Packages',           'a');
     }
+
+    /**
+     * Test that the 'developer' user can configure installed extensions.
+     *
+     * @param \AcceptanceTester $I
+     */
+    public function configureInstalledExtensions(\AcceptanceTester $I)
+    {
+        $I->wantTo("See that the 'developer' user can configure installed extensions.");
+        $I->loginAs($this->user['developer']);
+
+        $I->amOnPage('bolt/files/config/extensions');
+
+        $I->see('tester-events.bolt.yml', Locator::href("/bolt/file/edit/config/extensions/tester-events.bolt.yml"));
+        $I->click('tester-events.bolt.yml', Locator::href("/bolt/file/edit/config/extensions/tester-events.bolt.yml"));
+
+        $I->see('# Sit back and breathe', 'textarea');
+        $I->see('its_nice_to_know_you_work_alone: true', 'textarea');
+
+        // Edit the field
+        $twig = $I->grabTextFrom('#form_contents', 'textarea');
+        $twig .= PHP_EOL . "# Let's make this perfectly clear" ;
+        $twig .= PHP_EOL . 'theres_no_secrets_this_year: true' . PHP_EOL;
+
+        $I->fillField('#form_contents', $twig);
+        $I->click('#saveeditfile');
+        $I->see("File 'extensions/tester-events.bolt.yml' has been saved.");
+
+        $I->see("# Let's make this perfectly clear", 'textarea');
+        $I->see('theres_no_secrets_this_year: true', 'textarea');
+    }
 }
