@@ -60,5 +60,10 @@ if (file_exists(PROJECT_ROOT . '/app/database/bolt.db') && !file_exists(PROJECT_
 $fs = new Filesystem();
 $fs->mirror(CODECEPTION_DATA . '/extensions/local/', PROJECT_ROOT . '/extensions/local/', null, array('override' => true, 'delete' => true));
 
+// Back up theme/base-2014/_footer.twig
+if (file_exists(PROJECT_ROOT . '/theme/base-2014/_footer.twig') && !file_exists(PROJECT_ROOT . '/theme/base-2014/_footer.twig.codeception-backup')) {
+    $fs->copy(PROJECT_ROOT . '/theme/base-2014/_footer.twig', PROJECT_ROOT. '/theme/base-2014/_footer.twig.codeception-backup');
+}
+
 // Empty the cache
 system('php ' . NUT_PATH . ' cache:clear');

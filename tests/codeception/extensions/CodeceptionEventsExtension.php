@@ -118,6 +118,13 @@ class CodeceptionEventsExtension extends \Codeception\Platform\Extension
             $this->writeln('Removing extensions/local/bolt/tester-events/');
             $fs->remove(PROJECT_ROOT . '/extensions/local/bolt/tester-events/');
         }
+
+        // Restore theme/base-2014/_footer.twig
+        if ($fs->exists(PROJECT_ROOT . '/theme/base-2014/_footer.twig.codeception-backup')) {
+            $this->writeln('Restoring theme/base-2014/_footer.twig');
+            $fs->copy(PROJECT_ROOT . '/theme/base-2014/_footer.twig', $rundir . '/_footer.twig');
+            $fs->rename(PROJECT_ROOT . '/theme/base-2014/_footer.twig.codeception-backup', PROJECT_ROOT . '/theme/base-2014/_footer.twig', true);
+        }
     }
 
     /**
