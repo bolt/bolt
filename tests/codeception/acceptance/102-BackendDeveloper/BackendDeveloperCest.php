@@ -178,4 +178,22 @@ class BackendDeveloperCest
         $I->click('#saveeditlocale');
         $I->see("File 'app/resources/translations/en_GB/contenttypes.en_GB.yml' has been saved.");
     }
+
+    /**
+     * Test that the 'developer' user can view installed extensions.
+     *
+     * @param \AcceptanceTester $I
+     */
+    public function viewInstalledExtensions(\AcceptanceTester $I)
+    {
+        $I->wantTo("See that the 'developer' user can view installed extensions.");
+        $I->loginAs($this->user['developer']);
+
+        $I->amOnPage('bolt/extend');
+        $I->see('Currently Installed Extensions', 'h2');
+        $I->see('Install a new Extension',        'h2');
+        $I->see('Run update check',               'a');
+        $I->see('Run all Updates',                'a');
+        $I->see('Install all Packages',           'a');
+    }
 }
