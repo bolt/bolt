@@ -446,7 +446,7 @@ class Backend implements ControllerProviderInterface
         $entry = $app['logger.manager.change']->getChangelogEntry($contenttype, $contentid, $id);
         if (empty($entry)) {
             $error = Trans::__("The requested changelog entry doesn't exist.");
-            $app->abort(Response::HTTP_NOT_FOUND, $error);
+            return $app->abort(Response::HTTP_NOT_FOUND, $error);
         }
         $prev = $app['logger.manager.change']->getPrevChangelogEntry($contenttype, $contentid, $id);
         $next = $app['logger.manager.change']->getNextChangelogEntry($contenttype, $contentid, $id);
@@ -643,7 +643,9 @@ class Backend implements ControllerProviderInterface
          */
 
         $content = $app['storage']->getContent($contenttypeslug, array('id' => $id));
-        $relatedContent = $content->related($showContenttype['slug']);
+        if ($relations) {
+            $relatedContent = $content->related($showContenttype['slug']);
+        }
 
         $context = array(
             'id'               => $id,
@@ -655,7 +657,7 @@ class Backend implements ControllerProviderInterface
             'related_content'  => $relatedContent,
         );
 
-        return $app['twig']->render('relatedto/relatedto.twig', array('context' => $context));
+        return $app['render']->render('relatedto/relatedto.twig', array('context' => $context));
     }
 
     /**
@@ -872,7 +874,7 @@ class Backend implements ControllerProviderInterface
             $content = $app['storage']->getContent($contenttype['slug'], array('id' => $id));
 
             if (empty($content)) {
-                $app->abort(Response::HTTP_NOT_FOUND, Trans::__('contenttypes.generic.not-existing', array('%contenttype%' => $contenttype['slug'])));
+                return $app->abort(Response::HTTP_NOT_FOUND, Trans::__('contenttypes.generic.not-existing', array('%contenttype%' => $contenttype['slug'])));
             }
 
             // Check if we're allowed to edit this content.
