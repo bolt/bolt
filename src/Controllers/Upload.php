@@ -26,27 +26,27 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
     {
         // This exposes the main upload object as a service
         $app['upload'] = function () use ($app) {
-                $allowedExensions = $app['config']->get('general/accept_file_types');
-                $uploadHandler = new UploadHandler($app['upload.container']);
-                $uploadHandler->setPrefix($app['upload.prefix']);
-                $uploadHandler->setOverwrite($app['upload.overwrite']);
-                $uploadHandler->addRule('extension', array('allowed' => $allowedExensions));
+            $allowedExensions = $app['config']->get('general/accept_file_types');
+            $uploadHandler = new UploadHandler($app['upload.container']);
+            $uploadHandler->setPrefix($app['upload.prefix']);
+            $uploadHandler->setOverwrite($app['upload.overwrite']);
+            $uploadHandler->addRule('extension', array('allowed' => $allowedExensions));
 
-                $pattern = $app['config']->get('general/upload/pattern', '[^A-Za-z0-9\.]+');
-                $replacement = $app['config']->get('general/upload/replacement', '-');
-                $lowercase = $app['config']->get('general/upload/lowercase', true);
+            $pattern = $app['config']->get('general/upload/pattern', '[^A-Za-z0-9\.]+');
+            $replacement = $app['config']->get('general/upload/replacement', '-');
+            $lowercase = $app['config']->get('general/upload/lowercase', true);
 
-                $uploadHandler->setSanitizerCallback(
-                    function ($filename) use ($pattern, $replacement, $lowercase) {
-                        if ($lowercase) {
-                            return preg_replace("/$pattern/", $replacement, strtolower($filename));
-                        }
-
-                        return preg_replace("/$pattern/", $replacement, $filename);
+            $uploadHandler->setSanitizerCallback(
+                function ($filename) use ($pattern, $replacement, $lowercase) {
+                    if ($lowercase) {
+                        return preg_replace("/$pattern/", $replacement, strtolower($filename));
                     }
-                );
 
-                return $uploadHandler;
+                    return preg_replace("/$pattern/", $replacement, $filename);
+                }
+            );
+
+            return $uploadHandler;
         };
 
         // This exposes the file container as a configurabole object please refer to:
