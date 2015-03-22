@@ -187,6 +187,12 @@ class CodeceptionEventsExtension extends \Codeception\Platform\Extension
                 $fs->rename(PROJECT_ROOT . $file . '.codeception-backup', PROJECT_ROOT . $file, true);
             }
         }
+
+        // Events tester local extension
+        if ($fs->exists(PROJECT_ROOT . '/extensions/local/bolt/tester-events/')) {
+            $this->writeln('Removing extensions/local/bolt/tester-events/');
+            $fs->remove(PROJECT_ROOT . '/extensions/local/bolt/tester-events/');
+        }
     }
 
     /**
