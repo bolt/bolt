@@ -151,6 +151,7 @@ class YamlHelper extends \Codeception\Module
      *     searchable: false
      *     viewless: true
      * ```
+     *
      * @return string
      */
     public function getUpdatedContenttypes()

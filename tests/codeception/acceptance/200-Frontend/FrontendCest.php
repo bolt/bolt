@@ -1,7 +1,5 @@
 <?php
 
-use Codeception\Util\Fixtures;
-
 /**
  * Frontend navigation and render tests
  *
