@@ -851,9 +851,6 @@ class Backend implements ControllerProviderInterface
                             }
                         }
 
-                        $val['requestAll'] = $requestAll;
-                        $val['oldContent'] = $content;
-
                         // unset flashbag for ajax
                         $app['session']->getFlashBag()->clear('success');
 
