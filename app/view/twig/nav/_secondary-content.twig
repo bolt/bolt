@@ -33,7 +33,6 @@
                 ]) %}
             {% endfor %}
 
-
             {% set active = (page_nav == 'Content/*' and context.contenttype.slug|default == slug) %}
 
             {{ nav.submenu(contenttype.icon_many|default(''), label_plural, sub, active, true) }}
