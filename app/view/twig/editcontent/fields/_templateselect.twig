@@ -9,10 +9,22 @@
 
 {#=== INIT ===========================================================================================================#}
 
+{% set templateselectdata = {
+    'message': {
+        'change':       __('This template adds new fields. Save, then refresh to see these changes.'),
+        'warningChange':  __('You may lose some of your template fields with this change. Go to the template section and note down the values before doing this.'),
+        'warning':    __('Warning')
+    },
+    'currentHas':       context.has.templatefields,
+    'current':          context.content.get(contentkey),
+    'fieldTemplates':   context.fieldtemplates
+} %}
+
 {% set attr_select = {
-    class:    option.class,
-    name:     name,
-    id:       key
+    class:          option.class,
+    name:           name,
+    id:             key,
+    'data-stats':   templateselectdata|json_encode
 } %}
 
 {% set attr_default = {
@@ -23,6 +35,8 @@
     disabled:  true,
     value:     '',
 } %}
+
+
 
 {#=== FIELDSET =======================================================================================================#}
 
@@ -39,6 +53,9 @@
                 </option>
             {% endfor %}
         </select>
+    </div>
+    <div class="col-sm-12">
+        <p class="hidden templatewarning"></p>
     </div>
 
 </fieldset>

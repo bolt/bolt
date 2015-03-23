@@ -961,6 +961,26 @@ class Backend implements ControllerProviderInterface
             }
         }
 
+        // Determine which templates will result in templatefields
+        if ($templateFieldsConfig = $app['config']->get('theme/template_fields')) {
+            $templateFieldTemplates = array_keys($templateFieldsConfig);
+            // Special case for default template
+            $toRepair = array();
+            foreach ($contenttype['fields'] as $name => $field) {
+                if ($field['type'] == 'templateselect' && !empty($content->values[$name])) {
+                    $toRepair[$name] = $content->values[$name];
+                    $content->setValue($name, '');
+                }
+            }
+            if ($content->hasTemplateFields()) {
+                $templateFieldTemplates[] = '';
+            }
+
+            foreach ($toRepair as $name => $value) {
+                $content->setValue($name, $value);
+            }
+        }
+
         // Info
         $hasIncomingRelations = is_array($content->relation);
         $hasRelations = isset($contenttype['relations']);
@@ -1018,6 +1038,7 @@ class Backend implements ControllerProviderInterface
             'allowed_status' => $allowedStatuses,
             'contentowner'   => $contentowner,
             'fields'         => $app['config']->fields->fields(),
+            'fieldtemplates' => $templateFieldTemplates,
             'can_upload'     => $app['users']->isAllowed('files:uploads'),
             'groups'         => $groups,
             'has'            => array(
