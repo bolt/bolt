@@ -19,6 +19,11 @@
 
         <article>{{ record.templatefields.section_1 }}</article>
         <article>{{ record.templatefields.section_2 }}</article>
+        <article>
+            <a href="{{ image(record.templatefields.image) }}">
+                <img src="{{ thumbnail(record.templatefields.image, 640, 480) }}">
+            </a>
+        </article>
 
 
     </div>
