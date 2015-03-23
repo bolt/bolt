@@ -3,9 +3,6 @@
 {% for slug, contenttype in app.config.get('contenttypes')  %}
     {% if isallowed('contenttype:' ~ slug) %}
 
-        {% set prev_label = __(['contenttypes', contenttype.slug, 'name', 'plural'], {DEFAULT: contenttype.name}) %}
-
-
         {% set label_plural = __(['contenttypes', contenttype.name|default('contenttype.slug'), 'name', 'plural'], {DEFAULT: contenttype.name}) %}
         {% set label_singular = __(['contenttypes', contenttype.name|default('contenttype.slug'), 'name', 'singular'], {DEFAULT: contenttype.singular_name}) %}
 
