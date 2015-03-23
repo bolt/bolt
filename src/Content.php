@@ -23,14 +23,17 @@ class Content implements \ArrayAccess
 
     // The last time we weight a searchresult
     private $lastWeight = 0;
+    // Whether this is a "real" contenttype or an embedded ones
+    private $isRootType;
     public $user;
     public $sortorder;
     public $config;
     public $group;
 
-    public function __construct(Silex\Application $app, $contenttype = '', $values = '')
+    public function __construct(Silex\Application $app, $contenttype = '', $values = '', $isRootType = true)
     {
         $this->app = $app;
+        $this->isRootType = $isRootType;
 
         if (!empty($contenttype)) {
             // Set the contenttype
@@ -341,7 +344,7 @@ class Content implements \ArrayAccess
 
         // Template fields need to be done last
         // As the template has to have been selected
-        if (is_array($this->contenttype)) {
+        if ($this->isRootType) {
             if (empty($values['templatefields'])) {
                 $this->setValue('templatefields', array());
             } else {
@@ -352,6 +355,11 @@ class Content implements \ArrayAccess
 
     public function setValue($key, $value)
     {
+        // Don't set templateFields if not a real contenttype
+        if (($key == 'templatefields') && (!$this->isRootType)) {
+            return;
+        }
+
         // Check if the value need to be unserialized.
         if (is_string($value) && substr($value, 0, 2) == "a:") {
             try {
@@ -394,7 +402,6 @@ class Content implements \ArrayAccess
         }
 
         if ($key == 'templatefields') {
-
             $oldValue = $this->values[$key];
             if ((is_string($value)) || (is_array($value))) {
                 if (is_string($value)) {
@@ -408,7 +415,7 @@ class Content implements \ArrayAccess
                 }
 
                 if ($unserdata !== false) {
-                    $templateContent = new Content($this->app, '', array());
+                    $templateContent = new Content($this->app, $this->getTemplateFieldsContentType(), array(), false);
                     $value = $templateContent;
                     $this->populateTemplateFieldsContenttype($value);
                     $templateContent->setValues($unserdata);
@@ -416,7 +423,6 @@ class Content implements \ArrayAccess
                     $value = null;
                 }
             }
-
         }
 
         if (!isset($this->values['datechanged']) ||
@@ -544,16 +550,16 @@ class Content implements \ArrayAccess
         $this->setValues($values);
     }
 
-    protected function populateTemplateFieldsContenttype($templatefields) {
+    protected function getTemplateFieldsContentType() {
         if (is_array($this->contenttype)) {
-            if ((!$this->contenttype['viewless']) && (!empty($templatefields)) && ($templateFieldsConfig = $this->app['config']->get('theme/template_fields'))) {
+            if ($templateFieldsConfig = $this->app['config']->get('theme/template_fields')) {
                 $template = $this->app['templatechooser']->record($this);
                 if (array_key_exists($template, $templateFieldsConfig)) {
-
-                    $templatefields->contenttype = $templateFieldsConfig[$template];
+                    return $templateFieldsConfig[$template];
                 }
             }
         }
+        return '';
     }
 
     public function hasTemplateFields() {
