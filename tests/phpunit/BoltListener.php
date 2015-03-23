@@ -27,6 +27,8 @@ class BoltListener implements \PHPUnit_Framework_TestListener
     {
         $this->timer = $timer;
         $this->reset = $reset;
+
+        $this->buildTestEnv();
     }
 
     /**
@@ -36,6 +38,7 @@ class BoltListener implements \PHPUnit_Framework_TestListener
      */
     public function __destruct()
     {
+        $this->cleanTestEnv();
     }
 
     /**
@@ -146,5 +149,33 @@ class BoltListener implements \PHPUnit_Framework_TestListener
      */
     public function endTestSuite(\PHPUnit_Framework_TestSuite $suite)
     {
+    }
+
+    /**
+     * Build the pre-requisites for our test environment
+     */
+    private function buildTestEnv()
+    {
+        // Make sure we wipe the db file to start with a clean one
+        if (is_readable(TEST_ROOT . '/bolt.db')) {
+            unlink(TEST_ROOT . '/bolt.db');
+        }
+        copy(PHPUNIT_ROOT . '/resources/db/bolt.db', TEST_ROOT . '/bolt.db');
+
+        @mkdir(TEST_ROOT . '/app/cache/', 0777, true);
+    }
+
+    /**
+     * Clean up after test runs
+     */
+    private function cleanTestEnv()
+    {
+        if (!$this->reset) {
+            return;
+        }
+
+        if (is_readable(TEST_ROOT . '/bolt.db')) {
+            unlink(TEST_ROOT . '/bolt.db');
+        }
     }
 }
