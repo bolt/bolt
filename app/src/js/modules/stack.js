@@ -42,7 +42,6 @@
         $(elements).on(
             'shown.bs.modal',
             function (e) {
-                console.log('tis');
                 bolt.actions.init();
             }
         );
