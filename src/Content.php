@@ -499,12 +499,22 @@ class Content implements \ArrayAccess
         $this->setValues($values);
     }
 
-    public function populateTemplateFieldsContenttype() {
-        if (is_array($this->contenttype)) {
+    protected function populateTemplateFieldsContenttype() {
+        if ((is_array($this->contenttype)) && (!is_array($this['templatefields']->contenttype))) {
             if ((!$this->contenttype['viewless']) && (!empty($this['templatefields'])) && ($templateFieldsConfig = $this->app['config']->get('theme/template_fields'))) {
                 $template = $this->app['templatechooser']->record($this);
                 if (array_key_exists($template, $templateFieldsConfig)) {
                     $this['templatefields']->contenttype = $templateFieldsConfig[$template];
+                }
+            }
+        }
+    }
+
+    public function hasTemplateFields() {
+        if (is_array($this->contenttype)) {
+            if ((!$this->contenttype['viewless']) && (!empty($this['templatefields'])) && ($templateFieldsConfig = $this->app['config']->get('theme/template_fields'))) {
+                $template = $this->app['templatechooser']->record($this);
+                if (array_key_exists($template, $templateFieldsConfig)) {
                     return true;
                 }
             }

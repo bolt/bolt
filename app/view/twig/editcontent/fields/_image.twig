@@ -17,12 +17,12 @@
 {% set preview_h = 150 %}
 
 {# Convert from old stored image format that is used until re-saved #}
-{% set image = (context.content.get(key) is iterable) ? context.content.get(key) : {'file': context.content.get(key)} %}
+{% set image = (context.content.get(contentkey) is iterable) ? context.content.get(contentkey) : {'file': context.content.get(contentkey)} %}
 
 {% set attr_inp = {
     class:       option.class ~ ' imageinput wide',
     id:          'field-' ~ key,
-    name:        key ~ '[file]',
+    name:        name ~ '[file]',
     type:        'text',
     placeholder: __('field.general.allowed-filetypes') ~ ' ' ~ option.extensions|join(', ') ~ ' …',
     value:       image.file|default(''),
@@ -118,7 +118,7 @@
         <div class="right-on-large">{# to make the preview align right on wide screens #}
             <label>{{ __('Preview') }}</label>
             <div class="content-preview imageholder" id="thumbnail-{{ key }}" style="max-width:{{ preview_w }}px;max-height:{{ preview_h }}px">
-                {% if context.content.get(key) != '' %}
+                {% if context.content.get(contentkey) != '' %}
                     {% set preview_path = image.file|thumbnail(preview_w, preview_h, 'c') %}
                 {% else %}
                     {% set preview_path = app.paths.app ~ 'view/img/default_empty_4x3.png' %}

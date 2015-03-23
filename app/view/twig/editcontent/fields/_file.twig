@@ -14,10 +14,10 @@
 {% set attr_filepath = {
     class:       option.class ~ ' imageinput',
     id:          'field-' ~ key,
-    name:        key,
+    name:        name,
     type:        'text',
     placeholder: __('field.general.allowed-filetypes') ~ ' ' ~ option.extensions|join(', ') ~ ' …',
-    value:       context.content.get(key),
+    value:       context.content.get(contentkey),
 } %}
 
 {% set attr_upload = {

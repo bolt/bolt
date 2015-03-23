@@ -8,7 +8,7 @@
 
 {% set bind_values = option.uses ? ['slug', {
     contentId:      context.content.id,
-    isEmpty:        (context.content.get(key) == ''),
+    isEmpty:        (context.content.get(contentkey) == ''),
     key:            key,
     messageSet:     __('field.slug.message.set'),
     messageUnlock:  __('field.slug.message.unlock'),
@@ -19,7 +19,8 @@
 {% set attr_slug = {
     _bind:    bind_values,
     class:    'sluginput',
-    name_id:  key,
+    name:     name,
+    id:       key,
     type:     'text',
     value:    context.content.get(key),
 } %}
@@ -30,7 +31,7 @@
 
     <div class="col-sm-12">
         <label>{{ __('field.slug.permalink') }}:
-            <code>/{{ context.content.contenttype.singular_slug }}/<span id="show-{{ key }}">{{ context.content.get(key) }}</span></code>
+            <code>/{{ context.content.contenttype.singular_slug }}/<span id="show-{{ key }}">{{ context.content.get(contentkey) }}</span></code>
             <input{{ macro.attr(attr_slug) }}>
             <span class="sluglocker" data-for="{{key}}" data-uses='{{option.uses|json_encode()}}'><i class="fa fa-lock"></i></span>
             <span class="slugedit" data-for="{{key}}" data-uses='{{option.uses|json_encode()}}'><i class="fa fa-pencil"></i></span>

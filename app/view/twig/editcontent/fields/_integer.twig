@@ -18,7 +18,8 @@
 
 {% set attr_number = {
     class:          option.class ~ ' narrow',
-    name_id:        key,
+    name:           name,
+    id:             key,
     placeholder:    option.placeholder,
     required:       option.required,
     readonly:       option.readonly,
@@ -27,7 +28,7 @@
     max:            min(option.max,'2147483647'),
     title:          option.title,
     type:           'number',
-    value:          0 + context.content.get(key),
+    value:          0 + context.content.get(contentkey),
     data_errortext: option.errortext,
 } %}
 

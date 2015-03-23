@@ -27,5 +27,8 @@ template_fields:
     manyfields.twig:
         section_1:
             type: text
+            label: Section 1
         section_2:
             type: text
+        image:
+            type: image

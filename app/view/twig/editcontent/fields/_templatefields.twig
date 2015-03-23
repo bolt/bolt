@@ -17,9 +17,12 @@
                 {% for fieldtype in context.fields %}
                     {% if templatefield.type == fieldtype.name %}
                         {% include fieldtype.template with {
-                            'field': templatefield,
-                            'key': key ~ '[' ~ templatekey ~ ']',
-                            'labelkey':  templatelabelkey
+                            field: templatefield,
+                            key: key ~ '-' ~ templatekey,
+                            contentkey: templatekey,
+                            context: context|merge({ content: context.content.get(key) }),
+                            name: key ~ '[' ~ templatekey ~ ']',
+                            labelkey:  templatelabelkey
                         } %}
                     {% endif %}
                 {% endfor %}
