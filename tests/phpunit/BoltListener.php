@@ -18,6 +18,9 @@ class BoltListener implements \PHPUnit_Framework_TestListener
     /** @var boolean */
     protected $reset;
 
+    /** @var string */
+    protected $currentSuite;
+
     /**
      * Called on init of PHPUnit exectution.
      *
@@ -131,7 +134,7 @@ class BoltListener implements \PHPUnit_Framework_TestListener
     public function endTest(\PHPUnit_Framework_Test $test, $time)
     {
         $name = $test->getName();
-        $this->tracker[$name] = $time;
+        $this->tracker[$this->currentSuite . '::' . $name] = $time;
     }
 
     /**
@@ -143,6 +146,7 @@ class BoltListener implements \PHPUnit_Framework_TestListener
      */
     public function startTestSuite(\PHPUnit_Framework_TestSuite $suite)
     {
+        $this->currentSuite = $suite->getName();
     }
 
     /**
@@ -154,6 +158,7 @@ class BoltListener implements \PHPUnit_Framework_TestListener
      */
     public function endTestSuite(\PHPUnit_Framework_TestSuite $suite)
     {
+        unset($this->currentSuite);
     }
 
     /**
@@ -177,9 +182,19 @@ class BoltListener implements \PHPUnit_Framework_TestListener
     {
         // Write out a report about each test's execution time
         if ($this->timer) {
-            file_put_contents(TEST_ROOT . '/app/cache/unit-test-timer.txt', print_r($this->tracker, true));
+            $file = TEST_ROOT . '/app/cache/phpunit-test-timer.txt';
+            if (is_readable($file)) {
+                unlink($file);
+            }
+
+            arsort($this->tracker);
+            foreach ($this->tracker as $test => $time) {
+                $time = substr($time, 0, 6);
+                file_put_contents($file, "$time\t\t$test\n", FILE_APPEND);
+            }
         }
 
+        // Remove the test database
         if ($this->reset) {
             if (is_readable(TEST_ROOT . '/bolt.db')) {
                 unlink(TEST_ROOT . '/bolt.db');
