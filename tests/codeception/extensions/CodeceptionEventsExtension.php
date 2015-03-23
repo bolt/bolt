@@ -205,6 +205,9 @@ class CodeceptionEventsExtension extends \Codeception\Platform\Extension
                 $fs->remove(PROJECT_ROOT . '/extensions/local/');
             }
         }
+
+        // Empty the cache
+        system('php ' . NUT_PATH . ' cache:clear');
     }
 
     /**
