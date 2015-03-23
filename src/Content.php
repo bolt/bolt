@@ -308,38 +308,6 @@ class Content implements \ArrayAccess
                     $this->values[$key] = null;
                 }
             }
-
-            /*if ($key == 'templatefields') {
-                $oldValues = $this->values[$key];
-                if (empty($this->values[$key])) {
-
-                    // echo "1\n\n";
-                    // var_dump($this->values[$key]);
-                    $this->values[$key] = null;
-                } else if (is_string($this->values[$key])) {
-                    // echo "2\n\n";
-                    // var_dump($this->values[$key]);
-
-                    $templateContent = new Content($this->app, '', array());
-                    $this->values[$key] = $templateContent;
-                    $this->populateTemplateFieldsContenttype();
-                    $templateContent->setValues(json_decode($oldValues));
-
-                } else if (is_array($this->values[$key])) {
-                    // echo "3\n\n";
-                    // var_dump($this->values[$key]);
-                    $templateContent = new Content($this->app, '', array());
-                    $this->values[$key] = $templateContent;
-                    $this->populateTemplateFieldsContenttype();
-                    $templateContent->setValues($oldValues);
-
-                    // var_dump($templateContent->getValues(true));
-                    //var_dump($this->values[$key]->getValues());
-                } else {
-                    // echo "4\n\n";
-                    // var_dump($this->values[$key]->getValues());
-                }
-            }*/
         }
 
         // Template fields need to be done last
