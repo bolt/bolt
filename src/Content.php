@@ -112,10 +112,11 @@ class Content implements \ArrayAccess
      * Return a content objects values.
      *
      * @param boolean $json Set to TRUE to return JSON encoded values for arrays
+     * @param boolean $stripped Set to true to strip all of the base fields
      *
      * @return array
      */
-    public function getValues($json = false)
+    public function getValues($json = false, $stripped = false)
     {
         // Prevent 'slug may not be NULL'
         if (!isset($this->values['slug'])) {
@@ -128,7 +129,11 @@ class Content implements \ArrayAccess
         }
 
         $contenttype = $this->contenttype;
-        $newvalue = $this->values;
+        if (!$stripped) {
+            $newvalue = $this->values;
+        } else {
+            $newvalue = array();
+        }
 
         // add the fields for this contenttype,
         foreach ($contenttype['fields'] as $field => $property) {
@@ -201,13 +206,18 @@ class Content implements \ArrayAccess
                 case 'html':
                     $newvalue[$field] = str_replace('&nbsp;', ' ', $this->values[$field]);
                     break;
+                default:
+                    $newvalue[$field] = $this->values[$field];
+                    break;
             }
         }
 
-        if (!empty($this['templatefields'])) {
-            $newvalue['templatefields'] = json_encode($this->values['templatefields']->getValues(true));
-        } else {
-            $newvalue['templatefields'] = '';
+        if (!$stripped) {
+            if (!empty($this['templatefields'])) {
+                $newvalue['templatefields'] = json_encode($this->values['templatefields']->getValues(true, true));
+            } else {
+                $newvalue['templatefields'] = '';
+            }
         }
 
         return $newvalue;
