@@ -548,6 +548,7 @@ class IntegrityChecker
             $myTable->addIndex(array('datepublish'));
             $myTable->addColumn('datedepublish', 'datetime', array('notnull' => false, 'default' => null));
             $myTable->addIndex(array('datedepublish'));
+            $myTable->addColumn('templatefields', 'string', array('default' => ''));
             $myTable->addColumn('username', 'string', array('length' => 32, 'default' => '', 'notnull' => false)); // We need to keep this around for backward compatibility. For now.
             $myTable->addColumn('ownerid', 'integer', array('notnull' => false));
             $myTable->addColumn('status', 'string', array('length' => 32));
@@ -586,7 +587,6 @@ class IntegrityChecker
                     case 'checkbox':
                         $myTable->addColumn($field, 'boolean', array('default' => 0));
                         break;
-                    case 'templatefields':
                     case 'html':
                     case 'textarea':
                     case 'image':
