@@ -31,6 +31,8 @@
         {% block listing_header %}
         {% if not compact and editable %}
             <th class="check hidden-xs"><input type="checkbox" name="checkRow" title="{{ __('Select all') }}" /></th>
+        {% else %}
+            <th style="margin: 0; padding: 0;"></th>
         {% endif %}
 
         <th class="hidden-xs"><a href="{{ link }}{% if request('order') == 'id' %}-{% endif %}id">
@@ -53,7 +55,11 @@
 <tr {% if content.status!='published' %}class="dim"{% endif %} id="item_{{ content.id }}">
     {% block listing_id %}
 
-        {% if not compact and editable %}<td class="check hidden-xs">{% if isallowed('delete', contenttype) %}<input type="checkbox" name="checkRow" />{% endif %}</td>{% endif %}
+        {% if not compact and editable and isallowed('delete', contenttype) %}
+            <td class="check hidden-xs"><input type="checkbox" name="checkRow" /></td>
+        {% else %}
+            <td style="margin: 0; padding: 0;"></td>
+        {% endif %}
         <td class="id hidden-xs">№ {{ content.id }}</td>
 
     {% endblock %}
