@@ -382,19 +382,6 @@ class Config
         $contentType['fields'] = $fields;
         $contentType['groups'] = $groups;
 
-        // Add templatefields field
-        if (!$contentType['viewless']) {
-            $templateFieldGroup = reset($fields)['group'];
-            $contentType['fields']['templatefields'] = array(
-                'label'   => '',
-                'variant' => '',
-                'default' => '',
-                'pattern' => '',
-                'group'   => $templateFieldGroup,
-                'type'    => 'templatefields'
-            );
-        }
-
         // Make sure taxonomy is an array.
         if (isset($contentType['taxonomy']) && !is_array($contentType['taxonomy'])) {
             $contentType['taxonomy'] = array($contentType['taxonomy']);

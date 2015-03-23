@@ -1,7 +1,16 @@
-{% set templatefields = context.content.get(key).contenttype %}
+{% if not context.has.tabs %}
+    <hr>
+
+    <h3>
+        {{ __('Template') }}
+        <span class="label info-pop" data-html="true" data-title="{{ __('Relationships') }}"
+            data-content="{{ app.translator.trans('info.relationships', {}, 'infos') }}">{{ __('Info') }}</span>
+    </h3>
+{% endif %}
+
+{% set templatefields = context.content.get('templatefields').contenttype %}
 {% if templatefields is not empty %}
     {% for templatekey, templatefield in templatefields.fields %}
-        {% if group_name == field.group %}
 
             <div class="form-group">
                 {# Prefix #}
@@ -18,10 +27,10 @@
                     {% if templatefield.type == fieldtype.name %}
                         {% include fieldtype.template with {
                             field: templatefield,
-                            key: key ~ '-' ~ templatekey,
+                            key: 'templatefields-' ~ templatekey,
                             contentkey: templatekey,
-                            context: context|merge({ content: context.content.get(key) }),
-                            name: key ~ '[' ~ templatekey ~ ']',
+                            context: context|merge({ content: context.content.get('templatefields') }),
+                            name: 'templatefields[' ~ templatekey ~ ']',
                             labelkey:  templatelabelkey
                         } %}
                     {% endif %}
@@ -40,6 +49,9 @@
                 {% endif %}
             </div>
 
-        {% endif %}
     {% endfor %}
+{% endif %}
+
+{% if not context.has.tabs %}
+    <hr>
 {% endif %}

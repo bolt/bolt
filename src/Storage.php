@@ -341,7 +341,6 @@ class Storage
     public function saveContent(Content $content, $comment = null)
     {
         $contenttype = $content->contenttype;
-        echo 'Most pre save';
         $fieldvalues = $content->values;
 
         if (empty($contenttype)) {

@@ -201,15 +201,13 @@ class Content implements \ArrayAccess
                 case 'html':
                     $newvalue[$field] = str_replace('&nbsp;', ' ', $this->values[$field]);
                     break;
-
-                case 'templatefields':
-                    if (empty($this->values[$field])) {
-                        $newvalue[$field] = '';
-                    } else {
-                        $newvalue[$field] = json_encode($this->values[$field]->getValues(true));
-                    }
-                    break;
             }
+        }
+
+        if (!empty($this['templatefields'])) {
+            $newvalue['templatefields'] = json_encode($this->values['templatefields']->getValues(true));
+        } else {
+            $newvalue['templatefields'] = '';
         }
 
         return $newvalue;
@@ -226,7 +224,9 @@ class Content implements \ArrayAccess
         }
 
         foreach ($values as $key => $value) {
-            $this->setValue($key, $value);
+            if ($key !== 'templatefields') {
+                $this->setValue($key, $value);
+            }
         }
 
         // If default status is set in contentttype.
@@ -243,8 +243,7 @@ class Content implements \ArrayAccess
             'video',
             'select',
             'templateselect',
-            'checkbox',
-            'templatefields'
+            'checkbox'
         );
         // Check if the values need to be unserialized, and pre-processed.
         foreach ($this->values as $key => $value) {
@@ -297,7 +296,7 @@ class Content implements \ArrayAccess
                 }
             }
 
-            if ($key == 'templatefields') {
+            /*if ($key == 'templatefields') {
                 $oldValues = $this->values[$key];
                 if (empty($this->values[$key])) {
 
@@ -327,6 +326,16 @@ class Content implements \ArrayAccess
                     // echo "4\n\n";
                     // var_dump($this->values[$key]->getValues());
                 }
+            }*/
+        }
+
+        // Template fields need to be done last
+        // As the template has to have been selected
+        if (is_array($this->contenttype)) {
+            if (empty($values['templatefields'])) {
+                $this->setValue('templatefields', array());
+            } else {
+                $this->setValue('templatefields', $values['templatefields']);
             }
         }
     }
@@ -372,6 +381,32 @@ class Content implements \ArrayAccess
                     $value = date('Y-m-d H:i:s');
                 }
             }
+        }
+
+        if ($key == 'templatefields') {
+
+            $oldValue = $this->values[$key];
+            if ((is_string($value)) || (is_array($value))) {
+                if (is_string($value)) {
+                    try {
+                        $unserdata = Lib::smartUnserialize($value);
+                    } catch (\Exception $e) {
+                        $unserdata = false;
+                    }
+                } else {
+                    $unserdata = $value;
+                }
+
+                if ($unserdata !== false) {
+                    $templateContent = new Content($this->app, '', array());
+                    $value = $templateContent;
+                    $this->populateTemplateFieldsContenttype($value);
+                    $templateContent->setValues($unserdata);
+                } else {
+                    $value = null;
+                }
+            }
+
         }
 
         if (!isset($this->values['datechanged']) ||
@@ -499,12 +534,13 @@ class Content implements \ArrayAccess
         $this->setValues($values);
     }
 
-    protected function populateTemplateFieldsContenttype() {
-        if ((is_array($this->contenttype)) && (!is_array($this['templatefields']->contenttype))) {
-            if ((!$this->contenttype['viewless']) && (!empty($this['templatefields'])) && ($templateFieldsConfig = $this->app['config']->get('theme/template_fields'))) {
+    protected function populateTemplateFieldsContenttype($templatefields) {
+        if (is_array($this->contenttype)) {
+            if ((!$this->contenttype['viewless']) && (!empty($templatefields)) && ($templateFieldsConfig = $this->app['config']->get('theme/template_fields'))) {
                 $template = $this->app['templatechooser']->record($this);
                 if (array_key_exists($template, $templateFieldsConfig)) {
-                    $this['templatefields']->contenttype = $templateFieldsConfig[$template];
+
+                    $templatefields->contenttype = $templateFieldsConfig[$template];
                 }
             }
         }

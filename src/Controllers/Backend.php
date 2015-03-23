@@ -761,7 +761,6 @@ class Backend implements ControllerProviderInterface
 
             // To check whether the status is allowed, we act as if a status
             // *transition* were requested.
-            echo "SET FROM POST \n";
             $content->setFromPost($requestAll, $contenttype);
             $oldcontent = $content;
             $newStatus = $content['status'];
@@ -947,7 +946,7 @@ class Backend implements ControllerProviderInterface
             }
         }
 
-        if (!empty($content['templatefields'])) {
+        if ((!empty($content['templatefields'])) && (!empty($content['templatefields']->contenttype['fields']))) {
             foreach ($content['templatefields']->contenttype['fields'] as $key => &$values) {
                 if (isset($values['upload'])) {
                     $canUpload = $app['filesystem']->getFilesystem()->getVisibility($values['upload']);
@@ -1001,6 +1000,9 @@ class Backend implements ControllerProviderInterface
         }
         if ($hasTaxonomy || (is_array($contenttype['groups']) && in_array('taxonomy', $contenttype['groups']))) {
             $addGroup('taxonomy', Trans::__('contenttypes.generic.group.taxonomy'));
+        }
+        if ($hasTemplateFields || (is_array($contenttype['groups']) && in_array('template', $contenttype['groups']))) {
+            $addGroup('template', Trans::__('Template'));
         }
 
 
