@@ -357,7 +357,7 @@
             var select = $(this).find('select');
             var config = select.data('stats');
             var warning = $(this).find('.templatewarning');
-            console.log(warning);
+
             select.change(function() {
                 warning.html('').addClass('hidden').removeClass('text-danger');
                 if (select.val() !== config.current) {
