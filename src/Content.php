@@ -66,7 +66,7 @@ class Content implements \ArrayAccess
         } else {
             // Ininitialize fields with empty values.
             $values = array();
-            if (is_array($this->contenttype)) {
+            if ((is_array($this->contenttype) && is_array($this->contenttype['fields']))) {
                 foreach ($this->contenttype['fields'] as $key => $parameters) {
                     // Set the default values.
                     if (isset($parameters['default'])) {
