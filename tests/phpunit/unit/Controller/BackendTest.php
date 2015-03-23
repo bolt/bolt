@@ -216,7 +216,6 @@ class BackendTest extends BoltUnitTest
         $this->assertEquals("Page #200", $context['context']['title']);
 
         // This block generates a changelog on the page in question so we have something to test.
-        $this->addSomeContent();
         $app['request'] = Request::create("/");
         $content = $app['storage']->getContent('pages/1');
         $content->setValues(array('status' => 'draft', 'ownerid' => 99));
@@ -612,16 +611,68 @@ class BackendTest extends BoltUnitTest
         $this->assertRegexp('/right privileges/', $err[0]);
         
         
-        $users = $this->getMock('Bolt\Users', array('isAllowed', 'checkAntiCSRFToken'), array($app));
+        $users = $this->getMock('Bolt\Users', array('isAllowed', 'checkAntiCSRFToken', 'isContentStatusTransitionAllowed'), array($app));
         $users->expects($this->any())
             ->method('isAllowed')
             ->will($this->returnValue(true));        
         $app['users'] = $users;
         
+        // This one should fail for the second permission check `isContentStatusTransitionAllowed`
         $response = $controller->contentAction($app, 'held','pages', 3);        
         $this->assertEquals('/bolt/overview/pages', $response->getTargetUrl());
         $err = $app['session']->getFlashBag()->get('error');
         $this->assertRegexp('/right privileges/', $err[0]);
+        
+        $app['users']->expects($this->any())
+            ->method('isContentStatusTransitionAllowed')
+            ->will($this->returnValue(true)); 
+            
+        $response = $controller->contentAction($app, 'held','pages', 3);        
+        $this->assertEquals('/bolt/overview/pages', $response->getTargetUrl());
+        $err = $app['session']->getFlashBag()->get('info');
+        $this->assertRegexp('/has been changed/', $err[0]);
+        
+        // Test an invalid action fails
+        $app['request'] = $request = Request::create('/bolt/content/fake/pages/3');
+        $response = $controller->contentAction($app, 'fake','pages', 3);        
+        $err = $app['session']->getFlashBag()->get('error');
+        $this->assertRegexp('/No such action/', $err[0]);
+        
+        // Test that any save error gets reported
+        $app['request'] = $request = Request::create('/bolt/content/held/pages/3');
+        
+        $storage = $this->getMock('Bolt\Storage', array('updateSingleValue'), array($app));
+        $storage->expects($this->once())
+            ->method('updateSingleValue')
+            ->will($this->returnValue(false));
+            
+        $app['storage'] = $storage;
+        
+        $response = $controller->contentAction($app, 'held','pages', 3);        
+        $this->assertEquals('/bolt/overview/pages', $response->getTargetUrl());
+        $err = $app['session']->getFlashBag()->get('info');
+        $this->assertRegexp('/could not be modified/', $err[0]);
+        
+        // Test the delete proxy action
+        // Note that the response will be 'could not be deleted'. Since this just
+        // passes on the the deleteContent method that is enough to indicate that
+        // the work of this method is done. 
+        $app['request'] = $request = Request::create('/bolt/content/delete/pages/3');
+        $response = $controller->contentAction($app, 'delete','pages', 3);        
+        $this->assertEquals('/bolt/overview/pages', $response->getTargetUrl());
+        $err = $app['session']->getFlashBag()->get('info');
+        $this->assertRegexp('/could not be deleted/', $err[0]);
+    }
+    
+    public function testUsers()
+    {
+        $app = $this->getApp();
+        $controller = new Backend();
+        $app['request'] = $request = Request::create('/bolt/users');
+        $response = $controller->users($app);
+        $context = $response->getContext();
+        $this->assertNotNull($context['context']['users']);        
+        $this->assertNotNull($context['context']['sessions']);        
 
     }
     
