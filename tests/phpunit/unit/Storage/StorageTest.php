@@ -16,6 +16,11 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class StorageTest extends BoltUnitTest
 {
+    public function testSetup()
+    {
+        $this->resetDb();
+    }
+
     public function testGetContentObject()
     {
         $app = $this->getApp();

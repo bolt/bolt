@@ -9,6 +9,9 @@ namespace Bolt\Tests;
  */
 class BoltListener implements \PHPUnit_Framework_TestListener
 {
+    /** @var array */
+    protected $tracker;
+
     /** @var boolean */
     protected $timer;
 
@@ -127,6 +130,8 @@ class BoltListener implements \PHPUnit_Framework_TestListener
      */
     public function endTest(\PHPUnit_Framework_Test $test, $time)
     {
+        $name = $test->getName();
+        $this->tracker[$name] = $time;
     }
 
     /**
@@ -170,12 +175,15 @@ class BoltListener implements \PHPUnit_Framework_TestListener
      */
     private function cleanTestEnv()
     {
-        if (!$this->reset) {
-            return;
+        // Write out a report about each test's execution time
+        if ($this->timer) {
+            file_put_contents(TEST_ROOT . '/app/cache/unit-test-timer.txt', print_r($this->tracker, true));
         }
 
-        if (is_readable(TEST_ROOT . '/bolt.db')) {
-            unlink(TEST_ROOT . '/bolt.db');
+        if ($this->reset) {
+            if (is_readable(TEST_ROOT . '/bolt.db')) {
+                unlink(TEST_ROOT . '/bolt.db');
+            }
         }
     }
 }
