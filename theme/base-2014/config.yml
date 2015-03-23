@@ -23,7 +23,7 @@ headerimage:
 # listing_template: listing.twig
 # search_results_template: listing.twig
 
-template_fields:
+templatefields:
     extrafields.twig:
         section_1:
             type: text

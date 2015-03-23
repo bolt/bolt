@@ -522,7 +522,7 @@ class Content implements \ArrayAccess
 
     protected function getTemplateFieldsContentType() {
         if (is_array($this->contenttype)) {
-            if ($templateFieldsConfig = $this->app['config']->get('theme/template_fields')) {
+            if ($templateFieldsConfig = $this->app['config']->get('theme/templatefields')) {
                 $template = $this->app['templatechooser']->record($this);
                 if (array_key_exists($template, $templateFieldsConfig)) {
                     return $templateFieldsConfig[$template];
@@ -534,7 +534,7 @@ class Content implements \ArrayAccess
 
     public function hasTemplateFields() {
         if (is_array($this->contenttype)) {
-            if ((!$this->contenttype['viewless']) && (!empty($this['templatefields'])) && ($templateFieldsConfig = $this->app['config']->get('theme/template_fields'))) {
+            if ((!$this->contenttype['viewless']) && (!empty($this['templatefields'])) && ($templateFieldsConfig = $this->app['config']->get('theme/templatefields'))) {
                 $template = $this->app['templatechooser']->record($this);
                 if (array_key_exists($template, $templateFieldsConfig)) {
                     return true;
