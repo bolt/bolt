@@ -15,7 +15,7 @@
 
 {% set attr_datetime = {
     id:         key,
-    name:       name
+    name:       name,
     value:      (context.content.get(contentkey) != null) ? context.content.get(contentkey)|date('Y-m-d H:i:s') : option.default,
     required:   option.required,
     class:      option.class,
