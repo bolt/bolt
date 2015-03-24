@@ -12,8 +12,8 @@
 # together.
 
 pages:
-    name: Pages
-    singular_name: Page
+    slug: pages
+    singular_slug: page
     fields:
         title:
             type: text
@@ -49,8 +49,8 @@ pages:
 # shown above older entries.
 
 entries:
-    name: Entries
-    singular_name: Entry
+    slug: entries
+    singular_slug: entry
     fields:
         title:
             type: text
@@ -90,9 +90,7 @@ entries:
 # listing_template, and related settings are used from config.yml
 
 showcases:
-    name: Showcases
     slug: showcases
-    singular_name: Showcase
     singular_slug: showcase
     fields:
         title:
