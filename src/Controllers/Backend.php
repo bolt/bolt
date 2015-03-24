@@ -1777,6 +1777,28 @@ class Backend implements ControllerProviderInterface
                         $ok = false;
                         $app['session']->getFlashBag()->add('error', Trans::__("File '%s' could not be saved:", array('%s' => $file->getPath())) . $e->getMessage());
                     }
+
+                    // Better usage hints
+                    if ($ok && $file->getPath() === 'contenttypes.yml') {
+                        $named = array();
+                        foreach ($ok as $ctype => $ctdef) {
+                            if (isset($ctdef['name']) || isset($ctdef['singular_name'])) {
+                                $named[] = $ctype;
+                            }
+                        }
+                        if (count($named) > 0) {
+                            $app['session']->getFlashBag()->add(
+                                'warning',
+                                Trans::__(
+                                    "There is 'name' or 'singular_name' used for the following contenttypes: %LIST%. The better location to name them is %URL%!",
+                                    array(
+                                        '%LIST%' => join(', ', $named),
+                                        '%URL%' =>  rtrim($app['resources']->getUrl('rooturl'), '/') . $app['url_generator']->generate('translation', array('domain' => 'contenttypes'))
+                                    )
+                                )
+                            );
+                        }
+                    }
                 }
 
                 if ($ok) {
