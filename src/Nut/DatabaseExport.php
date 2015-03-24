@@ -9,6 +9,8 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOException;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Yaml\Dumper;
 
 /**
  * Nut database exporter command
@@ -58,8 +60,43 @@ class DatabaseExport extends BaseCommand
             $this->contenttypes = $this->app['storage']->getContentTypes();
         }
 
+        // Export each Contenttype's records to the export file
+        foreach ($this->contenttypes as $contenttype){
+            $this->exportContenttype($contenttype, $file, $output);
+        }
+
         $contenttypes = join(' ', $contenttypes);
         $output->writeln("<info>Database exported to $file: $contenttypes</info>");
+    }
+
+    /**
+     * Export a Contenttype's records to the export file.
+     *
+     * @param string          $contenttype
+     * @param string          $file
+     * @param OutputInterface $output
+     *
+     * @return boolean
+     */
+    private function exportContenttype($contenttype, $file, OutputInterface $output)
+    {
+        // Get all the records foe the contenttype
+        $records = $this->app['storage']->getContent($contenttype);
+
+        $output = array();
+        foreach ($records as $record) {
+            $values = $record->getValues();
+            unset($values['id']);
+            $output[$contenttype][] = $values;
+        }
+
+        // Get a new YAML dumper
+        $dumper = new Dumper();
+
+        // Generate the YAML string
+        $yaml = $dumper->dump($output, 4);
+
+        file_put_contents($file, $yaml, FILE_APPEND);
     }
 
     /**
