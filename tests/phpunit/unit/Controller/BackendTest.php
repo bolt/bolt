@@ -676,6 +676,42 @@ class BackendTest extends BoltUnitTest
 
     }
     
+    public function testRoles()
+    {
+        $app = $this->getApp();
+        $controller = new Backend();
+        $app['request'] = $request = Request::create('/bolt/roles');
+        $response = $controller->roles($app);
+        $context = $response->getContext();
+        $this->assertEquals('roles/roles.twig', $response->getTemplateName());
+        $this->assertNotEmpty($context['context']['global_permissions']);
+        $this->assertNotEmpty($context['context']['effective_permissions']);
+    }
+    
+    public function testUserEdit()
+    {
+        $app = $this->getApp();
+        $controller = new Backend();
+        $user = $app['users']->getUser(9);
+        $app['users']->currentuser = $user;
+        $app['request'] = $request = Request::create('/bolt/useredit/9');
+        
+        // This one should redirect because of permission failure
+        $response = $controller->userEdit(9, $app, $request);
+        $this->assertEquals('/bolt/users', $response->getTargetUrl());
+        
+        $perms = $this->getMock('Bolt\Permissions', array('isAllowedToManipulate'), array($app));
+        $perms->expects($this->once())
+            ->method('isAllowedToManipulate')
+            ->will($this->returnValue(true));
+        $app['permissions'] = $perms;
+        
+        $response = $controller->userEdit(9, $app, $request);
+        $context = $response->getContext();
+        
+
+    }
+    
     
     protected function addSomeContent()
     {
