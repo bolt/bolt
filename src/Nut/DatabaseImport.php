@@ -2,6 +2,7 @@
 
 namespace Bolt\Nut;
 
+use Bolt\Helpers\Arr;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
@@ -22,6 +23,9 @@ class DatabaseImport extends BaseCommand
 {
     /** @var array YAML to import to records */
     private $yaml = array();
+
+    /** @var array Contenttypes in use */
+    private $contenttypes = array();
 
     protected function configure()
     {
@@ -63,20 +67,79 @@ class DatabaseImport extends BaseCommand
             return;
         }
 
+        // Import each record from each import file's contenttype
+        foreach ($this->yaml as $file => $data) {
+            foreach ($data as $contenttypeslug => $records) {
+                foreach ($records as $recordvalues) {
+                    $this->importRecord($contenttypeslug, $recordvalues, $output);
+                }
+            }
+        }
 
+        // Report finish
         $filenames = join(', ', $files);
         $output->writeln("<info>Database imported from $filenames</info>");
     }
 
     /**
+     * Import a given record
+     *
+     * @param string          $contenttypeslug
+     * @param array           $values
+     * @param OutputInterface $output
+     */
+    private function importRecord($contenttypeslug, array $values, OutputInterface $output)
+    {
+        // Get a status
+        if (isset($values['status'])) {
+            $status = $values['status'];
+        } else {
+            $status = $this->contenttypes[$contenttypeslug]['default_status'];
+        }
+
+        // Transform the 'publish' action to a 'published' status
+        $status = $status === 'publish' ? 'published' : $status;
+
+        // Insist on a title field
+        if (!isset($values['title'])) {
+            $output->writeln("<question>Skipping record with empty title field</question>");
+            return;
+        }
+
+        // Set up default meta
+        $meta = array(
+            'slug'        => isset($values['slug']) ? $values['slug'] : substr($this->app['slugify']->slugify($values['title']), 0, 127),
+            'datecreated' => date('Y-m-d H:i:s'),
+            'datepublish' => $status == 'published' ? date('Y-m-d H:i:s') : null,
+            'ownerid'     => 1
+        );
+
+        $values = Arr::mergeRecursiveDistinct($values, $meta);
+
+        $record = $this->app['storage']->getEmptyContent($contenttypeslug);
+        $record->setValues($values);
+
+        $id = $this->app['storage']->saveContent($record);
+
+        if ($id === false) {
+            $output->writeln("<error>Failed to imported record with title: {$values['title']}.</error>");
+
+            return false;
+        } else {
+            $output->writeln("<info>Imported record with title: {$values['title']}.</info>");
+
+            return $id;
+        }
+    }
+
+    /**
      * Check Contenttype in the import files exists
      *
-     * @param string          $contenttype
      * @param OutputInterface $output
      *
      * @return array|null
      */
-    private function isContenttypesValid($output)
+    private function isContenttypesValid(OutputInterface $output)
     {
         foreach ($this->yaml as $file => $data) {
             if (!is_array($data)) {
@@ -90,6 +153,10 @@ class DatabaseImport extends BaseCommand
                 if (empty($contenttype)) {
                     $output->writeln("<error>File '$file' has invalid contenttype '$contenttypeslug'!</error>");
                     return false;
+                }
+
+                if (!isset($this->contenttypes[$contenttypeslug])) {
+                    $this->contenttypes[$contenttypeslug] = $contenttype;
                 }
             }
         }
