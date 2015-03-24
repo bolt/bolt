@@ -37,6 +37,9 @@ class DatabaseImport extends BaseCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $files = $input->getOption('file');
+        if (empty($files)) {
+            throw new \RuntimeException('The --files option is required.');
+        }
 
         // Check passed files are all valid
         if (!$this->isFilesValid($files, $output)) {

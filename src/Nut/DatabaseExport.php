@@ -44,6 +44,9 @@ class DatabaseExport extends BaseCommand
 
         // Check if export file can be created
         $file = $input->getOption('file');
+            if (empty($file)) {
+            throw new \RuntimeException('The --file option is required.');
+        }
         if (!$this->isFileWriteable($file, $output)) {
             return;
         }
