@@ -45,7 +45,7 @@ Not yet released.
  - Added: Upload UX improvements part 2 - Progress bars. (Thanks @pinpickle, see #3218)
  - Fixed: Fix 'current' in menu. (see #3209)
  - Change: Use 4 spaces in all .yml and base-2014 theme. (see #3205)
-
+ - Fixed: Set the canonical correctly. (see #3214)
 
 Bolt 2.1.1
 ----------
