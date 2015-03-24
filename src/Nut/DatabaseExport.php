@@ -53,6 +53,11 @@ class DatabaseExport extends BaseCommand
             return;
         }
 
+        // If no Contenttypes were passed in, grab 'em all
+        if (empty($contenttypes)) {
+            $this->contenttypes = $this->app['storage']->getContentTypes();
+        }
+
         $contenttypes = join(' ', $contenttypes);
         $output->writeln("<info>Database exported to $file: $contenttypes</info>");
     }
