@@ -58,9 +58,43 @@ class DatabaseImport extends BaseCommand
             }
         }
 
+        // Check the contenttypes for the requested import
+        if (!$this->isContenttypesValid($output)) {
+            return;
+        }
+
 
         $filenames = join(', ', $files);
         $output->writeln("<info>Database imported from $filenames</info>");
+    }
+
+    /**
+     * Check Contenttype in the import files exists
+     *
+     * @param string          $contenttype
+     * @param OutputInterface $output
+     *
+     * @return array|null
+     */
+    private function isContenttypesValid($output)
+    {
+        foreach ($this->yaml as $file => $data) {
+            if (!is_array($data)) {
+                $output->writeln("<error>File '$file' has malformed Contenttype import data!</error>");
+                return false;
+            }
+
+            foreach (array_keys($data) as $contenttypeslug) {
+                $contenttype = $this->app['storage']->getContentType($contenttypeslug);
+
+                if (empty($contenttype)) {
+                    $output->writeln("<error>File '$file' has invalid contenttype '$contenttypeslug'!</error>");
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 
     /**
