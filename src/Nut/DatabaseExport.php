@@ -17,13 +17,16 @@ use Symfony\Component\Filesystem\Exception\IOException;
  */
 class DatabaseExport extends BaseCommand
 {
+    /** @var array Contenttypes in use */
+    private $contenttypes = array();
+
     protected function configure()
     {
         $this
             ->setName('database:export')
             ->setDescription('Export the database records to YAML file')
             ->addOption('no-interaction', 'n', InputOption::VALUE_NONE, 'Do not ask for confirmation')
-            ->addOption('contenttype',    'c', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'One or more contenttypes to export records for.')
+            ->addOption('contenttypes',   'c', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'One or more contenttypes to export records for.')
             ->addOption('file',           'f', InputOption::VALUE_REQUIRED, 'A YAML file to use for export data. Must end with .yml or .yaml');
     }
 
@@ -44,11 +47,14 @@ class DatabaseExport extends BaseCommand
             return;
         }
 
+        // Ensure any requests contenttypes requests are valid
+        $contenttypes = $input->getOption('contenttypes');
+        if (!empty($contenttypes) && !$this->isContenttypesValid($contenttypes, $output)) {
+            return;
+        }
 
-        $contenttype = $input->getOption('contenttype');
-
-        $contenttype = join(' ', $contenttype);
-        $output->writeln("<info>Database exported to $file: $contenttype</info>");
+        $contenttypes = join(' ', $contenttypes);
+        $output->writeln("<info>Database exported to $file: $contenttypes</info>");
     }
 
     /**
@@ -73,6 +79,32 @@ class DatabaseExport extends BaseCommand
         } catch (IOException $e) {
             $output->writeln("<error>Specified export file '$file' can not be created! Aborting export.</error>");
             return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Check Contenttype requested exists
+     *
+     * @param array           $contenttypes
+     * @param OutputInterface $output
+     *
+     * @return boolean
+     */
+    private function isContenttypesValid(array $contenttypes, OutputInterface $output)
+    {
+        foreach ($contenttypes as $contenttypeslug) {
+            $contenttype = $this->app['storage']->getContentType($contenttypeslug);
+
+            if (empty($contenttype)) {
+                $output->writeln("<error>The requested Contenttype '$contenttypeslug' doesn't exist! Aborting export.</error>");
+                return false;
+            }
+
+            if (!isset($this->contenttypes[$contenttypeslug])) {
+                $this->contenttypes[$contenttypeslug] = $contenttype;
+            }
         }
 
         return true;
