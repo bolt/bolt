@@ -4,16 +4,13 @@ namespace Bolt\Nut;
 
 use Bolt\Helpers\Arr;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Filesystem\Exception\IOException;
+use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 use Symfony\Component\HttpFoundation\File\File;
-use Symfony\Component\Yaml\Dumper;
-use Symfony\Component\Yaml\Parser;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Yaml\Parser;
 
 /**
  * Nut database importer command

@@ -3,12 +3,11 @@
 namespace Bolt\Nut;
 
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Filesystem\Exception\IOException;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Yaml\Dumper;
 
@@ -61,7 +60,7 @@ class DatabaseExport extends BaseCommand
         }
 
         // Export each Contenttype's records to the export file
-        foreach ($this->contenttypes as $contenttype){
+        foreach ($this->contenttypes as $contenttype) {
             $this->exportContenttype($contenttype, $file, $output);
         }
 
