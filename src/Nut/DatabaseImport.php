@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Yaml\Dumper;
 use Symfony\Component\Yaml\Parser;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Nut database importer command
@@ -102,7 +103,7 @@ class DatabaseImport extends BaseCommand
 
         // Insist on a title field
         if (!isset($values['title'])) {
-            $output->writeln("<question>Skipping record with empty title field</question>");
+            $output->writeln("<question>Skipping record with empty title field…</question>");
             return;
         }
 
@@ -113,6 +114,12 @@ class DatabaseImport extends BaseCommand
             'datepublish' => $status == 'published' ? date('Y-m-d H:i:s') : null,
             'ownerid'     => 1
         );
+
+        // Test to see if a Contenttype record with this slug exists
+        if ($this->isRecordInExistence($contenttypeslug, $values['slug'])) {
+            $output->writeln("<question>Skipping record with the slug '{$values['slug']}' as a matching record already exists…</question>");
+            return;
+        }
 
         $values = Arr::mergeRecursiveDistinct($values, $meta);
 
@@ -130,6 +137,24 @@ class DatabaseImport extends BaseCommand
 
             return $id;
         }
+    }
+
+    /**
+     * Test is a record already exists
+     *
+     * @param string $contenttypeslug
+     * @param string $slug
+     *
+     * @return boolean
+     */
+    private function isRecordInExistence($contenttypeslug, $slug)
+    {
+        $record = $this->app['storage']->getContent("$contenttypeslug/$slug");
+        if (empty($record)) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
