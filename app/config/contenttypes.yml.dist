@@ -99,7 +99,7 @@ showcases:
             required: true
             pattern: ".{2,255}" # see: http://html5pattern.com/
             error: "The Title field is required, and must contain at least 2 characters"
-            group: Text
+            group: text
         slug:
             type: slug
             uses: [ title ]
@@ -114,7 +114,7 @@ showcases:
             postfix: "<p><em>This field gets parsed as <a href='https://help.github.com/articles/markdown-basics'>Markdown</a>, when rendered on the site.</em></p>"
         geolocation:
             type: geolocation
-            group: Media
+            group: media
         video:
             type: video
         image:
@@ -187,7 +187,7 @@ showcases:
 # float - double - Input field for floating numbers, stored as 'Double'.
 # geolocation - text (65kb) - Input field for geolocation. Enter an address, and the location is geocoded to latitude/longitude coordinates
 # imagelist - text (65kb) - Input type for imagelists. Add multiple images with a description. Useful for image sliders, galleries, etcetera.
-# image - varchar(256) - image select/upload widget, stored as filename.
+# image - varchar(256) - image select/upload widget, stored as filegroup:.
 # file - varchar(256) - file select/upload widget, stored as filename.
 # filelist - text (65kb) - Input type for a list of files. Including a description.
 # video - varchar(256) - Video embed widget, stored as filename.
