@@ -1,7 +1,7 @@
 # This file defines the contenttypes on the website. See the documentation for
 # details: http://docs.bolt.cm/content#defining-contenttypes
 
-# Pages can be used for the more 'static' pages on your site. Things like
+# Contenttype 'pages' can be used for the more 'static' pages on your site. Things like
 # 'about us', 'contact' or a 'disclaimer'. This content-type has a 'templateselect'
 # field, which allows you to override the record_template setting for an
 # individual page.
@@ -37,7 +37,7 @@ pages:
     recordsperpage: 100
 
 
-# Entries can be used for things like 'news' or 'blogpostings'. They have a 'teaser',
+# Contenttype 'entries' can be used for things like 'news' or 'blogpostings'. They have a 'teaser',
 # which can be used for a short blurb on listing-pages, allowing visitors to
 # click-through to the rest of the entry. It also has fields for an image and an
 # optional video.
@@ -83,7 +83,7 @@ entries:
     sort: -datepublish
     recordsperpage: 10
 
-# The 'Showcases' is not particularly useful in most cases, but it does a good
+# Contenttype 'showcases' is not particularly useful in most cases, but it does a good
 # job of showcasing most of the available fieldtypes. Feel free to delete it, or
 # copy some fields to your own contenttypes.
 # Since no templates are defined for this contenttype, the default record_template,
