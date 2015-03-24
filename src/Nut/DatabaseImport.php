@@ -7,8 +7,11 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Yaml\Dumper;
+use Symfony\Component\Yaml\Parser;
 
 /**
  * Nut database importer command
@@ -17,6 +20,9 @@ use Symfony\Component\HttpFoundation\File\File;
  */
 class DatabaseImport extends BaseCommand
 {
+    /** @var array YAML to import to records */
+    private $yaml = array();
+
     protected function configure()
     {
         $this
@@ -45,9 +51,42 @@ class DatabaseImport extends BaseCommand
             }
         }
 
+        // Read the YAML from each file
+        foreach ($files as $file) {
+            if (!$this->readYaml($file, $output)) {
+                return;
+            }
+        }
+
 
         $filenames = join(', ', $files);
         $output->writeln("<info>Database imported from $filenames</info>");
+    }
+
+    /**
+     * Read a YAML file
+     *
+     * @param string          $file
+     * @param OutputInterface $output
+     *
+     * @return array
+     */
+    private function readYaml($file, $output)
+    {
+        $parser = new Parser();
+
+        if (is_readable($file)) {
+            try {
+                $this->yaml[$file] = $parser->parse(file_get_contents($file) . "\n");
+                return true;
+            } catch (ParseException $e) {
+                $output->writeln("<error>File '$file' has invalid YAML!</error>");
+                return false;
+            }
+        } else {
+            $output->writeln("<error>File '$file' not readable!</error>");
+            return false;
+        }
     }
 
     /**
