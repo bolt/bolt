@@ -372,7 +372,7 @@ class Content implements \ArrayAccess
         }
 
         if ($key == 'templatefields') {
-            $oldValue = $this->values[$key];
+            $oldValue = !empty($this->values[$key]) ? $this->values[$key] : null;
             if ((is_string($value)) || (is_array($value))) {
                 if (is_string($value)) {
                     try {
