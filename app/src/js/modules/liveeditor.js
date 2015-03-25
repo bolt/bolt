@@ -83,7 +83,7 @@
             cke.disableAutoInline = false;
             jq.find('[data-bolt-field]').each(function() {
                 // Find form field
-                var field = $('#editcontent *[name=' + liveEditor.escapejQuery($(this).data('bolt-field')));
+                var field = $('#editcontent *[name=' + liveEditor.escapejQuery($(this).data('bolt-field')) + ']');
                 var fieldType = field.closest('[data-fieldtype]').data('fieldtype');
 
                 $(this).addClass('bolt-editable');
@@ -157,7 +157,7 @@
         jq.find('[data-bolt-field]').each(function() {
             // Find form field
             var fieldName = $(this).data('bolt-field');
-            var field = $('#editcontent [name=' + liveEditor.escapejQuery(fieldName));
+            var field = $('#editcontent [name=' + liveEditor.escapejQuery(fieldName) + ']');
             var fieldType = field.closest('[data-fieldtype]').data('fieldtype');
 
             if (fieldType === 'text') {
