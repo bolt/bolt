@@ -19,34 +19,31 @@ use Symfony\Component\HttpFoundation\Response;
 
 class Upload implements ControllerProviderInterface, ServiceProviderInterface
 {
-    public $app;
-    public $uploaddir;
-
     public function register(Silex\Application $app)
     {
         // This exposes the main upload object as a service
         $app['upload'] = function () use ($app) {
-                $allowedExensions = $app['config']->get('general/accept_file_types');
-                $uploadHandler = new UploadHandler($app['upload.container']);
-                $uploadHandler->setPrefix($app['upload.prefix']);
-                $uploadHandler->setOverwrite($app['upload.overwrite']);
-                $uploadHandler->addRule('extension', array('allowed' => $allowedExensions));
+            $allowedExensions = $app['config']->get('general/accept_file_types');
+            $uploadHandler = new UploadHandler($app['upload.container']);
+            $uploadHandler->setPrefix($app['upload.prefix']);
+            $uploadHandler->setOverwrite($app['upload.overwrite']);
+            $uploadHandler->addRule('extension', array('allowed' => $allowedExensions));
 
-                $pattern = $app['config']->get('general/upload/pattern', '[^A-Za-z0-9\.]+');
-                $replacement = $app['config']->get('general/upload/replacement', '-');
-                $lowercase = $app['config']->get('general/upload/lowercase', true);
+            $pattern = $app['config']->get('general/upload/pattern', '[^A-Za-z0-9\.]+');
+            $replacement = $app['config']->get('general/upload/replacement', '-');
+            $lowercase = $app['config']->get('general/upload/lowercase', true);
 
-                $uploadHandler->setSanitizerCallback(
-                    function ($filename) use ($pattern, $replacement, $lowercase) {
-                        if ($lowercase) {
-                            return preg_replace("/$pattern/", $replacement, strtolower($filename));
-                        }
-
-                        return preg_replace("/$pattern/", $replacement, $filename);
+            $uploadHandler->setSanitizerCallback(
+                function ($filename) use ($pattern, $replacement, $lowercase) {
+                    if ($lowercase) {
+                        return preg_replace("/$pattern/", $replacement, strtolower($filename));
                     }
-                );
 
-                return $uploadHandler;
+                    return preg_replace("/$pattern/", $replacement, $filename);
+                }
+            );
+
+            return $uploadHandler;
         };
 
         // This exposes the file container as a configurabole object please refer to:
@@ -92,7 +89,7 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
                     return array($namespace, $prefix);
                 };
 
-                // This block hanles the more advanced functionality where multiple upload
+                // This block handles the more advanced functionality where multiple upload
                 // handlers are provided. Only the first one is returned as a result, the result
                 // of this first upload is then attempted to copy to the remaining handlers.
                 if (is_array($handler)) {
@@ -116,7 +113,7 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
                         }
                     }
 
-                    return new JsonResponse($result, 200, array('Content-Type' => 'text/plain'));
+                    return new JsonResponse($result, Response::HTTP_OK, array('Content-Type' => 'text/plain'));
                 } else {
                     list($namespace, $prefix) = $parser($handler);
                 }
@@ -128,7 +125,7 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
 
             return new JsonResponse(
                 $controller->uploadFile($app, $request, $namespace),
-                200,
+                Response::HTTP_OK,
                 array('Content-Type' => 'text/plain')
             );
         };

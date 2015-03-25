@@ -109,7 +109,7 @@ class Frontend
 
         // If the contenttype is 'viewless', don't show the record page.
         if (isset($contenttype['viewless']) && $contenttype['viewless'] === true) {
-            $app->abort(Response::HTTP_NOT_FOUND, "Page $contenttypeslug/$slug not found.");
+            return $app->abort(Response::HTTP_NOT_FOUND, "Page $contenttypeslug/$slug not found.");
         }
 
         // Perhaps we don't have a slug. Let's see if we can pick up the 'id', instead.
@@ -120,7 +120,7 @@ class Frontend
         $slug = $app['slugify']->slugify($slug);
 
         // First, try to get it by slug.
-        $content = $app['storage']->getContent($contenttype['slug'], array('slug' => $slug, 'returnsingle' => true));
+        $content = $app['storage']->getContent($contenttype['slug'], array('slug' => $slug, 'returnsingle' => true, 'log_not_found' => !is_numeric($slug)));
 
         if (!$content && is_numeric($slug)) {
             // And otherwise try getting it by ID
@@ -129,15 +129,23 @@ class Frontend
 
         // No content, no page!
         if (!$content) {
-            $app->abort(Response::HTTP_NOT_FOUND, "Page $contenttypeslug/$slug not found.");
+            return $app->abort(Response::HTTP_NOT_FOUND, "Page $contenttypeslug/$slug not found.");
         }
 
         // Then, select which template to use, based on our 'cascading templates rules'
         $template = $app['templatechooser']->record($content);
 
-        // Setting the canonical path and the editlink.
         $paths = $app['resources']->getPaths();
-        $app['resources']->setUrl('canonicalurl', sprintf('%s%s', $paths['canonical'], $content->link()));
+
+        // Setting the canonical URL.
+        if ($content->isHome() && ($template == $app['config']->get('general/homepage_template'))) {
+            $app['resources']->setUrl('canonicalurl', $paths['rooturl']);
+        } else {
+            $url = $paths['canonical'] . $content->link();
+            $app['resources']->setUrl('canonicalurl', $url);
+        }
+
+        // Setting the editlink
         $app['editlink'] = Lib::path('editcontent', array('contenttypeslug' => $contenttype['slug'], 'id' => $content->id));
         $app['edittitle'] = $content->getTitle();
 
@@ -212,7 +220,7 @@ class Frontend
 
         // If the contenttype is 'viewless', don't show the record page.
         if (isset($contenttype['viewless']) && $contenttype['viewless'] === true) {
-            $app->abort(Response::HTTP_NOT_FOUND, "Page $contenttypeslug not found.");
+            return $app->abort(Response::HTTP_NOT_FOUND, "Page $contenttypeslug not found.");
         }
 
         $pagerid = Pager::makeParameterId($contenttypeslug);
@@ -264,9 +272,14 @@ class Frontend
         $content = $app['storage']->getContentByTaxonomy($taxonomytype, $slug, array('limit' => $amount, 'order' => $order, 'page' => $page));
 
         // See https://github.com/bolt/bolt/pull/2310
-        if (($taxonomy['behaves_like'] === 'tags' && !$content)
-            || (in_array($taxonomy['behaves_like'], array('categories', 'grouping')) && !in_array($slug, isset($taxonomy['options']) ? array_keys($taxonomy['options']) : array()))) {
-            $app->abort(Response::HTTP_NOT_FOUND, "No slug '$slug' in taxonomy '$taxonomyslug'");
+        if (
+                ($taxonomy['behaves_like'] === 'tags' && !$content) ||
+                (
+                    in_array($taxonomy['behaves_like'], array('categories', 'grouping')) &&
+                    !in_array($slug, isset($taxonomy['options']) ? array_keys($taxonomy['options']) : array())
+                )
+            ) {
+            return $app->abort(Response::HTTP_NOT_FOUND, "No slug '$slug' in taxonomy '$taxonomyslug'");
         }
 
         $template = $app['templatechooser']->taxonomy($taxonomyslug);
@@ -417,7 +430,7 @@ class Frontend
             $this->setTemplateError($app, $error);
 
             // Abort ship
-            $app->abort(Response::HTTP_INTERNAL_SERVER_ERROR, $error);
+            return $app->abort(Response::HTTP_INTERNAL_SERVER_ERROR, $error);
         }
     }
 

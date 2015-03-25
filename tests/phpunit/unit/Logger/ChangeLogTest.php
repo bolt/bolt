@@ -16,7 +16,7 @@ class ChangeLogTest extends BoltUnitTest
 {
     public function testSetup()
     {
-        $app = $this->getApp();
+        $this->resetDb();
     }
 
     public function testGetChangelog()

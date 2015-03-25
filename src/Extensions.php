@@ -416,7 +416,8 @@ class Extensions
         $this->assets['css'][md5($filename)] = array(
             'filename' => $filename,
             'late'     => $late,
-            'priority' => $priority
+            'priority' => $priority,
+            'attrib'   => false
         );
     }
 
@@ -438,6 +439,7 @@ class Extensions
             $options = array(
                 'late'     => isset($args[1]) ? isset($args[1]) : false,
                 'priority' => isset($args[2]) ? isset($args[2]) : 0,
+                'attrib'   => false
             );
         }
 
@@ -666,7 +668,11 @@ class Extensions
             }
         }
 
-        if ($this->addjquery === true) {
+        // While this looks slightly illogical, our CLI tests want to see that
+        // jQuery can be inserted, but we don't want it inserted on either the
+        // backend or AJAX requests.
+        $end = $this->app['config']->getWhichEnd();
+        if ($this->addjquery === true && ($end === 'frontend' || $end === 'cli')) {
             $html = $this->insertJquery($html);
         }
 

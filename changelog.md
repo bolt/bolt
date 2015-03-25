@@ -23,6 +23,29 @@ Not yet released.
  - Fixed: Upload UX Improvements (Thanks, @Pinpickle, see #3123)
  - Fixed: Warning for unsaved content comes up when nothing has been changed (see #3077)
  - Added: Make the sanitisation of markdown fields configurable. (see #2992 #3142)
+ - Fixed: Fixed z-index of sidebar. (See #3100)
+ - Fixed: Disable "revert" button on 'edit file' screen, when file is not wrtiable. (See #3009)
+ - Added: Allow for multiple (fallback) locales in `config.yml`. (Thanks @sintemaa, see #3127)
+ - Fixed: Be a little more strict in picking 'selected' options: Only use the fallback, if there's no valid id set. 
+ - Change: Lock composer.json to Symfony 2.6.4 as 2.6.5 fails PHPUnit
+ - Added: Re-added standalone jQuery lib, as some extensions might need it. 
+ - Fixed: Create app/ subdirectories on Composer installs, and other `composer install` fixes.
+ - Fixed: Workaround, so we don't break on installations with `"require": []` in `extensions/composer.json` (see #3171)
+ - Never add extra jQueries on the backend. (See #3177)
+ - JS bugfixes (save button + goto publishing status) (See #3160)
+ - Flush the cache if the Bolt version has changed (See #3183)
+ - Fixed: Allow `|||`-queries to be more complex (Thanks @Pinpickle, see #3189)
+ - Fixed: Storage not using sort from contenttype (Thanks @CarsonF, see #3187)
+ - Change: Only log content not found errors if slug isn't numeric, since `next` and `previous` check by `id` (see #3186)
+ - Fixed: Make sure we use `ParsedownExtra`, instead of just `Parsedown. (Thanks, @cooperaj, see #3194)
+ - Fixed: Changelog content uses correct tablenames. (See 3198)
+ - Added: Markdown fields now have a nice new editor, with Preview and fill screen / split screen functionality. (ee #3225)
+ - Fixed: Normalising taxonomy before comparison for deleting old ones.(Thanks @silentworks, see #3224) 
+ - Change: Improve `shyphenate()`: Only add breaks to long words, instead of everywhere. (see #3221) 
+ - Added: Upload UX improvements part 2 - Progress bars. (Thanks @pinpickle, see #3218)
+ - Fixed: Fix 'current' in menu. (see #3209)
+ - Change: Use 4 spaces in all .yml and base-2014 theme. (see #3205)
+ - Fixed: Set the canonical correctly. (see #3214)
 
 Bolt 2.1.1
 ----------

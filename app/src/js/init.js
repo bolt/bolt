@@ -357,7 +357,7 @@ var init = {
     focusStatusSelect: function () {
         $('#lastsavedstatus').click(function (e) {
             e.preventDefault();
-            $('a[data-filter="meta"]').click();
+            $('a[href="#tab-meta"]').click();
             $('#statusselect').focus();
         });
      },
@@ -526,5 +526,4 @@ var init = {
             }
         });
     }
-
 };

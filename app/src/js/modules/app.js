@@ -26,8 +26,8 @@
     app.run = function () {
         bolt.conf.init();
         bolt.data.init();
-        bolt.stack.init();
         bolt.actions.init();
+        bolt.stack.init();
 
         bolt.activity.init();
         bolt.ckeditor.init();

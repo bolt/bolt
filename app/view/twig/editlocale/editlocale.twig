@@ -30,7 +30,7 @@
                 {% if context.write_allowed %}
                     {{ form_widget(context.form._token) }}
                     <br>
-                    <input type="submit" name="submit" value="{{ __('page.edit-locale.button.save') }}" class="btn btn-primary" {% if not context.write_allowed %}disabled{% endif %} />
+                    <input type="submit" id="saveeditlocale" name="submit" value="{{ __('page.edit-locale.button.save') }}" class="btn btn-primary" {% if not context.write_allowed %}disabled{% endif %} />
                 {% endif %}
             </form>
         </div>

@@ -35,6 +35,7 @@ class NutServiceProvider implements ServiceProviderInterface
                     new Nut\LogTrim($app),
                     new Nut\LogClear($app),
                     new Nut\DatabaseCheck($app),
+                    new Nut\DatabasePrefill($app),
                     new Nut\DatabaseRepair($app),
                     new Nut\TestRunner($app),
                     new Nut\ConfigGet($app),

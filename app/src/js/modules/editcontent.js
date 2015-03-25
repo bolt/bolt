@@ -239,7 +239,7 @@
 
             // Trigger form validation
             $('#editcontent').trigger('boltvalidate');
-            // check validation
+            // Check validation
             if (!$('#editcontent').data('valid')) {
                 return false;
             }
@@ -290,16 +290,22 @@
 
                                     // If there is a CKEditor attached to our element, update it
                                     if (ckeditor && ckeditor.instances[index]) {
-                                        ckeditor.instances[index].setData(item);
+                                        ckeditor.instances[index].setData(
+                                            item,
+                                            {
+                                                callback: function() {
+                                                    this.resetDirty();
+                                                }
+                                            }
+                                        );
                                     }
                                 }
                             });
                         }
                         // Update dates and times from new values
-                        bolt.datetimes.update();
+                        bolt.datetime.update();
 
                         watchChanges();
-
                     })
                     .fail(function(){
                         $('p.lastsaved').text(msgNotSaved);
@@ -358,10 +364,12 @@
      * @memberof Bolt.editcontent
      */
     function watchChanges() {
-        bolt.ckeditor.update();
         $('form#editcontent').find('input, textarea, select').each(function () {
-            if (this.name) {
-                $(this).data('watch', this.type === 'select-multiple' ? JSON.stringify($(this).val()) : $(this).val());
+            if (this.type !== 'textarea' || !$(this).hasClass('ckeditor')) {
+                var val = getComparable(this);
+                if (val !== undefined) {
+                    $(this).data('watch', val);
+                }
             }
         });
     }
@@ -376,20 +384,46 @@
      * @returns {boolean}
      */
     function hasChanged() {
-        var changes = 0,
-            val;
+        var changes = 0;
 
-        bolt.ckeditor.update();
         $('form#editcontent').find('input, textarea, select').each(function () {
-            if (this.name) {
-                val = this.type === 'select-multiple' ? JSON.stringify($(this).val()) : $(this).val();
-                if ($(this).data('watch') !== val) {
+            if (this.type === 'textarea' && $(this).hasClass('ckeditor')) {
+                if (ckeditor.instances[this.id].checkDirty()) {
+                    changes++;
+                }
+            } else {
+                var val = getComparable(this);
+                if (val !== undefined && $(this).data('watch') !== val) {
                     changes++;
                 }
             }
         });
 
         return changes > 0;
+    }
+
+    /**
+     * Gets the current value of an input element processed to be comparable
+     *
+     * @static
+     * @function getComparable
+     * @memberof Bolt.editcontent
+     *
+     * @param {Object} item - Input element
+     *
+     * @returns {string|undefined}
+     */
+    function getComparable(item) {
+        var val;
+
+        if (item.name) {
+            val = $(item).val();
+            if (item.type === 'select-multiple') {
+                val = JSON.stringify(val);
+            }
+        }
+
+        return val;
     }
 
     // Apply mixin container.

@@ -2,6 +2,7 @@
 
 namespace Bolt;
 
+use Bolt\Response\BoltResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -39,22 +40,27 @@ class Render
     /**
      * Render a template, possibly store it in cache. Or, if applicable, return the cached result.
      *
-     * @param $template
-     * @param array $vars
+     * @param string $template the template name
+     * @param array  $vars     array of context variables
+     * @param array  $globals  array of global variables
      *
      * @return mixed
      */
-    public function render($template, $vars = array())
+    public function render($template, $vars = array(), $globals = array())
     {
         // Start the 'stopwatch' for the profiler.
         $this->app['stopwatch']->start('bolt.render', 'template');
-
-        $html = $this->app[$this->twigKey]->render($template, $vars);
+        
+        $response = BoltResponse::create(
+            $this->app[$this->twigKey]->loadTemplate($template),
+            $vars,
+            $globals
+        );
 
         // Stop the 'stopwatch' for the profiler.
         $this->app['stopwatch']->stop('bolt.render');
 
-        return $html;
+        return $response;
     }
 
     /**

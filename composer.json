@@ -38,6 +38,7 @@
         "symfony/finder" : "~2.6",
         "symfony/form" : "~2.6",
         "symfony/locale" : "~2.6",
+        "symfony/security-csrf" : "~2.6",
         "symfony/translation" : "~2.6",
         "symfony/twig-bridge" : "~2.6",
         "symfony/validator" : "~2.6",
@@ -49,16 +50,15 @@
         "ua-parser/uap-php" : "~3.4"
     },
     "require-dev" : {
+        "codeception/codeception" : "*",
         "lstrojny/phpunit-function-mocker" : "dev-master@dev",
+        "m6web/symfony2-coding-standard" : "dev-master@dev",
+        "phpmd/phpmd" : "~2.2.0",
+        "phpunit/dbunit" : "~1.3",
         "phpunit/php-code-coverage" : "~2.0",
         "phpunit/phpunit" : "~4.4",
-        "phpunit/dbunit" : "~1.3",
-        "phpmd/phpmd" : "~2.2.0",
         "sebastian/phpcpd" : "~2.0",
-        "scrutinizer/ocular" : "~1.1",
-        "squizlabs/php_codesniffer" : "1.5.*",
-        "m6web/symfony2-coding-standard" : "dev-master@dev",
-        "codeception/codeception" : "*"
+        "squizlabs/php_codesniffer" : "1.5.*"
     },
     "minimum-stability" : "beta",
     "config" : {

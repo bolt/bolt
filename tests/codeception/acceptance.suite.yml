@@ -9,6 +9,7 @@ modules:
     enabled:
         - PhpBrowser
         - AcceptanceHelper
+        - YamlHelper
         - Db
     config:
         PhpBrowser:

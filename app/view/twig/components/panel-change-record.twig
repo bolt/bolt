@@ -16,7 +16,7 @@
             <div class="col-xs-12">
             {% for item in context.entries %}
                 <p>- <a href="{{ path('changelogrecordsingle', {'contenttype': item.contenttype, 'contentid': item.contentid, 'id': item.id}) }}">
-                          <time class="moment" datetime="{{ item.date }}" title="{{ item.date }}"></time></a> changed by {{ item.username }}</p>
+                          <time class="moment" datetime="{{ item.date }}" title="{{ item.date }}"></time></a> changed by {{ item.username|default('<unknown>') }}</p>
             {% else %}
                 <div class="nochangeitems">{{ __('There are no saved changes, yet.') }}</div>
             {% endfor %}
