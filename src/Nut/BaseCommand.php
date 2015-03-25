@@ -6,10 +6,17 @@ use Bolt\Application;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * Nut building block
+ */
 abstract class BaseCommand extends Command
 {
+    /** @var Bolt\Application */
     protected $app;
 
+    /**
+     * @param \Bolt\Application $app
+     */
     public function __construct(Application $app)
     {
         parent::__construct();
