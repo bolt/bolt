@@ -7,18 +7,20 @@
 
         <article>
 
-            <h2>{{ record.title }}</h2>
+            <h2 data-bolt-field="title">{{ record.title }}</h2>
 
             {% if record.subtitle %}
-                <h3>{{ record.subtitle }}</h3>
+                <h3 data-bolt-field="subtitle">{{ record.subtitle }}</h3>
             {% endif %}
 
-            {{ record.body }}
+            <div data-bolt-field="body">
+                {{ record.body }}
+            </div>
 
         </article>
 
-        <article>{{ record.templatefields.section_1 }}</article>
-        <article>{{ record.templatefields.section_2 }}</article>
+        <article data-bolt-field="templatefields[section_1]">{{ record.templatefields.section_1 }}</article>
+        <article data-bolt-field="templatefields[section_2]">{{ record.templatefields.section_2 }}</article>
         <article>
             <a href="{{ image(record.templatefields.image) }}">
                 <img src="{{ thumbnail(record.templatefields.image, 640, 480) }}">

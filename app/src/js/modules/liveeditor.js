@@ -84,7 +84,8 @@
             cke.disableAutoInline = false;
             jq.find('[data-bolt-field]').each(function() {
                 // Find form field
-                var field = $('#editcontent *[name=' + $(this).data('bolt-field'));
+                var field = $('#editcontent *[name=' + liveEditor.escapejQuery($(this).data('bolt-field')));
+                console.log(field);
                 var fieldType = field.closest('[data-fieldtype]').data('fieldtype');
 
                 $(this).addClass('bolt-editable');
@@ -159,7 +160,7 @@
         jq.find('[data-bolt-field]').each(function() {
             // Find form field
             var fieldName = $(this).data('bolt-field');
-            var field = $('#editcontent [name=' + fieldName);
+            var field = $('#editcontent [name=' + liveEditor.escapejQuery(fieldName));
             var fieldType = field.closest('[data-fieldtype]').data('fieldtype');
 
             console.log(field);
@@ -181,6 +182,21 @@
         bolt.sidebar.fixlength();
 
         liveEditor.removeEvents();
+    };
+
+    /**
+     * Escape jQuery selectors
+     *
+     * @public
+     *
+     * @static
+     * @function escapejQuery
+     * @memberof Bolt.liveEditor
+     *
+     * @param {String} selector - Selector to escape
+     */
+    liveEditor.escapejQuery = function(selector) {
+        return selector.replace(/(:|\.|\[|\]|,)/g, "\\$1");
     };
 
     /**

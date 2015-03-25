@@ -9,7 +9,7 @@
 {% if templatefields is not empty %}
     {% for templatekey, templatefield in templatefields.fields %}
 
-            <div class="form-group">
+            <div class="form-group" data-fieldtype="{{ templatefield.type }}">
                 {# Prefix #}
                 {% if templatefield.prefix is defined and templatefield.prefix is not empty %}
                     <div class="prefix">
