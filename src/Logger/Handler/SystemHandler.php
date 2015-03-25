@@ -99,8 +99,8 @@ class SystemHandler extends AbstractProcessingHandler
                     'message'    => $record['message'],
                     'ownerid'    => isset($user['id']) ? $user['id'] : '',
                     'requesturi' => $this->app['request']->getRequestUri(),
-                    'route'      => $this->app['request']->get('_route'),
-                    'ip'         => $this->app['request']->getClientIp(),
+                    'route'      => $this->app['request']->get('_route', ''),
+                    'ip'         => $this->app['request']->getClientIp() ? : '127.0.0.1',
                     'context'    => isset($record['context']['event']) ? $record['context']['event'] : '',
                     'source'     => $source
                 )

@@ -5,8 +5,14 @@ namespace Bolt\Nut;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * Nut command to clear the cache
+ */
 class CacheClear extends BaseCommand
 {
+    /**
+     * @see \Symfony\Component\Console\Command\Command::configure()
+     */
     protected function configure()
     {
         $this
@@ -14,6 +20,9 @@ class CacheClear extends BaseCommand
             ->setDescription('Clear the cache');
     }
 
+    /**
+     * @see \Symfony\Component\Console\Command\Command::execute()
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $result = $this->app['cache']->clearCache();
@@ -25,9 +34,10 @@ class CacheClear extends BaseCommand
             foreach ($result['failed'] as $failed) {
                 $output->writeln(" - $failed");
             }
-            $output->writeln("");
+            $output->writeln('');
         }
 
-        $output->writeln("<info>Cache cleared!</info>");
+        $this->auditLog(__CLASS__, 'Cache cleared');
+        $output->writeln('<info>Cache cleared!</info>');
     }
 }

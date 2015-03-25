@@ -5,8 +5,14 @@ namespace Bolt\Nut;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * Nut command to run all available PHPUnit tests
+ */
 class TestRunner extends BaseCommand
 {
+    /**
+     * @see \Symfony\Component\Console\Command\Command::configure()
+     */
     protected function configure()
     {
         $this
@@ -14,6 +20,9 @@ class TestRunner extends BaseCommand
             ->setDescription('Runs all available tests');
     }
 
+    /**
+     * @see \Symfony\Component\Console\Command\Command::execute()
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $executable = null;

@@ -6,8 +6,14 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * Nut command to add a user to the system
+ */
 class UserAdd extends BaseCommand
 {
+    /**
+     * @see \Symfony\Component\Console\Command\Command::configure()
+     */
     protected function configure()
     {
         $this
@@ -20,6 +26,9 @@ class UserAdd extends BaseCommand
             ->addArgument('role', InputArgument::REQUIRED, 'The role you wish to give them.');
     }
 
+    /**
+     * @see \Symfony\Component\Console\Command\Command::execute()
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $username = $input->getArgument('username');
@@ -53,6 +62,7 @@ class UserAdd extends BaseCommand
         if ($valid) {
             $res = $this->app['users']->saveUser($user);
             if ($res) {
+                $this->auditLog(__CLASS__, "User created: {$user['username']}");
                 $output->writeln("<info>Successfully created user: {$user['username']}</info>");
             } else {
                 $output->writeln("<error>Error creating user: {$user['username']}</error>");
