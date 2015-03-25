@@ -139,7 +139,7 @@ class Content implements \ArrayAccess
         }
 
         // add the fields for this contenttype,
-        if (is_array($contentttype)) {
+        if (is_array($contenttype)) {
             foreach ($contenttype['fields'] as $field => $property) {
                 switch ($property['type']) {
 
