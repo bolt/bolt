@@ -138,7 +138,7 @@ class FrontendTest extends BoltUnitTest
         $this->addSomeContent();
 
         $templates = $this->getMock('Bolt\TemplateChooser', array('record'), array($app));
-        $templates->expects($this->once())
+        $templates->expects($this->any())
             ->method('record')
             ->will($this->returnValue('index.twig'));
         $app['templatechooser'] = $templates;
@@ -236,7 +236,7 @@ class FrontendTest extends BoltUnitTest
         $request = Request::create('/pages/test');
         $app['request'] = $request;
         $templates = $this->getMock('Bolt\TemplateChooser', array('record'), array($app));
-        $templates->expects($this->once())
+        $templates->expects($this->any())
             ->method('record')
             ->will($this->returnValue('record.twig'));
         $app['templatechooser'] = $templates;
