@@ -142,7 +142,7 @@
 
     {% set attr_data = {
         id:          opt.id,
-        name:        opt.id,
+        name:        opt.name|default(opt.id),
         value:       opt.value,
         type:        'hidden',
         class:       'datetime',

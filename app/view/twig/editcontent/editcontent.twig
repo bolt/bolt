@@ -59,7 +59,6 @@
         'saving':      __('Saving …')
     }) }}
 
-
     <div class="row">
         <div class="col-md-8">
 
@@ -93,6 +92,9 @@
 
                     {% elseif group_name == 'meta' %}
                         {% include 'editcontent/_meta.twig' %}
+
+                    {% elseif group_name == 'template' %}
+                        {% include 'editcontent/_templatefields.twig' %}
 
                     {% else %}
                         {% include 'editcontent/_fields.twig' %}

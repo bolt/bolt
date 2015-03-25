@@ -52,7 +52,9 @@
         initLiveEditor(data.singularSlug);
         initDelete();
         initTabGroups();
+        initTemplateSelect();
         bolt.liveEditor.init(data);
+
         window.setTimeout(function () {
             initKeyboardShortcuts();
         }, 1000);
@@ -354,6 +356,37 @@
                  }
             };
         }
+    }
+
+    /**
+     * Warn the user of potential template field changes
+     * if they change a templateselect field
+     *
+     * @static
+     * @function initTemplateSelect
+     * @memberof Bolt.editcontent
+     *
+     * @param {BindData} data - Editcontent configuration data
+     */
+    function initTemplateSelect() {
+        $('.templateselect').each(function() {
+            var select = $(this).find('select');
+            var config = select.data('stats');
+            var warning = $(this).find('.templatewarning');
+
+            select.change(function() {
+                warning.html('').addClass('hidden').removeClass('text-danger');
+                if (select.val() !== config.current) {
+                    if (config.currentHas) {
+                        warning.html('<strong>' + config.message.warning + ':</strong> ' + config.message.warningChange)
+                            .removeClass('hidden')
+                            .addClass('text-danger');
+                    } else if (_.contains(config.fieldTemplates, select.val())) {
+                        warning.html(config.message.change).removeClass('hidden');
+                    }
+                }
+            });
+        });
     }
 
     /**

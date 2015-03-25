@@ -762,7 +762,9 @@ class Backend implements ControllerProviderInterface
             // To check whether the status is allowed, we act as if a status
             // *transition* were requested.
             $content->setFromPost($requestAll, $contenttype);
+            $oldcontent = $content;
             $newStatus = $content['status'];
+
 
             // Don't try to spoof the $id.
             if (!empty($content['id']) && $id != $content['id']) {
@@ -779,6 +781,7 @@ class Backend implements ControllerProviderInterface
 
                 // Save the record
                 $id = $app['storage']->saveContent($content, $comment);
+
 
                 // Log the change
                 if ($new) {
@@ -913,6 +916,7 @@ class Backend implements ControllerProviderInterface
             $content->setValue('datechanged', '');
             $content->setValue('username', '');
             $content->setValue('ownerid', '');
+            // $content->setValue('templatefields', array());
             $app['session']->getFlashBag()->add('info', Trans::__('contenttypes.generic.duplicated-finalize', array('%contenttype%' => $contenttype['slug'])));
         }
 
@@ -939,11 +943,47 @@ class Backend implements ControllerProviderInterface
             }
         }
 
+        if ((!empty($content['templatefields'])) && (!empty($content['templatefields']->contenttype['fields']))) {
+            foreach ($content['templatefields']->contenttype['fields'] as $key => &$values) {
+                if (isset($values['upload'])) {
+                    $canUpload = $app['filesystem']->getFilesystem()->getVisibility($values['upload']);
+                    if ($canUpload === 'public') {
+                        $values['canUpload'] = true;
+                    } else {
+                        $values['canUpload'] = false;
+                    }
+                } else {
+                    $values['canUpload'] = true;
+                }
+            }
+        }
+
+        // Determine which templates will result in templatefields
+        if ($templateFieldsConfig = $app['config']->get('theme/templatefields')) {
+            $templateFieldTemplates = array_keys($templateFieldsConfig);
+            // Special case for default template
+            $toRepair = array();
+            foreach ($contenttype['fields'] as $name => $field) {
+                if ($field['type'] == 'templateselect' && !empty($content->values[$name])) {
+                    $toRepair[$name] = $content->values[$name];
+                    $content->setValue($name, '');
+                }
+            }
+            if ($content->hasTemplateFields()) {
+                $templateFieldTemplates[] = '';
+            }
+
+            foreach ($toRepair as $name => $value) {
+                $content->setValue($name, $value);
+            }
+        }
+
         // Info
         $hasIncomingRelations = is_array($content->relation);
         $hasRelations = isset($contenttype['relations']);
         $hasTabs = $contenttype['groups'] !== false;
         $hasTaxonomy = isset($contenttype['taxonomy']);
+        $hasTemplateFields = $content->hasTemplateFields();
 
         // Generate tab groups
         $groups = array();
@@ -978,6 +1018,13 @@ class Backend implements ControllerProviderInterface
         if ($hasTaxonomy || (is_array($contenttype['groups']) && in_array('taxonomy', $contenttype['groups']))) {
             $addGroup('taxonomy', Trans::__('contenttypes.generic.group.taxonomy'));
         }
+        if ($hasTemplateFields || (is_array($contenttype['groups']) && in_array('template', $contenttype['groups']))) {
+            $addGroup('template', Trans::__('Template'));
+        }
+
+
+
+
         $addGroup('meta', Trans::__('contenttypes.generic.group.meta'));
 
         // Render
@@ -988,6 +1035,7 @@ class Backend implements ControllerProviderInterface
             'allowed_status' => $allowedStatuses,
             'contentowner'   => $contentowner,
             'fields'         => $app['config']->fields->fields(),
+            'fieldtemplates' => $templateFieldTemplates,
             'can_upload'     => $app['users']->isAllowed('files:uploads'),
             'groups'         => $groups,
             'has'            => array(
@@ -995,6 +1043,7 @@ class Backend implements ControllerProviderInterface
                 'relations'          => $hasRelations,
                 'tabs'               => $hasTabs,
                 'taxonomy'           => $hasTaxonomy,
+                'templatefields'     => $hasTemplateFields,
             ),
         );
 

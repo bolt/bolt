@@ -21,7 +21,7 @@
 } %}
 
 {% if context.content.get(key) is defined %}
-    {% set list_json = context.content.get(key)|json_encode() %}
+    {% set list_json = context.content.get(contentkey)|json_encode() %}
 {% else %}
     {% set list_json = '' %}
 {% endif %}
@@ -93,7 +93,7 @@
 
         <p class="uploading-list"></p>
 
-        <textarea name="{{ key }}" id="{{ key }}" class="hide">{{ list_json }}</textarea>
+        <textarea name="{{ name }}" id="{{ key }}" class="hide">{{ list_json }}</textarea>
 
     </div>
 

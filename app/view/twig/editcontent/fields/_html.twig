@@ -25,7 +25,8 @@
 {% set attr_html = {
     class:               option.class ~ ' ckeditor',
     data_param:          param ? param|json_encode : '',
-    name_id:             key,
+    name:                name,
+    id:                  key,
     required:            option.required,
     data_errortext:      option.errortext
 } %}
@@ -35,6 +36,6 @@
 <fieldset class="html">
     <div class="col-sm-12">
         <label class="control-label">{{ (option.info) ? macro.infopop(labelkey, option.info) : labelkey }}</label>
-        <textarea{{ macro.attr(attr_html) }}>{{ context.content.get(key)|default('') }}</textarea>
+        <textarea{{ macro.attr(attr_html) }}>{{ context.content.get(contentkey)|default('') }}</textarea>
     </div>
 </fieldset>

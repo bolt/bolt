@@ -16,7 +16,11 @@
 
             {% for fieldtype in context.fields %}
                 {% if field.type == fieldtype.name %}
-                    {% include fieldtype.template %}
+                    {% include fieldtype.template with {
+                        'key': key,
+                        'name': key,
+                        'contentkey': key
+                    } %}
                 {% endif %}
             {% endfor %}
 

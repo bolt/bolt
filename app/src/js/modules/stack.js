@@ -34,12 +34,18 @@
         });
 
         // Set data actions for async file modals.
-        $('#selectModal-image, #selectModal-imagelist, #selectModal-file, #selectModal-filelist').on(
+        var elements = $([]);
+        $('[data-toggle="modal"]').each(function () {
+            elements = elements.add($($(this).data('target')));
+        });
+
+        $(elements).on(
             'shown.bs.modal',
             function (e) {
                 bolt.actions.init();
             }
         );
+
     };
 
     /**

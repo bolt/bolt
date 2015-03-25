@@ -25,7 +25,7 @@
 {% endif %}
 
 {# get the current selection. Either a single value, or an array. #}
-{% set selection = context.content.get(key)|default(null) %}
+{% set selection = context.content.get(contentkey)|default(null) %}
 {% if selection is not iterable %}
     {% set selection = [ selection ] %}
 {% endif %}
@@ -41,7 +41,7 @@
     class:     option.class,
     id:        key,
     multiple:  option.multiple,
-    name:      (option.multiple) ? key ~ '[]' : key,
+    name:      (option.multiple) ? name ~ '[]' : name,
 } %}
 
 {# If the field has autocomplete, we need to set our own style, and remove the class attribute. #}
