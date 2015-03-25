@@ -4,7 +4,7 @@ namespace Bolt\Helpers;
 
 use Cocur\Slugify\Slugify;
 
-class String
+class Str
 {
     /**
      * Returns a "safe" version of the given string - basically only US-ASCII and

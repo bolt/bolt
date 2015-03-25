@@ -4,7 +4,7 @@ namespace Bolt;
 
 use Bolt\Helpers\Html;
 use Bolt\Helpers\Input;
-use Bolt\Helpers\String;
+use Bolt\Helpers\Str;
 use Bolt\Library as Lib;
 use Maid\Maid;
 use Silex;
@@ -476,9 +476,9 @@ class Content implements \ArrayAccess
                     '%s/files/%s/%s',
                     $this->app['paths']['rootpath'],
                     date('Y-m'),
-                    String::makeSafe($file['name'][0], false, '[]{}()')
+                    Str::makeSafe($file['name'][0], false, '[]{}()')
                 );
-                $basename = sprintf('/%s/%s', date('Y-m'), String::makeSafe($file['name'][0], false, "[]{}()"));
+                $basename = sprintf('/%s/%s', date('Y-m'), Str::makeSafe($file['name'][0], false, "[]{}()"));
 
                 if ($file['error'][0] != UPLOAD_ERR_OK) {
                     $message = 'Error occured during upload: ' . $file['error'][0] . " - $filename";
