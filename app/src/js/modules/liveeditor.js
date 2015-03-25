@@ -78,14 +78,12 @@
                     }
                 });
                 config.toolbar[ind] = _.without(config.toolbar[ind], 'Source');
-                console.log(config.toolbar);
             };
 
             cke.disableAutoInline = false;
             jq.find('[data-bolt-field]').each(function() {
                 // Find form field
                 var field = $('#editcontent *[name=' + liveEditor.escapejQuery($(this).data('bolt-field')));
-                console.log(field);
                 var fieldType = field.closest('[data-fieldtype]').data('fieldtype');
 
                 $(this).addClass('bolt-editable');
@@ -102,7 +100,6 @@
                         $(this).on('paste', function(e) {
                             var content;
                             e.preventDefault();
-                            console.log(e);
                             if (e.originalEvent.clipboardData) {
                                 content = e.originalEvent.clipboardData.getData('text/plain');
                                 doc.execCommand('insertText', false, content);
@@ -162,8 +159,6 @@
             var fieldName = $(this).data('bolt-field');
             var field = $('#editcontent [name=' + liveEditor.escapejQuery(fieldName));
             var fieldType = field.closest('[data-fieldtype]').data('fieldtype');
-
-            console.log(field);
 
             if (fieldType === 'text') {
                 field.val($(this).text());
