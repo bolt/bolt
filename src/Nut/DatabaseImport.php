@@ -29,13 +29,16 @@ class DatabaseImport extends BaseCommand
     {
         $this
             ->setName('database:import')
-            ->setDescription('Import database records from a YAML file')
+            ->setDescription('[EXPERIMENTAL] Import database records from a YAML file')
             ->addOption('no-interaction', 'n', InputOption::VALUE_NONE, 'Do not ask for confirmation')
             ->addOption('file',           'f', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'A YAML file to use for import data. Must end with .yml or .yaml');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        // Warn that this is experimental
+        $output->writeln("<error>\n\nWARNING THIS IS AN EXPERIMENTAL FEATURE\n</error>");
+
         $files = $input->getOption('file');
         if (empty($files)) {
             throw new \RuntimeException('The --files option is required.');

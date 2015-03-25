@@ -25,7 +25,7 @@ class DatabaseExport extends BaseCommand
     {
         $this
             ->setName('database:export')
-            ->setDescription('Export the database records to YAML file')
+            ->setDescription('[EXPERIMENTAL] Export the database records to YAML file')
             ->addOption('no-interaction', 'n', InputOption::VALUE_NONE, 'Do not ask for confirmation')
             ->addOption('contenttypes',   'c', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'One or more contenttypes to export records for.')
             ->addOption('file',           'f', InputOption::VALUE_REQUIRED, 'A YAML file to use for export data. Must end with .yml or .yaml');
@@ -33,6 +33,9 @@ class DatabaseExport extends BaseCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        // Warn that this is experimental
+        $output->writeln("<error>\n\nWARNING THIS IS AN EXPERIMENTAL FEATURE\n</error>");
+
         if (!$input->getOption('no-interaction')) {
             $helper = $this->getHelper('question');
             $question = new ConfirmationQuestion('Continue with this action? ', false);
