@@ -2,11 +2,21 @@
 
 {% set used_fieldtypes = [] %}
 
+{# Regular fields #}
 {% for key, field in context.contenttype.fields %}
     {% if field.type not in used_fieldtypes %}
         {% set used_fieldtypes = used_fieldtypes|merge([field.type]) %}
     {% endif %}
 {% endfor %}
+
+{# Templatefield fields #}
+{% if context.content.get('templatefields').contenttype.fields is defined %}
+    {% for key, field in context.content.get('templatefields').contenttype.fields %}
+        {% if field.type not in used_fieldtypes %}
+            {% set used_fieldtypes = used_fieldtypes|merge([field.type]) %}
+        {% endif %}
+    {% endfor %}
+{% endif %}
 
 {# Output includes #}
 
