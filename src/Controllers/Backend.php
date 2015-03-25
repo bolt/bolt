@@ -959,7 +959,7 @@ class Backend implements ControllerProviderInterface
         }
 
         // Determine which templates will result in templatefields
-        if ($templateFieldsConfig = $app['config']->get('theme/template_fields')) {
+        if ($templateFieldsConfig = $app['config']->get('theme/templatefields')) {
             $templateFieldTemplates = array_keys($templateFieldsConfig);
             // Special case for default template
             $toRepair = array();

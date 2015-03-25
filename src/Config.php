@@ -320,10 +320,10 @@ class Config
     protected function parseTheme($themePath, $acceptableFieldTypes) {
         $themeConfig = $this->parseConfigYaml('config.yml', $themePath);
 
-        if ((isset($themeConfig['template_fields'])) && (is_array($themeConfig['template_fields']))) {
+        if ((isset($themeConfig['templatefields'])) && (is_array($themeConfig['templatefields']))) {
             $templateContentTypes = array();
 
-            foreach($themeConfig['template_fields'] as $template => $templateFields) {
+            foreach($themeConfig['templatefields'] as $template => $templateFields) {
                 $fieldsContenttype = array(
                     'fields' => $templateFields,
                     'singular_name' => 'Template Fields ' . $template
@@ -332,7 +332,7 @@ class Config
                 $templateContentTypes[$template] = $this->parseContentType($template, $fieldsContenttype, $acceptableFieldTypes);
             }
 
-            $themeConfig['template_fields'] = $templateContentTypes;
+            $themeConfig['templatefields'] = $templateContentTypes;
         }
 
         return $themeConfig;
@@ -649,7 +649,7 @@ class Config
              */
             foreach ($ct['fields'] as $fieldname => $field) {
                 // Verify that the contenttype doesn't try to add fields that are reserved.
-                if ($fieldname != 'slug' && $fieldname != 'templatefields' && in_array($fieldname, $this->reservedFieldNames)) {
+                if ($fieldname != 'slug' && in_array($fieldname, $this->reservedFieldNames)) {
                     $error = Trans::__(
                         'contenttypes.generic.reserved-name',
                         array('%contenttype%' => $key, '%field%' => $fieldname)
