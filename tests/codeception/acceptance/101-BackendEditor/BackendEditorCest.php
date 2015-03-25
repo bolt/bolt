@@ -13,6 +13,9 @@ class BackendEditorCest
     /** @var array */
     protected $user;
 
+    /** @var array */
+    private $cookies = array('bolt_authtoken' => '', 'bolt_session' => '');
+
     /**
      * @param \AcceptanceTester $I
      */
@@ -36,7 +39,11 @@ class BackendEditorCest
     public function loginEditorTest(\AcceptanceTester $I)
     {
         $I->wantTo("Login as 'editor' user");
+
         $I->loginAs($this->user['editor']);
+        $this->cookies['bolt_authtoken'] = $I->grabCookie('bolt_authtoken');
+        $this->cookies['bolt_session'] = $I->grabCookie('bolt_session');
+
         $I->see('Dashboard');
     }
 
@@ -48,7 +55,11 @@ class BackendEditorCest
     public function viewMenusTest(\AcceptanceTester $I)
     {
         $I->wantTo('make sure the page editor user can only see certain menus');
-        $I->loginAs($this->user['editor']);
+
+        // Set up the browser
+        $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
+        $I->setCookie('bolt_session', $this->cookies['bolt_session']);
+        $I->amOnPage('bolt');
 
         $I->see('View Pages');
         $I->see('New Page');
@@ -78,7 +89,12 @@ class BackendEditorCest
     public function createRecordsTest(\AcceptanceTester $I)
     {
         $I->wantTo("Create and edit Pages as the 'editor' user");
-        $I->loginAs($this->user['editor']);
+
+        // Set up the browser
+        $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
+        $I->setCookie('bolt_session', $this->cookies['bolt_session']);
+        $I->amOnPage('bolt');
+
         $I->see('New Page');
 
         $I->click('New Page');
@@ -105,9 +121,11 @@ class BackendEditorCest
     public function checkCreateRecordsEventTest(\AcceptanceTester $I)
     {
         $I->wantTo("Check the PRE_SAVE & POST_SAVE StorageEvent triggered correctly on create");
-        $I->loginAs($this->user['editor']);
 
-        $I->amOnPage('/bolt/editcontent/pages/1');
+        // Set up the browser
+        $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
+        $I->setCookie('bolt_session', $this->cookies['bolt_session']);
+        $I->amOnPage('bolt/editcontent/pages/1');
 
         $I->seeInField('#title',  'A PAGE I MADE');
         $I->see('Snuck in to teaser during PRE_SAVE on create');
@@ -122,9 +140,11 @@ class BackendEditorCest
     public function deniedPublishPagesTest(\AcceptanceTester $I)
     {
         $I->wantTo("be denied permission to publish Pages as the 'editor' user");
-        $I->loginAs($this->user['editor']);
 
-        $I->amOnPage('/bolt/editcontent/pages/1');
+        // Set up the browser
+        $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
+        $I->setCookie('bolt_session', $this->cookies['bolt_session']);
+        $I->amOnPage('bolt/editcontent/pages/1');
 
         $I->see('Actions for this Page');
 
@@ -151,9 +171,11 @@ class BackendEditorCest
     public function checkSaveRecordsEventTest(\AcceptanceTester $I)
     {
         $I->wantTo("Check the PRE_SAVE & POST_SAVE StorageEvent triggered correctly on save");
-        $I->loginAs($this->user['editor']);
 
-        $I->amOnPage('/bolt/editcontent/pages/1');
+        // Set up the browser
+        $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
+        $I->setCookie('bolt_session', $this->cookies['bolt_session']);
+        $I->amOnPage('bolt/editcontent/pages/1');
 
         $I->seeInField('#title',  'A Page I Made');
         $I->see('Added to teaser during PRE_SAVE on save');
@@ -168,8 +190,12 @@ class BackendEditorCest
     public function deniedEditEntriesTest(\AcceptanceTester $I)
     {
         $I->wantTo("be denied permission to edit Entries as the 'editor' user");
-        $I->loginAs($this->user['editor']);
+
+        // Set up the browser
+        $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
+        $I->setCookie('bolt_session', $this->cookies['bolt_session']);
         $I->amOnPage('bolt/editcontent/entries/');
+
         $I->see('You do not have the right privileges');
     }
 
@@ -181,9 +207,13 @@ class BackendEditorCest
     public function createAboutPageTest(\AcceptanceTester $I)
     {
         $I->wantTo("Create an 'About' page as the 'editor' user");
-        $I->loginAs($this->user['editor']);
-        $I->see('New Page');
 
+        // Set up the browser
+        $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
+        $I->setCookie('bolt_session', $this->cookies['bolt_session']);
+        $I->amOnPage('bolt');
+
+        $I->see('New Page');
         $I->click('New Page');
 
         $teaser = file_get_contents(CODECEPTION_DATA . '/about.teaser.html');

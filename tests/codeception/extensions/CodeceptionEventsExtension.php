@@ -143,6 +143,9 @@ class CodeceptionEventsExtension extends \Codeception\Platform\Extension
 
         // Empty the cache
         system('php ' . NUT_PATH . ' cache:clear');
+
+        // Turn up Twig's anger ratio
+        system('php ' . NUT_PATH . ' config:set strict_variables true');
     }
 
     /**
