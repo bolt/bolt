@@ -16,8 +16,9 @@ abstract class BaseCommand extends Command
 
     /**
      * @param \Bolt\Application $app
+     * @param Request           $request Reserved for tests
      */
-    public function __construct(Application $app)
+    public function __construct(Application $app, Request $request = null)
     {
         parent::__construct();
         $this->app = $app;
@@ -28,7 +29,7 @@ abstract class BaseCommand extends Command
          *   Accessed request service outside of request scope. Try moving that
          *   call to a before handler or controller
          */
-        $app['request'] = Request::createFromGlobals();
+        $app['request'] = $request ? : Request::createFromGlobals();
     }
 
     /**
