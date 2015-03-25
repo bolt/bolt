@@ -23,4 +23,17 @@ abstract class BaseCommand extends Command
          */
         $app['request'] = Request::createFromGlobals();
     }
+
+    /**
+     * Log a Nut execution if auditing is on
+     *
+     * @param string $source  __CLASS__ of caller
+     * @param string $message Message to log
+     */
+    protected function auditLog($source, $message)
+    {
+        if ($this->app['config']->get('general/auditlog/enabled', true)) {
+            $this->app['logger.system']->info($message, array('event' => 'nut', 'source' => $source));
+        }
+    }
 }
