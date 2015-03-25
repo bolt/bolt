@@ -12,6 +12,9 @@ class BackendManagerCest
     /** @var array */
     protected $user;
 
+    /** @var array */
+    private $cookies = array('bolt_authtoken' => '', 'bolt_session' => '');
+
     /**
      * @param \AcceptanceTester $I
      */
@@ -35,7 +38,11 @@ class BackendManagerCest
     public function loginManagerTest(\AcceptanceTester $I)
     {
         $I->wantTo("Login as 'manager' user");
+
         $I->loginAs($this->user['manager']);
+        $this->cookies['bolt_authtoken'] = $I->grabCookie('bolt_authtoken');
+        $this->cookies['bolt_session'] = $I->grabCookie('bolt_session');
+
         $I->see('Dashboard');
     }
 
@@ -47,8 +54,10 @@ class BackendManagerCest
     public function publishAboutPageTest(\AcceptanceTester $I)
     {
         $I->wantTo("Publish the 'About' page as 'manager' user");
-        $I->loginAs($this->user['manager']);
 
+        // Set up the browser
+        $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
+        $I->setCookie('bolt_session', $this->cookies['bolt_session']);
         $I->amOnPage('bolt/editcontent/pages/2');
 
         $I->see("Easy for editors, and a developer's dream cms");

@@ -13,6 +13,9 @@ class BackendDeveloperCest
     /** @var array */
     protected $user;
 
+    /** @var array */
+    private $cookies = array('bolt_authtoken' => '', 'bolt_session' => '');
+
     /**
      * @param \AcceptanceTester $I
      */
@@ -36,7 +39,11 @@ class BackendDeveloperCest
     public function loginDeveloperTest(\AcceptanceTester $I)
     {
         $I->wantTo("Login as 'developer' user");
+
         $I->loginAs($this->user['developer']);
+        $this->cookies['bolt_authtoken'] = $I->grabCookie('bolt_authtoken');
+        $this->cookies['bolt_session'] = $I->grabCookie('bolt_session');
+
         $I->see('Dashboard');
     }
 
@@ -48,8 +55,10 @@ class BackendDeveloperCest
     public function fileManagementUploadedFilesTest(\AcceptanceTester $I)
     {
         $I->wantTo("Use the 'File management -> Uploaded Files' interface as the 'developer' user");
-        $I->loginAs($this->user['developer']);
 
+        // Set up the browser
+        $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
+        $I->setCookie('bolt_session', $this->cookies['bolt_session']);
         $I->amOnPage('bolt/files');
 
         $file = 'blur-flowers-home-1093.jpg';
@@ -72,8 +81,10 @@ class BackendDeveloperCest
     public function fileManagementViewEditTemplatesTest(\AcceptanceTester $I)
     {
         $I->wantTo("Use the 'File management -> View / edit templates' interface as the 'developer' user");
-        $I->loginAs($this->user['developer']);
 
+        // Set up the browser
+        $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
+        $I->setCookie('bolt_session', $this->cookies['bolt_session']);
         $I->amOnPage('bolt/files/theme');
 
         // Inspect the landing page
@@ -105,10 +116,13 @@ class BackendDeveloperCest
     public function editTemplateTest(\AcceptanceTester $I)
     {
         $I->wantTo("See that the 'developer' user can edit and save the _footer.twig template file.");
-        $I->loginAs($this->user['developer']);
+
+        // Set up the browser
+        $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
+        $I->setCookie('bolt_session', $this->cookies['bolt_session']);
+        $I->amOnPage('bolt/file/edit/theme/base-2014/_footer.twig');
 
         // Put _footer.twig into edit mode
-        $I->amOnPage('bolt/file/edit/theme/base-2014/_footer.twig');
         $I->see('<footer class="large-12 columns">', 'textarea');
 
         // Edit the field
@@ -127,10 +141,13 @@ class BackendDeveloperCest
     public function editTranslationsMessages(\AcceptanceTester $I)
     {
         $I->wantTo("See that the 'developer' user can edit and save a translation.");
-        $I->loginAs($this->user['developer']);
+
+        // Set up the browser
+        $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
+        $I->setCookie('bolt_session', $this->cookies['bolt_session']);
+        $I->amOnPage('bolt/tr');
 
         // Go into edit mode
-        $I->amOnPage('bolt/tr');
         $I->see('contenttypes.general.choose-an-entry', 'textarea');
 
         // Edit the field
@@ -149,10 +166,13 @@ class BackendDeveloperCest
     public function editTranslationsLongMessages(\AcceptanceTester $I)
     {
         $I->wantTo("See that the 'developer' user can edit translation long messages.");
-        $I->loginAs($this->user['developer']);
+
+        // Set up the browser
+        $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
+        $I->setCookie('bolt_session', $this->cookies['bolt_session']);
+        $I->amOnPage('bolt/tr/infos');
 
         // Go into edit mode
-        $I->amOnPage('bolt/tr/infos');
         $I->see('Use this field to upload a photo or image', 'textarea');
 
         // Save it
@@ -168,10 +188,13 @@ class BackendDeveloperCest
     public function editTranslationsContenttypeMessages(\AcceptanceTester $I)
     {
         $I->wantTo("See that the 'developer' user can edit translation Contenttype messages.");
-        $I->loginAs($this->user['developer']);
+
+        // Set up the browser
+        $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
+        $I->setCookie('bolt_session', $this->cookies['bolt_session']);
+        $I->amOnPage('bolt/tr/contenttypes');
 
         // Go into edit mode
-        $I->amOnPage('bolt/tr/contenttypes');
         $I->see('contenttypes.entries.text.recent-changes-one', 'textarea');
 
         // Save it
@@ -187,9 +210,12 @@ class BackendDeveloperCest
     public function viewInstalledExtensions(\AcceptanceTester $I)
     {
         $I->wantTo("See that the 'developer' user can view installed extensions.");
-        $I->loginAs($this->user['developer']);
 
+        // Set up the browser
+        $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
+        $I->setCookie('bolt_session', $this->cookies['bolt_session']);
         $I->amOnPage('bolt/extend');
+
         $I->see('Currently Installed Extensions', 'h2');
         $I->see('Install a new Extension',        'h2');
         $I->see('Run update check',               'a');
@@ -205,8 +231,10 @@ class BackendDeveloperCest
     public function configureInstalledExtensions(\AcceptanceTester $I)
     {
         $I->wantTo("See that the 'developer' user can configure installed extensions.");
-        $I->loginAs($this->user['developer']);
 
+        // Set up the browser
+        $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
+        $I->setCookie('bolt_session', $this->cookies['bolt_session']);
         $I->amOnPage('bolt/files/config/extensions');
 
         $I->see('tester-events.bolt.yml', Locator::href("/bolt/file/edit/config/extensions/tester-events.bolt.yml"));

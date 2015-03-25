@@ -13,6 +13,9 @@ class BackendAdminCest
     /** @var array */
     protected $user;
 
+    /** @var array */
+    private $cookies = array('bolt_authtoken' => '', 'bolt_session' => '');
+
     /**
      * @param \AcceptanceTester $I
      */
@@ -38,6 +41,9 @@ class BackendAdminCest
         $I->wantTo('log into the backend as Admin');
 
         $I->loginAs($this->user['admin']);
+        $this->cookies['bolt_authtoken'] = $I->grabCookie('bolt_authtoken');
+        $this->cookies['bolt_session'] = $I->grabCookie('bolt_session');
+
         $I->see('Dashboard');
         $I->see('Configuration', Locator::href('/bolt/users'));
         $I->see("You've been logged on successfully.");
@@ -52,8 +58,11 @@ class BackendAdminCest
     {
         $I->wantTo("Create a 'editor' user");
 
-        $I->loginAs($this->user['admin']);
-        $I->click('Users');
+        // Set up the browser
+        $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
+        $I->setCookie('bolt_session', $this->cookies['bolt_session']);
+        $I->amOnPage('bolt/users');
+
         $I->click('Add a new user', Locator::href('/bolt/users/edit/'));
         $I->see('Create a new user account');
 
@@ -83,8 +92,11 @@ class BackendAdminCest
     {
         $I->wantTo("Create a 'manager' user");
 
-        $I->loginAs($this->user['admin']);
-        $I->click('Users');
+        // Set up the browser
+        $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
+        $I->setCookie('bolt_session', $this->cookies['bolt_session']);
+        $I->amOnPage('bolt/users');
+
         $I->click('Add a new user', Locator::href('/bolt/users/edit/'));
         $I->see('Create a new user account');
 
@@ -114,8 +126,11 @@ class BackendAdminCest
     {
         $I->wantTo("Create a 'developer' user");
 
-        $I->loginAs($this->user['admin']);
-        $I->click('Users');
+        // Set up the browser
+        $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
+        $I->setCookie('bolt_session', $this->cookies['bolt_session']);
+        $I->amOnPage('bolt/users');
+
         $I->click('Add a new user', Locator::href('/bolt/users/edit/'));
         $I->see('Create a new user account');
 
@@ -144,7 +159,10 @@ class BackendAdminCest
     public function editConfigTest(\AcceptanceTester $I)
     {
         $I->wantTo("edit config.yml and set 'canonical', 'notfound' and 'changelog'");
-        $I->loginAs($this->user['admin']);
+
+        // Set up the browser
+        $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
+        $I->setCookie('bolt_session', $this->cookies['bolt_session']);
         $I->amOnPage('bolt/file/edit/config/config.yml');
 
         $yaml = $I->getUpdatedConfig();
@@ -167,7 +185,11 @@ class BackendAdminCest
         $I->wantTo("edit contenttypes.yml and add a 'Resources' Contenttype");
         $I->loginAs($this->user['admin']);
 
+        // Set up the browser
+        $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
+        $I->setCookie('bolt_session', $this->cookies['bolt_session']);
         $I->amOnPage('bolt/file/edit/config/contenttypes.yml');
+
         $yaml = $I->getUpdatedContenttypes();
         $I->fillField('#form_contents', $yaml);
         $I->click('Save');
@@ -185,8 +207,10 @@ class BackendAdminCest
     public function updateDatabaseTest(\AcceptanceTester $I)
     {
         $I->wantTo("update the database and add the new 'Resources' Contenttype");
-        $I->loginAs($this->user['admin']);
 
+        // Set up the browser
+        $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
+        $I->setCookie('bolt_session', $this->cookies['bolt_session']);
         $I->amOnPage('bolt/dbcheck');
 
         $I->see('The database needs to be updated/repaired');
@@ -207,12 +231,15 @@ class BackendAdminCest
     public function addNotFoundRecordTest(\AcceptanceTester $I)
     {
         $I->wantTo("create a 404 'not-found' record");
-        $I->loginAs($this->user['admin']);
 
+        // Set up the browser
+        $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
+        $I->setCookie('bolt_session', $this->cookies['bolt_session']);
         $I->amOnPage('bolt/editcontent/resources');
+
         $I->see('New Resource', 'h1');
 
-        $body = \file_get_contents(CODECEPTION_DATA . '/not-found.body.html');
+        $body = file_get_contents(CODECEPTION_DATA . '/not-found.body.html');
 
         $I->fillField('#title', '404');
         $I->fillField('#slug',  'not-found');
@@ -233,8 +260,11 @@ class BackendAdminCest
     public function viewAllContenttypesTest(\AcceptanceTester $I)
     {
         $I->wantTo('make sure the admin user can view all content types');
-        $I->loginAs($this->user['admin']);
-        $I->click('Dashboard');
+
+        // Set up the browser
+        $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
+        $I->setCookie('bolt_session', $this->cookies['bolt_session']);
+        $I->amOnPage('bolt');
 
         // Pages
         $I->see('Pages',      Locator::href('/bolt/overview/pages'));
@@ -265,7 +295,10 @@ class BackendAdminCest
     public function editPermissionsTest(\AcceptanceTester $I)
     {
         $I->wantTo('edit permissions.yml and restrict access to certain Contenttypes');
-        $I->loginAs($this->user['admin']);
+
+        // Set up the browser
+        $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
+        $I->setCookie('bolt_session', $this->cookies['bolt_session']);
         $I->amOnPage('bolt/file/edit/config/permissions.yml');
 
         $yaml = $I->getUpdatedPermissions();
@@ -284,7 +317,10 @@ class BackendAdminCest
     public function editTaxonomyTest(\AcceptanceTester $I)
     {
         $I->wantTo('edit taxonomy.yml and reorder category options');
-        $I->loginAs($this->user['admin']);
+
+        // Set up the browser
+        $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
+        $I->setCookie('bolt_session', $this->cookies['bolt_session']);
         $I->amOnPage('bolt/file/edit/config/taxonomy.yml');
 
         $yaml = $I->getUpdatedTaxonomy();
@@ -303,7 +339,10 @@ class BackendAdminCest
     public function editMenuTest(\AcceptanceTester $I)
     {
         $I->wantTo('edit menu.yml and reorder category options');
-        $I->loginAs($this->user['admin']);
+
+        // Set up the browser
+        $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
+        $I->setCookie('bolt_session', $this->cookies['bolt_session']);
         $I->amOnPage('bolt/file/edit/config/menu.yml');
 
         $yaml = $I->getUpdatedMenu();
@@ -323,7 +362,10 @@ class BackendAdminCest
     public function editRoutingTest(\AcceptanceTester $I)
     {
         $I->wantTo('edit routing.yml and add a pagebinding route');
-        $I->loginAs($this->user['admin']);
+
+        // Set up the browser
+        $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
+        $I->setCookie('bolt_session', $this->cookies['bolt_session']);
         $I->amOnPage('bolt/file/edit/config/routing.yml');
 
         $yaml = $I->getUpdatedRouting();
@@ -344,7 +386,10 @@ class BackendAdminCest
     public function checkSystemLogTest(\AcceptanceTester $I)
     {
         $I->wantTo('use the system log interface.');
-        $I->loginAs($this->user['admin']);
+
+        // Set up the browser
+        $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
+        $I->setCookie('bolt_session', $this->cookies['bolt_session']);
         $I->amOnPage('bolt/systemlog');
 
         // Layout
@@ -369,7 +414,10 @@ class BackendAdminCest
     public function checkChangeLogTest(\AcceptanceTester $I)
     {
         $I->wantTo('use the change log interface.');
-        $I->loginAs($this->user['admin']);
+
+        // Set up the browser
+        $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
+        $I->setCookie('bolt_session', $this->cookies['bolt_session']);
         $I->amOnPage('bolt/changelog');
 
         // Layout
@@ -393,7 +441,10 @@ class BackendAdminCest
     public function clearCacheTest(\AcceptanceTester $I)
     {
         $I->wantTo('flush the cache.');
-        $I->loginAs($this->user['admin']);
+
+        // Set up the browser
+        $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
+        $I->setCookie('bolt_session', $this->cookies['bolt_session']);
         $I->amOnPage('bolt/clearcache');
 
         $I->see('Deleted');
@@ -410,8 +461,10 @@ class BackendAdminCest
     {
         $I->wantTo('log out of the backend as Admin');
 
+        // Set up the browser
+        $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
+        $I->setCookie('bolt_session', $this->cookies['bolt_session']);
         $I->amOnPage('bolt');
-        $I->loginAs($this->user['admin']);
 
         $I->see('Dashboard');
         $I->click('Logout');
