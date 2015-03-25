@@ -8,8 +8,16 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * Database pre-fill command
+ *
+ * @author Gawain Lynch <gawain.lynch@gmail.com>
+ */
 class DatabasePrefill extends BaseCommand
 {
+    /**
+     * @see \Symfony\Component\Console\Command\Command::configure()
+     */
     protected function configure()
     {
         $this
@@ -19,6 +27,9 @@ class DatabasePrefill extends BaseCommand
             ->addArgument('contenttypes', InputArgument::IS_ARRAY | InputArgument::OPTIONAL, 'A list of Contentypes to pre-fill. If this argument is empty, all Contenttypes are used.');
     }
 
+    /**
+     * @see \Symfony\Component\Console\Command\Command::execute()
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         if (!$input->getOption('no-interaction')) {
@@ -34,6 +45,7 @@ class DatabasePrefill extends BaseCommand
 
         $this->app['storage']->preFill((array) $contenttypes);
 
+        $this->auditLog(__CLASS__, 'Database pre-filled');
         $output->writeln('<info>Database pre-filled</info>');
     }
 }
