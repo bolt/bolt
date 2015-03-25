@@ -25,7 +25,7 @@ class Config
     protected $data;
     protected $defaultConfig = array();
     protected $reservedFieldNames = array(
-        'id', 'slug', 'datecreated', 'datechanged', 'datepublish', 'datedepublish', 'ownerid', 'username', 'status', 'link'
+        'id', 'slug', 'datecreated', 'datechanged', 'datepublish', 'datedepublish', 'ownerid', 'username', 'status', 'link', 'templatefields'
     );
 
     protected $cachetimestamp;
@@ -195,7 +195,7 @@ class Config
 
         // fetch the theme config. requires special treatment due to the path being dynamic
         $this->app['resources']->initializeConfig($config);
-        $config['theme'] = $this->parseConfigYaml('config.yml', $this->app['resources']->getPath('theme'));
+        $config['theme'] = $this->parseTheme($this->app['resources']->getPath('theme'), $config['general']['accept_file_types']);
 
         // @todo: If no config files can be found, get them from bolt.cm/files/default/
         return $config;
@@ -317,6 +317,27 @@ class Config
         return $contentTypes;
     }
 
+    protected function parseTheme($themePath, $acceptableFieldTypes) {
+        $themeConfig = $this->parseConfigYaml('config.yml', $themePath);
+
+        if ((isset($themeConfig['templatefields'])) && (is_array($themeConfig['templatefields']))) {
+            $templateContentTypes = array();
+
+            foreach($themeConfig['templatefields'] as $template => $templateFields) {
+                $fieldsContenttype = array(
+                    'fields' => $templateFields,
+                    'singular_name' => 'Template Fields ' . $template
+                );
+
+                $templateContentTypes[$template] = $this->parseContentType($template, $fieldsContenttype, $acceptableFieldTypes);
+            }
+
+            $themeConfig['templatefields'] = $templateContentTypes;
+        }
+
+        return $themeConfig;
+    }
+
     protected function parseContentType($key, $contentType, $acceptableFileTypes)
     {
         // If the slug isn't set, and the 'key' isn't numeric, use that as the slug.
@@ -352,6 +373,9 @@ class Config
         }
         if (!isset($contentType['default_status'])) {
             $contentType['default_status'] = 'draft';
+        }
+        if (!isset($contentType['viewless'])) {
+            $contentType['viewless'] = false;
         }
 
         list($fields, $groups) = $this->parseFieldsAndGroups($contentType['fields'], $acceptableFileTypes);

@@ -7,14 +7,14 @@
 
 {#=== INIT ===========================================================================================================#}
 
-{% set geolocation = context.content.get(key) %}
+{% set geolocation = context.content.get(contentkey) %}
 {% set geolocation_lat = geolocation.latitude|default('') %}
 {% set geolocation_lon = geolocation.longitude|default('') %}
 
 {% set attr_lat = {
     class:  'form-control',
     id:     key ~ '-latitude',
-    name:   key ~ '[latitude]',
+    name:   name ~ '[latitude]',
     style:  '',
     type:   'number',
     step:   'any',
@@ -24,7 +24,7 @@
 {% set attr_lon = {
     class:  'form-control',
     id:     key ~ '-longitude',
-    name:   key ~ '[longitude]',
+    name:   name ~ '[longitude]',
     style:  '',
     type:   'number',
     step:   'any',
@@ -34,7 +34,7 @@
 {% set attr_address = {
     class:       'form-control',
     id:          key ~ '-address',
-    name:        key ~ '[address]',
+    name:        name ~ '[address]',
     type:        'text',
     placeholder: __('field.geolocation.placeholder.address') ~ ' …',
     value:       geolocation.address|default(''),
@@ -43,7 +43,7 @@
 {% set attr_formatted = {
     data_geolocation:  {key: key, lat: geolocation_lat, lon: geolocation_lon}|json_encode,
     id:                key ~ '-formatted_address',
-    name:              key ~ '[formatted_address]',
+    name:              name ~ '[formatted_address]',
     style:             'width: 30%;',
     type:              'hidden',
     value:             geolocation.formatted_address|default(''),

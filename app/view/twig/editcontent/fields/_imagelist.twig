@@ -20,8 +20,8 @@
     multiple:    true,
 } %}
 
-{% if context.content.get(key) is defined %}
-    {% set list_json = context.content.get(key)|json_encode() %}
+{% if context.content.get(contentkey) is defined %}
+    {% set list_json = context.content.get(contentkey)|json_encode() %}
 {% else %}
     {% set list_json = '' %}
 {% endif %}
@@ -85,7 +85,7 @@
         <div class="clearfix">
             {{ macro.upload_buttons('image', key, attr_fileupload, option.upload, can_upload) }}
 
-            <textarea name="{{ key }}" id="{{ key }}" class="hide">{{ list_json }}</textarea>
+            <textarea name="{{ name }}" id="{{ key }}" class="hide">{{ list_json }}</textarea>
 
             <span type="button" class="btn btn-default remove-selected-button">
                 <i class="fa fa-trash"></i>

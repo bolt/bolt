@@ -23,14 +23,17 @@ class Content implements \ArrayAccess
 
     // The last time we weight a searchresult
     private $lastWeight = 0;
+    // Whether this is a "real" contenttype or an embedded ones
+    private $isRootType;
     public $user;
     public $sortorder;
     public $config;
     public $group;
 
-    public function __construct(Silex\Application $app, $contenttype = '', $values = '')
+    public function __construct(Silex\Application $app, $contenttype = '', $values = '', $isRootType = true)
     {
         $this->app = $app;
+        $this->isRootType = $isRootType;
 
         if (!empty($contenttype)) {
             // Set the contenttype
@@ -63,7 +66,7 @@ class Content implements \ArrayAccess
         } else {
             // Ininitialize fields with empty values.
             $values = array();
-            if (is_array($this->contenttype)) {
+            if ((is_array($this->contenttype) && is_array($this->contenttype['fields']))) {
                 foreach ($this->contenttype['fields'] as $key => $parameters) {
                     // Set the default values.
                     if (isset($parameters['default'])) {
@@ -103,7 +106,8 @@ class Content implements \ArrayAccess
             'datepublish',
             'datedepublish',
             'ownerid',
-            'status'
+            'status',
+            'templatefields'
         );
     }
 
@@ -111,10 +115,11 @@ class Content implements \ArrayAccess
      * Return a content objects values.
      *
      * @param boolean $json Set to TRUE to return JSON encoded values for arrays
+     * @param boolean $stripped Set to true to strip all of the base fields
      *
      * @return array
      */
-    public function getValues($json = false)
+    public function getValues($json = false, $stripped = false)
     {
         // Prevent 'slug may not be NULL'
         if (!isset($this->values['slug'])) {
@@ -127,79 +132,96 @@ class Content implements \ArrayAccess
         }
 
         $contenttype = $this->contenttype;
-        $newvalue = $this->values;
+        if (!$stripped) {
+            $newvalue = $this->values;
+        } else {
+            $newvalue = array();
+        }
 
         // add the fields for this contenttype,
-        foreach ($contenttype['fields'] as $field => $property) {
-            switch ($property['type']) {
+        if (is_array($contenttype)) {
+            foreach ($contenttype['fields'] as $field => $property) {
+                switch ($property['type']) {
 
-                // Set the slug, while we're at it
-                case 'slug':
-                    if (!empty($property['uses']) && empty($this->values[$field])) {
-                        $uses = '';
-                        foreach ($property['uses'] as $usesField) {
-                            $uses .= $this->values[$usesField] . ' ';
+                    // Set the slug, while we're at it
+                    case 'slug':
+                        if (!empty($property['uses']) && empty($this->values[$field])) {
+                            $uses = '';
+                            foreach ($property['uses'] as $usesField) {
+                                $uses .= $this->values[$usesField] . ' ';
+                            }
+                            $newvalue[$field] = $this->app['slugify']->slugify($uses);
+                        } elseif (!empty($this->values[$field])) {
+                            $newvalue[$field] = $this->app['slugify']->slugify($this->values[$field]);
+                        } elseif (empty($this->values[$field]) && $this->values['id']) {
+                            $newvalue[$field] = $this->values['id'];
                         }
-                        $newvalue[$field] = $this->app['slugify']->slugify($uses);
-                    } elseif (!empty($this->values[$field])) {
-                        $newvalue[$field] = $this->app['slugify']->slugify($this->values[$field]);
-                    } elseif (empty($this->values[$field]) && $this->values['id']) {
-                        $newvalue[$field] = $this->values['id'];
-                    }
-                    break;
+                        break;
 
-                case 'video':
-                    foreach (array('html', 'responsive') as $subkey) {
-                        if (!empty($this->values[$field][$subkey])) {
-                            $this->values[$field][$subkey] = (string) $this->values[$field][$subkey];
+                    case 'video':
+                        foreach (array('html', 'responsive') as $subkey) {
+                            if (!empty($this->values[$field][$subkey])) {
+                                $this->values[$field][$subkey] = (string) $this->values[$field][$subkey];
+                            }
                         }
-                    }
-                    if (!empty($this->values[$field]['url'])) {
-                        $newvalue[$field] = json_encode($this->values[$field]);
-                    } else {
-                        $newvalue[$field] = '';
-                    }
-                    break;
+                        if (!empty($this->values[$field]['url'])) {
+                            $newvalue[$field] = json_encode($this->values[$field]);
+                        } else {
+                            $newvalue[$field] = '';
+                        }
+                        break;
 
-                case 'geolocation':
-                    if (!empty($this->values[$field]['latitude']) && !empty($this->values[$field]['longitude'])) {
-                        $newvalue[$field] = json_encode($this->values[$field]);
-                    } else {
-                        $newvalue[$field] = '';
-                    }
-                    break;
+                    case 'geolocation':
+                        if (!empty($this->values[$field]['latitude']) && !empty($this->values[$field]['longitude'])) {
+                            $newvalue[$field] = json_encode($this->values[$field]);
+                        } else {
+                            $newvalue[$field] = '';
+                        }
+                        break;
 
-                case 'image':
-                    if (!empty($this->values[$field]['file'])) {
-                        $newvalue[$field] = json_encode($this->values[$field]);
-                    } else {
-                        $newvalue[$field] = '';
-                    }
-                    break;
+                    case 'image':
+                        if (!empty($this->values[$field]['file'])) {
+                            $newvalue[$field] = json_encode($this->values[$field]);
+                        } else {
+                            $newvalue[$field] = '';
+                        }
+                        break;
 
-                case 'imagelist':
-                case 'filelist':
-                    if (is_array($this->values[$field])) {
-                        $newvalue[$field] = json_encode($this->values[$field]);
-                    } elseif (!empty($this->values[$field]) && strlen($this->values[$field]) < 3) {
-                        // Don't store '[]'
-                        $newvalue[$field] = '';
-                    }
-                    break;
+                    case 'imagelist':
+                    case 'filelist':
+                        if (is_array($this->values[$field])) {
+                            $newvalue[$field] = json_encode($this->values[$field]);
+                        } elseif (!empty($this->values[$field]) && strlen($this->values[$field]) < 3) {
+                            // Don't store '[]'
+                            $newvalue[$field] = '';
+                        }
+                        break;
 
-                case 'integer':
-                    $newvalue[$field] = round($this->values[$field]);
-                    break;
+                    case 'integer':
+                        $newvalue[$field] = round($this->values[$field]);
+                        break;
 
-                case 'select':
-                    if (is_array($this->values[$field])) {
-                        $newvalue[$field] = json_encode($this->values[$field]);
-                    }
-                    break;
+                    case 'select':
+                        if (is_array($this->values[$field])) {
+                            $newvalue[$field] = json_encode($this->values[$field]);
+                        }
+                        break;
 
-                case 'html':
-                    $newvalue[$field] = str_replace('&nbsp;', ' ', $this->values[$field]);
-                    break;
+                    case 'html':
+                        $newvalue[$field] = str_replace('&nbsp;', ' ', $this->values[$field]);
+                        break;
+                    default:
+                        $newvalue[$field] = $this->values[$field];
+                        break;
+                }
+            }
+        }
+
+        if (!$stripped) {
+            if (!empty($this['templatefields'])) {
+                $newvalue['templatefields'] = json_encode($this->values['templatefields']->getValues(true, true));
+            } else {
+                $newvalue['templatefields'] = '';
             }
         }
 
@@ -217,7 +239,9 @@ class Content implements \ArrayAccess
         }
 
         foreach ($values as $key => $value) {
-            $this->setValue($key, $value);
+            if ($key !== 'templatefields') {
+                $this->setValue($key, $value);
+            }
         }
 
         // If default status is set in contentttype.
@@ -238,7 +262,7 @@ class Content implements \ArrayAccess
         );
         // Check if the values need to be unserialized, and pre-processed.
         foreach ($this->values as $key => $value) {
-            if (in_array($this->fieldtype($key), $serializedFieldTypes)) {
+            if ((in_array($this->fieldtype($key), $serializedFieldTypes)) || ($key == 'templatefields')) {
                 if (!empty($value) && is_string($value) && (substr($value, 0, 2) == "a:" || $value[0] === '[' || $value[0] === '{')) {
                     try {
                         $unserdata = Lib::smartUnserialize($value);
@@ -287,10 +311,25 @@ class Content implements \ArrayAccess
                 }
             }
         }
+
+        // Template fields need to be done last
+        // As the template has to have been selected
+        if ($this->isRootType) {
+            if (empty($values['templatefields'])) {
+                $this->setValue('templatefields', array());
+            } else {
+                $this->setValue('templatefields', $values['templatefields']);
+            }
+        }
     }
 
     public function setValue($key, $value)
     {
+        // Don't set templateFields if not a real contenttype
+        if (($key == 'templatefields') && (!$this->isRootType)) {
+            return;
+        }
+
         // Check if the value need to be unserialized.
         if (is_string($value) && substr($value, 0, 2) == "a:") {
             try {
@@ -328,6 +367,30 @@ class Content implements \ArrayAccess
                     $value = null;
                 } else {
                     $value = date('Y-m-d H:i:s');
+                }
+            }
+        }
+
+        if ($key == 'templatefields') {
+            $oldValue = $this->values[$key];
+            if ((is_string($value)) || (is_array($value))) {
+                if (is_string($value)) {
+                    try {
+                        $unserdata = Lib::smartUnserialize($value);
+                    } catch (\Exception $e) {
+                        $unserdata = false;
+                    }
+                } else {
+                    $unserdata = $value;
+                }
+
+                if ($unserdata !== false) {
+                    $templateContent = new Content($this->app, $this->getTemplateFieldsContentType(), array(), false);
+                    $value = $templateContent;
+                    $this->populateTemplateFieldsContenttype($value);
+                    $templateContent->setValues($unserdata);
+                } else {
+                    $value = null;
                 }
             }
         }
@@ -455,6 +518,30 @@ class Content implements \ArrayAccess
         }
 
         $this->setValues($values);
+    }
+
+    protected function getTemplateFieldsContentType() {
+        if (is_array($this->contenttype)) {
+            if ($templateFieldsConfig = $this->app['config']->get('theme/templatefields')) {
+                $template = $this->app['templatechooser']->record($this);
+                if (array_key_exists($template, $templateFieldsConfig)) {
+                    return $templateFieldsConfig[$template];
+                }
+            }
+        }
+        return '';
+    }
+
+    public function hasTemplateFields() {
+        if (is_array($this->contenttype)) {
+            if ((!$this->contenttype['viewless']) && (!empty($this['templatefields'])) && ($templateFieldsConfig = $this->app['config']->get('theme/templatefields'))) {
+                $template = $this->app['templatechooser']->record($this);
+                if (array_key_exists($template, $templateFieldsConfig)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     /**

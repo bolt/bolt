@@ -36,12 +36,13 @@
 
 {% set attr_number = {
     class:          option.class ~ ' narrow',
-    name_id:        key,
+    name:           name,
+    id:             key,
     placeholder:    option.placeholder,
     readonly:       option.readonly,
     title:          option.title,
     type:           'text',
-    value:          0 + context.content.get(key),
+    value:          0 + context.content.get(contentkey),
     data_errortext: option.errortext,
     data_validate:  validation|json_encode,
 } %}
