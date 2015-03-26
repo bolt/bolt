@@ -382,7 +382,11 @@
      */
     function watchChanges() {
         $('form#editcontent').find('input, textarea, select').each(function () {
-            if (this.type !== 'textarea' || !$(this).hasClass('ckeditor')) {
+            if (this.type === 'textarea' && $(this).hasClass('ckeditor')) {
+                if (ckeditor.instances[this.id].checkDirty()) {
+                    ckeditor.instances[this.id].updateElement();
+                }
+            }else{
                 var val = getComparable(this);
                 if (val !== undefined) {
                     $(this).data('watch', val);
