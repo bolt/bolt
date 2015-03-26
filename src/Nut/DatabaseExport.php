@@ -67,7 +67,9 @@ class DatabaseExport extends BaseCommand
 
         // Get each/all requested Contenttypes and ensure they're value
         $export
-            ->isContenttypeValid($input->getOption('contenttypes'));
+            ->isContenttypeValid($input->getOption('contenttypes'))
+            ->exportContenttypes($file)
+        ;
 
         if ($ret) {
             foreach ($export->getErrorMessages() as $error) {
@@ -77,13 +79,7 @@ class DatabaseExport extends BaseCommand
             return 1;
         }
 
-        // Export each Contenttype's records to the export file
-        foreach ($this->contenttypes as $contenttype) {
-            $this->exportContenttype($contenttype, $file, $output);
-        }
-
-        $contenttypes = join(' ', $contenttypes);
-        $output->writeln("<info>Database exported to $file: $contenttypes</info>");
+        $output->writeln("<info>Database exported to $file</info>");
     }
 
     /**
@@ -106,35 +102,5 @@ class DatabaseExport extends BaseCommand
         }
 
         return true;
-    }
-
-    /**
-     * Export a Contenttype's records to the export file.
-     *
-     * @param string          $contenttype
-     * @param string          $file
-     * @param OutputInterface $output
-     *
-     * @return boolean
-     */
-    private function exportContenttype($contenttype, $file, OutputInterface $output)
-    {
-        // Get all the records foe the contenttype
-        $records = $this->app['storage']->getContent($contenttype);
-
-        $output = array();
-        foreach ($records as $record) {
-            $values = $record->getValues();
-            unset($values['id']);
-            $output[$contenttype][] = $values;
-        }
-
-        // Get a new YAML dumper
-        $dumper = new Dumper();
-
-        // Generate the YAML string
-        $yaml = $dumper->dump($output, 4);
-
-        file_put_contents($file, $yaml, FILE_APPEND);
     }
 }

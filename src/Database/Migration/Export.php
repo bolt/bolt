@@ -31,6 +31,43 @@ class Export extends AbstractMigration
     }
 
     /**
+     * Export set Contenttype's records to the export file.
+     *
+     * @param string $file
+     *
+     * @return boolean
+     */
+    public function exportContenttypes($file)
+    {
+        foreach ($this->contenttypes as $contenttype) {
+            $this->exportContenttype($contenttype, $file);
+        }
+    }
+
+    /**
+     * Export a single Contenttype's records to the export file.
+     *
+     * @param string $contenttype
+     * @param string $file
+     *
+     * @return boolean
+     */
+    private function exportContenttype($contenttype, $file)
+    {
+        // Get all the records for the contenttype
+        $records = $this->app['storage']->getContent($contenttype);
+
+        $output = array();
+        foreach ($records as $record) {
+            $values = $record->getValues();
+            unset($values['id']);
+            $output[$contenttype][] = $values;
+        }
+
+        $this->writeMigrationFile($file, $output, true);
+    }
+
+    /**
      * Check Contenttype requested exists
      *
      * @param string|array $contenttypeslugs
