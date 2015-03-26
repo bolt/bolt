@@ -46,6 +46,8 @@ Not yet released.
  - Fixed: Fix 'current' in menu. (see #3209)
  - Change: Use 4 spaces in all .yml and base-2014 theme. (see #3205)
  - Fixed: Set the canonical correctly. (see #3214)
+ - Fixed: Make `BaseExtension::initialize()` non-abstract again to deal with PHP < 5.3.10 (See #3257)
+ - Fixed: `isallowed` checks for extensions to also check for `extensions:config` (Thanks @SahAssar, see #3249)
 
 Bolt 2.1.1
 ----------
@@ -61,8 +63,6 @@ Released 2015-03-12. Notable changes:
  - Fixed: Regression that errored on PHP < 5.3.6: `Remove SplFileInfo::getExtension()`. (See #3095)
  - Fixed: Extension theme installer working properly (see #3108, thanks @nikgo)
  - Fixed: Replacing `&nbsp;` with single space, instead of nothing. (See #3111)
- - Fixed: `isallowed` checks for extensions to also check for `extensions:config` (Thanks @SahAssar, see #3249)
-
 
 Bolt 2.1.0
 ----------
