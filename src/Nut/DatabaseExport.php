@@ -43,38 +43,30 @@ class DatabaseExport extends BaseCommand
             throw new \RuntimeException('The --file option is required.');
         }
 
-        // Get the Bolt Export migration object
-        $export = new Export($this->app, $file, false);
-
-        // Check the file extension is valid and writeable
-        $ret = $export
-            ->isMigrationFilesWriteable()
-            ->getError()
-        ;
-
-        if ($ret) {
-            foreach ($export->getErrorMessages() as $error) {
-                $output->writeln("<error>$error</error>");
-            }
-
-            return;
-        }
-
         // See if we're going to continue
         if ($this->checkContinue($input, $output) === false) {
             return;
         }
 
-        // Get each/all requested Contenttypes and ensure they're value
+        // Get the Bolt Export migration object
+        $export = new Export($this->app);
+
+        // Check the file extension is valid and writeable
         $export
-            ->isContenttypeValid($input->getOption('contenttypes'))
+            ->setMigrationFiles($file)
+            ->checkMigrationFilesValid(false)
+            ->checkMigrationFilesExist('export')
+            ->checkMigrationFilesWriteable()
+            ->checkContenttypeValid($input->getOption('contenttypes'))
             ->exportContenttypesRecords()
         ;
 
-        if ($ret) {
+        if ($export->getError()) {
             foreach ($export->getErrorMessages() as $error) {
                 $output->writeln("<error>$error</error>");
             }
+
+            $output->writeln("\n<error>Aborting export!</error>\n");
 
             return 1;
         }

@@ -25,6 +25,10 @@ class Export extends AbstractMigration
      */
     public function exportContenttypesRecords()
     {
+        if ($this->getError()) {
+            return $this;
+        }
+
         foreach ($this->contenttypes as $contenttype) {
             $this->exportContenttypeRecords($contenttype);
         }
@@ -59,7 +63,7 @@ class Export extends AbstractMigration
      *
      * @return \Bolt\Database\Migration\Export
      */
-    public function isContenttypeValid($contenttypeslugs = array())
+    public function checkContenttypeValid($contenttypeslugs = array())
     {
         // If nothing is passed in, we assume we're using all conenttypes
         if (empty($contenttypeslugs)) {
@@ -74,7 +78,7 @@ class Export extends AbstractMigration
 
         if (is_array($contenttypeslugs)) {
             foreach ($contenttypeslugs as $contenttypeslug) {
-                return $this->isContenttypeValid($contenttypeslug);
+                return $this->checkContenttypeValid($contenttypeslug);
             }
         }
 

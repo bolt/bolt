@@ -37,15 +37,11 @@ abstract class AbstractMigration
      * Constructor.
      *
      * @param \Bolt\Application $app
-     * @param string            $files
-     * @param boolean           $exists
      */
-    public function __construct(Application $app, $files, $exists)
+    public function __construct(Application $app)
     {
         $this->app = $app;
         $this->fs  = new Filesystem();
-
-        $this->isMigrationFilesValid($files, $exists);
     }
 
     /**
@@ -97,47 +93,92 @@ abstract class AbstractMigration
     }
 
     /**
-     * Determine if file(s) specified exist and have a valid extension
+     * Set the migration files
      *
-     * @param string|array $files  File(s) to check
+     * @param string|array $files  File(s)
      * @param boolean      $exists If true, then test that the file exists
      *
      * @return boolean
      */
-    private function isMigrationFilesValid($files, $exists = false)
+    public function setMigrationFiles($files)
     {
         if (is_array($files)) {
             foreach ($files as $file) {
-                return $this->isMigrationFileValid($file);
+                return $this->setMigrationFiles($file);
             }
         }
 
-        $hash = md5($files);
+        if (empty($files)) {
+            $this->setError(true)->setErrorMessage('No files given.');
 
-        // Get the file extension and check existace if required
-        if ($exists) {
-            // Check the file exists
-            try {
-                $fileObj = new File($files);
-                $ext = $fileObj->getExtension();
-            } catch (FileNotFoundException $e) {
-                $this->setError(true)->setErrorMessage("File '$file' not found!");
-            }
-        } else {
-            $fileObj = new \SplFileInfo($files);
-            $ext = $fileObj->getExtension();
+            return $this;
         }
 
-        // Check the file extension
-        if (!in_array($ext, $this->validExtensions)) {
-            $this->setError(true)->setErrorMessage("File '$files' has an invalid extension! Must be either '.json', '.yml' or '.yaml'.");
-        } else {
-            if ($ext === 'yml' || $ext === 'yaml') {
-                $type = 'yaml';
-            } elseif ($ext === 'json') {
-                $type = 'json';
+        // Hash to identify the file
+        $hash    = md5($files);
+        $fileObj = new \SplFileInfo($files);
+
+        $this->files[$hash] = array(
+            'file' => $files,
+            'type' => $this->getType($fileObj->getExtension())
+        );
+
+        return $this;
+    }
+
+    /**
+     * Get a data type from a file extension
+     *
+     * @param string $type
+     *
+     * @return string
+     */
+    private function getType($type)
+    {
+        if ($type === 'yml' || $type === 'yaml') {
+            return 'yaml';
+        } elseif ($type === 'json') {
+            return'json';
+        }
+    }
+
+    public function checkMigrationFilesExist($migration)
+    {
+        foreach ($this->files as $file) {
+            if ($this->fs->exists($file['file']) && $migration === 'export') {
+                $this->setError(true)->setErrorMessage("File '{$file['file']}' exists.");
+            } elseif (!$this->fs->exists($file) && $migration === 'import') {
+                $this->setError(true)->setErrorMessage("File '{$file['file']}' does not exist.");
             }
-            $this->files[$hash] = array('file' => $files, 'type' => $type);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Determine if file(s) specified exist and have a valid extension
+     *
+     * @param boolean      $exists If true, then test that the file exists
+     *
+     * @return boolean
+     */
+    public function checkMigrationFilesValid($exists = false)
+    {
+        foreach ($this->files as $file) {
+            // Get the file extension and check existace if required
+            if ($exists) {
+                // Check the file exists
+                try {
+                    new File($file['file']);
+                } catch (FileNotFoundException $e) {
+                    $this->setError(true)->setErrorMessage("File '{$file['file']}' not found!");
+                }
+            }
+
+            // Check the file extension
+            if (!in_array($file['type'], $this->validExtensions)) {
+                $this->setError(true)->setErrorMessage("File '{$file['file']}' has an invalid extension! Must be either '.json', '.yml' or '.yaml'.");
+            }
         }
 
         return $this;
@@ -148,8 +189,12 @@ abstract class AbstractMigration
      *
      * @return \Bolt\Database\Migration\AbstractMigration
      */
-    public function isMigrationFilesWriteable()
+    public function checkMigrationFilesWriteable()
     {
+        if ($this->getError()) {
+            return $this;
+        }
+
         foreach ($this->files as $file) {
             try {
                 $this->fs->touch($file['file']);
