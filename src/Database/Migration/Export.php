@@ -14,21 +14,8 @@ use Symfony\Component\Yaml\Dumper;
  */
 class Export extends AbstractMigration
 {
-    /** @var Bolt\Application */
-    private $app;
-
     /** @var array */
     private $contenttypes = array();
-
-    /**
-     * Constructor.
-     *
-     * @param \Bolt\Application $app
-     */
-    public function __construct(Application $app)
-    {
-        $this->app = $app;
-    }
 
     /**
      * Export set Contenttype's records to the export file.

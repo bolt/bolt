@@ -2,6 +2,7 @@
 
 namespace Bolt\Database\Migration;
 
+use Bolt\Application;
 use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Filesystem\Filesystem;
@@ -14,6 +15,9 @@ use Symfony\Component\Filesystem\Exception\IOException;
  */
 abstract class AbstractMigration
 {
+    /** @var Bolt\Application */
+    private $app;
+
     /** @var boolean */
     protected $error = false;
 
@@ -22,6 +26,22 @@ abstract class AbstractMigration
 
     /** @var array */
     protected $validExtensions = array('json', 'yaml', 'yml');
+
+    /** @var string */
+    protected $files;
+
+    /**
+     * Constructor.
+     *
+     * @param \Bolt\Application $app
+     * @param string            $file
+     */
+    public function __construct(Application $app, $files, $exists)
+    {
+        $this->app  = $app;
+
+        $this->isMigrationFileValid($files, $exists);
+    }
 
     /**
      * Get the error state.
@@ -79,13 +99,15 @@ abstract class AbstractMigration
      *
      * @return boolean
      */
-    public function isMigrationFileValid($files, $exists = false)
+    private function isMigrationFileValid($files, $exists = false)
     {
         if (is_array($files)) {
             foreach ($files as $file) {
                 return $this->isMigrationFileValid($file);
             }
         }
+
+        $hash = md5($files);
 
         // Get the file extension and check existace if required
         if ($exists) {
@@ -104,18 +126,17 @@ abstract class AbstractMigration
         // Check the file extension
         if (!in_array($ext, $this->validExtensions)) {
             $this->setError(true)->setErrorMessage("File '$files' has an invalid extension! Must be either '.json', '.yml' or '.yaml'.");
+        } else {
+            $this->files[$hash] = array('file' => $files, 'type' => $ext);
         }
 
         return $this;
     }
 
     /**
-     * Determine if file(s) specified can be write to
+     * Determine if file(s) specified can be writen to.
      *
-     * @param string $files File(s) to check
-     * @param
-     *
-     * @return boolean
+     * @return \Bolt\Database\Migration\AbstractMigration
      */
     public function isMigrationFileWriteable($files)
     {

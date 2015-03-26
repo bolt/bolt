@@ -12,19 +12,6 @@ use Symfony\Component\Yaml\Parser;
  */
 class Import extends AbstractMigration
 {
-    /** @var Bolt\Application */
-    private $app;
-
-    /**
-     * Constructor.
-     *
-     * @param \Bolt\Application $app
-     */
-    public function __construct(Application $app)
-    {
-        $this->app = $app;
-    }
-
     /**
      * Read a migration file.
      *

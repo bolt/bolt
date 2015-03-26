@@ -44,11 +44,10 @@ class DatabaseExport extends BaseCommand
         }
 
         // Get the Bolt Export migration object
-        $export = new Export($this->app);
+        $export = new Export($this->app, $file);
 
         // Check the file extension is valid and writeable
         $ret = $export
-            ->isMigrationFileValid($file)
             ->isMigrationFileWriteable($file)
             ->getError();
 
