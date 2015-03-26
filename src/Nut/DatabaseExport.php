@@ -65,15 +65,16 @@ class DatabaseExport extends BaseCommand
             return;
         }
 
-        // Ensure any requests contenttypes requests are valid
-        $contenttypes = $input->getOption('contenttypes');
-        if (!empty($contenttypes) && !$this->isContenttypesValid($contenttypes, $output)) {
-            return;
-        }
+        // Get each/all requested Contenttypes and ensure they're value
+        $export
+            ->isContenttypeValid($input->getOption('contenttypes'));
 
-        // If no Contenttypes were passed in, grab 'em all
-        if (empty($contenttypes)) {
-            $this->contenttypes = $this->app['storage']->getContentTypes();
+        if ($ret) {
+            foreach ($export->getErrorMessages() as $error) {
+                $output->writeln("<error>$error</error>");
+            }
+
+            return 1;
         }
 
         // Export each Contenttype's records to the export file
@@ -135,31 +136,5 @@ class DatabaseExport extends BaseCommand
         $yaml = $dumper->dump($output, 4);
 
         file_put_contents($file, $yaml, FILE_APPEND);
-    }
-
-    /**
-     * Check Contenttype requested exists
-     *
-     * @param array           $contenttypes
-     * @param OutputInterface $output
-     *
-     * @return boolean
-     */
-    private function isContenttypesValid(array $contenttypes, OutputInterface $output)
-    {
-        foreach ($contenttypes as $contenttypeslug) {
-            $contenttype = $this->app['storage']->getContentType($contenttypeslug);
-
-            if (empty($contenttype)) {
-                $output->writeln("<error>The requested Contenttype '$contenttypeslug' doesn't exist! Aborting export.</error>");
-                return false;
-            }
-
-            if (!isset($this->contenttypes[$contenttypeslug])) {
-                $this->contenttypes[$contenttypeslug] = $contenttype;
-            }
-        }
-
-        return true;
     }
 }

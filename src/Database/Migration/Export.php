@@ -17,6 +17,9 @@ class Export extends AbstractMigration
     /** @var Bolt\Application */
     private $app;
 
+    /** @var array */
+    private $contenttypes = array();
+
     /**
      * Constructor.
      *
@@ -25,6 +28,43 @@ class Export extends AbstractMigration
     public function __construct(Application $app)
     {
         $this->app = $app;
+    }
+
+    /**
+     * Check Contenttype requested exists
+     *
+     * @param string|array $contenttypeslugs
+     *
+     * @return \Bolt\Database\Migration\Export
+     */
+    public function isContenttypeValid($contenttypeslugs = null)
+    {
+        // If nothing is passed in, we assume we're using all conenttypes
+        if (is_null($contenttypeslugs)) {
+            $this->contenttypes = $this->app['storage']->getContentTypes();
+
+            if (empty($this->contenttypes)) {
+                $this->setError(true)->setErrorMessage('This installation of Bolt has no contenttypes configured!');
+            }
+
+            return $this;
+        }
+
+        if (is_array($contenttypeslugs)) {
+            foreach ($contenttypeslugs as $contenttypeslug) {
+                return $this->isContenttypeValid($contenttypeslug);
+            }
+        }
+
+        $contenttype = $this->app['storage']->getContentType($contenttypeslugs);
+
+        if (empty($contenttype)) {
+            $this->setError(true)->setErrorMessage("The requested Contenttype '$contenttypeslugs' doesn't exist!");
+        } elseif (!isset($this->contenttypes[$contenttypeslugs])) {
+            $this->contenttypes[$contenttypeslugs] = $contenttype;
+        }
+
+        return this;
     }
 
     /**
