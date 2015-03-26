@@ -36,15 +36,6 @@ class DatabaseExport extends BaseCommand
         // Warn that this is experimental
         $output->writeln("<error>\n\nWARNING THIS IS AN EXPERIMENTAL FEATURE\n</error>");
 
-        if (!$input->getOption('no-interaction')) {
-            $helper = $this->getHelper('question');
-            $question = new ConfirmationQuestion('Continue with this action? ', false);
-
-            if (!$helper->ask($input, $output, $question)) {
-                return;
-            }
-        }
-
         // Check if export file can be created
         $file = $input->getOption('file');
             if (empty($file)) {
@@ -52,6 +43,15 @@ class DatabaseExport extends BaseCommand
         }
         if (!$this->isFileWriteable($file, $output)) {
             return;
+        }
+
+        if (!$input->getOption('no-interaction')) {
+            $helper = $this->getHelper('question');
+            $question = new ConfirmationQuestion('Continue with this action? ', false);
+
+            if (!$helper->ask($input, $output, $question)) {
+                return;
+            }
         }
 
         // Ensure any requests contenttypes requests are valid
