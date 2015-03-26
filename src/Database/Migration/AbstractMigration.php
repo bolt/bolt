@@ -15,8 +15,11 @@ use Symfony\Component\Filesystem\Exception\IOException;
  */
 abstract class AbstractMigration
 {
-    /** @var Bolt\Application */
+    /** @var \Bolt\Application */
     private $app;
+
+    /** @var \Symfony\Component\Filesystem\Filesystem */
+    private $fs;
 
     /** @var boolean */
     protected $error = false;
@@ -38,7 +41,8 @@ abstract class AbstractMigration
      */
     public function __construct(Application $app, $files, $exists)
     {
-        $this->app  = $app;
+        $this->app = $app;
+        $this->fs  = new Filesystem();
 
         $this->isMigrationFileValid($files, $exists);
     }
@@ -140,8 +144,6 @@ abstract class AbstractMigration
      */
     public function isMigrationFileWriteable($files)
     {
-        $fs = new Filesystem();
-
         if (is_array($files)) {
             foreach ($files as $file) {
                 return $this->isMigrationFileWriteable($file);
@@ -149,8 +151,8 @@ abstract class AbstractMigration
         }
 
         try {
-            $fs->touch($files);
-            $fs->remove($files);
+            $this->fs->touch($files);
+            $this->fs->remove($files);
         } catch (IOException $e) {
             $this->setError(true)->setErrorMessage("File '$file' is not writeable!");
         }
