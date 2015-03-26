@@ -2,6 +2,7 @@
 
 namespace Bolt\Nut;
 
+use Bolt\Database\Migration\Export;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -34,17 +35,32 @@ class DatabaseExport extends BaseCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         // Warn that this is experimental
-        $output->writeln("<error>\n\nWARNING THIS IS AN EXPERIMENTAL FEATURE\n</error>");
+        $output->writeln("<error>\n\nWARNING THIS IS AN EXPERIMENTAL FEATURE\n</error>\n");
 
         // Check if export file can be created
         $file = $input->getOption('file');
-            if (empty($file)) {
+        if (empty($file)) {
             throw new \RuntimeException('The --file option is required.');
         }
-        if (!$this->isFileWriteable($file, $output)) {
+
+        // Get the Bolt Export migration object
+        $export = new Export($this->app);
+
+        // Check the file extension is valid and writeable
+        $ret = $export
+            ->isMigrationFileValid($file)
+            ->isMigrationFileWriteable($file)
+            ->getError();
+
+        if ($ret) {
+            foreach ($export->getErrorMessages() as $error) {
+                $output->writeln("<error>$error</error>");
+            }
+
             return;
         }
 
+        // Yes, no, maybe?
         if (!$input->getOption('no-interaction')) {
             $helper = $this->getHelper('question');
             $question = new ConfirmationQuestion('Continue with this action? ', false);
@@ -102,33 +118,6 @@ class DatabaseExport extends BaseCommand
         $yaml = $dumper->dump($output, 4);
 
         file_put_contents($file, $yaml, FILE_APPEND);
-    }
-
-    /**
-     * Check/create target export file
-     *
-     * @param string          $file
-     * @param OutputInterface $output
-     *
-     * @return boolean
-     */
-    private function isFileWriteable($file, OutputInterface $output)
-    {
-        $fs = new Filesystem();
-
-        if ($fs->exists($file)) {
-            $output->writeln("<error>Specified export file '$file' already exists! Aborting export.</error>");
-            return false;
-        }
-
-        try {
-            $fs->touch($file);
-        } catch (IOException $e) {
-            $output->writeln("<error>Specified export file '$file' can not be created! Aborting export.</error>");
-            return false;
-        }
-
-        return true;
     }
 
     /**
