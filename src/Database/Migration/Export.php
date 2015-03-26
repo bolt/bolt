@@ -27,7 +27,7 @@ class Export extends AbstractMigration
     public function exportContenttypes($file)
     {
         foreach ($this->contenttypes as $contenttype) {
-            $this->exportContenttype($contenttype, $file);
+            $this->exportContenttype($contenttype);
         }
     }
 
@@ -35,11 +35,10 @@ class Export extends AbstractMigration
      * Export a single Contenttype's records to the export file.
      *
      * @param string $contenttype
-     * @param string $file
      *
      * @return boolean
      */
-    private function exportContenttype($contenttype, $file)
+    private function exportContenttype($contenttype)
     {
         // Get all the records for the contenttype
         $records = $this->app['storage']->getContent($contenttype);
@@ -51,7 +50,7 @@ class Export extends AbstractMigration
             $output[$contenttype][] = $values;
         }
 
-        $this->writeMigrationFile($file, $output, true);
+        $this->writeMigrationFile($output, true);
     }
 
     /**
@@ -96,26 +95,25 @@ class Export extends AbstractMigration
      *
      * This function will determine what type based on extension.
      *
-     * @param string  $file   File name
      * @param array   $data   The data to write out
      * @param boolean $append Whether to append or abort file writing if a file exists
      *
      * @return array
      */
-    protected function writeMigrationFile($file, $data, $append = false)
+    protected function writeMigrationFile($data, $append = false)
     {
-        $fs      = new Filesystem();
-        $fileObj = new \SplFileInfo($file);
-        $ext     = $fileObj->getExtension();
+        $key  = key($this->files);
+        $file = $this->files[$key]['file'];
+        $type = $this->files[$key]['type'];
 
-        if ($fs->exists($file) && $append === false) {
+        if ($this->fs->exists($file) && $append === false) {
             $this->setError(true)->setErrorMessage("Specified file '$file' already exists!");
 
             return false;
         }
 
         try {
-            $fs->touch($file);
+            $this->fs->touch($file);
         } catch (IOException $e) {
             $this->setError(true)->setErrorMessage("Specified file '$file' can not be created!");
 
@@ -123,7 +121,7 @@ class Export extends AbstractMigration
         }
 
         // Write them out
-        if ($ext === 'yml' || $ext === 'yaml') {
+        if ($type === 'yaml') {
             return $this->writeYamlFile($file, $data);
         } else {
             return $this->writeJsonFile($file, $data);
