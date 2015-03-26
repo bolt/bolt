@@ -44,7 +44,7 @@ abstract class AbstractMigration
         $this->app = $app;
         $this->fs  = new Filesystem();
 
-        $this->isMigrationFileValid($files, $exists);
+        $this->isMigrationFilesValid($files, $exists);
     }
 
     /**
@@ -103,7 +103,7 @@ abstract class AbstractMigration
      *
      * @return boolean
      */
-    private function isMigrationFileValid($files, $exists = false)
+    private function isMigrationFilesValid($files, $exists = false)
     {
         if (is_array($files)) {
             foreach ($files as $file) {
@@ -142,19 +142,15 @@ abstract class AbstractMigration
      *
      * @return \Bolt\Database\Migration\AbstractMigration
      */
-    public function isMigrationFileWriteable($files)
+    public function isMigrationFilesWriteable()
     {
-        if (is_array($files)) {
-            foreach ($files as $file) {
-                return $this->isMigrationFileWriteable($file);
+        foreach ($this->files as $file) {
+            try {
+                $this->fs->touch($file['file']);
+                $this->fs->remove($file['file']);
+            } catch (IOException $e) {
+                $this->setError(true)->setErrorMessage("File '{$file['file']}' is not writeable!");
             }
-        }
-
-        try {
-            $this->fs->touch($files);
-            $this->fs->remove($files);
-        } catch (IOException $e) {
-            $this->setError(true)->setErrorMessage("File '$file' is not writeable!");
         }
 
         return $this;

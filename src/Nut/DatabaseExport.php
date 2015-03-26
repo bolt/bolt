@@ -48,8 +48,9 @@ class DatabaseExport extends BaseCommand
 
         // Check the file extension is valid and writeable
         $ret = $export
-            ->isMigrationFileWriteable($file)
-            ->getError();
+            ->isMigrationFilesWriteable()
+            ->getError()
+        ;
 
         if ($ret) {
             foreach ($export->getErrorMessages() as $error) {
@@ -67,7 +68,7 @@ class DatabaseExport extends BaseCommand
         // Get each/all requested Contenttypes and ensure they're value
         $export
             ->isContenttypeValid($input->getOption('contenttypes'))
-            ->exportContenttypes($file)
+            ->exportContenttypes()
         ;
 
         if ($ret) {
