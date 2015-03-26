@@ -13,7 +13,9 @@ Not yet released. Notable changes:
  - Fixed: Changelog content uses correct tablenames. (See 3198)
  - Change: Improve `shyphenate()`: Only add breaks to long words, instead of everywhere. (see #3221) 
  - Fixed: Fix 'current' in menu. (see #3209)
-
+ - Fixed: `isallowed` checks for extensions to also check for `extensions:config` (Thanks @SahAssar, see #3249)
+ - Fixed: Allow 'name' in contenttype to override translation, for 2.1.x (see #3259)
+ - Fixed: Make `BaseExtension::initialize()` non-abstract again to deal with PHP < 5.3.10 (See #3257)
 
 Bolt 2.1.3
 ----------
