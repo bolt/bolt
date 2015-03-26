@@ -5,8 +5,8 @@ namespace Bolt\Database\Migration;
 use Bolt\Application;
 use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 use Symfony\Component\HttpFoundation\File\File;
-use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOException;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * Abstract base class for database import/export
@@ -16,10 +16,10 @@ use Symfony\Component\Filesystem\Exception\IOException;
 abstract class AbstractMigration
 {
     /** @var \Bolt\Application */
-    private $app;
+    protected $app;
 
     /** @var \Symfony\Component\Filesystem\Filesystem */
-    private $fs;
+    protected $fs;
 
     /** @var boolean */
     protected $error = false;
@@ -37,7 +37,8 @@ abstract class AbstractMigration
      * Constructor.
      *
      * @param \Bolt\Application $app
-     * @param string            $file
+     * @param string            $files
+     * @param boolean           $exists
      */
     public function __construct(Application $app, $files, $exists)
     {

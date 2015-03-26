@@ -44,7 +44,7 @@ class DatabaseExport extends BaseCommand
         }
 
         // Get the Bolt Export migration object
-        $export = new Export($this->app, $file);
+        $export = new Export($this->app, $file, false);
 
         // Check the file extension is valid and writeable
         $ret = $export
@@ -68,7 +68,7 @@ class DatabaseExport extends BaseCommand
         // Get each/all requested Contenttypes and ensure they're value
         $export
             ->isContenttypeValid($input->getOption('contenttypes'))
-            ->exportContenttypes()
+            ->exportContenttypesRecords()
         ;
 
         if ($ret) {

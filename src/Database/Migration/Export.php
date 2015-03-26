@@ -4,7 +4,6 @@ namespace Bolt\Database\Migration;
 
 use Bolt\Application;
 use Symfony\Component\Filesystem\Exception\IOException;
-use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Yaml\Dumper;
 
 /**
@@ -24,10 +23,10 @@ class Export extends AbstractMigration
      *
      * @return boolean
      */
-    public function exportContenttypes($file)
+    public function exportContenttypesRecords()
     {
         foreach ($this->contenttypes as $contenttype) {
-            $this->exportContenttype($contenttype);
+            $this->exportContenttypeRecords($contenttype);
         }
     }
 
@@ -38,7 +37,7 @@ class Export extends AbstractMigration
      *
      * @return boolean
      */
-    private function exportContenttype($contenttype)
+    private function exportContenttypeRecords($contenttype)
     {
         // Get all the records for the contenttype
         $records = $this->app['storage']->getContent($contenttype);
@@ -60,10 +59,10 @@ class Export extends AbstractMigration
      *
      * @return \Bolt\Database\Migration\Export
      */
-    public function isContenttypeValid($contenttypeslugs = null)
+    public function isContenttypeValid($contenttypeslugs = array())
     {
         // If nothing is passed in, we assume we're using all conenttypes
-        if (is_null($contenttypeslugs)) {
+        if (empty($contenttypeslugs)) {
             $this->contenttypes = $this->app['storage']->getContentTypes();
 
             if (empty($this->contenttypes)) {
@@ -102,6 +101,8 @@ class Export extends AbstractMigration
      */
     protected function writeMigrationFile($data, $append = false)
     {
+        // Get the first element on the array, we're only interested in that
+        reset($this->files);
         $key  = key($this->files);
         $file = $this->files[$key]['file'];
         $type = $this->files[$key]['type'];
@@ -143,7 +144,7 @@ class Export extends AbstractMigration
 
         // Generate the YAML string
         try {
-            $yaml = $dumper->dump($data, 4, 0, true);
+            $yaml = $dumper->dump($data, 4);
         } catch (Exception $e) {
             $this->setError(true)->setErrorMessage("Unable to generate valid YAML data!");
 
