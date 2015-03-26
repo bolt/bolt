@@ -60,14 +60,9 @@ class DatabaseExport extends BaseCommand
             return;
         }
 
-        // Yes, no, maybe?
-        if (!$input->getOption('no-interaction')) {
-            $helper = $this->getHelper('question');
-            $question = new ConfirmationQuestion('Continue with this action? ', false);
-
-            if (!$helper->ask($input, $output, $question)) {
-                return;
-            }
+        // See if we're going to continue
+        if ($this->checkContinue($input, $output) === false) {
+            return;
         }
 
         // Ensure any requests contenttypes requests are valid
@@ -88,6 +83,28 @@ class DatabaseExport extends BaseCommand
 
         $contenttypes = join(' ', $contenttypes);
         $output->writeln("<info>Database exported to $file: $contenttypes</info>");
+    }
+
+    /**
+     * Check to see if we should continue.
+     *
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     *
+     * @return boolean
+     */
+    private function checkContinue(InputInterface $input, OutputInterface $output)
+    {
+        /** @var \Composer\Command\Helper\DialogHelper $dialog */
+        $dialog   = $this->getHelperSet()->get('dialog');
+        $confirm  = $input->getOption('no-interaction');
+        $question = '<question>Are you sure you want to continue with the export?</question> ';
+
+        if (!$confirm && !$dialog->askConfirmation($output, $question, false)) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
