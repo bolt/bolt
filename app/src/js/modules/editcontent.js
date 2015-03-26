@@ -385,6 +385,7 @@
             if (this.type === 'textarea' && $(this).hasClass('ckeditor')) {
                 if (ckeditor.instances[this.id].checkDirty()) {
                     ckeditor.instances[this.id].updateElement();
+                    ckeditor.instances[this.id].resetDirty();
                 }
             }else{
                 var val = getComparable(this);
