@@ -37,26 +37,22 @@ class DatabaseImport extends BaseCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         // Warn that this is experimental
-        $output->writeln("<error>\n\nWARNING THIS IS AN EXPERIMENTAL FEATURE\n</error>");
+        $output->writeln("<error>\n\nWARNING THIS IS AN EXPERIMENTAL FEATURE\n</error>\n");
 
-        $files = $input->getOption('file');
-        if (empty($files)) {
-            throw new \RuntimeException('The --files option is required.');
+        // Check if export file can be created
+        $file = $input->getOption('file');
+        if (empty($file)) {
+            throw new \RuntimeException('The --file option is required.');
+        }
+
+        // See if we're going to continue
+        if ($this->checkContinue($input, $output) === false) {
+            return;
         }
 
         // Check passed files are all valid
         if (!$this->isFilesValid($files, $output)) {
             return;
-        }
-
-        if (!$input->getOption('no-interaction')) {
-            $helper = $this->getHelper('question');
-            $output->writeln('<error>WARNING: This will import records from the given YAML file into the database!</error>');
-            $question = new ConfirmationQuestion('Continue with this action? ', false);
-
-            if (!$helper->ask($input, $output, $question)) {
-                return;
-            }
         }
 
         // Read the YAML from each file
@@ -83,6 +79,28 @@ class DatabaseImport extends BaseCommand
         // Report finish
         $filenames = join(', ', $files);
         $output->writeln("<info>Database imported from $filenames</info>");
+    }
+
+    /**
+     * Check to see if we should continue.
+     *
+     * @param InputInterface  $input
+     * @param OutputInterface $output
+     *
+     * @return boolean
+     */
+    private function checkContinue(InputInterface $input, OutputInterface $output)
+    {
+        /** @var \Composer\Command\Helper\DialogHelper $dialog */
+        $dialog   = $this->getHelperSet()->get('dialog');
+        $confirm  = $input->getOption('no-interaction');
+        $question = '<question>Are you sure you want to continue with the import?</question> ';
+
+        if (!$confirm && !$dialog->askConfirmation($output, $question, false)) {
+            return false;
+        }
+
+        return true;
     }
 
     /**

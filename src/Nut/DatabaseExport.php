@@ -77,7 +77,7 @@ class DatabaseExport extends BaseCommand
     /**
      * Check to see if we should continue.
      *
-     * @param InputInterface $input
+     * @param InputInterface  $input
      * @param OutputInterface $output
      *
      * @return boolean
