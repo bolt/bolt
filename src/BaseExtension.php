@@ -352,8 +352,13 @@ abstract class BaseExtension implements ExtensionInterface
      * - extending the menu
      *
      * An empty default implementation is given for convenience.
+     *
+     * @deprecated This will be made 'abstract' when support for PHP 5.3 is dropped
+     * @see https://github.com/bolt/bolt/issues/3230
      */
-    abstract public function initialize();
+    public function initialize()
+    {
+    }
 
     /**
      * Allow use of the extension's Twig function in content records when the
