@@ -4,6 +4,8 @@ namespace Bolt\Database\Migration;
 
 use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Filesystem\Exception\IOException;
 
 /**
  * Abstract base class for database import/export
@@ -102,6 +104,34 @@ abstract class AbstractMigration
         // Check the file extension
         if (!in_array($ext, $this->validExtensions)) {
             $this->setError(true)->setErrorMessage("File '$files' has an invalid extension! Must be either '.json', '.yml' or '.yaml'.");
+        }
+
+        return $this;
+    }
+
+    /**
+     * Determine if file(s) specified can be write to
+     *
+     * @param string $files File(s) to check
+     * @param
+     *
+     * @return boolean
+     */
+    public function isMigrationFileWriteable($files)
+    {
+        $fs = new Filesystem();
+
+        if (is_array($files)) {
+            foreach ($files as $file) {
+                return $this->isMigrationFileWriteable($file);
+            }
+        }
+
+        try {
+            $fs->touch($files);
+            $fs->remove($files);
+        } catch (IOException $e) {
+            $this->setError(true)->setErrorMessage("File '$file' is not writeable!");
         }
 
         return $this;
