@@ -1,15 +1,19 @@
 {% set sub_hide = [] %}
 
-{% for slug, contenttype in app.config.get('contenttypes') %}
+{% for slug, contenttype in app.config.get('contenttypes')  %}
     {% if isallowed('contenttype:' ~ slug) %}
+
+        {% set label_plural = __(['contenttypes', contenttype.name|default('contenttype.slug'), 'name', 'plural'], {DEFAULT: contenttype.name}) %}
+        {% set label_singular = __(['contenttypes', contenttype.name|default('contenttype.slug'), 'name', 'singular'], {DEFAULT: contenttype.singular_name}) %}
+
         {% set sub_view = {
             icon: contenttype.icon_many|default(contenttype.show_in_menu ? 'fa:files-o' : 'fa:th-list'),
-            label: __('contenttypes.generic.view', {'%contenttypes%': contenttype.slug}),
+            label: __('contenttypes.generic.view', {'%contenttypes%': label_plural}),
             link: path('overview', {'contenttypeslug': slug})
         } %}
         {% set sub_new = {
             icon: 'fa:plus',
-            label: __('contenttypes.generic.new', {'%contenttype%': slug}),
+            label: __('contenttypes.generic.new', {'%contenttype%': label_singular}),
             link: path('editcontent', {'contenttypeslug': slug}),
             isallowed: 'contenttype:' ~ slug ~ ':create'
         } %}
@@ -29,19 +33,24 @@
                 ]) %}
             {% endfor %}
 
-            {% set label = __(['contenttypes', contenttype.slug, 'name', 'plural'], {DEFAULT: contenttype.name}) %}
             {% set active = (page_nav == 'Content/*' and context.contenttype.slug|default == slug) %}
 
-            {{ nav.submenu(contenttype.icon_many|default(''), label, sub, active, true) }}
+            {{ nav.submenu(contenttype.icon_many|default(''), label_plural, sub, active, true) }}
 
         {# Contenttypes, where show_in_menu is set false #}
         {% else %}
 
-            {% set sub_hide = sub_hide|merge(sub) %}
+            {% set sub_view = {
+                icon: contenttype.icon_many|default(contenttype.show_in_menu ? 'fa:files-o' : 'fa:th-list'),
+                label: __(['contenttypes', contenttype.slug, 'name', 'plural'], {DEFAULT: contenttype.name}),
+                link: path('overview', {'contenttypeslug': slug})
+            } %}
+
+            {% set sub_hide = sub_hide|merge([sub_view]) %}
 
         {% endif %}
     {% endif %}
 {% endfor %}
 
 {# Display contenttypes, that have show_in_menu set to false in a submenu #}
-{{ nav.submenu('fa:th-list', __('Other contenttypes'), sub_hide) }}
+{{ nav.submenu('fa:th-list', __('Other content'), sub_hide) }}
