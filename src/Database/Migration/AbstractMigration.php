@@ -131,7 +131,12 @@ abstract class AbstractMigration
         if (!in_array($ext, $this->validExtensions)) {
             $this->setError(true)->setErrorMessage("File '$files' has an invalid extension! Must be either '.json', '.yml' or '.yaml'.");
         } else {
-            $this->files[$hash] = array('file' => $files, 'type' => $ext);
+            if ($ext === 'yml' || $ext === 'yaml') {
+                $type = 'yaml';
+            } elseif ($ext === 'json') {
+                $type = 'json';
+            }
+            $this->files[$hash] = array('file' => $files, 'type' => $type);
         }
 
         return $this;
