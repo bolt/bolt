@@ -70,6 +70,16 @@ class Import extends AbstractMigration
     }
 
     /**
+     * Setter for data
+     *
+     * @param array $data
+     */
+    public function setData(array $data)
+    {
+        $this->data = $data;
+    }
+
+    /**
      * Import records from an import file
      *
      * @param string $filename
