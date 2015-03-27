@@ -95,4 +95,31 @@ class Import extends AbstractMigration
             }
         }
     }
+
+    /**
+     * Check that the Contenttype specified in the record data is valid.
+     *
+     * @param string $filename
+     * @param string $contenttypeslug
+     *
+     * @return
+     */
+    private function checkContenttypesValid($filename, $contenttypeslug)
+    {
+        if (isset($this->contenttypes[$contenttypeslug])) {
+            return true;
+        }
+
+        $contenttype = $this->app['storage']->getContentType($contenttypeslug);
+
+        if (empty($contenttype)) {
+            $this->setError(true)->setErrorMessage("File '$filename' has and invalid Contenttype '$contenttypeslug'! Skipping file.");
+
+            return false;
+        }
+
+        $this->contenttypes[$contenttypeslug] = $contenttype;
+
+        return true;
+    }
 }
