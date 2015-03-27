@@ -53,7 +53,12 @@ class Import extends AbstractMigration
         }
 
         foreach ($this->files as $file) {
-            $file['output']->readFile();
+            // Read the file data in
+            if (!$file['handler']->readFile()) {
+                continue;
+            }
+
+            // Get the file name
             $filename = (string) $file['file'];
 
             // Our import arrays should be indexed, if not we have a problem

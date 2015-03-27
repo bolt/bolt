@@ -173,6 +173,6 @@ class Export extends AbstractMigration
         }
 
         // Write them out
-        return $this->files[$this->hash]['output']->addRecord($data, $last);
+        return $this->files[$this->hash]['handler']->addRecord($data, $last);
     }
 }
