@@ -53,7 +53,6 @@ class Extensions
      */
     private $menuoptions = array();
 
-
     /**
      * Number of registered extensions that need to be able to send mail.
      *
@@ -1088,7 +1087,6 @@ class Extensions
     {
         return $this->mailsenders;
     }
-
 
     /**
      * @param string     $msg
