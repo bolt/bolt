@@ -412,7 +412,7 @@ class PackageManager
                     'type'     => $json['type'],
                     'descrip'  => $json['description'],
                     'authors'  => $json['authors'],
-                    'keywords' => !empty($json['keywords']) ? $json['keywords'] : '',
+                    'keywords' => $json['keywords'],
                 );
             } else {
                 $packages['local'][] = array(
