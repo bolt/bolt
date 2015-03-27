@@ -153,12 +153,12 @@ abstract class AbstractMigration
     public function checkMigrationFilesExist($migration)
     {
         foreach ($this->files as $file) {
-            $file = (string) $file['file'];
+           $filename = (string) $file['file'];
 
-            if ($this->fs->exists($file) && $migration === 'export') {
-                $this->setError(true)->setErrorMessage("File '{$file}' exists.");
-            } elseif (!$this->fs->exists($file) && $migration === 'import') {
-                $this->setError(true)->setErrorMessage("File '{$file}' does not exist.");
+            if ($this->fs->exists($filename) && $migration === 'export') {
+                $this->setError(true)->setErrorMessage("File '$filename' exists.");
+            } elseif (!$this->fs->exists($filename) && $migration === 'import') {
+                $this->setError(true)->setErrorMessage("File '$filename' does not exist.");
             }
         }
 
@@ -175,19 +175,21 @@ abstract class AbstractMigration
     public function checkMigrationFilesValid($exists = false)
     {
         foreach ($this->files as $file) {
+            $filename = (string) $file['file'];
+
             // Get the file extension and check existace if required
             if ($exists) {
                 // Check the file exists
                 try {
-                    new File($file['file']);
+                    new File($filename);
                 } catch (FileNotFoundException $e) {
-                    $this->setError(true)->setErrorMessage("File '{$file['file']}' not found!");
+                    $this->setError(true)->setErrorMessage("File '$filename' not found!");
                 }
             }
 
             // Check the file extension
             if (!in_array($file['type'], $this->validExtensions)) {
-                $this->setError(true)->setErrorMessage("File '{$file['file']}' has an invalid extension! Must be either '.json', '.yml' or '.yaml'.");
+                $this->setError(true)->setErrorMessage("File '$filename' has an invalid extension! Must be either '.json', '.yml' or '.yaml'.");
             }
         }
 
@@ -206,11 +208,13 @@ abstract class AbstractMigration
         }
 
         foreach ($this->files as $file) {
+            $filename = (string) $file['file'];
+
             try {
-                $this->fs->touch($file['file']);
-                $this->fs->remove($file['file']);
+                $this->fs->touch($filename);
+                $this->fs->remove($filename);
             } catch (IOException $e) {
-                $this->setError(true)->setErrorMessage("File '{$file['file']}' is not writeable!");
+                $this->setError(true)->setErrorMessage("File '$filename' is not writeable!");
             }
         }
 

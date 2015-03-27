@@ -53,7 +53,7 @@ class Export extends AbstractMigration
         }
 
         $this->hash = md5($files);
-        $file = $this->files[$this->hash];
+        $file = &$this->files[$this->hash];
 
         if ($file['type'] === 'yaml') {
             $file['handler'] = new Output\YamlFile($this, $file['file']);
@@ -80,14 +80,14 @@ class Export extends AbstractMigration
         foreach ($records as $record) {
             $values = $record->getValues();
             unset($values['id']);
-            $output[$contenttype][] = $values;
-        }
+            $output[$contenttype] = $values;
 
-        $this->writeMigrationFile($output, true);
+            $this->writeMigrationFile($output, true);
+        }
     }
 
     /**
-     * Check Contenttype requested exists
+     * Check Contenttype requested exists.
      *
      * @param string|array $contenttypeslugs
      *
@@ -135,8 +135,8 @@ class Export extends AbstractMigration
      */
     protected function writeMigrationFile($data, $append = false)
     {
-        $file = $this->files[$this->hash]['file'];
-        $type = $this->files[$this->hash]['type'];
+        $file = $this->files[$this->hash]['file']->getFilename();
+//         $type = $this->files[$this->hash]['type'];
 
         if ($this->fs->exists($file) && $append === false) {
             $this->setError(true)->setErrorMessage("Specified file '$file' already exists!");
@@ -153,11 +153,12 @@ class Export extends AbstractMigration
         }
 
         // Write them out
-        if ($type === 'yaml') {
-            return $this->writeYamlFile($file, $data);
-        } else {
-            return $this->writeJsonFile($file, $data);
-        }
+        return $this->files[$this->hash]['output']->addRecord($data);
+//         if ($type === 'yaml') {
+//             return $this->writeYamlFile($file, $data);
+//         } else {
+//             return $this->writeJsonFile($file, $data);
+//         }
     }
 
     /**
@@ -168,28 +169,28 @@ class Export extends AbstractMigration
      *
      * @return array
      */
-    private function writeYamlFile($file, $data)
-    {
-        // Get a new YAML dumper
-        $dumper = new Dumper();
+//     private function writeYamlFile($file, $data)
+//     {
+//         // Get a new YAML dumper
+//         $dumper = new Dumper();
 
-        // Generate the YAML string
-        try {
-            $yaml = $dumper->dump($data, 4);
-        } catch (Exception $e) {
-            $this->setError(true)->setErrorMessage("Unable to generate valid YAML data!");
+//         // Generate the YAML string
+//         try {
+//             $yaml = $dumper->dump($data, 4);
+//         } catch (Exception $e) {
+//             $this->setError(true)->setErrorMessage("Unable to generate valid YAML data!");
 
-            return false;
-        }
+//             return false;
+//         }
 
-        if (file_put_contents($file, $yaml, FILE_APPEND) === false) {
-            $this->setError(true)->setErrorMessage("Unable to write YAML data to '$file'!");
+//         if (file_put_contents($file, $yaml, FILE_APPEND) === false) {
+//             $this->setError(true)->setErrorMessage("Unable to write YAML data to '$file'!");
 
-            return false;
-        }
+//             return false;
+//         }
 
-        return true;
-    }
+//         return true;
+//     }
 
     /**
      * Write a JSON migration file.
@@ -199,23 +200,23 @@ class Export extends AbstractMigration
      *
      * @return array
      */
-    private function writeJsonFile($file, $data)
-    {
-        // Generate the JSON string
-        $json = json_encode($data);
+//     private function writeJsonFile($file, $data)
+//     {
+//         // Generate the JSON string
+//         $json = json_encode($data);
 
-        if ($json === false) {
-            $this->setError(true)->setErrorMessage("Unable to generate valid JSON data!");
+//         if ($json === false) {
+//             $this->setError(true)->setErrorMessage("Unable to generate valid JSON data!");
 
-            return false;
-        }
+//             return false;
+//         }
 
-        if (file_put_contents($file, $json, FILE_APPEND) === false) {
-            $this->setError(true)->setErrorMessage("Unable to write JSON data to '$file'!");
+//         if (file_put_contents($file, $json, FILE_APPEND) === false) {
+//             $this->setError(true)->setErrorMessage("Unable to write JSON data to '$file'!");
 
-            return false;
-        }
+//             return false;
+//         }
 
-        return true;
-    }
+//         return true;
+//     }
 }
