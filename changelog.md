@@ -1,7 +1,7 @@
 Bolt 2.1.4
 ----------
 
-Not yet released. Notable changes:
+Released 2015-03-27. Notable changes:
 
  - Never add extra jQueries on the backend. (See #3177)
  - JS bugfixes (save button + goto publishing status) (See #3160)
