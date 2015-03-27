@@ -39,6 +39,7 @@ class Import extends AbstractMigration
     }
 
     /**
+     * Import each migration file
      *
      * @return \Bolt\Database\Migration\Import
      */
@@ -63,5 +64,35 @@ class Import extends AbstractMigration
         }
 
         return $this;
+    }
+
+    /**
+     * Import records from an import file
+     *
+     * @param string $filename
+     *
+     * @return boolean
+     */
+    private function importRecords($filename)
+    {
+        foreach ($this->data as $data) {
+            // Test that we've at the least of an array
+            if (!is_array($data)) {
+                $this->setError(true)->setErrorMessage("File '$filename' has malformed Contenttype import data! Skipping file.");
+                return false;
+            }
+
+            // Validate all the contenttypes in this file
+            foreach ($data as $contenttypeslug => $values) {
+                if (!$this->checkContenttypesValid($filename, $contenttypeslug)) {
+                    return false;
+                }
+            }
+
+            // Insert the record
+            foreach ($data as $contenttypeslug => $values) {
+                $this->insertRecord($filename, $contenttypeslug, $values);
+            }
+        }
     }
 }
