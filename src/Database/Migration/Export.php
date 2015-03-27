@@ -32,8 +32,17 @@ class Export extends AbstractMigration
             return $this;
         }
 
-        foreach ($this->contenttypes as $contenttype) {
-            $this->exportContenttypeRecords($contenttype);
+        // Keep track of our export progress as some data formats require closing elements
+        $last = false;
+        $end  = array_keys($this->contenttypes);
+        $end  = end($end);
+
+        foreach ($this->contenttypes as $key => $contenttype) {
+            if ($key === $end) {
+                $last = true;
+            }
+
+            $this->exportContenttypeRecords($contenttype, $last);
         }
     }
 
@@ -67,22 +76,35 @@ class Export extends AbstractMigration
     /**
      * Export a single Contenttype's records to the export file.
      *
-     * @param string $contenttype
+     * @param string  $contenttype
+     * @param boolean $last        Flag that indicates last contenttype
      *
      * @return boolean
      */
-    private function exportContenttypeRecords($contenttype)
+    private function exportContenttypeRecords($contenttype, $last)
     {
         // Get all the records for the contenttype
         $records = $this->app['storage']->getContent($contenttype);
+        $data = array();
 
-        $output = array();
-        foreach ($records as $record) {
+        // If we're on the last Contenttype, we want to know when we've got the
+        // last record so we can close off if need be
+        if ($last) {
+            $last = false;
+            $end  = array_keys($records);
+            $end  = end($end);
+        }
+
+        foreach ($records as $key => $record) {
+            if ($key === $end) {
+                $last = true;
+            }
+
             $values = $record->getValues();
             unset($values['id']);
-            $output[$contenttype] = $values;
+            $data[$contenttype] = $values;
 
-            $this->writeMigrationFile($output, true);
+            $this->writeMigrationFile($data, $last, true);
         }
     }
 
@@ -129,14 +151,14 @@ class Export extends AbstractMigration
      * This function will determine what type based on extension.
      *
      * @param array   $data   The data to write out
+     * @param boolean $last   Flag that indicates last record
      * @param boolean $append Whether to append or abort file writing if a file exists
      *
      * @return array
      */
-    protected function writeMigrationFile($data, $append = false)
+    protected function writeMigrationFile($data, $last, $append = false)
     {
-        $file = $this->files[$this->hash]['file']->getFilename();
-//         $type = $this->files[$this->hash]['type'];
+        $file = (string) $this->files[$this->hash]['file'];
 
         if ($this->fs->exists($file) && $append === false) {
             $this->setError(true)->setErrorMessage("Specified file '$file' already exists!");
@@ -153,70 +175,6 @@ class Export extends AbstractMigration
         }
 
         // Write them out
-        return $this->files[$this->hash]['output']->addRecord($data);
-//         if ($type === 'yaml') {
-//             return $this->writeYamlFile($file, $data);
-//         } else {
-//             return $this->writeJsonFile($file, $data);
-//         }
+        return $this->files[$this->hash]['output']->addRecord($data, $last);
     }
-
-    /**
-     * Write a YAML migration file.
-     *
-     * @param string  $file   File name
-     * @param array   $data   The data to write out
-     *
-     * @return array
-     */
-//     private function writeYamlFile($file, $data)
-//     {
-//         // Get a new YAML dumper
-//         $dumper = new Dumper();
-
-//         // Generate the YAML string
-//         try {
-//             $yaml = $dumper->dump($data, 4);
-//         } catch (Exception $e) {
-//             $this->setError(true)->setErrorMessage("Unable to generate valid YAML data!");
-
-//             return false;
-//         }
-
-//         if (file_put_contents($file, $yaml, FILE_APPEND) === false) {
-//             $this->setError(true)->setErrorMessage("Unable to write YAML data to '$file'!");
-
-//             return false;
-//         }
-
-//         return true;
-//     }
-
-    /**
-     * Write a JSON migration file.
-     *
-     * @param string  $file   File name
-     * @param array   $data   The data to write out
-     *
-     * @return array
-     */
-//     private function writeJsonFile($file, $data)
-//     {
-//         // Generate the JSON string
-//         $json = json_encode($data);
-
-//         if ($json === false) {
-//             $this->setError(true)->setErrorMessage("Unable to generate valid JSON data!");
-
-//             return false;
-//         }
-
-//         if (file_put_contents($file, $json, FILE_APPEND) === false) {
-//             $this->setError(true)->setErrorMessage("Unable to write JSON data to '$file'!");
-
-//             return false;
-//         }
-
-//         return true;
-//     }
 }
