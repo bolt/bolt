@@ -102,7 +102,7 @@ class Import extends AbstractMigration
      * @param string $filename
      * @param string $contenttypeslug
      *
-     * @return
+     * @return boolean
      */
     private function checkContenttypesValid($filename, $contenttypeslug)
     {
@@ -121,5 +121,84 @@ class Import extends AbstractMigration
         $this->contenttypes[$contenttypeslug] = $contenttype;
 
         return true;
+    }
+
+    /**
+     * Insert an individual Contenttype record into the database
+     *
+     * @param string $filename
+     * @param string $contenttypeslug
+     * @param array  $values
+     *
+     * @return boolean
+     */
+    private function insertRecord($filename, $contenttypeslug, array $values)
+    {
+        // Determine a/the slug
+        $slug = isset($values['slug']) ? $values['slug'] : substr($this->app['slugify']->slugify($values['title']), 0, 127);
+
+        if (!$this->isRecordUnique($contenttypeslug, $slug)) {
+            $this->setWarning(true)->setWarningMessage("File '$filename' has an exiting Contenttype '$contenttypeslug' with the slug '$slug'! Skipping record.");
+
+            return false;
+        }
+
+        // Get a status
+        if (isset($values['status'])) {
+            $status = $values['status'];
+        } else {
+            $status = $this->contenttypes[$contenttypeslug]['default_status'];
+        }
+
+        // Transform the 'publish' action to a 'published' status
+        $status = $status === 'publish' ? 'published' : $status;
+
+        // Insist on a title field
+        if (!isset($values['title'])) {
+            $this->setWarning(true)->setWarningMessage("File '$filename' has a '$contenttypeslug' with a missing title field! Skipping record.");
+
+            return false;
+        }
+
+        // Set up default meta
+        $meta = array(
+            'slug'        => $slug,
+            'datecreated' => date('Y-m-d H:i:s'),
+            'datepublish' => $status == 'published' ? date('Y-m-d H:i:s') : null,
+            'ownerid'     => 1
+        );
+
+        $values = Arr::mergeRecursiveDistinct($values, $meta);
+
+        $record = $this->app['storage']->getEmptyContent($contenttypeslug);
+        $record->setValues($values);
+
+        if ($this->app['storage']->saveContent($record) === false) {
+            $this->setWarning(true)->setWarningMessage("Failed to imported record with title: {$values['title']} from '$filename'! Skipping record.");
+
+            return false;
+        } else {
+            $this->setNotice(true)->setNoticeMessage("Imported record with title: {$values['title']}.");
+
+            return true;
+        }
+    }
+
+    /**
+     * Test is a record already exists.
+     *
+     * @param string $contenttypeslug
+     * @param string $slug
+     *
+     * @return boolean
+     */
+    private function isRecordUnique($contenttypeslug, $slug)
+    {
+        $record = $this->app['storage']->getContent("$contenttypeslug/$slug");
+        if (empty($record)) {
+            return true;
+        }
+
+        return false;
     }
 }
