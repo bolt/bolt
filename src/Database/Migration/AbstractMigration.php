@@ -142,13 +142,23 @@ abstract class AbstractMigration
         }
     }
 
+    /**
+     * Test if the migration files are in an appropriate state for the migration
+     * type.
+     *
+     * @param string $migration Type of migration, either 'import' or 'export'
+     *
+     * @return \Bolt\Database\Migration\AbstractMigration
+     */
     public function checkMigrationFilesExist($migration)
     {
         foreach ($this->files as $file) {
-            if ($this->fs->exists($file['file']) && $migration === 'export') {
-                $this->setError(true)->setErrorMessage("File '{$file['file']}' exists.");
+            $file = (string) $file['file'];
+
+            if ($this->fs->exists($file) && $migration === 'export') {
+                $this->setError(true)->setErrorMessage("File '{$file}' exists.");
             } elseif (!$this->fs->exists($file) && $migration === 'import') {
-                $this->setError(true)->setErrorMessage("File '{$file['file']}' does not exist.");
+                $this->setError(true)->setErrorMessage("File '{$file}' does not exist.");
             }
         }
 
