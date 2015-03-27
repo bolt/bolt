@@ -152,6 +152,10 @@ abstract class AbstractMigration
      */
     public function checkMigrationFilesExist($migration)
     {
+        if ($this->getError()) {
+            return $this;
+        }
+
         foreach ($this->files as $file) {
             $filename = (string) $file['file'];
 
@@ -174,6 +178,10 @@ abstract class AbstractMigration
      */
     public function checkMigrationFilesValid($exists = false)
     {
+        if ($this->getError()) {
+            return $this;
+        }
+
         foreach ($this->files as $file) {
             $filename = (string) $file['file'];
 
