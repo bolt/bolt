@@ -54,6 +54,13 @@ class Extensions
     private $menuoptions = array();
 
     /**
+     * Number of registered extensions that need to be able to send mail.
+     *
+     * @var integer
+     */
+    private $mailsenders = 0;
+
+    /**
      * Whether or not to add jQuery.
      *
      * @var bool
@@ -304,6 +311,11 @@ class Extensions
 
         // Flag the extension as initialised
         $this->initialized[$name] = $extension;
+
+        // If an extension makes it known it sends email, increase the counter
+        if (is_callable(array($extension, 'sendsMail')) && $extension->sendsMail()) {
+            $this->mailsenders++;
+        }
 
         // Get the extension defined snippets
         try {
@@ -1066,6 +1078,14 @@ class Extensions
     public function getMenuOptions()
     {
         return $this->menuoptions;
+    }
+
+    /**
+     * Returns whether or not there are any extensions that need so send mail
+     */
+    public function hasMailSenders()
+    {
+        return $this->mailsenders;
     }
 
     /**
