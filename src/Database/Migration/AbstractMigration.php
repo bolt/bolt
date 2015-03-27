@@ -93,10 +93,9 @@ abstract class AbstractMigration
     }
 
     /**
-     * Set the migration files
+     * Set the migration files.
      *
      * @param string|array $files  File(s)
-     * @param boolean      $exists If true, then test that the file exists
      *
      * @return boolean
      */
@@ -119,8 +118,9 @@ abstract class AbstractMigration
         $fileObj = new \SplFileInfo($files);
 
         $this->files[$hash] = array(
-            'file' => $files,
-            'type' => $this->getType($fileObj->getExtension())
+            'file'   => $fileObj,
+            'type'   => $this->getType($fileObj->getExtension()),
+            'output' => null
         );
 
         return $this;
