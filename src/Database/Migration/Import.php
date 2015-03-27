@@ -12,6 +12,9 @@ use Symfony\Component\Yaml\Parser;
  */
 class Import extends AbstractMigration
 {
+    /** @var array $data */
+    protected $data;
+
     /**
      * Set the migration files.
      *
