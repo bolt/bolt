@@ -16,6 +16,9 @@ class Export extends AbstractMigration
     /** @var array */
     private $contenttypes = array();
 
+    /** @var string */
+    private $hash;
+
     /**
      * Export set Contenttype's records to the export file.
      *
@@ -32,6 +35,33 @@ class Export extends AbstractMigration
         foreach ($this->contenttypes as $contenttype) {
             $this->exportContenttypeRecords($contenttype);
         }
+    }
+
+    /**
+     * Set the migration files.
+     *
+     * Also creates an output file object.
+     *
+     * @see \Bolt\Database\Migration\AbstractMigration::setMigrationFiles()
+     */
+    public function setMigrationFiles($files)
+    {
+        parent::setMigrationFiles($files);
+
+        if ($this->getError()) {
+            return $this;
+        }
+
+        $this->hash = md5($files);
+        $file = $this->files[$this->hash];
+
+        if ($file['type'] === 'yaml') {
+            $file['handler'] = new Output\YamlFile($this, $file['file']);
+        } elseif ($file['type'] === 'json') {
+            $file['handler'] = new Output\JsonFile($this, $file['file']);
+        }
+
+        return $this;
     }
 
     /**
@@ -105,11 +135,8 @@ class Export extends AbstractMigration
      */
     protected function writeMigrationFile($data, $append = false)
     {
-        // Get the first element on the array, we're only interested in that
-        reset($this->files);
-        $key  = key($this->files);
-        $file = $this->files[$key]['file'];
-        $type = $this->files[$key]['type'];
+        $file = $this->files[$this->hash]['file'];
+        $type = $this->files[$this->hash]['type'];
 
         if ($this->fs->exists($file) && $append === false) {
             $this->setError(true)->setErrorMessage("Specified file '$file' already exists!");

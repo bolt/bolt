@@ -118,9 +118,9 @@ abstract class AbstractMigration
         $fileObj = new \SplFileInfo($files);
 
         $this->files[$hash] = array(
-            'file'   => $fileObj,
-            'type'   => $this->getType($fileObj->getExtension()),
-            'output' => null
+            'file'    => $fileObj,
+            'type'    => $this->getType($fileObj->getExtension()),
+            'handler' => null
         );
 
         return $this;
