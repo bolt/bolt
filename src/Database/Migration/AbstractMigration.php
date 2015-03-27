@@ -27,6 +27,12 @@ abstract class AbstractMigration
     /** @var array */
     protected $errorMessages = array();
 
+    /** @var boolean */
+    protected $warning = false;
+
+    /** @var array */
+    protected $warningMessages = array();
+
     /** @var array */
     protected $validExtensions = array('json', 'yaml', 'yml');
 
@@ -88,6 +94,44 @@ abstract class AbstractMigration
     public function setErrorMessage($errorMessage)
     {
         $this->errorMessages[] = $errorMessage;
+
+        return $this;
+    }
+
+    /**
+     * Set the warning state.
+     *
+     * @param boolean $warning
+     *
+     * @return \Bolt\Database\Migration\AbstractMigration
+     */
+    public function setWarning($warning)
+    {
+        $this->warning = $warning;
+
+        return $this;
+    }
+
+    /**
+     * Get the warning messages.
+     *
+     * @return array
+     */
+    public function getWarningMessages()
+    {
+        return $this->errorWarning;
+    }
+
+    /**
+     * Add an warning message to the warning queue.
+     *
+     * @param string $warningMessage
+     *
+     * @return \Bolt\Database\Migration\AbstractMigration
+     */
+    public function setWarningMessage($warningMessage)
+    {
+        $this->warningMessages[] = $warningMessage;
 
         return $this;
     }
