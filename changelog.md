@@ -9,7 +9,7 @@ Released 2015-03-27. Notable changes:
  - Fixed: Allow `|||`-queries to be more complex (Thanks @Pinpickle, see #3189)
  - Fixed: Storage not using sort from contenttype (Thanks @CarsonF, see #3187)
  - Change: Only log content not found errors if slug isn't numeric, since `next` and `previous` check by `id` (see #3186)
- - Fixed: Make sure we use `ParsedownExtra`, instead of just `Parsedown. (Thanks, @cooperaj, see #3194)
+ - Fixed: Make sure we use `ParsedownExtra`, instead of just `Parsedown`. (Thanks, @cooperaj, see #3194)
  - Fixed: Changelog content uses correct tablenames. (See 3198)
  - Change: Improve `shyphenate()`: Only add breaks to long words, instead of everywhere. (see #3221) 
  - Fixed: Fix 'current' in menu. (see #3209)
