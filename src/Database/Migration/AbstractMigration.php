@@ -3,10 +3,10 @@
 namespace Bolt\Database\Migration;
 
 use Bolt\Application;
-use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
-use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
+use Symfony\Component\HttpFoundation\File\File;
 
 /**
  * Abstract base class for database import/export
@@ -95,7 +95,7 @@ abstract class AbstractMigration
     /**
      * Set the migration files.
      *
-     * @param string|array $files  File(s)
+     * @param string|array $files File(s)
      *
      * @return boolean
      */
@@ -153,7 +153,7 @@ abstract class AbstractMigration
     public function checkMigrationFilesExist($migration)
     {
         foreach ($this->files as $file) {
-           $filename = (string) $file['file'];
+            $filename = (string) $file['file'];
 
             if ($this->fs->exists($filename) && $migration === 'export') {
                 $this->setError(true)->setErrorMessage("File '$filename' exists.");
@@ -168,7 +168,7 @@ abstract class AbstractMigration
     /**
      * Determine if file(s) specified exist and have a valid extension
      *
-     * @param boolean      $exists If true, then test that the file exists
+     * @param boolean $exists If true, then test that the file exists
      *
      * @return boolean
      */

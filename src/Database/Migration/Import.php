@@ -2,7 +2,6 @@
 
 namespace Bolt\Database\Migration;
 
-use Bolt\Application;
 use Symfony\Component\Yaml\Parser;
 
 /**

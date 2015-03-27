@@ -2,9 +2,7 @@
 
 namespace Bolt\Database\Migration;
 
-use Bolt\Application;
 use Symfony\Component\Filesystem\Exception\IOException;
-use Symfony\Component\Yaml\Dumper;
 
 /**
  * Database records export class
