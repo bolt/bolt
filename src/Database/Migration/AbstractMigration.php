@@ -105,6 +105,16 @@ abstract class AbstractMigration
     }
 
     /**
+     * Get the warning state.
+     *
+     * @return boolean
+     */
+    public function getWarning()
+    {
+        return $this->warning;
+    }
+
+    /**
      * Set the warning state.
      *
      * @param boolean $warning
@@ -140,6 +150,16 @@ abstract class AbstractMigration
         $this->warningMessages[] = $warningMessage;
 
         return $this;
+    }
+
+    /**
+     * Get the notice state.
+     *
+     * @return boolean
+     */
+    public function getNotice()
+    {
+        return $this->notice;
     }
 
     /**
