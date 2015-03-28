@@ -174,3 +174,11 @@ fieldset.checkbox {
         }
     }
 }
+
+/**
+ * Fix CKEditor skins in every browser
+ */
+
+.cke_chrome {
+    border: 1px solid #ccc !important;
+}
