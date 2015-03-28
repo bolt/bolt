@@ -85,7 +85,6 @@
             }
 
             config.language = bolt.conf('locale.short');
-            config.uiColor = '#DDDDDD';
             config.resize_enabled = true;
             config.entities = false;
             config.fillEmptyBlocks = false;
@@ -190,6 +189,9 @@
                 showCommentButton: false,
                 showUncommentButton: false
             };
+
+            // Set the skin
+            config.skin = 'bootstrapck';
 
             // Parse override settings from config.yml
             for (key in set.ck) {
