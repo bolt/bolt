@@ -3,7 +3,7 @@
 namespace Bolt;
 
 use Bolt\Helpers\Html;
-use Bolt\Helpers\String;
+use Bolt\Helpers\Str;
 use Bolt\Library as Lib;
 use Bolt\Translation\Translator as Trans;
 use Silex;
@@ -1318,7 +1318,7 @@ class TwigExtension extends \Twig_Extension
      */
     public function safeString($str, $strict = false, $extrachars = "")
     {
-        return String::makeSafe($str, $strict, $extrachars);
+        return Str::makeSafe($str, $strict, $extrachars);
     }
 
     /**
@@ -1430,7 +1430,7 @@ class TwigExtension extends \Twig_Extension
     public function shy($str)
     {
         if (is_string($str)) {
-            $str = String::shyphenate($str);
+            $str = Str::shyphenate($str);
         }
 
         return $str;

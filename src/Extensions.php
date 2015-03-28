@@ -5,7 +5,7 @@ namespace Bolt;
 use Bolt;
 use Bolt\Extensions\ExtensionInterface;
 use Bolt\Extensions\Snippets\Location as SnippetLocation;
-use Bolt\Helpers\String;
+use Bolt\Helpers\Str;
 use Bolt\Translation\Translator as Trans;
 use Composer\Autoload\ClassLoader;
 use Monolog\Logger;
@@ -759,7 +759,7 @@ class Extensions
 
             // Try to insert it after <head>
             $replacement = sprintf("%s\n%s\t%s", $matches[0], $matches[1], $tag);
-            $html = String::replaceFirst($matches[0], $replacement, $html);
+            $html = Str::replaceFirst($matches[0], $replacement, $html);
         } else {
 
             // Since we're serving tag soup, just append it.
@@ -785,7 +785,7 @@ class Extensions
 
             // Try to insert it after <body>
             $replacement = sprintf("%s\n%s\t%s", $matches[0], $matches[1], $tag);
-            $html = String::replaceFirst($matches[0], $replacement, $html);
+            $html = Str::replaceFirst($matches[0], $replacement, $html);
         } else {
 
             // Since we're serving tag soup, just append it.
@@ -811,7 +811,7 @@ class Extensions
 
             // Try to insert it just before </head>
             $replacement = sprintf("%s\t%s\n%s", $matches[1], $tag, $matches[0]);
-            $html = String::replaceFirst($matches[0], $replacement, $html);
+            $html = Str::replaceFirst($matches[0], $replacement, $html);
         } else {
 
             // Since we're serving tag soup, just append it.
@@ -837,7 +837,7 @@ class Extensions
 
             // Try to insert it just before </head>
             $replacement = sprintf("%s\t%s\n%s", $matches[1], $tag, $matches[0]);
-            $html = String::replaceFirst($matches[0], $replacement, $html);
+            $html = Str::replaceFirst($matches[0], $replacement, $html);
         } else {
 
             // Since we're serving tag soup, just append it.
@@ -863,7 +863,7 @@ class Extensions
 
             // Try to insert it just before </head>
             $replacement = sprintf("%s\t%s\n%s", $matches[1], $tag, $matches[0]);
-            $html = String::replaceFirst($matches[0], $replacement, $html);
+            $html = Str::replaceFirst($matches[0], $replacement, $html);
         } else {
 
             // Since we're serving tag soup, just append it.
@@ -889,7 +889,7 @@ class Extensions
             // matches[0] has some elements, the last index is -1, because zero indexed.
             $last = count($matches[0]) - 1;
             $replacement = sprintf("%s\n%s%s", $matches[0][$last], $matches[1][$last], $tag);
-            $html = String::replaceFirst($matches[0][$last], $replacement, $html);
+            $html = Str::replaceFirst($matches[0][$last], $replacement, $html);
         } else {
             $html = $this->insertEndOfHead($tag, $html);
         }
@@ -913,7 +913,7 @@ class Extensions
             // matches[0] has some elements, the last index is -1, because zero indexed.
             $last = count($matches[0]) - 1;
             $replacement = sprintf("%s\n%s%s", $matches[0][$last], $matches[1][$last], $tag);
-            $html = String::replaceFirst($matches[0][$last], $replacement, $html);
+            $html = Str::replaceFirst($matches[0][$last], $replacement, $html);
         } else {
             $html = $this->insertEndOfHead($tag, $html);
         }
@@ -936,7 +936,7 @@ class Extensions
 
             // Try to insert it before the match
             $replacement = sprintf("%s%s\n%s\t%s", $matches[1], $tag, $matches[0], $matches[1]);
-            $html = String::replaceFirst($matches[0], $replacement, $html);
+            $html = Str::replaceFirst($matches[0], $replacement, $html);
         } else {
 
             // Since we're serving tag soup, just append it.
@@ -961,7 +961,7 @@ class Extensions
 
             // Try to insert it before the match
             $replacement = sprintf("%s%s\n%s\t%s", $matches[1], $tag, $matches[0], $matches[1]);
-            $html = String::replaceFirst($matches[0], $replacement, $html);
+            $html = Str::replaceFirst($matches[0], $replacement, $html);
         } else {
 
             // Since we're serving tag soup, just append it.
@@ -997,7 +997,7 @@ class Extensions
             // matches[0] has some elements, the last index is -1, because zero indexed.
             $last = count($matches[0]) - 1;
             $replacement = sprintf("%s\n%s%s", $matches[0][$last], $matches[1][$last], $tag);
-            $html = String::replaceFirst($matches[0][$last], $replacement, $html);
+            $html = Str::replaceFirst($matches[0][$last], $replacement, $html);
         } elseif ($insidehead) {
             // Second attempt: entire document
             $html = $this->insertAfterJs($tag, $html, false);

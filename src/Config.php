@@ -4,7 +4,7 @@ namespace Bolt;
 
 use Bolt\Exception\LowlevelException;
 use Bolt\Helpers\Arr;
-use Bolt\Helpers\String;
+use Bolt\Helpers\Str;
 use Bolt\Library as Lib;
 use Bolt\Translation\Translator as Trans;
 use Cocur\Slugify\Slugify;
@@ -250,7 +250,7 @@ class Config
         }
 
         // Make sure Bolt's mount point is OK:
-        $general['branding']['path'] = '/' . String::makeSafe($general['branding']['path']);
+        $general['branding']['path'] = '/' . Str::makeSafe($general['branding']['path']);
 
         $general['database'] = $this->parseDatabase($general['database']);
 
@@ -273,10 +273,10 @@ class Config
                 }
             }
             if (!isset($taxonomy['slug'])) {
-                $taxonomy['slug'] = strtolower(String::makeSafe($taxonomy['name']));
+                $taxonomy['slug'] = strtolower(Str::makeSafe($taxonomy['name']));
             }
             if (!isset($taxonomy['singular_slug'])) {
-                $taxonomy['singular_slug'] = strtolower(String::makeSafe($taxonomy['singular_name']));
+                $taxonomy['singular_slug'] = strtolower(Str::makeSafe($taxonomy['singular_name']));
             }
             if (!isset($taxonomy['has_sortorder'])) {
                 $taxonomy['has_sortorder'] = false;
@@ -408,7 +408,7 @@ class Config
 
         foreach ($fields as $key => $field) {
             unset($fields[$key]);
-            $key = str_replace('-', '_', strtolower(String::makeSafe($key, true)));
+            $key = str_replace('-', '_', strtolower(Str::makeSafe($key, true)));
 
             // If field is a "file" type, make sure the 'extensions' are set, and it's an array.
             if ($field['type'] == 'file' || $field['type'] == 'filelist') {
@@ -496,7 +496,7 @@ class Config
         $options = array_replace($options, $master);
 
         // Add platform specific random functions
-        $driver = String::replaceFirst('pdo_', '', $options['driver']);
+        $driver = Str::replaceFirst('pdo_', '', $options['driver']);
         if ($driver === 'sqlite') {
             $options['driver'] = 'pdo_sqlite';
             $options['randomfunction'] = 'RANDOM()';

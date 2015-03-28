@@ -3,7 +3,7 @@
 namespace Bolt;
 
 use Bolt\Exception\LowlevelException;
-use Bolt\Helpers\String;
+use Bolt\Helpers\Str;
 use Bolt\Library as Lib;
 use Bolt\Provider\LoggerServiceProvider;
 use Bolt\Provider\PathServiceProvider;
@@ -188,7 +188,7 @@ class Application extends Silex\Application
              * to the database, which has failed since we are here.
              */
             $platform = $this['db']->getDriver()->getName();
-            $platform = String::replaceFirst('pdo_', '', $platform);
+            $platform = Str::replaceFirst('pdo_', '', $platform);
 
             $error = "Bolt could not connect to the configured database.\n\n" .
                      "Things to check:\n" .
