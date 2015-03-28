@@ -191,7 +191,7 @@
             };
 
             // Set the skin
-            config.skin = 'bootstrapck';
+            config.skin = 'boltcke';
 
             // Parse override settings from config.yml
             for (key in set.ck) {
