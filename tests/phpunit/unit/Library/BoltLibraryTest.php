@@ -113,9 +113,14 @@ class BoltLibraryTest extends BoltUnitTest
 
     /**
      * @runInSeparateProcess
+     * @requires extension xdebug
      */
     public function testSimpleRedirect()
     {
+        if (phpversion('xdebug') === false) {
+            $this->markTestSkipped('No xdebug support enabled.');
+        }
+
         $app = $this->getApp();
         $this->expectOutputRegex("/Redirecting to/i");
         $redirect = Library::simpleredirect("/test", false);
@@ -124,9 +129,14 @@ class BoltLibraryTest extends BoltUnitTest
 
     /**
      * @runInSeparateProcess
+     * @requires extension xdebug
      */
     public function testSimpleRedirectEmpty()
     {
+        if (phpversion('xdebug') === false) {
+            $this->markTestSkipped('No xdebug support enabled.');
+        }
+
         $app = $this->getApp();
         $this->expectOutputRegex("/Redirecting to/i");
         $redirect = Library::simpleredirect("", false);
