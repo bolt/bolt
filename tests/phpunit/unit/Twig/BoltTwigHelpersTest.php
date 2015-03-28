@@ -245,7 +245,7 @@ class BoltTwigHelpersTest extends BoltUnitTest
         $result = array_values($twig->order($input, 'id'));
         $this->assertEquals('Delta', $result[0]['title']);
         $this->assertEquals('Beta', $result[1]['title']);
-        $this->assertEquals('Alpha', $result[2]['title']);
+        $this->assertRegExp('/Alpha|Gamma/', $result[2]['title']);
 
         // Test sort on secondary keys
         $result = array_values($twig->order($input, 'id', 'date'));
