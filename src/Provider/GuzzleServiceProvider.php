@@ -19,9 +19,22 @@ class GuzzleServiceProvider implements ServiceProviderInterface
         }
 
         /** @deprecated */
-        if (version_compare(PHP_VERSION, '5.4.0', '<')) {
+        if ($app['deprecated.php']) {
             return $this->compat($app);
         }
+
+        // Register a simple Guzzle Client object (requires absolute URLs when guzzle.base_url is unset)
+        $app['guzzle.client'] = $app->share(
+            function () use ($app) {
+                $options = ['base_url' => $app['guzzle.base_url']];
+                $client = new Client($options);
+                foreach ($app['guzzle.plugins'] as $plugin) {
+                    $client->addSubscriber($plugin);
+                }
+
+                return $client;
+            }
+        );
     }
 
     /**
