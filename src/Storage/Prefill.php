@@ -2,7 +2,8 @@
 
 namespace Bolt\Storage;
 
-use Guzzle\Service\Client;
+use GuzzleHttp\Client;
+use Guzzle\Service\Client as ServiceClient;
 
 /**
  * Handles Fetching Prefill Content from an API service.
@@ -14,10 +15,20 @@ class Prefill
     /**
      * Constructor function.
      *
-     * @param \Guzzle\Service\Client $client
+     * @param \GuzzleHttp\Client|\Guzzle\Service\Client $client
      */
-    public function __construct(Client $client)
+    public function __construct($client, $deprecated = false)
     {
+        /** @deprecated remove when PHP 5.3 support is dropped */
+        $this->deprecated = $deprecated;
+        if (!($client instanceof \GuzzleHttp\Client || $client instanceof \Guzzle\Service\Client)) {
+            throw new \InvalidArgumentException(sprintf(
+                'First argument passed to %s must be an instance of GuzzleHttp\Client or Guzzle\Service\Client, instance of %s given.',
+                __CLASS__,
+                get_class($client)
+                ));
+        }
+
         $this->client = $client;
     }
 
@@ -33,6 +44,11 @@ class Prefill
     {
         $uri = $base . ltrim($request, '/');
 
-        return $this->client->get($uri, array('timeout' => 10))->send()->getBody(true);
+        if ($this->deprecated) {
+            /** @deprecated remove when PHP 5.3 support is dropped */
+            return $this->client->get($uri, array('timeout' => 10))->send()->getBody(true);
+        } else {
+            return $this->client->get($uri, array('timeout' => 10))->getBody(true);
+        }
     }
 }
