@@ -3,7 +3,8 @@
 namespace Bolt\Provider;
 
 use Guzzle\Service\Builder\ServiceBuilder;
-use Guzzle\Service\Client;
+use Guzzle\Service\Client as ServiceClient;
+use GuzzleHttp\Client;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 
@@ -17,6 +18,21 @@ class GuzzleServiceProvider implements ServiceProviderInterface
             $app['guzzle.plugins'] = array();
         }
 
+        /** @deprecated */
+        if (version_compare(PHP_VERSION, '5.4.0', '<')) {
+            return $this->compat($app);
+        }
+    }
+
+    /**
+     * PHP 5.3 compatibility services
+     *
+     * @deprecated
+     *
+     * @param Application $app
+     */
+    private function compat(Application $app)
+    {
         // Register a Guzzle ServiceBuilder
         $app['guzzle'] = $app->share(
             function () use ($app) {
@@ -33,7 +49,7 @@ class GuzzleServiceProvider implements ServiceProviderInterface
         // Register a simple Guzzle Client object (requires absolute URLs when guzzle.base_url is unset)
         $app['guzzle.client'] = $app->share(
             function () use ($app) {
-                $client = new Client($app['guzzle.base_url']);
+                $client = new ServiceClient($app['guzzle.base_url']);
                 foreach ($app['guzzle.plugins'] as $plugin) {
                     $client->addSubscriber($plugin);
                 }
