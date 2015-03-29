@@ -133,7 +133,12 @@ class Async implements ControllerProviderInterface
             }
 
             try {
-                $fetchedNewsData = $app['guzzle.client']->get($url, null, $curlOptions)->send()->getBody(true);
+                if ($app['deprecated.php']) {
+                    $fetchedNewsData = $app['guzzle.client']->get($url, null, $curlOptions)->send()->getBody(true);
+                } else {
+                    $fetchedNewsData = $app['guzzle.client']->get($url, [], $curlOptions)->getBody(true);
+                }
+
                 $fetchedNewsItems = json_decode($fetchedNewsData);
                 if ($fetchedNewsItems) {
                     $news = array();
