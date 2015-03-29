@@ -22,6 +22,7 @@
         "ext-pdo" : "*",
         "filp/whoops" : "~1.1",
         "guzzle/guzzle" : "~3.9",
+        "guzzlehttp/guzzle": "~3.9|~5.2",
         "hautelook/phpass" : "~0.3",
         "ircmaxell/random-lib" : "~1.1",
         "monolog/monolog" : "~1.12",
