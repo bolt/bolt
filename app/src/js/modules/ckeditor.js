@@ -85,7 +85,7 @@
             }
 
             config.language = bolt.conf('locale.short');
-            config.uiColor = '#DDDDDD';
+            config.skin = 'boltcke';
             config.resize_enabled = true;
             config.entities = false;
             config.fillEmptyBlocks = false;
