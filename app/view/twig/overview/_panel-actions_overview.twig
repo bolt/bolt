@@ -21,7 +21,7 @@
         {% set taxonomyfilter = false %}
 
         <div class="form-group">
-        {% for taxonomy in context.contenttype.taxonomy %}
+        {% for taxonomy in context.contenttype.taxonomy|default([]) %}
             {% if app.config.get('taxonomy/' ~ taxonomy ~ '/options') is iterable %}
                 {% if request('taxonomy-' ~ taxonomy ) %}
                     {% set taxonomyfilter = true %}
