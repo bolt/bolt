@@ -14,14 +14,44 @@
         <i class="fa fa-plus"></i> {{ __('contenttypes.generic.new', {'%contenttype%': context.contenttype.slug}) }}
     </a>
 
-    <form class="form-inline" style="margin-top:15px;">
-        <input type="text" class="form-control" value="{{ request('filter', '', true) }}" name="filter" style="width: 110px;" placeholder="{{ __('Filtering …') }}">
-        <button type="submit" class="btn btn-tertiary">{{ __('Filter') }}</button>
+    <p style="margin-top: 15px;"><strong>{{ __("Filter") }}</strong></p>
+
+    <form class="form-inline">
+
+        {% set taxonomyfilter = false %}
+
+        <div class="form-group">
+        {% for taxonomy in context.contenttype.taxonomy|default([]) %}
+            {% if app.config.get('taxonomy/' ~ taxonomy ~ '/options') is iterable %}
+                {% if request('taxonomy-' ~ taxonomy ) %}
+                    {% set taxonomyfilter = true %}
+                {% endif %}
+                <select name='taxonomy-{{taxonomy}}' class='form-control'>
+                    <option value=''>
+                        ({{ app.config.get('taxonomy/' ~ taxonomy ~ '/name')|default(taxonomy) }})
+                    </option>
+                {% for slug, name in app.config.get('taxonomy/' ~ taxonomy ~ '/options') %}
+                    <option value='{{slug}}' {% if request('taxonomy-' ~ taxonomy ) == slug %}selected{% endif %}>
+                        {{name}}
+                    </option>
+                {% endfor %}
+                </select>
+                {{ __("or") }}
+            {% endif %}
+        {% endfor %}
+            <input type="text" class="form-control" value="{{ request('filter', '', true) }}" name="filter" style="width: 110px;" placeholder="{{ __('Keyword …') }}">
+        </div>
+
+        <div class="form-group" style="display: block; margin-top: 12px;">
+            <button type="submit" class="btn btn-tertiary"><i class="fa fa-filter"></i> {{ __('Filter') }}</button>
+
+            {% if request('filter') or request('order') or taxonomyfilter %}
+                <a class="btn btn-tertiary" href="?"><i class="fa fa-close"></i> {{ __('Clear sort/filter') }}</a>
+            {% endif %}
+        </div>
+
     </form>
 
-    {% if request('filter') or request('order') %}
-        <a class="btn btn-tertiary" href="?" style="margin-top: 15px">{{ __('Clear sort/filter') }}</a>
-    {% endif %}
 
     {% set description = __(['contenttypes', context.contenttype.slug, 'description'], {DEFAULT: context.contenttype.description|default()}) %}
     <div class="description">

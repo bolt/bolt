@@ -9,7 +9,12 @@
 
 {% block page_title __('Overview') %}
 
-{% block page_subtitle __(['contenttypes', context.contenttype.slug, 'name', 'plural'], {DEFAULT: context.contenttype.name}) %}
+{% block page_subtitle %}
+    {{ __(['contenttypes', context.contenttype.slug, 'name', 'plural'], {DEFAULT: context.contenttype.name}) }}
+    {% if context.filter %}
+        <small>({{ __("filtered by <em>'%filter%'</em>", {'%filter%': context.filter|join(', ') }) }})</small>
+    {% endif %}
+{% endblock %}
 
 {# clear default messages, because we use them in a different spot, in this template #}
 {% block messages "" %}
