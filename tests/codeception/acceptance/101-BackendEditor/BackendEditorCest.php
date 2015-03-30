@@ -231,4 +231,39 @@ class BackendEditorCest
         $I->see('Quick to set up and easily extendible');
         $I->see('The new Page has been saved.');
     }
+
+    /**
+     * Create a contact page with templatefields
+     *
+     * @param \AcceptanceTester $I
+     */
+    public function checkTemplateFieldsTest(\AcceptanceTester $I)
+    {
+        $I->wantTo("Create a contact page with templatefields");
+
+        // Set up the browser
+        $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
+        $I->setCookie('bolt_session', $this->cookies['bolt_session']);
+        $I->amOnPage('bolt');
+
+        $I->see('New Page');
+        $I->click('New Page');
+
+        $I->fillField('#title',         'Contact Page');
+        $I->fillField('#slug',          'contact');
+        $I->selectOption('#template',   'extrafields.twig');
+
+        $I->click('Save Page', '#savecontinuebutton');
+        $I->see('The new Page has been saved.');
+        $I->click('CONTACT PAGE');
+
+        // Page has been saved, fill templatefields
+        $I->see('Template', 'a[data-toggle=tab]');
+
+        $I->fillField('#templatefields-section_1', 'This is the contact text');
+        $I->click('Save Page');
+
+        $I->click('CONTACT PAGE');
+        $I->seeInField('#templatefields-section_1', 'This is the contact text');
+    }
 }
