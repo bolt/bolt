@@ -69,4 +69,27 @@ class BackendManagerCest
 
         $I->see('The changes to this Page have been saved.');
     }
+
+    /**
+     * Publish the 'Contact' page.
+     *
+     * @param \AcceptanceTester $I
+     */
+    public function publishContactPageTest(\AcceptanceTester $I)
+    {
+        $I->wantTo("Publish the 'Contact' page with templtaefields as 'manager' user");
+
+        // Set up the browser
+        $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
+        $I->setCookie('bolt_session', $this->cookies['bolt_session']);
+        $I->amOnPage('bolt/editcontent/pages/3');
+
+        $I->see("This is the contact text");
+
+        $I->selectOption('#statusselect', 'published');
+
+        $I->click('Save', '#savecontinuebutton');
+
+        $I->see('The changes to this Page have been saved.');
+    }
 }
