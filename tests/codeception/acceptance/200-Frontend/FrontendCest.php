@@ -61,6 +61,20 @@ class FrontendCest
     }
 
     /**
+     * Check the contact page for templatefields
+     *
+     * @param \AcceptanceTester $I
+     */
+    public function checkContactPageTest(\AcceptanceTester $I)
+    {
+        $I->wantTo('see that the contact page and templatefields works');
+
+        $I->amOnPage('contact');
+
+        $I->see("This is the contact text");
+    }
+
+    /**
      * Check a viewless contenttype can't be routed to.
      *
      * @param \AcceptanceTester $I
