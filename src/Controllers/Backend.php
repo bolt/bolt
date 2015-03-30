@@ -1414,7 +1414,7 @@ class Backend implements ControllerProviderInterface
                     array(
                         'sitename' => $app['config']->get('general/sitename')
                     )
-                );
+                )->getContent();
 
                 try {
                     // Send a welcome email

@@ -56,7 +56,7 @@ class Frontend
         if ($app['config']->get('general/maintenance_mode')) {
             if (!$app['users']->isAllowed('maintenance-mode')) {
                 $template = $app['templatechooser']->maintenance();
-                $body = $app['render']->render($template);
+                $body = $app['render']->render($template)->getContent();
 
                 return new Response($body, Response::HTTP_SERVICE_UNAVAILABLE);
             }
