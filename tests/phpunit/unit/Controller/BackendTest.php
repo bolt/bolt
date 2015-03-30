@@ -700,16 +700,72 @@ class BackendTest extends BoltUnitTest
         $response = $controller->userEdit(9, $app, $request);
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
         
+        
+        // Now we allow the permsission check to return true
         $perms = $this->getMock('Bolt\Permissions', array('isAllowedToManipulate'), array($app));
-        $perms->expects($this->once())
+        $perms->expects($this->any())
             ->method('isAllowedToManipulate')
             ->will($this->returnValue(true));
         $app['permissions'] = $perms;
         
         $response = $controller->userEdit(9, $app, $request);
         $context = $response->getContext();
+        $this->assertEquals('edit', $context['context']['kind']);
+        $this->assertInstanceOf('Symfony\Component\Form\FormView', $context['context']['form']);
+        $this->assertEquals('Admin', $context['context']['displayname']);
         
+        // Test that an empty user gives a create form
+        $app['request'] = $request = Request::create('/bolt/useredit');
+        $response = $controller->userEdit(null, $app, $request);
+        $context = $response->getContext();
+        $this->assertEquals('create', $context['context']['kind']);
 
+    }
+    
+    public function testUserEditPost()
+    {
+        $app = $this->getApp();
+        
+        $controller = new Backend();
+        
+        $user = $app['users']->getUser(9);
+        $app['users']->currentuser = $user;
+        
+        
+        $perms = $this->getMock('Bolt\Permissions', array('isAllowedToManipulate'), array($app));
+        $perms->expects($this->any())
+            ->method('isAllowedToManipulate')
+            ->will($this->returnValue(true));
+        $app['permissions'] = $perms;
+        
+        // Symfony forms normally need a CSRF token so we have to mock this too
+        $csrf = $this->getMock('Symfony\Component\Form\Extension\Csrf\CsrfProvider\DefaultCsrfProvider', array('isCsrfTokenValid', 'generateCsrfToken'), array('secret'));
+        $csrf->expects($this->once())
+            ->method('generateCsrfToken')
+            ->will($this->returnValue('xyz'));
+            
+        $csrf->expects($this->once())
+            ->method('isCsrfTokenValid')
+            ->will($this->returnValue(true));
+            
+        $app['form.csrf_provider'] = $csrf;
+        
+        // Update the display name via a POST request
+        $app['request'] = $request = Request::create(
+            '/bolt/useredit/9', 
+            'POST', 
+            array(
+                'form'=> array(
+                    'username'=>'admin',
+                    'displayname'=>"Admin Test", 
+                    '_token'=>'xyz'
+                )
+            )
+        );
+        
+        $response = $controller->userEdit(9, $app, $request);
+        $context = $response->getContext();
+        $this->assertEquals('Admin Test', $context['context']['displayname']);
     }
     
     
