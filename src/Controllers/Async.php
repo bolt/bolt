@@ -172,10 +172,10 @@ class Async implements ControllerProviderInterface
         // Combine the body. One 'alert' and one 'info' max. Regular info-items can be disabled, but Alerts can't.
         $body = "";
         if (!empty($news['alert'])) {
-            $body .= $app['render']->render('components/panel-news.twig', array('news' => $news['alert']));
+            $body .= $app['render']->render('components/panel-news.twig', array('news' => $news['alert']))->getContent();
         }
         if (!empty($news['information']) && !$app['config']->get('general/backend/news/disable')) {
-            $body .= $app['render']->render('components/panel-news.twig', array('news' => $news['information']));
+            $body .= $app['render']->render('components/panel-news.twig', array('news' => $news['information']))->getContent();
         }
 
         return new Response($body, Response::HTTP_OK, array('Cache-Control' => 's-maxage=3600, public'));
@@ -200,7 +200,7 @@ class Async implements ControllerProviderInterface
                 array(
                     'activity' => $activity
                 )
-            );
+            )->getContent();
         }
 
         $activity = $app['logger.manager']->getActivity('system', 8, null, 'authentication');
@@ -211,7 +211,7 @@ class Async implements ControllerProviderInterface
                 array(
                     'activity' => $activity
                 )
-            );
+            )->getContent();
         }
 
         return new Response($body, Response::HTTP_OK, array('Cache-Control' => 's-maxage=3600, public'));
@@ -381,7 +381,7 @@ class Async implements ControllerProviderInterface
             'contenttype' => $contenttype
         );
 
-        $body = $app['render']->render('components/panel-lastmodified.twig', array('context' => $context));
+        $body = $app['render']->render('components/panel-lastmodified.twig', array('context' => $context))->getContent();
 
         return new Response($body, Response::HTTP_OK, array('Cache-Control' => 's-maxage=60, public'));
     }
@@ -419,7 +419,7 @@ class Async implements ControllerProviderInterface
             'filtered'    => $isFiltered,
         );
 
-        $body = $app['render']->render('components/panel-lastmodified.twig', array('context' => $context));
+        $body = $app['render']->render('components/panel-lastmodified.twig', array('context' => $context))->getContent();
 
         return new Response($body, Response::HTTP_OK, array('Cache-Control' => 's-maxage=60, public'));
     }
@@ -728,7 +728,7 @@ class Async implements ControllerProviderInterface
                 'user'     => $user['displayname'],
                 'ip'       => $request->getClientIp()
             )
-        );
+        )->getContent();
 
         $message = $app['mailer']
             ->createMessage('message')
