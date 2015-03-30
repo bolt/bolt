@@ -513,7 +513,7 @@ class TwigExtension extends \Twig_Extension
      */
     public function twig($snippet, $extravars = array())
     {
-        return $this->app['safe_render']->render($snippet, $extravars);
+        return $this->app['safe_render']->render($snippet, $extravars)->getContent();
     }
 
     public function decorateTT($str)
