@@ -1,4 +1,5 @@
-Bolt 2.1.5 
+Bolt 2.1.5
+----------
 
 Not yet released. Notable changes: 
 
