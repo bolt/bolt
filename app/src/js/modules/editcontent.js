@@ -350,7 +350,7 @@
 
             // Initialize handler for 'closing window'
             window.onbeforeunload = function () {
-                if (hasChanged()) {
+                if ((hasChanged()) || (bolt.liveEditor.active)) {
                     return bolt.data('editcontent.msg.change_quit');
                  }
             };
