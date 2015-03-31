@@ -1,3 +1,11 @@
+Bolt 2.1.5 
+
+Not yet released. Notable changes: 
+
+ - Fixed: Strange step behaviour when no `min` is set for integer fields (Thanks @Pinpickle, see #3284)
+ - Fixed: Make sure we have the same amount of columns, always. (See #3228) 
+ - Added: Allow for filtering on 'taxonomies' on the overview pages. (See #3278)
+
 Bolt 2.1.4
 ----------
 
