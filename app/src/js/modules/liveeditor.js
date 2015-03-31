@@ -60,11 +60,16 @@
      */
     liveEditor.start = function(e) {
         // Add Events
+        var preventClick = function(e) {
+            e.preventDefault();
+        };
+
         var iframeReady = function() {
             var iframe = $('#live-editor-iframe')[0];
             var win = iframe.contentWindow || iframe;
             var doc = win.document;
             var jq = $(doc);
+            jq.on('click', 'a', preventClick);
             var cke = bolt.ckeditor.initcke(win.CKEDITOR);
             var editorConfig = cke.editorConfig;
             cke.editorConfig = function(config) {
@@ -79,6 +84,8 @@
                 });
                 config.toolbar[ind] = _.without(config.toolbar[ind], 'Source');
             };
+
+
 
             cke.disableAutoInline = false;
             jq.find('[data-bolt-field]').each(function() {
@@ -121,20 +128,22 @@
 
         $('#live-editor-iframe').on('load', iframeReady);
 
-        liveEditor.removeEvents = function() {
-           $('#live-editor-iframe').off('load', iframeReady);
-        };
-
         bolt.liveEditor.active = true;
         clearTimeout(bolt.sidebar.lengthTimer);
         $('#navpage-secondary').css('height', '');
         $('body').addClass('live-editor-active');
+        $('#navpage-primary .navbar-header a').on('click', preventClick);
 
         var newAction = bolt.conf('paths.root') + 'preview/' + liveEditor.slug;
         $('#editcontent *[name=_live-editor-preview]').val('yes');
         $('#editcontent').attr('action', newAction).attr('target', 'live-editor-iframe').submit();
         $('#editcontent').attr('action', '').attr('target', '_self');
         $('#editcontent *[name=_live-editor-preview]').val('');
+
+        liveEditor.removeEvents = function() {
+            $('#live-editor-iframe').off('load', iframeReady);
+            $('#navpage-primary .navbar-header a').off('click', preventClick);
+        };
     };
 
     /**
