@@ -48,6 +48,8 @@ Not yet released.
  - Fixed: Set the canonical correctly. (see #3214)
  - Fixed: Make `BaseExtension::initialize()` non-abstract again to deal with PHP < 5.3.10 (See #3257)
  - Fixed: `isallowed` checks for extensions to also check for `extensions:config` (Thanks @SahAssar, see #3249)
+ - Fixed: Strange step behaviour when no `min` is set for integer fields (Thanks @Pinpickle, see #3284)
+
 
 Bolt 2.1.1
 ----------
