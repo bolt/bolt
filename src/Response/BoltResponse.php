@@ -141,6 +141,15 @@ class BoltResponse extends Response
         return $this->template->getTemplateName();
     }
     
+    /**
+     * Returns the Response as a string.
+     *
+     * @return string The Response as HTML
+     */
+    public function __toString()
+    {
+        return $this->getContent();
+    }
     
     /**
      * Gets HTML content for the response.
