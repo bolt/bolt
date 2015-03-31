@@ -771,7 +771,7 @@ class Users
                 $tempusers = $this->db->fetchAll($query);
 
                 foreach ($tempusers as $user) {
-                    $key = $user['username'];
+                    $key = $user['id'];
                     $this->users[$key] = $user;
                     $this->users[$key]['password'] = "**dontchange**";
 
