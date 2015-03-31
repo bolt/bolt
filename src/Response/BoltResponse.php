@@ -149,8 +149,7 @@ class BoltResponse extends Response
     public function __toString()
     {
         try {
-            $output = $this->getContent();
-            return $string;
+            return $this->getContent();
         } catch (\Exception $exception) {
             // the __toString method isn't allowed to throw exceptions
             // so we turn them into an error instead
