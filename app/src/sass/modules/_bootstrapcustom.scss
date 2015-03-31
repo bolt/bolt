@@ -113,11 +113,11 @@
 
 .navbar-bolt {
     background: transparent;
-    background-image: linear-gradient(top, $boltblue 80%, $boltbluedarker 100%);
-    background-image: -o-linear-gradient(top, $boltblue 80%, $boltbluedarker 100%);
-    background-image: -moz-linear-gradient(top, $boltblue 80%, $boltbluedarker 100%);
-    background-image: -webkit-linear-gradient(top, $boltblue 80%, $boltbluedarker 100%);
-    background-image: -ms-linear-gradient(top, $boltblue 80%, $boltbluedarker 100%);
+    background-image: linear-gradient(top, rgba(0, 0, 0, 0) 80%, rgba(0, 0, 0, .2) 100%);
+    background-image: -o-linear-gradient(top, rgba(0, 0, 0, 0) 80%, rgba(0, 0, 0, .2) 100%);
+    background-image: -moz-linear-gradient(top, rgba(0, 0, 0, 0) 80%, rgba(0, 0, 0, .2) 100%);
+    background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0) 80%, rgba(0, 0, 0, .2) 100%);
+    background-image: -ms-linear-gradient(top, rgba(0, 0, 0, 0) 80%, rgba(0, 0, 0, .2) 100%);
     background-color: $boltblue;
     background-repeat: repeat-x;
     // box-shadow: 0 4px 0px rgba(0, 0, 0, .2);
