@@ -1072,7 +1072,7 @@ class Storage
                 $query = sprintf(
                     "UPDATE %s SET status = 'published', datechanged = '%s' WHERE status = 'timed' and datepublish < CURRENT_TIMESTAMP()",
                     $tablename,
-                    date('Y-m-d H:i:s', time())
+                    date('Y-m-d H:i:s')
                 );
                 $this->app['db']->query($query);
             }
