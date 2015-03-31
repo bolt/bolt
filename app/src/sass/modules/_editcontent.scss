@@ -259,8 +259,15 @@
 
     .uk-htmleditor-content .CodeMirror {
         font-size: 14px;
+        border: 0 !important;
         font-family: Menlo, Consolas, Monaco, 'Courier New', monospace;
         margin: 0;
+    }
+
+    .uk-htmleditor-navbar {
+        border-top: 1px solid #CCC;
+        border-left: 1px solid #CCC;
+        border-right: 1px solid #CCC;
     }
 
     .uk-htmleditor-preview {

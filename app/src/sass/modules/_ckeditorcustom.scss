@@ -6,9 +6,13 @@
 
 .cke_chrome {
     display: block;
-    border: 1px solid #CCC;
+    border: 1px solid #DDD !important;
     padding: 0;
-    box-shadow: 0 0 2px rgba(0,0,0,.1);
+}
+
+.cke_top {
+    background-color: #EEE !important;
+    padding-bottom: 4px;
 }
 
 .cke_bottom {
