@@ -187,7 +187,7 @@ class Config
 
         $config['general']     = $this->parseGeneral();
         $config['taxonomy']    = $this->parseTaxonomy();
-        $config['contenttypes'] = $this->parseContentTypes($config['general']['accept_file_types']);
+        $config['contenttypes'] = $this->parseContentTypes($config['general']);
         $config['menu']        = $this->parseConfigYaml('menu.yml');
         $config['routing']     = $this->parseConfigYaml('routing.yml');
         $config['permissions'] = $this->parseConfigYaml('permissions.yml');
@@ -195,7 +195,7 @@ class Config
 
         // fetch the theme config. requires special treatment due to the path being dynamic
         $this->app['resources']->initializeConfig($config);
-        $config['theme'] = $this->parseTheme($this->app['resources']->getPath('theme'), $config['general']['accept_file_types']);
+        $config['theme'] = $this->parseTheme($this->app['resources']->getPath('theme'), $config['general']);
 
         // @todo: If no config files can be found, get them from bolt.cm/files/default/
         return $config;
@@ -305,19 +305,19 @@ class Config
         return $taxonomies;
     }
 
-    protected function parseContentTypes($acceptableFileTypes)
+    protected function parseContentTypes($generalConfig)
     {
         $contentTypes = array();
         $tempContentTypes = $this->parseConfigYaml('contenttypes.yml');
         foreach ($tempContentTypes as $key => $contentType) {
-            $contentType = $this->parseContentType($key, $contentType, $acceptableFileTypes);
+            $contentType = $this->parseContentType($key, $contentType, $generalConfig);
             $contentTypes[$contentType['slug']] = $contentType;
         }
 
         return $contentTypes;
     }
 
-    protected function parseTheme($themePath, $acceptableFieldTypes) {
+    protected function parseTheme($themePath, $generalConfig) {
         $themeConfig = $this->parseConfigYaml('config.yml', $themePath);
 
         if ((isset($themeConfig['templatefields'])) && (is_array($themeConfig['templatefields']))) {
@@ -329,7 +329,7 @@ class Config
                     'singular_name' => 'Template Fields ' . $template
                 );
 
-                $templateContentTypes[$template] = $this->parseContentType($template, $fieldsContenttype, $acceptableFieldTypes);
+                $templateContentTypes[$template] = $this->parseContentType($template, $fieldsContenttype, $generalConfig);
             }
 
             $themeConfig['templatefields'] = $templateContentTypes;
@@ -338,7 +338,7 @@ class Config
         return $themeConfig;
     }
 
-    protected function parseContentType($key, $contentType, $acceptableFileTypes)
+    protected function parseContentType($key, $contentType, $generalConfig)
     {
         // If the slug isn't set, and the 'key' isn't numeric, use that as the slug.
         if (!isset($contentType['slug']) && !is_numeric($key)) {
@@ -377,8 +377,15 @@ class Config
         if (!isset($contentType['viewless'])) {
             $contentType['viewless'] = false;
         }
+        if (!isset($contentType['liveeditor'])) {
+            $contentType['liveeditor'] = true;
+        }
+        // Override contenttype setting with view and config settings
+        if (($contentType['viewless']) || (!$generalConfig['liveeditor'])) {
+            $contentType['liveeditor'] = false;
+        }
 
-        list($fields, $groups) = $this->parseFieldsAndGroups($contentType['fields'], $acceptableFileTypes);
+        list($fields, $groups) = $this->parseFieldsAndGroups($contentType['fields'], $generalConfig);
         $contentType['fields'] = $fields;
         $contentType['groups'] = $groups;
 
@@ -400,8 +407,10 @@ class Config
         return $contentType;
     }
 
-    protected function parseFieldsAndGroups($fields, $acceptableFileTypes)
+    protected function parseFieldsAndGroups($fields, $generalConfig)
     {
+        $acceptableFileTypes = $generalConfig['accept_file_types'];
+
         $currentGroup = 'ungrouped';
         $groups = array();
         $hasGroups = false;
@@ -832,6 +841,7 @@ class Config
                     'imageBrowseUrl' => $this->app['resources']->getUrl('bolt') . 'files/files'
                 ),
             ),
+            'liveeditor'                  => true,
             'canonical'                   => !empty($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '',
             'developer_notices'           => false,
             'cookies_use_remoteaddr'      => true,

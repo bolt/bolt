@@ -23,13 +23,15 @@
             </ul>
         </div>
 
-        {% if not context.contenttype.viewless|default(false) %}{# don't show for viewless contenttypes. #}
+        {% if context.contenttype.liveeditor is not defined or context.contenttype.liveeditor %}
             <div class="btn-group">
                 <button type="button" class="btn btn-tertiary" id="live-editor-button">
                     <i class="fa fa-pencil"></i> {{ __('Live Edit') }}
                 </button>
             </div>
+        {% endif %}
         
+        {% if not context.contenttype.viewless|default(false) %}{# don't show for viewless contenttypes. #}
             <div class="btn-group">
                 <button type="button" class="btn btn-default" id="previewbutton">
                     <i class="fa fa-external-link-square"></i> {{ __('Preview') }}
