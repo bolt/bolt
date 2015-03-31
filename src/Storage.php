@@ -1058,21 +1058,23 @@ class Storage
 
         $this->checkedfortimed["publish-" . $contenttype['slug']] = true;
         $tablename = $this->getTablename($contenttype['slug']);
-        $now = date('Y-m-d H:i:s', time());
-
+        
         try {
             // Check if there are any records that need publishing.
             $stmt = $this->app['db']->executeQuery(
-                "SELECT id FROM $tablename WHERE status = 'timed' and datepublish < :now",
-                array('now' => $now)
+                "SELECT id FROM $tablename WHERE status = 'timed' and datepublish < CURRENT_TIMESTAMP()"
             );
 
             // If there's a result, we need to set these to 'publish'.
             if ($stmt->fetch() !== false) {
-                $this->app['db']->executeQuery(
-                    "UPDATE $tablename SET status = 'published', datechanged = :now WHERE status = 'timed' and datepublish < :now",
-                    array('now' => $now)
+                // This is where we do black magic voodoo, because `datechanged` has the server
+                // time, which is not necessarily the same as `CURRENT_TIMESTAMP()`. Awesome!
+                $query = sprintf(
+                    "UPDATE %s SET status = 'published', datechanged = '%s' WHERE status = 'timed' and datepublish < CURRENT_TIMESTAMP()",
+                    $tablename,
+                    date('Y-m-d H:i:s', time())
                 );
+                $this->app['db']->query($query);
             }
         } catch (DBALException $e) {
             $message = "Timed publication of records for $contenttype failed: " . $e->getMessage();
