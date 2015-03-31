@@ -8,6 +8,7 @@ use Bolt\Helpers\Input;
 use Bolt\Library as Lib;
 use Bolt\Pager;
 use Bolt\Translation\Translator as Trans;
+use Bolt\Extensions\Snippets\Location as SnippetLocation;
 use Silex;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -179,6 +180,7 @@ class Frontend
         if (!empty($liveEditor)) {
             $jsFile = $app['resources']->getUrl('app') . 'view/js/ckeditor/ckeditor.js';
             $cssFile = $app['resources']->getUrl('app') . 'view/css/liveeditor.css';
+            $app['extensions']->insertSnippet(SnippetLocation::BEFORE_HEAD_JS, '<script>window.boltIsEditing = true;</script>');
             $app['extensions']->addJavascript($jsFile, array('late' => false, 'priority' => 1));
             $app['extensions']->addCss($cssFile, false, 5);
         }
