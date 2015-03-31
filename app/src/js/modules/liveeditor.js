@@ -59,6 +59,12 @@
      * @param {Event} event - Triggering event
      */
     liveEditor.start = function(e) {
+        // Validate form first
+        var valid = bolt.validation.run($('#editcontent')[0]);
+        if (!valid) {
+            return;
+        }
+
         // Add Events
         var preventClick = function(e) {
             e.preventDefault();
