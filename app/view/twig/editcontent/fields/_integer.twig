@@ -1,5 +1,5 @@
 {#=== OPTIONS ========================================================================================================#}
-
+{% set field_step = field.step|default(1) %}
 {% set option = {
     class:        field.class|default(''),
     label:        field.label|default(''),
@@ -9,7 +9,7 @@
     title:        field.title|default(''),
     info:         field.info|default(''),
     errortext:    field.error|default(''),
-    min:          field.min|default('-2147483647'),
+    min:          field.min|default('-' ~ ((2147483647 // field_step) * field_step)),
     max:          field.max|default('2147483647'),
     step:         field.step|default('1'),
 } %}
@@ -35,7 +35,6 @@
 {#=== FIELDSET =======================================================================================================#}
 
 <fieldset class="integer">
-
     <label class="col-sm-3 control-label">{{ (option.info) ? macro.infopop(labelkey, option.info) : labelkey }}</label>
     <div class="col-sm-9">
         <input{{ macro.attr(attr_number) }}>
