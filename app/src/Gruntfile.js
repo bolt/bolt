@@ -38,6 +38,7 @@ module.exports = function(grunt) {
                 '<%= path.src.js %>/modules/datetime.js',
                 '<%= path.src.js %>/modules/activity.js',
                 '<%= path.src.js %>/modules/slug.js',
+                '<%= path.src.js %>/modules/liveeditor.js',
                 '<%= path.src.js %>/modules/editcontent.js',
                 // Old stuff
                 '<%= path.src.js %>/fnc-helpers.js',

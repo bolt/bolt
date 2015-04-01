@@ -7,6 +7,7 @@
 
     <div class="panel-body">
         {% include 'editcontent/_aside-save.twig' %}
+        {% include 'editcontent/_aside-live-editor.twig' %}
         {% include 'editcontent/_aside-preview.twig' %}
         {% include 'editcontent/_aside-status.twig' %}
         {% if isallowed('delete', context.content) %}

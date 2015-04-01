@@ -49,9 +49,11 @@
         initSaveNew();
         initSaveContinue(data);
         initPreview(data.singularSlug);
+        initLiveEditor(data.singularSlug);
         initDelete();
         initTabGroups();
         initTemplateSelect();
+        bolt.liveEditor.init(data);
         window.setTimeout(function () {
             initKeyboardShortcuts();
         }, 1000);
@@ -135,6 +137,19 @@
             $('#editcontent').attr('action', newAction).attr('target', '_blank').submit();
             $('#editcontent').attr('action', '').attr('target', '_self');
         });
+    }
+    
+    /**
+     * Initialize the live editor button
+     *
+     * @static
+     * @function initLiveEditor
+     * @memberof Bolt.editcontent
+     * 
+     * @param {string} slug - Contenttype singular slug.
+     */
+    function initLiveEditor(slug) {
+
     }
 
     /**
@@ -335,7 +350,7 @@
 
             // Initialize handler for 'closing window'
             window.onbeforeunload = function () {
-                if (hasChanged()) {
+                if ((hasChanged()) || (bolt.liveEditor.active)) {
                     return bolt.data('editcontent.msg.change_quit');
                  }
             };

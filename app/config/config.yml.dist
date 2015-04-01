@@ -233,6 +233,9 @@ wysiwyg:
         disableNativeSpellChecker: true # If set to 'true' it will stop browsers from underlining spelling mistakes
         # viewSourceRoles: [ 'admin', 'developer' ] # the roles which are allowed to use the [Source]-button.
 
+# Global option to enable/disable the live editor
+liveeditor: true
+
 # Use the 'mailoptions' setting to configure how Bolt sends email: using 'smtp'
 # or PHP's built-in `mail()`-function. Note that the latter might _seem_ easier,
 # but it's been disabled by a lot of webhosts, in order to prevent spam from
