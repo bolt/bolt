@@ -65,6 +65,17 @@ before_script:
   - psql -c "CREATE DATABASE bolt_travis;" -U postgres || true
   - psql -c "CREATE USER bolt_travis WITH PASSWORD 'bolt_travis';" -U postgres
   - psql -c "GRANT ALL PRIVILEGES ON DATABASE bolt_travis TO bolt_travis;" -U postgres
+  # Get the composer.json from our bolt/composer-install repo
+  - git clone https://github.com/bolt/composer-install.git .tmp
+  # - cd .tmp
+  # Add requires
+  - composer require --working-dir=.tmp/ --no-update "bolt/bolt:dev-master" "phpunit/phpunit:~4.5" "codeception/codeception:*" lstrojny/phpunit-function-mocker
+  # Create the project
+  - composer create-project --working-dir=.tmp/ --no-interaction --prefer-dist
+  # Update the Composer Bolt install with the PR files
+  - rsync -av --delete src/ .tmp/vendor/bolt/bolt/src/
+  - rsync -av --delete app/ .tmp/vendor/bolt/bolt/app/
+  - rsync -av --delete tests/ .tmp/vendor/bolt/bolt/tests/
 
 script:
   ## Default install tests
@@ -85,13 +96,7 @@ script:
   # - if [[ $RUN_COMPOSER_TEST != true ]] ; then echo "Composer tests disabled. " ; exit 0 ; fi
   # Remove git installed stuff
   - rm ./* -rf ; rm .git* -rf
-  # Get the composer.json from our bolt/composer-install repo
-  - git clone https://github.com/bolt/composer-install.git .tmp
-  - cp .tmp/composer.json .
-  # Add requires
-  - composer require --no-update "bolt/bolt:dev-master" "phpunit/phpunit:~4.5" "codeception/codeception:*" lstrojny/phpunit-function-mocker
-  # Create the project
-  - composer create-project --no-interaction --prefer-dist
+  - mv .tmp/* .
   # Set up MySQL
   - mysql -e "DROP DATABASE bolt_travis;" -u root
   - mysql -e "CREATE DATABASE IF NOT EXISTS bolt_travis;" -u root
