@@ -137,6 +137,10 @@ class Routing implements ControllerProviderInterface
             $route->setHost($host);
         }
 
+        if ($methods = $config['methods']) {
+            $route->setMethods($methods);
+        }
+
         $route->bind($name);
     }
 
