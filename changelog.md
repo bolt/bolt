@@ -52,6 +52,7 @@ Not yet released.
  - Fixed: Make sure we have the same amount of columns, always. (See #3228) 
  - Added: Allow for filtering on 'taxonomies' on the overview pages. (See #3278)
  - Added: Support for methods in `routing.yml` (see #3292)
+ - Fixed: Publishing for items with 'Timed Publish' is working again. (Fixes #3279)
 
 Bolt 2.1.1
 ----------
