@@ -1749,7 +1749,7 @@ class Storage
             $parameters = array_merge((array) $parameters, (array) $whereparameters);
         }
 
-        $logNotFound = true;
+        $logNotFound = false;
         if (isset($parameters['log_not_found'])) {
             $logNotFound = $parameters['log_not_found'];
             unset($parameters['log_not_found']);
