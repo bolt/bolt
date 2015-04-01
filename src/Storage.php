@@ -1058,11 +1058,11 @@ class Storage
 
         $this->checkedfortimed["publish-" . $contenttype['slug']] = true;
         $tablename = $this->getTablename($contenttype['slug']);
-        
+
         try {
             // Check if there are any records that need publishing.
             $stmt = $this->app['db']->executeQuery(
-                "SELECT id FROM $tablename WHERE status = 'timed' and datepublish < CURRENT_TIMESTAMP()"
+                "SELECT id FROM $tablename WHERE status = 'timed' and datepublish < CURRENT_TIMESTAMP"
             );
 
             // If there's a result, we need to set these to 'publish'.
@@ -1070,7 +1070,7 @@ class Storage
                 // This is where we do black magic voodoo, because `datechanged` has the server
                 // time, which is not necessarily the same as `CURRENT_TIMESTAMP()`. Awesome!
                 $query = sprintf(
-                    "UPDATE %s SET status = 'published', datechanged = '%s' WHERE status = 'timed' and datepublish < CURRENT_TIMESTAMP()",
+                    "UPDATE %s SET status = 'published', datechanged = '%s' WHERE status = 'timed' and datepublish < CURRENT_TIMESTAMP",
                     $tablename,
                     date('Y-m-d H:i:s')
                 );
