@@ -21,6 +21,12 @@
 
     var editcontent = bolt.editcontent;
 
+    var editableTypes = [
+        'text',
+        'html',
+        'textarea'
+    ];
+
     /**
      * Initializes the mixin.
      *
@@ -101,7 +107,7 @@
 
                 $(this).addClass('bolt-editable');
 
-                if ((!$(this).data('no-edit')) && ((fieldType === 'text') || (fieldType === 'html') || (fieldType === 'textarea'))) {
+                if ((!$(this).data('no-edit')) && editableTypes.indexOf(fieldType) != -1) {
 
                     $(this).attr('contenteditable', true);
 
