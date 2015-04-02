@@ -128,11 +128,22 @@
                                     win.getSelection().getRangeAt(0).insertNode(doc.createTextNode(content));
                                 }
                             }
-                        }).on('keypress', function (e) {
-                            return e.which != 13;
-                        }).on('focus blur', function (e) {
-                            $(this).html($(this).text());
                         });
+
+                        if(fieldType == 'textarea') {
+                            $(this).on('keypress', function (e) {
+                                if(e.which == 13) {
+                                    e.preventDefault();
+                                    doc.execCommand('insertHTML', false, '<br><br>');
+                                }
+                            });
+                        } else {
+                            $(this).on('keypress', function (e) {
+                                return e.which != 13;
+                            }).on('focus blur', function (e) {
+                                $(this).html($(this).text());
+                            });
+                        }
                     }
                 }
             });
@@ -183,6 +194,8 @@
 
             if (fieldType === 'text') {
                 field.val($(this).text());
+            } else if (fieldType === 'textarea') {
+                field.val($(this).html().replace(/&nbsp;/g, ' ').replace(/<br.*?>/g, '\n'));
             } else {
                 if (_.has(ckeditor.instances, fieldName)) {
                     ckeditor.instances[fieldName].setData($(this).html());
