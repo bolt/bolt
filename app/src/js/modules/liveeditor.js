@@ -101,7 +101,7 @@
 
                 $(this).addClass('bolt-editable');
 
-                if ((!$(this).data('no-edit')) && ((fieldType === 'text') || (fieldType === 'html'))) {
+                if ((!$(this).data('no-edit')) && ((fieldType === 'text') || (fieldType === 'html') || (fieldType === 'textarea'))) {
 
                     $(this).attr('contenteditable', true);
 
