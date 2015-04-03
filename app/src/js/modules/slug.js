@@ -21,7 +21,7 @@
      * @property {string} messageSet - Message asking to input a new slug.
      * @property {string} messageUnlock - Unlock confirmation message.
      * @property {string} slug - Content slug.
-     * @property {Array} uses - Field used to automatically generate a slug.
+     * @property {Array} uses - Fields used to automatically generate a slug.
      */
 
     /**
@@ -135,7 +135,7 @@
      *
      * @param {string} contenttypeSlug - Contenttype slug.
      * @param {string} id - Id.
-     * @param {boolean} usesFields - Field used to automatically generate a slug.
+     * @param {Array} usesFields - Field used to automatically generate a slug.
      * @param {string} slugFieldId - Id of the slug field.
      * @param {boolean} fullUri - Get the full URI?
      */
@@ -174,7 +174,7 @@
      * @memberof Bolt.slug
      *
      * @param {string} slugFieldId - Id of the slug field.
-     * @param {boolean} usesFields - Field used to automatically generate a slug.
+     * @param {Array} usesFields - Field used to automatically generate a slug.
      */
     function stopMakeUri(slugFieldId, usesFields) {
         $.each(usesFields, function (i, name) {
