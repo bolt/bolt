@@ -147,7 +147,7 @@
                 $.each(usesFields, function (i, useField) {
                     var field = $('#' + useField);
 
-                    if (field.is('select') && field.hasClass('slug-text')) {
+                    if (field.is('select')) {
                         usesvalue += field.val() ? field.find('option[value=' + field.val() + ']').text() : '';
                     } else {
                         usesvalue += field.val() || '';
