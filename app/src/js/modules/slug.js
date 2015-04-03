@@ -55,7 +55,7 @@
                     }
                 } else {
                     $(this).find('i').addClass('fa-lock').removeClass('fa-unlock');
-                    stopMakeUri($(this).data('uses'));
+                    stopMakeUri($(this).data('for'), $(this).data('uses'));
                 }
             });
 
@@ -63,7 +63,7 @@
                 var newslug = prompt(data.messageSet, $('#show-' + $(this).data('for')).text());
                 if (newslug) {
                     $('.sluglocker i').addClass('fa-lock').removeClass('fa-unlock');
-                    stopMakeUri($(this).data('uses'));
+                    stopMakeUri($(this).data('for'), $(this).data('uses'));
                     makeUriAjax(newslug, data.slug, data.contentId, $(this).data('for'), false);
                 }
             });
@@ -78,10 +78,10 @@
      * Timeout.
      *
      * @private
-     * @type {number}
+     * @type {Array}
      * @memberof Bolt.slug
      */
-    var timeout;
+    var timeout = [];
 
     /**
      * Make sure events are bound only once.
@@ -155,8 +155,8 @@
                     usesvalue += ' ';
                 });
 
-                clearTimeout(timeout);
-                timeout = setTimeout(
+                clearTimeout(timeout[slugFieldId]);
+                timeout[slugFieldId] = setTimeout(
                     function () {
                         makeUriAjax(usesvalue, contenttypeSlug, id, slugFieldId, fullUri);
                     },
@@ -173,13 +173,14 @@
      * @function stopMakeUri
      * @memberof Bolt.slug
      *
+     * @param {string} slugFieldId - Id of the slug field.
      * @param {boolean} usesFields - Field used to automatically generate a slug.
      */
-    function stopMakeUri(usesFields) {
+    function stopMakeUri(slugFieldId, usesFields) {
         $.each(usesFields, function (i, name) {
             $('#' + name).unbind('propertychange.bolt input.bolt change.bolt');
         });
-        clearTimeout(timeout);
+        clearTimeout(timeout[slugFieldId]);
     }
 
     // Apply mixin container
