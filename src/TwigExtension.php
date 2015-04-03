@@ -440,14 +440,14 @@ class TwigExtension extends \Twig_Extension
         );
         
         // Get the orientation as defined by exif 
-        $info['exiforientation'] = $imageexif['Orientation'] ? $imageexif['Orientation'] : false;
+        $info['exiforientation'] = $imageexif['Orientation'] ? : false;
         
         // If the picture is turned by exif, ouput the turned aspectratio
         if (in_array($imageexif['Orientation'], array(6,7,8))) {
             $info['exifaspectratio'] = $imagesize[1] / $imagesize[0];
         }else{
             $info['exifaspectratio'] = $ar;
-        }
+        };
 
         // Landscape if aspectratio > 5:4
         $info['landscape'] = ($ar >= 1.25) ? true : false;
