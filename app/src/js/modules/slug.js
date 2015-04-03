@@ -142,23 +142,26 @@
     function makeUri(contenttypeSlug, id, usesFields, slugFieldId, fullUri) {
         $.each(usesFields, function (i, bindField) {
             $('#' + bindField).on('propertychange.bolt input.bolt change.bolt', function () {
-                var usesvalue = '';
+                var usesValue = [];
 
                 $.each(usesFields, function (i, useField) {
                     var field = $('#' + useField);
 
                     if (field.is('select')) {
-                        usesvalue += field.val() ? field.find('option[value=' + field.val() + ']').text() : '';
-                    } else {
-                        usesvalue += field.val() || '';
+                        field.find('option:selected').each(function(i, option) {
+                            if (option.text !== '') {
+                                usesValue.push(option.text);
+                            }
+                        });
+                    } else if (field.val()) {
+                        usesValue.push(field.val());
                     }
-                    usesvalue += ' ';
                 });
 
                 clearTimeout(timeout[slugFieldId]);
                 timeout[slugFieldId] = setTimeout(
                     function () {
-                        makeUriAjax(usesvalue, contenttypeSlug, id, slugFieldId, fullUri);
+                        makeUriAjax(usesValue.join(' '), contenttypeSlug, id, slugFieldId, fullUri);
                     },
                     200
                 );
