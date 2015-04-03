@@ -497,6 +497,11 @@ class Application extends Silex\Application
         // Start the 'stopwatch' for the profiler.
         $this['stopwatch']->start('bolt.app.after');
 
+        // Don't set 'bolt_session' cookie, if we're in the frontend or async.
+        if ($this['config']->getWhichEnd() != 'backend') {
+            $this->unsetSessionCookie();
+        }
+
         // Set the 'X-Frame-Options' headers to prevent click-jacking, unless specifically disabled. Backend only!
         if ($this['config']->getWhichEnd() == 'backend' && $this['config']->get('general/headers/x_frame_options')) {
             $response->headers->set('X-Frame-Options', 'SAMEORIGIN');
