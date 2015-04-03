@@ -18,6 +18,7 @@ class Async implements ControllerProviderInterface
         $ctr = $app['controllers_factory'];
 
         $ctr->before(array($this, 'before'));
+        $ctr->after(array($this, 'after'));
 
         $ctr->get("/dashboardnews", array($this, 'dashboardnews'))
             ->bind('dashboardnews');
@@ -759,5 +760,11 @@ class Async implements ControllerProviderInterface
 
         // Stop the 'stopwatch' for the profiler.
         $app['stopwatch']->stop('bolt.async.before');
+    }
+
+    public function after(Request $request, Response $response, Silex\Application $app)
+    {
+        // Don't set 'bolt_session' cookie.
+        $app->unsetSessionCookie();
     }
 }
