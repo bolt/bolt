@@ -2,7 +2,7 @@
  * Functions for working with the automagic URI/Slug generation with multipleslug support.
  */
 
-var makeuritimeout;
+var makeuritimeout = [];
 
 function makeUriAjax(text, contenttypeslug, id, slugfield, fulluri) {
     $.ajax({
@@ -41,8 +41,8 @@ function makeUriAjax(text, contenttypeslug, id, slugfield, fulluri) {
                     usesvalue += ' ';
                 });
 
-                clearTimeout(timeout);
-                timeout = setTimeout(
+                clearTimeout(makeuritimeout[slugFieldId]);
+                makeuritimeout[slugFieldId] = setTimeout(
                     function () {
                         makeUriAjax(usesvalue, contenttypeSlug, id, slugFieldId, fullUri);
                     },
@@ -52,9 +52,9 @@ function makeUriAjax(text, contenttypeslug, id, slugfield, fulluri) {
         });
     }
 
-function stopMakeUri(usesfields) {
-    $(usesfields).each(function () {
+function stopMakeUri(slugFieldId, usesFields) {
+    $(usesFields).each(function () {
         $('#' + this).unbind('propertychange.bolt input.bolt change.bolt');
     });
-    clearTimeout(makeuritimeout);
+    clearTimeout(makeuritimeout[slugFieldId]);
 }
