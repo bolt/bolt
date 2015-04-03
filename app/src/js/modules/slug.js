@@ -140,19 +140,21 @@
      * @param {boolean} fullUri - Get the full URI?
      */
     function makeUri(contenttypeSlug, id, usesFields, slugFieldId, fullUri) {
-        $(usesFields).each(function () {
-            $('#' + this).on('propertychange.bolt input.bolt change.bolt', function () {
+        $.each(usesFields, function (i, bindField) {
+            $('#' + bindField).on('propertychange.bolt input.bolt change.bolt', function () {
                 var usesvalue = '';
-                $(usesFields).each(function () {
-                    if ($('#' + this).is('select') && $('#' + this).hasClass('slug-text')) {
-                        usesvalue += $('#' + this).val() ?
-                            $('#' + this).find('option[value=' + $('#' + this).val() + ']').text() : '';
-                    }
-                    else {
-                        usesvalue += $('#' + this).val() || '';
+
+                $.each(usesFields, function (i, useField) {
+                    var field = $('#' + useField);
+
+                    if (field.is('select') && field.hasClass('slug-text')) {
+                        usesvalue += field.val() ? field.find('option[value=' + field.val() + ']').text() : '';
+                    } else {
+                        usesvalue += field.val() || '';
                     }
                     usesvalue += ' ';
                 });
+
                 clearTimeout(timeout);
                 timeout = setTimeout(
                     function () {
@@ -174,8 +176,8 @@
      * @param {boolean} usesFields - Field used to automatically generate a slug.
      */
     function stopMakeUri(usesFields) {
-        $(usesFields).each(function () {
-            $('#' + this).unbind('propertychange.bolt input.bolt change.bolt');
+        $.each(usesFields, function (i, name) {
+            $('#' + name).unbind('propertychange.bolt input.bolt change.bolt');
         });
         clearTimeout(timeout);
     }
