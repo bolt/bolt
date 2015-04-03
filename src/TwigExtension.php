@@ -447,7 +447,7 @@ class TwigExtension extends \Twig_Extension
             $info['exifaspectratio'] = $imagesize[1] / $imagesize[0];
         } else {
             $info['exifaspectratio'] = $ar;
-        };
+        }
 
         // Landscape if aspectratio > 5:4
         $info['landscape'] = ($ar >= 1.25) ? true : false;
