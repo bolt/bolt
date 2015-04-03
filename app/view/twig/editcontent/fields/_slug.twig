@@ -27,8 +27,15 @@
 
 {#=== FIELDSET =======================================================================================================#}
 
-<fieldset class="slug">
+{% extends '_base/_fieldset.twig' %}
 
+{% set fieldset = {
+    slug: {
+        key: key
+    }
+}%}
+
+{% block fieldset %}
     <div class="col-sm-12">
         <label>{{ __('field.slug.permalink') }}:
             <code>/{{ context.content.contenttype.singular_slug }}/<span id="show-{{ key }}">{{ context.content.get(contentkey) }}</span></code>
@@ -37,5 +44,4 @@
             <span class="slugedit" data-for="{{key}}" data-uses='{{option.uses|json_encode()}}'><i class="fa fa-pencil"></i></span>
         </label>
     </div>
-
-</fieldset>
+{% endblock fieldset %}
