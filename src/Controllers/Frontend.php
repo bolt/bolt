@@ -84,14 +84,7 @@ class Frontend
     {
         // Frontend requests should not set cookies. Remove them, to allow Varnish
         // (or reverse-proxies) to do a better job of caching the request.
-        if (!headers_sent()) {
-            $headersList = headers_list();
-            foreach($headersList as $header) {
-                if (strpos($header, "Set-Cookie: bolt_session=") === 0) {
-                    header_remove("Set-Cookie");
-                }
-            }
-        }
+        $response->headers->clearCookie('bolt_session');
 
         return null;
     }
