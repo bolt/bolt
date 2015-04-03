@@ -471,8 +471,8 @@ class Application extends Silex\Application
     /**
      * Remove the 'bolt_session' cookie from the headers if it's about to be set.
      *
-     * Note, we don't use $request->clearCookie (logs the user out) or
-     * $request->clearCookie (doesn't prevent the header from being sent).
+     * Note, we don't use $request->clearCookie (logs out a logged-on user) or
+     * $request->removeCookie (doesn't prevent the header from being sent).
      */
     public function unsetSessionCookie()
     {
