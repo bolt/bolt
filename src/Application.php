@@ -564,9 +564,6 @@ class Application extends Silex\Application
                 $template = $this['config']->get('general/maintenance_template');
                 $body = $this['render']->render($template);
 
-                // Don't set 'bolt_session' cookie.
-                $this->unsetSessionCookie();
-
                 return new Response($body, Response::HTTP_SERVICE_UNAVAILABLE);
             }
         }
@@ -590,9 +587,6 @@ class Application extends Silex\Application
         $end = $this['config']->getWhichEnd();
         if (($exception instanceof HttpException) && ($end == 'frontend')) {
             $content = $this['storage']->getContent($this['config']->get('general/notfound'), array('returnsingle' => true));
-
-            // Don't set 'bolt_session' cookie.
-            $this->unsetSessionCookie();
 
             // Then, select which template to use, based on our 'cascading templates rules'
             if ($content instanceof Content && !empty($content->id)) {
