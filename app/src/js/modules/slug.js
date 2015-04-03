@@ -55,7 +55,7 @@
                     }
                 } else {
                     $(this).find('i').addClass('fa-lock').removeClass('fa-unlock');
-                    stopMakeUri($(this).data('for'));
+                    stopMakeUri($(this).data('uses'));
                 }
             });
 
@@ -63,7 +63,7 @@
                 var newslug = prompt(data.messageSet, $('#show-' + $(this).data('for')).text());
                 if (newslug) {
                     $('.sluglocker i').addClass('fa-lock').removeClass('fa-unlock');
-                    stopMakeUri($(this).data('for'));
+                    stopMakeUri($(this).data('uses'));
                     makeUriAjax(newslug, data.slug, data.contentId, $(this).data('for'), false);
                 }
             });
