@@ -469,6 +469,24 @@ class Application extends Silex\Application
     }
 
     /**
+     * Remove the 'bolt_session' cookie from the headers if it's about to be set.
+     *
+     * Note, we don't use $request->clearCookie (logs the user out) or
+     * $request->clearCookie (doesn't prevent the header from being sent).
+     */
+    public function unsetSessionCookie()
+    {
+        if (!headers_sent()) {
+            $headersList = headers_list();
+            foreach($headersList as $header) {
+                if (strpos($header, "Set-Cookie: bolt_session=") === 0) {
+                    header_remove("Set-Cookie");
+                }
+            }
+        }
+    }
+
+    /**
      * Global 'after' handler. Adds 'after' HTML-snippets and Meta-headers to the output.
      *
      * @param Request  $request
@@ -541,6 +559,9 @@ class Application extends Silex\Application
                 $template = $this['config']->get('general/maintenance_template');
                 $body = $this['render']->render($template);
 
+                // Don't set 'bolt_session' cookie.
+                $this->unsetSessionCookie();
+
                 return new Response($body, Response::HTTP_SERVICE_UNAVAILABLE);
             }
         }
@@ -564,6 +585,9 @@ class Application extends Silex\Application
         $end = $this['config']->getWhichEnd();
         if (($exception instanceof HttpException) && ($end == 'frontend')) {
             $content = $this['storage']->getContent($this['config']->get('general/notfound'), array('returnsingle' => true));
+
+            // Don't set 'bolt_session' cookie.
+            $this->unsetSessionCookie();
 
             // Then, select which template to use, based on our 'cascading templates rules'
             if ($content instanceof Content && !empty($content->id)) {

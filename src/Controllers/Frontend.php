@@ -70,6 +70,26 @@ class Frontend
     }
 
     /**
+     * The default after filter for the controllers in this file.
+     *
+     * Refer to the routing.yml config file for overridding.
+     *
+     * @param Request     $request  The Symfony Request
+     * @param Response    $response The Symfony Request
+     * @param Application $app      The application/container
+     *
+     * @return mixed
+     */
+    public function after(Request $request, Response $response, Application $app)
+    {
+        // Frontend requests should not set cookies. Remove them, to allow Varnish
+        // (or reverse-proxies) to do a better job of caching the request.
+        $app->unsetSessionCookie();
+
+        return null;
+    }
+
+    /**
      * Controller for the "Homepage" route. Usually the front page of the website.
      *
      * @param \Silex\Application $app The application/container
