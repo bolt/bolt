@@ -93,6 +93,7 @@ class Frontend
             }
         }
 
+        return null;
     }
 
     /**
