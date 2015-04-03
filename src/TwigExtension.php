@@ -445,7 +445,7 @@ class TwigExtension extends \Twig_Extension
         // If the picture is turned by exif, ouput the turned aspectratio
         if (in_array($imageexif['Orientation'], array(6,7,8))) {
             $info['exifaspectratio'] = $imagesize[1] / $imagesize[0];
-        }else{
+        } else {
             $info['exifaspectratio'] = $ar;
         };
 
