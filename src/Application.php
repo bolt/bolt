@@ -469,6 +469,24 @@ class Application extends Silex\Application
     }
 
     /**
+     * Remove the 'bolt_session' cookie from the headers if it's about to be set.
+     *
+     * Note, we don't use $request->clearCookie (logs out a logged-on user) or
+     * $request->removeCookie (doesn't prevent the header from being sent).
+     */
+    public function unsetSessionCookie()
+    {
+        if (!headers_sent()) {
+            $headersList = headers_list();
+            foreach($headersList as $header) {
+                if (strpos($header, "Set-Cookie: bolt_session=") === 0) {
+                    header_remove("Set-Cookie");
+                }
+            }
+        }
+    }
+
+    /**
      * Global 'after' handler. Adds 'after' HTML-snippets and Meta-headers to the output.
      *
      * @param Request  $request
@@ -478,6 +496,11 @@ class Application extends Silex\Application
     {
         // Start the 'stopwatch' for the profiler.
         $this['stopwatch']->start('bolt.app.after');
+
+        // Don't set 'bolt_session' cookie, if we're in the frontend or async.
+        if ($this['config']->getWhichEnd() != 'backend') {
+            $this->unsetSessionCookie();
+        }
 
         // Set the 'X-Frame-Options' headers to prevent click-jacking, unless specifically disabled. Backend only!
         if ($this['config']->getWhichEnd() == 'backend' && $this['config']->get('general/headers/x_frame_options')) {
