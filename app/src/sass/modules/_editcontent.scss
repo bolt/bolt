@@ -319,25 +319,30 @@
     /*** Fieldset: Slug ***/
 
     fieldset[data-bolt-field="slug"] {
-        margin-top: -10px; // pull the slug closer to the field previous, usually the title
+        .input-group-addon {
+            background: #fff;
+            text-align: left;
+            font-family: monospace;
 
-        label {
-            margin: 0 0 0.5em;
-            code {
-                white-space: normal;
+            em {
+                font-style: normal;
+                font-weight: bold;
             }
         }
 
-        input {
-            display: none;
+        button {
+            padding: 5px;
+            font-family: "FontAwesome";
         }
 
-        .sluglocker,
-        .slugedit {
-            color: #666;
-            display: inline-block;
-            padding: 0 3px;
-            cursor: pointer;
+        .locked button.lock i:before {
+            content: "\f023";
+            color: #800;
+        }
+
+        .unlocked button.lock i:before {
+            content: "\f09c";
+            color: #080;
         }
     }
 }

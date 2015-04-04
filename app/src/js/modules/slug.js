@@ -9,9 +9,9 @@
  */
 (function (bolt, $) {
     /**
-     * Bind data.
+     * Field configuration.
      *
-     * @typedef {Object} BindData
+     * @typedef {Object} FieldConf
      * @memberof Bolt.slug
      *
      * @property {string} bind - Always 'slug'.
@@ -22,6 +22,18 @@
      * @property {string} messageUnlock - Unlock confirmation message.
      * @property {string} slug - Content slug.
      * @property {Array} uses - Fields used to automatically generate a slug.
+     */
+
+    /**
+     * Field data.
+     *
+     * @typedef {Object} FieldData
+     * @memberof Bolt.slug
+     *
+     * @property {Object} group - Group container.
+     * @property {Object} show - Slug display.
+     * @property {Object} data - Data field.
+     * @property {Object} lock - Lock button.
      */
 
     /**
@@ -39,37 +51,42 @@
      * @function init
      * @memberof Bolt.slug
      *
-     * @param {object} fieldset
-     * @param {BindData} fconfig
+     * @param {Object} fieldset
+     * @param {FieldConf} fconf
      */
     slug.init = function (fieldset, fconf) {
-        $(fieldset).find('.sluglocker').bind('click', function () {
-            var lock = $(this).find('i');
+        var field = {
+                group: $(fieldset).find('.input-group'),
+                show: $(fieldset).find('em'),
+                data: $(fieldset).find('input'),
+                lock: $(fieldset).find('button.lock')
+            };
 
-            if (lock.hasClass('fa-lock')) {
+        field.lock.bind('click', function () {
+            if (field.group.hasClass('locked')) {
                 // "unlock" if it's currently empty, _or_ we've confirmed that we want to do so.
                 if (fconf.isEmpty || confirm(fconf.messageUnlock)) {
-                    lock.removeClass('fa-lock').addClass('fa-unlock');
-                    makeUri(fconf.slug, fconf.contentId, fconf.uses, fconf.key, false);
+                    field.group.removeClass('locked').addClass('unlocked');
+                    makeUri(fconf.slug, fconf.contentId, fconf.uses, fconf.key, field, false);
                 }
             } else {
-                lock.addClass('fa-lock').removeClass('fa-unlock');
+                field.group.removeClass('unlocked').addClass('locked');
                 stopMakeUri(fconf.key, fconf.uses);
             }
         });
 
-        $(fieldset).find('.slugedit').bind('click', function () {
-            var newslug = prompt(fconf.messageSet, $('#show-' + fconf.key).text());
+        $(fieldset).find('button.edit').bind('click', function () {
+            var newslug = prompt(fconf.messageSet, field.data.val());
 
             if (newslug) {
-                $(fieldset).find('.sluglocker i').addClass('fa-lock').removeClass('fa-unlock');
+                field.group.removeClass('unlocked').addClass('locked');
                 stopMakeUri(fconf.key, fconf.uses);
-                makeUriAjax(newslug, fconf.slug, fconf.contentId, fconf.key, false);
+                makeUriAjax(newslug, fconf.slug, fconf.contentId, fconf.key, field, false);
             }
         });
 
         if (fconf.isEmpty) {
-            $(fieldset).find('.sluglocker').trigger('click');
+            field.lock.trigger('click');
         }
     };
 
@@ -102,9 +119,10 @@
      * @param {string} contenttypeSlug - Contenttype slug.
      * @param {string} id - Id.
      * @param {string} slugFieldId - Id of the slug field.
+     * @param {FieldData} field - Field data.
      * @param {boolean} fullUri - Get the full URI?
      */
-    function makeUriAjax(text, contenttypeSlug, id, slugFieldId, fullUri) {
+    function makeUriAjax(text, contenttypeSlug, id, slugFieldId, field, fullUri) {
         $.ajax({
             url: bolt.conf('paths.async') + 'makeuri',
             type: 'GET',
@@ -116,8 +134,8 @@
                 fulluri: fullUri
             },
             success: function (uri) {
-                $('#' + slugFieldId).val(uri);
-                $('#show-' + slugFieldId).html(uri);
+                field.data.val(uri);
+                field.show.html(uri);
             },
             error: function () {
                 console.log('failed to get an URI');
@@ -136,9 +154,10 @@
      * @param {string} id - Id.
      * @param {Array} usesFields - Field used to automatically generate a slug.
      * @param {string} slugFieldId - Id of the slug field.
+     * @param {FieldData} field - Field data.
      * @param {boolean} fullUri - Get the full URI?
      */
-    function makeUri(contenttypeSlug, id, usesFields, slugFieldId, fullUri) {
+    function makeUri(contenttypeSlug, id, usesFields, slugFieldId, field, fullUri) {
         $.each(usesFields, function (i, bindField) {
             $('#' + bindField).on('propertychange.bolt input.bolt change.bolt', function () {
                 var usesValue = [];
@@ -160,7 +179,7 @@
                 clearTimeout(timeout[slugFieldId]);
                 timeout[slugFieldId] = setTimeout(
                     function () {
-                        makeUriAjax(usesValue.join(' '), contenttypeSlug, id, slugFieldId, fullUri);
+                        makeUriAjax(usesValue.join(' '), contenttypeSlug, id, slugFieldId, field, fullUri);
                     },
                     200
                 );

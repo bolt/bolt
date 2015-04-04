@@ -7,10 +7,11 @@
 {#=== INIT ===========================================================================================================#}
 
 {% set attr_slug = {
-    name:     name,
+    class:    'form-control',
     id:       key,
-    type:     'text',
-    value:    context.content.get(key),
+    name:     name,
+    type:     'hidden',
+    value:    context.content.get(key)
 } %}
 
 {#=== FIELDSET =======================================================================================================#}
@@ -30,12 +31,15 @@
 }%}
 
 {% block fieldset %}
-    <div class="col-sm-12">
-        <label>{{ __('field.slug.permalink') }}:
-            <code>/{{ context.content.contenttype.singular_slug }}/<span id="show-{{ key }}">{{ context.content.get(contentkey) }}</span></code>
+    <label class="col-sm-3 control-label">{{ __('field.slug.permalink') }}:</label>
+    <div class="col-sm-9">
+        <div class="input-group input-group-sm locked">
+            <span class="input-group-addon">/{{ context.content.contenttype.singular_slug }}/<em>{{ context.content.get(contentkey) }}</em></span>
             <input{{ macro.attr(attr_slug) }}>
-            <span class="sluglocker"><i class="fa fa-lock"></i></span>
-            <span class="slugedit"><i class="fa fa-pencil"></i></span>
-        </label>
+            <span class="input-group-btn">
+                <button type="button" class="btn btn-default lock"><i class="fa fa-fw"></i></button>
+                <button type="button" class="btn btn-default edit"><i class="fa fa-fw fa-pencil"></i></button>
+            </span>
+        </div>
     </div>
 {% endblock fieldset %}
