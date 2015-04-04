@@ -25,27 +25,32 @@ function makeUriAjax(text, contenttypeslug, id, slugfield, fulluri) {
     });
 }
 
-function makeUri(contenttypeslug, id, usesfields, slugfield, fulluri) {
-    $(usesfields).each(function () {
-        $('#' + this).on('propertychange.bolt input.bolt change.bolt', function () {
-            var usesvalue = "";
-            $(usesfields).each(function () {
-                if ($("#" + this).is("select") && $("#" + this).hasClass("slug-text")) {
-                    usesvalue += $("#" + this).val() ?
-                        $("#" + this).find("option[value=" + $("#" + this).val() + "]").text() : "";
-                }
-                else {
-                    usesvalue += $("#" + this).val() || "";
-                }
-                usesvalue += " ";
-            });
-            clearTimeout(makeuritimeout);
-            makeuritimeout = setTimeout(function () {
-                makeUriAjax(usesvalue, contenttypeslug, id, slugfield, fulluri);
-            }, 200);
-        }).trigger('change.bolt');
-    });
-}
+    function makeUri(contenttypeSlug, id, usesFields, slugFieldId, fullUri) {
+        $.each(usesFields, function (i, bindField) {
+            $('#' + bindField).on('propertychange.bolt input.bolt change.bolt', function () {
+                var usesvalue = '';
+
+                $.each(usesFields, function (i, useField) {
+                    var field = $('#' + useField);
+
+                    if (field.is('select') && field.hasClass('slug-text')) {
+                        usesvalue += field.val() ? field.find('option[value=' + field.val() + ']').text() : '';
+                    } else {
+                        usesvalue += field.val() || '';
+                    }
+                    usesvalue += ' ';
+                });
+
+                clearTimeout(timeout);
+                timeout = setTimeout(
+                    function () {
+                        makeUriAjax(usesvalue, contenttypeSlug, id, slugFieldId, fullUri);
+                    },
+                    200
+                );
+            }).trigger('change.bolt');
+        });
+    }
 
 function stopMakeUri(usesfields) {
     $(usesfields).each(function () {
