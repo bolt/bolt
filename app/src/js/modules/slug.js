@@ -73,6 +73,7 @@
                 field.group.removeClass('unlocked').addClass('locked');
                 stopMakeUri(fconf.key, fconf.uses);
             }
+            this.blur();
         });
 
         $(fieldset).find('button.edit').bind('click', function () {
@@ -83,6 +84,7 @@
                 stopMakeUri(fconf.key, fconf.uses);
                 makeUriAjax(newslug, fconf.slug, fconf.contentId, fconf.key, field, false);
             }
+            this.blur();
         });
 
         if (fconf.isEmpty) {
