@@ -21,7 +21,7 @@
      * @property {string} messageSet - Message asking to input a new slug.
      * @property {string} messageUnlock - Unlock confirmation message.
      * @property {string} slug - Content slug.
-     * @property {Array} uses - Field used to automatically generate a slug.
+     * @property {Array} uses - Fields used to automatically generate a slug.
      */
 
     /**
@@ -55,7 +55,7 @@
                     }
                 } else {
                     $(this).find('i').addClass('fa-lock').removeClass('fa-unlock');
-                    stopMakeUri($(this).data('for'));
+                    stopMakeUri($(this).data('for'), $(this).data('uses'));
                 }
             });
 
@@ -63,7 +63,7 @@
                 var newslug = prompt(data.messageSet, $('#show-' + $(this).data('for')).text());
                 if (newslug) {
                     $('.sluglocker i').addClass('fa-lock').removeClass('fa-unlock');
-                    stopMakeUri($(this).data('for'));
+                    stopMakeUri($(this).data('for'), $(this).data('uses'));
                     makeUriAjax(newslug, data.slug, data.contentId, $(this).data('for'), false);
                 }
             });
@@ -78,10 +78,10 @@
      * Timeout.
      *
      * @private
-     * @type {number}
+     * @type {Array}
      * @memberof Bolt.slug
      */
-    var timeout;
+    var timeout = [];
 
     /**
      * Make sure events are bound only once.
@@ -135,28 +135,33 @@
      *
      * @param {string} contenttypeSlug - Contenttype slug.
      * @param {string} id - Id.
-     * @param {boolean} usesFields - Field used to automatically generate a slug.
+     * @param {Array} usesFields - Field used to automatically generate a slug.
      * @param {string} slugFieldId - Id of the slug field.
      * @param {boolean} fullUri - Get the full URI?
      */
     function makeUri(contenttypeSlug, id, usesFields, slugFieldId, fullUri) {
-        $(usesFields).each(function () {
-            $('#' + this).on('propertychange.bolt input.bolt change.bolt', function () {
-                var usesvalue = '';
-                $(usesFields).each(function () {
-                    if ($('#' + this).is('select') && $('#' + this).hasClass('slug-text')) {
-                        usesvalue += $('#' + this).val() ?
-                            $('#' + this).find('option[value=' + $('#' + this).val() + ']').text() : '';
+        $.each(usesFields, function (i, bindField) {
+            $('#' + bindField).on('propertychange.bolt input.bolt change.bolt', function () {
+                var usesValue = [];
+
+                $.each(usesFields, function (i, useField) {
+                    var field = $('#' + useField);
+
+                    if (field.is('select')) {
+                        field.find('option:selected').each(function(i, option) {
+                            if (option.text !== '') {
+                                usesValue.push(option.text);
+                            }
+                        });
+                    } else if (field.val()) {
+                        usesValue.push(field.val());
                     }
-                    else {
-                        usesvalue += $('#' + this).val() || '';
-                    }
-                    usesvalue += ' ';
                 });
-                clearTimeout(timeout);
-                timeout = setTimeout(
+
+                clearTimeout(timeout[slugFieldId]);
+                timeout[slugFieldId] = setTimeout(
                     function () {
-                        makeUriAjax(usesvalue, contenttypeSlug, id, slugFieldId, fullUri);
+                        makeUriAjax(usesValue.join(' '), contenttypeSlug, id, slugFieldId, fullUri);
                     },
                     200
                 );
@@ -171,13 +176,14 @@
      * @function stopMakeUri
      * @memberof Bolt.slug
      *
-     * @param {boolean} usesFields - Field used to automatically generate a slug.
+     * @param {string} slugFieldId - Id of the slug field.
+     * @param {Array} usesFields - Field used to automatically generate a slug.
      */
-    function stopMakeUri(usesFields) {
-        $(usesFields).each(function () {
-            $('#' + this).unbind('propertychange.bolt input.bolt change.bolt');
+    function stopMakeUri(slugFieldId, usesFields) {
+        $.each(usesFields, function (i, name) {
+            $('#' + name).unbind('propertychange.bolt input.bolt change.bolt');
         });
-        clearTimeout(timeout);
+        clearTimeout(timeout[slugFieldId]);
     }
 
     // Apply mixin container
