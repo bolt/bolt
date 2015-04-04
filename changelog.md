@@ -4,7 +4,7 @@ Bolt 2.1.6
 Not yet released. Notable changes: 
 
  - Fixed: Slugs generation with `uses:` fixed (see #3310)
-
+ - Added: Frontend requests should not set cookies. Remove them, to allow Varnish to do a better job of caching the request. (see #3309)
 
 Bolt 2.1.5
 ----------
