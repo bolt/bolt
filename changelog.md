@@ -53,6 +53,8 @@ Not yet released.
  - Added: Allow for filtering on 'taxonomies' on the overview pages. (See #3278)
  - Added: Support for methods in `routing.yml` (see #3292)
  - Fixed: Publishing for items with 'Timed Publish' is working again. (Fixes #3279)
+ - Added: Frontend requests should not set cookies. Remove them, to allow Varnish to do a better job of caching the request. (see #3309)
+ - Added: Add exif aspect ratio and exif orientation data to imageinfo() (Thanks @Intendit,see #3308)
 
 Bolt 2.1.1
 ----------
