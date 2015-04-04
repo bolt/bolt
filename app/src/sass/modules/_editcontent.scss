@@ -318,7 +318,7 @@
 
     /*** Fieldset: Slug ***/
 
-    fieldset.slug {
+    fieldset[data-bolt-field="slug"] {
         margin-top: -10px; // pull the slug closer to the field previous, usually the title
 
         label {
@@ -371,7 +371,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    
+
     iframe {
         border: none;
         display: block;
@@ -384,7 +384,7 @@
     #navpage-content, .navbar-toggle {
         display: none;
     }
-    
+
     /*#navpage-wrapper {
         @extend #navpage-wrapper.nav-secondary-collapsed;
         @extend #navpage-wrapper.nav-secondary-collapsed-hoverable;
@@ -412,19 +412,19 @@
     #navpage-secondary {
         display: none;
     }
-    
+
     footer {
         display: none;
     }
-    
+
     .navbar-form {
         display: none;
     }
-    
+
     .live-editor {
         display: block;
     }
-    
+
     #navpage-secondary {
         top: 54px;
         height: auto;
