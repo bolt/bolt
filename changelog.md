@@ -1,7 +1,15 @@
-Bolt 2.1.5
+Bolt 2.1.6
 ----------
 
 Not yet released. Notable changes: 
+
+ - Fixed: Slugs generation with `uses:` fixed (see #3310)
+
+
+Bolt 2.1.5
+----------
+
+Released 2015-04-01. Notable changes:
 
  - Fixed: Strange step behaviour when no `min` is set for integer fields (Thanks @Pinpickle, see #3284)
  - Fixed: Make sure we have the same amount of columns, always. (See #3228) 
