@@ -39,38 +39,37 @@
      * @function init
      * @memberof Bolt.slug
      *
-     * @param {BindData} data
+     * @param {object} fieldset
+     * @param {BindData} fconfig
      */
-    slug.init = function (data) {
-        // Make sure events are bound only once.
-        if (isBound === false) {
-            isBound = true;
+    slug.init = function (fieldset, fconf) {
+        $(fieldset).find('.sluglocker').bind('click', function () {
+            var lock = $(this).find('i');
 
-            $('.sluglocker').bind('click', function () {
-                if ($(this).find('i').hasClass('fa-lock')) {
-                    // "unlock" if it's currently empty, _or_ we've confirmed that we want to do so.
-                    if (data.isEmpty || confirm(data.messageUnlock)) {
-                        $(this).find('i').removeClass('fa-lock').addClass('fa-unlock');
-                        makeUri(data.slug, data.contentId, $(this).data('uses'), $(this).data('for'), false);
-                    }
-                } else {
-                    $(this).find('i').addClass('fa-lock').removeClass('fa-unlock');
-                    stopMakeUri($(this).data('for'), $(this).data('uses'));
+            if (lock.hasClass('fa-lock')) {
+                // "unlock" if it's currently empty, _or_ we've confirmed that we want to do so.
+                if (fconf.isEmpty || confirm(fconf.messageUnlock)) {
+                    lock.removeClass('fa-lock').addClass('fa-unlock');
+                    makeUri(fconf.slug, fconf.contentId, fconf.uses, fconf.key, false);
                 }
-            });
-
-            $('.slugedit').bind('click', function () {
-                var newslug = prompt(data.messageSet, $('#show-' + $(this).data('for')).text());
-                if (newslug) {
-                    $('.sluglocker i').addClass('fa-lock').removeClass('fa-unlock');
-                    stopMakeUri($(this).data('for'), $(this).data('uses'));
-                    makeUriAjax(newslug, data.slug, data.contentId, $(this).data('for'), false);
-                }
-            });
-
-            if (data.isEmpty) {
-                $('.sluglocker').trigger('click');
+            } else {
+                lock.addClass('fa-lock').removeClass('fa-unlock');
+                stopMakeUri(fconf.key, fconf.uses);
             }
+        });
+
+        $(fieldset).find('.slugedit').bind('click', function () {
+            var newslug = prompt(fconf.messageSet, $('#show-' + fconf.key).text());
+
+            if (newslug) {
+                $(fieldset).find('.sluglocker i').addClass('fa-lock').removeClass('fa-unlock');
+                stopMakeUri(fconf.key, fconf.uses);
+                makeUriAjax(newslug, fconf.slug, fconf.contentId, fconf.key, false);
+            }
+        });
+
+        if (fconf.isEmpty) {
+            $(fieldset).find('.sluglocker').trigger('click');
         }
     };
 

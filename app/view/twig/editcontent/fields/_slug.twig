@@ -6,18 +6,7 @@
 
 {#=== INIT ===========================================================================================================#}
 
-{% set bind_values = option.uses ? ['slug', {
-    contentId:      context.content.id,
-    isEmpty:        (context.content.get(contentkey) == ''),
-    key:            key,
-    messageSet:     __('field.slug.message.set'),
-    messageUnlock:  __('field.slug.message.unlock'),
-    slug:           context.content.contenttype.slug,
-    uses:           option.uses,
-}] : '' %}
-
 {% set attr_slug = {
-    _bind:    bind_values,
     class:    'sluginput',
     name:     name,
     id:       key,
@@ -31,7 +20,13 @@
 
 {% set fieldset = {
     slug: {
-        key: key
+        contentId:      context.content.id,
+        isEmpty:        (context.content.get(contentkey) == ''),
+        key:            key,
+        messageSet:     __('field.slug.message.set'),
+        messageUnlock:  __('field.slug.message.unlock'),
+        slug:           context.content.contenttype.slug,
+        uses:           option.uses,
     }
 }%}
 
@@ -40,8 +35,8 @@
         <label>{{ __('field.slug.permalink') }}:
             <code>/{{ context.content.contenttype.singular_slug }}/<span id="show-{{ key }}">{{ context.content.get(contentkey) }}</span></code>
             <input{{ macro.attr(attr_slug) }}>
-            <span class="sluglocker" data-for="{{key}}" data-uses='{{option.uses|json_encode()}}'><i class="fa fa-lock"></i></span>
-            <span class="slugedit" data-for="{{key}}" data-uses='{{option.uses|json_encode()}}'><i class="fa fa-pencil"></i></span>
+            <span class="sluglocker"><i class="fa fa-lock"></i></span>
+            <span class="slugedit"><i class="fa fa-pencil"></i></span>
         </label>
     </div>
 {% endblock fieldset %}
