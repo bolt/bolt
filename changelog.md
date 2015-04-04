@@ -68,6 +68,7 @@ Released 2015-03-12. Notable changes:
  - Fixed: Regression that errored on PHP < 5.3.6: `Remove SplFileInfo::getExtension()`. (See #3095)
  - Fixed: Extension theme installer working properly (see #3108, thanks @nikgo)
  - Fixed: Replacing `&nbsp;` with single space, instead of nothing. (See #3111)
+ - Fixed: Slugs generation with `uses:` fixed (see #3310)
 
 Bolt 2.1.0
 ----------
