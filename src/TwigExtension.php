@@ -417,6 +417,9 @@ class TwigExtension extends \Twig_Extension
 
         // Get the dimensions of the image
         $imagesize = getimagesize($fullpath);
+        
+        // Get the exif data of the image
+        $imageexif = exif_read_data($fullpath);
 
         // Get the aspectratio
         if ($imagesize[1] > 0) {
@@ -435,6 +438,16 @@ class TwigExtension extends \Twig_Extension
             'fullpath'    => realpath($fullpath),
             'url'         => str_replace("//", "/", $this->app['paths']['files'] . $filename)
         );
+        
+        // Get the orientation as defined by exif 
+        $info['exiforientation'] = $imageexif['Orientation'] ? : false;
+        
+        // If the picture is turned by exif, ouput the turned aspectratio
+        if (in_array($imageexif['Orientation'], array(6,7,8))) {
+            $info['exifaspectratio'] = $imagesize[1] / $imagesize[0];
+        } else {
+            $info['exifaspectratio'] = $ar;
+        }
 
         // Landscape if aspectratio > 5:4
         $info['landscape'] = ($ar >= 1.25) ? true : false;
