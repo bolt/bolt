@@ -56,6 +56,8 @@ before_script:
   # Set up tests directories
   - mkdir -p tests/phpunit/unit/Nut/resources/
   - chmod 777 tests/phpunit/unit/Nut/resources/
+  - mkdir -p tests/phpunit/unit/resources/files/
+  - chmod 777 tests/phpunit/unit/resources/files/
   # Set up MySQL
   - mysql -e "CREATE DATABASE IF NOT EXISTS bolt_travis;" -u root
   - mysql -e "CREATE USER 'bolt_travis'@'localhost' IDENTIFIED BY 'bolt_travis';" -u root
