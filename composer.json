@@ -11,6 +11,7 @@
     "license" : "MIT",
     "require" : {
         "bolt/dumper" : "~2.0",
+        "bolt/package-wrapper": "~1.0|~2.0",
         "bolt/pathogen" : "~0.6",
         "bolt/thumbs" : "~2.0",
         "brandonwamboldt/utilphp" : "~1.0",
@@ -21,7 +22,6 @@
         "ext-mbstring" : "*",
         "ext-pdo" : "*",
         "filp/whoops" : "~1.1",
-        "guzzle/guzzle" : "~3.9",
         "hautelook/phpass" : "~0.3",
         "ircmaxell/random-lib" : "~1.1",
         "monolog/monolog" : "~1.12",

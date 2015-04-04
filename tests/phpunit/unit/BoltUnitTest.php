@@ -44,6 +44,7 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
         $config->verify();
 
         $bolt = new Application(array('resources' => $config));
+        $bolt['deprecated.php'] = version_compare(PHP_VERSION, '5.4.0', '<');
         $bolt['config']->set(
             'general/database',
             array(

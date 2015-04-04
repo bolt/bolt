@@ -546,7 +546,11 @@ class PackageManager
 
         try {
             /** @var $response \Guzzle\Http\Message\Response  */
-            $response = $this->app['guzzle.client']->head($uri, null, array('query' => $query))->send();
+            if ($this->app['deprecated.php']) {
+                $response = $this->app['guzzle.client']->head($uri, null, array('query' => $query))->send();
+            } else {
+                $response = $this->app['guzzle.client']->head($uri, array(), array('query' => $query));
+            }
 
             return $response->getStatusCode();
         } catch (CurlException $e) {
