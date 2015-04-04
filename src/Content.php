@@ -520,6 +520,24 @@ class Content implements \ArrayAccess
         $this->setValues($values);
     }
 
+
+    public function wrapValues()
+    {
+        $fields = $this->contenttype['fields'];
+        $allowedEditable = array('text', 'textarea', 'html');
+
+        foreach ($this->values as $key => $value) {
+            $fieldtype = $fields[$key]['type'];
+            if (in_array($fieldtype, $allowedEditable)) {
+                $this->values[$key] = sprintf(
+                        '<span class="editable" data-bolt-field="%s">%s</span>',
+                        $key,
+                        $value
+                    );
+            }
+        }
+    }
+
     protected function getTemplateFieldsContentType() {
         if (is_array($this->contenttype)) {
             if ($templateFieldsConfig = $this->app['config']->get('theme/templatefields')) {

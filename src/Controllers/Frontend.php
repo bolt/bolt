@@ -183,6 +183,7 @@ class Frontend
             $app['extensions']->insertSnippet(SnippetLocation::BEFORE_HEAD_JS, '<script>window.boltIsEditing = true;</script>');
             $app['extensions']->addJavascript($jsFile, array('late' => false, 'priority' => 1));
             $app['extensions']->addCss($cssFile, false, 5);
+            $content->wrapValues();
         }
 
         // Then, select which template to use, based on our 'cascading templates rules'
