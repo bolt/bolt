@@ -409,9 +409,11 @@ class Content implements \ArrayAccess
                     continue; // Skip 'empty' uploads.
                 }
 
+                $paths = $this->app['resources']->getPaths();
+
                 $filename = sprintf(
-                    '%s/files/%s/%s',
-                    $this->app['paths']['rootpath'],
+                    '%sfiles/%s/%s',
+                    $paths['rootpath'],
                     date('Y-m'),
                     String::makeSafe($file['name'][0], false, '[]{}()')
                 );
