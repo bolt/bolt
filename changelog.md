@@ -55,6 +55,11 @@ Not yet released.
  - Fixed: Publishing for items with 'Timed Publish' is working again. (Fixes #3279)
  - Added: Frontend requests should not set cookies. Remove them, to allow Varnish to do a better job of caching the request. (see #3309)
  - Added: Add exif aspect ratio and exif orientation data to imageinfo() (Thanks @Intendit,see #3308)
+ - Fixed: Fix rendering in sidebar on mobile. (see #3246)
+ - Added: New feature: Retina support for thumnbails (see bolt/bolt-thumbs/#19)
+ - Added: Allow filtering in 'record.related' on other fields too. (Thanks @miguelavaqrod, see #3303)
+ - Fixed: Fix path for non-ajaxy file-upload. (see #3303)
+ - Fixed: Added extra check for "view permission" for quicklinks (Thanks @StevendeVries, see #3299)
 
 Bolt 2.1.1
 ----------
