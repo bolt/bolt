@@ -71,7 +71,7 @@
         field.lock.bind('click', function () {
             if (field.group.hasClass('locked')) {
                 // "unlock" if it's currently empty, _or_ we've confirmed that we want to do so.
-                if (fconf.isEmpty || confirm(Bolt.data('field.slug.message.unlock'))) {
+                if (fconf.isEmpty || confirm(bolt.data('field.slug.message.unlock'))) {
                     field.group.removeClass('locked').addClass('unlocked');
                     startAutoGeneration(field);
                 }
@@ -83,7 +83,7 @@
         });
 
         $(fieldset).find('button.edit').bind('click', function () {
-            var newslug = prompt(Bolt.data('field.slug.message.set'), field.data.val());
+            var newslug = prompt(bolt.data('field.slug.message.set'), field.data.val());
 
             if (newslug) {
                 field.group.removeClass('unlocked').addClass('locked');
