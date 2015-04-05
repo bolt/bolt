@@ -73,11 +73,11 @@
                 // "unlock" if it's currently empty, _or_ we've confirmed that we want to do so.
                 if (fconf.isEmpty || confirm(Bolt.data('field.slug.message.unlock'))) {
                     field.group.removeClass('locked').addClass('unlocked');
-                    makeUri(field);
+                    startAutoGeneration(field);
                 }
             } else {
                 field.group.removeClass('unlocked').addClass('locked');
-                stopMakeUri(field);
+                stopAutoGeneration(field);
             }
             this.blur();
         });
@@ -87,8 +87,8 @@
 
             if (newslug) {
                 field.group.removeClass('unlocked').addClass('locked');
-                stopMakeUri(field);
-                makeUriAjax(field, newslug);
+                stopAutoGeneration(field);
+                getUriAjax(field, newslug);
             }
             this.blur();
         });
@@ -117,16 +117,16 @@
     var isBound = false;
 
     /**
-     * Get URI for slug from remote
+     * Get URI for slug from remote.
      *
      * @private
-     * @function makeUriAjax
+     * @function getUriAjax
      * @memberof Bolt.slug
      *
      * @param {FieldData} field - Field data.
      * @param {string} text - New slug text.
      */
-    function makeUriAjax(field, text) {
+    function getUriAjax(field, text) {
         $.ajax({
             url: bolt.conf('paths.async') + 'makeuri',
             type: 'GET',
@@ -148,15 +148,15 @@
     }
 
     /**
-     * make Uri from input
+     * Start generating slugs from uses fields.
      *
      * @private
-     * @function makeUri
+     * @function startAutoGeneration
      * @memberof Bolt.slug
      *
      * @param {FieldData} field - Field data.
      */
-    function makeUri(field) {
+    function startAutoGeneration(field) {
         $.each(field.uses, function (i, bindField) {
             $('#' + bindField).on('propertychange.bolt input.bolt change.bolt', function () {
                 var usesValue = [];
@@ -178,7 +178,7 @@
                 clearTimeout(timeout[field.key]);
                 timeout[field.key] = setTimeout(
                     function () {
-                        makeUriAjax(field, usesValue.join(' '));
+                        getUriAjax(field, usesValue.join(' '));
                     },
                     200
                 );
@@ -187,15 +187,15 @@
     }
 
     /**
-     * Stop making URI
+     * Stop generating slugs from uses fields.
      *
      * @private
-     * @function stopMakeUri
+     * @function stopAutoGeneration
      * @memberof Bolt.slug
      *
      * @param {FieldData} field - Field data.
      */
-    function stopMakeUri(field) {
+    function stopAutoGeneration(field) {
         $.each(field.uses, function (i, name) {
             $('#' + name).unbind('propertychange.bolt input.bolt change.bolt');
         });
