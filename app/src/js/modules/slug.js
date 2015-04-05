@@ -65,7 +65,7 @@
                 // "unlock" if it's currently empty, _or_ we've confirmed that we want to do so.
                 if (fconf.isEmpty || confirm(Bolt.data('field.slug.message.unlock'))) {
                     field.group.removeClass('locked').addClass('unlocked');
-                    makeUri(fconf.slug, fconf.contentId, fconf.uses, fconf.key, field, false);
+                    makeUri(fconf.slug, fconf.contentId, fconf.uses, fconf.key, field);
                 }
             } else {
                 field.group.removeClass('unlocked').addClass('locked');
@@ -80,7 +80,7 @@
             if (newslug) {
                 field.group.removeClass('unlocked').addClass('locked');
                 stopMakeUri(fconf.key, fconf.uses);
-                makeUriAjax(newslug, fconf.slug, fconf.contentId, fconf.key, field, false);
+                makeUriAjax(newslug, fconf.slug, fconf.contentId, fconf.key, field);
             }
             this.blur();
         });
@@ -120,9 +120,8 @@
      * @param {string} id - Id.
      * @param {string} slugFieldId - Id of the slug field.
      * @param {FieldData} field - Field data.
-     * @param {boolean} fullUri - Get the full URI?
      */
-    function makeUriAjax(text, contenttypeSlug, id, slugFieldId, field, fullUri) {
+    function makeUriAjax(text, contenttypeSlug, id, slugFieldId, field) {
         $.ajax({
             url: bolt.conf('paths.async') + 'makeuri',
             type: 'GET',
@@ -131,7 +130,7 @@
                 contenttypeslug: contenttypeSlug,
                 id: id,
                 slugfield: slugFieldId,
-                fulluri: fullUri
+                fulluri: false
             },
             success: function (uri) {
                 field.data.val(uri);
@@ -155,9 +154,8 @@
      * @param {Array} usesFields - Field used to automatically generate a slug.
      * @param {string} slugFieldId - Id of the slug field.
      * @param {FieldData} field - Field data.
-     * @param {boolean} fullUri - Get the full URI?
      */
-    function makeUri(contenttypeSlug, id, usesFields, slugFieldId, field, fullUri) {
+    function makeUri(contenttypeSlug, id, usesFields, slugFieldId, field) {
         $.each(usesFields, function (i, bindField) {
             $('#' + bindField).on('propertychange.bolt input.bolt change.bolt', function () {
                 var usesValue = [];
@@ -179,7 +177,7 @@
                 clearTimeout(timeout[slugFieldId]);
                 timeout[slugFieldId] = setTimeout(
                     function () {
-                        makeUriAjax(usesValue.join(' '), contenttypeSlug, id, slugFieldId, field, fullUri);
+                        makeUriAjax(usesValue.join(' '), contenttypeSlug, id, slugFieldId, field);
                     },
                     200
                 );
