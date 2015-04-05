@@ -32,6 +32,10 @@
      * @property {Object} show - Slug display.
      * @property {Object} data - Data field.
      * @property {Object} lock - Lock button.
+     * @property {string} key - The field key
+     * @property {Array} uses - Fields used to automatically generate a slug.
+     * @property {string} slug - Content slug.
+     * @property {string|null} id - Content Id.
      */
 
     /**
@@ -57,7 +61,11 @@
                 group: $(fieldset).find('.input-group'),
                 show: $(fieldset).find('em'),
                 data: $(fieldset).find('input'),
-                lock: $(fieldset).find('button.lock')
+                lock: $(fieldset).find('button.lock'),
+                key: fconf.key,
+                uses: fconf.uses,
+                slug: fconf.slug,
+                id: fconf.contentId
             };
 
         field.lock.bind('click', function () {
@@ -65,11 +73,11 @@
                 // "unlock" if it's currently empty, _or_ we've confirmed that we want to do so.
                 if (fconf.isEmpty || confirm(Bolt.data('field.slug.message.unlock'))) {
                     field.group.removeClass('locked').addClass('unlocked');
-                    makeUri(fconf.slug, fconf.contentId, fconf.uses, fconf.key, field);
+                    makeUri(field);
                 }
             } else {
                 field.group.removeClass('unlocked').addClass('locked');
-                stopMakeUri(fconf.key, fconf.uses);
+                stopMakeUri(field);
             }
             this.blur();
         });
@@ -79,8 +87,8 @@
 
             if (newslug) {
                 field.group.removeClass('unlocked').addClass('locked');
-                stopMakeUri(fconf.key, fconf.uses);
-                makeUriAjax(newslug, fconf.slug, fconf.contentId, fconf.key, field);
+                stopMakeUri(field);
+                makeUriAjax(field, newslug);
             }
             this.blur();
         });
@@ -115,21 +123,18 @@
      * @function makeUriAjax
      * @memberof Bolt.slug
      *
-     * @param {string} text - New slug text.
-     * @param {string} contenttypeSlug - Contenttype slug.
-     * @param {string} id - Id.
-     * @param {string} slugFieldId - Id of the slug field.
      * @param {FieldData} field - Field data.
+     * @param {string} text - New slug text.
      */
-    function makeUriAjax(text, contenttypeSlug, id, slugFieldId, field) {
+    function makeUriAjax(field, text) {
         $.ajax({
             url: bolt.conf('paths.async') + 'makeuri',
             type: 'GET',
             data: {
                 title: text,
-                contenttypeslug: contenttypeSlug,
-                id: id,
-                slugfield: slugFieldId,
+                contenttypeslug: field.slug,
+                id: field.id,
+                slugfield: field.key,
                 fulluri: false
             },
             success: function (uri) {
@@ -149,18 +154,14 @@
      * @function makeUri
      * @memberof Bolt.slug
      *
-     * @param {string} contenttypeSlug - Contenttype slug.
-     * @param {string} id - Id.
-     * @param {Array} usesFields - Field used to automatically generate a slug.
-     * @param {string} slugFieldId - Id of the slug field.
      * @param {FieldData} field - Field data.
      */
-    function makeUri(contenttypeSlug, id, usesFields, slugFieldId, field) {
-        $.each(usesFields, function (i, bindField) {
+    function makeUri(field) {
+        $.each(field.uses, function (i, bindField) {
             $('#' + bindField).on('propertychange.bolt input.bolt change.bolt', function () {
                 var usesValue = [];
 
-                $.each(usesFields, function (i, useField) {
+                $.each(field.uses, function (i, useField) {
                     var field = $('#' + useField);
 
                     if (field.is('select')) {
@@ -174,10 +175,10 @@
                     }
                 });
 
-                clearTimeout(timeout[slugFieldId]);
-                timeout[slugFieldId] = setTimeout(
+                clearTimeout(timeout[field.key]);
+                timeout[field.key] = setTimeout(
                     function () {
-                        makeUriAjax(usesValue.join(' '), contenttypeSlug, id, slugFieldId, field);
+                        makeUriAjax(field, usesValue.join(' '));
                     },
                     200
                 );
@@ -192,14 +193,13 @@
      * @function stopMakeUri
      * @memberof Bolt.slug
      *
-     * @param {string} slugFieldId - Id of the slug field.
-     * @param {Array} usesFields - Field used to automatically generate a slug.
+     * @param {FieldData} field - Field data.
      */
-    function stopMakeUri(slugFieldId, usesFields) {
-        $.each(usesFields, function (i, name) {
+    function stopMakeUri(field) {
+        $.each(field.uses, function (i, name) {
             $('#' + name).unbind('propertychange.bolt input.bolt change.bolt');
         });
-        clearTimeout(timeout[slugFieldId]);
+        clearTimeout(timeout[field.key]);
     }
 
     // Apply mixin container
