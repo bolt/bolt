@@ -1192,7 +1192,7 @@ class Backend implements ControllerProviderInterface
             'global_permissions'    => $globalPermissions,
         );
 
-        return $app['twig']->render('roles/roles.twig', array('context' => $context));
+        return $app['render']->render('roles/roles.twig', array('context' => $context));
     }
 
     /**

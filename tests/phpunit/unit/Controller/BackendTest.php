@@ -8,6 +8,7 @@ use Bolt\Tests\BoltUnitTest;
 use Bolt\Tests\Mocks\LoripsumMock;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use  Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * Class to test correct operation of src/Controller/Backend.
@@ -216,7 +217,6 @@ class BackendTest extends BoltUnitTest
         $this->assertEquals("Page #200", $context['context']['title']);
 
         // This block generates a changelog on the page in question so we have something to test.
-        $this->addSomeContent();
         $app['request'] = Request::create("/");
         $content = $app['storage']->getContent('pages/1');
         $content->setValues(array('status' => 'draft', 'ownerid' => 99));
@@ -372,7 +372,29 @@ class BackendTest extends BoltUnitTest
         $response = $controller->overview($app, 'pages');
         $this->assertEquals('/bolt', $response->getTargetUrl());
     }
+    
+    public function testOverviewFiltering()
+    {
+        $app = $this->getApp();
+        $controller = new Backend();
+        
+        
 
+        $app['request'] = $request = Request::create(
+            '/bolt/overview/pages',
+            'GET',
+            array(
+                'filter'=>'Lorem',
+                'taxonomy-chapters'=>'main'
+            )
+        );
+        $response = $controller->overview($app, 'pages');
+        $context = $response->getContext();
+        $this->assertArrayHasKey('filter', $context['context']);
+        $this->assertEquals('Lorem', $context['context']['filter'][0]);
+        $this->assertEquals('main', $context['context']['filter'][1]);
+    }
+    
     public function testRelatedTo()
     {
         $app = $this->getApp();
@@ -562,7 +584,620 @@ class BackendTest extends BoltUnitTest
         $returned = json_decode($response->getContent());
         $this->assertEquals($original['title'], $returned->title);
     }
+    
+    public function testDeleteContent()
+    {
+        $app = $this->getApp();
+        $controller = new Backend();
+        
+        $app['request'] = $request = Request::create('/bolt/deletecontent/pages/4');
+        $response = $controller->deleteContent($app, 'pages', 4);
+        // This one should fail for permissions
+        $this->assertEquals('/bolt/overview/pages', $response->getTargetUrl());
+        $err = $app['session']->getFlashBag()->get('error');
+        $this->assertRegexp('/denied/', $err[0]);
+        
+        $users = $this->getMock('Bolt\Users', array('isAllowed', 'checkAntiCSRFToken'), array($app));
+        $users->expects($this->any())
+            ->method('isAllowed')
+            ->will($this->returnValue(true));        
+        $app['users'] = $users;
+        
+        // This one should get killed by the anti CSRF check
+        $response = $controller->deleteContent($app, 'pages', 4);
+        $this->assertEquals('/bolt/overview/pages', $response->getTargetUrl());
+        $err = $app['session']->getFlashBag()->get('info');
+        $this->assertRegexp('/could not be deleted/', $err[0]);
+        
+        $app['users']->expects($this->any())
+            ->method('checkAntiCSRFToken')
+            ->will($this->returnValue(true)); 
 
+        $response = $controller->deleteContent($app, 'pages', 4);
+        $this->assertEquals('/bolt/overview/pages', $response->getTargetUrl());
+        $err = $app['session']->getFlashBag()->get('info');
+        $this->assertRegexp('/has been deleted/', $err[0]);
+    }
+    
+    public function testContentAction()
+    {
+        // Try status switches
+        $app = $this->getApp();
+        $controller = new Backend();
+        
+        $app['request'] = $request = Request::create('/bolt/content/held/pages/3');
+        
+        // This one should fail for lack of permission
+        $response = $controller->contentAction($app, 'held','pages', 3);        
+        $this->assertEquals('/bolt/overview/pages', $response->getTargetUrl());
+        $err = $app['session']->getFlashBag()->get('error');
+        $this->assertRegexp('/right privileges/', $err[0]);
+        
+        
+        $users = $this->getMock('Bolt\Users', array('isAllowed', 'checkAntiCSRFToken', 'isContentStatusTransitionAllowed'), array($app));
+        $users->expects($this->any())
+            ->method('isAllowed')
+            ->will($this->returnValue(true));        
+        $app['users'] = $users;
+        
+        // This one should fail for the second permission check `isContentStatusTransitionAllowed`
+        $response = $controller->contentAction($app, 'held','pages', 3);        
+        $this->assertEquals('/bolt/overview/pages', $response->getTargetUrl());
+        $err = $app['session']->getFlashBag()->get('error');
+        $this->assertRegexp('/right privileges/', $err[0]);
+        
+        $app['users']->expects($this->any())
+            ->method('isContentStatusTransitionAllowed')
+            ->will($this->returnValue(true)); 
+            
+        $response = $controller->contentAction($app, 'held','pages', 3);        
+        $this->assertEquals('/bolt/overview/pages', $response->getTargetUrl());
+        $err = $app['session']->getFlashBag()->get('info');
+        $this->assertRegexp('/has been changed/', $err[0]);
+        
+        // Test an invalid action fails
+        $app['request'] = $request = Request::create('/bolt/content/fake/pages/3');
+        $response = $controller->contentAction($app, 'fake','pages', 3);        
+        $err = $app['session']->getFlashBag()->get('error');
+        $this->assertRegexp('/No such action/', $err[0]);
+        
+        // Test that any save error gets reported
+        $app['request'] = $request = Request::create('/bolt/content/held/pages/3');
+        
+        $storage = $this->getMock('Bolt\Storage', array('updateSingleValue'), array($app));
+        $storage->expects($this->once())
+            ->method('updateSingleValue')
+            ->will($this->returnValue(false));
+            
+        $app['storage'] = $storage;
+        
+        $response = $controller->contentAction($app, 'held','pages', 3);        
+        $this->assertEquals('/bolt/overview/pages', $response->getTargetUrl());
+        $err = $app['session']->getFlashBag()->get('info');
+        $this->assertRegexp('/could not be modified/', $err[0]);
+        
+        // Test the delete proxy action
+        // Note that the response will be 'could not be deleted'. Since this just
+        // passes on the the deleteContent method that is enough to indicate that
+        // the work of this method is done. 
+        $app['request'] = $request = Request::create('/bolt/content/delete/pages/3');
+        $response = $controller->contentAction($app, 'delete','pages', 3);        
+        $this->assertEquals('/bolt/overview/pages', $response->getTargetUrl());
+        $err = $app['session']->getFlashBag()->get('info');
+        $this->assertRegexp('/could not be deleted/', $err[0]);
+    }
+    
+    public function testUsers()
+    {
+        $app = $this->getApp();
+        $controller = new Backend();
+        $app['request'] = $request = Request::create('/bolt/users');
+        $response = $controller->users($app);
+        $context = $response->getContext();
+        $this->assertNotNull($context['context']['users']);        
+        $this->assertNotNull($context['context']['sessions']);        
+
+    }
+    
+    public function testRoles()
+    {
+        $app = $this->getApp();
+        $controller = new Backend();
+        $app['request'] = $request = Request::create('/bolt/roles');
+        $response = $controller->roles($app);
+        $context = $response->getContext();
+        $this->assertEquals('roles/roles.twig', $response->getTemplateName());
+        $this->assertNotEmpty($context['context']['global_permissions']);
+        $this->assertNotEmpty($context['context']['effective_permissions']);
+    }
+    
+    public function testUserEdit()
+    {
+        $app = $this->getApp();
+        $controller = new Backend();
+        $user = $app['users']->getUser(9);
+        $app['users']->currentuser = $user;
+        $app['request'] = $request = Request::create('/bolt/useredit/9');
+        
+        // This one should redirect because of permission failure
+        $response = $controller->userEdit(9, $app, $request);
+        $this->assertEquals('/bolt/users', $response->getTargetUrl());
+        
+        
+        // Now we allow the permsission check to return true
+        $perms = $this->getMock('Bolt\Permissions', array('isAllowedToManipulate'), array($app));
+        $perms->expects($this->any())
+            ->method('isAllowedToManipulate')
+            ->will($this->returnValue(true));
+        $app['permissions'] = $perms;
+        
+        $response = $controller->userEdit(9, $app, $request);
+        $context = $response->getContext();
+        $this->assertEquals('edit', $context['context']['kind']);
+        $this->assertInstanceOf('Symfony\Component\Form\FormView', $context['context']['form']);
+        $this->assertEquals('Admin', $context['context']['displayname']);
+        
+        // Test that an empty user gives a create form
+        $app['request'] = $request = Request::create('/bolt/useredit');
+        $response = $controller->userEdit(null, $app, $request);
+        $context = $response->getContext();
+        $this->assertEquals('create', $context['context']['kind']);
+
+    }
+    
+    public function testUserEditPost()
+    {
+        $app = $this->getApp();
+        $controller = new Backend();
+        $user = $app['users']->getUser(9);
+        $app['users']->currentuser = $user;
+        
+        
+        $perms = $this->getMock('Bolt\Permissions', array('isAllowedToManipulate'), array($app));
+        $perms->expects($this->any())
+            ->method('isAllowedToManipulate')
+            ->will($this->returnValue(true));
+        $app['permissions'] = $perms;
+        
+        // Symfony forms normally need a CSRF token so we have to mock this too
+        $csrf = $this->getMock('Symfony\Component\Form\Extension\Csrf\CsrfProvider\DefaultCsrfProvider', array('isCsrfTokenValid', 'generateCsrfToken'), array('secret')); 
+        $csrf->expects($this->once())
+            ->method('isCsrfTokenValid')
+            ->will($this->returnValue(true));
+        $app['form.csrf_provider'] = $csrf;
+        
+        // Update the display name via a POST request
+        $app['request'] = $request = Request::create(
+            '/bolt/useredit/9', 
+            'POST', 
+            array(
+                'form'=> array(
+                    'id' => $user['id'],
+                    'username' => $user['username'],
+                    'email' => $user['email'],
+                    'displayname' => "Admin Test", 
+                    '_token' => 'xyz'
+                )
+            )
+        );
+        
+        $response = $controller->userEdit(9, $app, $request);
+        $this->assertEquals('/bolt/users', $response->getTargetUrl());
+    }
+    
+    public function testUsernameEditKillsSession()
+    {
+        $app = $this->getApp();
+        $controller = new Backend();
+        $user = $app['users']->getUser(9);
+
+        $app['users']->currentuser = $user;
+        
+        $perms = $this->getMock('Bolt\Permissions', array('isAllowedToManipulate'), array($app));
+        $perms->expects($this->any())
+            ->method('isAllowedToManipulate')
+            ->will($this->returnValue(true));
+        $app['permissions'] = $perms;
+        
+        // Symfony forms normally need a CSRF token so we have to mock this too
+        $csrf = $this->getMock('Symfony\Component\Form\Extension\Csrf\CsrfProvider\DefaultCsrfProvider', array('isCsrfTokenValid', 'generateCsrfToken'), array('secret')); 
+        $csrf->expects($this->once())
+            ->method('isCsrfTokenValid')
+            ->will($this->returnValue(true));
+        $app['form.csrf_provider'] = $csrf;
+        
+        // Update the display name via a POST request
+        $app['request'] = $request = Request::create(
+            '/bolt/useredit/9', 
+            'POST', 
+            array(
+                'form'=> array(
+                    'id' => $user['id'],
+                    'username' => 'admin2',
+                    'email' => $user['email'],
+                    'displayname' => $user['displayname'], 
+                    '_token' => 'xyz'
+                )
+            )
+        );
+        $response = $controller->userEdit(9, $app, $request);
+        $this->assertEquals('/bolt/login', $response->getTargetUrl());
+    }
+
+    public function testUserFirst()
+    {
+        $app = $this->getApp();
+        $controller = new Backend();
+        
+        // Symfony forms need a CSRF token so we have to mock this too
+        $csrf = $this->getMock('Symfony\Component\Form\Extension\Csrf\CsrfProvider\DefaultCsrfProvider', array('isCsrfTokenValid', 'generateCsrfToken'), array('secret')); 
+        $csrf->expects($this->any())
+            ->method('isCsrfTokenValid')
+            ->will($this->returnValue(true));
+            
+        $csrf->expects($this->any())
+            ->method('generateCsrfToken')
+            ->will($this->returnValue('xyz'));
+            
+        $app['form.csrf_provider'] = $csrf;
+        
+        // Because we have users in the database this should exit at first attempt
+        $app['request'] = $request = Request::create('/bolt/userfirst');
+        $response = $controller->userFirst($app, $request);
+        $this->assertEquals('/bolt', $response->getTargetUrl());
+
+        // Now we delete the users
+        $res = $app['db']->executeQuery('DELETE FROM bolt_users;');
+        $app['users']->users = array();
+        
+        $app['request'] = $request = Request::create('/bolt/userfirst');
+        $response = $controller->userFirst($app, $request);
+        $context = $response->getContext();
+        $this->assertEquals('create', $context['context']['kind']);
+        
+        
+        // This block attempts to create the user
+        
+        
+        $app['request'] = $request = Request::create(
+            '/bolt/userfirst', 
+            'POST', 
+            array(
+                'form'=> array(
+                    'username' => 'admin',
+                    'email' => 'test@example.com',
+                    'displayname' => 'Admin',
+                    'password'=> 'password',
+                    'password_confirmation'=>'password',
+                    '_token' => 'xyz'
+                )
+            )
+        );
+        $response = $controller->userFirst($app, $request);
+        $this->assertEquals('/bolt', $response->getTargetUrl());
+    }
+    
+    public function testProfile()
+    {
+        $this->addSomeContent();
+        $app = $this->getApp();
+        $controller = new Backend();
+        
+        
+         // Symfony forms need a CSRF token so we have to mock this too
+        $this->removeCSRF($app);
+        
+        $user = $app['users']->getUser(2);
+        $app['users']->currentuser = $user;
+        $app['request'] = $request = Request::create('/bolt/profile');
+        $response = $controller->profile($app, $request);
+        $context = $response->getContext();
+        $this->assertEquals('edituser/edituser.twig', $response->getTemplateName());
+        $this->assertEquals('profile', $context['context']['kind']);
+        
+        
+        // Now try a POST to update the profile
+        $app['request'] = $request = Request::create(
+            '/bolt/profile', 
+            'POST', 
+            array(
+                'form'=> array(
+                    'id' => 2,
+                    'email' => $user['email'],
+                    'password' => '',
+                    'password_confirmation' => '',
+                    'displayname' => "Admin Test", 
+                    '_token' => 'xyz'
+                )
+            )
+        );
+        
+        
+        $response = $controller->profile($app, $request);
+        $this->assertEquals('/bolt/profile', $response->getTargetUrl());
+        $this->assertNotEmpty($app['session']->getFlashBag()->get('success'));
+
+    }
+    
+    public function testAbout()
+    {
+        $app = $this->getApp();
+        $controller = new Backend();
+        $app['request'] = $request = Request::create('/bolt/about');
+        $response = $controller->about($app);
+        $this->assertEquals('about/about.twig', $response->getTemplateName());
+    }
+    
+    public function testFiles()
+    {
+        $app = $this->getApp();
+        $controller = new Backend();
+        $this->removeCSRF($app);
+        $app['request'] = $request = Request::create('/bolt/files');
+        $response = $controller->files('files', '', $app, $request);
+        $context = $response->getContext();
+        $this->assertEquals('', $context['context']['path']);
+        $this->assertEquals('files', $context['context']['namespace']);
+        $this->assertEquals(array(), $context['context']['files']);
+        
+        // Try and upload a file
+        
+        $perms = $this->getMock('Bolt\Filesystem\FilePermissions', array('allowedUpload'), array($app));
+        $perms->expects($this->any())
+            ->method('allowedUpload')
+            ->will($this->returnValue(true));
+        $app['filepermissions'] = $perms;
+        
+        
+        $app['request'] = $request = Request::create(
+            '/upload/files',
+            'POST',
+            array(),
+            array(),
+            array(
+                'form' => array(
+                    'FileUpload' => array(
+                        new UploadedFile(
+                            PHPUNIT_ROOT . '/resources/generic-logo-evil.exe',
+                            'logo.exe'
+                        )
+                    ),
+                    '_token'     => 'xyz'
+                )
+            )
+        );
+        
+        $response = $controller->files('files', '', $app, $request);        
+    }
+    
+    public function testUserAction()
+    {
+        $app = $this->getApp();
+        $controller = new Backend();
+        
+        // First test should exit/redirect with no anti CSRF token
+        $app['request'] = $request = Request::create('/bolt/user/disable/2');
+        $response = $controller->userAction($app, 'disable', 1);
+        $info = $app['session']->getFlashBag()->get('info');
+        $this->assertRegexp('/An error occurred/', $info[0]);
+        $this->assertEquals('/bolt/users', $response->getTargetUrl());
+        
+        
+        
+        $app = $this->getApp();
+        $controller = new Backend();
+        
+        // Now we mock the CSRF token to validate
+        $users = $this->getMock('Bolt\Users', array('checkAntiCSRFToken'), array($app));
+        $users->expects($this->any())
+            ->method('checkAntiCSRFToken')
+            ->will($this->returnValue(true));
+        $app['users'] = $users;
+        
+        // This request should fail because the user doesnt exist.
+        $app['request'] = $request = Request::create('/bolt/user/disable/2');
+        $response = $controller->userAction($app, 'disable', 1);
+        $this->assertEquals('/bolt/users', $response->getTargetUrl());
+        $err = $app['session']->getFlashBag()->get('error');
+        $this->assertRegexp('/No such user/', $err[0]);
+        
+        // This check will fail because we are operating on the current user
+        $user = $app['users']->getUser(2);
+        $app['users']->currentuser = $user;
+        $app['request'] = $request = Request::create('/bolt/user/disable/2');
+        $response = $controller->userAction($app, 'disable', 2);
+        $this->assertEquals('/bolt/users', $response->getTargetUrl());
+        $err = $app['session']->getFlashBag()->get('error');
+        $this->assertRegexp('/yourself/', $err[0]);
+
+        // We add a new user that isn't the current user and now perform operations.        
+        $this->addNewUser($app, 'editor', 'Editor', 'editor');
+        
+        
+        
+           
+
+        // And retry the operation that will work now
+        $app['request'] = $request = Request::create('/bolt/user/disable/3');
+        $response = $controller->userAction($app, 'disable', 3);
+        $info = $app['session']->getFlashBag()->get('info');
+        $this->assertRegexp('/is disabled/', $info[0]);
+        $this->assertEquals('/bolt/users', $response->getTargetUrl());        
+        
+        // Now try to enable the user
+        $app['request'] = $request = Request::create('/bolt/user/enable/3');
+        $response = $controller->userAction($app, 'enable', 3);
+        $info = $app['session']->getFlashBag()->get('info');
+        $this->assertRegexp('/is enabled/', $info[0]);
+        $this->assertEquals('/bolt/users', $response->getTargetUrl());
+        
+        // Try a non-existent action, make sure we get an error
+        $app['request'] = $request = Request::create('/bolt/user/enhance/3');
+        $response = $controller->userAction($app, 'enhance', 3);
+        $info = $app['session']->getFlashBag()->get('error');
+        $this->assertRegexp('/No such action/', $info[0]);
+        $this->assertEquals('/bolt/users', $response->getTargetUrl());
+        
+        
+        // Now we run a delete action
+        $app['request'] = $request = Request::create('/bolt/user/delete/3');
+        $response = $controller->userAction($app, 'delete', 3);
+        $info = $app['session']->getFlashBag()->get('info');
+        $this->assertRegexp('/is deleted/', $info[0]);
+        $this->assertEquals('/bolt/users', $response->getTargetUrl());
+        
+        // Finally we mock the permsission check to return false and check
+        // we get a priileges error.
+        $perms = $this->getMock('Bolt\Permissions', array('isAllowedToManipulate'), array($app));
+        $perms->expects($this->any())
+            ->method('isAllowedToManipulate')
+            ->will($this->returnValue(false));
+        $app['permissions'] = $perms;  
+        
+        $app['request'] = $request = Request::create('/bolt/user/disable/3');
+        $response = $controller->userAction($app, 'disable', 3);
+        $this->assertEquals('/bolt/users', $response->getTargetUrl());
+        $err = $app['session']->getFlashBag()->get('error');
+        $this->assertRegexp('/right privileges/', $err[0]);   
+    }
+    
+    public function testUserActionFailures()
+    {
+        
+        $app = $this->getApp();
+        $controller = new Backend();
+        
+        // We add a new user that isn't the current user and now perform operations.        
+        $this->addNewUser($app, 'editor', 'Editor', 'editor');
+        
+        // Now we mock the CSRF token to validate
+        $users = $this->getMock('Bolt\Users', array('checkAntiCSRFToken', 'setEnabled', 'deleteUser'), array($app));
+        $users->expects($this->any())
+            ->method('checkAntiCSRFToken')
+            ->will($this->returnValue(true));
+            
+        $users->expects($this->any())
+            ->method('setEnabled')
+            ->will($this->returnValue(false));
+            
+        $users->expects($this->any())
+            ->method('deleteUser')
+            ->will($this->returnValue(false));
+            
+        $app['users'] = $users;
+        
+        
+        // Setup the current user
+        $user = $app['users']->getUser(2);
+        $app['users']->currentuser = $user;
+        
+        // This mocks a failure and ensures the error is reported
+        $app['request'] = $request = Request::create('/bolt/user/disable/3');
+        $response = $controller->userAction($app, 'disable', 3);
+        $info = $app['session']->getFlashBag()->get('info');
+        $this->assertRegexp('/could not be disabled/', $info[0]);
+        $this->assertEquals('/bolt/users', $response->getTargetUrl());  
+        
+        $app['request'] = $request = Request::create('/bolt/user/enable/3');
+        $response = $controller->userAction($app, 'enable', 3);
+        $info = $app['session']->getFlashBag()->get('info');
+        $this->assertRegexp('/could not be enabled/', $info[0]);
+        $this->assertEquals('/bolt/users', $response->getTargetUrl());
+        
+        $app['request'] = $request = Request::create('/bolt/user/delete/3');
+        $response = $controller->userAction($app, 'delete', 3);
+        $info = $app['session']->getFlashBag()->get('info');
+        $this->assertRegexp('/could not be deleted/', $info[0]);
+        $this->assertEquals('/bolt/users', $response->getTargetUrl());  
+    }
+    
+    
+    public function testFileEdit()
+    {
+        $app = $this->getApp();
+        $controller = new Backend();
+        $app['request'] = $request = Request::create('/bolt/file/edit/config/config.yml');
+        $response = $controller->fileedit('config', 'config.yml', $app, $request);
+        $this->assertEquals('editfile/editfile.twig', $response->getTemplateName());
+        
+    }
+    
+    public function testTranslation()
+    {
+        // We make a new translation and ensure that the content is created.
+        $app = $this->getApp();
+        $controller = new Backend();
+        $this->removeCSRF($app);
+        $app['request'] = $request = Request::create('/bolt/tr/contenttypes/en_CY');
+        $response = $controller->translation('contenttypes', 'en_CY', $app, $request);
+        $context = $response->getContext();
+        $this->assertEquals('contenttypes.en_CY.yml', $context['context']['basename']);
+        
+        // Now try and post the update
+        $app['request'] = $request = Request::create(
+            '/bolt/tr/contenttypes/en_CY',
+            'POST',
+            array(
+                'form'=>array(
+                    'contents' => 'test content at least 10 chars',
+                    '_token' => 'xyz' 
+                )
+            )
+        );
+        $response = $controller->translation('contenttypes', 'en_CY', $app, $request);
+        $context = $response->getContext();
+        $this->assertEquals('editlocale/editlocale.twig', $response->getTemplateName());
+
+        // Write isn't allowed initially so check the error
+        $error = $app['session']->getFlashBag()->get('error');
+        $this->assertRegexp('/is not writable/', $error[0]);
+        
+        // Check that YML parse errors get caught
+        $app['request'] = $request = Request::create(
+            '/bolt/tr/contenttypes/en_CY',
+            'POST',
+            array(
+                'form'=>array(
+                    'contents' => "- this is invalid yaml markup: *thisref",
+                    '_token' => 'xyz' 
+                )
+            )
+        );
+        $response = $controller->translation('contenttypes', 'en_CY', $app, $request);
+        $info = $app['session']->getFlashBag()->get('error');
+        $this->assertRegexp('/could not be saved/', $info[0]);
+    }
+    
+    protected function addNewUser($app, $username, $displayname, $role) 
+    {
+        $user = array(
+            'username'=>$username,
+            'displayname' => $displayname,
+            'email' => 'test@example.com',
+            'password' => 'password',
+            'roles' => array($role)
+        );
+        $app['users']->saveUser($user);
+        $app['users']->users = array();
+    }
+
+    
+    protected function removeCSRF($app) 
+    {
+         // Symfony forms need a CSRF token so we have to mock this too
+        $csrf = $this->getMock('Symfony\Component\Form\Extension\Csrf\CsrfProvider\DefaultCsrfProvider', array('isCsrfTokenValid', 'generateCsrfToken'), array('form')); 
+        $csrf->expects($this->any())
+            ->method('isCsrfTokenValid')
+            ->will($this->returnValue(true));
+            
+        $csrf->expects($this->any())
+            ->method('generateCsrfToken')
+            ->will($this->returnValue('xyz'));
+            
+        $app['form.csrf_provider'] = $csrf;
+    }
+    
+    
     protected function addSomeContent()
     {
         $app = $this->getApp();
