@@ -1013,19 +1013,9 @@ class BackendTest extends BoltUnitTest
         // We add a new user that isn't the current user and now perform operations.        
         $this->addNewUser($app, 'editor', 'Editor', 'editor');
         
-        // This one should also fail due to permissions
-        $app['request'] = $request = Request::create('/bolt/user/disable/3');
-        $response = $controller->userAction($app, 'disable', 3);
-        $this->assertEquals('/bolt/users', $response->getTargetUrl());
-        $err = $app['session']->getFlashBag()->get('error');
-        $this->assertRegexp('/right privileges/', $err[0]);
         
-        // Now we allow the permsission check to return true
-        $perms = $this->getMock('Bolt\Permissions', array('isAllowedToManipulate'), array($app));
-        $perms->expects($this->any())
-            ->method('isAllowedToManipulate')
-            ->will($this->returnValue(true));
-        $app['permissions'] = $perms;        
+        
+           
 
         // And retry the operation that will work now
         $app['request'] = $request = Request::create('/bolt/user/disable/3');
@@ -1055,6 +1045,20 @@ class BackendTest extends BoltUnitTest
         $info = $app['session']->getFlashBag()->get('info');
         $this->assertRegexp('/is deleted/', $info[0]);
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
+        
+        // Finally we mock the permsission check to return false and check
+        // we get a priileges error.
+        $perms = $this->getMock('Bolt\Permissions', array('isAllowedToManipulate'), array($app));
+        $perms->expects($this->any())
+            ->method('isAllowedToManipulate')
+            ->will($this->returnValue(false));
+        $app['permissions'] = $perms;  
+        
+        $app['request'] = $request = Request::create('/bolt/user/disable/3');
+        $response = $controller->userAction($app, 'disable', 3);
+        $this->assertEquals('/bolt/users', $response->getTargetUrl());
+        $err = $app['session']->getFlashBag()->get('error');
+        $this->assertRegexp('/right privileges/', $err[0]);   
     }
     
     public function testUserActionFailures()
@@ -1081,13 +1085,6 @@ class BackendTest extends BoltUnitTest
             ->will($this->returnValue(false));
             
         $app['users'] = $users;
-        
-        // Now we allow the permsission check to return true
-        $perms = $this->getMock('Bolt\Permissions', array('isAllowedToManipulate'), array($app));
-        $perms->expects($this->any())
-            ->method('isAllowedToManipulate')
-            ->will($this->returnValue(true));
-        $app['permissions'] = $perms;  
         
         
         // Setup the current user
