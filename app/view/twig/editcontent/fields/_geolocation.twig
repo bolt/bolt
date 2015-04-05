@@ -41,7 +41,6 @@
 } %}
 
 {% set attr_formatted = {
-    data_geolocation:  {key: key, lat: geolocation_lat, lon: geolocation_lon}|json_encode,
     id:                key ~ '-formatted_address',
     name:              name ~ '[formatted_address]',
     style:             'width: 30%;',
@@ -55,6 +54,9 @@
 
 {% set fieldset = {
     geolocation: {
+        key: key,
+        lat: geolocation_lat,
+        lon: geolocation_lon
     }
 }%}
 

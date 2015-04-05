@@ -101,7 +101,6 @@
         init.sortables();
         init.omnisearch();
         init.uploads();
-        init.geolocation();
         init.focusStatusSelect();
         init.depublishTracking();
 

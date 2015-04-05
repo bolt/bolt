@@ -48,7 +48,6 @@ module.exports = function(grunt) {
                 '<%= path.src.js %>/bind-fileupload.js',
                 '<%= path.src.js %>/make-uri-slug.js',
                 '<%= path.src.js %>/video-embed.js',
-                '<%= path.src.js %>/geolocation.js',
                 '<%= path.src.js %>/upload-files.js',
                 '<%= path.src.js %>/obj-sidebar.js',
                 '<%= path.src.js %>/obj-navpopups.js',
