@@ -68,7 +68,7 @@
                 id: fconf.contentId
             };
 
-        field.lock.bind('click', function () {
+        field.lock.on('click', function () {
             if (field.group.hasClass('locked')) {
                 // "unlock" if it's currently empty, _or_ we've confirmed that we want to do so.
                 if (fconf.isEmpty || confirm(bolt.data('field.slug.message.unlock'))) {
@@ -82,7 +82,7 @@
             this.blur();
         });
 
-        $(fieldset).find('button.edit').bind('click', function () {
+        $(fieldset).find('button.edit').on('click', function () {
             var newslug = prompt(bolt.data('field.slug.message.set'), field.data.val());
 
             if (newslug) {
@@ -188,7 +188,7 @@
      */
     function stopAutoGeneration(field) {
         $.each(field.uses, function (i, name) {
-            $('#' + name).unbind('propertychange.bolt input.bolt change.bolt');
+            $('#' + name).off('propertychange.bolt input.bolt change.bolt');
         });
         clearTimeout(timeout[field.key]);
     }
