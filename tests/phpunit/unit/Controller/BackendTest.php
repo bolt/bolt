@@ -1001,7 +1001,8 @@ class BackendTest extends BoltUnitTest
         $app['request'] = $request = Request::create('/bolt/user/disable/2');
         $response = $controller->userAction($app, 'disable', 2);
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
-        $this->assertNotEmpty($app['session']->getFlashBag()->get('error'));
+        $err = $app['session']->getFlashBag()->get('error');
+        $this->assertRegexp('/cannot disable yourself/', $err[0]);
 
         // We add a new user that isn't the current user and now perform operations.        
         $this->addNewUser($app, 'editor', 'Editor', 'editor');
