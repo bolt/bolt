@@ -123,7 +123,7 @@ $nav-secondary-divider-margin: 14px;
 $nav-secondary-divider-padding: 6px;
 $nav-secondary-icon-size: 24px;
 $nav-secondary-icon-margin: 8px;
-$nav-secondary-indent: ($nav-secondary-icon-size + $nav-secondary-icon-margin);
+$nav-secondary-indent: ($nav-secondary-icon-size + $nav-secondary-icon-margin + 4px);
 $nav-secondary-collapsed-width: ($nav-secondary-h-padding + $nav-secondary-indent + 1);
 
 /**
