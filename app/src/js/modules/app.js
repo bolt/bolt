@@ -28,6 +28,10 @@
                 conf = $(this).data('bolt-fconf');
 
             switch (type) {
+                case 'geolocation':
+                    bolt.fields.geolocation.init(this, conf);
+                    break;
+
                 case 'slug':
                     bolt.fields.slug.init(this, conf);
                     break;

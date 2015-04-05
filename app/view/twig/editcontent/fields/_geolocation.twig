@@ -51,8 +51,14 @@
 
 {#=== FIELDSET =======================================================================================================#}
 
-<fieldset class="geolocation">
+{% extends '_base/_fieldset.twig' %}
 
+{% set fieldset = {
+    geolocation: {
+    }
+}%}
+
+{% block fieldset %}
     <label class="control-label col-xs-12">{{ macro.infopop(labelkey, option.info) }}</label>
     <div class="col-sm-8">
         <div class="form-group">
@@ -88,4 +94,4 @@
             </div>
         </div>
     </div>
-</fieldset>
+{% endblock fieldset %}

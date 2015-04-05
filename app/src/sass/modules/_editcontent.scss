@@ -345,6 +345,11 @@
             color: #080;
         }
     }
+
+    /*** Fieldset: Geolocation ***/
+
+    fieldset[data-bolt-field="geolocation"] {
+    }
 }
 
 /*** Live Editor Styles ***/
