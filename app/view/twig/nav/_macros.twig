@@ -29,9 +29,13 @@
 
     {# Only display the 'root' option, if any of the subitems are allowed to be shown. #}
     {% set allowedany = false %}
+    {% set allowedammount = 0 %}
+    {% set allowedsingle = "" %}
     {% for item in subitems %}
         {% if item != '-' and isallowed(item.isallowed|default('dashboard')) %}
             {% set allowedany = true %}
+            {% set allowedammount = allowedammount + 1 %}
+            {% set allowedsingle = item %}
         {% endif %}
     {% endfor %}
 
@@ -39,26 +43,35 @@
 
     {# Show stuff! #}
     {% if allowedany %}
-        <li{% if class %} class="{{ class }}"{% endif %}>
-            <a  href="{% if popoveritems %}{{ popoveritems.0.link }}{% else %}#{% endif %}" class="menu-pop">
-                {{ label(icon, label) }}
-            </a>
-            <ul class="nav submenu">
-                {% set divider = false %}
-                {% for item in popoveritems %}
-                    {% if item == '-' %}
-                        {% set divider = true %}
-                    {% elseif isallowed(item.isallowed|default('dashboard')) %}
-                        <li{% if divider %} class="subdivider"{% endif %}>
-                            <a href="{{ item.link }}">
-                                {{ icon(item.icon) }}{{ item.label|default("<em>(" ~ __("no content …") ~ ")</em>")|raw }}
-                            </a>
-                        </li>
-                        {% set divider = false %}
-                    {% endif %}
-                {% endfor %}
-            </ul>
-        </li>
+        {% if allowedammount == 1 %}
+            {% set item = allowedsingle %}
+            <li>
+                <a href="{{ item.link }}">
+                    {{ icon(item.icon, "icon") }}{{ item.label|default("<em>(" ~ __("no content …") ~ ")</em>")|raw }}
+                </a>
+            </li>
+        {% else %}
+            <li{% if class %} class="{{ class }}"{% endif %}>
+                <a  href="{% if popoveritems %}{{ popoveritems.0.link }}{% else %}#{% endif %}" class="menu-pop">
+                    {{ label(icon, label) }}
+                </a>
+                <ul class="nav submenu">
+                    {% set divider = false %}
+                    {% for item in popoveritems %}
+                        {% if item == '-' %}
+                            {% set divider = true %}
+                        {% elseif isallowed(item.isallowed|default('dashboard')) %}
+                            <li{% if divider %} class="subdivider"{% endif %}>
+                                <a href="{{ item.link }}">
+                                    {{ icon(item.icon) }}{{ item.label|default("<em>(" ~ __("no content …") ~ ")</em>")|raw }}
+                                </a>
+                            </li>
+                            {% set divider = false %}
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </li>
+        {% endif %}
     {% endif %}
 
 {% endmacro %}
