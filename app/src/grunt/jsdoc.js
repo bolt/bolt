@@ -11,7 +11,8 @@ module.exports = {
             '<%= path.src.js %>/class-extends.js',
             // Bolt module
             '<%= path.src.js %>/bolt.js',
-            '<%= path.src.js %>/modules/**.js'
+            '<%= path.src.js %>/modules/*.js',
+            '<%= path.src.js %>/modules/fields/*.js'
         ],
         dest: '<%= path.doc %>',
         options: {

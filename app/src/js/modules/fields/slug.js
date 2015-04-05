@@ -2,7 +2,7 @@
  * Functions for working with the automagic URI/Slug generation with multipleslug support.
  *
  * @mixin
- * @namespace Bolt.slug
+ * @namespace Bolt.fields.slug
  *
  * @param {Object} bolt - The Bolt module.
  * @param {Object} $ - jQuery.
@@ -12,7 +12,7 @@
      * Field configuration.
      *
      * @typedef {Object} FieldConf
-     * @memberof Bolt.slug
+     * @memberof Bolt.fields.slug
      *
      * @property {string} bind - Always 'slug'.
      * @property {string|null} contentId - Content Id.
@@ -26,7 +26,7 @@
      * Field data.
      *
      * @typedef {Object} FieldData
-     * @memberof Bolt.slug
+     * @memberof Bolt.fields.slug
      *
      * @property {Object} group - Group container.
      * @property {Object} show - Slug display.
@@ -39,7 +39,7 @@
      */
 
     /**
-     * Bolt.slug mixin container.
+     * Bolt.fields.slug mixin container.
      *
      * @private
      * @type {Object}
@@ -51,7 +51,7 @@
      *
      * @static
      * @function init
-     * @memberof Bolt.slug
+     * @memberof Bolt.fields.slug
      *
      * @param {Object} fieldset
      * @param {FieldConf} fconf
@@ -103,7 +103,7 @@
      *
      * @private
      * @type {Array}
-     * @memberof Bolt.slug
+     * @memberof Bolt.fields.slug
      */
     var timeout = [];
 
@@ -112,7 +112,7 @@
      *
      * @private
      * @function getUriAjax
-     * @memberof Bolt.slug
+     * @memberof Bolt.fields.slug
      *
      * @param {FieldData} field - Field data.
      * @param {string} text - New slug text.
@@ -143,7 +143,7 @@
      *
      * @private
      * @function startAutoGeneration
-     * @memberof Bolt.slug
+     * @memberof Bolt.fields.slug
      *
      * @param {FieldData} field - Field data.
      */
@@ -182,7 +182,7 @@
      *
      * @private
      * @function stopAutoGeneration
-     * @memberof Bolt.slug
+     * @memberof Bolt.fields.slug
      *
      * @param {FieldData} field - Field data.
      */
@@ -194,6 +194,6 @@
     }
 
     // Apply mixin container
-    bolt.slug = slug;
+    bolt.fields.slug = slug;
 
 })(Bolt || {}, jQuery);

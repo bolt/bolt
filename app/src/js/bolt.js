@@ -13,5 +13,8 @@
  * @mixes Bolt.files
  * @mixes Bolt.stack
  * @mixes Bolt.video
+ *
+ * @mixes Bolt.fields
+ * @mixes Bolt.fields.slug
  */
 var Bolt = {};

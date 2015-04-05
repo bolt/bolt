@@ -29,7 +29,7 @@
 
             switch (type) {
                 case 'slug':
-                    bolt.slug.init(this, conf);
+                    bolt.fields.slug.init(this, conf);
                     break;
 
                 default:
