@@ -108,15 +108,6 @@
     var timeout = [];
 
     /**
-     * Make sure events are bound only once.
-     *
-     * @private
-     * @type {boolean}
-     * @memberof Bolt.slug
-     */
-    var isBound = false;
-
-    /**
      * Get URI for slug from remote.
      *
      * @private
