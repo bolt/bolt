@@ -23,12 +23,15 @@
         contentId:      context.content.id,
         isEmpty:        (context.content.get(contentkey) == ''),
         key:            key,
-        messageSet:     __('field.slug.message.set'),
-        messageUnlock:  __('field.slug.message.unlock'),
         slug:           context.content.contenttype.slug,
         uses:           option.uses,
     }
 }%}
+
+{% set data %}
+    {{ data('field.slug.message.set', __('field.slug.message.set')) }}
+    {{ data('field.slug.message.unlock', __('field.slug.message.unlock')) }}
+{% endset %}
 
 {% block fieldset %}
     <label class="col-sm-3 control-label">{{ __('field.slug.permalink') }}:</label>

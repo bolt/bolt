@@ -18,8 +18,6 @@
      * @property {string|null} contentId - Content Id.
      * @property {boolean} isEmpty - Is not set?
      * @property {string} key - The field key
-     * @property {string} messageSet - Message asking to input a new slug.
-     * @property {string} messageUnlock - Unlock confirmation message.
      * @property {string} slug - Content slug.
      * @property {Array} uses - Fields used to automatically generate a slug.
      */
@@ -65,7 +63,7 @@
         field.lock.bind('click', function () {
             if (field.group.hasClass('locked')) {
                 // "unlock" if it's currently empty, _or_ we've confirmed that we want to do so.
-                if (fconf.isEmpty || confirm(fconf.messageUnlock)) {
+                if (fconf.isEmpty || confirm(Bolt.data('field.slug.message.unlock'))) {
                     field.group.removeClass('locked').addClass('unlocked');
                     makeUri(fconf.slug, fconf.contentId, fconf.uses, fconf.key, field, false);
                 }
@@ -77,7 +75,7 @@
         });
 
         $(fieldset).find('button.edit').bind('click', function () {
-            var newslug = prompt(fconf.messageSet, field.data.val());
+            var newslug = prompt(Bolt.data('field.slug.message.set'), field.data.val());
 
             if (newslug) {
                 field.group.removeClass('unlocked').addClass('locked');
