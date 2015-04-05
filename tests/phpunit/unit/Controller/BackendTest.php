@@ -983,6 +983,10 @@ class BackendTest extends BoltUnitTest
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
         
         
+        
+        $app = $this->getApp();
+        $controller = new Backend();
+        
         // Now we mock the CSRF token to validate
         $users = $this->getMock('Bolt\Users', array('checkAntiCSRFToken'), array($app));
         $users->expects($this->any())
@@ -994,6 +998,8 @@ class BackendTest extends BoltUnitTest
         $app['request'] = $request = Request::create('/bolt/user/disable/2');
         $response = $controller->userAction($app, 'disable', 1);
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
+        $err = $app['session']->getFlashBag()->get('error');
+        $this->assertRegexp('/No such user/', $err[0]);
         
         // This check will fail because we are operating on the current user
         $user = $app['users']->getUser(2);
@@ -1002,7 +1008,7 @@ class BackendTest extends BoltUnitTest
         $response = $controller->userAction($app, 'disable', 2);
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
         $err = $app['session']->getFlashBag()->get('error');
-        $this->assertRegexp('/cannot disable yourself/', $err[0]);
+        $this->assertRegexp('/yourself/', $err[0]);
 
         // We add a new user that isn't the current user and now perform operations.        
         $this->addNewUser($app, 'editor', 'Editor', 'editor');
