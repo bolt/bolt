@@ -291,10 +291,10 @@ class Application extends Silex\Application
         // $app['locale'] should only be a single value.
         $this['locale'] = reset($configLocale);
 
-        // Set The Timezone Based on the Config, fallback to UTC
-        date_default_timezone_set(
-            $this['config']->get('general/timezone') ?: 'UTC'
-        );
+        // Set the default timezone if provided in the Config
+        if ($tz = $this['config']->get('general/timezone')) {
+            date_default_timezone_set($tz);
+        }
 
         // for javascript datetime calculations, timezone offset. e.g. "+02:00"
         $this['timezone_offset'] = date('P');
