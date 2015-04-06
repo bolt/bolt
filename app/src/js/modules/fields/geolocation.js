@@ -6,8 +6,9 @@
  *
  * @param {Object} bolt - The Bolt module.
  * @param {Object} $ - jQuery.
+ * @param {Object} google - Google.
  */
-(function (bolt, $) {
+(function (bolt, $, google) {
     /**
      * Field configuration.
      *
@@ -63,7 +64,7 @@
             maptype: 'ROADMAP',
             disableDoubleClickZoom: true,
             addMarker: false,
-            icon: Bolt.conf('paths.app') + 'view/img/pin_red.png',
+            icon: bolt.conf('paths.app') + 'view/img/pin_red.png',
             markers: [{
                 latitude: latitude,
                 longitude: longitude,
@@ -167,4 +168,4 @@
     // Apply mixin container
     bolt.fields.geolocation = geolocation;
 
-})(Bolt || {}, jQuery);
+})(Bolt || {}, jQuery, google);
