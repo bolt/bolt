@@ -16,8 +16,8 @@
      * @memberof Bolt.fields.slug
      *
      * @property {string} key - The field key
-     * @property {string} lat: - Latitude.
-     * @property {string} lon - Longitude.
+     * @property {string} latitude: - Latitude.
+     * @property {string} longitude - Longitude.
      */
 
     /**
@@ -39,17 +39,6 @@
      * @param {FieldConf} fconf
      */
     geolocation.init = function (fieldset, fconf) {
-        var latitude = parseFloat(fconf.lat),
-            longitude = parseFloat(fconf.lon);
-
-        // Default location is Two Kings, for now.
-        if (latitude === 0 || isNaN(latitude)) {
-            latitude = 52.08184;
-        }
-        if (longitude === 0 || isNaN(longitude)) {
-            longitude = 4.292368;
-        }
-
         $("#" + fconf.key + "-address").bind('propertychange input', function () {
             clearTimeout(geotimeout);
             geotimeout = setTimeout(function () {
@@ -58,16 +47,16 @@
         });
 
         $("#map-" + fconf.key).goMap({
-            latitude: latitude,
-            longitude: longitude,
+            latitude: fconf.latitude,
+            longitude: fconf.longitude,
             zoom: 15,
             maptype: 'ROADMAP',
             disableDoubleClickZoom: true,
             addMarker: false,
             icon: bolt.conf('paths.app') + 'view/img/pin_red.png',
             markers: [{
-                latitude: latitude,
-                longitude: longitude,
+                latitude: fconf.latitude,
+                longitude: fconf.longitude,
                 id: 'pinmarker',
                 title: 'Pin',
                 draggable: true

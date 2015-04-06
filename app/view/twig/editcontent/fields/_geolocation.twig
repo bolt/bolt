@@ -84,11 +84,12 @@
 {% extends '_base/_fieldset.twig' %}
 {% from _self import slot %}
 
+{# Default location is Two Kings, for now. #}
 {% set fieldset = {
     geolocation: {
         key: key,
-        lat: geolocation.latitude|default(''),
-        lon: geolocation.longitude|default(''),
+        latitude: geolocation.latitude|default(52.08184),
+        longitude: geolocation.longitude|default(4.292368),
     }
 }%}
 
