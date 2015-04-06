@@ -2,6 +2,9 @@
 
 namespace Bolt\Tests;
 
+use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
+use Symfony\Component\Filesystem\Filesystem;
+
 /**
  * PHPUnit listener class
  *
@@ -166,13 +169,14 @@ class BoltListener implements \PHPUnit_Framework_TestListener
      */
     private function buildTestEnv()
     {
-        // Make sure we wipe the db file to start with a clean one
-        if (is_readable(TEST_ROOT . '/bolt.db')) {
-            unlink(TEST_ROOT . '/bolt.db');
-        }
-        copy(PHPUNIT_ROOT . '/resources/db/bolt.db', TEST_ROOT . '/bolt.db');
+        $fs = new Filesystem();
 
-        @mkdir(TEST_ROOT . '/app/cache/', 0777, true);
+        // Make sure we wipe the db file to start with a clean one
+        $fs->copy(PHPUNIT_ROOT . '/resources/db/bolt.db', TEST_ROOT . '/bolt.db', true);
+
+        // Create needed directories
+        @$fs->mkdir(TEST_ROOT . '/app/cache/', 0777);
+        @$fs->mkdir(PHPUNIT_ROOT . '/resources/files/', 0777);
     }
 
     /**
@@ -196,9 +200,10 @@ class BoltListener implements \PHPUnit_Framework_TestListener
 
         // Remove the test database
         if ($this->reset) {
-            if (is_readable(TEST_ROOT . '/bolt.db')) {
-                unlink(TEST_ROOT . '/bolt.db');
-            }
+            $fs = new Filesystem();
+
+            $fs->remove(TEST_ROOT . '/bolt.db');
+            $fs->remove(PHPUNIT_ROOT . '/resources/files/');
         }
     }
 }
