@@ -6,6 +6,7 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\Common\Persistence\Mapping\Driver\MappingDriver;
 use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 
 /**
  * Manages all loaded entities across application, provides access to Repository Classes.
@@ -26,13 +27,19 @@ class EntityManager
      *
      * @param \Doctrine\DBAL\Connection     $conn
      * @param EventDispatcherInterface      $eventManager
+     * @param MappingDriver                 $mapping
+     * @param LoggerInterface               $logger
      */
-    public function __construct(Connection $conn, EventDispatcherInterface $eventManager, MappingDriver $mapping, LoggerInterface $log)
+    public function __construct(Connection $conn, EventDispatcherInterface $eventManager, MappingDriver $mapping, LoggerInterface $log = null)
     {
         $this->conn         = $conn;
         $this->eventManager = $eventManager;
         $this->mapping      = $mapping;
-        $this->log          = $log;
+        if (null === $log) {
+            $this->log = new NullLogger();
+        } else {
+            $this->log          = $log;
+        }
     }
     
     /**
