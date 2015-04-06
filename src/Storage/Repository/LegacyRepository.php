@@ -21,7 +21,7 @@ class LegacyRepository extends Repository
      */
     public function setLegacyStorage(Storage $service)
     {
-        $this->$storageService = $service;
+        $this->storageService = $service;
     }
     
     public function getStorage()
@@ -35,9 +35,9 @@ class LegacyRepository extends Repository
      *
      * @return QueryBuilder
      */
-    public function createQueryBuilder()
+    public function createQueryBuilder($alias = null, $indexBy = null)
     {
-        return $this->em->createQueryBuilder();
+        return $this->em->createQueryBuilder($alias, $indexBy);
     }
     
     public function getContentObject($contenttype, $values = array())

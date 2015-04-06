@@ -25,12 +25,13 @@ class Repository implements ObjectRepository
      * @param EntityManager         $em    The EntityManager to use.
      * @param Mapping\ClassMetadata $class The class descriptor.
      */
-    public function __construct($em, ClassMetadata $classMetadata, $hydrator = null)
+    public function __construct($em, ClassMetadata $classMetadata = null, $hydrator = null)
     {
         $this->em         = $em;
-        $this->_class     = $classMetadata;
-        $this->entityName  = $classMetadata->getName();
-        
+        if (null !== $classMetadata) {
+            $this->_class     = $classMetadata;
+            $this->entityName  = $classMetadata->getName();
+        }
         
         if (null === $hydrator) {
             $this->setHydrator(new Hydrator());

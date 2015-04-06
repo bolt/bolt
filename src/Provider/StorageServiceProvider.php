@@ -3,6 +3,7 @@
 namespace Bolt\Provider;
 
 use Bolt\Storage;
+use Bolt\Storage\EntityManager;
 use Bolt\Mapping\MetadataDriver;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
@@ -11,13 +12,26 @@ class StorageServiceProvider implements ServiceProviderInterface
 {
     public function register(Application $app)
     {
+        $app['storage.legacy'] = $app->share(
+            function ($app) {
+                return new Storage($app);
+            }
+        );
+        
         $app['storage'] = $app->share(
             function ($app) {
-                $storage = new Storage($app);
+                $storage = new EntityManager(
+                    $app['db'], 
+                    $app['dispatcher'], 
+                    $app['storage.metadata'],
+                    $app['logger.system']
+                );
+                $storage->setLegacyStorage($app['storage.legacy']);
 
                 return $storage;
             }
         );
+        
         
         $app['storage.typemap'] = array(
             'Doctrine\DBAL\Types\StringType' => 'Bolt\Field\Type\Text',

@@ -1,6 +1,7 @@
 <?php
 namespace Bolt\Storage;
 
+use Bolt\Storage;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\QueryBuilder;
@@ -20,6 +21,7 @@ class EntityManager
     protected $log;
     protected $repositories = array();
     protected $aliases = array();
+    protected $legacyStorage;
     
     /**
      * Creates a new EntityManager that operates on the given database connection
@@ -196,7 +198,20 @@ class EntityManager
      */
     public function legacy()
     {
-        return new Repository\LegacyRepository($this, 'Legacy');
+        $repo = new Repository\LegacyRepository($this);
+        $repo->setLegacyStorage($this->legacyStorage);
+        
+        return $repo;
+    }
+    
+    /**
+     * Sets the LegacyRepository
+     *
+     * @param Storage $storage
+     */
+    public function setLegacyStorage(Storage $storage)
+    {
+        $this->legacyStorage = $storage;
     }
     
     /**
