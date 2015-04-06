@@ -173,7 +173,7 @@
         }
     }
 
-    /*** Map/Image-Holder ***/
+    /*** Image-Holder ***/
 
     @media (min-width: 768px) {
         .right-on-large {
@@ -188,18 +188,6 @@
             max-height: 148px;
             max-width: 100%;
             border: 1px solid #BBB;
-        }
-    }
-
-    .mapholder {
-        border: 1px solid #BBB;
-        width: 200px;
-        height: 148px;
-        padding: 2px;
-
-        @include respond-to(medium-screens) {
-            min-width: 160px;
-            max-width: 200px;
         }
     }
 
@@ -349,6 +337,26 @@
     /*** Fieldset: Geolocation ***/
 
     fieldset[data-bolt-field="geolocation"] {
+        .mapholder {
+            background: #e5e3df;
+            border: 1px solid #bbb;
+            height: 150px;
+            min-width: 150px;
+            max-width: 200px;
+
+            @include respond-to(medium-screens) {
+                max-width: none;
+            }
+
+            @include respond-to(wide-screens) {
+                height: 180px;
+            }
+
+            img {
+                width: 100%;
+                height: 100%;
+            }
+        }
     }
 }
 

@@ -241,3 +241,13 @@ $old-ie: false !default;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+
+// Mixin to background image for empty elements
+
+@mixin background-empty() {
+    background: #f8f8f8;
+    background-image: url(../img/default_empty.png);
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}

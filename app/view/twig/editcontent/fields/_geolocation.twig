@@ -71,13 +71,11 @@
         </div>
     </div>
 
-    <div class="col-sm-4">
-        <div class="right-on-large">
+    <div class="col-sm-4 right-on-large">
+        {#<div class="right-on-large">#}
             <label>{{ __('field.geolocation.label.marker-placement') }}</label>
-            <div class="mapholder" id="map-{{ key }}">
-                <img src="{{ geo.map|default('') }}" width="200" height="150">
-            </div>
-        </div>
+            <div class="mapholder" id="map-{{ key }}"></div>
+        {#</div>#}
     </div>
 {% endmacro %}
 
