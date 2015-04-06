@@ -26,7 +26,7 @@
                     {% endif %}
 
 
-                {% elseif record.fieldtype(key) == "imagelist" and value != "" %}
+                {% elseif record.fieldtype(key) == "imagelist" and attribute(record, key) is not empty %}
 
                     {# We do something tricky here: we need to get value of the list in the proper
                        way, so the value in actually returned as a list. Using {{ record.key }}
@@ -63,7 +63,7 @@
                         {{ attribute(record, key)|join(", ") }}
                     </p>
 
-                {% elseif record.fieldtype(key) not in ['templateselect'] and value != "" %}
+                {% elseif record.fieldtype(key) not in ['templateselect'] and attribute(record, key) is not empty %}
 
                     {# No special case defined for this type of field. We just output it, if it's
                        a simple scalar, and 'dump' it otherwise. #}
