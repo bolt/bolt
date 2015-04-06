@@ -13,29 +13,25 @@
 
 {% set attributes = {
     address: {
-        class:       'form-control',
-        id:          key ~ '-address',
+        class:       'form-control address',
         name:        name ~ '[address]',
         type:        'text',
         placeholder: __('field.geolocation.placeholder.address') ~ ' …',
     },
     latitude: {
-        class:       'form-control',
-        id:          key ~ '-latitude',
+        class:       'form-control latitude',
         name:        name ~ '[latitude]',
         style:       '',
         type:        'number',
         step:        'any',
     },
     longitude: {
-        class:       'form-control',
-        id:          key ~ '-longitude',
+        class:       'form-control longitude',
         name:        name ~ '[longitude]',
         type:        'number',
         step:        'any',
     },
     formatted: {
-        id:          key ~ '-formatted_address',
         name:        name ~ '[formatted_address]',
         style:       'width: 30%;',
         type:        'hidden',
@@ -63,9 +59,9 @@
             </div>
         </div>
         <div class="form-group">
-            <div class="col-sm-12">
+            <div class="col-sm-12 matched">
                 <span><b>{{ __('field.geolocation.matched-address') }}</b></span>
-                <p id="{{ key }}-reversegeo"> {{ geolocation.formatted_address|default('') }}</p>
+                <p> {{ geolocation.formatted_address|default('') }}</p>
                 <input{{ attr(attributes.formatted) }} value="{{ geolocation.formatted_address|default('') }}">
             </div>
         </div>
@@ -74,7 +70,7 @@
     <div class="col-sm-4 right-on-large">
         {#<div class="right-on-large">#}
             <label>{{ __('field.geolocation.label.marker-placement') }}</label>
-            <div class="mapholder" id="map-{{ key }}"></div>
+            <div class="mapholder"></div>
         {#</div>#}
     </div>
 {% endmacro %}

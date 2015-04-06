@@ -21,6 +21,20 @@
      */
 
     /**
+     * Field data.
+     *
+     * @typedef {Object} FieldData
+     * @memberof Bolt.fields.slug
+     *
+     * @property {Object} address - Input: Address lookup.
+     * @property {Object} matched - matched Adress display.
+     * @property {Object} matchedData - Hidden data field input field.
+     * @property {Object} mapholder - Element holding the map.
+     * @property {Object} latitude - Input: Latitude.
+     * @property {Object} longitude - Input: Longitude.
+     */
+
+    /**
      * Bolt.fields.geolocation mixin container.
      *
      * @private
@@ -39,14 +53,23 @@
      * @param {FieldConf} fconf
      */
     geolocation.init = function (fieldset, fconf) {
-        $("#" + fconf.key + "-address").bind('propertychange input', function () {
+        var field = {
+            address: $(fieldset).find('.address'),
+            matched: $(fieldset).find('.matched p'),
+            matchedData: $(fieldset).find('.matched input'),
+            mapholder: $(fieldset).find('.mapholder'),
+            latitude: $(fieldset).find('.latitude'),
+            longitude: $(fieldset).find('.longitude')
+        };
+
+        field.address.bind('propertychange input', function () {
             clearTimeout(geotimeout);
             geotimeout = setTimeout(function () {
-                bindGeoAjax(fconf.key);
+                bindGeoAjax(field);
             }, 800);
         });
 
-        $("#map-" + fconf.key).goMap({
+        field.mapholder.goMap({
             latitude: fconf.latitude,
             longitude: fconf.longitude,
             zoom: 15,
@@ -70,13 +93,13 @@
             },
             'mouseup',
             function () {
-                updateGeoCoords(fconf.key);
+                updateGeoCoords(field);
             }
         );
 
         $('a[data-toggle="tab"]').on('shown.bs.tab', function () {
-            if ($("#map-" + fconf.key).closest('div.tab-pane').hasClass('active')) {
-                $("#map-" + fconf.key).goMap();
+            if (field.mapholder.closest('div.tab-pane').hasClass('active')) {
+                field.mapholder.goMap();
                 google.maps.event.trigger($.goMap.map, 'resize');
             }
         });
@@ -98,25 +121,26 @@
      * @function bindGeoAjax
      * @memberof Bolt.fields.geolocation
      *
-     * @param {string} key - Field key.
+     * @param {FieldData} field - Field data.
      */
-    function bindGeoAjax(key) {
-        var address = $("#" + key + "-address").val();
+    function bindGeoAjax(field) {
+        var address = field.address.val();
 
         // If address is emptied, clear the address fields.
         if (address.length < 2) {
-            $('#' + key + '-latitude').val('');
-            $('#' + key + '-longitude').val('');
-            $('#' + key + '-reversegeo').html('');
-            $('#' + key + '-formatted_address').val('');
+            field.latitude.val('');
+            field.longitude.val('');
+            field.matched.html('');
+            field.matchedData.val('');
             return;
         }
 
+        field.mapholder.goMap();
         $.goMap.setMap({address: address});
         $.goMap.setMarker('pinmarker', {address: address});
 
         setTimeout(function () {
-            updateGeoCoords(key);
+            updateGeoCoords(field);
         }, 500);
     }
 
@@ -127,28 +151,31 @@
      * @function updateGeoCoords
      * @memberof Bolt.fields.geolocation
      *
-     * @param {string} key - Field key.
+     * @param {FieldData} field - Field data.
      */
-    function updateGeoCoords(key) {
-        var markers = $.goMap.getMarkers(),
+    function updateGeoCoords(field) {
+        var markers,
             marker,
             geocoder,
             latlng;
+
+        field.mapholder.goMap();
+        markers = $.goMap.getMarkers();
 
         if (typeof markers[0] !== "undefined") {
             marker = markers[0].split(",");
 
             if (typeof marker[0] !== "undefined" && typeof marker[1] !== "undefined") {
-                $('#' + key + '-latitude').val(marker[0]);
-                $('#' + key + '-longitude').val(marker[1]);
+                field.latitude.val(marker[0]);
+                field.longitude.val(marker[1]);
 
                 // update the 'according to Google' info:
                 geocoder = new google.maps.Geocoder();
                 latlng = new google.maps.LatLng(marker[0], marker[1]);
 
                 geocoder.geocode({latLng: latlng}, function (results, status) {
-                    $('#' + key + '-reversegeo').html(results[0].formatted_address);
-                    $('#' + key + '-formatted_address').val(results[0].formatted_address);
+                    field.matched.html(results[0].formatted_address);
+                    field.matchedData.val(results[0].formatted_address);
                 });
             }
         }
