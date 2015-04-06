@@ -11,46 +11,88 @@
 {% set geolocation_lat = geolocation.latitude|default('') %}
 {% set geolocation_lon = geolocation.longitude|default('') %}
 
-{% set attr_lat = {
-    class:  'form-control',
-    id:     key ~ '-latitude',
-    name:   name ~ '[latitude]',
-    style:  '',
-    type:   'number',
-    step:   'any',
-    value:  geolocation_lat,
-} %}
+{#=== SLOT ===========================================================================================================#}
 
-{% set attr_lon = {
-    class:  'form-control',
-    id:     key ~ '-longitude',
-    name:   name ~ '[longitude]',
-    style:  '',
-    type:   'number',
-    step:   'any',
-    value:  geolocation_lon,
-} %}
+{% macro slot(key, name, geolocation, geolocation_lat, geolocation_lon) %}
+    {% from '_macro/_macro.twig' import attr %}
 
-{% set attr_address = {
-    class:       'form-control',
-    id:          key ~ '-address',
-    name:        name ~ '[address]',
-    type:        'text',
-    placeholder: __('field.geolocation.placeholder.address') ~ ' …',
-    value:       geolocation.address|default(''),
-} %}
+    {% set attr_address = {
+        class:       'form-control',
+        id:          key ~ '-address',
+        name:        name ~ '[address]',
+        type:        'text',
+        placeholder: __('field.geolocation.placeholder.address') ~ ' …',
+        value:       geolocation.address|default(''),
+    } %}
 
-{% set attr_formatted = {
-    id:                key ~ '-formatted_address',
-    name:              name ~ '[formatted_address]',
-    style:             'width: 30%;',
-    type:              'hidden',
-    value:             geolocation.formatted_address|default(''),
-} %}
+    {% set attr_lat = {
+        class:  'form-control',
+        id:     key ~ '-latitude',
+        name:   name ~ '[latitude]',
+        style:  '',
+        type:   'number',
+        step:   'any',
+        value:  geolocation_lat,
+    } %}
+
+    {% set attr_lon = {
+        class:  'form-control',
+        id:     key ~ '-longitude',
+        name:   name ~ '[longitude]',
+        style:  '',
+        type:   'number',
+        step:   'any',
+        value:  geolocation_lon,
+    } %}
+
+    {% set attr_formatted = {
+        id:                key ~ '-formatted_address',
+        name:              name ~ '[formatted_address]',
+        style:             'width: 30%;',
+        type:              'hidden',
+        value:             geolocation.formatted_address|default(''),
+    } %}
+
+    <div class="col-sm-8">
+        <div class="form-group">
+            <div class="col-sm-12">
+                <label>{{ __('field.geolocation.label.address-lookup') }}</label>
+                <input{{ attr(attr_address) }}>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-xs-6">
+                <label>{{ __('field.geolocation.label.latitude') }}</label>
+                <input{{ attr(attr_lat) }}>
+            </div>
+            <div class="col-xs-6">
+                <label>{{ __('field.geolocation.label.longitude') }}</label>
+                <input{{ attr(attr_lon) }}>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-12">
+                <span><b>{{ __('field.geolocation.matched-address') }}</b></span>
+                <p id="{{ key }}-reversegeo"> {{ geolocation.formatted_address|default('') }}</p>
+                <input{{ attr(attr_formatted) }}>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-4">
+        <div class="right-on-large">{# to make the preview align right on wide screens #}
+            <label>{{ __('field.geolocation.label.marker-placement') }}</label>
+            <div class="mapholder" id="map-{{ key }}">
+                <img src="{{ geo.map|default('') }}" width="200" height="150">
+            </div>
+        </div>
+    </div>
+{% endmacro %}
 
 {#=== FIELDSET =======================================================================================================#}
 
 {% extends '_base/_fieldset.twig' %}
+{% from _self import slot %}
 
 {% set fieldset = {
     geolocation: {
@@ -62,38 +104,9 @@
 
 {% block fieldset %}
     <label class="control-label col-xs-12">{{ macro.infopop(labelkey, option.info) }}</label>
-    <div class="col-sm-8">
-        <div class="form-group">
-            <div class="col-sm-12">
-                <label>{{ __('field.geolocation.label.address-lookup') }}</label>
-                <input{{ macro.attr(attr_address) }}>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-xs-6">
-                <label>{{ __('field.geolocation.label.latitude') }}</label>
-                <input{{ macro.attr(attr_lat) }}>
-            </div>
-            <div class="col-xs-6">
-                <label>{{ __('field.geolocation.label.longitude') }}</label>
-                <input{{ macro.attr(attr_lon) }}>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-sm-12">
-                <span><b>{{ __('field.geolocation.matched-address') }}</b></span>
-                <p id="{{ key }}-reversegeo"> {{ geolocation.formatted_address|default('') }}</p>
-                <input{{ macro.attr(attr_formatted) }}>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-sm-4">
-        <div class="right-on-large">{# to make the preview align right on wide screens #}
-            <label>{{ __('field.geolocation.label.marker-placement') }}</label>
-            <div class="mapholder" id="map-{{ key }}">
-                <img src="{{ geo.map|default('') }}" width="200" height="150">
-            </div>
+    <div class="field-container col-xs-12">
+        <div class="field-slot row">
+            {{ slot(key, name, geolocation, geolocation_lat, geolocation_lon) }}
         </div>
     </div>
 {% endblock fieldset %}
