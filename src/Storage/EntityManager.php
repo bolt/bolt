@@ -191,17 +191,13 @@ class EntityManager
     }
 
     /**
-     * Creates a new instance of LegacyRepository to proxy
-     * unknown methods to. 
+     * Returns a proxy to the legacy storage service
      *
      * @return LegacyRepository
      */
     public function legacy()
-    {
-        $repo = new Repository\LegacyRepository($this);
-        $repo->setLegacyStorage($this->legacyStorage);
-        
-        return $repo;
+    {        
+        return $this->legacyStorage;
     }
     
     /**
