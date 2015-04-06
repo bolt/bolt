@@ -2,7 +2,7 @@
 
 namespace Bolt\Filesystem\Plugin;
 
-use Bolt\TwigExtension;
+use Bolt\Twig\TwigExtension;
 
 class ThumbnailUrl extends AdapterPlugin
 {
