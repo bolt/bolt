@@ -1,6 +1,6 @@
 <?php
 
-namespace Bolt;
+namespace Bolt\Twig;
 
 class SetcontentTokenParser extends \Twig_TokenParser
 {
