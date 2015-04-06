@@ -73,14 +73,23 @@
             }]
         });
 
-        // Handler for when the marker is dropped.
         $.goMap.createListener(
-            {type: 'marker', marker: 'pinmarker'},
+            {
+                type: 'marker',
+                marker: 'pinmarker'
+            },
             'mouseup',
             function () {
                 updateGeoCoords(fconf.key);
             }
         );
+
+        $('a[data-toggle="tab"]').on('shown.bs.tab', function () {
+            if ($("#map-" + fconf.key).closest('div.tab-pane').hasClass('active')) {
+                $("#map-" + fconf.key).goMap();
+                google.maps.event.trigger($.goMap.map, 'resize');
+            }
+        });
     };
 
     /**
