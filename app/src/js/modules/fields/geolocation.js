@@ -60,7 +60,8 @@
             mapholder: $(fieldset).find('.mapholder'),
             latitude: $(fieldset).find('.latitude'),
             longitude: $(fieldset).find('.longitude')
-        };
+        },
+            map;
 
         field.address.bind('propertychange input', function () {
             clearTimeout(geotimeout);
@@ -69,7 +70,7 @@
             }, 800);
         });
 
-        field.mapholder.goMap({
+        map = field.mapholder.goMap({
             latitude: fconf.latitude,
             longitude: fconf.longitude,
             zoom: 15,
@@ -84,9 +85,9 @@
                 title: 'Pin',
                 draggable: true
             }]
-        });
+        }).data('goMap');
 
-        $.goMap.createListener(
+        map.createListener(
             {
                 type: 'marker',
                 marker: 'pinmarker'
@@ -99,8 +100,8 @@
 
         $('a[data-toggle="tab"]').on('shown.bs.tab', function () {
             if (field.mapholder.closest('div.tab-pane').hasClass('active')) {
-                field.mapholder.goMap();
-                google.maps.event.trigger($.goMap.map, 'resize');
+                var map = field.mapholder.data('goMap');
+                google.maps.event.trigger(map.map, 'resize');
             }
         });
     };
@@ -124,7 +125,8 @@
      * @param {FieldData} field - Field data.
      */
     function bindGeoAjax(field) {
-        var address = field.address.val();
+        var address = field.address.val(),
+            map;
 
         // If address is emptied, clear the address fields.
         if (address.length < 2) {
@@ -135,9 +137,9 @@
             return;
         }
 
-        field.mapholder.goMap();
-        $.goMap.setMap({address: address});
-        $.goMap.setMarker('pinmarker', {address: address});
+        field.mapholder.data('goMap')
+            .setMap({address: address})
+            .setMarker('pinmarker', {address: address});
 
         setTimeout(function () {
             updateGeoCoords(field);
@@ -154,13 +156,10 @@
      * @param {FieldData} field - Field data.
      */
     function updateGeoCoords(field) {
-        var markers,
+        var markers = field.mapholder.data('goMap').getMarkers(),
             marker,
             geocoder,
             latlng;
-
-        field.mapholder.goMap();
-        markers = $.goMap.getMarkers();
 
         if (typeof markers[0] !== "undefined") {
             marker = markers[0].split(",");
