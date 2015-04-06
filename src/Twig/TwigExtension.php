@@ -1276,7 +1276,7 @@ class TwigExtension extends \Twig_Extension
     {
         $contenttype = null;
         $contentid = null;
-        if ($content instanceof Content) {
+        if ($content instanceof \Bolt\Content) {
             // It's a content record
             $contenttype = $content->contenttype;
             $contentid = $content['id'];
