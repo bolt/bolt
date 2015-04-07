@@ -357,6 +357,13 @@
                 height: 100%;
             }
         }
+
+        input.formatted {
+            width: 100%;
+            border: none;
+            font-size: 13px;
+            cursor: text;
+        }
     }
 }
 

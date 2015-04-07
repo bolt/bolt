@@ -27,8 +27,7 @@
      * @memberof Bolt.fields.slug
      *
      * @property {Object} address - Input: Address lookup.
-     * @property {Object} matched - matched Adress display.
-     * @property {Object} matchedData - Hidden data field input field.
+     * @property {Object} formatted - Readonly input: displaying matched address
      * @property {Object} mapholder - Element holding the map.
      * @property {Object} latitude - Input: Latitude.
      * @property {Object} longitude - Input: Longitude.
@@ -56,8 +55,7 @@
         var map,
             field = {
                 address: $(fieldset).find('.address'),
-                matched: $(fieldset).find('.matched p'),
-                matchedData: $(fieldset).find('.matched input'),
+                formatted: $(fieldset).find('.formatted'),
                 mapholder: $(fieldset).find('.mapholder'),
                 latitude: $(fieldset).find('.latitude'),
                 longitude: $(fieldset).find('.longitude')
@@ -136,8 +134,7 @@
         if (data.address.length < 2) {
             field.latitude.val('');
             field.longitude.val('');
-            field.matched.html('');
-            field.matchedData.val('');
+            field.formatted.val('');
         } else {
             field.mapholder.data('goMap').setMap(data).setMarker('pinmarker', data);
             setTimeout(
@@ -177,8 +174,7 @@
                         latLng: new google.maps.LatLng(marker[0], marker[1])
                     },
                     function (results, status) {
-                        field.matched.html(results[0].formatted_address);
-                        field.matchedData.val(results[0].formatted_address);
+                        field.formatted.val(results[0].formatted_address);
                     }
                 );
             }

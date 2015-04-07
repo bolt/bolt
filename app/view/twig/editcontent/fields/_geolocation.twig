@@ -32,9 +32,10 @@
         step:        'any',
     },
     formatted: {
-        name:        name ~ '[formatted_address]',
-        style:       'width: 30%;',
-        type:        'hidden',
+        class:      'formatted',
+        name:        name ~ '[_address]',
+        type:        'text',
+        readonly:    true
     }
 } %}
 
@@ -61,7 +62,6 @@
         <div class="form-group">
             <div class="col-sm-12 matched">
                 <span><b>{{ __('field.geolocation.matched-address') }}</b></span>
-                <p> {{ geolocation.formatted_address|default('') }}</p>
                 <input{{ attr(attributes.formatted) }} value="{{ geolocation.formatted_address|default('') }}">
             </div>
         </div>
