@@ -31,6 +31,7 @@
      * @property {Object} mapholder - Element holding the map.
      * @property {Object} latitude - Input: Latitude.
      * @property {Object} longitude - Input: Longitude.
+     * @property {function} map - Input: Longitude.
      */
 
     /**
@@ -52,13 +53,16 @@
      * @param {FieldConf} fconf
      */
     geolocation.init = function (fieldset, fconf) {
-        var map,
-            field = {
+        var field = {
                 address: $(fieldset).find('.address'),
                 formatted: $(fieldset).find('.formatted'),
                 mapholder: $(fieldset).find('.mapholder'),
                 latitude: $(fieldset).find('.latitude'),
-                longitude: $(fieldset).find('.longitude')
+                longitude: $(fieldset).find('.longitude'),
+                map: function () {
+                    $(fieldset).find('.mapholder').goMap();
+                    return $.goMap;
+                }
             };
 
         field.address.bind('propertychange input', function () {
@@ -68,7 +72,7 @@
             }, 800);
         });
 
-        map = field.mapholder.goMap({
+        field.mapholder.goMap({
             latitude: fconf.latitude,
             longitude: fconf.longitude,
             zoom: 15,
@@ -83,9 +87,9 @@
                 title: 'Pin',
                 draggable: true
             }]
-        }).data('goMap');
+        });
 
-        map.createListener(
+        field.map().createListener(
             {
                 type: 'marker',
                 marker: 'pinmarker'
@@ -97,11 +101,8 @@
         );
 
         $('a[data-toggle="tab"]').on('shown.bs.tab', function () {
-            var map;
-
             if (field.mapholder.closest('div.tab-pane').hasClass('active')) {
-                map = field.mapholder.data('goMap');
-                google.maps.event.trigger(map.map, 'resize');
+                google.maps.event.trigger(field.map().map, 'resize');
             }
         });
     };
@@ -125,18 +126,19 @@
      * @param {FieldData} field - Field data.
      */
     function bindGeoAjax(field) {
-        var map,
-            data = {
-                address: field.address.val()
-            };
+        var address = field.address.val(),
+            map;
 
         // If address is emptied, clear the address fields.
-        if (data.address.length < 2) {
+        if (address.length < 2) {
             field.latitude.val('');
             field.longitude.val('');
             field.formatted.val('');
         } else {
-            field.mapholder.data('goMap').setMap(data).setMarker('pinmarker', data);
+            map = field.map();
+            map.setMap({address: address});
+            map.setMarker('pinmarker', {address: address});
+
             setTimeout(
                 function () {
                     updateGeoCoords(field);
@@ -156,7 +158,7 @@
      * @param {FieldData} field - Field data.
      */
     function updateGeoCoords(field) {
-        var markers = field.mapholder.data('goMap').getMarkers(),
+        var markers = field.map().getMarkers(),
             marker,
             geocoder;
 
