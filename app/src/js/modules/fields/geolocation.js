@@ -53,15 +53,15 @@
      * @param {FieldConf} fconf
      */
     geolocation.init = function (fieldset, fconf) {
-        var field = {
-            address: $(fieldset).find('.address'),
-            matched: $(fieldset).find('.matched p'),
-            matchedData: $(fieldset).find('.matched input'),
-            mapholder: $(fieldset).find('.mapholder'),
-            latitude: $(fieldset).find('.latitude'),
-            longitude: $(fieldset).find('.longitude')
-        },
-            map;
+        var map,
+            field = {
+                address: $(fieldset).find('.address'),
+                matched: $(fieldset).find('.matched p'),
+                matchedData: $(fieldset).find('.matched input'),
+                mapholder: $(fieldset).find('.mapholder'),
+                latitude: $(fieldset).find('.latitude'),
+                longitude: $(fieldset).find('.longitude')
+            };
 
         field.address.bind('propertychange input', function () {
             clearTimeout(geotimeout);
@@ -99,8 +99,10 @@
         );
 
         $('a[data-toggle="tab"]').on('shown.bs.tab', function () {
+            var map;
+
             if (field.mapholder.closest('div.tab-pane').hasClass('active')) {
-                var map = field.mapholder.data('goMap');
+                map = field.mapholder.data('goMap');
                 google.maps.event.trigger(map.map, 'resize');
             }
         });
@@ -125,25 +127,26 @@
      * @param {FieldData} field - Field data.
      */
     function bindGeoAjax(field) {
-        var address = field.address.val(),
-            map;
+        var map,
+            data = {
+                address: field.address.val()
+            };
 
         // If address is emptied, clear the address fields.
-        if (address.length < 2) {
+        if (data.address.length < 2) {
             field.latitude.val('');
             field.longitude.val('');
             field.matched.html('');
             field.matchedData.val('');
-            return;
+        } else {
+            field.mapholder.data('goMap').setMap(data).setMarker('pinmarker', data);
+            setTimeout(
+                function () {
+                    updateGeoCoords(field);
+                },
+                500
+            );
         }
-
-        field.mapholder.data('goMap')
-            .setMap({address: address})
-            .setMarker('pinmarker', {address: address});
-
-        setTimeout(function () {
-            updateGeoCoords(field);
-        }, 500);
     }
 
     /**
@@ -158,24 +161,26 @@
     function updateGeoCoords(field) {
         var markers = field.mapholder.data('goMap').getMarkers(),
             marker,
-            geocoder,
-            latlng;
+            geocoder;
 
-        if (typeof markers[0] !== "undefined") {
-            marker = markers[0].split(",");
+        if (typeof markers[0] !== 'undefined') {
+            marker = markers[0].split(',');
 
-            if (typeof marker[0] !== "undefined" && typeof marker[1] !== "undefined") {
+            if (typeof marker[0] !== 'undefined' && typeof marker[1] !== 'undefined') {
                 field.latitude.val(marker[0]);
                 field.longitude.val(marker[1]);
 
-                // update the 'according to Google' info:
+                // Update the 'according to Google' info:
                 geocoder = new google.maps.Geocoder();
-                latlng = new google.maps.LatLng(marker[0], marker[1]);
-
-                geocoder.geocode({latLng: latlng}, function (results, status) {
-                    field.matched.html(results[0].formatted_address);
-                    field.matchedData.val(results[0].formatted_address);
-                });
+                geocoder.geocode(
+                    {
+                        latLng: new google.maps.LatLng(marker[0], marker[1])
+                    },
+                    function (results, status) {
+                        field.matched.html(results[0].formatted_address);
+                        field.matchedData.val(results[0].formatted_address);
+                    }
+                );
             }
         }
     }
