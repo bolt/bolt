@@ -15,15 +15,14 @@
     address: {
         class:       'form-control address',
         name:        name ~ '[address]',
-        type:        'text',
         placeholder: __('field.geolocation.placeholder.address') ~ ' …',
+        type:        'text',
     },
     latitude: {
         class:       'form-control latitude',
         name:        name ~ '[latitude]',
-        style:       '',
-        type:        'number',
         step:        'any',
+        type:        'number',
     },
     longitude: {
         class:       'form-control longitude',
@@ -34,8 +33,9 @@
     formatted: {
         class:      'formatted',
         name:        name ~ '[_address]',
+        readonly:    true,
         type:        'text',
-        readonly:    true
+        placeholder: '—',
     }
 } %}
 
@@ -60,18 +60,16 @@
             </div>
         </div>
         <div class="form-group">
-            <div class="col-sm-12 matched">
+            <div class="col-sm-12">
                 <span><b>{{ __('field.geolocation.matched-address') }}</b></span>
                 <input{{ attr(attributes.formatted) }} value="{{ geolocation.formatted_address|default('') }}">
             </div>
         </div>
     </div>
 
-    <div class="col-sm-4 right-on-large">
-        {#<div class="right-on-large">#}
-            <label>{{ __('field.geolocation.label.marker-placement') }}</label>
-            <div class="mapholder"></div>
-        {#</div>#}
+    <div class="col-sm-4">
+        <label>{{ __('field.geolocation.label.marker-placement') }}</label>
+        <div class="mapholder"></div>
     </div>
 {% endmacro %}
 
