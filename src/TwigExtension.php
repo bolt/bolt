@@ -382,6 +382,29 @@ class TwigExtension extends \Twig_Extension
 
         return $str;
     }
+    
+    private function getGps($exifCoord, $hemi) {
+
+        $degrees = count($exifCoord) > 0 ? $this->gps2Num($exifCoord[0]) : 0;
+        $minutes = count($exifCoord) > 1 ? $this->gps2Num($exifCoord[1]) : 0;
+        $seconds = count($exifCoord) > 2 ? $this->gps2Num($exifCoord[2]) : 0;
+
+        return ($degrees + $minutes / 60 + $seconds / 3600);
+
+    }
+
+    private function gps2Num($coordPart) {
+
+        $parts = explode('/', $coordPart);
+
+        if (count($parts) <= 0)
+            return 0;
+
+        if (count($parts) == 1)
+            return $parts[0];
+
+        return floatval($parts[0]) / floatval($parts[1]);
+    }
 
     /**
      * Get an array with the dimensions of an image, together with its
@@ -439,15 +462,23 @@ class TwigExtension extends \Twig_Extension
             'url'         => str_replace("//", "/", $this->app['paths']['files'] . $filename)
         );
         
-        // Get the orientation as defined by exif 
-        $info['exiforientation'] = $imageexif['Orientation'] ? : false;
-        
         // If the picture is turned by exif, ouput the turned aspectratio
         if (in_array($imageexif['Orientation'], array(6,7,8))) {
-            $info['exifaspectratio'] = $imagesize[1] / $imagesize[0];
+            $exifturned = $imagesize[1] / $imagesize[0];
         } else {
-            $info['exifaspectratio'] = $ar;
+            $exifturned = $ar;
         }
+        
+        // Output the relevant exif info
+        $info['exif'] = array(
+            'lat'   => $this->getGps($imageexif['GPSLatitude'], $imageexif['GPSLatitudeRef']) ? : false,
+            'long'  => $this->getGps($imageexif['GPSLongitude'], $imageexif['GPSLongitudeRef']) ? : false,
+            'datetime'  => $imageexif['DateTime'] ? : false,
+            'orientation' => $imageexif['Orientation'] ? : false,
+            'aspectratio' => $exifturned ? : false
+            
+        );
+        
 
         // Landscape if aspectratio > 5:4
         $info['landscape'] = ($ar >= 1.25) ? true : false;
