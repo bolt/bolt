@@ -30,7 +30,12 @@ class StatService
         $url = sprintf($this->app['extend.site'] . $this->urls['install'], $package, $version);
 
         try {
-            $this->app['guzzle.client']->head($url)->send();
+            if ($this->app->deprecated) {
+                /** @deprecated remove when PHP 5.3 support is dropped */
+                $this->app['guzzle.client']->head($url)->send();
+            } else {
+                $this->app['guzzle.client']->head($url);
+            }
         } catch (\Exception $e) {
             $this->app['logger.system']->critical($e->getMessage(), array('event' => 'exception', 'exception' => $e));
         }
