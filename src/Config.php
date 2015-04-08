@@ -442,7 +442,7 @@ class Config
 
         // when adding relations, make sure they're added by their slug. Not their 'name' or 'singular name'.
         if (!empty($contentType['relations']) && is_array($contentType['relations'])) {
-            foreach ($contentType['relations'] as $relkey => $relation) {
+            foreach (array_keys($contentType['relations']) as $relkey) {
                 if ($relkey != Slugify::create()->slugify($relkey)) {
                     $contentType['relations'][Slugify::create()->slugify($relkey)] = $contentType['relations'][$relkey];
                     unset($contentType['relations'][$relkey]);
