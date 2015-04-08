@@ -344,15 +344,16 @@ class Config
      *
      * @return array
      */
-    protected function parseTheme($themePath, array $generalConfig) {
+    protected function parseTheme($themePath, array $generalConfig)
+    {
         $themeConfig = $this->parseConfigYaml('config.yml', $themePath);
 
         if ((isset($themeConfig['templatefields'])) && (is_array($themeConfig['templatefields']))) {
             $templateContentTypes = array();
 
-            foreach($themeConfig['templatefields'] as $template => $templateFields) {
+            foreach ($themeConfig['templatefields'] as $template => $templateFields) {
                 $fieldsContenttype = array(
-                    'fields' => $templateFields,
+                    'fields'        => $templateFields,
                     'singular_name' => 'Template Fields ' . $template
                 );
 
@@ -917,7 +918,7 @@ class Config
                 'notfound_image'    => 'view/img/default_notfound.png',
                 'error_image'       => 'view/img/default_error.png'
             ),
-            'accept_file_types'           => explode(",", "twig,html,js,css,scss,gif,jpg,jpeg,png,ico,zip,tgz,txt,md,doc,docx,pdf,epub,xls,xlsx,csv,ppt,pptx,mp3,ogg,wav,m4a,mp4,m4v,ogv,wmv,avi,webm,svg"),
+            'accept_file_types'           => explode(',', 'twig,html,js,css,scss,gif,jpg,jpeg,png,ico,zip,tgz,txt,md,doc,docx,pdf,epub,xls,xlsx,csv,ppt,pptx,mp3,ogg,wav,m4a,mp4,m4v,ogv,wmv,avi,webm,svg'),
             'hash_strength'               => 10,
             'branding'                    => array(
                 'name'        => 'Bolt',
@@ -949,7 +950,6 @@ class Config
             if ($this->app['resources']->hasPath('composerbackendviews')) {
                 $backendviewpath = $this->app['resources']->getPath('composerbackendviews');
                 if (file_exists($backendviewpath)) {
-
                     $twigpath[] = realpath($backendviewpath);
                 }
             }
