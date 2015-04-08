@@ -224,6 +224,7 @@
      *
      * @param {Object} element - jQuery element to clean
      * @param {String} fieldType - type of field to clean (text, textarea)
+     * @return {String} Value for editcontent input fields
      */
     liveEditor.cleanText = function(element, fieldType) {
         // Preserve newlines and spacing for textarea fields
