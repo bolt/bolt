@@ -195,7 +195,7 @@
             if (fieldType === 'text') {
                 field.val($(this).text());
             } else if (fieldType === 'textarea') {
-                field.val($(this).html().replace(/&nbsp;/g, ' ').replace(/\s?<br.*?>\s?/g, '\n'));
+                field.val($(this).html($(this).html().replace(/&nbsp;/g, ' ').replace(/\s?<br.*?>\s?/g, '\n')).text());
             } else {
                 if (_.has(ckeditor.instances, fieldName)) {
                     ckeditor.instances[fieldName].setData($(this).html());
