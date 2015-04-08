@@ -362,10 +362,15 @@
             width: 100%;
         }
 
-        input.matched {
+        .matched, .latitude, .longitude {
+            background: #fafafa;
             border: none;
-            font-size: 13px;
+            box-shadow: none;
+            font-size: 1em;
+            line-height: 1em;
             cursor: text;
+            padding: 0.5em;
+            height: auto;
         }
     }
 }

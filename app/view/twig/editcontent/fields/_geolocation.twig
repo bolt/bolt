@@ -21,12 +21,14 @@
     latitude: {
         class:       'form-control latitude',
         name:        name ~ '[latitude]',
+        readonly:    true,
         step:        'any',
         type:        'number',
     },
     longitude: {
         class:       'form-control longitude',
         name:        name ~ '[longitude]',
+        readonly:    true,
         type:        'number',
         step:        'any',
     },
@@ -61,7 +63,7 @@
         </div>
         <div class="form-group">
             <div class="col-sm-12">
-                <span><b>{{ __('field.geolocation.matched-address') }}</b></span>
+                <label>{{ __('field.geolocation.matched-address') }}</label>
                 <input{{ attr(attributes.formatted) }} value="{{ geolocation.formatted_address|default('') }}">
             </div>
         </div>
