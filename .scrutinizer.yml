@@ -11,16 +11,8 @@ tools:
                 - src/
         config:
             level: all
-    php_cpd:
-        command: phpcpd
-        min_lines:   5   # Minimum number of identical lines (default: 5)
-        min_tokens: 70   # Minimum number of identical tokens (default: 70)
-        names:           # A list of names that should be scanned (default: '*.php')
-            - '*.php'
-        excluded_dirs:   # A list of excluded directories.
-            - vendor
-            - files
-            - app/cache/
+    php_sim:
+        min_mass: 30             # Defaults to 16
         enabled: true
     php_code_sniffer:
         extensions:
