@@ -31,7 +31,7 @@
         step:        'any',
     },
     formatted: {
-        class:      'formatted',
+        class:      'matched',
         name:        name ~ '[_address]',
         readonly:    true,
         type:        'text',
@@ -56,7 +56,7 @@
             </div>
             <div class="col-xs-6">
                 <label>{{ __('field.geolocation.label.longitude') }}</label>
-                <input{{ attr(attributes.longitude) }} value="{{ geolocation.longitude|default('') }}">
+                <input {{ attr(attributes.longitude) }} value="{{ geolocation.longitude|default('') }}">
             </div>
         </div>
         <div class="form-group">
@@ -69,7 +69,7 @@
 
     <div class="col-sm-4">
         <label>{{ __('field.geolocation.label.marker-placement') }}</label>
-        <div class="mapholder"></div>
+        <div class="mapholder" id="mymap-{{ key }}"></div>
     </div>
 {% endmacro %}
 

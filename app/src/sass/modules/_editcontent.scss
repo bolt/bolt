@@ -358,8 +358,11 @@
             }
         }
 
-        input.formatted {
+        input {
             width: 100%;
+        }
+
+        input.matched {
             border: none;
             font-size: 13px;
             cursor: text;
