@@ -1,7 +1,7 @@
 # Since we need to run part of your test suite, most libraries will first
 # need to install vendors, for example via composer.
 before_commands:
-    - composer install --dev
+    - composer install
 tools:
     php_cs_fixer:
         extensions:
