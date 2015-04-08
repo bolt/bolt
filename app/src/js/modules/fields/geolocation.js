@@ -30,8 +30,8 @@
      * @property {Object} matched - Readonly input: displaying matched address
      * @property {Object} latitude - Input: Latitude.
      * @property {Object} longitude - Input: Longitude.
-     * @property {function} map - Google map object.
-     * @property {function} marker - Map marker.
+     * @property {Object} map - Google map object.
+     * @property {Object} marker - Map marker.
      */
 
     /**
