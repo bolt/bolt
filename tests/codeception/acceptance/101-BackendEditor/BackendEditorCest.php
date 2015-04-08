@@ -76,8 +76,8 @@ class BackendEditorCest
         $I->dontSee('Latest system activity');
         $I->dontSee('Edit Dummies');
 
-        $I->see('File Management', Locator::href('/bolt/files'));
         $I->see('Uploaded files', Locator::href('/bolt/files'));
+        $I->dontSee('File Management', Locator::href('/bolt/files'));
         $I->dontSee('View/edit templates', Locator::href('/bolt/theme'));
     }
 
