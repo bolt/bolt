@@ -3,7 +3,7 @@ namespace Bolt\Tests\Twig;
 
 use Bolt\Storage;
 use Bolt\Tests\BoltUnitTest;
-use Bolt\TwigExtension;
+use Bolt\Twig\TwigExtension;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\VarDumper\VarDumper;
 

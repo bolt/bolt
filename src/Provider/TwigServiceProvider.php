@@ -1,7 +1,7 @@
 <?php
 namespace Bolt\Provider;
 
-use Bolt\TwigExtension;
+use Bolt\Twig\TwigExtension;
 use Silex\Application;
 
 class TwigServiceProvider extends \Silex\Provider\TwigServiceProvider

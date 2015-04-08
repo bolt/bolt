@@ -1,6 +1,6 @@
 <?php
 
-namespace Bolt;
+namespace Bolt\Twig;
 
 use Bolt\DataCollector\TwigDataCollector;
 use Symfony\Bridge\Twig\TwigEngine;

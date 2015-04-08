@@ -1,6 +1,6 @@
 <?php
 
-namespace Bolt;
+namespace Bolt\Twig;
 
 class SetcontentNode extends \Twig_Node
 {

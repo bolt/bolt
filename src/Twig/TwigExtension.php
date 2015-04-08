@@ -1,7 +1,8 @@
 <?php
 
-namespace Bolt;
+namespace Bolt\Twig;
 
+use Bolt\Application;
 use Bolt\Helpers\Html;
 use Bolt\Helpers\Str;
 use Bolt\Library as Lib;
@@ -417,7 +418,7 @@ class TwigExtension extends \Twig_Extension
 
         // Get the dimensions of the image
         $imagesize = getimagesize($fullpath);
-        
+
         // Get the exif data of the image
         $imageexif = exif_read_data($fullpath);
 
@@ -438,10 +439,10 @@ class TwigExtension extends \Twig_Extension
             'fullpath'    => realpath($fullpath),
             'url'         => str_replace("//", "/", $this->app['paths']['files'] . $filename)
         );
-        
-        // Get the orientation as defined by exif 
+
+        // Get the orientation as defined by exif
         $info['exiforientation'] = $imageexif['Orientation'] ? : false;
-        
+
         // If the picture is turned by exif, ouput the turned aspectratio
         if (in_array($imageexif['Orientation'], array(6,7,8))) {
             $info['exifaspectratio'] = $imagesize[1] / $imagesize[0];
@@ -1275,7 +1276,7 @@ class TwigExtension extends \Twig_Extension
     {
         $contenttype = null;
         $contentid = null;
-        if ($content instanceof Content) {
+        if ($content instanceof \Bolt\Content) {
             // It's a content record
             $contenttype = $content->contenttype;
             $contentid = $content['id'];
