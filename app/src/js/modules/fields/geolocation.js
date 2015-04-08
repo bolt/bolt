@@ -107,7 +107,7 @@
         field.marker = new google.maps.Marker({
             map: field.map,
             position: options.center,
-            title: 'Pin',
+            title: bolt.data('field.geolocation.marker'),
             draggable: true,
             animation: google.maps.Animation.DROP,
             icon: bolt.conf('paths.app') + 'view/img/pin_red.png'

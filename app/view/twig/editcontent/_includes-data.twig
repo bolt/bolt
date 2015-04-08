@@ -34,6 +34,7 @@
 {% endif %}
 
 {% if 'geolocation' in used_fieldtypes %}
+    {{ data('field.geolocation.title-pin', __('field.geolocation.title-pin')) }}
     <script src="https://maps.google.com/maps/api/js?sensor=false"></script>
 {% endif %}
 
