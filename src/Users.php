@@ -808,7 +808,9 @@ class Users
     }
 
     /**
-     * Get a user, specified by id. Return 'false' if no user found.
+     * @deprecated Please use getUserById or getUserByUsername
+     *
+     * Get a user, specified by id or username. Return 'false' if no user found.
      *
      * @param int $id
      *
@@ -816,22 +818,48 @@ class Users
      */
     public function getUser($id)
     {
+        if (is_numeric($id)) {
+            return $this->getUserById($id);
+        } else {
+            return $this->getUserByUsername($id);
+        }
+    }
+
+    /**
+     * Get a user, specified by id. Return 'false' if no user found.
+     *
+     * @param int $id
+     * @return array
+     */
+    public function getUserById($id)
+    {
         // Make sure we've fetched the users.
         $this->getUsers();
 
-        if (is_numeric($id)) {
-            foreach ($this->users as $user) {
-                if ($user['id'] == $id) {
-                    return $user;
-                }
-            }
-        } else {
-            if (isset($this->users[$id])) {
-                return $this->users[$id];
+        foreach ($this->users as $user) {
+            if ($user['id'] == $id) {
+                return $user;
             }
         }
+        return false;
+    }
 
-        // otherwise.
+    /**
+     * Get a user, specified by id. Return 'false' if no user found.
+     *
+     * @param string $username
+     * @return array
+     */
+    public function getUserByUsername($username)
+    {
+        // Make sure we've fetched the users.
+        $this->getUsers();
+
+        foreach ($this->users as $user) {
+            if ($user['username'] === $username) {
+                return $user;
+            }
+        }
         return false;
     }
 
