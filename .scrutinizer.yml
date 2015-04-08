@@ -1,5 +1,3 @@
-# Since we need to run part of your test suite, most libraries will first
-# need to install vendors, for example via composer.
 before_commands:
     - composer install
 tools:
@@ -9,21 +7,20 @@ tools:
         command: php-cs-fixer
         enabled: true
         filter:
-            paths: ["src/*"]
+            paths:
+                - src/
         config:
             level: all
     php_cpd:
         command: phpcpd
-        # Minimum number of identical lines (default: 5)
-        min_lines: 5
-        # Minimum number of identical tokens (default: 70)
-        min_tokens: 70
-        # A list of names that should be scanned (default: '*.php')
-        names:
-            # Default:
+        min_lines:   5   # Minimum number of identical lines (default: 5)
+        min_tokens: 70   # Minimum number of identical tokens (default: 70)
+        names:           # A list of names that should be scanned (default: '*.php')
             - '*.php'
-        # A list of excluded directories.
-        excluded_dirs: ["vendor", "files"]
+        excluded_dirs:   # A list of excluded directories.
+            - vendor
+            - files
+            - app/cache/
         enabled: true
     php_code_sniffer:
         extensions:
@@ -31,7 +28,8 @@ tools:
         command: phpcs
         enabled: true
         filter:
-            paths: ["src/*"]
+            paths:
+                - src/
         config:
             standard: PSR2
 #    external_code_coverage:
