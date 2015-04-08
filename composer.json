@@ -58,7 +58,7 @@
         "phpunit/php-code-coverage" : "~2.0",
         "phpunit/phpunit" : "~4.4",
         "sebastian/phpcpd" : "~2.0",
-        "squizlabs/php_codesniffer" : "1.5.*"
+        "squizlabs/php_codesniffer" : "~2.3"
     },
     "minimum-stability" : "beta",
     "config" : {
