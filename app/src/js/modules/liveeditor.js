@@ -193,10 +193,8 @@
             var fieldType = field.closest('[data-fieldtype]').data('fieldtype');
             var fieldValue = '';
 
-            if (fieldType === 'text') {
-                fieldValue = $(this).text();
-            } else if (fieldType === 'textarea') {
-                fieldValue = $(this).html($(this).html().replace(/&nbsp;/g, ' ').replace(/\s?<br.*?>\s?/g, '\n')).text();
+            if (fieldType === 'text' || fieldType === 'textarea') {
+                fieldValue = liveEditor.cleanText($(this), fieldType);
             } else {
                 if (_.has(ckeditor.instances, fieldName)) {
                     ckeditor.instances[fieldName].setData($(this).html());
@@ -213,6 +211,26 @@
         bolt.sidebar.fixlength();
 
         liveEditor.removeEvents();
+    };
+
+    /**
+     * Clean contenteditable values for text fields
+     *
+     * @public
+     *
+     * @function cleanText
+     * @memberof Bolt.liveEditor
+     *
+     * @param {Object} element - jQuery element to clean
+     * @param {String} fieldType - type of field to clean (text, textarea)
+     */
+    liveEditor.cleanText = function(element, fieldType) {
+        // Preserve newlines and spacing for textarea fields
+        if(fieldType == 'textarea') {
+            element.html(element.html().replace(/&nbsp;/g, ' ').replace(/\s?<br.*?>\s?/g, '\n'));
+        }
+
+        return element.text();
     };
 
     /**
