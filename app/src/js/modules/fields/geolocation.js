@@ -161,9 +161,7 @@
                     if (status === google.maps.GeocoderStatus.OK) {
                         var location = results[0].geometry.location;
 
-                        field.matched.val(results[0].formatted_address);
-                        field.latitude.val(location.lat());
-                        field.longitude.val(location.lng());
+                        display(field, results[0].formatted_address, location.lat(), location.lng());
 
                         field.marker.setPosition(location);
                         field.map.setCenter(location);
@@ -171,9 +169,25 @@
                 }
             );
         }
-        field.matched.val('');
-        field.latitude.val('');
-        field.longitude.val('');
+        display();
+    }
+
+    /**
+     * Displays address and location.
+     *
+     * @private
+     * @function geoCode
+     * @memberof Bolt.fields.geolocation
+     *
+     * @param {FieldGeolocation} field - Field data.
+     * @param {string|undefined} address - Address to display.
+     * @param {string|undefined} latitude - latitude to display.
+     * @param {string|undefined} longitude - longitude to display.
+     */
+    function display(field, address, latitude, longitude) {
+        field.matched.val(address || '');
+        field.latitude.val(latitude || '');
+        field.longitude.val(longitude || '');
     }
 
     // Apply mixin container
