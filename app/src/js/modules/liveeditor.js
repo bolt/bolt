@@ -193,13 +193,14 @@
             var fieldType = field.closest('[data-fieldtype]').data('fieldtype');
             var fieldValue = '';
 
-            if (fieldType === 'text' || fieldType === 'textarea') {
-                fieldValue = liveEditor.cleanText($(this), fieldType);
-            } else {
-                if (_.has(ckeditor.instances, fieldName)) {
-                    ckeditor.instances[fieldName].setData($(this).html());
-                }
+            if (fieldType === 'html') {
                 fieldValue = $(this).html();
+
+                if (_.has(ckeditor.instances, fieldName)) {
+                    ckeditor.instances[fieldName].setData(fieldValue);
+                }
+            }else{
+                fieldValue = liveEditor.cleanText($(this), fieldType);
             }
             field.val(fieldValue);
         });
