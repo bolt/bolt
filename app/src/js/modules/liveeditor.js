@@ -191,17 +191,19 @@
             var fieldName = $(this).data('bolt-field');
             var field = $('#editcontent [name=' + liveEditor.escapejQuery(fieldName) + ']');
             var fieldType = field.closest('[data-fieldtype]').data('fieldtype');
+            var fieldValue = '';
 
             if (fieldType === 'text') {
-                field.val($(this).text());
+                fieldValue = $(this).text();
             } else if (fieldType === 'textarea') {
-                field.val($(this).html($(this).html().replace(/&nbsp;/g, ' ').replace(/\s?<br.*?>\s?/g, '\n')).text());
+                fieldValue = $(this).html($(this).html().replace(/&nbsp;/g, ' ').replace(/\s?<br.*?>\s?/g, '\n')).text();
             } else {
                 if (_.has(ckeditor.instances, fieldName)) {
                     ckeditor.instances[fieldName].setData($(this).html());
                 }
-                field.val($(this).html());
+                fieldValue = $(this).html();
             }
+            field.val(fieldValue);
         });
 
         $(iframe).attr('src', '');
