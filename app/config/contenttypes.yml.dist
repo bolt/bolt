@@ -1,7 +1,7 @@
 # This file defines the contenttypes on the website. See the documentation for
 # details: http://docs.bolt.cm/content#defining-contenttypes
 
-# Pages can be used for the more 'static' pages on your site. Things like
+# Contenttype 'pages' can be used for the more 'static' pages on your site. Things like
 # 'about us', 'contact' or a 'disclaimer'. This content-type has a 'templateselect'
 # field, which allows you to override the record_template setting for an
 # individual page.
@@ -12,8 +12,8 @@
 # together.
 
 pages:
-    name: Pages
-    singular_name: Page
+    slug: pages
+    singular_slug: page
     fields:
         title:
             type: text
@@ -37,7 +37,7 @@ pages:
     recordsperpage: 100
 
 
-# Entries can be used for things like 'news' or 'blogpostings'. They have a 'teaser',
+# Contenttype 'entries' can be used for things like 'news' or 'blogpostings'. They have a 'teaser',
 # which can be used for a short blurb on listing-pages, allowing visitors to
 # click-through to the rest of the entry. It also has fields for an image and an
 # optional video.
@@ -49,8 +49,8 @@ pages:
 # shown above older entries.
 
 entries:
-    name: Entries
-    singular_name: Entry
+    slug: entries
+    singular_slug: entry
     fields:
         title:
             type: text
@@ -83,16 +83,14 @@ entries:
     sort: -datepublish
     recordsperpage: 10
 
-# The 'Showcases' is not particularly useful in most cases, but it does a good
+# Contenttype 'showcases' is not particularly useful in most cases, but it does a good
 # job of showcasing most of the available fieldtypes. Feel free to delete it, or
 # copy some fields to your own contenttypes.
 # Since no templates are defined for this contenttype, the default record_template,
 # listing_template, and related settings are used from config.yml
 
 showcases:
-    name: Showcases
     slug: showcases
-    singular_name: Showcase
     singular_slug: showcase
     fields:
         title:
@@ -101,7 +99,7 @@ showcases:
             required: true
             pattern: ".{2,255}" # see: http://html5pattern.com/
             error: "The Title field is required, and must contain at least 2 characters"
-            group: Text
+            group: text
         slug:
             type: slug
             uses: [ title ]
@@ -116,7 +114,7 @@ showcases:
             postfix: "<p><em>This field gets parsed as <a href='https://help.github.com/articles/markdown-basics'>Markdown</a>, when rendered on the site.</em></p>"
         geolocation:
             type: geolocation
-            group: Media
+            group: media
         video:
             type: video
         image:
@@ -189,7 +187,7 @@ showcases:
 # float - double - Input field for floating numbers, stored as 'Double'.
 # geolocation - text (65kb) - Input field for geolocation. Enter an address, and the location is geocoded to latitude/longitude coordinates
 # imagelist - text (65kb) - Input type for imagelists. Add multiple images with a description. Useful for image sliders, galleries, etcetera.
-# image - varchar(256) - image select/upload widget, stored as filename.
+# image - varchar(256) - image select/upload widget, stored as filegroup:.
 # file - varchar(256) - file select/upload widget, stored as filename.
 # filelist - text (65kb) - Input type for a list of files. Including a description.
 # video - varchar(256) - Video embed widget, stored as filename.
