@@ -32,6 +32,7 @@
      * @property {Object} longitude - Input: Longitude.
      * @property {Object} map - Google map object.
      * @property {Object} marker - Map marker.
+     * @property {integer} timeout - Timeout for location resolving.
      */
 
     /**
@@ -93,7 +94,8 @@
                 latitude: $(fieldset).find('.latitude'),
                 longitude: $(fieldset).find('.longitude'),
                 map: null,
-                marker: null
+                marker: null,
+                timeout: undefined
             },
             options = mapOptions;
 
@@ -118,8 +120,8 @@
 
         // Update location when typed into address field.
         field.address.bind('propertychange input', function () {
-            clearTimeout(geotimeout);
-            geotimeout = setTimeout(function () {
+            clearTimeout(field.timeout);
+            field.timeout = setTimeout(function () {
                 var address = field.address.val();
 
                 geoCode(field, address.length > 2 ? {address: address} : undefined);
@@ -133,15 +135,6 @@
             }
         });
     };
-
-    /**
-     * Timeout.
-     *
-     * @private
-     * @type {Array}
-     * @memberof Bolt.fields.geolocation
-     */
-    var geotimeout;
 
     /**
      * Geocode address or location and display result
