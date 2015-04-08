@@ -2,27 +2,26 @@ before_commands:
     - composer install
 tools:
     php_cs_fixer:
+        enabled: true
         extensions:
             - php
         command: php-cs-fixer
-        enabled: true
         filter:
             paths:
                 - src/
         config:
             level: all
     php_sim:
+        enabled: true
         min_mass: 30             # Defaults to 16
-        enabled: true
     php_code_sniffer:
-        extensions:
-            - php
-        command: phpcs
-        enabled: true
+        enabled: false
+        config:
+            standard: PSR2
+            include_standards:
+                - CodeSniffer/Bolt/
         filter:
             paths:
                 - src/
-        config:
-            standard: PSR2
 #    external_code_coverage:
 #        timeout: 1200
