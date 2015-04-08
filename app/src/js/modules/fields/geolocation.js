@@ -15,7 +15,7 @@
      * @typedef {Object} FieldConf
      * @memberof Bolt.fields.slug
      *
-     * @property {string} key - The field key
+     * @property {string} key - The field key.
      * @property {string} latitude: - Latitude.
      * @property {string} longitude - Longitude.
      */
@@ -174,8 +174,8 @@
      *
      * @param {FieldGeolocation} field - Field data.
      * @param {string|undefined} address - Address to display.
-     * @param {string|undefined} latitude - latitude to display.
-     * @param {string|undefined} longitude - longitude to display.
+     * @param {string|undefined} latitude - Latitude to display.
+     * @param {string|undefined} longitude - Longitude to display.
      */
     function display(field, address, latitude, longitude) {
         field.matched.val(address || '');
