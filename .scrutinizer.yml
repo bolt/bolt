@@ -9,7 +9,7 @@ tools:
         command: php-cs-fixer
         enabled: true
         filter:
-            paths: ["app/src/*"]
+            paths: ["src/*"]
         config:
             level: all
     php_cpd:
@@ -31,7 +31,7 @@ tools:
         command: phpcs
         enabled: true
         filter:
-            paths: ["app/src/*"]
+            paths: ["src/*"]
         config:
             standard: PSR2
 #    external_code_coverage:
