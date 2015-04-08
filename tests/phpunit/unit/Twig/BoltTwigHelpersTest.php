@@ -188,7 +188,7 @@ class BoltTwigHelpersTest extends BoltUnitTest
         $twig = new TwigExtension($app);
         $img = '../generic-logo.png';
         $info = $twig->imageInfo($img);
-        $this->assertEquals(13, count($info));
+        $this->assertEquals(12, count($info));
 
         // Test non readable image fails
         $app = $this->getApp();
