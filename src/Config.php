@@ -423,6 +423,13 @@ class Config
         if (($contentType['viewless']) || (!$generalConfig['liveeditor'])) {
             $contentType['liveeditor'] = false;
         }
+        // Allow explicit setting of a Contenttype's table name suffix. We default
+        // to slug if not present as it has been this way since Bolt v1.2.1
+        if (!isset($contentType['tablename'])) {
+            $contentType['tablename'] = $contentType['slug'];
+        } else {
+            $contentType['tablename'] = Slugify::create()->slugify($contentType['slug']);
+        }
 
         list($fields, $groups) = $this->parseFieldsAndGroups($contentType['fields'], $generalConfig);
         $contentType['fields'] = $fields;

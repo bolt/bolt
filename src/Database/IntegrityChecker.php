@@ -530,10 +530,10 @@ class IntegrityChecker
         $tables = array();
 
         // Now, iterate over the contenttypes, and create the tables if they don't exist.
-        foreach ($this->app['config']->get('contenttypes') as $key => $contenttype) {
+        foreach ($this->app['config']->get('contenttypes') as $contenttype) {
 
             // create the table if necessary.
-            $tablename = $this->getTablename($key);
+            $tablename = $this->getTablename($contenttype['tablename']);
 
             $myTable = $schema->createTable($tablename);
             $myTable->addColumn('id', 'integer', array('autoincrement' => true));
