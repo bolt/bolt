@@ -1168,8 +1168,11 @@ class Content implements \ArrayAccess
     /**
      * Gets one or more related records.
      *
-     * @param string  $filtercontenttype
-     * @param integer $filterid
+     * @param string $filtercontenttype Contenttype to filter returned results on
+     * @param array  $options           A set of 'WHERE' options to apply to the filter
+     * 
+     * Backward compatability note:
+     * The $options parameter used to be $filterid, an integer.
      *
      * @return \Bolt\Content[]
      */
