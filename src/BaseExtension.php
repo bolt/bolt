@@ -7,6 +7,8 @@ use Bolt\Helpers\Arr;
 use Bolt\Library as Lib;
 use Composer\Json\JsonFile;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Filesystem\Exception\IOException;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Yaml;
 
 abstract class BaseExtension implements ExtensionInterface
@@ -28,6 +30,9 @@ abstract class BaseExtension implements ExtensionInterface
     private $composerJson;
     private $configLoaded;
 
+    /**
+     * @param Application $app
+     */
     public function __construct(Application $app)
     {
         $this->app = $app;
@@ -264,47 +269,55 @@ abstract class BaseExtension implements ExtensionInterface
         if (file_exists($configfile)) {
             if (is_readable($configfile)) {
                 return true;
+            }
+
+            // Config file exists but is not readable
+            $configdir = dirname($configfile);
+            $message = "Couldn't read $configfile. Please correct file " .
+                       "permissions and ensure the $configdir directory readable.";
+            $this->app['logger.system']->critical($message, array('event' => 'extensions'));
+            $this->app['session']->getFlashBag()->add('error', $message);
+
+            return false;
+        }
+
+        if (!$create) {
+            return false;
+        }
+
+        $fs = new Filesystem();
+        $configdistfile = $this->basepath . '/config.yml.dist';
+
+        // There are cases where the config directory may not exist yet, try to create it.
+        try {
+            $fs->mkdir(dirname($configfile));
+        } catch (IOException $e) {
+            $message = 'Unable to create extension configuration directory at ' . dirname($configfile);
+            $this->app['session']->getFlashBag()->add('error', $message);
+            $this->app['logger.system']->error($message, array('event' => 'exception', 'exception' => $e));
+        }
+
+        // If config.yml.dist exists, attempt to copy it to config.yml.
+        if (is_readable($configdistfile) && is_dir(dirname($configfile))) {
+            if (copy($configdistfile, $configfile)) {
+                // Success!
+                $this->app['logger.system']->info("Copied $configdistfile to $configfile", array('event' => 'extensions'));
+
+                return true;
             } else {
-                // Config file exists but is not readable
+                // Failure!!
                 $configdir = dirname($configfile);
-                $message = "Couldn't read $configfile. Please correct file " .
-                           "permissions and ensure the $configdir directory readable.";
+                $message = "Couldn't copy $configdistfile to $configfile: " .
+                "File is not writable. Create the file manually, " .
+                "or make the $configdir directory writable.";
                 $this->app['logger.system']->critical($message, array('event' => 'extensions'));
                 $this->app['session']->getFlashBag()->add('error', $message);
 
                 return false;
             }
-        } elseif ($create) {
-            $configdistfile = $this->basepath . '/config.yml.dist';
-
-            // There are cases where the config directory may not exist yet.
-            // Firstly we try to create it.
-            if (!is_dir(dirname($configfile))) {
-                @mkdir(dirname($configfile), 0777, true);
-            }
-
-            // If config.yml.dist exists, attempt to copy it to config.yml.
-            if (is_readable($configdistfile) && is_dir(dirname($configfile))) {
-                if (copy($configdistfile, $configfile)) {
-                    // Success!
-                    $this->app['logger.system']->info("Copied $configdistfile to $configfile", array('event' => 'extensions'));
-
-                    return true;
-                } else {
-                    // Failure!!
-                    $configdir = dirname($configfile);
-                    $message = "Couldn't copy $configdistfile to $configfile: " .
-                               "File is not writable. Create the file manually, " .
-                               "or make the $configdir directory writable.";
-                    $this->app['logger.system']->critical($message, array('event' => 'extensions'));
-                    $this->app['session']->getFlashBag()->add('error', $message);
-
-                    return false;
-                }
-            }
-
-            return false;
         }
+
+        return false;
     }
 
     /**
@@ -467,10 +480,10 @@ abstract class BaseExtension implements ExtensionInterface
     /**
      * Add a javascript file to the rendered HTML.
      *
-     * @param string  $filename File name to add to src=""
-     * @param array   $options  'late'     - True to add to the end of the HTML <body>
-     *                          'priority' - Loading priority
-     *                          'attrib'   - Either 'defer', or 'async'
+     * @param string $filename File name to add to src=""
+     * @param array  $options  'late'     - True to add to the end of the HTML <body>
+     *                         'priority' - Loading priority
+     *                         'attrib'   - Either 'defer', or 'async'
      */
     public function addJavascript($filename, $options = array())
     {
