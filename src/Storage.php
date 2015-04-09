@@ -2061,7 +2061,7 @@ class Storage
      *
      * @param string $contenttypeslug
      *
-     * @return bool|array
+     * @return boolean|array
      */
     public function getContentType($contenttypeslug)
     {

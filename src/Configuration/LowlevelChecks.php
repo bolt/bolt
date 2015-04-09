@@ -46,6 +46,11 @@ class LowlevelChecks
         $this->mysqlLoaded = extension_loaded('pdo_mysql');
     }
 
+    /**
+     * Remove a check from the list causing it to be skipped.
+     *
+     * @param string $check
+     */
     public function removeCheck($check)
     {
         if (in_array($check, $this->checks)) {
@@ -53,6 +58,12 @@ class LowlevelChecks
         }
     }
 
+    /**
+     * Add a check
+     *
+     * @param string  $check
+     * @param boolean $top
+     */
     public function addCheck($check, $top = false)
     {
         if (!in_array($check, $this->checks)) {

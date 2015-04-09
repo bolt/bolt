@@ -323,6 +323,10 @@ class Content implements \ArrayAccess
         }
     }
 
+    /**
+     * @param string $key
+     * @param mixed  $value
+     */
     public function setValue($key, $value)
     {
         // Don't set templateFields if not a real contenttype
@@ -522,6 +526,11 @@ class Content implements \ArrayAccess
         $this->setValues($values);
     }
 
+    /**
+     * Get the template associate with a Contenttype field.
+     *
+     * @return string
+     */
     protected function getTemplateFieldsContentType()
     {
         if (is_array($this->contenttype)) {
@@ -535,6 +544,11 @@ class Content implements \ArrayAccess
         return '';
     }
 
+    /**
+     * Check if a Contenttype field has a template set.
+     *
+     * @return boolean
+     */
     public function hasTemplateFields()
     {
         if (is_array($this->contenttype)) {
@@ -586,6 +600,11 @@ class Content implements \ArrayAccess
         return ' (' . $index . ')' . $ext;
     }
 
+    /**
+     * Set the Contenttype for the record.
+     *
+     * @param string|array $contenttype
+     */
     public function setContenttype($contenttype)
     {
         if (is_string($contenttype)) {
@@ -691,6 +710,12 @@ class Content implements \ArrayAccess
         }
     }
 
+    /**
+     * Add a relation.
+     *
+     * @param string|array $contenttype
+     * @param integer      $id
+     */
     public function setRelation($contenttype, $id)
     {
         if (!empty($this->relation[$contenttype])) {
@@ -705,6 +730,13 @@ class Content implements \ArrayAccess
         $this->relation[$contenttype] = array_unique($ids);
     }
 
+    /**
+     * Get a specific taxonomy's type.
+     *
+     * @param string $type
+     *
+     * @return string|boolean
+     */
     public function getTaxonomyType($type)
     {
         if (isset($this->config['taxonomy'][$type])) {
@@ -830,8 +862,8 @@ class Content implements \ArrayAccess
     /**
      * If passed snippet contains Twig tags, parse the string as Twig, and return the results.
      *
-     * @param string $snippet
-     * @param $allowtwig
+     * @param string  $snippet
+     * @param boolena $allowtwig
      *
      * @return string
      */
@@ -902,6 +934,8 @@ class Content implements \ArrayAccess
 
     /**
      * Get the title, name, caption or subject.
+     *
+     * @return string
      */
     public function getTitle()
     {
@@ -910,7 +944,7 @@ class Content implements \ArrayAccess
         }
 
         // nope, no title was found.
-        return "(untitled)";
+        return '(untitled)';
     }
 
     /**
@@ -1229,7 +1263,7 @@ class Content implements \ArrayAccess
     /**
      * Get field information for the given field.
      *
-     * @param $key
+     * @param string $key
      *
      * @return array An associative array containing at least the key 'type',
      *               and, depending on the type, other keys.
@@ -1246,7 +1280,7 @@ class Content implements \ArrayAccess
     /**
      * Get the fieldtype for a given fieldname.
      *
-     * @param $key
+     * @param string $key
      *
      * @return string
      */
@@ -1263,7 +1297,7 @@ class Content implements \ArrayAccess
      * @param int  $length
      * @param bool $includetitle
      *
-     * @return string
+     * @return \Twig_Markup
      */
     public function excerpt($length = 200, $includetitle = false)
     {

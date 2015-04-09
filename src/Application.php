@@ -27,6 +27,9 @@ class Application extends Silex\Application
      */
     const DEFAULT_LOCALE = 'en_GB';
 
+    /**
+     * @param array $values
+     */
     public function __construct(array $values = array())
     {
         $values['bolt_version'] = '2.2.0';
@@ -132,6 +135,9 @@ class Application extends Silex\Application
         $this->error(array($this, 'errorHandler'));
     }
 
+    /**
+     * Initialize the loggers.
+     */
     public function initLogger()
     {
         $this->register(new LoggerServiceProvider(), array());
@@ -207,6 +213,9 @@ class Application extends Silex\Application
         restore_error_handler();
     }
 
+    /**
+     * Initialize the rendering providers.
+     */
     public function initRendering()
     {
         $this->register(new Provider\TwigServiceProvider());
@@ -613,7 +622,7 @@ class Application extends Silex\Application
     }
 
     /**
-     * TODO Can this be removed?
+     * @todo Can this be removed?
      *
      * @param string $name
      *
@@ -624,6 +633,13 @@ class Application extends Silex\Application
         return isset($this[$name]);
     }
 
+    /**
+     * Get the Bolt version string
+     *
+     * @param array $long TRUE returns 'version name', FALSE 'version'
+     *
+     * @return string
+     */
     public function getVersion($long = true)
     {
         if ($long) {

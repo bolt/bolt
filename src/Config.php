@@ -942,7 +942,7 @@ class Config
     /**
      * Build an array of Twig paths.
      *
-     * @return array
+     * @return string[]
      */
     public function getTwigPath()
     {

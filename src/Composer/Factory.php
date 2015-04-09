@@ -102,7 +102,7 @@ final class Factory extends PackageManager
     /**
      * Get a new Composer object.
      *
-     * @return \Bolt\Composer\Factory
+     * @return \Composer\Composer
      */
     public function resetComposer()
     {
@@ -114,7 +114,7 @@ final class Factory extends PackageManager
     /**
      * Return the output from the last IO.
      *
-     * @return array
+     * @return string
      */
     public function getOutput()
     {
