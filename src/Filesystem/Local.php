@@ -168,7 +168,15 @@ class Local extends LocalBase
 
         $permissions = substr(sprintf('%o', fileperms($location)), -3, 1);
         $fileOwnerId = fileowner($location);
-        $procOwnerId = posix_getuid();
+        
+        if (function_exists('posix_getuid')) {
+            $uhandler = 'posix_getuid';
+        } else {
+            $uhandler = 'getmyuid';
+        }
+        
+        $procOwnerId = call_user_func($uhandler);
+        
         if ($fileOwnerId === $procOwnerId && (int) $permissions >= 6) {
             return true;
         }
@@ -180,7 +188,14 @@ class Local extends LocalBase
     {
         $permissions = substr(sprintf('%o', fileperms($location)), -2, 1);
         $fileOwnerGroup = filegroup($location);
-        $procOwnerGroup = posix_getgid();
+        
+        if (function_exists('posix_getgid')) {
+            $ghandler = 'posix_getgid';
+        } else {
+            $ghandler = 'getmygid';
+        }
+        
+        $procOwnerGroup = call_user_func($ghandler);
         if ($fileOwnerGroup === $procOwnerGroup && (int) $permissions >= 6) {
             return true;
         }
@@ -197,7 +212,15 @@ class Local extends LocalBase
 
         $permissions = substr(sprintf('%o', fileperms($location)), -3, 1);
         $fileOwnerId = fileowner($location);
-        $procOwnerId = posix_getuid();
+
+        if (function_exists('posix_getuid')) {
+            $uhandler = 'posix_getuid';
+        } else {
+            $uhandler = 'getmyuid';
+        }
+        
+        $procOwnerId = call_user_func($uhandler);
+        
         if ($fileOwnerId === $procOwnerId && (int) $permissions >= 5) {
             return true;
         }
@@ -209,7 +232,15 @@ class Local extends LocalBase
     {
         $permissions = substr(sprintf('%o', fileperms($location)), -2, 1);
         $fileOwnerGroup = filegroup($location);
-        $procOwnerGroup = posix_getgid();
+
+        if (function_exists('posix_getgid')) {
+            $ghandler = 'posix_getgid';
+        } else {
+            $ghandler = 'getmygid';
+        }
+        
+        $procOwnerGroup = call_user_func($ghandler);
+        
         if ($fileOwnerGroup === $procOwnerGroup && (int) $permissions >= 5) {
             return true;
         }
