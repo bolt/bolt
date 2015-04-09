@@ -83,7 +83,6 @@ class DoctrineMockBuilder extends \PHPUnit_Framework_TestCase
         return $mock;
     }
 
-
     /**
      * @return \Doctrine\DBAL\Driver\Statement|\PHPUnit_Framework_MockObject_MockObject
      */
