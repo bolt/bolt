@@ -1,0 +1,6 @@
+{% set ftype = fieldset|keys|first %}
+{% set fconf = fieldset|first %}
+
+<fieldset data-bolt-field="{{ ftype }}" data-bolt-fconf="{{ fconf|json_encode }}">
+{% block fieldset %}{% endblock fieldset %}
+</fieldset>

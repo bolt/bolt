@@ -6,36 +6,38 @@
 
 {#=== INIT ===========================================================================================================#}
 
-{% set bind_values = option.uses ? ['slug', {
-    contentId:      context.content.id,
-    isEmpty:        (context.content.get(contentkey) == ''),
-    key:            key,
-    messageSet:     __('field.slug.message.set'),
-    messageUnlock:  __('field.slug.message.unlock'),
-    slug:           context.content.contenttype.slug,
-    uses:           option.uses,
-}] : '' %}
-
 {% set attr_slug = {
-    _bind:    bind_values,
-    class:    'sluginput',
-    name:     name,
+    class:    'form-control',
     id:       key,
-    type:     'text',
-    value:    context.content.get(key),
+    name:     name,
+    type:     'hidden',
+    value:    context.content.get(key)
 } %}
 
 {#=== FIELDSET =======================================================================================================#}
 
-<fieldset class="slug">
+{% extends '_base/_fieldset.twig' %}
 
-    <div class="col-sm-12">
-        <label>{{ __('field.slug.permalink') }}:
-            <code>/{{ context.content.contenttype.singular_slug }}/<span id="show-{{ key }}">{{ context.content.get(contentkey) }}</span></code>
+{% set fieldset = {
+    slug: {
+        contentId:      context.content.id,
+        isEmpty:        (context.content.get(contentkey) == ''),
+        key:            key,
+        slug:           context.content.contenttype.slug,
+        uses:           option.uses,
+    }
+}%}
+
+{% block fieldset %}
+    <label class="col-sm-3 control-label">{{ __('field.slug.permalink') }}:</label>
+    <div class="col-sm-9">
+        <div class="input-group input-group-sm locked">
+            <span class="input-group-addon">/{{ context.content.contenttype.singular_slug }}/<em>{{ context.content.get(contentkey) }}</em></span>
             <input{{ macro.attr(attr_slug) }}>
-            <span class="sluglocker" data-for="{{key}}" data-uses='{{option.uses|json_encode()}}'><i class="fa fa-lock"></i></span>
-            <span class="slugedit" data-for="{{key}}" data-uses='{{option.uses|json_encode()}}'><i class="fa fa-pencil"></i></span>
-        </label>
+            <span class="input-group-btn">
+                <button type="button" class="btn btn-default lock"><i class="fa fa-fw"></i></button>
+                <button type="button" class="btn btn-default edit"><i class="fa fa-fw fa-pencil"></i></button>
+            </span>
+        </div>
     </div>
-
-</fieldset>
+{% endblock fieldset %}

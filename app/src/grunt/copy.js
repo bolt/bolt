@@ -63,12 +63,4 @@ module.exports = {
             }
         }
     },
-
-    /*
-     * TARGET:  Copies jquery-gomap.min.js
-     */
-    installJqueryGomap: {
-        src: '<%= path.src.lib %>/jquery-gomap/jquery-gomap.min.js',
-        dest: '<%= path.dest.js %>/jquery-gomap.min.js'
-    }
 };

@@ -15,9 +15,6 @@
 + ``datepicker`` ⇒
   **Datepicker locale v?**
 
-+ ``jquery-gomap`` ⇒
-  **[jQuery goMap](http://www.pittss.lv/jquery/gomap/) 1.3.3**
-
 + ``jquery-hotkeys`` ⇒
   **[jQuery Hotkeys Plugin](https://github.com/jeresig/jquery.hotkeys) 1.10.3**
 

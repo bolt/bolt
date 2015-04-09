@@ -173,7 +173,7 @@
         }
     }
 
-    /*** Map/Image-Holder ***/
+    /*** Image-Holder ***/
 
     @media (min-width: 768px) {
         .right-on-large {
@@ -188,18 +188,6 @@
             max-height: 148px;
             max-width: 100%;
             border: 1px solid #BBB;
-        }
-    }
-
-    .mapholder {
-        border: 1px solid #BBB;
-        width: 200px;
-        height: 148px;
-        padding: 2px;
-
-        @include respond-to(medium-screens) {
-            min-width: 160px;
-            max-width: 200px;
         }
     }
 
@@ -279,67 +267,6 @@
         margin-top: 52px;
         margin-bottom: 24px;
     }
-
-    /*** Fieldset: Checkbox ***/
-
-    fieldset.checkbox {
-        display: block;
-
-        label {
-            display: inline;
-            padding-left: 0;
-            font-weight: normal;
-        }
-
-        input {
-            display: inline;
-            height: 1em;
-            margin-left: 10px;
-            width: auto;
-        }
-    }
-
-    /*** Fieldset: Select and Multiselect ***/
-
-    fieldset.select,
-    fieldset.multiselect {
-        select {
-            display: block;
-            margin-bottom: 8px;
-            width: auto;
-            min-width: 200px;
-        }
-
-        .wide {
-            width: 100%;
-        }
-
-    }
-
-    /*** Fieldset: Slug ***/
-
-    fieldset.slug {
-        margin-top: -10px; // pull the slug closer to the field previous, usually the title
-
-        label {
-            margin: 0 0 0.5em;
-            code {
-                white-space: normal;
-            }
-        }
-
-        .sluginput {
-            display: none;
-        }
-
-        .sluglocker,
-        .slugedit {
-            color: #666;
-            display: inline-block;
-            padding: 0 3px;
-            cursor: pointer;
-        }
-    }
 }
 
 /*** Live Editor Styles ***/
@@ -371,7 +298,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    
+
     iframe {
         border: none;
         display: block;
@@ -384,7 +311,7 @@
     #navpage-content, .navbar-toggle {
         display: none;
     }
-    
+
     /*#navpage-wrapper {
         @extend #navpage-wrapper.nav-secondary-collapsed;
         @extend #navpage-wrapper.nav-secondary-collapsed-hoverable;
@@ -412,19 +339,19 @@
     #navpage-secondary {
         display: none;
     }
-    
+
     footer {
         display: none;
     }
-    
+
     .navbar-form {
         display: none;
     }
-    
+
     .live-editor {
         display: block;
     }
-    
+
     #navpage-secondary {
         top: 54px;
         height: auto;
