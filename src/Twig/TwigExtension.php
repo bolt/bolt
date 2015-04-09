@@ -51,78 +51,78 @@ class TwigExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
-            new \Twig_SimpleFunction('__', array($this, 'trans'), array('is_safe' => array('html'))),
-            new \Twig_SimpleFunction('backtrace', array($this, 'printBacktrace'), array('is_safe' => array('html'))),
-            new \Twig_SimpleFunction('current', array($this, 'current')),
-            new \Twig_SimpleFunction('data', array($this, 'addData')),
-            new \Twig_SimpleFunction('debugbar', array($this, 'debugBar')),
-            new \Twig_SimpleFunction('dump', array($this, 'printDump'), array('is_safe' => array('html'))),
-            new \Twig_SimpleFunction('excerpt', array($this, 'excerpt'), array('is_safe' => array('html'))),
-            new \Twig_SimpleFunction('fancybox', array($this, 'popup'), array('is_safe' => array('html'))), // "Fancybox" is deprecated.
-            new \Twig_SimpleFunction('file_exists', array($this, 'fileExists')),
-            new \Twig_SimpleFunction('firebug', array($this, 'printFirebug'), array('is_safe' => array('html'))),
-            new \Twig_SimpleFunction('first', array($this, 'first')),
-            new \Twig_SimpleFunction('getuser', array($this, 'getUser')),
-            new \Twig_SimpleFunction('getuserid', array($this, 'getUserId')),
-            new \Twig_SimpleFunction('htmllang', array($this, 'htmlLang')),
-            new \Twig_SimpleFunction('image', array($this, 'image')),
-            new \Twig_SimpleFunction('imageinfo', array($this, 'imageInfo')),
-            new \Twig_SimpleFunction('isallowed', array($this, 'isAllowed')),
+            new \Twig_SimpleFunction('__',                 array($this, 'trans'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFunction('backtrace',          array($this, 'printBacktrace'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFunction('current',            array($this, 'current')),
+            new \Twig_SimpleFunction('data',               array($this, 'addData')),
+            new \Twig_SimpleFunction('debugbar',           array($this, 'debugBar')),
+            new \Twig_SimpleFunction('dump',               array($this, 'printDump'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFunction('excerpt',            array($this, 'excerpt'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFunction('fancybox',           array($this, 'popup'), array('is_safe' => array('html'))), // "Fancybox" is deprecated.
+            new \Twig_SimpleFunction('file_exists',        array($this, 'fileExists')),
+            new \Twig_SimpleFunction('firebug',            array($this, 'printFirebug'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFunction('first',              array($this, 'first')),
+            new \Twig_SimpleFunction('getuser',            array($this, 'getUser')),
+            new \Twig_SimpleFunction('getuserid',          array($this, 'getUserId')),
+            new \Twig_SimpleFunction('htmllang',           array($this, 'htmlLang')),
+            new \Twig_SimpleFunction('image',              array($this, 'image')),
+            new \Twig_SimpleFunction('imageinfo',          array($this, 'imageInfo')),
+            new \Twig_SimpleFunction('isallowed',          array($this, 'isAllowed')),
             new \Twig_SimpleFunction('ischangelogenabled', array($this, 'isChangelogEnabled')),
-            new \Twig_SimpleFunction('ismobileclient', array($this, 'isMobileClient')),
-            new \Twig_SimpleFunction('last', array($this, 'last')),
-            new \Twig_SimpleFunction('listcontent', array($this, 'listContent')),
-            new \Twig_SimpleFunction('listtemplates', array($this, 'listTemplates')),
-            new \Twig_SimpleFunction('markdown', array($this, 'markdown'), array('is_safe' => array('html'))),
-            new \Twig_SimpleFunction('menu', array($this, 'menu'), array('needs_environment' => true, 'is_safe' => array('html'))),
-            new \Twig_SimpleFunction('pager', array($this, 'pager'), array('needs_environment' => true)),
-            new \Twig_SimpleFunction('popup', array($this, 'popup'), array('is_safe' => array('html'))),
-            new \Twig_SimpleFunction('print', array($this, 'printDump'), array('is_safe' => array('html'))), // Deprecated.
-            new \Twig_SimpleFunction('randomquote', array($this, 'randomQuote'), array('is_safe' => array('html'))),
-            new \Twig_SimpleFunction('redirect', array($this, 'redirect'), array('is_safe' => array('html'))),
-            new \Twig_SimpleFunction('request', array($this, 'request')),
-            new \Twig_SimpleFunction('showimage', array($this, 'showImage'), array('is_safe' => array('html'))),
-            new \Twig_SimpleFunction('stacked', array($this, 'stacked')),
-            new \Twig_SimpleFunction('stackitems', array($this, 'stackItems')),
-            new \Twig_SimpleFunction('thumbnail', array($this, 'thumbnail')),
-            new \Twig_SimpleFunction('token', array($this, 'token')),
-            new \Twig_SimpleFunction('trimtext', array($this, 'trim'), array('is_safe' => array('html'))), // Deprecated.
-            new \Twig_SimpleFunction('widget', array($this, 'widget'))
+            new \Twig_SimpleFunction('ismobileclient',     array($this, 'isMobileClient')),
+            new \Twig_SimpleFunction('last',               array($this, 'last')),
+            new \Twig_SimpleFunction('listcontent',        array($this, 'listContent')),
+            new \Twig_SimpleFunction('listtemplates',      array($this, 'listTemplates')),
+            new \Twig_SimpleFunction('markdown',           array($this, 'markdown'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFunction('menu',               array($this, 'menu'), array('needs_environment' => true, 'is_safe' => array('html'))),
+            new \Twig_SimpleFunction('pager',              array($this, 'pager'), array('needs_environment' => true)),
+            new \Twig_SimpleFunction('popup',              array($this, 'popup'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFunction('print',              array($this, 'printDump'), array('is_safe' => array('html'))), // Deprecated.
+            new \Twig_SimpleFunction('randomquote',        array($this, 'randomQuote'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFunction('redirect',           array($this, 'redirect'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFunction('request',            array($this, 'request')),
+            new \Twig_SimpleFunction('showimage',          array($this, 'showImage'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFunction('stacked',            array($this, 'stacked')),
+            new \Twig_SimpleFunction('stackitems',         array($this, 'stackItems')),
+            new \Twig_SimpleFunction('thumbnail',          array($this, 'thumbnail')),
+            new \Twig_SimpleFunction('token',              array($this, 'token')),
+            new \Twig_SimpleFunction('trimtext',           array($this, 'trim'), array('is_safe' => array('html'))), // Deprecated.
+            new \Twig_SimpleFunction('widget',             array($this, 'widget'))
         );
     }
 
     public function getFilters()
     {
         return array(
-            new \Twig_SimpleFilter('__', array($this, 'trans'), array('is_safe' => array('html'))),
-            new \Twig_SimpleFilter('current', array($this, 'current')),
-            new \Twig_SimpleFilter('editable', array($this, 'editable'), array('is_safe' => array('html'))),
-            new \Twig_SimpleFilter('excerpt', array($this, 'excerpt'), array('is_safe' => array('html'))),
-            new \Twig_SimpleFilter('fancybox', array($this, 'popup'), array('is_safe' => array('html'))), // "Fancybox" is deprecated.
-            new \Twig_SimpleFilter('first', array($this, 'first')),
-            new \Twig_SimpleFilter('image', array($this, 'image')),
-            new \Twig_SimpleFilter('imageinfo', array($this, 'imageInfo')),
-            new \Twig_SimpleFilter('json_decode', array($this, 'jsonDecode')),
-            new \Twig_SimpleFilter('last', array($this, 'last')),
-            new \Twig_SimpleFilter('localdate', array($this, 'localeDateTime'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFilter('__',             array($this, 'trans'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFilter('current',        array($this, 'current')),
+            new \Twig_SimpleFilter('editable',       array($this, 'editable'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFilter('excerpt',        array($this, 'excerpt'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFilter('fancybox',       array($this, 'popup'), array('is_safe' => array('html'))), // "Fancybox" is deprecated.
+            new \Twig_SimpleFilter('first',          array($this, 'first')),
+            new \Twig_SimpleFilter('image',          array($this, 'image')),
+            new \Twig_SimpleFilter('imageinfo',      array($this, 'imageInfo')),
+            new \Twig_SimpleFilter('json_decode',    array($this, 'jsonDecode')),
+            new \Twig_SimpleFilter('last',           array($this, 'last')),
+            new \Twig_SimpleFilter('localdate',      array($this, 'localeDateTime'), array('is_safe' => array('html'))),
             new \Twig_SimpleFilter('localedatetime', array($this, 'localeDateTime'), array('is_safe' => array('html'))), // Deprecated
-            new \Twig_SimpleFilter('loglevel', array($this, 'logLevel')),
-            new \Twig_SimpleFilter('markdown', array($this, 'markdown'), array('is_safe' => array('html'))),
-            new \Twig_SimpleFilter('order', array($this, 'order')),
-            new \Twig_SimpleFilter('popup', array($this, 'popup'), array('is_safe' => array('html'))),
-            new \Twig_SimpleFilter('preg_replace', array($this, 'pregReplace')),
-            new \Twig_SimpleFilter('safestring', array($this, 'safeString'), array('is_safe' => array('html'))),
-            new \Twig_SimpleFilter('selectfield', array($this, 'selectField')),
-            new \Twig_SimpleFilter('showimage', array($this, 'showImage'), array('is_safe' => array('html'))),
-            new \Twig_SimpleFilter('shuffle', array($this, 'shuffle')),
-            new \Twig_SimpleFilter('shy', array($this, 'shy'), array('is_safe' => array('html'))),
-            new \Twig_SimpleFilter('slug', array($this, 'slug')),
-            new \Twig_SimpleFilter('thumbnail', array($this, 'thumbnail')),
-            new \Twig_SimpleFilter('trimtext', array($this, 'trim'), array('is_safe' => array('html'))), // Deprecated.
-            new \Twig_SimpleFilter('tt', array($this, 'decorateTT'), array('is_safe' => array('html'))),
-            new \Twig_SimpleFilter('twig', array($this, 'twig'), array('is_safe' => array('html'))),
-            new \Twig_SimpleFilter('ucfirst', array($this, 'ucfirst')),
-            new \Twig_SimpleFilter('ymllink', array($this, 'ymllink'), array('is_safe' => array('html')))
+            new \Twig_SimpleFilter('loglevel',       array($this, 'logLevel')),
+            new \Twig_SimpleFilter('markdown',       array($this, 'markdown'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFilter('order',          array($this, 'order')),
+            new \Twig_SimpleFilter('popup',          array($this, 'popup'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFilter('preg_replace',   array($this, 'pregReplace')),
+            new \Twig_SimpleFilter('safestring',     array($this, 'safeString'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFilter('selectfield',    array($this, 'selectField')),
+            new \Twig_SimpleFilter('showimage',      array($this, 'showImage'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFilter('shuffle',        array($this, 'shuffle')),
+            new \Twig_SimpleFilter('shy',            array($this, 'shy'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFilter('slug',           array($this, 'slug')),
+            new \Twig_SimpleFilter('thumbnail',      array($this, 'thumbnail')),
+            new \Twig_SimpleFilter('trimtext',       array($this, 'trim'), array('is_safe' => array('html'))), // Deprecated.
+            new \Twig_SimpleFilter('tt',             array($this, 'decorateTT'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFilter('twig',           array($this, 'twig'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFilter('ucfirst',        array($this, 'ucfirst')),
+            new \Twig_SimpleFilter('ymllink',        array($this, 'ymllink'), array('is_safe' => array('html')))
         );
     }
 
