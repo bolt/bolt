@@ -10,7 +10,6 @@ use Bolt\Translation\Translator as Trans;
 use Silex;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\Glob;
-use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\VarDumper\VarDumper;
 
 /**
@@ -419,7 +418,7 @@ class TwigExtension extends \Twig_Extension
         // Get the dimensions of the image
         $imagesize = getimagesize($fullpath);
 
-        // Get the exif data of the image
+        // Get the EXIF data of the image
         $imageexif = exif_read_data($fullpath);
 
         // Get the aspectratio
@@ -437,11 +436,11 @@ class TwigExtension extends \Twig_Extension
             'aspectratio' => $ar,
             'filename'    => $filename,
             'fullpath'    => realpath($fullpath),
-            'url'         => str_replace("//", "/", $this->app['paths']['files'] . $filename)
+            'url'         => str_replace('//', '/', $this->app['paths']['files'] . $filename)
         );
 
         // If the picture is turned by exif, ouput the turned aspectratio
-        if (in_array($imageexif['Orientation'], array(6,7,8))) {
+        if (in_array($imageexif['Orientation'], array(6, 7, 8))) {
             $exifturned = $imagesize[1] / $imagesize[0];
         } else {
             $exifturned = $ar;
@@ -449,14 +448,13 @@ class TwigExtension extends \Twig_Extension
 
         // Output the relevant exif info
         $info['exif'] = array(
-            'lat'   => $this->getGps($imageexif['GPSLatitude'], $imageexif['GPSLatitudeRef']) ? : false,
-            'long'  => $this->getGps($imageexif['GPSLongitude'], $imageexif['GPSLongitudeRef']) ? : false,
-            'datetime'  => $imageexif['DateTime'] ? : false,
+            'lat'         => $this->getGps($imageexif['GPSLatitude'],  $imageexif['GPSLatitudeRef']) ? : false,
+            'long'        => $this->getGps($imageexif['GPSLongitude'], $imageexif['GPSLongitudeRef']) ? : false,
+            'datetime'    => $imageexif['DateTime'] ? : false,
             'orientation' => $imageexif['Orientation'] ? : false,
             'aspectratio' => $exifturned ? : false
 
         );
-
 
         // Landscape if aspectratio > 5:4
         $info['landscape'] = ($ar >= 1.25) ? true : false;
@@ -477,34 +475,33 @@ class TwigExtension extends \Twig_Extension
      *
      * @return float A decimal of the GPS coordinates
      */
-
-    private function getGps($exifCoord) {
-
+    private function getGps($exifCoord)
+    {
         $degrees = count($exifCoord) > 0 ? $this->gps2Num($exifCoord[0]) : 0;
         $minutes = count($exifCoord) > 1 ? $this->gps2Num($exifCoord[1]) : 0;
         $seconds = count($exifCoord) > 2 ? $this->gps2Num($exifCoord[2]) : 0;
 
         return ($degrees + $minutes / 60 + $seconds / 3600);
-
     }
 
     /**
-     * Return The specific value of a GPS part (degrees, minutes, seconds)
+     * Get the specific value of a GPS part (degrees, minutes, seconds)
      *
-     * @param string The part a degree based GPS coordinate
+     * @param string $coordPart The part a degree based GPS coordinate
      *
      * @return float
      */
-
-    private function gps2Num($coordPart) {
-
+    private function gps2Num($coordPart)
+    {
         $parts = explode('/', $coordPart);
 
-        if (count($parts) <= 0)
+        if (count($parts) <= 0) {
             return 0;
+        }
 
-        if (count($parts) == 1)
+        if (count($parts) === 1) {
             return $parts[0];
+        }
 
         return floatval($parts[0]) / floatval($parts[1]);
     }
