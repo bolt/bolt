@@ -114,7 +114,7 @@ class Content implements \ArrayAccess
     /**
      * Return a content objects values.
      *
-     * @param boolean $json Set to TRUE to return JSON encoded values for arrays
+     * @param boolean $json     Set to TRUE to return JSON encoded values for arrays
      * @param boolean $stripped Set to true to strip all of the base fields
      *
      * @return array
@@ -522,7 +522,8 @@ class Content implements \ArrayAccess
         $this->setValues($values);
     }
 
-    protected function getTemplateFieldsContentType() {
+    protected function getTemplateFieldsContentType()
+    {
         if (is_array($this->contenttype)) {
             if ($templateFieldsConfig = $this->app['config']->get('theme/templatefields')) {
                 $template = $this->app['templatechooser']->record($this);
@@ -534,7 +535,8 @@ class Content implements \ArrayAccess
         return '';
     }
 
-    public function hasTemplateFields() {
+    public function hasTemplateFields()
+    {
         if (is_array($this->contenttype)) {
             if ((!$this->contenttype['viewless']) && (!empty($this['templatefields'])) && ($templateFieldsConfig = $this->app['config']->get('theme/templatefields'))) {
                 $template = $this->app['templatechooser']->record($this);
@@ -1170,7 +1172,7 @@ class Content implements \ArrayAccess
      *
      * @param string $filtercontenttype Contenttype to filter returned results on
      * @param array  $options           A set of 'WHERE' options to apply to the filter
-     * 
+     *
      * Backward compatability note:
      * The $options parameter used to be $filterid, an integer.
      *
@@ -1202,7 +1204,7 @@ class Content implements \ArrayAccess
 
             // If there were other options add them to the 'where'. We potentially overwrite the 'id' here.
             if (!empty($options)) {
-                foreach($options as $option => $value) {
+                foreach ($options as $option => $value) {
                     $where[$option] = $value;
                 }
             }
