@@ -413,7 +413,7 @@ class Users
     }
 
     /**
-     * Attempt to login a user with the given password.
+     * Attempt to login a user with the given password. Accepts username or email.
      *
      * @param string $user
      * @param string $password
@@ -422,9 +422,68 @@ class Users
      */
     public function login($user, $password)
     {
-        $userslug = $this->app['slugify']->slugify($user);
+        //check if we are dealing with an e-mail or an username
+        if (false === strpos($user, '@')) {
+            return $this->loginUsername($user, $password);
+        } else {
+            return $this->loginEmail($user, $password);
+        }
+    }
 
-        // for once we don't use getUser(), because we need the password.
+    /**
+     * Attempt to login a user with the given password and email.
+     *
+     * @param string $email
+     * @param string $password
+     * @return bool
+     */
+    protected function loginEmail($email, $password)
+    {
+        // for once we don't use getUserByEmail(), because we need the password.
+        $query = sprintf('SELECT * FROM %s WHERE email=?', $this->usertable);
+        $query = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($query, 1);
+        $user = $this->db->executeQuery($query, array($email), array(\PDO::PARAM_STR))->fetch();
+
+        if (empty($user)) {
+            $this->session->getFlashBag()->add('error', Trans::__('Username or password not correct. Please check your input.'));
+
+            return false;
+        }
+
+        $hasher = new PasswordHash($this->hashStrength, true);
+
+        if ($hasher->CheckPassword($password, $user['password'])) {
+            if (!$user['enabled']) {
+                $this->session->getFlashBag()->add('error', Trans::__('Your account is disabled. Sorry about that.'));
+
+                return false;
+            }
+
+            $this->updateUserLogin($user);
+
+            $this->setAuthToken();
+
+            return true;
+        } else {
+            $this->loginFailed($user);
+
+            return false;
+        }
+    }
+
+
+    /**
+     * Attempt to login a user with the given password and username.
+     *
+     * @param $user
+     * @param $password
+     * @return bool
+     */
+    protected function loginUsername($username, $password)
+    {
+        $userslug = $this->app['slugify']->slugify($username);
+
+        // for once we don't use getUserByUsername(), because we need the password.
         $query = sprintf('SELECT * FROM %s WHERE username=?', $this->usertable);
         $query = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($query, 1);
         $user = $this->db->executeQuery($query, array($userslug), array(\PDO::PARAM_STR))->fetch();
@@ -444,57 +503,13 @@ class Users
                 return false;
             }
 
-            $update = array(
-                'lastseen'       => date('Y-m-d H:i:s'),
-                'lastip'         => $this->remoteIP,
-                'failedlogins'   => 0,
-                'throttleduntil' => $this->throttleUntil(0)
-            );
-
-            // Attempt to update the last login, but don't break on failure.
-            try {
-                $this->db->update($this->usertable, $update, array('id' => $user['id']));
-            } catch (DBALException $e) {
-                // Oops. User will get a warning on the dashboard about tables that need to be repaired.
-            }
-
-            $user = $this->getUser($user['id']);
-
-            $user['sessionkey'] = $this->getAuthToken($user['username']);
-
-            // We wish to create a new session-id for extended security, but due
-            // to a bug in PHP < 5.4.11, this will throw warnings.
-            // Suppress them here. #shakemyhead
-            // @see: https://bugs.php.net/bug.php?id=63379
-            try {
-                $this->session->migrate(true);
-            } catch (\Exception $e) {
-            }
-
-            $this->session->set('user', $user);
-            $this->session->getFlashBag()->add('success', Trans::__("You've been logged on successfully."));
-
-            $this->currentuser = $user;
+            $this->updateUserLogin($user);
 
             $this->setAuthToken();
 
             return true;
         } else {
-            $this->session->getFlashBag()->add('error', Trans::__('Username or password not correct. Please check your input.'));
-            $this->app['logger.system']->info("Failed login attempt for '" . $user['displayname'] . "'.", array('event' => 'authentication'));
-
-            // Update the failed login attempts, and perhaps throttle the logins.
-            $update = array(
-                'failedlogins'   => $user['failedlogins'] + 1,
-                'throttleduntil' => $this->throttleUntil($user['failedlogins'] + 1)
-            );
-
-            // Attempt to update the last login, but don't break on failure.
-            try {
-                $this->db->update($this->usertable, $update, array('id' => $user['id']));
-            } catch (DBALException $e) {
-                // Oops. User will get a warning on the dashboard about tables that need to be repaired.
-            }
+            $this->loginFailed($user);
 
             return false;
         }
@@ -1144,5 +1159,67 @@ class Users
 
         // no clashes found, OK!
         return true;
+    }
+
+    /**
+     * @param $user
+     */
+    protected function updateUserLogin($user)
+    {
+        $update = array(
+            'lastseen' => date('Y-m-d H:i:s'),
+            'lastip' => $this->remoteIP,
+            'failedlogins' => 0,
+            'throttleduntil' => $this->throttleUntil(0)
+        );
+
+        // Attempt to update the last login, but don't break on failure.
+        try {
+            $this->db->update($this->usertable, $update, array('id' => $user['id']));
+        } catch (DBALException $e) {
+            // Oops. User will get a warning on the dashboard about tables that need to be repaired.
+        }
+
+        $user = $this->getUserById($user['id']);
+
+        $user['sessionkey'] = $this->getAuthToken($user['username']);
+
+        // We wish to create a new session-id for extended security, but due
+        // to a bug in PHP < 5.4.11, this will throw warnings.
+        // Suppress them here. #shakemyhead
+        // @see: https://bugs.php.net/bug.php?id=63379
+        try {
+            $this->session->migrate(true);
+        } catch (\Exception $e) {
+        }
+
+        $this->session->set('user', $user);
+        $this->session->getFlashBag()->add('success', Trans::__("You've been logged on successfully."));
+
+        $this->currentuser = $user;
+    }
+
+    /**
+     * Add errormessages to logs and update the user
+     *
+     * @param $user
+     */
+    private function loginFailed($user)
+    {
+        $this->session->getFlashBag()->add('error', Trans::__('Username or password not correct. Please check your input.'));
+        $this->app['logger.system']->info("Failed login attempt for '" . $user['displayname'] . "'.", array('event' => 'authentication'));
+
+        // Update the failed login attempts, and perhaps throttle the logins.
+        $update = array(
+            'failedlogins' => $user['failedlogins'] + 1,
+            'throttleduntil' => $this->throttleUntil($user['failedlogins'] + 1)
+        );
+
+        // Attempt to update the last login, but don't break on failure.
+        try {
+            $this->db->update($this->usertable, $update, array('id' => $user['id']));
+        } catch (DBALException $e) {
+            // Oops. User will get a warning on the dashboard about tables that need to be repaired.
+        }
     }
 }
