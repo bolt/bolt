@@ -6,9 +6,8 @@
  *
  * @param {Object} bolt - The Bolt module.
  * @param {Object} $ - jQuery.
- * @param {Object} google - Google.
  */
-(function (bolt, $, google) {
+(function (bolt, $) {
     /**
      * Field configuration.
      *
@@ -27,7 +26,8 @@
      * @memberof Bolt.fields.slug
      *
      * @property {Object} address - Input: Address lookup.
-     * @property {Object} matched - Readonly input: displaying matched address
+     * @property {Object} matched - Readonly input: displaying matched address.
+     * @property {Object} mapholder - Element containing map.
      * @property {Object} latitude - Input: Latitude.
      * @property {Object} longitude - Input: Longitude.
      * @property {Object} map - Google map object.
@@ -57,6 +57,7 @@
         var field = {
                 address: $(fieldset).find('.address'),
                 matched: $(fieldset).find('.matched'),
+                mapholder: $(fieldset).find('.mapholder'),
                 latitude: $(fieldset).find('.latitude'),
                 longitude: $(fieldset).find('.longitude'),
                 map: null,
@@ -64,70 +65,8 @@
                 timeout: undefined
             };
 
-        if (google.maps) {
-            var options = {
-                zoom: 15,
-                mapTypeId: google.maps.MapTypeId.ROADMAP,
-                center: new google.maps.LatLng(fconf.latitude, fconf.longitude),
-                //disableDoubleClickZoom: true,
-                //addMarker: false,
-                //
-                // Controls
-                // panControl: false,
-                // zoomControl: false,
-                // zoomControlOptions: {
-                //     style: google.maps.ZoomControlStyle.DEFAULT  // SMALL/LARGE/DEFAULT
-                //     position: google.maps.ControlPosition.LEFT_TOP
-                // },
-                // mapTypeControl: false,
-                // mapTypeControlOptions: {
-                //     style: google.maps.MapTypeControlStyle.DEFAULT  // HORIZONTAL_BAR/DROPDOWN_MENU/DEFAULT
-                // },
-                // scaleControl: false,
-                //scaleControlOptions {
-                //},
-                streetViewControl: false,
-                // overviewMapControl: false,
-                // overviewMapControlOptions: {
-                // }
-                // rotateControl: false,
-                //
-            };
-
-            // Generate a new map and attach it to the mapholder.
-            field.map = new google.maps.Map($(fieldset).find('.mapholder')[0], options);
-
-            // Add marker
-            field.marker = new google.maps.Marker({
-                map: field.map,
-                position: options.center,
-                title: bolt.data('field.geolocation.marker'),
-                draggable: true,
-                animation: google.maps.Animation.DROP,
-                icon: bolt.conf('paths.app') + 'view/img/pin_red.png'
-            });
-
-            // Set coordinates when marker pin was moved.
-            google.maps.event.addListener(field.marker, 'mouseup', function () {
-                geoCode(field, {latLng: field.marker.getPosition()});
-            });
-
-            // Update location when typed into address field.
-            field.address.bind('propertychange input', function () {
-                clearTimeout(field.timeout);
-                field.timeout = setTimeout(function () {
-                    var address = field.address.val();
-
-                    geoCode(field, address.length > 2 ? {address: address} : undefined);
-                }, 800);
-            });
-
-            // Resize the map when it get's visible after tab change
-            $('a[data-toggle="tab"]').on('shown.bs.tab', function () {
-                if ($(fieldset).find('.mapholder').closest('div.tab-pane').hasClass('active')) {
-                    google.maps.event.trigger(field.map, 'resize');
-                }
-            });
+        if (typeof google !== 'undefined' && google.maps) {
+            initGoogleMap(field, fconf.latitude, fconf.longitude);
         } else {
             console.log('ERROR: Google Maps not loaded!');
         }
@@ -180,7 +119,84 @@
         field.longitude.val(longitude || '');
     }
 
+    /**
+     * Displays address and location.
+     *
+     * @private
+     * @function initGoogleMap
+     * @memberof Bolt.fields.geolocation
+     *
+     * @param {FieldGeolocation} field - Field data.
+     * @param {float} latitude - Initial latitude.
+     * @param {float} longitude - Initial longitude.
+     */
+    function initGoogleMap(field, latitude, longitude) {
+        var options = {
+            zoom: 15,
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+            center: new google.maps.LatLng(latitude, longitude),
+            //disableDoubleClickZoom: true,
+            //addMarker: false,
+            //
+            // Controls
+            // panControl: false,
+            // zoomControl: false,
+            // zoomControlOptions: {
+            //     style: google.maps.ZoomControlStyle.DEFAULT  // SMALL/LARGE/DEFAULT
+            //     position: google.maps.ControlPosition.LEFT_TOP
+            // },
+            // mapTypeControl: false,
+            // mapTypeControlOptions: {
+            //     style: google.maps.MapTypeControlStyle.DEFAULT  // HORIZONTAL_BAR/DROPDOWN_MENU/DEFAULT
+            // },
+            // scaleControl: false,
+            //scaleControlOptions {
+            //},
+            streetViewControl: false
+            // overviewMapControl: false,
+            // overviewMapControlOptions: {
+            // }
+            // rotateControl: false,
+            //
+        };
+
+        // Generate a new map and attach it to the mapholder.
+        field.map = new google.maps.Map(field.mapholder[0], options);
+
+        // Add marker
+        field.marker = new google.maps.Marker({
+            map: field.map,
+            position: options.center,
+            title: bolt.data('field.geolocation.marker'),
+            draggable: true,
+            animation: google.maps.Animation.DROP,
+            icon: bolt.conf('paths.app') + 'view/img/pin_red.png'
+        });
+
+        // Set coordinates when marker pin was moved.
+        google.maps.event.addListener(field.marker, 'mouseup', function () {
+            geoCode(field, {latLng: field.marker.getPosition()});
+        });
+
+        // Update location when typed into address field.
+        field.address.on('propertychange input', function () {
+            clearTimeout(field.timeout);
+            field.timeout = setTimeout(function () {
+                var address = field.address.val();
+
+                geoCode(field, address.length > 2 ? {address: address} : undefined);
+            }, 800);
+        });
+
+        // Resize the map when it get's visible after tab change
+        $('a[data-toggle="tab"]').on('shown.bs.tab', function () {
+            if (field.mapholder.closest('div.tab-pane').hasClass('active')) {
+                google.maps.event.trigger(field.map, 'resize');
+            }
+        });
+    }
+
     // Apply mixin container
     bolt.fields.geolocation = geolocation;
 
-})(Bolt || {}, jQuery, typeof google === 'undefined' ? {} : google);
+})(Bolt || {}, jQuery);
