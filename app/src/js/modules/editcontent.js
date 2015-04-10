@@ -138,14 +138,14 @@
             $('#editcontent').attr('action', '').attr('target', '_self');
         });
     }
-    
+
     /**
      * Initialize the live editor button
      *
      * @static
      * @function initLiveEditor
      * @memberof Bolt.editcontent
-     * 
+     *
      * @param {string} slug - Contenttype singular slug.
      */
     function initLiveEditor(slug) {
@@ -251,6 +251,7 @@
 
             // Disable the buttons, to indicate stuff is being done.
             $('#sidebarsavecontinuebutton, #savecontinuebutton').addClass('disabled');
+            $('#sidebarsavecontinuebutton i, #savecontinuebutton i').addClass('fa-spin fa-spinner');
             $('p.lastsaved').text(bolt.data('editcontent.msg.saving'));
 
             if (newrecord) {
@@ -313,7 +314,10 @@
                     })
                     .always(function(){
                         // Re-enable buttons
-                        $('#sidebarsavecontinuebutton, #savecontinuebutton').removeClass('disabled');
+                        window.setTimeout(function(){
+                            $('#sidebarsavecontinuebutton, #savecontinuebutton').removeClass('disabled').blur();
+                            $('#sidebarsavecontinuebutton i, #savecontinuebutton i').removeClass('fa-spin fa-spinner');
+                        }, 300);
                     });
             }
         });
