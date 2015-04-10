@@ -176,7 +176,7 @@
         });
 
         // Update location when typed into address field.
-        field.address.bind('propertychange input', function () {
+        field.address.on('propertychange input', function () {
             clearTimeout(field.timeout);
             field.timeout = setTimeout(function () {
                 var address = field.address.val();
