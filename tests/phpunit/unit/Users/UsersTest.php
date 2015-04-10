@@ -1,5 +1,5 @@
 <?php
-namespace Bolt\Tests\Controller;
+namespace Bolt\Tests\Users;
 
 use Bolt\Tests\BoltUnitTest;
 
