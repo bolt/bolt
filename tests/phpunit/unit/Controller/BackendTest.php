@@ -972,10 +972,13 @@ class BackendTest extends BoltUnitTest
         $controller = new Backend();
 
         // Now we mock the CSRF token to validate
-        $users = $this->getMock('Bolt\Users', array('checkAntiCSRFToken'), array($app));
+        $users = $this->getMock('Bolt\Users', array('checkAntiCSRFToken','GetUserById'), array($app));
         $users->expects($this->any())
             ->method('checkAntiCSRFToken')
             ->will($this->returnValue(true));
+        $users->expects($this->any())
+            ->method('GetUserById')
+            ->will($this->returnValue(false));
         $app['users'] = $users;
 
         // This request should fail because the user doesnt exist.
