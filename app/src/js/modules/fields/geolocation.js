@@ -6,9 +6,8 @@
  *
  * @param {Object} bolt - The Bolt module.
  * @param {Object} $ - jQuery.
- * @param {Object} google - Google.
  */
-(function (bolt, $, google) {
+(function (bolt, $) {
     /**
      * Field configuration.
      *
@@ -66,7 +65,7 @@
                 timeout: undefined
             };
 
-        if (google.maps) {
+        if (typeof google !== 'undefined' && google.maps) {
             initGoogleMap(field, fconf.latitude, fconf.longitude);
         } else {
             console.log('ERROR: Google Maps not loaded!');
@@ -197,4 +196,4 @@
     // Apply mixin container
     bolt.fields.geolocation = geolocation;
 
-})(Bolt || {}, jQuery, typeof google === 'undefined' ? {} : google);
+})(Bolt || {}, jQuery);
