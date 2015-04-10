@@ -200,7 +200,7 @@ class TwigExtension extends \Twig_Extension
      */
     public function editable($html, $content, $field)
     {
-        return $this->handlers['html']->editable($html, $content, $field);
+        return $this->handlers['html']->editable($html, $content, $field, $this->safe);
     }
 
     /**
@@ -216,7 +216,7 @@ class TwigExtension extends \Twig_Extension
      */
     public function fileExists($fn)
     {
-        return $this->handlers['utils']->fileExists($fn);
+        return $this->handlers['utils']->fileExists($fn, $this->safe);
     }
 
     /**
@@ -264,7 +264,7 @@ class TwigExtension extends \Twig_Extension
      */
     public function imageInfo($filename)
     {
-        return $this->handlers['image']->imageInfo($filename);
+        return $this->handlers['image']->imageInfo($filename, $this->safe);
     }
 
     /**
@@ -320,7 +320,7 @@ class TwigExtension extends \Twig_Extension
      */
     public function listTemplates($filter = '')
     {
-        return $this->handlers['record']->listTemplates($filter);
+        return $this->handlers['record']->listTemplates($filter, $this->safe);
     }
 
     /**
@@ -352,7 +352,7 @@ class TwigExtension extends \Twig_Extension
      */
     public function menu(\Twig_Environment $env, $identifier = '', $template = '_sub_menu.twig', $params = array())
     {
-        return $this->handlers['html']->menu($env, $identifier, $template, $params);
+        return $this->handlers['html']->menu($env, $identifier, $template, $params, $this->safe);
     }
 
     /**
@@ -392,7 +392,7 @@ class TwigExtension extends \Twig_Extension
      */
     public function printBacktrace($depth = 15)
     {
-        return $this->handlers['utils']->printBacktrace($depth);
+        return $this->handlers['utils']->printBacktrace($depth, $this->safe);
     }
 
     /**
@@ -400,7 +400,7 @@ class TwigExtension extends \Twig_Extension
      */
     public function printDump($var)
     {
-        return $this->handlers['utils']->printDump($var);
+        return $this->handlers['utils']->printDump($var, $this->safe);
     }
 
     /**
@@ -408,7 +408,7 @@ class TwigExtension extends \Twig_Extension
      */
     public function printFirebug($var, $msg = '')
     {
-        return $this->handlers['utils']->printFirebug($var, $msg);
+        return $this->handlers['utils']->printFirebug($var, $msg, $this->safe);
     }
 
     /**
@@ -424,7 +424,7 @@ class TwigExtension extends \Twig_Extension
      */
     public function redirect($path)
     {
-        return $this->handlers['utils']->redirect($path);
+        return $this->handlers['utils']->redirect($path, $this->safe);
     }
 
     /**
@@ -432,7 +432,7 @@ class TwigExtension extends \Twig_Extension
      */
     public function request($parameter, $from = '', $stripslashes = false)
     {
-        return $this->handlers['utils']->request($parameter, $from, $stripslashes);
+        return $this->handlers['utils']->request($parameter, $from, $stripslashes, $this->safe);
     }
 
     /**
@@ -571,6 +571,6 @@ class TwigExtension extends \Twig_Extension
      */
     public function ymllink($str)
     {
-        return $this->handlers['admin']->ymllink($str);
+        return $this->handlers['admin']->ymllink($str, $this->safe);
     }
 }

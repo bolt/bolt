@@ -62,15 +62,16 @@ class ImageHandler
      * Get an array with the dimensions of an image, together with its
      * aspectratio and some other info.
      *
-     * @param string $filename
+     * @param string  $filename
+     * @param boolean $safe
      *
      * @return array Specifics
      */
-    public function imageInfo($filename)
+    public function imageInfo($filename, $safe)
     {
         // This function is vulnerable to path traversal, so blocking it in
         // safe mode for now.
-        if ($this->safe) {
+        if ($safe) {
             return null;
         }
 

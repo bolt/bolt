@@ -207,14 +207,15 @@ class RecordHandler
     /**
      * Lists templates, optionally filtered by $filter.
      *
-     * @param string $filter
+     * @param string  $filter
+     * @param boolean $safe
      *
      * @return array Sorted and possibly filtered templates
      */
-    public function listTemplates($filter = '')
+    public function listTemplates($filter = '', $safe)
     {
         // No need to list templates in safe mode.
-        if ($this->safe) {
+        if ($safe) {
             return null;
         }
 

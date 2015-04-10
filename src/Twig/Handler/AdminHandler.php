@@ -198,15 +198,15 @@ class AdminHandler
      * Create a link to edit a .yml file, if a filename is detected in the string. Mostly
      * for use in Flashbag messages, to allow easy editing.
      *
-     * @param string $str
+     * @param string  $str
+     * @param boolean $safe
      *
      * @return string Resulting string
      */
-    public function ymllink($str)
+    public function ymllink($str, $safe)
     {
-        // There is absolutely no way anyone could possibly need this in a
-        // "safe" context
-        if ($this->safe) {
+        // There is absolutely no way anyone could possibly need this in a "safe" context
+        if ($safe) {
             return null;
         }
 

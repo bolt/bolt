@@ -43,14 +43,16 @@ class UtilsHandler
     /**
      * Check if a file exists.
      *
-     * @param string $fn
+     * @param string  $fn
+     * @param boolean $safe
      *
-     * @return bool
+     * @return boolean
      */
-    public function fileExists($fn)
+    public function fileExists($fn, $safe)
     {
-        if ($this->safe) {
-            return false; // pretend we don't know anything about any files
+        if ($safe) {
+            // pretend we don't know anything about any files
+            return false;
         } else {
             return file_exists($fn);
         }
@@ -60,12 +62,13 @@ class UtilsHandler
      * Output pretty-printed backtrace.
      *
      * @param integer $depth
+     * @param boolean $safe
      *
      * @return string|null
      */
-    public function printBacktrace($depth = 15)
+    public function printBacktrace($depth = 15, $safe)
     {
-        if ($this->safe || !$this->app['debug']) {
+        if ($safe || !$this->app['debug']) {
             return null;
         }
 
@@ -75,13 +78,14 @@ class UtilsHandler
     /**
      * Output pretty-printed arrays / objects.
      *
-     * @param mixed $var
+     * @param mixed   $var
+     * @param boolean $safe
      *
      * @return string
      */
-    public function printDump($var)
+    public function printDump($var, $safe)
     {
-        if ($this->safe || !$this->app['debug']) {
+        if ($safe || !$this->app['debug']) {
             return null;
         }
 
@@ -91,14 +95,15 @@ class UtilsHandler
     /**
      * Send debug data to the developers FirePHP instance in-browser.
      *
-     * @param mixed $var The data to be dumped into FirePHP
-     * @param mixed $msg The message to associate with the data
+     * @param mixed   $var  The data to be dumped into FirePHP
+     * @param mixed   $msg  The message to associate with the data
+     * @param boolean $safe
      *
      * @return string FirePHP formatted string
      */
-    public function printFirebug($var, $msg = '')
+    public function printFirebug($var, $msg = '', $safe)
     {
-        if ($this->safe) {
+        if ($safe) {
             return null;
         }
         if ($this->app['debug']) {
@@ -116,11 +121,15 @@ class UtilsHandler
 
     /**
      * Redirect the browser to another page.
+     *
+     * @param boolean $safe
+     *
+     * @return string
      */
-    public function redirect($path)
+    public function redirect($path, $safe)
     {
         // Nope! We're not allowing user-supplied content to issue redirects.
-        if ($this->safe) {
+        if ($safe) {
             return null;
         }
 
@@ -133,15 +142,16 @@ class UtilsHandler
      * Return the requested parameter from $_REQUEST, $_GET or $_POST.
      *
      * @param string  $parameter    The parameter to get
-     * @param string  $from         'GET', 'POST', all the other falls back to REQUEST.
+     * @param string  $from         'GET' or 'POST', all the others falls back to REQUEST.
      * @param boolean $stripslashes Apply stripslashes. Defaults to false.
+     * @param boolean $safe
      *
      * @return mixed
      */
-    public function request($parameter, $from = '', $stripslashes = false)
+    public function request($parameter, $from = '', $stripslashes = false, $safe)
     {
         // Don't expose request in safe context
-        if ($this->safe) {
+        if ($safe) {
             return null;
         }
 

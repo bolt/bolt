@@ -43,16 +43,17 @@ class HtmlHandler
     /**
      * Makes a piece of HTML editable.
      *
-     * @param string $html  The HTML to be editable
-     * @param \Bolt\Content The actual content
-     * @param string $field
+     * @param string        $html    The HTML to be editable
+     * @param \Bolt\Content $content The actual content
+     * @param string        $field
+     * @param boolean       $safe
      *
      * @return string
      */
-    public function editable($html, $content, $field)
+    public function editable($html, $content, $field, $safe)
     {
         // Editing content from within content? NOPE NOPE NOPE.
-        if ($this->safe) {
+        if ($safe) {
             return null;
         }
 
@@ -136,12 +137,13 @@ class HtmlHandler
      * @param string            $identifier Identifier for a particular menu
      * @param string            $template   The template to use.
      * @param array             $params     Extra parameters to pass on to the menu template.
+     * @param boolean           $safe
      *
      * @return string|null
      */
-    public function menu(\Twig_Environment $env, $identifier = '', $template = '_sub_menu.twig', $params = array())
+    public function menu(\Twig_Environment $env, $identifier = '', $template = '_sub_menu.twig', $params = array(), $safe)
     {
-        if ($this->safe) {
+        if ($safe) {
             return null;
         }
 
