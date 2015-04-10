@@ -87,7 +87,10 @@
 @import "modules/forms";
 @import "modules/editcontent";
 @import "modules/liveeditor";
-@import "modules/fieldset";
+@import "modules/fieldset/checkbox";
+@import "modules/fieldset/select";
+@import "modules/fieldset/slug";
+@import "modules/fieldset/geolocation";
 @import "modules/login";
 @import "modules/extend";
 
