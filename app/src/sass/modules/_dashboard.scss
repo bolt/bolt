@@ -21,13 +21,14 @@
 .dashboardlisting tbody {
     border-top: 0px !important;
 }
+
 .dashboardlisting th,
 .dashboardlisting td {
-  border-bottom: 1px solid $table-border-color;
-  font-size: 13px;
-  line-height: $line-height-base;
-  vertical-align: top;
-  padding: 8px;
+    border-bottom: 1px solid $table-border-color;
+    font-size: 13px;
+    line-height: $line-height-base;
+    vertical-align: top;
+    padding: 8px;
 }
 
 .dashboardlisting th {
@@ -136,8 +137,8 @@
     line-height: $line-height-base;
     color: #777;
     overflow: hidden;
-    word-wrap:break-word;
-    word-break:break-all;
+    word-wrap: break-word;
+    word-break: break-all;
 }
 
 .dashboardlisting td.excerpt.large span {
@@ -148,28 +149,31 @@
     .visible-xs {
         display: inline !important;
     }
+
     .btn-group {
-        margin-top:-8px;
-        margin-bottom:8px;
+        margin-top: -8px;
+        margin-bottom: 8px;
     }
+
     .contenttype-title {
         width: auto;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
     }
+
     .dashboardlisting td.listthumb img {
-    margin-left: -32px;
+        margin-left: -32px;
     }
 }
 
-@media (max-width: 640px) {    
+@media (max-width: 640px) {
     .dashboardlisting td.listthumb img {
-        margin-top:42px;
-        margin-bottom:4px;
+        margin-top:  42px;
+        margin-bottom: 4px;
     }
+
     .dashboardlisting td.actions .btn-group {
         margin-top: 2px;
     }
-
 }

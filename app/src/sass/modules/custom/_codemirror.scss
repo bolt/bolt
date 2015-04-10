@@ -16,12 +16,13 @@
     background-color: #F2F2F2 !important;
     border-right: 1px solid #CCC !important;
 }
+
 .cm-tab:after {
     content: "\21e5";
     display: -moz-inline-block;
     display: -webkit-inline-block;
     display: inline-block;
-    width: 0px;
+    width: 0;
     position: relative;
     overflow: visible;
     left: -1.4em;

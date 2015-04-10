@@ -5,7 +5,7 @@
 .select2-container {
     min-height: 30px;
     @include old-ie() {
-        min-height:20px;
+        min-height: 20px;
     }
 }
 
@@ -47,7 +47,3 @@
     border-bottom-right-radius: 2px;
     border-top-right-radius: 2px;
 }
-
-/**
- * End of styles for Select2
- */
