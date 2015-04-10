@@ -24,6 +24,7 @@
         "filp/whoops" : "~1.1",
         "hautelook/phpass" : "~0.3",
         "ircmaxell/random-lib" : "~1.1",
+        "miljar/php-exif": "~0.4",
         "monolog/monolog" : "~1.12",
         "php" : ">=5.3.3",
         "rossriley/flysystem53" : "~1.1",
