@@ -3,7 +3,8 @@
 namespace Bolt\Controllers;
 
 use Bolt\Translation\Translator as Trans;
-use Guzzle\Http\Exception\RequestException;
+use Guzzle\Http\Exception\RequestException as V3RequestException;
+use GuzzleHttp\Exception\RequestException;
 use League\Flysystem\FileNotFoundException;
 use Silex;
 use Silex\ControllerProviderInterface;
@@ -99,15 +100,16 @@ class Async implements ControllerProviderInterface
      * News.
      *
      * @param \Silex\Application $app
+     * @param Request            $request
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function dashboardnews(Silex\Application $app)
+    public function dashboardnews(Silex\Application $app, Request $request)
     {
         $source = 'http://news.bolt.cm/';
         $news = $app['cache']->fetch('dashboardnews'); // Two hours.
-
-        $name = !empty($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : $_SERVER['HTTP_HOST'];
+        $hostname = $request->getHost();
+        $body = '';
 
         // If not cached, get fresh news.
         if ($news === false) {
@@ -121,16 +123,20 @@ class Async implements ControllerProviderInterface
                 rawurlencode($app->getVersion()),
                 phpversion(),
                 $driver,
-                base64_encode($name)
+                base64_encode($hostname)
             );
 
-            $curlOptions = array('CURLOPT_CONNECTTIMEOUT' => 5);
-            // Set cURL proxy options if there's a proxy
+            // Options valid if using a proxy
             if ($app['config']->get('general/httpProxy')) {
-                $curlOptions['CURLOPT_PROXY'] = $app['config']->get('general/httpProxy/host');
-                $curlOptions['CURLOPT_PROXYTYPE'] = 'CURLPROXY_HTTP';
-                $curlOptions['CURLOPT_PROXYUSERPWD'] = $app['config']->get('general/httpProxy/user') . ':' . $app['config']->get('general/httpProxy/password');
+                $curlOptions = array(
+                    'CURLOPT_PROXY'        => $app['config']->get('general/httpProxy/host'),
+                    'CURLOPT_PROXYTYPE'    => 'CURLPROXY_HTTP',
+                    'CURLOPT_PROXYUSERPWD' => $app['config']->get('general/httpProxy/user') . ':' . $app['config']->get('general/httpProxy/password')
+                );
             }
+
+            // Standard option(s)
+            $curlOptions['CURLOPT_CONNECTTIMEOUT'] = 5;
 
             try {
                 if ($app['deprecated.php']) {
@@ -145,7 +151,7 @@ class Async implements ControllerProviderInterface
 
                     // Iterate over the items, pick the first news-item that applies
                     foreach ($fetchedNewsItems as $item) {
-                        if ($item->type != "alert") {
+                        if ($item->type != 'alert') {
                             if (empty($item->target_version) || version_compare($item->target_version, $app->getVersion(), '>')) {
                                 $news['information'] = $item;
                                 break;
@@ -155,7 +161,7 @@ class Async implements ControllerProviderInterface
 
                     // Iterate over the items again, See if there's an alert we need to show
                     foreach ($fetchedNewsItems as $item) {
-                        if ($item->type == "alert") {
+                        if ($item->type == 'alert') {
                             if (empty($item->target_version) || version_compare($item->target_version, $app->getVersion(), '>')) {
                                 $news['alert'] = $item;
                                 break;
@@ -168,14 +174,20 @@ class Async implements ControllerProviderInterface
                     $app['logger.system']->error('Invalid JSON feed returned', array('event' => 'news'));
                 }
             } catch (RequestException $e) {
-                $app['logger.system']->error('Error occurred during fetch: ' . $e->getMessage(), array('event' => 'news'));
+                $app['logger.system']->critical('Error occurred during newsfeed fetch', array('event' => 'exception', 'exception' => $e));
+
+                $body .= "<p>Unable to connect to $source</p>";
+            } catch (V3RequestException $e) {
+                /** @deprecated remove with the end of PHP 5.3 support */
+                $app['logger.system']->critical('Error occurred during newsfeed fetch', array('event' => 'exception', 'exception' => $e));
+
+                $body .= "<p>Unable to connect to $source</p>";
             }
         } else {
             $app['logger.system']->info('Using cached data', array('event' => 'news'));
         }
 
         // Combine the body. One 'alert' and one 'info' max. Regular info-items can be disabled, but Alerts can't.
-        $body = "";
         if (!empty($news['alert'])) {
             $body .= $app['render']->render('components/panel-news.twig', array('news' => $news['alert']))->getContent();
         }
@@ -668,7 +680,7 @@ class Async implements ControllerProviderInterface
      * Create a new folder.
      *
      * @param \Silex\Application $app     The Silex Application Container
-     * @param Request            $request he HTTP Request Object containing the GET Params
+     * @param Request            $request The HTTP Request Object containing the GET Params
      *
      * @return Boolean Whether the creation was successful
      */
