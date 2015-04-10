@@ -31,6 +31,26 @@ class LoginTest extends BoltUnitTest
         $this->assertTrue($response->isRedirect('/bolt'));
     }
 
+    public function testPostLoginWithEmail()
+    {
+        $app = $this->getApp();
+
+        $request = Request::create('/bolt/login', 'POST', array('action' => 'login', 'username' => 'test@example.com', 'password' => 'pass'));
+
+        $users = $this->getMock('Bolt\Users', array('login'), array($app));
+        $users->expects($this->once())
+            ->method('login')
+            ->with($this->equalTo('test@example.com'), $this->equalTo('pass'))
+            ->will($this->returnValue(true));
+        $users->currentuser = array('username' => 'test', 'email' => 'test@example.com', 'roles' => array());
+        $app['users'] = $users;
+        $this->addDefaultUser($app);
+
+        $response = $app->handle($request);
+
+        $this->assertTrue($response->isRedirect('/bolt'));
+    }
+
     public function testPostLoginFailures()
     {
         $app = $this->getApp();
