@@ -711,7 +711,7 @@ class BackendTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $controller = new Backend();
-        $user = $app['users']->getUser(9);
+        $user = $app['users']->getUserById(9);
         $app['users']->currentuser = $user;
         $app['request'] = $request = Request::create('/bolt/useredit/9');
 
@@ -743,7 +743,7 @@ class BackendTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $controller = new Backend();
-        $user = $app['users']->getUser(9);
+        $user = $app['users']->getUserById(9);
         $app['users']->currentuser = $user;
 
         $perms = $this->getMock('Bolt\Permissions', array('isAllowedToManipulate'), array($app));
@@ -782,7 +782,7 @@ class BackendTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $controller = new Backend();
-        $user = $app['users']->getUser(9);
+        $user = $app['users']->getUserById(9);
 
         $app['users']->currentuser = $user;
 
@@ -877,8 +877,7 @@ class BackendTest extends BoltUnitTest
 
          // Symfony forms need a CSRF token so we have to mock this too
         $this->removeCSRF($app);
-
-        $user = $app['users']->getUser(2);
+        $user = $app['users']->getUserById(2);
         $app['users']->currentuser = $user;
         $app['request'] = $request = Request::create('/bolt/profile');
         $response = $controller->profile($app, $request);
@@ -987,7 +986,7 @@ class BackendTest extends BoltUnitTest
         $this->assertRegexp('/No such user/', $err[0]);
 
         // This check will fail because we are operating on the current user
-        $user = $app['users']->getUser(2);
+        $user = $app['users']->getUserById(2);
         $app['users']->currentuser = $user;
         $app['request'] = $request = Request::create('/bolt/user/disable/2');
         $response = $controller->userAction($app, 'disable', 2);
@@ -1066,7 +1065,7 @@ class BackendTest extends BoltUnitTest
         $app['users'] = $users;
 
         // Setup the current user
-        $user = $app['users']->getUser(2);
+        $user = $app['users']->getUserById(2);
         $app['users']->currentuser = $user;
 
         // This mocks a failure and ensures the error is reported
