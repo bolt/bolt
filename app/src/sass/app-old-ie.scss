@@ -7,10 +7,8 @@
  */
 
 /**
- * set old-ie to true, to include all old-ie code in the scss files in generated bolt-old-ie.css
- * set fixed-mq to a value to include all styles up to and including that MQ
+ * Set old-ie to true, to include all old-ie code in the scss files in generated bolt-old-ie.css
  */
 $old-ie: true;
-$fixed-mq: 60; //gets compared to breakpoints in mixon respond-to(): includes all mq styles up to 60em's; change if needed
 
 @import "imports";

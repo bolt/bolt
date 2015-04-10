@@ -2,6 +2,9 @@
  * Read the README.TXT in main SASS folder for project details
  */
 
+/**
+ * Set old-ie to false, to exclude all old-ie code in the scss files in generated bolt.css
+ */
 $old-ie: false;
 
 @import "imports";
