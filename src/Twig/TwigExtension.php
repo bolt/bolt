@@ -7,6 +7,8 @@ use Bolt\Helpers\Html;
 use Bolt\Helpers\Str;
 use Bolt\Library as Lib;
 use Bolt\Translation\Translator as Trans;
+use PHPExif\Exif;
+use PHPExif\Reader\Reader as ExifReader;
 use Silex;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\Glob;
@@ -418,9 +420,6 @@ class TwigExtension extends \Twig_Extension
         // Get the dimensions of the image
         $imagesize = getimagesize($fullpath);
 
-        // Get the EXIF data of the image
-        $imageexif = exif_read_data($fullpath);
-
         // Get the aspectratio
         if ($imagesize[1] > 0) {
             $ar = $imagesize[0] / $imagesize[1];
@@ -436,24 +435,38 @@ class TwigExtension extends \Twig_Extension
             'aspectratio' => $ar,
             'filename'    => $filename,
             'fullpath'    => realpath($fullpath),
-            'url'         => str_replace('//', '/', $this->app['paths']['files'] . $filename)
+            'url'         => str_replace('//', '/', $this->app['resources']->getUrl('files') . $filename)
         );
 
+        /** @var $reader \PHPExif\Reader\Reader */
+        $reader = ExifReader::factory(ExifReader::TYPE_NATIVE);
+
+        try {
+            // Get the EXIF data of the image
+            $exif = $reader->read($fullpath);
+        } catch (\RuntimeException $e) {
+            // No EXIF data… create an empty object.
+            $exif = new Exif();
+        }
+
+        // GPS coordinates
+        $gps = $exif->getGPS();
+        $gps = explode(',', $gps);
+
         // If the picture is turned by exif, ouput the turned aspectratio
-        if (in_array($imageexif['Orientation'], array(6, 7, 8))) {
+        if (in_array($exif->getOrientation(), array(6, 7, 8))) {
             $exifturned = $imagesize[1] / $imagesize[0];
         } else {
             $exifturned = $ar;
         }
 
-        // Output the relevant exif info
+        // Output the relevant EXIF info
         $info['exif'] = array(
-            'lat'         => $this->getGps($imageexif['GPSLatitude'],  $imageexif['GPSLatitudeRef']) ? : false,
-            'long'        => $this->getGps($imageexif['GPSLongitude'], $imageexif['GPSLongitudeRef']) ? : false,
-            'datetime'    => $imageexif['DateTime'] ? : false,
-            'orientation' => $imageexif['Orientation'] ? : false,
+            'latitude'    => isset($gps[0]) ? $gps[0] : false,
+            'longitude'   => isset($gps[1]) ? $gps[1] : false,
+            'datetime'    => $exif->getCreationDate(),
+            'orientation' => $exif->getOrientation(),
             'aspectratio' => $exifturned ? : false
-
         );
 
         // Landscape if aspectratio > 5:4
@@ -469,44 +482,6 @@ class TwigExtension extends \Twig_Extension
     }
 
     /**
-     * Return a decimal value from the GPS coordinates from EXIF.
-     *
-     * @param array $exifCoord
-     *
-     * @return float A decimal of the GPS coordinates
-     */
-    private function getGps($exifCoord)
-    {
-        $degrees = count($exifCoord) > 0 ? $this->gps2Num($exifCoord[0]) : 0;
-        $minutes = count($exifCoord) > 1 ? $this->gps2Num($exifCoord[1]) : 0;
-        $seconds = count($exifCoord) > 2 ? $this->gps2Num($exifCoord[2]) : 0;
-
-        return ($degrees + $minutes / 60 + $seconds / 3600);
-    }
-
-    /**
-     * Get the specific value of a GPS part (degrees, minutes, seconds)
-     *
-     * @param string $coordPart The part a degree based GPS coordinate
-     *
-     * @return float
-     */
-    private function gps2Num($coordPart)
-    {
-        $parts = explode('/', $coordPart);
-
-        if (count($parts) <= 0) {
-            return 0;
-        }
-
-        if (count($parts) === 1) {
-            return $parts[0];
-        }
-
-        return floatval($parts[0]) / floatval($parts[1]);
-    }
-
-    /**
      * Return the 'sluggified' version of a string.
      *
      * @param string $str input value
@@ -516,7 +491,7 @@ class TwigExtension extends \Twig_Extension
     public function slug($str)
     {
         if (is_array($str)) {
-            $str = implode(" ", $str);
+            $str = implode(' ', $str);
         }
 
         return $this->app['slugify']->slugify($str);
