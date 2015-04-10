@@ -417,9 +417,10 @@ class IntegrityChecker
         $usersTable->addColumn('id', 'integer', array('autoincrement' => true));
         $usersTable->setPrimaryKey(array('id'));
         $usersTable->addColumn('username', 'string', array('length' => 32));
-        $usersTable->addIndex(array('username'));
+        $usersTable->addUniqueIndex(array('username'));
         $usersTable->addColumn('password', 'string', array('length' => 128));
         $usersTable->addColumn('email', 'string', array('length' => 254));
+        $usersTable->addUniqueIndex(array('email'));
         $usersTable->addColumn('lastseen', 'datetime', array('notnull' => false, 'default' => null));
         $usersTable->addColumn('lastip', 'string', array('length' => 32, 'default' => ''));
         $usersTable->addColumn('displayname', 'string', array('length' => 32));
