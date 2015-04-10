@@ -568,7 +568,7 @@ page:
         cookies-required: "Note: Cookies are required to log on to Bolt. Please allow cookies."
         label:
             password: "Password"
-            username: "Username"
+            username: "Username / email"
         password-hide: "Hide"
         password-show: "Show"
         placeholder:

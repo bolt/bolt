@@ -559,7 +559,7 @@ page:
         cookies-required: "Cookies vereist"
         label:
             password: "Wachtwoord"
-            username: "Gebruikersnaam"
+            username: "Gebruikersnaam / e-mail"
         password-hide: "Verberg"
         password-show: "Toon"
         placeholder:
