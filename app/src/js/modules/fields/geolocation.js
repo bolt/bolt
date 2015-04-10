@@ -114,6 +114,9 @@
      * @param {string|undefined} longitude - Longitude to display.
      */
     function display(field, address, latitude, longitude) {
+        field.matched.val(address || '');
+        field.latitude.val(latitude || '');
+        field.longitude.val(longitude || '');
     }
 
     /**
