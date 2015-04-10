@@ -73,7 +73,7 @@ global:
     files:config: [ developer ]
     files:theme: [ developer ]
     files:uploads: [ admin, developer, chief-editor, editor ]
-    files: [ editor, admin, developer ]
+    files: [ admin, developer, chief-editor, editor ]
     prefill: [ developer ]
     profile: [ everyone ] # edit own profile
     settings: [ admin, developer, everyone ]
