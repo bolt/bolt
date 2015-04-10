@@ -592,9 +592,20 @@ class Users
         }
     }
 
+    /**
+     * Sends email with password request. Accepts email or username
+     *
+     * @param string $username
+     * @return bool
+     */
     public function resetPasswordRequest($username)
     {
-        $user = $this->getUserByUsername($username);
+        if (false === strpos($username, '@')) {
+            $user = $this->getUserByUsername($username);
+        } else {
+            $user = $this->getUserByEmail($username);
+        }
+
         $recipients = false;
 
         if (!empty($user)) {
