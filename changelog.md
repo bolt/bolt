@@ -60,6 +60,22 @@ Not yet released.
  - Added: Allow filtering in 'record.related' on other fields too. (Thanks @miguelavaqrod, see #3303)
  - Fixed: Fix path for non-ajaxy file-upload. (see #3303)
  - Fixed: Added extra check for "view permission" for quicklinks (Thanks @StevendeVries, see #3299)
+ - Fixed: Make geolocation gracefully fail if google is not loaded (See #3356)
+ - Added: Small UX improvement: Show spinner while doing ajaxy save. (See #3355)
+ - Added: Use `PHPExif\Exif` for getting EXIF data in `TwigExtensions::imageinfo()` (See #3354)
+ - Change: `slug` and `geolocation` fields refactored. (See #3344)
+ - Change: Fixed Scrutinizer config (See #3343)
+ - Change: Allow explicit setting of a Contenttype's table name suffix (See #3342)
+ - Fixed: Only setting default timezone if config provides it (See #3334)
+ - Fixed: Fix for "timed depublish". (See #3330)
+ - Fixed: [Tests] Move PHPUnit resource creation into the listener (See #3326)
+ - Change: Make backend submenu-items the top level item, if there's only one sub-item. (See #3323, thanks Intendit)
+ - Fixed: Fix rendering in sidebar on mobile. Fixes (See #3321)
+ - Added: Allow filtering in 'record.related' on other fields too. (See #3320)
+ - Fixed: Slugs generation fixed (See #3310)
+ - Change: Frontend requests should not set cookies. Remove them, to allow Varnish to do a better job of caching the request. (See #3309)
+
+
 
 Bolt 2.1.1
 ----------
