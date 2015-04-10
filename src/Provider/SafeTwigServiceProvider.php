@@ -11,7 +11,7 @@ class SafeTwigServiceProvider implements ServiceProviderInterface
     public function register(Application $app)
     {
         $app['safe_twig.bolt_extension'] = function ($app) {
-            return new TwigExtension($app, true);
+            return new TwigExtension($app, $app['twig.handlers'], true);
         };
 
         $app['safe_twig'] = $app->share(
