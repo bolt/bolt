@@ -66,10 +66,10 @@
 /**
  * Override bootstrap defaults
  */
-@import "modules/bootstrapcustom";
-@import "modules/ckeditorcustom";
-@import "modules/codemirrorcustom";
-@import "modules/select2custom";
+@import "modules/custom/bootstrap";
+@import "modules/custom/ckeditor";
+@import "modules/custom/codemirror";
+@import "modules/custom/select2";
 
 /**
  * Some modules
