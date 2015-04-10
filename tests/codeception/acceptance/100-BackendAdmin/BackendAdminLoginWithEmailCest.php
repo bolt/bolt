@@ -8,7 +8,7 @@ use Codeception\Util\Locator;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class BackendAdminCest
+class BackendAdminLoginWithEmailCest
 {
     /** @var array */
     protected $user;
