@@ -168,7 +168,7 @@ class BoltTwigHelpersTest extends BoltUnitTest
         $app->run();
         $twig = new TwigExtension($app, false);
         $link = $twig->ymllink(' config.yml');
-        $this->assertRegExp('#<a href=\'/bolt/file/edit/#', $link);
+        $this->assertRegExp('#<a href="/bolt/file/edit/#', $link);
 
         // Test nothing happens in safe mode
         $app = $this->getApp();
