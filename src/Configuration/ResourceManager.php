@@ -20,7 +20,8 @@ class ResourceManager
     /** @var \Bolt\Application */
     public $app;
 
-    public $urlPrefix = "";
+    /** @var string */
+    public $urlPrefix = '';
 
     /**
      * @var \Bolt\Application
@@ -100,6 +101,11 @@ class ResourceManager
         $this->setPath('themebase', 'theme');
     }
 
+    /**
+     * @param \Composer\Autoload\ClassLoader $loader
+     *
+     * @return \Eloquent\Pathogen\RelativePathInterface|\Eloquent\Pathogen\AbsolutePathInterface
+     */
     public function useLoader(ClassLoader $loader)
     {
         $this->classLoader = $loader;
@@ -116,6 +122,12 @@ class ResourceManager
         ResourceManager::$theApp = $app;
     }
 
+    /**
+     * @param string $name
+     * @param string $value
+     *
+     * @return \Eloquent\Pathogen\RelativePathInterface|\Eloquent\Pathogen\AbsolutePathInterface
+     */
     public function setPath($name, $value)
     {
         // If this is a relative path make it relative to root.
@@ -125,8 +137,8 @@ class ResourceManager
         }
 
         $this->paths[$name] = $path;
-        if (strpos($name, "path") === false) {
-            $this->paths[$name . "path"] = $path;
+        if (strpos($name, 'path') === false) {
+            $this->paths[$name . 'path'] = $path;
         }
 
         return $path;
@@ -175,8 +187,8 @@ class ResourceManager
             $name = array_shift($parts);
         }
 
-        if (array_key_exists($name . "path", $this->paths)) {
-            $path = $this->paths[$name . "path"];
+        if (array_key_exists($name . 'path', $this->paths)) {
+            $path = $this->paths[$name . 'path'];
         } elseif (array_key_exists($name, $this->paths)) {
             $path = $this->paths[$name];
         } else {
@@ -197,7 +209,8 @@ class ResourceManager
      *
      * @return Boolean
      */
-    public function hasPath($name) {
+    public function hasPath($name)
+    {
         $parts = array();
         if (strpos($name, '/') !== false) {
             $parts = explode('/', $name);
@@ -213,15 +226,30 @@ class ResourceManager
         }
     }
 
+    /**
+     * Set a URL path definition.
+     *
+     * @param string $name
+     * @param string $value
+     */
     public function setUrl($name, $value)
     {
         $this->urls[$name] = $value;
     }
 
+    /**
+     * Get a URL path definition.
+     *
+     * @param unknown $name
+     *
+     * @throws \InvalidArgumentException
+     *
+     * @return string
+     */
     public function getUrl($name)
     {
-        if (array_key_exists($name . "url", $this->urls) && $name !== 'root') {
-            return $this->urls[$name . "url"];
+        if (array_key_exists($name . 'url', $this->urls) && $name !== 'root') {
+            return $this->urls[$name . 'url'];
         }
         if (! array_key_exists($name, $this->urls)) {
             throw new \InvalidArgumentException("Requested url $name is not available", 1);
@@ -230,11 +258,27 @@ class ResourceManager
         return $this->urlPrefix . $this->urls[$name];
     }
 
+    /**
+     * Set a parameter that describes the request.
+     * e.g. 'hostname', 'protocol' or 'canonical'
+     *
+     * @param string $name
+     * @param string $value
+     */
     public function setRequest($name, $value)
     {
         $this->request[$name] = $value;
     }
 
+    /**
+     * Get a request parameter.
+     *
+     * @param string $name
+     *
+     * @throws \InvalidArgumentException
+     *
+     * @return string
+     */
     public function getRequest($name)
     {
         if (! array_key_exists($name, $this->request)) {
@@ -246,6 +290,7 @@ class ResourceManager
 
     /**
      * Returns merged array of Urls, Paths and current request.
+     *
      * However $this->paths can be either mixed array elements of String or Path
      * getPaths() will convert them string to provide homogeneous type result.
      *
@@ -264,7 +309,8 @@ class ResourceManager
     }
 
     /**
-     * Takes a Request object and uses it to initialize settings that depend on the request.
+     * Takes a Request object and uses it to initialize settings that depend on
+     * the request.
      *
      * @param Request $request
      */
@@ -288,18 +334,18 @@ class ResourceManager
         if (empty($canonical['host'])) {
             $canonical['host'] = $request->server->get('HTTP_HOST');
         }
-        $this->setRequest("canonical", sprintf("%s://%s", $canonical['scheme'], $canonical['host']));
+        $this->setRequest('canonical', sprintf('%s://%s', $canonical['scheme'], $canonical['host']));
 
         // Set the current protocol. Default to http, unless otherwise.
-        $protocol = "http";
+        $protocol = 'http';
 
         if (($request->server->get('HTTPS') == 'on') ||
             ($request->server->get('SERVER_PROTOCOL') == 'https') ||
             ($request->server->get('HTTP_X_FORWARDED_PROTO') == 'https') ||
             ($request->server->get('HTTP_X_FORWARDED_SSL') == 'on')) {
-            $protocol = "https";
-        } elseif ($request->server->get("SERVER_PROTOCOL") === null) {
-            $protocol = "cli";
+            $protocol = 'https';
+        } elseif ($request->server->get('SERVER_PROTOCOL') === null) {
+            $protocol = 'cli';
         }
 
         $rootUrl = rtrim($this->getUrl('root'), '/');
@@ -313,7 +359,7 @@ class ResourceManager
             $this->setUrl('upload', $rootUrl . $this->getUrl('upload'));
         }
 
-        $this->setRequest("protocol", $protocol);
+        $this->setRequest('protocol', $protocol);
         $hostname = $request->server->get('HTTP_HOST');
         $this->setRequest('hostname', $hostname);
         $current = $request->getBasePath() . $request->getPathInfo();
@@ -332,7 +378,7 @@ class ResourceManager
     public function initializeConfig($config)
     {
         if (is_array($config) && isset($config['general'])) {
-            $this->setThemePath($config["general"]);
+            $this->setThemePath($config['general']);
         }
     }
 
@@ -344,7 +390,7 @@ class ResourceManager
 
     public function postInitialize()
     {
-        $this->setThemePath($this->app['config']->get("general"));
+        $this->setThemePath($this->app['config']->get('general'));
 
         $theme = $this->app['config']->get('theme');
         if (isset($theme['template_directory'])) {
@@ -354,7 +400,7 @@ class ResourceManager
         }
 
         $branding = ltrim($this->app['config']->get('general/branding/path') . '/', '/');
-        $this->setUrl("bolt", $this->getUrl('root') . $branding);
+        $this->setUrl('bolt', $this->getUrl('root') . $branding);
         $this->app['config']->setCkPath();
         $this->verifyDb();
     }
@@ -364,7 +410,7 @@ class ResourceManager
         if (! defined('BOLT_COMPOSER_INSTALLED')) {
             define('BOLT_COMPOSER_INSTALLED', false);
         }
-        if (! defined("BOLT_PROJECT_ROOT_DIR")) {
+        if (! defined('BOLT_PROJECT_ROOT_DIR')) {
             define('BOLT_PROJECT_ROOT_DIR', $this->getPath('root'));
         }
         if (! defined('BOLT_WEB_DIR')) {
@@ -434,7 +480,7 @@ class ResourceManager
     /**
      * Set the LowlevelChecks object.
      *
-     * @param $verifier LowlevelChecks
+     * @param \Bolt\Configuration\LowlevelChecks|null $verifier
      */
     public function setVerifier($verifier)
     {

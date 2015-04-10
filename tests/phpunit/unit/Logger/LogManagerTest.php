@@ -100,7 +100,6 @@ class LogManagerTest extends BoltUnitTest
                 }
             ));
 
-
         $app['db'] = $db;
         $app['request'] = Request::createFromGlobals();
 
@@ -126,7 +125,6 @@ class LogManagerTest extends BoltUnitTest
                     return $mocker->getStatementMock();
                 }
             ));
-
 
         $app['db'] = $db;
         $app['request'] = Request::createFromGlobals();
@@ -161,7 +159,6 @@ class LogManagerTest extends BoltUnitTest
                     return $mocker->getStatementMock();
                 }
             ));
-
 
         $app['db'] = $db;
         $app['request'] = Request::createFromGlobals();

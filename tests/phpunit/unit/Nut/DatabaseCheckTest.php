@@ -25,7 +25,7 @@ class DatabaseCheckTest extends BoltUnitTest
         // Now introduce some changes
         $app['config']->set('contenttypes/newcontent', array(
             'tablename' => 'newcontent',
-            'fields' => array('title' => array('type' => 'text'))
+            'fields'    => array('title' => array('type' => 'text'))
         ));
 
         $tester->execute(array());

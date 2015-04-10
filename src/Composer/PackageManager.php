@@ -152,7 +152,7 @@ class PackageManager
     /**
      * Get the options.
      *
-     * @return array
+     * @return string[]
      */
     public function getOptions()
     {
@@ -164,7 +164,7 @@ class PackageManager
      *
      * @param string $key
      *
-     * @return mixed
+     * @return string|boolean|null
      */
     public function getOption($key)
     {
@@ -214,7 +214,7 @@ class PackageManager
     /**
      * Return the output from the last IO.
      *
-     * @return array
+     * @return string
      */
     public function getOutput()
     {
@@ -316,7 +316,7 @@ class PackageManager
     /**
      * Show packages.
      *
-     * @param        $target
+     * @param string $target
      * @param string $package
      * @param string $version
      * @param bool   $root
@@ -525,7 +525,7 @@ class PackageManager
     /**
      * Ping site to see if we have a valid connection and it is responding correctly.
      *
-     * @param boolean|array $addquery
+     * @param boolean $addquery
      *
      * @return boolean
      */
