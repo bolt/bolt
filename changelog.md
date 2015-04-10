@@ -11,6 +11,11 @@ Not yet released. Notable changes:
  - Added: Allow filtering in 'record.related' on other fields too. (Thanks @miguelavaqrod, see #3303)
  - Fixed: Fix path for non-ajaxy file-upload. (see #3303)
  - Fixed: Added extra check for "view permission" for quicklinks (Thanks @StevendeVries, see #3299)
+ - Change: Frontend requests should not set cookies. Remove them, to allow Varnish to do a better job of caching the request. (See #3309)
+ - Fixed: Fix rendering in sidebar on mobile. Fixes (See #3321)
+ - Fixed: Fix for "timed depublish". (See #3330)
+ - Fixed: Only setting default timezone if config provides it (See #3334)
+ - Added: Small UX improvement: Show spinner while doing ajaxy save. (See #3355)
  
 
 Bolt 2.1.5
