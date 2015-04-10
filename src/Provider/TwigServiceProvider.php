@@ -19,18 +19,17 @@ class TwigServiceProvider extends \Silex\Provider\TwigServiceProvider
         parent::register($app);
 
         // Handlers
-        $app['twig.handlers'] = $app->share(
-            function ($app) {
-                return array(
-                    'admin'  => function (Application $app) { return new AdminHandler($app); },
-                    'array'  => function (Application $app) { return new ArrayHandler($app); },
-                    'html'   => function (Application $app) { return new HtmlHandler($app); },
-                    'image'  => function (Application $app) { return new ImageHandler($app); },
-                    'record' => function (Application $app) { return new RecordHandler($app); },
-                    'text'   => function (Application $app) { return new TextHandler($app); },
-                    'user'   => function (Application $app) { return new UserHandler($app); },
-                    'utils'  => function (Application $app) { return new UtilsHandler($app); },
-                );
+        $app['twig.handlers'] = $app->share(function (Application $app) {
+            return new \Pimple(array(
+                'admin'  => $app->share(function () use ($app) { return new AdminHandler($app); }),
+                'array'  => $app->share(function () use ($app) { return new ArrayHandler($app); }),
+                'html'   => $app->share(function () use ($app) { return new HtmlHandler($app); }),
+                'image'  => $app->share(function () use ($app) { return new ImageHandler($app); }),
+                'record' => $app->share(function () use ($app) { return new RecordHandler($app); }),
+                'text'   => $app->share(function () use ($app) { return new TextHandler($app); }),
+                'user'   => $app->share(function () use ($app) { return new UserHandler($app); }),
+                'utils'  => $app->share(function () use ($app) { return new UtilsHandler($app); }),
+            ));
         });
 
         // Add the Bolt Twig Extension.

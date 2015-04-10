@@ -16,14 +16,15 @@ class TwigExtension extends \Twig_Extension
     /** @var boolean */
     private $safe;
 
-    /** @var array */
+    /** @var \Pimple */
     private $handlers;
 
     /**
      * @param \Silex\Application $app
+     * @param \Pimple            $handlers
      * @param boolean            $safe
      */
-    public function __construct(Silex\Application $app, array $handlers, $safe)
+    public function __construct(Silex\Application $app, \Pimple $handlers, $safe)
     {
         $this->app      = $app;
         $this->handlers = $handlers;
