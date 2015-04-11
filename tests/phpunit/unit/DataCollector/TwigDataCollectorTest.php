@@ -17,7 +17,8 @@ class TwigDataCollectorTest extends BoltUnitTest
     public function testBasicData()
     {
         $app = $this->getApp();
-        $app['twig']->addExtension(new TwigExtension($app));
+        $handlers = $this->getTwigHandlers($app);
+        $app['twig']->addExtension(new TwigExtension($app, $handlers, false));
 
         $data = new TwigDataCollector($app);
 
