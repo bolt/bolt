@@ -176,6 +176,9 @@ class BoltListener implements \PHPUnit_Framework_TestListener
         // Create needed directories
         @$fs->mkdir(TEST_ROOT . '/app/cache/', 0777);
         @$fs->mkdir(PHPUNIT_ROOT . '/resources/files/', 0777);
+
+        // Empty the cache
+        system('php ' . NUT_PATH . ' cache:clear');
     }
 
     /**
@@ -204,5 +207,8 @@ class BoltListener implements \PHPUnit_Framework_TestListener
             $fs->remove(TEST_ROOT . '/bolt.db');
             $fs->remove(PHPUNIT_ROOT . '/resources/files/');
         }
+
+        // Empty the cache
+        system('php ' . NUT_PATH . ' cache:clear');
     }
 }

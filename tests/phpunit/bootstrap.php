@@ -5,6 +5,13 @@
  * related to request dispatching.
  */
 
+// Define our install type
+if (file_exists(__DIR__ . '/../../../../../vendor/bolt/bolt/')) {
+    $installType = 'composer';
+} else {
+    $installType = 'git';
+}
+
 // Install base location
 if (!defined('TEST_ROOT')) {
     define('TEST_ROOT', realpath(__DIR__ . '/../../'));
@@ -25,8 +32,16 @@ if (!defined('BOLT_AUTOLOAD')) {
     }
 
     // Load the autoloader
-    global $CLASSLOADER;
-    $CLASSLOADER = require_once BOLT_AUTOLOAD;
+    require_once BOLT_AUTOLOAD;
+}
+
+// Path to Nut
+if (!defined('NUT_PATH')) {
+    if ($installType === 'composer') {
+        define('NUT_PATH', realpath(TEST_ROOT . '/vendor/bolt/bolt/app/nut'));
+    } elseif ($installType === 'git') {
+        define('NUT_PATH', realpath(TEST_ROOT . '/app/nut'));
+    }
 }
 
 // Load the upload bootstrap
