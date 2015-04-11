@@ -51,6 +51,7 @@
         "ua-parser/uap-php" : "~3.4"
     },
     "require-dev" : {
+        "bolt/codingstyle" : "~1.0",
         "codeception/codeception" : "*",
         "lstrojny/phpunit-function-mocker" : "dev-master@dev",
         "m6web/symfony2-coding-standard" : "dev-master@dev",
