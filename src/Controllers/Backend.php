@@ -8,7 +8,8 @@ use Bolt\Permissions;
 use Bolt\Translation\TranslationFile;
 use Bolt\Translation\Translator as Trans;
 use Cocur\Slugify\Slugify;
-use Guzzle\Http\Exception\RequestException;
+use Guzzle\Http\Exception\RequestException as V3RequestException;
+use GuzzleHttp\Exception\RequestException;
 use Silex;
 use Silex\Application;
 use Silex\ControllerProviderInterface;
@@ -518,6 +519,11 @@ class Backend implements ControllerProviderInterface
                 $content = $app['storage']->preFill($ctypes);
                 $app['session']->getFlashBag()->add('success', $content);
             } catch (RequestException $e) {
+                $msg = "Timeout attempting to the 'Lorem Ipsum' generator. Unable to add dummy content.";
+                $app['session']->getFlashBag()->add('error', $msg);
+                $app['logger.system']->error($msg, array('event' => 'storage'));
+            } catch (V3RequestException $e) {
+                /** @deprecated removed when PHP 5.3 support is dropped */
                 $msg = "Timeout attempting to the 'Lorem Ipsum' generator. Unable to add dummy content.";
                 $app['session']->getFlashBag()->add('error', $msg);
                 $app['logger.system']->error($msg, array('event' => 'storage'));
