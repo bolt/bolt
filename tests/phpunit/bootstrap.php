@@ -32,8 +32,7 @@ if (!defined('BOLT_AUTOLOAD')) {
     }
 
     // Load the autoloader
-    global $CLASSLOADER;
-    $CLASSLOADER = require_once BOLT_AUTOLOAD;
+    require_once BOLT_AUTOLOAD;
 }
 
 // Path to Nut
