@@ -36,7 +36,7 @@ Fixtures::add('users', [
     ]
 ]);
 
-// Files that we'll back and and if we keep the original in tact before starting
+// Files that we'll back and if we keep the original in tact before starting
 // the suite run
 Fixtures::add('backups', [
     '/app/config/config.yml'                                   => false,
