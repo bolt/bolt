@@ -1601,6 +1601,12 @@ class Backend implements ControllerProviderInterface
         // No trailing slashes in the path.
         $path = rtrim($path, '/');
 
+        // Defaults
+        $files      = array();
+        $folders    = array();
+        $formview   = false;
+        $uploadview = true;
+
         $filesystem = $app['filesystem']->getFilesystem($namespace);
 
         if (!$filesystem->authorized($path)) {
@@ -1608,8 +1614,7 @@ class Backend implements ControllerProviderInterface
             $app->abort(Response::HTTP_FORBIDDEN, $error);
         }
 
-        $uploadview = true;
-        if (!$app['users']->isAllowed("files:uploads")) {
+        if (!$app['users']->isAllowed('files:uploads')) {
             $uploadview = false;
         }
 
@@ -1703,9 +1708,7 @@ class Backend implements ControllerProviderInterface
                 return Lib::redirect('files', array('path' => $path, 'namespace' => $namespace));
             }
 
-            if ($uploadview === false) {
-                $formview = false;
-            } else {
+            if ($uploadview !== false) {
                 $formview = $form->createView();
             }
 
@@ -1714,10 +1717,10 @@ class Backend implements ControllerProviderInterface
 
         // Get the pathsegments, so we can show the path as breadcrumb navigation.
         $pathsegments = array();
-        $cumulative = "";
+        $cumulative = '';
         if (!empty($path)) {
-            foreach (explode("/", $path) as $segment) {
-                $cumulative .= $segment . "/";
+            foreach (explode('/', $path) as $segment) {
+                $cumulative .= $segment . '/';
                 $pathsegments[$cumulative] = $segment;
             }
         }
