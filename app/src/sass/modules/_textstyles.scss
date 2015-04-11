@@ -52,7 +52,7 @@ tt, code, .source-code {
 
 tt, code {
     padding: 1px 2px;
-    border: 0px;
+    border: 0;
     white-space: pre;
     color: #555;
     background-color: #E8E8E8;
@@ -74,7 +74,6 @@ time {
     border-bottom: 1px dashed #BBB;
     cursor: default;
 }
-
 
 h1 span {
     float: right;
@@ -98,4 +97,3 @@ h1 span {
 .status-draft {
     color: #0569E2; // #99F;
 }
-

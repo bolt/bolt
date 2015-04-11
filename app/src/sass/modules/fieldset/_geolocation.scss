@@ -1,0 +1,42 @@
+/*** Fieldset: Geolocation ***/
+
+#editcontent {
+    fieldset[data-bolt-field="geolocation"] {
+        .mapholder {
+            background: #e5e3df;
+            border: 1px solid #bbb;
+            height: 150px;
+            min-width: 150px;
+            max-width: 200px;
+            text-align: center;
+            color: darken(#e5e3df, 5%);
+
+            @include respond-to(medium-screens) {
+                max-width: none;
+            }
+
+            @include respond-to(wide-screens) {
+                height: 180px;
+            }
+
+            i {
+                margin-top: (150px - 65px) / 2;
+            }
+        }
+
+        input {
+            width: 100%;
+        }
+
+        .matched, .latitude, .longitude {
+            background: #fafafa;
+            border: none;
+            box-shadow: none;
+            font-size: 1em;
+            line-height: 1em;
+            cursor: text;
+            padding: 0.5em;
+            height: auto;
+        }
+    }
+}

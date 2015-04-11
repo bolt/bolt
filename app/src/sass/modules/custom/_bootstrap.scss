@@ -1,6 +1,7 @@
 /**
  * Override button styles
  */
+
 .btn {
     font-size: 13px;
     font-weight: normal !important;
@@ -98,9 +99,11 @@
     float: none;
 }
 
+
 /**
  * Override navbar styles
  */
+
 .navbar-fixed-top, .navbar-fixed-bottom  {
     position: static;
     background-color: $boltblue;
@@ -137,7 +140,6 @@
         display: inline;
     }
 }
-
 
 .navbar .navbar-brand {
     display: inline-block;
@@ -203,7 +205,6 @@
 }
 
 .navbar {
-
     min-height: 54px;
     margin-bottom: 0;
 
@@ -224,7 +225,6 @@
             background: #3d5a71; // todo
         }
     }
-
 }
 
 .navbar .navbar > li > form > button.btn:hover {
@@ -273,9 +273,11 @@
    float: right !important;
 }
 
+
 /**
  * Dropdown menu lists
  */
+
 ul.dropdown-menu {
     margin: 0;
     border-radius: 0;
@@ -305,9 +307,8 @@ ul.dropdown-menu li a.nolink {
     color: lighten($bodytextcolour, 8) !important;
 }
 
-
 /**
- * styles for pagination
+ * Styles for pagination
  */
 
 .pagination {
@@ -335,7 +336,6 @@ ul.dropdown-menu li a.nolink {
 /**
  * End of styles for pagination
  */
-
 
 
 @if $columnborders {

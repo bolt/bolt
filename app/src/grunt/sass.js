@@ -19,10 +19,17 @@ module.exports = {
             sourceMap: true,
             sourceMapContents: true
         },
-        files: {
-            '<%= path.dest.css %>/bolt-old-ie.css': '<%= path.src.sass %>/app-old-ie.scss',
-            '<%= path.dest.css %>/bolt.css': '<%= path.src.sass %>/app.scss',
-            '<%= path.dest.css %>/liveeditor.css': '<%= path.src.sass %>/liveeditor.scss'
-        }
+        files: [
+            {
+                src:  '<%= path.src.sass %>/app-old-ie.scss',
+                dest: '<%= path.dest.css %>/bolt-old-ie.css'
+            }, {
+                src:  '<%= path.src.sass %>/app.scss',
+                dest: '<%= path.dest.css %>/bolt.css'
+            }, {
+                src:  '<%= path.src.sass %>/liveeditor.scss',
+                dest: '<%= path.dest.css %>/liveeditor.css'
+            }
+        ]
     }
 };

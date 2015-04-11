@@ -1,0 +1,31 @@
+/*** Fieldset: Slug ***/
+
+#editcontent {
+    fieldset[data-bolt-field="slug"] {
+        .input-group-addon {
+            background: #fff;
+            text-align: left;
+            font-family: monospace;
+
+            em {
+                font-style: normal;
+                font-weight: bold;
+            }
+        }
+
+        button {
+            padding: 5px;
+            font-family: "FontAwesome";
+        }
+
+        .locked button.lock i:before {
+            content: "\f023";
+            color: #800;
+        }
+
+        .unlocked button.lock i:before {
+            content: "\f09c";
+            color: #080;
+        }
+    }
+}

@@ -127,9 +127,15 @@ $nav-secondary-indent: ($nav-secondary-icon-size + $nav-secondary-icon-margin + 
 $nav-secondary-collapsed-width: ($nav-secondary-h-padding + $nav-secondary-indent + 1);
 
 /**
- * a fixed media query size for app-old-ie.scss, defaults to false.
+ * A fixed media query size for app-old-ie.scss, defaults to false.
  */
-$fixed-mq: false !default;
+@if $old-ie {
+    // Gets compared to breakpoints in mixon respond-to(): includes all mq styles up to 60em's; change if needed
+    $fixed-mq: 60;
+} @else {
+    $fixed-mq: false;
+}
+
 /**
  * Media Query handling
  */
