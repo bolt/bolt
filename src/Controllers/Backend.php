@@ -8,7 +8,8 @@ use Bolt\Permissions;
 use Bolt\Translation\TranslationFile;
 use Bolt\Translation\Translator as Trans;
 use Cocur\Slugify\Slugify;
-use Guzzle\Http\Exception\RequestException;
+use Guzzle\Http\Exception\RequestException as V3RequestException;
+use GuzzleHttp\Exception\RequestException;
 use Silex;
 use Silex\Application;
 use Silex\ControllerProviderInterface;
@@ -521,6 +522,11 @@ class Backend implements ControllerProviderInterface
                 $msg = "Timeout attempting to the 'Lorem Ipsum' generator. Unable to add dummy content.";
                 $app['session']->getFlashBag()->add('error', $msg);
                 $app['logger.system']->error($msg, array('event' => 'storage'));
+            } catch (V3RequestException $e) {
+                /** @deprecated removed when PHP 5.3 support is dropped */
+                $msg = "Timeout attempting to the 'Lorem Ipsum' generator. Unable to add dummy content.";
+                $app['session']->getFlashBag()->add('error', $msg);
+                $app['logger.system']->error($msg, array('event' => 'storage'));
             }
 
             return Lib::redirect('prefill');
@@ -656,9 +662,6 @@ class Backend implements ControllerProviderInterface
          */
 
         $content = $app['storage']->getContent($contenttypeslug, array('id' => $id));
-        if ($relations) {
-            $relatedContent = $content->related($showContenttype['slug']);
-        }
 
         $context = array(
             'id'               => $id,
@@ -667,7 +670,7 @@ class Backend implements ControllerProviderInterface
             'contenttype'      => $contenttype,
             'relations'        => $relations,
             'show_contenttype' => $showContenttype,
-            'related_content'  => $relatedContent,
+            'related_content'  => is_null($relations) ? null : $content->related($showContenttype['slug']),
         );
 
         return $app['render']->render('relatedto/relatedto.twig', array('context' => $context));
@@ -1598,6 +1601,12 @@ class Backend implements ControllerProviderInterface
         // No trailing slashes in the path.
         $path = rtrim($path, '/');
 
+        // Defaults
+        $files      = array();
+        $folders    = array();
+        $formview   = false;
+        $uploadview = true;
+
         $filesystem = $app['filesystem']->getFilesystem($namespace);
 
         if (!$filesystem->authorized($path)) {
@@ -1605,8 +1614,7 @@ class Backend implements ControllerProviderInterface
             $app->abort(Response::HTTP_FORBIDDEN, $error);
         }
 
-        $uploadview = true;
-        if (!$app['users']->isAllowed("files:uploads")) {
+        if (!$app['users']->isAllowed('files:uploads')) {
             $uploadview = false;
         }
 
@@ -1700,9 +1708,7 @@ class Backend implements ControllerProviderInterface
                 return Lib::redirect('files', array('path' => $path, 'namespace' => $namespace));
             }
 
-            if ($uploadview === false) {
-                $formview = false;
-            } else {
+            if ($uploadview !== false) {
                 $formview = $form->createView();
             }
 
@@ -1711,10 +1717,10 @@ class Backend implements ControllerProviderInterface
 
         // Get the pathsegments, so we can show the path as breadcrumb navigation.
         $pathsegments = array();
-        $cumulative = "";
+        $cumulative = '';
         if (!empty($path)) {
-            foreach (explode("/", $path) as $segment) {
-                $cumulative .= $segment . "/";
+            foreach (explode('/', $path) as $segment) {
+                $cumulative .= $segment . '/';
                 $pathsegments[$cumulative] = $segment;
             }
         }

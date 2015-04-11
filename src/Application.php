@@ -626,7 +626,7 @@ class Application extends Silex\Application
      *
      * @param string $name
      *
-     * @return bool
+     * @return boolean
      */
     public function __isset($name)
     {
@@ -636,7 +636,7 @@ class Application extends Silex\Application
     /**
      * Get the Bolt version string
      *
-     * @param array $long TRUE returns 'version name', FALSE 'version'
+     * @param boolean $long TRUE returns 'version name', FALSE 'version'
      *
      * @return string
      */
