@@ -43,7 +43,7 @@ if (php_sapi_name() == 'cli-server') {
 /**
  * @var \Bolt\Application $app
  */
-$app = require_once dirname(__FILE__) . '/app/bootstrap.php';
+$app = require_once __DIR__ . '/app/bootstrap.php';
 
 if ($app) {
     $app->run();
