@@ -1,8 +1,6 @@
 <?php
 /**
- * Second stage loader
- *
- * After verifying the first stage was run, we bootstrap the app:
+ * Second stage loader. Here we bootstrap the app:
  *
  * - Initialize mb functions for UTF-8
  * - Figure out path structure
@@ -18,21 +16,6 @@ use Bolt\Exception\LowlevelException;
 // Do bootstrapping within a new local scope to avoid polluting the global
 return call_user_func(
     function () {
-        // First ensure load.php was called right before bootstrap.php
-        $includes = get_included_files();
-        $loaderPath = __DIR__ . DIRECTORY_SEPARATOR . 'load.php';
-        $includeCount = count($includes);
-        // Should be at least 3 includes at this point:
-        // <load-invoker>.php (usually entry point), load.php, bootstrap.php
-        // Second to last entry must be load.php
-        $isLoadChainOk = $includeCount >= 3 && $includes[$includeCount - 2] == $loaderPath;
-
-        require_once __DIR__ . '/../src/Exception/LowlevelException.php';
-
-        if (!$isLoadChainOk) {
-            throw new LowlevelException('Include load.php, not bootstrap.php');
-        }
-
         // Use UTF-8 for all multi-byte functions
         mb_internal_encoding('UTF-8');
         mb_http_output('UTF-8');
