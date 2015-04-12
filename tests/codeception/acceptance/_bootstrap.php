@@ -36,8 +36,8 @@ Fixtures::add('users', [
     ]
 ]);
 
-// Files that we'll back and if we keep the original in tact before starting
-// the suite run
+// Files that we'll backup. If they exist when we run, then we keep the 
+// original in tact before starting the suite run
 Fixtures::add('backups', [
     '/app/config/config.yml'                                   => false,
     '/app/config/contenttypes.yml'                             => false,
@@ -51,3 +51,4 @@ Fixtures::add('backups', [
     '/app/database/bolt.db'                                    => false,
     '/theme/base-2014/_footer.twig'                            => true,
 ]);
+
