@@ -46,6 +46,12 @@ module.exports = {
                 flatten: true,
                 src: '<%= path.src.lib %>/ckeditor/lang/*.js',
                 dest: '<%= path.dest.js %>/locale/ckeditor'
+            }, {
+                // Copy skin
+                expand: true,
+                cwd: '<%= path.src.lib %>/ckeditor-skin',
+                src: 'boltcke/**',
+                dest: '<%= path.dest.js %>/ckeditor/skins'
             }
         ]
     },
