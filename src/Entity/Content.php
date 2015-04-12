@@ -18,4 +18,23 @@ class Content extends Entity
     protected $ownerid;
     protected $status;
     
+    
+    public function getDatecreated()
+    {
+        if (!$this->datecreated) {
+            return new \DateTime();
+        }
+        
+        return $this->datecreated;
+    }
+    
+    public function getDatechanged()
+    {
+        if (!$this->datechanged) {
+            return new \DateTime();
+        }
+        
+        return $this->datechanged;
+    }
+    
 }
