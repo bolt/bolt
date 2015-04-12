@@ -50,6 +50,14 @@ class MetadataDriver implements MappingDriver
     protected $typemap;
     
     /**
+     *  Keeps a reference of which metadata is not mapped to
+     *  a specific entity.
+     * 
+     *  @var array $unmapped 
+     */
+    protected $unmapped;
+    
+    /**
      * @var string - a default entity for any table not matched
      */
     protected $fallbackEntity = 'Bolt\Entity\Content';
@@ -90,6 +98,7 @@ class MetadataDriver implements MappingDriver
             $className = $this->defaultAliases[$tblName];
         } else {
             $className = $tblName;
+            $this->unmapped[] = $tblName;
         }
         
         $this->metadata[$className] = array();
