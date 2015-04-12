@@ -7,6 +7,7 @@ use Doctrine\Common\Persistence\Mapping\Driver\MappingDriver;
 use Doctrine\Common\Persistence\Mapping\ClassMetadata;
 use Bolt\Mapping\ClassMetadata as BoltClassMetadata;
 use Doctrine\DBAL\Schema\Table;
+use Doctrine\DBAL\Types\Type;
 
 /**
  * This is a Bolt specific metadata driver that provides mapping information
@@ -107,7 +108,7 @@ class MetadataDriver implements MappingDriver
         foreach ($table->getColumns() as $colName=>$column) {
             
             $mapping['fieldname'] = $colName;
-            $mapping['type'] = $column->getType();
+            $mapping['type'] = $column->getType()->getName();
             $mapping['fieldtype'] = $this->getFieldTypeFor($table->getName(), $column);
             $mapping['length'] = $column->getLength();
             $mapping['nullable'] = $column->getNotnull();
@@ -178,6 +179,16 @@ class MetadataDriver implements MappingDriver
     public function getAllClassNames()
     {
         return array_keys($this->metadata);
+    }
+    
+    /**
+     * Gets a list of tables that are not mapped to specific entities.
+     *
+     * @return array
+     */
+    public function getUnmapped()
+    {
+        return $this->unmapped;
     }
     
     /**
