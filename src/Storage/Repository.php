@@ -9,7 +9,7 @@ use Bolt\Events\StorageEvents;
 
 
 /**
- * An abstract class that other repositories can inherit.
+ * A default repository class that other repositories can inherit to provide more specific features.
  */
 class Repository implements ObjectRepository
 {
@@ -17,7 +17,8 @@ class Repository implements ObjectRepository
     public $em;
     public $_class;
     public $entityName;
-    public $namingStrategy;
+    public $hydrator;
+    public $persister;
     
     /**
      * Initializes a new <tt>Repository</tt>.
@@ -25,7 +26,7 @@ class Repository implements ObjectRepository
      * @param EntityManager         $em    The EntityManager to use.
      * @param Mapping\ClassMetadata $class The class descriptor.
      */
-    public function __construct($em, ClassMetadata $classMetadata = null, $hydrator = null)
+    public function __construct($em, ClassMetadata $classMetadata = null, $hydrator = null, $persister = null)
     {
         $this->em         = $em;
         if (null !== $classMetadata) {
@@ -35,6 +36,10 @@ class Repository implements ObjectRepository
         
         if (null === $hydrator) {
             $this->setHydrator(new Hydrator());
+        }
+        
+        if (null === $persister) {
+            $this->setPersister(new Persister());
         }
     }
     
@@ -223,11 +228,8 @@ class Repository implements ObjectRepository
     {
         $qb = $this->em->createQueryBuilder();
         $qb->insert($this->getTableName());
-        foreach ($entity->toArray() as $key=>$value) {
-            $qb->setValue($key, ":".$key);
-            $qb->setParameter($key, $value);
-        }
-        
+        $this->persister->persist($qb, $entity, $this->getClassMetadata());
+                
         return $qb->execute();
     }
     
@@ -241,11 +243,9 @@ class Repository implements ObjectRepository
     public function update($entity)
     {
         $qb = $this->em->createQueryBuilder();
-        $qb->update($this->getTableName());        
-        foreach ($entity->toArray() as $key=>$value) {
-            $qb->set($key, ":".$key);
-            $qb->setParameter($key, $value);
-        }
+        $qb->update($this->getTableName());
+        $this->persister->persist($qb, $entity, $this->getClassMetadata());
+
         $qb->where('id = :id')
             ->setParameter('id', $entity->getId());
         
@@ -299,6 +299,14 @@ class Repository implements ObjectRepository
     public function setHydrator($hydrator)
     {
         $this->hydrator = $hydrator;
+    }
+    
+    /**
+     * @return void
+     */
+    public function setPersister($persister)
+    {
+        $this->persister = $persister;
     }
 
 
