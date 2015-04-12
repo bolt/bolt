@@ -32,15 +32,15 @@ class EntityManager
      * @param MappingDriver                 $mapping
      * @param LoggerInterface               $logger
      */
-    public function __construct(Connection $conn, EventDispatcherInterface $eventManager, MappingDriver $mapping, LoggerInterface $log = null)
+    public function __construct(Connection $conn, EventDispatcherInterface $eventManager, MappingDriver $mapping, LoggerInterface $logger = null)
     {
         $this->conn         = $conn;
         $this->eventManager = $eventManager;
         $this->mapping      = $mapping;
-        if (null === $log) {
-            $this->log = new NullLogger();
+        if (null === $logger) {
+            $this->logger = new NullLogger();
         } else {
-            $this->log          = $log;
+            $this->logger = $logger;
         }
     }
     
@@ -217,7 +217,7 @@ class EntityManager
      */
     public function getLogger()
     {
-        return $this->log;
+        return $this->logger;
     }
     
     
@@ -232,8 +232,9 @@ class EntityManager
      */
     public function __call($method, $args)
     {
-        $this->getLogger()->warning("[DEPRECATED] Accessing ['storage']->$method is no longer supported");
+        $this->getLogger()->warning("[DEPRECATED] Accessing ['storage']->$method is no longer supported and will be removed in a future version.");
         return call_user_func_array(array($this->legacy(), $method), $args);
     }
+    
     
 }
