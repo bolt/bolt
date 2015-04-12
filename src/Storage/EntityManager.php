@@ -120,6 +120,7 @@ class EntityManager
             $classMetadata = $this->getMapper()->loadMetadataForClass($className);
         }
         
+        
         if (array_key_exists($className, $this->repositories)) {
             $repoClass = $this->repositories[$className];
             return new $repoClass($this, $classMetadata);
@@ -134,6 +135,15 @@ class EntityManager
                 return new $repoClass($this, $classMetadata);
             }
             
+        }
+        
+        /*
+         * If the fetched metadata isn't mapped to a specific entity then we treat
+         * it as a generic Content repo
+         *
+         */
+        if (in_array($classMetadata->getName(), $this->getMapper()->getUnmapped())) {
+            return new ContentRepository($this, $classMetadata);
         }
         
         return new Repository($this, $classMetadata);
