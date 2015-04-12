@@ -30,5 +30,18 @@ module.exports = {
             '<%= path.dest.css %>/bolt.css.map',
             '<%= path.dest.css %>/liveeditor.css.map'
         ]
+    },
+
+    /*
+     * TARGET:  Remove js source maps
+     */
+    soureMapJs: {
+        fileList: [
+            '<%= path.dest.js %>/maps/bolt.min.js.map',
+            '<%= path.dest.js %>/maps/lib.min.js.map'
+        ],
+        dirList: [
+            '<%= path.dest.js %>/maps'
+        ]
     }
 };
