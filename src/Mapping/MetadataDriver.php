@@ -50,6 +50,8 @@ class MetadataDriver implements MappingDriver
     
     protected $typemap;
     
+    protected $aliases = array();
+    
     /**
      *  Keeps a reference of which metadata is not mapped to
      *  a specific entity.
@@ -85,10 +87,34 @@ class MetadataDriver implements MappingDriver
      */
     public function initialize()
     {
+        $this->initializeShortAliases();
         foreach ($this->integrityChecker->getTablesSchema() as $table) {
             $this->loadMetadataForTable($table);
         }
         $this->initialized = true;
+    }
+    
+    /**
+     * Setup some short aliases so non prefixed keys can be used to get metadata
+     *
+     * @return void
+     * @author 
+     **/
+    public function initializeShortAliases()
+    {
+        foreach ($this->integrityChecker->getTablesSchema() as $table) {
+            $this->aliases[$this->integrityChecker->getKeyForTable($table->getName())] = $table->getName();
+        }
+    }
+    
+    /**
+     * Getter for aliases
+     *
+     * @return array
+     **/
+    public function getAliases()
+    {
+        return $this->aliases;
     }
     
     protected function loadMetadataForTable(Table $table)
@@ -106,7 +132,6 @@ class MetadataDriver implements MappingDriver
         $this->metadata[$className]['identifier'] = $table->getPrimaryKey();
         $this->metadata[$className]['table'] = $table->getName();
         foreach ($table->getColumns() as $colName=>$column) {
-            
             $mapping['fieldname'] = $colName;
             $mapping['type'] = $column->getType()->getName();
             $mapping['fieldtype'] = $this->getFieldTypeFor($table->getName(), $column);
@@ -120,6 +145,12 @@ class MetadataDriver implements MappingDriver
             $mapping['autoincrement'] = $column->getAutoincrement();
             
             $this->metadata[$className]['fields'][$colName] = $mapping;
+        }
+        
+        foreach ($this->getAliases() as $alias=>$table) {
+            if (array_key_exists($table, $this->metadata)) {
+                $this->metadata[$alias] = $this->metadata[$table];
+            }
         }
     }
 

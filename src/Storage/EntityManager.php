@@ -42,6 +42,7 @@ class EntityManager
         } else {
             $this->logger = $logger;
         }
+
     }
     
     /**

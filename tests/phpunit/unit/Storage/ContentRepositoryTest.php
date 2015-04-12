@@ -29,7 +29,7 @@ class ContentRepositoryTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $em = new EntityManager($app['db'], $app['dispatcher'], $app['storage.metadata']);
-        $repo = $em->getRepository('bolt_showcases');
+        $repo = $em->getRepository('showcases');
         
         $showcase = new Content(array(
             'title' => 'Test Showcase',
