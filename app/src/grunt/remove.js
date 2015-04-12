@@ -8,7 +8,8 @@ module.exports = {
     prepareCkeditor: {
         dirList: [
             '<%= path.src.lib %>/ckeditor/adapters',
-            '<%= path.src.lib %>/ckeditor/samples'
+            '<%= path.src.lib %>/ckeditor/samples',
+            '<%= path.src.lib %>/ckeditor/skins/moono'
         ]
     },
 
