@@ -10,7 +10,7 @@
 /**
  * @var \Bolt\Application $app
  */
-$app = require_once __DIR__ . '/app/load.php';
+$app = require_once dirname(__FILE__) . '/app/load.php';
 
 if ($app) {
     $app->run();

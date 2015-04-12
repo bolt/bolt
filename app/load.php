@@ -16,7 +16,7 @@
  * See: https://github.com/bolt/bolt/issues/1531
  */
 if (version_compare(PHP_VERSION, '5.3.3', '<')) {
-    require __DIR__ . '/legacy.php';
+    require dirname(__FILE__) . '/legacy.php';
 
     return false;
 }
