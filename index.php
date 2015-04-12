@@ -8,6 +8,9 @@
  */
 
 /**
+ * Note, we use `dirname(__FILE__)` instead of `__DIR__`. The latter was introduced "only" in
+ * PHP 5.3, and we need to be able to show the notice to the poor souls who are still on PHP 5.2.
+ *
  * @var \Bolt\Application $app
  */
 $app = require_once dirname(__FILE__) . '/app/load.php';
