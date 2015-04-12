@@ -2,6 +2,7 @@ module.exports = function(grunt) {
     grunt.util.linefeed = '\n';
 
     var options = {
+        sourceMap: true,
         path: {
             tmp: 'tmp',
             doc: 'docs',
