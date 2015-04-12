@@ -80,6 +80,11 @@ module.exports = function(grunt) {
         }
     };
 
+    // Optionally overwrite options with grunt.json
+    if (grunt.file.exists('grunt.json')) {
+        require('deep-extend')(options, grunt.file.readJSON('grunt.json'));
+    }
+
     require('load-grunt-config')(grunt, {data: options});
 
 };
