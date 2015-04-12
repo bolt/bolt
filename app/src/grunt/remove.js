@@ -19,5 +19,16 @@ module.exports = {
         dirList: [
             '<%= path.tmp %>'
         ]
+    },
+
+    /*
+     * TARGET:  Remove css source maps
+     */
+    soureMapCss: {
+        fileList: [
+            '<%= path.dest.css %>/bolt-old-ie.css.map',
+            '<%= path.dest.css %>/bolt.css.map',
+            '<%= path.dest.css %>/liveeditor.css.map'
+        ]
     }
 };
