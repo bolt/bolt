@@ -117,6 +117,28 @@ class MetadataDriver implements MappingDriver
         return $this->aliases;
     }
     
+    /**
+     * Method will try to find an entity class name to handle data,
+     * alternatively falling back to $this->fallbackEntity
+     *
+     * @return $class Fully Qualified Class Name
+     **/
+    public function resolveClassName($alias)
+    {
+        if (class_exists($alias)) {
+            return $alias;
+        }
+        
+        if (array_key_exists($alias, $this->aliases)) {
+            $class = $this->aliases[$alias];
+            if (class_exists($class)) {
+                return $class;
+            }
+        }
+        
+        return $this->fallbackEntity;
+    }
+    
     protected function loadMetadataForTable(Table $table)
     {
         $tblName = $table->getName();
@@ -155,13 +177,15 @@ class MetadataDriver implements MappingDriver
     }
 
     /**
-     * @param string $className Fully Qualified name
+     * @param string $className Fully Qualified name or alias
      * @param ClassMetadata $metadata instance of metadata class to load with data
      */
     public function loadMetadataForClass($className, ClassMetadata $metadata = null)
     {
+        
         if (null === $metadata) {
-            $metadata = new BoltClassMetadata($className);
+            $fullClassName = $this->resolveClassName($className);
+            $metadata = new BoltClassMetadata($fullClassName);
         }
         if (!$this->initialized) {
             $this->initialize();
