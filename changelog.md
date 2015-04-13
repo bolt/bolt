@@ -63,7 +63,7 @@ Not yet released.
  - Fixed: Make geolocation gracefully fail if google is not loaded (See #3356)
  - Added: Small UX improvement: Show spinner while doing ajaxy save. (See #3355)
  - Added: Use `PHPExif\Exif` for getting EXIF data in `TwigExtensions::imageinfo()` (See #3354)
- - Change: `slug` and `geolocation` fields refactored. (See #3344)
+ - Change: `slug` and `geolocation` fields refactored. Refactored out 'GoMap' dependancy. (See #3344)
  - Change: Fixed Scrutinizer config (See #3343)
  - Change: Allow explicit setting of a Contenttype's table name suffix (See #3342)
  - Fixed: Only setting default timezone if config provides it (See #3334)
@@ -73,12 +73,10 @@ Not yet released.
  - Fixed: Fix rendering in sidebar on mobile. Fixes (See #3321)
  - Added: Allow filtering in 'record.related' on other fields too. (See #3320)
  - Fixed: Slugs generation fixed (See #3310)
- - Change: Frontend requests should not set cookies. Remove them, to allow Varnish to do a better job of caching the request. (See #3309)
  - Change: Refactor out `load.php`. (see #3371)
  - Change: Move CodeSniffer to a composer package (see #3365)
  - Fixed: Fixing small inconsistency in `permissions.yml.dist': 'editors' can browse uploaded files from within CKeditor now. (See #3357)
- - Refactor: slug and geolocation fields refactored: Refactored out 'GoMap' dependancy. (See #3344)
- - Change: Small UX improvement: Show spinner while doing ajaxy save. (See #3355)
+
 
 
 
