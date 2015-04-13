@@ -16,7 +16,8 @@ Not yet released. Notable changes:
  - Fixed: Fix for "timed depublish". (See #3330)
  - Fixed: Only setting default timezone if config provides it (See #3334)
  - Added: Small UX improvement: Show spinner while doing ajaxy save. (See #3355)
- 
+ - Fixed: Fixing small inconsistency in `permissions.yml.dist': 'editors' can browse uploaded files from within CKeditor now. (See #3357)
+ - Fix: People who try installing Bolt on PHP 5.1 or 5.2 will now get a nice and friendly notice that Bolt won't work. (see #3371)
 
 Bolt 2.1.5
 ----------
