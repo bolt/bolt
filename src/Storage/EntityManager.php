@@ -143,7 +143,7 @@ class EntityManager
          * it as a generic Content repo
          *
          */
-        if (in_array($classMetadata->getName(), $this->getMapper()->getUnmapped())) {
+        if (in_array($className, $this->getMapper()->getUnmapped())) {
             return new ContentRepository($this, $classMetadata);
         }
         
