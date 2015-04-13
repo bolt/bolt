@@ -35,7 +35,7 @@ class Repository implements ObjectRepository
         }
         
         if (null === $hydrator) {
-            $this->setHydrator(new Hydrator());
+            $this->setHydrator(new Hydrator($classMetadata->getName()));
         }
         
         if (null === $persister) {
@@ -267,7 +267,7 @@ class Repository implements ObjectRepository
         );
         $this->event()->dispatch(StorageEvents::PRE_HYDRATE, $preArgs);
         
-        $entity = $this->hydrator->hydrate($data, $this->getEntityName());
+        $entity = $this->hydrator->hydrate($data);
         
         $postArgs = new HydrationEvent(
             $entity, 
