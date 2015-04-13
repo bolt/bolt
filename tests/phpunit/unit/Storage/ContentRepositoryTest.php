@@ -40,6 +40,17 @@ class ContentRepositoryTest extends BoltUnitTest
         $res = $repo->save($showcase);
         $this->assertNotEmpty($res);
     }
+    
+    public function testFind()
+    {
+        $app = $this->getApp();
+        $em = new EntityManager($app['db'], $app['dispatcher'], $app['storage.metadata']);
+        $repo = $em->getRepository('showcases');
+        $record = $repo->find(1);
+        $this->assertEquals('Test Showcase', $record->title);
+        $this->assertEquals('test-showcase', $record->slug);
+        $this->assertEquals('published', $record->status);
+    }
 
     
 }
