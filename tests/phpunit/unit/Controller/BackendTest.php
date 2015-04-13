@@ -1151,7 +1151,7 @@ class BackendTest extends BoltUnitTest
         $user = array(
             'username'    => $username,
             'displayname' => $displayname,
-            'email'       => 'test@example.com',
+            'email'       => $username.'@example.com',
             'password'    => 'password',
             'roles'       => array($role)
         );

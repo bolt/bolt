@@ -30,7 +30,7 @@ class UsersTest extends BoltUnitTest
     public function testGetUserById()
     {
         //setup test
-        $users = $this->getMock('Bolt\Users', array('getUsers'));
+        $users = $this->getMock('Bolt\Users', array('getUsers'), array($this->getApp()));
         $users->expects($this->once())->method('getUsers')->willReturn(array($this->user));
         
         //run test
@@ -46,7 +46,7 @@ class UsersTest extends BoltUnitTest
     public function testGetUserByUnknownId()
     {
         //setup test
-        $users = $this->getMock('Bolt\Users', array('getUsers'));
+        $users = $this->getMock('Bolt\Users', array('getUsers'), array($this->getApp()));
         $users->expects($this->once())->method('getUsers')->willReturn(array($this->user));
         
         //run test
@@ -62,7 +62,7 @@ class UsersTest extends BoltUnitTest
     public function testGetUserWithEmail()
     {
         //setup test
-        $users = $this->getMock('Bolt\Users', array('getUsers'));
+        $users = $this->getMock('Bolt\Users', array('getUsers'), array($this->getApp()));
         $users->expects($this->once())->method('getUsers')->willReturn(array($this->user));
         
         //run test
@@ -78,7 +78,7 @@ class UsersTest extends BoltUnitTest
     public function testGetUserWithId()
     {
         //setup test
-        $users = $this->getMock('Bolt\Users', array('getUsers'));
+        $users = $this->getMock('Bolt\Users', array('getUsers'), array($this->getApp()));
         $users->expects($this->once())->method('getUsers')->willReturn(array($this->user));
         
         //run test
@@ -94,7 +94,7 @@ class UsersTest extends BoltUnitTest
     public function testGetUserByUsername()
     {
         //setup test
-        $users = $this->getMock('Bolt\Users', array('getUsers'));
+        $users = $this->getMock('Bolt\Users', array('getUsers'), array($this->getApp()));
         $users->expects($this->once())->method('getUsers')->willReturn(array($this->user));
         
         //run test
@@ -110,7 +110,7 @@ class UsersTest extends BoltUnitTest
     public function testGetUserByUnknownUsername()
     {
         //setup test
-        $users = $this->getMock('Bolt\Users', array('getUsers'));
+        $users = $this->getMock('Bolt\Users', array('getUsers'), array($this->getApp()));
         $users->expects($this->once())->method('getUsers')->willReturn(array($this->user));
         
         //run test
@@ -126,7 +126,7 @@ class UsersTest extends BoltUnitTest
     public function testLoginWithUsername()
     {
         //setup test
-        $users = $this->getMock('Bolt\Users', array('loginUsername', 'loginEmail'));
+        $users = $this->getMock('Bolt\Users', array('loginUsername', 'loginEmail'), array($this->getApp()));
         $users->expects($this->once())->method('loginUsername')->willReturn(true);
         $users->expects($this->never())->method('loginEmail');
         
@@ -143,7 +143,7 @@ class UsersTest extends BoltUnitTest
     public function testLoginWithEmail()
     {
         //setup test
-        $users = $this->getMock('Bolt\Users', array('loginUsername', 'loginEmail'));
+        $users = $this->getMock('Bolt\Users', array('loginUsername', 'loginEmail'), array($this->getApp()));
         $users->expects($this->once())->method('loginEmail')->willReturn(true);
         $users->expects($this->never())->method('loginUsername');
 
