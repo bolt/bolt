@@ -74,6 +74,11 @@ Not yet released.
  - Added: Allow filtering in 'record.related' on other fields too. (See #3320)
  - Fixed: Slugs generation fixed (See #3310)
  - Change: Frontend requests should not set cookies. Remove them, to allow Varnish to do a better job of caching the request. (See #3309)
+ - Change: Refactor out `load.php`. (see #3371)
+ - Change: Move CodeSniffer to a composer package (see #3365)
+ - Fixed: Fixing small inconsistency in `permissions.yml.dist': 'editors' can browse uploaded files from within CKeditor now. (See #3357)
+ - Refactor: slug and geolocation fields refactored: Refactored out 'GoMap' dependancy. (See #3344)
+ - Change: Small UX improvement: Show spinner while doing ajaxy save. (See #3355)
 
 
 
