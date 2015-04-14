@@ -14,10 +14,6 @@ class DatabaseRepairTest extends BoltUnitTest
 {
     public function testRun()
     {
-        $this->markTestSkipped(
-            'This test will always fail when the schema is changed in the pr.'
-        );
-
         $app = $this->getApp();
         $command = new DatabaseRepair($app);
         $tester = new CommandTester($command);

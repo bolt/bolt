@@ -958,11 +958,6 @@ class BackendTest extends BoltUnitTest
 
     public function testUserAction()
     {
-        // Stop here and mark this test as incomplete.
-        $this->markTestIncomplete(
-            'This test needs to add correct users.'
-        );
-        $this->skip();
         $app = $this->getApp();
         $controller = new Backend();
 
@@ -977,27 +972,25 @@ class BackendTest extends BoltUnitTest
         $controller = new Backend();
 
         // Now we mock the CSRF token to validate
-        $users = $this->getMock('Bolt\Users', array('checkAntiCSRFToken','GetUserById'), array($app));
+        $users = $this->getMock('Bolt\Users', array('checkAntiCSRFToken'), array($app));
         $users->expects($this->any())
             ->method('checkAntiCSRFToken')
             ->will($this->returnValue(true));
-        $users->expects($this->any())
-            ->method('GetUserById')
-            ->will($this->returnValue(false));
         $app['users'] = $users;
+
+        $currentuser = $app['users']->getUserById(1);
+        $app['users']->currentuser = $currentuser;
 
         // This request should fail because the user doesnt exist.
         $app['request'] = $request = Request::create('/bolt/user/disable/2');
-        $response = $controller->userAction($app, 'disable', 1);
+        $response = $controller->userAction($app, 'disable', 2);
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
         $err = $app['session']->getFlashBag()->get('error');
         $this->assertRegexp('/No such user/', $err[0]);
 
         // This check will fail because we are operating on the current user
-        $user = $app['users']->getUserById(1);
-        $app['users']->currentuser = $user;
-        $app['request'] = $request = Request::create('/bolt/user/disable/2');
-        $response = $controller->userAction($app, 'disable', 2);
+        $app['request'] = $request = Request::create('/bolt/user/disable/1');
+        $response = $controller->userAction($app, 'disable', 1);
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
         $err = $app['session']->getFlashBag()->get('error');
         $this->assertRegexp('/yourself/', $err[0]);
@@ -1006,29 +999,30 @@ class BackendTest extends BoltUnitTest
         $this->addNewUser($app, 'editor', 'Editor', 'editor');
 
         // And retry the operation that will work now
-        $app['request'] = $request = Request::create('/bolt/user/disable/3');
-        $response = $controller->userAction($app, 'disable', 3);
+        $app['request'] = $request = Request::create('/bolt/user/disable/2');
+        $response = $controller->userAction($app, 'disable', 2);
+
         $info = $app['session']->getFlashBag()->get('info');
         $this->assertRegexp('/is disabled/', $info[0]);
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
 
         // Now try to enable the user
-        $app['request'] = $request = Request::create('/bolt/user/enable/3');
-        $response = $controller->userAction($app, 'enable', 3);
+        $app['request'] = $request = Request::create('/bolt/user/enable/2');
+        $response = $controller->userAction($app, 'enable', 2);
         $info = $app['session']->getFlashBag()->get('info');
         $this->assertRegexp('/is enabled/', $info[0]);
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
 
         // Try a non-existent action, make sure we get an error
-        $app['request'] = $request = Request::create('/bolt/user/enhance/3');
-        $response = $controller->userAction($app, 'enhance', 3);
+        $app['request'] = $request = Request::create('/bolt/user/enhance/2');
+        $response = $controller->userAction($app, 'enhance', 2);
         $info = $app['session']->getFlashBag()->get('error');
         $this->assertRegexp('/No such action/', $info[0]);
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
 
         // Now we run a delete action
-        $app['request'] = $request = Request::create('/bolt/user/delete/3');
-        $response = $controller->userAction($app, 'delete', 3);
+        $app['request'] = $request = Request::create('/bolt/user/delete/2');
+        $response = $controller->userAction($app, 'delete', 2);
         $info = $app['session']->getFlashBag()->get('info');
         $this->assertRegexp('/is deleted/', $info[0]);
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
@@ -1041,8 +1035,8 @@ class BackendTest extends BoltUnitTest
             ->will($this->returnValue(false));
         $app['permissions'] = $perms;
 
-        $app['request'] = $request = Request::create('/bolt/user/disable/3');
-        $response = $controller->userAction($app, 'disable', 3);
+        $app['request'] = $request = Request::create('/bolt/user/disable/2');
+        $response = $controller->userAction($app, 'disable', 2);
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
         $err = $app['session']->getFlashBag()->get('error');
         $this->assertRegexp('/right privileges/', $err[0]);
@@ -1050,11 +1044,6 @@ class BackendTest extends BoltUnitTest
 
     public function testUserActionFailures()
     {
-        // Stop here and mark this test as incomplete.
-        $this->markTestIncomplete(
-            'This test needs the correct ids for the added users.'
-        );
-
         $app = $this->getApp();
         $controller = new Backend();
 
@@ -1158,13 +1147,15 @@ class BackendTest extends BoltUnitTest
 
     protected function addNewUser($app, $username, $displayname, $role)
     {
-        $user = array(
-            'username'    => $username,
-            'displayname' => $displayname,
-            'email'       => $username.'@example.com',
-            'password'    => 'password',
-            'roles'       => array($role)
-        );
+        $user = $app['users']->getEmptyUser();
+
+        unset($user['id']);
+        $user['username']    = $username;
+        $user['displayname'] = $displayname;
+        $user['email']       = $username.'@example.com';
+        $user['password']    = 'password';
+        $user['roles']       = array($role);
+
         $app['users']->saveUser($user);
         $app['users']->users = array();
     }
