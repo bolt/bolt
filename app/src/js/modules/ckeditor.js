@@ -65,85 +65,62 @@
                 param = $(this.element.$).data('param') || {},
                 set = bolt.conf('ckeditor');
 
-            var basicStyles = ['Bold', 'Italic'];
-            var linkItems = ['Link', 'Unlink'];
-            var toolItems = [ 'RemoveFormat', 'Maximize', '-', 'Source'];
-            var paragraphItems = ['NumberedList', 'BulletedList', 'Indent', 'Outdent'];
-
-            if (set.underline) {
-                basicStyles = basicStyles.concat('Underline');
-            }
-            if (set.strike) {
-                basicStyles = basicStyles.concat('Strike');
-            }
-            if (set.anchor) {
-                linkItems = linkItems.concat('-', 'Anchor');
-            }
-            if (set.specialchar) {
-                toolItems = ['SpecialChar', '-'].concat(toolItems);
-            }
-            if (set.blockquote) {
-                paragraphItems = paragraphItems.concat('-', 'Blockquote');
-            }
-
             config.language = bolt.conf('locale.short');
             config.skin = 'boltcke';
             config.resize_enabled = true;
             config.entities = false;
             config.fillEmptyBlocks = false;
             config.extraPlugins = 'codemirror';
-            config.toolbar = [
-                { name: 'styles', items: ['Format'] },
-                { name: 'basicstyles', items: basicStyles }, // ['Bold', 'Italic', 'Underline', 'Strike']
-                { name: 'paragraph', items: paragraphItems },
-                { name: 'links', items: linkItems }
-            ];
 
+            config.toolbar = list(
+                [                 { name: 'styles',      items: list( [                 'Format'       ],
+                                                                      [set.styles,      'Styles'       ] )}],
 
-            if (set.subsuper) {
-                config.toolbar = config.toolbar.concat({
-                    name: 'subsuper', items: ['Subscript', 'Superscript']
-                });
-            }
-            if (set.images) {
-                config.toolbar = config.toolbar.concat({
-                    name: 'image', items: ['Image']
-                });
-            }
+                [                 { name: 'basicstyles', items: list( [                 'Bold'         ],
+                                                                      [                 'Italic'       ],
+                                                                      [set.underline,   'Underline'    ],
+                                                                      [set.strike,      'Strike'       ] )}],
+
+                [                 { name: 'paragraph',   items: list( [                 'NumberedList' ],
+                                                                      [                 'BulletedList' ],
+                                                                      [                 'Indent'       ],
+                                                                      [                 'Outdent'      ],
+                                                                      [set.blockquote,  '|Blockquote'  ] )}],
+
+                [                 { name: 'links',       items: list( [                 'Link'         ],
+                                                                      [                 'Unlink'       ],
+                                                                      [set.anchor,      '|Anchor'      ] )}],
+
+                [set.subsuper,    { name: 'subsuper',    items: list( [                 'Subscript'    ],
+                                                                      [                 'Superscript'  ] )}],
+
+                [set.images,      { name: 'image',       items: list( [                 'Image'        ] )}],
+
+                [set.embed,       { name: 'embed',       items: list( [                 'oembed'       ] )}],
+
+                [set.tables,      { name: 'table',       items: list( [                 'Table'        ] )}],
+
+                [set.align,       { name: 'align',       items: list( [                 'JustifyLeft'  ],
+                                                                      [                 'JustifyCenter'],
+                                                                      [                 'JustifyRight' ],
+                                                                      [                 'JustifyBlock' ] )}],
+
+                [set.fontcolor,   { name: 'colors',      items: list( [                 'TextColor'    ],
+                                                                      [                 'BGColor'      ] )}],
+
+                [set.codesnippet, { name: 'code',        items: list( [                 '|CodeSnippet' ] )}],
+
+                [                 { name: 'tools',       items: list( [                 'RemoveFormat' ],
+                                                                      [                 'Maximize'     ],
+                                                                      [                 '|Source'      ],
+                                                                      [set.specialchar, '|SpecialChar' ] )}]
+            );
+
             if (set.embed) {
                 config.extraPlugins += ',oembed,widget';
                 config.oembed_maxWidth = '853';
                 config.oembed_maxHeight = '480';
-                config.toolbar = config.toolbar.concat({
-                    name: 'embed', items: ['oembed']
-                });
             }
-
-            if (set.tables) {
-                config.toolbar = config.toolbar.concat({
-                    name: 'table', items: ['Table']
-                });
-            }
-            if (set.align) {
-                config.toolbar = config.toolbar.concat({
-                    name: 'align', items: ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock']
-                });
-            }
-            if (set.fontcolor) {
-                config.toolbar = config.toolbar.concat({
-                    name: 'colors', items: ['TextColor', 'BGColor']
-                });
-            }
-
-            if (set.codesnippet) {
-                config.toolbar = config.toolbar.concat({
-                    name: 'code', items: ['-', 'CodeSnippet']
-                });
-            }
-
-            config.toolbar = config.toolbar.concat({
-                name: 'tools', items: toolItems
-            });
 
             config.height = 250;
             config.autoGrow_onStartup = true;
@@ -232,6 +209,34 @@
 
         return cke;
     };
+
+    /**
+     * Helper function to create conditional lists for toolbars
+     *
+     * @private
+     *
+     * @static
+     * @function list
+     * @memberof Bolt.ckeditor
+     *
+     * @param {...Array} items - Either an array with one element or two, first a boolean tells if to add
+     */
+    function list() {
+        var ret = [];
+
+        for (var n in arguments) {
+            if (arguments[n].length === 1 || arguments[n][0]) {
+                var val = arguments[n][arguments[n].length - 1];
+                if (typeof val === 'string' && val.substr(0, 1) === '|') {
+                    val = val.substr(1);
+                    ret = ret.concat('-');
+                }
+                ret = ret.concat(val);
+            }
+        }
+
+        return ret;
+    }
 
     // Apply mixin container
     bolt.ckeditor = ckeditor;
