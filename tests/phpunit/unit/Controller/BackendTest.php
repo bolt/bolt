@@ -711,12 +711,12 @@ class BackendTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $controller = new Backend();
-        $user = $app['users']->getUserById(9);
+        $user = $app['users']->getUserById(1);
         $app['users']->currentuser = $user;
-        $app['request'] = $request = Request::create('/bolt/useredit/9');
+        $app['request'] = $request = Request::create('/bolt/useredit/1');
 
         // This one should redirect because of permission failure
-        $response = $controller->userEdit(9, $app, $request);
+        $response = $controller->userEdit(1, $app, $request);
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
 
         // Now we allow the permsission check to return true
@@ -726,7 +726,7 @@ class BackendTest extends BoltUnitTest
             ->will($this->returnValue(true));
         $app['permissions'] = $perms;
 
-        $response = $controller->userEdit(9, $app, $request);
+        $response = $controller->userEdit(1, $app, $request);
         $context = $response->getContext();
         $this->assertEquals('edit', $context['context']['kind']);
         $this->assertInstanceOf('Symfony\Component\Form\FormView', $context['context']['form']);
