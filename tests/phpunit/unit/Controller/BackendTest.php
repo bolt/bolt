@@ -877,7 +877,7 @@ class BackendTest extends BoltUnitTest
 
          // Symfony forms need a CSRF token so we have to mock this too
         $this->removeCSRF($app);
-        $user = $app['users']->getUserById(2);
+        $user = $app['users']->getUserById(1);
         $app['users']->currentuser = $user;
         $app['request'] = $request = Request::create('/bolt/profile');
         $response = $controller->profile($app, $request);
@@ -891,7 +891,7 @@ class BackendTest extends BoltUnitTest
             'POST',
             array(
                 'form' => array(
-                    'id'                    => 2,
+                    'id'                    => 1,
                     'email'                 => $user['email'],
                     'password'              => '',
                     'password_confirmation' => '',
