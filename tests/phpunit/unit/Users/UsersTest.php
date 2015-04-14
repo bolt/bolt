@@ -32,7 +32,8 @@ class UsersTest extends BoltUnitTest
         //setup test
         $users = $this->getMock('Bolt\Users', array('getUsers'), array($this->getApp()));
         $users->expects($this->once())->method('getUsers')->willReturn(array($this->user));
-        
+        $users->users = array($this->user);
+
         //run test
         $result = $users->GetUserById(5);
 
@@ -48,6 +49,7 @@ class UsersTest extends BoltUnitTest
         //setup test
         $users = $this->getMock('Bolt\Users', array('getUsers'), array($this->getApp()));
         $users->expects($this->once())->method('getUsers')->willReturn(array($this->user));
+        $users->users = array($this->user);
         
         //run test
         $result = $users->GetUserById(2);
@@ -64,6 +66,7 @@ class UsersTest extends BoltUnitTest
         //setup test
         $users = $this->getMock('Bolt\Users', array('getUsers'), array($this->getApp()));
         $users->expects($this->once())->method('getUsers')->willReturn(array($this->user));
+        $users->users = array($this->user);
         
         //run test
         $result = $users->GetUser('test@example.com');
@@ -80,6 +83,7 @@ class UsersTest extends BoltUnitTest
         //setup test
         $users = $this->getMock('Bolt\Users', array('getUsers'), array($this->getApp()));
         $users->expects($this->once())->method('getUsers')->willReturn(array($this->user));
+        $users->users = array($this->user);
         
         //run test
         $result = $users->GetUser(10);
@@ -96,6 +100,7 @@ class UsersTest extends BoltUnitTest
         //setup test
         $users = $this->getMock('Bolt\Users', array('getUsers'), array($this->getApp()));
         $users->expects($this->once())->method('getUsers')->willReturn(array($this->user));
+        $users->users = array($this->user);
         
         //run test
         $result = $users->getUserByUsername('test');
@@ -112,6 +117,7 @@ class UsersTest extends BoltUnitTest
         //setup test
         $users = $this->getMock('Bolt\Users', array('getUsers'), array($this->getApp()));
         $users->expects($this->once())->method('getUsers')->willReturn(array($this->user));
+        $users->users = array($this->user);
         
         //run test
         $result = $users->getUserByUsername('anotheruser');
