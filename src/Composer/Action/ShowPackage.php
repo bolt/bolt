@@ -132,6 +132,8 @@ final class ShowPackage
             }
         }
 
+        ksort($packages);
+
         return $packages;
     }
 
