@@ -743,7 +743,7 @@ class BackendTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $controller = new Backend();
-        $user = $app['users']->getUserById(9);
+        $user = $app['users']->getUserById(1);
         $app['users']->currentuser = $user;
 
         $perms = $this->getMock('Bolt\Permissions', array('isAllowedToManipulate'), array($app));
@@ -761,7 +761,7 @@ class BackendTest extends BoltUnitTest
 
         // Update the display name via a POST request
         $app['request'] = $request = Request::create(
-            '/bolt/useredit/9',
+            '/bolt/useredit/1',
             'POST',
             array(
                 'form' => array(
@@ -774,7 +774,7 @@ class BackendTest extends BoltUnitTest
             )
         );
 
-        $response = $controller->userEdit(9, $app, $request);
+        $response = $controller->userEdit(1, $app, $request);
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
     }
 
@@ -782,7 +782,7 @@ class BackendTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $controller = new Backend();
-        $user = $app['users']->getUserById(9);
+        $user = $app['users']->getUserById(1);
 
         $app['users']->currentuser = $user;
 
@@ -801,7 +801,7 @@ class BackendTest extends BoltUnitTest
 
         // Update the display name via a POST request
         $app['request'] = $request = Request::create(
-            '/bolt/useredit/9',
+            '/bolt/useredit/1',
             'POST',
             array(
                 'form' => array(
@@ -813,7 +813,7 @@ class BackendTest extends BoltUnitTest
                 )
             )
         );
-        $response = $controller->userEdit(9, $app, $request);
+        $response = $controller->userEdit(1, $app, $request);
         $this->assertEquals('/bolt/login', $response->getTargetUrl());
     }
 
