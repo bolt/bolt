@@ -3,6 +3,7 @@
 namespace Bolt\Storage;
 
 use Doctrine\Common\EventSubscriber;
+use Bolt\Mapping\ClassMetadata;
 
 /**
  * Maps raw sql query data to Bolt Entities
@@ -12,6 +13,8 @@ class Hydrator
     
     protected $handler;
     
+    protected $metadata;
+    
     /**
      * Hydrator class, converts database values into PHP OO Structure
      * Handlers can be registered to replace default strategy.
@@ -20,12 +23,14 @@ class Hydrator
      * 
      * @return void
      **/
-    public function __construct($classHandler)
+    public function __construct(ClassMetadata $metadata)
     {
+        $classHandler = $metadata->getName();
         if (!class_exists($classHandler)) {
-            throw new \InvalidArgumentException("Value passed must be a valid class name", 1);
+            throw new \InvalidArgumentException("Value supplied $classHandler is not a valid class name", 1);
         }
-        $this->handler = $classHandler;   
+        $this->handler = $classHandler;  
+        $this->metadata = $metadata; 
     }
     
     /**
