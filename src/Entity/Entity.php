@@ -15,10 +15,8 @@ abstract class Entity
     public function __construct($data = [])
     {
         foreach ($data as $key => $value) {
-            $method = "set".$key;
-            if ($this->has($key)) {
-                $this->$method($value);
-            }
+            $method = "set".ucfirst($key);
+            $this->$method($value);
         }
         
     }
@@ -34,9 +32,7 @@ abstract class Entity
     public function __set($key, $value)
     {
         $method = "set".ucfirst($key);
-        if (in_array($key, $this->getFields())) {
-            $this->$method($value);
-        }
+        $this->$method($value);
     }
 
     public function __isset($key)
@@ -80,7 +76,7 @@ abstract class Entity
             
             if ($this->has($var) && property_exists($this, $var)) {
                 $this->$var = $arguments[0];
-            } elseif ($this->has($var)) {
+            } else {
                 $this->_fields[$var] = $arguments[0];
             }
         }
