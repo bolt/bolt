@@ -36,7 +36,6 @@ class ContentRepositoryTest extends BoltUnitTest
             'slug' => 'test-showcase',
             'status' => 'published'
         ));
-    
         $res = $repo->save($showcase);
         $this->assertNotEmpty($res);
     }
