@@ -35,7 +35,7 @@ class Repository implements ObjectRepository
         }
         
         if (null === $hydrator) {
-            $this->setHydrator(new Hydrator($classMetadata->getName()));
+            $this->setHydrator(new Hydrator($classMetadata));
         }
         
         if (null === $persister) {
