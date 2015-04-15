@@ -10,13 +10,8 @@ class Content extends Entity
 {
     
     protected $id;
-    protected $slug;
     protected $datecreated;
     protected $datechanged;
-    protected $datepublish;
-    protected $datedepublish;
-    protected $ownerid;
-    protected $status;
     
     
     public function getDatecreated()
