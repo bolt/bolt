@@ -4,7 +4,7 @@
     class:       field.class|default(''),
     label:       field.label|default(''),
     extensions:  field.extensions|default([]),
-    attrib:      (field.attrib is defined) ? (field.attrib is iterable ?: {0: field.attrib}) : false,
+    attrib:      (field.attrib is defined and field.attrib is not empty) ? field.attrib : false,
     upload:      field.upload|default(''),
     can_upload:  field.canUpload,
     info:        field.info|default('info.upload.image')
@@ -55,7 +55,6 @@
 
 {% macro attributes(key, option, image) %}
     {% if option.attrib %}
-        {# We are only interested in the 'title' attribute right now, but this will allow easy extension #}
         {% for attrib in option.attrib %}
             {% if attrib == 'title' %}
                 <div class="form-group">
