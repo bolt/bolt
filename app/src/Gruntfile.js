@@ -2,6 +2,10 @@ module.exports = function(grunt) {
     grunt.util.linefeed = '\n';
 
     var options = {
+        sourceMap: {
+            css: false,
+            js: false
+        },
         path: {
             tmp: 'tmp',
             doc: 'docs',
@@ -75,6 +79,11 @@ module.exports = function(grunt) {
             ].join('\n')
         }
     };
+
+    // Optionally overwrite options with grunt.json
+    if (grunt.file.exists('grunt.json')) {
+        require('deep-extend')(options, grunt.file.readJSON('grunt.json'));
+    }
 
     require('load-grunt-config')(grunt, {data: options});
 
