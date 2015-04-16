@@ -26,8 +26,11 @@ class Persister
         foreach ($entity->toArray() as $key=>$value) {
             $meta = $metadata->getFieldMapping($key);
             $type = Type::getType($meta['type']);
-            $value = $type->convertToDatabaseValue($value, $qb->getConnection()->getDatabasePlatform());          
+            if (null !== $value) {
+                $value = $type->convertToDatabaseValue($value, $qb->getConnection()->getDatabasePlatform());          
+            }
             $qb->setValue($key, ":".$key);
+            $qb->set($key, ":".$key);
             $qb->setParameter($key, $value);
         }
         
