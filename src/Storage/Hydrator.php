@@ -3,7 +3,9 @@
 namespace Bolt\Storage;
 
 use Doctrine\Common\EventSubscriber;
+use Doctrine\DBAL\Query\QueryBuilder;
 use Bolt\Mapping\ClassMetadata;
+use Doctrine\DBAL\Types\Type;
 
 /**
  * Maps raw sql query data to Bolt Entities
@@ -38,10 +40,17 @@ class Hydrator
      * 
      *  @return Object Entity
      */
-    public function hydrate(array $source)
+    public function hydrate(array $source, QueryBuilder $qb)
     {
         $classname = $this->handler;
-        return new $classname($source);
+        $entity = new $classname;
+        foreach ($source as $key => $val) {
+            $meta = $this->metadata->getFieldMapping($key);
+            $type = Type::getType($meta['type']);
+            $value = $type->convertToPHPValue($val, $qb->getConnection()->getDatabasePlatform());
+            $entity->$key = $value;
+        }
+        return $entity;
     }
 
     
