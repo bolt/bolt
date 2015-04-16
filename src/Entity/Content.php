@@ -12,7 +12,8 @@ class Content extends Entity
     protected $id;
     protected $datecreated;
     protected $datechanged;
-    
+    protected $datepublish = null;
+    protected $datedepublish = null;
     
     public function getDatecreated()
     {
