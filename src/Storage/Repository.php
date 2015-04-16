@@ -2,6 +2,7 @@
 namespace Bolt\Storage;
 
 use Doctrine\Common\Persistence\ObjectRepository;
+use Doctrine\DBAL\Query\QueryBuilder;
 use Bolt\Mapping\ClassMetadata;
 use Bolt\Events\HydrationEvent;
 use Bolt\Events\StorageEvent;
@@ -74,7 +75,7 @@ class Repository implements ObjectRepository
         $result = $qb->execute()->fetch();
         
         if ($result) {
-            return $this->hydrate($result);
+            return $this->hydrate($result, $qb);
         }
         
         return false;        
@@ -112,7 +113,7 @@ class Repository implements ObjectRepository
         $result = $qb->execute()->fetchAll();
         
         if ($result) {
-            return $this->hydrateAll($result);
+            return $this->hydrateAll($result, $qb);
         }
         
         return false;
@@ -132,7 +133,7 @@ class Repository implements ObjectRepository
         $result = $qb->execute()->fetch();
         
         if ($result) {
-            return $this->hydrate($result);
+            return $this->hydrate($result, $qb);
         }
         
         return false;
@@ -259,7 +260,7 @@ class Repository implements ObjectRepository
      * 
      * @return mixed.
      */
-    protected function hydrate(array $data)
+    protected function hydrate(array $data, QueryBuilder $qb)
     {
         $preArgs = new HydrationEvent(
             $data, 
@@ -267,7 +268,7 @@ class Repository implements ObjectRepository
         );
         $this->event()->dispatch(StorageEvents::PRE_HYDRATE, $preArgs);
         
-        $entity = $this->hydrator->hydrate($data);
+        $entity = $this->hydrator->hydrate($data, $qb);
         
         $postArgs = new HydrationEvent(
             $entity, 
