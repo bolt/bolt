@@ -69,7 +69,11 @@
     "prefer-stable" : true,
     "autoload" : {
         "psr-4" : {
-            "Bolt\\" : "src",
+            "Bolt\\" : "src"
+        }
+    },
+    "autoload-dev" : {
+        "psr-4" : {
             "Bolt\\Tests\\" : "tests/phpunit/unit"
         }
     },
