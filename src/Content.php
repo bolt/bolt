@@ -353,7 +353,7 @@ class Content implements \ArrayAccess
 
         // Set the user in the object.
         if ($key === 'ownerid' && !empty($value)) {
-            $this->user = $this->app['users']->getUser($value);
+            $this->user = $this->app['users']->getUserById($value);
         }
 
         // Only set values if they have are actually a field.

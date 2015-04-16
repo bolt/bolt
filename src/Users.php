@@ -189,7 +189,7 @@ class Users
     {
         if ($this->app['session']->get('user')) {
             $this->currentuser = $this->app['session']->get('user');
-            if ($database = $this->getUser($this->currentuser['id'])) {
+            if ($database = $this->getUserById($this->currentuser['id'])) {
                 // Update the session with the user from the database.
                 $this->currentuser = array_merge($this->currentuser, $database);
             } else {
@@ -395,7 +395,7 @@ class Users
      */
     public function deleteUser($id)
     {
-        $user = $this->getUser($id);
+        $user = $this->getUserById($id);
 
         if (empty($user['id'])) {
             $this->session->getFlashBag()->add('error', Trans::__('That user does not exist.'));
@@ -413,7 +413,7 @@ class Users
     }
 
     /**
-     * Attempt to login a user with the given password.
+     * Attempt to login a user with the given password. Accepts username or email.
      *
      * @param string $user
      * @param string $password
@@ -422,9 +422,68 @@ class Users
      */
     public function login($user, $password)
     {
-        $userslug = $this->app['slugify']->slugify($user);
+        //check if we are dealing with an e-mail or an username
+        if (false === strpos($user, '@')) {
+            return $this->loginUsername($user, $password);
+        } else {
+            return $this->loginEmail($user, $password);
+        }
+    }
 
-        // for once we don't use getUser(), because we need the password.
+    /**
+     * Attempt to login a user with the given password and email.
+     *
+     * @param string $email
+     * @param string $password
+     * @return bool
+     */
+    protected function loginEmail($email, $password)
+    {
+        // for once we don't use getUserByEmail(), because we need the password.
+        $query = sprintf('SELECT * FROM %s WHERE email=?', $this->usertable);
+        $query = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($query, 1);
+        $user = $this->db->executeQuery($query, array($email), array(\PDO::PARAM_STR))->fetch();
+
+        if (empty($user)) {
+            $this->session->getFlashBag()->add('error', Trans::__('Username or password not correct. Please check your input.'));
+
+            return false;
+        }
+
+        $hasher = new PasswordHash($this->hashStrength, true);
+
+        if ($hasher->CheckPassword($password, $user['password'])) {
+            if (!$user['enabled']) {
+                $this->session->getFlashBag()->add('error', Trans::__('Your account is disabled. Sorry about that.'));
+
+                return false;
+            }
+
+            $this->updateUserLogin($user);
+
+            $this->setAuthToken();
+
+            return true;
+        } else {
+            $this->loginFailed($user);
+
+            return false;
+        }
+    }
+
+
+    /**
+     * Attempt to login a user with the given password and username.
+     *
+     * @param $user
+     * @param $password
+     * @return bool
+     */
+    protected function loginUsername($username, $password)
+    {
+        $userslug = $this->app['slugify']->slugify($username);
+
+        // for once we don't use getUserByUsername(), because we need the password.
         $query = sprintf('SELECT * FROM %s WHERE username=?', $this->usertable);
         $query = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($query, 1);
         $user = $this->db->executeQuery($query, array($userslug), array(\PDO::PARAM_STR))->fetch();
@@ -444,57 +503,13 @@ class Users
                 return false;
             }
 
-            $update = array(
-                'lastseen'       => date('Y-m-d H:i:s'),
-                'lastip'         => $this->remoteIP,
-                'failedlogins'   => 0,
-                'throttleduntil' => $this->throttleUntil(0)
-            );
-
-            // Attempt to update the last login, but don't break on failure.
-            try {
-                $this->db->update($this->usertable, $update, array('id' => $user['id']));
-            } catch (DBALException $e) {
-                // Oops. User will get a warning on the dashboard about tables that need to be repaired.
-            }
-
-            $user = $this->getUser($user['id']);
-
-            $user['sessionkey'] = $this->getAuthToken($user['username']);
-
-            // We wish to create a new session-id for extended security, but due
-            // to a bug in PHP < 5.4.11, this will throw warnings.
-            // Suppress them here. #shakemyhead
-            // @see: https://bugs.php.net/bug.php?id=63379
-            try {
-                $this->session->migrate(true);
-            } catch (\Exception $e) {
-            }
-
-            $this->session->set('user', $user);
-            $this->session->getFlashBag()->add('success', Trans::__("You've been logged on successfully."));
-
-            $this->currentuser = $user;
+            $this->updateUserLogin($user);
 
             $this->setAuthToken();
 
             return true;
         } else {
-            $this->session->getFlashBag()->add('error', Trans::__('Username or password not correct. Please check your input.'));
-            $this->app['logger.system']->info("Failed login attempt for '" . $user['displayname'] . "'.", array('event' => 'authentication'));
-
-            // Update the failed login attempts, and perhaps throttle the logins.
-            $update = array(
-                'failedlogins'   => $user['failedlogins'] + 1,
-                'throttleduntil' => $this->throttleUntil($user['failedlogins'] + 1)
-            );
-
-            // Attempt to update the last login, but don't break on failure.
-            try {
-                $this->db->update($this->usertable, $update, array('id' => $user['id']));
-            } catch (DBALException $e) {
-                // Oops. User will get a warning on the dashboard about tables that need to be repaired.
-            }
+            $this->loginFailed($user);
 
             return false;
         }
@@ -535,7 +550,7 @@ class Users
         $checksalt = $this->getAuthToken($row['username'], $row['salt']);
 
         if ($checksalt === $row['token']) {
-            $user = $this->getUser($row['username']);
+            $user = $this->getUserByUsername($row['username']);
 
             $update = array(
                 'lastseen'       => date('Y-m-d H:i:s'),
@@ -577,9 +592,20 @@ class Users
         }
     }
 
+    /**
+     * Sends email with password request. Accepts email or username
+     *
+     * @param string $username
+     * @return bool
+     */
     public function resetPasswordRequest($username)
     {
-        $user = $this->getUser($username);
+        if (false === strpos($username, '@')) {
+            $user = $this->getUserByUsername($username);
+        } else {
+            $user = $this->getUserByEmail($username);
+        }
+
         $recipients = false;
 
         if (!empty($user)) {
@@ -808,7 +834,9 @@ class Users
     }
 
     /**
-     * Get a user, specified by id. Return 'false' if no user found.
+     * @deprecated Please use getUserById or getUserByUsername
+     *
+     * Get a user, specified by id or username. Return 'false' if no user found.
      *
      * @param int $id
      *
@@ -816,22 +844,48 @@ class Users
      */
     public function getUser($id)
     {
+        if (is_numeric($id)) {
+            return $this->getUserById($id);
+        } else {
+            return $this->getUserByUsername($id);
+        }
+    }
+
+    /**
+     * Get a user, specified by id. Return 'false' if no user found.
+     *
+     * @param int $id
+     * @return array
+     */
+    public function getUserById($id)
+    {
         // Make sure we've fetched the users.
         $this->getUsers();
 
-        if (is_numeric($id)) {
-            foreach ($this->users as $user) {
-                if ($user['id'] == $id) {
-                    return $user;
-                }
-            }
-        } else {
-            if (isset($this->users[$id])) {
-                return $this->users[$id];
+        foreach ($this->users as $user) {
+            if ($user['id'] == $id) {
+                return $user;
             }
         }
+        return false;
+    }
 
-        // otherwise.
+    /**
+     * Get a user, specified by id. Return 'false' if no user found.
+     *
+     * @param string $username
+     * @return array
+     */
+    public function getUserByUsername($username)
+    {
+        // Make sure we've fetched the users.
+        $this->getUsers();
+
+        foreach ($this->users as $user) {
+            if ($user['username'] === $username) {
+                return $user;
+            }
+        }
         return false;
     }
 
@@ -887,7 +941,7 @@ class Users
      */
     public function setEnabled($id, $enabled = 1)
     {
-        $user = $this->getUser($id);
+        $user = $this->getUserById($id);
 
         if (empty($user)) {
             return false;
@@ -908,7 +962,7 @@ class Users
      */
     public function hasRole($id, $role)
     {
-        $user = $this->getUser($id);
+        $user = $this->getUserById($id);
 
         if (empty($user)) {
             return false;
@@ -927,7 +981,7 @@ class Users
      */
     public function addRole($id, $role)
     {
-        $user = $this->getUser($id);
+        $user = $this->getUserById($id);
 
         if (empty($user) || empty($role)) {
             return false;
@@ -949,7 +1003,7 @@ class Users
      */
     public function removeRole($id, $role)
     {
-        $user = $this->getUser($id);
+        $user = $this->getUserById($id);
 
         if (empty($user) || empty($role)) {
             return false;
@@ -973,7 +1027,7 @@ class Users
     public function filterManipulatableRoles($id, array $newRoles)
     {
         $oldRoles = array();
-        if ($id && $user = $this->getUser($id)) {
+        if ($id && $user = $this->getUserById($id)) {
             $oldRoles = $user['roles'];
         }
 
@@ -1116,5 +1170,67 @@ class Users
 
         // no clashes found, OK!
         return true;
+    }
+
+    /**
+     * @param $user
+     */
+    protected function updateUserLogin($user)
+    {
+        $update = array(
+            'lastseen' => date('Y-m-d H:i:s'),
+            'lastip' => $this->remoteIP,
+            'failedlogins' => 0,
+            'throttleduntil' => $this->throttleUntil(0)
+        );
+
+        // Attempt to update the last login, but don't break on failure.
+        try {
+            $this->db->update($this->usertable, $update, array('id' => $user['id']));
+        } catch (DBALException $e) {
+            // Oops. User will get a warning on the dashboard about tables that need to be repaired.
+        }
+
+        $user = $this->getUserById($user['id']);
+
+        $user['sessionkey'] = $this->getAuthToken($user['username']);
+
+        // We wish to create a new session-id for extended security, but due
+        // to a bug in PHP < 5.4.11, this will throw warnings.
+        // Suppress them here. #shakemyhead
+        // @see: https://bugs.php.net/bug.php?id=63379
+        try {
+            $this->session->migrate(true);
+        } catch (\Exception $e) {
+        }
+
+        $this->session->set('user', $user);
+        $this->session->getFlashBag()->add('success', Trans::__("You've been logged on successfully."));
+
+        $this->currentuser = $user;
+    }
+
+    /**
+     * Add errormessages to logs and update the user
+     *
+     * @param $user
+     */
+    private function loginFailed($user)
+    {
+        $this->session->getFlashBag()->add('error', Trans::__('Username or password not correct. Please check your input.'));
+        $this->app['logger.system']->info("Failed login attempt for '" . $user['displayname'] . "'.", array('event' => 'authentication'));
+
+        // Update the failed login attempts, and perhaps throttle the logins.
+        $update = array(
+            'failedlogins' => $user['failedlogins'] + 1,
+            'throttleduntil' => $this->throttleUntil($user['failedlogins'] + 1)
+        );
+
+        // Attempt to update the last login, but don't break on failure.
+        try {
+            $this->db->update($this->usertable, $update, array('id' => $user['id']));
+        } catch (DBALException $e) {
+            // Oops. User will get a warning on the dashboard about tables that need to be repaired.
+        }
     }
 }

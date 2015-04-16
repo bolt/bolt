@@ -27,9 +27,9 @@ class ChangeLogItemTest extends BoltUnitTest
         $this->setExpectedException('InvalidArgumentException');
         $test = $cl->nonexistent;
 
-        $users = $this->getMock('Bolt\Users', array('getUser'), array($app));
+        $users = $this->getMock('Bolt\Users', array('getUserById'), array($app));
         $users->expects($this->any())
-            ->method('getUser')
+            ->method('getUserById')
             ->will($this->returnValue(array('displayname' => 'Tester', 'username' => 'test')));
 
         $app['users'] = $users;
@@ -57,9 +57,9 @@ class ChangeLogItemTest extends BoltUnitTest
     public function testGetMutationType()
     {
         $app = $this->getApp();
-        $users = $this->getMock('Bolt\Users', array('getUser'), array($app));
+        $users = $this->getMock('Bolt\Users', array('getUserById'), array($app));
         $users->expects($this->any())
-            ->method('getUser')
+            ->method('getUserById')
             ->will($this->returnValue(array('displayname' => 'Tester', 'username' => 'test')));
 
         $app['users'] = $users;
@@ -85,9 +85,9 @@ class ChangeLogItemTest extends BoltUnitTest
     public function testStandardChangeField()
     {
         $app = $this->getApp();
-        $users = $this->getMock('Bolt\Users', array('getUser'), array($app));
+        $users = $this->getMock('Bolt\Users', array('getUserById'), array($app));
         $users->expects($this->any())
-            ->method('getUser')
+            ->method('getUserById')
             ->will($this->returnValue(array('displayname' => 'Tester', 'username' => 'test')));
 
         $app['users'] = $users;

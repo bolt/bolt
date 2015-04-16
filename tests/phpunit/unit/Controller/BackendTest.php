@@ -711,12 +711,12 @@ class BackendTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $controller = new Backend();
-        $user = $app['users']->getUser(9);
+        $user = $app['users']->getUserById(1);
         $app['users']->currentuser = $user;
-        $app['request'] = $request = Request::create('/bolt/useredit/9');
+        $app['request'] = $request = Request::create('/bolt/useredit/1');
 
         // This one should redirect because of permission failure
-        $response = $controller->userEdit(9, $app, $request);
+        $response = $controller->userEdit(1, $app, $request);
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
 
         // Now we allow the permsission check to return true
@@ -726,7 +726,7 @@ class BackendTest extends BoltUnitTest
             ->will($this->returnValue(true));
         $app['permissions'] = $perms;
 
-        $response = $controller->userEdit(9, $app, $request);
+        $response = $controller->userEdit(1, $app, $request);
         $context = $response->getContext();
         $this->assertEquals('edit', $context['context']['kind']);
         $this->assertInstanceOf('Symfony\Component\Form\FormView', $context['context']['form']);
@@ -743,7 +743,7 @@ class BackendTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $controller = new Backend();
-        $user = $app['users']->getUser(9);
+        $user = $app['users']->getUserById(1);
         $app['users']->currentuser = $user;
 
         $perms = $this->getMock('Bolt\Permissions', array('isAllowedToManipulate'), array($app));
@@ -761,7 +761,7 @@ class BackendTest extends BoltUnitTest
 
         // Update the display name via a POST request
         $app['request'] = $request = Request::create(
-            '/bolt/useredit/9',
+            '/bolt/useredit/1',
             'POST',
             array(
                 'form' => array(
@@ -774,7 +774,7 @@ class BackendTest extends BoltUnitTest
             )
         );
 
-        $response = $controller->userEdit(9, $app, $request);
+        $response = $controller->userEdit(1, $app, $request);
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
     }
 
@@ -782,7 +782,7 @@ class BackendTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $controller = new Backend();
-        $user = $app['users']->getUser(9);
+        $user = $app['users']->getUserById(1);
 
         $app['users']->currentuser = $user;
 
@@ -801,7 +801,7 @@ class BackendTest extends BoltUnitTest
 
         // Update the display name via a POST request
         $app['request'] = $request = Request::create(
-            '/bolt/useredit/9',
+            '/bolt/useredit/1',
             'POST',
             array(
                 'form' => array(
@@ -813,7 +813,7 @@ class BackendTest extends BoltUnitTest
                 )
             )
         );
-        $response = $controller->userEdit(9, $app, $request);
+        $response = $controller->userEdit(1, $app, $request);
         $this->assertEquals('/bolt/login', $response->getTargetUrl());
     }
 
@@ -877,8 +877,7 @@ class BackendTest extends BoltUnitTest
 
          // Symfony forms need a CSRF token so we have to mock this too
         $this->removeCSRF($app);
-
-        $user = $app['users']->getUser(2);
+        $user = $app['users']->getUserById(1);
         $app['users']->currentuser = $user;
         $app['request'] = $request = Request::create('/bolt/profile');
         $response = $controller->profile($app, $request);
@@ -892,7 +891,7 @@ class BackendTest extends BoltUnitTest
             'POST',
             array(
                 'form' => array(
-                    'id'                    => 2,
+                    'id'                    => 1,
                     'email'                 => $user['email'],
                     'password'              => '',
                     'password_confirmation' => '',
@@ -979,18 +978,19 @@ class BackendTest extends BoltUnitTest
             ->will($this->returnValue(true));
         $app['users'] = $users;
 
+        $currentuser = $app['users']->getUserById(1);
+        $app['users']->currentuser = $currentuser;
+
         // This request should fail because the user doesnt exist.
         $app['request'] = $request = Request::create('/bolt/user/disable/2');
-        $response = $controller->userAction($app, 'disable', 1);
+        $response = $controller->userAction($app, 'disable', 2);
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
         $err = $app['session']->getFlashBag()->get('error');
         $this->assertRegexp('/No such user/', $err[0]);
 
         // This check will fail because we are operating on the current user
-        $user = $app['users']->getUser(2);
-        $app['users']->currentuser = $user;
-        $app['request'] = $request = Request::create('/bolt/user/disable/2');
-        $response = $controller->userAction($app, 'disable', 2);
+        $app['request'] = $request = Request::create('/bolt/user/disable/1');
+        $response = $controller->userAction($app, 'disable', 1);
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
         $err = $app['session']->getFlashBag()->get('error');
         $this->assertRegexp('/yourself/', $err[0]);
@@ -999,29 +999,30 @@ class BackendTest extends BoltUnitTest
         $this->addNewUser($app, 'editor', 'Editor', 'editor');
 
         // And retry the operation that will work now
-        $app['request'] = $request = Request::create('/bolt/user/disable/3');
-        $response = $controller->userAction($app, 'disable', 3);
+        $app['request'] = $request = Request::create('/bolt/user/disable/2');
+        $response = $controller->userAction($app, 'disable', 2);
+
         $info = $app['session']->getFlashBag()->get('info');
         $this->assertRegexp('/is disabled/', $info[0]);
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
 
         // Now try to enable the user
-        $app['request'] = $request = Request::create('/bolt/user/enable/3');
-        $response = $controller->userAction($app, 'enable', 3);
+        $app['request'] = $request = Request::create('/bolt/user/enable/2');
+        $response = $controller->userAction($app, 'enable', 2);
         $info = $app['session']->getFlashBag()->get('info');
         $this->assertRegexp('/is enabled/', $info[0]);
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
 
         // Try a non-existent action, make sure we get an error
-        $app['request'] = $request = Request::create('/bolt/user/enhance/3');
-        $response = $controller->userAction($app, 'enhance', 3);
+        $app['request'] = $request = Request::create('/bolt/user/enhance/2');
+        $response = $controller->userAction($app, 'enhance', 2);
         $info = $app['session']->getFlashBag()->get('error');
         $this->assertRegexp('/No such action/', $info[0]);
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
 
         // Now we run a delete action
-        $app['request'] = $request = Request::create('/bolt/user/delete/3');
-        $response = $controller->userAction($app, 'delete', 3);
+        $app['request'] = $request = Request::create('/bolt/user/delete/2');
+        $response = $controller->userAction($app, 'delete', 2);
         $info = $app['session']->getFlashBag()->get('info');
         $this->assertRegexp('/is deleted/', $info[0]);
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
@@ -1034,8 +1035,8 @@ class BackendTest extends BoltUnitTest
             ->will($this->returnValue(false));
         $app['permissions'] = $perms;
 
-        $app['request'] = $request = Request::create('/bolt/user/disable/3');
-        $response = $controller->userAction($app, 'disable', 3);
+        $app['request'] = $request = Request::create('/bolt/user/disable/2');
+        $response = $controller->userAction($app, 'disable', 2);
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
         $err = $app['session']->getFlashBag()->get('error');
         $this->assertRegexp('/right privileges/', $err[0]);
@@ -1066,24 +1067,24 @@ class BackendTest extends BoltUnitTest
         $app['users'] = $users;
 
         // Setup the current user
-        $user = $app['users']->getUser(2);
+        $user = $app['users']->getUserById(1);
         $app['users']->currentuser = $user;
 
         // This mocks a failure and ensures the error is reported
-        $app['request'] = $request = Request::create('/bolt/user/disable/3');
-        $response = $controller->userAction($app, 'disable', 3);
+        $app['request'] = $request = Request::create('/bolt/user/disable/2');
+        $response = $controller->userAction($app, 'disable', 2);
         $info = $app['session']->getFlashBag()->get('info');
         $this->assertRegexp('/could not be disabled/', $info[0]);
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
 
-        $app['request'] = $request = Request::create('/bolt/user/enable/3');
-        $response = $controller->userAction($app, 'enable', 3);
+        $app['request'] = $request = Request::create('/bolt/user/enable/2');
+        $response = $controller->userAction($app, 'enable', 2);
         $info = $app['session']->getFlashBag()->get('info');
         $this->assertRegexp('/could not be enabled/', $info[0]);
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
 
-        $app['request'] = $request = Request::create('/bolt/user/delete/3');
-        $response = $controller->userAction($app, 'delete', 3);
+        $app['request'] = $request = Request::create('/bolt/user/delete/2');
+        $response = $controller->userAction($app, 'delete', 2);
         $info = $app['session']->getFlashBag()->get('info');
         $this->assertRegexp('/could not be deleted/', $info[0]);
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
@@ -1146,13 +1147,15 @@ class BackendTest extends BoltUnitTest
 
     protected function addNewUser($app, $username, $displayname, $role)
     {
-        $user = array(
-            'username'    => $username,
-            'displayname' => $displayname,
-            'email'       => 'test@example.com',
-            'password'    => 'password',
-            'roles'       => array($role)
-        );
+        $user = $app['users']->getEmptyUser();
+
+        unset($user['id']);
+        $user['username']    = $username;
+        $user['displayname'] = $displayname;
+        $user['email']       = $username.'@example.com';
+        $user['password']    = 'password';
+        $user['roles']       = array($role);
+
         $app['users']->saveUser($user);
         $app['users']->users = array();
     }

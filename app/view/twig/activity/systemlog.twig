@@ -107,7 +107,7 @@
                             {% endspaceless %}
                         </td>
                         <td>
-                            {% set user = getuser(entry.ownerid) %}
+                            {% set user = getuserbyid(entry.ownerid) %}
                             {% if user is not empty %}
                                 {% set userlink = macro.userlink(user) %}
                             {% else %}

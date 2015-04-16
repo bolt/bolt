@@ -127,7 +127,7 @@ class Permissions
      * Gets the roles for a given user. If a content type is specified, the
      * "owner" role is added if appropriate.
      *
-     * @param array   $user    An array as returned by Users::getUser()
+     * @param array   $user    An array as returned by Users::getUserById() or Users::getUserByUsername()
      * @param Content $content An optional Content object to check ownership
      *
      * @throws \Exception

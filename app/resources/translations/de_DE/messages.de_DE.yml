@@ -576,7 +576,7 @@ page:
         cookies-required: "Achtung, Cookies sind Vorraussetzung, um sich in Bolt anmelden zu können. Bitte erlauben sie Cookies."
         label:
             password: "Passwort"
-            username: "Benutzername"
+            username: "Benutzername / E-Mail Adresse"
         password-hide: "Verstecken"
         password-show: "Anzeigen"
         placeholder:

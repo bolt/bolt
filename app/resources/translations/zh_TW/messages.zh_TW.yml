@@ -567,7 +567,7 @@ page:
         cookies-required: "注意: 登入 Bolt 需要啟用 Cookies。請開啟 Cookies 功能。"
         label:
             password: "密碼"
-            username: "使用者名"
+            username: "使用者名 / email"
         password-hide: "隱藏"
         password-show: "顯示"
         placeholder:
