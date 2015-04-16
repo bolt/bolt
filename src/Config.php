@@ -894,6 +894,7 @@ class Config
                 'blockquote'  => true,
                 'codesnippet' => false,
                 'specialchar' => false,
+                'styles'      => false,
                 'ck'          => array(
                     'allowedContent'          => true,
                     'autoParagraph'           => true,
