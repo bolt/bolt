@@ -84,11 +84,10 @@ class Frontend
         $template = $app['templatechooser']->homepage();
 
         if (is_array($content)) {
-            $first = $record = current($content);
+            $first = current($content);
             $app['twig']->addGlobal('records', $content);
             $app['twig']->addGlobal($first->contenttype['slug'], $content);
         } elseif (!empty($content)) {
-            $record = $content;
             $app['twig']->addGlobal('record', $content);
             $app['twig']->addGlobal($content->contenttype['singular_slug'], $content);
         }
