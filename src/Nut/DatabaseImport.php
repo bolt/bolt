@@ -3,15 +3,10 @@
 namespace Bolt\Nut;
 
 use Bolt\Database\Migration\Import;
-use Bolt\Helpers\Arr;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\ConfirmationQuestion;
-use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 use Symfony\Component\HttpFoundation\File\File;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Yaml\Parser;
 
 /**
  * Nut database importer command
@@ -86,7 +81,6 @@ class DatabaseImport extends BaseCommand
 
             return;
         }
-
 
         // Report finish
         $filenames = join(', ', $files);

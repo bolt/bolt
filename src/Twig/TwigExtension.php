@@ -2,7 +2,6 @@
 
 namespace Bolt\Twig;
 
-use Bolt\Application;
 use Silex;
 
 /**
@@ -121,7 +120,7 @@ class TwigExtension extends \Twig_Extension
         );
     }
 
-public function getTests()
+    public function getTests()
     {
         return array(
             new \Twig_SimpleTest('json', array($this, 'testJson'))

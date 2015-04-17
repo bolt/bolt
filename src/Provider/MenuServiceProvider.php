@@ -2,9 +2,9 @@
 
 namespace Bolt\Provider;
 
+use Bolt\Helpers\MenuBuilder;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
-use Bolt\Helpers\MenuBuilder;
 
 class MenuServiceProvider implements ServiceProviderInterface
 {
@@ -34,6 +34,5 @@ class MenuServiceProvider implements ServiceProviderInterface
      */
     public function boot(Application $app)
     {
-
     }
 }
