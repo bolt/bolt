@@ -19,7 +19,7 @@ tools:
         config:
             standard: PSR2
             include_standards:
-                - CodeSniffer/Bolt/
+                - vendor/bolt/codingstyle/PhpCodeSniffer/Bolt/
         filter:
             paths:
                 - src/
