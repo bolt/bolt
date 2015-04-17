@@ -54,8 +54,6 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFunction('firebug',            array($this, 'printFirebug')),
             new \Twig_SimpleFunction('first',              array($this, 'first')),
             new \Twig_SimpleFunction('getuser',            array($this, 'getUser')),
-            new \Twig_SimpleFunction('getuserbyid',        array($this, 'getUserById')),
-            new \Twig_SimpleFunction('getuserbyusername',  array($this, 'getUserByUsername')),
             new \Twig_SimpleFunction('getuserid',          array($this, 'getUserId')),
             new \Twig_SimpleFunction('htmllang',           array($this, 'htmlLang')),
             new \Twig_SimpleFunction('image',              array($this, 'image')),
@@ -231,29 +229,11 @@ public function getTests()
     }
 
     /**
-     * @deprecated Please use getUserById or getUserByUsername
-     *
      * @see \Bolt\Twig\Handler\UserHandler::getUser()
      */
     public function getUser($who)
     {
         return $this->handlers['user']->getUser($who);
-    }
-
-    /**
-     * @see \Bolt\Twig\Handler\UserHandler::getUserById()
-     */
-    public function getUserById($id)
-    {
-        return $this->handlers['user']->getUserById($id);
-    }
-
-    /**
-     * @see \Bolt\Twig\Handler\UserHandler::getUserByUsername()
-     */
-    public function getUserByUsername($who)
-    {
-        return $this->handlers['user']->getUserByUsername($who);
     }
 
     /**
