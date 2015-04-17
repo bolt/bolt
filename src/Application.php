@@ -292,16 +292,14 @@ class Application extends Silex\Application
         $this['locale'] = reset($configLocale);
 
         // Set the default timezone if provided in the Config
-        if ($tz = $this['config']->get('general/timezone')) {
-            date_default_timezone_set($tz);
-        }
+        date_default_timezone_set($this['config']->get('general/timezone') ?: ini_get('date.timezone') ?: 'UTC');
 
         // for javascript datetime calculations, timezone offset. e.g. "+02:00"
         $this['timezone_offset'] = date('P');
 
         // Set default locale, for Bolt
         $locale = array();
-        foreach ($configLocale as $key => $value) {
+        foreach ($configLocale as $value) {
             $locale = array_merge($locale, array(
                 $value . '.UTF-8',
                 $value . '.utf8',
