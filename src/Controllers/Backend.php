@@ -778,7 +778,6 @@ class Backend implements ControllerProviderInterface
             // To check whether the status is allowed, we act as if a status
             // *transition* were requested.
             $content->setFromPost($requestAll, $contenttype);
-            $oldcontent = $content;
             $newStatus = $content['status'];
 
 
