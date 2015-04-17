@@ -200,7 +200,7 @@ class Backend implements ControllerProviderInterface
      *
      * @param Application $app The application/container
      *
-     * @return string
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function dbUpdate(Application $app)
     {
@@ -229,7 +229,7 @@ class Backend implements ControllerProviderInterface
      * @param Application $app     The application/container
      * @param Request     $request The Symfony Request
      *
-     * @return mixed
+     * @return \Twig_Markup
      */
     public function dbUpdateResult(Application $app, Request $request)
     {
@@ -246,7 +246,7 @@ class Backend implements ControllerProviderInterface
      *
      * @param Application $app The application/container
      *
-     * @return mixed
+     * @return \Twig_Markup
      */
     public function clearCache(Application $app)
     {
@@ -269,7 +269,7 @@ class Backend implements ControllerProviderInterface
      *
      * @param \Silex\Application $app The application/container
      *
-     * @return string
+     * @return \Twig_Markup|\Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function systemLog(Application $app)
     {
@@ -300,7 +300,7 @@ class Backend implements ControllerProviderInterface
      *
      * @param Application $app The application/container
      *
-     * @return string
+     * @return \Twig_Markup|\Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function changeLog(Application $app)
     {
@@ -331,7 +331,7 @@ class Backend implements ControllerProviderInterface
      * @param \Silex\Application $app         The application/container
      * @param Request            $request     The Symfony Request
      *
-     * @return mixed
+     * @return \Twig_Markup
      */
     public function changelogRecordAll($contenttype, $contentid, Application $app, Request $request)
     {
@@ -440,7 +440,7 @@ class Backend implements ControllerProviderInterface
      * @param \Silex\Application $app         The application/container
      * @param Request            $request     The Symfony Request
      *
-     * @return mixed
+     * @return \Twig_Markup|null
      */
     public function changelogRecordSingle($contenttype, $contentid, $id, Application $app, Request $request)
     {
@@ -467,7 +467,7 @@ class Backend implements ControllerProviderInterface
      *
      * @param Application $app The application/container
      *
-     * @return mixed
+     * @return \Twig_Markup
      */
     public function omnisearch(Application $app)
     {
@@ -492,7 +492,7 @@ class Backend implements ControllerProviderInterface
      * @param Application $app     The application/container
      * @param Request     $request The Symfony Request
      *
-     * @return string
+     * @return \Twig_Markup|\Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function prefill(Application $app, Request $request)
     {
@@ -546,7 +546,7 @@ class Backend implements ControllerProviderInterface
      * @param Application $app             The application/container
      * @param string      $contenttypeslug The content type slug
      *
-     * @return mixed
+     * @return \Twig_Markup|\Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function overview(Application $app, $contenttypeslug)
     {
@@ -610,7 +610,7 @@ class Backend implements ControllerProviderInterface
      * @param Application $app             The application/container
      * @param Request     $request         The Symfony Request
      *
-     * @return mixed
+     * @return \Twig_Markup|\Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function relatedTo($contenttypeslug, $id, Application $app, Request $request)
     {
@@ -684,7 +684,7 @@ class Backend implements ControllerProviderInterface
      * @param Application $app             The application/container
      * @param Request     $request         The Symfony Request
      *
-     * @return mixed
+     * @return \Twig_Markup|\Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function editContent($contenttypeslug, $id, Application $app, Request $request)
     {
@@ -1073,7 +1073,7 @@ class Backend implements ControllerProviderInterface
      * @param string      $contenttypeslug The content type slug
      * @param integer     $id              The content ID
      *
-     * @return string
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function deleteContent(Application $app, $contenttypeslug, $id)
     {
@@ -1101,7 +1101,7 @@ class Backend implements ControllerProviderInterface
      * @param string      $contenttypeslug The content type slug
      * @param integer     $id              The content ID
      *
-     * @return string
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function contentAction(Application $app, $action, $contenttypeslug, $id)
     {
@@ -1147,7 +1147,7 @@ class Backend implements ControllerProviderInterface
      *
      * @param Application $app The application/container
      *
-     * @return mixed
+     * @return \Twig_Markup
      */
     public function users(Application $app)
     {
@@ -1175,7 +1175,7 @@ class Backend implements ControllerProviderInterface
      *
      * @param Application $app The application/container
      *
-     * @return mixed
+     * @return \Twig_Markup
      */
     public function roles(Application $app)
     {
@@ -1205,7 +1205,7 @@ class Backend implements ControllerProviderInterface
      * @param Application $app     The application/container
      * @param Request     $request The Symfony Request
      *
-     * @return mixed
+     * @return \Twig_Markup|\Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function userEdit($id, Application $app, Request $request)
     {
@@ -1330,7 +1330,7 @@ class Backend implements ControllerProviderInterface
      * @param Application $app
      * @param Request     $request
      *
-     * @return string
+     * @return \Twig_Markup|\Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function userFirst(Application $app, Request $request)
     {
@@ -1452,7 +1452,7 @@ class Backend implements ControllerProviderInterface
      * @param Application $app     The application/container
      * @param Request     $request The Symfony Request
      *
-     * @return string
+     * @return \Twig_Markup|\Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function profile(Application $app, Request $request)
     {
@@ -1503,7 +1503,7 @@ class Backend implements ControllerProviderInterface
      * @param string      $action The action
      * @param integer     $id     The user ID
      *
-     * @return string
+     * @return \Twig_Markup|\Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function userAction(Application $app, $action, $id)
     {
@@ -1579,7 +1579,7 @@ class Backend implements ControllerProviderInterface
      *
      * @param Application $app The application/container
      *
-     * @return mixed
+     * @return \Twig_Markup
      */
     public function about(Application $app)
     {
@@ -1594,7 +1594,7 @@ class Backend implements ControllerProviderInterface
      * @param Application $app       The application/container
      * @param Request     $request   The Symfony Request
      *
-     * @return mixed
+     * @return \Twig_Markup
      */
     public function files($namespace, $path, Application $app, Request $request)
     {
@@ -1754,7 +1754,7 @@ class Backend implements ControllerProviderInterface
      * @param Application $app       The application/container
      * @param Request     $request   The Symfony Request
      *
-     * @return mixed
+     * @return \Twig_Markup|\Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function fileEdit($namespace, $file, Application $app, Request $request)
     {
@@ -1894,7 +1894,7 @@ class Backend implements ControllerProviderInterface
      * @param Application $app       The application/container
      * @param Request     $request   The Symfony Request
      *
-     * @return mixed
+     * @return \Twig_Markup|\Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function translation($domain, $tr_locale, Application $app, Request $request)
     {
@@ -1969,7 +1969,7 @@ class Backend implements ControllerProviderInterface
      * @param Request     $request The Symfony Request
      * @param Application $app     The application/container
      *
-     * @return mixed
+     * @return null|\Symfony\Component\HttpFoundation\RedirectResponse
      */
     public static function before(Request $request, Application $app)
     {
@@ -2050,7 +2050,7 @@ class Backend implements ControllerProviderInterface
      * @param array       $user
      * @param boolean     $addusername
      *
-     * @return Symfony\Component\Form\FormBuilder
+     * @return \Symfony\Component\Form\FormBuilder
      */
     private function getUserForm(Application $app, array $user, $addusername = false)
     {
@@ -2132,11 +2132,11 @@ class Backend implements ControllerProviderInterface
      *   * Email is unique
      *   * Displaynames are unique
      *
-     * @param Application                        $app
-     * @param Symfony\Component\Form\FormBuilder $form
-     * @param boolean                            $addusername
+     * @param Application                         $app
+     * @param \Symfony\Component\Form\FormBuilder $form
+     * @param boolean                             $addusername
      *
-     * @return Symfony\Component\Form\FormBuilder
+     * @return \Symfony\Component\Form\FormBuilder
      */
     private function setUserFormValidation(Application $app, FormBuilder $form, $addusername = false)
     {
