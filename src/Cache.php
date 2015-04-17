@@ -168,7 +168,7 @@ class Cache extends FilesystemCache
 
         $dir->close();
 
-        $this->updateCacheVersion($currentfolder);
+        $this->updateCacheVersion();
     }
 
     /**
