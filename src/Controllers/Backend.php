@@ -942,7 +942,7 @@ class Backend implements ControllerProviderInterface
             $contentowner = $app['users']->getCurrentUser();
         } else {
             // For existing items, we'll just keep the current owner.
-            $contentowner = $app['users']->getUserById($content['ownerid']);
+            $contentowner = $app['users']->getUser($content['ownerid']);
         }
 
         // Test write access for uploadable fields
@@ -1213,7 +1213,7 @@ class Backend implements ControllerProviderInterface
 
         // Get the user we want to edit (if any)
         if (!empty($id)) {
-            $user = $app['users']->getUserById($id);
+            $user = $app['users']->getUser($id);
 
             // Verify the current user has access to edit this user
             if (!$app['permissions']->isAllowedToManipulate($user, $currentuser)) {
@@ -1512,7 +1512,7 @@ class Backend implements ControllerProviderInterface
 
             return Lib::redirect('users');
         }
-        $user = $app['users']->getUserById($id);
+        $user = $app['users']->getUser($id);
 
         if (!$user) {
             $app['session']->getFlashBag()->add('error', 'No such user.');
