@@ -2,7 +2,6 @@
 
 namespace Bolt\Twig\Handler;
 
-use Bolt\Application;
 use Silex;
 
 /**
@@ -38,14 +37,14 @@ class UserHandler
         return $this->app['users']->getUser($who);
     }
 
-   /**
-    * Get an array of data for a user, based on the given id. Returns
-    * an array on success, and false otherwise.
-    *
-    * @param mixed $id
-    *
-    * @return mixed
-    */
+    /**
+     * Get an array of data for a user, based on the given id. Returns
+     * an array on success, and false otherwise.
+     *
+     * @param mixed $id
+     *
+     * @return mixed
+     */
     public function getUserById($id)
     {
         return $this->app['users']->getUserById($id);

@@ -89,8 +89,7 @@ class Arr
      */
     public static function isIndexedArray(array $arr)
     {
-        foreach($arr as $key => $val)
-        {
+        foreach ($arr as $key => $val) {
             if ($key !== (int) $key) {
                 return false;
             }

@@ -2,8 +2,6 @@
 
 namespace Bolt\Filesystem\Plugin;
 
-use Bolt\Twig\TwigExtension;
-
 class ThumbnailUrl extends AdapterPlugin
 {
     public function getMethod()

@@ -2382,7 +2382,7 @@ class Storage
 
             // Convert new slugs to lowercase to compare in the delete process
             $newSlugsNormalised = array();
-            foreach($newslugs as $slug) {
+            foreach ($newslugs as $slug) {
                 // If it's like 'desktop#10', split it into value and sortorder.
                 list($slug, $sortorder) = explode('#', $slug . "#");
                 $slug = $this->app['slugify']->slugify($slug);

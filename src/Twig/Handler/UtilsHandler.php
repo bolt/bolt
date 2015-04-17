@@ -2,7 +2,6 @@
 
 namespace Bolt\Twig\Handler;
 
-use Bolt\Application;
 use Bolt\Library as Lib;
 use Silex;
 use Symfony\Component\VarDumper\VarDumper;

@@ -435,6 +435,7 @@ class Users
      *
      * @param string $email
      * @param string $password
+     *
      * @return bool
      */
     protected function loginEmail($email, $password)
@@ -471,12 +472,12 @@ class Users
         }
     }
 
-
     /**
      * Attempt to login a user with the given password and username.
      *
      * @param $user
      * @param $password
+     *
      * @return bool
      */
     protected function loginUsername($username, $password)
@@ -596,6 +597,7 @@ class Users
      * Sends email with password request. Accepts email or username
      *
      * @param string $username
+     *
      * @return bool
      */
     public function resetPasswordRequest($username)
@@ -855,6 +857,7 @@ class Users
      * Get a user, specified by id. Return 'false' if no user found.
      *
      * @param int $id
+     *
      * @return array
      */
     public function getUserById($id)
@@ -874,6 +877,7 @@ class Users
      * Get a user, specified by id. Return 'false' if no user found.
      *
      * @param string $username
+     *
      * @return array
      */
     public function getUserByUsername($username)
@@ -1178,9 +1182,9 @@ class Users
     protected function updateUserLogin($user)
     {
         $update = array(
-            'lastseen' => date('Y-m-d H:i:s'),
-            'lastip' => $this->remoteIP,
-            'failedlogins' => 0,
+            'lastseen'       => date('Y-m-d H:i:s'),
+            'lastip'         => $this->remoteIP,
+            'failedlogins'   => 0,
             'throttleduntil' => $this->throttleUntil(0)
         );
 
@@ -1222,7 +1226,7 @@ class Users
 
         // Update the failed login attempts, and perhaps throttle the logins.
         $update = array(
-            'failedlogins' => $user['failedlogins'] + 1,
+            'failedlogins'   => $user['failedlogins'] + 1,
             'throttleduntil' => $this->throttleUntil($user['failedlogins'] + 1)
         );
 

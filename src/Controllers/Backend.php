@@ -584,7 +584,7 @@ class Backend implements ControllerProviderInterface
         }
 
         // Perhaps also filter on taxonomies
-        foreach($app['config']->get('taxonomy') as $taxonomykey => $taxonomy) {
+        foreach ($app['config']->get('taxonomy') as $taxonomykey => $taxonomy) {
             if ($app['request']->query->get('taxonomy-' . $taxonomykey)) {
                 $contentparameters[$taxonomykey] = $app['request']->query->get('taxonomy-' . $taxonomykey);
                 $filter[] = $app['request']->query->get('taxonomy-' . $taxonomykey);
@@ -781,7 +781,6 @@ class Backend implements ControllerProviderInterface
             $oldcontent = $content;
             $newStatus = $content['status'];
 
-
             // Don't try to spoof the $id.
             if (!empty($content['id']) && $id != $content['id']) {
                 $app['session']->getFlashBag()->add('error', "Don't try to spoof the id!");
@@ -797,7 +796,6 @@ class Backend implements ControllerProviderInterface
 
                 // Save the record
                 $id = $app['storage']->saveContent($content, $comment);
-
 
                 // Log the change
                 if ($new) {
@@ -1037,9 +1035,6 @@ class Backend implements ControllerProviderInterface
         if ($hasTemplateFields || (is_array($contenttype['groups']) && in_array('template', $contenttype['groups']))) {
             $addGroup('template', Trans::__('Template'));
         }
-
-
-
 
         $addGroup('meta', Trans::__('contenttypes.generic.group.meta'));
 
@@ -1637,9 +1632,9 @@ class Backend implements ControllerProviderInterface
                     'FileUpload',
                     'file',
                     array(
-                        'label' => Trans::__('Upload a file to this folder'),
-                        'multiple' => TRUE,
-                        'attr'  => array(
+                        'label'    => Trans::__('Upload a file to this folder'),
+                        'multiple' => true,
+                        'attr'     => array(
                         'data-filename-placement' => 'inside',
                         'title'                   => Trans::__('Select file …'))
                     )

@@ -437,10 +437,10 @@ class Extensions
      * Add a particular javascript file to the output. This will be inserted after
      * the other javascript files.
      *
-     * @param string  $filename File name to add to src=""
-     * @param array   $options  'late'     - True to add to the end of the HTML <body>
-     *                          'priority' - Loading priority
-     *                          'attrib'   - Either 'defer', or 'async'
+     * @param string $filename File name to add to src=""
+     * @param array  $options  'late'     - True to add to the end of the HTML <body>
+     *                         'priority' - Loading priority
+     *                         'attrib'   - Either 'defer', or 'async'
      */
     public function addJavascript($filename, $options = array())
     {

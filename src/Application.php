@@ -416,6 +416,7 @@ class Application extends Silex\Application
 
     /**
      * No Mail transport has been set. We should gently nudge the user to set the mail configuration.
+     *
      * @see: the issue at https://github.com/bolt/bolt/issues/2908
      *
      * For now, we only pester the user, if an extension needs to be able to send
@@ -490,7 +491,7 @@ class Application extends Silex\Application
     {
         if (!headers_sent()) {
             $headersList = headers_list();
-            foreach($headersList as $header) {
+            foreach ($headersList as $header) {
                 if (strpos($header, "Set-Cookie: bolt_session=") === 0) {
                     header_remove("Set-Cookie");
                 }

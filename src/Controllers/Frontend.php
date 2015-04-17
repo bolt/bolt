@@ -4,11 +4,11 @@ namespace Bolt\Controllers;
 
 use Bolt\Application;
 use Bolt\Content;
+use Bolt\Extensions\Snippets\Location as SnippetLocation;
 use Bolt\Helpers\Input;
 use Bolt\Library as Lib;
 use Bolt\Pager;
 use Bolt\Translation\Translator as Trans;
-use Bolt\Extensions\Snippets\Location as SnippetLocation;
 use Silex;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
