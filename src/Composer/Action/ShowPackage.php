@@ -181,7 +181,7 @@ final class ShowPackage
         }
 
         // select prefered package according to policy rules
-        if (!$matchedPackage && $matches && $prefered = $policy->selectPreferedPackages($pool, array(), $matches)) {
+        if (!$matchedPackage && $matches && $prefered = $policy->selectPreferredPackages($pool, array(), $matches)) {
             $matchedPackage = $pool->literalToPackage($prefered[0]);
         }
 
