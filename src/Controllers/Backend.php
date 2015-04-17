@@ -184,7 +184,7 @@ class Backend implements ControllerProviderInterface
      */
     public function dbCheck(Application $app)
     {
-        list($messages, $hints) = $app['integritychecker']->checkTablesIntegrity(true);
+        list($messages, $hints) = $app['integritychecker']->checkTablesIntegrity(true, $app['logger']);
 
         $context = array(
             'modifications_made'     => null,
