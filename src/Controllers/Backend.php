@@ -511,8 +511,8 @@ class Backend implements ControllerProviderInterface
             ))
             ->getForm();
 
-        if (($request->getMethod() == 'POST') || ($request->get('force') == 1)) {
-            $form->bind($request);
+        if ($request->isMethod('POST') || ($request->get('force') == 1)) {
+            $form->submit($request);
             $ctypes = $form->get('contenttypes')->getData();
 
             try {
@@ -717,7 +717,7 @@ class Backend implements ControllerProviderInterface
 
         $contenttype = $app['storage']->getContentType($contenttypeslug);
 
-        if ($request->getMethod() == "POST") {
+        if ($request->isMethod('POST')) {
             if (!$app['users']->checkAntiCSRFToken()) {
                 $app->abort(Response::HTTP_BAD_REQUEST, Trans::__('Something went wrong'));
             }
@@ -778,7 +778,6 @@ class Backend implements ControllerProviderInterface
             // To check whether the status is allowed, we act as if a status
             // *transition* were requested.
             $content->setFromPost($requestAll, $contenttype);
-            $oldcontent = $content;
             $newStatus = $content['status'];
 
             // Don't try to spoof the $id.
@@ -1282,7 +1281,7 @@ class Backend implements ControllerProviderInterface
         $form = $form->getForm();
 
         // Check if the form was POST-ed, and valid. If so, store the user.
-        if ($request->getMethod() == 'POST') {
+        if ($request->isMethod('POST')) {
             $user = $this->validateUserForm($app, $form);
 
             $currentuser = $app['users']->getCurrentUser();
@@ -1359,7 +1358,7 @@ class Backend implements ControllerProviderInterface
         $form = $form->getForm();
 
         // Check if the form was POST-ed, and valid. If so, store the user.
-        if ($request->getMethod() === 'POST') {
+        if ($request->isMethod('POST')) {
             if ($this->validateUserForm($app, $form, true)) {
                 // To the dashboard, where 'login' will be triggered
                 return $app->redirect(Lib::path('dashboard'));
@@ -1463,7 +1462,7 @@ class Backend implements ControllerProviderInterface
         $form = $form->getForm();
 
         // Check if the form was POST-ed, and valid. If so, store the user.
-        if ($request->getMethod() == 'POST') {
+        if ($request->isMethod('POST')) {
             $form->submit($app['request']->get($form->getName()));
 
             if ($form->isValid()) {
@@ -1643,7 +1642,7 @@ class Backend implements ControllerProviderInterface
 
             // Handle the upload.
             if ($request->isMethod('POST')) {
-                $form->bind($request);
+                $form->submit($request);
                 if ($form->isValid()) {
                     $files = $request->files->get($form->getName());
                     $files = $files['FileUpload'];
@@ -1813,7 +1812,7 @@ class Backend implements ControllerProviderInterface
             $filegroup[] = basename($basename . '_local.yml');
         }
 
-        $data['contents'] = $contents;
+        $data = array('contents' => $contents);
 
         /** @var Form $form */
         $form = $app['form.factory']
@@ -1822,8 +1821,8 @@ class Backend implements ControllerProviderInterface
             ->getForm();
 
         // Check if the form was POST-ed, and valid. If so, store the user.
-        if ($request->getMethod() == "POST") {
-            $form->bind($app['request']->get($form->getName()));
+        if ($request->isMethod('POST')) {
+            $form->submit($app['request']->get($form->getName()));
 
             if ($form->isValid()) {
                 $data = $form->getData();
@@ -1832,7 +1831,7 @@ class Backend implements ControllerProviderInterface
                 $ok = true;
 
                 // Before trying to save a yaml file, check if it's valid.
-                if ($type == "yml") {
+                if ($type == 'yml') {
                     $yamlparser = new Yaml\Parser();
                     try {
                         $ok = $yamlparser->parse($contents);
@@ -1912,8 +1911,8 @@ class Backend implements ControllerProviderInterface
             ->getForm();
 
         // Check if the form was POST-ed, and valid. If so, store the file.
-        if ($request->getMethod() == 'POST') {
-            $form->bind($app['request']->get($form->getName()));
+        if ($request->isMethod('POST')) {
+            $form->submit($app['request']->get($form->getName()));
 
             if ($form->isValid()) {
                 $data = $form->getData();
