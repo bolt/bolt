@@ -651,10 +651,10 @@ class Content implements \ArrayAccess
     /**
      * Set a taxonomy for the current object.
      *
-     * @param string  $taxonomytype
-     * @param string  $slug
-     * @param string  $name
-     * @param integer $sortorder
+     * @param string       $taxonomytype
+     * @param string|array $slug
+     * @param string       $name
+     * @param integer      $sortorder
      *
      * @return boolean
      */

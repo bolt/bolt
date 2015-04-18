@@ -490,7 +490,7 @@ class Users
     /**
      * Attempt to login a user with the given password and username.
      *
-     * @param string $user
+     * @param string $username
      * @param string $password
      *
      * @return boolean
