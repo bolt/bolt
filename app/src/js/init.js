@@ -200,18 +200,21 @@ var init = {
                 bootbox.confirm(notice, function (confirmed) {
                     $('.alert').alert();
                     if (confirmed === true) {
-                        $.each(aItems, function (index, id) {
-                            // Delete request
-                            $.ajax({
-                                url: Bolt.conf('paths.bolt') + 'content/deletecontent/' +
-                                    $('#item_' + id).closest('table').data('contenttype') + '/' + id +
-                                    '?bolt_csrf_token=' + $('#item_' + id).closest('table').data('bolt_csrf_token'),
-                                type: 'get',
-                                success: function (feedback) {
-                                    $('#item_' + id).hide();
-                                    $('a.deletechosen').hide();
-                                }
-                            });
+                        // Delete request
+                        $.ajax({
+                            url: Bolt.conf('paths.bolt') + 'content/deletecontent/' +
+                                $('#item_' + aItems[0]).closest('table').data('contenttype') + '/' + aItems.join(',') +
+                                '?bolt_csrf_token=' + $('#item_' + aItems[0]).closest('table').data('bolt_csrf_token'),
+                            type: 'get',
+                            success: function (feedback) {
+                                var items = [];
+                                $.each(aItems, function (index, id) {
+                                    items.push(document.getElementById('item_' + id));
+                                });
+
+                                $(items).hide();
+                                $('a.deletechosen').hide();
+                            }
                         });
                     }
                 });
