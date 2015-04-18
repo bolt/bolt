@@ -33,3 +33,9 @@ prepareCkeditor:
     - bom:prepareCkeditor                   # Remove unneeded bom
     - eol:prepareCkeditor                   # Convert CRLF to LF
     - endline:prepareCkeditor               # Add newlines to *.js
+
+# API DOCUMENTATION CREATION TASKS
+docJs:
+    - jsdoc:boltJs
+docPhp:
+    - phpdocumentor:bolt
