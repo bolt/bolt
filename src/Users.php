@@ -841,9 +841,10 @@ class Users
     public function getUser($id)
     {
         // Make sure we've fetched the users.
-        if (!$this->users) {
+        if (empty($this->users)) {
             $this->getUsers();
         }
+
         // Determine lookup type
         if (is_numeric($id)) {
             $key = 'id';
@@ -854,11 +855,13 @@ class Users
                 $key = 'email';
             }
         }
+
         foreach ($this->users as $user) {
             if ($user[$key] == $id) {
                 return $user;
             }
         }
+
         return false;
     }
 
