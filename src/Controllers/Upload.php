@@ -198,6 +198,8 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
 
     /**
      * Middleware function to check whether a user is logged on.
+     *
+     * @return null|\Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function before(Request $request, Application $app)
     {

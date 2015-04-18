@@ -117,7 +117,7 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
      * @param Request            $request
      * @param \Silex\Application $app
      *
-     * @return string
+     * @return null|\Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function before(Request $request, Silex\Application $app)
     {

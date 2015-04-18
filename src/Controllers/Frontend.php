@@ -12,6 +12,7 @@ use Bolt\Translation\Translator as Trans;
 use Silex;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use utilphp\util;
 
 /**
@@ -33,7 +34,7 @@ class Frontend
      * @param Request     $request The Symfony Request
      * @param Application $app     The application/container
      *
-     * @return mixed
+     * @return null|Response|RedirectResponse
      */
     public function before(Request $request, Application $app)
     {
@@ -74,7 +75,7 @@ class Frontend
      *
      * @param \Silex\Application $app The application/container
      *
-     * @return mixed
+     * @return \Twig_Markup
      */
     public function homepage(Silex\Application $app)
     {
@@ -83,11 +84,10 @@ class Frontend
         $template = $app['templatechooser']->homepage();
 
         if (is_array($content)) {
-            $first = $record = current($content);
+            $first = current($content);
             $app['twig']->addGlobal('records', $content);
             $app['twig']->addGlobal($first->contenttype['slug'], $content);
         } elseif (!empty($content)) {
-            $record = $content;
             $app['twig']->addGlobal('record', $content);
             $app['twig']->addGlobal($content->contenttype['singular_slug'], $content);
         }
@@ -102,7 +102,7 @@ class Frontend
      * @param string             $contenttypeslug The content type slug
      * @param string             $slug            The content slug
      *
-     * @return mixed
+     * @return \Twig_Markup
      */
     public function record(Silex\Application $app, $contenttypeslug, $slug = '')
     {
@@ -166,7 +166,7 @@ class Frontend
      * @param \Silex\Application $app             The application/container
      * @param string             $contenttypeslug The content type slug
      *
-     * @return mixed
+     * @return \Twig_Markup
      */
     public function preview(Request $request, Silex\Application $app, $contenttypeslug)
     {
@@ -214,7 +214,7 @@ class Frontend
      * @param \Silex\Application $app             The application/container
      * @param string             $contenttypeslug The content type slug
      *
-     * @return mixed
+     * @return \Twig_Markup
      */
     public function listing(Silex\Application $app, $contenttypeslug)
     {
@@ -252,7 +252,7 @@ class Frontend
      * @param string             $taxonomytype The taxonomy type slug
      * @param string             $slug         The taxonomy slug
      *
-     * @return mixed
+     * @return \Twig_Markup
      */
     public function taxonomy(Silex\Application $app, $taxonomytype, $slug)
     {
@@ -314,7 +314,7 @@ class Frontend
      * @param Request            $request The Symfony Request
      * @param \Silex\Application $app     The application/container
      *
-     * @return mixed
+     * @return \Twig_Markup
      */
     public function search(Request $request, Silex\Application $app)
     {
@@ -392,7 +392,7 @@ class Frontend
      *
      * @throws \Exception
      *
-     * @return mixed
+     * @return \Twig_Markup
      */
     public function template(Silex\Application $app, $template)
     {
@@ -412,7 +412,7 @@ class Frontend
      * @param string             $template Ex: 'listing.twig'
      * @param string             $title    '%s' in "No template for '%s' defined."
      *
-     * @return mixed Rendered template
+     * @return \Twig_Markup Rendered template
      */
     private function render(Silex\Application $app, $template, $title)
     {
