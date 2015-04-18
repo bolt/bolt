@@ -20,38 +20,30 @@ use Symfony\Component\HttpFoundation\Response;
 
 class IntegrityChecker
 {
-    /**
-     * @var \Bolt\Application
-     */
+    /** @var \Bolt\Application */
     private $app;
-    /**
-     * @var string
-     */
+
+    /** @var string */
     private $prefix;
-    /**
-     * Default value for TEXT fields, differs per platform.
-     *
-     * @var string|null
-     */
+
+    /** @var string|null Default value for TEXT fields, differs per platform. */
     private $textDefault = null;
 
-    /**
-     * Current tables.
-     */
+    /** @var \Doctrine\DBAL\Schema\Table[] Current tables. */
     private $tables;
 
-    /**
-     * Array of callables that produce table definitions.
-     *
-     * @var array
-     */
+    /** @var array Array of callables that produce table definitions. */
     protected $extension_table_generators = array();
 
-    const INTEGRITY_CHECK_INTERVAL = 1800; // max. validity of a database integrity check, in seconds
-    const INTEGRITY_CHECK_TS_FILENAME = 'dbcheck_ts'; // filename for the check timestamp file
-
+    /** @var string */
     public static $integrityCachePath;
 
+    const INTEGRITY_CHECK_INTERVAL    = 1800; // max. validity of a database integrity check, in seconds
+    const INTEGRITY_CHECK_TS_FILENAME = 'dbcheck_ts'; // filename for the check timestamp file
+
+    /**
+     * @param Application $app
+     */
     public function __construct(Application $app)
     {
         $this->app = $app;
@@ -76,6 +68,11 @@ class IntegrityChecker
         self::$integrityCachePath = $this->app['resources']->getPath('cache');
     }
 
+    /**
+     * Get the 'validity' timestamp's file name.
+     *
+     * @return string
+     */
     private static function getValidityTimestampFilename()
     {
         // If 'invalidate()' was called statically, we don't have the
@@ -88,6 +85,13 @@ class IntegrityChecker
         return self::$integrityCachePath . '/' . self::INTEGRITY_CHECK_TS_FILENAME;
     }
 
+    /**
+     * Invalidate our database check by removing the timestamp file from cache.
+     *
+     * @param Application $app
+     *
+     * @return void
+     */
     public static function invalidate(Application $app)
     {
         // delete the cached dbcheck-ts
@@ -102,16 +106,26 @@ class IntegrityChecker
         }
     }
 
+    /**
+     * Set our state as valid by writing the current date/time to the
+     * app/cache/dbcheck-ts file.
+     *
+     * @return void
+     */
     public static function markValid()
     {
-        // write current date/time > app/cache/dbcheck-ts
         $timestamp = time();
         file_put_contents(self::getValidityTimestampFilename(), $timestamp);
     }
 
+    /**
+     * Check if our state is known valid by comparing app/cache/dbcheck-ts to
+     * the current timestamp.
+     *
+     * @return boolean
+     */
     public static function isValid()
     {
-        // compare app/cache/dbcheck-ts vs. current timestamp
         if (is_readable(self::getValidityTimestampFilename())) {
             $validityTS = intval(file_get_contents(self::getValidityTimestampFilename()));
         } else {
@@ -122,9 +136,9 @@ class IntegrityChecker
     }
 
     /**
-     * Get an associative array with the bolt_tables tables as Doctrine\DBAL\Schema\Table objects.
+     * Get an associative array with the bolt_tables tables as Doctrine Table objects.
      *
-     * @return array
+     * @return \Doctrine\DBAL\Schema\Table[]
      */
     protected function getTableObjects()
     {
@@ -251,10 +265,10 @@ class IntegrityChecker
     }
 
     /**
-     * Determine if we need to check the table integrity. Do this only once per hour, per session, since it's pretty
-     * time consuming.
+     * Determine if we need to check the table integrity. Do this only once per
+     * hour, per session, since it's pretty time consuming.
      *
-     * @return boolean Check needed
+     * @return boolean TRUE if a check is needed
      */
     public function needsCheck()
     {
@@ -264,7 +278,7 @@ class IntegrityChecker
     /**
      * Check and repair tables.
      *
-     * @return array
+     * @return string[]
      */
     public function repairTables()
     {
@@ -318,7 +332,7 @@ class IntegrityChecker
      *
      * @param TableDiff $diff
      *
-     * @return TableDiff
+     * @return \Doctrine\DBAL\Schema\TableDiff
      */
     protected function cleanupTableDiff(TableDiff $diff)
     {
@@ -343,7 +357,9 @@ class IntegrityChecker
     }
 
     /**
-     * @return array
+     * Get a merged array of tables.
+     *
+     * @return \Doctrine\DBAL\Schema\Table[]
      */
     protected function getTablesSchema()
     {
@@ -367,6 +383,13 @@ class IntegrityChecker
         $this->extension_table_generators[] = $generator;
     }
 
+    /**
+     * Get all the registered extension tables.
+     *
+     * @param Schema $schema
+     *
+     * @return \Doctrine\DBAL\Schema\Table[]
+     */
     protected function getExtensionTablesSchema(Schema $schema)
     {
         $tables = array();
@@ -387,7 +410,9 @@ class IntegrityChecker
     }
 
     /**
-     * @return array
+     * Get an array of Bolt's internal tables
+     *
+     * @return \Doctrine\DBAL\Schema\Table[]
      */
     protected function getBoltTablesNames()
     {
@@ -403,7 +428,7 @@ class IntegrityChecker
     /**
      * @param Schema $schema
      *
-     * @return array
+     * @return \Doctrine\DBAL\Schema\Table[]
      */
     protected function getBoltTablesSchema(Schema $schema)
     {
@@ -534,7 +559,7 @@ class IntegrityChecker
     /**
      * @param Schema $schema
      *
-     * @return array
+     * @return \Doctrine\DBAL\Schema\Table[]
      */
     protected function getContentTypeTablesSchema(Schema $schema)
     {
@@ -654,12 +679,12 @@ class IntegrityChecker
      *
      * @param $name
      *
-     * @return mixed
+     * @return string
      */
     protected function getTablename($name)
     {
         $name = str_replace('-', '_', $this->app['slugify']->slugify($name));
-        $tablename = sprintf("%s%s", $this->prefix, $name);
+        $tablename = sprintf('%s%s', $this->prefix, $name);
 
         return $tablename;
     }
