@@ -4,6 +4,7 @@ namespace Bolt\Storage;
 use Bolt\Events\HydrationEvent;
 use Bolt\Events\StorageEvent;
 use Bolt\Events\StorageEvents;
+use Bolt\Entity\Content;
 
 
 /**
@@ -34,6 +35,19 @@ class ContentRepository extends Repository
         return $this->em->createQueryBuilder()
             ->select($alias.".*")
             ->from($this->getTableName(), $alias);
+    }
+    
+    /**
+     * Creates a new Content entity and passes the supplied data to the constructor.
+     *
+     * @param string $alias
+     * @param string $indexBy The index for the from.
+     *
+     * @return QueryBuilder
+     */
+    public function create($params = null)
+    {
+        return new Content($params);
     }
 
     

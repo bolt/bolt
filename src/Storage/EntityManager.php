@@ -139,6 +139,16 @@ class EntityManager
         }
         
         /*
+         * The metadata driver can also attempt to resolve an alias for us.
+         * For now we are hardcoding the link between a content entity and
+         * the content repository, but in time this should be a metadata level
+         * configuration.
+        */
+        if ($this->getMapper()->resolveClassName($className) === 'Bolt\Entity\Content') {
+            return new ContentRepository($this, $classMetadata);
+        } 
+        
+        /*
          * If the fetched metadata isn't mapped to a specific entity then we treat
          * it as a generic Content repo
          *

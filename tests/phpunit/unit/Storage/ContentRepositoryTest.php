@@ -79,6 +79,21 @@ class ContentRepositoryTest extends BoltUnitTest
         
         $this->assertFalse($record2);
     }
+    
+    public function testFactoryCreate()
+    {
+        $app = $this->getApp();
+        $em = new EntityManager($app['db'], $app['dispatcher'], $app['storage.metadata']);
+        
+        $repo = $em->getRepository('showcases');
+        $record = $repo->create(array(
+            'title' => 'New Test Showcase',
+            'slug' => 'new-test-showcase',
+            'status' => 'published'
+        ));
+                
+        $this->assertInstanceOf('Bolt\Entity\Content', $record);
+    }
 
     
 }
