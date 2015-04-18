@@ -1074,7 +1074,7 @@ class Backend implements ControllerProviderInterface
         $ids = explode(',', $id);
         $contenttype = $app['storage']->getContentType($contenttypeslug);
 
-        foreach($ids as $id) {
+        foreach ($ids as $id) {
             $content = $app['storage']->getContent($contenttype['slug'] . "/" . $id);
             $title = $content->getTitle();
 
