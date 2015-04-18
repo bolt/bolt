@@ -20,6 +20,12 @@ class BoltListener implements \PHPUnit_Framework_TestListener
     /** @var boolean */
     protected $reset;
 
+    /** @var boolean */
+    protected $theme;
+
+    /** @var string */
+    protected $path;
+
     /** @var string */
     protected $currentSuite;
 
@@ -30,11 +36,15 @@ class BoltListener implements \PHPUnit_Framework_TestListener
      *
      * @param boolean $timer Create test execution timer output
      * @param boolean $reset Reset test environment after run
+     * @param boolean $theme Copy in theme directory
+     * @param string  $path  Relative path to a theme to import
      */
-    public function __construct($timer, $reset)
+    public function __construct($timer, $reset, $theme, $path)
     {
         $this->timer = $timer;
         $this->reset = $reset;
+        $this->theme = $theme;
+        $this->path  = $path;
 
         $this->buildTestEnv();
     }
@@ -177,6 +187,17 @@ class BoltListener implements \PHPUnit_Framework_TestListener
         @$fs->mkdir(TEST_ROOT . '/app/cache/', 0777);
         @$fs->mkdir(PHPUNIT_ROOT . '/resources/files/', 0777);
 
+        // If enabled, copy in the requested theme
+        if ($this->theme) {
+            @$fs->mkdir(TEST_ROOT . '/theme/', 0777);
+
+            $name = basename($this->path);
+            $fs->mirror(realpath(TEST_ROOT . '/' . $this->path), TEST_ROOT . '/theme/' . $name);
+
+            // Set the theme name in config.yml
+            system('php ' . NUT_PATH . ' config:set theme ' . $name);
+        }
+
         // Empty the cache
         system('php ' . NUT_PATH . ' cache:clear');
     }
@@ -206,6 +227,12 @@ class BoltListener implements \PHPUnit_Framework_TestListener
 
             $fs->remove(TEST_ROOT . '/bolt.db');
             $fs->remove(PHPUNIT_ROOT . '/resources/files/');
+
+            // If enabled, remove the requested theme
+            if ($this->theme) {
+                $name = basename($this->path);
+                $fs->remove(TEST_ROOT . '/theme/' . $name);
+            }
         }
 
         // Empty the cache
