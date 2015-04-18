@@ -14,7 +14,7 @@ module.exports = {
             '<%= path.src.js %>/modules/*.js',
             '<%= path.src.js %>/modules/fields/*.js'
         ],
-        dest: '<%= path.doc %>',
+        dest: '<%= path.doc.js %>',
         options: {
             private: true,
             configure : 'jsdoc.json'

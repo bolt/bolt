@@ -8,7 +8,9 @@ module.exports = function(grunt) {
         },
         path: {
             tmp: 'tmp',
-            doc: 'docs',
+            doc: {
+                js: 'docs/js'
+            },
             src: {
                 js: 'js',
                 lib: 'lib',
