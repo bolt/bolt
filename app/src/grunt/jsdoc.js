@@ -1,5 +1,5 @@
 /*
- * EOL: Generate comments based documentation.
+ * JSDOC: Generate comments based documentation.
  */
 module.exports = {
     /*
