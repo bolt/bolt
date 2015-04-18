@@ -34,13 +34,13 @@ class Users
         $this->app = $app;
         $this->db = $app['db'];
 
-        $prefix = $this->app['config']->get('general/database/prefix', "bolt_");
+        $prefix = $this->app['config']->get('general/database/prefix', 'bolt_');
 
         // Hashstrength has a default of '10', don't allow less than '8'.
         $this->hashStrength = max($this->app['config']->get('general/hash_strength'), 8);
 
-        $this->usertable = $prefix . "users";
-        $this->authtokentable = $prefix . "authtoken";
+        $this->usertable = $prefix . 'users';
+        $this->authtokentable = $prefix . 'authtoken';
         $this->users = array();
         $this->session = $app['session'];
 
@@ -114,7 +114,7 @@ class Users
             }
         }
 
-        if (!empty($user['password']) && $user['password'] != "**dontchange**") {
+        if (!empty($user['password']) && $user['password'] != '**dontchange**') {
             $hasher = new PasswordHash($this->hashStrength, true);
             $user['password'] = $hasher->HashPassword($user['password']);
         } else {
@@ -244,13 +244,13 @@ class Users
      *
      * @return string
      */
-    private function getAuthToken($name = "", $salt = "")
+    private function getAuthToken($name = '', $salt = '')
     {
         if (empty($name)) {
             return false;
         }
 
-        $seed = $name . "-" . $salt;
+        $seed = $name . '-' . $salt;
 
         if ($this->app['config']->get('general/cookies_use_remoteaddr')) {
             $seed .= '-' . $this->remoteIP;
@@ -369,7 +369,7 @@ class Users
 
         foreach ($sessions as $key => $session) {
             $ua = $parser->parse($session['useragent']);
-            $sessions[$key]['browser'] = sprintf("%s / %s", $ua->ua->toString(), $ua->os->toString());
+            $sessions[$key]['browser'] = sprintf('%s / %s', $ua->ua->toString(), $ua->os->toString());
         }
 
         return $sessions;
@@ -614,7 +614,7 @@ class Users
             $shadowhashed = $hasher->HashPassword($shadowpassword);
 
             $shadowlink = sprintf(
-                "%s%sresetpassword?token=%s",
+                '%s%sresetpassword?token=%s',
                 $this->app['paths']['hosturl'],
                 $this->app['paths']['bolt'],
                 urlencode($shadowtoken)
@@ -624,7 +624,7 @@ class Users
             $update = array(
                 'shadowpassword' => $shadowhashed,
                 'shadowtoken'    => $shadowtoken . '-' . str_replace('.', '-', $this->remoteIP),
-                'shadowvalidity' => date("Y-m-d H:i:s", strtotime("+2 hours"))
+                'shadowvalidity' => date('Y-m-d H:i:s', strtotime('+2 hours'))
             );
             $this->db->update($this->usertable, $update, array('id' => $user['id']));
 
@@ -635,12 +635,12 @@ class Users
                     'user'           => $user,
                     'shadowpassword' => $shadowpassword,
                     'shadowtoken'    => $shadowtoken,
-                    'shadowvalidity' => date("Y-m-d H:i:s", strtotime("+2 hours")),
+                    'shadowvalidity' => date('Y-m-d H:i:s', strtotime('+2 hours')),
                     'shadowlink'     => $shadowlink
                 )
             );
 
-            $subject = sprintf("[ Bolt / %s ] Password reset.", $this->app['config']->get('general/sitename'));
+            $subject = sprintf('[ Bolt / %s ] Password reset.', $this->app['config']->get('general/sitename'));
 
             $message = $this->app['mailer']
                 ->createMessage('message')
@@ -662,7 +662,7 @@ class Users
 
         // For safety, this is the message we display, regardless of whether $user exists.
         if ($recipients === false || $recipients > 0) {
-            $this->session->getFlashBag()->add('info', Trans::__("A password reset link has been sent to '%user%'.", array('%user%' => $username)));
+            $this->session->getFlashBag()->add('info', Trans::__('A password reset link has been sent to '%user%'.', array('%user%' => $username)));
         }
 
         return true;
@@ -672,7 +672,7 @@ class Users
     {
         $token .= '-' . str_replace('.', '-', $this->remoteIP);
 
-        $now = date("Y-m-d H:i:s");
+        $now = date('Y-m-d H:i:s');
 
         // Let's see if the token is valid, and it's been requested within two hours.
         $query = sprintf('SELECT * FROM %s WHERE shadowtoken = ? AND shadowvalidity > ?', $this->usertable);
@@ -717,7 +717,7 @@ class Users
         } else {
             $wait = pow(($attempts - 4), 2);
 
-            return date("Y-m-d H:i:s", strtotime("+$wait seconds"));
+            return date('Y-m-d H:i:s', strtotime("+$wait seconds"));
         }
     }
 
@@ -797,7 +797,7 @@ class Users
                 foreach ($tempusers as $user) {
                     $key = $user['username'];
                     $this->users[$key] = $user;
-                    $this->users[$key]['password'] = "**dontchange**";
+                    $this->users[$key]['password'] = '**dontchange**';
 
                     $roles = json_decode($this->users[$key]['roles']);
                     if (!is_array($roles)) {

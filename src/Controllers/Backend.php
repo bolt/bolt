@@ -708,7 +708,7 @@ class Backend implements ControllerProviderInterface
 
         $tmpreferrer = $tmp['path'];
         if (!empty($tmp['query'])) {
-            $tmpreferrer .= "?" . $tmp['query'];
+            $tmpreferrer .= '?' . $tmp['query'];
         }
 
         if (strpos($tmpreferrer, '/overview/') !== false || ($tmpreferrer == $app['paths']['bolt'])) {
@@ -1075,7 +1075,7 @@ class Backend implements ControllerProviderInterface
         $contenttype = $app['storage']->getContentType($contenttypeslug);
 
         foreach ($ids as $id) {
-            $content = $app['storage']->getContent($contenttype['slug'] . "/" . $id);
+            $content = $app['storage']->getContent($contenttype['slug'] . '/' . $id);
             $title = $content->getTitle();
 
             if (!$app['users']->isAllowed("contenttype:{$contenttype['slug']}:delete:$id")) {
@@ -1107,7 +1107,7 @@ class Backend implements ControllerProviderInterface
         }
         $contenttype = $app['storage']->getContentType($contenttypeslug);
 
-        $content = $app['storage']->getContent($contenttype['slug'] . "/" . $id);
+        $content = $app['storage']->getContent($contenttype['slug'] . '/' . $id);
         $title = $content->getTitle();
 
         // map actions to new statuses
@@ -1500,7 +1500,7 @@ class Backend implements ControllerProviderInterface
      * @param string      $action The action
      * @param integer     $id     The user ID
      *
-     * @return \Twig_Markup|\Symfony\Component\HttpFoundation\RedirectResponse
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function userAction(Application $app, $action, $id)
     {
@@ -1534,7 +1534,7 @@ class Backend implements ControllerProviderInterface
 
         switch ($action) {
 
-            case "disable":
+            case 'disable':
                 if ($app['users']->setEnabled($id, 0)) {
                     $app['logger.system']->info("Disabled user '{$user['displayname']}'.", array('event' => 'security'));
 
@@ -1544,7 +1544,7 @@ class Backend implements ControllerProviderInterface
                 }
                 break;
 
-            case "enable":
+            case 'enable':
                 if ($app['users']->setEnabled($id, 1)) {
                     $app['logger.system']->info("Enabled user '{$user['displayname']}'.", array('event' => 'security'));
                     $app['session']->getFlashBag()->add('info', Trans::__("User '%s' is enabled.", array('%s' => $user['displayname'])));
@@ -1553,7 +1553,7 @@ class Backend implements ControllerProviderInterface
                 }
                 break;
 
-            case "delete":
+            case 'delete':
 
                 if ($app['users']->checkAntiCSRFToken() && $app['users']->deleteUser($id)) {
                     $app['logger.system']->info("Deleted user '{$user['displayname']}'.", array('event' => 'security'));
@@ -1672,7 +1672,7 @@ class Backend implements ControllerProviderInterface
                                 );
 
                                 // Add the file to our stack.
-                                $app['stack']->add($path . "/" . $filename);
+                                $app['stack']->add($path . '/' . $filename);
                                 $result->confirm();
                             } else {
                                 foreach ($result->getMessages() as $message) {
@@ -1755,7 +1755,7 @@ class Backend implements ControllerProviderInterface
      */
     public function fileEdit($namespace, $file, Application $app, Request $request)
     {
-        if ($namespace == 'app' && dirname($file) == "config") {
+        if ($namespace == 'app' && dirname($file) == 'config') {
             // Special case: If requesting one of the major config files, like contenttypes.yml, set the path to the
             // correct dir, which might be 'app/config', but it might be something else.
             $namespace = 'config';
@@ -1777,10 +1777,10 @@ class Backend implements ControllerProviderInterface
         // Get the pathsegments, so we can show the path.
         $path = dirname($file->getPath());
         $pathsegments = array();
-        $cumulative = "";
+        $cumulative = '';
         if (!empty($path)) {
-            foreach (explode("/", $path) as $segment) {
-                $cumulative .= $segment . "/";
+            foreach (explode('/', $path) as $segment) {
+                $cumulative .= $segment . '/';
                 $pathsegments[$cumulative] = $segment;
             }
         }
