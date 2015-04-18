@@ -25,3 +25,23 @@ tools:
                 - src/
 #    external_code_coverage:
 #        timeout: 1200
+build_failure_conditions:
+#   - 'elements.rating(<= D).exists'               # No classes/methods with a rating of D or worse
+    - 'elements.rating(<= D).new.exists'           # No new classes/methods with a rating of D or worse
+
+#   - 'issues.label("coding-style").exists'        # No coding style issues allowed
+    - 'issues.label("coding-style").new.exists'    # No new coding style issues allowed
+
+    - 'issues.label("coding-style").new.count > 5' # More than 5 new coding style issues.
+    - 'issues.severity(>= MAJOR).new.exists'       # New issues of major or higher severity
+
+    # Note that this should be increased when we get our quality socre up
+    - 'project.metric("scrutinizer.quality", < 5.5)'        # Code Quality Rating drops below 6
+    - 'project.metric("scrutinizer.test_coverage", < 0.60)' # Code Coverage drops below 60%
+
+    # Code Coverage decreased from previous inspection
+    - 'project.metric_change("scrutinizer.test_coverage", < 0)'
+
+    # Code Coverage decreased from previous inspection by more than 10%
+    - 'project.metric_change("scrutinizer.test_coverage", < -0.10)'
+
