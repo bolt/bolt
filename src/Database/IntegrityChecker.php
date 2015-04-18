@@ -15,6 +15,7 @@ use Doctrine\DBAL\Schema\Index;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Schema\TableDiff;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 class IntegrityChecker
@@ -165,14 +166,16 @@ class IntegrityChecker
     /**
      * Check if all required tables and columns are present in the DB.
      *
-     * @param boolean $hinting Return hints if true
+     * @param boolean         $hinting     Return hints if true
+     * @param LoggerInterface $debugLogger Debug logger
      *
      * @return array Messages with errors, if any or array(messages, hints)
      */
-    public function checkTablesIntegrity($hinting = false)
+    public function checkTablesIntegrity($hinting = false, LoggerInterface $debugLogger = null)
     {
         $messages = array();
-        $hints = array();
+        $hints    = array();
+        $diffs    = array();
 
         $currentTables = $this->getTableObjects();
 
@@ -198,7 +201,7 @@ class IntegrityChecker
 
                     // diff may be just deleted columns which we have reset above
                     // only exec and add output if does really alter anything
-                    if ($this->app['db']->getDatabasePlatform()->getAlterTableSQL($diff)) {
+                    if ($diffs[] = $this->app['db']->getDatabasePlatform()->getAlterTableSQL($diff)) {
                         $msg = 'Table `' . $table->getName() . '` is not the correct schema: ';
                         $msgParts = array();
                         // No check on foreign keys yet because we don't use them
@@ -235,6 +238,13 @@ class IntegrityChecker
         // If there _are_ messages, keep checking until it's fixed.
         if (empty($messages)) {
             self::markValid();
+        }
+
+        // If we were passed in a debug logger, log the diffs
+        if ($debugLogger !== null) {
+            foreach ($diffs as $diff) {
+                $debugLogger->info('Database update required', $diff);
+            }
         }
 
         return $hinting ? array($messages, $hints) : $messages;
