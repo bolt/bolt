@@ -596,6 +596,8 @@ class Content implements \ArrayAccess
                     return true;
                 }
         }
+
+        return false;
     }
 
     /**
