@@ -189,7 +189,7 @@ class Users
     {
         if ($this->app['session']->get('user')) {
             $this->currentuser = $this->app['session']->get('user');
-            if ($database = $this->getUserById($this->currentuser['id'])) {
+            if ($database = $this->getUser($this->currentuser['id'])) {
                 // Update the session with the user from the database.
                 $this->currentuser = array_merge($this->currentuser, $database);
             } else {
@@ -395,7 +395,7 @@ class Users
      */
     public function deleteUser($id)
     {
-        $user = $this->getUserById($id);
+        $user = $this->getUser($id);
 
         if (empty($user['id'])) {
             $this->session->getFlashBag()->add('error', Trans::__('That user does not exist.'));
@@ -440,7 +440,7 @@ class Users
      */
     protected function loginEmail($email, $password)
     {
-        // for once we don't use getUserByEmail(), because we need the password.
+        // for once we don't use getUser(), because we need the password.
         $query = sprintf('SELECT * FROM %s WHERE email=?', $this->usertable);
         $query = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($query, 1);
         $user = $this->db->executeQuery($query, array($email), array(\PDO::PARAM_STR))->fetch();
@@ -484,7 +484,7 @@ class Users
     {
         $userslug = $this->app['slugify']->slugify($username);
 
-        // for once we don't use getUserByUsername(), because we need the password.
+        // for once we don't use getUser(), because we need the password.
         $query = sprintf('SELECT * FROM %s WHERE username=?', $this->usertable);
         $query = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($query, 1);
         $user = $this->db->executeQuery($query, array($userslug), array(\PDO::PARAM_STR))->fetch();
@@ -551,7 +551,7 @@ class Users
         $checksalt = $this->getAuthToken($row['username'], $row['salt']);
 
         if ($checksalt === $row['token']) {
-            $user = $this->getUserByUsername($row['username']);
+            $user = $this->getUser($row['username']);
 
             $update = array(
                 'lastseen'       => date('Y-m-d H:i:s'),
@@ -602,11 +602,7 @@ class Users
      */
     public function resetPasswordRequest($username)
     {
-        if (false === strpos($username, '@')) {
-            $user = $this->getUserByUsername($username);
-        } else {
-            $user = $this->getUserByEmail($username);
-        }
+        $user = $this->getUser($username);
 
         $recipients = false;
 
@@ -836,57 +832,30 @@ class Users
     }
 
     /**
-     * @deprecated Please use getUserById or getUserByUsername
+     * Get a user, specified by ID, username or email address. Return 'false' if no user found.
      *
-     * Get a user, specified by id or username. Return 'false' if no user found.
-     *
-     * @param int $id
+     * @param integer|string $id
      *
      * @return array
      */
     public function getUser($id)
     {
-        if (is_numeric($id)) {
-            return $this->getUserById($id);
-        } else {
-            return $this->getUserByUsername($id);
-        }
-    }
-
-    /**
-     * Get a user, specified by id. Return 'false' if no user found.
-     *
-     * @param int $id
-     *
-     * @return array
-     */
-    public function getUserById($id)
-    {
         // Make sure we've fetched the users.
-        $this->getUsers();
-
-        foreach ($this->users as $user) {
-            if ($user['id'] == $id) {
-                return $user;
+        if (!$this->users) {
+            $this->getUsers();
+        }
+        // Determine lookup type
+        if (is_numeric($id)) {
+            $key = 'id';
+        } else {
+            if (strpos($id, '@') === false) {
+                $key = 'username';
+            } else {
+                $key = 'email';
             }
         }
-        return false;
-    }
-
-    /**
-     * Get a user, specified by id. Return 'false' if no user found.
-     *
-     * @param string $username
-     *
-     * @return array
-     */
-    public function getUserByUsername($username)
-    {
-        // Make sure we've fetched the users.
-        $this->getUsers();
-
         foreach ($this->users as $user) {
-            if ($user['username'] === $username) {
+            if ($user[$key] == $id) {
                 return $user;
             }
         }
@@ -945,7 +914,7 @@ class Users
      */
     public function setEnabled($id, $enabled = 1)
     {
-        $user = $this->getUserById($id);
+        $user = $this->getUser($id);
 
         if (empty($user)) {
             return false;
@@ -966,7 +935,7 @@ class Users
      */
     public function hasRole($id, $role)
     {
-        $user = $this->getUserById($id);
+        $user = $this->getUser($id);
 
         if (empty($user)) {
             return false;
@@ -985,7 +954,7 @@ class Users
      */
     public function addRole($id, $role)
     {
-        $user = $this->getUserById($id);
+        $user = $this->getUser($id);
 
         if (empty($user) || empty($role)) {
             return false;
@@ -1007,7 +976,7 @@ class Users
      */
     public function removeRole($id, $role)
     {
-        $user = $this->getUserById($id);
+        $user = $this->getUser($id);
 
         if (empty($user) || empty($role)) {
             return false;
@@ -1031,7 +1000,7 @@ class Users
     public function filterManipulatableRoles($id, array $newRoles)
     {
         $oldRoles = array();
-        if ($id && $user = $this->getUserById($id)) {
+        if ($id && $user = $this->getUser($id)) {
             $oldRoles = $user['roles'];
         }
 
@@ -1195,7 +1164,7 @@ class Users
             // Oops. User will get a warning on the dashboard about tables that need to be repaired.
         }
 
-        $user = $this->getUserById($user['id']);
+        $user = $this->getUser($user['id']);
 
         $user['sessionkey'] = $this->getAuthToken($user['username']);
 

@@ -23,10 +23,8 @@ class UserHandler
     }
 
     /**
-     * @deprecated Please use getUserById or getUserByUsername
-     *
-     * Get an array of data for a user, based on the given name or id. Returns
-     * an array on success, and false otherwise.
+     * Get an array of data for a user, based on the given name, email address,
+     * or ID. Returns an array on success, and false otherwise.
      *
      * @param mixed $who
      *
@@ -35,32 +33,6 @@ class UserHandler
     public function getUser($who)
     {
         return $this->app['users']->getUser($who);
-    }
-
-    /**
-     * Get an array of data for a user, based on the given id. Returns
-     * an array on success, and false otherwise.
-     *
-     * @param mixed $id
-     *
-     * @return mixed
-     */
-    public function getUserById($id)
-    {
-        return $this->app['users']->getUserById($id);
-    }
-
-    /**
-     * Get an array of data for a user, based on the given username. Returns
-     * an array on success, and false otherwise.
-     *
-     * @param mixed $who
-     *
-     * @return mixed
-     */
-    public function getUserByUsername($who)
-    {
-        return $this->app['users']->getUserByUsername($who);
     }
 
     /**
