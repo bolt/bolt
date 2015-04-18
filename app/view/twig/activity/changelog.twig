@@ -57,7 +57,7 @@
                             {{ entry.comment|default('') }}
                         </td>
                         <td>
-                            {% set user = getuserbyid(entry.ownerid) %}
+                            {% set user = getuser(entry.ownerid) %}
                             {% if user is not empty %}
                                 {% set userlink = macro.userlink(user) %}
                             {% else %}

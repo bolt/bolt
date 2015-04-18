@@ -203,7 +203,7 @@ class ChangeLogItem implements \ArrayAccess
         }
         if (isset($values['ownerid'])) {
             $this->ownerid = $values['ownerid'];
-            $user = $this->app['users']->getUserById($values['ownerid']);
+            $user = $this->app['users']->getUser($values['ownerid']);
 
             if (isset($user['displayname'])) {
                 $this->username = $user['displayname'];
