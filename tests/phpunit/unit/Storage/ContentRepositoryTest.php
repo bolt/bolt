@@ -65,6 +65,20 @@ class ContentRepositoryTest extends BoltUnitTest
         $this->assertEquals('test-showcase', $record2->slug);
         $this->assertEquals('published', $record2->status);
     }
+    
+    public function testDelete()
+    {
+        $app = $this->getApp();
+        $em = new EntityManager($app['db'], $app['dispatcher'], $app['storage.metadata']);
+        $repo = $em->getRepository('showcases');
+        $record = $repo->find(1);
+        $res = $repo->delete($record);
+        
+        $this->assertEquals(1, $res);
+        $record2 = $repo->find(1);
+        
+        $this->assertFalse($record2);
+    }
 
     
 }
