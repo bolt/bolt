@@ -15,11 +15,11 @@ tools:
         enabled: true
         min_mass: 30             # Defaults to 16
     php_code_sniffer:
-        enabled: false
+        enabled: true
         config:
             standard: PSR2
             include_standards:
-                - CodeSniffer/Bolt/
+                - vendor/bolt/codingstyle/PhpCodeSniffer/Bolt/
         filter:
             paths:
                 - src/
