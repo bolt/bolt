@@ -20,9 +20,7 @@ class Export extends AbstractMigration
     /**
      * Export set Contenttype's records to the export file.
      *
-     * @param string $file
-     *
-     * @return boolean
+     * @return \Bolt\Database\Migration\Export
      */
     public function exportContenttypesRecords()
     {
@@ -42,6 +40,8 @@ class Export extends AbstractMigration
 
             $this->exportContenttypeRecords($contenttype, $last);
         }
+
+        return $this;
     }
 
     /**
@@ -50,6 +50,8 @@ class Export extends AbstractMigration
      * Also creates an output file object.
      *
      * @see \Bolt\Database\Migration\AbstractMigration::setMigrationFiles()
+     *
+     * @return \Bolt\Database\Migration\Export
      */
     public function setMigrationFiles($files)
     {
@@ -77,7 +79,7 @@ class Export extends AbstractMigration
      * @param string  $contenttype
      * @param boolean $last        Flag that indicates last contenttype
      *
-     * @return boolean
+     * @return void
      */
     private function exportContenttypeRecords($contenttype, $last)
     {
