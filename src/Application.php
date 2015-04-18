@@ -391,7 +391,8 @@ class Application extends Silex\Application
             ->register(new Provider\NutServiceProvider())
             ->register(new Provider\GuzzleServiceProvider())
             ->register(new Provider\PrefillServiceProvider())
-            ->register(new SlugifyServiceProvider());
+            ->register(new SlugifyServiceProvider())
+            ->register(new Provider\MarkdownServiceProvider());
 
         $this['paths'] = $this['resources']->getPaths();
 
