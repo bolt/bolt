@@ -9,7 +9,8 @@ module.exports = function(grunt) {
         path: {
             tmp: 'tmp',
             doc: {
-                js: 'docs/js'
+                js: 'docs/js',
+                php: 'docs/php'
             },
             src: {
                 js: 'js',
