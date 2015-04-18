@@ -26,59 +26,38 @@ use Symfony\Component\EventDispatcher\Event;
  **/
 class Cron extends Event
 {
-    /**
-     * @var \Silex\Application
-     */
+    /** @var \Silex\Application */
     private $app;
 
-    /**
-     * @var \Symfony\Component\Console\Output\OutputInterface
-     */
+    /** @var \Symfony\Component\Console\Output\OutputInterface */
     private $output;
 
-    /**
-     * Passed in console paramters.
-     *
-     * @var array
-     */
+    /** @var array Passed in console paramters. */
     private $param;
 
-    /**
-     * The next elegible run time for each interim.
-     *
-     * @var array
-     */
+    /** @var array The next elegible run time for each interim. */
     private $nextRunTime;
 
-    /**
-     * True for a required database insert.
-     *
-     * @var boolean
-     */
+    /** @var boolean True for a required database insert. */
     private $insert;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $tablename;
 
-    /**
-     * The start of the execution time for this cron instance.
-     *
-     * @var string
-     */
+    /** @var string The start of the execution time for this cron instance.*/
     private $runtime;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $cronHour;
 
-    /**
-     * @var array
-     */
+    /** @var array */
     public $lastruns = array();
 
+    /**
+     * @param Application     $app
+     * @param OutputInterface $output
+     * @param array           $param
+     */
     public function __construct(Application $app, OutputInterface $output = null, $param = array())
     {
         $this->app = $app;
@@ -104,6 +83,11 @@ class Cron extends Event
         $this->execute();
     }
 
+    /**
+     * Run the jobs.
+     *
+     * @return void
+     */
     public function execute()
     {
         $event = new CronEvent($this->app, $this->output);
@@ -195,6 +179,8 @@ class Cron extends Event
 
     /**
      * Get our configured hour and convert it to UNIX time.
+     *
+     * @return void
      */
     private function getScheduleThreshold()
     {
@@ -212,6 +198,10 @@ class Cron extends Event
     /**
      * If we're passed an OutputInterface, we're called from Nut and can notify
      * the end user.
+     *
+     * @param string $msg
+     *
+     * @return void
      */
     private function notify($msg)
     {
@@ -224,6 +214,8 @@ class Cron extends Event
 
     /**
      * Set the formatted name of our table.
+     *
+     * @return void
      */
     private function setTableName()
     {
@@ -238,6 +230,8 @@ class Cron extends Event
 
     /**
      * Query table for next run time of each interim.
+     *
+     * @return void
      */
     private function getNextRunTimes()
     {
@@ -308,6 +302,10 @@ class Cron extends Event
 
     /**
      * Update table for last run time of each interim.
+     *
+     * @param string $interim
+     *
+     * @return void
      */
     private function setLastRun($interim)
     {
@@ -330,6 +328,8 @@ class Cron extends Event
      *
      * @param \Exception $e       The passed exception
      * @param string     $interim The cron handler name
+     *
+     * @return void
      */
     private function handleError(\Exception $e, $interim)
     {

@@ -21,13 +21,21 @@ use Symfony\Component\Yaml\Parser;
  */
 class Config
 {
+    /** @var Application */
     protected $app;
+
+    /** @var array */
     protected $data;
+
+    /** @var array */
     protected $defaultConfig = array();
+
+    /** @var array */
     protected $reservedFieldNames = array(
         'id', 'slug', 'datecreated', 'datechanged', 'datepublish', 'datedepublish', 'ownerid', 'username', 'status', 'link', 'templatefields'
     );
 
+    /** @var integer */
     protected $cachetimestamp;
 
     /**
@@ -38,8 +46,10 @@ class Config
      */
     public $fields;
 
+    /** @var boolean */
     public $notify_update;
 
+    /** @var \Symfony\Component\Yaml\Parser */
     protected $yamlParser = false;
 
     /**
@@ -111,7 +121,7 @@ class Config
      * @param string $path
      * @param mixed  $value
      *
-     * @return bool
+     * @return boolean
      */
     public function set($path, $value)
     {
@@ -182,18 +192,20 @@ class Config
 
     /**
      * Load the configuration from the various YML files.
+     *
+     * @return array
      */
     public function getConfig()
     {
         $config = array();
 
-        $config['general']     = $this->parseGeneral();
-        $config['taxonomy']    = $this->parseTaxonomy();
+        $config['general']      = $this->parseGeneral();
+        $config['taxonomy']     = $this->parseTaxonomy();
         $config['contenttypes'] = $this->parseContentTypes($config['general']);
-        $config['menu']        = $this->parseConfigYaml('menu.yml');
-        $config['routing']     = $this->parseConfigYaml('routing.yml');
-        $config['permissions'] = $this->parseConfigYaml('permissions.yml');
-        $config['extensions']  = array();
+        $config['menu']         = $this->parseConfigYaml('menu.yml');
+        $config['routing']      = $this->parseConfigYaml('routing.yml');
+        $config['permissions']  = $this->parseConfigYaml('permissions.yml');
+        $config['extensions']   = array();
 
         // fetch the theme config. requires special treatment due to the path being dynamic
         $this->app['resources']->initializeConfig($config);
@@ -1156,7 +1168,7 @@ class Config
     /**
      * Get a timestamp, corrected to the timezone.
      *
-     * @return string timestamp
+     * @return string Timestamp
      */
     public function getTimestamp($when)
     {
@@ -1169,7 +1181,7 @@ class Config
     /**
      * Get the current timestamp, corrected to the timezone.
      *
-     * @return string current timestamp
+     * @return string Current timestamp
      */
     public function getCurrentTimestamp()
     {

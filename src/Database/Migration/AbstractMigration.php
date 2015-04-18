@@ -282,7 +282,7 @@ abstract class AbstractMigration
      *
      * @param boolean $exists If true, then test that the file exists
      *
-     * @return boolean
+     * @return \Bolt\Database\Migration\AbstractMigration
      */
     public function checkMigrationFilesValid($exists = false)
     {

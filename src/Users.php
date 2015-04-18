@@ -29,18 +29,21 @@ class Users
     public $allowed;
     private $hashStrength;
 
+    /**
+     * @param \Silex\Application $app
+     */
     public function __construct(Silex\Application $app)
     {
         $this->app = $app;
         $this->db = $app['db'];
 
-        $prefix = $this->app['config']->get('general/database/prefix', "bolt_");
+        $prefix = $this->app['config']->get('general/database/prefix', 'bolt_');
 
         // Hashstrength has a default of '10', don't allow less than '8'.
         $this->hashStrength = max($this->app['config']->get('general/hash_strength'), 8);
 
-        $this->usertable = $prefix . "users";
-        $this->authtokentable = $prefix . "authtoken";
+        $this->usertable = $prefix . 'users';
+        $this->authtokentable = $prefix . 'authtoken';
         $this->users = array();
         $this->session = $app['session'];
 
@@ -89,7 +92,7 @@ class Users
      *
      * @param array $user
      *
-     * @return mixed
+     * @return integer The number of affected rows.
      */
     public function saveUser($user)
     {
@@ -108,13 +111,13 @@ class Users
             );
 
         // unset columns we don't need to store.
-        foreach ($user as $key => $value) {
+        foreach (array_keys($user) as $key) {
             if (!in_array($key, $allowedcolumns)) {
                 unset($user[$key]);
             }
         }
 
-        if (!empty($user['password']) && $user['password'] != "**dontchange**") {
+        if (!empty($user['password']) && $user['password'] != '**dontchange**') {
             $hasher = new PasswordHash($this->hashStrength, true);
             $user['password'] = $hasher->HashPassword($user['password']);
         } else {
@@ -171,7 +174,7 @@ class Users
     /**
      * Return whether or not the current session is valid.
      *
-     * @return bool
+     * @return boolean
      */
     public function isValidSession()
     {
@@ -183,7 +186,7 @@ class Users
      * is still valid for the device on which it was created, and that the username,
      * ip-address are still the same.
      *
-     * @return bool
+     * @return boolean
      */
     public function checkValidSession()
     {
@@ -242,15 +245,15 @@ class Users
      * @param string $name
      * @param string $salt
      *
-     * @return string
+     * @return string|boolean
      */
-    private function getAuthToken($name = "", $salt = "")
+    private function getAuthToken($name = '', $salt = '')
     {
         if (empty($name)) {
             return false;
         }
 
-        $seed = $name . "-" . $salt;
+        $seed = $name . '-' . $salt;
 
         if ($this->app['config']->get('general/cookies_use_remoteaddr')) {
             $seed .= '-' . $this->remoteIP;
@@ -269,6 +272,8 @@ class Users
 
     /**
      * Set the Authtoken cookie and DB-entry. If it's already present, update it.
+     *
+     * @return void
      */
     private function setAuthToken()
     {
@@ -314,7 +319,7 @@ class Users
     /**
      * Generate a Anti-CSRF-like token, to use in GET requests for stuff that ought to be POST-ed forms.
      *
-     * @return string $token
+     * @return string
      */
     public function getAntiCSRFToken()
     {
@@ -340,7 +345,7 @@ class Users
      *
      * @param string $token
      *
-     * @return bool
+     * @return boolean
      */
     public function checkAntiCSRFToken($token = '')
     {
@@ -357,6 +362,11 @@ class Users
         }
     }
 
+    /**
+     * Lookup active sessions.
+     *
+     * @return array
+     */
     public function getActiveSessions()
     {
         $this->deleteExpiredSessions();
@@ -369,17 +379,22 @@ class Users
 
         foreach ($sessions as $key => $session) {
             $ua = $parser->parse($session['useragent']);
-            $sessions[$key]['browser'] = sprintf("%s / %s", $ua->ua->toString(), $ua->os->toString());
+            $sessions[$key]['browser'] = sprintf('%s / %s', $ua->ua->toString(), $ua->os->toString());
         }
 
         return $sessions;
     }
 
+    /**
+     * Remove expired sessions from the database.
+     *
+     * @return void
+     */
     private function deleteExpiredSessions()
     {
         try {
             $stmt = $this->db->prepare(sprintf('DELETE FROM %s WHERE validity < :now"', $this->authtokentable));
-            $stmt->bindValue("now", date("Y-m-d H:i:s"));
+            $stmt->bindValue('now', date('Y-m-d H:i:s'));
             $stmt->execute();
         } catch (DBALException $e) {
             // Oops. User will get a warning on the dashboard about tables that need to be repaired.
@@ -389,9 +404,9 @@ class Users
     /**
      * Remove a user from the database.
      *
-     * @param int $id
+     * @param integer $id
      *
-     * @return bool
+     * @return integer The number of affected rows.
      */
     public function deleteUser($id)
     {
@@ -418,7 +433,7 @@ class Users
      * @param string $user
      * @param string $password
      *
-     * @return bool
+     * @return boolean
      */
     public function login($user, $password)
     {
@@ -436,7 +451,7 @@ class Users
      * @param string $email
      * @param string $password
      *
-     * @return bool
+     * @return boolean
      */
     protected function loginEmail($email, $password)
     {
@@ -475,10 +490,10 @@ class Users
     /**
      * Attempt to login a user with the given password and username.
      *
-     * @param $user
-     * @param $password
+     * @param string $user
+     * @param string $password
      *
-     * @return bool
+     * @return boolean
      */
     protected function loginUsername($username, $password)
     {
@@ -519,7 +534,7 @@ class Users
     /**
      * Attempt to login a user via the bolt_authtoken cookie.
      *
-     * @return bool
+     * @return boolean
      */
     public function loginAuthtoken()
     {
@@ -598,7 +613,7 @@ class Users
      *
      * @param string $username
      *
-     * @return bool
+     * @return boolean
      */
     public function resetPasswordRequest($username)
     {
@@ -614,7 +629,7 @@ class Users
             $shadowhashed = $hasher->HashPassword($shadowpassword);
 
             $shadowlink = sprintf(
-                "%s%sresetpassword?token=%s",
+                '%s%sresetpassword?token=%s',
                 $this->app['paths']['hosturl'],
                 $this->app['paths']['bolt'],
                 urlencode($shadowtoken)
@@ -624,7 +639,7 @@ class Users
             $update = array(
                 'shadowpassword' => $shadowhashed,
                 'shadowtoken'    => $shadowtoken . '-' . str_replace('.', '-', $this->remoteIP),
-                'shadowvalidity' => date("Y-m-d H:i:s", strtotime("+2 hours"))
+                'shadowvalidity' => date('Y-m-d H:i:s', strtotime('+2 hours'))
             );
             $this->db->update($this->usertable, $update, array('id' => $user['id']));
 
@@ -635,12 +650,12 @@ class Users
                     'user'           => $user,
                     'shadowpassword' => $shadowpassword,
                     'shadowtoken'    => $shadowtoken,
-                    'shadowvalidity' => date("Y-m-d H:i:s", strtotime("+2 hours")),
+                    'shadowvalidity' => date('Y-m-d H:i:s', strtotime('+2 hours')),
                     'shadowlink'     => $shadowlink
                 )
             );
 
-            $subject = sprintf("[ Bolt / %s ] Password reset.", $this->app['config']->get('general/sitename'));
+            $subject = sprintf('[ Bolt / %s ] Password reset.', $this->app['config']->get('general/sitename'));
 
             $message = $this->app['mailer']
                 ->createMessage('message')
@@ -662,17 +677,24 @@ class Users
 
         // For safety, this is the message we display, regardless of whether $user exists.
         if ($recipients === false || $recipients > 0) {
-            $this->session->getFlashBag()->add('info', Trans::__("A password reset link has been sent to '%user%'.", array('%user%' => $username)));
+            $this->session->getFlashBag()->add('info', Trans::__('A password reset link has been sent to '%user%'.', array('%user%' => $username)));
         }
 
         return true;
     }
 
+    /**
+     * Handle a password reset confirmation
+     *
+     * @param string $token
+     *
+     * @return void
+     */
     public function resetPasswordConfirm($token)
     {
         $token .= '-' . str_replace('.', '-', $this->remoteIP);
 
-        $now = date("Y-m-d H:i:s");
+        $now = date('Y-m-d H:i:s');
 
         // Let's see if the token is valid, and it's been requested within two hours.
         $query = sprintf('SELECT * FROM %s WHERE shadowtoken = ? AND shadowvalidity > ?', $this->usertable);
@@ -706,7 +728,7 @@ class Users
      * Note: I just realized this is conceptually wrong: we should throttle based on
      * remote_addr, not username. So, this isn't used, yet.
      *
-     * @param $attempts
+     * @param integer $attempts
      *
      * @return string
      */
@@ -717,7 +739,7 @@ class Users
         } else {
             $wait = pow(($attempts - 4), 2);
 
-            return date("Y-m-d H:i:s", strtotime("+$wait seconds"));
+            return date('Y-m-d H:i:s', strtotime("+$wait seconds"));
         }
     }
 
@@ -797,7 +819,7 @@ class Users
                 foreach ($tempusers as $user) {
                     $key = $user['username'];
                     $this->users[$key] = $user;
-                    $this->users[$key]['password'] = "**dontchange**";
+                    $this->users[$key]['password'] = '**dontchange**';
 
                     $roles = json_decode($this->users[$key]['roles']);
                     if (!is_array($roles)) {
@@ -818,7 +840,7 @@ class Users
     /**
      * Test to see if there are users in the user table.
      *
-     * @return boolean
+     * @return integer
      */
     public function hasUsers()
     {
@@ -841,9 +863,10 @@ class Users
     public function getUser($id)
     {
         // Make sure we've fetched the users.
-        if (!$this->users) {
+        if (empty($this->users)) {
             $this->getUsers();
         }
+
         // Determine lookup type
         if (is_numeric($id)) {
             $key = 'id';
@@ -854,11 +877,13 @@ class Users
                 $key = 'email';
             }
         }
+
         foreach ($this->users as $user) {
             if ($user[$key] == $id) {
                 return $user;
             }
         }
+
         return false;
     }
 
@@ -887,7 +912,7 @@ class Users
      *
      * @param int|bool $id User ID, or false for current user
      *
-     * @return bool
+     * @return boolean
      */
     public function isEnabled($id = false)
     {
@@ -907,10 +932,10 @@ class Users
     /**
      * Enable or disable a user, specified by id.
      *
-     * @param int $id
-     * @param int $enabled
+     * @param integer|string $id
+     * @param integer        $enabled
      *
-     * @return bool
+     * @return integer
      */
     public function setEnabled($id, $enabled = 1)
     {
@@ -928,10 +953,10 @@ class Users
     /**
      * Check if a certain user has a specific role.
      *
-     * @param mixed  $id
-     * @param string $role
+     * @param string|integer $id
+     * @param string         $role
      *
-     * @return bool
+     * @return boolean
      */
     public function hasRole($id, $role)
     {
@@ -947,10 +972,10 @@ class Users
     /**
      * Add a certain role from a specific user.
      *
-     * @param mixed  $id
-     * @param string $role
+     * @param string|integer $id
+     * @param string         $role
      *
-     * @return bool
+     * @return boolean
      */
     public function addRole($id, $role)
     {
@@ -969,10 +994,10 @@ class Users
     /**
      * Remove a certain role from a specific user.
      *
-     * @param mixed  $id
-     * @param string $role
+     * @param string|integer $id
+     * @param string         $role
      *
-     * @return bool
+     * @return boolean
      */
     public function removeRole($id, $role)
     {
@@ -992,8 +1017,8 @@ class Users
      * Ensure changes to the user's roles match what the
      * current user has permissions to manipulate.
      *
-     * @param int|string $id       User ID
-     * @param array      $newRoles Roles from form submission
+     * @param string|integer $id       User ID
+     * @param array          $newRoles Roles from form submission
      *
      * @return string[] The user's roles with the allowed changes
      */
@@ -1030,7 +1055,7 @@ class Users
      * Check for a user with the 'root' role. There should always be at least one
      * If there isn't we promote the current user.
      *
-     * @return bool
+     * @return boolean
      */
     public function checkForRoot()
     {
@@ -1097,6 +1122,16 @@ class Users
         return $this->app['permissions']->isAllowed($what, $user, $contenttype, $contentid);
     }
 
+    /**
+     * Check to see if the current user can change the status on the record.
+     *
+     * @param string $fromStatus
+     * @param string $toStatus
+     * @param string $contenttype
+     * @param string $contentid
+     *
+     * @return boolean
+     */
     public function isContentStatusTransitionAllowed($fromStatus, $toStatus, $contenttype, $contentid = null)
     {
         $user = $this->currentuser;
@@ -1104,6 +1139,14 @@ class Users
         return $this->app['permissions']->isContentStatusTransitionAllowed($fromStatus, $toStatus, $user, $contenttype, $contentid);
     }
 
+    /**
+     * Create a correctly canonicalized value for a field, depending on it's name.
+     *
+     * @param string $fieldname
+     * @param string $fieldvalue
+     *
+     * @return string
+     */
     private function canonicalizeFieldValue($fieldname, $fieldvalue)
     {
         switch ($fieldname) {
@@ -1124,11 +1167,11 @@ class Users
      * values are applied, because what constitutes 'equal' for the purpose
      * of this filtering depends on the field type.
      *
-     * @param string $fieldname
-     * @param string $value
-     * @param int    $currentid
+     * @param string  $fieldname
+     * @param string  $value
+     * @param integer $currentid
      *
-     * @return bool
+     * @return boolean
      */
     public function checkAvailability($fieldname, $value, $currentid = 0)
     {
@@ -1146,7 +1189,9 @@ class Users
     }
 
     /**
-     * @param $user
+     * Update the user record with latest login information.
+     *
+     * @param array $user
      */
     protected function updateUserLogin($user)
     {
@@ -1186,7 +1231,7 @@ class Users
     /**
      * Add errormessages to logs and update the user
      *
-     * @param $user
+     * @param array $user
      */
     private function loginFailed($user)
     {

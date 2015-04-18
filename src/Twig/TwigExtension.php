@@ -41,6 +41,7 @@ class TwigExtension extends \Twig_Extension
         $env  = array('needs_environment' => true);
 
         return array(
+            // @codingStandardsIgnoreStart
             new \Twig_SimpleFunction('__',                 array($this, 'trans'),       $safe),
             new \Twig_SimpleFunction('backtrace',          array($this, 'printBacktrace')),
             new \Twig_SimpleFunction('current',            array($this, 'current')),
@@ -78,6 +79,7 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFunction('token',              array($this, 'token')),
             new \Twig_SimpleFunction('trimtext',           array($this, 'trim'),        $safe),  // Deprecated.
             new \Twig_SimpleFunction('widget',             array($this, 'widget'))
+            // @codingStandardsIgnoreEnd
         );
     }
 
@@ -86,6 +88,7 @@ class TwigExtension extends \Twig_Extension
         $safe = array('is_safe' => array('html'));
 
         return array(
+            // @codingStandardsIgnoreStart
             new \Twig_SimpleFilter('__',             array($this, 'trans')),
             new \Twig_SimpleFilter('current',        array($this, 'current')),
             new \Twig_SimpleFilter('editable',       array($this, 'editable'),          $safe),
@@ -115,6 +118,7 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFilter('twig',           array($this, 'twig'),              $safe),
             new \Twig_SimpleFilter('ucfirst',        array($this, 'ucfirst')),
             new \Twig_SimpleFilter('ymllink',        array($this, 'ymllink'),           $safe)
+            // @codingStandardsIgnoreEnd
         );
     }
 
