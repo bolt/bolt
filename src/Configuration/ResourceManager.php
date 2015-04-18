@@ -116,6 +116,11 @@ class ResourceManager
         return $this->setPath('root', $rootPath);
     }
 
+    /**
+     * @deprecated Don't use! Will probably refactored out soon
+     *
+     * @param Application $app
+     */
     public function setApp(Application $app)
     {
         $this->app = $app;
@@ -123,6 +128,8 @@ class ResourceManager
     }
 
     /**
+     * Set a resource path.
+     *
      * @param string $name
      * @param string $value
      *
@@ -240,7 +247,7 @@ class ResourceManager
     /**
      * Get a URL path definition.
      *
-     * @param unknown $name
+     * @param string $name
      *
      * @throws \InvalidArgumentException
      *
