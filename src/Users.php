@@ -108,7 +108,7 @@ class Users
             );
 
         // unset columns we don't need to store.
-        foreach ($user as $key => $value) {
+        foreach (array_keys($user) as $key) {
             if (!in_array($key, $allowedcolumns)) {
                 unset($user[$key]);
             }
