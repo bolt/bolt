@@ -412,7 +412,7 @@ class Frontend
      *
      * @return \Twig_Markup Rendered template
      */
-    private function render(Silex\Application $app, $template, $title)
+    protected function render(Silex\Application $app, $template, $title)
     {
         try {
             return $app['twig']->render($template);
@@ -440,7 +440,7 @@ class Frontend
      * @param \Silex\Application $app
      * @param string             $error
      */
-    private function setTemplateError(Silex\Application $app, $error)
+    protected function setTemplateError(Silex\Application $app, $error)
     {
         if (isset($app['twig.logger'])) {
             $app['twig.logger']->setTrackedValue('templateerror', $error);
