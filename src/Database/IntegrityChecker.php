@@ -3,7 +3,6 @@
 namespace Bolt\Database;
 
 use Bolt\Application;
-use Bolt\Configuration\ResourceManager;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
 use Doctrine\DBAL\Platforms\SqlitePlatform;
@@ -26,9 +25,6 @@ class IntegrityChecker
     /** @var string */
     private $prefix;
 
-    /** @var string|null Default value for TEXT fields, differs per platform. */
-    private $textDefault = null;
-
     /** @var \Doctrine\DBAL\Schema\Table[] Current tables. */
     private $tables;
 
@@ -36,7 +32,7 @@ class IntegrityChecker
     protected $extension_table_generators = array();
 
     /** @var string */
-    public static $integrityCachePath;
+    protected $integrityCachePath;
 
     const INTEGRITY_CHECK_INTERVAL    = 1800; // max. validity of a database integrity check, in seconds
     const INTEGRITY_CHECK_TS_FILENAME = 'dbcheck_ts'; // filename for the check timestamp file
@@ -48,61 +44,28 @@ class IntegrityChecker
     {
         $this->app = $app;
 
-        $this->prefix = $this->app['config']->get('general/database/prefix', 'bolt_');
-
-        // Make sure prefix ends in '_'. Prefixes without '_' are lame.
-        if ($this->prefix[strlen($this->prefix) - 1] != '_') {
-            $this->prefix .= '_';
-        }
-
         // Check the table integrity only once per hour, per session. (since it's pretty time-consuming.
         $this->checktimer = 3600;
-
-        $platform = $this->app['db']->getDatabasePlatform();
-        if ($platform instanceof SqlitePlatform || $platform instanceof PostgreSqlPlatform) {
-            $this->textDefault = '';
-        }
-
-        $this->tables = null;
-
-        self::$integrityCachePath = $this->app['resources']->getPath('cache');
-    }
-
-    /**
-     * Get the 'validity' timestamp's file name.
-     *
-     * @return string
-     */
-    private static function getValidityTimestampFilename()
-    {
-        // If 'invalidate()' was called statically, we don't have the
-        // $integrityCachePath yet, so we set it here.
-        if (empty(self::$integrityCachePath)) {
-            $app = ResourceManager::getApp();
-            self::$integrityCachePath = $app['resources']->getPath('cache');
-        }
-
-        return self::$integrityCachePath . '/' . self::INTEGRITY_CHECK_TS_FILENAME;
     }
 
     /**
      * Invalidate our database check by removing the timestamp file from cache.
      *
-     * @param Application $app
-     *
      * @return void
      */
-    public static function invalidate(Application $app)
+    public function invalidate()
     {
+        $fileName = $this->getValidityTimestampFilename();
+
         // delete the cached dbcheck-ts
-        if (is_writable(self::getValidityTimestampFilename())) {
-            unlink(self::getValidityTimestampFilename());
-        } elseif (file_exists(self::getValidityTimestampFilename())) {
+        if (is_writable($fileName)) {
+            unlink($fileName);
+        } elseif (file_exists($fileName)) {
             $message = sprintf(
                 "The file '%s' exists, but couldn't be removed. Please remove this file manually, and try again.",
-                self::getValidityTimestampFilename()
+                $fileName
             );
-            $app->abort(Response::HTTP_UNAUTHORIZED, $message);
+            $this->app->abort(Response::HTTP_UNAUTHORIZED, $message);
         }
     }
 
@@ -112,10 +75,10 @@ class IntegrityChecker
      *
      * @return void
      */
-    public static function markValid()
+    public function markValid()
     {
         $timestamp = time();
-        file_put_contents(self::getValidityTimestampFilename(), $timestamp);
+        file_put_contents($this->getValidityTimestampFilename(), $timestamp);
     }
 
     /**
@@ -124,10 +87,10 @@ class IntegrityChecker
      *
      * @return boolean
      */
-    public static function isValid()
+    public function isValid()
     {
-        if (is_readable(self::getValidityTimestampFilename())) {
-            $validityTS = intval(file_get_contents(self::getValidityTimestampFilename()));
+        if (is_readable($this->getValidityTimestampFilename())) {
+            $validityTS = intval(file_get_contents($this->getValidityTimestampFilename()));
         } else {
             $validityTS = 0;
         }
@@ -152,7 +115,7 @@ class IntegrityChecker
         $this->tables = array();
 
         foreach ($sm->listTables() as $table) {
-            if (strpos($table->getName(), $this->prefix) === 0) {
+            if (strpos($table->getName(), $this->getTablenamePrefix()) === 0) {
                 $this->tables[$table->getName()] = $table;
             }
         }
@@ -170,7 +133,7 @@ class IntegrityChecker
         $tables = $this->getTableObjects();
 
         // Check the users table.
-        if (!isset($tables[$this->prefix . 'users'])) {
+        if (!isset($tables[$this->getTablename('users')])) {
             return false;
         }
 
@@ -251,7 +214,7 @@ class IntegrityChecker
         // If there were no messages, update the timer, so we don't check it again.
         // If there _are_ messages, keep checking until it's fixed.
         if (empty($messages)) {
-            self::markValid();
+            $this->markValid();
         }
 
         // If we were passed in a debug logger, log the diffs
@@ -272,7 +235,7 @@ class IntegrityChecker
      */
     public function needsCheck()
     {
-        return !self::isValid();
+        return !$this->isValid();
     }
 
     /**
@@ -339,7 +302,7 @@ class IntegrityChecker
         $baseTables = $this->getBoltTablesNames();
 
         // Work around reserved column name removal
-        if ($diff->fromTable->getName() == $this->prefix . 'cron') {
+        if ($diff->fromTable->getName() == $this->getTablename('cron')) {
             foreach ($diff->renamedColumns as $key => $col) {
                 if ($col->getName() == 'interim') {
                     $diff->addedColumns[] = $col;
@@ -434,7 +397,7 @@ class IntegrityChecker
     {
         $tables = array();
 
-        $authtokenTable = $schema->createTable($this->prefix . 'authtoken');
+        $authtokenTable = $schema->createTable($this->getTablename('authtoken'));
         $authtokenTable->addColumn('id', 'integer', array('autoincrement' => true));
         $authtokenTable->setPrimaryKey(array('id'));
         // TODO: addColumn('userid'...), phase out referencing users by username
@@ -448,7 +411,7 @@ class IntegrityChecker
         $authtokenTable->addColumn('validity', 'datetime', array('notnull' => false, 'default' => null));
         $tables[] = $authtokenTable;
 
-        $usersTable = $schema->createTable($this->prefix . 'users');
+        $usersTable = $schema->createTable($this->getTablename('users'));
         $usersTable->addColumn('id', 'integer', array('autoincrement' => true));
         $usersTable->setPrimaryKey(array('id'));
         $usersTable->addColumn('username', 'string', array('length' => 32));
@@ -470,7 +433,7 @@ class IntegrityChecker
         $usersTable->addColumn('roles', 'string', array('length' => 1024, 'default' => ''));
         $tables[] = $usersTable;
 
-        $taxonomyTable = $schema->createTable($this->prefix . 'taxonomy');
+        $taxonomyTable = $schema->createTable($this->getTablename('taxonomy'));
         $taxonomyTable->addColumn('id', 'integer', array('autoincrement' => true));
         $taxonomyTable->setPrimaryKey(array('id'));
         $taxonomyTable->addColumn('content_id', 'integer');
@@ -485,7 +448,7 @@ class IntegrityChecker
         $taxonomyTable->addIndex(array( 'sortorder'));
         $tables[] = $taxonomyTable;
 
-        $relationsTable = $schema->createTable($this->prefix . 'relations');
+        $relationsTable = $schema->createTable($this->getTablename('relations'));
         $relationsTable->addColumn('id', 'integer', array('autoincrement' => true));
         $relationsTable->setPrimaryKey(array('id'));
         $relationsTable->addColumn('from_contenttype', 'string', array('length' => 32));
@@ -498,7 +461,7 @@ class IntegrityChecker
         $relationsTable->addIndex(array('to_id'));
         $tables[] = $relationsTable;
 
-        $logSystemTable = $schema->createTable($this->prefix . 'log_system');
+        $logSystemTable = $schema->createTable($this->getTablename('log_system'));
         $logSystemTable->addColumn('id', 'integer', array('autoincrement' => true));
         $logSystemTable->setPrimaryKey(array('id'));
         $logSystemTable->addColumn('level', 'integer');
@@ -516,7 +479,7 @@ class IntegrityChecker
         $logSystemTable->addColumn('source', 'text', array());
         $tables[] = $logSystemTable;
 
-        $logChangeTable = $schema->createTable($this->prefix . 'log_change');
+        $logChangeTable = $schema->createTable($this->getTablename('log_change'));
         $logChangeTable->addColumn('id', 'integer', array('autoincrement' => true));
         $logChangeTable->setPrimaryKey(array('id'));
         $logChangeTable->addColumn('date', 'datetime');
@@ -545,7 +508,7 @@ class IntegrityChecker
         $logChangeTable->addColumn('comment', 'string', array('length' => 150, 'default' => '', 'notnull' => false));
         $tables[] = $logChangeTable;
 
-        $cronTable = $schema->createTable($this->prefix . 'cron');
+        $cronTable = $schema->createTable($this->getTablename('cron'));
         $cronTable->addColumn('id', 'integer', array('autoincrement' => true));
         $cronTable->setPrimaryKey(array('id'));
         $cronTable->addColumn('interim', 'string', array('length' => 16));
@@ -632,7 +595,7 @@ class IntegrityChecker
                     case 'filelist':
                     case 'imagelist':
                     case 'select':
-                        $myTable->addColumn($field, 'text', array('default' => $this->textDefault));
+                        $myTable->addColumn($field, 'text', array('default' => $this->getTextDefault()));
                         break;
                     case 'datetime':
                         $myTable->addColumn($field, 'datetime', array('notnull' => false));
@@ -684,8 +647,58 @@ class IntegrityChecker
     protected function getTablename($name)
     {
         $name = str_replace('-', '_', $this->app['slugify']->slugify($name));
-        $tablename = sprintf('%s%s', $this->prefix, $name);
+        $tablename = sprintf('%s%s', $this->getTablenamePrefix(), $name);
 
         return $tablename;
+    }
+
+    /**
+     * Get the tablename prefix
+     *
+     * @return string
+     */
+    protected function getTablenamePrefix()
+    {
+        if ($this->prefix !== null) {
+            return $this->prefix;
+        }
+
+        $this->prefix = $this->app['config']->get('general/database/prefix', 'bolt_');
+
+        // Make sure prefix ends in '_'. Prefixes without '_' are lame.
+        if ($this->prefix[strlen($this->prefix) - 1] != '_') {
+            $this->prefix .= '_';
+        }
+
+        return $this->prefix;
+    }
+
+    /**
+     * Default value for TEXT fields, differs per platform.
+     *
+     * @return string|null
+     */
+    private function getTextDefault()
+    {
+        $platform = $this->app['db']->getDatabasePlatform();
+        if ($platform instanceof SqlitePlatform || $platform instanceof PostgreSqlPlatform) {
+            return '';
+        }
+
+        return null;
+    }
+
+    /**
+     * Get the 'validity' timestamp's file name.
+     *
+     * @return string
+     */
+    private function getValidityTimestampFilename()
+    {
+        if (empty($this->integrityCachePath)) {
+            $this->integrityCachePath = $this->app['resources']->getPath('cache');
+        }
+
+        return $this->integrityCachePath . '/' . self::INTEGRITY_CHECK_TS_FILENAME;
     }
 }
