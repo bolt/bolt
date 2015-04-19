@@ -74,7 +74,7 @@ final class ShowPackage
             if ($composer) {
                 $repos = new CompositeRepository($composer->getRepositoryManager()->getRepositories());
             } else {
-                //No composer.json found in the current directory, showing available packages from default repos
+                // No composer.json found in the current directory, showing available packages from default repos
                 $defaultRepos = Factory::createDefaultRepositories($io);
                 $repos = new CompositeRepository($defaultRepos);
             }
@@ -83,7 +83,7 @@ final class ShowPackage
             $installedRepo = new CompositeRepository(array($localRepo, $platformRepo));
             $repos = new CompositeRepository(array_merge(array($installedRepo), $composer->getRepositoryManager()->getRepositories()));
         } else {
-            //No composer.json found in the current directory, showing available packages from default repos
+            // No composer.json found in the current directory, showing available packages from default repos
             $defaultRepos = Factory::createDefaultRepositories($io);
             $installedRepo = $platformRepo;
             $repos = new CompositeRepository(array_merge(array($installedRepo), $defaultRepos));
@@ -92,13 +92,11 @@ final class ShowPackage
         // Single package or single version
         if (!empty($package)) {
             if (is_object($package)) {
-                //
                 return array($package->getName() => array(
                     'package'  => $package,
                     'versions' => $package->getVersion()
                 ));
             } else {
-                //
                 return $this->getPackage($installedRepo, $repos, $package, $version);
             }
         }
