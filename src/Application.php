@@ -73,7 +73,8 @@ class Application extends Silex\Application
 
     protected function initConfig()
     {
-        $this->register(new Provider\ConfigServiceProvider());
+        $this->register(new Provider\IntegrityCheckerProvider())
+            ->register(new Provider\ConfigServiceProvider());
     }
 
     protected function initSession()
@@ -376,7 +377,6 @@ class Application extends Silex\Application
             ->register(new Provider\StorageServiceProvider())
             ->register(new Provider\UsersServiceProvider())
             ->register(new Provider\CacheServiceProvider())
-            ->register(new Provider\IntegrityCheckerProvider())
             ->register(new Provider\ExtensionServiceProvider())
             ->register(new Provider\StackServiceProvider())
             ->register(new Provider\OmnisearchServiceProvider())
