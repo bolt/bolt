@@ -24,10 +24,10 @@ class Storage
     private $app;
 
     /** @var array */
-    private $tables;
+    private $tables = array();
 
     /** @var string */
-    private $prefix = "bolt_";
+    private $prefix;
 
     /** @var array */
     private $checkedfortimed = array();
@@ -41,10 +41,6 @@ class Storage
     public function __construct(Bolt\Application $app)
     {
         $this->app = $app;
-
-        $this->prefix = $app['config']->get('general/database/prefix', "bolt_");
-
-        $this->tables = array();
     }
 
     /**
@@ -432,9 +428,9 @@ class Storage
 
         // Make sure relations and taxonomies are deleted as well.
         if ($res) {
-            $this->app['db']->delete($this->prefix . 'relations', array('from_contenttype' => $contenttype, 'from_id' => $id));
-            $this->app['db']->delete($this->prefix . 'relations', array('to_contenttype' => $contenttype, 'to_id' => $id));
-            $this->app['db']->delete($this->prefix . 'taxonomy', array('contenttype' => $contenttype, 'content_id' => $id));
+            $this->app['db']->delete($this->getTablename('relations'), array('from_contenttype' => $contenttype, 'from_id' => $id));
+            $this->app['db']->delete($this->getTablename('relations'), array('to_contenttype' => $contenttype, 'to_id' => $id));
+            $this->app['db']->delete($this->getTablename('taxonomy'), array('contenttype' => $contenttype, 'content_id' => $id));
         }
 
         // Dispatch post-delete event
@@ -2704,8 +2700,12 @@ class Storage
      */
     public function getTablename($name)
     {
-        $name = str_replace("-", "_", $this->app['slugify']->slugify($name));
-        $tablename = sprintf("%s%s", $this->prefix, $name);
+        if ($this->prefix === null) {
+            $this->prefix = $this->app['config']->get('general/database/prefix', 'bolt_');
+        }
+
+        $name = str_replace('-', '_', $this->app['slugify']->slugify($name));
+        $tablename = sprintf('%s%s', $this->prefix, $name);
 
         return $tablename;
     }
