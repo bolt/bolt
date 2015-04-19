@@ -438,11 +438,10 @@ class Backend implements ControllerProviderInterface
      * @param integer            $contentid   The content ID
      * @param integer            $id          The changelog entry ID
      * @param \Silex\Application $app         The application/container
-     * @param Request            $request     The Symfony Request
      *
      * @return \Twig_Markup|null
      */
-    public function changelogRecordSingle($contenttype, $contentid, $id, Application $app, Request $request)
+    public function changelogRecordSingle($contenttype, $contentid, $id, Application $app)
     {
         $entry = $app['logger.manager.change']->getChangelogEntry($contenttype, $contentid, $id);
         if (empty($entry)) {
@@ -741,7 +740,6 @@ class Backend implements ControllerProviderInterface
             if ($id) {
                 $content = $app['storage']->getContent($contenttype['slug'], array('id' => $id));
                 $oldStatus = $content['status'];
-                $newStatus = $content['status'];
             } else {
                 $content = $app['storage']->getContentObject($contenttypeslug);
                 $oldStatus = '';
@@ -812,11 +810,11 @@ class Backend implements ControllerProviderInterface
                 if ($app['request']->get('returnto')) {
                     $returnto = $app['request']->get('returnto');
 
-                    if ($returnto == "new") {
+                    if ($returnto === 'new') {
                         return Lib::redirect('editcontent', array('contenttypeslug' => $contenttype['slug'], 'id' => $id), '#' . $app['request']->get('returnto'));
-                    } elseif ($returnto == "saveandnew") {
+                    } elseif ($returnto == 'saveandnew') {
                         return Lib::redirect('editcontent', array('contenttypeslug' => $contenttype['slug'], 'id' => 0), '#' . $app['request']->get('returnto'));
-                    } elseif ($returnto == "ajax") {
+                    } elseif ($returnto === 'ajax') {
                         /*
                          * Flush any buffers from saveConent() dispatcher hooks
                          * and make sure our JSON output is clean.
