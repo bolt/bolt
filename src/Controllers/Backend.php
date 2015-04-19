@@ -1430,6 +1430,7 @@ class Backend implements ControllerProviderInterface
                     $app['mailer']->send($message);
                 } catch (\Exception $e) {
                     // Sending message failed. What else can we do, sending with snailmail?
+                    $app['logger.system']->error("The 'mailoptions' need to be set in app/config/config.yml", array('event' => 'config'));
                 }
             }
 
