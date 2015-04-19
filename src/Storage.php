@@ -1093,7 +1093,6 @@ class Storage
 
         $this->checkedfortimed["depublish-" . $contenttype['slug']] = true;
         $tablename = $this->getTablename($contenttype['slug']);
-        $now = date('Y-m-d H:i:s', time());
 
         try {
 
