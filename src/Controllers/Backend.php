@@ -1427,6 +1427,7 @@ class Backend implements ControllerProviderInterface
 
                     $app['mailer']->send($message);
                 } catch (\Exception $e) {
+                    // Sending message failed. What else can we do, sending with snailmail?
                 }
             }
 
