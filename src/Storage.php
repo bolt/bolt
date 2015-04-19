@@ -18,6 +18,7 @@ use utilphp\util;
 
 class Storage
 {
+    /** @var array */
     public $images;
 
     /** @var Application */
@@ -91,7 +92,7 @@ class Storage
      */
     public function preFill($contenttypes = array())
     {
-        $output = "";
+        $output = '';
 
         // get a list of images.
         $this->images = $this->app['filesystem']->search('*', 'jpg,jpeg,png');
@@ -101,10 +102,10 @@ class Storage
         foreach ($this->app['config']->get('contenttypes') as $key => $contenttype) {
             $tablename = $this->getTablename($key);
             if ($emptyOnly && $this->hasRecords($tablename)) {
-                $output .= Trans::__("Skipped <tt>%key%</tt> (already has records)", array('%key%' => $key)) . "<br>\n";
+                $output .= Trans::__('Skipped <tt>%key%</tt> (already has records)', array('%key%' => $key)) . "<br>\n";
                 continue;
             } elseif (!in_array($key, $contenttypes) && !$emptyOnly) {
-                $output .= Trans::__("Skipped <tt>%key%</tt> (not checked)", array('%key%' => $key)) . "<br>\n";
+                $output .= Trans::__('Skipped <tt>%key%</tt> (not checked)', array('%key%' => $key)) . "<br>\n";
                 continue;
             }
 
