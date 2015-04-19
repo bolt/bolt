@@ -109,7 +109,7 @@ class HtmlHandler
     public function markdown($content)
     {
         // Parse the field as Markdown, return HTML
-        $output = \ParsedownExtra::instance()->text($content);
+        $output = $this->app['markdown']->text($content);
 
         $config = $this->app['config']->get('general/htmlcleaner');
         $allowed_tags = !empty($config['allowed_tags']) ? $config['allowed_tags'] :

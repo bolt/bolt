@@ -26,9 +26,6 @@ class Content implements \ArrayAccess
     /** @var \Silex\Application */
     protected $app;
 
-    /** @var \ParsedownExtra */
-    protected $parsedown;
-
     /** @var integer The last time we weight a searchresult */
     private $lastWeight = 0;
 
@@ -99,8 +96,6 @@ class Content implements \ArrayAccess
 
             $this->setValues($values);
         }
-
-        $this->parsedown = new \ParsedownExtra();
     }
 
     /**
@@ -840,7 +835,7 @@ class Content implements \ArrayAccess
                     $value = $this->preParse($this->values[$name], $allowtwig);
 
                     // Parse the field as Markdown, return HTML
-                    $value = $this->parsedown->text($value);
+                    $value = $this->app['markdown']->text($value);
 
                     $config = $this->app['config']->get('general/htmlcleaner');
                     $allowed_tags = !empty($config['allowed_tags']) ? $config['allowed_tags'] :
@@ -1387,7 +1382,7 @@ class Content implements \ArrayAccess
                     }
                     // add 'markdown' field
                     if ($field['type'] === 'markdown') {
-                        $excerptParts[] = \ParsedownExtra::instance()->text($this->values[$key]);
+                        $excerptParts[] = $this->app['markdown']->text($this->values[$key]);
                     }
                 }
             }
