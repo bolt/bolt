@@ -18,16 +18,17 @@ use utilphp\util;
 
 class Storage
 {
+    /** @var array */
     public $images;
 
     /** @var Application */
     private $app;
 
     /** @var array */
-    private $tables;
+    private $tables = array();
 
     /** @var string */
-    private $prefix = "bolt_";
+    private $prefix;
 
     /** @var array */
     private $checkedfortimed = array();
@@ -41,10 +42,6 @@ class Storage
     public function __construct(Bolt\Application $app)
     {
         $this->app = $app;
-
-        $this->prefix = $app['config']->get('general/database/prefix', "bolt_");
-
-        $this->tables = array();
     }
 
     /**
@@ -95,7 +92,7 @@ class Storage
      */
     public function preFill($contenttypes = array())
     {
-        $output = "";
+        $output = '';
 
         // get a list of images.
         $this->images = $this->app['filesystem']->search('*', 'jpg,jpeg,png');
@@ -105,10 +102,10 @@ class Storage
         foreach ($this->app['config']->get('contenttypes') as $key => $contenttype) {
             $tablename = $this->getTablename($key);
             if ($emptyOnly && $this->hasRecords($tablename)) {
-                $output .= Trans::__("Skipped <tt>%key%</tt> (already has records)", array('%key%' => $key)) . "<br>\n";
+                $output .= Trans::__('Skipped <tt>%key%</tt> (already has records)', array('%key%' => $key)) . "<br>\n";
                 continue;
             } elseif (!in_array($key, $contenttypes) && !$emptyOnly) {
-                $output .= Trans::__("Skipped <tt>%key%</tt> (not checked)", array('%key%' => $key)) . "<br>\n";
+                $output .= Trans::__('Skipped <tt>%key%</tt> (not checked)', array('%key%' => $key)) . "<br>\n";
                 continue;
             }
 
@@ -432,9 +429,9 @@ class Storage
 
         // Make sure relations and taxonomies are deleted as well.
         if ($res) {
-            $this->app['db']->delete($this->prefix . 'relations', array('from_contenttype' => $contenttype, 'from_id' => $id));
-            $this->app['db']->delete($this->prefix . 'relations', array('to_contenttype' => $contenttype, 'to_id' => $id));
-            $this->app['db']->delete($this->prefix . 'taxonomy', array('contenttype' => $contenttype, 'content_id' => $id));
+            $this->app['db']->delete($this->getTablename('relations'), array('from_contenttype' => $contenttype, 'from_id' => $id));
+            $this->app['db']->delete($this->getTablename('relations'), array('to_contenttype' => $contenttype, 'to_id' => $id));
+            $this->app['db']->delete($this->getTablename('taxonomy'), array('contenttype' => $contenttype, 'content_id' => $id));
         }
 
         // Dispatch post-delete event
@@ -531,7 +528,7 @@ class Storage
     private function getValidSaveData(array $fieldvalues, array $contenttype)
     {
         // Clean up fields, check unneeded columns.
-        foreach ($fieldvalues as $key => $value) {
+        foreach (array_keys($fieldvalues) as $key) {
             if ($this->isValidColumn($key, $contenttype)) {
                 if (is_string($fieldvalues[$key])) {
                     // Trim strings
@@ -1096,7 +1093,6 @@ class Storage
 
         $this->checkedfortimed["depublish-" . $contenttype['slug']] = true;
         $tablename = $this->getTablename($contenttype['slug']);
-        $now = date('Y-m-d H:i:s', time());
 
         try {
 
@@ -1124,6 +1120,8 @@ class Storage
      * Split into meta-parameters and contenttype parameters.
      *
      * This is tightly coupled to $this->getContent()
+     *
+     * @param array|string|null $inParameters
      *
      * @see $this->decodeContentQuery()
      */
@@ -1565,10 +1563,12 @@ class Storage
      */
     private function runContenttypeChecks(array $contenttypes)
     {
+        $checkedcontenttype = array();
+
         foreach ($contenttypes as $contenttypeslug) {
 
             // Make sure we do this only once per contenttype
-            if (isset($this->app->checkedcontenttype[$contenttypeslug])) {
+            if (isset($checkedcontenttype[$contenttypeslug])) {
                 continue;
             }
 
@@ -1585,7 +1585,7 @@ class Storage
             $this->depublishExpiredRecords($contenttype);
 
             // "mark" this one as checked.
-            $this->app->checkedcontenttype[$contenttypeslug] = true;
+            $checkedcontenttype[$contenttypeslug] = true;
         }
 
         return true;
@@ -1740,7 +1740,7 @@ class Storage
      * @param array  $pager
      * @param array  $whereparameters
      *
-     * @return Content
+     * @return array
      */
     public function getContent($textquery, $parameters = '', &$pager = array(), $whereparameters = array())
     {
@@ -2190,9 +2190,9 @@ class Storage
     {
         $grouping = false;
         $taxonomy = $this->getContentTypeTaxonomy($contenttypeslug);
-        foreach ($taxonomy as $taxokey => $taxo) {
-            if ($taxo['behaves_like'] == "grouping") {
-                $grouping = $taxo['slug'];
+        foreach ($taxonomy as $tax) {
+            if ($tax['behaves_like'] === 'grouping') {
+                $grouping = $tax['slug'];
                 break;
             }
         }
@@ -2704,8 +2704,12 @@ class Storage
      */
     public function getTablename($name)
     {
-        $name = str_replace("-", "_", $this->app['slugify']->slugify($name));
-        $tablename = sprintf("%s%s", $this->prefix, $name);
+        if ($this->prefix === null) {
+            $this->prefix = $this->app['config']->get('general/database/prefix', 'bolt_');
+        }
+
+        $name = str_replace('-', '_', $this->app['slugify']->slugify($name));
+        $tablename = sprintf('%s%s', $this->prefix, $name);
 
         return $tablename;
     }

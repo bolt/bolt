@@ -19,6 +19,7 @@ class Users
     const ADMIN = 4;
     const DEVELOPER = 6;
 
+    /** @var \Doctrine\DBAL\Connection */
     public $db;
     public $config;
     public $usertable;
@@ -27,7 +28,24 @@ class Users
     public $session;
     public $currentuser;
     public $allowed;
+
+    /** @var \Silex\Application $app */
+    private $app;
+
+    /** @var integer */
     private $hashStrength;
+
+    /** @var boolean */
+    private $validsession;
+
+    /** @var string */
+    private $remoteIP;
+    /** @var string */
+    private $userAgent;
+    /** @var string */
+    private $hostName;
+    /** @var string */
+    private $authToken;
 
     /**
      * @param \Silex\Application $app
@@ -53,7 +71,10 @@ class Users
          * @see discussion in https://github.com/bolt/bolt/pull/3031
          */
         $request = Request::createFromGlobals();
-        $this->remoteIP = $request->getClientIp() ?: '127.0.0.1';
+        $this->hostName  = $request->getHost();
+        $this->remoteIP  = $request->getClientIp() ?: '127.0.0.1';
+        $this->userAgent = $request->server->get('HTTP_USER_AGENT');
+        $this->authToken = $request->cookies->get('bolt_authtoken');
 
         // Set 'validsession', to see if the current session is valid.
         $this->validsession = $this->checkValidSession();
@@ -232,7 +253,7 @@ class Users
         }
 
         // Check if there's a bolt_authtoken cookie. If not, set it.
-        if (empty($_COOKIE['bolt_authtoken'])) {
+        if (empty($this->authToken)) {
             $this->setAuthtoken();
         }
 
@@ -259,10 +280,10 @@ class Users
             $seed .= '-' . $this->remoteIP;
         }
         if ($this->app['config']->get('general/cookies_use_browseragent')) {
-            $seed .= '-' . $_SERVER['HTTP_USER_AGENT'];
+            $seed .= '-' . $this->userAgent;
         }
         if ($this->app['config']->get('general/cookies_use_httphost')) {
-            $seed .= '-' . (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : $_SERVER['SERVER_NAME']);
+            $seed .= '-' . $this->hostName;
         }
 
         $token = md5($seed);
@@ -285,7 +306,7 @@ class Users
             'validity'  => date('Y-m-d H:i:s', time() + $this->app['config']->get('general/cookies_lifetime')),
             'ip'        => $this->remoteIP,
             'lastseen'  => date('Y-m-d H:i:s'),
-            'useragent' => $_SERVER['HTTP_USER_AGENT']
+            'useragent' => $this->userAgent
         );
 
         // Update or set the authtoken cookie.
@@ -329,10 +350,10 @@ class Users
             $seed .= '-' . $this->remoteIP;
         }
         if ($this->app['config']->get('general/cookies_use_browseragent')) {
-            $seed .= '-' . $_SERVER['HTTP_USER_AGENT'];
+            $seed .= '-' . $this->userAgent;
         }
         if ($this->app['config']->get('general/cookies_use_httphost')) {
-            $seed .= '-' . (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : $_SERVER['SERVER_NAME']);
+            $seed .= '-' . $this->hostName;
         }
 
         $token = substr(md5($seed), 0, 8);
@@ -539,13 +560,13 @@ class Users
     public function loginAuthtoken()
     {
         // If there's no cookie, we can't resume a session from the authtoken.
-        if (empty($_COOKIE['bolt_authtoken'])) {
+        if (empty($this->authToken)) {
             return false;
         }
 
-        $authtoken = $_COOKIE['bolt_authtoken'];
-        $remoteip = $this->remoteIP;
-        $browser = $_SERVER['HTTP_USER_AGENT'];
+        $authtoken = $this->authToken;
+        $remoteip  = $this->remoteIP;
+        $browser   = $this->userAgent;
 
         $this->deleteExpiredSessions();
 

@@ -97,7 +97,7 @@ class Async implements ControllerProviderInterface
     }
 
     /**
-     * News.
+     * News. Film at 11.
      *
      * @param \Silex\Application $app
      * @param Request            $request
@@ -234,6 +234,14 @@ class Async implements ControllerProviderInterface
         return new Response($body, Response::HTTP_OK, array('Cache-Control' => 's-maxage=3600, public'));
     }
 
+    /**
+     * Return autocomplete data for a file name.
+     *
+     * @param Silex\Application $app
+     * @param Request           $request
+     *
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
     public function filesautocomplete(Silex\Application $app, Request $request)
     {
         $term = $request->get('term');
@@ -248,15 +256,28 @@ class Async implements ControllerProviderInterface
 
     /**
      * Render a widget, and return the HTML, so it can be inserted in the page.
+     *
+     * @param string             $key
+     * @param \Silex\Application $app
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function widget($key, Silex\Application $app, Request $request)
+    public function widget($key, Silex\Application $app)
     {
         $html = $app['extensions']->renderWidget($key);
 
         return new Response($html, Response::HTTP_OK, array('Cache-Control' => 's-maxage=180, public'));
     }
 
-    public function readme($filename, Silex\Application $app, Request $request)
+    /**
+     * Render an extension's README.md file.
+     *
+     * @param string            $filename
+     * @param Silex\Application $app
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function readme($filename, Silex\Application $app)
     {
         $paths = $app['resources']->getPaths();
 
@@ -278,6 +299,14 @@ class Async implements ControllerProviderInterface
         return new Response($html, Response::HTTP_OK, array('Cache-Control' => 's-maxage=180, public'));
     }
 
+    /**
+     * Generate a URI based on request parmaeters
+     *
+     * @param Silex\Application $app
+     * @param Request           $request
+     *
+     * @return string
+     */
     public function makeuri(Silex\Application $app, Request $request)
     {
         $uri = $app['storage']->getUri(
@@ -292,6 +321,14 @@ class Async implements ControllerProviderInterface
         return $uri;
     }
 
+    /**
+     * Fetch a JSON encoded set of taxonomy specific tags.
+     *
+     * @param Silex\Application $app
+     * @param string            $taxonomytype
+     *
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
     public function tags(Silex\Application $app, $taxonomytype)
     {
         $table = $app['config']->get('general/database/prefix', 'bolt_');
@@ -311,6 +348,15 @@ class Async implements ControllerProviderInterface
         return $app->json($results);
     }
 
+    /**
+     * Fetch a JSON encoded set of the most popular taxonomy specific tags.
+     *
+     * @param Silex\Application $app
+     * @param Request           $request
+     * @param string            $taxonomytype
+     *
+     * @return integer|\Symfony\Component\HttpFoundation\JsonResponse
+     */
     public function populartags(Silex\Application $app, Request $request, $taxonomytype)
     {
         $table = $app['config']->get('general/database/prefix', 'bolt_');
@@ -343,6 +389,14 @@ class Async implements ControllerProviderInterface
         return $app->json($results);
     }
 
+    /**
+     * Perform an OmniSearch search and return the results.
+     *
+     * @param Silex\Application $app
+     * @param Request           $request
+     *
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
     public function omnisearch(Silex\Application $app, Request $request)
     {
         $query = $request->query->get('q', '');
@@ -446,16 +500,17 @@ class Async implements ControllerProviderInterface
      *
      * @param string             $contenttype
      * @param \Silex\Application $app
-     * @param Request            $request
      *
      * @return mixed
      */
-    public function filebrowser($contenttype, Silex\Application $app, Request $request)
+    public function filebrowser($contenttype, Silex\Application $app)
     {
+        $results = array();
+
         foreach ($app['storage']->getContentTypes() as $contenttype) {
             $records = $app['storage']->getContent($contenttype, array('published' => true, 'hydrate' => false));
 
-            foreach ($records as $key => $record) {
+            foreach ($records as $record) {
                 $results[$contenttype][] = array(
                     'title' => $record->gettitle(),
                     'id'    => $record->id,
@@ -523,6 +578,14 @@ class Async implements ControllerProviderInterface
         return $app['render']->render('files_async/files_async.twig', array('context' => $context));
     }
 
+    /**
+     * Add a file to the user's stack.
+     *
+     * @param string            $filename
+     * @param Silex\Application $app
+     *
+     * @return true
+     */
     public function addstack($filename, Silex\Application $app)
     {
         $app['stack']->add($filename);
@@ -530,6 +593,14 @@ class Async implements ControllerProviderInterface
         return true;
     }
 
+    /**
+     * Render a user's current stack.
+     *
+     * @param Silex\Application $app
+     * @param Request $request
+     *
+     * @return \Twig_Markup
+     */
     public function showstack(Silex\Application $app, Request $request)
     {
         $count = $request->query->get('items', 10);
@@ -703,11 +774,10 @@ class Async implements ControllerProviderInterface
      * @param string             $contenttype
      * @param integer            $contentid
      * @param \Silex\Application $app
-     * @param Request            $request
      *
      * @return string
      */
-    public function changelogRecord($contenttype, $contentid, Silex\Application $app, Request $request)
+    public function changelogRecord($contenttype, $contentid, Silex\Application $app)
     {
         $options = array(
             'contentid' => $contentid,

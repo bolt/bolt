@@ -438,11 +438,10 @@ class Backend implements ControllerProviderInterface
      * @param integer            $contentid   The content ID
      * @param integer            $id          The changelog entry ID
      * @param \Silex\Application $app         The application/container
-     * @param Request            $request     The Symfony Request
      *
      * @return \Twig_Markup|null
      */
-    public function changelogRecordSingle($contenttype, $contentid, $id, Application $app, Request $request)
+    public function changelogRecordSingle($contenttype, $contentid, $id, Application $app)
     {
         $entry = $app['logger.manager.change']->getChangelogEntry($contenttype, $contentid, $id);
         if (empty($entry)) {
@@ -741,7 +740,6 @@ class Backend implements ControllerProviderInterface
             if ($id) {
                 $content = $app['storage']->getContent($contenttype['slug'], array('id' => $id));
                 $oldStatus = $content['status'];
-                $newStatus = $content['status'];
             } else {
                 $content = $app['storage']->getContentObject($contenttypeslug);
                 $oldStatus = '';
@@ -812,11 +810,11 @@ class Backend implements ControllerProviderInterface
                 if ($app['request']->get('returnto')) {
                     $returnto = $app['request']->get('returnto');
 
-                    if ($returnto == "new") {
+                    if ($returnto === 'new') {
                         return Lib::redirect('editcontent', array('contenttypeslug' => $contenttype['slug'], 'id' => $id), '#' . $app['request']->get('returnto'));
-                    } elseif ($returnto == "saveandnew") {
+                    } elseif ($returnto == 'saveandnew') {
                         return Lib::redirect('editcontent', array('contenttypeslug' => $contenttype['slug'], 'id' => 0), '#' . $app['request']->get('returnto'));
-                    } elseif ($returnto == "ajax") {
+                    } elseif ($returnto === 'ajax') {
                         /*
                          * Flush any buffers from saveConent() dispatcher hooks
                          * and make sure our JSON output is clean.
@@ -972,6 +970,7 @@ class Backend implements ControllerProviderInterface
         }
 
         // Determine which templates will result in templatefields
+        $templateFieldTemplates = array();
         if ($templateFieldsConfig = $app['config']->get('theme/templatefields')) {
             $templateFieldTemplates = array_keys($templateFieldsConfig);
             // Special case for default template
@@ -1343,6 +1342,8 @@ class Backend implements ControllerProviderInterface
         $dbdriver = $app['config']->get('general/database/driver');
         if ($dbdriver === 'sqlite' || $dbdriver === 'pdo_sqlite') {
             $note = Trans::__('page.edit-users.note-sqlite');
+        } else {
+            $note = '';
         }
 
         // If we get here, chances are we don't have the tables set up, yet.
@@ -1371,7 +1372,7 @@ class Backend implements ControllerProviderInterface
         $context = array(
             'kind'        => 'create',
             'form'        => $form->createView(),
-            'note'        => $note ? $note : '',
+            'note'        => $note,
             'displayname' => $user['displayname'],
         );
 
@@ -1429,6 +1430,7 @@ class Backend implements ControllerProviderInterface
                     $app['mailer']->send($message);
                 } catch (\Exception $e) {
                     // Sending message failed. What else can we do, sending with snailmail?
+                    $app['logger.system']->error("The 'mailoptions' need to be set in app/config/config.yml", array('event' => 'config'));
                 }
             }
 
