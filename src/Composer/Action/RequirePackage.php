@@ -169,7 +169,7 @@ final class RequirePackage
         $removeKey = $options['dev'] ? 'require' : 'require-dev';
         $baseRequirements = array_key_exists($requireKey, $composerDefinition) ? $composerDefinition[$requireKey] : array();
 
-        if (!$this->updateFileCleanly($json, $baseRequirements, $package, $requireKey, $removeKey, $sortPackages, $postreset)) {
+        if (!$this->updateFileCleanly($json, $package, $requireKey, $removeKey, $sortPackages, $postreset)) {
             foreach ($package as $name => $version) {
                 $baseRequirements[$name] = $version;
 
@@ -189,7 +189,6 @@ final class RequirePackage
      * Cleanly update a Composer JSON file.
      *
      * @param JsonFile $json
-     * @param array    $base
      * @param array    $new
      * @param string   $requireKey
      * @param string   $removeKey
@@ -198,7 +197,7 @@ final class RequirePackage
      *
      * @return boolean
      */
-    private function updateFileCleanly(JsonFile $json, array $base, array $new, $requireKey, $removeKey, $sortPackages, $postreset)
+    private function updateFileCleanly(JsonFile $json, array $new, $requireKey, $removeKey, $sortPackages, $postreset)
     {
         $contents = file_get_contents($json->getPath());
 
