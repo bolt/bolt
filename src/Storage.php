@@ -19,30 +19,23 @@ use utilphp\util;
 class Storage
 {
     public $images;
-    /**
-     * @var Application
-     */
+
+    /** @var Application */
     private $app;
 
+    /** @var array */
     private $tables;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $prefix = "bolt_";
 
-    /**
-     * @var array
-     */
+    /** @var array */
     private $checkedfortimed = array();
 
-    /**
-     * Test to indicate if we're inside a dispatcher.
-     *
-     * @var bool
-     */
+    /** @var bool Test to indicate if we're inside a dispatcher. */
     private $inDispatcher = false;
 
+    /** @var array */
     protected static $pager = array();
 
     public function __construct(Bolt\Application $app)
@@ -215,7 +208,7 @@ class Storage
                     $key = array_rand($options);
                     $contentobject->setTaxonomy($taxonomy, $key, $options[$key], rand(1, 1000));
                 }
-                if ($this->app['config']->get('taxonomy/' . $taxonomy . '/behaves_like') == "tags") {
+                if ($this->app['config']->get('taxonomy/' . $taxonomy . '/behaves_like') == 'tags') {
                     $contentobject->setTaxonomy($taxonomy, $this->getSomeRandomTags(5));
                 }
             }
@@ -231,22 +224,29 @@ class Storage
         return $output;
     }
 
+    /**
+     * Get an array of random tags
+     *
+     * @param integer $num
+     *
+     * @return string[]
+     */
     private function getSomeRandomTags($num = 5)
     {
-        $tags = array("action", "adult", "adventure", "alpha", "animals", "animation", "anime", "architecture", "art",
-            "astronomy", "baby", "batshitinsane", "biography", "biology", "book", "books", "business", "business",
-            "camera", "cars", "cats", "cinema", "classic", "comedy", "comics", "computers", "cookbook", "cooking",
-            "crime", "culture", "dark", "design", "digital", "documentary", "dogs", "drama", "drugs", "education",
-            "environment", "evolution", "family", "fantasy", "fashion", "fiction", "film", "fitness", "food",
-            "football", "fun", "gaming", "gift", "health", "hip", "historical", "history", "horror", "humor",
-            "illustration", "inspirational", "internet", "journalism", "kids", "language", "law", "literature", "love",
-            "magic", "math", "media", "medicine", "military", "money", "movies", "mp3", "murder", "music", "mystery",
-            "news", "nonfiction", "nsfw", "paranormal", "parody", "philosophy", "photography", "photos", "physics",
-            "poetry", "politics", "post-apocalyptic", "privacy", "psychology", "radio", "relationships", "research",
-            "rock", "romance", "rpg", "satire", "science", "sciencefiction", "scifi", "security", "self-help",
-            "series", "software", "space", "spirituality", "sports", "story", "suspense", "technology", "teen",
-            "television", "terrorism", "thriller", "travel", "tv", "uk", "urban", "us", "usa", "vampire", "video",
-            "videogames", "war", "web", "women", "world", "writing", "wtf", "zombies");
+        $tags = array('action', 'adult', 'adventure', 'alpha', 'animals', 'animation', 'anime', 'architecture', 'art',
+            'astronomy', 'baby', 'batshitinsane', 'biography', 'biology', 'book', 'books', 'business', 'business',
+            'camera', 'cars', 'cats', 'cinema', 'classic', 'comedy', 'comics', 'computers', 'cookbook', 'cooking',
+            'crime', 'culture', 'dark', 'design', 'digital', 'documentary', 'dogs', 'drama', 'drugs', 'education',
+            'environment', 'evolution', 'family', 'fantasy', 'fashion', 'fiction', 'film', 'fitness', 'food',
+            'football', 'fun', 'gaming', 'gift', 'health', 'hip', 'historical', 'history', 'horror', 'humor',
+            'illustration', 'inspirational', 'internet', 'journalism', 'kids', 'language', 'law', 'literature', 'love',
+            'magic', 'math', 'media', 'medicine', 'military', 'money', 'movies', 'mp3', 'murder', 'music', 'mystery',
+            'news', 'nonfiction', 'nsfw', 'paranormal', 'parody', 'philosophy', 'photography', 'photos', 'physics',
+            'poetry', 'politics', 'post-apocalyptic', 'privacy', 'psychology', 'radio', 'relationships', 'research',
+            'rock', 'romance', 'rpg', 'satire', 'science', 'sciencefiction', 'scifi', 'security', 'self-help',
+            'series', 'software', 'space', 'spirituality', 'sports', 'story', 'suspense', 'technology', 'teen',
+            'television', 'terrorism', 'thriller', 'travel', 'tv', 'uk', 'urban', 'us', 'usa', 'vampire', 'video',
+            'videogames', 'war', 'web', 'women', 'world', 'writing', 'wtf', 'zombies');
 
         shuffle($tags);
 

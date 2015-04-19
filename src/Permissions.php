@@ -560,7 +560,7 @@ class Permissions
      */
     private function isAllowedSingle($what, $user, $userRoles, $contenttype = null, $contentid = null)
     {
-        if ($contenttype) {
+        if ($contenttype !== null) {
             $parts = array(
                         'contenttype',
                         $contenttype,
