@@ -528,7 +528,7 @@ class Storage
     private function getValidSaveData(array $fieldvalues, array $contenttype)
     {
         // Clean up fields, check unneeded columns.
-        foreach ($fieldvalues as $key => $value) {
+        foreach (array_keys($fieldvalues) as $key) {
             if ($this->isValidColumn($key, $contenttype)) {
                 if (is_string($fieldvalues[$key])) {
                     // Trim strings
@@ -2188,9 +2188,9 @@ class Storage
     {
         $grouping = false;
         $taxonomy = $this->getContentTypeTaxonomy($contenttypeslug);
-        foreach ($taxonomy as $taxokey => $taxo) {
-            if ($taxo['behaves_like'] == "grouping") {
-                $grouping = $taxo['slug'];
+        foreach ($taxonomy as $tax) {
+            if ($tax['behaves_like'] === 'grouping') {
+                $grouping = $tax['slug'];
                 break;
             }
         }
