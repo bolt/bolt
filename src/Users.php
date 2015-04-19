@@ -19,6 +19,7 @@ class Users
     const ADMIN = 4;
     const DEVELOPER = 6;
 
+    /** @var \Doctrine\DBAL\Connection */
     public $db;
     public $config;
     public $usertable;
@@ -27,7 +28,18 @@ class Users
     public $session;
     public $currentuser;
     public $allowed;
+
+    /** @var \Silex\Application $app */
+    private $app;
+
+    /** @var integer */
     private $hashStrength;
+
+    /** @var string */
+    private $remoteIP;
+
+    /** @var boolean */
+    private $validsession;
 
     /**
      * @param \Silex\Application $app
