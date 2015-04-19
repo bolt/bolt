@@ -3,7 +3,6 @@
 namespace Bolt\Database;
 
 use Bolt\Application;
-use Bolt\Configuration\ResourceManager;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
 use Doctrine\DBAL\Platforms\SqlitePlatform;
@@ -36,7 +35,7 @@ class IntegrityChecker
     protected $extension_table_generators = array();
 
     /** @var string */
-    public static $integrityCachePath;
+    protected $integrityCachePath;
 
     const INTEGRITY_CHECK_INTERVAL    = 1800; // max. validity of a database integrity check, in seconds
     const INTEGRITY_CHECK_TS_FILENAME = 'dbcheck_ts'; // filename for the check timestamp file
@@ -65,7 +64,7 @@ class IntegrityChecker
 
         $this->tables = null;
 
-        self::$integrityCachePath = $this->app['resources']->getPath('cache');
+        $this->integrityCachePath = $this->app['resources']->getPath('cache');
     }
 
     /**
@@ -73,36 +72,33 @@ class IntegrityChecker
      *
      * @return string
      */
-    private static function getValidityTimestampFilename()
+    private function getValidityTimestampFilename()
     {
-        // If 'invalidate()' was called statically, we don't have the
-        // $integrityCachePath yet, so we set it here.
-        if (empty(self::$integrityCachePath)) {
-            $app = ResourceManager::getApp();
-            self::$integrityCachePath = $app['resources']->getPath('cache');
+        if (empty($this->integrityCachePath)) {
+            $this->integrityCachePath = $this->app['resources']->getPath('cache');;
         }
 
-        return self::$integrityCachePath . '/' . self::INTEGRITY_CHECK_TS_FILENAME;
+        return $this->integrityCachePath . '/' . self::INTEGRITY_CHECK_TS_FILENAME;
     }
 
     /**
      * Invalidate our database check by removing the timestamp file from cache.
      *
-     * @param Application $app
-     *
      * @return void
      */
-    public static function invalidate(Application $app)
+    public function invalidate()
     {
+        $fileName = $this->getValidityTimestampFilename();
+
         // delete the cached dbcheck-ts
-        if (is_writable(self::getValidityTimestampFilename())) {
-            unlink(self::getValidityTimestampFilename());
-        } elseif (file_exists(self::getValidityTimestampFilename())) {
+        if (is_writable($fileName)) {
+            unlink($fileName);
+        } elseif (file_exists($fileName)) {
             $message = sprintf(
                 "The file '%s' exists, but couldn't be removed. Please remove this file manually, and try again.",
-                self::getValidityTimestampFilename()
+                $fileName
             );
-            $app->abort(Response::HTTP_UNAUTHORIZED, $message);
+            $this->app->abort(Response::HTTP_UNAUTHORIZED, $message);
         }
     }
 
@@ -112,10 +108,10 @@ class IntegrityChecker
      *
      * @return void
      */
-    public static function markValid()
+    public function markValid()
     {
         $timestamp = time();
-        file_put_contents(self::getValidityTimestampFilename(), $timestamp);
+        file_put_contents($this->getValidityTimestampFilename(), $timestamp);
     }
 
     /**
@@ -124,10 +120,10 @@ class IntegrityChecker
      *
      * @return boolean
      */
-    public static function isValid()
+    public function isValid()
     {
-        if (is_readable(self::getValidityTimestampFilename())) {
-            $validityTS = intval(file_get_contents(self::getValidityTimestampFilename()));
+        if (is_readable($this->getValidityTimestampFilename())) {
+            $validityTS = intval(file_get_contents($this->getValidityTimestampFilename()));
         } else {
             $validityTS = 0;
         }
@@ -251,7 +247,7 @@ class IntegrityChecker
         // If there were no messages, update the timer, so we don't check it again.
         // If there _are_ messages, keep checking until it's fixed.
         if (empty($messages)) {
-            self::markValid();
+            $this->markValid();
         }
 
         // If we were passed in a debug logger, log the diffs
@@ -272,7 +268,7 @@ class IntegrityChecker
      */
     public function needsCheck()
     {
-        return !self::isValid();
+        return !$this->isValid();
     }
 
     /**

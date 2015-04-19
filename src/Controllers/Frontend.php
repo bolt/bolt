@@ -44,7 +44,6 @@ class Frontend
         // If there are no users in the users table, or the table doesn't exist. Repair
         // the DB, and let's add a new user.
         if (!$app['users']->getUsers()) {
-            //!$app['storage']->getIntegrityChecker()->checkUserTableIntegrity() ||
             $app['session']->getFlashBag()->add('info', Trans::__('There are no users in the database. Please create the first user.'));
 
             return Lib::redirect('useredit', array('id' => ''));
@@ -54,7 +53,6 @@ class Frontend
         $app['htmlsnippets'] = true;
 
         // If we are in maintenance mode and current user is not logged in, show maintenance notice.
-        // @see /app/app.php, $app->error()
         if ($app['config']->get('general/maintenance_mode')) {
             if (!$app['users']->isAllowed('maintenance-mode')) {
                 $template = $app['templatechooser']->maintenance();
