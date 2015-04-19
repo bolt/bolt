@@ -1562,10 +1562,12 @@ class Storage
      */
     private function runContenttypeChecks(array $contenttypes)
     {
+        $checkedcontenttype = array();
+
         foreach ($contenttypes as $contenttypeslug) {
 
             // Make sure we do this only once per contenttype
-            if (isset($this->app->checkedcontenttype[$contenttypeslug])) {
+            if (isset($checkedcontenttype[$contenttypeslug])) {
                 continue;
             }
 
@@ -1582,7 +1584,7 @@ class Storage
             $this->depublishExpiredRecords($contenttype);
 
             // "mark" this one as checked.
-            $this->app->checkedcontenttype[$contenttypeslug] = true;
+            $checkedcontenttype[$contenttypeslug] = true;
         }
 
         return true;
