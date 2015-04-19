@@ -51,35 +51,6 @@ class IntegrityChecker
     }
 
     /**
-     * Default value for TEXT fields, differs per platform.
-     *
-     * @return string|null
-     */
-    private function getTextDefault()
-    {
-        $platform = $this->app['db']->getDatabasePlatform();
-        if ($platform instanceof SqlitePlatform || $platform instanceof PostgreSqlPlatform) {
-            return '';
-        }
-
-        return null;
-    }
-
-    /**
-     * Get the 'validity' timestamp's file name.
-     *
-     * @return string
-     */
-    private function getValidityTimestampFilename()
-    {
-        if (empty($this->integrityCachePath)) {
-            $this->integrityCachePath = $this->app['resources']->getPath('cache');;
-        }
-
-        return $this->integrityCachePath . '/' . self::INTEGRITY_CHECK_TS_FILENAME;
-    }
-
-    /**
      * Invalidate our database check by removing the timestamp file from cache.
      *
      * @return void
@@ -702,5 +673,34 @@ class IntegrityChecker
         }
 
         return $this->prefix;
+    }
+
+    /**
+     * Default value for TEXT fields, differs per platform.
+     *
+     * @return string|null
+     */
+    private function getTextDefault()
+    {
+        $platform = $this->app['db']->getDatabasePlatform();
+        if ($platform instanceof SqlitePlatform || $platform instanceof PostgreSqlPlatform) {
+            return '';
+        }
+
+        return null;
+    }
+
+    /**
+     * Get the 'validity' timestamp's file name.
+     *
+     * @return string
+     */
+    private function getValidityTimestampFilename()
+    {
+        if (empty($this->integrityCachePath)) {
+            $this->integrityCachePath = $this->app['resources']->getPath('cache');;
+        }
+
+        return $this->integrityCachePath . '/' . self::INTEGRITY_CHECK_TS_FILENAME;
     }
 }
