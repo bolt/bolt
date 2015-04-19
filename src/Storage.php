@@ -1121,6 +1121,8 @@ class Storage
      *
      * This is tightly coupled to $this->getContent()
      *
+     * @param array|string|null $inParameters
+     *
      * @see $this->decodeContentQuery()
      */
     private function organizeQueryParameters($inParameters = null)
