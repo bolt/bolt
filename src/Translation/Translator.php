@@ -99,7 +99,7 @@ class Translator
     {
         $key = 'contenttypes.' . $contenttype . '.name.' . ($singular ? 'singular' : 'plural');
 
-        $name = static::trans($key, array(), 'contenttypes', $locale);
+        $name = self::trans($key, array(), 'contenttypes', $locale);
         if ($name === $key) {
             $app = ResourceManager::getApp();
 
@@ -133,12 +133,12 @@ class Translator
     private static function transContenttype($genericKey, array $params, $id, $singular, $locale)
     {
         $contenttype = $params[$id];
-        $encParams = static::htmlencodeParams($params, $id);
+        $encParams = self::htmlencodeParams($params, $id);
         $key = 'contenttypes.' . $contenttype . '.text.' . substr($genericKey, 21);
 
         // Try to get a real translation from contenttypes.xx_XX.yml
-        $trans = static::trans($key, $encParams, 'contenttypes', $locale, false);
-        $transFallback = static::trans($key, $encParams, 'contenttypes', Application::DEFAULT_LOCALE, false);
+        $trans = self::trans($key, $encParams, 'contenttypes', $locale, false);
+        $transFallback = self::trans($key, $encParams, 'contenttypes', Application::DEFAULT_LOCALE, false);
 
         // We don't want fallback translation here
         if ($trans === $transFallback) {
@@ -148,18 +148,18 @@ class Translator
         // No translation found, build string from generic translation pattern
         if ($trans === false) {
             // Get generic translation with name replaced
-            $encParams[$id] = static::transContenttypeName($contenttype, $singular, $locale);
-            $transGeneric = static::trans($genericKey, $encParams, 'messages', $locale, false);
+            $encParams[$id] = self::transContenttypeName($contenttype, $singular, $locale);
+            $transGeneric = self::trans($genericKey, $encParams, 'messages', $locale, false);
         } else {
             $transGeneric = false;
         }
 
         // Return: translation => generic translation => fallback translation => key
-        if ($trans) {
+        if ($trans !== false) {
             return $trans;
-        } elseif ($transGeneric) {
+        } elseif ($transGeneric !== false) {
             return $transGeneric;
-        } elseif ($transFallback) {
+        } elseif ($transFallback !== false) {
             return $transFallback;
         } else {
             return $genericKey;
@@ -204,9 +204,9 @@ class Translator
             // Generic contenttypes
             if (substr($key, 13, 8) == 'generic.') {
                 if (isset($params['%contenttype%'])) {
-                    return static::transContenttype($key, $params, '%contenttype%', true, $locale);
+                    return self::transContenttype($key, $params, '%contenttype%', true, $locale);
                 } elseif (isset($params['%contenttypes%'])) {
-                    return static::transContenttype($key, $params, '%contenttypes%', false, $locale);
+                    return self::transContenttype($key, $params, '%contenttypes%', false, $locale);
                 }
             // Switch domain
             } elseif ($domain === 'messages') {
@@ -214,6 +214,6 @@ class Translator
             }
         }
 
-        return static::trans($key, static::htmlencodeParams($params), $domain, $locale);
+        return self::trans($key, self::htmlencodeParams($params), $domain, $locale);
     }
 }
