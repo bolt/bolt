@@ -741,7 +741,6 @@ class Backend implements ControllerProviderInterface
             if ($id) {
                 $content = $app['storage']->getContent($contenttype['slug'], array('id' => $id));
                 $oldStatus = $content['status'];
-                $newStatus = $content['status'];
             } else {
                 $content = $app['storage']->getContentObject($contenttypeslug);
                 $oldStatus = '';
