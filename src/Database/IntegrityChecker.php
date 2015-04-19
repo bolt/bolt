@@ -25,9 +25,6 @@ class IntegrityChecker
     /** @var string */
     private $prefix;
 
-    /** @var string|null Default value for TEXT fields, differs per platform. */
-    private $textDefault = null;
-
     /** @var \Doctrine\DBAL\Schema\Table[] Current tables. */
     private $tables;
 
@@ -57,14 +54,22 @@ class IntegrityChecker
         // Check the table integrity only once per hour, per session. (since it's pretty time-consuming.
         $this->checktimer = 3600;
 
+        $this->integrityCachePath = $this->app['resources']->getPath('cache');
+    }
+
+    /**
+     * Default value for TEXT fields, differs per platform.
+     *
+     * @return string|null
+     */
+    private function getTextDefault()
+    {
         $platform = $this->app['db']->getDatabasePlatform();
         if ($platform instanceof SqlitePlatform || $platform instanceof PostgreSqlPlatform) {
-            $this->textDefault = '';
+            return '';
         }
 
-        $this->tables = null;
-
-        $this->integrityCachePath = $this->app['resources']->getPath('cache');
+        return null;
     }
 
     /**
@@ -628,7 +633,7 @@ class IntegrityChecker
                     case 'filelist':
                     case 'imagelist':
                     case 'select':
-                        $myTable->addColumn($field, 'text', array('default' => $this->textDefault));
+                        $myTable->addColumn($field, 'text', array('default' => $this->getTextDefault()));
                         break;
                     case 'datetime':
                         $myTable->addColumn($field, 'datetime', array('notnull' => false));
