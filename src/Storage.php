@@ -1738,7 +1738,7 @@ class Storage
      * @param array  $pager
      * @param array  $whereparameters
      *
-     * @return Content
+     * @return array
      */
     public function getContent($textquery, $parameters = '', &$pager = array(), $whereparameters = array())
     {
