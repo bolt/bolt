@@ -681,7 +681,7 @@ class Users
             $message = $this->app['mailer']
                 ->createMessage('message')
                 ->setSubject($subject)
-                ->setFrom(array($this->app['config']->get('general/mailoptions/senderMail', $user['email']) => $this->app['config']->get('general/mailoptions/senderName', 'Bolt')))
+                ->setFrom(array($this->app['config']->get('general/mailoptions/senderMail', $user['email']) => $this->app['config']->get('general/mailoptions/senderName', $this->app['config']->get('general/sitename'))))
                 ->setTo(array($user['email'] => $user['displayname']))
                 ->setBody(strip_tags($mailhtml))
                 ->addPart($mailhtml, 'text/html');
