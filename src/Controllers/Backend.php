@@ -970,6 +970,7 @@ class Backend implements ControllerProviderInterface
         }
 
         // Determine which templates will result in templatefields
+        $templateFieldTemplates = array();
         if ($templateFieldsConfig = $app['config']->get('theme/templatefields')) {
             $templateFieldTemplates = array_keys($templateFieldsConfig);
             // Special case for default template
@@ -1341,6 +1342,8 @@ class Backend implements ControllerProviderInterface
         $dbdriver = $app['config']->get('general/database/driver');
         if ($dbdriver === 'sqlite' || $dbdriver === 'pdo_sqlite') {
             $note = Trans::__('page.edit-users.note-sqlite');
+        } else {
+            $note = '';
         }
 
         // If we get here, chances are we don't have the tables set up, yet.
@@ -1369,7 +1372,7 @@ class Backend implements ControllerProviderInterface
         $context = array(
             'kind'        => 'create',
             'form'        => $form->createView(),
-            'note'        => $note ? $note : '',
+            'note'        => $note,
             'displayname' => $user['displayname'],
         );
 
