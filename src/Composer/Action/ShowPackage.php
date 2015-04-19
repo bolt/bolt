@@ -59,7 +59,7 @@ final class ShowPackage
 
         $this->versionParser = new VersionParser();
 
-        // init repos
+        // Init repos
         $platformRepo = new PlatformRepository();
 
         if ($type === 'self') {
@@ -165,13 +165,13 @@ final class ShowPackage
         $versions = array();
         $matches = $pool->whatProvides($name, $constraint);
         foreach ($matches as $index => $package) {
-            // skip providers/replacers
+            // Skip providers/replacers
             if ($package->getName() !== $name) {
                 unset($matches[$index]);
                 continue;
             }
 
-            // select an exact match if it is in the installed repo and no specific version was required
+            // Select an exact match if it is in the installed repo and no specific version was required
             if (null === $version && $installedRepo->hasPackage($package)) {
                 $matchedPackage = $package;
             }
@@ -180,7 +180,7 @@ final class ShowPackage
             $matches[$index] = $package->getId();
         }
 
-        // select prefered package according to policy rules
+        // Select prefered package according to policy rules
         if (!$matchedPackage && !empty($matches) && $prefered = $policy->selectPreferredPackages($pool, array(), $matches)) {
             $matchedPackage = $pool->literalToPackage($prefered[0]);
         }
