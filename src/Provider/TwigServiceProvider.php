@@ -21,6 +21,7 @@ class TwigServiceProvider extends \Silex\Provider\TwigServiceProvider
         // Handlers
         $app['twig.handlers'] = $app->share(function (Application $app) {
             return new \Pimple(array(
+                // @codingStandardsIgnoreStart
                 'admin'  => $app->share(function () use ($app) { return new AdminHandler($app); }),
                 'array'  => $app->share(function () use ($app) { return new ArrayHandler($app); }),
                 'html'   => $app->share(function () use ($app) { return new HtmlHandler($app); }),
@@ -29,6 +30,7 @@ class TwigServiceProvider extends \Silex\Provider\TwigServiceProvider
                 'text'   => $app->share(function () use ($app) { return new TextHandler($app); }),
                 'user'   => $app->share(function () use ($app) { return new UserHandler($app); }),
                 'utils'  => $app->share(function () use ($app) { return new UtilsHandler($app); }),
+                // @codingStandardsIgnoreEnd
             ));
         });
 
