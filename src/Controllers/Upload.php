@@ -168,6 +168,7 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
             if ($result instanceof File) {
                 $successfulFiles = array($result->name);
             } elseif ($result instanceof Collection) {
+                $successfulFiles = array();
                 foreach ($result as $resultFile) {
                     $successfulFiles[] = array(
                         'url'  => $namespace . '/' . $resultFile->name,
