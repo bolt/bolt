@@ -505,10 +505,12 @@ class Async implements ControllerProviderInterface
      */
     public function filebrowser($contenttype, Silex\Application $app)
     {
+        $results = array();
+
         foreach ($app['storage']->getContentTypes() as $contenttype) {
             $records = $app['storage']->getContent($contenttype, array('published' => true, 'hydrate' => false));
 
-            foreach ($records as $key => $record) {
+            foreach ($records as $record) {
                 $results[$contenttype][] = array(
                     'title' => $record->gettitle(),
                     'id'    => $record->id,
