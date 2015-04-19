@@ -255,6 +255,8 @@ liveeditor: true
 #     port: 25
 #     encryption: null
 #     auth_mode: null
+#     senderMail: null
+#     senderName: null
 
 # mailoptions:
 #     transport: mail
