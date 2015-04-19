@@ -46,8 +46,6 @@ class IntegrityChecker
 
         // Check the table integrity only once per hour, per session. (since it's pretty time-consuming.
         $this->checktimer = 3600;
-
-        $this->integrityCachePath = $this->app['resources']->getPath('cache');
     }
 
     /**
@@ -698,7 +696,7 @@ class IntegrityChecker
     private function getValidityTimestampFilename()
     {
         if (empty($this->integrityCachePath)) {
-            $this->integrityCachePath = $this->app['resources']->getPath('cache');;
+            $this->integrityCachePath = $this->app['resources']->getPath('cache');
         }
 
         return $this->integrityCachePath . '/' . self::INTEGRITY_CHECK_TS_FILENAME;
