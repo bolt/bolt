@@ -65,7 +65,7 @@ class UtilsHandler
      *
      * @return string|null
      */
-    public function printBacktrace($depth = 15, $safe)
+    public function printBacktrace($depth, $safe)
     {
         if ($safe || !$this->app['debug']) {
             return null;
@@ -100,7 +100,7 @@ class UtilsHandler
      *
      * @return string FirePHP formatted string
      */
-    public function printFirebug($var, $msg = '', $safe)
+    public function printFirebug($var, $msg, $safe)
     {
         if ($safe) {
             return null;
@@ -147,7 +147,7 @@ class UtilsHandler
      *
      * @return mixed
      */
-    public function request($parameter, $from = '', $stripslashes = false, $safe)
+    public function request($parameter, $from, $stripslashes, $safe)
     {
         // Don't expose request in safe context
         if ($safe) {
