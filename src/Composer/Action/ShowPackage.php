@@ -187,7 +187,7 @@ final class ShowPackage
             }
 
             // Select an exact match if it is in the installed repo and no specific version was required.
-            if (null === $version && $installedRepo->hasPackage($package)) {
+            if ($version === null && $installedRepo->hasPackage($package)) {
                 $matchedPackage = $package;
             }
 
