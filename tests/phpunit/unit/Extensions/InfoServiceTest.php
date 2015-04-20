@@ -11,30 +11,35 @@ use Bolt\Tests\BoltUnitTest;
  */
 class InfoServiceTest extends BoltUnitTest
 {
-    public function testPackageInfo()
+    public function testPackageInfoValid()
     {
         $app = $this->getApp();
-        $service = new ExtensionsInfoService($app['extend.site'], $app['extend.urls']);
-        $service->setFormat('raw');
+        $service = new ExtensionsInfoService($app['guzzle.client'], $app['extend.site'], $app['extend.urls'], $app['deprecated.php']);
 
-        $response = $service->info("mytest", '2.0.0');
-        $this->assertEquals($app['extend.site'].'info.json?package=mytest&bolt=2.0.0', $response);
+        $response = $service->info('gawain/clippy', '2.0.0');
+        $this->assertObjectHasAttribute('package', $response);
+        $this->assertObjectHasAttribute('version', $response);
+    }
+
+    public function testPackageInfoInvalid()
+    {
+        $app = $this->getApp();
+        $service = new ExtensionsInfoService($app['guzzle.client'], $app['extend.site'], $app['extend.urls'], $app['deprecated.php']);
+
+        $response = $service->info('rossriley/mytest', '2.0.0');
+        $this->assertObjectHasAttribute('package', $response);
+        $this->assertObjectHasAttribute('version', $response);
+        $this->assertFalse($response->package);
+        $this->assertFalse($response->version);
     }
 
     public function testInfoList()
     {
         $app = $this->getApp();
-        $service = new ExtensionsInfoService($app['extend.site'], $app['extend.urls']);
-        $service->setFormat('raw');
+        $service = new ExtensionsInfoService($app['guzzle.client'], $app['extend.site'], $app['extend.urls'], $app['deprecated.php']);
 
         $response = $service->all();
-        $this->assertEquals($app['extend.site'].'list.json', $response);
+        $this->assertObjectHasAttribute('packages', $response);
+        $this->assertNotCount(0, $response->packages);
     }
-}
-
-namespace Bolt\Extensions;
-
-function file_get_contents($url)
-{
-    return $url;
 }
