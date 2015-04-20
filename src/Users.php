@@ -883,11 +883,6 @@ class Users
      */
     public function getUser($id)
     {
-        // Make sure we've fetched the users.
-        if (empty($this->users)) {
-            $this->getUsers();
-        }
-
         // Determine lookup type
         if (is_numeric($id)) {
             $key = 'id';
@@ -899,10 +894,26 @@ class Users
             }
         }
 
-        foreach ($this->users as $user) {
-            if ($user[$key] == $id) {
-                return $user;
+        /** @var \Doctrine\DBAL\Query\QueryBuilder $queryBuilder */
+        $queryBuilder = $this->app['db']->createQueryBuilder()
+                        ->select('*')
+                        ->from($this->usertable)
+                        ->where($key . ' = ?')
+                        ->setParameter(0, $id);
+
+        $user = $queryBuilder->execute()->fetch();
+
+        if(!empty($user)) {
+            $user['password'] = '**dontchange**';
+            $user['roles'] = json_decode($user['roles']);
+            if (!is_array($user['roles'])) {
+                $user['roles'] = array();
             }
+            // add "everyone" role to, uhm, well, everyone.
+            $user['roles'][] = Permissions::ROLE_EVERYONE;
+            $user['roles'] = array_unique($user['roles']);
+
+            return $user;
         }
 
         return false;
