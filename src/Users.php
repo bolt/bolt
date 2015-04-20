@@ -903,7 +903,7 @@ class Users
 
         $user = $queryBuilder->execute()->fetch();
 
-        if(!empty($user)) {
+        if (!empty($user)) {
             $user['password'] = '**dontchange**';
             $user['roles'] = json_decode($user['roles']);
             if (!is_array($user['roles'])) {
