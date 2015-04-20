@@ -100,7 +100,7 @@ class Storage
         $emptyOnly = empty($contenttypes);
 
         foreach ($this->app['config']->get('contenttypes') as $key => $contenttype) {
-            $tablename = $this->getTablename($key);
+            $tablename = $this->getContenttypeTablename($contenttype);
             if ($emptyOnly && $this->hasRecords($tablename)) {
                 $output .= Trans::__('Skipped <tt>%key%</tt> (already has records)', array('%key%' => $key)) . "<br>\n";
                 continue;
@@ -414,7 +414,7 @@ class Storage
         }
 
         // Get the old content record
-        $tablename = $this->getTablename($contenttype);
+        $tablename = $this->getContenttypeTablename($contenttype);
         $oldContent = $this->findContent($tablename, $id);
 
         // Dispatch pre-delete event
@@ -453,7 +453,7 @@ class Storage
      */
     protected function insertContent(Content $content, $comment = null)
     {
-        $tablename = $this->getTablename($content->contenttype['slug']);
+        $tablename = $this->getContenttypeTablename($content->contenttype);
 
         // Set creation and update dates
         $content->setValue('datecreated', date('Y-m-d H:i:s'));
@@ -494,7 +494,7 @@ class Storage
      */
     private function updateContent(Bolt\Content $content, $comment = null)
     {
-        $tablename = $this->getTablename($content->contenttype['slug']);
+        $tablename = $this->getContenttypeTablename($content->contenttype);
 
         // Set the date the record was changed
         $content->setValue('datechanged', date('Y-m-d H:i:s'));
@@ -638,7 +638,7 @@ class Storage
         // This could be even more configurable
         // (see also Content->getFieldWeights)
         $searchableTypes = array('text', 'textarea', 'html', 'markdown');
-        $table = $this->getTablename($contenttype);
+        $table = $this->getContenttypeTablename($contenttype);
 
         // Build fields 'WHERE'
         $fieldsWhere = array();
@@ -849,7 +849,7 @@ class Storage
     public function searchContentType($contenttypename, array $parameters = array(), &$pager = array())
     {
         $where = array();
-        $tablename = $this->getTablename($contenttypename);
+        $tablename = $this->getContenttypeTablename($contenttypename);
 
         $contenttype = $this->app['config']->get('contenttypes/' . $contenttypename);
 
@@ -1054,7 +1054,7 @@ class Storage
         }
 
         $this->checkedfortimed["publish-" . $contenttype['slug']] = true;
-        $tablename = $this->getTablename($contenttype['slug']);
+        $tablename = $this->getContenttypeTablename($contenttype);
 
         try {
             // Check if there are any records that need publishing.
@@ -1092,7 +1092,7 @@ class Storage
         }
 
         $this->checkedfortimed["depublish-" . $contenttype['slug']] = true;
-        $tablename = $this->getTablename($contenttype['slug']);
+        $tablename = $this->getContenttypeTablename($contenttype);
 
         try {
 
@@ -1397,7 +1397,7 @@ class Storage
         // for all the non-reserved parameters that are fields or taxonomies, we assume people want to do a 'where'
         foreach ($ctypeParameters as $contenttypeslug => $actualParameters) {
             $contenttype = $this->getContentType($contenttypeslug);
-            $tablename = $this->getTablename($contenttype['slug']);
+            $tablename = $this->getContenttypeTablename($contenttype);
             $where = array();
             $order = array();
 
@@ -1573,7 +1573,7 @@ class Storage
             }
 
             $contenttype = $this->getContentType($contenttypeslug);
-            $tablename = $this->getTablename($contenttype['slug']);
+            $tablename = $this->getContenttypeTablename($contenttype);
 
             // If the table doesn't exist (yet), return false.
             if (!$this->tableExists($tablename)) {
@@ -2561,7 +2561,7 @@ class Storage
 
     public function getLatestId($contenttypeslug)
     {
-        $tablename = $this->getTablename($contenttypeslug);
+        $tablename = $this->getContenttypeTablename($contenttypeslug);
 
         // Get the current values from the DB.
         $query = sprintf(
@@ -2592,7 +2592,7 @@ class Storage
     public function getUri($title, $id = 0, $contenttypeslug = "", $fulluri = true, $allowempty = true, $slugfield = 'slug')
     {
         $contenttype = $this->getContentType($contenttypeslug);
-        $tablename = $this->getTablename($contenttype['slug']);
+        $tablename = $this->getContenttypeTablename($contenttype);
         $id = intval($id);
         $slug = $this->app['slugify']->slugify($title);
 
@@ -2696,11 +2696,11 @@ class Storage
     }
 
     /**
-     * Get the tablename with prefix from a given $name.
+     * Get the table name with prefix from a given $name.
      *
-     * @param $name
+     * @param string $name
      *
-     * @return mixed
+     * @return string
      */
     public function getTablename($name)
     {
@@ -2712,6 +2712,22 @@ class Storage
         $tablename = sprintf('%s%s', $this->prefix, $name);
 
         return $tablename;
+    }
+
+    /**
+     * Get the tablename with prefix from a given Contenttype.
+     *
+     * @param string|array $contenttype
+     *
+     * @return string
+     */
+    public function getContenttypeTablename($contenttype)
+    {
+        if (is_string($contenttype)) {
+            $contenttype = $this->getContentType($contenttype);
+        }
+
+        return $this->getTablename($contenttype['tablename']);
     }
 
     protected function hasRecords($tablename)

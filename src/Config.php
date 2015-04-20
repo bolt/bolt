@@ -440,7 +440,7 @@ class Config
         if (!isset($contentType['tablename'])) {
             $contentType['tablename'] = $contentType['slug'];
         } else {
-            $contentType['tablename'] = Slugify::create()->slugify($contentType['slug']);
+            $contentType['tablename'] = Slugify::create()->slugify($contentType['tablename']);
         }
 
         list($fields, $groups) = $this->parseFieldsAndGroups($contentType['fields'], $generalConfig);

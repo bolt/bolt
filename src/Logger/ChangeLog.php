@@ -97,7 +97,7 @@ class ChangeLog
         }
 
         // Build base query
-        $contentTablename = $this->app['storage']->getTablename($contenttype);
+        $contentTablename = $this->app['storage']->getContenttypeTablename($contenttype);
         $query = $this->app['db']->createQueryBuilder()
                         ->select('log.*, log.title')
                         ->from($this->table_change, 'log')
