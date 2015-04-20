@@ -69,11 +69,13 @@ final class ShowPackage
                 break;
 
             case 'platform':
-                $repos = $installedRepo = $platformRepo;
+                $repos = $platformRepo;
+                $installedRepo = $platformRepo;
                 break;
 
             case 'installed':
-                $repos = $installedRepo = $composer->getRepositoryManager()->getLocalRepository();
+                $repos = $composer->getRepositoryManager()->getLocalRepository();
+                $installedRepo = $repos;
                 break;
 
             case 'available':
