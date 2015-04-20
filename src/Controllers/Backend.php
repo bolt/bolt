@@ -1422,7 +1422,7 @@ class Backend implements ControllerProviderInterface
                     $message = $app['mailer']
                         ->createMessage('message')
                         ->setSubject(Trans::__('New Bolt site has been set up'))
-                        ->setFrom(array($user['email'] => 'Bolt'))
+                        ->setFrom(array($app['config']->get('general/mailoptions/senderMail', $user['email']) => $app['config']->get('general/mailoptions/senderName', $app['config']->get('general/sitename'))))
                         ->setTo(array($user['email']   => $user['displayname']))
                         ->setBody(strip_tags($mailhtml))
                         ->addPart($mailhtml, 'text/html');
