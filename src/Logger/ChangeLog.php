@@ -92,12 +92,12 @@ class ChangeLog
      */
     public function getChangelogByContentType($contenttype, array $options)
     {
-        if (is_array($contenttype)) {
-            $contenttype = $contenttype['slug'];
+        if (!is_array($contenttype)) {
+            $contenttype = $this->app['storage']->getContentType($contenttype);
         }
 
         // Build base query
-        $contentTablename = $this->app['storage']->getTablename($contenttype);
+        $contentTablename = $this->app['storage']->getTablename($contenttype['tablename']);
         $query = $this->app['db']->createQueryBuilder()
                         ->select('log.*, log.title')
                         ->from($this->table_change, 'log')
