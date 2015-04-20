@@ -167,7 +167,8 @@ final class ShowPackage
     {
         $name = strtolower($name);
         $constraint = null;
-        if ($version) {
+
+        if ($version !== null) {
             $constraint = $this->versionParser->parseConstraints($version);
         }
 
@@ -196,7 +197,7 @@ final class ShowPackage
 
         // Select prefered package according to policy rules.
         if (!$matchedPackage
-            && !empty($matches) 
+            && !empty($matches)
             && $prefered = $policy->selectPreferredPackages($pool, array(), $matches)
         ) {
             $matchedPackage = $pool->literalToPackage($prefered[0]);
