@@ -157,7 +157,7 @@ final class ShowPackage
      * @param RepositoryInterface $installedRepo
      * @param RepositoryInterface $repos
      * @param string              $name
-     * @param string              $version
+     * @param string|null         $version
      *
      * @throws \InvalidArgumentException
      *
