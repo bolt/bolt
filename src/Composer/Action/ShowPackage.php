@@ -62,31 +62,42 @@ final class ShowPackage
         // Init repos
         $platformRepo = new PlatformRepository();
 
-        if ($type === 'self') {
-            $package = $composer->getPackage();
-            $repos = $installedRepo = new ArrayRepository(array($package));
-        } elseif ($type === 'platform') {
-            $repos = $installedRepo = $platformRepo;
-        } elseif ($type === 'installed') {
-            $repos = $installedRepo = $composer->getRepositoryManager()->getLocalRepository();
-        } elseif ($type === 'available') {
-            $installedRepo = $platformRepo;
-            if ($composer) {
-                $repos = new CompositeRepository($composer->getRepositoryManager()->getRepositories());
-            } else {
-                // No composer.json found in the current directory, showing available packages from default repos
-                $defaultRepos = Factory::createDefaultRepositories($io);
-                $repos = new CompositeRepository($defaultRepos);
-            }
-        } elseif ($composer) {
-            $localRepo = $composer->getRepositoryManager()->getLocalRepository();
-            $installedRepo = new CompositeRepository(array($localRepo, $platformRepo));
-            $repos = new CompositeRepository(array_merge(array($installedRepo), $composer->getRepositoryManager()->getRepositories()));
-        } else {
-            // No composer.json found in the current directory, showing available packages from default repos
-            $defaultRepos = Factory::createDefaultRepositories($io);
-            $installedRepo = $platformRepo;
-            $repos = new CompositeRepository(array_merge(array($installedRepo), $defaultRepos));
+        switch ($type) {
+            case 'self':
+                $package = $composer->getPackage();
+                $repos = $installedRepo = new ArrayRepository(array($package));
+                break;
+
+            case 'platform':
+                $repos = $installedRepo = $platformRepo;
+                break;
+
+            case 'installed':
+                $repos = $installedRepo = $composer->getRepositoryManager()->getLocalRepository();
+                break;
+
+            case 'available':
+                $installedRepo = $platformRepo;
+                if ($composer) {
+                    $repos = new CompositeRepository($composer->getRepositoryManager()->getRepositories());
+                } else {
+                    // No composer.json found in the current directory, showing available packages from default repos
+                    $defaultRepos = Factory::createDefaultRepositories($io);
+                    $repos = new CompositeRepository($defaultRepos);
+                }
+                break;
+
+            default:
+                if ($composer) {
+                    $localRepo = $composer->getRepositoryManager()->getLocalRepository();
+                    $installedRepo = new CompositeRepository(array($localRepo, $platformRepo));
+                    $repos = new CompositeRepository(array_merge(array($installedRepo), $composer->getRepositoryManager()->getRepositories()));
+                } else {
+                    // No composer.json found in the current directory, showing available packages from default repos
+                    $defaultRepos = Factory::createDefaultRepositories($io);
+                    $installedRepo = $platformRepo;
+                    $repos = new CompositeRepository(array_merge(array($installedRepo), $defaultRepos));
+                }
         }
 
         // Single package or single version
