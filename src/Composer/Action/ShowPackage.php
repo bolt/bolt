@@ -39,6 +39,8 @@ final class ShowPackage
     }
 
     /**
+     * Retrieves detailed information about a package, or lists all packages available.
+     *
      * @param string  $type    Repository type, either: 'self', 'platform', 'installed' or 'available'
      * @param string  $package Package name to show
      * @param string  $version Package version to show
@@ -59,7 +61,7 @@ final class ShowPackage
 
         $this->versionParser = new VersionParser();
 
-        // Init repos
+        // Initialize repos.
         $platformRepo = new PlatformRepository();
 
         switch ($type) {
@@ -83,7 +85,7 @@ final class ShowPackage
                 if ($composer) {
                     $repos = new CompositeRepository($composer->getRepositoryManager()->getRepositories());
                 } else {
-                    // No composer.json found in the current directory, showing available packages from default repos
+                    // No composer.json found in the current directory, showing available packages from default repos.
                     $defaultRepos = Factory::createDefaultRepositories($io);
                     $repos = new CompositeRepository($defaultRepos);
                 }
@@ -96,14 +98,14 @@ final class ShowPackage
                     $merged = array_merge(array($installedRepo), $composer->getRepositoryManager()->getRepositories());
                     $repos = new CompositeRepository($merged);
                 } else {
-                    // No composer.json found in the current directory, showing available packages from default repos
+                    // No composer.json found in the current directory, showing available packages from default repos.
                     $defaultRepos = Factory::createDefaultRepositories($io);
                     $installedRepo = $platformRepo;
                     $repos = new CompositeRepository(array_merge(array($installedRepo), $defaultRepos));
                 }
         }
 
-        // Single package or single version
+        // Single package or single version.
         if (!empty($package)) {
             if (is_object($package)) {
                 return array($package->getName() => array(
@@ -150,7 +152,7 @@ final class ShowPackage
     }
 
     /**
-     * finds a package by name and version if provided.
+     * Finds a package by name and version if provided.
      *
      * @param RepositoryInterface $installedRepo
      * @param RepositoryInterface $repos
@@ -177,13 +179,13 @@ final class ShowPackage
         $versions = array();
         $matches = $pool->whatProvides($name, $constraint);
         foreach ($matches as $index => $package) {
-            // Skip providers/replacers
+            // Skip providers/replacers.
             if ($package->getName() !== $name) {
                 unset($matches[$index]);
                 continue;
             }
 
-            // Select an exact match if it is in the installed repo and no specific version was required
+            // Select an exact match if it is in the installed repo and no specific version was required.
             if (null === $version && $installedRepo->hasPackage($package)) {
                 $matchedPackage = $package;
             }
@@ -192,12 +194,12 @@ final class ShowPackage
             $matches[$index] = $package->getId();
         }
 
-        // Select prefered package according to policy rules
+        // Select prefered package according to policy rules.
         if (!$matchedPackage && !empty($matches) && $prefered = $policy->selectPreferredPackages($pool, array(), $matches)) {
             $matchedPackage = $pool->literalToPackage($prefered[0]);
         }
 
-        // If we have package result, return them
+        // If we have package result, return them.
         if ($matchedPackage) {
             return array($matchedPackage->getName() => array(
                 'package'  => $matchedPackage,
