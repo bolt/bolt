@@ -91,7 +91,8 @@ final class ShowPackage
                 if ($composer) {
                     $localRepo = $composer->getRepositoryManager()->getLocalRepository();
                     $installedRepo = new CompositeRepository(array($localRepo, $platformRepo));
-                    $repos = new CompositeRepository(array_merge(array($installedRepo), $composer->getRepositoryManager()->getRepositories()));
+                    $merged = array_merge(array($installedRepo), $composer->getRepositoryManager()->getRepositories());
+                    $repos = new CompositeRepository($merged);
                 } else {
                     // No composer.json found in the current directory, showing available packages from default repos
                     $defaultRepos = Factory::createDefaultRepositories($io);
