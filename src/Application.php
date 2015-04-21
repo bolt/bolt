@@ -471,6 +471,8 @@ class Application extends Silex\Application
      *
      * Note, we don't use $request->clearCookie (logs out a logged-on user) or
      * $request->removeCookie (doesn't prevent the header from being sent).
+     *
+     * @see https://github.com/bolt/bolt/issues/3425
      */
     public function unsetSessionCookie()
     {
@@ -495,8 +497,12 @@ class Application extends Silex\Application
         // Start the 'stopwatch' for the profiler.
         $this['stopwatch']->start('bolt.app.after');
 
-        // Don't set 'bolt_session' cookie, if we're in the frontend or async.
-        if ($this['config']->getWhichEnd() != 'backend') {
+        /*
+         * Don't set 'bolt_session' cookie, if we're in the frontend or async.
+         *
+         * @see https://github.com/bolt/bolt/issues/3425
+         */
+        if ($this['config']->get('general/cookies_no_frontend', false) && $this['config']->getWhichEnd() !== 'backend') {
             $this->unsetSessionCookie();
         }
 
