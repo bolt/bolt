@@ -44,7 +44,7 @@ class Render
      * @param array  $vars     array of context variables
      * @param array  $globals  array of global variables
      *
-     * @return mixed
+     * @return \Bolt\Response\BoltResponse
      */
     public function render($template, $vars = array(), $globals = array())
     {
