@@ -383,7 +383,7 @@ class PackageManager
 
         // Pending Composer packages
         $keys = array_keys($installed);
-        if (!empty($this->json['require'])) {
+        if ($this->json !== null && !empty($this->json['require'])) {
             foreach ($this->json['require'] as $require => $version) {
                 if (!in_array($require, $keys)) {
                     $packages['pending'][] = array(
