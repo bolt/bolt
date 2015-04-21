@@ -4,6 +4,7 @@ namespace Bolt\Provider;
 
 use Bolt\Routing\ControllerCollection;
 use Bolt\Routing\ControllerResolver;
+use Bolt\Routing\RedirectListener;
 use Bolt\Routing\UrlMatcher;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
@@ -31,5 +32,6 @@ class RoutingServiceProvider implements ServiceProviderInterface
 
     public function boot(Application $app)
     {
+        $app['dispatcher']->addSubscriber(new RedirectListener($app['session'], $app['url_generator'], $app['users']));
     }
 }
