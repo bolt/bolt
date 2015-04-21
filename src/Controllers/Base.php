@@ -7,6 +7,7 @@ use Silex\ControllerProviderInterface;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormTypeInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -39,6 +40,20 @@ abstract class Base implements ControllerProviderInterface
     protected function render($template, array $variables = array(), array $globals = array())
     {
         return $this->app['render']->render($template, $variables, $globals);
+    }
+
+    /**
+     * Convert some data into a JSON response.
+     *
+     * @param mixed $data    The response data
+     * @param int   $status  The response status code
+     * @param array $headers An array of response headers
+     *
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    protected function json($data = array(), $status = 200, array $headers = array())
+    {
+        return new JsonResponse($data, $status, $headers);
     }
 
     /**
