@@ -24,21 +24,7 @@
      * @memberof Bolt.submenu
      */
     submenu.init = function () {
-        // Add the submenus to the data-content for bootstrap.popover
-        $('#navpage-secondary a.menu-pop').each(
-            function() {
-                var menu = '';
-
-                $(this).nextAll('.submenu').children().each(function () {
-                    if ($(this).hasClass('subdivider')) {
-                        menu += '<hr>';
-                    }
-                    menu += $(this).html().trim().replace(/[ \n]+/g, ' ').replace(/(>) | (<)/g, '$1$2');
-                });
-
-                $(this).attr('data-html', true).attr('data-content', menu);
-            }
-        );
+        initPopOvers();
         if ($('.navbar-toggle').is(':visible')) {
             // we're on mobile view - so do not trigger the popups,
             // console.log('mobile view');
@@ -89,6 +75,30 @@
      * @memberof Bolt.submenu
      */
     var timeout = 0;
+
+    /**
+     * Add the submenus to the data-content for bootstrap.popover.
+     *
+     * @private
+     * @function initPopOvers
+     * @memberof Bolt.submenu
+     */
+    function initPopOvers() {
+        $('#navpage-secondary a.menu-pop').each(
+            function () {
+                var menu = '';
+
+                $(this).nextAll('.submenu').children().each(function () {
+                    if ($(this).hasClass('subdivider')) {
+                        menu += '<hr>';
+                    }
+                    menu += $(this).html().trim().replace(/[ \n]+/g, ' ').replace(/(>) | (<)/g, '$1$2');
+                });
+
+                $(this).attr('data-html', true).attr('data-content', menu);
+            }
+        );
+    }
 
     // Apply mixin container
     bolt.submenu = submenu;
