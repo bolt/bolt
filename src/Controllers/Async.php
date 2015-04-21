@@ -113,7 +113,7 @@ class Async implements ControllerProviderInterface
 
         // If not cached, get fresh news.
         if ($news === false) {
-            $app['logger.system']->info("Fetching from remote server: $source", array('event' => 'news'));
+            $app['logger.system']->info('Fetching from remote server: ' . $source, array('event' => 'news'));
 
             $driver = $app['db']->getDatabasePlatform()->getName();
 
