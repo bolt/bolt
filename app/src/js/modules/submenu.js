@@ -75,18 +75,17 @@
      */
     function initMobileAction() {
         $('#navpage-secondary a.menu-pop').on('click', function(e) {
-                var submenu = $(this).nextAll('.submenu');
+            var submenu = $(this).nextAll('.submenu');
 
-                e.preventDefault();
+            e.preventDefault();
 
-                if (submenu.hasClass('show')) {
-                    submenu.removeClass('show');
-                } else {
-                    $('#navpage-secondary .submenu').removeClass('show');
-                    submenu.addClass('show');
-                }
+            if (submenu.hasClass('show')) {
+                submenu.removeClass('show');
+            } else {
+                $('#navpage-secondary .submenu').removeClass('show');
+                submenu.addClass('show');
             }
-        );
+        });
     }
 
     /**
@@ -99,25 +98,23 @@
     function initDesktopAction() {
         $('#navpage-secondary')
             .on('mouseover focus', 'a.menu-pop', function () {
-                    var item = this;
-                    window.clearTimeout(timeout);
-                    timeout = window.setTimeout(function () {
-                        $('#navpage-secondary a.menu-pop').not(item).popover('hide');
-                        $(item).popover('show');
-                    }, 300);
-                }
-            )
+                var item = this;
+
+                window.clearTimeout(timeout);
+                timeout = window.setTimeout(function () {
+                    $('#navpage-secondary a.menu-pop').not(item).popover('hide');
+                    $(item).popover('show');
+                }, 300);
+            })
             .on('mouseenter focus', '.popover', function () {
-                    window.clearTimeout(timeout);
-                }
-            )
+                window.clearTimeout(timeout);
+            })
             .on('mouseleave blur', 'a.menu-pop, .popover', function () {
-                    window.clearTimeout(timeout);
-                    timeout = window.setTimeout(function () {
-                        $('#navpage-secondary a.menu-pop').popover('hide');
-                    }, 300);
-                }
-            );
+                window.clearTimeout(timeout);
+                timeout = window.setTimeout(function () {
+                    $('#navpage-secondary a.menu-pop').popover('hide');
+                }, 300);
+            });
     }
 
     // Apply mixin container
