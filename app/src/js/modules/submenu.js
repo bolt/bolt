@@ -24,8 +24,6 @@
      * @memberof Bolt.submenu
      */
     submenu.init = function () {
-        var menuTimeout = '';
-
         // Add the submenus to the data-content for bootstrap.popover
         $('#navpage-secondary a.menu-pop').each(
             function() {
@@ -62,26 +60,35 @@
             $('#navpage-secondary')
                 .on('mouseover focus', 'a.menu-pop', function () {
                         var item = this;
-                        window.clearTimeout(menuTimeout);
-                        menuTimeout = window.setTimeout(function () {
+                        window.clearTimeout(timeout);
+                        timeout = window.setTimeout(function () {
                             $('#navpage-secondary a.menu-pop').not(item).popover('hide');
                             $(item).popover('show');
                         }, 300);
                     }
                 )
                 .on('mouseenter focus', '.popover', function () {
-                        window.clearTimeout(menuTimeout);
+                        window.clearTimeout(timeout);
                     }
                 )
                 .on('mouseleave blur', 'a.menu-pop, .popover', function () {
-                        window.clearTimeout(menuTimeout);
-                        menuTimeout = window.setTimeout(function () {
+                        window.clearTimeout(timeout);
+                        timeout = window.setTimeout(function () {
                             $('#navpage-secondary a.menu-pop').popover('hide');
                         }, 300);
                     }
                 );
         }
     };
+
+    /**
+     * Timeout to open the submenu.
+     *
+     * @private
+     * @constant {integer} Timeout resource number
+     * @memberof Bolt.submenu
+     */
+    var timeout = 0;
 
     // Apply mixin container
     bolt.submenu = submenu;
