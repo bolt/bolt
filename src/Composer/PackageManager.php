@@ -81,7 +81,7 @@ class PackageManager
     private $app;
 
     /**
-     * @var string
+     * @var array|null
      */
     private $json;
 
