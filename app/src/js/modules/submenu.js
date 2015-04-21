@@ -6,8 +6,9 @@
  *
  * @param {Object} bolt - The Bolt module.
  * @param {Object} $ - jQuery.
+ * @param {Object} window - Window object.
  */
-(function (bolt, $) {
+(function (bolt, $, window) {
     /**
      * Bolt.submenu mixin container.
      *
@@ -122,4 +123,4 @@
     // Apply mixin container
     bolt.submenu = submenu;
 
-})(Bolt || {}, jQuery);
+})(Bolt || {}, jQuery, window);
