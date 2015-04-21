@@ -113,7 +113,7 @@ class Async implements ControllerProviderInterface
 
         // If not cached, get fresh news.
         if ($news === false) {
-            $app['logger.system']->info("Fetching from remote server: $source", array('event' => 'news'));
+            $app['logger.system']->info('Fetching from remote server: ' . $source, array('event' => 'news'));
 
             $driver = $app['db']->getDatabasePlatform()->getName();
 
@@ -131,7 +131,8 @@ class Async implements ControllerProviderInterface
                 $curlOptions = array(
                     'CURLOPT_PROXY'        => $app['config']->get('general/httpProxy/host'),
                     'CURLOPT_PROXYTYPE'    => 'CURLPROXY_HTTP',
-                    'CURLOPT_PROXYUSERPWD' => $app['config']->get('general/httpProxy/user') . ':' . $app['config']->get('general/httpProxy/password')
+                    'CURLOPT_PROXYUSERPWD' => $app['config']->get('general/httpProxy/user') . ':' .
+                                                $app['config']->get('general/httpProxy/password')
                 );
             }
 
@@ -146,26 +147,18 @@ class Async implements ControllerProviderInterface
                 }
 
                 $fetchedNewsItems = json_decode($fetchedNewsData);
+
                 if ($fetchedNewsItems) {
                     $news = array();
 
-                    // Iterate over the items, pick the first news-item that applies
+                    // Iterate over the items, pick the first news-item that applies and the first alert we need to show
+                    $version = $app->getVersion();
                     foreach ($fetchedNewsItems as $item) {
-                        if ($item->type != 'alert') {
-                            if (empty($item->target_version) || version_compare($item->target_version, $app->getVersion(), '>')) {
-                                $news['information'] = $item;
-                                break;
-                            }
-                        }
-                    }
-
-                    // Iterate over the items again, See if there's an alert we need to show
-                    foreach ($fetchedNewsItems as $item) {
-                        if ($item->type == 'alert') {
-                            if (empty($item->target_version) || version_compare($item->target_version, $app->getVersion(), '>')) {
-                                $news['alert'] = $item;
-                                break;
-                            }
+                        $type = ($item->type === 'alert') ? 'alert' : 'information';
+                        if (!isset($news[$type])
+                            && (empty($item->target_version) || version_compare($item->target_version, $version, '>'))
+                        ) {
+                            $news[$type] = $item;
                         }
                     }
 
@@ -174,12 +167,18 @@ class Async implements ControllerProviderInterface
                     $app['logger.system']->error('Invalid JSON feed returned', array('event' => 'news'));
                 }
             } catch (RequestException $e) {
-                $app['logger.system']->critical('Error occurred during newsfeed fetch', array('event' => 'exception', 'exception' => $e));
+                $app['logger.system']->critical(
+                    'Error occurred during newsfeed fetch',
+                    array('event' => 'exception', 'exception' => $e)
+                );
 
                 $body .= "<p>Unable to connect to $source</p>";
             } catch (V3RequestException $e) {
                 /** @deprecated remove with the end of PHP 5.3 support */
-                $app['logger.system']->critical('Error occurred during newsfeed fetch', array('event' => 'exception', 'exception' => $e));
+                $app['logger.system']->critical(
+                    'Error occurred during newsfeed fetch',
+                    array('event' => 'exception', 'exception' => $e)
+                );
 
                 $body .= "<p>Unable to connect to $source</p>";
             }
@@ -189,10 +188,16 @@ class Async implements ControllerProviderInterface
 
         // Combine the body. One 'alert' and one 'info' max. Regular info-items can be disabled, but Alerts can't.
         if (!empty($news['alert'])) {
-            $body .= $app['render']->render('components/panel-news.twig', array('news' => $news['alert']))->getContent();
+            $body .= $app['render']->render(
+                'components/panel-news.twig',
+                array('news' => $news['alert'])
+            )->getContent();
         }
         if (!empty($news['information']) && !$app['config']->get('general/backend/news/disable')) {
-            $body .= $app['render']->render('components/panel-news.twig', array('news' => $news['information']))->getContent();
+            $body .= $app['render']->render(
+                'components/panel-news.twig',
+                array('news' => $news['information'])
+            )->getContent();
         }
 
         return new Response($body, Response::HTTP_OK, array('Cache-Control' => 's-maxage=3600, public'));
@@ -560,7 +565,8 @@ class Async implements ControllerProviderInterface
         try {
             $filesystem->listContents($path);
         } catch (\Exception $e) {
-            $app['session']->getFlashBag()->add('error', Trans::__("Folder '%s' could not be found, or is not readable.", array('%s' => $path)));
+            $msg = Trans::__("Folder '%s' could not be found, or is not readable.", array('%s' => $path));
+            $app['session']->getFlashBag()->add('error', $msg);
         }
 
         $app['twig']->addGlobal('title', Trans::__('Files in %s', array('%s' => $path)));
@@ -817,11 +823,14 @@ class Async implements ControllerProviderInterface
             )
         )->getContent();
 
+        $senderMail = $app['config']->get('general/mailoptions/senderMail', 'bolt@' . $request->getHost());
+        $senderName = $app['config']->get('general/mailoptions/senderName', $app['config']->get('general/sitename'));
+
         $message = $app['mailer']
             ->createMessage('message')
             ->setSubject('Test email from ' . $app['config']->get('general/sitename'))
-            ->setFrom(array($app['config']->get('general/mailoptions/senderMail', 'bolt@' . $request->getHost()) => $app['config']->get('general/mailoptions/senderName', $app['config']->get('general/sitename'))))
-            ->setTo(array($user['email']                  => $user['displayname']))
+            ->setFrom(array($senderMail => $senderName))
+            ->setTo(array($user['email'] => $user['displayname']))
             ->setBody(strip_tags($mailhtml))
             ->addPart($mailhtml, 'text/html');
 
