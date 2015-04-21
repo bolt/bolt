@@ -28,28 +28,7 @@
         if ($('.navbar-toggle').is(':visible')) {
             initMobileAction();
         } else {
-            // Add hover focus and leave blur event handlers for popovers - on desktop
-            $('#navpage-secondary')
-                .on('mouseover focus', 'a.menu-pop', function () {
-                        var item = this;
-                        window.clearTimeout(timeout);
-                        timeout = window.setTimeout(function () {
-                            $('#navpage-secondary a.menu-pop').not(item).popover('hide');
-                            $(item).popover('show');
-                        }, 300);
-                    }
-                )
-                .on('mouseenter focus', '.popover', function () {
-                        window.clearTimeout(timeout);
-                    }
-                )
-                .on('mouseleave blur', 'a.menu-pop, .popover', function () {
-                        window.clearTimeout(timeout);
-                        timeout = window.setTimeout(function () {
-                            $('#navpage-secondary a.menu-pop').popover('hide');
-                        }, 300);
-                    }
-                );
+            initDesktopAction();
         }
     };
 
@@ -107,6 +86,37 @@
                 }
             }
         );
+    }
+
+    /**
+     * Initialize adding of hover focus and leave blur event handlers for desktop popovers.
+     *
+     * @private
+     * @function initDesktopAction
+     * @memberof Bolt.submenu
+     */
+    function initDesktopAction() {
+        $('#navpage-secondary')
+            .on('mouseover focus', 'a.menu-pop', function () {
+                    var item = this;
+                    window.clearTimeout(timeout);
+                    timeout = window.setTimeout(function () {
+                        $('#navpage-secondary a.menu-pop').not(item).popover('hide');
+                        $(item).popover('show');
+                    }, 300);
+                }
+            )
+            .on('mouseenter focus', '.popover', function () {
+                    window.clearTimeout(timeout);
+                }
+            )
+            .on('mouseleave blur', 'a.menu-pop, .popover', function () {
+                    window.clearTimeout(timeout);
+                    timeout = window.setTimeout(function () {
+                        $('#navpage-secondary a.menu-pop').popover('hide');
+                    }, 300);
+                }
+            );
     }
 
     // Apply mixin container
