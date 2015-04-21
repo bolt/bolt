@@ -21,7 +21,7 @@ use Silex\Application;
 class PackageManager
 {
     /**
-     * @var (string|boolean|null)[]
+     * @var array
      */
     private $options;
 
