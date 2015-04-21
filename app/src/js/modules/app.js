@@ -54,6 +54,7 @@
         bolt.conf.init();
         bolt.data.init();
         bolt.actions.init();
+        bolt.submenu.init();
         bolt.stack.init();
 
         bolt.activity.init();
@@ -84,7 +85,6 @@
 
         // Initialize objects
         bolt.sidebar = new Sidebar();
-        bolt.navpopups = new Navpopups();
         bolt.moments = new Moments();
         bolt.imagelist = [];
         bolt.filelist = [];
