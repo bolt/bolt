@@ -198,7 +198,10 @@ class Content implements \ArrayAccess
                     break;
 
                 case 'html':
-                    $newvalue[$field] = str_replace('&nbsp;', ' ', $this->values[$field]);
+                    // Remove &nbsp; characters from CKEditor, unless configured to leave them in.
+                    if (!$this->app['config']->get('general/wysiwyg/ck/allowNbsp')) {
+                        $newvalue[$field] = str_replace('&nbsp;', ' ', $this->values[$field]);
+                    }
                     break;
             }
         }

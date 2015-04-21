@@ -546,15 +546,21 @@ var init = {
             }
         };
 
+
+        var set = bolt.conf('ckeditor');
+
         // When 'pasting' from Word (or perhaps other editors too), you'll often
-        // get extra `&nbsp;&nbsp;` or `<p>&nbsp;</p>`. Strip these out on paste:
-        CKEDITOR.on('instanceReady', function(ev) {
-            ev.editor.on('paste', function(evt) {
-                evt.data.dataValue = evt.data.dataValue.replace(/&nbsp;/g,' ');
-                evt.data.dataValue = evt.data.dataValue.replace(/<p> <\/p>/g,'');
-                console.log(evt.data.dataValue);
-            }, null, null, 9);
-        });
+        // get extra `&nbsp;&nbsp;` or `<p>&nbsp;</p>`. Strip these out on paste,
+        // if configured to do so with the `allowNbsp` setting.
+        if (set.ck.allowNbsp) {
+            cke.on('instanceReady', function (ev) {
+                ev.editor.on('paste', function (evt) {
+                    evt.data.dataValue = evt.data.dataValue.replace(/&nbsp;/g, ' ');
+                    evt.data.dataValue = evt.data.dataValue.replace(/<p> <\/p>/g, '');
+                }, null, null, 9);
+            });
+        }
+
     },
 
     /**
