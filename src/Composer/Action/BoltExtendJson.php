@@ -59,7 +59,7 @@ final class BoltExtendJson
      *
      * @param Application $app
      *
-     * @return string
+     * @return array|null
      */
     public function updateJson(Application $app)
     {
