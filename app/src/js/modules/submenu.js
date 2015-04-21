@@ -26,21 +26,7 @@
     submenu.init = function () {
         initPopOvers();
         if ($('.navbar-toggle').is(':visible')) {
-            // we're on mobile view - so do not trigger the popups,
-            // console.log('mobile view');
-            // only trigger the mobile open action
-            $('#navpage-secondary a.menu-pop').on('click', function(e) {
-                    e.preventDefault();
-                    var submenu = $(this).nextAll('.submenu');
-
-                    if (submenu.hasClass('show')) {
-                        submenu.removeClass('show');
-                    } else {
-                        $('#navpage-secondary .submenu').removeClass('show');
-                        submenu.addClass('show');
-                    }
-                }
-            );
+            initMobileAction();
         } else {
             // Add hover focus and leave blur event handlers for popovers - on desktop
             $('#navpage-secondary')
@@ -96,6 +82,29 @@
                 });
 
                 $(this).attr('data-html', true).attr('data-content', menu);
+            }
+        );
+    }
+
+    /**
+     * Initialize opening/closing of mobile submenu.
+     *
+     * @private
+     * @function initMobileAction
+     * @memberof Bolt.submenu
+     */
+    function initMobileAction() {
+        $('#navpage-secondary a.menu-pop').on('click', function(e) {
+                var submenu = $(this).nextAll('.submenu');
+
+                e.preventDefault();
+
+                if (submenu.hasClass('show')) {
+                    submenu.removeClass('show');
+                } else {
+                    $('#navpage-secondary .submenu').removeClass('show');
+                    submenu.addClass('show');
+                }
             }
         );
     }
