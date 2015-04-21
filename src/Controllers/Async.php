@@ -146,26 +146,18 @@ class Async implements ControllerProviderInterface
                 }
 
                 $fetchedNewsItems = json_decode($fetchedNewsData);
+
                 if ($fetchedNewsItems) {
                     $news = array();
 
-                    // Iterate over the items, pick the first news-item that applies
+                    // Iterate over the items, pick the first news-item that applies and the first alert we need to show
+                    $version = $app->getVersion();
                     foreach ($fetchedNewsItems as $item) {
-                        if ($item->type != 'alert') {
-                            if (empty($item->target_version) || version_compare($item->target_version, $app->getVersion(), '>')) {
-                                $news['information'] = $item;
-                                break;
-                            }
-                        }
-                    }
-
-                    // Iterate over the items again, See if there's an alert we need to show
-                    foreach ($fetchedNewsItems as $item) {
-                        if ($item->type == 'alert') {
-                            if (empty($item->target_version) || version_compare($item->target_version, $app->getVersion(), '>')) {
-                                $news['alert'] = $item;
-                                break;
-                            }
+                        $type = ($item->type === 'alert') ? 'alert' : 'information';
+                        if (!isset($news[$type])
+                            && (empty($item->target_version) || version_compare($item->target_version, $version, '>'))
+                        ) {
+                            $news[$type] = $item;
                         }
                     }
 
