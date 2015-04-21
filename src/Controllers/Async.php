@@ -823,15 +823,13 @@ class Async implements ControllerProviderInterface
             )
         )->getContent();
 
+        $senderMail = $app['config']->get('general/mailoptions/senderMail', 'bolt@' . $request->getHost());
+        $senderName = $app['config']->get('general/mailoptions/senderName', $app['config']->get('general/sitename'));
+
         $message = $app['mailer']
             ->createMessage('message')
             ->setSubject('Test email from ' . $app['config']->get('general/sitename'))
-            ->setFrom(
-                array(
-                    $app['config']->get('general/mailoptions/senderMail', 'bolt@' . $request->getHost())
-                     => $app['config']->get('general/mailoptions/senderName', $app['config']->get('general/sitename'))
-                )
-            )
+            ->setFrom(array($senderMail => $senderName))
             ->setTo(array($user['email'] => $user['displayname']))
             ->setBody(strip_tags($mailhtml))
             ->addPart($mailhtml, 'text/html');
