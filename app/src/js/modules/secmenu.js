@@ -71,6 +71,18 @@
 
             return false;
         });
+
+        // Bind expand button, that expand secondary navigation to icon full width design.
+        $('.nav-secondary-expand a').on('click', function () {
+            $('#navpage-wrapper').removeClass(
+                'nav-secondary-collapsed nav-secondary-opened nav-secondary-collapsed-hoverable'
+            );
+            $.removeCookie('sidebar', {
+                path: '/'
+            });
+
+            return false;
+        });
     }
 
     /**
@@ -89,20 +101,6 @@
             next = 300;
         }
         window.setTimeout(adjustSidebarHeight, next);
-    }
-
-    /**
-     * Expand secondary navigation to icon full width design.
-     *
-     * @private
-     * @function expand
-     * @memberof Bolt.secmenu
-     */
-    function expand() {
-        $('#navpage-wrapper').removeClass(
-            'nav-secondary-collapsed nav-secondary-opened nav-secondary-collapsed-hoverable'
-        );
-        $.removeCookie('sidebar', {path: '/'});
     }
 
     /**
