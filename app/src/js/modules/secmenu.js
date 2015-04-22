@@ -52,17 +52,17 @@
      * @memberof Bolt.secmenu
      */
     function initSidebar() {
-        fixlength();
+        adjustSidebarHeight();
     }
 
     /**
      * Make sure the sidebar is as long as the document height. Also: Typecasting! love it or hate it!
      *
      * @private
-     * @function fixlength
+     * @function adjustSidebarHeight
      * @memberof Bolt.secmenu
      */
-    function fixlength() {
+    function adjustSidebarHeight() {
         var newHeight = $(document).height() - $('#navpage-secondary').position().top,
             next = 3000;
 
@@ -70,7 +70,7 @@
             $('#navpage-secondary').outerHeight(newHeight);
             next = 300;
         }
-        window.setTimeout(fixlength, next);
+        window.setTimeout(adjustSidebarHeight, next);
     }
 
     /**
