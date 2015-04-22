@@ -12,7 +12,7 @@
  * @mixes Bolt.datetime
  * @mixes Bolt.files
  * @mixes Bolt.stack
- * @mixes Bolt.submenu
+ * @mixes Bolt.secmenu
  * @mixes Bolt.video
  *
  * @mixes Bolt.fields

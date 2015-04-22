@@ -2,7 +2,7 @@
  * Popups of the collapsable sidebar secondary menu.
  *
  * @mixin
- * @namespace Bolt.submenu
+ * @namespace Bolt.secmenu
  *
  * @param {Object} bolt - The Bolt module.
  * @param {Object} $ - jQuery.
@@ -10,21 +10,21 @@
  */
 (function (bolt, $, window) {
     /**
-     * Bolt.submenu mixin container.
+     * Bolt.secmenu mixin container.
      *
      * @private
      * @type {Object}
      */
-    var submenu = {};
+    var secmenu = {};
 
     /**
      * Initializes the mixin.
      *
      * @static
      * @function init
-     * @memberof Bolt.submenu
+     * @memberof Bolt.secmenu
      */
-    submenu.init = function () {
+    secmenu.init = function () {
         var usePopOvers = !$('.navbar-toggle').is(':visible');
 
         if (usePopOvers) {
@@ -40,7 +40,7 @@
      *
      * @private
      * @constant {integer} Timeout resource number.
-     * @memberof Bolt.submenu
+     * @memberof Bolt.secmenu
      */
     var timeout = 0;
 
@@ -49,7 +49,7 @@
      *
      * @private
      * @constant {integer} Timeout resource number.
-     * @memberof Bolt.submenu
+     * @memberof Bolt.secmenu
      */
     var lengthTimer = 0;
 
@@ -58,7 +58,7 @@
      *
      * @private
      * @function initSidebar
-     * @memberof Bolt.submenu
+     * @memberof Bolt.secmenu
      */
     function initSidebar() {
         lengthTimer = window.setTimeout(this.fixlength.bind(this), 500);
@@ -69,7 +69,7 @@
      *
      * @private
      * @function fixlength
-     * @memberof Bolt.submenu
+     * @memberof Bolt.secmenu
      */
     function fixlength() {
         var documentheight = $('#navpage-content').height() + 34;
@@ -87,7 +87,7 @@
      *
      * @private
      * @function collapse
-     * @memberof Bolt.submenu
+     * @memberof Bolt.secmenu
      */
     function collapse() {
         $('#navpage-wrapper')
@@ -106,7 +106,7 @@
      *
      * @private
      * @function expand
-     * @memberof Bolt.submenu
+     * @memberof Bolt.secmenu
      */
     function expand() {
         $('#navpage-wrapper').removeClass(
@@ -120,7 +120,7 @@
      *
      * @private
      * @function toggle
-     * @memberof Bolt.submenu
+     * @memberof Bolt.secmenu
      */
     function toggle() {
         var wrapper = $('#navpage-wrapper');
@@ -137,7 +137,7 @@
      *
      * @private
      * @function initPopOvers
-     * @memberof Bolt.submenu
+     * @memberof Bolt.secmenu
      */
     function initPopOvers() {
 
@@ -186,7 +186,7 @@
      *
      * @private
      * @function initMobileSubmenu
-     * @memberof Bolt.submenu
+     * @memberof Bolt.secmenu
      */
     function initMobileSubmenu() {
         $('#navpage-secondary a.menu-pop').on('click', function(e) {
@@ -204,6 +204,6 @@
     }
 
     // Apply mixin container
-    bolt.submenu = submenu;
+    bolt.secmenu = secmenu;
 
 })(Bolt || {}, jQuery, window);

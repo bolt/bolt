@@ -54,7 +54,7 @@
         bolt.conf.init();
         bolt.data.init();
         bolt.actions.init();
-        bolt.submenu.init();
+        bolt.secmenu.init();
         bolt.stack.init();
 
         bolt.activity.init();
