@@ -45,15 +45,6 @@
     var timeout = 0;
 
     /**
-     * Timeout check the sidebar height.
-     *
-     * @private
-     * @constant {integer} Timeout resource number.
-     * @memberof Bolt.secmenu
-     */
-    var lengthTimer = 0;
-
-    /**
      * Initialize the sidebar.
      *
      * @private
@@ -79,7 +70,7 @@
             $('#navpage-secondary').outerHeight(newHeight);
             next = 300;
         }
-        lengthTimer = window.setTimeout(fixlength, next);
+        window.setTimeout(fixlength, next);
     }
 
     /**
