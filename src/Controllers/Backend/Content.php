@@ -4,6 +4,7 @@ namespace Bolt\Controllers\Backend;
 use Bolt\Content;
 use Bolt\Controllers\Base;
 use Bolt\Translation\Translator as Trans;
+use Cocur\Slugify\Slugify;
 use Silex\Application;
 use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -324,7 +325,7 @@ class Content extends Base
         }
 
         // Unset flashbag for ajax
-        $this->getSession()->getFlashBag()->clear('success');
+        $this->getSession()->getFlashBag()->clear();
 
         return $this->json($val);
     }
@@ -504,7 +505,7 @@ class Content extends Base
 
         $addGroup = function ($group, $label) use (&$groups, &$groupIds) {
             $nr = count($groups) + 1;
-            $id = rtrim('tab-' . $this->app['slugify']->slugify($group), '-');
+            $id = rtrim('tab-' . Slugify::create()->slugify($group), '-');
             if (isset($groupIds[$id]) || $id === 'tab') {
                 $id .= '-' . $nr;
             }
