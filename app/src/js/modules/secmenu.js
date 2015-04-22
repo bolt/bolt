@@ -53,6 +53,24 @@
      */
     function initSidebar() {
         adjustSidebarHeight();
+
+        // Bind collapse button, that collapses secondary navigation to icon only design.
+        $('.nav-secondary-collapse a').on('click', function () {
+            $('#navpage-wrapper')
+                .removeClass('nav-secondary-opened')
+                .addClass('nav-secondary-collapsed');
+            // We add the '-hoverable' class to make sure the sidebar _first_ collapses,
+            // and only _then_ can be opened by hovering on it.
+            setTimeout(function () {
+                $('#navpage-wrapper').addClass('nav-secondary-collapsed-hoverable');
+            }, 300);
+            $.cookie('sidebar', 'collapsed', {
+                expires: 21,
+                path: '/'
+            });
+
+            return false;
+        });
     }
 
     /**
@@ -71,25 +89,6 @@
             next = 300;
         }
         window.setTimeout(adjustSidebarHeight, next);
-    }
-
-    /**
-     * Collapse secondary navigation to icon only design.
-     *
-     * @private
-     * @function collapse
-     * @memberof Bolt.secmenu
-     */
-    function collapse() {
-        $('#navpage-wrapper')
-            .removeClass('nav-secondary-opened')
-            .addClass('nav-secondary-collapsed');
-        // We add the '-hoverable' class to make sure the sidebar _first_ collapses,
-        // and only _then_ can be opened by hovering on it.
-        setTimeout(function () {
-            $('#navpage-wrapper').addClass('nav-secondary-collapsed-hoverable');
-        }, 300);
-        $.cookie('sidebar', 'collapsed', { expires: 21, path: '/' });
     }
 
     /**
