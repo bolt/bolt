@@ -32,7 +32,12 @@
         } else {
             initMobileSubmenu();
         }
-        initSidebar();
+
+        // Initialize the sidebar
+        initSidebarToggle();
+        initSidebarCollapse();
+        initSidebarExpand();
+        adjustSidebarHeight();
     };
 
     /**
@@ -43,20 +48,6 @@
      * @memberof Bolt.secmenu
      */
     var timeout = 0;
-
-    /**
-     * Initialize the sidebar.
-     *
-     * @private
-     * @function initSidebar
-     * @memberof Bolt.secmenu
-     */
-    function initSidebar() {
-        adjustSidebarHeight();
-        initSidebarToggle();
-        initSidebarCollapse();
-        initSidebarExpand();
-    }
 
     /**
      * Make sure the sidebar is as long as the document height.
