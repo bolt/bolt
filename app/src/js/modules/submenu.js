@@ -25,14 +25,15 @@
      * @memberof Bolt.submenu
      */
     submenu.init = function () {
-        $('#navpage-secondary a.menu-pop').each(function () {
-            initPopOver($(this));
-        });
+        var usePopOvers = !$('.navbar-toggle').is(':visible');
 
-        if ($('.navbar-toggle').is(':visible')) {
-            initMobileAction();
-        } else {
+        if (usePopOvers) {
+            $('#navpage-secondary a.menu-pop').each(function () {
+                initPopOver($(this));
+            });
             initDesktopAction();
+        } else {
+            initMobileAction();
         }
     };
 
