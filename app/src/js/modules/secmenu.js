@@ -83,6 +83,8 @@
 
             return false;
         });
+
+        initSidebarToggle();
     }
 
     /**
@@ -107,17 +109,19 @@
      * Show/hide secondary navigation.
      *
      * @private
-     * @function toggle
+     * @function initSidebarToggle
      * @memberof Bolt.secmenu
      */
-    function toggle() {
-        var wrapper = $('#navpage-wrapper');
+    function initSidebarToggle() {
+        $('.navbar-toggle').on('click', function () {
+            var wrapper = $('#navpage-wrapper');
 
-        if (wrapper.hasClass('nav-secondary-opened')) {
-            wrapper.removeClass('nav-secondary-opened nav-secondary-collapsed');
-        } else {
-            wrapper.removeClass('nav-secondary-collapsed').addClass('nav-secondary-opened');
-        }
+            if (wrapper.hasClass('nav-secondary-opened')) {
+                wrapper.removeClass('nav-secondary-opened nav-secondary-collapsed');
+            } else {
+                wrapper.removeClass('nav-secondary-collapsed').addClass('nav-secondary-opened');
+            }
+        });
     }
 
     /**
