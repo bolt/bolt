@@ -35,7 +35,7 @@
     };
 
     /**
-     * Timeout to open the submenu.
+     * Timeout to open/close the popover submenu.
      *
      * @private
      * @constant {integer} Timeout resource number.
