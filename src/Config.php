@@ -108,6 +108,9 @@ class Config
 
         $yml = $this->yamlParser->parse(file_get_contents($filename) . "\n");
 
+        // Unset the repeated nodes key after parse
+        unset($yml['__nodes']);
+
         // Invalid, non-existing, or empty files return NULL
         return $yml ?: array();
     }
