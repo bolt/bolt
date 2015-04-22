@@ -155,18 +155,26 @@
                 });
 
                 menuitem.popover({
+                    trigger: 'manual',
                     content: submenu,
                     html: true
                 });
 
-                menuitem.on('mouseover focus', function () {
-                    var item = this;
+                menuitem.on('mouseover focus click dblclick', function (e) {
+                    var item = this,
+                        delay = 300;
+
+                    // If clicked and popover not shown yet, show it.
+                    if (e.type === 'click' && !$(item).next().hasClass('popover')) {
+                        e.preventDefault();
+                        delay = 0;
+                    }
 
                     window.clearTimeout(timeout);
                     timeout = window.setTimeout(function () {
                         $('#navpage-secondary a.menu-pop').not(item).popover('hide');
                         $(item).popover('show');
-                    }, 300);
+                    }, delay);
                 });
             })
             .end()
