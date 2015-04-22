@@ -30,7 +30,7 @@
         if (usePopOvers) {
             initPopOvers();
         } else {
-            initMobileAction();
+            initMobileSubmenu();
         }
     };
 
@@ -96,10 +96,10 @@
      * Initialize opening/closing of mobile submenu.
      *
      * @private
-     * @function initMobileAction
+     * @function initMobileSubmenu
      * @memberof Bolt.submenu
      */
-    function initMobileAction() {
+    function initMobileSubmenu() {
         $('#navpage-secondary a.menu-pop').on('click', function(e) {
             var submenu = $(this).nextAll('.submenu');
 
