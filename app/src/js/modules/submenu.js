@@ -28,9 +28,7 @@
         var usePopOvers = !$('.navbar-toggle').is(':visible');
 
         if (usePopOvers) {
-            $('#navpage-secondary a.menu-pop').each(function () {
-                initPopOver($(this));
-            });
+            initPopOvers();
             initDesktopAction();
         } else {
             initMobileAction();
@@ -41,34 +39,46 @@
      * Timeout to open the submenu.
      *
      * @private
-     * @constant {integer} Timeout resource number
+     * @constant {integer} Timeout resource number.
      * @memberof Bolt.submenu
      */
     var timeout = 0;
 
     /**
-     * Initialize a popup menu.
+     * Initialize the popover menues in the secondary meny.
      *
      * @private
-     * @function initPopOver
+     * @function initPopOvers
      * @memberof Bolt.submenu
-     *
-     * @param {object} menuitem - The menuitem to initialize.
      */
-    function initPopOver(menuitem) {
-        // Extract menu data and attach it to the popover
-        var submenu = '';
+    function initPopOvers() {
 
-        menuitem.nextAll('.submenu').children().each(function () {
-            if ($(this).hasClass('subdivider')) {
-                submenu += '<hr>';
-            }
-            submenu += $(this).html().trim().replace(/[ \n]+/g, ' ').replace(/(>) | (<)/g, '$1$2');
-        });
+        $('#navpage-secondary a.menu-pop').each(function () {
+            var menuitem = $(this),
+                submenu = '';
 
-        menuitem.popover({
-            content: submenu,
-            html: true
+            // Extract menu data and attach it to the popover.
+            menuitem.nextAll('.submenu').children().each(function () {
+                if ($(this).hasClass('subdivider')) {
+                    submenu += '<hr>';
+                }
+                submenu += $(this).html().trim().replace(/[ \n]+/g, ' ').replace(/(>) | (<)/g, '$1$2');
+            });
+
+            menuitem.popover({
+                content: submenu,
+                html: true
+            });
+
+            menuitem.on('mouseover focus', function () {
+                var item = this;
+
+                window.clearTimeout(timeout);
+                timeout = window.setTimeout(function () {
+                    $('#navpage-secondary a.menu-pop').not(item).popover('hide');
+                    $(item).popover('show');
+                }, 300);
+            });
         });
     }
 
@@ -103,15 +113,6 @@
      */
     function initDesktopAction() {
         $('#navpage-secondary')
-            .on('mouseover focus', 'a.menu-pop', function () {
-                var item = this;
-
-                window.clearTimeout(timeout);
-                timeout = window.setTimeout(function () {
-                    $('#navpage-secondary a.menu-pop').not(item).popover('hide');
-                    $(item).popover('show');
-                }, 300);
-            })
             .on('mouseenter focus', '.popover', function () {
                 window.clearTimeout(timeout);
             })
