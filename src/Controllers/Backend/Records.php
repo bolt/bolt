@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 
-class Content extends Base
+class Records extends Base
 {
     /**
      * @param ControllerCollection $c
