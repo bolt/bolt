@@ -1211,9 +1211,15 @@ class Backend implements ControllerProviderInterface
         if (!empty($id)) {
             $user = $app['users']->getUser($id);
 
-            // Verify the current user has access to edit this user
-            if (!$app['permissions']->isAllowedToManipulate($user, $currentuser)) {
-                $app['session']->getFlashBag()->add('error', Trans::__('You do not have the right privileges to edit that user.'));
+            if (is_array($user)) {
+                // Verify the current user has access to edit this user
+                if (!$app['permissions']->isAllowedToManipulate($user, $currentuser)) {
+                    $app['session']->getFlashBag()->add('error', Trans::__('You do not have the right privileges to edit that user.'));
+
+                    return Lib::redirect('users');
+                }
+            } else {
+                $app['session']->getFlashBag()->add('error', Trans::__('No such user.'));
 
                 return Lib::redirect('users');
             }
@@ -1515,7 +1521,7 @@ class Backend implements ControllerProviderInterface
         $user = $app['users']->getUser($id);
 
         if (!$user) {
-            $app['session']->getFlashBag()->add('error', 'No such user.');
+            $app['session']->getFlashBag()->add('error', Trans::__('No such user.'));
 
             return Lib::redirect('users');
         }
