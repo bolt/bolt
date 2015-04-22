@@ -56,7 +56,7 @@
     }
 
     /**
-     * Make sure the sidebar is as long as the document height. Also: Typecasting! love it or hate it!
+     * Make sure the sidebar is as long as the document height.
      *
      * @private
      * @function adjustSidebarHeight
