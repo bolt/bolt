@@ -26,7 +26,7 @@ abstract class Base implements ControllerProviderInterface
         return $c;
     }
 
-    protected abstract function addControllers(ControllerCollection $c);
+    abstract protected function addControllers(ControllerCollection $c);
 
     /**
      * Renders a template
@@ -180,10 +180,10 @@ abstract class Base implements ControllerProviderInterface
     /**
      * Shortcut for {@see \Bolt\Storage::getContent}
      *
-     * @param string      $textquery
-     * @param array $parameters
-     * @param array $pager
-     * @param array $whereparameters
+     * @param string $textquery
+     * @param array  $parameters
+     * @param array  $pager
+     * @param array  $whereparameters
      *
      * @return \Bolt\Content[]
      */
@@ -191,5 +191,4 @@ abstract class Base implements ControllerProviderInterface
     {
         return $this->app['storage']->getContent($textquery, $parameters, $pager, $whereparameters);
     }
-
 }
