@@ -84,7 +84,6 @@
         // Get passed in data from Twig function data()
 
         // Initialize objects
-        bolt.sidebar = new Sidebar();
         bolt.moments = new Moments();
         bolt.imagelist = [];
         bolt.filelist = [];
