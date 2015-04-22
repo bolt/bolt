@@ -61,7 +61,9 @@
      * @memberof Bolt.secmenu
      */
     function initSidebar() {
-        lengthTimer = window.setTimeout(this.fixlength.bind(this), 500);
+        lengthTimer = window.setTimeout(function () {
+            fixlength();
+        }, 500);
     }
 
     /**
@@ -72,13 +74,13 @@
      * @memberof Bolt.secmenu
      */
     function fixlength() {
-        var documentheight = $('#navpage-content').height() + 34;
+        var newHeight = $(document).height() - $('#navpage-secondary').position().top;
 
-        if (documentheight > $('#navpage-secondary').height()) {
-            $('#navpage-secondary').height(documentheight + 'px');
-            lengthTimer = window.setTimeout(this.fixlength.bind(this), 300);
+        if (newHeight !== $('#navpage-secondary').outerHeight()) {
+            $('#navpage-secondary').outerHeight(newHeight + 'px');
+            lengthTimer = window.setTimeout(function () {fixlength();}, 300);
         } else {
-            lengthTimer = window.setTimeout(this.fixlength.bind(this), 3000);
+            lengthTimer = window.setTimeout(function () {fixlength();}, 3000);
         }
     }
 
