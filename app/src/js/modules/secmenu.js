@@ -53,38 +53,9 @@
      */
     function initSidebar() {
         adjustSidebarHeight();
-
-        // Bind collapse button, that collapses secondary navigation to icon only design.
-        $('.nav-secondary-collapse a').on('click', function () {
-            $('#navpage-wrapper')
-                .removeClass('nav-secondary-opened')
-                .addClass('nav-secondary-collapsed');
-            // We add the '-hoverable' class to make sure the sidebar _first_ collapses,
-            // and only _then_ can be opened by hovering on it.
-            setTimeout(function () {
-                $('#navpage-wrapper').addClass('nav-secondary-collapsed-hoverable');
-            }, 300);
-            $.cookie('sidebar', 'collapsed', {
-                expires: 21,
-                path: '/'
-            });
-
-            return false;
-        });
-
-        // Bind expand button, that expand secondary navigation to icon full width design.
-        $('.nav-secondary-expand a').on('click', function () {
-            $('#navpage-wrapper').removeClass(
-                'nav-secondary-collapsed nav-secondary-opened nav-secondary-collapsed-hoverable'
-            );
-            $.removeCookie('sidebar', {
-                path: '/'
-            });
-
-            return false;
-        });
-
         initSidebarToggle();
+        initSidebarCollapse();
+        initSidebarExpand();
     }
 
     /**
@@ -121,6 +92,52 @@
             } else {
                 wrapper.removeClass('nav-secondary-collapsed').addClass('nav-secondary-opened');
             }
+        });
+    }
+
+    /**
+     * Bind collapse button, that collapses secondary navigation to icon only design.
+     *
+     * @private
+     * @function initSidebarCollapse
+     * @memberof Bolt.secmenu
+     */
+    function initSidebarCollapse() {
+        $('.nav-secondary-collapse a').on('click', function () {
+            $('#navpage-wrapper')
+                .removeClass('nav-secondary-opened')
+                .addClass('nav-secondary-collapsed');
+            // We add the '-hoverable' class to make sure the sidebar _first_ collapses,
+            // and only _then_ can be opened by hovering on it.
+            setTimeout(function () {
+                $('#navpage-wrapper').addClass('nav-secondary-collapsed-hoverable');
+            }, 300);
+            $.cookie('sidebar', 'collapsed', {
+                expires: 21,
+                path: '/'
+            });
+
+            return false;
+        });
+    }
+
+    /**
+     * Bind expand button, that expand secondary navigation to icon full width design.
+     *
+     * @private
+     * @function initSidebarExpand
+     * @memberof Bolt.secmenu
+     */
+    function initSidebarExpand() {
+        $('.nav-secondary-expand a').on('click', function () {
+            $('#navpage-wrapper').removeClass(
+                'nav-secondary-collapsed nav-secondary-opened nav-secondary-collapsed-hoverable'
+            );
+            $.removeCookie('sidebar', {
+                path: '/'
+            });
+
+            return false;
         });
     }
 
