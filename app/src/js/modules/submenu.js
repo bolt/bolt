@@ -29,7 +29,6 @@
 
         if (usePopOvers) {
             initPopOvers();
-            initDesktopAction();
         } else {
             initMobileAction();
         }
@@ -80,6 +79,17 @@
                 }, 300);
             });
         });
+
+        $('#navpage-secondary')
+            .on('mouseenter focus', '.popover', function () {
+                window.clearTimeout(timeout);
+            })
+            .on('mouseleave blur', 'a.menu-pop, .popover', function () {
+                window.clearTimeout(timeout);
+                timeout = window.setTimeout(function () {
+                    $('#navpage-secondary a.menu-pop').popover('hide');
+                }, 300);
+            });
     }
 
     /**
@@ -102,26 +112,6 @@
                 submenu.addClass('show');
             }
         });
-    }
-
-    /**
-     * Initialize adding of hover focus and leave blur event handlers for desktop popovers.
-     *
-     * @private
-     * @function initDesktopAction
-     * @memberof Bolt.submenu
-     */
-    function initDesktopAction() {
-        $('#navpage-secondary')
-            .on('mouseenter focus', '.popover', function () {
-                window.clearTimeout(timeout);
-            })
-            .on('mouseleave blur', 'a.menu-pop, .popover', function () {
-                window.clearTimeout(timeout);
-                timeout = window.setTimeout(function () {
-                    $('#navpage-secondary a.menu-pop').popover('hide');
-                }, 300);
-            });
     }
 
     // Apply mixin container
