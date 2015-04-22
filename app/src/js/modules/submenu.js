@@ -52,6 +52,7 @@
     function initPopOvers() {
         $('#navpage-secondary a.menu-pop').each(
             function () {
+                // Extract menu data and attach it to the popover
                 var menu = '';
 
                 $(this).nextAll('.submenu').children().each(function () {
@@ -61,7 +62,10 @@
                     menu += $(this).html().trim().replace(/[ \n]+/g, ' ').replace(/(>) | (<)/g, '$1$2');
                 });
 
-                $(this).attr('data-html', true).attr('data-content', menu);
+                $(this).popover({
+                    content: menu,
+                    html: true
+                });
             }
         );
     }
