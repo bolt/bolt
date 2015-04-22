@@ -52,35 +52,35 @@
      */
     function initPopOvers() {
 
-        $('#navpage-secondary a.menu-pop').each(function () {
-            var menuitem = $(this),
-                submenu = '';
-
-            // Extract menu data and attach it to the popover.
-            menuitem.nextAll('.submenu').children().each(function () {
-                if ($(this).hasClass('subdivider')) {
-                    submenu += '<hr>';
-                }
-                submenu += $(this).html().trim().replace(/[ \n]+/g, ' ').replace(/(>) | (<)/g, '$1$2');
-            });
-
-            menuitem.popover({
-                content: submenu,
-                html: true
-            });
-
-            menuitem.on('mouseover focus', function () {
-                var item = this;
-
-                window.clearTimeout(timeout);
-                timeout = window.setTimeout(function () {
-                    $('#navpage-secondary a.menu-pop').not(item).popover('hide');
-                    $(item).popover('show');
-                }, 300);
-            });
-        });
-
         $('#navpage-secondary')
+            .find('a.menu-pop').each(function () {
+                var menuitem = $(this),
+                    submenu = '';
+
+                // Extract menu data and attach it to the popover.
+                menuitem.nextAll('.submenu').children().each(function () {
+                    if ($(this).hasClass('subdivider')) {
+                        submenu += '<hr>';
+                    }
+                    submenu += $(this).html().trim().replace(/[ \n]+/g, ' ').replace(/(>) | (<)/g, '$1$2');
+                });
+
+                menuitem.popover({
+                    content: submenu,
+                    html: true
+                });
+
+                menuitem.on('mouseover focus', function () {
+                    var item = this;
+
+                    window.clearTimeout(timeout);
+                    timeout = window.setTimeout(function () {
+                        $('#navpage-secondary a.menu-pop').not(item).popover('hide');
+                        $(item).popover('show');
+                    }, 300);
+                });
+            })
+            .end()
             .on('mouseenter focus', '.popover', function () {
                 window.clearTimeout(timeout);
             })
