@@ -77,7 +77,7 @@
         var newHeight = $(document).height() - $('#navpage-secondary').position().top;
 
         if (newHeight !== $('#navpage-secondary').outerHeight()) {
-            $('#navpage-secondary').outerHeight(newHeight + 'px');
+            $('#navpage-secondary').outerHeight(newHeight);
             lengthTimer = window.setTimeout(function () {fixlength();}, 300);
         } else {
             lengthTimer = window.setTimeout(function () {fixlength();}, 3000);
