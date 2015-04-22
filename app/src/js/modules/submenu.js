@@ -25,7 +25,10 @@
      * @memberof Bolt.submenu
      */
     submenu.init = function () {
-        initPopOvers();
+        $('#navpage-secondary a.menu-pop').each(function () {
+            initPopOver($(this));
+        });
+
         if ($('.navbar-toggle').is(':visible')) {
             initMobileAction();
         } else {
@@ -43,31 +46,29 @@
     var timeout = 0;
 
     /**
-     * Add the submenus to the data-content for bootstrap.popover.
+     * Initialize a popup menu.
      *
      * @private
-     * @function initPopOvers
+     * @function initPopOver
      * @memberof Bolt.submenu
+     *
+     * @param {object} menuitem - The menuitem to initialize.
      */
-    function initPopOvers() {
-        $('#navpage-secondary a.menu-pop').each(
-            function () {
-                // Extract menu data and attach it to the popover
-                var menu = '';
+    function initPopOver(menuitem) {
+        // Extract menu data and attach it to the popover
+        var submenu = '';
 
-                $(this).nextAll('.submenu').children().each(function () {
-                    if ($(this).hasClass('subdivider')) {
-                        menu += '<hr>';
-                    }
-                    menu += $(this).html().trim().replace(/[ \n]+/g, ' ').replace(/(>) | (<)/g, '$1$2');
-                });
-
-                $(this).popover({
-                    content: menu,
-                    html: true
-                });
+        menuitem.nextAll('.submenu').children().each(function () {
+            if ($(this).hasClass('subdivider')) {
+                submenu += '<hr>';
             }
-        );
+            submenu += $(this).html().trim().replace(/[ \n]+/g, ' ').replace(/(>) | (<)/g, '$1$2');
+        });
+
+        menuitem.popover({
+            content: submenu,
+            html: true
+        });
     }
 
     /**
