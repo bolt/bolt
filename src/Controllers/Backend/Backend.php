@@ -2,13 +2,21 @@
 namespace Bolt\Controllers\Backend;
 
 use Bolt\Controllers\Base;
+use Bolt\Helpers\Input;
+use Bolt\Translation\TranslationFile;
 use Bolt\Translation\Translator as Trans;
 use Guzzle\Http\Exception\RequestException as V3RequestException;
 use GuzzleHttp\Exception\RequestException;
 use Silex\ControllerCollection;
+use Symfony\Component\Filesystem\Exception\IOException;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Yaml\Yaml;
+use Symfony\Component\Yaml\Exception\ParseException;
 
 /**
  * Backend controller for basic backend routes.
@@ -159,13 +167,57 @@ class Backend extends Base
     }
 
     /**
-     * @param Request $request The Symfony Request
+     * Prepare/edit/save a translation.
+     *
+     * @param Request $request   The Symfony Request
+     * @param string  $domain    The domain
+     * @param string  $tr_locale The translation locale
      *
      * @return \Twig_Markup|\Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function action(Request $request)
+    public function actionTranslation(Request $request, $domain, $tr_locale)
     {
+        $tr = array(
+            'domain' => $domain,
+            'locale' => $tr_locale
+        );
+
+        // Get the translation data
+        $data = $this->getTranslationData($tr);
+
+        // Create the form
+        $form = $this->createBuilder('form', $data)
+            ->add(
+                'contents',
+                'textarea',
+                array('constraints' => array(
+                    new Assert\NotBlank(),
+                    new Assert\Length(array('min' => 10))
+            )))
+            ->getForm();
+
+        // Check if the form was POST-ed, and valid. If so, write out the file.
+        if ($request->isMethod('POST')) {
+            if ($response = $this->saveTranslationFile($request, $form, $tr)) {
+                return $response;
+            }
+
+            $tr['writeallowed'] = false;
+        }
+
+        $context = array(
+            'form'          => $form->createView(),
+            'basename'      => basename($tr['shortPath']),
+            'filetype'      => 'yml',
+            'write_allowed' => $tr['writeallowed'],
+        );
+
+        return $this->render('editlocale/editlocale.twig', array('context' => $context));
     }
+
+    /*
+     * Helper Functions
+     */
 
     /**
      * Get the latest records for viewable contenttypes that a user has access
@@ -203,5 +255,74 @@ class Backend extends Base
             'latest'          => $latest,
             'suggestloripsum' => ($total === 0),
         );
+    }
+
+    /**
+     * Get the translation data.
+     *
+     * @param array $tr
+     *
+     * @return sting
+     */
+    private function getTranslationData(array &$tr)
+    {
+        $translation = new TranslationFile($this->app, $tr['domain'], $tr['locale']);
+
+        list($tr['path'], $tr['shortPath']) = $translation->path();
+
+        $this->app['logger.system']->info('Editing translation: ' . $tr['shortPath'], array('event' => 'translation'));
+
+        $tr['writeallowed'] = $translation->isWriteAllowed();
+
+        return array('contents' => $translation->content());
+    }
+
+    /**
+     * Attempt to save the POST data for a translation file edit.
+     *
+     * @param Request $request
+     * @param Form    $form
+     * @param array   $tr
+     *
+     * @return boolean|\Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    private function saveTranslationFile(Request $request, Form $form, array $tr)
+    {
+        $form->submit($request->get($form->getName()));
+
+        if ($form->isValid()) {
+            $data = $form->getData();
+            $contents = Input::cleanPostedData($data['contents']) . "\n";
+
+            // Before trying to save a yaml file, check if it's valid.
+            try {
+                $validYaml = Yaml::parse($contents);
+            } catch (ParseException $e) {
+                $validYaml = false;
+                $msg = Trans::__("File '%s' could not be saved:", array('%s' => $tr['shortPath']));
+                $this->addFlash('error', $msg . $e->getMessage());
+            }
+
+            // Before trying to save, check if it's writable.
+            if ($validYaml) {
+                // Clear any warning for file not found, we are creating it here
+                // we'll set an error if someone still submits the form and write is not allowed
+                $this->getSession()->getFlashBag()->clear();
+
+                try {
+                    $fs = new Filesystem();
+                    $fs->dumpFile($tr['path'], $contents);
+                    $msg = Trans::__("File '%s' has been saved.", array('%s' => $tr['shortPath']));
+                    $this->addFlash('info', $msg);
+
+                    return $this->redirectToRoute('translation', array('domain' => $tr['domain'], 'tr_locale' => $tr['locale']));
+                } catch (IOException $e) {
+                    $msg = Trans::__("The file '%s' is not writable. You will have to use your own editor to make modifications to this file.", array('%s' => $tr['shortPath']));
+                    $this->addFlash('error', $msg);
+                }
+            }
+        }
+
+        return false;
     }
 }
