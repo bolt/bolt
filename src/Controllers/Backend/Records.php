@@ -153,6 +153,68 @@ class Records extends Base
         return $this->redirectToRoute('overview', array('contenttypeslug' => $contenttypeslug));
     }
 
+    /**
+     * Content type overview page.
+     *
+     * @param Request $request The Symfony Request
+     * @param string  $contenttypeslug The content type slug
+     *
+     * @return \Twig_Markup|\Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function actionOverview(Request $request, $contenttypeslug)
+    {
+        // Make sure the user is allowed to see this page, based on 'allowed contenttypes'
+        // for Editors.
+        if (!$this->isAllowed('contenttype:' . $contenttypeslug)) {
+            $this->addFlash('error', Trans::__('You do not have the right privileges to view that page.'));
+
+            return $this->redirectToRoute('dashboard');
+        }
+
+        $contenttype = $this->getContentType($contenttypeslug);
+
+        $filter = array();
+
+        $contentparameters = array('paging' => true, 'hydrate' => true);
+
+        // Order has to be set carefully. Either set it explicitly when the user
+        // sorts, or fall back to what's defined in the contenttype. The exception
+        // is a contenttype that has a "grouping taxonomy", because that should
+        // override it. The exception is handled in $app['storage']->getContent().
+        $contentparameters['order'] = $request->query->get('order', $contenttype['sort']);
+        $contentparameters['page'] = $request->query->get('page');
+
+        if ($request->query->get('filter')) {
+            $contentparameters['filter'] = $request->query->get('filter');
+            $filter[] = $request->query->get('filter');
+        }
+
+        // Set the amount of items to show per page.
+        if (!empty($contenttype['recordsperpage'])) {
+            $contentparameters['limit'] = $contenttype['recordsperpage'];
+        } else {
+            $contentparameters['limit'] = $this->getOption('general/recordsperpage');
+        }
+
+        // Perhaps also filter on taxonomies
+        foreach (array_keys($this->getOption('taxonomy', array())) as $taxonomykey) {
+            if ($request->query->get('taxonomy-' . $taxonomykey)) {
+                $contentparameters[$taxonomykey] = $request->query->get('taxonomy-' . $taxonomykey);
+                $filter[] = $request->query->get('taxonomy-' . $taxonomykey);
+            }
+        }
+
+        $multiplecontent = $this->getContent($contenttypeslug, $contentparameters);
+
+        $context = array(
+            'contenttype'     => $contenttype,
+            'multiplecontent' => $multiplecontent,
+            'filter'          => $filter
+        );
+
+        return $this->render('overview/overview.twig', array('context' => $context));
+    }
+
     /*
      * actionEditContent() Helper Functions
      */
