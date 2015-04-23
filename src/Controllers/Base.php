@@ -163,6 +163,18 @@ abstract class Base implements ControllerProviderInterface
     }
 
     /**
+     * Shortcut for {@see \Bolt\Users::checkAntiCSRFToken}
+     *
+     * @param string $token
+     *
+     * @return bool
+     */
+    protected function checkAntiCSRFToken($token = '')
+    {
+        return $this->app['users']->checkAntiCSRFToken($token);
+    }
+
+    /**
      * Return current user or user by ID
      *
      * @param int|null $id
