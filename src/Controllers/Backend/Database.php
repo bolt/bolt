@@ -51,4 +51,33 @@ class Database extends Base
 
         return $this->render('dbcheck/dbcheck.twig', array('context' => $context));
     }
+
+    /**
+     * Check the database, create tables, add missing/new columns to tables.
+     *
+     * @param Request $request The Symfony Request
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function actionUpdate(Request $request)
+    {
+        $output = $this->app['integritychecker']->repairTables();
+
+        // If 'return=edit' is passed, we should return to the edit screen.
+        // We do redirect twice, yes, but that's because the newly saved
+        // contenttype.yml needs to be re-read.
+        $return = $request->get('return');
+        if ($return === 'edit') {
+            if (empty($output)) {
+                $content = Trans::__('Your database is already up to date.');
+            } else {
+                $content = Trans::__('Your database is now up to date.');
+            }
+            $this->addFlash('success', $content);
+
+            return $this->redirectToRoute('fileedit', array('file' => 'app/config/contenttypes.yml'));
+        } else {
+            return $this->redirectToRoute('dbupdate_result', array('messages' => json_encode($output)));
+        }
+    }
 }

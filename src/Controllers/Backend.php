@@ -152,34 +152,6 @@ class Backend implements ControllerProviderInterface
     }
 
     /**
-     * Check the database, create tables, add missing/new columns to tables.
-     *
-     * @param Application $app The application/container
-     *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
-     */
-    public function dbUpdate(Application $app)
-    {
-        $output = $app['integritychecker']->repairTables();
-
-        // If 'return=edit' is passed, we should return to the edit screen. We do redirect twice, yes,
-        // but that's because the newly saved contenttype.yml needs to be re-read.
-        $return = $app['request']->get('return');
-        if ($return == 'edit') {
-            if (empty($output)) {
-                $content = Trans::__('Your database is already up to date.');
-            } else {
-                $content = Trans::__('Your database is now up to date.');
-            }
-            $app['session']->getFlashBag()->add('success', $content);
-
-            return Lib::redirect('fileedit', array('file' => 'app/config/contenttypes.yml'));
-        } else {
-            return Lib::redirect('dbupdate_result', array('messages' => json_encode($output)));
-        }
-    }
-
-    /**
      * Show the result of database updates.
      *
      * @param Application $app     The application/container
