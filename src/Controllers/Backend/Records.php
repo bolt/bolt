@@ -215,6 +215,69 @@ class Records extends Base
         return $this->render('overview/overview.twig', array('context' => $context));
     }
 
+    /**
+     * Get related records.
+     *
+     * @param Request $request         The Symfony Request
+     * @param string  $contenttypeslug The content type slug
+     * @param integer $id              The ID
+     *
+     * @return \Twig_Markup|\Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function actionRelated(Request $request, $contenttypeslug, $id)
+    {
+        // Make sure the user is allowed to see this page, based on 'allowed contenttypes' for Editors.
+        if (!$this->isAllowed('contenttype:' . $contenttypeslug)) {
+            $this->addFlash('error', Trans::__('You do not have the right privileges to edit that record.'));
+
+            return $this->redirectToRoute('dashboard');
+        }
+
+        // Get content record, and the contenttype config from $contenttypeslug
+        $content = $this->getContent($contenttypeslug, array('id' => $id));
+        $contenttype = $this->app['storage']->getContentType($contenttypeslug);
+
+        // Get relations
+        $showContenttype = null;
+        $relations = null;
+        if (isset($contenttype['relations'])) {
+            $relations = $contenttype['relations'];
+
+            // Which related contenttype is to be shown?
+            // If non is selected or selection does not exist, take the first one
+            $showSlug = $request->get('show') ? $request->get('show') : null;
+            if (!isset($relations[$showSlug])) {
+                reset($relations);
+                $showSlug = key($relations);
+            }
+
+            foreach (array_keys($relations) as $relatedslug) {
+                $relatedtype = $this->app['storage']->getContentType($relatedslug);
+
+                if ($relatedtype['slug'] == $showSlug) {
+                    $showContenttype = $relatedtype;
+                }
+
+                $relations[$relatedslug] = array(
+                    'name'   => Trans::__($relatedtype['name']),
+                    'active' => ($relatedtype['slug'] === $showSlug),
+                );
+            }
+        }
+
+        $context = array(
+            'id'               => $id,
+            'name'             => Trans::__($contenttype['singular_name']),
+            'title'            => $content['title'],
+            'contenttype'      => $contenttype,
+            'relations'        => $relations,
+            'show_contenttype' => $showContenttype,
+            'related_content'  => is_null($relations) ? null : $content->related($showContenttype['slug']),
+        );
+
+        return $this->render('relatedto/relatedto.twig', array('context' => $context));
+    }
+
     /*
      * actionEditContent() Helper Functions
      */
