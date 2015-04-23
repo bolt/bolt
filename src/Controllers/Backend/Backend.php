@@ -3,6 +3,8 @@ namespace Bolt\Controllers\Backend;
 
 use Bolt\Controllers\Base;
 use Bolt\Translation\Translator as Trans;
+use Guzzle\Http\Exception\RequestException as V3RequestException;
+use GuzzleHttp\Exception\RequestException;
 use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -99,6 +101,70 @@ class Backend extends Base
         );
 
         return $this->render('omnisearch/omnisearch.twig', array('context' => $context));
+    }
+
+    /**
+     * Generate Lorem Ipsum records in the database for given Contenttypes.
+     *
+     * @param Request $request The Symfony Request
+     *
+     * @return \Twig_Markup|\Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function actionPrefill(Request $request)
+    {
+        // Determine the Contenttypes that we're doing the prefill for
+        $choices = array();
+        foreach ($this->getOption('contenttypes') as $key => $cttype) {
+            $namekey = 'contenttypes.' . $key . '.name.plural';
+            $name = Trans::__($namekey, array(), 'contenttypes');
+            $choices[$key] = ($name == $namekey) ? $cttype['name'] : $name;
+        }
+
+        // Create the form
+        $form = $this->createBuilder('form')
+            ->add('contenttypes', 'choice', array(
+                'choices'  => $choices,
+                'multiple' => true,
+                'expanded' => true,
+            ))
+            ->getForm();
+
+        if ($request->isMethod('POST') || $request->get('force') == 1) {
+            $form->submit($request);
+            $contenttypes = $form->get('contenttypes')->getData();
+
+            try {
+                $content = $this->app['storage']->preFill($contenttypes);
+                $this->addFlash('success', $content);
+            } catch (RequestException $e) {
+                $msg = "Timeout attempting to the 'Lorem Ipsum' generator. Unable to add dummy content.";
+                $this->addFlash('error', $msg);
+                $this->app['logger.system']->error($msg, array('event' => 'storage'));
+            } catch (V3RequestException $e) {
+                /** @deprecated removed when PHP 5.3 support is dropped */
+                $msg = "Timeout attempting to the 'Lorem Ipsum' generator. Unable to add dummy content.";
+                $this->addFlash('error', $msg);
+                $this->app['logger.system']->error($msg, array('event' => 'storage'));
+            }
+
+            return $this->redirectToRoute('prefill');
+        }
+
+        $context = array(
+            'contenttypes' => $choices,
+            'form'         => $form->createView(),
+        );
+
+        return $this->render('prefill/prefill.twig', array('context' => $context));
+    }
+
+    /**
+     * @param Request $request The Symfony Request
+     *
+     * @return \Twig_Markup|\Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function action(Request $request)
+    {
     }
 
     /**

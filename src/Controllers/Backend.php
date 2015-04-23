@@ -415,60 +415,6 @@ class Backend implements ControllerProviderInterface
     }
 
     /**
-     * Generate some lipsum in the DB.
-     *
-     * @param Application $app     The application/container
-     * @param Request     $request The Symfony Request
-     *
-     * @return \Twig_Markup|\Symfony\Component\HttpFoundation\RedirectResponse
-     */
-    public function prefill(Application $app, Request $request)
-    {
-        $choices = array();
-        foreach ($app['config']->get('contenttypes') as $key => $cttype) {
-            $namekey = 'contenttypes.' . $key . '.name.plural';
-            $name = Trans::__($namekey, array(), 'contenttypes');
-            $choices[$key] = ($name == $namekey) ? $cttype['name'] : $name;
-        }
-        $form = $app['form.factory']
-            ->createBuilder('form')
-            ->add('contenttypes', 'choice', array(
-                'choices'  => $choices,
-                'multiple' => true,
-                'expanded' => true,
-            ))
-            ->getForm();
-
-        if ($request->isMethod('POST') || ($request->get('force') == 1)) {
-            $form->submit($request);
-            $ctypes = $form->get('contenttypes')->getData();
-
-            try {
-                $content = $app['storage']->preFill($ctypes);
-                $app['session']->getFlashBag()->add('success', $content);
-            } catch (RequestException $e) {
-                $msg = "Timeout attempting to the 'Lorem Ipsum' generator. Unable to add dummy content.";
-                $app['session']->getFlashBag()->add('error', $msg);
-                $app['logger.system']->error($msg, array('event' => 'storage'));
-            } catch (V3RequestException $e) {
-                /** @deprecated removed when PHP 5.3 support is dropped */
-                $msg = "Timeout attempting to the 'Lorem Ipsum' generator. Unable to add dummy content.";
-                $app['session']->getFlashBag()->add('error', $msg);
-                $app['logger.system']->error($msg, array('event' => 'storage'));
-            }
-
-            return Lib::redirect('prefill');
-        }
-
-        $context = array(
-            'contenttypes' => $choices,
-            'form'         => $form->createView(),
-        );
-
-        return $app['render']->render('prefill/prefill.twig', array('context' => $context));
-    }
-
-    /**
      * Content type overview page.
      *
      * @param Application $app             The application/container
