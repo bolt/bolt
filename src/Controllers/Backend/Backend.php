@@ -43,12 +43,17 @@ class Backend extends Base
     }
 
     /**
+     * Dashboard or 'root' route.
+     *
      * @param Request $request The Symfony Request
      *
-     * @return \Twig_Markup|\Symfony\Component\HttpFoundation\RedirectResponse
+     * @return \Twig_Markup
      */
-    public function action(Request $request)
+    public function actionDashboard(Request $request)
     {
+        $context = $this->getLatest();
+
+        return $this->render('dashboard/dashboard.twig', array('context' => $context));
     }
 
     /**
@@ -67,5 +72,43 @@ class Backend extends Base
      */
     public function action(Request $request)
     {
+    }
+
+    /**
+     * Get the latest records for viewable contenttypes that a user has access
+     * to.
+     *
+     * When there are no Contenttype records we will suggest to create some
+     * dummy content.
+     *
+     * @param integer $limit
+     *
+     * @return array
+     */
+    private function getLatest($limit = null)
+    {
+        $total  = 0;
+        $latest = array();
+        $limit  = $limit ?: $this->getOption('general/recordsperdashboardwidget');
+
+        // Get the 'latest' from each of the content types.
+        foreach ($this->getOption('contenttypes') as $key => $contenttype) {
+            if ($this->isAllowed('contenttype:' . $key) && $contenttype['show_on_dashboard'] === true) {
+                $latest[$key] = $this->getContent($key, array(
+                    'limit'   => $limit,
+                    'order'   => 'datechanged DESC',
+                    'hydrate' => false
+                ));
+
+                if (!empty($latest[$key])) {
+                    $total += count($latest[$key]);
+                }
+            }
+        }
+
+        return array(
+            'latest'          => $latest,
+            'suggestloripsum' => ($total === 0),
+        );
     }
 }

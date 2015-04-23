@@ -152,37 +152,6 @@ class Backend implements ControllerProviderInterface
     }
 
     /**
-     * Dashboard or "root".
-     *
-     * @param Application $app The application/container
-     *
-     * @return mixed
-     */
-    public function dashboard(Application $app)
-    {
-        $limit = $app['config']->get('general/recordsperdashboardwidget');
-
-        $total = 0;
-        $latest = array();
-        // get the 'latest' from each of the content types.
-        foreach ($app['config']->get('contenttypes') as $key => $contenttype) {
-            if ($app['users']->isAllowed('contenttype:' . $key) && $contenttype['show_on_dashboard'] === true) {
-                $latest[$key] = $app['storage']->getContent($key, array('limit' => $limit, 'order' => 'datechanged DESC', 'hydrate' => false));
-                if (!empty($latest[$key])) {
-                    $total += count($latest[$key]);
-                }
-            }
-        }
-
-        $context = array(
-            'latest'          => $latest,
-            'suggestloripsum' => ($total == 0), // Nothing in the DB, then suggest to create some dummy content.
-        );
-
-        return $app['render']->render('dashboard/dashboard.twig', array('context' => $context));
-    }
-
-    /**
      * Check the database for missing tables and columns. Does not do actual repairs.
      *
      * @param Application $app The application/container
