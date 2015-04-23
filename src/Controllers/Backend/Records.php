@@ -5,13 +5,10 @@ use Bolt\Content;
 use Bolt\Controllers\Base;
 use Bolt\Translation\Translator as Trans;
 use Cocur\Slugify\Slugify;
-use Silex\Application;
 use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Generator\UrlGenerator;
+use Symfony\Component\HttpFoundation\Response;
 
 class Records extends Base
 {
@@ -30,9 +27,9 @@ class Records extends Base
     /**
      * Edit a unit of content, or create a new one.
      *
-     * @param Request     $request         The Symfony Request
-     * @param string      $contenttypeslug The content type slug
-     * @param integer     $id              The content ID
+     * @param Request $request         The Symfony Request
+     * @param string  $contenttypeslug The content type slug
+     * @param integer $id              The content ID
      *
      * @return \Twig_Markup|\Symfony\Component\HttpFoundation\RedirectResponse
      */
