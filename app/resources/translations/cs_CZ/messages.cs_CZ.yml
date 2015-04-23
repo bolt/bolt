@@ -560,7 +560,7 @@ page:
         cookies-required: "Upozornění: Pro přihlášení k administraci je zapotřebí cookies. Prosím, povolte si cookies ve svém prohlížeči.."
         label:
             password: "Heslo"
-            username: "Uživatelské jméno"
+            username: "Uživatelské jméno / emialovou"
         password-hide: "Skrýt"
         password-show: "Zobrazit"
         placeholder:

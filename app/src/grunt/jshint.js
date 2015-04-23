@@ -27,8 +27,6 @@ module.exports = {
                 Folders: true,              // bolt/obj-folders.js
                 init: true,                 // bolt/init.js
                 Moments: true,              // bolt/obj-moments.js
-                Navpopups: true,            // bolt/obj-navpopups.js
-                Sidebar: true,              // bolt/obj-sidebar.js
                 Stack: true,                // bolt/obj-stack.js
                 site: true,                 // bolt/extend.js/extend.twig
                 baseurl: true,              // bolt/extend.js/extend.twig

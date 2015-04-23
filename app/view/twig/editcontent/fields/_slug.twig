@@ -2,6 +2,7 @@
 
 {% set option = {
     uses:  field.uses|default([]) is iterable ? field.uses|default([]) : [field.uses],
+    viewless: context.content.contenttype.viewless|default(false)
 } %}
 
 {#=== INIT ===========================================================================================================#}
@@ -29,7 +30,7 @@
 }%}
 
 {% block fieldset %}
-    <label class="col-sm-3 control-label">{{ __('field.slug.permalink') }}:</label>
+    <label class="col-sm-3 control-label">{{ option.viewless ? __('Unique Alias') : __('field.slug.permalink') }}:</label>
     <div class="col-sm-9">
         <div class="input-group input-group-sm locked">
             <span class="input-group-addon">/{{ context.content.contenttype.singular_slug }}/<em>{{ context.content.get(contentkey) }}</em></span>

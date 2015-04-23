@@ -135,8 +135,6 @@
         $('#live-editor-iframe').on('load', iframeReady);
 
         bolt.liveEditor.active = true;
-        clearTimeout(bolt.sidebar.lengthTimer);
-        $('#navpage-secondary').css('height', '');
         $('body').addClass('live-editor-active');
         $('#navpage-primary .navbar-header a').on('click', preventClick);
 
@@ -189,7 +187,6 @@
 
         bolt.liveEditor.active = false;
         $('body').removeClass('live-editor-active');
-        bolt.sidebar.fixlength();
 
         liveEditor.removeEvents();
     };

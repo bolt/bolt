@@ -2,7 +2,6 @@
 
 namespace Bolt\Twig\Handler;
 
-use Bolt\Application;
 use Silex;
 
 /**
@@ -24,8 +23,8 @@ class UserHandler
     }
 
     /**
-     * Get an array of data for a user, based on the given name or id. Returns
-     * an array on success, and false otherwise.
+     * Get an array of data for a user, based on the given name, email address,
+     * or ID. Returns an array on success, and false otherwise.
      *
      * @param mixed $who
      *

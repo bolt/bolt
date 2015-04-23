@@ -3,7 +3,6 @@
 namespace Bolt\Database\Migration;
 
 use Bolt\Helpers\Arr;
-use Symfony\Component\Yaml\Parser;
 
 /**
  * Database records iport class

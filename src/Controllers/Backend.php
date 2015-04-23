@@ -190,7 +190,7 @@ class Backend implements ControllerProviderInterface
      */
     public function dbCheck(Application $app)
     {
-        list($messages, $hints) = $app['integritychecker']->checkTablesIntegrity(true);
+        list($messages, $hints) = $app['integritychecker']->checkTablesIntegrity(true, $app['logger']);
 
         $context = array(
             'modifications_made'     => null,
@@ -206,7 +206,7 @@ class Backend implements ControllerProviderInterface
      *
      * @param Application $app The application/container
      *
-     * @return string
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function dbUpdate(Application $app)
     {
@@ -235,7 +235,7 @@ class Backend implements ControllerProviderInterface
      * @param Application $app     The application/container
      * @param Request     $request The Symfony Request
      *
-     * @return mixed
+     * @return \Twig_Markup
      */
     public function dbUpdateResult(Application $app, Request $request)
     {
@@ -252,7 +252,7 @@ class Backend implements ControllerProviderInterface
      *
      * @param Application $app The application/container
      *
-     * @return mixed
+     * @return \Twig_Markup
      */
     public function clearCache(Application $app)
     {
@@ -275,7 +275,7 @@ class Backend implements ControllerProviderInterface
      *
      * @param \Silex\Application $app The application/container
      *
-     * @return string
+     * @return \Twig_Markup|\Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function systemLog(Application $app)
     {
@@ -306,7 +306,7 @@ class Backend implements ControllerProviderInterface
      *
      * @param Application $app The application/container
      *
-     * @return string
+     * @return \Twig_Markup|\Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function changeLog(Application $app)
     {
@@ -337,7 +337,7 @@ class Backend implements ControllerProviderInterface
      * @param \Silex\Application $app         The application/container
      * @param Request            $request     The Symfony Request
      *
-     * @return mixed
+     * @return \Twig_Markup
      */
     public function changelogRecordAll($contenttype, $contentid, Application $app, Request $request)
     {
@@ -444,11 +444,10 @@ class Backend implements ControllerProviderInterface
      * @param integer            $contentid   The content ID
      * @param integer            $id          The changelog entry ID
      * @param \Silex\Application $app         The application/container
-     * @param Request            $request     The Symfony Request
      *
-     * @return mixed
+     * @return \Twig_Markup|null
      */
-    public function changelogRecordSingle($contenttype, $contentid, $id, Application $app, Request $request)
+    public function changelogRecordSingle($contenttype, $contentid, $id, Application $app)
     {
         $entry = $app['logger.manager.change']->getChangelogEntry($contenttype, $contentid, $id);
         if (empty($entry)) {
@@ -473,7 +472,7 @@ class Backend implements ControllerProviderInterface
      *
      * @param Application $app The application/container
      *
-     * @return mixed
+     * @return \Twig_Markup
      */
     public function omnisearch(Application $app)
     {
@@ -498,7 +497,7 @@ class Backend implements ControllerProviderInterface
      * @param Application $app     The application/container
      * @param Request     $request The Symfony Request
      *
-     * @return string
+     * @return \Twig_Markup|\Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function prefill(Application $app, Request $request)
     {
@@ -517,8 +516,8 @@ class Backend implements ControllerProviderInterface
             ))
             ->getForm();
 
-        if (($request->getMethod() == 'POST') || ($request->get('force') == 1)) {
-            $form->bind($request);
+        if ($request->isMethod('POST') || ($request->get('force') == 1)) {
+            $form->submit($request);
             $ctypes = $form->get('contenttypes')->getData();
 
             try {
@@ -552,7 +551,7 @@ class Backend implements ControllerProviderInterface
      * @param Application $app             The application/container
      * @param string      $contenttypeslug The content type slug
      *
-     * @return mixed
+     * @return \Twig_Markup|\Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function overview(Application $app, $contenttypeslug)
     {
@@ -590,7 +589,7 @@ class Backend implements ControllerProviderInterface
         }
 
         // Perhaps also filter on taxonomies
-        foreach($app['config']->get('taxonomy') as $taxonomykey => $taxonomy) {
+        foreach ($app['config']->get('taxonomy') as $taxonomykey => $taxonomy) {
             if ($app['request']->query->get('taxonomy-' . $taxonomykey)) {
                 $contentparameters[$taxonomykey] = $app['request']->query->get('taxonomy-' . $taxonomykey);
                 $filter[] = $app['request']->query->get('taxonomy-' . $taxonomykey);
@@ -616,7 +615,7 @@ class Backend implements ControllerProviderInterface
      * @param Application $app             The application/container
      * @param Request     $request         The Symfony Request
      *
-     * @return mixed
+     * @return \Twig_Markup|\Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function relatedTo($contenttypeslug, $id, Application $app, Request $request)
     {
@@ -690,7 +689,7 @@ class Backend implements ControllerProviderInterface
      * @param Application $app             The application/container
      * @param Request     $request         The Symfony Request
      *
-     * @return mixed
+     * @return \Twig_Markup|\Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function editContent($contenttypeslug, $id, Application $app, Request $request)
     {
@@ -714,7 +713,7 @@ class Backend implements ControllerProviderInterface
 
         $tmpreferrer = $tmp['path'];
         if (!empty($tmp['query'])) {
-            $tmpreferrer .= "?" . $tmp['query'];
+            $tmpreferrer .= '?' . $tmp['query'];
         }
 
         if (strpos($tmpreferrer, '/overview/') !== false || ($tmpreferrer == $app['paths']['bolt'])) {
@@ -723,7 +722,7 @@ class Backend implements ControllerProviderInterface
 
         $contenttype = $app['storage']->getContentType($contenttypeslug);
 
-        if ($request->getMethod() == "POST") {
+        if ($request->isMethod('POST')) {
             if (!$app['users']->checkAntiCSRFToken()) {
                 $app->abort(Response::HTTP_BAD_REQUEST, Trans::__('Something went wrong'));
             }
@@ -747,7 +746,6 @@ class Backend implements ControllerProviderInterface
             if ($id) {
                 $content = $app['storage']->getContent($contenttype['slug'], array('id' => $id));
                 $oldStatus = $content['status'];
-                $newStatus = $content['status'];
             } else {
                 $content = $app['storage']->getContentObject($contenttypeslug);
                 $oldStatus = '';
@@ -784,9 +782,7 @@ class Backend implements ControllerProviderInterface
             // To check whether the status is allowed, we act as if a status
             // *transition* were requested.
             $content->setFromPost($requestAll, $contenttype);
-            $oldcontent = $content;
             $newStatus = $content['status'];
-
 
             // Don't try to spoof the $id.
             if (!empty($content['id']) && $id != $content['id']) {
@@ -804,7 +800,6 @@ class Backend implements ControllerProviderInterface
                 // Save the record
                 $id = $app['storage']->saveContent($content, $comment);
 
-
                 // Log the change
                 if ($new) {
                     $app['session']->getFlashBag()->add('success', Trans::__('contenttypes.generic.saved-new', array('%contenttype%' => $contenttypeslug)));
@@ -821,11 +816,11 @@ class Backend implements ControllerProviderInterface
                 if ($app['request']->get('returnto')) {
                     $returnto = $app['request']->get('returnto');
 
-                    if ($returnto == "new") {
+                    if ($returnto === 'new') {
                         return Lib::redirect('editcontent', array('contenttypeslug' => $contenttype['slug'], 'id' => $id), '#' . $app['request']->get('returnto'));
-                    } elseif ($returnto == "saveandnew") {
+                    } elseif ($returnto == 'saveandnew') {
                         return Lib::redirect('editcontent', array('contenttypeslug' => $contenttype['slug'], 'id' => 0), '#' . $app['request']->get('returnto'));
-                    } elseif ($returnto == "ajax") {
+                    } elseif ($returnto === 'ajax') {
                         /*
                          * Flush any buffers from saveConent() dispatcher hooks
                          * and make sure our JSON output is clean.
@@ -981,6 +976,7 @@ class Backend implements ControllerProviderInterface
         }
 
         // Determine which templates will result in templatefields
+        $templateFieldTemplates = array();
         if ($templateFieldsConfig = $app['config']->get('theme/templatefields')) {
             $templateFieldTemplates = array_keys($templateFieldsConfig);
             // Special case for default template
@@ -1044,9 +1040,6 @@ class Backend implements ControllerProviderInterface
             $addGroup('template', Trans::__('Template'));
         }
 
-
-
-
         $addGroup('meta', Trans::__('contenttypes.generic.group.meta'));
 
         // Render
@@ -1075,25 +1068,28 @@ class Backend implements ControllerProviderInterface
     /**
      * Deletes a content item.
      *
-     * @param Application $app             The application/container
-     * @param string      $contenttypeslug The content type slug
-     * @param integer     $id              The content ID
+     * @param Application    $app             The application/container
+     * @param string         $contenttypeslug The content type slug
+     * @param integer|string $id              The content ID or comma-delimited list of IDs
      *
-     * @return string
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function deleteContent(Application $app, $contenttypeslug, $id)
     {
+        $ids = explode(',', $id);
         $contenttype = $app['storage']->getContentType($contenttypeslug);
 
-        $content = $app['storage']->getContent($contenttype['slug'] . "/" . $id);
-        $title = $content->getTitle();
+        foreach ($ids as $id) {
+            $content = $app['storage']->getContent($contenttype['slug'] . '/' . $id);
+            $title = $content->getTitle();
 
-        if (!$app['users']->isAllowed("contenttype:{$contenttype['slug']}:delete:$id")) {
-            $app['session']->getFlashBag()->add('error', Trans::__('Permission denied', array()));
-        } elseif ($app['users']->checkAntiCSRFToken() && $app['storage']->deleteContent($contenttype['slug'], $id)) {
-            $app['session']->getFlashBag()->add('info', Trans::__("Content '%title%' has been deleted.", array('%title%' => $title)));
-        } else {
-            $app['session']->getFlashBag()->add('info', Trans::__("Content '%title%' could not be deleted.", array('%title%' => $title)));
+            if (!$app['users']->isAllowed("contenttype:{$contenttype['slug']}:delete:$id")) {
+                $app['session']->getFlashBag()->add('error', Trans::__('Permission denied', array()));
+            } elseif ($app['users']->checkAntiCSRFToken() && $app['storage']->deleteContent($contenttype['slug'], $id)) {
+                $app['session']->getFlashBag()->add('info', Trans::__("Content '%title%' has been deleted.", array('%title%' => $title)));
+            } else {
+                $app['session']->getFlashBag()->add('info', Trans::__("Content '%title%' could not be deleted.", array('%title%' => $title)));
+            }
         }
 
         return Lib::redirect('overview', array('contenttypeslug' => $contenttype['slug']));
@@ -1107,7 +1103,7 @@ class Backend implements ControllerProviderInterface
      * @param string      $contenttypeslug The content type slug
      * @param integer     $id              The content ID
      *
-     * @return string
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function contentAction(Application $app, $action, $contenttypeslug, $id)
     {
@@ -1116,7 +1112,7 @@ class Backend implements ControllerProviderInterface
         }
         $contenttype = $app['storage']->getContentType($contenttypeslug);
 
-        $content = $app['storage']->getContent($contenttype['slug'] . "/" . $id);
+        $content = $app['storage']->getContent($contenttype['slug'] . '/' . $id);
         $title = $content->getTitle();
 
         // map actions to new statuses
@@ -1153,7 +1149,7 @@ class Backend implements ControllerProviderInterface
      *
      * @param Application $app The application/container
      *
-     * @return mixed
+     * @return \Twig_Markup
      */
     public function users(Application $app)
     {
@@ -1181,7 +1177,7 @@ class Backend implements ControllerProviderInterface
      *
      * @param Application $app The application/container
      *
-     * @return mixed
+     * @return \Twig_Markup
      */
     public function roles(Application $app)
     {
@@ -1211,7 +1207,7 @@ class Backend implements ControllerProviderInterface
      * @param Application $app     The application/container
      * @param Request     $request The Symfony Request
      *
-     * @return mixed
+     * @return \Twig_Markup|\Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function userEdit($id, Application $app, Request $request)
     {
@@ -1293,7 +1289,7 @@ class Backend implements ControllerProviderInterface
         $form = $form->getForm();
 
         // Check if the form was POST-ed, and valid. If so, store the user.
-        if ($request->getMethod() == 'POST') {
+        if ($request->isMethod('POST')) {
             $user = $this->validateUserForm($app, $form);
 
             $currentuser = $app['users']->getCurrentUser();
@@ -1336,7 +1332,7 @@ class Backend implements ControllerProviderInterface
      * @param Application $app
      * @param Request     $request
      *
-     * @return string
+     * @return \Twig_Markup|\Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function userFirst(Application $app, Request $request)
     {
@@ -1352,6 +1348,8 @@ class Backend implements ControllerProviderInterface
         $dbdriver = $app['config']->get('general/database/driver');
         if ($dbdriver === 'sqlite' || $dbdriver === 'pdo_sqlite') {
             $note = Trans::__('page.edit-users.note-sqlite');
+        } else {
+            $note = '';
         }
 
         // If we get here, chances are we don't have the tables set up, yet.
@@ -1370,7 +1368,7 @@ class Backend implements ControllerProviderInterface
         $form = $form->getForm();
 
         // Check if the form was POST-ed, and valid. If so, store the user.
-        if ($request->getMethod() === 'POST') {
+        if ($request->isMethod('POST')) {
             if ($this->validateUserForm($app, $form, true)) {
                 // To the dashboard, where 'login' will be triggered
                 return $app->redirect(Lib::path('dashboard'));
@@ -1380,7 +1378,7 @@ class Backend implements ControllerProviderInterface
         $context = array(
             'kind'        => 'create',
             'form'        => $form->createView(),
-            'note'        => $note ? $note : '',
+            'note'        => $note,
             'displayname' => $user['displayname'],
         );
 
@@ -1430,13 +1428,15 @@ class Backend implements ControllerProviderInterface
                     $message = $app['mailer']
                         ->createMessage('message')
                         ->setSubject(Trans::__('New Bolt site has been set up'))
-                        ->setFrom(array($user['email'] => 'Bolt'))
+                        ->setFrom(array($app['config']->get('general/mailoptions/senderMail', $user['email']) => $app['config']->get('general/mailoptions/senderName', $app['config']->get('general/sitename'))))
                         ->setTo(array($user['email']   => $user['displayname']))
                         ->setBody(strip_tags($mailhtml))
                         ->addPart($mailhtml, 'text/html');
 
                     $app['mailer']->send($message);
                 } catch (\Exception $e) {
+                    // Sending message failed. What else can we do, sending with snailmail?
+                    $app['logger.system']->error("The 'mailoptions' need to be set in app/config/config.yml", array('event' => 'config'));
                 }
             }
 
@@ -1458,7 +1458,7 @@ class Backend implements ControllerProviderInterface
      * @param Application $app     The application/container
      * @param Request     $request The Symfony Request
      *
-     * @return string
+     * @return \Twig_Markup|\Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function profile(Application $app, Request $request)
     {
@@ -1474,7 +1474,7 @@ class Backend implements ControllerProviderInterface
         $form = $form->getForm();
 
         // Check if the form was POST-ed, and valid. If so, store the user.
-        if ($request->getMethod() == 'POST') {
+        if ($request->isMethod('POST')) {
             $form->submit($app['request']->get($form->getName()));
 
             if ($form->isValid()) {
@@ -1509,7 +1509,7 @@ class Backend implements ControllerProviderInterface
      * @param string      $action The action
      * @param integer     $id     The user ID
      *
-     * @return string
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function userAction(Application $app, $action, $id)
     {
@@ -1543,7 +1543,7 @@ class Backend implements ControllerProviderInterface
 
         switch ($action) {
 
-            case "disable":
+            case 'disable':
                 if ($app['users']->setEnabled($id, 0)) {
                     $app['logger.system']->info("Disabled user '{$user['displayname']}'.", array('event' => 'security'));
 
@@ -1553,7 +1553,7 @@ class Backend implements ControllerProviderInterface
                 }
                 break;
 
-            case "enable":
+            case 'enable':
                 if ($app['users']->setEnabled($id, 1)) {
                     $app['logger.system']->info("Enabled user '{$user['displayname']}'.", array('event' => 'security'));
                     $app['session']->getFlashBag()->add('info', Trans::__("User '%s' is enabled.", array('%s' => $user['displayname'])));
@@ -1562,7 +1562,7 @@ class Backend implements ControllerProviderInterface
                 }
                 break;
 
-            case "delete":
+            case 'delete':
 
                 if ($app['users']->checkAntiCSRFToken() && $app['users']->deleteUser($id)) {
                     $app['logger.system']->info("Deleted user '{$user['displayname']}'.", array('event' => 'security'));
@@ -1585,7 +1585,7 @@ class Backend implements ControllerProviderInterface
      *
      * @param Application $app The application/container
      *
-     * @return mixed
+     * @return \Twig_Markup
      */
     public function about(Application $app)
     {
@@ -1600,7 +1600,7 @@ class Backend implements ControllerProviderInterface
      * @param Application $app       The application/container
      * @param Request     $request   The Symfony Request
      *
-     * @return mixed
+     * @return \Twig_Markup
      */
     public function files($namespace, $path, Application $app, Request $request)
     {
@@ -1643,9 +1643,9 @@ class Backend implements ControllerProviderInterface
                     'FileUpload',
                     'file',
                     array(
-                        'label' => Trans::__('Upload a file to this folder'),
-                        'multiple' => TRUE,
-                        'attr'  => array(
+                        'label'    => Trans::__('Upload a file to this folder'),
+                        'multiple' => true,
+                        'attr'     => array(
                         'data-filename-placement' => 'inside',
                         'title'                   => Trans::__('Select file …'))
                     )
@@ -1654,7 +1654,7 @@ class Backend implements ControllerProviderInterface
 
             // Handle the upload.
             if ($request->isMethod('POST')) {
-                $form->bind($request);
+                $form->submit($request);
                 if ($form->isValid()) {
                     $files = $request->files->get($form->getName());
                     $files = $files['FileUpload'];
@@ -1681,7 +1681,7 @@ class Backend implements ControllerProviderInterface
                                 );
 
                                 // Add the file to our stack.
-                                $app['stack']->add($path . "/" . $filename);
+                                $app['stack']->add($path . '/' . $filename);
                                 $result->confirm();
                             } else {
                                 foreach ($result->getMessages() as $message) {
@@ -1760,11 +1760,11 @@ class Backend implements ControllerProviderInterface
      * @param Application $app       The application/container
      * @param Request     $request   The Symfony Request
      *
-     * @return mixed
+     * @return \Twig_Markup|\Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function fileEdit($namespace, $file, Application $app, Request $request)
     {
-        if ($namespace == 'app' && dirname($file) == "config") {
+        if ($namespace == 'app' && dirname($file) == 'config') {
             // Special case: If requesting one of the major config files, like contenttypes.yml, set the path to the
             // correct dir, which might be 'app/config', but it might be something else.
             $namespace = 'config';
@@ -1786,10 +1786,10 @@ class Backend implements ControllerProviderInterface
         // Get the pathsegments, so we can show the path.
         $path = dirname($file->getPath());
         $pathsegments = array();
-        $cumulative = "";
+        $cumulative = '';
         if (!empty($path)) {
-            foreach (explode("/", $path) as $segment) {
-                $cumulative .= $segment . "/";
+            foreach (explode('/', $path) as $segment) {
+                $cumulative .= $segment . '/';
                 $pathsegments[$cumulative] = $segment;
             }
         }
@@ -1824,7 +1824,7 @@ class Backend implements ControllerProviderInterface
             $filegroup[] = basename($basename . '_local.yml');
         }
 
-        $data['contents'] = $contents;
+        $data = array('contents' => $contents);
 
         /** @var Form $form */
         $form = $app['form.factory']
@@ -1833,8 +1833,8 @@ class Backend implements ControllerProviderInterface
             ->getForm();
 
         // Check if the form was POST-ed, and valid. If so, store the user.
-        if ($request->getMethod() == "POST") {
-            $form->bind($app['request']->get($form->getName()));
+        if ($request->isMethod('POST')) {
+            $form->submit($app['request']->get($form->getName()));
 
             if ($form->isValid()) {
                 $data = $form->getData();
@@ -1843,7 +1843,7 @@ class Backend implements ControllerProviderInterface
                 $ok = true;
 
                 // Before trying to save a yaml file, check if it's valid.
-                if ($type == "yml") {
+                if ($type == 'yml') {
                     $yamlparser = new Yaml\Parser();
                     try {
                         $ok = $yamlparser->parse($contents);
@@ -1900,7 +1900,7 @@ class Backend implements ControllerProviderInterface
      * @param Application $app       The application/container
      * @param Request     $request   The Symfony Request
      *
-     * @return mixed
+     * @return \Twig_Markup|\Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function translation($domain, $tr_locale, Application $app, Request $request)
     {
@@ -1923,8 +1923,8 @@ class Backend implements ControllerProviderInterface
             ->getForm();
 
         // Check if the form was POST-ed, and valid. If so, store the file.
-        if ($request->getMethod() == 'POST') {
-            $form->bind($app['request']->get($form->getName()));
+        if ($request->isMethod('POST')) {
+            $form->submit($app['request']->get($form->getName()));
 
             if ($form->isValid()) {
                 $data = $form->getData();
@@ -1975,7 +1975,7 @@ class Backend implements ControllerProviderInterface
      * @param Request     $request The Symfony Request
      * @param Application $app     The application/container
      *
-     * @return mixed
+     * @return null|\Symfony\Component\HttpFoundation\RedirectResponse
      */
     public static function before(Request $request, Application $app)
     {
@@ -2056,7 +2056,7 @@ class Backend implements ControllerProviderInterface
      * @param array       $user
      * @param boolean     $addusername
      *
-     * @return Symfony\Component\Form\FormBuilder
+     * @return \Symfony\Component\Form\FormBuilder
      */
     private function getUserForm(Application $app, array $user, $addusername = false)
     {
@@ -2138,11 +2138,11 @@ class Backend implements ControllerProviderInterface
      *   * Email is unique
      *   * Displaynames are unique
      *
-     * @param Application                        $app
-     * @param Symfony\Component\Form\FormBuilder $form
-     * @param boolean                            $addusername
+     * @param Application                         $app
+     * @param \Symfony\Component\Form\FormBuilder $form
+     * @param boolean                             $addusername
      *
-     * @return Symfony\Component\Form\FormBuilder
+     * @return \Symfony\Component\Form\FormBuilder
      */
     private function setUserFormValidation(Application $app, FormBuilder $form, $addusername = false)
     {

@@ -54,6 +54,7 @@
         bolt.conf.init();
         bolt.data.init();
         bolt.actions.init();
+        bolt.secmenu.init();
         bolt.stack.init();
 
         bolt.activity.init();
@@ -83,8 +84,6 @@
         // Get passed in data from Twig function data()
 
         // Initialize objects
-        bolt.sidebar = new Sidebar();
-        bolt.navpopups = new Navpopups();
         bolt.moments = new Moments();
         bolt.imagelist = [];
         bolt.filelist = [];

@@ -3,7 +3,6 @@
 namespace Bolt\Database;
 
 use Bolt\Application;
-use Bolt\Configuration\ResourceManager;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
 use Doctrine\DBAL\Platforms\SqlitePlatform;
@@ -15,104 +14,83 @@ use Doctrine\DBAL\Schema\Index;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Schema\TableDiff;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 class IntegrityChecker
 {
-    /**
-     * @var \Bolt\Application
-     */
+    /** @var \Bolt\Application */
     private $app;
-    /**
-     * @var string
-     */
-    private $prefix;
-    /**
-     * Default value for TEXT fields, differs per platform.
-     *
-     * @var string|null
-     */
-    private $textDefault = null;
 
-    /**
-     * Current tables.
-     */
+    /** @var string */
+    private $prefix;
+
+    /** @var \Doctrine\DBAL\Schema\Table[] Current tables. */
     private $tables;
 
-    /**
-     * Array of callables that produce table definitions.
-     *
-     * @var array
-     */
+    /** @var array Array of callables that produce table definitions. */
     protected $extension_table_generators = array();
 
-    const INTEGRITY_CHECK_INTERVAL = 1800; // max. validity of a database integrity check, in seconds
+    /** @var string */
+    protected $integrityCachePath;
+
+    const INTEGRITY_CHECK_INTERVAL    = 1800; // max. validity of a database integrity check, in seconds
     const INTEGRITY_CHECK_TS_FILENAME = 'dbcheck_ts'; // filename for the check timestamp file
 
-    public static $integrityCachePath;
-
+    /**
+     * @param Application $app
+     */
     public function __construct(Application $app)
     {
         $this->app = $app;
 
-        $this->prefix = $this->app['config']->get('general/database/prefix', 'bolt_');
-
-        // Make sure prefix ends in '_'. Prefixes without '_' are lame.
-        if ($this->prefix[strlen($this->prefix) - 1] != '_') {
-            $this->prefix .= '_';
-        }
-
         // Check the table integrity only once per hour, per session. (since it's pretty time-consuming.
         $this->checktimer = 3600;
-
-        $platform = $this->app['db']->getDatabasePlatform();
-        if ($platform instanceof SqlitePlatform || $platform instanceof PostgreSqlPlatform) {
-            $this->textDefault = '';
-        }
-
-        $this->tables = null;
-
-        self::$integrityCachePath = $this->app['resources']->getPath('cache');
     }
 
-    private static function getValidityTimestampFilename()
+    /**
+     * Invalidate our database check by removing the timestamp file from cache.
+     *
+     * @return void
+     */
+    public function invalidate()
     {
-        // If 'invalidate()' was called statically, we don't have the
-        // $integrityCachePath yet, so we set it here.
-        if (empty(self::$integrityCachePath)) {
-            $app = ResourceManager::getApp();
-            self::$integrityCachePath = $app['resources']->getPath('cache');
-        }
+        $fileName = $this->getValidityTimestampFilename();
 
-        return self::$integrityCachePath . '/' . self::INTEGRITY_CHECK_TS_FILENAME;
-    }
-
-    public static function invalidate(Application $app)
-    {
         // delete the cached dbcheck-ts
-        if (is_writable(self::getValidityTimestampFilename())) {
-            unlink(self::getValidityTimestampFilename());
-        } elseif (file_exists(self::getValidityTimestampFilename())) {
+        if (is_writable($fileName)) {
+            unlink($fileName);
+        } elseif (file_exists($fileName)) {
             $message = sprintf(
                 "The file '%s' exists, but couldn't be removed. Please remove this file manually, and try again.",
-                self::getValidityTimestampFilename()
+                $fileName
             );
-            $app->abort(Response::HTTP_UNAUTHORIZED, $message);
+            $this->app->abort(Response::HTTP_UNAUTHORIZED, $message);
         }
     }
 
-    public static function markValid()
+    /**
+     * Set our state as valid by writing the current date/time to the
+     * app/cache/dbcheck-ts file.
+     *
+     * @return void
+     */
+    public function markValid()
     {
-        // write current date/time > app/cache/dbcheck-ts
         $timestamp = time();
-        file_put_contents(self::getValidityTimestampFilename(), $timestamp);
+        file_put_contents($this->getValidityTimestampFilename(), $timestamp);
     }
 
-    public static function isValid()
+    /**
+     * Check if our state is known valid by comparing app/cache/dbcheck-ts to
+     * the current timestamp.
+     *
+     * @return boolean
+     */
+    public function isValid()
     {
-        // compare app/cache/dbcheck-ts vs. current timestamp
-        if (is_readable(self::getValidityTimestampFilename())) {
-            $validityTS = intval(file_get_contents(self::getValidityTimestampFilename()));
+        if (is_readable($this->getValidityTimestampFilename())) {
+            $validityTS = intval(file_get_contents($this->getValidityTimestampFilename()));
         } else {
             $validityTS = 0;
         }
@@ -121,9 +99,9 @@ class IntegrityChecker
     }
 
     /**
-     * Get an associative array with the bolt_tables tables as Doctrine\DBAL\Schema\Table objects.
+     * Get an associative array with the bolt_tables tables as Doctrine Table objects.
      *
-     * @return array
+     * @return \Doctrine\DBAL\Schema\Table[]
      */
     protected function getTableObjects()
     {
@@ -137,7 +115,7 @@ class IntegrityChecker
         $this->tables = array();
 
         foreach ($sm->listTables() as $table) {
-            if (strpos($table->getName(), $this->prefix) === 0) {
+            if (strpos($table->getName(), $this->getTablenamePrefix()) === 0) {
                 $this->tables[$table->getName()] = $table;
             }
         }
@@ -155,7 +133,7 @@ class IntegrityChecker
         $tables = $this->getTableObjects();
 
         // Check the users table.
-        if (!isset($tables[$this->prefix . 'users'])) {
+        if (!isset($tables[$this->getTablename('users')])) {
             return false;
         }
 
@@ -165,14 +143,16 @@ class IntegrityChecker
     /**
      * Check if all required tables and columns are present in the DB.
      *
-     * @param boolean $hinting Return hints if true
+     * @param boolean         $hinting     Return hints if true
+     * @param LoggerInterface $debugLogger Debug logger
      *
      * @return array Messages with errors, if any or array(messages, hints)
      */
-    public function checkTablesIntegrity($hinting = false)
+    public function checkTablesIntegrity($hinting = false, LoggerInterface $debugLogger = null)
     {
         $messages = array();
-        $hints = array();
+        $hints    = array();
+        $diffs    = array();
 
         $currentTables = $this->getTableObjects();
 
@@ -198,7 +178,7 @@ class IntegrityChecker
 
                     // diff may be just deleted columns which we have reset above
                     // only exec and add output if does really alter anything
-                    if ($this->app['db']->getDatabasePlatform()->getAlterTableSQL($diff)) {
+                    if ($diffs[] = $this->app['db']->getDatabasePlatform()->getAlterTableSQL($diff)) {
                         $msg = 'Table `' . $table->getName() . '` is not the correct schema: ';
                         $msgParts = array();
                         // No check on foreign keys yet because we don't use them
@@ -234,27 +214,34 @@ class IntegrityChecker
         // If there were no messages, update the timer, so we don't check it again.
         // If there _are_ messages, keep checking until it's fixed.
         if (empty($messages)) {
-            self::markValid();
+            $this->markValid();
+        }
+
+        // If we were passed in a debug logger, log the diffs
+        if ($debugLogger !== null) {
+            foreach ($diffs as $diff) {
+                $debugLogger->info('Database update required', $diff);
+            }
         }
 
         return $hinting ? array($messages, $hints) : $messages;
     }
 
     /**
-     * Determine if we need to check the table integrity. Do this only once per hour, per session, since it's pretty
-     * time consuming.
+     * Determine if we need to check the table integrity. Do this only once per
+     * hour, per session, since it's pretty time consuming.
      *
-     * @return boolean Check needed
+     * @return boolean TRUE if a check is needed
      */
     public function needsCheck()
     {
-        return !self::isValid();
+        return !$this->isValid();
     }
 
     /**
      * Check and repair tables.
      *
-     * @return array
+     * @return string[]
      */
     public function repairTables()
     {
@@ -308,14 +295,14 @@ class IntegrityChecker
      *
      * @param TableDiff $diff
      *
-     * @return TableDiff
+     * @return \Doctrine\DBAL\Schema\TableDiff
      */
     protected function cleanupTableDiff(TableDiff $diff)
     {
         $baseTables = $this->getBoltTablesNames();
 
         // Work around reserved column name removal
-        if ($diff->fromTable->getName() == $this->prefix . 'cron') {
+        if ($diff->fromTable->getName() == $this->getTablename('cron')) {
             foreach ($diff->renamedColumns as $key => $col) {
                 if ($col->getName() == 'interim') {
                     $diff->addedColumns[] = $col;
@@ -333,7 +320,9 @@ class IntegrityChecker
     }
 
     /**
-     * @return array
+     * Get a merged array of tables.
+     *
+     * @return \Doctrine\DBAL\Schema\Table[]
      */
     protected function getTablesSchema()
     {
@@ -357,6 +346,13 @@ class IntegrityChecker
         $this->extension_table_generators[] = $generator;
     }
 
+    /**
+     * Get all the registered extension tables.
+     *
+     * @param Schema $schema
+     *
+     * @return \Doctrine\DBAL\Schema\Table[]
+     */
     protected function getExtensionTablesSchema(Schema $schema)
     {
         $tables = array();
@@ -377,7 +373,9 @@ class IntegrityChecker
     }
 
     /**
-     * @return array
+     * Get an array of Bolt's internal tables
+     *
+     * @return \Doctrine\DBAL\Schema\Table[]
      */
     protected function getBoltTablesNames()
     {
@@ -393,13 +391,13 @@ class IntegrityChecker
     /**
      * @param Schema $schema
      *
-     * @return array
+     * @return \Doctrine\DBAL\Schema\Table[]
      */
     protected function getBoltTablesSchema(Schema $schema)
     {
         $tables = array();
 
-        $authtokenTable = $schema->createTable($this->prefix . 'authtoken');
+        $authtokenTable = $schema->createTable($this->getTablename('authtoken'));
         $authtokenTable->addColumn('id', 'integer', array('autoincrement' => true));
         $authtokenTable->setPrimaryKey(array('id'));
         // TODO: addColumn('userid'...), phase out referencing users by username
@@ -413,13 +411,14 @@ class IntegrityChecker
         $authtokenTable->addColumn('validity', 'datetime', array('notnull' => false, 'default' => null));
         $tables[] = $authtokenTable;
 
-        $usersTable = $schema->createTable($this->prefix . 'users');
+        $usersTable = $schema->createTable($this->getTablename('users'));
         $usersTable->addColumn('id', 'integer', array('autoincrement' => true));
         $usersTable->setPrimaryKey(array('id'));
         $usersTable->addColumn('username', 'string', array('length' => 32));
-        $usersTable->addIndex(array('username'));
+        $usersTable->addUniqueIndex(array('username'));
         $usersTable->addColumn('password', 'string', array('length' => 128));
-        $usersTable->addColumn('email', 'string', array('length' => 128));
+        $usersTable->addColumn('email', 'string', array('length' => 254));
+        $usersTable->addUniqueIndex(array('email'));
         $usersTable->addColumn('lastseen', 'datetime', array('notnull' => false, 'default' => null));
         $usersTable->addColumn('lastip', 'string', array('length' => 32, 'default' => ''));
         $usersTable->addColumn('displayname', 'string', array('length' => 32));
@@ -434,7 +433,7 @@ class IntegrityChecker
         $usersTable->addColumn('roles', 'string', array('length' => 1024, 'default' => ''));
         $tables[] = $usersTable;
 
-        $taxonomyTable = $schema->createTable($this->prefix . 'taxonomy');
+        $taxonomyTable = $schema->createTable($this->getTablename('taxonomy'));
         $taxonomyTable->addColumn('id', 'integer', array('autoincrement' => true));
         $taxonomyTable->setPrimaryKey(array('id'));
         $taxonomyTable->addColumn('content_id', 'integer');
@@ -449,7 +448,7 @@ class IntegrityChecker
         $taxonomyTable->addIndex(array( 'sortorder'));
         $tables[] = $taxonomyTable;
 
-        $relationsTable = $schema->createTable($this->prefix . 'relations');
+        $relationsTable = $schema->createTable($this->getTablename('relations'));
         $relationsTable->addColumn('id', 'integer', array('autoincrement' => true));
         $relationsTable->setPrimaryKey(array('id'));
         $relationsTable->addColumn('from_contenttype', 'string', array('length' => 32));
@@ -462,7 +461,7 @@ class IntegrityChecker
         $relationsTable->addIndex(array('to_id'));
         $tables[] = $relationsTable;
 
-        $logSystemTable = $schema->createTable($this->prefix . 'log_system');
+        $logSystemTable = $schema->createTable($this->getTablename('log_system'));
         $logSystemTable->addColumn('id', 'integer', array('autoincrement' => true));
         $logSystemTable->setPrimaryKey(array('id'));
         $logSystemTable->addColumn('level', 'integer');
@@ -480,7 +479,7 @@ class IntegrityChecker
         $logSystemTable->addColumn('source', 'text', array());
         $tables[] = $logSystemTable;
 
-        $logChangeTable = $schema->createTable($this->prefix . 'log_change');
+        $logChangeTable = $schema->createTable($this->getTablename('log_change'));
         $logChangeTable->addColumn('id', 'integer', array('autoincrement' => true));
         $logChangeTable->setPrimaryKey(array('id'));
         $logChangeTable->addColumn('date', 'datetime');
@@ -509,7 +508,7 @@ class IntegrityChecker
         $logChangeTable->addColumn('comment', 'string', array('length' => 150, 'default' => '', 'notnull' => false));
         $tables[] = $logChangeTable;
 
-        $cronTable = $schema->createTable($this->prefix . 'cron');
+        $cronTable = $schema->createTable($this->getTablename('cron'));
         $cronTable->addColumn('id', 'integer', array('autoincrement' => true));
         $cronTable->setPrimaryKey(array('id'));
         $cronTable->addColumn('interim', 'string', array('length' => 16));
@@ -523,7 +522,7 @@ class IntegrityChecker
     /**
      * @param Schema $schema
      *
-     * @return array
+     * @return \Doctrine\DBAL\Schema\Table[]
      */
     protected function getContentTypeTablesSchema(Schema $schema)
     {
@@ -596,7 +595,7 @@ class IntegrityChecker
                     case 'filelist':
                     case 'imagelist':
                     case 'select':
-                        $myTable->addColumn($field, 'text', array('default' => $this->textDefault));
+                        $myTable->addColumn($field, 'text', array('default' => $this->getTextDefault()));
                         break;
                     case 'datetime':
                         $myTable->addColumn($field, 'datetime', array('notnull' => false));
@@ -643,13 +642,63 @@ class IntegrityChecker
      *
      * @param $name
      *
-     * @return mixed
+     * @return string
      */
     protected function getTablename($name)
     {
         $name = str_replace('-', '_', $this->app['slugify']->slugify($name));
-        $tablename = sprintf("%s%s", $this->prefix, $name);
+        $tablename = sprintf('%s%s', $this->getTablenamePrefix(), $name);
 
         return $tablename;
+    }
+
+    /**
+     * Get the tablename prefix
+     *
+     * @return string
+     */
+    protected function getTablenamePrefix()
+    {
+        if ($this->prefix !== null) {
+            return $this->prefix;
+        }
+
+        $this->prefix = $this->app['config']->get('general/database/prefix', 'bolt_');
+
+        // Make sure prefix ends in '_'. Prefixes without '_' are lame.
+        if ($this->prefix[strlen($this->prefix) - 1] != '_') {
+            $this->prefix .= '_';
+        }
+
+        return $this->prefix;
+    }
+
+    /**
+     * Default value for TEXT fields, differs per platform.
+     *
+     * @return string|null
+     */
+    private function getTextDefault()
+    {
+        $platform = $this->app['db']->getDatabasePlatform();
+        if ($platform instanceof SqlitePlatform || $platform instanceof PostgreSqlPlatform) {
+            return '';
+        }
+
+        return null;
+    }
+
+    /**
+     * Get the 'validity' timestamp's file name.
+     *
+     * @return string
+     */
+    private function getValidityTimestampFilename()
+    {
+        if (empty($this->integrityCachePath)) {
+            $this->integrityCachePath = $this->app['resources']->getPath('cache');
+        }
+
+        return $this->integrityCachePath . '/' . self::INTEGRITY_CHECK_TS_FILENAME;
     }
 }

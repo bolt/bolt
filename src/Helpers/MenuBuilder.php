@@ -3,8 +3,8 @@
 namespace Bolt\Helpers;
 
 use Bolt\Application;
-use Bolt\Translation\Translator as Trans;
 use Bolt\Library as Lib;
+use Bolt\Translation\Translator as Trans;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 class MenuBuilder
@@ -36,8 +36,9 @@ class MenuBuilder
             $menu = array();
         }
 
-        if (!$resolved)
+        if (!$resolved) {
             return new Menu($name, $menu);
+        }
 
         return new Menu($name, $this->resolve($menu), true);
     }
@@ -84,18 +85,16 @@ class MenuBuilder
     private function menuHelper($item)
     {
         // recurse into submenu's
-        if (isset($item['submenu']) && is_array($item['submenu']))
+        if (isset($item['submenu']) && is_array($item['submenu'])) {
             $item['submenu'] = $this->menuHelper($item['submenu']);
+        }
 
         if (isset($item['route'])) {
-
             $param = !empty($item['param']) ?: array();
             $add = !empty($item['add']) ?: '';
 
             $item['link'] = Lib::path($item['route'], $param, $add);
-
         } elseif (isset($item['path'])) {
-
             $item = $this->resolvePathToContent($item);
         }
 

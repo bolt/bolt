@@ -3,7 +3,6 @@
 namespace Bolt\Storage;
 
 use GuzzleHttp\Client;
-use Guzzle\Service\Client as ServiceClient;
 
 /**
  * Handles Fetching Prefill Content from an API service.

@@ -40,7 +40,7 @@ class Login implements Silex\ControllerProviderInterface
      * @param \Silex\Application $app     The application/container
      * @param Request            $request The Symfony Request
      *
-     * @return string
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function postLogin(Silex\Application $app, Request $request)
     {
@@ -81,7 +81,7 @@ class Login implements Silex\ControllerProviderInterface
      *
      * @param \Silex\Application $app The application/container
      *
-     * @return string
+     * @return \Twig_Markup|\Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function getLogin(Silex\Application $app)
     {
@@ -105,7 +105,7 @@ class Login implements Silex\ControllerProviderInterface
      *
      * @param \Silex\Application $app The application/container
      *
-     * @return string
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function logout(Silex\Application $app)
     {
@@ -124,7 +124,7 @@ class Login implements Silex\ControllerProviderInterface
      * @param \Silex\Application $app     The application/container
      * @param Request            $request The Symfony Request
      *
-     * @return string
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function resetPassword(Silex\Application $app, Request $request)
     {

@@ -108,7 +108,7 @@ class Cache extends FilesystemCache
         );
 
         // Clear Doctrine's folder.
-        parent::flushAll();
+        $this->flushAll();
 
         // Clear our own cache folder.
         $this->clearCacheHelper($this->getDirectory(), '', $result);
@@ -168,7 +168,7 @@ class Cache extends FilesystemCache
 
         $dir->close();
 
-        $this->updateCacheVersion($currentfolder);
+        $this->updateCacheVersion();
     }
 
     /**

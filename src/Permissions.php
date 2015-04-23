@@ -35,6 +35,7 @@ class Permissions
      */
     const ROLE_OWNER = 'owner';
 
+    /** @var \Silex\Application */
     private $app;
 
     // per-request permission cache
@@ -64,6 +65,8 @@ class Permissions
      * This includes all the custom roles from permissions.yml, plus the
      * special 'root' role, but not the special roles 'anonymous', 'everyone',
      * and 'owner' (these are assigned automatically).
+     *
+     * @return array
      */
     public function getDefinedRoles()
     {
@@ -284,6 +287,14 @@ class Permissions
         throw new \InvalidArgumentException('Unknown permission type to check');
     }
 
+    /**
+     * Check if a given role has the specified permission.
+     *
+     * @param string $roleName
+     * @param string $permissionName
+     *
+     * @return boolean
+     */
     private function checkRoleGlobalPermission($roleName, $permissionName)
     {
         $roles = $this->getRolesByGlobalPermission($permissionName);
@@ -296,6 +307,15 @@ class Permissions
         return in_array($roleName, $roles);
     }
 
+    /**
+     * Check if a hierarchy role has a sub-role.
+     *
+     * @param string       $roleName
+     * @param string       $permissionName
+     * @param string|array $role
+     *
+     * @return boolean
+     */
     private function checkRoleHierarchyPermission($roleName, $permissionName, $role)
     {
         // Can current user manipulate role?
@@ -317,6 +337,15 @@ class Permissions
         return false;
     }
 
+    /**
+     * Check if a role has a specific Contenttype permission.
+     *
+     * @param string $roleName
+     * @param string $permissionName
+     * @param string $contenttype
+     *
+     * @return boolean
+     */
     private function checkRoleContentTypePermission($roleName, $permissionName, $contenttype)
     {
         $roles = $this->getRolesByContentTypePermission($permissionName, $contenttype);
@@ -350,6 +379,11 @@ class Permissions
      * Lists the roles that would grant the specified permission for the
      * specified content type. Sort of a reverse lookup on the permission
      * check.
+     *
+     * @param string $permissionName
+     * @param string $contenttype
+     *
+     * @return array
      */
     public function getRolesByContentTypePermission($permissionName, $contenttype)
     {
@@ -428,15 +462,15 @@ class Permissions
      *
      * "contenttype:$contenttype:edit or contenttype:$contenttype:view"
      *
-     * @param string $what        The desired permission, as elaborated upon above.
-     * @param mixed  $user        The user to check permissions against.
-     * @param string $contenttype Optional: Content type slug. If specified,
-     *                            $what is taken to be a relative permission (e.g. 'edit')
-     *                            rather than an absolute one (e.g. 'contenttype:pages:edit').
-     * @param int    $contentid   Only used if $contenttype is given, to further
-     *                            specifiy the content item.
+     * @param string  $what        The desired permission, as elaborated upon above.
+     * @param mixed   $user        The user to check permissions against.
+     * @param string  $contenttype Optional: Content type slug. If specified,
+     *                             $what is taken to be a relative permission (e.g. 'edit')
+     *                             rather than an absolute one (e.g. 'contenttype:pages:edit').
+     * @param integer $contentid   Only used if $contenttype is given, to further
+     *                             specifiy the content item.
      *
-     * @return bool TRUE if the permission is granted, FALSE if denied.
+     * @return boolean TRUE if the permission is granted, FALSE if denied.
      */
     public function isAllowed($what, $user, $contenttype = null, $contentid = null)
     {
@@ -470,6 +504,19 @@ class Permissions
         return $isAllowed;
     }
 
+    /**
+     * Check if a user is allowed a rule 'type'.
+     *
+     * @param array   $rule
+     * @param array   $user
+     * @param array   $userRoles
+     * @param string  $contenttype
+     * @param integer $contentid
+     *
+     * @throws \Exception
+     *
+     * @return boolean
+     */
     private function isAllowedRule($rule, $user, $userRoles, $contenttype, $contentid)
     {
         switch ($rule['type']) {
@@ -500,9 +547,20 @@ class Permissions
         }
     }
 
+    /**
+     * Check if a user has a specific role.
+     *
+     * @param string  $what
+     * @param array   $user
+     * @param array   $userRoles
+     * @param string  $contenttype
+     * @param integer $contentid
+     *
+     * @return boolean
+     */
     private function isAllowedSingle($what, $user, $userRoles, $contenttype = null, $contentid = null)
     {
-        if ($contenttype) {
+        if ($contenttype !== null) {
             $parts = array(
                         'contenttype',
                         $contenttype,
@@ -603,13 +661,13 @@ class Permissions
      * one status to another. An empty status value indicates a non-existant
      * item (create/delete).
      *
-     * @param $fromStatus
-     * @param $toStatus
+     * @param string $fromStatus
+     * @param string $toStatus
      *
      * @throws \Exception
      *
-     * @return mixed The name of the required permission suffix (e.g.
-     *               'publish'), or NULL if no permission is required.
+     * @return string|null The name of the required permission suffix (e.g.
+     *                     'publish'), or NULL if no permission is required.
      */
     public function getContentStatusTransitionPermission($fromStatus, $toStatus)
     {
@@ -634,6 +692,18 @@ class Permissions
         }
     }
 
+    /**
+     * Check to see if a user is allowed to change that status of a Contenttype
+     * record to a target status.
+     *
+     * @param string  $fromStatus
+     * @param string  $toStatus
+     * @param array   $user
+     * @param string  $contenttype
+     * @param integer $contentid
+     *
+     * @return boolean
+     */
     public function isContentStatusTransitionAllowed($fromStatus, $toStatus, $user, $contenttype, $contentid = null)
     {
         $perm = $this->getContentStatusTransitionPermission($fromStatus, $toStatus);

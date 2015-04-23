@@ -37,6 +37,11 @@ class InitListener implements ServiceProviderInterface, EventSubscriber
             // see: http://stackoverflow.com/questions/1566602/is-set-character-set-utf8-necessary
             $db->executeQuery('SET NAMES utf8');
             $db->executeQuery('SET CHARACTER_SET_CONNECTION = utf8');
+        } elseif ($platform === 'postgresql') {
+            /**
+             * @link https://github.com/doctrine/dbal/pull/828
+             */
+            $db->executeQuery("SET NAMES 'utf8'");
         }
     }
 

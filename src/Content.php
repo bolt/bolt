@@ -13,24 +13,33 @@ use Symfony\Component\Routing\Exception\RouteNotFoundException;
 
 class Content implements \ArrayAccess
 {
-    protected $app;
-    protected $parsedown;
     public $id;
     public $values = array();
     public $taxonomy;
     public $relation;
     public $contenttype;
-
-    // The last time we weight a searchresult
-    private $lastWeight = 0;
-    // Whether this is a "real" contenttype or an embedded ones
-    private $isRootType;
     public $user;
     public $sortorder;
     public $config;
     public $group;
 
-    public function __construct(Silex\Application $app, $contenttype = '', $values = '', $isRootType = true)
+    /** @var \Silex\Application */
+    protected $app;
+
+    /** @var integer The last time we weight a searchresult */
+    private $lastWeight = 0;
+
+    /** @var boolean Whether this is a "real" contenttype or an embedded ones */
+    private $isRootType;
+
+
+    /**
+     * @param \Silex\Application $app
+     * @param string             $contenttype
+     * @param array              $values
+     * @param boolean            $isRootType
+     */
+    public function __construct(Silex\Application $app, $contenttype = '', $values = array(), $isRootType = true)
     {
         $this->app = $app;
         $this->isRootType = $isRootType;
@@ -65,7 +74,6 @@ class Content implements \ArrayAccess
             $this->setValues($values);
         } else {
             // Ininitialize fields with empty values.
-            $values = array();
             if ((is_array($this->contenttype) && is_array($this->contenttype['fields']))) {
                 foreach ($this->contenttype['fields'] as $key => $parameters) {
                     // Set the default values.
@@ -88,8 +96,6 @@ class Content implements \ArrayAccess
 
             $this->setValues($values);
         }
-
-        $this->parsedown = new \ParsedownExtra();
     }
 
     /**
@@ -208,7 +214,10 @@ class Content implements \ArrayAccess
                         break;
 
                     case 'html':
-                        $newvalue[$field] = str_replace('&nbsp;', ' ', $this->values[$field]);
+                        // Remove &nbsp; characters from CKEditor, unless configured to leave them in.
+                        if (!$this->app['config']->get('general/wysiwyg/ck/allowNbsp')) {
+                            $newvalue[$field] = str_replace('&nbsp;', ' ', $this->values[$field]);
+                        }
                         break;
                     default:
                         $newvalue[$field] = $this->values[$field];
@@ -228,6 +237,11 @@ class Content implements \ArrayAccess
         return $newvalue;
     }
 
+    /**
+     * Set a Contenttype record's values.
+     *
+     * @param array $values
+     */
     public function setValues(array $values)
     {
         // Since Bolt 1.4, we use 'ownerid' instead of 'username' in the DB tables. If we get an array that has an
@@ -324,18 +338,20 @@ class Content implements \ArrayAccess
     }
 
     /**
+     * Set a Contenttype record's individual value.
+     *
      * @param string $key
      * @param mixed  $value
      */
     public function setValue($key, $value)
     {
         // Don't set templateFields if not a real contenttype
-        if (($key == 'templatefields') && (!$this->isRootType)) {
+        if (($key === 'templatefields') && (!$this->isRootType)) {
             return;
         }
 
         // Check if the value need to be unserialized.
-        if (is_string($value) && substr($value, 0, 2) == "a:") {
+        if (is_string($value) && substr($value, 0, 2) === "a:") {
             try {
                 $unserdata = Lib::smartUnserialize($value);
             } catch (\Exception $e) {
@@ -375,8 +391,7 @@ class Content implements \ArrayAccess
             }
         }
 
-        if ($key == 'templatefields') {
-            $oldValue = !empty($this->values[$key]) ? $this->values[$key] : null;
+        if ($key === 'templatefields') {
             if ((is_string($value)) || (is_array($value))) {
                 if (is_string($value)) {
                     try {
@@ -407,6 +422,16 @@ class Content implements \ArrayAccess
         $this->values[$key] = $value;
     }
 
+    /**
+     * Set a Contenttype record values from a HTTP POST.
+     *
+     * @param array  $values
+     * @param string $contenttype
+     *
+     * @throws \Exception
+     *
+     * @return void
+     */
     public function setFromPost($values, $contenttype)
     {
         $values = Input::cleanPostedData($values);
@@ -566,6 +591,8 @@ class Content implements \ArrayAccess
                     return true;
                 }
         }
+
+        return false;
     }
 
     /**
@@ -594,8 +621,6 @@ class Content implements \ArrayAccess
      *
      * @param array $matches
      *
-     * @internal param string $name
-     *
      * @return string
      */
     protected function upcountNameCallback($matches)
@@ -609,7 +634,7 @@ class Content implements \ArrayAccess
     /**
      * Set the Contenttype for the record.
      *
-     * @param string|array $contenttype
+     * @param array|string $contenttype
      */
     public function setContenttype($contenttype)
     {
@@ -623,12 +648,12 @@ class Content implements \ArrayAccess
     /**
      * Set a taxonomy for the current object.
      *
-     * @param $taxonomytype
-     * @param $slug
-     * @param string $name
-     * @param int    $sortorder
+     * @param string       $taxonomytype
+     * @param string|array $slug
+     * @param string       $name
+     * @param integer      $sortorder
      *
-     * @return bool
+     * @return boolean
      */
     public function setTaxonomy($taxonomytype, $slug, $name = '', $sortorder = 0)
     {
@@ -688,6 +713,8 @@ class Content implements \ArrayAccess
 
     /**
      * Sort the taxonomy of the current object, based on the order given in taxonomy.yml.
+     *
+     * @return void
      */
     public function sortTaxonomy()
     {
@@ -696,7 +723,7 @@ class Content implements \ArrayAccess
             return;
         }
 
-        foreach ($this->taxonomy as $type => $values) {
+        foreach (array_keys($this->taxonomy) as $type) {
             $taxonomytype = $this->app['config']->get('taxonomy/' . $type);
             // Don't order tags.
             if ($taxonomytype['behaves_like'] == "tags") {
@@ -721,6 +748,8 @@ class Content implements \ArrayAccess
      *
      * @param string|array $contenttype
      * @param integer      $id
+     *
+     * @return void
      */
     public function setRelation($contenttype, $id)
     {
@@ -755,12 +784,12 @@ class Content implements \ArrayAccess
     /**
      * Set the 'group', 'groupname' and 'sortorder' properties of the current object.
      *
-     * @param $group
-     * @param string $name
-     * @param string $taxonomytype
-     * @param int    $sortorder
+     * @param string  $group
+     * @param string  $name
+     * @param string  $taxonomytype
+     * @param integer $sortorder
      *
-     * @internal param string $value
+     * @return void
      */
     public function setGroup($group, $name, $taxonomytype, $sortorder = 0)
     {
@@ -791,7 +820,7 @@ class Content implements \ArrayAccess
      *
      * @param string $name name of the value to get
      *
-     * @return mixed decoded value or null when no value available
+     * @return mixed The decoded value or null when no value available
      */
     public function getDecodedValue($name)
     {
@@ -808,7 +837,7 @@ class Content implements \ArrayAccess
                     $value = $this->preParse($this->values[$name], $allowtwig);
 
                     // Parse the field as Markdown, return HTML
-                    $value = $this->parsedown->text($value);
+                    $value = $this->app['markdown']->text($value);
 
                     $config = $this->app['config']->get('general/htmlcleaner');
                     $allowed_tags = !empty($config['allowed_tags']) ? $config['allowed_tags'] :
@@ -869,7 +898,7 @@ class Content implements \ArrayAccess
      * If passed snippet contains Twig tags, parse the string as Twig, and return the results.
      *
      * @param string  $snippet
-     * @param boolena $allowtwig
+     * @param boolean $allowtwig
      *
      * @return string
      */
@@ -897,8 +926,8 @@ class Content implements \ArrayAccess
      * Magic __call function, used for when templates use {{ content.title }},
      * so we can map it to $this->values['title'].
      *
-     * @param string $name      method name originally called
-     * @param array  $arguments arguments to the call
+     * @param string $name      Method name originally called
+     * @param array  $arguments Arguments to the call
      *
      * @return mixed return value of the call
      */
@@ -914,7 +943,7 @@ class Content implements \ArrayAccess
     }
 
     /**
-     * pseudo-magic function, used for when templates use {{ content.get(title) }},
+     * Pseudo-magic function, used for when templates use {{ content.get(title) }},
      * so we can map it to $this->values['title'].
      *
      * @param string $name
@@ -955,6 +984,8 @@ class Content implements \ArrayAccess
 
     /**
      * Get the columnname of the title, name, caption or subject.
+     *
+     * @return string|null
      */
     public function getTitleColumnName()
     {
@@ -987,12 +1018,14 @@ class Content implements \ArrayAccess
 
     /**
      * Get the first image in the content.
+     *
+     * @return string
      */
     public function getImage()
     {
         // No fields, no image.
         if (empty($this->contenttype['fields'])) {
-            return "";
+            return '';
         }
 
         // Grab the first field of type 'image', and return that.
@@ -1013,6 +1046,8 @@ class Content implements \ArrayAccess
 
     /**
      * Get the reference to this record, to uniquely identify this specific record.
+     *
+     * @return string
      */
     public function getReference()
     {
@@ -1023,6 +1058,8 @@ class Content implements \ArrayAccess
 
     /**
      * Creates a link to EDIT this record, if the user is logged in.
+     *
+     * @return string
      */
     public function editlink()
     {
@@ -1037,6 +1074,8 @@ class Content implements \ArrayAccess
 
     /**
      * Creates a URL for the content record.
+     *
+     * @return string
      */
     public function link()
     {
@@ -1079,6 +1118,8 @@ class Content implements \ArrayAccess
 
     /**
      * Checks if the current record is set as the homepage.
+     *
+     * @return boolean
      */
     public function isHome()
     {
@@ -1088,6 +1129,13 @@ class Content implements \ArrayAccess
            ($this->contenttype['singular_slug'].'/'.$this->get('slug') == $homepage));
     }
 
+    /**
+     * Build a Contenttype's route parameters
+     *
+     * @param array $route
+     *
+     * @return array
+     */
     protected function getRouteRequirementParams(array $route)
     {
         $params = array();
@@ -1118,6 +1166,8 @@ class Content implements \ArrayAccess
     /**
      * Retrieves the first route applicable to the content as a two-element array consisting of the binding and the
      * route array. Returns `null` if there is no applicable route.
+     *
+     * @return array|null
      */
     protected function getRoute()
     {
@@ -1138,6 +1188,13 @@ class Content implements \ArrayAccess
         return null;
     }
 
+    /**
+     * Check if a route is applicable to this record.
+     *
+     * @param array $route
+     *
+     * @return boolean
+     */
     protected function isApplicableRoute(array $route)
     {
         return (isset($route['contenttype']) && $route['contenttype'] === $this->contenttype['singular_slug']) ||
@@ -1300,8 +1357,8 @@ class Content implements \ArrayAccess
     /**
      * Create an excerpt for the content.
      *
-     * @param int  $length
-     * @param bool $includetitle
+     * @param integer $length
+     * @param boolean $includetitle
      *
      * @return \Twig_Markup
      */
@@ -1327,7 +1384,7 @@ class Content implements \ArrayAccess
                     }
                     // add 'markdown' field
                     if ($field['type'] === 'markdown') {
-                        $excerptParts[] = \ParsedownExtra::instance()->text($this->values[$key]);
+                        $excerptParts[] = $this->app['markdown']->text($this->values[$key]);
                     }
                 }
             }
@@ -1352,8 +1409,8 @@ class Content implements \ArrayAccess
      * Note: To conform to the template style, this method name is not following PSR-1:
      *    {{ record.rss_safe() }}
      *
-     * @param string $fields        Comma separated list of fields to clean up
-     * @param int    $excerptLength Number of chars of the excerpt
+     * @param string  $fields        Comma separated list of fields to clean up
+     * @param integer $excerptLength Number of chars of the excerpt
      *
      * @return string RSS safe string
      */
@@ -1433,6 +1490,8 @@ class Content implements \ArrayAccess
      * Calculate the default field weights.
      *
      * This gives more weight to the 'slug pointer fields'.
+     *
+     * @return array
      */
     private function getFieldWeights()
     {
@@ -1464,7 +1523,9 @@ class Content implements \ArrayAccess
     /**
      * Calculate the default taxonomy weights.
      *
-     * Adds weights to taxonomies that behave like tags
+     * Adds weights to taxonomies that behave like tags.
+     *
+     * @return array
      */
     private function getTaxonomyWeights()
     {
@@ -1487,6 +1548,8 @@ class Content implements \ArrayAccess
      * The query is assumed to be in a format as returned by decode Storage->decodeSearchQuery().
      *
      * @param array $query Query to weigh against
+     *
+     * @return void
      */
     public function weighSearchResult($query)
     {
@@ -1525,6 +1588,9 @@ class Content implements \ArrayAccess
     }
 
     /**
+     * Get the content's query weight… and something to eat… it looks hungry.
+     *
+     * @return integer
      */
     public function getSearchResultWeight()
     {
@@ -1536,7 +1602,7 @@ class Content implements \ArrayAccess
      *
      * @param mixed $offset
      *
-     * @return bool
+     * @return boolean
      */
     public function offsetExists($offset)
     {
@@ -1560,8 +1626,8 @@ class Content implements \ArrayAccess
      *
      * @todo we could implement an setDecodedValue() function to do the encoding here
      *
-     * @param mixed $offset
-     * @param mixed $value
+     * @param string $offset
+     * @param mixed  $value
      */
     public function offsetSet($offset, $value)
     {
@@ -1571,7 +1637,7 @@ class Content implements \ArrayAccess
     /**
      * ArrayAccess support.
      *
-     * @param mixed $offset
+     * @param string $offset
      */
     public function offsetUnset($offset)
     {

@@ -188,11 +188,12 @@ class Manager
             if ($context) {
                 $where->add($query->expr()->eq('context', ':context'));
             }
-            $query->where($where)
-                  ->setParameters(array(
-                      ':level'   => $level,
-                      ':context' => $context
-            ));
+            $query
+                ->where($where)
+                ->setParameters(array(
+                    ':level'   => $level,
+                    ':context' => $context
+                ));
         }
 
         return $query;

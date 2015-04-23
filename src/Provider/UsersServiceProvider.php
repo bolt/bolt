@@ -4,8 +4,8 @@ namespace Bolt\Provider;
 
 use Bolt\Users;
 use Silex\Application;
-use Symfony\Component\HttpFoundation\Request;
 use Silex\ServiceProviderInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 class UsersServiceProvider implements ServiceProviderInterface
 {

@@ -600,7 +600,7 @@ page:
         cookies-required: "Info: Ciasteczka są wymagane aby zalogować się do Bolt. Proszę zezwolić na ciasteczka."
         label:
             password: "Hasło"
-            username: "Nazwa użytkownika"
+            username: "Nazwa użytkownika / adres e-mail"
         password-hide: "Ukryj"
         password-show: "Pokaż"
         placeholder:

@@ -2,8 +2,8 @@
 
 namespace Bolt\Response;
 
+use Twig_Template as Template;
 use Symfony\Component\HttpFoundation\Response;
-use \Twig_Template as Template;
 
 /**
  * BoltResponse uses a renderer and context variables

@@ -40,7 +40,7 @@
         });
 
         $(elements).on(
-            'shown.bs.modal',
+            'loaded.bs.modal',
             function (e) {
                 bolt.actions.init();
             }
