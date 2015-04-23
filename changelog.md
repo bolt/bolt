@@ -152,6 +152,12 @@ Released 2015-03-09. Notable changes:
 - Change: Bolt now distinguishes between 'regular news' and 'alerts' on the Dashboard screen. This way, we can better notify people in case of an urgent security issue. (See #2830)
 - Fixed: The built-in anti-CSRF token was renamed to `bolt_csrf_token` to prevent clashes when a user has a field named `token`. (See #2831)
 - Change: You can now use `{id}` in routes for records instead of `{slug}`, if you wish to have links to records using the id. (See #2832)
+- Added: IIS web.config (See #3423)
+- Change: PGSQL encoding settings in post connect event until doctrine/2.5.2 is out. (See #3429)
+- Fixed: Change slug label when contenttype is viewless. (See #3428)
+- Added: YAML repeated nodes (See #3430)
+- Added: add optional filter to select field with contenttype values (See #3432)
+- Fixed: Secondary menu refactoring (JS) (Fixes #2329 and #2347)
 
 Bolt 2.0.5
 ----------
