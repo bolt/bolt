@@ -76,8 +76,13 @@ Not yet released.
  - Change: Refactor out `load.php`. (see #3371)
  - Change: Move CodeSniffer to a composer package (see #3365)
  - Fixed: Fixing small inconsistency in `permissions.yml.dist': 'editors' can browse uploaded files from within CKeditor now. (See #3357)
-
-
+ - Make the removal / stripping of `&nbsp;` characters in CKEditor fields optional. (see #3373)
+ - Fixed to handle correctly file requests with built-in server (Thanks, @pedronofuentes, see #3383)
+ - Fix to use title and alt text on image field (Thanks @Shyim, see #3387)
+ - Fixed: Allow editing of empty files. (Thanks, @SahAssar, see #3391)
+ - Added: Include plugins "Styles Combo" and "Stylesheet Parser" in CKEditor (See #3384)
+ - Added: Always have a fallback for a timezone when it isn't set in either php.ini or config.yml (See #3394)
+ - Added: Ability to set a Email Sender Mail in config.yml (Thanks @Shyim, see #3409)
 
 
 Bolt 2.1.1
