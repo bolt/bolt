@@ -191,4 +191,17 @@ abstract class Base implements ControllerProviderInterface
     {
         return $this->app['storage']->getContent($textquery, $parameters, $pager, $whereparameters);
     }
+
+    /**
+     * Shortcut for {@see \Bolt\Config::get}.
+     *
+     * @param string $path
+     * @param string $default
+     *
+     * @return string|integer|array|null
+     */
+    protected function getOption($path, $default = null)
+    {
+        return $this->app['config']->get($path, $default);
+    }
 }
