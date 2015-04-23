@@ -152,26 +152,6 @@ class Backend implements ControllerProviderInterface
     }
 
     /**
-     * Check the database for missing tables and columns. Does not do actual repairs.
-     *
-     * @param Application $app The application/container
-     *
-     * @return mixed
-     */
-    public function dbCheck(Application $app)
-    {
-        list($messages, $hints) = $app['integritychecker']->checkTablesIntegrity(true, $app['logger']);
-
-        $context = array(
-            'modifications_made'     => null,
-            'modifications_required' => $messages,
-            'modifications_hints'    => $hints,
-        );
-
-        return $app['render']->render('dbcheck/dbcheck.twig', array('context' => $context));
-    }
-
-    /**
      * Check the database, create tables, add missing/new columns to tables.
      *
      * @param Application $app The application/container

@@ -33,11 +33,22 @@ class Database extends Base
      */
 
     /**
-     * @param Request $request The Symfony Request
+     * Check the database for missing tables and columns.
      *
-     * @return \Twig_Markup|\Symfony\Component\HttpFoundation\RedirectResponse
+     * Does not do actual repairs.
+     *
+     * @return \Twig_Markup
      */
-    public function action(Request $request)
+    public function actionCheck()
     {
+        list($messages, $hints) = $this->app['integritychecker']->checkTablesIntegrity(true, $this->app['logger']);
+
+        $context = array(
+            'modifications_made'     => null,
+            'modifications_required' => $messages,
+            'modifications_hints'    => $hints,
+        );
+
+        return $this->render('dbcheck/dbcheck.twig', array('context' => $context));
     }
 }
