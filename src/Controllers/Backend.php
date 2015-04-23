@@ -152,24 +152,6 @@ class Backend implements ControllerProviderInterface
     }
 
     /**
-     * Show the result of database updates.
-     *
-     * @param Application $app     The application/container
-     * @param Request     $request The Symfony Request
-     *
-     * @return \Twig_Markup
-     */
-    public function dbUpdateResult(Application $app, Request $request)
-    {
-        $context = array(
-            'modifications_made'     => json_decode($request->get('messages')),
-            'modifications_required' => null,
-        );
-
-        return $app['render']->render('dbcheck/dbcheck.twig', array('context' => $context));
-    }
-
-    /**
      * Show the system log.
      *
      * @param \Silex\Application $app The application/container

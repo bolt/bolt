@@ -80,4 +80,21 @@ class Database extends Base
             return $this->redirectToRoute('dbupdate_result', array('messages' => json_encode($output)));
         }
     }
+
+    /**
+     * Show the result of database updates.
+     *
+     * @param Request $request The Symfony Request
+     *
+     * @return \Twig_Markup
+     */
+    public function actionUpdateResult(Request $request)
+    {
+        $context = array(
+            'modifications_made'     => json_decode($request->get('messages')),
+            'modifications_required' => null,
+        );
+
+        return $this->render('dbcheck/dbcheck.twig', array('context' => $context));
+    }
 }
