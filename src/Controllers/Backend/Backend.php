@@ -78,12 +78,27 @@ class Backend extends Base
     }
 
     /**
+     * Show the Omnisearch results.
+     *
      * @param Request $request The Symfony Request
      *
-     * @return \Twig_Markup|\Symfony\Component\HttpFoundation\RedirectResponse
+     * @return \Twig_Markup
      */
-    public function action(Request $request)
+    public function actionOmnisearch(Request $request)
     {
+        $query = $request->query->get('q', '');
+        $results = array();
+
+        if (strlen($query) >= 3) {
+            $results = $this->app['omnisearch']->query($query, true);
+        }
+
+        $context = array(
+            'query'   => $query,
+            'results' => $results
+        );
+
+        return $this->render('omnisearch/omnisearch.twig', array('context' => $context));
     }
 
     /**

@@ -415,30 +415,6 @@ class Backend implements ControllerProviderInterface
     }
 
     /**
-     * Show the Omnisearch results.
-     *
-     * @param Application $app The application/container
-     *
-     * @return \Twig_Markup
-     */
-    public function omnisearch(Application $app)
-    {
-        $query = $app['request']->query->get('q', '');
-        $results = array();
-
-        if (strlen($query) >= 3) {
-            $results = $app['omnisearch']->query($query, true);
-        }
-
-        $context = array(
-            'query'   => $query,
-            'results' => $results
-        );
-
-        return $app['render']->render('omnisearch/omnisearch.twig', array('context' => $context));
-    }
-
-    /**
      * Generate some lipsum in the DB.
      *
      * @param Application $app     The application/container
