@@ -43,6 +43,27 @@ class Backend extends Base
     }
 
     /**
+     * Clear the cache.
+     *
+     * @return \Twig_Markup
+     */
+    public function actionClearCache()
+    {
+        $result = $this->app['cache']->clearCache();
+
+        $output = Trans::__('Deleted %s files from cache.', array('%s' => $result['successfiles']));
+
+        if (!empty($result['failedfiles'])) {
+            $output .= ' ' . Trans::__('%s files could not be deleted. You should delete them manually.', array('%s' => $result['failedfiles']));
+            $this->addFlash('error', $output);
+        } else {
+            $this->addFlash('success', $output);
+        }
+
+        return $this->render('clearcache/clearcache.twig');
+    }
+
+    /**
      * Dashboard or 'root' route.
      *
      * @param Request $request The Symfony Request
@@ -54,15 +75,6 @@ class Backend extends Base
         $context = $this->getLatest();
 
         return $this->render('dashboard/dashboard.twig', array('context' => $context));
-    }
-
-    /**
-     * @param Request $request The Symfony Request
-     *
-     * @return \Twig_Markup|\Symfony\Component\HttpFoundation\RedirectResponse
-     */
-    public function action(Request $request)
-    {
     }
 
     /**

@@ -218,29 +218,6 @@ class Backend implements ControllerProviderInterface
     }
 
     /**
-     * Clear the cache.
-     *
-     * @param Application $app The application/container
-     *
-     * @return \Twig_Markup
-     */
-    public function clearCache(Application $app)
-    {
-        $result = $app['cache']->clearCache();
-
-        $output = Trans::__('Deleted %s files from cache.', array('%s' => $result['successfiles']));
-
-        if (!empty($result['failedfiles'])) {
-            $output .= ' ' . Trans::__('%s files could not be deleted. You should delete them manually.', array('%s' => $result['failedfiles']));
-            $app['session']->getFlashBag()->add('error', $output);
-        } else {
-            $app['session']->getFlashBag()->add('success', $output);
-        }
-
-        return $app['render']->render('clearcache/clearcache.twig');
-    }
-
-    /**
      * Show the system log.
      *
      * @param \Silex\Application $app The application/container
