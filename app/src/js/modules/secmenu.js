@@ -27,17 +27,18 @@
     secmenu.init = function () {
         var usePopOvers = !$('.navbar-toggle').is(':visible');
 
-        if (usePopOvers) {
-            initPopOvers();
-        } else {
-            initMobileSubmenu();
-        }
-
         // Initialize the secondary menu in the sidebar.
         initSidebarToggle();
         initSidebarCollapse();
         initSidebarExpand();
         adjustSidebarHeight();
+
+        // Initialize the submenu
+        if (usePopOvers) {
+            initPopOvers();
+        } else {
+            initMobileSubmenu();
+        }
     };
 
     /**
