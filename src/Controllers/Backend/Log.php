@@ -33,11 +33,30 @@ class Log extends Base
      */
 
     /**
+     * Change log overview route
+     *
      * @param Request $request The Symfony Request
      *
      * @return \Twig_Markup|\Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function action(Request $request)
+    public function actionChangeOverview(Request $request)
     {
+        $action = $request->query->get('action');
+
+        if ($action == 'clear') {
+            $this->app['logger.manager']->clear('change');
+            $this->addFlash('success', Trans::__('The change log has been cleared.'));
+
+            return $this->redirectToRoute('changelog');
+        } elseif ($action == 'trim') {
+            $this->app['logger.manager']->trim('change');
+            $this->addFlash('success', Trans::__('The change log has been trimmed.'));
+
+            return $this->redirectToRoute('changelog');
+        }
+
+        $activity = $this->app['logger.manager']->getActivity('change', 16);
+
+        return $this->render('activity/changelog.twig', array('entries' => $activity));
     }
 }

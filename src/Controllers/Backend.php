@@ -183,34 +183,6 @@ class Backend implements ControllerProviderInterface
     }
 
     /**
-     * Show the change log.
-     *
-     * @param Application $app The application/container
-     *
-     * @return \Twig_Markup|\Symfony\Component\HttpFoundation\RedirectResponse
-     */
-    public function changeLog(Application $app)
-    {
-        $action = $app['request']->query->get('action');
-
-        if ($action == 'clear') {
-            $app['logger.manager']->clear('change');
-            $app['session']->getFlashBag()->add('success', Trans::__('The change log has been cleared.'));
-
-            return Lib::redirect('changelog');
-        } elseif ($action == 'trim') {
-            $app['logger.manager']->trim('change');
-            $app['session']->getFlashBag()->add('success', Trans::__('The change log has been trimmed.'));
-
-            return Lib::redirect('changelog');
-        }
-
-        $activity = $app['logger.manager']->getActivity('change', 16);
-
-        return $app['render']->render('activity/changelog.twig', array('entries' => $activity));
-    }
-
-    /**
      * Show changelog entries.
      *
      * @param string             $contenttype The content type slug
