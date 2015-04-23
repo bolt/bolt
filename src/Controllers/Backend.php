@@ -152,37 +152,6 @@ class Backend implements ControllerProviderInterface
     }
 
     /**
-     * Show the system log.
-     *
-     * @param \Silex\Application $app The application/container
-     *
-     * @return \Twig_Markup|\Symfony\Component\HttpFoundation\RedirectResponse
-     */
-    public function systemLog(Application $app)
-    {
-        $action = $app['request']->query->get('action');
-
-        if ($action == 'clear') {
-            $app['logger.manager']->clear('system');
-            $app['session']->getFlashBag()->add('success', Trans::__('The system log has been cleared.'));
-
-            return Lib::redirect('systemlog');
-        } elseif ($action == 'trim') {
-            $app['logger.manager']->trim('system');
-            $app['session']->getFlashBag()->add('success', Trans::__('The system log has been trimmed.'));
-
-            return Lib::redirect('systemlog');
-        }
-
-        $level = $app['request']->query->get('level');
-        $context = $app['request']->query->get('context');
-
-        $activity = $app['logger.manager']->getActivity('system', 16, $level, $context);
-
-        return $app['render']->render('activity/systemlog.twig', array('entries' => $activity));
-    }
-
-    /**
      * Show changelog entries.
      *
      * @param string             $contenttype The content type slug
