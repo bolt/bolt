@@ -33,7 +33,7 @@
             initMobileSubmenu();
         }
 
-        // Initialize the sidebar
+        // Initialize the secondary menu in the sidebar.
         initSidebarToggle();
         initSidebarCollapse();
         initSidebarExpand();
@@ -68,7 +68,7 @@
     }
 
     /**
-     * Show/hide secondary navigation.
+     * Initialize the menu toogle, that shows/hides secondary navigation.
      *
      * @private
      * @function initSidebarToggle
@@ -87,7 +87,7 @@
     }
 
     /**
-     * Bind collapse button, that collapses secondary navigation to icon only design.
+     * Initialize the collapse button, that collapses secondary navigation to icon only design.
      *
      * @private
      * @function initSidebarCollapse
@@ -113,7 +113,7 @@
     }
 
     /**
-     * Bind expand button, that expand secondary navigation to icon full width design.
+     * Initialize the expand button, that expands secondary navigation to icon full width design.
      *
      * @private
      * @function initSidebarExpand
@@ -133,7 +133,7 @@
     }
 
     /**
-     * Initialize the popover menues in the secondary meny.
+     * Initialize the popover menues in the secondary menu.
      *
      * @private
      * @function initPopOvers
@@ -211,7 +211,7 @@
         });
     }
 
-    // Apply mixin container
+    // Apply mixin container.
     bolt.secmenu = secmenu;
 
 })(Bolt || {}, jQuery, window);
