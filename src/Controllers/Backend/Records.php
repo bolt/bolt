@@ -35,7 +35,7 @@ class Records extends Base
      */
 
     /**
-     * Edit a unit of content, or create a new one.
+     * Edit a record, or create a new one.
      *
      * @param Request $request         The Symfony Request
      * @param string  $contenttypeslug The content type slug
@@ -43,7 +43,7 @@ class Records extends Base
      *
      * @return \Twig_Markup|\Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function actionEditContent(Request $request, $contenttypeslug, $id)
+    public function actionEdit(Request $request, $contenttypeslug, $id)
     {
         // Is the record new or existing
         $new = empty($id) ?: false;
