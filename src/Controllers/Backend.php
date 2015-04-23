@@ -260,36 +260,6 @@ class Backend implements ControllerProviderInterface
     }
 
     /**
-     * Show changelog details.
-     *
-     * @param string             $contenttype The content type slug
-     * @param integer            $contentid   The content ID
-     * @param integer            $id          The changelog entry ID
-     * @param \Silex\Application $app         The application/container
-     *
-     * @return \Twig_Markup|null
-     */
-    public function changelogRecordSingle($contenttype, $contentid, $id, Application $app)
-    {
-        $entry = $app['logger.manager.change']->getChangelogEntry($contenttype, $contentid, $id);
-        if (empty($entry)) {
-            $error = Trans::__("The requested changelog entry doesn't exist.");
-            return $app->abort(Response::HTTP_NOT_FOUND, $error);
-        }
-        $prev = $app['logger.manager.change']->getPrevChangelogEntry($contenttype, $contentid, $id);
-        $next = $app['logger.manager.change']->getNextChangelogEntry($contenttype, $contentid, $id);
-
-        $context = array(
-            'contenttype' => array('slug' => $contenttype),
-            'entry'       => $entry,
-            'next_entry'  => $next,
-            'prev_entry'  => $prev
-        );
-
-        return $app['render']->render('changelog/changelogrecordsingle.twig', array('context' => $context));
-    }
-
-    /**
      * Show a list of all available users.
      *
      * @param Application $app The application/container

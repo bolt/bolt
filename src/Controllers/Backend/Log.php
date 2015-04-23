@@ -61,6 +61,37 @@ class Log extends Base
     }
 
     /**
+     * Show a single change log entry.
+     *
+     * @param Request $request     The Symfony Request
+     * @param string  $contenttype The content type slug
+     * @param integer $contentid   The content ID
+     * @param integer $id          The changelog entry ID
+     *
+     * @return \Twig_Markup|\Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function actionChangeRecord(Request $request, $contenttype, $contentid, $id)
+    {
+        $entry = $this->app['logger.manager.change']->getChangelogEntry($contenttype, $contentid, $id);
+        if (empty($entry)) {
+            $error = Trans::__("The requested changelog entry doesn't exist.");
+
+            return $this->app->abort(Response::HTTP_NOT_FOUND, $error);
+        }
+        $prev = $this->app['logger.manager.change']->getPrevChangelogEntry($contenttype, $contentid, $id);
+        $next = $this->app['logger.manager.change']->getNextChangelogEntry($contenttype, $contentid, $id);
+
+        $context = array(
+            'contenttype' => array('slug' => $contenttype),
+            'entry'       => $entry,
+            'next_entry'  => $next,
+            'prev_entry'  => $prev
+        );
+
+        return $this->render('changelog/changelogrecordsingle.twig', array('context' => $context));
+    }
+
+    /**
      * System log overview route
      *
      * @param Request $request The Symfony Request
