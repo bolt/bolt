@@ -130,7 +130,13 @@ class Backend implements ControllerProviderInterface
             ->assert('file', '.+')
             ->assert('namespace', '[^/]+')
             ->value('namespace', 'files')
-            ->bind('fileedit');
+            ->bind('fileedit')
+            // Middleware to disable browser XSS protection whilst we throw code around
+            ->after(function(Request $request, Response $response) {
+                if ($request->getMethod() == "POST") {
+                    $response->headers->set('X-XSS-Protection', '0');
+                }
+            });
 
         $ctl->match('/tr/{domain}/{tr_locale}', array($this, 'translation'))
             ->assert('domain', 'messages|contenttypes|infos')
