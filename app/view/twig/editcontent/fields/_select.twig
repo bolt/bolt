@@ -20,7 +20,8 @@
     {% endif %}
     {% set sortingorder = field.sort|default(lookupfield|first) %}
     {% set querylimit = field.limit|default(500) %}
-    {% setcontent lookups = lookuptype order sortingorder nohydrate limit querylimit %}
+    {% set wherefilter = field.filter|default({}) %}
+    {% setcontent lookups = lookuptype where wherefilter order sortingorder nohydrate limit querylimit %}
     {% set values = lookups|selectfield(lookupfield, option.multiple, field.keys|default('id')) %}
 {% endif %}
 
