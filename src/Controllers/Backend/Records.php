@@ -10,9 +10,19 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Backend controller for record manipulation rotues.
+ *
+ * Prior to v2.3 this functionality primarily existed in the monolithic
+ * Bolt\Controllers\Backend class.
+ *
+ * @author Gawain Lynch <gawain.lynch@gmail.com>
+ */
 class Records extends Base
 {
     /**
+     * @see \Bolt\Controllers\Base::addControllers()
+     *
      * @param ControllerCollection $c
      */
     protected function addControllers(ControllerCollection $c)
