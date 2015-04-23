@@ -485,55 +485,6 @@ class Backend implements ControllerProviderInterface
     }
 
     /**
-     * Perform actions on content.
-     *
-     * @param Application $app             The application/container
-     * @param string      $action          The action
-     * @param string      $contenttypeslug The content type slug
-     * @param integer     $id              The content ID
-     *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
-     */
-    public function contentAction(Application $app, $action, $contenttypeslug, $id)
-    {
-        if ($action === 'delete') {
-            return $this->deleteContent($app, $contenttypeslug, $id);
-        }
-        $contenttype = $app['storage']->getContentType($contenttypeslug);
-
-        $content = $app['storage']->getContent($contenttype['slug'] . '/' . $id);
-        $title = $content->getTitle();
-
-        // map actions to new statuses
-        $actionStatuses = array(
-            'held'    => 'held',
-            'publish' => 'published',
-            'draft'   => 'draft',
-        );
-        if (!isset($actionStatuses[$action])) {
-            $app['session']->getFlashBag()->add('error', Trans::__('No such action for content.'));
-
-            return Lib::redirect('overview', array('contenttypeslug' => $contenttype['slug']));
-        }
-        $newStatus = $actionStatuses[$action];
-
-        if (!$app['users']->isAllowed("contenttype:{$contenttype['slug']}:edit:$id") ||
-            !$app['users']->isContentStatusTransitionAllowed($content['status'], $newStatus, $contenttype['slug'], $id)) {
-            $app['session']->getFlashBag()->add('error', Trans::__('You do not have the right privileges to edit that record.'));
-
-            return Lib::redirect('overview', array('contenttypeslug' => $contenttype['slug']));
-        }
-
-        if ($app['storage']->updateSingleValue($contenttype['slug'], $id, 'status', $newStatus)) {
-            $app['session']->getFlashBag()->add('info', Trans::__("Content '%title%' has been changed to '%newStatus%'", array('%title%' => $title, '%newStatus%' => $newStatus)));
-        } else {
-            $app['session']->getFlashBag()->add('info', Trans::__("Content '%title%' could not be modified.", array('%title%' => $title)));
-        }
-
-        return Lib::redirect('overview', array('contenttypeslug' => $contenttype['slug']));
-    }
-
-    /**
      * Show a list of all available users.
      *
      * @param Application $app The application/container

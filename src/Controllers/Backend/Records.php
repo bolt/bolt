@@ -98,6 +98,61 @@ class Records extends Base
         return $this->handleEditRequest($contenttype, $contenttypeslug, $id, $new);
     }
 
+    /**
+     * Perform an action on a Contenttype record.
+     *
+     * @param Request $request The Symfony Request
+     * @param string  $contenttypeslug The content type slug
+     * @param integer $id              The content ID
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function actionModify(Request $request, $action, $contenttypeslug, $id)
+    {
+        if ($action === 'delete') {
+            return $this->actionDelete($contenttypeslug, $id);
+        }
+
+        // This shoudln't happen
+        if (!$this->app['storage']->getContentType($contenttypeslug)) {
+            $this->addFlash('error', Trans::__('Attempt to modify invalid Contenttype.'));
+
+            return $this->redirectToRoute('dashboard');
+        }
+
+        // Map actions to new statuses
+        $actionStatuses = array(
+            'held'    => 'held',
+            'publish' => 'published',
+            'draft'   => 'draft',
+        );
+
+        if (!isset($actionStatuses[$action])) {
+            $this->addFlash('error', Trans::__('No such action for content.'));
+
+            return $this->redirectToRoute('overview', array('contenttypeslug' => $contenttypeslug));
+        }
+
+        $newStatus = $actionStatuses[$action];
+        $content = $this->getContent("$contenttypeslug/$id");
+        $title = $content->getTitle();
+
+        if (!$this->isAllowed("contenttype:$contenttypeslug:edit:$id") ||
+        !$this->app['users']->isContentStatusTransitionAllowed($content['status'], $newStatus, $contenttypeslug, $id)) {
+            $this->addFlash('error', Trans::__('You do not have the right privileges to edit that record.'));
+
+            return $this->redirectToRoute('overview', array('contenttypeslug' => $contenttypeslug));
+        }
+
+        if ($this->app['storage']->updateSingleValue($contenttypeslug, $id, 'status', $newStatus)) {
+            $this->addFlash('info', Trans::__("Content '%title%' has been changed to '%newStatus%'", array('%title%' => $title, '%newStatus%' => $newStatus)));
+        } else {
+            $this->addFlash('info', Trans::__("Content '%title%' could not be modified.", array('%title%' => $title)));
+        }
+
+        return $this->redirectToRoute('overview', array('contenttypeslug' => $contenttypeslug));
+    }
+
     /*
      * actionEditContent() Helper Functions
      */
