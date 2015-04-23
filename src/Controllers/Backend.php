@@ -1204,18 +1204,6 @@ class Backend implements ControllerProviderInterface
     }
 
     /**
-     * Show the 'about' page.
-     *
-     * @param Application $app The application/container
-     *
-     * @return \Twig_Markup
-     */
-    public function about(Application $app)
-    {
-        return $app['render']->render('about/about.twig');
-    }
-
-    /**
      * The file browser.
      *
      * @param string      $namespace The filesystem namespace

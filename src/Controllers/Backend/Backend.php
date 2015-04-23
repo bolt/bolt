@@ -33,6 +33,34 @@ class Backend extends Base
      */
 
     /**
+     * About page route.
+     *
+     * @return \Twig_Markup
+     */
+    public function actionAbout()
+    {
+        $this->render('about/about.twig');
+    }
+
+    /**
+     * @param Request $request The Symfony Request
+     *
+     * @return \Twig_Markup|\Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function action(Request $request)
+    {
+    }
+
+    /**
+     * @param Request $request The Symfony Request
+     *
+     * @return \Twig_Markup|\Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function action(Request $request)
+    {
+    }
+
+    /**
      * @param Request $request The Symfony Request
      *
      * @return \Twig_Markup|\Symfony\Component\HttpFoundation\RedirectResponse
