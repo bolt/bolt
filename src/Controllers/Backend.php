@@ -485,36 +485,6 @@ class Backend implements ControllerProviderInterface
     }
 
     /**
-     * Deletes a content item.
-     *
-     * @param Application    $app             The application/container
-     * @param string         $contenttypeslug The content type slug
-     * @param integer|string $id              The content ID or comma-delimited list of IDs
-     *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
-     */
-    public function deleteContent(Application $app, $contenttypeslug, $id)
-    {
-        $ids = explode(',', $id);
-        $contenttype = $app['storage']->getContentType($contenttypeslug);
-
-        foreach ($ids as $id) {
-            $content = $app['storage']->getContent($contenttype['slug'], array('id' => $id, 'status' => '!'));
-            $title = $content->getTitle();
-
-            if (!$app['users']->isAllowed("contenttype:{$contenttype['slug']}:delete:$id")) {
-                $app['session']->getFlashBag()->add('error', Trans::__('Permission denied', array()));
-            } elseif ($app['users']->checkAntiCSRFToken() && $app['storage']->deleteContent($contenttype['slug'], $id)) {
-                $app['session']->getFlashBag()->add('info', Trans::__("Content '%title%' has been deleted.", array('%title%' => $title)));
-            } else {
-                $app['session']->getFlashBag()->add('info', Trans::__("Content '%title%' could not be deleted.", array('%title%' => $title)));
-            }
-        }
-
-        return Lib::redirect('overview', array('contenttypeslug' => $contenttype['slug']));
-    }
-
-    /**
      * Perform actions on content.
      *
      * @param Application $app             The application/container

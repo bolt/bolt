@@ -35,6 +35,36 @@ class Records extends Base
      */
 
     /**
+     * Delete a record.
+     *
+     * @param Request $request The Symfony Request
+     * @param string  $contenttypeslug
+     * @param integer $id
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function actionDelete(Request $request, $contenttypeslug, $id)
+    {
+        $ids = explode(',', $id);
+        $contenttype = $this->app['storage']->getContentType($contenttypeslug);
+
+        foreach ($ids as $id) {
+            $content = $this->getContent($contenttype['slug'] . '/' . $id);
+            $title = $content->getTitle();
+
+            if (!$this->isAllowed("contenttype:$contenttypeslug:delete:$id")) {
+                $this->addFlash('error', Trans::__('Permission denied', array()));
+            } elseif ($this->checkAntiCSRFToken() && $this->app['storage']->deleteContent($contenttypeslug, $id)) {
+                $this->addFlash('info', Trans::__("Content '%title%' has been deleted.", array('%title%' => $title)));
+            } else {
+                $this->addFlash('info', Trans::__("Content '%title%' could not be deleted.", array('%title%' => $title)));
+            }
+        }
+
+        return $this->redirectToRoute('overview', array('contenttypeslug' => $contenttypeslug));
+    }
+
+    /**
      * Edit a record, or create a new one.
      *
      * @param Request $request         The Symfony Request
@@ -86,7 +116,7 @@ class Records extends Base
         $new = empty($id) ?: false;
 
         // Check for a valid CSRF token
-        if ($request->isMethod('POST') && !$this->app['users']->checkAntiCSRFToken()) {
+        if ($request->isMethod('POST') && !$this->checkAntiCSRFToken()) {
 // FIXME
 // $this->app->abort(Response::HTTP_BAD_REQUEST, Trans::__('Something went wrong'));
             return $this->redirectToRoute('dashboard', array(), Response::HTTP_BAD_REQUEST);
