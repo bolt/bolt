@@ -27,6 +27,15 @@ class Backend extends BackendBase
 {
     protected function addControllers(ControllerCollection $c)
     {
+        $c->get('/about', 'controllers.backend:actionAbout')->bind('about');
+        $c->get('/clearcache', 'controllers.backend:actionClearCache')->bind('clearcache');
+        $c->get('/', 'controllers.backend:actionDashboard')->bind('dashboard');
+        $c->get('/omnisearch', 'controllers.backend:actionOmnisearch')->bind('omnisearch');
+        $c->get('/prefill', 'controllers.backend:actionPrefill')->bind('prefill');
+        $c->get('/tr/{domain}/{tr_locale}', 'controllers.backend:actionTranslation')->bind('translation')
+            ->assert('domain', 'messages|contenttypes|infos')
+            ->value('domain', 'messages')
+            ->value('tr_locale', $this->app['locale']);
     }
 
     /*

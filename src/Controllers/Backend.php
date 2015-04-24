@@ -47,9 +47,6 @@ class Backend implements ControllerProviderInterface
         $ctl->before(array($this, 'before'));
         $ctl->method('GET|POST');
 
-        $ctl->get('', array($this, 'dashboard'))
-            ->bind('dashboard');
-
         $ctl->get('/dbcheck', array($this, 'dbCheck'))
             ->bind('dbcheck');
 
@@ -58,12 +55,6 @@ class Backend implements ControllerProviderInterface
 
         $ctl->get('/dbupdate_result', array($this, 'dbUpdateResult'))
             ->bind('dbupdate_result');
-
-        $ctl->get('/clearcache', array($this, 'clearCache'))
-            ->bind('clearcache');
-
-        $ctl->match('/prefill', array($this, 'prefill'))
-            ->bind('prefill');
 
         $ctl->get('/overview/{contenttypeslug}', array($this, 'overview'))
             ->bind('overview');
@@ -114,9 +105,6 @@ class Backend implements ControllerProviderInterface
         $ctl->get('/roles', array($this, 'roles'))
             ->bind('roles');
 
-        $ctl->get('/about', array($this, 'about'))
-            ->bind('about');
-
         $ctl->post('/user/{action}/{id}', array($this, 'userAction'))
             ->bind('useraction');
 
@@ -138,15 +126,6 @@ class Backend implements ControllerProviderInterface
                     $response->headers->set('X-XSS-Protection', '0');
                 }
             });
-
-        $ctl->match('/tr/{domain}/{tr_locale}', array($this, 'translation'))
-            ->assert('domain', 'messages|contenttypes|infos')
-            ->value('domain', 'messages')
-            ->value('tr_locale', $app['locale'])
-            ->bind('translation');
-
-        $ctl->get('/omnisearch', array($this, 'omnisearch'))
-            ->bind('omnisearch');
 
         return $ctl;
     }
