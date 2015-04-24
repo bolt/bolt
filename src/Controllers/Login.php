@@ -18,11 +18,11 @@ class Login implements Silex\ControllerProviderInterface
         $ctl = $app['controllers_factory'];
 
         $ctl->get('/login', array($this, 'getLogin'))
-            ->before(array('\Bolt\Controllers\Backend', 'before'))
+            ->before(array('\Bolt\Controllers\Backend\BackendBase', 'before'))
             ->bind('login');
 
         $ctl->post('/login', array($this, 'postLogin'))
-            ->before(array('\Bolt\Controllers\Backend', 'before'))
+            ->before(array('\Bolt\Controllers\Backend\BackendBase', 'before'))
             ->bind('postLogin');
 
         $ctl->match('/logout', array($this, 'logout'))
