@@ -190,6 +190,16 @@ abstract class Base implements ControllerProviderInterface
     }
 
     /**
+     * Returns the Users object.
+     *
+     * @return \Bolt\Users
+     */
+    protected function getUsers()
+    {
+        return $this->app['users'];
+    }
+
+    /**
      * Shortcut for {@see \Bolt\Storage::getContent}
      *
      * @param string $textquery
