@@ -50,9 +50,6 @@ class Backend implements ControllerProviderInterface
         $ctl->match('/userfirst', array($this, 'userFirst'))
             ->bind('userfirst');
 
-        $ctl->get('/roles', array($this, 'roles'))
-            ->bind('roles');
-
         $ctl->post('/user/{action}/{id}', array($this, 'userAction'))
             ->bind('useraction');
 
@@ -76,34 +73,6 @@ class Backend implements ControllerProviderInterface
             });
 
         return $ctl;
-    }
-
-    /**
-     * Show the roles page.
-     *
-     * @param Application $app The application/container
-     *
-     * @return \Twig_Markup
-     */
-    public function roles(Application $app)
-    {
-        $contenttypes = $app['config']->get('contenttypes');
-        $permissions = array('view', 'edit', 'create', 'publish', 'depublish', 'change-ownership');
-        $effectivePermissions = array();
-        foreach ($contenttypes as $contenttype) {
-            foreach ($permissions as $permission) {
-                $effectivePermissions[$contenttype['slug']][$permission] =
-                    $app['permissions']->getRolesByContentTypePermission($permission, $contenttype['slug']);
-            }
-        }
-        $globalPermissions = $app['permissions']->getGlobalRoles();
-
-        $context = array(
-            'effective_permissions' => $effectivePermissions,
-            'global_permissions'    => $globalPermissions,
-        );
-
-        return $app['render']->render('roles/roles.twig', array('context' => $context));
     }
 
     /**

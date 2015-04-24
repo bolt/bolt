@@ -33,6 +33,9 @@ class Users extends BackendBase
 
         $c->match('/profile', 'controllers.backend.users:actionProfile')
             ->bind('profile');
+
+        $c->get('/roles', 'controllers.backend.users:actionViewRoles')
+            ->bind('roles');
     }
 
     /*
@@ -239,6 +242,32 @@ class Users extends BackendBase
         );
 
         return $this->render('edituser/edituser.twig', $context);
+    }
+
+    /**
+     * Route to view the configured user roles.
+     *
+     * @return \Bolt\Response\BoltResponse
+     */
+    public function actionViewRoles()
+    {
+        $contenttypes = $this->getOption('contenttypes');
+        $permissions = array('view', 'edit', 'create', 'publish', 'depublish', 'change-ownership');
+        $effectivePermissions = array();
+        foreach ($contenttypes as $contenttype) {
+            foreach ($permissions as $permission) {
+                $effectivePermissions[$contenttype['slug']][$permission] =
+                $this->app['permissions']->getRolesByContentTypePermission($permission, $contenttype['slug']);
+            }
+        }
+        $globalPermissions = $this->app['permissions']->getGlobalRoles();
+
+        $context = array(
+            'effective_permissions' => $effectivePermissions,
+            'global_permissions'    => $globalPermissions,
+        );
+
+        return $this->render('roles/roles.twig', $context);
     }
 
     /*
