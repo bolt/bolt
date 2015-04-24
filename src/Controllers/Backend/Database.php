@@ -14,10 +14,18 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class Database extends Base
+class Database extends BackendBase
 {
     protected function addControllers(ControllerCollection $c)
     {
+        $c->get('/dbcheck', 'controllers.backend.database:actionCheck')
+            ->bind('dbcheck');
+
+        $c->get('/dbupdate', 'controllers.backend.database:actionUpdate')
+            ->bind('dbupdate');
+
+        $c->get('/dbupdate_result', 'controllers.backend.database:actionUpdateResult')
+            ->bind('dbupdate_result');
     }
 
     /*

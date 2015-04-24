@@ -47,15 +47,6 @@ class Backend implements ControllerProviderInterface
         $ctl->before(array($this, 'before'));
         $ctl->method('GET|POST');
 
-        $ctl->get('/dbcheck', array($this, 'dbCheck'))
-            ->bind('dbcheck');
-
-        $ctl->post('/dbupdate', array($this, 'dbUpdate'))
-            ->bind('dbupdate');
-
-        $ctl->get('/dbupdate_result', array($this, 'dbUpdateResult'))
-            ->bind('dbupdate_result');
-
         $ctl->get('/overview/{contenttypeslug}', array($this, 'overview'))
             ->bind('overview');
 
