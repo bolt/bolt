@@ -11,4 +11,12 @@ abstract class BackendBase extends Base
         $c = parent::connect($app);
         $c->value('end', 'backend'); // For now
     }
+
+    protected function render($template, array $variables = array(), array $globals = array())
+    {
+        if (!isset($variables['context'])) {
+            $variables['context'] = $variables;
+        }
+        return parent::render($template, $variables, $globals);
+    }
 }

@@ -205,7 +205,7 @@ class Records extends BackendBase
             'filter'          => $filter
         );
 
-        return $this->render('overview/overview.twig', array('context' => $context));
+        return $this->render('overview/overview.twig', $context);
     }
 
     /**
@@ -268,7 +268,7 @@ class Records extends BackendBase
             'related_content'  => is_null($relations) ? null : $content->related($showContenttype['slug']),
         );
 
-        return $this->render('relatedto/relatedto.twig', array('context' => $context));
+        return $this->render('relatedto/relatedto.twig', $context);
     }
 
     /*
@@ -640,7 +640,7 @@ class Records extends BackendBase
         );
 
         // Render
-        return $this->render('editcontent/editcontent.twig', array('context' => $context));
+        return $this->render('editcontent/editcontent.twig', $context);
     }
 
     /**

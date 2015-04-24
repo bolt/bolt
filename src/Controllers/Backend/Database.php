@@ -41,7 +41,7 @@ class Database extends Base
             'modifications_hints'    => $hints,
         );
 
-        return $this->render('dbcheck/dbcheck.twig', array('context' => $context));
+        return $this->render('dbcheck/dbcheck.twig', $context);
     }
 
     /**
@@ -87,6 +87,6 @@ class Database extends Base
             'modifications_required' => null,
         );
 
-        return $this->render('dbcheck/dbcheck.twig', array('context' => $context));
+        return $this->render('dbcheck/dbcheck.twig', $context);
     }
 }

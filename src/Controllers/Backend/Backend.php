@@ -75,7 +75,7 @@ class Backend extends BackendBase
     {
         $context = $this->getLatest();
 
-        return $this->render('dashboard/dashboard.twig', array('context' => $context));
+        return $this->render('dashboard/dashboard.twig', $context);
     }
 
     /**
@@ -99,7 +99,7 @@ class Backend extends BackendBase
             'results' => $results
         );
 
-        return $this->render('omnisearch/omnisearch.twig', array('context' => $context));
+        return $this->render('omnisearch/omnisearch.twig', $context);
     }
 
     /**
@@ -154,7 +154,7 @@ class Backend extends BackendBase
             'form'         => $form->createView(),
         );
 
-        return $this->render('prefill/prefill.twig', array('context' => $context));
+        return $this->render('prefill/prefill.twig', $context);
     }
 
     /**
@@ -203,7 +203,7 @@ class Backend extends BackendBase
             'write_allowed' => $tr['writeallowed'],
         );
 
-        return $this->render('editlocale/editlocale.twig', array('context' => $context));
+        return $this->render('editlocale/editlocale.twig', $context);
     }
 
     /*

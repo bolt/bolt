@@ -80,7 +80,7 @@ class Log extends BackendBase
             'prev_entry'  => $prev
         );
 
-        return $this->render('changelog/changelogrecordsingle.twig', array('context' => $context));
+        return $this->render('changelog/changelogrecordsingle.twig', $context);
     }
 
     /**
@@ -186,7 +186,7 @@ class Log extends BackendBase
             'pagecount'   => $pagecount
         );
 
-        return $this->render('changelog/changelogrecordall.twig', array('context' => $context));
+        return $this->render('changelog/changelogrecordall.twig', $context);
     }
 
     /**
