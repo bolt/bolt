@@ -397,7 +397,7 @@ class TranslationFile
     }
 
     /**
-     * Parses translations file ans returns translations.
+     * Parses translations file and returns translations.
      *
      * @return array Translations found
      */

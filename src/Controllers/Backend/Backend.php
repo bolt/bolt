@@ -214,8 +214,6 @@ class Backend extends BackendBase
             if ($response = $this->saveTranslationFile($request, $form, $tr)) {
                 return $response;
             }
-
-            $tr['writeallowed'] = false;
         }
 
         $context = array(
@@ -299,7 +297,7 @@ class Backend extends BackendBase
      *
      * @return boolean|\Symfony\Component\HttpFoundation\RedirectResponse
      */
-    private function saveTranslationFile(Request $request, Form $form, array $tr)
+    private function saveTranslationFile(Request $request, Form $form, array &$tr)
     {
         $form->submit($request->get($form->getName()));
 
@@ -327,11 +325,13 @@ class Backend extends BackendBase
                     $fs->dumpFile($tr['path'], $contents);
                     $msg = Trans::__("File '%s' has been saved.", array('%s' => $tr['shortPath']));
                     $this->addFlash('info', $msg);
+                    $tr['writeallowed'] = true;
 
                     return $this->redirectToRoute('translation', array('domain' => $tr['domain'], 'tr_locale' => $tr['locale']));
                 } catch (IOException $e) {
                     $msg = Trans::__("The file '%s' is not writable. You will have to use your own editor to make modifications to this file.", array('%s' => $tr['shortPath']));
                     $this->addFlash('error', $msg);
+                    $tr['writeallowed'] = false;
                 }
             }
         }
