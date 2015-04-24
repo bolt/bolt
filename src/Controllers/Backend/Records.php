@@ -21,6 +21,25 @@ class Records extends BackendBase
 {
     protected function addControllers(ControllerCollection $c)
     {
+        $c->method('GET|POST');
+
+        $c->get('/content/deletecontent/{contenttypeslug}/{id}', 'controllers.backend.records:actionDelete')
+            ->bind('deletecontent');
+
+        $c->get('/editcontent/{contenttypeslug}/{id}', 'controllers.backend.records:actionEdit')
+            ->bind('editcontent')
+            ->assert('id', '\d*')
+            ->value('id', '');
+
+        $c->get('/content/{action}/{contenttypeslug}/{id}', 'controllers.backend.records:actionModify')
+            ->bind('contentaction');
+
+        $c->get('/overview/{contenttypeslug}', 'controllers.backend.records:actionOverview')
+            ->bind('overview');
+
+        $c->get('/relatedto/{contenttypeslug}/{id}', 'controllers.backend.records:actionRelated')
+            ->bind('relatedto')
+            ->assert('id', '\d*');
     }
 
     /*

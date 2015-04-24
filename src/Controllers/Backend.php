@@ -47,24 +47,6 @@ class Backend implements ControllerProviderInterface
         $ctl->before(array($this, 'before'));
         $ctl->method('GET|POST');
 
-        $ctl->get('/overview/{contenttypeslug}', array($this, 'overview'))
-            ->bind('overview');
-
-        $ctl->get('/relatedto/{contenttypeslug}/{id}', array($this, 'relatedTo'))
-            ->assert('id', '\d*')
-            ->bind('relatedto');
-
-        $ctl->match('/editcontent/{contenttypeslug}/{id}', array($this, 'editContent'))
-            ->assert('id', '\d*')
-            ->value('id', '')
-            ->bind('editcontent');
-
-        $ctl->get('/content/deletecontent/{contenttypeslug}/{id}', array($this, 'deleteContent'))
-            ->bind('deletecontent');
-
-        $ctl->post('/content/{action}/{contenttypeslug}/{id}', array($this, 'contentAction'))
-            ->bind('contentaction');
-
         $ctl->get('/systemlog', array($this, 'systemLog'))
             ->bind('systemlog');
 
