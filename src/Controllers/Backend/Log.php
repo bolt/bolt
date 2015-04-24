@@ -39,7 +39,7 @@ class Log extends BackendBase
      */
 
     /**
-     * Change log overview route
+     * Change log overview route.
      *
      * @param Request $request The Symfony Request
      *
