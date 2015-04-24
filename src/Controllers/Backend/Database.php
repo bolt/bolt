@@ -21,7 +21,7 @@ class Database extends BackendBase
         $c->get('/dbcheck', 'controllers.backend.database:actionCheck')
             ->bind('dbcheck');
 
-        $c->get('/dbupdate', 'controllers.backend.database:actionUpdate')
+        $c->post('/dbupdate', 'controllers.backend.database:actionUpdate')
             ->bind('dbupdate');
 
         $c->get('/dbupdate_result', 'controllers.backend.database:actionUpdateResult')
