@@ -36,7 +36,7 @@ class Backend extends BackendBase
     /**
      * About page route.
      *
-     * @return \Twig_Markup
+     * @return \Bolt\Response\BoltResponse
      */
     public function actionAbout()
     {
@@ -46,7 +46,7 @@ class Backend extends BackendBase
     /**
      * Clear the cache.
      *
-     * @return \Twig_Markup
+     * @return \Bolt\Response\BoltResponse
      */
     public function actionClearCache()
     {
@@ -69,7 +69,7 @@ class Backend extends BackendBase
      *
      * @param Request $request The Symfony Request
      *
-     * @return \Twig_Markup
+     * @return \Bolt\Response\BoltResponse
      */
     public function actionDashboard(Request $request)
     {
@@ -83,7 +83,7 @@ class Backend extends BackendBase
      *
      * @param Request $request The Symfony Request
      *
-     * @return \Twig_Markup
+     * @return \Bolt\Response\BoltResponse
      */
     public function actionOmnisearch(Request $request)
     {
@@ -107,7 +107,7 @@ class Backend extends BackendBase
      *
      * @param Request $request The Symfony Request
      *
-     * @return \Twig_Markup|\Symfony\Component\HttpFoundation\RedirectResponse
+     * @return \Bolt\Response\BoltResponse|\Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function actionPrefill(Request $request)
     {
@@ -164,7 +164,7 @@ class Backend extends BackendBase
      * @param string  $domain    The domain
      * @param string  $tr_locale The translation locale
      *
-     * @return \Twig_Markup|\Symfony\Component\HttpFoundation\RedirectResponse
+     * @return \Bolt\Response\BoltResponse|\Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function actionTranslation(Request $request, $domain, $tr_locale)
     {
@@ -253,7 +253,7 @@ class Backend extends BackendBase
      *
      * @param array $tr
      *
-     * @return sting
+     * @return string
      */
     private function getTranslationData(array &$tr)
     {

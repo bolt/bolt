@@ -197,7 +197,7 @@ abstract class Base implements ControllerProviderInterface
      * @param array  $pager
      * @param array  $whereparameters
      *
-     * @return \Bolt\Content[]
+     * @return \Bolt\Content|\Bolt\Content[]
      */
     protected function getContent($textquery, $parameters = array(), &$pager = array(), $whereparameters = array())
     {

@@ -64,7 +64,7 @@ class Records extends BackendBase
      * @param string  $contenttypeslug The content type slug
      * @param integer $id              The content ID
      *
-     * @return \Twig_Markup|\Symfony\Component\HttpFoundation\RedirectResponse
+     * @return \Bolt\Response\BoltResponse|\Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function actionEdit(Request $request, $contenttypeslug, $id)
     {
@@ -152,7 +152,7 @@ class Records extends BackendBase
      * @param Request $request The Symfony Request
      * @param string  $contenttypeslug The content type slug
      *
-     * @return \Twig_Markup|\Symfony\Component\HttpFoundation\RedirectResponse
+     * @return \Bolt\Response\BoltResponse|\Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function actionOverview(Request $request, $contenttypeslug)
     {
@@ -215,7 +215,7 @@ class Records extends BackendBase
      * @param string  $contenttypeslug The content type slug
      * @param integer $id              The ID
      *
-     * @return \Twig_Markup|\Symfony\Component\HttpFoundation\RedirectResponse
+     * @return \Bolt\Response\BoltResponse|\Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function actionRelated(Request $request, $contenttypeslug, $id)
     {
@@ -282,6 +282,8 @@ class Records extends BackendBase
      * @param Request $request
      * @param string  $contenttypeslug
      * @param integer $id
+     *
+     * @return bool|\Symfony\Component\HttpFoundation\RedirectResponse
      */
     private function checkEditAccess(Request $request, $contenttypeslug, $id)
     {
@@ -444,6 +446,8 @@ class Records extends BackendBase
      *
      * @param Request $request
      * @param array   $fields
+     *
+     * @return array
      */
     private function setSuccessfulControlValues(Request $request, $fields)
     {
@@ -547,7 +551,7 @@ class Records extends BackendBase
      * @param integer $id          The record ID
      * @param boolean $new         If TRUE this is a new record
      *
-     * @return Response
+     * @return \Bolt\Response\BoltResponse
      */
     private function handleEditRequest(array $contenttype, $id, $new)
     {

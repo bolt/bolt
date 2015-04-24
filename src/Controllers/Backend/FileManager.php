@@ -26,7 +26,7 @@ class FileManager extends Base
     /**
      * @param Request $request The Symfony Request
      *
-     * @return \Twig_Markup|\Symfony\Component\HttpFoundation\RedirectResponse
+     * @return \Bolt\Response\BoltResponse|\Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function action(Request $request)
     {

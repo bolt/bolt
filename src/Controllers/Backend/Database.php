@@ -29,7 +29,7 @@ class Database extends Base
      *
      * Does not do actual repairs.
      *
-     * @return \Twig_Markup
+     * @return \Bolt\Response\BoltResponse
      */
     public function actionCheck()
     {
@@ -78,7 +78,7 @@ class Database extends Base
      *
      * @param Request $request The Symfony Request
      *
-     * @return \Twig_Markup
+     * @return \Bolt\Response\BoltResponse
      */
     public function actionUpdateResult(Request $request)
     {

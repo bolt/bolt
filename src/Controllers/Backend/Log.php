@@ -29,7 +29,7 @@ class Log extends BackendBase
      *
      * @param Request $request The Symfony Request
      *
-     * @return \Twig_Markup|\Symfony\Component\HttpFoundation\RedirectResponse
+     * @return \Bolt\Response\BoltResponse|\Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function actionChangeOverview(Request $request)
     {
@@ -60,7 +60,7 @@ class Log extends BackendBase
      * @param integer $contentid   The content ID
      * @param integer $id          The changelog entry ID
      *
-     * @return \Twig_Markup|\Symfony\Component\HttpFoundation\RedirectResponse
+     * @return \Bolt\Response\BoltResponse|\Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function actionChangeRecord(Request $request, $contenttype, $contentid, $id)
     {
@@ -90,7 +90,7 @@ class Log extends BackendBase
      * @param string  $contenttype The content type slug
      * @param integer $contentid   The content ID
      *
-     * @return \Twig_Markup|\Symfony\Component\HttpFoundation\RedirectResponse
+     * @return \Bolt\Response\BoltResponse|\Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function actionChangeRecordListing(Request $request, $contenttype, $contentid)
     {
@@ -194,7 +194,7 @@ class Log extends BackendBase
      *
      * @param Request $request The Symfony Request
      *
-     * @return \Twig_Markup|\Symfony\Component\HttpFoundation\RedirectResponse
+     * @return \Bolt\Response\BoltResponse|\Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function actionSystemOverview(Request $request)
     {
