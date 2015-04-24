@@ -27,6 +27,9 @@ class Users extends BackendBase
         $c->match('/users/edit/{id}', 'controllers.backend.users:actionEdit')
             ->assert('id', '\d*')
             ->bind('useredit');
+
+        $c->match('/profile', 'controllers.backend.users:actionProfile')
+            ->bind('profile');
     }
 
     /*
@@ -151,6 +154,55 @@ class Users extends BackendBase
         $context = array(
             'kind'        => empty($id) ? 'create' : 'edit',
             'form'        => $formView,
+            'note'        => '',
+            'displayname' => $user['displayname'],
+        );
+
+        return $this->render('edituser/edituser.twig', $context);
+    }
+
+    /**
+     * User profile page route.
+     *
+     * @param Request $request The Symfony Request
+     *
+     * @return \Bolt\Response\BoltResponse|\Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function actionProfile(Request $request)
+    {
+        $user = $this->getUser();
+
+        // Get the form
+        $form = $this->getUserForm($user, false);
+
+        // Set the validation
+        $form = $this->setUserFormValidation($form, false);
+
+        /** @var \Symfony\Component\Form\Form */
+        $form = $form->getForm();
+
+        // Check if the form was POST-ed, and valid. If so, store the user.
+        if ($request->isMethod('POST')) {
+            $form->submit($request->get($form->getName()));
+
+            if ($form->isValid()) {
+                $user = $form->getData();
+
+                $res = $this->getUsers()->saveUser($user);
+                $this->app['logger.system']->info(Trans::__('page.edit-users.log.user-updated', array('%user%' => $user['displayname'])), array('event' => 'security'));
+                if ($res) {
+                    $this->addFlash('success', Trans::__('page.edit-users.message.user-saved', array('%user%' => $user['displayname'])));
+                } else {
+                    $this->addFlash('error', Trans::__('page.edit-users.message.saving-user', array('%user%' => $user['displayname'])));
+                }
+
+                return $this->redirectToRoute('profile');
+            }
+        }
+
+        $context = array(
+            'kind'        => 'profile',
+            'form'        => $form->createView(),
             'note'        => '',
             'displayname' => $user['displayname'],
         );

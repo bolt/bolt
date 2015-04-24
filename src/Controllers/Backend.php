@@ -53,9 +53,6 @@ class Backend implements ControllerProviderInterface
         $ctl->match('/userfirst', array($this, 'userFirst'))
             ->bind('userfirst');
 
-        $ctl->match('/profile', array($this, 'profile'))
-            ->bind('profile');
-
         $ctl->get('/roles', array($this, 'roles'))
             ->bind('roles');
 
@@ -197,56 +194,6 @@ class Backend implements ControllerProviderInterface
         );
 
         return $app['render']->render('firstuser/firstuser.twig', array('context' => $context));
-    }
-
-    /**
-     * User profile page.
-     *
-     * @param Application $app     The application/container
-     * @param Request     $request The Symfony Request
-     *
-     * @return \Twig_Markup|\Symfony\Component\HttpFoundation\RedirectResponse
-     */
-    public function profile(Application $app, Request $request)
-    {
-        $user = $app['users']->getCurrentUser();
-
-        // Get the form
-        $form = $this->getUserForm($app, $user);
-
-        // Set the validation
-        $form = $this->setUserFormValidation($app, $form);
-
-        /** @var \Symfony\Component\Form\Form */
-        $form = $form->getForm();
-
-        // Check if the form was POST-ed, and valid. If so, store the user.
-        if ($request->isMethod('POST')) {
-            $form->submit($app['request']->get($form->getName()));
-
-            if ($form->isValid()) {
-                $user = $form->getData();
-
-                $res = $app['users']->saveUser($user);
-                $app['logger.system']->info(Trans::__('page.edit-users.log.user-updated', array('%user%' => $user['displayname'])), array('event' => 'security'));
-                if ($res) {
-                    $app['session']->getFlashBag()->add('success', Trans::__('page.edit-users.message.user-saved', array('%user%' => $user['displayname'])));
-                } else {
-                    $app['session']->getFlashBag()->add('error', Trans::__('page.edit-users.message.saving-user', array('%user%' => $user['displayname'])));
-                }
-
-                return Lib::redirect('profile');
-            }
-        }
-
-        $context = array(
-            'kind'        => 'profile',
-            'form'        => $form->createView(),
-            'note'        => '',
-            'displayname' => $user['displayname'],
-        );
-
-        return $app['render']->render('edituser/edituser.twig', array('context' => $context));
     }
 
     /**
