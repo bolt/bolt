@@ -120,7 +120,7 @@ class Backend extends BackendBase
         }
 
         // Create the form
-        $form = $this->createBuilder('form')
+        $form = $this->createFormBuilder('form')
             ->add('contenttypes', 'choice', array(
                 'choices'  => $choices,
                 'multiple' => true,
@@ -177,7 +177,7 @@ class Backend extends BackendBase
         $data = $this->getTranslationData($tr);
 
         // Create the form
-        $form = $this->createBuilder('form', $data)
+        $form = $this->createFormBuilder('form', $data)
             ->add(
                 'contents',
                 'textarea',

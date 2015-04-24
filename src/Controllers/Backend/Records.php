@@ -84,11 +84,11 @@ class Records extends BackendBase
 
         // Save the POSTed record
         if ($request->isMethod('POST')) {
-            return $this->handleSaveRequest($contenttype, $contenttypeslug, $id, $new);
+            return $this->handleSaveRequest($request, $contenttype, $id, $new);
         }
 
         // We're doing a GET
-        return $this->handleEditRequest($contenttype, $contenttypeslug, $id, $new);
+        return $this->handleEditRequest($contenttype, $id, $new);
     }
 
     /**
@@ -103,7 +103,7 @@ class Records extends BackendBase
     public function actionModify(Request $request, $action, $contenttypeslug, $id)
     {
         if ($action === 'delete') {
-            return $this->actionDelete($contenttypeslug, $id);
+            return $this->actionDelete($request, $contenttypeslug, $id);
         }
 
         // This shoudln't happen
@@ -348,7 +348,7 @@ class Records extends BackendBase
      *
      * @return Response
      */
-    private function handleSaveRequest($request, array $contenttype, $id, $new)
+    private function handleSaveRequest(Request $request, array $contenttype, $id, $new)
     {
         $contenttypeslug = $contenttype['slug'];
 
@@ -369,7 +369,7 @@ class Records extends BackendBase
         }
 
         // Ensure all fields have valid values
-        $requestAll = $this->setSuccessfulControlValues($contenttype['fields']);
+        $requestAll = $this->setSuccessfulControlValues($request, $contenttype['fields']);
 
         // To check whether the status is allowed, we act as if a status
         // *transition* were requested.
@@ -610,7 +610,7 @@ class Records extends BackendBase
         }
 
         // Determine which templates will result in templatefields
-        $templateFieldTemplates = $this->getTempateFieldTemplates();
+        $templateFieldTemplates = $this->getTempateFieldTemplates($contenttype, $content);
 
         // Information flags about what the record contains
         $info = array(

@@ -68,7 +68,7 @@ class Log extends BackendBase
         if (empty($entry)) {
             $error = Trans::__("The requested changelog entry doesn't exist.");
 
-            return $this->app->abort(Response::HTTP_NOT_FOUND, $error);
+            $this->app->abort(Response::HTTP_NOT_FOUND, $error);
         }
         $prev = $this->app['logger.manager.change']->getPrevChangelogEntry($contenttype, $contentid, $id);
         $next = $this->app['logger.manager.change']->getNextChangelogEntry($contenttype, $contentid, $id);
@@ -215,7 +215,7 @@ class Log extends BackendBase
         $level = $request->query->get('level');
         $context = $request->query->get('context');
 
-        $activity = $app['logger.manager']->getActivity('system', 16, $level, $context);
+        $activity = $this->app['logger.manager']->getActivity('system', 16, $level, $context);
 
         return $this->render('activity/systemlog.twig', array('entries' => $activity));
     }
