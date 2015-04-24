@@ -119,7 +119,7 @@ class Application extends Silex\Application
         $this->initProviders();
 
         // Initialise the Mount points for 'frontend', 'backend' and 'async'.
-        $this->initMountpoints();
+//        $this->initMountpoints();
 
         // Initialize enabled extensions before executing handlers.
         $this->initExtensions();
@@ -371,7 +371,9 @@ class Application extends Silex\Application
             ->register(new Provider\GuzzleServiceProvider())
             ->register(new Provider\PrefillServiceProvider())
             ->register(new SlugifyServiceProvider())
-            ->register(new Provider\MarkdownServiceProvider());
+            ->register(new Provider\MarkdownServiceProvider())
+            ->register(new Provider\ControllerServiceProvider())
+        ;
 
         $this['paths'] = $this['resources']->getPaths();
 
