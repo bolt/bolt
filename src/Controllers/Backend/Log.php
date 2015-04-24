@@ -18,6 +18,20 @@ class Log extends BackendBase
 {
     protected function addControllers(ControllerCollection $c)
     {
+        $c->get('/changelog', 'controllers.backend.log:actionChangeOverview')
+            ->bind('changelog');
+
+        $c->get('/changelog/{contenttype}/{contentid}/{id}', 'controllers.backend.log:actionChangeRecord')
+            ->assert('id', '\d*')
+            ->bind('changelogrecordsingle');
+
+        $c->get('/changelog/{contenttype}/{contentid}', 'controllers.backend.log:actionChangeRecordListing')
+            ->value('contentid', '0')
+            ->value('contenttype', '')
+            ->bind('changelogrecordall');
+
+        $c->get('/systemlog', 'controllers.backend.log:actionSystemOverview')
+            ->bind('systemlog');
     }
 
     /*

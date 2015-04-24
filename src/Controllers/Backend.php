@@ -47,21 +47,6 @@ class Backend implements ControllerProviderInterface
         $ctl->before(array($this, 'before'));
         $ctl->method('GET|POST');
 
-        $ctl->get('/systemlog', array($this, 'systemLog'))
-            ->bind('systemlog');
-
-        $ctl->get('/changelog', array($this, 'changeLog'))
-            ->bind('changelog');
-
-        $ctl->get('/changelog/{contenttype}/{contentid}', array($this, 'changelogRecordAll'))
-            ->value('contentid', '0')
-            ->value('contenttype', '')
-            ->bind('changelogrecordall');
-
-        $ctl->get('/changelog/{contenttype}/{contentid}/{id}', array($this, 'changelogRecordSingle'))
-            ->assert('id', '\d*')
-            ->bind('changelogrecordsingle');
-
         $ctl->get('/users', array($this, 'users'))
             ->bind('users');
 
