@@ -173,4 +173,19 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
         $app['users']->saveUser($user);
         $app['users']->users = array();
     }
+
+    protected function removeCSRF($app)
+    {
+        // Symfony forms need a CSRF token so we have to mock this too
+        $csrf = $this->getMock('Symfony\Component\Form\Extension\Csrf\CsrfProvider\DefaultCsrfProvider', array('isCsrfTokenValid', 'generateCsrfToken'), array('form'));
+        $csrf->expects($this->any())
+            ->method('isCsrfTokenValid')
+            ->will($this->returnValue(true));
+
+        $csrf->expects($this->any())
+            ->method('generateCsrfToken')
+            ->will($this->returnValue('xyz'));
+
+        $app['form.csrf_provider'] = $csrf;
+    }
 }
