@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class Log extends BackendBase
 {
-    protected function addControllers(ControllerCollection $c)
+    protected function addRoutes(ControllerCollection $c)
     {
         $c->get('/changelog', 'controllers.backend.log:actionChangeOverview')
             ->bind('changelog');

@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class Authentication extends BackendBase
 {
-    protected function addControllers(ControllerCollection $c)
+    protected function addRoutes(ControllerCollection $c)
     {
     }
 

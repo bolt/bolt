@@ -19,7 +19,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class Records extends BackendBase
 {
-    protected function addControllers(ControllerCollection $c)
+    protected function addRoutes(ControllerCollection $c)
     {
         $c->method('GET|POST');
 

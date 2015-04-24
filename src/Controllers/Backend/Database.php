@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class Database extends BackendBase
 {
-    protected function addControllers(ControllerCollection $c)
+    protected function addRoutes(ControllerCollection $c)
     {
         $c->get('/dbcheck', 'controllers.backend.database:actionCheck')
             ->bind('dbcheck');

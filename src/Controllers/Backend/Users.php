@@ -22,7 +22,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Users extends BackendBase
 {
-    protected function addControllers(ControllerCollection $c)
+    protected function addRoutes(ControllerCollection $c)
     {
         $c->get('/users', 'controllers.backend.users:actionAdmin')
             ->bind('users');

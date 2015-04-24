@@ -22,11 +22,12 @@ abstract class Base implements ControllerProviderInterface
 
         /** @var ControllerCollection $c */
         $c = $app['controllers_factory'];
-        $this->addControllers($c);
+        $this->addRoutes($c);
+
         return $c;
     }
 
-    abstract protected function addControllers(ControllerCollection $c);
+    abstract protected function addRoutes(ControllerCollection $c);
 
     /**
      * Renders a template

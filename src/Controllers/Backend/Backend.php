@@ -25,7 +25,7 @@ use Symfony\Component\Yaml\Exception\ParseException;
  */
 class Backend extends BackendBase
 {
-    protected function addControllers(ControllerCollection $c)
+    protected function addRoutes(ControllerCollection $c)
     {
         $c->method('GET|POST');
 
