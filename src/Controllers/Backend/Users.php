@@ -31,6 +31,9 @@ class Users extends BackendBase
             ->assert('id', '\d*')
             ->bind('useredit');
 
+        $c->match('/userfirst', 'controllers.backend.users:actionFirst')
+            ->bind('userfirst');
+
         $c->post('/user/{action}/{id}', 'controllers.backend.users:actionModify')
             ->bind('useraction');
 
@@ -196,6 +199,64 @@ class Users extends BackendBase
         );
 
         return $this->render('edituser/edituser.twig', $context);
+    }
+
+    /**
+     * Create the first user.
+     *
+     * @param Request $request The Symfony Request
+     *
+     * @return \Bolt\Response\BoltResponse|\Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function actionFirst(Request $request)
+    {
+        // We should only be here for creating the first user
+        if ($this->app['integritychecker']->checkUserTableIntegrity() && $this->getUsers()->hasUsers()) {
+            return $this->redirectToRoute('dashboard');
+        }
+
+        // Get and empty user array
+        $user = $this->getUsers()->getEmptyUser();
+
+        // Add a note, if we're setting up the first user using SQLite.
+        $dbdriver = $this->getOption('general/database/driver');
+        if ($dbdriver === 'sqlite' || $dbdriver === 'pdo_sqlite') {
+            $note = Trans::__('page.edit-users.note-sqlite');
+        } else {
+            $note = '';
+        }
+
+        // If we get here, chances are we don't have the tables set up, yet.
+        $this->app['integritychecker']->repairTables();
+
+        // Grant 'root' to first user by default
+        $user['roles'] = array(Permissions::ROLE_ROOT);
+
+        // Get the form
+        $form = $this->getUserForm($user, true);
+
+        // Set the validation
+        $form = $this->setUserFormValidation($form, true);
+
+        /** @var \Symfony\Component\Form\Form */
+        $form = $form->getForm();
+
+        // Check if the form was POST-ed, and valid. If so, store the user.
+        if ($request->isMethod('POST')) {
+            if ($this->validateUserForm($form, true)) {
+                // To the dashboard, where 'login' will be triggered
+                return $this->redirectToRoute('dashboard');
+            }
+        }
+
+        $context = array(
+            'kind'        => 'create',
+            'form'        => $form->createView(),
+            'note'        => $note,
+            'displayname' => $user['displayname'],
+        );
+
+        return $this->render('firstuser/firstuser.twig', $context);
     }
 
     /**
