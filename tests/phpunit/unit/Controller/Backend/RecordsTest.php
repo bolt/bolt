@@ -14,13 +14,19 @@ use Symfony\Component\HttpFoundation\Response;
  **/
 class RecordsTest extends BoltUnitTest
 {
+    protected function setUp()
+    {
+        $this->resetDb();
+        $this->addSomeContent();
+    }
+
     public function testDelete()
     {
         $app = $this->getApp();
         $controller = new Records();
         $controller->connect($app);
 
-        $request = Request::create('/bolt/deletecontent/pages/4');
+        $app['request'] = $request = Request::create('/bolt/deletecontent/pages/4');
         $response = $controller->actionDelete($request, 'pages', 4);
         // This one should fail for permissions
         $this->assertEquals('/bolt/overview/pages', $response->getTargetUrl());
@@ -56,8 +62,8 @@ class RecordsTest extends BoltUnitTest
         $controller->connect($app);
 
         // First test will fail permission so we check we are kicked back to the dashboard
-        $request = Request::create('/bolt/editcontent/pages/4');
-        $response = $controller->actionEdit('pages', 4, $app, $request);
+        $app['request'] = $request = Request::create('/bolt/editcontent/pages/4');
+        $response = $controller->actionEdit($request, 'pages', 4);
         $this->assertEquals('/bolt', $response->getTargetUrl());
 
         // Since we're the test user we won't automatically have permission to edit.
@@ -67,24 +73,24 @@ class RecordsTest extends BoltUnitTest
             ->will($this->returnValue(true));
         $app['users'] = $users;
 
-        $request = Request::create('/bolt/editcontent/pages/4');
-        $response = $controller->actionEdit('pages', 4, $app, $request);
+        $app['request'] = $request = Request::create('/bolt/editcontent/pages/4');
+        $response = $controller->actionEdit($request, 'pages', 4);
         $context = $response->getContext();
         $this->assertEquals('Pages', $context['context']['contenttype']['name']);
         $this->assertInstanceOf('Bolt\Content', $context['context']['content']);
 
         // Test creation
-        $request = Request::create('/bolt/editcontent/pages');
-        $response = $controller->actionEdit('pages', null, $app, $request);
+        $app['request'] = $request = Request::create('/bolt/editcontent/pages');
+        $response = $controller->actionEdit($request, 'pages', null);
         $context = $response->getContext();
         $this->assertEquals('Pages', $context['context']['contenttype']['name']);
         $this->assertInstanceOf('Bolt\Content', $context['context']['content']);
         $this->assertNull($context['context']['content']->id);
 
         // Test that non-existent throws a redirect
-        $request = Request::create('/bolt/editcontent/pages/310');
+        $app['request'] = $request = Request::create('/bolt/editcontent/pages/310');
         $this->setExpectedException('Symfony\Component\HttpKernel\Exception\HttpException', 'not-existing');
-        $response = $controller->actionEdit('pages', 310, $app, $request);
+        $response = $controller->actionEdit($request, 'pages', 310);
     }
 
     public function testEditDuplicate()
@@ -100,9 +106,9 @@ class RecordsTest extends BoltUnitTest
             ->will($this->returnValue(true));
         $app['users'] = $users;
 
-        $request = Request::create('/bolt/editcontent/pages/4', 'GET', array('duplicate' => true));
+        $app['request'] = $request = Request::create('/bolt/editcontent/pages/4', 'GET', array('duplicate' => true));
         $original = $app['storage']->getContent('pages/4');
-        $response = $controller->actionEdit('pages', 4, $app, $request);
+        $response = $controller->actionEdit($request, 'pages', 4);
         $context = $response->getContext();
 
         // Check that correct fields are equal in new object
@@ -133,9 +139,9 @@ class RecordsTest extends BoltUnitTest
 
         $app['users'] = $users;
 
-        $request = Request::create('/bolt/editcontent/showcases/3', 'POST');
+        $app['request'] = $request = Request::create('/bolt/editcontent/showcases/3', 'POST');
         $this->setExpectedException('Symfony\Component\HttpKernel\Exception\HttpException', 'Something went wrong');
-        $controller->actionEdit('showcases', 3, $app, $request);
+        $controller->actionEdit($request, 'showcases', 3);
     }
 
     public function testEditPermissions()
@@ -156,8 +162,8 @@ class RecordsTest extends BoltUnitTest
         // We should get kicked here because we dont have permissions to edit this
         $controller = new Records();
         $controller->connect($app);
-        $request = Request::create('/bolt/editcontent/showcases/3', 'POST');
-        $response = $controller->actionEdit('showcases', 3, $app, $request);
+        $app['request'] = $request = Request::create('/bolt/editcontent/showcases/3', 'POST');
+        $response = $controller->actionEdit($request, 'showcases', 3);
         $this->assertEquals('/bolt', $response->getTargetUrl());
     }
 
@@ -177,9 +183,9 @@ class RecordsTest extends BoltUnitTest
 
         $app['users'] = $users;
 
-        $request = Request::create('/bolt/editcontent/showcases/3', 'POST', array('floatfield' => 1.2));
+        $app['request'] = $request = Request::create('/bolt/editcontent/showcases/3', 'POST', array('floatfield' => 1.2));
         //$original = $app['storage']->getContent('showcases/3');
-        $response = $controller->actionEdit('showcases', 3, $app, $request);
+        $response = $controller->actionEdit($request, 'showcases', 3);
         $this->assertEquals('/bolt/overview/showcases', $response->getTargetUrl());
     }
 
@@ -200,9 +206,9 @@ class RecordsTest extends BoltUnitTest
 
         $app['users'] = $users;
 
-        $request = Request::create('/bolt/editcontent/pages/4?returnto=ajax', 'POST');
+        $app['request'] = $request = Request::create('/bolt/editcontent/pages/4?returnto=ajax', 'POST');
         $original = $app['storage']->getContent('pages/4');
-        $response = $controller->actionEdit('pages', 4, $app, $request);
+        $response = $controller->actionEdit($request, 'pages', 4);
         $this->assertInstanceOf('Symfony\Component\HttpFoundation\JsonResponse', $response);
         $returned = json_decode($response->getContent());
         $this->assertEquals($original['title'], $returned->title);
@@ -215,7 +221,7 @@ class RecordsTest extends BoltUnitTest
         $controller = new Records();
         $controller->connect($app);
 
-        $request = Request::create('/bolt/content/held/pages/3');
+        $app['request'] = $request = Request::create('/bolt/content/held/pages/3');
 
         // This one should fail for lack of permission
         $response = $controller->actionModify($request, 'held', 'pages', 3);
@@ -245,13 +251,13 @@ class RecordsTest extends BoltUnitTest
         $this->assertRegexp('/has been changed/', $err[0]);
 
         // Test an invalid action fails
-        $request = Request::create('/bolt/content/fake/pages/3');
+        $app['request'] = $request = Request::create('/bolt/content/fake/pages/3');
         $response = $controller->actionModify($request, 'fake', 'pages', 3);
         $err = $app['session']->getFlashBag()->get('error');
         $this->assertRegexp('/No such action/', $err[0]);
 
         // Test that any save error gets reported
-        $request = Request::create('/bolt/content/held/pages/3');
+        $app['request'] = $request = Request::create('/bolt/content/held/pages/3');
 
         $storage = $this->getMock('Bolt\Storage', array('updateSingleValue'), array($app));
         $storage->expects($this->once())
@@ -269,7 +275,7 @@ class RecordsTest extends BoltUnitTest
         // Note that the response will be 'could not be deleted'. Since this just
         // passes on the the deleteContent method that is enough to indicate that
         // the work of this method is done.
-        $request = Request::create('/bolt/content/delete/pages/3');
+        $app['request'] = $request = Request::create('/bolt/content/delete/pages/3');
         $response = $controller->actionModify($request, 'delete', 'pages', 3);
         $this->assertEquals('/bolt/overview/pages', $response->getTargetUrl());
         $err = $app['session']->getFlashBag()->get('info');
@@ -282,14 +288,14 @@ class RecordsTest extends BoltUnitTest
         $controller = new Records();
         $controller->connect($app);
 
-        $request = Request::create('/bolt/overview/pages');
+        $app['request'] = $request = Request::create('/bolt/overview/pages');
         $response = $controller->actionOverview($request, 'pages');
         $context = $response->getContext();
         $this->assertEquals('Pages', $context['context']['contenttype']['name']);
         $this->assertGreaterThan(1, count($context['context']['multiplecontent']));
 
         // Test the the default records per page can be set
-        $request = Request::create('/bolt/overview/showcases');
+        $app['request'] = $request = Request::create('/bolt/overview/showcases');
         $response = $controller->actionOverview($request, 'showcases');
 
         // Test redirect when user isn't allowed.
@@ -299,7 +305,7 @@ class RecordsTest extends BoltUnitTest
         ->will($this->returnValue(false));
         $app['users'] = $users;
 
-        $request = Request::create('/bolt/overview/pages');
+        $app['request'] = $request = Request::create('/bolt/overview/pages');
         $response = $controller->actionOverview($request, 'pages');
         $this->assertEquals('/bolt', $response->getTargetUrl());
     }
@@ -310,7 +316,7 @@ class RecordsTest extends BoltUnitTest
         $controller = new Records();
         $controller->connect($app);
 
-        $request = Request::create(
+        $app['request'] = $request = Request::create(
             '/bolt/overview/pages',
             'GET',
             array(
@@ -331,7 +337,7 @@ class RecordsTest extends BoltUnitTest
         $controller = new Records();
         $controller->connect($app);
 
-        $request = Request::create('/bolt/relatedto/showcases/1');
+        $app['request'] = $request = Request::create('/bolt/relatedto/showcases/1');
         $response = $controller->actionRelated($request, 'showcases', 1);
         $context = $response->getContext();
         $this->assertEquals(1, $context['context']['id']);
@@ -342,14 +348,14 @@ class RecordsTest extends BoltUnitTest
         $this->assertEquals('Entries', $context['context']['show_contenttype']['name']);
 
         // Now we specify we want to see pages
-        $request = Request::create('/bolt/relatedto/showcases/1', 'GET', array('show' => 'pages'));
+        $app['request'] = $request = Request::create('/bolt/relatedto/showcases/1', 'GET', array('show' => 'pages'));
         $response = $controller->actionRelated($request, 'showcases', 1);
         $context = $response->getContext();
         $this->assertEquals('Pages', $context['context']['show_contenttype']['name']);
 
         // Try a request where there are no relations
-        $request = Request::create('/bolt/relatedto/pages/1');
-        $response = $controller->relatedTo('pages', 1, $app, $request);
+        $app['request'] = $request = Request::create('/bolt/relatedto/pages/1');
+        $response = $controller->actionRelated($request, 'pages', 1);
         $context = $response->getContext();
         $this->assertNull($context['context']['relations']);
 
@@ -360,7 +366,7 @@ class RecordsTest extends BoltUnitTest
             ->will($this->returnValue(false));
         $app['users'] = $users;
 
-        $request = Request::create('/bolt/relatedto/showcases/1');
+        $app['request'] = $request = Request::create('/bolt/relatedto/showcases/1');
         $response = $controller->actionRelated($request, 'showcases', 1);
         $this->assertEquals('/bolt', $response->getTargetUrl());
     }

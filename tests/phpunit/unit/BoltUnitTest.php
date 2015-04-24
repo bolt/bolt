@@ -46,9 +46,9 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
     protected function makeApp()
     {
         $sessionMock = $this->getMockBuilder('Symfony\Component\HttpFoundation\Session\Session')
-        ->setMethods(array('clear'))
-        ->setConstructorArgs(array(new MockFileSessionStorage()))
-        ->getMock();
+            ->setMethods(array('clear'))
+            ->setConstructorArgs(array(new MockFileSessionStorage()))
+            ->getMock();
 
         $config = new Standard(TEST_ROOT);
         $config->verify();
