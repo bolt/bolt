@@ -1,23 +1,57 @@
 <?php
-namespace Bolt\Tests\Controller;
+namespace Bolt\Tests\Controller\Backend;
 
-use Bolt\Configuration\ResourceManager;
-use Bolt\Controllers\Backend;
-use Bolt\Storage;
+use Bolt\Controllers\Backend\Backend;
 use Bolt\Tests\BoltUnitTest;
-use Bolt\Tests\Mocks\LoripsumMock;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Yaml\Yaml;
 
 /**
- * Class to test correct operation of src/Controller/Backend.
+ * Class to test correct operation of src/Controllers/Backend/Backend.
  *
  * @author Ross Riley <riley.ross@gmail.com>
  **/
-
 class BackendTest extends BoltUnitTest
 {
+    public function testAbout()
+    {
+        $app = $this->getApp();
+        $controller = new Backend();
+        $controller->connect($app);
+
+        $request = Request::create('/bolt/about');
+        $response = $controller->actionAbout();
+        $this->assertEquals('about/about.twig', $response->getTemplateName());
+    }
+
+    public function testClearCache()
+    {
+        $app = $this->getApp();
+        $this->allowLogin($app);
+        $cache = $this->getMock('Bolt\Cache', array('clearCache'), array(__DIR__, $app));
+        $cache->expects($this->at(0))
+            ->method('clearCache')
+            ->will($this->returnValue(array('successfiles' => '1.txt', 'failedfiles' => '2.txt')));
+
+        $cache->expects($this->at(1))
+            ->method('clearCache')
+            ->will($this->returnValue(array('successfiles' => '1.txt')));
+
+        $app['cache'] = $cache;
+        $request = Request::create('/bolt/clearcache');
+        $this->checkTwigForTemplate($app, 'clearcache/clearcache.twig');
+
+        $app->handle($request);
+        $this->assertNotEmpty($app['session']->getFlashBag()->get('error'));
+
+        $request = Request::create('/bolt/clearcache');
+        $this->checkTwigForTemplate($app, 'clearcache/clearcache.twig');
+        $app->handle($request);
+        $this->assertNotEmpty($app['session']->getFlashBag()->get('success'));
+    }
+
     public function testDashboard()
     {
         $this->resetDb();
@@ -43,32 +77,6 @@ class BackendTest extends BoltUnitTest
         $app->run($request);
     }
 
-    public function testClearCache()
-    {
-        $app = $this->getApp();
-        $this->allowLogin($app);
-        $cache = $this->getMock('Bolt\Cache', array('clearCache'), array(__DIR__, $app));
-        $cache->expects($this->at(0))
-            ->method('clearCache')
-            ->will($this->returnValue(array('successfiles' => '1.txt', 'failedfiles' => '2.txt')));
-
-        $cache->expects($this->at(1))
-            ->method('clearCache')
-            ->will($this->returnValue(array('successfiles' => '1.txt')));
-
-        $app['cache'] = $cache;
-        $request = Request::create('/bolt/clearcache');
-        $this->checkTwigForTemplate($app, 'clearcache/clearcache.twig');
-        $response = $app->handle($request);
-
-        $this->assertNotEmpty($app['session']->getFlashBag()->get('error'));
-
-        $request = Request::create('/bolt/clearcache');
-        $this->checkTwigForTemplate($app, 'clearcache/clearcache.twig');
-        $response = $app->handle($request);
-        $this->assertNotEmpty($app['session']->getFlashBag()->get('success'));
-    }
-
     public function testOmnisearch()
     {
         $app = $this->getApp();
@@ -84,16 +92,17 @@ class BackendTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $controller = new Backend();
+        $controller->connect($app);
 
-        $app['request'] =  $request = Request::create('/bolt/prefill');
-        $response = $controller->prefill($app, $request);
+        $request = Request::create('/bolt/prefill');
+        $response = $controller->actionPrefill($request);
         $context = $response->getContext();
         $this->assertEquals(3, count($context['context']['contenttypes']));
         $this->assertInstanceOf('Symfony\Component\Form\FormView', $context['context']['form']);
 
         // Test the post
         $app['request'] = $request = Request::create('/bolt/prefill', 'POST', array('contenttypes' => 'pages'));
-        $response = $controller->prefill($app, $request);
+        $response = $controller->actionPrefill($request);
         $this->assertEquals('/bolt/prefill', $response->getTargetUrl());
 
         // Test for the Exception if connection fails to the prefill service
@@ -127,16 +136,7 @@ class BackendTest extends BoltUnitTest
         $app['logger.system'] = $logger;
 
         $app['request'] = $request = Request::create('/bolt/prefill', 'POST', array('contenttypes' => 'pages'));
-        $response = $controller->prefill($app, $request);
-    }
-
-    public function testAbout()
-    {
-        $app = $this->getApp();
-        $controller = new Backend();
-        $app['request'] = $request = Request::create('/bolt/about');
-        $response = $controller->about($app);
-        $this->assertEquals('about/about.twig', $response->getTemplateName());
+        $response = $controller->actionPrefill($request);
     }
 
     public function testTranslation()
@@ -144,9 +144,11 @@ class BackendTest extends BoltUnitTest
         // We make a new translation and ensure that the content is created.
         $app = $this->getApp();
         $controller = new Backend();
+        $controller->connect($app);
+
         $this->removeCSRF($app);
         $app['request'] = $request = Request::create('/bolt/tr/contenttypes/en_CY');
-        $response = $controller->translation('contenttypes', 'en_CY', $app, $request);
+        $response = $controller->actionTranslation($request, 'contenttypes', 'en_CY');
         $context = $response->getContext();
         $this->assertEquals('contenttypes.en_CY.yml', $context['context']['basename']);
 
@@ -161,7 +163,7 @@ class BackendTest extends BoltUnitTest
                 )
             )
         );
-        $response = $controller->translation('contenttypes', 'en_CY', $app, $request);
+        $response = $controller->actionTranslation($request, 'contenttypes', 'en_CY');
         $context = $response->getContext();
         $this->assertEquals('editlocale/editlocale.twig', $response->getTemplateName());
 
@@ -180,9 +182,8 @@ class BackendTest extends BoltUnitTest
                 )
             )
         );
-        $response = $controller->translation('contenttypes', 'en_CY', $app, $request);
+        $response = $controller->actionTranslation($request, 'contenttypes', 'en_CY');
         $info = $app['session']->getFlashBag()->get('error');
         $this->assertRegexp('/could not be saved/', $info[0]);
     }
-
 }
