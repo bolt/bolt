@@ -36,7 +36,7 @@ abstract class BackendBase extends Base
      *
      * @return null|\Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public static function before(Request $request, Application $app)
+    public function before(Request $request, Application $app)
     {
         // Start the 'stopwatch' for the profiler.
         $app['stopwatch']->start('bolt.backend.before');
@@ -68,7 +68,7 @@ abstract class BackendBase extends Base
 
         // If the users table is present, but there are no users, and we're on /bolt/userfirst,
         // we let the user stay, because they need to set up the first user.
-        if ($tableExists && !$hasUsers && $route == 'userfirst') {
+        if ($tableExists && !$hasUsers && $route === 'userfirst') {
             return null;
         }
 
@@ -78,14 +78,14 @@ abstract class BackendBase extends Base
             $app['integritychecker']->repairTables();
             $app['session']->getFlashBag()->add('info', Trans::__('There are no users in the database. Please create the first user.'));
 
-            return Lib::redirect('userfirst');
+            return $this->redirectToRoute('userfirst');
         }
 
         // Confirm the user is enabled or bounce them
         if ($app['users']->getCurrentUser() && !$app['users']->isEnabled() && $route !== 'userfirst' && $route !== 'login' && $route !== 'postLogin' && $route !== 'logout') {
             $app['session']->getFlashBag()->add('error', Trans::__('Your account is disabled. Sorry about that.'));
 
-            return Lib::redirect('logout');
+            return $this->redirectToRoute('logout');
         }
 
         // Check if there's at least one 'root' user, and otherwise promote the current user.
@@ -95,11 +95,11 @@ abstract class BackendBase extends Base
         if (!$app['users']->isValidSession() && !$app['users']->isAllowed($route)) {
             $app['session']->getFlashBag()->add('info', Trans::__('Please log on.'));
 
-            return Lib::redirect('login');
+            return $this->redirectToRoute('login');
         } elseif (!$app['users']->isAllowed($route)) {
             $app['session']->getFlashBag()->add('error', Trans::__('You do not have the right privileges to view that page.'));
 
-            return Lib::redirect('dashboard');
+            return $this->redirectToRoute('dashboard');
         }
 
         // Stop the 'stopwatch' for the profiler.
