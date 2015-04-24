@@ -18,10 +18,10 @@ class BackendTest extends BoltUnitTest
     public function testAbout()
     {
         $app = $this->getApp();
+        $app['request'] = Request::create('/bolt/about');
         $controller = new Backend();
         $controller->connect($app);
 
-        $request = Request::create('/bolt/about');
         $response = $controller->actionAbout();
         $this->assertEquals('about/about.twig', $response->getTemplateName());
     }
@@ -40,13 +40,13 @@ class BackendTest extends BoltUnitTest
             ->will($this->returnValue(array('successfiles' => '1.txt')));
 
         $app['cache'] = $cache;
-        $request = Request::create('/bolt/clearcache');
+        $app['request'] = $request = Request::create('/bolt/clearcache');
         $this->checkTwigForTemplate($app, 'clearcache/clearcache.twig');
 
         $app->handle($request);
         $this->assertNotEmpty($app['session']->getFlashBag()->get('error'));
 
-        $request = Request::create('/bolt/clearcache');
+        $app['request'] = $request = Request::create('/bolt/clearcache');
         $this->checkTwigForTemplate($app, 'clearcache/clearcache.twig');
         $app->handle($request);
         $this->assertNotEmpty($app['session']->getFlashBag()->get('success'));
@@ -94,7 +94,7 @@ class BackendTest extends BoltUnitTest
         $controller = new Backend();
         $controller->connect($app);
 
-        $request = Request::create('/bolt/prefill');
+        $app['request'] = $request = Request::create('/bolt/prefill');
         $response = $controller->actionPrefill($request);
         $context = $response->getContext();
         $this->assertEquals(3, count($context['context']['contenttypes']));

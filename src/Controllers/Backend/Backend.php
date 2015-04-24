@@ -62,7 +62,7 @@ class Backend extends BackendBase
      */
     public function actionAbout()
     {
-        $this->render('about/about.twig');
+        return $this->render('about/about.twig');
     }
 
     /**

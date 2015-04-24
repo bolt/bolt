@@ -5,6 +5,7 @@ use Bolt\Controllers\Backend\FileManager;
 use Bolt\Tests\BoltUnitTest;
 use League\Flysystem\File;
 use Symfony\Component\Form\Form;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -20,7 +21,7 @@ class FileManagerTest extends BoltUnitTest
         $controller = new FileManager();
         $controller->connect($app);
 
-        $request = Request::create('/bolt/file/edit/config/config.yml');
+        $app['request'] = $request = Request::create('/bolt/file/edit/config/config.yml');
         $response = $controller->actionEdit($request, 'config', 'config.yml');
         $this->assertEquals('editfile/editfile.twig', $response->getTemplateName());
     }
@@ -32,7 +33,7 @@ class FileManagerTest extends BoltUnitTest
         $controller->connect($app);
 
         $this->removeCSRF($app);
-        $request = Request::create('/bolt/files');
+        $app['request'] = $request = Request::create('/bolt/files');
         $response = $controller->actionManage($request, 'files', '');
 
         $context = $response->getContext();
@@ -65,7 +66,7 @@ class FileManagerTest extends BoltUnitTest
             )
         );
 
-        $response = $controller->files($request, 'files', '');
+        $response = $controller->actionManage($request, 'files', '');
     }
 
     protected function removeCSRF($app)

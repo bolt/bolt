@@ -22,7 +22,7 @@ class DatabaseTest extends BoltUnitTest
             ->will($this->returnValue(array('message', 'hint')));
 
         $app['integritychecker'] = $check;
-        $request = Request::create('/bolt/dbcheck');
+        $app['request'] = $request = Request::create('/bolt/dbcheck');
         $this->checkTwigForTemplate($app, 'dbcheck/dbcheck.twig');
 
         $app->run($request);
@@ -45,19 +45,19 @@ class DatabaseTest extends BoltUnitTest
         $app['integritychecker'] = $check;
         ResourceManager::$theApp = $app;
 
-        $request = Request::create('/bolt/dbupdate', 'POST', array('return' => 'edit'));
+        $app['request'] = $request = Request::create('/bolt/dbupdate', 'POST', array('return' => 'edit'));
         $response = $app->handle($request);
         $this->assertEquals(302, $response->getStatusCode());
         $this->assertEquals('/bolt/file/edit/files/app/config/contenttypes.yml', $response->getTargetUrl());
         $this->assertNotEmpty($app['session']->getFlashBag()->get('success'));
 
-        $request = Request::create('/bolt/dbupdate', 'POST', array('return' => 'edit'));
+        $app['request'] = $request = Request::create('/bolt/dbupdate', 'POST', array('return' => 'edit'));
         $response = $app->handle($request);
         $this->assertEquals(302, $response->getStatusCode());
         $this->assertEquals('/bolt/file/edit/files/app/config/contenttypes.yml', $response->getTargetUrl());
         $this->assertNotEmpty($app['session']->getFlashBag()->get('success'));
 
-        $request = Request::create('/bolt/dbupdate', "POST");
+        $app['request'] = $request = Request::create('/bolt/dbupdate', "POST");
         $response = $app->handle($request);
         $this->assertEquals(302, $response->getStatusCode());
         $this->assertEquals('/bolt/dbupdate_result?messages=null', $response->getTargetUrl());
@@ -68,7 +68,7 @@ class DatabaseTest extends BoltUnitTest
         $app = $this->getApp();
         $this->allowLogin($app);
 
-        $request = Request::create('/bolt/dbupdate_result');
+        $app['request'] = $request = Request::create('/bolt/dbupdate_result');
         $this->checkTwigForTemplate($app, 'dbcheck/dbcheck.twig');
 
         $app->run($request);

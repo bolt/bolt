@@ -27,7 +27,7 @@ class UsersTest extends BoltUnitTest
         $controller = new Users();
         $controller->connect($app);
 
-        $request = Request::create('/bolt/users');
+        $app['request'] = $request = Request::create('/bolt/users');
         $response = $controller->actionAdmin($request);
         $context = $response->getContext();
         $this->assertNotNull($context['context']['users']);
@@ -42,7 +42,7 @@ class UsersTest extends BoltUnitTest
 
         $user = $app['users']->getUser(1);
         $app['users']->currentuser = $user;
-        $request = Request::create('/bolt/useredit/1');
+        $app['request'] = $request = Request::create('/bolt/useredit/1');
 
         // This one should redirect because of permission failure
         $response = $controller->actionEdit($request, 1);
@@ -62,7 +62,7 @@ class UsersTest extends BoltUnitTest
         $this->assertEquals('Admin', $context['context']['displayname']);
 
         // Test that an empty user gives a create form
-        $request = Request::create('/bolt/useredit');
+        $app['request'] = $request = Request::create('/bolt/useredit');
         $response = $controller->actionEdit($request, null);
         $context = $response->getContext();
         $this->assertEquals('create', $context['context']['kind']);
@@ -91,7 +91,7 @@ class UsersTest extends BoltUnitTest
         $app['form.csrf_provider'] = $csrf;
 
         // Update the display name via a POST request
-        $request = Request::create(
+        $app['request'] = $request = Request::create(
             '/bolt/useredit/1',
             'POST',
             array(
@@ -128,7 +128,7 @@ class UsersTest extends BoltUnitTest
         $app['form.csrf_provider'] = $csrf;
 
         // Because we have users in the database this should exit at first attempt
-        $request = Request::create('/bolt/userfirst');
+        $app['request'] = $request = Request::create('/bolt/userfirst');
         $response = $controller->actionFirst($request);
         $this->assertEquals('/bolt', $response->getTargetUrl());
 
@@ -136,7 +136,7 @@ class UsersTest extends BoltUnitTest
         $app['db']->executeQuery('DELETE FROM bolt_users;');
         $app['users']->users = array();
 
-        $request = Request::create('/bolt/userfirst');
+        $app['request'] = $request = Request::create('/bolt/userfirst');
         $response = $controller->actionFirst($request);
         $context = $response->getContext();
         $this->assertEquals('create', $context['context']['kind']);
@@ -144,7 +144,7 @@ class UsersTest extends BoltUnitTest
         // This block attempts to create the user
 
 
-        $request = Request::create(
+        $app['request'] = $request = Request::create(
             '/bolt/userfirst',
             'POST',
             array(
@@ -169,7 +169,7 @@ class UsersTest extends BoltUnitTest
         $controller->connect($app);
 
         // First test should exit/redirect with no anti CSRF token
-        $request = Request::create('/bolt/user/disable/2');
+        $app['request'] = $request = Request::create('/bolt/user/disable/2');
         $response = $controller->actionModify($request, 'disable', 1);
         $info = $app['session']->getFlashBag()->get('info');
         $this->assertRegexp('/An error occurred/', $info[0]);
@@ -190,14 +190,14 @@ class UsersTest extends BoltUnitTest
         $app['users']->currentuser = $currentuser;
 
         // This request should fail because the user doesnt exist.
-        $request = Request::create('/bolt/user/disable/2');
+        $app['request'] = $request = Request::create('/bolt/user/disable/2');
         $response = $controller->actionModify($request, 'disable', 2);
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
         $err = $app['session']->getFlashBag()->get('error');
         $this->assertRegexp('/No such user/', $err[0]);
 
         // This check will fail because we are operating on the current user
-        $request = Request::create('/bolt/user/disable/1');
+        $app['request'] = $request = Request::create('/bolt/user/disable/1');
         $response = $controller->actionModify($request, 'disable', 1);
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
         $err = $app['session']->getFlashBag()->get('error');
@@ -207,7 +207,7 @@ class UsersTest extends BoltUnitTest
         $this->addNewUser($app, 'editor', 'Editor', 'editor');
 
         // And retry the operation that will work now
-        $request = Request::create('/bolt/user/disable/2');
+        $app['request'] = $request = Request::create('/bolt/user/disable/2');
         $response = $controller->actionModify($request, 'disable', 2);
 
         $info = $app['session']->getFlashBag()->get('info');
@@ -215,21 +215,21 @@ class UsersTest extends BoltUnitTest
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
 
         // Now try to enable the user
-        $request = Request::create('/bolt/user/enable/2');
+        $app['request'] = $request = Request::create('/bolt/user/enable/2');
         $response = $controller->actionModify($request, 'enable', 2);
         $info = $app['session']->getFlashBag()->get('info');
         $this->assertRegexp('/is enabled/', $info[0]);
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
 
         // Try a non-existent action, make sure we get an error
-        $request = Request::create('/bolt/user/enhance/2');
+        $app['request'] = $request = Request::create('/bolt/user/enhance/2');
         $response = $controller->actionModify($request, 'enhance', 2);
         $info = $app['session']->getFlashBag()->get('error');
         $this->assertRegexp('/No such action/', $info[0]);
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
 
         // Now we run a delete action
-        $request = Request::create('/bolt/user/delete/2');
+        $app['request'] = $request = Request::create('/bolt/user/delete/2');
         $response = $controller->actionModify($request, 'delete', 2);
         $info = $app['session']->getFlashBag()->get('info');
         $this->assertRegexp('/is deleted/', $info[0]);
@@ -243,7 +243,7 @@ class UsersTest extends BoltUnitTest
             ->will($this->returnValue(false));
         $app['permissions'] = $perms;
 
-        $request = Request::create('/bolt/user/disable/2');
+        $app['request'] = $request = Request::create('/bolt/user/disable/2');
         $response = $controller->actionModify($request, 'disable', 2);
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
         $err = $app['session']->getFlashBag()->get('error');
@@ -280,19 +280,19 @@ class UsersTest extends BoltUnitTest
         $app['users']->currentuser = $user;
 
         // This mocks a failure and ensures the error is reported
-        $request = Request::create('/bolt/user/disable/2');
+        $app['request'] = $request = Request::create('/bolt/user/disable/2');
         $response = $controller->actionModify($request, 'disable', 2);
         $info = $app['session']->getFlashBag()->get('info');
         $this->assertRegexp('/could not be disabled/', $info[0]);
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
 
-        $request = Request::create('/bolt/user/enable/2');
+        $app['request'] = $request = Request::create('/bolt/user/enable/2');
         $response = $controller->actionModify($request, 'enable', 2);
         $info = $app['session']->getFlashBag()->get('info');
         $this->assertRegexp('/could not be enabled/', $info[0]);
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
 
-        $request = Request::create('/bolt/user/delete/2');
+        $app['request'] = $request = Request::create('/bolt/user/delete/2');
         $response = $controller->actionModify($request, 'delete', 2);
         $info = $app['session']->getFlashBag()->get('info');
         $this->assertRegexp('/could not be deleted/', $info[0]);
@@ -309,14 +309,14 @@ class UsersTest extends BoltUnitTest
         $this->removeCSRF($app);
         $user = $app['users']->getUser(1);
         $app['users']->currentuser = $user;
-        $request = Request::create('/bolt/profile');
+        $app['request'] = $request = Request::create('/bolt/profile');
         $response = $controller->actionProfile($request);
         $context = $response->getContext();
         $this->assertEquals('edituser/edituser.twig', $response->getTemplateName());
         $this->assertEquals('profile', $context['context']['kind']);
 
         // Now try a POST to update the profile
-        $request = Request::create(
+        $app['request'] = $request = Request::create(
             '/bolt/profile',
             'POST',
             array(
@@ -331,7 +331,7 @@ class UsersTest extends BoltUnitTest
             )
         );
 
-        $response = $controller->profile($app, $request);
+        $response = $controller->actionProfile($request);
         $this->assertEquals('/bolt/profile', $response->getTargetUrl());
         $this->assertNotEmpty($app['session']->getFlashBag()->get('success'));
     }
@@ -359,7 +359,7 @@ class UsersTest extends BoltUnitTest
         $app['form.csrf_provider'] = $csrf;
 
         // Update the display name via a POST request
-        $request = Request::create(
+        $app['request'] = $request = Request::create(
             '/bolt/useredit/1',
             'POST',
             array(
@@ -382,6 +382,7 @@ class UsersTest extends BoltUnitTest
         $controller = new Users();
         $controller->connect($app);
 
+        $app['request'] = Request::create('/bolt/roles');
         $response = $controller->actionViewRoles();
         $context = $response->getContext();
         $this->assertEquals('roles/roles.twig', $response->getTemplateName());
