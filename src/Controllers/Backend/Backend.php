@@ -1,7 +1,6 @@
 <?php
 namespace Bolt\Controllers\Backend;
 
-use Bolt\Controllers\Base;
 use Bolt\Helpers\Input;
 use Bolt\Translation\TranslationFile;
 use Bolt\Translation\Translator as Trans;
@@ -11,9 +10,7 @@ use Silex\ControllerCollection;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Form\Form;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Yaml\Exception\ParseException;
@@ -26,16 +23,10 @@ use Symfony\Component\Yaml\Exception\ParseException;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class Backend extends Base
+class Backend extends BackendBase
 {
-    /**
-     * @see \Bolt\Controllers\Base::addControllers()
-     *
-     * @param ControllerCollection $c
-     */
     protected function addControllers(ControllerCollection $c)
     {
-        return $c;
     }
 
     /*

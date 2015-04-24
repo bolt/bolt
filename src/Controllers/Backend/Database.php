@@ -4,9 +4,7 @@ namespace Bolt\Controllers\Backend;
 use Bolt\Controllers\Base;
 use Bolt\Translation\Translator as Trans;
 use Silex\ControllerCollection;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Backend controller for database manipulation routes.
@@ -18,14 +16,8 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class Database extends Base
 {
-    /**
-     * @see \Bolt\Controllers\Base::addControllers()
-     *
-     * @param ControllerCollection $c
-     */
     protected function addControllers(ControllerCollection $c)
     {
-        return $c;
     }
 
     /*

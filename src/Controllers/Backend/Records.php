@@ -2,7 +2,6 @@
 namespace Bolt\Controllers\Backend;
 
 use Bolt\Content;
-use Bolt\Controllers\Base;
 use Bolt\Translation\Translator as Trans;
 use Cocur\Slugify\Slugify;
 use Silex\ControllerCollection;
@@ -18,16 +17,10 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class Records extends Base
+class Records extends BackendBase
 {
-    /**
-     * @see \Bolt\Controllers\Base::addControllers()
-     *
-     * @param ControllerCollection $c
-     */
     protected function addControllers(ControllerCollection $c)
     {
-        return $c;
     }
 
     /*

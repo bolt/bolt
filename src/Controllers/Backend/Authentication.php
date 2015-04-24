@@ -1,7 +1,6 @@
 <?php
 namespace Bolt\Controllers\Backend;
 
-use Bolt\Controllers\Base;
 use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -13,16 +12,10 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class Authentication extends Base
+class Authentication extends BackendBase
 {
-    /**
-     * @see \Bolt\Controllers\Base::addControllers()
-     *
-     * @param ControllerCollection $c
-     */
     protected function addControllers(ControllerCollection $c)
     {
-        return $c;
     }
 
     /*
