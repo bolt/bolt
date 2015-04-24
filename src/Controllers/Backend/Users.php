@@ -243,7 +243,7 @@ class Users extends BackendBase
 
         // Check if the form was POST-ed, and valid. If so, store the user.
         if ($request->isMethod('POST')) {
-            if ($this->validateUserForm($form, true)) {
+            if ($this->validateUserForm($request, $form, true)) {
                 // To the dashboard, where 'login' will be triggered
                 return $this->redirectToRoute('dashboard');
             }
