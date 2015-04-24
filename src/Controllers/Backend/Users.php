@@ -31,6 +31,9 @@ class Users extends BackendBase
             ->assert('id', '\d*')
             ->bind('useredit');
 
+        $c->post('/user/{action}/{id}', 'controllers.backend.users:actionModify')
+            ->bind('useraction');
+
         $c->match('/profile', 'controllers.backend.users:actionProfile')
             ->bind('profile');
 
@@ -193,6 +196,84 @@ class Users extends BackendBase
         );
 
         return $this->render('edituser/edituser.twig', $context);
+    }
+
+    /**
+     * Perform modification actions on users.
+     *
+     * @param Request $request The Symfony Request
+     * @param string  $action  The action
+     * @param integer $id      The user ID
+     *
+     * @return \Bolt\Response\BoltResponse|\Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function actionModify(Request $request, $action, $id)
+    {
+        if (!$this->checkAntiCSRFToken()) {
+            $this->addFlash('info', Trans::__('An error occurred.'));
+
+            return $this->redirectToRoute('users');
+        }
+        $user = $this->getUser($id);
+
+        if (!$user) {
+            $this->addFlash('error', 'No such user.');
+
+            return $this->redirectToRoute('users');
+        }
+
+        // Prevent the current user from enabling, disabling or deleting themselves
+        $currentuser = $this->getUser();
+        if ($currentuser['id'] == $user['id']) {
+            $this->addFlash('error', Trans::__("You cannot '%s' yourself.", array('%s', $action)));
+
+            return $this->redirectToRoute('users');
+        }
+
+        // Verify the current user has access to edit this user
+        if (!$this->app['permissions']->isAllowedToManipulate($user, $currentuser)) {
+            $this->addFlash('error', Trans::__('You do not have the right privileges to edit that user.'));
+
+            return $this->redirectToRoute('users');
+        }
+
+        switch ($action) {
+
+            case 'disable':
+                if ($this->getUsers()->setEnabled($id, 0)) {
+                    $this->app['logger.system']->info("Disabled user '{$user['displayname']}'.", array('event' => 'security'));
+
+                    $this->addFlash('info', Trans::__("User '%s' is disabled.", array('%s' => $user['displayname'])));
+                } else {
+                    $this->addFlash('info', Trans::__("User '%s' could not be disabled.", array('%s' => $user['displayname'])));
+                }
+                break;
+
+            case 'enable':
+                if ($this->getUsers()->setEnabled($id, 1)) {
+                    $this->app['logger.system']->info("Enabled user '{$user['displayname']}'.", array('event' => 'security'));
+                    $this->addFlash('info', Trans::__("User '%s' is enabled.", array('%s' => $user['displayname'])));
+                } else {
+                    $this->addFlash('info', Trans::__("User '%s' could not be enabled.", array('%s' => $user['displayname'])));
+                }
+                break;
+
+            case 'delete':
+
+                if ($this->checkAntiCSRFToken() && $this->getUsers()->deleteUser($id)) {
+                    $this->app['logger.system']->info("Deleted user '{$user['displayname']}'.", array('event' => 'security'));
+                    $this->addFlash('info', Trans::__("User '%s' is deleted.", array('%s' => $user['displayname'])));
+                } else {
+                    $this->addFlash('info', Trans::__("User '%s' could not be deleted.", array('%s' => $user['displayname'])));
+                }
+                break;
+
+            default:
+                $this->addFlash('error', Trans::__("No such action for user '%s'.", array('%s' => $user['displayname'])));
+
+        }
+
+        return $this->redirectToRoute('users');
     }
 
     /**

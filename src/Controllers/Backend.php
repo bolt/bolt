@@ -50,9 +50,6 @@ class Backend implements ControllerProviderInterface
         $ctl->match('/userfirst', array($this, 'userFirst'))
             ->bind('userfirst');
 
-        $ctl->post('/user/{action}/{id}', array($this, 'userAction'))
-            ->bind('useraction');
-
         $ctl->match('/files/{namespace}/{path}', array($this, 'files'))
             ->assert('namespace', '[^/]+')
             ->assert('path', '.*')
@@ -132,84 +129,6 @@ class Backend implements ControllerProviderInterface
         );
 
         return $app['render']->render('firstuser/firstuser.twig', array('context' => $context));
-    }
-
-    /**
-     * Perform actions on users.
-     *
-     * @param Application $app    The application/container
-     * @param string      $action The action
-     * @param integer     $id     The user ID
-     *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
-     */
-    public function userAction(Application $app, $action, $id)
-    {
-        if (!$app['users']->checkAntiCSRFToken()) {
-            $app['session']->getFlashBag()->add('info', Trans::__('An error occurred.'));
-
-            return Lib::redirect('users');
-        }
-        $user = $app['users']->getUser($id);
-
-        if (!$user) {
-            $app['session']->getFlashBag()->add('error', Trans::__('No such user.'));
-
-            return Lib::redirect('users');
-        }
-
-        // Prevent the current user from enabling, disabling or deleting themselves
-        $currentuser = $app['users']->getCurrentUser();
-        if ($currentuser['id'] == $user['id']) {
-            $app['session']->getFlashBag()->add('error', Trans::__("You cannot '%s' yourself.", array('%s', $action)));
-
-            return Lib::redirect('users');
-        }
-
-        // Verify the current user has access to edit this user
-        if (!$app['permissions']->isAllowedToManipulate($user, $currentuser)) {
-            $app['session']->getFlashBag()->add('error', Trans::__('You do not have the right privileges to edit that user.'));
-
-            return Lib::redirect('users');
-        }
-
-        switch ($action) {
-
-            case 'disable':
-                if ($app['users']->setEnabled($id, 0)) {
-                    $app['logger.system']->info("Disabled user '{$user['displayname']}'.", array('event' => 'security'));
-
-                    $app['session']->getFlashBag()->add('info', Trans::__("User '%s' is disabled.", array('%s' => $user['displayname'])));
-                } else {
-                    $app['session']->getFlashBag()->add('info', Trans::__("User '%s' could not be disabled.", array('%s' => $user['displayname'])));
-                }
-                break;
-
-            case 'enable':
-                if ($app['users']->setEnabled($id, 1)) {
-                    $app['logger.system']->info("Enabled user '{$user['displayname']}'.", array('event' => 'security'));
-                    $app['session']->getFlashBag()->add('info', Trans::__("User '%s' is enabled.", array('%s' => $user['displayname'])));
-                } else {
-                    $app['session']->getFlashBag()->add('info', Trans::__("User '%s' could not be enabled.", array('%s' => $user['displayname'])));
-                }
-                break;
-
-            case 'delete':
-
-                if ($app['users']->checkAntiCSRFToken() && $app['users']->deleteUser($id)) {
-                    $app['logger.system']->info("Deleted user '{$user['displayname']}'.", array('event' => 'security'));
-                    $app['session']->getFlashBag()->add('info', Trans::__("User '%s' is deleted.", array('%s' => $user['displayname'])));
-                } else {
-                    $app['session']->getFlashBag()->add('info', Trans::__("User '%s' could not be deleted.", array('%s' => $user['displayname'])));
-                }
-                break;
-
-            default:
-                $app['session']->getFlashBag()->add('error', Trans::__("No such action for user '%s'.", array('%s' => $user['displayname'])));
-
-        }
-
-        return Lib::redirect('users');
     }
 
     /**
