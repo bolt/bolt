@@ -2,30 +2,13 @@
 
 namespace Bolt\Controllers;
 
-use Bolt\Helpers\Input;
 use Bolt\Library as Lib;
-use Bolt\Permissions;
-use Bolt\Translation\TranslationFile;
 use Bolt\Translation\Translator as Trans;
-use Cocur\Slugify\Slugify;
-use Guzzle\Http\Exception\RequestException as V3RequestException;
-use GuzzleHttp\Exception\RequestException;
 use Silex;
 use Silex\Application;
 use Silex\ControllerProviderInterface;
 use Symfony;
-use Symfony\Component\Form\Form;
-use Symfony\Component\Form\FormBuilder;
-use Symfony\Component\Form\FormError;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Yaml;
-use Symfony\Component\Yaml\Exception\ParseException;
-use League\Flysystem\FileNotFoundException;
 
 /**
  * Backend controller grouping.
@@ -47,163 +30,7 @@ class Backend implements ControllerProviderInterface
         $ctl->before(array($this, 'before'));
         $ctl->method('GET|POST');
 
-        $ctl->match('/file/edit/{namespace}/{file}', array($this, 'fileEdit'))
-            ->assert('file', '.+')
-            ->assert('namespace', '[^/]+')
-            ->value('namespace', 'files')
-            ->bind('fileedit')
-            // Middleware to disable browser XSS protection whilst we throw code around
-            ->after(function(Request $request, Response $response) {
-                if ($request->getMethod() == "POST") {
-                    $response->headers->set('X-XSS-Protection', '0');
-                }
-            });
-
         return $ctl;
-    }
-
-    /**
-     * File editor.
-     *
-     * @param string      $namespace The filesystem namespace
-     * @param string      $file      The file path
-     * @param Application $app       The application/container
-     * @param Request     $request   The Symfony Request
-     *
-     * @return \Twig_Markup|\Symfony\Component\HttpFoundation\RedirectResponse
-     */
-    public function fileEdit($namespace, $file, Application $app, Request $request)
-    {
-        if ($namespace == 'app' && dirname($file) == 'config') {
-            // Special case: If requesting one of the major config files, like contenttypes.yml, set the path to the
-            // correct dir, which might be 'app/config', but it might be something else.
-            $namespace = 'config';
-        }
-
-        /** @var \League\Flysystem\FilesystemInterface $filesystem */
-        $filesystem = $app['filesystem']->getFilesystem($namespace);
-
-        if (!$filesystem->authorized($file)) {
-            $error = Trans::__("You don't have correct permissions to edit the file '%s'.", array('%s' => $file));
-            $app->abort(Response::HTTP_FORBIDDEN, $error);
-        }
-
-        /** @var \League\Flysystem\File $file */
-        $file = $filesystem->get($file);
-        $datechanged = date_format(new \DateTime('@' . $file->getTimestamp()), 'c');
-        $type = Lib::getExtension($file->getPath());
-
-        // Get the pathsegments, so we can show the path.
-        $path = dirname($file->getPath());
-        $pathsegments = array();
-        $cumulative = '';
-        if (!empty($path)) {
-            foreach (explode('/', $path) as $segment) {
-                $cumulative .= $segment . '/';
-                $pathsegments[$cumulative] = $segment;
-            }
-        }
-
-        $contents = null;
-        if (!$file->exists() || !($contents = $file->read())) {
-            $error = Trans::__("The file '%s' doesn't exist, or is not readable.", array('%s' => $file->getPath()));
-            $app->abort(Response::HTTP_NOT_FOUND, $error);
-        }
-
-        if (!$file->update($contents)) {
-            $app['session']->getFlashBag()->add(
-                'info',
-                Trans::__(
-                    "The file '%s' is not writable. You will have to use your own editor to make modifications to this file.",
-                    array('%s' => $file->getPath())
-                )
-            );
-            $writeallowed = false;
-        } else {
-            $writeallowed = true;
-        }
-
-        // Gather the 'similar' files, if present.. i.e., if we're editing config.yml, we also want to check for
-        // config.yml.dist and config_local.yml
-        $basename = str_replace('.yml', '', str_replace('_local', '', $file->getPath()));
-        $filegroup = array();
-        if ($filesystem->has($basename . '.yml')) {
-            $filegroup[] = basename($basename . '.yml');
-        }
-        if ($filesystem->has($basename . '_local.yml')) {
-            $filegroup[] = basename($basename . '_local.yml');
-        }
-
-        $data = array('contents' => $contents);
-
-        /** @var Form $form */
-        $form = $app['form.factory']
-            ->createBuilder('form', $data)
-            ->add('contents', 'textarea')
-            ->getForm();
-
-        // Check if the form was POST-ed, and valid. If so, store the user.
-        if ($request->isMethod('POST')) {
-            $form->submit($app['request']->get($form->getName()));
-
-            if ($form->isValid()) {
-                $data = $form->getData();
-                $contents = Input::cleanPostedData($data['contents']) . "\n";
-
-                $result = array('ok' => true, 'msg' => 'Unhandled state.');
-
-                // Before trying to save a yaml file, check if it's valid.
-                if ($type === 'yml') {
-                    $yamlparser = new Yaml\Parser();
-                    try {
-                        $yamlparser->parse($contents);
-                    } catch (ParseException $e) {
-                        $result['ok'] = false;
-                        $result['msg'] = Trans::__("File '%s' could not be saved:", array('%s' => $file->getPath())) . $e->getMessage();
-                    }
-                }
-
-                if ($result['ok']) {
-                    // Remove ^M (or \r) characters from the file.
-                    $contents = str_ireplace("\x0D", '', $contents);
-                    if ($file->update($contents)) {
-                        $result['msg'] = Trans::__("File '%s' has been saved.", array('%s' => $file->getPath()));
-                        $result['datechanged'] = date_format(new \DateTime('@' . $file->getTimestamp()), 'c');
-                    } else {
-                        $result['msg'] = Trans::__("File '%s' could not be saved, for some reason.", array('%s' => $file->getPath()));
-                    }
-                }
-            } else {
-                $result = array(
-                    'ok' => false,
-                    'msg' => Trans::__("File '%s' could not be saved, because the form wasn't valid.", array('%s' => $file->getPath()))
-                );
-            }
-
-            return new JsonResponse($result);
-        }
-
-        // For 'related' files we might need to keep track of the current dirname on top of the namespace.
-        if (dirname($file->getPath()) != '') {
-            $additionalpath = dirname($file->getPath()) . '/';
-        } else {
-            $additionalpath = '';
-        }
-
-        $context = array(
-            'form'           => $form->createView(),
-            'filetype'       => $type,
-            'file'           => $file->getPath(),
-            'basename'       => basename($file->getPath()),
-            'pathsegments'   => $pathsegments,
-            'additionalpath' => $additionalpath,
-            'namespace'      => $namespace,
-            'write_allowed'  => $writeallowed,
-            'filegroup'      => $filegroup,
-            'datechanged'    => $datechanged
-        );
-
-        return $app['render']->render('editfile/editfile.twig', array('context' => $context));
     }
 
     /**
