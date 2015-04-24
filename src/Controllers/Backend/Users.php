@@ -24,6 +24,9 @@ class Users extends BackendBase
 {
     protected function addControllers(ControllerCollection $c)
     {
+        $c->get('/users', 'controllers.backend.users:actionAdmin')
+            ->bind('users');
+
         $c->match('/users/edit/{id}', 'controllers.backend.users:actionEdit')
             ->assert('id', '\d*')
             ->bind('useredit');
@@ -35,6 +38,34 @@ class Users extends BackendBase
     /*
      * Routes
      */
+
+    /**
+     * All users admin page.
+     *
+     * @param Request $request The Symfony Request
+     *
+     * @return \Bolt\Response\BoltResponse
+     */
+    public function actionAdmin(Request $request)
+    {
+        $currentuser = $this->getUser();
+        $users = $this->getUsers()->getUsers();
+        $sessions = $this->getUsers()->getActiveSessions();
+
+        foreach ($users as $name => $user) {
+            if (($key = array_search(Permissions::ROLE_EVERYONE, $user['roles'], true)) !== false) {
+                unset($users[$name]['roles'][$key]);
+            }
+        }
+
+        $context = array(
+            'currentuser' => $currentuser,
+            'users'       => $users,
+            'sessions'    => $sessions
+        );
+
+        return $this->render('users/users.twig', $context);
+    }
 
     /**
      * User edit route.

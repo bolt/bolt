@@ -47,9 +47,6 @@ class Backend implements ControllerProviderInterface
         $ctl->before(array($this, 'before'));
         $ctl->method('GET|POST');
 
-        $ctl->get('/users', array($this, 'users'))
-            ->bind('users');
-
         $ctl->match('/userfirst', array($this, 'userFirst'))
             ->bind('userfirst');
 
@@ -79,34 +76,6 @@ class Backend implements ControllerProviderInterface
             });
 
         return $ctl;
-    }
-
-    /**
-     * Show a list of all available users.
-     *
-     * @param Application $app The application/container
-     *
-     * @return \Twig_Markup
-     */
-    public function users(Application $app)
-    {
-        $currentuser = $app['users']->getCurrentUser();
-        $users = $app['users']->getUsers();
-        $sessions = $app['users']->getActiveSessions();
-
-        foreach ($users as $name => $user) {
-            if (($key = array_search(Permissions::ROLE_EVERYONE, $user['roles'], true)) !== false) {
-                unset($users[$name]['roles'][$key]);
-            }
-        }
-
-        $context = array(
-            'currentuser' => $currentuser,
-            'users'       => $users,
-            'sessions'    => $sessions
-        );
-
-        return $app['render']->render('users/users.twig', array('context' => $context));
     }
 
     /**
