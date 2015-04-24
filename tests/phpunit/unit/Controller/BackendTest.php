@@ -700,47 +700,6 @@ class BackendTest extends BoltUnitTest
         $this->assertEquals('about/about.twig', $response->getTemplateName());
     }
 
-    public function testFiles()
-    {
-        $app = $this->getApp();
-        $controller = new Backend();
-        $this->removeCSRF($app);
-        $app['request'] = $request = Request::create('/bolt/files');
-        $response = $controller->files('files', '', $app, $request);
-        $context = $response->getContext();
-        $this->assertEquals('', $context['context']['path']);
-        $this->assertEquals('files', $context['context']['namespace']);
-        $this->assertEquals(array(), $context['context']['files']);
-
-        // Try and upload a file
-
-        $perms = $this->getMock('Bolt\Filesystem\FilePermissions', array('allowedUpload'), array($app));
-        $perms->expects($this->any())
-            ->method('allowedUpload')
-            ->will($this->returnValue(true));
-        $app['filepermissions'] = $perms;
-
-        $app['request'] = $request = Request::create(
-            '/upload/files',
-            'POST',
-            array(),
-            array(),
-            array(
-                'form' => array(
-                    'FileUpload' => array(
-                        new UploadedFile(
-                            PHPUNIT_ROOT . '/resources/generic-logo-evil.exe',
-                            'logo.exe'
-                        )
-                    ),
-                    '_token'     => 'xyz'
-                )
-            )
-        );
-
-        $response = $controller->files('files', '', $app, $request);
-    }
-
     public function testUserAction()
     {
         $app = $this->getApp();
@@ -876,14 +835,6 @@ class BackendTest extends BoltUnitTest
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
     }
 
-    public function testFileEdit()
-    {
-        $app = $this->getApp();
-        $controller = new Backend();
-        $app['request'] = $request = Request::create('/bolt/file/edit/config/config.yml');
-        $response = $controller->fileedit('config', 'config.yml', $app, $request);
-        $this->assertEquals('editfile/editfile.twig', $response->getTemplateName());
-    }
 
     public function testTranslation()
     {
