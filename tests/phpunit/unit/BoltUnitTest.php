@@ -4,6 +4,8 @@ namespace Bolt\Tests;
 use Bolt\Application;
 use Bolt\Configuration as Config;
 use Bolt\Configuration\Standard;
+use Bolt\Storage;
+use Bolt\Tests\Mocks\LoripsumMock;
 use Bolt\Twig\Handler\AdminHandler;
 use Bolt\Twig\Handler\ArrayHandler;
 use Bolt\Twig\Handler\HtmlHandler;
@@ -187,5 +189,17 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue('xyz'));
 
         $app['form.csrf_provider'] = $csrf;
+    }
+
+    protected function addSomeContent()
+    {
+        $app = $this->getApp();
+        $this->addDefaultUser($app);
+        $app['config']->set('taxonomy/categories/options', array('news'));
+        $prefillMock = new LoripsumMock();
+        $app['prefill'] = $prefillMock;
+
+        $storage = new Storage($app);
+        $storage->prefill(array('showcases', 'pages'));
     }
 }
