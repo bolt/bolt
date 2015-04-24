@@ -205,6 +205,18 @@ abstract class Base implements ControllerProviderInterface
     }
 
     /**
+     * Get the contenttype as an array, based on the given slug.
+     *
+     * @param string $slug
+     *
+     * @return boolean|array
+     */
+    protected function getContentType($slug)
+    {
+        return $this->app['storage']->getContentType($slug);
+    }
+
+    /**
      * Shortcut for {@see \Bolt\Config::get}.
      *
      * @param string $path

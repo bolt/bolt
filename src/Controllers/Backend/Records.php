@@ -39,7 +39,7 @@ class Records extends BackendBase
     public function actionDelete(Request $request, $contenttypeslug, $id)
     {
         $ids = explode(',', $id);
-        $contenttype = $this->app['storage']->getContentType($contenttypeslug);
+        $contenttype = $this->getContentType($contenttypeslug);
 
         foreach ($ids as $id) {
             $content = $this->getContent($contenttype['slug'] . '/' . $id);
@@ -80,7 +80,7 @@ class Records extends BackendBase
         $this->setEditReferrer();
 
         // Get the Contenttype obejct
-        $contenttype = $this->app['storage']->getContentType($contenttypeslug);
+        $contenttype = $this->getContentType($contenttypeslug);
 
         // Save the POSTed record
         if ($request->isMethod('POST')) {
@@ -107,7 +107,7 @@ class Records extends BackendBase
         }
 
         // This shoudln't happen
-        if (!$this->app['storage']->getContentType($contenttypeslug)) {
+        if (!$this->getContentType($contenttypeslug)) {
             $this->addFlash('error', Trans::__('Attempt to modify invalid Contenttype.'));
 
             return $this->redirectToRoute('dashboard');
@@ -228,7 +228,7 @@ class Records extends BackendBase
 
         // Get content record, and the contenttype config from $contenttypeslug
         $content = $this->getContent($contenttypeslug, array('id' => $id));
-        $contenttype = $this->app['storage']->getContentType($contenttypeslug);
+        $contenttype = $this->getContentType($contenttypeslug);
 
         // Get relations
         $showContenttype = null;
@@ -245,7 +245,7 @@ class Records extends BackendBase
             }
 
             foreach (array_keys($relations) as $relatedslug) {
-                $relatedtype = $this->app['storage']->getContentType($relatedslug);
+                $relatedtype = $this->getContentType($relatedslug);
 
                 if ($relatedtype['slug'] == $showSlug) {
                     $showContenttype = $relatedtype;

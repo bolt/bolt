@@ -135,9 +135,9 @@ class Log extends BackendBase
             $itemcount = $this->app['logger.manager.change']->countChangelog($options);
         } else {
             // We have a content type, and possibly a contentid.
-            $contenttypeObj = $this->app['storage']->getContentType($contenttype);
+            $contenttypeObj = $this->getContentType($contenttype);
             if ($contentid) {
-                $content = $this->app['storage']->getContent($contenttype, array('id' => $contentid, 'hydrate' => false));
+                $content = $this->getContent($contenttype, array('id' => $contentid, 'hydrate' => false));
                 $options['contentid'] = $contentid;
             }
             // Getting a slice of data and the total count
