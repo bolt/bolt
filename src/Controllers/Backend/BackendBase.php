@@ -19,7 +19,6 @@ abstract class BackendBase extends Base
         $c->value('end', 'backend'); // For now
 
         $c->before(array($this, 'before'));
-        $c->method('GET|POST');
 
         return $c;
     }
