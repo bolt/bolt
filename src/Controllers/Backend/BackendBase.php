@@ -2,11 +2,15 @@
 namespace Bolt\Controllers\Backend;
 
 use Bolt\Controllers\Base;
-use Bolt\Library as Lib;
 use Bolt\Translation\Translator as Trans;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * Base class for all backend controllers.
+ *
+ * @author Carson Full <carsonfull@gmail.com>
+ */
 abstract class BackendBase extends Base
 {
     public function connect(Application $app)

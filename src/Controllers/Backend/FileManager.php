@@ -1,7 +1,6 @@
 <?php
 namespace Bolt\Controllers\Backend;
 
-use Bolt\Controllers\Backend\BackendBase;
 use Bolt\Helpers\Input;
 use Bolt\Library as Lib;
 use Bolt\Translation\Translator as Trans;

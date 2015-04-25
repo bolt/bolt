@@ -27,8 +27,6 @@ class Backend extends BackendBase
 {
     protected function addRoutes(ControllerCollection $c)
     {
-        $c->method('GET|POST');
-
         $c->get('/about', 'controllers.backend:actionAbout')
             ->bind('about');
 

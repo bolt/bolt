@@ -418,7 +418,6 @@ class Application extends Silex\Application
 
         // Mount the 'backend' on the branding:path setting. Defaults to '/bolt'.
         $backendPrefix = $this['config']->get('general/branding/path');
-        $this->mount($backendPrefix, new Controllers\Login());
 
         // Mount the 'async' controllers on /async. Not configurable.
         $this->mount('/async', new Controllers\Async());
