@@ -1,23 +1,74 @@
 <?php
 
-namespace Bolt\Controllers;
+namespace Bolt\Controllers\Backend;
 
 use Bolt\Composer\PackageManager;
 use Bolt\Exception\PackageManagerException;
 use Bolt\Extensions\ExtensionsInfoService;
-use Bolt\Library as Lib;
 use Bolt\Translation\Translator as Trans;
 use Silex;
-use Silex\ControllerProviderInterface;
+use Silex\ControllerCollection;
 use Silex\ServiceProviderInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class Extend implements ControllerProviderInterface, ServiceProviderInterface
+class Extend extends BackendBase implements ServiceProviderInterface
 {
     public $readWriteMode;
+
+    /**
+     * Returns routes to connect to the application.
+     *
+     * @param \Silex\ControllerCollection $c
+     */
+    protected function addRoutes(ControllerCollection $c)
+    {
+        $c->get('', 'controllers.backend.extend:actionOverview')
+            ->before(array($this, 'before'))
+            ->bind('extend');
+
+        $c->get('/check', 'controllers.backend.extend:actionCheck')
+            ->before(array($this, 'before'))
+            ->bind('check');
+
+        $c->get('/update', 'controllers.backend.extend:actionUpdate')
+            ->before(array($this, 'before'))
+            ->bind('update');
+
+        $c->get('/install', 'controllers.backend.extend:actionInstall')
+            ->before(array($this, 'before'))
+            ->bind('install');
+
+        $c->get('/uninstall', 'controllers.backend.extend:actionUninstall')
+            ->before(array($this, 'before'))
+            ->bind('uninstall');
+
+        $c->get('/installed', 'controllers.backend.extend:actionInstalled')
+            ->before(array($this, 'before'))
+            ->bind('installed');
+
+        $c->get('/installAll', 'controllers.backend.extend:actionInstallAll')
+            ->before(array($this, 'before'))
+            ->bind('installAll');
+
+        $c->get('/installPackage', 'controllers.backend.extend:actionInstallPackage')
+            ->before(array($this, 'before'))
+            ->bind('installPackage');
+
+        $c->get('/installInfo', 'controllers.backend.extend:actionInstallInfo')
+            ->before(array($this, 'before'))
+            ->bind('installInfo');
+
+        $c->get('/packageInfo', 'controllers.backend.extend:actionPackageInfo')
+            ->before(array($this, 'before'))
+            ->bind('packageInfo');
+
+        $c->get('/generateTheme', 'controllers.backend.extend:actionGenerateTheme')
+            ->before(array($this, 'before'))
+            ->bind('generateTheme');
+    }
 
     /**
      * Registers services on the app.
@@ -54,64 +105,6 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
     }
 
     /**
-     * Returns routes to connect to the application.
-     *
-     * @param \Silex\Application $app An Application instance
-     *
-     * @return Silex\ControllerCollection A ControllerCollection instance
-     */
-    public function connect(Silex\Application $app)
-    {
-        $ctr = $app['controllers_factory'];
-
-        $ctr->get('', array($this, 'overview'))
-            ->before(array($this, 'before'))
-            ->bind('extend');
-
-        $ctr->get('/check', array($this, 'check'))
-            ->before(array($this, 'before'))
-            ->bind('check');
-
-        $ctr->get('/update', array($this, 'update'))
-            ->before(array($this, 'before'))
-            ->bind('update');
-
-        $ctr->get('/install', array($this, 'install'))
-            ->before(array($this, 'before'))
-            ->bind('install');
-
-        $ctr->get('/uninstall', array($this, 'uninstall'))
-            ->before(array($this, 'before'))
-            ->bind('uninstall');
-
-        $ctr->get('/installed', array($this, 'installed'))
-            ->before(array($this, 'before'))
-            ->bind('installed');
-
-        $ctr->get('/installAll', array($this, 'installAll'))
-            ->before(array($this, 'before'))
-            ->bind('installAll');
-
-        $ctr->get('/installPackage', array($this, 'installPackage'))
-            ->before(array($this, 'before'))
-            ->bind('installPackage');
-
-        $ctr->get('/installInfo', array($this, 'installInfo'))
-            ->before(array($this, 'before'))
-            ->bind('installInfo');
-
-        $ctr->get('/packageInfo', array($this, 'packageInfo'))
-            ->before(array($this, 'before'))
-            ->bind('packageInfo');
-
-        $ctr->get('/generateTheme', array($this, 'generateTheme'))
-            ->before(array($this, 'before'))
-            ->bind('generateTheme');
-
-        return $ctr;
-    }
-
-    /**
      * Middleware function to check whether a user is logged on.
      *
      * @param Request            $request
@@ -122,7 +115,7 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
     public function before(Request $request, Silex\Application $app)
     {
         // This disallows extensions from adding any extra snippets to the output
-        if ($request->get("_route") !== 'extend') {
+        if ($request->get('_route') !== 'extend') {
             $app['htmlsnippets'] = false;
         }
 
@@ -131,9 +124,9 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
 
         // Most of the 'check if user is allowed' happens here: match the current route to the 'allowed' settings.
         if (!$app['users']->isAllowed('extensions')) {
-            $app['session']->getFlashBag()->add('error', Trans::__('You do not have the right privileges to view that page.'));
+            $this->addFlash('error', Trans::__('You do not have the right privileges to view that page.'));
 
-            return Lib::redirect('dashboard');
+            return $this->redirectToRoute('dashboard');
         }
 
         // Stop the 'stopwatch' for the profiler.
@@ -149,25 +142,23 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
     /**
      * Check a package.
      *
-     * @param \Silex\Application $app
-     * @param Request            $request
+     * @param Request $request
      *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function check(Silex\Application $app, Request $request)
+    public function actionCheck(Request $request)
     {
-        return new JsonResponse($app['extend.manager']->checkPackage());
+        return new JsonResponse($this->app['extend.manager']->checkPackage());
     }
 
     /**
      * Generate a copy of a theme package.
      *
-     * @param \Silex\Application $app
-     * @param Request            $request
+     * @param Request $request
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function generateTheme(Silex\Application $app, Request $request)
+    public function actionGenerateTheme(Request $request)
     {
         $theme = $request->get('theme');
         $newName = $request->get('name');
@@ -180,8 +171,8 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
             $newName = basename($theme);
         }
 
-        $source = $app['resources']->getPath('extensions') . '/vendor/' . $theme;
-        $destination = $app['resources']->getPath('themebase') . '/' . $newName;
+        $source = $this->app['resources']->getPath('extensions') . '/vendor/' . $theme;
+        $destination = $this->app['resources']->getPath('themebase') . '/' . $newName;
         if (is_dir($source)) {
             try {
                 $filesystem = new Filesystem();
@@ -206,19 +197,18 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
      *
      * Equivalent to `composer require author/package`
      *
-     * @param \Silex\Application $app
-     * @param Request            $request
+     * @param Request $request
      *
      * @throws PackageManagerException
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function install(Silex\Application $app, Request $request)
+    public function actionInstall(Request $request)
     {
         $package = $request->get('package');
         $version = $request->get('version');
 
-        $response = $app['extend.manager']->requirePackage(
+        $response = $this->app['extend.manager']->requirePackage(
             array(
                 'name'    => $package,
                 'version' => $version
@@ -226,12 +216,12 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
         );
 
         if ($response === 0) {
-            $app['extensions.stats']->recordInstall($package, $version);
-            $app['logger.system']->info("Installed $package $version", array('event' => 'extensions'));
+            $this->app['extensions.stats']->recordInstall($package, $version);
+            $this->app['logger.system']->info("Installed $package $version", array('event' => 'extensions'));
 
-            return new Response($app['extend.manager']->getOutput());
+            return new Response($this->app['extend.manager']->getOutput());
         } else {
-            throw new PackageManagerException($app['extend.manager']->getOutput(), $response);
+            throw new PackageManagerException($this->app['extend.manager']->getOutput(), $response);
         }
     }
 
@@ -240,21 +230,20 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
      *
      * Equivalent to `composer install`
      *
-     * @param \Silex\Application $app
-     * @param Request            $request
+     * @param Request $request
      *
      * @throws PackageManagerException
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function installAll(Silex\Application $app, Request $request)
+    public function actionInstallAll(Request $request)
     {
-        $response = $app['extend.manager']->installPackages();
+        $response = $this->app['extend.manager']->installPackages();
 
         if ($response === 0) {
-            return new Response($app['extend.manager']->getOutput());
+            return new Response($this->app['extend.manager']->getOutput());
         } else {
-            throw new PackageManagerException($app['extend.manager']->getOutput(), $response);
+            throw new PackageManagerException($this->app['extend.manager']->getOutput(), $response);
         }
     }
 
@@ -263,29 +252,27 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
      *
      * Partially equivalent to `composer show -i`
      *
-     * @param \Silex\Application $app
-     * @param Request            $request
+     * @param Request $request
      *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function installed(Silex\Application $app, Request $request)
+    public function actionInstalled(Request $request)
     {
-        $result = $app['extend.manager']->getAllPackages();
+        $result = $this->app['extend.manager']->getAllPackages();
 
         return new JsonResponse($result);
     }
 
     /**
-     * @param \Silex\Application $app
-     * @param Request            $request
+     * @param Request $request
      *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function installInfo(Silex\Application $app, Request $request)
+    public function actionInstallInfo(Request $request)
     {
         $package = $request->get('package');
         $versions = array('dev' => array(), 'stable' => array());
-        $info = $app['extend.info']->info($package, $app['bolt_version']);
+        $info = $this->app['extend.info']->info($package, $this->app['bolt_version']);
         if (isset($info->version)) {
             foreach ($info->version as $version) {
                 $versions[$version->stability][] = $version;
@@ -300,121 +287,115 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
     /**
      * Package install chooser modal.
      *
-     * @param \Silex\Application $app
-     * @param Request            $request
+     * @param Request $request
      *
      * @return string
      */
-    public function installPackage(Silex\Application $app, Request $request)
+    public function actionInstallPackage(Request $request)
     {
-        return $app['render']->render(
+        return $this->app['render']->render(
             'extend/install-package.twig',
-            $this->getRenderContext($app)
+            $this->getRenderContext()
         );
     }
 
     /**
      * The main 'Extend' page.
      *
-     * @param \Silex\Application $app
-     * @param Request            $request
+     * @param Request $request
      *
      * @return string
      */
-    public function overview(Silex\Application $app, Request $request)
+    public function actionOverview(Request $request)
     {
-        return $app['render']->render(
+        return $this->app['render']->render(
             'extend/extend.twig',
-            $this->getRenderContext($app)
+            $this->getRenderContext()
         );
     }
 
     /**
      * Show installed packages.
      *
-     * @param \Silex\Application $app
-     * @param Request            $request
+     * @param Request $request
      *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function packageInfo(Silex\Application $app, Request $request)
+    public function actionPackageInfo(Request $request)
     {
         $package = $request->get('package');
         $version = $request->get('version');
-        $response = $app['extend.manager']->showPackage('installed', $package, $version);
+        $response = $this->app['extend.manager']->showPackage('installed', $package, $version);
 
-        return new JsonResponse($app['extend.manager']->formatPackageResponse($response));
+        return new JsonResponse($this->app['extend.manager']->formatPackageResponse($response));
     }
 
     /**
      * Update a package(s).
      *
-     * @param \Silex\Application $app
-     * @param Request            $request
+     * @param Request $request
      *
      * @throws PackageManagerException
      *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function update(Silex\Application $app, Request $request)
+    public function actionUpdate(Request $request)
     {
         $package = $request->get('package') ? $request->get('package') : null;
         $update = $package ? array($package) : array();
 
-        $response = $app['extend.manager']->updatePackage($update);
+        $response = $this->app['extend.manager']->updatePackage($update);
 
         if ($response === 0) {
-            $app['logger.system']->info("Updated $package", array('event' => 'extensions'));
+            $this->app['logger.system']->info("Updated $package", array('event' => 'extensions'));
 
-            return new JsonResponse($app['extend.manager']->getOutput());
+            return new JsonResponse($this->app['extend.manager']->getOutput());
         } else {
-            throw new PackageManagerException($app['extend.manager']->getOutput(), $response);
+            throw new PackageManagerException($this->app['extend.manager']->getOutput(), $response);
         }
     }
 
     /**
      * Uninstall a package.
      *
-     * @param \Silex\Application $app
-     * @param Request            $request
+     * @param Request $request
      *
      * @throws PackageManagerException
      *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function uninstall(Silex\Application $app, Request $request)
+    public function actionUninstall(Request $request)
     {
         $package = $request->get('package');
 
-        $response = $app['extend.manager']->removePackage(array($package));
+        $response = $this->app['extend.manager']->removePackage(array($package));
 
         if ($response === 0) {
-            $app['logger.system']->info("Uninstalled $package", array('event' => 'extensions'));
+            $this->app['logger.system']->info("Uninstalled $package", array('event' => 'extensions'));
 
-            return new Response($app['extend.manager']->getOutput());
+            return new Response($this->app['extend.manager']->getOutput());
         } else {
-            throw new PackageManagerException($app['extend.manager']->getOutput(), $response);
+            throw new PackageManagerException($this->app['extend.manager']->getOutput(), $response);
         }
     }
 
     /**
      * Get render parameters for Twig.
-     *
-     * @param \Silex\Application $app
+     *     *
      *
      * @return array
      */
-    private function getRenderContext(Silex\Application $app)
+    private function getRenderContext()
     {
-        $extensionsPath = $app['resources']->getPath('extensions');
+        $extensionsPath = $this->app['resources']->getPath('extensions');
 
         return array(
-            'messages'       => $app['extend.manager']->messages,
-            'enabled'        => $app['extend.enabled'],
-            'writeable'      => $app['extend.writeable'],
-            'online'         => $app['extend.online'],
+            'messages'       => $this->app['extend.manager']->messages,
+            'enabled'        => $this->app['extend.enabled'],
+            'writeable'      => $this->app['extend.writeable'],
+            'online'         => $this->app['extend.online'],
             'extensionsPath' => $extensionsPath,
-            'site'           => $app['extend.site']
+            'site'           => $this->app['extend.site']
         );
     }
 }

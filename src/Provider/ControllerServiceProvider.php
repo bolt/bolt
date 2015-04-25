@@ -15,12 +15,18 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
         $app['controllers.backend.mount_prefix'] = function ($app) {
             return $app['config']->get('general/branding/path');
         };
+        $app['controllers.backend.extend.mount_prefix'] = function ($app) {
+            return $app['config']->get('general/branding/path') . '/extend';
+        };
 
         $app['controllers.backend'] = $app->share(function () {
             return new Controllers\Backend\Backend();
         });
         $app['controllers.backend.authentication'] = $app->share(function () {
             return new Controllers\Backend\Authentication();
+        });
+        $app['controllers.backend.extend'] = $app->share(function () {
+            return new Controllers\Backend\Extend();
         });
         $app['controllers.backend.database'] = $app->share(function () {
             return new Controllers\Backend\Database();
@@ -52,6 +58,8 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
     public function mount(MountEvent $event)
     {
         $app = $event->getApp();
+
+        // Mount the standard collection of backend controllers
         $prefix = $app['controllers.backend.mount_prefix'];
         $controllerKeys = array(
             'backend',
@@ -65,6 +73,11 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
         foreach ($controllerKeys as $controller) {
             $event->mount($prefix, $app['controllers.' . $controller]);
         }
+
+        // Mount the Extend controller
+        $prefix = $app['controllers.backend.extend.mount_prefix'];
+        $event->mount($prefix, $app['controllers.backend.extend']);
+        $app['controllers.backend.extend']->register($app);
     }
 
     public static function getSubscribedEvents()

@@ -122,7 +122,7 @@ class Application extends Silex\Application
 //        $this->initMountpoints();
 
         // Initialize enabled extensions before executing handlers.
-        $this->initExtensions();
+//         $this->initExtensions();
 
         $this->initMailCheck();
 
@@ -364,7 +364,6 @@ class Application extends Silex\Application
             ->register(new Provider\FilePermissionsServiceProvider())
             ->register(new Provider\MenuServiceProvider())
             ->register(new Controllers\Upload())
-            ->register(new Controllers\Extend())
             ->register(new Provider\FilesystemProvider())
             ->register(new Thumbs\ThumbnailProvider())
             ->register(new Provider\NutServiceProvider())
@@ -416,9 +415,6 @@ class Application extends Silex\Application
             Request::setTrustedProxies($proxies);
         }
 
-        // Mount the 'backend' on the branding:path setting. Defaults to '/bolt'.
-        $backendPrefix = $this['config']->get('general/branding/path');
-
         // Mount the 'async' controllers on /async. Not configurable.
         $this->mount('/async', new Controllers\Async());
 
@@ -427,9 +423,6 @@ class Application extends Silex\Application
 
         // Mount the 'upload' controller on /upload.
         $this->mount('/upload', new Controllers\Upload());
-
-        // Mount the 'extend' controller on /branding/extend.
-        $this->mount($backendPrefix . '/extend', $this['extend']);
 
         if ($this['config']->get('general/enforce_ssl')) {
             foreach ($this['routes'] as $route) {
