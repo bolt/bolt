@@ -218,27 +218,40 @@ class RecordHandler
             return null;
         }
 
-        if ($filter) {
-            $name = Glob::toRegex($filter, false, false);
-        } else {
-            $name = '/^[a-zA-Z0-9]\V+\.twig$/';
-        }
-
-        $finder = new Finder();
-        $finder->files()
-               ->in($this->app['paths']['templatespath'])
-               ->notname('/^_/')
-               ->notPath('node_modules')
-               ->notPath('bower_components')
-               ->notPath('.sass-cache')
-               ->depth('<2')
-               ->path($name)
-               ->sortByName();
-
+        // Get the active themeconfig
+        $appConfig = $this->app['config']->getConfig();
+        $themeConfig = $appConfig['theme'];
         $files = array();
-        foreach ($finder as $file) {
-            $name = $file->getRelativePathname();
-            $files[$name] = $name;
+
+        // Check: Are the templates for template chooser defined?
+        if (!empty($themeConfig['templateselect'])) {
+            foreach ($themeConfig['templateselect']['templates'] as $templateFile) {
+                if (!empty($templateFile['name']) && !empty($templateFile['filename'])) {
+                    $files[$templateFile['filename']] = $templateFile['name'];
+                }
+            }
+        } else {
+            if ($filter) {
+                $name = Glob::toRegex($filter, false, false);
+            } else {
+                $name = '/^[a-zA-Z0-9]\V+\.twig$/';
+            }
+
+            $finder = new Finder();
+            $finder->files()
+                ->in($this->app['paths']['templatespath'])
+                ->notname('/^_/')
+                ->notPath('node_modules')
+                ->notPath('bower_components')
+                ->notPath('.sass-cache')
+                ->depth('<2')
+                ->path($name)
+                ->sortByName();
+
+            foreach ($finder as $file) {
+                $name = $file->getRelativePathname();
+                $files[$name] = $name;
+            }
         }
 
         return $files;
