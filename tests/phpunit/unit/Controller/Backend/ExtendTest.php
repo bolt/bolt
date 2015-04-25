@@ -1,7 +1,6 @@
 <?php
-namespace Bolt\Tests\Controller;
+namespace Bolt\Tests\Controller\Backend;
 
-use Bolt\Controllers\Extend;
 use Bolt\Tests\BoltUnitTest;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
  * @author Ross Riley <riley.ross@gmail.com>
  **/
 
-class ExtendControllerTest extends BoltUnitTest
+class ExtendTest extends BoltUnitTest
 {
     public function testDefaultRegistries()
     {
@@ -29,41 +28,42 @@ class ExtendControllerTest extends BoltUnitTest
         $app['twig.loader.filesystem']->prependPath(TEST_ROOT . '/app/view/twig');
         $this->expectOutputRegex('#Redirecting to /bolt/#');
         $app->run();
-        $extend = new Extend();
-        $request = Request::create("/");
+        $controller = $app['controllers.backend.records'];
+
+        $request = Request::create('/');
         $app['request'] = $request;
-        $response = $extend->overview($app, $request);
+        $response = $controller->overview($app, $request);
         $this->assertEquals('extend/extend.twig', $response->getTemplateName());
 
-        $response = $extend->installPackage($app, $request);
+        $response = $controller->installPackage($app, $request);
         $this->assertNotEmpty($response);
 
         $request = Request::create('/', 'GET', array('package' => 'bolt/theme-2014'));
-        $extend = $this->getMock('Bolt\Controllers\Extend', array('installInfo', 'packageInfo', 'check'));
-        $extend->expects($this->any())
+        $controller = $this->getMock('Bolt\Controllers\Extend', array('installInfo', 'packageInfo', 'check'));
+        $controller->expects($this->any())
             ->method('installInfo')
             ->will($this->returnValue(new Response('{"dev": [{"name": "bolt/theme-2014","version": "dev-master"}],"stable": []}')));
 
-        $response = $extend->installInfo($app, $request);
+        $response = $controller->installInfo($app, $request);
         $this->assertNotEmpty($response);
 
         $request = Request::create('/', 'GET', array('package' => 'bolt/theme-2014', 'version' => 'dev-master'));
-        $extend->expects($this->any())
+        $controller->expects($this->any())
             ->method('packageInfo')
             ->will($this->returnValue(new Response('{"name":"bolt\/theme-2014","version":"unknown","type":"unknown","descrip":""}')));
 
-        $response = $extend->packageInfo($app, $request);
+        $response = $controller->packageInfo($app, $request);
         $this->assertNotEmpty($response);
         $content = json_decode($response->getContent());
         $this->assertAttributeNotEmpty('name', $content);
 
         $request = Request::create("/");
 
-        $extend->expects($this->any())
+        $controller->expects($this->any())
             ->method('check')
             ->will($this->returnValue(new Response('{"updates":[],"installs":[]}')));
 
-        $response = $extend->check($app, $request);
+        $response = $controller->check($app, $request);
         $this->assertNotEmpty($response);
     }
 
