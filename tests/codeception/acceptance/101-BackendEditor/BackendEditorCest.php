@@ -239,7 +239,7 @@ class BackendEditorCest
      */
     public function checkTemplateFieldsTest(\AcceptanceTester $I)
     {
-        $I->wantTo("Create a contact page with templatefields");
+        $I->wantTo('Create a contact page with templatefields');
 
         // Set up the browser
         $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
@@ -249,9 +249,9 @@ class BackendEditorCest
         $I->see('New Page');
         $I->click('New Page');
 
-        $I->fillField('#title',         'Contact Page');
-        $I->fillField('#slug',          'contact');
-        $I->selectOption('#template',   'extrafields.twig');
+        $I->fillField('#title',       'Contact Page');
+        $I->fillField('#slug',        'contact');
+        $I->selectOption('#template', 'extrafields.twig');
 
         $I->click('Save Page', '#savecontinuebutton');
         $I->see('The new Page has been saved.');
@@ -263,7 +263,7 @@ class BackendEditorCest
         $I->fillField('#templatefields-section_1', 'This is the contact text');
         $I->click('Save Page');
 
-        $I->click('CONTACT PAGE');
+        $I->click('#tab-template');
         $I->seeInField('#templatefields-section_1', 'This is the contact text');
     }
 }
