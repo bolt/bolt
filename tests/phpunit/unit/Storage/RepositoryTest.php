@@ -118,7 +118,7 @@ class RepositoryTest extends BoltUnitTest
         $newUser = array(
             'username' => 'test',
             'password' => 'fake',
-            'email' => 'test@example.com',
+            'email' => 'testuser@example.com',
             'displayname' => 'Test User',
             'lastip' => '127.0.0.1'
         );
@@ -135,6 +135,9 @@ class RepositoryTest extends BoltUnitTest
                         
     }
     
+    /**
+     * @depends testInsert
+     */    
     public function testUpdate()
     {
         $app = $this->getApp();
@@ -155,6 +158,9 @@ class RepositoryTest extends BoltUnitTest
         $this->assertEquals(1, $this->eventCount['postSave']);
     }
     
+    /**
+     * @depends testInsert
+     */  
     public function testDelete()
     {
         $app = $this->getApp();
