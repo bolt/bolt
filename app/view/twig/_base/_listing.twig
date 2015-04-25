@@ -153,11 +153,11 @@
 
                         {% endif %}
                     {% endif %}
-                    {% if isallowed('create', content) and not content.relation %}
+                    {% if isallowed('create', content) %}
                     <li><a href="{{ path('editcontent', {'contenttypeslug': content.contenttype.slug, 'id': content.id, 'duplicate': 1}) }}">
                         <i class="fa fa-copy"></i> {{ __('contenttypes.generic.duplicate', {'%contenttype%': content.contenttype.slug}) }}</a></li>
                     {% endif %}
-                    {% if isallowed('delete', content) and not content.relation %}
+                    {% if isallowed('delete', content) %}
                     <li>{{ macro.actionform(content, 'delete',
                                           'fa-trash',
                                           __('contenttypes.generic.delete', {'%contenttype%': content.contenttype.slug}),
