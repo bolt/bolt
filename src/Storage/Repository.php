@@ -284,11 +284,11 @@ class Repository implements ObjectRepository
      * 
      * @return mixed.
      */
-    protected function hydrateAll(array $data)
+    protected function hydrateAll(array $data, QueryBuilder $qb)
     {
         $rows = array();
         foreach ($data as $row) {
-           $rows[] = $this->hydrate($row); 
+           $rows[] = $this->hydrate($row, $qb); 
         }
         
         return $rows;
