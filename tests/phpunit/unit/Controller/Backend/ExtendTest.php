@@ -28,23 +28,23 @@ class ExtendTest extends BoltUnitTest
         $app['twig.loader.filesystem']->prependPath(TEST_ROOT . '/app/view/twig');
         $this->expectOutputRegex('#Redirecting to /bolt/#');
         $app->run();
-        $controller = $app['controllers.backend.records'];
+        $controller = $app['controllers.backend.extend'];
 
         $request = Request::create('/');
         $app['request'] = $request;
-        $response = $controller->overview($app, $request);
+        $response = $controller->actionOverview($request);
         $this->assertEquals('extend/extend.twig', $response->getTemplateName());
 
-        $response = $controller->installPackage($app, $request);
+        $response = $controller->actionInstallPackage($request);
         $this->assertNotEmpty($response);
 
         $request = Request::create('/', 'GET', array('package' => 'bolt/theme-2014'));
-        $controller = $this->getMock('Bolt\Controllers\Extend', array('installInfo', 'packageInfo', 'check'));
+        $controller = $this->getMock('Bolt\Controllers\Extend', array('actionInstallInfo', 'actionPackageInfo', 'actionCheck'));
         $controller->expects($this->any())
             ->method('installInfo')
             ->will($this->returnValue(new Response('{"dev": [{"name": "bolt/theme-2014","version": "dev-master"}],"stable": []}')));
 
-        $response = $controller->installInfo($app, $request);
+        $response = $controller->actionInstallInfo($request);
         $this->assertNotEmpty($response);
 
         $request = Request::create('/', 'GET', array('package' => 'bolt/theme-2014', 'version' => 'dev-master'));
@@ -52,18 +52,18 @@ class ExtendTest extends BoltUnitTest
             ->method('packageInfo')
             ->will($this->returnValue(new Response('{"name":"bolt\/theme-2014","version":"unknown","type":"unknown","descrip":""}')));
 
-        $response = $controller->packageInfo($app, $request);
+        $response = $controller->actionPackageInfo($request);
         $this->assertNotEmpty($response);
         $content = json_decode($response->getContent());
         $this->assertAttributeNotEmpty('name', $content);
 
-        $request = Request::create("/");
+        $request = Request::create('/');
 
         $controller->expects($this->any())
             ->method('check')
             ->will($this->returnValue(new Response('{"updates":[],"installs":[]}')));
 
-        $response = $controller->check($app, $request);
+        $response = $controller->actionCheck($request);
         $this->assertNotEmpty($response);
     }
 
