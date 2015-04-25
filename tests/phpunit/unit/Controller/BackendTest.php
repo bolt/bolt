@@ -1035,6 +1035,7 @@ class BackendTest extends BoltUnitTest
             ->will($this->returnValue(false));
         $app['permissions'] = $perms;
 
+        $this->addNewUser($app, 'clippy', 'Clippy', 'editor');
         $app['request'] = $request = Request::create('/bolt/user/disable/2');
         $response = $controller->userAction($app, 'disable', 2);
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
@@ -1143,21 +1144,6 @@ class BackendTest extends BoltUnitTest
         $response = $controller->translation('contenttypes', 'en_CY', $app, $request);
         $info = $app['session']->getFlashBag()->get('error');
         $this->assertRegexp('/could not be saved/', $info[0]);
-    }
-
-    protected function addNewUser($app, $username, $displayname, $role)
-    {
-        $user = $app['users']->getEmptyUser();
-
-        unset($user['id']);
-        $user['username']    = $username;
-        $user['displayname'] = $displayname;
-        $user['email']       = $username.'@example.com';
-        $user['password']    = 'password';
-        $user['roles']       = array($role);
-
-        $app['users']->saveUser($user);
-        $app['users']->users = array();
     }
 
     protected function removeCSRF($app)
