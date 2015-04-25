@@ -158,4 +158,19 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
             'utils'  => $app->share(function () use ($app) { return new UtilsHandler($app); }),
         ));
     }
+
+    protected function addNewUser($app, $username, $displayname, $role)
+    {
+        $user = $app['users']->getEmptyUser();
+
+        unset($user['id']);
+        $user['username']    = $username;
+        $user['displayname'] = $displayname;
+        $user['email']       = $username.'@example.com';
+        $user['password']    = 'password';
+        $user['roles']       = array($role);
+
+        $app['users']->saveUser($user);
+        $app['users']->users = array();
+    }
 }
