@@ -48,8 +48,7 @@ class LogTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $app['config']->set('general/changelog/enabled', true);
-        $controller = new Log();
-        $controller->connect($app);
+        $controller = $app['controllers.backend.log'];
 
         $app['request'] = $request = Request::create('/bolt/changelog/pages/1/1');
         $response = $controller->actionChangeRecord($request, 'pages', 1, 1, $app, $request);
@@ -67,8 +66,7 @@ class LogTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $app['config']->set('general/changelog/enabled', true);
-        $controller = new Log();
-        $controller->connect($app);
+        $controller = $app['controllers.backend.log'];
 
         // First test tests without any changelogs available
         $app['request'] = $request = Request::create('/bolt/changelog/pages');

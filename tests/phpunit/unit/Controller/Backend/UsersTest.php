@@ -24,8 +24,7 @@ class UsersTest extends BoltUnitTest
     public function testAdmin()
     {
         $app = $this->getApp();
-        $controller = new Users();
-        $controller->connect($app);
+        $controller = $app['controllers.backend.users'];
 
         $app['request'] = $request = Request::create('/bolt/users');
         $response = $controller->actionAdmin($request);
@@ -37,8 +36,7 @@ class UsersTest extends BoltUnitTest
     public function testEdit()
     {
         $app = $this->getApp();
-        $controller = new Users();
-        $controller->connect($app);
+        $controller = $app['controllers.backend.users'];
 
         $user = $app['users']->getUser(1);
         $app['users']->currentuser = $user;
@@ -71,8 +69,7 @@ class UsersTest extends BoltUnitTest
     public function testUserEditPost()
     {
         $app = $this->getApp();
-        $controller = new Users();
-        $controller->connect($app);
+        $controller = $app['controllers.backend.users'];
 
         $user = $app['users']->getUser(1);
         $app['users']->currentuser = $user;
@@ -112,8 +109,7 @@ class UsersTest extends BoltUnitTest
     public function testFirst()
     {
         $app = $this->getApp();
-        $controller = new Users();
-        $controller->connect($app);
+        $controller = $app['controllers.backend.users'];
 
         // Symfony forms need a CSRF token so we have to mock this too
         $csrf = $this->getMock('Symfony\Component\Form\Extension\Csrf\CsrfProvider\DefaultCsrfProvider', array('isCsrfTokenValid', 'generateCsrfToken'), array('secret'));
@@ -165,8 +161,7 @@ class UsersTest extends BoltUnitTest
     public function testModify()
     {
         $app = $this->getApp();
-        $controller = new Users();
-        $controller->connect($app);
+        $controller = $app['controllers.backend.users'];
 
         // First test should exit/redirect with no anti CSRF token
         $app['request'] = $request = Request::create('/bolt/user/disable/2');
@@ -176,8 +171,7 @@ class UsersTest extends BoltUnitTest
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
 
         $app = $this->getApp();
-        $controller = new Users();
-        $controller->connect($app);
+        $controller = $app['controllers.backend.users'];
 
         // Now we mock the CSRF token to validate
         $users = $this->getMock('Bolt\Users', array('checkAntiCSRFToken'), array($app));
@@ -253,8 +247,7 @@ class UsersTest extends BoltUnitTest
     public function testModifyFailures()
     {
         $app = $this->getApp();
-        $controller = new Users();
-        $controller->connect($app);
+        $controller = $app['controllers.backend.users'];
 
         // We add a new user that isn't the current user and now perform operations.
         $this->addNewUser($app, 'editor', 'Editor', 'editor');
@@ -302,8 +295,7 @@ class UsersTest extends BoltUnitTest
     public function testProfile()
     {
         $app = $this->getApp();
-        $controller = new Users();
-        $controller->connect($app);
+        $controller = $app['controllers.backend.users'];
 
         // Symfony forms need a CSRF token so we have to mock this too
         $this->removeCSRF($app);
@@ -339,8 +331,7 @@ class UsersTest extends BoltUnitTest
     public function testUsernameEditKillsSession()
     {
         $app = $this->getApp();
-        $controller = new Users();
-        $controller->connect($app);
+        $controller = $app['controllers.backend.users'];
 
         $user = $app['users']->getUser(1);
         $app['users']->currentuser = $user;
@@ -379,8 +370,7 @@ class UsersTest extends BoltUnitTest
     public function testViewRoles()
     {
         $app = $this->getApp();
-        $controller = new Users();
-        $controller->connect($app);
+        $controller = $app['controllers.backend.users'];
 
         $app['request'] = Request::create('/bolt/roles');
         $response = $controller->actionViewRoles();

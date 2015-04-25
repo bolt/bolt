@@ -18,8 +18,7 @@ class FileManagerTest extends BoltUnitTest
     public function testEdit()
     {
         $app = $this->getApp();
-        $controller = new FileManager();
-        $controller->connect($app);
+        $controller = $app['controllers.backend.file_manager'];
 
         $app['request'] = $request = Request::create('/bolt/file/edit/config/config.yml');
         $response = $controller->actionEdit($request, 'config', 'config.yml');
@@ -29,8 +28,7 @@ class FileManagerTest extends BoltUnitTest
     public function testManage()
     {
         $app = $this->getApp();
-        $controller = new FileManager();
-        $controller->connect($app);
+        $controller = $app['controllers.backend.file_manager'];
 
         $this->removeCSRF($app);
         $app['request'] = $request = Request::create('/bolt/files');

@@ -19,8 +19,7 @@ class BackendTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $app['request'] = Request::create('/bolt/about');
-        $controller = new Backend();
-        $controller->connect($app);
+        $controller = $app['controllers.backend'];
 
         $response = $controller->actionAbout();
         $this->assertEquals('about/about.twig', $response->getTemplateName());
@@ -91,8 +90,7 @@ class BackendTest extends BoltUnitTest
     public function testPrefill()
     {
         $app = $this->getApp();
-        $controller = new Backend();
-        $controller->connect($app);
+        $controller = $app['controllers.backend'];
 
         $app['request'] = $request = Request::create('/bolt/prefill');
         $response = $controller->actionPrefill($request);
@@ -143,8 +141,7 @@ class BackendTest extends BoltUnitTest
     {
         // We make a new translation and ensure that the content is created.
         $app = $this->getApp();
-        $controller = new Backend();
-        $controller->connect($app);
+        $controller = $app['controllers.backend'];
 
         $this->removeCSRF($app);
         $app['request'] = $request = Request::create('/bolt/tr/contenttypes/en_CY');
