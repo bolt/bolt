@@ -7,6 +7,7 @@ use Bolt\Routing\ControllerResolver;
 use Bolt\Routing\RedirectListener;
 use Bolt\Routing\UrlMatcher;
 use Silex\Application;
+use Silex\Route;
 use Silex\ServiceProviderInterface;
 
 class RoutingServiceProvider implements ServiceProviderInterface
@@ -28,6 +29,13 @@ class RoutingServiceProvider implements ServiceProviderInterface
                 return new ControllerResolver($app, $app['logger']);
             }
         );
+
+        $app['route_factory'] = $app->extend('route_factory', function (Route $route, $app) {
+            if ($app['config']->get('general/enforce_ssl')) {
+                $route->requireHttps();
+            }
+            return $route;
+        });
     }
 
     public function boot(Application $app)

@@ -420,13 +420,6 @@ class Application extends Silex\Application
         // Mount the 'thumbnail' provider on /thumbs.
         $this->mount('/thumbs', new Thumbs\ThumbnailProvider());
 
-        if ($this['config']->get('general/enforce_ssl')) {
-            foreach ($this['routes'] as $route) {
-                /** @var \Silex\Route $route */
-                $route->requireHttps();
-            }
-        }
-
         // Mount the 'frontend' controllers, as defined in our Routing.yml
         $this->mount('', new Controllers\Routing());
     }
