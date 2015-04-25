@@ -1,5 +1,5 @@
 <?php
-namespace Bolt\Tests\Controller;
+namespace Bolt\Tests\Controller\Backend;
 
 use Bolt\Tests\BoltUnitTest;
 use Silex\Application;
@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
  * @author Ross Riley <riley.ross@gmail.com>
  **/
 
-class UploadControllerTest extends BoltUnitTest
+class UploadTest extends BoltUnitTest
 {
     public function setup()
     {
