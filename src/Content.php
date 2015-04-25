@@ -799,6 +799,10 @@ class Content implements \ArrayAccess
      */
     public function getTitle()
     {
+        if (!empty($this->contenttype['title_format'])) {
+            return $this->preParse($this->contenttype['title_format'], true);
+        }
+
         if ($column = $this->getTitleColumnName()) {
             return $this->values[$column];
         }
