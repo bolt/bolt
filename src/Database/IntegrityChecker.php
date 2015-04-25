@@ -195,11 +195,15 @@ class IntegrityChecker
 
                     $diff = $this->cleanupTableDiff($diff);
 
-                    // diff may be just deleted columns which we have reset above
-                    // only exec and add output if does really alter anything
-                    if ($this->app['db']->getDatabasePlatform()->getAlterTableSQL($diff)) {
+                    // The diff may be just deleted columns which we have reset above
+                    // Only exec and add output if does really alter anything.
+                    // There's a known issue with MySQL, where it will (falsely) notice an updated index,
+                    // but those are filtered out here, by the `!empty($msgParts)` bit.
+                    // @see: https://github.com/bolt/bolt/issues/3426
+                    if ($diffs[] = $this->app['db']->getDatabasePlatform()->getAlterTableSQL($diff)) {
                         $msg = 'Table `' . $table->getName() . '` is not the correct schema: ';
                         $msgParts = array();
+
                         // No check on foreign keys yet because we don't use them
                         /** @var $col Column */
                         foreach ($diff->addedColumns as $col) {
@@ -223,8 +227,11 @@ class IntegrityChecker
                         foreach ($diff->removedIndexes as $indexName => $val) {
                             $msgParts[] = 'removed index `' . $indexName . '`';
                         }
-                        $msg .= implode(', ', $msgParts);
-                        $messages[] = $msg;
+
+                        if (!empty($msgParts)) {
+                            $msg .= implode(', ', $msgParts);
+                            $messages[] = $msg;
+                        }
                     }
                 }
             }
