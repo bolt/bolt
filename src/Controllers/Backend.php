@@ -946,15 +946,12 @@ class Backend implements ControllerProviderInterface
             $contentowner = $app['users']->getUser($content['ownerid']);
         }
 
+        $filesystem = $app['filesystem']->getFilesystem();
+
         // Test write access for uploadable fields
         foreach ($contenttype['fields'] as $key => &$values) {
             if (isset($values['upload'])) {
-                $canUpload = $app['filesystem']->getFilesystem()->getVisibility($values['upload']);
-                if ($canUpload === 'public') {
-                    $values['canUpload'] = true;
-                } else {
-                    $values['canUpload'] = false;
-                }
+                $values['canUpload'] = $filesystem->has($values['upload']) && $filesystem->getVisibility($values['upload']);
             } else {
                 $values['canUpload'] = true;
             }
@@ -963,12 +960,7 @@ class Backend implements ControllerProviderInterface
         if ((!empty($content['templatefields'])) && (!empty($content['templatefields']->contenttype['fields']))) {
             foreach ($content['templatefields']->contenttype['fields'] as $key => &$values) {
                 if (isset($values['upload'])) {
-                    $canUpload = $app['filesystem']->getFilesystem()->getVisibility($values['upload']);
-                    if ($canUpload === 'public') {
-                        $values['canUpload'] = true;
-                    } else {
-                        $values['canUpload'] = false;
-                    }
+                    $values['canUpload'] = $filesystem->has($values['upload']) && $filesystem->getVisibility($values['upload']);
                 } else {
                     $values['canUpload'] = true;
                 }
