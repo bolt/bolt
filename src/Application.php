@@ -363,7 +363,6 @@ class Application extends Silex\Application
             ->register(new Provider\CronServiceProvider())
             ->register(new Provider\FilePermissionsServiceProvider())
             ->register(new Provider\MenuServiceProvider())
-            ->register(new Controllers\Upload())
             ->register(new Provider\FilesystemProvider())
             ->register(new Thumbs\ThumbnailProvider())
             ->register(new Provider\NutServiceProvider())
@@ -420,9 +419,6 @@ class Application extends Silex\Application
 
         // Mount the 'thumbnail' provider on /thumbs.
         $this->mount('/thumbs', new Thumbs\ThumbnailProvider());
-
-        // Mount the 'upload' controller on /upload.
-        $this->mount('/upload', new Controllers\Upload());
 
         if ($this['config']->get('general/enforce_ssl')) {
             foreach ($this['routes'] as $route) {

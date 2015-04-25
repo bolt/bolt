@@ -1,13 +1,13 @@
 <?php
 
-namespace Bolt\Controllers;
+namespace Bolt\Controllers\Backend;
 
-use Bolt\Application;
 use Bolt\Filesystem\FlysystemContainer;
 use Bolt\Library as Lib;
 use Bolt\Translation\Translator as Trans;
 use Silex;
-use Silex\ControllerProviderInterface;
+use Silex\Application;
+use Silex\ControllerCollection;
 use Silex\ServiceProviderInterface;
 use Sirius\Upload\Handler as UploadHandler;
 use Sirius\Upload\Result\Collection;
@@ -17,8 +17,23 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class Upload implements ControllerProviderInterface, ServiceProviderInterface
+/**
+ * Class to handle uploads
+ *
+ * @author Ross Riley <riley.ross@gmail.com>
+ **/
+class Upload extends BackendBase
 {
+    protected function addRoutes(ControllerCollection $c)
+    {
+        $c->match('/{namespace}', 'controllers.backend.users:actionUploadNamespace')
+            ->before(array($this, 'before'))
+            ->value('namespace', 'files')
+            ->bind('upload');
+
+        return $c;
+    }
+
     public function register(Silex\Application $app)
     {
         // This exposes the main upload object as a service
@@ -46,7 +61,7 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
             return $uploadHandler;
         };
 
-        // This exposes the file container as a configurabole object please refer to:
+        // This exposes the file container as a configurable object please refer to:
         // Sirius\Upload\Container\ContainerInterface
         // Any compatible file handler can be used.
         $app['upload.container'] = function () use ($app) {
@@ -70,76 +85,116 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
         $app['upload.overwrite'] = false;
     }
 
-    public function connect(Silex\Application $app)
+    /**
+     * Middleware function to check whether a user is logged on.
+     *
+     * @param Request     $request The Symfony Request
+     * @param Application $app     The application/container
+     *
+     * @return null|\Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function before(Request $request, Application $app)
     {
-        $ctr = $app['controllers_factory'];
-        $controller = $this;
-        $func = function (Silex\Application $app, Request $request) use ($controller) {
-            if ($handler = $request->get('handler')) {
-                $parser = function ($setting) use ($app) {
-                    $parts = explode('://', $setting);
-                    if (count($parts) == 2) {
-                        $namespace = $parts[0];
-                        array_shift($parts);
-                    } else {
-                        $namespace = $app['upload.namespace'];
-                    }
-                    $prefix = rtrim($parts[0], '/') . '/';
+        // Start the 'stopwatch' for the profiler.
+        $app['stopwatch']->start('bolt.backend.before');
 
-                    return array($namespace, $prefix);
-                };
+        // If there's no active session, don't do anything.
+        if (!$app['users']->isValidSession()) {
+            $app->abort(Response::HTTP_NOT_FOUND, 'You must be logged in to use this.');
+        }
 
-                // This block handles the more advanced functionality where multiple upload
-                // handlers are provided. Only the first one is returned as a result, the result
-                // of this first upload is then attempted to copy to the remaining handlers.
-                if (is_array($handler)) {
-                    list($namespace, $prefix) = $parser($handler[0]);
-                    $app['upload.namespace'] = $namespace;
-                    $app['upload.prefix'] = $prefix;
-                    $result = $controller->uploadFile($app, $request, $namespace);
+        if (!$app['users']->isAllowed("files:uploads")) {
+            $app['session']->getFlashBag()->add('error', Trans::__('You do not have the right privileges to upload.'));
 
-                    array_shift($handler);
-                    $original = $namespace;
+            return $this->redirectToRoute('dashboard');
+        }
 
-                    if (count($result)) {
-                        $result = $result[0];
-                        foreach ($handler as $copy) {
-                            list($namespace, $prefix) = $parser($copy);
-                            $manager = $app['filesystem'];
-                            $manager->put(
-                                $namespace . '://' . $prefix . basename($result['name']),
-                                $manager->read($original . '://' . $result['name'])
-                            );
-                        }
-                    }
+        // Stop the 'stopwatch' for the profiler.
+        $app['stopwatch']->stop('bolt.backend.before');
 
-                    return new JsonResponse($result, Response::HTTP_OK, array('Content-Type' => 'text/plain'));
-                } else {
-                    list($namespace, $prefix) = $parser($handler);
-                }
-                $app['upload.namespace'] = $namespace;
-                $app['upload.prefix'] = $prefix;
-            } else {
-                $namespace = $app['upload.namespace'];
-            }
-
-            return new JsonResponse(
-                $controller->uploadFile($app, $request, $namespace),
-                Response::HTTP_OK,
-                array('Content-Type' => 'text/plain')
-            );
-        };
-        $ctr->match('/{namespace}', $func)
-            ->before(array($this, 'before'))
-            ->value('namespace', 'files')
-            ->bind('upload');
-
-        return $ctr;
+        return null;
     }
 
-    public function uploadFile(Silex\Application $app, Request $request, $namespace, $files = null)
+    public function actionUploadNamspace(Request $request, $namespace)
     {
-        $app['upload.namespace'] = $namespace;
+        if ($handler = $request->get('handler')) {
+            // This block handles the more advanced functionality where multiple upload
+            // handlers are provided. Only the first one is returned as a result, the result
+            // of this first upload is then attempted to copy to the remaining handlers.
+            if (is_array($handler)) {
+                list($namespace, $prefix) = $this->parser($handler[0]);
+                $this->app['upload.namespace'] = $namespace;
+                $this->app['upload.prefix'] = $prefix;
+
+                // Do the upload
+                $result = $this->uploadFile($request, $namespace);
+
+                array_shift($handler);
+                $original = $namespace;
+
+                if (count($result)) {
+                    $result = $result[0];
+                    foreach ($handler as $copy) {
+                        list($namespace, $prefix) = $this->parser($copy);
+
+                        $manager = $this->app['filesystem'];
+                        $manager->put(
+                            $namespace . '://' . $prefix . basename($result['name']),
+                            $manager->read($original . '://' . $result['name'])
+                        );
+                    }
+                }
+
+                return $this->json($result, Response::HTTP_OK, array('Content-Type' => 'text/plain'));
+            } else {
+                list($namespace, $prefix) = $parser($handler);
+            }
+
+            $this->app['upload.namespace'] = $namespace;
+            $this->app['upload.prefix'] = $prefix;
+        } else {
+            $namespace = $this->app['upload.namespace'];
+        }
+
+        return $this->json(
+            $this->uploadFile($request, $namespace),
+            Response::HTTP_OK,
+            array('Content-Type' => 'text/plain')
+        );
+    }
+
+    /**
+     *
+     *
+     * @param string $setting
+     *
+     * @return array
+     */
+    private function parser($setting)
+    {
+        $parts = explode('://', $setting);
+        if (count($parts) === 2) {
+            $namespace = $parts[0];
+            array_shift($parts);
+        } else {
+            $namespace = $this->app['upload.namespace'];
+        }
+        $prefix = rtrim($parts[0], '/') . '/';
+
+        return array($namespace, $prefix);
+    }
+
+    /**
+     *
+     * @param Request $request
+     * @param string  $namespace
+     * @param string  $files
+     *
+     * @return array
+     */
+    private function uploadFile(Request $request, $namespace, $files = null)
+    {
+        $this->app['upload.namespace'] = $namespace;
 
         if ($files === null) {
             $files = $request->files->get($namespace);
@@ -161,7 +216,7 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
         }
 
         /** @var Collection|File $result */
-        $result = $app['upload']->process($filesToProcess);
+        $result = $this->app['upload']->process($filesToProcess);
 
         if ($result->isValid()) {
             $result->confirm();
@@ -189,42 +244,11 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
                 $errorFiles[] = array(
                     'url'   => $namespace . '/' . $resultFile->original_name,
                     'name'  => $resultFile->original_name,
-                    'error' => $errors[0]->__toString()
+                    'error' => (string) $errors[0]
                 );
             }
 
             return $errorFiles;
         }
-    }
-
-    /**
-     * Middleware function to check whether a user is logged on.
-     *
-     * @return null|\Symfony\Component\HttpFoundation\RedirectResponse
-     */
-    public function before(Request $request, Application $app)
-    {
-        // Start the 'stopwatch' for the profiler.
-        $app['stopwatch']->start('bolt.backend.before');
-
-        // If there's no active session, don't do anything.
-        if (!$app['users']->isValidSession()) {
-            $app->abort(Response::HTTP_NOT_FOUND, 'You must be logged in to use this.');
-        }
-
-        if (!$app['users']->isAllowed("files:uploads")) {
-            $app['session']->getFlashBag()->add('error', Trans::__('You do not have the right privileges to upload.'));
-
-            return Lib::redirect('dashboard');
-        }
-
-        // Stop the 'stopwatch' for the profiler.
-        $app['stopwatch']->stop('bolt.backend.before');
-
-        return null;
-    }
-
-    public function boot(Silex\Application $app)
-    {
     }
 }

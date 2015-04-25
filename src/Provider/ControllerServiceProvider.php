@@ -18,6 +18,9 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
         $app['controllers.backend.extend.mount_prefix'] = function ($app) {
             return $app['config']->get('general/branding/path') . '/extend';
         };
+        $app['controllers.backend.upload.mount_prefix'] = function ($app) {
+            return $app['config']->get('general/branding/path') . '/upload';
+        };
 
         $app['controllers.backend'] = $app->share(function () {
             return new Controllers\Backend\Backend();
@@ -39,6 +42,9 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
         });
         $app['controllers.backend.records'] = $app->share(function () {
             return new Controllers\Backend\Records();
+        });
+        $app['controllers.backend.upload'] = $app->share(function () {
+            return new Controllers\Backend\Upload();
         });
         $app['controllers.backend.users'] = $app->share(function () {
             return new Controllers\Backend\Users();
@@ -78,6 +84,11 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
         $prefix = $app['controllers.backend.extend.mount_prefix'];
         $event->mount($prefix, $app['controllers.backend.extend']);
         $app['controllers.backend.extend']->register($app);
+
+        // Mount the Upload controller
+        $prefix = $app['controllers.backend.extend.mount_prefix'];
+        $event->mount($prefix, $app['controllers.backend.upload']);
+        $app['controllers.backend.upload']->register($app);
     }
 
     public static function getSubscribedEvents()
