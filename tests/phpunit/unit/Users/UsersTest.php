@@ -20,7 +20,12 @@ class UsersTest extends BoltUnitTest
      */
     protected function setUp()
     {
-        $this->user = array('id' => 5, 'username' => 'test', 'email' => 'test@example.com');
+        $this->resetDb();
+
+        $app = $this->getApp();
+        $this->addNewUser($app, 'admin', 'Admin', 'root');
+        $this->addNewUser($app, 'editor', 'Editor', 'editor');
+        $this->user = array('id' => 2, 'username' => 'editor', 'email' => 'editor@example.com');
     }
 
     /**
@@ -28,15 +33,17 @@ class UsersTest extends BoltUnitTest
      */
     public function testGetUserById()
     {
-        //setup test
+        // Setup test
         $users = $this->getMock('Bolt\Users', array('getUsers'), array($this->getApp()));
         $users->users = array($this->user);
 
-        //run test
-        $result = $users->getUser(5);
+        // Run test
+        $result = $users->getUser(2);
 
-        //check result
-        $this->assertEquals($this->user, $result);
+        // Check result
+        $this->assertEquals($this->user['id'], $result['id']);
+        $this->assertEquals($this->user['username'], $result['username']);
+        $this->assertEquals($this->user['email'], $result['email']);
     }
 
     /**
@@ -44,31 +51,15 @@ class UsersTest extends BoltUnitTest
      */
     public function testGetUserByUnknownId()
     {
-        //setup test
+        // Setup test
         $users = $this->getMock('Bolt\Users', array('getUsers'), array($this->getApp()));
         $users->users = array($this->user);
 
-        //run test
-        $result = $users->getUser(2);
+        // Run test
+        $result = $users->getUser(0);
 
-        //check result
+        // Check result
         $this->assertEquals(false, $result);
-    }
-
-    /**
-     * @covers Bolt\Users::getUser
-     */
-    public function testGetUserWithId()
-    {
-        //setup test
-        $users = $this->getMock('Bolt\Users', array('getUsers'), array($this->getApp()));
-        $users->users = array($this->user);
-
-        //run test
-        $result = $users->GetUser(5);
-
-        //check result
-        $this->assertEquals($this->user, $result);
     }
 
     /**
@@ -76,15 +67,17 @@ class UsersTest extends BoltUnitTest
      */
     public function testGetUserByUsername()
     {
-        //setup test
+        // Setup test
         $users = $this->getMock('Bolt\Users', array('getUsers'), array($this->getApp()));
         $users->users = array($this->user);
 
-        //run test
-        $result = $users->getUser('test');
+        // Run test
+        $result = $users->getUser('editor');
 
-        //check result
-        $this->assertEquals($this->user, $result);
+        // Check result
+        $this->assertEquals($this->user['id'], $result['id']);
+        $this->assertEquals($this->user['username'], $result['username']);
+        $this->assertEquals($this->user['email'], $result['email']);
     }
 
     /**
@@ -92,14 +85,14 @@ class UsersTest extends BoltUnitTest
      */
     public function testGetUserByUnknownUsername()
     {
-        //setup test
+        // Setup test
         $users = $this->getMock('Bolt\Users', array('getUsers'), array($this->getApp()));
         $users->users = array($this->user);
 
-        //run test
+        // Run test
         $result = $users->getUser('anotheruser');
 
-        //check result
+        // Check result
         $this->assertEquals(false, $result);
     }
 
@@ -108,15 +101,15 @@ class UsersTest extends BoltUnitTest
      */
     public function testLoginWithUsername()
     {
-        //setup test
+        // Setup test
         $users = $this->getMock('Bolt\Users', array('loginUsername', 'loginEmail'), array($this->getApp()));
         $users->expects($this->once())->method('loginUsername')->willReturn(true);
         $users->expects($this->never())->method('loginEmail');
 
-        //run test
+        // Run test
         $result = $users->login('anotheruser', 'test123');
 
-        //check result
+        // Check result
         $this->assertEquals(true, $result);
     }
 
@@ -125,15 +118,15 @@ class UsersTest extends BoltUnitTest
      */
     public function testLoginWithEmail()
     {
-        //setup test
+        // Setup test
         $users = $this->getMock('Bolt\Users', array('loginUsername', 'loginEmail'), array($this->getApp()));
         $users->expects($this->once())->method('loginEmail')->willReturn(true);
         $users->expects($this->never())->method('loginUsername');
 
-        //run test
+        // Run test
         $result = $users->login('test@example.com', 'test123');
 
-        //check result
+        // Check result
         $this->assertEquals(true, $result);
     }
 }
