@@ -52,7 +52,7 @@
     },
     "require-dev" : {
         "bolt/codingstyle" : "~1.0",
-        "codeception/codeception" : "~1.0|2.0.11",
+        "codeception/codeception" : "*",
         "lstrojny/phpunit-function-mocker" : "dev-master@dev",
         "m6web/symfony2-coding-standard" : "dev-master@dev",
         "phpmd/phpmd" : "~2.2.0",
