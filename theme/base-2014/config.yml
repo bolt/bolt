@@ -33,3 +33,10 @@ templatefields:
             label: Section 2
         image:
             type: image
+
+# There can be defined the templates for the template chooser
+#templateselect:
+#    templates:
+#        record:
+#            name: 'Template for Records'
+#            filename: 'record.twig'
