@@ -88,7 +88,6 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
         // Mount the Upload controller
         $prefix = $app['controllers.backend.extend.mount_prefix'];
         $event->mount($prefix, $app['controllers.backend.upload']);
-        $app['controllers.backend.upload']->register($app);
     }
 
     public static function getSubscribedEvents()

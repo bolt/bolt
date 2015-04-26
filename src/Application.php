@@ -363,6 +363,7 @@ class Application extends Silex\Application
             ->register(new Provider\CronServiceProvider())
             ->register(new Provider\FilePermissionsServiceProvider())
             ->register(new Provider\MenuServiceProvider())
+            ->register(new Provider\UploadServiceProvider())
             ->register(new Provider\FilesystemProvider())
             ->register(new Thumbs\ThumbnailProvider())
             ->register(new Provider\NutServiceProvider())
