@@ -9,10 +9,10 @@ use Bolt\Helpers\Input;
 use Bolt\Library as Lib;
 use Bolt\Pager;
 use Bolt\Translation\Translator as Trans;
-use Silex;
+use Silex\ControllerCollection;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use utilphp\util;
 
 /**
@@ -24,8 +24,32 @@ use utilphp\util;
  * http://docs.bolt.cm/templates-routes#routing or the routing.yml
  * file in your configuration.
  */
-class Frontend
+class Frontend extends Base
 {
+    protected function addRoutes(ControllerCollection $c)
+    {
+        $c->get('/', 'controllers.routing:actionHomepage')
+            ->bind('homepage');
+
+        $c->get('/{contenttypeslug}', 'controllers.routing:actionListing')
+            ->bind('listing');
+
+        $c->get('/preview/{contenttypeslug}', 'controllers.routing:actionPreview')
+            ->bind('preview');
+
+        $c->get('/{contenttypeslug}/{slug}', 'controllers.routing:actionRecord')
+            ->bind('record');
+
+        $c->match('/search', 'controllers.routing:actionSearch')
+            ->bind('search');
+
+        $c->get('/{taxonomytype}/{slug}', 'controllers.routing:actionTaxonomy')
+            ->bind('taxonomy');
+
+//         $c->get('/', 'controllers.routing:actionTemplate')
+//             ->bind('template');
+    }
+
     /**
      * The default before filter for the controllers in this file.
      *
@@ -44,19 +68,19 @@ class Frontend
         // If there are no users in the users table, or the table doesn't exist. Repair
         // the DB, and let's add a new user.
         if (!$app['users']->getUsers()) {
-            $app['session']->getFlashBag()->add('info', Trans::__('There are no users in the database. Please create the first user.'));
+            $this->addFlash('info', Trans::__('There are no users in the database. Please create the first user.'));
 
-            return Lib::redirect('useredit', array('id' => ''));
+            return $this->redirectToRoute('useredit', array('id' => ''));
         }
 
         $app['debugbar'] = true;
         $app['htmlsnippets'] = true;
 
         // If we are in maintenance mode and current user is not logged in, show maintenance notice.
-        if ($app['config']->get('general/maintenance_mode')) {
-            if (!$app['users']->isAllowed('maintenance-mode')) {
-                $template = $app['templatechooser']->maintenance();
-                $body = $app['render']->render($template)->getContent();
+        if ($this->getOption('general/maintenance_mode')) {
+            if (!$this->isAllowed('maintenance-mode')) {
+                $template = $this->templateChooser()->maintenance();
+                $body = $this->render($template);
 
                 return new Response($body, Response::HTTP_SERVICE_UNAVAILABLE);
             }
@@ -71,125 +95,130 @@ class Frontend
     /**
      * Controller for the "Homepage" route. Usually the front page of the website.
      *
-     * @param \Silex\Application $app The application/container
-     *
      * @return \Twig_Markup
      */
-    public function homepage(Silex\Application $app)
+    public function homepage()
     {
-        $content = $app['storage']->getContent($app['config']->get('general/homepage'));
+        $content = $this->getContent($this->getOption('general/homepage'));
 
-        $template = $app['templatechooser']->homepage();
+        $template = $this->templateChooser()->homepage();
 
         if (is_array($content)) {
             $first = current($content);
-            $app['twig']->addGlobal('records', $content);
-            $app['twig']->addGlobal($first->contenttype['slug'], $content);
+            $globals = array(
+                'records'                   => $content,
+                $first->contenttype['slug'] => $content
+            );
         } elseif (!empty($content)) {
-            $app['twig']->addGlobal('record', $content);
-            $app['twig']->addGlobal($content->contenttype['singular_slug'], $content);
+            $globals = array(
+                'record'                               => $content,
+                $content->contenttype['singular_slug'] => $content
+            );
         }
 
-        return $this->render($app, $template, 'homepage');
+        return $this->render($template, 'homepage', array(), $globals);
     }
 
     /**
      * Controller for a single record page, like '/page/about/' or '/entry/lorum'.
      *
-     * @param \Silex\Application $app             The application/container
-     * @param string             $contenttypeslug The content type slug
-     * @param string             $slug            The content slug
+     * @param Request $request         The request
+     * @param string  $contenttypeslug The content type slug
+     * @param string  $slug            The content slug
      *
      * @return \Twig_Markup
      */
-    public function record(Silex\Application $app, $contenttypeslug, $slug = '')
+    public function record($request, $contenttypeslug, $slug = '')
     {
-        $contenttype = $app['storage']->getContentType($contenttypeslug);
+        $contenttype = $this->getContentType($contenttypeslug);
 
         // If the contenttype is 'viewless', don't show the record page.
         if (isset($contenttype['viewless']) && $contenttype['viewless'] === true) {
-            return $app->abort(Response::HTTP_NOT_FOUND, "Page $contenttypeslug/$slug not found.");
+            return $this->abort(Response::HTTP_NOT_FOUND, "Page $contenttypeslug/$slug not found.");
         }
 
         // Perhaps we don't have a slug. Let's see if we can pick up the 'id', instead.
         if (empty($slug)) {
-            $slug = $app['request']->get('id');
+            $slug = $request->get('id');
         }
 
-        $slug = $app['slugify']->slugify($slug);
+        $slug = $this->app['slugify']->slugify($slug);
 
         // First, try to get it by slug.
-        $content = $app['storage']->getContent($contenttype['slug'], array('slug' => $slug, 'returnsingle' => true, 'log_not_found' => !is_numeric($slug)));
+        $content = $this->getContent($contenttype['slug'], array('slug' => $slug, 'returnsingle' => true, 'log_not_found' => !is_numeric($slug)));
 
         if (!$content && is_numeric($slug)) {
             // And otherwise try getting it by ID
-            $content = $app['storage']->getContent($contenttype['slug'], array('id' => $slug, 'returnsingle' => true));
+            $content = $this->getContent($contenttype['slug'], array('id' => $slug, 'returnsingle' => true));
         }
 
         // No content, no page!
         if (!$content) {
-            return $app->abort(Response::HTTP_NOT_FOUND, "Page $contenttypeslug/$slug not found.");
+            return $this->abort(Response::HTTP_NOT_FOUND, "Page $contenttypeslug/$slug not found.");
         }
 
         // Then, select which template to use, based on our 'cascading templates rules'
-        $template = $app['templatechooser']->record($content);
+        $template = $this->templateChooser()->record($content);
 
-        $paths = $app['resources']->getPaths();
+        $paths = $this->app['resources']->getPaths();
 
         // Setting the canonical URL.
-        if ($content->isHome() && ($template == $app['config']->get('general/homepage_template'))) {
-            $app['resources']->setUrl('canonicalurl', $paths['rooturl']);
+        if ($content->isHome() && ($template == $this->getOption('general/homepage_template'))) {
+            $this->app['resources']->setUrl('canonicalurl', $paths['rooturl']);
         } else {
             $url = $paths['canonical'] . $content->link();
-            $app['resources']->setUrl('canonicalurl', $url);
+            $this->app['resources']->setUrl('canonicalurl', $url);
         }
 
         // Setting the editlink
-        $app['editlink'] = Lib::path('editcontent', array('contenttypeslug' => $contenttype['slug'], 'id' => $content->id));
-        $app['edittitle'] = $content->getTitle();
+        $this->app['editlink'] = $this->generateUrl('editcontent', array('contenttypeslug' => $contenttype['slug'], 'id' => $content->id));
+        $this->app['edittitle'] = $content->getTitle();
 
         // Make sure we can also access it as {{ page.title }} for pages, etc. We set these in the global scope,
         // So that they're also available in menu's and templates rendered by extensions.
-        $app['twig']->addGlobal('record', $content);
-        $app['twig']->addGlobal($contenttype['singular_slug'], $content);
+        $globals = array(
+            'record'                      => $content,
+            $contenttype['singular_slug'] => $content
+        );
 
         // Render the template and return.
-        return $this->render($app, $template, $content->getTitle());
+        return $this->render($template, $content->getTitle(), array(), $globals);
     }
 
     /**
      * The controller for previewing a content from posted data.
      *
-     * @param Request            $request         The Symfony Request
-     * @param \Silex\Application $app             The application/container
-     * @param string             $contenttypeslug The content type slug
+     * @param Request $request         The Symfony Request
+     * @param string  $contenttypeslug The content type slug
      *
      * @return \Twig_Markup
      */
-    public function preview(Request $request, Silex\Application $app, $contenttypeslug)
+    public function preview(Request $request, $contenttypeslug)
     {
-        $contenttype = $app['storage']->getContentType($contenttypeslug);
+        $contenttype = $this->getContentType($contenttypeslug);
 
         // First, get the preview from Post.
-        $content = $app['storage']->getContentObject($contenttypeslug);
+        $content = $this->app['storage']->getContentObject($contenttypeslug);
         $content->setFromPost($request->request->all(), $contenttype);
 
         $liveEditor = $request->get('_live-editor-preview');
         if (!empty($liveEditor)) {
-            $jsFile = $app['resources']->getUrl('app') . 'view/js/ckeditor/ckeditor.js';
-            $cssFile = $app['resources']->getUrl('app') . 'view/css/liveeditor.css';
-            $app['extensions']->insertSnippet(SnippetLocation::BEFORE_HEAD_JS, '<script>window.boltIsEditing = true;</script>');
-            $app['extensions']->addJavascript($jsFile, array('late' => false, 'priority' => 1));
-            $app['extensions']->addCss($cssFile, false, 5);
+            $jsFile = $this->app['resources']->getUrl('app') . 'view/js/ckeditor/ckeditor.js';
+            $cssFile = $this->app['resources']->getUrl('app') . 'view/css/liveeditor.css';
+            $this->getExtensions()->insertSnippet(SnippetLocation::BEFORE_HEAD_JS, '<script>window.boltIsEditing = true;</script>');
+            $this->getExtensions()->addJavascript($jsFile, array('late' => false, 'priority' => 1));
+            $this->getExtensions()->addCss($cssFile, false, 5);
         }
 
         // Then, select which template to use, based on our 'cascading templates rules'
-        $template = $app['templatechooser']->record($content);
+        $template = $this->templateChooser()->record($content);
 
         // Make sure we can also access it as {{ page.title }} for pages, etc. We set these in the global scope,
         // So that they're also available in menu's and templates rendered by extensions.
-        $app['twig']->addGlobal('record', $content);
-        $app['twig']->addGlobal($contenttype['singular_slug'], $content);
+        $globals = array(
+            'record'                      => $content,
+            $contenttype['singular_slug'] => $content
+        );
 
         // Chrome (unlike Firefox and Internet Explorer) has a feature that helps prevent
         // XSS attacks for uncareful people. It blocks embeds, links and src's that have
@@ -203,58 +232,60 @@ class Frontend
         // @see: http://security.stackexchange.com/questions/53474/is-chrome-completely-secure-against-reflected-xss
         header("X-XSS-Protection: 0");
 
-        return $this->render($app, $template, $content->getTitle());
+        return $this->render($template, array(), $globals);
     }
 
     /**
      * The listing page controller.
      *
-     * @param \Silex\Application $app             The application/container
-     * @param string             $contenttypeslug The content type slug
+     * @param Request $request         The Symfony Request
+     * @param string  $contenttypeslug The content type slug
      *
      * @return \Twig_Markup
      */
-    public function listing(Silex\Application $app, $contenttypeslug)
+    public function listing($request, $contenttypeslug)
     {
-        $contenttype = $app['storage']->getContentType($contenttypeslug);
+        $contenttype = $this->getContentType($request, $contenttypeslug);
 
         // If the contenttype is 'viewless', don't show the record page.
         if (isset($contenttype['viewless']) && $contenttype['viewless'] === true) {
-            return $app->abort(Response::HTTP_NOT_FOUND, "Page $contenttypeslug not found.");
+            return $this->abort(Response::HTTP_NOT_FOUND, "Page $contenttypeslug not found.");
         }
 
         $pagerid = Pager::makeParameterId($contenttypeslug);
         /* @var $query \Symfony\Component\HttpFoundation\ParameterBag */
-        $query = $app['request']->query;
+        $query = $request->query;
         // First, get some content
         $page = $query->get($pagerid, $query->get('page', 1));
-        $amount = (!empty($contenttype['listing_records']) ? $contenttype['listing_records'] : $app['config']->get('general/listing_records'));
-        $order = (!empty($contenttype['sort']) ? $contenttype['sort'] : $app['config']->get('general/listing_sort'));
-        $content = $app['storage']->getContent($contenttype['slug'], array('limit' => $amount, 'order' => $order, 'page' => $page, 'paging' => true));
+        $amount = (!empty($contenttype['listing_records']) ? $contenttype['listing_records'] : $this->getOption('general/listing_records'));
+        $order = (!empty($contenttype['sort']) ? $contenttype['sort'] : $this->getOption('general/listing_sort'));
+        $content = $this->getContent($contenttype['slug'], array('limit' => $amount, 'order' => $order, 'page' => $page, 'paging' => true));
 
-        $template = $app['templatechooser']->listing($contenttype);
+        $template = $this->templateChooser()->listing($contenttype);
 
         // Make sure we can also access it as {{ pages }} for pages, etc. We set these in the global scope,
         // So that they're also available in menu's and templates rendered by extensions.
-        $app['twig']->addGlobal('records', $content);
-        $app['twig']->addGlobal($contenttype['slug'], $content);
-        $app['twig']->addGlobal('contenttype', $contenttype['name']);
+        $globals = array(
+            'records'            => $content,
+            $contenttype['slug'] => $content,
+            'contenttype'        => $contenttype['name']
+        );
 
-        return $this->render($app, $template, $contenttypeslug);
+        return $this->render($template, $contenttypeslug, array(), $globals);
     }
 
     /**
      * The taxonomy listing page controller.
      *
-     * @param \Silex\Application $app          The application/container
-     * @param string             $taxonomytype The taxonomy type slug
-     * @param string             $slug         The taxonomy slug
+     * @param Request $request      The Symfony Request
+     * @param string  $taxonomytype The taxonomy type slug
+     * @param string  $slug         The taxonomy slug
      *
      * @return \Twig_Markup
      */
-    public function taxonomy(Silex\Application $app, $taxonomytype, $slug)
+    public function taxonomy($request, $taxonomytype, $slug)
     {
-        $taxonomy = $app['storage']->getTaxonomyType($taxonomytype);
+        $taxonomy = $this->app['storage']->getTaxonomyType($taxonomytype);
         // No taxonomytype, no possible content.
         if (empty($taxonomy)) {
             return false;
@@ -265,11 +296,11 @@ class Frontend
         $context = $taxonomy['singular_slug'] . '_' . $slug;
         $pagerid = Pager::makeParameterId($context);
          /* @var $query \Symfony\Component\HttpFoundation\ParameterBag */
-        $query = $app['request']->query;
+        $query = $request->query;
         $page = $query->get($pagerid, $query->get('page', 1));
-        $amount = $app['config']->get('general/listing_records');
-        $order = $app['config']->get('general/listing_sort');
-        $content = $app['storage']->getContentByTaxonomy($taxonomytype, $slug, array('limit' => $amount, 'order' => $order, 'page' => $page));
+        $amount = $this->getOption('general/listing_records');
+        $order = $this->getOption('general/listing_sort');
+        $content = $this->app['storage']->getContentByTaxonomy($taxonomytype, $slug, array('limit' => $amount, 'order' => $order, 'page' => $page));
 
         // See https://github.com/bolt/bolt/pull/2310
         if (
@@ -279,42 +310,43 @@ class Frontend
                     !in_array($slug, isset($taxonomy['options']) ? array_keys($taxonomy['options']) : array())
                 )
             ) {
-            return $app->abort(Response::HTTP_NOT_FOUND, "No slug '$slug' in taxonomy '$taxonomyslug'");
+            return $this->abort(Response::HTTP_NOT_FOUND, "No slug '$slug' in taxonomy '$taxonomyslug'");
         }
 
-        $template = $app['templatechooser']->taxonomy($taxonomyslug);
+        $template = $this->templateChooser()->taxonomy($taxonomyslug);
 
         $name = $slug;
         // Look in taxonomies in 'content', to get a display value for '$slug', perhaps.
         foreach ($content as $record) {
             $flat = util::array_flatten($record->taxonomy);
-            $key = $app['paths']['root'] . $taxonomy['slug'] . '/' . $slug;
+            $key = $this->app['resources']->getPath('root' . $taxonomy['slug'] . '/' . $slug);
             if (isset($flat[$key])) {
                 $name = $flat[$key];
             }
-            $key = $app['paths']['root'] . $taxonomy['singular_slug'] . '/' . $slug;
+            $key = $this->app['resources']->getPath('root' . $taxonomy['singular_slug'] . '/' . $slug);
             if (isset($flat[$key])) {
                 $name = $flat[$key];
             }
         }
 
-        $app['twig']->addGlobal('records', $content);
-        $app['twig']->addGlobal('slug', $name);
-        $app['twig']->addGlobal('taxonomy', $app['config']->get('taxonomy/' . $taxonomyslug));
-        $app['twig']->addGlobal('taxonomytype', $taxonomyslug);
+        $globals = array(
+            'records'     => $content,
+            'slug'        => $name,
+            'taxonomy'    => $this->getOption('taxonomy/' . $taxonomyslug),
+            'taxonomytype' => $taxonomyslug
+        );
 
-        return $this->render($app, $template, $taxonomyslug);
+        return $this->render($template, $taxonomyslug, array(), $globals);
     }
 
     /**
      * The search result page controller.
      *
-     * @param Request            $request The Symfony Request
-     * @param \Silex\Application $app     The application/container
+     * @param Request $request The Symfony Request
      *
      * @return \Twig_Markup
      */
-    public function search(Request $request, Silex\Application $app)
+    public function search(Request $request)
     {
         $q = '';
         $context = __FUNCTION__;
@@ -331,8 +363,7 @@ class Frontend
         $query = $request->query;
         $page = ($query) ? $query->get($param, $query->get('page', 1)) : 1;
 
-        $config = $app['config'];
-        $pageSize = $config->get('general/search_results_records') ?: ($config->get('general/listing_records') ?: 10);
+        $pageSize = $this->getOption('general/search_results_records') ?: ($this->getOption('general/listing_records') ?: 10);
 
         $offset = ($page - 1) * $pageSize;
         $limit = $pageSize;
@@ -345,7 +376,7 @@ class Frontend
                 if (isset($filters[$contenttypeslug])) {
                     $filters[$contenttypeslug][$field] = $value;
                 } else {
-                    $contenttype = $app['storage']->getContentType($contenttypeslug);
+                    $contenttype = $this->getContentType($contenttypeslug);
                     if (is_array($contenttype)) {
                         $filters[$contenttypeslug] = array(
                             $field => $value
@@ -358,7 +389,7 @@ class Frontend
             $filters = null;
         }
 
-        $result = $app['storage']->searchContent($q, null, $filters, $limit, $offset);
+        $result = $this->app['storage']->searchContent($q, null, $filters, $limit, $offset);
 
         $pager = array(
             'for'          => $context,
@@ -370,36 +401,37 @@ class Frontend
             'link'         => '/search?q=' . rawurlencode($q) . '&page_search='
         );
 
-        $app['storage']->setPager($context, $pager);
+        $this->app['storage']->setPager($context, $pager);
 
-        $app['twig']->addGlobal('records', $result['results']);
-        $app['twig']->addGlobal($context, $result['query']['use_q']);
-        $app['twig']->addGlobal('searchresult', $result);
+        $globals = array(
+            'records'      => $result['results'],
+            $context       => $result['query']['use_q'],
+            'searchresult' => $result
+        );
 
-        $template = $app['templatechooser']->search();
+        $template = $this->templateChooser()->search();
 
-        return $this->render($app, $template, 'search');
+        return $this->render($template, 'search', array(), $globals);
     }
 
     /**
      * Renders the specified template from the current theme in response to a request without
      * loading any content.
      *
-     * @param \Silex\Application $app      The application/container
-     * @param string             $template The template name
+     * @param string $template The template name
      *
      * @throws \Exception
      *
      * @return \Twig_Markup
      */
-    public function template(Silex\Application $app, $template)
+    public function template($template)
     {
         // Add the template extension if it is missing
         if (!preg_match('/\\.twig$/i', $template)) {
             $template .= '.twig';
         }
 
-        return $this->render($app, $template, $template);
+        return $this->render($template, $template);
     }
 
     /**
@@ -412,24 +444,27 @@ class Frontend
      *
      * @return \Twig_Markup Rendered template
      */
-    protected function render(Silex\Application $app, $template, $title)
-    {
-        try {
-            return $app['twig']->render($template);
-        } catch (\Twig_Error_Loader $e) {
-            $error = sprintf(
-                'Rendering %s failed: %s',
-                $title,
-                $e->getMessage()
-            );
+//     protected function render($template, $title)
+//     {
+//         try {
+//             return $app['twig']->render($template);
+//         } catch (\Twig_Error_Loader $e) {
+//             $error = sprintf(
+//                 'Rendering %s failed: %s',
+//                 $title,
+//                 $e->getMessage()
+//             );
 
-            // Log it
-            $app['logger.system']->error($error, array('event' => 'twig'));
+//             // Log it
+//             $app['logger.system']->error($error, array('event' => 'twig'));
 
-            // Abort ship
-            return $app->abort(Response::HTTP_INTERNAL_SERVER_ERROR, $error);
-        }
-    }
+//             // Set the template error
+//             $this->setTemplateError($app, $error);
+
+//             // Abort ship
+//             return $this->abort(Response::HTTP_INTERNAL_SERVER_ERROR, $error);
+//         }
+//     }
 
     /**
      * @deprecated to be removed in Bolt 3.0
@@ -437,7 +472,10 @@ class Frontend
      * @param \Silex\Application $app
      * @param string             $error
      */
-    protected function setTemplateError(Silex\Application $app, $error)
-    {
-    }
+//     protected function setTemplateError($error)
+//     {
+//         if (isset($app['twig.logger'])) {
+//             $app['twig.logger']->setTrackedValue('templateerror', $error);
+//         }
+//     }
 }
