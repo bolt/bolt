@@ -36,6 +36,18 @@ abstract class Base implements ControllerProviderInterface
     abstract protected function addRoutes(ControllerCollection $c);
 
     /**
+     * Shortcut to abort the current request by sending a proper HTTP error.
+     *
+     * @param integer $statusCode The HTTP status code
+     * @param string  $message    The status message
+     * @param array   $headers    An array of HTTP headers
+     */
+    protected function abort($statusCode, $message = '', array $headers = array())
+    {
+        $this->app->abort($statusCode, $message,$headers);
+    }
+
+    /**
      * Renders a template
      *
      * @param string $template  the template name

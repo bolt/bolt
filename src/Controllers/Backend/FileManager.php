@@ -69,7 +69,7 @@ class FileManager extends BackendBase
 
         if (!$filesystem->authorized($file)) {
             $error = Trans::__("You don't have correct permissions to edit the file '%s'.", array('%s' => $file));
-            $this->app->abort(Response::HTTP_FORBIDDEN, $error);
+            $this->abort(Response::HTTP_FORBIDDEN, $error);
         }
 
         /** @var \League\Flysystem\File $file */
@@ -91,7 +91,7 @@ class FileManager extends BackendBase
         $contents = null;
         if (!$file->exists() || !($contents = $file->read())) {
             $error = Trans::__("The file '%s' doesn't exist, or is not readable.", array('%s' => $file->getPath()));
-            $this->app->abort(Response::HTTP_NOT_FOUND, $error);
+            $this->abort(Response::HTTP_NOT_FOUND, $error);
         }
 
         if (!$file->update($contents)) {
@@ -176,7 +176,7 @@ class FileManager extends BackendBase
 
         if (!$filesystem->authorized($path)) {
             $error = Trans::__("You don't have the correct permissions to display the file or directory '%s'.", array('%s' => $path));
-            $this->app->abort(Response::HTTP_FORBIDDEN, $error);
+            $this->abort(Response::HTTP_FORBIDDEN, $error);
         }
 
         if (!$this->isAllowed('files:uploads')) {

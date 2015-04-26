@@ -65,7 +65,7 @@ class Authentication extends BackendBase
                 return $this->actionGetLogin($request);
         }
         // Let's not disclose any internal information.
-        $this->app->abort(Response::HTTP_BAD_REQUEST, 'Invalid request');
+        $this->abort(Response::HTTP_BAD_REQUEST, 'Invalid request');
     }
 
     /**

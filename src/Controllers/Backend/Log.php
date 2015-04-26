@@ -82,7 +82,7 @@ class Log extends BackendBase
         if (empty($entry)) {
             $error = Trans::__("The requested changelog entry doesn't exist.");
 
-            $this->app->abort(Response::HTTP_NOT_FOUND, $error);
+            $this->abort(Response::HTTP_NOT_FOUND, $error);
         }
         $prev = $this->app['logger.manager.change']->getPrevChangelogEntry($contenttype, $contentid, $id);
         $next = $this->app['logger.manager.change']->getNextChangelogEntry($contenttype, $contentid, $id);
