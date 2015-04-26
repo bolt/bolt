@@ -7,6 +7,10 @@ use Bolt\Events\MountEvent;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpKernel\KernelEvents;
+use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
+use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 
 class ControllerServiceProvider implements ServiceProviderInterface, EventSubscriberInterface
 {
@@ -59,6 +63,10 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
         $dispatcher->addListener(ControllerEvents::MOUNT, array($app, 'initMountpoints'), -1);
         $event = new MountEvent($app);
         $dispatcher->dispatch(ControllerEvents::MOUNT, $event);
+
+        $dispatcher->addListener(KernelEvents::REQUEST, array($this, 'onKernelRequest'), 32); // Higher than 32 and we don't know the controller
+        $dispatcher->addListener(KernelEvents::RESPONSE, array($this, 'onKernelResponse'), -128);
+        $dispatcher->addListener(KernelEvents::EXCEPTION, array($this, 'onKernelException'), -128);
     }
 
     public function mount(MountEvent $event)
@@ -87,6 +95,34 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
         // Mount the Upload controller
         $prefix = $app['controllers.backend.extend.mount_prefix'];
         $event->mount($prefix, $app['controllers.backend.upload']);
+    }
+
+    /**
+     * Initial request event.
+     *
+     * @param GetResponseEvent $event
+     */
+    public function onKernelRequest(GetResponseEvent $event)
+    {
+    }
+
+    /**
+     * Pre-send response event.
+     *
+     * @param FilterResponseEvent $event
+     */
+    public function onKernelResponse(FilterResponseEvent $event)
+    {
+    }
+
+    /**
+     * Response event upon exception.
+     *
+     * @param FilterResponseEvent $event
+     */
+    public function onKernelException(GetResponseForExceptionEvent $event)
+    {
+        //$e = $event->getException();
     }
 
     public static function getSubscribedEvents()
