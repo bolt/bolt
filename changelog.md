@@ -3,7 +3,11 @@ Bolt 2.1.7
 
 Not yet released. Notable changes: 
 
- - Nothing yet.
+ - Check if folder exists first, when using it for uploads (See #3450) 
+ - Allow 'duplicate' and 'delete' from contextual menu, when a Record has relationships. Fixes #3431 
+ - Don't trigger DBCheck for changed indexes. Fixes #3426 
+ - Make Application::unsetSessionCookie() optional and BC friendly (see #3427)
+
 
 Bolt 2.1.6
 ----------
