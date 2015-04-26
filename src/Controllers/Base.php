@@ -194,6 +194,16 @@ abstract class Base implements ControllerProviderInterface
     }
 
     /**
+     * Gets the \Bolt\Extensions object.
+     *
+     * @return \Bolt\Extensions
+     */
+    protected function getExtensions()
+    {
+        return $this->app['extensions'];
+    }
+
+    /**
      * Return current user or user by ID
      *
      * @param int|null $id
@@ -256,5 +266,15 @@ abstract class Base implements ControllerProviderInterface
     protected function getOption($path, $default = null)
     {
         return $this->app['config']->get($path, $default);
+    }
+
+    /**
+     * Return the Bolt\TemplateChooser provider.
+     *
+     * @return \Bolt\TemplateChooser
+     */
+    protected function templateChooser()
+    {
+        return $this->app['templatechooser'];
     }
 }
