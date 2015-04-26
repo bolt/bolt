@@ -100,6 +100,7 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
         $prefix = $app['controllers.backend.extend.mount_prefix'];
         $event->mount($prefix, $app['controllers.backend.upload']);
 
+        // Mount the Frontend controller
         $event->mount('', $app['controllers.routing']);
     }
 
