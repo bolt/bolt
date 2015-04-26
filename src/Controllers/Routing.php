@@ -4,56 +4,23 @@ namespace Bolt\Controllers;
 use Doctrine\Common\Collections\ArrayCollection;
 use Silex\Application;
 use Silex\ControllerCollection;
-use Silex\ControllerProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Configurable routes controller.
+ * Add routes from the configuration file.
  *
- * Add routes from a configuration file.
+ * @author Carson Full <carsonfull@gmail.com>
  */
-class Routing implements ControllerProviderInterface
+class Routing extends Base
 {
-    /** @var Application */
-    protected $app;
-
-    /**
-     * Connect this controller to the application.
-     *
-     * @param Application $app
-     *
-     * @return ControllerCollection
-     */
-    public function connect(Application $app)
+    protected function addRoutes(ControllerCollection $c)
     {
-        $this->app = $app;
-
-        $routes = $app['config']->get('routing');
-        $routes = is_array($routes) ? $routes : array();
-
-        $ctr = $this->addRoutes($routes);
-
-        return $ctr;
-    }
-
-    /**
-     * Add routes based on the parsed array.
-     *
-     * @param array $routes
-     *
-     * @return ControllerCollection
-     */
-    protected function addRoutes(array $routes)
-    {
-        /** @var $ctr ControllerCollection */
-        $ctr = $this->app['controllers_factory'];
+        $routes = $this->app['config']->get('routing', array());
 
         foreach ($routes as $name => $config) {
-            $this->addRoute($ctr, $name, $config);
+            $this->addRoute($c, $name, $config);
         }
-
-        return $ctr;
     }
 
     protected function addRoute(ControllerCollection $ctr, $name, array $config)

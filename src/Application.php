@@ -420,9 +420,6 @@ class Application extends Silex\Application
 
         // Mount the 'thumbnail' provider on /thumbs.
         $this->mount('/thumbs', new Thumbs\ThumbnailProvider());
-
-        // Mount the 'frontend' controllers, as defined in our Routing.yml
-        $this->mount('', new Controllers\Routing());
     }
 
     public function beforeHandler(Request $request)

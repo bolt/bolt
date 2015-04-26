@@ -53,6 +53,10 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
         $app['controllers.backend.users'] = $app->share(function () {
             return new Controllers\Backend\Users();
         });
+
+        $app['controllers.routing'] = $app->share(function () {
+            return new Controllers\Routing();
+        });
     }
 
     public function boot(Application $app)
@@ -95,6 +99,9 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
         // Mount the Upload controller
         $prefix = $app['controllers.backend.extend.mount_prefix'];
         $event->mount($prefix, $app['controllers.backend.upload']);
+        $app['controllers.backend.upload']->register($app);
+
+        $event->mount('', $app['controllers.routing']);
     }
 
     /**
