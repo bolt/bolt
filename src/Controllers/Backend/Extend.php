@@ -4,7 +4,6 @@ namespace Bolt\Controllers\Backend;
 
 use Bolt\Composer\PackageManager;
 use Bolt\Exception\PackageManagerException;
-use Bolt\Extensions\ExtensionsInfoService;
 use Bolt\Translation\Translator as Trans;
 use Silex;
 use Silex\ControllerCollection;
@@ -14,7 +13,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class Extend extends BackendBase implements ServiceProviderInterface
+class Extend extends BackendBase
 {
     public $readWriteMode;
 
@@ -68,40 +67,6 @@ class Extend extends BackendBase implements ServiceProviderInterface
         $c->get('/generateTheme', 'controllers.backend.extend:actionGenerateTheme')
             ->before(array($this, 'before'))
             ->bind('generateTheme');
-    }
-
-    /**
-     * Registers services on the app.
-     *
-     * @param \Silex\Application $app
-     */
-    public function register(Silex\Application $app)
-    {
-        $app['extend.site'] = $app['config']->get('general/extensions/site', 'https://extensions.bolt.cm/');
-        $app['extend.repo'] = $app['extend.site'] . 'list.json';
-        $app['extend.urls'] = array(
-            'list' => 'list.json',
-            'info' => 'info.json'
-        );
-
-        $app['extend'] = $this;
-        $extensionsPath = $app['resources']->getPath('extensions');
-        $app['extend.writeable'] = is_dir($extensionsPath) && is_writable($extensionsPath) ? true : false;
-        $app['extend.online'] = false;
-        $app['extend.enabled'] = $app['config']->get('general/extensions/enabled', true);
-
-        // This exposes the main upload object as a service
-        $app['extend.manager'] = $app->share(
-            function ($app) {
-                return new PackageManager($app);
-            }
-        );
-
-        $app['extend.info'] = $app->share(
-            function ($app) {
-                return new ExtensionsInfoService($app['guzzle.client'], $app['extend.site'], $app['extend.urls'], $app['deprecated.php']);
-            }
-        );
     }
 
     /**

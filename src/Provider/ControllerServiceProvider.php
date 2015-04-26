@@ -83,7 +83,6 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
         // Mount the Extend controller
         $prefix = $app['controllers.backend.extend.mount_prefix'];
         $event->mount($prefix, $app['controllers.backend.extend']);
-        $app['controllers.backend.extend']->register($app);
 
         // Mount the Upload controller
         $prefix = $app['controllers.backend.extend.mount_prefix'];

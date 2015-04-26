@@ -122,7 +122,7 @@ class Application extends Silex\Application
 //        $this->initMountpoints();
 
         // Initialize enabled extensions before executing handlers.
-//         $this->initExtensions();
+        $this->initExtensions();
 
         $this->initMailCheck();
 
