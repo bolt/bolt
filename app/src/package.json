@@ -28,6 +28,7 @@
         "jsdoc": "^3.3.0-beta2",
         "load-grunt-config": "~0.16.0",
         "load-grunt-tasks": "~0.6.0",
-        "node-sass": "~1.2.3"
+        "node-sass": "~1.2.3",
+        "request": "^2.55.0"
     }
 }
