@@ -7,7 +7,8 @@ module.exports = function (grunt) {
             outfile,
             baseurl,
             pages,
-            options;
+            options,
+            queue = [];
 
         // Require config variables.
         grunt.config.requires(
@@ -39,6 +40,12 @@ module.exports = function (grunt) {
             // Some verbose output.
             grunt.verbose.writeln('Get page "' + outfile + '":');
             grunt.verbose.writeln(require('util').inspect(options, false, 2, true));
+
+            // Build a request queue.
+            queue.push({
+                opt: options,
+                out: outfile
+            });
         }
     });
 };
