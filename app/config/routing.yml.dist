@@ -15,40 +15,40 @@
 homepage:
     path: '/'
     defaults:
-        _controller: 'Bolt\Controllers\Frontend::homepage'
+        _controller: 'Bolt\Controller\Frontend::homepage'
 
 search:
     path: '/search'
     defaults:
-        _controller: 'Bolt\Controllers\Frontend::search'
+        _controller: 'Bolt\Controller\Frontend::search'
 
 preview:
     path: '/preview/{contenttypeslug}'
     defaults:
-        _controller: 'Bolt\Controllers\Frontend::preview'
+        _controller: 'Bolt\Controller\Frontend::preview'
     requirements:
-        contenttypeslug: 'Bolt\Controllers\Routing::getAnyContentTypeRequirement'
+        contenttypeslug: 'Bolt\Controller\Routing::getAnyContentTypeRequirement'
 
 contentlink:
     path: '/{contenttypeslug}/{slug}'
     defaults:
-        _controller: 'Bolt\Controllers\Frontend::record'
+        _controller: 'Bolt\Controller\Frontend::record'
     requirements:
-        contenttypeslug: 'Bolt\Controllers\Routing::getAnyContentTypeRequirement'
+        contenttypeslug: 'Bolt\Controller\Routing::getAnyContentTypeRequirement'
 
 taxonomylink:
     path: '/{taxonomytype}/{slug}'
     defaults:
-        _controller: 'Bolt\Controllers\Frontend::taxonomy'
+        _controller: 'Bolt\Controller\Frontend::taxonomy'
     requirements:
-        taxonomytype: 'Bolt\Controllers\Routing::getAnyTaxonomyTypeRequirement'
+        taxonomytype: 'Bolt\Controller\Routing::getAnyTaxonomyTypeRequirement'
 
 contentlisting:
     path: '/{contenttypeslug}'
     defaults:
-        _controller: 'Bolt\Controllers\Frontend::listing'
+        _controller: 'Bolt\Controller\Frontend::listing'
     requirements:
-        contenttypeslug: 'Bolt\Controllers\Routing::getPluralContentTypeRequirement'
+        contenttypeslug: 'Bolt\Controller\Routing::getPluralContentTypeRequirement'
 
 # ------------------------------------------------------------------------------
 # Place your own routes here, that have a LOWER priority than the default routes.
@@ -63,7 +63,7 @@ contentlisting:
 # oldpages:
 #     path: '/{slug}.html'
 #     defaults:
-#         _controller: 'Bolt\Controllers\Frontend::record'
+#         _controller: 'Bolt\Controller\Frontend::record'
 #         contenttypeslug: 'page'
 #     requirements:
 #         slug: '[a-z0-9-_]+'
@@ -74,7 +74,7 @@ contentlisting:
 # example:
 #     path: '/example'
 #     defaults:
-#         _controller: 'Bolt\Controllers\Frontend::record'
+#         _controller: 'Bolt\Controller\Frontend::record'
 #         contenttypeslug: 'page'
 #         slug: 'example'
 #     host: 'www.mydomain.org'
@@ -85,7 +85,7 @@ contentlisting:
 # pagebinding:
 #     path: '/{slug}'
 #     defaults:
-#         _controller: 'Bolt\Controllers\Frontend::record'
+#         _controller: 'Bolt\Controller\Frontend::record'
 #         contenttypeslug: 'page'
 #     contenttype: pages
 
@@ -96,7 +96,7 @@ contentlisting:
 # aboutbinding:
 #     path: '/about'
 #     defaults:
-#         _controller: 'Bolt\Controllers\Frontend::record'
+#         _controller: 'Bolt\Controller\Frontend::record'
 #         contenttypeslug: 'page'
 #         slug: 'about'
 #     recordslug: 'page/about'
@@ -112,21 +112,21 @@ contentlisting:
 # chapterbinding:
 #     path: '/{chapters}/{slug}'
 #     defaults:
-#         _controller: 'Bolt\Controllers\Frontend::record'
+#         _controller: 'Bolt\Controller\Frontend::record'
 #         contenttypeslug: 'showcases'
 #         chapters: 'showcase'
 #     requirements:
-#         chapters: [ 'Bolt\Controllers\Routing::getTaxonomyRequirement', ['chapters', 'showcase'] ]
+#         chapters: [ 'Bolt\Controller\Routing::getTaxonomyRequirement', ['chapters', 'showcase'] ]
 #     contenttype: showcases
 
 # categorybinding:
 #     path: '/{categories}/{slug}'
 #     defaults:
-#         _controller: 'Bolt\Controllers\Frontend::record'
+#         _controller: 'Bolt\Controller\Frontend::record'
 #         contenttypeslug: 'showcases'
 #         categories': 'none'
 #     requirements:
-#         categories: [ 'Bolt\Controllers\Routing::getTaxonomyRequirement', ['categories', 'none'] ]
+#         categories: [ 'Bolt\Controller\Routing::getTaxonomyRequirement', ['categories', 'none'] ]
 #     contenttype: showcases
 
 
@@ -144,7 +144,7 @@ contentlisting:
 # templatebinding:
 #     path: '/static-page/'
 #     defaults:
-#         _controller: 'Bolt\Controllers\Frontend::template'
+#         _controller: 'Bolt\Controller\Frontend::template'
 #         template: 'static-page'
 
 
