@@ -20,6 +20,7 @@ class Repository implements ObjectRepository
     public $entityName;
     public $hydrator;
     public $persister;
+    public $loader;
     
     /**
      * Initializes a new <tt>Repository</tt>.
@@ -27,7 +28,7 @@ class Repository implements ObjectRepository
      * @param EntityManager         $em    The EntityManager to use.
      * @param Mapping\ClassMetadata $class The class descriptor.
      */
-    public function __construct($em, ClassMetadata $classMetadata = null, $hydrator = null, $persister = null)
+    public function __construct($em, ClassMetadata $classMetadata = null, $hydrator = null, $persister = null, $loader = null)
     {
         $this->em         = $em;
         if (null !== $classMetadata) {
@@ -41,6 +42,10 @@ class Repository implements ObjectRepository
         
         if (null === $persister) {
             $this->setPersister(new Persister());
+        }
+        
+        if (null === $loader) {
+            $this->setLoader(new Loader());
         }
     }
     
@@ -71,8 +76,9 @@ class Repository implements ObjectRepository
      */
     public function find($id)
     {
-        $qb = $this->createQueryBuilder();
+        $qb = $this->getLoadQuery();
         $result = $qb->execute()->fetch();
+        print_r($result);
         
         if ($result) {
             return $this->hydrate($result, $qb);
@@ -146,7 +152,7 @@ class Repository implements ObjectRepository
      */
     protected function findWithCriteria(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
-        $qb = $this->createQueryBuilder();
+        $qb = $this->getLoadQuery();
         foreach ($criteria as $col=>$val) {
             $qb->andWhere($this->getAlias().".$col = :$col");
             $qb->setParameter(":$col", $val);
@@ -162,6 +168,21 @@ class Repository implements ObjectRepository
         }
         return $qb;
     }
+    
+    /**
+     * Internal method to initialise and return a QueryBuilder instance.
+     * Note that the metadata fields will be passed the instance to modify where appropriate.
+     * 
+     * @return QueryBuilder.
+     */
+    protected function getLoadQuery()
+    {
+       $qb = $this->createQueryBuilder();
+       $this->loader->load($qb, $this->getClassMetadata());
+       
+       return $qb; 
+    }
+    
     
     /**
      * Deletes a single object.
@@ -308,6 +329,15 @@ class Repository implements ObjectRepository
     public function setPersister($persister)
     {
         $this->persister = $persister;
+    }
+    
+    
+    /**
+     * @return void
+     */
+    public function setLoader($loader)
+    {
+        $this->loader = $loader;
     }
 
 
