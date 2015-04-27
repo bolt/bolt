@@ -53,6 +53,7 @@ class StorageServiceProvider implements ServiceProviderInterface
             'integer' => 'Bolt\Field\Type\Integer',
             'markdown' => 'Bolt\Field\Type\Markdown',
             'relation' => 'Bolt\Field\Type\Relation',
+            'repeater' => 'Bolt\Field\Type\Repeater',
             'select' => 'Bolt\Field\Type\Select',
             'slug' => 'Bolt\Field\Type\Slug',
             'taxonomy' => 'Bolt\Field\Type\Taxonomy',
