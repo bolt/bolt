@@ -1,6 +1,7 @@
 <?php
 namespace Bolt\Controller;
 
+use Bolt\Routing\DefaultControllerClassAwareInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Silex\Application;
 use Silex\ControllerCollection;
@@ -16,6 +17,11 @@ class Routing extends Base
 {
     protected function addRoutes(ControllerCollection $c)
     {
+        if ($c instanceof DefaultControllerClassAwareInterface) {
+            // Prevent method exists checks
+            $c->setDefaultControllerClass(null);
+        }
+
         $routes = $this->app['config']->get('routing', array());
 
         foreach ($routes as $name => $config) {
