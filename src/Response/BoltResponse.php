@@ -2,8 +2,8 @@
 
 namespace Bolt\Response;
 
-use Twig_Template as Template;
 use Symfony\Component\HttpFoundation\Response;
+use Twig_Template as Template;
 
 /**
  * BoltResponse uses a renderer and context variables
@@ -64,7 +64,7 @@ class BoltResponse extends Response
         }
         $this->template = $template;
     }
-    
+
     /**
      * Sets the context variables for this Response.
      *
@@ -77,7 +77,7 @@ class BoltResponse extends Response
         }
         $this->context = $context;
     }
-    
+
     /**
      * Returns the template.
      *
@@ -87,7 +87,7 @@ class BoltResponse extends Response
     {
         return $this->template;
     }
-    
+
     /**
      * Returns the context.
      *
@@ -97,7 +97,7 @@ class BoltResponse extends Response
     {
         return $this->context;
     }
-    
+
     /**
      * Gets globals from the template.
      *
@@ -140,7 +140,7 @@ class BoltResponse extends Response
     {
         return $this->template->getTemplateName();
     }
-    
+
     /**
      * Returns the Response as a string.
      *
@@ -157,7 +157,7 @@ class BoltResponse extends Response
             return '';
         }
     }
-    
+
     /**
      * Gets HTML content for the response.
      *
