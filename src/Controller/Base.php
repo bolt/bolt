@@ -1,6 +1,7 @@
 <?php
 namespace Bolt\Controller;
 
+use Bolt\Routing\DefaultControllerClassAwareInterface;
 use Silex\Application;
 use Silex\ControllerCollection;
 use Silex\ControllerProviderInterface;
@@ -26,8 +27,10 @@ abstract class Base implements ControllerProviderInterface
     {
         $this->app = $app;
 
-        /** @var ControllerCollection $c */
         $c = $app['controllers_factory'];
+        if ($c instanceof DefaultControllerClassAwareInterface) {
+            $c->setDefaultControllerClass($this);
+        }
         $this->addRoutes($c);
 
         return $c;
