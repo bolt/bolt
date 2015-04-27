@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class Authentication extends BackendBase
 {
-    public function addRoutes(ControllerCollection $c)
+    protected function addRoutes(ControllerCollection $c)
     {
         $c->get('/login', 'controller.backend.authentication:actionGetLogin')
             ->bind('login');
