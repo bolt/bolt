@@ -87,6 +87,8 @@ module.exports = function(grunt) {
         require('deep-extend')(options, grunt.file.readJSON('grunt.json'));
     }
 
-    require('load-grunt-config')(grunt, {data: options});
-
+    require('load-grunt-config')(grunt, {
+        data: options,
+        jitGrunt: true
+    });
 };
