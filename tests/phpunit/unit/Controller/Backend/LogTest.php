@@ -2,12 +2,12 @@
 namespace Bolt\Tests\Controller\Backend;
 
 use Bolt\Configuration\ResourceManager;
-use Bolt\Controllers\Backend\Log;
+use Bolt\Controller\Backend\Log;
 use Bolt\Tests\BoltUnitTest;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Class to test correct operation of src/Controllers/Backend/Log.
+ * Class to test correct operation of src/Controller/Backend/Log.
  *
  * @author Ross Riley <riley.ross@gmail.com>
  **/
@@ -48,7 +48,7 @@ class LogTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $app['config']->set('general/changelog/enabled', true);
-        $controller = $app['controllers.backend.log'];
+        $controller = $app['controller.backend.log'];
 
         $app['request'] = $request = Request::create('/bolt/changelog/pages/1/1');
         $response = $controller->actionChangeRecord($request, 'pages', 1, 1, $app, $request);
@@ -66,7 +66,7 @@ class LogTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $app['config']->set('general/changelog/enabled', true);
-        $controller = $app['controllers.backend.log'];
+        $controller = $app['controller.backend.log'];
 
         // First test tests without any changelogs available
         $app['request'] = $request = Request::create('/bolt/changelog/pages');

@@ -6,7 +6,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Class to test correct operation of src/Controllers/Extend.
+ * Class to test correct operation of src/Controller/Extend.
  *
  * @author Ross Riley <riley.ross@gmail.com>
  **/
@@ -28,7 +28,7 @@ class ExtendTest extends BoltUnitTest
         $app['twig.loader.filesystem']->prependPath(TEST_ROOT . '/app/view/twig');
         $this->expectOutputRegex('#Redirecting to /bolt/#');
         $app->run();
-        $controller = $app['controllers.backend.extend'];
+        $controller = $app['controller.backend.extend'];
 
         $request = Request::create('/');
         $app['request'] = $request;
@@ -39,7 +39,7 @@ class ExtendTest extends BoltUnitTest
         $this->assertNotEmpty($response);
 
         $request = Request::create('/', 'GET', array('package' => 'bolt/theme-2014'));
-        $controller = $this->getMock('Bolt\Controllers\Extend', array('actionInstallInfo', 'actionPackageInfo', 'actionCheck'));
+        $controller = $this->getMock('Bolt\Controller\Extend', array('actionInstallInfo', 'actionPackageInfo', 'actionCheck'));
         $controller->expects($this->any())
             ->method('installInfo')
             ->will($this->returnValue(new Response('{"dev": [{"name": "bolt/theme-2014","version": "dev-master"}],"stable": []}')));

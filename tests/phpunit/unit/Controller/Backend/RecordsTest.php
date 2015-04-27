@@ -2,13 +2,13 @@
 namespace Bolt\Tests\Controller\Backend;
 
 use Bolt\Content;
-use Bolt\Controllers\Backend\Records;
+use Bolt\Controller\Backend\Records;
 use Bolt\Tests\BoltUnitTest;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Class to test correct operation of src/Controllers/Backend/Records.
+ * Class to test correct operation of src/Controller/Backend/Records.
  *
  * @author Ross Riley <riley.ross@gmail.com>
  **/
@@ -23,7 +23,7 @@ class RecordsTest extends BoltUnitTest
     public function testDelete()
     {
         $app = $this->getApp();
-        $controller = $app['controllers.backend.records'];
+        $controller = $app['controller.backend.records'];
 
         $app['request'] = $request = Request::create('/bolt/deletecontent/pages/4');
         $response = $controller->actionDelete($request, 'pages', 4);
@@ -57,7 +57,7 @@ class RecordsTest extends BoltUnitTest
     public function testEditGet()
     {
         $app = $this->getApp();
-        $controller = $app['controllers.backend.records'];
+        $controller = $app['controller.backend.records'];
 
         // First test will fail permission so we check we are kicked back to the dashboard
         $app['request'] = $request = Request::create('/bolt/editcontent/pages/4');
@@ -94,7 +94,7 @@ class RecordsTest extends BoltUnitTest
     public function testEditDuplicate()
     {
         $app = $this->getApp();
-        $controller = $app['controllers.backend.records'];
+        $controller = $app['controller.backend.records'];
 
         // Since we're the test user we won't automatically have permission to edit.
         $users = $this->getMock('Bolt\Users', array('isAllowed'), array($app));
@@ -123,7 +123,7 @@ class RecordsTest extends BoltUnitTest
     public function testEditCSRF()
     {
         $app = $this->getApp();
-        $controller = $app['controllers.backend.records'];
+        $controller = $app['controller.backend.records'];
 
         $users = $this->getMock('Bolt\Users', array('isAllowed', 'checkAntiCSRFToken'), array($app));
         $users->expects($this->any())
@@ -156,7 +156,7 @@ class RecordsTest extends BoltUnitTest
         $app['users'] = $users;
 
         // We should get kicked here because we dont have permissions to edit this
-        $controller = $app['controllers.backend.records'];
+        $controller = $app['controller.backend.records'];
         $app['request'] = $request = Request::create('/bolt/editcontent/showcases/3', 'POST');
         $response = $controller->actionEdit($request, 'showcases', 3);
         $this->assertEquals('/bolt', $response->getTargetUrl());
@@ -165,7 +165,7 @@ class RecordsTest extends BoltUnitTest
     public function testEditPost()
     {
         $app = $this->getApp();
-        $controller = $app['controllers.backend.records'];
+        $controller = $app['controller.backend.records'];
 
         $users = $this->getMock('Bolt\Users', array('isAllowed', 'checkAntiCSRFToken'), array($app));
         $users->expects($this->any())
@@ -186,7 +186,7 @@ class RecordsTest extends BoltUnitTest
     public function testEditPostAjax()
     {
         $app = $this->getApp();
-        $controller = $app['controllers.backend.records'];
+        $controller = $app['controller.backend.records'];
 
         // Since we're the test user we won't automatically have permission to edit.
         $users = $this->getMock('Bolt\Users', array('isAllowed', 'checkAntiCSRFToken'), array($app));
@@ -211,7 +211,7 @@ class RecordsTest extends BoltUnitTest
     {
         // Try status switches
         $app = $this->getApp();
-        $controller = $app['controllers.backend.records'];
+        $controller = $app['controller.backend.records'];
 
         $app['request'] = $request = Request::create('/bolt/content/held/pages/3');
 
@@ -277,7 +277,7 @@ class RecordsTest extends BoltUnitTest
     public function testOverview()
     {
         $app = $this->getApp();
-        $controller = $app['controllers.backend.records'];
+        $controller = $app['controller.backend.records'];
 
         $app['request'] = $request = Request::create('/bolt/overview/pages');
         $response = $controller->actionOverview($request, 'pages');
@@ -304,7 +304,7 @@ class RecordsTest extends BoltUnitTest
     public function testOverviewFiltering()
     {
         $app = $this->getApp();
-        $controller = $app['controllers.backend.records'];
+        $controller = $app['controller.backend.records'];
 
         $app['request'] = $request = Request::create(
             '/bolt/overview/pages',
@@ -324,7 +324,7 @@ class RecordsTest extends BoltUnitTest
     public function testRelated()
     {
         $app = $this->getApp();
-        $controller = $app['controllers.backend.records'];
+        $controller = $app['controller.backend.records'];
 
         $app['request'] = $request = Request::create('/bolt/relatedto/showcases/1');
         $response = $controller->actionRelated($request, 'showcases', 1);

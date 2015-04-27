@@ -2,7 +2,7 @@
 namespace Bolt\Tests\Controller;
 
 use Bolt\Content;
-use Bolt\Controllers\Frontend;
+use Bolt\Controller\Frontend;
 use Bolt\Storage;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Tests\Mocks\LoripsumMock;

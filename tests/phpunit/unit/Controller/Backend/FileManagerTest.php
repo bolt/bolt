@@ -1,7 +1,7 @@
 <?php
 namespace Bolt\Tests\Controller\Backend;
 
-use Bolt\Controllers\Backend\FileManager;
+use Bolt\Controller\Backend\FileManager;
 use Bolt\Tests\BoltUnitTest;
 use League\Flysystem\File;
 use Symfony\Component\Form\Form;
@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Class to test correct operation of src/Controllers/Backend/Log.
+ * Class to test correct operation of src/Controller/Backend/Log.
  *
  * @author Ross Riley <riley.ross@gmail.com>
  **/
@@ -18,7 +18,7 @@ class FileManagerTest extends BoltUnitTest
     public function testEdit()
     {
         $app = $this->getApp();
-        $controller = $app['controllers.backend.file_manager'];
+        $controller = $app['controller.backend.file_manager'];
 
         $app['request'] = $request = Request::create('/bolt/file/edit/config/config.yml');
         $response = $controller->actionEdit($request, 'config', 'config.yml');
@@ -28,7 +28,7 @@ class FileManagerTest extends BoltUnitTest
     public function testManage()
     {
         $app = $this->getApp();
-        $controller = $app['controllers.backend.file_manager'];
+        $controller = $app['controller.backend.file_manager'];
 
         $this->removeCSRF($app);
         $app['request'] = $request = Request::create('/bolt/files');

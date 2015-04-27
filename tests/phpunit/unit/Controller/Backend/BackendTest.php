@@ -1,7 +1,7 @@
 <?php
 namespace Bolt\Tests\Controller\Backend;
 
-use Bolt\Controllers\Backend\Backend;
+use Bolt\Controller\Backend\Backend;
 use Bolt\Tests\BoltUnitTest;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Yaml\Yaml;
 
 /**
- * Class to test correct operation of src/Controllers/Backend/Backend.
+ * Class to test correct operation of src/Controller/Backend/Backend.
  *
  * @author Ross Riley <riley.ross@gmail.com>
  **/
@@ -19,7 +19,7 @@ class BackendTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $app['request'] = Request::create('/bolt/about');
-        $controller = $app['controllers.backend'];
+        $controller = $app['controller.backend'];
 
         $response = $controller->actionAbout();
         $this->assertEquals('about/about.twig', $response->getTemplateName());
@@ -90,7 +90,7 @@ class BackendTest extends BoltUnitTest
     public function testPrefill()
     {
         $app = $this->getApp();
-        $controller = $app['controllers.backend'];
+        $controller = $app['controller.backend'];
 
         $app['request'] = $request = Request::create('/bolt/prefill');
         $response = $controller->actionPrefill($request);
@@ -141,7 +141,7 @@ class BackendTest extends BoltUnitTest
     {
         // We make a new translation and ensure that the content is created.
         $app = $this->getApp();
-        $controller = $app['controllers.backend'];
+        $controller = $app['controller.backend'];
 
         $this->removeCSRF($app);
         $app['request'] = $request = Request::create('/bolt/tr/contenttypes/en_CY');
