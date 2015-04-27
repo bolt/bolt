@@ -3,6 +3,7 @@ namespace Bolt\Field\Type;
 
 use Doctrine\DBAL\Query\QueryBuilder;
 use Bolt\Storage\EntityManager;
+use Bolt\Mapping\ClassMetadata;
 
 
 /**
@@ -15,13 +16,13 @@ interface FieldTypeInterface
 {
     
     /**
-     * Handle or ignore the query event.
+     * Handle or ignore the load event.
      * 
      * @param QueryBuilder $query
      *
      * @return void
      */
-    public function query(QueryBuilder $query);
+    public function load(QueryBuilder $query, ClassMetadata $metadata);
     
     /**
      * Handle or ignore the persist event.
