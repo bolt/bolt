@@ -149,10 +149,13 @@ class MetadataDriver implements MappingDriver
             $className = $tblName;
             $this->unmapped[] = $tblName;
         }
-        
+
+        $contentKey = $this->integrityChecker->getKeyForTable($tblName);
+
         $this->metadata[$className] = array();
         $this->metadata[$className]['identifier'] = $table->getPrimaryKey();
         $this->metadata[$className]['table'] = $table->getName();
+        $this->metadata[$className]['boltname'] = $contentKey;
         foreach ($table->getColumns() as $colName=>$column) {
             $mapping['fieldname'] = $colName;
             $mapping['type'] = $column->getType()->getName();
@@ -167,6 +170,21 @@ class MetadataDriver implements MappingDriver
             $mapping['autoincrement'] = $column->getAutoincrement();
             
             $this->metadata[$className]['fields'][$colName] = $mapping;
+            $this->metadata[$className]['fields'][$colName]['data'] = $this->contenttypes[$contentKey]['fields'][$colName];
+        }
+        
+
+        // This loop checks the contenttypes definition for any non-db fields and adds them.
+        if ($contentKey) {
+            foreach ($this->contenttypes[$contentKey]['fields'] as $col => $val) {
+                if (! isset($this->metadata[$className]['fields'][$col])) {
+                    $mapping['fieldname'] = $col;
+                    $mapping['type'] = 'null';
+                    $mapping['fieldtype'] = $this->typemap[$val['type']];
+                    $this->metadata[$className]['fields'][$col] = $mapping;
+                    $this->metadata[$className]['fields'][$col]['data'] = $this->contenttypes[$contentKey]['fields'][$col];
+                }
+            }
         }
         
         foreach ($this->getAliases() as $alias=>$table) {
@@ -174,6 +192,7 @@ class MetadataDriver implements MappingDriver
                 $this->metadata[$alias] = $this->metadata[$table];
             }
         }
+        
     }
 
     /**
@@ -195,6 +214,7 @@ class MetadataDriver implements MappingDriver
             $metadata->setTableName($data['table']);
             $metadata->setIdentifier($data['identifier']);
             $metadata->setFieldMappings($data['fields']);
+            $metadata->setBoltName($data['boltname']);
             return $metadata;
             
         } else {
