@@ -23,21 +23,21 @@ class Records extends BackendBase
     {
         $c->method('GET|POST');
 
-        $c->get('/content/deletecontent/{contenttypeslug}/{id}', 'controller.backend.records:actionDelete')
+        $c->get('/content/deletecontent/{contenttypeslug}/{id}', 'actionDelete')
             ->bind('deletecontent');
 
-        $c->match('/editcontent/{contenttypeslug}/{id}', 'controller.backend.records:actionEdit')
+        $c->match('/editcontent/{contenttypeslug}/{id}', 'actionEdit')
             ->bind('editcontent')
             ->assert('id', '\d*')
             ->value('id', '');
 
-        $c->post('/content/{action}/{contenttypeslug}/{id}', 'controller.backend.records:actionModify')
+        $c->post('/content/{action}/{contenttypeslug}/{id}', 'actionModify')
             ->bind('contentaction');
 
-        $c->get('/overview/{contenttypeslug}', 'controller.backend.records:actionOverview')
+        $c->get('/overview/{contenttypeslug}', 'actionOverview')
             ->bind('overview');
 
-        $c->get('/relatedto/{contenttypeslug}/{id}', 'controller.backend.records:actionRelated')
+        $c->get('/relatedto/{contenttypeslug}/{id}', 'actionRelated')
             ->bind('relatedto')
             ->assert('id', '\d*');
     }

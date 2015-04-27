@@ -24,23 +24,23 @@ class Users extends BackendBase
 {
     protected function addRoutes(ControllerCollection $c)
     {
-        $c->get('/users', 'controller.backend.users:actionAdmin')
+        $c->get('/users', 'actionAdmin')
             ->bind('users');
 
-        $c->match('/users/edit/{id}', 'controller.backend.users:actionEdit')
+        $c->match('/users/edit/{id}', 'actionEdit')
             ->assert('id', '\d*')
             ->bind('useredit');
 
-        $c->match('/userfirst', 'controller.backend.users:actionFirst')
+        $c->match('/userfirst', 'actionFirst')
             ->bind('userfirst');
 
-        $c->post('/user/{action}/{id}', 'controller.backend.users:actionModify')
+        $c->post('/user/{action}/{id}', 'actionModify')
             ->bind('useraction');
 
-        $c->match('/profile', 'controller.backend.users:actionProfile')
+        $c->match('/profile', 'actionProfile')
             ->bind('profile');
 
-        $c->get('/roles', 'controller.backend.users:actionViewRoles')
+        $c->get('/roles', 'actionViewRoles')
             ->bind('roles');
     }
 

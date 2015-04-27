@@ -16,16 +16,16 @@ class Authentication extends BackendBase
 {
     protected function addRoutes(ControllerCollection $c)
     {
-        $c->get('/login', 'controller.backend.authentication:actionGetLogin')
+        $c->get('/login', 'actionGetLogin')
             ->bind('login');
 
-        $c->post('/login', 'controller.backend.authentication:actionPostLogin')
+        $c->post('/login', 'actionPostLogin')
             ->bind('postLogin');
 
-        $c->match('/logout', 'controller.backend.authentication:actionLogout')
+        $c->match('/logout', 'actionLogout')
             ->bind('logout');
 
-        $c->get('/resetpassword', 'controller.backend.authentication:actionResetPassword')
+        $c->get('/resetpassword', 'actionResetPassword')
             ->bind('resetpassword');
     }
 

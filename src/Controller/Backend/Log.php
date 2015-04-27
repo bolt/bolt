@@ -18,19 +18,19 @@ class Log extends BackendBase
 {
     protected function addRoutes(ControllerCollection $c)
     {
-        $c->get('/changelog', 'controller.backend.log:actionChangeOverview')
+        $c->get('/changelog', 'actionChangeOverview')
             ->bind('changelog');
 
-        $c->get('/changelog/{contenttype}/{contentid}/{id}', 'controller.backend.log:actionChangeRecord')
+        $c->get('/changelog/{contenttype}/{contentid}/{id}', 'actionChangeRecord')
             ->assert('id', '\d*')
             ->bind('changelogrecordsingle');
 
-        $c->get('/changelog/{contenttype}/{contentid}', 'controller.backend.log:actionChangeRecordListing')
+        $c->get('/changelog/{contenttype}/{contentid}', 'actionChangeRecordListing')
             ->value('contentid', '0')
             ->value('contenttype', '')
             ->bind('changelogrecordall');
 
-        $c->get('/systemlog', 'controller.backend.log:actionSystemOverview')
+        $c->get('/systemlog', 'actionSystemOverview')
             ->bind('systemlog');
     }
 

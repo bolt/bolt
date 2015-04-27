@@ -27,22 +27,22 @@ class Backend extends BackendBase
 {
     protected function addRoutes(ControllerCollection $c)
     {
-        $c->get('/about', 'controller.backend:actionAbout')
+        $c->get('/about', 'actionAbout')
             ->bind('about');
 
-        $c->get('/clearcache', 'controller.backend:actionClearCache')
+        $c->get('/clearcache', 'actionClearCache')
             ->bind('clearcache');
 
-        $c->get('/', 'controller.backend:actionDashboard')
+        $c->get('/', 'actionDashboard')
             ->bind('dashboard');
 
-        $c->get('/omnisearch', 'controller.backend:actionOmnisearch')
+        $c->get('/omnisearch', 'actionOmnisearch')
             ->bind('omnisearch');
 
-        $c->match('/prefill', 'controller.backend:actionPrefill')
+        $c->match('/prefill', 'actionPrefill')
             ->bind('prefill');
 
-        $c->match('/tr/{domain}/{tr_locale}', 'controller.backend:actionTranslation')
+        $c->match('/tr/{domain}/{tr_locale}', 'actionTranslation')
             ->bind('translation')
             ->assert('domain', 'messages|contenttypes|infos')
             ->value('domain', 'messages')

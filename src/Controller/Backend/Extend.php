@@ -24,47 +24,47 @@ class Extend extends BackendBase
      */
     protected function addRoutes(ControllerCollection $c)
     {
-        $c->get('', 'controller.backend.extend:actionOverview')
+        $c->get('', 'actionOverview')
             ->before(array($this, 'before'))
             ->bind('extend');
 
-        $c->get('/check', 'controller.backend.extend:actionCheck')
+        $c->get('/check', 'actionCheck')
             ->before(array($this, 'before'))
             ->bind('check');
 
-        $c->get('/update', 'controller.backend.extend:actionUpdate')
+        $c->get('/update', 'actionUpdate')
             ->before(array($this, 'before'))
             ->bind('update');
 
-        $c->get('/install', 'controller.backend.extend:actionInstall')
+        $c->get('/install', 'actionInstall')
             ->before(array($this, 'before'))
             ->bind('install');
 
-        $c->get('/uninstall', 'controller.backend.extend:actionUninstall')
+        $c->get('/uninstall', 'actionUninstall')
             ->before(array($this, 'before'))
             ->bind('uninstall');
 
-        $c->get('/installed', 'controller.backend.extend:actionInstalled')
+        $c->get('/installed', 'actionInstalled')
             ->before(array($this, 'before'))
             ->bind('installed');
 
-        $c->get('/installAll', 'controller.backend.extend:actionInstallAll')
+        $c->get('/installAll', 'actionInstallAll')
             ->before(array($this, 'before'))
             ->bind('installAll');
 
-        $c->get('/installPackage', 'controller.backend.extend:actionInstallPackage')
+        $c->get('/installPackage', 'actionInstallPackage')
             ->before(array($this, 'before'))
             ->bind('installPackage');
 
-        $c->get('/installInfo', 'controller.backend.extend:actionInstallInfo')
+        $c->get('/installInfo', 'actionInstallInfo')
             ->before(array($this, 'before'))
             ->bind('installInfo');
 
-        $c->get('/packageInfo', 'controller.backend.extend:actionPackageInfo')
+        $c->get('/packageInfo', 'actionPackageInfo')
             ->before(array($this, 'before'))
             ->bind('packageInfo');
 
-        $c->get('/generateTheme', 'controller.backend.extend:actionGenerateTheme')
+        $c->get('/generateTheme', 'actionGenerateTheme')
             ->before(array($this, 'before'))
             ->bind('generateTheme');
     }
