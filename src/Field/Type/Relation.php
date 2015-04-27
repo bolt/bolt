@@ -3,6 +3,7 @@ namespace Bolt\Field\Type;
 
 use Doctrine\DBAL\Query\QueryBuilder;
 use Bolt\Storage\EntityManager;
+use Bolt\Mapping\ClassMetadata;
 
 
 /**
@@ -11,54 +12,34 @@ use Bolt\Storage\EntityManager;
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class Relation implements FieldTypeInterface
+class Relation extends FieldTypeBase
 {
     
-    
     /**
-     * Handle or ignore the query event.
+     * Handle the load event.
      * 
      * @param QueryBuilder $query
      *
      * @return void
      */
-    public function query(QueryBuilder $query)
+    public function load(QueryBuilder $query, ClassMetadata $metadata)
     {
-        
+        $boltname = $metadata->getBoltName();
+        $query->addSelect('rel.*');
+        $query->leftJoin('content', 'bolt_relations', 'rel', "content.id = rel.from_id AND rel.from_contenttype='$boltname'");
     }
     
     /**
-     * Handle or ignore the persist event.
+     * Handle the hydrate event.
      *
-     * @return void
-     */
-    public function persist(QueryBuilder $query, EntityManager $em)
-    {
-        
-    }
-    
-    /**
-     * Handle or ignore the hydrate event.
-     *
-     * @return void
      */
     public function hydrate($data, $entity)
     {
-        
+        $field = $this->mapping['fieldname'];
+        $entity->$field = array('pretend relation');
     }
-    
     /**
-     * Handle or ignore the present event.
-     *
-     * @return void
-     */
-    public function present($entity)
-    {
-        
-    }
-    
-    /**
-     * Returns the name of the hydrator.
+     * Returns the name of the field type.
      *
      * @return string The field name
      */

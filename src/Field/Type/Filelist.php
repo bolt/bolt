@@ -11,54 +11,11 @@ use Bolt\Storage\EntityManager;
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class Filelist implements FieldTypeInterface
+class Filelist extends FieldTypeBase
 {
     
-    
     /**
-     * Handle or ignore the query event.
-     * 
-     * @param QueryBuilder $query
-     *
-     * @return void
-     */
-    public function query(QueryBuilder $query)
-    {
-        
-    }
-    
-    /**
-     * Handle or ignore the persist event.
-     *
-     * @return void
-     */
-    public function persist(QueryBuilder $query, EntityManager $em)
-    {
-        
-    }
-    
-    /**
-     * Handle or ignore the hydrate event.
-     *
-     * @return void
-     */
-    public function hydrate($data, $entity)
-    {
-        
-    }
-    
-    /**
-     * Handle or ignore the present event.
-     *
-     * @return void
-     */
-    public function present($entity)
-    {
-        
-    }
-    
-    /**
-     * Returns the name of the hydrator.
+     * Returns the name of the field type.
      *
      * @return string The field name
      */

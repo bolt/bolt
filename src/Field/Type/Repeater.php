@@ -11,8 +11,9 @@ use Bolt\Storage\EntityManager;
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class Html extends FieldTypeBase
+class Repeater extends FieldTypeBase
 {
+    
     
     /**
      * Returns the name of the field type.
@@ -21,7 +22,7 @@ class Html extends FieldTypeBase
      */
     public function getName()
     {
-        return 'html';
+        return 'repeater';
     }
 
     
