@@ -89,6 +89,10 @@ module.exports = function(grunt) {
 
     require('load-grunt-config')(grunt, {
         data: options,
-        jitGrunt: true
+        jitGrunt: {
+            staticMappings: {
+                pages: 'grunt-tasks/pages.js'
+            }
+        }
     });
 };
