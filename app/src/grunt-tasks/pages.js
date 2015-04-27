@@ -3,7 +3,8 @@
  */
 module.exports = function (grunt) {
     grunt.registerTask('pages', 'Downloads rendered pages from a Bolt server', function () {
-        var outpath,
+        var done = this.async(),
+            outpath,
             outfile,
             baseurl,
             pages,
@@ -46,6 +47,18 @@ module.exports = function (grunt) {
                 opt: options,
                 out: outfile
             });
+        }
+
+        getNextPage();
+
+        function getNextPage() {
+            var next = queue.shift();
+
+            if (next) {
+                getNextPage();
+            } else {
+                done();
+            }
         }
     });
 };
