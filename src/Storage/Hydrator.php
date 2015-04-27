@@ -44,12 +44,22 @@ class Hydrator
     {
         $classname = $this->handler;
         $entity = new $classname;
-        foreach ($source as $key => $val) {
-            $meta = $this->metadata->getFieldMapping($key);
-            $type = Type::getType($meta['type']);
-            $value = $type->convertToPHPValue($val, $qb->getConnection()->getDatabasePlatform());
-            $entity->$key = $value;
+                
+        foreach ($this->metadata->getFieldMappings() as $key=>$mapping) {
+            
+            // First step is to allow each Bolt field to transform the data.
+            $field = new $mapping['fieldtype']($mapping);
+            $field->hydrate($source, $entity);
+            
+            if ($mapping['type'] !== 'null') {
+                $type = Type::getType($mapping['type']);
+                $val = $source[$key];
+                $value = $type->convertToPHPValue($val, $qb->getConnection()->getDatabasePlatform());
+                $entity->$key = $value;
+            }
+            
         }
+        
         return $entity;
     }
 
