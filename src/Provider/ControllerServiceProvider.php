@@ -16,45 +16,45 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
 {
     public function register(Application $app)
     {
-        $app['controllers.backend.mount_prefix'] = function ($app) {
+        $app['controller.backend.mount_prefix'] = function ($app) {
             return $app['config']->get('general/branding/path');
         };
-        $app['controllers.backend.extend.mount_prefix'] = function ($app) {
+        $app['controller.backend.extend.mount_prefix'] = function ($app) {
             return $app['config']->get('general/branding/path') . '/extend';
         };
-        $app['controllers.backend.upload.mount_prefix'] = function ($app) {
+        $app['controller.backend.upload.mount_prefix'] = function ($app) {
             return $app['config']->get('general/branding/path') . '/upload';
         };
 
-        $app['controllers.backend'] = $app->share(function () {
+        $app['controller.backend'] = $app->share(function () {
             return new Controllers\Backend\Backend();
         });
-        $app['controllers.backend.authentication'] = $app->share(function () {
+        $app['controller.backend.authentication'] = $app->share(function () {
             return new Controllers\Backend\Authentication();
         });
-        $app['controllers.backend.extend'] = $app->share(function () {
+        $app['controller.backend.extend'] = $app->share(function () {
             return new Controllers\Backend\Extend();
         });
-        $app['controllers.backend.database'] = $app->share(function () {
+        $app['controller.backend.database'] = $app->share(function () {
             return new Controllers\Backend\Database();
         });
-        $app['controllers.backend.file_manager'] = $app->share(function () {
+        $app['controller.backend.file_manager'] = $app->share(function () {
             return new Controllers\Backend\FileManager();
         });
-        $app['controllers.backend.log'] = $app->share(function () {
+        $app['controller.backend.log'] = $app->share(function () {
             return new Controllers\Backend\Log();
         });
-        $app['controllers.backend.records'] = $app->share(function () {
+        $app['controller.backend.records'] = $app->share(function () {
             return new Controllers\Backend\Records();
         });
-        $app['controllers.backend.upload'] = $app->share(function () {
+        $app['controller.backend.upload'] = $app->share(function () {
             return new Controllers\Backend\Upload();
         });
-        $app['controllers.backend.users'] = $app->share(function () {
+        $app['controller.backend.users'] = $app->share(function () {
             return new Controllers\Backend\Users();
         });
 
-        $app['controllers.routing'] = $app->share(function () {
+        $app['controller.routing'] = $app->share(function () {
             return new Controllers\Routing();
         });
     }
@@ -78,7 +78,7 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
         $app = $event->getApp();
 
         // Mount the standard collection of backend controllers
-        $prefix = $app['controllers.backend.mount_prefix'];
+        $prefix = $app['controller.backend.mount_prefix'];
         $controllerKeys = array(
             'backend',
             'backend.authentication',
@@ -93,15 +93,15 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
         }
 
         // Mount the Extend controller
-        $prefix = $app['controllers.backend.extend.mount_prefix'];
-        $event->mount($prefix, $app['controllers.backend.extend']);
+        $prefix = $app['controller.backend.extend.mount_prefix'];
+        $event->mount($prefix, $app['controller.backend.extend']);
 
         // Mount the Upload controller
-        $prefix = $app['controllers.backend.extend.mount_prefix'];
-        $event->mount($prefix, $app['controllers.backend.upload']);
+        $prefix = $app['controller.backend.extend.mount_prefix'];
+        $event->mount($prefix, $app['controller.backend.upload']);
 
         // Mount the Frontend controller
-        $event->mount('', $app['controllers.routing']);
+        $event->mount('', $app['controller.routing']);
     }
 
     /**

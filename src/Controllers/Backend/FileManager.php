@@ -24,14 +24,14 @@ class FileManager extends BackendBase
 {
     protected function addRoutes(ControllerCollection $c)
     {
-        $c->match('/files/{namespace}/{path}', 'controllers.backend.file_manager:actionManage')
+        $c->match('/files/{namespace}/{path}', 'controller.backend.file_manager:actionManage')
             ->assert('namespace', '[^/]+')
             ->assert('path', '.*')
             ->value('namespace', 'files')
             ->value('path', '')
             ->bind('files');
 
-        $c->match('/file/edit/{namespace}/{file}', 'controllers.backend.file_manager:actionEdit')
+        $c->match('/file/edit/{namespace}/{file}', 'controller.backend.file_manager:actionEdit')
             ->assert('file', '.+')
             ->assert('namespace', '[^/]+')
             ->value('namespace', 'files')

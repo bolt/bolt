@@ -17,13 +17,13 @@ class Database extends BackendBase
 {
     protected function addRoutes(ControllerCollection $c)
     {
-        $c->get('/dbcheck', 'controllers.backend.database:actionCheck')
+        $c->get('/dbcheck', 'controller.backend.database:actionCheck')
             ->bind('dbcheck');
 
-        $c->post('/dbupdate', 'controllers.backend.database:actionUpdate')
+        $c->post('/dbupdate', 'controller.backend.database:actionUpdate')
             ->bind('dbupdate');
 
-        $c->get('/dbupdate_result', 'controllers.backend.database:actionUpdateResult')
+        $c->get('/dbupdate_result', 'controller.backend.database:actionUpdateResult')
             ->bind('dbupdate_result');
     }
 
