@@ -21,6 +21,11 @@ class ClassMetadata implements ClassMetadataInterface
     /**
      * @var string
      */
+    protected $boltname;
+    
+    /**
+     * @var string
+     */
     protected $tableName;
     
     /**
@@ -72,13 +77,33 @@ class ClassMetadata implements ClassMetadataInterface
     }
     
     /**
-     * Gets the fully-qualified class name of this persistent class.
+     * Sets the table name of this persistent class.
      *
      * @return string
      */
     public function setTableName($tableName) 
     {
         return $this->tableName = $tableName;
+    }
+    
+    /**
+     * Gets the bolt name of this class (normally table name without prefix).
+     *
+     * @return void
+     */
+    public function getBoltName() 
+    {
+        return $this->boltname;
+    }
+    
+    /**
+     * Sets the bolt name of this class (normally table name without prefix).
+     *
+     * @return string
+     */
+    public function setBoltName($name) 
+    {
+        return $this->boltname = $name;
     }
     
     /**
@@ -111,6 +136,18 @@ class ClassMetadata implements ClassMetadataInterface
     public function setFieldMappings($fieldMappings) 
     {
         $this->fieldMappings = $fieldMappings;
+    }
+    
+    
+    /**
+     * Gets the fieldMappings array.
+     * 
+     *
+     * @return array $fieldMappings
+     */
+    public function getFieldMappings() 
+    {
+        return $this->fieldMappings;
     }
 
     /**
@@ -209,7 +246,6 @@ class ClassMetadata implements ClassMetadataInterface
     {
         
     }
-    
     
     /**** Following methods for interface compatibility, not yet used within Bolt ******/
     
