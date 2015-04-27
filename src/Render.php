@@ -50,7 +50,7 @@ class Render
     {
         // Start the 'stopwatch' for the profiler.
         $this->app['stopwatch']->start('bolt.render', 'template');
-        
+
         $response = BoltResponse::create(
             $this->app[$this->twigKey]->loadTemplate($template),
             $vars,
@@ -101,7 +101,7 @@ class Render
                 $headers = array(
                     'Cache-Control' => 's-maxage=' . ($this->cacheDuration() / 2),
                 );
-                $result = new Response($result, 200, $headers);
+                $result = new Response($result, Response::HTTP_OK, $headers);
             }
         }
 
