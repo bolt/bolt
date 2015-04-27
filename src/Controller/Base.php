@@ -1,5 +1,5 @@
 <?php
-namespace Bolt\Controllers;
+namespace Bolt\Controller;
 
 use Silex\Application;
 use Silex\ControllerCollection;

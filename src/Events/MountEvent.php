@@ -19,8 +19,8 @@ class MountEvent extends Event
         return $this->app;
     }
 
-    public function mount($prefix, $controllers)
+    public function mount($prefix, $controller)
     {
-        $this->app->mount($prefix, $controllers);
+        $this->app->mount($prefix, $controller);
     }
 }

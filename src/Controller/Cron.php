@@ -1,6 +1,6 @@
 <?php
 
-namespace Bolt\Controllers;
+namespace Bolt\Controller;
 
 use Bolt\Events\CronEvent;
 use Bolt\Events\CronEvents;

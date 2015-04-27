@@ -416,7 +416,7 @@ class Application extends Silex\Application
         }
 
         // Mount the 'async' controllers on /async. Not configurable.
-        $this->mount('/async', new Controllers\Async());
+        $this->mount('/async', new Controller\Async());
 
         // Mount the 'thumbnail' provider on /thumbs.
         $this->mount('/thumbs', new Thumbs\ThumbnailProvider());
@@ -534,7 +534,7 @@ class Application extends Silex\Application
     public function errorHandler(\Exception $exception)
     {
         // If we are in maintenance mode and current user is not logged in, show maintenance notice.
-        // @see Controllers\Frontend::before()
+        // @see Controller\Frontend::before()
         if ($this['config']->get('general/maintenance_mode')) {
             $user = $this['users']->getCurrentUser();
             if ($user['userlevel'] < 2) {

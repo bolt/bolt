@@ -1,6 +1,6 @@
 <?php
 
-namespace Bolt\Controllers\Backend;
+namespace Bolt\Controller\Backend;
 
 use Bolt\Composer\PackageManager;
 use Bolt\Exception\PackageManagerException;

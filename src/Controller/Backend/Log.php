@@ -1,5 +1,5 @@
 <?php
-namespace Bolt\Controllers\Backend;
+namespace Bolt\Controller\Backend;
 
 use Bolt\Translation\Translator as Trans;
 use Silex\ControllerCollection;

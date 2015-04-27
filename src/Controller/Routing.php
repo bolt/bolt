@@ -1,5 +1,5 @@
 <?php
-namespace Bolt\Controllers;
+namespace Bolt\Controller;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Silex\Application;

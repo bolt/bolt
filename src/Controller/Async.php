@@ -1,6 +1,6 @@
 <?php
 
-namespace Bolt\Controllers;
+namespace Bolt\Controller;
 
 use Bolt\Translation\Translator as Trans;
 use Guzzle\Http\Exception\RequestException as V3RequestException;

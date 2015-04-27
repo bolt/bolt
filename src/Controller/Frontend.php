@@ -1,6 +1,6 @@
 <?php
 
-namespace Bolt\Controllers;
+namespace Bolt\Controller;
 
 use Bolt\Application;
 use Bolt\Content;
@@ -28,25 +28,25 @@ class Frontend extends Base
 {
     protected function addRoutes(ControllerCollection $c)
     {
-        $c->get('/', 'controllers.routing:actionHomepage')
+        $c->get('/', 'controller.routing:actionHomepage')
             ->bind('homepage');
 
-        $c->get('/{contenttypeslug}', 'controllers.routing:actionListing')
+        $c->get('/{contenttypeslug}', 'controller.routing:actionListing')
             ->bind('listing');
 
-        $c->get('/preview/{contenttypeslug}', 'controllers.routing:actionPreview')
+        $c->get('/preview/{contenttypeslug}', 'controller.routing:actionPreview')
             ->bind('preview');
 
-        $c->get('/{contenttypeslug}/{slug}', 'controllers.routing:actionRecord')
+        $c->get('/{contenttypeslug}/{slug}', 'controller.routing:actionRecord')
             ->bind('record');
 
-        $c->match('/search', 'controllers.routing:actionSearch')
+        $c->match('/search', 'controller.routing:actionSearch')
             ->bind('search');
 
-        $c->get('/{taxonomytype}/{slug}', 'controllers.routing:actionTaxonomy')
+        $c->get('/{taxonomytype}/{slug}', 'controller.routing:actionTaxonomy')
             ->bind('taxonomy');
 
-//         $c->get('/', 'controllers.routing:actionTemplate')
+//         $c->get('/', 'controller.routing:actionTemplate')
 //             ->bind('template');
     }
 

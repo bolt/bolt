@@ -1,7 +1,7 @@
 <?php
-namespace Bolt\Controllers\Backend;
+namespace Bolt\Controller\Backend;
 
-use Bolt\Controllers\Base;
+use Bolt\Controller\Base;
 use Bolt\Translation\Translator as Trans;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;

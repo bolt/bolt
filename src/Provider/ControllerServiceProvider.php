@@ -1,7 +1,7 @@
 <?php
 namespace Bolt\Provider;
 
-use Bolt\Controllers;
+use Bolt\Controller;
 use Bolt\Events\ControllerEvents;
 use Bolt\Events\MountEvent;
 use Silex\Application;
@@ -27,35 +27,35 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
         };
 
         $app['controller.backend'] = $app->share(function () {
-            return new Controllers\Backend\Backend();
+            return new Controller\Backend\Backend();
         });
         $app['controller.backend.authentication'] = $app->share(function () {
-            return new Controllers\Backend\Authentication();
+            return new Controller\Backend\Authentication();
         });
         $app['controller.backend.extend'] = $app->share(function () {
-            return new Controllers\Backend\Extend();
+            return new Controller\Backend\Extend();
         });
         $app['controller.backend.database'] = $app->share(function () {
-            return new Controllers\Backend\Database();
+            return new Controller\Backend\Database();
         });
         $app['controller.backend.file_manager'] = $app->share(function () {
-            return new Controllers\Backend\FileManager();
+            return new Controller\Backend\FileManager();
         });
         $app['controller.backend.log'] = $app->share(function () {
-            return new Controllers\Backend\Log();
+            return new Controller\Backend\Log();
         });
         $app['controller.backend.records'] = $app->share(function () {
-            return new Controllers\Backend\Records();
+            return new Controller\Backend\Records();
         });
         $app['controller.backend.upload'] = $app->share(function () {
-            return new Controllers\Backend\Upload();
+            return new Controller\Backend\Upload();
         });
         $app['controller.backend.users'] = $app->share(function () {
-            return new Controllers\Backend\Users();
+            return new Controller\Backend\Users();
         });
 
         $app['controller.routing'] = $app->share(function () {
-            return new Controllers\Routing();
+            return new Controller\Routing();
         });
     }
 
@@ -89,7 +89,7 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
             'backend.users',
         );
         foreach ($controllerKeys as $controller) {
-            $event->mount($prefix, $app['controllers.' . $controller]);
+            $event->mount($prefix, $app['controller.' . $controller]);
         }
 
         // Mount the Extend controller
