@@ -3,11 +3,10 @@
 namespace Bolt\Controller;
 
 use Bolt\Application;
-use Bolt\Content;
 use Bolt\Extensions\Snippets\Location as SnippetLocation;
 use Bolt\Helpers\Input;
-use Bolt\Library as Lib;
 use Bolt\Pager;
+use Bolt\Response\BoltResponse;
 use Bolt\Translation\Translator as Trans;
 use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -28,26 +27,6 @@ class Frontend extends Base
 {
     protected function addRoutes(ControllerCollection $c)
     {
-        $c->get('/', 'controller.routing:actionHomepage')
-            ->bind('homepage');
-
-        $c->get('/{contenttypeslug}', 'controller.routing:actionListing')
-            ->bind('listing');
-
-        $c->get('/preview/{contenttypeslug}', 'controller.routing:actionPreview')
-            ->bind('preview');
-
-        $c->get('/{contenttypeslug}/{slug}', 'controller.routing:actionRecord')
-            ->bind('record');
-
-        $c->match('/search', 'controller.routing:actionSearch')
-            ->bind('search');
-
-        $c->get('/{taxonomytype}/{slug}', 'controller.routing:actionTaxonomy')
-            ->bind('taxonomy');
-
-//         $c->get('/', 'controller.routing:actionTemplate')
-//             ->bind('template');
     }
 
     /**
@@ -58,7 +37,7 @@ class Frontend extends Base
      * @param Request     $request The Symfony Request
      * @param Application $app     The application/container
      *
-     * @return null|Response|RedirectResponse
+     * @return null|BoltResponse|RedirectResponse
      */
     public function before(Request $request, Application $app)
     {
@@ -80,9 +59,9 @@ class Frontend extends Base
         if ($this->getOption('general/maintenance_mode')) {
             if (!$this->isAllowed('maintenance-mode')) {
                 $template = $this->templateChooser()->maintenance();
-                $body = $this->render($template);
-
-                return new Response($body, Response::HTTP_SERVICE_UNAVAILABLE);
+                $response = $this->render($template);
+                $response->setStatusCode(Response::HTTP_SERVICE_UNAVAILABLE);
+                return $response;
             }
         }
 
@@ -95,7 +74,7 @@ class Frontend extends Base
     /**
      * Controller for the "Homepage" route. Usually the front page of the website.
      *
-     * @return \Twig_Markup
+     * @return BoltResponse
      */
     public function homepage()
     {
@@ -103,20 +82,17 @@ class Frontend extends Base
 
         $template = $this->templateChooser()->homepage();
 
+        $globals = array(
+            'records' => $content,
+        );
         if (is_array($content)) {
             $first = current($content);
-            $globals = array(
-                'records'                   => $content,
-                $first->contenttype['slug'] => $content
-            );
+            $globals[$first->contenttype['slug']] = $content;
         } elseif (!empty($content)) {
-            $globals = array(
-                'record'                               => $content,
-                $content->contenttype['singular_slug'] => $content
-            );
+            $globals[$content->contenttype['singular_slug']] = $content;
         }
 
-        return $this->render($template, 'homepage', array(), $globals);
+        return $this->render($template, array(), $globals);
     }
 
     /**
@@ -126,15 +102,16 @@ class Frontend extends Base
      * @param string  $contenttypeslug The content type slug
      * @param string  $slug            The content slug
      *
-     * @return \Twig_Markup
+     * @return BoltResponse
      */
-    public function record($request, $contenttypeslug, $slug = '')
+    public function record(Request $request, $contenttypeslug, $slug = '')
     {
         $contenttype = $this->getContentType($contenttypeslug);
 
         // If the contenttype is 'viewless', don't show the record page.
         if (isset($contenttype['viewless']) && $contenttype['viewless'] === true) {
-            return $this->abort(Response::HTTP_NOT_FOUND, "Page $contenttypeslug/$slug not found.");
+            $this->abort(Response::HTTP_NOT_FOUND, "Page $contenttypeslug/$slug not found.");
+            return null;
         }
 
         // Perhaps we don't have a slug. Let's see if we can pick up the 'id', instead.
@@ -154,7 +131,8 @@ class Frontend extends Base
 
         // No content, no page!
         if (!$content) {
-            return $this->abort(Response::HTTP_NOT_FOUND, "Page $contenttypeslug/$slug not found.");
+            $this->abort(Response::HTTP_NOT_FOUND, "Page $contenttypeslug/$slug not found.");
+            return null;
         }
 
         // Then, select which template to use, based on our 'cascading templates rules'
@@ -181,8 +159,7 @@ class Frontend extends Base
             $contenttype['singular_slug'] => $content
         );
 
-        // Render the template and return.
-        return $this->render($template, $content->getTitle(), array(), $globals);
+        return $this->render($template, array(), $globals);
     }
 
     /**
@@ -191,7 +168,7 @@ class Frontend extends Base
      * @param Request $request         The Symfony Request
      * @param string  $contenttypeslug The content type slug
      *
-     * @return \Twig_Markup
+     * @return BoltResponse
      */
     public function preview(Request $request, $contenttypeslug)
     {
@@ -219,6 +196,7 @@ class Frontend extends Base
             'record'                      => $content,
             $contenttype['singular_slug'] => $content
         );
+        $response = $this->render($template, array(), $globals);
 
         // Chrome (unlike Firefox and Internet Explorer) has a feature that helps prevent
         // XSS attacks for uncareful people. It blocks embeds, links and src's that have
@@ -230,9 +208,9 @@ class Frontend extends Base
         //   - The user must be logged in to see the 'preview' page at all.
         //   - Our CSRF-token ensures that the user will only see their own posted preview.
         // @see: http://security.stackexchange.com/questions/53474/is-chrome-completely-secure-against-reflected-xss
-        header("X-XSS-Protection: 0");
+        $response->headers->set('X-XSS-Protection', 0);
 
-        return $this->render($template, array(), $globals);
+        return $response;
     }
 
     /**
@@ -241,22 +219,21 @@ class Frontend extends Base
      * @param Request $request         The Symfony Request
      * @param string  $contenttypeslug The content type slug
      *
-     * @return \Twig_Markup
+     * @return BoltResponse
      */
-    public function listing($request, $contenttypeslug)
+    public function listing(Request $request, $contenttypeslug)
     {
-        $contenttype = $this->getContentType($request, $contenttypeslug);
+        $contenttype = $this->getContentType($contenttypeslug);
 
         // If the contenttype is 'viewless', don't show the record page.
         if (isset($contenttype['viewless']) && $contenttype['viewless'] === true) {
-            return $this->abort(Response::HTTP_NOT_FOUND, "Page $contenttypeslug not found.");
+            $this->abort(Response::HTTP_NOT_FOUND, "Page $contenttypeslug not found.");
+            return null;
         }
 
         $pagerid = Pager::makeParameterId($contenttypeslug);
-        /* @var $query \Symfony\Component\HttpFoundation\ParameterBag */
-        $query = $request->query;
         // First, get some content
-        $page = $query->get($pagerid, $query->get('page', 1));
+        $page = $request->query->get($pagerid, $request->query->get('page', 1));
         $amount = (!empty($contenttype['listing_records']) ? $contenttype['listing_records'] : $this->getOption('general/listing_records'));
         $order = (!empty($contenttype['sort']) ? $contenttype['sort'] : $this->getOption('general/listing_sort'));
         $content = $this->getContent($contenttype['slug'], array('limit' => $amount, 'order' => $order, 'page' => $page, 'paging' => true));
@@ -271,7 +248,7 @@ class Frontend extends Base
             'contenttype'        => $contenttype['name']
         );
 
-        return $this->render($template, $contenttypeslug, array(), $globals);
+        return $this->render($template, array(), $globals);
     }
 
     /**
@@ -281,7 +258,7 @@ class Frontend extends Base
      * @param string  $taxonomytype The taxonomy type slug
      * @param string  $slug         The taxonomy slug
      *
-     * @return \Twig_Markup
+     * @return BoltResponse
      */
     public function taxonomy($request, $taxonomytype, $slug)
     {
@@ -310,7 +287,8 @@ class Frontend extends Base
                     !in_array($slug, isset($taxonomy['options']) ? array_keys($taxonomy['options']) : array())
                 )
             ) {
-            return $this->abort(Response::HTTP_NOT_FOUND, "No slug '$slug' in taxonomy '$taxonomyslug'");
+            $this->abort(Response::HTTP_NOT_FOUND, "No slug '$slug' in taxonomy '$taxonomyslug'");
+            return null;
         }
 
         $template = $this->templateChooser()->taxonomy($taxonomyslug);
@@ -336,7 +314,7 @@ class Frontend extends Base
             'taxonomytype' => $taxonomyslug
         );
 
-        return $this->render($template, $taxonomyslug, array(), $globals);
+        return $this->render($template, array(), $globals);
     }
 
     /**
@@ -344,7 +322,7 @@ class Frontend extends Base
      *
      * @param Request $request The Symfony Request
      *
-     * @return \Twig_Markup
+     * @return BoltResponse
      */
     public function search(Request $request)
     {
@@ -352,16 +330,14 @@ class Frontend extends Base
         $context = __FUNCTION__;
 
         if ($request->query->has('q')) {
-            $q = $request->get('q');
+            $q = $request->query->get('q');
         } elseif ($request->query->has($context)) {
-            $q = $request->get($context);
+            $q = $request->query->get($context);
         }
         $q = Input::cleanPostedData($q, false);
 
         $param = Pager::makeParameterId($context);
-        /* @var $query \Symfony\Component\HttpFoundation\ParameterBag */
-        $query = $request->query;
-        $page = ($query) ? $query->get($param, $query->get('page', 1)) : 1;
+        $page = $request->query->get($param, $request->query->get('page', 1));
 
         $pageSize = $this->getOption('general/search_results_records') ?: ($this->getOption('general/listing_records') ?: 10);
 
@@ -411,7 +387,7 @@ class Frontend extends Base
 
         $template = $this->templateChooser()->search();
 
-        return $this->render($template, 'search', array(), $globals);
+        return $this->render($template, array(), $globals);
     }
 
     /**
@@ -420,9 +396,7 @@ class Frontend extends Base
      *
      * @param string $template The template name
      *
-     * @throws \Exception
-     *
-     * @return \Twig_Markup
+     * @return BoltResponse
      */
     public function template($template)
     {
@@ -431,7 +405,7 @@ class Frontend extends Base
             $template .= '.twig';
         }
 
-        return $this->render($template, $template);
+        return $this->render($template);
     }
 
     /**
