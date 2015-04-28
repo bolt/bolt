@@ -3,7 +3,8 @@
  */
 module.exports = function (grunt) {
     grunt.registerTask('pages', 'Downloads rendered pages from a Bolt server', function () {
-        var done = this.async(),
+        var request = require('request'),
+            done = this.async(),
             outpath,
             outfile,
             baseurl,
@@ -34,13 +35,11 @@ module.exports = function (grunt) {
                 };
             }
             options.baseUrl = options.baseUrl || grunt.config('pages.baseurl');
+            options.followAllRedirects = true; // "followRedirect" doesn't seem to work with 302.
+            options.jar = true;
 
             // Path, where to put the file. Make it always end with ".html"
             outfile = outpath + '/' + dest.replace(/^(.+)\.html$/, '$1') + '.html';
-
-            // Some verbose output.
-            grunt.verbose.writeln('Get page "' + outfile + '":');
-            grunt.verbose.writeln(require('util').inspect(options, false, 2, true));
 
             // Build a request queue.
             queue.push({
@@ -55,7 +54,25 @@ module.exports = function (grunt) {
             var next = queue.shift();
 
             if (next) {
-                getNextPage();
+                grunt.log.writeln('Get page "' + next.out + '"');
+                grunt.verbose.writeln(require('util').inspect(next.opt, false, 2, true));
+
+                request(
+                    next.opt,
+                    function (error, response, body) {
+                        if (!error && (response.statusCode < 200 || response.statusCode >= 300)) {
+                            error = 'Status code: ' + response.statusCode;
+                        }
+                        if (error) {
+                            grunt.fail.warn(error);
+                            return done(false);
+                        }
+                        // Write response body to file.
+                        grunt.file.write(next.out, body);
+                        // Go on with next request.
+                        getNextPage();
+                    }
+                );
             } else {
                 done();
             }
