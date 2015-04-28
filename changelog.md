@@ -98,12 +98,11 @@ Not yet released.
  - Fixed: Change slug label when contenttype is viewless (See #3428, thanks Pinpickle)
  - Make Application::unsetSessionCookie() optional and BC friendly (see #3427)
  - Added: Config file `web.config` for IIS servers. (See #3423, thanks hyperTwitch)
-- Added: IIS web.config (See #3423)
-- Change: PGSQL encoding settings in post connect event until doctrine/2.5.2 is out. (See #3429)
-- Fixed: Change slug label when contenttype is viewless. (See #3428)
-- Added: YAML repeated nodes (See #3430)
-- Added: add optional filter to select field with contenttype values (See #3432)
-- Fixed: Secondary menu refactoring (JS) (Fixes #2329 and #2347)
+ - Change: PGSQL encoding settings in post connect event until doctrine/2.5.2 is out. (See #3429)
+ - Fixed: Change slug label when contenttype is viewless. (See #3428)
+ - Added: YAML repeated nodes (See #3430)
+ - Added: add optional filter to select field with contenttype values (See #3432)
+ - Fixed: Secondary menu refactoring (JS) (Fixes #2329 and #2347)
 
 
 Bolt 2.1.1
