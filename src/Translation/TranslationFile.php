@@ -409,6 +409,8 @@ class TranslationFile
 
                 if ($savedTranslations === null) {
                     return array(); // File seems to be empty
+                } elseif (!is_array($savedTranslations)) {
+                    $savedTranslations = array($savedTranslations); // account for file with one lin
                 }
 
                 $flatten = function ($data, $prefix = '') use (&$flatten, &$flattened) {
@@ -535,7 +537,7 @@ class TranslationFile
         $msgRepl = array('%s' => $this->relPath);
 
         // No file, directory not writable
-        if (!file_exists($this->absPath) && !is_writable(dirname($this->absPath))) {
+        if (!file_exists($this->absPath) && (!is_writable(dirname($this->absPath)) && !is_writable(dirname(dirname($this->absPath))))) {
             $msg = Trans::__(
                 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.",
                 $msgRepl

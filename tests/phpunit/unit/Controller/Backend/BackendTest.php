@@ -1,12 +1,11 @@
 <?php
 namespace Bolt\Tests\Controller\Backend;
 
-use Bolt\Controller\Backend\Backend;
+use Bolt\Response\BoltResponse;
 use Bolt\Tests\BoltUnitTest;
-use Symfony\Component\Form\Form;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Yaml\Yaml;
 
 /**
  * Class to test correct operation of src/Controller/Backend/Backend.
@@ -139,17 +138,21 @@ class BackendTest extends BoltUnitTest
 
     public function testTranslation()
     {
-        // We make a new translation and ensure that the content is created.
         $app = $this->getApp();
+        $this->removeCSRF($app);
+        /** @var \Bolt\Controller\Backend\Backend $controller */
         $controller = $app['controller.backend'];
 
-        $this->removeCSRF($app);
+        // Render new translation file
         $app['request'] = $request = Request::create('/bolt/tr/contenttypes/en_CY');
         $response = $controller->actionTranslation($request, 'contenttypes', 'en_CY');
+
+        $this->assertTrue($response instanceof BoltResponse, 'Response is not instance of BoltResponse');
+        $this->assertEquals('editlocale/editlocale.twig', $response->getTemplateName());
         $context = $response->getContext();
         $this->assertEquals('contenttypes.en_CY.yml', $context['context']['basename']);
 
-        // Now try and post the update
+        // Save updated content and redirect back to page
         $app['request'] = $request = Request::create(
             '/bolt/tr/contenttypes/en_CY',
             'POST',
@@ -161,12 +164,10 @@ class BackendTest extends BoltUnitTest
             )
         );
         $response = $controller->actionTranslation($request, 'contenttypes', 'en_CY');
-        $context = $response->getContext();
-        $this->assertEquals('editlocale/editlocale.twig', $response->getTemplateName());
+        $this->assertTrue($response instanceof RedirectResponse);
+        $this->assertTrue($response->isRedirect('/bolt/tr/contenttypes/en_CY'));
 
-        // Write isn't allowed initially so check the error
-        $error = $app['session']->getFlashBag()->get('error');
-        $this->assertRegexp('/is not writable/', $error[0]);
+        $this->rmdir($app['resources']->getPath('app/resources/translations/en_CY'));
 
         // Check that YML parse errors get caught
         $app['request'] = $request = Request::create(
@@ -180,7 +181,9 @@ class BackendTest extends BoltUnitTest
             )
         );
         $response = $controller->actionTranslation($request, 'contenttypes', 'en_CY');
-        $info = $app['session']->getFlashBag()->get('error');
-        $this->assertRegexp('/could not be saved/', $info[0]);
+        $this->assertTrue($response instanceof BoltResponse, 'Response is not instance of BoltResponse');
+        $this->assertEquals('editlocale/editlocale.twig', $response->getTemplateName());
+        $errors = $app['session']->getFlashBag()->get('error');
+        $this->assertRegExp('/could not be saved/', $errors[0]);
     }
 }

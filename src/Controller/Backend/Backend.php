@@ -207,9 +207,10 @@ class Backend extends BackendBase
             )))
             ->getForm();
 
-        // Check if the form was POST-ed, and valid. If so, write out the file.
-        if ($request->isMethod('POST')) {
-            if ($response = $this->saveTranslationFile($request, $form, $tr)) {
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+            $data = $form->getData();
+            if ($response = $this->saveTranslationFile($data['contents'], $tr)) {
                 return $response;
             }
         }
@@ -289,51 +290,41 @@ class Backend extends BackendBase
     /**
      * Attempt to save the POST data for a translation file edit.
      *
-     * @param Request $request
-     * @param Form    $form
-     * @param array   $tr
+     * @param string $contents
+     * @param array  $tr
      *
      * @return boolean|\Symfony\Component\HttpFoundation\RedirectResponse
      */
-    private function saveTranslationFile(Request $request, Form $form, array &$tr)
+    private function saveTranslationFile($contents, array &$tr)
     {
-        $form->submit($request->get($form->getName()));
+        $contents = Input::cleanPostedData($contents) . "\n";
 
-        if ($form->isValid()) {
-            $data = $form->getData();
-            $contents = Input::cleanPostedData($data['contents']) . "\n";
-
-            // Before trying to save a yaml file, check if it's valid.
-            try {
-                $validYaml = Yaml::parse($contents);
-            } catch (ParseException $e) {
-                $validYaml = false;
-                $msg = Trans::__("File '%s' could not be saved:", array('%s' => $tr['shortPath']));
-                $this->addFlash('error', $msg . $e->getMessage());
-            }
-
-            // Before trying to save, check if it's writable.
-            if ($validYaml) {
-                // Clear any warning for file not found, we are creating it here
-                // we'll set an error if someone still submits the form and write is not allowed
-                $this->getSession()->getFlashBag()->clear();
-
-                try {
-                    $fs = new Filesystem();
-                    $fs->dumpFile($tr['path'], $contents);
-                    $msg = Trans::__("File '%s' has been saved.", array('%s' => $tr['shortPath']));
-                    $this->addFlash('info', $msg);
-                    $tr['writeallowed'] = true;
-
-                    return $this->redirectToRoute('translation', array('domain' => $tr['domain'], 'tr_locale' => $tr['locale']));
-                } catch (IOException $e) {
-                    $msg = Trans::__("The file '%s' is not writable. You will have to use your own editor to make modifications to this file.", array('%s' => $tr['shortPath']));
-                    $this->addFlash('error', $msg);
-                    $tr['writeallowed'] = false;
-                }
-            }
+        // Before trying to save a yaml file, check if it's valid.
+        try {
+            Yaml::parse($contents);
+        } catch (ParseException $e) {
+            $msg = Trans::__("File '%s' could not be saved:", array('%s' => $tr['shortPath']));
+            $this->addFlash('error', $msg . $e->getMessage());
+            return false;
         }
 
-        return false;
+        // Clear any warning for file not found, we are creating it here
+        // we'll set an error if someone still submits the form and write is not allowed
+        $this->getSession()->getFlashBag()->clear();
+
+        try {
+            $fs = new Filesystem();
+            $fs->dumpFile($tr['path'], $contents);
+        } catch (IOException $e) {
+            $msg = Trans::__("The file '%s' is not writable. You will have to use your own editor to make modifications to this file.", array('%s' => $tr['shortPath']));
+            $this->addFlash('error', $msg);
+            $tr['writeallowed'] = false;
+            return false;
+        }
+
+        $msg = Trans::__("File '%s' has been saved.", array('%s' => $tr['shortPath']));
+        $this->addFlash('info', $msg);
+
+        return $this->redirectToRoute('translation', array('domain' => $tr['domain'], 'tr_locale' => $tr['locale']));
     }
 }
