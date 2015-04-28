@@ -2,12 +2,10 @@
 
 namespace Bolt\Controller\Backend;
 
-use Bolt\Composer\PackageManager;
 use Bolt\Exception\PackageManagerException;
 use Bolt\Translation\Translator as Trans;
 use Silex;
 use Silex\ControllerCollection;
-use Silex\ServiceProviderInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;

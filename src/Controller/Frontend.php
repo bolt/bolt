@@ -308,9 +308,9 @@ class Frontend extends Base
         }
 
         $globals = array(
-            'records'     => $content,
-            'slug'        => $name,
-            'taxonomy'    => $this->getOption('taxonomy/' . $taxonomyslug),
+            'records'      => $content,
+            'slug'         => $name,
+            'taxonomy'     => $this->getOption('taxonomy/' . $taxonomyslug),
             'taxonomytype' => $taxonomyslug
         );
 

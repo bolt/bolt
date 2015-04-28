@@ -3,7 +3,6 @@
 namespace Bolt\Controller\Backend;
 
 use Bolt\Translation\Translator as Trans;
-use Silex;
 use Silex\Application;
 use Silex\ControllerCollection;
 use Sirius\Upload\Result\Collection;

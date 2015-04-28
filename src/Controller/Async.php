@@ -603,7 +603,7 @@ class Async implements ControllerProviderInterface
      * Render a user's current stack.
      *
      * @param Silex\Application $app
-     * @param Request $request
+     * @param Request           $request
      *
      * @return \Twig_Markup
      */
@@ -829,7 +829,7 @@ class Async implements ControllerProviderInterface
         $message = $app['mailer']
             ->createMessage('message')
             ->setSubject('Test email from ' . $app['config']->get('general/sitename'))
-            ->setFrom(array($senderMail => $senderName))
+            ->setFrom(array($senderMail  => $senderName))
             ->setTo(array($user['email'] => $user['displayname']))
             ->setBody(strip_tags($mailhtml))
             ->addPart($mailhtml, 'text/html');

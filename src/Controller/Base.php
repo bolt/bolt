@@ -47,7 +47,7 @@ abstract class Base implements ControllerProviderInterface
      */
     protected function abort($statusCode, $message = '', array $headers = array())
     {
-        $this->app->abort($statusCode, $message,$headers);
+        $this->app->abort($statusCode, $message, $headers);
     }
 
     /**

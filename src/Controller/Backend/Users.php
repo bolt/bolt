@@ -602,7 +602,7 @@ class Users extends BackendBase
                     $message = $this->app['mailer']
                         ->createMessage('message')
                         ->setSubject(Trans::__('New Bolt site has been set up'))
-                        ->setFrom(array($email => $name))
+                        ->setFrom(array($email         => $name))
                         ->setTo(array($user['email']   => $user['displayname']))
                         ->setBody(strip_tags($mailhtml))
                         ->addPart($mailhtml, 'text/html');

@@ -100,7 +100,7 @@ class Log extends BackendBase
     /**
      * Show a list of changelog entries.
      *
-     * @param Request $request The Symfony Request
+     * @param Request $request     The Symfony Request
      * @param string  $contenttype The content type slug
      * @param integer $contentid   The content ID
      *

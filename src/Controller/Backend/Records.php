@@ -49,7 +49,7 @@ class Records extends BackendBase
     /**
      * Delete a record.
      *
-     * @param Request $request The Symfony Request
+     * @param Request $request         The Symfony Request
      * @param string  $contenttypeslug
      * @param integer $id
      *
@@ -113,7 +113,7 @@ class Records extends BackendBase
     /**
      * Perform an action on a Contenttype record.
      *
-     * @param Request $request The Symfony Request
+     * @param Request $request         The Symfony Request
      * @param string  $contenttypeslug The content type slug
      * @param integer $id              The content ID
      *
@@ -168,7 +168,7 @@ class Records extends BackendBase
     /**
      * Content type overview page.
      *
-     * @param Request $request The Symfony Request
+     * @param Request $request         The Symfony Request
      * @param string  $contenttypeslug The content type slug
      *
      * @return \Bolt\Response\BoltResponse|\Symfony\Component\HttpFoundation\RedirectResponse
@@ -582,7 +582,7 @@ class Records extends BackendBase
             $content = $this->getContent($contenttypeslug, array('id' => $id));
 
             if (empty($content)) {
-// FIXME
+                // FIXME
 //return $this->app->abort(Response::HTTP_NOT_FOUND, Trans::__('contenttypes.generic.not-existing', array('%contenttype%' => $contenttypeslug)));
                 return $this->redirectToRoute('dashboard', array(), Response::HTTP_NOT_FOUND);
             }
