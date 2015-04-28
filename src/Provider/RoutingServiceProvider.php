@@ -4,6 +4,7 @@ namespace Bolt\Provider;
 
 use Bolt\Routing\ControllerCollection;
 use Bolt\Routing\ControllerResolver;
+use Bolt\Routing\LazyUrlGenerator;
 use Bolt\Routing\RedirectListener;
 use Bolt\Routing\UrlMatcher;
 use Silex\Application;
@@ -40,6 +41,15 @@ class RoutingServiceProvider implements ServiceProviderInterface
 
     public function boot(Application $app)
     {
-        $app['dispatcher']->addSubscriber(new RedirectListener($app['session'], $app['url_generator'], $app['users']));
+        /*
+         * Creating the actual url generator flushes all controllers.
+         * We aren't ready for this since controllers.mount event hasn't fired yet.
+         * RedirectListener doesn't use the url generator until kernel.response
+         * (way after controllers have been added).
+         */
+        $urlGenerator = new LazyUrlGenerator(function () use ($app) {
+            return $app['url_generator'];
+        });
+        $app['dispatcher']->addSubscriber(new RedirectListener($app['session'], $urlGenerator, $app['users']));
     }
 }
