@@ -81,7 +81,7 @@ Not yet released.
  - Fix to use title and alt text on image field (Thanks @Shyim, see #3387)
  - Fixed: Allow editing of empty files. (Thanks, @SahAssar, see #3391)
  - Added: Include plugins "Styles Combo" and "Stylesheet Parser" in CKEditor (See #3384)
- - Added: Always have a fallback for a timezone when it isn't set in either php.ini or config.yml (See #3394)
+ - Added: Always have a fallback for a timezone when it isn't set in either php.ini or config.yml (See #3397)
  - Added: Ability to set a Email Sender Mail in config.yml (Thanks @Shyim, see #3409)
  - [Tests] Properly tidy the Codeception template field test (see #3451) 
  - Check if folder exists first, when using it for uploads (See #3450) 
