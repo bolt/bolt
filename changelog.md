@@ -83,6 +83,27 @@ Not yet released.
  - Added: Include plugins "Styles Combo" and "Stylesheet Parser" in CKEditor (See #3384)
  - Added: Always have a fallback for a timezone when it isn't set in either php.ini or config.yml (See #3394)
  - Added: Ability to set a Email Sender Mail in config.yml (Thanks @Shyim, see #3409)
+ - [Tests] Properly tidy the Codeception template field test (see #3451) 
+ - Check if folder exists first, when using it for uploads (See #3450) 
+ - [Codeception] Use a conditional version so 5.3 Travis builds won't fail. (See #3448)
+ - Enhancement to define templates for the template chooser in backend. (Thanks Shyim, see #3447)
+ - Allow 'duplicate' and 'delete' from contextual menu, when a Record has relationships. Fixes #3431 
+ - Don't trigger DBCheck for changed indexes. Fixes #3426 
+ - Only show the "delete" button if the page has been saved already. Fixes #3444
+ - Fixes #3435 by disabling browser XSS protection for file editing. (See #3439, thanks timcooper)
+ - Secondary menu refactoring (JS) + fixes for #2329 and #2347 (see #3433
+ - Added: optional filter to select field with contenttype values. (see #3432)
+ - Added: support for YAML repeated nodes (see #3430)
+ - Fixed: PGSQL encoding settings in post connect event until doctrine/2.5.2 is out (see #3429)
+ - Fixed: Change slug label when contenttype is viewless (See #3428, thanks Pinpickle)
+ - Make Application::unsetSessionCookie() optional and BC friendly (see #3427)
+ - Added: Config file `web.config` for IIS servers. (See #3423, thanks hyperTwitch)
+- Added: IIS web.config (See #3423)
+- Change: PGSQL encoding settings in post connect event until doctrine/2.5.2 is out. (See #3429)
+- Fixed: Change slug label when contenttype is viewless. (See #3428)
+- Added: YAML repeated nodes (See #3430)
+- Added: add optional filter to select field with contenttype values (See #3432)
+- Fixed: Secondary menu refactoring (JS) (Fixes #2329 and #2347)
 
 
 Bolt 2.1.1
@@ -100,21 +121,6 @@ Released 2015-03-12. Notable changes:
  - Fixed: Extension theme installer working properly (see #3108, thanks @nikgo)
  - Fixed: Replacing `&nbsp;` with single space, instead of nothing. (See #3111)
  - Fixed: Slugs generation with `uses:` fixed (see #3310)
- - [Tests] Properly tidy the Codeception template field test (see #3451) 
- - Check if folder exists first, when using it for uploads (See #3450) 
- - [Codeception] Use a conditional version so 5.3 Travis builds won't fail. (See #3448)
- - Enhancement to define templates for the template chooser in backend. (Thanks Shyim, see #3447)
- - Allow 'duplicate' and 'delete' from contextual menu, when a Record has relationships. Fixes #3431 
- - Don't trigger DBCheck for changed indexes. Fixes #3426 
- - Only show the "delete" button if the page has been saved already. Fixes #3444
- - Fixes #3435 by disabling browser XSS protection for file editing. (See #3439, thanks timcooper)
- - Secondary menu refactoring (JS) + fixes for #2329 and #2347 (see #3433
- - Added: optional filter to select field with contenttype values. (see #3432)
- - Added: support for YAML repeated nodes (see #3430)
- - Fixed: PGSQL encoding settings in post connect event until doctrine/2.5.2 is out (see #3429)
- - Fixed: Change slug label when contenttype is viewless (See #3428, thanks Pinpickle)
- - Make Application::unsetSessionCookie() optional and BC friendly (see #3427)
- - Added: Config file `web.config` for IIS servers. (See #3423, thanks hyperTwitch)
 
 
 Bolt 2.1.0
@@ -168,12 +174,6 @@ Released 2015-03-09. Notable changes:
 - Change: Bolt now distinguishes between 'regular news' and 'alerts' on the Dashboard screen. This way, we can better notify people in case of an urgent security issue. (See #2830)
 - Fixed: The built-in anti-CSRF token was renamed to `bolt_csrf_token` to prevent clashes when a user has a field named `token`. (See #2831)
 - Change: You can now use `{id}` in routes for records instead of `{slug}`, if you wish to have links to records using the id. (See #2832)
-- Added: IIS web.config (See #3423)
-- Change: PGSQL encoding settings in post connect event until doctrine/2.5.2 is out. (See #3429)
-- Fixed: Change slug label when contenttype is viewless. (See #3428)
-- Added: YAML repeated nodes (See #3430)
-- Added: add optional filter to select field with contenttype values (See #3432)
-- Fixed: Secondary menu refactoring (JS) (Fixes #2329 and #2347)
 
 Bolt 2.0.5
 ----------
