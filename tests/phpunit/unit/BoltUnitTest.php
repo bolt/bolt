@@ -76,6 +76,9 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
 
     protected function rmdir($dir)
     {
+        if (!is_dir($dir)) {
+            return;
+        }
         $iterator = new \RecursiveIteratorIterator(
             new \RecursiveDirectoryIterator($dir, \FilesystemIterator::SKIP_DOTS),
             \RecursiveIteratorIterator::CHILD_FIRST
@@ -87,6 +90,7 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
                 unlink($file->getPathname());
             }
         }
+        rmdir($dir);
     }
 
     protected function addDefaultUser(Application $app)
