@@ -411,10 +411,6 @@ class Application extends Silex\Application
 
     public function initMountpoints()
     {
-        if ($proxies = $this['config']->get('general/trustProxies')) {
-            Request::setTrustedProxies($proxies);
-        }
-
         // Mount the 'async' controllers on /async. Not configurable.
         $this->mount('/async', new Controller\Async());
 

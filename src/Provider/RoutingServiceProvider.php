@@ -10,6 +10,7 @@ use Bolt\Routing\UrlMatcher;
 use Silex\Application;
 use Silex\Route;
 use Silex\ServiceProviderInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 class RoutingServiceProvider implements ServiceProviderInterface
 {
@@ -51,5 +52,9 @@ class RoutingServiceProvider implements ServiceProviderInterface
             return $app['url_generator'];
         });
         $app['dispatcher']->addSubscriber(new RedirectListener($app['session'], $urlGenerator, $app['users']));
+
+        if ($proxies = $app['config']->get('general/trustProxies')) {
+            Request::setTrustedProxies($proxies);
+        }
     }
 }
