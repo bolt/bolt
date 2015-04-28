@@ -7,7 +7,10 @@ Not yet released. Notable changes:
  - Allow 'duplicate' and 'delete' from contextual menu, when a Record has relationships. Fixes #3431 
  - Don't trigger DBCheck for changed indexes. Fixes #3426 
  - Make Application::unsetSessionCookie() optional and BC friendly (see #3427)
-
+ - Make the removal / stripping of `&nbsp;` characters in CKEditor fields optional. (see #3373)
+ - Fixed: Allow editing of empty files. (Thanks, @SahAssar, see #3391)
+ - Added: Always have a fallback for a timezone when it isn't set in either php.ini or config.yml (See #3394)
+ - Only show the "delete" button if the page has been saved already. Fixes #3444
 
 Bolt 2.1.6
 ----------
