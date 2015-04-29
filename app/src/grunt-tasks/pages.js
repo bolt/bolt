@@ -21,7 +21,7 @@ module.exports = function (grunt) {
 
 
         // Create empty output directory inside tmp folder.
-        outpath = grunt.config('path.tmp') + '/pages';
+        outpath = grunt.config('path.pages');
         if (grunt.file.isDir(outpath)) {
             grunt.file.delete(outpath);
         }

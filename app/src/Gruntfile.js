@@ -8,6 +8,7 @@ module.exports = function(grunt) {
         },
         path: {
             tmp: 'tmp',
+            pages: 'tmp/pages',
             doc: {
                 js: 'docs/js',
                 php: 'docs/php'
