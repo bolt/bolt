@@ -38,7 +38,19 @@ module.exports = function (grunt) {
             if (dest.substr(0, 1) !== '#') {
                 // Set request options.
                 if (typeof pages[dest] === 'object') {
-                    options = pages[dest];
+                    if (dest === '@login' && pages[dest].u && pages[dest].p) {
+                        options = {
+                            url: "login",
+                            method: "POST",
+                            form: {
+                                username: pages[dest].u,
+                                password: pages[dest].p,
+                                action: "login"
+                            }
+                        };
+                    } else {
+                        options = pages[dest];
+                    }
                 } else {
                     options = {
                         url: pages[dest] !== '' ? pages[dest] : dest
@@ -49,7 +61,11 @@ module.exports = function (grunt) {
                 options.jar = true;
 
                 // Path, where to put the file. Make it always end with ".html"
-                outfile = outpath + '/' + dest.replace(/^(.+)\.html$/, '$1') + '.html';
+                if (dest.substr(0, 1) === '@') {
+                    outfile = dest;
+                } else {
+                    outfile = outpath + '/' + dest.replace(/^(.+)\.html$/, '$1') + '.html';
+                }
 
                 // Build a request queue.
                 queue.push({
@@ -65,8 +81,12 @@ module.exports = function (grunt) {
             var next = queue.shift();
 
             if (next) {
-                grunt.log.writeln('Get page "' + next.out + '"');
-                grunt.verbose.writeln(require('util').inspect(next.opt, false, 2, true));
+                if (next.out.substr(0, 1) === '@') {
+                    grunt.log.writeln('Execute "' + next.out.substr(1) + '"');
+                } else {
+                    grunt.log.writeln('Get page "' + next.out + '"');
+                    grunt.verbose.writeln(require('util').inspect(next.opt, false, 2, true));
+                }
 
                 request(
                     next.opt,
@@ -79,7 +99,9 @@ module.exports = function (grunt) {
                             return done(false);
                         }
                         // Write response body to file.
-                        grunt.file.write(next.out, body);
+                        if (next.out.substr(0, 1) !== '@') {
+                            grunt.file.write(next.out, body);
+                        }
                         // Go on with next request.
                         getNextPage();
                     }
