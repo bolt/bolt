@@ -2,13 +2,11 @@
 
 namespace Bolt\Controller;
 
-use Bolt\Application;
 use Bolt\Extensions\Snippets\Location as SnippetLocation;
 use Bolt\Helpers\Input;
 use Bolt\Pager;
 use Bolt\Response\BoltResponse;
 use Bolt\Translation\Translator as Trans;
-use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,10 +21,11 @@ use utilphp\util;
  * http://docs.bolt.cm/templates-routes#routing or the routing.yml
  * file in your configuration.
  */
-class Frontend extends Base
+class Frontend extends ConfigurableBase
 {
-    protected function addRoutes(ControllerCollection $c)
+    protected function getConfigurationRoutes()
     {
+        return $this->app['config']->get('routing', array());
     }
 
     /**
@@ -34,26 +33,25 @@ class Frontend extends Base
      *
      * Refer to the routing.yml config file for overridding.
      *
-     * @param Request     $request The Symfony Request
-     * @param Application $app     The application/container
+     * @param Request $request The Symfony Request
      *
      * @return null|BoltResponse|RedirectResponse
      */
-    public function before(Request $request, Application $app)
+    public function before(Request $request)
     {
         // Start the 'stopwatch' for the profiler.
-        $app['stopwatch']->start('bolt.frontend.before');
+        $this->app['stopwatch']->start('bolt.frontend.before');
 
         // If there are no users in the users table, or the table doesn't exist. Repair
         // the DB, and let's add a new user.
-        if (!$app['users']->getUsers()) {
+        if (!$this->app['users']->getUsers()) {
             $this->addFlash('info', Trans::__('There are no users in the database. Please create the first user.'));
 
             return $this->redirectToRoute('useredit', array('id' => ''));
         }
 
-        $app['debugbar'] = true;
-        $app['htmlsnippets'] = true;
+        $this->app['debugbar'] = true;
+        $this->app['htmlsnippets'] = true;
 
         // If we are in maintenance mode and current user is not logged in, show maintenance notice.
         if ($this->getOption('general/maintenance_mode')) {
@@ -66,7 +64,7 @@ class Frontend extends Base
         }
 
         // Stop the 'stopwatch' for the profiler.
-        $app['stopwatch']->stop('bolt.frontend.before');
+        $this->app['stopwatch']->stop('bolt.frontend.before');
 
         return null;
     }

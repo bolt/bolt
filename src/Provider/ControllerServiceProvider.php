@@ -59,8 +59,8 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
             return new Controller\Async();
         });
 
-        $app['controller.routing'] = $app->share(function () {
-            return new Controller\Routing();
+        $app['controller.frontend'] = $app->share(function () {
+            return new Controller\Frontend();
         });
 
         $app['controller.classmap'] = array(
@@ -115,7 +115,7 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
         $event->mount('/thumbs', new ThumbnailProvider());
 
         // Mount the Frontend controller
-        $event->mount('', $app['controller.routing']);
+        $event->mount('', $app['controller.frontend']);
     }
 
     /**

@@ -1,9 +1,9 @@
 <?php
 namespace Bolt\Controller;
 
-use Bolt\Routing\DefaultControllerClassAwareInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Silex\Application;
+use Silex\CallbackResolver;
 use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,16 +13,40 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @author Carson Full <carsonfull@gmail.com>
  */
-class Routing extends Base
+abstract class ConfigurableBase extends Base
 {
+    /**
+     * @var CallbackResolver
+     */
+    private $callbackResolver;
+
+    public function connect(Application $app)
+    {
+        $this->callbackResolver = $app['callback_resolver'];
+        return parent::connect($app);
+    }
+
+    public function before(Request $request)
+    {
+    }
+
+    public function after(Request $request, Response $response)
+    {
+    }
+
+    /**
+     * Return routes (as arrays) that will be converted to route objects.
+     *
+     * @return array
+     */
+    abstract protected function getConfigurationRoutes();
+
     protected function addRoutes(ControllerCollection $c)
     {
-        if ($c instanceof DefaultControllerClassAwareInterface) {
-            // Prevent method exists checks
-            $c->setDefaultControllerClass(null);
+        $routes = $this->getConfigurationRoutes();
+        if (!is_array($routes)) {
+            throw new \InvalidArgumentException('getConfigurationRoutes return an array');
         }
-
-        $routes = $this->app['config']->get('routing', array());
 
         foreach ($routes as $name => $config) {
             $this->addRoute($c, $name, $config);
@@ -57,45 +81,13 @@ class Routing extends Base
         if (substr($before, 0, 2) === '::' && $cls) {
             $before = array($cls, substr($before, 2));
         }
-
-        $route->before(
-            function (Request $request, Application $app) use ($before) {
-                if (!is_callable($before)) {
-                    return null;
-                }
-                if (is_array($before)) {
-                    list($class, $method) = $before;
-                    if (!class_exists($class)) {
-                        throw new \InvalidArgumentException(sprintf('Class "%s" does not exist.', $class));
-                    }
-                    $before = array(new $class, $method);
-                }
-
-                return call_user_func($before, $request, $app);
-            }
-        );
+        $route->before($before);
 
         $after = $defaults->remove('_after') ?: '::after';
         if (substr($after, 0, 2) === '::' && $cls) {
             $after = array($cls, substr($after, 2));
         }
-
-        $route->after(
-            function (Request $request, Response $response, Application $app) use ($after) {
-                if (!is_callable($after)) {
-                    return null;
-                }
-                if (is_array($after)) {
-                    list($class, $method) = $after;
-                    if (!class_exists($class)) {
-                        throw new \InvalidArgumentException(sprintf('Class "%s" does not exist.', $class));
-                    }
-                    $after = array(new $class, $method);
-                }
-
-                return call_user_func($after, $request, $response, $app);
-            }
-        );
+        $route->after($after);
 
         foreach ($defaults as $key => $value) {
             $route->value($key, $value);
@@ -126,6 +118,7 @@ class Routing extends Base
      */
     protected function getProperRegexp($regexp)
     {
+//        return $this->callbackResolver->resolveCallback($regexp);
         if (is_array($regexp)) {
             list($method, $args) = $regexp;
         } elseif (strpos($regexp, '::') <= 0) {
@@ -136,11 +129,20 @@ class Routing extends Base
         }
 
         $method = explode('::', $method);
-        if ($method[0] === __CLASS__) {
-            $method[0] = $this;
+        $cls = reset($method);
+        $method = end($method);
+
+        if ($cls === 'Bolt\\Controller\\Routing') {
+            $cls = $this;
+        } elseif (!class_exists($cls)) {
+            throw new \InvalidArgumentException("Class $cls does not exist");
         }
 
-        return call_user_func_array($method, $args);
+        if ($cls === __CLASS__) {
+            $cls = $this;
+        }
+
+        return call_user_func_array(array($cls, $method), $args);
     }
 
     /**
