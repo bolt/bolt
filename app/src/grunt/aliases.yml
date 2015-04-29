@@ -39,3 +39,9 @@ docJs:
     - jsdoc:boltJs
 docPhp:
     - phpdocumentor:bolt
+
+# LINTING TASKS
+lintHtml:
+    - pages
+    - htmllint:pages                        # Validate html of downloaded pages defined in grunt.json
+
