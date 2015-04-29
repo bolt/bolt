@@ -92,7 +92,8 @@ module.exports = function(grunt) {
         data: options,
         jitGrunt: {
             staticMappings: {
-                pages: 'grunt-tasks/pages.js'
+                pages: 'grunt-tasks/pages.js',
+                htmllint: 'grunt-html'
             }
         }
     });
