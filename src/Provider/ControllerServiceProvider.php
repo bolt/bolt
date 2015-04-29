@@ -4,6 +4,7 @@ namespace Bolt\Provider;
 use Bolt\Controller;
 use Bolt\Events\ControllerEvents;
 use Bolt\Events\MountEvent;
+use Bolt\Thumbs\ThumbnailProvider;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -102,6 +103,9 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
         // Mount the Upload controller
         $prefix = $app['controller.backend.extend.mount_prefix'];
         $event->mount($prefix, $app['controller.backend.upload']);
+
+        // Mount the 'thumbnail' provider on /thumbs.
+        $event->mount('/thumbs', new ThumbnailProvider());
 
         // Mount the Frontend controller
         $event->mount('', $app['controller.routing']);

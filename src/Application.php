@@ -118,8 +118,8 @@ class Application extends Silex\Application
         // Initialize the rest of the Providers.
         $this->initProviders();
 
-        // Initialise the Mount points for 'frontend', 'backend' and 'async'.
-//        $this->initMountpoints();
+        // Calling for BC. Controllers are mounted in ControllerServiceProvider now.
+        $this->initMountpoints();
 
         // Initialize enabled extensions before executing handlers.
         $this->initExtensions();
@@ -409,10 +409,11 @@ class Application extends Silex\Application
         }
     }
 
+    /**
+     * @deprecated To be removed in Bolt 3.0. Use {@see ControllerEvents::MOUNT} instead.
+     */
     public function initMountpoints()
     {
-        // Mount the 'thumbnail' provider on /thumbs.
-        $this->mount('/thumbs', new Thumbs\ThumbnailProvider());
     }
 
     public function beforeHandler(Request $request)
