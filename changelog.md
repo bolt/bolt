@@ -1,7 +1,16 @@
+Bolt 2.1.8
+----------
+
+Released 2015-04-29. Notable changes: 
+
+ - Fix: prevent error message in `_sub_menu.twig` if `strict_variables` is set. (See #3462)
+ - Security: Make sure we set the status correctly for 'async' requests. (See #3463)
+
+
 Bolt 2.1.7
 ----------
 
-Releases 2015-04-29. Notable changes: 
+Released 2015-04-29. Notable changes: 
 
  - Check if folder exists first, when using it for uploads (See #3450) 
  - Allow 'duplicate' and 'delete' from contextual menu, when a Record has relationships. Fixes #3431 
