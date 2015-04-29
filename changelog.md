@@ -1,7 +1,7 @@
 Bolt 2.1.7
 ----------
 
-Not yet released. Notable changes: 
+Releases 2015-04-29. Notable changes: 
 
  - Check if folder exists first, when using it for uploads (See #3450) 
  - Allow 'duplicate' and 'delete' from contextual menu, when a Record has relationships. Fixes #3431 
