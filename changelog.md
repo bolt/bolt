@@ -103,6 +103,8 @@ Not yet released.
  - Added: YAML repeated nodes (See #3430)
  - Added: add optional filter to select field with contenttype values (See #3432)
  - Fixed: Secondary menu refactoring (JS) (Fixes #2329 and #2347)
+ - Fixed: prevent error message in `_sub_menu.twig` if `strict_variables` is set. (See #3462)
+ - Security: Make sure we set the status correctly for 'async' requests. (See #3463)
 
 
 Bolt 2.1.1
