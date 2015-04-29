@@ -2,6 +2,7 @@
 
 namespace Bolt\Provider;
 
+use Bolt\Routing\CallbackResolver;
 use Bolt\Routing\ControllerCollection;
 use Bolt\Routing\ControllerResolver;
 use Bolt\Routing\LazyUrlGenerator;
@@ -29,6 +30,12 @@ class RoutingServiceProvider implements ServiceProviderInterface
         $app['resolver'] = $app->share(
             function ($app) {
                 return new ControllerResolver($app, $app['logger']);
+            }
+        );
+
+        $app['callback_resolver'] = $app->share(
+            function ($app) {
+                return new CallbackResolver($app, $app['controller.classmap']);
             }
         );
 

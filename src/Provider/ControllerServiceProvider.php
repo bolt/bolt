@@ -62,6 +62,13 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
         $app['controller.routing'] = $app->share(function () {
             return new Controller\Routing();
         });
+
+        $app['controller.classmap'] = array(
+            'Bolt\\Controllers\\Frontend' => 'controller.frontend',
+            'Bolt\\Controller\\Frontend' => 'controller.frontend',
+            'Bolt\\Controllers\\Routing' => 'controller.frontend',
+            'Bolt\\Controller\\Routing' => 'controller.frontend',
+        );
     }
 
     public function boot(Application $app)
