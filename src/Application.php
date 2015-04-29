@@ -411,9 +411,6 @@ class Application extends Silex\Application
 
     public function initMountpoints()
     {
-        // Mount the 'async' controllers on /async. Not configurable.
-        $this->mount('/async', new Controller\Async());
-
         // Mount the 'thumbnail' provider on /thumbs.
         $this->mount('/thumbs', new Thumbs\ThumbnailProvider());
     }

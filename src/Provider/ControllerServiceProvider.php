@@ -54,6 +54,10 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
             return new Controller\Backend\Users();
         });
 
+        $app['controller.async'] = $app->share(function () {
+            return new Controller\Async();
+        });
+
         $app['controller.routing'] = $app->share(function () {
             return new Controller\Routing();
         });
@@ -87,6 +91,9 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
         foreach ($controllerKeys as $controller) {
             $event->mount($prefix, $app['controller.' . $controller]);
         }
+
+        // Mount the Async controller
+        $event->mount('/async', $app['controller.async']);
 
         // Mount the Extend controller
         $prefix = $app['controller.backend.extend.mount_prefix'];

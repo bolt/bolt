@@ -1,5 +1,4 @@
 <?php
-
 namespace Bolt\Controller;
 
 use Bolt\Translation\Translator as Trans;
@@ -7,93 +6,87 @@ use Guzzle\Http\Exception\RequestException as V3RequestException;
 use GuzzleHttp\Exception\RequestException;
 use League\Flysystem\FileNotFoundException;
 use Silex;
-use Silex\ControllerProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class Async implements ControllerProviderInterface
+class Async extends Base
 {
-    public function connect(Silex\Application $app)
+    protected function addRoutes(Silex\ControllerCollection $ctr)
     {
-        /** @var $ctr \Silex\ControllerCollection */
-        $ctr = $app['controllers_factory'];
-
         $ctr->before(array($this, 'before'));
 
-        $ctr->get("/dashboardnews", array($this, 'dashboardnews'))
+        $ctr->get('/dashboardnews', 'dashboardnews')
             ->bind('dashboardnews');
 
-        $ctr->get("/latestactivity", array($this, 'latestactivity'))
+        $ctr->get('/latestactivity', 'latestactivity')
             ->bind('latestactivity');
 
-        $ctr->get("/filesautocomplete", array($this, 'filesautocomplete'));
+        $ctr->get('/filesautocomplete', 'filesautocomplete');
 
-        $ctr->get("/readme/{filename}", array($this, 'readme'))
+        $ctr->get('/readme/{filename}', 'readme')
             ->assert('filename', '.+')
             ->bind('readme');
 
-        $ctr->get("/widget/{key}", array($this, 'widget'))
+        $ctr->get('/widget/{key}', 'widget')
             ->bind('widget');
 
-        $ctr->get("/makeuri", array($this, 'makeuri'));
+        $ctr->get('/makeuri', 'makeuri');
 
-        $ctr->get("/lastmodified/{contenttypeslug}/{contentid}", array($this, 'lastmodified'))
+        $ctr->get('/lastmodified/{contenttypeslug}/{contentid}', 'lastmodified')
             ->value('contentid', '')
             ->bind('lastmodified');
 
-        $ctr->get("/filebrowser/{contenttype}", array($this, 'filebrowser'))
+        $ctr->get('/filebrowser/{contenttype}', 'filebrowser')
             ->assert('contenttype', '.*')
             ->bind('filebrowser');
 
-        $ctr->get("/browse/{namespace}/{path}", array($this, 'browse'))
+        $ctr->get('/browse/{namespace}/{path}', 'browse')
             ->assert('path', '.*')
             ->value('namespace', 'files')
             ->value('path', '')
             ->bind('asyncbrowse');
 
-        $ctr->post("/renamefile", array($this, 'renamefile'))
+        $ctr->post('/renamefile', 'renamefile')
             ->bind('renamefile');
 
-        $ctr->post("/deletefile", array($this, 'deletefile'))
+        $ctr->post('/deletefile', 'deletefile')
             ->bind('deletefile');
 
-        $ctr->post("/duplicatefile", array($this, 'duplicatefile'))
+        $ctr->post('/duplicatefile', 'duplicatefile')
             ->bind('duplicatefile');
 
-        $ctr->get("/addstack/{filename}", array($this, 'addstack'))
+        $ctr->get('/addstack/{filename}', 'addstack')
             ->assert('filename', '.*')
             ->bind('addstack');
 
-        $ctr->get("/tags/{taxonomytype}", array($this, 'tags'))
+        $ctr->get('/tags/{taxonomytype}', 'tags')
             ->bind('tags');
 
-        $ctr->get("/populartags/{taxonomytype}", array($this, 'populartags'))
+        $ctr->get('/populartags/{taxonomytype}', 'populartags')
             ->bind('populartags');
 
-        $ctr->get("/showstack", array($this, 'showstack'))
+        $ctr->get('/showstack', 'showstack')
             ->bind('showstack');
 
-        $ctr->get("/omnisearch", array($this, 'omnisearch'));
+        $ctr->get('/omnisearch', 'omnisearch');
 
-        $ctr->post("/folder/rename", array($this, 'renamefolder'))
+        $ctr->post('/folder/rename', 'renamefolder')
             ->bind('renamefolder');
 
-        $ctr->post("/folder/remove", array($this, 'removefolder'))
+        $ctr->post('/folder/remove', 'removefolder')
             ->bind('removefolder');
 
-        $ctr->post("/folder/create", array($this, 'createfolder'))
+        $ctr->post('/folder/create', 'createfolder')
             ->bind('createfolder');
 
-        $ctr->get('/changelog/{contenttype}/{contentid}', array($this, 'changelogRecord'))
+        $ctr->get('/changelog/{contenttype}/{contentid}', 'changelogRecord')
             ->value('contenttype', '')
             ->value('contentid', '0')
             ->bind('changelogrecord');
 
-        $ctr->get('/email/{type}/{recipient}', array($this, 'emailNotification'))
+        $ctr->get('/email/{type}/{recipient}', 'emailNotification')
             ->assert('type', '.*')
             ->bind('emailNotification');
-
-        return $ctr;
     }
 
     /**
