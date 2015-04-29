@@ -19,8 +19,12 @@ module.exports = function (grunt) {
             'pages.requests'
         );
 
-        // Create output directory inside tmp folder.
+
+        // Create empty output directory inside tmp folder.
         outpath = grunt.config('path.tmp') + '/pages';
+        if (grunt.file.isDir(outpath)) {
+            grunt.file.delete(outpath);
+        }
         grunt.file.mkdir(outpath);
 
         // Request all required pages.
