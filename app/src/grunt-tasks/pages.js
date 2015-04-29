@@ -26,6 +26,10 @@ module.exports = function (grunt) {
             grunt.file.delete(outpath);
         }
         grunt.file.mkdir(outpath);
+        if (!grunt.file.isDir(outpath)) {
+            grunt.log.error('Output directory "' + outpath + '" missing!');
+            return done(false);
+        }
 
         // Request all required pages.
         pages = grunt.config('pages.requests');
