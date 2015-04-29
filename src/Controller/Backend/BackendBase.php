@@ -26,7 +26,7 @@ abstract class BackendBase extends Base
     protected function render($template, array $variables = array(), array $globals = array())
     {
         if (!isset($variables['context'])) {
-            $variables['context'] = $variables;
+            $variables = array('context' => $variables);
         }
         return parent::render($template, $variables, $globals);
     }
