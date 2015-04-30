@@ -15,6 +15,7 @@ Example file to enable generation of sourcemaps:
             "js": true
         }
     }
+
 ### Pages
 
 For the linting tasks you have to define a list of pages to download to the ``tmp/pages`` folder.
@@ -136,6 +137,19 @@ Issue a manual login (same as ``@login``, only page is saved as ``dashboard.html
                 "@logout": {},
             }
         }
+    }
+
+### Bootlint
+
+You can override bootlint options, e.g.:
+
+    {
+        "bootlint": {
+            "relaxerror": ["W012"],
+            "showallerrors": false,
+            "stoponerror": false,
+            "stoponwarning": false
+        };
     }
 
 
