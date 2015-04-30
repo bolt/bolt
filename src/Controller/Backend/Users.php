@@ -582,7 +582,7 @@ class Users extends BackendBase
 
             $res = $this->getUsers()->saveUser($user);
 
-            if ($user['id']) {
+            if (!$firstuser) {
                 $this->app['logger.system']->info(Trans::__('page.edit-users.log.user-updated', array('%user%' => $user['displayname'])), array('event' => 'security'));
             } else {
                 $this->app['logger.system']->info(Trans::__('page.edit-users.log.user-added', array('%user%' => $user['displayname'])), array('event' => 'security'));
@@ -590,9 +590,7 @@ class Users extends BackendBase
                 // Create a welcome email
                 $mailhtml = $this->render(
                     'email/firstuser.twig',
-                    array(
-                        'sitename' => $this->getOption('general/sitename')
-                    )
+                    array('sitename' => $this->getOption('general/sitename'))
                 )->getContent();
 
                 try {
