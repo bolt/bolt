@@ -145,14 +145,12 @@ Issue a manual login (same as ``@login``, only page is saved as ``dashboard.html
 
 You can override bootlint options, e.g.:
 
-    {
-        "bootlint": {
-            "relaxerror": ["W012"],
-            "showallerrors": false,
-            "stoponerror": false,
-            "stoponwarning": false
-        }
-    }
+    module.exports = {
+        relaxerror: ["W012"],
+        showallerrors: false,
+        stoponerror: true,
+        stoponwarning: false
+    };
 
 ### Htmllint
 
