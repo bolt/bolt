@@ -12,16 +12,14 @@ The content of these files look like:
 These files are ignored by git.
 
 
-### Sourcemaps
+### Sourcemaps (grunt-local/sourcemaps.js)
 
-Example file to enable generation of sourcemaps:
+Sample file to enable generation of sourcemaps:
 
-    {
-        "sourcemap": {
-            "css": true,
-            "js": true
-        }
-    }
+    module.exports = {
+        "css": true,
+        "js": true
+    };
 
 ### Pages
 
