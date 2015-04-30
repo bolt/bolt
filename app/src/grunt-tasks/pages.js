@@ -34,54 +34,51 @@ module.exports = function (grunt) {
         // Request all required pages.
         pages = grunt.config('pages.requests');
         for (var dest in pages) {
-            // Ignore requests with a destination that starts with "#".
-            if (dest.substr(0, 1) !== '#') {
-                // Set request options.
-                if (typeof pages[dest] === 'object') {
-                    // Command shortcut: Login
-                    if (dest === '@login' && pages[dest].u && pages[dest].p) {
-                        options = {
-                            url: "login",
-                            method: "POST",
-                            form: {
-                                username: pages[dest].u,
-                                password: pages[dest].p,
-                                action: "login"
-                            }
-                        };
-                    // Command shortcut: Logout
-                    } else if (dest === '@logout') {
-                        options = {
-                            url: "logout",
-                            method: "POST",
-                            form: {}
-                        };
-                    // Request options
-                    } else {
-                        options = pages[dest];
-                    }
-                } else {
+            // Set request options.
+            if (typeof pages[dest] === 'object') {
+                // Command shortcut: Login
+                if (dest === '@login' && pages[dest].u && pages[dest].p) {
                     options = {
-                        url: pages[dest] !== '' ? pages[dest] : dest
+                        url: "login",
+                        method: "POST",
+                        form: {
+                            username: pages[dest].u,
+                            password: pages[dest].p,
+                            action: "login"
+                        }
                     };
-                }
-                options.baseUrl = options.baseUrl || grunt.config('pages.baseurl');
-                options.followAllRedirects = true; // "followRedirect" doesn't seem to work with 302.
-                options.jar = true;
-
-                // Path, where to put the file. Make it always end with ".html"
-                if (dest.substr(0, 1) === '@') {
-                    outfile = dest;
+                // Command shortcut: Logout
+                } else if (dest === '@logout') {
+                    options = {
+                        url: "logout",
+                        method: "POST",
+                        form: {}
+                    };
+                // Request options
                 } else {
-                    outfile = outpath + '/' + dest.replace(/^(.+)\.html$/, '$1') + '.html';
+                    options = pages[dest];
                 }
-
-                // Build a request queue.
-                queue.push({
-                    opt: options,
-                    out: outfile
-                });
+            } else {
+                options = {
+                    url: pages[dest] !== '' ? pages[dest] : dest
+                };
             }
+            options.baseUrl = options.baseUrl || grunt.config('pages.baseurl');
+            options.followAllRedirects = true; // "followRedirect" doesn't seem to work with 302.
+            options.jar = true;
+
+            // Path, where to put the file. Make it always end with ".html"
+            if (dest.substr(0, 1) === '@') {
+                outfile = dest;
+            } else {
+                outfile = outpath + '/' + dest.replace(/^(.+)\.html$/, '$1') + '.html';
+            }
+
+            // Build a request queue.
+            queue.push({
+                opt: options,
+                out: outfile
+            });
         }
 
         getNextPage();

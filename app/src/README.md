@@ -32,7 +32,6 @@ For the linting tasks you have to define a list of pages to download to the ``tm
 
 The key of the ``requests`` part is the filename and the value defines the page to download.
 
-- If the request starts with ``#`` the entry is ignored. A little helper, as there are no comments in JSON.
 - If no extension is given on the request key ``.html`` is automatically appended.
 - If the value is a string it is handled as a GET request with that value a relative url.
 - If the value is an empty string the key is used as value.
@@ -51,7 +50,6 @@ Three requests save the same page to file ``login.html``.
                 "login": "",
                 "login": "login",
                 "login.html": "login"
-                "#this entry is ignored": "login"
             }
         }
     };
