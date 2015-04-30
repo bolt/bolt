@@ -156,11 +156,12 @@ You can override bootlint options, e.g.:
 
 You can override bootlint options, e.g.:
 
-    {
-        "htmllint": {
-            "ignore": "Element “link” is missing required attribute “property”."
-        }
-    }
+    module.exports = {
+        ignore: [
+            "Element “link” is missing required attribute “property”.",
+            /^Duplicate ID/
+        ]
+    };
 
 
 ##Range Specifiers
