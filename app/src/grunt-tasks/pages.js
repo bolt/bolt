@@ -38,6 +38,7 @@ module.exports = function (grunt) {
             if (dest.substr(0, 1) !== '#') {
                 // Set request options.
                 if (typeof pages[dest] === 'object') {
+                    // Command shortcut: Login
                     if (dest === '@login' && pages[dest].u && pages[dest].p) {
                         options = {
                             url: "login",
@@ -48,6 +49,14 @@ module.exports = function (grunt) {
                                 action: "login"
                             }
                         };
+                    // Command shortcut: Logout
+                    } else if (dest === '@logout') {
+                        options = {
+                            url: "logout",
+                            method: "POST",
+                            form: {}
+                        };
+                    // Request options
                     } else {
                         options = pages[dest];
                     }
