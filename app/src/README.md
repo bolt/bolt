@@ -17,20 +17,18 @@ These files are ignored by git.
 Sample file to enable generation of sourcemaps:
 
     module.exports = {
-        "css": true,
-        "js": true
+        css: true,
+        js: true
     };
 
-### Pages
+### Pages (grunt-local/pages.js)
 
 For the linting tasks you have to define a list of pages to download to the ``tmp/pages`` folder.
 
-    {
-        "pages": {
-            "baseurl": "http://bolt.localhost/bolt/",
-            "requests": { … }
-        }
-    }
+    module.exports = {
+        baseurl: "http://bolt.localhost/bolt/",
+        requests: { … }
+    };
 
 The key of the ``requests`` part is the filename and the value defines the page to download.
 
@@ -40,109 +38,108 @@ The key of the ``requests`` part is the filename and the value defines the page 
 - If the value is an empty string the key is used as value.
 - If the value is an object it is used as request configuration (see https://github.com/request/request).
 - If the key is ``@login`` it is handled as not saved login request.
-  The value has to be ``{"u": "<username>", "p": "<password>"}`` then.
+  The value has to be ``{u: "<username>", p: "<password>"}`` then.
 - If the key is ``@logout`` it is handled as not saved logout request. The value has to be ``{}`` then.
 
 #### Example: Key handling
 
 Three requests save the same page to file ``login.html``.
 
-    "pages": {
-        "baseurl": "http://bolt.localhost/bolt/",
-        "requests": {
+    module.exports = {
+        baseurl: "http://bolt.localhost/bolt/",
+        requests: {
                 "login": "",
                 "login": "login",
                 "login.html": "login"
                 "#this entry is ignored": "login"
             }
         }
-    }
+    };
 
 #### Example: POST request
 
 Issue a manual login (same as ``@login``, only page is saved as ``dashboard.html``):
 
-    "pages": {
-        "baseurl": "http://bolt.localhost/bolt/",
-        "requests": {
-            "dashboard": {
-                "url": "login",
-                "method": "POST",
-                "form": {
-                    "username": "<enter username here>",
-                    "password": "<enter password here>",
-                    "action": "login"
+    module.exports = {
+        baseurl: "http://bolt.localhost/bolt/",
+        requests: {
+            dashboard: {
+                url: "login",
+                method: "POST",
+                form: {
+                    username: "<enter username here>",
+                    password: "<enter password here>",
+                    action: "login"
                 }
             }
         }
-    }
+    };
 
 #### Example: "Full" interface check
     {
-        "pages": {
-            "baseurl": "http://bolt.localhost/bolt/",
-            "requests": {
-                "login": "",
-                "@login": {"u": "<enter username here>", "p": "<enter password here>"},
+    module.exports = {
+        baseurl: "http://bolt.localhost/bolt/",
+        requests: {
+            "login": "",
+            "@login": {"u": "<enter username here>", "p": "<enter password here>"},
 
-                "#___ Dashboard ___": null,
-                "dashboard": "/",
+            // Dashboard
+            "dashboard": "/",
 
-                "#___ Configuration: Users & Permissions ___": null,
-                "config-users": "users",
-                "config-users-new": "users/edit",
-                "config-users-edit": "users/edit/1",
-                "config-roles": "roles",
-                "config-permissions": "file/edit/config/permissions.yml",
+            // Configuration: Users & Permissions
+            "config-users": "users",
+            "config-users-new": "users/edit",
+            "config-users-edit": "users/edit/1",
+            "config-roles": "roles",
+            "config-permissions": "file/edit/config/permissions.yml",
 
-                "#___ Configuration: Main configuration ___": null,
-                "config-main": "file/edit/config/config.yml",
+            // Configuration: Main configuration
+            "config-main": "file/edit/config/config.yml",
 
-                "#___ Configuration: Contenttypes ___": null,
-                "config-contenttypes": "file/edit/config/contenttypes.yml",
+            // Configuration: Contenttypes
+            "config-contenttypes": "file/edit/config/contenttypes.yml",
 
-                "#___ Configuration: Taxonomy ___": null,
-                "config-taxonomy": "file/edit/config/taxonomy.yml",
+            // Configuration: Taxonomy
+            "config-taxonomy": "file/edit/config/taxonomy.yml",
 
-                "#___ Configuration: Menu ___": null,
-                "config-menu": "file/edit/config/menu.yml",
+            // Configuration: Menu
+            "config-menu": "file/edit/config/menu.yml",
 
-                "#___ Configuration: Routing ___": null,
-                "config-routing": "file/edit/config/routing.yml",
+            // Configuration: Routing
+            "config-routing": "file/edit/config/routing.yml",
 
-                "#___ Configuration: Check database ___": null,
-                "config-dbcheck": "dbcheck",
-                "config-prefill": "prefill",
+            // Configuration: Check database
+            "config-dbcheck": "dbcheck",
+            "config-prefill": "prefill",
 
-                "#___ Configuration: Clear the cache ___": null,
-                "config-clearcache": "clearcache",
+            // Configuration: Clear the cache
+            "config-clearcache": "clearcache",
 
-                "#___ Configuration: Change Log ___": null,
-                "config-changelog": "changelog",
+            // Configuration: Change Log
+            "config-changelog": "changelog",
 
-                "#___ Configuration: System Log ___": null,
-                "config-systemlog": "systemlog",
+            // Configuration: System Log
+            "config-systemlog": "systemlog",
 
-                "#___ File Management ___": null,
-                "files-files": "files",
-                "files-theme": "files/theme",
+            // File Management
+            "files-files": "files",
+            "files-theme": "files/theme",
 
-                "#___ Translations ___": null,
-                "translations-messages": "tr",
-                "translations-long-messages": "tr/infos",
-                "translations-contenttypes": "tr/contenttypes",
+            // Translations
+            "translations-messages": "tr",
+            "translations-long-messages": "tr/infos",
+            "translations-contenttypes": "tr/contenttypes",
 
-                "#___ Extras ___": null,
-                "extras-view-install": "extend",
-                "extras-configure": "files/config/extensions",
+            // Extras
+            "extras-view-install": "extend",
+            "extras-configure": "files/config/extensions",
 
-                "#___ Main Menu ___": null,
-                "profile": "profile",
+            // Main Menu
+            "profile": "profile",
 
-                "@logout": {},
-            }
+            "@logout": {},
         }
-    }
+    };
 
 ### Bootlint
 
