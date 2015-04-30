@@ -149,7 +149,17 @@ You can override bootlint options, e.g.:
             "showallerrors": false,
             "stoponerror": false,
             "stoponwarning": false
-        };
+        }
+    }
+
+### Htmllint
+
+You can override bootlint options, e.g.:
+
+    {
+        "htmllint": {
+            "ignore": "Element “link” is missing required attribute “property”."
+        }
     }
 
 
