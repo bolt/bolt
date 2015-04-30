@@ -44,4 +44,7 @@ docPhp:
 lintHtml:
     - pages
     - htmllint:pages                        # Validate html of downloaded pages defined in grunt.json
+lintBoot:
+    - pages
+    - bootlint:pages                        # Validate bootstrap of downloaded pages defined in grunt.json
 
