@@ -5,7 +5,7 @@ Released 2015-04-29. Notable changes:
 
  - Fix: prevent error message in `_sub_menu.twig` if `strict_variables` is set. (See #3462)
  - Security: Make sure we set the status correctly for 'async' requests. (See #3463)
-
+ - Fixed: Set status explicitly on ajaxy requests. Fixes #3466
 
 Bolt 2.1.7
 ----------
