@@ -2,8 +2,15 @@
 
 ## Local options
 
-Add a file ``app/src/grunt.json`` in which you put the options you want to overwrite.
-This file is ignored by git.
+Add JS options files to ``app/src/grunt-local/`` in which you put the options you want to overwrite.
+The content of these files look like:
+
+    module.exports = {
+        value: "The value"
+    };
+
+These files are ignored by git.
+
 
 ### Sourcemaps
 
