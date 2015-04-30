@@ -17,7 +17,7 @@ These files are ignored by git.
 Example file to enable generation of sourcemaps:
 
     {
-        "sourceMap": {
+        "sourcemap": {
             "css": true,
             "js": true
         }

@@ -2,7 +2,7 @@ module.exports = function(grunt) {
     grunt.util.linefeed = '\n';
 
     var options = {
-        sourceMap: {
+        sourcemap: {
             css: false,
             js: false
         },
