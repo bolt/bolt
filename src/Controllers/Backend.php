@@ -733,7 +733,7 @@ class Backend implements ControllerProviderInterface
 
             // If we have an ID now, this is an existing record
             if ($id) {
-                $content = $app['storage']->getContent($contenttype['slug'], array('id' => $id));
+                $content = $app['storage']->getContent($contenttype['slug'], array('id' => $id, 'status' => '!'));
                 $oldStatus = $content['status'];
                 $newStatus = $content['status'];
             } else {
@@ -825,7 +825,7 @@ class Backend implements ControllerProviderInterface
                         }
 
                         // Get our record after POST_SAVE hooks are dealt with and return the JSON
-                        $content = $app['storage']->getContent($contenttype['slug'], array('id' => $id, 'returnsingle' => true));
+                        $content = $app['storage']->getContent($contenttype['slug'], array('id' => $id, 'returnsingle' => true, 'status' => '!'));
 
                         $val = array();
 
@@ -1021,7 +1021,7 @@ class Backend implements ControllerProviderInterface
     {
         $contenttype = $app['storage']->getContentType($contenttypeslug);
 
-        $content = $app['storage']->getContent($contenttype['slug'] . "/" . $id);
+        $content = $app['storage']->getContent($contenttype['slug'], array('id' => $id, 'status' => '!'));
         $title = $content->getTitle();
 
         if (!$app['users']->isAllowed("contenttype:{$contenttype['slug']}:delete:$id")) {
