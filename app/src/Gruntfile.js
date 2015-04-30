@@ -88,6 +88,7 @@ module.exports = function(grunt) {
         localOptions = {};
 
     grunt.file.expand('./grunt-local/*.js').map(function (confPath) {
+        grunt.verbose.writeln('Load local options "' + confPath + '"');
         localOptions[path.basename(confPath, '.js')] = require(confPath);
     });
     require('deep-extend')(options, localOptions);
