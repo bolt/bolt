@@ -83,11 +83,16 @@ module.exports = function(grunt) {
         }
     };
 
-    // Optionally overwrite options with grunt.json
-    if (grunt.file.exists('grunt.json')) {
-        require('deep-extend')(options, grunt.file.readJSON('grunt.json'));
-    }
+    // Optionally overwrite options with grunt-local/*.js
+    var path = require('path'),
+        localOptions = {};
 
+    grunt.file.expand('./grunt-local/*.js').map(function (confPath) {
+        localOptions[path.basename(confPath, '.js')] = require(confPath);
+    });
+    require('deep-extend')(options, localOptions);
+
+    // Start
     require('load-grunt-config')(grunt, {
         data: options,
         jitGrunt: {

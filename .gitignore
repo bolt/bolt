@@ -31,6 +31,7 @@ npm-debug.log
 *.map
 app/src/tmp/
 app/src/docs/
+app/src/grunt-local/
 app/src/grunt.json
 
 # File-system cruft and temporary files
