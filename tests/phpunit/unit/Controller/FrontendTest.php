@@ -77,7 +77,7 @@ class FrontendTest extends ControllerUnitTest
         $app = $this->getApp();
 
         $contenttype = $app['storage']->getContentType('pages');
-        $app['request'] = Request::create('/pages/test');
+        $app['request'] = $request = Request::create('/pages/test');
         $content1 = new Content($app, $contenttype);
 
         $storage = $this->getMock('Bolt\Storage', array('getContent', 'getContentType'), array($app));
@@ -93,15 +93,15 @@ class FrontendTest extends ControllerUnitTest
             ->will($this->returnValue($contenttype));
         $app['storage'] = $storage;
 
-        $controller = new Frontend();
-        $response = $controller->record($app, 'pages', 'test');
+        $controller = $app['controller.frontend'];
+        $response = $controller->record($request, 'pages', 'test');
     }
 
     public function testCanonicalUrl()
     {
         $app = $this->getApp();
         $app['config']->set('general/homepage', 'showcase/1');
-        $app['request'] = Request::create('/');
+        $app['request'] = $request = Request::create('/');
         $this->addDefaultUser($app);
         $this->addSomeContent();
 
@@ -111,8 +111,8 @@ class FrontendTest extends ControllerUnitTest
             ->will($this->returnValue('index.twig'));
         $app['templatechooser'] = $templates;
 
-        $controller = new Frontend();
-        $response = $controller->record($app, 'showcase', '1');
+        $controller = $app['controller.frontend'];
+        $response = $controller->record($request, 'showcase', '1');
         $canonical = $app['resources']->getUrl('canonical');
         $this->assertEquals('http://bolt.dev/', $canonical);
     }
@@ -120,7 +120,7 @@ class FrontendTest extends ControllerUnitTest
     public function testNumericRecord()
     {
         $app = $this->getApp();
-        $app['request'] = Request::create('/pages/', 'GET', array('id' => 5));
+        $app['request'] = $request = Request::create('/pages/', 'GET', array('id' => 5));
         $contenttype = $app['storage']->getContentType('pages');
         $content1 = new Content($app, $contenttype);
 
@@ -136,14 +136,14 @@ class FrontendTest extends ControllerUnitTest
 
         $app['storage'] = $storage;
 
-        $controller = new Frontend();
-        $response = $controller->record($app, 'pages', 5);
+        $controller = $app['controller.frontend'];
+        $response = $controller->record($request, 'pages', 5);
     }
 
     public function testNoRecord()
     {
         $app = $this->getApp();
-        $app['request'] = Request::create('/pages/', 'GET', array('id' => 5));
+        $app['request'] = $request = Request::create('/pages/', 'GET', array('id' => 5));
         $storage = $this->getMock('Bolt\Storage', array('getContent'), array($app));
 
         $storage->expects($this->at(0))
@@ -154,14 +154,14 @@ class FrontendTest extends ControllerUnitTest
 
         $this->setExpectedException('Symfony\Component\HttpKernel\Exception\HttpException', 'not found');
 
-        $controller = new Frontend();
-        $response = $controller->record($app, 'pages');
+        $controller = $app['controller.frontend'];
+        $response = $controller->record($request, 'pages');
     }
 
     public function testRecordNoTemplate()
     {
         $app = $this->getApp();
-        $app['request'] = Request::create('/pages/', 'GET', array('id' => 5));
+        $app['request'] = $request = Request::create('/pages/', 'GET', array('id' => 5));
         $storage = $this->getMock('Bolt\Storage', array('getContent'), array($app));
 
         $storage->expects($this->at(0))
@@ -171,8 +171,8 @@ class FrontendTest extends ControllerUnitTest
         $app['storage'] = $storage;
 
         $this->setExpectedException('Symfony\Component\HttpKernel\Exception\HttpException', 'not found');
-        $controller = new Frontend();
-        $controller->record($app, 'pages');
+        $controller = $app['controller.frontend'];
+        $controller->record($request, 'pages');
     }
 
     public function testViewlessRecord()
@@ -181,7 +181,7 @@ class FrontendTest extends ControllerUnitTest
         $contenttype = $app['storage']->getContentType('pages');
         $contenttype['viewless'] = true;
 
-        $app['request'] = Request::create('/pages/test');
+        $app['request'] = $request = Request::create('/pages/test');
         $storage = $this->getMock('Bolt\Storage', array('getContentType'), array($app));
 
         $storage->expects($this->once())
@@ -191,8 +191,8 @@ class FrontendTest extends ControllerUnitTest
         $app['storage'] = $storage;
 
         $this->setExpectedException('Symfony\Component\HttpKernel\Exception\HttpException', 'not found');
-        $controller = new Frontend();
-        $controller->record($app, 'pages', 'test');
+        $controller = $app['controller.frontend'];
+        $controller->record($request, 'pages', 'test');
     }
 
     /**
@@ -215,8 +215,8 @@ class FrontendTest extends ControllerUnitTest
             ->with('record.twig');
         $app['twig'] = $twig;
 
-        $controller = new Frontend();
-        $response = $controller->preview($request, $app, 'pages');
+        $controller = $app['controller.frontend'];
+        $response = $controller->preview($request, 'pages');
     }
 
     public function testListing()
@@ -231,8 +231,8 @@ class FrontendTest extends ControllerUnitTest
             ->with('listing.twig');
         $app['twig'] = $twig;
 
-        $controller = new Frontend();
-        $response = $controller->listing($app, 'pages');
+        $controller = $app['controller.frontend'];
+        $response = $controller->listing($request, 'pages');
     }
 
     public function testViewlessListing()
@@ -241,7 +241,7 @@ class FrontendTest extends ControllerUnitTest
         $contenttype = $app['storage']->getContentType('pages');
         $contenttype['viewless'] = true;
 
-        $app['request'] = Request::create('/pages');
+        $app['request'] = $request = Request::create('/pages');
         $storage = $this->getMock('Bolt\Storage', array('getContentType'), array($app));
 
         $storage->expects($this->once())
@@ -251,8 +251,8 @@ class FrontendTest extends ControllerUnitTest
         $app['storage'] = $storage;
 
         $this->setExpectedException('Symfony\Component\HttpKernel\Exception\HttpException', 'not found');
-        $controller = new Frontend();
-        $controller->listing($app, 'pages');
+        $controller = $app['controller.frontend'];
+        $controller->listing($request, 'pages');
     }
 
     public function testBadTaxonomy()
@@ -269,8 +269,8 @@ class FrontendTest extends ControllerUnitTest
 
         $app['storage'] = $storage;
 
-        $controller = new Frontend();
-        $response = $controller->taxonomy($app, 'faketaxonomy', 'main');
+        $controller = $app['controller.frontend'];
+        $response = $controller->taxonomy($request, 'faketaxonomy', 'main');
         $this->assertFalse($response);
     }
 
@@ -282,8 +282,8 @@ class FrontendTest extends ControllerUnitTest
 
         $this->setExpectedException('Symfony\Component\HttpKernel\Exception\HttpException', 'No slug');
 
-        $controller = new Frontend();
-        $response = $controller->taxonomy($app, 'tags', 'fake');
+        $controller = $app['controller.frontend'];
+        $response = $controller->taxonomy($request, 'tags', 'fake');
     }
 
     public function testTaxonomyListing()
@@ -304,8 +304,8 @@ class FrontendTest extends ControllerUnitTest
 
         // Make sure the check tests both normal slug and singular
         $app['config']->set('taxonomy/categories/singular_slug', 'categories');
-        $controller = new Frontend();
-        $response = $controller->taxonomy($app, 'categories', 'news');
+        $controller = $app['controller.frontend'];
+        $response = $controller->taxonomy($request, 'categories', 'news');
     }
 
     public function testSimpleTemplateRender()
@@ -320,8 +320,8 @@ class FrontendTest extends ControllerUnitTest
             ->with('index.twig');
         $app['twig'] = $twig;
 
-        $controller = new Frontend();
-        $response = $controller->template($app, 'index');
+        $controller = $app['controller.frontend'];
+        $response = $controller->template($request, 'index');
     }
 
     public function testFailingTemplateRender()
@@ -332,8 +332,8 @@ class FrontendTest extends ControllerUnitTest
 
         // Test that the failure gets logged too.
         $this->setExpectedException('Symfony\Component\HttpKernel\Exception\HttpException', 'failed');
-        $controller = new Frontend();
-        $response = $controller->template($app, 'nonexistent');
+        $controller = $app['controller.frontend'];
+        $response = $controller->template($request, 'nonexistent');
     }
 
     public function testSearchListing()
@@ -348,7 +348,7 @@ class FrontendTest extends ControllerUnitTest
             ->with('listing.twig');
         $app['twig'] = $twig;
 
-        $controller = new Frontend();
+        $controller = $app['controller.frontend'];
         $response = $controller->search($request, $app);
     }
 
@@ -364,7 +364,7 @@ class FrontendTest extends ControllerUnitTest
             ->with('listing.twig');
         $app['twig'] = $twig;
 
-        $controller = new Frontend();
+        $controller = $app['controller.frontend'];
         $response = $controller->search($request, $app);
     }
 
@@ -382,8 +382,8 @@ class FrontendTest extends ControllerUnitTest
 
         $app['users'] = $users;
 
-        $controller = new Frontend();
-        $response = $controller->before($request, $app);
+        $controller = $app['controller.frontend'];
+        $response = $controller->before($request);
         $this->assertInstanceOf('Symfony\Component\HttpFoundation\RedirectResponse', $response);
         $this->assertEquals('/bolt/users/edit/', $response->getTargetUrl());
     }
@@ -403,8 +403,8 @@ class FrontendTest extends ControllerUnitTest
 
         $app['users'] = $users;
 
-        $controller = new Frontend();
-        $response = $controller->before($request, $app);
+        $controller = $app['controller.frontend'];
+        $response = $controller->before($request);
         $this->assertEquals(503, $response->getStatusCode());
     }
 
@@ -423,8 +423,8 @@ class FrontendTest extends ControllerUnitTest
 
         $app['users'] = $users;
 
-        $controller = new Frontend();
-        $response = $controller->before($request, $app);
+        $controller = $app['controller.frontend'];
+        $response = $controller->before($request);
         $this->assertNull($response);
     }
 
@@ -434,8 +434,8 @@ class FrontendTest extends ControllerUnitTest
         $request = Request::create('/');
         $app['request'] = $request;
         $app['config']->set('general/maintenance_mode', false);
-        $controller = new Frontend();
-        $response = $controller->before($request, $app);
+        $controller = $app['controller.frontend'];
+        $response = $controller->before($request);
         $this->assertNull($response);
     }
 
