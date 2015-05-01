@@ -61,7 +61,7 @@ class Records extends BackendBase
         $contenttype = $this->getContentType($contenttypeslug);
 
         foreach ($ids as $id) {
-            $content = $this->getContent($contenttype['slug'] . '/' . $id);
+            $content = $this->getContent($contenttype['slug'], array('id' => $id, 'status' => '!'));
             $title = $content->getTitle();
 
             if (!$this->isAllowed("contenttype:$contenttypeslug:delete:$id")) {
@@ -373,7 +373,7 @@ class Records extends BackendBase
 
         // If we have an ID now, this is an existing record
         if ($id) {
-            $content = $this->getContent($contenttypeslug, array('id' => $id));
+            $content = $this->getContent($contenttypeslug, array('id' => $id, 'status' => '!'));
             $oldStatus = $content['status'];
         } else {
             $content = $this->app['storage']->getContentObject($contenttypeslug);
@@ -524,7 +524,7 @@ class Records extends BackendBase
 //         }
 
         // Get our record after POST_SAVE hooks are dealt with and return the JSON
-        $content = $this->getContent($contenttype['slug'], array('id' => $id, 'returnsingle' => true));
+        $content = $this->getContent($contenttype['slug'], array('id' => $id, 'returnsingle' => true, 'status' => '!'));
 
         $val = array();
 
