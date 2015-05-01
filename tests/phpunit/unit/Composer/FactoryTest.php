@@ -62,7 +62,7 @@ class FactoryTest extends BoltUnitTest
 
         $factory = new Factory($app, array('basedir' => TEST_ROOT . '/extensions'));
         $version = $factory->findBestVersionForPackage('gawain/clippy');
-        $this->assertRegExp('#~.*#', $version['requirever']);
+        $this->assertRegExp('#^.*#', $version['requirever']);
 
         $this->assertNull($factory->findBestVersionForPackage('bolt/bolt'));
     }
