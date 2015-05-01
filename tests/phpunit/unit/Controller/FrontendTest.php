@@ -3,97 +3,71 @@ namespace Bolt\Tests\Controller;
 
 use Bolt\Content;
 use Bolt\Controller\Frontend;
+use Bolt\Response\BoltResponse;
 use Bolt\Storage;
-use Bolt\Tests\BoltUnitTest;
 use Bolt\Tests\Mocks\LoripsumMock;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class to test correct operation of src/Controller/Frontend.
  *
  *
  * @author Ross Riley <riley.ross@gmail.com>
+ * @author Carson Full <carsonfull@gmail.com>
  **/
-
-class FrontendTest extends BoltUnitTest
+class FrontendTest extends ControllerUnitTest
 {
-    public function setUp()
+    public function testDefaultHomepageTemplate()
     {
+        $this->setRequest(Request::create('/'));
+        $response = $this->frontend()->homepage();
+        $this->assertTrue($response instanceof BoltResponse);
+        $this->assertSame('index.twig', $response->getTemplateName());
     }
 
-    public function testDefaultHomepage()
+    public function testConfiguredHomepageTemplate()
     {
-        $app = $this->getApp();
-        $app['request'] = Request::create('/');
-        $twig = $this->getMockTwig();
-        $twig->expects($this->once())
-            ->method('render')
-            ->with('index.twig');
-        $app['twig'] = $twig;
-        $controller = $app['controller.frontend'];
-        $response = $controller->homepage();
-    }
-
-    public function testConfiguredHomepage()
-    {
-        $app = $this->getApp();
-        $app['request'] = Request::create('/');
-        $app['config']->set('general/homepage_template', 'custom-home.twig');
-        $twig = $this->getMockTwig();
-        $twig->expects($this->once())
-            ->method('render')
-            ->with('custom-home.twig');
-        $app['twig'] = $twig;
-        $controller = $app['controller.frontend'];
-        $response = $controller->homepage();
+        $this->getService('config')->set('general/homepage_template', 'custom-home.twig');
+        $this->setRequest(Request::create('/'));
+        $response = $this->frontend()->homepage();
+        $this->assertTrue($response instanceof BoltResponse);
+        $this->assertSame('custom-home.twig', $response->getTemplateName());
     }
 
     public function testHomepageContent()
     {
         $app = $this->getApp();
-        $app['request'] = Request::create('/');
+        $this->setRequest(Request::create('/'));
+
         $storage = $this->getMock('Bolt\Storage', array('getContent'), array($app));
-        $twig = $this->getMockTwig();
-        $app['twig'] = $twig;
-
         $content1 = new Content($app);
-
         $storage->expects($this->once())
             ->method('getContent')
             ->will($this->returnValue($content1));
-
         $app['storage'] = $storage;
 
-        $controller = $app['controller.frontend'];
-        $response = $controller->homepage();
-
-        $globals = $app['twig']->getGlobals();
+        $response = $this->frontend()->homepage();
+        $globals = $response->getGlobalContext();
         $this->assertSame($content1, $globals['record']);
     }
 
     public function testMultipleHomepages()
     {
         $app = $this->getApp();
-        $app['request'] = Request::create('/');
-        $storage = $this->getMock('Bolt\Storage', array('getContent'), array($app));
-        $twig = $this->getMockTwig();
-        $app['twig'] = $twig;
+        $this->setRequest(Request::create('/'));
 
         $content1 = new Content($app);
         $content2 = new Content($app);
 
+        $storage = $this->getMock('Bolt\Storage', array('getContent'), array($app));
         $storage->expects($this->once())
             ->method('getContent')
             ->will($this->returnValue(
                 array($content1, $content2)
             ));
-
         $app['storage'] = $storage;
 
-        $controller = $app['controller.frontend'];
-        $response = $controller->homepage();
-        $globals = $app['twig']->getGlobals();
+        $globals = $this->frontend()->homepage()->getGlobalContext();
         $this->assertSame($content1, $globals['records'][0]);
         $this->assertSame($content2, $globals['records'][1]);
     }
@@ -103,7 +77,7 @@ class FrontendTest extends BoltUnitTest
         $app = $this->getApp();
 
         $contenttype = $app['storage']->getContentType('pages');
-        $app['request'] = $request = Request::create('/pages/test');
+        $app['request'] = Request::create('/pages/test');
         $content1 = new Content($app, $contenttype);
 
         $storage = $this->getMock('Bolt\Storage', array('getContent', 'getContentType'), array($app));
@@ -119,21 +93,15 @@ class FrontendTest extends BoltUnitTest
             ->will($this->returnValue($contenttype));
         $app['storage'] = $storage;
 
-        $twig = $this->getMockTwig();
-        $twig->expects($this->any())
-            ->method('render')
-            ->with('record.twig');
-        $app['twig'] = $twig;
-
-        $controller = $app['controller.frontend'];
-        $response = $controller->record($request, 'pages', 'test');
+        $controller = new Frontend();
+        $response = $controller->record($app, 'pages', 'test');
     }
 
     public function testCanonicalUrl()
     {
         $app = $this->getApp();
         $app['config']->set('general/homepage', 'showcase/1');
-        $app['request'] = $request = Request::create('/');
+        $app['request'] = Request::create('/');
         $this->addDefaultUser($app);
         $this->addSomeContent();
 
@@ -143,8 +111,8 @@ class FrontendTest extends BoltUnitTest
             ->will($this->returnValue('index.twig'));
         $app['templatechooser'] = $templates;
 
-        $controller = $app['controller.frontend'];
-        $response = $controller->record($request, 'showcase', '1');
+        $controller = new Frontend();
+        $response = $controller->record($app, 'showcase', '1');
         $canonical = $app['resources']->getUrl('canonical');
         $this->assertEquals('http://bolt.dev/', $canonical);
     }
@@ -152,7 +120,7 @@ class FrontendTest extends BoltUnitTest
     public function testNumericRecord()
     {
         $app = $this->getApp();
-        $app['request'] = $request = Request::create('/pages/', 'GET', array('id' => 5));
+        $app['request'] = Request::create('/pages/', 'GET', array('id' => 5));
         $contenttype = $app['storage']->getContentType('pages');
         $content1 = new Content($app, $contenttype);
 
@@ -168,14 +136,14 @@ class FrontendTest extends BoltUnitTest
 
         $app['storage'] = $storage;
 
-        $controller = $app['controller.frontend'];
-        $response = $controller->record($request, 'pages', 5);
+        $controller = new Frontend();
+        $response = $controller->record($app, 'pages', 5);
     }
 
     public function testNoRecord()
     {
         $app = $this->getApp();
-        $app['request'] = $request = Request::create('/pages/', 'GET', array('id' => 5));
+        $app['request'] = Request::create('/pages/', 'GET', array('id' => 5));
         $storage = $this->getMock('Bolt\Storage', array('getContent'), array($app));
 
         $storage->expects($this->at(0))
@@ -186,14 +154,14 @@ class FrontendTest extends BoltUnitTest
 
         $this->setExpectedException('Symfony\Component\HttpKernel\Exception\HttpException', 'not found');
 
-        $controller = $app['controller.frontend'];
-        $response = $controller->record($request, 'pages');
+        $controller = new Frontend();
+        $response = $controller->record($app, 'pages');
     }
 
     public function testRecordNoTemplate()
     {
         $app = $this->getApp();
-        $app['request'] = $request = Request::create('/pages/', 'GET', array('id' => 5));
+        $app['request'] = Request::create('/pages/', 'GET', array('id' => 5));
         $storage = $this->getMock('Bolt\Storage', array('getContent'), array($app));
 
         $storage->expects($this->at(0))
@@ -203,8 +171,8 @@ class FrontendTest extends BoltUnitTest
         $app['storage'] = $storage;
 
         $this->setExpectedException('Symfony\Component\HttpKernel\Exception\HttpException', 'not found');
-        $controller = $app['controller.frontend'];
-        $controller->record($request, 'pages');
+        $controller = new Frontend();
+        $controller->record($app, 'pages');
     }
 
     public function testViewlessRecord()
@@ -213,7 +181,7 @@ class FrontendTest extends BoltUnitTest
         $contenttype = $app['storage']->getContentType('pages');
         $contenttype['viewless'] = true;
 
-        $app['request'] = $request = Request::create('/pages/test');
+        $app['request'] = Request::create('/pages/test');
         $storage = $this->getMock('Bolt\Storage', array('getContentType'), array($app));
 
         $storage->expects($this->once())
@@ -223,8 +191,8 @@ class FrontendTest extends BoltUnitTest
         $app['storage'] = $storage;
 
         $this->setExpectedException('Symfony\Component\HttpKernel\Exception\HttpException', 'not found');
-        $controller = $app['controller.frontend'];
-        $controller->record($request, 'pages', 'test');
+        $controller = new Frontend();
+        $controller->record($app, 'pages', 'test');
     }
 
     /**
@@ -247,8 +215,8 @@ class FrontendTest extends BoltUnitTest
             ->with('record.twig');
         $app['twig'] = $twig;
 
-        $controller = $app['controller.frontend'];
-        $response = $controller->preview($request, 'pages');
+        $controller = new Frontend();
+        $response = $controller->preview($request, $app, 'pages');
     }
 
     public function testListing()
@@ -263,8 +231,8 @@ class FrontendTest extends BoltUnitTest
             ->with('listing.twig');
         $app['twig'] = $twig;
 
-        $controller = $app['controller.frontend'];
-        $response = $controller->listing($request, 'pages');
+        $controller = new Frontend();
+        $response = $controller->listing($app, 'pages');
     }
 
     public function testViewlessListing()
@@ -273,7 +241,7 @@ class FrontendTest extends BoltUnitTest
         $contenttype = $app['storage']->getContentType('pages');
         $contenttype['viewless'] = true;
 
-        $app['request'] = $request = Request::create('/pages');
+        $app['request'] = Request::create('/pages');
         $storage = $this->getMock('Bolt\Storage', array('getContentType'), array($app));
 
         $storage->expects($this->once())
@@ -283,8 +251,8 @@ class FrontendTest extends BoltUnitTest
         $app['storage'] = $storage;
 
         $this->setExpectedException('Symfony\Component\HttpKernel\Exception\HttpException', 'not found');
-        $controller = $app['controller.frontend'];
-        $controller->listing($request, 'pages');
+        $controller = new Frontend();
+        $controller->listing($app, 'pages');
     }
 
     public function testBadTaxonomy()
@@ -301,8 +269,8 @@ class FrontendTest extends BoltUnitTest
 
         $app['storage'] = $storage;
 
-        $controller = $app['controller.frontend'];
-        $response = $controller->taxonomy($request, 'faketaxonomy', 'main');
+        $controller = new Frontend();
+        $response = $controller->taxonomy($app, 'faketaxonomy', 'main');
         $this->assertFalse($response);
     }
 
@@ -314,8 +282,8 @@ class FrontendTest extends BoltUnitTest
 
         $this->setExpectedException('Symfony\Component\HttpKernel\Exception\HttpException', 'No slug');
 
-        $controller = $app['controller.frontend'];
-        $response = $controller->taxonomy($request, 'tags', 'fake');
+        $controller = new Frontend();
+        $response = $controller->taxonomy($app, 'tags', 'fake');
     }
 
     public function testTaxonomyListing()
@@ -336,8 +304,8 @@ class FrontendTest extends BoltUnitTest
 
         // Make sure the check tests both normal slug and singular
         $app['config']->set('taxonomy/categories/singular_slug', 'categories');
-        $controller = $app['controller.frontend'];
-        $response = $controller->taxonomy($request, 'categories', 'news');
+        $controller = new Frontend();
+        $response = $controller->taxonomy($app, 'categories', 'news');
     }
 
     public function testSimpleTemplateRender()
@@ -352,8 +320,8 @@ class FrontendTest extends BoltUnitTest
             ->with('index.twig');
         $app['twig'] = $twig;
 
-        $controller = $app['controller.frontend'];
-        $response = $controller->template('index');
+        $controller = new Frontend();
+        $response = $controller->template($app, 'index');
     }
 
     public function testFailingTemplateRender()
@@ -364,8 +332,8 @@ class FrontendTest extends BoltUnitTest
 
         // Test that the failure gets logged too.
         $this->setExpectedException('Symfony\Component\HttpKernel\Exception\HttpException', 'failed');
-        $controller = $app['controller.frontend'];
-        $response = $controller->template('nonexistent');
+        $controller = new Frontend();
+        $response = $controller->template($app, 'nonexistent');
     }
 
     public function testSearchListing()
@@ -380,8 +348,8 @@ class FrontendTest extends BoltUnitTest
             ->with('listing.twig');
         $app['twig'] = $twig;
 
-        $controller = $app['controller.frontend'];
-        $response = $controller->search($request);
+        $controller = new Frontend();
+        $response = $controller->search($request, $app);
     }
 
     public function testSearchWithFilters()
@@ -396,8 +364,8 @@ class FrontendTest extends BoltUnitTest
             ->with('listing.twig');
         $app['twig'] = $twig;
 
-        $controller = $app['controller.frontend'];
-        $response = $controller->search($request);
+        $controller = new Frontend();
+        $response = $controller->search($request, $app);
     }
 
     public function testBeforeHandlerForFirstUser()
@@ -414,8 +382,8 @@ class FrontendTest extends BoltUnitTest
 
         $app['users'] = $users;
 
-        $controller = $app['controller.frontend'];
-        $response = $controller->before($request);
+        $controller = new Frontend();
+        $response = $controller->before($request, $app);
         $this->assertInstanceOf('Symfony\Component\HttpFoundation\RedirectResponse', $response);
         $this->assertEquals('/bolt/users/edit/', $response->getTargetUrl());
     }
@@ -435,8 +403,8 @@ class FrontendTest extends BoltUnitTest
 
         $app['users'] = $users;
 
-        $controller = $app['controller.frontend'];
-        $response = $controller->before($request);
+        $controller = new Frontend();
+        $response = $controller->before($request, $app);
         $this->assertEquals(503, $response->getStatusCode());
     }
 
@@ -455,8 +423,8 @@ class FrontendTest extends BoltUnitTest
 
         $app['users'] = $users;
 
-        $controller = $app['controller.frontend'];
-        $response = $controller->before($request);
+        $controller = new Frontend();
+        $response = $controller->before($request, $app);
         $this->assertNull($response);
     }
 
@@ -466,8 +434,8 @@ class FrontendTest extends BoltUnitTest
         $request = Request::create('/');
         $app['request'] = $request;
         $app['config']->set('general/maintenance_mode', false);
-        $controller = $app['controller.frontend'];
-        $response = $controller->before($request);
+        $controller = new Frontend();
+        $response = $controller->before($request, $app);
         $this->assertNull($response);
     }
 
@@ -480,5 +448,13 @@ class FrontendTest extends BoltUnitTest
 
         $storage = new Storage($app);
         $storage->prefill(array('showcases'));
+    }
+
+    /**
+     * @return \Bolt\Controller\Frontend
+     */
+    protected function frontend()
+    {
+        return $this->getService('controller.frontend');
     }
 }
