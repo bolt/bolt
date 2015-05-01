@@ -132,7 +132,8 @@ abstract class ConfigurableBase extends Base
         $cls = reset($method);
         $method = end($method);
 
-        if ($cls === 'Bolt\\Controller\\Routing') {
+        // Handle pre 2.3 route classes
+        if ($cls === 'Bolt\\Controllers\\Routing' || $cls === 'Bolt\\Controller\\Routing') {
             $cls = $this;
         } elseif (!class_exists($cls)) {
             throw new \InvalidArgumentException("Class $cls does not exist");
