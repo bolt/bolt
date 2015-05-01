@@ -8,7 +8,7 @@ module.exports = {
     prepareLibJs: {
         options: {
             preserveComments: 'some',
-            sourceMap: '<%= sourceMap.js %>',
+            sourceMap: '<%= sourcemap.js %>',
             sourceMapIncludeSources: true
         },
         files: [{
@@ -107,7 +107,7 @@ module.exports = {
      */
     prepareBootstrapJs: {
         options: {
-            sourceMap: '<%= sourceMap.js %>',
+            sourceMap: '<%= sourcemap.js %>',
             sourceMapIncludeSources: true
         },
         files: {
@@ -130,7 +130,7 @@ module.exports = {
     boltJs: {
         options: {
             banner: '<%= banner.boltJs %>',
-            sourceMap: '<%= sourceMap.js %>',
+            sourceMap: '<%= sourcemap.js %>',
             sourceMapName: '<%= path.dest.js %>/maps/bolt.min.js.map'
         },
         files: {

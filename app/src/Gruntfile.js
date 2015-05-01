@@ -2,12 +2,13 @@ module.exports = function(grunt) {
     grunt.util.linefeed = '\n';
 
     var options = {
-        sourceMap: {
+        sourcemap: {
             css: false,
             js: false
         },
         path: {
             tmp: 'tmp',
+            pages: 'tmp/pages',
             doc: {
                 js: 'docs/js',
                 php: 'docs/php'
@@ -82,11 +83,24 @@ module.exports = function(grunt) {
         }
     };
 
-    // Optionally overwrite options with grunt.json
-    if (grunt.file.exists('grunt.json')) {
-        require('deep-extend')(options, grunt.file.readJSON('grunt.json'));
-    }
+    // Optionally overwrite options with grunt-local/*.js
+    var path = require('path'),
+        localOptions = {};
 
-    require('load-grunt-config')(grunt, {data: options});
+    grunt.file.expand('./grunt-local/*.js').map(function (confPath) {
+        grunt.verbose.writeln('Load local options "' + confPath + '"');
+        localOptions[path.basename(confPath, '.js')] = require(confPath);
+    });
+    require('deep-extend')(options, localOptions);
 
+    // Start
+    require('load-grunt-config')(grunt, {
+        data: options,
+        jitGrunt: {
+            staticMappings: {
+                pages: 'grunt-tasks/pages.js',
+                htmllint: 'grunt-html'
+            }
+        }
+    });
 };
