@@ -83,7 +83,6 @@ class RecordsTest extends ControllerUnitTest
 
     public function testEditDuplicate()
     {
-
         // Since we're the test user we won't automatically have permission to edit.
         $users = $this->getMock('Bolt\Users', array('isAllowed'), array($this->getApp()));
         $users->expects($this->any())

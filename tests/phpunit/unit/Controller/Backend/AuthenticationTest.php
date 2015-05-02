@@ -4,6 +4,7 @@ namespace Bolt\Tests\Controller\Backend;
 use Bolt\Configuration\ResourceManager;
 use Bolt\Controller\Backend\Authentication;
 use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\Controller\ControllerUnitTest;
 use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -11,167 +12,174 @@ use Symfony\Component\HttpFoundation\Request;
  * Class to test correct operation of src/Controller/Backend/Authentication.
  *
  * @author Ross Riley <riley.ross@gmail.com>
+ * @author Gawain Lynch <gawain.lynch@gmail.com>
  **/
-class AuthenticationTest extends BoltUnitTest
+class AuthenticationTest extends ControllerUnitTest
 {
     public function testPostLogin()
     {
-        $app = $this->getApp();
+        $this->setRequest(Request::create('/bolt/login', 'POST', array(
+            'action' => 'login',
+            'username' => 'test',
+            'password' => 'pass'
+        )));
 
-        $request = Request::create('/bolt/login', 'POST', array('action' => 'login', 'username' => 'test', 'password' => 'pass'));
-
-        $users = $this->getMock('Bolt\Users', array('login'), array($app));
+        $users = $this->getMock('Bolt\Users', array('login'), array($this->getApp()));
         $users->expects($this->once())
             ->method('login')
             ->with($this->equalTo('test'), $this->equalTo('pass'))
             ->will($this->returnValue(true));
         $users->currentuser = array('username' => 'test', 'roles' => array());
-        $app['users'] = $users;
-        $this->addDefaultUser($app);
+        $this->setService('users', $users);
 
-        $response = $app->handle($request);
+        $this->addDefaultUser($this->getApp());
+        $response = $this->controller()->actionPostLogin($this->getRequest());
 
         $this->assertTrue($response->isRedirect('/bolt'));
     }
 
     public function testPostLoginWithEmail()
     {
-        $app = $this->getApp();
+        $this->setRequest(Request::create('/bolt/login', 'POST', array(
+            'action' => 'login',
+            'username' => 'test@example.com',
+            'password' => 'pass'
+        )));
 
-        $request = Request::create('/bolt/login', 'POST', array('action' => 'login', 'username' => 'test@example.com', 'password' => 'pass'));
-
-        $users = $this->getMock('Bolt\Users', array('login'), array($app));
+        $users = $this->getMock('Bolt\Users', array('login'), array($this->getApp()));
         $users->expects($this->once())
             ->method('login')
             ->with($this->equalTo('test@example.com'), $this->equalTo('pass'))
             ->will($this->returnValue(true));
         $users->currentuser = array('username' => 'test', 'email' => 'test@example.com', 'roles' => array());
-        $app['users'] = $users;
-        $this->addDefaultUser($app);
+        $this->setService('users', $users);
 
-        $response = $app->handle($request);
+        $this->addDefaultUser($this->getApp());
+        $response = $this->controller()->actionPostLogin($this->getRequest());
 
         $this->assertTrue($response->isRedirect('/bolt'));
     }
 
     public function testPostLoginFailures()
     {
-        $app = $this->getApp();
+        $this->setRequest(Request::create('/bolt/login', 'POST', array(
+            'action' => 'login',
+            'username' => 'test',
+            'password' => 'pass'
+        )));
 
-        $request = Request::create('/bolt/login', 'POST', array('action' => 'login', 'username' => 'test', 'password' => 'pass'));
-
-        $users = $this->getMock('Bolt\Users', array('login'), array($app));
+        $users = $this->getMock('Bolt\Users', array('login'), array($this->getApp()));
         $users->expects($this->once())
             ->method('login')
             ->with($this->equalTo('test'), $this->equalTo('pass'))
             ->will($this->returnValue(false));
 
-        $app['users'] = $users;
-        $this->checkTwigForTemplate($app, 'login/login.twig');
-        $app->run($request);
+        $this->setService('users', $users);
+        $this->checkTwigForTemplate($this->getApp(), 'login/login.twig');
+        $this->controller()->actionPostLogin($this->getRequest());
 
         // Test missing data fails
-        $app = $this->getApp();
-        $request = Request::create('/bolt/login', 'POST', array('action' => 'fake'));
-        $this->checkTwigForTemplate($app, 'error.twig');
-        $app->run($request);
+        $this->setRequest(Request::create('/bolt/login', 'POST', array('action' => 'fake')));
+        $this->setExpectedException('Symfony\Component\HttpKernel\Exception\HttpException', 'Invalid request');
+        $this->controller()->actionPostLogin($this->getRequest());
 
-        $app = $this->getApp();
-        $request = Request::create('/bolt/login', 'POST', array());
-        $this->checkTwigForTemplate($app, 'error.twig');
-        $app->run($request);
+        $this->setRequest(Request::create('/bolt/login', 'POST', array()));
+        $this->checkTwigForTemplate($this->getApp(), 'error.twig');
+        $this->controller()->actionPostLogin($this->getRequest());
     }
 
     public function testLoginSuccess()
     {
-        $app = $this->getApp();
-        $users = $this->getMock('Bolt\Users', array('login'), array($app));
+        $users = $this->getMock('Bolt\Users', array('login'), array($this->getApp()));
         $users->expects($this->any())
-        ->method('login')
-        ->will($this->returnValue(true));
+            ->method('login')
+            ->will($this->returnValue(true));
         $users->currentuser = array('username' => 'test', 'roles' => array());
-        $app['users'] = $users;
-        $request = Request::create('/bolt/login', 'POST', array('action' => 'login'));
-        $this->expectOutputRegex("/Redirecting to \/bolt/");
-        $app->run($request);
+        $this->setService('users', $users);
+
+        $this->setRequest(Request::create('/bolt/login', 'POST', array('action' => 'login')));
+
+        $response = $this->controller()->actionPostLogin($this->getRequest());
+        $this->assertRegExp('|Redirecting to /bolt|', $response->getContent());
     }
 
     public function testResetRequest()
     {
-        $app = $this->getApp();
-        $app['swiftmailer.transport'] = new \Swift_Transport_NullTransport($app['swiftmailer.transport.eventdispatcher']);
-        $users = $this->getMock('Bolt\Users', array('login', 'resetPasswordRequest'), array($app));
+        $dispatcher = $this->getService('swiftmailer.transport.eventdispatcher');
+        $this->setService('swiftmailer.transport', new \Swift_Transport_NullTransport($dispatcher));
+
+        $users = $this->getMock('Bolt\Users', array('login', 'resetPasswordRequest'), array($this->getApp()));
         $users->expects($this->any())
             ->method('login')
             ->will($this->returnValue(true));
-
         $users->expects($this->once())
         ->method('resetPasswordRequest')
             ->with($this->equalTo('admin'))
             ->will($this->returnValue(true));
-
-        $app['users'] = $users;
+        $this->setService('users', $users);
 
         // Test missing username fails
-        $request = Request::create('/bolt/login', 'POST', array('action' => 'reset'));
-        $response = $app->handle($request);
+        $this->setRequest(Request::create('/bolt/login', 'POST', array('action' => 'reset')));
+        $response = $this->controller()->actionPostLogin($this->getRequest());
         $this->assertRegExp('/Please provide a username/i', $response->getContent());
 
         // Test normal operation
-        $request = Request::create('/bolt/login', 'POST', array('action' => 'reset', 'username' => 'admin'));
-        $this->expectOutputRegex("/Redirecting to \/bolt\/login/");
-        $app->run($request);
+        $this->setRequest(Request::create('/bolt/login', 'POST', array('action' => 'reset', 'username' => 'admin')));
+        $response = $this->controller()->actionResetPassword($this->getRequest());
+        $this->assertRegExp('|Redirecting to /bolt/login|', $response->getContent());
     }
 
     public function testLogout()
     {
-        $app = $this->getApp();
-        $users = $this->getMock('Bolt\Users', array('logout'), array($app));
+        $users = $this->getMock('Bolt\Users', array('logout'), array($this->getApp()));
         $users->expects($this->once())
             ->method('logout')
             ->will($this->returnValue(true));
+        $this->setService('users', $users);
 
-        $app['users'] = $users;
+        $this->setRequest(Request::create('/bolt/logout', 'POST', array()));
 
-        $request = Request::create('/bolt/logout', 'POST', array());
-        $this->expectOutputRegex("/Redirecting to \/bolt\/login/");
-        $app->run($request);
+        $response = $this->controller()->actionLogout();
+        $this->assertRegExp('|Redirecting to /bolt/login|', $response->getContent());
     }
 
     public function testResetPassword()
     {
-        $app = $this->getApp();
-        $users = $this->getMock('Bolt\Users', array('resetPasswordConfirm'), array($app));
+        $users = $this->getMock('Bolt\Users', array('resetPasswordConfirm'), array($this->getApp()));
         $users->expects($this->once())
             ->method('resetPasswordConfirm')
             ->will($this->returnValue(true));
+        $this->setService('users', $users);
 
-        $app['users'] = $users;
-        $request = Request::create('/bolt/resetpassword');
-        $this->expectOutputRegex("/Redirecting to \/bolt\/login/");
+        $this->setRequest(Request::create('/bolt/resetpassword'));
 
-        $app->run($request);
+        $response = $this->controller()->actionResetPassword($this->getRequest());
+        $this->assertRegExp('|Redirecting to /bolt/login|', $response->getContent());
     }
 
     public function testDashboardWithoutPermissionRedirectsToHomepage()
     {
-        $app = $this->getApp();
-
-        $users = $this->getMock('Bolt\Users', array('hasUsers', 'isValidSession'), array($app));
+        $users = $this->getMock('Bolt\Users', array('hasUsers', 'isValidSession'), array($this->getApp()));
         $users->expects($this->any())
             ->method('hasUsers')
             ->will($this->returnValue(5));
         $users->expects($this->any())
             ->method('isValidSession')
             ->will($this->returnValue(true));
+        $this->setService('users', $users);
+        $this->getService('users')->currentuser = array('username' => 'test', 'roles' => array());
+        $this->getService('config')->set('permissions/global/dashboard', array());
 
-        $app['users']->currentuser = array('username' => 'test', 'roles' => array());
-        $app['users'] = $users;
-
-        $app['config']->set('permissions/global/dashboard', array());
-
-        $request = Request::create('/bolt');
-        $response = $app->handle($request);
+        $this->setRequest(Request::create('/bolt'));
+        $response = $this->getService('controller.backend')->actionDashboard($this->getRequest());
         $this->assertTrue($response->isRedirect('/'), 'Failed to redirect to homepage');
+    }
+
+    /**
+     * @return \Bolt\Controller\Backend\Authentication
+     */
+    protected function controller()
+    {
+        return $this->getService('controller.backend.authentication');
     }
 }
