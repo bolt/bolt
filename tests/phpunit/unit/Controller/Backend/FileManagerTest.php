@@ -1,8 +1,7 @@
 <?php
 namespace Bolt\Tests\Controller\Backend;
 
-use Bolt\Controller\Backend\FileManager;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\Controller\ControllerUnitTest;
 use League\Flysystem\File;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -12,41 +11,39 @@ use Symfony\Component\HttpFoundation\Request;
  * Class to test correct operation of src/Controller/Backend/Log.
  *
  * @author Ross Riley <riley.ross@gmail.com>
+ * @author Gawain Lynch <gawain.lynch@gmail.com>
  **/
-class FileManagerTest extends BoltUnitTest
+class FileManagerTest extends ControllerUnitTest
 {
     public function testEdit()
     {
-        $app = $this->getApp();
-        $controller = $app['controller.backend.file_manager'];
+        $this->setRequest(Request::create('/bolt/file/edit/config/config.yml'));
 
-        $app['request'] = $request = Request::create('/bolt/file/edit/config/config.yml');
-        $response = $controller->actionEdit($request, 'config', 'config.yml');
+        $response = $this->controller()->actionEdit($this->getRequest(), 'config', 'config.yml');
+
         $this->assertEquals('editfile/editfile.twig', $response->getTemplateName());
     }
 
     public function testManage()
     {
-        $app = $this->getApp();
-        $controller = $app['controller.backend.file_manager'];
+        $this->removeCSRF($this->getApp());
+        $this->setRequest(Request::create('/bolt/files'));
 
-        $this->removeCSRF($app);
-        $app['request'] = $request = Request::create('/bolt/files');
-        $response = $controller->actionManage($request, 'files', '');
-
+        $response = $this->controller()->actionManage($this->getRequest(), 'files', '');
         $context = $response->getContext();
+
         $this->assertEquals('', $context['context']['path']);
         $this->assertEquals('files', $context['context']['namespace']);
         $this->assertEquals(array(), $context['context']['files']);
 
         // Try and upload a file
-        $perms = $this->getMock('Bolt\Filesystem\FilePermissions', array('allowedUpload'), array($app));
+        $perms = $this->getMock('Bolt\Filesystem\FilePermissions', array('allowedUpload'), array($this->getApp()));
         $perms->expects($this->any())
             ->method('allowedUpload')
             ->will($this->returnValue(true));
-        $app['filepermissions'] = $perms;
+        $this->setService('filepermissions', $perms);
 
-        $app['request'] = $request = Request::create(
+        $this->setRequest(Request::create(
             '/upload/files',
             'POST',
             array(),
@@ -62,23 +59,16 @@ class FileManagerTest extends BoltUnitTest
                     '_token'     => 'xyz'
                 )
             )
-        );
+        ));
 
-        $response = $controller->actionManage($request, 'files', '');
+        $response = $this->controller()->actionManage($this->getRequest(), 'files', '');
     }
 
-    protected function removeCSRF($app)
+    /**
+     * @return \Bolt\Controller\Backend\FileManager
+     */
+    protected function controller()
     {
-        // Symfony forms need a CSRF token so we have to mock this too
-        $csrf = $this->getMock('Symfony\Component\Form\Extension\Csrf\CsrfProvider\DefaultCsrfProvider', array('isCsrfTokenValid', 'generateCsrfToken'), array('form'));
-        $csrf->expects($this->any())
-            ->method('isCsrfTokenValid')
-            ->will($this->returnValue(true));
-
-        $csrf->expects($this->any())
-            ->method('generateCsrfToken')
-            ->will($this->returnValue('xyz'));
-
-        $app['form.csrf_provider'] = $csrf;
+        return $this->getService('controller.backend.file_manager');
     }
 }
