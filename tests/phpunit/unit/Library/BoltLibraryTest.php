@@ -106,9 +106,9 @@ class BoltLibraryTest extends BoltUnitTest
         $app['request'] = $request;
 
         $response = Library::redirect('login');
-        $this->assertNotEmpty($app['session']->get('retreat'));
-        $retreat = $app['session']->get('retreat');
-        $this->assertEquals('homepage', $retreat['route']);
+        $this->assertInstanceOf('\Symfony\Component\HttpFoundation\RedirectResponse', $response);
+        $this->assertRegExp('|Redirecting to /bolt/login|', $response->getContent());
+        $this->assertTrue($response->isRedirect(), "Response isn't a valid redirect condition.");
     }
 
     /**
