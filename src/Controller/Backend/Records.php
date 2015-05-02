@@ -96,7 +96,7 @@ class Records extends BackendBase
         }
 
         // Set the editreferrer in twig if it was not set yet.
-        $this->setEditReferrer();
+        $this->setEditReferrer($request);
 
         // Get the Contenttype obejct
         $contenttype = $this->getContentType($contenttypeslug);
@@ -311,9 +311,7 @@ class Records extends BackendBase
 
         // Check for a valid CSRF token
         if ($request->isMethod('POST') && !$this->checkAntiCSRFToken()) {
-// FIXME
-// $this->app->abort(Response::HTTP_BAD_REQUEST, Trans::__('Something went wrong'));
-            return $this->redirectToRoute('dashboard', array(), Response::HTTP_BAD_REQUEST);
+            $this->app->abort(Response::HTTP_BAD_REQUEST, Trans::__('Something went wrong'));
         }
 
         /*
@@ -338,14 +336,13 @@ class Records extends BackendBase
     /**
      * Set the editreferrer in twig if it was not set yet.
      *
+     * @param Request $request
+     *
      * @return void
      */
-    private function setEditReferrer()
+    private function setEditReferrer(Request $request)
     {
-// FIXME: use the shortcut instead
-//$this->generateUrl();
-
-        $tmp = parse_url($this->app['request']->server->get('HTTP_REFERER'));
+        $tmp = parse_url($request->server->get('HTTP_REFERER'));
 
         $tmpreferrer = $tmp['path'];
         if (!empty($tmp['query'])) {
@@ -582,9 +579,10 @@ class Records extends BackendBase
             $content = $this->getContent($contenttypeslug, array('id' => $id));
 
             if (empty($content)) {
-                // FIXME
-//return $this->app->abort(Response::HTTP_NOT_FOUND, Trans::__('contenttypes.generic.not-existing', array('%contenttype%' => $contenttypeslug)));
-                return $this->redirectToRoute('dashboard', array(), Response::HTTP_NOT_FOUND);
+                // Record not found, advise and redirect to the dashboard
+                $this->addFlash('error', Trans::__('contenttypes.generic.not-existing', array('%contenttype%' => $contenttypeslug)));
+
+                return $this->redirectToRoute('dashboard');
             }
         }
 
