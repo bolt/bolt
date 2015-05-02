@@ -4,13 +4,37 @@ namespace Bolt\Tests\Controller;
 use Bolt\Tests\BoltUnitTest;
 use Symfony\Component\HttpFoundation\Request;
 
-class ControllerUnitTest extends BoltUnitTest
+abstract class ControllerUnitTest extends BoltUnitTest
 {
     private $app;
+
+    protected function setUp()
+    {
+        $this->resetDb();
+        $this->addDefaultUser($this->getApp());
+        $this->addSomeContent();
+    }
 
     protected function setRequest(Request $request)
     {
         $this->getApp()->offsetSet('request', $request);
+    }
+
+    /**
+     * @return Request $request
+     */
+    protected function getRequest()
+    {
+        return $this->getApp()->offsetGet('request');
+    }
+
+    /**
+     * @param string $key
+     * @param mixed  $value
+     */
+    protected function setService($key, $value)
+    {
+        $this->getApp()->offsetSet($key, $value);
     }
 
     protected function getService($key)
@@ -41,4 +65,6 @@ class ControllerUnitTest extends BoltUnitTest
         parent::tearDown();
         $this->app = null;
     }
+
+    abstract protected function controller();
 }
