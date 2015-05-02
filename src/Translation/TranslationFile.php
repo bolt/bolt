@@ -405,7 +405,7 @@ class TranslationFile
     {
         if (is_file($this->absPath) && is_readable($this->absPath)) {
             try {
-                $savedTranslations = Yaml::parse($this->absPath);
+                $savedTranslations = Yaml::parse(file_get_contents($this->absPath));
 
                 if ($savedTranslations === null) {
                     return array(); // File seems to be empty

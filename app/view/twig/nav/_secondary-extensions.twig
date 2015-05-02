@@ -1,7 +1,7 @@
 {# Empty array for submenu #}
 {% set sub = [] %}
 
-{% if isallowed('extensions') %}
+{% if isallowed('extensions||extensions:config') %}
 
     {# Add the "view" and "configure" options #}
     {% set sub = sub|merge([

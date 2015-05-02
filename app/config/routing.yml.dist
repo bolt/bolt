@@ -13,36 +13,42 @@
 # possible, only add NEW routes above or below these.
 
 homepage:
-  path:               /
-  defaults:           { _controller: 'Bolt\Controllers\Frontend::homepage' }
+    path: '/'
+    defaults:
+        _controller: 'Bolt\Controllers\Frontend::homepage'
 
 search:
-  path:               /search
-  defaults:           { _controller: 'Bolt\Controllers\Frontend::search' }
+    path: '/search'
+    defaults:
+        _controller: 'Bolt\Controllers\Frontend::search'
 
 preview:
-  path:               /preview/{contenttypeslug}
-  defaults:           { _controller: 'Bolt\Controllers\Frontend::preview' }
-  requirements:
-    contenttypeslug:  'Bolt\Controllers\Routing::getAnyContentTypeRequirement'
+    path: '/preview/{contenttypeslug}'
+    defaults:
+        _controller: 'Bolt\Controllers\Frontend::preview'
+    requirements:
+        contenttypeslug: 'Bolt\Controllers\Routing::getAnyContentTypeRequirement'
 
 contentlink:
-  path:               /{contenttypeslug}/{slug}
-  defaults:           { _controller: 'Bolt\Controllers\Frontend::record' }
-  requirements:
-    contenttypeslug:  'Bolt\Controllers\Routing::getAnyContentTypeRequirement'
+    path: '/{contenttypeslug}/{slug}'
+    defaults:
+        _controller: 'Bolt\Controllers\Frontend::record'
+    requirements:
+        contenttypeslug: 'Bolt\Controllers\Routing::getAnyContentTypeRequirement'
 
 taxonomylink:
-  path:               /{taxonomytype}/{slug}
-  defaults:           { _controller: 'Bolt\Controllers\Frontend::taxonomy' }
-  requirements:
-    taxonomytype:     'Bolt\Controllers\Routing::getAnyTaxonomyTypeRequirement'
+    path: '/{taxonomytype}/{slug}'
+    defaults:
+        _controller: 'Bolt\Controllers\Frontend::taxonomy'
+    requirements:
+        taxonomytype: 'Bolt\Controllers\Routing::getAnyTaxonomyTypeRequirement'
 
 contentlisting:
-  path:               /{contenttypeslug}
-  defaults:           { _controller: 'Bolt\Controllers\Frontend::listing' }
-  requirements:
-    contenttypeslug:  'Bolt\Controllers\Routing::getPluralContentTypeRequirement'
+    path: '/{contenttypeslug}'
+    defaults:
+        _controller: 'Bolt\Controllers\Frontend::listing'
+    requirements:
+        contenttypeslug: 'Bolt\Controllers\Routing::getPluralContentTypeRequirement'
 
 # ------------------------------------------------------------------------------
 # Place your own routes here, that have a LOWER priority than the default routes.
@@ -54,37 +60,47 @@ contentlisting:
 
 # Example to route old '.html' pages to pages genereated by bolt.
 
-#oldpages:
-#  path: /{slug}.html
-#  defaults: { _controller: 'Bolt\Controllers\Frontend::record', 'contenttypeslug': 'page' }
-#  requirements:
-#    slug: '[a-z0-9-_]+'
+# oldpages:
+#     path: '/{slug}.html'
+#     defaults:
+#         _controller: 'Bolt\Controllers\Frontend::record'
+#         contenttypeslug: 'page'
+#     requirements:
+#         slug: '[a-z0-9-_]+'
 
 
 # Example route with a host requirement
 
-#example:
-#  path: /example
-#  defaults: { _controller: 'Bolt\Controllers\Frontend::record', 'contenttypeslug': 'page', 'slug': 'example' }
-#  host: 'www.mydomain.org'
+# example:
+#     path: '/example'
+#     defaults:
+#         _controller: 'Bolt\Controllers\Frontend::record'
+#         contenttypeslug: 'page'
+#         slug: 'example'
+#     host: 'www.mydomain.org'
 
 
 # Example override for a specific contenttype
 
-#pagebinding:
-#  path: /{slug}
-#  defaults: { _controller: 'Bolt\Controllers\Frontend::record', 'contenttypeslug': 'page' }
-#  contenttype: pages
-#
+# pagebinding:
+#     path: '/{slug}'
+#     defaults:
+#         _controller: 'Bolt\Controllers\Frontend::record'
+#         contenttypeslug: 'page'
+#     contenttype: pages
+
 
 
 # Example single record override
 
-#aboutbinding:
-#  path: /about
-#  defaults: { _controller: 'Bolt\Controllers\Frontend::record', 'contenttypeslug': 'page', 'slug': 'about' }
-#  recordslug: page/about
-#
+# aboutbinding:
+#     path: '/about'
+#     defaults:
+#         _controller: 'Bolt\Controllers\Frontend::record'
+#         contenttypeslug: 'page'
+#         slug: 'about'
+#     recordslug: 'page/about'
+
 
 
 # Example: Use the following to add a route for contenttypes in your URL scheme. In this example we
@@ -94,18 +110,24 @@ contentlisting:
 # default route /showcase/foo-bar as well.
 
 # chapterbinding:
-#   path: /{chapters}/{slug}
-#   defaults: { _controller: 'Bolt\Controllers\Frontend::record', 'contenttypeslug': 'showcases', 'chapters': 'showcase' }
-#   requirements:
-#     chapters: [ 'Bolt\Controllers\Routing::getTaxonomyRequirement', ['chapters', 'showcase'] ]
-#   contenttype: showcases
+#     path: '/{chapters}/{slug}'
+#     defaults:
+#         _controller: 'Bolt\Controllers\Frontend::record'
+#         contenttypeslug: 'showcases'
+#         chapters: 'showcase'
+#     requirements:
+#         chapters: [ 'Bolt\Controllers\Routing::getTaxonomyRequirement', ['chapters', 'showcase'] ]
+#     contenttype: showcases
 
 # categorybinding:
-#   path: /{categories}/{slug}
-#   defaults: { _controller: 'Bolt\Controllers\Frontend::record', 'contenttypeslug': 'showcases', 'categories': 'none' }
-#   requirements:
-#     categories: [ 'Bolt\Controllers\Routing::getTaxonomyRequirement', ['categories', 'none'] ]
-#   contenttype: showcases
+#     path: '/{categories}/{slug}'
+#     defaults:
+#         _controller: 'Bolt\Controllers\Frontend::record'
+#         contenttypeslug: 'showcases'
+#         categories': 'none'
+#     requirements:
+#         categories: [ 'Bolt\Controllers\Routing::getTaxonomyRequirement', ['categories', 'none'] ]
+#     contenttype: showcases
 
 
 # Supported internal defaults are:
@@ -120,5 +142,9 @@ contentlisting:
 # Note that you can still load and render content from within the template.
 
 # templatebinding:
-#   path:     /static-page/
-#   defaults: { _controller: 'Bolt\Controllers\Frontend::template', template: 'static-page' }
+#     path: '/static-page/'
+#     defaults:
+#         _controller: 'Bolt\Controllers\Frontend::template'
+#         template: 'static-page'
+
+

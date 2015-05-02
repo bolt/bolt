@@ -587,7 +587,7 @@ page:
         cookies-required: "Nota: Cookies são necessários para entrar no Bolt. Por favor habilite os cookies"
         label:
             password: "Senha"
-            username: "Login"
+            username: "Login / e-mail"
         password-hide: "Esconder"
         password-show: "Mostar"
         placeholder:

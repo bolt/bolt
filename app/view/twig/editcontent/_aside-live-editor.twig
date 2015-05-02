@@ -1,0 +1,7 @@
+{% if context.contenttype.liveeditor is not defined or context.contenttype.liveeditor %}{# don't show for viewless contenttypes. #}
+<div class="btn-group">
+    <button type="button" class="btn btn-tertiary" id="sidebar-live-editor-button">
+        <i class="fa fa-pencil"></i> {{ __('Live Edit') }}
+    </button>
+</div>
+{% endif %}

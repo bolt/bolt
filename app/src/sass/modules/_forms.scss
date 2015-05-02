@@ -87,10 +87,38 @@ fieldset.checkbox {
     }
 }
 
-.progress {
+.file-progress {
     width: 20%;
     display: none;
     margin-bottom: 0;
+}
+
+.uploading-list-element {
+    position: relative;
+
+    @include respond-to(mid-mobile) {
+        padding-right: 160px;
+    }
+
+    @include respond-to(medium-screens) {
+        padding-right: 210px;
+    }
+}
+
+.files-progress {
+    margin-bottom: 0;
+    height: 1em;
+
+    @include respond-to(mid-mobile) {
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 150px;
+    }
+
+    @include respond-to(medium-screens) {
+        width: 200px;
+    }
 }
 
 .fileinput-button {
@@ -130,7 +158,6 @@ fieldset.checkbox {
             border-bottom: 0;
         }
     }
-
 
     li {
         margin-left: -3px;

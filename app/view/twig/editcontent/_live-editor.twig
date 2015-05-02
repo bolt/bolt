@@ -1,0 +1,5 @@
+{% if context.contenttype.liveeditor is not defined or context.contenttype.liveeditor %}{# don't show for viewless contenttypes. #}
+<div class="live-editor">
+    <iframe id="live-editor-iframe" name="live-editor-iframe"></iframe>
+</div>
+{% endif %}

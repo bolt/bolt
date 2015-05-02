@@ -1,0 +1,41 @@
+{% include '_header.twig' %}
+
+<!-- Main Page Content and Sidebar -->
+
+    <!-- Main Blog Content -->
+    <div class="large-8 columns" role="content">
+
+        <article>
+
+            <h2 data-bolt-field="title">{{ record.title }}</h2>
+
+            {% if record.subtitle %}
+                <h3 data-bolt-field="subtitle">{{ record.subtitle }}</h3>
+            {% endif %}
+
+            <div data-bolt-field="body">
+                {{ record.body }}
+            </div>
+
+        </article>
+
+        <article data-bolt-field="templatefields[section_1]">{{ record.templatefields.section_1 }}</article>
+        <article data-bolt-field="templatefields[section_2]">{{ record.templatefields.section_2 }}</article>
+        <article>
+            <a href="{{ image(record.templatefields.image) }}">
+                <img src="{{ thumbnail(record.templatefields.image, 640, 480) }}">
+            </a>
+        </article>
+
+
+    </div>
+
+    <!-- End Main Content -->
+
+    {% include '_aside.twig' %}
+
+    <!-- End Main Content and Sidebar -->
+
+
+
+    {% include '_footer.twig' %}

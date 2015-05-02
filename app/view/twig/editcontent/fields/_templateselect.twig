@@ -9,9 +9,22 @@
 
 {#=== INIT ===========================================================================================================#}
 
+{% set templateselectdata = {
+    'message': {
+        'change':       __('This template adds new fields. Save, then refresh to see these changes.'),
+        'warningChange':  __('You may lose some of your template fields with this change. Go to the template section and note down the values before doing this.'),
+        'warning':    __('Warning')
+    },
+    'currentHas':       context.has.templatefields,
+    'current':          context.content.get(contentkey),
+    'fieldTemplates':   context.fieldtemplates
+} %}
+
 {% set attr_select = {
-    class:    option.class,
-    name_id:  key,
+    class:          option.class,
+    name:           name,
+    id:             key,
+    'data-stats':   templateselectdata|json_encode
 } %}
 
 {% set attr_default = {
@@ -23,6 +36,8 @@
     value:     '',
 } %}
 
+
+
 {#=== FIELDSET =======================================================================================================#}
 
 <fieldset class="templateselect">
@@ -33,11 +48,14 @@
             <option{{ macro.attr(attr_default) }}>{{ __('(default template)') }}</option>
             <option{{ macro.attr(attr_divider) }}>-----------</option>
             {% for filename, name in listtemplates(option.filter) %}
-                <option{{ macro.attr({value: filename, selected: (context.content.get(key) == filename)}) }}>
+                <option{{ macro.attr({value: filename, selected: (context.content.get(contentkey) == filename)}) }}>
                     {{- name -}}
                 </option>
             {% endfor %}
         </select>
+    </div>
+    <div class="col-sm-12">
+        <p class="hidden templatewarning"></p>
     </div>
 
 </fieldset>

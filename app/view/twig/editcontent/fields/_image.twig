@@ -4,7 +4,7 @@
     class:       field.class|default(''),
     label:       field.label|default(''),
     extensions:  field.extensions|default([]),
-    attrib:      (field.attrib is defined) ? (field.attrib is iterable ?: {0: field.attrib}) : false,
+    attrib:      (field.attrib is defined and field.attrib is not empty) ? field.attrib : false,
     upload:      field.upload|default(''),
     can_upload:  field.canUpload,
     info:        field.info|default('info.upload.image')
@@ -17,12 +17,12 @@
 {% set preview_h = 150 %}
 
 {# Convert from old stored image format that is used until re-saved #}
-{% set image = (context.content.get(key) is iterable) ? context.content.get(key) : {'file': context.content.get(key)} %}
+{% set image = (context.content.get(contentkey) is iterable) ? context.content.get(contentkey) : {'file': context.content.get(contentkey)} %}
 
 {% set attr_inp = {
     class:       option.class ~ ' imageinput wide',
     id:          'field-' ~ key,
-    name:        key ~ '[file]',
+    name:        name ~ '[file]',
     type:        'text',
     placeholder: __('field.general.allowed-filetypes') ~ ' ' ~ option.extensions|join(', ') ~ ' …',
     value:       image.file|default(''),
@@ -55,9 +55,8 @@
 
 {% macro attributes(key, option, image) %}
     {% if option.attrib %}
-        {# We are only interested in the 'title' attribute right now, but this will allow easy extension #}
         {% for attrib in option.attrib %}
-            {% if attrib == 'title' %}
+            {% if attrib|lower == 'title' %}
                 <div class="form-group">
                     <div class="col-sm-2">
                         <label for="{{ key }}[title]">{{ __('Title') }}</label>
@@ -67,7 +66,7 @@
                     </div>
                 </div>
             {% endif %}
-            {% if attrib == 'Alt text' %}
+            {% if attrib|lower in ['alt text', 'alt'] %}
                 <div class="form-group">
                     <div class="col-sm-2">
                         <label for="{{ key }}[alt]">{{ __('Alt') }}</label>
@@ -82,8 +81,8 @@
 {% endmacro %}
 
 {% macro progress(key) %}
-    <div class="progress progress-striped active" id="progress-{{ key }}">
-        <div class="bar" style="width: 0%;"></div>
+    <div class="progress file-progress progress-striped active" id="progress-{{ key }}">
+        <div class="progress-bar" style="width: 0%;"></div>
     </div>
 {% endmacro %}
 
@@ -118,7 +117,7 @@
         <div class="right-on-large">{# to make the preview align right on wide screens #}
             <label>{{ __('Preview') }}</label>
             <div class="content-preview imageholder" id="thumbnail-{{ key }}" style="max-width:{{ preview_w }}px;max-height:{{ preview_h }}px">
-                {% if context.content.get(key) != '' %}
+                {% if context.content.get(contentkey) != '' %}
                     {% set preview_path = image.file|thumbnail(preview_w, preview_h, 'c') %}
                 {% else %}
                     {% set preview_path = app.paths.app ~ 'view/img/default_empty_4x3.png' %}

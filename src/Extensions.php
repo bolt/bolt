@@ -5,7 +5,7 @@ namespace Bolt;
 use Bolt;
 use Bolt\Extensions\ExtensionInterface;
 use Bolt\Extensions\Snippets\Location as SnippetLocation;
-use Bolt\Helpers\String;
+use Bolt\Helpers\Str;
 use Bolt\Translation\Translator as Trans;
 use Composer\Autoload\ClassLoader;
 use Monolog\Logger;
@@ -52,6 +52,13 @@ class Extensions
      * @var array
      */
     private $menuoptions = array();
+
+    /**
+     * Number of registered extensions that need to be able to send mail.
+     *
+     * @var integer
+     */
+    private $mailsenders = 0;
 
     /**
      * Whether or not to add jQuery.
@@ -305,6 +312,11 @@ class Extensions
         // Flag the extension as initialised
         $this->initialized[$name] = $extension;
 
+        // If an extension makes it known it sends email, increase the counter
+        if (is_callable(array($extension, 'sendsMail')) && $extension->sendsMail()) {
+            $this->mailsenders++;
+        }
+
         // Get the extension defined snippets
         try {
             $this->getSnippets($name);
@@ -416,7 +428,8 @@ class Extensions
         $this->assets['css'][md5($filename)] = array(
             'filename' => $filename,
             'late'     => $late,
-            'priority' => $priority
+            'priority' => $priority,
+            'attrib'   => false
         );
     }
 
@@ -424,10 +437,10 @@ class Extensions
      * Add a particular javascript file to the output. This will be inserted after
      * the other javascript files.
      *
-     * @param string  $filename File name to add to src=""
-     * @param array   $options  'late'     - True to add to the end of the HTML <body>
-     *                          'priority' - Loading priority
-     *                          'attrib'   - Either 'defer', or 'async'
+     * @param string $filename File name to add to src=""
+     * @param array  $options  'late'     - True to add to the end of the HTML <body>
+     *                         'priority' - Loading priority
+     *                         'attrib'   - Either 'defer', or 'async'
      */
     public function addJavascript($filename, $options = array())
     {
@@ -667,7 +680,11 @@ class Extensions
             }
         }
 
-        if ($this->addjquery === true) {
+        // While this looks slightly illogical, our CLI tests want to see that
+        // jQuery can be inserted, but we don't want it inserted on either the
+        // backend or AJAX requests.
+        $end = $this->app['config']->getWhichEnd();
+        if ($this->addjquery === true && ($end === 'frontend' || $end === 'cli')) {
             $html = $this->insertJquery($html);
         }
 
@@ -742,7 +759,7 @@ class Extensions
 
             // Try to insert it after <head>
             $replacement = sprintf("%s\n%s\t%s", $matches[0], $matches[1], $tag);
-            $html = String::replaceFirst($matches[0], $replacement, $html);
+            $html = Str::replaceFirst($matches[0], $replacement, $html);
         } else {
 
             // Since we're serving tag soup, just append it.
@@ -768,7 +785,7 @@ class Extensions
 
             // Try to insert it after <body>
             $replacement = sprintf("%s\n%s\t%s", $matches[0], $matches[1], $tag);
-            $html = String::replaceFirst($matches[0], $replacement, $html);
+            $html = Str::replaceFirst($matches[0], $replacement, $html);
         } else {
 
             // Since we're serving tag soup, just append it.
@@ -794,7 +811,7 @@ class Extensions
 
             // Try to insert it just before </head>
             $replacement = sprintf("%s\t%s\n%s", $matches[1], $tag, $matches[0]);
-            $html = String::replaceFirst($matches[0], $replacement, $html);
+            $html = Str::replaceFirst($matches[0], $replacement, $html);
         } else {
 
             // Since we're serving tag soup, just append it.
@@ -820,7 +837,7 @@ class Extensions
 
             // Try to insert it just before </head>
             $replacement = sprintf("%s\t%s\n%s", $matches[1], $tag, $matches[0]);
-            $html = String::replaceFirst($matches[0], $replacement, $html);
+            $html = Str::replaceFirst($matches[0], $replacement, $html);
         } else {
 
             // Since we're serving tag soup, just append it.
@@ -846,7 +863,7 @@ class Extensions
 
             // Try to insert it just before </head>
             $replacement = sprintf("%s\t%s\n%s", $matches[1], $tag, $matches[0]);
-            $html = String::replaceFirst($matches[0], $replacement, $html);
+            $html = Str::replaceFirst($matches[0], $replacement, $html);
         } else {
 
             // Since we're serving tag soup, just append it.
@@ -872,7 +889,7 @@ class Extensions
             // matches[0] has some elements, the last index is -1, because zero indexed.
             $last = count($matches[0]) - 1;
             $replacement = sprintf("%s\n%s%s", $matches[0][$last], $matches[1][$last], $tag);
-            $html = String::replaceFirst($matches[0][$last], $replacement, $html);
+            $html = Str::replaceFirst($matches[0][$last], $replacement, $html);
         } else {
             $html = $this->insertEndOfHead($tag, $html);
         }
@@ -896,7 +913,7 @@ class Extensions
             // matches[0] has some elements, the last index is -1, because zero indexed.
             $last = count($matches[0]) - 1;
             $replacement = sprintf("%s\n%s%s", $matches[0][$last], $matches[1][$last], $tag);
-            $html = String::replaceFirst($matches[0][$last], $replacement, $html);
+            $html = Str::replaceFirst($matches[0][$last], $replacement, $html);
         } else {
             $html = $this->insertEndOfHead($tag, $html);
         }
@@ -919,7 +936,7 @@ class Extensions
 
             // Try to insert it before the match
             $replacement = sprintf("%s%s\n%s\t%s", $matches[1], $tag, $matches[0], $matches[1]);
-            $html = String::replaceFirst($matches[0], $replacement, $html);
+            $html = Str::replaceFirst($matches[0], $replacement, $html);
         } else {
 
             // Since we're serving tag soup, just append it.
@@ -944,7 +961,7 @@ class Extensions
 
             // Try to insert it before the match
             $replacement = sprintf("%s%s\n%s\t%s", $matches[1], $tag, $matches[0], $matches[1]);
-            $html = String::replaceFirst($matches[0], $replacement, $html);
+            $html = Str::replaceFirst($matches[0], $replacement, $html);
         } else {
 
             // Since we're serving tag soup, just append it.
@@ -980,7 +997,7 @@ class Extensions
             // matches[0] has some elements, the last index is -1, because zero indexed.
             $last = count($matches[0]) - 1;
             $replacement = sprintf("%s\n%s%s", $matches[0][$last], $matches[1][$last], $tag);
-            $html = String::replaceFirst($matches[0][$last], $replacement, $html);
+            $html = Str::replaceFirst($matches[0][$last], $replacement, $html);
         } elseif ($insidehead) {
             // Second attempt: entire document
             $html = $this->insertAfterJs($tag, $html, false);
@@ -1061,6 +1078,14 @@ class Extensions
     public function getMenuOptions()
     {
         return $this->menuoptions;
+    }
+
+    /**
+     * Returns whether or not there are any extensions that need so send mail
+     */
+    public function hasMailSenders()
+    {
+        return $this->mailsenders;
     }
 
     /**

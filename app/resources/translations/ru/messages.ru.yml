@@ -532,7 +532,7 @@ page:
         cookies-required: "Примечание: Сookies необходимы чтобы войти в Bolt. Пожалуйста, разрешите использование Cookies в настройках."
         label:
             password: "Пароль"
-            username: "Имя пользователя"
+            username: "Имя пользователя / email"
         password-hide: "Скрыть"
         password-show: "Показать"
         placeholder:

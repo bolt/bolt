@@ -16,7 +16,7 @@ module.exports = {
             maxlen: 120,        // Maximum length of a line
             noarg: true,        // Prohibits the use of arguments.caller and arguments.callee
             nonbsp: true,       // Warns about "non-breaking whitespace" characters
-            singleGroups: true, // Prohibits the use of the grouping operator for single-expression statements
+            singleGroups: false, // Prohibits the use of the grouping operator for single-expression statements
             undef: true,        // Prohibits the use of undeclared variables
             globals: {
                 // Bolt
@@ -27,15 +27,12 @@ module.exports = {
                 Folders: true,              // bolt/obj-folders.js
                 init: true,                 // bolt/init.js
                 Moments: true,              // bolt/obj-moments.js
-                Navpopups: true,            // bolt/obj-navpopups.js
-                Sidebar: true,              // bolt/obj-sidebar.js
                 Stack: true,                // bolt/obj-stack.js
                 site: true,                 // bolt/extend.js/extend.twig
                 baseurl: true,              // bolt/extend.js/extend.twig
                 rootpath: true,             // bolt/extend.js/extend.twig
                 // Bolt global functions
                 bindFileUpload: true,       // bolt/bindfileuploads.js
-                bindGeolocation: true,      // bolt/geolocation.js
                 getSelectedItems: true,     // bolt/fnc-helpers.js
                 validateContent: true,      // bolt/fnc-helpers.js
                 // Vendor
@@ -47,7 +44,8 @@ module.exports = {
                 CodeMirror: true,           // ckeditor.js
                 google: true,               // Google
                 jQuery: true,               // jQuery
-                moment: true                // moment.min.js
+                moment: true,               // moment.min.js
+                Modernizr: true             // modernizr.min.js
             }
         },
         src: '<%= files.boltJs %>'

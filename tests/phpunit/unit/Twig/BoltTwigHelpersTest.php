@@ -3,7 +3,7 @@ namespace Bolt\Tests\Twig;
 
 use Bolt\Storage;
 use Bolt\Tests\BoltUnitTest;
-use Bolt\TwigExtension;
+use Bolt\Twig\TwigExtension;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\VarDumper\VarDumper;
 
@@ -23,22 +23,25 @@ class BoltTwigHelpersTest extends BoltUnitTest
     public function testTwigInterface()
     {
         $app = $this->getApp();
-        $twig = new TwigExtension($app);
+        $handlers = $this->getTwigHandlers($app);
+        $twig = new TwigExtension($app, $handlers, false);
         $this->assertGreaterThan(0, $twig->getFunctions());
         $this->assertGreaterThan(0, $twig->getFilters());
         $this->assertGreaterThan(0, $twig->getTests());
-        $this->assertEquals("Bolt", $twig->getName());
+        $this->assertEquals('Bolt', $twig->getName());
     }
 
     public function testFileExists()
     {
         $app = $this->getApp();
-        $twig = new TwigExtension($app);
+        $handlers = $this->getTwigHandlers($app);
+        $twig = new TwigExtension($app, $handlers, false);
         $this->assertTrue($twig->fileExists(__FILE__));
 
         // Test safe returns false
         $app = $this->getApp();
-        $twig = new TwigExtension($app, true);
+        $handlers = $this->getTwigHandlers($app);
+        $twig = new TwigExtension($app, $handlers, true);
         $this->assertFalse($twig->fileExists(__FILE__));
     }
 
@@ -49,18 +52,21 @@ class BoltTwigHelpersTest extends BoltUnitTest
 
         // First safe test
         $app = $this->getApp();
-        $twig = new TwigExtension($app, true);
+        $handlers = $this->getTwigHandlers($app);
+        $twig = new TwigExtension($app, $handlers, true);
         $this->assertNull($twig->printDump($list));
 
         // Now test with debug off
         $app = $this->getApp();
-        $twig = new TwigExtension($app);
+        $handlers = $this->getTwigHandlers($app);
+        $twig = new TwigExtension($app, $handlers, false);
         $app['debug'] = false;
         $this->assertNull($twig->printDump($list));
 
         // Now test with debug enabled
         $app = $this->getApp();
-        $twig = new TwigExtension($app);
+        $handlers = $this->getTwigHandlers($app);
+        $twig = new TwigExtension($app, $handlers, false);
         $this->assertEquals($list, $twig->printDump($list));
     }
 
@@ -70,18 +76,21 @@ class BoltTwigHelpersTest extends BoltUnitTest
 
         // First test with debug off
         $app = $this->getApp();
-        $twig = new TwigExtension($app);
+        $handlers = $this->getTwigHandlers($app);
+        $twig = new TwigExtension($app, $handlers, false);
         $app['debug'] = false;
         $this->assertNull($twig->printBacktrace());
 
         // Safe mode test
         $app = $this->getApp();
-        $twig = new TwigExtension($app, true);
+        $handlers = $this->getTwigHandlers($app);
+        $twig = new TwigExtension($app, $handlers, true);
         $this->assertNull($twig->printBacktrace());
 
         // Debug mode
         $app = $this->getApp();
-        $twig = new TwigExtension($app);
+        $handlers = $this->getTwigHandlers($app);
+        $twig = new TwigExtension($app, $handlers, false);
         $this->assertNotEmpty($twig->printBacktrace());
     }
 
@@ -89,35 +98,40 @@ class BoltTwigHelpersTest extends BoltUnitTest
     {
         // Default Locale
         $app = $this->getApp();
-        $twig = new TwigExtension($app);
+        $handlers = $this->getTwigHandlers($app);
+        $twig = new TwigExtension($app, $handlers, false);
         $this->assertEquals('en-GB', $twig->htmlLang());
 
         // Custom Locale de_DE
         $app = $this->getApp();
         $app['config']->set('general/locale', 'de_DE');
-        $twig = new TwigExtension($app);
+        $handlers = $this->getTwigHandlers($app);
+        $twig = new TwigExtension($app, $handlers, false);
         $this->assertEquals('de-DE', $twig->htmlLang());
     }
 
-    // public function testLocaleDateTime()
-    // {
-    //     // Default Locale
-    //     $app = $this->getApp();
-    //     $twig = new TwigExtension($app);
-    //     $this->assertEquals('January  1, 2014 00:00', $twig->localeDateTime('1 Jan 2014'));
+//     public function testLocaleDateTime()
+//     {
+//         // Default Locale
+//         $app = $this->getApp();
+//         $handlers = $this->getTwigHandlers($app);
+//         $twig = new TwigExtension($app, $handlers, false);
+//         $this->assertEquals('January  1, 2014 00:00', $twig->localeDateTime('1 Jan 2014'));
 
-    //     // Locale Switch
-    //     $app = $this->getApp();
-    //     $twig = new TwigExtension($app);
-    //     setlocale(LC_ALL, 'fr_FR.UTF8');
-    //     $this->assertEquals('janvier  1, 2014 00:00', $twig->localeDateTime('1 Jan 2014'));
+//         // Locale Switch
+//         $app = $this->getApp();
+//         $handlers = $this->getTwigHandlers($app);
+//         $twig = new TwigExtension($app, $handlers, false);
+//         setlocale(LC_ALL, 'fr_FR.UTF8');
+//         $this->assertEquals('janvier  1, 2014 00:00', $twig->localeDateTime('1 Jan 2014'));
 
-    // }
+//     }
 
     public function testExcerpt()
     {
         $app = $this->getApp();
-        $twig = new TwigExtension($app);
+        $handlers = $this->getTwigHandlers($app);
+        $twig = new TwigExtension($app, $handlers, false);
         $storage = new Storage($app);
         $content = $storage->getEmptyContent('showcases');
         $content->setValue('body', $this->getDummyText());
@@ -156,7 +170,8 @@ class BoltTwigHelpersTest extends BoltUnitTest
     public function testTrim()
     {
         $app = $this->getApp();
-        $twig = new TwigExtension($app);
+        $handlers = $this->getTwigHandlers($app);
+        $twig = new TwigExtension($app, $handlers, false);
         $excerpt = $twig->trim($this->getDummyText());
         $this->assertEquals(200, mb_strlen($excerpt, 'UTF-8'));
     }
@@ -166,13 +181,15 @@ class BoltTwigHelpersTest extends BoltUnitTest
         $app = $this->getApp();
         $this->expectOutputRegex('#Redirecting to /bolt/#');
         $app->run();
-        $twig = new TwigExtension($app, false);
+        $handlers = $this->getTwigHandlers($app);
+        $twig = new TwigExtension($app, $handlers, false);
         $link = $twig->ymllink(' config.yml');
-        $this->assertRegExp('#<a href=\'/bolt/file/edit/#', $link);
+        $this->assertRegExp('#<a href="/bolt/file/edit/#', $link);
 
         // Test nothing happens in safe mode
         $app = $this->getApp();
-        $twig = new TwigExtension($app, true);
+        $handlers = $this->getTwigHandlers($app);
+        $twig = new TwigExtension($app, $handlers, true);
         $this->assertNull($twig->ymllink('config.yml'));
     }
 
@@ -180,40 +197,46 @@ class BoltTwigHelpersTest extends BoltUnitTest
     {
         // Safe mode should return null
         $app = $this->getApp();
-        $twig = new TwigExtension($app, true);
+        $handlers = $this->getTwigHandlers($app);
+        $twig = new TwigExtension($app, $handlers, true);
         $this->assertNull($twig->imageInfo('nofile'));
 
         // Test on normal mode
         $app = $this->getApp();
-        $twig = new TwigExtension($app);
+        $handlers = $this->getTwigHandlers($app);
+        $twig = new TwigExtension($app, $handlers, false);
         $img = '../generic-logo.png';
         $info = $twig->imageInfo($img);
-        $this->assertEquals(11, count($info));
+        $this->assertEquals(12, count($info));
 
         // Test non readable image fails
         $app = $this->getApp();
-        $twig = new TwigExtension($app);
+        $handlers = $this->getTwigHandlers($app);
+        $twig = new TwigExtension($app, $handlers, false);
         $this->assertFalse($twig->imageInfo('nothing'));
     }
 
     public function testSlug()
     {
         $app = $this->getApp();
-        $twig = new TwigExtension($app);
+        $handlers = $this->getTwigHandlers($app);
+        $twig = new TwigExtension($app, $handlers, false);
         $this->assertEquals('<h1>My <strong>big</strong> title</h1>', $twig->markdown("# My **big** title"));
     }
 
     public function testMarkdown()
     {
         $app = $this->getApp();
-        $twig = new TwigExtension($app);
+        $handlers = $this->getTwigHandlers($app);
+        $twig = new TwigExtension($app, $handlers, false);
         $this->assertEquals('a-title-made-of-words', $twig->slug("A Title Made of Words"));
     }
 
     public function testTwig()
     {
         $app = $this->getApp();
-        $twig = new TwigExtension($app);
+        $handlers = $this->getTwigHandlers($app);
+        $twig = new TwigExtension($app, $handlers, false);
         $snippet = 'Hello {{item}}';
         $this->assertEquals('Hello World', $twig->twig($snippet, array('item' => 'World')));
     }
@@ -221,21 +244,24 @@ class BoltTwigHelpersTest extends BoltUnitTest
     public function testDecorateTT()
     {
         $app = $this->getApp();
-        $twig = new TwigExtension($app);
+        $handlers = $this->getTwigHandlers($app);
+        $twig = new TwigExtension($app, $handlers, false);
         $this->assertEquals('run: <tt>cat</tt>', $twig->decorateTT('run: `cat`'));
     }
 
     public function testUcfirst()
     {
         $app = $this->getApp();
-        $twig = new TwigExtension($app);
+        $handlers = $this->getTwigHandlers($app);
+        $twig = new TwigExtension($app, $handlers, false);
         $this->assertEquals('Test this', $twig->ucfirst('test this'));
     }
 
     public function testOrder()
     {
         $app = $this->getApp();
-        $twig = new TwigExtension($app);
+        $handlers = $this->getTwigHandlers($app);
+        $twig = new TwigExtension($app, $handlers, false);
         $input = array(
             array('title' => 'Gamma', 'id' => 10, 'date' => '2014-01-19'),
             array('title' => 'Alpha', 'id' => 10, 'date' => '2014-02-20'),
@@ -245,7 +271,7 @@ class BoltTwigHelpersTest extends BoltUnitTest
         $result = array_values($twig->order($input, 'id'));
         $this->assertEquals('Delta', $result[0]['title']);
         $this->assertEquals('Beta', $result[1]['title']);
-        $this->assertEquals('Alpha', $result[2]['title']);
+        $this->assertRegExp('/Alpha|Gamma/', $result[2]['title']);
 
         // Test sort on secondary keys
         $result = array_values($twig->order($input, 'id', 'date'));
@@ -255,7 +281,8 @@ class BoltTwigHelpersTest extends BoltUnitTest
     public function testFirst()
     {
         $app = $this->getApp();
-        $twig = new TwigExtension($app);
+        $handlers = $this->getTwigHandlers($app);
+        $twig = new TwigExtension($app, $handlers, false);
         $this->assertEquals(1, $twig->first(array(1, 2, 3, 4)));
         $this->assertFalse($twig->first(1));
     }
@@ -263,7 +290,8 @@ class BoltTwigHelpersTest extends BoltUnitTest
     public function testLast()
     {
         $app = $this->getApp();
-        $twig = new TwigExtension($app);
+        $handlers = $this->getTwigHandlers($app);
+        $twig = new TwigExtension($app, $handlers, false);
         $this->assertEquals(4, $twig->last(array(1, 2, 3, 4)));
         $this->assertFalse($twig->last(1));
     }
@@ -279,7 +307,8 @@ class BoltTwigHelpersTest extends BoltUnitTest
         $storage->saveContent($content);
 
         $phpunit = $this;
-        $twig = new TwigExtension($app);
+        $handlers = $this->getTwigHandlers($app);
+        $twig = new TwigExtension($app, $handlers, false);
         $storage = new Storage($app);
 
         // Get the content object and create a routed request
@@ -311,14 +340,16 @@ class BoltTwigHelpersTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $app['request'] = Request::create('/');
-        $twig = new TwigExtension($app);
+        $handlers = $this->getTwigHandlers($app);
+        $twig = new TwigExtension($app, $handlers, false);
         $this->assertNotEmpty($twig->token());
     }
 
     public function testListTemplates()
     {
         $app = $this->getApp();
-        $twig = new TwigExtension($app);
+        $handlers = $this->getTwigHandlers($app);
+        $twig = new TwigExtension($app, $handlers, false);
         $templates = $twig->listTemplates();
         $this->assertNotEmpty($templates);
 
@@ -327,7 +358,8 @@ class BoltTwigHelpersTest extends BoltUnitTest
 
         // Test safe mode does nothing
         $app = $this->getApp();
-        $twig = new TwigExtension($app, true);
+        $handlers = $this->getTwigHandlers($app);
+        $twig = new TwigExtension($app, $handlers, true);
         $this->assertNull($twig->listTemplates());
     }
 
@@ -335,7 +367,8 @@ class BoltTwigHelpersTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $phpunit = $this;
-        $twig = new TwigExtension($app);
+        $handlers = $this->getTwigHandlers($app);
+        $twig = new TwigExtension($app, $handlers, false);
         $storage = new Storage($app);
 
         // First up we seed the database with a showcase and some related entries.
@@ -378,7 +411,8 @@ class BoltTwigHelpersTest extends BoltUnitTest
     public function testPager()
     {
         $app = $this->getApp();
-        $twig = new TwigExtension($app);
+        $handlers = $this->getTwigHandlers($app);
+        $twig = new TwigExtension($app, $handlers, false);
         // Test incomplete
         //$pager = $twig->pager($app['twig']);
     }

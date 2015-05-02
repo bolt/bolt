@@ -30,7 +30,82 @@ Not yet released.
  - Change: Lock composer.json to Symfony 2.6.4 as 2.6.5 fails PHPUnit
  - Added: Re-added standalone jQuery lib, as some extensions might need it. 
  - Fixed: Create app/ subdirectories on Composer installs, and other `composer install` fixes.
-
+ - Fixed: Workaround, so we don't break on installations with `"require": []` in `extensions/composer.json` (see #3171)
+ - Never add extra jQueries on the backend. (See #3177)
+ - JS bugfixes (save button + goto publishing status) (See #3160)
+ - Flush the cache if the Bolt version has changed (See #3183)
+ - Fixed: Allow `|||`-queries to be more complex (Thanks @Pinpickle, see #3189)
+ - Fixed: Storage not using sort from contenttype (Thanks @CarsonF, see #3187)
+ - Change: Only log content not found errors if slug isn't numeric, since `next` and `previous` check by `id` (see #3186)
+ - Fixed: Make sure we use `ParsedownExtra`, instead of just `Parsedown. (Thanks, @cooperaj, see #3194)
+ - Fixed: Changelog content uses correct tablenames. (See 3198)
+ - Added: Markdown fields now have a nice new editor, with Preview and fill screen / split screen functionality. (ee #3225)
+ - Fixed: Normalising taxonomy before comparison for deleting old ones.(Thanks @silentworks, see #3224) 
+ - Change: Improve `shyphenate()`: Only add breaks to long words, instead of everywhere. (see #3221) 
+ - Added: Upload UX improvements part 2 - Progress bars. (Thanks @pinpickle, see #3218)
+ - Fixed: Fix 'current' in menu. (see #3209)
+ - Change: Use 4 spaces in all .yml and base-2014 theme. (see #3205)
+ - Fixed: Set the canonical correctly. (see #3214)
+ - Fixed: Make `BaseExtension::initialize()` non-abstract again to deal with PHP < 5.3.10 (See #3257)
+ - Fixed: `isallowed` checks for extensions to also check for `extensions:config` (Thanks @SahAssar, see #3249)
+ - Fixed: Strange step behaviour when no `min` is set for integer fields (Thanks @Pinpickle, see #3284)
+ - Fixed: Make sure we have the same amount of columns, always. (See #3228) 
+ - Added: Allow for filtering on 'taxonomies' on the overview pages. (See #3278)
+ - Added: Support for methods in `routing.yml` (see #3292)
+ - Fixed: Publishing for items with 'Timed Publish' is working again. (Fixes #3279)
+ - Added: Frontend requests should not set cookies. Remove them, to allow Varnish to do a better job of caching the request. (see #3309)
+ - Added: Add exif aspect ratio and exif orientation data to imageinfo() (Thanks @Intendit,see #3308)
+ - Fixed: Fix rendering in sidebar on mobile. (see #3246)
+ - Added: New feature: Retina support for thumnbails (see bolt/bolt-thumbs/#19)
+ - Added: Allow filtering in 'record.related' on other fields too. (Thanks @miguelavaqrod, see #3303)
+ - Fixed: Fix path for non-ajaxy file-upload. (see #3303)
+ - Fixed: Added extra check for "view permission" for quicklinks (Thanks @StevendeVries, see #3299)
+ - Fixed: Make geolocation gracefully fail if google is not loaded (See #3356)
+ - Added: Small UX improvement: Show spinner while doing ajaxy save. (See #3355)
+ - Added: Use `PHPExif\Exif` for getting EXIF data in `TwigExtensions::imageinfo()` (See #3354)
+ - Change: `slug` and `geolocation` fields refactored. Refactored out 'GoMap' dependancy. (See #3344)
+ - Change: Fixed Scrutinizer config (See #3343)
+ - Change: Allow explicit setting of a Contenttype's table name suffix (See #3342)
+ - Fixed: Only setting default timezone if config provides it (See #3334)
+ - Fixed: Fix for "timed depublish". (See #3330)
+ - Fixed: [Tests] Move PHPUnit resource creation into the listener (See #3326)
+ - Change: Make backend submenu-items the top level item, if there's only one sub-item. (See #3323, thanks Intendit)
+ - Fixed: Fix rendering in sidebar on mobile. Fixes (See #3321)
+ - Added: Allow filtering in 'record.related' on other fields too. (See #3320)
+ - Fixed: Slugs generation fixed (See #3310)
+ - Change: Refactor out `load.php`. (see #3371)
+ - Change: Move CodeSniffer to a composer package (see #3365)
+ - Fixed: Fixing small inconsistency in `permissions.yml.dist': 'editors' can browse uploaded files from within CKeditor now. (See #3357)
+ - Make the removal / stripping of `&nbsp;` characters in CKEditor fields optional. (see #3373)
+ - Fixed to handle correctly file requests with built-in server (Thanks, @pedronofuentes, see #3383)
+ - Fix to use title and alt text on image field (Thanks @Shyim, see #3387)
+ - Fixed: Allow editing of empty files. (Thanks, @SahAssar, see #3391)
+ - Added: Include plugins "Styles Combo" and "Stylesheet Parser" in CKEditor (See #3384)
+ - Added: Always have a fallback for a timezone when it isn't set in either php.ini or config.yml (See #3397)
+ - Added: Ability to set a Email Sender Mail in config.yml (Thanks @Shyim, see #3409)
+ - [Tests] Properly tidy the Codeception template field test (see #3451) 
+ - Check if folder exists first, when using it for uploads (See #3450) 
+ - [Codeception] Use a conditional version so 5.3 Travis builds won't fail. (See #3448)
+ - Enhancement to define templates for the template chooser in backend. (Thanks Shyim, see #3447)
+ - Allow 'duplicate' and 'delete' from contextual menu, when a Record has relationships. Fixes #3431 
+ - Don't trigger DBCheck for changed indexes. Fixes #3426 
+ - Only show the "delete" button if the page has been saved already. Fixes #3444
+ - Fixes #3435 by disabling browser XSS protection for file editing. (See #3439, thanks timcooper)
+ - Secondary menu refactoring (JS) + fixes for #2329 and #2347 (see #3433
+ - Added: optional filter to select field with contenttype values. (see #3432)
+ - Added: support for YAML repeated nodes (see #3430)
+ - Fixed: PGSQL encoding settings in post connect event until doctrine/2.5.2 is out (see #3429)
+ - Fixed: Change slug label when contenttype is viewless (See #3428, thanks Pinpickle)
+ - Make Application::unsetSessionCookie() optional and BC friendly (see #3427)
+ - Added: Config file `web.config` for IIS servers. (See #3423, thanks hyperTwitch)
+ - Change: PGSQL encoding settings in post connect event until doctrine/2.5.2 is out. (See #3429)
+ - Fixed: Change slug label when contenttype is viewless. (See #3428)
+ - Added: YAML repeated nodes (See #3430)
+ - Added: add optional filter to select field with contenttype values (See #3432)
+ - Fixed: Secondary menu refactoring (JS) (Fixes #2329 and #2347)
+ - Fixed: prevent error message in `_sub_menu.twig` if `strict_variables` is set. (See #3462)
+ - Security: Make sure we set the status correctly for 'async' requests. (See #3463)
+ - Fixed: Set status explicitly on ajaxy requests. Fixes #3466
 
 Bolt 2.1.1
 ----------
@@ -46,6 +121,8 @@ Released 2015-03-12. Notable changes:
  - Fixed: Regression that errored on PHP < 5.3.6: `Remove SplFileInfo::getExtension()`. (See #3095)
  - Fixed: Extension theme installer working properly (see #3108, thanks @nikgo)
  - Fixed: Replacing `&nbsp;` with single space, instead of nothing. (See #3111)
+ - Fixed: Slugs generation with `uses:` fixed (see #3310)
+
 
 Bolt 2.1.0
 ----------

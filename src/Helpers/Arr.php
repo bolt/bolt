@@ -79,4 +79,22 @@ class Arr
 
         return $merged;
     }
+
+    /**
+     * Check if an array is indexed or associative.
+     *
+     * @param array $arr
+     *
+     * @return boolean True if indexed, false if associative
+     */
+    public static function isIndexedArray(array $arr)
+    {
+        foreach ($arr as $key => $val) {
+            if ($key !== (int) $key) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }

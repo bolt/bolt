@@ -200,18 +200,21 @@ var init = {
                 bootbox.confirm(notice, function (confirmed) {
                     $('.alert').alert();
                     if (confirmed === true) {
-                        $.each(aItems, function (index, id) {
-                            // Delete request
-                            $.ajax({
-                                url: Bolt.conf('paths.bolt') + 'content/deletecontent/' +
-                                    $('#item_' + id).closest('table').data('contenttype') + '/' + id +
-                                    '?bolt_csrf_token=' + $('#item_' + id).closest('table').data('bolt_csrf_token'),
-                                type: 'get',
-                                success: function (feedback) {
-                                    $('#item_' + id).hide();
-                                    $('a.deletechosen').hide();
-                                }
-                            });
+                        // Delete request
+                        $.ajax({
+                            url: Bolt.conf('paths.bolt') + 'content/deletecontent/' +
+                                $('#item_' + aItems[0]).closest('table').data('contenttype') + '/' + aItems.join(',') +
+                                '?bolt_csrf_token=' + $('#item_' + aItems[0]).closest('table').data('bolt_csrf_token'),
+                            type: 'get',
+                            success: function (feedback) {
+                                var items = [];
+                                $.each(aItems, function (index, id) {
+                                    items.push(document.getElementById('item_' + id));
+                                });
+
+                                $(items).hide();
+                                $('a.deletechosen').hide();
+                            }
                         });
                     }
                 });
@@ -287,17 +290,6 @@ var init = {
     },
 
     /*
-     * Bind geolocation
-     */
-    geolocation: function () {
-        $('input[data-geolocation]').each(function (item) {
-            var data = $(this).data('geolocation');
-
-            bindGeolocation(data.key, data.lat, data.lon);
-        });
-    },
-
-    /*
      * Show 'dropzone' for jQuery file uploader.
      *
      * @returns {undefined}
@@ -357,7 +349,7 @@ var init = {
     focusStatusSelect: function () {
         $('#lastsavedstatus').click(function (e) {
             e.preventDefault();
-            $('a[data-filter="meta"]').click();
+            $('a[href="#tab-meta"]').click();
             $('#statusselect').focus();
         });
      },
@@ -525,19 +517,5 @@ var init = {
                 });
             }
         });
-    },
-
-    /*
-     * Set dataactions for async file modals
-     */
-    selectModal: function () {
-        $('#selectModal-image, #selectModal-imagelist, #selectModal-file, #selectModal-filelist').on(
-            'shown.bs.modal',
-            function (e) {
-                Bolt.actions.init();
-            }
-        );
-
     }
-
 };

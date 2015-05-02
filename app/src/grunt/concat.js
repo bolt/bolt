@@ -8,7 +8,7 @@ module.exports = {
     installLibJs: {
         options: {
             separator: '\n\n',
-            sourceMap: true,
+            sourceMap: '<%= sourcemap.js %>',
             sourceMapName: '<%= path.dest.js %>/maps/lib.min.js.map'
         },
         nonull: true,

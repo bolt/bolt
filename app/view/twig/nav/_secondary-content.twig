@@ -1,6 +1,6 @@
 {% set sub_hide = [] %}
 
-{% for slug, contenttype in app.config.get('contenttypes') %}
+{% for slug, contenttype in app.config.get('contenttypes')  %}
     {% if isallowed('contenttype:' ~ slug) %}
         {% set sub_view = {
             icon: contenttype.icon_many|default(contenttype.show_in_menu ? 'fa:files-o' : 'fa:th-list'),
@@ -37,11 +37,17 @@
         {# Contenttypes, where show_in_menu is set false #}
         {% else %}
 
-            {% set sub_hide = sub_hide|merge(sub) %}
+            {% set sub_view = {
+                icon: contenttype.icon_many|default(contenttype.show_in_menu ? 'fa:files-o' : 'fa:th-list'),
+                label: __(['contenttypes', contenttype.slug, 'name', 'plural'], {DEFAULT: contenttype.name}),
+                link: path('overview', {'contenttypeslug': slug})
+            } %}
+
+            {% set sub_hide = sub_hide|merge([sub_view]) %}
 
         {% endif %}
     {% endif %}
 {% endfor %}
 
 {# Display contenttypes, that have show_in_menu set to false in a submenu #}
-{{ nav.submenu('fa:th-list', __('Other contenttypes'), sub_hide) }}
+{{ nav.submenu('fa:th-list', __('Other content'), sub_hide) }}

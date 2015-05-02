@@ -158,7 +158,7 @@ class Library
      * @param array  $param
      * @param string $add
      *
-     * @return string
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public static function redirect($path, $param = array(), $add = '')
     {

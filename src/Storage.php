@@ -8,7 +8,7 @@ use Bolt\Events\StorageEvents;
 use Bolt\Exception\StorageException;
 use Bolt\Helpers\Arr;
 use Bolt\Helpers\Html;
-use Bolt\Helpers\String;
+use Bolt\Helpers\Str;
 use Bolt\Translation\Translator as Trans;
 use Doctrine\DBAL\Connection as DoctrineConn;
 use Doctrine\DBAL\DBALException;
@@ -18,40 +18,30 @@ use utilphp\util;
 
 class Storage
 {
+    /** @var array */
     public $images;
-    /**
-     * @var Application
-     */
+
+    /** @var Application */
     private $app;
 
-    private $tables;
+    /** @var array */
+    private $tables = array();
 
-    /**
-     * @var string
-     */
-    private $prefix = "bolt_";
+    /** @var string */
+    private $prefix;
 
-    /**
-     * @var array
-     */
+    /** @var array */
     private $checkedfortimed = array();
 
-    /**
-     * Test to indicate if we're inside a dispatcher.
-     *
-     * @var bool
-     */
+    /** @var bool Test to indicate if we're inside a dispatcher. */
     private $inDispatcher = false;
 
+    /** @var array */
     protected static $pager = array();
 
     public function __construct(Bolt\Application $app)
     {
         $this->app = $app;
-
-        $this->prefix = $app['config']->get('general/database/prefix', "bolt_");
-
-        $this->tables = array();
     }
 
     /**
@@ -102,7 +92,7 @@ class Storage
      */
     public function preFill($contenttypes = array())
     {
-        $output = "";
+        $output = '';
 
         // get a list of images.
         $this->images = $this->app['filesystem']->search('*', 'jpg,jpeg,png');
@@ -110,12 +100,12 @@ class Storage
         $emptyOnly = empty($contenttypes);
 
         foreach ($this->app['config']->get('contenttypes') as $key => $contenttype) {
-            $tablename = $this->getTablename($key);
+            $tablename = $this->getContenttypeTablename($contenttype);
             if ($emptyOnly && $this->hasRecords($tablename)) {
-                $output .= Trans::__("Skipped <tt>%key%</tt> (already has records)", array('%key%' => $key)) . "<br>\n";
+                $output .= Trans::__('Skipped <tt>%key%</tt> (already has records)', array('%key%' => $key)) . "<br>\n";
                 continue;
             } elseif (!in_array($key, $contenttypes) && !$emptyOnly) {
-                $output .= Trans::__("Skipped <tt>%key%</tt> (not checked)", array('%key%' => $key)) . "<br>\n";
+                $output .= Trans::__('Skipped <tt>%key%</tt> (not checked)', array('%key%' => $key)) . "<br>\n";
                 continue;
             }
 
@@ -215,7 +205,7 @@ class Storage
                     $key = array_rand($options);
                     $contentobject->setTaxonomy($taxonomy, $key, $options[$key], rand(1, 1000));
                 }
-                if ($this->app['config']->get('taxonomy/' . $taxonomy . '/behaves_like') == "tags") {
+                if ($this->app['config']->get('taxonomy/' . $taxonomy . '/behaves_like') == 'tags') {
                     $contentobject->setTaxonomy($taxonomy, $this->getSomeRandomTags(5));
                 }
             }
@@ -231,22 +221,29 @@ class Storage
         return $output;
     }
 
+    /**
+     * Get an array of random tags
+     *
+     * @param integer $num
+     *
+     * @return string[]
+     */
     private function getSomeRandomTags($num = 5)
     {
-        $tags = array("action", "adult", "adventure", "alpha", "animals", "animation", "anime", "architecture", "art",
-            "astronomy", "baby", "batshitinsane", "biography", "biology", "book", "books", "business", "business",
-            "camera", "cars", "cats", "cinema", "classic", "comedy", "comics", "computers", "cookbook", "cooking",
-            "crime", "culture", "dark", "design", "digital", "documentary", "dogs", "drama", "drugs", "education",
-            "environment", "evolution", "family", "fantasy", "fashion", "fiction", "film", "fitness", "food",
-            "football", "fun", "gaming", "gift", "health", "hip", "historical", "history", "horror", "humor",
-            "illustration", "inspirational", "internet", "journalism", "kids", "language", "law", "literature", "love",
-            "magic", "math", "media", "medicine", "military", "money", "movies", "mp3", "murder", "music", "mystery",
-            "news", "nonfiction", "nsfw", "paranormal", "parody", "philosophy", "photography", "photos", "physics",
-            "poetry", "politics", "post-apocalyptic", "privacy", "psychology", "radio", "relationships", "research",
-            "rock", "romance", "rpg", "satire", "science", "sciencefiction", "scifi", "security", "self-help",
-            "series", "software", "space", "spirituality", "sports", "story", "suspense", "technology", "teen",
-            "television", "terrorism", "thriller", "travel", "tv", "uk", "urban", "us", "usa", "vampire", "video",
-            "videogames", "war", "web", "women", "world", "writing", "wtf", "zombies");
+        $tags = array('action', 'adult', 'adventure', 'alpha', 'animals', 'animation', 'anime', 'architecture', 'art',
+            'astronomy', 'baby', 'batshitinsane', 'biography', 'biology', 'book', 'books', 'business', 'business',
+            'camera', 'cars', 'cats', 'cinema', 'classic', 'comedy', 'comics', 'computers', 'cookbook', 'cooking',
+            'crime', 'culture', 'dark', 'design', 'digital', 'documentary', 'dogs', 'drama', 'drugs', 'education',
+            'environment', 'evolution', 'family', 'fantasy', 'fashion', 'fiction', 'film', 'fitness', 'food',
+            'football', 'fun', 'gaming', 'gift', 'health', 'hip', 'historical', 'history', 'horror', 'humor',
+            'illustration', 'inspirational', 'internet', 'journalism', 'kids', 'language', 'law', 'literature', 'love',
+            'magic', 'math', 'media', 'medicine', 'military', 'money', 'movies', 'mp3', 'murder', 'music', 'mystery',
+            'news', 'nonfiction', 'nsfw', 'paranormal', 'parody', 'philosophy', 'photography', 'photos', 'physics',
+            'poetry', 'politics', 'post-apocalyptic', 'privacy', 'psychology', 'radio', 'relationships', 'research',
+            'rock', 'romance', 'rpg', 'satire', 'science', 'sciencefiction', 'scifi', 'security', 'self-help',
+            'series', 'software', 'space', 'spirituality', 'sports', 'story', 'suspense', 'technology', 'teen',
+            'television', 'terrorism', 'thriller', 'travel', 'tv', 'uk', 'urban', 'us', 'usa', 'vampire', 'video',
+            'videogames', 'war', 'web', 'women', 'world', 'writing', 'wtf', 'zombies');
 
         shuffle($tags);
 
@@ -417,7 +414,7 @@ class Storage
         }
 
         // Get the old content record
-        $tablename = $this->getTablename($contenttype);
+        $tablename = $this->getContenttypeTablename($contenttype);
         $oldContent = $this->findContent($tablename, $id);
 
         // Dispatch pre-delete event
@@ -432,9 +429,9 @@ class Storage
 
         // Make sure relations and taxonomies are deleted as well.
         if ($res) {
-            $this->app['db']->delete($this->prefix . 'relations', array('from_contenttype' => $contenttype, 'from_id' => $id));
-            $this->app['db']->delete($this->prefix . 'relations', array('to_contenttype' => $contenttype, 'to_id' => $id));
-            $this->app['db']->delete($this->prefix . 'taxonomy', array('contenttype' => $contenttype, 'content_id' => $id));
+            $this->app['db']->delete($this->getTablename('relations'), array('from_contenttype' => $contenttype, 'from_id' => $id));
+            $this->app['db']->delete($this->getTablename('relations'), array('to_contenttype' => $contenttype, 'to_id' => $id));
+            $this->app['db']->delete($this->getTablename('taxonomy'), array('contenttype' => $contenttype, 'content_id' => $id));
         }
 
         // Dispatch post-delete event
@@ -456,7 +453,7 @@ class Storage
      */
     protected function insertContent(Content $content, $comment = null)
     {
-        $tablename = $this->getTablename($content->contenttype['slug']);
+        $tablename = $this->getContenttypeTablename($content->contenttype);
 
         // Set creation and update dates
         $content->setValue('datecreated', date('Y-m-d H:i:s'));
@@ -497,7 +494,7 @@ class Storage
      */
     private function updateContent(Bolt\Content $content, $comment = null)
     {
-        $tablename = $this->getTablename($content->contenttype['slug']);
+        $tablename = $this->getContenttypeTablename($content->contenttype);
 
         // Set the date the record was changed
         $content->setValue('datechanged', date('Y-m-d H:i:s'));
@@ -531,7 +528,7 @@ class Storage
     private function getValidSaveData(array $fieldvalues, array $contenttype)
     {
         // Clean up fields, check unneeded columns.
-        foreach ($fieldvalues as $key => $value) {
+        foreach (array_keys($fieldvalues) as $key) {
             if ($this->isValidColumn($key, $contenttype)) {
                 if (is_string($fieldvalues[$key])) {
                     // Trim strings
@@ -641,7 +638,7 @@ class Storage
         // This could be even more configurable
         // (see also Content->getFieldWeights)
         $searchableTypes = array('text', 'textarea', 'html', 'markdown');
-        $table = $this->getTablename($contenttype);
+        $table = $this->getContenttypeTablename($contenttype);
 
         // Build fields 'WHERE'
         $fieldsWhere = array();
@@ -852,7 +849,7 @@ class Storage
     public function searchContentType($contenttypename, array $parameters = array(), &$pager = array())
     {
         $where = array();
-        $tablename = $this->getTablename($contenttypename);
+        $tablename = $this->getContenttypeTablename($contenttypename);
 
         $contenttype = $this->app['config']->get('contenttypes/' . $contenttypename);
 
@@ -1057,22 +1054,24 @@ class Storage
         }
 
         $this->checkedfortimed["publish-" . $contenttype['slug']] = true;
-        $tablename = $this->getTablename($contenttype['slug']);
-        $now = date('Y-m-d H:i:s', time());
+        $tablename = $this->getContenttypeTablename($contenttype);
 
         try {
             // Check if there are any records that need publishing.
             $stmt = $this->app['db']->executeQuery(
-                "SELECT id FROM $tablename WHERE status = 'timed' and datepublish < :now",
-                array('now' => $now)
+                "SELECT id FROM $tablename WHERE status = 'timed' and datepublish < CURRENT_TIMESTAMP"
             );
 
             // If there's a result, we need to set these to 'publish'.
             if ($stmt->fetch() !== false) {
-                $this->app['db']->query(
-                    "UPDATE $tablename SET status = 'published', datechanged = :now WHERE status = 'timed' and datepublish < :now",
-                    array('now' => $now)
+                // This is where we do black magic voodoo, because `datechanged` has the server
+                // time, which is not necessarily the same as `CURRENT_TIMESTAMP()`. Awesome!
+                $query = sprintf(
+                    "UPDATE %s SET status = 'published', datechanged = '%s' WHERE status = 'timed' and datepublish < CURRENT_TIMESTAMP",
+                    $tablename,
+                    date('Y-m-d H:i:s')
                 );
+                $this->app['db']->query($query);
             }
         } catch (DBALException $e) {
             $message = "Timed publication of records for $contenttype failed: " . $e->getMessage();
@@ -1093,23 +1092,23 @@ class Storage
         }
 
         $this->checkedfortimed["depublish-" . $contenttype['slug']] = true;
-        $tablename = $this->getTablename($contenttype['slug']);
-        $now = date('Y-m-d H:i:s', time());
+        $tablename = $this->getContenttypeTablename($contenttype);
 
         try {
 
             // Check if there are any records that need depublishing.
             $stmt = $this->app['db']->executeQuery(
-                "SELECT id FROM $tablename WHERE status = 'published' and datedepublish <= :now and datedepublish > '1900-01-01 00:00:01' and datechanged < datedepublish",
-                array('now' => $now)
+                "SELECT id FROM $tablename WHERE status = 'published' and datedepublish <= CURRENT_TIMESTAMP and datedepublish > '1900-01-01 00:00:01' and datechanged < datedepublish"
             );
 
             // If there's a result, we need to set these to 'held'.
             if ($stmt->fetch() !== false) {
-                $this->app['db']->query(
-                    "UPDATE $tablename SET status = 'held', datechanged = :now WHERE status = 'published' and datedepublish <= :now and datedepublish > '1900-01-01 00:00:01' and datechanged < datedepublish",
-                    array('now' => $now)
+                $query = sprintf(
+                    "UPDATE %s SET status = 'held', datechanged = '%s' WHERE status = 'published' and datedepublish <= CURRENT_TIMESTAMP and datedepublish > '1900-01-01 00:00:01' and datechanged < datedepublish",
+                    $tablename,
+                    date('Y-m-d H:i:s')
                 );
+                $this->app['db']->query($query);
             }
         } catch (DBALException $e) {
             $message = "Timed de-publication of records for $contenttype failed: " . $e->getMessage();
@@ -1121,6 +1120,8 @@ class Storage
      * Split into meta-parameters and contenttype parameters.
      *
      * This is tightly coupled to $this->getContent()
+     *
+     * @param array|string|null $inParameters
      *
      * @see $this->decodeContentQuery()
      */
@@ -1240,7 +1241,7 @@ class Storage
 
         // When using from the frontend, we assume (by default) that we only want published items,
         // unless something else is specified explicitly
-        if (isset($this->app['end']) && $this->app['end'] == "frontend" && empty($ctypeParameters['status'])) {
+        if (isset($this->app['end']) && $this->app['end'] != "backend" && empty($ctypeParameters['status'])) {
             $ctypeParameters['status'] = "published";
         }
 
@@ -1306,7 +1307,9 @@ class Storage
             }
         }
 
-        if (!isset($metaParameters['limit'])) {
+        if ($decoded['return_single']) {
+            $metaParameters['limit'] = 1;
+        } elseif (!isset($metaParameters['limit'])) {
             $metaParameters['limit'] = 9999;
         }
     }
@@ -1330,7 +1333,7 @@ class Storage
                 $order = $this->getEscapedSortorder($contenttype['sort'], false);
             }
         } else {
-            $parOrder = String::makeSafe($orderValue);
+            $parOrder = Str::makeSafe($orderValue);
             if ($parOrder == 'RANDOM') {
                 $dboptions = $this->app['db']->getParams();
                 $order = $dboptions['randomfunction'];
@@ -1394,7 +1397,7 @@ class Storage
         // for all the non-reserved parameters that are fields or taxonomies, we assume people want to do a 'where'
         foreach ($ctypeParameters as $contenttypeslug => $actualParameters) {
             $contenttype = $this->getContentType($contenttypeslug);
-            $tablename = $this->getTablename($contenttype['slug']);
+            $tablename = $this->getContenttypeTablename($contenttype);
             $where = array();
             $order = array();
 
@@ -1465,7 +1468,7 @@ class Storage
                                 in_array($keyParts[$i], Content::getBaseColumns())) {
                                 $rkey = $tablename . '.' . $keyParts[$i];
                                 $fieldtype = $this->getContentTypeFieldType($contenttype['slug'], $keyParts[$i]);
-                                $orPart .= ' (' . $this->parseWhereParameter($rkey, $valParts[$i], $keyParts[$i], $fieldtype) . ') OR ';
+                                $orPart .= ' (' . $this->parseWhereParameter($rkey, $valParts[$i], $fieldtype) . ') OR ';
                             }
                         }
                         if (strlen($orPart) > 2) {
@@ -1510,8 +1513,7 @@ class Storage
             }
 
             if (count($order) == 0) {
-                // we didn't add table, maybe this is an issue
-                $order[] = 'datepublish DESC';
+                $order[] = $this->decodeQueryOrder($contenttype, false) ?: 'datepublish DESC';
             }
 
             if (count($where) > 0) {
@@ -1561,15 +1563,17 @@ class Storage
      */
     private function runContenttypeChecks(array $contenttypes)
     {
+        $checkedcontenttype = array();
+
         foreach ($contenttypes as $contenttypeslug) {
 
             // Make sure we do this only once per contenttype
-            if (isset($this->app->checkedcontenttype[$contenttypeslug])) {
+            if (isset($checkedcontenttype[$contenttypeslug])) {
                 continue;
             }
 
             $contenttype = $this->getContentType($contenttypeslug);
-            $tablename = $this->getTablename($contenttype['slug']);
+            $tablename = $this->getContenttypeTablename($contenttype);
 
             // If the table doesn't exist (yet), return false.
             if (!$this->tableExists($tablename)) {
@@ -1581,7 +1585,7 @@ class Storage
             $this->depublishExpiredRecords($contenttype);
 
             // "mark" this one as checked.
-            $this->app->checkedcontenttype[$contenttypeslug] = true;
+            $checkedcontenttype[$contenttypeslug] = true;
         }
 
         return true;
@@ -1627,7 +1631,7 @@ class Storage
      *
      * @return array
      */
-    private function executeGetContentSearch($decoded, $parameters)
+    protected function executeGetContentSearch($decoded, $parameters)
     {
         $results = $this->searchContent(
             $parameters['filter'],
@@ -1653,7 +1657,7 @@ class Storage
      *
      * @return array
      */
-    private function executeGetContentQueries($decoded)
+    protected function executeGetContentQueries($decoded)
     {
         // Perform actual queries and hydrate
         $totalResults = false;
@@ -1736,7 +1740,7 @@ class Storage
      * @param array  $pager
      * @param array  $whereparameters
      *
-     * @return Content
+     * @return array
      */
     public function getContent($textquery, $parameters = '', &$pager = array(), $whereparameters = array())
     {
@@ -1746,6 +1750,12 @@ class Storage
         // $whereparameters is passed if called from a compiled template. If present, merge it with $parameters.
         if (!empty($whereparameters)) {
             $parameters = array_merge((array) $parameters, (array) $whereparameters);
+        }
+
+        $logNotFound = false;
+        if (isset($parameters['log_not_found'])) {
+            $logNotFound = $parameters['log_not_found'];
+            unset($parameters['log_not_found']);
         }
 
         // Decode this textquery
@@ -1799,11 +1809,13 @@ class Storage
                 return util::array_first($results);
             }
 
-            $msg = sprintf(
-                "Requested specific query '%s', not found.",
-                $textquery
-            );
-            $this->app['logger.system']->error($msg, array('event' => 'storage'));
+            if ($logNotFound) {
+                $msg = sprintf(
+                    "Requested specific query '%s', not found.",
+                    $textquery
+                );
+                $this->app['logger.system']->error($msg, array('event' => 'storage'));
+            }
             $this->app['stopwatch']->stop('bolt.getcontent');
 
             return false;
@@ -2049,7 +2061,7 @@ class Storage
      *
      * @param string $contenttypeslug
      *
-     * @return bool|array
+     * @return boolean|array
      */
     public function getContentType($contenttypeslug)
     {
@@ -2178,9 +2190,9 @@ class Storage
     {
         $grouping = false;
         $taxonomy = $this->getContentTypeTaxonomy($contenttypeslug);
-        foreach ($taxonomy as $taxokey => $taxo) {
-            if ($taxo['behaves_like'] == "grouping") {
-                $grouping = $taxo['slug'];
+        foreach ($taxonomy as $tax) {
+            if ($tax['behaves_like'] === 'grouping') {
+                $grouping = $tax['slug'];
                 break;
             }
         }
@@ -2368,6 +2380,20 @@ class Storage
                 }
             }
 
+            // Convert new slugs to lowercase to compare in the delete process
+            $newSlugsNormalised = array();
+            foreach ($newslugs as $slug) {
+                // If it's like 'desktop#10', split it into value and sortorder.
+                list($slug, $sortorder) = explode('#', $slug . "#");
+                $slug = $this->app['slugify']->slugify($slug);
+
+                if (!empty($sortorder)) {
+                    $slug = $slug . '#' . $sortorder;
+                }
+
+                $newSlugsNormalised[] = $slug;
+            }
+
             // Delete the ones that have been removed.
             foreach ($currentvalues as $id => $slug) {
 
@@ -2375,7 +2401,7 @@ class Storage
                 $valuewithorder = $slug . "#" . $currentsortorder;
                 $slugkey = '/' . $configTaxonomies[$taxonomytype]['slug'] . '/' . $slug;
 
-                if (!in_array($slug, $newslugs) && !in_array($valuewithorder, $newslugs) && !array_key_exists($slugkey, $newslugs)) {
+                if (!in_array($slug, $newSlugsNormalised) && !in_array($valuewithorder, $newSlugsNormalised) && !array_key_exists($slugkey, $newSlugsNormalised)) {
                     $this->app['db']->delete($tablename, array('id' => $id));
                 }
             }
@@ -2535,7 +2561,7 @@ class Storage
 
     public function getLatestId($contenttypeslug)
     {
-        $tablename = $this->getTablename($contenttypeslug);
+        $tablename = $this->getContenttypeTablename($contenttypeslug);
 
         // Get the current values from the DB.
         $query = sprintf(
@@ -2566,7 +2592,7 @@ class Storage
     public function getUri($title, $id = 0, $contenttypeslug = "", $fulluri = true, $allowempty = true, $slugfield = 'slug')
     {
         $contenttype = $this->getContentType($contenttypeslug);
-        $tablename = $this->getTablename($contenttype['slug']);
+        $tablename = $this->getContenttypeTablename($contenttype);
         $id = intval($id);
         $slug = $this->app['slugify']->slugify($title);
 
@@ -2670,18 +2696,38 @@ class Storage
     }
 
     /**
-     * Get the tablename with prefix from a given $name.
+     * Get the table name with prefix from a given $name.
      *
-     * @param $name
+     * @param string $name
      *
-     * @return mixed
+     * @return string
      */
-    protected function getTablename($name)
+    public function getTablename($name)
     {
-        $name = str_replace("-", "_", $this->app['slugify']->slugify($name));
-        $tablename = sprintf("%s%s", $this->prefix, $name);
+        if ($this->prefix === null) {
+            $this->prefix = $this->app['config']->get('general/database/prefix', 'bolt_');
+        }
+
+        $name = str_replace('-', '_', $this->app['slugify']->slugify($name));
+        $tablename = sprintf('%s%s', $this->prefix, $name);
 
         return $tablename;
+    }
+
+    /**
+     * Get the tablename with prefix from a given Contenttype.
+     *
+     * @param string|array $contenttype
+     *
+     * @return string
+     */
+    public function getContenttypeTablename($contenttype)
+    {
+        if (is_string($contenttype)) {
+            $contenttype = $this->getContentType($contenttype);
+        }
+
+        return $this->getTablename($contenttype['tablename']);
     }
 
     protected function hasRecords($tablename)

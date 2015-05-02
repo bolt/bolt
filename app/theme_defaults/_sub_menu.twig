@@ -1,7 +1,9 @@
 {% macro display_menu_item(item, loop) %}
 <li class="index-{{ loop.index }}{% if loop.first %} first{% endif %}{% if loop.last %} last{% endif %}">
     <a href="{{ item.link }}" {% if item.title is defined %}title='{{ item.title|escape }}'{% endif %}
-       class='{% if item|current %}current {% endif %}{% if item.class is defined %}{{item.class}}{% endif %}'>{{item.label}}</a>
+       class='{% if item|current %}current {% endif %}{% if item.class is defined %}{{item.class}}{% endif %}'>
+       {% if item.label is defined %}{{item.label}}{% else %} - {% endif %}
+    </a>
 
     {% if item.submenu is defined %}
         <ul>

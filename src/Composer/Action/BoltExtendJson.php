@@ -59,7 +59,7 @@ final class BoltExtendJson
      *
      * @param Application $app
      *
-     * @return string
+     * @return array|null
      */
     public function updateJson(Application $app)
     {
@@ -70,6 +70,11 @@ final class BoltExtendJson
         $jsonFile = new JsonFile($this->options['composerjson']);
         if ($jsonFile->exists()) {
             $json = $jsonorig = $jsonFile->read();
+
+            // Workaround Bolt 2.0 installs with "require": []
+            if (isset($json['require']) && empty($json['require'])) {
+                unset($json['require']);
+            }
         } else {
             // Error
             $this->messages[] = Trans::__(

@@ -49,8 +49,11 @@
         initSaveNew();
         initSaveContinue(data);
         initPreview(data.singularSlug);
+        initLiveEditor(data.singularSlug);
         initDelete();
         initTabGroups();
+        initTemplateSelect();
+        bolt.liveEditor.init(data);
         window.setTimeout(function () {
             initKeyboardShortcuts();
         }, 1000);
@@ -134,6 +137,19 @@
             $('#editcontent').attr('action', newAction).attr('target', '_blank').submit();
             $('#editcontent').attr('action', '').attr('target', '_self');
         });
+    }
+
+    /**
+     * Initialize the live editor button
+     *
+     * @static
+     * @function initLiveEditor
+     * @memberof Bolt.editcontent
+     *
+     * @param {string} slug - Contenttype singular slug.
+     */
+    function initLiveEditor(slug) {
+
     }
 
     /**
@@ -224,7 +240,7 @@
 
             // Trigger form validation
             $('#editcontent').trigger('boltvalidate');
-            // check validation
+            // Check validation
             if (!$('#editcontent').data('valid')) {
                 return false;
             }
@@ -235,6 +251,7 @@
 
             // Disable the buttons, to indicate stuff is being done.
             $('#sidebarsavecontinuebutton, #savecontinuebutton').addClass('disabled');
+            $('#sidebarsavecontinuebutton i, #savecontinuebutton i').addClass('fa-spin fa-spinner');
             $('p.lastsaved').text(bolt.data('editcontent.msg.saving'));
 
             if (newrecord) {
@@ -275,23 +292,32 @@
 
                                     // If there is a CKEditor attached to our element, update it
                                     if (ckeditor && ckeditor.instances[index]) {
-                                        ckeditor.instances[index].setData(item);
+                                        ckeditor.instances[index].setData(
+                                            item,
+                                            {
+                                                callback: function() {
+                                                    this.resetDirty();
+                                                }
+                                            }
+                                        );
                                     }
                                 }
                             });
                         }
                         // Update dates and times from new values
-                        bolt.datetimes.update();
+                        bolt.datetime.update();
 
                         watchChanges();
-
                     })
                     .fail(function(){
                         $('p.lastsaved').text(msgNotSaved);
                     })
                     .always(function(){
                         // Re-enable buttons
-                        $('#sidebarsavecontinuebutton, #savecontinuebutton').removeClass('disabled');
+                        window.setTimeout(function(){
+                            $('#sidebarsavecontinuebutton, #savecontinuebutton').removeClass('disabled').blur();
+                            $('#sidebarsavecontinuebutton i, #savecontinuebutton i').removeClass('fa-spin fa-spinner');
+                        }, 300);
                     });
             }
         });
@@ -328,11 +354,42 @@
 
             // Initialize handler for 'closing window'
             window.onbeforeunload = function () {
-                if (hasChanged()) {
+                if ((hasChanged()) || (bolt.liveEditor.active)) {
                     return bolt.data('editcontent.msg.change_quit');
                  }
             };
         }
+    }
+
+    /**
+     * Warn the user of potential template field changes
+     * if they change a templateselect field
+     *
+     * @static
+     * @function initTemplateSelect
+     * @memberof Bolt.editcontent
+     *
+     * @param {BindData} data - Editcontent configuration data
+     */
+    function initTemplateSelect() {
+        $('.templateselect').each(function() {
+            var select = $(this).find('select');
+            var config = select.data('stats');
+            var warning = $(this).find('.templatewarning');
+
+            select.change(function() {
+                warning.html('').addClass('hidden').removeClass('text-danger');
+                if (select.val() !== config.current) {
+                    if (config.currentHas) {
+                        warning.html('<strong>' + config.message.warning + ':</strong> ' + config.message.warningChange)
+                            .removeClass('hidden')
+                            .addClass('text-danger');
+                    } else if (_.contains(config.fieldTemplates, select.val())) {
+                        warning.html(config.message.change).removeClass('hidden');
+                    }
+                }
+            });
+        });
     }
 
     /**
@@ -343,10 +400,17 @@
      * @memberof Bolt.editcontent
      */
     function watchChanges() {
-        bolt.ckeditor.update();
         $('form#editcontent').find('input, textarea, select').each(function () {
-            if (this.name) {
-                $(this).data('watch', this.type === 'select-multiple' ? JSON.stringify($(this).val()) : $(this).val());
+            if (this.type === 'textarea' && $(this).hasClass('ckeditor')) {
+                if (ckeditor.instances[this.id].checkDirty()) {
+                    ckeditor.instances[this.id].updateElement();
+                    ckeditor.instances[this.id].resetDirty();
+                }
+            }else{
+                var val = getComparable(this);
+                if (val !== undefined) {
+                    $(this).data('watch', val);
+                }
             }
         });
     }
@@ -361,20 +425,46 @@
      * @returns {boolean}
      */
     function hasChanged() {
-        var changes = 0,
-            val;
+        var changes = 0;
 
-        bolt.ckeditor.update();
         $('form#editcontent').find('input, textarea, select').each(function () {
-            if (this.name) {
-                val = this.type === 'select-multiple' ? JSON.stringify($(this).val()) : $(this).val();
-                if ($(this).data('watch') !== val) {
+            if (this.type === 'textarea' && $(this).hasClass('ckeditor')) {
+                if (ckeditor.instances[this.id].checkDirty()) {
+                    changes++;
+                }
+            } else {
+                var val = getComparable(this);
+                if (val !== undefined && $(this).data('watch') !== val) {
                     changes++;
                 }
             }
         });
 
         return changes > 0;
+    }
+
+    /**
+     * Gets the current value of an input element processed to be comparable
+     *
+     * @static
+     * @function getComparable
+     * @memberof Bolt.editcontent
+     *
+     * @param {Object} item - Input element
+     *
+     * @returns {string|undefined}
+     */
+    function getComparable(item) {
+        var val;
+
+        if (item.name) {
+            val = $(item).val();
+            if (item.type === 'select-multiple') {
+                val = JSON.stringify(val);
+            }
+        }
+
+        return val;
     }
 
     // Apply mixin container.

@@ -173,7 +173,7 @@
         }
     }
 
-    /*** Map/Image-Holder ***/
+    /*** Image-Holder ***/
 
     @media (min-width: 768px) {
         .right-on-large {
@@ -191,16 +191,9 @@
         }
     }
 
-    .mapholder {
-        border: 1px solid #BBB;
-        width: 200px;
-        height: 148px;
-        padding: 2px;
-
-        @include respond-to(medium-screens) {
-            min-width: 160px;
-            max-width: 200px;
-        }
+    /*** Template Select Field ***/
+    .templatewarning {
+        margin-top: 5px;
     }
 
     /*** Input: Datepicker ***/
@@ -250,64 +243,28 @@
         float: left;
     }
 
-    /*** Fieldset: Checkbox ***/
+    /*** Input: Markdown ***/
 
-    fieldset.checkbox {
-        display: block;
-
-        label {
-            display: inline;
-            padding-left: 0;
-            font-weight: normal;
-        }
-
-        input {
-            display: inline;
-            height: 1em;
-            margin-left: 10px;
-            width: auto;
-        }
+    .uk-htmleditor-content .CodeMirror {
+        font-size: 14px;
+        border: 0 !important;
+        font-family: Menlo, Consolas, Monaco, 'Courier New', monospace;
+        margin: 0;
     }
 
-    /*** Fieldset: Select and Multiselect ***/
-
-    fieldset.select,
-    fieldset.multiselect {
-        select {
-            display: block;
-            margin-bottom: 8px;
-            width: auto;
-            min-width: 200px;
-        }
-
-        .wide {
-            width: 100%;
-        }
-
+    .uk-htmleditor-navbar {
+        border-top: 1px solid #CCC;
+        border-left: 1px solid #CCC;
+        border-right: 1px solid #CCC;
     }
 
-    /*** Fieldset: Slug ***/
+    .uk-htmleditor-preview {
+        padding: 6px 14px;
+        font-size: 14px;
+    }
 
-    fieldset.slug {
-        margin-top: -10px; // pull the slug closer to the field previous, usually the title
-
-        label {
-            margin: 0 0 0.5em;
-            code {
-                white-space: normal;
-            }
-        }
-
-        .sluginput {
-            display: none;
-        }
-
-        .sluglocker,
-        .slugedit {
-            color: #666;
-            display: inline-block;
-            padding: 0 3px;
-            cursor: pointer;
-        }
+    .uk-htmleditor-fullscreen {
+        margin-top: 52px;
+        margin-bottom: 24px;
     }
 }

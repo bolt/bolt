@@ -16,6 +16,10 @@ matrix:
 
 services:
   - mysql
+  - postgresql
+
+addons:
+  postgresql: "9.3"
 
 before_install:
   - sudo add-apt-repository -y ppa:nginx/stable
@@ -49,16 +53,29 @@ before_script:
   - composer install --prefer-dist
   # Set up permissions
   - chmod -R 777 app/database/ app/cache/ app/config/ extensions/ files/ theme/
-  # Set up tests directories
-  - mkdir -p tests/phpunit/unit/Nut/resources/
-  - chmod 777 tests/phpunit/unit/Nut/resources/
   # Set up MySQL
   - mysql -e "CREATE DATABASE IF NOT EXISTS bolt_travis;" -u root
   - mysql -e "CREATE USER 'bolt_travis'@'localhost' IDENTIFIED BY 'bolt_travis';" -u root
   - mysql -e "GRANT ALL PRIVILEGES ON bolt_travis.* TO 'bolt_travis'@'localhost';" -u root
   - mysql -e "FLUSH PRIVILEGES;" -u root
+  # Set up PostgreSQL
+  - psql -c "CREATE DATABASE bolt_travis;" -U postgres || true
+  - psql -c "CREATE USER bolt_travis WITH PASSWORD 'bolt_travis';" -U postgres
+  - psql -c "GRANT ALL PRIVILEGES ON DATABASE bolt_travis TO bolt_travis;" -U postgres
+  # Get the composer.json from our bolt/composer-install repo
+  - git clone https://github.com/bolt/composer-install.git .tmp
+  # - cd .tmp
+  # Add requires
+  - composer require --working-dir=.tmp/ --no-update "bolt/bolt:dev-master" "phpunit/phpunit:~4.5" "codeception/codeception:*" lstrojny/phpunit-function-mocker
+  # Create the project
+  - composer create-project --working-dir=.tmp/ --no-interaction --prefer-dist
+  # Update the Composer Bolt install with the PR files
+  - rsync -av --delete src/ .tmp/vendor/bolt/bolt/src/
+  - rsync -av --delete app/ .tmp/vendor/bolt/bolt/app/
+  - rsync -av --delete tests/ .tmp/vendor/bolt/bolt/tests/
 
 script:
+  ## Default install tests
   # PHPUnit
   - phpunit -c phpunit.xml.dist
   # Codeception set up (PHP >5.3)
@@ -68,6 +85,34 @@ script:
   # Codeception MySQL run (PHP >5.3)
   - ./tests/scripts/travis-db-config mysql
   - if [[ $TRAVIS_PHP_VERSION =~ (^5.[456]|^7|^hhvm) ]]; then ./vendor/codeception/codeception/codecept run ; fi
+  # Codeception PostgreSQL run (PHP >5.3)
+  - ./tests/scripts/travis-db-config postgres
+  - if [[ $TRAVIS_PHP_VERSION =~ (^5.[456]|^7|^hhvm) ]]; then ./vendor/codeception/codeception/codecept run ; fi
+  ## Composer install test
+  # To enable Composer tests, set RUN_COMPOSER_TEST=true in the web UI at https://travis-ci.org/bolt/bolt/settings/env_vars
+  # - if [[ $RUN_COMPOSER_TEST != true ]] ; then echo "Composer tests disabled. " ; exit 0 ; fi
+  # Remove git installed stuff
+  - rm ./* -rf ; rm .git* -rf
+  - mv .tmp/* .
+  # Set up MySQL
+  - mysql -e "DROP DATABASE bolt_travis;" -u root
+  - mysql -e "CREATE DATABASE IF NOT EXISTS bolt_travis;" -u root
+  - mysql -e "GRANT ALL PRIVILEGES ON bolt_travis.* TO 'bolt_travis'@'localhost';" -u root
+  - mysql -e "FLUSH PRIVILEGES;" -u root
+  # Set up PostgreSQL
+  - psql -c "DROP DATABASE bolt_travis;" -U postgres
+  - psql -c "CREATE DATABASE bolt_travis;" -U postgres
+  - psql -c "GRANT ALL PRIVILEGES ON DATABASE bolt_travis TO bolt_travis;" -U postgres
+  # Codeception set up (PHP >5.3)
+  - if [[ $TRAVIS_PHP_VERSION =~ (^5.[456]|^7|^hhvm) ]]; then ./vendor/codeception/codeception/codecept build  --config ./vendor/bolt/bolt/codeception.yml ; fi
+  # Codeception Sqlite run (PHP >5.3)
+  - if [[ $TRAVIS_PHP_VERSION =~ (^5.[456]|^7|^hhvm) ]]; then ./vendor/codeception/codeception/codecept run --config ./vendor/bolt/bolt/codeception.yml ; fi
+  # Codeception MySQL run (PHP >5.3)
+  - ./vendor/bolt/bolt/tests/scripts/travis-db-config mysql
+  - if [[ $TRAVIS_PHP_VERSION =~ (^5.[456]|^7|^hhvm) ]]; then ./vendor/codeception/codeception/codecept run --config ./vendor/bolt/bolt/codeception.yml ; fi
+  # Codeception PostgreSQL run (PHP >5.3)
+  - ./vendor/bolt/bolt/tests/scripts/travis-db-config postgres
+  - if [[ $TRAVIS_PHP_VERSION =~ (^5.[456]|^7|^hhvm) ]]; then ./vendor/codeception/codeception/codecept run --config ./vendor/bolt/bolt/codeception.yml ; fi
 
 after_script:
 

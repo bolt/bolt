@@ -19,7 +19,8 @@ module.exports = {
             prefixes: true
         },
         tests: [
-            'cookies'
+            'cookies',
+            'contenteditable'
         ],
         uglify: false,
         matchCommunityTests: true,

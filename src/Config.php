@@ -4,7 +4,7 @@ namespace Bolt;
 
 use Bolt\Exception\LowlevelException;
 use Bolt\Helpers\Arr;
-use Bolt\Helpers\String;
+use Bolt\Helpers\Str;
 use Bolt\Library as Lib;
 use Bolt\Translation\Translator as Trans;
 use Cocur\Slugify\Slugify;
@@ -21,13 +21,21 @@ use Symfony\Component\Yaml\Parser;
  */
 class Config
 {
+    /** @var Application */
     protected $app;
+
+    /** @var array */
     protected $data;
+
+    /** @var array */
     protected $defaultConfig = array();
+
+    /** @var array */
     protected $reservedFieldNames = array(
-        'id', 'slug', 'datecreated', 'datechanged', 'datepublish', 'datedepublish', 'ownerid', 'username', 'status', 'link'
+        'id', 'slug', 'datecreated', 'datechanged', 'datepublish', 'datedepublish', 'ownerid', 'username', 'status', 'link', 'templatefields'
     );
 
+    /** @var integer */
     protected $cachetimestamp;
 
     /**
@@ -38,8 +46,10 @@ class Config
      */
     public $fields;
 
+    /** @var boolean */
     public $notify_update;
 
+    /** @var \Symfony\Component\Yaml\Parser */
     protected $yamlParser = false;
 
     /**
@@ -61,7 +71,7 @@ class Config
             $this->saveCache();
 
             // if we have to reload the config, we will also want to make sure the DB integrity is checked.
-            Database\IntegrityChecker::invalidate($this->app);
+            $this->app['integritychecker']->invalidate();
         } else {
 
             // In this case the cache is loaded, but because the path of the theme
@@ -74,6 +84,8 @@ class Config
     }
 
     /**
+     * Read and parse a YAML configuration file
+     *
      * @param string $filename The name of the YAML file to read
      * @param string $path     The (optional) path to the YAML file
      *
@@ -96,6 +108,9 @@ class Config
 
         $yml = $this->yamlParser->parse(file_get_contents($filename) . "\n");
 
+        // Unset the repeated nodes key after parse
+        unset($yml['__nodes']);
+
         // Invalid, non-existing, or empty files return NULL
         return $yml ?: array();
     }
@@ -109,7 +124,7 @@ class Config
      * @param string $path
      * @param mixed  $value
      *
-     * @return bool
+     * @return boolean
      */
     public function set($path, $value)
     {
@@ -180,27 +195,34 @@ class Config
 
     /**
      * Load the configuration from the various YML files.
+     *
+     * @return array
      */
     public function getConfig()
     {
         $config = array();
 
-        $config['general']     = $this->parseGeneral();
-        $config['taxonomy']    = $this->parseTaxonomy();
-        $config['contenttypes'] = $this->parseContentTypes($config['general']['accept_file_types']);
-        $config['menu']        = $this->parseConfigYaml('menu.yml');
-        $config['routing']     = $this->parseConfigYaml('routing.yml');
-        $config['permissions'] = $this->parseConfigYaml('permissions.yml');
-        $config['extensions']  = array();
+        $config['general']      = $this->parseGeneral();
+        $config['taxonomy']     = $this->parseTaxonomy();
+        $config['contenttypes'] = $this->parseContentTypes($config['general']);
+        $config['menu']         = $this->parseConfigYaml('menu.yml');
+        $config['routing']      = $this->parseConfigYaml('routing.yml');
+        $config['permissions']  = $this->parseConfigYaml('permissions.yml');
+        $config['extensions']   = array();
 
         // fetch the theme config. requires special treatment due to the path being dynamic
         $this->app['resources']->initializeConfig($config);
-        $config['theme'] = $this->parseConfigYaml('config.yml', $this->app['resources']->getPath('theme'));
+        $config['theme'] = $this->parseTheme($this->app['resources']->getPath('theme'), $config['general']);
 
         // @todo: If no config files can be found, get them from bolt.cm/files/default/
         return $config;
     }
 
+    /**
+     * Read and parse the config.yml and config_local.yml configuration files.
+     *
+     * @return array
+     */
     protected function parseGeneral()
     {
         // Read the config and merge it. (note: We use temp variables to prevent
@@ -250,13 +272,18 @@ class Config
         }
 
         // Make sure Bolt's mount point is OK:
-        $general['branding']['path'] = '/' . String::makeSafe($general['branding']['path']);
+        $general['branding']['path'] = '/' . Str::makeSafe($general['branding']['path']);
 
         $general['database'] = $this->parseDatabase($general['database']);
 
         return $general;
     }
 
+    /**
+     * Read and parse the taxonomy.yml configuration file.
+     *
+     * @return array
+     */
     protected function parseTaxonomy()
     {
         $taxonomies = $this->parseConfigYaml('taxonomy.yml');
@@ -273,10 +300,10 @@ class Config
                 }
             }
             if (!isset($taxonomy['slug'])) {
-                $taxonomy['slug'] = strtolower(String::makeSafe($taxonomy['name']));
+                $taxonomy['slug'] = strtolower(Str::makeSafe($taxonomy['name']));
             }
             if (!isset($taxonomy['singular_slug'])) {
-                $taxonomy['singular_slug'] = strtolower(String::makeSafe($taxonomy['singular_name']));
+                $taxonomy['singular_slug'] = strtolower(Str::makeSafe($taxonomy['singular_name']));
             }
             if (!isset($taxonomy['has_sortorder'])) {
                 $taxonomy['has_sortorder'] = false;
@@ -305,19 +332,67 @@ class Config
         return $taxonomies;
     }
 
-    protected function parseContentTypes($acceptableFileTypes)
+    /**
+     * Read and parse the contenttypes.yml configuration file.
+     *
+     * @param array $generalConfig
+     *
+     * @return array
+     */
+    protected function parseContentTypes(array $generalConfig)
     {
         $contentTypes = array();
         $tempContentTypes = $this->parseConfigYaml('contenttypes.yml');
         foreach ($tempContentTypes as $key => $contentType) {
-            $contentType = $this->parseContentType($key, $contentType, $acceptableFileTypes);
+            $contentType = $this->parseContentType($key, $contentType, $generalConfig);
             $contentTypes[$contentType['slug']] = $contentType;
         }
 
         return $contentTypes;
     }
 
-    protected function parseContentType($key, $contentType, $acceptableFileTypes)
+    /**
+     * Read and parse the current theme's config.yml configuration file.
+     *
+     * @param string $themePath
+     * @param array  $generalConfig
+     *
+     * @return array
+     */
+    protected function parseTheme($themePath, array $generalConfig)
+    {
+        $themeConfig = $this->parseConfigYaml('config.yml', $themePath);
+
+        if ((isset($themeConfig['templatefields'])) && (is_array($themeConfig['templatefields']))) {
+            $templateContentTypes = array();
+
+            foreach ($themeConfig['templatefields'] as $template => $templateFields) {
+                $fieldsContenttype = array(
+                    'fields'        => $templateFields,
+                    'singular_name' => 'Template Fields ' . $template
+                );
+
+                $templateContentTypes[$template] = $this->parseContentType($template, $fieldsContenttype, $generalConfig);
+            }
+
+            $themeConfig['templatefields'] = $templateContentTypes;
+        }
+
+        return $themeConfig;
+    }
+
+    /**
+     * Parse a single Contenttype configuration array.
+     *
+     * @param string $key
+     * @param array  $contentType
+     * @param array  $generalConfig
+     *
+     * @throws LowlevelException
+     *
+     * @return array
+     */
+    protected function parseContentType($key, $contentType, $generalConfig)
     {
         // If the slug isn't set, and the 'key' isn't numeric, use that as the slug.
         if (!isset($contentType['slug']) && !is_numeric($key)) {
@@ -353,8 +428,25 @@ class Config
         if (!isset($contentType['default_status'])) {
             $contentType['default_status'] = 'draft';
         }
+        if (!isset($contentType['viewless'])) {
+            $contentType['viewless'] = false;
+        }
+        if (!isset($contentType['liveeditor'])) {
+            $contentType['liveeditor'] = true;
+        }
+        // Override contenttype setting with view and config settings
+        if (($contentType['viewless']) || (!$generalConfig['liveeditor'])) {
+            $contentType['liveeditor'] = false;
+        }
+        // Allow explicit setting of a Contenttype's table name suffix. We default
+        // to slug if not present as it has been this way since Bolt v1.2.1
+        if (!isset($contentType['tablename'])) {
+            $contentType['tablename'] = $contentType['slug'];
+        } else {
+            $contentType['tablename'] = Slugify::create()->slugify($contentType['tablename']);
+        }
 
-        list($fields, $groups) = $this->parseFieldsAndGroups($contentType['fields'], $acceptableFileTypes);
+        list($fields, $groups) = $this->parseFieldsAndGroups($contentType['fields'], $generalConfig);
         $contentType['fields'] = $fields;
         $contentType['groups'] = $groups;
 
@@ -365,7 +457,7 @@ class Config
 
         // when adding relations, make sure they're added by their slug. Not their 'name' or 'singular name'.
         if (!empty($contentType['relations']) && is_array($contentType['relations'])) {
-            foreach ($contentType['relations'] as $relkey => $relation) {
+            foreach (array_keys($contentType['relations']) as $relkey) {
                 if ($relkey != Slugify::create()->slugify($relkey)) {
                     $contentType['relations'][Slugify::create()->slugify($relkey)] = $contentType['relations'][$relkey];
                     unset($contentType['relations'][$relkey]);
@@ -376,15 +468,25 @@ class Config
         return $contentType;
     }
 
-    protected function parseFieldsAndGroups($fields, $acceptableFileTypes)
+    /**
+     * Parse a Contenttype's filed and determine the grouping
+     *
+     * @param array $fields
+     * @param array $generalConfig
+     *
+     * @return array
+     */
+    protected function parseFieldsAndGroups(array $fields, array $generalConfig)
     {
+        $acceptableFileTypes = $generalConfig['accept_file_types'];
+
         $currentGroup = 'ungrouped';
         $groups = array();
         $hasGroups = false;
 
         foreach ($fields as $key => $field) {
             unset($fields[$key]);
-            $key = str_replace('-', '_', strtolower(String::makeSafe($key, true)));
+            $key = str_replace('-', '_', strtolower(Str::makeSafe($key, true)));
 
             // If field is a "file" type, make sure the 'extensions' are set, and it's an array.
             if ($field['type'] == 'file' || $field['type'] == 'filelist') {
@@ -459,7 +561,14 @@ class Config
         return array($fields, $hasGroups ? array_keys($groups) : false);
     }
 
-    protected function parseDatabase($options)
+    /**
+     * Parse and fine-tune the database configuration.
+     *
+     * @param array $options
+     *
+     * @return array
+     */
+    protected function parseDatabase(array $options)
     {
         // Make sure prefix ends with underscore
         if (substr($options['prefix'], strlen($options['prefix']) - 1) !== '_') {
@@ -472,7 +581,7 @@ class Config
         $options = array_replace($options, $master);
 
         // Add platform specific random functions
-        $driver = String::replaceFirst('pdo_', '', $options['driver']);
+        $driver = Str::replaceFirst('pdo_', '', $options['driver']);
         if ($driver === 'sqlite') {
             $options['driver'] = 'pdo_sqlite';
             $options['randomfunction'] = 'RANDOM()';
@@ -508,7 +617,14 @@ class Config
         return $options;
     }
 
-    protected function parseSqliteOptions($config)
+    /**
+     * Fine-tune Sqlite configuration parameters.
+     *
+     * @param array $config
+     *
+     * @return array
+     */
+    protected function parseSqliteOptions(array $config)
     {
         if (isset($config['memory']) && $config['memory']) {
             // If in-memory, no need to parse paths
@@ -793,6 +909,7 @@ class Config
                 'blockquote'  => true,
                 'codesnippet' => false,
                 'specialchar' => false,
+                'styles'      => false,
                 'ck'          => array(
                     'allowedContent'          => true,
                     'autoParagraph'           => true,
@@ -808,6 +925,7 @@ class Config
                     'imageBrowseUrl' => $this->app['resources']->getUrl('bolt') . 'files/files'
                 ),
             ),
+            'liveeditor'                  => true,
             'canonical'                   => !empty($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '',
             'developer_notices'           => false,
             'cookies_use_remoteaddr'      => true,
@@ -823,7 +941,7 @@ class Config
                 'notfound_image'    => 'view/img/default_notfound.png',
                 'error_image'       => 'view/img/default_error.png'
             ),
-            'accept_file_types'           => explode(",", "twig,html,js,css,scss,gif,jpg,jpeg,png,ico,zip,tgz,txt,md,doc,docx,pdf,epub,xls,xlsx,csv,ppt,pptx,mp3,ogg,wav,m4a,mp4,m4v,ogv,wmv,avi,webm,svg"),
+            'accept_file_types'           => explode(',', 'twig,html,js,css,scss,gif,jpg,jpeg,png,ico,zip,tgz,txt,md,doc,docx,pdf,epub,xls,xlsx,csv,ppt,pptx,mp3,ogg,wav,m4a,mp4,m4v,ogv,wmv,avi,webm,svg'),
             'hash_strength'               => 10,
             'branding'                    => array(
                 'name'        => 'Bolt',
@@ -837,6 +955,11 @@ class Config
         );
     }
 
+    /**
+     * Build an array of Twig paths.
+     *
+     * @return string[]
+     */
     public function getTwigPath()
     {
         $themepath = $this->app['resources']->getPath('templatespath');
@@ -847,6 +970,12 @@ class Config
         // Backend and Async need access to `app/view/twig`
         if ($end == 'backend' || $end == 'async') {
             $twigpath[] = realpath($this->app['resources']->getPath('app') . '/view/twig');
+            if ($this->app['resources']->hasPath('composerbackendviews')) {
+                $backendviewpath = $this->app['resources']->getPath('composerbackendviews');
+                if (file_exists($backendviewpath)) {
+                    $twigpath[] = realpath($backendviewpath);
+                }
+            }
         }
 
         // The frontend as well as 'ajaxy' requests from the frontend need access to the theme's path.
@@ -895,6 +1024,11 @@ class Config
         );
     }
 
+    /**
+     * Attempt to load cached configuration files.
+     *
+     * @return boolean
+     */
     protected function loadCache()
     {
         $dir = $this->app['resources']->getPath('config');
@@ -942,6 +1076,9 @@ class Config
         return false;
     }
 
+    /**
+     * Cache built configuration parameters.
+     */
     protected function saveCache()
     {
         // Store the version number along with the config.
@@ -956,6 +1093,9 @@ class Config
         @unlink($this->app['resources']->getPath('cache') . '/config_cache.php');
     }
 
+    /**
+     * Check if cache timeout has occured.
+     */
     protected function checkValidCache()
     {
         // Check the timestamp for the theme's config.yml
@@ -1031,7 +1171,7 @@ class Config
     /**
      * Get a timestamp, corrected to the timezone.
      *
-     * @return string timestamp
+     * @return string Timestamp
      */
     public function getTimestamp($when)
     {
@@ -1044,7 +1184,7 @@ class Config
     /**
      * Get the current timestamp, corrected to the timezone.
      *
-     * @return string current timestamp
+     * @return string Current timestamp
      */
     public function getCurrentTimestamp()
     {

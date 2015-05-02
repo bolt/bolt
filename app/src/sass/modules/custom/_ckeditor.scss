@@ -1,0 +1,73 @@
+/** Overrides for CKeditor */
+
+.cke_reset_all, .cke_reset_all * {
+    max-width: 1500px;
+}
+
+.cke_chrome {
+    display: block;
+    border: 1px solid #DDD !important;
+    padding: 0;
+}
+
+.cke_top {
+    background-color: #EEE !important;
+    padding-bottom: 4px;
+}
+
+.cke_bottom {
+    display: block !important;
+    float: right;
+    border: 0 !important;
+    top: 1px;
+    padding: 0 4px !important;
+    background-image: none !important;
+    background-color: transparent !important;
+}
+
+.cke_top {
+    padding: 0 !important;
+}
+
+.cke_toolgroup, .cke_combo_button {
+    border-color: #E7E7E7 !important;
+    margin: 3px !important;
+}
+
+.cke_combo_text, .cke_button_label {
+    color: #666 !important;
+}
+
+.cke_button_on {
+    background-image: none !important;
+    background-color: #E7E7E7 !important;
+}
+
+.cke_contents textarea {
+    width: 99% !important;
+    max-width: 100% !important;
+    padding: 8px 8px;
+    background-color: #EEE;
+    color: #666 !important;
+}
+
+.cke_maximized {
+    background-color: #E7E7E7 !important;
+}
+
+.cke_maximized .cke_contents {
+    margin-bottom: 12px !important;
+}
+
+.cke_maximized .cke_contents iframe {
+    max-width: 900px !important;
+    max-width: 900px !important;
+    position: relative !important;
+    border-left: 1px solid #CCC;
+    border-right: 1px solid #CCC;
+    box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.3);
+}
+
+.cke_toolbar_separator {
+    background-color: #BBB !important;
+}

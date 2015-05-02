@@ -17,6 +17,33 @@
     var app = {};
 
     /**
+     * Initializes fields.
+     *
+     * @function initFields
+     * @memberof Bolt.app
+     */
+    app.initFields = function () {
+        $('[data-bolt-field]').each(function () {
+            var type = $(this).data('bolt-field'),
+                conf = $(this).data('bolt-fconf');
+
+            switch (type) {
+                case 'geolocation':
+                    bolt.fields.geolocation.init(this, conf);
+                    break;
+
+                case 'slug':
+                    bolt.fields.slug.init(this, conf);
+                    break;
+
+                default:
+                    console.log('Unknown field type: ' + type);
+            }
+
+        });
+    };
+
+    /**
      * Initializes and then starts the Bolt module.
      * Is automatically executed on jQueries ``$(document).ready()``.
      *
@@ -26,14 +53,16 @@
     app.run = function () {
         bolt.conf.init();
         bolt.data.init();
-        bolt.stack.init();
         bolt.actions.init();
+        bolt.secmenu.init();
+        bolt.stack.init();
 
         bolt.activity.init();
         bolt.ckeditor.init();
         bolt.datetime.init();
 
         legacyInit();
+        bolt.app.initFields();
     };
 
     /*
@@ -55,8 +84,6 @@
         // Get passed in data from Twig function data()
 
         // Initialize objects
-        bolt.sidebar = new Sidebar();
-        bolt.navpopups = new Navpopups();
         bolt.moments = new Moments();
         bolt.imagelist = [];
         bolt.filelist = [];
@@ -73,10 +100,8 @@
         init.sortables();
         init.omnisearch();
         init.uploads();
-        init.geolocation();
         init.focusStatusSelect();
         init.depublishTracking();
-        init.selectModal();
 
         $('[data-bind]').each(function () {
             var data = $(this).data('bind');
@@ -89,7 +114,6 @@
                 case 'filebrowser': init.bindFileBrowser(); break;
                 case 'ckfileselect': init.bindCkFileSelect(); break;
                 case 'prefill': init.bindPrefill(); break;
-                case 'slug': bolt.slug.init(data); break;
                 case 'video': bolt.video.bind(data.key); break;
                 default: console.log('Binding ' + data.bind + ' failed!');
             }

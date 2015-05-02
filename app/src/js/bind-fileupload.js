@@ -40,10 +40,10 @@ function bindFileUpload(key) {
             add: bindFileUpload.checkFileSize
         })
         .bind('fileuploadprogress', function (e, data) {
-            var progress = Math.round(100 * data._bitrateTimer.loaded / data.files[0].size);
+            var progress = Math.round(100 * data.loaded / data.total);
 
             $('#progress-' + key).show().addClass('progress-striped active');
-            $('#progress-' + key + ' div.bar').css('width', progress + "%");
+            $('#progress-' + key + ' div.progress-bar').css('width', progress + "%");
         });
 }
 

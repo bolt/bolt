@@ -3,10 +3,11 @@
 namespace Bolt;
 
 use Bolt\Exception\LowlevelException;
-use Bolt\Helpers\String;
+use Bolt\Helpers\Str;
 use Bolt\Library as Lib;
 use Bolt\Provider\LoggerServiceProvider;
 use Bolt\Provider\PathServiceProvider;
+use Bolt\Translation\Translator as Trans;
 use Cocur\Slugify\Bridge\Silex\SlugifyServiceProvider;
 use Doctrine\DBAL\DBALException;
 use RandomLib;
@@ -26,11 +27,17 @@ class Application extends Silex\Application
      */
     const DEFAULT_LOCALE = 'en_GB';
 
+    /**
+     * @param array $values
+     */
     public function __construct(array $values = array())
     {
         $values['bolt_version'] = '2.2.0';
-        $values['bolt_name'] = 'alpha';
+        $values['bolt_name'] = 'beta1';
         $values['bolt_released'] = false; // `true` for stable releases, `false` for alpha, beta and RC.
+
+        /** @internal Parameter to track a deprecated PHP version */
+        $values['deprecated.php'] = version_compare(PHP_VERSION, '5.4.0', '<');
 
         parent::__construct($values);
 
@@ -66,7 +73,8 @@ class Application extends Silex\Application
 
     protected function initConfig()
     {
-        $this->register(new Provider\ConfigServiceProvider());
+        $this->register(new Provider\IntegrityCheckerProvider())
+            ->register(new Provider\ConfigServiceProvider());
     }
 
     protected function initSession()
@@ -116,6 +124,8 @@ class Application extends Silex\Application
         // Initialize enabled extensions before executing handlers.
         $this->initExtensions();
 
+        $this->initMailCheck();
+
         // Initialise the global 'before' handler.
         $this->before(array($this, 'beforeHandler'));
 
@@ -126,6 +136,9 @@ class Application extends Silex\Application
         $this->error(array($this, 'errorHandler'));
     }
 
+    /**
+     * Initialize the loggers.
+     */
     public function initLogger()
     {
         $this->register(new LoggerServiceProvider(), array());
@@ -185,7 +198,7 @@ class Application extends Silex\Application
              * to the database, which has failed since we are here.
              */
             $platform = $this['db']->getDriver()->getName();
-            $platform = String::replaceFirst('pdo_', '', $platform);
+            $platform = Str::replaceFirst('pdo_', '', $platform);
 
             $error = "Bolt could not connect to the configured database.\n\n" .
                      "Things to check:\n" .
@@ -201,6 +214,9 @@ class Application extends Silex\Application
         restore_error_handler();
     }
 
+    /**
+     * Initialize the rendering providers.
+     */
     public function initRendering()
     {
         $this->register(new Provider\TwigServiceProvider());
@@ -289,17 +305,15 @@ class Application extends Silex\Application
         // $app['locale'] should only be a single value.
         $this['locale'] = reset($configLocale);
 
-        // Set The Timezone Based on the Config, fallback to UTC
-        date_default_timezone_set(
-            $this['config']->get('general/timezone') ?: 'UTC'
-        );
+        // Set the default timezone if provided in the Config
+        date_default_timezone_set($this['config']->get('general/timezone') ?: ini_get('date.timezone') ?: 'UTC');
 
         // for javascript datetime calculations, timezone offset. e.g. "+02:00"
         $this['timezone_offset'] = date('P');
 
         // Set default locale, for Bolt
         $locale = array();
-        foreach ($configLocale as $key => $value) {
+        foreach ($configLocale as $value) {
             $locale = array_merge($locale, array(
                 $value . '.UTF-8',
                 $value . '.utf8',
@@ -310,7 +324,7 @@ class Application extends Silex\Application
                 substr(Application::DEFAULT_LOCALE, 0, 2)
             ));
         }
-        
+
         setlocale(LC_ALL, array_unique($locale));
 
         $this->register(
@@ -338,9 +352,6 @@ class Application extends Silex\Application
         if ($this['config']->get('general/mailoptions')) {
             // Use the preferred options. Assume it's SMTP, unless set differently.
             $this['swiftmailer.options'] = $this['config']->get('general/mailoptions');
-        } else {
-            // No Mail transport has been set. We should gently nudge the user to set the mail configuration.
-            // @see: the issue at https://github.com/bolt/bolt/issues/2908
         }
 
         if (is_bool($this['config']->get('general/mailoptions/spool'))) {
@@ -366,13 +377,13 @@ class Application extends Silex\Application
             ->register(new Provider\StorageServiceProvider())
             ->register(new Provider\UsersServiceProvider())
             ->register(new Provider\CacheServiceProvider())
-            ->register(new Provider\IntegrityCheckerProvider())
             ->register(new Provider\ExtensionServiceProvider())
             ->register(new Provider\StackServiceProvider())
             ->register(new Provider\OmnisearchServiceProvider())
             ->register(new Provider\TemplateChooserServiceProvider())
             ->register(new Provider\CronServiceProvider())
             ->register(new Provider\FilePermissionsServiceProvider())
+            ->register(new Provider\MenuServiceProvider())
             ->register(new Controllers\Upload())
             ->register(new Controllers\Extend())
             ->register(new Provider\FilesystemProvider())
@@ -380,7 +391,8 @@ class Application extends Silex\Application
             ->register(new Provider\NutServiceProvider())
             ->register(new Provider\GuzzleServiceProvider())
             ->register(new Provider\PrefillServiceProvider())
-            ->register(new SlugifyServiceProvider());
+            ->register(new SlugifyServiceProvider())
+            ->register(new Provider\MarkdownServiceProvider());
 
         $this['paths'] = $this['resources']->getPaths();
 
@@ -399,6 +411,22 @@ class Application extends Silex\Application
     public function initExtensions()
     {
         $this['extensions']->initialize();
+    }
+
+    /**
+     * No Mail transport has been set. We should gently nudge the user to set the mail configuration.
+     *
+     * @see: the issue at https://github.com/bolt/bolt/issues/2908
+     *
+     * For now, we only pester the user, if an extension needs to be able to send
+     * mail, but it's not been set up.
+     */
+    public function initMailCheck()
+    {
+        if (!$this['config']->get('general/mailoptions') && $this['extensions']->hasMailSenders()) {
+            $error = "One or more installed extensions need to be able to send email. Please set up the 'mailoptions' in config.yml.";
+            $this['session']->getFlashBag()->add('error', Trans::__($error));
+        }
     }
 
     public function initMountpoints()
@@ -453,6 +481,26 @@ class Application extends Silex\Application
     }
 
     /**
+     * Remove the 'bolt_session' cookie from the headers if it's about to be set.
+     *
+     * Note, we don't use $request->clearCookie (logs out a logged-on user) or
+     * $request->removeCookie (doesn't prevent the header from being sent).
+     *
+     * @see https://github.com/bolt/bolt/issues/3425
+     */
+    public function unsetSessionCookie()
+    {
+        if (!headers_sent()) {
+            $headersList = headers_list();
+            foreach ($headersList as $header) {
+                if (strpos($header, "Set-Cookie: bolt_session=") === 0) {
+                    header_remove("Set-Cookie");
+                }
+            }
+        }
+    }
+
+    /**
      * Global 'after' handler. Adds 'after' HTML-snippets and Meta-headers to the output.
      *
      * @param Request  $request
@@ -462,6 +510,15 @@ class Application extends Silex\Application
     {
         // Start the 'stopwatch' for the profiler.
         $this['stopwatch']->start('bolt.app.after');
+
+        /*
+         * Don't set 'bolt_session' cookie, if we're in the frontend or async.
+         *
+         * @see https://github.com/bolt/bolt/issues/3425
+         */
+        if ($this['config']->get('general/cookies_no_frontend', false) && $this['config']->getWhichEnd() !== 'backend') {
+            $this->unsetSessionCookie();
+        }
 
         // Set the 'X-Frame-Options' headers to prevent click-jacking, unless specifically disabled. Backend only!
         if ($this['config']->getWhichEnd() == 'backend' && $this['config']->get('general/headers/x_frame_options')) {
@@ -481,7 +538,7 @@ class Application extends Silex\Application
                 if ($this['config']->get('general/canonical')) {
                     $snippet = sprintf(
                         '<link rel="canonical" href="%s">',
-                        htmlspecialchars($this['paths']['canonicalurl'], ENT_QUOTES)
+                        htmlspecialchars($this['resources']->getUrl('canonicalurl'), ENT_QUOTES)
                     );
                     $this['extensions']->insertSnippet(Extensions\Snippets\Location::AFTER_META, $snippet);
                 }
@@ -489,9 +546,9 @@ class Application extends Silex\Application
                 // Perhaps add a favicon.
                 if ($this['config']->get('general/favicon')) {
                     $snippet = sprintf(
-                        '<link rel="shortcut icon" href="//%s%s%s">',
-                        htmlspecialchars($this['paths']['canonical'], ENT_QUOTES),
-                        htmlspecialchars($this['paths']['theme'], ENT_QUOTES),
+                        '<link rel="shortcut icon" href="%s%s%s">',
+                        htmlspecialchars($this['resources']->getUrl('hosturl'), ENT_QUOTES),
+                        htmlspecialchars($this['resources']->getUrl('theme'), ENT_QUOTES),
                         htmlspecialchars($this['config']->get('general/favicon'), ENT_QUOTES)
                     );
                     $this['extensions']->insertSnippet(Extensions\Snippets\Location::AFTER_META, $snippet);
@@ -571,17 +628,24 @@ class Application extends Silex\Application
     }
 
     /**
-     * TODO Can this be removed?
+     * @todo Can this be removed?
      *
      * @param string $name
      *
-     * @return bool
+     * @return boolean
      */
     public function __isset($name)
     {
         return isset($this[$name]);
     }
 
+    /**
+     * Get the Bolt version string
+     *
+     * @param boolean $long TRUE returns 'version name', FALSE 'version'
+     *
+     * @return string
+     */
     public function getVersion($long = true)
     {
         if ($long) {

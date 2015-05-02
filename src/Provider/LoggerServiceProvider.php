@@ -39,7 +39,7 @@ class LoggerServiceProvider implements ServiceProviderInterface
         $app['logger.system'] = $app->share(
             function ($app) {
                 $log = new Logger('logger.system');
-                $log->pushHandler(new SystemHandler($app));
+                $log->pushHandler(new SystemHandler($app, Logger::INFO));
 
                 return $log;
             }

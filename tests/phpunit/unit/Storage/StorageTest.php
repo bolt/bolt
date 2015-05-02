@@ -3,10 +3,10 @@ namespace Bolt\Tests\Storage;
 
 use Bolt\Content;
 use Bolt\Events\StorageEvents;
-use Bolt\Exception\StorageException;
 use Bolt\Storage;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Tests\Mocks\LoripsumMock;
+use Doctrine\DBAL\Connection;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -16,6 +16,11 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class StorageTest extends BoltUnitTest
 {
+    public function testSetup()
+    {
+        $this->resetDb();
+    }
+
     public function testGetContentObject()
     {
         $app = $this->getApp();
@@ -113,10 +118,13 @@ class StorageTest extends BoltUnitTest
         $app = $this->getApp();
         $app['request'] = Request::create('/');
         $storage = new Storage($app);
+
         $fetch1 = $storage->getContent('showcases/2');
-        $this->assertEquals(false, $fetch1->get('ownerid'));
+        $this->assertEquals(1, $fetch1->get('ownerid'));
+
         $result = $storage->updateSingleValue('showcases', 2, 'ownerid', '10');
         $this->assertEquals(2, $result);
+
         $fetch2 = $storage->getContent('showcases/2');
         $this->assertEquals('10', $fetch2->get('ownerid'));
 
@@ -181,6 +189,43 @@ class StorageTest extends BoltUnitTest
     {
     }
 
+    public function testGetContentSortOrderFromContentType()
+    {
+        $app = $this->getApp();
+        $app['request'] = Request::create('/');
+        $db = $this->getDbMockBuilder($app['db'])
+            ->setMethods(array('fetchAll'))
+            ->getMock();
+        $app['db'] = $db;
+        $db->expects($this->any())
+            ->method('fetchAll')
+            ->willReturn(array());
+        $storage = new StorageMock($app);
+
+        // Test sorting is pulled from contenttype when not specified
+        $app['config']->set('contenttypes/entries/sort', '-id');
+        $storage->getContent('entries');
+        $this->assertSame('ORDER BY "id" DESC', $storage->queries[0]['queries'][0]['order']);
+    }
+
+    public function testGetContentReturnSingleLimits1()
+    {
+        $app = $this->getApp();
+        $app['request'] = Request::create('/');
+        $db = $this->getDbMockBuilder($app['db'])
+            ->setMethods(array('fetchAll'))
+            ->getMock();
+        $app['db'] = $db;
+        $db->expects($this->any())
+            ->method('fetchAll')
+            ->willReturn(array());
+        $storage = new StorageMock($app);
+
+        // Test returnsingle will set limit to 1
+        $storage->getContent('entries', array('returnsingle' => true));
+        $this->assertSame(1, $storage->queries[0]['parameters']['limit']);
+    }
+
     public function testGetSortOrder()
     {
     }
@@ -227,5 +272,24 @@ class StorageTest extends BoltUnitTest
 
     public function testGetPager()
     {
+    }
+
+    private function getDbMockBuilder(Connection $db)
+    {
+        return $this->getMockBuilder('\Doctrine\DBAL\Connection')
+            ->setConstructorArgs(array($db->getParams(), $db->getDriver(), $db->getConfiguration(), $db->getEventManager()))
+            ->enableOriginalConstructor()
+        ;
+    }
+}
+
+class StorageMock extends Storage
+{
+    public $queries = array();
+
+    protected function executeGetContentQueries($decoded)
+    {
+        $this->queries[] = $decoded;
+        return parent::executeGetContentQueries($decoded);
     }
 }

@@ -1,5 +1,5 @@
 <div class="navbar-header">
-    <button type="button" class="navbar-toggle" data-action="bolt.sidebar.toggle()">
+    <button type="button" class="navbar-toggle" data-xaction="bolt.sidebar.toggle()">
         <i class="fa fa-fw fa-bars"></i> MENU
     </button>
     <a class="navbar-brand" href="{{ path('dashboard') }}">
@@ -26,6 +26,13 @@
         <a href="{{ paths.root }}" target="_blank" class="hidden-xs">
             <i class="fa fa-fw fa-external-link-square"></i>
             {{ __('View site') }}
+        </a>
+    </li>
+
+    <li class="close-live-editor">
+        <a>
+            <i class="fa fa-fw fa-times-circle-o"></i>
+            {{ __('Close editor') }}
         </a>
     </li>
 

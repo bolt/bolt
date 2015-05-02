@@ -460,6 +460,7 @@ field:
             longitude: "Longitude"
             marker-placement: "Marker placement"
         matched-address: "Matched address"
+        marker: "Pin"
         placeholder:
             address: "Street, ZIP code, city or other location"
     slug:
@@ -567,7 +568,7 @@ page:
         cookies-required: "Note: Cookies are required to log on to Bolt. Please allow cookies."
         label:
             password: "Password"
-            username: "Username"
+            username: "Username / email"
         password-hide: "Hide"
         password-show: "Show"
         placeholder:

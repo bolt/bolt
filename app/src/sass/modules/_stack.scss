@@ -1,4 +1,3 @@
-
 /**
  * Stacked files
  */
@@ -23,12 +22,12 @@
 .stackitem {
     border: 6px solid #fff;
     background-color: #DDD;
-    box-shadow: 2px 2px 0 rgba(0, 0, 0, .2);
+    box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.2);
     width: 100px;
     height: 100px;
     position: relative;
     float: left;
-    left: 0px;
+    left: 0;
     margin-right: -80px;
     overflow: hidden;
 }
@@ -49,20 +48,18 @@
     text-align: center;
     font-size: 12px;
     line-height: 15px;
-    margin: 0px 5px;
+    margin: 0 5px;
     word-break: break-all;
 }
 
-
 .stackitem:hover {
     z-index: 120 !important;
-    box-shadow: 3px 3px 0 rgba(0, 0, 0, .5);
+    box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.5);
 }
 
 .stackitem.item-1 {
     z-index: 110;
 }
-
 
 .stackitem.item-2 {
     z-index: 109;

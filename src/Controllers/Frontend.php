@@ -4,6 +4,7 @@ namespace Bolt\Controllers;
 
 use Bolt\Application;
 use Bolt\Content;
+use Bolt\Extensions\Snippets\Location as SnippetLocation;
 use Bolt\Helpers\Input;
 use Bolt\Library as Lib;
 use Bolt\Pager;
@@ -11,6 +12,7 @@ use Bolt\Translation\Translator as Trans;
 use Silex;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use utilphp\util;
 
 /**
@@ -32,7 +34,7 @@ class Frontend
      * @param Request     $request The Symfony Request
      * @param Application $app     The application/container
      *
-     * @return mixed
+     * @return null|Response|RedirectResponse
      */
     public function before(Request $request, Application $app)
     {
@@ -42,7 +44,6 @@ class Frontend
         // If there are no users in the users table, or the table doesn't exist. Repair
         // the DB, and let's add a new user.
         if (!$app['users']->getUsers()) {
-            //!$app['storage']->getIntegrityChecker()->checkUserTableIntegrity() ||
             $app['session']->getFlashBag()->add('info', Trans::__('There are no users in the database. Please create the first user.'));
 
             return Lib::redirect('useredit', array('id' => ''));
@@ -52,11 +53,10 @@ class Frontend
         $app['htmlsnippets'] = true;
 
         // If we are in maintenance mode and current user is not logged in, show maintenance notice.
-        // @see /app/app.php, $app->error()
         if ($app['config']->get('general/maintenance_mode')) {
             if (!$app['users']->isAllowed('maintenance-mode')) {
                 $template = $app['templatechooser']->maintenance();
-                $body = $app['render']->render($template);
+                $body = $app['render']->render($template)->getContent();
 
                 return new Response($body, Response::HTTP_SERVICE_UNAVAILABLE);
             }
@@ -73,7 +73,7 @@ class Frontend
      *
      * @param \Silex\Application $app The application/container
      *
-     * @return mixed
+     * @return \Twig_Markup
      */
     public function homepage(Silex\Application $app)
     {
@@ -82,11 +82,10 @@ class Frontend
         $template = $app['templatechooser']->homepage();
 
         if (is_array($content)) {
-            $first = $record = current($content);
+            $first = current($content);
             $app['twig']->addGlobal('records', $content);
             $app['twig']->addGlobal($first->contenttype['slug'], $content);
         } elseif (!empty($content)) {
-            $record = $content;
             $app['twig']->addGlobal('record', $content);
             $app['twig']->addGlobal($content->contenttype['singular_slug'], $content);
         }
@@ -101,7 +100,7 @@ class Frontend
      * @param string             $contenttypeslug The content type slug
      * @param string             $slug            The content slug
      *
-     * @return mixed
+     * @return \Twig_Markup
      */
     public function record(Silex\Application $app, $contenttypeslug, $slug = '')
     {
@@ -109,7 +108,7 @@ class Frontend
 
         // If the contenttype is 'viewless', don't show the record page.
         if (isset($contenttype['viewless']) && $contenttype['viewless'] === true) {
-            $app->abort(Response::HTTP_NOT_FOUND, "Page $contenttypeslug/$slug not found.");
+            return $app->abort(Response::HTTP_NOT_FOUND, "Page $contenttypeslug/$slug not found.");
         }
 
         // Perhaps we don't have a slug. Let's see if we can pick up the 'id', instead.
@@ -120,7 +119,7 @@ class Frontend
         $slug = $app['slugify']->slugify($slug);
 
         // First, try to get it by slug.
-        $content = $app['storage']->getContent($contenttype['slug'], array('slug' => $slug, 'returnsingle' => true));
+        $content = $app['storage']->getContent($contenttype['slug'], array('slug' => $slug, 'returnsingle' => true, 'log_not_found' => !is_numeric($slug)));
 
         if (!$content && is_numeric($slug)) {
             // And otherwise try getting it by ID
@@ -129,15 +128,23 @@ class Frontend
 
         // No content, no page!
         if (!$content) {
-            $app->abort(Response::HTTP_NOT_FOUND, "Page $contenttypeslug/$slug not found.");
+            return $app->abort(Response::HTTP_NOT_FOUND, "Page $contenttypeslug/$slug not found.");
         }
 
         // Then, select which template to use, based on our 'cascading templates rules'
         $template = $app['templatechooser']->record($content);
 
-        // Setting the canonical path and the editlink.
         $paths = $app['resources']->getPaths();
-        $app['resources']->setUrl('canonicalurl', sprintf('%s%s', $paths['canonical'], $content->link()));
+
+        // Setting the canonical URL.
+        if ($content->isHome() && ($template == $app['config']->get('general/homepage_template'))) {
+            $app['resources']->setUrl('canonicalurl', $paths['rooturl']);
+        } else {
+            $url = $paths['canonical'] . $content->link();
+            $app['resources']->setUrl('canonicalurl', $url);
+        }
+
+        // Setting the editlink
         $app['editlink'] = Lib::path('editcontent', array('contenttypeslug' => $contenttype['slug'], 'id' => $content->id));
         $app['edittitle'] = $content->getTitle();
 
@@ -157,7 +164,7 @@ class Frontend
      * @param \Silex\Application $app             The application/container
      * @param string             $contenttypeslug The content type slug
      *
-     * @return mixed
+     * @return \Twig_Markup
      */
     public function preview(Request $request, Silex\Application $app, $contenttypeslug)
     {
@@ -166,6 +173,15 @@ class Frontend
         // First, get the preview from Post.
         $content = $app['storage']->getContentObject($contenttypeslug);
         $content->setFromPost($request->request->all(), $contenttype);
+
+        $liveEditor = $request->get('_live-editor-preview');
+        if (!empty($liveEditor)) {
+            $jsFile = $app['resources']->getUrl('app') . 'view/js/ckeditor/ckeditor.js';
+            $cssFile = $app['resources']->getUrl('app') . 'view/css/liveeditor.css';
+            $app['extensions']->insertSnippet(SnippetLocation::BEFORE_HEAD_JS, '<script>window.boltIsEditing = true;</script>');
+            $app['extensions']->addJavascript($jsFile, array('late' => false, 'priority' => 1));
+            $app['extensions']->addCss($cssFile, false, 5);
+        }
 
         // Then, select which template to use, based on our 'cascading templates rules'
         $template = $app['templatechooser']->record($content);
@@ -196,7 +212,7 @@ class Frontend
      * @param \Silex\Application $app             The application/container
      * @param string             $contenttypeslug The content type slug
      *
-     * @return mixed
+     * @return \Twig_Markup
      */
     public function listing(Silex\Application $app, $contenttypeslug)
     {
@@ -204,7 +220,7 @@ class Frontend
 
         // If the contenttype is 'viewless', don't show the record page.
         if (isset($contenttype['viewless']) && $contenttype['viewless'] === true) {
-            $app->abort(Response::HTTP_NOT_FOUND, "Page $contenttypeslug not found.");
+            return $app->abort(Response::HTTP_NOT_FOUND, "Page $contenttypeslug not found.");
         }
 
         $pagerid = Pager::makeParameterId($contenttypeslug);
@@ -234,7 +250,7 @@ class Frontend
      * @param string             $taxonomytype The taxonomy type slug
      * @param string             $slug         The taxonomy slug
      *
-     * @return mixed
+     * @return \Twig_Markup
      */
     public function taxonomy(Silex\Application $app, $taxonomytype, $slug)
     {
@@ -256,9 +272,14 @@ class Frontend
         $content = $app['storage']->getContentByTaxonomy($taxonomytype, $slug, array('limit' => $amount, 'order' => $order, 'page' => $page));
 
         // See https://github.com/bolt/bolt/pull/2310
-        if (($taxonomy['behaves_like'] === 'tags' && !$content)
-            || (in_array($taxonomy['behaves_like'], array('categories', 'grouping')) && !in_array($slug, isset($taxonomy['options']) ? array_keys($taxonomy['options']) : array()))) {
-            $app->abort(Response::HTTP_NOT_FOUND, "No slug '$slug' in taxonomy '$taxonomyslug'");
+        if (
+                ($taxonomy['behaves_like'] === 'tags' && !$content) ||
+                (
+                    in_array($taxonomy['behaves_like'], array('categories', 'grouping')) &&
+                    !in_array($slug, isset($taxonomy['options']) ? array_keys($taxonomy['options']) : array())
+                )
+            ) {
+            return $app->abort(Response::HTTP_NOT_FOUND, "No slug '$slug' in taxonomy '$taxonomyslug'");
         }
 
         $template = $app['templatechooser']->taxonomy($taxonomyslug);
@@ -291,7 +312,7 @@ class Frontend
      * @param Request            $request The Symfony Request
      * @param \Silex\Application $app     The application/container
      *
-     * @return mixed
+     * @return \Twig_Markup
      */
     public function search(Request $request, Silex\Application $app)
     {
@@ -369,7 +390,7 @@ class Frontend
      *
      * @throws \Exception
      *
-     * @return mixed
+     * @return \Twig_Markup
      */
     public function template(Silex\Application $app, $template)
     {
@@ -389,9 +410,9 @@ class Frontend
      * @param string             $template Ex: 'listing.twig'
      * @param string             $title    '%s' in "No template for '%s' defined."
      *
-     * @return mixed Rendered template
+     * @return \Twig_Markup Rendered template
      */
-    private function render(Silex\Application $app, $template, $title)
+    protected function render(Silex\Application $app, $template, $title)
     {
         try {
             return $app['twig']->render($template);
@@ -409,7 +430,7 @@ class Frontend
             $this->setTemplateError($app, $error);
 
             // Abort ship
-            $app->abort(Response::HTTP_INTERNAL_SERVER_ERROR, $error);
+            return $app->abort(Response::HTTP_INTERNAL_SERVER_ERROR, $error);
         }
     }
 
@@ -419,7 +440,7 @@ class Frontend
      * @param \Silex\Application $app
      * @param string             $error
      */
-    private function setTemplateError(Silex\Application $app, $error)
+    protected function setTemplateError(Silex\Application $app, $error)
     {
         if (isset($app['twig.logger'])) {
             $app['twig.logger']->setTrackedValue('templateerror', $error);

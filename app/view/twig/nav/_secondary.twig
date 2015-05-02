@@ -5,7 +5,7 @@
 
         {# Omnisearch: one here for "extra small", the other in the header-navbar #}
         {% include 'nav/_secondary-search.twig' %}
-
+        
         {# Dashboard #}
         {{ nav.link('fa:dashboard', __('Dashboard'), 'dashboard', (page_nav == 'Dashboard')) }}
 
@@ -24,7 +24,7 @@
             {% set nav_files %}{% include 'nav/_secondary-filemanagement.twig' %}{% endset %}
             {% set nav_trans %}{% include 'nav/_secondary-translations.twig' %}{% endset %}
             {# Link to Extend Bolt #}
-            {% if app.extensions.hasMenuoptions or isallowed('extensions') %}
+            {% if app.extensions.hasMenuoptions or isallowed('extensions||extensions:config') %}
                 {% set nav_extend %}{% include 'nav/_secondary-extensions.twig' %}{% endset %}
             {% else %}
                 {% set nav_extend = '' %}

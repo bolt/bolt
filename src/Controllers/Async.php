@@ -3,7 +3,8 @@
 namespace Bolt\Controllers;
 
 use Bolt\Translation\Translator as Trans;
-use Guzzle\Http\Exception\RequestException;
+use Guzzle\Http\Exception\RequestException as V3RequestException;
+use GuzzleHttp\Exception\RequestException;
 use League\Flysystem\FileNotFoundException;
 use Silex;
 use Silex\ControllerProviderInterface;
@@ -96,22 +97,23 @@ class Async implements ControllerProviderInterface
     }
 
     /**
-     * News.
+     * News. Film at 11.
      *
      * @param \Silex\Application $app
+     * @param Request            $request
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function dashboardnews(Silex\Application $app)
+    public function dashboardnews(Silex\Application $app, Request $request)
     {
         $source = 'http://news.bolt.cm/';
         $news = $app['cache']->fetch('dashboardnews'); // Two hours.
-
-        $name = !empty($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : $_SERVER['HTTP_HOST'];
+        $hostname = $request->getHost();
+        $body = '';
 
         // If not cached, get fresh news.
         if ($news === false) {
-            $app['logger.system']->info("Fetching from remote server: $source", array('event' => 'news'));
+            $app['logger.system']->info('Fetching from remote server: ' . $source, array('event' => 'news'));
 
             $driver = $app['db']->getDatabasePlatform()->getName();
 
@@ -121,40 +123,42 @@ class Async implements ControllerProviderInterface
                 rawurlencode($app->getVersion()),
                 phpversion(),
                 $driver,
-                base64_encode($name)
+                base64_encode($hostname)
             );
 
-            $curlOptions = array('CURLOPT_CONNECTTIMEOUT' => 5);
-            // Set cURL proxy options if there's a proxy
+            // Options valid if using a proxy
             if ($app['config']->get('general/httpProxy')) {
-                $curlOptions['CURLOPT_PROXY'] = $app['config']->get('general/httpProxy/host');
-                $curlOptions['CURLOPT_PROXYTYPE'] = 'CURLPROXY_HTTP';
-                $curlOptions['CURLOPT_PROXYUSERPWD'] = $app['config']->get('general/httpProxy/user') . ':' . $app['config']->get('general/httpProxy/password');
+                $curlOptions = array(
+                    'CURLOPT_PROXY'        => $app['config']->get('general/httpProxy/host'),
+                    'CURLOPT_PROXYTYPE'    => 'CURLPROXY_HTTP',
+                    'CURLOPT_PROXYUSERPWD' => $app['config']->get('general/httpProxy/user') . ':' .
+                                                $app['config']->get('general/httpProxy/password')
+                );
             }
 
+            // Standard option(s)
+            $curlOptions['CURLOPT_CONNECTTIMEOUT'] = 5;
+
             try {
-                $fetchedNewsData = $app['guzzle.client']->get($url, null, $curlOptions)->send()->getBody(true);
+                if ($app['deprecated.php']) {
+                    $fetchedNewsData = $app['guzzle.client']->get($url, null, $curlOptions)->send()->getBody(true);
+                } else {
+                    $fetchedNewsData = $app['guzzle.client']->get($url, array(), $curlOptions)->getBody(true);
+                }
+
                 $fetchedNewsItems = json_decode($fetchedNewsData);
+
                 if ($fetchedNewsItems) {
                     $news = array();
 
-                    // Iterate over the items, pick the first news-item that applies
+                    // Iterate over the items, pick the first news-item that applies and the first alert we need to show
+                    $version = $app->getVersion();
                     foreach ($fetchedNewsItems as $item) {
-                        if ($item->type != "alert") {
-                            if (empty($item->target_version) || version_compare($item->target_version, $app->getVersion(), '>')) {
-                                $news['information'] = $item;
-                                break;
-                            }
-                        }
-                    }
-
-                    // Iterate over the items again, See if there's an alert we need to show
-                    foreach ($fetchedNewsItems as $item) {
-                        if ($item->type == "alert") {
-                            if (empty($item->target_version) || version_compare($item->target_version, $app->getVersion(), '>')) {
-                                $news['alert'] = $item;
-                                break;
-                            }
+                        $type = ($item->type === 'alert') ? 'alert' : 'information';
+                        if (!isset($news[$type])
+                            && (empty($item->target_version) || version_compare($item->target_version, $version, '>'))
+                        ) {
+                            $news[$type] = $item;
                         }
                     }
 
@@ -163,19 +167,37 @@ class Async implements ControllerProviderInterface
                     $app['logger.system']->error('Invalid JSON feed returned', array('event' => 'news'));
                 }
             } catch (RequestException $e) {
-                $app['logger.system']->error('Error occurred during fetch: ' . $e->getMessage(), array('event' => 'news'));
+                $app['logger.system']->critical(
+                    'Error occurred during newsfeed fetch',
+                    array('event' => 'exception', 'exception' => $e)
+                );
+
+                $body .= "<p>Unable to connect to $source</p>";
+            } catch (V3RequestException $e) {
+                /** @deprecated remove with the end of PHP 5.3 support */
+                $app['logger.system']->critical(
+                    'Error occurred during newsfeed fetch',
+                    array('event' => 'exception', 'exception' => $e)
+                );
+
+                $body .= "<p>Unable to connect to $source</p>";
             }
         } else {
             $app['logger.system']->info('Using cached data', array('event' => 'news'));
         }
 
         // Combine the body. One 'alert' and one 'info' max. Regular info-items can be disabled, but Alerts can't.
-        $body = "";
         if (!empty($news['alert'])) {
-            $body .= $app['render']->render('components/panel-news.twig', array('news' => $news['alert']));
+            $body .= $app['render']->render(
+                'components/panel-news.twig',
+                array('news' => $news['alert'])
+            )->getContent();
         }
         if (!empty($news['information']) && !$app['config']->get('general/backend/news/disable')) {
-            $body .= $app['render']->render('components/panel-news.twig', array('news' => $news['information']));
+            $body .= $app['render']->render(
+                'components/panel-news.twig',
+                array('news' => $news['information'])
+            )->getContent();
         }
 
         return new Response($body, Response::HTTP_OK, array('Cache-Control' => 's-maxage=3600, public'));
@@ -200,7 +222,7 @@ class Async implements ControllerProviderInterface
                 array(
                     'activity' => $activity
                 )
-            );
+            )->getContent();
         }
 
         $activity = $app['logger.manager']->getActivity('system', 8, null, 'authentication');
@@ -211,12 +233,20 @@ class Async implements ControllerProviderInterface
                 array(
                     'activity' => $activity
                 )
-            );
+            )->getContent();
         }
 
         return new Response($body, Response::HTTP_OK, array('Cache-Control' => 's-maxage=3600, public'));
     }
 
+    /**
+     * Return autocomplete data for a file name.
+     *
+     * @param Silex\Application $app
+     * @param Request           $request
+     *
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
     public function filesautocomplete(Silex\Application $app, Request $request)
     {
         $term = $request->get('term');
@@ -231,15 +261,28 @@ class Async implements ControllerProviderInterface
 
     /**
      * Render a widget, and return the HTML, so it can be inserted in the page.
+     *
+     * @param string             $key
+     * @param \Silex\Application $app
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function widget($key, Silex\Application $app, Request $request)
+    public function widget($key, Silex\Application $app)
     {
         $html = $app['extensions']->renderWidget($key);
 
         return new Response($html, Response::HTTP_OK, array('Cache-Control' => 's-maxage=180, public'));
     }
 
-    public function readme($filename, Silex\Application $app, Request $request)
+    /**
+     * Render an extension's README.md file.
+     *
+     * @param string            $filename
+     * @param Silex\Application $app
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function readme($filename, Silex\Application $app)
     {
         $paths = $app['resources']->getPaths();
 
@@ -256,11 +299,19 @@ class Async implements ControllerProviderInterface
         $readme = file_get_contents($filename);
 
         // Parse the field as Markdown, return HTML
-        $html = \ParsedownExtra::instance()->text($readme);
+        $html = $app['markdown']->text($readme);
 
         return new Response($html, Response::HTTP_OK, array('Cache-Control' => 's-maxage=180, public'));
     }
 
+    /**
+     * Generate a URI based on request parmaeters
+     *
+     * @param Silex\Application $app
+     * @param Request           $request
+     *
+     * @return string
+     */
     public function makeuri(Silex\Application $app, Request $request)
     {
         $uri = $app['storage']->getUri(
@@ -275,6 +326,14 @@ class Async implements ControllerProviderInterface
         return $uri;
     }
 
+    /**
+     * Fetch a JSON encoded set of taxonomy specific tags.
+     *
+     * @param Silex\Application $app
+     * @param string            $taxonomytype
+     *
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
     public function tags(Silex\Application $app, $taxonomytype)
     {
         $table = $app['config']->get('general/database/prefix', 'bolt_');
@@ -294,6 +353,15 @@ class Async implements ControllerProviderInterface
         return $app->json($results);
     }
 
+    /**
+     * Fetch a JSON encoded set of the most popular taxonomy specific tags.
+     *
+     * @param Silex\Application $app
+     * @param Request           $request
+     * @param string            $taxonomytype
+     *
+     * @return integer|\Symfony\Component\HttpFoundation\JsonResponse
+     */
     public function populartags(Silex\Application $app, Request $request, $taxonomytype)
     {
         $table = $app['config']->get('general/database/prefix', 'bolt_');
@@ -326,6 +394,14 @@ class Async implements ControllerProviderInterface
         return $app->json($results);
     }
 
+    /**
+     * Perform an OmniSearch search and return the results.
+     *
+     * @param Silex\Application $app
+     * @param Request           $request
+     *
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
     public function omnisearch(Silex\Application $app, Request $request)
     {
         $query = $request->query->get('q', '');
@@ -381,7 +457,7 @@ class Async implements ControllerProviderInterface
             'contenttype' => $contenttype
         );
 
-        $body = $app['render']->render('components/panel-lastmodified.twig', array('context' => $context));
+        $body = $app['render']->render('components/panel-lastmodified.twig', array('context' => $context))->getContent();
 
         return new Response($body, Response::HTTP_OK, array('Cache-Control' => 's-maxage=60, public'));
     }
@@ -419,7 +495,7 @@ class Async implements ControllerProviderInterface
             'filtered'    => $isFiltered,
         );
 
-        $body = $app['render']->render('components/panel-lastmodified.twig', array('context' => $context));
+        $body = $app['render']->render('components/panel-lastmodified.twig', array('context' => $context))->getContent();
 
         return new Response($body, Response::HTTP_OK, array('Cache-Control' => 's-maxage=60, public'));
     }
@@ -429,16 +505,17 @@ class Async implements ControllerProviderInterface
      *
      * @param string             $contenttype
      * @param \Silex\Application $app
-     * @param Request            $request
      *
      * @return mixed
      */
-    public function filebrowser($contenttype, Silex\Application $app, Request $request)
+    public function filebrowser($contenttype, Silex\Application $app)
     {
+        $results = array();
+
         foreach ($app['storage']->getContentTypes() as $contenttype) {
             $records = $app['storage']->getContent($contenttype, array('published' => true, 'hydrate' => false));
 
-            foreach ($records as $key => $record) {
+            foreach ($records as $record) {
                 $results[$contenttype][] = array(
                     'title' => $record->gettitle(),
                     'id'    => $record->id,
@@ -488,7 +565,8 @@ class Async implements ControllerProviderInterface
         try {
             $filesystem->listContents($path);
         } catch (\Exception $e) {
-            $app['session']->getFlashBag()->add('error', Trans::__("Folder '%s' could not be found, or is not readable.", array('%s' => $path)));
+            $msg = Trans::__("Folder '%s' could not be found, or is not readable.", array('%s' => $path));
+            $app['session']->getFlashBag()->add('error', $msg);
         }
 
         $app['twig']->addGlobal('title', Trans::__('Files in %s', array('%s' => $path)));
@@ -506,6 +584,14 @@ class Async implements ControllerProviderInterface
         return $app['render']->render('files_async/files_async.twig', array('context' => $context));
     }
 
+    /**
+     * Add a file to the user's stack.
+     *
+     * @param string            $filename
+     * @param Silex\Application $app
+     *
+     * @return true
+     */
     public function addstack($filename, Silex\Application $app)
     {
         $app['stack']->add($filename);
@@ -513,6 +599,14 @@ class Async implements ControllerProviderInterface
         return true;
     }
 
+    /**
+     * Render a user's current stack.
+     *
+     * @param Silex\Application $app
+     * @param Request $request
+     *
+     * @return \Twig_Markup
+     */
     public function showstack(Silex\Application $app, Request $request)
     {
         $count = $request->query->get('items', 10);
@@ -663,7 +757,7 @@ class Async implements ControllerProviderInterface
      * Create a new folder.
      *
      * @param \Silex\Application $app     The Silex Application Container
-     * @param Request            $request he HTTP Request Object containing the GET Params
+     * @param Request            $request The HTTP Request Object containing the GET Params
      *
      * @return Boolean Whether the creation was successful
      */
@@ -686,11 +780,10 @@ class Async implements ControllerProviderInterface
      * @param string             $contenttype
      * @param integer            $contentid
      * @param \Silex\Application $app
-     * @param Request            $request
      *
      * @return string
      */
-    public function changelogRecord($contenttype, $contentid, Silex\Application $app, Request $request)
+    public function changelogRecord($contenttype, $contentid, Silex\Application $app)
     {
         $options = array(
             'contentid' => $contentid,
@@ -728,13 +821,16 @@ class Async implements ControllerProviderInterface
                 'user'     => $user['displayname'],
                 'ip'       => $request->getClientIp()
             )
-        );
+        )->getContent();
+
+        $senderMail = $app['config']->get('general/mailoptions/senderMail', 'bolt@' . $request->getHost());
+        $senderName = $app['config']->get('general/mailoptions/senderName', $app['config']->get('general/sitename'));
 
         $message = $app['mailer']
             ->createMessage('message')
             ->setSubject('Test email from ' . $app['config']->get('general/sitename'))
-            ->setFrom(array('bolt@' . $request->getHost() => $app['config']->get('general/sitename')))
-            ->setTo(array($user['email']                  => $user['displayname']))
+            ->setFrom(array($senderMail => $senderName))
+            ->setTo(array($user['email'] => $user['displayname']))
             ->setBody(strip_tags($mailhtml))
             ->addPart($mailhtml, 'text/html');
 

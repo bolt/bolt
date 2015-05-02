@@ -542,7 +542,7 @@ page:
         cookies-required: "注意: 登录 Bolt 需要启用 Cookies。请打开 Cookies 功能。"
         label:
             password: "密码"
-            username: "用户名"
+            username: "用户名 / email"
         password-hide: "隐藏"
         password-show: "显示"
         placeholder:

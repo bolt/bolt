@@ -3,7 +3,7 @@ namespace Bolt\Tests\DataCollector;
 
 use Bolt\DataCollector\TwigDataCollector;
 use Bolt\Tests\BoltUnitTest;
-use Bolt\TwigExtension;
+use Bolt\Twig\TwigExtension;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -17,7 +17,8 @@ class TwigDataCollectorTest extends BoltUnitTest
     public function testBasicData()
     {
         $app = $this->getApp();
-        $app['twig']->addExtension(new TwigExtension($app));
+        $handlers = $this->getTwigHandlers($app);
+        $app['twig']->addExtension(new TwigExtension($app, $handlers, false));
 
         $data = new TwigDataCollector($app);
 

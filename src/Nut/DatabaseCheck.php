@@ -5,8 +5,14 @@ namespace Bolt\Nut;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * Nut command to perform a database consistency check command
+ */
 class DatabaseCheck extends BaseCommand
 {
+    /**
+     * @see \Symfony\Component\Console\Command\Command::configure()
+     */
     protected function configure()
     {
         $this
@@ -14,6 +20,9 @@ class DatabaseCheck extends BaseCommand
             ->setDescription('Check the database for missing tables and/or columns.');
     }
 
+    /**
+     * @see \Symfony\Component\Console\Command\Command::execute()
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $messages = $this->app['integritychecker']->checkTablesIntegrity();

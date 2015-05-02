@@ -140,7 +140,7 @@ class ContenttypesKeygen
         foreach ($this->app['config']->get('contenttypes') as $ctname => $ctype) {
             $keyprefix = 'contenttypes.' . $this->slugifyKey($ctname) . '.group.';
 
-            if (isset($ctype['groups'])) {
+            if (isset($ctype['groups']) && is_array($ctype['groups'])) {
                 foreach ($ctype['groups'] as $groupname) {
                     $key = $keyprefix . $this->slugifyKey($groupname);
 

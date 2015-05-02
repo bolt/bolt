@@ -1,0 +1,54 @@
+{% if not context.has.tabs %}
+    <hr>
+    <h3>
+        {{ __('Template') }}
+    </h3>
+{% endif %}
+
+{% set templatefields = context.content.get('templatefields').contenttype %}
+{% if templatefields is not empty %}
+    {% for templatekey, templatefield in templatefields.fields %}
+
+            <div class="form-group" data-fieldtype="{{ templatefield.type }}">
+                {# Prefix #}
+                {% if templatefield.prefix is defined and templatefield.prefix is not empty %}
+                    <div class="prefix">
+                        {{ templatefield.prefix|markdown }}
+                    </div>
+                {% endif %}
+
+                {# Fields #}
+                {% set templatelabelkey = templatefield.label ?: templatekey|ucfirst %}
+
+                {% for fieldtype in context.fields %}
+                    {% if templatefield.type == fieldtype.name %}
+                        {% include fieldtype.template with {
+                            field: templatefield,
+                            key: 'templatefields-' ~ templatekey,
+                            contentkey: templatekey,
+                            context: context|merge({ content: context.content.get('templatefields') }),
+                            name: 'templatefields[' ~ templatekey ~ ']',
+                            labelkey:  templatelabelkey
+                        } %}
+                    {% endif %}
+                {% endfor %}
+
+                {# Postfix #}
+                {% if templatefield.postfix is defined and templatefield.postfix is not empty %}
+                    <div class="postfix">
+                        {{ templatefield.postfix|markdown }}
+                    </div>
+                {% endif %}
+
+                {# Divider #}
+                {% if templatefield.separator is defined and templatefield.separator == true %}
+                    <hr>
+                {% endif %}
+            </div>
+
+    {% endfor %}
+{% endif %}
+
+{% if not context.has.tabs %}
+    <hr>
+{% endif %}

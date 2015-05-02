@@ -3,7 +3,7 @@
 {% for key, field in context.contenttype.fields %}
     {% if group_name == field.group %}
 
-        <div class="form-group">
+        <div class="form-group" data-fieldtype="{{ field.type }}">
             {# Prefix #}
             {% if field.prefix is defined and field.prefix is not empty %}
                 <div class="prefix">
@@ -16,7 +16,11 @@
 
             {% for fieldtype in context.fields %}
                 {% if field.type == fieldtype.name %}
-                    {% include fieldtype.template %}
+                    {% include fieldtype.template with {
+                        'key': key,
+                        'name': key,
+                        'contentkey': key
+                    } %}
                 {% endif %}
             {% endfor %}
 

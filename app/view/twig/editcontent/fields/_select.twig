@@ -20,12 +20,13 @@
     {% endif %}
     {% set sortingorder = field.sort|default(lookupfield|first) %}
     {% set querylimit = field.limit|default(500) %}
-    {% setcontent lookups = lookuptype order sortingorder nohydrate limit querylimit %}
+    {% set wherefilter = field.filter|default({}) %}
+    {% setcontent lookups = lookuptype where wherefilter order sortingorder nohydrate limit querylimit %}
     {% set values = lookups|selectfield(lookupfield, option.multiple, field.keys|default('id')) %}
 {% endif %}
 
 {# get the current selection. Either a single value, or an array. #}
-{% set selection = context.content.get(key)|default(null) %}
+{% set selection = context.content.get(contentkey)|default(null) %}
 {% if selection is not iterable %}
     {% set selection = [ selection ] %}
 {% endif %}
@@ -41,7 +42,7 @@
     class:     option.class,
     id:        key,
     multiple:  option.multiple,
-    name:      (option.multiple) ? key ~ '[]' : key,
+    name:      (option.multiple) ? name ~ '[]' : name,
 } %}
 
 {# If the field has autocomplete, we need to set our own style, and remove the class attribute. #}

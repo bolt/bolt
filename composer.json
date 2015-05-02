@@ -11,6 +11,7 @@
     "license" : "MIT",
     "require" : {
         "bolt/dumper" : "~2.0",
+        "bolt/package-wrapper": "~1.0|~2.0",
         "bolt/pathogen" : "~0.6",
         "bolt/thumbs" : "~2.0",
         "brandonwamboldt/utilphp" : "~1.0",
@@ -21,34 +22,36 @@
         "ext-mbstring" : "*",
         "ext-pdo" : "*",
         "filp/whoops" : "~1.1",
-        "guzzle/guzzle" : "~3.9",
         "hautelook/phpass" : "~0.3",
         "ircmaxell/random-lib" : "~1.1",
+        "miljar/php-exif": "~0.4",
         "monolog/monolog" : "~1.12",
         "php" : ">=5.3.3",
         "rossriley/flysystem53" : "~1.1",
         "siriusphp/upload" : "~1.2",
         "silex/silex" : "~1.2",
-        "silex/web-profiler" : "~1.0",
+        "silex/web-profiler" : "1.0.4",
         "stecman/symfony-console-completion" : "~0.4",
         "swiftmailer/swiftmailer" : "~5.3",
-        "symfony/config" : "2.6.4",
-        "symfony/console" : "2.6.4",
-        "symfony/filesystem" : "2.6.4",
-        "symfony/finder" : "2.6.4",
-        "symfony/form" : "2.6.4",
-        "symfony/locale" : "2.6.4",
-        "symfony/translation" : "2.6.4",
-        "symfony/twig-bridge" : "2.6.4",
-        "symfony/validator" : "2.6.4",
-        "symfony/var-dumper" : "2.6.4",
-        "symfony/web-profiler-bundle" : "2.6.4",
-        "symfony/yaml" : "2.6.4",
+        "symfony/config" : "~2.6",
+        "symfony/console" : "~2.6",
+        "symfony/filesystem" : "~2.6",
+        "symfony/finder" : "~2.6",
+        "symfony/form" : "~2.6",
+        "symfony/locale" : "~2.6",
+        "symfony/security-csrf" : "~2.6",
+        "symfony/translation" : "~2.6",
+        "symfony/twig-bridge" : "~2.6",
+        "symfony/validator" : "~2.6",
+        "symfony/var-dumper" : "~2.6",
+        "symfony/web-profiler-bundle" : "~2.6",
+        "symfony/yaml" : "~2.6",
         "tdammers/htmlmaid" : "~0.7",
         "twig/twig" : "~1.16",
         "ua-parser/uap-php" : "~3.4"
     },
     "require-dev" : {
+        "bolt/codingstyle" : "~1.0",
         "codeception/codeception" : "*",
         "lstrojny/phpunit-function-mocker" : "dev-master@dev",
         "m6web/symfony2-coding-standard" : "dev-master@dev",
@@ -57,8 +60,7 @@
         "phpunit/php-code-coverage" : "~2.0",
         "phpunit/phpunit" : "~4.4",
         "sebastian/phpcpd" : "~2.0",
-        "squizlabs/php_codesniffer" : "1.5.*"
-
+        "squizlabs/php_codesniffer" : "~2.3"
     },
     "minimum-stability" : "beta",
     "config" : {
@@ -67,7 +69,11 @@
     "prefer-stable" : true,
     "autoload" : {
         "psr-4" : {
-            "Bolt\\" : "src",
+            "Bolt\\" : "src"
+        }
+    },
+    "autoload-dev" : {
+        "psr-4" : {
             "Bolt\\Tests\\" : "tests/phpunit/unit"
         }
     },

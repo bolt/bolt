@@ -123,13 +123,19 @@ $nav-secondary-divider-margin: 14px;
 $nav-secondary-divider-padding: 6px;
 $nav-secondary-icon-size: 24px;
 $nav-secondary-icon-margin: 8px;
-$nav-secondary-indent: ($nav-secondary-icon-size + $nav-secondary-icon-margin);
+$nav-secondary-indent: ($nav-secondary-icon-size + $nav-secondary-icon-margin + 4px);
 $nav-secondary-collapsed-width: ($nav-secondary-h-padding + $nav-secondary-indent + 1);
 
 /**
- * a fixed media query size for app-old-ie.scss, defaults to false.
+ * A fixed media query size for app-old-ie.scss, defaults to false.
  */
-$fixed-mq: false !default;
+@if $old-ie {
+    // Gets compared to breakpoints in mixon respond-to(): includes all mq styles up to 60em's; change if needed
+    $fixed-mq: 60;
+} @else {
+    $fixed-mq: false;
+}
+
 /**
  * Media Query handling
  */
@@ -240,4 +246,14 @@ $old-ie: false !default;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+
+// Mixin to background image for empty elements
+
+@mixin background-empty() {
+    background: #f8f8f8;
+    background-image: url(../img/default_empty.png);
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
 }

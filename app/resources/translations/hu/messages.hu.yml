@@ -545,7 +545,7 @@ page:
             reset-password: "Új jelszó igénylése"
         label:
             password: "Jelszó"
-            username: "Felhasználónév"
+            username: "Felhasználónév / email"
         password-hide: "Elrejtés"
         password-show: "Mutat"
         placeholder:

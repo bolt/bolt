@@ -18,7 +18,8 @@
 
 {% set attr_text = {
     class:          option.class,
-    name_id:        key,
+    name:           name,
+    id:             key,
     pattern:        (option.pattern and option.pattern not in ['url', 'email']) ? option.pattern : '',
     maxlength:      255,
     placeholder:    option.placeholder,
@@ -27,7 +28,7 @@
     readonly:       option.readonly,
     title:          option.title,
     type:           (option.pattern in ['url', 'email']) ? option.pattern : 'text',
-    value:          context.content.get(key),
+    value:          context.content.get(contentkey),
 } %}
 
 {#=== FIELDSET =======================================================================================================#}
