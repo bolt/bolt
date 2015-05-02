@@ -1,76 +1,77 @@
 <?php
 namespace Bolt\Tests\Controller\Backend;
 
-use Bolt\Configuration\ResourceManager;
 use Bolt\Controller\Backend\Log;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\Controller\ControllerUnitTest;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class to test correct operation of src/Controller/Backend/Log.
  *
  * @author Ross Riley <riley.ross@gmail.com>
+ * @author Gawain Lynch <gawain.lynch@gmail.com>
  **/
-class LogTest extends BoltUnitTest
+class LogTest extends ControllerUnitTest
 {
     public function testChangeOverview()
     {
-        $app = $this->getApp();
-        $this->allowLogin($app);
+        $this->allowLogin($this->getApp());
 
-        $log = $this->getMock('Bolt\Logger\Manager', array('clear', 'trim'), array($app));
+        $log = $this->getMock('Bolt\Logger\Manager', array('clear', 'trim'), array($this->getApp()));
         $log->expects($this->once())
             ->method('clear')
             ->will($this->returnValue(true));
         $log->expects($this->once())
             ->method('trim')
             ->will($this->returnValue(true));
+        $this->setService('logger.manager', $log);
 
-        $app['logger.manager'] = $log;
-        ResourceManager::$theApp = $app;
+        $this->setRequest(Request::create('/bolt/changelog', 'GET', array('action' => 'trim')));
+        $response = $this->controller()->actionChangeOverview($this->getRequest());
+        $this->assertNotEmpty($this->getService('session')->getFlashBag()->get('success'));
 
-        $app['request'] = $request = Request::create('/bolt/changelog', 'GET', array('action' => 'trim'));
-        $response = $app->handle($request);
-        $this->assertNotEmpty($app['session']->getFlashBag()->get('success'));
-
-        $app['request'] = $request = Request::create('/bolt/changelog', 'GET', array('action' => 'clear'));
-        $response = $app->handle($request);
-        $this->assertNotEmpty($app['session']->getFlashBag()->get('success'));
+        $this->setRequest(Request::create('/bolt/changelog', 'GET', array('action' => 'clear')));
+        $response = $this->controller()->actionChangeOverview($this->getRequest());
+        $this->assertNotEmpty($this->getService('session')->getFlashBag()->get('success'));
 
         $this->assertEquals('/bolt/changelog', $response->getTargetUrl());
 
-        $app['request'] = $request = Request::create('/bolt/changelog');
-        $this->checkTwigForTemplate($app, 'activity/changelog.twig');
-        $app->run($request);
+        $this->setRequest(Request::create('/bolt/changelog'));
+        $this->checkTwigForTemplate($this->getApp(), 'activity/changelog.twig');
     }
 
     public function testChangeRecord()
     {
-        $app = $this->getApp();
-        $app['config']->set('general/changelog/enabled', true);
-        $controller = $app['controller.backend.log'];
+        $this->getService('config')->set('general/changelog/enabled', true);
 
-        $app['request'] = $request = Request::create('/bolt/changelog/pages/1/1');
-        $response = $controller->actionChangeRecord($request, 'pages', 1, 1, $app, $request);
+        $this->setRequest(Request::create('/bolt/editcontent/pages/1'));
+        $record = $this->getService('storage')->getContent('pages/1');
+        $record->setValue('title', 'Clippy was here!');
+        $this->getService('storage')->saveContent($record, 'Saving');
+
+        // Test valid entry
+        $this->setRequest(Request::create('/bolt/changelog/pages/1/1'));
+        $response = $this->controller()->actionChangeRecord($this->getRequest(), 'pages', 1, 1);
+        //                               actionChangeRecord($request, $contenttype, $contentid, $id)
+
         $context = $response->getContext();
         $this->assertInstanceOf('Bolt\Logger\ChangeLogItem', $context['context']['entry']);
 
         // Test non-existing entry
         $this->setExpectedException('Symfony\Component\HttpKernel\Exception\HttpException', 'exist');
-        $app['request'] = $request = Request::create('/bolt/changelog/pages/1/100');
-        $response = $controller->actionChangeRecord($request, 'pages', 1, 100, $app, $request);
+        $this->setRequest(Request::create('/bolt/changelog/pages/1/100'));
+        $response = $this->controller()->actionChangeRecord($this->getRequest(), 'pages', 1, 100);
         $context = $response->getContext();
     }
 
     public function testChangeRecordListing()
     {
-        $app = $this->getApp();
-        $app['config']->set('general/changelog/enabled', true);
-        $controller = $app['controller.backend.log'];
+        $this->getService('config')->set('general/changelog/enabled', true);
 
         // First test tests without any changelogs available
-        $app['request'] = $request = Request::create('/bolt/changelog/pages');
-        $response = $controller->actionChangeRecordListing($request, 'pages', null, $app, $request);
+        $this->setRequest(Request::create('/bolt/changelog/pages'));
+        $response = $this->controller()->actionChangeRecordListing($this->getRequest(), 'pages', null);
+
         $context = $response->getContext();
         $this->assertEquals(0, count($context['context']['entries']));
         $this->assertNull($context['context']['content']);
@@ -78,56 +79,62 @@ class LogTest extends BoltUnitTest
         $this->assertEquals('pages', $context['context']['contenttype']['slug']);
 
         // Search for a specific record where the content object doesn't exist
-        $app['request'] = $request = Request::create('/bolt/changelog/pages/1');
-        $response = $controller->actionChangeRecordListing($request, 'pages', 200, $app, $request);
+        $this->setRequest(Request::create('/bolt/changelog/pages/1'));
+        $response = $this->controller()->actionChangeRecordListing($this->getRequest(), 'pages', 200);
+
         $context = $response->getContext();
         $this->assertEquals('Page #200', $context['context']['title']);
 
         // This block generates a changelog on the page in question so we have something to test.
-        $app['request'] = Request::create('/');
-        $content = $app['storage']->getContent('pages/1');
+        $this->setRequest(Request::create('/'));
+        $content = $this->getService('storage')->getContent('pages/1');
         $content->setValues(array('status' => 'draft', 'ownerid' => 99));
-        $app['storage']->saveContent($content, 'Test Suite Update');
+        $this->getService('storage')->saveContent($content, 'Test Suite Update');
 
         // Now handle all the other request variations
-        $app['request'] = $request = Request::create('/bolt/changelog');
-        $response = $controller->actionChangeRecordListing($request, null, null, $app, $request);
+        $this->setRequest(Request::create('/bolt/changelog'));
+        $response = $this->controller()->actionChangeRecordListing($this->getRequest(), null, null);
+
         $context = $response->getContext();
         $this->assertEquals('All content types', $context['context']['title']);
         $this->assertEquals(1, count($context['context']['entries']));
         $this->assertEquals(1, $context['context']['pagecount']);
 
-        $app['request'] = $request = Request::create('/bolt/changelog/pages');
-        $response = $controller->actionChangeRecordListing($request, 'pages', null, $app, $request);
+        $this->setRequest(Request::create('/bolt/changelog/pages'));
+        $response = $this->controller()->actionChangeRecordListing($this->getRequest(), 'pages', null);
+
         $context = $response->getContext();
         $this->assertEquals('Pages', $context['context']['title']);
         $this->assertEquals(1, count($context['context']['entries']));
         $this->assertEquals(1, $context['context']['pagecount']);
 
-        $app['request'] = $request = Request::create('/bolt/changelog/pages/1');
-        $response = $controller->actionChangeRecordListing($request, 'pages', '1', $app, $request);
+        $this->setRequest(Request::create('/bolt/changelog/pages/1'));
+        $response = $this->controller()->actionChangeRecordListing($this->getRequest(), 'pages', '1');
+
         $context = $response->getContext();
         $this->assertEquals($content['title'], $context['context']['title']);
         $this->assertEquals(1, count($context['context']['entries']));
         $this->assertEquals(1, $context['context']['pagecount']);
 
         // Test pagination
-        $app['request'] = $request = Request::create('/bolt/changelog/pages', 'GET', array('page' => 'all'));
-        $response = $controller->actionChangeRecordListing($request, 'pages', null, $app, $request);
+        $this->setRequest(Request::create('/bolt/changelog/pages', 'GET', array('page' => 'all')));
+        $response = $this->controller()->actionChangeRecordListing($this->getRequest(), 'pages', null);
+
         $context = $response->getContext();
         $this->assertNull($context['context']['currentpage']);
         $this->assertNull($context['context']['pagecount']);
 
-        $app['request'] = $request = Request::create('/bolt/changelog/pages', 'GET', array('page' => '1'));
-        $response = $controller->actionChangeRecordListing($request, 'pages', null, $app, $request);
+        $this->setRequest(Request::create('/bolt/changelog/pages', 'GET', array('page' => '1')));
+        $response = $this->controller()->actionChangeRecordListing($this->getRequest(), 'pages', null);
         $context = $response->getContext();
         $this->assertEquals(1, $context['context']['currentpage']);
 
         // Finally we delete the original content record, but make sure the logs still show
         $originalTitle = $content['title'];
-        $app['storage']->deleteContent('pages', 1);
-        $app['request'] = $request = Request::create('/bolt/changelog/pages/1');
-        $response = $controller->actionChangeRecordListing($request, 'pages', '1', $app, $request);
+        $this->getService('storage')->deleteContent('pages', 1);
+        $this->setRequest(Request::create('/bolt/changelog/pages/1'));
+        $response = $this->controller()->actionChangeRecordListing($this->getRequest(), 'pages', '1');
+
         $context = $response->getContext();
         $this->assertEquals($originalTitle, $context['context']['title']);
         // Note the delete generates an extra log, hence the extra count
@@ -136,32 +143,36 @@ class LogTest extends BoltUnitTest
 
     public function testSystemOverview()
     {
-        $app = $this->getApp();
-        $this->allowLogin($app);
+        $this->allowLogin($this->getApp());
 
-        $log = $this->getMock('Bolt\Logger\Manager', array('clear', 'trim'), array($app));
+        $log = $this->getMock('Bolt\Logger\Manager', array('clear', 'trim'), array($this->getApp()));
         $log->expects($this->once())
             ->method('clear')
             ->will($this->returnValue(true));
         $log->expects($this->once())
             ->method('trim')
             ->will($this->returnValue(true));
+        $this->setService('logger.manager', $log);
 
-        $app['logger.manager'] = $log;
-        ResourceManager::$theApp = $app;
+        $this->setRequest(Request::create('/bolt/systemlog', 'GET', array('action' => 'trim')));
+        $response = $this->controller()->actionSystemOverview($this->getRequest());
+        $this->assertNotEmpty($this->getService('session')->getFlashBag()->get('success'));
 
-        $app['request'] = $request = Request::create('/bolt/systemlog', 'GET', array('action' => 'trim'));
-        $response = $app->handle($request);
-        $this->assertNotEmpty($app['session']->getFlashBag()->get('success'));
-
-        $app['request'] = $request = Request::create('/bolt/systemlog', 'GET', array('action' => 'clear'));
-        $response = $app->handle($request);
-        $this->assertNotEmpty($app['session']->getFlashBag()->get('success'));
+        $this->setRequest(Request::create('/bolt/systemlog', 'GET', array('action' => 'clear')));
+        $response = $this->controller()->actionSystemOverview($this->getRequest());
+        $this->assertNotEmpty($this->getService('session')->getFlashBag()->get('success'));
 
         $this->assertEquals('/bolt/systemlog', $response->getTargetUrl());
 
-        $app['request'] = $request = Request::create('/bolt/systemlog');
-        $this->checkTwigForTemplate($app, 'activity/systemlog.twig');
-        $app->run($request);
+        $this->setRequest(Request::create('/bolt/systemlog'));
+        $this->checkTwigForTemplate($this->getApp(), 'activity/systemlog.twig');
+    }
+
+    /**
+     * @return \Bolt\Controller\Backend\Log
+     */
+    protected function controller()
+    {
+        return $this->getService('controller.backend.log');
     }
 }
