@@ -295,11 +295,11 @@ class Frontend extends ConfigurableBase
         // Look in taxonomies in 'content', to get a display value for '$slug', perhaps.
         foreach ($content as $record) {
             $flat = util::array_flatten($record->taxonomy);
-            $key = $this->app['resources']->getPath('root' . $taxonomy['slug'] . '/' . $slug);
+            $key = $this->app['resources']->getUrl('root') . $taxonomy['slug'] . '/' . $slug;
             if (isset($flat[$key])) {
                 $name = $flat[$key];
             }
-            $key = $this->app['resources']->getPath('root' . $taxonomy['singular_slug'] . '/' . $slug);
+            $key = $this->app['resources']->getUrl('root') . $taxonomy['singular_slug'] . '/' . $slug;
             if (isset($flat[$key])) {
                 $name = $flat[$key];
             }
