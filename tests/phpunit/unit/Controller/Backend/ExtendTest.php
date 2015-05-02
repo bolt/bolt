@@ -1,7 +1,7 @@
 <?php
 namespace Bolt\Tests\Controller\Backend;
 
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\Controller\ControllerUnitTest;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -9,98 +9,96 @@ use Symfony\Component\HttpFoundation\Response;
  * Class to test correct operation of src/Controller/Extend.
  *
  * @author Ross Riley <riley.ross@gmail.com>
+ * @author Gawain Lynch <gawain.lynch@gmail.com>
  **/
-
-class ExtendTest extends BoltUnitTest
+class ExtendTest extends ControllerUnitTest
 {
+    protected function setUp()
+    {
+    }
+
     public function testDefaultRegistries()
     {
-        $app = $this->getApp();
-        $this->assertNotEmpty($app['extend.site']);
-        $this->assertNotEmpty($app['extend.repo']);
-        $runner = $app['extend.manager'];
-        $this->assertInstanceOf('Bolt\Composer\PackageManager', $runner);
+        $this->assertNotEmpty($this->getService('extend.site'));
+        $this->assertNotEmpty($this->getService('extend.repo'));
+
+        $this->assertInstanceOf('Bolt\Composer\PackageManager', $this->getService('extend.manager'));
     }
 
     public function testMethodsReturnTemplates()
     {
-        $app = $this->getApp();
-        $app['twig.loader.filesystem']->prependPath(TEST_ROOT . '/app/view/twig');
-        $this->expectOutputRegex('#Redirecting to /bolt/#');
-        $app->run();
-        $controller = $app['controller.backend.extend'];
+        $this->getService('twig.loader.filesystem')->prependPath(TEST_ROOT . '/app/view/twig');
 
-        $request = Request::create('/');
-        $app['request'] = $request;
-        $response = $controller->actionOverview($request);
+        $this->setRequest(Request::create('/bolt/extend'));
+        $response = $this->controller()->actionOverview($this->getRequest());
         $this->assertEquals('extend/extend.twig', $response->getTemplateName());
 
-        $response = $controller->actionInstallPackage($request);
-        $this->assertNotEmpty($response);
+        $response = $this->controller()->actionInstallPackage($this->getRequest());
+        $this->assertEquals('extend/install-package.twig', $response->getTemplateName());
 
-        $request = Request::create('/', 'GET', array('package' => 'bolt/theme-2014'));
-        $controller = $this->getMock('Bolt\Controller\Extend', array('actionInstallInfo', 'actionPackageInfo', 'actionCheck'));
+        $this->setRequest(Request::create('/', 'GET', array('package' => 'bolt/theme-2014')));
+        $controller = $this->getMock('Bolt\Controller\Backend\Extend', array('actionInstallInfo', 'actionPackageInfo', 'actionCheck'));
         $controller->expects($this->any())
-            ->method('installInfo')
+            ->method('actionInstallInfo')
             ->will($this->returnValue(new Response('{"dev": [{"name": "bolt/theme-2014","version": "dev-master"}],"stable": []}')));
 
-        $response = $controller->actionInstallInfo($request);
+        $response = $controller->actionInstallInfo($this->getRequest());
         $this->assertNotEmpty($response);
 
-        $request = Request::create('/', 'GET', array('package' => 'bolt/theme-2014', 'version' => 'dev-master'));
+        $this->setRequest(Request::create('/', 'GET', array('package' => 'bolt/theme-2014', 'version' => 'dev-master')));
         $controller->expects($this->any())
-            ->method('packageInfo')
+            ->method('actionPackageInfo')
             ->will($this->returnValue(new Response('{"name":"bolt\/theme-2014","version":"unknown","type":"unknown","descrip":""}')));
 
-        $response = $controller->actionPackageInfo($request);
+        $response = $controller->actionPackageInfo($this->getRequest());
         $this->assertNotEmpty($response);
         $content = json_decode($response->getContent());
         $this->assertAttributeNotEmpty('name', $content);
 
-        $request = Request::create('/');
-
+        $this->setRequest(Request::create('/'));
         $controller->expects($this->any())
-            ->method('check')
+            ->method('actionCheck')
             ->will($this->returnValue(new Response('{"updates":[],"installs":[]}')));
 
-        $response = $controller->actionCheck($request);
+        $response = $controller->actionCheck($this->getRequest());
         $this->assertNotEmpty($response);
     }
 
     public function testOverview()
     {
-        $app = $this->getApp();
-        $this->allowLogin($app);
-        $request = Request::create('/bolt/extend');
-        $this->checkTwigForTemplate($app, 'extend/extend.twig');
-        $response = $app->handle($request);
-        $this->assertEquals(200, $response->getStatusCode());
+        $this->allowLogin($this->getApp());
+        $this->setRequest(Request::create('/bolt/extend'));
+        $this->checkTwigForTemplate($this->getApp(), 'extend/extend.twig');
+
+        $response = $this->controller()->actionOverview($this->getRequest());
+
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
     }
 
     public function testInstallPackage()
     {
-        $app = $this->getApp();
-        $this->allowLogin($app);
-        $request = Request::create('/bolt/extend/installPackage');
-        $this->checkTwigForTemplate($app, 'extend/install-package.twig');
-        $response = $app->handle($request);
-        $this->assertEquals(200, $response->getStatusCode());
+        $this->allowLogin($this->getApp());
+        $this->setRequest(Request::create('/bolt/extend/installPackage'));
+        $this->checkTwigForTemplate($this->getApp(), 'extend/install-package.twig');
+
+        $response = $response = $this->controller()->actionInstallPackage($this->getRequest());
+
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
     }
 
     public function testInstallInfo()
     {
-        $app = $this->getApp();
         $mockInfo = $this->getMock('Bolt\Extensions\ExtensionsInfoService', array('info'), array(), 'MockInfoService', false);
         $mockInfo->expects($this->once())
             ->method('info')
             ->will($this->returnValue($this->packageInfoProvider()));
+        $this->setService('extend.info', $mockInfo);
+        $this->allowLogin($this->getApp());
 
-        $app['extend.info'] = $mockInfo;
+        $this->setRequest(Request::create('/bolt/extend/installInfo?package=test&bolt=2.0.0'));
+        $response = $this->controller()->actionInstallInfo($this->getRequest());
 
-        $this->allowLogin($app);
-        $request = Request::create('/bolt/extend/installInfo?package=test&bolt=2.0.0');
-        $response = $app->handle($request);
-        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
         $parsedOutput = json_decode($response->getContent());
         $this->assertNotEmpty($parsedOutput->dev);
         $this->assertNotEmpty($parsedOutput->stable);
@@ -168,5 +166,13 @@ class ExtendTest extends BoltUnitTest
             );
         // This just ensures that the data matches the internal format of json decoded responses
         return json_decode(json_encode($info));
+    }
+
+    /**
+     * @return \Bolt\Controller\Backend\Extend
+     */
+    protected function controller()
+    {
+        return $this->getService('controller.backend.extend');
     }
 }
