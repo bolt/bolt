@@ -141,7 +141,7 @@ class Backend implements ControllerProviderInterface
         $ctl->match('/tr/{domain}/{tr_locale}', array($this, 'translation'))
             ->assert('domain', 'messages|contenttypes|infos')
             ->value('domain', 'messages')
-            ->value('tr_locale', $app['config']->get('general/locale'))
+            ->value('tr_locale', $app['locale'])
             ->bind('translation');
 
         $ctl->get('/omnisearch', array($this, 'omnisearch'))
