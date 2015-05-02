@@ -303,8 +303,9 @@ class Backend extends BackendBase
         try {
             Yaml::parse($contents);
         } catch (ParseException $e) {
-            $msg = Trans::__("File '%s' could not be saved:", array('%s' => $tr['shortPath']));
+            $msg = Trans::__("File '%s' could not be saved: ", array('%s' => $tr['shortPath']));
             $this->addFlash('error', $msg . $e->getMessage());
+
             return false;
         }
 
