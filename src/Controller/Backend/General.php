@@ -16,14 +16,14 @@ use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
 
 /**
- * Backend controller for basic backend routes.
+ * General controller for basic backend routes.
  *
  * Prior to v2.3 this functionality primarily existed in the monolithic
  * Bolt\Controllers\Backend class.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class Backend extends BackendBase
+class General extends BackendBase
 {
     protected function addRoutes(ControllerCollection $c)
     {

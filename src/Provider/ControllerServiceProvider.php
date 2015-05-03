@@ -27,9 +27,6 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
             return $app['config']->get('general/branding/path') . '/upload';
         };
 
-        $app['controller.backend'] = $app->share(function () {
-            return new Controller\Backend\Backend();
-        });
         $app['controller.backend.authentication'] = $app->share(function () {
             return new Controller\Backend\Authentication();
         });
@@ -41,6 +38,9 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
         });
         $app['controller.backend.file_manager'] = $app->share(function () {
             return new Controller\Backend\FileManager();
+        });
+        $app['controller.backend.general'] = $app->share(function () {
+            return new Controller\Backend\General();
         });
         $app['controller.backend.log'] = $app->share(function () {
             return new Controller\Backend\Log();
@@ -88,10 +88,10 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
         // Mount the standard collection of backend controllers
         $prefix = $app['controller.backend.mount_prefix'];
         $controllerKeys = array(
-            'backend',
             'backend.authentication',
             'backend.database',
             'backend.file_manager',
+            'backend.general',
             'backend.log',
             'backend.records',
             'backend.users',
