@@ -52,11 +52,11 @@
     </tr>
 {% endif %}
 
-<tr {% if content.status!='published' %}class="dim"{% endif %} id="item_{{ content.id }}">
+<tr {% if content.status!='published' %}class="dim"{% endif %}{% if not compact and editable %} id="item_{{ content.id }}"{% endif %}>
     {% block listing_id %}
 
         {% if not compact and editable and isallowed('delete', contenttype) %}
-            <td class="check hidden-xs"><input type="checkbox" name="checkRow" /></td>
+            <td class="check hidden-xs"><input type="checkbox" name="checkRow"></td>
         {% else %}
             <td style="margin: 0; padding: 0;"></td>
         {% endif %}
