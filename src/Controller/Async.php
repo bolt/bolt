@@ -15,76 +15,78 @@ class Async extends Base
     {
         $ctr->before(array($this, 'before'));
 
-        $ctr->get('/dashboardnews', 'dashboardnews')
+        $ctr->get('/dashboardnews', 'actionDashboardNews')
             ->bind('dashboardnews');
 
-        $ctr->get('/latestactivity', 'latestactivity')
+        $ctr->get('/latestactivity', 'actionLatestActivity')
             ->bind('latestactivity');
 
-        $ctr->get('/filesautocomplete', 'filesautocomplete');
+        $ctr->get('/filesautocomplete', 'actionFilesAutoComplete')
+            ->bind('filesautocomplete');
 
-        $ctr->get('/readme/{filename}', 'readme')
+        $ctr->get('/readme/{filename}', 'actionReadme')
             ->assert('filename', '.+')
             ->bind('readme');
 
-        $ctr->get('/widget/{key}', 'widget')
+        $ctr->get('/widget/{key}', 'actionWidget')
             ->bind('widget');
 
-        $ctr->get('/makeuri', 'makeuri');
+        $ctr->get('/makeuri', 'actionMakeUri')
+            ->bind('makeuri');
 
-        $ctr->get('/lastmodified/{contenttypeslug}/{contentid}', 'lastmodified')
+        $ctr->get('/lastmodified/{contenttypeslug}/{contentid}', 'actionLastModified')
             ->value('contentid', '')
             ->bind('lastmodified');
 
-        $ctr->get('/filebrowser/{contenttype}', 'filebrowser')
+        $ctr->get('/filebrowser/{contenttype}', 'actionFileBrowser')
             ->assert('contenttype', '.*')
             ->bind('filebrowser');
 
-        $ctr->get('/browse/{namespace}/{path}', 'browse')
+        $ctr->get('/browse/{namespace}/{path}', 'actionBrowse')
             ->assert('path', '.*')
             ->value('namespace', 'files')
             ->value('path', '')
             ->bind('asyncbrowse');
 
-        $ctr->post('/renamefile', 'renamefile')
+        $ctr->post('/renamefile', 'actionRenameFile')
             ->bind('renamefile');
 
-        $ctr->post('/deletefile', 'deletefile')
+        $ctr->post('/deletefile', 'actionDeleteFile')
             ->bind('deletefile');
 
-        $ctr->post('/duplicatefile', 'duplicatefile')
+        $ctr->post('/duplicatefile', 'actionDuplicateFile')
             ->bind('duplicatefile');
 
-        $ctr->get('/addstack/{filename}', 'addstack')
+        $ctr->get('/addstack/{filename}', 'actionAddStack')
             ->assert('filename', '.*')
             ->bind('addstack');
 
-        $ctr->get('/tags/{taxonomytype}', 'tags')
+        $ctr->get('/tags/{taxonomytype}', 'actionTags')
             ->bind('tags');
 
-        $ctr->get('/populartags/{taxonomytype}', 'populartags')
+        $ctr->get('/populartags/{taxonomytype}', 'actionPopularTags')
             ->bind('populartags');
 
-        $ctr->get('/showstack', 'showstack')
+        $ctr->get('/showstack', 'actionShowStack')
             ->bind('showstack');
 
-        $ctr->get('/omnisearch', 'omnisearch');
+        $ctr->get('/omnisearch', 'actionOmnisearch');
 
-        $ctr->post('/folder/rename', 'renamefolder')
+        $ctr->post('/folder/rename', 'actionRenameFolder')
             ->bind('renamefolder');
 
-        $ctr->post('/folder/remove', 'removefolder')
+        $ctr->post('/folder/remove', 'actionRemoveFolder')
             ->bind('removefolder');
 
-        $ctr->post('/folder/create', 'createfolder')
+        $ctr->post('/folder/create', 'actionCreateFolder')
             ->bind('createfolder');
 
-        $ctr->get('/changelog/{contenttype}/{contentid}', 'changelogRecord')
+        $ctr->get('/changelog/{contenttype}/{contentid}', 'actionChangeLogRecord')
             ->value('contenttype', '')
             ->value('contentid', '0')
             ->bind('changelogrecord');
 
-        $ctr->get('/email/{type}/{recipient}', 'emailNotification')
+        $ctr->get('/email/{type}/{recipient}', 'actionEmailNotification')
             ->assert('type', '.*')
             ->bind('emailNotification');
     }
@@ -96,7 +98,7 @@ class Async extends Base
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function dashboardnews(Request $request)
+    public function actionDashboardNews(Request $request)
     {
         $news = $this->getNews($request->getHost());
 
@@ -120,7 +122,7 @@ class Async extends Base
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function latestactivity()
+    public function actionLatestActivity()
     {
         $change = $this->app['logger.manager']->getActivity('change', 8);
         $system = $this->app['logger.manager']->getActivity('system', 8, null, 'authentication');
@@ -129,7 +131,7 @@ class Async extends Base
             'change' => $change,
             'system' => $system,
         )));
-        $response->setCache(array('s_maxage' => '3600', 'public' => true));
+        $response->setPublic()->setSharedMaxAge(3600);
 
         return $response;
     }
@@ -141,7 +143,7 @@ class Async extends Base
      *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function filesautocomplete(Request $request)
+    public function actionFilesAutoComplete(Request $request)
     {
         $term = $request->get('term');
 
@@ -160,7 +162,7 @@ class Async extends Base
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function widget($key)
+    public function actionWidget($key)
     {
         $html = $this->app['extensions']->renderWidget($key);
 
@@ -174,7 +176,7 @@ class Async extends Base
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function readme($filename)
+    public function actionReadme($filename)
     {
         $paths = $this->app['resources']->getPaths();
 
@@ -203,7 +205,7 @@ class Async extends Base
      *
      * @return string
      */
-    public function makeuri(Request $request)
+    public function actionMakeUri(Request $request)
     {
         $uri = $this->app['storage']->getUri(
             $request->query->get('title'),
@@ -224,7 +226,7 @@ class Async extends Base
      *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function tags($taxonomytype)
+    public function actionTags($taxonomytype)
     {
         $table = $this->getOption('general/database/prefix', 'bolt_');
         $table .= 'taxonomy';
@@ -251,7 +253,7 @@ class Async extends Base
      *
      * @return integer|\Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function populartags(Request $request, $taxonomytype)
+    public function actionPopularTags(Request $request, $taxonomytype)
     {
         $table = $this->getOption('general/database/prefix', 'bolt_');
         $table .= 'taxonomy';
@@ -290,7 +292,7 @@ class Async extends Base
      *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function omnisearch(Request $request)
+    public function actionOmnisearch(Request $request)
     {
         $query = $request->query->get('q', '');
 
@@ -311,7 +313,7 @@ class Async extends Base
      *
      * @return BoltResponse
      */
-    public function lastmodified($contenttypeslug, $contentid = null)
+    public function actionLastModified($contenttypeslug, $contentid = null)
     {
         // Let's find out how we should determine what the latest changes were:
         $contentLogEnabled = (bool) $this->getOption('general/changelog/enabled');
@@ -330,7 +332,7 @@ class Async extends Base
      *
      * @return mixed
      */
-    public function filebrowser($contenttype)
+    public function actionFileBrowser($contenttype)
     {
         $results = array();
 
@@ -362,7 +364,7 @@ class Async extends Base
      *
      * @return mixed
      */
-    public function browse($namespace, $path, Request $request)
+    public function actionBrowse($namespace, $path, Request $request)
     {
         // No trailing slashes in the path.
         $path = rtrim($path, '/');
@@ -413,7 +415,7 @@ class Async extends Base
      *
      * @return true
      */
-    public function addstack($filename)
+    public function actionAddStack($filename)
     {
         $this->app['stack']->add($filename);
 
@@ -427,7 +429,7 @@ class Async extends Base
      *
      * @return \Twig_Markup
      */
-    public function showstack(Request $request)
+    public function actionShowStack(Request $request)
     {
         $count = $request->query->get('items', 10);
         $options = $request->query->get('options', false);
@@ -464,7 +466,7 @@ class Async extends Base
      *
      * @return Boolean Whether the renaming action was successful
      */
-    public function renamefile(Request $request)
+    public function actionRenameFile(Request $request)
     {
         $namespace  = $request->request->get('namespace');
         $parentPath = $request->request->get('parent');
@@ -485,7 +487,7 @@ class Async extends Base
      *
      * @return bool
      */
-    public function deletefile(Request $request)
+    public function actionDeleteFile(Request $request)
     {
         $namespace = $request->request->get('namespace');
         $filename = $request->request->get('filename');
@@ -504,7 +506,7 @@ class Async extends Base
      *
      * @return bool
      */
-    public function duplicatefile(Request $request)
+    public function actionDuplicateFile(Request $request)
     {
         $namespace = $request->request->get('namespace');
         $filename = $request->request->get('filename');
@@ -534,7 +536,7 @@ class Async extends Base
      *
      * @return Boolean Whether the renaming action was successful
      */
-    public function renamefolder(Request $request)
+    public function actionRenameFolder(Request $request)
     {
         $namespace  = $request->request->get('namespace');
         $parentPath = $request->request->get('parent');
@@ -555,7 +557,7 @@ class Async extends Base
      *
      * @return Boolean Whether the renaming action was successful
      */
-    public function removefolder(Request $request)
+    public function actionRemoveFolder(Request $request)
     {
         $namespace = $request->request->get('namespace');
         $parentPath = $request->request->get('parent');
@@ -575,7 +577,7 @@ class Async extends Base
      *
      * @return Boolean Whether the creation was successful
      */
-    public function createfolder(Request $request)
+    public function actionCreateFolder(Request $request)
     {
         $namespace = $request->request->get('namespace');
         $parentPath = $request->request->get('parent');
@@ -596,7 +598,7 @@ class Async extends Base
      *
      * @return string
      */
-    public function changelogRecord($contenttype, $contentid)
+    public function actionChangeLogRecord($contenttype, $contentid)
     {
         $options = array(
             'contentid' => $contentid,
@@ -621,7 +623,7 @@ class Async extends Base
      *
      * @return Response
      */
-    public function emailNotification(Request $request, $type)
+    public function actionEmailNotification(Request $request, $type)
     {
         $user = $this->getUsers()->getCurrentUser();
 
@@ -815,7 +817,7 @@ class Async extends Base
         );
 
         $response = $this->render('components/panel-lastmodified.twig', array('context' => $context));
-        $response->setCache(array('s_maxage' => '60', 'public' => true));
+        $response->setPublic()->setSharedMaxAge(60);
 
         return $response;
     }
@@ -841,7 +843,7 @@ class Async extends Base
         );
 
         $response = $this->render('components/panel-lastmodified.twig', array('context' => $context));
-        $response->setCache(array('s_maxage' => '60', 'public' => true));
+        $response->setPublic()->setSharedMaxAge(60);
 
         return $response;
     }
