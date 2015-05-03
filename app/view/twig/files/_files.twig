@@ -74,7 +74,8 @@
                 {# Column: Thumbnail #}
                 <td class="listthumb">
                     {% if file.imagesize is defined %}
-                        {{ file.newpath|showimage(54, 40, 'c') }}
+                        {% set thumb = file.newpath|showimage(54, 40, 'c') %}{# Hack to add alt attribute #}
+                        <img {{ thumb|slice(5, thumb|length - 6)|raw }} alt="{{ __('Thumbnail')|e('html_attr') }}">
                     {% endif %}
                 </td>
                 {# Column: Actions #}
