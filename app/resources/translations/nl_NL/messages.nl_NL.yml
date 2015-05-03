@@ -1,20 +1,20 @@
-# app/resources/translations/nl_NL/messages.nl_NL.yml – generated on 2014-12-06 09:23:09 UTC
+# app/resources/translations/nl_NL/messages.nl_NL.yml – generated on 2015-05-03 09:07:43 UTC
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the
-#          repository are automatically mapped to the new scheme. Be aware that there
-#          can be a race condition between that process and your PR so that it's
-#          eventually necessary to remap your translations. If you're planning on
+#          at the moment. This is an ongoing process. Translations currently in the 
+#          repository are automatically mapped to the new scheme. Be aware that there 
+#          can be a race condition between that process and your PR so that it's 
+#          eventually necessary to remap your translations. If you're planning on 
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#  no unused messages
-#  no untranslated messages
+#  48 unused messages
+#   3 untranslated messages
 #  no untranslated keyword based messages
-# 379 translations
-# 132 keyword based translations
+# 387 translations
+# 137 keyword based translations
 
-#--- 379 translations ---------------------------------------------------------
+#--- 387 translations ---------------------------------------------------------
 
 "%contenttypes% overview": "%contenttypes% overzicht"
 "%name% № %id%": "%name% № %id%"
@@ -84,6 +84,7 @@ general.about-bolt: "Over Bolt"
 "Click to change current status.": "Klik om de huidige status aan te passen."
 "Code:": "Code"
 "Collapse sidebar": "Zijbalk invouwen"
+"Config": "Config"
 "Configuration": "Configuratie"
 "Configure Extensions": "Configureer Extensies"
 "Content": "Inhoud"
@@ -94,7 +95,7 @@ general.about-bolt: "Over Bolt"
 "Content Type Permissions": "Content type permissies"
 "Content for home not found!": "Content voor 'home' kon niet gevonden worden."
 "Contenttypes": "Contenttypen"
-"Copy to theme folder": "kopiër naar thema map"
+"Copy to theme folder": "kopiëer naar thema map"
 "Copying theme assets …": "Thema-bestanden kopiëren …"
 "Create folder": "Maak map aan"
 "Create the first user": "Maak de eerste gebruiker aan"
@@ -139,7 +140,7 @@ general.about-bolt: "Over Bolt"
 "Extensions": "Extensies"
 "Extras": "Extra's"
 "Failed to send password request. Please check the email settings.": "Het sturen van een wachtwoord verzoek is mislukt. Controleer de email instellingen."
-"Field �%FIELD_NAME%�:": "Veld �%FIELD_NAME%�:"
+"Field “%FIELD_NAME%”:": "Veld “%FIELD_NAME%”:"
 "File": "Bestand"
 "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": "Het bestand '%file%' kon niet worden geüpload (foutief bestandstype). Zorg ervoor dat de bestandsextensie een van de volgende is."
 "File '%file%' could not be uploaded.": "Bestand '%file%' kon niet geüpload worden."
@@ -190,6 +191,7 @@ general.about-bolt: "Over Bolt"
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": "Ongeldig menu pad (%PATH%) in menu.yml. Waarschijnlijk moet het een link: zijn!"
 "Is required or needs to match a pattern!": "Is verplicht of moet een patroon matchen!"
 "Is required!": "Is verplicht!"
+"Keyword …": "Keyword …"
 "Last edited on:": "Laatst aangepast op:"
 "Last known IP": "Laatst bekende IP"
 "Last seen": "Laatst gezien"
@@ -200,6 +202,7 @@ general.about-bolt: "Over Bolt"
 "Long messages": "Lange meldingen"
 "Main configuration": "Algemene configuratie"
 "Maintenance": "Onderhoud"
+"Malformed JSON response. Ensure no debugging or other code is being added to the response": "Misvormde JSON respons. Zorg ervoor dat er geen debugging of andere code wordt toegevoegd aan de reactie"
 "Markdown": "Markdown"
 "Menu setup": "Menu instellingen"
 "Message:": "Bericht:"
@@ -265,6 +268,7 @@ general.about-bolt: "Over Bolt"
 "Publish selected": "Publiceer geselecteerde"
 "Published": "Gepubliceerd"
 "Published on:": "Gepubliceerd op:"
+"Readme": "Leesmij"
 "Read more": "Lees verder"
 "Recent %contenttypes%": "Recente %contenttypes%"
 "Related content": "Gerelateerde content"
@@ -277,8 +281,8 @@ general.about-bolt: "Over Bolt"
 menu.configuration.routing: "Route instellingen"
 "Run all Updates": "Doe alle updates"
 "Run update check": "Doe update check"
-"Running install of all packages …": "Bezig met de installatie van alle packages"
-"Running update �": "Bezig met updaten �"
+"Running install of all packages …": "Bezig met de installatie van alle packages …"
+"Running update …": "Bezig met updaten …"
 "Save & create new record": "Sla op & maak nieuwe"
 "Save & return to overview": "Sla op & naar overzicht"
 "Saved on:": "Opgeslagen op:"
@@ -328,7 +332,7 @@ menu.configuration.routing: "Route instellingen"
 "The change log has been cleared.": "De changelog is gewist."
 "The change log has been trimmed.": "De changelog is verkleind."
 "The database needs to be updated/repaired. Go to 'Configuration' > '<a href=\"%link%\">Check Database</a>' to do this now.": "De database moet bijgewerkt of gerepareerd worden. Ga naar 'Configuratie' > '<a href=\"%link%\">Controleer Database</a>' om dit nu te doen."
-"The extensions directory (<code>%dir%</code>) does not exist, or it is not writable.": "De directory voor extensies (<code>%dir%</code> bestaat niet of is niet schrijfbaar."
+"The extensions directory (<code>%dir%</code>) does not exist, or it is not writable. ": "De directory voor extensies (<code>%dir%</code> bestaat niet of is niet schrijfbaar."
 "The field %field% has been changed to \"%newValue%\"": "Het veld %field% is gewijzigd in \"%newValue%\"."
 "The file '%s' doesn't exist, or is not readable.": "Het bestand '%s' bestaat niet, of is niet leesbaar."
 "The file '%s' is not writable. You will have to use your own editor to make modifications to this file.": "Het bestand '%s' is niet schrijfbaar. Gebruik je eigen editor om wijzigingen in dit bestand aan te brengen."
@@ -342,8 +346,8 @@ menu.configuration.routing: "Route instellingen"
 "The system log has been trimmed.": "De systeemlog is verkleind."
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "Het vertalingenbestand '%s' is niet schrijfbaar. Gebruik je eigen editor om wijzigingen aan dit bestand aan te brengen."
 "The translations file '%s' is not readable.": "Het vertalingenbestand '%s' is niet leesbaar."
-"The value has to be at least �%MINVAL%�!": "De waarde moet mag niet lager zijn dan �%MINVAL%�!"
-"The value must not be greater than �%MAXVAL%�!": "De waarde mag niet hoger zijn dan �%MINVAL%�!"
+"The value has to be at least “%MINVAL%”!": "De waarde moet mag niet lager zijn dan “%MINVAL%”!"
+"The value must not be greater than “%MAXVAL%”!": "De waarde mag niet hoger zijn dan “%MAXVAL%”!"
 "The versions listed below are compatible with the version of Bolt you are using. Since they are unstable versions, we recommend you <strong>do not</strong> use these on production systems.": "De hieronder opgesomde versies zijn compatibel met de Bolt-versie die je gebruikt. Aangezien het onstabiele versies zijn, raden we aan deze <strond>niet</strong> te gebruiken op productiesystemen."
 "The versions listed below are marked as stable releases by the developer and are compatible with the version of Bolt you are currently using.": "De hieronder opgesomde versies zijn als stabiel aangemerkt door de ontwikkelaar en zijn compatibel met de Bolt-versie die je momenteel gebruikt."
 "Theme installation complete": "Installatie van het thema is gereed."
@@ -443,7 +447,7 @@ menu.configuration.routing: "Route instellingen"
 "or": "of"
 "show all": "Toon alle"
 
-#--- 132 keyword based translations -------------------------------------------
+#--- 137 keyword based translations -------------------------------------------
 
 component:
     changelog-detail:
@@ -469,11 +473,11 @@ contenttypes:
             relations: "Relaties"
             taxonomy: "Taxonomie"
             ungrouped: "Zonder groep"
-        invalid-field: "Kan %field% in %contenttype% niet zetten: Geen geldig veld."
+        invalid-field: "Kan %field% in %contenttype% niet opslaan: Geen geldig veld."
         last-modified: "Laatst aangepaste %contenttypes%"
         new: "Nieuwe %contenttype%"
         no-latest: "Geen nieuwste %contenttype%"
-        no-proper-type: "In the contenttype for '%contenttype%', the field '%field%' has 'type: %type%', which is not a proper field type. Please edit contenttypes.yml, and correct this."
+        no-proper-type: "In het contenttype voor '%contenttype%' heeft het veld '%field%' type: %type%, wat geen geldig veld type is. Pas contenttypes.yml aan en corrigeer dit."
         no-recent: "Geen recente %contenttype%."
         none-available: "Geen %contenttypes% beschikbaar."
         not-existing: "Het record van %contenttype% dat je zoekt bestaat niet. Het is ofwel verwijderd, of het heeft nooit bestaan."
@@ -638,12 +642,12 @@ panel:
         button:
             add: "Nieuwe gebruiker toevoegen"
 
-contenttypes.general.choose-an-entry: "Kies een entry"
 general.bolt-on-github: "Bolt op Github"
 general.bolt-documentation-on-github: "Bolt documentatie op Github"
 general.about: "Over"
 users.actions-for-users: "Handelingen voor Gebruikers"
 users.your-password: "Je wachtwoord"
 general.thanks: "Bedankt"
-
+logs.change-log: "Changelog"
+logs.system-log: "Systeemlog"
 
