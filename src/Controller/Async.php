@@ -92,40 +92,39 @@ class Async extends Base
     /**
      * News. Film at 11.
      *
-     * @param \Silex\Application $app
-     * @param Request            $request
+     * @param Request $request
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function dashboardnews(Silex\Application $app, Request $request)
+    public function dashboardnews(Request $request)
     {
         $source = 'http://news.bolt.cm/';
-        $news = $app['cache']->fetch('dashboardnews'); // Two hours.
+        $news = $this->app['cache']->fetch('dashboardnews'); // Two hours.
         $hostname = $request->getHost();
         $body = '';
 
         // If not cached, get fresh news.
         if ($news === false) {
-            $app['logger.system']->info('Fetching from remote server: ' . $source, array('event' => 'news'));
+            $this->app['logger.system']->info('Fetching from remote server: ' . $source, array('event' => 'news'));
 
-            $driver = $app['db']->getDatabasePlatform()->getName();
+            $driver = $this->app['db']->getDatabasePlatform()->getName();
 
             $url = sprintf(
                 '%s?v=%s&p=%s&db=%s&name=%s',
                 $source,
-                rawurlencode($app->getVersion()),
+                rawurlencode($this->app->getVersion()),
                 phpversion(),
                 $driver,
                 base64_encode($hostname)
             );
 
             // Options valid if using a proxy
-            if ($app['config']->get('general/httpProxy')) {
+            if ($this->getOption('general/httpProxy')) {
                 $curlOptions = array(
-                    'CURLOPT_PROXY'        => $app['config']->get('general/httpProxy/host'),
+                    'CURLOPT_PROXY'        => $this->getOption('general/httpProxy/host'),
                     'CURLOPT_PROXYTYPE'    => 'CURLPROXY_HTTP',
-                    'CURLOPT_PROXYUSERPWD' => $app['config']->get('general/httpProxy/user') . ':' .
-                                                $app['config']->get('general/httpProxy/password')
+                    'CURLOPT_PROXYUSERPWD' => $this->getOption('general/httpProxy/user') . ':' .
+                                                $this->getOption('general/httpProxy/password')
                 );
             }
 
@@ -133,10 +132,10 @@ class Async extends Base
             $curlOptions['CURLOPT_CONNECTTIMEOUT'] = 5;
 
             try {
-                if ($app['deprecated.php']) {
-                    $fetchedNewsData = $app['guzzle.client']->get($url, null, $curlOptions)->send()->getBody(true);
+                if ($this->app['deprecated.php']) {
+                    $fetchedNewsData = $this->app['guzzle.client']->get($url, null, $curlOptions)->send()->getBody(true);
                 } else {
-                    $fetchedNewsData = $app['guzzle.client']->get($url, array(), $curlOptions)->getBody(true);
+                    $fetchedNewsData = $this->app['guzzle.client']->get($url, array(), $curlOptions)->getBody(true);
                 }
 
                 $fetchedNewsItems = json_decode($fetchedNewsData);
@@ -145,7 +144,7 @@ class Async extends Base
                     $news = array();
 
                     // Iterate over the items, pick the first news-item that applies and the first alert we need to show
-                    $version = $app->getVersion();
+                    $version = $this->app->getVersion();
                     foreach ($fetchedNewsItems as $item) {
                         $type = ($item->type === 'alert') ? 'alert' : 'information';
                         if (!isset($news[$type])
@@ -155,12 +154,12 @@ class Async extends Base
                         }
                     }
 
-                    $app['cache']->save('dashboardnews', $news, 7200);
+                    $this->app['cache']->save('dashboardnews', $news, 7200);
                 } else {
-                    $app['logger.system']->error('Invalid JSON feed returned', array('event' => 'news'));
+                    $this->app['logger.system']->error('Invalid JSON feed returned', array('event' => 'news'));
                 }
             } catch (RequestException $e) {
-                $app['logger.system']->critical(
+                $this->app['logger.system']->critical(
                     'Error occurred during newsfeed fetch',
                     array('event' => 'exception', 'exception' => $e)
                 );
@@ -168,7 +167,7 @@ class Async extends Base
                 $body .= "<p>Unable to connect to $source</p>";
             } catch (V3RequestException $e) {
                 /** @deprecated remove with the end of PHP 5.3 support */
-                $app['logger.system']->critical(
+                $this->app['logger.system']->critical(
                     'Error occurred during newsfeed fetch',
                     array('event' => 'exception', 'exception' => $e)
                 );
@@ -176,18 +175,18 @@ class Async extends Base
                 $body .= "<p>Unable to connect to $source</p>";
             }
         } else {
-            $app['logger.system']->info('Using cached data', array('event' => 'news'));
+            $this->app['logger.system']->info('Using cached data', array('event' => 'news'));
         }
 
         // Combine the body. One 'alert' and one 'info' max. Regular info-items can be disabled, but Alerts can't.
         if (!empty($news['alert'])) {
-            $body .= $app['render']->render(
+            $body .= $this->render(
                 'components/panel-news.twig',
                 array('news' => $news['alert'])
             )->getContent();
         }
-        if (!empty($news['information']) && !$app['config']->get('general/backend/news/disable')) {
-            $body .= $app['render']->render(
+        if (!empty($news['information']) && !$this->getOption('general/backend/news/disable')) {
+            $body .= $this->render(
                 'components/panel-news.twig',
                 array('news' => $news['information'])
             )->getContent();
@@ -199,18 +198,16 @@ class Async extends Base
     /**
      * Get the 'latest activity' for the dashboard.
      *
-     * @param \Silex\Application $app
-     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function latestactivity(Silex\Application $app)
+    public function latestactivity()
     {
-        $activity = $app['logger.manager']->getActivity('change', 8);
+        $activity = $this->app['logger.manager']->getActivity('change', 8);
 
-        $body = "";
+        $body = '';
 
         if (!empty($activity)) {
-            $body .= $app['render']->render(
+            $body .= $this->render(
                 'components/panel-change.twig',
                 array(
                     'activity' => $activity
@@ -218,10 +215,10 @@ class Async extends Base
             )->getContent();
         }
 
-        $activity = $app['logger.manager']->getActivity('system', 8, null, 'authentication');
+        $activity = $this->app['logger.manager']->getActivity('system', 8, null, 'authentication');
 
         if (!empty($activity)) {
-            $body .= $app['render']->render(
+            $body .= $this->render(
                 'components/panel-system.twig',
                 array(
                     'activity' => $activity
@@ -235,34 +232,32 @@ class Async extends Base
     /**
      * Return autocomplete data for a file name.
      *
-     * @param Silex\Application $app
-     * @param Request           $request
+     * @param Request $request
      *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function filesautocomplete(Silex\Application $app, Request $request)
+    public function filesautocomplete(Request $request)
     {
         $term = $request->get('term');
 
         $extensions = $request->query->get('ext');
-        $files = $app['filesystem']->search($term, $extensions);
+        $files = $this->getFilesystemManager()->search($term, $extensions);
 
-        $app['debug'] = false;
+        $this->app['debug'] = false;
 
-        return $app->json($files);
+        return $this->json($files);
     }
 
     /**
      * Render a widget, and return the HTML, so it can be inserted in the page.
      *
-     * @param string             $key
-     * @param \Silex\Application $app
+     * @param string $key
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function widget($key, Silex\Application $app)
+    public function widget($key)
     {
-        $html = $app['extensions']->renderWidget($key);
+        $html = $this->app['extensions']->renderWidget($key);
 
         return new Response($html, Response::HTTP_OK, array('Cache-Control' => 's-maxage=180, public'));
     }
@@ -270,29 +265,28 @@ class Async extends Base
     /**
      * Render an extension's README.md file.
      *
-     * @param string            $filename
-     * @param Silex\Application $app
+     * @param string $filename
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function readme($filename, Silex\Application $app)
+    public function readme($filename)
     {
-        $paths = $app['resources']->getPaths();
+        $paths = $this->app['resources']->getPaths();
 
         $filename = $paths['extensionspath'] . '/vendor/' . $filename;
 
         // don't allow viewing of anything but "readme.md" files.
         if (strtolower(basename($filename)) != 'readme.md') {
-            $app->abort(Response::HTTP_UNAUTHORIZED, 'Not allowed');
+            $this->abort(Response::HTTP_UNAUTHORIZED, 'Not allowed');
         }
         if (!is_readable($filename)) {
-            $app->abort(Response::HTTP_UNAUTHORIZED, 'Not readable');
+            $this->abort(Response::HTTP_UNAUTHORIZED, 'Not readable');
         }
 
         $readme = file_get_contents($filename);
 
         // Parse the field as Markdown, return HTML
-        $html = $app['markdown']->text($readme);
+        $html = $this->app['markdown']->text($readme);
 
         return new Response($html, Response::HTTP_OK, array('Cache-Control' => 's-maxage=180, public'));
     }
@@ -300,14 +294,13 @@ class Async extends Base
     /**
      * Generate a URI based on request parmaeters
      *
-     * @param Silex\Application $app
-     * @param Request           $request
+     * @param Request $request
      *
      * @return string
      */
-    public function makeuri(Silex\Application $app, Request $request)
+    public function makeuri(Request $request)
     {
-        $uri = $app['storage']->getUri(
+        $uri = $this->app['storage']->getUri(
             $request->query->get('title'),
             $request->query->get('id'),
             $request->query->get('contenttypeslug'),
@@ -322,17 +315,16 @@ class Async extends Base
     /**
      * Fetch a JSON encoded set of taxonomy specific tags.
      *
-     * @param Silex\Application $app
-     * @param string            $taxonomytype
+     * @param string $taxonomytype
      *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function tags(Silex\Application $app, $taxonomytype)
+    public function tags($taxonomytype)
     {
-        $table = $app['config']->get('general/database/prefix', 'bolt_');
+        $table = $this->getOption('general/database/prefix', 'bolt_');
         $table .= 'taxonomy';
 
-        $query = $app['db']->createQueryBuilder()
+        $query = $this->app['db']->createQueryBuilder()
             ->select("DISTINCT $table.slug")
             ->from($table)
             ->where('taxonomytype = :taxonomytype')
@@ -343,24 +335,23 @@ class Async extends Base
 
         $results = $query->execute()->fetchAll();
 
-        return $app->json($results);
+        return $this->json($results);
     }
 
     /**
      * Fetch a JSON encoded set of the most popular taxonomy specific tags.
      *
-     * @param Silex\Application $app
-     * @param Request           $request
-     * @param string            $taxonomytype
+     * @param Request $request
+     * @param string  $taxonomytype
      *
      * @return integer|\Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function populartags(Silex\Application $app, Request $request, $taxonomytype)
+    public function populartags(Request $request, $taxonomytype)
     {
-        $table = $app['config']->get('general/database/prefix', 'bolt_');
+        $table = $this->getOption('general/database/prefix', 'bolt_');
         $table .= 'taxonomy';
 
-        $query = $app['db']->createQueryBuilder()
+        $query = $this->app['db']->createQueryBuilder()
             ->select('slug, COUNT(slug) AS count')
             ->from($table)
             ->where('taxonomytype = :taxonomytype')
@@ -384,73 +375,70 @@ class Async extends Base
             }
         );
 
-        return $app->json($results);
+        return $this->json($results);
     }
 
     /**
      * Perform an OmniSearch search and return the results.
      *
-     * @param Silex\Application $app
-     * @param Request           $request
+     * @param Request $request
      *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function omnisearch(Silex\Application $app, Request $request)
+    public function omnisearch(Request $request)
     {
         $query = $request->query->get('q', '');
 
         if (strlen($query) < 3) {
-            return $app->json(array());
+            return $this->json(array());
         }
 
-        $options = $app['omnisearch']->query($query);
+        $options = $this->app['omnisearch']->query($query);
 
-        return $app->json($options);
+        return $this->json($options);
     }
 
     /**
      * Latest {contenttype} to show a small listing in the sidebars.
      *
-     * @param \Silex\Application $app
-     * @param string             $contenttypeslug
-     * @param integer|null       $contentid
+     * @param string       $contenttypeslug
+     * @param integer|null $contentid
      *
      * @return Response
      */
-    public function lastmodified(Silex\Application $app, $contenttypeslug, $contentid = null)
+    public function lastmodified($contenttypeslug, $contentid = null)
     {
         // Let's find out how we should determine what the latest changes were:
-        $contentLogEnabled = (bool) $app['config']->get('general/changelog/enabled');
+        $contentLogEnabled = (bool) $this->getOption('general/changelog/enabled');
 
         if ($contentLogEnabled) {
-            return $this->lastmodifiedByContentLog($app, $contenttypeslug, $contentid);
+            return $this->lastmodifiedByContentLog($this->app, $contenttypeslug, $contentid);
         } else {
-            return $this->lastmodifiedSimple($app, $contenttypeslug);
+            return $this->lastmodifiedSimple($this->app, $contenttypeslug);
         }
     }
 
     /**
      * Only get latest {contenttype} record edits based on date changed.
      *
-     * @param \Silex\Application $app
-     * @param string             $contenttypeslug
+     * @param string $contenttypeslug
      *
      * @return Response
      */
-    private function lastmodifiedSimple(Silex\Application $app, $contenttypeslug)
+    private function lastmodifiedSimple($contenttypeslug)
     {
         // Get the proper contenttype.
-        $contenttype = $app['storage']->getContentType($contenttypeslug);
+        $contenttype = $this->getContentType($contenttypeslug);
 
         // Get the 'latest' from the requested contenttype.
-        $latest = $app['storage']->getContent($contenttype['slug'], array('limit' => 5, 'order' => 'datechanged DESC', 'hydrate' => false));
+        $latest = $this->getContent($contenttype['slug'], array('limit' => 5, 'order' => 'datechanged DESC', 'hydrate' => false));
 
         $context = array(
             'latest'      => $latest,
             'contenttype' => $contenttype
         );
 
-        $body = $app['render']->render('components/panel-lastmodified.twig', array('context' => $context))->getContent();
+        $body = $this->render('components/panel-lastmodified.twig', array('context' => $context))->getContent();
 
         return new Response($body, Response::HTTP_OK, array('Cache-Control' => 's-maxage=60, public'));
     }
@@ -458,16 +446,15 @@ class Async extends Base
     /**
      * Get last modified records from the content log.
      *
-     * @param \Silex\Application $app
-     * @param string             $contenttypeslug
-     * @param integer            $contentid
+     * @param string  $contenttypeslug
+     * @param integer $contentid
      *
      * @return Response
      */
-    private function lastmodifiedByContentLog(Silex\Application $app, $contenttypeslug, $contentid)
+    private function lastmodifiedByContentLog($contenttypeslug, $contentid)
     {
         // Get the proper contenttype.
-        $contenttype = $app['storage']->getContentType($contenttypeslug);
+        $contenttype = $this->getContentType($contenttypeslug);
 
         // get the changelog for the requested contenttype.
         $options = array('limit' => 5, 'order' => 'date', 'direction' => 'DESC');
@@ -479,7 +466,7 @@ class Async extends Base
             $options['contentid'] = intval($contentid);
         }
 
-        $changelog = $app['logger.manager.change']->getChangelogByContentType($contenttype['slug'], $options);
+        $changelog = $this->app['logger.manager.change']->getChangelogByContentType($contenttype['slug'], $options);
 
         $context = array(
             'changelog'   => $changelog,
@@ -488,7 +475,7 @@ class Async extends Base
             'filtered'    => $isFiltered,
         );
 
-        $body = $app['render']->render('components/panel-lastmodified.twig', array('context' => $context))->getContent();
+        $body = $this->render('components/panel-lastmodified.twig', array('context' => $context))->getContent();
 
         return new Response($body, Response::HTTP_OK, array('Cache-Control' => 's-maxage=60, public'));
     }
@@ -496,17 +483,16 @@ class Async extends Base
     /**
      * List pages in given contenttype, to easily insert links through the Wysywig editor.
      *
-     * @param string             $contenttype
-     * @param \Silex\Application $app
+     * @param string $contenttype
      *
      * @return mixed
      */
-    public function filebrowser($contenttype, Silex\Application $app)
+    public function filebrowser($contenttype)
     {
         $results = array();
 
-        foreach ($app['storage']->getContentTypes() as $contenttype) {
-            $records = $app['storage']->getContent($contenttype, array('published' => true, 'hydrate' => false));
+        foreach ($this->app['storage']->getContentTypes() as $contenttype) {
+            $records = $this->getContent($contenttype, array('published' => true, 'hydrate' => false));
 
             foreach ($records as $record) {
                 $results[$contenttype][] = array(
@@ -521,25 +507,24 @@ class Async extends Base
             'results' => $results,
         );
 
-        return $app['render']->render('filebrowser/filebrowser.twig', array('context' => $context));
+        return $this->render('filebrowser/filebrowser.twig', array('context' => $context));
     }
 
     /**
      * List browse on the server, so we can insert them in the file input.
      *
-     * @param string             $namespace
-     * @param string             $path
-     * @param \Silex\Application $app
-     * @param Request            $request
+     * @param string  $namespace
+     * @param string  $path
+     * @param Request $request
      *
      * @return mixed
      */
-    public function browse($namespace, $path, Silex\Application $app, Request $request)
+    public function browse($namespace, $path, Request $request)
     {
         // No trailing slashes in the path.
         $path = rtrim($path, '/');
 
-        $filesystem = $app['filesystem']->getFilesystem($namespace);
+        $filesystem = $this->getFilesystemManager()->getFilesystem($namespace);
 
         // $key is linked to the fieldname of the original field, so we can
         // Set the selected value in the proper field
@@ -559,12 +544,10 @@ class Async extends Base
             $filesystem->listContents($path);
         } catch (\Exception $e) {
             $msg = Trans::__("Folder '%s' could not be found, or is not readable.", array('%s' => $path));
-            $app['session']->getFlashBag()->add('error', $msg);
+            $this->addFlash('error', $msg);
         }
 
-        $app['twig']->addGlobal('title', Trans::__('Files in %s', array('%s' => $path)));
-
-        list($files, $folders) = $filesystem->browse($path, $app);
+        list($files, $folders) = $filesystem->browse($path, $this->app);
 
         $context = array(
             'namespace'    => $namespace,
@@ -574,20 +557,21 @@ class Async extends Base
             'key'          => $key
         );
 
-        return $app['render']->render('files_async/files_async.twig', array('context' => $context));
+        return $this->render('files_async/files_async.twig', array('context' => $context), array(
+            'title', Trans::__('Files in %s', array('%s' => $path))
+        ));
     }
 
     /**
      * Add a file to the user's stack.
      *
-     * @param string            $filename
-     * @param Silex\Application $app
+     * @param string $filename
      *
      * @return true
      */
-    public function addstack($filename, Silex\Application $app)
+    public function addstack($filename)
     {
-        $app['stack']->add($filename);
+        $this->app['stack']->add($filename);
 
         return true;
     }
@@ -595,21 +579,20 @@ class Async extends Base
     /**
      * Render a user's current stack.
      *
-     * @param Silex\Application $app
-     * @param Request           $request
+     * @param Request $request
      *
      * @return \Twig_Markup
      */
-    public function showstack(Silex\Application $app, Request $request)
+    public function showstack(Request $request)
     {
         $count = $request->query->get('items', 10);
         $options = $request->query->get('options', false);
 
         $context = array(
-            'stack'     => $app['stack']->listitems($count),
-            'filetypes' => $app['stack']->getFileTypes(),
-            'namespace' => $app['upload.namespace'],
-            'canUpload' => $app['users']->isAllowed('files:uploads')
+            'stack'     => $this->app['stack']->listitems($count),
+            'filetypes' => $this->app['stack']->getFileTypes(),
+            'namespace' => $this->app['upload.namespace'],
+            'canUpload' => $this->getUsers()->isAllowed('files:uploads')
         );
 
         switch ($options) {
@@ -627,18 +610,17 @@ class Async extends Base
                 break;
         }
 
-        return $app['render']->render($twig, array('context' => $context));
+        return $this->render($twig, array('context' => $context));
     }
 
     /**
      * Rename a file within the files directory tree.
      *
-     * @param \Silex\Application $app     The Silex Application Container
-     * @param Request            $request The HTTP Request Object containing the GET Params
+     * @param Request $request The HTTP Request Object containing the GET Params
      *
      * @return Boolean Whether the renaming action was successful
      */
-    public function renamefile(Silex\Application $app, Request $request)
+    public function renamefile(Request $request)
     {
         $namespace  = $request->request->get('namespace');
         $parentPath = $request->request->get('parent');
@@ -646,7 +628,7 @@ class Async extends Base
         $newName    = $request->request->get('newname');
 
         try {
-            return $app['filesystem']->rename("$namespace://$parentPath/$oldName", "$parentPath/$newName");
+            return $this->getFilesystemManager()->rename("$namespace://$parentPath/$oldName", "$parentPath/$newName");
         } catch (\Exception $e) {
             return false;
         }
@@ -655,18 +637,17 @@ class Async extends Base
     /**
      * Delete a file on the server.
      *
-     * @param \Silex\Application $app
-     * @param Request            $request
+     * @param Request $request
      *
      * @return bool
      */
-    public function deletefile(Silex\Application $app, Request $request)
+    public function deletefile(Request $request)
     {
         $namespace = $request->request->get('namespace');
         $filename = $request->request->get('filename');
 
         try {
-            return $app['filesystem']->delete("$namespace://$filename");
+            return $this->getFilesystemManager()->delete("$namespace://$filename");
         } catch (FileNotFoundException $e) {
             return false;
         }
@@ -675,17 +656,16 @@ class Async extends Base
     /**
      * Duplicate a file on the server.
      *
-     * @param \Silex\Application $app
-     * @param Request            $request
+     * @param Request $request
      *
      * @return bool
      */
-    public function duplicatefile(Silex\Application $app, Request $request)
+    public function duplicatefile(Request $request)
     {
         $namespace = $request->request->get('namespace');
         $filename = $request->request->get('filename');
 
-        $filesystem = $app['filesystem']->getFilesystem($namespace);
+        $filesystem = $this->getFilesystemManager()->getFilesystem($namespace);
 
         $extensionPos = strrpos($filename, '.');
         $destination = substr($filename, 0, $extensionPos) . "_copy" . substr($filename, $extensionPos);
@@ -706,12 +686,11 @@ class Async extends Base
     /**
      * Rename a folder within the files directory tree.
      *
-     * @param \Silex\Application $app     The Silex Application Container
-     * @param Request            $request The HTTP Request Object containing the GET Params
+     * @param Request $request The HTTP Request Object containing the GET Params
      *
      * @return Boolean Whether the renaming action was successful
      */
-    public function renamefolder(Silex\Application $app, Request $request)
+    public function renamefolder(Request $request)
     {
         $namespace  = $request->request->get('namespace');
         $parentPath = $request->request->get('parent');
@@ -719,7 +698,7 @@ class Async extends Base
         $newName    = $request->request->get('newname');
 
         try {
-            return $app['filesystem']->rename("$namespace://$parentPath$oldName", "$parentPath$newName");
+            return $this->getFilesystemManager()->rename("$namespace://$parentPath$oldName", "$parentPath$newName");
         } catch (\Exception $e) {
             return false;
         }
@@ -728,19 +707,18 @@ class Async extends Base
     /**
      * Delete a folder recursively if writeable.
      *
-     * @param \Silex\Application $app     The Silex Application Container
-     * @param Request            $request The HTTP Request Object containing the GET Params
+     * @param Request $request The HTTP Request Object containing the GET Params
      *
      * @return Boolean Whether the renaming action was successful
      */
-    public function removefolder(Silex\Application $app, Request $request)
+    public function removefolder(Request $request)
     {
         $namespace = $request->request->get('namespace');
         $parentPath = $request->request->get('parent');
         $folderName = $request->request->get('foldername');
 
         try {
-            return $app['filesystem']->deleteDir("$namespace://$parentPath$folderName");
+            return $this->getFilesystemManager()->deleteDir("$namespace://$parentPath$folderName");
         } catch (\Exception $e) {
             return false;
         }
@@ -749,19 +727,18 @@ class Async extends Base
     /**
      * Create a new folder.
      *
-     * @param \Silex\Application $app     The Silex Application Container
-     * @param Request            $request The HTTP Request Object containing the GET Params
+     * @param Request $request The HTTP Request Object containing the GET Params
      *
      * @return Boolean Whether the creation was successful
      */
-    public function createfolder(Silex\Application $app, Request $request)
+    public function createfolder(Request $request)
     {
         $namespace = $request->request->get('namespace');
         $parentPath = $request->request->get('parent');
         $folderName = $request->request->get('foldername');
 
         try {
-            return $app['filesystem']->createDir("$namespace://$parentPath$folderName");
+            return $this->getFilesystemManager()->createDir("$namespace://$parentPath$folderName");
         } catch (\Exception $e) {
             return false;
         }
@@ -770,13 +747,12 @@ class Async extends Base
     /**
      * Generate the change log box for a single record in edit.
      *
-     * @param string             $contenttype
-     * @param integer            $contentid
-     * @param \Silex\Application $app
+     * @param string  $contenttype
+     * @param integer $contentid
      *
      * @return string
      */
-    public function changelogRecord($contenttype, $contentid, Silex\Application $app)
+    public function changelogRecord($contenttype, $contentid)
     {
         $options = array(
             'contentid' => $contentid,
@@ -787,47 +763,46 @@ class Async extends Base
 
         $context = array(
             'contenttype' => $contenttype,
-            'entries'     => $app['logger.manager.change']->getChangelogByContentType($contenttype, $options)
+            'entries'     => $this->app['logger.manager.change']->getChangelogByContentType($contenttype, $options)
         );
 
-        return $app['render']->render('components/panel-change-record.twig', array('context' => $context));
+        return $this->render('components/panel-change-record.twig', array('context' => $context));
     }
 
     /**
      * Send an e-mail ping test.
      *
-     * @param string             $type
-     * @param \Silex\Application $app
-     * @param Request            $request
+     * @param Request $request
+     * @param string  $type
      *
      * @return Response
      */
-    public function emailNotification($type, Silex\Application $app, Request $request)
+    public function emailNotification(Request $request, $type)
     {
-        $user = $app['users']->getCurrentUser();
+        $user = $this->getUsers()->getCurrentUser();
 
         // Create an email
-        $mailhtml = $app['render']->render(
+        $mailhtml = $this->render(
             'email/pingtest.twig',
             array(
-                'sitename' => $app['config']->get('general/sitename'),
+                'sitename' => $this->getOption('general/sitename'),
                 'user'     => $user['displayname'],
                 'ip'       => $request->getClientIp()
             )
         )->getContent();
 
-        $senderMail = $app['config']->get('general/mailoptions/senderMail', 'bolt@' . $request->getHost());
-        $senderName = $app['config']->get('general/mailoptions/senderName', $app['config']->get('general/sitename'));
+        $senderMail = $this->getOption('general/mailoptions/senderMail', 'bolt@' . $request->getHost());
+        $senderName = $this->getOption('general/mailoptions/senderName', $this->getOption('general/sitename'));
 
-        $message = $app['mailer']
+        $message = $this->app['mailer']
             ->createMessage('message')
-            ->setSubject('Test email from ' . $app['config']->get('general/sitename'))
+            ->setSubject('Test email from ' . $this->getOption('general/sitename'))
             ->setFrom(array($senderMail  => $senderName))
             ->setTo(array($user['email'] => $user['displayname']))
             ->setBody(strip_tags($mailhtml))
             ->addPart($mailhtml, 'text/html');
 
-        $app['mailer']->send($message);
+        $this->app['mailer']->send($message);
 
         return new Response('Done', Response::HTTP_OK);
     }
@@ -836,17 +811,17 @@ class Async extends Base
      * Middleware function to do some tasks that should be done for all asynchronous
      * requests.
      */
-    public function before(Request $request, Silex\Application $app)
+    public function before(Request $request)
     {
         // Start the 'stopwatch' for the profiler.
-        $app['stopwatch']->start('bolt.async.before');
+        $this->app['stopwatch']->start('bolt.async.before');
 
         // If there's no active session, don't do anything.
-        if (!$app['users']->isValidSession()) {
-            $app->abort(Response::HTTP_UNAUTHORIZED, 'You must be logged in to use this.');
+        if (!$this->getUsers()->isValidSession()) {
+            $this->abort(Response::HTTP_UNAUTHORIZED, 'You must be logged in to use this.');
         }
 
         // Stop the 'stopwatch' for the profiler.
-        $app['stopwatch']->stop('bolt.async.before');
+        $this->app['stopwatch']->stop('bolt.async.before');
     }
 }
