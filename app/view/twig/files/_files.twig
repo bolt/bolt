@@ -11,6 +11,7 @@
     <tbody>
         {% for file in context.files %}
             <tr>
+                {# Column: Filename #}
                 <td>
                     {% if file.type in ['jpeg', 'jpg', 'png', 'gif'] %}
 
@@ -57,22 +58,26 @@
                         {% endif %}
                     {% endif %}
                 </td>
+                {# Column: Filesize #}
                 <td style="min-width: 120px;" class="hidden-xs hidden-sm">
                     {{ file.filesize }}.
                     {% if file.imagesize is defined %}
                        <br> {{ file.imagesize }} px.
                     {% endif %}
                 </td>
+                {# Column: Modified #}
                 <td style="min-width: 140px;" class="hidden-xs hidden-sm">
                     <time class="moment" datetime="{{ file.modified|date("c") }}" title="{{ file.modified }}">
                         {{ file.modified }}
                     </time>
                 </td>
+                {# Column: Thumbnail #}
                 <td class="listthumb">
                     {% if file.imagesize is defined %}
                         {{ file.newpath|showimage(54, 40, 'c') }}
                     {% endif %}
                 </td>
+                {# Column: Actions #}
                 <td class="actions" style="min-width: 16px;">
 
                     <div class="btn-group">
