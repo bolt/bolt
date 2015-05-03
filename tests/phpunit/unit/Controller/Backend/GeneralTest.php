@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
  * @author Ross Riley <riley.ross@gmail.com>
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  **/
-class BackendTest extends ControllerUnitTest
+class GeneralTest extends ControllerUnitTest
 {
     protected function setUp()
     {
@@ -195,6 +195,6 @@ class BackendTest extends ControllerUnitTest
      */
     protected function controller()
     {
-        return $this->getService('controller.backend');
+        return $this->getService('controller.backend.general');
     }
 }
