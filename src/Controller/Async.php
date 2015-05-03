@@ -98,101 +98,21 @@ class Async extends Base
      */
     public function dashboardnews(Request $request)
     {
-        $source = 'http://news.bolt.cm/';
-        $news = $this->app['cache']->fetch('dashboardnews'); // Two hours.
-        $hostname = $request->getHost();
-        $body = '';
+        $news = $this->getNews($request->getHost());
 
-        // If not cached, get fresh news.
-        if ($news === false) {
-            $this->app['logger.system']->info('Fetching from remote server: ' . $source, array('event' => 'news'));
+        // One 'alert' and one 'info' max. Regular info-items can be disabled,
+        // but Alerts can't.
+        $context = array(
+            'alert'       => empty($news['alert']) ? null : $news['alert'],
+            'information' => empty($news['information']) ? null : $news['information'],
+            'error'       => empty($news['error']) ? null : $news['error'],
+            'disable'     => $this->getOption('general/backend/news/disable')
+        );
 
-            $driver = $this->app['db']->getDatabasePlatform()->getName();
+        $response = $this->render('components/panel-news.twig', array('context' => $context));
+        $response->setCache(array('s_maxage' => '3600', 'public' => true));
 
-            $url = sprintf(
-                '%s?v=%s&p=%s&db=%s&name=%s',
-                $source,
-                rawurlencode($this->app->getVersion()),
-                phpversion(),
-                $driver,
-                base64_encode($hostname)
-            );
-
-            // Options valid if using a proxy
-            if ($this->getOption('general/httpProxy')) {
-                $curlOptions = array(
-                    'CURLOPT_PROXY'        => $this->getOption('general/httpProxy/host'),
-                    'CURLOPT_PROXYTYPE'    => 'CURLPROXY_HTTP',
-                    'CURLOPT_PROXYUSERPWD' => $this->getOption('general/httpProxy/user') . ':' .
-                                                $this->getOption('general/httpProxy/password')
-                );
-            }
-
-            // Standard option(s)
-            $curlOptions['CURLOPT_CONNECTTIMEOUT'] = 5;
-
-            try {
-                if ($this->app['deprecated.php']) {
-                    $fetchedNewsData = $this->app['guzzle.client']->get($url, null, $curlOptions)->send()->getBody(true);
-                } else {
-                    $fetchedNewsData = $this->app['guzzle.client']->get($url, array(), $curlOptions)->getBody(true);
-                }
-
-                $fetchedNewsItems = json_decode($fetchedNewsData);
-
-                if ($fetchedNewsItems) {
-                    $news = array();
-
-                    // Iterate over the items, pick the first news-item that applies and the first alert we need to show
-                    $version = $this->app->getVersion();
-                    foreach ($fetchedNewsItems as $item) {
-                        $type = ($item->type === 'alert') ? 'alert' : 'information';
-                        if (!isset($news[$type])
-                            && (empty($item->target_version) || version_compare($item->target_version, $version, '>'))
-                        ) {
-                            $news[$type] = $item;
-                        }
-                    }
-
-                    $this->app['cache']->save('dashboardnews', $news, 7200);
-                } else {
-                    $this->app['logger.system']->error('Invalid JSON feed returned', array('event' => 'news'));
-                }
-            } catch (RequestException $e) {
-                $this->app['logger.system']->critical(
-                    'Error occurred during newsfeed fetch',
-                    array('event' => 'exception', 'exception' => $e)
-                );
-
-                $body .= "<p>Unable to connect to $source</p>";
-            } catch (V3RequestException $e) {
-                /** @deprecated remove with the end of PHP 5.3 support */
-                $this->app['logger.system']->critical(
-                    'Error occurred during newsfeed fetch',
-                    array('event' => 'exception', 'exception' => $e)
-                );
-
-                $body .= "<p>Unable to connect to $source</p>";
-            }
-        } else {
-            $this->app['logger.system']->info('Using cached data', array('event' => 'news'));
-        }
-
-        // Combine the body. One 'alert' and one 'info' max. Regular info-items can be disabled, but Alerts can't.
-        if (!empty($news['alert'])) {
-            $body .= $this->render(
-                'components/panel-news.twig',
-                array('news' => $news['alert'])
-            )->getContent();
-        }
-        if (!empty($news['information']) && !$this->getOption('general/backend/news/disable')) {
-            $body .= $this->render(
-                'components/panel-news.twig',
-                array('news' => $news['information'])
-            )->getContent();
-        }
-
-        return new Response($body, Response::HTTP_OK, array('Cache-Control' => 's-maxage=3600, public'));
+        return $response;
     }
 
     /**
@@ -202,31 +122,16 @@ class Async extends Base
      */
     public function latestactivity()
     {
-        $activity = $this->app['logger.manager']->getActivity('change', 8);
+        $change = $this->app['logger.manager']->getActivity('change', 8);
+        $system = $this->app['logger.manager']->getActivity('system', 8, null, 'authentication');
 
-        $body = '';
+        $response = $this->render('components/panel-activity.twig', array('context' => array(
+            'change' => $change,
+            'system' => $system,
+        )));
+        $response->setCache(array('s_maxage' => '3600', 'public' => true));
 
-        if (!empty($activity)) {
-            $body .= $this->render(
-                'components/panel-change.twig',
-                array(
-                    'activity' => $activity
-                )
-            )->getContent();
-        }
-
-        $activity = $this->app['logger.manager']->getActivity('system', 8, null, 'authentication');
-
-        if (!empty($activity)) {
-            $body .= $this->render(
-                'components/panel-system.twig',
-                array(
-                    'activity' => $activity
-                )
-            )->getContent();
-        }
-
-        return new Response($body, Response::HTTP_OK, array('Cache-Control' => 's-maxage=3600, public'));
+        return $response;
     }
 
     /**
@@ -404,7 +309,7 @@ class Async extends Base
      * @param string       $contenttypeslug
      * @param integer|null $contentid
      *
-     * @return Response
+     * @return BoltResponse
      */
     public function lastmodified($contenttypeslug, $contentid = null)
     {
@@ -412,72 +317,10 @@ class Async extends Base
         $contentLogEnabled = (bool) $this->getOption('general/changelog/enabled');
 
         if ($contentLogEnabled) {
-            return $this->lastmodifiedByContentLog($this->app, $contenttypeslug, $contentid);
+            return $this->getLastmodifiedByContentLog($this->app, $contenttypeslug, $contentid);
         } else {
-            return $this->lastmodifiedSimple($this->app, $contenttypeslug);
+            return $this->getLastmodifiedSimple($this->app, $contenttypeslug);
         }
-    }
-
-    /**
-     * Only get latest {contenttype} record edits based on date changed.
-     *
-     * @param string $contenttypeslug
-     *
-     * @return Response
-     */
-    private function lastmodifiedSimple($contenttypeslug)
-    {
-        // Get the proper contenttype.
-        $contenttype = $this->getContentType($contenttypeslug);
-
-        // Get the 'latest' from the requested contenttype.
-        $latest = $this->getContent($contenttype['slug'], array('limit' => 5, 'order' => 'datechanged DESC', 'hydrate' => false));
-
-        $context = array(
-            'latest'      => $latest,
-            'contenttype' => $contenttype
-        );
-
-        $body = $this->render('components/panel-lastmodified.twig', array('context' => $context))->getContent();
-
-        return new Response($body, Response::HTTP_OK, array('Cache-Control' => 's-maxage=60, public'));
-    }
-
-    /**
-     * Get last modified records from the content log.
-     *
-     * @param string  $contenttypeslug
-     * @param integer $contentid
-     *
-     * @return Response
-     */
-    private function lastmodifiedByContentLog($contenttypeslug, $contentid)
-    {
-        // Get the proper contenttype.
-        $contenttype = $this->getContentType($contenttypeslug);
-
-        // get the changelog for the requested contenttype.
-        $options = array('limit' => 5, 'order' => 'date', 'direction' => 'DESC');
-
-        if (intval($contentid) == 0) {
-            $isFiltered = false;
-        } else {
-            $isFiltered = true;
-            $options['contentid'] = intval($contentid);
-        }
-
-        $changelog = $this->app['logger.manager.change']->getChangelogByContentType($contenttype['slug'], $options);
-
-        $context = array(
-            'changelog'   => $changelog,
-            'contenttype' => $contenttype,
-            'contentid'   => $contentid,
-            'filtered'    => $isFiltered,
-        );
-
-        $body = $this->render('components/panel-lastmodified.twig', array('context' => $context))->getContent();
-
-        return new Response($body, Response::HTTP_OK, array('Cache-Control' => 's-maxage=60, public'));
     }
 
     /**
@@ -557,9 +400,10 @@ class Async extends Base
             'key'          => $key
         );
 
-        return $this->render('files_async/files_async.twig', array('context' => $context), array(
-            'title', Trans::__('Files in %s', array('%s' => $path))
-        ));
+        return $this->render('files_async/files_async.twig',
+            array('context' => $context),
+            array('title', Trans::__('Files in %s', array('%s' => $path)))
+        );
     }
 
     /**
@@ -808,8 +652,8 @@ class Async extends Base
     }
 
     /**
-     * Middleware function to do some tasks that should be done for all asynchronous
-     * requests.
+     * Middleware function to do some tasks that should be done for all
+     * asynchronous requests.
      */
     public function before(Request $request)
     {
@@ -823,5 +667,182 @@ class Async extends Base
 
         // Stop the 'stopwatch' for the profiler.
         $this->app['stopwatch']->stop('bolt.async.before');
+    }
+
+    /**
+     * Get the news from either cache or Bolt HQ.
+     *
+     * @param string $hostname
+     *
+     * @return array|string
+     */
+    private function getNews($hostname)
+    {
+        // Cached for two hours.
+        $news = $this->app['cache']->fetch('dashboardnews');
+
+        // If not cached, get fresh news.
+        if ($news !== false) {
+            $this->app['logger.system']->info('Using cached data', array('event' => 'news'));
+
+            return $news;
+        } else {
+            $source = 'http://news.bolt.cm/';
+            $curl = $this->getDashboardCurlOptions($hostname, $source);
+
+            $this->app['logger.system']->info('Fetching from remote server: ' . $source, array('event' => 'news'));
+
+            try {
+                if ($this->app['deprecated.php']) {
+                    $fetchedNewsData = $this->app['guzzle.client']->get($curl['url'], null, $curl['options'])->send()->getBody(true);
+                } else {
+                    $fetchedNewsData = $this->app['guzzle.client']->get($curl['url'], array(), $curl['options'])->getBody(true);
+                }
+
+                $fetchedNewsItems = json_decode($fetchedNewsData);
+
+                if ($fetchedNewsItems) {
+                    $news = array();
+
+                    // Iterate over the items, pick the first news-item that
+                    // applies and the first alert we need to show
+                    $version = $this->app->getVersion();
+                    foreach ($fetchedNewsItems as $item) {
+                        $type = ($item->type === 'alert') ? 'alert' : 'information';
+                        if (!isset($news[$type])
+                            && (empty($item->target_version) || version_compare($item->target_version, $version, '>'))
+                        ) {
+                            $news[$type] = $item;
+                        }
+                    }
+
+                    $this->app['cache']->save('dashboardnews', $news, 7200);
+                } else {
+                    $this->app['logger.system']->error('Invalid JSON feed returned', array('event' => 'news'));
+                }
+
+                return $news;
+            } catch (RequestException $e) {
+                $this->app['logger.system']->critical(
+                    'Error occurred during newsfeed fetch',
+                    array('event' => 'exception', 'exception' => $e)
+                );
+
+                return array('error' => array('type' => 'error', 'title' => 'Unable to fetch news!', 'teaser' => "<p>Unable to connect to $source</p>"));
+            } catch (V3RequestException $e) {
+                /** @deprecated remove with the end of PHP 5.3 support */
+                $this->app['logger.system']->critical(
+                    'Error occurred during newsfeed fetch',
+                    array('event' => 'exception', 'exception' => $e)
+                );
+
+                return array('error' => array('type' => 'error', 'title' => 'Unable to fetch news!', 'teaser' => "<p>Unable to connect to $source</p>"));
+            }
+        }
+    }
+
+    /**
+     * Get the cURL options.
+     *
+     * @param string $hostname
+     * @param string $source
+     *
+     * @return array
+     */
+    private function getDashboardCurlOptions($hostname, $source)
+    {
+        $driver = $this->app['db']->getDatabasePlatform()->getName();
+
+        $url = sprintf(
+            '%s?v=%s&p=%s&db=%s&name=%s',
+            $source,
+            rawurlencode($this->app->getVersion()),
+            phpversion(),
+            $driver,
+            base64_encode($hostname)
+        );
+
+        // Standard option(s)
+        $options = array('CURLOPT_CONNECTTIMEOUT' => 5);
+
+        // Options valid if using a proxy
+        if ($this->getOption('general/httpProxy')) {
+            $proxies = array(
+                'CURLOPT_PROXY'        => $this->getOption('general/httpProxy/host'),
+                'CURLOPT_PROXYTYPE'    => 'CURLPROXY_HTTP',
+                'CURLOPT_PROXYUSERPWD' => $this->getOption('general/httpProxy/user') . ':' .
+                $this->getOption('general/httpProxy/password')
+            );
+        }
+
+        return array(
+            'url'     => $url,
+            'options' => $proxies ? array_merge($options, $proxies) : $options
+        );
+
+    }
+
+    /**
+     * Get last modified records from the content log.
+     *
+     * @param string  $contenttypeslug
+     * @param integer $contentid
+     *
+     * @return BoltResponse
+     */
+    private function getLastmodifiedByContentLog($contenttypeslug, $contentid)
+    {
+        // Get the proper contenttype.
+        $contenttype = $this->getContentType($contenttypeslug);
+
+        // get the changelog for the requested contenttype.
+        $options = array('limit' => 5, 'order' => 'date', 'direction' => 'DESC');
+
+        if (intval($contentid) == 0) {
+            $isFiltered = false;
+        } else {
+            $isFiltered = true;
+            $options['contentid'] = intval($contentid);
+        }
+
+        $changelog = $this->app['logger.manager.change']->getChangelogByContentType($contenttype['slug'], $options);
+
+        $context = array(
+            'changelog'   => $changelog,
+            'contenttype' => $contenttype,
+            'contentid'   => $contentid,
+            'filtered'    => $isFiltered,
+        );
+
+        $response = $this->render('components/panel-lastmodified.twig', array('context' => $context));
+        $response->setCache(array('s_maxage' => '60', 'public' => true));
+
+        return $response;
+    }
+
+    /**
+     * Only get latest {contenttype} record edits based on date changed.
+     *
+     * @param string $contenttypeslug
+     *
+     * @return BoltResponse
+     */
+    private function getLastmodifiedSimple($contenttypeslug)
+    {
+        // Get the proper contenttype.
+        $contenttype = $this->getContentType($contenttypeslug);
+
+        // Get the 'latest' from the requested contenttype.
+        $latest = $this->getContent($contenttype['slug'], array('limit' => 5, 'order' => 'datechanged DESC', 'hydrate' => false));
+
+        $context = array(
+            'latest'      => $latest,
+            'contenttype' => $contenttype
+        );
+
+        $response = $this->render('components/panel-lastmodified.twig', array('context' => $context));
+        $response->setCache(array('s_maxage' => '60', 'public' => true));
+
+        return $response;
     }
 }
