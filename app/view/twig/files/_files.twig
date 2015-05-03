@@ -64,9 +64,7 @@
                     {% endif %}
                 </td>
                 <td style="min-width: 140px;" class="hidden-xs hidden-sm">
-                    <time class="moment"
-                          datetime="{{ file.modified|date("c") }}"
-                          title="{{ file.modified }}">
+                    <time class="moment" datetime="{{ file.modified|date("c") }}" title="{{ file.modified }}">
                         {{ file.modified }}
                     </time>
                 </td>
