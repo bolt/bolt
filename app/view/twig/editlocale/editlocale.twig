@@ -38,7 +38,7 @@
 
     {% if not ismobileclient() %}
         {# use the files includes in ckeditor/codemirror plugin, instead of duplicating files. #}
-        <link rel="stylesheet" href="{{ paths.app }}view/js/ckeditor/plugins/codemirror/css/codemirror.min.css">
+        <link rel="stylesheet" property="stylesheet" href="{{ paths.app }}view/js/ckeditor/plugins/codemirror/css/codemirror.min.css">
         <script src="{{ paths.app }}view/js/ckeditor/ckeditor.js"></script>
         <script src="{{ paths.app }}view/js/ckeditor/plugins/codemirror/js/codemirror.min.js"></script>
         <script src="{{ paths.app }}view/js/ckeditor/plugins/codemirror/plugins/yaml.min.js"></script>
