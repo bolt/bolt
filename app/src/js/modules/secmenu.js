@@ -31,7 +31,9 @@
         initSidebarToggle();
         initSidebarCollapse();
         initSidebarExpand();
-        adjustSidebarHeight();
+        if ($('#navpage-secondary').length) {
+            adjustSidebarHeight();
+        }
 
         // Initialize the submenu
         if (usePopOvers) {
