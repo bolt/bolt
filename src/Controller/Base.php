@@ -207,6 +207,16 @@ abstract class Base implements ControllerProviderInterface
     }
 
     /**
+     * Gets the Bolt\Filesystem\Manager object.
+     *
+     * @return \Bolt\Filesystem\Manager
+     */
+    protected function getFilesystemManager()
+    {
+        return $this->app['filesystem'];
+    }
+
+    /**
      * Return current user or user by ID
      *
      * @param int|null $id

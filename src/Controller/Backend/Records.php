@@ -673,7 +673,7 @@ class Records extends BackendBase
      */
     private function setCanUpload(array $fields)
     {
-        $filesystem = $this->app['filesystem']->getFilesystem();
+        $filesystem = $this->getFilesystemManager()->getFilesystem();
 
         foreach ($fields as &$values) {
             if (isset($values['upload'])) {

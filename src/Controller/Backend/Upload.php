@@ -226,10 +226,9 @@ class Upload extends BackendBase
             foreach ($handler as $copy) {
                 list($namespace, $prefix) = $this->parser($copy);
 
-                $manager = $this->app['filesystem'];
-                $manager->put(
+                $this->getFilesystemManager()->put(
                     $namespace . '://' . $prefix . basename($result['name']),
-                    $manager->read($original . '://' . $result['name'])
+                    $this->getFilesystemManager()->read($original . '://' . $result['name'])
                 );
             }
         }
