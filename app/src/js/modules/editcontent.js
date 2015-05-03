@@ -168,9 +168,10 @@
                     $('.alert').alert(); // Dismiss alert messages
                     if (confirmed === true) {
                         var pathBolt = bolt.conf('paths.bolt'),
+                            form = $('#id').closest('form'),
                             ctype = $('#contenttype').val(),
                             id = $('#id').val(),
-                            token = $('#bolt_csrf_token').val(),
+                            token = form.find('input[name="bolt_csrf_token"]').val(),
                             url = pathBolt + 'content/deletecontent/' + ctype + '/' + id + '?bolt_csrf_token=' + token;
 
                         // Fire delete request.
