@@ -75,6 +75,9 @@ class CallbackResolver extends \Silex\CallbackResolver
             $parts = explode('::', $name);
             $cls = reset($parts);
             $method = end($parts);
+            if (!isset($this->classmap[$cls])) {
+                return array(new $cls(), $method);
+            }
             $service = $this->classmap[$cls];
             $name = "$service:$method";
         }
