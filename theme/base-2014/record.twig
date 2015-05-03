@@ -45,7 +45,7 @@
 
                     {{ value.responsive }}
 
-                {% elseif record.fieldtype(key) == "geolocation" and value.latitude is defined %}
+                {% elseif record.fieldtype(key) == "geolocation" and value.latitude is not empty %}
 
                     <div class='imageholder-wide'>
                         <img src="http://maps.googleapis.com/maps/api/staticmap?center={{ value.latitude }},{{ value.longitude }}&amp;zoom=14&amp;size=617x300&amp;sensor=false&amp;markers={{ value.latitude }},{{ value.longitude }}">
