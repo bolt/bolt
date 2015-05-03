@@ -48,17 +48,12 @@ class Render
      */
     public function render($template, $vars = array(), $globals = array())
     {
-        // Start the 'stopwatch' for the profiler.
-        $this->app['stopwatch']->start('bolt.render', 'template');
-
         $response = BoltResponse::create(
             $this->app[$this->twigKey]->loadTemplate($template),
             $vars,
             $globals
         );
-
-        // Stop the 'stopwatch' for the profiler.
-        $this->app['stopwatch']->stop('bolt.render');
+        $response->setStopwatch($this->app['stopwatch']);
 
         return $response;
     }
