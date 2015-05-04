@@ -24,9 +24,6 @@ class Authentication
     public function __construct(Application $app)
     {
         $this->app = $app;
-
-        // Set 'validsession', to see if the current session is valid.
-        $this->validsession = $this->checkValidSession();
     }
 
     /**
@@ -165,6 +162,11 @@ class Authentication
      */
     public function isValidSession()
     {
+        if ($this->validsession === null) {
+            // Set 'validsession', to see if the current session is valid.
+            $this->validsession = $this->checkValidSession();
+        }
+
         return $this->validsession;
     }
 
