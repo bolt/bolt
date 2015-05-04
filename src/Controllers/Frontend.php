@@ -16,7 +16,7 @@ class Frontend
     /**
      * @deprecated Use {@see \Bolt\Controller\Frontend} instead
      *
-     * @param Request $request
+     * @param Request     $request
      * @param Application $app
      *
      * @return null|RedirectResponse
