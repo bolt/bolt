@@ -23,7 +23,6 @@ use Symfony\Component\HttpFoundation\Session\Storage\MockFileSessionStorage;
  *
  * @author Ross Riley <riley.ross@gmail.com>
  **/
-
 abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
 {
     protected function resetDb()
@@ -95,20 +94,37 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
 
     protected function addDefaultUser(Application $app)
     {
-        //check if default user exists before adding
+        // Check if default user exists before adding
         $existingUser = $app['users']->getUser('admin');
         if (false !== $existingUser) {
             return $existingUser;
         }
-        $user = $app['users']->getEmptyUser();
-        $user['roles'] = array('admin');
-        $user['username'] = 'admin';
-        $user['password'] = 'password';
-        $user['email'] = 'test@example.com';
-        $user['displayname'] = 'Admin';
-        $app['users']->saveUser($user);
+
+        $user = array(
+            'username'    => 'admin',
+            'password'    => 'password',
+            'email'       => 'admin@example.com',
+            'displayname' => 'Admin',
+            'roles'       => array('admin'),
+        );
+
+        $app['users']->saveUser(array_merge($app['users']->getEmptyUser(), $user));
 
         return $user;
+    }
+
+    protected function addNewUser($app, $username, $displayname, $role)
+    {
+        $user = array(
+            'username'    => $username,
+            'password'    => 'password',
+            'email'       => $username.'@example.com',
+            'displayname' => $displayname,
+            'roles'       => array($role),
+        );
+
+        $app['users']->saveUser(array_merge($app['users']->getEmptyUser(), $user));
+        $app['users']->users = array();
     }
 
     protected function getMockTwig()
@@ -164,21 +180,6 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
             'user'   => $app->share(function () use ($app) { return new UserHandler($app); }),
             'utils'  => $app->share(function () use ($app) { return new UtilsHandler($app); }),
         ));
-    }
-
-    protected function addNewUser($app, $username, $displayname, $role)
-    {
-        $user = $app['users']->getEmptyUser();
-
-        unset($user['id']);
-        $user['username']    = $username;
-        $user['displayname'] = $displayname;
-        $user['email']       = $username.'@example.com';
-        $user['password']    = 'password';
-        $user['roles']       = array($role);
-
-        $app['users']->saveUser($user);
-        $app['users']->users = array();
     }
 
     protected function removeCSRF($app)
