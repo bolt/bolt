@@ -354,6 +354,7 @@ class Application extends Silex\Application
             ->register(new Silex\Provider\ServiceControllerServiceProvider()) // must be after Routing
             ->register(new Provider\PermissionsServiceProvider())
             ->register(new Provider\StorageServiceProvider())
+            ->register(new Provider\AuthenticationServiceProvider())
             ->register(new Provider\UsersServiceProvider())
             ->register(new Provider\CacheServiceProvider())
             ->register(new Provider\ExtensionServiceProvider())
