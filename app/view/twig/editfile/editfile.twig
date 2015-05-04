@@ -28,7 +28,7 @@
             {{ files_path(context.pathsegments, context.namespace, {'path': '', 'namespace': context.namespace}) }}
 
 
-            <form action="" method="post" class="form-inline" autocomplete="off">
+            <form method="post" class="form-inline" autocomplete="off">
                 {{ form_widget(context.form._token) }}
 
                 <div>
@@ -79,7 +79,7 @@
         {% endif %}
 
         {# use the files includes in ckeditor/codemirror plugin, instead of duplicating files. #}
-        <link rel="stylesheet" href="{{ paths.app }}view/js/ckeditor/plugins/codemirror/css/codemirror.min.css">
+        <link rel="stylesheet" property="stylesheet" href="{{ paths.app }}view/js/ckeditor/plugins/codemirror/css/codemirror.min.css">
         <script src="{{ paths.app }}view/js/ckeditor/ckeditor.js"></script>
         <script src="{{ paths.app }}view/js/ckeditor/plugins/codemirror/js/codemirror.min.js"></script>
         {% for file in codemirror %}
