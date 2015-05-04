@@ -1,11 +1,8 @@
 <?php
 namespace Bolt\Tests\Controller\Backend;
 
-use Bolt\Configuration\ResourceManager;
 use Bolt\Controller\Backend\Authentication;
-use Bolt\Tests\BoltUnitTest;
 use Bolt\Tests\Controller\ControllerUnitTest;
-use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -19,7 +16,7 @@ class AuthenticationTest extends ControllerUnitTest
     public function testPostLogin()
     {
         $this->setRequest(Request::create('/bolt/login', 'POST', array(
-            'action' => 'login',
+            'action'   => 'login',
             'username' => 'test',
             'password' => 'pass'
         )));
@@ -41,7 +38,7 @@ class AuthenticationTest extends ControllerUnitTest
     public function testPostLoginWithEmail()
     {
         $this->setRequest(Request::create('/bolt/login', 'POST', array(
-            'action' => 'login',
+            'action'   => 'login',
             'username' => 'test@example.com',
             'password' => 'pass'
         )));
@@ -63,7 +60,7 @@ class AuthenticationTest extends ControllerUnitTest
     public function testPostLoginFailures()
     {
         $this->setRequest(Request::create('/bolt/login', 'POST', array(
-            'action' => 'login',
+            'action'   => 'login',
             'username' => 'test',
             'password' => 'pass'
         )));

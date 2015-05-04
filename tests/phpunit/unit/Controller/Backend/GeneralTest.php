@@ -2,7 +2,6 @@
 namespace Bolt\Tests\Controller\Backend;
 
 use Bolt\Response\BoltResponse;
-use Bolt\Tests\BoltUnitTest;
 use Bolt\Tests\Controller\ControllerUnitTest;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,7 +30,6 @@ class GeneralTest extends ControllerUnitTest
 
     public function testClearCache()
     {
-
         $this->allowLogin($this->getApp());
         $cache = $this->getMock('Bolt\Cache', array('clearCache'), array(__DIR__, $this->getApp()));
         $cache->expects($this->at(0))

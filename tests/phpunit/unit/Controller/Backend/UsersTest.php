@@ -1,9 +1,9 @@
 <?php
 namespace Bolt\Tests\Controller\Backend;
 
-use Bolt\Users;
 use Bolt\Permissions;
 use Bolt\Tests\Controller\ControllerUnitTest;
+use Bolt\Users;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
 

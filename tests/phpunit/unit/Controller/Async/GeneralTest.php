@@ -2,11 +2,9 @@
 namespace Bolt\Tests\Controller\Async;
 
 use Bolt\Response\BoltResponse;
-use Bolt\Tests\BoltUnitTest;
 use Bolt\Tests\Controller\ControllerUnitTest;
-use Silex\ControllerCollection;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -153,9 +151,9 @@ class GeneralTest extends ControllerUnitTest
         $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
     }
 
-//     public function testTags()
-//     {
-//         $this->setRequest(Request::create('/async/tags/tags'));
+    public function testTags()
+    {
+        //         $this->setRequest(Request::create('/async/tags/tags'));
 //         $response = $this->controller()->actionTags($this->getRequest(), 'tags');
 
 //         $this->assertTrue($response instanceof JsonResponse);
@@ -166,7 +164,7 @@ class GeneralTest extends ControllerUnitTest
 
 //         $this->assertCount(20, $json);
 //         $this->assertTrue(in_array($json[0]->slug, $tags));
-//     }
+    }
 
     public function testWidget()
     {
