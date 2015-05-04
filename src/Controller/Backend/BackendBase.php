@@ -95,7 +95,7 @@ abstract class BackendBase extends Base
         $app['users']->checkForRoot();
 
         // Most of the 'check if user is allowed' happens here: match the current route to the 'allowed' settings.
-        if (!$app['users']->isValidSession() && !$app['users']->isAllowed($route)) {
+        if (!$app['authentication']->isValidSession() && !$app['users']->isAllowed($route)) {
             $app['session']->getFlashBag()->add('info', Trans::__('Please log on.'));
 
             return $this->redirectToRoute('login');

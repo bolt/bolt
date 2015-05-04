@@ -292,7 +292,7 @@ class FilesystemManager extends Base
         $this->app['stopwatch']->start('bolt.async.before');
 
         // If there's no active session, don't do anything.
-        if (!$this->getUsers()->isValidSession()) {
+        if (!$this->getAuthentication()->isValidSession()) {
             $this->abort(Response::HTTP_UNAUTHORIZED, 'You must be logged in to use this.');
         }
 

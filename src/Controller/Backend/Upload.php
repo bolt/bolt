@@ -42,7 +42,7 @@ class Upload extends BackendBase
         $app['stopwatch']->start('bolt.backend.before');
 
         // If there's no active session, don't do anything.
-        if (!$app['users']->isValidSession()) {
+        if (!$app['authentication']->isValidSession()) {
             $app->abort(Response::HTTP_NOT_FOUND, 'You must be logged in to use this.');
         }
 

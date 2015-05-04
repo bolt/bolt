@@ -84,12 +84,12 @@ class UserHandler
     /**
      * Get a simple Anti-CSRF-like token.
      *
-     * @see \Bolt\Users::getAntiCSRFToken()
+     * @see \Bolt\Authentication::getAntiCSRFToken()
      *
      * @return string
      */
     public function token()
     {
-        return $this->app['users']->getAntiCSRFToken();
+        return $this->app['authentication']->getAntiCSRFToken();
     }
 }

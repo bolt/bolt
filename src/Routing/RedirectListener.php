@@ -1,6 +1,7 @@
 <?php
 namespace Bolt\Routing;
 
+use Bolt\Authentication;
 use Bolt\Users;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -18,6 +19,8 @@ class RedirectListener implements EventSubscriberInterface
     protected $urlGenerator;
     /** @var \Bolt\Users */
     protected $users;
+    /** @var \Bolt\Authentication $authentication */
+    protected $authentication;
 
     /**
      * RedirectListener constructor.
@@ -26,11 +29,12 @@ class RedirectListener implements EventSubscriberInterface
      * @param \Symfony\Component\Routing\Generator\UrlGeneratorInterface $urlGenerator
      * @param \Bolt\Users                                                $users
      */
-    public function __construct(Session $session, UrlGeneratorInterface $urlGenerator, Users $users)
+    public function __construct(Session $session, UrlGeneratorInterface $urlGenerator, Users $users, Authentication $authentication)
     {
         $this->session = $session;
         $this->urlGenerator = $urlGenerator;
         $this->users = $users;
+        $this->authentication = $authentication;
     }
 
     public function onResponse(FilterResponseEvent $event)
@@ -57,7 +61,7 @@ class RedirectListener implements EventSubscriberInterface
      */
     protected function handleNoBackendAccess(RedirectResponse $response)
     {
-        if (!$this->users->isValidSession()) {
+        if (!$this->authentication->isValidSession()) {
             return;
         }
 

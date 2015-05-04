@@ -193,7 +193,7 @@ abstract class Base implements ControllerProviderInterface
      */
     protected function checkAntiCSRFToken($token = '')
     {
-        return $this->app['users']->checkAntiCSRFToken($token);
+        return $this->app['authentication']->checkAntiCSRFToken($token);
     }
 
     /**
@@ -239,6 +239,16 @@ abstract class Base implements ControllerProviderInterface
     protected function getUsers()
     {
         return $this->app['users'];
+    }
+
+    /**
+     * Returns the Authentication object.
+     *
+     * @return \Bolt\Authentication
+     */
+    protected function getAuthentication()
+    {
+        return $this->app['authentication'];
     }
 
     /**

@@ -43,7 +43,7 @@ class Authentication extends BackendBase
         switch ($request->get('action')) {
             case 'login':
                 // Log in, if credentials are correct.
-                $result = $this->getUsers()->login($username, $password);
+                $result = $this->getAuthentication()->login($username, $password);
 
                 if ($result) {
                     $this->app['logger.system']->info('Logged in: ' . $username, array('event' => 'authentication'));
@@ -58,7 +58,7 @@ class Authentication extends BackendBase
                 if (empty($username)) {
                     $this->addFlash('error', Trans::__('Please provide a username'));
                 } else {
-                    $this->getUsers()->resetPasswordRequest($username);
+                    $this->getAuthentication()->resetPasswordRequest($username);
                     return $this->redirectToRoute('login');
                 }
 
@@ -99,7 +99,7 @@ class Authentication extends BackendBase
         $user = $this->getSession()->get('user');
         $this->app['logger.system']->info('Logged out: ' . $user['displayname'], array('event' => 'authentication'));
 
-        $this->getUsers()->logout();
+        $this->getAuthentication()->logout();
 
         return $this->redirectToRoute('login');
     }
@@ -114,7 +114,7 @@ class Authentication extends BackendBase
      */
     public function actionResetPassword(Request $request)
     {
-        $this->getUsers()->resetPasswordConfirm($request->get('token'));
+        $this->getAuthentication()->resetPasswordConfirm($request->get('token'));
 
         return $this->redirectToRoute('login');
     }

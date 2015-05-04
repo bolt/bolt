@@ -59,7 +59,7 @@ class Users extends BackendBase
     {
         $currentuser = $this->getUser();
         $users = $this->getUsers()->getUsers();
-        $sessions = $this->getUsers()->getActiveSessions();
+        $sessions = $this->getAuthentication()->getActiveSessions();
 
         foreach ($users as $name => $user) {
             if (($key = array_search(Permissions::ROLE_EVERYONE, $user['roles'], true)) !== false) {

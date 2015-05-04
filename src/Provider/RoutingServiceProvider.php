@@ -58,7 +58,7 @@ class RoutingServiceProvider implements ServiceProviderInterface
         $urlGenerator = new LazyUrlGenerator(function () use ($app) {
             return $app['url_generator'];
         });
-        $app['dispatcher']->addSubscriber(new RedirectListener($app['session'], $urlGenerator, $app['users']));
+        $app['dispatcher']->addSubscriber(new RedirectListener($app['session'], $urlGenerator, $app['users'], $app['authentication']));
 
         if ($proxies = $app['config']->get('general/trustProxies')) {
             Request::setTrustedProxies($proxies);
