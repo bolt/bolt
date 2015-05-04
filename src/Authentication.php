@@ -17,9 +17,10 @@ class Authentication
 {
     /** @var \Silex\Application $app */
     private $app;
-
     /** @var boolean */
     private $validsession;
+    /** @var integer */
+    private $hashStrength;
 
     /** @var string */
     private $remoteIP;
@@ -33,6 +34,9 @@ class Authentication
     public function __construct(Application $app)
     {
         $this->app = $app;
+
+        // Hashstrength has a default of '10', don't allow less than '8'.
+        $this->hashStrength = max($this->app['config']->get('general/hash_strength'), 8);
 
         /*
          * Get the IP stored earlier in the request cycle. If it's missing we're on CLI so use localhost
