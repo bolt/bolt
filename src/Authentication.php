@@ -21,9 +21,29 @@ class Authentication
     /** @var boolean */
     private $validsession;
 
+    /** @var string */
+    private $remoteIP;
+    /** @var string */
+    private $userAgent;
+    /** @var string */
+    private $hostName;
+    /** @var string */
+    private $authToken;
+
     public function __construct(Application $app)
     {
         $this->app = $app;
+
+        /*
+         * Get the IP stored earlier in the request cycle. If it's missing we're on CLI so use localhost
+         *
+         * @see discussion in https://github.com/bolt/bolt/pull/3031
+         */
+        $request = Request::createFromGlobals();
+        $this->hostName  = $request->getHost();
+        $this->remoteIP  = $request->getClientIp() ?: '127.0.0.1';
+        $this->userAgent = $request->server->get('HTTP_USER_AGENT');
+        $this->authToken = $request->cookies->get('bolt_authtoken');
     }
 
     /**

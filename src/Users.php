@@ -34,15 +34,6 @@ class Users
     /** @var integer */
     private $hashStrength;
 
-    /** @var string */
-    private $remoteIP;
-    /** @var string */
-    private $userAgent;
-    /** @var string */
-    private $hostName;
-    /** @var string */
-    private $authToken;
-
     /**
      * @param \Silex\Application $app
      */
@@ -60,17 +51,6 @@ class Users
         $this->authtokentable = $prefix . 'authtoken';
         $this->users = array();
         $this->session = $app['session'];
-
-        /*
-         * Get the IP stored earlier in the request cycle. If it's missing we're on CLI so use localhost
-         *
-         * @see discussion in https://github.com/bolt/bolt/pull/3031
-         */
-        $request = Request::createFromGlobals();
-        $this->hostName  = $request->getHost();
-        $this->remoteIP  = $request->getClientIp() ?: '127.0.0.1';
-        $this->userAgent = $request->server->get('HTTP_USER_AGENT');
-        $this->authToken = $request->cookies->get('bolt_authtoken');
 
         $this->allowed = array(
             'dashboard'       => self::EDITOR,
@@ -469,7 +449,7 @@ class Users
      */
     public function getCurrentUserProperty($property)
     {
-        return $this->currentuser['$property'];
+        return $this->currentuser[$property];
     }
 
     /**
