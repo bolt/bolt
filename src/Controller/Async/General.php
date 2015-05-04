@@ -2,6 +2,7 @@
 namespace Bolt\Controller\Async;
 
 use Bolt\Controller\Base;
+use Bolt\Response\BoltResponse;
 use Guzzle\Http\Exception\RequestException as V3RequestException;
 use GuzzleHttp\Exception\RequestException;
 use Silex;
@@ -211,7 +212,7 @@ class General extends Base
      */
     public function actionMakeUri(Request $request)
     {
-        $uri = $this->app['storage']->getUri(
+        return $this->app['storage']->getUri(
             $request->query->get('title'),
             $request->query->get('id'),
             $request->query->get('contenttypeslug'),
@@ -219,8 +220,6 @@ class General extends Base
             true,
             $request->query->get('slugfield') //for multipleslug support
         );
-
-        return $uri;
     }
 
     /**
@@ -317,7 +316,7 @@ class General extends Base
      *
      * @param Request $request
      *
-     * @return \Twig_Markup
+     * @return BoltResponse
      */
     public function actionShowStack(Request $request)
     {
