@@ -51,13 +51,13 @@ class FilesystemManager extends Base
     /**
      * List browse on the server, so we can insert them in the file input.
      *
+     * @param Request $request
      * @param string  $namespace
      * @param string  $path
-     * @param Request $request
      *
      * @return mixed
      */
-    public function actionBrowse($namespace, $path, Request $request)
+    public function actionBrowse(Request $request, $namespace, $path)
     {
         // No trailing slashes in the path.
         $path = rtrim($path, '/');
@@ -70,10 +70,10 @@ class FilesystemManager extends Base
 
         // Get the pathsegments, so we can show the path.
         $pathsegments = array();
-        $cumulative = "";
+        $cumulative = '';
         if (!empty($path)) {
-            foreach (explode("/", $path) as $segment) {
-                $cumulative .= $segment . "/";
+            foreach (explode('/', $path) as $segment) {
+                $cumulative .= $segment . '/';
                 $pathsegments[$cumulative] = $segment;
             }
         }
@@ -104,7 +104,7 @@ class FilesystemManager extends Base
     /**
      * Create a new folder.
      *
-     * @param Request $request The HTTP Request Object containing the GET Params
+     * @param Request $request
      *
      * @return Boolean Whether the creation was successful
      */
@@ -155,7 +155,7 @@ class FilesystemManager extends Base
         $filesystem = $this->getFilesystemManager()->getFilesystem($namespace);
 
         $extensionPos = strrpos($filename, '.');
-        $destination = substr($filename, 0, $extensionPos) . "_copy" . substr($filename, $extensionPos);
+        $destination = substr($filename, 0, $extensionPos) . '_copy' . substr($filename, $extensionPos);
         $n = 1;
 
         while ($filesystem->has($destination)) {
@@ -171,7 +171,8 @@ class FilesystemManager extends Base
     }
 
     /**
-     * List pages in given contenttype, to easily insert links through the Wysywig editor.
+     * List pages in given contenttype, to easily insert links through the
+     * WYSIWYG editor.
      *
      * @param string $contenttype
      *
@@ -210,8 +211,8 @@ class FilesystemManager extends Base
     public function actionFilesAutoComplete(Request $request)
     {
         $term = $request->get('term');
-
         $extensions = $request->query->get('ext');
+
         $files = $this->getFilesystemManager()->search($term, $extensions);
 
         $this->app['debug'] = false;
@@ -222,7 +223,7 @@ class FilesystemManager extends Base
     /**
      * Delete a folder recursively if writeable.
      *
-     * @param Request $request The HTTP Request Object containing the GET Params
+     * @param Request $request
      *
      * @return Boolean Whether the renaming action was successful
      */
@@ -242,7 +243,7 @@ class FilesystemManager extends Base
     /**
      * Rename a file within the files directory tree.
      *
-     * @param Request $request The HTTP Request Object containing the GET Params
+     * @param Request $request
      *
      * @return Boolean Whether the renaming action was successful
      */
@@ -263,7 +264,7 @@ class FilesystemManager extends Base
     /**
      * Rename a folder within the files directory tree.
      *
-     * @param Request $request The HTTP Request Object containing the GET Params
+     * @param Request $request
      *
      * @return Boolean Whether the renaming action was successful
      */
