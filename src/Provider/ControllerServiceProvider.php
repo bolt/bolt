@@ -55,8 +55,11 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
             return new Controller\Backend\Users();
         });
 
-        $app['controller.async'] = $app->share(function () {
-            return new Controller\Async();
+        $app['controller.async.general'] = $app->share(function () {
+            return new Controller\Async\General();
+        });
+        $app['controller.async.filessystem_manager'] = $app->share(function () {
+            return new Controller\Async\FilesystemManager();
         });
 
         $app['controller.frontend'] = $app->share(function () {
@@ -85,7 +88,7 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
     {
         $app = $event->getApp();
 
-        // Mount the standard collection of backend controllers
+        // Mount the standard collection of backend and controllers
         $prefix = $app['controller.backend.mount_prefix'];
         $controllerKeys = array(
             'backend.authentication',
@@ -100,8 +103,14 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
             $event->mount($prefix, $app['controller.' . $controller]);
         }
 
-        // Mount the Async controller
-        $event->mount('/async', $app['controller.async']);
+        // Mount the Async controllers
+        $controllerKeys = array(
+            'async.general',
+            'async.filessystem_manager'
+        );
+        foreach ($controllerKeys as $controller) {
+            $event->mount('/async', $app['controller.' . $controller]);
+        }
 
         // Mount the Extend controller
         $prefix = $app['controller.backend.extend.mount_prefix'];
