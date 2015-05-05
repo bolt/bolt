@@ -23,47 +23,36 @@ class Extend extends BackendBase
     protected function addRoutes(ControllerCollection $c)
     {
         $c->get('', 'actionOverview')
-            ->before(array($this, 'before'))
             ->bind('extend');
 
         $c->get('/check', 'actionCheck')
-            ->before(array($this, 'before'))
             ->bind('check');
 
         $c->get('/update', 'actionUpdate')
-            ->before(array($this, 'before'))
             ->bind('update');
 
         $c->get('/install', 'actionInstall')
-            ->before(array($this, 'before'))
             ->bind('install');
 
         $c->get('/uninstall', 'actionUninstall')
-            ->before(array($this, 'before'))
             ->bind('uninstall');
 
         $c->get('/installed', 'actionInstalled')
-            ->before(array($this, 'before'))
             ->bind('installed');
 
         $c->get('/installAll', 'actionInstallAll')
-            ->before(array($this, 'before'))
             ->bind('installAll');
 
         $c->get('/installPackage', 'actionInstallPackage')
-            ->before(array($this, 'before'))
             ->bind('installPackage');
 
         $c->get('/installInfo', 'actionInstallInfo')
-            ->before(array($this, 'before'))
             ->bind('installInfo');
 
         $c->get('/packageInfo', 'actionPackageInfo')
-            ->before(array($this, 'before'))
             ->bind('packageInfo');
 
         $c->get('/generateTheme', 'actionGenerateTheme')
-            ->before(array($this, 'before'))
             ->bind('generateTheme');
     }
 
@@ -82,20 +71,7 @@ class Extend extends BackendBase
             $app['htmlsnippets'] = false;
         }
 
-        // Start the 'stopwatch' for the profiler.
-        $app['stopwatch']->start('bolt.backend.before');
-
-        // Most of the 'check if user is allowed' happens here: match the current route to the 'allowed' settings.
-        if (!$app['users']->isAllowed('extensions')) {
-            $this->addFlash('error', Trans::__('You do not have the right privileges to view that page.'));
-
-            return $this->redirectToRoute('dashboard');
-        }
-
-        // Stop the 'stopwatch' for the profiler.
-        $app['stopwatch']->stop('bolt.backend.before');
-
-        return null;
+        return parent::before($request, $app);
     }
 
     public function boot(Silex\Application $app)
