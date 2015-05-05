@@ -1,7 +1,6 @@
 <?php
 namespace Bolt\Controller\Async;
 
-use Bolt\Controller\Base;
 use Bolt\Response\BoltResponse;
 use Guzzle\Http\Exception\RequestException as V3RequestException;
 use GuzzleHttp\Exception\RequestException;
@@ -9,12 +8,16 @@ use Silex;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class General extends Base
+/**
+ * Async controller for general async routes.
+ *
+ * @author Gawain Lynch <gawain.lynch@gmail.com>
+ * @author Carson Full <carsonfull@gmail.com>
+ */
+class General extends AsyncBase
 {
     protected function addRoutes(Silex\ControllerCollection $ctr)
     {
-        $ctr->before(array($this, 'before'));
-
         $ctr->get('/addstack/{filename}', 'actionAddStack')
             ->assert('filename', '.*')
             ->bind('addstack');
@@ -386,24 +389,6 @@ class General extends Base
         $html = $this->app['extensions']->renderWidget($key);
 
         return new Response($html, Response::HTTP_OK, array('Cache-Control' => 's-maxage=180, public'));
-    }
-
-    /**
-     * Middleware function to do some tasks that should be done for all
-     * asynchronous requests.
-     */
-    public function before(Request $request)
-    {
-        // Start the 'stopwatch' for the profiler.
-        $this->app['stopwatch']->start('bolt.async.before');
-
-        // If there's no active session, don't do anything.
-        if (!$this->getAuthentication()->isValidSession()) {
-            $this->abort(Response::HTTP_UNAUTHORIZED, 'You must be logged in to use this.');
-        }
-
-        // Stop the 'stopwatch' for the profiler.
-        $this->app['stopwatch']->stop('bolt.async.before');
     }
 
     /**

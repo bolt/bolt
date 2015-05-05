@@ -1,7 +1,6 @@
 <?php
 namespace Bolt\Controller\Async;
 
-use Bolt\Controller\Base;
 use Bolt\Translation\Translator as Trans;
 use Guzzle\Http\Exception\RequestException as V3RequestException;
 use GuzzleHttp\Exception\RequestException;
@@ -10,12 +9,16 @@ use Silex;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class FilesystemManager extends Base
+/**
+ * Async controller for filesystem management async routes.
+ *
+ * @author Gawain Lynch <gawain.lynch@gmail.com>
+ * @author Carson Full <carsonfull@gmail.com>
+ */
+class FilesystemManager extends AsyncBase
 {
     protected function addRoutes(Silex\ControllerCollection $ctr)
     {
-        $ctr->before(array($this, 'before'));
-
         $ctr->get('/browse/{namespace}/{path}', 'actionBrowse')
             ->assert('path', '.*')
             ->value('namespace', 'files')
