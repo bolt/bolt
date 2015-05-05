@@ -25,7 +25,7 @@ class RecordsTest extends ControllerUnitTest
         $err = $this->getService('session')->getFlashBag()->get('error');
         $this->assertRegexp('/denied/', $err[0]);
 
-        $users = $this->getMock('Bolt\Users', array('isAllowed', 'checkAntiCSRFToken'), array($this->getApp()));
+        $users = $this->getMock('Bolt\Users', array('isAllowed'), array($this->getApp()));
         $users->expects($this->any())
             ->method('isAllowed')
             ->will($this->returnValue(true));
@@ -37,9 +37,11 @@ class RecordsTest extends ControllerUnitTest
         $err = $this->getService('session')->getFlashBag()->get('info');
         $this->assertRegexp('/could not be deleted/', $err[0]);
 
-        $this->getService('users')->expects($this->any())
+        $authentication = $this->getMock('Bolt\Authentication', array('checkAntiCSRFToken'), array($this->getApp()));
+        $authentication->expects($this->any())
             ->method('checkAntiCSRFToken')
             ->will($this->returnValue(true));
+        $this->setService('authentication', $authentication);
 
         $response = $this->controller()->actionDelete($this->getRequest(), 'pages', 4);
         $this->assertEquals('/bolt/overview/pages', $response->getTargetUrl());
@@ -126,15 +128,16 @@ class RecordsTest extends ControllerUnitTest
 
     public function testEditPermissions()
     {
-        $users = $this->getMock('Bolt\Users', array('isAllowed', 'checkAntiCSRFToken'), array($this->getApp()));
-        $users->expects($this->at(0))
-            ->method('isAllowed')
-            ->will($this->returnValue(true));
-
-        $users->expects($this->any())
+        $authentication = $this->getMock('Bolt\Authentication', array('checkAntiCSRFToken'), array($this->getApp()));
+        $authentication->expects($this->any())
             ->method('checkAntiCSRFToken')
             ->will($this->returnValue(true));
+        $this->setService('authentication', $authentication);
 
+        $users = $this->getMock('Bolt\Users', array('isAllowed'), array($this->getApp()));
+        $users->expects($this->at(0))
+            ->method('isAllowed')
+            ->will($this->returnValue(false));
         $this->setService('users', $users);
 
         // We should get kicked here because we dont have permissions to edit this
@@ -145,14 +148,16 @@ class RecordsTest extends ControllerUnitTest
 
     public function testEditPost()
     {
-        $users = $this->getMock('Bolt\Users', array('isAllowed', 'checkAntiCSRFToken'), array($this->getApp()));
+        $authentication = $this->getMock('Bolt\Authentication', array('checkAntiCSRFToken'), array($this->getApp()));
+        $authentication->expects($this->any())
+            ->method('checkAntiCSRFToken')
+            ->will($this->returnValue(true));
+        $this->setService('authentication', $authentication);
+
+        $users = $this->getMock('Bolt\Users', array('isAllowed'), array($this->getApp()));
         $users->expects($this->any())
             ->method('isAllowed')
             ->will($this->returnValue(true));
-        $users->expects($this->any())
-            ->method('checkAntiCSRFToken')
-            ->will($this->returnValue(true));
-
         $this->setService('users', $users);
 
         $this->setRequest(Request::create('/bolt/editcontent/showcases/3', 'POST', array('floatfield' => 1.2)));
@@ -163,15 +168,17 @@ class RecordsTest extends ControllerUnitTest
 
     public function testEditPostAjax()
     {
+        $authentication = $this->getMock('Bolt\Authentication', array('checkAntiCSRFToken'), array($this->getApp()));
+        $authentication->expects($this->any())
+            ->method('checkAntiCSRFToken')
+            ->will($this->returnValue(true));
+        $this->setService('authentication', $authentication);
+
         // Since we're the test user we won't automatically have permission to edit.
-        $users = $this->getMock('Bolt\Users', array('isAllowed', 'checkAntiCSRFToken'), array($this->getApp()));
+        $users = $this->getMock('Bolt\Users', array('isAllowed'), array($this->getApp()));
         $users->expects($this->any())
             ->method('isAllowed')
             ->will($this->returnValue(true));
-        $users->expects($this->any())
-            ->method('checkAntiCSRFToken')
-            ->will($this->returnValue(true));
-
         $this->setService('users', $users);
 
         $this->setRequest(Request::create('/bolt/editcontent/pages/4?returnto=ajax', 'POST'));

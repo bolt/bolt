@@ -154,12 +154,12 @@ class UsersTest extends ControllerUnitTest
     public function testModifyValidCsrf()
     {
         // Now we mock the CSRF token to validate
-        $users = $this->getMock('Bolt\Users', array('checkAntiCSRFToken'), array($this->getApp()));
-        $users->expects($this->any())
+        $authentication = $this->getMock('Bolt\Authentication', array('checkAntiCSRFToken'), array($this->getApp()));
+        $authentication->expects($this->any())
             ->method('checkAntiCSRFToken')
             ->will($this->returnValue(true));
+        $this->setService('authentication', $authentication);
 
-        $this->setService('users', $users);
         $currentuser = $this->getService('users')->getUser(1);
         $this->getService('users')->currentuser = $currentuser;
 
@@ -236,19 +236,19 @@ class UsersTest extends ControllerUnitTest
         $this->addNewUser($this->getApp(), 'editor', 'Editor', 'editor');
 
         // Now we mock the CSRF token to validate
-        $users = $this->getMock('Bolt\Users', array('checkAntiCSRFToken', 'setEnabled', 'deleteUser'), array($this->getApp()));
-        $users->expects($this->any())
+        $authentication = $this->getMock('Bolt\Authentication', array('checkAntiCSRFToken'), array($this->getApp()));
+        $authentication->expects($this->any())
             ->method('checkAntiCSRFToken')
             ->will($this->returnValue(true));
+        $this->setService('authentication', $authentication);
 
+        $users = $this->getMock('Bolt\Users', array('setEnabled', 'deleteUser'), array($this->getApp()));
         $users->expects($this->any())
             ->method('setEnabled')
             ->will($this->returnValue(false));
-
         $users->expects($this->any())
             ->method('deleteUser')
             ->will($this->returnValue(false));
-
         $this->setService('users', $users);
 
         // Setup the current user
