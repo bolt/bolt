@@ -206,22 +206,6 @@ class Users
     }
 
     /**
-     * Remove expired sessions from the database.
-     *
-     * @return void
-     */
-    private function deleteExpiredSessions()
-    {
-        try {
-            $stmt = $this->db->prepare(sprintf('DELETE FROM %s WHERE validity < :now"', $this->authtokentable));
-            $stmt->bindValue('now', date('Y-m-d H:i:s'));
-            $stmt->execute();
-        } catch (DBALException $e) {
-            // Oops. User will get a warning on the dashboard about tables that need to be repaired.
-        }
-    }
-
-    /**
      * Remove a user from the database.
      *
      * @param integer $id

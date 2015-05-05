@@ -297,10 +297,11 @@ class Authentication
         $this->app['session']->getFlashBag()->add('info', Trans::__('You have been logged out.'));
         $this->app['session']->remove('user');
 
-        // @see: https://bugs.php.net/bug.php?id=63379
         try {
             $this->app['session']->migrate(true);
         } catch (\Exception $e) {
+            // @deprecated remove exception handler in Bolt 3
+            // @see: https://bugs.php.net/bug.php?id=63379
         }
 
         // Remove all auth tokens when logging off a user (so we sign out _all_ this user's sessions on all locations)
@@ -550,9 +551,6 @@ class Authentication
             $this->app['session']->migrate(true);
         } catch (\Exception $e) {
             // @deprecated remove exception handler in Bolt 3
-            // We wish to create a new session-id for extended security, but due
-            // to a bug in PHP < 5.4.11, this will throw warnings.
-            // Suppress them here. #shakemyhead
             // @see: https://bugs.php.net/bug.php?id=63379
         }
 
@@ -560,6 +558,22 @@ class Authentication
         $this->app['session']->getFlashBag()->add('success', Trans::__("You've been logged on successfully."));
 
         $this->app['users']->setCurrentUser($user);
+    }
+
+    /**
+     * Remove expired sessions from the database.
+     *
+     * @return void
+     */
+    private function deleteExpiredSessions()
+    {
+        try {
+            $stmt = $this->app['db']->prepare(sprintf('DELETE FROM %s WHERE validity < :now"', $this->authtokentable));
+            $stmt->bindValue('now', date('Y-m-d H:i:s'));
+            $stmt->execute();
+        } catch (DBALException $e) {
+            // Oops. User will get a warning on the dashboard about tables that need to be repaired.
+        }
     }
 
     /**
