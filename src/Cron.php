@@ -1,10 +1,10 @@
 <?php
 
-namespace Bolt\Controller;
+namespace Bolt;
 
 use Bolt\Events\CronEvent;
 use Bolt\Events\CronEvents;
-use Silex\Application;
+use Silex;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\EventDispatcher\Event;
 
@@ -58,7 +58,7 @@ class Cron extends Event
      * @param OutputInterface $output
      * @param array           $param
      */
-    public function __construct(Application $app, OutputInterface $output = null, $param = array())
+    public function __construct(Silex\Application $app, OutputInterface $output = null, $param = array())
     {
         $this->app = $app;
         $this->output = $output;
@@ -235,7 +235,7 @@ class Cron extends Event
      */
     private function getNextRunTimes()
     {
-        foreach ($this->nextRunTime as $interim => $date) {
+        foreach (array_keys($this->nextRunTime) as $interim) {
             // Handle old style naming
             $oldname = strtolower(str_replace('cron.', '', $interim));
 
