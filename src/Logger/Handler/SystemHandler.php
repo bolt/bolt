@@ -48,7 +48,12 @@ class SystemHandler extends AbstractProcessingHandler
 
         $record = $this->processRecord($record);
         $record['formatted'] = $this->getFormatter()->format($record);
-        $this->write($record);
+
+        try {
+            $this->write($record);
+        } catch (\Exception $e) {
+            // Nothing.
+        }
 
         return false === $this->bubble;
     }
@@ -89,24 +94,20 @@ class SystemHandler extends AbstractProcessingHandler
 
         $user = $this->app['session']->get('user');
 
-        try {
-            $this->app['db']->insert(
-                $this->tablename,
-                array(
-                    'level'      => $record['level'],
-                    'date'       => $record['datetime']->format('Y-m-d H:i:s'),
-                    'message'    => $record['message'],
-                    'ownerid'    => isset($user['id']) ? $user['id'] : '',
-                    'requesturi' => $this->app['request']->getRequestUri(),
-                    'route'      => $this->app['request']->get('_route', ''),
-                    'ip'         => $this->app['request']->getClientIp() ? : '127.0.0.1',
-                    'context'    => isset($record['context']['event']) ? $record['context']['event'] : '',
-                    'source'     => $source
-                )
-            );
-        } catch (\Exception $e) {
-            // Nothing.
-        }
+        $this->app['db']->insert(
+            $this->tablename,
+            array(
+                'level'      => $record['level'],
+                'date'       => $record['datetime']->format('Y-m-d H:i:s'),
+                'message'    => $record['message'],
+                'ownerid'    => isset($user['id']) ? $user['id'] : '',
+                'requesturi' => $this->app['request']->getRequestUri(),
+                'route'      => $this->app['request']->get('_route', ''),
+                'ip'         => $this->app['request']->getClientIp() ? : '127.0.0.1',
+                'context'    => isset($record['context']['event']) ? $record['context']['event'] : '',
+                'source'     => $source
+            )
+        );
     }
 
     /**
