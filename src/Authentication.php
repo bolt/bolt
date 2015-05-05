@@ -411,7 +411,7 @@ class Authentication
 
         // For safety, this is the message we display, regardless of whether $user exists.
         if ($recipients === false || $recipients > 0) {
-            $this->app['session']->getFlashBag()->add('info', Trans::__('A password reset link has been sent to '%user%'.', array('%user%' => $username)));
+            $this->app['session']->getFlashBag()->add('info', Trans::__("A password reset link has been sent to '%user%'.", array('%user%' => $username)));
         }
 
         return true;
