@@ -4,12 +4,11 @@
     class:       field.class|default(''),
     label:       field.label|default(''),
     extensions:  field.extensions|default([]),
-    attrib:      (field.attrib is defined and field.attrib is not empty) ? field.attrib : false,
+    attrib:      (field.attrib is defined and field.attrib is iterable) ? field.attrib : [ field.attrib|default(null) ],
     upload:      field.upload|default(''),
     can_upload:  field.canUpload,
     info:        field.info|default('info.upload.image')
 } %}
-{# attrib[title] #}
 
 {#=== INIT ===========================================================================================================#}
 
