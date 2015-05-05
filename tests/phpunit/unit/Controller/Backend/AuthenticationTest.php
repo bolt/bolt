@@ -119,11 +119,12 @@ class AuthenticationTest extends ControllerUnitTest
         // Test missing username fails
         $this->setRequest(Request::create('/bolt/login', 'POST', array('action' => 'reset')));
         $response = $this->controller()->actionPostLogin($this->getRequest());
-        $this->assertRegExp('/Please provide a username/i', $response->getContent());
+        $flash = $this->getService('session')->getFlashbag()->get('error');
+        $this->assertRegExp('/Please provide a username/i', $flash[0]);
 
         // Test normal operation
         $this->setRequest(Request::create('/bolt/login', 'POST', array('action' => 'reset', 'username' => 'admin')));
-        $response = $this->controller()->actionResetPassword($this->getRequest());
+        $response = $this->controller()->actionPostLogin($this->getRequest());
         $this->assertRegExp('|Redirecting to /bolt/login|', $response->getContent());
     }
 
@@ -169,7 +170,13 @@ class AuthenticationTest extends ControllerUnitTest
             ->will($this->returnValue(5));
         $this->setService('users', $users);
 
-        $this->getService('users')->currentuser = array('username' => 'test', 'roles' => array());
+        $this->getService('users')->currentuser = array(
+            'id'          => 1555,
+            'username'    => 'clippy',
+            'email'       => 'clippy@example.com',
+            'roles'       => array(),
+        );
+
         $this->getService('config')->set('permissions/global/dashboard', array());
 
         $this->setRequest(Request::create('/bolt'));
