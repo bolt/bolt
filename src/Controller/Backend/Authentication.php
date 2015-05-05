@@ -30,6 +30,27 @@ class Authentication extends BackendBase
     }
 
     /**
+     * Login page and "Forgotten password" page.
+     *
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *
+     * @return \Bolt\Response\BoltResponse|\Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function actionGetLogin(Request $request)
+    {
+        $user = $this->getUser();
+        if (!empty($user) && $user['enabled'] == 1) {
+            return $this->redirectToRoute('dashboard');
+        }
+
+        if ($this->getOption('general/enforce_ssl') && !$request->isSecure()) {
+            return $this->redirect(preg_replace('/^http:/i', 'https:', $request->getUri()));
+        }
+
+        return $this->render('login/login.twig', array('randomquote' => true));
+    }
+
+    /**
      * Handle a login attempt.
      *
      * @param Request $request The Symfony Request
@@ -66,27 +87,6 @@ class Authentication extends BackendBase
         }
         // Let's not disclose any internal information.
         $this->abort(Response::HTTP_BAD_REQUEST, 'Invalid request');
-    }
-
-    /**
-     * Login page and "Forgotten password" page.
-     *
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     *
-     * @return \Bolt\Response\BoltResponse|\Symfony\Component\HttpFoundation\RedirectResponse
-     */
-    public function actionGetLogin(Request $request)
-    {
-        $user = $this->getUser();
-        if (!empty($user) && $user['enabled'] == 1) {
-            return $this->redirectToRoute('dashboard');
-        }
-
-        if ($this->getOption('general/enforce_ssl') && !$request->isSecure()) {
-            return $this->redirect(preg_replace('/^http:/i', 'https:', $request->getUri()));
-        }
-
-        return $this->render('login/login.twig', array('randomquote' => true));
     }
 
     /**
