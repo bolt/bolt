@@ -168,7 +168,7 @@ class AuthenticationTest extends ControllerUnitTest
         $this->getService('config')->set('permissions/global/dashboard', array());
 
         $this->setRequest(Request::create('/bolt'));
-        $response = $this->getService('controller.backend')->actionDashboard($this->getRequest());
+        $response = $this->getService('controller.backend.general')->actionDashboard($this->getRequest());
         $this->assertTrue($response->isRedirect('/'), 'Failed to redirect to homepage');
     }
 
