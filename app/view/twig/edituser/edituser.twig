@@ -29,14 +29,14 @@
             {% if context.kind != 'profile' %}
                 <p style="max-width: 500px;">
                     {% if context.kind == 'edit' %}
-                        {{ __('page.edit-users.user-edit') }}</i>
+                        {{ __('page.edit-users.user-edit') }}
                     {% elseif context.kind == 'create' %}
                         {{ __('page.edit-users.user-create') }}
                     {% endif %}
                 </p>
             {% endif %}
 
-            <form action="#" method="post" class="form-horizontal" role="form" autocomplete="off">
+            <form method="post" class="form-horizontal" role="form" autocomplete="off">
                 {{ form_widget(context.form) }}
                 <input type="submit" value="{{ __('page.edit-users.button.save') }}" name="submit" class="btn btn-primary">
             </form>

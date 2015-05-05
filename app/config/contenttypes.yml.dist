@@ -121,7 +121,7 @@ showcases:
             type: video
         image:
             type: image
-            attrib: title
+            attrib: title # Note: retrieve this in your template with {{ record.values.image.title }}
             extensions: [ gif, jpg, png ]
         imagelist:
             type: imagelist

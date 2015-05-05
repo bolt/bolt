@@ -1,4 +1,4 @@
-<form action="" method="post" id="filescreenuploader" {{ form_enctype(context.form) }}>
+<form method="post" id="filescreenuploader" {{ form_enctype(context.form) }}>
     <fieldset>
         {{ form_widget(context.form) }}
         <div>
@@ -11,7 +11,7 @@
     </fieldset>
 </form>
 
-<script type="text/javascript">
+<script>
     $(function() {
         $('input[type=file]').addClass('btn-secondary').bootstrapFileInput();
 

@@ -11,13 +11,13 @@
             {% for permissionName, roles in context.global_permissions %}
                 <dl style="display: inline-block; vertical-align: top; margin-right: 2em; width: 9em;">
                     <dt>{{ permissionName }}:</dt>
-                    <dt style="font-weight: normal">
+                    <dd style="font-weight: normal">
                         <ul style="padding-left: 1.3em;">
                             {% for role in roles %}
                                 <li>{{ role }}</li>
                             {% endfor %}
                         </ul>
-                    </dt>
+                    </dd>
                 </dl>
             {% endfor %}
         </div>
@@ -37,13 +37,13 @@
                     {% for permissionName, roles in permissions %}
                         <dl style="display: inline-block; vertical-align: top; margin-right: 2em; width: 9em;">
                             <dt>{{ permissionName }}:</dt>
-                            <dt style="font-weight: normal">
+                            <dd style="font-weight: normal">
                                 <ul style="padding-left: 1.3em;">
                                     {% for role in roles %}
                                         <li>{{ role }}</li>
                                     {% endfor %}
                                 </ul>
-                            </dt>
+                            </dd>
                         </dl>
                     {% endfor %}
                 </div>
