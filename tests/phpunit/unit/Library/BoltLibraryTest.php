@@ -50,7 +50,11 @@ class BoltLibraryTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $loader = $app['twig.loader'];
-        $template = $app['twig']->render('error.twig');
+        $app['twig']->render('error.twig', array('context' => array(
+            'class'   => 'BoltResponse',
+            'message' => 'Clippy is bent out of shape',
+            'code'    => '1555'
+        )));
         $templates = Library::parseTwigTemplates($loader);
 
         $this->assertEquals(1, count($templates));
