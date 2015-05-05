@@ -101,7 +101,10 @@ class Authentication extends BackendBase
 
         $this->getAuthentication()->logout();
 
-        return $this->redirectToRoute('login');
+        $response = $this->redirectToRoute('login');
+        $response->headers->clearCookie('bolt_authtoken');
+
+        return $response;
     }
 
     /**

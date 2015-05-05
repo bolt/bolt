@@ -274,17 +274,9 @@ class Authentication
 
             return true;
         } else {
-            // Delete the authtoken cookie.
-            setcookie(
-                'bolt_authtoken',
-                '',
-                time() - 1,
-                '/',
-                $this->app['config']->get('general/cookies_domain'),
-                $this->app['config']->get('general/enforce_ssl'),
-                true
-            );
-
+            // Implementation note:
+            // This needs to be caught in the controller and the authtoken
+            // cookie deleted: $response->headers->clearCookie('bolt_authtoken');
             return false;
         }
     }
@@ -310,17 +302,6 @@ class Authentication
         } catch (\Exception $e) {
             // Nope. No auth tokens to be deleted. .
         }
-
-        // Remove the cookie.
-        setcookie(
-            'bolt_authtoken',
-            '',
-            time() - 1,
-            '/',
-            $this->app['config']->get('general/cookies_domain'),
-            $this->app['config']->get('general/enforce_ssl'),
-            true
-        );
     }
 
     /**
