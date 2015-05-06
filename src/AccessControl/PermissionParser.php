@@ -1,6 +1,6 @@
 <?php
 
-namespace Bolt;
+namespace Bolt\AccessControl;
 
 use Bolt\Exception\PermissionLexerException;
 use Bolt\Exception\PermissionParserException;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Bolt;
+namespace Bolt\AccessControl;
 
 use Bolt\Translation\Translator as Trans;
 
