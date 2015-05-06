@@ -1,7 +1,7 @@
 <?php
 namespace Bolt\Routing;
 
-use Bolt\Authentication;
+use Bolt\AccessControl\Authentication;
 use Bolt\Users;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;

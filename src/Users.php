@@ -2,6 +2,7 @@
 
 namespace Bolt;
 
+use Bolt\AccessControl\Permissions;
 use Bolt\Translation\Translator as Trans;
 use Doctrine\DBAL\DBALException;
 use Hautelook\Phpass\PasswordHash;

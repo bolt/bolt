@@ -3,6 +3,7 @@
 namespace Bolt\AccessControl;
 
 use Bolt\Translation\Translator as Trans;
+use Silex;
 
 /**
  * This class implements role-based permissions.
@@ -41,7 +42,7 @@ class Permissions
     // per-request permission cache
     private $rqcache;
 
-    public function __construct(\Silex\Application $app)
+    public function __construct(Silex\Application $app)
     {
         $this->app = $app;
         $this->rqcache = array();
