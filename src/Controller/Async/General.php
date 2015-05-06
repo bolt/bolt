@@ -18,10 +18,6 @@ class General extends AsyncBase
 {
     protected function addRoutes(Silex\ControllerCollection $ctr)
     {
-        $ctr->get('/addstack/{filename}', 'actionAddStack')
-            ->assert('filename', '.*')
-            ->bind('addstack');
-
         $ctr->get('/changelog/{contenttype}/{contentid}', 'actionChangeLogRecord')
             ->value('contenttype', '')
             ->value('contentid', '0')
@@ -54,28 +50,11 @@ class General extends AsyncBase
         $ctr->get('/populartags/{taxonomytype}', 'actionPopularTags')
             ->bind('populartags');
 
-        $ctr->get('/showstack', 'actionShowStack')
-            ->bind('showstack');
-
         $ctr->get('/tags/{taxonomytype}', 'actionTags')
             ->bind('tags');
 
         $ctr->get('/widget/{key}', 'actionWidget')
             ->bind('widget');
-    }
-
-    /**
-     * Add a file to the user's stack.
-     *
-     * @param string $filename
-     *
-     * @return true
-     */
-    public function actionAddStack($filename)
-    {
-        $this->app['stack']->add($filename);
-
-        return true;
     }
 
     /**
@@ -312,43 +291,6 @@ class General extends AsyncBase
         $html = $this->app['markdown']->text($readme);
 
         return new Response($html, Response::HTTP_OK, array('Cache-Control' => 's-maxage=180, public'));
-    }
-
-    /**
-     * Render a user's current stack.
-     *
-     * @param Request $request
-     *
-     * @return BoltResponse
-     */
-    public function actionShowStack(Request $request)
-    {
-        $count = $request->query->get('items', 10);
-        $options = $request->query->get('options', false);
-
-        $context = array(
-            'stack'     => $this->app['stack']->listitems($count),
-            'filetypes' => $this->app['stack']->getFileTypes(),
-            'namespace' => $this->app['upload.namespace'],
-            'canUpload' => $this->getUsers()->isAllowed('files:uploads')
-        );
-
-        switch ($options) {
-            case 'minimal':
-                $twig = 'components/stack-minimal.twig';
-                break;
-
-            case 'list':
-                $twig = 'components/stack-list.twig';
-                break;
-
-            case 'full':
-            default:
-                $twig = 'components/panel-stack.twig';
-                break;
-        }
-
-        return $this->render($twig, array('context' => $context));
     }
 
     /**
