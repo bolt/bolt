@@ -244,7 +244,7 @@ class Users
      */
     protected function loginEmail($email, $password)
     {
-        return $this->app['authentication']->loginEmail($email, $password);
+        return $this->app['authentication']->login($email, $password);
     }
 
     /**
@@ -252,7 +252,7 @@ class Users
      */
     public function loginUsername($username, $password)
     {
-        return $this->app['authentication']->loginUsername($username, $password);
+        return $this->app['authentication']->login($username, $password);
     }
 
     /**

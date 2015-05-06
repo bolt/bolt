@@ -204,11 +204,44 @@ class Authentication
      */
     public function login($user, $password)
     {
-        //check if we are dealing with an e-mail or an username
+        // Check if we are dealing with an e-mail or an username
         if (false === strpos($user, '@')) {
-            return $this->loginUsername($user, $password);
+            $column   = 'username';
+            $lookup   = $this->app['slugify']->slugify($user);
         } else {
-            return $this->loginEmail($user, $password);
+            $column   = 'email';
+            $lookup   = $user;
+        }
+
+        // For once we don't use getUser(), because we need the password.
+        $query = sprintf('SELECT * FROM %s WHERE %s = ?', $this->getTableName('users'), $column);
+        $query = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($query, 1);
+        $user = $this->app['db']->executeQuery($query, array($lookup), array(\PDO::PARAM_STR))->fetch();
+
+        if (empty($user)) {
+            $this->app['session']->getFlashBag()->add('error', Trans::__('Username or password not correct. Please check your input.'));
+
+            return false;
+        }
+
+        $hasher = new PasswordHash($this->hashStrength, true);
+
+        if ($hasher->CheckPassword($password, $user['password'])) {
+            if (!$user['enabled']) {
+                $this->app['session']->getFlashBag()->add('error', Trans::__('Your account is disabled. Sorry about that.'));
+
+                return false;
+            }
+
+            $this->app['users']->setCurrentUser($user);
+            $this->updateUserLogin($user);
+            $this->setAuthToken();
+
+            return true;
+        } else {
+            $this->loginFailed($user);
+
+            return false;
         }
     }
 
@@ -415,92 +448,6 @@ class Authentication
         }
 
         return true;
-    }
-
-    /**
-     * Attempt to login a user with the given password and email.
-     *
-     * @param string $email
-     * @param string $password
-     *
-     * @return boolean
-     */
-    protected function loginEmail($email, $password)
-    {
-        // for once we don't use getUser(), because we need the password.
-        $query = sprintf('SELECT * FROM %s WHERE email=?', $this->getTableName('users'));
-        $query = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($query, 1);
-        $user = $this->app['db']->executeQuery($query, array($email), array(\PDO::PARAM_STR))->fetch();
-
-        if (empty($user)) {
-            $this->app['session']->getFlashBag()->add('error', Trans::__('Username or password not correct. Please check your input.'));
-
-            return false;
-        }
-
-        $hasher = new PasswordHash($this->hashStrength, true);
-
-        if ($hasher->CheckPassword($password, $user['password'])) {
-            if (!$user['enabled']) {
-                $this->app['session']->getFlashBag()->add('error', Trans::__('Your account is disabled. Sorry about that.'));
-
-                return false;
-            }
-
-            $this->updateUserLogin($user);
-
-            $this->setAuthToken();
-
-            return true;
-        } else {
-            $this->loginFailed($user);
-
-            return false;
-        }
-    }
-
-    /**
-     * Attempt to login a user with the given password and username.
-     *
-     * @param string $username
-     * @param string $password
-     *
-     * @return boolean
-     */
-    protected function loginUsername($username, $password)
-    {
-        $userslug = $this->app['slugify']->slugify($username);
-
-        // for once we don't use getUser(), because we need the password.
-        $query = sprintf('SELECT * FROM %s WHERE username=?', $this->getTableName('users'));
-        $query = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($query, 1);
-        $user = $this->app['db']->executeQuery($query, array($userslug), array(\PDO::PARAM_STR))->fetch();
-
-        if (empty($user)) {
-            $this->app['session']->getFlashBag()->add('error', Trans::__('Username or password not correct. Please check your input.'));
-
-            return false;
-        }
-
-        $hasher = new PasswordHash($this->hashStrength, true);
-
-        if ($hasher->CheckPassword($password, $user['password'])) {
-            if (!$user['enabled']) {
-                $this->app['session']->getFlashBag()->add('error', Trans::__('Your account is disabled. Sorry about that.'));
-
-                return false;
-            }
-
-            $this->updateUserLogin($user);
-
-            $this->setAuthToken();
-
-            return true;
-        } else {
-            $this->loginFailed($user);
-
-            return false;
-        }
     }
 
     /**
