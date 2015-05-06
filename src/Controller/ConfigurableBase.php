@@ -69,24 +69,14 @@ abstract class ConfigurableBase extends Base
             return;
         }
 
-        $cls = null;
-        if (strpos($to, '::') > 0) {
-            $parts = explode('::', $to);
-            $cls = reset($parts);
-        }
-
         $route = $ctr->match($path, $to);
 
         $before = $defaults->remove('_before') ?: '::before';
-        if (substr($before, 0, 2) === '::' && $cls) {
-            $before = array($cls, substr($before, 2));
-        }
+        $before = $this->resolveBefore($before);
         $route->before($before);
 
         $after = $defaults->remove('_after') ?: '::after';
-        if (substr($after, 0, 2) === '::' && $cls) {
-            $after = array($cls, substr($after, 2));
-        }
+        $after = $this->resolveAfter($after);
         $route->after($after);
 
         foreach ($defaults as $key => $value) {
@@ -107,5 +97,73 @@ abstract class ConfigurableBase extends Base
         }
 
         $route->bind($name);
+    }
+
+    /**
+     * Returns a closure that will resolve the middleware callback
+     * to call on kernel request and call it.
+     *
+     * @param array|string|null $before
+     *
+     * @return \Closure
+     */
+    protected function resolveBefore($before)
+    {
+        $getBefore = $this->resolveMiddleware($before);
+        return function (Request $request, Application $app) use ($getBefore) {
+            $callback = $getBefore($request);
+            if (!is_callable($callback)) {
+                return null;
+            }
+            return call_user_func($callback, $request, $app);
+        };
+    }
+
+    /**
+     * Returns a closure that will resolve the middleware callback
+     * to call on kernel response and call it.
+     *
+     * @param array|string|null $after
+     *
+     * @return \Closure
+     */
+    protected function resolveAfter($after)
+    {
+        $getAfter = $this->resolveMiddleware($after);
+        return function (Request $request, Response $response, Application $app) use ($getAfter) {
+            $callback = $getAfter($request);
+            if (!is_callable($callback)) {
+                return null;
+            }
+            return call_user_func($callback, $request, $response, $app);
+        };
+    }
+
+    /**
+     * Returns a closure that will resolve the class to use
+     * in middleware callback if one isn't specified
+     *
+     * @param array|string|null $callback
+     *
+     * @return \Closure Invoke to get middleware callback
+     */
+    protected function resolveMiddleware($callback)
+    {
+        $callbackResolver = $this->callbackResolver;
+        return function (Request $request) use ($callback, $callbackResolver) {
+            if (!substr($callback, 0, 2) === '::') {
+                return $callback;
+            }
+            $controller = $callbackResolver->resolveCallback($request->attributes->get('_controller'));
+            if (is_array($controller)) {
+                list($cls, $_) = $controller;
+            } elseif (is_string($controller)) {
+                list($cls, $_) = explode('::', $controller);
+            } else {
+                return null;
+            }
+            $callback = array($cls, substr($callback, 2));
+            return $callback;
+        };
     }
 }
