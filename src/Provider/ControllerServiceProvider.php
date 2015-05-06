@@ -2,6 +2,7 @@
 namespace Bolt\Provider;
 
 use Bolt\Controller;
+use Bolt\Controllers;
 use Bolt\Events\ControllerEvents;
 use Bolt\Events\MountEvent;
 use Bolt\Thumbs\ThumbnailProvider;
@@ -65,12 +66,16 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
         $app['controller.frontend'] = $app->share(function () {
             return new Controller\Frontend();
         });
+        $app['controller.requirement'] = $app->share(function ($app) {
+            return new Controller\Requirement($app['config']);
+        });
+        $app['controller.requirement.deprecated'] = $app->share(function ($app) {
+            return new Controllers\Routing($app['config']);
+        });
 
         $app['controller.classmap'] = array(
             'Bolt\\Controllers\\Frontend' => 'controller.frontend',
-            'Bolt\\Controller\\Frontend'  => 'controller.frontend',
-            'Bolt\\Controllers\\Routing'  => 'controller.frontend',
-            'Bolt\\Controller\\Routing'   => 'controller.frontend',
+            'Bolt\\Controllers\\Routing'  => 'controller.requirement.deprecated',
         );
     }
 
