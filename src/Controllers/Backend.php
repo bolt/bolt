@@ -2052,7 +2052,7 @@ class Backend implements ControllerProviderInterface
      *
      * @param Application $app
      * @param array       $user
-     * @param boolean     $addusername
+     * @param boolean     $editusername
      *
      * @return \Symfony\Component\Form\FormBuilder
      */
