@@ -87,6 +87,7 @@ class Frontend extends ConfigurableBase
             $first = current($content);
             $globals[$first->contenttype['slug']] = $content;
         } elseif (!empty($content)) {
+            $globals['record'] = $content;
             $globals[$content->contenttype['singular_slug']] = $content;
         }
 
