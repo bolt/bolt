@@ -2056,13 +2056,13 @@ class Backend implements ControllerProviderInterface
      *
      * @return \Symfony\Component\Form\FormBuilder
      */
-    private function getUserForm(Application $app, array $user, $addusername = false)
+    private function getUserForm(Application $app, array $user, $editusername = false)
     {
         // Start building the form
         $form = $app['form.factory']->createBuilder('form', $user);
 
-        // Username goes first
-        if ($addusername) {
+        // Username goes first (editable when not viewing own profile)
+        if ($editusername) {
             $form->add(
                 'username',
                 'text',
@@ -2073,8 +2073,22 @@ class Backend implements ControllerProviderInterface
                         'placeholder' => Trans::__('page.edit-users.placeholder.username')
                     )
                 )
+            );    
+        } else {
+            $form->add(
+                'username',
+                'text',
+                array(
+                    'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min' => 2, 'max' => 32))),
+                    'label'       => Trans::__('page.edit-users.label.username'),
+                    'attr'        => array(
+                        'placeholder' => Trans::__('page.edit-users.placeholder.username')
+                    ), 
+                    'read_only'   => true
+                )
             );
         }
+        
 
         // Add the other fields
         $form
@@ -2178,7 +2192,7 @@ class Backend implements ControllerProviderInterface
                 if ($pass1 == $form['username']->getData()) {
                     $form['password']->addError(new FormError(Trans::__('page.edit-users.error.password-different')));
                 }
-
+                
                 // Email addresses must be unique.
                 if (!$app['users']->checkAvailability('email', $form['email']->getData(), $id)) {
                     $form['email']->addError(new FormError(Trans::__('page.edit-users.error.email-used')));
