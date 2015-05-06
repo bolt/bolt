@@ -47,6 +47,30 @@ class BackendManagerCest
     }
 
     /**
+     * Publish the 'Home' page.
+     *
+     * @param \AcceptanceTester $I
+     */
+    public function publishHomePageTest(\AcceptanceTester $I)
+    {
+        $I->wantTo("Publish the 'About' page as 'manager' user");
+
+        // Set up the browser
+        $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
+        $I->setCookie('bolt_session', $this->cookies['bolt_session']);
+        $I->amOnPage('bolt/editcontent/pages/1');
+
+        $I->see('Woop woop woop!');
+        $I->see('Crazy nice stuff inside!');
+
+        $I->selectOption('#statusselect', 'published');
+
+        $I->click('Save', '#savecontinuebutton');
+
+        $I->see('The changes to this Page have been saved.');
+    }
+
+    /**
      * Publish the 'About' page.
      *
      * @param \AcceptanceTester $I
