@@ -1,7 +1,7 @@
 <?php
 namespace Bolt\Tests\Controller\Backend;
 
-use Bolt\Authentication;
+use Bolt\AccessControl\Authentication;
 use Bolt\Tests\Controller\ControllerUnitTest;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -21,7 +21,7 @@ class AuthenticationTest extends ControllerUnitTest
             'password' => 'pass'
         )));
 
-        $authentication = $this->getMock('Bolt\Authentication', array('login'), array($this->getApp()));
+        $authentication = $this->getMock('Bolt\AccessControl\Authentication', array('login'), array($this->getApp()));
         $authentication->expects($this->once())
             ->method('login')
             ->with($this->equalTo('test'), $this->equalTo('pass'))
@@ -43,7 +43,7 @@ class AuthenticationTest extends ControllerUnitTest
             'password' => 'pass'
         )));
 
-        $authentication = $this->getMock('Bolt\Authentication', array('login'), array($this->getApp()));
+        $authentication = $this->getMock('Bolt\AccessControl\Authentication', array('login'), array($this->getApp()));
         $authentication->expects($this->once())
             ->method('login')
             ->with($this->equalTo('test@example.com'), $this->equalTo('pass'))
@@ -65,7 +65,7 @@ class AuthenticationTest extends ControllerUnitTest
             'password' => 'pass'
         )));
 
-        $authentication = $this->getMock('Bolt\Authentication', array('login'), array($this->getApp()));
+        $authentication = $this->getMock('Bolt\AccessControl\Authentication', array('login'), array($this->getApp()));
         $authentication->expects($this->once())
             ->method('login')
             ->with($this->equalTo('test'), $this->equalTo('pass'))
@@ -87,7 +87,7 @@ class AuthenticationTest extends ControllerUnitTest
 
     public function testLoginSuccess()
     {
-        $authentication = $this->getMock('Bolt\Authentication', array('login'), array($this->getApp()));
+        $authentication = $this->getMock('Bolt\AccessControl\Authentication', array('login'), array($this->getApp()));
         $authentication->expects($this->any())
             ->method('login')
             ->will($this->returnValue(true));
@@ -106,7 +106,7 @@ class AuthenticationTest extends ControllerUnitTest
         $dispatcher = $this->getService('swiftmailer.transport.eventdispatcher');
         $this->setService('swiftmailer.transport', new \Swift_Transport_NullTransport($dispatcher));
 
-        $authentication = $this->getMock('Bolt\Authentication', array('login', 'resetPasswordRequest'), array($this->getApp()));
+        $authentication = $this->getMock('Bolt\AccessControl\Authentication', array('login', 'resetPasswordRequest'), array($this->getApp()));
         $authentication->expects($this->any())
             ->method('login')
             ->will($this->returnValue(true));
@@ -130,7 +130,7 @@ class AuthenticationTest extends ControllerUnitTest
 
     public function testLogout()
     {
-        $authentication = $this->getMock('Bolt\Authentication', array('logout'), array($this->getApp()));
+        $authentication = $this->getMock('Bolt\AccessControl\Authentication', array('logout'), array($this->getApp()));
         $authentication->expects($this->once())
             ->method('logout')
             ->will($this->returnValue(true));
@@ -144,7 +144,7 @@ class AuthenticationTest extends ControllerUnitTest
 
     public function testResetPassword()
     {
-        $authentication = $this->getMock('Bolt\Authentication', array('resetPasswordConfirm'), array($this->getApp()));
+        $authentication = $this->getMock('Bolt\AccessControl\Authentication', array('resetPasswordConfirm'), array($this->getApp()));
         $authentication->expects($this->once())
             ->method('resetPasswordConfirm')
             ->will($this->returnValue(true));
@@ -158,7 +158,7 @@ class AuthenticationTest extends ControllerUnitTest
 
     public function testDashboardWithoutPermissionRedirectsToHomepage()
     {
-        $authentication = $this->getMock('Bolt\Authentication', array('isValidSession'), array($this->getApp()));
+        $authentication = $this->getMock('Bolt\AccessControl\Authentication', array('isValidSession'), array($this->getApp()));
         $authentication->expects($this->any())
             ->method('isValidSession')
             ->will($this->returnValue(false));

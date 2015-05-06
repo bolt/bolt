@@ -37,7 +37,7 @@ class RecordsTest extends ControllerUnitTest
         $err = $this->getService('session')->getFlashBag()->get('info');
         $this->assertRegExp('/could not be deleted/', $err[0]);
 
-        $authentication = $this->getMock('Bolt\Authentication', array('checkAntiCSRFToken'), array($this->getApp()));
+        $authentication = $this->getMock('Bolt\AccessControl\Authentication', array('checkAntiCSRFToken'), array($this->getApp()));
         $authentication->expects($this->any())
             ->method('checkAntiCSRFToken')
             ->will($this->returnValue(true));
@@ -128,7 +128,7 @@ class RecordsTest extends ControllerUnitTest
 
     public function testEditPermissions()
     {
-        $authentication = $this->getMock('Bolt\Authentication', array('checkAntiCSRFToken'), array($this->getApp()));
+        $authentication = $this->getMock('Bolt\AccessControl\Authentication', array('checkAntiCSRFToken'), array($this->getApp()));
         $authentication->expects($this->any())
             ->method('checkAntiCSRFToken')
             ->will($this->returnValue(true));
@@ -148,7 +148,7 @@ class RecordsTest extends ControllerUnitTest
 
     public function testEditPost()
     {
-        $authentication = $this->getMock('Bolt\Authentication', array('checkAntiCSRFToken'), array($this->getApp()));
+        $authentication = $this->getMock('Bolt\AccessControl\Authentication', array('checkAntiCSRFToken'), array($this->getApp()));
         $authentication->expects($this->any())
             ->method('checkAntiCSRFToken')
             ->will($this->returnValue(true));
@@ -168,7 +168,7 @@ class RecordsTest extends ControllerUnitTest
 
     public function testEditPostAjax()
     {
-        $authentication = $this->getMock('Bolt\Authentication', array('checkAntiCSRFToken'), array($this->getApp()));
+        $authentication = $this->getMock('Bolt\AccessControl\Authentication', array('checkAntiCSRFToken'), array($this->getApp()));
         $authentication->expects($this->any())
             ->method('checkAntiCSRFToken')
             ->will($this->returnValue(true));

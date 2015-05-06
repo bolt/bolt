@@ -34,7 +34,7 @@ class AuthenticationTest extends BoltUnitTest
     public function testLoginWithUsername()
     {
         // Setup test
-        $users = $this->getMock('Bolt\Authentication', array('loginUsername', 'loginEmail'), array($this->getApp()));
+        $users = $this->getMock('Bolt\AccessControl\Authentication', array('loginUsername', 'loginEmail'), array($this->getApp()));
         $users->expects($this->once())->method('loginUsername')->willReturn(true);
         $users->expects($this->never())->method('loginEmail');
 
@@ -51,7 +51,7 @@ class AuthenticationTest extends BoltUnitTest
     public function testLoginWithEmail()
     {
         // Setup test
-        $users = $this->getMock('Bolt\Authentication', array('loginUsername', 'loginEmail'), array($this->getApp()));
+        $users = $this->getMock('Bolt\AccessControl\Authentication', array('loginUsername', 'loginEmail'), array($this->getApp()));
         $users->expects($this->once())->method('loginEmail')->willReturn(true);
         $users->expects($this->never())->method('loginUsername');
 

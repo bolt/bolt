@@ -154,7 +154,7 @@ class UsersTest extends ControllerUnitTest
     public function testModifyValidCsrf()
     {
         // Now we mock the CSRF token to validate
-        $authentication = $this->getMock('Bolt\Authentication', array('checkAntiCSRFToken'), array($this->getApp()));
+        $authentication = $this->getMock('Bolt\AccessControl\Authentication', array('checkAntiCSRFToken'), array($this->getApp()));
         $authentication->expects($this->any())
             ->method('checkAntiCSRFToken')
             ->will($this->returnValue(true));
@@ -236,7 +236,7 @@ class UsersTest extends ControllerUnitTest
         $this->addNewUser($this->getApp(), 'editor', 'Editor', 'editor');
 
         // Now we mock the CSRF token to validate
-        $authentication = $this->getMock('Bolt\Authentication', array('checkAntiCSRFToken'), array($this->getApp()));
+        $authentication = $this->getMock('Bolt\AccessControl\Authentication', array('checkAntiCSRFToken'), array($this->getApp()));
         $authentication->expects($this->any())
             ->method('checkAntiCSRFToken')
             ->will($this->returnValue(true));
