@@ -95,16 +95,15 @@ class Authentication
                 return false;
             }
             if (!$currentuser['enabled']) {
-                // user has been disabled since logging in
+                // User has been disabled since logging in
                 $this->logout();
 
                 return false;
             }
         } else {
-            // No current user, check if we can resume from authtoken cookie, or return without doing the rest.
-            $result = $this->loginAuthtoken();
-
-            return $result;
+            // No current user, check if we can resume from authtoken cookie, or
+            // return without doing the rest.
+            return $this->loginAuthtoken();
         }
 
         // The auth token is based on hostname, IP and browser user agent
@@ -131,6 +130,19 @@ class Authentication
         }
 
         return true;
+    }
+
+    /**
+     * Get the user's stored sessions.
+     *
+     * @param string $username
+     *
+     * @return array
+     */
+    private function getStoredSessions($username)
+    {
+        $query = sprintf("SELECT * FROM %s WHERE username = '%s'", $this->getTableName('authtoken'), $username);
+        return $this->app['db']->fetchAll($query);
     }
 
     /**
