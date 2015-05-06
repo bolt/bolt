@@ -22,7 +22,7 @@ class ConfigSetTest extends BoltUnitTest
 
         // Test successful update
         $tester->execute(array('key' => 'sitename', 'value' => 'my test', '--file' => 'config.yml'));
-        $this->assertRegexp("/New value for sitename: my test was successful/", $tester->getDisplay());
+        $this->assertRegExp("/New value for sitename: my test was successful/", $tester->getDisplay());
 
         // Test non-existent fails
         $tester->execute(array('key' => 'nonexistent', 'value' => 'test', '--file' => 'config.yml'));

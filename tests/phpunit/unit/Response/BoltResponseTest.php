@@ -22,7 +22,7 @@ class BoltResponseTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $response = BoltResponse::create($app['twig']->loadTemplate('error.twig'), $this->getContext());
-        $this->assertRegexp("#Bolt - Fatal error.#", (string) $response);
+        $this->assertRegExp("#Bolt - Fatal error.#", (string) $response);
     }
 
     public function testSetTemplate()

@@ -49,9 +49,9 @@ class UserAddTest extends BoltUnitTest
             )
         );
         $result = $tester->getDisplay();
-        $this->assertRegexp("/username test already exists/", trim($result));
-        $this->assertRegexp("/email test@example\.com exists/", trim($result));
-        $this->assertRegexp("/display name Test already exists/", trim($result));
+        $this->assertRegExp("/username test already exists/", trim($result));
+        $this->assertRegExp("/email test@example\.com exists/", trim($result));
+        $this->assertRegExp("/display name Test already exists/", trim($result));
     }
 
     public function testFailure()

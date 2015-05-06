@@ -20,7 +20,7 @@ class TestRunnerTest extends BoltUnitTest
 
         $tester->execute(array());
         $result = $tester->getDisplay();
-        $this->assertRegexp("/phpunit/", $result);
+        $this->assertRegExp("/phpunit/", $result);
     }
 }
 

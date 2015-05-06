@@ -25,7 +25,7 @@ class LogClearTest extends BoltUnitTest
 
         $tester->execute(array());
         $result = $tester->getDisplay();
-        $this->assertRegexp('/System & change logs cleared/', $result);
+        $this->assertRegExp('/System & change logs cleared/', $result);
     }
 
     // public function testCancel()

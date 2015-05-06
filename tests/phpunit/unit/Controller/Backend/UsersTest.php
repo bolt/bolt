@@ -147,7 +147,7 @@ class UsersTest extends ControllerUnitTest
         $response = $this->controller()->actionModify($this->getRequest(), 'disable', 1);
         $info = $this->getService('session')->getFlashBag()->get('info');
 
-        $this->assertRegexp('/An error occurred/', $info[0]);
+        $this->assertRegExp('/An error occurred/', $info[0]);
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
     }
 
@@ -169,14 +169,14 @@ class UsersTest extends ControllerUnitTest
 
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
         $err = $this->getService('session')->getFlashBag()->get('error');
-        $this->assertRegexp('/No such user/', $err[0]);
+        $this->assertRegExp('/No such user/', $err[0]);
 
         // This check will fail because we are operating on the current user
         $this->setRequest(Request::create('/bolt/user/disable/1'));
         $response = $this->controller()->actionModify($this->getRequest(), 'disable', 1);
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
         $err = $this->getService('session')->getFlashBag()->get('error');
-        $this->assertRegexp('/yourself/', $err[0]);
+        $this->assertRegExp('/yourself/', $err[0]);
 
         // We add a new user that isn't the current user and now perform operations.
         $this->addNewUser($this->getApp(), 'editor', 'Editor', 'editor');
@@ -187,28 +187,28 @@ class UsersTest extends ControllerUnitTest
         $response = $this->controller()->actionModify($this->getRequest(), 'disable', $editor['id']);
 
         $info = $this->getService('session')->getFlashBag()->get('info');
-        $this->assertRegexp('/is disabled/', $info[0]);
+        $this->assertRegExp('/is disabled/', $info[0]);
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
 
         // Now try to enable the user
         $this->setRequest(Request::create('/bolt/user/enable/2'));
         $response = $this->controller()->actionModify($this->getRequest(), 'enable', $editor['id']);
         $info = $this->getService('session')->getFlashBag()->get('info');
-        $this->assertRegexp('/is enabled/', $info[0]);
+        $this->assertRegExp('/is enabled/', $info[0]);
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
 
         // Try a non-existent action, make sure we get an error
         $this->setRequest(Request::create('/bolt/user/enhance/2'));
         $response = $this->controller()->actionModify($this->getRequest(), 'enhance', $editor['id']);
         $info = $this->getService('session')->getFlashBag()->get('error');
-        $this->assertRegexp('/No such action/', $info[0]);
+        $this->assertRegExp('/No such action/', $info[0]);
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
 
         // Now we run a delete action
         $this->setRequest(Request::create('/bolt/user/delete/2'));
         $response = $this->controller()->actionModify($this->getRequest(), 'delete', $editor['id']);
         $info = $this->getService('session')->getFlashBag()->get('info');
-        $this->assertRegexp('/is deleted/', $info[0]);
+        $this->assertRegExp('/is deleted/', $info[0]);
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
 
         // Finally we mock the permsission check to return false and check
@@ -227,7 +227,7 @@ class UsersTest extends ControllerUnitTest
 
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
         $err = $this->getService('session')->getFlashBag()->get('error');
-        $this->assertRegexp('/right privileges/', $err[0]);
+        $this->assertRegExp('/right privileges/', $err[0]);
     }
 
     public function testModifyFailures()
@@ -259,19 +259,19 @@ class UsersTest extends ControllerUnitTest
         $this->setRequest(Request::create('/bolt/user/disable/2'));
         $response = $this->controller()->actionModify($this->getRequest(), 'disable', 2);
         $info = $this->getService('session')->getFlashBag()->get('info');
-        $this->assertRegexp('/could not be disabled/', $info[0]);
+        $this->assertRegExp('/could not be disabled/', $info[0]);
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
 
         $this->setRequest(Request::create('/bolt/user/enable/2'));
         $response = $this->controller()->actionModify($this->getRequest(), 'enable', 2);
         $info = $this->getService('session')->getFlashBag()->get('info');
-        $this->assertRegexp('/could not be enabled/', $info[0]);
+        $this->assertRegExp('/could not be enabled/', $info[0]);
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
 
         $this->setRequest(Request::create('/bolt/user/delete/2'));
         $response = $this->controller()->actionModify($this->getRequest(), 'delete', 2);
         $info = $this->getService('session')->getFlashBag()->get('info');
-        $this->assertRegexp('/could not be deleted/', $info[0]);
+        $this->assertRegExp('/could not be deleted/', $info[0]);
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
     }
 
