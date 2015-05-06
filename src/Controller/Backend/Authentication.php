@@ -67,24 +67,24 @@ class Authentication extends BackendBase
                 // Log in, if credentials are correct.
                 $token = $this->getAuthentication()->login($username, $password);
 
-                if ($token) {
-                    $this->app['logger.system']->info('Logged in: ' . $username, array('event' => 'authentication'));
-                    $retreat = $this->getSession()->get('retreat', array('route' => 'dashboard', 'params' => array()));
-                    $response = $this->redirectToRoute($retreat['route'], $retreat['params']);
-                    $response->headers->setCookie(new Cookie(
-                        'bolt_authtoken',
-                        $token,
-                        time() + $this->getOption('general/cookies_lifetime'),
-                        '/',
-                        $this->getOption('general/cookies_domain'),
-                        $this->getOption('general/enforce_ssl'),
-                        true
-                    ));
-
-                    return $response;
+                if ($token === false) {
+                    return $this->actionGetLogin($request);
                 }
 
-                return $this->actionGetLogin($request);
+                $this->app['logger.system']->info('Logged in: ' . $username, array('event' => 'authentication'));
+                $retreat = $this->getSession()->get('retreat', array('route' => 'dashboard', 'params' => array()));
+                $response = $this->redirectToRoute($retreat['route'], $retreat['params']);
+                $response->headers->setCookie(new Cookie(
+                    'bolt_authtoken',
+                    $token,
+                    time() + $this->getOption('general/cookies_lifetime'),
+                    '/',
+                    $this->getOption('general/cookies_domain'),
+                    $this->getOption('general/enforce_ssl'),
+                    true
+                ));
+
+                return $response;
 
             case 'reset':
                 // Send a password request mail, if username exists.
