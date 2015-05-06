@@ -34,17 +34,23 @@ abstract class BackendBase extends Base
     /**
      * Middleware function to check whether a user is logged on.
      *
-     * @param Request     $request The Symfony Request
-     * @param Application $app     The application/container
+     * @param Request     $request   The Symfony Request
+     * @param Application $app       The application/container
+     * @param string      $roleRoute An overriding value for the route name in permission checks
      *
      * @return null|\Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function before(Request $request, Application $app)
+    public function before(Request $request, Application $app, $roleRoute = null)
     {
         // Start the 'stopwatch' for the profiler.
         $app['stopwatch']->start('bolt.backend.before');
 
         $route = $request->get('_route');
+
+        // Handle the case where the route doesn't equal the role
+        if ($roleRoute === null) {
+            $roleRoute = $route;
+        }
 
         $app['debugbar'] = true;
 
@@ -99,7 +105,7 @@ abstract class BackendBase extends Base
             $app['session']->getFlashBag()->add('info', Trans::__('Please log on.'));
 
             return $this->redirectToRoute('login');
-        } elseif (!$app['users']->isAllowed($route)) {
+        } elseif (!$app['users']->isAllowed($roleRoute)) {
             $app['session']->getFlashBag()->add('error', Trans::__('You do not have the right privileges to view that page.'));
 
             return $this->redirectToRoute('dashboard');

@@ -71,7 +71,7 @@ class Extend extends BackendBase
             $app['htmlsnippets'] = false;
         }
 
-        return parent::before($request, $app);
+        return parent::before($request, $app, 'extensions');
     }
 
     public function boot(Silex\Application $app)
