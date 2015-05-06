@@ -101,12 +101,13 @@ class Authentication
                 return false;
             }
         } else {
-            // no current user, check if we can resume from authtoken cookie, or return without doing the rest.
+            // No current user, check if we can resume from authtoken cookie, or return without doing the rest.
             $result = $this->loginAuthtoken();
 
             return $result;
         }
 
+        // The auth token is based on hostname, IP and browser user agent
         $key = $this->getAuthToken($currentuser['username']);
 
         if ($key != $currentuser['sessionkey']) {
@@ -200,7 +201,7 @@ class Authentication
      * @param string $user
      * @param string $password
      *
-     * @return boolean
+     * @return boolean|string
      */
     public function login($user, $password)
     {
@@ -235,9 +236,8 @@ class Authentication
 
             $this->app['users']->setCurrentUser($user);
             $this->updateUserLogin($user);
-            $this->setAuthToken();
 
-            return true;
+            return $this->setAuthToken();
         } else {
             $this->loginFailed($user);
 
@@ -248,7 +248,7 @@ class Authentication
     /**
      * Attempt to login a user via the bolt_authtoken cookie.
      *
-     * @return boolean
+     * @return boolean|string
      */
     public function loginAuthtoken()
     {
@@ -303,9 +303,7 @@ class Authentication
 
             $this->app['users']->setCurrentUser($user);
 
-            $this->setAuthToken();
-
-            return true;
+            return $this->setAuthToken();
         } else {
             // Implementation note:
             // This needs to be caught in the controller and the authtoken
@@ -577,17 +575,6 @@ class Authentication
             'useragent' => $this->userAgent
         );
 
-        // Update or set the authtoken cookie.
-        setcookie(
-            'bolt_authtoken',
-            $token['token'],
-            time() + $this->app['config']->get('general/cookies_lifetime'),
-            '/',
-            $this->app['config']->get('general/cookies_domain'),
-            $this->app['config']->get('general/enforce_ssl'),
-            true
-        );
-
         try {
             // Check if there's already a token stored for this name / IP combo.
             $query = sprintf('SELECT id FROM %s WHERE username=? AND ip=? AND useragent=?', $this->getTableName('authtoken'));
@@ -603,6 +590,8 @@ class Authentication
         } catch (DBALException $e) {
             // Oops. User will get a warning on the dashboard about tables that need to be repaired.
         }
+
+        return $token['token'];
     }
 
     /**

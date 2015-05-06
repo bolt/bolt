@@ -5,6 +5,7 @@ use Bolt\Translation\Translator as Trans;
 use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Cookie;
 
 /**
  * Backend controller for authentication routes.
@@ -64,12 +65,23 @@ class Authentication extends BackendBase
         switch ($request->get('action')) {
             case 'login':
                 // Log in, if credentials are correct.
-                $result = $this->getAuthentication()->login($username, $password);
+                $token = $this->getAuthentication()->login($username, $password);
 
-                if ($result) {
+                if ($token) {
                     $this->app['logger.system']->info('Logged in: ' . $username, array('event' => 'authentication'));
                     $retreat = $this->getSession()->get('retreat', array('route' => 'dashboard', 'params' => array()));
-                    return $this->redirectToRoute($retreat['route'], $retreat['params']);
+                    $response = $this->redirectToRoute($retreat['route'], $retreat['params']);
+                    $response->headers->setCookie(new Cookie(
+                        'bolt_authtoken',
+                        $token,
+                        time() + $this->getOption('general/cookies_lifetime'),
+                        '/',
+                        $this->getOption('general/cookies_domain'),
+                        $this->getOption('general/enforce_ssl'),
+                        true
+                    ));
+
+                    return $response;
                 }
 
                 return $this->actionGetLogin($request);
