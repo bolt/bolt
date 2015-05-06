@@ -40,17 +40,29 @@ class CallbackResolver extends \Silex\CallbackResolver
             return true;
         }
         if (is_array($name)) {
-            list($cls) = $name;
+            list($cls, $method) = $name;
             if (is_object($cls)) {
-                return false;
+                return false; // No need to convert
             }
-        } elseif (is_string($name)) {
-            $parts = explode('::', $name);
-            $cls = reset($parts);
+        } elseif (is_string($name) && strpos($name, '::') > 0) {
+            list($cls, $method) = explode('::', $name);
         } else {
-            return false;
+            return false; // Can't handle this, maybe already callable
         }
-        return isset($this->classmap[$cls]);
+
+        if (isset($this->classmap[$cls])) {
+            return true; // Will use service definition
+        }
+        if (!class_exists($cls)) {
+            return false; // Can't handle this
+        }
+        $refMethod = new \ReflectionMethod($cls, $method);
+        if ($refMethod->isStatic()) {
+            return false; // Already valid
+        }
+        $constructor = $refMethod->getDeclaringClass()->getConstructor();
+        // We can create the class if no constructor params, else can't handle it
+        return $constructor === null || $constructor->getNumberOfRequiredParameters() === 0;
     }
 
     /**
@@ -69,18 +81,24 @@ class CallbackResolver extends \Silex\CallbackResolver
     {
         if (is_array($name)) {
             list($cls, $method) = $name;
-            $service = $this->classmap[$cls];
-            $name = "$service:$method";
         } elseif (strpos($name, '::') > 0) {
             $parts = explode('::', $name);
             $cls = reset($parts);
             $method = end($parts);
-            if (!isset($this->classmap[$cls])) {
-                return array(new $cls(), $method);
-            }
-            $service = $this->classmap[$cls];
-            $name = "$service:$method";
+        } else {
+            return parent::convertCallback($name);
         }
-        return parent::convertCallback($name);
+
+        if (isset($this->classmap[$cls])) {
+            $service = $this->classmap[$cls];
+            return parent::convertCallback("$service:$method");
+        }
+
+        return array($this->instantiateClass($cls), $method);
+    }
+
+    protected function instantiateClass($class)
+    {
+        return new $class();
     }
 }
