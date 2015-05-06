@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Class to test correct operation of src/Controller/Backend/Async.
+ * Class to test correct operation of src/Controller/Async/FileManager.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  **/
