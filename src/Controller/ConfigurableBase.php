@@ -93,9 +93,9 @@ abstract class ConfigurableBase extends Base
             $route->value($key, $value);
         }
 
-        foreach ($config['requirements'] ?: array() as $variable => $regexp) {
-            $properRegexp = $this->getProperRegexp($regexp);
-            $route->assert($variable, $properRegexp);
+        foreach ($config['requirements'] ?: array() as $variable => $callback) {
+            $callback = $this->callbackResolver->resolveCallback($callback);
+            $route->assert($variable, call_user_func($callback));
         }
 
         if ($host = $config['host']) {
@@ -107,43 +107,6 @@ abstract class ConfigurableBase extends Base
         }
 
         $route->bind($name);
-    }
-
-    /**
-     * Return a regex from a function.
-     *
-     * @param string|array $regexp
-     *
-     * @return string
-     */
-    protected function getProperRegexp($regexp)
-    {
-//        return $this->callbackResolver->resolveCallback($regexp);
-        if (is_array($regexp)) {
-            list($method, $args) = $regexp;
-        } elseif (strpos($regexp, '::') <= 0) {
-            return $regexp;
-        } else {
-            $method = $regexp;
-            $args = array();
-        }
-
-        $method = explode('::', $method);
-        $cls = reset($method);
-        $method = end($method);
-
-        // Handle pre 2.3 route classes
-        if ($cls === 'Bolt\\Controllers\\Routing' || $cls === 'Bolt\\Controller\\Routing') {
-            $cls = $this;
-        } elseif (!class_exists($cls)) {
-            throw new \InvalidArgumentException("Class $cls does not exist");
-        }
-
-        if ($cls === __CLASS__) {
-            $cls = $this;
-        }
-
-        return call_user_func_array(array($cls, $method), $args);
     }
 
     /**
