@@ -64,7 +64,7 @@ class Extend extends BackendBase
      *
      * @return null|\Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function before(Request $request, Silex\Application $app)
+    public function before(Request $request, Silex\Application $app, $roleRoute = null)
     {
         // This disallows extensions from adding any extra snippets to the output
         if ($request->get('_route') !== 'extend') {

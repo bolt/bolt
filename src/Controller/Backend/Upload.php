@@ -29,36 +29,6 @@ class Upload extends BackendBase
     }
 
     /**
-     * Middleware function to check whether a user is logged on.
-     *
-     * @param Request     $request The Symfony Request
-     * @param Application $app     The application/container
-     *
-     * @return null|\Symfony\Component\HttpFoundation\RedirectResponse
-     */
-    public function before(Request $request, Application $app)
-    {
-        // Start the 'stopwatch' for the profiler.
-        $app['stopwatch']->start('bolt.backend.before');
-
-        // If there's no active session, don't do anything.
-        if (!$app['authentication']->isValidSession()) {
-            $app->abort(Response::HTTP_NOT_FOUND, 'You must be logged in to use this.');
-        }
-
-        if (!$app['users']->isAllowed('files:uploads')) {
-            $this->addFlash('error', Trans::__('You do not have the right privileges to upload.'));
-
-            return $this->redirectToRoute('dashboard');
-        }
-
-        // Stop the 'stopwatch' for the profiler.
-        $app['stopwatch']->stop('bolt.backend.before');
-
-        return null;
-    }
-
-    /**
      * Route to handle file uploads.
      *
      * @param Request $request
