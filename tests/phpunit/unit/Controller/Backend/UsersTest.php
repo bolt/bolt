@@ -1,7 +1,7 @@
 <?php
 namespace Bolt\Tests\Controller\Backend;
 
-use Bolt\Permissions;
+use Bolt\AccessControl\Permissions;
 use Bolt\Tests\Controller\ControllerUnitTest;
 use Bolt\Users;
 use Symfony\Component\Form\Form;
@@ -36,7 +36,7 @@ class UsersTest extends ControllerUnitTest
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
 
         // Now we allow the permsission check to return true
-        $perms = $this->getMock('Bolt\Permissions', array('isAllowedToManipulate'), array($this->getApp()));
+        $perms = $this->getMock('Bolt\AccessControl\Permissions', array('isAllowedToManipulate'), array($this->getApp()));
         $perms->expects($this->any())
             ->method('isAllowedToManipulate')
             ->will($this->returnValue(true));
@@ -60,7 +60,7 @@ class UsersTest extends ControllerUnitTest
         $user = $this->getService('users')->getUser(1);
         $this->getService('users')->currentuser = $user;
 
-        $perms = $this->getMock('Bolt\Permissions', array('isAllowedToManipulate'), array($this->getApp()));
+        $perms = $this->getMock('Bolt\AccessControl\Permissions', array('isAllowedToManipulate'), array($this->getApp()));
         $perms->expects($this->any())
             ->method('isAllowedToManipulate')
             ->will($this->returnValue(true));
@@ -216,7 +216,7 @@ class UsersTest extends ControllerUnitTest
         $this->addNewUser($this->getApp(), 'editor', 'Editor', 'editor');
         $editor = $this->getService('users')->getUser('editor');
 
-        $perms = $this->getMock('Bolt\Permissions', array('isAllowedToManipulate'), array($this->getApp()));
+        $perms = $this->getMock('Bolt\AccessControl\Permissions', array('isAllowedToManipulate'), array($this->getApp()));
         $perms->expects($this->any())
             ->method('isAllowedToManipulate')
             ->will($this->returnValue(false));
@@ -313,7 +313,7 @@ class UsersTest extends ControllerUnitTest
         $user = $this->getService('users')->getUser(1);
         $this->getService('users')->currentuser = $user;
 
-        $perms = $this->getMock('Bolt\Permissions', array('isAllowedToManipulate'), array($this->getApp()));
+        $perms = $this->getMock('Bolt\AccessControl\Permissions', array('isAllowedToManipulate'), array($this->getApp()));
         $perms->expects($this->any())
             ->method('isAllowedToManipulate')
             ->will($this->returnValue(true));
