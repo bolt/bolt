@@ -2,7 +2,7 @@
 
 namespace Bolt\Tests;
 
-use Bolt\PermissionParser;
+use Bolt\AccessControl\PermissionParser;
 
 class PermissionParserTest extends \PHPUnit_Framework_TestCase
 {
