@@ -423,6 +423,10 @@ class Users
      */
     public function getCurrentUser()
     {
+        if (is_null($this->currentuser) && $currentuser = $this->app['session']->get('user')) {
+            $this->currentuser = $currentuser;
+        }
+
         return $this->currentuser;
     }
 
@@ -433,7 +437,9 @@ class Users
      */
     public function getCurrentUserProperty($property)
     {
-        return $this->currentuser[$property];
+        $currentuser = $this->getCurrentUser();
+
+        return $currentuser[$property];
     }
 
     /**
@@ -449,11 +455,13 @@ class Users
     /**
      * Get the username of the current user.
      *
+     * @deprecated since v2.3 and to be removed in v3
+     *
      * @return string the username of the current user.
      */
     public function getCurrentUsername()
     {
-        return $this->currentuser['username'];
+        return $this->getCurrentUserProperty('username');
     }
 
     /**

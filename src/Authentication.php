@@ -81,9 +81,8 @@ class Authentication
      */
     public function checkValidSession()
     {
-        if ($this->app['session']->get('user')) {
-            $this->app['users']->setCurrentUser($this->app['session']->get('user'));
-            $currentuser = $this->app['users']->getCurrentUser();
+        if ($currentuser = $this->app['session']->get('user')) {
+            $this->app['users']->setCurrentUser($currentuser);
 
             if ($database = $this->app['users']->getUser($currentuser['id'])) {
                 // Update the session with the user from the database.
