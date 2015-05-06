@@ -156,35 +156,6 @@ class AuthenticationTest extends ControllerUnitTest
         $this->assertRegExp('|Redirecting to /bolt/login|', $response->getContent());
     }
 
-    public function testDashboardWithoutPermissionRedirectsToHomepage()
-    {
-        $authentication = $this->getMock('Bolt\AccessControl\Authentication', array('isValidSession'), array($this->getApp()));
-        $authentication->expects($this->any())
-            ->method('isValidSession')
-            ->will($this->returnValue(false));
-        $this->setService('authentication', $authentication);
-
-        $users = $this->getMock('Bolt\Users', array('hasUsers'), array($this->getApp()));
-        $users->expects($this->any())
-            ->method('hasUsers')
-            ->will($this->returnValue(5));
-        $this->setService('users', $users);
-
-        $this->getService('users')->currentuser = array(
-            'id'          => 1555,
-            'username'    => 'clippy',
-            'email'       => 'clippy@example.com',
-            'roles'       => array(),
-        );
-
-        $this->getService('config')->set('permissions/global/dashboard', array());
-
-        $this->setRequest(Request::create('/bolt'));
-        $response = $this->getService('controller.backend.general')->actionDashboard($this->getRequest());
-
-        $this->assertTrue($response->isRedirect('/'), 'Failed to redirect to homepage');
-    }
-
     /**
      * @return \Bolt\Controller\Backend\Authentication
      */

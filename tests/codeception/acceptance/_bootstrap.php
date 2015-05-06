@@ -33,6 +33,12 @@ Fixtures::add('users', [
         'password'    => '~n0Tne1k&nGu3$$',
         'email'       => 'developer@example.com',
         'displayname' => 'Developer Person'
+    ],
+    'lemmings' => [
+        'username'    => 'lemmings',
+        'password'    => 'MikeDaillyDavidJones',
+        'email'       => 'lemmings@example.com',
+        'displayname' => 'Lemmings Person'
     ]
 ]);
 

@@ -56,7 +56,7 @@ class BackendAdminCest
      */
     public function createEditorTest(\AcceptanceTester $I)
     {
-        $I->wantTo("Create a 'editor' user");
+        $I->wantTo("Create an 'editor' user");
 
         // Set up the browser
         $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
@@ -149,6 +149,40 @@ class BackendAdminCest
 
         // Save is successful?
         $I->see("User {$this->user['developer']['displayname']} has been saved");
+    }
+
+    /**
+     * Create a 'Lemmings' user with the 'admin' role… until they cliff appears!
+     *
+     * @param \AcceptanceTester $I
+     */
+    public function createLemmingsTest(\AcceptanceTester $I)
+    {
+        $I->wantTo("Create a 'lemmings' user");
+
+        // Set up the browser
+        $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
+        $I->setCookie('bolt_session', $this->cookies['bolt_session']);
+        $I->amOnPage('bolt/users');
+
+        $I->click('Add a new user', Locator::href('/bolt/users/edit/'));
+        $I->see('Create a new user account');
+
+        // Fill in form
+        $I->fillField('form[username]',              $this->user['lemmings']['username']);
+        $I->fillField('form[password]',              $this->user['lemmings']['password']);
+        $I->fillField('form[password_confirmation]', $this->user['lemmings']['password']);
+        $I->fillField('form[email]',                 $this->user['lemmings']['email']);
+        $I->fillField('form[displayname]',           $this->user['lemmings']['displayname']);
+
+        // Add the "admin" role
+        $I->checkOption('#form_roles_2');
+
+        // Submit
+        $I->click('input[type=submit]');
+
+        // Save is successful?
+        $I->see("User {$this->user['lemmings']['displayname']} has been saved");
     }
 
     /**
