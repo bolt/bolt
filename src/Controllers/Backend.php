@@ -2173,6 +2173,11 @@ class Backend implements ControllerProviderInterface
                         $form['username']->addError(new FormError(Trans::__('page.edit-users.error.username-used')));
                     }
                 }
+                
+                // Issue 3491 : Password must be different from username
+                if ($pass1 == $form['username']->getData()) {
+                    $form['password']->addError(new FormError(Trans::__('page.edit-users.error.password-different')));
+                }
 
                 // Email addresses must be unique.
                 if (!$app['users']->checkAvailability('email', $form['email']->getData(), $id)) {
