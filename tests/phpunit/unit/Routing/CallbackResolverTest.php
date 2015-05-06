@@ -67,6 +67,17 @@ class CallbackResolverTest extends BoltUnitTest
         $this->assertNotCallable($callback);
     }
 
+    public function testStringWithParams()
+    {
+        $arr = array('Bolt\Tests\Routing\TestClass::withParams', array('bolt'));
+        // True because it is needs to be converted
+        $this->assertTrue($this->resolver()->isValid($arr));
+
+        $callback = $this->resolver()->resolveCallback($arr);
+        $this->assertCallable($callback);
+        $this->assertSame('bolt', call_user_func($callback));
+    }
+
     public function testArrayInClassMap()
     {
         $test = new TestClass();
@@ -89,6 +100,7 @@ class CallbackResolverTest extends BoltUnitTest
         $callback = $this->resolver()->resolveCallback($arr);
         $this->assertCallback($callback);
     }
+
     public function testArrayNotInClassMapAndStatic()
     {
         $arr = array('Bolt\Tests\Routing\TestClass', 'staticFoo');
@@ -107,6 +119,17 @@ class CallbackResolverTest extends BoltUnitTest
 
         $callback = $this->resolver()->resolveCallback($arr);
         $this->assertNotCallable($callback);
+    }
+
+    public function testArrayWithParams()
+    {
+        $arr = array(array('Bolt\Tests\Routing\TestClass', 'withParams'), array('bolt'));
+        // True because it is needs to be converted
+        $this->assertTrue($this->resolver()->isValid($arr));
+
+        $callback = $this->resolver()->resolveCallback($arr);
+        $this->assertCallable($callback);
+        $this->assertSame('bolt', call_user_func($callback));
     }
 
     public function testArrayWithObject()
@@ -176,5 +199,10 @@ class TestClass
     public static function staticFoo()
     {
         return true;
+    }
+
+    public function withParams($param)
+    {
+        return $param;
     }
 }

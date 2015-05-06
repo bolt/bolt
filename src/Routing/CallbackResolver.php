@@ -44,6 +44,9 @@ class CallbackResolver extends \Silex\CallbackResolver
             if (is_object($cls)) {
                 return false; // No need to convert
             }
+            if (is_array($method)) {
+                return true; // Need to convert
+            }
         } elseif (is_string($name) && strpos($name, '::') > 0) {
             list($cls, $method) = explode('::', $name);
         } else {
@@ -81,6 +84,13 @@ class CallbackResolver extends \Silex\CallbackResolver
     {
         if (is_array($name)) {
             list($cls, $method) = $name;
+            if (is_array($method)) {
+                $params = $method;
+                $callback = $this->resolveCallback($cls);
+                return function () use ($callback, $params) {
+                    return call_user_func_array($callback, $params);
+                };
+            }
         } elseif (strpos($name, '::') > 0) {
             $parts = explode('::', $name);
             $cls = reset($parts);
