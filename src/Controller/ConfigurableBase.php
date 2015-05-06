@@ -152,8 +152,9 @@ abstract class ConfigurableBase extends Base
         $callbackResolver = $this->callbackResolver;
         return function (Request $request) use ($callback, $callbackResolver) {
             if (!substr($callback, 0, 2) === '::') {
-                return $callback;
+                return $callbackResolver->resolveCallback($callback);
             }
+
             $controller = $callbackResolver->resolveCallback($request->attributes->get('_controller'));
             if (is_array($controller)) {
                 list($cls, $_) = $controller;
@@ -163,6 +164,7 @@ abstract class ConfigurableBase extends Base
                 return null;
             }
             $callback = array($cls, substr($callback, 2));
+            $callback = $callbackResolver->resolveCallback($callback);
             return $callback;
         };
     }
