@@ -41,6 +41,7 @@ class FrontendCest
         $I->see('Recent Showcases');
         $I->dontSee('Recent Resources');
 
+        $I->see('A Page I Made', 'h1');
         $I->see('Built with Bolt, tested with Codeception', 'footer');
     }
 
