@@ -893,6 +893,7 @@ class BackendTest extends BoltUnitTest
                 'form' => array(
                     'id'                    => 1,
                     'email'                 => $user['email'],
+                    'username'              => 'admin',
                     'password'              => '',
                     'password_confirmation' => '',
                     'displayname'           => "Admin Test",
