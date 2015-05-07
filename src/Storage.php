@@ -1633,11 +1633,27 @@ class Storage
      */
     protected function executeGetContentSearch($decoded, $parameters)
     {
+        $limit = 2000;
+        $offset = 0;
+
+        // set correct limit and offset if these are set.
+        if ($limit) {
+            if( isset($decoded['parameters']['limit']) ) {
+                $limit = $decoded['parameters']['limit'];
+            }
+
+            if ($decoded['parameters']['paging'] === true && isset($decoded['parameters']['page'])) {
+                // Pagenumbers are one-based, not zero-based.
+                $offset = $limit * ($decoded['parameters']['page'] - 1);
+            }
+        }
+
         $results = $this->searchContent(
             $parameters['filter'],
             $decoded['contenttypes'],
             null,
-            isset($decoded['parameters']['limit']) ? $decoded['parameters']['limit'] : 2000
+            $limit,
+            $offset
         );
 
         return array(
