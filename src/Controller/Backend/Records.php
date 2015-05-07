@@ -437,9 +437,9 @@ class Records extends BackendBase
             $returnto = $this->app['request']->get('returnto');
 
             if ($returnto === 'new') {
-                return $this->redirectToRoute('editcontent', array('contenttypeslug' => $contenttype['slug'], 'id' => $id), '#' . $this->app['request']->get('returnto'));
+                return $this->redirectToRoute('editcontent', array('contenttypeslug' => $contenttype['slug'], 'id' => $id));
             } elseif ($returnto == 'saveandnew') {
-                return $this->redirectToRoute('editcontent', array('contenttypeslug' => $contenttype['slug'], 'id' => 0), '#' . $this->app['request']->get('returnto'));
+                return $this->redirectToRoute('editcontent', array('contenttypeslug' => $contenttype['slug']));
             } elseif ($returnto === 'ajax') {
                 return $this->createJsonUpdate($contenttype, $id);
             }
