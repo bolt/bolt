@@ -1637,15 +1637,13 @@ class Storage
         $offset = 0;
 
         // set correct limit and offset if these are set.
-        if ($limit) {
-            if( isset($decoded['parameters']['limit']) ) {
-                $limit = $decoded['parameters']['limit'];
-            }
+        if( isset($decoded['parameters']['limit']) ) {
+            $limit = $decoded['parameters']['limit'];
+        }
 
-            if ($decoded['parameters']['paging'] === true && isset($decoded['parameters']['page'])) {
-                // Pagenumbers are one-based, not zero-based.
-                $offset = $limit * ($decoded['parameters']['page'] - 1);
-            }
+        if ($decoded['parameters']['paging'] === true && isset($decoded['parameters']['page'])) {
+            // Pagenumbers are one-based, not zero-based.
+            $offset = $limit * ($decoded['parameters']['page'] - 1);
         }
 
         $results = $this->searchContent(
