@@ -45,6 +45,12 @@ class RoutingServiceProvider implements ServiceProviderInterface
             }
             return $route;
         });
+
+        $app['url_generator.lazy'] = $app->share(function ($app) {
+            return new LazyUrlGenerator(function () use ($app) {
+                return $app['url_generator'];
+            });
+        });
     }
 
     public function boot(Application $app)
@@ -55,10 +61,7 @@ class RoutingServiceProvider implements ServiceProviderInterface
          * RedirectListener doesn't use the url generator until kernel.response
          * (way after controllers have been added).
          */
-        $urlGenerator = new LazyUrlGenerator(function () use ($app) {
-            return $app['url_generator'];
-        });
-        $app['dispatcher']->addSubscriber(new RedirectListener($app['session'], $urlGenerator, $app['users'], $app['authentication']));
+        $app['dispatcher']->addSubscriber(new RedirectListener($app['session'], $app['url_generator.lazy'], $app['users'], $app['authentication']));
 
         if ($proxies = $app['config']->get('general/trustProxies')) {
             Request::setTrustedProxies($proxies);

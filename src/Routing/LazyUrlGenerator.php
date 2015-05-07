@@ -13,13 +13,29 @@ use Symfony\Component\Routing\RequestContext;
  */
 class LazyUrlGenerator implements UrlGeneratorInterface
 {
+    /**
+     * @var \Closure
+     */
     private $factory;
 
+    /**
+     * @var UrlGeneratorInterface
+     */
+    private $urlGenerator;
+
+    /**
+     * LazyUrlGenerator constructor.
+     *
+     * @param \Closure $factory Should return UrlGeneratorInterface when invoked
+     */
     public function __construct(\Closure $factory)
     {
         $this->factory = $factory;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function setContext(RequestContext $context)
     {
         $this->getUrlGenerator()->setContext($context);
@@ -30,19 +46,27 @@ class LazyUrlGenerator implements UrlGeneratorInterface
      */
     public function getUrlGenerator()
     {
-        $urlGenerator = call_user_func($this->factory);
-        if (!$urlGenerator instanceof UrlGeneratorInterface) {
-            throw new \LogicException('Factory supplied to LazyUrlGenerator must return implementation of UrlGeneratorInterface.');
+        if (!$this->urlGenerator) {
+            $this->urlGenerator = call_user_func($this->factory);
+            if (!$this->urlGenerator instanceof UrlGeneratorInterface) {
+                throw new \LogicException('Factory supplied to LazyUrlGenerator must return implementation of UrlGeneratorInterface.');
+            }
         }
 
-        return $urlGenerator;
+        return $this->urlGenerator;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getContext()
     {
         return $this->getUrlGenerator()->getContext();
     }
 
+    /**
+     * @inheritdoc
+     */
     public function generate($name, $parameters = array(), $referenceType = self::ABSOLUTE_PATH)
     {
         return $this->getUrlGenerator()->generate($name, $parameters, $referenceType);
