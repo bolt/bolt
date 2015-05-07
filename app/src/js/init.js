@@ -44,8 +44,37 @@ var init = {
      */
     bindEditFile: function (data) {
         $('#saveeditfile').bind('click', function (e) {
-            // Reset the handler for checking changes to the form.
-            window.onbeforeunload = null;
+
+            // @todo: test on mobile if this works correctly..
+            $('#form_contents').val(editor.getValue());
+
+            // Ping @rarila: How the heck would I get bolt.data('editcontent.msg.saving') here?
+            var saving = "Saving …",
+                savedon = $('p.lastsaved').html(),
+                msgNotSaved = "Not saved";
+
+            // Disable the buttons, to indicate stuff is being done.
+            $('#saveeditfile').addClass('disabled');
+            $('#saveeditfile i').addClass('fa-spin fa-spinner');
+            $('p.lastsaved').text(saving);
+
+            $.post('?returnto=ajax', $('#editfile').serialize())
+                .done(function (data) {
+                    if (!data.ok) {
+                        alert(data.msg);
+                    }
+                    $('p.lastsaved').html(data.msg);
+                })
+                .fail(function(){
+                    alert(msgNotSaved);
+                })
+                .always(function(){
+                    // Re-enable buttons
+                    window.setTimeout(function(){
+                        $('#saveeditfile').removeClass('disabled').blur();
+                        $('#saveeditfile i').removeClass('fa-spin fa-spinner');
+                    }, 300);
+                });
         });
 
         var editor = CodeMirror.fromTextArea(document.getElementById('form_contents'), {

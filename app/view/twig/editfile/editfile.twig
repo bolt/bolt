@@ -13,6 +13,10 @@
     {% import '_macro/_macro.twig' as macro %}
     {% from '_macro/_files_path.twig' import files_path %}
 
+    {{ data('editcontent.msg', {
+        'change_quit': __('You have unfinished changes on this page. If you continue without saving, you will lose these changes.'),
+        'saving':      __('Saving …')
+    }) }}
 
     {% set attr_text = {
         _bind:     ismobileclient() ? '' : ['editfile', {readonly: context.write_allowed ? false : true}],
@@ -28,7 +32,7 @@
             {{ files_path(context.pathsegments, context.namespace, {'path': '', 'namespace': context.namespace}) }}
 
 
-            <form method="post" class="form-inline" autocomplete="off">
+            <form method="post" class="form-inline" id="editfile" autocomplete="off">
                 {{ form_widget(context.form._token) }}
 
                 <div>
@@ -36,7 +40,7 @@
                 </div>
 
                 <div>
-                    <button type="submit" id="saveeditfile" class="btn btn-primary" {% if not context.write_allowed %}disabled{% endif %}>
+                    <button type="button" id="saveeditfile" class="btn btn-primary" {% if not context.write_allowed %}disabled{% endif %}>
                         <i class="fa fa-flag"></i> {{ __('page.edit-file.button.save') }}
                     </button>
                     <a class="btn btn-default confirm {% if not context.write_allowed %}disabled{% endif %}" style="margin-left: 24px;"
@@ -57,6 +61,13 @@
                     {% endif %}
                   </div>
                 </div>
+
+            <p class='lastsaved' style='padding-top: 12px;'>
+                {{ __('Saved on:') }}
+                <strong>{{ context.datechanged|localdate("%b %e, %H:%M") }}</strong>
+                <small>({{ macro.datetime(context.datechanged) }})</small>
+            </p>
+
             </form>
         </div>
     </div>
