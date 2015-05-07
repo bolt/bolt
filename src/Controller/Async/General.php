@@ -26,10 +26,6 @@ class General extends AsyncBase
         $c->get('/dashboardnews', 'actionDashboardNews')
             ->bind('dashboardnews');
 
-        $c->get('/email/{type}/{recipient}', 'actionEmailNotification')
-            ->assert('type', '.*')
-            ->bind('emailNotification');
-
         $c->get('/lastmodified/{contenttypeslug}/{contentid}', 'actionLastModified')
             ->value('contentid', '')
             ->bind('lastmodified');
@@ -109,44 +105,6 @@ class General extends AsyncBase
     }
 
     /**
-     * Send an e-mail ping test.
-     *
-     * @param Request $request
-     * @param string  $type
-     *
-     * @return Response
-     */
-    public function actionEmailNotification(Request $request, $type)
-    {
-        $user = $this->getUsers()->getCurrentUser();
-
-        // Create an email
-        $mailhtml = $this->render(
-            'email/pingtest.twig',
-            array(
-                'sitename' => $this->getOption('general/sitename'),
-                'user'     => $user['displayname'],
-                'ip'       => $request->getClientIp()
-            )
-        )->getContent();
-
-        $senderMail = $this->getOption('general/mailoptions/senderMail', 'bolt@' . $request->getHost());
-        $senderName = $this->getOption('general/mailoptions/senderName', $this->getOption('general/sitename'));
-
-        $message = $this->app['mailer']
-            ->createMessage('message')
-            ->setSubject('Test email from ' . $this->getOption('general/sitename'))
-            ->setFrom(array($senderMail  => $senderName))
-            ->setTo(array($user['email'] => $user['displayname']))
-            ->setBody(strip_tags($mailhtml))
-            ->addPart($mailhtml, 'text/html');
-
-        $this->app['mailer']->send($message);
-
-        return new Response('Done', Response::HTTP_OK);
-    }
-
-    /**
      * Latest {contenttype} to show a small listing in the sidebars.
      *
      * @param string       $contenttypeslug
@@ -186,7 +144,7 @@ class General extends AsyncBase
     }
 
     /**
-     * Generate a URI based on request parmaeters
+     * Generate a URI based on request parameters
      *
      * @param Request $request
      *

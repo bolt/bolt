@@ -65,6 +65,9 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
         $app['controller.async.stack'] = $app->share(function () {
             return new Controller\Async\Stack();
         });
+        $app['controller.async.system_tests'] = $app->share(function () {
+            return new Controller\Async\SystemTests();
+        });
 
         $app['controller.frontend'] = $app->share(function () {
             return new Controller\Frontend();
@@ -115,7 +118,8 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
         $controllerKeys = array(
             'async.general',
             'async.filesystem_manager',
-            'async.stack'
+            'async.stack',
+            'async.system_tests',
         );
         foreach ($controllerKeys as $controller) {
             $event->mount('/async', $app['controller.' . $controller]);
