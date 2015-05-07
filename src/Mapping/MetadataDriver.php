@@ -176,15 +176,8 @@ class MetadataDriver implements MappingDriver
 
         // This loop checks the contenttypes definition for any non-db fields and adds them.
         if ($contentKey) {
-            foreach ($this->contenttypes[$contentKey]['fields'] as $col => $val) {
-                if (! isset($this->metadata[$className]['fields'][$col])) {
-                    $mapping['fieldname'] = $col;
-                    $mapping['type'] = 'null';
-                    $mapping['fieldtype'] = $this->typemap[$val['type']];
-                    $this->metadata[$className]['fields'][$col] = $mapping;
-                    $this->metadata[$className]['fields'][$col]['data'] = $this->contenttypes[$contentKey]['fields'][$col];
-                }
-            }
+            $this->setRelations($contentKey, $className);
+            $this->setTaxonomies($contentKey, $className);
         }
         
         foreach ($this->getAliases() as $alias=>$table) {
@@ -192,6 +185,26 @@ class MetadataDriver implements MappingDriver
                 $this->metadata[$alias] = $this->metadata[$table];
             }
         }
+        
+    }
+    
+    public function setRelations($contentKey, $className)
+    {
+        foreach ($this->contenttypes[$contentKey]['relations'] as $key => $data) {
+            if (isset($data['alias'])) {
+                $relationKey = $data['alias'];
+            } else {
+                $relationKey = $key;
+            }
+            $mapping['fieldname'] = $relationKey;
+            $mapping['type'] = 'relation';
+            $this->metadata[$className]['fields'][$relationKey] = $mapping;
+            $this->metadata[$className]['fields'][$relationKey]['data'] = $data;
+        }
+    }
+    
+    public function setTaxonomies($contentKey)
+    {
         
     }
 
