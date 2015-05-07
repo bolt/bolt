@@ -294,9 +294,10 @@ class UsersTest extends ControllerUnitTest
             array(
                 'form' => array(
                     'id'                    => 1,
-                    'email'                 => $user['email'],
+                    'username'              => 'admin',
                     'password'              => '',
                     'password_confirmation' => '',
+                    'email'                 => $user['email'],
                     'displayname'           => "Admin Test",
                     '_token'                => 'xyz'
                 )
