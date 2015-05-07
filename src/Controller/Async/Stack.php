@@ -2,24 +2,24 @@
 namespace Bolt\Controller\Async;
 
 use Bolt\Response\BoltResponse;
-use Silex;
+use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Async controller for general async routes.
+ * Async controller for Stack async routes.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  * @author Carson Full <carsonfull@gmail.com>
  */
 class Stack extends AsyncBase
 {
-    protected function addRoutes(Silex\ControllerCollection $ctr)
+    protected function addRoutes(ControllerCollection $c)
     {
-        $ctr->get('/addstack/{filename}', 'actionAddStack')
+        $c->get('/addstack/{filename}', 'actionAddStack')
             ->assert('filename', '.*')
             ->bind('addstack');
 
-        $ctr->get('/showstack', 'actionShowStack')
+        $c->get('/showstack', 'actionShowStack')
             ->bind('showstack');
     }
 

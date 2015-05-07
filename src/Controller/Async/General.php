@@ -4,7 +4,7 @@ namespace Bolt\Controller\Async;
 use Bolt\Response\BoltResponse;
 use Guzzle\Http\Exception\RequestException as V3RequestException;
 use GuzzleHttp\Exception\RequestException;
-use Silex;
+use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -16,44 +16,44 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class General extends AsyncBase
 {
-    protected function addRoutes(Silex\ControllerCollection $ctr)
+    protected function addRoutes(ControllerCollection $c)
     {
-        $ctr->get('/changelog/{contenttype}/{contentid}', 'actionChangeLogRecord')
+        $c->get('/changelog/{contenttype}/{contentid}', 'actionChangeLogRecord')
             ->value('contenttype', '')
             ->value('contentid', '0')
             ->bind('changelogrecord');
 
-        $ctr->get('/dashboardnews', 'actionDashboardNews')
+        $c->get('/dashboardnews', 'actionDashboardNews')
             ->bind('dashboardnews');
 
-        $ctr->get('/email/{type}/{recipient}', 'actionEmailNotification')
+        $c->get('/email/{type}/{recipient}', 'actionEmailNotification')
             ->assert('type', '.*')
             ->bind('emailNotification');
 
-        $ctr->get('/lastmodified/{contenttypeslug}/{contentid}', 'actionLastModified')
+        $c->get('/lastmodified/{contenttypeslug}/{contentid}', 'actionLastModified')
             ->value('contentid', '')
             ->bind('lastmodified');
 
-        $ctr->get('/latestactivity', 'actionLatestActivity')
+        $c->get('/latestactivity', 'actionLatestActivity')
             ->bind('latestactivity');
 
-        $ctr->get('/makeuri', 'actionMakeUri')
+        $c->get('/makeuri', 'actionMakeUri')
             ->bind('makeuri');
 
-        $ctr->get('/omnisearch', 'actionOmnisearch')
+        $c->get('/omnisearch', 'actionOmnisearch')
             ->bind('omnisearch');
 
-        $ctr->get('/readme/{filename}', 'actionReadme')
+        $c->get('/readme/{filename}', 'actionReadme')
             ->assert('filename', '.+')
             ->bind('readme');
 
-        $ctr->get('/populartags/{taxonomytype}', 'actionPopularTags')
+        $c->get('/populartags/{taxonomytype}', 'actionPopularTags')
             ->bind('populartags');
 
-        $ctr->get('/tags/{taxonomytype}', 'actionTags')
+        $c->get('/tags/{taxonomytype}', 'actionTags')
             ->bind('tags');
 
-        $ctr->get('/widget/{key}', 'actionWidget')
+        $c->get('/widget/{key}', 'actionWidget')
             ->bind('widget');
     }
 

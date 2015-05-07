@@ -5,7 +5,7 @@ use Bolt\Translation\Translator as Trans;
 use Guzzle\Http\Exception\RequestException as V3RequestException;
 use GuzzleHttp\Exception\RequestException;
 use League\Flysystem\FileNotFoundException;
-use Silex;
+use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class FilesystemManager extends AsyncBase
 {
-    protected function addRoutes(Silex\ControllerCollection $ctr)
+    protected function addRoutes(ControllerCollection $ctr)
     {
         $ctr->get('/browse/{namespace}/{path}', 'actionBrowse')
             ->assert('path', '.*')
