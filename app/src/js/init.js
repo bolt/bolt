@@ -45,8 +45,10 @@ var init = {
     bindEditFile: function (data) {
         $('#saveeditfile').bind('click', function (e) {
 
-            // @todo: test on mobile if this works correctly..
-            $('#form_contents').val(editor.getValue());
+            // If not on mobile (i.e. Codemirror is present), copy back to the textarea.
+            if (typeof(CodeMirror) !== 'undefined') {
+                $('#form_contents').val(editor.getValue());
+            }
 
             // Ping @rarila: How the heck would I get bolt.data('editcontent.msg.saving') here?
             var saving = "Saving …",
@@ -77,21 +79,22 @@ var init = {
                 });
         });
 
-        var editor = CodeMirror.fromTextArea(document.getElementById('form_contents'), {
-            lineNumbers: true,
-            autofocus: true,
-            tabSize: 4,
-            indentUnit: 4,
-            indentWithTabs: false,
-            readOnly: data.readonly
-        });
-
-        var newheight = $(window).height() - 312;
-        if (newheight < 200) {
-            newheight = 200;
+        if (typeof(CodeMirror) !== 'undefined') {
+            var editor = CodeMirror.fromTextArea(document.getElementById('form_contents'), {
+                lineNumbers: true,
+                autofocus: true,
+                tabSize: 4,
+                indentUnit: 4,
+                indentWithTabs: false,
+                readOnly: data.readonly
+            });
+            var newheight = $(window).height() - 312;
+            if (newheight < 200) {
+                newheight = 200;
+            }
+            editor.setSize(null, newheight);
         }
 
-        editor.setSize(null, newheight);
     },
 
     /*

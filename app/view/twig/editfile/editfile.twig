@@ -19,12 +19,12 @@
     }) }}
 
     {% set attr_text = {
-        _bind:     ismobileclient() ? '' : ['editfile', {readonly: context.write_allowed ? false : true}],
+        _bind:     ['editfile', {readonly: context.write_allowed ? false : true}],
         class:     'CodeMirror-scroll',
         id:        'form_contents',
         name:      'form[contents]',
         required:  false,
-        style:     'width: 98%; min-height: 350px;',
+        style:     'width: 98%; min-height: 350px; white-space: pre; word-wrap: normal; overflow-x: scroll;',
     } %}
 
     <div class="row">
