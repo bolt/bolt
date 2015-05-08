@@ -34,10 +34,6 @@ class Log extends BackendBase
             ->bind('systemlog');
     }
 
-    /*
-     * Routes
-     */
-
     /**
      * Change log overview route.
      *

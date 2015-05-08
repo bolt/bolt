@@ -44,10 +44,6 @@ class Users extends BackendBase
             ->bind('roles');
     }
 
-    /*
-     * Routes
-     */
-
     /**
      * All users admin page.
      *
@@ -412,10 +408,6 @@ class Users extends BackendBase
         return $this->render('roles/roles.twig', $context);
     }
 
-    /*
-     * Helper functions
-     */
-
     /**
      * Create a user form with the form builder.
      *
@@ -504,8 +496,8 @@ class Users extends BackendBase
      *   * Email is unique
      *   * Displaynames are unique
      *
-     * @param \Symfony\Component\Form\FormBuilder $form
-     * @param boolean                             $addusername
+     * @param FormBuilder $form
+     * @param boolean     $addusername
      *
      * @return \Symfony\Component\Form\FormBuilder
      */
@@ -572,9 +564,9 @@ class Users extends BackendBase
     /**
      * Handle a POST from user edit or first user creation.
      *
-     * @param Request                     $request
-     * @param Symfony\Component\Form\Form $form      A Symfony form
-     * @param boolean                     $firstuser If this is a first user set up
+     * @param Request $request
+     * @param Form    $form      A Symfony form
+     * @param boolean $firstuser If this is a first user set up
      *
      * @return array|boolean An array of user elements, otherwise false
      */
