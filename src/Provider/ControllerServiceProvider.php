@@ -105,28 +105,28 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
 
         // Mount the standard collection of backend and controllers
         $prefix = $app['controller.backend.mount_prefix'];
-        $controllerKeys = array(
-            'backend.authentication',
-            'backend.database',
-            'backend.file_manager',
-            'backend.general',
-            'backend.log',
-            'backend.records',
-            'backend.users',
+        $backendKeys = array(
+            'authentication',
+            'database',
+            'file_manager',
+            'general',
+            'log',
+            'records',
+            'users',
         );
-        foreach ($controllerKeys as $controller) {
-            $event->mount($prefix, $app['controller.' . $controller]);
+        foreach ($backendKeys as $controller) {
+            $event->mount($prefix, $app['controller.backend.' . $controller]);
         }
 
         // Mount the Async controllers
-        $controllerKeys = array(
-            'async.general',
-            'async.filesystem_manager',
-            'async.stack',
-            'async.system_tests',
+        $asyncKeys = array(
+            'general',
+            'filesystem_manager',
+            'stack',
+            'system_tests',
         );
-        foreach ($controllerKeys as $controller) {
-            $event->mount('/async', $app['controller.' . $controller]);
+        foreach ($asyncKeys as $controller) {
+            $event->mount('/async', $app['controller.async.' . $controller]);
         }
 
         // Mount the Extend controller
