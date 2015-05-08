@@ -244,7 +244,7 @@ abstract class Base implements ControllerProviderInterface
     /**
      * Returns the Authentication object.
      *
-     * @return \Bolt\Authentication
+     * @return \Bolt\AccessControl\Authentication
      */
     protected function getAuthentication()
     {
