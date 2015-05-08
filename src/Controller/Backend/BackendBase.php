@@ -2,6 +2,7 @@
 namespace Bolt\Controller\Backend;
 
 use Bolt\Controller\Base;
+use Bolt\Controller\Zone;
 use Bolt\Translation\Translator as Trans;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,7 +17,7 @@ abstract class BackendBase extends Base
     public function connect(Application $app)
     {
         $c = parent::connect($app);
-        $c->value('end', 'backend'); // For now
+        $c->value(Zone::KEY, Zone::BACKEND);
 
         $c->before(array($this, 'before'));
 

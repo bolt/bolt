@@ -2,6 +2,7 @@
 namespace Bolt\Controller\Async;
 
 use Bolt\Controller\Base;
+use Bolt\Controller\Zone;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,7 +18,7 @@ abstract class AsyncBase extends Base
     public function connect(Application $app)
     {
         $c = parent::connect($app);
-        $c->value('end', 'async'); // For now
+        $c->value(Zone::KEY, Zone::ASYNC);
 
         $c->before(array($this, 'before'));
 

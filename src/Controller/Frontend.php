@@ -7,6 +7,7 @@ use Bolt\Helpers\Input;
 use Bolt\Pager;
 use Bolt\Response\BoltResponse;
 use Bolt\Translation\Translator as Trans;
+use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,6 +27,12 @@ class Frontend extends ConfigurableBase
     protected function getConfigurationRoutes()
     {
         return $this->app['config']->get('routing', array());
+    }
+
+    protected function addRoutes(ControllerCollection $c)
+    {
+        $c->value(Zone::KEY, Zone::FRONTEND);
+        parent::addRoutes($c);
     }
 
     /**
