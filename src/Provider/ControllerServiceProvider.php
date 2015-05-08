@@ -56,6 +56,8 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
             return new Controller\Backend\Users();
         });
 
+        $app['controller.async.mount_prefix'] = '/async';
+
         $app['controller.async.general'] = $app->share(function () {
             return new Controller\Async\General();
         });
@@ -119,6 +121,7 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
         }
 
         // Mount the Async controllers
+        $prefix = $app['controller.async.mount_prefix'];
         $asyncKeys = array(
             'general',
             'filesystem_manager',
@@ -126,7 +129,7 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
             'system_tests',
         );
         foreach ($asyncKeys as $controller) {
-            $event->mount('/async', $app['controller.async.' . $controller]);
+            $event->mount($prefix, $app['controller.async.' . $controller]);
         }
 
         // Mount the Extend controller
