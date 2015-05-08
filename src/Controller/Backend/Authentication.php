@@ -64,38 +64,10 @@ class Authentication extends BackendBase
         $password = $request->request->get('password');
         switch ($request->get('action')) {
             case 'login':
-                // Log in, if credentials are correct.
-                $token = $this->getAuthentication()->login($username, $password);
-
-                if ($token === false) {
-                    return $this->actionGetLogin($request);
-                }
-
-                $this->app['logger.system']->info('Logged in: ' . $username, array('event' => 'authentication'));
-                $retreat = $this->getSession()->get('retreat', array('route' => 'dashboard', 'params' => array()));
-                $response = $this->redirectToRoute($retreat['route'], $retreat['params']);
-                $response->headers->setCookie(new Cookie(
-                    'bolt_authtoken',
-                    $token,
-                    time() + $this->getOption('general/cookies_lifetime'),
-                    '/',
-                    $this->getOption('general/cookies_domain'),
-                    $this->getOption('general/enforce_ssl'),
-                    true
-                ));
-
-                return $response;
+                return $this->handlePostLogin($request, $username, $password);
 
             case 'reset':
-                // Send a password request mail, if username exists.
-                if (empty($username)) {
-                    $this->addFlash('error', Trans::__('Please provide a username'));
-                } else {
-                    $this->getAuthentication()->resetPasswordRequest($username);
-                    return $this->redirectToRoute('login');
-                }
-
-                return $this->actionGetLogin($request);
+                return $this->handlePostReset($request, $username);
         }
         // Let's not disclose any internal information.
         $this->abort(Response::HTTP_BAD_REQUEST, 'Invalid request');
@@ -132,5 +104,60 @@ class Authentication extends BackendBase
         $this->getAuthentication()->resetPasswordConfirm($request->get('token'));
 
         return $this->redirectToRoute('login');
+    }
+
+    /**
+     * Handle a login POST.
+     *
+     * @param Request $request
+     * @param string  $username
+     * @param string  $password
+     *
+     * @return RedirectResponse
+     */
+    private function handlePostLogin(Request $request, $username, $password)
+    {
+        $token = $this->getAuthentication()->login($username, $password);
+
+        if ($token === false) {
+            return $this->actionGetLogin($request);
+        }
+
+        // Log in, if credentials are correct.
+        $this->app['logger.system']->info('Logged in: ' . $username, array('event' => 'authentication'));
+        $retreat = $this->getSession()->get('retreat', array('route' => 'dashboard', 'params' => array()));
+        $response = $this->redirectToRoute($retreat['route'], $retreat['params']);
+        $response->headers->setCookie(new Cookie(
+            'bolt_authtoken',
+            $token,
+            time() + $this->getOption('general/cookies_lifetime'),
+            '/',
+            $this->getOption('general/cookies_domain'),
+            $this->getOption('general/enforce_ssl'),
+            true
+        ));
+
+        return $response;
+    }
+
+    /**
+     * Handle a password reset POST.
+     *
+     * @param Request $request
+     * @param string  $username
+     *
+     * @return RedirectResponse
+     */
+    private function handlePostReset(Request $request, $username)
+    {
+        // Send a password request mail, if username exists.
+        if (empty($username)) {
+            $this->addFlash('error', Trans::__('Please provide a username'));
+        } else {
+            $this->getAuthentication()->resetPasswordRequest($username);
+            return $this->redirectToRoute('login');
+        }
+
+        return $this->actionGetLogin($request);
     }
 }
