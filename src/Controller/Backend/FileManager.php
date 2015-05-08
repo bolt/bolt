@@ -317,57 +317,71 @@ class FileManager extends BackendBase
     private function handleUpload(Request $request, Form $form, $namespace, $path)
     {
         $form->submit($request);
-        if ($form->isValid()) {
-            $files = $request->files->get($form->getName());
-            $files = $files['FileUpload'];
+        if (!$form->isValid()) {
+            $this->addFlash('error', Trans::__('Files could not be uploaded.'));
 
-            foreach ($files as $fileToProcess) {
-                $fileToProcess = array(
-                    'name'     => $fileToProcess->getClientOriginalName(),
-                    'tmp_name' => $fileToProcess->getPathName()
-                );
+            return;
+        }
 
-                $originalFilename = $fileToProcess['name'];
-                $filename = preg_replace('/[^a-zA-Z0-9_\\.]/', '_', basename($originalFilename));
+        $files = $request->files->get($form->getName());
+        $files = $files['FileUpload'];
 
-                if ($this->app['filepermissions']->allowedUpload($filename)) {
-                    $this->app['upload.namespace'] = $namespace;
-                    $handler = $this->app['upload'];
-                    $handler->setPrefix($path . '/');
-                    $result = $handler->process($fileToProcess);
-
-                    if ($result->isValid()) {
-                        $this->addFlash(
-                            'info',
-                            Trans::__("File '%file%' was uploaded successfully.", array('%file%' => $filename))
-                        );
-
-                        // Add the file to our stack.
-                        $this->app['stack']->add($path . '/' . $filename);
-                        $result->confirm();
-                    } else {
-                        foreach ($result->getMessages() as $message) {
-                            $this->addFlash('error', (string) $message);
-                        }
-                    }
-                } else {
-                    $extensionList = array();
-                    foreach ($this->app['filepermissions']->getAllowedUploadExtensions() as $extension) {
-                        $extensionList[] = '<code>.' . htmlspecialchars($extension, ENT_QUOTES) . '</code>';
-                    }
-                    $extensionList = implode(' ', $extensionList);
-                    $this->addFlash(
-                        'error',
-                        Trans::__("File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:", array('%file%' => $filename))
-                        . $extensionList
-                    );
-                }
-            }
-        } else {
-            $this->addFlash(
-                'error',
-                Trans::__("File '%file%' could not be uploaded.", array('%file%' => $filename))
+        foreach ($files as $fileToProcess) {
+            $fileToProcess = array(
+                'name'     => $fileToProcess->getClientOriginalName(),
+                'tmp_name' => $fileToProcess->getPathName()
             );
+
+            $originalFilename = $fileToProcess['name'];
+            $filename = preg_replace('/[^a-zA-Z0-9_\\.]/', '_', basename($originalFilename));
+
+            if ($this->app['filepermissions']->allowedUpload($filename)) {
+                $this->processUpload($namespace, $path, $filename, $fileToProcess);
+            } else {
+                $extensionList = array();
+                foreach ($this->app['filepermissions']->getAllowedUploadExtensions() as $extension) {
+                    $extensionList[] = '<code>.' . htmlspecialchars($extension, ENT_QUOTES) . '</code>';
+                }
+                $extensionList = implode(' ', $extensionList);
+                $this->addFlash(
+                    'error',
+                    Trans::__("File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:", array('%file%' => $filename))
+                    . $extensionList
+                );
+            }
+        }
+    }
+
+    /**
+     * Process an individual file upload.
+     *
+     * @param string $namespace
+     * @param string $path
+     * @param string $filename
+     * @param array  $fileToProcess
+     *
+     * @return void
+     */
+    private function processUpload($namespace, $path, $filename, array $fileToProcess)
+    {
+        $this->app['upload.namespace'] = $namespace;
+        $handler = $this->app['upload'];
+        $handler->setPrefix($path . '/');
+        $result = $handler->process($fileToProcess);
+
+        if ($result->isValid()) {
+            $this->addFlash(
+                'info',
+                Trans::__("File '%file%' was uploaded successfully.", array('%file%' => $filename))
+            );
+
+            // Add the file to our stack.
+            $this->app['stack']->add($path . '/' . $filename);
+            $result->confirm();
+        } else {
+            foreach ($result->getMessages() as $message) {
+                $this->addFlash('error', (string) $message);
+            }
         }
     }
 }
