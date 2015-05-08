@@ -24,13 +24,6 @@ class FileManager extends BackendBase
 {
     protected function addRoutes(ControllerCollection $c)
     {
-        $c->match('/files/{namespace}/{path}', 'actionManage')
-            ->assert('namespace', '[^/]+')
-            ->assert('path', '.*')
-            ->value('namespace', 'files')
-            ->value('path', '')
-            ->bind('files');
-
         $c->match('/file/edit/{namespace}/{file}', 'actionEdit')
             ->assert('file', '.+')
             ->assert('namespace', '[^/]+')
@@ -41,11 +34,14 @@ class FileManager extends BackendBase
                     $response->headers->set('X-XSS-Protection', '0');
                 }
             });
-    }
 
-    /*
-     * Routes
-     */
+        $c->match('/files/{namespace}/{path}', 'actionManage')
+            ->assert('namespace', '[^/]+')
+            ->assert('path', '.*')
+            ->value('namespace', 'files')
+            ->value('path', '')
+            ->bind('files');
+    }
 
     /**
      * File editor.
@@ -58,7 +54,7 @@ class FileManager extends BackendBase
      */
     public function actionEdit(Request $request, $namespace, $file)
     {
-        if ($namespace == 'app' && dirname($file) == 'config') {
+        if ($namespace === 'app' && dirname($file) === 'config') {
             // Special case: If requesting one of the major config files, like contenttypes.yml, set the path to the
             // correct dir, which might be 'app/config', but it might be something else.
             $namespace = 'config';
@@ -74,19 +70,7 @@ class FileManager extends BackendBase
 
         /** @var \League\Flysystem\File $file */
         $file = $filesystem->get($file);
-
         $type = Lib::getExtension($file->getPath());
-
-        // Get the pathsegments, so we can show the path.
-        $path = dirname($file->getPath());
-        $pathsegments = array();
-        $cumulative = '';
-        if (!empty($path)) {
-            foreach (explode('/', $path) as $segment) {
-                $cumulative .= $segment . '/';
-                $pathsegments[$cumulative] = $segment;
-            }
-        }
 
         $contents = null;
         if (!$file->exists() || !($contents = $file->read())) {
@@ -94,30 +78,7 @@ class FileManager extends BackendBase
             $this->abort(Response::HTTP_NOT_FOUND, $error);
         }
 
-        if (!$file->update($contents)) {
-            $this->addFlash(
-                'info',
-                Trans::__(
-                    "The file '%s' is not writable. You will have to use your own editor to make modifications to this file.",
-                    array('%s' => $file->getPath())
-                )
-            );
-            $writeallowed = false;
-        } else {
-            $writeallowed = true;
-        }
-
-        // Gather the 'similar' files, if present.. i.e., if we're editing config.yml, we also want to check for
-        // config.yml.dist and config_local.yml
-        $basename = str_replace('.yml', '', str_replace('_local', '', $file->getPath()));
-        $filegroup = array();
-        if ($filesystem->has($basename . '.yml')) {
-            $filegroup[] = basename($basename . '.yml');
-        }
-        if ($filesystem->has($basename . '_local.yml')) {
-            $filegroup[] = basename($basename . '_local.yml');
-        }
-
+        $writeallowed = $this->updateFileContents($file, $contents);
         $data = array('contents' => $contents);
 
         /** @var Form $form */
@@ -142,11 +103,11 @@ class FileManager extends BackendBase
             'filetype'       => $type,
             'file'           => $file->getPath(),
             'basename'       => basename($file->getPath()),
-            'pathsegments'   => $pathsegments,
+            'pathsegments'   => $this->getPathSegments(dirname($file->getPath())),
             'additionalpath' => $additionalpath,
             'namespace'      => $namespace,
             'write_allowed'  => $writeallowed,
-            'filegroup'      => $filegroup
+            'filegroup'      => $this->getFileGroup($filesystem, $file)
         );
 
         return $this->render('editfile/editfile.twig', $context);
@@ -224,16 +185,6 @@ class FileManager extends BackendBase
             list($files, $folders) = $filesystem->browse($path, $this->app);
         }
 
-        // Get the pathsegments, so we can show the path as breadcrumb navigation.
-        $pathsegments = array();
-        $cumulative = '';
-        if (!empty($path)) {
-            foreach (explode('/', $path) as $segment) {
-                $cumulative .= $segment . '/';
-                $pathsegments[$cumulative] = $segment;
-            }
-        }
-
         // Select the correct template to render this. If we've got 'CKEditor' in the title, it's a dialog
         // from CKeditor to insert a file.
         if (!$request->query->has('CKEditor')) {
@@ -247,17 +198,13 @@ class FileManager extends BackendBase
             'path'         => $path,
             'files'        => $files,
             'folders'      => $folders,
-            'pathsegments' => $pathsegments,
+            'pathsegments' => $this->getPathSegments($path),
             'form'         => $formview,
             'namespace'    => $namespace,
         );
 
         return $this->render($twig, $context);
     }
-
-    /*
-     * Helper functions
-     */
 
     /**
      * Handle a file edit POST.
@@ -383,5 +330,76 @@ class FileManager extends BackendBase
                 $this->addFlash('error', (string) $message);
             }
         }
+    }
+
+    /**
+     * Update the file contents.
+     *
+     * @param \League\Flysystem\File $file
+     * @param string                 $contents
+     *
+     * @return boolean
+     */
+    private function updateFileContents(\League\Flysystem\File $file, $contents)
+    {
+        if (!$file->update($contents)) {
+            $this->addFlash(
+                'info',
+                Trans::__(
+                    "The file '%s' is not writable. You will have to use your own editor to make modifications to this file.",
+                    array('%s' => $file->getPath())
+                )
+            );
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    /**
+     * Gather the 'similar' files, if present.
+     *
+     * i.e., if we're editing config.yml, we also want to check for
+     * config.yml.dist and config_local.yml
+     *
+     * @param \League\Flysystem\FilesystemInterface $filesystem
+     * @param \League\Flysystem\File                $file
+     *
+     * @return array
+     */
+    private function getFileGroup(\League\Flysystem\FilesystemInterface $filesystem, \League\Flysystem\File $file)
+    {
+        // .
+        $basename = str_replace('.yml', '', str_replace('_local', '', $file->getPath()));
+        $filegroup = array();
+        if ($filesystem->has($basename . '.yml')) {
+            $filegroup[] = basename($basename . '.yml');
+        }
+        if ($filesystem->has($basename . '_local.yml')) {
+            $filegroup[] = basename($basename . '_local.yml');
+        }
+
+        return $filegroup;
+    }
+
+    /**
+     * Get the path segments, so we can show the path.
+     *
+     * @param string $path
+     *
+     * @return array
+     */
+    private function getPathSegments($path)
+    {
+        $pathsegments = array();
+        $cumulative = '';
+        if (!empty($path)) {
+            foreach (explode('/', $path) as $segment) {
+                $cumulative .= $segment . '/';
+                $pathsegments[$cumulative] = $segment;
+            }
+        }
+
+        return $pathsegments;
     }
 }
