@@ -13,21 +13,26 @@ class Zone
 
     public static function isFrontend(Request $request)
     {
-        return static::isZone($request, static::FRONTEND);
+        return static::is($request, static::FRONTEND);
     }
 
-    public function isBackend(Request $request)
+    public static function isBackend(Request $request)
     {
-        return static::isZone($request, static::BACKEND);
+        return static::is($request, static::BACKEND);
     }
 
-    public function isAsync(Request $request)
+    public static function isAsync(Request $request)
     {
-        return static::isZone($request, static::ASYNC);
+        return static::is($request, static::ASYNC);
     }
 
-    protected static function isZone(Request $request, $value)
+    public static function is(Request $request, $value)
     {
-        return $request->attributes->get(static::KEY) === $value;
+        return static::get($request) === $value;
+    }
+
+    public static function get(Request $request)
+    {
+        return $request->attributes->get(static::KEY);
     }
 }
