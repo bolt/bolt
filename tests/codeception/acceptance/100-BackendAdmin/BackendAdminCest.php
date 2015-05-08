@@ -169,7 +169,7 @@ class BackendAdminCest
         $I->fillField('#form_contents', $yaml);
         $I->click('Save', '#saveeditfile');
 
-        $I->see("File 'config.yml' has been saved.");
+        $I->amOnPage('bolt/file/edit/config/config.yml');
         $I->see('notfound: resources/not-found');
         $I->see('canonical: example.org');
         $I->see("changelog:\n    enabled: true");
@@ -193,7 +193,7 @@ class BackendAdminCest
         $yaml = $I->getUpdatedContenttypes();
         $I->fillField('#form_contents', $yaml);
         $I->click('Save');
-        $I->see("File 'contenttypes.yml' has been saved.");
+        $I->amOnPage('bolt/file/edit/config/contenttypes.yml');
         $I->see('name: Resources');
         $I->see('singular_name: Resource');
         $I->see('viewless: true');
@@ -305,7 +305,7 @@ class BackendAdminCest
         $I->fillField('#form_contents', $yaml);
         $I->click('Save', '#saveeditfile');
 
-        $I->see("File 'permissions.yml' has been saved.");
+        $I->amOnPage('bolt/file/edit/config/permissions.yml');
         $I->see('change-ownership: [ ]');
     }
 
@@ -327,7 +327,7 @@ class BackendAdminCest
         $I->fillField('#form_contents', $yaml);
         $I->click('Save', '#saveeditfile');
 
-        $I->see("File 'taxonomy.yml' has been saved.");
+        $I->amOnPage('bolt/file/edit/config/taxonomy.yml');
         $I->see('options: [books, events, fun, life, love, movies, music, news]');
     }
 
@@ -349,7 +349,7 @@ class BackendAdminCest
         $I->fillField('#form_contents', $yaml);
         $I->click('Save', '#saveeditfile');
 
-        $I->see("File 'menu.yml' has been saved.");
+        $I->amOnPage('bolt/file/edit/config/menu.yml');
         $I->see('Showcases Listing');
         $I->see('path: showcases/');
     }
@@ -372,7 +372,7 @@ class BackendAdminCest
         $I->fillField('#form_contents', $yaml);
         $I->click('Save', '#saveeditfile');
 
-        $I->see("File 'routing.yml' has been saved.");
+        $I->amOnPage('bolt/file/edit/config/routing.yml');
         $I->see('pagebinding:');
         $I->see("/{slug}");
         $I->see("contenttype: pages");
