@@ -186,6 +186,42 @@ class BackendAdminCest
     }
 
     /**
+     * Fail creating a user where password matches user and display names and email address is invalid.
+     *
+     * @param \AcceptanceTester $I
+     */
+    public function createDerpaderpTest(\AcceptanceTester $I)
+    {
+        $I->wantTo("Fail creating a user where password matches user and display names and email address is invalid.");
+
+        // Set up the browser
+        $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
+        $I->setCookie('bolt_session', $this->cookies['bolt_session']);
+        $I->amOnPage('bolt/users');
+
+        $I->click('Add a new user', Locator::href('/bolt/users/edit/'));
+        $I->see('Create a new user account');
+
+        // Fill in form
+        $I->fillField('form[username]',              'derpaderp');
+        $I->fillField('form[password]',              'DerpADerp');
+        $I->fillField('form[password_confirmation]', 'DerpADerp');
+        $I->fillField('form[email]',                 'derpaderp');
+        $I->fillField('form[displayname]',           'Derpy Derpaderp');
+
+        // Add the "admin" role
+        $I->checkOption('#form_roles_2');
+
+        // Submit
+        $I->click('input[type=submit]');
+
+        // Save is *not* successful?
+        $I->see('Password must not match the username.');
+        $I->see('Password must not be a part of the display name.');
+        $I->see('This value is not a valid email address.');
+    }
+
+    /**
      * Edit site config and set 'canonical', 'notfound' and 'changelog'.
      *
      * @param \AcceptanceTester $I
