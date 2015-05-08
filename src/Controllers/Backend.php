@@ -2073,7 +2073,7 @@ class Backend implements ControllerProviderInterface
                         'placeholder' => Trans::__('page.edit-users.placeholder.username')
                     )
                 )
-            );    
+            );
         } else {
             $form->add(
                 'username',
@@ -2083,12 +2083,12 @@ class Backend implements ControllerProviderInterface
                     'label'       => Trans::__('page.edit-users.label.username'),
                     'attr'        => array(
                         'placeholder' => Trans::__('page.edit-users.placeholder.username')
-                    ), 
+                    ),
                     'read_only'   => true
                 )
             );
         }
-        
+
 
         // Add the other fields
         $form
@@ -2187,13 +2187,13 @@ class Backend implements ControllerProviderInterface
                         $form['username']->addError(new FormError(Trans::__('page.edit-users.error.username-used')));
                     }
                 }
-                
+
                 // Issue 3491 : Password must be different from username
                 $username = $form['username']->getData();
-                if (!empty($username) && $pass1 == $username) {
-                    $form['password']->addError(new FormError(Trans::__('page.edit-users.error.password-different')));
+                if (!empty($username) && $pass1 === $username) {
+                    $form['password']->addError(new FormError(Trans::__('page.edit-users.error.password-different-username')));
                 }
-                
+
                 // Email addresses must be unique.
                 if (!$app['users']->checkAvailability('email', $form['email']->getData(), $id)) {
                     $form['email']->addError(new FormError(Trans::__('page.edit-users.error.email-used')));
