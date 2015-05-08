@@ -90,9 +90,13 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
         /** @var \Symfony\Component\EventDispatcher\EventDispatcherInterface $dispatcher */
         $dispatcher = $app['dispatcher'];
         $dispatcher->addSubscriber($this);
-        $dispatcher->addListener(ControllerEvents::MOUNT, array($app, 'initMountpoints'), -1);
+
+        // For BC
+        $dispatcher->addListener(ControllerEvents::MOUNT, array($app, 'initMountpoints'), -10);
+
         $event = new MountEvent($app);
         $dispatcher->dispatch(ControllerEvents::MOUNT, $event);
+        $event->finish();
     }
 
     public function mount(MountEvent $event)
@@ -137,7 +141,7 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
         $event->mount('/thumbs', new ThumbnailProvider());
 
         // Mount the Frontend controller
-        $event->mount('', $app['controller.frontend']);
+        $event->mount('', $app['controller.frontend'], -50);
     }
 
     /**
