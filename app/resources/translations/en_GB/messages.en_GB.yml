@@ -530,6 +530,7 @@ page:
             password-short: "This value is too short. It should have 6 characters or more."
             username-used: "This username is already in use. Choose another username."
             password-different-username: "Password must not match the username."
+            password-different-displayname: "Password must not be a part of the display name."
         label:
             assigned-roles: "Assigned roles"
             display-name: "Display name"

@@ -535,6 +535,18 @@ class Users extends BackendBase
                     $form['password_confirmation']->addError(new FormError(Trans::__('page.edit-users.error.password-mismatch')));
                 }
 
+                // Password must be different from username
+                $username = strtolower($form['username']->getData());
+                if (!empty($username) && strtolower($pass1) === $username) {
+                    $form['password']->addError(new FormError(Trans::__('page.edit-users.error.password-different-username')));
+                }
+
+                // Password must not be contained in the display name
+                $displayname = strtolower($form['displayname']->getData());
+                if (!empty($displayname) && strrpos($displayname, strtolower($pass1)) !== false) {
+                    $form['password']->addError(new FormError(Trans::__('page.edit-users.error.password-different-displayname')));
+                }
+
                 if ($addusername) {
                     // Usernames must be unique.
                     if (!$this->getUsers()->checkAvailability('username', $form['username']->getData(), $id)) {
