@@ -2,6 +2,7 @@
 
 namespace Bolt;
 
+use Bolt\Controller\Zone;
 use Bolt\Exception\LowlevelException;
 use Bolt\Helpers\Arr;
 use Bolt\Helpers\Str;
@@ -1135,7 +1136,12 @@ class Config
     {
         // Get a request object, if not initialized by Silex yet, we'll create our own
         try {
+            /** @var Request $request */
             $request = $this->app['request'];
+            if ($zone = Zone::get($request)) {
+                $this->app['end'] = $zone;
+                return $zone;
+            }
         } catch (\RuntimeException $e) {
             // Return CLI if request not already exist and we're on the CLI
             if (php_sapi_name() == 'cli') {

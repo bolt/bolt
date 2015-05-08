@@ -35,4 +35,9 @@ class Zone
     {
         return $request->attributes->get(static::KEY);
     }
+
+    public static function set(Request $request, $value)
+    {
+        $request->attributes->set(static::KEY, $value);
+    }
 }
