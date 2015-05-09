@@ -1853,6 +1853,8 @@ class Backend implements ControllerProviderInterface
                 }
 
                 if ($result['ok']) {
+                    // Remove ^M (or \r) characters from the file.
+                    $contents = str_ireplace("\x0D", '', $contents);
                     if ($file->update($contents)) {
                         $result['msg'] = Trans::__("File '%s' has been saved.", array('%s' => $file->getPath()));
                         $result['datechanged'] = date_format(new \DateTime('@' . $file->getTimestamp()), 'c');
