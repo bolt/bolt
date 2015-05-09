@@ -6,6 +6,7 @@ use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * Backend controller for authentication routes.
@@ -48,7 +49,10 @@ class Authentication extends BackendBase
             return $this->redirect(preg_replace('/^http:/i', 'https:', $request->getUri()));
         }
 
-        return $this->render('login/login.twig', array('randomquote' => true));
+        $response = $this->render('login/login.twig', array('randomquote' => true));
+        $response->setVary('Cookies', false)->setMaxAge(0)->setPrivate();
+
+        return $response;
     }
 
     /**
@@ -127,6 +131,7 @@ class Authentication extends BackendBase
         $this->app['logger.system']->info('Logged in: ' . $username, array('event' => 'authentication'));
         $retreat = $this->getSession()->get('retreat', array('route' => 'dashboard', 'params' => array()));
         $response = $this->redirectToRoute($retreat['route'], $retreat['params']);
+        $response->setVary('Cookies', false)->setMaxAge(0)->setPrivate();
         $response->headers->setCookie(new Cookie(
             'bolt_authtoken',
             $token,
@@ -155,7 +160,10 @@ class Authentication extends BackendBase
             $this->addFlash('error', Trans::__('Please provide a username'));
         } else {
             $this->getAuthentication()->resetPasswordRequest($username);
-            return $this->redirectToRoute('login');
+            $response = $this->redirectToRoute('login');
+            $response->setVary('Cookies', false)->setMaxAge(0)->setPrivate();
+
+            return $response;
         }
 
         return $this->actionGetLogin($request);
