@@ -188,7 +188,7 @@ class AdminHandler
 
         $randomquote = explode('#', $quotes[array_rand($quotes, 1)]);
 
-        $quote = sprintf('“%s”\n<cite>— %s</cite>', $randomquote[0], $randomquote[1]);
+        $quote = sprintf("“%s”\n<cite>— %s</cite>", $randomquote[0], $randomquote[1]);
 
         return $quote;
     }
