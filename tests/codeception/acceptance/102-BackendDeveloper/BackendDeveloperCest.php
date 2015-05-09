@@ -130,7 +130,7 @@ class BackendDeveloperCest
         $twig = str_replace('Built with Bolt', 'Built with Bolt, tested with Codeception', $twig);
         $I->fillField('#form_contents', $twig);
         $I->click('#saveeditfile');
-        $I->see("File 'base-2014/_footer.twig' has been saved.");
+        $I->amOnPage('bolt/file/edit/theme/base-2014/_footer.twig');
     }
 
     /**
@@ -155,7 +155,7 @@ class BackendDeveloperCest
         $twig = '"Built with Bolt, tested with Codeception" : "Built with Bolt, tested with Codeception"' . PHP_EOL . $twig;
         $I->fillField('#form_contents', $twig);
         $I->click('#saveeditlocale');
-        $I->see("File 'app/resources/translations/en_GB/messages.en_GB.yml' has been saved.");
+        $I->amOnPage('bolt/tr');
     }
 
     /**
@@ -177,7 +177,7 @@ class BackendDeveloperCest
 
         // Save it
         $I->click('#saveeditlocale');
-        $I->see("File 'app/resources/translations/en_GB/infos.en_GB.yml' has been saved.");
+        $I->amOnPage('bolt/tr/infos');
     }
 
     /**
@@ -199,7 +199,7 @@ class BackendDeveloperCest
 
         // Save it
         $I->click('#saveeditlocale');
-        $I->see("File 'app/resources/translations/en_GB/contenttypes.en_GB.yml' has been saved.");
+        $I->amOnPage('bolt/tr/contenttypes');
     }
 
     /**
@@ -250,7 +250,7 @@ class BackendDeveloperCest
 
         $I->fillField('#form_contents', $twig);
         $I->click('#saveeditfile');
-        $I->see("File 'extensions/tester-events.bolt.yml' has been saved.");
+        $I->amOnPage('bolt/files/config/extensions');
 
         $I->see("# Let's make this perfectly clear", 'textarea');
         $I->see('theres_no_secrets_this_year: true', 'textarea');
