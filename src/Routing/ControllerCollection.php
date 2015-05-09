@@ -7,9 +7,12 @@ namespace Bolt\Routing;
  * flushes to include an (unwanted) trailing slash.
  *
  * This fixes that trailing slash.
+ *
+ * @author Carson Full <carsonfull@gmail.com>
  */
 class ControllerCollection extends \Silex\ControllerCollection implements DefaultControllerClassAwareInterface
 {
+    /** @var string|object $defaultControllerClass */
     protected $defaultControllerClass;
 
     public function setDefaultControllerClass($class)

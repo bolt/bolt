@@ -1,6 +1,11 @@
 <?php
 namespace Bolt\Routing;
 
+/**
+ * Interface for Bolt controller collection classes.
+ *
+ * @author Carson Full <carsonfull@gmail.com>
+ */
 interface DefaultControllerClassAwareInterface
 {
     /**

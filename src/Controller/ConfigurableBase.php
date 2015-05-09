@@ -15,9 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 abstract class ConfigurableBase extends Base
 {
-    /**
-     * @var CallbackResolver
-     */
+    /** @var CallbackResolver $callbackResolver */
     private $callbackResolver;
 
     public function connect(Application $app)

@@ -13,14 +13,9 @@ use Symfony\Component\Routing\RequestContext;
  */
 class LazyUrlGenerator implements UrlGeneratorInterface
 {
-    /**
-     * @var \Closure
-     */
+    /** @var \Closure $factory */
     private $factory;
-
-    /**
-     * @var UrlGeneratorInterface
-     */
+    /** @var UrlGeneratorInterface $urlGenerator */
     private $urlGenerator;
 
     /**

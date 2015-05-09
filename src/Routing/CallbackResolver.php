@@ -8,7 +8,9 @@ namespace Bolt\Routing;
  */
 class CallbackResolver extends \Silex\CallbackResolver
 {
+    /** @var \Pimple $app */
     protected $app;
+    /** @var array $classmap */
     protected $classmap;
 
     /**
@@ -107,6 +109,13 @@ class CallbackResolver extends \Silex\CallbackResolver
         return array($this->instantiateClass($cls), $method);
     }
 
+    /**
+     * Create a new instance of a class.
+     *
+     * @param string $class
+     *
+     * @return object
+     */
     protected function instantiateClass($class)
     {
         return new $class();

@@ -13,8 +13,8 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
- * Base class for all controllers which mainly provides
- * shortcut methods for application services.
+ * Base class for all controllers which mainly provides shortcut methods for
+ * application services.
  *
  * @author Carson Full <carsonfull@gmail.com>
  */

@@ -4,15 +4,13 @@ namespace Bolt\Controller;
 use Bolt\Config;
 
 /**
- * This class defines route requirements from content types / taxonomy configurations
+ * Defines route requirements from content types / taxonomy configurations
  *
  * @author Carson Full <carsonfull@gmail.com>
  */
 class Requirement
 {
-    /**
-     * @var Config
-     */
+    /** @var Config $config */
     protected $config;
 
     /**

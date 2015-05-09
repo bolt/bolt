@@ -11,6 +11,11 @@ use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
+/**
+ * Listener for redirects.
+ *
+ * @author Carson Full <carsonfull@gmail.com>
+ */
 class RedirectListener implements EventSubscriberInterface
 {
     /** @var \Symfony\Component\HttpFoundation\Session\Session */
@@ -37,6 +42,11 @@ class RedirectListener implements EventSubscriberInterface
         $this->authentication = $authentication;
     }
 
+    /**
+     * Kernel response listener callback.
+     *
+     * @param FilterResponseEvent $event
+     */
     public function onResponse(FilterResponseEvent $event)
     {
         if (!$event->isMasterRequest()) {
@@ -94,6 +104,11 @@ class RedirectListener implements EventSubscriberInterface
         }
     }
 
+    /**
+     * Return the events to subscribe to.
+     *
+     * @return array
+     */
     public static function getSubscribedEvents()
     {
         return array(
