@@ -18,15 +18,24 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
 {
     public function register(Application $app)
     {
-        $app['controller.backend.mount_prefix'] = function ($app) {
-            return $app['config']->get('general/branding/path');
-        };
-        $app['controller.backend.extend.mount_prefix'] = function ($app) {
-            return $app['config']->get('general/branding/path') . '/extend';
-        };
-        $app['controller.backend.upload.mount_prefix'] = function ($app) {
-            return $app['config']->get('general/branding/path') . '/upload';
-        };
+        if (!isset($app['controller.backend.mount_prefix'])) {
+            $app['controller.backend.mount_prefix'] = function ($app) {
+                return $app['config']->get('general/branding/path');
+            };
+        }
+        if (!isset($app['controller.async.mount_prefix'])) {
+            $app['controller.async.mount_prefix'] = '/async';
+        }
+        if (!isset($app['controller.extend.mount_prefix'])) {
+            $app['controller.backend.extend.mount_prefix'] = function ($app) {
+                return $app['config']->get('general/branding/path') . '/extend';
+            };
+        }
+        if (!isset($app['controller.upload.mount_prefix'])) {
+            $app['controller.backend.upload.mount_prefix'] = function ($app) {
+                return $app['config']->get('general/branding/path') . '/upload';
+            };
+        }
 
         $app['controller.backend.authentication'] = $app->share(function () {
             return new Controller\Backend\Authentication();
@@ -55,8 +64,6 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
         $app['controller.backend.users'] = $app->share(function () {
             return new Controller\Backend\Users();
         });
-
-        $app['controller.async.mount_prefix'] = '/async';
 
         $app['controller.async.general'] = $app->share(function () {
             return new Controller\Async\General();
