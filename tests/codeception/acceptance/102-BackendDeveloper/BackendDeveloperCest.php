@@ -250,7 +250,7 @@ class BackendDeveloperCest
 
         $I->fillField('#form_contents', $twig);
         $I->click('#saveeditfile');
-        $I->amOnPage('bolt/files/config/extensions');
+        $I->amOnPage('bolt/file/edit/config/extensions/tester-events.bolt.yml');
 
         $I->see("# Let's make this perfectly clear", 'textarea');
         $I->see('theres_no_secrets_this_year: true', 'textarea');
