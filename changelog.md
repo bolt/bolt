@@ -5,7 +5,7 @@ Released 2015-04-29. Notable changes:
 
  - Fixed: `attrib` for images. (See #3487)
  - Fixed: Fix pagination for searching via `getContent()`` or `{% setcontent %}`. (See #3496)
- - Fixed: Use 'alt' instead of 'title' in Image fieldtype's attributes. #3505
+ - Fixed: Use 'alt' instead of 'title' in Image fieldtype's attributes. (See #3505)
 
 Bolt 2.1.8
 ----------
