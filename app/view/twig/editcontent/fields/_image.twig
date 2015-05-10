@@ -71,7 +71,7 @@
                         <label for="{{ key }}[alt]">{{ __('Alt') }}</label>
                     </div>
                     <div class="col-sm-10">
-                        <input type="text" name="{{ key }}[alt]" id="{{ key }}-alt" value="{{ image.title|default('') }}" class="form-control">
+                        <input type="text" name="{{ key }}[alt]" id="{{ key }}-alt" value="{{ image.alt|default('') }}" class="form-control">
                     </div>
                 </div>
             {% endif %}
