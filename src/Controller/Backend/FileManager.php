@@ -7,6 +7,7 @@ use Bolt\Translation\Translator as Trans;
 use League\Flysystem\File;
 use Silex\ControllerCollection;
 use Symfony\Component\Form\Form;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Yaml\Exception\ParseException;
@@ -88,7 +89,7 @@ class FileManager extends BackendBase
 
         // Handle the POST and check if it's valid.
         if ($request->isMethod('POST')) {
-            $this->handleEdit($request, $form, $file, $type);
+            return $this->handleEdit($request, $form, $file, $type);
         }
 
         // For 'related' files we might need to keep track of the current dirname on top of the namespace.
@@ -107,7 +108,8 @@ class FileManager extends BackendBase
             'additionalpath' => $additionalpath,
             'namespace'      => $namespace,
             'write_allowed'  => $writeallowed,
-            'filegroup'      => $this->getFileGroup($filesystem, $file)
+            'filegroup'      => $this->getFileGroup($filesystem, $file),
+            'datechanged'    => date_format(new \DateTime('@' . $file->getTimestamp()), 'c')
         );
 
         return $this->render('editfile/editfile.twig', $context);
@@ -213,6 +215,8 @@ class FileManager extends BackendBase
      * @param Form    $form
      * @param File    $file
      * @param string  $type
+     *
+     * @return JsonResponse
      */
     private function handleEdit(Request $request, Form $form, File $file, $type)
     {
@@ -221,36 +225,38 @@ class FileManager extends BackendBase
         if ($form->isValid()) {
             $data = $form->getData();
             $contents = Input::cleanPostedData($data['contents']) . "\n";
-
-            $validYaml = true;
+            $result = array('ok' => true, 'msg' => 'Unhandled state.');
 
             // Before trying to save a yaml file, check if it's valid.
-            if ($type == 'yml') {
+            if ($type === 'yml') {
                 $yamlparser = new Parser();
                 try {
-                    $validYaml = $yamlparser->parse($contents);
+                    $yamlparser->parse($contents);
                 } catch (ParseException $e) {
-                    $validYaml = false;
-                    $this->addFlash('error', Trans::__("File '%s' could not be saved:", array('%s' => $file->getPath())) . $e->getMessage());
+                    $result['ok'] = false;
+                    $result['msg'] = Trans::__("File '%s' could not be saved:", array('%s' => $file->getPath())) . $e->getMessage();
                 }
             }
 
-            if ($validYaml) {
+            if ($result['ok']) {
+                // Remove ^M (or \r) characters from the file.
+                $contents = str_ireplace("\x0D", '', $contents);
+
                 if ($file->update($contents)) {
-                    $this->addFlash('info', Trans::__("File '%s' has been saved.", array('%s' => $file->getPath())));
-                    // If we've saved a translation, back to it
-                    $m = array();
-                    if (preg_match('#resources/translations/(..)/(.*)\.yml$#', $file->getPath(), $m)) {
-                        return $this->redirectToRoute('translation', array('domain' => $m[2], 'tr_locale' => $m[1]));
-                    }
-                    return $this->redirectToRoute('fileedit', array('file' => $file->getPath()));
+                    $result['msg'] = Trans::__("File '%s' has been saved.", array('%s' => $file->getPath()));
+                    $result['datechanged'] = date_format(new \DateTime('@' . $file->getTimestamp()), 'c');
                 } else {
-                    $this->addFlash('error', Trans::__("File '%s' could not be saved, for some reason.", array('%s' => $file->getPath())));
+                    $result['msg'] = Trans::__("File '%s' could not be saved, for some reason.", array('%s' => $file->getPath()));
                 }
+            } else {
+                $result = array(
+                    'ok' => false,
+                    'msg' => Trans::__("File '%s' could not be saved, because the form wasn't valid.", array('%s' => $file->getPath()))
+                );
             }
-            // If we reach this point, the form will be shown again, with the error
-            // in the input, so the user can try again.
         }
+
+        return $this->json($result);
     }
 
     /**
