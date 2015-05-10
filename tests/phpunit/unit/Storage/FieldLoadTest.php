@@ -20,6 +20,7 @@ class FieldLoadTest extends BoltUnitTest
     public function testCreateAndHydrate()
     {
         $app = $this->getApp();
+        $this->addNewUser($app, 'admin', 'Admin', 'admin');;
         $app['integritychecker']->repairTables();
         $this->addSomeContent();
         $em = new EntityManager($app['db'], $app['dispatcher'], $app['storage.metadata']);
