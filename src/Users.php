@@ -14,26 +14,16 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class Users
 {
-    const ANONYMOUS = 0;
-    const EDITOR = 2;
-    const ADMIN = 4;
-    const DEVELOPER = 6;
-
     /** @var \Doctrine\DBAL\Connection */
     public $db;
     public $config;
     public $usertable;
     public $authtokentable;
-    public $users;
-    public $session;
+    public $users = array();
     public $currentuser;
-    public $allowed;
 
     /** @var \Silex\Application $app */
     private $app;
-
-    /** @var integer */
-    private $hashStrength;
 
     /**
      * @param \Silex\Application $app
@@ -43,43 +33,8 @@ class Users
         $this->app = $app;
         $this->db = $app['db'];
 
-        $prefix = $this->app['config']->get('general/database/prefix', 'bolt_');
-
-        // Hashstrength has a default of '10', don't allow less than '8'.
-        $this->hashStrength = max($this->app['config']->get('general/hash_strength'), 8);
-
-        $this->usertable = $prefix . 'users';
-        $this->authtokentable = $prefix . 'authtoken';
-        $this->users = array();
-        $this->session = $app['session'];
-
-        $this->allowed = array(
-            'dashboard'       => self::EDITOR,
-            'settings'        => self::ADMIN,
-            'login'           => self::ANONYMOUS,
-            'logout'          => self::EDITOR,
-            'dbcheck'         => self::ADMIN,
-            'dbupdate'        => self::ADMIN,
-            'clearcache'      => self::ADMIN,
-            'prefill'         => self::DEVELOPER,
-            'users'           => self::ADMIN,
-            'useredit'        => self::ADMIN,
-            'useraction'      => self::ADMIN,
-            'overview'        => self::EDITOR,
-            'editcontent'     => self::EDITOR,
-            'editcontent:own' => self::EDITOR,
-            'editcontent:all' => self::ADMIN,
-            'contentaction'   => self::EDITOR,
-            'about'           => self::EDITOR,
-            'extensions'      => self::DEVELOPER,
-            'files'           => self::EDITOR,
-            'files:config'    => self::DEVELOPER,
-            'files:theme'     => self::DEVELOPER,
-            'files:uploads'   => self::ADMIN,
-            'translation'     => self::DEVELOPER,
-            'activitylog'     => self::ADMIN,
-            'fileedit'        => self::ADMIN
-        );
+        $this->usertable = $this->app['storage']->getTablename('users');
+        $this->authtokentable = $this->app['storage']->getTablename('authtoken');
     }
 
     /**
@@ -113,7 +68,10 @@ class Users
         }
 
         if (!empty($user['password']) && $user['password'] != '**dontchange**') {
-            $hasher = new PasswordHash($this->hashStrength, true);
+            // Hashstrength has a default of '10', don't allow less than '8'.
+            $hashStrength = max($this->app['config']->get('general/hash_strength'), 8);
+
+            $hasher = new PasswordHash($hashStrength, true);
             $user['password'] = $hasher->HashPassword($user['password']);
         } else {
             unset($user['password']);
@@ -218,7 +176,7 @@ class Users
         $user = $this->getUser($id);
 
         if (empty($user['id'])) {
-            $this->session->getFlashBag()->add('error', Trans::__('That user does not exist.'));
+            $this->app['session']->getFlashBag()->add('error', Trans::__('That user does not exist.'));
 
             return false;
         } else {
