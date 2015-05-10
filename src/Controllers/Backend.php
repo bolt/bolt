@@ -822,7 +822,7 @@ class Backend implements ControllerProviderInterface
                         return Lib::redirect('editcontent', array('contenttypeslug' => $contenttype['slug'], 'id' => 0), '#' . $app['request']->get('returnto'));
                     } elseif ($returnto === 'ajax') {
                         /*
-                         * Flush any buffers from saveConent() dispatcher hooks
+                         * Flush any buffers from saveContent() dispatcher hooks
                          * and make sure our JSON output is clean.
                          *
                          * Currently occurs due to a 404 exception being generated
@@ -1778,7 +1778,7 @@ class Backend implements ControllerProviderInterface
 
         /** @var \League\Flysystem\File $file */
         $file = $filesystem->get($file);
-
+        $datechanged = date_format(new \DateTime('@' . $file->getTimestamp()), 'c');
         $type = Lib::getExtension($file->getPath());
 
         // Get the pathsegments, so we can show the path.
@@ -1838,34 +1838,37 @@ class Backend implements ControllerProviderInterface
                 $data = $form->getData();
                 $contents = Input::cleanPostedData($data['contents']) . "\n";
 
-                $ok = true;
+                $result = array('ok' => true, 'msg' => 'Unhandled state.');
 
                 // Before trying to save a yaml file, check if it's valid.
-                if ($type == 'yml') {
+                if ($type === 'yml') {
                     $yamlparser = new Yaml\Parser();
                     try {
-                        $ok = $yamlparser->parse($contents);
+                        $yamlparser->parse($contents);
                     } catch (ParseException $e) {
-                        $ok = false;
-                        $app['session']->getFlashBag()->add('error', Trans::__("File '%s' could not be saved:", array('%s' => $file->getPath())) . $e->getMessage());
+                        $result['ok'] = false;
+                        $result['msg'] = Trans::__("File '%s' could not be saved:", array('%s' => $file->getPath())) . $e->getMessage();
                     }
                 }
 
-                if ($ok) {
+                if ($result['ok']) {
+                    // Remove ^M (or \r) characters from the file.
+                    $contents = str_ireplace("\x0D", '', $contents);
                     if ($file->update($contents)) {
-                        $app['session']->getFlashBag()->add('info', Trans::__("File '%s' has been saved.", array('%s' => $file->getPath())));
-                        // If we've saved a translation, back to it
-                        if (preg_match('#resources/translations/(..)/(.*)\.yml$#', $file->getPath(), $m)) {
-                            return Lib::redirect('translation', array('domain' => $m[2], 'tr_locale' => $m[1]));
-                        }
-                        Lib::redirect('fileedit', array('file' => $file->getPath()), '');
+                        $result['msg'] = Trans::__("File '%s' has been saved.", array('%s' => $file->getPath()));
+                        $result['datechanged'] = date_format(new \DateTime('@' . $file->getTimestamp()), 'c');
                     } else {
-                        $app['session']->getFlashBag()->add('error', Trans::__("File '%s' could not be saved, for some reason.", array('%s' => $file->getPath())));
+                        $result['msg'] = Trans::__("File '%s' could not be saved, for some reason.", array('%s' => $file->getPath()));
                     }
                 }
-                // If we reach this point, the form will be shown again, with the error
-                // in the input, so the user can try again.
+            } else {
+                $result = array(
+                    'ok' => false,
+                    'msg' => Trans::__("File '%s' could not be saved, because the form wasn't valid.", array('%s' => $file->getPath()))
+                );
             }
+
+            return new JsonResponse($result);
         }
 
         // For 'related' files we might need to keep track of the current dirname on top of the namespace.
@@ -1884,7 +1887,8 @@ class Backend implements ControllerProviderInterface
             'additionalpath' => $additionalpath,
             'namespace'      => $namespace,
             'write_allowed'  => $writeallowed,
-            'filegroup'      => $filegroup
+            'filegroup'      => $filegroup,
+            'datechanged'    => $datechanged
         );
 
         return $app['render']->render('editfile/editfile.twig', array('context' => $context));

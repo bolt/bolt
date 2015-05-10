@@ -77,14 +77,14 @@ class BackendManagerCest
      */
     public function publishContactPageTest(\AcceptanceTester $I)
     {
-        $I->wantTo("Publish the 'Contact' page with templtaefields as 'manager' user");
+        $I->wantTo("Publish the 'Contact' page with 'templatefields' as 'manager' user");
 
         // Set up the browser
         $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
         $I->setCookie('bolt_session', $this->cookies['bolt_session']);
         $I->amOnPage('bolt/editcontent/pages/3');
 
-        $I->see("This is the contact text");
+        $I->see('This is the contact text');
 
         $I->selectOption('#statusselect', 'published');
 

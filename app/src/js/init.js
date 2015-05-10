@@ -44,25 +44,57 @@ var init = {
      */
     bindEditFile: function (data) {
         $('#saveeditfile').bind('click', function (e) {
-            // Reset the handler for checking changes to the form.
-            window.onbeforeunload = null;
+
+            // If not on mobile (i.e. Codemirror is present), copy back to the textarea.
+            if (typeof(CodeMirror) !== 'undefined') {
+                $('#form_contents').val(editor.getValue());
+            }
+
+            // Ping @rarila: How the heck would I get bolt.data('editcontent.msg.saving') here?
+            var saving = "Saving …",
+                savedon = $('p.lastsaved').html(),
+                msgNotSaved = "Not saved";
+
+            // Disable the buttons, to indicate stuff is being done.
+            $('#saveeditfile').addClass('disabled');
+            $('#saveeditfile i').addClass('fa-spin fa-spinner');
+            $('p.lastsaved').text(saving);
+
+            $.post('?returnto=ajax', $('#editfile').serialize())
+                .done(function (data) {
+                    if (!data.ok) {
+                        alert(data.msg);
+                    }
+                    $('p.lastsaved').html(data.msg);
+                })
+                .fail(function(){
+                    alert(msgNotSaved);
+                })
+                .always(function(){
+                    // Re-enable buttons
+                    window.setTimeout(function(){
+                        $('#saveeditfile').removeClass('disabled').blur();
+                        $('#saveeditfile i').removeClass('fa-spin fa-spinner');
+                    }, 300);
+                });
         });
 
-        var editor = CodeMirror.fromTextArea(document.getElementById('form_contents'), {
-            lineNumbers: true,
-            autofocus: true,
-            tabSize: 4,
-            indentUnit: 4,
-            indentWithTabs: false,
-            readOnly: data.readonly
-        });
-
-        var newheight = $(window).height() - 312;
-        if (newheight < 200) {
-            newheight = 200;
+        if (typeof(CodeMirror) !== 'undefined') {
+            var editor = CodeMirror.fromTextArea(document.getElementById('form_contents'), {
+                lineNumbers: true,
+                autofocus: true,
+                tabSize: 4,
+                indentUnit: 4,
+                indentWithTabs: false,
+                readOnly: data.readonly
+            });
+            var newheight = $(window).height() - 312;
+            if (newheight < 200) {
+                newheight = 200;
+            }
+            editor.setSize(null, newheight);
         }
 
-        editor.setSize(null, newheight);
     },
 
     /*
