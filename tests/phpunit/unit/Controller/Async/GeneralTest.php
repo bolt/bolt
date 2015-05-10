@@ -36,18 +36,6 @@ class GeneralTest extends ControllerUnitTest
         $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
     }
 
-    public function testEmailNotification()
-    {
-        $this->getService('users')->currentuser = $this->getService('users')->getUser('admin');
-        $this->setRequest(Request::create('/async/email/test/admin'));
-
-        $response = $this->controller()->actionEmailNotification($this->getRequest(), 'test');
-
-        $this->assertTrue($response instanceof Response);
-        $this->assertSame('Done', $response->getContent());
-        $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
-    }
-
     public function testLastModified()
     {
         $this->setRequest(Request::create('/async/lastmodified/page/1'));
