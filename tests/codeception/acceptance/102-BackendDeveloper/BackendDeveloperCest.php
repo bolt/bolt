@@ -129,8 +129,16 @@ class BackendDeveloperCest
         $twig = $I->grabTextFrom('#form_contents', 'textarea');
         $twig = str_replace('Built with Bolt', 'Built with Bolt, tested with Codeception', $twig);
         $I->fillField('#form_contents', $twig);
-        $I->click('#saveeditfile');
+
+        // Save it
+        $token = $I->grabValueFrom('#form__token');
+        $I->sendAjaxPostRequest('/bolt/file/edit/theme/base-2014/_footer.twig', [
+            'form[_token]'   => $token,
+            'form[contents]' => $twig
+        ]);
+
         $I->amOnPage('bolt/file/edit/theme/base-2014/_footer.twig');
+        $I->see('Built with Bolt, tested with Codeception', '#form_contents');
     }
 
     /**
@@ -154,8 +162,16 @@ class BackendDeveloperCest
         $twig = $I->grabTextFrom('#form_contents', 'textarea');
         $twig = '"Built with Bolt, tested with Codeception" : "Built with Bolt, tested with Codeception"' . PHP_EOL . $twig;
         $I->fillField('#form_contents', $twig);
-        $I->click('#saveeditlocale');
+
+        // Save it
+        $token = $I->grabValueFrom('#form__token');
+        $I->sendAjaxPostRequest('/bolt/tr', [
+            'form[_token]'   => $token,
+            'form[contents]' => $twig
+        ]);
+
         $I->amOnPage('bolt/tr');
+        $I->see('Built with Bolt, tested with Codeception', '#form_contents');
     }
 
     /**
@@ -174,10 +190,19 @@ class BackendDeveloperCest
 
         // Go into edit mode
         $I->see('Use this field to upload a photo or image', 'textarea');
+        $twig = $I->grabTextFrom('#form_contents', 'textarea');
+        $twig = str_replace('Use this field to upload a photo or image', 'Use this field to upload a photo of a kitten', $twig);
+        $I->fillField('#form_contents', $twig);
 
         // Save it
-        $I->click('#saveeditlocale');
+        $token = $I->grabValueFrom('#form__token');
+        $I->sendAjaxPostRequest('/bolt/tr/infos', [
+            'form[_token]'   => $token,
+            'form[contents]' => $twig
+        ]);
+
         $I->amOnPage('bolt/tr/infos');
+        $I->see('Use this field to upload a photo of a kitten', 'textarea');
     }
 
     /**
@@ -196,10 +221,20 @@ class BackendDeveloperCest
 
         // Go into edit mode
         $I->see('contenttypes.entries.text.recent-changes-one', 'textarea');
+        $I->see('The Entry you were looking for does not exist.', 'textarea');
+
+        $twig = $I->grabTextFrom('#form_contents', 'textarea');
+        $twig = str_replace('The Entry you were looking for does not exist.', 'These are not the Entries you are looking for.', $twig);
 
         // Save it
-        $I->click('#saveeditlocale');
+        $token = $I->grabValueFrom('#form__token');
+        $I->sendAjaxPostRequest('/bolt/tr/contenttypes', [
+            'form[_token]'   => $token,
+            'form[contents]' => $twig
+        ]);
+
         $I->amOnPage('bolt/tr/contenttypes');
+        $I->see('These are not the Entries you are looking for.', 'textarea');
     }
 
     /**
@@ -237,8 +272,8 @@ class BackendDeveloperCest
         $I->setCookie('bolt_session', $this->cookies['bolt_session']);
         $I->amOnPage('bolt/files/config/extensions');
 
-        $I->see('tester-events.bolt.yml', Locator::href("/bolt/file/edit/config/extensions/tester-events.bolt.yml"));
-        $I->click('tester-events.bolt.yml', Locator::href("/bolt/file/edit/config/extensions/tester-events.bolt.yml"));
+        $I->see('tester-events.bolt.yml', Locator::href('/bolt/file/edit/config/extensions/tester-events.bolt.yml'));
+        $I->click('tester-events.bolt.yml', Locator::href('/bolt/file/edit/config/extensions/tester-events.bolt.yml'));
 
         $I->see('# Sit back and breathe', 'textarea');
         $I->see('its_nice_to_know_you_work_alone: true', 'textarea');
@@ -249,7 +284,12 @@ class BackendDeveloperCest
         $twig .= PHP_EOL . 'theres_no_secrets_this_year: true' . PHP_EOL;
 
         $I->fillField('#form_contents', $twig);
-        $I->click('#saveeditfile');
+
+        $token = $I->grabValueFrom('#form__token');
+        $I->sendAjaxPostRequest('/bolt/file/edit/config/extensions/tester-events.bolt.yml', [
+            'form[_token]'   => $token,
+            'form[contents]' => $twig
+        ]);
         $I->amOnPage('bolt/file/edit/config/extensions/tester-events.bolt.yml');
 
         $I->see("# Let's make this perfectly clear", 'textarea');
