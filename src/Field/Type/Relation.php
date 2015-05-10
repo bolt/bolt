@@ -24,9 +24,10 @@ class Relation extends FieldTypeBase
      */
     public function load(QueryBuilder $query, ClassMetadata $metadata)
     {
+        $field = $this->mapping['fieldname'];
         $boltname = $metadata->getBoltName();
-        $query->addSelect('rel.*');
-        $query->leftJoin('content', 'bolt_relations', 'rel', "content.id = rel.from_id AND rel.from_contenttype='$boltname'");
+        $query->addSelect("$field.to_id as $field");
+        $query->leftJoin('content', 'bolt_relations', $field, "content.id = $field.from_id AND $field.from_contenttype='$boltname'");    
     }
     
     /**
