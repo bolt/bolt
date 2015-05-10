@@ -1838,14 +1838,13 @@ class Backend implements ControllerProviderInterface
                 $data = $form->getData();
                 $contents = Input::cleanPostedData($data['contents']) . "\n";
 
-                $result = array();
+                $result = array('ok' => true, 'msg' => 'Unhandled state.');
 
                 // Before trying to save a yaml file, check if it's valid.
-                if ($type == 'yml') {
+                if ($type === 'yml') {
                     $yamlparser = new Yaml\Parser();
                     try {
-                        $parse_ok = $yamlparser->parse($contents);
-                        $result['ok'] = true;
+                        $yamlparser->parse($contents);
                     } catch (ParseException $e) {
                         $result['ok'] = false;
                         $result['msg'] = Trans::__("File '%s' could not be saved:", array('%s' => $file->getPath())) . $e->getMessage();
@@ -1862,20 +1861,14 @@ class Backend implements ControllerProviderInterface
                         $result['msg'] = Trans::__("File '%s' could not be saved, for some reason.", array('%s' => $file->getPath()));
                     }
                 }
-                // unset flashbag for ajax
-                //$app['session']->getFlashBag()->clear('success');
-
-                return new JsonResponse($result);
-
             } else {
-
                 $result = array(
                     'ok' => false,
                     'msg' => Trans::__("File '%s' could not be saved, because the form wasn't valid.", array('%s' => $file->getPath()))
                 );
-
-                return new JsonResponse($result);
             }
+
+            return new JsonResponse($result);
         }
 
         // For 'related' files we might need to keep track of the current dirname on top of the namespace.
