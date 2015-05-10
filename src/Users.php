@@ -475,7 +475,8 @@ class Users
     public function isEnabled($id = false)
     {
         if (!$id) {
-            $id = $this->currentuser['id'];
+            $user = $this->getCurrentUser();
+            $id = $user['id'];
         }
 
         $query = $this->app['db']->createQueryBuilder()
@@ -587,7 +588,7 @@ class Users
             $oldRoles = $user['roles'];
         }
 
-        $manipulatableRoles = $this->app['permissions']->getManipulatableRoles($this->currentuser);
+        $manipulatableRoles = $this->app['permissions']->getManipulatableRoles($this->getCurrentUser());
 
         $roles = array();
         // Remove roles if the current user can manipulate that role
@@ -692,7 +693,7 @@ class Users
      */
     public function isContentStatusTransitionAllowed($fromStatus, $toStatus, $contenttype, $contentid = null)
     {
-        $user = $this->currentuser;
+        $user = $this->getCurrentUser();
 
         return $this->app['permissions']->isContentStatusTransitionAllowed($fromStatus, $toStatus, $user, $contenttype, $contentid);
     }
