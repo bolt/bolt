@@ -515,9 +515,6 @@ class Users extends BackendBase
                 // If adding a new user (empty $id) or if the password is not empty (indicating we want to change it),
                 // then make sure it's at least 6 characters long.
                 if ((empty($id) || !empty($pass1)) && strlen($pass1) < 6) {
-                    // screw it. Let's just not translate this message for now. Damn you, stupid non-cooperative
-                    // translation thingy. $error = new FormError("This value is too short. It should have {{ limit }}
-                    // characters or more.", array('{{ limit }}' => 6), 2);
                     $error = new FormError(Trans::__('page.edit-users.error.password-short'));
                     $form['password']->addError($error);
                 }
@@ -527,19 +524,19 @@ class Users extends BackendBase
                     $form['password_confirmation']->addError(new FormError(Trans::__('page.edit-users.error.password-mismatch')));
                 }
 
-                // Password must be different from username
-                $username = strtolower($form['username']->getData());
-                if (!empty($username) && strtolower($pass1) === $username) {
-                    $form['password']->addError(new FormError(Trans::__('page.edit-users.error.password-different-username')));
-                }
-
-                // Password must not be contained in the display name
-                $displayname = strtolower($form['displayname']->getData());
-                if (!empty($displayname) && strrpos($displayname, strtolower($pass1)) !== false) {
-                    $form['password']->addError(new FormError(Trans::__('page.edit-users.error.password-different-displayname')));
-                }
-
                 if ($addusername) {
+                    // Password must be different from username
+                    $username = strtolower($form['username']->getData());
+                    if (!empty($username) && strtolower($pass1) === $username) {
+                        $form['password']->addError(new FormError(Trans::__('page.edit-users.error.password-different-username')));
+                    }
+
+                    // Password must not be contained in the display name
+                    $displayname = strtolower($form['displayname']->getData());
+                    if (!empty($displayname) && strrpos($displayname, strtolower($pass1)) !== false) {
+                        $form['password']->addError(new FormError(Trans::__('page.edit-users.error.password-different-displayname')));
+                    }
+
                     // Usernames must be unique.
                     if (!$this->getUsers()->checkAvailability('username', $form['username']->getData(), $id)) {
                         $form['username']->addError(new FormError(Trans::__('page.edit-users.error.username-used')));
