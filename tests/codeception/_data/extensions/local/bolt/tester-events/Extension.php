@@ -2,7 +2,6 @@
 
 namespace Bolt\Extension\Bolt\TesterEvents;
 
-use Bolt;
 use Bolt\Events\StorageEvents;
 
 class Extension extends \Bolt\BaseExtension
