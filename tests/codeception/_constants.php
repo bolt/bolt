@@ -22,25 +22,35 @@ if (!defined('CODECEPTION_DATA')) {
 }
 
 // Create a constant that defines the root location
-if (!defined('PROJECT_ROOT')) {
+if (!defined('INSTALL_ROOT')) {
     if ($installType === 'composer') {
-        define('PROJECT_ROOT', realpath(CODECEPTION_ROOT . '/../../../../..'));
+        define('INSTALL_ROOT', realpath(CODECEPTION_ROOT . '/../../../../..'));
     } elseif ($installType === 'git') {
-        define('PROJECT_ROOT', realpath(CODECEPTION_ROOT . '/../..'));
+        define('INSTALL_ROOT', realpath(CODECEPTION_ROOT . '/../..'));
+    }
+}
+
+// Create a constant that defines the Bolt code location
+if (!defined('BOLT_ROOT')) {
+    if ($installType === 'composer') {
+        define('BOLT_ROOT', realpath(INSTALL_ROOT . '/vendor/bolt/bolt'));
+    } elseif ($installType === 'git') {
+        define('BOLT_ROOT', realpath(INSTALL_ROOT));
     }
 }
 
 // Path to Nut
 if (!defined('NUT_PATH')) {
     if ($installType === 'composer') {
-        define('NUT_PATH', realpath(PROJECT_ROOT . '/vendor/bolt/bolt/app/nut'));
+        define('NUT_PATH', realpath(INSTALL_ROOT . '/vendor/bolt/bolt/app/nut'));
     } elseif ($installType === 'git') {
-        define('NUT_PATH', realpath(PROJECT_ROOT . '/app/nut'));
+        define('NUT_PATH', realpath(INSTALL_ROOT . '/app/nut'));
     }
 }
 
 echo 'Codeception bootstrapped:' . PHP_EOL;
 echo '    Install type:     ' . $installType . PHP_EOL;
-echo '    Project root:     ' . PROJECT_ROOT . PHP_EOL;
+echo '    Install root:     ' . INSTALL_ROOT . PHP_EOL;
+echo '    Bolt code root:   ' . BOLT_ROOT . PHP_EOL;
 echo '    Codeception root: ' . CODECEPTION_ROOT . PHP_EOL;
 echo '    Nut path:         ' . NUT_PATH . PHP_EOL;

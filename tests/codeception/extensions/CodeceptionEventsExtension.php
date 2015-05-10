@@ -121,25 +121,25 @@ class CodeceptionEventsExtension extends \Codeception\Platform\Extension
         // Back up files that we'll modify during tests
         $backups = Fixtures::get('backups');
         foreach ($backups as $file => $keep) {
-            if (file_exists(PROJECT_ROOT . $file) && !file_exists(PROJECT_ROOT . $file . '.codeception-backup')) {
+            if (file_exists($file) && !file_exists("$file.codeception-backup")) {
                 if ($keep) {
                     $this->writeln("Copying $file");
-                    $fs->copy(PROJECT_ROOT . $file, PROJECT_ROOT. $file . '.codeception-backup');
+                    $fs->copy($file, "$file.codeception-backup");
                 } else {
                     $this->writeln("Renaming $file");
-                    $fs->rename(PROJECT_ROOT . $file, PROJECT_ROOT. $file . '.codeception-backup');
+                    $fs->rename($file, "$file.codeception-backup");
                 }
-            } elseif (file_exists(PROJECT_ROOT . $file)) {
+            } elseif (file_exists($file)) {
                 if (!$keep) {
                     $this->writeln("Removing $file");
-                    $fs->remove(PROJECT_ROOT . $file);
+                    $fs->remove($file);
                 }
             }
         }
 
         // Install the local extension
         $this->writeln("Installing local extension");
-        $fs->mirror(CODECEPTION_DATA . '/extensions/local/', PROJECT_ROOT . '/extensions/local/', null, array('override' => true, 'delete' => true));
+        $fs->mirror(CODECEPTION_DATA . '/extensions/local/', INSTALL_ROOT . '/extensions/local/', null, array('override' => true, 'delete' => true));
 
         // Empty the cache
         system('php ' . NUT_PATH . ' cache:clear');
@@ -179,33 +179,33 @@ class CodeceptionEventsExtension extends \Codeception\Platform\Extension
     private function afterSuiteAcceptance(SuiteEvent $e)
     {
         $fs = new Filesystem();
-        $rundir = PROJECT_ROOT . '/app/cache/codeception-run-' . time() . '/';
+        $rundir = INSTALL_ROOT . '/app/cache/codeception-run-' . time() . '/';
         $fs->mkdir($rundir);
 
         // Restore our backed up files, and make copies of them in app/cache/ for review
         $backups = Fixtures::get('backups');
         foreach ($backups as $file => $keep) {
-            if ($fs->exists(PROJECT_ROOT . $file . '.codeception-backup')) {
+            if ($fs->exists("$file.codeception-backup")) {
                 $this->writeln("Restoring $file");
-                $fs->copy(PROJECT_ROOT . $file, $rundir . basename($file));
-                $fs->rename(PROJECT_ROOT . $file . '.codeception-backup', PROJECT_ROOT . $file, true);
+                $fs->copy($file, $rundir . basename($file));
+                $fs->rename("$file.codeception-backup", $file, true);
             }
         }
 
         // Events tester local extension
-        if ($fs->exists(PROJECT_ROOT . '/extensions/local/bolt/tester-events/')) {
+        if ($fs->exists(INSTALL_ROOT . '/extensions/local/bolt/tester-events/')) {
             $this->writeln('Removing extensions/local/bolt/tester-events/');
-            $fs->remove(PROJECT_ROOT . '/extensions/local/bolt/tester-events/');
+            $fs->remove(INSTALL_ROOT . '/extensions/local/bolt/tester-events/');
 
             $finder = new Finder();
-            $finder->files()->in(PROJECT_ROOT . '/extensions/local/bolt/');
+            $finder->files()->in(INSTALL_ROOT . '/extensions/local/bolt/');
             if ($finder->count() === 0) {
-                $fs->remove(PROJECT_ROOT . '/extensions/local/bolt/');
+                $fs->remove(INSTALL_ROOT . '/extensions/local/bolt/');
             }
             $finder = new Finder();
-            $finder->files()->in(PROJECT_ROOT . '/extensions/local/');
+            $finder->files()->in(INSTALL_ROOT . '/extensions/local/');
             if ($finder->count() === 0) {
-                $fs->remove(PROJECT_ROOT . '/extensions/local/');
+                $fs->remove(INSTALL_ROOT . '/extensions/local/');
             }
         }
 

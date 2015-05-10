@@ -24,7 +24,7 @@ class YamlHelper extends \Codeception\Module
      */
     private function readYaml($file)
     {
-        $filename = PROJECT_ROOT . '/app/config/' . $file;
+        $filename = INSTALL_ROOT . '/app/config/' . $file;
         $parser = new Parser();
 
         if (is_readable($filename)) {
@@ -221,7 +221,7 @@ class YamlHelper extends \Codeception\Module
      */
     public function getUpdatedRouting()
     {
-        $filename = PROJECT_ROOT . '/app/config/routing.yml';
+        $filename = INSTALL_ROOT . '/app/config/routing.yml';
 
         $routing = file_get_contents($filename) . "\n";
         $routing .= "pagebinding:\n";
