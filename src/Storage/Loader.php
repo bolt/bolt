@@ -25,7 +25,7 @@ class Loader
     {
         foreach ($metadata->getFieldMappings() as $field) {
             $fieldtype = new $field['fieldtype']($field);
-            $qb = $fieldtype->load($qb, $metadata);
+            $fieldtype->load($qb, $metadata);
         }
 
         return $qb;
