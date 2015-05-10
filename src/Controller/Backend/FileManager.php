@@ -79,7 +79,7 @@ class FileManager extends BackendBase
             $this->abort(Response::HTTP_NOT_FOUND, $error);
         }
 
-        $writeallowed = $this->updateFileContents($file, $contents);
+        $writeallowed = $this->isWriteable($file);
         $data = array('contents' => $contents);
 
         /** @var Form $form */
@@ -339,16 +339,15 @@ class FileManager extends BackendBase
     }
 
     /**
-     * Update the file contents.
+     * Check if the file can be written to and notify if not.
      *
      * @param \League\Flysystem\File $file
-     * @param string                 $contents
      *
      * @return boolean
      */
-    private function updateFileContents(\League\Flysystem\File $file, $contents)
+    private function isWriteable(\League\Flysystem\File $file)
     {
-        if (!$file->update($contents)) {
+        if ($file->getVisibility() !== 'public') {
             $this->addFlash(
                 'info',
                 Trans::__(
