@@ -28,7 +28,7 @@ class UsersTest extends ControllerUnitTest
     public function testEdit()
     {
         $user = $this->getService('users')->getUser(1);
-        $this->getService('users')->currentuser = $user;
+        $this->getService('users')->setCurrentUser($user);
         $this->setRequest(Request::create('/bolt/useredit/1'));
 
         // This one should redirect because of permission failure
@@ -58,7 +58,7 @@ class UsersTest extends ControllerUnitTest
     public function testUserEditPost()
     {
         $user = $this->getService('users')->getUser(1);
-        $this->getService('users')->currentuser = $user;
+        $this->getService('users')->setCurrentUser($user);
 
         $perms = $this->getMock('Bolt\AccessControl\Permissions', array('isAllowedToManipulate'), array($this->getApp()));
         $perms->expects($this->any())
@@ -253,7 +253,7 @@ class UsersTest extends ControllerUnitTest
 
         // Setup the current user
         $user = $this->getService('users')->getUser(1);
-        $this->getService('users')->currentuser = $user;
+        $this->getService('users')->setCurrentUser($user);
 
         // This mocks a failure and ensures the error is reported
         $this->setRequest(Request::create('/bolt/user/disable/2'));
@@ -280,7 +280,7 @@ class UsersTest extends ControllerUnitTest
         // Symfony forms need a CSRF token so we have to mock this too
         $this->removeCSRF($this->getApp());
         $user = $this->getService('users')->getUser(1);
-        $this->getService('users')->currentuser = $user;
+        $this->getService('users')->setCurrentUser($user);
         $this->setRequest(Request::create('/bolt/profile'));
         $response = $this->controller()->actionProfile($this->getRequest());
         $context = $response->getContext();
@@ -294,25 +294,23 @@ class UsersTest extends ControllerUnitTest
             array(
                 'form' => array(
                     'id'                    => 1,
-                    'username'              => 'admin',
                     'password'              => '',
                     'password_confirmation' => '',
                     'email'                 => $user['email'],
-                    'displayname'           => "Admin Test",
+                    'displayname'           => 'Admin Test',
                     '_token'                => 'xyz'
                 )
             )
         ));
 
         $response = $this->controller()->actionProfile($this->getRequest());
-        $this->assertEquals('/bolt/profile', $response->getTargetUrl());
         $this->assertNotEmpty($this->getService('session')->getFlashBag()->get('success'));
     }
 
     public function testUsernameEditKillsSession()
     {
         $user = $this->getService('users')->getUser(1);
-        $this->getService('users')->currentuser = $user;
+        $this->getService('users')->setCurrentUser($user);
 
         $perms = $this->getMock('Bolt\AccessControl\Permissions', array('isAllowedToManipulate'), array($this->getApp()));
         $perms->expects($this->any())
