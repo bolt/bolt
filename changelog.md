@@ -105,7 +105,10 @@ Not yet released.
  - Fixed: Secondary menu refactoring (JS) (Fixes #2329 and #2347)
  - Fixed: prevent error message in `_sub_menu.twig` if `strict_variables` is set. (See #3462)
  - Security: Make sure we set the status correctly for 'async' requests. (See #3463)
- - Fixed: Set status explicitly on ajaxy requests. Fixes #3466
+ - Fixed: Set status explicitly on ajaxy requests. (See #3466)
+ - Fixed: Bunch of small HTML5 validation errors. (See #3485)
+ - Fixed: `attrib` for images. (See #3487)
+ - Fixed: Fix pagination for searching via `getContent()`` or `{% setcontent %}`. (See #3496)
 
 Bolt 2.1.1
 ----------
