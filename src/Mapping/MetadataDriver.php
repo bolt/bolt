@@ -190,6 +190,9 @@ class MetadataDriver implements MappingDriver
     
     public function setRelations($contentKey, $className)
     {
+        if (!isset($this->contenttypes[$contentKey]['relations'])) {
+            return;
+        }
         foreach ($this->contenttypes[$contentKey]['relations'] as $key => $data) {
             if (isset($data['alias'])) {
                 $relationKey = $data['alias'];
@@ -198,6 +201,7 @@ class MetadataDriver implements MappingDriver
             }
             $mapping['fieldname'] = $relationKey;
             $mapping['type'] = 'relation';
+            $mapping['fieldtype'] = $this->typemap['relation'];
             $this->metadata[$className]['fields'][$relationKey] = $mapping;
             $this->metadata[$className]['fields'][$relationKey]['data'] = $data;
         }
