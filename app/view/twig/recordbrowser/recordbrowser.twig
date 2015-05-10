@@ -2,7 +2,7 @@
 
 {% extends '_base/_page-popup.twig' %}
 
-{% block page_title __('Files') %}
+{% block page_title __('Records') %}
 
 {% block page_main %}
 
@@ -15,10 +15,10 @@
     </div>
 
     <div class="row">
-        <div class="col-xs-12"{{ macro.attr({_bind: ['filebrowser']}) }}>
-            {% include 'filebrowser/_navigation.twig' %}
+        <div class="col-xs-12"{{ macro.attr({_bind: ['recordbrowser']}) }}>
+            {% include 'recordbrowser/_navigation.twig' %}
 
-            {% include 'filebrowser/_content.twig' %}
+            {% include 'recordbrowser/_content.twig' %}
 
             <hr>
 

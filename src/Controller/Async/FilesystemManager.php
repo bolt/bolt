@@ -31,15 +31,14 @@ class FilesystemManager extends AsyncBase
         $ctr->get('/filesautocomplete', 'actionFilesAutoComplete')
             ->bind('filesautocomplete');
 
-        $ctr->get('/filebrowser/{contenttype}', 'actionFileBrowser')
-            ->assert('contenttype', '.*')
-            ->bind('filebrowser');
-
         $ctr->post('/deletefile', 'actionDeleteFile')
             ->bind('deletefile');
 
         $ctr->post('/duplicatefile', 'actionDuplicateFile')
             ->bind('duplicatefile');
+
+        $ctr->get('/recordbrowser', 'actionRecordBrowser')
+            ->bind('recordbrowser');
 
         $ctr->post('/renamefile', 'actionRenameFile')
             ->bind('renamefile');
@@ -174,14 +173,30 @@ class FilesystemManager extends AsyncBase
     }
 
     /**
-     * List pages in given contenttype, to easily insert links through the
-     * WYSIWYG editor.
+     * Return autocomplete data for a file name.
      *
-     * @param string $contenttype
+     * @param Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function actionFilesAutoComplete(Request $request)
+    {
+        $term = $request->get('term');
+        $extensions = $request->query->get('ext');
+
+        $files = $this->getFilesystemManager()->search($term, $extensions);
+
+        $this->app['debug'] = false;
+
+        return $this->json($files);
+    }
+
+    /**
+     * List records to easily insert links through the WYSIWYG editor.
      *
      * @return mixed
      */
-    public function actionFileBrowser($contenttype)
+    public function actionRecordBrowser()
     {
         $results = array();
 
@@ -201,26 +216,7 @@ class FilesystemManager extends AsyncBase
             'results' => $results,
         );
 
-        return $this->render('filebrowser/filebrowser.twig', array('context' => $context));
-    }
-
-    /**
-     * Return autocomplete data for a file name.
-     *
-     * @param Request $request
-     *
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
-     */
-    public function actionFilesAutoComplete(Request $request)
-    {
-        $term = $request->get('term');
-        $extensions = $request->query->get('ext');
-
-        $files = $this->getFilesystemManager()->search($term, $extensions);
-
-        $this->app['debug'] = false;
-
-        return $this->json($files);
+        return $this->render('recordbrowser/recordbrowser.twig', array('context' => $context));
     }
 
     /**

@@ -922,7 +922,7 @@ class Config
                     'filebrowserWindowHeight' => 480
                 ),
                 'filebrowser' => array(
-                    'browseUrl'      => $this->app['resources']->getUrl('async') . 'filebrowser/',
+                    'browseUrl'      => $this->app['resources']->getUrl('async') . 'recordbrowser/',
                     'imageBrowseUrl' => $this->app['resources']->getUrl('bolt') . 'files/files'
                 ),
             ),
@@ -1018,7 +1018,7 @@ class Config
                 $app . 'view/css/ckeditor.css'
             )
         );
-        $this->set('general/wysiwyg/filebrowser/browseUrl', $this->app['resources']->getUrl('async') . 'filebrowser/');
+        $this->set('general/wysiwyg/filebrowser/browseUrl', $this->app['resources']->getUrl('async') . 'recordbrowser/');
         $this->set(
             'general/wysiwyg/filebrowser/imageBrowseUrl',
             $this->app['resources']->getUrl('bolt') . 'files/files/'
