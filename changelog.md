@@ -3,6 +3,15 @@ Bolt 2.1.8
 
 Released 2015-04-29. Notable changes: 
 
+ - Fixed: `attrib` for images. (See #3487)
+ - Fixed: Fix pagination for searching via `getContent()`` or `{% setcontent %}`. (See #3496)
+ - Fixed: Use 'alt' instead of 'title' in Image fieldtype's attributes. #3505
+
+Bolt 2.1.8
+----------
+
+Released 2015-04-29. Notable changes: 
+
  - Fix: prevent error message in `_sub_menu.twig` if `strict_variables` is set. (See #3462)
  - Security: Make sure we set the status correctly for 'async' requests. (See #3463)
  - Fixed: Set status explicitly on ajaxy requests. Fixes #3466
