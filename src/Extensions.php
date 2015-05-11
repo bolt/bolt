@@ -251,7 +251,7 @@ class Extensions
      */
     public function getComposerConfig($extensionName)
     {
-        return $this->composer[$extensionName];
+        return isset($this->composer[$extensionName]) ? $this->composer[$extensionName] : array();
     }
 
     /**
