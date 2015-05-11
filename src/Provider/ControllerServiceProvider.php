@@ -26,12 +26,12 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
         if (!isset($app['controller.async.mount_prefix'])) {
             $app['controller.async.mount_prefix'] = '/async';
         }
-        if (!isset($app['controller.extend.mount_prefix'])) {
+        if (!isset($app['controller.backend.extend.mount_prefix'])) {
             $app['controller.backend.extend.mount_prefix'] = function ($app) {
                 return $app['config']->get('general/branding/path') . '/extend';
             };
         }
-        if (!isset($app['controller.upload.mount_prefix'])) {
+        if (!isset($app['controller.backend.upload.mount_prefix'])) {
             $app['controller.backend.upload.mount_prefix'] = function ($app) {
                 return $app['config']->get('general/branding/path') . '/upload';
             };
