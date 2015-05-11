@@ -107,6 +107,8 @@ Not yet released.
  - Fixed: Bunch of small HTML5 validation errors. (See #3485)
  - Fixed: `attrib` for images. (See #3487)
  - Fixed: Fix pagination for searching via `getContent()`` or `{% setcontent %}`. (See #3496)
+ - Fixed: Handle empty composer config, e.g. themes (See #3509)
+ - Fixed: Use correct service key (See #3507)
 
 Bolt 2.1.1
 ----------
