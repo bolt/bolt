@@ -30,7 +30,7 @@ class StatService
         $url = sprintf($this->app['extend.site'] . $this->urls['install'], $package, $version);
 
         try {
-            if ($this->app->deprecated) {
+            if ($this->app['deprecated.php']) {
                 /** @deprecated remove when PHP 5.3 support is dropped */
                 $this->app['guzzle.client']->head($url)->send();
             } else {
