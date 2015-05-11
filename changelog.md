@@ -110,6 +110,110 @@ Not yet released.
  - Fixed: Handle empty composer config, e.g. themes (See #3509)
  - Fixed: Use correct service key (See #3507)
 
+Bolt 2.1.8
+----------
+
+Released 2015-04-29. Notable changes: 
+
+ - Fixed: `attrib` for images. (See #3487)
+ - Fixed: Fix pagination for searching via `getContent()`` or `{% setcontent %}`. (See #3496)
+ - Fixed: Use 'alt' instead of 'title' in Image fieldtype's attributes. (See #3505)
+
+Bolt 2.1.8
+----------
+
+Released 2015-04-29. Notable changes: 
+
+ - Fix: prevent error message in `_sub_menu.twig` if `strict_variables` is set. (See #3462)
+ - Security: Make sure we set the status correctly for 'async' requests. (See #3463)
+ - Fixed: Set status explicitly on ajaxy requests. Fixes #3466
+
+Bolt 2.1.7
+----------
+
+Released 2015-04-29. Notable changes: 
+
+ - Check if folder exists first, when using it for uploads (See #3450) 
+ - Allow 'duplicate' and 'delete' from contextual menu, when a Record has relationships. Fixes #3431 
+ - Don't trigger DBCheck for changed indexes. Fixes #3426 
+ - Make Application::unsetSessionCookie() optional and BC friendly (see #3427)
+ - Make the removal / stripping of `&nbsp;` characters in CKEditor fields optional. (see #3373)
+ - Fixed: Allow editing of empty files. (Thanks, @SahAssar, see #3391)
+ - Added: Always have a fallback for a timezone when it isn't set in either php.ini or config.yml (See #3394)
+ - Only show the "delete" button if the page has been saved already. Fixes #3444
+
+Bolt 2.1.6
+----------
+
+Released 2015-04-13. Notable changes: 
+
+ - Fixed: Slugs generation with `uses:` fixed (see #3310)
+ - Added: Frontend requests should not set cookies. Remove them, to allow Varnish to do a better job of caching the request. (see #3309)
+ - Added: Add exif aspect ratio and exif orientation data to imageinfo() (Thanks @Intendit,see #3308)
+ - Fixed: Fix rendering in sidebar on mobile. (see #3246)
+ - Added: New feature: Retina support for thumnbails (see bolt/bolt-thumbs/#19)
+ - Added: Allow filtering in 'record.related' on other fields too. (Thanks @miguelavaqrod, see #3303)
+ - Fixed: Fix path for non-ajaxy file-upload. (see #3303)
+ - Fixed: Added extra check for "view permission" for quicklinks (Thanks @StevendeVries, see #3299)
+ - Change: Frontend requests should not set cookies. Remove them, to allow Varnish to do a better job of caching the request. (See #3309)
+ - Fixed: Fix rendering in sidebar on mobile. Fixes (See #3321)
+ - Fixed: Fix for "timed depublish". (See #3330)
+ - Fixed: Only setting default timezone if config provides it (See #3334)
+ - Added: Small UX improvement: Show spinner while doing ajaxy save. (See #3355)
+ - Fixed: Fixing small inconsistency in `permissions.yml.dist': 'editors' can browse uploaded files from within CKeditor now. (See #3357)
+ - Fix: People who try installing Bolt on PHP 5.1 or 5.2 will now get a nice and friendly notice that Bolt won't work. (see #3371)
+
+Bolt 2.1.5
+----------
+
+Released 2015-04-01. Notable changes:
+
+ - Fixed: Strange step behaviour when no `min` is set for integer fields (Thanks @Pinpickle, see #3284)
+ - Fixed: Make sure we have the same amount of columns, always. (See #3228) 
+ - Added: Allow for filtering on 'taxonomies' on the overview pages. (See #3278)
+ - Added: Support for methods in `routing.yml` (see #3292)
+ - Fixed: Publishing for items with 'Timed Publish' is working again. (Fixes #3279)
+
+Bolt 2.1.4
+----------
+
+Released 2015-03-27. Notable changes:
+
+ - Never add extra jQueries on the backend. (See #3177)
+ - JS bugfixes (save button + goto publishing status) (See #3160)
+ - Flush the cache if the Bolt version has changed (See #3183)
+ - Fixed: Allow `|||`-queries to be more complex (Thanks @Pinpickle, see #3189)
+ - Fixed: Storage not using sort from contenttype (Thanks @CarsonF, see #3187)
+ - Change: Only log content not found errors if slug isn't numeric, since `next` and `previous` check by `id` (see #3186)
+ - Fixed: Make sure we use `ParsedownExtra`, instead of just `Parsedown`. (Thanks, @cooperaj, see #3194)
+ - Fixed: Changelog content uses correct tablenames. (See 3198)
+ - Change: Improve `shyphenate()`: Only add breaks to long words, instead of everywhere. (see #3221) 
+ - Fixed: Fix 'current' in menu. (see #3209)
+ - Fixed: `isallowed` checks for extensions to also check for `extensions:config` (Thanks @SahAssar, see #3249)
+ - Fixed: Allow 'name' in contenttype to override translation, for 2.1.x (see #3259)
+ - Fixed: Make `BaseExtension::initialize()` non-abstract again to deal with PHP < 5.3.10 (See #3257)
+
+Bolt 2.1.3
+----------
+
+Released 2015-03-18. Notable changes:
+
+ - Added: Added an option to delete a record, when editing it. (See #3134)
+ - Removed: removed "frontend permission checks". (#see 3133)
+ - Fixed: Prevent extra spaces in excerpts. (See #3130)
+ - Fixed: Show notice on update of Bolt. (See #3129)
+ - Fixed: Make dashboard activity log autoupdate again (see #3126)
+ - Added: Make the sanitisation of markdown fields configurable. (see #2992 #3142)
+ - Fixed: Fixed z-index of sidebar. (See #3100)
+ - Fixed: Disable "revert" button on 'edit file' screen, when file is not wrtiable. (See #3009)
+ - Added: Allow for multiple (fallback) locales in `config.yml`. (Thanks @sintemaa, see #3127)
+ - Fixed: Warning for unsaved content comes up when nothing has been changed (see #3077)
+ - Fixed: Be a little more strict in picking 'selected' options: Only use the fallback, if there's no valid id set. 
+ - Change: Lock composer.json to Symfony 2.6.4 as 2.6.5 fails PHPUnit
+ - Added: Re-added standalone jQuery lib, as some extensions might need it. 
+ - Fixed: Workaround, so we don't break on installations with `"require": []` in `extensions/composer.json` (see #3171)
+
+
 Bolt 2.1.1
 ----------
 
@@ -124,7 +228,6 @@ Released 2015-03-12. Notable changes:
  - Fixed: Regression that errored on PHP < 5.3.6: `Remove SplFileInfo::getExtension()`. (See #3095)
  - Fixed: Extension theme installer working properly (see #3108, thanks @nikgo)
  - Fixed: Replacing `&nbsp;` with single space, instead of nothing. (See #3111)
- - Fixed: Slugs generation with `uses:` fixed (see #3310)
 
 
 Bolt 2.1.0
