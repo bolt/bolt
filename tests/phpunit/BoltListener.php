@@ -207,20 +207,6 @@ class BoltListener implements \PHPUnit_Framework_TestListener
      */
     private function cleanTestEnv()
     {
-        // Write out a report about each test's execution time
-        if ($this->timer) {
-            $file = TEST_ROOT . '/app/cache/phpunit-test-timer.txt';
-            if (is_readable($file)) {
-                unlink($file);
-            }
-
-            arsort($this->tracker);
-            foreach ($this->tracker as $test => $time) {
-                $time = substr($time, 0, 6);
-                file_put_contents($file, "$time\t\t$test\n", FILE_APPEND);
-            }
-        }
-
         // Remove the test database
         if ($this->reset) {
             $fs = new Filesystem();
@@ -237,5 +223,19 @@ class BoltListener implements \PHPUnit_Framework_TestListener
 
         // Empty the cache
         system('php ' . NUT_PATH . ' cache:clear');
+
+        // Write out a report about each test's execution time
+        if ($this->timer) {
+            $file = TEST_ROOT . '/app/cache/phpunit-test-timer.txt';
+            if (is_readable($file)) {
+                unlink($file);
+            }
+
+            arsort($this->tracker);
+            foreach ($this->tracker as $test => $time) {
+                $time = substr($time, 0, 6);
+                file_put_contents($file, "$time\t\t$test\n", FILE_APPEND);
+            }
+        }
     }
 }
