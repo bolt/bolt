@@ -51,6 +51,9 @@ class Async implements ControllerProviderInterface
             ->value('path', '')
             ->bind('asyncbrowse');
 
+        $ctr->post("/createfile", array($this, 'createfile'))
+            ->bind('createfile');
+
         $ctr->post("/renamefile", array($this, 'renamefile'))
             ->bind('renamefile');
 
@@ -635,6 +638,26 @@ class Async implements ControllerProviderInterface
         }
 
         return $app['render']->render($twig, array('context' => $context));
+    }
+
+    /**
+     * Create a file within the files directory tree.
+     *
+     * @param \Silex\Application $app     The Silex Application Container
+     * @param Request            $request The HTTP Request Object containing the GET Params
+     *
+     * @return Boolean Whether the renaming action was successful
+     */
+    public function createfile(Silex\Application $app, Request $request) {
+        $namespace  = $request->request->get('namespace');
+        $parentPath  = $request->request->get('parentPath');
+        $filename  = $request->request->get('filename');
+
+        try {
+            return $app['filesystem']->put("$namespace://$parentPath/$filename", " ");
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 
     /**

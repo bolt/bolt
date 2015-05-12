@@ -13,6 +13,7 @@
 {% block page_main %}
 
     {{ data('files.msg.create_folder', __('Please enter a new folder name')) }}
+    {{ data('files.msg.create_file', __('Please enter a new file name')) }}
     {% if context.folders|length > 0 %}
         {{ data('files.msg.rename_folder', __('Please enter a new folder name!')) }}
         {{ data('files.msg.delete_folder', __('Do you really want to delete %FOLDERNAME%?')) }}
@@ -32,6 +33,13 @@
             {% endif %}
 
             <p>
+                <a href="#" class="btn btn-default"
+                   data-action="Bolt.files.createFile('{{ context.namespace }}',
+                                                    '{{ context.pathsegments|keys|last }}',
+                                                    this);">
+                    <i class="fa fa-fw fa-plus"></i>
+                    {{ __('Create File') }}
+                </a>
                 <a href="#" class="btn btn-default"
                    data-action="Bolt.files.createFolder('{{ context.namespace }}',
                                                     '{{ context.pathsegments|keys|last }}',
