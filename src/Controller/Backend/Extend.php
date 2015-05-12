@@ -66,11 +66,6 @@ class Extend extends BackendBase
      */
     public function before(Request $request, Silex\Application $app, $roleRoute = null)
     {
-        // This disallows extensions from adding any extra snippets to the output
-        if ($request->get('_route') !== 'extend') {
-            $app['htmlsnippets'] = false;
-        }
-
         return parent::before($request, $app, 'extensions');
     }
 

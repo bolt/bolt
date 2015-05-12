@@ -479,41 +479,6 @@ class Application extends Silex\Application
             $response->headers->set('Frame-Options', 'SAMEORIGIN');
         }
 
-        // true if we need to consider adding html snippets
-        if (isset($this['htmlsnippets']) && ($this['htmlsnippets'] === true)) {
-            // only add when content-type is text/html
-            if (strpos($response->headers->get('Content-Type'), 'text/html') !== false) {
-                // Add our meta generator tag.
-                $this['extensions']->insertSnippet(Extensions\Snippets\Location::AFTER_META, '<meta name="generator" content="Bolt">');
-
-                // Perhaps add a canonical link.
-
-                if ($this['config']->get('general/canonical')) {
-                    $snippet = sprintf(
-                        '<link rel="canonical" href="%s">',
-                        htmlspecialchars($this['resources']->getUrl('canonicalurl'), ENT_QUOTES)
-                    );
-                    $this['extensions']->insertSnippet(Extensions\Snippets\Location::AFTER_META, $snippet);
-                }
-
-                // Perhaps add a favicon.
-                if ($this['config']->get('general/favicon')) {
-                    $snippet = sprintf(
-                        '<link rel="shortcut icon" href="%s%s%s">',
-                        htmlspecialchars($this['resources']->getUrl('hosturl'), ENT_QUOTES),
-                        htmlspecialchars($this['resources']->getUrl('theme'), ENT_QUOTES),
-                        htmlspecialchars($this['config']->get('general/favicon'), ENT_QUOTES)
-                    );
-                    $this['extensions']->insertSnippet(Extensions\Snippets\Location::AFTER_META, $snippet);
-                }
-
-                // Do some post-processing.. Hooks, snippets.
-                $html = $this['render']->postProcess($response);
-
-                $response->setContent($html);
-            }
-        }
-
         // Stop the 'stopwatch' for the profiler.
         $this['stopwatch']->stop('bolt.app.after');
     }
