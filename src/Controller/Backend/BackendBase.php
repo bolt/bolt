@@ -53,8 +53,6 @@ abstract class BackendBase extends Base
             $roleRoute = $route;
         }
 
-        $app['debugbar'] = true;
-
         // Sanity checks for doubles in in contenttypes.
         // unfortunately this has to be done here, because the 'translator' classes need to be initialised.
         $app['config']->checkConfig();

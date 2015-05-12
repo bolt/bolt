@@ -57,7 +57,6 @@ class Frontend extends ConfigurableBase
             return $this->redirectToRoute('useredit', array('id' => ''));
         }
 
-        $this->app['debugbar'] = true;
         $this->app['htmlsnippets'] = true;
 
         // If we are in maintenance mode and current user is not logged in, show maintenance notice.

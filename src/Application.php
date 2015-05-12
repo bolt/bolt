@@ -61,7 +61,6 @@ class Application extends Silex\Application
         $this['resources']->initialize();
 
         $this['debug'] = $this['config']->get('general/debug', false);
-        $this['debugbar'] = false;
 
         // Initialize the 'editlink' and 'edittitle'.
         $this['editlink'] = '';

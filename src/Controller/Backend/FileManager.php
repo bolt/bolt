@@ -192,7 +192,6 @@ class FileManager extends BackendBase
         if (!$request->query->has('CKEditor')) {
             $twig = 'files/files.twig';
         } else {
-            $this->app['debugbar'] = false;
             $twig = 'files_ck/files_ck.twig';
         }
 

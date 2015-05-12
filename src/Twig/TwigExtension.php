@@ -46,7 +46,6 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFunction('backtrace',          array($this, 'printBacktrace')),
             new \Twig_SimpleFunction('current',            array($this, 'current')),
             new \Twig_SimpleFunction('data',               array($this, 'addData')),
-            new \Twig_SimpleFunction('debugbar',           array($this, 'debugBar')),
             new \Twig_SimpleFunction('dump',               array($this, 'printDump')),
             new \Twig_SimpleFunction('excerpt',            array($this, 'excerpt'),     $safe),
             new \Twig_SimpleFunction('fancybox',           array($this, 'popup'),       $safe), // "Fancybox" is deprecated.
@@ -181,14 +180,6 @@ class TwigExtension extends \Twig_Extension
     public function current($content)
     {
         return $this->handlers['record']->current($content);
-    }
-
-    /**
-     * @see \Bolt\Twig\Handler\UtilsHandler::debugBar()
-     */
-    public function debugBar($value)
-    {
-        $this->handlers['utils']->debugBar($value);
     }
 
     /**
