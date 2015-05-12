@@ -412,49 +412,4 @@ class Frontend extends ConfigurableBase
 
         return $this->render($template);
     }
-
-    /**
-     * Render a template while wrapping Twig_Error_Loader in 404
-     * in case the template is not found by Twig.
-     *
-     * @param \Silex\Application $app
-     * @param string             $template Ex: 'listing.twig'
-     * @param string             $title    '%s' in "No template for '%s' defined."
-     *
-     * @return \Twig_Markup Rendered template
-     */
-//     protected function render($template, $title)
-//     {
-//         try {
-//             return $app['twig']->render($template);
-//         } catch (\Twig_Error_Loader $e) {
-//             $error = sprintf(
-//                 'Rendering %s failed: %s',
-//                 $title,
-//                 $e->getMessage()
-//             );
-
-//             // Log it
-//             $app['logger.system']->error($error, array('event' => 'twig'));
-
-//             // Set the template error
-//             $this->setTemplateError($app, $error);
-
-//             // Abort ship
-//             return $this->abort(Response::HTTP_INTERNAL_SERVER_ERROR, $error);
-//         }
-//     }
-
-    /**
-     * @deprecated to be removed in Bolt 3.0
-     *
-     * @param \Silex\Application $app
-     * @param string             $error
-     */
-//     protected function setTemplateError($error)
-//     {
-//         if (isset($app['twig.logger'])) {
-//             $app['twig.logger']->setTrackedValue('templateerror', $error);
-//         }
-//     }
 }
