@@ -57,6 +57,15 @@ class RoutingServiceProvider implements ServiceProviderInterface
         $app['routing.listener.zone_guesser'] = $app->share(function ($app) {
             return new Listener\ZoneGuesser($app);
         });
+
+        $app['routing.listener.snippet'] = $app->share(function ($app) {
+            return new Listener\SnippetListener(
+                $app['extensions'],
+                $app['config'],
+                $app['resources'],
+                $app['render']
+            );
+        });
     }
 
     public function boot(Application $app)
@@ -71,6 +80,7 @@ class RoutingServiceProvider implements ServiceProviderInterface
          */
         $dispatcher->addSubscriber(new RedirectListener($app['session'], $app['url_generator.lazy'], $app['users'], $app['authentication']));
         $dispatcher->addSubscriber($app['routing.listener.zone_guesser']);
+        $dispatcher->addSubscriber($app['routing.listener.snippet']);
 
         if ($proxies = $app['config']->get('general/trustProxies')) {
             Request::setTrustedProxies($proxies);
