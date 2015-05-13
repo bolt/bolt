@@ -100,7 +100,7 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
         $dispatcher = $app['dispatcher'];
         $dispatcher->addSubscriber($this);
 
-        // For BC
+        /** @deprecated Since 2.3 and will be removed in Bolt v3.0 */
         $dispatcher->addListener(ControllerEvents::MOUNT, array($app, 'initMountpoints'), -10);
 
         $event = new MountEvent($app);
