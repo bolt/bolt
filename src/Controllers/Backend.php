@@ -25,6 +25,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Yaml;
 use Symfony\Component\Yaml\Exception\ParseException;
+use League\Flysystem\FileNotFoundException;
 
 /**
  * Backend controller grouping.
@@ -1622,9 +1623,15 @@ class Backend implements ControllerProviderInterface
             $uploadview = false;
         }
 
-        if ($filesystem->getVisibility($path) === 'public') {
+        try {
+            $visibility = $filesystem->getVisibility($path);
+        } catch (FileNotFoundException $fnfe) {
+            $visibility = false;
+        }
+
+        if ($visibility === 'public') {
             $validFolder = true;
-        } elseif ($filesystem->getVisibility($path) === 'readonly') {
+        } elseif ($visibility === 'readonly') {
             $validFolder = true;
             $uploadview = false;
         } else {
