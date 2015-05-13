@@ -901,7 +901,11 @@ class Users
                         ->where($key . ' = ?')
                         ->setParameter(0, $id);
 
-        $user = $queryBuilder->execute()->fetch();
+        try {
+            $user = $queryBuilder->execute()->fetch();
+        } catch (\Exception $e) {
+            // Nope. No users.
+        }
 
         if (!empty($user)) {
             $user['password'] = '**dontchange**';
