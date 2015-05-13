@@ -25,9 +25,9 @@ class DatabaseImport extends BaseCommand
     {
         $this
             ->setName('database:import')
-            ->setDescription('[EXPERIMENTAL] Import database records from a YAML file')
+            ->setDescription('[EXPERIMENTAL] Import database records from a YAML or JSON file')
             ->addOption('no-interaction', 'n', InputOption::VALUE_NONE, 'Do not ask for confirmation')
-            ->addOption('file',           'f', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'A YAML file to use for import data. Must end with .yml or .yaml');
+            ->addOption('file',           'f', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'A YAML or JSON file to use for import data. Must end with .yml, .yaml or .json');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

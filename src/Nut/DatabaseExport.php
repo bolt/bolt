@@ -21,10 +21,10 @@ class DatabaseExport extends BaseCommand
     {
         $this
             ->setName('database:export')
-            ->setDescription('[EXPERIMENTAL] Export the database records to YAML file')
+            ->setDescription('[EXPERIMENTAL] Export the database records to a YAML or JSON file.')
             ->addOption('no-interaction', 'n', InputOption::VALUE_NONE, 'Do not ask for confirmation')
             ->addOption('contenttypes',   'c', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'One or more contenttypes to export records for.')
-            ->addOption('file',           'f', InputOption::VALUE_REQUIRED, 'A YAML file to use for export data. Must end with .yml or .yaml');
+            ->addOption('file',           'f', InputOption::VALUE_REQUIRED, 'A YAML or JSON file to use for export data. Must end with .yml, .yaml or .json');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
