@@ -5,6 +5,7 @@ use Bolt\Helpers\Input;
 use Bolt\Library as Lib;
 use Bolt\Translation\Translator as Trans;
 use League\Flysystem\File;
+use League\Flysystem\FileNotFoundException;
 use Silex\ControllerCollection;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -146,9 +147,15 @@ class FileManager extends BackendBase
             $uploadview = false;
         }
 
-        if ($filesystem->getVisibility($path) === 'public') {
+        try {
+            $visibility = $filesystem->getVisibility($path);
+        } catch (FileNotFoundException $fnfe) {
+            $visibility = false;
+        }
+
+        if ($visibility === 'public') {
             $validFolder = true;
-        } elseif ($filesystem->getVisibility($path) === 'readonly') {
+        } elseif ($visibility === 'readonly') {
             $validFolder = true;
             $uploadview = false;
         } else {
