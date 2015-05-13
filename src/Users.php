@@ -831,11 +831,14 @@ class Users
     public function getUsers()
     {
         if (empty($this->users) || !is_array($this->users)) {
-            $query = sprintf('SELECT * FROM %s', $this->usertable);
-            $this->users = array();
+            /** @var \Doctrine\DBAL\Query\QueryBuilder $queryBuilder */
+            $queryBuilder = $this->app['db']->createQueryBuilder()
+                ->select('*')
+                ->from($this->usertable);
 
             try {
-                $tempusers = $this->db->fetchAll($query);
+                $this->users = array();
+                $tempusers = $queryBuilder->execute()->fetchAll();
 
                 foreach ($tempusers as $user) {
                     $key = $user['username'];
@@ -901,7 +904,11 @@ class Users
                         ->where($key . ' = ?')
                         ->setParameter(0, $id);
 
-        $user = $queryBuilder->execute()->fetch();
+        try {
+            $user = $queryBuilder->execute()->fetch();
+        } catch (\Exception $e) {
+            // Nope. No users.
+        }
 
         if (!empty($user)) {
             $user['password'] = '**dontchange**';
