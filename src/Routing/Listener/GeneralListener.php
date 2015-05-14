@@ -2,6 +2,7 @@
 namespace Bolt\Routing\Listener;
 
 use Bolt\Controller\Zone;
+use Bolt\Translation\Translator as Trans;
 use Silex\Application;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -38,11 +39,36 @@ class GeneralListener implements EventSubscriberInterface
     public function onKernelRequest(GetResponseEvent $event)
     {
         $request = $event->getRequest();
+
+        $this->mailConfigCheck($request);
     }
 
     public function onResponse(FilterResponseEvent $event)
     {
         $response = $event->getResponse();
+    }
+
+    /**
+     * No Mail transport has been set. We should gently nudge the user to set
+     * the mail configuration.
+     *
+     * For now, we only pester the user, if an extension needs to be able to
+     * send mail, but it's not been set up.
+     *
+     * @see: the issue at https://github.com/bolt/bolt/issues/2908
+     *
+     * @param Request $request
+     */
+    protected function mailConfigCheck(Request $request)
+    {
+        if (!$request->hasPreviousSession()) {
+            return;
+        }
+
+        if (!$this->app['config']->get('general/mailoptions') && $this->app['extensions']->hasMailSenders()) {
+            $error = "One or more installed extensions need to be able to send email. Please set up the 'mailoptions' in config.yml.";
+            $this->app['session']->getFlashBag()->add('error', Trans::__($error));
+        }
     }
 
     /**

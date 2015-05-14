@@ -123,8 +123,6 @@ class Application extends Silex\Application
         // Initialize enabled extensions before executing handlers.
         $this->initExtensions();
 
-        $this->initMailCheck();
-
         // Initialise the global 'before' handler.
         $this->before(array($this, 'beforeHandler'));
 
@@ -391,22 +389,6 @@ class Application extends Silex\Application
     public function initExtensions()
     {
         $this['extensions']->initialize();
-    }
-
-    /**
-     * No Mail transport has been set. We should gently nudge the user to set the mail configuration.
-     *
-     * @see: the issue at https://github.com/bolt/bolt/issues/2908
-     *
-     * For now, we only pester the user, if an extension needs to be able to send
-     * mail, but it's not been set up.
-     */
-    public function initMailCheck()
-    {
-        if (!$this['config']->get('general/mailoptions') && $this['extensions']->hasMailSenders()) {
-            $error = "One or more installed extensions need to be able to send email. Please set up the 'mailoptions' in config.yml.";
-            $this['session']->getFlashBag()->add('error', Trans::__($error));
-        }
     }
 
     /**
