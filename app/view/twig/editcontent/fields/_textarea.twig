@@ -25,7 +25,7 @@
 
     <div class="col-sm-12">
         <label class="control-label">{{ (option.info) ? macro.infopop(labelkey, option.info) : labelkey }}</label>
-        <textarea{{ macro.attr(attr_text) }}>{{ context.content.get(key)|default('') }}</textarea>
+        <textarea{{ macro.attr(attr_text) }}>{{ context.content.get(contentkey)|default('') }}</textarea>
     </div>
 
 </fieldset>
