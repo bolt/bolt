@@ -8,7 +8,6 @@ use Bolt\Controller\Zone;
 use Bolt\Extensions;
 use Bolt\Extensions\Snippets\Location;
 use Bolt\Render;
-use Silex\Application;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;

@@ -62,6 +62,10 @@ class RoutingServiceProvider implements ServiceProviderInterface
             return new Listener\GeneralListener($app);
         });
 
+        $app['routing.listener.kernel_exception'] = $app->share(function ($app) {
+            return new Listener\KernelExceptionListener($app);
+        });
+
         $app['routing.listener.snippet'] = $app->share(function ($app) {
             return new Listener\SnippetListener(
                 $app['extensions'],
@@ -84,6 +88,7 @@ class RoutingServiceProvider implements ServiceProviderInterface
          */
         $dispatcher->addSubscriber(new RedirectListener($app['session'], $app['url_generator.lazy'], $app['users'], $app['authentication']));
         $dispatcher->addSubscriber($app['routing.listener.general']);
+        $dispatcher->addSubscriber($app['routing.listener.kernel_exception']);
         $dispatcher->addSubscriber($app['routing.listener.zone_guesser']);
         $dispatcher->addSubscriber($app['routing.listener.snippet']);
 
