@@ -403,7 +403,7 @@ class Content implements \ArrayAccess
                     $unserdata = $value;
                 }
 
-                if ($unserdata !== false) {
+                if (is_array($unserdata)) {
                     $templateContent = new Content($this->app, $this->getTemplateFieldsContentType(), array(), false);
                     $value = $templateContent;
                     $this->populateTemplateFieldsContenttype($value);
