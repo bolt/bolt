@@ -522,7 +522,7 @@ class Application extends Silex\Application
     }
 
     /**
-     * @todo Can this be removed?
+     * @deprecated Remove with the monolithic Bolt\Storage in 3.0
      *
      * @param string $name
      *
