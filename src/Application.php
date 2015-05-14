@@ -129,7 +129,7 @@ class Application extends Silex\Application
         // Initialise the global 'after' handler.
         $this->after(array($this, 'afterHandler'));
 
-        // Initialise the 'error' handler.
+        // Calling for BC. Initialise the 'error' handler.
         $this->error(array($this, 'errorHandler'));
     }
 
@@ -460,53 +460,10 @@ class Application extends Silex\Application
     }
 
     /**
-     * Handle errors thrown in the application. Set up whoops, if set in conf.
-     *
-     * @param \Exception $exception
-     *
-     * @return Response
+     * @deprecated since Bolt 2.3 and will be removed in Bolt 3.0.
      */
     public function errorHandler(\Exception $exception)
     {
-        // Log the error message
-        $message = $exception->getMessage();
-        $this['logger.system']->critical($message, array('event' => 'exception', 'exception' => $exception));
-
-        $trace = $exception->getTrace();
-        foreach ($trace as $key => $value) {
-            if (!empty($value['file']) && strpos($value['file'], '/vendor/') > 0) {
-                unset($trace[$key]['args']);
-            }
-
-            // Don't display the full path.
-            if (isset($trace[$key]['file'])) {
-                $trace[$key]['file'] = str_replace($this['resources']->getPath('root'), '[root]', $trace[$key]['file']);
-            }
-        }
-
-        $end = $this['config']->getWhichEnd();
-        if (($exception instanceof HttpException) && ($end == 'frontend')) {
-            $content = $this['storage']->getContent($this['config']->get('general/notfound'), array('returnsingle' => true));
-
-            // Then, select which template to use, based on our 'cascading templates rules'
-            if ($content instanceof Content && !empty($content->id)) {
-                $template = $this['templatechooser']->record($content);
-
-                return $this['render']->render($template, $content->getTemplateContext());
-            }
-
-            $message = "The page could not be found, and there is no 'notfound' set in 'config.yml'. Sorry about that.";
-        }
-
-        $context = array(
-            'class'   => get_class($exception),
-            'message' => $message,
-            'code'    => $exception->getCode(),
-            'trace'   => $trace,
-        );
-
-        // Note: This uses the template from app/theme_defaults. Not app/view/twig.
-        return $this['render']->render('error.twig', array('context' => $context));
     }
 
     /**
