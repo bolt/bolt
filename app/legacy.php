@@ -21,7 +21,7 @@
         <h1>Bolt - Fatal error.</h1>
         <p>
             <strong>
-                Bolt requires PHP <u>5.3.3</u> or higher. You have PHP 
+                Bolt requires PHP <u>5.4.16</u> or higher. You have PHP
                 <u><?=htmlspecialchars(PHP_VERSION, ENT_QUOTES)?></u>, so Bolt will not run on your current setup.
             </strong>
         </p>
