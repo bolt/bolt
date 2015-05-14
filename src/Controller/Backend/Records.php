@@ -515,10 +515,7 @@ class Records extends BackendBase
          *     StorageEvents::PRE_SAVE
          *     StorageEvents::POST_SAVE
          */
-        Response::closeOutputBuffers(0, false); // '0' should be the default output handler
-//         if (ob_get_length()) {
-//             ob_end_clean();
-//         }
+        Response::closeOutputBuffers(0, false);
 
         // Get our record after POST_SAVE hooks are dealt with and return the JSON
         $content = $this->getContent($contenttype['slug'], array('id' => $id, 'returnsingle' => true, 'status' => '!'));
