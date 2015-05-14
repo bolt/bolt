@@ -63,10 +63,10 @@ class FilesystemManagerTest extends ControllerUnitTest
         //$this->getService('users')->currentuser = $this->getService('users')->getUser('admin');
         $this->setRequest(Request::create('/async/filebrowser'));
 
-        $response = $this->controller()->actionFileBrowser('pages');
+        $response = $this->controller()->actionRecordBrowser('pages');
 
         $this->assertTrue($response instanceof BoltResponse);
-        $this->assertSame('filebrowser/filebrowser.twig', $response->getTemplateName());
+        $this->assertSame('recordbrowser/recordbrowser.twig', $response->getTemplateName());
         $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
     }
 
