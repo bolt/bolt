@@ -468,18 +468,6 @@ class Application extends Silex\Application
      */
     public function errorHandler(\Exception $exception)
     {
-        // If we are in maintenance mode and current user is not logged in, show maintenance notice.
-        // @see Controller\Frontend::before()
-        if ($this['config']->get('general/maintenance_mode')) {
-            $user = $this['users']->getCurrentUser();
-            if ($user['userlevel'] < 2) {
-                $template = $this['config']->get('general/maintenance_template');
-                $body = $this['render']->render($template);
-
-                return new Response($body, Response::HTTP_SERVICE_UNAVAILABLE);
-            }
-        }
-
         // Log the error message
         $message = $exception->getMessage();
         $this['logger.system']->critical($message, array('event' => 'exception', 'exception' => $exception));
