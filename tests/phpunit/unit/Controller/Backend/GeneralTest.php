@@ -15,10 +15,6 @@ use Symfony\Component\HttpFoundation\Response;
  **/
 class GeneralTest extends ControllerUnitTest
 {
-    protected function setUp()
-    {
-    }
-
     public function testAbout()
     {
         $this->setRequest(Request::create('/bolt/about'));
@@ -56,9 +52,6 @@ class GeneralTest extends ControllerUnitTest
 
     public function testDashboard()
     {
-        $this->resetDb();
-
-        $this->addSomeContent();
         $twig = $this->getMockTwig();
         $phpunit = $this;
         $testHandler = function ($template, $context) use ($phpunit) {
