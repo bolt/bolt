@@ -45,7 +45,10 @@ class GeneralListener implements EventSubscriberInterface
 
     public function onResponse(FilterResponseEvent $event)
     {
+        $request = $event->getRequest();
         $response = $event->getResponse();
+
+        $this->setFrameOptions($request, $response);
     }
 
     /**
@@ -68,6 +71,21 @@ class GeneralListener implements EventSubscriberInterface
         if (!$this->app['config']->get('general/mailoptions') && $this->app['extensions']->hasMailSenders()) {
             $error = "One or more installed extensions need to be able to send email. Please set up the 'mailoptions' in config.yml.";
             $this->app['session']->getFlashBag()->add('error', Trans::__($error));
+        }
+    }
+
+    /**
+     * Set the 'X-Frame-Options' headers to prevent click-jacking, unless
+     * specifically disabled. Backend only!
+     *
+     * @param Request  $request
+     * @param Response $response
+     */
+    protected function setFrameOptions(Request $request, Response $response)
+    {
+        if (Zone::isBackend($request) && $this->app['config']->get('general/headers/x_frame_options')) {
+            $response->headers->set('X-Frame-Options', 'SAMEORIGIN');
+            $response->headers->set('Frame-Options', 'SAMEORIGIN');
         }
     }
 

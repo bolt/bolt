@@ -455,12 +455,6 @@ class Application extends Silex\Application
             $this->unsetSessionCookie();
         }
 
-        // Set the 'X-Frame-Options' headers to prevent click-jacking, unless specifically disabled. Backend only!
-        if ($this['config']->getWhichEnd() == 'backend' && $this['config']->get('general/headers/x_frame_options')) {
-            $response->headers->set('X-Frame-Options', 'SAMEORIGIN');
-            $response->headers->set('Frame-Options', 'SAMEORIGIN');
-        }
-
         // Stop the 'stopwatch' for the profiler.
         $this['stopwatch']->stop('bolt.app.after');
     }
