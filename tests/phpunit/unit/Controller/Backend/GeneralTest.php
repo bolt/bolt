@@ -100,10 +100,6 @@ class GeneralTest extends ControllerUnitTest
         // Test for the Exception if connection fails to the prefill service
         $store = $this->getMock('Bolt\Storage', array('preFill'), array($this->getApp()));
 
-        $this->markTestIncomplete(
-            'Needs work.'
-        );
-
         if ($this->getService('deprecated.php')) {
             $store->expects($this->any())
                 ->method('preFill')
@@ -111,11 +107,11 @@ class GeneralTest extends ControllerUnitTest
                     throw new \Guzzle\Http\Exception\RequestException();
             }));
         } else {
-            $request = new \GuzzleHttp\Message\Request('GET', '');
+            $guzzleRequest = new \GuzzleHttp\Message\Request('GET', '');
             $store->expects($this->any())
                 ->method('preFill')
-                ->will($this->returnCallback(function () use ($request) {
-                    throw new \GuzzleHttp\Exception\RequestException('', $request);
+                ->will($this->returnCallback(function () use ($guzzleRequest) {
+                    throw new \GuzzleHttp\Exception\RequestException('', $guzzleRequest);
             }));
         }
 
@@ -128,7 +124,7 @@ class GeneralTest extends ControllerUnitTest
         $this->setService('logger.system', $logger);
 
         $this->setRequest(Request::create('/bolt/prefill', 'POST', array('contenttypes' => 'pages')));
-        $this->controller()->actionPrefill($request);
+        $this->controller()->actionPrefill($this->getRequest());
     }
 
     public function testTranslation()
