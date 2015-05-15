@@ -40,6 +40,7 @@ class GeneralListener implements EventSubscriberInterface
     {
         $request = $event->getRequest();
 
+        $this->resumeSession($request);
         $this->mailConfigCheck($request);
     }
 
@@ -52,6 +53,18 @@ class GeneralListener implements EventSubscriberInterface
 
         if ($this->app['session']->isStarted()) {
             $this->app['logger.flash']->flush($this->app['session']->getFlashBag());
+        }
+    }
+
+    /**
+     * Conditionally resume the session if the request has the required cookies.
+     *
+     * @param Request $request
+     */
+    protected function resumeSession(Request $request)
+    {
+        if ($request->cookies->has('bolt_session')) {
+            $this->app['session']->start();
         }
     }
 
