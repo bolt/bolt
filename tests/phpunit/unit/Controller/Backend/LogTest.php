@@ -28,11 +28,11 @@ class LogTest extends ControllerUnitTest
 
         $this->setRequest(Request::create('/bolt/changelog', 'GET', array('action' => 'trim')));
         $response = $this->controller()->actionChangeOverview($this->getRequest());
-        $this->assertNotEmpty($this->getService('session')->getFlashBag()->get('success'));
+        $this->assertNotEmpty($this->getFlashBag()->get('success'));
 
         $this->setRequest(Request::create('/bolt/changelog', 'GET', array('action' => 'clear')));
         $response = $this->controller()->actionChangeOverview($this->getRequest());
-        $this->assertNotEmpty($this->getService('session')->getFlashBag()->get('success'));
+        $this->assertNotEmpty($this->getFlashBag()->get('success'));
 
         $this->assertEquals('/bolt/changelog', $response->getTargetUrl());
 
@@ -156,11 +156,11 @@ class LogTest extends ControllerUnitTest
 
         $this->setRequest(Request::create('/bolt/systemlog', 'GET', array('action' => 'trim')));
         $response = $this->controller()->actionSystemOverview($this->getRequest());
-        $this->assertNotEmpty($this->getService('session')->getFlashBag()->get('success'));
+        $this->assertNotEmpty($this->getFlashBag()->get('success'));
 
         $this->setRequest(Request::create('/bolt/systemlog', 'GET', array('action' => 'clear')));
         $response = $this->controller()->actionSystemOverview($this->getRequest());
-        $this->assertNotEmpty($this->getService('session')->getFlashBag()->get('success'));
+        $this->assertNotEmpty($this->getFlashBag()->get('success'));
 
         $this->assertEquals('/bolt/systemlog', $response->getTargetUrl());
 

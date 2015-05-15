@@ -119,7 +119,7 @@ class AuthenticationTest extends ControllerUnitTest
         // Test missing username fails
         $this->setRequest(Request::create('/bolt/login', 'POST', array('action' => 'reset')));
         $response = $this->controller()->actionPostLogin($this->getRequest());
-        $flash = $this->getService('session')->getFlashbag()->get('error');
+        $flash = $this->getFlashBag()->get('error');
         $this->assertRegExp('/Please provide a username/i', $flash[0]);
 
         // Test normal operation

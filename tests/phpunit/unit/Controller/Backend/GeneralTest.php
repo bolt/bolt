@@ -41,13 +41,13 @@ class GeneralTest extends ControllerUnitTest
         $this->checkTwigForTemplate($this->getApp(), 'clearcache/clearcache.twig');
 
         $this->controller()->actionClearCache();
-        $this->assertNotEmpty($this->getService('session')->getFlashBag()->get('error'));
+        $this->assertNotEmpty($this->getFlashBag()->get('error'));
 
         $this->setRequest(Request::create('/bolt/clearcache'));
         $this->checkTwigForTemplate($this->getApp(), 'clearcache/clearcache.twig');
 
         $this->controller()->actionClearCache();
-        $this->assertNotEmpty($this->getService('session')->getFlashBag()->get('success'));
+        $this->assertNotEmpty($this->getFlashBag()->get('success'));
     }
 
     public function testDashboard()
@@ -173,7 +173,7 @@ class GeneralTest extends ControllerUnitTest
         $this->controller()->actionTranslation($this->getRequest(), 'contenttypes', 'en_CY');
 
         $this->assertTrue($response instanceof RedirectResponse, 'Response is not instance of RedirectResponse');
-        $errors = $this->getService('session')->getFlashBag()->get('error');
+        $errors = $this->getFlashBag()->get('error');
         $this->assertRegExp('/could not be saved/', $errors[0]);
     }
 

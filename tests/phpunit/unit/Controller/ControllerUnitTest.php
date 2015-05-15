@@ -60,6 +60,12 @@ abstract class ControllerUnitTest extends BoltUnitTest
         return $app;
     }
 
+    protected function getFlashBag()
+    {
+        $this->getService('logger.flash')->flush($this->getService('session')->getFlashBag());
+        return $this->getService('session')->getFlashBag();
+    }
+
     protected function tearDown()
     {
         parent::tearDown();

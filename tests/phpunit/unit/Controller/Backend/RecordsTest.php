@@ -22,7 +22,7 @@ class RecordsTest extends ControllerUnitTest
 
         // This one should fail for permissions
         $this->assertEquals('/bolt/overview/pages', $response->getTargetUrl());
-        $err = $this->getService('session')->getFlashBag()->get('error');
+        $err = $this->getFlashBag()->get('error');
         $this->assertRegExp('/denied/', $err[0]);
 
         $users = $this->getMock('Bolt\Users', array('isAllowed'), array($this->getApp()));
@@ -34,7 +34,7 @@ class RecordsTest extends ControllerUnitTest
         // This one should get killed by the anti CSRF check
         $response = $this->controller()->actionDelete($this->getRequest(), 'pages', 4);
         $this->assertEquals('/bolt/overview/pages', $response->getTargetUrl());
-        $err = $this->getService('session')->getFlashBag()->get('info');
+        $err = $this->getFlashBag()->get('info');
         $this->assertRegExp('/could not be deleted/', $err[0]);
 
         $authentication = $this->getMock('Bolt\AccessControl\Authentication', array('checkAntiCSRFToken'), array($this->getApp()));
@@ -45,7 +45,7 @@ class RecordsTest extends ControllerUnitTest
 
         $response = $this->controller()->actionDelete($this->getRequest(), 'pages', 4);
         $this->assertEquals('/bolt/overview/pages', $response->getTargetUrl());
-        $err = $this->getService('session')->getFlashBag()->get('info');
+        $err = $this->getFlashBag()->get('info');
         $this->assertRegExp('/has been deleted/', $err[0]);
     }
 
@@ -198,7 +198,7 @@ class RecordsTest extends ControllerUnitTest
         // This one should fail for lack of permission
         $response = $this->controller()->actionModify($this->getRequest(), 'held', 'pages', 3);
         $this->assertEquals('/bolt/overview/pages', $response->getTargetUrl());
-        $err = $this->getService('session')->getFlashBag()->get('error');
+        $err = $this->getFlashBag()->get('error');
         $this->assertRegExp('/right privileges/', $err[0]);
 
         $users = $this->getMock('Bolt\Users', array('isAllowed', 'checkAntiCSRFToken', 'isContentStatusTransitionAllowed'), array($this->getApp()));
@@ -210,7 +210,7 @@ class RecordsTest extends ControllerUnitTest
         // This one should fail for the second permission check `isContentStatusTransitionAllowed`
         $response = $this->controller()->actionModify($this->getRequest(), 'held', 'pages', 3);
         $this->assertEquals('/bolt/overview/pages', $response->getTargetUrl());
-        $err = $this->getService('session')->getFlashBag()->get('error');
+        $err = $this->getFlashBag()->get('error');
         $this->assertRegExp('/right privileges/', $err[0]);
 
         $this->getService('users')->expects($this->any())
@@ -219,13 +219,13 @@ class RecordsTest extends ControllerUnitTest
 
         $response = $this->controller()->actionModify($this->getRequest(), 'held', 'pages', 3);
         $this->assertEquals('/bolt/overview/pages', $response->getTargetUrl());
-        $err = $this->getService('session')->getFlashBag()->get('info');
+        $err = $this->getFlashBag()->get('info');
         $this->assertRegExp('/has been changed/', $err[0]);
 
         // Test an invalid action fails
         $this->setRequest(Request::create('/bolt/content/fake/pages/3'));
         $response = $this->controller()->actionModify($this->getRequest(), 'fake', 'pages', 3);
-        $err = $this->getService('session')->getFlashBag()->get('error');
+        $err = $this->getFlashBag()->get('error');
         $this->assertRegExp('/No such action/', $err[0]);
 
         // Test that any save error gets reported
@@ -240,7 +240,7 @@ class RecordsTest extends ControllerUnitTest
 
         $response = $this->controller()->actionModify($this->getRequest(), 'held', 'pages', 3);
         $this->assertEquals('/bolt/overview/pages', $response->getTargetUrl());
-        $err = $this->getService('session')->getFlashBag()->get('info');
+        $err = $this->getFlashBag()->get('info');
         $this->assertRegExp('/could not be modified/', $err[0]);
 
         // Test the delete proxy action
@@ -250,7 +250,7 @@ class RecordsTest extends ControllerUnitTest
         $this->setRequest(Request::create('/bolt/content/delete/pages/3'));
         $response = $this->controller()->actionModify($this->getRequest(), 'delete', 'pages', 3);
         $this->assertEquals('/bolt/overview/pages', $response->getTargetUrl());
-        $err = $this->getService('session')->getFlashBag()->get('info');
+        $err = $this->getFlashBag()->get('info');
         $this->assertRegExp('/could not be deleted/', $err[0]);
     }
 

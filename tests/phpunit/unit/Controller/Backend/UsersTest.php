@@ -145,7 +145,7 @@ class UsersTest extends ControllerUnitTest
         // First test should exit/redirect with no anti CSRF token
         $this->setRequest(Request::create('/bolt/user/disable/2'));
         $response = $this->controller()->actionModify($this->getRequest(), 'disable', 1);
-        $info = $this->getService('session')->getFlashBag()->get('info');
+        $info = $this->getFlashBag()->get('info');
 
         $this->assertRegExp('/An error occurred/', $info[0]);
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
@@ -168,14 +168,14 @@ class UsersTest extends ControllerUnitTest
         $response = $this->controller()->actionModify($this->getRequest(), 'disable', 42);
 
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
-        $err = $this->getService('session')->getFlashBag()->get('error');
+        $err = $this->getFlashBag()->get('error');
         $this->assertRegExp('/No such user/', $err[0]);
 
         // This check will fail because we are operating on the current user
         $this->setRequest(Request::create('/bolt/user/disable/1'));
         $response = $this->controller()->actionModify($this->getRequest(), 'disable', 1);
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
-        $err = $this->getService('session')->getFlashBag()->get('error');
+        $err = $this->getFlashBag()->get('error');
         $this->assertRegExp('/yourself/', $err[0]);
 
         // We add a new user that isn't the current user and now perform operations.
@@ -186,28 +186,28 @@ class UsersTest extends ControllerUnitTest
         $this->setRequest(Request::create('/bolt/user/disable/2'));
         $response = $this->controller()->actionModify($this->getRequest(), 'disable', $editor['id']);
 
-        $info = $this->getService('session')->getFlashBag()->get('info');
+        $info = $this->getFlashBag()->get('info');
         $this->assertRegExp('/is disabled/', $info[0]);
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
 
         // Now try to enable the user
         $this->setRequest(Request::create('/bolt/user/enable/2'));
         $response = $this->controller()->actionModify($this->getRequest(), 'enable', $editor['id']);
-        $info = $this->getService('session')->getFlashBag()->get('info');
+        $info = $this->getFlashBag()->get('info');
         $this->assertRegExp('/is enabled/', $info[0]);
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
 
         // Try a non-existent action, make sure we get an error
         $this->setRequest(Request::create('/bolt/user/enhance/2'));
         $response = $this->controller()->actionModify($this->getRequest(), 'enhance', $editor['id']);
-        $info = $this->getService('session')->getFlashBag()->get('error');
+        $info = $this->getFlashBag()->get('error');
         $this->assertRegExp('/No such action/', $info[0]);
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
 
         // Now we run a delete action
         $this->setRequest(Request::create('/bolt/user/delete/2'));
         $response = $this->controller()->actionModify($this->getRequest(), 'delete', $editor['id']);
-        $info = $this->getService('session')->getFlashBag()->get('info');
+        $info = $this->getFlashBag()->get('info');
         $this->assertRegExp('/is deleted/', $info[0]);
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
 
@@ -226,7 +226,7 @@ class UsersTest extends ControllerUnitTest
         $response = $this->controller()->actionModify($this->getRequest(), 'disable', $editor['id']);
 
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
-        $err = $this->getService('session')->getFlashBag()->get('error');
+        $err = $this->getFlashBag()->get('error');
         $this->assertRegExp('/right privileges/', $err[0]);
     }
 
@@ -258,19 +258,19 @@ class UsersTest extends ControllerUnitTest
         // This mocks a failure and ensures the error is reported
         $this->setRequest(Request::create('/bolt/user/disable/2'));
         $response = $this->controller()->actionModify($this->getRequest(), 'disable', 2);
-        $info = $this->getService('session')->getFlashBag()->get('info');
+        $info = $this->getFlashBag()->get('info');
         $this->assertRegExp('/could not be disabled/', $info[0]);
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
 
         $this->setRequest(Request::create('/bolt/user/enable/2'));
         $response = $this->controller()->actionModify($this->getRequest(), 'enable', 2);
-        $info = $this->getService('session')->getFlashBag()->get('info');
+        $info = $this->getFlashBag()->get('info');
         $this->assertRegExp('/could not be enabled/', $info[0]);
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
 
         $this->setRequest(Request::create('/bolt/user/delete/2'));
         $response = $this->controller()->actionModify($this->getRequest(), 'delete', 2);
-        $info = $this->getService('session')->getFlashBag()->get('info');
+        $info = $this->getFlashBag()->get('info');
         $this->assertRegExp('/could not be deleted/', $info[0]);
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
     }
@@ -304,7 +304,7 @@ class UsersTest extends ControllerUnitTest
         ));
 
         $response = $this->controller()->actionProfile($this->getRequest());
-        $this->assertNotEmpty($this->getService('session')->getFlashBag()->get('success'));
+        $this->assertNotEmpty($this->getFlashBag()->get('success'));
     }
 
     public function testUsernameEditKillsSession()
