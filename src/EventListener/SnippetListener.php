@@ -1,6 +1,6 @@
 <?php
 
-namespace Bolt\Routing\Listener;
+namespace Bolt\EventListener;
 
 use Bolt\Config;
 use Bolt\Configuration\ResourceManager;

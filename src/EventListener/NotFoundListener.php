@@ -1,5 +1,5 @@
 <?php
-namespace Bolt\Routing\Listener;
+namespace Bolt\EventListener;
 
 use Bolt\Content;
 use Bolt\Controller\Zone;

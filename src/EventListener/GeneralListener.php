@@ -1,5 +1,5 @@
 <?php
-namespace Bolt\Routing\Listener;
+namespace Bolt\EventListener;
 
 use Bolt\Controller\Zone;
 use Bolt\Translation\Translator as Trans;

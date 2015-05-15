@@ -2,17 +2,14 @@
 
 namespace Bolt\Provider;
 
-use Bolt\Routing\Listener;
 use Bolt\Routing\CallbackResolver;
 use Bolt\Routing\ControllerCollection;
 use Bolt\Routing\ControllerResolver;
 use Bolt\Routing\LazyUrlGenerator;
-use Bolt\Routing\RedirectListener;
 use Bolt\Routing\UrlMatcher;
 use Silex\Application;
 use Silex\Route;
 use Silex\ServiceProviderInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 class RoutingServiceProvider implements ServiceProviderInterface
@@ -53,56 +50,10 @@ class RoutingServiceProvider implements ServiceProviderInterface
                 return $app['url_generator'];
             });
         });
-
-        $app['routing.listener.zone_guesser'] = $app->share(function ($app) {
-            return new Listener\ZoneGuesser($app);
-        });
-
-        $app['routing.listener.general'] = $app->share(function ($app) {
-            return new Listener\GeneralListener($app);
-        });
-
-        $app['routing.listener.kernel_exception'] = $app->share(function ($app) {
-            $rootPath = $app['resources']->getPath('root');
-            return new Listener\KernelExceptionListener($rootPath, $app['render'], $app['logger.system']);
-        });
-
-        $app['routing.listener.not_found'] = $app->share(function ($app) {
-            return new Listener\NotFoundListener(
-                $app['config']->get('general/notfound'),
-                $app['storage'],
-                $app['templatechooser'],
-                $app['render']
-            );
-        });
-
-        $app['routing.listener.snippet'] = $app->share(function ($app) {
-            return new Listener\SnippetListener(
-                $app['extensions'],
-                $app['config'],
-                $app['resources'],
-                $app['render']
-            );
-        });
     }
 
     public function boot(Application $app)
     {
-        /** @var EventDispatcherInterface $dispatcher */
-        $dispatcher = $app['dispatcher'];
-        /*
-         * Creating the actual url generator flushes all controllers.
-         * We aren't ready for this since controllers.mount event hasn't fired yet.
-         * RedirectListener doesn't use the url generator until kernel.response
-         * (way after controllers have been added).
-         */
-        $dispatcher->addSubscriber(new RedirectListener($app['session'], $app['url_generator.lazy'], $app['users'], $app['authentication']));
-        $dispatcher->addSubscriber($app['routing.listener.general']);
-        $dispatcher->addSubscriber($app['routing.listener.kernel_exception']);
-        $dispatcher->addSubscriber($app['routing.listener.not_found']);
-        $dispatcher->addSubscriber($app['routing.listener.zone_guesser']);
-        $dispatcher->addSubscriber($app['routing.listener.snippet']);
-
         if ($proxies = $app['config']->get('general/trustProxies')) {
             Request::setTrustedProxies($proxies);
         }
