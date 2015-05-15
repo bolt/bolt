@@ -276,7 +276,7 @@ abstract class BaseExtension implements ExtensionInterface
             $message = "Couldn't read $configfile. Please correct file " .
                        "permissions and ensure the $configdir directory readable.";
             $this->app['logger.system']->critical($message, array('event' => 'extensions'));
-            $this->app['session']->getFlashBag()->add('error', $message);
+            $this->app['logger.flash']->error($message);
 
             return false;
         }
@@ -293,7 +293,7 @@ abstract class BaseExtension implements ExtensionInterface
             $fs->mkdir(dirname($configfile));
         } catch (IOException $e) {
             $message = 'Unable to create extension configuration directory at ' . dirname($configfile);
-            $this->app['session']->getFlashBag()->add('error', $message);
+            $this->app['logger.flash']->error($message);
             $this->app['logger.system']->error($message, array('event' => 'exception', 'exception' => $e));
         }
 
@@ -311,7 +311,7 @@ abstract class BaseExtension implements ExtensionInterface
                 "File is not writable. Create the file manually, " .
                 "or make the $configdir directory writable.";
                 $this->app['logger.system']->critical($message, array('event' => 'extensions'));
-                $this->app['session']->getFlashBag()->add('error', $message);
+                $this->app['logger.flash']->error($message);
 
                 return false;
             }
