@@ -92,7 +92,10 @@ class SystemHandler extends AbstractProcessingHandler
             $source = '';
         }
 
-        $user = $this->app['session']->get('user');
+        // Only get a user session if it's started
+        if ($this->app['session']->isStarted()) {
+            $user = $this->app['session']->get('user');
+        }
 
         $this->app['db']->insert(
             $this->tablename,
@@ -111,7 +114,7 @@ class SystemHandler extends AbstractProcessingHandler
     }
 
     /**
-     * Initialize calss parameters.
+     * Initialize class parameters.
      */
     private function initialize()
     {
