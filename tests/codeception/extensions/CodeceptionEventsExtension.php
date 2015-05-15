@@ -178,6 +178,9 @@ class CodeceptionEventsExtension extends \Codeception\Platform\Extension
      */
     private function afterSuiteAcceptance(SuiteEvent $e)
     {
+        // Empty the cache
+        system('php ' . NUT_PATH . ' cache:clear');
+
         $fs = new Filesystem();
         $rundir = INSTALL_ROOT . '/app/cache/codeception-run-' . time() . '/';
         $fs->mkdir($rundir);
@@ -208,9 +211,6 @@ class CodeceptionEventsExtension extends \Codeception\Platform\Extension
                 $fs->remove(INSTALL_ROOT . '/extensions/local/');
             }
         }
-
-        // Empty the cache
-        system('php ' . NUT_PATH . ' cache:clear');
     }
 
     /**
