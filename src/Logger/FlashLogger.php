@@ -106,6 +106,7 @@ class FlashLogger implements FlashLoggerInterface
             foreach ($messages as $message) {
                 $flashbag->add($type, $message);
             }
+            unset ($this->flashes[$type]);
         }
     }
 }
