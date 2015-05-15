@@ -1,12 +1,10 @@
 <?php
 namespace Bolt\Routing\Listener;
 
+use Bolt\Content;
 use Bolt\Controller\Zone;
 use Silex\Application;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -32,31 +30,16 @@ class KernelExceptionListener implements EventSubscriberInterface
     }
 
     /**
-     * Kernel exception listener callback.
+     * Handle errors thrown in the application. Set up Whoops!, if set in the
+     * config.yml file.
      *
-     * @param GetResponseEvent $event
+     * @param GetResponseForExceptionEvent $event
      */
     public function onKernelException(GetResponseForExceptionEvent $event)
     {
         $request = $event->getRequest();
-        $response = $event->getResponse();
         $exception = $event->getException();
 
-        $this->errorHandler($request, $response, $exception);
-    }
-
-    /**
-     * Handle errors thrown in the application. Set up Whoops!, if set in the
-     * config.yml file.
-     *
-     * @param Request    $request
-     * @param Response   $response
-     * @param \Exception $exception
-     *
-     * @return Response
-     */
-    protected function errorHandler(Request $request, Response $response = null, \Exception $exception)
-    {
         // Log the error message
         $message = $exception->getMessage();
         $this->app['logger.system']->critical($message, array('event' => 'exception', 'exception' => $exception));
@@ -80,7 +63,8 @@ class KernelExceptionListener implements EventSubscriberInterface
             if ($content instanceof Content && !empty($content->id)) {
                 $template = $this->app['templatechooser']->record($content);
 
-                return $this->app['render']->render($template, $content->getTemplateContext());
+                $response = $this->app['render']->render($template, $content->getTemplateContext());
+                $event->setResponse($response);
             }
 
             $message = "The page could not be found, and there is no 'notfound' set in 'config.yml'. Sorry about that.";
@@ -94,7 +78,8 @@ class KernelExceptionListener implements EventSubscriberInterface
         );
 
         // Note: This uses the template from app/theme_defaults. Not app/view/twig.
-        return $this->app['render']->render('error.twig', array('context' => $context));
+        $response = $this->app['render']->render('error.twig', array('context' => $context));
+        $event->setResponse($response);
     }
 
     /**
