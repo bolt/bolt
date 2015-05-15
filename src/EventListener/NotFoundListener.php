@@ -50,7 +50,7 @@ class NotFoundListener implements EventSubscriberInterface
      */
     public function onKernelException(GetResponseForExceptionEvent $event)
     {
-        if (!$event->getException() instanceof HttpExceptionInterface || !Zone::isFrontend($event->getRequest())) {
+        if (!$event->getException() instanceof HttpExceptionInterface || Zone::isBackend($event->getRequest())) {
             return;
         }
 
@@ -68,7 +68,7 @@ class NotFoundListener implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return array(
-            KernelEvents::EXCEPTION => array('onKernelException', -8),
+            KernelEvents::EXCEPTION => array('onKernelException', 512),
         );
     }
 }

@@ -53,7 +53,7 @@ class KernelExceptionListener implements EventSubscriberInterface
         $message = $exception->getMessage();
         $this->logger->critical($message, array('event' => 'exception', 'exception' => $exception));
 
-        if ($exception instanceof HttpExceptionInterface && Zone::isFrontend($event->getRequest())) {
+        if ($exception instanceof HttpExceptionInterface && !Zone::isBackend($event->getRequest())) {
             $message = "The page could not be found, and there is no 'notfound' set in 'config.yml'. Sorry about that.";
         }
 
