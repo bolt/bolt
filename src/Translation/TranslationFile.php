@@ -430,7 +430,7 @@ class TranslationFile
 
                 return $flattened;
             } catch (ParseException $e) {
-                $this->app['session']->getFlashBag()->add('error', '<strong>Unable to parse the YAML translations</strong><br>' . $e->getMessage());
+                $this->app['logger.flash']->error('<strong>Unable to parse the YAML translations</strong><br>' . $e->getMessage());
                 // Todo: do something better than just returning an empty array
             }
         }
@@ -453,13 +453,13 @@ class TranslationFile
             list($path) = $this->buildPath('infos', Application::DEFAULT_LOCALE);
 
             if (!file_exists($path)) {
-                $this->app['session']->getFlashBag()->add('error', 'Locale infos yml file not found. Fallback also not found.');
+                $this->app['logger.flash']->error('Locale infos yml file not found. Fallback also not found.');
 
                 // fallback failed
                 return null;
             }
             // we got the fallback, notify user we loaded the fallback
-            $this->app['session']->getFlashBag()->add('warning', 'Locale infos yml file not found, loading the default one.');
+            $this->app['logger.flash']->warning('Locale infos yml file not found, loading the default one.');
         }
 
         return file_get_contents($path);
@@ -542,7 +542,7 @@ class TranslationFile
                 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.",
                 $msgRepl
             );
-            $this->app['session']->getFlashBag()->add('warning', $msg);
+            $this->app['logger.flash']->warning($msg);
 
         // Have a file, but not writable
         } elseif (file_exists($this->absPath) && !is_writable($this->absPath)) {
@@ -550,7 +550,7 @@ class TranslationFile
                 "The file '%s' is not writable. You will have to use your own editor to make modifications to this file.",
                 $msgRepl
             );
-            $this->app['session']->getFlashBag()->add('warning', $msg);
+            $this->app['logger.flash']->warning($msg);
 
         // File is not readable: abort
         } elseif (file_exists($this->absPath) && !is_readable($this->absPath)) {
