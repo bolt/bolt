@@ -245,6 +245,9 @@ liveeditor: true
 # the better option, so use that if possible. Protip: If your webhost does not
 # support SMTP, sign up for a (free) Mandrill account at https://mandrill.com/
 # for sending emails reliably.
+# To test if the mail settings are working correctly, go to 
+# http://yoursite.com/async/email/test/me and you should receive an email, or 
+# else you will get a descriptive error message.
 
 # mailoptions:
 #     transport: smtp
