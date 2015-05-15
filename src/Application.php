@@ -57,6 +57,7 @@ class Application extends Silex\Application
 
         $this['resources']->setApp($this);
         $this->initConfig();
+        $this->initLogger();
         $this->initSession();
         $this['resources']->initialize();
 
@@ -99,9 +100,6 @@ class Application extends Silex\Application
 
     public function initialize()
     {
-        // Initialise logging
-        $this->initLogger();
-
         // Set up locale and translations.
         $this->initLocale();
 
