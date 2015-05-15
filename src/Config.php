@@ -747,7 +747,7 @@ class Config
                         'contenttypes.generic.reserved-name',
                         array('%contenttype%' => $key, '%field%' => $fieldname)
                     );
-                    $this->app['session']->getFlashBag()->add('error', $error);
+                    $this->app['logger.flash']->error($error);
 
                     return;
                 }
@@ -761,7 +761,7 @@ class Config
                                 'contenttypes.generic.wrong-use-field',
                                 array('%contenttype%' => $key, '%field%' => $fieldname, '%uses%' => $useField)
                             );
-                            $this->app['session']->getFlashBag()->add('error', $error);
+                            $this->app['logger.flash']->error($error);
 
                             return;
                         }
@@ -775,7 +775,7 @@ class Config
                         array('%contenttype%' => $key, '%field%' => $fieldname, '%type%' =>
                          $field['type'])
                     );
-                    $this->app['session']->getFlashBag()->add('error', $error);
+                    $this->app['logger.flash']->error($error);
                     $wrongctype = true && $this->app['users']->getCurrentUsername();
                 }
             }
@@ -801,7 +801,7 @@ class Config
                 "The database needs to be updated/repaired. Go to 'Configuration' > '<a href=\"%link%\">Check Database</a>' to do this now.",
                 array('%link%' => Lib::path('dbcheck'))
             );
-            $this->app['session']->getFlashBag()->add('error', $msg);
+            $this->app['logger.flash']->error($msg);
 
             return;
         }
@@ -814,21 +814,21 @@ class Config
                     "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.",
                     array('%taxonomytype%' => $key, '%slug%' => $taxo['slug'])
                 );
-                $this->app['session']->getFlashBag()->add('error', $error);
+                $this->app['logger.flash']->error($error);
 
                 return;
             }
         }
 
         // if there aren't any other errors, check for duplicates across contenttypes.
-        if (!$this->app['session']->getFlashBag()->has('error')) {
+        if (!$this->app['logger.flash']->has('error')) {
             foreach ($slugs as $slug => $count) {
                 if ($count > 1) {
                     $error = Trans::__(
                         "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.",
                         array('%slug%' => $slug)
                     );
-                    $this->app['session']->getFlashBag()->add('error', $error);
+                    $this->app['logger.flash']->error($error);
 
                     return;
                 }
@@ -993,7 +993,7 @@ class Config
             }
 
             $error = "Template folder 'theme/" . $relativethemepath . "' does not exist, or is not writable.";
-            $this->app['session']->getFlashBag()->add('error', $error);
+            $this->app['logger.flash']->error($error);
         }
 
         // We add these later, because the order is important: By having theme/ourtheme first,
