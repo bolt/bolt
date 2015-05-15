@@ -254,7 +254,7 @@ class IntegrityChecker
     {
         // When repairing tables we want to start with an empty flashbag. Otherwise we get another
         // 'repair your DB'-notice, right after we're done repairing.
-        $this->app['session']->getFlashBag()->clear();
+        $this->app['logger.flash']->clear();
 
         $output = array();
 
@@ -571,7 +571,7 @@ class IntegrityChecker
                         $field,
                         $this->app['db']->getDatabasePlatform()->getName()
                     );
-                    $this->app['session']->getFlashBag()->add('error', $error);
+                    $this->app['logger.flash']->error($error);
                     continue;
                 }
 
