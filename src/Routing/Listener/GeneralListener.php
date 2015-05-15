@@ -49,6 +49,10 @@ class GeneralListener implements EventSubscriberInterface
         $response = $event->getResponse();
 
         $this->setFrameOptions($request, $response);
+
+        if ($this->app['session']->isStarted()) {
+            $this->app['logger.flash']->flush($this->app['session']->getFlashBag());
+        }
     }
 
     /**
