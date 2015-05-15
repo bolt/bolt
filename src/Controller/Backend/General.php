@@ -49,10 +49,6 @@ class General extends BackendBase
             ->value('tr_locale', $this->app['locale']);
     }
 
-    /*
-     * Routes
-     */
-
     /**
      * About page route.
      *
@@ -225,10 +221,6 @@ class General extends BackendBase
         return $this->render('editlocale/editlocale.twig', $context);
     }
 
-    /*
-     * Helper Functions
-     */
-
     /**
      * Get the latest records for viewable contenttypes that a user has access
      * to.
@@ -311,7 +303,7 @@ class General extends BackendBase
 
         // Clear any warning for file not found, we are creating it here
         // we'll set an error if someone still submits the form and write is not allowed
-        $this->getSession()->getFlashBag()->clear();
+        $this->app['logger.flash']->clear();
 
         try {
             $fs = new Filesystem();

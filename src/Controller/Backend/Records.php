@@ -552,7 +552,7 @@ class Records extends BackendBase
         }
 
         // Unset flashbag for ajax
-        $this->getSession()->getFlashBag()->clear();
+        $this->app['logger.flash']->clear();
 
         return $this->json($val);
     }

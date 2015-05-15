@@ -167,7 +167,7 @@ abstract class Base implements ControllerProviderInterface
      */
     protected function addFlash($type, $message)
     {
-        $this->getSession()->getFlashBag()->add($type, $message);
+        $this->app['logger.flash']->{$type}($message);
     }
 
     /**
