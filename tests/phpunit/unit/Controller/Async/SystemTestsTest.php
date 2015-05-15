@@ -16,7 +16,7 @@ class SystemTestsTest extends ControllerUnitTest
 {
     public function testEmailNotification()
     {
-        $this->getService('users')->currentuser = $this->getService('users')->getUser('admin');
+        $this->getService('users')->setCurrentUser( $this->getService('users')->getUser('admin'));
         $this->setRequest(Request::create('/async/email/test/admin'));
 
         $response = $this->controller()->actionEmailNotification($this->getRequest(), 'test');
