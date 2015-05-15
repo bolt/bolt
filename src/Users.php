@@ -382,12 +382,8 @@ class Users
      */
     public function getCurrentUser()
     {
-        if (!$this->app['session']->isStarted()) {
-            return [];
-        }
-
-        if (is_null($this->currentuser) && $currentuser = $this->app['session']->get('user')) {
-            $this->currentuser = $currentuser;
+        if (is_null($this->currentuser)) {
+            $this->currentuser = $this->app['session']->isStarted() ? $this->app['session']->get('user') : false;
         }
 
         return $this->currentuser;
