@@ -74,7 +74,7 @@ class GeneralListener implements EventSubscriberInterface
 
         if (!$this->app['config']->get('general/mailoptions') && $this->app['extensions']->hasMailSenders()) {
             $error = "One or more installed extensions need to be able to send email. Please set up the 'mailoptions' in config.yml.";
-            $this->app['session']->getFlashBag()->add('error', Trans::__($error));
+            $this->app['logger.flash']->error(Trans::__($error));
         }
     }
 
