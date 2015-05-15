@@ -57,16 +57,6 @@ class KernelExceptionListener implements EventSubscriberInterface
         }
 
         if (($exception instanceof HttpException) && Zone::isFrontend($request)) {
-            $content = $this->app['storage']->getContent($this->app['config']->get('general/notfound'), array('returnsingle' => true));
-
-            // Then, select which template to use, based on our 'cascading templates rules'
-            if ($content instanceof Content && !empty($content->id)) {
-                $template = $this->app['templatechooser']->record($content);
-
-                $response = $this->app['render']->render($template, $content->getTemplateContext());
-                $event->setResponse($response);
-            }
-
             $message = "The page could not be found, and there is no 'notfound' set in 'config.yml'. Sorry about that.";
         }
 
