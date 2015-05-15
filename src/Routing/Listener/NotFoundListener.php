@@ -6,7 +6,7 @@ use Bolt\Controller\Zone;
 use Bolt\Render;
 use Bolt\Storage;
 use Bolt\TemplateChooser;
-use Composer\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
