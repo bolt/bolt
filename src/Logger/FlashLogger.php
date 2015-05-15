@@ -2,7 +2,7 @@
 
 namespace Bolt\Logger;
 
-use Psr\Log\AbstractLogger;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBag;
 
 /**
@@ -14,41 +14,93 @@ use Symfony\Component\HttpFoundation\Session\Flash\FlashBag;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class FlashLogger extends AbstractLogger
+class FlashLogger implements FlashLoggerInterface
 {
+    const DANGER  = 'danger';
+    const ERROR   = 'error';
+    const INFO    = 'info';
+    const SUCCESS = 'success';
+    const WARNING = 'warning';
+
     /** @var array $flash */
     private $flashes = [];
 
-    const SUCCESS = 'success';
-
     /**
-     * Add success messages.
-     *
-     * @param string $message
-     * @param array  $context
+     * {@inheritdoc}
      */
-    public function success($message, array $context = array())
+    public function danger($message)
     {
-        $this->log(self::SUCCESS, $message, $context);
+        $this->queue(self::DANGER, $message);
     }
 
     /**
-     * @see \Psr\Log\LoggerInterface::log()
+     * {@inheritdoc}
      */
-    public function log($level, $message, array $context = array())
+    public function error($message)
+    {
+        $this->queue(self::ERROR, $message);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function info($message)
+    {
+        $this->queue(self::INFO, $message);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function success($message)
+    {
+        $this->queue(self::SUCCESS, $message);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function warning($message)
+    {
+        $this->queue(self::WARNING, $message);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function has($type)
+    {
+        return array_key_exists($type, $this->flashes) && $this->flashes[$type];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function clear()
+    {
+        return $this->flashes = [];
+    }
+
+    /**
+     * Queue a FlashBag message.
+     *
+     * @param string $level
+     * @param string $message
+     */
+    public function queue($level, $message)
     {
         $this->flashes[$level][] = $message;
     }
 
     /**
-     * Flush stored flashes to the Symfony.
+     * Flush stored flashes to the Symfony FlashBag.
      *
      * We iterate as some flashes might validly be set in Twig and we shouldn't
      * wipe them.
      *
-     * @param FlashBag $flashbag
+     * @param FlashBagInterface $flashbag
      */
-    public function flush(FlashBag &$flashbag)
+    public function flush(FlashBagInterface $flashbag)
     {
         foreach ($this->flashes as $type => $messages) {
             foreach ($messages as $message) {
