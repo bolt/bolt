@@ -62,7 +62,7 @@ abstract class BackendBase extends Base
             $notice = Trans::__("Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.",
                 array('%VERSION%' => $app->getVersion(), '%URI%' => $app['resources']->getUrl('bolt') . 'dbcheck'));
             $app['logger.system']->notice(strip_tags($notice), array('event' => 'config'));
-            $app['session']->getFlashBag()->add('info', $notice);
+            $app['logger.flash']->info($notice);
         }
 
         // Check the database users table exists
@@ -84,14 +84,14 @@ abstract class BackendBase extends Base
         // the DB, and let's add a new user.
         if (!$tableExists || !$hasUsers) {
             $app['integritychecker']->repairTables();
-            $app['session']->getFlashBag()->add('info', Trans::__('There are no users in the database. Please create the first user.'));
+            $app['logger.flash']->info(Trans::__('There are no users in the database. Please create the first user.'));
 
             return $this->redirectToRoute('userfirst');
         }
 
         // Confirm the user is enabled or bounce them
         if ($app['users']->getCurrentUser() && !$app['users']->isEnabled() && $route !== 'userfirst' && $route !== 'login' && $route !== 'postLogin' && $route !== 'logout') {
-            $app['session']->getFlashBag()->add('error', Trans::__('Your account is disabled. Sorry about that.'));
+            $app['logger.flash']->error(Trans::__('Your account is disabled. Sorry about that.'));
 
             return $this->redirectToRoute('logout');
         }
@@ -101,11 +101,11 @@ abstract class BackendBase extends Base
 
         // Most of the 'check if user is allowed' happens here: match the current route to the 'allowed' settings.
         if (!$app['authentication']->isValidSession() && !$app['users']->isAllowed($route)) {
-            $app['session']->getFlashBag()->add('info', Trans::__('Please log on.'));
+            $app['logger.flash']->info(Trans::__('Please log on.'));
 
             return $this->redirectToRoute('login');
         } elseif (!$app['users']->isAllowed($roleRoute)) {
-            $app['session']->getFlashBag()->add('error', Trans::__('You do not have the right privileges to view that page.'));
+            $app['logger.flash']->error(Trans::__('You do not have the right privileges to view that page.'));
 
             return $this->redirectToRoute('dashboard');
         }
