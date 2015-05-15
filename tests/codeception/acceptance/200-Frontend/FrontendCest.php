@@ -46,6 +46,20 @@ class FrontendCest
     }
 
     /**
+     * Check that Bolt doesn't set any session cookies when we're not logged in.
+     *
+     * @param \AcceptanceTester $I
+     */
+    public function checkNoSessionCookieTest(\AcceptanceTester $I)
+    {
+        $I->wantTo('see that there are no session cookies set.');
+
+        $I->amOnPage('');
+
+        $I->dontSeeCookie('bolt_session');
+    }
+
+    /**
      * Check the about page and pagebind route
      *
      * @param \AcceptanceTester $I
