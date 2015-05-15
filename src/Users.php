@@ -176,7 +176,7 @@ class Users
         $user = $this->getUser($id);
 
         if (empty($user['id'])) {
-            $this->app['session']->getFlashBag()->add('error', Trans::__('That user does not exist.'));
+            $this->app['logger.flash']->error(Trans::__('That user does not exist.'));
 
             return false;
         } else {
@@ -598,7 +598,7 @@ class Users
         $this->addRole($this->getCurrentUsername(), 'root');
 
         // Show a helpful message to the user.
-        $this->app['session']->getFlashBag()->add('info', Trans::__("There should always be at least one 'root' user. You have just been promoted. Congratulations!"));
+        $this->app['logger.flash']->info(Trans::__("There should always be at least one 'root' user. You have just been promoted. Congratulations!"));
     }
 
     /**
