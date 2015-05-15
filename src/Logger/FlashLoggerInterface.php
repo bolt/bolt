@@ -55,6 +55,16 @@ interface FlashLoggerInterface
     public function warning($message);
 
     /**
+     * Get a message from the stack.
+     *
+     * @param strng $type
+     * @param array $default
+     *
+     * @return array
+     */
+    public function get($type, array $default = array());
+
+    /**
      * Has messages for a given type?
      *
      * @param string $type

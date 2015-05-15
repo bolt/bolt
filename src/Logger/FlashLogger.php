@@ -76,6 +76,22 @@ class FlashLogger implements FlashLoggerInterface
     /**
      * {@inheritdoc}
      */
+    public function get($type, array $default = array())
+    {
+        if (!$this->has($type)) {
+            return $default;
+        }
+
+        $return = $this->flashes[$type];
+
+        unset($this->flashes[$type]);
+
+        return $return;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function clear()
     {
         return $this->flashes = [];
