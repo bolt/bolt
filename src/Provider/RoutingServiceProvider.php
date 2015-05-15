@@ -63,7 +63,8 @@ class RoutingServiceProvider implements ServiceProviderInterface
         });
 
         $app['routing.listener.kernel_exception'] = $app->share(function ($app) {
-            return new Listener\KernelExceptionListener($app);
+            $rootPath = $app['resources']->getPath('root');
+            return new Listener\KernelExceptionListener($rootPath, $app['render'], $app['logger.system']);
         });
 
         $app['routing.listener.not_found'] = $app->share(function ($app) {
