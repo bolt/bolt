@@ -41,9 +41,15 @@ class GeneralListener implements EventSubscriberInterface
         $request = $event->getRequest();
 
         $this->resumeSession($request);
+        $this->updateWhoops($event);
         $this->mailConfigCheck($request);
     }
 
+    /**
+     * Kernel response listener callback.
+     *
+     * @param FilterResponseEvent $event
+     */
     public function onResponse(FilterResponseEvent $event)
     {
         $request = $event->getRequest();
@@ -63,8 +69,27 @@ class GeneralListener implements EventSubscriberInterface
      */
     protected function resumeSession(Request $request)
     {
-        if ($request->cookies->has('bolt_session')) {
+        if ($request->cookies->has('bolt_session') && !$this->app['session']->isStarted()) {
             $this->app['session']->start();
+        }
+    }
+
+    /**
+     * Remove the listener for Whoops if not required.
+     *
+     * @param GetResponseEvent $event
+     */
+    protected function updateWhoops(GetResponseEvent $event)
+    {
+        if (!$event->isMasterRequest()) {
+            return;
+        }
+
+        $noUser = $this->app['session']->isStarted() && $this->app['session']->has('user') ? false : true;
+        $showAlways = $this->app['config']->get('general/debug_show_loggedoff', false);
+
+        if ($noUser && !$showAlways) {
+            $event->getDispatcher()->removeListener(KernelEvents::EXCEPTION, array($this->app['listener.whoops'], 'onKernelException'));
         }
     }
 
