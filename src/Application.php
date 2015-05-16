@@ -423,26 +423,6 @@ class Application extends Silex\Application
     }
 
     /**
-     * Remove the 'bolt_session' cookie from the headers if it's about to be set.
-     *
-     * Note, we don't use $request->clearCookie (logs out a logged-on user) or
-     * $request->removeCookie (doesn't prevent the header from being sent).
-     *
-     * @see https://github.com/bolt/bolt/issues/3425
-     */
-    public function unsetSessionCookie()
-    {
-        if (!headers_sent()) {
-            $headersList = headers_list();
-            foreach ($headersList as $header) {
-                if (strpos($header, "Set-Cookie: bolt_session=") === 0) {
-                    header_remove("Set-Cookie");
-                }
-            }
-        }
-    }
-
-    /**
      * Global 'after' handler. Adds 'after' HTML-snippets and Meta-headers to the output.
      *
      * @param Request  $request
@@ -452,15 +432,6 @@ class Application extends Silex\Application
     {
         // Start the 'stopwatch' for the profiler.
         $this['stopwatch']->start('bolt.app.after');
-
-        /*
-         * Don't set 'bolt_session' cookie, if we're in the frontend or async.
-         *
-         * @see https://github.com/bolt/bolt/issues/3425
-         */
-        if ($this['config']->get('general/cookies_no_frontend', false) && $this['config']->getWhichEnd() !== 'backend') {
-            $this->unsetSessionCookie();
-        }
 
         // Stop the 'stopwatch' for the profiler.
         $this['stopwatch']->stop('bolt.app.after');
