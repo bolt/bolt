@@ -28,6 +28,12 @@ class FieldLoadTest extends BoltUnitTest
         $repo = $em->getRepository('showcases');
         
         $record = $repo->find(1);
+                                
+        foreach ($record->entries as $entry) {
+            $this->assertNotEmpty($entry->id);
+            $this->assertNotEmpty($entry->slug);
+        }        
+
         
     }
     
