@@ -202,6 +202,7 @@ class MetadataDriver implements MappingDriver
             $mapping['fieldname'] = $relationKey;
             $mapping['type'] = 'null';
             $mapping['fieldtype'] = $this->typemap['relation'];
+            $mapping['entity'] = $this->resolveClassName($relationKey);
             $this->metadata[$className]['fields'][$relationKey] = $mapping;
             $this->metadata[$className]['fields'][$relationKey]['data'] = $data;
         }
