@@ -48,7 +48,7 @@ abstract class FieldTypeBase implements FieldTypeInterface
      *
      * @return void
      */
-    public function hydrate($data, $entity)
+    public function hydrate($data, $entity, EntityManager $em = null)
     {
         
     }

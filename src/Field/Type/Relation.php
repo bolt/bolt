@@ -3,6 +3,7 @@ namespace Bolt\Field\Type;
 
 use Doctrine\DBAL\Query\QueryBuilder;
 use Bolt\Storage\EntityManager;
+use Bolt\Storage\EntityProxy;
 use Bolt\Mapping\ClassMetadata;
 
 
@@ -35,10 +36,15 @@ class Relation extends FieldTypeBase
      * Handle the hydrate event.
      *
      */
-    public function hydrate($data, $entity)
+    public function hydrate($data, $entity, EntityManager $em = null)
     {
         $field = $this->mapping['fieldname'];
-        $entity->$field = array('pretend relation');
+        $relations = array_filter(explode(',', $data[$field]));
+        $values = array();
+        foreach($relations as $id) {
+            $values[] = new EntityProxy($field, $id);
+        }
+        $entity->$field = $values;
     }
     /**
      * Returns the name of the field type.
