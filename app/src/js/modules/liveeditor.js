@@ -21,6 +21,12 @@
 
     var editcontent = bolt.editcontent;
 
+    var editableTypes = [
+        'text',
+        'html',
+        'textarea'
+    ];
+
     /**
      * Initializes the mixin.
      *
@@ -101,7 +107,7 @@
 
                 $(this).addClass('bolt-editable');
 
-                if ((!$(this).data('no-edit')) && ((fieldType === 'text') || (fieldType === 'html'))) {
+                if ((!$(this).data('no-edit')) && editableTypes.indexOf(fieldType) != -1) {
 
                     $(this).attr('contenteditable', true);
 
@@ -122,11 +128,22 @@
                                     win.getSelection().getRangeAt(0).insertNode(doc.createTextNode(content));
                                 }
                             }
-                        }).on('keypress', function (e) {
-                            return e.which != 13;
-                        }).on('focus blur', function (e) {
-                            $(this).html($(this).text());
                         });
+
+                        if(fieldType == 'textarea') {
+                            $(this).on('keypress', function (e) {
+                                if(e.which == 13) {
+                                    e.preventDefault();
+                                    doc.execCommand('insertHTML', false, '<br><br>');
+                                }
+                            });
+                        } else {
+                            $(this).on('keypress', function (e) {
+                                return e.which != 13;
+                            }).on('focus blur', function (e) {
+                                $(this).html($(this).text());
+                            });
+                        }
                     }
                 }
             });
@@ -172,15 +189,18 @@
             var fieldName = $(this).data('bolt-field');
             var field = $('#editcontent [name=' + liveEditor.escapejQuery(fieldName) + ']');
             var fieldType = field.closest('[data-fieldtype]').data('fieldtype');
+            var fieldValue = '';
 
-            if (fieldType === 'text') {
-                field.val($(this).text());
-            } else {
+            if (fieldType === 'html') {
+                fieldValue = $(this).html();
+
                 if (_.has(ckeditor.instances, fieldName)) {
-                    ckeditor.instances[fieldName].setData($(this).html());
+                    ckeditor.instances[fieldName].setData(fieldValue);
                 }
-                field.val($(this).html());
+            }else{
+                fieldValue = liveEditor.cleanText($(this), fieldType);
             }
+            field.val(fieldValue);
         });
 
         $(iframe).attr('src', '');
@@ -189,6 +209,27 @@
         $('body').removeClass('live-editor-active');
 
         liveEditor.removeEvents();
+    };
+
+    /**
+     * Clean contenteditable values for text fields
+     *
+     * @public
+     *
+     * @function cleanText
+     * @memberof Bolt.liveEditor
+     *
+     * @param {Object} element - jQuery element to clean
+     * @param {String} fieldType - type of field to clean (text, textarea)
+     * @return {String} Value for editcontent input fields
+     */
+    liveEditor.cleanText = function(element, fieldType) {
+        // Preserve newlines and spacing for textarea fields
+        if(fieldType == 'textarea') {
+            element.html(element.html().replace(/&nbsp;/g, ' ').replace(/\s?<br.*?>\s?/g, '\n'));
+        }
+
+        return element.text();
     };
 
     /**
