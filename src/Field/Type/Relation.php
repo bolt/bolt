@@ -26,8 +26,9 @@ class Relation extends FieldTypeBase
     {
         $field = $this->mapping['fieldname'];
         $boltname = $metadata->getBoltName();
-        $query->addSelect("$field.to_id as $field");
-        $query->leftJoin('content', 'bolt_relations', $field, "content.id = $field.from_id AND $field.from_contenttype='$boltname' AND $field.to_contenttype='$field'");    
+        $query->addSelect($this->getPlatformGroupConcat("$field.to_id", $field, $query))
+            ->leftJoin('content', 'bolt_relations', $field, "content.id = $field.from_id AND $field.from_contenttype='$boltname' AND $field.to_contenttype='$field'")
+            ->addGroupBy("content.id");    
     }
     
     /**
@@ -47,6 +48,29 @@ class Relation extends FieldTypeBase
     public function getName()
     {
         return 'relation';
+    }
+    
+    /**
+     * Get platform specific group_concat token for provided column
+     *
+     * @param string $column
+     * 
+     * @return string
+     **/
+    protected function getPlatformGroupConcat($column, $alias, QueryBuilder $query)
+    {
+        $platform = $query->getConnection()->getDatabasePlatform()->getName();
+        
+        switch ($platform) {
+            case 'mysql':
+                return "GROUP_CONCAT(DISTINCT $column) as $alias";
+            case 'sqlite':
+                return "GROUP_CONCAT(DISTINCT $column) as $alias";
+            case 'postgresql':
+                return "string_agg(distinct $column, ',') as $alias";
+        }
+        
+        
     }
 
     
