@@ -234,7 +234,10 @@ wysiwyg:
         allowNbsp: false     # If set to 'false', the editor will strip out `&nbsp;` characters. If set to 'true', it will allow them. ¯\_(ツ)_/¯
         # viewSourceRoles: [ 'admin', 'developer' ] # the roles which are allowed to use the [Source]-button.
 
-# Global option to enable/disable the live editor
+# Global option to enable/disable the live editor.
+# Liveeditor feature requires to include bounding editable html containers in your template
+# the 'data-bolt-field' attribute and a value with the name of the corresponding field.
+# Example: <h3 data-bolt-field="subtitle">{{ record.subtitle }}</h3>
 liveeditor: true
 
 # Use the 'mailoptions' setting to configure how Bolt sends email: using 'smtp'
