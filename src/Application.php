@@ -7,6 +7,7 @@ use Bolt\Helpers\Str;
 use Bolt\Library as Lib;
 use Bolt\Provider\LoggerServiceProvider;
 use Bolt\Provider\PathServiceProvider;
+use Bolt\Provider\WhoopsServiceProvider;
 use Bolt\Translation\Translator as Trans;
 use Cocur\Slugify\Bridge\Silex\SlugifyServiceProvider;
 use Doctrine\DBAL\DBALException;
@@ -18,7 +19,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\Stopwatch;
 use Whoops\Handler\JsonResponseHandler;
-use Whoops\Provider\Silex\WhoopsServiceProvider;
 
 class Application extends Silex\Application
 {
@@ -106,8 +106,8 @@ class Application extends Silex\Application
         // Initialize Twig and our rendering Provider.
         $this->initRendering();
 
-        // Initialize Web Profiler Providers if enabled
-        $this->initProfiler();
+        // Initialize debugging
+        $this->initDebugging();
 
         // Initialize the Database Providers.
         $this->initDatabase();
@@ -222,16 +222,19 @@ class Application extends Silex\Application
     }
 
     /**
-     * Set up the profilers for the toolbar.
+     * Set up the debugging if required.
      */
-    public function initProfiler()
+    public function initDebugging()
     {
-        // On 'after' attach the debug-bar, if debug is enabled.
-        $user = $this['session']->isStarted() ? $this['session']->has('user') : false;
-        if (!($this['debug'] && ($user || $this['config']->get('general/debug_show_loggedoff')))) {
+        if (!$this['debug']) {
             error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_USER_DEPRECATED);
 
             return;
+        }
+
+        // If debugging is enabled when logged out, we need the session running.
+        if ($this['config']->get('general/debug_show_loggedoff', false) && !$this['session']->isStarted()) {
+            $this['session']->start();
         }
 
         // Set the error_reporting to the level specified in config.yml
@@ -240,13 +243,17 @@ class Application extends Silex\Application
         // Register Whoops, to handle errors for logged in users only.
         if ($this['config']->get('general/debug_enable_whoops')) {
             $this->register(new WhoopsServiceProvider());
-
-            // Add a special handler to deal with AJAX requests
-            if ($this['config']->getWhichEnd() == 'async') {
-                $this['whoops']->pushHandler(new JsonResponseHandler());
-            }
         }
 
+        // Initialize Web Profiler providers
+        $this->initProfiler();
+    }
+
+    /**
+     * Set up the profilers for the toolbar.
+     */
+    public function initProfiler()
+    {
         // Register the Silex/Symfony web debug toolbar.
         $this->register(
             new Silex\Provider\WebProfilerServiceProvider(),
