@@ -2,9 +2,10 @@
 
 namespace Bolt\Storage;
 
+use Bolt\Mapping\ClassMetadata;
+use Bolt\Storage\EntityManager;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\DBAL\Query\QueryBuilder;
-use Bolt\Mapping\ClassMetadata;
 use Doctrine\DBAL\Types\Type;
 
 /**
@@ -40,7 +41,7 @@ class Hydrator
      * 
      *  @return Object Entity
      */
-    public function hydrate(array $source, QueryBuilder $qb)
+    public function hydrate(array $source, QueryBuilder $qb, EntityManager $em = null)
     {
         $classname = $this->handler;
         $entity = new $classname;
@@ -49,7 +50,7 @@ class Hydrator
             
             // First step is to allow each Bolt field to transform the data.
             $field = new $mapping['fieldtype']($mapping);
-            $field->hydrate($source, $entity);
+            $field->hydrate($source, $entity, $em);
             
             if ($mapping['type'] !== 'null') {
                 $type = Type::getType($mapping['type']);
