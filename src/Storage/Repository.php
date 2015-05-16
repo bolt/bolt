@@ -77,7 +77,7 @@ class Repository implements ObjectRepository
     public function find($id)
     {
         $qb = $this->getLoadQuery();
-        $result = $qb->execute()->fetch();
+        $result = $qb->where($this->getAlias().'.id = :id')->setParameter('id', $id)->execute()->fetch();
         if ($result) {
             return $this->hydrate($result, $qb);
         }
