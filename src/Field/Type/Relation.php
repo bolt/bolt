@@ -42,7 +42,7 @@ class Relation extends FieldTypeBase
         $relations = array_filter(explode(',', $data[$field]));
         $values = array();
         foreach($relations as $id) {
-            $values[] = new EntityProxy($field, $id);
+            $values[] = new EntityProxy($field, $id, $em);
         }
         $entity->$field = $values;
     }
