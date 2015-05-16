@@ -16,7 +16,11 @@ class EventListenerServiceProvider implements ServiceProviderInterface
 
         $app['listener.kernel_exception'] = $app->share(function ($app) {
             $rootPath = $app['resources']->getPath('root');
-            return new Listener\KernelExceptionListener($rootPath, $app['render'], $app['logger.system']);
+            return new Listener\KernelExceptionListener(
+                $rootPath,
+                $app['render'],
+                $app['logger.system']
+            );
         });
 
         $app['listener.not_found'] = $app->share(function ($app) {
@@ -55,6 +59,10 @@ class EventListenerServiceProvider implements ServiceProviderInterface
         $app['listener.zone_guesser'] = $app->share(function ($app) {
             return new Listener\ZoneGuesser($app);
         });
+
+        $app['listener.whoops'] = $app->share(function ($app) {
+            return new Listener\WhoopsExceptionListener($app);
+        });
     }
 
     public function boot(Application $app)
@@ -68,5 +76,6 @@ class EventListenerServiceProvider implements ServiceProviderInterface
         $dispatcher->addSubscriber($app['listener.snippet']);
         $dispatcher->addSubscriber($app['listener.redirect']);
         $dispatcher->addSubscriber($app['listener.zone_guesser']);
+        $dispatcher->addSubscriber($app['listener.whoops']);
     }
 }
