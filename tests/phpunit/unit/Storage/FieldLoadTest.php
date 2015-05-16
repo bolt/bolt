@@ -7,6 +7,7 @@ use Bolt\Storage\ContentRepository;
 use Bolt\Entity\Content;
 use Bolt\Tests\Mocks\LoripsumMock;
 use Bolt\Storage;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class to test src/Storage/Repository and field transforms
@@ -28,18 +29,30 @@ class FieldLoadTest extends BoltUnitTest
         
         $record = $repo->find(1);
         
-        print_r($record);
     }
     
     protected function addSomeContent()
     {
         $app = $this->getApp();
+        $app['request'] = Request::create('/');
         $app['config']->set('taxonomy/categories/options', array('news'));
         $prefillMock = new LoripsumMock();
         $app['prefill'] = $prefillMock;
 
         $storage = new Storage($app);
-        $storage->prefill(array('showcases'));
+        $storage->prefill(array('showcases', 'entries', 'pages'));
+        
+        // We also set some relations between showcases and entries
+        $showcases = $storage->getContent("showcases");
+        $randEntries = $storage->getContent("entries/random/2");
+        foreach ($showcases as $show) {
+            foreach ($randEntries as $key=>$entry) {
+                $show->setRelation('entries', $key);
+                $storage->saveContent($show);
+            }
+            
+        }
+        
     }
     
     
