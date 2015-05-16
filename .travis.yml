@@ -66,10 +66,11 @@ before_script:
   - git clone https://github.com/bolt/composer-install.git .tmp
   # - cd .tmp
   # Add requires
-  - composer require --working-dir=.tmp/ --no-update "bolt/bolt:dev-master" "phpunit/phpunit:~4.5" "codeception/codeception:*" lstrojny/phpunit-function-mocker
+  - composer require --working-dir=.tmp/ --no-update bolt/bolt:dev-master phpunit/phpunit "codeception/codeception:*" lstrojny/phpunit-function-mocker
   # Create the project
   - composer create-project --working-dir=.tmp/ --no-interaction --prefer-dist
   # Update the Composer Bolt install with the PR files
+  - rsync -av --exclude="autoload*" vendor/ .tmp/vendor/
   - rsync -av --delete src/ .tmp/vendor/bolt/bolt/src/
   - rsync -av --delete app/ .tmp/vendor/bolt/bolt/app/
   - rsync -av --delete tests/ .tmp/vendor/bolt/bolt/tests/
