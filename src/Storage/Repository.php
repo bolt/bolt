@@ -77,9 +77,7 @@ class Repository implements ObjectRepository
     public function find($id)
     {
         $qb = $this->getLoadQuery();
-        var_dump($qb->getSQL()); exit;
-        $result = $qb->execute()->fetchAll();
-        print_r($result); exit;
+        $result = $qb->execute()->fetch();
         if ($result) {
             return $this->hydrate($result, $qb);
         }
@@ -289,7 +287,7 @@ class Repository implements ObjectRepository
         );
         $this->event()->dispatch(StorageEvents::PRE_HYDRATE, $preArgs);
         
-        $entity = $this->hydrator->hydrate($data, $qb);
+        $entity = $this->hydrator->hydrate($data, $qb, $this->em);
         
         $postArgs = new HydrationEvent(
             $entity, 
