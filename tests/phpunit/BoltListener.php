@@ -12,7 +12,7 @@ use Symfony\Component\Filesystem\Filesystem;
 class BoltListener implements \PHPUnit_Framework_TestListener
 {
     /** @var array */
-    protected $tracker;
+    protected $tracker = array();
 
     /** @var boolean */
     protected $timer;
