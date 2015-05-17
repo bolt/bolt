@@ -265,17 +265,6 @@ class Application extends Silex\Application
 
         // Register the toolbar item for our Bolt nipple.
         $this->register(new Provider\BoltProfilerServiceProvider());
-
-        $this['twig.loader.filesystem'] = $this->share(
-            $this->extend(
-                'twig.loader.filesystem',
-                function (\Twig_Loader_Filesystem $filesystem, Application $app) {
-                    $filesystem->addPath($app['resources']->getPath('app') . '/view', 'BoltProfiler');
-
-                    return $filesystem;
-                }
-            )
-        );
     }
 
     public function initLocale()
