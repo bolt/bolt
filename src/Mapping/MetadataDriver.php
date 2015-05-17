@@ -208,9 +208,20 @@ class MetadataDriver implements MappingDriver
         }
     }
     
-    public function setTaxonomies($contentKey)
+    public function setTaxonomies($contentKey, $className)
     {
-        
+        if (!isset($this->contenttypes[$contentKey]['taxonomy'])) {
+            return;
+        }
+        foreach ($this->contenttypes[$contentKey]['taxonomy'] as $taxonomy) {
+            if (isset($data['alias'])) {
+                $taxonomy = $data['alias'];
+            }
+            $mapping['fieldname'] = $taxonomy;
+            $mapping['type'] = 'null';
+            $mapping['fieldtype'] = $this->typemap['taxonomy'];
+            $this->metadata[$className]['fields'][$taxonomy] = $mapping;
+        }
     }
 
     /**
