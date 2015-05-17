@@ -67,6 +67,15 @@ class Frontend extends ConfigurableBase
             }
         }
 
+        // If we have a valid cache respose, return it.
+        if ($response = $this->app['render']->fetchCachedRequest()) {
+            // Stop the 'stopwatch' for the profiler.
+            $this->app['stopwatch']->stop('bolt.frontend.before');
+
+            // Short-circuit the request, return the HTML/response. YOLO.
+            return $response;
+        }
+
         // Stop the 'stopwatch' for the profiler.
         $this->app['stopwatch']->stop('bolt.frontend.before');
 

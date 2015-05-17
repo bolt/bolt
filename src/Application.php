@@ -405,36 +405,18 @@ class Application extends Silex\Application
     {
     }
 
+    /**
+     * @deprecated since Bolt 2.3 and will be removed in Bolt 3.0.
+     */
     public function beforeHandler(Request $request)
     {
-        // Start the 'stopwatch' for the profiler.
-        $this['stopwatch']->start('bolt.app.before');
-
-        if ($response = $this['render']->fetchCachedRequest()) {
-            // Stop the 'stopwatch' for the profiler.
-            $this['stopwatch']->stop('bolt.app.before');
-
-            // Short-circuit the request, return the HTML/response. YOLO.
-            return $response;
-        }
-
-        // Stop the 'stopwatch' for the profiler.
-        $this['stopwatch']->stop('bolt.app.before');
     }
 
     /**
-     * Global 'after' handler. Adds 'after' HTML-snippets and Meta-headers to the output.
-     *
-     * @param Request  $request
-     * @param Response $response
+     * @deprecated since Bolt 2.3 and will be removed in Bolt 3.0.
      */
     public function afterHandler(Request $request, Response $response)
     {
-        // Start the 'stopwatch' for the profiler.
-        $this['stopwatch']->start('bolt.app.after');
-
-        // Stop the 'stopwatch' for the profiler.
-        $this['stopwatch']->stop('bolt.app.after');
     }
 
     /**
