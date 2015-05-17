@@ -24,11 +24,17 @@ class Taxonomy extends FieldTypeBase
      */
     public function load(QueryBuilder $query, ClassMetadata $metadata)
     {
-        print_r($this->mapping); exit;
         $field = $this->mapping['fieldname'];
         $boltname = $metadata->getBoltName();
-        $query->addSelect($this->getPlatformGroupConcat("$field.to_id", $field, $query))
-            ->leftJoin('content', 'bolt_relations', $field, "content.id = $field.from_id AND $field.from_contenttype='$boltname' AND $field.to_contenttype='$field'")
+        
+        if ($this->mapping['data']['has_sortorder']) {
+            $order = "$field.sortorder";
+        } else {
+            $order = "$field.id";
+        }
+        
+        $query->addSelect($this->getPlatformGroupConcat("$field.slug", $order ,$field, $query))
+            ->leftJoin('content', 'bolt_taxonomy', $field, "content.id = $field.content_id AND $field.contenttype='$boltname' AND $field.taxonomytype='$field'")
             ->addGroupBy("content.id");    
     }
     
@@ -39,6 +45,8 @@ class Taxonomy extends FieldTypeBase
     public function hydrate($data, $entity, EntityManager $em = null)
     {
         $field = $this->mapping['fieldname'];
+        $taxonomies = array_filter(explode(',', $data[$field]));
+        $entity->$field = $taxonomies;
         
     }
     
@@ -50,6 +58,30 @@ class Taxonomy extends FieldTypeBase
     public function getName()
     {
         return 'taxonomy';
+    }
+    
+    
+    /**
+     * Get platform specific group_concat token for provided column
+     *
+     * @param string $column
+     * 
+     * @return string
+     **/
+    protected function getPlatformGroupConcat($column, $order, $alias, QueryBuilder $query)
+    {
+        $platform = $query->getConnection()->getDatabasePlatform()->getName();
+        
+        switch ($platform) {
+            case 'mysql':
+                return "GROUP_CONCAT(DISTINCT $column ORDER BY $order ASC) as $alias";
+            case 'sqlite':
+                return "GROUP_CONCAT(DISTINCT $column) as $alias";
+            case 'postgresql':
+                return "string_agg(distinct $column, ',' ORDER BY $order) as $alias";
+        }
+        
+        
     }
 
     
