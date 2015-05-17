@@ -68,6 +68,7 @@ class StorageServiceProvider implements ServiceProviderInterface
                 $meta = new MetadataDriver(
                     $app['integritychecker'], 
                     $app['config']->get('contenttypes'),
+                    $app['config']->get('taxonomy'),
                     $app['storage.typemap']
                 );
                 return $meta;
