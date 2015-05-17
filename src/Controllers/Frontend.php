@@ -155,11 +155,11 @@ class Frontend
         }
     }
 
-    protected function setTemplateError(Application $app, $error)
+    /**
+     * @deprecated
+     */
+    protected function setTemplateError()
     {
-        if (isset($app['twig.logger'])) {
-            $app['twig.logger']->setTrackValue('templateerror', $error);
-        }
     }
 
     /**
