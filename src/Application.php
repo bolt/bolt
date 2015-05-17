@@ -263,35 +263,18 @@ class Application extends Silex\Application
         // Register the toolbar item for our Database query log.
         $this->register(new Provider\DatabaseProfilerServiceProvider());
 
-        // Register the toolbar item for our bolt nipple.
+        // Register the toolbar item for our Bolt nipple.
         $this->register(new Provider\BoltProfilerServiceProvider());
-
-        // Register the toolbar item for the Twig toolbar item.
-        $this->register(new Provider\TwigProfilerServiceProvider());
 
         $this['twig.loader.filesystem'] = $this->share(
             $this->extend(
                 'twig.loader.filesystem',
                 function (\Twig_Loader_Filesystem $filesystem, Application $app) {
-                    $filesystem->addPath(
-                        $app['resources']->getPath('root') . '/vendor/symfony/web-profiler-bundle/Resources/views/Profiler/',
-                        'WebProfiler'
-                    );
                     $filesystem->addPath($app['resources']->getPath('app') . '/view', 'BoltProfiler');
 
                     return $filesystem;
                 }
             )
-        );
-
-        // PHP 5.3 does not allow 'use ($this)' in closures.
-        $app = $this;
-        $this->after(
-            function () use ($app) {
-                foreach (Lib::parseTwigTemplates($app['twig.loader.filesystem']) as $template) {
-                    $app['twig.logger']->collectTemplateData($template);
-                }
-            }
         );
     }
 
