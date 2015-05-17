@@ -18,7 +18,7 @@ class FieldLoadTest extends BoltUnitTest
 {
     
     
-    public function testCreateAndHydrate()
+    public function testRelationsLoad()
     {
         $app = $this->getApp();
         $this->addNewUser($app, 'admin', 'Admin', 'admin');;
@@ -34,6 +34,19 @@ class FieldLoadTest extends BoltUnitTest
             $this->assertNotEmpty($entry->slug);
         }        
 
+        
+    }
+    
+    public function testTaxonomyLoad()
+    {
+        $app = $this->getApp();
+        $app['integritychecker']->repairTables();
+        $em = new EntityManager($app['db'], $app['dispatcher'], $app['storage.metadata']);
+        $repo = $em->getRepository('showcases');
+        
+        $record = $repo->find(1);
+        $this->assertTrue(is_array($record->categories));
+        $this->assertTrue(is_array($record->tags));
         
     }
     
