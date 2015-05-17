@@ -30,6 +30,11 @@ class MetadataDriver implements MappingDriver
     protected $contenttypes;
     
     /**
+     * Array of taxonomy configuration
+     */
+    protected $taxonomies;
+    
+    /**
      * array of metadata mappings
      */
     protected $metadata;
@@ -73,10 +78,11 @@ class MetadataDriver implements MappingDriver
     /**
      * @param IntegrityChecker $integrityChecker
      */
-    public function __construct(IntegrityChecker $integrityChecker, array $contenttypes, array $typemap)
+    public function __construct(IntegrityChecker $integrityChecker, array $contenttypes, array $taxonomies, array $typemap)
     {
         $this->integrityChecker = $integrityChecker;
         $this->contenttypes = $contenttypes;
+        $this->taxonomies = $taxonomies;
         $this->typemap = $typemap;
     }
     
@@ -213,15 +219,24 @@ class MetadataDriver implements MappingDriver
         if (!isset($this->contenttypes[$contentKey]['taxonomy'])) {
             return;
         }
-        foreach ($this->contenttypes[$contentKey]['taxonomy'] as $taxonomy) {
-            if (isset($data['alias'])) {
-                $taxonomy = $data['alias'];
+        
+        foreach($this->contenttypes[$contentKey]['taxonomy'] as $taxonomytype) {
+            
+            $taxonomyConfig = $this->taxonomies[$taxonomytype];
+            
+            if (isset($taxonomyConfig['alias'])) {
+                $taxonomy = $taxonomyConfig['alias'];
+            } else {
+                $taxonomy = $taxonomytype;
             }
             $mapping['fieldname'] = $taxonomy;
             $mapping['type'] = 'null';
             $mapping['fieldtype'] = $this->typemap['taxonomy'];
             $this->metadata[$className]['fields'][$taxonomy] = $mapping;
+            $this->metadata[$className]['fields'][$taxonomy]['data'] = $taxonomyConfig;
+            
         }
+        
     }
 
     /**
