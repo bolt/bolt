@@ -14,11 +14,11 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class FieldLoadTest extends BoltUnitTest
+class FieldSaveTest extends BoltUnitTest
 {
     
     
-    public function testRelationsLoad()
+    public function testRelationsSave()
     {
         $app = $this->getApp();
         $this->addNewUser($app, 'admin', 'Admin', 'admin');;
@@ -32,12 +32,16 @@ class FieldLoadTest extends BoltUnitTest
         foreach ($record->entries as $entry) {
             $this->assertNotEmpty($entry->id);
             $this->assertNotEmpty($entry->slug);
-        }        
+        }
+        
+        $em->save($record);
+        
+              
 
         
     }
     
-    public function testTaxonomyLoad()
+    public function testTaxonomySave()
     {
         $app = $this->getApp();
         $app['integritychecker']->repairTables();
