@@ -17,7 +17,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  * @author Carson Full <carsonfull@gmail.com>
  */
-class KernelExceptionListener implements EventSubscriberInterface
+class ExceptionListener implements EventSubscriberInterface
 {
     /** @var string */
     protected $rootPath;
@@ -27,7 +27,7 @@ class KernelExceptionListener implements EventSubscriberInterface
     protected $logger;
 
     /**
-     * KernelExceptionListener constructor.
+     * ExceptionListener constructor.
      *
      * @param string          $rootPath
      * @param Render          $render

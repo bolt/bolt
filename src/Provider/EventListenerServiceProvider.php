@@ -14,9 +14,9 @@ class EventListenerServiceProvider implements ServiceProviderInterface
             return new Listener\GeneralListener($app);
         });
 
-        $app['listener.kernel_exception'] = $app->share(function ($app) {
+        $app['listener.exception'] = $app->share(function ($app) {
             $rootPath = $app['resources']->getPath('root');
-            return new Listener\KernelExceptionListener(
+            return new Listener\ExceptionListener(
                 $rootPath,
                 $app['render'],
                 $app['logger.system']
@@ -67,7 +67,7 @@ class EventListenerServiceProvider implements ServiceProviderInterface
         $dispatcher = $app['dispatcher'];
 
         $dispatcher->addSubscriber($app['listener.general']);
-        $dispatcher->addSubscriber($app['listener.kernel_exception']);
+        $dispatcher->addSubscriber($app['listener.exception']);
         $dispatcher->addSubscriber($app['listener.not_found']);
         $dispatcher->addSubscriber($app['listener.snippet']);
         $dispatcher->addSubscriber($app['listener.redirect']);
