@@ -38,7 +38,7 @@ abstract class FieldTypeBase implements FieldTypeInterface
      *
      * @return void
      */
-    public function persist(QueryBuilder $query, EntityManager $em)
+    public function persist(QueryBuilder $query, $entity)
     {
         
     }

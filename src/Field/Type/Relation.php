@@ -46,6 +46,24 @@ class Relation extends FieldTypeBase
         }
         $entity->$field = $values;
     }
+    
+    
+    /**
+     * Handle the persist event.
+     *
+     */
+    public function persist(QueryBuilder $qb, $entity, EntityManager $em = null)
+    {
+        $field = $this->mapping['fieldname'];
+        $accessor = "get".$field;
+        $relations = $entity->$accessor();
+        
+        foreach($relations as $relation) {
+            // Insert / Update relations to the db here
+        }        
+        
+    }
+    
     /**
      * Returns the name of the field type.
      *

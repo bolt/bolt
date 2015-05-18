@@ -29,7 +29,7 @@ interface FieldTypeInterface
      *
      * @return void
      */
-    public function persist(QueryBuilder $query, EntityManager $em);
+    public function persist(QueryBuilder $query, $entity);
     
     /**
      * Handle or ignore the hydrate event.
