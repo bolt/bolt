@@ -41,7 +41,7 @@ class Repository implements ObjectRepository
         }
         
         if (null === $persister) {
-            $this->setPersister(new Persister());
+            $this->setPersister(new Persister($classMetadata));
         }
         
         if (null === $loader) {
@@ -248,7 +248,7 @@ class Repository implements ObjectRepository
     {
         $qb = $this->em->createQueryBuilder();
         $qb->insert($this->getTableName());
-        $this->persister->persist($qb, $entity, $this->getClassMetadata());
+        $this->persister->persist($qb, $entity);
                 
         return $qb->execute();
     }
