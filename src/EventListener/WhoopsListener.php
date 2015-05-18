@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
-use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Whoops\Handler\JsonResponseHandler;
 use Whoops\Run as Whoops;
@@ -16,6 +16,7 @@ use Whoops\Run as Whoops;
  * Whoops! listener.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
+ * @author Carson Full <carsonfull@gmail.com>
  */
 class WhoopsListener implements EventSubscriberInterface
 {
@@ -70,7 +71,7 @@ class WhoopsListener implements EventSubscriberInterface
         ob_start();
         $this->whoops->handleException($exception);
         $response = ob_get_clean();
-        $code = $exception instanceof HttpException ? $exception->getStatusCode() : Response::HTTP_INTERNAL_SERVER_ERROR;
+        $code = $exception instanceof HttpExceptionInterface ? $exception->getStatusCode() : Response::HTTP_INTERNAL_SERVER_ERROR;
 
         $event->setResponse(new Response($response, $code));
     }
