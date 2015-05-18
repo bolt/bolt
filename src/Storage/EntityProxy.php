@@ -32,6 +32,7 @@ class EntityProxy
         }
         $this->proxy = $this->em->find($this->entity, $this->reference);
         $this->loaded = true;
+        $this->em = null;
     }
     
     public function __call($method, $args)
