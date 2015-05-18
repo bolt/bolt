@@ -1,0 +1,75 @@
+info:
+    upload:
+        image: |
+            Benutzen Sie dieses Feld, um ein Photo oder Bild hochzuladen. Klicken Sie den Button, um eine Datei von deinem Computer
+            auszuwählen, oder Sie können, falls Sie eine aktuelle Chrome oder Firefox-Version einsetzen, die Datei einfach per Drag'n'Drop
+            von Ihrem Desktop oder einem anderen Ordner in Ihr Browserfenster verschieben.<br/>
+            Alternativ können Sie ein zuvor hochgeladenes Bild benutzen. Um eine zuvor hochgeladene Datei auszuwählen, schreiben Sie einfach
+            (einen Teil) des Dateinamens in das Eingabefeld und es wird auto-vervollständigt.
+        file: |
+            Benutzen Sie dieses Feld, um eine Datei hochzuladen, um diese zum Download anzubieten oder innerhalb der Webseite zu benutzen. Klicken
+            Sie den Button, um eine Datei von deinem Computer auszuwählen, oder Sie können, falls Sie eine aktuelle Chrome oder Firefox-Version
+            einsetzen, die Datei einfach per Drag'n'Drop von Ihrem Desktop oder einem anderen Ordner in Ihr Browserfenster verschieben.<br/>
+            Alternativ können Sie ein zuvor hochgeladenes Bild benutzen. Um eine zuvor hochgeladene Datei auszuwählen, schreiben Sie einfach
+            (einen Teil) des Dateinamens in das Eingabefeld und es wird auto-vervollständigt.
+        filelist: |
+            Benutzen Sie dieses Feld, um mehrere Dateien mit eigenen Beschreibungen hochzuladen. Wie bei den einfachen "file" Feld, verstehen aktuelle
+            Browser-Versionen, wenn Sie eine Datei auf das Eingabefeld ziehen. Vielleicht versuchen Sie es mal?
+        filesmall: |
+            Benutzen Sie den Button, um eine Datei hochzuladen. Um eine zuvor hochgeladene Datei auszuwählen, können Sue (einen Teil) des Dateinamens
+            in das Eingabefeld eintippen, und es wird auto-vervollständigt.
+        imagelist: |
+            Benutzen Sie dieses Feld, um einen Satz Photos oder Bilder hochzuladen. Klicken Sie den Button, um eine Datei von deinem Computer
+            auszuwählen, oder Sie können, falls Sie eine aktuelle Chrome oder Firefox-Version einsetzen, die Datei einfach per Drag'n'Drop
+            von Ihrem Desktop oder einem anderen Ordner in Ihr Browserfenster verschieben.<br/>
+            Alternativ können Sie ein zuvor hochgeladenes Bild benutzen. <br />
+            Sie können die Reihenfolge der Bilder mittels Drag'n'Drop kontrollieren, und die Beschreibung der Bilder ändern.
+        video: |
+            Benutzen Sie dieses Feld, um ein Video in Ihre Seite einzubetten. Kopieren Sie einfach die URL einer Video-Seite auf YouTube, Vimeo
+            oder einer anderen Video-Webseite und fügen Sie diese ein. <br />
+            Bolt wird automatisch den &amp;lt;embed&amp;gt;-Code mit der richtigen Breite, Höhe und dem Originaltitel erstellen. Falls Sie die Breite
+            oder Höhe ändern, so wird sich der andere Wert entsprechend ändern, um das Seitenverhältnis beizubehalten.
+    geolocation: |
+        Benutzen Sie dieses Feld, um die Geo-Koordinaten irgendeiner Adresse zu bekommen, oder platziere die Markierung manuell, indem Sie den Pin
+        darauf ziehen. Geben Sie zuerst (eine ungefähre) Adresse in das 'address'-Feld ein, und der entsprechende Längen- und Breitengrad wird von der
+        Google Maps API, zusammen mit der nächstpassenden Adresse, entsprechend Google, abgefragt. <br />
+        Falls Sie den Marker auf eine andere Position setzen möchten, ziehen Sie einfach den Pin per Drag'n'Drop auf der Mini-Karte. Der Längen- und
+        Breitengrad wird automatisch aktualisiert.
+    markdown: |
+        Markdown ist ein Text-in-HTML Konvertierungswerkzeug für Internet-Schreiber.
+        <p>Markdown erlaubt Ihnen mit einem einfach zu lesenden und zu schreibenden Klartext-Format zu verfassen, welches dann in strukturell
+        valides HTML übersetzt wird.</p>
+        <p><strong>Kurzreferenz:</strong><br />
+        # Dies ist ein &lt;h1&gt;-Tag<br>
+        ## Dies ist ein &lt;h2&gt;-Tag<br>
+        ###### Dies ist ein &lt;h6&gt;-tag</p>
+        <p>Dies _<em>ist kursiv</em>_, dies __<strong>ist fett</strong>__, und dies ___<em><strong>ist beides</strong></em>___. Sie können auch
+        Asterisks benutzen: Dies *<em>ist kursiv</em>*, dies **<strong>ist fett</strong>**.
+        <p>So erstellen Sie <a href='#'>Links</a>:<br />
+        Eine [fantastische Webseite](http://example.org/ &amp;quot;Titel des Links&amp;quot;)</p>
+        <p>&nbsp; * Dies ist eine unsortierte Liste<br />
+        &nbsp; * Element 2</p>
+        <p>&nbsp; 1 Dies ist eine geordnete Liste<br />
+        &nbsp; 2 Item 2</p>
+    relationships: |
+        Durch das Auswählen anderer Einträge als 'relation', erstellen Sie eigentlich eine Beziehung zwischen diesem Eintrag und dem ausgewählten.
+        Auf der Webseite kann dies für 'verwandte Artikel', 'siehe auch' oder um darzustellen, wie der Eintrag in eine Struktur passt, benutzt werden.
+    taxonomy: |
+        Durch die Auswahl ein oder mehrer Taxonomien für diesen Eintrag, klassifizieren Sie diesen Eintrag, diese Werte zu haben. Auf der Webseite
+        kann diese benutzt werden, um bestimmte Einträge zu gruppieren oder automatisch Links zu Einträgen mit dieser Klassifizierung zu erstellen.
+about:
+    bolt: |
+        <p>
+            Bolt ist ein CMS, das einfach, schnell, zielorientiert und leicht zu benutzen sein möchte. Für beide -
+            Entwickler und Inhalt-Ersteller. Bolt ist Open Source, und benutzt daher andere Open Source Bestandteile.
+            Falls Sie ein Entwickler sind, so sind Sie herzlich dazu eingeladen, bei der zukünftigen Entwicklung von Bolt zu helfen.
+        </p>
+    licence: |
+        <p>
+            Alle Teile von Bolt sind frei benutzbar unter der Open-Source MIT-Lizenz. Der vollständige Lizenztext kann hier, in
+            der enthaltenen <a href="%paths_app%LICENSE.txt">LICENSE.txt</a>, eingesehen werden.
+        </p>
+prefill:
+    short_help: |
+        <p>Wählen Sie die Datentypen, für die Sie automatisch ein paar Einträge mit Lorem Ipsum Dummy-Inhalten erstellen lassen möchten.<p>
+        <p>Falls Sie kein Kontrollkästchen anwählen, wird Bolt nur die Datentypen befüllen, die bisher keine Inhalte haben.</p>
