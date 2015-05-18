@@ -82,7 +82,11 @@ class EntityManager
      */
     public function save($object)
     {
-        $entityName = get_class($object);
+        if (method_exists($object, 'getContenttype')) {
+            $entityName = $object->getContenttype();
+        } else {
+            $entityName = get_class($object);   
+        }
         $repo = $this->getRepository($entityName);
         
         return $repo->save($object);
