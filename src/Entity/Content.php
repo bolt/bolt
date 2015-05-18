@@ -1,14 +1,13 @@
 <?php
 namespace Bolt\Entity;
 
-use Bolt\Entity\Entity;
 
 /**
- * Entity for User.
+ * Entity for Content.
  */
 class Content extends Entity
 {
-    
+    protected $_contenttype;
     protected $id;
     protected $datecreated;
     protected $datechanged;
@@ -31,6 +30,16 @@ class Content extends Entity
         }
         
         return $this->datechanged;
+    }
+    
+    public function getContenttype()
+    {
+        return $this->_contenttype;
+    }
+    
+    public function setContenttype($value)
+    {
+        $this->_contenttype = $value;
     }
     
 }
