@@ -3,6 +3,7 @@
 namespace Bolt;
 
 use Bolt;
+use Bolt\Controller\Zone;
 use Bolt\Extensions\ExtensionInterface;
 use Bolt\Extensions\Snippets\Location as SnippetLocation;
 use Bolt\Helpers\Str;
@@ -762,11 +763,8 @@ class Extensions
             }
         }
 
-        // While this looks slightly illogical, our CLI tests want to see that
-        // jQuery can be inserted, but we don't want it inserted on either the
-        // backend or AJAX requests.
-        $end = $this->app['config']->getWhichEnd();
-        if ($this->addjquery === true && ($end === 'frontend' || $end === 'cli')) {
+        // Add jQuery
+        if ($this->addjquery && Zone::isFrontend($this->app['request'])) {
             $html = $this->insertJquery($html);
         }
 
