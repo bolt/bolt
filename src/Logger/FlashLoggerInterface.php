@@ -2,6 +2,8 @@
 
 namespace Bolt\Logger;
 
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
+
 /**
  * FlashBag logger interface.
  *
@@ -77,4 +79,14 @@ interface FlashLoggerInterface
      * Clear out messages.
      */
     public function clear();
+
+    /**
+     * Flush stored flashes to the Symfony FlashBag.
+     *
+     * We iterate as some flashes might validly be set in Twig and we shouldn't
+     * wipe them.
+     *
+     * @param FlashBagInterface $flashbag
+     */
+    public function flush(FlashBagInterface $flashbag);
 }
