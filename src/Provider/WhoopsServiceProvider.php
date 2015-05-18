@@ -1,20 +1,12 @@
 <?php
-/**
- * Customised Whoops service provider with the error event handler moved out to
- * a subscriber so that it can be conditionally removed.
- *
- * @author Filipe Dobreira <http://github.com/filp>
- */
 
 namespace Bolt\Provider;
 
 use Bolt\EventListener\WhoopsListener;
-use RuntimeException;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\HttpFoundation\Request;
-use Whoops\Handler\Handler;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Whoops\Handler\PlainTextHandler;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run;
@@ -26,73 +18,71 @@ class WhoopsServiceProvider implements ServiceProviderInterface
      */
     public function register(Application $app)
     {
-        // There's only ever going to be one error page...right?
-        $app['whoops.error_page_handler'] = $app->share(function () {
-            if (PHP_SAPI === 'cli') {
-                return new PlainTextHandler();
-            } else {
-                return new PrettyPageHandler();
-            }
-        });
-
-        // Retrieves info on the Silex environment and ships it off
-        // to the PrettyPageHandler's data tables:
-        // This works by adding a new handler to the stack that runs
-        // before the error page, retrieving the shared page handler
-        // instance, and working with it to add new data tables
-        $app['whoops.silex_info_handler'] = $app->protect(function () use ($app) {
-            try {
-                /** @var Request $request */
-                $request = $app['request'];
-            } catch (RuntimeException $e) {
-                // This error occurred too early in the application's life
-                // and the request instance is not yet available.
-                return;
-            }
-
-            /** @var Handler $errorPageHandler */
-            $errorPageHandler = $app["whoops.error_page_handler"];
-
-            if ($errorPageHandler instanceof PrettyPageHandler) {
-                /** @var PrettyPageHandler $errorPageHandler */
-
-                // General application info:
-                $errorPageHandler->addDataTable('Silex Application', array(
-                    'Charset'           => $app['charset'],
-                    'Locale'            => $app['locale'],
-                    'Route Class'       => $app['route_class'],
-                    'Dispatcher Class'  => $app['dispatcher_class'],
-                    'Application Class' => get_class($app),
-                ));
-
-                // Request info:
-                $errorPageHandler->addDataTable('Silex Application (Request)', array(
-                    'URI'          => $request->getUri(),
-                    'Request URI'  => $request->getRequestUri(),
-                    'Path Info'    => $request->getPathInfo(),
-                    'Query String' => $request->getQueryString() ?: '<none>',
-                    'HTTP Method'  => $request->getMethod(),
-                    'Script Name'  => $request->getScriptName(),
-                    'Base Path'    => $request->getBasePath(),
-                    'Base URL'     => $request->getBaseUrl(),
-                    'Scheme'       => $request->getScheme(),
-                    'Port'         => $request->getPort(),
-                    'Host'         => $request->getHost(),
-                ));
-            }
-        });
-
         $app['whoops'] = $app->share(function () use ($app) {
             $run = new Run();
             $run->allowQuit(false);
-            $run->pushHandler($app['whoops.error_page_handler']);
-            $run->pushHandler($app['whoops.silex_info_handler']);
+            $run->pushHandler($app['whoops.handler']);
             return $run;
         });
 
+        $app['whoops.handler'] = $app->share(function ($app) {
+            if (PHP_SAPI === 'cli') {
+                return $app['whoops.handler.cli'];
+            } else {
+                return $app['whoops.handler.page'];
+            }
+        });
+
+        $app['whoops.handler.cli'] = $app->share(function () {
+            return new PlainTextHandler();
+        });
+
+        $app['whoops.handler.page'] = $app->share(function ($app) {
+            $handler = new PrettyPageHandler();
+            $handler->addDataTableCallback('Bolt Application', $app['whoops.handler.page.app_info']);
+            $handler->addDataTableCallback('Request', $app['whoops.handler.page.request_info']);
+            return $handler;
+        });
+
+        $app['whoops.handler.page.app_info'] = $app->protect(function ($app) {
+            return array(
+                'Charset'           => $app['charset'],
+                'Locale'            => $app['locale'],
+                'Route Class'       => $app['route_class'],
+                'Dispatcher Class'  => $app['dispatcher_class'],
+                'Application Class' => get_class($app),
+            );
+        });
+
+        $app['whoops.handler.page.request_info'] = $app->protect(function ($app) {
+            /** @var RequestStack $requestStack */
+            $requestStack = $app['request_stack'];
+            if (!$request = $requestStack->getCurrentRequest()) {
+                return array();
+            }
+            return array(
+                'URI'          => $request->getUri(),
+                'Request URI'  => $request->getRequestUri(),
+                'Path Info'    => $request->getPathInfo(),
+                'Query String' => $request->getQueryString() ?: '<none>',
+                'HTTP Method'  => $request->getMethod(),
+                'Script Name'  => $request->getScriptName(),
+                'Base Path'    => $request->getBasePath(),
+                'Base URL'     => $request->getBaseUrl(),
+                'Scheme'       => $request->getScheme(),
+                'Port'         => $request->getPort(),
+                'Host'         => $request->getHost(),
+            );
+        });
+
+
         $app['whoops.listener'] = $app->share(function ($app) {
             $showWhileLoggedOff = $app['config']->get('general/debug_show_loggedoff', false);
-            return new WhoopsListener($app['whoops'], $app['session'], $showWhileLoggedOff);
+            return new WhoopsListener(
+                $app['whoops'],
+                $app['session'],
+                $showWhileLoggedOff
+            );
         });
 
         $app['whoops']->register();
