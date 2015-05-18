@@ -2,6 +2,7 @@
 
 namespace Bolt\Twig;
 
+use Bolt\Controller\Zone;
 use Silex;
 
 /**
@@ -139,20 +140,21 @@ class TwigExtension extends \Twig_Extension
 
         $configVal = $this->safe ? null : $config;
         $usersVal = $this->safe ? null : $users->getUsers();
+        $request = $this->app['request'];
 
         // Structured to allow PHPStorm's SymfonyPlugin to provide code completion
         return array(
-            'bolt_name'            => $this->app['bolt_name'],
-            'bolt_version'         => $this->app['bolt_version'],
-            'frontend'             => false,
-            'backend'              => false,
-            'async'                => false,
-            $config->getWhichEnd() => true,
-            'paths'                => $resources->getPaths(),
-            'theme'                => $config->get('theme'),
-            'user'                 => $users->getCurrentUser(),
-            'users'                => $usersVal,
-            'config'               => $configVal,
+            'bolt_name'         => $this->app['bolt_name'],
+            'bolt_version'      => $this->app['bolt_version'],
+            'frontend'          => false,
+            'backend'           => false,
+            'async'             => false,
+            Zone::get($request) => true,
+            'paths'             => $resources->getPaths(),
+            'theme'             => $config->get('theme'),
+            'user'              => $users->getCurrentUser(),
+            'users'             => $usersVal,
+            'config'            => $configVal,
         );
     }
 
