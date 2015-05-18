@@ -8,9 +8,11 @@
 
 namespace Bolt\Provider;
 
+use Bolt\EventListener\WhoopsListener;
 use RuntimeException;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Whoops\Handler\Handler;
 use Whoops\Handler\PlainTextHandler;
@@ -19,16 +21,11 @@ use Whoops\Run;
 
 class WhoopsServiceProvider implements ServiceProviderInterface
 {
-    /** @var \Silex\Application $app */
-    protected $app;
-
     /**
-     * @param Application $app
+     * @inheritdoc
      */
     public function register(Application $app)
     {
-        $this->app = $app;
-
         // There's only ever going to be one error page...right?
         $app['whoops.error_page_handler'] = $app->share(function () {
             if (PHP_SAPI === 'cli') {
@@ -93,13 +90,21 @@ class WhoopsServiceProvider implements ServiceProviderInterface
             return $run;
         });
 
+        $app['whoops.listener'] = $app->share(function ($app) {
+            $showWhileLoggedOff = $app['config']->get('general/debug_show_loggedoff', false);
+            return new WhoopsListener($app['whoops'], $app['session'], $showWhileLoggedOff);
+        });
+
         $app['whoops']->register();
     }
 
     /**
-     * @see Silex\ServiceProviderInterface::boot
+     * @inheritdoc
      */
     public function boot(Application $app)
     {
+        /** @var EventDispatcherInterface $dispatcher */
+        $dispatcher = $app['dispatcher'];
+        $dispatcher->addSubscriber($app['whoops.listener']);
     }
 }

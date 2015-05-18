@@ -10,7 +10,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
-use Whoops\Handler\JsonResponseHandler;
 
 /**
  * General routing listeners.
@@ -42,7 +41,6 @@ class GeneralListener implements EventSubscriberInterface
         $request = $event->getRequest();
 
         $this->resumeSession($request);
-        $this->updateWhoops($event);
         $this->mailConfigCheck($request);
     }
 
@@ -72,27 +70,6 @@ class GeneralListener implements EventSubscriberInterface
     {
         if ($request->cookies->has('bolt_session') && !$this->app['session']->isStarted()) {
             $this->app['session']->start();
-        }
-    }
-
-    /**
-     * Remove the listener for Whoops if not required.
-     *
-     * @param GetResponseEvent $event
-     */
-    protected function updateWhoops(GetResponseEvent $event)
-    {
-        if (!$event->isMasterRequest()) {
-            return;
-        }
-
-        $noUser = $this->app['session']->isStarted() && $this->app['session']->has('user') ? false : true;
-        $showAlways = $this->app['config']->get('general/debug_show_loggedoff', false);
-
-        if ($noUser && !$showAlways) {
-            $event->getDispatcher()->removeListener(KernelEvents::EXCEPTION, array($this->app['listener.whoops'], 'onKernelException'));
-        } elseif ($event->getRequest()->isXmlHttpRequest()) {
-            $this->app['whoops']->pushHandler(new JsonResponseHandler());
         }
     }
 
