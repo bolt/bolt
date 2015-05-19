@@ -493,7 +493,7 @@ var init = {
                     bindFileUpload(data.key);
 
                     autocomplete_conf = {
-                        source: Bolt.conf('paths.async') + 'filesautocomplete?ext=' + encodeURIComponent(accept),
+                        source: Bolt.conf('paths.async') + 'file/autocomplete?ext=' + encodeURIComponent(accept),
                         minLength: 2
                     };
                     if (data.type === 'Image') {

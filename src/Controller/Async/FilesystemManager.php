@@ -23,29 +23,29 @@ class FilesystemManager extends AsyncBase
             ->value('path', '')
             ->bind('asyncbrowse');
 
+        $ctr->get('/file/autocomplete', 'filesAutoComplete')
+            ->bind('file/autocomplete');
+
+        $ctr->post('/file/delete', 'deleteFile')
+            ->bind('file/delete');
+
+        $ctr->post('/file/duplicate', 'duplicateFile')
+            ->bind('file/duplicate');
+
+        $ctr->post('/file/rename', 'renameFile')
+            ->bind('file/rename');
+
         $ctr->post('/folder/create', 'createFolder')
             ->bind('createfolder');
-
-        $ctr->get('/filesautocomplete', 'filesAutoComplete')
-            ->bind('filesautocomplete');
-
-        $ctr->post('/deletefile', 'deleteFile')
-            ->bind('deletefile');
-
-        $ctr->post('/duplicatefile', 'duplicateFile')
-            ->bind('duplicatefile');
-
-        $ctr->get('/recordbrowser', 'recordBrowser')
-            ->bind('recordbrowser');
-
-        $ctr->post('/renamefile', 'renameFile')
-            ->bind('renamefile');
 
         $ctr->post('/folder/rename', 'renameFolder')
             ->bind('renamefolder');
 
         $ctr->post('/folder/remove', 'removeFolder')
             ->bind('removefolder');
+
+        $ctr->get('/recordbrowser', 'recordBrowser')
+            ->bind('recordbrowser');
     }
 
     /**
