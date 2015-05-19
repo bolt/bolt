@@ -4,6 +4,7 @@ namespace Bolt\Twig;
 
 use Bolt\Controller\Zone;
 use Silex;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * The class for Bolt' Twig tags, functions and filters.
@@ -131,25 +132,30 @@ class TwigExtension extends \Twig_Extension
 
     public function getGlobals()
     {
-        /** @var Config $config */
+        /** @var \Bolt\Config $config */
         $config = $this->app['config'];
-        /** @var Users $users */
+        /** @var \Bolt\Users $users */
         $users = $this->app['users'];
-        /** @var Configuration\ResourceManager $resources */
+        /** @var \Bolt\Configuration\ResourceManager $resources */
         $resources = $this->app['resources'];
 
         $configVal = $this->safe ? null : $config;
         $usersVal = $this->safe ? null : $users->getUsers();
-        $request = $this->app['request'];
+
+        $zone = null;
+        /** @var RequestStack $requestStack */
+        $requestStack = $this->app['request_stack'];
+        if ($request = $requestStack->getCurrentRequest()) {
+            $zone = Zone::get($request);
+        }
 
         // Structured to allow PHPStorm's SymfonyPlugin to provide code completion
         return array(
             'bolt_name'         => $this->app['bolt_name'],
             'bolt_version'      => $this->app['bolt_version'],
-            'frontend'          => false,
-            'backend'           => false,
-            'async'             => false,
-            Zone::get($request) => true,
+            'frontend'          => $zone === Zone::FRONTEND,
+            'backend'           => $zone === Zone::BACKEND,
+            'async'             => $zone === Zone::ASYNC,
             'paths'             => $resources->getPaths(),
             'theme'             => $config->get('theme'),
             'user'              => $users->getCurrentUser(),

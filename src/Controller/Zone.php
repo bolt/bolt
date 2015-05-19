@@ -71,7 +71,7 @@ class Zone
      *
      * @param Request $request
      *
-     * @return boolean
+     * @return string|null
      */
     public static function get(Request $request)
     {
@@ -83,8 +83,6 @@ class Zone
      *
      * @param Request $request
      * @param string  $value
-     *
-     * @return boolean
      */
     public static function set(Request $request, $value)
     {
