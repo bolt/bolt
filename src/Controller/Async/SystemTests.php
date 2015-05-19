@@ -15,7 +15,7 @@ class SystemTests extends AsyncBase
 {
     protected function addRoutes(ControllerCollection $c)
     {
-        $c->get('/email/{type}', 'actionEmailNotification')
+        $c->get('/email/{type}', 'emailNotification')
             ->assert('type', '.*')
             ->bind('emailNotification');
     }
@@ -28,7 +28,7 @@ class SystemTests extends AsyncBase
      *
      * @return Response
      */
-    public function actionEmailNotification(Request $request, $type)
+    public function emailNotification(Request $request, $type)
     {
         if ($type !== 'test') {
             return new JsonResponse(['Invalid notification type.'], Response::HTTP_NO_CONTENT);

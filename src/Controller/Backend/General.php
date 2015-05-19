@@ -27,22 +27,22 @@ class General extends BackendBase
 {
     protected function addRoutes(ControllerCollection $c)
     {
-        $c->get('/about', 'actionAbout')
+        $c->get('/about', 'about')
             ->bind('about');
 
-        $c->get('/clearcache', 'actionClearCache')
+        $c->get('/clearcache', 'clearCache')
             ->bind('clearcache');
 
-        $c->get('/', 'actionDashboard')
+        $c->get('/', 'dashboard')
             ->bind('dashboard');
 
-        $c->get('/omnisearch', 'actionOmnisearch')
+        $c->get('/omnisearch', 'omnisearch')
             ->bind('omnisearch');
 
-        $c->match('/prefill', 'actionPrefill')
+        $c->match('/prefill', 'prefill')
             ->bind('prefill');
 
-        $c->match('/tr/{domain}/{tr_locale}', 'actionTranslation')
+        $c->match('/tr/{domain}/{tr_locale}', 'translation')
             ->bind('translation')
             ->assert('domain', 'messages|contenttypes|infos')
             ->value('domain', 'messages')
@@ -54,7 +54,7 @@ class General extends BackendBase
      *
      * @return \Bolt\Response\BoltResponse
      */
-    public function actionAbout()
+    public function about()
     {
         return $this->render('about/about.twig');
     }
@@ -64,7 +64,7 @@ class General extends BackendBase
      *
      * @return \Bolt\Response\BoltResponse
      */
-    public function actionClearCache()
+    public function clearCache()
     {
         $result = $this->app['cache']->clearCache();
 
@@ -87,7 +87,7 @@ class General extends BackendBase
      *
      * @return \Bolt\Response\BoltResponse
      */
-    public function actionDashboard(Request $request)
+    public function dashboard(Request $request)
     {
         $context = $this->getLatest();
 
@@ -101,7 +101,7 @@ class General extends BackendBase
      *
      * @return \Bolt\Response\BoltResponse
      */
-    public function actionOmnisearch(Request $request)
+    public function omnisearch(Request $request)
     {
         $query = $request->query->get('q', '');
         $results = array();
@@ -125,7 +125,7 @@ class General extends BackendBase
      *
      * @return \Bolt\Response\BoltResponse|\Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function actionPrefill(Request $request)
+    public function prefill(Request $request)
     {
         // Determine the Contenttypes that we're doing the prefill for
         $choices = array();
@@ -182,7 +182,7 @@ class General extends BackendBase
      *
      * @return \Bolt\Response\BoltResponse|\Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function actionTranslation(Request $request, $domain, $tr_locale)
+    public function translation(Request $request, $domain, $tr_locale)
     {
         $tr = array(
             'domain' => $domain,

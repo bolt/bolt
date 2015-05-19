@@ -34,7 +34,7 @@ class Upload extends BackendBase
      *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function actionUploadNamspace(Request $request, $namespace)
+    public function uploadNamspace(Request $request, $namespace)
     {
         if ($handler = $request->get('handler')) {
             // Use custom handlers

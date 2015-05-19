@@ -18,16 +18,16 @@ class Authentication extends BackendBase
 {
     protected function addRoutes(ControllerCollection $c)
     {
-        $c->get('/login', 'actionGetLogin')
+        $c->get('/login', 'getLogin')
             ->bind('login');
 
-        $c->post('/login', 'actionPostLogin')
+        $c->post('/login', 'postLogin')
             ->bind('postLogin');
 
-        $c->match('/logout', 'actionLogout')
+        $c->match('/logout', 'logout')
             ->bind('logout');
 
-        $c->get('/resetpassword', 'actionResetPassword')
+        $c->get('/resetpassword', 'resetPassword')
             ->bind('resetpassword');
     }
 
@@ -38,7 +38,7 @@ class Authentication extends BackendBase
      *
      * @return \Bolt\Response\BoltResponse|\Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function actionGetLogin(Request $request)
+    public function getLogin(Request $request)
     {
         $user = $this->getUser();
         if (!empty($user) && $user['enabled'] == 1) {
@@ -62,7 +62,7 @@ class Authentication extends BackendBase
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function actionPostLogin(Request $request)
+    public function postLogin(Request $request)
     {
         $username = trim($request->request->get('username'));
         $password = $request->request->get('password');
@@ -82,7 +82,7 @@ class Authentication extends BackendBase
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function actionLogout()
+    public function logout()
     {
         $user = $this->getSession()->get('user');
         $this->app['logger.system']->info('Logged out: ' . $user['displayname'], array('event' => 'authentication'));
@@ -103,7 +103,7 @@ class Authentication extends BackendBase
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function actionResetPassword(Request $request)
+    public function resetPassword(Request $request)
     {
         $this->getAuthentication()->resetPasswordConfirm($request->get('token'));
 
@@ -124,7 +124,7 @@ class Authentication extends BackendBase
         $token = $this->getAuthentication()->login($username, $password);
 
         if ($token === false) {
-            return $this->actionGetLogin($request);
+            return $this->getLogin($request);
         }
 
         // Log in, if credentials are correct.
@@ -166,6 +166,6 @@ class Authentication extends BackendBase
             return $response;
         }
 
-        return $this->actionGetLogin($request);
+        return $this->getLogin($request);
     }
 }

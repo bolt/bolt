@@ -18,38 +18,38 @@ class General extends AsyncBase
 {
     protected function addRoutes(ControllerCollection $c)
     {
-        $c->get('/changelog/{contenttype}/{contentid}', 'actionChangeLogRecord')
+        $c->get('/changelog/{contenttype}/{contentid}', 'changeLogRecord')
             ->value('contenttype', '')
             ->value('contentid', '0')
             ->bind('changelogrecord');
 
-        $c->get('/dashboardnews', 'actionDashboardNews')
+        $c->get('/dashboardnews', 'dashboardNews')
             ->bind('dashboardnews');
 
-        $c->get('/lastmodified/{contenttypeslug}/{contentid}', 'actionLastModified')
+        $c->get('/lastmodified/{contenttypeslug}/{contentid}', 'lastModified')
             ->value('contentid', '')
             ->bind('lastmodified');
 
-        $c->get('/latestactivity', 'actionLatestActivity')
+        $c->get('/latestactivity', 'latestActivity')
             ->bind('latestactivity');
 
-        $c->get('/makeuri', 'actionMakeUri')
+        $c->get('/makeuri', 'makeUri')
             ->bind('makeuri');
 
-        $c->get('/omnisearch', 'actionOmnisearch')
+        $c->get('/omnisearch', 'omnisearch')
             ->bind('omnisearch');
 
-        $c->get('/readme/{filename}', 'actionReadme')
+        $c->get('/readme/{filename}', 'readme')
             ->assert('filename', '.+')
             ->bind('readme');
 
-        $c->get('/populartags/{taxonomytype}', 'actionPopularTags')
+        $c->get('/populartags/{taxonomytype}', 'popularTags')
             ->bind('populartags');
 
-        $c->get('/tags/{taxonomytype}', 'actionTags')
+        $c->get('/tags/{taxonomytype}', 'tags')
             ->bind('tags');
 
-        $c->get('/widget/{key}', 'actionWidget')
+        $c->get('/widget/{key}', 'widget')
             ->bind('widget');
     }
 
@@ -61,7 +61,7 @@ class General extends AsyncBase
      *
      * @return string
      */
-    public function actionChangeLogRecord($contenttype, $contentid)
+    public function changeLogRecord($contenttype, $contentid)
     {
         $options = array(
             'contentid' => $contentid,
@@ -85,7 +85,7 @@ class General extends AsyncBase
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function actionDashboardNews(Request $request)
+    public function dashboardNews(Request $request)
     {
         $news = $this->getNews($request->getHost());
 
@@ -112,7 +112,7 @@ class General extends AsyncBase
      *
      * @return BoltResponse
      */
-    public function actionLastModified($contenttypeslug, $contentid = null)
+    public function lastModified($contenttypeslug, $contentid = null)
     {
         // Let's find out how we should determine what the latest changes were:
         $contentLogEnabled = (bool) $this->getOption('general/changelog/enabled');
@@ -129,7 +129,7 @@ class General extends AsyncBase
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function actionLatestActivity()
+    public function latestActivity()
     {
         $change = $this->app['logger.manager']->getActivity('change', 8);
         $system = $this->app['logger.manager']->getActivity('system', 8, null, 'authentication');
@@ -150,7 +150,7 @@ class General extends AsyncBase
      *
      * @return string
      */
-    public function actionMakeUri(Request $request)
+    public function makeUri(Request $request)
     {
         return $this->app['storage']->getUri(
             $request->query->get('title'),
@@ -169,7 +169,7 @@ class General extends AsyncBase
      *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function actionOmnisearch(Request $request)
+    public function omnisearch(Request $request)
     {
         $query = $request->query->get('q', '');
 
@@ -190,7 +190,7 @@ class General extends AsyncBase
      *
      * @return integer|\Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function actionPopularTags(Request $request, $taxonomytype)
+    public function popularTags(Request $request, $taxonomytype)
     {
         $table = $this->getOption('general/database/prefix', 'bolt_');
         $table .= 'taxonomy';
@@ -229,7 +229,7 @@ class General extends AsyncBase
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function actionReadme($filename)
+    public function readme($filename)
     {
         $paths = $this->app['resources']->getPaths();
 
@@ -258,7 +258,7 @@ class General extends AsyncBase
      *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function actionTags($taxonomytype)
+    public function tags($taxonomytype)
     {
         $table = $this->getOption('general/database/prefix', 'bolt_');
         $table .= 'taxonomy';
@@ -284,7 +284,7 @@ class General extends AsyncBase
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function actionWidget($key)
+    public function widget($key)
     {
         $html = $this->app['extensions']->renderWidget($key);
 

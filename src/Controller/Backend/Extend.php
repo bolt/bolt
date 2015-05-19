@@ -22,37 +22,37 @@ class Extend extends BackendBase
      */
     protected function addRoutes(ControllerCollection $c)
     {
-        $c->get('', 'actionOverview')
+        $c->get('', 'overview')
             ->bind('extend');
 
-        $c->get('/check', 'actionCheck')
+        $c->get('/check', 'check')
             ->bind('check');
 
-        $c->get('/update', 'actionUpdate')
+        $c->get('/update', 'update')
             ->bind('update');
 
-        $c->get('/install', 'actionInstall')
+        $c->get('/install', 'install')
             ->bind('install');
 
-        $c->get('/uninstall', 'actionUninstall')
+        $c->get('/uninstall', 'uninstall')
             ->bind('uninstall');
 
-        $c->get('/installed', 'actionInstalled')
+        $c->get('/installed', 'installed')
             ->bind('installed');
 
-        $c->get('/installAll', 'actionInstallAll')
+        $c->get('/installAll', 'installAll')
             ->bind('installAll');
 
-        $c->get('/installPackage', 'actionInstallPackage')
+        $c->get('/installPackage', 'installPackage')
             ->bind('installPackage');
 
-        $c->get('/installInfo', 'actionInstallInfo')
+        $c->get('/installInfo', 'installInfo')
             ->bind('installInfo');
 
-        $c->get('/packageInfo', 'actionPackageInfo')
+        $c->get('/packageInfo', 'packageInfo')
             ->bind('packageInfo');
 
-        $c->get('/generateTheme', 'actionGenerateTheme')
+        $c->get('/generateTheme', 'generateTheme')
             ->bind('generateTheme');
     }
 
@@ -80,7 +80,7 @@ class Extend extends BackendBase
      *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function actionCheck(Request $request)
+    public function check(Request $request)
     {
         return new JsonResponse($this->app['extend.manager']->checkPackage());
     }
@@ -92,7 +92,7 @@ class Extend extends BackendBase
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function actionGenerateTheme(Request $request)
+    public function generateTheme(Request $request)
     {
         $theme = $request->get('theme');
         $newName = $request->get('name');
@@ -137,7 +137,7 @@ class Extend extends BackendBase
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function actionInstall(Request $request)
+    public function install(Request $request)
     {
         $package = $request->get('package');
         $version = $request->get('version');
@@ -170,7 +170,7 @@ class Extend extends BackendBase
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function actionInstallAll(Request $request)
+    public function installAll(Request $request)
     {
         $response = $this->app['extend.manager']->installPackages();
 
@@ -190,7 +190,7 @@ class Extend extends BackendBase
      *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function actionInstalled(Request $request)
+    public function installed(Request $request)
     {
         $result = $this->app['extend.manager']->getAllPackages();
 
@@ -202,7 +202,7 @@ class Extend extends BackendBase
      *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function actionInstallInfo(Request $request)
+    public function installInfo(Request $request)
     {
         $package = $request->get('package');
         $versions = array('dev' => array(), 'stable' => array());
@@ -225,7 +225,7 @@ class Extend extends BackendBase
      *
      * @return string
      */
-    public function actionInstallPackage(Request $request)
+    public function installPackage(Request $request)
     {
         return $this->app['render']->render(
             'extend/install-package.twig',
@@ -240,7 +240,7 @@ class Extend extends BackendBase
      *
      * @return string
      */
-    public function actionOverview(Request $request)
+    public function overview(Request $request)
     {
         return $this->app['render']->render(
             'extend/extend.twig',
@@ -255,7 +255,7 @@ class Extend extends BackendBase
      *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function actionPackageInfo(Request $request)
+    public function packageInfo(Request $request)
     {
         $package = $request->get('package');
         $version = $request->get('version');
@@ -273,7 +273,7 @@ class Extend extends BackendBase
      *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function actionUpdate(Request $request)
+    public function update(Request $request)
     {
         $package = $request->get('package') ? $request->get('package') : null;
         $update = $package ? array($package) : array();
@@ -298,7 +298,7 @@ class Extend extends BackendBase
      *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function actionUninstall(Request $request)
+    public function uninstall(Request $request)
     {
         $package = $request->get('package');
 

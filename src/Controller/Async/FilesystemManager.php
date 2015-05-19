@@ -17,34 +17,34 @@ class FilesystemManager extends AsyncBase
 {
     protected function addRoutes(ControllerCollection $ctr)
     {
-        $ctr->get('/browse/{namespace}/{path}', 'actionBrowse')
+        $ctr->get('/browse/{namespace}/{path}', 'browse')
             ->assert('path', '.*')
             ->value('namespace', 'files')
             ->value('path', '')
             ->bind('asyncbrowse');
 
-        $ctr->post('/folder/create', 'actionCreateFolder')
+        $ctr->post('/folder/create', 'createFolder')
             ->bind('createfolder');
 
-        $ctr->get('/filesautocomplete', 'actionFilesAutoComplete')
+        $ctr->get('/filesautocomplete', 'filesAutoComplete')
             ->bind('filesautocomplete');
 
-        $ctr->post('/deletefile', 'actionDeleteFile')
+        $ctr->post('/deletefile', 'deleteFile')
             ->bind('deletefile');
 
-        $ctr->post('/duplicatefile', 'actionDuplicateFile')
+        $ctr->post('/duplicatefile', 'duplicateFile')
             ->bind('duplicatefile');
 
-        $ctr->get('/recordbrowser', 'actionRecordBrowser')
+        $ctr->get('/recordbrowser', 'recordBrowser')
             ->bind('recordbrowser');
 
-        $ctr->post('/renamefile', 'actionRenameFile')
+        $ctr->post('/renamefile', 'renameFile')
             ->bind('renamefile');
 
-        $ctr->post('/folder/rename', 'actionRenameFolder')
+        $ctr->post('/folder/rename', 'renameFolder')
             ->bind('renamefolder');
 
-        $ctr->post('/folder/remove', 'actionRemoveFolder')
+        $ctr->post('/folder/remove', 'removeFolder')
             ->bind('removefolder');
     }
 
@@ -57,7 +57,7 @@ class FilesystemManager extends AsyncBase
      *
      * @return mixed
      */
-    public function actionBrowse(Request $request, $namespace, $path)
+    public function browse(Request $request, $namespace, $path)
     {
         // No trailing slashes in the path.
         $path = rtrim($path, '/');
@@ -108,7 +108,7 @@ class FilesystemManager extends AsyncBase
      *
      * @return Boolean Whether the creation was successful
      */
-    public function actionCreateFolder(Request $request)
+    public function createFolder(Request $request)
     {
         $namespace = $request->request->get('namespace');
         $parentPath = $request->request->get('parent');
@@ -128,7 +128,7 @@ class FilesystemManager extends AsyncBase
      *
      * @return bool
      */
-    public function actionDeleteFile(Request $request)
+    public function deleteFile(Request $request)
     {
         $namespace = $request->request->get('namespace');
         $filename = $request->request->get('filename');
@@ -147,7 +147,7 @@ class FilesystemManager extends AsyncBase
      *
      * @return bool
      */
-    public function actionDuplicateFile(Request $request)
+    public function duplicateFile(Request $request)
     {
         $namespace = $request->request->get('namespace');
         $filename = $request->request->get('filename');
@@ -177,7 +177,7 @@ class FilesystemManager extends AsyncBase
      *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function actionFilesAutoComplete(Request $request)
+    public function filesAutoComplete(Request $request)
     {
         $term = $request->get('term');
         $extensions = $request->query->get('ext');
@@ -194,7 +194,7 @@ class FilesystemManager extends AsyncBase
      *
      * @return mixed
      */
-    public function actionRecordBrowser()
+    public function recordBrowser()
     {
         $results = array();
 
@@ -224,7 +224,7 @@ class FilesystemManager extends AsyncBase
      *
      * @return Boolean Whether the renaming action was successful
      */
-    public function actionRemoveFolder(Request $request)
+    public function removeFolder(Request $request)
     {
         $namespace = $request->request->get('namespace');
         $parentPath = $request->request->get('parent');
@@ -244,7 +244,7 @@ class FilesystemManager extends AsyncBase
      *
      * @return Boolean Whether the renaming action was successful
      */
-    public function actionRenameFile(Request $request)
+    public function renameFile(Request $request)
     {
         $namespace  = $request->request->get('namespace');
         $parentPath = $request->request->get('parent');
@@ -265,7 +265,7 @@ class FilesystemManager extends AsyncBase
      *
      * @return Boolean Whether the renaming action was successful
      */
-    public function actionRenameFolder(Request $request)
+    public function renameFolder(Request $request)
     {
         $namespace  = $request->request->get('namespace');
         $parentPath = $request->request->get('parent');

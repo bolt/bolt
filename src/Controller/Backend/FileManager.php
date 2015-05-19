@@ -26,7 +26,7 @@ class FileManager extends BackendBase
 {
     protected function addRoutes(ControllerCollection $c)
     {
-        $c->match('/file/edit/{namespace}/{file}', 'actionEdit')
+        $c->match('/file/edit/{namespace}/{file}', 'edit')
             ->assert('file', '.+')
             ->assert('namespace', '[^/]+')
             ->value('namespace', 'files')
@@ -37,7 +37,7 @@ class FileManager extends BackendBase
                 }
             });
 
-        $c->match('/files/{namespace}/{path}', 'actionManage')
+        $c->match('/files/{namespace}/{path}', 'manage')
             ->assert('namespace', '[^/]+')
             ->assert('path', '.*')
             ->value('namespace', 'files')
@@ -54,7 +54,7 @@ class FileManager extends BackendBase
      *
      * @return \Bolt\Response\BoltResponse|\Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function actionEdit(Request $request, $namespace, $file)
+    public function edit(Request $request, $namespace, $file)
     {
         if ($namespace === 'app' && dirname($file) === 'config') {
             // Special case: If requesting one of the major config files, like contenttypes.yml, set the path to the
@@ -125,7 +125,7 @@ class FileManager extends BackendBase
      *
      * @return \Bolt\Response\BoltResponse|\Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function actionManage(Request $request, $namespace, $path)
+    public function manage(Request $request, $namespace, $path)
     {
         // No trailing slashes in the path.
         $path = rtrim($path, '/');

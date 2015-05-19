@@ -21,21 +21,21 @@ class Records extends BackendBase
     {
         $c->method('GET|POST');
 
-        $c->get('/content/deletecontent/{contenttypeslug}/{id}', 'actionDelete')
+        $c->get('/content/deletecontent/{contenttypeslug}/{id}', 'delete')
             ->bind('deletecontent');
 
-        $c->match('/editcontent/{contenttypeslug}/{id}', 'actionEdit')
+        $c->match('/editcontent/{contenttypeslug}/{id}', 'edit')
             ->bind('editcontent')
             ->assert('id', '\d*')
             ->value('id', '');
 
-        $c->post('/content/{action}/{contenttypeslug}/{id}', 'actionModify')
+        $c->post('/content/{action}/{contenttypeslug}/{id}', 'modify')
             ->bind('contentaction');
 
-        $c->get('/overview/{contenttypeslug}', 'actionOverview')
+        $c->get('/overview/{contenttypeslug}', 'overview')
             ->bind('overview');
 
-        $c->get('/relatedto/{contenttypeslug}/{id}', 'actionRelated')
+        $c->get('/relatedto/{contenttypeslug}/{id}', 'related')
             ->bind('relatedto')
             ->assert('id', '\d*');
     }
@@ -49,7 +49,7 @@ class Records extends BackendBase
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function actionDelete(Request $request, $contenttypeslug, $id)
+    public function delete(Request $request, $contenttypeslug, $id)
     {
         $ids = explode(',', $id);
         $contenttype = $this->getContentType($contenttypeslug);
@@ -79,7 +79,7 @@ class Records extends BackendBase
      *
      * @return \Bolt\Response\BoltResponse|\Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function actionEdit(Request $request, $contenttypeslug, $id)
+    public function edit(Request $request, $contenttypeslug, $id)
     {
         // Is the record new or existing
         $new = empty($id) ?: false;
@@ -133,10 +133,10 @@ class Records extends BackendBase
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function actionModify(Request $request, $action, $contenttypeslug, $id)
+    public function modify(Request $request, $action, $contenttypeslug, $id)
     {
         if ($action === 'delete') {
-            return $this->actionDelete($request, $contenttypeslug, $id);
+            return $this->delete($request, $contenttypeslug, $id);
         }
 
         // This shoudln't happen
@@ -187,7 +187,7 @@ class Records extends BackendBase
      *
      * @return \Bolt\Response\BoltResponse|\Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function actionOverview(Request $request, $contenttypeslug)
+    public function overview(Request $request, $contenttypeslug)
     {
         // Make sure the user is allowed to see this page, based on 'allowed contenttypes'
         // for Editors.
@@ -250,7 +250,7 @@ class Records extends BackendBase
      *
      * @return \Bolt\Response\BoltResponse|\Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function actionRelated(Request $request, $contenttypeslug, $id)
+    public function related(Request $request, $contenttypeslug, $id)
     {
         // Make sure the user is allowed to see this page, based on 'allowed contenttypes' for Editors.
         if (!$this->isAllowed('contenttype:' . $contenttypeslug)) {

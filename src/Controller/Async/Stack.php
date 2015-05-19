@@ -15,11 +15,11 @@ class Stack extends AsyncBase
 {
     protected function addRoutes(ControllerCollection $c)
     {
-        $c->get('/addstack/{filename}', 'actionAddStack')
+        $c->get('/addstack/{filename}', 'addStack')
             ->assert('filename', '.*')
             ->bind('addstack');
 
-        $c->get('/showstack', 'actionShowStack')
+        $c->get('/showstack', 'showStack')
             ->bind('showstack');
     }
 
@@ -30,7 +30,7 @@ class Stack extends AsyncBase
      *
      * @return true
      */
-    public function actionAddStack($filename)
+    public function addStack($filename)
     {
         $this->app['stack']->add($filename);
 
@@ -44,7 +44,7 @@ class Stack extends AsyncBase
      *
      * @return BoltResponse
      */
-    public function actionShowStack(Request $request)
+    public function showStack(Request $request)
     {
         $count = $request->query->get('items', 10);
         $options = $request->query->get('options', false);

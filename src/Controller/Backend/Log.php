@@ -18,19 +18,19 @@ class Log extends BackendBase
 {
     protected function addRoutes(ControllerCollection $c)
     {
-        $c->get('/changelog', 'actionChangeOverview')
+        $c->get('/changelog', 'changeOverview')
             ->bind('changelog');
 
-        $c->get('/changelog/{contenttype}/{contentid}/{id}', 'actionChangeRecord')
+        $c->get('/changelog/{contenttype}/{contentid}/{id}', 'changeRecord')
             ->assert('id', '\d*')
             ->bind('changelogrecordsingle');
 
-        $c->get('/changelog/{contenttype}/{contentid}', 'actionChangeRecordListing')
+        $c->get('/changelog/{contenttype}/{contentid}', 'changeRecordListing')
             ->value('contentid', '0')
             ->value('contenttype', '')
             ->bind('changelogrecordall');
 
-        $c->get('/systemlog', 'actionSystemOverview')
+        $c->get('/systemlog', 'systemOverview')
             ->bind('systemlog');
     }
 
@@ -41,7 +41,7 @@ class Log extends BackendBase
      *
      * @return \Bolt\Response\BoltResponse|\Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function actionChangeOverview(Request $request)
+    public function changeOverview(Request $request)
     {
         $action = $request->query->get('action');
 
@@ -72,7 +72,7 @@ class Log extends BackendBase
      *
      * @return \Bolt\Response\BoltResponse|\Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function actionChangeRecord(Request $request, $contenttype, $contentid, $id)
+    public function changeRecord(Request $request, $contenttype, $contentid, $id)
     {
         $entry = $this->app['logger.manager.change']->getChangelogEntry($contenttype, $contentid, $id);
         if (empty($entry)) {
@@ -102,7 +102,7 @@ class Log extends BackendBase
      *
      * @return \Bolt\Response\BoltResponse|\Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function actionChangeRecordListing(Request $request, $contenttype, $contentid)
+    public function changeRecordListing(Request $request, $contenttype, $contentid)
     {
         // We have to handle three cases here:
         // - $contenttype and $contentid given: get changelog entries for *one* content item
@@ -206,7 +206,7 @@ class Log extends BackendBase
      *
      * @return \Bolt\Response\BoltResponse|\Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function actionSystemOverview(Request $request)
+    public function systemOverview(Request $request)
     {
         $action = $request->query->get('action');
 

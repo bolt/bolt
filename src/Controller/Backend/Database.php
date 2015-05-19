@@ -17,13 +17,13 @@ class Database extends BackendBase
 {
     protected function addRoutes(ControllerCollection $c)
     {
-        $c->get('/dbcheck', 'actionCheck')
+        $c->get('/dbcheck', 'check')
             ->bind('dbcheck');
 
-        $c->post('/dbupdate', 'actionUpdate')
+        $c->post('/dbupdate', 'update')
             ->bind('dbupdate');
 
-        $c->get('/dbupdate_result', 'actionUpdateResult')
+        $c->get('/dbupdate_result', 'updateResult')
             ->bind('dbupdate_result');
     }
 
@@ -38,7 +38,7 @@ class Database extends BackendBase
      *
      * @return \Bolt\Response\BoltResponse
      */
-    public function actionCheck()
+    public function check()
     {
         list($messages, $hints) = $this->app['integritychecker']->checkTablesIntegrity(true, $this->app['logger']);
 
@@ -58,7 +58,7 @@ class Database extends BackendBase
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function actionUpdate(Request $request)
+    public function update(Request $request)
     {
         $output = $this->app['integritychecker']->repairTables();
 
@@ -87,7 +87,7 @@ class Database extends BackendBase
      *
      * @return \Bolt\Response\BoltResponse
      */
-    public function actionUpdateResult(Request $request)
+    public function updateResult(Request $request)
     {
         $context = array(
             'modifications_made'     => json_decode($request->get('messages')),

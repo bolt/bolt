@@ -24,23 +24,23 @@ class Users extends BackendBase
 {
     protected function addRoutes(ControllerCollection $c)
     {
-        $c->get('/users', 'actionAdmin')
+        $c->get('/users', 'admin')
             ->bind('users');
 
-        $c->match('/users/edit/{id}', 'actionEdit')
+        $c->match('/users/edit/{id}', 'edit')
             ->assert('id', '\d*')
             ->bind('useredit');
 
-        $c->match('/userfirst', 'actionFirst')
+        $c->match('/userfirst', 'first')
             ->bind('userfirst');
 
-        $c->post('/user/{action}/{id}', 'actionModify')
+        $c->post('/user/{action}/{id}', 'modify')
             ->bind('useraction');
 
-        $c->match('/profile', 'actionProfile')
+        $c->match('/profile', 'profile')
             ->bind('profile');
 
-        $c->get('/roles', 'actionViewRoles')
+        $c->get('/roles', 'viewRoles')
             ->bind('roles');
     }
 
@@ -51,7 +51,7 @@ class Users extends BackendBase
      *
      * @return \Bolt\Response\BoltResponse
      */
-    public function actionAdmin(Request $request)
+    public function admin(Request $request)
     {
         $currentuser = $this->getUser();
         $users = $this->getUsers()->getUsers();
@@ -80,7 +80,7 @@ class Users extends BackendBase
      *
      * @return \Bolt\Response\BoltResponse|\Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function actionEdit(Request $request, $id)
+    public function edit(Request $request, $id)
     {
         $currentuser = $this->getUser();
 
@@ -204,7 +204,7 @@ class Users extends BackendBase
      *
      * @return \Bolt\Response\BoltResponse|\Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function actionFirst(Request $request)
+    public function first(Request $request)
     {
         // We should only be here for creating the first user
         if ($this->app['integritychecker']->checkUserTableIntegrity() && $this->getUsers()->hasUsers()) {
@@ -264,7 +264,7 @@ class Users extends BackendBase
      *
      * @return \Bolt\Response\BoltResponse|\Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function actionModify(Request $request, $action, $id)
+    public function modify(Request $request, $action, $id)
     {
         if (!$this->checkAntiCSRFToken()) {
             $this->addFlash('info', Trans::__('An error occurred.'));
@@ -340,7 +340,7 @@ class Users extends BackendBase
      *
      * @return \Bolt\Response\BoltResponse|\Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function actionProfile(Request $request)
+    public function profile(Request $request)
     {
         $user = $this->getUser();
 
@@ -387,7 +387,7 @@ class Users extends BackendBase
      *
      * @return \Bolt\Response\BoltResponse
      */
-    public function actionViewRoles()
+    public function viewRoles()
     {
         $contenttypes = $this->getOption('contenttypes');
         $permissions = array('view', 'edit', 'create', 'publish', 'depublish', 'change-ownership');
