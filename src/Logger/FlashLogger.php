@@ -3,7 +3,6 @@
 namespace Bolt\Logger;
 
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
-use Symfony\Component\HttpFoundation\Session\Flash\FlashBag;
 
 /**
  * Storage logger for FlashBag messages.
@@ -109,13 +108,16 @@ class FlashLogger implements FlashLoggerInterface
     }
 
     /**
+     * We iterate as some flashes might validly be set in Twig and we shouldn't
+     * wipe them.
+     *
      * {@inheritdoc}
      */
-    public function flush(FlashBagInterface $flashbag)
+    public function flush(FlashBagInterface $bag)
     {
         foreach ($this->flashes as $type => $messages) {
             foreach ($messages as $message) {
-                $flashbag->add($type, $message);
+                $bag->add($type, $message);
             }
             unset ($this->flashes[$type]);
         }

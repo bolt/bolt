@@ -15,8 +15,6 @@ interface FlashLoggerInterface
      * Display a 'danger' message.
      *
      * @param string $message
-     *
-     * @return void
      */
     public function danger($message);
 
@@ -24,8 +22,6 @@ interface FlashLoggerInterface
      * Display a 'error' message.
      *
      * @param string $message
-     *
-     * @return void
      */
     public function error($message);
 
@@ -33,8 +29,6 @@ interface FlashLoggerInterface
      * Display a 'info' message.
      *
      * @param string $message
-     *
-     * @return void
      */
     public function info($message);
 
@@ -42,8 +36,6 @@ interface FlashLoggerInterface
      * Display a 'success' message.
      *
      * @param string $message
-     *
-     * @return void
      */
     public function success($message);
 
@@ -51,16 +43,14 @@ interface FlashLoggerInterface
      * Display a 'warning' message.
      *
      * @param string $message
-     *
-     * @return void
      */
     public function warning($message);
 
     /**
      * Get a message from the stack.
      *
-     * @param strng $type
-     * @param array $default
+     * @param string $type
+     * @param array  $default
      *
      * @return array
      */
@@ -83,10 +73,7 @@ interface FlashLoggerInterface
     /**
      * Flush stored flashes to the Symfony FlashBag.
      *
-     * We iterate as some flashes might validly be set in Twig and we shouldn't
-     * wipe them.
-     *
-     * @param FlashBagInterface $flashbag
+     * @param FlashBagInterface $bag
      */
-    public function flush(FlashBagInterface $flashbag);
+    public function flush(FlashBagInterface $bag);
 }

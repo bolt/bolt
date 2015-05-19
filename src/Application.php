@@ -232,11 +232,6 @@ class Application extends Silex\Application
             return;
         }
 
-        // If debugging is enabled when logged out, we need the session running.
-        if ($this['config']->get('general/debug_show_loggedoff', false) && !$this['session']->isStarted()) {
-            $this['session']->start();
-        }
-
         // Set the error_reporting to the level specified in config.yml
         error_reporting($this['config']->get('general/debug_error_level'));
 

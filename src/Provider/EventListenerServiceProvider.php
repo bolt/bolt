@@ -47,6 +47,11 @@ class EventListenerServiceProvider implements ServiceProviderInterface
             );
         });
 
+        $app['listener.session'] = $app->share(function ($app) {
+            $debug = $app['debug'] && $app['config']->get('general/debug_show_loggedoff', false);
+            return new Listener\SessionListener($app['logger.flash'], $debug);
+        });
+
         $app['listener.snippet'] = $app->share(function ($app) {
             return new Listener\SnippetListener(
                 $app['extensions'],
@@ -71,6 +76,7 @@ class EventListenerServiceProvider implements ServiceProviderInterface
         $dispatcher->addSubscriber($app['listener.not_found']);
         $dispatcher->addSubscriber($app['listener.snippet']);
         $dispatcher->addSubscriber($app['listener.redirect']);
+        $dispatcher->addSubscriber($app['listener.session']);
         $dispatcher->addSubscriber($app['listener.zone_guesser']);
     }
 }
