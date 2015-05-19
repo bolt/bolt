@@ -11,6 +11,7 @@ use Bolt\Translation\Translator as Trans;
 use Composer\Autoload\ClassLoader;
 use Monolog\Logger;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class Extensions
 {
@@ -764,7 +765,13 @@ class Extensions
         }
 
         // Add jQuery
-        if ($this->addjquery && Zone::isFrontend($this->app['request'])) {
+        $zone = null;
+        /** @var RequestStack $requestStack */
+        $requestStack = $this->app['request_stack'];
+        if ($request = $requestStack->getCurrentRequest()) {
+            $zone = Zone::get($request);
+        }
+        if ($this->addjquery && $zone === Zone::FRONTEND) {
             $html = $this->insertJquery($html);
         }
 
